@@ -32,6 +32,18 @@ It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owne
 - `git remote add`
 - `git clone`
 
+## Claim before you read
+
+- Assert every family before reading or writing anything: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert SRC01 <familyId>`
+- A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
+- Release each family when it is finished: `node scripts/grade-a-packet-factory-24h/claim.mjs --release SRC01 <familyId>`, and leave that in your diff.
+
+## How to raster
+
+- Page rasters go through `scripts/lib/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.
+- NEVER `pdftoppm`. NEVER `apt-get`. NEVER `playwright install`. The environment refuses package installation and a Poppler fallback is not a fallback, it is a different measurement.
+- The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after.
+
 ## Mission
 
 Reconcile a named form number or pinned content hash against the private corpus and the committed inventory, and bind it by exact SHA-256 where the bytes are already held. A form the corpus already carries needs no acquisition.

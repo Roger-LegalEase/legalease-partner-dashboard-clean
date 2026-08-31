@@ -26,6 +26,9 @@ const ACTIVE = `${DIR}/ACTIVE_ASSIGNMENTS.json`;
 const GRAPH = `${DIR}/IMPORT_GRAPH.json`;
 const COLLISIONS = `${DIR}/COLLISIONS.json`;
 const CHECKPOINT = `${DIR}/CHECKPOINT.json`;
+const LEDGER = `${DIR}/claim-ledger.json`;
+const RASTER = "scripts/lib/pdf-page-raster.mjs";
+const CLAIM = "scripts/grade-a-packet-factory-24h/claim.mjs";
 const WASHINGTON = `${DIR}/WASHINGTON_REPAIR.json`;
 
 const read = (rel) => JSON.parse(fs.readFileSync(path.join(ROOT, rel), "utf8"));
@@ -426,6 +429,53 @@ function run() {
     multiWriter.length === 0,
     `${hostWriters.size} shared host(s) claimed, ${multiWriter.length} with more than one writer: ${multiWriter.slice(0, 2).join(" | ")}`);
 
+  // 24. Every dispatched family is granted exactly once, by one mechanism.
+  const ledgerProblems = [];
+  const ledger = fs.existsSync(path.join(ROOT, LEDGER)) ? read(LEDGER) : null;
+  if (!ledger) ledgerProblems.push("no claim ledger; a verifier told to claim from one would stop before reading anything, as VF12 did");
+  else {
+    const grantKey = (c) => `${c.laneKind}::${c.familyId}`;
+    const seenGrant = new Map();
+    for (const c of ledger.claims ?? []) {
+      if (seenGrant.has(grantKey(c))) ledgerProblems.push(`${c.familyId} granted to ${seenGrant.get(grantKey(c))} and ${c.lane} for the same kind of work`);
+      else seenGrant.set(grantKey(c), c.lane);
+    }
+    // Every claimable item in the dispatch must be in the ledger, and nothing else.
+    const dispatched = new Set(a.filter((x) => x.itemKind === "packetFamily" || x.itemKind === "streamingClaim")
+      .flatMap((x) => (x.items ?? []).map((f) => `${x.lane}::${f}`)));
+    const granted = new Set((ledger.claims ?? []).map((c) => `${c.laneKind}::${c.familyId}`));
+    for (const d of dispatched) if (!granted.has(d)) ledgerProblems.push(`${d} is dispatched and not granted`);
+    for (const g of granted) if (!dispatched.has(g)) ledgerProblems.push(`${g} is granted and not dispatched`);
+    if (ledger.generatedAtCommit !== master.minimumCaptainSha) ledgerProblems.push(`the ledger is pinned to ${ledger.generatedAtCommit} and the dispatch to ${master.minimumCaptainSha}`);
+    if (!fs.existsSync(path.join(ROOT, CLAIM))) ledgerProblems.push("the claim mechanism the ledger names does not exist");
+  }
+  check("F24", "one claim ledger grants every dispatched family exactly once, to one lane of each kind",
+    ledgerProblems.length === 0,
+    `${(ledger?.claims ?? []).length} grant(s); ${ledgerProblems.length} problem(s): ${ledgerProblems.slice(0, 2).join(" | ")}`);
+
+  // 25. The raster path is discovered and gated, not assumed.
+  const rasterText = fs.existsSync(path.join(ROOT, RASTER)) ? fs.readFileSync(path.join(ROOT, RASTER), "utf8") : "";
+  const preflightText = fs.readFileSync(path.join(ROOT, "scripts/verify-packet-build-environment.mjs"), "utf8");
+  const rasterProblems = [];
+  if (!rasterText) rasterProblems.push("no page rasterizer");
+  if (!/export function resolveChromium/.test(rasterText)) rasterProblems.push("the rasterizer does not export a resolver, so its path is assumed");
+  if (/const CHROMIUM = process\.env\.RCAP_CHROMIUM_PATH \?\? "/.test(rasterText)) rasterProblems.push("the rasterizer still falls back to a hardcoded browser path");
+  if (!/page_rasterizer_available/.test(preflightText)) rasterProblems.push("the preflight does not check the rasterizer, so a lane can pass and then die on the render step");
+  if (!/skippedAreNotPasses/.test(preflightText)) rasterProblems.push("the preflight may still count a not-applicable check as a pass");
+  // No prompt may tell a worker to reach for Poppler or install packages.
+  const poppler = [];
+  for (const f of fs.readdirSync(path.join(ROOT, PROMPTS)).filter((x) => x.endsWith(".md"))) {
+    const t = fs.readFileSync(path.join(ROOT, PROMPTS, f), "utf8");
+    for (const line of t.split("\n")) {
+      const stripped = line.replace(/`[^`]*`/g, "");
+      if (/\bpdftoppm\b|\bapt-get\b|playwright install/.test(stripped)) poppler.push(`${f}: ${line.trim().slice(0, 50)}`);
+    }
+  }
+  if (poppler.length) rasterProblems.push(`${poppler.length} prompt line(s) reach for Poppler or a package install`);
+  check("F25", "the page rasterizer is discovered and preflight-gated, and no prompt reaches for Poppler",
+    rasterProblems.length === 0,
+    `${rasterProblems.length} problem(s): ${rasterProblems.slice(0, 2).join(" | ")}`);
+
   // The arithmetic that makes the rest readable.
   check("F12", "the live denominator closes",
     master.denominator.sumsToDenominator === true
@@ -443,7 +493,7 @@ console.log(`\n${first.results.length - first.failed.length}/${first.results.len
 
 if (MUTATIONS) {
   console.log("\nmutations:");
-  const targets = { master: path.join(ROOT, MASTER), active: path.join(ROOT, ACTIVE), collisions: path.join(ROOT, COLLISIONS), checkpoint: path.join(ROOT, CHECKPOINT) };
+  const targets = { master: path.join(ROOT, MASTER), active: path.join(ROOT, ACTIVE), collisions: path.join(ROOT, COLLISIONS), checkpoint: path.join(ROOT, CHECKPOINT), ledger: path.join(ROOT, LEDGER), raster: path.join(ROOT, RASTER) };
   const originals = Object.fromEntries(Object.entries(targets).map(([k, p]) => [k, fs.readFileSync(p)]));
   const promptTarget = path.join(ROOT, PROMPTS, "PF01.md");
   const originalPrompt = fs.readFileSync(promptTarget);
@@ -478,6 +528,11 @@ if (MUTATIONS) {
     { on: "active", id: "F22", name: "an executable family dropped from every builder is caught", mutate: (j) => { firstPF(j).items.pop(); return j; } },
     /* No builder claims a shared host in a correct dispatch, so this hands a
      * real shared host from the master queue to two of them. */
+    { on: "ledger", id: "F24", name: "one family granted to two verifiers is caught", mutate: (j) => { const v = j.claims.filter((c) => c.laneKind === "independent-verification"); v[1] = { ...v[1], familyId: v[0].familyId }; j.claims = j.claims.map((c) => (c === v[1] ? v[1] : c)); j.claims.push({ ...v[0], lane: "VF99" }); return j; } },
+    { on: "ledger", id: "F24", name: "a dispatched family missing from the ledger is caught", mutate: (j) => { j.claims.shift(); return j; } },
+    { on: "ledger", id: "F24", name: "a ledger pinned to a different commit than the dispatch is caught", mutate: (j) => { j.generatedAtCommit = "0123456789abcdef0123456789abcdef01234567"; return j; } },
+    { on: "raster", id: "F25", name: "a rasterizer that hardcodes its browser path again is caught", mutateText: (t) => t.replace("export function resolveChromium", "function resolveChromiumInternal") },
+    { on: "prompt", id: "F25", name: "a prompt telling a worker to use pdftoppm is caught", mutateText: (t) => `${t}\n\nRender the pages with pdftoppm -r 72 if Chromium is unavailable.\n` },
     { on: "active", id: "F23", name: "a shared build host handed to two lanes is caught", mutate: (j) => { const shared = read(MASTER).families.find((f) => (f.importedBy ?? []).length > 0 && f.buildScript); if (!shared) throw new Error("the master queue names no shared build host at all"); const b = j.assignments.filter((x) => x.lane === "packet-build"); b[0].ownedPaths.push(shared.buildScript); b[1].ownedPaths.push(shared.buildScript); return j; } },
     { on: "master", id: "F13", name: "an exact identity with no held byte classified SOURCE_READY is caught", mutate: (j) => { const f = j.families.find((x) => x.state === "SOURCE_BLOCKED"); f.state = "SOURCE_READY"; return j; } },
     { on: "master", id: "F13", name: "a held path with no SHA classified SOURCE_READY is caught", mutate: (j) => { const f = j.families.find((x) => x.state === "SOURCE_READY"); f.sourceReadiness.boundSources[0].sha256 = null; return j; } },
@@ -492,7 +547,13 @@ if (MUTATIONS) {
   let undetected = 0;
   try {
     for (const c of cases) {
+      /* A target is JSON or it is source. The harness assumed JSON for
+       * everything but the prompt, so the first source-file mutation --
+       * breaking the rasterizer's resolver on purpose -- died in JSON.parse
+       * before it could prove anything. A case says which by carrying
+       * mutateText or mutate. */
       if (c.on === "prompt") fs.writeFileSync(promptTarget, c.mutateText(originalPrompt.toString("utf8")));
+      else if (c.mutateText) fs.writeFileSync(targets[c.on], c.mutateText(originals[c.on].toString("utf8")));
       else fs.writeFileSync(targets[c.on], `${JSON.stringify(c.mutate(JSON.parse(originals[c.on].toString("utf8"))), null, 2)}\n`);
       let caught = false;
       try {

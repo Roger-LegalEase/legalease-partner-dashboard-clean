@@ -17,6 +17,7 @@
  * conveyor is for, and it is reported rather than smoothed.
  */
 import fs from "node:fs";
+import { preflightDenominator } from "./preflight-denominator.mjs";
 import path from "node:path";
 import crypto from "node:crypto";
 import { execFileSync } from "node:child_process";
@@ -61,6 +62,28 @@ const VERIFY_ELASTIC_THRESHOLD = 20;
 const REPAIR_ELASTIC_THRESHOLD = 20;
 const BUILD_ELASTIC_THRESHOLD = 80;
 const SOURCE_LANES = 16;
+
+/*
+ * The preflight denominator is READ, never asserted.
+ *
+ * Eleven places in these generators stated "14/14" by hand. Adding a
+ * fifteenth preflight check would have turned all eleven into instructions to
+ * expect a number the preflight no longer prints, and a worker told to expect
+ * 14/14 that sees 15/15 cannot tell an improvement from a regression.
+ *
+ * It reads 14/14 today because the roster is fifteen and a family-scoped run
+ * has one check that does not apply to it -- which is now excluded from the
+ * denominator rather than counted as a pass.
+ */
+/*
+ * Probed with a --family argument because that is how a worker invokes it: the
+ * applicable set depends on the invocation, and a family-scoped run has no
+ * assigned-branch check to make. The family name itself does not change the
+ * denominator -- only whether the flag is present does -- so a sentinel is
+ * honest here and avoids pinning the whole dispatch to one family's fortunes.
+ */
+const PREFLIGHT_DENOMINATOR = preflightDenominator("__denominator_probe__");
+const PREFLIGHT_MUST_RETURN = PREFLIGHT_DENOMINATOR.mustReturn;
 
 const STATES = [
   "SOURCE_BLOCKED", "SOURCE_READY", "ASSIGNED_TO_BUILD", "BUILD_IN_PROGRESS",
@@ -647,6 +670,29 @@ const VERDICTS = ["PASS_COMPLETE_INDEPENDENT", "FAIL_REPAIR_REQUIRED", "BLOCKED_
 const CLOUD_PROHIBITED = ["git fetch", "git pull", "git push", "gh ", "git worktree", "git remote add", "git clone"];
 
 /*
+ * How to raster, said explicitly.
+ *
+ * The prompts said "render all page rasters" and never said how. Four lanes
+ * reached for pdftoppm or a hardcoded Chromium path and returned STOPPED on a
+ * toolchain question the dispatch had left to them. An instruction that names
+ * the outcome without naming the means is an invitation to improvise.
+ */
+const RASTER_RULE = [
+  "Page rasters go through `scripts/lib/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.",
+  "NEVER `pdftoppm`. NEVER `apt-get`. NEVER `playwright install`. The environment refuses package installation and a Poppler fallback is not a fallback, it is a different measurement.",
+  "The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after."
+];
+
+/* How to claim, said explicitly. The ledger exists; a prompt that does not
+ * name it leaves the worker to invent a protocol, which is what VF12 correctly
+ * refused to do. */
+const CLAIM_RULE = (laneId) => [
+  `Assert every family before reading or writing anything: \`node scripts/grade-a-packet-factory-24h/claim.mjs --assert ${laneId} <familyId>\``,
+  "A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.",
+  `Release each family when it is finished: \`node scripts/grade-a-packet-factory-24h/claim.mjs --release ${laneId} <familyId>\`, and leave that in your diff.`
+];
+
+/*
  * The lane gate and the row gate are different questions, and a prompt that
  * asked one of them for both stopped every lane on its first blocked family.
  *
@@ -654,14 +700,14 @@ const CLOUD_PROHIBITED = ["git fetch", "git pull", "git push", "gh ", "git workt
  * private/ ignored. If it fails, nothing in the lane can run and the lane stops.
  * A family's own sources are a ROW question: one family whose bytes do not bind
  * is one BLOCKED_SOURCE row, and the lane continues. The old prompt ran a single
- * named-family preflight under "Before anything else" and demanded 14/14 before
+ * named-family preflight under "Before anything else" and demanded a full pass before
  * any work, so the first blocked family took fifteen good ones with it.
  */
 const ROW_STOP_CONTRACT = {
   laneGate: {
     what: "global environment integrity",
     command: `node ${PREFLIGHT} --codex-cloud --minimum-captain-sha ${MINIMUM_CAPTAIN_SHA} --assignment ${FACT}/ACTIVE_ASSIGNMENTS.json`,
-    mustReturn: "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+    mustReturn: PREFLIGHT_MUST_RETURN,
     onFailure: "If it does not, STOP THE LANE: nothing in it can run and no row is written.",
     note: "family_sources_bind reports 'not applicable' here on purpose: it is a row question, asked once per family below."
   },
@@ -694,7 +740,7 @@ const BUILDER_OBLIGATIONS = [
   "complete every repeating case and offence row, because a partly-filled row reads as finished and is not",
   "leave every protected field blank — participant signature, signature date, certificate of mailing before mailing, court-only and prosecutor-only",
   "generate participant instructions and filing instructions",
-  "render all page rasters",
+  "render all page rasters through scripts/lib/pdf-page-raster.mjs, which discovers its own browser",
   "verify the actual visible writes from the final PDF bytes, not from the finalizer's own report",
   "return all nine completeness counters equal to zero, or return the family as STOPPED with the counter that is not"
 ];
@@ -710,7 +756,9 @@ const base = (id, lane, slug, extra) => ({
   workerBranch: "work",
   minimumCaptainSha: MINIMUM_CAPTAIN_SHA,
   preflight: `node ${PREFLIGHT} --family <FAMILY_ID> --codex-cloud --minimum-captain-sha ${MINIMUM_CAPTAIN_SHA}`,
-  preflightMustReturn: "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+  preflightMustReturn: PREFLIGHT_MUST_RETURN,
+  rasterRule: RASTER_RULE,
+  claimRule: CLAIM_RULE(id),
   prohibitedCommands: CLOUD_PROHIBITED,
   theDiffIsTheReturn: "Commit locally. Leave the final diff for the Codex Cloud interface. There is no PUSHED line in a cloud return.",
   returnDirectory: `${FACT}/${slug}`,
@@ -781,7 +829,7 @@ for (let i = 0; i < PF_LANES; i += 1) {
       "CHECKPOINTS RETURNED:", "PACKETS SELF-VERIFIED: 0",
       "OTHER PF PROMPTS EXECUTED IN THIS CONTAINER: 0",
       "COMMERCIAL ROUTES OPENED: 0", "PRODUCTION TOUCHED: NO",
-      "PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY 14/14", "DIFF LEFT FOR THE CODEX UI: YES"
+      `PREFLIGHT: ${PREFLIGHT_MUST_RETURN.replace(": ", " ")}`, "DIFF LEFT FOR THE CODEX UI: YES"
     ],
     grantsNothing: "A built family is a built family. It is not verified, not approved, not sellable."
   }));
@@ -822,7 +870,14 @@ for (let i = 0; i < VF_LANES; i += 1) {
     ],
     independenceIsThreeWay: "Not the builder, not the repairer, not a shard that has already formed a view of these packets. A second reading by the same eyes is not an independent one.",
     claimLedger: `${FACT}/claim-ledger.json`,
-    claimRule: "Claim atomically before reading. A family already claimed is skipped, never queued behind: two verifiers on one family is duplicate work reported as independent proof.",
+    /*
+     * No lane-specific claim prose. This lane used to carry its own sentence
+     * about claiming atomically, which read as a protocol and named no
+     * mechanism -- so VF12 went looking for a ledger, found none, and stopped.
+     * It was right. One mechanism, stated once in the shared base, is the whole
+     * point; a lane that restates it in its own words is a second mechanism.
+     */
+    whyOneClaimMechanism: "Two verifiers on one family is duplicate work reported as independent proof. The ledger cannot express it, and the assert above is the only way to find out whether this lane holds a family.",
     checkpointRule: "Take rolling five-to-ten-family checkpoints as soon as they land. Do not wait for a whole builder assignment.",
     proofObligations: [
       "ROUTE IDENTITY: the packet is built for the route the record names",
@@ -863,7 +918,7 @@ for (let i = 0; i < VF_LANES; i += 1) {
       "BLOCKED_SOURCE:", "BLOCKED_LEGAL_INPUT:",
       "OVERLAY DIRECTORIES MODIFIED: 0",
       "COMMERCIAL ROUTES OPENED: 0", "PRODUCTION TOUCHED: NO",
-      "PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY 14/14", "DIFF LEFT FOR THE CODEX UI: YES"
+      `PREFLIGHT: ${PREFLIGHT_MUST_RETURN.replace(": ", " ")}`, "DIFF LEFT FOR THE CODEX UI: YES"
     ],
     grantsNothing: "An independent PASS proves a packet is complete. It approves no output and opens no commercial route."
   }));
@@ -952,7 +1007,7 @@ for (const op of SOURCE_OPERATIONS) {
         "HANDED OFF:", "FAMILIES RELEASED:",
         "IDENTITIES GUESSED: 0", "SOURCE BODIES COMMITTED: 0", "PROMOTIONS WITHOUT EXACT BYTES: 0",
         "COMMERCIAL ROUTES OPENED: 0", "PRODUCTION TOUCHED: NO",
-        "PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY 14/14", "DIFF LEFT FOR THE CODEX UI: YES"
+        `PREFLIGHT: ${PREFLIGHT_MUST_RETURN.replace(": ", " ")}`, "DIFF LEFT FOR THE CODEX UI: YES"
       ],
       grantsNothing: "A bound source is a bound source. It builds nothing, proves nothing and approves nothing."
     }));
@@ -992,7 +1047,7 @@ for (let i = 0; i < FIX_LANES; i += 1) {
       "ASSIGNMENT:", "BASE SHA:", "COMMIT:",
       "FAMILIES REPAIRED:", "FAMILIES STOPPED:", "NINE COUNTERS ZERO ON:",
       "COMMERCIAL ROUTES OPENED: 0", "PRODUCTION TOUCHED: NO",
-      "PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY 14/14", "DIFF LEFT FOR THE CODEX UI: YES"
+      `PREFLIGHT: ${PREFLIGHT_MUST_RETURN.replace(": ", " ")}`, "DIFF LEFT FOR THE CODEX UI: YES"
     ],
     grantsNothing: "A repaired family is a repaired family. It must be verified again, by someone who neither built nor repaired it."
   }));
@@ -1303,6 +1358,8 @@ const promptFor = (a) => {
     p.push(`It must print **\`${a.preflightMustReturn}\`**.${a.itemKind === "sourceObligation" ? " The lane gate and each owned row gate must both pass." : " A 13/14 in cloud mode is a real failure, not the shallow checkout being tolerated."}`, "");
   }
   p.push("## Never run these", "", bullet(a.prohibitedCommands.map((c) => `\`${c}\``)), "");
+  if (a.claimRule) p.push("## Claim before you read", "", bullet(a.claimRule), "");
+  if (a.rasterRule) p.push("## How to raster", "", bullet(a.rasterRule), "");
   p.push("## Mission", "", a.mission, "");
   if (a.provisionedEmpty) p.push(`**This lane has no families at dispatch.** ${a.refillRule}`, "");
 
@@ -1369,6 +1426,42 @@ fs.writeFileSync(path.join(ROOT, `${OUT_DIR}/ACTIVE_ASSIGNMENTS.json`), `${JSON.
 fs.writeFileSync(path.join(ROOT, `${OUT_DIR}/IMPORT_GRAPH.json`), `${JSON.stringify(importGraphRecord, null, 2)}\n`);
 fs.writeFileSync(path.join(ROOT, `${OUT_DIR}/COLLISIONS.json`), `${JSON.stringify(collisionsRecord, null, 2)}\n`);
 fs.writeFileSync(path.join(ROOT, `${OUT_DIR}/CHECKPOINT.json`), `${JSON.stringify(checkpointRecord, null, 2)}\n`);
+/*
+ * The claim ledger.
+ *
+ * VF12 stopped at BLOCKED_BEFORE_CLAIM because the ledger its prompt named was
+ * never generated. It was right to stop, and the omission was here: prompts
+ * pointed workers at a file no generator wrote.
+ *
+ * Atomicity comes from a single writer. Every family is granted to exactly one
+ * lane OF EACH KIND at generation time -- which the collision record already
+ * proves -- and the grant is committed before any worker starts. A worker
+ * asserts its grant through scripts/grade-a-packet-factory-24h/claim.mjs and
+ * stops if the ledger does not name it. There is no second mechanism.
+ */
+const claimLedgerRecord = {
+  schemaVersion: "rcap-claim-ledger/v1",
+  generatedBy: "scripts/grade-a-packet-factory-24h/generate.mjs",
+  generatedAtCommit: MINIMUM_CAPTAIN_SHA,
+  mechanism: "scripts/grade-a-packet-factory-24h/claim.mjs",
+  howAtomicityWorks: "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
+  laneKinds: ["packet-build", "independent-verification", "repair", "source", "shared-host-repair"],
+  oneOwnerPerFamilyPerKind: "A builder and its verifier holding one family is the design. Two verifiers holding it is the collision, and this ledger cannot express it.",
+  workerContract: [
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert <LANE> <familyId> before reading any artifact",
+    "a non-zero exit is a full stop: report laneStatus BLOCKED_BEFORE_CLAIM naming the exact refusal, and read nothing",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --release <LANE> <familyId> when the family is finished, and leave it in the diff"
+  ],
+  claims: assignments
+    .filter((a) => a.itemKind === "packetFamily" || a.itemKind === "streamingClaim")
+    .flatMap((a) => (a.items ?? []).map((familyId) => ({
+      familyId, lane: a.assignmentId, laneKind: a.lane, released: false, releasedAt: null
+    })))
+    .sort((x, y) => x.familyId.localeCompare(y.familyId) || x.lane.localeCompare(y.lane)),
+  releases: []
+};
+fs.writeFileSync(path.join(ROOT, `${OUT_DIR}/claim-ledger.json`), `${JSON.stringify(claimLedgerRecord, null, 2)}\n`);
+
 for (const a of assignments) fs.writeFileSync(path.join(ROOT, a.promptFile), promptFor(a));
 
 console.log(`Wrote ${OUT_DIR}/{MASTER_QUEUE,ACTIVE_ASSIGNMENTS,IMPORT_GRAPH,COLLISIONS,CHECKPOINT}.json`);

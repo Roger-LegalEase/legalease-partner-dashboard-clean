@@ -59,8 +59,8 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import crypto from "node:crypto";
-import { execFileSync } from "node:child_process";
-import { fileURLToPath } from "node:url";
+import { execFileSync, spawnSync } from "node:child_process";
+import { fileURLToPath, pathToFileURL } from "node:url";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -542,6 +542,39 @@ check(
     let version = null;
     try { version = JSON.parse(fs.readFileSync(pkg, "utf8")).version; } catch { /* reported below */ }
     return { ok: Boolean(version), nodeModules: true, pdfLib: true, version, detail: version ? `pdf-lib ${version}` : "pdf-lib package.json is unreadable" };
+  }
+);
+
+// ==============================================================================
+// 6b. the page rasterizer can actually start
+// ==============================================================================
+check(
+  "page_rasterizer_available",
+  "the calibrated Chromium page rasterizer resolves a browser it can execute",
+  "Four lanes returned STOPPED after passing this preflight 14/14: PF09 and PF15 on 'pdftoppm ENOENT', PF11 and PF12 on 'Playwright cannot find Chromium at /opt/pw-browsers/chromium'. A preflight that passes and is then contradicted by the render step is not checking what the lane needs. Rastering is a required build step, so its toolchain is a preflight question -- and the answer must be the repository's own Chromium path, never Poppler and never a package install.",
+  (env) => {
+    const lib = path.join(env, "scripts/lib/pdf-page-raster.mjs");
+    if (!fs.existsSync(lib)) return { ok: false, detail: "scripts/lib/pdf-page-raster.mjs is absent" };
+    const probe = spawnSync(process.execPath, ["--input-type=module", "-e",
+      `import { resolveChromium } from ${JSON.stringify(pathToFileURL(lib).href)};`
+      + "const r = resolveChromium();"
+      + "process.stdout.write(JSON.stringify(r));"
+    ], { cwd: env, encoding: "utf8" });
+    if (probe.status !== 0) {
+      return { ok: false, detail: `the rasterizer could not be loaded: ${(probe.stderr || probe.stdout || "").trim().split("\n").slice(-1)[0]}` };
+    }
+    let resolved = null;
+    try { resolved = JSON.parse(probe.stdout); } catch { return { ok: false, detail: "the rasterizer returned no resolution" }; }
+    if (!resolved.executablePath) {
+      return {
+        ok: false, candidatesTried: resolved.tried ?? [],
+        detail: `no executable Chromium. Tried: ${(resolved.tried ?? []).join(", ") || "(nothing — PLAYWRIGHT_BROWSERS_PATH is unset)"}. Set RCAP_CHROMIUM_PATH; never substitute pdftoppm and never install packages.`
+      };
+    }
+    return {
+      ok: true, executablePath: resolved.executablePath, resolvedBy: resolved.resolvedBy,
+      detail: `chromium at ${resolved.executablePath} (${resolved.resolvedBy})`
+    };
   }
 );
 
@@ -1105,13 +1138,30 @@ const report = {
       originRequired: false,
       shallowCheckoutAllowed: true,
       replacedChecks: CHECKS.filter((c) => c.cloud).map((c) => ({ codespaces: c.id, cloud: c.cloud.id })),
-      denominatorIsUnchanged: "Three Codespaces checks are replaced, not waived. Fourteen checks run in both modes and a pass is 14/14 in both."
+      denominatorIsUnchanged: "Three Codespaces checks are replaced, not waived. The same roster runs in both modes, and a pass is every applicable check passing in both. The denominator is the applicable set and is stated by the run, never asserted in advance."
     }
   } : {}),
-  checks: results.length,
-  passed: results.length - failed.length,
+  /*
+   * A not-applicable check is not a pass.
+   *
+   * `passed` was results.length - failed.length, which counted every skipped
+   * check as passing: an invocation with neither --family nor --branch
+   * reported "14/15 passed, 1 failed, 2 not applicable", where 14 + 1 = 15 and
+   * the two skipped ones had been quietly added to the passes. That is the
+   * shape of the waived-check failure this preflight exists to refuse, arriving
+   * through its own summary line.
+   *
+   * The roster is every registered check. The APPLICABLE set is the roster
+   * minus the ones this invocation does not scope, and the denominator is the
+   * applicable set -- so scoping a check out narrows what was proved instead of
+   * inflating it.
+   */
+  checks: results.length - skipped.length,
+  registeredChecks: results.length,
+  passed: results.length - skipped.length - failed.length,
   failed: failed.length,
   skipped: skipped.length,
+  skippedAreNotPasses: "A not-applicable check proves nothing and is excluded from both the numerator and the denominator.",
   verdict: failed.length === 0 ? "PACKET_BUILD_ENVIRONMENT_READY" : "PACKET_BUILD_ENVIRONMENT_NOT_READY",
   mayLaunchPacketWorker: failed.length === 0,
   whatAPassDoesNotEstablish: [

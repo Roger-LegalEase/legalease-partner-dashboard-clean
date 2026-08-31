@@ -1,0 +1,648 @@
+{
+  "schemaVersion": "rcap-vermont-repair/v1",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-vermont-repair.mjs",
+  "question": "Three Vermont families failed independent verification on three obligations. How many defects is that?",
+  "answer": "One omission and one legal question. All five families are written by one host, so the missing filing handoff is one omission reaching five packets. But the pardon route is not a packet defect at all — its own treatment record says the statute does not resolve when the participant may file.",
+  "dispatchBase": "3eeae7890f60aee3b31bad94ab475a496f3a7b7c",
+  "sharedHost": "scripts/build-census-v1-vt_seal_misdemeanor-set.mjs",
+  "buildScriptsResolvingToTheHost": [
+    "build-census-v1-vt_seal_18_to_21-set.mjs",
+    "build-census-v1-vt_seal_dui-set.mjs",
+    "build-census-v1-vt_seal_felony-set.mjs",
+    "build-census-v1-vt_seal_misdemeanor-set.mjs",
+    "build-census-v1-vt_seal_pardon-set.mjs"
+  ],
+  "distinctFailureShapes": [
+    "feeAndWaiver+filingDestination+service",
+    "feeAndWaiver+service"
+  ],
+  "verifierEvidence": [
+    {
+      "familyId": "vt_seal_felony-set",
+      "verifier": "VF01",
+      "pullRequest": 157,
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "failed": [
+        {
+          "obligation": "filingDestination",
+          "finding": "participant-instructions.md never tells the participant where to file; references to a Superior Court unit are blank-completion guidance, not a named filing destination."
+        },
+        {
+          "obligation": "feeAndWaiver",
+          "finding": "The instructions include form 600-00228 and explain when to use it, but state no filing-fee amount."
+        },
+        {
+          "obligation": "service",
+          "finding": "The instructions mention obtaining the State’s Attorney signature on an optional stipulation but never state who must be served or how service is made."
+        }
+      ],
+      "passed": [
+        "routeIdentity",
+        "sourceIdentity",
+        "componentSet",
+        "knownPrefills",
+        "requiredBeforeFiling",
+        "routeOptions",
+        "repeatingRows",
+        "protectedFields",
+        "artifacts",
+        "pageOrder",
+        "clippingAndOverlap",
+        "selfHelpStop"
+      ]
+    },
+    {
+      "familyId": "vt_seal_misdemeanor-set",
+      "verifier": "VF02",
+      "pullRequest": 158,
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "failed": [
+        {
+          "obligation": "filingDestination",
+          "finding": "participant-instructions.md says to supply a Superior Court unit but never affirmatively tells the participant which court or clerk receives the filing."
+        },
+        {
+          "obligation": "feeAndWaiver",
+          "finding": "The instructions explain when to use form 600-00228 but state no filing-fee amount and do not say when no fee is charged or how to confirm the current fee."
+        },
+        {
+          "obligation": "service",
+          "finding": "The instructions require the State's Attorney's signature on a stipulation but never state who must be served or furnished copies, how service must occur, or whether the clerk handles notice."
+        }
+      ],
+      "passed": [
+        "routeIdentity",
+        "sourceIdentity",
+        "componentSet",
+        "knownPrefills",
+        "requiredBeforeFiling",
+        "routeOptions",
+        "repeatingRows",
+        "protectedFields",
+        "artifacts",
+        "pageOrder",
+        "clippingAndOverlap",
+        "selfHelpStop"
+      ]
+    },
+    {
+      "familyId": "vt_seal_pardon-set",
+      "verifier": "VF03",
+      "pullRequest": 156,
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "failed": [
+        {
+          "obligation": "feeAndWaiver",
+          "finding": "Instructions explain when to use the included fee-waiver application but never state the filing fee (including whether an amount must be confirmed with the court)."
+        },
+        {
+          "obligation": "service",
+          "finding": "Instructions require the State's Attorney's agreement and signature for the stipulation route but do not state who must be served or how service must be made."
+        }
+      ],
+      "passed": [
+        "routeIdentity",
+        "sourceIdentity",
+        "componentSet",
+        "knownPrefills",
+        "requiredBeforeFiling",
+        "routeOptions",
+        "repeatingRows",
+        "protectedFields",
+        "artifacts",
+        "pageOrder",
+        "clippingAndOverlap",
+        "filingDestination",
+        "selfHelpStop"
+      ]
+    }
+  ],
+  "awaitingVerification": [
+    {
+      "lane": "VF11",
+      "familyId": "vt_seal_18_to_21-set"
+    },
+    {
+      "lane": "VF12",
+      "familyId": "vt_seal_dui-set"
+    }
+  ],
+  "pardonRoute": {
+    "familyId": "vt_seal_pardon-set",
+    "treatment": "exact_supported_deferral",
+    "basis": "You file the sealing petition yourself in the Criminal Division and the mechanism is in scope, but the statute does not resolve whether a pardoned misdemeanour runs on the three-year clock at § 7602(c) or the seven-year clock at § 7602(d), and that timing question decides when you may file at all.",
+    "queueSaid": "legalInputStatus: SETTLED",
+    "theContradiction": "The treatment record says deferral and the queue says settled. The builder followed the queue and produced a filing-ready packet for a route whose filing time is unresolved.",
+    "disposition": "counsel question VTL01; leaves the build and verification queues until answered"
+  },
+  "lanes": {
+    "repair": [
+      "VTR01_VT_FILING_DESTINATION_HOST",
+      "VTR02_VT_FEE_AND_SERVICE_SOURCE",
+      "VTR03_VT_RERENDER",
+      "VTL01_VT_PARDON_CLOCK"
+    ],
+    "reverification": [
+      "VTRV01_VT_REVERIFICATION"
+    ],
+    "sequence": "VTR01, VTR02 and VTL01 run now and in parallel. VTR03 waits for VTR01 and VTR02. VTRV01 is provisioned and launched by Captain from a new HEAD once VTR03 is integrated."
+  },
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "assignments": [
+    {
+      "assignmentId": "VTR01_VT_FILING_DESTINATION_HOST",
+      "wave": "vermont-repair",
+      "engine": "Codex Cloud",
+      "environment": "LegalEase Packet Factory",
+      "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
+      "captainBranch": "claude/legalease-sprint-captain-utucnw",
+      "workerBranch": "work",
+      "minimumCaptainSha": "3eeae7890f60aee3b31bad94ab475a496f3a7b7c",
+      "lane": "shared-host-repair",
+      "sequence": 1,
+      "prohibitedCommands": [
+        "git fetch",
+        "git pull",
+        "git push",
+        "gh ",
+        "git worktree",
+        "git clone",
+        "git remote add"
+      ],
+      "claimMechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
+      "claimRule": "Assert every family through `node scripts/grade-a-packet-factory-24h/claim.mjs --assert VTR01_VT_FILING_DESTINATION_HOST <familyId>` before reading or writing anything. A non-zero exit is a full stop: report BLOCKED_BEFORE_CLAIM and read nothing.",
+      "taskIsolation": [
+        "THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.",
+        "DO NOT EXECUTE THE OTHER VERMONT REPAIR PROMPTS IN THIS CONTAINER."
+      ],
+      "returnDirectory": "data/rcap-grade-a/codex-cloud/vtr01-vt-filing-destination-host",
+      "mission": "Correct the one host that writes participant instructions for the Vermont sealing families so the instructions state where the petition is filed. The destination is on the documents' own face and the instructions never said it.",
+      "whyOneLane": "All five Vermont families are rendered by build-census-v1-vt_seal_misdemeanor-set.mjs; four sibling entry points import it. One shared host has one writer.",
+      "itemKind": "sharedModule",
+      "itemCount": 1,
+      "items": [
+        "scripts/build-census-v1-vt_seal_misdemeanor-set.mjs"
+      ],
+      "familiesItReaches": [
+        "vt_seal_felony-set",
+        "vt_seal_misdemeanor-set",
+        "vt_seal_dui-set",
+        "vt_seal_18_to_21-set"
+      ],
+      "theDefect": {
+        "obligation": "filingDestination",
+        "observed": "The instructions tell the participant to file and never say where.",
+        "expected": "The Superior Court Criminal Division, in the unit where the case was decided — which both 200-00130 and 200-00132 print on their own caption, and whose Unit selector is already disclosed as a required-before-filing item.",
+        "whyThisIsRepairAndNotSource": "The fact is on the document. Nothing has to be acquired to say it."
+      },
+      "mayNotDo": [
+        "state a filing fee, a waiver route, a service recipient or a service method — those are VTR02's and are not in this repository",
+        "render any packet — re-rendering is VTR03",
+        "touch data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill or anything else about the pardon route"
+      ],
+      "dependsOn": [],
+      "ownedPaths": [
+        "scripts/build-census-v1-vt_seal_misdemeanor-set.mjs",
+        "data/rcap-grade-a/codex-cloud/vtr01-vt-filing-destination-host/**"
+      ],
+      "prohibitedPaths": [
+        "data/rcap-all50/overlays/census-v1/vt/**",
+        "scripts/rcap-packet-completeness/**",
+        "data/rcap-grade-a/launch-control/**"
+      ],
+      "requiredOutputs": [
+        "scripts/build-census-v1-vt_seal_misdemeanor-set.mjs — instructions that state the filing destination",
+        "data/rcap-grade-a/codex-cloud/vtr01-vt-filing-destination-host/rows.json"
+      ],
+      "outputSchema": {
+        "arrayKey": "rows",
+        "itemKeyField": "itemId",
+        "completionVocabulary": [
+          "COMPLETED",
+          "STOPPED"
+        ],
+        "rule": "An unrecognised status is refused at integration rather than translated."
+      },
+      "focusedTests": [
+        "node scripts/verify-packet-build-environment.mjs --family vt_seal_felony-set --codex-cloud --minimum-captain-sha 3eeae7890f60aee3b31bad94ab475a496f3a7b7c"
+      ],
+      "stopConditions": [
+        "LANE STOP — you render no packet and write into no overlay directory.",
+        "NEVER invent a fee, a waiver route, a service recipient or a service method.",
+        "ROW STOP — anything you cannot state from the document itself is STOPPED, naming what is missing."
+      ],
+      "returnFormat": [
+        "ASSIGNMENT:",
+        "BASE SHA:",
+        "COMMIT:",
+        "OBLIGATIONS CORRECTED:",
+        "FACTS INVENTED: 0",
+        "PACKETS RENDERED: 0",
+        "COMMERCIAL ROUTES OPENED: 0",
+        "PRODUCTION TOUCHED: NO",
+        "DIFF LEFT FOR THE CODEX UI: YES"
+      ],
+      "grantsNothing": "A corrected host is corrected logic. It renders no packet and proves none.",
+      "promptFile": "docs/rcap/grade-a/packet-factory-24h/vermont-repair/VTR01_VT_FILING_DESTINATION_HOST.md"
+    },
+    {
+      "assignmentId": "VTR02_VT_FEE_AND_SERVICE_SOURCE",
+      "wave": "vermont-repair",
+      "engine": "Codex Cloud",
+      "environment": "LegalEase Packet Factory",
+      "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
+      "captainBranch": "claude/legalease-sprint-captain-utucnw",
+      "workerBranch": "work",
+      "minimumCaptainSha": "3eeae7890f60aee3b31bad94ab475a496f3a7b7c",
+      "lane": "source-swarm",
+      "sequence": 1,
+      "prohibitedCommands": [
+        "git fetch",
+        "git pull",
+        "git push",
+        "gh ",
+        "git worktree",
+        "git clone",
+        "git remote add"
+      ],
+      "claimMechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
+      "claimRule": "Assert every family through `node scripts/grade-a-packet-factory-24h/claim.mjs --assert VTR02_VT_FEE_AND_SERVICE_SOURCE <familyId>` before reading or writing anything. A non-zero exit is a full stop: report BLOCKED_BEFORE_CLAIM and read nothing.",
+      "taskIsolation": [
+        "THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.",
+        "DO NOT EXECUTE THE OTHER VERMONT REPAIR PROMPTS IN THIS CONTAINER."
+      ],
+      "returnDirectory": "data/rcap-grade-a/codex-cloud/vtr02-vt-fee-and-service-source",
+      "mission": "Establish, from the Vermont Judiciary's own publication, the filing fee and any waiver route for a sealing petition under 13 V.S.A. § 7602, and the service requirement — who must be served and how — for the petition and the stipulation.",
+      "whyThisIsASourceLaneAndNotARepair": "VF03 said it in its own repairScope: do not infer these from a verifier's finding. A fee schedule and a service rule are published facts with an issuer and a URL. Writing an unsourced fee into a filing instruction is worse than leaving it out, because the participant will act on it.",
+      "itemKind": "sourceObligation",
+      "itemCount": 8,
+      "items": [
+        "vt_seal_felony-set::filing-fee-and-waiver-route",
+        "vt_seal_felony-set::service-recipient-and-method",
+        "vt_seal_misdemeanor-set::filing-fee-and-waiver-route",
+        "vt_seal_misdemeanor-set::service-recipient-and-method",
+        "vt_seal_dui-set::filing-fee-and-waiver-route",
+        "vt_seal_dui-set::service-recipient-and-method",
+        "vt_seal_18_to_21-set::filing-fee-and-waiver-route",
+        "vt_seal_18_to_21-set::service-recipient-and-method"
+      ],
+      "familiesUnblocked": [
+        "vt_seal_felony-set",
+        "vt_seal_misdemeanor-set",
+        "vt_seal_dui-set",
+        "vt_seal_18_to_21-set"
+      ],
+      "familiesUnblockedCount": 4,
+      "countIsProspective": true,
+      "countMeaning": "families this lane would release if both of its obligations resolve. It is not a count of promoted sources and must not be read as one.",
+      "issuingHosts": [
+        "Vermont Judiciary (vermontjudiciary.org)",
+        "the Superior Court Criminal Division unit named by each route"
+      ],
+      "everyResolvedFactRecords": [
+        "official publisher",
+        "exact title",
+        "citation or form number",
+        "revision",
+        "official URL",
+        "SHA-256 of the captured document",
+        "custody path"
+      ],
+      "egressReality": "This environment refuses outbound egress. Anything needing a fetch is dispatched through .github/workflows/rcap-official-source-acquisition-batch.yml with an exact URL, never attempted locally and never faked.",
+      "dependsOn": [],
+      "ownedPaths": [
+        "data/rcap-grade-a/codex-cloud/vtr02-vt-fee-and-service-source/**",
+        "data/rcap-grade-a/source-acquisition/packet-factory-24h/vtr02-vt-fee-and-service-source/**"
+      ],
+      "prohibitedPaths": [
+        "data/rcap-all50/overlays/census-v1/vt/**",
+        "scripts/build-census-v1-*.mjs",
+        "data/rcap-grade-a/launch-control/**",
+        "private/**"
+      ],
+      "requiredOutputs": [
+        "data/rcap-grade-a/codex-cloud/vtr02-vt-fee-and-service-source/rows.json — one row per fact",
+        "data/rcap-grade-a/source-acquisition/packet-factory-24h/vtr02-vt-fee-and-service-source/receipts.json — the seven recorded fields per resolved fact; no body committed"
+      ],
+      "outputSchema": {
+        "arrayKey": "rows",
+        "itemKeyField": "itemId",
+        "completionVocabulary": [
+          "COMPLETED",
+          "STOPPED"
+        ],
+        "rule": "An unrecognised status is refused at integration rather than translated."
+      },
+      "focusedTests": [
+        "node scripts/grade-a-packet-factory-24h/verify.mjs"
+      ],
+      "stopConditions": [
+        "NEVER state a fee or a service rule you have not sourced.",
+        "NEVER accept an unofficial mirror or a summary site. The judiciary's own publication or nothing.",
+        "LANE STOP — you write no packet and no build script.",
+        "ROW STOP — a fact that cannot be sourced is STOPPED naming the exact office and URL that would publish it."
+      ],
+      "returnFormat": [
+        "ASSIGNMENT:",
+        "BASE SHA:",
+        "COMMIT:",
+        "FACTS SOURCED:",
+        "FACTS STOPPED:",
+        "UNSOURCED VALUES WRITTEN: 0",
+        "COMMERCIAL ROUTES OPENED: 0",
+        "PRODUCTION TOUCHED: NO",
+        "DIFF LEFT FOR THE CODEX UI: YES"
+      ],
+      "grantsNothing": "A sourced fee is a sourced fee. It writes no packet and proves none.",
+      "promptFile": "docs/rcap/grade-a/packet-factory-24h/vermont-repair/VTR02_VT_FEE_AND_SERVICE_SOURCE.md"
+    },
+    {
+      "assignmentId": "VTR03_VT_RERENDER",
+      "wave": "vermont-repair",
+      "engine": "Codex Cloud",
+      "environment": "LegalEase Packet Factory",
+      "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
+      "captainBranch": "claude/legalease-sprint-captain-utucnw",
+      "workerBranch": "work",
+      "minimumCaptainSha": "3eeae7890f60aee3b31bad94ab475a496f3a7b7c",
+      "lane": "packet-repair",
+      "sequence": 2,
+      "prohibitedCommands": [
+        "git fetch",
+        "git pull",
+        "git push",
+        "gh ",
+        "git worktree",
+        "git clone",
+        "git remote add"
+      ],
+      "claimMechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
+      "claimRule": "Assert every family through `node scripts/grade-a-packet-factory-24h/claim.mjs --assert VTR03_VT_RERENDER <familyId>` before reading or writing anything. A non-zero exit is a full stop: report BLOCKED_BEFORE_CLAIM and read nothing.",
+      "taskIsolation": [
+        "THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.",
+        "DO NOT EXECUTE THE OTHER VERMONT REPAIR PROMPTS IN THIS CONTAINER."
+      ],
+      "returnDirectory": "data/rcap-grade-a/codex-cloud/vtr03-vt-rerender",
+      "mission": "Re-render the four Vermont pathway families on the corrected host and the sourced facts, and confirm each returns all nine completeness counters at zero.",
+      "itemKind": "packetFamily",
+      "itemCount": 4,
+      "items": [
+        "vt_seal_felony-set",
+        "vt_seal_misdemeanor-set",
+        "vt_seal_dui-set",
+        "vt_seal_18_to_21-set"
+      ],
+      "dependsOn": [
+        "VTR01_VT_FILING_DESTINATION_HOST",
+        "VTR02_VT_FEE_AND_SERVICE_SOURCE"
+      ],
+      "doNotStartEarly": "Do not start until Captain has integrated VTR01 and VTR02 and published a base carrying both. Re-rendering on the old host reproduces the same three failures.",
+      "excludesPardon": "vt_seal_pardon-set is deliberately absent. It is a counsel question, not a re-render.",
+      "ownedPaths": [
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-felony-set--official-pdf-fill/**",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-misdemeanor-set--official-pdf-fill/**",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-dui-set--official-pdf-fill/**",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill/**",
+        "data/rcap-grade-a/codex-cloud/vtr03-vt-rerender/**"
+      ],
+      "prohibitedPaths": [
+        "scripts/build-census-v1-vt_seal_misdemeanor-set.mjs",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill/**",
+        "scripts/rcap-packet-completeness/**"
+      ],
+      "whyYouDoNotOwnTheHost": "scripts/build-census-v1-vt_seal_misdemeanor-set.mjs is VTR01's. Two lanes editing it would be two writers on one script.",
+      "rasterRule": "Page rasters go through scripts/lib/pdf-page-raster.mjs, which discovers its browser. NEVER pdftoppm, NEVER apt-get, NEVER playwright install. The preflight now gates on this, so a lane that cannot raster learns before it builds.",
+      "requiredOutputs": [
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-felony-set--official-pdf-fill/ — re-rendered",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-misdemeanor-set--official-pdf-fill/ — re-rendered",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-dui-set--official-pdf-fill/ — re-rendered",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill/ — re-rendered",
+        "data/rcap-grade-a/codex-cloud/vtr03-vt-rerender/rows.json — one row per family with the nine counters after"
+      ],
+      "outputSchema": {
+        "arrayKey": "rows",
+        "itemKeyField": "itemId",
+        "completionVocabulary": [
+          "COMPLETED",
+          "STOPPED"
+        ],
+        "rule": "An unrecognised status is refused at integration rather than translated."
+      },
+      "focusedTests": [
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_felony-set",
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_misdemeanor-set",
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_dui-set",
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_18_to_21-set"
+      ],
+      "stopConditions": [
+        "LANE STOP — you do not edit scripts/build-census-v1-vt_seal_misdemeanor-set.mjs.",
+        "ROW STOP — a family whose instructions still lack a sourced fee or service rule is STOPPED naming which, and the lane continues to the next family.",
+        "NEVER invent a fact and never write a protected field."
+      ],
+      "returnFormat": [
+        "ASSIGNMENT:",
+        "BASE SHA:",
+        "COMMIT:",
+        "FAMILIES ASSIGNED:",
+        "ROWS RETURNED (must equal FAMILIES ASSIGNED):",
+        "FAMILIES COMPLETED:",
+        "FAMILIES STOPPED:",
+        "NINE COUNTERS ZERO ON:",
+        "COMMERCIAL ROUTES OPENED: 0",
+        "PRODUCTION TOUCHED: NO",
+        "DIFF LEFT FOR THE CODEX UI: YES"
+      ],
+      "grantsNothing": "A repaired family must be verified again, by a lane that neither built nor repaired it.",
+      "promptFile": "docs/rcap/grade-a/packet-factory-24h/vermont-repair/VTR03_VT_RERENDER.md"
+    },
+    {
+      "assignmentId": "VTL01_VT_PARDON_CLOCK",
+      "wave": "vermont-repair",
+      "engine": "Codex Cloud",
+      "environment": "LegalEase Packet Factory",
+      "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
+      "captainBranch": "claude/legalease-sprint-captain-utucnw",
+      "workerBranch": "work",
+      "minimumCaptainSha": "3eeae7890f60aee3b31bad94ab475a496f3a7b7c",
+      "lane": "counsel-question",
+      "sequence": 1,
+      "prohibitedCommands": [
+        "git fetch",
+        "git pull",
+        "git push",
+        "gh ",
+        "git worktree",
+        "git clone",
+        "git remote add"
+      ],
+      "claimMechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
+      "claimRule": "Assert every family through `node scripts/grade-a-packet-factory-24h/claim.mjs --assert VTL01_VT_PARDON_CLOCK <familyId>` before reading or writing anything. A non-zero exit is a full stop: report BLOCKED_BEFORE_CLAIM and read nothing.",
+      "taskIsolation": [
+        "THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.",
+        "DO NOT EXECUTE THE OTHER VERMONT REPAIR PROMPTS IN THIS CONTAINER."
+      ],
+      "returnDirectory": "data/rcap-grade-a/codex-cloud/vtl01-vt-pardon-clock",
+      "mission": "Put one question to counsel: which limitation clock governs a petition to seal a PARDONED MISDEMEANOUR in Vermont — the three-year clock at 13 V.S.A. § 7602(c) or the seven-year clock at § 7602(d)?",
+      "itemKind": "counselQuestion",
+      "itemCount": 1,
+      "items": [
+        "vt_seal_pardon-set"
+      ],
+      "whyThisIsNotARepair": "The committed treatment records this route as exact_supported_deferral and says the timing question 'decides when you may file at all'. A packet that tells a participant how to file when the law does not resolve whether they may file yet is worse than no packet. No amount of instruction editing answers it.",
+      "committedEvidence": {
+        "path": "data/rcap-all50/terminalization-treatments/vt.json",
+        "trackId": "vt_seal_pardon",
+        "treatment": "exact_supported_deferral",
+        "basis": "You file the sealing petition yourself in the Criminal Division and the mechanism is in scope, but the statute does not resolve whether a pardoned misdemeanour runs on the three-year clock at § 7602(c) or the seven-year clock at § 7602(d), and that timing question decides when you may file at all."
+      },
+      "captainDefect": "The master queue carries this family as legalInputStatus SETTLED while its own treatment record says deferral, and this builder rendered it as a filing-ready packet identical to the other four but for three lines of route name. Both are Captain-side and are corrected with this dispatch.",
+      "whatHappensToThePacket": "vt_seal_pardon-set leaves the build and verification queues until counsel answers. Its rendered artifacts are preserved as review evidence and are not participant-deliverable.",
+      "dependsOn": [],
+      "ownedPaths": [
+        "data/rcap-grade-a/codex-cloud/vtl01-vt-pardon-clock/**"
+      ],
+      "prohibitedPaths": [
+        "data/rcap-all50/overlays/census-v1/vt/**",
+        "scripts/build-census-v1-*.mjs"
+      ],
+      "requiredOutputs": [
+        "data/rcap-grade-a/codex-cloud/vtl01-vt-pardon-clock/question.json — the question, the statutory text on both sides, and what turns on the answer"
+      ],
+      "outputSchema": {
+        "arrayKey": "rows",
+        "itemKeyField": "itemId",
+        "completionVocabulary": [
+          "COMPLETED",
+          "STOPPED"
+        ],
+        "rule": "An unrecognised status is refused at integration rather than translated."
+      },
+      "focusedTests": [],
+      "stopConditions": [
+        "NEVER answer the question yourself. You state it, with the text on both sides, and stop."
+      ],
+      "returnFormat": [
+        "ASSIGNMENT:",
+        "BASE SHA:",
+        "COMMIT:",
+        "QUESTION STATED: 1",
+        "ANSWERS INVENTED: 0",
+        "COMMERCIAL ROUTES OPENED: 0",
+        "PRODUCTION TOUCHED: NO",
+        "DIFF LEFT FOR THE CODEX UI: YES"
+      ],
+      "grantsNothing": "A stated question is a stated question. It settles nothing and authorizes no packet.",
+      "promptFile": "docs/rcap/grade-a/packet-factory-24h/vermont-repair/VTL01_VT_PARDON_CLOCK.md"
+    },
+    {
+      "assignmentId": "VTRV01_VT_REVERIFICATION",
+      "wave": "vermont-repair",
+      "engine": "Codex Cloud",
+      "environment": "LegalEase Packet Factory",
+      "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
+      "captainBranch": "claude/legalease-sprint-captain-utucnw",
+      "workerBranch": "work",
+      "minimumCaptainSha": "3eeae7890f60aee3b31bad94ab475a496f3a7b7c",
+      "lane": "independent-verification",
+      "sequence": 3,
+      "prohibitedCommands": [
+        "git fetch",
+        "git pull",
+        "git push",
+        "gh ",
+        "git worktree",
+        "git clone",
+        "git remote add"
+      ],
+      "claimMechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
+      "claimRule": "Assert every family through `node scripts/grade-a-packet-factory-24h/claim.mjs --assert VTRV01_VT_REVERIFICATION <familyId>` before reading or writing anything. A non-zero exit is a full stop: report BLOCKED_BEFORE_CLAIM and read nothing.",
+      "taskIsolation": [
+        "THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.",
+        "DO NOT EXECUTE THE OTHER VERMONT REPAIR PROMPTS IN THIS CONTAINER."
+      ],
+      "returnDirectory": "data/rcap-grade-a/codex-cloud/vtrv01-vt-reverification",
+      "mission": "Verify independently that the four repaired Vermont pathway families are complete, including the three obligations that failed the first time.",
+      "itemKind": "packetFamily",
+      "itemCount": 4,
+      "items": [
+        "vt_seal_felony-set",
+        "vt_seal_misdemeanor-set",
+        "vt_seal_dui-set",
+        "vt_seal_18_to_21-set"
+      ],
+      "launchNow": false,
+      "launchRule": "DO NOT LAUNCH YET. Captain creates this assignment from a new HEAD once VTR03 is integrated. A verifier started before the repaired packet exists in its checkout verifies the artifact it was supposed to replace.",
+      "mayNotBeRunBy": [
+        "the builder of these packets",
+        "VTR01_VT_FILING_DESTINATION_HOST",
+        "VTR03_VT_RERENDER",
+        "VF01",
+        "VF02",
+        "VF11",
+        "VF12"
+      ],
+      "threeWayIndependence": "Neither the builder, nor the repairer, nor a shard that already formed a view of these packets.",
+      "dependsOn": [
+        "VTR03_VT_RERENDER"
+      ],
+      "proofObligations": [
+        "FILING DESTINATION: the instructions name the court the petition goes to",
+        "FEE AND WAIVER: the fee and any waiver route are stated, or named as a required-before-filing item with the office to ask — not 'confirm locally'",
+        "SERVICE: who must be served and how, on the same terms",
+        "every other obligation in the standard set"
+      ],
+      "verdicts": [
+        "PASS_COMPLETE_INDEPENDENT",
+        "FAIL_REPAIR_REQUIRED",
+        "BLOCKED_SOURCE",
+        "BLOCKED_LEGAL_INPUT"
+      ],
+      "ownedPaths": [
+        "data/rcap-grade-a/codex-cloud/vtrv01-vt-reverification/**"
+      ],
+      "prohibitedPaths": [
+        "data/rcap-all50/overlays/census-v1/vt/**",
+        "scripts/build-census-v1-*.mjs",
+        "scripts/rcap-packet-completeness/**"
+      ],
+      "requiredOutputs": [
+        "data/rcap-grade-a/codex-cloud/vtrv01-vt-reverification/rows.json"
+      ],
+      "outputSchema": {
+        "arrayKey": "rows",
+        "itemKeyField": "itemId",
+        "completionVocabulary": [
+          "PASS_COMPLETE_INDEPENDENT",
+          "FAIL_REPAIR_REQUIRED",
+          "BLOCKED_SOURCE",
+          "BLOCKED_LEGAL_INPUT"
+        ],
+        "rule": "An unrecognised verdict is refused at integration rather than translated."
+      },
+      "focusedTests": [
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_felony-set",
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_misdemeanor-set",
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_dui-set",
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_18_to_21-set"
+      ],
+      "stopConditions": [
+        "LANE STOP — you write into no overlay directory and no build script.",
+        "ROW STOP — an instruction that still says only 'confirm local requirements' is FAIL_REPAIR_REQUIRED, however many counters are zero."
+      ],
+      "returnFormat": [
+        "ASSIGNMENT:",
+        "BASE SHA:",
+        "COMMIT:",
+        "PASS_COMPLETE_INDEPENDENT:",
+        "FAIL_REPAIR_REQUIRED:",
+        "OVERLAY DIRECTORIES MODIFIED: 0",
+        "COMMERCIAL ROUTES OPENED: 0",
+        "PRODUCTION TOUCHED: NO",
+        "DIFF LEFT FOR THE CODEX UI: YES"
+      ],
+      "grantsNothing": "An independent PASS proves a packet is complete. It approves no output and opens no route.",
+      "promptFile": "docs/rcap/grade-a/packet-factory-24h/vermont-repair/VTRV01_VT_REVERIFICATION.md"
+    }
+  ]
+}

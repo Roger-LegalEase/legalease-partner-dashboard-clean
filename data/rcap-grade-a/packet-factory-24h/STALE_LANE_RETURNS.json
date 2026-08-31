@@ -1,0 +1,1054 @@
+{
+  "schemaVersion": "rcap-stale-lane-returns/v1",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/extract-stale-lane-returns.mjs",
+  "question": "Twelve lanes returned against a base four commits stale. What did they find that is worth keeping?",
+  "whyTheyAreFrozen": "Each carries a queue regenerated from base 445c2eb41. Merging one would revert the claim ledger, the discovered raster path and the Vermont build that came after it. The finding is extracted instead; the merge stays frozen.",
+  "frozenPullRequests": [
+    {
+      "pr": 154,
+      "lane": "PF05"
+    },
+    {
+      "pr": 153,
+      "lane": "PF06"
+    },
+    {
+      "pr": 151,
+      "lane": "PF07"
+    },
+    {
+      "pr": 152,
+      "lane": "PF08"
+    },
+    {
+      "pr": 150,
+      "lane": "PF09"
+    },
+    {
+      "pr": 149,
+      "lane": "PF10"
+    },
+    {
+      "pr": 147,
+      "lane": "PF11"
+    },
+    {
+      "pr": 146,
+      "lane": "PF12"
+    },
+    {
+      "pr": 145,
+      "lane": "PF13"
+    },
+    {
+      "pr": 144,
+      "lane": "PF14"
+    },
+    {
+      "pr": 143,
+      "lane": "PF15"
+    },
+    {
+      "pr": 142,
+      "lane": "PF16"
+    }
+  ],
+  "closedAsDuplicates": [
+    {
+      "pr": 148,
+      "duplicateOf": 149,
+      "lane": "PF10"
+    },
+    {
+      "pr": 141,
+      "duplicateOf": 142,
+      "lane": "PF16"
+    }
+  ],
+  "schemasEncountered": {
+    "note": "Twelve lanes invented twelve shapes for the same idea. Every key is read here; a blocker recorded under a key nobody reads is a blocker lost.",
+    "classKeys": [
+      "stopClass",
+      "stopCode",
+      "stopReason"
+    ],
+    "reasonKeys": [
+      "reason",
+      "stopReason",
+      "stopDetail",
+      "detail",
+      "blockedLegalInput",
+      "requiredResolution",
+      "why"
+    ],
+    "listKeys": [
+      "blockers",
+      "missingLegalInputs",
+      "blockingInputs",
+      "evidence"
+    ]
+  },
+  "totals": {
+    "rows": 45,
+    "lanesRead": 12,
+    "unreadable": 0,
+    "byDestination": {
+      "LEGAL": 13,
+      "SOURCE": 10,
+      "ENVIRONMENT": 19,
+      "BUILD_INCOMPLETE": 3
+    },
+    "byDisposition": {
+      "NEW_LEGAL_QUESTION": 13,
+      "CORROBORATES_AN_EXISTING_OBLIGATION": 10,
+      "ENVIRONMENT_CAUSE_NOT_STATED": 5,
+      "RESOLVED_BY_THE_DISCOVERED_RASTER_PATH": 14,
+      "REDISPATCH_AS_A_BUILD": 3
+    },
+    "familiesUnblockedByTheRasterFix": 13,
+    "familiesWithAnUnstatedEnvironmentCause": 5,
+    "newSourceObligations": 0,
+    "newLegalQuestions": 13
+  },
+  "duplicationRule": "An obligation the live conveyor already holds is recorded as corroboration, never re-queued. Two lanes reaching one blocker is evidence about the blocker, not a second unit of work.",
+  "rows": [
+    {
+      "lane": "PF05",
+      "pr": 154,
+      "familyId": "az_record_sealing_arrest_no_charges-set",
+      "status": "STOPPED",
+      "declaredClass": "BLOCKED_LEGAL_INPUT",
+      "destination": "LEGAL",
+      "statedReasons": [
+        "The committed participant treatment says the correct filing court requires a case-by-case reading of the disposition or initial-appearance record, including whether a justice-court complaint proceeded by information in superior court. The packet factory may not guess that route-determining legal application."
+      ],
+      "statedBlockers": [
+        "data/rcap-all50/terminalization-treatments/az.json#trackId=az_record_sealing_arrest_no_charges"
+      ],
+      "preflight": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "artifactsProduced": 0,
+      "sourceReturn": "data/rcap-grade-a/packet-factory-24h/pf05/rows.json @ pr/154",
+      "familyKnown": true,
+      "currentState": "SOURCE_READY",
+      "alreadyQueued": false,
+      "disposition": "NEW_LEGAL_QUESTION"
+    },
+    {
+      "lane": "PF05",
+      "pr": 154,
+      "familyId": "az_record_sealing_dismissal_not_guilty-set",
+      "status": "STOPPED",
+      "declaredClass": "BLOCKED_LEGAL_INPUT",
+      "destination": "LEGAL",
+      "statedReasons": [
+        "The committed participant treatment says the correct filing court must be determined from the charging-document history and refuses automation where that record does not make the venue clear. The packet factory may not choose the court or route on an inference."
+      ],
+      "statedBlockers": [
+        "data/rcap-all50/terminalization-treatments/az.json#trackId=az_record_sealing_dismissal_not_guilty"
+      ],
+      "preflight": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "artifactsProduced": 0,
+      "sourceReturn": "data/rcap-grade-a/packet-factory-24h/pf05/rows.json @ pr/154",
+      "familyKnown": true,
+      "currentState": "SOURCE_READY",
+      "alreadyQueued": false,
+      "disposition": "NEW_LEGAL_QUESTION"
+    },
+    {
+      "lane": "PF05",
+      "pr": 154,
+      "familyId": "mt_deferred_dismissal-set",
+      "status": "STOPPED",
+      "declaredClass": "BLOCKED_SOURCE",
+      "destination": "SOURCE",
+      "statedReasons": [
+        "The assigned official source does not resolve to exactly one committed corpus-index entry."
+      ],
+      "statedBlockers": [],
+      "preflight": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 13/14",
+      "artifactsProduced": 0,
+      "sourceReturn": "data/rcap-grade-a/packet-factory-24h/pf05/rows.json @ pr/154",
+      "familyKnown": true,
+      "currentState": "SOURCE_BLOCKED",
+      "alreadyQueued": true,
+      "disposition": "CORROBORATES_AN_EXISTING_OBLIGATION"
+    },
+    {
+      "lane": "PF05",
+      "pr": 154,
+      "familyId": "or_contempt_setaside-set",
+      "status": "STOPPED",
+      "declaredClass": "BLOCKED_LEGAL_INPUT",
+      "destination": "LEGAL",
+      "statedReasons": [
+        "The committed Oregon first-packet evidence identifies the legacy or_contempt_setaside track as a naming artifact that a reviewer must reconcile before it can be treated as the ORS 137.225(1)(a) route. The packet factory may not silently resolve that route identity."
+      ],
+      "statedBlockers": [
+        "scripts/verify-rcap-lane-i-oregon-first-packet.mjs#packet selection rationale"
+      ],
+      "preflight": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "artifactsProduced": 0,
+      "sourceReturn": "data/rcap-grade-a/packet-factory-24h/pf05/rows.json @ pr/154",
+      "familyKnown": true,
+      "currentState": "SOURCE_READY",
+      "alreadyQueued": false,
+      "disposition": "NEW_LEGAL_QUESTION"
+    },
+    {
+      "lane": "PF06",
+      "pr": 153,
+      "familyId": "ne-setaside-noncustodial-set",
+      "status": "STOPPED",
+      "declaredClass": "BLOCKED_LEGAL_INPUT",
+      "destination": "LEGAL",
+      "statedReasons": [
+        "BLOCKED_LEGAL_INPUT",
+        "The assigned custom_pleading vehicle conflicts with the controlling Nebraska legal-design evidence, which resolves this route to the official CC-6-11 packet and does not authorize a composed pleading. The assignment vehicle must be corrected to official_pdf_fill or an approved exact hybrid design must be supplied."
+      ],
+      "statedBlockers": [],
+      "preflight": null,
+      "artifactsProduced": 0,
+      "sourceReturn": "data/rcap-grade-a/packet-factory-24h/pf06/rows.json @ pr/153",
+      "familyKnown": true,
+      "currentState": "SOURCE_READY",
+      "alreadyQueued": false,
+      "disposition": "NEW_LEGAL_QUESTION"
+    },
+    {
+      "lane": "PF06",
+      "pr": 153,
+      "familyId": "mo-610-122-arrest-expungement-set",
+      "status": "STOPPED",
+      "declaredClass": "BLOCKED_SOURCE",
+      "destination": "SOURCE",
+      "statedReasons": [
+        "BLOCKED_SOURCE"
+      ],
+      "statedBlockers": [],
+      "preflight": null,
+      "artifactsProduced": 0,
+      "sourceReturn": "data/rcap-grade-a/packet-factory-24h/pf06/rows.json @ pr/153",
+      "familyKnown": true,
+      "currentState": "SOURCE_BLOCKED",
+      "alreadyQueued": true,
+      "disposition": "CORROBORATES_AN_EXISTING_OBLIGATION"
+    },
+    {
+      "lane": "PF06",
+      "pr": 153,
+      "familyId": "ks-21-6614-specialty-court-set",
+      "status": "STOPPED",
+      "declaredClass": "BLOCKED_SOURCE",
+      "destination": "SOURCE",
+      "statedReasons": [
+        "BLOCKED_SOURCE"
+      ],
+      "statedBlockers": [],
+      "preflight": null,
+      "artifactsProduced": 0,
+      "sourceReturn": "data/rcap-grade-a/packet-factory-24h/pf06/rows.json @ pr/153",
+      "familyKnown": true,
+      "currentState": "SOURCE_BLOCKED",
+      "alreadyQueued": true,
+      "disposition": "CORROBORATES_AN_EXISTING_OBLIGATION"
+    },
+    {
+      "lane": "PF06",
+      "pr": 153,
+      "familyId": "ma-expunge-mj-set",
+      "status": "STOPPED",
+      "declaredClass": "GLOBAL_ENVIRONMENT_FAILURE",
+      "destination": "ENVIRONMENT",
+      "statedReasons": [
+        "GLOBAL_ENVIRONMENT_FAILURE"
+      ],
+      "statedBlockers": [],
+      "preflight": null,
+      "artifactsProduced": 0,
+      "sourceReturn": "data/rcap-grade-a/packet-factory-24h/pf06/rows.json @ pr/153",
+      "familyKnown": true,
+      "currentState": "SOURCE_READY",
+      "alreadyQueued": false,
+      "disposition": "ENVIRONMENT_CAUSE_NOT_STATED",
+      "resolvedBy": null,
+      "note": "The lane declared an environment failure and did not say which. Re-dispatch it; the preflight now names the rasterizer explicitly, so a second failure will be legible where this one was not."
+    },
+    {
+      "lane": "PF07",
+      "pr": 151,
+      "familyId": "ne-trafficking-setaside-and-seal-set",
+      "status": "STOPPED",
+      "declaredClass": "BLOCKED_LEGAL_INPUT",
+      "destination": "LEGAL",
+      "statedReasons": [
+        "BLOCKED_LEGAL_INPUT",
+        "The assigned family has unresolved source-identity and duplicate-vehicle legal-design inputs: the worklist assigns custom_pleading and official_pdf_fill vehicles, while held form CC-6-12 is an instruction document rather than either required motion.",
+        "Bind the actual set-aside motion and sealing motion components by exact identity and resolve the duplicate vehicle rows before authoring or filling a packet."
+      ],
+      "statedBlockers": [
+        "data/rcap-all50/overlays/census-v1/ne/ne-trafficking-setaside-and-seal-set--official-pdf-fill/vehicle-conflict-stop.json"
+      ],
+      "preflight": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "artifactsProduced": 0,
+      "sourceReturn": "data/rcap-grade-a/packet-factory-24h/pf07/rows.json @ pr/151",
+      "familyKnown": true,
+      "currentState": "SOURCE_READY",
+      "alreadyQueued": false,
+      "disposition": "NEW_LEGAL_QUESTION"
+    },
+    {
+      "lane": "PF07",
+      "pr": 151,
+      "familyId": "mo-610-140-conviction-set",
+      "status": "STOPPED",
+      "declaredClass": "BLOCKED_SOURCE",
+      "destination": "SOURCE",
+      "statedReasons": [
+        "BLOCKED_SOURCE",
+        "Each listed source ID failed to resolve to exactly one committed corpus-index entry."
+      ],
+      "statedBlockers": [],
+      "preflight": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 13/14",
+      "artifactsProduced": 0,
+      "sourceReturn": "data/rcap-grade-a/packet-factory-24h/pf07/rows.json @ pr/151",
+      "familyKnown": true,
+      "currentState": "SOURCE_BLOCKED",
+      "alreadyQueued": true,
+      "disposition": "CORROBORATES_AN_EXISTING_OBLIGATION"
+    },
+    {
+      "lane": "PF07",
+      "pr": 151,
+      "familyId": "ks-22-2410-arrest-set",
+      "status": "STOPPED",
+      "declaredClass": "BLOCKED_SOURCE",
+      "destination": "SOURCE",
+      "statedReasons": [
+        "BLOCKED_SOURCE",
+        "Each listed source ID failed to resolve to exactly one committed corpus-index entry."
+      ],
+      "statedBlockers": [],
+      "preflight": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 13/14",
+      "artifactsProduced": 0,
+      "sourceReturn": "data/rcap-grade-a/packet-factory-24h/pf07/rows.json @ pr/151",
+      "familyKnown": true,
+      "currentState": "SOURCE_BLOCKED",
+      "alreadyQueued": true,
+      "disposition": "CORROBORATES_AN_EXISTING_OBLIGATION"
+    },
+    {
+      "lane": "PF08",
+      "pr": 152,
+      "familyId": "pa_6308_underage-set",
+      "status": "STOPPED",
+      "declaredClass": "BLOCKED_LEGAL_INPUT",
+      "destination": "LEGAL",
+      "statedReasons": [
+        "BLOCKED_LEGAL_INPUT"
+      ],
+      "statedBlockers": [
+        "court-status metadata that determines the correct official vehicle",
+        "exact underage-route production field map",
+        "source-backed and approved custom service-certificate component",
+        "completed-output legal approval"
+      ],
+      "preflight": null,
+      "artifactsProduced": 0,
+      "sourceReturn": "data/rcap-grade-a/packet-factory-24h/pf08/rows.json @ pr/152",
+      "familyKnown": true,
+      "currentState": "SOURCE_READY",
+      "alreadyQueued": false,
+      "disposition": "NEW_LEGAL_QUESTION"
+    },
+    {
+      "lane": "PF08",
+      "pr": 152,
+      "familyId": "mo-art-xiv-marijuana-set",
+      "status": "STOPPED",
+      "declaredClass": "BLOCKED_SOURCE",
+      "destination": "SOURCE",
+      "statedReasons": [
+        "BLOCKED_SOURCE"
+      ],
+      "statedBlockers": [],
+      "preflight": null,
+      "artifactsProduced": 0,
+      "sourceReturn": "data/rcap-grade-a/packet-factory-24h/pf08/rows.json @ pr/152",
+      "familyKnown": true,
+      "currentState": "SOURCE_BLOCKED",
+      "alreadyQueued": true,
+      "disposition": "CORROBORATES_AN_EXISTING_OBLIGATION"
+    },
+    {
+      "lane": "PF08",
+      "pr": 152,
+      "familyId": "ks-22-4908-registration-relief-set",
+      "status": "STOPPED",
+      "declaredClass": "BLOCKED_SOURCE",
+      "destination": "SOURCE",
+      "statedReasons": [
+        "BLOCKED_SOURCE"
+      ],
+      "statedBlockers": [],
+      "preflight": null,
+      "artifactsProduced": 0,
+      "sourceReturn": "data/rcap-grade-a/packet-factory-24h/pf08/rows.json @ pr/152",
+      "familyKnown": true,
+      "currentState": "SOURCE_BLOCKED",
+      "alreadyQueued": true,
+      "disposition": "CORROBORATES_AN_EXISTING_OBLIGATION"
+    },
+    {
+      "lane": "PF08",
+      "pr": 152,
+      "familyId": "pa_pardon_expungement-set",
+      "status": "STOPPED",
+      "declaredClass": "BLOCKED_GLOBAL_ENVIRONMENT",
+      "destination": "ENVIRONMENT",
+      "statedReasons": [
+        "BLOCKED_GLOBAL_ENVIRONMENT"
+      ],
+      "statedBlockers": [],
+      "preflight": null,
+      "artifactsProduced": 0,
+      "sourceReturn": "data/rcap-grade-a/packet-factory-24h/pf08/rows.json @ pr/152",
+      "familyKnown": true,
+      "currentState": "SOURCE_READY",
+      "alreadyQueued": false,
+      "disposition": "ENVIRONMENT_CAUSE_NOT_STATED",
+      "resolvedBy": null,
+      "note": "The lane declared an environment failure and did not say which. Re-dispatch it; the preflight now names the rasterizer explicitly, so a second failure will be legible where this one was not."
+    },
+    {
+      "lane": "PF09",
+      "pr": 150,
+      "familyId": "vt_exp_decriminalized-set",
+      "status": "STOPPED",
+      "declaredClass": "BLOCKED_ENVIRONMENT",
+      "destination": "ENVIRONMENT",
+      "statedReasons": [
+        "Global PDF raster toolchain unavailable: pdftoppm is absent from PATH and package installation is blocked by the environment's package mirror (HTTP 403)."
+      ],
+      "statedBlockers": [],
+      "preflight": null,
+      "artifactsProduced": 0,
+      "sourceReturn": "data/rcap-grade-a/packet-factory-24h/pf09/rows.json @ pr/150",
+      "familyKnown": true,
+      "currentState": "SOURCE_READY",
+      "alreadyQueued": false,
+      "disposition": "RESOLVED_BY_THE_DISCOVERED_RASTER_PATH",
+      "resolvedBy": "36c4d3f0c — the rasterizer discovers its browser and the preflight gates on it, so this family is re-dispatchable rather than blocked",
+      "note": null
+    },
+    {
+      "lane": "PF09",
+      "pr": 150,
+      "familyId": "wi_nc_doj_fingerprint_removal-set",
+      "status": "STOPPED",
+      "declaredClass": "BLOCKED_ENVIRONMENT",
+      "destination": "ENVIRONMENT",
+      "statedReasons": [
+        "Lane stopped before row preflight because the global PDF raster toolchain is unavailable."
+      ],
+      "statedBlockers": [],
+      "preflight": null,
+      "artifactsProduced": 0,
+      "sourceReturn": "data/rcap-grade-a/packet-factory-24h/pf09/rows.json @ pr/150",
+      "familyKnown": true,
+      "currentState": "SOURCE_READY",
+      "alreadyQueued": false,
+      "disposition": "RESOLVED_BY_THE_DISCOVERED_RASTER_PATH",
+      "resolvedBy": "36c4d3f0c — the rasterizer discovers its browser and the preflight gates on it, so this family is re-dispatchable rather than blocked",
+      "note": null
+    },
+    {
+      "lane": "PF09",
+      "pr": 150,
+      "familyId": "co_pardoned_conviction_seal-set",
+      "status": "STOPPED",
+      "declaredClass": "BLOCKED_ENVIRONMENT",
+      "destination": "ENVIRONMENT",
+      "statedReasons": [
+        "Lane stopped before row preflight because the global PDF raster toolchain is unavailable."
+      ],
+      "statedBlockers": [],
+      "preflight": null,
+      "artifactsProduced": 0,
+      "sourceReturn": "data/rcap-grade-a/packet-factory-24h/pf09/rows.json @ pr/150",
+      "familyKnown": true,
+      "currentState": "SOURCE_READY",
+      "alreadyQueued": false,
+      "disposition": "RESOLVED_BY_THE_DISCOVERED_RASTER_PATH",
+      "resolvedBy": "36c4d3f0c — the rasterizer discovers its browser and the preflight gates on it, so this family is re-dispatchable rather than blocked",
+      "note": null
+    },
+    {
+      "lane": "PF09",
+      "pr": 150,
+      "familyId": "wv_conv_nonviolent_felony-set",
+      "status": "STOPPED",
+      "declaredClass": "BLOCKED_ENVIRONMENT",
+      "destination": "ENVIRONMENT",
+      "statedReasons": [
+        "Lane stopped before row preflight because the global PDF raster toolchain is unavailable."
+      ],
+      "statedBlockers": [],
+      "preflight": null,
+      "artifactsProduced": 0,
+      "sourceReturn": "data/rcap-grade-a/packet-factory-24h/pf09/rows.json @ pr/150",
+      "familyKnown": true,
+      "currentState": "SOURCE_BLOCKED",
+      "alreadyQueued": false,
+      "disposition": "RESOLVED_BY_THE_DISCOVERED_RASTER_PATH",
+      "resolvedBy": "36c4d3f0c — the rasterizer discovers its browser and the preflight gates on it, so this family is re-dispatchable rather than blocked",
+      "note": null
+    },
+    {
+      "lane": "PF10",
+      "pr": 149,
+      "familyId": "ky_felony_expungement_after_pardon-set",
+      "status": "STOPPED",
+      "declaredClass": "BLOCKED_LEGAL_INPUT",
+      "destination": "LEGAL",
+      "statedReasons": [
+        "BLOCKED_LEGAL_INPUT"
+      ],
+      "statedBlockers": [
+        "The committed route-obligation worklist does not record affidavitOrVerification, certificateOfService, contestedHearingOrOppositionHandoff, coverSheet, filingDeadline, filingMethod, notice, postFilingInstructions, proposedOrder, schedulesOrContinuationPages, serviceMethod, serviceTiming, or uncontestedHearingTreatment. The builder contract requires complete certification/pardon attachment instructions and filing instructions, so these legal inputs cannot be guessed."
+      ],
+      "preflight": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "artifactsProduced": 0,
+      "sourceReturn": "data/rcap-grade-a/packet-factory-24h/pf10/rows.json @ pr/149",
+      "familyKnown": true,
+      "currentState": "SOURCE_READY",
+      "alreadyQueued": false,
+      "disposition": "NEW_LEGAL_QUESTION"
+    },
+    {
+      "lane": "PF10",
+      "pr": 149,
+      "familyId": "ct-cleanslate-petition-set",
+      "status": "STOPPED",
+      "declaredClass": "BLOCKED_GLOBAL_ENVIRONMENT",
+      "destination": "ENVIRONMENT",
+      "statedReasons": [
+        "BLOCKED_GLOBAL_ENVIRONMENT"
+      ],
+      "statedBlockers": [
+        "The row preflight passed 14/14, but the family build exposed a global PDF toolchain failure: Playwright could not launch Chromium because /opt/pw-browsers/chromium does not exist. The lane stopped as required for a PDF toolchain failure."
+      ],
+      "preflight": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "artifactsProduced": 0,
+      "sourceReturn": "data/rcap-grade-a/packet-factory-24h/pf10/rows.json @ pr/149",
+      "familyKnown": true,
+      "currentState": "SOURCE_READY",
+      "alreadyQueued": false,
+      "disposition": "RESOLVED_BY_THE_DISCOVERED_RASTER_PATH",
+      "resolvedBy": "36c4d3f0c — the rasterizer discovers its browser and the preflight gates on it, so this family is re-dispatchable rather than blocked",
+      "note": null
+    },
+    {
+      "lane": "PF10",
+      "pr": 149,
+      "familyId": "ak-courtview-set",
+      "status": "STOPPED",
+      "declaredClass": "LANE_STOPPED_BEFORE_ROW_PREFLIGHT",
+      "destination": "ENVIRONMENT",
+      "statedReasons": [
+        "LANE_STOPPED_BEFORE_ROW_PREFLIGHT"
+      ],
+      "statedBlockers": [
+        "Not attempted because the preceding CT build exposed the lane-wide missing Chromium PDF toolchain."
+      ],
+      "preflight": "NOT_RUN_DUE_TO_GLOBAL_ENVIRONMENT_STOP",
+      "artifactsProduced": 0,
+      "sourceReturn": "data/rcap-grade-a/packet-factory-24h/pf10/rows.json @ pr/149",
+      "familyKnown": true,
+      "currentState": "SOURCE_READY",
+      "alreadyQueued": false,
+      "disposition": "RESOLVED_BY_THE_DISCOVERED_RASTER_PATH",
+      "resolvedBy": "36c4d3f0c — the rasterizer discovers its browser and the preflight gates on it, so this family is re-dispatchable rather than blocked",
+      "note": null
+    },
+    {
+      "lane": "PF11",
+      "pr": 147,
+      "familyId": "ky_felony_expungement_after_pardon-set",
+      "status": "STOPPED",
+      "declaredClass": "GLOBAL_ENVIRONMENT_PDF_TOOLCHAIN",
+      "destination": "ENVIRONMENT",
+      "statedReasons": [
+        "GLOBAL_ENVIRONMENT_PDF_TOOLCHAIN"
+      ],
+      "statedBlockers": [],
+      "preflight": null,
+      "artifactsProduced": 0,
+      "sourceReturn": "data/rcap-grade-a/packet-factory-24h/pf11/rows.json @ pr/147",
+      "familyKnown": true,
+      "currentState": "SOURCE_READY",
+      "alreadyQueued": false,
+      "disposition": "ENVIRONMENT_CAUSE_NOT_STATED",
+      "resolvedBy": null,
+      "note": "The lane declared an environment failure and did not say which. Re-dispatch it; the preflight now names the rasterizer explicitly, so a second failure will be legible where this one was not."
+    },
+    {
+      "lane": "PF11",
+      "pr": 147,
+      "familyId": "me-seal-prost-set",
+      "status": "STOPPED",
+      "declaredClass": "GLOBAL_ENVIRONMENT_PDF_TOOLCHAIN",
+      "destination": "ENVIRONMENT",
+      "statedReasons": [
+        "GLOBAL_ENVIRONMENT_PDF_TOOLCHAIN"
+      ],
+      "statedBlockers": [],
+      "preflight": null,
+      "artifactsProduced": 0,
+      "sourceReturn": "data/rcap-grade-a/packet-factory-24h/pf11/rows.json @ pr/147",
+      "familyKnown": true,
+      "currentState": "SOURCE_READY",
+      "alreadyQueued": false,
+      "disposition": "ENVIRONMENT_CAUSE_NOT_STATED",
+      "resolvedBy": null,
+      "note": "The lane declared an environment failure and did not say which. Re-dispatch it; the preflight now names the rasterizer explicitly, so a second failure will be legible where this one was not."
+    },
+    {
+      "lane": "PF11",
+      "pr": 147,
+      "familyId": "ct-cleanslate-petition-set",
+      "status": "STOPPED",
+      "declaredClass": "GLOBAL_ENVIRONMENT_PDF_TOOLCHAIN",
+      "destination": "ENVIRONMENT",
+      "statedReasons": [
+        "GLOBAL_ENVIRONMENT_PDF_TOOLCHAIN",
+        "The required Chromium PDF rasterizer executable /opt/pw-browsers/chromium is absent; the builder stopped before completing page rasters."
+      ],
+      "statedBlockers": [],
+      "preflight": null,
+      "artifactsProduced": 0,
+      "sourceReturn": "data/rcap-grade-a/packet-factory-24h/pf11/rows.json @ pr/147",
+      "familyKnown": true,
+      "currentState": "SOURCE_READY",
+      "alreadyQueued": false,
+      "disposition": "RESOLVED_BY_THE_DISCOVERED_RASTER_PATH",
+      "resolvedBy": "36c4d3f0c — the rasterizer discovers its browser and the preflight gates on it, so this family is re-dispatchable rather than blocked",
+      "note": null
+    },
+    {
+      "lane": "PF11",
+      "pr": 147,
+      "familyId": "ak-tf800-set",
+      "status": "STOPPED",
+      "declaredClass": "GLOBAL_ENVIRONMENT_PDF_TOOLCHAIN",
+      "destination": "ENVIRONMENT",
+      "statedReasons": [
+        "GLOBAL_ENVIRONMENT_PDF_TOOLCHAIN"
+      ],
+      "statedBlockers": [],
+      "preflight": null,
+      "artifactsProduced": 0,
+      "sourceReturn": "data/rcap-grade-a/packet-factory-24h/pf11/rows.json @ pr/147",
+      "familyKnown": true,
+      "currentState": "SOURCE_READY",
+      "alreadyQueued": false,
+      "disposition": "ENVIRONMENT_CAUSE_NOT_STATED",
+      "resolvedBy": null,
+      "note": "The lane declared an environment failure and did not say which. Re-dispatch it; the preflight now names the rasterizer explicitly, so a second failure will be legible where this one was not."
+    },
+    {
+      "lane": "PF12",
+      "pr": 146,
+      "familyId": "ky_felony_vacatur_expungement-set",
+      "status": "STOPPED",
+      "declaredClass": "BLOCKED_ENVIRONMENT",
+      "destination": "ENVIRONMENT",
+      "statedReasons": [
+        "BLOCKED_ENVIRONMENT"
+      ],
+      "statedBlockers": [
+        "The required page-raster toolchain is unavailable: Playwright cannot find Chromium at /opt/pw-browsers/chromium, and installation is blocked by HTTP 403."
+      ],
+      "preflight": null,
+      "artifactsProduced": 0,
+      "sourceReturn": "data/rcap-grade-a/packet-factory-24h/pf12/rows.json @ pr/146",
+      "familyKnown": true,
+      "currentState": "SOURCE_READY",
+      "alreadyQueued": false,
+      "disposition": "RESOLVED_BY_THE_DISCOVERED_RASTER_PATH",
+      "resolvedBy": "36c4d3f0c — the rasterizer discovers its browser and the preflight gates on it, so this family is re-dispatchable rather than blocked",
+      "note": null
+    },
+    {
+      "lane": "PF12",
+      "pr": 146,
+      "familyId": "mo-575-120-identity-theft-correction-set",
+      "status": "STOPPED",
+      "declaredClass": "BLOCKED_SOURCE",
+      "destination": "SOURCE",
+      "statedReasons": [
+        "BLOCKED_SOURCE"
+      ],
+      "statedBlockers": [
+        "official-form:CR310",
+        "official-form:FI-05",
+        "official-form:GN10"
+      ],
+      "preflight": null,
+      "artifactsProduced": 0,
+      "sourceReturn": "data/rcap-grade-a/packet-factory-24h/pf12/rows.json @ pr/146",
+      "familyKnown": true,
+      "currentState": "SOURCE_BLOCKED",
+      "alreadyQueued": true,
+      "disposition": "CORROBORATES_AN_EXISTING_OBLIGATION"
+    },
+    {
+      "lane": "PF12",
+      "pr": 146,
+      "familyId": "co_motion_seal_nonconviction-set",
+      "status": "STOPPED",
+      "declaredClass": "BLOCKED_ENVIRONMENT",
+      "destination": "ENVIRONMENT",
+      "statedReasons": [
+        "BLOCKED_ENVIRONMENT"
+      ],
+      "statedBlockers": [
+        "The required page-raster toolchain is unavailable: Playwright cannot find Chromium at /opt/pw-browsers/chromium, and installation is blocked by HTTP 403."
+      ],
+      "preflight": null,
+      "artifactsProduced": 0,
+      "sourceReturn": "data/rcap-grade-a/packet-factory-24h/pf12/rows.json @ pr/146",
+      "familyKnown": true,
+      "currentState": "SOURCE_READY",
+      "alreadyQueued": false,
+      "disposition": "RESOLVED_BY_THE_DISCOVERED_RASTER_PATH",
+      "resolvedBy": "36c4d3f0c — the rasterizer discovers its browser and the preflight gates on it, so this family is re-dispatchable rather than blocked",
+      "note": null
+    },
+    {
+      "lane": "PF12",
+      "pr": 146,
+      "familyId": "ak-tf805-set",
+      "status": "STOPPED",
+      "declaredClass": "BLOCKED_ENVIRONMENT",
+      "destination": "ENVIRONMENT",
+      "statedReasons": [
+        "BLOCKED_ENVIRONMENT"
+      ],
+      "statedBlockers": [
+        "The build reached page rastering, then Playwright could not find Chromium at /opt/pw-browsers/chromium; installation is blocked by HTTP 403. The atomic builder wrote no family artifact."
+      ],
+      "preflight": null,
+      "artifactsProduced": 0,
+      "sourceReturn": "data/rcap-grade-a/packet-factory-24h/pf12/rows.json @ pr/146",
+      "familyKnown": true,
+      "currentState": "SOURCE_READY",
+      "alreadyQueued": false,
+      "disposition": "RESOLVED_BY_THE_DISCOVERED_RASTER_PATH",
+      "resolvedBy": "36c4d3f0c — the rasterizer discovers its browser and the preflight gates on it, so this family is re-dispatchable rather than blocked",
+      "note": null
+    },
+    {
+      "lane": "PF13",
+      "pr": 145,
+      "familyId": "ky_misdemeanor_expungement-set",
+      "status": "STOPPED",
+      "declaredClass": "BLOCKED_LEGAL_INPUT",
+      "destination": "LEGAL",
+      "statedReasons": [],
+      "statedBlockers": [
+        "AOC-496: approved field-by-field route-election classification for the misdemeanor/violation/traffic-conviction pathway",
+        "AOC-496.2: approved division of participant-completable fields, protected court fields, and later-completion fields"
+      ],
+      "preflight": null,
+      "artifactsProduced": 0,
+      "sourceReturn": "data/rcap-grade-a/packet-factory-24h/pf13/rows.json @ pr/145",
+      "familyKnown": true,
+      "currentState": "SOURCE_READY",
+      "alreadyQueued": false,
+      "disposition": "NEW_LEGAL_QUESTION"
+    },
+    {
+      "lane": "PF13",
+      "pr": 145,
+      "familyId": "wi_exp_cr266-set",
+      "status": "STOPPED",
+      "declaredClass": "BLOCKED_LEGAL_INPUT",
+      "destination": "LEGAL",
+      "statedReasons": [],
+      "statedBlockers": [
+        "CR-266: approved route-determined selections distinguishing the non-probation/non-incarceration discharge pathway",
+        "CR-267: approved field-by-field classification of court-only findings and order provisions"
+      ],
+      "preflight": null,
+      "artifactsProduced": 0,
+      "sourceReturn": "data/rcap-grade-a/packet-factory-24h/pf13/rows.json @ pr/145",
+      "familyKnown": true,
+      "currentState": "SOURCE_READY",
+      "alreadyQueued": false,
+      "disposition": "NEW_LEGAL_QUESTION"
+    },
+    {
+      "lane": "PF13",
+      "pr": 145,
+      "familyId": "co_decriminalized_conduct_seal-set",
+      "status": "STOPPED",
+      "declaredClass": "BLOCKED_LEGAL_INPUT",
+      "destination": "LEGAL",
+      "statedReasons": [],
+      "statedBlockers": [
+        "JDF-2371: approved route-determined basis and eligibility-election selections for decriminalized conduct",
+        "JDF-2374: approved field-by-field classification of judicial findings, service, and later-completion fields"
+      ],
+      "preflight": null,
+      "artifactsProduced": 0,
+      "sourceReturn": "data/rcap-grade-a/packet-factory-24h/pf13/rows.json @ pr/145",
+      "familyKnown": true,
+      "currentState": "SOURCE_READY",
+      "alreadyQueued": false,
+      "disposition": "NEW_LEGAL_QUESTION"
+    },
+    {
+      "lane": "PF13",
+      "pr": 145,
+      "familyId": "wv_nc_acquittal_dismissal-set",
+      "status": "STOPPED",
+      "declaredClass": "BLOCKED_LEGAL_INPUT",
+      "destination": "LEGAL",
+      "statedReasons": [],
+      "statedBlockers": [
+        "SCA-C903: approved route-election mapping among acquittal, dismissal, diversion, and deferred-adjudication grounds",
+        "SCA-C903: approved ownership and event timing for every certificate-of-service field"
+      ],
+      "preflight": null,
+      "artifactsProduced": 0,
+      "sourceReturn": "data/rcap-grade-a/packet-factory-24h/pf13/rows.json @ pr/145",
+      "familyKnown": true,
+      "currentState": "SOURCE_READY",
+      "alreadyQueued": false,
+      "disposition": "NEW_LEGAL_QUESTION"
+    },
+    {
+      "lane": "PF14",
+      "pr": 144,
+      "familyId": "wa_blake_vacatur_and_lfo_refund-set",
+      "status": "STOPPED",
+      "declaredClass": "BLOCKED_LEGAL_INPUT",
+      "destination": "LEGAL",
+      "statedReasons": [],
+      "statedBlockers": [
+        "Resolve whether BLAKE-002 is the courts-of-limited-jurisdiction alternative to BLAKE-001 or a separate lfo_refund_claim component.",
+        "If a separate lfo_refund_claim is required, identify and bind its actual source.",
+        "data/rcap-all50/overlays/census-v1/wa/wa-blake-vacatur-and-lfo-refund-set--official-pdf-fill/source-vehicle-stop.json"
+      ],
+      "preflight": null,
+      "artifactsProduced": 0,
+      "sourceReturn": "data/rcap-grade-a/packet-factory-24h/pf14/rows.json @ pr/144",
+      "familyKnown": true,
+      "currentState": "SOURCE_READY",
+      "alreadyQueued": false,
+      "disposition": "NEW_LEGAL_QUESTION"
+    },
+    {
+      "lane": "PF14",
+      "pr": 144,
+      "familyId": "mo-610-140-arrest-set",
+      "status": "STOPPED",
+      "declaredClass": "BLOCKED_SOURCE",
+      "destination": "SOURCE",
+      "statedReasons": [],
+      "statedBlockers": [],
+      "preflight": null,
+      "artifactsProduced": 0,
+      "sourceReturn": "data/rcap-grade-a/packet-factory-24h/pf14/rows.json @ pr/144",
+      "familyKnown": true,
+      "currentState": "SOURCE_BLOCKED",
+      "alreadyQueued": true,
+      "disposition": "CORROBORATES_AN_EXISTING_OBLIGATION"
+    },
+    {
+      "lane": "PF14",
+      "pr": 144,
+      "familyId": "co_motion_seal_conviction-set",
+      "status": "STOPPED",
+      "declaredClass": "BLOCKED_LEGAL_INPUT",
+      "destination": "LEGAL",
+      "statedReasons": [],
+      "statedBlockers": [
+        "Resolve and bind the required NOTICE form identity; the committed first-hand record says its form number is unknown and the form is absent from the corpus.",
+        "Resolve and bind the additional required ORDER form identity; the committed first-hand record says its form number is unknown and the form is absent from the corpus.",
+        "data/rcap-all50/candidate-evidence/colorado/lane-g-route-dispositions.json",
+        "data/rcap-all50/overlays/production/colorado/jdf-612-form-motion-en/specification/reports/incomplete-filing-set.json"
+      ],
+      "preflight": null,
+      "artifactsProduced": 0,
+      "sourceReturn": "data/rcap-grade-a/packet-factory-24h/pf14/rows.json @ pr/144",
+      "familyKnown": true,
+      "currentState": "SOURCE_READY",
+      "alreadyQueued": false,
+      "disposition": "NEW_LEGAL_QUESTION"
+    },
+    {
+      "lane": "PF15",
+      "pr": 143,
+      "familyId": "va_exp_nonconviction-set",
+      "status": "STOPPED",
+      "declaredClass": "GLOBAL_ENVIRONMENT_PDF_TOOLCHAIN",
+      "destination": "ENVIRONMENT",
+      "statedReasons": [
+        "The row-scoped preflight passed 14/14, but the required page-raster build step could not execute because pdftoppm is absent (spawnSync pdftoppm ENOENT). The partial family artifact tree was removed."
+      ],
+      "statedBlockers": [],
+      "preflight": null,
+      "artifactsProduced": 0,
+      "sourceReturn": "data/rcap-grade-a/packet-factory-24h/pf15/rows.json @ pr/143",
+      "familyKnown": true,
+      "currentState": "SOURCE_READY",
+      "alreadyQueued": false,
+      "disposition": "RESOLVED_BY_THE_DISCOVERED_RASTER_PATH",
+      "resolvedBy": "36c4d3f0c — the rasterizer discovers its browser and the preflight gates on it, so this family is re-dispatchable rather than blocked",
+      "note": null
+    },
+    {
+      "lane": "PF15",
+      "pr": 143,
+      "familyId": "wi_nc_doj_challenge-set",
+      "status": "STOPPED",
+      "declaredClass": "GLOBAL_ENVIRONMENT_PDF_TOOLCHAIN",
+      "destination": "ENVIRONMENT",
+      "statedReasons": [
+        "Not attempted after the lane-global PDF raster toolchain failure."
+      ],
+      "statedBlockers": [],
+      "preflight": null,
+      "artifactsProduced": 0,
+      "sourceReturn": "data/rcap-grade-a/packet-factory-24h/pf15/rows.json @ pr/143",
+      "familyKnown": true,
+      "currentState": "SOURCE_READY",
+      "alreadyQueued": false,
+      "disposition": "RESOLVED_BY_THE_DISCOVERED_RASTER_PATH",
+      "resolvedBy": "36c4d3f0c — the rasterizer discovers its browser and the preflight gates on it, so this family is re-dispatchable rather than blocked",
+      "note": null
+    },
+    {
+      "lane": "PF15",
+      "pr": 143,
+      "familyId": "co_multiple_conviction_seal-set",
+      "status": "STOPPED",
+      "declaredClass": "GLOBAL_ENVIRONMENT_PDF_TOOLCHAIN",
+      "destination": "ENVIRONMENT",
+      "statedReasons": [
+        "Not attempted after the lane-global PDF raster toolchain failure."
+      ],
+      "statedBlockers": [],
+      "preflight": null,
+      "artifactsProduced": 0,
+      "sourceReturn": "data/rcap-grade-a/packet-factory-24h/pf15/rows.json @ pr/143",
+      "familyKnown": true,
+      "currentState": "SOURCE_READY",
+      "alreadyQueued": false,
+      "disposition": "RESOLVED_BY_THE_DISCOVERED_RASTER_PATH",
+      "resolvedBy": "36c4d3f0c — the rasterizer discovers its browser and the preflight gates on it, so this family is re-dispatchable rather than blocked",
+      "note": null
+    },
+    {
+      "lane": "PF15",
+      "pr": 143,
+      "familyId": "wv_nc_diversion_deferred-set",
+      "status": "STOPPED",
+      "declaredClass": "GLOBAL_ENVIRONMENT_PDF_TOOLCHAIN",
+      "destination": "ENVIRONMENT",
+      "statedReasons": [
+        "Not attempted after the lane-global PDF raster toolchain failure."
+      ],
+      "statedBlockers": [],
+      "preflight": null,
+      "artifactsProduced": 0,
+      "sourceReturn": "data/rcap-grade-a/packet-factory-24h/pf15/rows.json @ pr/143",
+      "familyKnown": true,
+      "currentState": "SOURCE_READY",
+      "alreadyQueued": false,
+      "disposition": "RESOLVED_BY_THE_DISCOVERED_RASTER_PATH",
+      "resolvedBy": "36c4d3f0c — the rasterizer discovers its browser and the preflight gates on it, so this family is re-dispatchable rather than blocked",
+      "note": null
+    },
+    {
+      "lane": "PF16",
+      "pr": 142,
+      "familyId": "md_second_chance_shielding-set",
+      "status": "STOPPED",
+      "declaredClass": "BUILD_INCOMPLETE",
+      "destination": "BUILD_INCOMPLETE",
+      "statedReasons": [
+        "BUILD_INCOMPLETE"
+      ],
+      "statedBlockers": [],
+      "preflight": null,
+      "artifactsProduced": 0,
+      "sourceReturn": "data/rcap-grade-a/packet-factory-24h/pf16/rows.json @ pr/142",
+      "familyKnown": true,
+      "currentState": "SOURCE_READY",
+      "alreadyQueued": false,
+      "disposition": "REDISPATCH_AS_A_BUILD"
+    },
+    {
+      "lane": "PF16",
+      "pr": 142,
+      "familyId": "ca-1203-4-set",
+      "status": "STOPPED",
+      "declaredClass": "BUILD_INCOMPLETE",
+      "destination": "BUILD_INCOMPLETE",
+      "statedReasons": [
+        "BUILD_INCOMPLETE"
+      ],
+      "statedBlockers": [],
+      "preflight": null,
+      "artifactsProduced": 0,
+      "sourceReturn": "data/rcap-grade-a/packet-factory-24h/pf16/rows.json @ pr/142",
+      "familyKnown": true,
+      "currentState": "SOURCE_READY",
+      "alreadyQueued": false,
+      "disposition": "REDISPATCH_AS_A_BUILD"
+    },
+    {
+      "lane": "PF16",
+      "pr": 142,
+      "familyId": "ga-nonconv-pre2013-set",
+      "status": "STOPPED",
+      "declaredClass": "BLOCKED_SOURCE",
+      "destination": "SOURCE",
+      "statedReasons": [
+        "BLOCKED_SOURCE"
+      ],
+      "statedBlockers": [],
+      "preflight": null,
+      "artifactsProduced": 0,
+      "sourceReturn": "data/rcap-grade-a/packet-factory-24h/pf16/rows.json @ pr/142",
+      "familyKnown": true,
+      "currentState": "SOURCE_BLOCKED",
+      "alreadyQueued": true,
+      "disposition": "CORROBORATES_AN_EXISTING_OBLIGATION"
+    },
+    {
+      "lane": "PF16",
+      "pr": 142,
+      "familyId": "ak-courtview-set",
+      "status": "STOPPED",
+      "declaredClass": "BUILD_INCOMPLETE",
+      "destination": "BUILD_INCOMPLETE",
+      "statedReasons": [
+        "BUILD_INCOMPLETE"
+      ],
+      "statedBlockers": [],
+      "preflight": null,
+      "artifactsProduced": 0,
+      "sourceReturn": "data/rcap-grade-a/packet-factory-24h/pf16/rows.json @ pr/142",
+      "familyKnown": true,
+      "currentState": "SOURCE_READY",
+      "alreadyQueued": false,
+      "disposition": "REDISPATCH_AS_A_BUILD"
+    }
+  ],
+  "unreadable": [],
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}
