@@ -1,0 +1,1061 @@
+{
+  "schemaVersion": "rcap-completeness-repair-wave/v1",
+  "generatedBy": "scripts/grade-a-launch-control/generate-completeness-repair-wave.mjs",
+  "question": "Which built families does S1 not touch, and can they be repaired now?",
+  "thisIsAnAddendum": {
+    "parentManifest": "data/rcap-grade-a/launch-control/WAVE_2_ASSIGNMENTS.json",
+    "why": "S1, R8 and the seven verification shards are already published against a base workers may have branched from. Regenerating that manifest to add lanes would move their captainBaseSha underneath them, so this record names the parent instead of replacing it, and every collision check runs across both.",
+    "parentUnchanged": [
+      "S1_SHARED_FACT_ALLOWLIST",
+      "R8_COMPLETENESS_REPAIR_PRIORITY_FOUR",
+      "V1_INDEPENDENT_PACKET_VERIFICATION",
+      "V2_INDEPENDENT_PACKET_VERIFICATION",
+      "V3_INDEPENDENT_PACKET_VERIFICATION",
+      "V4_INDEPENDENT_PACKET_VERIFICATION",
+      "V5_INDEPENDENT_PACKET_VERIFICATION",
+      "V6_INDEPENDENT_PACKET_VERIFICATION",
+      "V7_INDEPENDENT_PACKET_VERIFICATION"
+    ]
+  },
+  "captainBaseSha": "33dfea59fe85b9dc86469d12e04fd65c51b480fa",
+  "captainBranch": "claude/legalease-sprint-captain-utucnw",
+  "promptDirectory": "docs/rcap/grade-a/launch-control/completeness-repair-prompts",
+  "s1ExposureDerivation": {
+    "method": "Transitive import graph over scripts/build-census-v1-*.mjs. A script is S1-affected if it IS one of the two runners or reaches one through any chain of imports.",
+    "runners": [
+      "scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs",
+      "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs"
+    ],
+    "buildScriptsTotal": 52,
+    "buildScriptsAffected": 24,
+    "builtFamilies": 43,
+    "builtFamiliesAffected": 23,
+    "builtFamiliesUnaffected": 20,
+    "correctionToTheStatedCount": {
+      "stated": 19,
+      "derived": 20,
+      "why": "24 build scripts reach an S1 runner, but one of them — 23 — belongs to a family that STOPPED rather than built. Among the 43 BUILT families, 23 are affected and 20 are not. 43 minus 24 assumes every affected script is a built family; one is not."
+    }
+  },
+  "exclusions": {
+    "applied": [],
+    "r8Families": [
+      "nj_disorderly_persons-set",
+      "ca-17b-reduction-set",
+      "ca-1203-43-set",
+      "az_marijuana_expungement_superior_court-set"
+    ],
+    "note": "All four R8 families reach an S1 runner, so they were already outside the unaffected set; the exclusion is checked rather than assumed."
+  },
+  "sharedFileOwnershipRule": "A shared build script may be owned by a repair lane only when every script importing it belongs to that lane. Each lane's sharedFileAnalysis records the test and its result.",
+  "totals": {
+    "lanes": 4,
+    "familiesDispatched": 20,
+    "collisions": 0,
+    "placeholders": 0,
+    "sharedFilesOwned": 1,
+    "sharedFilesRefused": 3
+  },
+  "commercialPosture": "Every lane here repairs packet content. None opens a commercial route, proves a packet, grants an approval or consumes an authorization.",
+  "assignments": [
+    {
+      "assignmentId": "P1_UT_PETITION_EXPUNGE_COMPLETENESS",
+      "wave": "completeness-repair-addendum",
+      "engine": "Codex",
+      "lane": "completeness-repair",
+      "workerBranch": "codex/p1-ut-petition-expunge-completeness",
+      "captainBaseSha": "33dfea59fe85b9dc86469d12e04fd65c51b480fa",
+      "readAssignmentFrom": {
+        "branch": "claude/legalease-sprint-captain-utucnw",
+        "file": "data/rcap-grade-a/launch-control/COMPLETENESS_REPAIR_WAVE.json",
+        "verify": "captainBaseSha must equal 33dfea59fe85b9dc86469d12e04fd65c51b480fa"
+      },
+      "parentManifest": "data/rcap-grade-a/launch-control/WAVE_2_ASSIGNMENTS.json",
+      "formFamily": "Utah petition to expunge (1000EX/1002EX, 1020EX/1022EX, 1044XX, 1146XX, 1148XX, 1149XX)",
+      "sharedRootCause": "maps-with-canonical-and-boundary field maps whose canonicalRefusals carry no approved blank disposition; the matrix reports these seven as FAIL_MISSING_PREFILLS with 11 of 628 terminal fields written",
+      "mission": "Repair 7 packet families that import neither S1 runner, so none of them waits for the post-S1 audit. They share one form family and one root cause; repair them together and re-render each against its pinned source.",
+      "itemKind": "familyId",
+      "itemCount": 7,
+      "items": [
+        "ut_pet_acquittal-set",
+        "ut_pet_conviction-set",
+        "ut_pet_dismissed_with_prejudice-set",
+        "ut_pet_dismissed_without_prejudice-set",
+        "ut_pet_limitations-set",
+        "ut_pet_no_charges-set",
+        "ut_pet_traffic-set"
+      ],
+      "s1Exposure": {
+        "reachesEitherRunner": false,
+        "provedBy": "transitive import graph over scripts/build-census-v1-*.mjs, recomputed at generation time"
+      },
+      "familyDetail": [
+        {
+          "familyId": "ut_pet_acquittal-set",
+          "overlayDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill",
+          "buildScript": "scripts/build-census-v1-ut_pet_acquittal-set.mjs",
+          "buildScriptOwnedByThisLane": true,
+          "completenessResultNow": "FAIL_MISSING_PREFILLS",
+          "writtenNow": "11/628",
+          "fieldMapSchema": "maps-with-canonical-and-boundary",
+          "countersToClear": {
+            "unclassifiedBlanks": 617
+          }
+        },
+        {
+          "familyId": "ut_pet_conviction-set",
+          "overlayDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill",
+          "buildScript": "scripts/build-census-v1-ut_pet_conviction-set.mjs",
+          "buildScriptOwnedByThisLane": true,
+          "completenessResultNow": "FAIL_MISSING_PREFILLS",
+          "writtenNow": "11/628",
+          "fieldMapSchema": "maps-with-canonical-and-boundary",
+          "countersToClear": {
+            "unclassifiedBlanks": 617
+          }
+        },
+        {
+          "familyId": "ut_pet_dismissed_with_prejudice-set",
+          "overlayDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill",
+          "buildScript": "scripts/build-census-v1-ut_pet_dismissed_with_prejudice-set.mjs",
+          "buildScriptOwnedByThisLane": true,
+          "completenessResultNow": "FAIL_MISSING_PREFILLS",
+          "writtenNow": "11/628",
+          "fieldMapSchema": "maps-with-canonical-and-boundary",
+          "countersToClear": {
+            "unclassifiedBlanks": 617
+          }
+        },
+        {
+          "familyId": "ut_pet_dismissed_without_prejudice-set",
+          "overlayDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill",
+          "buildScript": "scripts/build-census-v1-ut_pet_dismissed_without_prejudice-set.mjs",
+          "buildScriptOwnedByThisLane": true,
+          "completenessResultNow": "FAIL_MISSING_PREFILLS",
+          "writtenNow": "11/628",
+          "fieldMapSchema": "maps-with-canonical-and-boundary",
+          "countersToClear": {
+            "unclassifiedBlanks": 617
+          }
+        },
+        {
+          "familyId": "ut_pet_limitations-set",
+          "overlayDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-limitations-set--official-pdf-fill",
+          "buildScript": "scripts/build-census-v1-ut_pet_limitations-set.mjs",
+          "buildScriptOwnedByThisLane": true,
+          "completenessResultNow": "FAIL_MISSING_PREFILLS",
+          "writtenNow": "11/628",
+          "fieldMapSchema": "maps-with-canonical-and-boundary",
+          "countersToClear": {
+            "unclassifiedBlanks": 617
+          }
+        },
+        {
+          "familyId": "ut_pet_no_charges-set",
+          "overlayDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill",
+          "buildScript": "scripts/build-census-v1-ut_pet_no_charges-set.mjs",
+          "buildScriptOwnedByThisLane": true,
+          "completenessResultNow": "FAIL_MISSING_PREFILLS",
+          "writtenNow": "11/628",
+          "fieldMapSchema": "maps-with-canonical-and-boundary",
+          "countersToClear": {
+            "unclassifiedBlanks": 617
+          }
+        },
+        {
+          "familyId": "ut_pet_traffic-set",
+          "overlayDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-traffic-set--official-pdf-fill",
+          "buildScript": "scripts/build-census-v1-ut_pet_traffic-set.mjs",
+          "buildScriptOwnedByThisLane": true,
+          "completenessResultNow": "FAIL_MISSING_PREFILLS",
+          "writtenNow": "9/305",
+          "fieldMapSchema": "maps-with-canonical-and-boundary",
+          "countersToClear": {
+            "unclassifiedBlanks": 296
+          }
+        }
+      ],
+      "requiredCounterMovement": {
+        "rule": "Every one of the nine completeness counters must reach zero. A counter that falls but does not reach zero is not progress that ships.",
+        "counters": [
+          "knownRequiredFieldsMissing",
+          "requiredFactsNotCollected",
+          "unclassifiedBlanks",
+          "incompleteRows",
+          "requiredOptionsMissing",
+          "requiredComponentsMissing",
+          "invisibleWrites",
+          "protectedWrites",
+          "visualDefects"
+        ],
+        "acceptance": "PASS_COMPLETE"
+      },
+      "sourceCorpusRequirement": {
+        "required": true,
+        "binding": "MASTER_LIBRARY_SOURCE_DIR, bound through scripts/rcap-corpus/bootstrap-private-corpus.sh",
+        "rule": "Every source binds at the exact SHA-256 its source-receipt.json records. Never commit a source binary: 59 were excluded from the C11 integration for that reason.",
+        "preflight": "node scripts/verify-packet-build-environment.mjs --family <family> must print PACKET_BUILD_ENVIRONMENT_READY 14/14 before anything is written"
+      },
+      "artifactRequirement": {
+        "canonical": "a canonical fixture per packet, re-rendered after the repair",
+        "boundary": "a boundary fixture per packet, re-rendered after the repair",
+        "rasters": "page rasters for every rendered document",
+        "actualWrites": "reports/actual-writes.json recomputed from the output bytes, not from the finalizer's own claim"
+      },
+      "independentReVerificationOwner": {
+        "lane": "an independent verification shard that did not perform this repair",
+        "rule": "This lane may not verify its own repair. Captain assigns the re-verification to a V shard that holds none of these families, and a repair is not proven until that shard returns PASS.",
+        "currentShardHolders": [
+          {
+            "familyId": "ut_pet_acquittal-set",
+            "currentShard": "V5_INDEPENDENT_PACKET_VERIFICATION"
+          },
+          {
+            "familyId": "ut_pet_conviction-set",
+            "currentShard": "V6_INDEPENDENT_PACKET_VERIFICATION"
+          },
+          {
+            "familyId": "ut_pet_dismissed_with_prejudice-set",
+            "currentShard": "V7_INDEPENDENT_PACKET_VERIFICATION"
+          },
+          {
+            "familyId": "ut_pet_dismissed_without_prejudice-set",
+            "currentShard": "V1_INDEPENDENT_PACKET_VERIFICATION"
+          },
+          {
+            "familyId": "ut_pet_limitations-set",
+            "currentShard": "V2_INDEPENDENT_PACKET_VERIFICATION"
+          },
+          {
+            "familyId": "ut_pet_no_charges-set",
+            "currentShard": "V3_INDEPENDENT_PACKET_VERIFICATION"
+          },
+          {
+            "familyId": "ut_pet_traffic-set",
+            "currentShard": "V4_INDEPENDENT_PACKET_VERIFICATION"
+          }
+        ]
+      },
+      "ownedPaths": [
+        "data/rcap-grade-a/wave-2/p1-ut-petition-expunge-completeness/**",
+        "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/**",
+        "data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill/**",
+        "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill/**",
+        "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill/**",
+        "data/rcap-all50/overlays/census-v1/ut/ut-pet-limitations-set--official-pdf-fill/**",
+        "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/**",
+        "data/rcap-all50/overlays/census-v1/ut/ut-pet-traffic-set--official-pdf-fill/**",
+        "scripts/build-census-v1-ut_pet_acquittal-set.mjs",
+        "scripts/build-census-v1-ut_pet_conviction-set.mjs",
+        "scripts/build-census-v1-ut_pet_dismissed_with_prejudice-set.mjs",
+        "scripts/build-census-v1-ut_pet_dismissed_without_prejudice-set.mjs",
+        "scripts/build-census-v1-ut_pet_limitations-set.mjs",
+        "scripts/build-census-v1-ut_pet_no_charges-set.mjs",
+        "scripts/build-census-v1-ut_pet_traffic-set.mjs"
+      ],
+      "sharedFileAnalysis": [
+        {
+          "file": "scripts/build-census-v1-ne-setaside-custodial-set.mjs",
+          "importersInLane": 7,
+          "importersOutsideLane": [
+            "ne-setaside-noncustodial-set",
+            "ne-trafficking-setaside-and-seal-set",
+            "sd_arrest_expungement-set",
+            "wv_conv_multiple_misdemeanors-set",
+            "wv_conv_single_misdemeanor-set"
+          ],
+          "hostIsOneOfThisLanesFamilies": false,
+          "exclusiveToThisLane": false,
+          "ownable": false,
+          "why": "5 script(s) outside this lane import it, so no repair lane may own it"
+        }
+      ],
+      "prohibitedPaths": [
+        "scripts/build-census-v1-ne-setaside-custodial-set.mjs",
+        "scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs",
+        "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+        "data/rcap-grade-a/launch-control/**",
+        "docs/rcap/grade-a/launch-control/**",
+        "data/rcap-grade-a/route-obligation-census-candidate/**",
+        "data/record-clearing/legal-decisions/**",
+        "supabase/migrations/**",
+        "package.json",
+        "package-lock.json",
+        ".github/workflows/**",
+        "private/**"
+      ],
+      "requiredInputs": [
+        "data/rcap-grade-a/launch-control/COMPLETENESS_REPAIR_WAVE.json  (read from the Captain branch tip, not from the baseline)",
+        "data/rcap-grade-a/launch-control/WAVE_2_ASSIGNMENTS.json",
+        "scripts/rcap-packet-completeness/completeness-contract.mjs",
+        "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json",
+        "docs/rcap/grade-a/route-obligation-census/PACKET_WORKER_BRIEF.md"
+      ],
+      "requiredOutputs": [
+        "data/rcap-grade-a/wave-2/p1-ut-petition-expunge-completeness/rows.json — one row per family: itemId, status, counters before and after, every field newly written, and every blank newly given an approved disposition",
+        "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/ — the corrected production-field-map.json, the updated source-receipt.json, and re-rendered canonical and boundary fixtures with their page rasters",
+        "data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill/ — the corrected production-field-map.json, the updated source-receipt.json, and re-rendered canonical and boundary fixtures with their page rasters",
+        "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill/ — the corrected production-field-map.json, the updated source-receipt.json, and re-rendered canonical and boundary fixtures with their page rasters",
+        "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill/ — the corrected production-field-map.json, the updated source-receipt.json, and re-rendered canonical and boundary fixtures with their page rasters",
+        "data/rcap-all50/overlays/census-v1/ut/ut-pet-limitations-set--official-pdf-fill/ — the corrected production-field-map.json, the updated source-receipt.json, and re-rendered canonical and boundary fixtures with their page rasters",
+        "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/ — the corrected production-field-map.json, the updated source-receipt.json, and re-rendered canonical and boundary fixtures with their page rasters",
+        "data/rcap-all50/overlays/census-v1/ut/ut-pet-traffic-set--official-pdf-fill/ — the corrected production-field-map.json, the updated source-receipt.json, and re-rendered canonical and boundary fixtures with their page rasters"
+      ],
+      "outputSchema": {
+        "requirement": "WEC-5: the output schema is fixed, not left to the lane.",
+        "arrayKey": "rows",
+        "itemKeyField": "itemId",
+        "completionVocabulary": [
+          "COMPLETED",
+          "STOPPED"
+        ],
+        "rule": "Detail goes in separate fields. An unrecognised status is refused at integration rather than translated."
+      },
+      "focusedTests": [
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <family>",
+        "node scripts/verify-packet-build-environment.mjs --family <family>",
+        "node scripts/grade-a-launch-control/verify-launch-control.mjs"
+      ],
+      "stopConditions": [
+        "WEC-6: every stop below states its scope. A ROW stop records that family and continues; a LANE stop says why the rest are unsafe without it.",
+        "ACCEPTANCE — a family is repaired only when the completeness verifier returns PASS_COMPLETE with all nine counters at zero. A filing with a blank offence code is not 97 percent filable.",
+        "LANE STOP — scripts/build-census-v1-ne-setaside-custodial-set.mjs is imported by ne-setaside-noncustodial-set, ne-trafficking-setaside-and-seal-set, sd_arrest_expungement-set, wv_conv_multiple_misdemeanors-set, wv_conv_single_misdemeanor-set, which are outside this lane. You may NOT change it. A repair that cannot be completed without it stops and is reported to Captain, who will sequence a shared fix the way S1 was sequenced.",
+        "ROW STOP — a required fact the platform genuinely does not hold is classified required_before_filing and surfaced in the packet's own participant instructions. A disposition without that surfacing is not an approved blank.",
+        "NEVER invent a fact to fill a field. A guessed arresting agency is worse than a blank one: the blank is visible and the guess is not.",
+        "NEVER write a protected field — participant signature, signature date, certificate of mailing before mailing, or any court-only or prosecutor-only field.",
+        "NEVER touch an S1 runner, an R8 family, or another lane's overlay directory.",
+        "NEVER re-commit a private-corpus binary. Bind from MASTER_LIBRARY_SOURCE_DIR and record the SHA-256."
+      ],
+      "returnFormat": [
+        "ASSIGNMENT:",
+        "WORKER BRANCH:",
+        "BASE SHA:",
+        "ASSIGNMENT READ FROM:",
+        "COMMIT:",
+        "FAMILIES REPAIRED:",
+        "PASS_COMPLETE:",
+        "COUNTERS REMAINING:",
+        "FACTS CLASSIFIED REQUIRED_BEFORE_FILING:",
+        "SHARED FILES MODIFIED:",
+        "STOPPED AND REPORTED:",
+        "COMMERCIAL ROUTES OPENED: 0",
+        "PRODUCTION TOUCHED: NO"
+      ],
+      "promptFile": "docs/rcap/grade-a/launch-control/completeness-repair-prompts/P1_UT_PETITION_EXPUNGE_COMPLETENESS.md",
+      "grantsNothing": "A repaired packet is a complete packet. It is not independently verified, not visually reviewed, not legally approved, and not COMPLETE_PACKET_PROVEN."
+    },
+    {
+      "assignmentId": "P2_WA_VACATUR_COMPLETENESS",
+      "wave": "completeness-repair-addendum",
+      "engine": "Codex",
+      "lane": "completeness-repair",
+      "workerBranch": "codex/p2-wa-vacatur-completeness",
+      "captainBaseSha": "33dfea59fe85b9dc86469d12e04fd65c51b480fa",
+      "readAssignmentFrom": {
+        "branch": "claude/legalease-sprint-captain-utucnw",
+        "file": "data/rcap-grade-a/launch-control/COMPLETENESS_REPAIR_WAVE.json",
+        "verify": "captainBaseSha must equal 33dfea59fe85b9dc86469d12e04fd65c51b480fa"
+      },
+      "parentManifest": "data/rcap-grade-a/launch-control/WAVE_2_ASSIGNMENTS.json",
+      "formFamily": "Washington vacatur, both benches: CRRLJ-09.0100/09.0200/09.0800/09.0870 in courts of limited jurisdiction and CR-08.0900/08.0920 in superior court",
+      "sharedRootCause": "anchors-and-withheld field maps whose withheld[] entries hold required participant and case facts; all nine report FAIL_MISSING_REQUIRED_FACTS at 4 to 6 fields written",
+      "mission": "Repair 9 packet families that import neither S1 runner, so none of them waits for the post-S1 audit. They share one form family and one root cause; repair them together and re-render each against its pinned source.",
+      "itemKind": "familyId",
+      "itemCount": 9,
+      "items": [
+        "wa_vac_cannabis-set",
+        "wa_vac_domestic_violence-set",
+        "wa_vac_felony-set",
+        "wa_vac_homicide_victim_prostitution-set",
+        "wa_vac_misdemeanor_ordinary-set",
+        "wa_vac_substance_use_disorder-set",
+        "wa_vac_survivor_felony-set",
+        "wa_vac_survivor_misdemeanor-set",
+        "wa_vac_treaty_fishing-set"
+      ],
+      "s1Exposure": {
+        "reachesEitherRunner": false,
+        "provedBy": "transitive import graph over scripts/build-census-v1-*.mjs, recomputed at generation time"
+      },
+      "familyDetail": [
+        {
+          "familyId": "wa_vac_cannabis-set",
+          "overlayDirectory": "data/rcap-all50/overlays/census-v1/wa/wa-vac-cannabis-set--official-pdf-fill",
+          "buildScript": "scripts/build-census-v1-wa_vac_cannabis-set.mjs",
+          "buildScriptOwnedByThisLane": true,
+          "completenessResultNow": "FAIL_MISSING_REQUIRED_FACTS",
+          "writtenNow": "4/50",
+          "fieldMapSchema": "anchors-and-withheld",
+          "countersToClear": {
+            "knownRequiredFieldsMissing": 15,
+            "unclassifiedBlanks": 28
+          }
+        },
+        {
+          "familyId": "wa_vac_domestic_violence-set",
+          "overlayDirectory": "data/rcap-all50/overlays/census-v1/wa/wa-vac-domestic-violence-set--official-pdf-fill",
+          "buildScript": "scripts/build-census-v1-wa_vac_domestic_violence-set.mjs",
+          "buildScriptOwnedByThisLane": true,
+          "completenessResultNow": "FAIL_MISSING_REQUIRED_FACTS",
+          "writtenNow": "4/86",
+          "fieldMapSchema": "anchors-and-withheld",
+          "countersToClear": {
+            "knownRequiredFieldsMissing": 21,
+            "unclassifiedBlanks": 56
+          }
+        },
+        {
+          "familyId": "wa_vac_felony-set",
+          "overlayDirectory": "data/rcap-all50/overlays/census-v1/wa/wa-vac-felony-set--official-pdf-fill",
+          "buildScript": "scripts/build-census-v1-wa_vac_felony-set.mjs",
+          "buildScriptOwnedByThisLane": true,
+          "completenessResultNow": "FAIL_MISSING_REQUIRED_FACTS",
+          "writtenNow": "6/93",
+          "fieldMapSchema": "anchors-and-withheld",
+          "countersToClear": {
+            "knownRequiredFieldsMissing": 31,
+            "unclassifiedBlanks": 53
+          }
+        },
+        {
+          "familyId": "wa_vac_homicide_victim_prostitution-set",
+          "overlayDirectory": "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill",
+          "buildScript": "scripts/build-census-v1-wa_vac_homicide_victim_prostitution-set.mjs",
+          "buildScriptOwnedByThisLane": true,
+          "completenessResultNow": "FAIL_MISSING_REQUIRED_FACTS",
+          "writtenNow": "4/86",
+          "fieldMapSchema": "anchors-and-withheld",
+          "countersToClear": {
+            "knownRequiredFieldsMissing": 21,
+            "unclassifiedBlanks": 56
+          }
+        },
+        {
+          "familyId": "wa_vac_misdemeanor_ordinary-set",
+          "overlayDirectory": "data/rcap-all50/overlays/census-v1/wa/wa-vac-misdemeanor-ordinary-set--official-pdf-fill",
+          "buildScript": "scripts/build-census-v1-wa_vac_misdemeanor_ordinary-set.mjs",
+          "buildScriptOwnedByThisLane": true,
+          "completenessResultNow": "FAIL_MISSING_REQUIRED_FACTS",
+          "writtenNow": "4/86",
+          "fieldMapSchema": "anchors-and-withheld",
+          "countersToClear": {
+            "knownRequiredFieldsMissing": 21,
+            "unclassifiedBlanks": 56
+          }
+        },
+        {
+          "familyId": "wa_vac_substance_use_disorder-set",
+          "overlayDirectory": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill",
+          "buildScript": "scripts/build-census-v1-wa_vac_substance_use_disorder-set.mjs",
+          "buildScriptOwnedByThisLane": true,
+          "completenessResultNow": "FAIL_MISSING_REQUIRED_FACTS",
+          "writtenNow": "4/86",
+          "fieldMapSchema": "anchors-and-withheld",
+          "countersToClear": {
+            "knownRequiredFieldsMissing": 21,
+            "unclassifiedBlanks": 56
+          }
+        },
+        {
+          "familyId": "wa_vac_survivor_felony-set",
+          "overlayDirectory": "data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-felony-set--official-pdf-fill",
+          "buildScript": "scripts/build-census-v1-wa_vac_survivor_felony-set.mjs",
+          "buildScriptOwnedByThisLane": true,
+          "completenessResultNow": "FAIL_MISSING_REQUIRED_FACTS",
+          "writtenNow": "6/93",
+          "fieldMapSchema": "anchors-and-withheld",
+          "countersToClear": {
+            "knownRequiredFieldsMissing": 31,
+            "unclassifiedBlanks": 53
+          }
+        },
+        {
+          "familyId": "wa_vac_survivor_misdemeanor-set",
+          "overlayDirectory": "data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-misdemeanor-set--official-pdf-fill",
+          "buildScript": "scripts/build-census-v1-wa_vac_survivor_misdemeanor-set.mjs",
+          "buildScriptOwnedByThisLane": true,
+          "completenessResultNow": "FAIL_MISSING_REQUIRED_FACTS",
+          "writtenNow": "4/86",
+          "fieldMapSchema": "anchors-and-withheld",
+          "countersToClear": {
+            "knownRequiredFieldsMissing": 21,
+            "unclassifiedBlanks": 56
+          }
+        },
+        {
+          "familyId": "wa_vac_treaty_fishing-set",
+          "overlayDirectory": "data/rcap-all50/overlays/census-v1/wa/wa-vac-treaty-fishing-set--official-pdf-fill",
+          "buildScript": "scripts/build-census-v1-wa_vac_treaty_fishing-set.mjs",
+          "buildScriptOwnedByThisLane": true,
+          "completenessResultNow": "FAIL_MISSING_REQUIRED_FACTS",
+          "writtenNow": "4/86",
+          "fieldMapSchema": "anchors-and-withheld",
+          "countersToClear": {
+            "knownRequiredFieldsMissing": 21,
+            "unclassifiedBlanks": 56
+          }
+        }
+      ],
+      "requiredCounterMovement": {
+        "rule": "Every one of the nine completeness counters must reach zero. A counter that falls but does not reach zero is not progress that ships.",
+        "counters": [
+          "knownRequiredFieldsMissing",
+          "requiredFactsNotCollected",
+          "unclassifiedBlanks",
+          "incompleteRows",
+          "requiredOptionsMissing",
+          "requiredComponentsMissing",
+          "invisibleWrites",
+          "protectedWrites",
+          "visualDefects"
+        ],
+        "acceptance": "PASS_COMPLETE"
+      },
+      "sourceCorpusRequirement": {
+        "required": true,
+        "binding": "MASTER_LIBRARY_SOURCE_DIR, bound through scripts/rcap-corpus/bootstrap-private-corpus.sh",
+        "rule": "Every source binds at the exact SHA-256 its source-receipt.json records. Never commit a source binary: 59 were excluded from the C11 integration for that reason.",
+        "preflight": "node scripts/verify-packet-build-environment.mjs --family <family> must print PACKET_BUILD_ENVIRONMENT_READY 14/14 before anything is written"
+      },
+      "artifactRequirement": {
+        "canonical": "a canonical fixture per packet, re-rendered after the repair",
+        "boundary": "a boundary fixture per packet, re-rendered after the repair",
+        "rasters": "page rasters for every rendered document",
+        "actualWrites": "reports/actual-writes.json recomputed from the output bytes, not from the finalizer's own claim"
+      },
+      "independentReVerificationOwner": {
+        "lane": "an independent verification shard that did not perform this repair",
+        "rule": "This lane may not verify its own repair. Captain assigns the re-verification to a V shard that holds none of these families, and a repair is not proven until that shard returns PASS.",
+        "currentShardHolders": [
+          {
+            "familyId": "wa_vac_cannabis-set",
+            "currentShard": "V5_INDEPENDENT_PACKET_VERIFICATION"
+          },
+          {
+            "familyId": "wa_vac_domestic_violence-set",
+            "currentShard": "V6_INDEPENDENT_PACKET_VERIFICATION"
+          },
+          {
+            "familyId": "wa_vac_felony-set",
+            "currentShard": "V7_INDEPENDENT_PACKET_VERIFICATION"
+          },
+          {
+            "familyId": "wa_vac_homicide_victim_prostitution-set",
+            "currentShard": "V1_INDEPENDENT_PACKET_VERIFICATION"
+          },
+          {
+            "familyId": "wa_vac_misdemeanor_ordinary-set",
+            "currentShard": "V2_INDEPENDENT_PACKET_VERIFICATION"
+          },
+          {
+            "familyId": "wa_vac_substance_use_disorder-set",
+            "currentShard": "V3_INDEPENDENT_PACKET_VERIFICATION"
+          },
+          {
+            "familyId": "wa_vac_survivor_felony-set",
+            "currentShard": "V4_INDEPENDENT_PACKET_VERIFICATION"
+          },
+          {
+            "familyId": "wa_vac_survivor_misdemeanor-set",
+            "currentShard": "V5_INDEPENDENT_PACKET_VERIFICATION"
+          },
+          {
+            "familyId": "wa_vac_treaty_fishing-set",
+            "currentShard": "V6_INDEPENDENT_PACKET_VERIFICATION"
+          }
+        ]
+      },
+      "ownedPaths": [
+        "data/rcap-grade-a/wave-2/p2-wa-vacatur-completeness/**",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-cannabis-set--official-pdf-fill/**",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-domestic-violence-set--official-pdf-fill/**",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-felony-set--official-pdf-fill/**",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/**",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-misdemeanor-ordinary-set--official-pdf-fill/**",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/**",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-felony-set--official-pdf-fill/**",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-misdemeanor-set--official-pdf-fill/**",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-treaty-fishing-set--official-pdf-fill/**",
+        "scripts/build-census-v1-wa_vac_cannabis-set.mjs",
+        "scripts/build-census-v1-wa_vac_domestic_violence-set.mjs",
+        "scripts/build-census-v1-wa_vac_felony-set.mjs",
+        "scripts/build-census-v1-wa_vac_homicide_victim_prostitution-set.mjs",
+        "scripts/build-census-v1-wa_vac_misdemeanor_ordinary-set.mjs",
+        "scripts/build-census-v1-wa_vac_substance_use_disorder-set.mjs",
+        "scripts/build-census-v1-wa_vac_survivor_felony-set.mjs",
+        "scripts/build-census-v1-wa_vac_survivor_misdemeanor-set.mjs",
+        "scripts/build-census-v1-wa_vac_treaty_fishing-set.mjs",
+        "scripts/build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs"
+      ],
+      "sharedFileAnalysis": [
+        {
+          "file": "scripts/build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs",
+          "importersInLane": 9,
+          "importersOutsideLane": [],
+          "hostIsOneOfThisLanesFamilies": false,
+          "exclusiveToThisLane": true,
+          "ownable": true,
+          "why": "every script importing this host belongs to this lane, so the lane may change it"
+        }
+      ],
+      "prohibitedPaths": [
+        "scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs",
+        "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+        "data/rcap-grade-a/launch-control/**",
+        "docs/rcap/grade-a/launch-control/**",
+        "data/rcap-grade-a/route-obligation-census-candidate/**",
+        "data/record-clearing/legal-decisions/**",
+        "supabase/migrations/**",
+        "package.json",
+        "package-lock.json",
+        ".github/workflows/**",
+        "private/**"
+      ],
+      "requiredInputs": [
+        "data/rcap-grade-a/launch-control/COMPLETENESS_REPAIR_WAVE.json  (read from the Captain branch tip, not from the baseline)",
+        "data/rcap-grade-a/launch-control/WAVE_2_ASSIGNMENTS.json",
+        "scripts/rcap-packet-completeness/completeness-contract.mjs",
+        "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json",
+        "docs/rcap/grade-a/route-obligation-census/PACKET_WORKER_BRIEF.md"
+      ],
+      "requiredOutputs": [
+        "data/rcap-grade-a/wave-2/p2-wa-vacatur-completeness/rows.json — one row per family: itemId, status, counters before and after, every field newly written, and every blank newly given an approved disposition",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-cannabis-set--official-pdf-fill/ — the corrected production-field-map.json, the updated source-receipt.json, and re-rendered canonical and boundary fixtures with their page rasters",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-domestic-violence-set--official-pdf-fill/ — the corrected production-field-map.json, the updated source-receipt.json, and re-rendered canonical and boundary fixtures with their page rasters",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-felony-set--official-pdf-fill/ — the corrected production-field-map.json, the updated source-receipt.json, and re-rendered canonical and boundary fixtures with their page rasters",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/ — the corrected production-field-map.json, the updated source-receipt.json, and re-rendered canonical and boundary fixtures with their page rasters",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-misdemeanor-ordinary-set--official-pdf-fill/ — the corrected production-field-map.json, the updated source-receipt.json, and re-rendered canonical and boundary fixtures with their page rasters",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/ — the corrected production-field-map.json, the updated source-receipt.json, and re-rendered canonical and boundary fixtures with their page rasters",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-felony-set--official-pdf-fill/ — the corrected production-field-map.json, the updated source-receipt.json, and re-rendered canonical and boundary fixtures with their page rasters",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-misdemeanor-set--official-pdf-fill/ — the corrected production-field-map.json, the updated source-receipt.json, and re-rendered canonical and boundary fixtures with their page rasters",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-treaty-fishing-set--official-pdf-fill/ — the corrected production-field-map.json, the updated source-receipt.json, and re-rendered canonical and boundary fixtures with their page rasters"
+      ],
+      "outputSchema": {
+        "requirement": "WEC-5: the output schema is fixed, not left to the lane.",
+        "arrayKey": "rows",
+        "itemKeyField": "itemId",
+        "completionVocabulary": [
+          "COMPLETED",
+          "STOPPED"
+        ],
+        "rule": "Detail goes in separate fields. An unrecognised status is refused at integration rather than translated."
+      },
+      "focusedTests": [
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <family>",
+        "node scripts/verify-packet-build-environment.mjs --family <family>",
+        "node scripts/grade-a-launch-control/verify-launch-control.mjs"
+      ],
+      "stopConditions": [
+        "WEC-6: every stop below states its scope. A ROW stop records that family and continues; a LANE stop says why the rest are unsafe without it.",
+        "ACCEPTANCE — a family is repaired only when the completeness verifier returns PASS_COMPLETE with all nine counters at zero. A filing with a blank offence code is not 97 percent filable.",
+        "You own scripts/build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs because every script that imports it is one of your families. Changing it changes all of them, which is the point; measure every one of your families before and after.",
+        "ROW STOP — a required fact the platform genuinely does not hold is classified required_before_filing and surfaced in the packet's own participant instructions. A disposition without that surfacing is not an approved blank.",
+        "NEVER invent a fact to fill a field. A guessed arresting agency is worse than a blank one: the blank is visible and the guess is not.",
+        "NEVER write a protected field — participant signature, signature date, certificate of mailing before mailing, or any court-only or prosecutor-only field.",
+        "NEVER touch an S1 runner, an R8 family, or another lane's overlay directory.",
+        "NEVER re-commit a private-corpus binary. Bind from MASTER_LIBRARY_SOURCE_DIR and record the SHA-256."
+      ],
+      "returnFormat": [
+        "ASSIGNMENT:",
+        "WORKER BRANCH:",
+        "BASE SHA:",
+        "ASSIGNMENT READ FROM:",
+        "COMMIT:",
+        "FAMILIES REPAIRED:",
+        "PASS_COMPLETE:",
+        "COUNTERS REMAINING:",
+        "FACTS CLASSIFIED REQUIRED_BEFORE_FILING:",
+        "SHARED FILES MODIFIED:",
+        "STOPPED AND REPORTED:",
+        "COMMERCIAL ROUTES OPENED: 0",
+        "PRODUCTION TOUCHED: NO"
+      ],
+      "promptFile": "docs/rcap/grade-a/launch-control/completeness-repair-prompts/P2_WA_VACATUR_COMPLETENESS.md",
+      "grantsNothing": "A repaired packet is a complete packet. It is not independently verified, not visually reviewed, not legally approved, and not COMPLETE_PACKET_PROVEN."
+    },
+    {
+      "assignmentId": "P3_WV_CONVICTION_COMPLETENESS",
+      "wave": "completeness-repair-addendum",
+      "engine": "Codex",
+      "lane": "completeness-repair",
+      "workerBranch": "codex/p3-wv-conviction-completeness",
+      "captainBaseSha": "33dfea59fe85b9dc86469d12e04fd65c51b480fa",
+      "readAssignmentFrom": {
+        "branch": "claude/legalease-sprint-captain-utucnw",
+        "file": "data/rcap-grade-a/launch-control/COMPLETENESS_REPAIR_WAVE.json",
+        "verify": "captainBaseSha must equal 33dfea59fe85b9dc86469d12e04fd65c51b480fa"
+      },
+      "parentManifest": "data/rcap-grade-a/launch-control/WAVE_2_ASSIGNMENTS.json",
+      "formFamily": "West Virginia conviction expungement, SCA-C906 and SCA-C900",
+      "sharedRootCause": "maps-with-canonical-and-boundary field maps writing 2 fields of 130 and 274; FAIL_MISSING_PREFILLS",
+      "mission": "Repair 2 packet families that import neither S1 runner, so none of them waits for the post-S1 audit. They share one form family and one root cause; repair them together and re-render each against its pinned source.",
+      "itemKind": "familyId",
+      "itemCount": 2,
+      "items": [
+        "wv_conv_multiple_misdemeanors-set",
+        "wv_conv_single_misdemeanor-set"
+      ],
+      "s1Exposure": {
+        "reachesEitherRunner": false,
+        "provedBy": "transitive import graph over scripts/build-census-v1-*.mjs, recomputed at generation time"
+      },
+      "familyDetail": [
+        {
+          "familyId": "wv_conv_multiple_misdemeanors-set",
+          "overlayDirectory": "data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill",
+          "buildScript": "scripts/build-census-v1-wv_conv_multiple_misdemeanors-set.mjs",
+          "buildScriptOwnedByThisLane": true,
+          "completenessResultNow": "FAIL_MISSING_PREFILLS",
+          "writtenNow": "2/130",
+          "fieldMapSchema": "maps-with-canonical-and-boundary",
+          "countersToClear": {
+            "unclassifiedBlanks": 128
+          }
+        },
+        {
+          "familyId": "wv_conv_single_misdemeanor-set",
+          "overlayDirectory": "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill",
+          "buildScript": "scripts/build-census-v1-wv_conv_single_misdemeanor-set.mjs",
+          "buildScriptOwnedByThisLane": true,
+          "completenessResultNow": "FAIL_MISSING_PREFILLS",
+          "writtenNow": "2/274",
+          "fieldMapSchema": "maps-with-canonical-and-boundary",
+          "countersToClear": {
+            "unclassifiedBlanks": 272
+          }
+        }
+      ],
+      "requiredCounterMovement": {
+        "rule": "Every one of the nine completeness counters must reach zero. A counter that falls but does not reach zero is not progress that ships.",
+        "counters": [
+          "knownRequiredFieldsMissing",
+          "requiredFactsNotCollected",
+          "unclassifiedBlanks",
+          "incompleteRows",
+          "requiredOptionsMissing",
+          "requiredComponentsMissing",
+          "invisibleWrites",
+          "protectedWrites",
+          "visualDefects"
+        ],
+        "acceptance": "PASS_COMPLETE"
+      },
+      "sourceCorpusRequirement": {
+        "required": true,
+        "binding": "MASTER_LIBRARY_SOURCE_DIR, bound through scripts/rcap-corpus/bootstrap-private-corpus.sh",
+        "rule": "Every source binds at the exact SHA-256 its source-receipt.json records. Never commit a source binary: 59 were excluded from the C11 integration for that reason.",
+        "preflight": "node scripts/verify-packet-build-environment.mjs --family <family> must print PACKET_BUILD_ENVIRONMENT_READY 14/14 before anything is written"
+      },
+      "artifactRequirement": {
+        "canonical": "a canonical fixture per packet, re-rendered after the repair",
+        "boundary": "a boundary fixture per packet, re-rendered after the repair",
+        "rasters": "page rasters for every rendered document",
+        "actualWrites": "reports/actual-writes.json recomputed from the output bytes, not from the finalizer's own claim"
+      },
+      "independentReVerificationOwner": {
+        "lane": "an independent verification shard that did not perform this repair",
+        "rule": "This lane may not verify its own repair. Captain assigns the re-verification to a V shard that holds none of these families, and a repair is not proven until that shard returns PASS.",
+        "currentShardHolders": [
+          {
+            "familyId": "wv_conv_multiple_misdemeanors-set",
+            "currentShard": "V7_INDEPENDENT_PACKET_VERIFICATION"
+          },
+          {
+            "familyId": "wv_conv_single_misdemeanor-set",
+            "currentShard": "V1_INDEPENDENT_PACKET_VERIFICATION"
+          }
+        ]
+      },
+      "ownedPaths": [
+        "data/rcap-grade-a/wave-2/p3-wv-conviction-completeness/**",
+        "data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/**",
+        "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/**",
+        "scripts/build-census-v1-wv_conv_multiple_misdemeanors-set.mjs",
+        "scripts/build-census-v1-wv_conv_single_misdemeanor-set.mjs"
+      ],
+      "sharedFileAnalysis": [
+        {
+          "file": "scripts/build-census-v1-ne-setaside-custodial-set.mjs",
+          "importersInLane": 2,
+          "importersOutsideLane": [
+            "ne-setaside-noncustodial-set",
+            "ne-trafficking-setaside-and-seal-set",
+            "sd_arrest_expungement-set",
+            "ut_pet_acquittal-set",
+            "ut_pet_conviction-set",
+            "ut_pet_dismissed_with_prejudice-set",
+            "ut_pet_dismissed_without_prejudice-set",
+            "ut_pet_limitations-set",
+            "ut_pet_no_charges-set",
+            "ut_pet_traffic-set"
+          ],
+          "hostIsOneOfThisLanesFamilies": false,
+          "exclusiveToThisLane": false,
+          "ownable": false,
+          "why": "10 script(s) outside this lane import it, so no repair lane may own it"
+        }
+      ],
+      "prohibitedPaths": [
+        "scripts/build-census-v1-ne-setaside-custodial-set.mjs",
+        "scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs",
+        "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+        "data/rcap-grade-a/launch-control/**",
+        "docs/rcap/grade-a/launch-control/**",
+        "data/rcap-grade-a/route-obligation-census-candidate/**",
+        "data/record-clearing/legal-decisions/**",
+        "supabase/migrations/**",
+        "package.json",
+        "package-lock.json",
+        ".github/workflows/**",
+        "private/**"
+      ],
+      "requiredInputs": [
+        "data/rcap-grade-a/launch-control/COMPLETENESS_REPAIR_WAVE.json  (read from the Captain branch tip, not from the baseline)",
+        "data/rcap-grade-a/launch-control/WAVE_2_ASSIGNMENTS.json",
+        "scripts/rcap-packet-completeness/completeness-contract.mjs",
+        "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json",
+        "docs/rcap/grade-a/route-obligation-census/PACKET_WORKER_BRIEF.md"
+      ],
+      "requiredOutputs": [
+        "data/rcap-grade-a/wave-2/p3-wv-conviction-completeness/rows.json — one row per family: itemId, status, counters before and after, every field newly written, and every blank newly given an approved disposition",
+        "data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/ — the corrected production-field-map.json, the updated source-receipt.json, and re-rendered canonical and boundary fixtures with their page rasters",
+        "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/ — the corrected production-field-map.json, the updated source-receipt.json, and re-rendered canonical and boundary fixtures with their page rasters"
+      ],
+      "outputSchema": {
+        "requirement": "WEC-5: the output schema is fixed, not left to the lane.",
+        "arrayKey": "rows",
+        "itemKeyField": "itemId",
+        "completionVocabulary": [
+          "COMPLETED",
+          "STOPPED"
+        ],
+        "rule": "Detail goes in separate fields. An unrecognised status is refused at integration rather than translated."
+      },
+      "focusedTests": [
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <family>",
+        "node scripts/verify-packet-build-environment.mjs --family <family>",
+        "node scripts/grade-a-launch-control/verify-launch-control.mjs"
+      ],
+      "stopConditions": [
+        "WEC-6: every stop below states its scope. A ROW stop records that family and continues; a LANE stop says why the rest are unsafe without it.",
+        "ACCEPTANCE — a family is repaired only when the completeness verifier returns PASS_COMPLETE with all nine counters at zero. A filing with a blank offence code is not 97 percent filable.",
+        "LANE STOP — scripts/build-census-v1-ne-setaside-custodial-set.mjs is imported by ne-setaside-noncustodial-set, ne-trafficking-setaside-and-seal-set, sd_arrest_expungement-set, ut_pet_acquittal-set, ut_pet_conviction-set, ut_pet_dismissed_with_prejudice-set, ut_pet_dismissed_without_prejudice-set, ut_pet_limitations-set, ut_pet_no_charges-set, ut_pet_traffic-set, which are outside this lane. You may NOT change it. A repair that cannot be completed without it stops and is reported to Captain, who will sequence a shared fix the way S1 was sequenced.",
+        "ROW STOP — a required fact the platform genuinely does not hold is classified required_before_filing and surfaced in the packet's own participant instructions. A disposition without that surfacing is not an approved blank.",
+        "NEVER invent a fact to fill a field. A guessed arresting agency is worse than a blank one: the blank is visible and the guess is not.",
+        "NEVER write a protected field — participant signature, signature date, certificate of mailing before mailing, or any court-only or prosecutor-only field.",
+        "NEVER touch an S1 runner, an R8 family, or another lane's overlay directory.",
+        "NEVER re-commit a private-corpus binary. Bind from MASTER_LIBRARY_SOURCE_DIR and record the SHA-256."
+      ],
+      "returnFormat": [
+        "ASSIGNMENT:",
+        "WORKER BRANCH:",
+        "BASE SHA:",
+        "ASSIGNMENT READ FROM:",
+        "COMMIT:",
+        "FAMILIES REPAIRED:",
+        "PASS_COMPLETE:",
+        "COUNTERS REMAINING:",
+        "FACTS CLASSIFIED REQUIRED_BEFORE_FILING:",
+        "SHARED FILES MODIFIED:",
+        "STOPPED AND REPORTED:",
+        "COMMERCIAL ROUTES OPENED: 0",
+        "PRODUCTION TOUCHED: NO"
+      ],
+      "promptFile": "docs/rcap/grade-a/launch-control/completeness-repair-prompts/P3_WV_CONVICTION_COMPLETENESS.md",
+      "grantsNothing": "A repaired packet is a complete packet. It is not independently verified, not visually reviewed, not legally approved, and not COMPLETE_PACKET_PROVEN."
+    },
+    {
+      "assignmentId": "P4_NE_SD_SETASIDE_COMPLETENESS",
+      "wave": "completeness-repair-addendum",
+      "engine": "Codex",
+      "lane": "completeness-repair",
+      "workerBranch": "codex/p4-ne-sd-setaside-completeness",
+      "captainBaseSha": "33dfea59fe85b9dc86469d12e04fd65c51b480fa",
+      "readAssignmentFrom": {
+        "branch": "claude/legalease-sprint-captain-utucnw",
+        "file": "data/rcap-grade-a/launch-control/COMPLETENESS_REPAIR_WAVE.json",
+        "verify": "captainBaseSha must equal 33dfea59fe85b9dc86469d12e04fd65c51b480fa"
+      },
+      "parentManifest": "data/rcap-grade-a/launch-control/WAVE_2_ASSIGNMENTS.json",
+      "formFamily": "Nebraska set-aside (CC-6-11, CC-6-11.2, CC-6-11A, DC-1-15) and South Dakota arrest expungement (UJS-232, UJS-391 to UJS-394)",
+      "sharedRootCause": "maps-with-canonical-and-boundary field maps writing 5 of 173 and 1 of 366; FAIL_MISSING_REQUIRED_FACTS",
+      "mission": "Repair 2 packet families that import neither S1 runner, so none of them waits for the post-S1 audit. They share one form family and one root cause; repair them together and re-render each against its pinned source.",
+      "itemKind": "familyId",
+      "itemCount": 2,
+      "items": [
+        "ne-setaside-custodial-set",
+        "sd_arrest_expungement-set"
+      ],
+      "s1Exposure": {
+        "reachesEitherRunner": false,
+        "provedBy": "transitive import graph over scripts/build-census-v1-*.mjs, recomputed at generation time"
+      },
+      "familyDetail": [
+        {
+          "familyId": "ne-setaside-custodial-set",
+          "overlayDirectory": "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill",
+          "buildScript": "scripts/build-census-v1-ne-setaside-custodial-set.mjs",
+          "buildScriptOwnedByThisLane": false,
+          "completenessResultNow": "FAIL_MISSING_REQUIRED_FACTS",
+          "writtenNow": "5/173",
+          "fieldMapSchema": "maps-with-canonical-and-boundary",
+          "countersToClear": {
+            "knownRequiredFieldsMissing": 10,
+            "unclassifiedBlanks": 158
+          }
+        },
+        {
+          "familyId": "sd_arrest_expungement-set",
+          "overlayDirectory": "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill",
+          "buildScript": "scripts/build-census-v1-sd_arrest_expungement-set.mjs",
+          "buildScriptOwnedByThisLane": true,
+          "completenessResultNow": "FAIL_MISSING_REQUIRED_FACTS",
+          "writtenNow": "1/366",
+          "fieldMapSchema": "maps-with-canonical-and-boundary",
+          "countersToClear": {
+            "knownRequiredFieldsMissing": 139,
+            "unclassifiedBlanks": 219
+          }
+        }
+      ],
+      "requiredCounterMovement": {
+        "rule": "Every one of the nine completeness counters must reach zero. A counter that falls but does not reach zero is not progress that ships.",
+        "counters": [
+          "knownRequiredFieldsMissing",
+          "requiredFactsNotCollected",
+          "unclassifiedBlanks",
+          "incompleteRows",
+          "requiredOptionsMissing",
+          "requiredComponentsMissing",
+          "invisibleWrites",
+          "protectedWrites",
+          "visualDefects"
+        ],
+        "acceptance": "PASS_COMPLETE"
+      },
+      "sourceCorpusRequirement": {
+        "required": true,
+        "binding": "MASTER_LIBRARY_SOURCE_DIR, bound through scripts/rcap-corpus/bootstrap-private-corpus.sh",
+        "rule": "Every source binds at the exact SHA-256 its source-receipt.json records. Never commit a source binary: 59 were excluded from the C11 integration for that reason.",
+        "preflight": "node scripts/verify-packet-build-environment.mjs --family <family> must print PACKET_BUILD_ENVIRONMENT_READY 14/14 before anything is written"
+      },
+      "artifactRequirement": {
+        "canonical": "a canonical fixture per packet, re-rendered after the repair",
+        "boundary": "a boundary fixture per packet, re-rendered after the repair",
+        "rasters": "page rasters for every rendered document",
+        "actualWrites": "reports/actual-writes.json recomputed from the output bytes, not from the finalizer's own claim"
+      },
+      "independentReVerificationOwner": {
+        "lane": "an independent verification shard that did not perform this repair",
+        "rule": "This lane may not verify its own repair. Captain assigns the re-verification to a V shard that holds none of these families, and a repair is not proven until that shard returns PASS.",
+        "currentShardHolders": [
+          {
+            "familyId": "ne-setaside-custodial-set",
+            "currentShard": "V3_INDEPENDENT_PACKET_VERIFICATION"
+          },
+          {
+            "familyId": "sd_arrest_expungement-set",
+            "currentShard": "V4_INDEPENDENT_PACKET_VERIFICATION"
+          }
+        ]
+      },
+      "ownedPaths": [
+        "data/rcap-grade-a/wave-2/p4-ne-sd-setaside-completeness/**",
+        "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/**",
+        "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/**",
+        "scripts/build-census-v1-sd_arrest_expungement-set.mjs"
+      ],
+      "sharedFileAnalysis": [
+        {
+          "file": "scripts/build-census-v1-ne-setaside-custodial-set.mjs",
+          "importersInLane": 1,
+          "importersOutsideLane": [
+            "ne-setaside-noncustodial-set",
+            "ne-trafficking-setaside-and-seal-set",
+            "ut_pet_acquittal-set",
+            "ut_pet_conviction-set",
+            "ut_pet_dismissed_with_prejudice-set",
+            "ut_pet_dismissed_without_prejudice-set",
+            "ut_pet_limitations-set",
+            "ut_pet_no_charges-set",
+            "ut_pet_traffic-set",
+            "wv_conv_multiple_misdemeanors-set",
+            "wv_conv_single_misdemeanor-set"
+          ],
+          "hostIsOneOfThisLanesFamilies": true,
+          "exclusiveToThisLane": false,
+          "ownable": false,
+          "why": "11 script(s) outside this lane import it, so no repair lane may own it"
+        }
+      ],
+      "prohibitedPaths": [
+        "scripts/build-census-v1-ne-setaside-custodial-set.mjs",
+        "scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs",
+        "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+        "data/rcap-grade-a/launch-control/**",
+        "docs/rcap/grade-a/launch-control/**",
+        "data/rcap-grade-a/route-obligation-census-candidate/**",
+        "data/record-clearing/legal-decisions/**",
+        "supabase/migrations/**",
+        "package.json",
+        "package-lock.json",
+        ".github/workflows/**",
+        "private/**"
+      ],
+      "requiredInputs": [
+        "data/rcap-grade-a/launch-control/COMPLETENESS_REPAIR_WAVE.json  (read from the Captain branch tip, not from the baseline)",
+        "data/rcap-grade-a/launch-control/WAVE_2_ASSIGNMENTS.json",
+        "scripts/rcap-packet-completeness/completeness-contract.mjs",
+        "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json",
+        "docs/rcap/grade-a/route-obligation-census/PACKET_WORKER_BRIEF.md"
+      ],
+      "requiredOutputs": [
+        "data/rcap-grade-a/wave-2/p4-ne-sd-setaside-completeness/rows.json — one row per family: itemId, status, counters before and after, every field newly written, and every blank newly given an approved disposition",
+        "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/ — the corrected production-field-map.json, the updated source-receipt.json, and re-rendered canonical and boundary fixtures with their page rasters",
+        "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/ — the corrected production-field-map.json, the updated source-receipt.json, and re-rendered canonical and boundary fixtures with their page rasters"
+      ],
+      "outputSchema": {
+        "requirement": "WEC-5: the output schema is fixed, not left to the lane.",
+        "arrayKey": "rows",
+        "itemKeyField": "itemId",
+        "completionVocabulary": [
+          "COMPLETED",
+          "STOPPED"
+        ],
+        "rule": "Detail goes in separate fields. An unrecognised status is refused at integration rather than translated."
+      },
+      "focusedTests": [
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <family>",
+        "node scripts/verify-packet-build-environment.mjs --family <family>",
+        "node scripts/grade-a-launch-control/verify-launch-control.mjs"
+      ],
+      "stopConditions": [
+        "WEC-6: every stop below states its scope. A ROW stop records that family and continues; a LANE stop says why the rest are unsafe without it.",
+        "ACCEPTANCE — a family is repaired only when the completeness verifier returns PASS_COMPLETE with all nine counters at zero. A filing with a blank offence code is not 97 percent filable.",
+        "LANE STOP — scripts/build-census-v1-ne-setaside-custodial-set.mjs is imported by ne-setaside-noncustodial-set, ne-trafficking-setaside-and-seal-set, ut_pet_acquittal-set, ut_pet_conviction-set, ut_pet_dismissed_with_prejudice-set, ut_pet_dismissed_without_prejudice-set, ut_pet_limitations-set, ut_pet_no_charges-set, ut_pet_traffic-set, wv_conv_multiple_misdemeanors-set, wv_conv_single_misdemeanor-set, which are outside this lane. You may NOT change it. A repair that cannot be completed without it stops and is reported to Captain, who will sequence a shared fix the way S1 was sequenced.",
+        "ROW STOP — a required fact the platform genuinely does not hold is classified required_before_filing and surfaced in the packet's own participant instructions. A disposition without that surfacing is not an approved blank.",
+        "NEVER invent a fact to fill a field. A guessed arresting agency is worse than a blank one: the blank is visible and the guess is not.",
+        "NEVER write a protected field — participant signature, signature date, certificate of mailing before mailing, or any court-only or prosecutor-only field.",
+        "NEVER touch an S1 runner, an R8 family, or another lane's overlay directory.",
+        "NEVER re-commit a private-corpus binary. Bind from MASTER_LIBRARY_SOURCE_DIR and record the SHA-256."
+      ],
+      "returnFormat": [
+        "ASSIGNMENT:",
+        "WORKER BRANCH:",
+        "BASE SHA:",
+        "ASSIGNMENT READ FROM:",
+        "COMMIT:",
+        "FAMILIES REPAIRED:",
+        "PASS_COMPLETE:",
+        "COUNTERS REMAINING:",
+        "FACTS CLASSIFIED REQUIRED_BEFORE_FILING:",
+        "SHARED FILES MODIFIED:",
+        "STOPPED AND REPORTED:",
+        "COMMERCIAL ROUTES OPENED: 0",
+        "PRODUCTION TOUCHED: NO"
+      ],
+      "promptFile": "docs/rcap/grade-a/launch-control/completeness-repair-prompts/P4_NE_SD_SETASIDE_COMPLETENESS.md",
+      "grantsNothing": "A repaired packet is a complete packet. It is not independently verified, not visually reviewed, not legally approved, and not COMPLETE_PACKET_PROVEN."
+    }
+  ]
+}
