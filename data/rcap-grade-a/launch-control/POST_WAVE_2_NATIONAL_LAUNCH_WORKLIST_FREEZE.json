@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "rcap-grade-a-post-wave-2-launch-worklist-freeze/v1",
+  "frozenAs": "POST WAVE 2 NATIONAL LAUNCH WORKLIST",
+  "frozenAtHead": "9d737284fef7bb90f3f468ef7095c791b9e50826",
+  "worklist": "data/rcap-grade-a/launch-control/POST_WAVE_2_NATIONAL_LAUNCH_WORKLIST.json",
+  "worklistSha256": "53f5d176a93a97d0421e045576429d646b08079a1db4468e70c6651280f1c0e0",
+  "inputDigests": {
+    "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "f8d9c0554da54212c61948152aa5b80e4a58e9519f91ef5c4b51b9483b2e2ec9",
+    "data/rcap-grade-a/route-obligation-census-v1/FREEZE.json": "785cf79482e69216c1325c7adca3cdbae05b1527c4d255e5cbb9c8d42f97a1a9",
+    "data/rcap-grade-a/launch-control/WAVE_2_VERIFICATION_LEDGER.json": "5a8b3d94139350afa23385652100ab348336b1ff0b75e557947ca0ec4e9a303f",
+    "data/rcap-grade-a/launch-control/LAWRENCE_REVIEW_BATCH_1.json": "b130290cf965677b8df8f739a1b351d054216a8bfba63dc89e45de65dc26bf3c",
+    "data/rcap-grade-a/launch-control/WAVE_2_REPAIR_ASSIGNMENTS.json": "54d4466ed36f240daadcd396dcabcaac4f1cdb6a41c3359e058f4132efb3b7fd",
+    "data/rcap-grade-a/launch-control/WAVE_2_LEGAL_INPUT_ASSIGNMENTS.json": "d19e8711745393b6aa2cd5e76c7d5ee0dce06af09660e2f1d7a2622c21df5036",
+    "data/rcap-grade-a/fulfillment-authority-projection.json": "ca76b5db59cd240e34c2ff274a7dc6eee3a2b47ca8b10515509faba007bbfcb9"
+  },
+  "whatThisFreezeIs": [
+    "A launch denominator: every packet family and the first link it is missing.",
+    "A dispatch basis: repair, legal-input and review queues that name their own owner."
+  ],
+  "whatThisFreezeIsNot": [
+    "It is not an approval and creates no fulfillment record.",
+    "It opens no commercial route and grants no runtime authority.",
+    "A PASS in it proves a packet was verified, not that it may be sold."
+  ],
+  "totals": {
+    "families": 352,
+    "launchReady": 0,
+    "sourceBound": 114,
+    "artifactBuilt": 47,
+    "independentlyVerified": 4,
+    "outputApproved": 15,
+    "productPathProven": 0,
+    "byFirstMissingLink": {
+      "source_bound": 238,
+      "artifact_built": 67,
+      "independently_verified": 43,
+      "output_approved": 4
+    },
+    "byVerificationVerdict": {
+      "NOT_YET_VERIFIED": 309,
+      "BLOCKED_LEGAL_APPROVAL_INPUT": 17,
+      "PASS": 4,
+      "FAIL_REPAIR_REQUIRED": 22
+    }
+  },
+  "commercialRoutesOpened": 0,
+  "completePacketProven": 0,
+  "launchGate": "CLOSED"
+}

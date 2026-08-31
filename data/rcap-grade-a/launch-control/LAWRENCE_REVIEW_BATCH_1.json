@@ -1,0 +1,141 @@
+{
+  "schemaVersion": "rcap-grade-a-lawrence-review-batch/v1",
+  "batch": 1,
+  "generatedBy": "scripts/grade-a-launch-control/generate-post-wave-2-closure.mjs",
+  "reviewer": "Lawrence (counsel)",
+  "reviewKind": "EXACT_HASH_OUTPUT_REVIEW",
+  "what": "The four packet families that passed independent verification, each with the exact source and artifact hashes the verifier independently recomputed. The review is against these hashes: an artifact whose hash differs is a different artifact and is outside this batch.",
+  "whatApprovalHereDoes": "An approval closes the output-approval gate for the exact hashes named. It opens no commercial route by itself: COMPLETE_PACKET_PROVEN additionally requires product-path proof, which no family has.",
+  "whatApprovalHereDoesNotDo": [
+    "It does not approve any other hash, fixture or revision of the same family.",
+    "It does not approve the other thirty-nine families, none of which passed.",
+    "It creates no fulfillment record and opens no checkout."
+  ],
+  "families": [
+    {
+      "family": "az_marijuana_expungement_superior_court-set",
+      "shard": "V2",
+      "returnCommit": "34417136e9d3eb307ac836bc6dd4e0b8a91abf60",
+      "verdict": "PASS",
+      "obligationsEvaluated": 19,
+      "obligationsPassed": 19,
+      "preflight": {
+        "command": "node scripts/verify-packet-build-environment.mjs --family az_marijuana_expungement_superior_court-set",
+        "observed": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 1 not applicable"
+      },
+      "sourceIdentitiesAndHashes": {
+        "observed": [
+          {
+            "documentId": "AZ-AOC-CREM3F-PETITION-TO-EXPUNGE-MARIJUANA-RECORDS-SUPERIOR-COURT",
+            "formNumber": "AOC-CREM3F-071221",
+            "sha256": "3f0a4f97f7a28a63f4f74e4f6c37cc4400a47e35c5669895ebf296c882b79652",
+            "byteLength": 22738,
+            "binding": "exact path, independently recomputed SHA-256, and byte length"
+          }
+        ],
+        "readFrom": "source-receipt.json sources[0]; mounted corpus byte; focused family preflight (14/14)"
+      },
+      "canonicalAndBoundaryArtifactHashes": {
+        "observed": [
+          {
+            "fixture": "canonical",
+            "sha256": "dcfc260c0c892e0805fe53ece55041229a068980b03aef008791dc5ccf7cac8b",
+            "pageCount": 3
+          },
+          {
+            "fixture": "boundary",
+            "sha256": "6e06a9f27b60d4d0316a1fa1ac2a53b27265c3a35bc6376f0da10c2a6afc7c64",
+            "pageCount": 3
+          }
+        ],
+        "readFrom": "reports/rendered-artifacts.json artifacts; independently recomputed fixture SHA-256 and PDF page count"
+      },
+      "routeIdentity": {
+        "observed": [
+          "obligation:track-only:AZ:az_marijuana_expungement_superior_court"
+        ],
+        "readFrom": "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-superior-court-set--official-pdf-fill/approval-request.json routeKeys"
+      },
+      "packetFamilyIdentity": {
+        "observed": "az_marijuana_expungement_superior_court-set",
+        "readFrom": "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-superior-court-set--official-pdf-fill/source-receipt.json familyId"
+      }
+    },
+    {
+      "family": "ca-1203-43-set",
+      "shard": "V5",
+      "returnCommit": "6645e90ad3695f11b1cfc050fff208e996a1a75b",
+      "verdict": "PASS",
+      "obligationsEvaluated": 19,
+      "obligationsPassed": 19,
+      "preflight": null,
+      "sourceIdentitiesAndHashes": {
+        "observed": "Independent mounted-byte checks: CR-180 06c1b643.../110684 bytes/3 pages; CR-181 f737503a.../110123/2; CR-106 f8a37a9a.../104278/2; preflight 3/3 exact",
+        "readFrom": "source-receipt.json paths; independent sha256sum/stat/pdfinfo; family preflight"
+      },
+      "canonicalAndBoundaryArtifactHashes": {
+        "observed": "Independent CR-180 recomputation matched canonical cbebc34a6a8d92887e56f1aa01c3260118c29e33b1a1ef9548d8b7d4cdaf7298/59999 and boundary 53ad7788b77fe87c40779bc7e84f4c73ae34c47091c5b786413e4a230090b3e3/60230; companion hashes equal mounted source",
+        "readFrom": "reports/rendered-artifacts.json; independent sha256sum/stat"
+      },
+      "routeIdentity": {
+        "observed": "Only obligation:track-only:CA:ca-1203-43 appears on wiring, receipt, field map and both evidence packets",
+        "readFrom": "product-wiring.json; source-receipt.json; reports/packet-evidence.json"
+      },
+      "packetFamilyIdentity": {
+        "observed": "ca-1203-43-set on every family record and controlling packetSetId",
+        "readFrom": "source-receipt.json; legal-design-packet-set-manifests.json"
+      }
+    },
+    {
+      "family": "nj_disorderly_persons-set",
+      "shard": "V6",
+      "returnCommit": "6777009977e7bbfad88b04fab48be952d53425f4",
+      "verdict": "PASS",
+      "obligationsEvaluated": 19,
+      "obligationsPassed": 19,
+      "preflight": null,
+      "sourceIdentitiesAndHashes": {
+        "observed": "NJ-CN-10557=c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7, 1,924,831 bytes, 43 pages; independently recomputed; preflight bound 1/1.",
+        "readFrom": "source-receipt.json; corpus index and bytes; family preflight"
+      },
+      "canonicalAndBoundaryArtifactHashes": {
+        "observed": "canonical=ba8d6101f5910a53c3dd7b5b616f1884efb45f2ebb2b81549ce8c8fad7baf804 (566,218 bytes); boundary=ada8787e67629adafbef785f09aa6c4295ab06c84b86f4b29ba107e52111a3a1 (566,380 bytes); independently recomputed.",
+        "readFrom": "reports/rendered-artifacts.json; fixture bytes"
+      },
+      "routeIdentity": {
+        "observed": "obligation:track-pathway:NJ:nj_disorderly_persons:regular-expungement-under-n-j-s-a-2c-52-2-2c-52-3",
+        "readFrom": "source-receipt.json and build-findings.json routeKeys"
+      },
+      "packetFamilyIdentity": {
+        "observed": "nj_disorderly_persons-set",
+        "readFrom": "source-receipt.json and all family reports"
+      }
+    },
+    {
+      "family": "ca-17b-reduction-set",
+      "shard": "V7",
+      "returnCommit": "4f0261e23b41eab5ef92e78cc898facae682850b",
+      "verdict": "PASS",
+      "obligationsEvaluated": 19,
+      "obligationsPassed": 19,
+      "preflight": null,
+      "sourceIdentitiesAndHashes": {
+        "observed": "Independent mounted-byte checks matched CR-180 06c1b64315ebd5c7f8260d7169abc2392d6373a202dc39f4788cb8a8c98bbdbe / 110684 bytes / 3 pages; CR-181 f737503a89465d40206b11b1123e815e44a249d324bad16d313c337a695ce504 / 110123 / 2; CR-106 f8a37a9a8c30a016b432bb39fd67407717c3dee7be74bc3e3d471127bf190c5a / 104278 / 2; preflight bound 3/3 exact.",
+        "readFrom": "source-receipt.json paths; source-custody-reconciliation.json; independent sha256/stat/pdfinfo; family preflight"
+      },
+      "canonicalAndBoundaryArtifactHashes": {
+        "observed": "Independent CR-180 hashes/bytes matched pc-17b canonical 0d472a2e628a07145caaed0dbc41b5cf8311135e4dcee251650a61d658f6b68d/60229; pc-17b boundary e044560742f412b9f7a36c16c155cff45915ed55d404fe33e33b3130446ff12a/60460; pc-17d2 canonical 5631fd1ec2368b366aa5943711d1e483a6ea3dfc6b219d8b6f705106a9fb6365/60230; pc-17d2 boundary 38bb5f438b41aef0029f3f5a70b8c37eb6c1fb8e3a5b809a8558f29f0de389fe/60461. Eight companion records matched mounted sources.",
+        "readFrom": "reports/rendered-artifacts.json; independent sha256/stat"
+      },
+      "routeIdentity": {
+        "observed": "Only obligation:track-only:CA:ca-17b-reduction appears across worklist, wiring, field map, packet evidence, actual-write evidence, and approval request.",
+        "readFrom": "packet-family-build-worklist.json; product-wiring.json; production-field-map.json; reports/packet-evidence.json; reports/actual-writes.json; approval-request.json"
+      },
+      "packetFamilyIdentity": {
+        "observed": "ca-17b-reduction-set is consistent on every family record and is the controlling packetSetId.",
+        "readFrom": "source-receipt.json; product-wiring.json; reports/*.json; data/record-clearing/legal-design-packet-set-manifests.json"
+      }
+    }
+  ],
+  "count": 4
+}

@@ -1,0 +1,536 @@
+{
+  "schemaVersion": "rcap-grade-a-wave-2-repair-assignments/v1",
+  "generatedBy": "scripts/grade-a-launch-control/generate-post-wave-2-closure.mjs",
+  "what": "One repair assignment per failing family, scoped to the obligation the verification actually turned on. A repair lane that is handed a whole family instead of a defect rebuilds what already passed.",
+  "rule": "Repair only the decisive defect and anything it strictly requires. Re-verify on the same shard against the same obligations. A repair that changes a hash a review batch already carries must say so.",
+  "commercialRule": "No repair opens a commercial route, and none may set generationAllowed or runtimeSelectable.",
+  "byDecisiveObligation": {
+    "no wrong-route reuse": 1,
+    "complete component set": 12,
+    "page count and page order": 1,
+    "correct official form or approved composer": 3,
+    "no clipping or overlap": 2,
+    "zero protected-field writes": 1,
+    "actual-write verification": 2
+  },
+  "count": 22,
+  "assignments": [
+    {
+      "family": "nj_ordinance-set",
+      "shard": "V1",
+      "returnCommit": "838d75fed7c4628fa501cd135c81b748f1522afa",
+      "decisiveObligation": "no wrong-route reuse",
+      "defect": "Stopped at 'no wrong-route reuse': both municipal-ordinance artifacts populate guiltyOff1 with controlled-substance-possession fixture content. No repair performed.",
+      "evidence": {
+        "readFrom": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json; data/rcap-all50/overlays/census-v1/nj/nj-ordinance-set--official-pdf-fill/reports/actual-writes.json",
+        "routeKeys": null,
+        "pinnedSources": null,
+        "preflight": {
+          "observed": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 1 not applicable; family_sources_bind=1/1",
+          "readFrom": "/tmp/v1-live-preflight-logs/nj_ordinance-set.log"
+        },
+        "obligationsEvaluated": 19,
+        "obligationsPassed": 0
+      },
+      "owner": "packet repair lane",
+      "action": "repair the decisive defect in the family's own overlay, then re-verify on the same shard",
+      "reverifyOn": "V1",
+      "ownedPath": "data/rcap-all50/overlays/census-v1/**/nj-ordinance-set*"
+    },
+    {
+      "family": "pa_summary_conviction-set",
+      "shard": "V1",
+      "returnCommit": "838d75fed7c4628fa501cd135c81b748f1522afa",
+      "decisiveObligation": "complete component set",
+      "defect": "Stopped at 'complete component set': route inventory requires certificate_of_service pa_summary_conviction-certificate-of-service-4, but artifacts contain only Rule 490 petition/order and Rule 790 petition variants. No repair performed.",
+      "evidence": {
+        "readFrom": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json; data/rcap-all50/overlays/census-v1/pa/pa-summary-conviction-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "routeKeys": null,
+        "pinnedSources": null,
+        "preflight": {
+          "observed": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 1 not applicable; family_sources_bind=4/4 custody records (three unique PDFs)",
+          "readFrom": "/tmp/v1-live-preflight-logs/pa_summary_conviction-set.log"
+        },
+        "obligationsEvaluated": 19,
+        "obligationsPassed": 0
+      },
+      "owner": "packet repair lane",
+      "action": "repair the decisive defect in the family's own overlay, then re-verify on the same shard",
+      "reverifyOn": "V1",
+      "ownedPath": "data/rcap-all50/overlays/census-v1/**/pa-summary-conviction-set*"
+    },
+    {
+      "family": "ut_pet_dismissed_without_prejudice-set",
+      "shard": "V1",
+      "returnCommit": "838d75fed7c4628fa501cd135c81b748f1522afa",
+      "decisiveObligation": "page count and page order",
+      "defect": "Stopped at 'page count and page order': controlling route requires BCI stage one before court stage two, but both artifacts put court forms on pages 1-16 and BCI forms on pages 17-19. No reorder/rebuild performed.",
+      "evidence": {
+        "readFrom": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json; data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "routeKeys": null,
+        "pinnedSources": null,
+        "preflight": {
+          "observed": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 1 not applicable; family_sources_bind=9/9",
+          "readFrom": "/tmp/v1-live-preflight-logs/ut_pet_dismissed_without_prejudice-set.log"
+        },
+        "obligationsEvaluated": 19,
+        "obligationsPassed": 0
+      },
+      "owner": "packet repair lane",
+      "action": "repair the decisive defect in the family's own overlay, then re-verify on the same shard",
+      "reverifyOn": "V1",
+      "ownedPath": "data/rcap-all50/overlays/census-v1/**/ut-pet-dismissed-without-prejudice-set*"
+    },
+    {
+      "family": "wa_vac_homicide_victim_prostitution-set",
+      "shard": "V1",
+      "returnCommit": "838d75fed7c4628fa501cd135c81b748f1522afa",
+      "decisiveObligation": "correct official form or approved composer",
+      "defect": "Stopped at 'correct official form or approved composer': route actor is a family member filing for a deceased victim, but defendant-centered forms/map bind participant.full_legal_name to 'Defendant'. No repair performed.",
+      "evidence": {
+        "readFrom": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json; data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/production-field-map.json; data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/reports/actual-writes.json",
+        "routeKeys": null,
+        "pinnedSources": null,
+        "preflight": {
+          "observed": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 1 not applicable; family_sources_bind=2/2",
+          "readFrom": "/tmp/v1-live-preflight-logs/wa_vac_homicide_victim_prostitution-set.log"
+        },
+        "obligationsEvaluated": 19,
+        "obligationsPassed": 0
+      },
+      "owner": "packet repair lane",
+      "action": "repair the decisive defect in the family's own overlay, then re-verify on the same shard",
+      "reverifyOn": "V1",
+      "ownedPath": "data/rcap-all50/overlays/census-v1/**/wa-vac-homicide-victim-prostitution-set*"
+    },
+    {
+      "family": "wv_conv_single_misdemeanor-set",
+      "shard": "V1",
+      "returnCommit": "838d75fed7c4628fa501cd135c81b748f1522afa",
+      "decisiveObligation": "correct official form or approved composer",
+      "defect": "Stopped at 'correct official form or approved composer': packet includes SCA-C900 unchanged although controlling route decision says its printed 10-day reply period is wrong and the governing period is 30 days. No repair performed.",
+      "evidence": {
+        "readFrom": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json; data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/source-receipt.json; data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "routeKeys": null,
+        "pinnedSources": null,
+        "preflight": {
+          "observed": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 1 not applicable; family_sources_bind=3/3 named custody records (two unique files)",
+          "readFrom": "/tmp/v1-live-preflight-logs/wv_conv_single_misdemeanor-set.log"
+        },
+        "obligationsEvaluated": 19,
+        "obligationsPassed": 0
+      },
+      "owner": "packet repair lane",
+      "action": "repair the decisive defect in the family's own overlay, then re-verify on the same shard",
+      "reverifyOn": "V1",
+      "ownedPath": "data/rcap-all50/overlays/census-v1/**/wv-conv-single-misdemeanor-set*"
+    },
+    {
+      "family": "ny_160_59_petition-set",
+      "shard": "V2",
+      "returnCommit": "34417136e9d3eb307ac836bc6dd4e0b8a91abf60",
+      "decisiveObligation": "no clipping or overlap",
+      "defect": "Boundary pro-se packet page 11 visibly truncates the long printed name, street, city, and email at the right edges of their fields; page 12 also visibly truncates the applicant name. The values do not fit, so this obligation is observably wrong.",
+      "evidence": {
+        "readFrom": "raster/pro-se-packet-boundary/page-11.png and raster/pro-se-packet-boundary/page-12.png, independently inspected at original detail",
+        "routeKeys": null,
+        "pinnedSources": null,
+        "preflight": {
+          "command": "node scripts/verify-packet-build-environment.mjs --family ny_160_59_petition-set",
+          "observed": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 1 not applicable"
+        },
+        "obligationsEvaluated": 19,
+        "obligationsPassed": 10
+      },
+      "owner": "packet repair lane",
+      "action": "repair the decisive defect in the family's own overlay, then re-verify on the same shard",
+      "reverifyOn": "V2",
+      "ownedPath": "data/rcap-all50/overlays/census-v1/**/ny-160-59-petition-set*"
+    },
+    {
+      "family": "ut_pet_limitations-set",
+      "shard": "V2",
+      "returnCommit": "34417136e9d3eb307ac836bc6dd4e0b8a91abf60",
+      "decisiveObligation": "zero protected-field writes",
+      "defect": "Form 1044XX page 1 writes participant.phone into the right-column blank labeled Phone under Defendant/Respondent (Second), a different actor. Actual-write id p1-y405.24-x318.60 uses fact participant.phone and box x=320.1,y=407.24,width=87.4; canonical shows 555-0142 and boundary shows 555-0142 ext. 44821. This wrong-actor/protected write is observable in assembled page 6.",
+      "evidence": {
+        "readFrom": "reports/actual-writes.json form 1044XX write p1-y405.24-x318.60; production-field-map.json 1044XX right-column role refusals; raster/canonical/page-06.png and raster/boundary/page-06.png",
+        "routeKeys": null,
+        "pinnedSources": null,
+        "preflight": {
+          "command": "node scripts/verify-packet-build-environment.mjs --family ut_pet_limitations-set",
+          "observed": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 1 not applicable"
+        },
+        "obligationsEvaluated": 19,
+        "obligationsPassed": 7
+      },
+      "owner": "packet repair lane",
+      "action": "repair the decisive defect in the family's own overlay, then re-verify on the same shard",
+      "reverifyOn": "V2",
+      "ownedPath": "data/rcap-all50/overlays/census-v1/**/ut-pet-limitations-set*"
+    },
+    {
+      "family": "ne-setaside-custodial-set",
+      "shard": "V3",
+      "returnCommit": "b39918e73206a17f240289932873c847c3122cdc",
+      "decisiveObligation": "no clipping or overlap",
+      "defect": "Both canonical and boundary page 4 visibly contain severe overlapping caption/template text in DC-1-15.",
+      "evidence": {
+        "readFrom": [
+          "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/raster/canonical/page-04.png",
+          "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/raster/boundary/page-04.png",
+          "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/reports/rendered-artifacts.json#/artifacts/*/rasterPages/3"
+        ],
+        "routeKeys": null,
+        "pinnedSources": null,
+        "preflight": null,
+        "obligationsEvaluated": 19,
+        "obligationsPassed": 10
+      },
+      "owner": "packet repair lane",
+      "action": "repair the decisive defect in the family's own overlay, then re-verify on the same shard",
+      "reverifyOn": "V3",
+      "ownedPath": "data/rcap-all50/overlays/census-v1/**/ne-setaside-custodial-set*"
+    },
+    {
+      "family": "nj_arrest_no_conviction-set",
+      "shard": "V4",
+      "returnCommit": "009b6204b4ee3b6d6e9b58a82b8832883c17fd4f",
+      "decisiveObligation": "actual-write verification",
+      "defect": "Obligation 7: production-field-map.json elects dismissal without a disposition fact although the exact route also covers acquittal and other nonconviction dispositions.",
+      "evidence": {
+        "readFrom": [
+          "data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill/reports/actual-writes.json",
+          "data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill/production-field-map.json",
+          "$MASTER_LIBRARY_SOURCE_DIR/STATES/NJ/01_LEGAL_REVIEW/NJ__LEGAL-REVIEW__STATEWIDE__new-jersey-record-clearing-legal-review__ASOF-2026-08-01__EN.md"
+        ],
+        "routeKeys": null,
+        "pinnedSources": null,
+        "preflight": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 1 not applicable; family_sources_bind 1/1",
+        "obligationsEvaluated": 19,
+        "obligationsPassed": 0
+      },
+      "owner": "packet repair lane",
+      "action": "repair the decisive defect in the family's own overlay, then re-verify on the same shard",
+      "reverifyOn": "V4",
+      "ownedPath": "data/rcap-all50/overlays/census-v1/**/nj-arrest-no-conviction-set*"
+    },
+    {
+      "family": "oh_marijuana_expungement-set",
+      "shard": "V4",
+      "returnCommit": "009b6204b4ee3b6d6e9b58a82b8832883c17fd4f",
+      "decisiveObligation": "correct official form or approved composer",
+      "defect": "Obligation 5: the composer hardcodes R.C. 2953.321 even though the controlling review proves that is the wrong section and says both the correct authority and filing vehicle remain unresolved.",
+      "evidence": {
+        "readFrom": [
+          "$MASTER_LIBRARY_SOURCE_DIR/STATES/OH/01_LEGAL_REVIEW/OH__LEGAL-REVIEW__STATEWIDE__ohio-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+          "$MASTER_LIBRARY_SOURCE_DIR/STATES/OH/STATE_README.md",
+          "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/tracks/oh_marijuana_expungement/rendered/canonical/canonical.txt",
+          "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/tracks/oh_marijuana_expungement/rendered/canonical/render-report.json"
+        ],
+        "routeKeys": null,
+        "pinnedSources": null,
+        "preflight": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 1 not applicable; family_sources_bind 1/1",
+        "obligationsEvaluated": 19,
+        "obligationsPassed": 0
+      },
+      "owner": "packet repair lane",
+      "action": "repair the decisive defect in the family's own overlay, then re-verify on the same shard",
+      "reverifyOn": "V4",
+      "ownedPath": "data/rcap-all50/overlays/census-v1/**/oh-marijuana-expungement-set*"
+    },
+    {
+      "family": "nj_clean_slate-set",
+      "shard": "V5",
+      "returnCommit": "6645e90ad3695f11b1cfc050fff208e996a1a75b",
+      "decisiveObligation": "complete component set",
+      "defect": "Manifest requires 11 components: four roles in CN-10557 plus seven process-guidance components. Output has CN-10557 and one generic participant-instructions.md, but lacks component-keyed record-gathering, efiling, service/objection, post-order service, route-comparison, automation-status and restoration-risk deliverables/content",
+      "evidence": {
+        "readFrom": "legal-design-packet-set-manifests.json components; family inventory; participant-instructions.md",
+        "routeKeys": [
+          "obligation:track-pathway:NJ:nj_clean_slate:clean-slate-petition-under-n-j-s-a-2c-52-5-3"
+        ],
+        "pinnedSources": [
+          "NJ-CN-10557=c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7"
+        ],
+        "preflight": null,
+        "obligationsEvaluated": 19,
+        "obligationsPassed": 3
+      },
+      "owner": "packet repair lane",
+      "action": "repair the decisive defect in the family's own overlay, then re-verify on the same shard",
+      "reverifyOn": "V5",
+      "ownedPath": "data/rcap-all50/overlays/census-v1/**/nj-clean-slate-set*"
+    },
+    {
+      "family": "pa_490_nonconviction-set",
+      "shard": "V5",
+      "returnCommit": "6645e90ad3695f11b1cfc050fff208e996a1a75b",
+      "decisiveObligation": "complete component set",
+      "defect": "Manifest requires petition, order, required custom certificate of service, and conditional PA-IFP-MDJ. Output emits only petition/order fixtures plus generic instructions; no certificate pleading exists and IFP remains source evidence without conditional artifact",
+      "evidence": {
+        "readFrom": "legal-design-packet-set-manifests.json; family inventory; build-findings.json; participant-instructions.md",
+        "routeKeys": [
+          "obligation:track-pathway:PA:pa_490_nonconviction:path-a-non-conviction-expungement"
+        ],
+        "pinnedSources": [
+          "PA-RCRIM-P-490-PETITION=082c515ce5a60de33798508c6dd76589f83758ac2ddd8244e934b379ce05def3",
+          "PA-RCRIM-P-490-ORDER=ac671421035b12b61d3cfbfaac04bb5676f619b968db879f6992e3279110ce90",
+          "PA-IFP-MDJ=91fa3ce45096bffb221cec09071ba617e063395b0fbb4dcd733c0f7fa29f3ca2"
+        ],
+        "preflight": null,
+        "obligationsEvaluated": 19,
+        "obligationsPassed": 3
+      },
+      "owner": "packet repair lane",
+      "action": "repair the decisive defect in the family's own overlay, then re-verify on the same shard",
+      "reverifyOn": "V5",
+      "ownedPath": "data/rcap-all50/overlays/census-v1/**/pa-490-nonconviction-set*"
+    },
+    {
+      "family": "ut_pet_acquittal-set",
+      "shard": "V5",
+      "returnCommit": "6645e90ad3695f11b1cfc050fff208e996a1a75b",
+      "decisiveObligation": "complete component set",
+      "defect": "Manifest requires nine official-form roles plus required filing-and-timing instructions. Combined 19-page fixtures cover the nine official documents, but no filing-and-timing guidance deliverable exists",
+      "evidence": {
+        "readFrom": "legal-design-packet-set-manifests.json; build-status.json; family inventory",
+        "routeKeys": [
+          "obligation:unit:UT:ut_pet_acquittal:ut_pet_acquittal-bci-certificate",
+          "obligation:unit:UT:ut_pet_acquittal:ut_pet_acquittal-court-petition"
+        ],
+        "pinnedSources": [
+          "1000EX=401e0563ae4dddee7a447c4b3fa9d043477402188c98fd3b108087c84c986611",
+          "1020EX=cc437e7fa0abaa1001f5309e1d842c6f7649b152fcab616bd9356293e241acd2",
+          "1044XX=b99586289df6304da5b34181bee95ec2b7f098806c1c949a0f112daeb0244a52",
+          "1146XX=39f1205f48bd73fc7b9686a101369be74a988b419697ea964c2ff5a5c0ce63ad",
+          "1148XX=43c6d4fd232f67453357b342794cac209da82373ce4e93c686c285b42e553288",
+          "1149XX=79f16112e639b74a3189dbde1a4bb725ea7e5f4f92988a476f8d1e9bd24662d3",
+          "1169XX=bd5594c76fd9d3b5a8017ae25c0df7951bf2fb9381b752ddd61c2c7a2d713244",
+          "UT-BCI-EXP-APPLICATION=b4eacb2b9f78c9d69da76ee6528d12c58d0d896a7d2869aeb7ba77de24a91b13",
+          "UT-BCI-THIRD-PARTY-RELEASE=c4b59e479aeb5dcef0229fdc924905e7cfaa5ea611403d05a7cf636a50528451"
+        ],
+        "preflight": null,
+        "obligationsEvaluated": 19,
+        "obligationsPassed": 3
+      },
+      "owner": "packet repair lane",
+      "action": "repair the decisive defect in the family's own overlay, then re-verify on the same shard",
+      "reverifyOn": "V5",
+      "ownedPath": "data/rcap-all50/overlays/census-v1/**/ut-pet-acquittal-set*"
+    },
+    {
+      "family": "wa_vac_cannabis-set",
+      "shard": "V5",
+      "returnCommit": "6645e90ad3695f11b1cfc050fff208e996a1a75b",
+      "decisiveObligation": "complete component set",
+      "defect": "Manifest requires CRRLJ-09.0800, CRRLJ-09.0870, records checklist and filing instructions. Output has both official forms and participant-completion-instructions.json but no records-checklist deliverable",
+      "evidence": {
+        "readFrom": "legal-design-packet-set-manifests.json; family inventory; participant-completion-instructions.json",
+        "routeKeys": [
+          "obligation:track-pathway:WA:wa_vac_cannabis:misdemeanor-cannabis-conviction-vacation"
+        ],
+        "pinnedSources": [
+          "CRRLJ-09.0800=260367f6930cacc89727fc8a48aa0591b07ad5c7183b6412aa247b1810503d7b",
+          "CRRLJ-09.0870=a69335fbbf311f4c92357db5ecb38f931b3409e14f987810247faae2f6295cc3"
+        ],
+        "preflight": null,
+        "obligationsEvaluated": 19,
+        "obligationsPassed": 3
+      },
+      "owner": "packet repair lane",
+      "action": "repair the decisive defect in the family's own overlay, then re-verify on the same shard",
+      "reverifyOn": "V5",
+      "ownedPath": "data/rcap-all50/overlays/census-v1/**/wa-vac-cannabis-set*"
+    },
+    {
+      "family": "wa_vac_survivor_misdemeanor-set",
+      "shard": "V5",
+      "returnCommit": "6645e90ad3695f11b1cfc050fff208e996a1a75b",
+      "decisiveObligation": "complete component set",
+      "defect": "Manifest requires petition, proposed order, prosecutor-request-letter custom pleading, records checklist and filing instructions. Output has the two official forms and participant instructions but no prosecutor request letter or records checklist",
+      "evidence": {
+        "readFrom": "legal-design-packet-set-manifests.json; family inventory; participant-completion-instructions.json",
+        "routeKeys": [
+          "obligation:track-pathway:WA:wa_vac_survivor_misdemeanor:victim-survivor-conviction-vacation-route"
+        ],
+        "pinnedSources": [
+          "CRRLJ-09.0100=1f72e901e93d576cf6c7ecad910d253da65b6af1a89ca75304c9739fa159909b",
+          "CRRLJ-09.0200=b53035ddc5ea31aa9bd6816d5f157a58c8c8201db8e4a2cbb15f9874b4c851f2"
+        ],
+        "preflight": null,
+        "obligationsEvaluated": 19,
+        "obligationsPassed": 3
+      },
+      "owner": "packet repair lane",
+      "action": "repair the decisive defect in the family's own overlay, then re-verify on the same shard",
+      "reverifyOn": "V5",
+      "ownedPath": "data/rcap-all50/overlays/census-v1/**/wa-vac-survivor-misdemeanor-set*"
+    },
+    {
+      "family": "ca-1203-4a-set",
+      "shard": "V6",
+      "returnCommit": "6777009977e7bbfad88b04fab48be952d53425f4",
+      "decisiveObligation": "complete component set",
+      "defect": "The recorded packet requires CR-180, CR-181, CR-106, and MC-031 in both fixtures. Only the two CR-180 filled artifacts exist; six required companion PDFs are absent. Read-only --check also stops ENOENT on its recorded derived CR-180 source. No repair was attempted.",
+      "evidence": {
+        "readFrom": "reports/rendered-artifacts.json; fixture inventory; read-only --check",
+        "routeKeys": null,
+        "pinnedSources": null,
+        "preflight": null,
+        "obligationsEvaluated": 19,
+        "obligationsPassed": 3
+      },
+      "owner": "packet repair lane",
+      "action": "repair the decisive defect in the family's own overlay, then re-verify on the same shard",
+      "reverifyOn": "V6",
+      "ownedPath": "data/rcap-all50/overlays/census-v1/**/ca-1203-4a-set*"
+    },
+    {
+      "family": "ut_pet_conviction-set",
+      "shard": "V6",
+      "returnCommit": "6777009977e7bbfad88b04fab48be952d53425f4",
+      "decisiveObligation": "actual-write verification",
+      "defect": "Actual writes are observably incorrect. Both 1044XX fixtures write participant identity/address in Second Plaintiff/Petitioner while First is blank. Both BCI fixtures record a NAME write with expected=null and drawnText=null, leaving required applicant NAME blank. No repair was attempted.",
+      "evidence": {
+        "readFrom": "actual-writes.json 1044XX and BCI rows; production map anchors; raster page-06/page-18",
+        "routeKeys": null,
+        "pinnedSources": null,
+        "preflight": null,
+        "obligationsEvaluated": 19,
+        "obligationsPassed": 6
+      },
+      "owner": "packet repair lane",
+      "action": "repair the decisive defect in the family's own overlay, then re-verify on the same shard",
+      "reverifyOn": "V6",
+      "ownedPath": "data/rcap-all50/overlays/census-v1/**/ut-pet-conviction-set*"
+    },
+    {
+      "family": "nj_indictable_conviction-set",
+      "shard": "V7",
+      "returnCommit": "4f0261e23b41eab5ef92e78cc898facae682850b",
+      "decisiveObligation": "complete component set",
+      "defect": "Manifest requires four CN-10557 form roles plus five substantive process-guidance components. Output has the kit and a generic reviewer note, but no record-gathering, efiling, service/objection, post-order service, or eligibility-analysis deliverables.",
+      "evidence": {
+        "readFrom": "legal-design-packet-set-manifests.json components; family inventory; participant-instructions.md",
+        "routeKeys": [
+          "obligation:track-only:NJ:nj_indictable_conviction"
+        ],
+        "pinnedSources": [
+          "CN-10557=c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7"
+        ],
+        "preflight": null,
+        "obligationsEvaluated": 19,
+        "obligationsPassed": 3
+      },
+      "owner": "packet repair lane",
+      "action": "repair the decisive defect in the family's own overlay, then re-verify on the same shard",
+      "reverifyOn": "V7",
+      "ownedPath": "data/rcap-all50/overlays/census-v1/**/nj-indictable-conviction-set*"
+    },
+    {
+      "family": "pa_9122_1_limited_access-set",
+      "shard": "V7",
+      "returnCommit": "4f0261e23b41eab5ef92e78cc898facae682850b",
+      "decisiveObligation": "complete component set",
+      "defect": "Manifest requires petition, order, custom certificate of service, and conditional PA-IFP-CCP. Output has only petition/order fixtures and generic instructions; no certificate pleading or conditional IFP artifact.",
+      "evidence": {
+        "readFrom": "legal-design-packet-set-manifests.json components; family inventory; participant-instructions.md",
+        "routeKeys": [
+          "obligation:track-pathway:PA:pa_9122_1_limited_access:path-i-petition-for-limited-access"
+        ],
+        "pinnedSources": [
+          "PA-RCRIM-P-791-PETITION=945a630595c8f6fcbbfaf4f5532fc54ab7267ac585d2cb523bf0f5975d21c2ab",
+          "PA-RCRIM-P-791-ORDER=99a7704e7d68c0478ef0be1d6c08a79f552a9f439d9468d6476c10e8a5c377cf",
+          "PA-IFP-CCP=b1255ef0503f9c9ff0565e884083e37fe4072e4e9999bec159712d467d420fca"
+        ],
+        "preflight": null,
+        "obligationsEvaluated": 19,
+        "obligationsPassed": 3
+      },
+      "owner": "packet repair lane",
+      "action": "repair the decisive defect in the family's own overlay, then re-verify on the same shard",
+      "reverifyOn": "V7",
+      "ownedPath": "data/rcap-all50/overlays/census-v1/**/pa-9122-1-limited-access-set*"
+    },
+    {
+      "family": "ut_pet_dismissed_with_prejudice-set",
+      "shard": "V7",
+      "returnCommit": "4f0261e23b41eab5ef92e78cc898facae682850b",
+      "decisiveObligation": "complete component set",
+      "defect": "Combined 19-page fixtures contain nine official-form roles, but the required tenth component—filing-and-timing instructions—has no deliverable.",
+      "evidence": {
+        "readFrom": "legal-design-packet-set-manifests.json components; build-status.json; family inventory",
+        "routeKeys": [
+          "obligation:unit:UT:ut_pet_dismissed_with_prejudice:ut_pet_dismissed_with_prejudice-bci-certificate",
+          "obligation:unit:UT:ut_pet_dismissed_with_prejudice:ut_pet_dismissed_with_prejudice-court-petition"
+        ],
+        "pinnedSources": [
+          "1000EX=401e0563ae4dddee7a447c4b3fa9d043477402188c98fd3b108087c84c986611",
+          "1020EX=cc437e7fa0abaa1001f5309e1d842c6f7649b152fcab616bd9356293e241acd2",
+          "1044XX=b99586289df6304da5b34181bee95ec2b7f098806c1c949a0f112daeb0244a52",
+          "1146XX=39f1205f48bd73fc7b9686a101369be74a988b419697ea964c2ff5a5c0ce63ad",
+          "1148XX=43c6d4fd232f67453357b342794cac209da82373ce4e93c686c285b42e553288",
+          "1149XX=79f16112e639b74a3189dbde1a4bb725ea7e5f4f92988a476f8d1e9bd24662d3",
+          "1169XX=bd5594c76fd9d3b5a8017ae25c0df7951bf2fb9381b752ddd61c2c7a2d713244",
+          "UT-BCI-EXP-APPLICATION=b4eacb2b9f78c9d69da76ee6528d12c58d0d896a7d2869aeb7ba77de24a91b13",
+          "UT-BCI-THIRD-PARTY-RELEASE=c4b59e479aeb5dcef0229fdc924905e7cfaa5ea611403d05a7cf636a50528451"
+        ],
+        "preflight": null,
+        "obligationsEvaluated": 19,
+        "obligationsPassed": 3
+      },
+      "owner": "packet repair lane",
+      "action": "repair the decisive defect in the family's own overlay, then re-verify on the same shard",
+      "reverifyOn": "V7",
+      "ownedPath": "data/rcap-all50/overlays/census-v1/**/ut-pet-dismissed-with-prejudice-set*"
+    },
+    {
+      "family": "wa_vac_felony-set",
+      "shard": "V7",
+      "returnCommit": "4f0261e23b41eab5ef92e78cc898facae682850b",
+      "decisiveObligation": "complete component set",
+      "defect": "Manifest requires two official forms plus certificate-of-discharge guidance, records checklist, and filing instructions. Output has forms and a generic completion notice, but none of three substantive guidance deliverables.",
+      "evidence": {
+        "readFrom": "legal-design-packet-set-manifests.json components; family inventory; participant-completion-instructions.json",
+        "routeKeys": [
+          "obligation:track-pathway:WA:wa_vac_felony:adult-felony-vacation-under-rcw-9-94a-640"
+        ],
+        "pinnedSources": [
+          "CR-08.0900=ec8b175e3a2ccfdf247328822b7ed8ac570dacd27c8b728d09a10eca05c6559e",
+          "CR-08.0920=e5ccd2e0847fc9b0c2b54ef4ff75fd8d500b7b2af5a9eed963dd3855bb0226db"
+        ],
+        "preflight": null,
+        "obligationsEvaluated": 19,
+        "obligationsPassed": 3
+      },
+      "owner": "packet repair lane",
+      "action": "repair the decisive defect in the family's own overlay, then re-verify on the same shard",
+      "reverifyOn": "V7",
+      "ownedPath": "data/rcap-all50/overlays/census-v1/**/wa-vac-felony-set*"
+    },
+    {
+      "family": "wv_conv_multiple_misdemeanors-set",
+      "shard": "V7",
+      "returnCommit": "4f0261e23b41eab5ef92e78cc898facae682850b",
+      "decisiveObligation": "complete component set",
+      "defect": "Manifest requires SCA-C906 roles, conditional multi-county supplemental pleading, required service package, and required filing instructions. Output contains only canonical/boundary SCA-C906 PDFs.",
+      "evidence": {
+        "readFrom": "legal-design-packet-set-manifests.json components; family inventory; build-status.json",
+        "routeKeys": [
+          "obligation:track-pathway:WV:wv_conv_multiple_misdemeanors:eligible-conviction-expungement-under-w-va-code-61-11-26"
+        ],
+        "pinnedSources": [
+          "SCA-C906=43b5606c9faf6fcf4d6f73c1d97cf1bd87798158dee1b6f3381c8a0472b4b64c"
+        ],
+        "preflight": null,
+        "obligationsEvaluated": 19,
+        "obligationsPassed": 3
+      },
+      "owner": "packet repair lane",
+      "action": "repair the decisive defect in the family's own overlay, then re-verify on the same shard",
+      "reverifyOn": "V7",
+      "ownedPath": "data/rcap-all50/overlays/census-v1/**/wv-conv-multiple-misdemeanors-set*"
+    }
+  ]
+}

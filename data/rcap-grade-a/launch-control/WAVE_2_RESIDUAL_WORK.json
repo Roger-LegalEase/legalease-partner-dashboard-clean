@@ -28,7 +28,7 @@
   },
   "counts": {
     "lanes": 8,
-    "openItems": 166,
+    "openItems": 162,
     "byLane": {
       "W2R1_BRANCH_IDENTITY_REMAINDER": 14,
       "W2R2_BRANCH_SELECTOR_IMPLEMENTATION": 9,
@@ -37,7 +37,7 @@
       "W2R4_SOURCE_IDENTITY_AND_ACQUISITION": 21,
       "W2R6_COUNSEL_GATE_IMPLEMENTATION": 5,
       "W2R7_PACKET_BUILD_AND_APPROVAL": 24,
-      "W2V1_V7_INDEPENDENT_VERIFICATION": 43
+      "W2V1_V7_INDEPENDENT_VERIFICATION": 39
     }
   },
   "commercialPosture": "No lane here opens a commercial route, and none may be dispatched as though it could.",
@@ -1366,260 +1366,247 @@
         "V6_INDEPENDENT_PACKET_VERIFICATION",
         "V7_INDEPENDENT_PACKET_VERIFICATION"
       ],
-      "what": "Forty-three packet-family verification rows, every one BLOCKED_SOURCE because the private Master Library was absent from the worker environments.",
+      "what": "Forty-three packet families were independently verified after the Master Library was restored. 4 passed; the rest remain open.",
       "itemKind": "packetFamily",
-      "openCount": 43,
-      "theseAreEnvironmentRecordsNotVerdicts": "No family may be classified PASS or FAIL from these rows, and no Lawrence review package may be prepared from them. A verifier that could not read the source did not verify anything.",
+      "openCount": 39,
+      "verdictCounts": {
+        "BLOCKED_LEGAL_APPROVAL_INPUT": 17,
+        "FAIL_REPAIR_REQUIRED": 22,
+        "PASS": 4
+      },
+      "earlierEnvironmentResultsRetired": "The first pass returned forty-three BLOCKED_SOURCE rows because the private Master Library was absent. Those were environment records, never verdicts, and they are retired by the substantive returns rather than carried alongside them.",
+      "aPassIsNotALaunch": "A PASS proves the packet was built and verified as specified. Output approval and product-path proof are separate gates, and no family holds either yet.",
       "items": [
         {
           "shard": "V1",
           "familyId": "az_marijuana_expungement_arrest_no_charges-set",
-          "verdict": "BLOCKED_SOURCE",
-          "stopScope": "ROW",
-          "stopReason": "MASTER_LIBRARY_SOURCE_DIR was unset, the default private master-library root was absent, and 1 of 1 source(s) do not bind; every expected observed SHA-256 was null."
+          "verdict": "BLOCKED_LEGAL_APPROVAL_INPUT",
+          "stopScope": "ROW"
         },
         {
           "shard": "V1",
           "familyId": "ca-851-91-set",
-          "verdict": "BLOCKED_SOURCE",
-          "stopScope": "ROW",
-          "stopReason": "MASTER_LIBRARY_SOURCE_DIR was unset, the default private master-library root was absent, and 4 of 4 source(s) do not bind; every expected observed SHA-256 was null."
+          "verdict": "BLOCKED_LEGAL_APPROVAL_INPUT",
+          "stopScope": "ROW"
         },
         {
           "shard": "V1",
           "familyId": "nj_ordinance-set",
-          "verdict": "BLOCKED_SOURCE",
-          "stopScope": "ROW",
-          "stopReason": "MASTER_LIBRARY_SOURCE_DIR was unset, the default private master-library root was absent, and 1 of 1 source(s) do not bind; every expected observed SHA-256 was null."
+          "verdict": "FAIL_REPAIR_REQUIRED",
+          "stopScope": "ROW"
         },
         {
           "shard": "V1",
           "familyId": "pa_summary_conviction-set",
-          "verdict": "BLOCKED_SOURCE",
-          "stopScope": "ROW",
-          "stopReason": "MASTER_LIBRARY_SOURCE_DIR was unset, the default private master-library root was absent, and 4 of 4 source(s) do not bind; every expected observed SHA-256 was null."
+          "verdict": "FAIL_REPAIR_REQUIRED",
+          "stopScope": "ROW"
         },
         {
           "shard": "V1",
           "familyId": "ut_pet_dismissed_without_prejudice-set",
-          "verdict": "BLOCKED_SOURCE",
-          "stopScope": "ROW",
-          "stopReason": "MASTER_LIBRARY_SOURCE_DIR was unset, the default private master-library root was absent, and 9 of 9 source(s) do not bind; every expected observed SHA-256 was null."
+          "verdict": "FAIL_REPAIR_REQUIRED",
+          "stopScope": "ROW"
         },
         {
           "shard": "V1",
           "familyId": "wa_vac_homicide_victim_prostitution-set",
-          "verdict": "BLOCKED_SOURCE",
-          "stopScope": "ROW",
-          "stopReason": "MASTER_LIBRARY_SOURCE_DIR was unset, the default private master-library root was absent, and 2 of 2 source(s) do not bind; every expected observed SHA-256 was null."
+          "verdict": "FAIL_REPAIR_REQUIRED",
+          "stopScope": "ROW"
         },
         {
           "shard": "V1",
           "familyId": "wv_conv_single_misdemeanor-set",
-          "verdict": "BLOCKED_SOURCE",
-          "stopScope": "ROW",
-          "stopReason": "MASTER_LIBRARY_SOURCE_DIR was unset, the default private master-library root was absent, and 3 of 3 source(s) do not bind; every expected observed SHA-256 was null."
-        },
-        {
-          "shard": "V2",
-          "familyId": "az_marijuana_expungement_superior_court-set",
-          "verdict": "BLOCKED_SOURCE"
+          "verdict": "FAIL_REPAIR_REQUIRED",
+          "stopScope": "ROW"
         },
         {
           "shard": "V2",
           "familyId": "ca-prop64-set",
-          "verdict": "BLOCKED_SOURCE"
+          "verdict": "BLOCKED_LEGAL_APPROVAL_INPUT"
         },
         {
           "shard": "V2",
           "familyId": "ny_160_59_petition-set",
-          "verdict": "BLOCKED_SOURCE"
+          "verdict": "FAIL_REPAIR_REQUIRED"
         },
         {
           "shard": "V2",
           "familyId": "rcap-oh-custom-pleading-clean-tracks",
-          "verdict": "BLOCKED_SOURCE"
+          "verdict": "BLOCKED_LEGAL_APPROVAL_INPUT"
         },
         {
           "shard": "V2",
           "familyId": "ut_pet_limitations-set",
-          "verdict": "BLOCKED_SOURCE"
+          "verdict": "FAIL_REPAIR_REQUIRED"
         },
         {
           "shard": "V2",
           "familyId": "wa_vac_misdemeanor_ordinary-set",
-          "verdict": "BLOCKED_SOURCE"
+          "verdict": "BLOCKED_LEGAL_APPROVAL_INPUT"
         },
         {
           "shard": "V3",
           "familyId": "ca-1203-41-set",
-          "verdict": "BLOCKED_SOURCE"
+          "verdict": "BLOCKED_LEGAL_APPROVAL_INPUT"
         },
         {
           "shard": "V3",
           "familyId": "ne-setaside-custodial-set",
-          "verdict": "BLOCKED_SOURCE"
+          "verdict": "FAIL_REPAIR_REQUIRED"
         },
         {
           "shard": "V3",
           "familyId": "ny_mrta_marijuana-set",
-          "verdict": "BLOCKED_SOURCE"
+          "verdict": "BLOCKED_LEGAL_APPROVAL_INPUT"
         },
         {
           "shard": "V3",
           "familyId": "ri_nonconviction_sealing-set",
-          "verdict": "BLOCKED_SOURCE"
+          "verdict": "BLOCKED_LEGAL_APPROVAL_INPUT"
         },
         {
           "shard": "V3",
           "familyId": "ut_pet_no_charges-set",
-          "verdict": "BLOCKED_SOURCE"
+          "verdict": "BLOCKED_LEGAL_APPROVAL_INPUT"
         },
         {
           "shard": "V3",
           "familyId": "wa_vac_substance_use_disorder-set",
-          "verdict": "BLOCKED_SOURCE"
+          "verdict": "BLOCKED_LEGAL_APPROVAL_INPUT"
         },
         {
           "shard": "V4",
           "familyId": "ca-1203-42-set",
-          "verdict": "BLOCKED_SOURCE"
+          "verdict": "BLOCKED_LEGAL_APPROVAL_INPUT"
         },
         {
           "shard": "V4",
           "familyId": "nj_arrest_no_conviction-set",
-          "verdict": "BLOCKED_SOURCE"
+          "verdict": "FAIL_REPAIR_REQUIRED"
         },
         {
           "shard": "V4",
           "familyId": "oh_marijuana_expungement-set",
-          "verdict": "BLOCKED_SOURCE"
+          "verdict": "FAIL_REPAIR_REQUIRED"
         },
         {
           "shard": "V4",
           "familyId": "sd_arrest_expungement-set",
-          "verdict": "BLOCKED_SOURCE"
+          "verdict": "BLOCKED_LEGAL_APPROVAL_INPUT"
         },
         {
           "shard": "V4",
           "familyId": "ut_pet_traffic-set",
-          "verdict": "BLOCKED_SOURCE"
+          "verdict": "BLOCKED_LEGAL_APPROVAL_INPUT"
         },
         {
           "shard": "V4",
           "familyId": "wa_vac_survivor_felony-set",
-          "verdict": "BLOCKED_SOURCE"
-        },
-        {
-          "shard": "V5",
-          "familyId": "ca-1203-43-set",
-          "verdict": "BLOCKED_SOURCE"
+          "verdict": "BLOCKED_LEGAL_APPROVAL_INPUT"
         },
         {
           "shard": "V5",
           "familyId": "nj_clean_slate-set",
-          "verdict": "BLOCKED_SOURCE"
+          "verdict": "FAIL_REPAIR_REQUIRED",
+          "stopScope": "ROW"
         },
         {
           "shard": "V5",
           "familyId": "pa_490_nonconviction-set",
-          "verdict": "BLOCKED_SOURCE"
+          "verdict": "FAIL_REPAIR_REQUIRED",
+          "stopScope": "ROW"
         },
         {
           "shard": "V5",
           "familyId": "ut_pet_acquittal-set",
-          "verdict": "BLOCKED_SOURCE"
+          "verdict": "FAIL_REPAIR_REQUIRED",
+          "stopScope": "ROW"
         },
         {
           "shard": "V5",
           "familyId": "wa_vac_cannabis-set",
-          "verdict": "BLOCKED_SOURCE"
+          "verdict": "FAIL_REPAIR_REQUIRED",
+          "stopScope": "ROW"
         },
         {
           "shard": "V5",
           "familyId": "wa_vac_survivor_misdemeanor-set",
-          "verdict": "BLOCKED_SOURCE"
-        },
-        {
-          "shard": "V6",
-          "familyId": "ca-1203-4a-set",
-          "verdict": "BLOCKED_SOURCE",
+          "verdict": "FAIL_REPAIR_REQUIRED",
           "stopScope": "ROW"
         },
         {
           "shard": "V6",
-          "familyId": "nj_disorderly_persons-set",
-          "verdict": "BLOCKED_SOURCE",
+          "familyId": "ca-1203-4a-set",
+          "verdict": "FAIL_REPAIR_REQUIRED",
           "stopScope": "ROW"
         },
         {
           "shard": "V6",
           "familyId": "pa_790_nonconviction-set",
-          "verdict": "BLOCKED_SOURCE",
+          "verdict": "BLOCKED_LEGAL_APPROVAL_INPUT",
           "stopScope": "ROW"
         },
         {
           "shard": "V6",
           "familyId": "ut_pet_conviction-set",
-          "verdict": "BLOCKED_SOURCE",
+          "verdict": "FAIL_REPAIR_REQUIRED",
           "stopScope": "ROW"
         },
         {
           "shard": "V6",
           "familyId": "wa_vac_domestic_violence-set",
-          "verdict": "BLOCKED_SOURCE",
+          "verdict": "BLOCKED_LEGAL_APPROVAL_INPUT",
           "stopScope": "ROW"
         },
         {
           "shard": "V6",
           "familyId": "wa_vac_treaty_fishing-set",
-          "verdict": "BLOCKED_SOURCE",
+          "verdict": "BLOCKED_LEGAL_APPROVAL_INPUT",
           "stopScope": "ROW"
         },
         {
           "shard": "V7",
-          "familyId": "ca-17b-reduction-set",
-          "verdict": "BLOCKED_SOURCE",
-          "stopScope": "ROW",
-          "stopReason": "The pinned Master Library sources could not be rebound: family preflight observed 3 of 3 sources do not bind because the corpus root is absent."
-        },
-        {
-          "shard": "V7",
           "familyId": "nj_indictable_conviction-set",
-          "verdict": "BLOCKED_SOURCE",
-          "stopScope": "ROW",
-          "stopReason": "The pinned Master Library source could not be rebound: family preflight observed 1 of 1 source does not bind because the corpus root is absent."
+          "verdict": "FAIL_REPAIR_REQUIRED",
+          "stopScope": "ROW"
         },
         {
           "shard": "V7",
           "familyId": "pa_9122_1_limited_access-set",
-          "verdict": "BLOCKED_SOURCE",
-          "stopScope": "ROW",
-          "stopReason": "The pinned Master Library sources could not be rebound: family preflight observed 5 of 5 sources do not bind because the corpus root is absent."
+          "verdict": "FAIL_REPAIR_REQUIRED",
+          "stopScope": "ROW"
         },
         {
           "shard": "V7",
           "familyId": "ut_pet_dismissed_with_prejudice-set",
-          "verdict": "BLOCKED_SOURCE",
-          "stopScope": "ROW",
-          "stopReason": "The pinned Master Library sources could not be rebound: family preflight observed 9 of 9 sources do not bind because the corpus root is absent."
+          "verdict": "FAIL_REPAIR_REQUIRED",
+          "stopScope": "ROW"
         },
         {
           "shard": "V7",
           "familyId": "wa_vac_felony-set",
-          "verdict": "BLOCKED_SOURCE",
-          "stopScope": "ROW",
-          "stopReason": "The pinned Master Library sources could not be rebound: family preflight observed 2 of 2 sources do not bind because the corpus root is absent."
+          "verdict": "FAIL_REPAIR_REQUIRED",
+          "stopScope": "ROW"
         },
         {
           "shard": "V7",
           "familyId": "wv_conv_multiple_misdemeanors-set",
-          "verdict": "BLOCKED_SOURCE",
-          "stopScope": "ROW",
-          "stopReason": "The pinned Master Library sources could not be rebound: family preflight observed 2 of 2 sources do not bind because the corpus root is absent."
+          "verdict": "FAIL_REPAIR_REQUIRED",
+          "stopScope": "ROW"
         }
       ],
-      "whyStillOpen": "MASTER_LIBRARY_SOURCE_DIR was unset and the default private master-library root was absent, so no pinned source could bind and every observed SHA-256 was null.",
+      "passed": [
+        "az_marijuana_expungement_superior_court-set",
+        "ca-1203-43-set",
+        "nj_disorderly_persons-set",
+        "ca-17b-reduction-set"
+      ],
+      "dispatchedAs": {
+        "repairs": "data/rcap-grade-a/launch-control/WAVE_2_REPAIR_ASSIGNMENTS.json",
+        "legalInputs": "data/rcap-grade-a/launch-control/WAVE_2_LEGAL_INPUT_ASSIGNMENTS.json",
+        "review": "data/rcap-grade-a/launch-control/LAWRENCE_REVIEW_BATCH_1.json"
+      },
+      "whyStillOpen": "Twenty-two families have a named build defect and seventeen are blocked on an input; only one of the seventeen is a question for counsel.",
       "ownedPaths": [
         "data/rcap-grade-a/wave-2/verification/**"
       ]
