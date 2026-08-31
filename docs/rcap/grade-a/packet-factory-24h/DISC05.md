@@ -43,6 +43,32 @@ It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owne
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Release each family when it is finished: `node scripts/grade-a-packet-factory-24h/claim.mjs --release DISC05 <familyId>`, and leave that in your diff.
 
+## Read the source relationship registry first
+
+`data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json` — Look your obligation up by jurisdiction and canonical artifact id. Its sourceState tells you whether there is anything to fetch at all.
+
+**These states are NOT a fetch. Acting on them as one is the defect this registry exists to stop.**
+
+- `BUNDLE_COMPONENT` — 3 — the document is a page inside a public bundle whose address is already recorded. Record the component locator and alias. Acquire the BUNDLE once, never the page.
+- `EMBEDDED_SECTION` — 3 — the document is a section inside another form. There is no separate binary to request from anyone.
+- `STALE_OR_VARIANT_ID` — 2 — the identity is missing its current suffix or its filing-mode variant. Normalize the identity first; the form is public.
+- `SOURCE_SCOPE_AND_VERSION_AMBIGUITY` — 1 — statewide versus local scope is unsettled. Settle the scope before any inquiry.
+- `FAMILY_IDENTITY_AMBIGUOUS` — 8 — several held artifacts match this identity. Which one the route requires is the question; do not pick one.
+- `CURRENTNESS_UNVERIFIED` — 58 — the corpus already HOLDS matching bytes. The open question is whether the publisher still issues that edition. This is not a missing source and it is not an acquisition.
+- `STATUTORY_CUSTOM_PLEADING` — 6 — a statutory citation. There is no document at the other end; a packet-build lane drafts against the statute.
+- `LICENSE_PERMISSION_REVIEW` — 2 — the form is public and its publisher restricts commercial reuse. Counsel and business decide, not a clerk.
+
+**These are:**
+
+- `STANDALONE_ARTIFACT` — 7 — public, ordinary acquisition.
+- `PUBLIC_DOWNLOAD` — 0 — public, ordinary acquisition.
+- `MISSING_SOURCE_BINARY` — 1 — expected and absent; acquire once an exact address is settled.
+- `MISSING_CANONICAL_RELATIONSHIP_METADATA` — 145 — no publisher, address or locator is recorded. Settle identity before fetching.
+
+**The previous human queue told a person to contact a clerk 101 times. Zero of the top twenty justified it. If the registry records an official source page, the answer is already known.**
+
+A publisher's commercial-reuse restriction is a counsel and business decision. Record it; do not resolve it and do not ask a clerk about it.
+
 ## Mission
 
 Turn a descriptive label into a document identity: exact form number, official publisher, revision and the official URL it is published at. Resolve against committed inventories; never guess a form number.

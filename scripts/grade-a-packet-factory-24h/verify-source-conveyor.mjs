@@ -366,6 +366,33 @@ function run() {
     stateNameProblems.length === 0,
     `${declaredStates.size} declared state(s); ${stateNameProblems.length} problem(s): ${stateNameProblems.slice(0, 3).join(" | ")}`);
 
+  /*
+   * C22. The corrected model reaches the worker.
+   *
+   * The source relationship registry was generated and read by nobody: zero
+   * prompts named it or any of its states. A DISC worker handed a bundle
+   * component would still have gone hunting for a standalone form that does not
+   * exist separately, and one handed a CURRENTNESS_UNVERIFIED record -- bytes we
+   * already hold -- would have gone looking for a missing source. A corrected
+   * model that never reaches the lane is a corrected document.
+   */
+  const wiringProblems = [];
+  if (!fs.existsSync(path.join(ROOT, DIR, "SOURCE_RELATIONSHIP_REGISTRY.json"))) wiringProblems.push("the source relationship registry is absent");
+  const sourcePrompts = fs.readdirSync(path.join(ROOT, PROMPTS_DIR)).filter((f) => /^(DISC|SRC|ACQ|PROMO)\d+\.md$/.test(f));
+  if (sourcePrompts.length < 16) wiringProblems.push(`only ${sourcePrompts.length} source prompt(s); the conveyor dispatches sixteen`);
+  const MUST_NAME = ["SOURCE_RELATIONSHIP_REGISTRY.json", "BUNDLE_COMPONENT", "EMBEDDED_SECTION", "CURRENTNESS_UNVERIFIED", "STATUTORY_CUSTOM_PLEADING", "LICENSE_PERMISSION_REVIEW"];
+  for (const f of sourcePrompts) {
+    const t = fs.readFileSync(path.join(ROOT, PROMPTS_DIR, f), "utf8");
+    const absent = MUST_NAME.filter((n) => !t.includes(n));
+    if (absent.length) { wiringProblems.push(`${f} never names ${absent.slice(0, 3).join(", ")}`); break; }
+    // Naming the states is not enough if the prompt never says which of them
+    // are not an acquisition. That distinction is the entire content.
+    if (!/NOT a fetch/i.test(t)) { wiringProblems.push(`${f} lists the states without saying which are not an acquisition`); break; }
+  }
+  check("C22", "every source prompt carries the relationship registry and says which states are not a fetch",
+    wiringProblems.length === 0,
+    `${sourcePrompts.length} source prompt(s); ${wiringProblems.length} problem(s): ${wiringProblems.slice(0, 2).join(" | ")}`);
+
   check("C19", "capacity the queue triggers is materialized, with launch gates and paths",
     elasticProblems.length === 0,
     `${(ci.elasticCapacity?.thresholds ?? []).filter((e) => e.triggered).length} trigger(s) firing, ${verifyLanes.length} verifier(s); ${elasticProblems.length} problem(s): ${elasticProblems.slice(0, 2).join(" | ")}`);
@@ -483,6 +510,8 @@ if (MUTATIONS) {
     /* C21's subject: a threshold reading a state name nothing writes counts
      * zero and reports a quiet day. "REPAIR_REQUIRED" did exactly that while
      * twenty-six families sat in FAIL_REPAIR_REQUIRED. */
+    { on: "prompt", id: "C22", name: "a source prompt stripped of the relationship registry is caught", mutateText: (t) => t.replace(/## Read the source relationship registry first[\s\S]*?(?=\n## )/, "") },
+    { on: "prompt", id: "C22", name: "a source prompt listing the states without saying which are not a fetch is caught", mutateText: (t) => t.replace(/\*\*These states are NOT a fetch[^\n]*\*\*/, "**These states exist.**") },
     { on: "conveyorGen", id: "C21", name: "a threshold reading an undeclared queue state is caught", mutateText: (t) => t.replace('countIn("FAIL_REPAIR_REQUIRED")', 'countIn("REPAIR_REQUIRED")') },
     { on: "policy", id: "C16", name: "an open-registration TLD on the suffix list is caught", mutateText: (t) => t.replace('const ALLOWED_HOST_SUFFIXES = [\n  ".gov",', 'const ALLOWED_HOST_SUFFIXES = [\n  ".us",\n  ".gov",') },
     { on: "policy", id: "C16", name: "widening the exact host to its shared suffix is caught", mutateText: (t) => t.replace('  ".uscourts.gov"', '  ".uscourts.gov",\n  ".blob.core.windows.net"') },

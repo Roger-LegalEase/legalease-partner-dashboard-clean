@@ -231,6 +231,40 @@ const verdictByFamily = new Map((IN.verificationLedger.rows ?? []).map((r) => [r
  * refuses a dispatch that leaves a failed family in VERIFYING, so the omission
  * cannot pass silently.
  */
+/*
+ * The registry, summarized for the lanes that must act on it. Absent until it
+ * has been generated, and the dispatch is still generatable without it -- but
+ * C22 refuses a source prompt that does not carry the vocabulary, so the
+ * omission cannot pass quietly.
+ */
+let registrySummary = null;
+try {
+  const reg = JSON.parse(fs.readFileSync(path.join(ROOT, `${OUT_DIR}/SOURCE_RELATIONSHIP_REGISTRY.json`), "utf8"));
+  const byState = reg.counts?.byState ?? {};
+  registrySummary = {
+    file: `${OUT_DIR}/SOURCE_RELATIONSHIP_REGISTRY.json`,
+    readItBeforeYouFetchAnything: "Look your obligation up by jurisdiction and canonical artifact id. Its sourceState tells you whether there is anything to fetch at all.",
+    statesThatAreNotAFetch: {
+      BUNDLE_COMPONENT: `${byState.BUNDLE_COMPONENT ?? 0} — the document is a page inside a public bundle whose address is already recorded. Record the component locator and alias. Acquire the BUNDLE once, never the page.`,
+      EMBEDDED_SECTION: `${byState.EMBEDDED_SECTION ?? 0} — the document is a section inside another form. There is no separate binary to request from anyone.`,
+      STALE_OR_VARIANT_ID: `${byState.STALE_OR_VARIANT_ID ?? 0} — the identity is missing its current suffix or its filing-mode variant. Normalize the identity first; the form is public.`,
+      SOURCE_SCOPE_AND_VERSION_AMBIGUITY: `${byState.SOURCE_SCOPE_AND_VERSION_AMBIGUITY ?? 0} — statewide versus local scope is unsettled. Settle the scope before any inquiry.`,
+      FAMILY_IDENTITY_AMBIGUOUS: `${byState.FAMILY_IDENTITY_AMBIGUOUS ?? 0} — several held artifacts match this identity. Which one the route requires is the question; do not pick one.`,
+      CURRENTNESS_UNVERIFIED: `${byState.CURRENTNESS_UNVERIFIED ?? 0} — the corpus already HOLDS matching bytes. The open question is whether the publisher still issues that edition. This is not a missing source and it is not an acquisition.`,
+      STATUTORY_CUSTOM_PLEADING: `${byState.STATUTORY_CUSTOM_PLEADING ?? 0} — a statutory citation. There is no document at the other end; a packet-build lane drafts against the statute.`,
+      LICENSE_PERMISSION_REVIEW: `${byState.LICENSE_PERMISSION_REVIEW ?? 0} — the form is public and its publisher restricts commercial reuse. Counsel and business decide, not a clerk.`
+    },
+    statesThatAreAFetch: {
+      STANDALONE_ARTIFACT: `${byState.STANDALONE_ARTIFACT ?? 0} — public, ordinary acquisition.`,
+      PUBLIC_DOWNLOAD: `${byState.PUBLIC_DOWNLOAD ?? 0} — public, ordinary acquisition.`,
+      MISSING_SOURCE_BINARY: `${byState.MISSING_SOURCE_BINARY ?? 0} — expected and absent; acquire once an exact address is settled.`,
+      MISSING_CANONICAL_RELATIONSHIP_METADATA: `${byState.MISSING_CANONICAL_RELATIONSHIP_METADATA ?? 0} — no publisher, address or locator is recorded. Settle identity before fetching.`
+    },
+    neverAskAClerkWhenAPublicSourceIsKnown: "The previous human queue told a person to contact a clerk 101 times. Zero of the top twenty justified it. If the registry records an official source page, the answer is already known.",
+    youDoNotDecideReuse: "A publisher's commercial-reuse restriction is a counsel and business decision. Record it; do not resolve it and do not ask a clerk about it."
+  };
+} catch { /* not generated yet */ }
+
 const independentReturnByFamily = new Map();
 try {
   const vr = JSON.parse(fs.readFileSync(path.join(ROOT, `${OUT_DIR}/VERIFIER_RETURNS.json`), "utf8"));
@@ -1130,6 +1164,17 @@ for (const op of SOURCE_OPERATIONS) {
         ? `${op.mission} No obligation of this class is queued for this host group at dispatch; the lane starts the moment one arrives.`
         : op.mission,
       itemKind: "sourceObligation",
+      /*
+       * What the source relationship registry already knows about this backlog.
+       *
+       * The registry was generated and then read by nobody: zero prompts named
+       * it or any of its states, so a DISC worker handed a bundle component
+       * would still go hunting for a standalone form that does not exist
+       * separately -- which is the exact behaviour the registry was built to
+       * stop. A corrected model that never reaches the worker is a corrected
+       * document.
+       */
+      sourceRelationshipRegistry: registrySummary,
       preflightMustReturn: "SOURCE_CONVEYOR_PREFLIGHT_READY",
       itemCount: rows.length,
       items: rows.map((r) => `${r.familyId}::${r.sourceId ?? "NO_DOCUMENT_SOURCE_NAMED"}`),
@@ -1599,6 +1644,19 @@ const promptFor = (a) => {
   }
   p.push("## Never run these", "", bullet(a.prohibitedCommands.map((c) => `\`${c}\``)), "");
   if (a.claimRule) p.push("## Claim before you read", "", bullet(a.claimRule), "");
+  /* The registry, rendered where a source worker will actually read it --
+   * before the section telling them what to fetch. */
+  if (a.sourceRelationshipRegistry) {
+    const g = a.sourceRelationshipRegistry;
+    p.push("## Read the source relationship registry first", "");
+    p.push(`\`${g.file}\` — ${g.readItBeforeYouFetchAnything}`, "");
+    p.push("**These states are NOT a fetch. Acting on them as one is the defect this registry exists to stop.**", "");
+    for (const [k, v] of Object.entries(g.statesThatAreNotAFetch)) p.push(`- \`${k}\` — ${v}`);
+    p.push("", "**These are:**", "");
+    for (const [k, v] of Object.entries(g.statesThatAreAFetch)) p.push(`- \`${k}\` — ${v}`);
+    p.push("", `**${g.neverAskAClerkWhenAPublicSourceIsKnown}**`, "");
+    p.push(g.youDoNotDecideReuse, "");
+  }
   if (a.rasterRule) p.push("## How to raster", "", bullet(a.rasterRule), "");
   p.push("## Mission", "", a.mission, "");
   if (a.provisionedEmpty) p.push(`**This lane has no families at dispatch.** ${a.refillRule}`, "");
