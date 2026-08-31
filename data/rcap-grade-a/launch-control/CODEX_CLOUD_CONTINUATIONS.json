@@ -22,8 +22,8 @@
     "whyNoGitNetwork": "Codex Cloud checks the selected Captain branch out as a local branch named `work`, shallow, and removes origin before the agent starts. Every one of those commands fails on a checkout that is working exactly as designed, and the failure looks like a broken environment rather than a wrong instruction.",
     "sourceTheCorpusEnvironment": "source $HOME/.legalease-corpus-env",
     "preflight": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 98a7a57e2a354eeb8b33b3873e62f7a9785fedaf",
-    "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
-    "thirteenOfFourteenIsARefusal": "14/14 or stop. Three Codespaces checks are replaced by cloud-native ones, not waived, so a 13/14 in cloud mode is a real failure and not the shallow checkout being tolerated.",
+    "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY: 15/15",
+    "oneShortIsARefusal": "15/15 or stop. Three Codespaces checks are replaced by cloud-native ones, not waived, so a 14/15 in cloud mode is a real failure and not the shallow checkout being tolerated.",
     "theDiffIsTheReturn": "Commit your work locally. Leave the final diff for the Codex UI.",
     "neverRequirePushed": "PUSHED: YES is not part of a cloud return. There is nothing to push to and asking for it turns a complete task into a failed one."
   },
@@ -31,9 +31,7 @@
     "unchanged": [
       "P2_WA_VACATUR_COMPLETENESS",
       "R8_COMPLETENESS_REPAIR_PRIORITY_FOUR",
-      "VS01_S2_CONTINUATION_INDEPENDENT_VERIFICATION",
-      "VS02_S2_CONTINUATION_INDEPENDENT_VERIFICATION",
-      "VS03_S2_CONTINUATION_INDEPENDENT_VERIFICATION"
+      "VS01_S2_CONTINUATION_INDEPENDENT_VERIFICATION"
     ],
     "new": [
       "SD_ARREST_EXPUNGEMENT_DISCLOSURE_REPAIR__CODEX_CLOUD"
@@ -41,7 +39,7 @@
     "rule": "A continuation carries the families and paths its original was dispatched with. The only new task is the South Dakota repair, and it exists because the audit named a defect, not because a lane was re-scoped."
   },
   "totals": {
-    "assignments": 6,
+    "assignments": 4,
     "familiesCovered": 0,
     "familyClaims": 0,
     "duplicateClaimsAcrossKinds": 0,
@@ -125,7 +123,7 @@
         "NINE COUNTERS ZERO ON:",
         "COMMERCIAL ROUTES OPENED: 0",
         "PRODUCTION TOUCHED: NO",
-        "PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY 14/14",
+        "PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY 15/15",
         "DIFF LEFT FOR THE CODEX UI: YES"
       ],
       "grantsNothing": "A repaired packet is a complete packet. It is not independently verified, not visually reviewed, not legally approved, and not COMPLETE_PACKET_PROVEN.",
@@ -240,7 +238,7 @@
         "NINE COUNTERS ZERO ON:",
         "COMMERCIAL ROUTES OPENED: 0",
         "PRODUCTION TOUCHED: NO",
-        "PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY 14/14",
+        "PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY 15/15",
         "DIFF LEFT FOR THE CODEX UI: YES"
       ],
       "grantsNothing": "Completing this assignment opens no commercial route, proves no packet and approves no output.",
@@ -287,7 +285,7 @@
       "items": [],
       "theExactDefect": {
         "counter": "requiredFactsNotCollected",
-        "count": 0,
+        "count": null,
         "fields": [],
         "why": "Each row declares requiredBeforeFiling and none is named in the packet's participant-instructions.md. A blank is permitted as required-before-filing only because the packet says so, and this packet does not say so."
       },
@@ -341,7 +339,7 @@
         "NINE COUNTERS ZERO: YES/NO",
         "COMMERCIAL ROUTES OPENED: 0",
         "PRODUCTION TOUCHED: NO",
-        "PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY 14/14",
+        "PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY 15/15",
         "DIFF LEFT FOR THE CODEX UI: YES"
       ],
       "grantsNothing": "A complete packet is a complete packet. It is not independently verified, not approved for output, and it opens no route.",
@@ -435,7 +433,7 @@
         "OVERLAY DIRECTORIES MODIFIED: 0",
         "COMMERCIAL ROUTES OPENED: 0",
         "PRODUCTION TOUCHED: NO",
-        "PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY 14/14",
+        "PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY 15/15",
         "DIFF LEFT FOR THE CODEX UI: YES"
       ],
       "grantsNothing": "An independent PASS proves a packet is complete. It approves no output and opens no commercial route.",
@@ -449,199 +447,10 @@
         "note": "The reported commit 6daf7b7 is not an object in this repository. The branch above carries the shard's return directory and nothing else."
       },
       "itemsAsDispatched": [
-        "ne-setaside-custodial-set",
-        "ut_pet_acquittal-set",
-        "ut_pet_conviction-set",
-        "ut_pet_dismissed_with_prejudice-set"
+        "sd_arrest_expungement-set"
       ],
       "ownedPathsAsDispatched": [
         "data/rcap-grade-a/codex-cloud/s2-continuation-verify-01/**"
-      ]
-    },
-    {
-      "assignmentId": "VS02_S2_CONTINUATION_INDEPENDENT_VERIFICATION__CODEX_CLOUD",
-      "continues": "VS02_S2_CONTINUATION_INDEPENDENT_VERIFICATION",
-      "continuesFrom": "data/rcap-grade-a/launch-control/S2_CONTINUATION.json",
-      "lane": "independent-verification",
-      "engine": "Codex Cloud",
-      "workerBranch": "work",
-      "branchIsNotChosen": "Codex Cloud names the branch. Do not rename it, and do not create another.",
-      "captainBaseSha": "98a7a57e2a354eeb8b33b3873e62f7a9785fedaf",
-      "supersedesBase": "98a7a57e2a354eeb8b33b3873e62f7a9785fedaf",
-      "scopeIsUnchanged": true,
-      "itemKind": "packetFamily",
-      "itemCount": 0,
-      "items": [],
-      "ownedPaths": [],
-      "prohibitedPaths": [
-        "data/rcap-all50/overlays/census-v1/**",
-        "scripts/build-census-v1-*.mjs",
-        "scripts/rcap-packet-completeness/**",
-        "data/rcap-grade-a/launch-control/**"
-      ],
-      "mission": "Verify independently that each family's packet is complete. The completeness audit says all nine counters are zero; you are asked whether that is true of the artifact, not whether the report says so.",
-      "proofObligations": [
-        "COMPLETENESS: recompute the nine counters from the family's own field map and rendered artifacts, and say whether each is zero",
-        "COMPLETENESS: every REQUIRED_BEFORE_FILING blank is named in participant-instructions.md, checked against the file rather than the count",
-        "COMPLETENESS: no fact the packet writes elsewhere in the same document is refused as required-before-filing",
-        "ARTIFACT: the canonical and boundary bytes hash to what the record names",
-        "SOURCE: every source the receipt names is exact, by form number or content hash",
-        "BOUNDARY: no protected field carries ink -- participant signature, signature date, certificate of mailing before mailing, court-only or prosecutor-only"
-      ],
-      "verdicts": [
-        "PASS_COMPLETE_INDEPENDENT",
-        "FAIL_REPAIR_REQUIRED",
-        "BLOCKED_SOURCE",
-        "BLOCKED_LEGAL_INPUT"
-      ],
-      "independenceRule": "You did not build these families and you may not repair them. A defect you find is a verdict, never an edit.",
-      "requiredOutputs": [
-        "data/rcap-grade-a/codex-cloud/s2-continuation-verify-02/rows.json — one row per family: itemId, verdict, the nine counters as you measured them, and the evidence read"
-      ],
-      "outputSchema": {
-        "arrayKey": "rows",
-        "itemKeyField": "itemId",
-        "completionVocabulary": [
-          "PASS_COMPLETE_INDEPENDENT",
-          "FAIL_REPAIR_REQUIRED",
-          "BLOCKED_SOURCE",
-          "BLOCKED_LEGAL_INPUT"
-        ],
-        "rule": "An unrecognised verdict is refused at integration rather than translated."
-      },
-      "focusedTests": [
-        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <familyId>",
-        "node scripts/verify-packet-build-environment.mjs --family <familyId> --codex-cloud --minimum-captain-sha 98a7a57e2a354eeb8b33b3873e62f7a9785fedaf"
-      ],
-      "stopConditions": [
-        "LANE STOP — you write into no overlay directory and no build script.",
-        "ROW STOP — a counter you cannot reproduce is a FAIL_REPAIR_REQUIRED naming the counter and the rows that make it nonzero, never a silent agreement with the audit."
-      ],
-      "returnFormat": [
-        "ASSIGNMENT:",
-        "BASE SHA:",
-        "COMMIT:",
-        "FAMILIES CLAIMED:",
-        "PASS_COMPLETE_INDEPENDENT:",
-        "FAIL_REPAIR_REQUIRED:",
-        "BLOCKED_SOURCE:",
-        "BLOCKED_LEGAL_INPUT:",
-        "OVERLAY DIRECTORIES MODIFIED: 0",
-        "COMMERCIAL ROUTES OPENED: 0",
-        "PRODUCTION TOUCHED: NO",
-        "PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY 14/14",
-        "DIFF LEFT FOR THE CODEX UI: YES"
-      ],
-      "grantsNothing": "An independent PASS proves a packet is complete. It approves no output and opens no commercial route.",
-      "promptFile": "docs/rcap/grade-a/launch-control/codex-cloud-prompts/VS02_S2_CONTINUATION_INDEPENDENT_VERIFICATION__CODEX_CLOUD.md",
-      "status": "RETURNED_AND_INTEGRATED",
-      "returnRecord": {
-        "status": "RETURNED_AND_INTEGRATED",
-        "workerCommit": "430e5183b",
-        "workerBranchFound": "codex/execute-codex-cloud-assignment-ekoba8",
-        "result": "4 of 4 PASS_COMPLETE_INDEPENDENT; 1 file changed, result-only",
-        "note": "Integrated although the instruction said not to wait for it: it had already returned, and holding a finished verification back would have cut the first review batch from ten families to six for no reason."
-      },
-      "itemsAsDispatched": [
-        "ut_pet_dismissed_without_prejudice-set",
-        "ut_pet_limitations-set",
-        "ut_pet_no_charges-set",
-        "ut_pet_traffic-set"
-      ],
-      "ownedPathsAsDispatched": [
-        "data/rcap-grade-a/codex-cloud/s2-continuation-verify-02/**"
-      ]
-    },
-    {
-      "assignmentId": "VS03_S2_CONTINUATION_INDEPENDENT_VERIFICATION__CODEX_CLOUD",
-      "continues": "VS03_S2_CONTINUATION_INDEPENDENT_VERIFICATION",
-      "continuesFrom": "data/rcap-grade-a/launch-control/S2_CONTINUATION.json",
-      "lane": "independent-verification",
-      "engine": "Codex Cloud",
-      "workerBranch": "work",
-      "branchIsNotChosen": "Codex Cloud names the branch. Do not rename it, and do not create another.",
-      "captainBaseSha": "98a7a57e2a354eeb8b33b3873e62f7a9785fedaf",
-      "supersedesBase": "98a7a57e2a354eeb8b33b3873e62f7a9785fedaf",
-      "scopeIsUnchanged": true,
-      "itemKind": "packetFamily",
-      "itemCount": 0,
-      "items": [],
-      "ownedPaths": [],
-      "prohibitedPaths": [
-        "data/rcap-all50/overlays/census-v1/**",
-        "scripts/build-census-v1-*.mjs",
-        "scripts/rcap-packet-completeness/**",
-        "data/rcap-grade-a/launch-control/**"
-      ],
-      "mission": "Verify independently that each family's packet is complete. The completeness audit says all nine counters are zero; you are asked whether that is true of the artifact, not whether the report says so.",
-      "proofObligations": [
-        "COMPLETENESS: recompute the nine counters from the family's own field map and rendered artifacts, and say whether each is zero",
-        "COMPLETENESS: every REQUIRED_BEFORE_FILING blank is named in participant-instructions.md, checked against the file rather than the count",
-        "COMPLETENESS: no fact the packet writes elsewhere in the same document is refused as required-before-filing",
-        "ARTIFACT: the canonical and boundary bytes hash to what the record names",
-        "SOURCE: every source the receipt names is exact, by form number or content hash",
-        "BOUNDARY: no protected field carries ink -- participant signature, signature date, certificate of mailing before mailing, court-only or prosecutor-only"
-      ],
-      "verdicts": [
-        "PASS_COMPLETE_INDEPENDENT",
-        "FAIL_REPAIR_REQUIRED",
-        "BLOCKED_SOURCE",
-        "BLOCKED_LEGAL_INPUT"
-      ],
-      "independenceRule": "You did not build these families and you may not repair them. A defect you find is a verdict, never an edit.",
-      "requiredOutputs": [
-        "data/rcap-grade-a/codex-cloud/s2-continuation-verify-03/rows.json — one row per family: itemId, verdict, the nine counters as you measured them, and the evidence read"
-      ],
-      "outputSchema": {
-        "arrayKey": "rows",
-        "itemKeyField": "itemId",
-        "completionVocabulary": [
-          "PASS_COMPLETE_INDEPENDENT",
-          "FAIL_REPAIR_REQUIRED",
-          "BLOCKED_SOURCE",
-          "BLOCKED_LEGAL_INPUT"
-        ],
-        "rule": "An unrecognised verdict is refused at integration rather than translated."
-      },
-      "focusedTests": [
-        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <familyId>",
-        "node scripts/verify-packet-build-environment.mjs --family <familyId> --codex-cloud --minimum-captain-sha 98a7a57e2a354eeb8b33b3873e62f7a9785fedaf"
-      ],
-      "stopConditions": [
-        "LANE STOP — you write into no overlay directory and no build script.",
-        "ROW STOP — a counter you cannot reproduce is a FAIL_REPAIR_REQUIRED naming the counter and the rows that make it nonzero, never a silent agreement with the audit."
-      ],
-      "returnFormat": [
-        "ASSIGNMENT:",
-        "BASE SHA:",
-        "COMMIT:",
-        "FAMILIES CLAIMED:",
-        "PASS_COMPLETE_INDEPENDENT:",
-        "FAIL_REPAIR_REQUIRED:",
-        "BLOCKED_SOURCE:",
-        "BLOCKED_LEGAL_INPUT:",
-        "OVERLAY DIRECTORIES MODIFIED: 0",
-        "COMMERCIAL ROUTES OPENED: 0",
-        "PRODUCTION TOUCHED: NO",
-        "PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY 14/14",
-        "DIFF LEFT FOR THE CODEX UI: YES"
-      ],
-      "grantsNothing": "An independent PASS proves a packet is complete. It approves no output and opens no commercial route.",
-      "promptFile": "docs/rcap/grade-a/launch-control/codex-cloud-prompts/VS03_S2_CONTINUATION_INDEPENDENT_VERIFICATION__CODEX_CLOUD.md",
-      "status": "RETURNED_AND_INTEGRATED",
-      "returnRecord": {
-        "status": "RETURNED_AND_INTEGRATED",
-        "workerCommit": "bfb75eb68",
-        "workerBranchFound": "codex/execute-codex-cloud-assignment-o5n5kl",
-        "result": "2 of 2 PASS_COMPLETE_INDEPENDENT; 1 file changed, result-only",
-        "note": "The reported commit 21450763f is not an object in this repository."
-      },
-      "itemsAsDispatched": [
-        "wv_conv_multiple_misdemeanors-set",
-        "wv_conv_single_misdemeanor-set"
-      ],
-      "ownedPathsAsDispatched": [
-        "data/rcap-grade-a/codex-cloud/s2-continuation-verify-03/**"
       ]
     }
   ]

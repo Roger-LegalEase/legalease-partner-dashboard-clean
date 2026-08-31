@@ -27,6 +27,7 @@
 // touching a single content operator: the marks used for calibration go on a
 // separate copy, and the image that gets measured is a render of the page as
 // the court published it.
+import { spawnSync } from "node:child_process";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
@@ -86,6 +87,31 @@ function chromiumCandidates() {
       }
     }
   }
+  /*
+   * PATH, then reviewed system locations.
+   *
+   * ENV-RAS01: a Codex Cloud container may carry a distribution Chromium with
+   * no Playwright registry at all, and the resolver saw none of it -- it looked
+   * only at two environment variables and Playwright's own layout. "Chromium is
+   * absent" and "Chromium is somewhere this resolver does not look" produced
+   * the same answer, and the second is a configuration fix while the first is a
+   * provisioning one.
+   *
+   * Each name is resolved through PATH by `command -v`, and each result must be
+   * an executable FILE. Presence is not executability and executability is not
+   * renderability; probeRasterizer() answers the third.
+   */
+  for (const name of ["chromium", "chromium-browser", "google-chrome", "google-chrome-stable", "chrome"]) {
+    const r = spawnSync("sh", ["-c", `command -v ${name}`], { encoding: "utf8" });
+    const p = (r.stdout ?? "").trim();
+    if (p && executableFile(p)) out.push(p);
+  }
+  for (const p of [
+    "/usr/bin/chromium", "/usr/bin/chromium-browser", "/usr/bin/google-chrome",
+    "/usr/bin/google-chrome-stable", "/usr/local/bin/chromium",
+    "/opt/google/chrome/chrome", "/opt/chromium/chrome"
+  ]) if (executableFile(p)) out.push(p);
+
   return [...new Set(out)].filter(isRasterCapable);
 }
 

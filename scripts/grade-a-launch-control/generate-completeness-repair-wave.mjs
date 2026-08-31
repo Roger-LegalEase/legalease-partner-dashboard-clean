@@ -26,6 +26,22 @@ import fs from "node:fs";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
+import { preflightDenominator } from "../grade-a-packet-factory-24h/preflight-denominator.mjs";
+
+/*
+ * The denominator comes from the preflight, not from this file.
+ *
+ * "14/14" was written out by hand here. A worker runs the family-scoped gate in
+ * cloud mode, where three checks are REPLACED rather than waived, so nothing is
+ * not-applicable and the preflight prints the full roster -- 15/15. Every
+ * prompt this generator writes has been telling workers to expect a number
+ * their own command does not print, and a worker who cannot tell an improvement
+ * from a regression either stops a healthy lane or waves a real failure past.
+ */
+const PREFLIGHT_MUST_RETURN = preflightDenominator(["--family", "__denominator_probe__", "--codex-cloud"]).mustReturn;
+const PREFLIGHT_RATIO = /(\d+\/\d+)/.exec(PREFLIGHT_MUST_RETURN)[1];
+const PREFLIGHT_SHORT = `${Number(PREFLIGHT_RATIO.split("/")[0]) - 1}/${PREFLIGHT_RATIO.split("/")[1]}`;
+
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const CHECK = process.argv.includes("--check");
@@ -192,7 +208,7 @@ const assignments = LANES.map((lane) => {
       required: true,
       binding: "MASTER_LIBRARY_SOURCE_DIR, bound through scripts/rcap-corpus/bootstrap-private-corpus.sh",
       rule: "Every source binds at the exact SHA-256 its source-receipt.json records. Never commit a source binary: 59 were excluded from the C11 integration for that reason.",
-      preflight: "node scripts/verify-packet-build-environment.mjs --family <family> must print PACKET_BUILD_ENVIRONMENT_READY 14/14 before anything is written"
+      preflight: `node scripts/verify-packet-build-environment.mjs --family <family> must print PACKET_BUILD_ENVIRONMENT_READY ${PREFLIGHT_RATIO} before anything is written`
     },
     artifactRequirement: {
       canonical: "a canonical fixture per packet, re-rendered after the repair",

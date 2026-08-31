@@ -7,6 +7,11 @@ on:
       - scripts/grade-a-packet-factory-24h/**
       - scripts/verify-packet-build-environment.mjs
       - scripts/rcap-*.mjs
+      - scripts/lib/**
+      - scripts/codex-cloud/**
+      - package.json
+      - package-lock.json
+      - docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md
       - data/rcap-grade-a/packet-factory-24h/**
       - docs/rcap/grade-a/packet-factory-24h/**
       - data/rcap-all50/overlays/census-v1/**
@@ -16,6 +21,11 @@ on:
       - scripts/grade-a-packet-factory-24h/**
       - scripts/verify-packet-build-environment.mjs
       - scripts/rcap-*.mjs
+      - scripts/lib/**
+      - scripts/codex-cloud/**
+      - package.json
+      - package-lock.json
+      - docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md
       - data/rcap-grade-a/packet-factory-24h/**
       - docs/rcap/grade-a/packet-factory-24h/**
       - data/rcap-all50/overlays/census-v1/**
@@ -94,6 +104,45 @@ jobs:
           console.log(`# ${verdict}\n\n| Field | Value |\n|---|---|`);
           for(const [k,v] of Object.entries({exactSHA:process.env.GITHUB_SHA,factoryResult:process.env.JOB_STATUS,factoryMutations:process.env.JOB_STATUS,conveyorResult:process.env.JOB_STATUS,conveyorMutations:process.env.JOB_STATUS,generatorConvergence:process.env.JOB_STATUS,manifestEntryCount:q.entries.length,DISCBacklog:q.counts.obligationsNeedingDiscoveryFirst,actualPromotedReleased:m.totals.actualPromotedAndReleased,collisionCounts:JSON.stringify(c.counts),triggeredLanes:triggered.join(', ')||'none',sourceBodiesCommitted:q.bodiesCommitted,commercialRoutesOpened:ci.commercialRoutesOpened,productionTouched:ci.productionTouched,verdict})) console.log(`| ${k} | ${v} |`);
           NODE
+      # ---- the packet runtime, which the control-plane checks never touched ----
+      #
+      # READY_TO_RUN ran `node --check` on the preflight and never ran it, so
+      # every step above proves that files parse and that generated records
+      # agree with each other. None of it can tell whether a lane can actually
+      # rasterize a page -- and four PF lanes returned STOPPED for exactly that
+      # reason after passing preflight. Calling the factory READY_TO_RUN when
+      # only the control plane was checked is the claim this closes.
+      - name: Provision the packet rasterizer's browser
+        run: |
+          set -euo pipefail
+          export PLAYWRIGHT_BROWSERS_PATH="$HOME/.cache/ms-playwright"
+          # The version comes from the committed package-lock, never a floating
+          # tag. Never apt-get: a distribution build is a different rendering
+          # stack and the calibration tolerances are measured against this one.
+          npx --yes playwright install --with-deps chromium
+          echo "PLAYWRIGHT_BROWSERS_PATH=$PLAYWRIGHT_BROWSERS_PATH" >> "$GITHUB_ENV"
+
+      - name: Packet runtime acceptance
+        run: node scripts/codex-cloud/verify-packet-runtime.mjs
+
+      - name: The runtime contract, and the eight ways it must refuse
+        run: node scripts/codex-cloud/verify-codex-runtime-contract.mjs
+
+      # The preflight itself, run rather than parsed. Its own worktree_clean and
+      # corpus checks cannot pass on a CI checkout with no Master Library
+      # mounted, so this asserts the two things CI CAN answer: that it runs to a
+      # verdict, and that the rasterizer check inside it passes.
+      - name: The packet-build preflight actually runs
+        run: |
+          set -euo pipefail
+          out="$(node scripts/verify-packet-build-environment.mjs --codex-cloud 2>&1 || true)"
+          echo "$out"
+          echo "$out" | grep -qE 'PACKET_BUILD_ENVIRONMENT_(READY|NOT_READY):' \
+            || { echo "the preflight produced no verdict line"; exit 1; }
+          echo "$out" | grep -qE '^\s*ok\s+page_rasterizer_available' \
+            || { echo "the preflight could not render a page in this environment"; exit 1; }
+
+
       - name: Update control tower issue
         if: always()
         uses: actions/github-script@v7

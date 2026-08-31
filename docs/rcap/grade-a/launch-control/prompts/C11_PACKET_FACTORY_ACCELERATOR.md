@@ -8,55 +8,13 @@
 
 ## Mission
 
-Build the 47 packet families whose source bytes are already held and whose reuse decision is NO_EXISTING_WORK. Nothing here has evidence anywhere: the six families already built in the tree and the six finished on branches are excluded by the reuse index, not by anyone remembering.
+Build the 4 packet families whose source bytes are already held and whose reuse decision is NO_EXISTING_WORK. Nothing here has evidence anywhere: the six families already built in the tree and the six finished on branches are excluded by the reuse index, not by anyone remembering.
 
-## OFFICIAL PDF FILL — 43 items
+## OFFICIAL PDF FILL — 0 items
 
 **Reuse decision:** NO_EXISTING_WORK. Each family's source binds by exact SHA-256 before a field is written.
 
-- `az_marijuana_expungement_arrest_no_charges-set`
-- `az_marijuana_expungement_superior_court-set`
-- `ca-1203-41-set`
-- `ca-1203-42-set`
-- `ca-1203-43-set`
-- `ca-1203-4a-set`
-- `ca-17b-reduction-set`
-- `ca-851-91-set`
-- `ca-prop64-set`
-- `ne-setaside-custodial-set`
-- `ne-trafficking-setaside-and-seal-set`
-- `nj_arrest_no_conviction-set`
-- `nj_clean_slate-set`
-- `nj_disorderly_persons-set`
-- `nj_indictable_conviction-set`
-- `nj_ordinance-set`
-- `ny_160_59_petition-set`
-- `ny_mrta_marijuana-set`
-- `pa_490_nonconviction-set`
-- `pa_790_nonconviction-set`
-- `pa_9122_1_limited_access-set`
-- `pa_summary_conviction-set`
-- `ri_nonconviction_sealing-set`
-- `sd_arrest_expungement-set`
-- `ut_pet_acquittal-set`
-- `ut_pet_conviction-set`
-- `ut_pet_dismissed_with_prejudice-set`
-- `ut_pet_dismissed_without_prejudice-set`
-- `ut_pet_limitations-set`
-- `ut_pet_no_charges-set`
-- `ut_pet_traffic-set`
-- `wa_blake_vacatur_and_lfo_refund-set`
-- `wa_vac_cannabis-set`
-- `wa_vac_domestic_violence-set`
-- `wa_vac_felony-set`
-- `wa_vac_homicide_victim_prostitution-set`
-- `wa_vac_misdemeanor_ordinary-set`
-- `wa_vac_substance_use_disorder-set`
-- `wa_vac_survivor_felony-set`
-- `wa_vac_survivor_misdemeanor-set`
-- `wa_vac_treaty_fishing-set`
-- `wv_conv_multiple_misdemeanors-set`
-- `wv_conv_single_misdemeanor-set`
+_none_
 
 ## COMPOSED PLEADING AND AGENCY APPLICATION — 4 items
 
@@ -69,49 +27,6 @@ Build the 47 packet families whose source bytes are already held and whose reuse
 
 ## Packet families implicated
 
-- `az_marijuana_expungement_arrest_no_charges-set`
-- `az_marijuana_expungement_superior_court-set`
-- `ca-1203-41-set`
-- `ca-1203-42-set`
-- `ca-1203-43-set`
-- `ca-1203-4a-set`
-- `ca-17b-reduction-set`
-- `ca-851-91-set`
-- `ca-prop64-set`
-- `ne-setaside-custodial-set`
-- `ne-trafficking-setaside-and-seal-set`
-- `nj_arrest_no_conviction-set`
-- `nj_clean_slate-set`
-- `nj_disorderly_persons-set`
-- `nj_indictable_conviction-set`
-- `nj_ordinance-set`
-- `ny_160_59_petition-set`
-- `ny_mrta_marijuana-set`
-- `pa_490_nonconviction-set`
-- `pa_790_nonconviction-set`
-- `pa_9122_1_limited_access-set`
-- `pa_summary_conviction-set`
-- `ri_nonconviction_sealing-set`
-- `sd_arrest_expungement-set`
-- `ut_pet_acquittal-set`
-- `ut_pet_conviction-set`
-- `ut_pet_dismissed_with_prejudice-set`
-- `ut_pet_dismissed_without_prejudice-set`
-- `ut_pet_limitations-set`
-- `ut_pet_no_charges-set`
-- `ut_pet_traffic-set`
-- `wa_blake_vacatur_and_lfo_refund-set`
-- `wa_vac_cannabis-set`
-- `wa_vac_domestic_violence-set`
-- `wa_vac_felony-set`
-- `wa_vac_homicide_victim_prostitution-set`
-- `wa_vac_misdemeanor_ordinary-set`
-- `wa_vac_substance_use_disorder-set`
-- `wa_vac_survivor_felony-set`
-- `wa_vac_survivor_misdemeanor-set`
-- `wa_vac_treaty_fishing-set`
-- `wv_conv_multiple_misdemeanors-set`
-- `wv_conv_single_misdemeanor-set`
 - `ne-setaside-noncustodial-set`
 - `oh_marijuana_expungement-set`
 - `pa_6308_underage-set`
@@ -156,14 +71,14 @@ Nothing outside this scope belongs to you. Every row here is allocated to you an
 
 ## Focused tests
 
-- `node scripts/verify-packet-build-environment.mjs --family <family>`
+- `node scripts/verify-packet-build-environment.mjs --family <family> --codex-cloud`
 - `node scripts/grade-a-launch-control/verify-launch-control.mjs`
 
 Do not run a broad tracked-file mutation suite: other workers are active, and a mutation harness that leaves a tracked file altered fails their runs, not only yours.
 
 ## Stop conditions
 
-- The packet-build environment preflight must print PACKET_BUILD_ENVIRONMENT_READY 14/14 before anything is written. A family whose source does not bind by exact SHA-256 stops.
+- The packet-build environment preflight must print PACKET_BUILD_ENVIRONMENT_READY 15/15 before anything is written. A family whose source does not bind by exact SHA-256 stops.
 - Never prefill a participant signature, a signature date, a certificate of mailing before actual mailing, or any court-only or prosecutor-only field.
 - A family whose output vehicle is unresolved in its legal-design memo stops and is reported; the vehicle is a legal-design decision, not a build choice.
 

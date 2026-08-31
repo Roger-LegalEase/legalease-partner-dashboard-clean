@@ -20,6 +20,22 @@ import path from "node:path";
 import crypto from "node:crypto";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
+import { preflightDenominator } from "../grade-a-packet-factory-24h/preflight-denominator.mjs";
+
+/*
+ * The denominator comes from the preflight, not from this file.
+ *
+ * "14/14" was written out by hand here. A worker runs the family-scoped gate in
+ * cloud mode, where three checks are REPLACED rather than waived, so nothing is
+ * not-applicable and the preflight prints the full roster -- 15/15. Every
+ * prompt this generator writes has been telling workers to expect a number
+ * their own command does not print, and a worker who cannot tell an improvement
+ * from a regression either stops a healthy lane or waves a real failure past.
+ */
+const PREFLIGHT_MUST_RETURN = preflightDenominator(["--family", "__denominator_probe__", "--codex-cloud"]).mustReturn;
+const PREFLIGHT_RATIO = /(\d+\/\d+)/.exec(PREFLIGHT_MUST_RETURN)[1];
+const PREFLIGHT_SHORT = `${Number(PREFLIGHT_RATIO.split("/")[0]) - 1}/${PREFLIGHT_RATIO.split("/")[1]}`;
+
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 process.chdir(ROOT);
@@ -50,7 +66,7 @@ const PREFLIGHT_EVIDENCE = {
     thereforeAGateDefect: "Four families failing one check for one reason is one defect, not four. Rerunning the combined assignment would have reproduced it exactly."
   },
   afterTheGateFix: {
-    result: "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+    result: PREFLIGHT_MUST_RETURN,
     allFour: true,
     familySourcesBind: "passes on all four; no family is routed to a source lane",
     gateFixCommit: "the preflight now decides a collision by lane kind, and CODEX_CLOUD_CONTINUATIONS.json is first in manifest precedence"
@@ -76,7 +92,7 @@ const R8_SPLIT = [
 const CLOUD_PROHIBITED = ["git fetch", "git pull", "git push", "gh ", "git worktree", "git clone", "git remote add"];
 const RETURN_TAIL = [
   "COMMERCIAL ROUTES OPENED: 0", "PRODUCTION TOUCHED: NO",
-  "PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY 14/14", "DIFF LEFT FOR THE CODEX UI: YES"
+  `PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY ${PREFLIGHT_RATIO}`, "DIFF LEFT FOR THE CODEX UI: YES"
 ];
 const VERDICTS = ["PASS_COMPLETE_INDEPENDENT", "FAIL_REPAIR_REQUIRED", "BLOCKED_SOURCE", "BLOCKED_LEGAL_INPUT"];
 const PROOF_OBLIGATIONS = [
@@ -124,7 +140,12 @@ for (const s of R8_SPLIT) {
     itemCount: 1,
     items: [s.familyId],
     preflight: `node ${PREFLIGHT} --family ${s.familyId} --codex-cloud --minimum-captain-sha ${MINIMUM_CAPTAIN_SHA}`,
+    // A record of what Captain observed at the time, kept verbatim. It is NOT
+    // rewritten to follow the roster: the roster has since grown by one check
+    // in cloud mode, and editing a past measurement to agree with a present one
+    // would destroy the only evidence that the gate was ever broken.
     preflightObserved: "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+    preflightObservedAgainstRoster: 14,
     theDefect: {
       result: m.result,
       counters: m.counters,
@@ -357,7 +378,12 @@ const promptFor = (a) => {
     "  --codex-cloud \\",
     `  --minimum-captain-sha ${a.minimumCaptainSha}`,
     "```", "");
-  p.push("It must print **`PACKET_BUILD_ENVIRONMENT_READY: 14/14`**.", a.preflightObserved ? ` Captain ran exactly this for this family and observed \`${a.preflightObserved}\`, so a different answer is a change in the container, not in the dispatch.` : "", "");
+  const observedStillCurrent = a.preflightObserved === PREFLIGHT_MUST_RETURN;
+  p.push(`It must print **\`${PREFLIGHT_MUST_RETURN}\`**.`, a.preflightObserved
+    ? (observedStillCurrent
+      ? ` Captain ran exactly this for this family and observed \`${a.preflightObserved}\`, so a different answer is a change in the container, not in the dispatch.`
+      : ` Captain observed \`${a.preflightObserved}\` for this family against the then-current roster of ${a.preflightObservedAgainstRoster}; the roster has grown since, so expect the number above and not that one.`)
+    : "", "");
   p.push("## Never run these", "", bullet(a.prohibitedCommands.map((c) => `\`${c}\``)), "");
   p.push("## Mission", "", a.mission, "");
   if (a.theDefect) {

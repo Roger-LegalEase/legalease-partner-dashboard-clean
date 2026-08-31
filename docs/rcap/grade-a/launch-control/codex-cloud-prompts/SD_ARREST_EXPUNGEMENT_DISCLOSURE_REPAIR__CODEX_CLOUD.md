@@ -20,7 +20,7 @@ node scripts/verify-packet-build-environment.mjs \
   --minimum-captain-sha 98a7a57e2a354eeb8b33b3873e62f7a9785fedaf
 ```
 
-It must print **`PACKET_BUILD_ENVIRONMENT_READY: 14/14`**. 14/14 or stop. Three Codespaces checks are replaced by cloud-native ones, not waived, so a 13/14 in cloud mode is a real failure and not the shallow checkout being tolerated.
+It must print **`PACKET_BUILD_ENVIRONMENT_READY: 15/15`**. 15/15 or stop. Three Codespaces checks are replaced by cloud-native ones, not waived, so a 14/15 in cloud mode is a real failure and not the shallow checkout being tolerated.
 
 ## Never run these
 
@@ -39,7 +39,7 @@ Close the one defect standing between sd_arrest_expungement-set and a complete p
 
 The S2 continuation left ten of eleven families complete. This is the eleventh, and its defect is one thing: nine fields are declared required before filing and the packet never asks the participant for them.
 
-## The exact defect — 0 field(s)
+## The exact defect — null field(s)
 
 Each row declares requiredBeforeFiling and none is named in the packet's participant-instructions.md. A blank is permitted as required-before-filing only because the packet says so, and this packet does not say so.
 
@@ -109,7 +109,7 @@ FIELDS STOPPED:
 NINE COUNTERS ZERO: YES/NO
 COMMERCIAL ROUTES OPENED: 0
 PRODUCTION TOUCHED: NO
-PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY 14/14
+PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY 15/15
 DIFF LEFT FOR THE CODEX UI: YES
 ```
 

@@ -17,7 +17,7 @@
  * conveyor is for, and it is reported rather than smoothed.
  */
 import fs from "node:fs";
-import { preflightDenominator } from "./preflight-denominator.mjs";
+import { preflightDenominator, denominatorForCommand } from "./preflight-denominator.mjs";
 import path from "node:path";
 import crypto from "node:crypto";
 import { execFileSync } from "node:child_process";
@@ -83,8 +83,46 @@ const SOURCE_LANES = 16;
  * denominator -- only whether the flag is present does -- so a sentinel is
  * honest here and avoids pinning the whole dispatch to one family's fortunes.
  */
-const PREFLIGHT_DENOMINATOR = preflightDenominator("__denominator_probe__");
+/*
+ * The denominator belongs to the COMMAND, so it is measured per invocation.
+ *
+ * This ran the preflight family-scoped with no other flag and stamped that
+ * number -- 14/14 -- onto every prompt in the dispatch. Two things were wrong
+ * with it, and ENV-RAS01's N6 control found both.
+ *
+ * A worker runs --codex-cloud, and cloud mode REPLACES three checks rather than
+ * waiving them, so the whole roster is applicable and the preflight prints
+ * 15/15. Forty-eight prompts told workers to expect a number their own command
+ * does not print, and a worker who cannot tell an improvement from a regression
+ * either stops a healthy lane or waves a real failure through.
+ *
+ * And the source lanes do not run this preflight at all: their gate is
+ * --assignment-id with --source-obligation, which prints
+ * SOURCE_CONVEYOR_PREFLIGHT_READY. Eighteen prompts named a string their own
+ * command can never emit, in the same field, and so had no gate at all.
+ */
+const PREFLIGHT_DENOMINATOR = preflightDenominator(["--codex-cloud"]);
 const PREFLIGHT_MUST_RETURN = PREFLIGHT_DENOMINATOR.mustReturn;
+// What a lane's OWN gate prints. A source lane gates on the conveyor preflight;
+// a builder, verifier or fix lane gates on the packet-build preflight.
+/*
+ * What a lane's OWN gate prints, and there are three different answers.
+ *
+ * A source lane gates on the conveyor preflight and prints
+ * SOURCE_CONVEYOR_PREFLIGHT_READY -- not a ratio at all, so eighteen prompts
+ * naming a PACKET_BUILD_ENVIRONMENT_READY number were naming a string their own
+ * command can never emit. A builder gates on the lane gate, which has no
+ * --family, so family_sources_bind is not applicable and it prints one fewer.
+ * A verifier or fix lane has no separate lane gate: its single gate is
+ * family-scoped and prints the full roster. One number for all three was wrong
+ * for two of them.
+ */
+const FAMILY_SCOPED_MUST_RETURN = preflightDenominator(["--family", "__denominator_probe__", "--codex-cloud"]).mustReturn;
+const mustReturnFor = (lane) => {
+  if (lane === "source-identity-acquisition-promotion" || lane === "source-swarm") return "SOURCE_CONVEYOR_PREFLIGHT_READY";
+  if (lane === "packet-build") return PREFLIGHT_MUST_RETURN;
+  return FAMILY_SCOPED_MUST_RETURN;
+};
 
 /*
  * The closed state vocabulary.
@@ -778,11 +816,17 @@ const CLAIM_RULE = (laneId) => [
  * named-family preflight under "Before anything else" and demanded a full pass before
  * any work, so the first blocked family took fifteen good ones with it.
  */
+const LANE_GATE_COMMAND = `node ${PREFLIGHT} --codex-cloud --minimum-captain-sha ${MINIMUM_CAPTAIN_SHA} --assignment ${FACT}/ACTIVE_ASSIGNMENTS.json`;
+
 const ROW_STOP_CONTRACT = {
   laneGate: {
     what: "global environment integrity",
-    command: `node ${PREFLIGHT} --codex-cloud --minimum-captain-sha ${MINIMUM_CAPTAIN_SHA} --assignment ${FACT}/ACTIVE_ASSIGNMENTS.json`,
-    mustReturn: PREFLIGHT_MUST_RETURN,
+    command: LANE_GATE_COMMAND,
+    // Measured from the command directly above, not from a number computed
+    // elsewhere. The lane gate has no --family, so family_sources_bind is not
+    // applicable and it prints one fewer than the row gate; both were stamped
+    // with the row gate's number.
+    mustReturn: denominatorForCommand(LANE_GATE_COMMAND).mustReturn,
     onFailure: "If it does not, STOP THE LANE: nothing in it can run and no row is written.",
     note: "family_sources_bind reports 'not applicable' here on purpose: it is a row question, asked once per family below."
   },
@@ -904,7 +948,7 @@ for (let i = 0; i < PF_LANES; i += 1) {
       "CHECKPOINTS RETURNED:", "PACKETS SELF-VERIFIED: 0",
       "OTHER PF PROMPTS EXECUTED IN THIS CONTAINER: 0",
       "COMMERCIAL ROUTES OPENED: 0", "PRODUCTION TOUCHED: NO",
-      `PREFLIGHT: ${PREFLIGHT_MUST_RETURN.replace(": ", " ")}`, "DIFF LEFT FOR THE CODEX UI: YES"
+      `PREFLIGHT: ${mustReturnFor("packet-build").replace(": ", " ")}`, "DIFF LEFT FOR THE CODEX UI: YES"
     ],
     grantsNothing: "A built family is a built family. It is not verified, not approved, not sellable."
   }));
@@ -993,7 +1037,7 @@ for (let i = 0; i < VF_LANES; i += 1) {
       "BLOCKED_SOURCE:", "BLOCKED_LEGAL_INPUT:",
       "OVERLAY DIRECTORIES MODIFIED: 0",
       "COMMERCIAL ROUTES OPENED: 0", "PRODUCTION TOUCHED: NO",
-      `PREFLIGHT: ${PREFLIGHT_MUST_RETURN.replace(": ", " ")}`, "DIFF LEFT FOR THE CODEX UI: YES"
+      `PREFLIGHT: ${mustReturnFor("independent-verification").replace(": ", " ")}`, "DIFF LEFT FOR THE CODEX UI: YES"
     ],
     grantsNothing: "An independent PASS proves a packet is complete. It approves no output and opens no commercial route."
   }));
@@ -1122,7 +1166,7 @@ for (const op of SOURCE_OPERATIONS) {
         "HANDED OFF:", "FAMILIES RELEASED:",
         "IDENTITIES GUESSED: 0", "SOURCE BODIES COMMITTED: 0", "PROMOTIONS WITHOUT EXACT BYTES: 0",
         "COMMERCIAL ROUTES OPENED: 0", "PRODUCTION TOUCHED: NO",
-        `PREFLIGHT: ${PREFLIGHT_MUST_RETURN.replace(": ", " ")}`, "DIFF LEFT FOR THE CODEX UI: YES"
+        `PREFLIGHT: ${mustReturnFor("source-swarm").replace(": ", " ")}`, "DIFF LEFT FOR THE CODEX UI: YES"
       ],
       grantsNothing: "A bound source is a bound source. It builds nothing, proves nothing and approves nothing."
     }));
@@ -1162,7 +1206,7 @@ for (let i = 0; i < FIX_LANES; i += 1) {
       "ASSIGNMENT:", "BASE SHA:", "COMMIT:",
       "FAMILIES REPAIRED:", "FAMILIES STOPPED:", "NINE COUNTERS ZERO ON:",
       "COMMERCIAL ROUTES OPENED: 0", "PRODUCTION TOUCHED: NO",
-      `PREFLIGHT: ${PREFLIGHT_MUST_RETURN.replace(": ", " ")}`, "DIFF LEFT FOR THE CODEX UI: YES"
+      `PREFLIGHT: ${mustReturnFor("rapid-repair").replace(": ", " ")}`, "DIFF LEFT FOR THE CODEX UI: YES"
     ],
     grantsNothing: "A repaired family is a repaired family. It must be verified again, by someone who neither built nor repaired it."
   }));
@@ -1494,7 +1538,20 @@ const promptFor = (a) => {
       "  --codex-cloud \\",
       `  --minimum-captain-sha ${a.minimumCaptainSha}`,
       "```", "");
-    p.push(`It must print **\`${a.preflightMustReturn}\`**.${a.itemKind === "sourceObligation" ? " The lane gate and each owned row gate must both pass." : " A 13/14 in cloud mode is a real failure, not the shallow checkout being tolerated."}`, "");
+    /*
+     * Measured from the command this branch just printed, rather than from a
+     * number decided once for the whole dispatch. FIX and VF prompts gate
+     * family-scoped and print one MORE than the PF lane gate, and every one of
+     * them stated the lane gate's number. The trailing sentence stated "13/14"
+     * by hand as well, which is a third number and belongs to no command here.
+     */
+    const mustReturn = a.itemKind === "sourceObligation"
+      ? a.preflightMustReturn
+      : denominatorForCommand(`node ${PREFLIGHT} --family ${a.items?.[0] ?? "<FAMILY_ID>"} --codex-cloud`).mustReturn;
+    const shortOne = a.itemKind === "sourceObligation" ? null : Number(/(\d+)\/\d+/.exec(mustReturn)?.[1] ?? 0) - 1;
+    p.push(`It must print **\`${mustReturn}\`**.${a.itemKind === "sourceObligation"
+      ? " The lane gate and each owned row gate must both pass."
+      : ` A ${shortOne}/${shortOne + 1} in cloud mode is a real failure, not the shallow checkout being tolerated.`}`, "");
   }
   p.push("## Never run these", "", bullet(a.prohibitedCommands.map((c) => `\`${c}\``)), "");
   if (a.claimRule) p.push("## Claim before you read", "", bullet(a.claimRule), "");

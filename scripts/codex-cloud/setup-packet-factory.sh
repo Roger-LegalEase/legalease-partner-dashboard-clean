@@ -51,6 +51,49 @@ echo "Installing dependencies ..."
 npm ci --cache /tmp/legalease-npm-cache
 node -e 'require.resolve("pdf-lib")' >/dev/null 2>&1 || fail "pdf-lib did not install; the factory cannot fill, measure or raster without it"
 
+# ---- 1b. the browser, provisioned HERE because only here has a network -------
+#
+# ENV-RAS01. This script printed LEGALEASE_CODEX_CLOUD_READY without ever
+# mentioning a browser, and four PF lanes then returned STOPPED after passing
+# preflight -- two on `pdftoppm ENOENT`, two on "Playwright cannot find
+# Chromium". Rastering is a required build step. A setup phase that leaves the
+# agent phase without a browser has not set the environment up.
+#
+# The agent phase has no network, so provisioning is not available to a worker
+# and a worker that reaches for apt-get or `playwright install` is working
+# around this omission rather than fixing it. Discovery comes first: a Chromium
+# already on the image is the one to use, and "the two RCAP variables are unset"
+# is not evidence that none exists.
+echo "Resolving a Chromium the packet lanes can rasterize with ..."
+CHROMIUM_PATH="$(node --input-type=module -e '
+  import { resolveChromium } from "./scripts/lib/pdf-page-raster.mjs";
+  const r = resolveChromium();
+  process.stdout.write(r.executablePath ?? "");
+' 2>/dev/null || true)"
+
+if [ -z "$CHROMIUM_PATH" ]; then
+  echo "  none found on the image; provisioning the package-pinned Playwright Chromium"
+  # The version comes from the committed package-lock, never from a floating
+  # tag, so the browser this container gets is the browser the repository
+  # declares. No apt-get: a distribution package is a different build with a
+  # different rendering stack, and the calibration tolerances are measured
+  # against this one.
+  export PLAYWRIGHT_BROWSERS_PATH="${PLAYWRIGHT_BROWSERS_PATH:-$HOME/.cache/ms-playwright}"
+  mkdir -p "$PLAYWRIGHT_BROWSERS_PATH"
+  npx --yes playwright install chromium || fail "the Playwright CDN is unreachable from the SETUP phase. Provision a governed, pinned Chromium archive through the private release mechanism instead -- exact asset name, exact SHA-256, extracted under a git-ignored path, no browser bytes committed -- and do not fall back to apt-get or pdftoppm."
+  CHROMIUM_PATH="$(node --input-type=module -e '
+    import { resolveChromium } from "./scripts/lib/pdf-page-raster.mjs";
+    const r = resolveChromium();
+    process.stdout.write(r.executablePath ?? "");
+  ' 2>/dev/null || true)"
+fi
+
+[ -n "$CHROMIUM_PATH" ] || fail "no executable Chromium after provisioning; the packet lanes cannot raster and this environment is not ready"
+[ -f "$CHROMIUM_PATH" ] && [ -x "$CHROMIUM_PATH" ] || fail "$CHROMIUM_PATH is not an executable file; a directory satisfies the executable bit and is not a program"
+CHROMIUM_BROWSERS_ROOT="${PLAYWRIGHT_BROWSERS_PATH:-$HOME/.cache/ms-playwright}"
+echo "  chromium   $CHROMIUM_PATH"
+echo "  registry   $CHROMIUM_BROWSERS_ROOT"
+
 # ---- 2. the token, read from the environment and never printed ---------------
 # Setup-phase only. Not echoed, not logged, not written to disk, and not passed
 # on a command line where a process list would carry it.
@@ -151,6 +194,14 @@ write_env() {
 export RCAP_BUNDLE_EXTRACT="$REPO_ROOT/$INSTALL_ROOT"
 export MASTER_LIBRARY_SOURCE_DIR="$REPO_ROOT/$INSTALL_ROOT"
 
+# --- The packet rasterizer's browser, resolved and PROVEN during setup.
+# Both are exported because they answer different questions: the registry root
+# is where Playwright's own resolver looks, and the exact executable is what
+# the render launches. A worker that has to discover either one is a worker
+# reaching for a network it does not have.
+export PLAYWRIGHT_BROWSERS_PATH="$CHROMIUM_BROWSERS_ROOT"
+export RCAP_CHROMIUM_PATH="$CHROMIUM_PATH"
+
 # --- Operational Nationwide tree: what the platform builds packets from
 # A DIFFERENT corpus, not carried by this release. Do not substitute the Master
 # Library for it; the operational-corpus precondition refuses that by name.
@@ -167,10 +218,26 @@ git check-ignore -q private/ || fail "private/ stopped being git-ignored during 
 TRACKED=$(git ls-files -- private/ | wc -l | tr -d ' ')
 [ "$TRACKED" = "0" ] || fail "Git tracks $TRACKED path(s) under private/; the corpus must never be committed"
 
+# ---- 8b. the runtime, proven by running it -----------------------------------
+#
+# A path-only check is insufficient and this is the evidence for that: the
+# preflight passed on any path satisfying the executable bit, and both a
+# headless_shell (which has no PDF viewer) and a directory passed it. The probe
+# launches the resolved browser, rasterizes a synthetic one-page PDF through the
+# lanes' own code path, and requires a PNG, paper bounds and a calibration
+# residual inside tolerance. If it refuses, this setup refuses: a container that
+# says ready and cannot raster costs a whole lane.
+echo
+echo "Proving the packet runtime ..."
+PLAYWRIGHT_BROWSERS_PATH="$CHROMIUM_BROWSERS_ROOT" RCAP_CHROMIUM_PATH="$CHROMIUM_PATH" \
+  node scripts/codex-cloud/verify-packet-runtime.mjs \
+  || fail "the resolved Chromium cannot rasterize a PDF page. This environment is not ready and no packet may be built in it."
+
 # ---- 9. say so ---------------------------------------------------------------
 echo
 echo "  corpus     $INSTALL_ROOT"
 echo "  verified   $JURISDICTIONS jurisdictions / $FILES files / $PDFS PDFs"
+echo "  chromium   $CHROMIUM_PATH (rasterized a page)"
 echo "  env        private/source-corpus-environment.txt, $HOME_ENV"
 echo "  git        untouched — no fetch, no pull, no push, no unshallow, no branch change"
 echo

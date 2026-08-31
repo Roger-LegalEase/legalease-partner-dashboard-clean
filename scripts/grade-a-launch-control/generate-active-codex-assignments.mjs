@@ -39,6 +39,22 @@ import fs from "node:fs";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
+import { preflightDenominator } from "../grade-a-packet-factory-24h/preflight-denominator.mjs";
+
+/*
+ * The denominator comes from the preflight, not from this file.
+ *
+ * "14/14" was written out by hand here. A worker runs the family-scoped gate in
+ * cloud mode, where three checks are REPLACED rather than waived, so nothing is
+ * not-applicable and the preflight prints the full roster -- 15/15. Every
+ * prompt this generator writes has been telling workers to expect a number
+ * their own command does not print, and a worker who cannot tell an improvement
+ * from a regression either stops a healthy lane or waves a real failure past.
+ */
+const PREFLIGHT_MUST_RETURN = preflightDenominator(["--family", "__denominator_probe__", "--codex-cloud"]).mustReturn;
+const PREFLIGHT_RATIO = /(\d+\/\d+)/.exec(PREFLIGHT_MUST_RETURN)[1];
+const PREFLIGHT_SHORT = `${Number(PREFLIGHT_RATIO.split("/")[0]) - 1}/${PREFLIGHT_RATIO.split("/")[1]}`;
+
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const OUT = "data/rcap-grade-a/launch-control/ACTIVE_CODEX_ASSIGNMENTS.json";
@@ -326,11 +342,14 @@ const ASSIGNMENTS = [
       "per composed family: one pleading configuration, fixtures, rendered output and participant instructions"
     ],
     focusedTests: [
-      "node scripts/verify-packet-build-environment.mjs --family <family>",
+      // --codex-cloud, because these are Codex Cloud tasks. The command printed
+      // here omitted it while the number beside it was the cloud number, so the
+      // prompt showed a command and a result that do not go together.
+      "node scripts/verify-packet-build-environment.mjs --family <family> --codex-cloud",
       "node scripts/grade-a-launch-control/verify-launch-control.mjs"
     ],
     stopConditions: [
-      "The packet-build environment preflight must print PACKET_BUILD_ENVIRONMENT_READY 14/14 before anything is written. A family whose source does not bind by exact SHA-256 stops.",
+      `The packet-build environment preflight must print PACKET_BUILD_ENVIRONMENT_READY ${PREFLIGHT_RATIO} before anything is written. A family whose source does not bind by exact SHA-256 stops.`,
       "Never prefill a participant signature, a signature date, a certificate of mailing before actual mailing, or any court-only or prosecutor-only field.",
       "A family whose output vehicle is unresolved in its legal-design memo stops and is reported; the vehicle is a legal-design decision, not a build choice."
     ],

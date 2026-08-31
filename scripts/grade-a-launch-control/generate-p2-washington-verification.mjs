@@ -18,6 +18,22 @@ import fs from "node:fs";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
+import { preflightDenominator } from "../grade-a-packet-factory-24h/preflight-denominator.mjs";
+
+/*
+ * The denominator comes from the preflight, not from this file.
+ *
+ * "14/14" was written out by hand here. A worker runs the family-scoped gate in
+ * cloud mode, where three checks are REPLACED rather than waived, so nothing is
+ * not-applicable and the preflight prints the full roster -- 15/15. Every
+ * prompt this generator writes has been telling workers to expect a number
+ * their own command does not print, and a worker who cannot tell an improvement
+ * from a regression either stops a healthy lane or waves a real failure past.
+ */
+const PREFLIGHT_MUST_RETURN = preflightDenominator(["--family", "__denominator_probe__", "--codex-cloud"]).mustReturn;
+const PREFLIGHT_RATIO = /(\d+\/\d+)/.exec(PREFLIGHT_MUST_RETURN)[1];
+const PREFLIGHT_SHORT = `${Number(PREFLIGHT_RATIO.split("/")[0]) - 1}/${PREFLIGHT_RATIO.split("/")[1]}`;
+
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 process.chdir(ROOT);
@@ -155,7 +171,7 @@ for (let i = 0; i < rows.length; i += SHARD_SIZE) {
       "BLOCKED_SOURCE:", "BLOCKED_LEGAL_INPUT:",
       "OVERLAY DIRECTORIES MODIFIED: 0",
       "COMMERCIAL ROUTES OPENED: 0", "PRODUCTION TOUCHED: NO",
-      "PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY 14/14", "DIFF LEFT FOR THE CODEX UI: YES"
+      `PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY ${PREFLIGHT_RATIO}`, "DIFF LEFT FOR THE CODEX UI: YES"
     ],
     grantsNothing: "An independent PASS proves a packet is complete. It approves no output, proves no fulfillment authority and opens no commercial route.",
     promptFile: `${PROMPT_DIR}/P2V${n}_WASHINGTON_INDEPENDENT_VERIFICATION.md`
@@ -253,7 +269,7 @@ const promptFor = (a) => {
     "  --codex-cloud \\",
     `  --minimum-captain-sha ${a.minimumCaptainSha}`,
     "```", "");
-  p.push("It must print **`PACKET_BUILD_ENVIRONMENT_READY: 14/14`**. A 13/14 in cloud mode is a real failure, not the shallow checkout being tolerated.", "");
+  p.push(`It must print **\`${PREFLIGHT_MUST_RETURN}\`**. A ${PREFLIGHT_SHORT} in cloud mode is a real failure, not the shallow checkout being tolerated.`, "");
   p.push("## Never run these", "", bullet(a.prohibitedCommands.map((c) => `\`${c}\``)), "");
   p.push("## Mission", "", a.mission, "");
   p.push(`## The ${a.itemCount} families`, "");

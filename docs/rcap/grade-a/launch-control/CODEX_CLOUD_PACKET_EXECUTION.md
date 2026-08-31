@@ -24,7 +24,7 @@ preflight was asking a Codespace's questions.
 
 ## The rule that shaped the fix
 
-**A gate is replaced, never waived.** A cloud task that reported `13/14` with a
+**A gate is replaced, never waived.** A cloud task that reported one short with a
 note about the clone check would be a gate somebody had argued with, and the
 next person to read the report would not know whether the missing check mattered.
 Three checks are therefore replaced by cloud-native checks that establish the
@@ -36,7 +36,32 @@ same three facts by other evidence:
 | `clone_is_complete` | `cloud_checkout_contains_captain_base` | this checkout carries the work the assignment was cut from |
 | `assigned_branch_tip_visible` | `assignment_present_in_this_checkout` | the assignment this worker is executing is really in this tree |
 
-The denominator stays **14** in both modes. A cloud pass is `14/14`.
+The denominator is **not written down here**, and no prompt may state it by hand.
+
+Adding a check turns every hand-written number into an instruction to expect a
+number the preflight no longer prints, and a worker told to expect one thing
+that sees another cannot tell an improvement from a regression: it either stops
+a healthy lane or waves a real failure past. Both happened. Eleven places said
+`14/14`; the roster grew to fifteen, and cloud mode REPLACES three checks rather
+than waiving them, so a family-scoped cloud run has nothing not-applicable and
+prints the full roster.
+
+The number is a property of the COMMAND, and there are three:
+
+| what the lane runs | what it prints |
+| --- | --- |
+| the packet-build preflight, family-scoped, `--codex-cloud` (VF, FIX, and every row gate) | the full roster, every check applicable |
+| the packet-build preflight with no `--family` (the PF lane gate) | one fewer — `family_sources_bind` is a row question, asked once per family |
+| `--assignment-id` with `--source-obligation` (DISC, SRC, ACQ, PROMO) | `SOURCE_CONVEYOR_PREFLIGHT_READY` — not a ratio at all |
+
+Every generator reads its number from
+`scripts/grade-a-packet-factory-24h/preflight-denominator.mjs`, which runs the
+preflight for the exact command it is about to print and cross-checks that
+against the registrations counted in the preflight's own source. If the two
+disagree it refuses, because counting registrations is a guess about the code
+and running it is a fact about one environment.
+
+Read the number off your own prompt, beside your own command.
 
 Everything else is unchanged and mandatory: clean worktree, Node toolchain,
 `pdf-lib`, `private/` ignored and untracked, Master Library mounted, exact
@@ -85,7 +110,7 @@ right there on disk.
    inferred which commit was meant would prove nothing: the point is that this
    shallow checkout demonstrably contains the tree the assignment was cut from.
 
-5. **`PACKET_BUILD_ENVIRONMENT_READY: 14/14` or stop.** In cloud mode a `13/14`
+5. **The number your prompt states, or stop.** In cloud mode one short
    is a real failure, not the shallow checkout being tolerated.
 
 6. **The diff is the return.** Commit locally and leave the final diff for the
@@ -99,7 +124,7 @@ Every cloud packet return ends with:
 ```text
 COMMERCIAL ROUTES OPENED: 0
 PRODUCTION TOUCHED: NO
-PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY 14/14
+PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY <the number your own prompt states>
 DIFF LEFT FOR THE CODEX UI: YES
 ```
 

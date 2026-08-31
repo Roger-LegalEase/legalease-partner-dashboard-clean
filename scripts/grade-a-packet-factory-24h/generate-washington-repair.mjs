@@ -29,10 +29,21 @@ import path from "node:path";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { makeEmitter } from "../lib/generator-emit.mjs";
+import { preflightDenominator } from "./preflight-denominator.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 process.chdir(ROOT);
 const CHECK = process.argv.includes("--check");
+
+/*
+ * Two places here stated "14/14" by hand. The number belongs to the command a
+ * worker actually runs -- family-scoped, in cloud mode -- and that command
+ * prints 15/15, because cloud mode replaces three checks rather than waiving
+ * them. A hand-written denominator cannot follow the roster, and a worker told
+ * to expect a number the preflight does not print cannot tell an improvement
+ * from a regression.
+ */
+const PREFLIGHT_MUST_RETURN = preflightDenominator(["--family", "__denominator_probe__", "--codex-cloud"]).mustReturn;
 
 const OUT = "data/rcap-grade-a/packet-factory-24h/WASHINGTON_REPAIR.json";
 const PROMPT_DIR = "docs/rcap/grade-a/packet-factory-24h/washington-repair";
@@ -81,7 +92,7 @@ const obligationsPerFamily = [...new Set(evidence.map((e) => e.failedProofObliga
 const CLOUD_PROHIBITED = ["git fetch", "git pull", "git push", "gh ", "git worktree", "git clone", "git remote add"];
 const RETURN_TAIL = [
   "COMMERCIAL ROUTES OPENED: 0", "PRODUCTION TOUCHED: NO",
-  "PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY 14/14", "DIFF LEFT FOR THE CODEX UI: YES"
+  `PREFLIGHT: ${PREFLIGHT_MUST_RETURN.replace(": ", " ")}`, "DIFF LEFT FOR THE CODEX UI: YES"
 ];
 const base = (id, slug, lane, sequence, extra) => ({
   assignmentId: id,
@@ -306,7 +317,7 @@ const promptFor = (a) => {
     "source $HOME/.legalease-corpus-env",
     `node ${PREFLIGHT} --family ${(a.items[0] ?? "").startsWith("wa_") ? a.items[0] : FAMILIES[0]} --codex-cloud --minimum-captain-sha ${a.minimumCaptainSha}`,
     "```", "");
-  p.push("It must print **`PACKET_BUILD_ENVIRONMENT_READY: 14/14`**.", "");
+  p.push(`It must print **\`${PREFLIGHT_MUST_RETURN}\`**.`, "");
   p.push("## Never run these", "", bullet(a.prohibitedCommands.map((c) => `\`${c}\``)), "");
   p.push("## Mission", "", a.mission, "");
   if (a.whyOneLane) p.push(`**Why one lane:** ${a.whyOneLane}`, "");
