@@ -34,6 +34,7 @@ const WAVE2 = "data/rcap-grade-a/launch-control/WAVE_2_ASSIGNMENTS.json";
 const COMPLETENESS = "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json";
 const REPAIR_PLAN = "data/rcap-grade-a/packet-completeness/COMPLETENESS_REPAIR_PLAN.json";
 const REPAIR_WAVE = "data/rcap-grade-a/launch-control/COMPLETENESS_REPAIR_WAVE.json";
+const S2 = "data/rcap-grade-a/launch-control/S2_SHARED_HOST_ASSIGNMENT.json";
 // Ten committed binaries already matched a private-corpus SHA-256 before the
 // packet factory returned, under hard-forms/*/evidence/ and rcap-codex source
 // receipts. They are a governance discrepancy for Roger, not something to remove
@@ -42,7 +43,7 @@ const KNOWN_COMMITTED_CORPUS_BINARIES = 10;
 const PROMPTS = "docs/rcap/grade-a/launch-control/prompts";
 
 const read = (rel) => JSON.parse(fs.readFileSync(path.join(ROOT, rel), "utf8"));
-const git = (args) => { try { return execFileSync("git", args, { cwd: ROOT, encoding: "utf8", maxBuffer: 1 << 29 }).trim(); } catch { return null; } };
+const git = (args) => { try { return execFileSync("git", args, { cwd: ROOT, encoding: "utf8", maxBuffer: 1 << 29, stdio: ["ignore", "pipe", "ignore"] }).trim(); } catch { return null; } };
 
 const results = [];
 let failures = 0;
@@ -71,6 +72,7 @@ const wave2 = fs.existsSync(path.join(ROOT, WAVE2)) ? read(WAVE2) : null;
 const completeness = read(COMPLETENESS);
 const repairPlan = read(REPAIR_PLAN);
 const repairWave = fs.existsSync(path.join(ROOT, REPAIR_WAVE)) ? read(REPAIR_WAVE) : null;
+const s2 = fs.existsSync(path.join(ROOT, S2)) ? read(S2) : null;
 
 /** Everything an assignment owns, whatever shape its rows take. */
 const rowsOf = (a) => [
@@ -657,6 +659,105 @@ if (repairWave && wave2) {
     `${dispatched} dispatched of ${repairWave.s1ExposureDerivation.builtFamiliesUnaffected} unaffected, across ${repairWave.assignments.length} lane(s)`);
 }
 
+// 30. The shared-host addendum. Three repair lanes import a host none of them
+// may own; S2 owns it instead. Two things can go wrong: S2 can quietly become a
+// render lane, and its importer count can be quoted rather than derived.
+if (s2 && repairWave && wave2) {
+  const a2 = s2.assignments[0];
+  const host = s2.host;
+
+  // The import graph, recomputed here rather than read out of the record it is
+  // meant to check. 10 and 12 were both quoted this sprint; only one is derived.
+  const scriptDir = path.join(ROOT, "scripts");
+  const scriptFiles = fs.readdirSync(scriptDir).filter((f) => /^build-census-v1-.+\.mjs$/.test(f));
+  const directImports = new Map(scriptFiles.map((f) => [f,
+    [...new Set([...fs.readFileSync(path.join(scriptDir, f), "utf8")
+      .matchAll(/from\s+["']\.\/(build-census-v1-[^"']+\.mjs)["']/g)].map((m) => m[1]))]]));
+  const hostBase = path.basename(host);
+  const memo = new Map();
+  const reaches = (file, seen = new Set()) => {
+    if (memo.has(file)) return memo.get(file);
+    if (file === hostBase) return true;
+    if (seen.has(file)) return false;
+    seen.add(file);
+    const r = (directImports.get(file) ?? []).some((d) => reaches(d, seen));
+    memo.set(file, r);
+    return r;
+  };
+  const graphImporters = scriptFiles.filter((f) => f !== hostBase && reaches(f)).sort();
+  const recorded = a2.hostImporters.families.map((f) => path.basename(f.buildScript)).sort();
+
+  check("A49", "the S2 importer set is the import graph's, recomputed, not a number carried forward",
+    a2.hostImporters.count === graphImporters.length
+    && s2.countReconciliation.authoritative === graphImporters.length
+    && recorded.length === graphImporters.length
+    && recorded.every((f, i) => f === graphImporters[i])
+    && s2.countReconciliation.scriptsInTheClosure === graphImporters.length + 1
+    && s2.countReconciliation.builtFamiliesInTheClosure
+       === a2.hostImporters.families.filter((f) => f.c11Classification === "BUILT").length + 1,
+    `graph ${graphImporters.length} · record ${a2.hostImporters.count} · closure ${s2.countReconciliation.scriptsInTheClosure}`);
+
+  // S2 changes shared logic. The moment it owns an overlay directory or claims a
+  // packet family it stops being the fix for three lanes and becomes a fourth.
+  const overlayOwned = a2.ownedPaths.filter((p) => /overlays|packets/.test(p));
+  const ownRoot = `data/rcap-grade-a/wave-2/${a2.workerBranch.replace(/^codex\//, "")}`;
+  const outputsOutside = a2.requiredOutputs.filter((o) => {
+    const p = o.split("—")[0].trim();
+    return !a2.ownedPaths.some((owned) => {
+      const root = owned.replace(/\/?\*\*$/, "");
+      return p === root || p.startsWith(`${root}/`);
+    });
+  });
+  check("A50", "S2 owns the host and its own return directory, nothing else, and can write every output it owes",
+    a2.ownedPaths.length === 2
+    && a2.ownedPaths.includes(host)
+    && a2.ownedPaths.includes(`${ownRoot}/**`)
+    && overlayOwned.length === 0
+    && a2.rendersNoPackets === true && a2.modifiesNoOverlayDirectories === true
+    && s2.totals.overlayPathsOwned === 0 && s2.totals.packetsRendered === 0
+    && outputsOutside.length === 0,
+    `${a2.ownedPaths.length} owned · ${overlayOwned.length} overlay · ${outputsOutside.length} unwritable output(s)`);
+
+  // The host stays exclusive: nobody else may own it, S2 may not reach into the
+  // lanes it unblocks, and the continuation contract must name exactly the repair
+  // lanes that actually hold a built importer.
+  const others = [...wave2.assignments, ...repairWave.assignments];
+  const alsoOwned = others.filter((a) => a.ownedPaths.some((p) => {
+    const root = p.split("(")[0].trim().replace(/\/?\*\*$/, "");
+    return root === host || a2.ownedPaths.some((mine) => {
+      const m = mine.replace(/\/?\*\*$/, "");
+      return root === m || root.startsWith(`${m}/`) || m.startsWith(`${root}/`);
+    });
+  })).map((a) => a.assignmentId);
+  const repairLaneIds = new Set(repairWave.assignments.map((a) => a.assignmentId));
+  const laneOfBuiltImporter = [...new Set(a2.hostImporters.families
+    .filter((f) => f.c11Classification === "BUILT" && repairLaneIds.has(f.owningLane))
+    .map((f) => f.owningLane))].sort();
+  const appliesTo = [...(s2.dependencyConsumption.appliesTo ?? [])].sort();
+  check("A51", "the host is S2's alone, and the continuation contract names exactly the repair lanes that import it",
+    alsoOwned.length === 0
+    && s2.totals.collisions === 0
+    && appliesTo.length === laneOfBuiltImporter.length
+    && appliesTo.every((l, i) => l === laneOfBuiltImporter[i])
+    && s2.dependencyConsumption.theirOwnedPathsAreUnchanged === true
+    && typeof s2.dependencyConsumption.continuationRecord === "string"
+    && s2.dependencyConsumption.sequence.some((st) => String(st.action).includes(s2.dependencyConsumption.continuationRecord)),
+    `${alsoOwned.length} other owner(s) [${alsoOwned.join(", ")}] · appliesTo ${appliesTo.join(",")} · importers in ${laneOfBuiltImporter.join(",")}`);
+
+  // Same base discipline as Wave 2: a real ancestor, pinned, and not already
+  // carrying the dispatch it is the base for.
+  const s2Base = a2.captainBaseSha;
+  const s2Ancestor = git(["merge-base", "--is-ancestor", s2Base, "HEAD"]) !== null;
+  const s2AtBase = git(["rev-parse", `${s2Base}:${S2}`]);
+  const s2AtHead = git(["rev-parse", `HEAD:${S2}`]);
+  check("A52", "S2 names a real ancestor as its base, that base does not already carry it, and the record agrees with itself",
+    /^[0-9a-f]{40}$/.test(s2Base) && s2Ancestor
+    && !(s2AtBase !== null && s2AtBase === s2AtHead)
+    && a2.readAssignmentFrom?.file === S2
+    && String(a2.readAssignmentFrom?.verify ?? "").includes(s2Base),
+    `base ${String(s2Base).slice(0, 8)}, ancestor ${s2Ancestor}, record at base ${s2AtBase === null ? "absent" : s2AtBase === s2AtHead ? "IDENTICAL — self-referential" : "earlier content"}`);
+}
+
 console.log(`\n${results.length - failures}/${results.length} checkpoint checks passed.`);
 
 if (MUTATIONS) {
@@ -667,7 +768,7 @@ if (MUTATIONS) {
     residual: path.join(ROOT, RESIDUAL), contract: path.join(ROOT, CONTRACT),
     counsel: path.join(ROOT, COUNSEL), c11: path.join(ROOT, C11), wave2: path.join(ROOT, WAVE2),
     completeness: path.join(ROOT, COMPLETENESS), repairPlan: path.join(ROOT, REPAIR_PLAN),
-    repairWave: path.join(ROOT, REPAIR_WAVE)
+    repairWave: path.join(ROOT, REPAIR_WAVE), s2: path.join(ROOT, S2)
   };
   const originals = Object.fromEntries(Object.entries(targets).map(([k, p]) => [k, fs.readFileSync(p)]));
   const cases = [
@@ -713,6 +814,14 @@ if (MUTATIONS) {
     { on: "repairWave", name: "a path owned and prohibited at once is caught", mutate: (j) => { const a = j.assignments[0]; a.ownedPaths.push(a.prohibitedPaths[0]); return j; } },
     { on: "repairWave", name: "a non-exclusive shared file declared ownable is caught", mutate: (j) => { const a = j.assignments.find((x) => x.sharedFileAnalysis.some((s) => !s.ownable)); a.sharedFileAnalysis.find((s) => !s.ownable).ownable = true; return j; } },
     { on: "repairWave", name: "an unaffected family dispatched to nobody is caught", mutate: (j) => { j.assignments[0].items.pop(); return j; } },
+    { on: "s2", name: "an importer count quoted rather than derived is caught", mutate: (j) => { j.countReconciliation.authoritative = 10; j.assignments[0].hostImporters.count = 10; return j; } },
+    { on: "s2", name: "an importer dropped from the S2 closure is caught", mutate: (j) => { j.assignments[0].hostImporters.families.pop(); return j; } },
+    { on: "s2", name: "the shared-host lane given an overlay directory is caught", mutate: (j) => { j.assignments[0].ownedPaths.push("data/rcap-all50/overlays/census-v1/ut/**"); return j; } },
+    { on: "s2", name: "the shared-host lane owing an output it cannot write is caught", mutate: (j) => { j.assignments[0].ownedPaths = j.assignments[0].ownedPaths.filter((p) => !p.endsWith("/**")); return j; } },
+    { on: "s2", name: "a repair lane left out of the continuation contract is caught", mutate: (j) => { j.dependencyConsumption.appliesTo.pop(); return j; } },
+    { on: "s2", name: "a continuation contract that never publishes its own record is caught", mutate: (j) => { j.dependencyConsumption.sequence = j.dependencyConsumption.sequence.filter((st) => !String(st.action).includes(j.dependencyConsumption.continuationRecord)); return j; } },
+    { on: "s2", name: "an S2 base that is not an ancestor is caught", mutate: (j) => { j.assignments[0].captainBaseSha = "0".repeat(40); return j; } },
+    { on: "s2", name: "an S2 verify line naming a different base than the assignment is caught", mutate: (j) => { j.assignments[0].readAssignmentFrom.verify = "captainBaseSha must equal " + "9".repeat(40); return j; } },
     { on: "wave2", name: "a review package prepared before an independent PASS is caught", mutate: (j) => { j.outputLegalReview.batchesPrepared = 6; return j; } },
     { on: "wave2", name: "a verification shard that drops the completeness obligations is caught", mutate: (j) => { const s = j.assignments.find((a) => a.lane === "independent-verification"); s.proofObligations = s.proofObligations.filter((o) => !o.startsWith("COMPLETENESS:")); return j; } },
     { on: "completeness", name: "a family reported complete with a nonzero counter is caught", mutate: (j) => { j.results[0].result = "PASS_COMPLETE"; return j; } },
