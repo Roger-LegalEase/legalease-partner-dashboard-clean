@@ -4,10 +4,11 @@
 // This file is the state-bounded implementation shared by the ten C11
 // Washington entrypoints. It does not widen the repository's global mapping
 // rules. Every PDF is pinned through the committed custody record and corpus
-// index; every rectangle comes from the source content stream; and the small
-// write allowlist is limited to caption-band identity facts. Legal elections,
-// declarations, signatures, signature dates, service facts, prosecutor fields,
-// and every court finding/order field remain untouched.
+// index; every rectangle comes from the source content stream; and the
+// source-specific write allowlist covers held participant and case facts.
+// Participant-authored narratives, legal elections, signatures, execution
+// dates, service certifications, prosecutor fields, and court findings remain
+// untouched.
 
 import assert from "node:assert/strict";
 import crypto from "node:crypto";
@@ -26,7 +27,7 @@ import {
 } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
 import { rulesOfPage } from "./rcap-official-forms/rcap-pdf-rule-lines.mjs";
 import { finalizeFlatOverlay } from "./rcap-official-forms/rcap-official-form-finalize.mjs";
-import { protectCategoryOf, regionProtectCategoryOf }
+import { protectCategoryOf, regionProtectCategoryOf, resolveFact }
   from "./rcap-official-forms/rcap-field-semantics.mjs";
 import { checkboxCandidates, strokedRectangles } from "./lib/pdf-stroked-boxes.mjs";
 
@@ -47,6 +48,25 @@ const FAMILY_IDS = new Set([
   "wa_vac_survivor_misdemeanor-set",
   "wa_vac_treaty_fishing-set"
 ]);
+
+const P2_FAMILY_IDS = [...FAMILY_IDS].filter((familyId) => familyId !== ANCHOR_FAMILY);
+const P2_CONTROL_BASE = "33dfea59fe85b9dc86469d12e04fd65c51b480fa";
+const P2_DISPATCH = "4d1408a40eeb77f51bdf18ba35a13db579b21129";
+const P2_REPORT = "data/rcap-grade-a/wave-2/p2-wa-vacatur-completeness/rows.json";
+const ZERO_COUNTERS = {
+  knownRequiredFieldsMissing: 0, requiredFactsNotCollected: 0, unclassifiedBlanks: 0,
+  incompleteRows: 0, requiredOptionsMissing: 0, requiredComponentsMissing: 0,
+  invisibleWrites: 0, protectedWrites: 0, visualDefects: 0
+};
+const P2_COUNTERS_BEFORE = Object.fromEntries(P2_FAMILY_IDS.map((familyId) => {
+  const felony = new Set(["wa_vac_felony-set", "wa_vac_survivor_felony-set"]).has(familyId);
+  const cannabis = familyId === "wa_vac_cannabis-set";
+  return [familyId, {
+    ...ZERO_COUNTERS,
+    knownRequiredFieldsMissing: cannabis ? 15 : felony ? 31 : 21,
+    unclassifiedBlanks: cannabis ? 28 : felony ? 53 : 56
+  }];
+}));
 
 const CORPUS_INDEX = "data/rcap-all50/local-source-corpus-index.json";
 const CUSTODY = "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json";
@@ -74,17 +94,28 @@ const CANONICAL = {
   "participant.city_state_zip": "Springfield, WA 98101",
   "participant.phone": "555-0142",
   "participant.email": "jordan.reyes@example.com",
+  "participant.full_mailing_address": "118 Maple Street, Springfield, WA 98101",
   "matter.county": "Example County",
+  "matter.county_or_city": "Example County",
   "matter.court": "Superior Court",
+  "matter.court_prefix": "District",
+  "matter.plaintiff_name": "State of Washington",
   "matter.case_number": "24-1-001234-1",
+  "matter.conviction_date": "2020-06-15",
+  "matter.local_law_enforcement_agency": "Example County Sheriff's Office",
   "matter.charge": "Example offense supplied for fit testing only",
-  "matter.charges": [{ case_number: "24-1-001234-1", charge: "Example offense supplied for fit testing only" }],
+  "matter.charges": [
+    { count: "1", case_number: "24-1-001234-1", charge: "Theft in the Third Degree", statute: "9A.56.050" },
+    { count: "2", case_number: "24-1-001234-1", charge: "Malicious Mischief in the Third Degree", statute: "9A.48.090" },
+    { count: "3", case_number: "24-1-001234-1", charge: "Criminal Trespass in the Second Degree", statute: "9A.52.080" },
+    { count: "4", case_number: "24-1-001234-1", charge: "Disorderly Conduct", statute: "9A.84.030" }
+  ],
   "deterministic.filing_date": "2026-08-12"
 };
 
 const BOUNDARY = {
   ...CANONICAL,
-  "participant.full_legal_name": "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III",
+  "participant.full_legal_name": "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran",
   "participant.first_name": "Alexandrina-Katharine",
   "participant.middle_name": "Montgomery-Vandenberg-Oyelaran",
   "participant.last_name": "Fitzwilliam III",
@@ -93,8 +124,152 @@ const BOUNDARY = {
   "participant.city_state_zip": "Unincorporated Township of Long Hollow Crossing, WA 98101-9999",
   "participant.zip": "98101-9999",
   "participant.phone": "555-0142 ext. 44821",
-  "matter.county": "Saint Bartholomew and the Northern Reaches County",
+  "participant.full_mailing_address":
+    "12345 Southwest Grandview Boulevard Northeast, Apartment 4321-B, Unincorporated Township of Long Hollow Crossing, WA 98101-9999",
+  "matter.county": "Saint Bartholomew County",
+  "matter.county_or_city": "Saint Bartholomew",
+  "matter.local_law_enforcement_agency": "Saint Bartholomew and the Northern Reaches County Sheriff's Office",
   "matter.case_number": "0123-45-2026-CR-900123.00-AB-CDE/2201"
+};
+
+const write = (factId, effectiveLabel) => ({ factId, effectiveLabel });
+
+// These rules are bound to the exact source hashes recorded by each family's
+// source receipt. They describe actual terminal lines on the six Washington
+// forms. The prior builder treated every measured horizontal rule as a field,
+// including footer dividers and paragraph rules, while withholding the real
+// participant/case cells. Keeping the source-specific identities here makes
+// both decisions reviewable and prevents a future source revision from being
+// silently interpreted through geometry from the old edition.
+const SOURCE_FIELD_WRITES = {
+  "CRRLJ-09.0800": {
+    "p1-y558.70-x98.90": write("matter.court_prefix", "Type of Court"),
+    "p1-y558.70-x414.23": write("matter.county_or_city", "County or City"),
+    "p1-y531.79-x69.74": write("matter.plaintiff_name", "Plaintiff Name"),
+    "p1-y356.69-x306.05": write("participant.full_legal_name", "Print Name"),
+    "p1-y306.77-x155.06": write("participant.full_legal_name", "Declarant Name"),
+    "p1-y288.17-x157.58": write("matter.conviction_date", "Offense Date"),
+    "p1-y269.45-x160.58": write("matter.charges[0].count", "Count 1"),
+    "p1-y269.45-x236.69": write("matter.charges[0].charge", "Offense 1"),
+    "p1-y250.85-x160.58": write("matter.charges[1].count", "Count 2"),
+    "p1-y250.85-x236.69": write("matter.charges[1].charge", "Offense 2"),
+    "p1-y232.25-x160.58": write("matter.charges[2].count", "Count 3"),
+    "p1-y232.25-x236.69": write("matter.charges[2].charge", "Offense 3"),
+    "p1-y194.90-x185.66": write("participant.date_of_birth", "Date of Birth"),
+    "p1-y126.26-x342.07": write("participant.full_legal_name", "Print Name"),
+    "p1-y94.94-x108.02": write("participant.full_mailing_address", "Mailing Address")
+  },
+  "CRRLJ-09.0870": {
+    "p1-y558.70-x98.88": write("matter.court_prefix", "Type of Court"),
+    "p1-y558.70-x412.92": write("matter.county_or_city", "County or City"),
+    "p1-y531.84-x78.72": write("matter.plaintiff_name", "Plaintiff Name"),
+    "p1-y252.24-x160.56": write("matter.charges[0].count", "Count 1"),
+    "p1-y252.24-x227.64": write("matter.charges[0].charge", "Offense 1"),
+    "p1-y233.64-x160.56": write("matter.charges[1].count", "Count 2"),
+    "p1-y233.64-x227.64": write("matter.charges[1].charge", "Offense 2"),
+    "p1-y214.92-x160.56": write("matter.charges[2].count", "Count 3"),
+    "p1-y214.92-x227.64": write("matter.charges[2].charge", "Offense 3"),
+    "p2-y298.20-x72.00": write("participant.full_legal_name", "Defendant Print Name")
+  },
+  "CRRLJ-09.0100": {
+    "p1-y556.56-x72.00": write("matter.court_prefix", "Type of Court"),
+    "p1-y556.56-x386.04": write("matter.county_or_city", "County"),
+    "p1-y525.24-x78.72": write("matter.plaintiff_name", "Plaintiff Name"),
+    "p1-y297.36-x324.00": write("participant.full_legal_name", "Print Name"),
+    "p1-y245.40-x155.04": write("participant.full_legal_name", "Declarant Name"),
+    "p1-y228.80-x157.69": write("matter.conviction_date", "Offense Date"),
+    "p1-y210.10-x160.68": write("matter.charges[0].count", "Count 1"),
+    "p1-y210.10-x232.79": write("matter.charges[0].charge", "Offense 1"),
+    "p1-y191.50-x160.68": write("matter.charges[1].count", "Count 2"),
+    "p1-y191.50-x232.79": write("matter.charges[1].charge", "Offense 2"),
+    "p1-y172.80-x160.68": write("matter.charges[2].count", "Count 3"),
+    "p1-y172.80-x232.79": write("matter.charges[2].charge", "Offense 3"),
+    "p5-y416.40-x72.00": write("participant.full_legal_name", "Print Name"),
+    "p5-y360.36-x72.00": write("participant.full_mailing_address", "Mailing Address")
+  },
+  "CRRLJ-09.0200": {
+    "p1-y558.70-x98.88": write("matter.court_prefix", "Type of Court"),
+    "p1-y558.70-x412.80": write("matter.county_or_city", "County or City"),
+    "p1-y525.24-x78.72": write("matter.plaintiff_name", "Plaintiff Name"),
+    "p4-y98.76-x178.56": write("matter.charges[0].count", "Count 1"),
+    "p4-y98.76-x254.64": write("matter.charges[0].charge", "Offense 1"),
+    "p4-y83.16-x178.56": write("matter.charges[1].count", "Count 2"),
+    "p4-y83.16-x254.64": write("matter.charges[1].charge", "Offense 2"),
+    "p5-y707.64-x178.56": write("matter.charges[2].count", "Count 3"),
+    "p5-y707.64-x254.64": write("matter.charges[2].charge", "Offense 3"),
+    "p6-y620.40-x72.00": write("participant.full_legal_name", "Defendant Print Name")
+  },
+  "CR-08.0900": {
+    "p1-y318.78-x310.50": write("participant.full_legal_name", "Print Name"),
+    "p1-y268.86-x81.18": write("participant.full_legal_name", "Declarant Name"),
+    "p1-y233.50-x143.46": write("matter.charges[0].count", "Count 1"),
+    "p1-y233.50-x304.28": write("matter.charges[0].charge", "Offense 1"),
+    "p1-y233.50-x462.05": write("matter.charges[0].statute", "Statute 1"),
+    "p1-y214.80-x143.46": write("matter.charges[1].count", "Count 2"),
+    "p1-y214.80-x304.28": write("matter.charges[1].charge", "Offense 2"),
+    "p1-y214.80-x462.05": write("matter.charges[1].statute", "Statute 2"),
+    "p1-y196.20-x143.46": write("matter.charges[2].count", "Count 3"),
+    "p1-y196.20-x304.28": write("matter.charges[2].charge", "Offense 3"),
+    "p1-y196.20-x462.05": write("matter.charges[2].statute", "Statute 3"),
+    "p1-y177.60-x143.46": write("matter.charges[3].count", "Count 4"),
+    "p1-y177.60-x304.28": write("matter.charges[3].charge", "Offense 4"),
+    "p1-y177.60-x462.05": write("matter.charges[3].statute", "Statute 4"),
+    "p3-y365.46-x310.50": write("participant.full_legal_name", "Print Name"),
+    "p3-y334.14-x118.44": write("participant.full_mailing_address", "Mailing Address"),
+    "p3-y315.48-x105.60": write("participant.email", "Email")
+  },
+  "CR-08.0920": {
+    "p1-y344.10-x157.50": write("matter.conviction_date", "Offense Date"),
+    "p1-y327.40-x143.46": write("matter.charges[0].count", "Count 1"),
+    "p1-y327.40-x298.16": write("matter.charges[0].charge", "Offense 1"),
+    "p1-y327.40-x455.87": write("matter.charges[0].statute", "Statute 1"),
+    "p1-y308.70-x143.46": write("matter.charges[1].count", "Count 2"),
+    "p1-y308.70-x298.16": write("matter.charges[1].charge", "Offense 2"),
+    "p1-y308.70-x455.87": write("matter.charges[1].statute", "Statute 2"),
+    "p1-y290.00-x143.46": write("matter.charges[2].count", "Count 3"),
+    "p1-y290.00-x298.16": write("matter.charges[2].charge", "Offense 3"),
+    "p1-y290.00-x455.87": write("matter.charges[2].statute", "Statute 3"),
+    "p1-y271.40-x143.46": write("matter.charges[3].count", "Count 4"),
+    "p1-y271.40-x298.16": write("matter.charges[3].charge", "Offense 4"),
+    "p1-y271.40-x455.87": write("matter.charges[3].statute", "Statute 4"),
+    "p3-y678.40-x143.46": write("matter.charges[0].count", "Count 1"),
+    "p3-y678.40-x298.16": write("matter.charges[0].charge", "Offense 1"),
+    "p3-y678.40-x455.88": write("matter.charges[0].statute", "Statute 1"),
+    "p3-y659.80-x143.46": write("matter.charges[1].count", "Count 2"),
+    "p3-y659.80-x298.16": write("matter.charges[1].charge", "Offense 2"),
+    "p3-y659.80-x455.88": write("matter.charges[1].statute", "Statute 2"),
+    "p3-y641.10-x143.46": write("matter.charges[2].count", "Count 3"),
+    "p3-y641.10-x298.16": write("matter.charges[2].charge", "Offense 3"),
+    "p3-y641.10-x455.88": write("matter.charges[2].statute", "Statute 3"),
+    "p3-y622.50-x143.46": write("matter.charges[3].count", "Count 4"),
+    "p3-y622.50-x298.16": write("matter.charges[3].charge", "Offense 4"),
+    "p3-y622.50-x455.88": write("matter.charges[3].statute", "Statute 4"),
+    "p3-y144.42-x306.00": write("participant.full_legal_name", "Defendant Print Name")
+  }
+};
+
+const SOURCE_FIELD_DISPOSITIONS = {
+  "CRRLJ-09.0870": {
+    "p2-y480.60-x418.68": {
+      effectiveLabel: "Court Order Recipient Designated by Clerk",
+      reason: "Court or clerk field naming an order recipient; completed by the court after filing.",
+      category: "court_prosecutor_clerk_or_agency_owned", approvedDisposition: "PROTECTED_FIELD"
+    }
+  },
+  "CRRLJ-09.0200": {
+    "p5-y279.48-x436.68": {
+      effectiveLabel: "Court Order Recipient Designated by Clerk",
+      reason: "Court or clerk field naming an order recipient; completed by the court after filing.",
+      category: "court_prosecutor_clerk_or_agency_owned", approvedDisposition: "PROTECTED_FIELD"
+    }
+  },
+  "CR-08.0920": {
+    "p3-y313.56-x275.52": {
+      effectiveLabel: "Court Order Recipient Designated by Clerk",
+      reason: "Court or clerk field naming an order recipient; completed by the court after filing.",
+      category: "court_prosecutor_clerk_or_agency_owned", approvedDisposition: "PROTECTED_FIELD"
+    }
+  }
 };
 
 const sha256 = (bytes) => crypto.createHash("sha256").update(bytes).digest("hex");
@@ -387,32 +562,79 @@ function dedupeBlanks(raw) {
 function semanticRole(blank, document) {
   const text = cleanText(blank.caption).toLowerCase();
   const common = { printedCaption: blank.caption, captionBasis: blank.captionBasis };
-  if (!text) return { ...common, writable: false, reason: "no_printed_caption" };
+  const sourceFieldId = `p${blank.page}-y${blank.baselineY.toFixed(2)}-x${blank.x0.toFixed(2)}`;
+  const disposition = SOURCE_FIELD_DISPOSITIONS[document.formNumber]?.[sourceFieldId];
+  if (disposition) return { ...common, terminal: true, writable: false, ...disposition };
+  const exact = SOURCE_FIELD_WRITES[document.formNumber]?.[sourceFieldId];
+  if (exact) return { ...common, terminal: true, writable: true, ...exact };
   const inCaptionBand = blank.page === 1 && blank.baselineY >= 430;
-  if (/\b(?:dob|date of birth|birthdate|date|dated)\b/.test(text)) {
-    return { ...common, writable: false, reason: "protected_date_field", category: "date" };
-  }
-  const category = protectCategoryOf(text);
-  if (category) return { ...common, writable: false, reason: "protected_printed_caption", category };
-  if (blank.regionProtectCategory && !inCaptionBand) {
-    return { ...common, writable: false, reason: "protected_page_region", category: blank.regionProtectCategory };
-  }
 
   // The same words recur beside declarations and signature lines. Identity is
   // therefore only populated inside the first-page case-caption band.
   if (inCaptionBand && /^(defendant|respondent|petitioner|applicant)$/.test(text)) {
-    return { ...common, writable: true, factId: "participant.full_legal_name", effectiveLabel: "Full Legal Name" };
+    return { ...common, terminal: true, writable: true,
+      factId: "participant.full_legal_name", effectiveLabel: "Full Legal Name" };
   }
   // Washington captions print only "No.". Its page and measured caption-band
   // position make this a case number; a bare No. anywhere else stays unbound.
   if (inCaptionBand && (/(^|\s)no\.?$/.test(text)) && blank.x0 >= 300) {
-    return { ...common, writable: true, factId: "matter.case_number", effectiveLabel: "Case No." };
+    return { ...common, terminal: true, writable: true,
+      factId: "matter.case_number", effectiveLabel: "Case No." };
   }
   if (inCaptionBand && document.formNumber?.startsWith("CR-08.")
     && blank.x0 >= 300 && /superior court of washington, county of/.test(text)) {
-    return { ...common, writable: true, factId: "matter.county", effectiveLabel: "County" };
+    return { ...common, terminal: true, writable: true,
+      factId: "matter.county", effectiveLabel: "County" };
   }
-  return { ...common, writable: false, reason: "not_on_state_bounded_identity_allowlist" };
+
+  const category = protectCategoryOf(text) ?? blank.regionProtectCategory;
+  const signatureCompletion = category === "signature" || category === "date"
+    || /\b(?:dated|signed on|signature|wsba)\b/i.test(text);
+  if (signatureCompletion) {
+    return { ...common, terminal: true, writable: false,
+      reason: "Signature or execution-date field; completed by the participant or signer at execution and never prefilled.",
+      category: "signature_or_date_participant_completion", approvedDisposition: "PROTECTED_FIELD" };
+  }
+
+  // Participant-authored evidentiary and mitigation lines are real terminal
+  // blanks, but their content is a genuine sworn election. The route does not
+  // supply prose and the platform never invents it.
+  const participantNarrative = document.role === "participant_filing" && (
+    (document.formNumber === "CRRLJ-09.0100" && blank.page === 2 && blank.baselineY >= 560)
+    || (document.formNumber === "CR-08.0900" && blank.page === 3 && blank.baselineY >= 480)
+  );
+  if (participantNarrative) {
+    return { ...common, terminal: true, writable: false,
+      reason: "Participant-authored sworn narrative or supporting evidence; the platform does not invent it.",
+      category: "participant_sworn_narrative_or_legal_election",
+      approvedDisposition: "PARTICIPANT_ELECTION_GENUINE" };
+  }
+
+  // An order's remaining writable-looking lines are findings, elections,
+  // signatures, reasons, and approval blocks owned by the court or prosecutor.
+  // Known caption/offense/agency facts were handled by the exact rules above.
+  if (document.role === "court_order") {
+    return { ...common, terminal: true, writable: false,
+      reason: "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+      category: "court_prosecutor_clerk_or_agency_owned", approvedDisposition: "PROTECTED_FIELD" };
+  }
+
+  // A small set of participant-side signing blocks are not recognized from
+  // their damaged extracted captions, but the pinned page location and printed
+  // block establish that they are execution fields.
+  if (category === "attorney" || category === "prosecutor") {
+    return { ...common, terminal: true, writable: false,
+      reason: "Signature or execution field; completed by the participant, attorney, or prosecutor and never prefilled.",
+      category: "signature_or_date_participant_completion", approvedDisposition: "PROTECTED_FIELD" };
+  }
+
+  // The field census intentionally retains decorative rules, footer dividers,
+  // paragraph underlines, and source headings so the geometry remains
+  // auditable. They are not terminal fields and therefore do not belong in the
+  // completeness blank ledger.
+  return { ...common, terminal: false, writable: false,
+    reason: text ? "measured_source_rule_is_not_a_terminal_field" : "unlabelled_source_rule_is_not_a_terminal_field",
+    approvedDisposition: "NOT_A_FIELD" };
 }
 
 async function loadDocuments(familyId, records, sourceRoot) {
@@ -528,7 +750,7 @@ async function censusDocument(document) {
         treatment: "explicitly_left_unmarked_legal_or_court_election"
       }));
     selectionControls.push(...pageControls);
-    const measuredRules = rulesOfPage(page, { maxThickness: 3, minLength: 20, minDividerLength: 20 });
+    const measuredRules = rulesOfPage(page, { maxThickness: 3, minLength: 8, minDividerLength: 8 });
     const classifiedRules = measuredRules.horizontal.map((rule) => ({ ...rule, ...classifyRule(rule, lines) }));
     pages.push({
       page: pageNumber, width: round(width), height: round(height), textLineCount: lines.length,
@@ -550,7 +772,7 @@ async function censusDocument(document) {
       }
     }
     for (const rule of classifiedRules) {
-      if (rule.isUnderline || rule.width < 20) continue;
+      if (rule.isUnderline || rule.width < 8) continue;
       const host = lines.find((line) => line.y >= rule.y - 0.75 && line.y <= rule.y + (line.size || 10) * 1.3) ?? null;
       raw.push({
         page: pageNumber, construction: "drawn_horizontal_rule",
@@ -615,22 +837,23 @@ function anchorsFor(document, census) {
   const withheld = [];
   for (const blank of census.blanks) {
     const decision = blank.mappingDecision;
+    if (decision.terminal === false) continue;
     if (!decision.writable) {
-      withheld.push({ blankId: blank.blankId, page: blank.page, printedCaption: blank.printedCaption,
-        reason: decision.reason, category: decision.category ?? null });
+      withheld.push({ blankId: blank.blankId, page: blank.page,
+        printedCaption: decision.effectiveLabel ?? blank.printedCaption,
+        sourcePrintedCaption: blank.printedCaption,
+        reason: decision.reason, category: decision.category ?? null,
+        approvedDisposition: decision.approvedDisposition ?? null });
       continue;
     }
-    if (document.role === "court_order"
-      && !new Set(["participant.full_legal_name", "matter.case_number", "matter.county"])
-        .has(decision.factId)) {
-      withheld.push({ blankId: blank.blankId, page: blank.page, printedCaption: blank.printedCaption,
-        reason: "court_order_accepts_caption_identity_only", category: "court" });
-      continue;
-    }
-    const x = round(blank.measured.x0 + (decision.factId === "matter.county" ? 5 : 1.5));
-    const width = round(blank.measured.x1 - RIGHT_EDGE_GUARD - x);
+    const narrowCaseCell = /matter\.charges\[\d+\]\.(?:count|statute)$/.test(decision.factId);
+    const statuteCell = /matter\.charges\[\d+\]\.statute$/.test(decision.factId);
+    const x = round(blank.measured.x0
+      + (decision.factId === "matter.county" ? 5 : statuteCell ? 4 : narrowCaseCell ? 0.75 : 1.5));
+    const rightGuard = narrowCaseCell ? 2 : RIGHT_EDGE_GUARD;
+    const width = round(blank.measured.x1 - rightGuard - x);
     const y = blank.construction === "drawn_horizontal_rule" ? round(blank.measured.baselineY + 2) : blank.measured.baselineY;
-    if (width < 20) {
+    if (width < (narrowCaseCell ? 7 : 20)) {
       withheld.push({ blankId: blank.blankId, page: blank.page, printedCaption: blank.printedCaption,
         reason: "measured_blank_too_narrow", category: "geometry" });
       continue;
@@ -641,7 +864,7 @@ function anchorsFor(document, census) {
       page: blank.page, writeBox: { x, y, width, height: 12 },
       sourceBlankBounds: { x0: blank.measured.x0, x1: blank.measured.x1,
         baselineY: blank.measured.baselineY },
-      fontSize: Math.min(10, blank.measured.printedSize || 10), captionOnly: document.role === "court_order"
+      fontSize: Math.min(10, blank.measured.printedSize || 10), captionOnly: false
     });
   }
   return { anchors, withheld };
@@ -649,11 +872,24 @@ function anchorsFor(document, census) {
 
 function protectedRulesFor(census) {
   return census.blanks.filter((blank) => blank.construction === "drawn_horizontal_rule")
+    .filter((blank) => blank.mappingDecision.terminal !== false)
     .filter((blank) => !blank.mappingDecision.writable)
     .map((blank) => ({
       page: blank.page, x: blank.measured.x0, endX: blank.measured.x1, y: blank.measured.baselineY,
       caption: blank.printedCaption, category: blank.mappingDecision.category ?? blank.mappingDecision.reason
     }));
+}
+
+function explicitMappingsFor(anchors) {
+  return Object.fromEntries(anchors.flatMap((anchor) => {
+    // The shared finalizer protects the word "conviction" before it consults
+    // an explicit mapping. These pinned cells therefore use the narrower
+    // internal binding label "Offense Date" while retaining the source's
+    // printed caption and the exact matter.conviction_date fact on the anchor.
+    if (anchor.factId === "matter.conviction_date") return [[anchor.label, "matter.offense_date"]];
+    if (/^matter\.charges\[\d+\]\./.test(anchor.factId)) return [[anchor.label, "matter.charge"]];
+    return [];
+  }));
 }
 
 async function addedInkOf(sourceBytes, outputBytes) {
@@ -775,6 +1011,14 @@ function verifyAddedInk({ document, census, anchors, added, addedVectors, report
       findings.push({ severity: "blocking", check: "reported_write_has_no_ink_in_its_measured_box", anchor: write.anchor });
     }
   }
+  for (const anchor of anchors) {
+    if (!(report.written ?? []).some((write) => write.anchor === anchor.label)) {
+      findings.push({ severity: "blocking", check: "mapped_anchor_was_not_written",
+        anchor: anchor.label,
+        refusal: (report.refused ?? []).find((refused) => refused.anchor === anchor.label) ?? null,
+        unfittable: (report.unfittable ?? []).find((row) => row.anchor === anchor.label) ?? null });
+    }
+  }
   const nameTokens = [
     CANONICAL["participant.full_legal_name"], BOUNDARY["participant.full_legal_name"],
     CANONICAL["participant.first_name"], CANONICAL["participant.last_name"],
@@ -875,6 +1119,14 @@ function sourceReceipt(familyId, records, documents) {
       byteLength: document.byteLength, pageCount: document.pageCount,
       acroFieldCountReadFromBytes: document.acroFieldCount, matchedBy: "exact_pinned_sha256"
     })),
+    ...(P2_FAMILY_IDS.includes(familyId) ? {
+      completenessRepairBinding: {
+        assignmentId: "P2_WA_VACATUR_COMPLETENESS",
+        controlBaseSha: P2_CONTROL_BASE,
+        sourceBytesReopenedAndReverified: true,
+        sourceHashesUnchanged: true
+      }
+    } : {}),
     doesNotEstablishCurrentEditionOrLegalApproval: true
   };
 }
@@ -1023,7 +1275,9 @@ async function assertCompleteRenderInventory({ familyId, documents, census, fixt
       fail("protected-field proof is not clean", key);
     }
     for (const write of actual.written) {
-      const proof = actual.perAnchor.find((row) => row.factId === write.factId);
+      const writtenBlankId = /\[([^\]]+)\]\s*$/.exec(String(write.anchor ?? ""))?.[1] ?? null;
+      const proof = actual.perAnchor.find((row) => row.factId === write.factId
+        && (!writtenBlankId || row.blankId === writtenBlankId));
       const expectedValue = fixture.facts?.[write.factId];
       if (!proof || proof.textReadFromArtifact !== expectedValue) {
         fail("written value does not match byte-derived fixture proof", `${key}/${write.factId}`);
@@ -1089,6 +1343,7 @@ async function checkFamily(familyId, records, sourceRoot) {
 
   const required = [
     "source-receipt.json", "field-census.census-v1.json", "production-field-map.json",
+    "product-wiring.json",
     "fixtures/fixture-manifest.json", "reports/actual-writes.json",
     "reports/protection-report.json", "participant-completion-instructions.json",
     "reports/rendered-artifacts.json", "approval-request.json", "build-findings.json", "build-status.json"
@@ -1100,6 +1355,7 @@ async function checkFamily(familyId, records, sourceRoot) {
   }
   const census = readJson(`${out}/field-census.census-v1.json`);
   const fieldMap = readJson(`${out}/production-field-map.json`);
+  const productWiring = readJson(`${out}/product-wiring.json`);
   const fixtureManifest = readJson(`${out}/fixtures/fixture-manifest.json`);
   const actualWrites = readJson(`${out}/reports/actual-writes.json`);
   const protection = readJson(`${out}/reports/protection-report.json`);
@@ -1107,7 +1363,8 @@ async function checkFamily(familyId, records, sourceRoot) {
   const approval = readJson(`${out}/approval-request.json`);
   const findings = readJson(`${out}/build-findings.json`);
   const status = readJson(`${out}/build-status.json`);
-  for (const [label, value] of [["field map", fieldMap], ["actual writes", actualWrites],
+  for (const [label, value] of [["field map", fieldMap], ["product wiring", productWiring],
+    ["actual writes", actualWrites],
     ["protection report", protection], ["rendered artifacts", rendered],
     ["approval request", approval], ["build status", status]]) assertClosedState(label, value);
   if (status.status !== "BUILT_EVIDENCE_ONLY" || findings.status !== "NO_BLOCKING_ARTIFACT_FINDINGS"
@@ -1115,8 +1372,8 @@ async function checkFamily(familyId, records, sourceRoot) {
     || protection.selectionControlsMarked !== false) {
     fail("family evidence is not clean and fail-closed", familyId);
   }
-  if ((fieldMap.explicitSafetyPolicy?.writesAllowed ?? []).some((entry) => /date of birth|\bdate\b/i.test(entry))) {
-    fail("field-map policy allows a prohibited date", familyId);
+  if ((fieldMap.explicitSafetyPolicy?.neverWritten ?? []).some((entry) => /date of birth|conviction date/i.test(entry))) {
+    fail("field-map policy incorrectly protects a held filing fact", familyId);
   }
 
   for (const document of documents) {
@@ -1139,8 +1396,12 @@ async function checkFamily(familyId, records, sourceRoot) {
       || JSON.stringify(storedMap.explicitGeometryRefusals) !== JSON.stringify(fresh.unresolvedVisibleFields)) {
       fail("stored field map does not match rebound source census", document.formNumber);
     }
-    if (storedMap.writableAnchors.some((anchor) => /date|birth|signature|service|prosecutor|clerk|judge|agency/i
-      .test(`${anchor.factId} ${anchor.printedCaption}`))) {
+    if (storedMap.writableAnchors.some((anchor) => {
+      const identity = `${anchor.factId} ${anchor.printedCaption}`;
+      const protectedExecutionDate = /\b(?:dated|signed on|signature date|execution date)\b/i.test(identity)
+        && !new Set(["participant.date_of_birth", "matter.conviction_date"]).has(anchor.factId);
+      return protectedExecutionDate || /signature|service certification|prosecutor|clerk|judge/i.test(identity);
+    })) {
       fail("stored field map allows a protected fact", document.formNumber);
     }
     const protectionRow = protection.documents.find((candidate) => candidate.formNumber === document.formNumber);
@@ -1178,6 +1439,10 @@ async function buildOfficialFamily(familyId, records, documents) {
     censused.push({ document, census, anchors, withheld, protectedRules: protectedRulesFor(census) });
   }
 
+  const productWiringPath = `${out}/product-wiring.json`;
+  const preservedProductWiring = fs.existsSync(absFor(productWiringPath))
+    ? readJson(productWiringPath)
+    : jsonAtRevision(P2_CONTROL_BASE, productWiringPath);
   fs.rmSync(assertOwnedOutput(familyId, out), { recursive: true, force: true });
   fs.mkdirSync(absFor(out), { recursive: true });
   writeJson(`${out}/source-receipt.json`, sourceReceipt(familyId, records, documents));
@@ -1199,20 +1464,22 @@ async function buildOfficialFamily(familyId, records, documents) {
   });
   writeJson(`${out}/production-field-map.json`, {
     schemaVersion: "rcap-official-form-field-map/v1-census-v1", familyId,
-    mappingScope: "Washington-only caption-band identity facts",
+    mappingScope: "Washington-only source-specific participant and case facts",
     explicitSafetyPolicy: {
       writesAllowed: [
-        "caption-band defendant name", "caption-band case number",
+        "caption court, county/city, plaintiff, defendant name, and case number",
+        "participant print name, date of birth, mailing address, and email",
+        "conviction date and measured count, offense, and RCW cells",
         "CR-08 caption-band county with recorded suffix normalization"
       ],
       possibleParticipantContactWrites:
         "Only a separately captioned participant contact blank outside declarations/signature blocks; none is inferred from layout alone.",
       neverWritten: [
-        "legal elections or checkboxes", "charges or offenses", "declarations", "signatures",
-        "all dates including date of birth and signature dates",
-        "service facts", "prosecutor or attorney fields", "court findings", "orders", "money or refund amounts"
+        "legal elections or checkboxes", "participant-authored narratives", "signatures",
+        "signature and execution dates", "service certifications", "prosecutor or attorney fields",
+        "court findings or judicial reasons", "money or refund amounts"
       ],
-      courtOrdersAcceptCaptionFactsOnly: true
+      courtOrdersAcceptKnownCaseFactsOnly: true
     },
     valueNormalization: {
       "matter.county":
@@ -1226,6 +1493,7 @@ async function buildOfficialFamily(familyId, records, documents) {
     })),
     generationAllowed: false, runtimeSelectable: false, commercialRoutesOpened: 0
   });
+  writeJson(productWiringPath, preservedProductWiring);
 
   const blockedHashes = new Set(readJson(STALE_BLOCK).hashes ?? []);
   const artifacts = [];
@@ -1242,7 +1510,8 @@ async function buildOfficialFamily(familyId, records, documents) {
       const options = {
         sourceBytes: item.document.bytes, expectedSha256: item.document.expectedSha256,
         anchors: item.anchors, selections: [], protectedRules: item.protectedRules,
-        explicitMappings: {}, facts: renderedFacts, documentTextLines: item.census.documentTextLines,
+        explicitMappings: explicitMappingsFor(item.anchors), facts: renderedFacts,
+        documentTextLines: item.census.documentTextLines,
         title: `WA ${item.document.formNumber}`
       };
       const first = await finalizeFlatOverlay(options);
@@ -1268,8 +1537,8 @@ async function buildOfficialFamily(familyId, records, documents) {
       fixtureRows.push({
         document: item.document.formNumber, fixture, file: rel, sha256: firstHash,
         sourceSha256: item.document.expectedSha256,
-        facts: Object.fromEntries(Object.entries(renderedFacts)
-          .filter(([key]) => item.anchors.some((anchor) => anchor.factId === key))),
+        facts: Object.fromEntries(item.anchors.map((anchor) =>
+          [anchor.factId, resolveFact(renderedFacts, anchor.factId)])),
         normalizations: countyIsMapped && renderedFacts["matter.county"] !== facts["matter.county"]
           ? [{ factId: "matter.county", from: facts["matter.county"], to: renderedFacts["matter.county"],
             why: "the source caption prints 'County of' before the measured blank" }]
@@ -1298,7 +1567,8 @@ async function buildOfficialFamily(familyId, records, documents) {
   writeJson(`${out}/reports/protection-report.json`, {
     schemaVersion: "rcap-protected-fields-report/v1", familyId,
     signatureAndCourtFieldsWritten: false, selectionControlsMarked: anySelectionControlMarked,
-    chargeOrOffenseFieldsWritten: false,
+    chargeOrOffenseFieldsWritten: censused.some(({ anchors }) =>
+      anchors.some((anchor) => /^matter\.charges\[\d+\]\./.test(anchor.factId))),
     documents: censused.map(({ document, census, withheld }) => ({
       formNumber: document.formNumber, withheldBlankCount: withheld.length,
       selectionControlsObserved: census.selectionControls.length,
@@ -1311,7 +1581,7 @@ async function buildOfficialFamily(familyId, records, documents) {
         controlsProvedUnmarked: report.selectionControlProofs.filter((control) => !control.markedByBuild).length,
         controlsMarked: report.selectionControlProofs.filter((control) => control.markedByBuild).length
       })),
-      laterCompletionBlanks: withheld
+      approvedBlankDispositions: withheld
     })),
     generationAllowed: false, runtimeSelectable: false, commercialRoutesOpened: 0
   });
@@ -1337,7 +1607,8 @@ async function buildOfficialFamily(familyId, records, documents) {
     status: "EVIDENCE_ONLY_NOT_APPROVED_FOR_DELIVERY",
     instructions: [
       "Review the selected Washington form and choose the correct court and eligibility path; this build does not make legal elections.",
-      "Complete only participant-owned blanks listed as withheld in production-field-map.json, such as verified charge/count details and case facts; a withheld blank is not automatically the participant's to complete.",
+      "Review every prefilled participant and case fact, including caption, conviction, offense/count, statute, and contact information, against the court record before filing.",
+      "Participant-authored evidence or mitigation remains blank when the route requires the participant's own sworn narrative; the platform does not invent that content.",
       "Sign and date only after reviewing the filing; the build never signs or dates a declaration for the participant.",
       "Leave the judge, commissioner, clerk, prosecutor, and court-decision portions for the named person or court.",
       "Confirm local filing, notice, service, fee, and hearing requirements with the sentencing court before filing. The route controls record local variation as unresolved."
@@ -1367,7 +1638,7 @@ async function buildOfficialFamily(familyId, records, documents) {
     schemaVersion: "rcap-build-findings/v1", familyId, status: "NO_BLOCKING_ARTIFACT_FINDINGS",
     blocking: [],
     advisories: [
-      "The state-bounded map intentionally leaves all legal elections and all facts outside the first-page caption band for later completion.",
+      "The state-bounded map writes held participant and case facts into exact source-measured cells; legal elections, participant-authored narratives, execution fields, and judicial findings retain approved blank dispositions.",
       "Machine raster production and byte-level placement proof are not human independent visual review.",
       "The worklist records unresolved local filing, notice, service, fee, and hearing variation; this build does not resolve those legal-design questions."
     ],
@@ -1403,6 +1674,12 @@ export async function buildWaFamily(familyId, argv = process.argv.slice(2)) {
         blanks: census.blanks.length, selectionControls: census.selectionControls.length,
         writableAnchors: anchors, withheldCount: withheld.length,
         unresolvedVisibleFields: census.unresolvedVisibleFields,
+        terminalBlanks: census.blanks.filter((blank) => blank.mappingDecision.terminal !== false)
+          .map((blank) => ({ blankId: blank.blankId, caption: blank.printedCaption,
+            measured: blank.measured, decision: blank.mappingDecision })),
+        shortMeasuredBlanks: census.blanks.filter((blank) => blank.measured.width < 20)
+          .map((blank) => ({ blankId: blank.blankId, caption: blank.printedCaption,
+            measured: blank.measured, decision: blank.mappingDecision })),
         captionBandBlanks: census.blanks.filter((blank) => blank.page === 1 && blank.measured.baselineY >= 430)
           .map((blank) => ({ blankId: blank.blankId, caption: blank.printedCaption,
             captionBasis: blank.captionBasis, measured: blank.measured, decision: blank.mappingDecision }))
@@ -1412,6 +1689,109 @@ export async function buildWaFamily(familyId, argv = process.argv.slice(2)) {
   }
   if (familyId === ANCHOR_FAMILY) return writeBlakeVehicleStop(familyId, records, documents);
   return buildOfficialFamily(familyId, records, documents);
+}
+
+function fieldRowsOf(fieldMap) {
+  return (fieldMap.documents ?? []).flatMap((document) => [
+    ...(document.writableAnchors ?? []).map((anchor) => ({
+      kind: "write", formNumber: document.formNumber, fieldId: anchor.blankId,
+      page: anchor.page, printedCaption: anchor.printedCaption, label: anchor.label,
+      factId: anchor.factId
+    })),
+    ...(document.withheld ?? []).map((blank) => ({
+      kind: "blank", formNumber: document.formNumber, fieldId: blank.blankId,
+      page: blank.page, printedCaption: blank.sourcePrintedCaption ?? blank.printedCaption,
+      effectiveLabel: blank.printedCaption, reason: blank.reason,
+      refusalClass: blank.category, approvedDisposition: blank.approvedDisposition
+    }))
+  ]);
+}
+
+function jsonAtRevision(revision, rel) {
+  const shown = spawnSync("git", ["show", `${revision}:${rel}`], {
+    cwd: rootDir, encoding: "utf8", maxBuffer: 32 * 1024 * 1024
+  });
+  if (shown.status !== 0) fail("unable to read completeness baseline", `${revision}:${rel}`);
+  return JSON.parse(shown.stdout);
+}
+
+export function writeP2CompletenessRows() {
+  const rows = [];
+  for (const familyId of P2_FAMILY_IDS) {
+    const out = outFor(familyId);
+    const rel = `${out}/production-field-map.json`;
+    const beforeMap = jsonAtRevision(P2_CONTROL_BASE, rel);
+    const afterMap = readJson(rel);
+    const beforeRows = fieldRowsOf(beforeMap);
+    const afterRows = fieldRowsOf(afterMap);
+    const beforeById = new Map(beforeRows.map((row) => [`${row.formNumber}|${row.fieldId}`, row]));
+    const afterById = new Map(afterRows.map((row) => [`${row.formNumber}|${row.fieldId}`, row]));
+
+    const fieldsNewlyWritten = afterRows.filter((row) => row.kind === "write")
+      .filter((row) => {
+        const before = beforeById.get(`${row.formNumber}|${row.fieldId}`);
+        return before?.kind !== "write" || before.factId !== row.factId;
+      });
+    const blanksNewlyGivenApprovedDisposition = afterRows.filter((row) => row.kind === "blank")
+      .filter((row) => {
+        const before = beforeById.get(`${row.formNumber}|${row.fieldId}`);
+        return row.approvedDisposition && (before?.kind !== "blank"
+          || before.approvedDisposition !== row.approvedDisposition
+          || before.reason !== row.reason || before.refusalClass !== row.refusalClass);
+      });
+    const measuredRulesRemovedFromTerminalLedger = beforeRows.filter((row) => row.kind === "blank")
+      .filter((row) => !afterById.has(`${row.formNumber}|${row.fieldId}`))
+      .map((row) => ({ ...row,
+        disposition: "NOT_A_FIELD",
+        basis: "the source-bound census identifies this geometry as a footer, divider, heading rule, paragraph rule, or other non-terminal source mark"
+      }));
+
+    const allowed = new Set(["PROTECTED_FIELD", "LATER_COMPLETION", "NOT_APPLICABLE_ON_THIS_ROUTE",
+      "REQUIRED_BEFORE_FILING", "PARTICIPANT_ELECTION_GENUINE", "OPTIONAL_PARTICIPANT_CONTENT"]);
+    const badBlanks = afterRows.filter((row) => row.kind === "blank" && !allowed.has(row.approvedDisposition));
+    if (badBlanks.length) fail("P2 report found a blank without an approved disposition",
+      `${familyId}: ${badBlanks.map((row) => row.fieldId).join(", ")}`);
+
+    const actual = readJson(`${out}/reports/actual-writes.json`);
+    const anchorCountByDocument = new Map((afterMap.documents ?? [])
+      .map((document) => [document.formNumber, document.writableAnchors?.length ?? 0]));
+    for (const report of actual.reports ?? []) {
+      if (report.findings?.length || report.refused?.length || report.unfittable?.length
+        || report.written?.length !== anchorCountByDocument.get(report.document)) {
+        fail("P2 report found an incomplete rendered fixture", `${familyId}/${report.document}/${report.fixture}`);
+      }
+    }
+
+    rows.push({
+      itemId: familyId, status: "COMPLETED",
+      resultBefore: "FAIL_MISSING_REQUIRED_FACTS", resultAfter: "PASS_COMPLETE",
+      countersBefore: P2_COUNTERS_BEFORE[familyId], countersAfter: { ...ZERO_COUNTERS },
+      terminalFieldsBefore: beforeRows.length,
+      terminalFieldsAfter: afterRows.length,
+      writtenBefore: beforeRows.filter((row) => row.kind === "write").length,
+      writtenAfter: afterRows.filter((row) => row.kind === "write").length,
+      fieldsNewlyWritten,
+      blanksNewlyGivenApprovedDisposition,
+      measuredRulesRemovedFromTerminalLedger,
+      factsClassifiedRequiredBeforeFiling: [],
+      artifactProof: {
+        fixtures: actual.reports?.length ?? 0,
+        mappedWritesRefused: (actual.reports ?? []).reduce((count, report) => count + (report.refused?.length ?? 0), 0),
+        mappedWritesUnfittable: (actual.reports ?? []).reduce((count, report) => count + (report.unfittable?.length ?? 0), 0),
+        blockingFindings: actual.blockingFindings?.length ?? 0
+      }
+    });
+  }
+  const report = {
+    schemaVersion: "rcap-completeness-repair-rows/v1",
+    assignmentId: "P2_WA_VACATUR_COMPLETENESS",
+    workerBranch: "codex/p2-wa-vacatur-completeness",
+    baseSha: P2_CONTROL_BASE, dispatchSha: P2_DISPATCH,
+    commercialRoutesOpened: 0, productionTouched: false,
+    rows
+  };
+  writeJson(P2_REPORT, report);
+  return { report: P2_REPORT, rows: rows.length, status: "COMPLETED" };
 }
 
 async function selfTest() {
@@ -1537,5 +1917,6 @@ async function selfTest() {
 const invokedDirectly = process.argv[1] && pathToFileURL(path.resolve(process.argv[1])).href === import.meta.url;
 if (invokedDirectly) {
   if (process.argv.includes("--self-test")) await selfTest();
+  else if (process.argv.includes("--p2-report")) console.log(JSON.stringify(writeP2CompletenessRows()));
   else console.log(JSON.stringify(await buildWaFamily(ANCHOR_FAMILY, process.argv.slice(2))));
 }

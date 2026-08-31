@@ -1,27 +1,26 @@
 {
   "schemaVersion": "rcap-official-form-field-map/v1-census-v1",
   "familyId": "wa_vac_cannabis-set",
-  "mappingScope": "Washington-only caption-band identity facts",
+  "mappingScope": "Washington-only source-specific participant and case facts",
   "explicitSafetyPolicy": {
     "writesAllowed": [
-      "caption-band defendant name",
-      "caption-band case number",
+      "caption court, county/city, plaintiff, defendant name, and case number",
+      "participant print name, date of birth, mailing address, and email",
+      "conviction date and measured count, offense, and RCW cells",
       "CR-08 caption-band county with recorded suffix normalization"
     ],
     "possibleParticipantContactWrites": "Only a separately captioned participant contact blank outside declarations/signature blocks; none is inferred from layout alone.",
     "neverWritten": [
       "legal elections or checkboxes",
-      "charges or offenses",
-      "declarations",
+      "participant-authored narratives",
       "signatures",
-      "all dates including date of birth and signature dates",
-      "service facts",
+      "signature and execution dates",
+      "service certifications",
       "prosecutor or attorney fields",
-      "court findings",
-      "orders",
+      "court findings or judicial reasons",
       "money or refund amounts"
     ],
-    "courtOrdersAcceptCaptionFactsOnly": true
+    "courtOrdersAcceptKnownCaseFactsOnly": true
   },
   "valueNormalization": {
     "matter.county": "For CR-08 caption blanks following the source text 'County of', strip a trailing 'County' designator from the fact before rendering so 'King County' prints as 'County of King', not 'County of King County'."
@@ -32,6 +31,46 @@
       "role": "participant_filing",
       "sourceSha256": "260367f6930cacc89727fc8a48aa0591b07ad5c7183b6412aa247b1810503d7b",
       "writableAnchors": [
+        {
+          "blankId": "p1-y558.70-x98.90",
+          "printedCaption": "Court of Washington, County/City of",
+          "label": "Type of Court [p1-y558.70-x98.90]",
+          "factId": "matter.court_prefix",
+          "page": 1,
+          "writeBox": {
+            "x": 100.4,
+            "y": 558.7,
+            "width": 84.89,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 98.9,
+            "x1": 199.29,
+            "baselineY": 558.7
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p1-y558.70-x414.23",
+          "printedCaption": "Court of Washington, County/City of",
+          "label": "County or City [p1-y558.70-x414.23]",
+          "factId": "matter.county_or_city",
+          "page": 1,
+          "writeBox": {
+            "x": 415.73,
+            "y": 558.7,
+            "width": 85.19,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 414.23,
+            "x1": 514.92,
+            "baselineY": 558.7
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
         {
           "blankId": "p1-y539.80-x360.03",
           "printedCaption": "No",
@@ -48,6 +87,26 @@
             "x0": 360.03,
             "x1": 548.25,
             "baselineY": 539.8
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p1-y531.79-x69.74",
+          "printedCaption": "No",
+          "label": "Plaintiff Name [p1-y531.79-x69.74]",
+          "factId": "matter.plaintiff_name",
+          "page": 1,
+          "writeBox": {
+            "x": 71.24,
+            "y": 533.79,
+            "width": 241.83,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 69.74,
+            "x1": 327.07,
+            "baselineY": 531.79
           },
           "fontSize": 10,
           "captionOnly": false
@@ -71,177 +130,312 @@
           },
           "fontSize": 10,
           "captionOnly": false
+        },
+        {
+          "blankId": "p1-y356.69-x306.05",
+          "printedCaption": "Print Name",
+          "label": "Print Name [p1-y356.69-x306.05]",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "writeBox": {
+            "x": 307.55,
+            "y": 358.69,
+            "width": 209.55,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 306.05,
+            "x1": 531.1,
+            "baselineY": 356.69
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p1-y306.77-x155.06",
+          "printedCaption": "I, (name)",
+          "label": "Declarant Name [p1-y306.77-x155.06]",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "writeBox": {
+            "x": 156.56,
+            "y": 308.77,
+            "width": 279.53,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 155.06,
+            "x1": 450.09,
+            "baselineY": 306.77
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p1-y288.17-x157.58",
+          "printedCaption": "On (date)",
+          "label": "Offense Date [p1-y288.17-x157.58]",
+          "factId": "matter.conviction_date",
+          "page": 1,
+          "writeBox": {
+            "x": 159.08,
+            "y": 290.17,
+            "width": 96.96,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 157.58,
+            "x1": 270.04,
+            "baselineY": 288.17
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p1-y269.45-x160.58",
+          "printedCaption": "Count No",
+          "label": "Count 1 [p1-y269.45-x160.58]",
+          "factId": "matter.charges[0].count",
+          "page": 1,
+          "writeBox": {
+            "x": 161.33,
+            "y": 271.45,
+            "width": 25.69,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 160.58,
+            "x1": 189.02,
+            "baselineY": 269.45
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p1-y269.45-x236.69",
+          "printedCaption": "Offense",
+          "label": "Offense 1 [p1-y269.45-x236.69]",
+          "factId": "matter.charges[0].charge",
+          "page": 1,
+          "writeBox": {
+            "x": 238.19,
+            "y": 271.45,
+            "width": 278.91,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 236.69,
+            "x1": 531.1,
+            "baselineY": 269.45
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p1-y250.85-x160.58",
+          "printedCaption": "Count No",
+          "label": "Count 2 [p1-y250.85-x160.58]",
+          "factId": "matter.charges[1].count",
+          "page": 1,
+          "writeBox": {
+            "x": 161.33,
+            "y": 252.85,
+            "width": 25.69,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 160.58,
+            "x1": 189.02,
+            "baselineY": 250.85
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p1-y250.85-x236.69",
+          "printedCaption": "Offense",
+          "label": "Offense 2 [p1-y250.85-x236.69]",
+          "factId": "matter.charges[1].charge",
+          "page": 1,
+          "writeBox": {
+            "x": 238.19,
+            "y": 252.85,
+            "width": 278.91,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 236.69,
+            "x1": 531.1,
+            "baselineY": 250.85
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p1-y232.25-x160.58",
+          "printedCaption": "Count No",
+          "label": "Count 3 [p1-y232.25-x160.58]",
+          "factId": "matter.charges[2].count",
+          "page": 1,
+          "writeBox": {
+            "x": 161.33,
+            "y": 234.25,
+            "width": 25.69,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 160.58,
+            "x1": 189.02,
+            "baselineY": 232.25
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p1-y232.25-x236.69",
+          "printedCaption": "Offense",
+          "label": "Offense 3 [p1-y232.25-x236.69]",
+          "factId": "matter.charges[2].charge",
+          "page": 1,
+          "writeBox": {
+            "x": 238.19,
+            "y": 234.25,
+            "width": 278.91,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 236.69,
+            "x1": 531.1,
+            "baselineY": 232.25
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p1-y194.90-x185.66",
+          "printedCaption": "My birthdate is",
+          "label": "Date of Birth [p1-y194.90-x185.66]",
+          "factId": "participant.date_of_birth",
+          "page": 1,
+          "writeBox": {
+            "x": 187.16,
+            "y": 196.9,
+            "width": 329.93,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 185.66,
+            "x1": 531.09,
+            "baselineY": 194.9
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p1-y126.26-x342.07",
+          "printedCaption": "Defendant’s Si gnaturePrint Name",
+          "label": "Print Name [p1-y126.26-x342.07]",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "writeBox": {
+            "x": 343.57,
+            "y": 128.26,
+            "width": 173.52,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 342.07,
+            "x1": 531.09,
+            "baselineY": 126.26
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p1-y94.94-x108.02",
+          "printedCaption": "Street Address or PO Box City State Zip",
+          "label": "Mailing Address [p1-y94.94-x108.02]",
+          "factId": "participant.full_mailing_address",
+          "page": 1,
+          "writeBox": {
+            "x": 109.52,
+            "y": 96.94,
+            "width": 407.57,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 108.02,
+            "x1": 531.09,
+            "baselineY": 94.94
+          },
+          "fontSize": 10,
+          "captionOnly": false
         }
       ],
-      "withheldBlankCount": 24,
+      "withheldBlankCount": 7,
       "withheld": [
-        {
-          "blankId": "p1-y558.70-x98.90",
-          "page": 1,
-          "printedCaption": "Court of Washington, County/City of",
-          "reason": "not_on_state_bounded_identity_allowlist",
-          "category": null
-        },
-        {
-          "blankId": "p1-y558.70-x414.23",
-          "page": 1,
-          "printedCaption": "Court of Washington, County/City of",
-          "reason": "not_on_state_bounded_identity_allowlist",
-          "category": null
-        },
-        {
-          "blankId": "p1-y531.79-x69.74",
-          "page": 1,
-          "printedCaption": "No",
-          "reason": "not_on_state_bounded_identity_allowlist",
-          "category": null
-        },
-        {
-          "blankId": "p1-y470.11-x63.02",
-          "page": 1,
-          "printedCaption": "Petition and Declaration for Order to Vacate Cannabis Conviction",
-          "reason": "protected_printed_caption",
-          "category": "disposition_or_hearing"
-        },
-        {
-          "blankId": "p1-y470.11-x334.15",
-          "page": 1,
-          "printedCaption": "Petition and Declaration for Order to Vacate Cannabis Conviction",
-          "reason": "protected_printed_caption",
-          "category": "disposition_or_hearing"
-        },
         {
           "blankId": "p1-y388.03-x143.54",
           "page": 1,
           "printedCaption": "Dated",
-          "reason": "protected_date_field",
-          "category": "date"
+          "sourcePrintedCaption": "Dated",
+          "reason": "Signature or execution-date field; completed by the participant or signer at execution and never prefilled.",
+          "category": "signature_or_date_participant_completion",
+          "approvedDisposition": "PROTECTED_FIELD"
         },
         {
           "blankId": "p1-y388.03-x306.05",
           "page": 1,
           "printedCaption": "Defendant/Defendant's Attorney/WSBA #",
-          "reason": "protected_printed_caption",
-          "category": "attorney"
-        },
-        {
-          "blankId": "p1-y356.69-x306.05",
-          "page": 1,
-          "printedCaption": "Print Name",
-          "reason": "protected_page_region",
-          "category": "attorney"
-        },
-        {
-          "blankId": "p1-y306.77-x155.06",
-          "page": 1,
-          "printedCaption": "I, (name)",
-          "reason": "protected_page_region",
-          "category": "attorney"
-        },
-        {
-          "blankId": "p1-y288.17-x157.58",
-          "page": 1,
-          "printedCaption": "On (date)",
-          "reason": "protected_date_field",
-          "category": "date"
-        },
-        {
-          "blankId": "p1-y269.45-x160.58",
-          "page": 1,
-          "printedCaption": "Count No",
-          "reason": "protected_page_region",
-          "category": "attorney"
-        },
-        {
-          "blankId": "p1-y269.45-x236.69",
-          "page": 1,
-          "printedCaption": "Offense",
-          "reason": "protected_page_region",
-          "category": "attorney"
-        },
-        {
-          "blankId": "p1-y250.85-x160.58",
-          "page": 1,
-          "printedCaption": "Count No",
-          "reason": "protected_page_region",
-          "category": "attorney"
-        },
-        {
-          "blankId": "p1-y250.85-x236.69",
-          "page": 1,
-          "printedCaption": "Offense",
-          "reason": "protected_page_region",
-          "category": "attorney"
-        },
-        {
-          "blankId": "p1-y232.25-x160.58",
-          "page": 1,
-          "printedCaption": "Count No",
-          "reason": "protected_page_region",
-          "category": "attorney"
-        },
-        {
-          "blankId": "p1-y232.25-x236.69",
-          "page": 1,
-          "printedCaption": "Offense",
-          "reason": "protected_page_region",
-          "category": "attorney"
-        },
-        {
-          "blankId": "p1-y194.90-x185.66",
-          "page": 1,
-          "printedCaption": "My birthdate is",
-          "reason": "protected_date_field",
-          "category": "date"
+          "sourcePrintedCaption": "Defendant/Defendant's Attorney/WSBA #",
+          "reason": "Signature or execution-date field; completed by the participant or signer at execution and never prefilled.",
+          "category": "signature_or_date_participant_completion",
+          "approvedDisposition": "PROTECTED_FIELD"
         },
         {
           "blankId": "p1-y144.86-x192.41",
           "page": 1,
           "printedCaption": "Signed on (date)",
-          "reason": "protected_date_field",
-          "category": "date"
+          "sourcePrintedCaption": "Signed on (date)",
+          "reason": "Signature or execution-date field; completed by the participant or signer at execution and never prefilled.",
+          "category": "signature_or_date_participant_completion",
+          "approvedDisposition": "PROTECTED_FIELD"
         },
         {
           "blankId": "p1-y144.86-x360.55",
           "page": 1,
           "printedCaption": "at (city or county)",
-          "reason": "protected_page_region",
-          "category": "attorney"
+          "sourcePrintedCaption": "at (city or county)",
+          "reason": "Signature or execution field; completed by the participant, attorney, or prosecutor and never prefilled.",
+          "category": "signature_or_date_participant_completion",
+          "approvedDisposition": "PROTECTED_FIELD"
         },
         {
           "blankId": "p1-y126.26-x108.02",
           "page": 1,
           "printedCaption": "Defendant’s Si gnaturePrint Name",
-          "reason": "protected_printed_caption",
-          "category": "signature"
-        },
-        {
-          "blankId": "p1-y126.26-x342.07",
-          "page": 1,
-          "printedCaption": "Defendant’s Si gnaturePrint Name",
-          "reason": "protected_printed_caption",
-          "category": "signature"
-        },
-        {
-          "blankId": "p1-y94.94-x108.02",
-          "page": 1,
-          "printedCaption": "Street Address or PO Box City State Zip",
-          "reason": "protected_page_region",
-          "category": "attorney"
+          "sourcePrintedCaption": "Defendant’s Si gnaturePrint Name",
+          "reason": "Signature or execution-date field; completed by the participant or signer at execution and never prefilled.",
+          "category": "signature_or_date_participant_completion",
+          "approvedDisposition": "PROTECTED_FIELD"
         },
         {
           "blankId": "p1-y80.66-x228.89",
           "page": 1,
           "printedCaption": "Street Address or PO Box",
-          "reason": "protected_page_region",
-          "category": "attorney"
+          "sourcePrintedCaption": "Street Address or PO Box",
+          "reason": "Signature or execution field; completed by the participant, attorney, or prosecutor and never prefilled.",
+          "category": "signature_or_date_participant_completion",
+          "approvedDisposition": "PROTECTED_FIELD"
         },
         {
           "blankId": "p1-y80.66-x385.39",
           "page": 1,
           "printedCaption": "Street Address or PO Box City State Zip",
-          "reason": "protected_page_region",
-          "category": "attorney"
+          "sourcePrintedCaption": "Street Address or PO Box City State Zip",
+          "reason": "Signature or execution field; completed by the participant, attorney, or prosecutor and never prefilled.",
+          "category": "signature_or_date_participant_completion",
+          "approvedDisposition": "PROTECTED_FIELD"
         }
       ],
       "explicitGeometryRefusals": []
@@ -251,6 +445,46 @@
       "role": "court_order",
       "sourceSha256": "a69335fbbf311f4c92357db5ecb38f931b3409e14f987810247faae2f6295cc3",
       "writableAnchors": [
+        {
+          "blankId": "p1-y558.70-x98.88",
+          "printedCaption": "Court of Washington, County/City of",
+          "label": "Type of Court [p1-y558.70-x98.88]",
+          "factId": "matter.court_prefix",
+          "page": 1,
+          "writeBox": {
+            "x": 100.38,
+            "y": 558.7,
+            "width": 84.7,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 98.88,
+            "x1": 199.08,
+            "baselineY": 558.7
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p1-y558.70-x412.92",
+          "printedCaption": "Court of Washington, County/City of",
+          "label": "County or City [p1-y558.70-x412.92]",
+          "factId": "matter.county_or_city",
+          "page": 1,
+          "writeBox": {
+            "x": 414.42,
+            "y": 558.7,
+            "width": 84.82,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 412.92,
+            "x1": 513.24,
+            "baselineY": 558.7
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
         {
           "blankId": "p1-y539.90-x332.05",
           "printedCaption": "No",
@@ -269,7 +503,27 @@
             "baselineY": 539.9
           },
           "fontSize": 10,
-          "captionOnly": true
+          "captionOnly": false
+        },
+        {
+          "blankId": "p1-y531.84-x78.72",
+          "printedCaption": "No",
+          "label": "Plaintiff Name [p1-y531.84-x78.72]",
+          "factId": "matter.plaintiff_name",
+          "page": 1,
+          "writeBox": {
+            "x": 80.22,
+            "y": 533.84,
+            "width": 203.62,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 78.72,
+            "x1": 297.84,
+            "baselineY": 531.84
+          },
+          "fontSize": 10,
+          "captionOnly": false
         },
         {
           "blankId": "p1-y483.84-x78.72",
@@ -289,164 +543,285 @@
             "baselineY": 483.84
           },
           "fontSize": 10,
-          "captionOnly": true
+          "captionOnly": false
+        },
+        {
+          "blankId": "p1-y252.24-x160.56",
+          "printedCaption": "Count No",
+          "label": "Count 1 [p1-y252.24-x160.56]",
+          "factId": "matter.charges[0].count",
+          "page": 1,
+          "writeBox": {
+            "x": 161.31,
+            "y": 254.24,
+            "width": 16.69,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 160.56,
+            "x1": 180,
+            "baselineY": 252.24
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p1-y252.24-x227.64",
+          "printedCaption": "Offense",
+          "label": "Offense 1 [p1-y252.24-x227.64]",
+          "factId": "matter.charges[0].charge",
+          "page": 1,
+          "writeBox": {
+            "x": 229.14,
+            "y": 254.24,
+            "width": 157.42,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 227.64,
+            "x1": 400.56,
+            "baselineY": 252.24
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p1-y233.64-x160.56",
+          "printedCaption": "Count No",
+          "label": "Count 2 [p1-y233.64-x160.56]",
+          "factId": "matter.charges[1].count",
+          "page": 1,
+          "writeBox": {
+            "x": 161.31,
+            "y": 235.64,
+            "width": 16.69,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 160.56,
+            "x1": 180,
+            "baselineY": 233.64
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p1-y233.64-x227.64",
+          "printedCaption": "Offense",
+          "label": "Offense 2 [p1-y233.64-x227.64]",
+          "factId": "matter.charges[1].charge",
+          "page": 1,
+          "writeBox": {
+            "x": 229.14,
+            "y": 235.64,
+            "width": 157.42,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 227.64,
+            "x1": 400.56,
+            "baselineY": 233.64
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p1-y214.92-x160.56",
+          "printedCaption": "Count No",
+          "label": "Count 3 [p1-y214.92-x160.56]",
+          "factId": "matter.charges[2].count",
+          "page": 1,
+          "writeBox": {
+            "x": 161.31,
+            "y": 216.92,
+            "width": 16.69,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 160.56,
+            "x1": 180,
+            "baselineY": 214.92
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p1-y214.92-x227.64",
+          "printedCaption": "Offense",
+          "label": "Offense 3 [p1-y214.92-x227.64]",
+          "factId": "matter.charges[2].charge",
+          "page": 1,
+          "writeBox": {
+            "x": 229.14,
+            "y": 216.92,
+            "width": 157.42,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 227.64,
+            "x1": 400.56,
+            "baselineY": 214.92
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p2-y298.20-x72.00",
+          "printedCaption": "Print Name Print Name",
+          "label": "Defendant Print Name [p2-y298.20-x72.00]",
+          "factId": "participant.full_legal_name",
+          "page": 2,
+          "writeBox": {
+            "x": 73.5,
+            "y": 300.2,
+            "width": 200.5,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 72,
+            "x1": 288,
+            "baselineY": 298.2
+          },
+          "fontSize": 10,
+          "captionOnly": false
         }
       ],
-      "withheldBlankCount": 22,
+      "withheldBlankCount": 15,
       "withheld": [
-        {
-          "blankId": "p1-y558.70-x98.88",
-          "page": 1,
-          "printedCaption": "Court of Washington, County/City of",
-          "reason": "not_on_state_bounded_identity_allowlist",
-          "category": null
-        },
-        {
-          "blankId": "p1-y558.70-x412.92",
-          "page": 1,
-          "printedCaption": "Court of Washington, County/City of",
-          "reason": "not_on_state_bounded_identity_allowlist",
-          "category": null
-        },
-        {
-          "blankId": "p1-y531.84-x78.72",
-          "page": 1,
-          "printedCaption": "No",
-          "reason": "not_on_state_bounded_identity_allowlist",
-          "category": null
-        },
         {
           "blankId": "p1-y440.28-x72.00",
           "page": 1,
           "printedCaption": "Order on Petition to VacateC annabis Conviction",
-          "reason": "protected_printed_caption",
-          "category": "disposition_or_hearing"
+          "sourcePrintedCaption": "Order on Petition to VacateC annabis Conviction",
+          "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "approvedDisposition": "PROTECTED_FIELD"
         },
         {
           "blankId": "p1-y440.28-x306.36",
           "page": 1,
           "printedCaption": "Order on Petition to VacateC annabis Conviction",
-          "reason": "protected_printed_caption",
-          "category": "disposition_or_hearing"
-        },
-        {
-          "blankId": "p1-y252.24-x227.64",
-          "page": 1,
-          "printedCaption": "Count No: Offense",
-          "reason": "protected_page_region",
-          "category": "agency"
-        },
-        {
-          "blankId": "p1-y233.64-x227.64",
-          "page": 1,
-          "printedCaption": "Count No: Offense",
-          "reason": "protected_page_region",
-          "category": "agency"
-        },
-        {
-          "blankId": "p1-y214.92-x227.64",
-          "page": 1,
-          "printedCaption": "Count No: Offense",
-          "reason": "protected_page_region",
-          "category": "agency"
+          "sourcePrintedCaption": "Order on Petition to VacateC annabis Conviction",
+          "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "approvedDisposition": "PROTECTED_FIELD"
         },
         {
           "blankId": "p1-y80.76-x72.00",
           "page": 1,
           "printedCaption": "RCW 9.96.060 Order on Petitiont o Vacate",
-          "reason": "protected_page_region",
-          "category": "court"
+          "sourcePrintedCaption": "RCW 9.96.060 Order on Petitiont o Vacate",
+          "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "approvedDisposition": "PROTECTED_FIELD"
         },
         {
           "blankId": "p1-y80.76-x228.84",
           "page": 1,
           "printedCaption": "RCW 9.96.060 Order on Petitiont o Vacate",
-          "reason": "protected_page_region",
-          "category": "court"
+          "sourcePrintedCaption": "RCW 9.96.060 Order on Petitiont o Vacate",
+          "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "approvedDisposition": "PROTECTED_FIELD"
         },
         {
           "blankId": "p1-y80.76-x385.32",
           "page": 1,
           "printedCaption": "For all purposes, including responding to questions on employment or housing",
-          "reason": "protected_page_region",
-          "category": "court"
+          "sourcePrintedCaption": "For all purposes, including responding to questions on employment or housing",
+          "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "approvedDisposition": "PROTECTED_FIELD"
         },
         {
           "blankId": "p2-y480.60-x418.68",
           "page": 2,
-          "printedCaption": "Washington State Patrol and to (local law enforcement agency)",
-          "reason": "protected_printed_caption",
-          "category": "agency"
+          "printedCaption": "Court Order Recipient Designated by Clerk",
+          "sourcePrintedCaption": "Washington State Patrol and to (local law enforcement agency)",
+          "reason": "Court or clerk field naming an order recipient; completed by the court after filing.",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "approvedDisposition": "PROTECTED_FIELD"
         },
         {
           "blankId": "p2-y468.00-x108.00",
           "page": 2,
           "printedCaption": "which agencies shall immediately update their",
-          "reason": "protected_printed_caption",
-          "category": "agency"
+          "sourcePrintedCaption": "which agencies shall immediately update their",
+          "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "approvedDisposition": "PROTECTED_FIELD"
         },
         {
           "blankId": "p2-y379.44-x104.40",
           "page": 2,
           "printedCaption": "Dated",
-          "reason": "protected_date_field",
-          "category": "date"
+          "sourcePrintedCaption": "Dated",
+          "reason": "Signature or execution-date field; completed by the participant or signer at execution and never prefilled.",
+          "category": "signature_or_date_participant_completion",
+          "approvedDisposition": "PROTECTED_FIELD"
         },
         {
           "blankId": "p2-y379.44-x324.00",
           "page": 2,
           "printedCaption": "Judge/Commissioner",
-          "reason": "protected_printed_caption",
-          "category": "court"
+          "sourcePrintedCaption": "Judge/Commissioner",
+          "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "approvedDisposition": "PROTECTED_FIELD"
         },
         {
           "blankId": "p2-y329.52-x72.00",
           "page": 2,
           "printedCaption": "Defendant/Attorney for Defendant/WSBA # Deputy Prosecuting Attorney/WSBA #",
-          "reason": "protected_printed_caption",
-          "category": "prosecutor"
+          "sourcePrintedCaption": "Defendant/Attorney for Defendant/WSBA # Deputy Prosecuting Attorney/WSBA #",
+          "reason": "Signature or execution-date field; completed by the participant or signer at execution and never prefilled.",
+          "category": "signature_or_date_participant_completion",
+          "approvedDisposition": "PROTECTED_FIELD"
         },
         {
           "blankId": "p2-y329.52-x324.00",
           "page": 2,
           "printedCaption": "Defendant/Attorney for Defendant/WSBA # Deputy Prosecuting Attorney/WSBA #",
-          "reason": "protected_printed_caption",
-          "category": "prosecutor"
-        },
-        {
-          "blankId": "p2-y298.20-x72.00",
-          "page": 2,
-          "printedCaption": "Print Name Print Name",
-          "reason": "protected_page_region",
-          "category": "prosecutor"
+          "sourcePrintedCaption": "Defendant/Attorney for Defendant/WSBA # Deputy Prosecuting Attorney/WSBA #",
+          "reason": "Signature or execution-date field; completed by the participant or signer at execution and never prefilled.",
+          "category": "signature_or_date_participant_completion",
+          "approvedDisposition": "PROTECTED_FIELD"
         },
         {
           "blankId": "p2-y298.20-x324.00",
           "page": 2,
           "printedCaption": "Print Name Print Name",
-          "reason": "protected_page_region",
-          "category": "prosecutor"
+          "sourcePrintedCaption": "Print Name Print Name",
+          "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "approvedDisposition": "PROTECTED_FIELD"
         },
         {
           "blankId": "p2-y80.76-x72.00",
           "page": 2,
           "printedCaption": "RCW 9.96.060 Order on Petitiont o Vacate",
-          "reason": "protected_page_region",
-          "category": "prosecutor"
+          "sourcePrintedCaption": "RCW 9.96.060 Order on Petitiont o Vacate",
+          "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "approvedDisposition": "PROTECTED_FIELD"
         },
         {
           "blankId": "p2-y80.76-x228.84",
           "page": 2,
           "printedCaption": "RCW 9.96.060 Order on Petitiont o Vacate",
-          "reason": "protected_page_region",
-          "category": "prosecutor"
+          "sourcePrintedCaption": "RCW 9.96.060 Order on Petitiont o Vacate",
+          "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "approvedDisposition": "PROTECTED_FIELD"
         },
         {
           "blankId": "p2-y80.76-x385.32",
           "page": 2,
           "printedCaption": "",
-          "reason": "no_printed_caption",
-          "category": null
+          "sourcePrintedCaption": "",
+          "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "approvedDisposition": "PROTECTED_FIELD"
         }
       ],
       "explicitGeometryRefusals": []

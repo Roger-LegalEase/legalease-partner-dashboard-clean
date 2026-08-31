@@ -48,8 +48,10 @@
           "mappingDecision": {
             "printedCaption": "Court of Washington, County/City of",
             "captionBasis": "printed_text_on_same_line_after_blank",
-            "writable": false,
-            "reason": "not_on_state_bounded_identity_allowlist"
+            "terminal": true,
+            "writable": true,
+            "factId": "matter.court_prefix",
+            "effectiveLabel": "Type of Court"
           }
         },
         {
@@ -73,8 +75,10 @@
           "mappingDecision": {
             "printedCaption": "Court of Washington, County/City of",
             "captionBasis": "printed_text_on_same_line_before_blank",
-            "writable": false,
-            "reason": "not_on_state_bounded_identity_allowlist"
+            "terminal": true,
+            "writable": true,
+            "factId": "matter.county_or_city",
+            "effectiveLabel": "County or City"
           }
         },
         {
@@ -111,6 +115,7 @@
           "mappingDecision": {
             "printedCaption": "No",
             "captionBasis": "printed_text_on_same_line_before_blank",
+            "terminal": true,
             "writable": true,
             "factId": "matter.case_number",
             "effectiveLabel": "Case No."
@@ -144,8 +149,10 @@
           "mappingDecision": {
             "printedCaption": "No",
             "captionBasis": "printed_text_on_same_line_after_blank",
-            "writable": false,
-            "reason": "not_on_state_bounded_identity_allowlist"
+            "terminal": true,
+            "writable": true,
+            "factId": "matter.plaintiff_name",
+            "effectiveLabel": "Plaintiff Name"
           }
         },
         {
@@ -176,6 +183,7 @@
           "mappingDecision": {
             "printedCaption": "Defendant",
             "captionBasis": "state_caption_column_label_immediately_below_rule",
+            "terminal": true,
             "writable": true,
             "factId": "participant.full_legal_name",
             "effectiveLabel": "Full Legal Name"
@@ -209,9 +217,10 @@
           "mappingDecision": {
             "printedCaption": "Petition and Declaration for Order to Vacate Cannabis Conviction",
             "captionBasis": "nearest_short_printed_label_below_blank",
+            "terminal": false,
             "writable": false,
-            "reason": "protected_printed_caption",
-            "category": "disposition_or_hearing"
+            "reason": "measured_source_rule_is_not_a_terminal_field",
+            "approvedDisposition": "NOT_A_FIELD"
           }
         },
         {
@@ -242,9 +251,10 @@
           "mappingDecision": {
             "printedCaption": "Petition and Declaration for Order to Vacate Cannabis Conviction",
             "captionBasis": "nearest_short_printed_label_below_blank",
+            "terminal": false,
             "writable": false,
-            "reason": "protected_printed_caption",
-            "category": "disposition_or_hearing"
+            "reason": "measured_source_rule_is_not_a_terminal_field",
+            "approvedDisposition": "NOT_A_FIELD"
           }
         },
         {
@@ -275,9 +285,11 @@
           "mappingDecision": {
             "printedCaption": "Dated",
             "captionBasis": "printed_text_on_same_line_before_blank",
+            "terminal": true,
             "writable": false,
-            "reason": "protected_date_field",
-            "category": "date"
+            "reason": "Signature or execution-date field; completed by the participant or signer at execution and never prefilled.",
+            "category": "signature_or_date_participant_completion",
+            "approvedDisposition": "PROTECTED_FIELD"
           }
         },
         {
@@ -308,9 +320,11 @@
           "mappingDecision": {
             "printedCaption": "Defendant/Defendant's Attorney/WSBA #",
             "captionBasis": "nearest_short_printed_label_below_blank",
+            "terminal": true,
             "writable": false,
-            "reason": "protected_printed_caption",
-            "category": "attorney"
+            "reason": "Signature or execution-date field; completed by the participant or signer at execution and never prefilled.",
+            "category": "signature_or_date_participant_completion",
+            "approvedDisposition": "PROTECTED_FIELD"
           }
         },
         {
@@ -341,9 +355,10 @@
           "mappingDecision": {
             "printedCaption": "Print Name",
             "captionBasis": "nearest_short_printed_label_below_blank",
-            "writable": false,
-            "reason": "protected_page_region",
-            "category": "attorney"
+            "terminal": true,
+            "writable": true,
+            "factId": "participant.full_legal_name",
+            "effectiveLabel": "Print Name"
           }
         },
         {
@@ -374,9 +389,10 @@
           "mappingDecision": {
             "printedCaption": "I, (name)",
             "captionBasis": "printed_text_on_same_line_before_blank",
-            "writable": false,
-            "reason": "protected_page_region",
-            "category": "attorney"
+            "terminal": true,
+            "writable": true,
+            "factId": "participant.full_legal_name",
+            "effectiveLabel": "Declarant Name"
           }
         },
         {
@@ -407,9 +423,10 @@
           "mappingDecision": {
             "printedCaption": "On (date)",
             "captionBasis": "printed_text_on_same_line_before_blank",
-            "writable": false,
-            "reason": "protected_date_field",
-            "category": "date"
+            "terminal": true,
+            "writable": true,
+            "factId": "matter.conviction_date",
+            "effectiveLabel": "Offense Date"
           }
         },
         {
@@ -440,9 +457,10 @@
           "mappingDecision": {
             "printedCaption": "Count No",
             "captionBasis": "printed_text_on_same_line_before_blank",
-            "writable": false,
-            "reason": "protected_page_region",
-            "category": "attorney"
+            "terminal": true,
+            "writable": true,
+            "factId": "matter.charges[0].count",
+            "effectiveLabel": "Count 1"
           }
         },
         {
@@ -473,9 +491,10 @@
           "mappingDecision": {
             "printedCaption": "Offense",
             "captionBasis": "printed_text_on_same_line_before_blank",
-            "writable": false,
-            "reason": "protected_page_region",
-            "category": "attorney"
+            "terminal": true,
+            "writable": true,
+            "factId": "matter.charges[0].charge",
+            "effectiveLabel": "Offense 1"
           }
         },
         {
@@ -506,9 +525,10 @@
           "mappingDecision": {
             "printedCaption": "Count No",
             "captionBasis": "printed_text_on_same_line_before_blank",
-            "writable": false,
-            "reason": "protected_page_region",
-            "category": "attorney"
+            "terminal": true,
+            "writable": true,
+            "factId": "matter.charges[1].count",
+            "effectiveLabel": "Count 2"
           }
         },
         {
@@ -539,9 +559,10 @@
           "mappingDecision": {
             "printedCaption": "Offense",
             "captionBasis": "printed_text_on_same_line_before_blank",
-            "writable": false,
-            "reason": "protected_page_region",
-            "category": "attorney"
+            "terminal": true,
+            "writable": true,
+            "factId": "matter.charges[1].charge",
+            "effectiveLabel": "Offense 2"
           }
         },
         {
@@ -572,9 +593,10 @@
           "mappingDecision": {
             "printedCaption": "Count No",
             "captionBasis": "printed_text_on_same_line_before_blank",
-            "writable": false,
-            "reason": "protected_page_region",
-            "category": "attorney"
+            "terminal": true,
+            "writable": true,
+            "factId": "matter.charges[2].count",
+            "effectiveLabel": "Count 3"
           }
         },
         {
@@ -605,9 +627,10 @@
           "mappingDecision": {
             "printedCaption": "Offense",
             "captionBasis": "printed_text_on_same_line_before_blank",
-            "writable": false,
-            "reason": "protected_page_region",
-            "category": "attorney"
+            "terminal": true,
+            "writable": true,
+            "factId": "matter.charges[2].charge",
+            "effectiveLabel": "Offense 3"
           }
         },
         {
@@ -638,9 +661,10 @@
           "mappingDecision": {
             "printedCaption": "My birthdate is",
             "captionBasis": "printed_text_on_same_line_before_blank",
-            "writable": false,
-            "reason": "protected_date_field",
-            "category": "date"
+            "terminal": true,
+            "writable": true,
+            "factId": "participant.date_of_birth",
+            "effectiveLabel": "Date of Birth"
           }
         },
         {
@@ -671,9 +695,11 @@
           "mappingDecision": {
             "printedCaption": "Signed on (date)",
             "captionBasis": "printed_text_on_same_line_before_blank",
+            "terminal": true,
             "writable": false,
-            "reason": "protected_date_field",
-            "category": "date"
+            "reason": "Signature or execution-date field; completed by the participant or signer at execution and never prefilled.",
+            "category": "signature_or_date_participant_completion",
+            "approvedDisposition": "PROTECTED_FIELD"
           }
         },
         {
@@ -704,9 +730,11 @@
           "mappingDecision": {
             "printedCaption": "at (city or county)",
             "captionBasis": "printed_text_on_same_line_before_blank",
+            "terminal": true,
             "writable": false,
-            "reason": "protected_page_region",
-            "category": "attorney"
+            "reason": "Signature or execution field; completed by the participant, attorney, or prosecutor and never prefilled.",
+            "category": "signature_or_date_participant_completion",
+            "approvedDisposition": "PROTECTED_FIELD"
           }
         },
         {
@@ -737,9 +765,11 @@
           "mappingDecision": {
             "printedCaption": "Defendant’s Si gnaturePrint Name",
             "captionBasis": "nearest_short_printed_label_below_blank",
+            "terminal": true,
             "writable": false,
-            "reason": "protected_printed_caption",
-            "category": "signature"
+            "reason": "Signature or execution-date field; completed by the participant or signer at execution and never prefilled.",
+            "category": "signature_or_date_participant_completion",
+            "approvedDisposition": "PROTECTED_FIELD"
           }
         },
         {
@@ -770,9 +800,10 @@
           "mappingDecision": {
             "printedCaption": "Defendant’s Si gnaturePrint Name",
             "captionBasis": "nearest_short_printed_label_below_blank",
-            "writable": false,
-            "reason": "protected_printed_caption",
-            "category": "signature"
+            "terminal": true,
+            "writable": true,
+            "factId": "participant.full_legal_name",
+            "effectiveLabel": "Print Name"
           }
         },
         {
@@ -803,9 +834,10 @@
           "mappingDecision": {
             "printedCaption": "Street Address or PO Box City State Zip",
             "captionBasis": "nearest_short_printed_label_below_blank",
-            "writable": false,
-            "reason": "protected_page_region",
-            "category": "attorney"
+            "terminal": true,
+            "writable": true,
+            "factId": "participant.full_mailing_address",
+            "effectiveLabel": "Mailing Address"
           }
         },
         {
@@ -836,9 +868,11 @@
           "mappingDecision": {
             "printedCaption": "Street Address or PO Box",
             "captionBasis": "printed_text_on_same_line_before_blank",
+            "terminal": true,
             "writable": false,
-            "reason": "protected_page_region",
-            "category": "attorney"
+            "reason": "Signature or execution field; completed by the participant, attorney, or prosecutor and never prefilled.",
+            "category": "signature_or_date_participant_completion",
+            "approvedDisposition": "PROTECTED_FIELD"
           }
         },
         {
@@ -869,9 +903,11 @@
           "mappingDecision": {
             "printedCaption": "Street Address or PO Box City State Zip",
             "captionBasis": "nearest_short_printed_label_above_blank",
+            "terminal": true,
             "writable": false,
-            "reason": "protected_page_region",
-            "category": "attorney"
+            "reason": "Signature or execution field; completed by the participant, attorney, or prosecutor and never prefilled.",
+            "category": "signature_or_date_participant_completion",
+            "approvedDisposition": "PROTECTED_FIELD"
           }
         }
       ],
@@ -889,7 +925,7 @@
           "height": 792,
           "textLineCount": 31,
           "strokedRectangleCount": 0,
-          "horizontalRulesMeasured": 10,
+          "horizontalRulesMeasured": 13,
           "verticalRulesMeasured": 1,
           "vectorSelectionControlCount": 0,
           "printedSelectionControlCount": 15,
@@ -908,7 +944,7 @@
           "selectionControlCount": 0
         }
       ],
-      "blankCount": 24,
+      "blankCount": 27,
       "selectionControlCount": 15,
       "blanks": [
         {
@@ -932,8 +968,10 @@
           "mappingDecision": {
             "printedCaption": "Court of Washington, County/City of",
             "captionBasis": "printed_text_on_same_line_after_blank",
-            "writable": false,
-            "reason": "not_on_state_bounded_identity_allowlist"
+            "terminal": true,
+            "writable": true,
+            "factId": "matter.court_prefix",
+            "effectiveLabel": "Type of Court"
           }
         },
         {
@@ -957,8 +995,10 @@
           "mappingDecision": {
             "printedCaption": "Court of Washington, County/City of",
             "captionBasis": "printed_text_on_same_line_before_blank",
-            "writable": false,
-            "reason": "not_on_state_bounded_identity_allowlist"
+            "terminal": true,
+            "writable": true,
+            "factId": "matter.county_or_city",
+            "effectiveLabel": "County or City"
           }
         },
         {
@@ -995,6 +1035,7 @@
           "mappingDecision": {
             "printedCaption": "No",
             "captionBasis": "printed_text_on_same_line_before_blank",
+            "terminal": true,
             "writable": true,
             "factId": "matter.case_number",
             "effectiveLabel": "Case No."
@@ -1028,8 +1069,10 @@
           "mappingDecision": {
             "printedCaption": "No",
             "captionBasis": "printed_text_on_same_line_after_blank",
-            "writable": false,
-            "reason": "not_on_state_bounded_identity_allowlist"
+            "terminal": true,
+            "writable": true,
+            "factId": "matter.plaintiff_name",
+            "effectiveLabel": "Plaintiff Name"
           }
         },
         {
@@ -1060,6 +1103,7 @@
           "mappingDecision": {
             "printedCaption": "Defendant",
             "captionBasis": "state_caption_column_label_immediately_below_rule",
+            "terminal": true,
             "writable": true,
             "factId": "participant.full_legal_name",
             "effectiveLabel": "Full Legal Name"
@@ -1093,9 +1137,11 @@
           "mappingDecision": {
             "printedCaption": "Order on Petition to VacateC annabis Conviction",
             "captionBasis": "nearest_short_printed_label_below_blank",
+            "terminal": true,
             "writable": false,
-            "reason": "protected_printed_caption",
-            "category": "disposition_or_hearing"
+            "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+            "category": "court_prosecutor_clerk_or_agency_owned",
+            "approvedDisposition": "PROTECTED_FIELD"
           }
         },
         {
@@ -1126,9 +1172,45 @@
           "mappingDecision": {
             "printedCaption": "Order on Petition to VacateC annabis Conviction",
             "captionBasis": "nearest_short_printed_label_below_blank",
+            "terminal": true,
             "writable": false,
-            "reason": "protected_printed_caption",
-            "category": "disposition_or_hearing"
+            "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+            "category": "court_prosecutor_clerk_or_agency_owned",
+            "approvedDisposition": "PROTECTED_FIELD"
+          }
+        },
+        {
+          "blankId": "p1-y252.24-x160.56",
+          "page": 1,
+          "construction": "drawn_horizontal_rule",
+          "measured": {
+            "x0": 160.56,
+            "x1": 180,
+            "baselineY": 252.24,
+            "width": 19.44,
+            "printedSize": 11.04,
+            "glyphCount": null,
+            "rule": {
+              "x": 160.56,
+              "endX": 180,
+              "y": 252.24,
+              "height": 0.84,
+              "operator": "re",
+              "paintedBy": "f"
+            }
+          },
+          "printedCaption": "Count No",
+          "captionBasis": "printed_text_on_same_line_before_blank",
+          "regionHeading": "1. Adequate notice  was  was not given to the appropriate parties and agencies",
+          "regionProtectCategory": "agency",
+          "protectionCategory": null,
+          "mappingDecision": {
+            "printedCaption": "Count No",
+            "captionBasis": "printed_text_on_same_line_before_blank",
+            "terminal": true,
+            "writable": true,
+            "factId": "matter.charges[0].count",
+            "effectiveLabel": "Count 1"
           }
         },
         {
@@ -1151,17 +1233,52 @@
               "paintedBy": "f"
             }
           },
-          "printedCaption": "Count No: Offense",
+          "printedCaption": "Offense",
           "captionBasis": "printed_text_on_same_line_before_blank",
           "regionHeading": "1. Adequate notice  was  was not given to the appropriate parties and agencies",
           "regionProtectCategory": "agency",
           "protectionCategory": null,
           "mappingDecision": {
-            "printedCaption": "Count No: Offense",
+            "printedCaption": "Offense",
             "captionBasis": "printed_text_on_same_line_before_blank",
-            "writable": false,
-            "reason": "protected_page_region",
-            "category": "agency"
+            "terminal": true,
+            "writable": true,
+            "factId": "matter.charges[0].charge",
+            "effectiveLabel": "Offense 1"
+          }
+        },
+        {
+          "blankId": "p1-y233.64-x160.56",
+          "page": 1,
+          "construction": "drawn_horizontal_rule",
+          "measured": {
+            "x0": 160.56,
+            "x1": 180,
+            "baselineY": 233.64,
+            "width": 19.44,
+            "printedSize": 11.04,
+            "glyphCount": null,
+            "rule": {
+              "x": 160.56,
+              "endX": 180,
+              "y": 233.64,
+              "height": 0.84,
+              "operator": "re",
+              "paintedBy": "f"
+            }
+          },
+          "printedCaption": "Count No",
+          "captionBasis": "printed_text_on_same_line_before_blank",
+          "regionHeading": "1. Adequate notice  was  was not given to the appropriate parties and agencies",
+          "regionProtectCategory": "agency",
+          "protectionCategory": null,
+          "mappingDecision": {
+            "printedCaption": "Count No",
+            "captionBasis": "printed_text_on_same_line_before_blank",
+            "terminal": true,
+            "writable": true,
+            "factId": "matter.charges[1].count",
+            "effectiveLabel": "Count 2"
           }
         },
         {
@@ -1184,17 +1301,52 @@
               "paintedBy": "f"
             }
           },
-          "printedCaption": "Count No: Offense",
+          "printedCaption": "Offense",
           "captionBasis": "printed_text_on_same_line_before_blank",
           "regionHeading": "1. Adequate notice  was  was not given to the appropriate parties and agencies",
           "regionProtectCategory": "agency",
           "protectionCategory": null,
           "mappingDecision": {
-            "printedCaption": "Count No: Offense",
+            "printedCaption": "Offense",
             "captionBasis": "printed_text_on_same_line_before_blank",
-            "writable": false,
-            "reason": "protected_page_region",
-            "category": "agency"
+            "terminal": true,
+            "writable": true,
+            "factId": "matter.charges[1].charge",
+            "effectiveLabel": "Offense 2"
+          }
+        },
+        {
+          "blankId": "p1-y214.92-x160.56",
+          "page": 1,
+          "construction": "drawn_horizontal_rule",
+          "measured": {
+            "x0": 160.56,
+            "x1": 180,
+            "baselineY": 214.92,
+            "width": 19.44,
+            "printedSize": 11.04,
+            "glyphCount": null,
+            "rule": {
+              "x": 160.56,
+              "endX": 180,
+              "y": 214.92,
+              "height": 0.84,
+              "operator": "re",
+              "paintedBy": "f"
+            }
+          },
+          "printedCaption": "Count No",
+          "captionBasis": "printed_text_on_same_line_before_blank",
+          "regionHeading": "1. Adequate notice  was  was not given to the appropriate parties and agencies",
+          "regionProtectCategory": "agency",
+          "protectionCategory": null,
+          "mappingDecision": {
+            "printedCaption": "Count No",
+            "captionBasis": "printed_text_on_same_line_before_blank",
+            "terminal": true,
+            "writable": true,
+            "factId": "matter.charges[2].count",
+            "effectiveLabel": "Count 3"
           }
         },
         {
@@ -1217,17 +1369,18 @@
               "paintedBy": "f"
             }
           },
-          "printedCaption": "Count No: Offense",
+          "printedCaption": "Offense",
           "captionBasis": "printed_text_on_same_line_before_blank",
           "regionHeading": "1. Adequate notice  was  was not given to the appropriate parties and agencies",
           "regionProtectCategory": "agency",
           "protectionCategory": null,
           "mappingDecision": {
-            "printedCaption": "Count No: Offense",
+            "printedCaption": "Offense",
             "captionBasis": "printed_text_on_same_line_before_blank",
-            "writable": false,
-            "reason": "protected_page_region",
-            "category": "agency"
+            "terminal": true,
+            "writable": true,
+            "factId": "matter.charges[2].charge",
+            "effectiveLabel": "Offense 3"
           }
         },
         {
@@ -1258,9 +1411,11 @@
           "mappingDecision": {
             "printedCaption": "RCW 9.96.060 Order on Petitiont o Vacate",
             "captionBasis": "nearest_short_printed_label_below_blank",
+            "terminal": true,
             "writable": false,
-            "reason": "protected_page_region",
-            "category": "court"
+            "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+            "category": "court_prosecutor_clerk_or_agency_owned",
+            "approvedDisposition": "PROTECTED_FIELD"
           }
         },
         {
@@ -1291,9 +1446,11 @@
           "mappingDecision": {
             "printedCaption": "RCW 9.96.060 Order on Petitiont o Vacate",
             "captionBasis": "nearest_short_printed_label_below_blank",
+            "terminal": true,
             "writable": false,
-            "reason": "protected_page_region",
-            "category": "court"
+            "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+            "category": "court_prosecutor_clerk_or_agency_owned",
+            "approvedDisposition": "PROTECTED_FIELD"
           }
         },
         {
@@ -1324,9 +1481,11 @@
           "mappingDecision": {
             "printedCaption": "For all purposes, including responding to questions on employment or housing",
             "captionBasis": "nearest_short_printed_label_above_blank",
+            "terminal": true,
             "writable": false,
-            "reason": "protected_page_region",
-            "category": "court"
+            "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+            "category": "court_prosecutor_clerk_or_agency_owned",
+            "approvedDisposition": "PROTECTED_FIELD"
           }
         },
         {
@@ -1357,9 +1516,12 @@
           "mappingDecision": {
             "printedCaption": "Washington State Patrol and to (local law enforcement agency)",
             "captionBasis": "printed_text_on_same_line_before_blank",
+            "terminal": true,
             "writable": false,
-            "reason": "protected_printed_caption",
-            "category": "agency"
+            "effectiveLabel": "Court Order Recipient Designated by Clerk",
+            "reason": "Court or clerk field naming an order recipient; completed by the court after filing.",
+            "category": "court_prosecutor_clerk_or_agency_owned",
+            "approvedDisposition": "PROTECTED_FIELD"
           }
         },
         {
@@ -1390,9 +1552,11 @@
           "mappingDecision": {
             "printedCaption": "which agencies shall immediately update their",
             "captionBasis": "printed_text_on_same_line_after_blank",
+            "terminal": true,
             "writable": false,
-            "reason": "protected_printed_caption",
-            "category": "agency"
+            "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+            "category": "court_prosecutor_clerk_or_agency_owned",
+            "approvedDisposition": "PROTECTED_FIELD"
           }
         },
         {
@@ -1423,9 +1587,11 @@
           "mappingDecision": {
             "printedCaption": "Dated",
             "captionBasis": "printed_text_on_same_line_before_blank",
+            "terminal": true,
             "writable": false,
-            "reason": "protected_date_field",
-            "category": "date"
+            "reason": "Signature or execution-date field; completed by the participant or signer at execution and never prefilled.",
+            "category": "signature_or_date_participant_completion",
+            "approvedDisposition": "PROTECTED_FIELD"
           }
         },
         {
@@ -1456,9 +1622,11 @@
           "mappingDecision": {
             "printedCaption": "Judge/Commissioner",
             "captionBasis": "nearest_short_printed_label_below_blank",
+            "terminal": true,
             "writable": false,
-            "reason": "protected_printed_caption",
-            "category": "court"
+            "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+            "category": "court_prosecutor_clerk_or_agency_owned",
+            "approvedDisposition": "PROTECTED_FIELD"
           }
         },
         {
@@ -1489,9 +1657,11 @@
           "mappingDecision": {
             "printedCaption": "Defendant/Attorney for Defendant/WSBA # Deputy Prosecuting Attorney/WSBA #",
             "captionBasis": "nearest_short_printed_label_below_blank",
+            "terminal": true,
             "writable": false,
-            "reason": "protected_printed_caption",
-            "category": "prosecutor"
+            "reason": "Signature or execution-date field; completed by the participant or signer at execution and never prefilled.",
+            "category": "signature_or_date_participant_completion",
+            "approvedDisposition": "PROTECTED_FIELD"
           }
         },
         {
@@ -1522,9 +1692,11 @@
           "mappingDecision": {
             "printedCaption": "Defendant/Attorney for Defendant/WSBA # Deputy Prosecuting Attorney/WSBA #",
             "captionBasis": "nearest_short_printed_label_below_blank",
+            "terminal": true,
             "writable": false,
-            "reason": "protected_printed_caption",
-            "category": "prosecutor"
+            "reason": "Signature or execution-date field; completed by the participant or signer at execution and never prefilled.",
+            "category": "signature_or_date_participant_completion",
+            "approvedDisposition": "PROTECTED_FIELD"
           }
         },
         {
@@ -1555,9 +1727,10 @@
           "mappingDecision": {
             "printedCaption": "Print Name Print Name",
             "captionBasis": "nearest_short_printed_label_below_blank",
-            "writable": false,
-            "reason": "protected_page_region",
-            "category": "prosecutor"
+            "terminal": true,
+            "writable": true,
+            "factId": "participant.full_legal_name",
+            "effectiveLabel": "Defendant Print Name"
           }
         },
         {
@@ -1588,9 +1761,11 @@
           "mappingDecision": {
             "printedCaption": "Print Name Print Name",
             "captionBasis": "nearest_short_printed_label_below_blank",
+            "terminal": true,
             "writable": false,
-            "reason": "protected_page_region",
-            "category": "prosecutor"
+            "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+            "category": "court_prosecutor_clerk_or_agency_owned",
+            "approvedDisposition": "PROTECTED_FIELD"
           }
         },
         {
@@ -1621,9 +1796,11 @@
           "mappingDecision": {
             "printedCaption": "RCW 9.96.060 Order on Petitiont o Vacate",
             "captionBasis": "nearest_short_printed_label_below_blank",
+            "terminal": true,
             "writable": false,
-            "reason": "protected_page_region",
-            "category": "prosecutor"
+            "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+            "category": "court_prosecutor_clerk_or_agency_owned",
+            "approvedDisposition": "PROTECTED_FIELD"
           }
         },
         {
@@ -1654,9 +1831,11 @@
           "mappingDecision": {
             "printedCaption": "RCW 9.96.060 Order on Petitiont o Vacate",
             "captionBasis": "nearest_short_printed_label_below_blank",
+            "terminal": true,
             "writable": false,
-            "reason": "protected_page_region",
-            "category": "prosecutor"
+            "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+            "category": "court_prosecutor_clerk_or_agency_owned",
+            "approvedDisposition": "PROTECTED_FIELD"
           }
         },
         {
@@ -1687,8 +1866,11 @@
           "mappingDecision": {
             "printedCaption": "",
             "captionBasis": "no_adjacent_printed_caption",
+            "terminal": true,
             "writable": false,
-            "reason": "no_printed_caption"
+            "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+            "category": "court_prosecutor_clerk_or_agency_owned",
+            "approvedDisposition": "PROTECTED_FIELD"
           }
         }
       ],
