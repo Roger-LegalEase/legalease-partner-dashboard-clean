@@ -50,6 +50,26 @@ const hostAllowed = (h) => exact.has(h) || suffixes.some((s) => h === s.replace(
 
 const EVIDENCE_ROOTS = ["data/rcap-all50", "data/rcap-grade-a", "data/record-clearing"];
 const CANDIDATE_MARKER = /route-obligation-census-candidate|-candidate\.json$|\/candidate/i;
+/*
+ * This generator's own outputs are not evidence about the world.
+ *
+ * The sweep reads data/rcap-grade-a, and this file is written into it. On the
+ * first run 167 URLs were corroborated; on the second, 179 — twelve addresses
+ * crossed the two-file threshold because THIS FILE now mentioned them, and the
+ * count then sat stable at 179 looking every bit as settled as a real one.
+ *
+ * A record that cites itself is not corroboration, it is an echo, and an echo
+ * that converges is the most convincing kind. Every artifact derived from this
+ * sweep is excluded from it by name.
+ */
+const SELF_WRITTEN = [
+  "SOURCE_URL_PROMOTION_CANDIDATES.json",
+  "SOURCE_IDENTITY_FINDINGS.json",
+  "SOURCE_ACQUISITION_MANIFEST.json",
+  "SOURCE_CONVEYOR_ASSIGNMENTS.json",
+  "STALE_LANE_RETURNS.json"
+];
+const isSelfWritten = (rel) => SELF_WRITTEN.some((n) => rel.endsWith(`/${n}`));
 const URL_RE = /https:\/\/[^\s"'\\)]+\.pdf/gi;
 const CORROBORATION_THRESHOLD = 2;
 
@@ -61,6 +81,7 @@ const walk = (dir) => {
     const rel = `${dir}/${e.name}`;
     if (e.isDirectory()) { walk(rel); continue; }
     if (!e.name.endsWith(".json")) continue;
+    if (isSelfWritten(rel)) continue;
     let body = null;
     try { body = fs.readFileSync(path.join(ROOT, rel), "utf8"); } catch { continue; }
     const isCandidate = CANDIDATE_MARKER.test(rel);
@@ -172,6 +193,12 @@ const problems = [];
 if (candidates.some((c) => c.mayEnterTheManifest !== false)) problems.push("a candidate is marked as admissible without DISC confirmation");
 if (candidates.some((c) => c.corroboration < CORROBORATION_THRESHOLD)) problems.push("a candidate below the corroboration threshold survived");
 if (candidates.some((c) => !hostAllowed(c.host))) problems.push("a candidate on a non-allowlisted host survived");
+{
+  const echoes = candidates.filter((c) => c.corroboratingFiles.some((f) => isSelfWritten(f)));
+  if (echoes.length) {
+    problems.push(`${echoes.length} candidate(s) corroborated by this generator's own output; the sweep is citing itself: ${echoes.slice(0, 2).map((c) => c.corroboratingFiles.filter(isSelfWritten).join(",")).join(" | ")}`);
+  }
+}
 if (problems.length) {
   console.error(`URL promotion candidates: ${problems.length} problem(s)`);
   for (const p of problems) console.error(`  - ${p}`);
