@@ -393,6 +393,44 @@ function run() {
     wiringProblems.length === 0,
     `${sourcePrompts.length} source prompt(s); ${wiringProblems.length} problem(s): ${wiringProblems.slice(0, 2).join(" | ")}`);
 
+  /*
+   * C23. The source accounting closes by identity, not by count.
+   *
+   * The conveyor reports familiesReleased as a sum of per-lane integers. It
+   * says 232 while 256 families are SOURCE_BLOCKED, and the 24-family
+   * difference looked like work falling out of the dispatch until I checked it
+   * by identity: every one is recorded as familiesAdvancedButNotReleasedHere,
+   * because its obligations are split across lanes and the release belongs to
+   * the lane holding the last of them. The design is intact and the count is
+   * conservative on purpose.
+   *
+   * What was NOT true is that anything verified this. A sum of counts cannot be
+   * reconciled against a queue, so a family genuinely dropping out would have
+   * looked exactly like a family legitimately split. This closes it by set
+   * arithmetic: released, plus advanced-but-not-released-here, must account for
+   * every source-blocked family, with nothing counted twice.
+   */
+  const releasedIds = new Set();
+  const advancedIds = new Set();
+  let perLaneCountSum = 0;
+  const sourceLanesForClosure = (active.assignments ?? []).filter((x) => x.itemKind === "sourceObligation");
+  for (const l of sourceLanesForClosure) {
+    for (const f of l.familiesUnblocked ?? []) releasedIds.add(f);
+    for (const x of l.familiesAdvancedButNotReleasedHere ?? []) advancedIds.add(typeof x === "string" ? x : x.familyId);
+    perLaneCountSum += l.familiesUnblockedCount ?? 0;
+  }
+  const sourceBlocked = new Set(master.families.filter((f) => f.state === "SOURCE_BLOCKED").map((f) => f.familyId));
+  const unaccounted = [...sourceBlocked].filter((f) => !releasedIds.has(f) && !advancedIds.has(f));
+  const doubleClaimed = [...releasedIds].filter((f) => advancedIds.has(f));
+  const closureProblems = [];
+  if (perLaneCountSum !== releasedIds.size) closureProblems.push(`the per-lane counts sum to ${perLaneCountSum} and name ${releasedIds.size} distinct families, so a family is counted twice`);
+  if (unaccounted.length) closureProblems.push(`${unaccounted.length} source-blocked famil(ies) are neither released nor recorded as split: ${unaccounted.slice(0, 3).join(", ")}`);
+  if (doubleClaimed.length) closureProblems.push(`${doubleClaimed.length} famil(ies) are both released and deferred: ${doubleClaimed.slice(0, 3).join(", ")}`);
+  if (sourceBlocked.size === 0) closureProblems.push("no source-blocked family, so this accounting has no subject");
+  check("C23", "every source-blocked family is either released by a lane or recorded as split across lanes",
+    closureProblems.length === 0,
+    `${sourceBlocked.size} blocked = ${releasedIds.size} released + ${advancedIds.size} split; ${closureProblems.length} problem(s): ${closureProblems.slice(0, 2).join(" | ")}`);
+
   check("C19", "capacity the queue triggers is materialized, with launch gates and paths",
     elasticProblems.length === 0,
     `${(ci.elasticCapacity?.thresholds ?? []).filter((e) => e.triggered).length} trigger(s) firing, ${verifyLanes.length} verifier(s); ${elasticProblems.length} problem(s): ${elasticProblems.slice(0, 2).join(" | ")}`);
@@ -510,6 +548,8 @@ if (MUTATIONS) {
     /* C21's subject: a threshold reading a state name nothing writes counts
      * zero and reports a quiet day. "REPAIR_REQUIRED" did exactly that while
      * twenty-six families sat in FAIL_REPAIR_REQUIRED. */
+    { on: "active", id: "C23", name: "a source-blocked family released by no lane and recorded nowhere is caught", mutate: (j) => { const l = j.assignments.find((x) => x.itemKind === "sourceObligation" && (x.familiesUnblocked ?? []).length); l.familiesUnblocked = l.familiesUnblocked.slice(1); l.familiesUnblockedCount = l.familiesUnblocked.length; return j; } },
+    { on: "active", id: "C23", name: "a family both released and deferred is caught", mutate: (j) => { const l = j.assignments.find((x) => x.itemKind === "sourceObligation" && (x.familiesUnblocked ?? []).length); l.familiesAdvancedButNotReleasedHere = [...(l.familiesAdvancedButNotReleasedHere ?? []), { familyId: l.familiesUnblocked[0] }]; return j; } },
     { on: "prompt", id: "C22", name: "a source prompt stripped of the relationship registry is caught", mutateText: (t) => t.replace(/## Read the source relationship registry first[\s\S]*?(?=\n## )/, "") },
     { on: "prompt", id: "C22", name: "a source prompt listing the states without saying which are not a fetch is caught", mutateText: (t) => t.replace(/\*\*These states are NOT a fetch[^\n]*\*\*/, "**These states exist.**") },
     { on: "conveyorGen", id: "C21", name: "a threshold reading an undeclared queue state is caught", mutateText: (t) => t.replace('countIn("FAIL_REPAIR_REQUIRED")', 'countIn("REPAIR_REQUIRED")') },
