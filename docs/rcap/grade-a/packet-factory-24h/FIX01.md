@@ -52,12 +52,10 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY: 15/15`**. A 14/15 in cloud mode
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 5 families
+## The 3 families
 
 - `az_marijuana_expungement_arrest_no_charges-set` — failing: knownRequiredFieldsMissing, unclassifiedBlanks, requiredOptionsMissing, requiredComponentsMissing
-- `ca-851-91-set` — failing: knownRequiredFieldsMissing, unclassifiedBlanks, incompleteRows, requiredOptionsMissing, requiredComponentsMissing
 - `nj_indictable_conviction-set` — failing: knownRequiredFieldsMissing
-- `pa_490_nonconviction-set` — failing: knownRequiredFieldsMissing, unclassifiedBlanks, incompleteRows, requiredComponentsMissing
 - `ri_nonconviction_sealing-set` — failing: knownRequiredFieldsMissing, unclassifiedBlanks
 
 ## What you receive
@@ -72,13 +70,9 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 
 - `data/rcap-grade-a/packet-factory-24h/fix01/**`
 - `data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-arrest-no-charges-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/pa/pa-490-nonconviction-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/**`
-- `scripts/build-census-v1-ca-851-91-set.mjs`
 - `scripts/build-census-v1-nj_indictable_conviction-set.mjs`
-- `scripts/build-census-v1-pa_490_nonconviction-set.mjs`
 - `scripts/build-census-v1-ri_nonconviction_sealing-set.mjs`
 
 ## Never write here

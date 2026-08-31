@@ -337,10 +337,31 @@ const manifest = {
 const now = new Date();
 const plus = (m) => new Date(now.getTime() + m * 60000).toISOString();
 const byState = master.byState ?? {};
-const countIn = (s) => master.families.filter((f) => f.state === s).length;
+/*
+ * Counting a state fails closed on a name the vocabulary does not declare.
+ *
+ * The repair trigger asked for "REPAIR_REQUIRED". The state is
+ * FAIL_REPAIR_REQUIRED. So it counted zero every time it ran, and
+ * "FAIL_REPAIR_REQUIRED > 20" could never fire no matter how deep the repair
+ * queue got -- a threshold that reads a name nothing writes is a threshold that
+ * is switched off, and it looks exactly like a quiet day. Twenty-six families
+ * were in that state when this was found.
+ *
+ * This is the same defect class as the batch summarizer reading five field
+ * names no receipt carries. A misspelled key returns undefined or zero and says
+ * nothing, so the only defence is to refuse a name that is not declared.
+ */
+const countIn = (s) => {
+  if (!(master.stateVocabulary ?? []).includes(s)) {
+    console.error(`REFUSED: "${s}" is not a declared queue state. Declared: ${(master.stateVocabulary ?? []).join(", ")}`);
+    console.error("A threshold that reads an undeclared state counts zero and reports a quiet day.");
+    process.exit(1);
+  }
+  return master.families.filter((f) => f.state === s).length;
+};
 const sourceReady = countIn("SOURCE_READY");
 const verifyPending = countIn("VERIFY_PENDING") + countIn("VERIFYING");
-const repairRequired = countIn("REPAIR_REQUIRED");
+const repairRequired = countIn("FAIL_REPAIR_REQUIRED");
 
 const ELASTIC = [
   { when: "VERIFY_PENDING > 20", creates: ["VF09", "VF10", "VF11", "VF12"], measured: verifyPending, threshold: 20, triggered: verifyPending > 20 },

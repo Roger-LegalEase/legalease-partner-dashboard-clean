@@ -275,6 +275,73 @@ function run() {
     noIsolation.length === 0 && allPrompts.length >= MINIMUM_PROMPTS,
     `${allPrompts.length} prompt(s) (floor ${MINIMUM_PROMPTS}), ${noIsolation.length} without the banner: ${noIsolation.slice(0, 3).join(", ")}`);
 
+  /*
+   * 29. A returned verdict is acted on.
+   *
+   * P2V01-P2V03 failed nine Washington families and all nine stayed VERIFYING,
+   * because the state machine read VERIFYING off the presence of an
+   * independent-verification owner and never asked whether that owner had
+   * returned. The queue therefore said a verdict was pending on nine families
+   * that had one, and they would have reached Lawrence review as in-flight
+   * rather than as failed. This is the Vermont pardon defect again in a
+   * different field: a record that outranks the evidence sitting beside it.
+   *
+   * Three things are asked. A family an independent verifier failed is not
+   * VERIFYING and is not treated as proven. Every such family is dispatched to
+   * a repair lane, because moving it out of VERIFYING and leaving it nowhere is
+   * a queue that has lost work quietly. And the repair prompt that receives it
+   * names the exact obligation the verifier failed, because "incomplete" is not
+   * a defect and a repair worker cannot act on it.
+   */
+  const returnedVerdictProblems = [];
+  let vr = null;
+  try { vr = JSON.parse(fs.readFileSync(path.join(ROOT, DIR, "VERIFIER_RETURNS.json"), "utf8")); }
+  catch { returnedVerdictProblems.push("no verifier-return extraction; a returned verdict nothing reads cannot move a family"); }
+  if (vr) {
+    const failedFamilies = (vr.rows ?? []).filter((r) => r.isIndependentVerification && r.verdict === "FAIL_REPAIR_REQUIRED");
+    const PROVEN = new Set(["VERIFYING", "VERIFIED_PASS", "LEGAL_REVIEW_READY", "LEGAL_APPROVED", "PRODUCT_PATH_PENDING", "COMPLETE_PACKET_PROVEN"]);
+    const repairText = fs.existsSync(path.join(ROOT, DIR, "WASHINGTON_REPAIR.json"))
+      ? fs.readFileSync(path.join(ROOT, DIR, "WASHINGTON_REPAIR.json"), "utf8") : "";
+    const vermontText = fs.existsSync(path.join(ROOT, DIR, "VERMONT_REPAIR.json"))
+      ? fs.readFileSync(path.join(ROOT, DIR, "VERMONT_REPAIR.json"), "utf8") : "";
+    const dispatchedSomewhere = `${repairText}${vermontText}${JSON.stringify(a)}`;
+    /*
+     * Scoped to the family, not to the corpus of dispatch text.
+     *
+     * The first version asked whether the obligation name appeared ANYWHERE in
+     * any dispatch, and Vermont's VTR02 also concerns feeAndWaiver -- so
+     * deleting the obligation from every Washington record left the check green
+     * on Vermont's copy of the word. A defect class named for a different state
+     * is not this family's assignment. The evidence row that names the family
+     * is what has to name its obligation.
+     */
+    const evidenceFor = (familyId) => {
+      const out = [];
+      for (const text of [repairText, vermontText]) {
+        if (!text) continue;
+        let doc = null;
+        try { doc = JSON.parse(text); } catch { continue; }
+        for (const row of doc.evidence ?? []) if (row.familyId === familyId) out.push(JSON.stringify(row));
+      }
+      return out.join("\n");
+    };
+    for (const r of failedFamilies) {
+      const fam = master.families.find((f) => f.familyId === r.familyId);
+      if (!fam) { returnedVerdictProblems.push(`${r.familyId} was failed by ${r.lane} and is not in the queue at all`); continue; }
+      if (PROVEN.has(fam.state)) returnedVerdictProblems.push(`${r.familyId} was failed by ${r.lane} and the queue still calls it ${fam.state}`);
+      if (!dispatchedSomewhere.includes(r.familyId)) returnedVerdictProblems.push(`${r.familyId} was failed and is dispatched to no repair lane`);
+      const forThisFamily = evidenceFor(r.familyId);
+      for (const o of r.failedObligationNames ?? []) {
+        if (!forThisFamily.includes(o)) returnedVerdictProblems.push(`${r.familyId} failed ${o} and no repair dispatch names that obligation for that family`);
+      }
+    }
+    // A negative test whose subject cannot exist proves nothing.
+    if (failedFamilies.length === 0) returnedVerdictProblems.push("no failed family to check; this gate has no subject and proves nothing");
+  }
+  check("F29", "a family an independent verifier failed is out of VERIFYING and dispatched to a repair lane that names its exact obligation",
+    returnedVerdictProblems.length === 0,
+    `${returnedVerdictProblems.length} problem(s): ${returnedVerdictProblems.slice(0, 3).join(" | ")}`);
+
   check("F14", "every builder prompt carries task isolation and the row-stop contract",
     pfPrompts.length === pf.length && missingClauses.length === 0,
     `${pfPrompts.length}/${pf.length} prompt(s); ${missingClauses.length} missing clause(s): ${missingClauses.slice(0, 3).join(" | ")}`);
@@ -661,7 +728,9 @@ if (MUTATIONS) {
      * the top level until C13 edited this exact file -- stripping its isolation
      * banner and appending git pull, pdftoppm and apt-get -- and watched F10,
      * F14 and F25 all report ok on a 27/27 gate. */
-    repairPrompt: path.join(ROOT, PROMPTS, "washington-repair/WAR03_WA_RERENDER_1.md") };
+    repairPrompt: path.join(ROOT, PROMPTS, "washington-repair/WAR03_WA_RERENDER_1.md"),
+    verifierReturns: path.join(ROOT, DIR, "VERIFIER_RETURNS.json"),
+    washingtonRepair: path.join(ROOT, DIR, "WASHINGTON_REPAIR.json") };
   const originals = Object.fromEntries(Object.entries(targets).map(([k, p]) => [k, fs.readFileSync(p)]));
   const promptTarget = path.join(ROOT, PROMPTS, "PF01.md");
   const originalPrompt = fs.readFileSync(promptTarget);
@@ -729,7 +798,15 @@ if (MUTATIONS) {
     { on: "repairPrompt", id: "F10", name: "a repair prompt in a subdirectory instructing a Git network command is caught", mutateText: (t) => `${t}\n\nRun git pull before you start.\n` },
     { on: "repairPrompt", id: "F25", name: "a repair prompt in a subdirectory reaching for Poppler is caught", mutateText: (t) => `${t}\n\nRender with pdftoppm -r 72 and apt-get install -y poppler-utils.\n` },
     /* F25 now asserts the preflight renders rather than resolving a path. */
-    { on: "raster", id: "F25", name: "a rasterizer with no render probe is caught", mutateText: (t) => t.replace("export async function probeRasterizer", "async function probeRasterizerInternal") }
+    { on: "raster", id: "F25", name: "a rasterizer with no render probe is caught", mutateText: (t) => t.replace("export async function probeRasterizer", "async function probeRasterizerInternal") },
+    /* F29. A returned verdict that the queue does not act on. The subject is
+     * real: nine Washington families sat in VERIFYING with a
+     * FAIL_REPAIR_REQUIRED verdict already recorded beside them. */
+    { on: "master", id: "F29", name: "a failed family the queue still calls VERIFYING is caught", mutate: (j) => { const vr = JSON.parse(fs.readFileSync(path.join(ROOT, DIR, "VERIFIER_RETURNS.json"), "utf8")); const f = j.families.find((x) => x.familyId === vr.failRepairRequiredFamilies[0]); f.state = "VERIFYING"; return j; } },
+    { on: "master", id: "F29", name: "a failed family the queue calls proven is caught", mutate: (j) => { const vr = JSON.parse(fs.readFileSync(path.join(ROOT, DIR, "VERIFIER_RETURNS.json"), "utf8")); const f = j.families.find((x) => x.familyId === vr.failRepairRequiredFamilies[0]); f.state = "VERIFIED_PASS"; return j; } },
+    { on: "washingtonRepair", id: "F29", name: "a repair dispatch that drops a failed family is caught", mutateText: (t) => { const vr = JSON.parse(fs.readFileSync(path.join(ROOT, DIR, "VERIFIER_RETURNS.json"), "utf8")); return t.replaceAll(vr.failRepairRequiredFamilies[0], "some-other-family-set"); } },
+    { on: "washingtonRepair", id: "F29", name: "a repair dispatch that names no exact obligation is caught", mutateText: (t) => t.replaceAll("feeAndWaiver", "incomplete") },
+    { on: "verifierReturns", id: "F29", name: "an extraction with no verdicts at all is caught", mutate: (j) => { j.rows = []; j.failRepairRequiredFamilies = []; return j; } }
   ];
   let undetected = 0;
   try {

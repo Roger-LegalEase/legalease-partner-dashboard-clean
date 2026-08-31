@@ -52,12 +52,10 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY: 15/15`**. A 14/15 in cloud mode
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 4 families
+## The 2 families
 
 - `ca-1203-4a-set` — failing: knownRequiredFieldsMissing, unclassifiedBlanks, incompleteRows, requiredOptionsMissing, requiredComponentsMissing
-- `nj_clean_slate-set` — failing: knownRequiredFieldsMissing
 - `ny_mrta_marijuana-set` — failing: knownRequiredFieldsMissing
-- `pa_summary_conviction-set` — failing: knownRequiredFieldsMissing, unclassifiedBlanks, incompleteRows
 
 ## What you receive
 
@@ -71,13 +69,9 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 
 - `data/rcap-grade-a/packet-factory-24h/fix04/**`
 - `data/rcap-all50/overlays/census-v1/ca/ca-1203-4a-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/nj/nj-clean-slate-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/pa/pa-summary-conviction-set--official-pdf-fill/**`
 - `scripts/build-census-v1-ca-1203-4a-set.mjs`
-- `scripts/build-census-v1-nj_clean_slate-set.mjs`
 - `scripts/build-census-v1-ny_mrta_marijuana-set.mjs`
-- `scripts/build-census-v1-pa_summary_conviction-set.mjs`
 
 ## Never write here
 

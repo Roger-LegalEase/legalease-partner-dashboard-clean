@@ -223,6 +223,21 @@ for (const r of IN.census.routes) {
 const custodyByGroup = new Map(IN.custody.rows.map((r) => [r.worklistGroupId, r]));
 const completenessByFamily = new Map(IN.completeness.results.map((r) => [r.familyId, r]));
 const verdictByFamily = new Map((IN.verificationLedger.rows ?? []).map((r) => [r.family, r]));
+/*
+ * What the independent verifiers returned, extracted from their own diffs by
+ * scripts/grade-a-packet-factory-24h/extract-verifier-returns.mjs. Absent until
+ * that has run, and the dispatch is still generatable without it -- but F29
+ * refuses a dispatch that leaves a failed family in VERIFYING, so the omission
+ * cannot pass silently.
+ */
+const independentReturnByFamily = new Map();
+try {
+  const vr = JSON.parse(fs.readFileSync(path.join(ROOT, `${OUT_DIR}/VERIFIER_RETURNS.json`), "utf8"));
+  for (const r of vr.rows ?? []) {
+    if (!r.isIndependentVerification || !r.verdict) continue;
+    independentReturnByFamily.set(r.familyId, r);
+  }
+} catch { /* no extraction yet */ }
 const continuationByFamily = new Map(IN.continuation.rows.map((r) => [r.familyId, r]));
 const confirmBRoutes = new Set(IN.categoryB.rows.filter((r) => r.finalDecision === "CONFIRM_B").map((r) => r.originalRouteKey));
 const openCounselRoutes = new Set((IN.legalQueue.trueCounselQueue?.questions ?? []).filter((q) => !q.answered).map((q) => q.routeKey));
@@ -392,6 +407,8 @@ for (const f of IN.scoreboard.familiesDetail) {
   const comp = completenessByFamily.get(familyId) ?? null;
   const cont = continuationByFamily.get(familyId) ?? null;
   const verdict = verdictByFamily.get(familyId) ?? null;
+  const independentReturn = independentReturnByFamily.get(familyId) ?? null;
+  const independentFail = independentReturn?.verdict === "FAIL_REPAIR_REQUIRED";
 
   const strategy = f.implementationStrategy;
   const dirGuess = `${OVERLAYS}/${(f.jurisdictions[0] ?? "xx").toLowerCase()}/${slugOf(familyId)}--${suffixOf(strategy)}`;
@@ -438,6 +455,17 @@ for (const f of IN.scoreboard.familiesDetail) {
    * cannot be counted twice. */
   let state;
   if (guidanceOnly) state = "LEGITIMATE_GUIDANCE_ONLY";
+  /*
+   * A returned verdict outranks an active-owner claim.
+   *
+   * VERIFYING was read off the presence of an independent-verification owner,
+   * and the machine never asked whether that owner had returned. P2V01-P2V03
+   * failed nine Washington families and all nine stayed VERIFYING -- so the
+   * queue said a verdict was pending on nine families that had one, and they
+   * would have reached Lawrence review as in-flight rather than as failed. A
+   * lane that has returned is not still verifying.
+   */
+  else if (independentFail) state = "FAIL_REPAIR_REQUIRED";
   else if (activeOwner && activeOwnerLane === "independent-verification") state = "VERIFYING";
   else if (activeOwner) state = "BUILD_IN_PROGRESS";
   else if (verdict?.verdict === "PASS") state = "VERIFIED_PASS";

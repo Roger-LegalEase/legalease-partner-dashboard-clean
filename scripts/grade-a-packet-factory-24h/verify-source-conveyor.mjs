@@ -310,8 +310,21 @@ function run() {
     if (e.triggered && present.length !== e.creates.length) {
       elasticProblems.push(`${e.when} is triggered at ${e.measured} and only ${present.length}/${e.creates.length} lane(s) exist`);
     }
-    if (!e.triggered && present.length > 0) {
-      elasticProblems.push(`${e.when} is not triggered and ${present.length} lane(s) exist anyway`);
+    /*
+     * Capacity is not withdrawn out from under work in flight.
+     *
+     * An elastic lane that exists while its trigger is off is only a defect if
+     * it is EMPTY. VF09-VF12 each held a family and FIX05-FIX08 each held two
+     * when the queue dipped below the threshold; deleting them would have
+     * orphaned twelve families to make a counter tidy. What must not survive is
+     * capacity nobody needs and nothing occupies.
+     */
+    const idleElastic = present.filter((id) => {
+      const lane = active.assignments.find((x) => x.assignmentId === id);
+      return ((lane?.items ?? []).length === 0);
+    });
+    if (!e.triggered && idleElastic.length > 0) {
+      elasticProblems.push(`${e.when} is not triggered and ${idleElastic.length} elastic lane(s) exist holding no work: ${idleElastic.join(", ")}`);
     }
   }
   for (const v of verifyLanes) {
@@ -320,6 +333,39 @@ function run() {
     if (!(v.ownedPaths ?? []).length || !(v.prohibitedPaths ?? []).length) elasticProblems.push(`${v.assignmentId} does not state both owned and prohibited paths`);
     if (!fs.existsSync(path.join(ROOT, PROMPTS_DIR, `${v.assignmentId}.md`))) elasticProblems.push(`${v.assignmentId} has no prompt`);
   }
+  /*
+   * C21. Every queue state a generator names is a state the queue declares.
+   *
+   * "FAIL_REPAIR_REQUIRED > 20" read countIn("REPAIR_REQUIRED"). No family has
+   * ever been in a state by that name, so the threshold counted zero on every
+   * run and could not fire however deep the repair queue got. It was switched
+   * off and it looked exactly like a quiet day -- twenty-six families were in
+   * FAIL_REPAIR_REQUIRED when this was found.
+   *
+   * A misspelled key is silent by construction: it returns zero, or undefined,
+   * and reports nothing. The only defence is to refuse a name the vocabulary
+   * does not declare, which is why the generator exits rather than counting,
+   * and why this asks the same question of the committed source.
+   */
+  const declaredStates = new Set(master.stateVocabulary ?? []);
+  const stateNameProblems = [];
+  if (declaredStates.size === 0) stateNameProblems.push("the master queue declares no state vocabulary at all");
+  for (const f of ["generate-source-conveyor.mjs", "generate.mjs"]) {
+    const t = fs.readFileSync(path.join(ROOT, "scripts/grade-a-packet-factory-24h", f), "utf8");
+    for (const m of t.matchAll(/countIn\("([A-Z_]+)"\)|state === "([A-Z_]+)"/g)) {
+      const name = m[1] ?? m[2];
+      if (!declaredStates.has(name)) stateNameProblems.push(`${f} queries state ${name}, which the queue does not declare`);
+    }
+  }
+  // The generator must refuse rather than count, or the next misspelling is
+  // silent again.
+  if (!/is not a declared queue state/.test(fs.readFileSync(path.join(ROOT, "scripts/grade-a-packet-factory-24h/generate-source-conveyor.mjs"), "utf8"))) {
+    stateNameProblems.push("the conveyor generator does not refuse an undeclared state name");
+  }
+  check("C21", "every queue state a generator counts is one the queue declares",
+    stateNameProblems.length === 0,
+    `${declaredStates.size} declared state(s); ${stateNameProblems.length} problem(s): ${stateNameProblems.slice(0, 3).join(" | ")}`);
+
   check("C19", "capacity the queue triggers is materialized, with launch gates and paths",
     elasticProblems.length === 0,
     `${(ci.elasticCapacity?.thresholds ?? []).filter((e) => e.triggered).length} trigger(s) firing, ${verifyLanes.length} verifier(s); ${elasticProblems.length} problem(s): ${elasticProblems.slice(0, 2).join(" | ")}`);
@@ -382,7 +428,7 @@ if (MUTATIONS) {
     ci: path.join(ROOT, CI_STATE), master: path.join(ROOT, MASTER),
     active: path.join(ROOT, ACTIVE), workflow: path.join(ROOT, WORKFLOW),
     planner: path.join(ROOT, PLANNER), acquire: path.join(ROOT, ACQUIRE),
-    summary: path.join(ROOT, SUMMARY), policy: path.join(ROOT, HOST_POLICY)
+    summary: path.join(ROOT, SUMMARY), policy: path.join(ROOT, HOST_POLICY), conveyorGen: path.join(ROOT, "scripts/grade-a-packet-factory-24h/generate-source-conveyor.mjs")
     , prompt: path.join(ROOT, PROMPTS_DIR, "DISC01.md"), ready: path.join(ROOT, READY_WORKFLOW)
   };
   const originals = Object.fromEntries(Object.entries(targets).map(([k, p]) => [k, fs.readFileSync(p)]));
@@ -434,6 +480,10 @@ if (MUTATIONS) {
     { on: "ci", id: "C13", name: "a document reporting an opened commercial route is caught", mutate: (j) => { j.commercialRoutesOpened = 1; return j; } },
     { on: "conveyor", id: "C14", name: "a fifth SRC lane is caught", mutate: (j) => { j.totals.src = 5; return j; } },
     { on: "active", id: "C15", name: "a retired PF lane is caught", mutate: (j) => { j.assignments = j.assignments.filter((x) => x.assignmentId !== "PF16"); return j; } },
+    /* C21's subject: a threshold reading a state name nothing writes counts
+     * zero and reports a quiet day. "REPAIR_REQUIRED" did exactly that while
+     * twenty-six families sat in FAIL_REPAIR_REQUIRED. */
+    { on: "conveyorGen", id: "C21", name: "a threshold reading an undeclared queue state is caught", mutateText: (t) => t.replace('countIn("FAIL_REPAIR_REQUIRED")', 'countIn("REPAIR_REQUIRED")') },
     { on: "policy", id: "C16", name: "an open-registration TLD on the suffix list is caught", mutateText: (t) => t.replace('const ALLOWED_HOST_SUFFIXES = [\n  ".gov",', 'const ALLOWED_HOST_SUFFIXES = [\n  ".us",\n  ".gov",') },
     { on: "policy", id: "C16", name: "widening the exact host to its shared suffix is caught", mutateText: (t) => t.replace('  ".uscourts.gov"', '  ".uscourts.gov",\n  ".blob.core.windows.net"') },
     { on: "policy", id: "C16", name: "an exact host that stops requiring a hash is caught", mutateText: (t) => t.replace("requiresExpectedSha256: true", "requiresExpectedSha256: false") },
@@ -444,7 +494,11 @@ if (MUTATIONS) {
     { on: "active", id: "C17", name: "a source lane that stops marking its count prospective is caught", mutate: (j) => { const x = j.assignments.find((y) => y.itemKind === "sourceObligation"); x.countIsProspective = false; return j; } },
     { on: "summary", id: "C18", name: "a summary that cannot report PARTIAL is caught", mutateText: (t) => t.replace(/"PARTIAL"/g, '"OK"') },
     { on: "workflow", id: "C18", name: "a summary job that skips when the batch fails is caught", mutateText: (t) => t.replace("    if: always()", "    if: success()") },
-    { on: "ci", id: "C19", name: "a triggered threshold whose lanes do not exist is caught", mutate: (j) => { const e = j.elasticCapacity.thresholds.find((x) => !x.triggered); e.triggered = true; return j; } },
+    /* The subject must be a threshold whose lanes are genuinely absent. Flipping
+ * the first untriggered one stopped proving anything once VF09-VF12 were
+ * materialized and stayed materialized: the mutation said "triggered" and all
+ * four lanes were right there. It picks the threshold nothing has built. */
+    { on: "ci", id: "C19", name: "a triggered threshold whose lanes do not exist is caught", mutate: (j) => { const ids = new Set(read(ACTIVE).assignments.map((x) => x.assignmentId)); const e = j.elasticCapacity.thresholds.find((x) => x.creates.some((c) => !ids.has(c))); if (!e) throw new Error("every elastic lane already exists, so this mutation has no subject"); e.triggered = true; return j; } },
     { on: "active", id: "C19", name: "a materialized verifier without a prompt is caught", mutate: (j) => { j.assignments.find((x) => x.lane === "independent-verification").assignmentId = "VF99"; return j; } },
     { on: "prompt", id: "C20", name: "undefined in a source prompt is caught", mutateText: (t) => `${t}\nundefined\n` },
     { on: "prompt", id: "C20", name: "synthetic --family in a source prompt is caught", mutateText: (t) => `${t}\n--family family::official-form:X\n` },
