@@ -79,6 +79,6 @@ export function preflightDenominator(family = null) {
     applicable: observed.applicable,
     notApplicable: observed.skipped,
     checks: declared,
-    mustReturn: `PACKET_BUILD_ENVIRONMENT_READY: ${observed.applicable}/${observed.applicable}`
+    mustReturn: "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing"
   };
 }

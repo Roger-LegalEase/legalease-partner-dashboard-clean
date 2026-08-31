@@ -55,7 +55,7 @@ Acceptance: **PASS_COMPLETE**.
 ## Source corpus
 
 Binding: `MASTER_LIBRARY_SOURCE_DIR, bound through scripts/rcap-corpus/bootstrap-private-corpus.sh`
-Preflight: `node scripts/verify-packet-build-environment.mjs --family <family> must print PACKET_BUILD_ENVIRONMENT_READY 14/14 before anything is written`
+Preflight: `node scripts/verify-packet-build-environment.mjs --family <family> must print PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing before anything is written`
 
 Every source binds at the exact SHA-256 its source-receipt.json records. Never commit a source binary: 59 were excluded from the C11 integration for that reason.
 

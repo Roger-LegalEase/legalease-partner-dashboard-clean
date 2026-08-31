@@ -19,7 +19,7 @@ node scripts/verify-packet-build-environment.mjs \
   --minimum-captain-sha 49dfa403a4185542c494d7ef53ae015931402e43
 ```
 
-It must print **`PACKET_BUILD_ENVIRONMENT_READY: 14/14`**. A 13/14 in cloud mode is a real failure, not the shallow checkout being tolerated.
+It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A 13/14 in cloud mode is a real failure, not the shallow checkout being tolerated.
 
 ## Never run these
 
@@ -128,7 +128,7 @@ BLOCKED_LEGAL_INPUT:
 OVERLAY DIRECTORIES MODIFIED: 0
 COMMERCIAL ROUTES OPENED: 0
 PRODUCTION TOUCHED: NO
-PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY 14/14
+PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing
 DIFF LEFT FOR THE CODEX UI: YES
 ```
 

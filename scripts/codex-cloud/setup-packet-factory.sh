@@ -51,6 +51,35 @@ echo "Installing dependencies ..."
 npm ci --cache /tmp/legalease-npm-cache
 node -e 'require.resolve("pdf-lib")' >/dev/null 2>&1 || fail "pdf-lib did not install; the factory cannot fill, measure or raster without it"
 
+# Browser installation is a SETUP responsibility. PF/VF/FIX workers run with
+# the network closed and must never attempt apt-get, Poppler, or a late browser
+# download. Prefer an executable already present in the governed resolver's
+# order; only the repository-pinned Playwright package may install a fallback.
+BROWSER_CACHE_ROOT="${PLAYWRIGHT_BROWSERS_PATH:-$HOME/.cache/ms-playwright}"
+resolve_browser() {
+  node --input-type=module -e '
+    import { resolveChromium } from "./scripts/lib/pdf-page-raster.mjs";
+    const resolved = resolveChromium();
+    if (!resolved.executablePath) process.exit(1);
+    process.stdout.write(resolved.executablePath);
+  '
+}
+
+CHROMIUM_PATH="$(resolve_browser 2>/dev/null || true)"
+if [ -z "$CHROMIUM_PATH" ]; then
+  echo "No executable Chromium found; installing repository-pinned Playwright Chromium into $BROWSER_CACHE_ROOT ..."
+  export PLAYWRIGHT_BROWSERS_PATH="$BROWSER_CACHE_ROOT"
+  npx playwright install chromium \
+    || fail "Playwright Chromium download failed during SETUP (PLAYWRIGHT_BROWSERS_PATH=$BROWSER_CACHE_ROOT); refusing to substitute apt-get, pdftoppm, or another rasterizer"
+  CHROMIUM_PATH="$(resolve_browser 2>/dev/null || true)"
+fi
+[ -n "$CHROMIUM_PATH" ] || fail "Playwright reported a successful install but no Chromium executable resolved"
+[ -f "$CHROMIUM_PATH" ] && [ -x "$CHROMIUM_PATH" ] \
+  || fail "resolved Chromium is missing or non-executable: $CHROMIUM_PATH"
+export PLAYWRIGHT_BROWSERS_PATH="$BROWSER_CACHE_ROOT"
+export RCAP_CHROMIUM_PATH="$CHROMIUM_PATH"
+echo "Chromium resolved: $RCAP_CHROMIUM_PATH"
+
 # ---- 2. the token, read from the environment and never printed ---------------
 # Setup-phase only. Not echoed, not logged, not written to disk, and not passed
 # on a command line where a process list would carry it.
@@ -150,6 +179,8 @@ write_env() {
 #   verified  $JURISDICTIONS jurisdictions / $FILES files / $PDFS PDFs
 export RCAP_BUNDLE_EXTRACT="$REPO_ROOT/$INSTALL_ROOT"
 export MASTER_LIBRARY_SOURCE_DIR="$REPO_ROOT/$INSTALL_ROOT"
+export PLAYWRIGHT_BROWSERS_PATH="$BROWSER_CACHE_ROOT"
+export RCAP_CHROMIUM_PATH="$CHROMIUM_PATH"
 
 # --- Operational Nationwide tree: what the platform builds packets from
 # A DIFFERENT corpus, not carried by this release. Do not substitute the Master
@@ -161,6 +192,20 @@ mkdir -p private
 write_env > private/source-corpus-environment.txt
 write_env > "$HOME_ENV"
 echo "Wrote private/source-corpus-environment.txt and $HOME_ENV"
+
+# A resolved path is not readiness. Exercise the exact calibrated raster path
+# workers use, including browser launch, PDF viewer, PNG creation, measured
+# paper bounds and calibration tolerance. probeRasterizer owns and removes all
+# of its temporary files and rasterizePageCalibrated closes Chromium.
+echo "Running calibrated Chromium PDF raster acceptance ..."
+SMOKE_RESULT=$(node --input-type=module -e '
+  import { probeRasterizer } from "./scripts/lib/pdf-page-raster.mjs";
+  const result = await probeRasterizer();
+  process.stdout.write(JSON.stringify(result));
+  if (!result.ok || !result.syntheticPdfCreated || !result.pngWritten || !result.paper?.width
+      || !result.paper?.height || !(result.calibrationResidualPx <= 1.5)) process.exit(1);
+') || fail "calibrated Chromium PDF raster acceptance failed: ${SMOKE_RESULT:-no result}"
+echo "Calibrated raster accepted: $SMOKE_RESULT"
 
 # ---- 8. private/ stays ignored, and tracks nothing ---------------------------
 git check-ignore -q private/ || fail "private/ stopped being git-ignored during setup"

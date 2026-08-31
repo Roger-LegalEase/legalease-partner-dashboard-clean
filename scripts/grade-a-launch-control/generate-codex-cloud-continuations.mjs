@@ -65,7 +65,7 @@ const CLOUD_CONTRACT = {
   whyNoGitNetwork: "Codex Cloud checks the selected Captain branch out as a local branch named `work`, shallow, and removes origin before the agent starts. Every one of those commands fails on a checkout that is working exactly as designed, and the failure looks like a broken environment rather than a wrong instruction.",
   sourceTheCorpusEnvironment: "source $HOME/.legalease-corpus-env",
   preflight: `node ${PREFLIGHT} --family <FAMILY_ID> --codex-cloud --minimum-captain-sha ${MINIMUM_CAPTAIN_SHA}`,
-  preflightMustReturn: "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+  preflightMustReturn: "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
   thirteenOfFourteenIsARefusal: "14/14 or stop. Three Codespaces checks are replaced by cloud-native ones, not waived, so a 13/14 in cloud mode is a real failure and not the shallow checkout being tolerated.",
   theDiffIsTheReturn: "Commit your work locally. Leave the final diff for the Codex UI.",
   neverRequirePushed: "PUSHED: YES is not part of a cloud return. There is nothing to push to and asking for it turns a complete task into a failed one."
@@ -74,7 +74,7 @@ const CLOUD_CONTRACT = {
 const RETURN_TAIL = [
   "COMMERCIAL ROUTES OPENED: 0",
   "PRODUCTION TOUCHED: NO",
-  "PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY 14/14",
+  "PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
   "DIFF LEFT FOR THE CODEX UI: YES"
 ];
 

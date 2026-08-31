@@ -545,6 +545,33 @@ check(
   }
 );
 
+check(
+  "browser_environment_exported",
+  "the governed browser cache and exact executable are exported",
+  "A browser found only by accident in one shell is not a worker runtime. Setup must persist both values and every worker must source them before preflight.",
+  (env) => {
+    const required = ["PLAYWRIGHT_BROWSERS_PATH", "RCAP_CHROMIUM_PATH"];
+    const missing = required.filter((name) => !process.env[name]);
+    const executable = process.env.RCAP_CHROMIUM_PATH;
+    const executableOk = Boolean(executable && (() => {
+      try { return fs.statSync(executable).isFile() && (fs.accessSync(executable, fs.constants.X_OK), true); }
+      catch { return false; }
+    })());
+    const envFiles = [path.join(env, CORPUS_ENV_REPO), path.join(os.homedir(), CORPUS_ENV_HOME)];
+    const unpersisted = envFiles.flatMap((file) => {
+      if (!fs.existsSync(file)) return [`${file} is missing`];
+      const text = fs.readFileSync(file, "utf8");
+      return required.filter((name) => !new RegExp(`^export ${name}=`, "m").test(text)).map((name) => `${name} missing from ${file}`);
+    });
+    const ok = missing.length === 0 && executableOk && unpersisted.length === 0;
+    return {
+      ok, missing, unpersisted, executable, browserCache: process.env.PLAYWRIGHT_BROWSERS_PATH,
+      detail: ok ? `browser environment persisted; executable ${executable}`
+        : [...missing.map((name) => `${name} is not exported`), ...unpersisted, ...(executable && !executableOk ? [`${executable} is missing or non-executable`] : [])].join("; ")
+    };
+  }
+);
+
 // ==============================================================================
 // 6b. the page rasterizer can actually start
 // ==============================================================================

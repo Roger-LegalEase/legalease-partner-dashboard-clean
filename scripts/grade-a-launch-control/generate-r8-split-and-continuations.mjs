@@ -50,7 +50,7 @@ const PREFLIGHT_EVIDENCE = {
     thereforeAGateDefect: "Four families failing one check for one reason is one defect, not four. Rerunning the combined assignment would have reproduced it exactly."
   },
   afterTheGateFix: {
-    result: "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+    result: "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
     allFour: true,
     familySourcesBind: "passes on all four; no family is routed to a source lane",
     gateFixCommit: "the preflight now decides a collision by lane kind, and CODEX_CLOUD_CONTINUATIONS.json is first in manifest precedence"
@@ -76,7 +76,7 @@ const R8_SPLIT = [
 const CLOUD_PROHIBITED = ["git fetch", "git pull", "git push", "gh ", "git worktree", "git clone", "git remote add"];
 const RETURN_TAIL = [
   "COMMERCIAL ROUTES OPENED: 0", "PRODUCTION TOUCHED: NO",
-  "PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY 14/14", "DIFF LEFT FOR THE CODEX UI: YES"
+  "PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing", "DIFF LEFT FOR THE CODEX UI: YES"
 ];
 const VERDICTS = ["PASS_COMPLETE_INDEPENDENT", "FAIL_REPAIR_REQUIRED", "BLOCKED_SOURCE", "BLOCKED_LEGAL_INPUT"];
 const PROOF_OBLIGATIONS = [
@@ -124,7 +124,7 @@ for (const s of R8_SPLIT) {
     itemCount: 1,
     items: [s.familyId],
     preflight: `node ${PREFLIGHT} --family ${s.familyId} --codex-cloud --minimum-captain-sha ${MINIMUM_CAPTAIN_SHA}`,
-    preflightObserved: "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+    preflightObserved: "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
     theDefect: {
       result: m.result,
       counters: m.counters,
@@ -357,7 +357,7 @@ const promptFor = (a) => {
     "  --codex-cloud \\",
     `  --minimum-captain-sha ${a.minimumCaptainSha}`,
     "```", "");
-  p.push("It must print **`PACKET_BUILD_ENVIRONMENT_READY: 14/14`**.", a.preflightObserved ? ` Captain ran exactly this for this family and observed \`${a.preflightObserved}\`, so a different answer is a change in the container, not in the dispatch.` : "", "");
+  p.push("It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**.", a.preflightObserved ? ` Captain ran exactly this for this family and observed \`${a.preflightObserved}\`, so a different answer is a change in the container, not in the dispatch.` : "", "");
   p.push("## Never run these", "", bullet(a.prohibitedCommands.map((c) => `\`${c}\``)), "");
   p.push("## Mission", "", a.mission, "");
   if (a.theDefect) {

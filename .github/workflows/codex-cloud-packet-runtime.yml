@@ -1,0 +1,44 @@
+name: Codex Cloud Packet Runtime
+
+on:
+  push:
+    branches: [claude/legalease-sprint-captain-utucnw]
+    paths: &runtime_paths
+      - scripts/codex-cloud/**
+      - scripts/lib/pdf-page-raster.mjs
+      - scripts/test-codex-cloud-packet-runtime.mjs
+      - scripts/verify-packet-build-environment.mjs
+      - package.json
+      - package-lock.json
+      - docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md
+      - .github/workflows/codex-cloud-packet-runtime.yml
+  pull_request:
+    paths: *runtime_paths
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  runtime-acceptance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - name: Install repository-pinned Chromium during setup
+        run: npx playwright install chromium
+        env:
+          PLAYWRIGHT_BROWSERS_PATH: ${{ runner.temp }}/ms-playwright
+      - name: Resolve and persist governed browser environment
+        shell: bash
+        run: |
+          set -euo pipefail
+          export PLAYWRIGHT_BROWSERS_PATH="${RUNNER_TEMP}/ms-playwright"
+          RCAP_CHROMIUM_PATH=$(node --input-type=module -e 'import {resolveChromium} from "./scripts/lib/pdf-page-raster.mjs"; const r=resolveChromium(); if (!r.executablePath) process.exit(1); process.stdout.write(r.executablePath)')
+          mkdir -p private
+          printf 'export PLAYWRIGHT_BROWSERS_PATH=%q\nexport RCAP_CHROMIUM_PATH=%q\n' "$PLAYWRIGHT_BROWSERS_PATH" "$RCAP_CHROMIUM_PATH" | tee private/source-corpus-environment.txt "$HOME/.legalease-corpus-env"
+          printf 'PLAYWRIGHT_BROWSERS_PATH=%s\nRCAP_CHROMIUM_PATH=%s\n' "$PLAYWRIGHT_BROWSERS_PATH" "$RCAP_CHROMIUM_PATH" >> "$GITHUB_ENV"
+      - name: Synthetic calibrated PDF raster and negative controls
+        run: node scripts/test-codex-cloud-packet-runtime.mjs

@@ -19,7 +19,7 @@ node scripts/verify-packet-build-environment.mjs \
   --minimum-captain-sha 0b89b1bf6b0b211ca73784724b1e0aea409010a3
 ```
 
-It must print **`PACKET_BUILD_ENVIRONMENT_READY: 14/14`**.
+It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**.
 
 
 ## Never run these
@@ -123,7 +123,7 @@ RECLASSIFICATIONS DISPUTED:
 OVERLAY DIRECTORIES MODIFIED: 0
 COMMERCIAL ROUTES OPENED: 0
 PRODUCTION TOUCHED: NO
-PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY 14/14
+PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing
 DIFF LEFT FOR THE CODEX UI: YES
 ```
 

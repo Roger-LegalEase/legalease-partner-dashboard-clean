@@ -81,7 +81,7 @@ const obligationsPerFamily = [...new Set(evidence.map((e) => e.failedProofObliga
 const CLOUD_PROHIBITED = ["git fetch", "git pull", "git push", "gh ", "git worktree", "git clone", "git remote add"];
 const RETURN_TAIL = [
   "COMMERCIAL ROUTES OPENED: 0", "PRODUCTION TOUCHED: NO",
-  "PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY 14/14", "DIFF LEFT FOR THE CODEX UI: YES"
+  "PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing", "DIFF LEFT FOR THE CODEX UI: YES"
 ];
 const base = (id, slug, lane, sequence, extra) => ({
   assignmentId: id,
@@ -306,7 +306,7 @@ const promptFor = (a) => {
     "source $HOME/.legalease-corpus-env",
     `node ${PREFLIGHT} --family ${(a.items[0] ?? "").startsWith("wa_") ? a.items[0] : FAMILIES[0]} --codex-cloud --minimum-captain-sha ${a.minimumCaptainSha}`,
     "```", "");
-  p.push("It must print **`PACKET_BUILD_ENVIRONMENT_READY: 14/14`**.", "");
+  p.push("It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**.", "");
   p.push("## Never run these", "", bullet(a.prohibitedCommands.map((c) => `\`${c}\``)), "");
   p.push("## Mission", "", a.mission, "");
   if (a.whyOneLane) p.push(`**Why one lane:** ${a.whyOneLane}`, "");

@@ -155,7 +155,7 @@ for (let i = 0; i < rows.length; i += SHARD_SIZE) {
       "BLOCKED_SOURCE:", "BLOCKED_LEGAL_INPUT:",
       "OVERLAY DIRECTORIES MODIFIED: 0",
       "COMMERCIAL ROUTES OPENED: 0", "PRODUCTION TOUCHED: NO",
-      "PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY 14/14", "DIFF LEFT FOR THE CODEX UI: YES"
+      "PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing", "DIFF LEFT FOR THE CODEX UI: YES"
     ],
     grantsNothing: "An independent PASS proves a packet is complete. It approves no output, proves no fulfillment authority and opens no commercial route.",
     promptFile: `${PROMPT_DIR}/P2V${n}_WASHINGTON_INDEPENDENT_VERIFICATION.md`
@@ -253,7 +253,7 @@ const promptFor = (a) => {
     "  --codex-cloud \\",
     `  --minimum-captain-sha ${a.minimumCaptainSha}`,
     "```", "");
-  p.push("It must print **`PACKET_BUILD_ENVIRONMENT_READY: 14/14`**. A 13/14 in cloud mode is a real failure, not the shallow checkout being tolerated.", "");
+  p.push("It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A 13/14 in cloud mode is a real failure, not the shallow checkout being tolerated.", "");
   p.push("## Never run these", "", bullet(a.prohibitedCommands.map((c) => `\`${c}\``)), "");
   p.push("## Mission", "", a.mission, "");
   p.push(`## The ${a.itemCount} families`, "");

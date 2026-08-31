@@ -8,7 +8,7 @@ a packet is unchanged, and the gates that matter are unchanged too.
 ## Why this exists
 
 `scripts/verify-packet-build-environment.mjs` was written against a Codespace.
-Three of its fourteen checks assumed a permanent `origin`, a full clone, and an
+Three checks assumed a permanent `origin`, a full clone, and an
 `origin/<worker-branch>` tracking ref.
 
 Codex Cloud does none of those, on purpose:
@@ -36,7 +36,9 @@ same three facts by other evidence:
 | `clone_is_complete` | `cloud_checkout_contains_captain_base` | this checkout carries the work the assignment was cut from |
 | `assigned_branch_tip_visible` | `assignment_present_in_this_checkout` | the assignment this worker is executing is really in this tree |
 
-The denominator stays **14** in both modes. A cloud pass is `14/14`.
+The registered check roster in the preflight is the single source of truth for
+the denominator. The gate passes only when every applicable registered check
+passes; prompts must not copy a numeric denominator.
 
 Everything else is unchanged and mandatory: clean worktree, Node toolchain,
 `pdf-lib`, `private/` ignored and untracked, Master Library mounted, exact
@@ -85,8 +87,9 @@ right there on disk.
    inferred which commit was meant would prove nothing: the point is that this
    shallow checkout demonstrably contains the tree the assignment was cut from.
 
-5. **`PACKET_BUILD_ENVIRONMENT_READY: 14/14` or stop.** In cloud mode a `13/14`
-   is a real failure, not the shallow checkout being tolerated.
+5. **`PACKET_BUILD_ENVIRONMENT_READY` with every registered applicable check
+   passing, or stop.** A partial result is a real failure, not the shallow
+   checkout being tolerated.
 
 6. **The diff is the return.** Commit locally and leave the final diff for the
    Codex UI. **`PUSHED: YES` is never part of a cloud return** — there is nothing
@@ -99,7 +102,7 @@ Every cloud packet return ends with:
 ```text
 COMMERCIAL ROUTES OPENED: 0
 PRODUCTION TOUCHED: NO
-PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY 14/14
+PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing
 DIFF LEFT FOR THE CODEX UI: YES
 ```
 
@@ -111,19 +114,30 @@ is always `work`, and Codex names it), and no request to open a pull request.
 `scripts/codex-cloud/setup-packet-factory.sh`, in order:
 
 1. `npm ci`, then proves `pdf-lib` resolves;
-2. reads `LEGALEASE_SOURCE_ARTIFACTS_TOKEN` from the environment — setup phase
+2. resolves an existing executable Chromium from the explicit environment,
+   Playwright cache/resolver, `PATH`, or reviewed system paths. If none exists,
+   it runs the repository-pinned `npx playwright install chromium` during setup;
+3. reads `LEGALEASE_SOURCE_ARTIFACTS_TOKEN` from the environment — setup phase
    only, never printed, never written to disk, never on a command line;
-3. downloads the governed private corpus release;
-4. verifies the archive SHA-256 **before extracting anything**;
-5. extracts into the git-ignored `private/` tree;
-6. verifies 51 jurisdictions / 499 files / 329 PDFs, and the corpus's own
+4. downloads the governed private corpus release;
+5. verifies the archive SHA-256 **before extracting anything**;
+6. extracts into the git-ignored `private/` tree;
+7. verifies 51 jurisdictions / 499 files / 329 PDFs, and the corpus's own
    governance checksums where present;
-7. writes `private/source-corpus-environment.txt` and `$HOME/.legalease-corpus-env`;
-8. re-confirms `private/` is ignored and tracks nothing;
-9. prints `LEGALEASE_CODEX_CLOUD_READY`.
+8. writes both corpus paths plus the exact `PLAYWRIGHT_BROWSERS_PATH` and
+   `RCAP_CHROMIUM_PATH` values to `private/source-corpus-environment.txt` and
+   `$HOME/.legalease-corpus-env`;
+9. launches Chromium with the worker sandbox arguments and uses `pdf-lib` plus
+   `rasterizePageCalibrated` to prove a synthetic PDF produces a PNG, measured
+   paper bounds, and an in-tolerance calibration; temporary files and the
+   browser are cleaned before the ready signal;
+10. re-confirms `private/` is ignored and tracks nothing;
+11. prints `LEGALEASE_CODEX_CLOUD_READY`.
 
 It does **not** fetch, pull, push, require `origin`, unshallow the checkout,
-change a branch, or commit a corpus byte.
+change a branch, invoke `apt-get` or `pdftoppm`, install a browser during a
+PF/VF/FIX task, substitute another rasterizer, or commit a corpus byte. A setup
+browser-download or runtime-acceptance failure stops setup with its exact error.
 
 ## The current cloud tasks
 
