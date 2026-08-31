@@ -1,0 +1,34 @@
+{
+  "assignment": "VF04",
+  "captainSha": "1535d2037c196cb78231be2d9e3bbe4ab28bfa13",
+  "status": "LANE_STOP_ENVIRONMENT_NOT_READY",
+  "familiesAwaitingVerification": [
+    "ut_pet_acquittal-set",
+    "wv_conv_multiple_misdemeanors-set"
+  ],
+  "familiesClaimed": [],
+  "rowsReturned": 0,
+  "counters": {
+    "PASS_COMPLETE_INDEPENDENT": 0,
+    "FAIL_REPAIR_REQUIRED": 0,
+    "BLOCKED_SOURCE": 0,
+    "BLOCKED_LEGAL_INPUT": 0,
+    "BLOCKED_BEFORE_CLAIM": 0
+  },
+  "blockers": [
+    {
+      "gate": "page_rasterizer_available",
+      "result": "FAIL",
+      "detail": "No executable Chromium was available; PLAYWRIGHT_BROWSERS_PATH and RCAP_CHROMIUM_PATH were unset, and scripts/lib/pdf-page-raster.mjs resolved no executable browser. The mandatory preflight returned PACKET_BUILD_ENVIRONMENT_NOT_READY: 14/15 passed, 1 failed, 0 not applicable."
+    }
+  ],
+  "claimsAttempted": 0,
+  "testsActuallyRun": [
+    "source $HOME/.legalease-corpus-env && node scripts/verify-packet-build-environment.mjs --family ut_pet_acquittal-set --codex-cloud --minimum-captain-sha 1535d2037c196cb78231be2d9e3bbe4ab28bfa13"
+  ],
+  "focusedTestsRun": [],
+  "overlayDirectoriesModified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "diffLeftForCodexUi": true
+}
