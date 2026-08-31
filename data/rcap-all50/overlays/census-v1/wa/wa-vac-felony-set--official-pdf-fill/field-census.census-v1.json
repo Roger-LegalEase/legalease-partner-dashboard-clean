@@ -79,6 +79,7 @@
           "mappingDecision": {
             "printedCaption": "Superior Court of Washington, County of",
             "captionBasis": "printed_text_on_same_line_before_blank",
+            "terminal": true,
             "writable": true,
             "factId": "matter.county",
             "effectiveLabel": "County"
@@ -105,6 +106,7 @@
           "mappingDecision": {
             "printedCaption": "State of Washington, Plaintiff, No",
             "captionBasis": "printed_text_on_same_line_before_blank",
+            "terminal": true,
             "writable": true,
             "factId": "matter.case_number",
             "effectiveLabel": "Case No."
@@ -131,6 +133,7 @@
           "mappingDecision": {
             "printedCaption": "Defendant",
             "captionBasis": "state_caption_column_label_immediately_below_rule",
+            "terminal": true,
             "writable": true,
             "factId": "participant.full_legal_name",
             "effectiveLabel": "Full Legal Name"
@@ -164,8 +167,10 @@
           "mappingDecision": {
             "printedCaption": "I. Motion",
             "captionBasis": "nearest_short_printed_label_below_blank",
+            "terminal": false,
             "writable": false,
-            "reason": "not_on_state_bounded_identity_allowlist"
+            "reason": "measured_source_rule_is_not_a_terminal_field",
+            "approvedDisposition": "NOT_A_FIELD"
           }
         },
         {
@@ -196,8 +201,10 @@
           "mappingDecision": {
             "printedCaption": "I. Motion",
             "captionBasis": "nearest_short_printed_label_below_blank",
+            "terminal": false,
             "writable": false,
-            "reason": "not_on_state_bounded_identity_allowlist"
+            "reason": "measured_source_rule_is_not_a_terminal_field",
+            "approvedDisposition": "NOT_A_FIELD"
           }
         },
         {
@@ -228,9 +235,11 @@
           "mappingDecision": {
             "printedCaption": "Dated",
             "captionBasis": "printed_text_on_same_line_before_blank",
+            "terminal": true,
             "writable": false,
-            "reason": "protected_date_field",
-            "category": "date"
+            "reason": "Signature or execution-date field; completed by the participant or signer at execution and never prefilled.",
+            "category": "signature_or_date_participant_completion",
+            "approvedDisposition": "PROTECTED_FIELD"
           }
         },
         {
@@ -261,9 +270,11 @@
           "mappingDecision": {
             "printedCaption": "Signature WSBA No",
             "captionBasis": "nearest_short_printed_label_below_blank",
+            "terminal": true,
             "writable": false,
-            "reason": "protected_printed_caption",
-            "category": "signature"
+            "reason": "Signature or execution-date field; completed by the participant or signer at execution and never prefilled.",
+            "category": "signature_or_date_participant_completion",
+            "approvedDisposition": "PROTECTED_FIELD"
           }
         },
         {
@@ -294,9 +305,10 @@
           "mappingDecision": {
             "printedCaption": "Print Name",
             "captionBasis": "nearest_short_printed_label_below_blank",
-            "writable": false,
-            "reason": "protected_page_region",
-            "category": "prosecutor"
+            "terminal": true,
+            "writable": true,
+            "factId": "participant.full_legal_name",
+            "effectiveLabel": "Print Name"
           }
         },
         {
@@ -327,9 +339,10 @@
           "mappingDecision": {
             "printedCaption": "I",
             "captionBasis": "printed_text_on_same_line_before_blank",
-            "writable": false,
-            "reason": "protected_page_region",
-            "category": "prosecutor"
+            "terminal": true,
+            "writable": true,
+            "factId": "participant.full_legal_name",
+            "effectiveLabel": "Declarant Name"
           }
         },
         {
@@ -353,9 +366,10 @@
           "mappingDecision": {
             "printedCaption": "Count",
             "captionBasis": "printed_text_on_same_line_before_blank",
-            "writable": false,
-            "reason": "protected_page_region",
-            "category": "prosecutor"
+            "terminal": true,
+            "writable": true,
+            "factId": "matter.charges[0].count",
+            "effectiveLabel": "Count 1"
           }
         },
         {
@@ -379,9 +393,10 @@
           "mappingDecision": {
             "printedCaption": "Offense (include degree)",
             "captionBasis": "printed_text_on_same_line_before_blank",
-            "writable": false,
-            "reason": "protected_page_region",
-            "category": "prosecutor"
+            "terminal": true,
+            "writable": true,
+            "factId": "matter.charges[0].charge",
+            "effectiveLabel": "Offense 1"
           }
         },
         {
@@ -405,9 +420,10 @@
           "mappingDecision": {
             "printedCaption": "RCW",
             "captionBasis": "printed_text_on_same_line_before_blank",
-            "writable": false,
-            "reason": "protected_page_region",
-            "category": "prosecutor"
+            "terminal": true,
+            "writable": true,
+            "factId": "matter.charges[0].statute",
+            "effectiveLabel": "Statute 1"
           }
         },
         {
@@ -431,9 +447,10 @@
           "mappingDecision": {
             "printedCaption": "Count",
             "captionBasis": "printed_text_on_same_line_before_blank",
-            "writable": false,
-            "reason": "protected_page_region",
-            "category": "prosecutor"
+            "terminal": true,
+            "writable": true,
+            "factId": "matter.charges[1].count",
+            "effectiveLabel": "Count 2"
           }
         },
         {
@@ -457,9 +474,10 @@
           "mappingDecision": {
             "printedCaption": "Offense (include degree)",
             "captionBasis": "printed_text_on_same_line_before_blank",
-            "writable": false,
-            "reason": "protected_page_region",
-            "category": "prosecutor"
+            "terminal": true,
+            "writable": true,
+            "factId": "matter.charges[1].charge",
+            "effectiveLabel": "Offense 2"
           }
         },
         {
@@ -483,9 +501,10 @@
           "mappingDecision": {
             "printedCaption": "RCW",
             "captionBasis": "printed_text_on_same_line_before_blank",
-            "writable": false,
-            "reason": "protected_page_region",
-            "category": "prosecutor"
+            "terminal": true,
+            "writable": true,
+            "factId": "matter.charges[1].statute",
+            "effectiveLabel": "Statute 2"
           }
         },
         {
@@ -509,9 +528,10 @@
           "mappingDecision": {
             "printedCaption": "Count",
             "captionBasis": "printed_text_on_same_line_before_blank",
-            "writable": false,
-            "reason": "protected_page_region",
-            "category": "prosecutor"
+            "terminal": true,
+            "writable": true,
+            "factId": "matter.charges[2].count",
+            "effectiveLabel": "Count 3"
           }
         },
         {
@@ -535,9 +555,10 @@
           "mappingDecision": {
             "printedCaption": "Offense (include degree)",
             "captionBasis": "printed_text_on_same_line_before_blank",
-            "writable": false,
-            "reason": "protected_page_region",
-            "category": "prosecutor"
+            "terminal": true,
+            "writable": true,
+            "factId": "matter.charges[2].charge",
+            "effectiveLabel": "Offense 3"
           }
         },
         {
@@ -561,9 +582,10 @@
           "mappingDecision": {
             "printedCaption": "RCW",
             "captionBasis": "printed_text_on_same_line_before_blank",
-            "writable": false,
-            "reason": "protected_page_region",
-            "category": "prosecutor"
+            "terminal": true,
+            "writable": true,
+            "factId": "matter.charges[2].statute",
+            "effectiveLabel": "Statute 3"
           }
         },
         {
@@ -587,9 +609,10 @@
           "mappingDecision": {
             "printedCaption": "Count",
             "captionBasis": "printed_text_on_same_line_before_blank",
-            "writable": false,
-            "reason": "protected_page_region",
-            "category": "prosecutor"
+            "terminal": true,
+            "writable": true,
+            "factId": "matter.charges[3].count",
+            "effectiveLabel": "Count 4"
           }
         },
         {
@@ -613,9 +636,10 @@
           "mappingDecision": {
             "printedCaption": "Offense (include degree)",
             "captionBasis": "printed_text_on_same_line_before_blank",
-            "writable": false,
-            "reason": "protected_page_region",
-            "category": "prosecutor"
+            "terminal": true,
+            "writable": true,
+            "factId": "matter.charges[3].charge",
+            "effectiveLabel": "Offense 4"
           }
         },
         {
@@ -639,9 +663,10 @@
           "mappingDecision": {
             "printedCaption": "RCW",
             "captionBasis": "printed_text_on_same_line_before_blank",
-            "writable": false,
-            "reason": "protected_page_region",
-            "category": "prosecutor"
+            "terminal": true,
+            "writable": true,
+            "factId": "matter.charges[3].statute",
+            "effectiveLabel": "Statute 4"
           }
         },
         {
@@ -672,9 +697,11 @@
           "mappingDecision": {
             "printedCaption": "• Driving under the influence (RCW 46.61.592)",
             "captionBasis": "printed_text_on_same_line_before_blank",
+            "terminal": true,
             "writable": false,
-            "reason": "protected_page_region",
-            "category": "prosecutor"
+            "reason": "Signature or execution field; completed by the participant, attorney, or prosecutor and never prefilled.",
+            "category": "signature_or_date_participant_completion",
+            "approvedDisposition": "PROTECTED_FIELD"
           }
         },
         {
@@ -705,9 +732,10 @@
           "mappingDecision": {
             "printedCaption": "RCW 9.94A.640, .648 Mt. and Dec. for Or. Vacating",
             "captionBasis": "nearest_short_printed_label_below_blank",
+            "terminal": false,
             "writable": false,
-            "reason": "protected_page_region",
-            "category": "outside_party"
+            "reason": "measured_source_rule_is_not_a_terminal_field",
+            "approvedDisposition": "NOT_A_FIELD"
           }
         },
         {
@@ -738,9 +766,10 @@
           "mappingDecision": {
             "printedCaption": "RCW 9.94A.640, .648 Mt. and Dec. for Or. Vacating",
             "captionBasis": "nearest_short_printed_label_below_blank",
+            "terminal": false,
             "writable": false,
-            "reason": "protected_page_region",
-            "category": "outside_party"
+            "reason": "measured_source_rule_is_not_a_terminal_field",
+            "approvedDisposition": "NOT_A_FIELD"
           }
         },
         {
@@ -771,9 +800,10 @@
           "mappingDecision": {
             "printedCaption": "prostitution, commercial sexual abuse of a minor, or sexual assault are",
             "captionBasis": "nearest_short_printed_label_above_blank",
+            "terminal": false,
             "writable": false,
-            "reason": "protected_page_region",
-            "category": "outside_party"
+            "reason": "measured_source_rule_is_not_a_terminal_field",
+            "approvedDisposition": "NOT_A_FIELD"
           }
         },
         {
@@ -804,8 +834,11 @@
           "mappingDecision": {
             "printedCaption": "",
             "captionBasis": "no_adjacent_printed_caption",
+            "terminal": true,
             "writable": false,
-            "reason": "no_printed_caption"
+            "reason": "Participant-authored sworn narrative or supporting evidence; the platform does not invent it.",
+            "category": "participant_sworn_narrative_or_legal_election",
+            "approvedDisposition": "PARTICIPANT_ELECTION_GENUINE"
           }
         },
         {
@@ -836,8 +869,11 @@
           "mappingDecision": {
             "printedCaption": "",
             "captionBasis": "no_adjacent_printed_caption",
+            "terminal": true,
             "writable": false,
-            "reason": "no_printed_caption"
+            "reason": "Participant-authored sworn narrative or supporting evidence; the platform does not invent it.",
+            "category": "participant_sworn_narrative_or_legal_election",
+            "approvedDisposition": "PARTICIPANT_ELECTION_GENUINE"
           }
         },
         {
@@ -868,8 +904,11 @@
           "mappingDecision": {
             "printedCaption": "",
             "captionBasis": "no_adjacent_printed_caption",
+            "terminal": true,
             "writable": false,
-            "reason": "no_printed_caption"
+            "reason": "Participant-authored sworn narrative or supporting evidence; the platform does not invent it.",
+            "category": "participant_sworn_narrative_or_legal_election",
+            "approvedDisposition": "PARTICIPANT_ELECTION_GENUINE"
           }
         },
         {
@@ -900,8 +939,11 @@
           "mappingDecision": {
             "printedCaption": "7. Rehabilitation and Mitigation",
             "captionBasis": "nearest_short_printed_label_below_blank",
+            "terminal": true,
             "writable": false,
-            "reason": "not_on_state_bounded_identity_allowlist"
+            "reason": "Participant-authored sworn narrative or supporting evidence; the platform does not invent it.",
+            "category": "participant_sworn_narrative_or_legal_election",
+            "approvedDisposition": "PARTICIPANT_ELECTION_GENUINE"
           }
         },
         {
@@ -932,9 +974,11 @@
           "mappingDecision": {
             "printedCaption": "[ ] The following facts are evidence of my rehabilitation since my conviction",
             "captionBasis": "printed_text_on_same_line_before_blank",
+            "terminal": true,
             "writable": false,
-            "reason": "protected_printed_caption",
-            "category": "disposition_or_hearing"
+            "reason": "Participant-authored sworn narrative or supporting evidence; the platform does not invent it.",
+            "category": "participant_sworn_narrative_or_legal_election",
+            "approvedDisposition": "PARTICIPANT_ELECTION_GENUINE"
           }
         },
         {
@@ -965,9 +1009,11 @@
           "mappingDecision": {
             "printedCaption": "[ ] The following facts are evidence of my rehabilitation since my conviction",
             "captionBasis": "nearest_short_printed_label_above_blank",
+            "terminal": true,
             "writable": false,
-            "reason": "protected_printed_caption",
-            "category": "disposition_or_hearing"
+            "reason": "Participant-authored sworn narrative or supporting evidence; the platform does not invent it.",
+            "category": "participant_sworn_narrative_or_legal_election",
+            "approvedDisposition": "PARTICIPANT_ELECTION_GENUINE"
           }
         },
         {
@@ -998,8 +1044,11 @@
           "mappingDecision": {
             "printedCaption": "",
             "captionBasis": "no_adjacent_printed_caption",
+            "terminal": true,
             "writable": false,
-            "reason": "no_printed_caption"
+            "reason": "Participant-authored sworn narrative or supporting evidence; the platform does not invent it.",
+            "category": "participant_sworn_narrative_or_legal_election",
+            "approvedDisposition": "PARTICIPANT_ELECTION_GENUINE"
           }
         },
         {
@@ -1030,8 +1079,11 @@
           "mappingDecision": {
             "printedCaption": "[ ] The following is mitigating evidence related to this case",
             "captionBasis": "nearest_short_printed_label_below_blank",
+            "terminal": true,
             "writable": false,
-            "reason": "not_on_state_bounded_identity_allowlist"
+            "reason": "Participant-authored sworn narrative or supporting evidence; the platform does not invent it.",
+            "category": "participant_sworn_narrative_or_legal_election",
+            "approvedDisposition": "PARTICIPANT_ELECTION_GENUINE"
           }
         },
         {
@@ -1062,8 +1114,11 @@
           "mappingDecision": {
             "printedCaption": "[ ] The following is mitigating evidence related to this case",
             "captionBasis": "printed_text_on_same_line_before_blank",
+            "terminal": true,
             "writable": false,
-            "reason": "not_on_state_bounded_identity_allowlist"
+            "reason": "Participant-authored sworn narrative or supporting evidence; the platform does not invent it.",
+            "category": "participant_sworn_narrative_or_legal_election",
+            "approvedDisposition": "PARTICIPANT_ELECTION_GENUINE"
           }
         },
         {
@@ -1094,8 +1149,11 @@
           "mappingDecision": {
             "printedCaption": "[ ] The following is mitigating evidence related to this case",
             "captionBasis": "nearest_short_printed_label_above_blank",
+            "terminal": true,
             "writable": false,
-            "reason": "not_on_state_bounded_identity_allowlist"
+            "reason": "Participant-authored sworn narrative or supporting evidence; the platform does not invent it.",
+            "category": "participant_sworn_narrative_or_legal_election",
+            "approvedDisposition": "PARTICIPANT_ELECTION_GENUINE"
           }
         },
         {
@@ -1126,8 +1184,11 @@
           "mappingDecision": {
             "printedCaption": "",
             "captionBasis": "no_adjacent_printed_caption",
+            "terminal": true,
             "writable": false,
-            "reason": "no_printed_caption"
+            "reason": "Participant-authored sworn narrative or supporting evidence; the platform does not invent it.",
+            "category": "participant_sworn_narrative_or_legal_election",
+            "approvedDisposition": "PARTICIPANT_ELECTION_GENUINE"
           }
         },
         {
@@ -1158,8 +1219,11 @@
           "mappingDecision": {
             "printedCaption": "",
             "captionBasis": "no_adjacent_printed_caption",
+            "terminal": true,
             "writable": false,
-            "reason": "no_printed_caption"
+            "reason": "Participant-authored sworn narrative or supporting evidence; the platform does not invent it.",
+            "category": "participant_sworn_narrative_or_legal_election",
+            "approvedDisposition": "PARTICIPANT_ELECTION_GENUINE"
           }
         },
         {
@@ -1190,9 +1254,10 @@
           "mappingDecision": {
             "printedCaption": "in on (date)",
             "captionBasis": "printed_text_on_same_line_before_blank",
+            "terminal": false,
             "writable": false,
-            "reason": "protected_date_field",
-            "category": "date"
+            "reason": "measured_source_rule_is_not_a_terminal_field",
+            "approvedDisposition": "NOT_A_FIELD"
           }
         },
         {
@@ -1216,9 +1281,11 @@
           "mappingDecision": {
             "printedCaption": "Signed on",
             "captionBasis": "printed_text_on_same_line_before_blank",
+            "terminal": true,
             "writable": false,
-            "reason": "protected_printed_caption",
-            "category": "signature"
+            "reason": "Signature or execution-date field; completed by the participant or signer at execution and never prefilled.",
+            "category": "signature_or_date_participant_completion",
+            "approvedDisposition": "PROTECTED_FIELD"
           }
         },
         {
@@ -1242,9 +1309,10 @@
           "mappingDecision": {
             "printedCaption": "(date) at",
             "captionBasis": "printed_text_on_same_line_before_blank",
+            "terminal": false,
             "writable": false,
-            "reason": "protected_date_field",
-            "category": "date"
+            "reason": "measured_source_rule_is_not_a_terminal_field",
+            "approvedDisposition": "NOT_A_FIELD"
           }
         },
         {
@@ -1268,8 +1336,10 @@
           "mappingDecision": {
             "printedCaption": "Defendant Print Name",
             "captionBasis": "nearest_short_printed_label_below_blank",
+            "terminal": false,
             "writable": false,
-            "reason": "not_on_state_bounded_identity_allowlist"
+            "reason": "measured_source_rule_is_not_a_terminal_field",
+            "approvedDisposition": "NOT_A_FIELD"
           }
         },
         {
@@ -1300,8 +1370,10 @@
           "mappingDecision": {
             "printedCaption": "Defendant Print Name",
             "captionBasis": "nearest_short_printed_label_below_blank",
-            "writable": false,
-            "reason": "not_on_state_bounded_identity_allowlist"
+            "terminal": true,
+            "writable": true,
+            "factId": "participant.full_legal_name",
+            "effectiveLabel": "Print Name"
           }
         },
         {
@@ -1332,8 +1404,10 @@
           "mappingDecision": {
             "printedCaption": "Address",
             "captionBasis": "printed_text_on_same_line_before_blank",
-            "writable": false,
-            "reason": "not_on_state_bounded_identity_allowlist"
+            "terminal": true,
+            "writable": true,
+            "factId": "participant.full_mailing_address",
+            "effectiveLabel": "Mailing Address"
           }
         },
         {
@@ -1364,8 +1438,10 @@
           "mappingDecision": {
             "printedCaption": "Email",
             "captionBasis": "printed_text_on_same_line_before_blank",
-            "writable": false,
-            "reason": "not_on_state_bounded_identity_allowlist"
+            "terminal": true,
+            "writable": true,
+            "factId": "participant.email",
+            "effectiveLabel": "Email"
           }
         },
         {
@@ -1396,9 +1472,10 @@
           "mappingDecision": {
             "printedCaption": "RCW 9.94A.640, .648 Mt. and Dec. for Or. Vacating",
             "captionBasis": "nearest_short_printed_label_below_blank",
+            "terminal": false,
             "writable": false,
-            "reason": "protected_page_region",
-            "category": "court"
+            "reason": "measured_source_rule_is_not_a_terminal_field",
+            "approvedDisposition": "NOT_A_FIELD"
           }
         },
         {
@@ -1429,9 +1506,10 @@
           "mappingDecision": {
             "printedCaption": "RCW 9.94A.640, .648 Mt. and Dec. for Or. Vacating",
             "captionBasis": "nearest_short_printed_label_below_blank",
+            "terminal": false,
             "writable": false,
-            "reason": "protected_page_region",
-            "category": "court"
+            "reason": "measured_source_rule_is_not_a_terminal_field",
+            "approvedDisposition": "NOT_A_FIELD"
           }
         },
         {
@@ -1462,8 +1540,10 @@
           "mappingDecision": {
             "printedCaption": "",
             "captionBasis": "no_adjacent_printed_caption",
+            "terminal": false,
             "writable": false,
-            "reason": "no_printed_caption"
+            "reason": "unlabelled_source_rule_is_not_a_terminal_field",
+            "approvedDisposition": "NOT_A_FIELD"
           }
         }
       ],
@@ -1720,7 +1800,7 @@
           "height": 792,
           "textLineCount": 34,
           "strokedRectangleCount": 0,
-          "horizontalRulesMeasured": 7,
+          "horizontalRulesMeasured": 8,
           "verticalRulesMeasured": 1,
           "vectorSelectionControlCount": 0,
           "printedSelectionControlCount": 4,
@@ -1782,6 +1862,7 @@
           "mappingDecision": {
             "printedCaption": "Superior Court of Washington, County of",
             "captionBasis": "printed_text_on_same_line_before_blank",
+            "terminal": true,
             "writable": true,
             "factId": "matter.county",
             "effectiveLabel": "County"
@@ -1808,6 +1889,7 @@
           "mappingDecision": {
             "printedCaption": "State of Washington, Plaintiff, No",
             "captionBasis": "printed_text_on_same_line_before_blank",
+            "terminal": true,
             "writable": true,
             "factId": "matter.case_number",
             "effectiveLabel": "Case No."
@@ -1834,6 +1916,7 @@
           "mappingDecision": {
             "printedCaption": "Defendant",
             "captionBasis": "state_caption_column_label_immediately_below_rule",
+            "terminal": true,
             "writable": true,
             "factId": "participant.full_legal_name",
             "effectiveLabel": "Full Legal Name"
@@ -1867,9 +1950,11 @@
           "mappingDecision": {
             "printedCaption": "Clerk’s Action Required: 15",
             "captionBasis": "printed_text_on_same_line_after_blank",
+            "terminal": true,
             "writable": false,
-            "reason": "protected_printed_caption",
-            "category": "clerk"
+            "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+            "category": "court_prosecutor_clerk_or_agency_owned",
+            "approvedDisposition": "PROTECTED_FIELD"
           }
         },
         {
@@ -1900,9 +1985,10 @@
           "mappingDecision": {
             "printedCaption": "2. On (date)",
             "captionBasis": "printed_text_on_same_line_before_blank",
-            "writable": false,
-            "reason": "protected_date_field",
-            "category": "date"
+            "terminal": true,
+            "writable": true,
+            "factId": "matter.conviction_date",
+            "effectiveLabel": "Offense Date"
           }
         },
         {
@@ -1926,9 +2012,10 @@
           "mappingDecision": {
             "printedCaption": "Count",
             "captionBasis": "printed_text_on_same_line_before_blank",
-            "writable": false,
-            "reason": "protected_page_region",
-            "category": "agency"
+            "terminal": true,
+            "writable": true,
+            "factId": "matter.charges[0].count",
+            "effectiveLabel": "Count 1"
           }
         },
         {
@@ -1952,9 +2039,10 @@
           "mappingDecision": {
             "printedCaption": "Offense (include degree)",
             "captionBasis": "printed_text_on_same_line_before_blank",
-            "writable": false,
-            "reason": "protected_page_region",
-            "category": "agency"
+            "terminal": true,
+            "writable": true,
+            "factId": "matter.charges[0].charge",
+            "effectiveLabel": "Offense 1"
           }
         },
         {
@@ -1978,9 +2066,10 @@
           "mappingDecision": {
             "printedCaption": "RCW",
             "captionBasis": "printed_text_on_same_line_before_blank",
-            "writable": false,
-            "reason": "protected_page_region",
-            "category": "agency"
+            "terminal": true,
+            "writable": true,
+            "factId": "matter.charges[0].statute",
+            "effectiveLabel": "Statute 1"
           }
         },
         {
@@ -2004,9 +2093,10 @@
           "mappingDecision": {
             "printedCaption": "Count",
             "captionBasis": "printed_text_on_same_line_before_blank",
-            "writable": false,
-            "reason": "protected_page_region",
-            "category": "agency"
+            "terminal": true,
+            "writable": true,
+            "factId": "matter.charges[1].count",
+            "effectiveLabel": "Count 2"
           }
         },
         {
@@ -2030,9 +2120,10 @@
           "mappingDecision": {
             "printedCaption": "Offense (include degree)",
             "captionBasis": "printed_text_on_same_line_before_blank",
-            "writable": false,
-            "reason": "protected_page_region",
-            "category": "agency"
+            "terminal": true,
+            "writable": true,
+            "factId": "matter.charges[1].charge",
+            "effectiveLabel": "Offense 2"
           }
         },
         {
@@ -2056,9 +2147,10 @@
           "mappingDecision": {
             "printedCaption": "RCW",
             "captionBasis": "printed_text_on_same_line_before_blank",
-            "writable": false,
-            "reason": "protected_page_region",
-            "category": "agency"
+            "terminal": true,
+            "writable": true,
+            "factId": "matter.charges[1].statute",
+            "effectiveLabel": "Statute 2"
           }
         },
         {
@@ -2082,9 +2174,10 @@
           "mappingDecision": {
             "printedCaption": "Count",
             "captionBasis": "printed_text_on_same_line_before_blank",
-            "writable": false,
-            "reason": "protected_page_region",
-            "category": "agency"
+            "terminal": true,
+            "writable": true,
+            "factId": "matter.charges[2].count",
+            "effectiveLabel": "Count 3"
           }
         },
         {
@@ -2108,9 +2201,10 @@
           "mappingDecision": {
             "printedCaption": "Offense (include degree)",
             "captionBasis": "printed_text_on_same_line_before_blank",
-            "writable": false,
-            "reason": "protected_page_region",
-            "category": "agency"
+            "terminal": true,
+            "writable": true,
+            "factId": "matter.charges[2].charge",
+            "effectiveLabel": "Offense 3"
           }
         },
         {
@@ -2134,9 +2228,10 @@
           "mappingDecision": {
             "printedCaption": "RCW",
             "captionBasis": "printed_text_on_same_line_before_blank",
-            "writable": false,
-            "reason": "protected_page_region",
-            "category": "agency"
+            "terminal": true,
+            "writable": true,
+            "factId": "matter.charges[2].statute",
+            "effectiveLabel": "Statute 3"
           }
         },
         {
@@ -2160,9 +2255,10 @@
           "mappingDecision": {
             "printedCaption": "Count",
             "captionBasis": "printed_text_on_same_line_before_blank",
-            "writable": false,
-            "reason": "protected_page_region",
-            "category": "agency"
+            "terminal": true,
+            "writable": true,
+            "factId": "matter.charges[3].count",
+            "effectiveLabel": "Count 4"
           }
         },
         {
@@ -2186,9 +2282,10 @@
           "mappingDecision": {
             "printedCaption": "Offense (include degree)",
             "captionBasis": "printed_text_on_same_line_before_blank",
-            "writable": false,
-            "reason": "protected_page_region",
-            "category": "agency"
+            "terminal": true,
+            "writable": true,
+            "factId": "matter.charges[3].charge",
+            "effectiveLabel": "Offense 4"
           }
         },
         {
@@ -2212,9 +2309,10 @@
           "mappingDecision": {
             "printedCaption": "RCW",
             "captionBasis": "printed_text_on_same_line_before_blank",
-            "writable": false,
-            "reason": "protected_page_region",
-            "category": "agency"
+            "terminal": true,
+            "writable": true,
+            "factId": "matter.charges[3].statute",
+            "effectiveLabel": "Statute 4"
           }
         },
         {
@@ -2245,9 +2343,11 @@
           "mappingDecision": {
             "printedCaption": "o Assault in the second degree (RCW 9A.36.021)",
             "captionBasis": "printed_text_on_same_line_before_blank",
+            "terminal": true,
             "writable": false,
-            "reason": "protected_page_region",
-            "category": "agency"
+            "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+            "category": "court_prosecutor_clerk_or_agency_owned",
+            "approvedDisposition": "PROTECTED_FIELD"
           }
         },
         {
@@ -2271,8 +2371,11 @@
           "mappingDecision": {
             "printedCaption": "for the offenses listed in section 2",
             "captionBasis": "printed_text_on_same_line_after_blank",
+            "terminal": true,
             "writable": false,
-            "reason": "not_on_state_bounded_identity_allowlist"
+            "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+            "category": "court_prosecutor_clerk_or_agency_owned",
+            "approvedDisposition": "PROTECTED_FIELD"
           }
         },
         {
@@ -2303,8 +2406,11 @@
           "mappingDecision": {
             "printedCaption": "[ ] Other",
             "captionBasis": "printed_text_on_same_line_before_blank",
+            "terminal": true,
             "writable": false,
-            "reason": "not_on_state_bounded_identity_allowlist"
+            "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+            "category": "court_prosecutor_clerk_or_agency_owned",
+            "approvedDisposition": "PROTECTED_FIELD"
           }
         },
         {
@@ -2335,8 +2441,11 @@
           "mappingDecision": {
             "printedCaption": "[ ] persuasive [ ] not persuasive because",
             "captionBasis": "printed_text_on_same_line_before_blank",
+            "terminal": true,
             "writable": false,
-            "reason": "not_on_state_bounded_identity_allowlist"
+            "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+            "category": "court_prosecutor_clerk_or_agency_owned",
+            "approvedDisposition": "PROTECTED_FIELD"
           }
         },
         {
@@ -2367,8 +2476,11 @@
           "mappingDecision": {
             "printedCaption": "[ ] The defendant presented no mitigating evidence or evidence of rehabilitation",
             "captionBasis": "nearest_short_printed_label_below_blank",
+            "terminal": true,
             "writable": false,
-            "reason": "not_on_state_bounded_identity_allowlist"
+            "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+            "category": "court_prosecutor_clerk_or_agency_owned",
+            "approvedDisposition": "PROTECTED_FIELD"
           }
         },
         {
@@ -2399,8 +2511,11 @@
           "mappingDecision": {
             "printedCaption": "The Court Orders",
             "captionBasis": "printed_text_on_same_line_before_blank",
+            "terminal": true,
             "writable": false,
-            "reason": "not_on_state_bounded_identity_allowlist"
+            "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+            "category": "court_prosecutor_clerk_or_agency_owned",
+            "approvedDisposition": "PROTECTED_FIELD"
           }
         },
         {
@@ -2431,8 +2546,11 @@
           "mappingDecision": {
             "printedCaption": "[ ] The defendant presented no mitigating evidence or evidence of rehabilitation",
             "captionBasis": "nearest_short_printed_label_above_blank",
+            "terminal": true,
             "writable": false,
-            "reason": "not_on_state_bounded_identity_allowlist"
+            "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+            "category": "court_prosecutor_clerk_or_agency_owned",
+            "approvedDisposition": "PROTECTED_FIELD"
           }
         },
         {
@@ -2456,8 +2574,10 @@
           "mappingDecision": {
             "printedCaption": "Count",
             "captionBasis": "printed_text_on_same_line_before_blank",
-            "writable": false,
-            "reason": "not_on_state_bounded_identity_allowlist"
+            "terminal": true,
+            "writable": true,
+            "factId": "matter.charges[0].count",
+            "effectiveLabel": "Count 1"
           }
         },
         {
@@ -2481,8 +2601,10 @@
           "mappingDecision": {
             "printedCaption": "Offense (include degree)",
             "captionBasis": "printed_text_on_same_line_before_blank",
-            "writable": false,
-            "reason": "not_on_state_bounded_identity_allowlist"
+            "terminal": true,
+            "writable": true,
+            "factId": "matter.charges[0].charge",
+            "effectiveLabel": "Offense 1"
           }
         },
         {
@@ -2506,8 +2628,10 @@
           "mappingDecision": {
             "printedCaption": "RCW",
             "captionBasis": "printed_text_on_same_line_before_blank",
-            "writable": false,
-            "reason": "not_on_state_bounded_identity_allowlist"
+            "terminal": true,
+            "writable": true,
+            "factId": "matter.charges[0].statute",
+            "effectiveLabel": "Statute 1"
           }
         },
         {
@@ -2531,8 +2655,10 @@
           "mappingDecision": {
             "printedCaption": "Count",
             "captionBasis": "printed_text_on_same_line_before_blank",
-            "writable": false,
-            "reason": "not_on_state_bounded_identity_allowlist"
+            "terminal": true,
+            "writable": true,
+            "factId": "matter.charges[1].count",
+            "effectiveLabel": "Count 2"
           }
         },
         {
@@ -2556,8 +2682,10 @@
           "mappingDecision": {
             "printedCaption": "Offense (include degree)",
             "captionBasis": "printed_text_on_same_line_before_blank",
-            "writable": false,
-            "reason": "not_on_state_bounded_identity_allowlist"
+            "terminal": true,
+            "writable": true,
+            "factId": "matter.charges[1].charge",
+            "effectiveLabel": "Offense 2"
           }
         },
         {
@@ -2581,8 +2709,10 @@
           "mappingDecision": {
             "printedCaption": "RCW",
             "captionBasis": "printed_text_on_same_line_before_blank",
-            "writable": false,
-            "reason": "not_on_state_bounded_identity_allowlist"
+            "terminal": true,
+            "writable": true,
+            "factId": "matter.charges[1].statute",
+            "effectiveLabel": "Statute 2"
           }
         },
         {
@@ -2606,8 +2736,10 @@
           "mappingDecision": {
             "printedCaption": "Count",
             "captionBasis": "printed_text_on_same_line_before_blank",
-            "writable": false,
-            "reason": "not_on_state_bounded_identity_allowlist"
+            "terminal": true,
+            "writable": true,
+            "factId": "matter.charges[2].count",
+            "effectiveLabel": "Count 3"
           }
         },
         {
@@ -2631,8 +2763,10 @@
           "mappingDecision": {
             "printedCaption": "Offense (include degree)",
             "captionBasis": "printed_text_on_same_line_before_blank",
-            "writable": false,
-            "reason": "not_on_state_bounded_identity_allowlist"
+            "terminal": true,
+            "writable": true,
+            "factId": "matter.charges[2].charge",
+            "effectiveLabel": "Offense 3"
           }
         },
         {
@@ -2656,8 +2790,10 @@
           "mappingDecision": {
             "printedCaption": "RCW",
             "captionBasis": "printed_text_on_same_line_before_blank",
-            "writable": false,
-            "reason": "not_on_state_bounded_identity_allowlist"
+            "terminal": true,
+            "writable": true,
+            "factId": "matter.charges[2].statute",
+            "effectiveLabel": "Statute 3"
           }
         },
         {
@@ -2681,8 +2817,10 @@
           "mappingDecision": {
             "printedCaption": "Count",
             "captionBasis": "printed_text_on_same_line_before_blank",
-            "writable": false,
-            "reason": "not_on_state_bounded_identity_allowlist"
+            "terminal": true,
+            "writable": true,
+            "factId": "matter.charges[3].count",
+            "effectiveLabel": "Count 4"
           }
         },
         {
@@ -2706,8 +2844,10 @@
           "mappingDecision": {
             "printedCaption": "Offense (include degree)",
             "captionBasis": "printed_text_on_same_line_before_blank",
-            "writable": false,
-            "reason": "not_on_state_bounded_identity_allowlist"
+            "terminal": true,
+            "writable": true,
+            "factId": "matter.charges[3].charge",
+            "effectiveLabel": "Offense 4"
           }
         },
         {
@@ -2731,8 +2871,10 @@
           "mappingDecision": {
             "printedCaption": "RCW",
             "captionBasis": "printed_text_on_same_line_before_blank",
-            "writable": false,
-            "reason": "not_on_state_bounded_identity_allowlist"
+            "terminal": true,
+            "writable": true,
+            "factId": "matter.charges[3].statute",
+            "effectiveLabel": "Statute 4"
           }
         },
         {
@@ -2763,9 +2905,12 @@
           "mappingDecision": {
             "printedCaption": "to (local law enforcement agency)",
             "captionBasis": "printed_text_on_same_line_before_blank",
+            "terminal": true,
             "writable": false,
-            "reason": "protected_printed_caption",
-            "category": "agency"
+            "effectiveLabel": "Court Order Recipient Designated by Clerk",
+            "reason": "Court or clerk field naming an order recipient; completed by the court after filing.",
+            "category": "court_prosecutor_clerk_or_agency_owned",
+            "approvedDisposition": "PROTECTED_FIELD"
           }
         },
         {
@@ -2796,9 +2941,11 @@
           "mappingDecision": {
             "printedCaption": "Dated",
             "captionBasis": "printed_text_on_same_line_before_blank",
+            "terminal": true,
             "writable": false,
-            "reason": "protected_date_field",
-            "category": "date"
+            "reason": "Signature or execution-date field; completed by the participant or signer at execution and never prefilled.",
+            "category": "signature_or_date_participant_completion",
+            "approvedDisposition": "PROTECTED_FIELD"
           }
         },
         {
@@ -2829,9 +2976,11 @@
           "mappingDecision": {
             "printedCaption": "Judge",
             "captionBasis": "nearest_short_printed_label_below_blank",
+            "terminal": true,
             "writable": false,
-            "reason": "protected_printed_caption",
-            "category": "court"
+            "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+            "category": "court_prosecutor_clerk_or_agency_owned",
+            "approvedDisposition": "PROTECTED_FIELD"
           }
         },
         {
@@ -2862,9 +3011,11 @@
           "mappingDecision": {
             "printedCaption": "Prosecuting Attorney WSBA No. Defendant/Defendant's Attorney WSBA No",
             "captionBasis": "nearest_short_printed_label_below_blank",
+            "terminal": true,
             "writable": false,
-            "reason": "protected_printed_caption",
-            "category": "prosecutor"
+            "reason": "Signature or execution-date field; completed by the participant or signer at execution and never prefilled.",
+            "category": "signature_or_date_participant_completion",
+            "approvedDisposition": "PROTECTED_FIELD"
           }
         },
         {
@@ -2895,9 +3046,11 @@
           "mappingDecision": {
             "printedCaption": "Prosecuting Attorney WSBA No. Defendant/Defendant's Attorney WSBA No",
             "captionBasis": "nearest_short_printed_label_below_blank",
+            "terminal": true,
             "writable": false,
-            "reason": "protected_printed_caption",
-            "category": "prosecutor"
+            "reason": "Signature or execution-date field; completed by the participant or signer at execution and never prefilled.",
+            "category": "signature_or_date_participant_completion",
+            "approvedDisposition": "PROTECTED_FIELD"
           }
         },
         {
@@ -2928,9 +3081,11 @@
           "mappingDecision": {
             "printedCaption": "Print Name Print Name",
             "captionBasis": "nearest_short_printed_label_below_blank",
+            "terminal": true,
             "writable": false,
-            "reason": "protected_page_region",
-            "category": "prosecutor"
+            "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+            "category": "court_prosecutor_clerk_or_agency_owned",
+            "approvedDisposition": "PROTECTED_FIELD"
           }
         },
         {
@@ -2961,9 +3116,10 @@
           "mappingDecision": {
             "printedCaption": "Print Name Print Name",
             "captionBasis": "nearest_short_printed_label_below_blank",
-            "writable": false,
-            "reason": "protected_page_region",
-            "category": "prosecutor"
+            "terminal": true,
+            "writable": true,
+            "factId": "participant.full_legal_name",
+            "effectiveLabel": "Defendant Print Name"
           }
         },
         {
@@ -2994,9 +3150,11 @@
           "mappingDecision": {
             "printedCaption": "RCW 9.94A.640, .648 Or. on Mt. to Vacate Record of",
             "captionBasis": "nearest_short_printed_label_below_blank",
+            "terminal": true,
             "writable": false,
-            "reason": "protected_page_region",
-            "category": "prosecutor"
+            "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+            "category": "court_prosecutor_clerk_or_agency_owned",
+            "approvedDisposition": "PROTECTED_FIELD"
           }
         },
         {
@@ -3027,9 +3185,11 @@
           "mappingDecision": {
             "printedCaption": "RCW 9.94A.640, .648 Or. on Mt. to Vacate Record of",
             "captionBasis": "nearest_short_printed_label_below_blank",
+            "terminal": true,
             "writable": false,
-            "reason": "protected_page_region",
-            "category": "prosecutor"
+            "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+            "category": "court_prosecutor_clerk_or_agency_owned",
+            "approvedDisposition": "PROTECTED_FIELD"
           }
         },
         {
@@ -3060,8 +3220,11 @@
           "mappingDecision": {
             "printedCaption": "",
             "captionBasis": "no_adjacent_printed_caption",
+            "terminal": true,
             "writable": false,
-            "reason": "no_printed_caption"
+            "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+            "category": "court_prosecutor_clerk_or_agency_owned",
+            "approvedDisposition": "PROTECTED_FIELD"
           }
         }
       ],
