@@ -141,6 +141,27 @@ node scripts/verify-packet-build-environment.mjs --assignment-id SRC01 --source-
 
 `ca-diversion-seal-set`, `de_discretionary_family_court-set`, `de_discretionary_superior_court-set`, `de_pardon_expungement-set`, `hi_712_1200_deferred_expungement-set`, `hi_dag_danc_expungement-set`, `hi_nonconviction_expungement-set`, `nd-regular-pardon-set`, `nd-summary-marijuana-pardon-set`, `official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b`, `rcap-hi-custom-pleading`, `va_exp_identity_used_by_another-set`
 
+
+### Settle these first
+
+**Settle the documents at the top of this list first. Leverage is counted per DOCUMENT: acquiring one form releases every family waiting on it, and one form can gate ten families while the next gates one.**
+
+| Document | Jurisdiction | Families waiting |
+| --- | --- | --- |
+| KS-CRIMINAL-COVER-SHEET-10-14-2025 | KS | 5 |
+| KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022 | KS | 5 |
+| HCJDC-159B | HI | 3 |
+| CIV_EXP_02_A | DE | 2 |
+| SDSC-CRM-307 | CA | 1 |
+| FORM-281 | DE | 1 |
+| SFN-14859 | ND | 1 |
+| SFN-61663 | ND | 1 |
+| NO_DOCUMENT_SOURCE_NAMED | CA | 0 |
+| NO_DOCUMENT_SOURCE_NAMED | HI | 0 |
+| NO_DOCUMENT_SOURCE_NAMED | VA | 0 |
+
+> On 2026-08-31 an acquisition batch fetched thirty documents successfully and unblocked zero families — all thirty belonged to jurisdictions already resolved, with no overlap against the 238 documents gating the 256 blocked families. Fetch capacity is not the constraint. Knowing which document to fetch is.
+
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/src01/**`

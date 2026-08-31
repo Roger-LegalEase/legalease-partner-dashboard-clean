@@ -137,6 +137,28 @@ node scripts/verify-packet-build-environment.mjs --assignment-id DISC01 --source
 
 `agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge`, `census-pending-family:ME:juvenile-sealing`, `dc_correct_misattributed_arrest-set`, `dc_innocence_expungement-set`, `dc_seal_conviction-set`, `dc_seal_fugitive-set`, `dc_seal_nonconviction-set`, `dc_yra_set_aside-set`, `me-nonconv-set`, `me-screening-set`, `ne-expunge-le-error-set`, `ne-seal-enforcement-set`, `official-form-treatment:obligation:research-decision-route:AL:al-olr`, `rcap-tn-custom-pleading`, `rcap-tx-custom-pleading`, `tx_exp_acquittal-set`, `tx_nd_automatic_misdemeanor_deferred-set`, `tx_nd_conviction_no_supervision-set`, `tx_nd_deferred_other-set`, `tx_nd_dwi_conviction-set`, `tx_nd_dwi_deferred-set`, `tx_nd_dwi_probation-set`, `tx_nd_probation_misdemeanor-set`, `tx_nd_veterans_court-set`, `tx_nd_veterans_reemployment-set`
 
+
+### Settle these first
+
+**Settle the documents at the top of this list first. Leverage is counted per DOCUMENT: acquiring one form releases every family waiting on it, and one form can gate ten families while the next gates one.**
+
+| Document | Jurisdiction | Families waiting |
+| --- | --- | --- |
+| Statement of Inability to Afford Payment of Court Costs or an Appeal Bond | TX | 10 |
+| NO_DOCUMENT_SOURCE_NAMED | AL | 0 |
+| NO_DOCUMENT_SOURCE_NAMED | ME | 0 |
+| NO_DOCUMENT_SOURCE_NAMED | DC | 0 |
+| NO_DOCUMENT_SOURCE_NAMED | DC | 0 |
+| NO_DOCUMENT_SOURCE_NAMED | DC | 0 |
+| NO_DOCUMENT_SOURCE_NAMED | DC | 0 |
+| NO_DOCUMENT_SOURCE_NAMED | DC | 0 |
+| NO_DOCUMENT_SOURCE_NAMED | DC | 0 |
+| NO_DOCUMENT_SOURCE_NAMED | ME | 0 |
+| NO_DOCUMENT_SOURCE_NAMED | ME | 0 |
+| NO_DOCUMENT_SOURCE_NAMED | NE | 0 |
+
+> On 2026-08-31 an acquisition batch fetched thirty documents successfully and unblocked zero families — all thirty belonged to jurisdictions already resolved, with no overlap against the 238 documents gating the 256 blocked families. Fetch capacity is not the constraint. Knowing which document to fetch is.
+
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/disc01/**`

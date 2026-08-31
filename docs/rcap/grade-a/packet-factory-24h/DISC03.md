@@ -137,6 +137,28 @@ node scripts/verify-packet-build-environment.mjs --assignment-id DISC03 --source
 
 `agency-application-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request`, `agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record`, `ak-mistaken-identity-set`, `census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement`, `census-pending-family:UT:path-m-juvenile-expungement`, `composed-treatment:nd-nonconviction-auto-close-verify`, `composed-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days`, `composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085`, `composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief`, `il-cannabis-vacate-set`, `il-exp-nonconv-set`, `il-exp-pardon-set`, `il-exp-precompletion-set`, `il-exp-qualprob-set`, `il-exp-supervision-set`, `il-prb-cert-set`, `il-prostitution-j-vacate-set`, `il-seal-2yr-set`, `il-seal-3yr-set`, `il-seal-edu-set`, `il-seal-nonconv-set`, `nd-deferred-imposition-records-set`, `nd-nonconviction-close-petition-set`, `nd-prohibit-remote-public-access-set`, `rcap-nd-custom-pleading`, `ri_marijuana-set`, `vt_exp_deferred_sentence-set`, `vt_seal_under_25-set`
 
+
+### Settle these first
+
+**Settle the documents at the top of this list first. Leverage is counted per DOCUMENT: acquiring one form releases every family waiting on it, and one form can gate ten families while the next gates one.**
+
+| Document | Jurisdiction | Families waiting |
+| --- | --- | --- |
+| EXP-AD Request | IL | 10 |
+| DPS-REQUEST-TO-SEAL-CRIM-INFO | AK | 1 |
+| CXP Additional Cannabis Convictions | IL | 1 |
+| ND-INSTRUCTIONS-CLOSE-NONCONVICTION | ND | 1 |
+| ND-BRIEF-PROHIBIT-PUBLIC-ACCESS | ND | 1 |
+| 1110GE or 1111GE | UT | 1 |
+| NO_DOCUMENT_SOURCE_NAMED | CO | 0 |
+| NO_DOCUMENT_SOURCE_NAMED | AK | 0 |
+| NO_DOCUMENT_SOURCE_NAMED | UT | 0 |
+| NO_DOCUMENT_SOURCE_NAMED | UT | 0 |
+| NO_DOCUMENT_SOURCE_NAMED | ND | 0 |
+| NO_DOCUMENT_SOURCE_NAMED | CO | 0 |
+
+> On 2026-08-31 an acquisition batch fetched thirty documents successfully and unblocked zero families — all thirty belonged to jurisdictions already resolved, with no overlap against the 238 documents gating the 256 blocked families. Fetch capacity is not the constraint. Knowing which document to fetch is.
+
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/disc03/**`

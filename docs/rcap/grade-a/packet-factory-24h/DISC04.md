@@ -137,6 +137,28 @@ node scripts/verify-packet-build-environment.mjs --assignment-id DISC04 --source
 
 `agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission`, `agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement`, `agency-application-treatment:obligation:track-only:CT:ct-destruction-request`, `agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon`, `agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure`, `census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260`, `composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request`, `composed-treatment:obligation:runtime-only:NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247`, `ct-cannabis-petition-set`, `ct-decriminalized-set`, `ct-missed-erasure-set`, `ct-nolle-auto-set`, `ct-pardon-erasure-set`, `ct-under18-misdemeanor-set`, `ky_criminal_record_segregation-set`, `la-976-arrest-no-conviction-set`, `la-977-misdemeanor-conviction-set`, `la-977d-marijuana-first-offense-set`, `la-978-felony-conviction-set`, `la-985-1-interim-expungement-set`, `la-985-expungement-by-redaction-set`, `la-987-set-aside-and-dismiss-set`, `nv_repository_removal-set`, `nv_seal_probation_family-set`, `rcap-nv-custom-pleading`, `rcap-wa-custom-pleading-clean-tracks`, `va_exp_absolute_pardon-set`, `wa_crop_certificate_of_restoration-set`
 
+
+### Settle these first
+
+**Settle the documents at the top of this list first. Leverage is counted per DOCUMENT: acquiring one form releases every family waiting on it, and one form can gate ten families while the next gates one.**
+
+| Document | Jurisdiction | Families waiting |
+| --- | --- | --- |
+| LA-CCRP-ART-988 | LA | 6 |
+| LA-CCRP-ART-987 | LA | 1 |
+| NO_DOCUMENT_SOURCE_NAMED | NY | 0 |
+| NO_DOCUMENT_SOURCE_NAMED | NM | 0 |
+| NO_DOCUMENT_SOURCE_NAMED | CT | 0 |
+| NO_DOCUMENT_SOURCE_NAMED | CT | 0 |
+| NO_DOCUMENT_SOURCE_NAMED | CT | 0 |
+| NO_DOCUMENT_SOURCE_NAMED | WA | 0 |
+| NO_DOCUMENT_SOURCE_NAMED | NY | 0 |
+| NO_DOCUMENT_SOURCE_NAMED | NV | 0 |
+| NO_DOCUMENT_SOURCE_NAMED | CT | 0 |
+| NO_DOCUMENT_SOURCE_NAMED | CT | 0 |
+
+> On 2026-08-31 an acquisition batch fetched thirty documents successfully and unblocked zero families — all thirty belonged to jurisdictions already resolved, with no overlap against the 238 documents gating the 256 blocked families. Fetch capacity is not the constraint. Knowing which document to fetch is.
+
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/disc04/**`

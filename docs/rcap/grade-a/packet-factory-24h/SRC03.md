@@ -140,6 +140,28 @@ node scripts/verify-packet-build-environment.mjs --assignment-id SRC03 --source-
 
 `az_certificate_second_chance-set`, `az_marijuana_expungement_limited_jurisdiction-set`, `az_record_sealing_conviction-set`, `az_set_aside-set`, `ga-fo-active-pre2026-set`, `ga-fo-discharged-pre2026-set`, `id_clean_slate_shield-set`, `ma-seal-court-set`, `nh_conviction_standard-set`, `nh_conviction_streamlined-set`, `nh_marijuana_annulment-set`, `nh_petition_nonconviction_pre2019-set`, `nh_petition_vacated-set`, `nm_conviction-set`, `nm_identity_theft-set`, `nm_release_without_conviction-set`, `wv_acc_treatment_job_readiness-set`
 
+
+### Settle these first
+
+**Settle the documents at the top of this list first. Leverage is counted per DOCUMENT: acquiring one form releases every family waiting on it, and one form can gate ten families while the next gates one.**
+
+| Document | Jurisdiction | Families waiting |
+| --- | --- | --- |
+| NHJB-2311 | NH | 5 |
+| EXPUNGEMENTREMOVALREQUESTFORM.DOCX | MT | 4 |
+| 4-222 | NM | 3 |
+| SCA-C907 | WV | 2 |
+| AOCCRSA3F-010122 | AZ | 1 |
+| AOC-CREM2F-071221 | AZ | 1 |
+| AOCCRSL1F-050825 | AZ | 1 |
+| AOCCR41FORM31A-082224 | AZ | 1 |
+| GBI-GCIC-REQUEST-TO-RESTRICT-ARREST-RECORD-PRIOR-TO-07-01-2013 | GA | 1 |
+| ISC-PETITION-TO-SHIELD-67-3004-11 | ID | 1 |
+| TC0057 | MA | 1 |
+| NO_DOCUMENT_SOURCE_NAMED | GA | 0 |
+
+> On 2026-08-31 an acquisition batch fetched thirty documents successfully and unblocked zero families — all thirty belonged to jurisdictions already resolved, with no overlap against the 238 documents gating the 256 blocked families. Fetch capacity is not the constraint. Knowing which document to fetch is.
+
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/src03/**`

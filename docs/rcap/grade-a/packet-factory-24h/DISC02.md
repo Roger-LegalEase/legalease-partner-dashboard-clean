@@ -137,6 +137,28 @@ node scripts/verify-packet-build-environment.mjs --assignment-id DISC02 --source
 
 `composed-treatment:sc_17_22_950_summary`, `id_felony_reduction-set`, `id_isp_expungement-set`, `id_set_aside_dismissal-set`, `in_infraction_nondisclosure-set`, `mi_setaside_application-set`, `mi_setaside_first_owi-set`, `mi_setaside_trafficking-set`, `rcap-mo-custom-pleading`, `rcap-wi-custom-pleading`
 
+
+### Settle these first
+
+**Settle the documents at the top of this list first. Leverage is counted per DOCUMENT: acquiring one form releases every family waiting on it, and one form can gate ten families while the next gates one.**
+
+| Document | Jurisdiction | Families waiting |
+| --- | --- | --- |
+| FI-05 | MO | 6 |
+| CCA-GF-0120-3016 | IN | 5 |
+| EXPUNGEMENTREMOVALREQUESTFORM.DOCX | MT | 4 |
+| MC 227 page 3 Proof of Service | MI | 2 |
+| ISP-BCI-EXPUNGEMENT-APPLICATION | ID | 1 |
+| MC 227b | MI | 1 |
+| NO_DOCUMENT_SOURCE_NAMED | SC | 0 |
+| NO_DOCUMENT_SOURCE_NAMED | ID | 0 |
+| NO_DOCUMENT_SOURCE_NAMED | ID | 0 |
+| NO_DOCUMENT_SOURCE_NAMED | IN | 0 |
+| NO_DOCUMENT_SOURCE_NAMED | IN | 0 |
+| NO_DOCUMENT_SOURCE_NAMED | MO | 0 |
+
+> On 2026-08-31 an acquisition batch fetched thirty documents successfully and unblocked zero families — all thirty belonged to jurisdictions already resolved, with no overlap against the 238 documents gating the 256 blocked families. Fetch capacity is not the constraint. Knowing which document to fetch is.
+
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/disc02/**`

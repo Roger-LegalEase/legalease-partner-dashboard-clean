@@ -136,6 +136,28 @@ node scripts/verify-packet-build-environment.mjs --assignment-id DISC06 --source
 
 `composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route`, `composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4`, `composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26`, `composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59`, `composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59`, `composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief`, `composed-treatment:obligation:runtime-only:OK:juvenile-record-expungement`, `composed-treatment:obligation:runtime-only:PA:path-k-human-trafficking-vacatur-expungement`, `composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708`, `fl-administrative-set`, `fl-early-juvenile-set`, `fl-juvenile-diversion-set`, `fl-self-defense-set`, `ga-deaddocket-j3-set`, `ga-felony-j1-set`, `ga-fugitive-j5-set`, `ga-jail-k2-set`, `ga-misd-j4-set`, `ga-nonconv-post2013-set`, `ga-pardon-j7-set`, `ga-seal-m-set`, `ga-vacated-j2-set`, `ma-bmc-multi-set`, `ma-expunge-k-set`, `ma-expunge-time-set`, `ma-seal-admin-set`, `ma-seal-decrim-set`, `ms-diversion-set`, `ms-fel-set`, `ms-misd-1st-set`, `ms-misd-addl-set`, `ms-nonadj-set`, `ms-nonconv-set`, `rcap-ga-guidance-implementation`, `rcap-ms-custom-pleading`, `rcap-ok-custom-pleading`, `rcap-or-official-pdf-fill`, `wy_fel_1502-set`
 
+
+### Settle these first
+
+**Settle the documents at the top of this list first. Leverage is counted per DOCUMENT: acquiring one form releases every family waiting on it, and one form can gate ten families while the next gates one.**
+
+| Document | Jurisdiction | Families waiting |
+| --- | --- | --- |
+| FL-RULE-3.989-ORDER | FL | 4 |
+| FDLE-ADMINISTRATIVE-EXPUNCTION-APPLICATION | FL | 1 |
+| FDLE-EARLY-JUVENILE-EXPUNCTION-APPLICATION | FL | 1 |
+| FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION | FL | 1 |
+| FDLE-SELF-DEFENSE-EXPUNCTION-APPLICATION | FL | 1 |
+| GBI-GCIC-REQUEST-TO-RESTRICT-ARREST-RECORD-PRIOR-TO-07-01-2013 | GA | 1 |
+| Petition for Expungement, G.L. c. 276, § 100K | MA | 1 |
+| Massachusetts Probation Service Petition to Expunge | MA | 1 |
+| Petition to Seal (Office of the Commissioner of Probation) | MA | 1 |
+| Petition to Seal (Office of the Commissioner of Probation), Part A box 4 | MA | 1 |
+| NO_DOCUMENT_SOURCE_NAMED | GA | 0 |
+| NO_DOCUMENT_SOURCE_NAMED | MS | 0 |
+
+> On 2026-08-31 an acquisition batch fetched thirty documents successfully and unblocked zero families — all thirty belonged to jurisdictions already resolved, with no overlap against the 238 documents gating the 256 blocked families. Fetch capacity is not the constraint. Knowing which document to fetch is.
+
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/disc06/**`

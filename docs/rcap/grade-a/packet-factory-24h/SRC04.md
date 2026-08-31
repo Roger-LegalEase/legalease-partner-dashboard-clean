@@ -140,6 +140,28 @@ node scripts/verify-packet-build-environment.mjs --assignment-id SRC04 --source-
 
 `ar-act531-set`, `ar-arrest-seal-set`, `ar-misdemeanor-dwi-seal-set`, `ar-pardon-seal-set`, `fl-trafficking-set`, `ky_expungement_certification-set`, `ky_nonconviction_expungement-set`, `ky_protective_order_record_expungement-set`, `me-seal-gen-set`, `me-seal-survivor-set`, `mn_petition_15218-set`, `mn_petition_609a02_subd3-set`, `mn_petition_juvenile_as_adult-set`, `rcap-sc-custom-pleading`, `ut_pet_cannabis-set`, `ut_pet_special_certificate-set`
 
+
+### Settle these first
+
+**Settle the documents at the top of this list first. Leverage is counted per DOCUMENT: acquiring one form releases every family waiting on it, and one form can gate ten families while the next gates one.**
+
+| Document | Jurisdiction | Families waiting |
+| --- | --- | --- |
+| CCA-GF-0120-3016 | IN | 5 |
+| FL-RULE-3.989-ORDER | FL | 4 |
+| EXP102 | MN | 3 |
+| 1044XX | UT | 2 |
+| ACIC-ORDER-DISMISS-AND-SEAL-FIRST-OFFENDERS | AR | 1 |
+| ACIC-ORDER-SEAL-ACT-531-ACT-1460 | AR | 1 |
+| ACIC-ORDER-TO-SEAL-ARREST | AR | 1 |
+| ACIC-ORDER-TO-SEAL-MISDEMEANOR-DWI-BWI | AR | 1 |
+| ACIC-ORDER-TO-SEAL-PARDONED-OFFENDER | AR | 1 |
+| AOC-RU-009 | KY | 1 |
+| AOC-497 | KY | 1 |
+| AOC-275.18 | KY | 1 |
+
+> On 2026-08-31 an acquisition batch fetched thirty documents successfully and unblocked zero families — all thirty belonged to jurisdictions already resolved, with no overlap against the 238 documents gating the 256 blocked families. Fetch capacity is not the constraint. Knowing which document to fetch is.
+
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/src04/**`

@@ -136,6 +136,28 @@ node scripts/verify-packet-build-environment.mjs --assignment-id DISC05 --source
 
 `ar-cs-possession-seal-set`, `ar-drug-court-set`, `ar-felony-seal-set`, `ar-misdemeanor-seal-set`, `ar-nonconviction-seal-set`, `ar-veterans-court-set`, `az_wrongful_arrest_clearance-set`, `composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction`, `composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1018_discretionary_petition`, `composed-treatment:obligation:runtime-only:SD:juvenile-trafficking-expungement`, `composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement`, `composed-treatment:sd_sis_sealing`, `de_mandatory_expungement-set`, `ia-12346-set`, `ia-12347-set`, `ia-7251-set`, `ia-901c2-set`, `ia-901c3-set`, `ia-dci77-set`, `mn_prosecutor_agreed-set`, `rcap-ks-custom-pleading`, `rcap-wv-custom-pleading`, `wv_dui_deferral_expungement-set`
 
+
+### Settle these first
+
+**Settle the documents at the top of this list first. Leverage is counted per DOCUMENT: acquiring one form releases every family waiting on it, and one form can gate ten families while the next gates one.**
+
+| Document | Jurisdiction | Families waiting |
+| --- | --- | --- |
+| Certification of Service by Mailing or Delivery | IA | 5 |
+| KS-CRIMINAL-COVER-SHEET-10-14-2025 | KS | 5 |
+| KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022 | KS | 5 |
+| ACIC-UNIFORM-ORDER-TO-SEAL | AR | 2 |
+| SCA-C907 | WV | 2 |
+| ACIC-ORDER-DISMISS-AND-SEAL-FIRST-OFFENDERS | AR | 1 |
+| ACIC-ORDER-TO-SEAL-CS-POSSESSION | AR | 1 |
+| ACIC-ORDER-DRUG-COURT | AR | 1 |
+| ACIC-ORDER-TO-SEAL-NONCONVICTION | AR | 1 |
+| ACIC-ORDER-VETERANS-COURT | AR | 1 |
+| DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION | DE | 1 |
+| DCI-76 Criminal History Record Check Billing Form | IA | 1 |
+
+> On 2026-08-31 an acquisition batch fetched thirty documents successfully and unblocked zero families — all thirty belonged to jurisdictions already resolved, with no overlap against the 238 documents gating the 256 blocked families. Fetch capacity is not the constraint. Knowing which document to fetch is.
+
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/disc05/**`

@@ -140,6 +140,28 @@ node scripts/verify-packet-build-environment.mjs --assignment-id SRC02 --source-
 
 `al-diversion-set`, `al-felony-dwop-set`, `al-felony-nonconviction-90-set`, `al-misd-conviction-set`, `al-misd-dwop-set`, `al-misd-nonconviction-90-set`, `al-pardon-set`, `al-pardoned-felony-set`, `al-trafficking-set`, `co_municipal_conviction_seal-set`, `co_petition_seal_arrest-set`, `composed-treatment:nc_146_dismissal_petition`, `md_10105_early-set`, `md_10105_favorable-set`, `md_10110_conviction-set`, `md_cannabis_petition-set`, `md_pardon_expungement-set`, `mo-575-120-identity-theft-correction-set`, `mo-610-122-arrest-expungement-set`, `mo-610-140-arrest-set`, `mo-610-140-conviction-set`, `mo-art-xiv-marijuana-set`, `nc_145_5_felony-set`, `nc_145_5_misdemeanor-set`, `nc_145_8a_youthful-set`, `nc_146_acquittal_petition-set`, `nc_146_dismissal_petition-set`, `nc_auto_146_a4_agency_followup-set`, `ne-seal-pardoned-set`, `ne-seal-pre2017-set`, `ri_decriminalized-set`, `ri_deferred_sentence-set`, `ri_first_offender_felony-set`, `ri_first_offender_misdemeanor-set`, `ri_multiple_misdemeanors-set`
 
+
+### Settle these first
+
+**Settle the documents at the top of this list first. Leverage is counted per DOCUMENT: acquiring one form releases every family waiting on it, and one form can gate ten families while the next gates one.**
+
+| Document | Jurisdiction | Families waiting |
+| --- | --- | --- |
+| C-10-CRIMINAL | AL | 8 |
+| FI-05 | MO | 6 |
+| AOC-CV-226 | NC | 4 |
+| DC-33 | RI | 4 |
+| CC-DC-089 | MD | 3 |
+| CC-6-12 | NE | 2 |
+| ABPP-3 | AL | 1 |
+| JDF-683 | CO | 1 |
+| JDF-417 | CO | 1 |
+| CC-DC-CR-072C | MD | 1 |
+| CC-DC-CR-072A | MD | 1 |
+| AOC-CR-288 | NC | 1 |
+
+> On 2026-08-31 an acquisition batch fetched thirty documents successfully and unblocked zero families — all thirty belonged to jurisdictions already resolved, with no overlap against the 238 documents gating the 256 blocked families. Fetch capacity is not the constraint. Knowing which document to fetch is.
+
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/src02/**`

@@ -975,6 +975,35 @@ for (let i = 0; i < VF_LANES; i += 1) {
 }
 
 /* ---- the sixteen-lane source swarm ---- */
+/*
+ * Release leverage, so a lane knows which of its obligations to settle first.
+ *
+ * A source lane was handed its obligations grouped by issuer host and ordered
+ * by nothing. That is fine for avoiding rate limits and useless for choosing
+ * what to do first: one Texas form gates ten families and one Montana form
+ * gates one, and a lane working alphabetically cannot tell them apart.
+ *
+ * Leverage is counted per DOCUMENT, not per obligation row, because acquiring
+ * one document releases every family waiting on it. The 2026-08-31 acquisition
+ * batch fetched thirty documents successfully and unblocked nothing, because
+ * all thirty belonged to jurisdictions already resolved -- there was zero
+ * overlap with the 238 documents actually gating the 256 blocked families.
+ * Fetch capacity was never the constraint; knowing what to fetch is.
+ */
+const familiesPerDocument = new Map();
+for (const f of sourceBlocked) {
+  for (const form of f.forms ?? []) {
+    const key = `${f.jurisdiction}|${form}`;
+    if (!familiesPerDocument.has(key)) familiesPerDocument.set(key, new Set());
+    familiesPerDocument.get(key).add(f.familyId);
+  }
+}
+const leverageOf = (row) => {
+  const fam = familyIndex.get(row.familyId);
+  if (!fam) return 0;
+  return Math.max(0, ...(fam.forms ?? []).map((form) => familiesPerDocument.get(`${fam.jurisdiction}|${form}`)?.size ?? 0));
+};
+
 for (const op of SOURCE_OPERATIONS) {
   for (let i = 1; i <= op.lanes; i += 1) {
     const id = `${op.prefix}${String(i).padStart(2, "0")}`;
@@ -1005,6 +1034,17 @@ for (const op of SOURCE_OPERATIONS) {
       })),
       boundedBy: op.bounded,
       issuingHosts: hosts,
+      /* What to settle first. Highest release leverage at the top: the number
+       * of currently blocked families waiting on that one document. */
+      leverageOrder: [...new Map(rows.map((r) => {
+        const fam = familyIndex.get(r.familyId);
+        const best = (fam?.forms ?? []).map((form) => ({ form, n: familiesPerDocument.get(`${fam.jurisdiction}|${form}`)?.size ?? 0 }))
+          .sort((x, y) => y.n - x.n)[0] ?? null;
+        return [best ? `${fam.jurisdiction}|${best.form}` : `${r.familyId}::no-document-named`,
+          { document: best ? best.form : "NO_DOCUMENT_SOURCE_NAMED", jurisdiction: fam?.jurisdiction ?? null, familiesWaiting: best ? best.n : 0 }];
+      })).values()].sort((x, y) => y.familiesWaiting - x.familiesWaiting).slice(0, 12),
+      leverageRule: "Settle the documents at the top of this list first. Leverage is counted per DOCUMENT: acquiring one form releases every family waiting on it, and one form can gate ten families while the next gates one.",
+      whatTheLastBatchTaught: "On 2026-08-31 an acquisition batch fetched thirty documents successfully and unblocked zero families — all thirty belonged to jurisdictions already resolved, with no overlap against the 238 documents gating the 256 blocked families. Fetch capacity is not the constraint. Knowing which document to fetch is.",
       // PROSPECTIVE, not achieved: the families this lane WOULD release if every
       // one of its obligations resolved. Nothing here is promoted yet.
       familiesThisLaneWouldRelease: fams.filter((f) => releaseOwner.get(f) === id),
@@ -1433,6 +1473,11 @@ const promptFor = (a) => {
     if (a.itemDetails.length) p.push("", "Run the row gate once per listed item, after the lane gate. This exact first command demonstrates the interface; substitute each other exact item id from the table without changing the lane:", "", "```sh", `node ${PREFLIGHT} --assignment-id ${a.assignmentId} --source-obligation '${a.itemDetails[0].itemId.replaceAll("'", "'\\''")}' --codex-cloud --minimum-captain-sha ${a.minimumCaptainSha}`, "", "# A failed row is recorded STOPPED; continue with unrelated rows.", "```", "");
     p.push(`**${a.releaseRule}**`, "");
     p.push("### Families this lane would release", "", a.familiesThisLaneWouldRelease.map((f) => `\`${f}\``).join(", "), "");
+    if (a.leverageOrder?.length) {
+      p.push("", "### Settle these first", "", `**${a.leverageRule}**`, "", "| Document | Jurisdiction | Families waiting |", "| --- | --- | --- |");
+      for (const l of a.leverageOrder) p.push(`| ${l.document} | ${l.jurisdiction ?? "—"} | ${l.familiesWaiting} |`);
+      p.push("", `> ${a.whatTheLastBatchTaught}`, "");
+    }
   } else if (a.itemKind === "streamingClaim") {
     p.push("## How work reaches you", "", a.seedItemsAreNotTheWholeJob, "");
     p.push(`- **Claim ledger:** \`${a.claimLedger}\``, `- **Rule:** ${a.claimRule}`, `- **Cadence:** ${a.checkpointRule}`, "");
