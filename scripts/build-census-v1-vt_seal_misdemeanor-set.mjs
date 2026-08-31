@@ -765,6 +765,23 @@ function instructionsMarkdown(familyId, config, resolved, rbf) {
   out.push(`# Filing instructions — ${config.routeName}`, "");
   out.push("This packet is prepared for **" + config.routeName + "**.", "");
   out.push("The platform filled in what it knows about you: your name, your date of birth, your address, your phone, your email and your docket number. Everything else on these forms is yours to complete, and this page lists every one of them by the words printed beside the blank.", "");
+  /*
+   * Where the packet goes.
+   *
+   * VF01 and VF02 failed filingDestination and VF03 passed it, on
+   * byte-identical text -- the instructions carried the Superior Court unit
+   * only as a blank to fill and never told the participant what to do with it.
+   * Two readings of the same sentence is a missing standard, and the way to
+   * satisfy both is to state the destination as a DIRECTION rather than as a
+   * question. Nothing here is acquired: both forms print the court on their own
+   * caption, which is why this is a repair and not a source obligation.
+   */
+  out.push("## Where you file this", "");
+  out.push("File the completed packet with the **Vermont Superior Court, Criminal Division**, in the unit where your case was decided.", "");
+  out.push("Both the petition (200-00130) and the stipulation (200-00132) print `SUPERIOR COURT CRIMINAL DIVISION` across the top of page 1, and the `Unit` box beside it is where that unit goes. If you do not know which unit decided your case, the docket number on your paperwork identifies it, and the clerk of any Superior Court unit can tell you from the docket number.", "");
+  out.push("Two things this packet does **not** tell you, because they are not established here and writing an unsourced figure into a filing instruction would be worse than leaving it out:", "");
+  out.push("- **The filing fee, and whether it can be waived.** Ask the clerk of the unit above what the fee is for a petition to seal under 13 V.S.A. § 7602, and whether the fee-waiver application in this packet applies. The waiver form is included; the amount it waives is not stated here.");
+  out.push("- **Who must be served, and how.** Ask the same clerk who must receive a copy of the petition and by what method. The stipulation route needs the State\u2019s Attorney\u2019s signature, which is not the same thing as service and does not substitute for it.", "");
   out.push("## What you must do before you file", "");
   out.push("1. **Fill in every item listed below.** Each one names the form, the page and the printed words next to the blank.");
   out.push("2. **Sign and date each form yourself.** The platform never signs for you and never dates a signature. Blank signature and date lines are deliberate.");

@@ -178,6 +178,58 @@ for (const rel of RECEIPT_SOURCES) {
   }
 }
 
+/*
+ * Official URLs already corroborated in committed evidence.
+ *
+ * The manifest was built only from the two acquisition-receipt files, so a URL
+ * this repository has recorded elsewhere — in a treatment, an evidence brief, a
+ * composed route — was invisible to it. The single highest-leverage blocked
+ * document, the Texas statement of inability that gates ten families, has an
+ * exact txcourts.gov address repeated across dozens of committed records and
+ * was not queued for acquisition at all.
+ *
+ * CORROBORATION IS THE GATE. A URL in one file is a guess with a filename:
+ * Illinois has two candidate addresses that appear only in a record whose own
+ * name says candidate, with no expected hash and nothing else agreeing. So a
+ * URL enters the manifest from evidence only when at least two DISTINCT
+ * committed files carry it, and candidate records are excluded from the count
+ * rather than merely noted.
+ */
+const EVIDENCE_ROOTS = ["data/rcap-all50", "data/rcap-grade-a", "data/record-clearing"];
+const CANDIDATE_MARKER = /route-obligation-census-candidate|-candidate\.json$|\/candidate/i;
+const URL_RE = /https:\/\/[^\s"'\\)]+\.pdf/gi;
+
+function corroboratedUrls() {
+  const seen = new Map();
+  const walk = (dir) => {
+    let entries = [];
+    try { entries = fs.readdirSync(path.join(ROOT, dir), { withFileTypes: true }); } catch { return; }
+    for (const e of entries) {
+      const rel = `${dir}/${e.name}`;
+      if (e.isDirectory()) { walk(rel); continue; }
+      if (!e.name.endsWith(".json")) continue;
+      let body = null;
+      try { body = fs.readFileSync(path.join(ROOT, rel), "utf8"); } catch { continue; }
+      const isCandidate = CANDIDATE_MARKER.test(rel);
+      for (const m of body.matchAll(URL_RE)) {
+        const url = m[0].replace(/[.,;]+$/, "");
+        if (!seen.has(url)) seen.set(url, { url, files: new Set(), candidateOnlyFiles: new Set() });
+        (isCandidate ? seen.get(url).candidateOnlyFiles : seen.get(url).files).add(rel);
+      }
+    }
+  };
+  for (const r of EVIDENCE_ROOTS) walk(r);
+  return [...seen.values()].map((x) => ({
+    url: x.url,
+    corroboratingFiles: [...x.files].sort(),
+    candidateOnlyFiles: [...x.candidateOnlyFiles].sort(),
+    corroboration: x.files.size
+  }));
+}
+
+const evidenceUrls = corroboratedUrls();
+const CORROBORATION_THRESHOLD = 2;
+
 const manifestEntries = [];
 const manifestRefused = [];
 const seenUrl = new Set();
@@ -243,6 +295,17 @@ const manifest = {
   ],
   maxParallel: 20,
   bodiesCommitted: 0,
+  evidenceSweep: {
+    rule: `A URL enters from committed evidence only when at least ${CORROBORATION_THRESHOLD} distinct non-candidate files carry it. One file is a guess with a filename.`,
+    roots: EVIDENCE_ROOTS,
+    distinctUrlsSeen: evidenceUrls.length,
+    corroborated: evidenceUrls.filter((u) => u.corroboration >= CORROBORATION_THRESHOLD).length,
+    candidateOnly: evidenceUrls.filter((u) => u.corroboration < CORROBORATION_THRESHOLD && u.candidateOnlyFiles.length > 0).length,
+    topCorroborated: evidenceUrls.filter((u) => u.corroboration >= CORROBORATION_THRESHOLD)
+      .sort((a, b) => b.corroboration - a.corroboration).slice(0, 10)
+      .map((u) => ({ url: u.url, corroboration: u.corroboration, alreadyInManifest: manifestEntries.some((e) => e.officialUrl === u.url) })),
+    whyThisExists: "The Texas statement of inability gates ten families, has an exact txcourts.gov address in dozens of committed records, and was never queued because the manifest read only the two acquisition-receipt files."
+  },
   counts: {
     entries: manifestEntries.length,
     refused: manifestRefused.length,

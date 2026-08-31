@@ -4,6 +4,17 @@ This packet is prepared for **sealing an adult felony conviction under 13 V.S.A.
 
 The platform filled in what it knows about you: your name, your date of birth, your address, your phone, your email and your docket number. Everything else on these forms is yours to complete, and this page lists every one of them by the words printed beside the blank.
 
+## Where you file this
+
+File the completed packet with the **Vermont Superior Court, Criminal Division**, in the unit where your case was decided.
+
+Both the petition (200-00130) and the stipulation (200-00132) print `SUPERIOR COURT CRIMINAL DIVISION` across the top of page 1, and the `Unit` box beside it is where that unit goes. If you do not know which unit decided your case, the docket number on your paperwork identifies it, and the clerk of any Superior Court unit can tell you from the docket number.
+
+Two things this packet does **not** tell you, because they are not established here and writing an unsourced figure into a filing instruction would be worse than leaving it out:
+
+- **The filing fee, and whether it can be waived.** Ask the clerk of the unit above what the fee is for a petition to seal under 13 V.S.A. § 7602, and whether the fee-waiver application in this packet applies. The waiver form is included; the amount it waives is not stated here.
+- **Who must be served, and how.** Ask the same clerk who must receive a copy of the petition and by what method. The stipulation route needs the State’s Attorney’s signature, which is not the same thing as service and does not substitute for it.
+
 ## What you must do before you file
 
 1. **Fill in every item listed below.** Each one names the form, the page and the printed words next to the blank.
