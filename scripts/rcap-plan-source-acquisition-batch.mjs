@@ -40,6 +40,20 @@ const hostAllowed = (h) => EXACT.has(h) || ALLOWED.some((s) => h === s.replace(/
 
 const entries = Array.isArray(manifest.entries) ? manifest.entries : null;
 if (!entries) fail("the manifest has no entries array");
+/*
+ * An empty manifest validated cleanly: zero entries, zero problems, exit 0.
+ * That is a generator regression sailing through the gate as a pass, and
+ * "nothing to acquire" and "the manifest lost its contents" are the same
+ * observation from outside. If the conveyor still has obligations, a manifest
+ * with no entries is a defect rather than a quiet day.
+ */
+if (entries.length === 0) {
+  const stillOwed = Number(manifest.counts?.sourceObligationsTotal ?? 0);
+  if (stillOwed > 0) {
+    fail(`the manifest has no entries while ${stillOwed} source obligation(s) are outstanding; an empty manifest is a regression, not a quiet day`);
+  }
+  console.log("0 manifest entries and 0 outstanding source obligations — nothing to acquire.");
+}
 
 const problems = [];
 const seenUrl = new Map();
@@ -99,7 +113,15 @@ if (planned.length > 256) fail(`${planned.length} entries exceeds the 256-job ma
  * derivation sanitizes rather than trusting a source id to be safe.
  */
 const artifactNameFor = (e) => {
-  const safe = (x) => String(x).replace(/[^A-Za-z0-9._-]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 80);
+  /*
+   * Case-folded, because the uniqueness proof has to model the collision
+   * domain it protects. GitHub's artifact store treats names
+   * CASE-INSENSITIVELY, so two source ids differing only in case would pass a
+   * case-sensitive Map check here and then collide at upload time — where the
+   * second upload is the one that loses. Folding at derivation means the
+   * check below and the platform are asking the same question.
+   */
+  const safe = (x) => String(x).toLowerCase().replace(/[^a-z0-9._-]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 80);
   const name = `rcap-source-${safe(e.jurisdiction)}-${safe(e.sourceId)}`;
   if (!/^[A-Za-z0-9][A-Za-z0-9._-]+$/.test(name)) {
     fail(`entry ${e.sourceId}: no valid artifact name can be derived from jurisdiction ${JSON.stringify(e.jurisdiction)} and source id ${JSON.stringify(e.sourceId)}`);
@@ -110,8 +132,12 @@ const artifactNameFor = (e) => {
 /* Unique names, checked rather than assumed: two entries whose ids differ only
  * in characters the sanitizer removes would collide into one artifact, and the
  * second upload would overwrite the first. */
+/* Over EVERY entry, not the filtered subset. A dispatch narrowed by
+ * jurisdiction or limit would otherwise prove uniqueness only within what it
+ * happened to select, and a collision outside that window is still a collision
+ * the next dispatch walks into. */
 const nameOwner = new Map();
-for (const e of planned) {
+for (const e of entries) {
   const n = artifactNameFor(e);
   if (nameOwner.has(n)) fail(`${e.sourceId} and ${nameOwner.get(n)} both derive artifact name ${n}`);
   nameOwner.set(n, e.sourceId);

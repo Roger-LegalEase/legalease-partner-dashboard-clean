@@ -87,6 +87,36 @@ check("H2", "a complete, matching receipt is accepted (the control)",
   control.code === 0 && /ACQ_TO_PROMO_HANDOFF_READY/.test(control.stdout),
   control.code === 0 ? "accepted" : `REFUSED: ${control.stderr.trim().split("\n")[0]}`);
 
+/*
+ * H4 exists because H3 was not enough, and the gap was found by review rather
+ * than by any check here.
+ *
+ * The batch workflow asserted in a comment that acquired-source/ -- where the
+ * acquisition script writes real fetched PDF bytes -- was gitignored. It was
+ * not. Nothing in the chain runs `git add`, so no automated path committed a
+ * body, and the invariant held by luck: nobody had run the script locally and
+ * then committed in that tree. An assertion in a comment is not an ignore
+ * rule, and "sourceBodiesCommitted = 0" was being reported on the strength of
+ * one.
+ *
+ * This asks git, which is the only thing that actually decides.
+ */
+const acquireOut = /const OUT_DIR = path\.resolve\("([^"]+)"\)/.exec(fs.readFileSync(path.join(ROOT, ACQUIRE), "utf8"))?.[1] ?? null;
+/*
+ * Asked about a FILE inside the directory, not the bare directory name.
+ * A `dir/` pattern matches directories only, so `git check-ignore dir` says
+ * "not ignored" while `git check-ignore dir/body.pdf` says it is — and the
+ * second is the question that decides whether a fetched body can be
+ * committed. The first phrasing had this check failing on a rule that works.
+ */
+const ignored = (dir) => {
+  const r = spawnSync("git", ["check-ignore", "-q", `${dir}/a-fetched-source-body.pdf`], { cwd: ROOT });
+  return r.status === 0;
+};
+check("H4", "the directory the acquisition script writes fetched bytes into is actually gitignored",
+  Boolean(acquireOut) && ignored(acquireOut),
+  acquireOut ? `${acquireOut}/ ${ignored(acquireOut) ? "is ignored" : "is NOT ignored — fetched bytes could be committed"}` : "the acquisition script names no output directory");
+
 check("H3", "no source body is committed by the handoff",
   !/git (add|commit)/.test(fs.readFileSync(path.join(ROOT, MATERIALIZER), "utf8"))
   && /private\/source-acquisition-handoff/.test(fs.readFileSync(path.join(ROOT, MATERIALIZER), "utf8")),
@@ -107,6 +137,17 @@ if (MUTATIONS) {
     { name: "an empty artifact name on the command line is refused", args: { artifactName: "" }, expect: /exact artifact name is required/ },
     { name: "an expected hash that disagrees with the bytes is refused", args: { expected: "1".repeat(64) }, expect: /expected hash does not match/ }
   ];
+  /* H4 is checked against git itself, so its mutation removes the ignore rule
+   * rather than editing a file the check reads. */
+  const gitignorePath = path.join(ROOT, ".gitignore");
+  const gitignoreOriginal = fs.readFileSync(gitignorePath);
+  fs.writeFileSync(gitignorePath, gitignoreOriginal.toString("utf8").split("\n").filter((l) => l.trim() !== `${acquireOut}/`).join("\n"));
+  const withoutRule = ignored(acquireOut ?? "acquired-source");
+  fs.writeFileSync(gitignorePath, gitignoreOriginal);
+  const restored = fs.readFileSync(gitignorePath).equals(gitignoreOriginal);
+  console.log(`  ${!withoutRule ? "detected" : "MISSED  "} [removing the ignore rule for ${acquireOut}/ is caught]`);
+  console.log(`  ${restored ? "detected" : "MISSED  "} [.gitignore restored byte-for-byte]`);
+  if (withoutRule || !restored) { console.error("\nFAIL H4 mutation"); process.exit(1); }
   let allCaught = true;
   for (const c of cases) {
     const p = writeReceipt(c.receipt ?? {});

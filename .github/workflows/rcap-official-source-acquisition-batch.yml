@@ -124,17 +124,25 @@ jobs:
           retention-days: 30
 
       - name: Refuse a committed source body
-        # The acquisition script writes into acquired-source/, which is
-        # ignored. If anything reached the working tree, the run says so
-        # rather than letting a body ride into a later commit.
+        # The acquisition script writes fetched bytes into acquired-source/.
+        # This step used to assert that directory was gitignored; it was not,
+        # so the check would have reported the happy path as a failure and a
+        # real anomaly would have been indistinguishable from the noise.
+        #
+        # Two things are checked now, and the first is the one that matters:
+        # that the ignore rule actually exists, rather than being claimed.
         run: |
           set -euo pipefail
+          if ! git check-ignore -q acquired-source; then
+            echo "FAIL acquired-source/ is not gitignored — fetched bytes could be committed"
+            exit 1
+          fi
           if [ -n "$(git status --porcelain)" ]; then
-            echo "FAIL a source body or receipt reached the working tree:"
+            echo "FAIL something reached the working tree outside the ignored acquisition directory:"
             git status --porcelain
             exit 1
           fi
-          echo "OK nothing committed, nothing staged."
+          echo "OK acquired-source/ is ignored, and nothing else reached the tree."
 
   summarize:
     name: Batch result
