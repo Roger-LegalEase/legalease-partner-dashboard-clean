@@ -1,0 +1,60 @@
+{
+  "schemaVersion": "rcap-mass-packet-production-150-checkpoint/v1",
+  "generatedBy": "scripts/grade-a-launch-control/generate-mass-packet-production-150.mjs",
+  "everyCountIsDerived": "No number here is typed. Each is read from a record this dispatch wrote or verified.",
+  "cadence": "every 4 hours",
+  "checkpointNumber": 0,
+  "checkpointMeans": "checkpoint 0 is the dispatch itself: the state the first four-hour integration is measured against.",
+  "captainBaseSha": "27386bbf8471344143081de065311d761cfcf118",
+  "pipeline": {
+    "sharedLanes": 2,
+    "buildLanesDispatched": 5,
+    "buildLanesHeldForSource": 7,
+    "verificationLanes": 6,
+    "sourceLanes": 4
+  },
+  "families": {
+    "nationalDenominator": 352,
+    "heldByActiveLanes": 165,
+    "sourceReady": 59,
+    "sourceBlocked": 192,
+    "dispatchedToBuild": 59,
+    "returned": 0,
+    "verified": 0,
+    "passedIndependently": 0,
+    "failedRepairRequired": 0,
+    "blockedSource": 0,
+    "blockedLegalInput": 0
+  },
+  "sourceObligations": {
+    "dispatched": 335,
+    "resolved": 0,
+    "byLane": {
+      "SOURCE_1_NAMED_FORM_NUMBER_ACQUISITION": 114,
+      "SOURCE_2_LABEL_IDENTITY_RESOLUTION": 147,
+      "SOURCE_3_CONTENT_HASH_CURRENTNESS": 14,
+      "SOURCE_4_INEXACT_MATCH_PROMOTION": 60
+    }
+  },
+  "legalReview": {
+    "batchSize": 25,
+    "batchesCut": 0,
+    "familiesPackaged": 0
+  },
+  "commercial": {
+    "commercialRoutesOpened": 0,
+    "completePacketProven": 0,
+    "productionTouched": false
+  },
+  "nextCheckpoint": {
+    "dueIn": "4 hours",
+    "captainRuns": [
+      "integrate every return present, by cherry-pick, verifying owned paths before applying",
+      "rerun the full national repository chain on the integrated tree",
+      "regenerate this checkpoint so every count is read rather than remembered",
+      "cut a review batch if 25 families hold PASS_COMPLETE_INDEPENDENT",
+      "dispatch a targeted repair for every FAIL_REPAIR_REQUIRED that has none",
+      "fill a held build lane for every family a source lane released"
+    ]
+  }
+}
