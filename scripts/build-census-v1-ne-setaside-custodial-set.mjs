@@ -37,6 +37,10 @@ import {
   regionProtectCategoryOf,
   resolveFact
 } from "./rcap-official-forms/rcap-field-semantics.mjs";
+// The completeness contract's CLOSED refusal vocabulary, imported rather than
+// restated. A disposition this builder writes and a disposition the packet
+// completeness audit reads are then the same set by construction.
+import { REFUSAL_CLASSES } from "./rcap-packet-completeness/completeness-contract.mjs";
 
 const thisFile = fileURLToPath(import.meta.url);
 const rootDir = path.resolve(path.dirname(thisFile), "..");
@@ -1012,6 +1016,331 @@ function unsafeReason(subject, regionHeading, factId) {
   return null;
 }
 
+// ---------------------------------------------------------------------------
+// COMPLETENESS DISPOSITION
+//
+// Every family this host builds published a field map that recorded what the
+// build DID and never what the blank IS. Three things were missing from every
+// refusal row, and two of them from every flat write row as well:
+//
+//   the field's printed label   The census measures `effectiveLabel` and
+//                               `regionHeading` first hand and the map dropped
+//                               both, so a reader saw `Text2` and
+//                               `emailaddress` where the form prints "Case No."
+//                               and "E-mail Address". A blank nobody can name
+//                               is exactly the one that goes missing.
+//
+//   the field's identity        A flat document emitted its withheld blanks as
+//                               `{ blankId, caption, reason }` under
+//                               `roleRefusals`, a key whose rows are read as
+//                               `{ field, why, class }`. Every one of those
+//                               blanks therefore arrived with no id, no label
+//                               and no reason at all -- 2,814 of them across
+//                               nine of the eleven built families in this
+//                               host's closure. Flat writes carried the same
+//                               hole and reported `undefined` as the field.
+//
+//   an approved disposition     `no_allowlisted_fact_matches` and
+//                               `binding_not_approved_by_exact_caption_gate`
+//                               state what this build's allowlist offers.
+//                               Neither says anything about whether the filing
+//                               needs the value, and a statement of build
+//                               policy is not a reason for a blank on a court
+//                               filing.
+//
+// The class vocabulary is IMPORTED rather than restated below, so a disposition
+// this builder writes and a disposition the completeness audit reads cannot
+// drift apart.
+// ---------------------------------------------------------------------------
+
+/** A control the PDF viewer owns. It is not a filing fact and never was one. */
+const VIEWER_CONTROL = /\b(reset|print\s*form|printform|resetbutton|save\s*this\s*form|clear\s*(this\s*)?form|for\s*your\s*records)\b/i;
+
+/**
+ * A column of a repeating charge table, as those columns are actually named.
+ *
+ * West Virginia's SCA-C906 names them Charge1..Charge4 and CaseNo1..CaseNo4;
+ * SCA-C900 names them Offense1/Offense2 and Statute1/Statute2. The vocabulary is
+ * deliberately narrow: `PetAdd1`/`PetAdd2` repeats the same way and is two lines
+ * of one address, not two rows of a table.
+ */
+const CHARGE_ROW_COLUMN = /charge|offen[cs]e|count|statute|violation|case\s*no|caseno|citation|docket|conviction|disposition|sentence/i;
+
+/** A stem that names the charge itself, which is what makes a row a charge row. */
+const CHARGE_ROW_SUBJECT = /charge|offen[cs]e|count|statute|violation/i;
+
+/**
+ * An election the ROUTE determines rather than the participant.
+ *
+ * Each family here is built for exactly one statutory route and says so in its
+ * own `routeKeys`. A petition built for one route that ships the route election
+ * blank asks the participant to re-decide the thing the packet was built around.
+ */
+const ROUTE_DETERMINED_ELECTION = /\beligib|\bpursuant\s+to\b|\bunder\s+(?:section|§|penal\s+code|statute)|\bset[-\s]?aside\b|\bexpunge|\bseal(?:ing)?\b|\bcheck\s+(?:the\s+)?(?:one|box|all)\s+that\s+appl|\bselect\s+one\b|\btype\s+of\s+(?:petition|case|action)\b/i;
+
+/** Protect categories whose owner really is the court, the clerk or the prosecutor. */
+const OFFICIAL_OWNED_CATEGORIES = new Set([
+  "court", "clerk", "prosecutor", "responsible_official", "licensing_board"
+]);
+
+/** Protect categories that describe an act a person performs, at or after the act. */
+const ACT_COMPLETED_CATEGORIES = new Set(["signature", "notarization", "service_block"]);
+
+/**
+ * The printed context of a field: what a reader of the paper form sees around it.
+ *
+ * Composed rather than picked, because no single surface is reliable. CC-6-11
+ * harvests `defendant`'s printed label as "vs" and DC-1-15 harvests a case
+ * number's as ",  CasNe o"; the field NAME carries the meaning in the first case
+ * and the LABEL carries it in the second. Publishing both, plus the section
+ * heading and the row ordinal, is strictly more than either alone and invents
+ * nothing: every part was measured first hand from the pinned source.
+ */
+export function printedContextOf({ label = null, sectionHeading = null, rowOrdinal = null } = {}) {
+  const parts = [];
+  const heading = String(sectionHeading ?? "").trim();
+  const printed = String(label ?? "").trim();
+  if (heading) parts.push(heading);
+  if (printed && normalized(printed) !== normalized(heading)) parts.push(printed);
+  if (rowOrdinal) parts.push(`row ${rowOrdinal}`);
+  return parts.join(" · ") || null;
+}
+
+/**
+ * Which repeating row each cell of a charge table belongs to.
+ *
+ * A cell is a row cell when its stem names a charge-table column, repeats across
+ * two or more ordinals, and at least one repeating stem names the charge itself.
+ * Returns an empty map for a document with no charge table, which is most of
+ * them.
+ */
+export function chargeRowOrdinals(names) {
+  const stems = new Map();
+  const cells = new Map();
+  for (const name of names) {
+    const match = /^(.*[A-Za-z])(\d{1,2})$/.exec(String(name ?? ""));
+    if (!match) continue;
+    const [, stem, ordinal] = match;
+    if (!CHARGE_ROW_COLUMN.test(stem)) continue;
+    cells.set(name, { stem, ordinal: Number(ordinal) });
+    if (!stems.has(stem)) stems.set(stem, new Set());
+    stems.get(stem).add(Number(ordinal));
+  }
+  const repeating = new Set([...stems.entries()].filter(([, ordinals]) => ordinals.size >= 2).map(([stem]) => stem));
+  if (![...repeating].some((stem) => CHARGE_ROW_SUBJECT.test(stem))) return new Map();
+  const rows = new Map();
+  for (const [name, cell] of cells) {
+    if (repeating.has(cell.stem)) rows.set(name, cell.ordinal);
+  }
+  return rows;
+}
+
+/**
+ * What a blank IS, decided from a property of the field.
+ *
+ * Returns one of the completeness contract's CLOSED refusal classes, or null
+ * where no approved class applies and the blank has to be carried to the
+ * participant instead. `requiredBeforeFiling` marks the second case: a fact the
+ * filing needs that the platform does not hold, which is surfaced in the packet
+ * rather than guessed. A guessed arresting agency is worse than a blank one --
+ * the blank is visible and the guess is not.
+ */
+export function completenessDispositionOf({
+  printedContext = null, fieldName = null, protectCategory = null,
+  regionProtectCategory = null, documentAcceptsFill = true, documentPolicyReason = null
+} = {}) {
+  const context = `${printedContext ?? ""} ${fieldName ?? ""}`.trim();
+  const category = protectCategory ?? regionProtectCategory ?? null;
+
+  if (VIEWER_CONTROL.test(context)) {
+    return { refusalClass: null, requiredBeforeFiling: false, why: "viewer ui control; never a filing fact" };
+  }
+  if (ACT_COMPLETED_CATEGORIES.has(category)) {
+    return {
+      refusalClass: "signature_or_date_participant_completion",
+      requiredBeforeFiling: false,
+      why: `${category} field: signed, sworn or certified by a person at or after the act it records, and never prefilled`
+    };
+  }
+  if (OFFICIAL_OWNED_CATEGORIES.has(category)) {
+    return {
+      refusalClass: "court_prosecutor_clerk_or_agency_owned",
+      requiredBeforeFiling: false,
+      why: `${category}-owned field: the court, clerk or prosecutor completes it, not the participant`
+    };
+  }
+  if (category === "attorney") {
+    return {
+      refusalClass: null, requiredBeforeFiling: false,
+      why: "attorney-only block; no representation fact is held for this participant"
+    };
+  }
+  // The agency is the fourth name inside `court_prosecutor_clerk_or_agency_owned`
+  // and the only one of the four that is not protected. An arresting, citing or
+  // prosecuting agency is a case fact the participant already has from the
+  // record they screened with, so bundling it with the clerk and the judge lets a
+  // required fact hide inside a protected class.
+  if (category === "agency") {
+    return {
+      refusalClass: null, requiredBeforeFiling: true,
+      why: "the arresting, citing or prosecuting agency is a case fact the participant holds from the record they screened with; it is required before filing and is not court-owned"
+    };
+  }
+  if (!documentAcceptsFill && documentPolicyReason) {
+    return {
+      refusalClass: null, requiredBeforeFiling: true,
+      why: `this document is completed by hand on this route (${documentPolicyReason}); the fields the filing still needs are required before filing`
+    };
+  }
+  return {
+    refusalClass: null, requiredBeforeFiling: true,
+    why: "a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing"
+  };
+}
+
+/**
+ * What an unmade ELECTION is.
+ *
+ * Two answers, and the old map gave one of them to every control it met:
+ * "selection_requires_participant_or_authorized_official_choice". That sentence
+ * is true of a genuine election and false of a route election, and a packet
+ * built for one statutory route must state which route it is.
+ *
+ * Which box a route selects is per-form data this shared host does not hold, so
+ * the route election is NAMED as unmade rather than guessed. The naming is the
+ * correction: it moves the defect from an unexplained blank to an owned one.
+ */
+export function electionDispositionOf({ printedContext = null, fieldName = null, protectCategory = null, regionProtectCategory = null, routeKey = null } = {}) {
+  const context = `${printedContext ?? ""} ${fieldName ?? ""}`.trim();
+  const category = protectCategory ?? regionProtectCategory ?? null;
+  if (ACT_COMPLETED_CATEGORIES.has(category)) {
+    return {
+      refusalClass: "signature_or_date_participant_completion", requiredBeforeFiling: false, routeDetermined: false,
+      why: `${category} control: marked by a person at or after the act it records, and never prefilled`
+    };
+  }
+  if (OFFICIAL_OWNED_CATEGORIES.has(category)) {
+    return {
+      refusalClass: "court_prosecutor_clerk_or_agency_owned", requiredBeforeFiling: false, routeDetermined: false,
+      why: `${category}-owned control: the court, clerk or prosecutor marks it, not the participant`
+    };
+  }
+  if (ROUTE_DETERMINED_ELECTION.test(context)) {
+    return {
+      refusalClass: null, requiredBeforeFiling: false, routeDetermined: true,
+      why: `the shared semantics never writes a checkbox, so the election this route determines is left unmade; this packet is built for ${routeKey ?? "a single statutory route"} and must state which route it is`
+    };
+  }
+  return {
+    refusalClass: "participant_sworn_narrative_or_legal_election", requiredBeforeFiling: false, routeDetermined: false,
+    why: "a sworn assertion or legal election the route does not determine; only the participant may make it"
+  };
+}
+
+/**
+ * Attach printed context and an approved disposition to one map row.
+ *
+ * Applied to every row of every map -- writes and refusals, canonical and
+ * boundary, AcroForm and flat -- so no reader of the field map has to
+ * reconstruct what a row was about from the row's own name. The exact PDF field
+ * name or measured blank id is preserved untouched on `field`/`blankId`, because
+ * the artifact proof matches on it; the build's own words are preserved on
+ * `buildPolicyReason` rather than deleted, so the correction is auditable
+ * against what it replaced.
+ */
+export function withCompletenessDisposition(row, context = null) {
+  if (!context) return { ...row };
+  const {
+    printedLabel = null, sectionHeading = null, rowOrdinal = null,
+    disposition = null, page = null, identity = null
+  } = context;
+  const printedContext = printedContextOf({ label: printedLabel, sectionHeading, rowOrdinal });
+  const enriched = {
+    ...row,
+    ...(identity === null ? {} : { field: identity }),
+    printedLabel,
+    sectionHeading,
+    // A completeness reader forms an AcroForm field's label as
+    // `${regionHeading} ${field}`, so this carries every printed surface the
+    // census measured rather than the section heading alone. `sectionHeading`
+    // above keeps the raw heading unmixed.
+    regionHeading: printedContext,
+    effectiveLabel: printedContext,
+    ...(rowOrdinal ? { chargeRowOrdinal: rowOrdinal } : {}),
+    ...(page === null ? {} : { page })
+  };
+  if (!disposition) return enriched;
+  return {
+    ...enriched,
+    buildPolicyReason: row.reason ?? row.why ?? null,
+    buildPolicyCategory: row.category ?? row.class ?? null,
+    completenessClass: disposition.refusalClass,
+    category: disposition.refusalClass,
+    class: disposition.refusalClass,
+    requiredBeforeFiling: disposition.requiredBeforeFiling === true,
+    ...(disposition.routeDetermined ? { routeDetermined: true } : {}),
+    reason: disposition.why,
+    why: disposition.why
+  };
+}
+
+/**
+ * Everything the packet needs before it can be filed, in the participant's words.
+ *
+ * A required fact the platform does not hold may be blank only because the
+ * packet says so. Nothing in these families said so, so the fact was simply
+ * missing. This collects them, and `buildOfficial` writes them into the packet.
+ */
+export function requiredBeforeFilingItems(maps) {
+  const items = [];
+  const seen = new Set();
+  for (const map of maps) {
+    for (const row of [...(map.canonicalRefusals ?? []), ...(map.roleRefusals ?? []), ...(map.selectionControls ?? [])]) {
+      if (row.requiredBeforeFiling !== true) continue;
+      const label = row.regionHeading ?? row.printedLabel ?? row.field ?? row.blankId ?? null;
+      if (!label) continue;
+      const key = `${map.formNumber}::${label}`;
+      if (seen.has(key)) continue;
+      seen.add(key);
+      items.push({ document: map.formNumber, field: row.field ?? row.blankId ?? null, page: row.page ?? null, printedContext: label, why: row.why ?? row.reason ?? null });
+    }
+  }
+  return items.sort((a, b) => String(a.document).localeCompare(String(b.document))
+    || Number(a.page ?? 0) - Number(b.page ?? 0)
+    || String(a.printedContext).localeCompare(String(b.printedContext)));
+}
+
+/** The participant-facing disclosure of every blank the filing still needs. */
+export function participantInstructionsMarkdown(familyId, config, items) {
+  const lines = [
+    `# Before you file: ${familyId}`,
+    "",
+    `This packet is built for ${config.routeKeys.join(", ")}.`,
+    "",
+    "Every field listed below is blank on the packet and the filing needs it. The",
+    "platform does not hold the value, and it is not guessed: a guessed arresting",
+    "agency is worse than a blank one, because the blank is visible and the guess is",
+    "not. Complete each one by hand before you file.",
+    "",
+    `Required before filing: ${items.length} field(s).`,
+    ""
+  ];
+  let document = null;
+  for (const item of items) {
+    if (item.document !== document) {
+      document = item.document;
+      lines.push(`## ${document}`, "");
+    }
+    lines.push(`- ${item.printedContext}${item.page ? ` (page ${item.page})` : ""} — ${item.why}`);
+  }
+  lines.push("");
+  lines.push("Signature, signature date, and any certificate of mailing are deliberately left");
+  lines.push("blank and are not listed here: you sign them, and a certificate of mailing is");
+  lines.push("completed after mailing has happened.");
+  lines.push("");
+  return lines.join("\n");
+}
+
 function chargeMappingFor(subject, fieldName = subject) {
   return approvedFactLabel("matter.charge", subject) ? { [fieldName]: "matter.charge" } : {};
 }
@@ -1024,6 +1353,13 @@ function prepareAcroPolicy(census, policy) {
   }
   const unwritableFields = [];
   const preclassification = [];
+  const rowOrdinals = chargeRowOrdinals(census.fields.map((field) => field.name));
+  const contextOf = (field) => ({
+    printedLabel: field.effectiveLabel ?? null,
+    sectionHeading: field.regionHeading ?? null,
+    rowOrdinal: rowOrdinals.get(field.name) ?? null,
+    page: field.widgets?.[0]?.page ?? null
+  });
   for (const field of census.fields) {
     const subject = field.effectiveLabel ?? field.name;
     const decision = decideBinding(
@@ -1034,16 +1370,67 @@ function prepareAcroPolicy(census, policy) {
     if (!policy.documentAcceptsFill) reason = policy.reason ?? "document_role_does_not_accept_prefill";
     if (!reason) reason = unsafeReason(subject, field.regionHeading, decision.factId);
     if (!reason && decision.writable && !approvedFactLabel(decision.factId, subject)) reason = "binding_not_approved_by_exact_caption_gate";
-    if (reason) unwritableFields.push({ field: field.name, class: reason, why: reason });
+    if (reason) {
+      const context = contextOf(field);
+      unwritableFields.push(withCompletenessDisposition({ field: field.name, class: reason, why: reason }, {
+        ...context,
+        disposition: completenessDispositionOf({
+          printedContext: printedContextOf(context),
+          fieldName: field.name,
+          protectCategory: field.protectCategory ?? null,
+          regionProtectCategory: regionProtectCategoryOf(field.regionHeading),
+          documentAcceptsFill: policy.documentAcceptsFill,
+          documentPolicyReason: policy.reason ?? null
+        })
+      }));
+    }
     preclassification.push({ field: field.name, subject, sharedDecision: decision, roleRefusal: reason });
   }
-  const selectionControls = census.selectionControls.map((control) => ({
-    ...control,
-    disposition: "explicit_refusal",
-    reason: unwritableFields.find((item) => item.field === control.field)?.why
-      ?? "selection_requires_participant_or_authorized_official_choice"
-  }));
+  const censusByName = new Map(census.fields.map((field) => [field.name, field]));
+  const selectionControls = census.selectionControls.map((control) => {
+    const field = censusByName.get(control.field) ?? { name: control.field };
+    const context = contextOf(field);
+    return withCompletenessDisposition({ ...control, disposition: "explicit_refusal" }, {
+      ...context,
+      disposition: electionDispositionOf({
+        printedContext: printedContextOf(context),
+        fieldName: control.field,
+        protectCategory: field.protectCategory ?? null,
+        regionProtectCategory: regionProtectCategoryOf(field.regionHeading),
+        routeKey: policy.routeKey ?? null
+      })
+    });
+  });
   return { explicitMappings, unwritableFields, preclassification, selectionControls };
+}
+
+/**
+ * One withheld flat blank, in the shape every reader of a field map expects.
+ *
+ * A measured blank has no PDF field name -- its identity is the measured
+ * `blankId` -- so the previous rows carried `blankId`/`caption`/`reason` under a
+ * key whose rows are read as `field`/`why`/`class`. The blank then arrived with
+ * no id, no label and no reason at all. Both keys are populated here and
+ * `blankId` is preserved, because the flat write/refusal partition is proved
+ * against it.
+ */
+export function flatRefusalRow(row, blank, policy, override = null) {
+  const context = {
+    printedLabel: blank.caption ?? null,
+    sectionHeading: blank.regionHeading ?? null,
+    rowOrdinal: null,
+    page: blank.page ?? null,
+    identity: printedContextOf({ label: blank.caption ?? null, sectionHeading: blank.regionHeading ?? null }) ?? blank.blankId
+  };
+  const disposition = override ?? completenessDispositionOf({
+    printedContext: printedContextOf(context),
+    fieldName: blank.blankId,
+    protectCategory: blank.protectCategory ?? null,
+    regionProtectCategory: blank.regionProtectCategory ?? null,
+    documentAcceptsFill: policy.documentAcceptsFill,
+    documentPolicyReason: policy.reason ?? null
+  });
+  return withCompletenessDisposition(row, { ...context, disposition });
 }
 
 function prepareFlatPolicy(census, policy) {
@@ -1066,8 +1453,8 @@ function prepareFlatPolicy(census, policy) {
     const width = round(blank.measured.width - 3.5);
     if (!reason && width < 24) reason = "measured_blank_too_narrow";
     if (reason) {
-      withheld.push({ blankId: blank.blankId, page: blank.page, caption: blank.caption,
-        measured: blank.measured, construction: blank.construction, reason, sharedDecision: decision });
+      withheld.push(flatRefusalRow({ blankId: blank.blankId, page: blank.page, caption: blank.caption,
+        measured: blank.measured, construction: blank.construction, reason, sharedDecision: decision }, blank, policy));
       continue;
     }
     candidates.push({ blank, decision, width });
@@ -1098,7 +1485,7 @@ function prepareFlatPolicy(census, policy) {
       geometryBasis: blank.geometryBasis
     });
     for (const duplicate of group.slice(1)) {
-      withheld.push({
+      withheld.push(flatRefusalRow({
         blankId: duplicate.blank.blankId,
         page: duplicate.blank.page,
         caption: duplicate.blank.caption,
@@ -1107,7 +1494,11 @@ function prepareFlatPolicy(census, policy) {
         reason: "duplicate_safe_fact_on_same_page_kept_once",
         keptInstead: blank.blankId,
         sharedDecision: duplicate.decision
-      });
+      }, duplicate.blank, policy, {
+        refusalClass: null,
+        requiredBeforeFiling: false,
+        why: `the same fact is already written once on this page at ${blank.blankId}; a second copy of it is not a second fact`
+      }));
     }
   }
   const protectedRules = census.blanks
@@ -1120,7 +1511,32 @@ function prepareFlatPolicy(census, policy) {
       category: blank.protectCategory ?? blank.regionProtectCategory,
       caption: blank.caption
     }));
-  const selectionControls = census.selectionControls.map((control) => ({ ...control }));
+  const selectionControls = census.selectionControls.map((control) => {
+    const context = {
+      printedLabel: control.label ?? null,
+      sectionHeading: null,
+      rowOrdinal: null,
+      page: control.page ?? null,
+      identity: control.label ?? control.selectionId
+    };
+    const shared = {
+      printedContext: printedContextOf(context),
+      fieldName: control.selectionId,
+      protectCategory: protectCategoryOf(control.label ?? "") ?? null,
+      regionProtectCategory: null
+    };
+    // A boxed entry is a place to WRITE something, not an election to make, so it
+    // is dispositioned as a field. Only a real selection control asks the reader
+    // to choose.
+    const disposition = control.kind === "selection_control"
+      ? electionDispositionOf({ ...shared, routeKey: policy.routeKey ?? null })
+      : completenessDispositionOf({
+        ...shared,
+        documentAcceptsFill: policy.documentAcceptsFill,
+        documentPolicyReason: policy.reason ?? null
+      });
+    return withCompletenessDisposition({ ...control }, { ...context, disposition });
+  });
   return { anchors, withheld, explicitMappings, protectedRules, selectionControls };
 }
 
@@ -1355,7 +1771,10 @@ async function verifyFlatBytes(source, policyData, artifactBytes, report, facts,
 }
 
 async function renderOneDocument(source, config, fixture) {
-  const policy = policyFor(source);
+  // The route the packet is built for travels with the document policy, so a
+  // selection control can say whether the election is one the ROUTE determines
+  // or one that genuinely belongs to the participant.
+  const policy = { ...policyFor(source), routeKey: config.routeKeys[0] ?? null };
   const facts = factsFor(config, fixture);
   if (source.indexEntry.structuralClassObserved === "acroform") {
     const census = await censusAcro(source);
@@ -1392,6 +1811,81 @@ async function renderOneDocument(source, config, fixture) {
   });
   const proof = await verifyFlatBytes(source, policyData, result.bytes, result.report, facts, fixture);
   return { source, policy, census, policyData, fixture, bytes: result.bytes, report: result.report, proof };
+}
+
+/**
+ * The finalizer's write and refusal rows, carrying the printed context the
+ * census measured and an approved disposition instead of build-policy prose.
+ *
+ * The finalizer names an AcroForm row by its PDF field and a flat row by its
+ * anchor label; neither carries the printed label, the section heading, or the
+ * charge-row ordinal, and a flat row carried no field identity at all -- which is
+ * why every flat write in this closure reported `undefined` as its field. The
+ * enrichment is applied here rather than inside the finalizer because the
+ * finalizer is shared far beyond this lane, and it is applied identically by
+ * `buildOfficial` and by `--check` so a stored map and a live recomputation stay
+ * comparable.
+ */
+export function dispositionRowsFor(item, report) {
+  const acroform = item.census.structuralClass === "acroform";
+  const rowOrdinals = acroform
+    ? chargeRowOrdinals(item.census.fields.map((field) => field.name))
+    : new Map();
+  const byName = acroform ? new Map(item.census.fields.map((field) => [field.name, field])) : new Map();
+  const blanksById = acroform ? new Map() : new Map(item.census.blanks.map((blank) => [blank.blankId, blank]));
+  const anchorsByLabel = new Map();
+  for (const anchor of item.policyData.anchors ?? []) {
+    if (!anchorsByLabel.has(anchor.label)) anchorsByLabel.set(anchor.label, anchor);
+  }
+  const contextFor = (row, withDisposition) => {
+    if (acroform) {
+      const field = byName.get(row.field);
+      if (!field) return null;
+      const context = {
+        printedLabel: field.effectiveLabel ?? null,
+        sectionHeading: field.regionHeading ?? null,
+        rowOrdinal: rowOrdinals.get(field.name) ?? null,
+        page: field.widgets?.[0]?.page ?? null
+      };
+      if (!withDisposition) return context;
+      return {
+        ...context,
+        disposition: completenessDispositionOf({
+          printedContext: printedContextOf(context),
+          fieldName: field.name,
+          protectCategory: field.protectCategory ?? null,
+          regionProtectCategory: regionProtectCategoryOf(field.regionHeading),
+          documentAcceptsFill: item.policy.documentAcceptsFill,
+          documentPolicyReason: item.policy.reason ?? null
+        })
+      };
+    }
+    const anchor = anchorsByLabel.get(row.anchor);
+    const blank = anchor ? blanksById.get(anchor.blankId) : null;
+    const context = {
+      printedLabel: blank?.caption ?? anchor?.label ?? row.anchor ?? null,
+      sectionHeading: blank?.regionHeading ?? null,
+      rowOrdinal: null,
+      page: blank?.page ?? anchor?.page ?? null,
+      identity: anchor?.blankId ?? null
+    };
+    if (!withDisposition) return context;
+    return {
+      ...context,
+      disposition: completenessDispositionOf({
+        printedContext: printedContextOf(context),
+        fieldName: anchor?.blankId ?? row.anchor ?? null,
+        protectCategory: blank?.protectCategory ?? null,
+        regionProtectCategory: blank?.regionProtectCategory ?? null,
+        documentAcceptsFill: item.policy.documentAcceptsFill,
+        documentPolicyReason: item.policy.reason ?? null
+      })
+    };
+  };
+  return {
+    written: report.written.map((row) => withCompletenessDisposition(row, contextFor(row, false))),
+    refused: report.refused.map((row) => withCompletenessDisposition(row, contextFor(row, true)))
+  };
 }
 
 async function combinePacket(familyId, fixture, rendered) {
@@ -1690,6 +2184,8 @@ async function buildOfficial(familyId, config) {
   }));
   const maps = byFixture.canonical.map((item) => {
     const boundary = byFixture.boundary.find((candidate) => candidate.source.sha256 === item.source.sha256);
+    const canonical = dispositionRowsFor(item, item.report);
+    const boundaryRows = dispositionRowsFor(boundary, boundary.report);
     return {
       formNumber: item.source.formNumber,
       documentPolicy: item.policy,
@@ -1701,12 +2197,17 @@ async function buildOfficial(familyId, config) {
       selectionControls: item.policyData.selectionControls,
       offeredAnchors: item.policyData.anchors ?? null,
       protectedRules: item.policyData.protectedRules ?? null,
-      canonicalWrites: item.report.written,
-      canonicalRefusals: item.report.refused,
-      boundaryWrites: boundary.report.written,
-      boundaryRefusals: boundary.report.refused
+      canonicalWrites: canonical.written,
+      canonicalRefusals: canonical.refused,
+      boundaryWrites: boundaryRows.written,
+      boundaryRefusals: boundaryRows.refused
     };
   });
+  // Every blank the filing still needs, carried to the participant. A
+  // required-before-filing blank is permitted only because the packet says it
+  // must be supplied; nothing in these families said so, so the fact was simply
+  // missing from the filing.
+  const requiredBeforeFiling = requiredBeforeFilingItems(maps);
   const actualWrites = ["canonical", "boundary"].flatMap((fixture) => byFixture[fixture].map((item) => ({
     fixture,
     formNumber: item.source.formNumber,
@@ -1734,11 +2235,17 @@ async function buildOfficial(familyId, config) {
     censusBasis: "first_hand_inspection_of_each_exact_hash_bound_source",
     documents: censusDocuments
   });
+  fs.mkdirSync(path.join(rootDir, out), { recursive: true });
+  fs.writeFileSync(path.join(rootDir, out, "participant-instructions.md"),
+    participantInstructionsMarkdown(familyId, config, requiredBeforeFiling));
   writeJson(`${out}/production-field-map.json`, {
     schemaVersion: "rcap-official-form-field-map/v1-census-v1",
     familyId,
     routeKeys: config.routeKeys,
     routeSelectionId: config.selectionId,
+    dispositionVocabulary: Object.keys(REFUSAL_CLASSES),
+    requiredBeforeFilingCount: requiredBeforeFiling.length,
+    requiredBeforeFiling,
     maps,
     generationAllowed: false,
     runtimeSelectable: false,
@@ -1783,7 +2290,8 @@ async function buildOfficial(familyId, config) {
       "Unmailed service certificates and recipient acceptances are left blank.",
       "Court, prosecutor, clerk, agency, victim, notary, and judicial-officer fields are refused by role.",
       "Flat-form anchors are authored from first-hand CTM geometry and admitted only through an exact caption gate.",
-      "No checkbox or radio election is made by this builder."
+      "No checkbox or radio election is made by this builder; an election the route determines is named as unmade rather than described as the participant's.",
+      `${requiredBeforeFiling.length} field(s) the filing needs are classified required-before-filing and surfaced in participant-instructions.md rather than guessed.`
     ]
   });
   writeJson(`${out}/build-status.json`, {
@@ -1808,6 +2316,8 @@ export async function checkFamily(familyId) {
   const required = config.action === "STOP"
     ? ["source-receipt.json", "vehicle-conflict-stop.json", "product-wiring.json", "approval-request.json", "build-findings.json", "build-status.json"]
     : ["source-receipt.json", "field-census.census-v1.json", "production-field-map.json", "reports/actual-writes.json", "reports/rendered-artifacts.json", "product-wiring.json", "approval-request.json", "build-findings.json", "build-status.json"];
+  const requiredText = config.action === "STOP" ? [] : ["participant-instructions.md"];
+  for (const rel of requiredText) if (!fs.existsSync(path.join(rootDir, out, rel))) throw new Error(`${familyId}: missing ${out}/${rel}`);
   for (const rel of required) if (!fs.existsSync(path.join(rootDir, out, rel))) throw new Error(`${familyId}: missing ${out}/${rel}`);
   const records = Object.fromEntries(required.map((rel) => [rel, readJson(`${out}/${rel}`)]));
   for (const [rel, record] of Object.entries(records)) {
@@ -1885,6 +2395,22 @@ export async function checkFamily(familyId) {
         `${familyId}/${document.formNumber}: flat blank write/refusal partition is incomplete`);
       assert.equal(new Set(dispositionIds).size, blankIds.length,
         `${familyId}/${document.formNumber}: flat blank was omitted or disposed twice`);
+    }
+  }
+  const storedRequired = requiredBeforeFilingItems(fieldMap.maps);
+  assert.deepEqual(fieldMap.requiredBeforeFiling ?? [], storedRequired,
+    `${familyId}: required-before-filing disclosure does not match the field map it is derived from`);
+  assert.equal(fieldMap.requiredBeforeFilingCount, storedRequired.length,
+    `${familyId}: required-before-filing count drift`);
+  assert.equal(
+    fs.readFileSync(path.join(rootDir, out, "participant-instructions.md"), "utf8"),
+    participantInstructionsMarkdown(familyId, config, storedRequired),
+    `${familyId}: the packet's required-before-filing disclosure has drifted from the field map`);
+  for (const map of fieldMap.maps) {
+    for (const row of [...map.canonicalRefusals, ...map.boundaryRefusals, ...map.roleRefusals, ...map.selectionControls]) {
+      const declared = row.completenessClass ?? null;
+      assert.ok(declared === null || Object.hasOwn(REFUSAL_CLASSES, declared),
+        `${familyId}/${map.formNumber}: refusal class ${declared} is outside the closed disposition vocabulary`);
     }
   }
   const rendered = records["reports/rendered-artifacts.json"];
@@ -1996,10 +2522,11 @@ export async function checkFamily(familyId) {
         `${familyId}/${source.formNumber}: live anchor map drift`);
       assert.deepEqual(fresh.policyData.protectedRules ?? null, storedMap.protectedRules,
         `${familyId}/${source.formNumber}: live protected-rule map drift`);
-      assert.deepEqual(fresh.report.written,
+      const freshRows = dispositionRowsFor(fresh, fresh.report);
+      assert.deepEqual(freshRows.written,
         fixture === "canonical" ? storedMap.canonicalWrites : storedMap.boundaryWrites,
       `${familyId}/${source.formNumber}/${fixture}: live write disposition drift`);
-      assert.deepEqual(fresh.report.refused,
+      assert.deepEqual(freshRows.refused,
         fixture === "canonical" ? storedMap.canonicalRefusals : storedMap.boundaryRefusals,
       `${familyId}/${source.formNumber}/${fixture}: live refusal disposition drift`);
       assert.deepEqual(fresh.proof.actualWrites, storedProof.actualWrites,
@@ -2176,6 +2703,80 @@ export async function runSelfTests() {
   assert.equal(approvedFactLabel("participant.state", "State of Utah"), false);
   assert.equal(unsafeReason("Signature date", null, "deterministic.filing_date"), "actor_or_post_event_field_not_owned_by_participant");
   assert.equal(unsafeReason("Date of birth", null, "participant.date_of_birth"), null);
+  // --- completeness disposition -------------------------------------------------
+  for (const declared of [
+    "signature_or_date_participant_completion",
+    "court_prosecutor_clerk_or_agency_owned",
+    "participant_sworn_narrative_or_legal_election"
+  ]) {
+    assert.equal(Object.hasOwn(REFUSAL_CLASSES, declared), true,
+      `${declared} must remain a class of the shared closed disposition vocabulary`);
+  }
+  assert.equal(printedContextOf({ label: "vs", sectionHeading: null }), "vs");
+  assert.equal(printedContextOf({ label: null, sectionHeading: null }), null);
+  assert.equal(printedContextOf({ label: "Charge", sectionHeading: "OFFENSES", rowOrdinal: 2 }),
+    "OFFENSES · Charge · row 2",
+    "a repeating cell must publish the row it belongs to, or a half-filled row reads as a finished one");
+  assert.equal(printedContextOf({ label: "ORDER", sectionHeading: "ORDER" }), "ORDER",
+    "a label that repeats its own heading must not be published twice");
+  const chargeRows = chargeRowOrdinals([
+    "PetAdd1", "PetAdd2", "Charge1", "CaseNo1", "Charge2", "CaseNo2", "PetitionersCurrentName1"
+  ]);
+  assert.deepEqual([...chargeRows.entries()].sort(),
+    [["CaseNo1", 1], ["CaseNo2", 2], ["Charge1", 1], ["Charge2", 2]],
+    "a charge row is a charge row; two lines of one address are not two rows");
+  assert.equal(chargeRowOrdinals(["Text2", "Text5", "Text6"]).size, 0,
+    "one stem repeating is a list of unrelated boxes, not a table");
+  assert.equal(
+    completenessDispositionOf({ printedContext: "Petitioner Signature", protectCategory: "signature" }).refusalClass,
+    "signature_or_date_participant_completion");
+  assert.equal(
+    completenessDispositionOf({ printedContext: "Judge", protectCategory: "court" }).refusalClass,
+    "court_prosecutor_clerk_or_agency_owned");
+  const agency = completenessDispositionOf({ printedContext: "Arresting agency", protectCategory: "agency" });
+  assert.equal(agency.refusalClass, null,
+    "an agency name must not hide inside the protected court/clerk/prosecutor class");
+  assert.equal(agency.requiredBeforeFiling, true,
+    "an arresting agency is a case fact the participant holds; it is surfaced, never guessed");
+  assert.equal(completenessDispositionOf({ printedContext: "PrintForm" }).requiredBeforeFiling, false,
+    "a viewer control is not a filing fact");
+  assert.equal(completenessDispositionOf({ printedContext: "E-mail Address" }).requiredBeforeFiling, true,
+    "a contact fact the packet leaves blank is required before filing, not silently dropped");
+  const routeElection = electionDispositionOf({
+    printedContext: "Eligible for set-aside under section 29-2264",
+    routeKey: "obligation:track-pathway:NE:ne-setaside-custodial:set-aside-incarceration-one-year-or-less"
+  });
+  assert.equal(routeElection.routeDetermined, true,
+    "a packet built for one statutory route must state which route it is");
+  assert.equal(routeElection.refusalClass, null,
+    "a route election is not the participant's to make, so no participant-election class may excuse it");
+  assert.equal(
+    electionDispositionOf({ printedContext: "I request a waiver of fees" }).refusalClass,
+    "participant_sworn_narrative_or_legal_election",
+    "an election the route does not determine still belongs to the participant");
+  const enriched = withCompletenessDisposition(
+    { field: "emailaddress", reason: "no_allowlisted_fact_matches", category: null },
+    {
+      printedLabel: "E-mail Address", sectionHeading: null, rowOrdinal: null, page: 1,
+      disposition: completenessDispositionOf({ printedContext: "E-mail Address", fieldName: "emailaddress" })
+    });
+  assert.equal(enriched.field, "emailaddress", "the exact PDF field name must survive enrichment");
+  assert.equal(enriched.regionHeading, "E-mail Address");
+  assert.equal(enriched.buildPolicyReason, "no_allowlisted_fact_matches",
+    "the build's own words are kept beside the disposition that replaced them, not deleted");
+  assert.equal(enriched.requiredBeforeFiling, true);
+  assert.equal(withCompletenessDisposition({ field: "x", reason: "r" }, null).reason, "r",
+    "a row with no measured context is passed through unchanged rather than guessed at");
+  const disclosure = requiredBeforeFilingItems([{
+    formNumber: "CC-6-11",
+    canonicalRefusals: [{ field: "emailaddress", regionHeading: "E-mail Address", page: 1, requiredBeforeFiling: true, why: "needed" }],
+    roleRefusals: [{ field: "emailaddress", regionHeading: "E-mail Address", page: 1, requiredBeforeFiling: true, why: "needed" }],
+    selectionControls: [{ field: "sig", regionHeading: "Signature", requiredBeforeFiling: false }]
+  }]);
+  assert.equal(disclosure.length, 1, "one field is disclosed once, however many map rows mention it");
+  assert.match(participantInstructionsMarkdown("ne-setaside-custodial-set", FAMILY_CONFIGS["ne-setaside-custodial-set"], disclosure),
+    /E-mail Address/, "a required-before-filing field must reach the participant by name");
+
   const selections = new Set(Object.values(FAMILY_CONFIGS).map((config) => config.selectionId));
   assert.equal(selections.size, Object.keys(FAMILY_CONFIGS).length, "route-specific selections must remain distinct");
   for (const [familyId, config] of Object.entries(FAMILY_CONFIGS)) {
