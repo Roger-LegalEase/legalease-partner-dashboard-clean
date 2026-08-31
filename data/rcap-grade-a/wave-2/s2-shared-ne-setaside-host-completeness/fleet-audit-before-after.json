@@ -1,0 +1,1039 @@
+{
+  "schemaVersion": "rcap-s2-shared-host-fleet-audit/v1",
+  "assignment": "S2_SHARED_NE_SETASIDE_HOST_COMPLETENESS",
+  "host": "scripts/build-census-v1-ne-setaside-custodial-set.mjs",
+  "baseSha": "09ada500b42b7e2181b30155412bb7e70176b70b",
+  "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --write",
+  "whyBeforeAndAfterAreIdentical": "This lane renders no packet and writes into no overlay directory. The completeness matrix is measured from rendered overlay artifacts, so a change to shared build logic cannot move it until a lane that owns a packet re-renders. The before and after runs are therefore byte-identical, and that is the correct result rather than a null one: it is the evidence that the correction stayed inside the host. What the correction does is measured separately, by projection.",
+  "projection": {
+    "what": "The corrected host emission logic applied to each closure family already-captured field census and field map, written into a mirror of the overlay tree and read by the same unmodified verifier.",
+    "script": "data/rcap-grade-a/wave-2/s2-shared-ne-setaside-host-completeness/project-corrected-host.mjs",
+    "rendersAnything": false,
+    "writesIntoAnyOverlayDirectory": false,
+    "isNotProof": "A projection is not a render. It states what P1, P3 and P4 should expect the audit to say once they re-render against the corrected host; only their re-render proves it.",
+    "howToRerun": [
+      "mkdir -p $M/scripts $M/data/rcap-all50/overlays/census-v1 $M/data/rcap-grade-a/launch-control",
+      "cp -r scripts/rcap-packet-completeness $M/scripts/",
+      "cp data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json $M/data/rcap-grade-a/launch-control/",
+      "symlink every overlay family directory into $M/data/rcap-all50/overlays/census-v1/<state>/",
+      "S2_PROJECTION_MIRROR=$M node data/rcap-grade-a/wave-2/s2-shared-ne-setaside-host-completeness/project-corrected-host.mjs <the eleven closure family ids>",
+      "node $M/scripts/rcap-packet-completeness/verify-packet-completeness.mjs --write"
+    ],
+    "reproduced": true
+  },
+  "closure": {
+    "scriptsInTheClosure": 13,
+    "directImporters": 12,
+    "transitiveOnlyImporters": 0,
+    "builtFamiliesInTheClosure": 11,
+    "stoppedImportersOutsideTheBuiltCount": [
+      {
+        "familyId": "ne-setaside-noncustodial-set",
+        "c11Classification": "STOPPED_WITH_EXACT_BLOCKER",
+        "owningLane": "R3_ROUTE_MAPPING_REMAINDER"
+      },
+      {
+        "familyId": "ne-trafficking-setaside-and-seal-set",
+        "c11Classification": "STOPPED_WITH_EXACT_BLOCKER",
+        "owningLane": "R4_SOURCE_IDENTITY_AND_ACQUISITION"
+      }
+    ]
+  },
+  "fleetTotals": {
+    "before": {
+      "knownRequiredFieldsMissing": 1550,
+      "requiredFactsNotCollected": 0,
+      "unclassifiedBlanks": 6024,
+      "incompleteRows": 11,
+      "requiredOptionsMissing": 121,
+      "requiredComponentsMissing": 31,
+      "invisibleWrites": 0,
+      "protectedWrites": 0,
+      "visualDefects": 0
+    },
+    "after": {
+      "knownRequiredFieldsMissing": 1550,
+      "requiredFactsNotCollected": 0,
+      "unclassifiedBlanks": 6024,
+      "incompleteRows": 11,
+      "requiredOptionsMissing": 121,
+      "requiredComponentsMissing": 31,
+      "invisibleWrites": 0,
+      "protectedWrites": 0,
+      "visualDefects": 0
+    },
+    "projectedAfterRerender": {
+      "knownRequiredFieldsMissing": 2477,
+      "requiredFactsNotCollected": 0,
+      "unclassifiedBlanks": 3591,
+      "incompleteRows": 11,
+      "requiredOptionsMissing": 129,
+      "requiredComponentsMissing": 31,
+      "invisibleWrites": 0,
+      "protectedWrites": 0,
+      "visualDefects": 0
+    },
+    "byResultBefore": {
+      "FAIL_MISSING_REQUIRED_FACTS": 32,
+      "FAIL_COMPONENT_SET": 2,
+      "FAIL_MISSING_PREFILLS": 9
+    },
+    "byResultAfter": {
+      "FAIL_MISSING_REQUIRED_FACTS": 32,
+      "FAIL_COMPONENT_SET": 2,
+      "FAIL_MISSING_PREFILLS": 9
+    },
+    "byResultProjectedAfterRerender": {
+      "FAIL_MISSING_REQUIRED_FACTS": 41,
+      "FAIL_COMPONENT_SET": 2
+    },
+    "familiesAudited": 43
+  },
+  "closureTotals": {
+    "before": {
+      "knownRequiredFieldsMissing": 149,
+      "requiredFactsNotCollected": 0,
+      "unclassifiedBlanks": 4775,
+      "incompleteRows": 0,
+      "requiredOptionsMissing": 0,
+      "requiredComponentsMissing": 0,
+      "invisibleWrites": 0,
+      "protectedWrites": 0,
+      "visualDefects": 0
+    },
+    "after": {
+      "knownRequiredFieldsMissing": 149,
+      "requiredFactsNotCollected": 0,
+      "unclassifiedBlanks": 4775,
+      "incompleteRows": 0,
+      "requiredOptionsMissing": 0,
+      "requiredComponentsMissing": 0,
+      "invisibleWrites": 0,
+      "protectedWrites": 0,
+      "visualDefects": 0
+    },
+    "projectedAfterRerender": {
+      "knownRequiredFieldsMissing": 1076,
+      "requiredFactsNotCollected": 0,
+      "unclassifiedBlanks": 2342,
+      "incompleteRows": 0,
+      "requiredOptionsMissing": 8,
+      "requiredComponentsMissing": 0,
+      "invisibleWrites": 0,
+      "protectedWrites": 0,
+      "visualDefects": 0
+    }
+  },
+  "familiesOutsideTheClosureThatMoved": {
+    "inTheAudit": [],
+    "inTheProjection": [],
+    "count": 0,
+    "whyItMatters": "The blast radius of this correction is the twelve importers and the host, and nothing else. A family outside the closure that moved at all would be a finding."
+  },
+  "perFamily": [
+    {
+      "familyId": "ne-setaside-custodial-set",
+      "owningLane": "P4_NE_SD_SETASIDE_COMPLETENESS",
+      "isTheHostItself": true,
+      "result": {
+        "before": "FAIL_MISSING_REQUIRED_FACTS",
+        "after": "FAIL_MISSING_REQUIRED_FACTS",
+        "projectedAfterRerender": "FAIL_MISSING_REQUIRED_FACTS"
+      },
+      "counters": {
+        "before": {
+          "knownRequiredFieldsMissing": 10,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 158,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 0,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        },
+        "after": {
+          "knownRequiredFieldsMissing": 10,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 158,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 0,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        },
+        "projectedAfterRerender": {
+          "knownRequiredFieldsMissing": 24,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 126,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 0,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        }
+      },
+      "countersThatMovedInTheAudit": [],
+      "countersProjectedToMoveOnRerender": {
+        "knownRequiredFieldsMissing": {
+          "before": 10,
+          "after": 10,
+          "projectedAfterRerender": 24,
+          "delta": 14
+        },
+        "unclassifiedBlanks": {
+          "before": 158,
+          "after": 158,
+          "projectedAfterRerender": 126,
+          "delta": -32
+        }
+      },
+      "blanksByDisposition": {
+        "before": {
+          "UNCLASSIFIED_BLANK": 158,
+          "KNOWN_FACT_NOT_WRITTEN": 10
+        },
+        "projectedAfterRerender": {
+          "UNCLASSIFIED_BLANK": 126,
+          "KNOWN_FACT_NOT_WRITTEN": 24,
+          "PARTICIPANT_ELECTION_GENUINE": 6,
+          "PROTECTED_FIELD": 10,
+          "LATER_COMPLETION": 2
+        }
+      },
+      "blanksWithNoLabelAtAll": {
+        "before": 16,
+        "projectedAfterRerender": 0
+      },
+      "repeatingRowsInspectable": {
+        "before": 0,
+        "projectedAfterRerender": 0
+      }
+    },
+    {
+      "familyId": "sd_arrest_expungement-set",
+      "owningLane": "P4_NE_SD_SETASIDE_COMPLETENESS",
+      "isTheHostItself": false,
+      "result": {
+        "before": "FAIL_MISSING_REQUIRED_FACTS",
+        "after": "FAIL_MISSING_REQUIRED_FACTS",
+        "projectedAfterRerender": "FAIL_MISSING_REQUIRED_FACTS"
+      },
+      "counters": {
+        "before": {
+          "knownRequiredFieldsMissing": 139,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 219,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 0,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        },
+        "after": {
+          "knownRequiredFieldsMissing": 139,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 219,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 0,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        },
+        "projectedAfterRerender": {
+          "knownRequiredFieldsMissing": 172,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 111,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 4,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        }
+      },
+      "countersThatMovedInTheAudit": [],
+      "countersProjectedToMoveOnRerender": {
+        "knownRequiredFieldsMissing": {
+          "before": 139,
+          "after": 139,
+          "projectedAfterRerender": 172,
+          "delta": 33
+        },
+        "unclassifiedBlanks": {
+          "before": 219,
+          "after": 219,
+          "projectedAfterRerender": 111,
+          "delta": -108
+        },
+        "requiredOptionsMissing": {
+          "before": 0,
+          "after": 0,
+          "projectedAfterRerender": 4,
+          "delta": 4
+        }
+      },
+      "blanksByDisposition": {
+        "before": {
+          "UNCLASSIFIED_BLANK": 219,
+          "KNOWN_FACT_NOT_WRITTEN": 139,
+          "PROTECTED_FIELD": 7
+        },
+        "projectedAfterRerender": {
+          "UNCLASSIFIED_BLANK": 111,
+          "KNOWN_FACT_NOT_WRITTEN": 172,
+          "NOT_APPLICABLE_ON_THIS_ROUTE": 26,
+          "PROTECTED_FIELD": 49,
+          "ROUTE_OPTION_NOT_SELECTED": 4,
+          "LATER_COMPLETION": 1,
+          "PARTICIPANT_ELECTION_GENUINE": 2
+        }
+      },
+      "blanksWithNoLabelAtAll": {
+        "before": 16,
+        "projectedAfterRerender": 0
+      },
+      "repeatingRowsInspectable": {
+        "before": 0,
+        "projectedAfterRerender": 0
+      }
+    },
+    {
+      "familyId": "ut_pet_acquittal-set",
+      "owningLane": "P1_UT_PETITION_EXPUNGE_COMPLETENESS",
+      "isTheHostItself": false,
+      "result": {
+        "before": "FAIL_MISSING_PREFILLS",
+        "after": "FAIL_MISSING_PREFILLS",
+        "projectedAfterRerender": "FAIL_MISSING_REQUIRED_FACTS"
+      },
+      "counters": {
+        "before": {
+          "knownRequiredFieldsMissing": 0,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 617,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 0,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        },
+        "after": {
+          "knownRequiredFieldsMissing": 0,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 617,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 0,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        },
+        "projectedAfterRerender": {
+          "knownRequiredFieldsMissing": 129,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 291,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 0,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        }
+      },
+      "countersThatMovedInTheAudit": [],
+      "countersProjectedToMoveOnRerender": {
+        "knownRequiredFieldsMissing": {
+          "before": 0,
+          "after": 0,
+          "projectedAfterRerender": 129,
+          "delta": 129
+        },
+        "unclassifiedBlanks": {
+          "before": 617,
+          "after": 617,
+          "projectedAfterRerender": 291,
+          "delta": -326
+        }
+      },
+      "blanksByDisposition": {
+        "before": {
+          "UNCLASSIFIED_BLANK": 617
+        },
+        "projectedAfterRerender": {
+          "KNOWN_FACT_NOT_WRITTEN": 129,
+          "NOT_APPLICABLE_ON_THIS_ROUTE": 7,
+          "PROTECTED_FIELD": 54,
+          "UNCLASSIFIED_BLANK": 291,
+          "PARTICIPANT_ELECTION_GENUINE": 136
+        }
+      },
+      "blanksWithNoLabelAtAll": {
+        "before": 431,
+        "projectedAfterRerender": 0
+      },
+      "repeatingRowsInspectable": {
+        "before": 0,
+        "projectedAfterRerender": 3
+      }
+    },
+    {
+      "familyId": "ut_pet_conviction-set",
+      "owningLane": "P1_UT_PETITION_EXPUNGE_COMPLETENESS",
+      "isTheHostItself": false,
+      "result": {
+        "before": "FAIL_MISSING_PREFILLS",
+        "after": "FAIL_MISSING_PREFILLS",
+        "projectedAfterRerender": "FAIL_MISSING_REQUIRED_FACTS"
+      },
+      "counters": {
+        "before": {
+          "knownRequiredFieldsMissing": 0,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 617,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 0,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        },
+        "after": {
+          "knownRequiredFieldsMissing": 0,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 617,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 0,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        },
+        "projectedAfterRerender": {
+          "knownRequiredFieldsMissing": 129,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 291,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 0,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        }
+      },
+      "countersThatMovedInTheAudit": [],
+      "countersProjectedToMoveOnRerender": {
+        "knownRequiredFieldsMissing": {
+          "before": 0,
+          "after": 0,
+          "projectedAfterRerender": 129,
+          "delta": 129
+        },
+        "unclassifiedBlanks": {
+          "before": 617,
+          "after": 617,
+          "projectedAfterRerender": 291,
+          "delta": -326
+        }
+      },
+      "blanksByDisposition": {
+        "before": {
+          "UNCLASSIFIED_BLANK": 617
+        },
+        "projectedAfterRerender": {
+          "KNOWN_FACT_NOT_WRITTEN": 129,
+          "NOT_APPLICABLE_ON_THIS_ROUTE": 7,
+          "PROTECTED_FIELD": 54,
+          "UNCLASSIFIED_BLANK": 291,
+          "PARTICIPANT_ELECTION_GENUINE": 136
+        }
+      },
+      "blanksWithNoLabelAtAll": {
+        "before": 431,
+        "projectedAfterRerender": 0
+      },
+      "repeatingRowsInspectable": {
+        "before": 0,
+        "projectedAfterRerender": 3
+      }
+    },
+    {
+      "familyId": "ut_pet_dismissed_with_prejudice-set",
+      "owningLane": "P1_UT_PETITION_EXPUNGE_COMPLETENESS",
+      "isTheHostItself": false,
+      "result": {
+        "before": "FAIL_MISSING_PREFILLS",
+        "after": "FAIL_MISSING_PREFILLS",
+        "projectedAfterRerender": "FAIL_MISSING_REQUIRED_FACTS"
+      },
+      "counters": {
+        "before": {
+          "knownRequiredFieldsMissing": 0,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 617,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 0,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        },
+        "after": {
+          "knownRequiredFieldsMissing": 0,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 617,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 0,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        },
+        "projectedAfterRerender": {
+          "knownRequiredFieldsMissing": 129,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 291,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 0,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        }
+      },
+      "countersThatMovedInTheAudit": [],
+      "countersProjectedToMoveOnRerender": {
+        "knownRequiredFieldsMissing": {
+          "before": 0,
+          "after": 0,
+          "projectedAfterRerender": 129,
+          "delta": 129
+        },
+        "unclassifiedBlanks": {
+          "before": 617,
+          "after": 617,
+          "projectedAfterRerender": 291,
+          "delta": -326
+        }
+      },
+      "blanksByDisposition": {
+        "before": {
+          "UNCLASSIFIED_BLANK": 617
+        },
+        "projectedAfterRerender": {
+          "KNOWN_FACT_NOT_WRITTEN": 129,
+          "NOT_APPLICABLE_ON_THIS_ROUTE": 7,
+          "PROTECTED_FIELD": 54,
+          "UNCLASSIFIED_BLANK": 291,
+          "PARTICIPANT_ELECTION_GENUINE": 136
+        }
+      },
+      "blanksWithNoLabelAtAll": {
+        "before": 431,
+        "projectedAfterRerender": 0
+      },
+      "repeatingRowsInspectable": {
+        "before": 0,
+        "projectedAfterRerender": 3
+      }
+    },
+    {
+      "familyId": "ut_pet_dismissed_without_prejudice-set",
+      "owningLane": "P1_UT_PETITION_EXPUNGE_COMPLETENESS",
+      "isTheHostItself": false,
+      "result": {
+        "before": "FAIL_MISSING_PREFILLS",
+        "after": "FAIL_MISSING_PREFILLS",
+        "projectedAfterRerender": "FAIL_MISSING_REQUIRED_FACTS"
+      },
+      "counters": {
+        "before": {
+          "knownRequiredFieldsMissing": 0,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 617,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 0,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        },
+        "after": {
+          "knownRequiredFieldsMissing": 0,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 617,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 0,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        },
+        "projectedAfterRerender": {
+          "knownRequiredFieldsMissing": 129,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 291,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 0,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        }
+      },
+      "countersThatMovedInTheAudit": [],
+      "countersProjectedToMoveOnRerender": {
+        "knownRequiredFieldsMissing": {
+          "before": 0,
+          "after": 0,
+          "projectedAfterRerender": 129,
+          "delta": 129
+        },
+        "unclassifiedBlanks": {
+          "before": 617,
+          "after": 617,
+          "projectedAfterRerender": 291,
+          "delta": -326
+        }
+      },
+      "blanksByDisposition": {
+        "before": {
+          "UNCLASSIFIED_BLANK": 617
+        },
+        "projectedAfterRerender": {
+          "KNOWN_FACT_NOT_WRITTEN": 129,
+          "NOT_APPLICABLE_ON_THIS_ROUTE": 7,
+          "PROTECTED_FIELD": 54,
+          "UNCLASSIFIED_BLANK": 291,
+          "PARTICIPANT_ELECTION_GENUINE": 136
+        }
+      },
+      "blanksWithNoLabelAtAll": {
+        "before": 431,
+        "projectedAfterRerender": 0
+      },
+      "repeatingRowsInspectable": {
+        "before": 0,
+        "projectedAfterRerender": 3
+      }
+    },
+    {
+      "familyId": "ut_pet_limitations-set",
+      "owningLane": "P1_UT_PETITION_EXPUNGE_COMPLETENESS",
+      "isTheHostItself": false,
+      "result": {
+        "before": "FAIL_MISSING_PREFILLS",
+        "after": "FAIL_MISSING_PREFILLS",
+        "projectedAfterRerender": "FAIL_MISSING_REQUIRED_FACTS"
+      },
+      "counters": {
+        "before": {
+          "knownRequiredFieldsMissing": 0,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 617,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 0,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        },
+        "after": {
+          "knownRequiredFieldsMissing": 0,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 617,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 0,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        },
+        "projectedAfterRerender": {
+          "knownRequiredFieldsMissing": 129,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 291,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 0,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        }
+      },
+      "countersThatMovedInTheAudit": [],
+      "countersProjectedToMoveOnRerender": {
+        "knownRequiredFieldsMissing": {
+          "before": 0,
+          "after": 0,
+          "projectedAfterRerender": 129,
+          "delta": 129
+        },
+        "unclassifiedBlanks": {
+          "before": 617,
+          "after": 617,
+          "projectedAfterRerender": 291,
+          "delta": -326
+        }
+      },
+      "blanksByDisposition": {
+        "before": {
+          "UNCLASSIFIED_BLANK": 617
+        },
+        "projectedAfterRerender": {
+          "KNOWN_FACT_NOT_WRITTEN": 129,
+          "NOT_APPLICABLE_ON_THIS_ROUTE": 7,
+          "PROTECTED_FIELD": 54,
+          "UNCLASSIFIED_BLANK": 291,
+          "PARTICIPANT_ELECTION_GENUINE": 136
+        }
+      },
+      "blanksWithNoLabelAtAll": {
+        "before": 431,
+        "projectedAfterRerender": 0
+      },
+      "repeatingRowsInspectable": {
+        "before": 0,
+        "projectedAfterRerender": 3
+      }
+    },
+    {
+      "familyId": "ut_pet_no_charges-set",
+      "owningLane": "P1_UT_PETITION_EXPUNGE_COMPLETENESS",
+      "isTheHostItself": false,
+      "result": {
+        "before": "FAIL_MISSING_PREFILLS",
+        "after": "FAIL_MISSING_PREFILLS",
+        "projectedAfterRerender": "FAIL_MISSING_REQUIRED_FACTS"
+      },
+      "counters": {
+        "before": {
+          "knownRequiredFieldsMissing": 0,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 617,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 0,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        },
+        "after": {
+          "knownRequiredFieldsMissing": 0,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 617,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 0,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        },
+        "projectedAfterRerender": {
+          "knownRequiredFieldsMissing": 129,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 291,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 0,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        }
+      },
+      "countersThatMovedInTheAudit": [],
+      "countersProjectedToMoveOnRerender": {
+        "knownRequiredFieldsMissing": {
+          "before": 0,
+          "after": 0,
+          "projectedAfterRerender": 129,
+          "delta": 129
+        },
+        "unclassifiedBlanks": {
+          "before": 617,
+          "after": 617,
+          "projectedAfterRerender": 291,
+          "delta": -326
+        }
+      },
+      "blanksByDisposition": {
+        "before": {
+          "UNCLASSIFIED_BLANK": 617
+        },
+        "projectedAfterRerender": {
+          "KNOWN_FACT_NOT_WRITTEN": 129,
+          "NOT_APPLICABLE_ON_THIS_ROUTE": 7,
+          "PROTECTED_FIELD": 54,
+          "UNCLASSIFIED_BLANK": 291,
+          "PARTICIPANT_ELECTION_GENUINE": 136
+        }
+      },
+      "blanksWithNoLabelAtAll": {
+        "before": 431,
+        "projectedAfterRerender": 0
+      },
+      "repeatingRowsInspectable": {
+        "before": 0,
+        "projectedAfterRerender": 3
+      }
+    },
+    {
+      "familyId": "ut_pet_traffic-set",
+      "owningLane": "P1_UT_PETITION_EXPUNGE_COMPLETENESS",
+      "isTheHostItself": false,
+      "result": {
+        "before": "FAIL_MISSING_PREFILLS",
+        "after": "FAIL_MISSING_PREFILLS",
+        "projectedAfterRerender": "FAIL_MISSING_REQUIRED_FACTS"
+      },
+      "counters": {
+        "before": {
+          "knownRequiredFieldsMissing": 0,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 296,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 0,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        },
+        "after": {
+          "knownRequiredFieldsMissing": 0,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 296,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 0,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        },
+        "projectedAfterRerender": {
+          "knownRequiredFieldsMissing": 57,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 123,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 0,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        }
+      },
+      "countersThatMovedInTheAudit": [],
+      "countersProjectedToMoveOnRerender": {
+        "knownRequiredFieldsMissing": {
+          "before": 0,
+          "after": 0,
+          "projectedAfterRerender": 57,
+          "delta": 57
+        },
+        "unclassifiedBlanks": {
+          "before": 296,
+          "after": 296,
+          "projectedAfterRerender": 123,
+          "delta": -173
+        }
+      },
+      "blanksByDisposition": {
+        "before": {
+          "UNCLASSIFIED_BLANK": 296
+        },
+        "projectedAfterRerender": {
+          "UNCLASSIFIED_BLANK": 123,
+          "KNOWN_FACT_NOT_WRITTEN": 57,
+          "PROTECTED_FIELD": 20,
+          "PARTICIPANT_ELECTION_GENUINE": 91,
+          "NOT_APPLICABLE_ON_THIS_ROUTE": 5
+        }
+      },
+      "blanksWithNoLabelAtAll": {
+        "before": 202,
+        "projectedAfterRerender": 0
+      },
+      "repeatingRowsInspectable": {
+        "before": 0,
+        "projectedAfterRerender": 4
+      }
+    },
+    {
+      "familyId": "wv_conv_multiple_misdemeanors-set",
+      "owningLane": "P3_WV_CONVICTION_COMPLETENESS",
+      "isTheHostItself": false,
+      "result": {
+        "before": "FAIL_MISSING_PREFILLS",
+        "after": "FAIL_MISSING_PREFILLS",
+        "projectedAfterRerender": "FAIL_MISSING_REQUIRED_FACTS"
+      },
+      "counters": {
+        "before": {
+          "knownRequiredFieldsMissing": 0,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 128,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 0,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        },
+        "after": {
+          "knownRequiredFieldsMissing": 0,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 128,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 0,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        },
+        "projectedAfterRerender": {
+          "knownRequiredFieldsMissing": 23,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 71,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 2,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        }
+      },
+      "countersThatMovedInTheAudit": [],
+      "countersProjectedToMoveOnRerender": {
+        "knownRequiredFieldsMissing": {
+          "before": 0,
+          "after": 0,
+          "projectedAfterRerender": 23,
+          "delta": 23
+        },
+        "unclassifiedBlanks": {
+          "before": 128,
+          "after": 128,
+          "projectedAfterRerender": 71,
+          "delta": -57
+        },
+        "requiredOptionsMissing": {
+          "before": 0,
+          "after": 0,
+          "projectedAfterRerender": 2,
+          "delta": 2
+        }
+      },
+      "blanksByDisposition": {
+        "before": {
+          "UNCLASSIFIED_BLANK": 128
+        },
+        "projectedAfterRerender": {
+          "NOT_APPLICABLE_ON_THIS_ROUTE": 2,
+          "UNCLASSIFIED_BLANK": 71,
+          "KNOWN_FACT_NOT_WRITTEN": 23,
+          "PROTECTED_FIELD": 30,
+          "ROUTE_OPTION_NOT_SELECTED": 2
+        }
+      },
+      "blanksWithNoLabelAtAll": {
+        "before": 0,
+        "projectedAfterRerender": 0
+      },
+      "repeatingRowsInspectable": {
+        "before": 0,
+        "projectedAfterRerender": 4
+      }
+    },
+    {
+      "familyId": "wv_conv_single_misdemeanor-set",
+      "owningLane": "P3_WV_CONVICTION_COMPLETENESS",
+      "isTheHostItself": false,
+      "result": {
+        "before": "FAIL_MISSING_PREFILLS",
+        "after": "FAIL_MISSING_PREFILLS",
+        "projectedAfterRerender": "FAIL_MISSING_REQUIRED_FACTS"
+      },
+      "counters": {
+        "before": {
+          "knownRequiredFieldsMissing": 0,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 272,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 0,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        },
+        "after": {
+          "knownRequiredFieldsMissing": 0,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 272,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 0,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        },
+        "projectedAfterRerender": {
+          "knownRequiredFieldsMissing": 26,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 165,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 2,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        }
+      },
+      "countersThatMovedInTheAudit": [],
+      "countersProjectedToMoveOnRerender": {
+        "knownRequiredFieldsMissing": {
+          "before": 0,
+          "after": 0,
+          "projectedAfterRerender": 26,
+          "delta": 26
+        },
+        "unclassifiedBlanks": {
+          "before": 272,
+          "after": 272,
+          "projectedAfterRerender": 165,
+          "delta": -107
+        },
+        "requiredOptionsMissing": {
+          "before": 0,
+          "after": 0,
+          "projectedAfterRerender": 2,
+          "delta": 2
+        }
+      },
+      "blanksByDisposition": {
+        "before": {
+          "UNCLASSIFIED_BLANK": 272
+        },
+        "projectedAfterRerender": {
+          "NOT_APPLICABLE_ON_THIS_ROUTE": 6,
+          "UNCLASSIFIED_BLANK": 165,
+          "KNOWN_FACT_NOT_WRITTEN": 26,
+          "PROTECTED_FIELD": 72,
+          "ROUTE_OPTION_NOT_SELECTED": 2,
+          "LATER_COMPLETION": 1
+        }
+      },
+      "blanksWithNoLabelAtAll": {
+        "before": 0,
+        "projectedAfterRerender": 0
+      },
+      "repeatingRowsInspectable": {
+        "before": 0,
+        "projectedAfterRerender": 4
+      }
+    }
+  ]
+}
