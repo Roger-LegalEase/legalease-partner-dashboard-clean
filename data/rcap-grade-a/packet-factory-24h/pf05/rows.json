@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-rows/v1",
+  "assignment": "PF05",
+  "baseSha": "8b0bf43758838c98eafd712944b702e348cccf5d",
+  "statusVocabulary": ["COMPLETED", "STOPPED"],
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "rows": [
+    {
+      "itemId": "az_record_sealing_arrest_no_charges-set",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_LEGAL_INPUT",
+      "preflight": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "reason": "The committed participant treatment says the correct filing court requires a case-by-case reading of the disposition or initial-appearance record, including whether a justice-court complaint proceeded by information in superior court. The packet factory may not guess that route-determining legal application.",
+      "evidence": ["data/rcap-all50/terminalization-treatments/az.json#trackId=az_record_sealing_arrest_no_charges"],
+      "counters": null,
+      "artifactsProduced": []
+    },
+    {
+      "itemId": "az_record_sealing_dismissal_not_guilty-set",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_LEGAL_INPUT",
+      "preflight": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "reason": "The committed participant treatment says the correct filing court must be determined from the charging-document history and refuses automation where that record does not make the venue clear. The packet factory may not choose the court or route on an inference.",
+      "evidence": ["data/rcap-all50/terminalization-treatments/az.json#trackId=az_record_sealing_dismissal_not_guilty"],
+      "counters": null,
+      "artifactsProduced": []
+    },
+    {
+      "itemId": "mt_deferred_dismissal-set",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_SOURCE",
+      "preflight": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 13/14",
+      "failedCheck": "family_sources_bind",
+      "sourceBindingFailures": ["official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX"],
+      "reason": "The assigned official source does not resolve to exactly one committed corpus-index entry.",
+      "counters": null,
+      "artifactsProduced": []
+    },
+    {
+      "itemId": "or_contempt_setaside-set",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_LEGAL_INPUT",
+      "preflight": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "reason": "The committed Oregon first-packet evidence identifies the legacy or_contempt_setaside track as a naming artifact that a reviewer must reconcile before it can be treated as the ORS 137.225(1)(a) route. The packet factory may not silently resolve that route identity.",
+      "evidence": ["scripts/verify-rcap-lane-i-oregon-first-packet.mjs#packet selection rationale"],
+      "counters": null,
+      "artifactsProduced": []
+    }
+  ]
+}
