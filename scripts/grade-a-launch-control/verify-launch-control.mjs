@@ -3,7 +3,7 @@
 //
 //   node scripts/grade-a-launch-control/verify-launch-control.mjs [--mutations]
 //
-// Forty-five refusals. Each is a way the control plane could look healthy while
+// Forty-eight refusals. Each is a way the control plane could look healthy while
 // being wrong, and each has cost something in this sprint or in the one before
 // it. A checkpoint that only reports numbers tells you what it was told; this
 // asks whether it was told the truth.
@@ -33,6 +33,7 @@ const C11_STOPS = "data/rcap-grade-a/launch-control/C11_STOP_CLASSIFICATION.json
 const WAVE2 = "data/rcap-grade-a/launch-control/WAVE_2_ASSIGNMENTS.json";
 const COMPLETENESS = "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json";
 const REPAIR_PLAN = "data/rcap-grade-a/packet-completeness/COMPLETENESS_REPAIR_PLAN.json";
+const REPAIR_WAVE = "data/rcap-grade-a/launch-control/COMPLETENESS_REPAIR_WAVE.json";
 // Ten committed binaries already matched a private-corpus SHA-256 before the
 // packet factory returned, under hard-forms/*/evidence/ and rcap-codex source
 // receipts. They are a governance discrepancy for Roger, not something to remove
@@ -69,6 +70,7 @@ const c11Stops = read(C11_STOPS);
 const wave2 = fs.existsSync(path.join(ROOT, WAVE2)) ? read(WAVE2) : null;
 const completeness = read(COMPLETENESS);
 const repairPlan = read(REPAIR_PLAN);
+const repairWave = fs.existsSync(path.join(ROOT, REPAIR_WAVE)) ? read(REPAIR_WAVE) : null;
 
 /** Everything an assignment owns, whatever shape its rows take. */
 const rowsOf = (a) => [
@@ -604,6 +606,57 @@ if (wave2) {
     `S1 owns ${sharedFiles.length} runner(s); R8 holds ${r8HoldsShared.length}; R7/R8 overlap ${overlap.length}`);
 }
 
+// 29. The completeness repair addendum, and its two ways of going wrong.
+if (repairWave && wave2) {
+  // Nothing in it may reach an S1 runner, own an S1 or R8 path, or collide with
+  // the parent manifest it is subordinate to.
+  const s1Files = new Set(wave2.sharedRepairSurface.runners.map((r) => r.file));
+  const r8 = wave2.assignments.find((a) => a.assignmentId === "R8_COMPLETENESS_REPAIR_PRIORITY_FOUR");
+  const r8Paths = (r8?.ownedPaths ?? []).map((p) => p.replace(/\/?\*\*$/, ""));
+  const parentPaths = wave2.assignments.flatMap((a) => a.ownedPaths.map((p) => p.split("(")[0].trim().replace(/\/?\*\*$/, "")));
+  const violations = [];
+  const seenItems = new Map();
+  for (const a of repairWave.assignments) {
+    for (const p of a.ownedPaths) {
+      const root = p.replace(/\/?\*\*$/, "");
+      if (s1Files.has(root)) violations.push(`${a.assignmentId} owns S1 runner ${root}`);
+      if (r8Paths.some((r) => root === r || root.startsWith(`${r}/`))) violations.push(`${a.assignmentId} owns R8 path ${root}`);
+      for (const owned of parentPaths) {
+        if (root === owned || root.startsWith(`${owned}/`) || owned.startsWith(`${root}/`)) violations.push(`${a.assignmentId} collides with the parent manifest at ${root}`);
+      }
+    }
+    for (const item of a.items) {
+      if (seenItems.has(item)) violations.push(`${item} is claimed twice`);
+      seenItems.set(item, a.assignmentId);
+      if (repairPlan.passRevocation.families.includes(item)) violations.push(`${a.assignmentId} holds R8 family ${item}`);
+    }
+  }
+  check("A46", "the repair addendum touches no S1 runner, no R8 family and no parent-owned path",
+    violations.length === 0, violations.slice(0, 3).join(" | "));
+
+  // A path owned and prohibited at once tells the worker two things. This fired
+  // on the first generation of this very wave.
+  const contradictions = [];
+  for (const a of repairWave.assignments) {
+    const owned = new Set(a.ownedPaths.map((p) => p.split("(")[0].trim().replace(/\/?\*\*$/, "")));
+    const prohibited = new Set(a.prohibitedPaths.map((p) => p.replace(/\/?\*\*$/, "")));
+    for (const p of owned) if (prohibited.has(p)) contradictions.push(`${a.assignmentId}:${p}`);
+  }
+  // And a shared file may only be owned when the import graph proves exclusivity.
+  const wrongShared = repairWave.assignments.flatMap((a) =>
+    a.sharedFileAnalysis.filter((sf) => sf.ownable && sf.importersOutsideLane.length > 0).map((sf) => `${a.assignmentId}:${sf.file}`));
+  check("A47", "no repair lane owns a path it also prohibits, and a shared file is owned only when the import graph proves it exclusive",
+    contradictions.length === 0 && wrongShared.length === 0,
+    [...contradictions, ...wrongShared].slice(0, 3).join(" | "));
+
+  const dispatched = repairWave.assignments.reduce((n, a) => n + a.items.length, 0);
+  check("A48", "every S1-unaffected built family is dispatched exactly once, across four to six lanes",
+    dispatched === repairWave.s1ExposureDerivation.builtFamiliesUnaffected
+    && repairWave.assignments.length >= 4 && repairWave.assignments.length <= 6
+    && seenItems.size === dispatched,
+    `${dispatched} dispatched of ${repairWave.s1ExposureDerivation.builtFamiliesUnaffected} unaffected, across ${repairWave.assignments.length} lane(s)`);
+}
+
 console.log(`\n${results.length - failures}/${results.length} checkpoint checks passed.`);
 
 if (MUTATIONS) {
@@ -613,7 +666,8 @@ if (MUTATIONS) {
     review: path.join(ROOT, WAVE_REVIEW), integration: path.join(ROOT, INTEGRATION),
     residual: path.join(ROOT, RESIDUAL), contract: path.join(ROOT, CONTRACT),
     counsel: path.join(ROOT, COUNSEL), c11: path.join(ROOT, C11), wave2: path.join(ROOT, WAVE2),
-    completeness: path.join(ROOT, COMPLETENESS), repairPlan: path.join(ROOT, REPAIR_PLAN)
+    completeness: path.join(ROOT, COMPLETENESS), repairPlan: path.join(ROOT, REPAIR_PLAN),
+    repairWave: path.join(ROOT, REPAIR_WAVE)
   };
   const originals = Object.fromEntries(Object.entries(targets).map(([k, p]) => [k, fs.readFileSync(p)]));
   const cases = [
@@ -654,6 +708,11 @@ if (MUTATIONS) {
     { on: "wave2", name: "a verifier given a repair path is caught", mutate: (j) => { j.assignments.find((a) => a.lane === "independent-verification").ownedPaths.push("data/rcap-all50/overlays/census-v1/**"); return j; } },
     { on: "wave2", name: "a repair lane grabbing a shared runner is caught", mutate: (j) => { j.assignments.find((a) => a.assignmentId === "R8_COMPLETENESS_REPAIR_PRIORITY_FOUR").ownedPaths.push(j.sharedRepairSurface.runners[0].file); return j; } },
     { on: "wave2", name: "a repair running before the shared fix is caught", mutate: (j) => { j.assignments.find((a) => a.assignmentId === "R8_COMPLETENESS_REPAIR_PRIORITY_FOUR").dependsOn = []; return j; } },
+    { on: "repairWave", name: "a repair lane grabbing an S1 runner is caught", mutate: (j) => { j.assignments[0].ownedPaths.push("scripts/build-census-v1-nj_arrest_no_conviction-set.mjs"); return j; } },
+    { on: "repairWave", name: "a repair lane colliding with the parent manifest is caught", mutate: (j) => { j.assignments[0].ownedPaths.push("data/rcap-all50/overlays/census-v1/ca/ca-1203-43-set--official-pdf-fill/**"); return j; } },
+    { on: "repairWave", name: "a path owned and prohibited at once is caught", mutate: (j) => { const a = j.assignments[0]; a.ownedPaths.push(a.prohibitedPaths[0]); return j; } },
+    { on: "repairWave", name: "a non-exclusive shared file declared ownable is caught", mutate: (j) => { const a = j.assignments.find((x) => x.sharedFileAnalysis.some((s) => !s.ownable)); a.sharedFileAnalysis.find((s) => !s.ownable).ownable = true; return j; } },
+    { on: "repairWave", name: "an unaffected family dispatched to nobody is caught", mutate: (j) => { j.assignments[0].items.pop(); return j; } },
     { on: "wave2", name: "a review package prepared before an independent PASS is caught", mutate: (j) => { j.outputLegalReview.batchesPrepared = 6; return j; } },
     { on: "wave2", name: "a verification shard that drops the completeness obligations is caught", mutate: (j) => { const s = j.assignments.find((a) => a.lane === "independent-verification"); s.proofObligations = s.proofObligations.filter((o) => !o.startsWith("COMPLETENESS:")); return j; } },
     { on: "completeness", name: "a family reported complete with a nonzero counter is caught", mutate: (j) => { j.results[0].result = "PASS_COMPLETE"; return j; } },
