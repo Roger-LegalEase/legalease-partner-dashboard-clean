@@ -144,6 +144,7 @@ const mustReturnFor = (lane) => {
  */
 const STATES = [
   "SOURCE_BLOCKED", "SOURCE_READY", "LEGAL_BLOCKED", "ASSIGNED_TO_BUILD", "BUILD_IN_PROGRESS",
+  "BUILT_RASTER_PENDING",
   "PASS_COMPLETE", "VERIFY_PENDING", "VERIFYING", "FAIL_REPAIR_REQUIRED",
   "VERIFIED_PASS", "LEGAL_REVIEW_READY", "LEGAL_APPROVED", "PRODUCT_PATH_PENDING",
   "COMPLETE_PACKET_PROVEN", "LEGITIMATE_GUIDANCE_ONLY"
@@ -819,6 +820,10 @@ const CLOUD_PROHIBITED = ["git fetch", "git pull", "git push", "gh ", "git workt
  * the outcome without naming the means is an invitation to improvise.
  */
 const RASTER_RULE = [
+  "**A missing Chromium is not a source blocker and it is not a legal blocker.** ENV-RAS01 established that this container cannot resolve or fetch one -- the Playwright CDN answers HTTP 403 from inside Codex. That is an environment fact about the container, not a fact about the packet, and classifying it as BLOCKED_SOURCE would put a packet defect on a record that has none.",
+  "Finish every nonvisual obligation. Record the exact SHA-256 of the canonical and boundary PDFs you produced. Return the family `BUILT_RASTER_PENDING`.",
+  "`BUILT_RASTER_PENDING` is a factory workflow state and not a launch verdict. It zeroes nothing and waives nothing: visualDefects stays whatever it is, because it records that nobody has looked, not that there is nothing to see. **No packet becomes PASS_COMPLETE without RASTER_PASS.**",
+  "The render happens in `.github/workflows/rcap-packet-raster-acceptance-batch.yml` on a browser-equipped runner, against the exact bytes your hashes pin. RASTER_PASS sends the family to independent verification; RASTER_FAIL sends it to FIX.",
   "Page rasters go through `scripts/lib/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.",
   "NEVER `pdftoppm`. NEVER `apt-get`. NEVER `playwright install`. The environment refuses package installation and a Poppler fallback is not a fallback, it is a different measurement.",
   "The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after."

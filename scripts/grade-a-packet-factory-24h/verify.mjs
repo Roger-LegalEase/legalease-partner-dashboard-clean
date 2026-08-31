@@ -342,6 +342,55 @@ function run() {
     returnedVerdictProblems.length === 0,
     `${returnedVerdictProblems.length} problem(s): ${returnedVerdictProblems.slice(0, 3).join(" | ")}`);
 
+  /*
+   * 30. The visual gate is moved, not weakened.
+   *
+   * Every packet-build lane stopped on a browser it could not obtain, and the
+   * cheap fix -- let a packet pass without its rasters -- would have made
+   * PASS_COMPLETE mean less while looking like progress. So the render moved to
+   * a runner that has a browser, and this asks the three things that make that
+   * a move rather than a waiver: no family is called proven without a
+   * RASTER_PASS; the queue that carries the work exists and pins the exact PDF
+   * bytes by SHA-256; and the builder prompts say plainly that a missing
+   * Chromium is an environment fact, not a source or legal defect of the packet.
+   */
+  const rasterProblems2 = [];
+  const rq = (() => { try { return JSON.parse(fs.readFileSync(path.join(ROOT, DIR, "RASTER_QUEUE.json"), "utf8")); } catch { return null; } })();
+  if (!rq) rasterProblems2.push("no raster queue; the visual gate has nowhere to run and no record of what it owes");
+  else {
+    if (!Array.isArray(rq.rows) || rq.rows.length === 0) rasterProblems2.push("the raster queue holds no rows");
+    for (const r of rq.rows ?? []) {
+      if (!/^[0-9a-f]{64}$/.test(String(r.canonicalPdfSha256 ?? ""))) rasterProblems2.push(`${r.familyId} queues a canonical PDF with no exact hash`);
+      if (!/^[0-9a-f]{64}$/.test(String(r.boundaryPdfSha256 ?? ""))) rasterProblems2.push(`${r.familyId} queues a boundary PDF with no exact hash`);
+      if (!(rq.rasterStateVocabulary ?? []).includes(r.currentRasterState)) rasterProblems2.push(`${r.familyId} is in undeclared raster state ${r.currentRasterState}`);
+    }
+    // One family, one lane. Two readers writing one verdict is a disagreement
+    // nobody adjudicates.
+    const owners = new Map();
+    for (const r of rq.rows ?? []) {
+      if (owners.has(r.familyId)) rasterProblems2.push(`${r.familyId} is queued to ${owners.get(r.familyId)} and ${r.nextOwner}`);
+      owners.set(r.familyId, r.nextOwner);
+    }
+    const passed = new Set((rq.rows ?? []).filter((r) => r.currentRasterState === "RASTER_PASS").map((r) => r.familyId));
+    const PROVEN = new Set(["PASS_COMPLETE", "VERIFIED_PASS", "LEGAL_REVIEW_READY", "LEGAL_APPROVED", "PRODUCT_PATH_PENDING", "COMPLETE_PACKET_PROVEN"]);
+    for (const f of master.families) {
+      if (PROVEN.has(f.state) && !passed.has(f.familyId)) {
+        rasterProblems2.push(`${f.familyId} is ${f.state} with no RASTER_PASS; the visual gate never ran on it`);
+      }
+    }
+  }
+  const pfPromptText = a.filter((x) => x.lane === "packet-build")
+    .map((x) => { try { return fs.readFileSync(path.join(ROOT, x.promptFile), "utf8"); } catch { return ""; } });
+  if (pfPromptText.length === 0) rasterProblems2.push("no builder prompt to read; this check has no subject");
+  for (const [i, t] of pfPromptText.entries()) {
+    if (!/not a source blocker and it is not a legal blocker/i.test(t)) rasterProblems2.push(`builder prompt ${i + 1} does not say a missing Chromium is an environment fact rather than a packet defect`);
+    if (!/BUILT_RASTER_PENDING/.test(t)) rasterProblems2.push(`builder prompt ${i + 1} does not name BUILT_RASTER_PENDING`);
+    if (!/No packet becomes PASS_COMPLETE without RASTER_PASS/i.test(t)) rasterProblems2.push(`builder prompt ${i + 1} does not state that RASTER_PASS is required for PASS_COMPLETE`);
+  }
+  check("F30", "the visual gate is moved to a browser-equipped runner and not weakened: exact bytes queued, and no family proven without RASTER_PASS",
+    rasterProblems2.length === 0,
+    `${rq?.rows?.length ?? 0} famil(ies) queued; ${rasterProblems2.length} problem(s): ${rasterProblems2.slice(0, 3).join(" | ")}`);
+
   check("F14", "every builder prompt carries task isolation and the row-stop contract",
     pfPrompts.length === pf.length && missingClauses.length === 0,
     `${pfPrompts.length}/${pf.length} prompt(s); ${missingClauses.length} missing clause(s): ${missingClauses.slice(0, 3).join(" | ")}`);
@@ -730,7 +779,8 @@ if (MUTATIONS) {
      * F14 and F25 all report ok on a 27/27 gate. */
     repairPrompt: path.join(ROOT, PROMPTS, "washington-repair/WAR03_WA_RERENDER_1.md"),
     verifierReturns: path.join(ROOT, DIR, "VERIFIER_RETURNS.json"),
-    washingtonRepair: path.join(ROOT, DIR, "WASHINGTON_REPAIR.json") };
+    washingtonRepair: path.join(ROOT, DIR, "WASHINGTON_REPAIR.json"),
+    rasterQueue: path.join(ROOT, DIR, "RASTER_QUEUE.json") };
   const originals = Object.fromEntries(Object.entries(targets).map(([k, p]) => [k, fs.readFileSync(p)]));
   const promptTarget = path.join(ROOT, PROMPTS, "PF01.md");
   const originalPrompt = fs.readFileSync(promptTarget);
@@ -806,7 +856,13 @@ if (MUTATIONS) {
     { on: "master", id: "F29", name: "a failed family the queue calls proven is caught", mutate: (j) => { const vr = JSON.parse(fs.readFileSync(path.join(ROOT, DIR, "VERIFIER_RETURNS.json"), "utf8")); const f = j.families.find((x) => x.familyId === vr.failRepairRequiredFamilies[0]); f.state = "VERIFIED_PASS"; return j; } },
     { on: "washingtonRepair", id: "F29", name: "a repair dispatch that drops a failed family is caught", mutateText: (t) => { const vr = JSON.parse(fs.readFileSync(path.join(ROOT, DIR, "VERIFIER_RETURNS.json"), "utf8")); return t.replaceAll(vr.failRepairRequiredFamilies[0], "some-other-family-set"); } },
     { on: "washingtonRepair", id: "F29", name: "a repair dispatch that names no exact obligation is caught", mutateText: (t) => t.replaceAll("feeAndWaiver", "incomplete") },
-    { on: "verifierReturns", id: "F29", name: "an extraction with no verdicts at all is caught", mutate: (j) => { j.rows = []; j.failRepairRequiredFamilies = []; return j; } }
+    { on: "verifierReturns", id: "F29", name: "an extraction with no verdicts at all is caught", mutate: (j) => { j.rows = []; j.failRepairRequiredFamilies = []; return j; } },
+    /* F30. The three ways moving the visual gate could quietly become waiving it. */
+    { on: "rasterQueue", id: "F30", name: "a queued PDF with no exact hash is caught", mutate: (j) => { j.rows[0].canonicalPdfSha256 = null; return j; } },
+    { on: "rasterQueue", id: "F30", name: "an undeclared raster state is caught", mutate: (j) => { j.rows[0].currentRasterState = "RASTER_PROBABLY_FINE"; return j; } },
+    { on: "rasterQueue", id: "F30", name: "one family queued to two lanes is caught", mutate: (j) => { j.rows.push({ ...j.rows[0], nextOwner: "RAS04" }); return j; } },
+    { on: "master", id: "F30", name: "a family called proven with no RASTER_PASS is caught", mutate: (j) => { const f = j.families.find((x) => x.state === "VERIFY_PENDING"); f.state = "PASS_COMPLETE"; return j; } },
+    { on: "prompt", id: "F30", name: "a builder prompt that drops the not-a-blocker rule is caught", mutateText: (t) => t.replace(/not a source blocker and it is not a legal blocker/i, "a blocker") }
   ];
   let undetected = 0;
   try {
