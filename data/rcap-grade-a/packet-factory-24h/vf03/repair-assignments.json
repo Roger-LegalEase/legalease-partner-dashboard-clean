@@ -1,0 +1,20 @@
+{
+  "repairAssignments": [
+    {
+      "itemId": "vt_seal_pardon-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "decisiveDefect": "Participant instructions omit the filing fee statement and omit both the required service recipient and service method.",
+      "failedProofObligations": [
+        {
+          "obligation": "feeAndWaiver",
+          "finding": "The included waiver route is explained, but the filing fee is not stated and the instructions do not tell the participant that an amount must be confirmed with the court."
+        },
+        {
+          "obligation": "service",
+          "finding": "The stipulation-signature instruction is not a service instruction; the packet identifies neither who must be served nor how service must be completed."
+        }
+      ],
+      "repairScope": "Through a separately assigned repair lane, add source-supported filing-fee and service directions to participant-instructions.md; do not infer those legal requirements from this verifier's finding."
+    }
+  ]
+}
