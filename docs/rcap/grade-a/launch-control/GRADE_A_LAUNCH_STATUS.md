@@ -9,7 +9,7 @@ _Rendered from `GRADE_A_LAUNCH_CONTROL.json` by the same generator, in the same 
 | | |
 | --- | --- |
 | Captain branch | `claude/legalease-sprint-captain-utucnw` |
-| Captain SHA | `9d737284fef7bb90f3f468ef7095c791b9e50826` |
+| Captain SHA | `532c1ce4948a807d2c49aab6bcb7e9b545face8b` |
 | Census fingerprint | `sha256:3fe4e0fd1828e2ddeef1f5b013c45112cf918c18143c9ac4ab46b9db682b8455` |
 | Production connected | NO |
 
