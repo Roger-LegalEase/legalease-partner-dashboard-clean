@@ -10,7 +10,7 @@
 
 ## Mission
 
-Repair the four families whose PASS was revoked, in priority order A to D. Each has a complete per-field ledger in the repair plan: exactly which known facts must be written, which elections the route decides, which blanks need an approved disposition, and which components must render. Re-render each against its pinned source and prove it with the completeness verifier.
+Repair the four families whose PASS was revoked, in priority order A to D, AFTER S1 has corrected the shared allowlist. Each has a complete per-field ledger in the repair plan: exactly which known facts must be written, which elections the route decides, which blanks need an approved disposition, and which components must render. Re-render each against its pinned source and prove it with the completeness verifier. You own each family's overlay directory and its own build script, so you can write every output this assignment requires.
 
 ## Your exact scope — 4 familyIds
 
@@ -35,6 +35,14 @@ Repair the four families whose PASS was revoked, in priority order A to D. Each 
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/wave-2/r8-completeness-repair-priority-four/**`
+- `data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/ca/ca-1203-43-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-superior-court-set--official-pdf-fill/**`
+- `scripts/build-census-v1-nj_disorderly_persons-set.mjs`
+- `scripts/build-census-v1-ca-17b-reduction-set.mjs`
+- `scripts/build-census-v1-ca-1203-43-set.mjs`
+- `scripts/build-census-v1-az_marijuana_expungement_superior_court-set.mjs`
 
 ## Prohibited paths — never write here
 
@@ -53,7 +61,10 @@ Repair the four families whose PASS was revoked, in priority order A to D. Each 
 ## Required outputs
 
 - data/rcap-grade-a/wave-2/r8-completeness-repair-priority-four/rows.json — one row per family: itemId, status, counters before and after, and every field newly written or newly classified
-- the re-rendered canonical and boundary artifacts, the corrected production-field-map.json, and an updated source-receipt.json inside each family's existing overlay directory
+- data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/production-field-map.json, source-receipt.json, fixtures/ and raster/ — the corrected field map, the updated receipt, and the re-rendered canonical and boundary artifacts
+- data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/production-field-map.json, source-receipt.json, fixtures/ and raster/ — the corrected field map, the updated receipt, and the re-rendered canonical and boundary artifacts
+- data/rcap-all50/overlays/census-v1/ca/ca-1203-43-set--official-pdf-fill/production-field-map.json, source-receipt.json, fixtures/ and raster/ — the corrected field map, the updated receipt, and the re-rendered canonical and boundary artifacts
+- data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-superior-court-set--official-pdf-fill/production-field-map.json, source-receipt.json, fixtures/ and raster/ — the corrected field map, the updated receipt, and the re-rendered canonical and boundary artifacts
 
 ### Output schema
 
@@ -77,6 +88,8 @@ Do not run a broad tracked-file mutation suite: other workers are active.
 - NEVER invent a fact to fill a field. A guessed arresting agency is worse than a blank one, because the blank is visible and the guess is not.
 - NEVER write a protected field: participant signature, signature date, certificate of mailing before mailing, or any court-only or prosecutor-only field.
 - NEVER re-commit a private-corpus binary. Bind sources from MASTER_LIBRARY_SOURCE_DIR and record the SHA-256.
+- LANE STOP — do not start until S1 has landed. The two shared runners are S1's, not yours: runWestFamilyCli serves nine families and runEastFamily fifteen, and changing either from here would alter twenty families you were not asked to touch.
+- ROW STOP — a repair that cannot be completed without changing a shared runner stops and is reported to S1 rather than forking the runner.
 
 Stopping with an honest account of what is missing is a complete return.
 
@@ -92,6 +105,7 @@ FAMILIES REPAIRED:
 PASS_COMPLETE:
 COUNTERS REMAINING:
 FACTS CLASSIFIED REQUIRED_BEFORE_FILING:
+SHARED RUNNERS MODIFIED: 0
 STOPPED AND REPORTED:
 COMMERCIAL ROUTES OPENED: 0
 PRODUCTION TOUCHED: NO

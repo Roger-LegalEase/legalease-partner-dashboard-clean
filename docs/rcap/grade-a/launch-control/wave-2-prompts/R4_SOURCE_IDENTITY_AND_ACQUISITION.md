@@ -64,6 +64,7 @@ Resolve 19 unresolved identities and 30 unknown official URLs, acquire the 49 id
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/wave-2/r4-source-identity-and-acquisition/**`
+- `data/rcap-grade-a/route-obligation-census-v1/identity-resolution/wave-2/**`
 
 ## Prohibited paths — never write here
 

@@ -3,7 +3,7 @@
 //
 //   node scripts/grade-a-launch-control/verify-launch-control.mjs [--mutations]
 //
-// Forty-two refusals. Each is a way the control plane could look healthy while
+// Forty-five refusals. Each is a way the control plane could look healthy while
 // being wrong, and each has cost something in this sprint or in the one before
 // it. A checkpoint that only reports numbers tells you what it was told; this
 // asks whether it was told the truth.
@@ -553,6 +553,57 @@ if (wave2) {
   }
 }
 
+// 28. An assignment that cannot legally write what it owes.
+//
+// The R8 prompt owned one wave-2 directory and required a corrected field map,
+// an updated source receipt and re-rendered artifacts inside four overlay
+// directories it did not own. A worker reading that either stops or breaks its
+// own scope, and neither is noticed until integration. When this check was first
+// run it found two MORE lanes with the same defect.
+if (wave2) {
+  const pathLike = /(?:^|[\s`"'(])((?:data|scripts|docs|src|supabase)\/[A-Za-z0-9_./<>-]+)/g;
+  const unwritable = [];
+  for (const a of wave2.assignments) {
+    const owned = a.ownedPaths.map((p) => p.split("(")[0].trim().replace(/\/?\*\*$/, ""));
+    for (const line of a.requiredOutputs) {
+      const found = [...String(line).matchAll(pathLike)];
+      // A pathless output cannot be checked at all, which is how the original R8
+      // contradiction survived: "inside each family's existing overlay directory"
+      // names files without saying where they land.
+      if (found.length === 0) unwritable.push(`${a.assignmentId} -> output names no path`);
+      for (const m of found) {
+        const target = m[1].replace(/[.,;]$/, "");
+        const ok = owned.some((o) => target === o || target.startsWith(`${o}/`) || o.startsWith(`${target}/`));
+        if (!ok) unwritable.push(`${a.assignmentId} -> ${target}`);
+      }
+    }
+  }
+  check("A43", "every required output names a path, and every path is inside what the assignment owns",
+    unwritable.length === 0, unwritable.slice(0, 3).join(" | "));
+
+  // A verifier that owns a repair path can repair what it judges.
+  const impure = wave2.assignments.filter((a) => a.lane === "independent-verification")
+    .flatMap((a) => a.ownedPaths.filter((p) => /^data\/rcap-all50\//.test(p) || /^scripts\/build-census-v1-/.test(p)).map((p) => `${a.assignmentId}:${p}`));
+  check("A44", "no verification shard owns a repair path", impure.length === 0, impure.join(", "));
+
+  // A shared module changed per family forks the fleet. One lane owns the two
+  // runners twenty-four families import, and the repairs wait for it.
+  const s1 = wave2.assignments.find((a) => a.assignmentId === "S1_SHARED_FACT_ALLOWLIST");
+  const r8 = wave2.assignments.find((a) => a.assignmentId === "R8_COMPLETENESS_REPAIR_PRIORITY_FOUR");
+  const r7 = wave2.assignments.find((a) => a.assignmentId === "R7_PACKET_REPAIR");
+  const sharedFiles = (wave2.sharedRepairSurface?.runners ?? []).map((r) => r.file);
+  const r8HoldsShared = sharedFiles.filter((f) => (r8?.ownedPaths ?? []).includes(f));
+  const overlap = (r7?.items ?? []).filter((f) => (r8?.items ?? []).includes(f));
+  check("A45", "the shared runners are owned once, sequenced ahead of the repairs, and held by nobody else",
+    s1 !== undefined && sharedFiles.length > 0
+    && sharedFiles.every((f) => s1.ownedPaths.includes(f))
+    && r8HoldsShared.length === 0
+    && (r8?.dependsOn ?? []).includes("S1_SHARED_FACT_ALLOWLIST")
+    && (s1.sequence ?? 99) < (r8?.sequence ?? 0)
+    && overlap.length === 0,
+    `S1 owns ${sharedFiles.length} runner(s); R8 holds ${r8HoldsShared.length}; R7/R8 overlap ${overlap.length}`);
+}
+
 console.log(`\n${results.length - failures}/${results.length} checkpoint checks passed.`);
 
 if (MUTATIONS) {
@@ -599,6 +650,10 @@ if (MUTATIONS) {
     { on: "wave2", name: "a shard handed to the builder is caught", mutate: (j) => { j.assignments.find((a) => a.lane === "independent-verification").workerBranch = "codex/c11-packet-factory-accelerator"; return j; } },
     { on: "wave2", name: "an assignment that does not say where to read itself is caught", mutate: (j) => { j.assignments[0].readAssignmentFrom = null; return j; } },
     { on: "wave2", name: "a self-referential base is caught", mutate: (j) => { j.captainBaseSha = git(["rev-parse", "HEAD"]); return j; } },
+    { on: "wave2", name: "an assignment that cannot write its own output is caught", mutate: (j) => { const a = j.assignments.find((x) => x.assignmentId === "R8_COMPLETENESS_REPAIR_PRIORITY_FOUR"); a.ownedPaths = ["data/rcap-grade-a/wave-2/r8-completeness-repair-priority-four/**"]; return j; } },
+    { on: "wave2", name: "a verifier given a repair path is caught", mutate: (j) => { j.assignments.find((a) => a.lane === "independent-verification").ownedPaths.push("data/rcap-all50/overlays/census-v1/**"); return j; } },
+    { on: "wave2", name: "a repair lane grabbing a shared runner is caught", mutate: (j) => { j.assignments.find((a) => a.assignmentId === "R8_COMPLETENESS_REPAIR_PRIORITY_FOUR").ownedPaths.push(j.sharedRepairSurface.runners[0].file); return j; } },
+    { on: "wave2", name: "a repair running before the shared fix is caught", mutate: (j) => { j.assignments.find((a) => a.assignmentId === "R8_COMPLETENESS_REPAIR_PRIORITY_FOUR").dependsOn = []; return j; } },
     { on: "wave2", name: "a review package prepared before an independent PASS is caught", mutate: (j) => { j.outputLegalReview.batchesPrepared = 6; return j; } },
     { on: "wave2", name: "a verification shard that drops the completeness obligations is caught", mutate: (j) => { const s = j.assignments.find((a) => a.lane === "independent-verification"); s.proofObligations = s.proofObligations.filter((o) => !o.startsWith("COMPLETENESS:")); return j; } },
     { on: "completeness", name: "a family reported complete with a nonzero counter is caught", mutate: (j) => { j.results[0].result = "PASS_COMPLETE"; return j; } },

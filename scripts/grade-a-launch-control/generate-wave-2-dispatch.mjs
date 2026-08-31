@@ -48,6 +48,36 @@ const completeness = read("data/rcap-grade-a/packet-completeness/PACKET_COMPLETE
 const repairPlan = read("data/rcap-grade-a/packet-completeness/COMPLETENESS_REPAIR_PLAN.json");
 const revokedFamilies = repairPlan.plans.map((p) => p.familyId);
 
+// THE FOUR REPAIRS TOUCH TWO FILES THEY DO NOT OWN.
+//
+// Each of the four build scripts imports a shared runner that lives inside
+// ANOTHER family's build script, and both runners carry the allowlist that
+// produced the defect: runWestFamilyCli serves nine families and holds the "No
+// allowlisted, source-supported fact is offered" refusal; runEastFamily serves
+// fifteen and holds not_supported_by_exact_participant_fact_map. Twenty-four
+// families depend on them.
+//
+// So the shared fix cannot be four repairs. If R8 owned those runners it would
+// change twenty other families' output while repairing four; if it forked them
+// per family the fleet would carry four divergent copies of the same allowlist.
+// It is one change, sequenced ahead of R8, in its own lane.
+const R8_OVERLAY_PATHS = [
+  "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/**",
+  "data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/**",
+  "data/rcap-all50/overlays/census-v1/ca/ca-1203-43-set--official-pdf-fill/**",
+  "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-superior-court-set--official-pdf-fill/**"
+];
+const R8_BUILD_SCRIPTS = [
+  "scripts/build-census-v1-nj_disorderly_persons-set.mjs",
+  "scripts/build-census-v1-ca-17b-reduction-set.mjs",
+  "scripts/build-census-v1-ca-1203-43-set.mjs",
+  "scripts/build-census-v1-az_marijuana_expungement_superior_court-set.mjs"
+];
+const SHARED_RUNNERS = [
+  { file: "scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs", exportName: "runWestFamilyCli", dependentFamilies: 9, carries: "the \"No allowlisted, source-supported fact is offered to this terminal field\" refusal" },
+  { file: "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs", exportName: "runEastFamily", dependentFamilies: 15, carries: "the not_supported_by_exact_participant_fact_map refusal class" }
+];
+
 const laneOf = (id) => residual.lanes.find((l) => l.residualLaneId === id);
 const builtFamilies = c11Review.families.filter((f) => f.classification === "BUILT").map((f) => f.familyId).sort();
 
@@ -148,6 +178,14 @@ const LANES = [
   },
   {
     id: "R4_SOURCE_IDENTITY_AND_ACQUISITION", engine: "Codex", slug: "r4-source-identity-and-acquisition",
+    // The identity ledger continues the Wave 1 path rather than starting a new
+    // one, so the lane has to own it. The writability refusal caught this: the
+    // residual record gave R4 a generic wave-2 directory and the assignment
+    // still owed a file under identity-resolution/wave-2.
+    ownedPathsOverride: [
+      "data/rcap-grade-a/wave-2/r4-source-identity-and-acquisition/**",
+      `${V1}/identity-resolution/wave-2/**`
+    ],
     mission: "Resolve 19 unresolved identities and 30 unknown official URLs, acquire the 49 identified obligations from the hosts that answered, promote the 33 inventory candidates, settle the two C11 source-identity stops, and find the real Utah 402 form number.",
     itemKind: "obligationKey",
     outputs: [
@@ -192,13 +230,39 @@ const LANES = [
     extraReturn: ["ROUTES IMPLEMENTED:", "NY SUBROUTES CREATED:", "UT BRANCHES GATED:", "NE MERITS PLEADING GENERATED: NO"]
   },
   {
+    id: "S1_SHARED_FACT_ALLOWLIST", engine: "Codex", slug: "s1-shared-fact-allowlist",
+    sequence: 1,
+    mission: `Correct the shared fact allowlist that produced the completeness defect, once, in the two runner modules that carry it. runWestFamilyCli serves ${SHARED_RUNNERS[0].dependentFamilies} families and runEastFamily serves ${SHARED_RUNNERS[1].dependentFamilies}; between them they decide what every official-PDF family is allowed to write. This lane changes the allowlist and nothing else — it renders no packet and repairs no family.`,
+    itemKind: "sharedModule",
+    explicitItems: SHARED_RUNNERS.map((r) => r.file),
+    ownedPathsOverride: ["data/rcap-grade-a/wave-2/s1-shared-fact-allowlist/**", ...SHARED_RUNNERS.map((r) => r.file)],
+    outputs: [
+      "data/rcap-grade-a/wave-2/s1-shared-fact-allowlist/rows.json — one row per runner: itemId, status, every refusal reason removed or replaced, and the field classes each now writes",
+      ...SHARED_RUNNERS.map((r) => `${r.file} — the corrected allowlist, so a known participant or case fact is written rather than refused with a statement of build policy`)
+    ],
+    tests: [
+      "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs",
+      "node scripts/grade-a-launch-control/verify-launch-control.mjs"
+    ],
+    stops: [
+      "LANE STOP — this lane renders no packet and writes into no overlay directory. It changes the allowlist; the re-render is R8's and the later repairs'.",
+      "MEASURE THE BLAST RADIUS BEFORE AND AFTER. Twenty-four families import these two runners. Run the fleet audit before and after the change and report every family whose counters move, not only the four in R8.",
+      "NEVER fork a runner per family. Four divergent copies of one allowlist is worse than the defect: the next correction would have to be made four times and would be made three.",
+      "NEVER invent a fact to satisfy the allowlist. A fact the platform does not hold is classified required_before_filing and surfaced to the participant, not guessed."
+    ],
+    extraReturn: ["RUNNERS CORRECTED:", "FAMILIES WHOSE COUNTERS MOVED:", "FAMILIES RENDERED: 0", "FLEET AUDIT BEFORE:", "FLEET AUDIT AFTER:"]
+  },
+  {
     id: "R8_COMPLETENESS_REPAIR_PRIORITY_FOUR", engine: "Codex", slug: "r8-completeness-repair-priority-four",
-    mission: `Repair the four families whose PASS was revoked, in priority order A to D. Each has a complete per-field ledger in the repair plan: exactly which known facts must be written, which elections the route decides, which blanks need an approved disposition, and which components must render. Re-render each against its pinned source and prove it with the completeness verifier.`,
+    sequence: 2,
+    dependsOn: ["S1_SHARED_FACT_ALLOWLIST"],
+    ownedPathsOverride: ["data/rcap-grade-a/wave-2/r8-completeness-repair-priority-four/**", ...R8_OVERLAY_PATHS, ...R8_BUILD_SCRIPTS],
+    mission: `Repair the four families whose PASS was revoked, in priority order A to D, AFTER S1 has corrected the shared allowlist. Each has a complete per-field ledger in the repair plan: exactly which known facts must be written, which elections the route decides, which blanks need an approved disposition, and which components must render. Re-render each against its pinned source and prove it with the completeness verifier. You own each family's overlay directory and its own build script, so you can write every output this assignment requires.`,
     itemKind: "familyId",
     explicitItems: revokedFamilies,
     outputs: [
       "data/rcap-grade-a/wave-2/r8-completeness-repair-priority-four/rows.json — one row per family: itemId, status, counters before and after, and every field newly written or newly classified",
-      "the re-rendered canonical and boundary artifacts, the corrected production-field-map.json, and an updated source-receipt.json inside each family's existing overlay directory"
+      ...R8_OVERLAY_PATHS.map((dir) => `${dir.replace(/\*\*$/, "")}production-field-map.json, source-receipt.json, fixtures/ and raster/ — the corrected field map, the updated receipt, and the re-rendered canonical and boundary artifacts`)
     ],
     tests: [
       "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <family>",
@@ -210,9 +274,11 @@ const LANES = [
       "ROW STOP — a required fact the platform genuinely does not hold is classified REQUIRED_BEFORE_FILING and surfaced to the participant in the packet's own instructions. A disposition without that surfacing is not an approved blank.",
       "NEVER invent a fact to fill a field. A guessed arresting agency is worse than a blank one, because the blank is visible and the guess is not.",
       "NEVER write a protected field: participant signature, signature date, certificate of mailing before mailing, or any court-only or prosecutor-only field.",
-      "NEVER re-commit a private-corpus binary. Bind sources from MASTER_LIBRARY_SOURCE_DIR and record the SHA-256."
+      "NEVER re-commit a private-corpus binary. Bind sources from MASTER_LIBRARY_SOURCE_DIR and record the SHA-256.",
+      "LANE STOP — do not start until S1 has landed. The two shared runners are S1's, not yours: runWestFamilyCli serves nine families and runEastFamily fifteen, and changing either from here would alter twenty families you were not asked to touch.",
+      "ROW STOP — a repair that cannot be completed without changing a shared runner stops and is reported to S1 rather than forking the runner."
     ],
-    extraReturn: ["FAMILIES REPAIRED:", "PASS_COMPLETE:", "COUNTERS REMAINING:", "FACTS CLASSIFIED REQUIRED_BEFORE_FILING:"]
+    extraReturn: ["FAMILIES REPAIRED:", "PASS_COMPLETE:", "COUNTERS REMAINING:", "FACTS CLASSIFIED REQUIRED_BEFORE_FILING:", "SHARED RUNNERS MODIFIED: 0"]
   },
   {
     id: "R7_PACKET_REPAIR", engine: "Codex", slug: "r7-packet-repair",
@@ -220,7 +286,7 @@ const LANES = [
     itemKind: "familyId",
     outputs: [
       "data/rcap-grade-a/wave-2/r7-packet-repair/rows.json — one row per family: itemId, status, what was missing, what was written",
-      "the missing product-wiring.json inside each family's existing overlay directory, stating familyId, routeKeys, implementationStrategy, fieldMap, generationAllowed false, runtimeSelectable false, commercialRoutesOpened 0"
+      "data/rcap-grade-a/wave-2/r7-packet-repair/product-wiring/<family>.json — the missing product-wiring record for each family, stating familyId, routeKeys, implementationStrategy, fieldMap, generationAllowed false, runtimeSelectable false and commercialRoutesOpened 0. Captain moves each into the family's overlay directory at integration, because that directory is not this lane's to write."
     ],
     tests: ["node scripts/grade-a-launch-control/verify-c11-return.mjs", "node scripts/grade-a-launch-control/verify-launch-control.mjs"],
     stops: [
@@ -322,7 +388,11 @@ const assignments = [
       reuseBasis: lane.explicitItems
         ? "These four families are built and their artifacts are byte-checked. What is missing is content, not construction: the repair writes the facts the build owed and re-renders."
         : `Every item here is open in ${LC}/RESIDUAL_WORK.json, which refuses to carry anything the integration status reports completed.`,
-      ownedPaths: residualLane?.ownedPaths ?? [`data/rcap-grade-a/wave-2/${lane.slug}/**`],
+      ownedPaths: lane.ownedPathsOverride
+        ?? residualLane?.ownedPaths
+        ?? [`data/rcap-grade-a/wave-2/${lane.slug}/**`],
+      ...(lane.sequence ? { sequence: lane.sequence } : {}),
+      ...(lane.dependsOn ? { dependsOn: lane.dependsOn } : {}),
       prohibitedPaths: COMMON_PROHIBITED,
       requiredInputs: COMMON_INPUTS,
       requiredOutputs: lane.outputs,
@@ -397,6 +467,61 @@ for (const a of assignments) {
     problems.push(`R8 carries ${a.items.length} families; exactly four PASS classifications were revoked`);
   }
 }
+// EVERY REQUIRED OUTPUT MUST BE LEGALLY WRITABLE.
+//
+// This is the refusal that would have caught the R8 contradiction before it was
+// committed: the assignment owned one wave-2 directory and required outputs
+// inside four overlay directories it did not own. An assignment that cannot
+// write what it owes is not an assignment, it is a trap -- the worker either
+// stops, or breaks its own scope and nobody notices until integration.
+{
+  const pathLike = /(?:^|[\s`"'(])((?:data|scripts|docs|src|supabase)\/[A-Za-z0-9_./<>-]+)/g;
+  for (const a of assignments) {
+    const owned = a.ownedPaths.map((p) => p.split("(")[0].trim().replace(/\/?\*\*$/, ""));
+    const declared = new Set();
+    for (const line of a.requiredOutputs) {
+      const found = [...String(line).matchAll(pathLike)].map((m) => m[1].replace(/[.,;]$/, ""));
+      // An output line that names no path cannot be checked for writability, and
+      // "inside each family's existing overlay directory" is exactly how the R8
+      // contradiction hid: prose naming files without saying where. A required
+      // output must name where it lands.
+      if (found.length === 0) problems.push(`${a.assignmentId} has a required output that names no path: "${String(line).slice(0, 72)}..."`);
+      for (const f of found) declared.add(f);
+    }
+    for (const target of declared) {
+      const writable = owned.some((o) => target === o || target.startsWith(`${o}/`) || o.startsWith(`${target}/`));
+      if (!writable) problems.push(`${a.assignmentId} requires an output at ${target}, which is outside every path it owns`);
+    }
+  }
+}
+
+// A verifier that owns a repair path can repair what it is meant to judge.
+for (const a of assignments.filter((x) => x.lane === "independent-verification")) {
+  for (const p of a.ownedPaths) {
+    const root = p.replace(/\/?\*\*$/, "");
+    if (/^data\/rcap-all50\//.test(root) || /^scripts\/build-census-v1-/.test(root)) {
+      problems.push(`${a.assignmentId} owns ${p}, which is a repair path; a verifier may not own what it judges`);
+    }
+  }
+}
+
+// R7 and R8 may not both hold a family.
+{
+  const r7 = assignments.find((a) => a.assignmentId === "R7_PACKET_REPAIR");
+  const r8 = assignments.find((a) => a.assignmentId === "R8_COMPLETENESS_REPAIR_PRIORITY_FOUR");
+  const both = (r7?.items ?? []).filter((f) => (r8?.items ?? []).includes(f));
+  if (both.length > 0) problems.push(`R7 and R8 both hold ${both.join(", ")}`);
+}
+
+// A sequenced lane must name a dependency that exists and runs before it.
+for (const a of assignments.filter((x) => x.dependsOn)) {
+  for (const dep of a.dependsOn) {
+    const upstream = assignments.find((x) => x.assignmentId === dep);
+    if (!upstream) problems.push(`${a.assignmentId} depends on ${dep}, which is not dispatched`);
+    else if ((upstream.sequence ?? 99) >= (a.sequence ?? 99)) problems.push(`${a.assignmentId} depends on ${dep}, which does not run before it`);
+  }
+}
+
 // Every built family verified exactly once.
 {
   const verified = assignments.filter((a) => a.lane === "independent-verification").flatMap((a) => a.items);
@@ -450,6 +575,30 @@ const doc = {
     proofObligations: PROOF_OBLIGATIONS.length,
     verdicts: SHARD_VERDICTS
   },
+  sharedRepairSurface: {
+    why: "Each of the four repair targets imports a shared runner that lives inside another family's build script, and both runners carry the allowlist that produced the defect. Twenty-four families depend on them, so the fix is one sequenced change rather than four.",
+    runners: SHARED_RUNNERS,
+    ownedBy: "S1_SHARED_FACT_ALLOWLIST",
+    r8OwnsInstead: { overlayDirectories: R8_OVERLAY_PATHS.length, buildScripts: R8_BUILD_SCRIPTS.length, exclusive: "none of the four build scripts is imported by any other family" },
+    sequencing: "S1 runs first. R8 stops rather than forking a runner."
+  },
+  laterRepairPolicy: {
+    remainingFamilies: 39,
+    doNotDispatchYet: "The other 39 repairs wait until R8 integrates and the 43-family fleet audit is rerun. S1 changes an allowlist that 24 families import, so the audit after it lands will not be the audit before it: dispatching the 39 against today's numbers would send workers to defects the shared fix already closed.",
+    sequence: [
+      "S1 corrects the shared allowlist and reports every family whose counters move",
+      "R8 repairs the four and proves each PASS_COMPLETE",
+      "Captain reruns the 43-family fleet audit",
+      "the remaining repairs are grouped and dispatched from the NEW matrix"
+    ],
+    groupingRule: "Group by shared root cause and form family, not by state. A state is an accident of where a form is filed; the defect travels with the runner that wrote it and the form it wrote onto. Grouping by state would put one CR-180 family in a lane with an unrelated measured-overlay family and split the CR-180 families across four lanes.",
+    knownRootCauseClusters: [
+      { cause: "runWestFamilyCli allowlist", families: SHARED_RUNNERS[0].dependentFamilies, formFamilies: "official-PDF AcroForm and measured overlay" },
+      { cause: "runEastFamily allowlist", families: SHARED_RUNNERS[1].dependentFamilies, formFamilies: "official-PDF AcroForm kits" },
+      { cause: "route-determined elections left to the participant", occurrences: completeness.counterTotals.requiredOptionsMissing },
+      { cause: "blanks with no approved disposition", occurrences: completeness.counterTotals.unclassifiedBlanks }
+    ]
+  },
   packetCompleteness: {
     contract: "scripts/rcap-packet-completeness/completeness-contract.mjs",
     matrix: "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json",
@@ -490,6 +639,8 @@ const doc = {
     assignments: assignments.length,
     residualLanes: LANES.length,
     completenessRepairFamilies: revokedFamilies.length,
+    sharedRunnersSequencedAhead: SHARED_RUNNERS.length,
+    familiesDependingOnSharedRunners: SHARED_RUNNERS.reduce((n, r) => n + r.dependentFamilies, 0),
     verificationShards: VERIFICATION.length,
     itemsAllocated: seen.size,
     collisions: 0,
