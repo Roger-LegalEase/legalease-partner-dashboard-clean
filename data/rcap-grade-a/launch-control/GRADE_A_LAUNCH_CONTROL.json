@@ -27,7 +27,7 @@
   },
   "lineage": {
     "captainBranch": "claude/legalease-sprint-captain-utucnw",
-    "captainSha": "98a7a57e2a354eeb8b33b3873e62f7a9785fedaf",
+    "captainSha": "49dfa403a4185542c494d7ef53ae015931402e43",
     "censusFingerprint": "sha256:3fe4e0fd1828e2ddeef1f5b013c45112cf918c18143c9ac4ab46b9db682b8455",
     "censusLedgerBlob": "c6e1bb3d2af354f4f48a40a43e08a5b21e7fd8c5",
     "productionConnected": false,
@@ -189,16 +189,16 @@
       "completeness": {
         "contract": "scripts/rcap-packet-completeness/completeness-contract.mjs",
         "familiesAudited": 43,
-        "passComplete": 10,
+        "passComplete": 19,
         "byResult": {
-          "FAIL_MISSING_REQUIRED_FACTS": 31,
-          "PASS_COMPLETE": 10,
+          "FAIL_MISSING_REQUIRED_FACTS": 22,
+          "PASS_COMPLETE": 19,
           "FAIL_COMPONENT_SET": 2
         },
         "counterTotals": {
-          "knownRequiredFieldsMissing": 1391,
+          "knownRequiredFieldsMissing": 1198,
           "requiredFactsNotCollected": 9,
-          "unclassifiedBlanks": 1259,
+          "unclassifiedBlanks": 779,
           "incompleteRows": 11,
           "requiredOptionsMissing": 121,
           "requiredComponentsMissing": 31,
@@ -435,7 +435,7 @@
     {
       "id": "BLK-8",
       "blocker": "43 packet families are built, none is independently verified, and none is complete",
-      "detail": "C11 rendered and byte-checked 43 families against exact source SHA-256 values, but a builder verifying its own output proves nothing — and the completeness contract now shows the deeper problem: 10 of 43 families contain everything a filing needs. 1391 known required fields are missing across the fleet and 121 route-determined elections are left to the participant. The four families previously classified PASS are revoked.",
+      "detail": "C11 rendered and byte-checked 43 families against exact source SHA-256 values, but a builder verifying its own output proves nothing — and the completeness contract now shows the deeper problem: 19 of 43 families contain everything a filing needs. 1198 known required fields are missing across the fleet and 121 route-determined elections are left to the participant. The four families previously classified PASS are revoked.",
       "owner": "R8 repairs the four, V1-V7 verify the rest, then Lawrence",
       "blocks": "output-level approval, and therefore product-path proof, for every family"
     },

@@ -78,6 +78,23 @@ const RETURN_TAIL = [
   "DIFF LEFT FOR THE CODEX UI: YES"
 ];
 
+/*
+ * Lanes that have returned and been integrated. A finished lane still holding
+ * its families is how one packet ends up claimed by two owners: P2 returned and
+ * the Washington verification shards now hold those nine, so P2 must stop
+ * holding them or the ownership record says two things.
+ */
+const RETURNED = {
+  P2_WA_VACATUR_COMPLETENESS__CODEX_CLOUD: {
+    status: "RETURNED_AND_INTEGRATED",
+    workerCommit: "ba1d0501d8fab684f7b5498f9242fdd121596536",
+    integratedAs: "c055f20fc63b12c5cd998fa2171cda0519c6a6f1",
+    result: "9 of 9 families PASS_COMPLETE, every counter zero, re-audited under the corrected contract",
+    familiesNowHeldBy: "P2V01, P2V02 and P2V03 independent verification",
+    note: "The assignment quoted commit 3b901f3358cf219b85b9bf1cf781b503a797781a, which is not an object in this repository and which the remote refuses as 'not our ref'. The integrated commit is the tip of the P2 worker branch; data/rcap-grade-a/launch-control/P2_WASHINGTON_VERIFICATION.json records both and the evidence that they are the same work."
+  }
+};
+
 const assignments = [];
 
 /* ---- P2 and R8: same scope, cloud environment ------------------------------ */
@@ -229,7 +246,20 @@ for (const vs of continuation.independentVerification.assignments) {
   });
 }
 
-for (const a of assignments) a.promptFile = `${PROMPT_DIR}/${a.assignmentId}.md`;
+for (const a of assignments) {
+  a.promptFile = `${PROMPT_DIR}/${a.assignmentId}.md`;
+  const done = RETURNED[a.assignmentId];
+  if (!done) { a.status = "OPEN"; continue; }
+  a.status = done.status;
+  a.returnRecord = done;
+  /* A returned lane holds nothing. Its families and paths are recorded on the
+   * assignment for the audit trail and moved out of the live claim. */
+  a.itemsAsDispatched = [...a.items];
+  a.ownedPathsAsDispatched = [...a.ownedPaths];
+  a.items = [];
+  a.itemCount = 0;
+  a.ownedPaths = [];
+}
 
 /* ---- checks this generator refuses on ------------------------------------- */
 const problems = [];
@@ -250,7 +280,10 @@ for (const a of assignments) {
   }
 }
 for (const a of assignments) {
-  const owned = a.ownedPaths.map((p) => p.replace(/\/?\*+$/, ""));
+  // A returned lane owns nothing any more, so its outputs are checked against
+  // what it owned when it was dispatched. Its outputs were writable then, which
+  // is the only moment the question was live.
+  const owned = (a.ownedPathsAsDispatched ?? a.ownedPaths).map((p) => p.replace(/\/?\*+$/, ""));
   for (const p of a.prohibitedPaths ?? []) {
     const root = p.replace(/\/?\*+$/, "");
     if (owned.some((o) => o === root || o.startsWith(`${root}/`))) problems.push(`${a.assignmentId} owns and prohibits ${p}`);

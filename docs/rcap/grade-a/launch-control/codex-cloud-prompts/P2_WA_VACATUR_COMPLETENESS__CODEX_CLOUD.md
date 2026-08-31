@@ -15,7 +15,7 @@
 # LEGALEASE_CODEX_CLOUD_READY. Your job is to load what it left and prove the gate.
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family wa_vac_cannabis-set \
+  --family <FAMILY_ID> \
   --codex-cloud \
   --minimum-captain-sha 98a7a57e2a354eeb8b33b3873e62f7a9785fedaf
 ```
@@ -39,43 +39,15 @@ Repair 9 packet families that import neither S1 runner, so none of them waits fo
 
 **The base moved.** Your original assignment named `33dfea59fe85b9dc86469d12e04fd65c51b480fa`. The original base predates S1, S2 and the corrected completeness contract. A repair rendered against it would be measured by a contract that has since changed, and would fail the audit for a reason that is not the packet's.
 
-## The 9 families
+## The 0 families
 
-- `wa_vac_cannabis-set`
-- `wa_vac_domestic_violence-set`
-- `wa_vac_felony-set`
-- `wa_vac_homicide_victim_prostitution-set`
-- `wa_vac_misdemeanor_ordinary-set`
-- `wa_vac_substance_use_disorder-set`
-- `wa_vac_survivor_felony-set`
-- `wa_vac_survivor_misdemeanor-set`
-- `wa_vac_treaty_fishing-set`
+
 
 _Unchanged from the original dispatch. This continuation moves the environment, not the scope._
 
 ## Owned paths — write only here
 
-- `data/rcap-grade-a/wave-2/p2-wa-vacatur-completeness/**`
-- `data/rcap-all50/overlays/census-v1/wa/wa-vac-cannabis-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/wa/wa-vac-domestic-violence-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/wa/wa-vac-felony-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/wa/wa-vac-misdemeanor-ordinary-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-felony-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-misdemeanor-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/wa/wa-vac-treaty-fishing-set--official-pdf-fill/**`
-- `scripts/build-census-v1-wa_vac_cannabis-set.mjs`
-- `scripts/build-census-v1-wa_vac_domestic_violence-set.mjs`
-- `scripts/build-census-v1-wa_vac_felony-set.mjs`
-- `scripts/build-census-v1-wa_vac_homicide_victim_prostitution-set.mjs`
-- `scripts/build-census-v1-wa_vac_misdemeanor_ordinary-set.mjs`
-- `scripts/build-census-v1-wa_vac_substance_use_disorder-set.mjs`
-- `scripts/build-census-v1-wa_vac_survivor_felony-set.mjs`
-- `scripts/build-census-v1-wa_vac_survivor_misdemeanor-set.mjs`
-- `scripts/build-census-v1-wa_vac_treaty_fishing-set.mjs`
-- `scripts/build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs`
-- `data/rcap-grade-a/codex-cloud/p2-wa-vacatur-completeness/**`
+
 
 ## Never write here
 

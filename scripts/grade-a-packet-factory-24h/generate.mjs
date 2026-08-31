@@ -72,6 +72,7 @@ const INPUTS = {
   completeness: "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json",
   continuation: `${LC}/S2_CONTINUATION.json`,
   cloudContinuations: `${LC}/CODEX_CLOUD_CONTINUATIONS.json`,
+  p2Verification: `${LC}/P2_WASHINGTON_VERIFICATION.json`,
   verificationLedger: `${LC}/WAVE_2_VERIFICATION_LEDGER.json`,
   wave2: `${LC}/WAVE_2_ASSIGNMENTS.json`,
   repairWave: `${LC}/COMPLETENESS_REPAIR_WAVE.json`,
@@ -130,7 +131,13 @@ const familyOfScript = (f) => f.replace(/^build-census-v1-/, "").replace(/\.mjs$
 /* ---------------------------------------------------------------- *
  * STEP 2 — active ownership
  * ---------------------------------------------------------------- */
-const ACTIVE_LANES = IN.cloudContinuations.assignments;
+/*
+ * Every lane currently holding families, from every record that dispatches one.
+ * The P2 Washington verification shards are here because a family under
+ * independent verification is claimed: seeding it into a factory VF lane as well
+ * would be two verifiers on one packet, reported as independent proof twice.
+ */
+const ACTIVE_LANES = [...IN.cloudContinuations.assignments, ...(IN.p2Verification?.assignments ?? [])];
 const activeFamilies = new Map();
 const activePaths = [];
 for (const a of ACTIVE_LANES) {
@@ -193,12 +200,16 @@ for (const f of IN.scoreboard.familiesDetail) {
   const completenessStatus = comp ? comp.result : artifactPresent ? "NOT_AUDITED" : "NOT_BUILT";
 
   const activeOwner = activeFamilies.get(familyId) ?? null;
+  /* What KIND of lane holds it, read from the lane's own record rather than
+   * matched out of its id. A regex over assignment ids called every P2V shard a
+   * builder, because it was written when the only verifiers were named VS. */
+  const activeOwnerLane = ACTIVE_LANES.find((a) => a.assignmentId === activeOwner)?.lane ?? null;
 
   /* The one state this family is in, decided in a fixed order so a family
    * cannot be counted twice. */
   let state;
   if (guidanceOnly) state = "LEGITIMATE_GUIDANCE_ONLY";
-  else if (activeOwner && /VS0/.test(activeOwner)) state = "VERIFYING";
+  else if (activeOwner && activeOwnerLane === "independent-verification") state = "VERIFYING";
   else if (activeOwner) state = "BUILD_IN_PROGRESS";
   else if (verdict?.verdict === "PASS") state = "VERIFIED_PASS";
   else if (comp && nineZero) state = "VERIFY_PENDING";
@@ -234,6 +245,7 @@ for (const f of IN.scoreboard.familiesDetail) {
     c11Stopped: c11Stopped.has(familyId),
     state,
     activeOwner,
+    activeOwnerLane,
     buildScript,
     buildScriptExists,
     sharedBuildHost: buildScriptExists

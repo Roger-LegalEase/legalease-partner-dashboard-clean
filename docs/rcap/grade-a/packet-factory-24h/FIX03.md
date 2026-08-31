@@ -65,28 +65,28 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 
 - `scripts/rcap-packet-completeness/**`
 - `data/rcap-grade-a/launch-control/**`
-- `data/rcap-grade-a/wave-2/p2-wa-vacatur-completeness/**`
-- `data/rcap-all50/overlays/census-v1/wa/wa-vac-cannabis-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/wa/wa-vac-domestic-violence-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/wa/wa-vac-felony-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/wa/wa-vac-misdemeanor-ordinary-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-felony-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-misdemeanor-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/wa/wa-vac-treaty-fishing-set--official-pdf-fill/**`
-- `scripts/build-census-v1-wa_vac_cannabis-set.mjs`
-- `scripts/build-census-v1-wa_vac_domestic_violence-set.mjs`
-- `scripts/build-census-v1-wa_vac_felony-set.mjs`
-- `scripts/build-census-v1-wa_vac_homicide_victim_prostitution-set.mjs`
-- `scripts/build-census-v1-wa_vac_misdemeanor_ordinary-set.mjs`
-- `scripts/build-census-v1-wa_vac_substance_use_disorder-set.mjs`
-- `scripts/build-census-v1-wa_vac_survivor_felony-set.mjs`
-- `scripts/build-census-v1-wa_vac_survivor_misdemeanor-set.mjs`
-- `scripts/build-census-v1-wa_vac_treaty_fishing-set.mjs`
-- `scripts/build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs`
-- `data/rcap-grade-a/codex-cloud/p2-wa-vacatur-completeness/**`
 - `data/rcap-grade-a/wave-2/r8-completeness-repair-priority-four/**`
+- `data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/ca/ca-1203-43-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-superior-court-set--official-pdf-fill/**`
+- `scripts/build-census-v1-nj_disorderly_persons-set.mjs`
+- `scripts/build-census-v1-ca-17b-reduction-set.mjs`
+- `scripts/build-census-v1-ca-1203-43-set.mjs`
+- `scripts/build-census-v1-az_marijuana_expungement_superior_court-set.mjs`
+- `data/rcap-grade-a/codex-cloud/r8-completeness-repair-priority-four/**`
+- `data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/**`
+- `scripts/build-census-v1-sd_arrest_expungement-set.mjs`
+- `data/rcap-grade-a/codex-cloud/sd-arrest-expungement-disclosure-repair/**`
+- `data/rcap-grade-a/codex-cloud/s2-continuation-verify-01/**`
+- `data/rcap-grade-a/codex-cloud/s2-continuation-verify-02/**`
+- `data/rcap-grade-a/codex-cloud/s2-continuation-verify-03/**`
+- `data/rcap-grade-a/codex-cloud/p2v01-washington-independent-verification/**`
+- `data/rcap-grade-a/codex-cloud/p2v02-washington-independent-verification/**`
+- `data/rcap-grade-a/codex-cloud/p2v03-washington-independent-verification/**`
+- `data/rcap-all50/overlays/census-v1/**/nj-ordinance-set*`
+- `data/rcap-all50/overlays/census-v1/**/pa-summary-conviction-set*`
+- `data/rcap-all50/overlays/census-v1/**/ut-pet-dismissed-without-prejudice-set*`
 
 ## Required outputs
 
