@@ -131,6 +131,43 @@ check("S10", "the registry says how much of it was externally verified and how m
   && verifiedCount < records.length,
   `${verifiedCount}/${records.length} externally verified; scope limit recorded: ${Boolean(reg.externalVerification?.scopeLimit)}`);
 
+/* S11. An ambiguous identity is never resolved by array order.
+ *
+ * The matcher used .find() and took the first artifact whose name contained the
+ * form token. Four identities match several documents: MI "MC 227" matches
+ * mc227.pdf, MC-227a (set-aside misdemeanour) and MC-227b (human trafficking),
+ * which are different forms; MN "EXP101" matches its Hmong, Somali and Spanish
+ * translations. Taking the first would have bound MC-227a's bytes and hash to a
+ * family needing MC 227 and printed it as a measurement.
+ */
+const ambiguityProblems = [];
+for (const r of records) {
+  const cands = r.heldCandidates ?? [];
+  /*
+   * External verification resolves a local ambiguity, and that is the whole
+   * point of it. AL CR-65 matches two held artifacts by name, and a reviewer
+   * looked at the Alabama AOC's own page and identified the form. Refusing that
+   * would be preferring my substring match to somebody who read the publisher.
+   * The ambiguity is still recorded on the record so the resolution is visible
+   * rather than silent.
+   */
+  if (r.externallyVerified) continue;
+  if (cands.length > 1 && r.sourceState !== "FAMILY_IDENTITY_AMBIGUOUS") {
+    ambiguityProblems.push(`${r.jurisdiction}/${r.canonicalArtifactId}: ${cands.length} held artifacts match and it is ${r.sourceState}`);
+  }
+  if (cands.length > 1 && r.artifactSha256) {
+    ambiguityProblems.push(`${r.jurisdiction}/${r.canonicalArtifactId}: claims one hash while ${cands.length} artifacts match`);
+  }
+  if (r.sourceState === "FAMILY_IDENTITY_AMBIGUOUS" && cands.length > 1 && cands.length !== new Set(cands.map((c) => c.fileName)).size) {
+    ambiguityProblems.push(`${r.jurisdiction}/${r.canonicalArtifactId}: the candidate list repeats itself`);
+  }
+}
+// A negative test whose subject cannot exist proves nothing.
+const haveAmbiguous = records.some((r) => (r.heldCandidates ?? []).length > 1);
+check("S11", "an identity matching several held artifacts is ambiguous, not silently resolved to the first",
+  ambiguityProblems.length === 0 && haveAmbiguous,
+  `${records.filter((r) => (r.heldCandidates ?? []).length > 1).length} ambiguous identit(ies); ${ambiguityProblems.length} problem(s): ${ambiguityProblems.slice(0, 2).join(" | ")}`);
+
 for (const r of results) console.log(`  ${r.ok ? "ok  " : "FAIL"} ${r.id.padEnd(3)} ${r.title}${r.ok ? "" : `\n         observed: ${r.observed}`}`);
 console.log(`\n${results.filter((r) => r.ok).length}/${results.length} source-model checks passed.`);
 
@@ -171,7 +208,14 @@ if (MUTATIONS) {
     { id: "S9", name: "regenerating the withdrawn 232-row shape is caught", file: UNBLOCK,
       edit: (j) => { j.schemaVersion = "rcap-roger-source-unblock-list/v1"; return j; } },
     { id: "S10", name: "dropping the scope limit is caught", file: REGISTRY,
-      edit: (j) => { delete j.externalVerification.scopeLimit; return j; } }
+      edit: (j) => { delete j.externalVerification.scopeLimit; return j; } },
+    { id: "S11", name: "an ambiguous identity resolved to one artifact anyway is caught", file: REGISTRY,
+      /* An UNVERIFIED ambiguous record. Targeting a verified one gave the
+       * mutation no subject: S11 exempts those on purpose, because a reviewer
+       * who read the publisher's page outranks a substring match. */
+      edit: (j) => { const r = j.records.find((x) => (x.heldCandidates ?? []).length > 1 && !x.externallyVerified); if (!r) throw new Error("no unverified ambiguous record, so this mutation has no subject"); r.sourceState = "CURRENTNESS_UNVERIFIED"; r.artifactSha256 = r.heldCandidates[0].sha256; return j; } },
+    { id: "S11", name: "a hash claimed while several artifacts match is caught", file: REGISTRY,
+      edit: (j) => { const r = j.records.find((x) => (x.heldCandidates ?? []).length > 1 && !x.externallyVerified); if (!r) throw new Error("no unverified ambiguous record, so this mutation has no subject"); r.artifactSha256 = r.heldCandidates[0].sha256; return j; } }
   ];
   let allCaught = true;
   for (const c of cases) {

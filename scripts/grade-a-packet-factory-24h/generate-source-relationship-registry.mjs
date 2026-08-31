@@ -111,10 +111,28 @@ for (const a of artifacts) {
   if (!artifactsByJur.has(j)) artifactsByJur.set(j, []);
   artifactsByJur.get(j).push(a);
 }
+/*
+ * One match, or none. Never the first of several.
+ *
+ * This used .find(), which silently took the first artifact whose name
+ * contained the form token, and four identities match more than one document:
+ * MI "MC 227" matches mc227.pdf AND MC-227a (set-aside misdemeanour) AND
+ * MC-227b (human trafficking), which are different forms; MN "EXP101" matches
+ * its Hmong, Somali and Spanish translations; NM "4-960" matches 4-960.1 and
+ * 4-960.2; MT-OCA-MMRTA matches a certificate of service and a proposed order.
+ *
+ * Taking the first would have attached MC-227a's bytes and hash to a family
+ * that needs MC 227, and stated it as a measurement. An ambiguous identity is a
+ * DISC question -- which document does this route actually require -- and
+ * answering it by array order is the same class of defect as everything else
+ * corrected here: a guess wearing the clothes of a fact.
+ */
 const heldArtifactFor = (jur, form) => {
   const f = norm(form);
-  if (f.length < 4) return null;
-  return (artifactsByJur.get(jur) ?? []).find((a) => norm(a.artifactId).includes(f) || norm(a.fileName).includes(f)) ?? null;
+  if (f.length < 4) return { artifact: null, candidates: [] };
+  const hits = (artifactsByJur.get(jur) ?? []).filter((a) => norm(a.artifactId).includes(f) || norm(a.fileName).includes(f));
+  if (hits.length === 1) return { artifact: hits[0], candidates: hits };
+  return { artifact: null, candidates: hits };
 };
 
 /* The verified rows, keyed by state + queue identity. */
@@ -147,7 +165,7 @@ for (const f of blocked) {
 
 const registry = [...records.values()].map((rec) => {
   const verified = verifiedByKey.get(`${rec.jurisdiction}::${norm(rec.canonicalArtifactId)}`) ?? null;
-  const held = heldArtifactFor(rec.jurisdiction, rec.canonicalArtifactId);
+  const { artifact: held, candidates: heldCandidates } = heldArtifactFor(rec.jurisdiction, rec.canonicalArtifactId);
 
   /*
    * State, in priority order. Verified evidence outranks inference, always: an
@@ -157,6 +175,10 @@ const registry = [...records.values()].map((rec) => {
   let basis;
   if (verified) { sourceState = verified.mappedState; basis = `externally verified ${verification.verified_on}: ${verified.disposition}`; }
   else if (CITATION_SHAPED.test(rec.canonicalArtifactId.trim())) { sourceState = "STATUTORY_CUSTOM_PLEADING"; basis = "the identity is a bare statutory citation, and there is no document at the other end"; }
+  else if (heldCandidates.length > 1) {
+    sourceState = "FAMILY_IDENTITY_AMBIGUOUS";
+    basis = `${heldCandidates.length} held artifacts match this identity (${heldCandidates.map((a) => a.fileName).slice(0, 3).join(", ")}); which one the route requires is unsettled, and choosing by array order would state a guess as a measurement`;
+  }
   else if (held && held.presence === "present" && held.hashState === "match") {
     // Held bytes are not a missing source. Whether they are the CURRENT edition
     // is a different question, and it is the one that is actually open.
@@ -184,6 +206,13 @@ const registry = [...records.values()].map((rec) => {
     officialArtifactUrl: verified?.artifact_url ?? null,
     artifactSha256: held?.measuredSha256 ?? null,
     heldPath: held?.sourcePath ?? null,
+    // Named rather than counted: an ambiguity is only actionable if you can see
+    // what it is between.
+    heldCandidates: heldCandidates.length > 1 ? heldCandidates.map((a) => ({ artifactId: a.artifactId, fileName: a.fileName, sha256: a.measuredSha256 })) : [],
+    // When a reviewer read the publisher's page, their identification settles a
+    // local name collision. Recorded so the resolution is visible instead of
+    // looking like the ambiguity was never there.
+    localAmbiguityResolvedByVerification: Boolean(verified) && heldCandidates.length > 1,
     sourceState, sourceStateBasis: basis,
     externallyVerified: Boolean(verified),
     aliases: verified?.locator && /^Current identity|Current e-file identity/.test(verified.locator) ? [verified.locator] : [],

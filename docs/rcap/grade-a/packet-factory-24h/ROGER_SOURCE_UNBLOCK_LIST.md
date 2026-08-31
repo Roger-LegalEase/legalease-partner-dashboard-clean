@@ -48,9 +48,10 @@ Blocker class is preserved now, and a human task has to earn itself.
 | `EMBEDDED_SECTION` | 3 | DISC maps the embedded section in each applicable form; ACQ acquires the containing document ONCE |
 | `STALE_OR_VARIANT_ID` | 2 | DISC normalizes the identity to its current, mode-specific form; then ACQ and PROMO |
 | `SOURCE_SCOPE_AND_VERSION_AMBIGUITY` | 1 | DISC and Captain settle statewide versus local scope and the alias relationship before any inquiry |
-| `MISSING_SOURCE_BINARY` | 5 | ACQ, once DISC has settled an exact official address |
+| `MISSING_SOURCE_BINARY` | 1 | ACQ, once DISC has settled an exact official address |
 | `MISSING_CANONICAL_RELATIONSHIP_METADATA` | 145 | DISC settles source identity and the route or family relationship |
-| `CURRENTNESS_UNVERIFIED` | 62 | DISC compares the held edition against the publisher's own forms index |
+| `CURRENTNESS_UNVERIFIED` | 58 | DISC compares the held edition against the publisher's own forms index |
+| `FAMILY_IDENTITY_AMBIGUOUS` | 8 | DISC settles which document the route actually requires |
 | `UNSUPPORTED_RELATIONSHIP` | 1 | DISC and legal decide which families the artifact genuinely serves |
 | `STATUTORY_CUSTOM_PLEADING` | 6 | a packet-build lane, drafting against the statute |
 | `LICENSE_PERMISSION_REVIEW` | 2 | counsel and business decide reuse; ACQ may evaluate the bytes |
