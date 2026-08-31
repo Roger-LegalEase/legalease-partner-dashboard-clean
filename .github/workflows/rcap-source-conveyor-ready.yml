@@ -146,6 +146,15 @@ jobs:
       - name: Lane contracts — each lane type asked its own
         run: node scripts/grade-a-packet-factory-24h/verify-lane-contracts.mjs
 
+      - name: Source relationship model
+        # The previous human queue was 232 rows and invalid: it flattened
+        # bundles, embedded sections, variant IDs, statutes and reuse
+        # restrictions into "find this form" and "ask a clerk".
+        run: node scripts/grade-a-packet-factory-24h/verify-source-relationship-model.mjs
+
+      - name: Source relationship model mutations
+        run: node scripts/grade-a-packet-factory-24h/verify-source-relationship-model.mjs --mutations
+
       - name: Lane-contract mutations
         # Including the two the split turns on: Codex setup reaching for a
         # browser again, and a packet reaching PASS_COMPLETE with no RASTER_PASS.
