@@ -1724,7 +1724,16 @@ for (const a of assignments) OUT.emit(a.promptFile, promptFor(a));
 // This generator owns every top-level prompt in the dispatch directory. A .md
 // file here that no assignment produced is an injected instruction, and C13
 // showed the prompt checks would not have seen it.
-OUT.sweep(PROMPT_DIR, (n) => n.endsWith(".md"));
+/*
+ * Every top-level prompt in the dispatch directory belongs to this generator,
+ * EXCEPT the documents another generator writes there. Two generators owning
+ * files in one directory is fine; a sweep that does not know it is not, and it
+ * would report a correctly generated report as an injected instruction.
+ * Named explicitly rather than pattern-matched, so adding one is a decision
+ * somebody made on purpose.
+ */
+const OWNED_BY_ANOTHER_GENERATOR = new Set(["ROGER_SOURCE_UNBLOCK_LIST.md"]);
+OUT.sweep(PROMPT_DIR, (n) => n.endsWith(".md") && !OWNED_BY_ANOTHER_GENERATOR.has(n));
 OUT.finish();
 if (CHECK) process.exit(0);
 

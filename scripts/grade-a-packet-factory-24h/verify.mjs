@@ -268,7 +268,15 @@ function run() {
    * universal, so it is checked over every prompt in the tree rather than over
    * the ones a single generator happens to write.
    */
-  const allPrompts = promptFilesRecursive();
+  /*
+   * Dispatch prompts only. The prompt directory also carries reports -- the
+   * human-action source list among them -- and a report is not a task anyone
+   * executes in a container, so demanding an isolation banner on one is asking
+   * the wrong question of the wrong document. The exclusion is an explicit
+   * short list rather than a pattern, so adding to it is a visible decision.
+   */
+  const NOT_A_DISPATCH_PROMPT = new Set(["ROGER_SOURCE_UNBLOCK_LIST.md"]);
+  const allPrompts = promptFilesRecursive().filter((f) => !NOT_A_DISPATCH_PROMPT.has(path.basename(f)));
   const noIsolation = allPrompts.filter((f) =>
     !/THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK/.test(fs.readFileSync(path.join(ROOT, PROMPTS, f), "utf8")));
   check("F28", "every dispatched prompt in the tree carries the task-isolation banner",
