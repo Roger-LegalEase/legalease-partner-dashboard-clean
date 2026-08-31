@@ -166,13 +166,22 @@ lanes.push({
   residualLaneId: "W2V1_V7_INDEPENDENT_VERIFICATION",
   replaces: ["V1_INDEPENDENT_PACKET_VERIFICATION", "V2_INDEPENDENT_PACKET_VERIFICATION", "V3_INDEPENDENT_PACKET_VERIFICATION",
     "V4_INDEPENDENT_PACKET_VERIFICATION", "V5_INDEPENDENT_PACKET_VERIFICATION", "V6_INDEPENDENT_PACKET_VERIFICATION", "V7_INDEPENDENT_PACKET_VERIFICATION"],
-  what: "Forty-three packet-family verification rows, every one BLOCKED_SOURCE because the private Master Library was absent from the worker environments.",
+  what: `Forty-three packet families were independently verified after the Master Library was restored. ${verification.filter((r) => r.verdict === "PASS").length} passed; the rest remain open.`,
   itemKind: "packetFamily",
-  openCount: verification.length,
-  theseAreEnvironmentRecordsNotVerdicts:
-    "No family may be classified PASS or FAIL from these rows, and no Lawrence review package may be prepared from them. A verifier that could not read the source did not verify anything.",
-  items: verification.map((row) => ({ shard: row.shard, familyId: row.itemId, verdict: row.verdict, stopScope: row.stopScope, stopReason: row.stopReason })),
-  whyStillOpen: "MASTER_LIBRARY_SOURCE_DIR was unset and the default private master-library root was absent, so no pinned source could bind and every observed SHA-256 was null.",
+  openCount: verification.filter((r) => r.verdict !== "PASS").length,
+  verdictCounts: verification.reduce((acc, r) => ({ ...acc, [r.verdict]: (acc[r.verdict] ?? 0) + 1 }), {}),
+  earlierEnvironmentResultsRetired:
+    "The first pass returned forty-three BLOCKED_SOURCE rows because the private Master Library was absent. Those were environment records, never verdicts, and they are retired by the substantive returns rather than carried alongside them.",
+  aPassIsNotALaunch:
+    "A PASS proves the packet was built and verified as specified. Output approval and product-path proof are separate gates, and no family holds either yet.",
+  items: verification.filter((r) => r.verdict !== "PASS").map((row) => ({ shard: row.shard, familyId: row.itemId, verdict: row.verdict, stopScope: row.stopScope })),
+  passed: verification.filter((r) => r.verdict === "PASS").map((r) => r.itemId),
+  dispatchedAs: {
+    repairs: "data/rcap-grade-a/launch-control/WAVE_2_REPAIR_ASSIGNMENTS.json",
+    legalInputs: "data/rcap-grade-a/launch-control/WAVE_2_LEGAL_INPUT_ASSIGNMENTS.json",
+    review: "data/rcap-grade-a/launch-control/LAWRENCE_REVIEW_BATCH_1.json"
+  },
+  whyStillOpen: "Twenty-two families have a named build defect and seventeen are blocked on an input; only one of the seventeen is a question for counsel.",
   ownedPaths: ["data/rcap-grade-a/wave-2/verification/**"]
 });
 
