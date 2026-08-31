@@ -39,9 +39,10 @@ It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owne
 
 ## Claim before you read
 
-- Assert every family before reading or writing anything: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert SRC04 <familyId>`
-- A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
-- Release each family when it is finished: `node scripts/grade-a-packet-factory-24h/claim.mjs --release SRC04 <familyId>`, and leave that in your diff.
+- Assert each exact source obligation before reading evidence: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert SRC04 <itemId>`
+- The committed assignment contains exactly 48 itemIds; iterate those values only. A familyId is metadata and is not a source claim key.
+- A non-zero exit stops that row only: record `BLOCKED_BEFORE_CLAIM`, read none of its evidence, and continue with unrelated obligations.
+- Release each completed obligation independently: `node scripts/grade-a-packet-factory-24h/claim.mjs --release SRC04 <itemId>`.
 
 ## Mission
 
@@ -124,6 +125,21 @@ the private corpus and the committed inventory, read only — nothing is fetched
 | `ut_pet_remove_link-set::official-form:1502CR` | `official-form:1502CR` | UT | `held-inventory-reconciliation` | `ut_pet_remove_link-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `ut_pet_special_certificate-set::official-form:1001EX` | `official-form:1001EX` | UT | `held-inventory-reconciliation` | `ut_pet_special_certificate-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `ut_pet_special_certificate-set::official-form:1021EX` | `official-form:1021EX` | UT | `held-inventory-reconciliation` | `ut_pet_special_certificate-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+
+Deterministically assert exactly the 48 committed itemIds (failures are recorded per row and do not terminate the loop):
+
+```sh
+node - <<'NODE'
+const {spawnSync}=require('node:child_process');
+const a=require('./data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json').assignments.find(x=>x.assignmentId==='SRC04');
+if (!a || a.items.length !== 48) throw new Error('SRC04 committed item count changed');
+for (const itemId of a.items) {
+  const r=spawnSync(process.execPath,['scripts/grade-a-packet-factory-24h/claim.mjs','--assert','SRC04',itemId],{stdio:'inherit'});
+  if (r.status !== 0) console.error('ROW_STOP', itemId);
+}
+NODE
+```
+
 
 Run the row gate once per listed item, after the lane gate. This exact first command demonstrates the interface; substitute each other exact item id from the table without changing the lane:
 

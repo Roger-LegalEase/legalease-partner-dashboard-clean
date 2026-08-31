@@ -38,9 +38,10 @@ It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owne
 
 ## Claim before you read
 
-- Assert every family before reading or writing anything: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert PROMO03 <familyId>`
-- A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
-- Release each family when it is finished: `node scripts/grade-a-packet-factory-24h/claim.mjs --release PROMO03 <familyId>`, and leave that in your diff.
+- Assert each exact source obligation before reading evidence: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert PROMO03 <itemId>`
+- The committed assignment contains exactly 0 itemIds; iterate those values only. A familyId is metadata and is not a source claim key.
+- A non-zero exit stops that row only: record `BLOCKED_BEFORE_CLAIM`, read none of its evidence, and continue with unrelated obligations.
+- Release each completed obligation independently: `node scripts/grade-a-packet-factory-24h/claim.mjs --release PROMO03 <itemId>`.
 
 ## Mission
 

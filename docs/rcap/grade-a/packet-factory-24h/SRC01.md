@@ -39,9 +39,10 @@ It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owne
 
 ## Claim before you read
 
-- Assert every family before reading or writing anything: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert SRC01 <familyId>`
-- A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
-- Release each family when it is finished: `node scripts/grade-a-packet-factory-24h/claim.mjs --release SRC01 <familyId>`, and leave that in your diff.
+- Assert each exact source obligation before reading evidence: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert SRC01 <itemId>`
+- The committed assignment contains exactly 49 itemIds; iterate those values only. A familyId is metadata and is not a source claim key.
+- A non-zero exit stops that row only: record `BLOCKED_BEFORE_CLAIM`, read none of its evidence, and continue with unrelated obligations.
+- Release each completed obligation independently: `node scripts/grade-a-packet-factory-24h/claim.mjs --release SRC01 <itemId>`.
 
 ## Mission
 
@@ -125,6 +126,21 @@ the private corpus and the committed inventory, read only — nothing is fetched
 | `official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b::official-form:CR-430-INFO` | `official-form:CR-430-INFO` | CA | `held-inventory-reconciliation` | `official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `rcap-hi-custom-pleading::official-form:HCJDC-159B` | `official-form:HCJDC-159B` | HI | `held-inventory-reconciliation` | `rcap-hi-custom-pleading` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `va_exp_identity_used_by_another-set::source-sha256:6176c2f55bdb3206c53f4a26a0e6b4c14dfd8b04ee19be0ee52b7b6b3fa4e97f` | `source-sha256:6176c2f55bdb3206c53f4a26a0e6b4c14dfd8b04ee19be0ee52b7b6b3fa4e97f` | VA | `held-inventory-reconciliation` | `va_exp_identity_used_by_another-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+
+Deterministically assert exactly the 49 committed itemIds (failures are recorded per row and do not terminate the loop):
+
+```sh
+node - <<'NODE'
+const {spawnSync}=require('node:child_process');
+const a=require('./data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json').assignments.find(x=>x.assignmentId==='SRC01');
+if (!a || a.items.length !== 49) throw new Error('SRC01 committed item count changed');
+for (const itemId of a.items) {
+  const r=spawnSync(process.execPath,['scripts/grade-a-packet-factory-24h/claim.mjs','--assert','SRC01',itemId],{stdio:'inherit'});
+  if (r.status !== 0) console.error('ROW_STOP', itemId);
+}
+NODE
+```
+
 
 Run the row gate once per listed item, after the lane gate. This exact first command demonstrates the interface; substitute each other exact item id from the table without changing the lane:
 

@@ -39,9 +39,10 @@ It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owne
 
 ## Claim before you read
 
-- Assert every family before reading or writing anything: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert DISC01 <familyId>`
-- A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
-- Release each family when it is finished: `node scripts/grade-a-packet-factory-24h/claim.mjs --release DISC01 <familyId>`, and leave that in your diff.
+- Assert each exact source obligation before reading evidence: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert DISC01 <itemId>`
+- The committed assignment contains exactly 43 itemIds; iterate those values only. A familyId is metadata and is not a source claim key.
+- A non-zero exit stops that row only: record `BLOCKED_BEFORE_CLAIM`, read none of its evidence, and continue with unrelated obligations.
+- Release each completed obligation independently: `node scripts/grade-a-packet-factory-24h/claim.mjs --release DISC01 <itemId>`.
 
 ## Mission
 
@@ -121,6 +122,21 @@ the issuing court or agency that publishes the document
 | `tx_nd_veterans_reemployment-set::official-form:OCA Model Order of Nondisclosure under Section 411.0729` | `official-form:OCA Model Order of Nondisclosure under Section 411.0729` | TX | `exact-source-identity` | `tx_nd_veterans_reemployment-set` | unresolved exact identity or URL | `ACQ` |
 | `tx_nd_veterans_reemployment-set::official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0729` | `official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0729` | TX | `exact-source-identity` | `tx_nd_veterans_reemployment-set` | unresolved exact identity or URL | `ACQ` |
 | `tx_nd_veterans_reemployment-set::official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond` | `official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond` | TX | `exact-source-identity` | `tx_nd_veterans_reemployment-set` | unresolved exact identity or URL | `ACQ` |
+
+Deterministically assert exactly the 43 committed itemIds (failures are recorded per row and do not terminate the loop):
+
+```sh
+node - <<'NODE'
+const {spawnSync}=require('node:child_process');
+const a=require('./data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json').assignments.find(x=>x.assignmentId==='DISC01');
+if (!a || a.items.length !== 43) throw new Error('DISC01 committed item count changed');
+for (const itemId of a.items) {
+  const r=spawnSync(process.execPath,['scripts/grade-a-packet-factory-24h/claim.mjs','--assert','DISC01',itemId],{stdio:'inherit'});
+  if (r.status !== 0) console.error('ROW_STOP', itemId);
+}
+NODE
+```
+
 
 Run the row gate once per listed item, after the lane gate. This exact first command demonstrates the interface; substitute each other exact item id from the table without changing the lane:
 

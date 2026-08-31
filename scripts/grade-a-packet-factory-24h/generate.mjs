@@ -837,6 +837,12 @@ const CLAIM_RULE = (laneId) => [
   "A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.",
   `Release each family when it is finished: \`node scripts/grade-a-packet-factory-24h/claim.mjs --release ${laneId} <familyId>\`, and leave that in your diff.`
 ];
+const SOURCE_CLAIM_RULE = (laneId, itemIds) => [
+  `Assert each exact source obligation before reading evidence: \`node scripts/grade-a-packet-factory-24h/claim.mjs --assert ${laneId} <itemId>\``,
+  `The committed assignment contains exactly ${itemIds.length} itemIds; iterate those values only. A familyId is metadata and is not a source claim key.`,
+  "A non-zero exit stops that row only: record `BLOCKED_BEFORE_CLAIM`, read none of its evidence, and continue with unrelated obligations.",
+  `Release each completed obligation independently: \`node scripts/grade-a-packet-factory-24h/claim.mjs --release ${laneId} <itemId>\`.`
+];
 
 /*
  * The lane gate and the row gate are different questions, and a prompt that
@@ -1257,6 +1263,9 @@ for (let i = 0; i < FIX_LANES; i += 1) {
 }
 
 for (const a of assignments) a.promptFile = `${PROMPT_DIR}/${a.assignmentId}.md`;
+for (const a of assignments.filter((x) => x.itemKind === "sourceObligation")) {
+  a.claimRule = SOURCE_CLAIM_RULE(a.assignmentId, a.items);
+}
 
 /* ---------------------------------------------------------------- *
  * Collisions
@@ -1620,6 +1629,7 @@ const promptFor = (a) => {
     p.push("### Exact obligation rows", "", "| Item id | Source id | Jurisdiction | Current operation | Family ownership | Required input | Handoff |", "| --- | --- | --- | --- | --- | --- | --- |");
     for (const r of a.itemDetails) p.push(`| \`${r.itemId}\` | \`${r.sourceId}\` | ${r.jurisdiction} | \`${r.currentOperation}\` | ${r.familyIds.map((f) => `\`${f}\``).join(", ")} | ${r.requiredInput} | \`${r.handoffOperation}\` |`);
     if (!a.itemDetails.length) p.push(`| _No current obligations_ | — | — | \`${a.operation}\` | — | Lane remains queued; do not invent an input. | — |`);
+    if (a.itemDetails.length) p.push("", `Deterministically assert exactly the ${a.itemCount} committed itemIds (failures are recorded per row and do not terminate the loop):`, "", "```sh", `node - <<'NODE'\nconst {spawnSync}=require('node:child_process');\nconst a=require('./${FACT}/ACTIVE_ASSIGNMENTS.json').assignments.find(x=>x.assignmentId==='${a.assignmentId}');\nif (!a || a.items.length !== ${a.itemCount}) throw new Error('${a.assignmentId} committed item count changed');\nfor (const itemId of a.items) {\n  const r=spawnSync(process.execPath,['scripts/grade-a-packet-factory-24h/claim.mjs','--assert','${a.assignmentId}',itemId],{stdio:'inherit'});\n  if (r.status !== 0) console.error('ROW_STOP', itemId);\n}\nNODE`, "```", "");
     if (a.itemDetails.length) p.push("", "Run the row gate once per listed item, after the lane gate. This exact first command demonstrates the interface; substitute each other exact item id from the table without changing the lane:", "", "```sh", `node ${PREFLIGHT} --assignment-id ${a.assignmentId} --source-obligation '${a.itemDetails[0].itemId.replaceAll("'", "'\\''")}' --codex-cloud --minimum-captain-sha ${a.minimumCaptainSha}`, "", "# A failed row is recorded STOPPED; continue with unrelated rows.", "```", "");
     p.push(`**${a.releaseRule}**`, "");
     p.push("### Families this lane would release", "", a.familiesThisLaneWouldRelease.map((f) => `\`${f}\``).join(", "), "");
@@ -1678,20 +1688,35 @@ OUT.emit(`${OUT_DIR}/CHECKPOINT.json`, `${JSON.stringify(checkpointRecord, null,
  * asserts its grant through scripts/grade-a-packet-factory-24h/claim.mjs and
  * stops if the ledger does not name it. There is no second mechanism.
  */
-const claimRows = assignments
+const PACKET_LANE_KIND = { "packet-build": "packet-build", "independent-verification": "independent-verification", "rapid-repair": "repair", "shared-host-repair": "shared-host-repair" };
+const SOURCE_LANE_KIND = { DISC: "source-discovery", SRC: "source-reconciliation", ACQ: "source-acquisition", PROMO: "source-promotion" };
+const sourceConveyor = read(`${OUT_DIR}/SOURCE_CONVEYOR_ASSIGNMENTS.json`);
+const activeSourceLaneIds = new Set(sourceConveyor.lanes.filter((lane) => lane.status === "ACTIVE").map((lane) => lane.assignmentId));
+const packetClaimRows = assignments
   .filter((a) => a.itemKind === "packetFamily" || a.itemKind === "streamingClaim")
   .flatMap((a) => (a.items ?? []).map((familyId) => ({
-    familyId, lane: a.assignmentId, laneKind: a.lane, released: false, releasedAt: null
-  })))
-  .sort((x, y) => x.familyId.localeCompare(y.familyId) || x.lane.localeCompare(y.lane));
+    subjectType: "packet-family", subjectId: familyId, familyId, itemId: null, familyIds: [familyId], sourceId: null,
+    operation: a.lane, lane: a.assignmentId, laneKind: PACKET_LANE_KIND[a.lane], released: false, releasedAt: null
+  })));
+const sourceClaimRows = assignments
+  .filter((a) => a.itemKind === "sourceObligation" && activeSourceLaneIds.has(a.assignmentId))
+  .flatMap((a) => a.itemDetails.map((item) => ({
+    subjectType: "source-obligation", subjectId: item.itemId, itemId: item.itemId, familyIds: item.familyIds,
+    sourceId: item.sourceId, operation: item.currentOperation, lane: a.assignmentId,
+    laneKind: SOURCE_LANE_KIND[a.assignmentId.replace(/[0-9]+$/, "")], released: false, releasedAt: null
+  })));
+const claimRows = [...packetClaimRows, ...sourceClaimRows]
+  .sort((x, y) => x.subjectType.localeCompare(y.subjectType) || x.subjectId.localeCompare(y.subjectId) || x.operation.localeCompare(y.operation) || x.lane.localeCompare(y.lane));
+const digestFields = ["subjectType", "subjectId", "itemId", "familyId", "familyIds", "sourceId", "operation", "lane", "laneKind", "released", "releasedAt"];
+const digestClaims = (rows) => crypto.createHash("sha256").update(JSON.stringify(rows.map((row) => digestFields.map((field) => row[field] ?? null)))).digest("hex");
 
 const claimLedgerRecord = {
-  schemaVersion: "rcap-claim-ledger/v1",
+  schemaVersion: "rcap-claim-ledger/v2",
   generatedBy: "scripts/grade-a-packet-factory-24h/generate.mjs",
   generatedAtCommit: MINIMUM_CAPTAIN_SHA,
   mechanism: "scripts/grade-a-packet-factory-24h/claim.mjs",
   howAtomicityWorks: "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
-  laneKinds: ["packet-build", "independent-verification", "repair", "source", "shared-host-repair"],
+  laneKinds: ["packet-build", "independent-verification", "repair", "shared-host-repair", "source-discovery", "source-reconciliation", "source-acquisition", "source-promotion"],
   oneOwnerPerFamilyPerKind: "A builder and its verifier holding one family is the design. Two verifiers holding it is the collision, and this ledger cannot express it.",
   workerContract: [
     "node scripts/grade-a-packet-factory-24h/claim.mjs --assert <LANE> <familyId> before reading any artifact",
@@ -1721,14 +1746,27 @@ const claimLedgerRecord = {
    * SHA -- and this digest is what makes a violation visible in the return
    * rather than silent.
    */
-  claimsDigest: crypto.createHash("sha256")
-    .update(JSON.stringify(claimRows.map((c) => [c.familyId, c.lane, c.laneKind])))
-    .digest("hex"),
-  claimsDigestCovers: "familyId, lane and laneKind of every grant, in the order written here",
+  claimsDigest: digestClaims(claimRows),
+  claimsDigestCovers: digestFields,
   revocationIsVisibleHow: "the digest changes whenever a grant is added or withdrawn; generatedAtCommit is a declared floor and does not",
   releases: []
 };
 OUT.emit(`${OUT_DIR}/claim-ledger.json`, `${JSON.stringify(claimLedgerRecord, null, 2)}\n`);
+OUT.emit(`${OUT_DIR}/CLAIM_LEDGER_REPAIR.json`, `${JSON.stringify({
+  schemaVersion: "rcap-claim-ledger-repair/v1",
+  assignment: "CLM01_SOURCE_CLAIM_LEDGER_REPAIR",
+  generatedBy: "scripts/grade-a-packet-factory-24h/generate.mjs",
+  generatedAtCommit: claimLedgerRecord.generatedAtCommit,
+  reproducedFailure: { disc06Active: true, obligations: 42, usableClaimsBefore: 0, laneKindMismatchFound: true },
+  repairedContract: { sourceClaimKey: "subjectType=source-obligation + subjectId=itemId + operation", packetClaimKey: "subjectType=packet-family + subjectId=familyId + operation" },
+  disc06ClaimsAfter: sourceClaimRows.filter((c) => c.lane === "DISC06").length,
+  sourcePromptsRegenerated: assignments.filter((a) => a.itemKind === "sourceObligation").length,
+  sourceResearchPerformed: 0,
+  sourceBodiesCommitted: 0,
+  packetOrOverlayFilesModified: 0,
+  commercialRoutesOpened: 0,
+  productionTouched: false
+}, null, 2)}\n`);
 
 for (const a of assignments) OUT.emit(a.promptFile, promptFor(a));
 
