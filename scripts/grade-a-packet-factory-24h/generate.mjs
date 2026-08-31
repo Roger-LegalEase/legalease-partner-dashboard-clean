@@ -660,6 +660,29 @@ const VERDICTS = ["PASS_COMPLETE_INDEPENDENT", "FAIL_REPAIR_REQUIRED", "BLOCKED_
 const CLOUD_PROHIBITED = ["git fetch", "git pull", "git push", "gh ", "git worktree", "git remote add", "git clone"];
 
 /*
+ * How to raster, said explicitly.
+ *
+ * The prompts said "render all page rasters" and never said how. Four lanes
+ * reached for pdftoppm or a hardcoded Chromium path and returned STOPPED on a
+ * toolchain question the dispatch had left to them. An instruction that names
+ * the outcome without naming the means is an invitation to improvise.
+ */
+const RASTER_RULE = [
+  "Page rasters go through `scripts/lib/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.",
+  "NEVER `pdftoppm`. NEVER `apt-get`. NEVER `playwright install`. The environment refuses package installation and a Poppler fallback is not a fallback, it is a different measurement.",
+  "The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after."
+];
+
+/* How to claim, said explicitly. The ledger exists; a prompt that does not
+ * name it leaves the worker to invent a protocol, which is what VF12 correctly
+ * refused to do. */
+const CLAIM_RULE = (laneId) => [
+  `Assert every family before reading or writing anything: \`node scripts/grade-a-packet-factory-24h/claim.mjs --assert ${laneId} <familyId>\``,
+  "A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.",
+  `Release each family when it is finished: \`node scripts/grade-a-packet-factory-24h/claim.mjs --release ${laneId} <familyId>\`, and leave that in your diff.`
+];
+
+/*
  * The lane gate and the row gate are different questions, and a prompt that
  * asked one of them for both stopped every lane on its first blocked family.
  *
@@ -707,7 +730,7 @@ const BUILDER_OBLIGATIONS = [
   "complete every repeating case and offence row, because a partly-filled row reads as finished and is not",
   "leave every protected field blank — participant signature, signature date, certificate of mailing before mailing, court-only and prosecutor-only",
   "generate participant instructions and filing instructions",
-  "render all page rasters",
+  "render all page rasters through scripts/lib/pdf-page-raster.mjs, which discovers its own browser",
   "verify the actual visible writes from the final PDF bytes, not from the finalizer's own report",
   "return all nine completeness counters equal to zero, or return the family as STOPPED with the counter that is not"
 ];
@@ -724,6 +747,8 @@ const base = (id, lane, slug, extra) => ({
   minimumCaptainSha: MINIMUM_CAPTAIN_SHA,
   preflight: `node ${PREFLIGHT} --family <FAMILY_ID> --codex-cloud --minimum-captain-sha ${MINIMUM_CAPTAIN_SHA}`,
   preflightMustReturn: PREFLIGHT_MUST_RETURN,
+  rasterRule: RASTER_RULE,
+  claimRule: CLAIM_RULE(id),
   prohibitedCommands: CLOUD_PROHIBITED,
   theDiffIsTheReturn: "Commit locally. Leave the final diff for the Codex Cloud interface. There is no PUSHED line in a cloud return.",
   returnDirectory: `${FACT}/${slug}`,
@@ -835,7 +860,14 @@ for (let i = 0; i < VF_LANES; i += 1) {
     ],
     independenceIsThreeWay: "Not the builder, not the repairer, not a shard that has already formed a view of these packets. A second reading by the same eyes is not an independent one.",
     claimLedger: `${FACT}/claim-ledger.json`,
-    claimRule: "Claim atomically before reading. A family already claimed is skipped, never queued behind: two verifiers on one family is duplicate work reported as independent proof.",
+    /*
+     * No lane-specific claim prose. This lane used to carry its own sentence
+     * about claiming atomically, which read as a protocol and named no
+     * mechanism -- so VF12 went looking for a ledger, found none, and stopped.
+     * It was right. One mechanism, stated once in the shared base, is the whole
+     * point; a lane that restates it in its own words is a second mechanism.
+     */
+    whyOneClaimMechanism: "Two verifiers on one family is duplicate work reported as independent proof. The ledger cannot express it, and the assert above is the only way to find out whether this lane holds a family.",
     checkpointRule: "Take rolling five-to-ten-family checkpoints as soon as they land. Do not wait for a whole builder assignment.",
     proofObligations: [
       "ROUTE IDENTITY: the packet is built for the route the record names",
@@ -1298,6 +1330,8 @@ const promptFor = (a) => {
     p.push(`It must print **\`${a.preflightMustReturn}\`**. A 13/14 in cloud mode is a real failure, not the shallow checkout being tolerated.`, "");
   }
   p.push("## Never run these", "", bullet(a.prohibitedCommands.map((c) => `\`${c}\``)), "");
+  if (a.claimRule) p.push("## Claim before you read", "", bullet(a.claimRule), "");
+  if (a.rasterRule) p.push("## How to raster", "", bullet(a.rasterRule), "");
   p.push("## Mission", "", a.mission, "");
   if (a.provisionedEmpty) p.push(`**This lane has no families at dispatch.** ${a.refillRule}`, "");
 

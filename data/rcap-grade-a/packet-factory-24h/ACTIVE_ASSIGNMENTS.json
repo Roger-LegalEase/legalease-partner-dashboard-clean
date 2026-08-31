@@ -28,6 +28,16 @@
       "minimumCaptainSha": "7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflight": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "rasterRule": [
+        "Page rasters go through `scripts/lib/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.",
+        "NEVER `pdftoppm`. NEVER `apt-get`. NEVER `playwright install`. The environment refuses package installation and a Poppler fallback is not a fallback, it is a different measurement.",
+        "The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after."
+      ],
+      "claimRule": [
+        "Assert every family before reading or writing anything: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF01 <familyId>`",
+        "A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.",
+        "Release each family when it is finished: `node scripts/grade-a-packet-factory-24h/claim.mjs --release PF01 <familyId>`, and leave that in your diff."
+      ],
       "prohibitedCommands": [
         "git fetch",
         "git pull",
@@ -167,7 +177,7 @@
         "complete every repeating case and offence row, because a partly-filled row reads as finished and is not",
         "leave every protected field blank — participant signature, signature date, certificate of mailing before mailing, court-only and prosecutor-only",
         "generate participant instructions and filing instructions",
-        "render all page rasters",
+        "render all page rasters through scripts/lib/pdf-page-raster.mjs, which discovers its own browser",
         "verify the actual visible writes from the final PDF bytes, not from the finalizer's own report",
         "return all nine completeness counters equal to zero, or return the family as STOPPED with the counter that is not"
       ],
@@ -310,6 +320,16 @@
       "minimumCaptainSha": "7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflight": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "rasterRule": [
+        "Page rasters go through `scripts/lib/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.",
+        "NEVER `pdftoppm`. NEVER `apt-get`. NEVER `playwright install`. The environment refuses package installation and a Poppler fallback is not a fallback, it is a different measurement.",
+        "The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after."
+      ],
+      "claimRule": [
+        "Assert every family before reading or writing anything: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF02 <familyId>`",
+        "A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.",
+        "Release each family when it is finished: `node scripts/grade-a-packet-factory-24h/claim.mjs --release PF02 <familyId>`, and leave that in your diff."
+      ],
       "prohibitedCommands": [
         "git fetch",
         "git pull",
@@ -422,7 +442,7 @@
         "complete every repeating case and offence row, because a partly-filled row reads as finished and is not",
         "leave every protected field blank — participant signature, signature date, certificate of mailing before mailing, court-only and prosecutor-only",
         "generate participant instructions and filing instructions",
-        "render all page rasters",
+        "render all page rasters through scripts/lib/pdf-page-raster.mjs, which discovers its own browser",
         "verify the actual visible writes from the final PDF bytes, not from the finalizer's own report",
         "return all nine completeness counters equal to zero, or return the family as STOPPED with the counter that is not"
       ],
@@ -563,6 +583,16 @@
       "minimumCaptainSha": "7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflight": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "rasterRule": [
+        "Page rasters go through `scripts/lib/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.",
+        "NEVER `pdftoppm`. NEVER `apt-get`. NEVER `playwright install`. The environment refuses package installation and a Poppler fallback is not a fallback, it is a different measurement.",
+        "The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after."
+      ],
+      "claimRule": [
+        "Assert every family before reading or writing anything: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF03 <familyId>`",
+        "A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.",
+        "Release each family when it is finished: `node scripts/grade-a-packet-factory-24h/claim.mjs --release PF03 <familyId>`, and leave that in your diff."
+      ],
       "prohibitedCommands": [
         "git fetch",
         "git pull",
@@ -701,7 +731,7 @@
         "complete every repeating case and offence row, because a partly-filled row reads as finished and is not",
         "leave every protected field blank — participant signature, signature date, certificate of mailing before mailing, court-only and prosecutor-only",
         "generate participant instructions and filing instructions",
-        "render all page rasters",
+        "render all page rasters through scripts/lib/pdf-page-raster.mjs, which discovers its own browser",
         "verify the actual visible writes from the final PDF bytes, not from the finalizer's own report",
         "return all nine completeness counters equal to zero, or return the family as STOPPED with the counter that is not"
       ],
@@ -842,6 +872,16 @@
       "minimumCaptainSha": "7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflight": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "rasterRule": [
+        "Page rasters go through `scripts/lib/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.",
+        "NEVER `pdftoppm`. NEVER `apt-get`. NEVER `playwright install`. The environment refuses package installation and a Poppler fallback is not a fallback, it is a different measurement.",
+        "The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after."
+      ],
+      "claimRule": [
+        "Assert every family before reading or writing anything: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF04 <familyId>`",
+        "A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.",
+        "Release each family when it is finished: `node scripts/grade-a-packet-factory-24h/claim.mjs --release PF04 <familyId>`, and leave that in your diff."
+      ],
       "prohibitedCommands": [
         "git fetch",
         "git pull",
@@ -988,7 +1028,7 @@
         "complete every repeating case and offence row, because a partly-filled row reads as finished and is not",
         "leave every protected field blank — participant signature, signature date, certificate of mailing before mailing, court-only and prosecutor-only",
         "generate participant instructions and filing instructions",
-        "render all page rasters",
+        "render all page rasters through scripts/lib/pdf-page-raster.mjs, which discovers its own browser",
         "verify the actual visible writes from the final PDF bytes, not from the finalizer's own report",
         "return all nine completeness counters equal to zero, or return the family as STOPPED with the counter that is not"
       ],
@@ -1129,6 +1169,16 @@
       "minimumCaptainSha": "7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflight": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "rasterRule": [
+        "Page rasters go through `scripts/lib/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.",
+        "NEVER `pdftoppm`. NEVER `apt-get`. NEVER `playwright install`. The environment refuses package installation and a Poppler fallback is not a fallback, it is a different measurement.",
+        "The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after."
+      ],
+      "claimRule": [
+        "Assert every family before reading or writing anything: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF05 <familyId>`",
+        "A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.",
+        "Release each family when it is finished: `node scripts/grade-a-packet-factory-24h/claim.mjs --release PF05 <familyId>`, and leave that in your diff."
+      ],
       "prohibitedCommands": [
         "git fetch",
         "git pull",
@@ -1253,7 +1303,7 @@
         "complete every repeating case and offence row, because a partly-filled row reads as finished and is not",
         "leave every protected field blank — participant signature, signature date, certificate of mailing before mailing, court-only and prosecutor-only",
         "generate participant instructions and filing instructions",
-        "render all page rasters",
+        "render all page rasters through scripts/lib/pdf-page-raster.mjs, which discovers its own browser",
         "verify the actual visible writes from the final PDF bytes, not from the finalizer's own report",
         "return all nine completeness counters equal to zero, or return the family as STOPPED with the counter that is not"
       ],
@@ -1394,6 +1444,16 @@
       "minimumCaptainSha": "7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflight": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "rasterRule": [
+        "Page rasters go through `scripts/lib/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.",
+        "NEVER `pdftoppm`. NEVER `apt-get`. NEVER `playwright install`. The environment refuses package installation and a Poppler fallback is not a fallback, it is a different measurement.",
+        "The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after."
+      ],
+      "claimRule": [
+        "Assert every family before reading or writing anything: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF06 <familyId>`",
+        "A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.",
+        "Release each family when it is finished: `node scripts/grade-a-packet-factory-24h/claim.mjs --release PF06 <familyId>`, and leave that in your diff."
+      ],
       "prohibitedCommands": [
         "git fetch",
         "git pull",
@@ -1499,7 +1559,7 @@
         "complete every repeating case and offence row, because a partly-filled row reads as finished and is not",
         "leave every protected field blank — participant signature, signature date, certificate of mailing before mailing, court-only and prosecutor-only",
         "generate participant instructions and filing instructions",
-        "render all page rasters",
+        "render all page rasters through scripts/lib/pdf-page-raster.mjs, which discovers its own browser",
         "verify the actual visible writes from the final PDF bytes, not from the finalizer's own report",
         "return all nine completeness counters equal to zero, or return the family as STOPPED with the counter that is not"
       ],
@@ -1638,6 +1698,16 @@
       "minimumCaptainSha": "7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflight": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "rasterRule": [
+        "Page rasters go through `scripts/lib/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.",
+        "NEVER `pdftoppm`. NEVER `apt-get`. NEVER `playwright install`. The environment refuses package installation and a Poppler fallback is not a fallback, it is a different measurement.",
+        "The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after."
+      ],
+      "claimRule": [
+        "Assert every family before reading or writing anything: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF07 <familyId>`",
+        "A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.",
+        "Release each family when it is finished: `node scripts/grade-a-packet-factory-24h/claim.mjs --release PF07 <familyId>`, and leave that in your diff."
+      ],
       "prohibitedCommands": [
         "git fetch",
         "git pull",
@@ -1731,7 +1801,7 @@
         "complete every repeating case and offence row, because a partly-filled row reads as finished and is not",
         "leave every protected field blank — participant signature, signature date, certificate of mailing before mailing, court-only and prosecutor-only",
         "generate participant instructions and filing instructions",
-        "render all page rasters",
+        "render all page rasters through scripts/lib/pdf-page-raster.mjs, which discovers its own browser",
         "verify the actual visible writes from the final PDF bytes, not from the finalizer's own report",
         "return all nine completeness counters equal to zero, or return the family as STOPPED with the counter that is not"
       ],
@@ -1870,6 +1940,16 @@
       "minimumCaptainSha": "7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflight": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "rasterRule": [
+        "Page rasters go through `scripts/lib/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.",
+        "NEVER `pdftoppm`. NEVER `apt-get`. NEVER `playwright install`. The environment refuses package installation and a Poppler fallback is not a fallback, it is a different measurement.",
+        "The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after."
+      ],
+      "claimRule": [
+        "Assert every family before reading or writing anything: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF08 <familyId>`",
+        "A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.",
+        "Release each family when it is finished: `node scripts/grade-a-packet-factory-24h/claim.mjs --release PF08 <familyId>`, and leave that in your diff."
+      ],
       "prohibitedCommands": [
         "git fetch",
         "git pull",
@@ -1991,7 +2071,7 @@
         "complete every repeating case and offence row, because a partly-filled row reads as finished and is not",
         "leave every protected field blank — participant signature, signature date, certificate of mailing before mailing, court-only and prosecutor-only",
         "generate participant instructions and filing instructions",
-        "render all page rasters",
+        "render all page rasters through scripts/lib/pdf-page-raster.mjs, which discovers its own browser",
         "verify the actual visible writes from the final PDF bytes, not from the finalizer's own report",
         "return all nine completeness counters equal to zero, or return the family as STOPPED with the counter that is not"
       ],
@@ -2132,6 +2212,16 @@
       "minimumCaptainSha": "7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflight": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "rasterRule": [
+        "Page rasters go through `scripts/lib/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.",
+        "NEVER `pdftoppm`. NEVER `apt-get`. NEVER `playwright install`. The environment refuses package installation and a Poppler fallback is not a fallback, it is a different measurement.",
+        "The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after."
+      ],
+      "claimRule": [
+        "Assert every family before reading or writing anything: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF09 <familyId>`",
+        "A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.",
+        "Release each family when it is finished: `node scripts/grade-a-packet-factory-24h/claim.mjs --release PF09 <familyId>`, and leave that in your diff."
+      ],
       "prohibitedCommands": [
         "git fetch",
         "git pull",
@@ -2253,7 +2343,7 @@
         "complete every repeating case and offence row, because a partly-filled row reads as finished and is not",
         "leave every protected field blank — participant signature, signature date, certificate of mailing before mailing, court-only and prosecutor-only",
         "generate participant instructions and filing instructions",
-        "render all page rasters",
+        "render all page rasters through scripts/lib/pdf-page-raster.mjs, which discovers its own browser",
         "verify the actual visible writes from the final PDF bytes, not from the finalizer's own report",
         "return all nine completeness counters equal to zero, or return the family as STOPPED with the counter that is not"
       ],
@@ -2394,6 +2484,16 @@
       "minimumCaptainSha": "7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflight": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "rasterRule": [
+        "Page rasters go through `scripts/lib/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.",
+        "NEVER `pdftoppm`. NEVER `apt-get`. NEVER `playwright install`. The environment refuses package installation and a Poppler fallback is not a fallback, it is a different measurement.",
+        "The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after."
+      ],
+      "claimRule": [
+        "Assert every family before reading or writing anything: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF10 <familyId>`",
+        "A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.",
+        "Release each family when it is finished: `node scripts/grade-a-packet-factory-24h/claim.mjs --release PF10 <familyId>`, and leave that in your diff."
+      ],
       "prohibitedCommands": [
         "git fetch",
         "git pull",
@@ -2514,7 +2614,7 @@
         "complete every repeating case and offence row, because a partly-filled row reads as finished and is not",
         "leave every protected field blank — participant signature, signature date, certificate of mailing before mailing, court-only and prosecutor-only",
         "generate participant instructions and filing instructions",
-        "render all page rasters",
+        "render all page rasters through scripts/lib/pdf-page-raster.mjs, which discovers its own browser",
         "verify the actual visible writes from the final PDF bytes, not from the finalizer's own report",
         "return all nine completeness counters equal to zero, or return the family as STOPPED with the counter that is not"
       ],
@@ -2655,6 +2755,16 @@
       "minimumCaptainSha": "7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflight": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "rasterRule": [
+        "Page rasters go through `scripts/lib/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.",
+        "NEVER `pdftoppm`. NEVER `apt-get`. NEVER `playwright install`. The environment refuses package installation and a Poppler fallback is not a fallback, it is a different measurement.",
+        "The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after."
+      ],
+      "claimRule": [
+        "Assert every family before reading or writing anything: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF11 <familyId>`",
+        "A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.",
+        "Release each family when it is finished: `node scripts/grade-a-packet-factory-24h/claim.mjs --release PF11 <familyId>`, and leave that in your diff."
+      ],
       "prohibitedCommands": [
         "git fetch",
         "git pull",
@@ -2749,7 +2859,7 @@
         "complete every repeating case and offence row, because a partly-filled row reads as finished and is not",
         "leave every protected field blank — participant signature, signature date, certificate of mailing before mailing, court-only and prosecutor-only",
         "generate participant instructions and filing instructions",
-        "render all page rasters",
+        "render all page rasters through scripts/lib/pdf-page-raster.mjs, which discovers its own browser",
         "verify the actual visible writes from the final PDF bytes, not from the finalizer's own report",
         "return all nine completeness counters equal to zero, or return the family as STOPPED with the counter that is not"
       ],
@@ -2888,6 +2998,16 @@
       "minimumCaptainSha": "7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflight": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "rasterRule": [
+        "Page rasters go through `scripts/lib/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.",
+        "NEVER `pdftoppm`. NEVER `apt-get`. NEVER `playwright install`. The environment refuses package installation and a Poppler fallback is not a fallback, it is a different measurement.",
+        "The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after."
+      ],
+      "claimRule": [
+        "Assert every family before reading or writing anything: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF12 <familyId>`",
+        "A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.",
+        "Release each family when it is finished: `node scripts/grade-a-packet-factory-24h/claim.mjs --release PF12 <familyId>`, and leave that in your diff."
+      ],
       "prohibitedCommands": [
         "git fetch",
         "git pull",
@@ -3002,7 +3122,7 @@
         "complete every repeating case and offence row, because a partly-filled row reads as finished and is not",
         "leave every protected field blank — participant signature, signature date, certificate of mailing before mailing, court-only and prosecutor-only",
         "generate participant instructions and filing instructions",
-        "render all page rasters",
+        "render all page rasters through scripts/lib/pdf-page-raster.mjs, which discovers its own browser",
         "verify the actual visible writes from the final PDF bytes, not from the finalizer's own report",
         "return all nine completeness counters equal to zero, or return the family as STOPPED with the counter that is not"
       ],
@@ -3156,6 +3276,16 @@
       "minimumCaptainSha": "7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflight": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "rasterRule": [
+        "Page rasters go through `scripts/lib/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.",
+        "NEVER `pdftoppm`. NEVER `apt-get`. NEVER `playwright install`. The environment refuses package installation and a Poppler fallback is not a fallback, it is a different measurement.",
+        "The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after."
+      ],
+      "claimRule": [
+        "Assert every family before reading or writing anything: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF13 <familyId>`",
+        "A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.",
+        "Release each family when it is finished: `node scripts/grade-a-packet-factory-24h/claim.mjs --release PF13 <familyId>`, and leave that in your diff."
+      ],
       "prohibitedCommands": [
         "git fetch",
         "git pull",
@@ -3249,7 +3379,7 @@
         "complete every repeating case and offence row, because a partly-filled row reads as finished and is not",
         "leave every protected field blank — participant signature, signature date, certificate of mailing before mailing, court-only and prosecutor-only",
         "generate participant instructions and filing instructions",
-        "render all page rasters",
+        "render all page rasters through scripts/lib/pdf-page-raster.mjs, which discovers its own browser",
         "verify the actual visible writes from the final PDF bytes, not from the finalizer's own report",
         "return all nine completeness counters equal to zero, or return the family as STOPPED with the counter that is not"
       ],
@@ -3388,6 +3518,16 @@
       "minimumCaptainSha": "7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflight": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "rasterRule": [
+        "Page rasters go through `scripts/lib/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.",
+        "NEVER `pdftoppm`. NEVER `apt-get`. NEVER `playwright install`. The environment refuses package installation and a Poppler fallback is not a fallback, it is a different measurement.",
+        "The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after."
+      ],
+      "claimRule": [
+        "Assert every family before reading or writing anything: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF14 <familyId>`",
+        "A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.",
+        "Release each family when it is finished: `node scripts/grade-a-packet-factory-24h/claim.mjs --release PF14 <familyId>`, and leave that in your diff."
+      ],
       "prohibitedCommands": [
         "git fetch",
         "git pull",
@@ -3478,7 +3618,7 @@
         "complete every repeating case and offence row, because a partly-filled row reads as finished and is not",
         "leave every protected field blank — participant signature, signature date, certificate of mailing before mailing, court-only and prosecutor-only",
         "generate participant instructions and filing instructions",
-        "render all page rasters",
+        "render all page rasters through scripts/lib/pdf-page-raster.mjs, which discovers its own browser",
         "verify the actual visible writes from the final PDF bytes, not from the finalizer's own report",
         "return all nine completeness counters equal to zero, or return the family as STOPPED with the counter that is not"
       ],
@@ -3617,6 +3757,16 @@
       "minimumCaptainSha": "7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflight": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "rasterRule": [
+        "Page rasters go through `scripts/lib/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.",
+        "NEVER `pdftoppm`. NEVER `apt-get`. NEVER `playwright install`. The environment refuses package installation and a Poppler fallback is not a fallback, it is a different measurement.",
+        "The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after."
+      ],
+      "claimRule": [
+        "Assert every family before reading or writing anything: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF15 <familyId>`",
+        "A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.",
+        "Release each family when it is finished: `node scripts/grade-a-packet-factory-24h/claim.mjs --release PF15 <familyId>`, and leave that in your diff."
+      ],
       "prohibitedCommands": [
         "git fetch",
         "git pull",
@@ -3746,7 +3896,7 @@
         "complete every repeating case and offence row, because a partly-filled row reads as finished and is not",
         "leave every protected field blank — participant signature, signature date, certificate of mailing before mailing, court-only and prosecutor-only",
         "generate participant instructions and filing instructions",
-        "render all page rasters",
+        "render all page rasters through scripts/lib/pdf-page-raster.mjs, which discovers its own browser",
         "verify the actual visible writes from the final PDF bytes, not from the finalizer's own report",
         "return all nine completeness counters equal to zero, or return the family as STOPPED with the counter that is not"
       ],
@@ -3885,6 +4035,16 @@
       "minimumCaptainSha": "7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflight": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "rasterRule": [
+        "Page rasters go through `scripts/lib/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.",
+        "NEVER `pdftoppm`. NEVER `apt-get`. NEVER `playwright install`. The environment refuses package installation and a Poppler fallback is not a fallback, it is a different measurement.",
+        "The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after."
+      ],
+      "claimRule": [
+        "Assert every family before reading or writing anything: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF16 <familyId>`",
+        "A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.",
+        "Release each family when it is finished: `node scripts/grade-a-packet-factory-24h/claim.mjs --release PF16 <familyId>`, and leave that in your diff."
+      ],
       "prohibitedCommands": [
         "git fetch",
         "git pull",
@@ -4005,7 +4165,7 @@
         "complete every repeating case and offence row, because a partly-filled row reads as finished and is not",
         "leave every protected field blank — participant signature, signature date, certificate of mailing before mailing, court-only and prosecutor-only",
         "generate participant instructions and filing instructions",
-        "render all page rasters",
+        "render all page rasters through scripts/lib/pdf-page-raster.mjs, which discovers its own browser",
         "verify the actual visible writes from the final PDF bytes, not from the finalizer's own report",
         "return all nine completeness counters equal to zero, or return the family as STOPPED with the counter that is not"
       ],
@@ -4146,6 +4306,16 @@
       "minimumCaptainSha": "7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflight": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "rasterRule": [
+        "Page rasters go through `scripts/lib/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.",
+        "NEVER `pdftoppm`. NEVER `apt-get`. NEVER `playwright install`. The environment refuses package installation and a Poppler fallback is not a fallback, it is a different measurement.",
+        "The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after."
+      ],
+      "claimRule": [
+        "Assert every family before reading or writing anything: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF01 <familyId>`",
+        "A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.",
+        "Release each family when it is finished: `node scripts/grade-a-packet-factory-24h/claim.mjs --release VF01 <familyId>`, and leave that in your diff."
+      ],
       "prohibitedCommands": [
         "git fetch",
         "git pull",
@@ -4178,7 +4348,7 @@
       ],
       "independenceIsThreeWay": "Not the builder, not the repairer, not a shard that has already formed a view of these packets. A second reading by the same eyes is not an independent one.",
       "claimLedger": "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
-      "claimRule": "Claim atomically before reading. A family already claimed is skipped, never queued behind: two verifiers on one family is duplicate work reported as independent proof.",
+      "whyOneClaimMechanism": "Two verifiers on one family is duplicate work reported as independent proof. The ledger cannot express it, and the assert above is the only way to find out whether this lane holds a family.",
       "checkpointRule": "Take rolling five-to-ten-family checkpoints as soon as they land. Do not wait for a whole builder assignment.",
       "proofObligations": [
         "ROUTE IDENTITY: the packet is built for the route the record names",
@@ -4305,6 +4475,16 @@
       "minimumCaptainSha": "7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflight": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "rasterRule": [
+        "Page rasters go through `scripts/lib/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.",
+        "NEVER `pdftoppm`. NEVER `apt-get`. NEVER `playwright install`. The environment refuses package installation and a Poppler fallback is not a fallback, it is a different measurement.",
+        "The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after."
+      ],
+      "claimRule": [
+        "Assert every family before reading or writing anything: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF02 <familyId>`",
+        "A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.",
+        "Release each family when it is finished: `node scripts/grade-a-packet-factory-24h/claim.mjs --release VF02 <familyId>`, and leave that in your diff."
+      ],
       "prohibitedCommands": [
         "git fetch",
         "git pull",
@@ -4337,7 +4517,7 @@
       ],
       "independenceIsThreeWay": "Not the builder, not the repairer, not a shard that has already formed a view of these packets. A second reading by the same eyes is not an independent one.",
       "claimLedger": "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
-      "claimRule": "Claim atomically before reading. A family already claimed is skipped, never queued behind: two verifiers on one family is duplicate work reported as independent proof.",
+      "whyOneClaimMechanism": "Two verifiers on one family is duplicate work reported as independent proof. The ledger cannot express it, and the assert above is the only way to find out whether this lane holds a family.",
       "checkpointRule": "Take rolling five-to-ten-family checkpoints as soon as they land. Do not wait for a whole builder assignment.",
       "proofObligations": [
         "ROUTE IDENTITY: the packet is built for the route the record names",
@@ -4464,6 +4644,16 @@
       "minimumCaptainSha": "7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflight": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "rasterRule": [
+        "Page rasters go through `scripts/lib/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.",
+        "NEVER `pdftoppm`. NEVER `apt-get`. NEVER `playwright install`. The environment refuses package installation and a Poppler fallback is not a fallback, it is a different measurement.",
+        "The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after."
+      ],
+      "claimRule": [
+        "Assert every family before reading or writing anything: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF03 <familyId>`",
+        "A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.",
+        "Release each family when it is finished: `node scripts/grade-a-packet-factory-24h/claim.mjs --release VF03 <familyId>`, and leave that in your diff."
+      ],
       "prohibitedCommands": [
         "git fetch",
         "git pull",
@@ -4496,7 +4686,7 @@
       ],
       "independenceIsThreeWay": "Not the builder, not the repairer, not a shard that has already formed a view of these packets. A second reading by the same eyes is not an independent one.",
       "claimLedger": "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
-      "claimRule": "Claim atomically before reading. A family already claimed is skipped, never queued behind: two verifiers on one family is duplicate work reported as independent proof.",
+      "whyOneClaimMechanism": "Two verifiers on one family is duplicate work reported as independent proof. The ledger cannot express it, and the assert above is the only way to find out whether this lane holds a family.",
       "checkpointRule": "Take rolling five-to-ten-family checkpoints as soon as they land. Do not wait for a whole builder assignment.",
       "proofObligations": [
         "ROUTE IDENTITY: the packet is built for the route the record names",
@@ -4623,6 +4813,16 @@
       "minimumCaptainSha": "7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflight": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "rasterRule": [
+        "Page rasters go through `scripts/lib/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.",
+        "NEVER `pdftoppm`. NEVER `apt-get`. NEVER `playwright install`. The environment refuses package installation and a Poppler fallback is not a fallback, it is a different measurement.",
+        "The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after."
+      ],
+      "claimRule": [
+        "Assert every family before reading or writing anything: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF04 <familyId>`",
+        "A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.",
+        "Release each family when it is finished: `node scripts/grade-a-packet-factory-24h/claim.mjs --release VF04 <familyId>`, and leave that in your diff."
+      ],
       "prohibitedCommands": [
         "git fetch",
         "git pull",
@@ -4655,7 +4855,7 @@
       ],
       "independenceIsThreeWay": "Not the builder, not the repairer, not a shard that has already formed a view of these packets. A second reading by the same eyes is not an independent one.",
       "claimLedger": "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
-      "claimRule": "Claim atomically before reading. A family already claimed is skipped, never queued behind: two verifiers on one family is duplicate work reported as independent proof.",
+      "whyOneClaimMechanism": "Two verifiers on one family is duplicate work reported as independent proof. The ledger cannot express it, and the assert above is the only way to find out whether this lane holds a family.",
       "checkpointRule": "Take rolling five-to-ten-family checkpoints as soon as they land. Do not wait for a whole builder assignment.",
       "proofObligations": [
         "ROUTE IDENTITY: the packet is built for the route the record names",
@@ -4782,6 +4982,16 @@
       "minimumCaptainSha": "7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflight": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "rasterRule": [
+        "Page rasters go through `scripts/lib/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.",
+        "NEVER `pdftoppm`. NEVER `apt-get`. NEVER `playwright install`. The environment refuses package installation and a Poppler fallback is not a fallback, it is a different measurement.",
+        "The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after."
+      ],
+      "claimRule": [
+        "Assert every family before reading or writing anything: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF05 <familyId>`",
+        "A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.",
+        "Release each family when it is finished: `node scripts/grade-a-packet-factory-24h/claim.mjs --release VF05 <familyId>`, and leave that in your diff."
+      ],
       "prohibitedCommands": [
         "git fetch",
         "git pull",
@@ -4814,7 +5024,7 @@
       ],
       "independenceIsThreeWay": "Not the builder, not the repairer, not a shard that has already formed a view of these packets. A second reading by the same eyes is not an independent one.",
       "claimLedger": "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
-      "claimRule": "Claim atomically before reading. A family already claimed is skipped, never queued behind: two verifiers on one family is duplicate work reported as independent proof.",
+      "whyOneClaimMechanism": "Two verifiers on one family is duplicate work reported as independent proof. The ledger cannot express it, and the assert above is the only way to find out whether this lane holds a family.",
       "checkpointRule": "Take rolling five-to-ten-family checkpoints as soon as they land. Do not wait for a whole builder assignment.",
       "proofObligations": [
         "ROUTE IDENTITY: the packet is built for the route the record names",
@@ -4941,6 +5151,16 @@
       "minimumCaptainSha": "7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflight": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "rasterRule": [
+        "Page rasters go through `scripts/lib/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.",
+        "NEVER `pdftoppm`. NEVER `apt-get`. NEVER `playwright install`. The environment refuses package installation and a Poppler fallback is not a fallback, it is a different measurement.",
+        "The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after."
+      ],
+      "claimRule": [
+        "Assert every family before reading or writing anything: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF06 <familyId>`",
+        "A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.",
+        "Release each family when it is finished: `node scripts/grade-a-packet-factory-24h/claim.mjs --release VF06 <familyId>`, and leave that in your diff."
+      ],
       "prohibitedCommands": [
         "git fetch",
         "git pull",
@@ -4971,7 +5191,7 @@
       ],
       "independenceIsThreeWay": "Not the builder, not the repairer, not a shard that has already formed a view of these packets. A second reading by the same eyes is not an independent one.",
       "claimLedger": "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
-      "claimRule": "Claim atomically before reading. A family already claimed is skipped, never queued behind: two verifiers on one family is duplicate work reported as independent proof.",
+      "whyOneClaimMechanism": "Two verifiers on one family is duplicate work reported as independent proof. The ledger cannot express it, and the assert above is the only way to find out whether this lane holds a family.",
       "checkpointRule": "Take rolling five-to-ten-family checkpoints as soon as they land. Do not wait for a whole builder assignment.",
       "proofObligations": [
         "ROUTE IDENTITY: the packet is built for the route the record names",
@@ -5098,6 +5318,16 @@
       "minimumCaptainSha": "7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflight": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "rasterRule": [
+        "Page rasters go through `scripts/lib/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.",
+        "NEVER `pdftoppm`. NEVER `apt-get`. NEVER `playwright install`. The environment refuses package installation and a Poppler fallback is not a fallback, it is a different measurement.",
+        "The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after."
+      ],
+      "claimRule": [
+        "Assert every family before reading or writing anything: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF07 <familyId>`",
+        "A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.",
+        "Release each family when it is finished: `node scripts/grade-a-packet-factory-24h/claim.mjs --release VF07 <familyId>`, and leave that in your diff."
+      ],
       "prohibitedCommands": [
         "git fetch",
         "git pull",
@@ -5128,7 +5358,7 @@
       ],
       "independenceIsThreeWay": "Not the builder, not the repairer, not a shard that has already formed a view of these packets. A second reading by the same eyes is not an independent one.",
       "claimLedger": "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
-      "claimRule": "Claim atomically before reading. A family already claimed is skipped, never queued behind: two verifiers on one family is duplicate work reported as independent proof.",
+      "whyOneClaimMechanism": "Two verifiers on one family is duplicate work reported as independent proof. The ledger cannot express it, and the assert above is the only way to find out whether this lane holds a family.",
       "checkpointRule": "Take rolling five-to-ten-family checkpoints as soon as they land. Do not wait for a whole builder assignment.",
       "proofObligations": [
         "ROUTE IDENTITY: the packet is built for the route the record names",
@@ -5255,6 +5485,16 @@
       "minimumCaptainSha": "7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflight": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "rasterRule": [
+        "Page rasters go through `scripts/lib/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.",
+        "NEVER `pdftoppm`. NEVER `apt-get`. NEVER `playwright install`. The environment refuses package installation and a Poppler fallback is not a fallback, it is a different measurement.",
+        "The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after."
+      ],
+      "claimRule": [
+        "Assert every family before reading or writing anything: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF08 <familyId>`",
+        "A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.",
+        "Release each family when it is finished: `node scripts/grade-a-packet-factory-24h/claim.mjs --release VF08 <familyId>`, and leave that in your diff."
+      ],
       "prohibitedCommands": [
         "git fetch",
         "git pull",
@@ -5285,7 +5525,7 @@
       ],
       "independenceIsThreeWay": "Not the builder, not the repairer, not a shard that has already formed a view of these packets. A second reading by the same eyes is not an independent one.",
       "claimLedger": "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
-      "claimRule": "Claim atomically before reading. A family already claimed is skipped, never queued behind: two verifiers on one family is duplicate work reported as independent proof.",
+      "whyOneClaimMechanism": "Two verifiers on one family is duplicate work reported as independent proof. The ledger cannot express it, and the assert above is the only way to find out whether this lane holds a family.",
       "checkpointRule": "Take rolling five-to-ten-family checkpoints as soon as they land. Do not wait for a whole builder assignment.",
       "proofObligations": [
         "ROUTE IDENTITY: the packet is built for the route the record names",
@@ -5412,6 +5652,16 @@
       "minimumCaptainSha": "7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflight": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "rasterRule": [
+        "Page rasters go through `scripts/lib/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.",
+        "NEVER `pdftoppm`. NEVER `apt-get`. NEVER `playwright install`. The environment refuses package installation and a Poppler fallback is not a fallback, it is a different measurement.",
+        "The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after."
+      ],
+      "claimRule": [
+        "Assert every family before reading or writing anything: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF09 <familyId>`",
+        "A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.",
+        "Release each family when it is finished: `node scripts/grade-a-packet-factory-24h/claim.mjs --release VF09 <familyId>`, and leave that in your diff."
+      ],
       "prohibitedCommands": [
         "git fetch",
         "git pull",
@@ -5442,7 +5692,7 @@
       ],
       "independenceIsThreeWay": "Not the builder, not the repairer, not a shard that has already formed a view of these packets. A second reading by the same eyes is not an independent one.",
       "claimLedger": "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
-      "claimRule": "Claim atomically before reading. A family already claimed is skipped, never queued behind: two verifiers on one family is duplicate work reported as independent proof.",
+      "whyOneClaimMechanism": "Two verifiers on one family is duplicate work reported as independent proof. The ledger cannot express it, and the assert above is the only way to find out whether this lane holds a family.",
       "checkpointRule": "Take rolling five-to-ten-family checkpoints as soon as they land. Do not wait for a whole builder assignment.",
       "proofObligations": [
         "ROUTE IDENTITY: the packet is built for the route the record names",
@@ -5569,6 +5819,16 @@
       "minimumCaptainSha": "7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflight": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "rasterRule": [
+        "Page rasters go through `scripts/lib/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.",
+        "NEVER `pdftoppm`. NEVER `apt-get`. NEVER `playwright install`. The environment refuses package installation and a Poppler fallback is not a fallback, it is a different measurement.",
+        "The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after."
+      ],
+      "claimRule": [
+        "Assert every family before reading or writing anything: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF10 <familyId>`",
+        "A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.",
+        "Release each family when it is finished: `node scripts/grade-a-packet-factory-24h/claim.mjs --release VF10 <familyId>`, and leave that in your diff."
+      ],
       "prohibitedCommands": [
         "git fetch",
         "git pull",
@@ -5599,7 +5859,7 @@
       ],
       "independenceIsThreeWay": "Not the builder, not the repairer, not a shard that has already formed a view of these packets. A second reading by the same eyes is not an independent one.",
       "claimLedger": "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
-      "claimRule": "Claim atomically before reading. A family already claimed is skipped, never queued behind: two verifiers on one family is duplicate work reported as independent proof.",
+      "whyOneClaimMechanism": "Two verifiers on one family is duplicate work reported as independent proof. The ledger cannot express it, and the assert above is the only way to find out whether this lane holds a family.",
       "checkpointRule": "Take rolling five-to-ten-family checkpoints as soon as they land. Do not wait for a whole builder assignment.",
       "proofObligations": [
         "ROUTE IDENTITY: the packet is built for the route the record names",
@@ -5726,6 +5986,16 @@
       "minimumCaptainSha": "7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflight": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "rasterRule": [
+        "Page rasters go through `scripts/lib/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.",
+        "NEVER `pdftoppm`. NEVER `apt-get`. NEVER `playwright install`. The environment refuses package installation and a Poppler fallback is not a fallback, it is a different measurement.",
+        "The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after."
+      ],
+      "claimRule": [
+        "Assert every family before reading or writing anything: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF11 <familyId>`",
+        "A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.",
+        "Release each family when it is finished: `node scripts/grade-a-packet-factory-24h/claim.mjs --release VF11 <familyId>`, and leave that in your diff."
+      ],
       "prohibitedCommands": [
         "git fetch",
         "git pull",
@@ -5756,7 +6026,7 @@
       ],
       "independenceIsThreeWay": "Not the builder, not the repairer, not a shard that has already formed a view of these packets. A second reading by the same eyes is not an independent one.",
       "claimLedger": "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
-      "claimRule": "Claim atomically before reading. A family already claimed is skipped, never queued behind: two verifiers on one family is duplicate work reported as independent proof.",
+      "whyOneClaimMechanism": "Two verifiers on one family is duplicate work reported as independent proof. The ledger cannot express it, and the assert above is the only way to find out whether this lane holds a family.",
       "checkpointRule": "Take rolling five-to-ten-family checkpoints as soon as they land. Do not wait for a whole builder assignment.",
       "proofObligations": [
         "ROUTE IDENTITY: the packet is built for the route the record names",
@@ -5883,6 +6153,16 @@
       "minimumCaptainSha": "7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflight": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "rasterRule": [
+        "Page rasters go through `scripts/lib/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.",
+        "NEVER `pdftoppm`. NEVER `apt-get`. NEVER `playwright install`. The environment refuses package installation and a Poppler fallback is not a fallback, it is a different measurement.",
+        "The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after."
+      ],
+      "claimRule": [
+        "Assert every family before reading or writing anything: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF12 <familyId>`",
+        "A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.",
+        "Release each family when it is finished: `node scripts/grade-a-packet-factory-24h/claim.mjs --release VF12 <familyId>`, and leave that in your diff."
+      ],
       "prohibitedCommands": [
         "git fetch",
         "git pull",
@@ -5913,7 +6193,7 @@
       ],
       "independenceIsThreeWay": "Not the builder, not the repairer, not a shard that has already formed a view of these packets. A second reading by the same eyes is not an independent one.",
       "claimLedger": "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
-      "claimRule": "Claim atomically before reading. A family already claimed is skipped, never queued behind: two verifiers on one family is duplicate work reported as independent proof.",
+      "whyOneClaimMechanism": "Two verifiers on one family is duplicate work reported as independent proof. The ledger cannot express it, and the assert above is the only way to find out whether this lane holds a family.",
       "checkpointRule": "Take rolling five-to-ten-family checkpoints as soon as they land. Do not wait for a whole builder assignment.",
       "proofObligations": [
         "ROUTE IDENTITY: the packet is built for the route the record names",
@@ -6040,6 +6320,16 @@
       "minimumCaptainSha": "7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflight": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "rasterRule": [
+        "Page rasters go through `scripts/lib/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.",
+        "NEVER `pdftoppm`. NEVER `apt-get`. NEVER `playwright install`. The environment refuses package installation and a Poppler fallback is not a fallback, it is a different measurement.",
+        "The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after."
+      ],
+      "claimRule": [
+        "Assert every family before reading or writing anything: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert DISC01 <familyId>`",
+        "A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.",
+        "Release each family when it is finished: `node scripts/grade-a-packet-factory-24h/claim.mjs --release DISC01 <familyId>`, and leave that in your diff."
+      ],
       "prohibitedCommands": [
         "git fetch",
         "git pull",
@@ -6256,6 +6546,16 @@
       "minimumCaptainSha": "7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflight": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "rasterRule": [
+        "Page rasters go through `scripts/lib/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.",
+        "NEVER `pdftoppm`. NEVER `apt-get`. NEVER `playwright install`. The environment refuses package installation and a Poppler fallback is not a fallback, it is a different measurement.",
+        "The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after."
+      ],
+      "claimRule": [
+        "Assert every family before reading or writing anything: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert DISC02 <familyId>`",
+        "A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.",
+        "Release each family when it is finished: `node scripts/grade-a-packet-factory-24h/claim.mjs --release DISC02 <familyId>`, and leave that in your diff."
+      ],
       "prohibitedCommands": [
         "git fetch",
         "git pull",
@@ -6497,6 +6797,16 @@
       "minimumCaptainSha": "7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflight": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "rasterRule": [
+        "Page rasters go through `scripts/lib/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.",
+        "NEVER `pdftoppm`. NEVER `apt-get`. NEVER `playwright install`. The environment refuses package installation and a Poppler fallback is not a fallback, it is a different measurement.",
+        "The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after."
+      ],
+      "claimRule": [
+        "Assert every family before reading or writing anything: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert DISC03 <familyId>`",
+        "A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.",
+        "Release each family when it is finished: `node scripts/grade-a-packet-factory-24h/claim.mjs --release DISC03 <familyId>`, and leave that in your diff."
+      ],
       "prohibitedCommands": [
         "git fetch",
         "git pull",
@@ -6716,6 +7026,16 @@
       "minimumCaptainSha": "7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflight": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "rasterRule": [
+        "Page rasters go through `scripts/lib/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.",
+        "NEVER `pdftoppm`. NEVER `apt-get`. NEVER `playwright install`. The environment refuses package installation and a Poppler fallback is not a fallback, it is a different measurement.",
+        "The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after."
+      ],
+      "claimRule": [
+        "Assert every family before reading or writing anything: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert DISC04 <familyId>`",
+        "A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.",
+        "Release each family when it is finished: `node scripts/grade-a-packet-factory-24h/claim.mjs --release DISC04 <familyId>`, and leave that in your diff."
+      ],
       "prohibitedCommands": [
         "git fetch",
         "git pull",
@@ -6935,6 +7255,16 @@
       "minimumCaptainSha": "7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflight": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "rasterRule": [
+        "Page rasters go through `scripts/lib/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.",
+        "NEVER `pdftoppm`. NEVER `apt-get`. NEVER `playwright install`. The environment refuses package installation and a Poppler fallback is not a fallback, it is a different measurement.",
+        "The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after."
+      ],
+      "claimRule": [
+        "Assert every family before reading or writing anything: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert DISC05 <familyId>`",
+        "A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.",
+        "Release each family when it is finished: `node scripts/grade-a-packet-factory-24h/claim.mjs --release DISC05 <familyId>`, and leave that in your diff."
+      ],
       "prohibitedCommands": [
         "git fetch",
         "git pull",
@@ -7158,6 +7488,16 @@
       "minimumCaptainSha": "7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflight": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "rasterRule": [
+        "Page rasters go through `scripts/lib/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.",
+        "NEVER `pdftoppm`. NEVER `apt-get`. NEVER `playwright install`. The environment refuses package installation and a Poppler fallback is not a fallback, it is a different measurement.",
+        "The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after."
+      ],
+      "claimRule": [
+        "Assert every family before reading or writing anything: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert DISC06 <familyId>`",
+        "A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.",
+        "Release each family when it is finished: `node scripts/grade-a-packet-factory-24h/claim.mjs --release DISC06 <familyId>`, and leave that in your diff."
+      ],
       "prohibitedCommands": [
         "git fetch",
         "git pull",
@@ -7405,6 +7745,16 @@
       "minimumCaptainSha": "7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflight": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "rasterRule": [
+        "Page rasters go through `scripts/lib/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.",
+        "NEVER `pdftoppm`. NEVER `apt-get`. NEVER `playwright install`. The environment refuses package installation and a Poppler fallback is not a fallback, it is a different measurement.",
+        "The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after."
+      ],
+      "claimRule": [
+        "Assert every family before reading or writing anything: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert SRC01 <familyId>`",
+        "A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.",
+        "Release each family when it is finished: `node scripts/grade-a-packet-factory-24h/claim.mjs --release SRC01 <familyId>`, and leave that in your diff."
+      ],
       "prohibitedCommands": [
         "git fetch",
         "git pull",
@@ -7703,6 +8053,16 @@
       "minimumCaptainSha": "7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflight": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "rasterRule": [
+        "Page rasters go through `scripts/lib/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.",
+        "NEVER `pdftoppm`. NEVER `apt-get`. NEVER `playwright install`. The environment refuses package installation and a Poppler fallback is not a fallback, it is a different measurement.",
+        "The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after."
+      ],
+      "claimRule": [
+        "Assert every family before reading or writing anything: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert SRC02 <familyId>`",
+        "A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.",
+        "Release each family when it is finished: `node scripts/grade-a-packet-factory-24h/claim.mjs --release SRC02 <familyId>`, and leave that in your diff."
+      ],
       "prohibitedCommands": [
         "git fetch",
         "git pull",
@@ -7996,6 +8356,16 @@
       "minimumCaptainSha": "7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflight": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "rasterRule": [
+        "Page rasters go through `scripts/lib/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.",
+        "NEVER `pdftoppm`. NEVER `apt-get`. NEVER `playwright install`. The environment refuses package installation and a Poppler fallback is not a fallback, it is a different measurement.",
+        "The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after."
+      ],
+      "claimRule": [
+        "Assert every family before reading or writing anything: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert SRC03 <familyId>`",
+        "A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.",
+        "Release each family when it is finished: `node scripts/grade-a-packet-factory-24h/claim.mjs --release SRC03 <familyId>`, and leave that in your diff."
+      ],
       "prohibitedCommands": [
         "git fetch",
         "git pull",
@@ -8281,6 +8651,16 @@
       "minimumCaptainSha": "7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflight": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "rasterRule": [
+        "Page rasters go through `scripts/lib/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.",
+        "NEVER `pdftoppm`. NEVER `apt-get`. NEVER `playwright install`. The environment refuses package installation and a Poppler fallback is not a fallback, it is a different measurement.",
+        "The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after."
+      ],
+      "claimRule": [
+        "Assert every family before reading or writing anything: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert SRC04 <familyId>`",
+        "A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.",
+        "Release each family when it is finished: `node scripts/grade-a-packet-factory-24h/claim.mjs --release SRC04 <familyId>`, and leave that in your diff."
+      ],
       "prohibitedCommands": [
         "git fetch",
         "git pull",
@@ -8603,6 +8983,16 @@
       "minimumCaptainSha": "7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflight": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "rasterRule": [
+        "Page rasters go through `scripts/lib/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.",
+        "NEVER `pdftoppm`. NEVER `apt-get`. NEVER `playwright install`. The environment refuses package installation and a Poppler fallback is not a fallback, it is a different measurement.",
+        "The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after."
+      ],
+      "claimRule": [
+        "Assert every family before reading or writing anything: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert ACQ01 <familyId>`",
+        "A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.",
+        "Release each family when it is finished: `node scripts/grade-a-packet-factory-24h/claim.mjs --release ACQ01 <familyId>`, and leave that in your diff."
+      ],
       "prohibitedCommands": [
         "git fetch",
         "git pull",
@@ -8905,6 +9295,16 @@
       "minimumCaptainSha": "7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflight": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "rasterRule": [
+        "Page rasters go through `scripts/lib/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.",
+        "NEVER `pdftoppm`. NEVER `apt-get`. NEVER `playwright install`. The environment refuses package installation and a Poppler fallback is not a fallback, it is a different measurement.",
+        "The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after."
+      ],
+      "claimRule": [
+        "Assert every family before reading or writing anything: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert ACQ02 <familyId>`",
+        "A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.",
+        "Release each family when it is finished: `node scripts/grade-a-packet-factory-24h/claim.mjs --release ACQ02 <familyId>`, and leave that in your diff."
+      ],
       "prohibitedCommands": [
         "git fetch",
         "git pull",
@@ -9186,6 +9586,16 @@
       "minimumCaptainSha": "7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflight": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "rasterRule": [
+        "Page rasters go through `scripts/lib/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.",
+        "NEVER `pdftoppm`. NEVER `apt-get`. NEVER `playwright install`. The environment refuses package installation and a Poppler fallback is not a fallback, it is a different measurement.",
+        "The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after."
+      ],
+      "claimRule": [
+        "Assert every family before reading or writing anything: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert ACQ03 <familyId>`",
+        "A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.",
+        "Release each family when it is finished: `node scripts/grade-a-packet-factory-24h/claim.mjs --release ACQ03 <familyId>`, and leave that in your diff."
+      ],
       "prohibitedCommands": [
         "git fetch",
         "git pull",
@@ -9499,6 +9909,16 @@
       "minimumCaptainSha": "7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflight": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "rasterRule": [
+        "Page rasters go through `scripts/lib/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.",
+        "NEVER `pdftoppm`. NEVER `apt-get`. NEVER `playwright install`. The environment refuses package installation and a Poppler fallback is not a fallback, it is a different measurement.",
+        "The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after."
+      ],
+      "claimRule": [
+        "Assert every family before reading or writing anything: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert PROMO01 <familyId>`",
+        "A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.",
+        "Release each family when it is finished: `node scripts/grade-a-packet-factory-24h/claim.mjs --release PROMO01 <familyId>`, and leave that in your diff."
+      ],
       "prohibitedCommands": [
         "git fetch",
         "git pull",
@@ -9684,6 +10104,16 @@
       "minimumCaptainSha": "7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflight": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "rasterRule": [
+        "Page rasters go through `scripts/lib/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.",
+        "NEVER `pdftoppm`. NEVER `apt-get`. NEVER `playwright install`. The environment refuses package installation and a Poppler fallback is not a fallback, it is a different measurement.",
+        "The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after."
+      ],
+      "claimRule": [
+        "Assert every family before reading or writing anything: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert PROMO02 <familyId>`",
+        "A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.",
+        "Release each family when it is finished: `node scripts/grade-a-packet-factory-24h/claim.mjs --release PROMO02 <familyId>`, and leave that in your diff."
+      ],
       "prohibitedCommands": [
         "git fetch",
         "git pull",
@@ -9843,6 +10273,16 @@
       "minimumCaptainSha": "7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflight": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "rasterRule": [
+        "Page rasters go through `scripts/lib/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.",
+        "NEVER `pdftoppm`. NEVER `apt-get`. NEVER `playwright install`. The environment refuses package installation and a Poppler fallback is not a fallback, it is a different measurement.",
+        "The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after."
+      ],
+      "claimRule": [
+        "Assert every family before reading or writing anything: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert PROMO03 <familyId>`",
+        "A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.",
+        "Release each family when it is finished: `node scripts/grade-a-packet-factory-24h/claim.mjs --release PROMO03 <familyId>`, and leave that in your diff."
+      ],
       "prohibitedCommands": [
         "git fetch",
         "git pull",
@@ -10002,6 +10442,16 @@
       "minimumCaptainSha": "7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflight": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "rasterRule": [
+        "Page rasters go through `scripts/lib/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.",
+        "NEVER `pdftoppm`. NEVER `apt-get`. NEVER `playwright install`. The environment refuses package installation and a Poppler fallback is not a fallback, it is a different measurement.",
+        "The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after."
+      ],
+      "claimRule": [
+        "Assert every family before reading or writing anything: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 <familyId>`",
+        "A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.",
+        "Release each family when it is finished: `node scripts/grade-a-packet-factory-24h/claim.mjs --release FIX01 <familyId>`, and leave that in your diff."
+      ],
       "prohibitedCommands": [
         "git fetch",
         "git pull",
@@ -10232,6 +10682,16 @@
       "minimumCaptainSha": "7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflight": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "rasterRule": [
+        "Page rasters go through `scripts/lib/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.",
+        "NEVER `pdftoppm`. NEVER `apt-get`. NEVER `playwright install`. The environment refuses package installation and a Poppler fallback is not a fallback, it is a different measurement.",
+        "The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after."
+      ],
+      "claimRule": [
+        "Assert every family before reading or writing anything: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 <familyId>`",
+        "A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.",
+        "Release each family when it is finished: `node scripts/grade-a-packet-factory-24h/claim.mjs --release FIX02 <familyId>`, and leave that in your diff."
+      ],
       "prohibitedCommands": [
         "git fetch",
         "git pull",
@@ -10442,6 +10902,16 @@
       "minimumCaptainSha": "7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflight": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "rasterRule": [
+        "Page rasters go through `scripts/lib/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.",
+        "NEVER `pdftoppm`. NEVER `apt-get`. NEVER `playwright install`. The environment refuses package installation and a Poppler fallback is not a fallback, it is a different measurement.",
+        "The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after."
+      ],
+      "claimRule": [
+        "Assert every family before reading or writing anything: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX03 <familyId>`",
+        "A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.",
+        "Release each family when it is finished: `node scripts/grade-a-packet-factory-24h/claim.mjs --release FIX03 <familyId>`, and leave that in your diff."
+      ],
       "prohibitedCommands": [
         "git fetch",
         "git pull",
@@ -10649,6 +11119,16 @@
       "minimumCaptainSha": "7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflight": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "rasterRule": [
+        "Page rasters go through `scripts/lib/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.",
+        "NEVER `pdftoppm`. NEVER `apt-get`. NEVER `playwright install`. The environment refuses package installation and a Poppler fallback is not a fallback, it is a different measurement.",
+        "The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after."
+      ],
+      "claimRule": [
+        "Assert every family before reading or writing anything: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 <familyId>`",
+        "A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.",
+        "Release each family when it is finished: `node scripts/grade-a-packet-factory-24h/claim.mjs --release FIX04 <familyId>`, and leave that in your diff."
+      ],
       "prohibitedCommands": [
         "git fetch",
         "git pull",

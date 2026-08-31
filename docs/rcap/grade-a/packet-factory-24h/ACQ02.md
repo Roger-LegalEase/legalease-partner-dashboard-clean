@@ -31,6 +31,18 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY: 14/14`**. A 13/14 in cloud mode
 - `git remote add`
 - `git clone`
 
+## Claim before you read
+
+- Assert every family before reading or writing anything: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert ACQ02 <familyId>`
+- A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
+- Release each family when it is finished: `node scripts/grade-a-packet-factory-24h/claim.mjs --release ACQ02 <familyId>`, and leave that in your diff.
+
+## How to raster
+
+- Page rasters go through `scripts/lib/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.
+- NEVER `pdftoppm`. NEVER `apt-get`. NEVER `playwright install`. The environment refuses package installation and a Poppler fallback is not a fallback, it is a different measurement.
+- The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after.
+
 ## Mission
 
 Dispatch one exact acquisition per official URL through .github/workflows/rcap-official-source-acquisition.yml. One URL, one dispatch, one receipt. This environment cannot fetch; the workflow does it where egress is allowed.
