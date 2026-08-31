@@ -101,6 +101,9 @@ const CORPUS_ENV_HOME = ".legalease-corpus-env";
  * assignment whose items name the family wins, and two matches is a refusal
  * rather than a guess. */
 const ASSIGNMENT_MANIFESTS = [
+  "data/rcap-grade-a/launch-control/CODEX_CLOUD_CONTINUATIONS.json",
+  "data/rcap-grade-a/launch-control/P2_WASHINGTON_VERIFICATION.json",
+  "data/rcap-grade-a/launch-control/R8_FOUR_WAY_SPLIT.json",
   "data/rcap-grade-a/launch-control/S2_CONTINUATION.json",
   "data/rcap-grade-a/launch-control/COMPLETENESS_REPAIR_WAVE.json",
   "data/rcap-grade-a/launch-control/WAVE_2_ASSIGNMENTS.json",
@@ -264,10 +267,15 @@ function resolveAssignment(env = ROOT, family = FAMILY, explicit = ASSIGNMENT_FI
   if (!family) return { file: null, found: false, assignments: [], why: "no --family and no --assignment" };
   /*
    * ASSIGNMENT_MANIFESTS is ordered by precedence, most current first, and the
-   * search stops at the first manifest that names the family. A family that a
-   * finished repair lane built and a current shard now verifies appears in both,
-   * and that is history rather than a collision. Two assignments naming it
-   * INSIDE one manifest is the real collision, and that is a refusal.
+   * search stops at the first manifest that names the family.
+   *
+   * Two claims are a COLLISION only when they are the same KIND of work. A
+   * family a repair lane builds and a verification shard verifies is claimed
+   * twice on purpose -- that is the whole design -- and reading any second claim
+   * as a collision refused all four R8 families at 13/14 for a dispatch that was
+   * correct. The lane's own `lane` field decides the kind; an assignment that
+   * does not state one is treated as its own kind rather than merged with
+   * another lane's.
    */
   for (const rel of ASSIGNMENT_MANIFESTS) {
     const doc = readJson(rel, env);
@@ -277,12 +285,25 @@ function resolveAssignment(env = ROOT, family = FAMILY, explicit = ASSIGNMENT_FI
     for (const list of lists) {
       for (const a of list) {
         if (!Array.isArray(a.items) || !a.items.includes(family)) continue;
-        here.push({ file: rel, assignmentId: a.assignmentId ?? null, promptFile: a.promptFile ?? null, base: a.captainBaseSha ?? null });
+        here.push({
+          file: rel, assignmentId: a.assignmentId ?? null, promptFile: a.promptFile ?? null,
+          base: a.captainBaseSha ?? a.minimumCaptainSha ?? null,
+          lane: a.lane ?? a.assignmentId ?? "unstated"
+        });
       }
     }
-    if (here.length > 0) {
-      return { file: rel, found: here.length === 1, assignments: here, precedence: ASSIGNMENT_MANIFESTS.indexOf(rel) };
-    }
+    if (here.length === 0) continue;
+    const kinds = new Map();
+    for (const a of here) kinds.set(a.lane, [...(kinds.get(a.lane) ?? []), a.assignmentId]);
+    const collidingKinds = [...kinds.entries()].filter(([, ids]) => ids.length > 1);
+    /* The one this worker is executing: prefer a build or repair lane over a
+     * verification lane, because a preflight is run before doing the work. */
+    const doing = here.find((a) => a.lane !== "independent-verification") ?? here[0];
+    return {
+      file: rel, found: collidingKinds.length === 0, assignments: here, executing: doing,
+      collidingKinds: collidingKinds.map(([lane, ids]) => ({ lane, assignments: ids })),
+      precedence: ASSIGNMENT_MANIFESTS.indexOf(rel)
+    };
   }
   return { file: null, found: false, assignments: [] };
 }
@@ -401,8 +422,9 @@ check(
       const family = Object.hasOwn(opts, "family") ? opts.family : FAMILY;
       const explicit = Object.hasOwn(opts, "assignmentFile") ? opts.assignmentFile : ASSIGNMENT_FILE;
       const resolved = resolveAssignment(env, family, explicit);
-      if (resolved.assignments.length > 1) {
-        return { ok: false, family, matches: resolved.assignments.map((a) => a.assignmentId), detail: `${family} is claimed by ${resolved.assignments.length} assignments; a dispatch collision is not a preflight decision` };
+      if ((resolved.collidingKinds ?? []).length > 0) {
+        const c = resolved.collidingKinds[0];
+        return { ok: false, family, collidingKinds: resolved.collidingKinds, detail: `${family} is claimed by ${c.assignments.length} ${c.lane} assignments (${c.assignments.join(", ")}); two lanes of one kind on one family is a dispatch collision, not a preflight decision` };
       }
       if (!resolved.file) {
         return { ok: false, family, detail: `no assignment in this checkout names ${family ?? "this task"}; pass --assignment or dispatch the family first` };
@@ -410,7 +432,7 @@ check(
       if (!fs.existsSync(path.join(env, resolved.file))) {
         return { ok: false, assignmentFile: resolved.file, detail: `${resolved.file} is not in this checkout` };
       }
-      const match = resolved.assignments[0] ?? null;
+      const match = resolved.executing ?? resolved.assignments[0] ?? null;
       const prompt = (Object.hasOwn(opts, "promptFile") ? opts.promptFile : PROMPT_FILE) ?? match?.promptFile ?? null;
       const promptPresent = prompt ? fs.existsSync(path.join(env, prompt)) : null;
       if (prompt && !promptPresent) {
@@ -428,7 +450,8 @@ check(
       return {
         ok: true, assignmentFile: resolved.file, assignmentId: match?.assignmentId ?? null,
         promptFile: prompt, promptPresent, assignmentBase: base, headDescendsFromAssignmentBase: descends,
-        detail: `${match?.assignmentId ?? path.basename(resolved.file)} present${prompt ? ` with ${path.basename(prompt)}` : ""}${base ? `, cut from ${base.slice(0, 8)}` : ""}`
+        alsoClaimedBy: resolved.assignments.filter((x) => x.assignmentId !== match?.assignmentId).map((x) => `${x.assignmentId} (${x.lane})`),
+        detail: `${match?.assignmentId ?? path.basename(resolved.file)} present${prompt ? ` with ${path.basename(prompt)}` : ""}${base ? `, cut from ${base.slice(0, 8)}` : ""}${resolved.assignments.length > 1 ? `; also held by ${resolved.assignments.length - 1} lane(s) of another kind` : ""}`
       };
     }
   }
@@ -973,6 +996,34 @@ function cloudScenarios() {
     const noAssignment = makeEnv("cloud-no-assignment");
     record("no assignment in the checkout names this family", "assignment_present_in_this_checkout",
       run("assigned_branch_tip_visible", noAssignment.env, { family: "zz-synthetic-set", assignmentFile: null, promptFile: null }));
+
+    /* Two lanes of ONE kind on one family is a collision; a builder and its
+     * verifier are not. Both directions, because getting the first right by
+     * refusing everything is how four correct R8 families were refused. */
+    const collide = makeEnv("cloud-two-builders-one-family");
+    const manifest = (assignmentsJson) => {
+      const dir = path.join(collide.env, "data/rcap-grade-a/launch-control");
+      fs.mkdirSync(dir, { recursive: true });
+      fs.writeFileSync(path.join(dir, "CODEX_CLOUD_CONTINUATIONS.json"), JSON.stringify({ assignments: assignmentsJson }, null, 2));
+    };
+    manifest([
+      { assignmentId: "BUILD_A", lane: "completeness-repair", items: ["zz-synthetic-set"] },
+      { assignmentId: "BUILD_B", lane: "completeness-repair", items: ["zz-synthetic-set"] }
+    ]);
+    record("two lanes of one kind claiming one family", "assignment_present_in_this_checkout",
+      run("assigned_branch_tip_visible", collide.env, { family: "zz-synthetic-set", assignmentFile: null, promptFile: null }));
+    manifest([
+      { assignmentId: "BUILD_A", lane: "completeness-repair", items: ["zz-synthetic-set"] },
+      { assignmentId: "VERIFY_A", lane: "independent-verification", items: ["zz-synthetic-set"] }
+    ]);
+    const builderAndVerifier = run("assigned_branch_tip_visible", collide.env, { family: "zz-synthetic-set", assignmentFile: null, promptFile: null });
+    findings.push({
+      scenario: "CONTROL — a builder and its verifier claiming one family is NOT a collision",
+      check: "assignment_present_in_this_checkout",
+      refused: builderAndVerifier.ok === false,
+      detail: builderAndVerifier.detail,
+      verdict: builderAndVerifier.ok === true ? "ACCEPTED_AS_IT_MUST" : "REFUSED — the gate refuses a correct dispatch"
+    });
 
     // Normal mode must not have been softened on the way past.
     const shallowSource = makeEnv("cloud-shallow-source");
