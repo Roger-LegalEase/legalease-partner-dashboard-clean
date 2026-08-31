@@ -1,7 +1,7 @@
-# R5_NONPRODUCTION_ACCEPTANCE
+# R8_COMPLETENESS_REPAIR_PRIORITY_FOUR
 
-**Wave:** 2  ·  **Engine:** Claude Remote  ·  **Lane:** residual
-**Worker branch:** `claude/r5-nonproduction-acceptance`
+**Wave:** 2  ·  **Engine:** Codex  ·  **Lane:** residual
+**Worker branch:** `codex/r8-completeness-repair-priority-four`
 **Branch from:** `c8d912d9a1dea54043f6dbc2cda464d00946c74c`
 **Read this assignment from:** `origin/claude/legalease-sprint-captain-utucnw` → `data/rcap-grade-a/launch-control/WAVE_2_ASSIGNMENTS.json`
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
@@ -10,15 +10,18 @@
 
 ## Mission
 
-HELD. Hosted participant-data-rights acceptance does not run until project hyflxnlhpmiqxvvcoiia is reachable and currently proven synthetic from the executing session. Roger's one-time authorization is unspent and is not re-requested.
+Repair the four families whose PASS was revoked, in priority order A to D. Each has a complete per-field ledger in the repair plan: exactly which known facts must be written, which elections the route decides, which blanks need an approved disposition, and which components must render. Re-render each against its pinned source and prove it with the completeness verifier.
 
-## Your exact scope — 0 environments
+## Your exact scope — 4 familyIds
 
-_none_
+- `nj_disorderly_persons-set`
+- `ca-17b-reduction-set`
+- `ca-1203-43-set`
+- `az_marijuana_expungement_superior_court-set`
 
 ## Reuse decision
 
-**RESUME_FROM_RESIDUAL_RECORD** — Every item here is open in data/rcap-grade-a/launch-control/RESIDUAL_WORK.json, which refuses to carry anything the integration status reports completed.
+**REPAIR_IN_PLACE_DO_NOT_REBUILD** — These four families are built and their artifacts are byte-checked. What is missing is content, not construction: the repair writes the facts the build owed and re-renders.
 
 ## Required inputs
 
@@ -31,7 +34,7 @@ _none_
 
 ## Owned paths — write only here
 
-- `data/rcap-grade-a/wave-2/r5-nonproduction-acceptance/**`
+- `data/rcap-grade-a/wave-2/r8-completeness-repair-priority-four/**`
 
 ## Prohibited paths — never write here
 
@@ -49,7 +52,8 @@ _none_
 
 ## Required outputs
 
-- data/rcap-grade-a/wave-2/r5-nonproduction-acceptance/hosted-acceptance.json — only once the preconditions hold
+- data/rcap-grade-a/wave-2/r8-completeness-repair-priority-four/rows.json — one row per family: itemId, status, counters before and after, and every field newly written or newly classified
+- the re-rendered canonical and boundary artifacts, the corrected production-field-map.json, and an updated source-receipt.json inside each family's existing overlay directory
 
 ### Output schema
 
@@ -59,7 +63,8 @@ Put the lane's detail in separate fields. Do not encode it in the status string,
 
 ## Focused tests
 
-- `node scripts/verify-participant-data-rights.mjs`
+- `node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <family>`
+- `node scripts/verify-packet-build-environment.mjs --family <family>`
 - `node scripts/grade-a-launch-control/verify-launch-control.mjs`
 
 Do not run a broad tracked-file mutation suite: other workers are active.
@@ -67,9 +72,11 @@ Do not run a broad tracked-file mutation suite: other workers are active.
 ## Stop conditions
 
 - WEC-6: every stop condition below states its scope. A ROW stop records that row and continues to the next; a LANE stop is named as such and says why the remaining rows are unsafe or meaningless without it.
-- LANE STOP — the pinned project cannot be currently proven synthetic from this session, or no credential authorized for its organization exists here. Both were true in Wave 1 and nothing has changed them.
-- LANE STOP — the host has less than 4096 MiB free. C12 had 32 MiB and could not install the toolchain.
-- NEVER — no Production migration, deployment, environment-variable change or real participant data. No real downstream processor is contacted. authorizationConsumed stays false.
+- ACCEPTANCE — a family is repaired only when the completeness verifier returns PASS_COMPLETE with all nine counters at zero. There is no partial credit: a filing with a blank offence code is not 97 percent filable.
+- ROW STOP — a required fact the platform genuinely does not hold is classified REQUIRED_BEFORE_FILING and surfaced to the participant in the packet's own instructions. A disposition without that surfacing is not an approved blank.
+- NEVER invent a fact to fill a field. A guessed arresting agency is worse than a blank one, because the blank is visible and the guess is not.
+- NEVER write a protected field: participant signature, signature date, certificate of mailing before mailing, or any court-only or prosecutor-only field.
+- NEVER re-commit a private-corpus binary. Bind sources from MASTER_LIBRARY_SOURCE_DIR and record the SHA-256.
 
 Stopping with an honest account of what is missing is a complete return.
 
@@ -81,10 +88,10 @@ WORKER BRANCH:
 BASE SHA:
 ASSIGNMENT READ FROM:
 COMMIT:
-PROJECT REACHABLE:
-PROVEN SYNTHETIC:
-MIGRATION APPLIED:
-AUTHORIZATION CONSUMED: false
+FAMILIES REPAIRED:
+PASS_COMPLETE:
+COUNTERS REMAINING:
+FACTS CLASSIFIED REQUIRED_BEFORE_FILING:
 STOPPED AND REPORTED:
 COMMERCIAL ROUTES OPENED: 0
 PRODUCTION TOUCHED: NO
@@ -98,11 +105,11 @@ Completing this assignment opens no commercial route, proves no packet and appro
 
 ```sh
 git fetch origin --prune
-git checkout -b claude/r5-nonproduction-acceptance c8d912d9a1dea54043f6dbc2cda464d00946c74c
+git checkout -b codex/r8-completeness-repair-priority-four c8d912d9a1dea54043f6dbc2cda464d00946c74c
 git show origin/claude/legalease-sprint-captain-utucnw:data/rcap-grade-a/launch-control/WAVE_2_ASSIGNMENTS.json > /tmp/wave-2-assignments.json
 # STOP unless /tmp/wave-2-assignments.json captainBaseSha === c8d912d9a1dea54043f6dbc2cda464d00946c74c
 # your assignment is the entry whose assignmentId matches this prompt's title
 npm ci --cache /tmp/legalease-npm-cache   # requires at least 4096 MiB free; see WEC-2
 ```
 
-Commit your work and `git push -u origin claude/r5-nonproduction-acceptance`.
+Commit your work and `git push -u origin codex/r8-completeness-repair-priority-four`.

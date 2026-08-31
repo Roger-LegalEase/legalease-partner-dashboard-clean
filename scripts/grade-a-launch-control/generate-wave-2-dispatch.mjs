@@ -35,7 +35,7 @@ const V1 = "data/rcap-grade-a/route-obligation-census-v1";
 const CAPTAIN_BRANCH = "claude/legalease-sprint-captain-utucnw";
 
 // The Wave 2 control-baseline commit. Workers branch from exactly this.
-const CAPTAIN_BASE_SHA = "__WAVE2_BASE_SHA__";
+const CAPTAIN_BASE_SHA = "c8d912d9a1dea54043f6dbc2cda464d00946c74c";
 
 const read = (rel) => JSON.parse(fs.readFileSync(path.join(ROOT, rel), "utf8"));
 
@@ -216,7 +216,7 @@ const LANES = [
   },
   {
     id: "R7_PACKET_REPAIR", engine: "Codex", slug: "r7-packet-repair",
-    mission: `Repair the C11 return without rebuilding it: write the missing product-wiring record for ${c11Stops.builtFamilyRecordGap?.count ?? 0} built families, and complete the Pennsylvania § 6308 packet component specification. None of the 43 built families is rerun.`,
+    mission: `Repair the C11 return without rebuilding it: write the missing product-wiring record for the built families that lack one, and complete the Pennsylvania § 6308 packet component specification. The four families in R8 are excluded — they own their own repair, wiring record included. None of the 43 built families is rerun.`,
     itemKind: "familyId",
     outputs: [
       "data/rcap-grade-a/wave-2/r7-packet-repair/rows.json — one row per family: itemId, status, what was missing, what was written",
@@ -299,7 +299,12 @@ const VERIFICATION = shards.map((families, index) => {
 const assignments = [
   ...LANES.map((lane) => {
     const residualLane = laneOf(lane.id);
-    const items = lane.explicitItems ?? residualLane?.items ?? [];
+    // The four completeness repairs own their families outright, wiring record
+    // included. Leaving them in R7 as well would send two workers to the same
+    // overlay directory, and the one writing a wiring record would be writing it
+    // for a packet the other one is re-rendering.
+    const items = (lane.explicitItems ?? residualLane?.items ?? [])
+      .filter((i) => lane.id === "R8_COMPLETENESS_REPAIR_PRIORITY_FOUR" || !revokedFamilies.includes(i));
     return {
       assignmentId: lane.id,
       wave: 2,
@@ -377,7 +382,11 @@ for (const a of assignments) {
     paths.set(root, a.assignmentId);
   }
 }
-const PLACEHOLDER = /\b(TBD|TODO|FIXME|XXX)\b|<placeholder>|__[A-Z_]+__/;
+// A run of underscores is a printed form's leader line, not a placeholder value.
+// The first version of this pattern matched ___________________ inside a CR-180
+// field label and refused the dispatch for carrying a placeholder it did not
+// carry. A real sentinel has letters between its underscores.
+const PLACEHOLDER = /\b(TBD|TODO|FIXME|XXX)\b|<placeholder>|__[A-Z][A-Z0-9]*(?:_[A-Z0-9]+)*__/;
 for (const a of assignments) {
   const text = JSON.stringify({ ...a, focusedTests: undefined, requiredOutputs: undefined });
   if (PLACEHOLDER.test(text)) problems.push(`${a.assignmentId} contains a placeholder value`);

@@ -2,7 +2,7 @@
 
 **Wave:** 2  ·  **Engine:** Codex  ·  **Lane:** residual
 **Worker branch:** `codex/r7-packet-repair`
-**Branch from:** `ebb99d663f857f58a173c1d29eb73d0f15e70cbd`
+**Branch from:** `c8d912d9a1dea54043f6dbc2cda464d00946c74c`
 **Read this assignment from:** `origin/claude/legalease-sprint-captain-utucnw` → `data/rcap-grade-a/launch-control/WAVE_2_ASSIGNMENTS.json`
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -10,13 +10,12 @@
 
 ## Mission
 
-Repair the C11 return without rebuilding it: write the missing product-wiring record for 23 built families, and complete the Pennsylvania § 6308 packet component specification. None of the 43 built families is rerun.
+Repair the C11 return without rebuilding it: write the missing product-wiring record for the built families that lack one, and complete the Pennsylvania § 6308 packet component specification. The four families in R8 are excluded — they own their own repair, wiring record included. None of the 43 built families is rerun.
 
-## Your exact scope — 24 familyIds
+## Your exact scope — 23 familyIds
 
 - `nj_arrest_no_conviction-set`
 - `nj_clean_slate-set`
-- `nj_disorderly_persons-set`
 - `nj_indictable_conviction-set`
 - `nj_ordinance-set`
 - `ny_160_59_petition-set`
@@ -121,9 +120,9 @@ Completing this assignment opens no commercial route, proves no packet and appro
 
 ```sh
 git fetch origin --prune
-git checkout -b codex/r7-packet-repair ebb99d663f857f58a173c1d29eb73d0f15e70cbd
+git checkout -b codex/r7-packet-repair c8d912d9a1dea54043f6dbc2cda464d00946c74c
 git show origin/claude/legalease-sprint-captain-utucnw:data/rcap-grade-a/launch-control/WAVE_2_ASSIGNMENTS.json > /tmp/wave-2-assignments.json
-# STOP unless /tmp/wave-2-assignments.json captainBaseSha === ebb99d663f857f58a173c1d29eb73d0f15e70cbd
+# STOP unless /tmp/wave-2-assignments.json captainBaseSha === c8d912d9a1dea54043f6dbc2cda464d00946c74c
 # your assignment is the entry whose assignmentId matches this prompt's title
 npm ci --cache /tmp/legalease-npm-cache   # requires at least 4096 MiB free; see WEC-2
 ```

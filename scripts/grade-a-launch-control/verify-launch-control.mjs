@@ -470,13 +470,19 @@ const familiesOf = (a) => (a.rowGroups ?? []).flatMap((g) => g.families ?? []);
 if (wave2) {
   const base = wave2.captainBaseSha;
   const baseIsAncestor = git(["merge-base", "--is-ancestor", base, "HEAD"]) !== null;
-  // The manifest must NOT be readable at the base it names -- that is the whole
-  // point of the two-commit method. A manifest present at its own base means the
-  // dispatch was folded into the baseline and the SHA is self-referential.
-  const manifestAtBase = git(["cat-file", "-t", `${base}:${WAVE2}`]) === "blob";
-  check("A34", "Wave 2 names a real ancestor as its base, and the manifest is not in that base",
-    baseIsAncestor && !manifestAtBase && /^[0-9a-f]{40}$/.test(base),
-    `base ${String(base).slice(0, 8)}, ancestor ${baseIsAncestor}, manifest at base ${manifestAtBase}`);
+  // The manifest must not be SELF-REFERENTIAL: the base it names must not already
+  // contain the manifest being dispatched. On a first dispatch that means the
+  // file is absent at the base. On a re-dispatch -- this wave has had two, the
+  // second carrying the completeness contract -- the file legitimately exists at
+  // the base holding the PREVIOUS wave's content, and demanding absence would
+  // make a corrected dispatch impossible rather than hard to fool. So the test
+  // is content: the blob at the base must differ from the blob being dispatched.
+  const blobAtBase = git(["rev-parse", `${base}:${WAVE2}`]);
+  const blobAtHead = git(["rev-parse", `HEAD:${WAVE2}`]);
+  const selfReferential = blobAtBase !== null && blobAtBase === blobAtHead;
+  check("A34", "Wave 2 names a real ancestor as its base, and that base does not already carry this dispatch",
+    baseIsAncestor && !selfReferential && /^[0-9a-f]{40}$/.test(base),
+    `base ${String(base).slice(0, 8)}, ancestor ${baseIsAncestor}, manifest at base ${blobAtBase === null ? "absent" : blobAtBase === blobAtHead ? "IDENTICAL — self-referential" : "present, earlier content"}`);
 
   // Every worker is told where to read the assignment, since it is not in their
   // checkout. This is the Wave 1 failure, stated as a check rather than a hope.
@@ -592,6 +598,7 @@ if (MUTATIONS) {
     { on: "wave2", name: "a built family verified by nobody is caught", mutate: (j) => { j.assignments.find((a) => a.lane === "independent-verification").items.pop(); return j; } },
     { on: "wave2", name: "a shard handed to the builder is caught", mutate: (j) => { j.assignments.find((a) => a.lane === "independent-verification").workerBranch = "codex/c11-packet-factory-accelerator"; return j; } },
     { on: "wave2", name: "an assignment that does not say where to read itself is caught", mutate: (j) => { j.assignments[0].readAssignmentFrom = null; return j; } },
+    { on: "wave2", name: "a self-referential base is caught", mutate: (j) => { j.captainBaseSha = git(["rev-parse", "HEAD"]); return j; } },
     { on: "wave2", name: "a review package prepared before an independent PASS is caught", mutate: (j) => { j.outputLegalReview.batchesPrepared = 6; return j; } },
     { on: "wave2", name: "a verification shard that drops the completeness obligations is caught", mutate: (j) => { const s = j.assignments.find((a) => a.lane === "independent-verification"); s.proofObligations = s.proofObligations.filter((o) => !o.startsWith("COMPLETENESS:")); return j; } },
     { on: "completeness", name: "a family reported complete with a nonzero counter is caught", mutate: (j) => { j.results[0].result = "PASS_COMPLETE"; return j; } },

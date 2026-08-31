@@ -2,7 +2,7 @@
 
 **Wave:** 2  ·  **Engine:** Codex  ·  **Lane:** residual
 **Worker branch:** `codex/r3-route-mapping-remainder`
-**Branch from:** `ebb99d663f857f58a173c1d29eb73d0f15e70cbd`
+**Branch from:** `c8d912d9a1dea54043f6dbc2cda464d00946c74c`
 **Read this assignment from:** `origin/claude/legalease-sprint-captain-utucnw` → `data/rcap-grade-a/launch-control/WAVE_2_ASSIGNMENTS.json`
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -127,9 +127,9 @@ Completing this assignment opens no commercial route, proves no packet and appro
 
 ```sh
 git fetch origin --prune
-git checkout -b codex/r3-route-mapping-remainder ebb99d663f857f58a173c1d29eb73d0f15e70cbd
+git checkout -b codex/r3-route-mapping-remainder c8d912d9a1dea54043f6dbc2cda464d00946c74c
 git show origin/claude/legalease-sprint-captain-utucnw:data/rcap-grade-a/launch-control/WAVE_2_ASSIGNMENTS.json > /tmp/wave-2-assignments.json
-# STOP unless /tmp/wave-2-assignments.json captainBaseSha === ebb99d663f857f58a173c1d29eb73d0f15e70cbd
+# STOP unless /tmp/wave-2-assignments.json captainBaseSha === c8d912d9a1dea54043f6dbc2cda464d00946c74c
 # your assignment is the entry whose assignmentId matches this prompt's title
 npm ci --cache /tmp/legalease-npm-cache   # requires at least 4096 MiB free; see WEC-2
 ```
