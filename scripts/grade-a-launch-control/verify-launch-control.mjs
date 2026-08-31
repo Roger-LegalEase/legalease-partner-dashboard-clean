@@ -35,6 +35,11 @@ const COMPLETENESS = "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_
 const REPAIR_PLAN = "data/rcap-grade-a/packet-completeness/COMPLETENESS_REPAIR_PLAN.json";
 const REPAIR_WAVE = "data/rcap-grade-a/launch-control/COMPLETENESS_REPAIR_WAVE.json";
 const S2 = "data/rcap-grade-a/launch-control/S2_SHARED_HOST_ASSIGNMENT.json";
+const MASS = "data/rcap-grade-a/launch-control/MASS_PACKET_PRODUCTION_150.json";
+const MASS_COLLISIONS = "data/rcap-grade-a/launch-control/MASS_PACKET_PRODUCTION_150_COLLISIONS.json";
+const MASS_CHECKPOINT = "data/rcap-grade-a/launch-control/MASS_PACKET_PRODUCTION_150_CHECKPOINT.json";
+const WORKLIST = "data/rcap-grade-a/launch-control/POST_WAVE_2_NATIONAL_LAUNCH_WORKLIST.json";
+const WAVE2_REPAIRS = "data/rcap-grade-a/launch-control/WAVE_2_REPAIR_ASSIGNMENTS.json";
 // Ten committed binaries already matched a private-corpus SHA-256 before the
 // packet factory returned, under hard-forms/*/evidence/ and rcap-codex source
 // receipts. They are a governance discrepancy for Roger, not something to remove
@@ -73,6 +78,9 @@ const completeness = read(COMPLETENESS);
 const repairPlan = read(REPAIR_PLAN);
 const repairWave = fs.existsSync(path.join(ROOT, REPAIR_WAVE)) ? read(REPAIR_WAVE) : null;
 const s2 = fs.existsSync(path.join(ROOT, S2)) ? read(S2) : null;
+const mass = fs.existsSync(path.join(ROOT, MASS)) ? read(MASS) : null;
+const massCollisions = fs.existsSync(path.join(ROOT, MASS_COLLISIONS)) ? read(MASS_COLLISIONS) : null;
+const massCheckpoint = fs.existsSync(path.join(ROOT, MASS_CHECKPOINT)) ? read(MASS_CHECKPOINT) : null;
 
 /** Everything an assignment owns, whatever shape its rows take. */
 const rowsOf = (a) => [
@@ -758,6 +766,103 @@ if (s2 && repairWave && wave2) {
     `base ${String(s2Base).slice(0, 8)}, ancestor ${s2Ancestor}, record at base ${s2AtBase === null ? "absent" : s2AtBase === s2AtHead ? "IDENTICAL — self-referential" : "earlier content"}`);
 }
 
+// 31. The mass-production pipeline. Five ways it can lie: an arithmetic that
+// does not close, a lane sized to fit the story, a path already owned, a
+// verifier that can edit what it verifies, and a shortfall absorbed silently.
+if (mass && massCollisions && massCheckpoint && wave2 && repairWave && s2) {
+  const buildL = mass.assignments.filter((a) => a.lane === "packet-build");
+  const verifyL = mass.assignments.filter((a) => a.lane === "independent-verification");
+  const sourceL = mass.assignments.filter((a) => a.lane === "source-identity-acquisition-promotion");
+  const sharedL = mass.assignments.filter((a) => a.lane === "shared-infrastructure");
+
+  // The ladder is the whole claim: every family in the national worklist is
+  // either in production or excluded for exactly one stated reason.
+  const worklist = read(WORKLIST);
+  const ladder = new Set(mass.derivation.ladder);
+  const badReason = mass.derivation.excluded.filter((e) => !ladder.has(e.reason));
+  const producedIds = buildL.flatMap((a) => a.items);
+  const bothWays = mass.derivation.excluded
+    .filter((e) => e.reason !== "DUPLICATE_WORKLIST_GROUP" && producedIds.includes(e.familyId))
+    .map((e) => `${e.familyId}:${e.reason}`);
+  check("A53", "the exclusion ladder closes: every family is produced or excluded once, for a reason the ladder names",
+    mass.derivation.excludedTotal + mass.derivation.productionSetSize === worklist.counts.families
+    && mass.derivation.denominator === worklist.counts.families
+    && mass.derivation.sumsToDenominator === true
+    && badReason.length === 0
+    && producedIds.length === mass.derivation.productionSetSize
+    // A produced family may legitimately reappear as DUPLICATE_WORKLIST_GROUP:
+    // the worklist carries two rows for it and the family is counted once. Any
+    // other reason means it was both built and excluded.
+    && bothWays.length === 0,
+    `${mass.derivation.productionSetSize} produced + ${mass.derivation.excludedTotal} excluded of ${worklist.counts.families}; ${badReason.length} off-ladder reason(s); ${bothWays.length} produced-and-excluded`);
+
+  // Lane sizes are a contract, and a shortfall is reported rather than absorbed
+  // by shrinking lanes until the family count fits the lane count.
+  const wrongSize = buildL.filter((a) => a.itemCount < 10 || a.itemCount > 15);
+  const dispatched = buildL.reduce((n, a) => n + a.itemCount, 0);
+  const verifyStatic = verifyL.filter((a) => (a.items ?? []).length > 0);
+  check("A54", "every build lane is sized to contract, the families add up, and the shortfall against the daily target is stated",
+    wrongSize.length === 0
+    && dispatched === mass.derivation.productionSetSize
+    && mass.totals.buildLanes + mass.totals.buildLanesHeldForSource === mass.totals.buildLanesProvisioned
+    && mass.theShortfall.sourceReadyFamilies === mass.derivation.productionSetSize
+    && mass.theShortfall.sourceReadyFamilies < mass.targetRate.familiesPerDay === (mass.totals.buildLanesHeldForSource > 0)
+    && verifyStatic.length === 0
+    && verifyL.length === 6 && sourceL.length === 4 && sharedL.length === 2,
+    `${buildL.length} build lane(s) carrying ${dispatched}; ${wrongSize.length} off-size; ${mass.totals.buildLanesHeldForSource} held; ${verifyStatic.length} verifier(s) with a static list`);
+
+  // Ownership, recomputed rather than read out of the collision record it checks.
+  const activeOwned = [];
+  for (const a of [...wave2.assignments, ...repairWave.assignments, ...s2.assignments]) {
+    for (const p of a.ownedPaths ?? []) activeOwned.push({ lane: a.assignmentId, path: p.split("(")[0].trim() });
+  }
+  for (const r of read(WAVE2_REPAIRS).assignments) if (r.ownedPath) activeOwned.push({ lane: `WAVE_2_REPAIR:${r.family}`, path: r.ownedPath });
+  const rootOf = (p) => p.replace(/\/?\*+$/, "");
+  const touches = (a, b) => { const ra = rootOf(a), rb = rootOf(b); return ra === rb || ra.startsWith(`${rb}/`) || rb.startsWith(`${ra}/`); };
+  const massPaths = mass.assignments.flatMap((a) => (a.ownedPaths ?? []).map((p) => ({ lane: a.assignmentId, path: p })));
+  const hits = [];
+  for (const mine of massPaths) for (const theirs of activeOwned) if (touches(mine.path, theirs.path)) hits.push(`${mine.lane}~${theirs.lane}`);
+  for (let i = 0; i < massPaths.length; i += 1) {
+    for (let j = i + 1; j < massPaths.length; j += 1) {
+      if (massPaths[i].lane === massPaths[j].lane) continue;
+      if (touches(massPaths[i].path, massPaths[j].path)) hits.push(`${massPaths[i].lane}~${massPaths[j].lane}`);
+    }
+  }
+  const activeFams = new Set([
+    ...read(COMPLETENESS).results.map((r) => r.familyId),
+    ...[...wave2.assignments, ...repairWave.assignments, ...s2.assignments].flatMap((a) => a.items ?? []),
+    ...read(WAVE2_REPAIRS).assignments.map((r) => r.family)
+  ]);
+  const reDispatched = producedIds.filter((f) => activeFams.has(f));
+  const dupes = producedIds.filter((f, i) => producedIds.indexOf(f) !== i);
+  check("A55", "the mass wave touches nothing an active lane holds, and claims no family twice",
+    hits.length === 0 && reDispatched.length === 0 && dupes.length === 0
+    && massCollisions.counts.pathCollisions === 0
+    && massCollisions.counts.duplicateFamilies === 0
+    && massCollisions.counts.activeFamiliesReDispatched === 0
+    && massCollisions.counts.ownedAndProhibited === 0
+    && massCollisions.counts.requiredOutputsOutsideOwnedPaths === 0
+    && massCollisions.counts.placeholders === 0,
+    `${hits.length} recomputed collision(s) [${[...new Set(hits)].slice(0, 3).join(", ")}]; ${reDispatched.length} re-dispatched; ${dupes.length} duplicate`);
+
+  // A verifier that can write into what it verifies is not a verifier, and a
+  // review batch cut before an independent pass is a package with no verdict.
+  const verifierWithOverlay = verifyL.filter((a) => (a.ownedPaths ?? []).some((p) => /overlays|build-census-v1/.test(p)));
+  const builderOwningVerification = buildL.filter((a) => (a.ownedPaths ?? []).some((p) => /\/verify-\d+-mass-production/.test(p)));
+  const sharedBranches = new Set([...buildL, ...verifyL].map((a) => a.workerBranch));
+  const sourceLaneClaimsProduction = sourceL.filter((a) => (a.familiesUnblocked ?? []).some((f) => producedIds.includes(f)));
+  check("A56", "verification is independent, streaming and unarmed: no overlay paths, no shared branch, no batch before a pass",
+    verifierWithOverlay.length === 0
+    && builderOwningVerification.length === 0
+    && sharedBranches.size === buildL.length + verifyL.length
+    && sourceLaneClaimsProduction.length === 0
+    && massCheckpoint.legalReview.batchesCut === 0
+    && massCheckpoint.families.passedIndependently === 0
+    && mass.totals.commercialRoutesOpened === 0 && mass.totals.productionTouched === false
+    && massCheckpoint.commercial.commercialRoutesOpened === 0 && massCheckpoint.commercial.productionTouched === false,
+    `${verifierWithOverlay.length} verifier(s) with overlay paths; ${builderOwningVerification.length} builder(s) owning a verification path; ${sourceLaneClaimsProduction.length} source lane(s) claiming a produced family`);
+}
+
 console.log(`\n${results.length - failures}/${results.length} checkpoint checks passed.`);
 
 if (MUTATIONS) {
@@ -768,7 +873,8 @@ if (MUTATIONS) {
     residual: path.join(ROOT, RESIDUAL), contract: path.join(ROOT, CONTRACT),
     counsel: path.join(ROOT, COUNSEL), c11: path.join(ROOT, C11), wave2: path.join(ROOT, WAVE2),
     completeness: path.join(ROOT, COMPLETENESS), repairPlan: path.join(ROOT, REPAIR_PLAN),
-    repairWave: path.join(ROOT, REPAIR_WAVE), s2: path.join(ROOT, S2)
+    repairWave: path.join(ROOT, REPAIR_WAVE), s2: path.join(ROOT, S2),
+    mass: path.join(ROOT, MASS), massCollisions: path.join(ROOT, MASS_COLLISIONS), massCheckpoint: path.join(ROOT, MASS_CHECKPOINT)
   };
   const originals = Object.fromEntries(Object.entries(targets).map(([k, p]) => [k, fs.readFileSync(p)]));
   const cases = [
@@ -822,6 +928,19 @@ if (MUTATIONS) {
     { on: "s2", name: "a continuation contract that never publishes its own record is caught", mutate: (j) => { j.dependencyConsumption.sequence = j.dependencyConsumption.sequence.filter((st) => !String(st.action).includes(j.dependencyConsumption.continuationRecord)); return j; } },
     { on: "s2", name: "an S2 base that is not an ancestor is caught", mutate: (j) => { j.assignments[0].captainBaseSha = "0".repeat(40); return j; } },
     { on: "s2", name: "an S2 verify line naming a different base than the assignment is caught", mutate: (j) => { j.assignments[0].readAssignmentFrom.verify = "captainBaseSha must equal " + "9".repeat(40); return j; } },
+    { on: "mass", name: "a family excluded for a reason the ladder does not name is caught", mutate: (j) => { j.derivation.excluded[0].reason = "SEEMED_HARD"; return j; } },
+    { on: "mass", name: "an exclusion ladder that does not close is caught", mutate: (j) => { j.derivation.excluded.pop(); j.derivation.excludedTotal -= 1; return j; } },
+    { on: "mass", name: "a build lane sized below the contract floor is caught", mutate: (j) => { const a = j.assignments.find((x) => x.lane === "packet-build"); a.items = a.items.slice(0, 4); a.itemCount = 4; return j; } },
+    { on: "mass", name: "a shortfall absorbed instead of reported is caught", mutate: (j) => { j.totals.buildLanesHeldForSource = 0; return j; } },
+    { on: "mass", name: "a mass lane grabbing an active lane's overlay path is caught", mutate: (j) => { j.assignments.find((x) => x.lane === "packet-build").ownedPaths.push("data/rcap-all50/overlays/census-v1/wa/wa-vac-felony-set--official-pdf-fill/**"); return j; } },
+    { on: "mass", name: "a family claimed by two build lanes is caught", mutate: (j) => { const b = j.assignments.filter((x) => x.lane === "packet-build"); b[1].items.push(b[0].items[0]); b[1].itemCount += 1; return j; } },
+    { on: "mass", name: "an already-active family re-dispatched into production is caught", mutate: (j) => { const a = j.assignments.find((x) => x.lane === "packet-build"); a.items[0] = "wa_vac_felony-set"; return j; } },
+    { on: "mass", name: "a verifier given the overlay directories it verifies is caught", mutate: (j) => { j.assignments.find((x) => x.lane === "independent-verification").ownedPaths.push("data/rcap-all50/overlays/census-v1/**"); return j; } },
+    { on: "mass", name: "a verifier handed a static family list is caught", mutate: (j) => { const v = j.assignments.find((x) => x.lane === "independent-verification"); v.items = ["ak-tf800-set"]; return j; } },
+    { on: "mass", name: "a builder and a verifier sharing one branch is caught", mutate: (j) => { const b = j.assignments.find((x) => x.lane === "packet-build"); const v = j.assignments.find((x) => x.lane === "independent-verification"); v.workerBranch = b.workerBranch; return j; } },
+    { on: "massCollisions", name: "a collision record reporting a collision it did not fail on is caught", mutate: (j) => { j.counts.pathCollisions = 1; return j; } },
+    { on: "massCheckpoint", name: "a review batch cut before any family passed is caught", mutate: (j) => { j.legalReview.batchesCut = 1; return j; } },
+    { on: "massCheckpoint", name: "a commercial route opened at dispatch is caught", mutate: (j) => { j.commercial.commercialRoutesOpened = 1; return j; } },
     { on: "wave2", name: "a review package prepared before an independent PASS is caught", mutate: (j) => { j.outputLegalReview.batchesPrepared = 6; return j; } },
     { on: "wave2", name: "a verification shard that drops the completeness obligations is caught", mutate: (j) => { const s = j.assignments.find((a) => a.lane === "independent-verification"); s.proofObligations = s.proofObligations.filter((o) => !o.startsWith("COMPLETENESS:")); return j; } },
     { on: "completeness", name: "a family reported complete with a nonzero counter is caught", mutate: (j) => { j.results[0].result = "PASS_COMPLETE"; return j; } },
