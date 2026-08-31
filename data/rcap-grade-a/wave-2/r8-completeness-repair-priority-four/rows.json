@@ -1,0 +1,240 @@
+{
+  "schemaVersion": "rcap-grade-a-wave-2-r8-completeness-repair/v1",
+  "assignmentId": "R8_COMPLETENESS_REPAIR_PRIORITY_FOUR",
+  "workerBranch": "codex/r8-completeness-repair-priority-four",
+  "declaredControlBase": "c8d912d9a1dea54043f6dbc2cda464d00946c74c",
+  "s1DependencySha": "088d2a4e836e5b9cf2de7992a479184bccf21a07",
+  "executionBase": "088d2a4e836e5b9cf2de7992a479184bccf21a07",
+  "assignmentReadFrom": {
+    "dispatchSha": "4d1408a40eeb77f51bdf18ba35a13db579b21129",
+    "prompt": "docs/rcap/grade-a/launch-control/wave-2-prompts/R8_COMPLETENESS_REPAIR_PRIORITY_FOUR.md",
+    "manifest": "data/rcap-grade-a/launch-control/WAVE_2_ASSIGNMENTS.json",
+    "captainBaseShaVerified": true,
+    "dependsOnS1Verified": true
+  },
+  "environment": {
+    "packetBuildEnvironmentReady": "14/14",
+    "familiesChecked": 4,
+    "masterLibrary": {
+      "jurisdictions": 51,
+      "substantiveFiles": 499,
+      "pdfs": 329
+    },
+    "officialFormsSourceDirSetToMasterLibrary": false
+  },
+  "s1Validation": {
+    "exists": true,
+    "declaredControlBaseIsAncestor": true,
+    "changedPathsWithinAllowedScope": true,
+    "runnersCorrectedReported": 2,
+    "familiesRenderedReported": 0,
+    "commercialRoutesOpenedReported": 0,
+    "productionTouchedReported": false
+  },
+  "verification": {
+    "packetBuildEnvironmentReady": "14/14 for all four families before writing",
+    "launchControl": {
+      "passed": 41,
+      "total": 42,
+      "failedCheck": "A42",
+      "detail": "The S1 execution base predates the Wave 2 dispatch manifest, so the baseline launch-control verifier observes zero completeness obligations and zero R8 families. R8 did not modify launch-control records because they are prohibited paths."
+    }
+  },
+  "sharedBlockers": [
+    {
+      "id": "REQUIRED_BEFORE_FILING_UNREACHABLE",
+      "scope": "LANE",
+      "detail": "The completeness contract declares REQUIRED_BEFORE_FILING, but classifyBlank has no branch that returns it. The verifier also drops blankTreatment while normalizing field-map rows. S1-generated REQUIRED_BEFORE_FILING classifications therefore become KNOWN_FACT_NOT_WRITTEN, ROUTE_OPTION_NOT_SELECTED, or UNCLASSIFIED_BLANK. R8 cannot change the shared completeness contract or verifier because they are outside this assignment's owned paths.",
+      "evidence": [
+        "scripts/rcap-packet-completeness/completeness-contract.mjs:43",
+        "scripts/rcap-packet-completeness/completeness-contract.mjs:187",
+        "scripts/rcap-packet-completeness/verify-packet-completeness.mjs:16",
+        "scripts/rcap-packet-completeness/verify-packet-completeness.mjs:159"
+      ]
+    },
+    {
+      "id": "S1_DIRECT_PAGE_TEXT_NOT_READ_AS_VISIBLE_WRITE",
+      "scope": "NJ_AND_CA",
+      "detail": "S1's exact-mapping fallback draws held facts directly into page content, while the shared proof paths inspect only flattened widget appearances. Normal rerenders abort even when Poppler reads the new value from the finished PDF bytes. R8 did not suppress the assertion in any committed artifact and did not modify either shared runner.",
+      "evidence": [
+        "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs:1000",
+        "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs:1242",
+        "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs:1284",
+        "scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs:2444",
+        "scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs:2681",
+        "scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs:2722"
+      ]
+    },
+    {
+      "id": "S1_WEST_RUNNER_INCOMPLETE_SELF_CHECK",
+      "scope": "CA",
+      "detail": "The S1 West runner calls writeText without defining it and its completion self-check still rejects the newly allowed matter.county and matter.conviction_date mappings as unbounded. A family-local diagnostic shim proved these are shared-runner defects, but no shim or assertion bypass is present in committed work.",
+      "evidence": [
+        "scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs:2101",
+        "scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs:2876",
+        "scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs:3313"
+      ]
+    }
+  ],
+  "diagnosticRequiredBeforeFilingFieldCount": 152,
+  "diagnosticRequiredBeforeFilingFieldsByFamily": {
+    "nj_disorderly_persons-set": 87,
+    "ca-17b-reduction-set": 31,
+    "ca-1203-43-set": 33,
+    "az_marijuana_expungement_superior_court-set": 1
+  },
+  "rows": [
+    {
+      "itemId": "nj_disorderly_persons-set",
+      "status": "STOPPED",
+      "stopScope": "ROW",
+      "beforeCounters": {
+        "knownRequiredFieldsMissing": 88,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "diagnosticAfterCounters": {
+        "knownRequiredFieldsMissing": 35,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 72,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "diagnosticVerdict": "FAIL_MISSING_REQUIRED_FACTS",
+      "normalRerenderResult": "ABORTED_SHARED_RUNNER_ASSERTION",
+      "diagnosticRequiredBeforeFilingFields": 87,
+      "committedFieldsNewlyWritten": [],
+      "committedFieldsNewlyClassified": [],
+      "whyStopped": [
+        "The shared East runner reports seven direct page-content writes as having no artifact appearance and aborts the normal rerender.",
+        "The shared completeness classifier cannot recognize the 87 REQUIRED_BEFORE_FILING fields emitted by S1."
+      ]
+    },
+    {
+      "itemId": "ca-17b-reduction-set",
+      "status": "STOPPED",
+      "stopScope": "ROW",
+      "beforeCounters": {
+        "knownRequiredFieldsMissing": 54,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 71,
+        "incompleteRows": 1,
+        "requiredOptionsMissing": 16,
+        "requiredComponentsMissing": 3,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "diagnosticAfterCounters": {
+        "knownRequiredFieldsMissing": 46,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 73,
+        "incompleteRows": 1,
+        "requiredOptionsMissing": 24,
+        "requiredComponentsMissing": 3,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "diagnosticVerdict": "FAIL_MISSING_REQUIRED_FACTS",
+      "normalRerenderResult": "ABORTED_SHARED_RUNNER_ERROR",
+      "diagnosticRequiredBeforeFilingFields": 31,
+      "committedFieldsNewlyWritten": [],
+      "committedFieldsNewlyClassified": [],
+      "whyStopped": [
+        "The shared West runner calls undefined writeText before completing the family.",
+        "After a family-local diagnostic shim, shared output proof misses the visible conviction date and the shared self-check rejects S1's new fact mappings.",
+        "The shared completeness classifier cannot recognize REQUIRED_BEFORE_FILING."
+      ]
+    },
+    {
+      "itemId": "ca-1203-43-set",
+      "status": "STOPPED",
+      "stopScope": "ROW",
+      "beforeCounters": {
+        "knownRequiredFieldsMissing": 56,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 71,
+        "incompleteRows": 1,
+        "requiredOptionsMissing": 15,
+        "requiredComponentsMissing": 3,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "diagnosticAfterCounters": {
+        "knownRequiredFieldsMissing": 46,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 73,
+        "incompleteRows": 1,
+        "requiredOptionsMissing": 25,
+        "requiredComponentsMissing": 3,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "diagnosticVerdict": "FAIL_MISSING_REQUIRED_FACTS",
+      "normalRerenderResult": "ABORTED_SHARED_RUNNER_ERROR",
+      "diagnosticRequiredBeforeFilingFields": 33,
+      "committedFieldsNewlyWritten": [],
+      "committedFieldsNewlyClassified": [],
+      "whyStopped": [
+        "The shared West runner calls undefined writeText before completing the family.",
+        "After a family-local diagnostic shim, shared output proof misses the visible conviction date and the shared self-check rejects S1's new fact mappings.",
+        "The shared completeness classifier cannot recognize REQUIRED_BEFORE_FILING."
+      ]
+    },
+    {
+      "itemId": "az_marijuana_expungement_superior_court-set",
+      "status": "STOPPED",
+      "stopScope": "ROW",
+      "beforeCounters": {
+        "knownRequiredFieldsMissing": 5,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 1,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 19,
+        "requiredComponentsMissing": 1,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "diagnosticAfterCounters": {
+        "knownRequiredFieldsMissing": 4,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 1,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 19,
+        "requiredComponentsMissing": 1,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "diagnosticVerdict": "FAIL_MISSING_REQUIRED_FACTS",
+      "normalRerenderResult": "BUILD_OK_BUT_COMPLETENESS_FAILED",
+      "diagnosticRequiredBeforeFilingFields": 1,
+      "committedFieldsNewlyWritten": [],
+      "committedFieldsNewlyClassified": [],
+      "whyStopped": [
+        "The S1 rerender writes one additional held fact, but 25 completeness counters remain nonzero.",
+        "At least one genuinely missing fact is marked REQUIRED_BEFORE_FILING, which the shared completeness classifier cannot recognize.",
+        "Selecting or excusing the remaining controls without participant facts would invent answers."
+      ]
+    }
+  ],
+  "familiesRepaired": 0,
+  "passComplete": 0,
+  "sharedRunnersModified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}
