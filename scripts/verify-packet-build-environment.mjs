@@ -16,6 +16,30 @@
 //   node scripts/verify-packet-build-environment.mjs --family ca-1203-4-set --branch claude/census-v1-build-ca-1203-4-set
 //   node scripts/verify-packet-build-environment.mjs --prove     # discrimination self-test
 //
+//   node scripts/verify-packet-build-environment.mjs \
+//     --family <FAMILY_ID> --codex-cloud --minimum-captain-sha <SHA>
+//
+// TWO ENVIRONMENTS, ONE STANDARD
+//
+// Three of these checks were written against a Codespace: a permanent origin, a
+// full clone, and an origin/<branch> tracking ref. Codex Cloud has none of those
+// on purpose -- it checks the selected Captain branch out as a local branch named
+// `work`, shallow, and removes origin before the agent starts, because the
+// finished diff returns through its own UI rather than through a push. Every
+// ordinary Codex Cloud packet task therefore failed this gate before it reached
+// a single source byte.
+//
+// --codex-cloud does not waive those three. It REPLACES them with checks that
+// establish the same three facts by other evidence: the repository by its
+// committed markers rather than by its remote, the checkout by proving it
+// contains the exact Captain commit the assignment was cut from rather than by
+// proving it contains everything, and the assignment by proving its own files
+// are present in this tree rather than by resolving a remote ref.
+//
+// The denominator stays 14 in both modes. A waived check reported as 13/14 is a
+// gate that has been argued with; a replaced check is a gate that has been met a
+// different way, and only the second is worth having.
+//
 // Exit 0 only when every check passes. Any failure is a refusal to launch.
 //
 // WHY EACH CHECK EXISTS
@@ -52,6 +76,38 @@ const EXPECT_JURISDICTIONS = 51;
 const EXPECT_FILES = 499;
 const EXPECT_PDFS = 329;
 
+/*
+ * What proves this is the packet repository when there is no remote to ask.
+ *
+ * Four committed paths, each of which a different kind of wrong checkout would
+ * be missing: the agent contract, the package manifest, this file itself, and
+ * the corpus index every source check reads. A directory carrying all four and
+ * a valid HEAD is this repository; a scratch clone of something else is not.
+ */
+const REPOSITORY_MARKERS = [
+  "AGENTS.md",
+  "package.json",
+  "scripts/verify-packet-build-environment.mjs",
+  "data/rcap-all50/local-source-corpus-index.json"
+];
+
+/* Where the cloud setup script leaves the corpus environment. Either satisfies
+ * the gate: the repo-local file is what a worker sources, the home copy is what
+ * survives a working-directory change. */
+const CORPUS_ENV_REPO = "private/source-corpus-environment.txt";
+const CORPUS_ENV_HOME = ".legalease-corpus-env";
+
+/* The manifests a cloud assignment can live in. Searched in order; the first
+ * assignment whose items name the family wins, and two matches is a refusal
+ * rather than a guess. */
+const ASSIGNMENT_MANIFESTS = [
+  "data/rcap-grade-a/launch-control/S2_CONTINUATION.json",
+  "data/rcap-grade-a/launch-control/COMPLETENESS_REPAIR_WAVE.json",
+  "data/rcap-grade-a/launch-control/WAVE_2_ASSIGNMENTS.json",
+  "data/rcap-grade-a/launch-control/MASS_PACKET_PRODUCTION_150.json",
+  "data/rcap-grade-a/launch-control/S2_SHARED_HOST_ASSIGNMENT.json"
+];
+
 // ---- argument handling -------------------------------------------------------
 const argv = process.argv.slice(2);
 const flag = (name) => { const i = argv.indexOf(name); return i === -1 ? null : argv[i + 1]; };
@@ -59,6 +115,10 @@ const FAMILY = flag("--family");
 const BRANCH = flag("--branch");
 const REPORT = flag("--json");
 const PROVE = argv.includes("--prove");
+const CLOUD = argv.includes("--codex-cloud");
+const MINIMUM_CAPTAIN_SHA = flag("--minimum-captain-sha");
+const ASSIGNMENT_FILE = flag("--assignment");
+const PROMPT_FILE = flag("--prompt");
 
 // ---- check plumbing ----------------------------------------------------------
 // A check returns { ok, detail, ...evidence }. It never throws for a condition it
@@ -68,7 +128,15 @@ const CHECKS = [];
 // `negative` optionally builds an environment this check MUST fail in. A check
 // whose failure mode the barren directory does not reproduce needs its own
 // negative case, or --prove would call it discriminating on no evidence.
-const check = (id, title, because, run, negative = null) => CHECKS.push({ id, title, because, run, negative });
+// `cloud` optionally replaces this check under --codex-cloud: { id, title,
+// because, run, negatives }. A replacement carries its own id, because a reader
+// of the report must be able to see WHICH check ran, not merely that fourteen
+// did. `negatives` are named scenarios --prove builds and requires to fail.
+const check = (id, title, because, run, negative = null, cloud = null) =>
+  CHECKS.push({ id, title, because, run, negative, cloud });
+
+/** The form of a check that will actually run, given the mode. */
+const active = (c) => (CLOUD && c.cloud ? { ...c, ...c.cloud, negative: null, replaces: c.id } : c);
 
 const sh = (cmd, args, opts = {}) =>
   execFileSync(cmd, args, { cwd: opts.cwd ?? ROOT, encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] }).trim();
@@ -175,6 +243,50 @@ function familySources(family, env = ROOT) {
   return { tier: "census_form_number_against_committed_index", from: WORKLIST, custodyClass: null, commissionAcquisition: null, sources, unresolvable };
 }
 
+/** Every repository marker present, as a list of the ones that are not. */
+function missingMarkers(env = ROOT) {
+  return REPOSITORY_MARKERS.filter((m) => !fs.existsSync(path.join(env, m)));
+}
+
+/**
+ * The assignment this cloud task is executing, resolved from the tree.
+ *
+ * Named explicitly with --assignment, or found by searching the launch-control
+ * manifests for the one whose items include the family. Two matches is a refusal
+ * rather than a guess: a worker told to build a family that two lanes claim has
+ * a dispatch problem, not a preflight problem.
+ */
+function resolveAssignment(env = ROOT, family = FAMILY, explicit = ASSIGNMENT_FILE) {
+  if (explicit) {
+    const doc = readJson(explicit, env);
+    return doc ? { file: explicit, found: true, assignments: [], doc } : { file: explicit, found: false, assignments: [] };
+  }
+  if (!family) return { file: null, found: false, assignments: [], why: "no --family and no --assignment" };
+  /*
+   * ASSIGNMENT_MANIFESTS is ordered by precedence, most current first, and the
+   * search stops at the first manifest that names the family. A family that a
+   * finished repair lane built and a current shard now verifies appears in both,
+   * and that is history rather than a collision. Two assignments naming it
+   * INSIDE one manifest is the real collision, and that is a refusal.
+   */
+  for (const rel of ASSIGNMENT_MANIFESTS) {
+    const doc = readJson(rel, env);
+    if (!doc) continue;
+    const lists = [doc.assignments, doc.independentVerification?.assignments].filter(Array.isArray);
+    const here = [];
+    for (const list of lists) {
+      for (const a of list) {
+        if (!Array.isArray(a.items) || !a.items.includes(family)) continue;
+        here.push({ file: rel, assignmentId: a.assignmentId ?? null, promptFile: a.promptFile ?? null, base: a.captainBaseSha ?? null });
+      }
+    }
+    if (here.length > 0) {
+      return { file: rel, found: here.length === 1, assignments: here, precedence: ASSIGNMENT_MANIFESTS.indexOf(rel) };
+    }
+  }
+  return { file: null, found: false, assignments: [] };
+}
+
 // ==============================================================================
 // 1. Repository identity
 // ==============================================================================
@@ -188,6 +300,27 @@ check(
     const branch = shSafe("git", ["rev-parse", "--abbrev-ref", "HEAD"], { cwd: env });
     const ok = Boolean(remote?.includes("legalease-partner-dashboard-clean") && head && branch && branch !== "HEAD");
     return { ok, remote, head, branch, detail: ok ? `${branch} at ${head?.slice(0, 8)}` : "origin is not the packet repository, or HEAD is detached" };
+  },
+  null,
+  {
+    id: "repo_identity_by_committed_markers",
+    title: "The checkout carries this repository's committed markers, at a commit, on a named branch",
+    because: "Codex Cloud removes origin before the agent starts, so a remote URL cannot answer which repository this is. Four committed paths can: the agent contract, the package manifest, this file, and the corpus index every source check reads. A scratch clone of something else carries none of them.",
+    run: (env) => {
+      const missing = missingMarkers(env);
+      const head = shSafe("git", ["rev-parse", "HEAD"], { cwd: env });
+      const branch = shSafe("git", ["rev-parse", "--abbrev-ref", "HEAD"], { cwd: env });
+      const ok = missing.length === 0 && Boolean(head) && Boolean(branch) && branch !== "HEAD";
+      return {
+        ok, head, branch, markers: REPOSITORY_MARKERS.length, missingMarkers: missing,
+        originRequired: false,
+        detail: ok
+          ? `${REPOSITORY_MARKERS.length}/${REPOSITORY_MARKERS.length} markers present; ${branch} at ${head.slice(0, 8)}`
+          : missing.length
+            ? `${missing.length} repository marker(s) absent: ${missing.join(", ")}`
+            : "HEAD is detached or unresolvable"
+      };
+    }
   }
 );
 
@@ -209,6 +342,33 @@ check(
         : shallow !== "false" ? "the clone is shallow"
         : "remote.origin.fetch does not fetch all heads"
     };
+  },
+  null,
+  {
+    id: "cloud_checkout_contains_captain_base",
+    title: "This shallow checkout contains the exact Captain commit the assignment was cut from",
+    because: "A shallow checkout is not a defect in Codex Cloud, it is the design. What matters is not whether the clone has everything, but whether it has the ONE commit the assignment was dispatched against -- a worker building on a tree that predates the contract fix produces a packet against a contract nobody is holding any more. The SHA must be supplied: a preflight that guesses which commit was meant proves nothing.",
+    run: (env, opts = {}) => {
+      const min = Object.hasOwn(opts, "minimumCaptainSha") ? opts.minimumCaptainSha : MINIMUM_CAPTAIN_SHA;
+      if (!min) {
+        return { ok: false, minimumCaptainSha: null, detail: "--codex-cloud requires --minimum-captain-sha; without it there is nothing to prove this checkout contains" };
+      }
+      if (!/^[0-9a-f]{7,40}$/.test(min)) {
+        return { ok: false, minimumCaptainSha: min, detail: `--minimum-captain-sha ${min} is not a commit-shaped hex sha` };
+      }
+      const exists = shSafe("git", ["cat-file", "-e", `${min}^{commit}`], { cwd: env }) !== null;
+      if (!exists) {
+        return { ok: false, minimumCaptainSha: min, present: false, detail: `${min.slice(0, 8)} is not an object in this checkout; the shallow window does not reach it` };
+      }
+      const ancestor = shSafe("git", ["merge-base", "--is-ancestor", min, "HEAD"], { cwd: env }) !== null;
+      const head = shSafe("git", ["rev-parse", "HEAD"], { cwd: env });
+      return {
+        ok: ancestor, minimumCaptainSha: min, present: true, ancestorOfHead: ancestor, head,
+        detail: ancestor
+          ? `${min.slice(0, 8)} is present and an ancestor of HEAD ${head?.slice(0, 8)}`
+          : `${min.slice(0, 8)} is present but NOT an ancestor of HEAD ${head?.slice(0, 8)}; this checkout is not descended from the dispatch`
+      };
+    }
   }
 );
 
@@ -231,6 +391,46 @@ check(
         : recorded && tip !== recorded ? `origin/${BRANCH} is ${tip.slice(0, 8)} but the Captain recorded ${recorded.slice(0, 8)}`
         : `origin/${BRANCH} at ${tip.slice(0, 8)}`
     };
+  },
+  null,
+  {
+    id: "assignment_present_in_this_checkout",
+    title: "The assignment and its prompt are in this checkout, and this checkout descends from the commit the assignment names",
+    because: "In Codespaces a worker resumed a pushed branch, so origin/<branch> was the thing to resolve. In Codex Cloud there is no origin and nothing to resume: the task starts from the selected Captain checkout and returns a diff. The equivalent question is whether the assignment this worker is executing is actually in the tree it was handed, and whether that tree descends from the commit the assignment was cut from.",
+    run: (env, opts = {}) => {
+      const family = Object.hasOwn(opts, "family") ? opts.family : FAMILY;
+      const explicit = Object.hasOwn(opts, "assignmentFile") ? opts.assignmentFile : ASSIGNMENT_FILE;
+      const resolved = resolveAssignment(env, family, explicit);
+      if (resolved.assignments.length > 1) {
+        return { ok: false, family, matches: resolved.assignments.map((a) => a.assignmentId), detail: `${family} is claimed by ${resolved.assignments.length} assignments; a dispatch collision is not a preflight decision` };
+      }
+      if (!resolved.file) {
+        return { ok: false, family, detail: `no assignment in this checkout names ${family ?? "this task"}; pass --assignment or dispatch the family first` };
+      }
+      if (!fs.existsSync(path.join(env, resolved.file))) {
+        return { ok: false, assignmentFile: resolved.file, detail: `${resolved.file} is not in this checkout` };
+      }
+      const match = resolved.assignments[0] ?? null;
+      const prompt = (Object.hasOwn(opts, "promptFile") ? opts.promptFile : PROMPT_FILE) ?? match?.promptFile ?? null;
+      const promptPresent = prompt ? fs.existsSync(path.join(env, prompt)) : null;
+      if (prompt && !promptPresent) {
+        return { ok: false, assignmentFile: resolved.file, promptFile: prompt, detail: `the assignment names ${prompt} and it is not in this checkout` };
+      }
+      // The commit the assignment was cut from must be behind HEAD. This is the
+      // same fact the checkout check establishes, asked from the assignment's
+      // side: there the SHA is what the operator supplied, here it is what the
+      // record says, and a disagreement between them is the finding.
+      const base = match?.base ?? null;
+      const descends = base ? shSafe("git", ["merge-base", "--is-ancestor", base, "HEAD"], { cwd: env }) !== null : null;
+      if (base && !descends) {
+        return { ok: false, assignmentFile: resolved.file, assignmentId: match?.assignmentId ?? null, assignmentBase: base, detail: `the assignment was cut from ${base.slice(0, 8)}, which is not an ancestor of this HEAD` };
+      }
+      return {
+        ok: true, assignmentFile: resolved.file, assignmentId: match?.assignmentId ?? null,
+        promptFile: prompt, promptPresent, assignmentBase: base, headDescendsFromAssignmentBase: descends,
+        detail: `${match?.assignmentId ?? path.basename(resolved.file)} present${prompt ? ` with ${path.basename(prompt)}` : ""}${base ? `, cut from ${base.slice(0, 8)}` : ""}`
+      };
+    }
   }
 );
 
@@ -303,12 +503,36 @@ check(
   "master_library_mounted",
   "The Master Library corpus root exists and is a directory",
   "This is the check the whole first wave failed. Five workers found no root and stopped. An absent root is a positive finding of absence, not an empty corpus.",
-  (env) => {
+  (env, opts = {}) => {
     const root = masterLibraryRoot(env);
     const exists = fs.existsSync(root) && fs.statSync(root).isDirectory();
+    const cloud = Object.hasOwn(opts, "cloud") ? opts.cloud : CLOUD;
+    if (!cloud) {
+      return {
+        ok: exists, root: path.relative(env, root) || root, exists,
+        detail: exists ? `mounted at ${path.relative(env, root)}` : `absent at ${path.relative(env, root) || root} — run: bash ${BOOTSTRAP}`
+      };
+    }
+    /*
+     * In cloud mode the mount is not the whole gate. Setup writes a corpus
+     * environment file and the execution contract has every worker source it;
+     * without it a worker that changes directory loses the mount and rediscovers
+     * the first wave's failure with the bytes sitting right there. The file is a
+     * required part of the environment, so its absence is a refusal.
+     */
+    const home = Object.hasOwn(opts, "home") ? opts.home : os.homedir();
+    const repoEnv = path.join(env, CORPUS_ENV_REPO);
+    const homeEnv = path.join(home, CORPUS_ENV_HOME);
+    const repoEnvPresent = fs.existsSync(repoEnv);
+    const homeEnvPresent = fs.existsSync(homeEnv);
+    const envPresent = repoEnvPresent || homeEnvPresent;
+    const ok = exists && envPresent;
     return {
-      ok: exists, root: path.relative(env, root) || root, exists,
-      detail: exists ? `mounted at ${path.relative(env, root)}` : `absent at ${path.relative(env, root) || root} — run: bash ${BOOTSTRAP}`
+      ok, root: path.relative(env, root) || root, exists,
+      corpusEnvironmentFile: { [CORPUS_ENV_REPO]: repoEnvPresent, [`~/${CORPUS_ENV_HOME}`]: homeEnvPresent },
+      detail: ok ? `mounted at ${path.relative(env, root)}; corpus environment file present`
+        : !exists ? `absent at ${path.relative(env, root) || root} — run: bash scripts/codex-cloud/setup-packet-factory.sh`
+        : `mounted, but neither ${CORPUS_ENV_REPO} nor ~/${CORPUS_ENV_HOME} exists — run: bash scripts/codex-cloud/setup-packet-factory.sh`
     };
   }
 );
@@ -540,12 +764,13 @@ check(
 // ==============================================================================
 // running
 // ==============================================================================
-function runAll(env = ROOT) {
+function runAll(env = ROOT, opts = {}) {
   return CHECKS.map((c) => {
+    const a = active(c);
     let result;
-    try { result = c.run(env); }
+    try { result = a.run(env, opts); }
     catch (error) { result = { ok: false, threw: true, detail: `check threw: ${error.message}` }; }
-    return { id: c.id, title: c.title, because: c.because, ...result };
+    return { id: a.id, title: a.title, because: a.because, ...(a.replaces ? { replaces: a.replaces } : {}), ...result };
   });
 }
 
@@ -565,7 +790,8 @@ function prove() {
     fs.mkdirSync(barren);
     const barrenResults = new Map(runAll(barren).map((r) => [r.id, r]));
 
-    for (const c of CHECKS) {
+    for (const raw of CHECKS) {
+      const c = active(raw);
       // A check with its own negative builder is run against that environment;
       // the barren directory would pass it for the wrong reason.
       let negative = barrenResults.get(c.id);
@@ -593,11 +819,185 @@ function prove() {
   return results;
 }
 
+/**
+ * Does cloud mode refuse the things it must refuse?
+ *
+ * The barren-directory sweep proves a check fails when NOTHING is there, which
+ * is the easy half. These scenarios are the hard half: a checkout that is almost
+ * right, failing in exactly one way. Each builds a real git repository, breaks
+ * one thing, and requires the named check to refuse it. A scenario that passes
+ * is reported, and the run exits nonzero, because a cloud gate that accepts a
+ * wrong checkout is worse than no gate -- it launches the worker.
+ */
+function cloudScenarios() {
+  const work = fs.mkdtempSync(path.join(os.tmpdir(), "packet-preflight-cloud-"));
+  const savedMasterLibrary = process.env.MASTER_LIBRARY_SOURCE_DIR;
+  const findings = [];
+  const byId = new Map(CHECKS.map((c) => [c.id, active(c)]));
+  const run = (id, env, opts) => {
+    const c = byId.get(id);
+    try { return c.run(env, opts); }
+    catch (error) { return { ok: false, threw: true, detail: error.message }; }
+  };
+
+  const git = (env, args) => execFileSync("git", args, { cwd: env, stdio: "ignore" });
+  const FAKE_BYTES = Buffer.from("%PDF-1.7\n% a synthetic source binary for the preflight self-test\n");
+  const FAKE_SHA = crypto.createHash("sha256").update(FAKE_BYTES).digest("hex");
+
+  /* A checkout that passes cloud mode, so each scenario can break exactly one
+   * thing about it and know that is what it broke. */
+  const makeEnv = (name, opts = {}) => {
+    const env = path.join(work, name);
+    fs.mkdirSync(path.join(env, "scripts"), { recursive: true });
+    fs.mkdirSync(path.join(env, "data/rcap-all50"), { recursive: true });
+    fs.mkdirSync(path.join(env, "data/rcap-grade-a/route-obligation-census-candidate"), { recursive: true });
+    if (opts.markers !== false) {
+      fs.writeFileSync(path.join(env, "AGENTS.md"), "# synthetic\n");
+      fs.writeFileSync(path.join(env, "package.json"), JSON.stringify({ name: "synthetic" }));
+      fs.writeFileSync(path.join(env, "scripts/verify-packet-build-environment.mjs"), "// synthetic\n");
+    }
+    fs.writeFileSync(path.join(env, CORPUS_INDEX), JSON.stringify({
+      entries: [{ path: "STATES/ZZ/FAKE-1.pdf", formNumber: "FAKE-1", sha256: opts.indexSha ?? FAKE_SHA }]
+    }, null, 2));
+    fs.writeFileSync(path.join(env, WORKLIST), JSON.stringify({
+      packetFamilies: [{ worklistGroupId: "zz-synthetic-set", routes: [{ requiredSourceIds: ["official-form:FAKE-1"] }] }]
+    }, null, 2));
+    if (opts.corpus !== false) {
+      const root = path.join(env, MASTER_LIBRARY_RELATIVE, "STATES", "ZZ");
+      fs.mkdirSync(root, { recursive: true });
+      fs.writeFileSync(path.join(root, "FAKE-1.pdf"), opts.corpusBytes ?? FAKE_BYTES);
+    }
+    if (opts.corpusEnv !== false) {
+      fs.mkdirSync(path.join(env, "private"), { recursive: true });
+      fs.writeFileSync(path.join(env, CORPUS_ENV_REPO), "# synthetic corpus environment\n");
+    }
+    fs.writeFileSync(path.join(env, ".gitignore"), "private/\nnode_modules/\n");
+    git(env, ["init", "-q", "-b", "work"]);
+    git(env, ["config", "user.email", "preflight@example.invalid"]);
+    git(env, ["config", "user.name", "preflight"]);
+    // Explicit paths that exist, never a blanket add: a scenario that removes a
+    // marker must not fail at `git add` before the check it is testing runs.
+    const toAdd = [".gitignore", "AGENTS.md", "package.json", "scripts", "data"]
+      .filter((rel) => fs.existsSync(path.join(env, rel)));
+    git(env, ["add", "--", ...toAdd]);
+    git(env, ["commit", "-q", "-m", "base"]);
+    const base = execFileSync("git", ["rev-parse", "HEAD"], { cwd: env, encoding: "utf8" }).trim();
+    fs.writeFileSync(path.join(env, "data/second.json"), "{}\n");
+    git(env, ["add", "--", "data/second.json"]);
+    git(env, ["commit", "-q", "-m", "second"]);
+    return { env, base };
+  };
+
+  const record = (scenario, mustRefuse, result) => {
+    findings.push({
+      scenario, check: mustRefuse, refused: result.ok === false,
+      detail: result.detail,
+      verdict: result.ok === false ? "REFUSED_AS_IT_MUST" : "ACCEPTED — THE GATE DOES NOT HOLD"
+    });
+  };
+
+  try {
+    delete process.env.MASTER_LIBRARY_SOURCE_DIR;
+
+    const good = makeEnv("cloud-good");
+    // The positive control. Every scenario below breaks one thing about THIS
+    // checkout, so if this one does not pass the negatives prove nothing.
+    const controlChecks = ["repo_identity", "clone_is_complete", "assigned_branch_tip_visible", "master_library_mounted"];
+    const control = {
+      repo_identity: run("repo_identity", good.env, {}),
+      clone_is_complete: run("clone_is_complete", good.env, { minimumCaptainSha: good.base }),
+      master_library_mounted: run("master_library_mounted", good.env, { cloud: true, home: good.env })
+    };
+    findings.push({
+      scenario: "CONTROL — an otherwise-correct cloud checkout is accepted",
+      check: controlChecks.filter((c) => c !== "assigned_branch_tip_visible").join(", "),
+      refused: false,
+      accepted: Object.values(control).every((r) => r.ok === true),
+      detail: Object.entries(control).map(([k, v]) => `${k}: ${v.ok ? "ok" : `FAILED — ${v.detail}`}`).join(" · "),
+      verdict: Object.values(control).every((r) => r.ok === true) ? "ACCEPTED_AS_IT_MUST" : "REFUSED — the negatives below prove nothing"
+    });
+
+    record("--minimum-captain-sha is missing", "cloud_checkout_contains_captain_base",
+      run("clone_is_complete", good.env, { minimumCaptainSha: null }));
+
+    record("the minimum Captain SHA is not an object in this checkout", "cloud_checkout_contains_captain_base",
+      run("clone_is_complete", good.env, { minimumCaptainSha: "0".repeat(40) }));
+
+    record("the minimum Captain SHA is not commit-shaped", "cloud_checkout_contains_captain_base",
+      run("clone_is_complete", good.env, { minimumCaptainSha: "not-a-sha" }));
+
+    // A commit that exists in the object database and is not behind HEAD.
+    const sibling = makeEnv("cloud-sibling");
+    git(sibling.env, ["checkout", "-q", "-b", "elsewhere", sibling.base]);
+    fs.writeFileSync(path.join(sibling.env, "data/divergent.json"), "{}\n");
+    git(sibling.env, ["add", "--", "data/divergent.json"]);
+    git(sibling.env, ["commit", "-q", "-m", "divergent"]);
+    const divergent = execFileSync("git", ["rev-parse", "HEAD"], { cwd: sibling.env, encoding: "utf8" }).trim();
+    git(sibling.env, ["checkout", "-q", "work"]);
+    record("the minimum Captain SHA is present but not an ancestor of HEAD", "cloud_checkout_contains_captain_base",
+      run("clone_is_complete", sibling.env, { minimumCaptainSha: divergent }));
+
+    const unmarked = makeEnv("cloud-no-markers", { markers: false });
+    record("the repository markers are missing", "repo_identity_by_committed_markers",
+      run("repo_identity", unmarked.env, {}));
+
+    const detached = makeEnv("cloud-detached");
+    git(detached.env, ["checkout", "-q", "--detach", "HEAD"]);
+    record("HEAD is detached", "repo_identity_by_committed_markers",
+      run("repo_identity", detached.env, {}));
+
+    const noEnvFile = makeEnv("cloud-no-corpus-env", { corpusEnv: false });
+    record("the corpus environment file is absent", "master_library_mounted",
+      run("master_library_mounted", noEnvFile.env, { cloud: true, home: noEnvFile.env }));
+
+    const shortExtract = makeEnv("cloud-short-corpus");
+    record("the corpus counts are wrong", "master_library_complete",
+      run("master_library_complete", shortExtract.env, {}));
+
+    const noSource = makeEnv("cloud-source-absent", { corpus: false });
+    record("a family source is absent from the corpus", "family_sources_bind",
+      run("family_sources_bind", noSource.env, {}));
+
+    const wrongSource = makeEnv("cloud-source-mismatch", { corpusBytes: Buffer.from("%PDF-1.7\n% different bytes\n") });
+    record("a family source hashes to something else", "family_sources_bind",
+      run("family_sources_bind", wrongSource.env, {}));
+
+    const trackedBinary = makeEnv("cloud-private-tracked");
+    fs.mkdirSync(path.join(trackedBinary.env, "private/source-imports"), { recursive: true });
+    fs.writeFileSync(path.join(trackedBinary.env, "private/source-imports/leaked.pdf"), FAKE_BYTES);
+    git(trackedBinary.env, ["add", "-f", "--", "private/source-imports/leaked.pdf"]);
+    git(trackedBinary.env, ["commit", "-q", "-m", "leak"]);
+    record("private/ carries a tracked source binary", "private_is_git_ignored",
+      run("private_is_git_ignored", trackedBinary.env, {}));
+
+    const noAssignment = makeEnv("cloud-no-assignment");
+    record("no assignment in the checkout names this family", "assignment_present_in_this_checkout",
+      run("assigned_branch_tip_visible", noAssignment.env, { family: "zz-synthetic-set", assignmentFile: null, promptFile: null }));
+
+    // Normal mode must not have been softened on the way past.
+    const shallowSource = makeEnv("cloud-shallow-source");
+    const shallow = path.join(work, "normal-shallow");
+    execFileSync("git", ["clone", "-q", "--depth", "1", `file://${shallowSource.env}`, shallow], { stdio: "ignore" });
+    const normalClone = CHECKS.find((c) => c.id === "clone_is_complete");
+    let shallowResult;
+    try { shallowResult = normalClone.run(shallow); }
+    catch (error) { shallowResult = { ok: false, threw: true, detail: error.message }; }
+    record("NORMAL MODE — a shallow clone is still refused", "clone_is_complete", shallowResult);
+  } finally {
+    if (savedMasterLibrary === undefined) delete process.env.MASTER_LIBRARY_SOURCE_DIR;
+    else process.env.MASTER_LIBRARY_SOURCE_DIR = savedMasterLibrary;
+    fs.rmSync(work, { recursive: true, force: true });
+  }
+  return findings;
+}
+
 const results = runAll();
 const proof = PROVE ? prove() : null;
+const cloudProof = PROVE && CLOUD ? cloudScenarios() : null;
 const failed = results.filter((r) => r.ok === false);
 const skipped = results.filter((r) => r.skipped);
 const vacuous = (proof ?? []).filter((p) => p.verdict === "VACUOUS");
+const cloudGatesThatDoNotHold = (cloudProof ?? []).filter((c) => c.verdict.startsWith("ACCEPTED — ") || c.verdict.startsWith("REFUSED — "));
 
 const report = {
   schemaVersion: "rcap-packet-build-environment-preflight/v1",
@@ -605,6 +1005,16 @@ const report = {
   question: "Can this container build an official-form packet, or will it stop at the source gate?",
   family: FAMILY,
   branch: BRANCH,
+  mode: CLOUD ? "codex-cloud" : "codespaces-or-local-clone",
+  ...(CLOUD ? {
+    codexCloud: {
+      minimumCaptainSha: MINIMUM_CAPTAIN_SHA,
+      originRequired: false,
+      shallowCheckoutAllowed: true,
+      replacedChecks: CHECKS.filter((c) => c.cloud).map((c) => ({ codespaces: c.id, cloud: c.cloud.id })),
+      denominatorIsUnchanged: "Three Codespaces checks are replaced, not waived. Fourteen checks run in both modes and a pass is 14/14 in both."
+    }
+  } : {}),
   checks: results.length,
   passed: results.length - failed.length,
   failed: failed.length,
@@ -617,7 +1027,8 @@ const report = {
     "that the held sources are the current official editions"
   ],
   results,
-  discriminationProof: proof
+  discriminationProof: proof,
+  cloudDiscriminationProof: cloudProof
 };
 
 if (REPORT) { fs.mkdirSync(path.dirname(path.join(ROOT, REPORT)), { recursive: true }); fs.writeFileSync(path.join(ROOT, REPORT), JSON.stringify(report, null, 2) + "\n"); }
@@ -630,8 +1041,14 @@ if (proof) {
   console.log("\ndiscrimination:");
   for (const p of proof) console.log(`  ${p.verdict.padEnd(34)} ${p.id}`);
 }
+if (cloudProof) {
+  console.log("\ncloud discrimination — each breaks one thing about a checkout that otherwise passes:");
+  for (const c of cloudProof) console.log(`  ${c.verdict.padEnd(30)} ${c.scenario}`);
+}
 console.log(`\n${report.verdict}: ${report.passed}/${report.checks} passed, ${report.failed} failed, ${report.skipped} not applicable`);
+if (CLOUD) console.log(`mode: codex-cloud — origin not required, shallow checkout accepted, ${report.codexCloud.replacedChecks.length} check(s) replaced rather than waived`);
 if (vacuous.length) console.log(`${vacuous.length} check(s) do not discriminate and prove nothing.`);
+if (cloudProof) console.log(`cloud scenarios: ${cloudProof.length}, ${cloudGatesThatDoNotHold.length} gate(s) that do not hold`);
 if (REPORT) console.log(`Wrote ${REPORT}`);
 
-process.exit(failed.length === 0 && vacuous.length === 0 ? 0 : 1);
+process.exit(failed.length === 0 && vacuous.length === 0 && cloudGatesThatDoNotHold.length === 0 ? 0 : 1);
