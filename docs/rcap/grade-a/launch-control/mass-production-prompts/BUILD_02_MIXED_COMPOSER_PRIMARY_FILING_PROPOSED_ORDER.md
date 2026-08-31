@@ -11,13 +11,13 @@
 
 ## Mission
 
-Build 12 packet families to the standard builder contract. They are one lane because they share sharedBuildRunner, fieldMapSchema — not because they share a state.
+Build 11 packet families to the standard builder contract. They are one lane because they share a component assembly — not because they share a state.
 
 **Runs after:** SHARED_A_PRODUCTION_HARNESS. Do not start until that lane's work is integrated onto your base.
 
-## The 12 families
+## The 11 families
 
-Shared across the whole lane: **sharedBuildRunner, fieldMapSchema**. Varying: officialForm, overlayComposer, componentAssembly, routeOptionLogic.
+Shared across the whole lane: **component assembly**. Varying: sharedBuildRunner, officialForm, overlayComposer, componentAssembly, fieldMapSchema, routeOptionLogic.
 
 shared build runner, official form, overlay/composer, component assembly, field-map schema and route-option logic. Jurisdiction is recorded on every family and used as a grouping reason on none.
 
@@ -27,14 +27,13 @@ shared build runner, official form, overlay/composer, component assembly, field-
 | `ks-21-6614-diversion-set` | KS | official_pdf_fill | KS-CRIMINAL-COVER-SHEET-10-14-2025, KSJC-NOTICE-OF-HEARING-12-2016, KSJC-ORDER-DENYING-EXPUNGEMENT-12-2016, KSJC-ORDER-EXPUNGEMENT-COVER-SHEET-12-2016, KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022, KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022 | cover_sheet, notice, primary_filing, proposed_order | 1 | `data/rcap-all50/overlays/census-v1/ks/ks-21-6614-diversion-set--official-pdf-fill` *(new)* |
 | `ks-21-6614-prostitution-coercion-set` | KS | official_pdf_fill | KS-CRIMINAL-COVER-SHEET-10-14-2025, KSJC-NOTICE-OF-HEARING-12-2016, KSJC-ORDER-DENYING-EXPUNGEMENT-12-2016, KSJC-ORDER-EXPUNGEMENT-COVER-SHEET-12-2016, KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022, KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022 | cover_sheet, notice, primary_filing, proposed_order | 1 | `data/rcap-all50/overlays/census-v1/ks/ks-21-6614-prostitution-coercion-set--official-pdf-fill` *(new)* |
 | `ks-22-2410-arrest-set` | KS | official_pdf_fill | KS-CRIMINAL-COVER-SHEET-10-14-2025, KSJC-ORDER-EXPUNGEMENT-ARREST-RECORD-COVER-SHEET-12-2016, KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD-02-2013 | cover_sheet, primary_filing, proposed_order | 1 | `data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill` *(new)* |
-| `az_record_sealing_arrest_no_charges-set` | AZ | official_pdf_fill | AOCCRSL1F-050825, AOCCRSL2F-050825 | primary_filing, proposed_order | 1 | `data/rcap-all50/overlays/census-v1/az/az-record-sealing-arrest-no-charges-set--official-pdf-fill` *(new)* |
-| `az_record_sealing_dismissal_not_guilty-set` | AZ | official_pdf_fill | AOCCRSL1F-050825, AOCCRSL2F-050825 | primary_filing, proposed_order | 1 | `data/rcap-all50/overlays/census-v1/az/az-record-sealing-dismissal-not-guilty-set--official-pdf-fill` *(new)* |
-| `co_decriminalized_conduct_seal-set` | CO | official_pdf_fill | JDF-2371, JDF-2374 | primary_filing, proposed_order | 1 | `data/rcap-all50/overlays/census-v1/co/co-decriminalized-conduct-seal-set--official-pdf-fill` *(new)* |
-| `co_motion_seal_nonconviction-set` | CO | official_pdf_fill | JDF-477, JDF-478 | primary_filing, proposed_order | 1 | `data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill` *(new)* |
 | `co_multiple_conviction_seal-set` | CO | official_pdf_fill | JDF-641, JDF-642 | primary_filing, proposed_order | 1 | `data/rcap-all50/overlays/census-v1/co/co-multiple-conviction-seal-set--official-pdf-fill` *(new)* |
 | `co_pardoned_conviction_seal-set` | CO | official_pdf_fill | JDF-680, JDF-681 | primary_filing, proposed_order | 1 | `data/rcap-all50/overlays/census-v1/co/co-pardoned-conviction-seal-set--official-pdf-fill` *(new)* |
 | `ky_void_seal_controlled_substance-set` | KY | custom_pleading | AOC-334 | certificate_of_service, primary_filing, proposed_order | 1 | `data/rcap-all50/overlays/census-v1/ky/ky-void-seal-controlled-substance-set--custom-pleading` *(new)* |
 | `ky_void_seal_marijuana_synthetic_salvia-set` | KY | custom_pleading | AOC-334 | certificate_of_service, primary_filing, proposed_order | 1 | `data/rcap-all50/overlays/census-v1/ky/ky-void-seal-marijuana-synthetic-salvia-set--custom-pleading` *(new)* |
+| `pa_age70_deceased-set` | PA | official_pdf_fill | PA-RCRIM-P-790-ORDER, PA-RCRIM-P-790-PETITION | certificate_of_service, primary_filing, proposed_order | 2 | `data/rcap-all50/overlays/census-v1/pa/pa-age70-deceased-set--official-pdf-fill` *(new)* |
+| `ak-tf805-set` | AK | official_pdf_fill | TF-805 | certificate_of_service, primary_filing, proposed_order | 1 | `data/rcap-all50/overlays/census-v1/ak/ak-tf805-set--official-pdf-fill` |
+| `co_motion_seal_conviction-set` | CO | official_pdf_fill | JDF-612, JDF-615 | primary_filing, proposed_order, required_filing | 1 | `data/rcap-all50/overlays/census-v1/co/co-motion-seal-conviction-set--official-pdf-fill` *(new)* |
 
 ## The standard builder contract
 
@@ -66,26 +65,24 @@ Never prefill: participant signature; signature date; certificate of mailing bef
 - `data/rcap-all50/overlays/census-v1/ks/ks-21-6614-diversion-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/ks/ks-21-6614-prostitution-coercion-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/az/az-record-sealing-arrest-no-charges-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/az/az-record-sealing-dismissal-not-guilty-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/co/co-decriminalized-conduct-seal-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/co/co-multiple-conviction-seal-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/co/co-pardoned-conviction-seal-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/ky/ky-void-seal-controlled-substance-set--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/ky/ky-void-seal-marijuana-synthetic-salvia-set--custom-pleading/**`
+- `data/rcap-all50/overlays/census-v1/pa/pa-age70-deceased-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/ak/ak-tf805-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/co/co-motion-seal-conviction-set--official-pdf-fill/**`
 - `scripts/build-census-v1-ks-21-6614-conviction-set.mjs`
 - `scripts/build-census-v1-ks-21-6614-diversion-set.mjs`
 - `scripts/build-census-v1-ks-21-6614-prostitution-coercion-set.mjs`
 - `scripts/build-census-v1-ks-22-2410-arrest-set.mjs`
-- `scripts/build-census-v1-az_record_sealing_arrest_no_charges-set.mjs`
-- `scripts/build-census-v1-az_record_sealing_dismissal_not_guilty-set.mjs`
-- `scripts/build-census-v1-co_decriminalized_conduct_seal-set.mjs`
-- `scripts/build-census-v1-co_motion_seal_nonconviction-set.mjs`
 - `scripts/build-census-v1-co_multiple_conviction_seal-set.mjs`
 - `scripts/build-census-v1-co_pardoned_conviction_seal-set.mjs`
 - `scripts/build-census-v1-ky_void_seal_controlled_substance-set.mjs`
 - `scripts/build-census-v1-ky_void_seal_marijuana_synthetic_salvia-set.mjs`
+- `scripts/build-census-v1-pa_age70_deceased-set.mjs`
+- `scripts/build-census-v1-ak-tf805-set.mjs`
+- `scripts/build-census-v1-co_motion_seal_conviction-set.mjs`
 
 ## Never write here
 
@@ -104,14 +101,13 @@ Never prefill: participant signature; signature date; certificate of mailing bef
 - data/rcap-all50/overlays/census-v1/ks/ks-21-6614-diversion-set--official-pdf-fill/reports/rendered-artifacts.json — the canonical and boundary artifacts for ks-21-6614-diversion-set, with companion documents
 - data/rcap-all50/overlays/census-v1/ks/ks-21-6614-prostitution-coercion-set--official-pdf-fill/reports/rendered-artifacts.json — the canonical and boundary artifacts for ks-21-6614-prostitution-coercion-set, with companion documents
 - data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/reports/rendered-artifacts.json — the canonical and boundary artifacts for ks-22-2410-arrest-set, with companion documents
-- data/rcap-all50/overlays/census-v1/az/az-record-sealing-arrest-no-charges-set--official-pdf-fill/reports/rendered-artifacts.json — the canonical and boundary artifacts for az_record_sealing_arrest_no_charges-set, with companion documents
-- data/rcap-all50/overlays/census-v1/az/az-record-sealing-dismissal-not-guilty-set--official-pdf-fill/reports/rendered-artifacts.json — the canonical and boundary artifacts for az_record_sealing_dismissal_not_guilty-set, with companion documents
-- data/rcap-all50/overlays/census-v1/co/co-decriminalized-conduct-seal-set--official-pdf-fill/reports/rendered-artifacts.json — the canonical and boundary artifacts for co_decriminalized_conduct_seal-set, with companion documents
-- data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill/reports/rendered-artifacts.json — the canonical and boundary artifacts for co_motion_seal_nonconviction-set, with companion documents
 - data/rcap-all50/overlays/census-v1/co/co-multiple-conviction-seal-set--official-pdf-fill/reports/rendered-artifacts.json — the canonical and boundary artifacts for co_multiple_conviction_seal-set, with companion documents
 - data/rcap-all50/overlays/census-v1/co/co-pardoned-conviction-seal-set--official-pdf-fill/reports/rendered-artifacts.json — the canonical and boundary artifacts for co_pardoned_conviction_seal-set, with companion documents
 - data/rcap-all50/overlays/census-v1/ky/ky-void-seal-controlled-substance-set--custom-pleading/reports/rendered-artifacts.json — the canonical and boundary artifacts for ky_void_seal_controlled_substance-set, with companion documents
 - data/rcap-all50/overlays/census-v1/ky/ky-void-seal-marijuana-synthetic-salvia-set--custom-pleading/reports/rendered-artifacts.json — the canonical and boundary artifacts for ky_void_seal_marijuana_synthetic_salvia-set, with companion documents
+- data/rcap-all50/overlays/census-v1/pa/pa-age70-deceased-set--official-pdf-fill/reports/rendered-artifacts.json — the canonical and boundary artifacts for pa_age70_deceased-set, with companion documents
+- data/rcap-all50/overlays/census-v1/ak/ak-tf805-set--official-pdf-fill/reports/rendered-artifacts.json — the canonical and boundary artifacts for ak-tf805-set, with companion documents
+- data/rcap-all50/overlays/census-v1/co/co-motion-seal-conviction-set--official-pdf-fill/reports/rendered-artifacts.json — the canonical and boundary artifacts for co_motion_seal_conviction-set, with companion documents
 
 ### Output schema
 

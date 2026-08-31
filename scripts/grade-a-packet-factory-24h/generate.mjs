@@ -36,7 +36,7 @@ const CONTRACT = "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.
 const PREFLIGHT = "scripts/verify-packet-build-environment.mjs";
 
 /* The minimum ancestor every lane proves it contains. */
-const MINIMUM_CAPTAIN_SHA = "72f99073c42bd28e3469efe316378b37601717c7";
+const MINIMUM_CAPTAIN_SHA = "7476708c6236b7b2ce1b1112dbeef434d3957c59";
 
 /* Micro-batch: a lane returns work in hours, not at the end of a wave. Five is
  * the ceiling and two to four is the shape; a shared-host lane may exceed it
