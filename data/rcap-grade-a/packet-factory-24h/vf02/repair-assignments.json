@@ -1,0 +1,16 @@
+{
+  "repairAssignments": [
+    {
+      "itemId": "vt_seal_misdemeanor-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "decisiveDefect": "The participant instructions do not provide a complete filing handoff: they omit an affirmative filing destination, the filing fee (or an authoritative current-fee lookup instruction) despite mentioning the waiver, and all service recipients and methods.",
+      "failedProofObligations": ["filingDestination", "feeAndWaiver", "service"],
+      "repairRequired": [
+        "Name the exact court/clerk destination for this route and explain how the participant identifies the proper Superior Court unit.",
+        "State the applicable filing fee and waiver path, or accurately state that no fee applies; if the fee is variable, provide an authoritative current-fee lookup instruction.",
+        "State every required service or copy recipient and the permitted method and timing, or explicitly state and support that the clerk performs notice and the participant has no service step."
+      ],
+      "scope": "participant-instructions.md only; re-render and re-run completeness evidence after repair"
+    }
+  ]
+}
