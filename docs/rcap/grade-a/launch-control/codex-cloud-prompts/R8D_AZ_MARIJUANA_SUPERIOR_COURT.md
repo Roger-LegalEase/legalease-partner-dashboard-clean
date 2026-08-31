@@ -19,7 +19,7 @@ node scripts/verify-packet-build-environment.mjs \
   --minimum-captain-sha 0b89b1bf6b0b211ca73784724b1e0aea409010a3
 ```
 
-It must print **`PACKET_BUILD_ENVIRONMENT_READY: 15/15`**.
+It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**.
  Captain observed `PACKET_BUILD_ENVIRONMENT_READY: 14/14` for this family against the then-current roster of 14; the roster has grown since, so expect the number above and not that one.
 
 ## Never run these
@@ -133,7 +133,7 @@ COUNTERS AFTER:
 WHAT CHANGED:
 COMMERCIAL ROUTES OPENED: 0
 PRODUCTION TOUCHED: NO
-PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY 15/15
+PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing
 DIFF LEFT FOR THE CODEX UI: YES
 ```
 

@@ -145,78 +145,48 @@ const { preflightDenominator } = await import(path.join(ROOT, "scripts/grade-a-p
  * teaches the reader to skip it. So it reads the command instead of assuming
  * one.
  */
-const ratioCache = new Map();
-const ratioFor = (args) => {
-  const key = args.join(" ");
-  if (!ratioCache.has(key)) {
-    ratioCache.set(key, /(\d+\/\d+)/.exec(preflightDenominator(args).mustReturn)?.[1] ?? "");
-  }
-  return ratioCache.get(key);
-};
-// The command block a prompt gives its worker, taken verbatim from the fence.
-const argsFromCommand = (block) => {
-  const args = [];
-  if (/--family\s+\S/.test(block)) args.push("--family", "__denominator_probe__");
-  if (/--codex-cloud/.test(block)) args.push("--codex-cloud");
-  return args;
-};
 /*
- * Every preflight invocation in a prompt, with the offset it sits at.
+ * There is no denominator to state any more, and that is the answer.
  *
- * A prompt has more than one: PF carries a lane gate (no --family, 14/14) and a
- * row gate (--family, 15/15), and they print different numbers. Reading only
- * the first command measured both against the lane gate; reading the wrong one
- * measured both against the row gate. Each stated ratio belongs to the command
- * nearest above it, and the return-format line at the foot of the prompt
- * reports the lane gate, which is the first.
+ * The number went 14 to 15 to 16 while this was being repaired -- cloud mode
+ * replaces three checks rather than waiving them, and the browser export became
+ * its own check. Every hand-written ratio was an instruction to expect a number
+ * a changed roster silently invalidates, and a worker who cannot tell an
+ * improvement from a regression either stops a healthy lane or waves a real
+ * failure past. preflightDenominator states the contract as
+ * "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check
+ * passing", which stays true whatever the roster is on the day.
+ *
+ * So a ratio anywhere is the finding, whatever its value. A number that happens
+ * to be right today is the same defect as a wrong one, discovered later.
  */
-const commandsIn = (text) => {
-  const out = [];
-  for (const m of text.matchAll(/node scripts\/verify-packet-build-environment\.mjs/g)) {
-    const fenceEnd = text.indexOf("\n```", m.index);
-    out.push({ at: m.index, args: argsFromCommand(text.slice(m.index, fenceEnd < 0 ? m.index + 400 : fenceEnd)) });
-  }
-  return out;
-};
+const CONTRACT = preflightDenominator(["--family", "__denominator_probe__", "--codex-cloud"]).mustReturn;
 const hardcoded = [];
+if (/\d+\/\d+/.test(CONTRACT)) hardcoded.push(`the preflight contract itself states a ratio: ${CONTRACT}`);
 const walkPrompts = (dir) => {
   if (!fs.existsSync(dir)) return;
   for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
     const p = path.join(dir, e.name);
     if (e.isDirectory()) { walkPrompts(p); continue; }
     if (!e.name.endsWith(".md")) continue;
-    const t = fs.readFileSync(p, "utf8");
-    const commands = commandsIn(t);
-    for (const m of t.matchAll(/(^|\n)([^\n]*PACKET_BUILD_ENVIRONMENT_READY:?\s*`?(\d+\/\d+)[^\n]*)/g)) {
-      const line = m[2];
-      const stated = m[3];
-      if (!commands.length) {
-        // A prompt that names this preflight's output and never tells the
-        // worker to run it names a string its own lane cannot produce.
-        hardcoded.push(`${path.relative(ROOT, p)} states ${stated} and instructs no packet-build preflight run`);
-        continue;
-      }
-      /*
-       * A past measurement may state a past number, and must not be rewritten
-       * to agree with the present one -- editing the record of a broken gate to
-       * match the fixed one destroys the evidence that it was ever broken. The
-       * exemption is narrow and has to earn itself: the line must name the
-       * roster the observation was made against, so a stale instruction cannot
-       * hide behind it by simply sounding historical.
-       */
-      if (/against the then-current roster of \d+/.test(line)) continue;
-      // The return-format block reports the LANE gate, wherever it sits.
-      const isReturnFormat = /^PREFLIGHT:/.test(line.trim());
-      const owner = isReturnFormat
-        ? commands[0]
-        : [...commands].reverse().find((c) => c.at < m.index) ?? commands[0];
-      const expected = ratioFor(owner.args);
-      if (stated !== expected) {
-        hardcoded.push(`${path.relative(ROOT, p)} states ${stated} where \`${["node", PREFLIGHT, ...owner.args].join(" ")}\` prints ${expected}`);
-      }
+    for (const m of fs.readFileSync(p, "utf8").matchAll(/(^|\n)([^\n]*PACKET_BUILD_ENVIRONMENT_READY:?\s*`?(\d+\/\d+)[^\n]*)/g)) {
+      // A past measurement may state a past number, and must not be rewritten
+      // to agree with the present one -- editing the record of a broken gate to
+      // match the fixed one destroys the evidence that it was ever broken. The
+      // exemption earns itself: the line must name the roster it was taken
+      // against, so a stale instruction cannot hide by sounding historical.
+      if (/against the then-current roster of \d+/.test(m[2])) continue;
+      hardcoded.push(`${path.relative(ROOT, p)} states ${m[3]}; the contract carries no number`);
     }
   }
 };
+for (const g of fs.readdirSync(path.join(ROOT, "scripts/grade-a-packet-factory-24h")).filter((f) => f.startsWith("generate"))) {
+  const t = fs.readFileSync(path.join(ROOT, "scripts/grade-a-packet-factory-24h", g), "utf8");
+  for (const line of t.split("\n")) {
+    if (/^\s*\*/.test(line)) continue;
+    if (/PACKET_BUILD_ENVIRONMENT_READY:?\s*\\?`?\d+\/\d+/.test(line)) hardcoded.push(`${g} states a denominator by hand: ${line.trim().slice(0, 60)}`);
+  }
+}
 walkPrompts(path.join(ROOT, "docs/rcap/grade-a/packet-factory-24h"));
 walkPrompts(path.join(ROOT, "docs/rcap/grade-a/launch-control"));
 /*
@@ -236,7 +206,7 @@ for (const g of fs.readdirSync(path.join(ROOT, "scripts/grade-a-packet-factory-2
 }
 check("N6", "no prompt or generator states a preflight denominator the preflight does not print",
   hardcoded.length === 0,
-  `${ratioCache.size} distinct invocation(s) measured; ${hardcoded.length} place(s) disagree: ${hardcoded.slice(0, 3).join(" | ")}`);
+  `contract: "${CONTRACT}"; ${hardcoded.length} place(s) state a number anyway: ${hardcoded.slice(0, 3).join(" | ")}`);
 
 /* ---- N7. the readiness workflow must run the runtime acceptance ---------- */
 const wf = fs.existsSync(path.join(ROOT, READY_WORKFLOW)) ? fs.readFileSync(path.join(ROOT, READY_WORKFLOW), "utf8") : "";

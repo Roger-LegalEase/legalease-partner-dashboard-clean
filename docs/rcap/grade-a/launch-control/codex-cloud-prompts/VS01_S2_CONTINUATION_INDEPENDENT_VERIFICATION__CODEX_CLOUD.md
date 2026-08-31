@@ -20,7 +20,7 @@ node scripts/verify-packet-build-environment.mjs \
   --minimum-captain-sha 98a7a57e2a354eeb8b33b3873e62f7a9785fedaf
 ```
 
-It must print **`PACKET_BUILD_ENVIRONMENT_READY: 15/15`**. 15/15 or stop. Three Codespaces checks are replaced by cloud-native ones, not waived, so a 14/15 in cloud mode is a real failure and not the shallow checkout being tolerated.
+It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. with every registered applicable check passing or stop. Three Codespaces checks are replaced by cloud-native ones, not waived, so a any registered applicable check failing in cloud mode is a real failure and not the shallow checkout being tolerated.
 
 ## Never run these
 
@@ -112,7 +112,7 @@ BLOCKED_LEGAL_INPUT:
 OVERLAY DIRECTORIES MODIFIED: 0
 COMMERCIAL ROUTES OPENED: 0
 PRODUCTION TOUCHED: NO
-PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY 15/15
+PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing
 DIFF LEFT FOR THE CODEX UI: YES
 ```
 

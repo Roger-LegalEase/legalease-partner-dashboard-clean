@@ -19,7 +19,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs --family wa_vac_cannabis-set --codex-cloud --minimum-captain-sha 72f99073c42bd28e3469efe316378b37601717c7
 ```
 
-It must print **`PACKET_BUILD_ENVIRONMENT_READY: 15/15`**.
+It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**.
 
 ## Never run these
 
@@ -94,7 +94,7 @@ FAIL_REPAIR_REQUIRED:
 OVERLAY DIRECTORIES MODIFIED: 0
 COMMERCIAL ROUTES OPENED: 0
 PRODUCTION TOUCHED: NO
-PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY 15/15
+PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing
 DIFF LEFT FOR THE CODEX UI: YES
 ```
 

@@ -35,8 +35,17 @@ import { preflightDenominator } from "../grade-a-packet-factory-24h/preflight-de
  * from a regression either stops a healthy lane or waves a real failure past.
  */
 const PREFLIGHT_MUST_RETURN = preflightDenominator(["--family", "__denominator_probe__", "--codex-cloud"]).mustReturn;
-const PREFLIGHT_RATIO = /(\d+\/\d+)/.exec(PREFLIGHT_MUST_RETURN)[1];
-const PREFLIGHT_SHORT = `${Number(PREFLIGHT_RATIO.split("/")[0]) - 1}/${PREFLIGHT_RATIO.split("/")[1]}`;
+/*
+ * There is no ratio any more, and that is the fix rather than a loss.
+ *
+ * Every hand-written "14/14" was an instruction to expect a number that a
+ * changed roster silently invalidates, and the roster changed twice while this
+ * was being repaired -- to fifteen, then to sixteen when the browser export
+ * became its own check. The contract a worker can actually hold is that every
+ * registered applicable check passed, whatever the count is on the day.
+ */
+const PREFLIGHT_RATIO = PREFLIGHT_MUST_RETURN.replace(/^PACKET_BUILD_ENVIRONMENT_READY:?\s*/, "");
+const PREFLIGHT_SHORT = "any registered applicable check failing";
 
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");

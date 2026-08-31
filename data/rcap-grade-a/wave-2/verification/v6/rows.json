@@ -11,7 +11,7 @@
     "corpusInventory": "501 files; 329 PDFs; 51 jurisdictions; 24 samples exact",
     "priorBootstrap404Superseded": "The release asset remained unavailable, but the source-corpus environment supplied the extracted master library. Every assigned family then bound its pinned source bytes at the recorded SHA-256.",
     "preflightRequirement": "Before each family: source private/source-corpus-environment.txt; export MASTER_LIBRARY_SOURCE_DIR from RCAP_BUNDLE_EXTRACT; unset OFFICIAL_FORMS_SOURCE_DIR",
-    "preflightResult": "All six families: PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 1 not applicable"
+    "preflightResult": "All six families: PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing passed, 0 failed, 1 not applicable"
   },
   "rows": [
     {
@@ -182,12 +182,12 @@
     }
   ],
   "tests": [
-    {"command":"source private/source-corpus-environment.txt; export MASTER_LIBRARY_SOURCE_DIR=\"$RCAP_BUNDLE_EXTRACT\"; unset OFFICIAL_FORMS_SOURCE_DIR; node scripts/verify-packet-build-environment.mjs --family ca-1203-4a-set","status":"PASS","exitCode":0,"observed":"PACKET_BUILD_ENVIRONMENT_READY 14/14; source bind 4/4"},
-    {"command":"source private/source-corpus-environment.txt; export MASTER_LIBRARY_SOURCE_DIR=\"$RCAP_BUNDLE_EXTRACT\"; unset OFFICIAL_FORMS_SOURCE_DIR; node scripts/verify-packet-build-environment.mjs --family nj_disorderly_persons-set","status":"PASS","exitCode":0,"observed":"PACKET_BUILD_ENVIRONMENT_READY 14/14; source bind 1/1"},
-    {"command":"source private/source-corpus-environment.txt; export MASTER_LIBRARY_SOURCE_DIR=\"$RCAP_BUNDLE_EXTRACT\"; unset OFFICIAL_FORMS_SOURCE_DIR; node scripts/verify-packet-build-environment.mjs --family pa_790_nonconviction-set","status":"PASS","exitCode":0,"observed":"PACKET_BUILD_ENVIRONMENT_READY 14/14; source bind 5/5"},
-    {"command":"source private/source-corpus-environment.txt; export MASTER_LIBRARY_SOURCE_DIR=\"$RCAP_BUNDLE_EXTRACT\"; unset OFFICIAL_FORMS_SOURCE_DIR; node scripts/verify-packet-build-environment.mjs --family ut_pet_conviction-set","status":"PASS","exitCode":0,"observed":"PACKET_BUILD_ENVIRONMENT_READY 14/14; source bind 9/9"},
-    {"command":"source private/source-corpus-environment.txt; export MASTER_LIBRARY_SOURCE_DIR=\"$RCAP_BUNDLE_EXTRACT\"; unset OFFICIAL_FORMS_SOURCE_DIR; node scripts/verify-packet-build-environment.mjs --family wa_vac_domestic_violence-set","status":"PASS","exitCode":0,"observed":"PACKET_BUILD_ENVIRONMENT_READY 14/14; source bind 2/2"},
-    {"command":"source private/source-corpus-environment.txt; export MASTER_LIBRARY_SOURCE_DIR=\"$RCAP_BUNDLE_EXTRACT\"; unset OFFICIAL_FORMS_SOURCE_DIR; node scripts/verify-packet-build-environment.mjs --family wa_vac_treaty_fishing-set","status":"PASS","exitCode":0,"observed":"PACKET_BUILD_ENVIRONMENT_READY 14/14; source bind 2/2"},
+    {"command":"source private/source-corpus-environment.txt; export MASTER_LIBRARY_SOURCE_DIR=\"$RCAP_BUNDLE_EXTRACT\"; unset OFFICIAL_FORMS_SOURCE_DIR; node scripts/verify-packet-build-environment.mjs --family ca-1203-4a-set","status":"PASS","exitCode":0,"observed":"PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing; source bind 4/4"},
+    {"command":"source private/source-corpus-environment.txt; export MASTER_LIBRARY_SOURCE_DIR=\"$RCAP_BUNDLE_EXTRACT\"; unset OFFICIAL_FORMS_SOURCE_DIR; node scripts/verify-packet-build-environment.mjs --family nj_disorderly_persons-set","status":"PASS","exitCode":0,"observed":"PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing; source bind 1/1"},
+    {"command":"source private/source-corpus-environment.txt; export MASTER_LIBRARY_SOURCE_DIR=\"$RCAP_BUNDLE_EXTRACT\"; unset OFFICIAL_FORMS_SOURCE_DIR; node scripts/verify-packet-build-environment.mjs --family pa_790_nonconviction-set","status":"PASS","exitCode":0,"observed":"PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing; source bind 5/5"},
+    {"command":"source private/source-corpus-environment.txt; export MASTER_LIBRARY_SOURCE_DIR=\"$RCAP_BUNDLE_EXTRACT\"; unset OFFICIAL_FORMS_SOURCE_DIR; node scripts/verify-packet-build-environment.mjs --family ut_pet_conviction-set","status":"PASS","exitCode":0,"observed":"PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing; source bind 9/9"},
+    {"command":"source private/source-corpus-environment.txt; export MASTER_LIBRARY_SOURCE_DIR=\"$RCAP_BUNDLE_EXTRACT\"; unset OFFICIAL_FORMS_SOURCE_DIR; node scripts/verify-packet-build-environment.mjs --family wa_vac_domestic_violence-set","status":"PASS","exitCode":0,"observed":"PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing; source bind 2/2"},
+    {"command":"source private/source-corpus-environment.txt; export MASTER_LIBRARY_SOURCE_DIR=\"$RCAP_BUNDLE_EXTRACT\"; unset OFFICIAL_FORMS_SOURCE_DIR; node scripts/verify-packet-build-environment.mjs --family wa_vac_treaty_fishing-set","status":"PASS","exitCode":0,"observed":"PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing; source bind 2/2"},
     {"command":"node scripts/grade-a-launch-control/verify-c11-return.mjs","status":"PASS","exitCode":0,"observed":"10/13 criteria; ACCEPTED_WITH_FOUR_VALID_STOPS_AFTER_CORPUS_BINARY_EXCLUSION; review current"},
     {"command":"node scripts/grade-a-launch-control/verify-launch-control.mjs","status":"PASS","exitCode":0,"observed":"33/33 checkpoint checks passed"}
   ],

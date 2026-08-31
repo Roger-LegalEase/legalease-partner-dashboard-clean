@@ -111,7 +111,7 @@ export function preflightDenominator(invocation = null) {
     applicable: observed.applicable,
     notApplicable: observed.skipped,
     checks: declared,
-    mustReturn: `PACKET_BUILD_ENVIRONMENT_READY: ${observed.applicable}/${observed.applicable}`
+    mustReturn: "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing"
   };
   denominatorCache.set(key, result);
   return result;

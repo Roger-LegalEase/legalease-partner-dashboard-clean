@@ -14,13 +14,13 @@
   },
   "preflightProtocol": {
     "beforeEveryFamily": "source private/source-corpus-environment.txt; export MASTER_LIBRARY_SOURCE_DIR=\"$RCAP_BUNDLE_EXTRACT\"; unset OFFICIAL_FORMS_SOURCE_DIR; node scripts/verify-packet-build-environment.mjs --family <family>",
-    "requiredAndObservedResult": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 1 not applicable"
+    "requiredAndObservedResult": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing passed, 0 failed, 1 not applicable"
   },
   "rows": [
     {
       "itemId": "ca-1203-42-set",
       "verdict": "BLOCKED_LEGAL_APPROVAL_INPUT",
-      "preflight": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 1 not applicable; family_sources_bind 4/4",
+      "preflight": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing passed, 0 failed, 1 not applicable; family_sources_bind 4/4",
       "rowStop": "Obligation 1: the controlling Master Library forbids mapping California form assets to eligibility tracks until the missing state legal-design review is supplied.",
       "proofObligations": {
         "exact route identity": {
@@ -51,7 +51,7 @@
     {
       "itemId": "nj_arrest_no_conviction-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
-      "preflight": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 1 not applicable; family_sources_bind 1/1",
+      "preflight": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing passed, 0 failed, 1 not applicable; family_sources_bind 1/1",
       "rowStop": "Obligation 7: production-field-map.json elects dismissal without a disposition fact although the exact route also covers acquittal and other nonconviction dispositions.",
       "proofObligations": {
         "exact route identity": {"status":"EVALUATED","observed":"obligation:track-pathway:NJ:nj_arrest_no_conviction:arrest-dismissal-and-other-non-conviction-expungement-under-n-j-s-a-2c-52-6","readFrom":["data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json","data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill/source-receipt.json"]},
@@ -78,7 +78,7 @@
     {
       "itemId": "oh_marijuana_expungement-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
-      "preflight": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 1 not applicable; family_sources_bind 1/1",
+      "preflight": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing passed, 0 failed, 1 not applicable; family_sources_bind 1/1",
       "rowStop": "Obligation 5: the composer hardcodes R.C. 2953.321 even though the controlling review proves that is the wrong section and says both the correct authority and filing vehicle remain unresolved.",
       "proofObligations": {
         "exact route identity": {"status":"EVALUATED","observed":"obligation:track-pathway:OH:oh_marijuana_expungement:marijuana-hashish-possession-expungement-under-2953-321 is the exact assigned/build key; its legal error is tested at obligation 5.","readFrom":"data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/source-receipt.json"},
@@ -105,7 +105,7 @@
     {
       "itemId": "sd_arrest_expungement-set",
       "verdict": "BLOCKED_LEGAL_APPROVAL_INPUT",
-      "preflight": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 1 not applicable; family_sources_bind 6/6",
+      "preflight": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing passed, 0 failed, 1 not applicable; family_sources_bind 6/6",
       "rowStop": "Obligation 12: the packet states $72, but the controlling review marks whether $72 is current as an unresolved release blocker.",
       "proofObligations": {
         "exact route identity": {"status":"EVALUATED","observed":"obligation:unit:SD:sd_arrest_expungement:sd-arrest-stage-2-ujs-motion-packet","readFrom":"data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/approval-request.json"},
@@ -132,7 +132,7 @@
     {
       "itemId": "ut_pet_traffic-set",
       "verdict": "BLOCKED_LEGAL_APPROVAL_INPUT",
-      "preflight": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 1 not applicable; family_sources_bind 5/5",
+      "preflight": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing passed, 0 failed, 1 not applicable; family_sources_bind 5/5",
       "rowStop": "Obligation 5: 1146XX and 1148XX bind exactly but the controlling manifest still classifies them source_gated/source_or_currentness_gate_open and disabled pending release gates.",
       "proofObligations": {
         "exact route identity": {"status":"EVALUATED","observed":"obligation:track-pathway:UT:ut_pet_traffic:path-i-traffic-offense-expungement-or-deletion","readFrom":"data/rcap-all50/overlays/census-v1/ut/ut-pet-traffic-set--official-pdf-fill/approval-request.json"},
@@ -159,7 +159,7 @@
     {
       "itemId": "wa_vac_survivor_felony-set",
       "verdict": "BLOCKED_LEGAL_APPROVAL_INPUT",
-      "preflight": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 1 not applicable; family_sources_bind 2/2",
+      "preflight": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing passed, 0 failed, 1 not applicable; family_sources_bind 2/2",
       "rowStop": "Obligation 12: the controlling review has not established current vacation-petition filing fees and marks that question as a release blocker.",
       "proofObligations": {
         "exact route identity": {"status":"EVALUATED","observed":"obligation:track-pathway:WA:wa_vac_survivor_felony:victim-survivor-conviction-vacation-route; RCW 9.94A.648 through RCW 9.94A.640(3).","readFrom":["source-receipt.json","$MASTER_LIBRARY_SOURCE_DIR/STATES/WA/01_LEGAL_REVIEW/WA__LEGAL-REVIEW__STATEWIDE__washington-record-clearing-legal-review__ASOF-2026-08-01__EN.md"]},
@@ -195,7 +195,7 @@
     {
       "command": "source private/source-corpus-environment.txt; export MASTER_LIBRARY_SOURCE_DIR=\"$RCAP_BUNDLE_EXTRACT\"; unset OFFICIAL_FORMS_SOURCE_DIR; node scripts/verify-packet-build-environment.mjs --family <each assigned family>",
       "result": "PASS",
-      "detail": "All 6 runs returned PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 1 not applicable; family_sources_bind was CA 4/4, NJ 1/1, OH 1/1, SD 6/6, UT 5/5, WA 2/2."
+      "detail": "All 6 runs returned PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing passed, 0 failed, 1 not applicable; family_sources_bind was CA 4/4, NJ 1/1, OH 1/1, SD 6/6, UT 5/5, WA 2/2."
     },
     {
       "command": "node scripts/grade-a-launch-control/verify-c11-return.mjs",

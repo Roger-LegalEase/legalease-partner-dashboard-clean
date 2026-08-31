@@ -27,11 +27,11 @@
 // touching a single content operator: the marks used for calibration go on a
 // separate copy, and the image that gets measured is a render of the page as
 // the court published it.
-import { spawnSync } from "node:child_process";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { createRequire } from "node:module";
+import { execFileSync } from "node:child_process";
 
 const require = createRequire(import.meta.url);
 const { PDFDocument, rgb } = require("pdf-lib");
@@ -65,68 +65,70 @@ const sharp = require("sharp");
  */
 const isRasterCapable = (p) => !/headless_shell/.test(p);
 const executableFile = (p) => {
-  try { return fs.statSync(p).isFile(); } catch { return false; }
+  try {
+    return fs.statSync(p).isFile() && (fs.accessSync(p, fs.constants.X_OK), true);
+  } catch { return false; }
 };
 
-function chromiumCandidates() {
+const PATH_COMMANDS = ["chromium", "chromium-browser", "google-chrome", "google-chrome-stable"];
+const REVIEWED_SYSTEM_PATHS = [
+  "/usr/bin/chromium", "/usr/bin/chromium-browser", "/usr/bin/google-chrome",
+  "/usr/bin/google-chrome-stable", "/opt/google/chrome/chrome",
+  "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+];
+
+function commandPath(command) {
+  try { return execFileSync("sh", ["-c", "command -v -- \"$1\"", "sh", command], { encoding: "utf8" }).trim(); }
+  catch { return null; }
+}
+
+function browserCacheCandidates(root) {
   const out = [];
+  if (!root || !fs.existsSync(root)) return out;
+  let versioned = [];
+  try {
+    versioned = fs.readdirSync(root)
+      .filter((d) => /^chromium(_headless_shell)?-\d+$/.test(d))
+      .sort((a, b) => Number(b.split("-")[1]) - Number(a.split("-")[1]));
+  } catch { return out; }
+  for (const d of [...versioned, "chromium"]) {
+    for (const exe of ["chrome-linux64/chrome", "chrome-linux/chrome", "chrome-mac/Chromium.app/Contents/MacOS/Chromium", ""]) {
+      out.push(exe ? path.join(root, d, exe) : path.join(root, d));
+    }
+  }
+  return out;
+}
+
+function chromiumCandidates() {
+  const groups = [];
   // The override is a file, checked like every other candidate. It was pushed
   // unguarded, and a directory passes fs.accessSync(X_OK) -- so RCAP_CHROMIUM_PATH
   // pointing at chrome-linux/ instead of chrome-linux/chrome resolved cleanly and
   // then died with EACCES inside the render.
-  if (process.env.RCAP_CHROMIUM_PATH && executableFile(process.env.RCAP_CHROMIUM_PATH)) out.push(process.env.RCAP_CHROMIUM_PATH);
-  const root = process.env.PLAYWRIGHT_BROWSERS_PATH;
-  if (root && fs.existsSync(root)) {
-    const versioned = fs.readdirSync(root)
-      .filter((d) => /^chromium(_headless_shell)?-\d+$/.test(d))
-      .sort((a, b) => Number(b.split("-")[1]) - Number(a.split("-")[1]));
-    for (const d of [...versioned, "chromium"]) {
-      for (const exe of ["chrome-linux/chrome", ""]) {
-        const p = exe ? path.join(root, d, exe) : path.join(root, d);
-        if (fs.existsSync(p) && fs.statSync(p).isFile()) out.push(p);
-      }
-    }
+  groups.push({ by: "RCAP_CHROMIUM_PATH", paths: [process.env.RCAP_CHROMIUM_PATH].filter(Boolean) });
+  groups.push({ by: "PLAYWRIGHT_BROWSERS_PATH", paths: browserCacheCandidates(process.env.PLAYWRIGHT_BROWSERS_PATH) });
+  if (process.env.RCAP_BROWSER_RESOLVER_TEST_ONLY === "1") {
+    return groups.flatMap(({ by, paths }) => paths.map((candidate) => ({ candidate, by })))
+      .filter(({ candidate }, index, all) => candidate && isRasterCapable(candidate)
+        && all.findIndex((item) => item.candidate === candidate) === index);
   }
-  /*
-   * PATH, then reviewed system locations.
-   *
-   * ENV-RAS01: a Codex Cloud container may carry a distribution Chromium with
-   * no Playwright registry at all, and the resolver saw none of it -- it looked
-   * only at two environment variables and Playwright's own layout. "Chromium is
-   * absent" and "Chromium is somewhere this resolver does not look" produced
-   * the same answer, and the second is a configuration fix while the first is a
-   * provisioning one.
-   *
-   * Each name is resolved through PATH by `command -v`, and each result must be
-   * an executable FILE. Presence is not executability and executability is not
-   * renderability; probeRasterizer() answers the third.
-   */
-  for (const name of ["chromium", "chromium-browser", "google-chrome", "google-chrome-stable", "chrome"]) {
-    const r = spawnSync("sh", ["-c", `command -v ${name}`], { encoding: "utf8" });
-    const p = (r.stdout ?? "").trim();
-    if (p && executableFile(p)) out.push(p);
-  }
-  for (const p of [
-    "/usr/bin/chromium", "/usr/bin/chromium-browser", "/usr/bin/google-chrome",
-    "/usr/bin/google-chrome-stable", "/usr/local/bin/chromium",
-    "/opt/google/chrome/chrome", "/opt/chromium/chrome"
-  ]) if (executableFile(p)) out.push(p);
-
-  return [...new Set(out)].filter(isRasterCapable);
+  try {
+    const { chromium } = require("playwright");
+    groups.push({ by: "playwright_executable_path", paths: [chromium.executablePath()] });
+  } catch { groups.push({ by: "playwright_executable_path", paths: [] }); }
+  groups.push({ by: "PATH", paths: PATH_COMMANDS.map(commandPath).filter(Boolean) });
+  groups.push({ by: "reviewed_system_path", paths: REVIEWED_SYSTEM_PATHS });
+  return groups.flatMap(({ by, paths }) => paths.map((candidate) => ({ candidate, by })))
+    .filter(({ candidate }, index, all) => candidate && isRasterCapable(candidate)
+      && all.findIndex((item) => item.candidate === candidate) === index);
 }
 
 export function resolveChromium() {
-  const tried = chromiumCandidates();
-  for (const p of tried) {
-    try { fs.accessSync(p, fs.constants.X_OK); return { executablePath: p, resolvedBy: "discovered", tried }; }
-    catch { /* keep looking */ }
+  const candidates = chromiumCandidates();
+  const tried = candidates.map(({ candidate }) => candidate);
+  for (const { candidate, by } of candidates) {
+    if (executableFile(candidate)) return { executablePath: candidate, resolvedBy: by, tried };
   }
-  // Playwright's own resolver, which knows its registry layout better than we do.
-  try {
-    const { chromium } = require("playwright");
-    const p = chromium.executablePath();
-    if (p && fs.existsSync(p)) return { executablePath: p, resolvedBy: "playwright_executable_path", tried: [...tried, p] };
-  } catch { /* fall through to the refusal */ }
   return { executablePath: null, resolvedBy: null, tried };
 }
 const SETTLE_MS = Number(process.env.RCAP_RASTER_SETTLE_MS ?? 5000);
@@ -217,7 +219,7 @@ export async function rasterizePageCalibrated({ file, pageIndex, magnify = 2.5, 
       + ". Set RCAP_CHROMIUM_PATH to the browser binary. Do NOT fall back to pdftoppm and do NOT install packages."
     );
   }
-  const browser = await chromium.launch({ executablePath: resolved.executablePath, args: ["--no-sandbox"] });
+  const browser = await chromium.launch({ executablePath: resolved.executablePath, args: ["--no-sandbox", "--disable-setuid-sandbox"] });
   const shoot = async (pdf, name) => {
     const tab = await browser.newPage({ viewport: VIEWPORT });
     await tab.goto(`file://${pdf}#toolbar=0&navpanes=0&scrollbar=0`);
@@ -229,6 +231,7 @@ export async function rasterizePageCalibrated({ file, pageIndex, magnify = 2.5, 
   };
   let plainPng, calPng;
   try {
+    if (process.env.RCAP_RASTER_TEST_FORCE_FAILURE === "1") throw new Error("forced PDF raster failure after Chromium launch");
     plainPng = await shoot(plainPdf, "page.png");
     calPng = await shoot(calPdf, "page-calibration.png");
   } finally {
@@ -324,29 +327,16 @@ export async function probeRasterizer() {
   if (!resolved.executablePath) return { ok: false, why: "no executable Chromium", tried: resolved.tried };
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), "rcap-raster-probe-"));
   const file = path.join(dir, "probe.pdf");
-  // A minimal one-page PDF, written by hand so the probe depends on no library
-  // and no fixture that could go missing.
-  const objs = [
-    "<< /Type /Catalog /Pages 2 0 R >>",
-    "<< /Type /Pages /Kids [3 0 R] /Count 1 >>",
-    "<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R >>",
-    "<< /Length 44 >>\nstream\n0 0 0 rg 100 400 412 24 re f\nendstream"
-  ];
-  let pdf = "%PDF-1.4\n";
-  const offsets = [0];
-  for (let i = 0; i < objs.length; i += 1) {
-    offsets.push(pdf.length);
-    pdf += `${i + 1} 0 obj\n${objs[i]}\nendobj\n`;
-  }
-  const xref = pdf.length;
-  pdf += `xref\n0 ${objs.length + 1}\n0000000000 65535 f \n`;
-  for (let i = 1; i <= objs.length; i += 1) pdf += `${String(offsets[i]).padStart(10, "0")} 00000 n \n`;
-  pdf += `trailer\n<< /Size ${objs.length + 1} /Root 1 0 R >>\nstartxref\n${xref}\n%%EOF\n`;
-  fs.writeFileSync(file, pdf, "latin1");
+  const pdf = await PDFDocument.create();
+  const page = pdf.addPage([612, 792]);
+  page.drawRectangle({ x: 100, y: 400, width: 412, height: 24, color: rgb(0, 0, 0) });
+  fs.writeFileSync(file, await pdf.save());
   try {
     const render = await rasterizePageCalibrated({ file, pageIndex: 0 });
-    if (!render || !render.paper) return { ok: false, why: "the render found no paper on a one-page PDF", executablePath: resolved.executablePath };
-    return { ok: true, executablePath: resolved.executablePath, resolvedBy: resolved.resolvedBy, paper: render.paper };
+    if (!render?.image || !fs.existsSync(render.image)) return { ok: false, why: "the raster PNG was not written", executablePath: resolved.executablePath };
+    if (!render.paper?.width || !render.paper?.height) return { ok: false, why: "the render found no paper bounds", executablePath: resolved.executablePath };
+    if (!(render.calibrationResidualPx <= 1.5)) return { ok: false, why: `calibration residual ${render.calibrationResidualPx}px exceeds tolerance`, executablePath: resolved.executablePath };
+    return { ok: true, syntheticPdfCreated: true, pngWritten: true, executablePath: resolved.executablePath, resolvedBy: resolved.resolvedBy, paper: render.paper, calibrationResidualPx: render.calibrationResidualPx };
   } catch (e) {
     return { ok: false, why: `the render failed: ${String(e.message ?? e).split("\n")[0]}`, executablePath: resolved.executablePath };
   } finally {
