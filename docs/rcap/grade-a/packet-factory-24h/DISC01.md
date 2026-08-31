@@ -1,9 +1,9 @@
-# SIN03
+# DISC01
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** source-swarm
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `40ccc028a2af8eac94743cdb32237e3af56a6642` (or the newer dispatch base)
+**Minimum required ancestor:** `72f99073c42bd28e3469efe316378b37601717c7` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -14,9 +14,9 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family ar-act531-set::official-form:ACIC-ORDER-SEAL-ACT-531-ACT-1460 \
+  --family rcap-tx-custom-pleading::official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond \
   --codex-cloud \
-  --minimum-captain-sha 40ccc028a2af8eac94743cdb32237e3af56a6642
+  --minimum-captain-sha 72f99073c42bd28e3469efe316378b37601717c7
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY: 14/14`**. A 13/14 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -33,13 +33,13 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY: 14/14`**. A 13/14 in cloud mode
 
 ## Mission
 
-Reconcile a named form number or pinned content hash against the private corpus and the committed inventory, and bind it by exact SHA-256 where the bytes are already held. A form the corpus already carries needs no acquisition.
+Turn a descriptive label into a document identity: exact form number, official publisher, revision and the official URL it is published at. Resolve against committed inventories; never guess a form number.
 
 ## What bounds this lane
 
-the private corpus and the committed inventory, read only — nothing is fetched here
+the issuing court or agency that publishes the document
 
-**46 obligations · 20 families released if all clear · hosts: AR, DE, HI, MT, NE, NM, UT**
+**29 obligations · 11 families released if all clear · hosts: TX**
 
 > This environment refuses outbound egress to court and agency hosts. Identity and inventory work runs here; anything needing a fetch is dispatched through the acquisition workflow, never attempted locally and never faked.
 
@@ -51,12 +51,12 @@ the private corpus and the committed inventory, read only — nothing is fetched
 
 ### Families this lane releases
 
-`ar-act531-set`, `de_discretionary_family_court-set`, `de_discretionary_superior_court-set`, `de_pardon_expungement-set`, `hi_712_1200_deferred_expungement-set`, `hi_dag_danc_expungement-set`, `hi_nonconviction_expungement-set`, `mt_deferred_dismissal-set`, `mt_misdemeanor_expungement-set`, `mt_mmrta_completed-set`, `mt_mmrta_serving-set`, `ne-seal-pardoned-set`, `ne-seal-pre2017-set`, `nm_conviction-set`, `nm_identity_theft-set`, `nm_release_without_conviction-set`, `rcap-hi-custom-pleading`, `ut_pet_cannabis-set`, `ut_pet_remove_link-set`, `ut_pet_special_certificate-set`
+`rcap-tx-custom-pleading`, `tx_exp_acquittal-set`, `tx_nd_automatic_misdemeanor_deferred-set`, `tx_nd_conviction_no_supervision-set`, `tx_nd_deferred_other-set`, `tx_nd_dwi_conviction-set`, `tx_nd_dwi_deferred-set`, `tx_nd_dwi_probation-set`, `tx_nd_probation_misdemeanor-set`, `tx_nd_veterans_court-set`, `tx_nd_veterans_reemployment-set`
 
 ## Owned paths — write only here
 
-- `data/rcap-grade-a/packet-factory-24h/sin03/**`
-- `data/rcap-grade-a/source-acquisition/packet-factory-24h/sin03/**`
+- `data/rcap-grade-a/packet-factory-24h/disc01/**`
+- `data/rcap-grade-a/source-acquisition/packet-factory-24h/disc01/**`
 
 ## Never write here
 
@@ -87,8 +87,8 @@ the private corpus and the committed inventory, read only — nothing is fetched
 
 ## Required outputs
 
-- data/rcap-grade-a/packet-factory-24h/sin03/rows.json — one row per obligation: itemId, status, the identity or receipt, and the families it releases
-- data/rcap-grade-a/source-acquisition/packet-factory-24h/sin03/receipts.json — the eleven recorded fields per resolved source; no body is committed
+- data/rcap-grade-a/packet-factory-24h/disc01/rows.json — one row per obligation: itemId, status, the identity or receipt, and the families it releases
+- data/rcap-grade-a/source-acquisition/packet-factory-24h/disc01/receipts.json — the eleven recorded fields per resolved source; no body is committed
 
 ### Output schema
 

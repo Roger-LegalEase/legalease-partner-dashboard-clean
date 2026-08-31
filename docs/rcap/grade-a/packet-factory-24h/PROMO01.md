@@ -1,9 +1,9 @@
-# SAC04
+# PROMO01
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** source-swarm
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `40ccc028a2af8eac94743cdb32237e3af56a6642` (or the newer dispatch base)
+**Minimum required ancestor:** `72f99073c42bd28e3469efe316378b37601717c7` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -14,9 +14,9 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family az_wrongful_arrest_clearance-set::NO_DOCUMENT_SOURCE_NAMED \
+  --family ar-act346-set::official-form:ACIC-ORDER-DISMISS-AND-SEAL-FIRST-OFFENDERS \
   --codex-cloud \
-  --minimum-captain-sha 40ccc028a2af8eac94743cdb32237e3af56a6642
+  --minimum-captain-sha 72f99073c42bd28e3469efe316378b37601717c7
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY: 14/14`**. A 13/14 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -33,13 +33,13 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY: 14/14`**. A 13/14 in cloud mode
 
 ## Mission
 
-Dispatch one exact acquisition per official URL through .github/workflows/rcap-official-source-acquisition.yml. One URL, one dispatch, one receipt. This environment cannot fetch; the workflow does it where egress is allowed.
+Take an acquired or reconciled artifact, register its custody, promote it into the governed index, and release every family whose last source is now bound. A promotion without exact bytes is refused.
 
 ## What bounds this lane
 
-one issuing host per lane, so a host that rate-limits blocks only its own lane
+the custody register and the governed corpus index
 
-**26 obligations · 26 families released if all clear · hosts: AZ, DC, IN, KS, ND, NE, OR, UT, VA, WY**
+**7 obligations · 3 families released if all clear · hosts: AR**
 
 > This environment refuses outbound egress to court and agency hosts. Identity and inventory work runs here; anything needing a fetch is dispatched through the acquisition workflow, never attempted locally and never faked.
 
@@ -51,12 +51,12 @@ one issuing host per lane, so a host that rate-limits blocks only its own lane
 
 ### Families this lane releases
 
-`az_wrongful_arrest_clearance-set`, `census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement`, `census-pending-family:UT:path-m-juvenile-expungement`, `composed-treatment:nd-nonconviction-auto-close-verify`, `composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708`, `dc_correct_misattributed_arrest-set`, `dc_innocence_expungement-set`, `dc_seal_conviction-set`, `dc_seal_fugitive-set`, `dc_seal_nonconviction-set`, `dc_yra_set_aside-set`, `in_infraction_nondisclosure-set`, `ks-21-6614-conviction-set`, `ks-21-6614-diversion-set`, `ks-21-6614-prostitution-coercion-set`, `ks-21-6614-specialty-court-set`, `ks-22-2410-arrest-set`, `ks-22-4908-registration-relief-set`, `nd-deferred-imposition-records-set`, `ne-expunge-le-error-set`, `ne-seal-enforcement-set`, `rcap-ks-custom-pleading`, `rcap-nd-custom-pleading`, `rcap-or-official-pdf-fill`, `va_exp_absolute_pardon-set`, `wy_fel_1502-set`
+`ar-arrest-seal-set`, `ar-misdemeanor-dwi-seal-set`, `ar-pardon-seal-set`
 
 ## Owned paths — write only here
 
-- `data/rcap-grade-a/packet-factory-24h/sac04/**`
-- `data/rcap-grade-a/source-acquisition/packet-factory-24h/sac04/**`
+- `data/rcap-grade-a/packet-factory-24h/promo01/**`
+- `data/rcap-grade-a/source-acquisition/packet-factory-24h/promo01/**`
 
 ## Never write here
 
@@ -87,8 +87,8 @@ one issuing host per lane, so a host that rate-limits blocks only its own lane
 
 ## Required outputs
 
-- data/rcap-grade-a/packet-factory-24h/sac04/rows.json — one row per obligation: itemId, status, the identity or receipt, and the families it releases
-- data/rcap-grade-a/source-acquisition/packet-factory-24h/sac04/receipts.json — the eleven recorded fields per resolved source; no body is committed
+- data/rcap-grade-a/packet-factory-24h/promo01/rows.json — one row per obligation: itemId, status, the identity or receipt, and the families it releases
+- data/rcap-grade-a/source-acquisition/packet-factory-24h/promo01/receipts.json — the eleven recorded fields per resolved source; no body is committed
 
 ### Output schema
 

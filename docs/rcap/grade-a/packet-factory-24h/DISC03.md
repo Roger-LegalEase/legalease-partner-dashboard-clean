@@ -1,9 +1,9 @@
-# SAC02
+# DISC03
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** source-swarm
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `40ccc028a2af8eac94743cdb32237e3af56a6642` (or the newer dispatch base)
+**Minimum required ancestor:** `72f99073c42bd28e3469efe316378b37601717c7` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -14,9 +14,9 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family agency-application-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request::NO_DOCUMENT_SOURCE_NAMED \
+  --family de_mandatory_expungement-set::official-form:DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION \
   --codex-cloud \
-  --minimum-captain-sha 40ccc028a2af8eac94743cdb32237e3af56a6642
+  --minimum-captain-sha 72f99073c42bd28e3469efe316378b37601717c7
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY: 14/14`**. A 13/14 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -33,13 +33,13 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY: 14/14`**. A 13/14 in cloud mode
 
 ## Mission
 
-Dispatch one exact acquisition per official URL through .github/workflows/rcap-official-source-acquisition.yml. One URL, one dispatch, one receipt. This environment cannot fetch; the workflow does it where egress is allowed.
+Turn a descriptive label into a document identity: exact form number, official publisher, revision and the official URL it is published at. Resolve against committed inventories; never guess a form number.
 
 ## What bounds this lane
 
-one issuing host per lane, so a host that rate-limits blocks only its own lane
+the issuing court or agency that publishes the document
 
-**26 obligations · 26 families released if all clear · hosts: CO, DE, ID, MA, MS, PA, VT, WI, WV**
+**25 obligations · 9 families released if all clear · hosts: DE, ID, LA, UT**
 
 > This environment refuses outbound egress to court and agency hosts. Identity and inventory work runs here; anything needing a fetch is dispatched through the acquisition workflow, never attempted locally and never faked.
 
@@ -51,12 +51,12 @@ one issuing host per lane, so a host that rate-limits blocks only its own lane
 
 ### Families this lane releases
 
-`agency-application-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request`, `composed-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days`, `composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction`, `composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1018_discretionary_petition`, `composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4`, `composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26`, `composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59`, `composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59`, `composed-treatment:obligation:runtime-only:PA:path-k-human-trafficking-vacatur-expungement`, `composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement`, `id_felony_reduction-set`, `id_set_aside_dismissal-set`, `ma-bmc-multi-set`, `ms-diversion-set`, `ms-fel-set`, `ms-misd-1st-set`, `ms-misd-addl-set`, `ms-nonadj-set`, `ms-nonconv-set`, `rcap-ms-custom-pleading`, `rcap-wi-custom-pleading`, `rcap-wv-custom-pleading`, `vt_exp_deferred_sentence-set`, `vt_seal_under_25-set`, `wv_conv_nonviolent_felony-set`, `wv_dui_deferral_expungement-set`
+`de_mandatory_expungement-set`, `id_isp_expungement-set`, `la-976-arrest-no-conviction-set`, `la-977-misdemeanor-conviction-set`, `la-977d-marijuana-first-offense-set`, `la-978-felony-conviction-set`, `la-985-1-interim-expungement-set`, `la-985-expungement-by-redaction-set`, `la-987-set-aside-and-dismiss-set`
 
 ## Owned paths — write only here
 
-- `data/rcap-grade-a/packet-factory-24h/sac02/**`
-- `data/rcap-grade-a/source-acquisition/packet-factory-24h/sac02/**`
+- `data/rcap-grade-a/packet-factory-24h/disc03/**`
+- `data/rcap-grade-a/source-acquisition/packet-factory-24h/disc03/**`
 
 ## Never write here
 
@@ -87,8 +87,8 @@ one issuing host per lane, so a host that rate-limits blocks only its own lane
 
 ## Required outputs
 
-- data/rcap-grade-a/packet-factory-24h/sac02/rows.json — one row per obligation: itemId, status, the identity or receipt, and the families it releases
-- data/rcap-grade-a/source-acquisition/packet-factory-24h/sac02/receipts.json — the eleven recorded fields per resolved source; no body is committed
+- data/rcap-grade-a/packet-factory-24h/disc03/rows.json — one row per obligation: itemId, status, the identity or receipt, and the families it releases
+- data/rcap-grade-a/source-acquisition/packet-factory-24h/disc03/receipts.json — the eleven recorded fields per resolved source; no body is committed
 
 ### Output schema
 

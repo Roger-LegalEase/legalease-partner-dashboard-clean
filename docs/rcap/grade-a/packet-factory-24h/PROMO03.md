@@ -1,9 +1,9 @@
-# SIN01
+# PROMO03
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** source-swarm
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `40ccc028a2af8eac94743cdb32237e3af56a6642` (or the newer dispatch base)
+**Minimum required ancestor:** `72f99073c42bd28e3469efe316378b37601717c7` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -14,9 +14,9 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family ga-fo-active-pre2026-set::source-sha256:05e8621c5addcf06a7e2c52e909035c54ce55a3df5e8894bef06973a98ad8be5 \
+  --family <FAMILY_ID> \
   --codex-cloud \
-  --minimum-captain-sha 40ccc028a2af8eac94743cdb32237e3af56a6642
+  --minimum-captain-sha 72f99073c42bd28e3469efe316378b37601717c7
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY: 14/14`**. A 13/14 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -33,13 +33,13 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY: 14/14`**. A 13/14 in cloud mode
 
 ## Mission
 
-Reconcile a named form number or pinned content hash against the private corpus and the committed inventory, and bind it by exact SHA-256 where the bytes are already held. A form the corpus already carries needs no acquisition.
+Take an acquired or reconciled artifact, register its custody, promote it into the governed index, and release every family whose last source is now bound. A promotion without exact bytes is refused. No obligation of this class is queued for this host group at dispatch; the lane starts the moment one arrives.
 
 ## What bounds this lane
 
-the private corpus and the committed inventory, read only — nothing is fetched here
+the custody register and the governed corpus index
 
-**47 obligations · 19 families released if all clear · hosts: GA, KS, ND, NH, SC, WV**
+**0 obligations · 0 families released if all clear · hosts: —**
 
 > This environment refuses outbound egress to court and agency hosts. Identity and inventory work runs here; anything needing a fetch is dispatched through the acquisition workflow, never attempted locally and never faked.
 
@@ -51,12 +51,12 @@ the private corpus and the committed inventory, read only — nothing is fetched
 
 ### Families this lane releases
 
-`ga-fo-active-pre2026-set`, `ga-fo-discharged-pre2026-set`, `ga-nonconv-pre2013-set`, `ks-21-6614-conviction-set`, `ks-21-6614-diversion-set`, `ks-21-6614-prostitution-coercion-set`, `ks-21-6614-specialty-court-set`, `ks-22-2410-arrest-set`, `ks-22-4908-registration-relief-set`, `nd-regular-pardon-set`, `nd-summary-marijuana-pardon-set`, `nh_conviction_standard-set`, `nh_conviction_streamlined-set`, `nh_marijuana_annulment-set`, `nh_petition_nonconviction_pre2019-set`, `nh_petition_vacated-set`, `rcap-sc-custom-pleading`, `wv_acc_treatment_job_readiness-set`, `wv_conv_nonviolent_felony-set`
+
 
 ## Owned paths — write only here
 
-- `data/rcap-grade-a/packet-factory-24h/sin01/**`
-- `data/rcap-grade-a/source-acquisition/packet-factory-24h/sin01/**`
+- `data/rcap-grade-a/packet-factory-24h/promo03/**`
+- `data/rcap-grade-a/source-acquisition/packet-factory-24h/promo03/**`
 
 ## Never write here
 
@@ -87,8 +87,8 @@ the private corpus and the committed inventory, read only — nothing is fetched
 
 ## Required outputs
 
-- data/rcap-grade-a/packet-factory-24h/sin01/rows.json — one row per obligation: itemId, status, the identity or receipt, and the families it releases
-- data/rcap-grade-a/source-acquisition/packet-factory-24h/sin01/receipts.json — the eleven recorded fields per resolved source; no body is committed
+- data/rcap-grade-a/packet-factory-24h/promo03/rows.json — one row per obligation: itemId, status, the identity or receipt, and the families it releases
+- data/rcap-grade-a/source-acquisition/packet-factory-24h/promo03/receipts.json — the eleven recorded fields per resolved source; no body is committed
 
 ### Output schema
 

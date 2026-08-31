@@ -1,9 +1,9 @@
-# SPR04
+# ACQ02
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** source-swarm
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `40ccc028a2af8eac94743cdb32237e3af56a6642` (or the newer dispatch base)
+**Minimum required ancestor:** `72f99073c42bd28e3469efe316378b37601717c7` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -14,9 +14,9 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family <FAMILY_ID> \
+  --family agency-application-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request::NO_DOCUMENT_SOURCE_NAMED \
   --codex-cloud \
-  --minimum-captain-sha 40ccc028a2af8eac94743cdb32237e3af56a6642
+  --minimum-captain-sha 72f99073c42bd28e3469efe316378b37601717c7
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY: 14/14`**. A 13/14 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -33,13 +33,13 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY: 14/14`**. A 13/14 in cloud mode
 
 ## Mission
 
-Take an acquired or reconciled artifact, register its custody, promote it into the governed index, and release every family whose last source is now bound. A promotion without exact bytes is refused. No obligation of this class is queued for this host group at dispatch; the lane starts the moment one arrives.
+Dispatch one exact acquisition per official URL through .github/workflows/rcap-official-source-acquisition.yml. One URL, one dispatch, one receipt. This environment cannot fetch; the workflow does it where egress is allowed.
 
 ## What bounds this lane
 
-the custody register and the governed corpus index
+one issuing host per lane, so a host that rate-limits blocks only its own lane
 
-**0 obligations · 0 families released if all clear · hosts: —**
+**35 obligations · 35 families released if all clear · hosts: AZ, CO, DC, ID, IL, MA, MS, NE, NY, SC, TN, VA, WA**
 
 > This environment refuses outbound egress to court and agency hosts. Identity and inventory work runs here; anything needing a fetch is dispatched through the acquisition workflow, never attempted locally and never faked.
 
@@ -51,12 +51,12 @@ the custody register and the governed corpus index
 
 ### Families this lane releases
 
-
+`agency-application-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request`, `agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission`, `az_wrongful_arrest_clearance-set`, `census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260`, `composed-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days`, `composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request`, `composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief`, `composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4`, `composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26`, `composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59`, `composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59`, `composed-treatment:sc_17_22_950_summary`, `dc_correct_misattributed_arrest-set`, `dc_innocence_expungement-set`, `dc_seal_conviction-set`, `dc_seal_fugitive-set`, `dc_seal_nonconviction-set`, `dc_yra_set_aside-set`, `id_felony_reduction-set`, `id_set_aside_dismissal-set`, `il-prostitution-j-vacate-set`, `ma-bmc-multi-set`, `ms-diversion-set`, `ms-fel-set`, `ms-misd-1st-set`, `ms-misd-addl-set`, `ms-nonadj-set`, `ms-nonconv-set`, `ne-expunge-le-error-set`, `ne-seal-enforcement-set`, `rcap-ms-custom-pleading`, `rcap-tn-custom-pleading`, `rcap-wa-custom-pleading-clean-tracks`, `va_exp_absolute_pardon-set`, `wa_crop_certificate_of_restoration-set`
 
 ## Owned paths — write only here
 
-- `data/rcap-grade-a/packet-factory-24h/spr04/**`
-- `data/rcap-grade-a/source-acquisition/packet-factory-24h/spr04/**`
+- `data/rcap-grade-a/packet-factory-24h/acq02/**`
+- `data/rcap-grade-a/source-acquisition/packet-factory-24h/acq02/**`
 
 ## Never write here
 
@@ -87,8 +87,8 @@ the custody register and the governed corpus index
 
 ## Required outputs
 
-- data/rcap-grade-a/packet-factory-24h/spr04/rows.json — one row per obligation: itemId, status, the identity or receipt, and the families it releases
-- data/rcap-grade-a/source-acquisition/packet-factory-24h/spr04/receipts.json — the eleven recorded fields per resolved source; no body is committed
+- data/rcap-grade-a/packet-factory-24h/acq02/rows.json — one row per obligation: itemId, status, the identity or receipt, and the families it releases
+- data/rcap-grade-a/source-acquisition/packet-factory-24h/acq02/receipts.json — the eleven recorded fields per resolved source; no body is committed
 
 ### Output schema
 

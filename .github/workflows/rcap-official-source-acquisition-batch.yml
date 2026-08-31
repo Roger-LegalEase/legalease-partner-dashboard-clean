@@ -1,0 +1,124 @@
+# Batch official-source acquisition.
+#
+# The single-URL workflow is correct and slow: one dispatch per form, by hand.
+# The source conveyor produces hundreds of obligations, so this reads a
+# COMMITTED manifest and fans it out — one matrix job per exact official URL,
+# twenty at a time, each job running the same acquisition script the
+# single-URL workflow runs. There is one acquisition implementation, not two.
+#
+# What it does not do, ever:
+#   - commit anything, including a source body;
+#   - deploy anything;
+#   - touch a Production resource, a secret or an environment.
+#
+# The bytes leave here as workflow artifacts. A human decides whether they
+# enter the repository, after identity, currentness and intended use are
+# confirmed. That decision is a reviewed commit, not a workflow run.
+#
+# The manifest is validated before any job runs. A manifest that fails
+# validation stops the run rather than acquiring the entries that happen to be
+# well-formed: a batch that half-ran is harder to reason about than one that
+# did not start.
+name: RCAP Official Source Acquisition (Batch)
+
+on:
+  workflow_dispatch:
+    inputs:
+      manifest:
+        description: "Committed manifest path"
+        required: false
+        default: data/rcap-grade-a/packet-factory-24h/SOURCE_ACQUISITION_MANIFEST.json
+        type: string
+      jurisdiction:
+        description: "Optional: restrict to one two-letter jurisdiction"
+        required: false
+        type: string
+      limit:
+        description: "Optional: acquire at most this many entries"
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: rcap-source-acquisition-batch
+  cancel-in-progress: false
+
+jobs:
+  plan:
+    name: Validate the manifest and plan the matrix
+    runs-on: ubuntu-latest
+    outputs:
+      entries: ${{ steps.plan.outputs.entries }}
+      count: ${{ steps.plan.outputs.count }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Validate and plan
+        id: plan
+        env:
+          RCAP_MANIFEST: ${{ inputs.manifest }}
+          RCAP_ONLY_JURISDICTION: ${{ inputs.jurisdiction }}
+          RCAP_LIMIT: ${{ inputs.limit }}
+        run: node scripts/rcap-plan-source-acquisition-batch.mjs
+
+  acquire:
+    name: ${{ matrix.entry.jurisdiction }} ${{ matrix.entry.formNumber }}
+    needs: plan
+    if: needs.plan.outputs.count != '0'
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    strategy:
+      fail-fast: false
+      max-parallel: 20
+      matrix:
+        entry: ${{ fromJson(needs.plan.outputs.entries) }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Acquire and receipt the official source
+        env:
+          RCAP_SOURCE_URL: ${{ matrix.entry.officialUrl }}
+          RCAP_JURISDICTION: ${{ matrix.entry.jurisdiction }}
+          RCAP_FORM_NUMBER: ${{ matrix.entry.formNumber }}
+          RCAP_EXPECTED_SHA256: ${{ matrix.entry.expectedSha256 }}
+          RCAP_URL_KIND: ${{ matrix.entry.urlKind }}
+          RCAP_ASSET_ID: ${{ matrix.entry.sourceId }}
+          # One failing form does not stop the batch. The failure is recorded
+          # as its own artifact and the remaining jobs continue.
+          RCAP_TOLERATE_FAILURE: "1"
+        run: node scripts/rcap-acquire-official-source.mjs
+
+      - name: Upload the source and its receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: rcap-source-${{ matrix.entry.jurisdiction }}-${{ matrix.entry.sourceId }}
+          path: acquired-source/
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Refuse a committed source body
+        # The acquisition script writes into acquired-source/, which is
+        # ignored. If anything reached the working tree, the run says so
+        # rather than letting a body ride into a later commit.
+        run: |
+          set -euo pipefail
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "FAIL a source body or receipt reached the working tree:"
+            git status --porcelain
+            exit 1
+          fi
+          echo "OK nothing committed, nothing staged."

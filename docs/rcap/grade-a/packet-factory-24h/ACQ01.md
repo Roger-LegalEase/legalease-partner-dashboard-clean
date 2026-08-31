@@ -1,9 +1,9 @@
-# SIN04
+# ACQ01
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** source-swarm
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `40ccc028a2af8eac94743cdb32237e3af56a6642` (or the newer dispatch base)
+**Minimum required ancestor:** `72f99073c42bd28e3469efe316378b37601717c7` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -14,9 +14,9 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family ca-diversion-seal-set::official-form:SDSC-CRM-307 \
+  --family agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge::NO_DOCUMENT_SOURCE_NAMED \
   --codex-cloud \
-  --minimum-captain-sha 40ccc028a2af8eac94743cdb32237e3af56a6642
+  --minimum-captain-sha 72f99073c42bd28e3469efe316378b37601717c7
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY: 14/14`**. A 13/14 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -33,13 +33,13 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY: 14/14`**. A 13/14 in cloud mode
 
 ## Mission
 
-Reconcile a named form number or pinned content hash against the private corpus and the committed inventory, and bind it by exact SHA-256 where the bytes are already held. A form the corpus already carries needs no acquisition.
+Dispatch one exact acquisition per official URL through .github/workflows/rcap-official-source-acquisition.yml. One URL, one dispatch, one receipt. This environment cannot fetch; the workflow does it where egress is allowed.
 
 ## What bounds this lane
 
-the private corpus and the committed inventory, read only — nothing is fetched here
+one issuing host per lane, so a host that rate-limits blocks only its own lane
 
-**46 obligations · 28 families released if all clear · hosts: CA, FL, IN, KY, MA, ME, MN, NC**
+**35 obligations · 31 families released if all clear · hosts: AL, DE, GA, KY, MT, NM, NV, OK, OR, PA, RI, WV, WY**
 
 > This environment refuses outbound egress to court and agency hosts. Identity and inventory work runs here; anything needing a fetch is dispatched through the acquisition workflow, never attempted locally and never faked.
 
@@ -51,12 +51,12 @@ the private corpus and the committed inventory, read only — nothing is fetched
 
 ### Families this lane releases
 
-`ca-diversion-seal-set`, `composed-treatment:nc_146_dismissal_petition`, `fl-10yr-bridge-set`, `fl-expunction-set`, `fl-sealing-set`, `fl-trafficking-set`, `in_arrest_no_charges-set`, `in_conviction_d6-set`, `in_conviction_felony-set`, `in_conviction_misd-set`, `in_section1_petition-set`, `ky_expungement_certification-set`, `ky_nonconviction_expungement-set`, `ky_protective_order_record_expungement-set`, `ma-seal-court-set`, `me-seal-gen-set`, `me-seal-survivor-set`, `mn_petition_15218-set`, `mn_petition_609a02_subd3-set`, `mn_petition_juvenile_as_adult-set`, `nc_145_5_felony-set`, `nc_145_5_misdemeanor-set`, `nc_145_8a_youthful-set`, `nc_146_acquittal_petition-set`, `nc_146_dismissal_petition-set`, `nc_auto_146_a4_agency_followup-set`, `official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b`, `rcap-in-custom-pleading`
+`agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge`, `agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement`, `composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction`, `composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1018_discretionary_petition`, `composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route`, `composed-treatment:obligation:runtime-only:NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247`, `composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief`, `composed-treatment:obligation:runtime-only:OK:juvenile-record-expungement`, `composed-treatment:obligation:runtime-only:PA:path-k-human-trafficking-vacatur-expungement`, `composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement`, `composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708`, `ga-deaddocket-j3-set`, `ga-felony-j1-set`, `ga-fugitive-j5-set`, `ga-jail-k2-set`, `ga-misd-j4-set`, `ga-nonconv-post2013-set`, `ga-pardon-j7-set`, `ga-seal-m-set`, `ga-vacated-j2-set`, `ky_criminal_record_segregation-set`, `nv_repository_removal-set`, `nv_seal_probation_family-set`, `rcap-ga-guidance-implementation`, `rcap-nv-custom-pleading`, `rcap-ok-custom-pleading`, `rcap-or-official-pdf-fill`, `rcap-wv-custom-pleading`, `ri_marijuana-set`, `wv_dui_deferral_expungement-set`, `wy_fel_1502-set`
 
 ## Owned paths — write only here
 
-- `data/rcap-grade-a/packet-factory-24h/sin04/**`
-- `data/rcap-grade-a/source-acquisition/packet-factory-24h/sin04/**`
+- `data/rcap-grade-a/packet-factory-24h/acq01/**`
+- `data/rcap-grade-a/source-acquisition/packet-factory-24h/acq01/**`
 
 ## Never write here
 
@@ -87,8 +87,8 @@ the private corpus and the committed inventory, read only — nothing is fetched
 
 ## Required outputs
 
-- data/rcap-grade-a/packet-factory-24h/sin04/rows.json — one row per obligation: itemId, status, the identity or receipt, and the families it releases
-- data/rcap-grade-a/source-acquisition/packet-factory-24h/sin04/receipts.json — the eleven recorded fields per resolved source; no body is committed
+- data/rcap-grade-a/packet-factory-24h/acq01/rows.json — one row per obligation: itemId, status, the identity or receipt, and the families it releases
+- data/rcap-grade-a/source-acquisition/packet-factory-24h/acq01/receipts.json — the eleven recorded fields per resolved source; no body is committed
 
 ### Output schema
 

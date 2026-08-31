@@ -36,7 +36,7 @@ const CONTRACT = "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.
 const PREFLIGHT = "scripts/verify-packet-build-environment.mjs";
 
 /* The minimum ancestor every lane proves it contains. */
-const MINIMUM_CAPTAIN_SHA = "40ccc028a2af8eac94743cdb32237e3af56a6642";
+const MINIMUM_CAPTAIN_SHA = "72f99073c42bd28e3469efe316378b37601717c7";
 
 const PF_LANES = 16;
 /* Micro-batch: a lane returns work in hours, not at the end of a wave. Five is
@@ -357,6 +357,7 @@ for (const f of IN.scoreboard.familiesDetail) {
 /* Shared-host ownership: a family-specific script may be owned only when no
  * unassigned family imports it. Computed after every record exists. */
 const familyByScript = new Map(families.map((f) => [path.basename(f.buildScript), f]));
+const familyIndex = new Map(families.map((f) => [f.familyId, f]));
 for (const f of families) {
   const base = path.basename(f.buildScript);
   const importers = importersOf(base).map(familyOfScript);
@@ -480,38 +481,44 @@ for (let i = sourceRows.length - 1; i >= 0; i -= 1) {
  * inventory reconciliation, acquisition, promotion -- and then by issuer host
  * inside each, so an obligation moves through four short queues instead of one
  * long one and an exact official URL can be dispatched the moment it is known.
+ * SRC01 to SRC04 keep their identifiers and take the reconciliation operation.
  *
- * The operations are ordered but not blocking: SID hands a URL to SAC as soon as
- * it has one, SIN can bind a held byte without waiting for any acquisition, and
- * SPR releases a family the moment its last source is promoted.
+ * The operations are ordered but not blocking: DISC hands a URL to ACQ as soon
+ * as it has one, SRC can bind a held byte without waiting for any acquisition,
+ * and PROMO releases a family the moment its last source is promoted.
+ *
+ * Six DISC, four SRC, three ACQ, three PROMO. DISC carries six because identity
+ * is where the queue actually is -- most blocked families have a label and no
+ * document -- and ACQ and PROMO carry three each because their work is bounded
+ * by a workflow run and a hash comparison rather than by research.
  */
 const SOURCE_OPERATIONS = [
   {
-    prefix: "SID", operation: "exact-source-identity",
+    prefix: "DISC", lanes: 6, operation: "exact-source-identity",
     absence: ["label_does_not_identify_a_document"],
     mission: "Turn a descriptive label into a document identity: exact form number, official publisher, revision and the official URL it is published at. Resolve against committed inventories; never guess a form number.",
     records: ["official publisher", "exact title", "form number", "revision", "official URL"],
-    handsOffTo: "SAC, the moment an exact official URL is known — do not wait for the rest of this lane",
+    handsOffTo: "ACQ, the moment an exact official URL is known — do not wait for the rest of this lane",
     bounded: "the issuing court or agency that publishes the document"
   },
   {
-    prefix: "SIN", operation: "held-inventory-reconciliation",
+    prefix: "SRC", lanes: 4, operation: "held-inventory-reconciliation",
     absence: ["named_form_number_not_in_corpus", "named_content_hash_not_in_corpus"],
     mission: "Reconcile a named form number or pinned content hash against the private corpus and the committed inventory, and bind it by exact SHA-256 where the bytes are already held. A form the corpus already carries needs no acquisition.",
     records: ["custody path", "SHA-256", "byte size", "MIME", "pages", "technology"],
-    handsOffTo: "SPR where the byte is held and binds; SID where the identity itself turns out to be wrong",
+    handsOffTo: "PROMO where the byte is held and binds; DISC where the identity itself turns out to be wrong",
     bounded: "the private corpus and the committed inventory, read only — nothing is fetched here"
   },
   {
-    prefix: "SAC", operation: "official-acquisition-dispatch",
+    prefix: "ACQ", lanes: 3, operation: "official-acquisition-dispatch",
     absence: ["no_document_shaped_source_named"],
     mission: "Dispatch one exact acquisition per official URL through .github/workflows/rcap-official-source-acquisition.yml. One URL, one dispatch, one receipt. This environment cannot fetch; the workflow does it where egress is allowed.",
     records: ["official URL", "dispatch id", "workflow run", "receipt path"],
-    handsOffTo: "SPR, on the acquired artifact receipt",
+    handsOffTo: "PROMO, on the acquired artifact receipt",
     bounded: "one issuing host per lane, so a host that rate-limits blocks only its own lane"
   },
   {
-    prefix: "SPR", operation: "promotion-and-release",
+    prefix: "PROMO", lanes: 3, operation: "promotion-and-release",
     absence: ["inexact_tier"],
     mission: "Take an acquired or reconciled artifact, register its custody, promote it into the governed index, and release every family whose last source is now bound. A promotion without exact bytes is refused.",
     records: ["custody path", "SHA-256", "indexed entry", "families released"],
@@ -522,17 +529,17 @@ const SOURCE_OPERATIONS = [
 
 /** Which operation an obligation belongs to, from its own absence class. */
 const operationFor = (row) => {
-  if (row.tier && !EXACT_TIERS.has(row.tier)) return "SPR";
+  if (row.tier && !EXACT_TIERS.has(row.tier)) return "PROMO";
   const op = SOURCE_OPERATIONS.find((o) => o.absence.includes(row.absence));
-  return op ? op.prefix : "SPR";
+  return op ? op.prefix : "PROMO";
 };
-/* Inside an operation, four lanes by issuer host. Hosts are sorted and dealt
+/* Inside an operation, N lanes by issuer host. Hosts are sorted and dealt
  * round-robin by total obligation weight so no lane inherits every large host. */
-const laneWithinOperation = (rows) => {
+const laneWithinOperation = (rows, laneCount) => {
   const byHost = new Map();
   for (const r of rows) byHost.set(r.jurisdiction || "UNKNOWN", [...(byHost.get(r.jurisdiction || "UNKNOWN") ?? []), r]);
   const hosts = [...byHost.entries()].sort((a, b) => b[1].length - a[1].length);
-  const buckets = [[], [], [], []];
+  const buckets = Array.from({ length: laneCount }, () => []);
   for (const [, rs] of hosts) {
     const smallest = buckets.reduce((best, b, i) => (b.length < buckets[best].length ? i : best), 0);
     buckets[smallest].push(...rs);
@@ -542,11 +549,38 @@ const laneWithinOperation = (rows) => {
 for (const row of sourceRows) row.operation = operationFor(row);
 for (const op of SOURCE_OPERATIONS) {
   const rows = sourceRows.filter((r) => r.operation === op.prefix);
-  const buckets = laneWithinOperation(rows);
+  const buckets = laneWithinOperation(rows, op.lanes);
   buckets.forEach((bucket, i) => {
     for (const r of bucket) r.lane = `${op.prefix}${String(i + 1).padStart(2, "0")}`;
   });
 }
+
+/*
+ * Who releases a family.
+ *
+ * A family's obligations do not have to live in one lane: a family may need
+ * one identity resolved and one document acquired, and those are different
+ * operations. The first cut listed such a family under familiesUnblocked in
+ * both lanes, which reads as two promises to release one family and is a
+ * duplicate release -- each lane believes it finishes the family, and neither
+ * does. Twenty-four families were claimed twice.
+ *
+ * A family is released by the lane that holds ALL of its remaining
+ * obligations, and by no one otherwise. Where the obligations are split, every
+ * holding lane advances the family and the release is attributed to the set.
+ */
+const lanesHoldingFamily = new Map();
+for (const r of sourceRows) {
+  if (!lanesHoldingFamily.has(r.familyId)) lanesHoldingFamily.set(r.familyId, new Set());
+  lanesHoldingFamily.get(r.familyId).add(r.lane);
+}
+const releaseOwner = new Map();
+const splitFamilies = [];
+for (const [familyId, lanes] of lanesHoldingFamily) {
+  if (lanes.size === 1) releaseOwner.set(familyId, [...lanes][0]);
+  else splitFamilies.push({ familyId, lanes: [...lanes].sort() });
+}
+splitFamilies.sort((a, b) => a.familyId.localeCompare(b.familyId));
 
 /* ---------------------------------------------------------------- *
  * Assignments
@@ -713,6 +747,23 @@ for (let i = 0; i < VF_LANES; i += 1) {
     itemCount: seedItems.length,
     items: seedItems,
     seedItemsAreNotTheWholeJob: "These are the families already complete and awaiting verification at dispatch. The rest arrive as PF checkpoints land; claim from the ledger.",
+    /*
+     * A verifier reads a packet commit. If that commit is not in its checkout,
+     * it does not verify a packet -- it verifies the absence of one, and the
+     * absence looks exactly like a defect. So an empty verifier is never
+     * launched, and a launched one names the commit its seed packets exist at.
+     */
+    launchNow: launchable,
+    launchRule: launchable
+      ? `Launch now. Every seed family below is rendered at ${MINIMUM_CAPTAIN_SHA}, which your checkout must contain.`
+      : "DO NOT LAUNCH YET. This lane is provisioned and holds no family. Captain launches it from a new HEAD on the first integrated checkpoint that gives it work. Started now, it would report an absent packet as a failing one.",
+    verifiesCommit: launchable ? MINIMUM_CAPTAIN_SHA : null,
+    packetDirectories: seedItems.map((f) => familyIndex.get(f)?.directory).filter(Boolean),
+    mayNotBeRunBy: [
+      "the worker that built or last repaired any family below",
+      "any PF or FIX lane in this dispatch"
+    ],
+    independenceIsThreeWay: "Not the builder, not the repairer, not a shard that has already formed a view of these packets. A second reading by the same eyes is not an independent one.",
     claimLedger: `${FACT}/claim-ledger.json`,
     claimRule: "Claim atomically before reading. A family already claimed is skipped, never queued behind: two verifiers on one family is duplicate work reported as independent proof.",
     checkpointRule: "Take rolling five-to-ten-family checkpoints as soon as they land. Do not wait for a whole builder assignment.",
@@ -763,7 +814,7 @@ for (let i = 0; i < VF_LANES; i += 1) {
 
 /* ---- the sixteen-lane source swarm ---- */
 for (const op of SOURCE_OPERATIONS) {
-  for (let i = 1; i <= 4; i += 1) {
+  for (let i = 1; i <= op.lanes; i += 1) {
     const id = `${op.prefix}${String(i).padStart(2, "0")}`;
     const slug = id.toLowerCase();
     const rows = sourceRows.filter((r) => r.lane === id);
@@ -779,8 +830,11 @@ for (const op of SOURCE_OPERATIONS) {
       items: rows.map((r) => `${r.familyId}::${r.sourceId ?? "NO_DOCUMENT_SOURCE_NAMED"}`),
       boundedBy: op.bounded,
       issuingHosts: hosts,
-      familiesUnblocked: fams,
-      familiesUnblockedCount: fams.length,
+      familiesUnblocked: fams.filter((f) => releaseOwner.get(f) === id),
+      familiesUnblockedCount: fams.filter((f) => releaseOwner.get(f) === id).length,
+      familiesAdvancedButNotReleasedHere: fams.filter((f) => releaseOwner.get(f) !== id)
+        .map((f) => ({ familyId: f, releasedOnlyWhenAllOf: [...lanesHoldingFamily.get(f)].sort() })),
+      splitFamilyRule: "A family whose obligations are split across lanes is released by no single lane. You advance it; the family is released when the last of the named lanes clears its share. Reporting it released alone is a duplicate release and is refused at integration.",
       absenceClasses: op.absence,
       everyResolvedSourceRecords: [
         "official publisher", "exact title", "form number", "revision", "official URL",
@@ -788,14 +842,14 @@ for (const op of SOURCE_OPERATIONS) {
       ],
       recordsForThisOperation: op.records,
       handsOffTo: op.handsOffTo,
-      dispatchImmediately: op.prefix === "SID"
-        ? "The moment you know an exact official URL, hand it to the SAC lane for this host. Do not hold it until the rest of your obligations resolve."
-        : op.prefix === "SPR"
+      dispatchImmediately: op.prefix === "DISC"
+        ? "The moment you know an exact official URL, hand it to the ACQ lane for this host. Do not hold it until the rest of your obligations resolve."
+        : op.prefix === "PROMO"
           ? "The moment a family's last source is promoted, report it released. Captain assigns it to the next available PF lane without waiting for this lane to finish."
           : "Report each resolution as it lands rather than at the end of the lane.",
-      acquisitionWorkflow: op.prefix === "SAC" ? ".github/workflows/rcap-official-source-acquisition.yml" : null,
-      oneDispatchPerUrl: op.prefix === "SAC" ? "One official URL, one dispatch, one receipt. A second dispatch for a URL already dispatched is a duplicate obligation and is refused." : null,
-      promotionRule: op.prefix === "SPR" ? "A source is promoted only with exact bytes: a custody path that exists and a SHA-256 that matches the indexed entry. A promotion without bytes releases a family into a builder that cannot open its source." : null,
+      acquisitionWorkflow: op.prefix === "ACQ" ? ".github/workflows/rcap-official-source-acquisition.yml" : null,
+      oneDispatchPerUrl: op.prefix === "ACQ" ? "One official URL, one dispatch, one receipt. A second dispatch for a URL already dispatched is a duplicate obligation and is refused." : null,
+      promotionRule: op.prefix === "PROMO" ? "A source is promoted only with exact bytes: a custody path that exists and a SHA-256 that matches the indexed entry. A promotion without bytes releases a family into a builder that cannot open its source." : null,
       continueAfterFailure: "An obligation that cannot be settled is a STOPPED row. The lane continues to the next one.",
       egressReality: "This environment refuses outbound egress to court and agency hosts. Identity and inventory work runs here; anything needing a fetch is dispatched through the acquisition workflow, never attempted locally and never faked.",
       ownedPaths: [`${FACT}/${slug}/**`, `data/rcap-grade-a/source-acquisition/packet-factory-24h/${slug}/**`],
@@ -1089,7 +1143,7 @@ const checkpointRecord = {
     exactBlocker: f.legalInputStatus === "OPEN_LEGAL_INPUT" ? "an open legal input on one of its routes"
       : f.routeMappingStatus === "UNBOUND_TO_A_PACKET_FAMILY" ? "no census route binds this id to a packet family"
       : `${f.sourceStatus}: ${(f.sourceIds ?? []).join(", ") || "no document-shaped source named"}`,
-    owner: f.legalInputStatus === "OPEN_LEGAL_INPUT" ? "counsel" : (sourceRows.find((r) => r.familyId === f.familyId)?.lane ?? "SPR04"),
+    owner: f.legalInputStatus === "OPEN_LEGAL_INPUT" ? "counsel" : (sourceRows.find((r) => r.familyId === f.familyId)?.lane ?? "PROMO03"),
     nextAction: f.legalInputStatus === "OPEN_LEGAL_INPUT" ? "await the counsel determination; do not research it here"
       : f.routeMappingStatus === "UNBOUND_TO_A_PACKET_FAMILY" ? "Captain route/family binding"
       : "resolve or acquire the exact source identity, then release into the next available PF lane"

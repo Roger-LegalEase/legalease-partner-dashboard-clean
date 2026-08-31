@@ -1,9 +1,9 @@
-# SAC01
+# SRC04
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** source-swarm
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `40ccc028a2af8eac94743cdb32237e3af56a6642` (or the newer dispatch base)
+**Minimum required ancestor:** `72f99073c42bd28e3469efe316378b37601717c7` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -14,9 +14,9 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge::NO_DOCUMENT_SOURCE_NAMED \
+  --family ca-diversion-seal-set::official-form:SDSC-CRM-307 \
   --codex-cloud \
-  --minimum-captain-sha 40ccc028a2af8eac94743cdb32237e3af56a6642
+  --minimum-captain-sha 72f99073c42bd28e3469efe316378b37601717c7
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY: 14/14`**. A 13/14 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -33,13 +33,13 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY: 14/14`**. A 13/14 in cloud mode
 
 ## Mission
 
-Dispatch one exact acquisition per official URL through .github/workflows/rcap-official-source-acquisition.yml. One URL, one dispatch, one receipt. This environment cannot fetch; the workflow does it where egress is allowed.
+Reconcile a named form number or pinned content hash against the private corpus and the committed inventory, and bind it by exact SHA-256 where the bytes are already held. A form the corpus already carries needs no acquisition.
 
 ## What bounds this lane
 
-one issuing host per lane, so a host that rate-limits blocks only its own lane
+the private corpus and the committed inventory, read only — nothing is fetched here
 
-**26 obligations · 26 families released if all clear · hosts: AK, AL, GA, IL, KY, ME, MO, OK, TN**
+**46 obligations · 19 families released if all clear · hosts: CA, FL, IN, KY, MA, ME, MN, NC**
 
 > This environment refuses outbound egress to court and agency hosts. Identity and inventory work runs here; anything needing a fetch is dispatched through the acquisition workflow, never attempted locally and never faked.
 
@@ -51,12 +51,12 @@ one issuing host per lane, so a host that rate-limits blocks only its own lane
 
 ### Families this lane releases
 
-`agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge`, `census-pending-family:ME:juvenile-sealing`, `composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085`, `composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route`, `composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief`, `composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief`, `composed-treatment:obligation:runtime-only:OK:juvenile-record-expungement`, `ga-deaddocket-j3-set`, `ga-felony-j1-set`, `ga-fugitive-j5-set`, `ga-jail-k2-set`, `ga-misd-j4-set`, `ga-nonconv-post2013-set`, `ga-nonconv-pre2013-set`, `ga-pardon-j7-set`, `ga-seal-m-set`, `ga-vacated-j2-set`, `il-prostitution-j-vacate-set`, `ky_criminal_record_segregation-set`, `me-nonconv-set`, `me-screening-set`, `mo-610-145-mistaken-identity-set`, `rcap-ga-guidance-implementation`, `rcap-mo-custom-pleading`, `rcap-ok-custom-pleading`, `rcap-tn-custom-pleading`
+`ca-diversion-seal-set`, `composed-treatment:nc_146_dismissal_petition`, `fl-trafficking-set`, `ky_expungement_certification-set`, `ky_nonconviction_expungement-set`, `ky_protective_order_record_expungement-set`, `ma-seal-court-set`, `me-seal-gen-set`, `me-seal-survivor-set`, `mn_petition_15218-set`, `mn_petition_609a02_subd3-set`, `mn_petition_juvenile_as_adult-set`, `nc_145_5_felony-set`, `nc_145_5_misdemeanor-set`, `nc_145_8a_youthful-set`, `nc_146_acquittal_petition-set`, `nc_146_dismissal_petition-set`, `nc_auto_146_a4_agency_followup-set`, `official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b`
 
 ## Owned paths — write only here
 
-- `data/rcap-grade-a/packet-factory-24h/sac01/**`
-- `data/rcap-grade-a/source-acquisition/packet-factory-24h/sac01/**`
+- `data/rcap-grade-a/packet-factory-24h/src04/**`
+- `data/rcap-grade-a/source-acquisition/packet-factory-24h/src04/**`
 
 ## Never write here
 
@@ -87,8 +87,8 @@ one issuing host per lane, so a host that rate-limits blocks only its own lane
 
 ## Required outputs
 
-- data/rcap-grade-a/packet-factory-24h/sac01/rows.json — one row per obligation: itemId, status, the identity or receipt, and the families it releases
-- data/rcap-grade-a/source-acquisition/packet-factory-24h/sac01/receipts.json — the eleven recorded fields per resolved source; no body is committed
+- data/rcap-grade-a/packet-factory-24h/src04/rows.json — one row per obligation: itemId, status, the identity or receipt, and the families it releases
+- data/rcap-grade-a/source-acquisition/packet-factory-24h/src04/receipts.json — the eleven recorded fields per resolved source; no body is committed
 
 ### Output schema
 

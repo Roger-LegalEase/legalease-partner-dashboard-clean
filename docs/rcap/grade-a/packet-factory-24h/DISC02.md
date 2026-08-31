@@ -1,9 +1,9 @@
-# SID04
+# DISC02
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** source-swarm
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `40ccc028a2af8eac94743cdb32237e3af56a6642` (or the newer dispatch base)
+**Minimum required ancestor:** `72f99073c42bd28e3469efe316378b37601717c7` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -14,9 +14,9 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family ar-act346-set::official-form:ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS \
+  --family agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record::official-form:Request to Correct Criminal Justice Information \
   --codex-cloud \
-  --minimum-captain-sha 40ccc028a2af8eac94743cdb32237e3af56a6642
+  --minimum-captain-sha 72f99073c42bd28e3469efe316378b37601717c7
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY: 14/14`**. A 13/14 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -39,7 +39,7 @@ Turn a descriptive label into a document identity: exact form number, official p
 
 the issuing court or agency that publishes the document
 
-**38 obligations · 23 families released if all clear · hosts: AR, IL, MA, UT**
+**25 obligations · 3 families released if all clear · hosts: AK, AL, IN**
 
 > This environment refuses outbound egress to court and agency hosts. Identity and inventory work runs here; anything needing a fetch is dispatched through the acquisition workflow, never attempted locally and never faked.
 
@@ -51,12 +51,12 @@ the issuing court or agency that publishes the document
 
 ### Families this lane releases
 
-`ar-act346-set`, `ar-cs-possession-seal-set`, `ar-drug-court-set`, `ar-felony-seal-set`, `ar-misdemeanor-seal-set`, `ar-nonconviction-seal-set`, `ar-veterans-court-set`, `il-cannabis-vacate-set`, `il-exp-nonconv-set`, `il-exp-pardon-set`, `il-exp-precompletion-set`, `il-exp-qualprob-set`, `il-exp-supervision-set`, `il-prb-cert-set`, `il-seal-2yr-set`, `il-seal-3yr-set`, `il-seal-edu-set`, `il-seal-nonconv-set`, `ma-expunge-k-set`, `ma-expunge-time-set`, `ma-seal-admin-set`, `ma-seal-decrim-set`, `ut_pet_remove_link-set`
+`agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record`, `ak-mistaken-identity-set`, `official-form-treatment:obligation:research-decision-route:AL:al-olr`
 
 ## Owned paths — write only here
 
-- `data/rcap-grade-a/packet-factory-24h/sid04/**`
-- `data/rcap-grade-a/source-acquisition/packet-factory-24h/sid04/**`
+- `data/rcap-grade-a/packet-factory-24h/disc02/**`
+- `data/rcap-grade-a/source-acquisition/packet-factory-24h/disc02/**`
 
 ## Never write here
 
@@ -87,8 +87,8 @@ the issuing court or agency that publishes the document
 
 ## Required outputs
 
-- data/rcap-grade-a/packet-factory-24h/sid04/rows.json — one row per obligation: itemId, status, the identity or receipt, and the families it releases
-- data/rcap-grade-a/source-acquisition/packet-factory-24h/sid04/receipts.json — the eleven recorded fields per resolved source; no body is committed
+- data/rcap-grade-a/packet-factory-24h/disc02/rows.json — one row per obligation: itemId, status, the identity or receipt, and the families it releases
+- data/rcap-grade-a/source-acquisition/packet-factory-24h/disc02/receipts.json — the eleven recorded fields per resolved source; no body is committed
 
 ### Output schema
 

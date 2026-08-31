@@ -26,10 +26,13 @@ const ACTIVE = `${DIR}/ACTIVE_ASSIGNMENTS.json`;
 const GRAPH = `${DIR}/IMPORT_GRAPH.json`;
 const COLLISIONS = `${DIR}/COLLISIONS.json`;
 const CHECKPOINT = `${DIR}/CHECKPOINT.json`;
+const WASHINGTON = `${DIR}/WASHINGTON_REPAIR.json`;
 
 const read = (rel) => JSON.parse(fs.readFileSync(path.join(ROOT, rel), "utf8"));
 const rootOf = (p) => p.replace(/\/?\*+$/, "");
 const touches = (a, b) => { const ra = rootOf(a); const rb = rootOf(b); return ra === rb || ra.startsWith(`${rb}/`) || rb.startsWith(`${ra}/`); };
+
+const gitOk = (args) => { try { execFileSync("git", args, { cwd: ROOT, stdio: "ignore" }); return true; } catch { return false; } };
 
 const results = [];
 const check = (id, title, ok, observed = "") => { results.push({ id, title, ok, observed }); };
@@ -271,6 +274,158 @@ function run() {
     && !haltedOnFirstStop.ok && !haltedOnLegalInput.ok && !omittedBlocked.ok && !stoppedButWrote.ok,
     `control ${control.ok ? "accepted" : `REFUSED: ${control.problems.join("; ")}`}; refusals ${[haltedOnFirstStop, haltedOnLegalInput, omittedBlocked, stoppedButWrote].filter((x) => !x.ok).length}/4`);
 
+  /* ------------------------------------------------------------------ *
+   * F16 to F23 -- the eight ways a rolling factory quietly loses work.
+   *
+   * These read every dispatched assignment in the factory AND in the
+   * Washington repair, because a duplicate obligation or a second writer on
+   * one host is no less a defect for being split across two documents.
+   * ------------------------------------------------------------------ */
+  const wash = fs.existsSync(path.join(ROOT, WASHINGTON)) ? read(WASHINGTON) : { assignments: [] };
+  const every = [...a, ...wash.assignments];
+  const sourceLanes = every.filter((x) => x.itemKind === "sourceObligation");
+  const verifyLanes = every.filter((x) => x.lane === "independent-verification");
+  const buildingLanes = every.filter((x) => ["packet-build", "rapid-repair", "packet-repair"].includes(x.lane));
+
+  // 16. One document, one obligation. Two lanes acquiring one PDF is two
+  //     dispatches for one URL and two receipts for one byte.
+  const obligationOwner = new Map();
+  const duplicateObligations = [];
+  for (const x of sourceLanes) {
+    const withinLane = new Set();
+    for (const it of x.items ?? []) {
+      if (withinLane.has(it)) duplicateObligations.push(`${it} twice within ${x.assignmentId}`);
+      withinLane.add(it);
+      if (obligationOwner.has(it)) duplicateObligations.push(`${it} in ${obligationOwner.get(it)} and ${x.assignmentId}`);
+      else obligationOwner.set(it, x.assignmentId);
+    }
+  }
+  check("F16", "no source obligation is dispatched to two lanes",
+    duplicateObligations.length === 0,
+    `${sourceLanes.length} source lane(s), ${obligationOwner.size} distinct obligation(s), ${duplicateObligations.length} duplicate(s): ${duplicateObligations.slice(0, 2).join(" | ")}`);
+
+  // 17. A release is a promise that a family is now buildable. Two lanes
+  //     cannot both make it: where obligations are split, neither lane
+  //     finishes the family alone.
+  const releaseOwner = new Map();
+  const duplicateReleases = [];
+  for (const x of sourceLanes) {
+    const withinLane = new Set();
+    for (const f of x.familiesUnblocked ?? []) {
+      if (withinLane.has(f)) duplicateReleases.push(`${f} twice within ${x.assignmentId}`);
+      withinLane.add(f);
+      if (releaseOwner.has(f)) duplicateReleases.push(`${f} released by ${releaseOwner.get(f)} and ${x.assignmentId}`);
+      else releaseOwner.set(f, x.assignmentId);
+    }
+  }
+  const splitClaimedAnyway = [];
+  for (const x of sourceLanes) {
+    for (const sp of x.familiesAdvancedButNotReleasedHere ?? []) {
+      if ((sp.releasedOnlyWhenAllOf ?? []).length < 2) splitClaimedAnyway.push(`${sp.familyId} names ${(sp.releasedOnlyWhenAllOf ?? []).length} lane(s)`);
+      if (releaseOwner.has(sp.familyId)) splitClaimedAnyway.push(`${sp.familyId} is both split and released by ${releaseOwner.get(sp.familyId)}`);
+    }
+  }
+  check("F17", "no family is released by two lanes, and a split family is released by none",
+    duplicateReleases.length === 0 && splitClaimedAnyway.length === 0,
+    `${releaseOwner.size} released, ${duplicateReleases.length} duplicate(s), ${splitClaimedAnyway.length} bad split(s): ${[...duplicateReleases, ...splitClaimedAnyway].slice(0, 2).join(" | ")}`);
+
+  // 18. A promotion is a release. Promoting without exact bytes releases a
+  //     family into a builder that cannot open its source.
+  const promotionLanes = sourceLanes.filter((x) => /^SPR/.test(x.assignmentId) || x.operation === "promotion-and-release");
+  const promotionWithoutBytes = promotionLanes.filter((x) => !/exact bytes/i.test(String(x.promotionRule ?? "")) || !/SHA-256|sha256/i.test(String(x.promotionRule ?? ""))).map((x) => x.assignmentId);
+  const promotedWithoutBytes = master.families.filter((f) => {
+    if (f.sourceStatus !== "SOURCE_BOUND_BY_HELD_BYTES") return false;
+    const bound = f.sourceReadiness?.boundSources ?? [];
+    return bound.length === 0 || bound.some((b) => !b.path || !/^[0-9a-f]{64}$/.test(String(b.sha256 ?? "")) || !b.tier || !b.resolvedBy);
+  }).map((f) => f.familyId);
+  check("F18", "no source is promoted without exact bytes",
+    promotionLanes.length > 0 && promotionWithoutBytes.length === 0 && promotedWithoutBytes.length === 0,
+    `${promotionLanes.length} promotion lane(s), ${promotionWithoutBytes.length} without the bytes rule, ${promotedWithoutBytes.length} family(ies) bound without a full custody record [${promotedWithoutBytes.slice(0, 3).join(", ")}]`);
+
+  // 19. A released family that no builder holds is the conveyor stopping at
+  //     the moment it finally moved.
+  const heldByBuilders = new Set(buildingLanes.flatMap((x) => x.itemKind === "packetFamily" ? x.items : []));
+  const releasedButIdle = [...releaseOwner.keys()].filter((f) => {
+    const fam = familyById.get(f);
+    return fam && fam.state === "SOURCE_READY" && !fam.activeOwner && !heldByBuilders.has(f);
+  });
+  const refillStated = pf.every((x) => /releases a family/i.test(String(x.refillRule ?? "")));
+  check("F19", "a released family is assigned, and the refill rule says who assigns it",
+    releasedButIdle.length === 0 && refillStated,
+    `${releasedButIdle.length} released and idle [${releasedButIdle.slice(0, 3).join(", ")}]; refill rule on every builder: ${refillStated}`);
+
+  // 20. A verifier whose checkout predates the packet commit does not verify
+  //     a packet; it verifies an absence, and an absence reads as a defect.
+  const verifierProblems = [];
+  for (const v of verifyLanes) {
+    const n = (v.items ?? []).length;
+    if (v.launchNow === undefined) { verifierProblems.push(`${v.assignmentId} does not say whether it may launch`); continue; }
+    if (v.launchNow === false) {
+      if (!v.launchRule) verifierProblems.push(`${v.assignmentId} is held back with no rule for releasing it`);
+      continue;
+    }
+    if (n === 0) { verifierProblems.push(`${v.assignmentId} is launchable with nothing to verify`); continue; }
+    if (!/^[0-9a-f]{7,40}$/.test(String(v.verifiesCommit ?? ""))) { verifierProblems.push(`${v.assignmentId} names no packet commit`); continue; }
+    if (gitOk(["cat-file", "-e", `${v.verifiesCommit}^{commit}`])) {
+      for (const d of v.packetDirectories ?? []) {
+        if (!gitOk(["cat-file", "-e", `${v.verifiesCommit}:${d}`])) verifierProblems.push(`${v.assignmentId}: ${d} does not exist at ${v.verifiesCommit}`);
+      }
+    } else verifierProblems.push(`${v.assignmentId}: commit ${v.verifiesCommit} is not in this repository`);
+  }
+  check("F20", "no verification assignment is launchable before the packet commit it must read exists",
+    verifierProblems.length === 0,
+    `${verifyLanes.length} verifier(s), ${verifierProblems.length} problem(s): ${verifierProblems.slice(0, 2).join(" | ")}`);
+
+  // 21. The verifier may not be the builder or the repairer.
+  const builderOf = new Map();
+  for (const x of buildingLanes) for (const f of (x.itemKind === "packetFamily" ? x.items : [])) builderOf.set(f, x.assignmentId);
+  const independenceProblems = [];
+  for (const v of verifyLanes) {
+    if (!(v.mayNotBeRunBy ?? []).length) independenceProblems.push(`${v.assignmentId} names nobody it may not be run by`);
+    for (const f of v.items ?? []) {
+      if (builderOf.has(f)) {
+        const excluded = (v.mayNotBeRunBy ?? []).join(" ");
+        if (!excluded.includes(builderOf.get(f)) && !/any PF or FIX lane|the worker that built or last repaired/i.test(excluded)) {
+          independenceProblems.push(`${v.assignmentId} verifies ${f}, built by ${builderOf.get(f)}, without excluding it`);
+        }
+      }
+    }
+    for (const owned of v.ownedPaths ?? []) {
+      if (/overlays\/census-v1|build-census-v1/.test(owned)) independenceProblems.push(`${v.assignmentId} owns a write path into what it verifies: ${owned}`);
+    }
+  }
+  check("F21", "no verification worker is the builder or the repairer of what it verifies",
+    independenceProblems.length === 0,
+    `${verifyLanes.length} verifier(s), ${independenceProblems.length} problem(s): ${independenceProblems.slice(0, 2).join(" | ")}`);
+
+  // 22. An executable family nobody holds is capacity spent on nothing.
+  const executable = master.families.filter((f) =>
+    f.state === "SOURCE_READY" && f.legalInputStatus !== "OPEN_LEGAL_INPUT" && !f.activeOwner);
+  const idleExecutable = executable.filter((f) => !heldByBuilders.has(f.familyId)).map((f) => f.familyId);
+  const repairable = master.families.filter((f) => f.state === "REPAIR_REQUIRED" && !f.activeOwner)
+    .filter((f) => !heldByBuilders.has(f.familyId)).map((f) => f.familyId);
+  check("F22", "no executable family is left idle",
+    idleExecutable.length === 0 && repairable.length === 0,
+    `${executable.length} executable, ${idleExecutable.length} idle [${idleExecutable.slice(0, 3).join(", ")}]; ${repairable.length} repairable and unheld [${repairable.slice(0, 3).join(", ")}]`);
+
+  // 23. One shared host, one writer -- counted across both documents.
+  const hostWriters = new Map();
+  for (const x of every) {
+    for (const owned of x.ownedPaths ?? []) {
+      const m = /(scripts\/build-census-v1-[^*\s]+\.mjs)/.exec(owned);
+      if (!m) continue;
+      const fam = familyById.get(path.basename(m[1]).replace(/^build-census-v1-|\.mjs$/g, ""));
+      const shared = fam ? (fam.importedBy ?? []).length > 0 || fam.exclusiveScript === false : true;
+      if (!shared) continue;
+      hostWriters.set(m[1], [...(hostWriters.get(m[1]) ?? []), x.assignmentId]);
+    }
+  }
+  const multiWriter = [...hostWriters.entries()].filter(([, ids]) => new Set(ids).size > 1)
+    .map(([h, ids]) => `${path.basename(h)}: ${[...new Set(ids)].join(", ")}`);
+  check("F23", "no shared build host has two writers, across every dispatched document",
+    multiWriter.length === 0,
+    `${hostWriters.size} shared host(s) claimed, ${multiWriter.length} with more than one writer: ${multiWriter.slice(0, 2).join(" | ")}`);
+
   // The arithmetic that makes the rest readable.
   check("F12", "the live denominator closes",
     master.denominator.sumsToDenominator === true
@@ -308,6 +463,22 @@ if (MUTATIONS) {
     { on: "master", id: "F12", name: "a denominator that does not close is caught", mutate: (j) => { j.denominator.sumsToDenominator = false; return j; } },
     { on: "collisions", id: "F2", name: "a collision record reporting a collision it did not fail on is caught", mutate: (j) => { j.counts.pathCollisions = 1; return j; } },
     { on: "prompt", id: "F10", name: "a prompt instructing a Git network command is caught", mutateText: (t) => `${t}\n\nRun git push origin work when you are finished.\n` },
+    /* F16 to F23 -- the eight ways a rolling factory quietly loses work.
+     * Where the dispatch is correct the condition has no subject in it, so
+     * these construct the condition rather than searching for one. */
+    { on: "active", id: "F16", name: "one source obligation dispatched to two lanes is caught", mutate: (j) => { const s = j.assignments.filter((x) => x.itemKind === "sourceObligation" && x.items.length); s[1].items.push(s[0].items[0]); return j; } },
+    { on: "active", id: "F17", name: "one family released by two source lanes is caught", mutate: (j) => { const s = j.assignments.filter((x) => x.itemKind === "sourceObligation" && (x.familiesUnblocked ?? []).length); s[1].familiesUnblocked.push(s[0].familiesUnblocked[0]); return j; } },
+    { on: "active", id: "F17", name: "a split family claimed as released anyway is caught", mutate: (j) => { const s = j.assignments.find((x) => (x.familiesAdvancedButNotReleasedHere ?? []).length); s.familiesUnblocked.push(s.familiesAdvancedButNotReleasedHere[0].familyId); return j; } },
+    { on: "master", id: "F18", name: "a family bound by held bytes with no custody path is caught", mutate: (j) => { const f = j.families.find((x) => x.sourceStatus === "SOURCE_BOUND_BY_HELD_BYTES"); f.sourceReadiness.boundSources[0].path = ""; return j; } },
+    { on: "active", id: "F18", name: "a promotion lane that drops the exact-bytes rule is caught", mutate: (j) => { j.assignments.find((x) => /^PROMO/.test(x.assignmentId)).promotionRule = "promote what the lane has resolved"; return j; } },
+    { on: "active", id: "F19", name: "a builder that drops the refill rule is caught", mutate: (j) => { j.assignments.find((x) => x.lane === "packet-build").refillRule = "the lane works through its list"; return j; } },
+    { on: "active", id: "F20", name: "an empty verifier marked launchable is caught", mutate: (j) => { const v = j.assignments.find((x) => x.lane === "independent-verification"); v.items = []; v.launchNow = true; return j; } },
+    { on: "active", id: "F20", name: "a verifier naming a commit this repository does not have is caught", mutate: (j) => { j.assignments.find((x) => x.lane === "independent-verification").verifiesCommit = "0123456789abcdef0123456789abcdef01234567"; return j; } },
+    { on: "active", id: "F21", name: "a verifier that owns a write path into what it verifies is caught", mutate: (j) => { j.assignments.find((x) => x.lane === "independent-verification").ownedPaths.push("data/rcap-all50/overlays/census-v1/**"); return j; } },
+    { on: "active", id: "F22", name: "an executable family dropped from every builder is caught", mutate: (j) => { firstPF(j).items.pop(); return j; } },
+    /* No builder claims a shared host in a correct dispatch, so this hands a
+     * real shared host from the master queue to two of them. */
+    { on: "active", id: "F23", name: "a shared build host handed to two lanes is caught", mutate: (j) => { const shared = read(MASTER).families.find((f) => (f.importedBy ?? []).length > 0 && f.buildScript); if (!shared) throw new Error("the master queue names no shared build host at all"); const b = j.assignments.filter((x) => x.lane === "packet-build"); b[0].ownedPaths.push(shared.buildScript); b[1].ownedPaths.push(shared.buildScript); return j; } },
     { on: "master", id: "F13", name: "an exact identity with no held byte classified SOURCE_READY is caught", mutate: (j) => { const f = j.families.find((x) => x.state === "SOURCE_BLOCKED"); f.state = "SOURCE_READY"; return j; } },
     { on: "master", id: "F13", name: "a held path with no SHA classified SOURCE_READY is caught", mutate: (j) => { const f = j.families.find((x) => x.state === "SOURCE_READY"); f.sourceReadiness.boundSources[0].sha256 = null; return j; } },
     { on: "master", id: "F13", name: "a held SHA with no indexed path classified SOURCE_READY is caught", mutate: (j) => { const f = j.families.find((x) => x.state === "SOURCE_READY"); f.sourceReadiness.boundSources[0].path = null; return j; } },
