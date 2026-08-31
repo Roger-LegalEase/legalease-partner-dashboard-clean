@@ -11,10 +11,10 @@
     "SOURCE_BLOCKED": 240,
     "SOURCE_READY": 63,
     "ASSIGNED_TO_BUILD": 0,
-    "BUILD_IN_PROGRESS": 5,
+    "BUILD_IN_PROGRESS": 4,
     "PASS_COMPLETE": 0,
-    "VERIFY_PENDING": 2,
-    "VERIFYING": 19,
+    "VERIFY_PENDING": 12,
+    "VERIFYING": 10,
     "FAIL_REPAIR_REQUIRED": 17,
     "VERIFIED_PASS": 0,
     "LEGAL_REVIEW_READY": 0,
@@ -32,8 +32,8 @@
   "codex": {
     "activeTasks": 0,
     "queuedTasks": 32,
-    "lanesWithWorkAtDispatch": 26,
-    "lanesProvisionedEmpty": 6,
+    "lanesWithWorkAtDispatch": 32,
+    "lanesProvisionedEmpty": 0,
     "idleCapacityRule": "A provisioned-empty lane is not idle capacity being wasted; it is capacity waiting on the source conveyor, which is itself fully assigned."
   },
   "blockers": [
@@ -1527,6 +1527,18 @@
     },
     {
       "family": "ri_nonconviction_sealing-set",
+      "exactBlocker": "an open legal input on one of its routes",
+      "owner": "counsel",
+      "nextAction": "await the counsel determination; do not research it here"
+    },
+    {
+      "family": "ut_pet_no_charges-set",
+      "exactBlocker": "an open legal input on one of its routes",
+      "owner": "counsel",
+      "nextAction": "await the counsel determination; do not research it here"
+    },
+    {
+      "family": "ut_pet_traffic-set",
       "exactBlocker": "an open legal input on one of its routes",
       "owner": "counsel",
       "nextAction": "await the counsel determination; do not research it here"

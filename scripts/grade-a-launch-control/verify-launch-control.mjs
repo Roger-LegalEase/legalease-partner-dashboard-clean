@@ -913,12 +913,16 @@ if (continuation && s2 && massCheckpoint !== undefined) {
     && continuation.rows.map((r) => r.familyId).sort().every((f, i) => f === expected[i])
     && mismatched.length === 0
     && passClaimedWithNonzero.length === 0
-    && continuation.totals.passComplete === continuation.rows.filter((r) => r.allNineCountersZero).length,
+    && continuation.totals.passComplete === continuation.rows.filter((r) => r.allNineCountersZero).length
+    && continuation.totals.independentlyVerified === continuation.rows.filter((r) => r.independentVerdict).length,
     `${continuation.rows.length} of ${expected.length} closure families; ${mismatched.length} counter mismatch(es); ${passClaimedWithNonzero.length} PASS with a nonzero counter`);
 
   // Verification is for proven-complete packets only, and a failure is stated
   // rather than absorbed.
-  const eligible = new Set(continuation.rows.filter((r) => r.allNineCountersZero).map((r) => r.familyId));
+  /* Eligible for a NEW verification assignment: complete and not already
+   * verified. A family that has come back with a verdict is finished, and
+   * counting it as unassigned would demand a second shard re-prove it. */
+  const eligible = new Set(continuation.rows.filter((r) => r.allNineCountersZero && !r.independentVerdict).map((r) => r.familyId));
   const vs = continuation.independentVerification.assignments;
   const ineligible = vs.flatMap((a) => a.items.filter((f) => !eligible.has(f)));
   const assigned = vs.flatMap((a) => a.items);
@@ -1018,10 +1022,13 @@ if (MUTATIONS) {
     { on: "continuation", name: "a continuation naming a commit outside this history is caught", mutate: (j) => { j.theChain.s2Integrated = "0".repeat(40); return j; } },
     { on: "continuation", name: "a closure family dropped from the continuation is caught", mutate: (j) => { j.rows.pop(); return j; } },
     { on: "continuation", name: "a counter restated instead of read from the matrix is caught", mutate: (j) => { j.rows[0].countersAfter.knownRequiredFieldsMissing = 99; return j; } },
-    { on: "continuation", name: "a PASS claimed over a nonzero counter is caught", mutate: (j) => { const r = j.rows.find((x) => !x.allNineCountersZero); r.allNineCountersZero = true; return j; } },
-    { on: "continuation", name: "an unproven family sent for independent verification is caught", mutate: (j) => { const bad = j.rows.find((x) => !x.allNineCountersZero); j.independentVerification.assignments[0].items.push(bad.familyId); return j; } },
+    // Constructs the condition rather than depending on one existing: every
+    // closure family passes now that South Dakota is repaired, so a mutation
+    // that looked for a failing row silently stopped testing anything.
+    { on: "continuation", name: "a PASS claimed over a nonzero counter is caught", mutate: (j) => { const r = j.rows[0]; r.countersAfter.knownRequiredFieldsMissing = 3; r.allNineCountersZero = true; return j; } },
+    { on: "continuation", name: "an unproven family sent for independent verification is caught", mutate: (j) => { const bad = j.rows[0]; bad.allNineCountersZero = false; bad.failingCounters = ["knownRequiredFieldsMissing"]; j.independentVerification.assignments[0].items.push(bad.familyId); return j; } },
     { on: "continuation", name: "a verifier given the overlays it verifies is caught", mutate: (j) => { j.independentVerification.assignments[0].ownedPaths.push("data/rcap-all50/overlays/census-v1/**"); return j; } },
-    { on: "continuation", name: "a remaining failure quietly dropped from the record is caught", mutate: (j) => { j.whatStillFails = []; return j; } },
+    { on: "continuation", name: "a remaining failure quietly dropped from the record is caught", mutate: (j) => { const r = j.rows[0]; r.allNineCountersZero = false; r.failingCounters = ["knownRequiredFieldsMissing"]; j.whatStillFails = []; return j; } },
     { on: "wave2", name: "a review package prepared before an independent PASS is caught", mutate: (j) => { j.outputLegalReview.batchesPrepared = 6; return j; } },
     { on: "wave2", name: "a verification shard that drops the completeness obligations is caught", mutate: (j) => { const s = j.assignments.find((a) => a.lane === "independent-verification"); s.proofObligations = s.proofObligations.filter((o) => !o.startsWith("COMPLETENESS:")); return j; } },
     { on: "completeness", name: "a family reported complete with a nonzero counter is caught", mutate: (j) => { j.results[0].result = "PASS_COMPLETE"; return j; } },

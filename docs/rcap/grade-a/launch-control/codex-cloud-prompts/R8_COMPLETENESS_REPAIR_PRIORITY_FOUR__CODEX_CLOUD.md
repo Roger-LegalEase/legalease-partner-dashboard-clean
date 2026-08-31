@@ -15,7 +15,7 @@
 # LEGALEASE_CODEX_CLOUD_READY. Your job is to load what it left and prove the gate.
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family nj_disorderly_persons-set \
+  --family <FAMILY_ID> \
   --codex-cloud \
   --minimum-captain-sha 98a7a57e2a354eeb8b33b3873e62f7a9785fedaf
 ```
@@ -39,27 +39,15 @@ Repair the four families whose PASS was revoked, in priority order A to D, AFTER
 
 **The base moved.** Your original assignment named `c8d912d9a1dea54043f6dbc2cda464d00946c74c`. The original base predates S1, S2 and the corrected completeness contract. A repair rendered against it would be measured by a contract that has since changed, and would fail the audit for a reason that is not the packet's.
 
-## The 4 families
+## The 0 families
 
-- `nj_disorderly_persons-set`
-- `ca-17b-reduction-set`
-- `ca-1203-43-set`
-- `az_marijuana_expungement_superior_court-set`
+
 
 _Unchanged from the original dispatch. This continuation moves the environment, not the scope._
 
 ## Owned paths — write only here
 
-- `data/rcap-grade-a/wave-2/r8-completeness-repair-priority-four/**`
-- `data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/ca/ca-1203-43-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-superior-court-set--official-pdf-fill/**`
-- `scripts/build-census-v1-nj_disorderly_persons-set.mjs`
-- `scripts/build-census-v1-ca-17b-reduction-set.mjs`
-- `scripts/build-census-v1-ca-1203-43-set.mjs`
-- `scripts/build-census-v1-az_marijuana_expungement_superior_court-set.mjs`
-- `data/rcap-grade-a/codex-cloud/r8-completeness-repair-priority-four/**`
+
 
 ## Never write here
 

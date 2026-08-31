@@ -15,7 +15,7 @@
 # LEGALEASE_CODEX_CLOUD_READY. Your job is to load what it left and prove the gate.
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family ne-setaside-custodial-set \
+  --family <FAMILY_ID> \
   --codex-cloud \
   --minimum-captain-sha 98a7a57e2a354eeb8b33b3873e62f7a9785fedaf
 ```
@@ -37,12 +37,9 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY: 14/14`**. 14/14 or stop. Three 
 
 Verify independently that each family's packet is complete. The completeness audit says all nine counters are zero; you are asked whether that is true of the artifact, not whether the report says so.
 
-## The 4 families
+## The 0 families
 
-- `ne-setaside-custodial-set`
-- `ut_pet_acquittal-set`
-- `ut_pet_conviction-set`
-- `ut_pet_dismissed_with_prejudice-set`
+
 
 _Unchanged from the original dispatch. This continuation moves the environment, not the scope._
 
@@ -66,7 +63,7 @@ _Unchanged from the original dispatch. This continuation moves the environment, 
 
 ## Owned paths — write only here
 
-- `data/rcap-grade-a/codex-cloud/s2-continuation-verify-01/**`
+
 
 ## Never write here
 

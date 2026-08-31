@@ -15,7 +15,7 @@
 # LEGALEASE_CODEX_CLOUD_READY. Your job is to load what it left and prove the gate.
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family sd_arrest_expungement-set \
+  --family <FAMILY_ID> \
   --codex-cloud \
   --minimum-captain-sha 98a7a57e2a354eeb8b33b3873e62f7a9785fedaf
 ```
@@ -39,21 +39,12 @@ Close the one defect standing between sd_arrest_expungement-set and a complete p
 
 The S2 continuation left ten of eleven families complete. This is the eleventh, and its defect is one thing: nine fields are declared required before filing and the packet never asks the participant for them.
 
-## The exact defect — 9 field(s)
+## The exact defect — 0 field(s)
 
 Each row declares requiredBeforeFiling and none is named in the packet's participant-instructions.md. A blank is permitted as required-before-filing only because the packet says so, and this packet does not say so.
 
 | Field | Printed label |
 | --- | --- |
-| `City State Zip Code-som` | STATEMENT OF MAILING City State Zip Code-som |
-| `name mailed to` | STATEMENT OF MAILING name mailed to |
-| `street address` | STATEMENT OF MAILING street address |
-| `city, state, and zip code` | STATEMENT OF MAILING city, state, and zip code |
-| `who mailed to` | STATEMENT OF MAILING who mailed to |
-| `addressed mailed to` | STATEMENT OF MAILING addressed mailed to |
-| `city mailed to` | STATEMENT OF MAILING city mailed to |
-| `zip code mailed to` | zip code mailed to |
-| `state Code mailed to` | STATEMENT OF MAILING state Code mailed to |
 
 ### Two honest outcomes
 
@@ -64,9 +55,7 @@ Each row declares requiredBeforeFiling and none is named in the packet's partici
 
 ## Owned paths — write only here
 
-- `data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/**`
-- `scripts/build-census-v1-sd_arrest_expungement-set.mjs`
-- `data/rcap-grade-a/codex-cloud/sd-arrest-expungement-disclosure-repair/**`
+
 
 ## Never write here
 

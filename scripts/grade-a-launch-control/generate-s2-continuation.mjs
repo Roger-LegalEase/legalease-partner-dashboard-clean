@@ -139,7 +139,30 @@ const importsHost = (f) => [...fs.readFileSync(path.join(ROOT, "scripts", f), "u
   .matchAll(/from\s+["']\.\/(build-census-v1-[^"']+\.mjs)["']/g)].some((m) => m[1] === hostBase);
 const importersNow = scriptFiles.filter((f) => f !== hostBase && importsHost(f)).sort();
 
-const passing = rows.filter((r) => r.allNineCountersZero);
+/*
+ * A family that has already come back with an independent verdict is finished
+ * here. The eligible list is what still NEEDS verification, so leaving a
+ * verified family in it would dispatch a second shard to re-prove what a first
+ * shard already proved.
+ */
+const verifiedIndependently = new Map();
+for (const shard of ["01", "02", "03"]) {
+  const rel = `data/rcap-grade-a/codex-cloud/s2-continuation-verify-${shard}/rows.json`;
+  if (!fs.existsSync(path.join(ROOT, rel))) continue;
+  const doc = read(rel);
+  for (const row of doc.rows ?? doc) {
+    const id = row.itemId ?? row.familyId;
+    if (id) verifiedIndependently.set(id, { shard: `VS${shard}`, verdict: row.verdict });
+  }
+}
+for (const r of rows) {
+  const v = verifiedIndependently.get(r.familyId) ?? null;
+  r.independentVerdict = v?.verdict ?? null;
+  r.verifiedByShard = v?.shard ?? null;
+}
+
+const passing = rows.filter((r) => r.allNineCountersZero && !r.independentVerdict);
+const alreadyVerified = rows.filter((r) => r.independentVerdict);
 const failingRows = rows.filter((r) => !r.allNineCountersZero);
 
 /*
@@ -229,7 +252,9 @@ const doc = {
     count: rows.length,
     derivedFrom: `${LC}/S2_SHARED_HOST_ASSIGNMENT.json — the host family plus every BUILT importer in its closure`,
     rerendered: rows.length,
-    passComplete: passing.length,
+    passComplete: rows.filter((r) => r.allNineCountersZero).length,
+    awaitingIndependentVerification: passing.length,
+    independentlyVerified: alreadyVerified.length,
     failing: failingRows.length,
     ids: families
   },
@@ -271,6 +296,8 @@ const doc = {
   independentVerification: {
     rule: "Assigned only to a family whose nine counters are zero. A verifier handed an incomplete packet spends its slot rediscovering what the audit already published.",
     eligible: passing.map((r) => r.familyId),
+    alreadyVerified: alreadyVerified.map((r) => ({ familyId: r.familyId, shard: r.verifiedByShard, verdict: r.independentVerdict })),
+    eligibleMeans: "complete and NOT yet independently verified. A family with a verdict is finished here; dispatching a second shard for it would re-prove what a first shard proved.",
     notEligible: failingRows.map((r) => ({ familyId: r.familyId, because: r.failingCounters.join(", ") })),
     shardSize: SHARD_SIZE,
     assignments: verificationAssignments
@@ -278,10 +305,13 @@ const doc = {
   commercialPosture: "Ten complete packets are ten complete packets. Completeness is not independent verification, independent verification is not output approval, and none of the three opens a commercial route. No route was opened here and Production was not touched.",
   totals: {
     familiesRerendered: rows.length,
-    passComplete: passing.length,
+    passComplete: rows.filter((r) => r.allNineCountersZero).length,
+    awaitingIndependentVerification: passing.length,
+    independentlyVerified: alreadyVerified.length,
     failures: failingRows.length,
     verificationAssignments: verificationAssignments.length,
     familiesAwaitingVerification: passing.length,
+    verifiedFamilies: alreadyVerified.map((r) => r.familyId),
     commercialRoutesOpened: 0,
     productionTouched: false
   }

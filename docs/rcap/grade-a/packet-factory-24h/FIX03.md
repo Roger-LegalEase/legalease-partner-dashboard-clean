@@ -65,28 +65,28 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 
 - `scripts/rcap-packet-completeness/**`
 - `data/rcap-grade-a/launch-control/**`
-- `data/rcap-grade-a/wave-2/r8-completeness-repair-priority-four/**`
-- `data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/ca/ca-1203-43-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-superior-court-set--official-pdf-fill/**`
-- `scripts/build-census-v1-nj_disorderly_persons-set.mjs`
-- `scripts/build-census-v1-ca-17b-reduction-set.mjs`
-- `scripts/build-census-v1-ca-1203-43-set.mjs`
-- `scripts/build-census-v1-az_marijuana_expungement_superior_court-set.mjs`
-- `data/rcap-grade-a/codex-cloud/r8-completeness-repair-priority-four/**`
-- `data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/**`
-- `scripts/build-census-v1-sd_arrest_expungement-set.mjs`
-- `data/rcap-grade-a/codex-cloud/sd-arrest-expungement-disclosure-repair/**`
-- `data/rcap-grade-a/codex-cloud/s2-continuation-verify-01/**`
-- `data/rcap-grade-a/codex-cloud/s2-continuation-verify-02/**`
-- `data/rcap-grade-a/codex-cloud/s2-continuation-verify-03/**`
 - `data/rcap-grade-a/codex-cloud/p2v01-washington-independent-verification/**`
 - `data/rcap-grade-a/codex-cloud/p2v02-washington-independent-verification/**`
 - `data/rcap-grade-a/codex-cloud/p2v03-washington-independent-verification/**`
+- `data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/**`
+- `scripts/build-census-v1-nj_disorderly_persons-set.mjs`
+- `data/rcap-grade-a/codex-cloud/r8a-nj-disorderly-persons/**`
+- `data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/**`
+- `scripts/build-census-v1-ca-17b-reduction-set.mjs`
+- `data/rcap-grade-a/codex-cloud/r8b-ca-17b-reduction/**`
+- `data/rcap-all50/overlays/census-v1/ca/ca-1203-43-set--official-pdf-fill/**`
+- `scripts/build-census-v1-ca-1203-43-set.mjs`
+- `data/rcap-grade-a/codex-cloud/r8c-ca-1203-43/**`
+- `data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-superior-court-set--official-pdf-fill/**`
+- `scripts/build-census-v1-az_marijuana_expungement_superior_court-set.mjs`
+- `data/rcap-grade-a/codex-cloud/r8d-az-marijuana-superior-court/**`
+- `data/rcap-grade-a/codex-cloud/sdv01-south-dakota-independent-verification/**`
 - `data/rcap-all50/overlays/census-v1/**/nj-ordinance-set*`
 - `data/rcap-all50/overlays/census-v1/**/pa-summary-conviction-set*`
 - `data/rcap-all50/overlays/census-v1/**/ut-pet-dismissed-without-prejudice-set*`
+- `data/rcap-all50/overlays/census-v1/**/wa-vac-homicide-victim-prostitution-set*`
+- `data/rcap-all50/overlays/census-v1/**/wv-conv-single-misdemeanor-set*`
+- `data/rcap-all50/overlays/census-v1/**/ny-160-59-petition-set*`
 
 ## Required outputs
 

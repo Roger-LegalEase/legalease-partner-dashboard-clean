@@ -73,6 +73,7 @@ const INPUTS = {
   continuation: `${LC}/S2_CONTINUATION.json`,
   cloudContinuations: `${LC}/CODEX_CLOUD_CONTINUATIONS.json`,
   p2Verification: `${LC}/P2_WASHINGTON_VERIFICATION.json`,
+  r8Split: `${LC}/R8_FOUR_WAY_SPLIT.json`,
   verificationLedger: `${LC}/WAVE_2_VERIFICATION_LEDGER.json`,
   wave2: `${LC}/WAVE_2_ASSIGNMENTS.json`,
   repairWave: `${LC}/COMPLETENESS_REPAIR_WAVE.json`,
@@ -137,7 +138,12 @@ const familyOfScript = (f) => f.replace(/^build-census-v1-/, "").replace(/\.mjs$
  * independent verification is claimed: seeding it into a factory VF lane as well
  * would be two verifiers on one packet, reported as independent proof twice.
  */
-const ACTIVE_LANES = [...IN.cloudContinuations.assignments, ...(IN.p2Verification?.assignments ?? [])];
+const ACTIVE_LANES = [
+  ...IN.cloudContinuations.assignments,
+  ...(IN.p2Verification?.assignments ?? []),
+  ...(IN.r8Split?.assignments ?? []),
+  ...(IN.r8Split?.southDakotaVerification ? [IN.r8Split.southDakotaVerification] : [])
+];
 const activeFamilies = new Map();
 const activePaths = [];
 for (const a of ACTIVE_LANES) {

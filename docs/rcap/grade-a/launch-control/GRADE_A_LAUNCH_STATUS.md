@@ -9,7 +9,7 @@ _Rendered from `GRADE_A_LAUNCH_CONTROL.json` by the same generator, in the same 
 | | |
 | --- | --- |
 | Captain branch | `claude/legalease-sprint-captain-utucnw` |
-| Captain SHA | `49dfa403a4185542c494d7ef53ae015931402e43` |
+| Captain SHA | `0b89b1bf6b0b211ca73784724b1e0aea409010a3` |
 | Census fingerprint | `sha256:3fe4e0fd1828e2ddeef1f5b013c45112cf918c18143c9ac4ab46b9db682b8455` |
 | Production connected | NO |
 
@@ -95,14 +95,14 @@ That every write was correct: bound to exact source bytes, inside a measured box
 | | |
 | --- | ---: |
 | Families audited | 43 |
-| PASS_COMPLETE | 19 |
-| FAIL_MISSING_REQUIRED_FACTS | 22 |
+| PASS_COMPLETE | 20 |
+| FAIL_MISSING_REQUIRED_FACTS | 21 |
 | FAIL_COMPONENT_SET | 2 |
 
 | Counter | Fleet total |
 | --- | ---: |
 | knownRequiredFieldsMissing | 1198 |
-| requiredFactsNotCollected | 9 |
+| requiredFactsNotCollected | 0 |
 | unclassifiedBlanks | 779 |
 | incompleteRows | 11 |
 | requiredOptionsMissing | 121 |
@@ -246,7 +246,7 @@ Released automatically as sources resolve; the scoreboard recomputes releasabili
 
 ### BLK-8 — 43 packet families are built, none is independently verified, and none is complete
 
-C11 rendered and byte-checked 43 families against exact source SHA-256 values, but a builder verifying its own output proves nothing — and the completeness contract now shows the deeper problem: 19 of 43 families contain everything a filing needs. 1198 known required fields are missing across the fleet and 121 route-determined elections are left to the participant. The four families previously classified PASS are revoked.
+C11 rendered and byte-checked 43 families against exact source SHA-256 values, but a builder verifying its own output proves nothing — and the completeness contract now shows the deeper problem: 20 of 43 families contain everything a filing needs. 1198 known required fields are missing across the fleet and 121 route-determined elections are left to the participant. The four families previously classified PASS are revoked.
 
 **Owner:** R8 repairs the four, V1-V7 verify the rest, then Lawrence. **Blocks:** output-level approval, and therefore product-path proof, for every family
 

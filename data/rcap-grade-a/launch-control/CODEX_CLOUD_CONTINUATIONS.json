@@ -42,8 +42,8 @@
   },
   "totals": {
     "assignments": 6,
-    "familiesCovered": 15,
-    "familyClaims": 15,
+    "familiesCovered": 0,
+    "familyClaims": 0,
     "duplicateClaimsAcrossKinds": 0,
     "commercialRoutesOpened": 0,
     "productionTouched": false
@@ -137,7 +137,8 @@
         "integratedAs": "c055f20fc63b12c5cd998fa2171cda0519c6a6f1",
         "result": "9 of 9 families PASS_COMPLETE, every counter zero, re-audited under the corrected contract",
         "familiesNowHeldBy": "P2V01, P2V02 and P2V03 independent verification",
-        "note": "The assignment quoted commit 3b901f3358cf219b85b9bf1cf781b503a797781a, which is not an object in this repository and which the remote refuses as 'not our ref'. The integrated commit is the tip of the P2 worker branch; data/rcap-grade-a/launch-control/P2_WASHINGTON_VERIFICATION.json records both and the evidence that they are the same work."
+        "note": "The assignment quoted commit 3b901f3358cf219b85b9bf1cf781b503a797781a, which is not an object in this repository and which the remote refuses as 'not our ref'. The integrated commit is the tip of the P2 worker branch; data/rcap-grade-a/launch-control/P2_WASHINGTON_VERIFICATION.json records both and the evidence that they are the same work.",
+        "aSecondWashingtonReturnExists": "origin/codex/execute-committed-codex-cloud-assignment at 4e9bea921, 'Repair Washington vacatur packet completeness', built on 40ccc028a and touching the same nine families in 30 files. It is NOT integrated: the nine families already return PASS_COMPLETE on every counter from the return that was integrated, and applying a second independent repair of the same packets on top would overwrite proven artifacts with unproven ones. It is recorded here so the choice is visible rather than lost."
       },
       "itemsAsDispatched": [
         "wa_vac_cannabis-set",
@@ -187,25 +188,9 @@
       "whyTheBaseMoved": "The original base predates S1, S2 and the corrected completeness contract. A repair rendered against it would be measured by a contract that has since changed, and would fail the audit for a reason that is not the packet's.",
       "scopeIsUnchanged": true,
       "itemKind": "packetFamily",
-      "itemCount": 4,
-      "items": [
-        "nj_disorderly_persons-set",
-        "ca-17b-reduction-set",
-        "ca-1203-43-set",
-        "az_marijuana_expungement_superior_court-set"
-      ],
-      "ownedPaths": [
-        "data/rcap-grade-a/wave-2/r8-completeness-repair-priority-four/**",
-        "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/**",
-        "data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/**",
-        "data/rcap-all50/overlays/census-v1/ca/ca-1203-43-set--official-pdf-fill/**",
-        "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-superior-court-set--official-pdf-fill/**",
-        "scripts/build-census-v1-nj_disorderly_persons-set.mjs",
-        "scripts/build-census-v1-ca-17b-reduction-set.mjs",
-        "scripts/build-census-v1-ca-1203-43-set.mjs",
-        "scripts/build-census-v1-az_marijuana_expungement_superior_court-set.mjs",
-        "data/rcap-grade-a/codex-cloud/r8-completeness-repair-priority-four/**"
-      ],
+      "itemCount": 0,
+      "items": [],
+      "ownedPaths": [],
       "prohibitedPaths": [
         "data/rcap-grade-a/launch-control/**",
         "docs/rcap/grade-a/launch-control/**",
@@ -260,7 +245,31 @@
       ],
       "grantsNothing": "Completing this assignment opens no commercial route, proves no packet and approves no output.",
       "promptFile": "docs/rcap/grade-a/launch-control/codex-cloud-prompts/R8_COMPLETENESS_REPAIR_PRIORITY_FOUR__CODEX_CLOUD.md",
-      "status": "OPEN"
+      "status": "SPLIT_INTO_FOUR",
+      "returnRecord": {
+        "status": "SPLIT_INTO_FOUR",
+        "result": "returned 13/14 with zero files changed; the failure was one gate defect, not four family defects",
+        "familiesNowHeldBy": "R8A_NJ_DISORDERLY_PERSONS, R8B_CA_17B_REDUCTION, R8C_CA_1203_43, R8D_AZ_MARIJUANA_SUPERIOR_COURT",
+        "note": "See data/rcap-grade-a/launch-control/R8_FOUR_WAY_SPLIT.json for the per-family preflight before and after the gate correction."
+      },
+      "itemsAsDispatched": [
+        "nj_disorderly_persons-set",
+        "ca-17b-reduction-set",
+        "ca-1203-43-set",
+        "az_marijuana_expungement_superior_court-set"
+      ],
+      "ownedPathsAsDispatched": [
+        "data/rcap-grade-a/wave-2/r8-completeness-repair-priority-four/**",
+        "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/**",
+        "data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/**",
+        "data/rcap-all50/overlays/census-v1/ca/ca-1203-43-set--official-pdf-fill/**",
+        "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-superior-court-set--official-pdf-fill/**",
+        "scripts/build-census-v1-nj_disorderly_persons-set.mjs",
+        "scripts/build-census-v1-ca-17b-reduction-set.mjs",
+        "scripts/build-census-v1-ca-1203-43-set.mjs",
+        "scripts/build-census-v1-az_marijuana_expungement_superior_court-set.mjs",
+        "data/rcap-grade-a/codex-cloud/r8-completeness-repair-priority-four/**"
+      ]
     },
     {
       "assignmentId": "SD_ARREST_EXPUNGEMENT_DISCLOSURE_REPAIR__CODEX_CLOUD",
@@ -274,51 +283,12 @@
       "scopeIsUnchanged": false,
       "whyThisExists": "The S2 continuation left ten of eleven families complete. This is the eleventh, and its defect is one thing: nine fields are declared required before filing and the packet never asks the participant for them.",
       "itemKind": "packetFamily",
-      "itemCount": 1,
-      "items": [
-        "sd_arrest_expungement-set"
-      ],
+      "itemCount": 0,
+      "items": [],
       "theExactDefect": {
         "counter": "requiredFactsNotCollected",
-        "count": 9,
-        "fields": [
-          {
-            "field": "City State Zip Code-som",
-            "label": "STATEMENT OF MAILING City State Zip Code-som"
-          },
-          {
-            "field": "name mailed to",
-            "label": "STATEMENT OF MAILING name mailed to"
-          },
-          {
-            "field": "street address",
-            "label": "STATEMENT OF MAILING street address"
-          },
-          {
-            "field": "city, state, and zip code",
-            "label": "STATEMENT OF MAILING city, state, and zip code"
-          },
-          {
-            "field": "who mailed to",
-            "label": "STATEMENT OF MAILING who mailed to"
-          },
-          {
-            "field": "addressed mailed to",
-            "label": "STATEMENT OF MAILING addressed mailed to"
-          },
-          {
-            "field": "city mailed to",
-            "label": "STATEMENT OF MAILING city mailed to"
-          },
-          {
-            "field": "zip code mailed to",
-            "label": "zip code mailed to"
-          },
-          {
-            "field": "state Code mailed to",
-            "label": "STATEMENT OF MAILING state Code mailed to"
-          }
-        ],
+        "count": 0,
+        "fields": [],
         "why": "Each row declares requiredBeforeFiling and none is named in the packet's participant-instructions.md. A blank is permitted as required-before-filing only because the packet says so, and this packet does not say so."
       },
       "twoHonestOutcomes": [
@@ -326,11 +296,7 @@
         "RECLASSIFY — a statement of mailing is completed at or after mailing, so these may not be required-before-filing at all. If that is the answer, correct the declaration in the build script and say which disposition is right."
       ],
       "doNotSplitTheDifference": "Pick one per field and state why. A field disclosed in the instructions AND reclassified is a packet that says two things.",
-      "ownedPaths": [
-        "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/**",
-        "scripts/build-census-v1-sd_arrest_expungement-set.mjs",
-        "data/rcap-grade-a/codex-cloud/sd-arrest-expungement-disclosure-repair/**"
-      ],
+      "ownedPaths": [],
       "prohibitedPaths": [
         "scripts/rcap-packet-completeness/**",
         "scripts/build-census-v1-ne-setaside-custodial-set.mjs",
@@ -380,7 +346,23 @@
       ],
       "grantsNothing": "A complete packet is a complete packet. It is not independently verified, not approved for output, and it opens no route.",
       "promptFile": "docs/rcap/grade-a/launch-control/codex-cloud-prompts/SD_ARREST_EXPUNGEMENT_DISCLOSURE_REPAIR__CODEX_CLOUD.md",
-      "status": "OPEN"
+      "status": "RETURNED_AND_INTEGRATED",
+      "returnRecord": {
+        "status": "RETURNED_AND_INTEGRATED",
+        "workerCommit": "0b36dd9a0",
+        "workerBranchFound": "codex/execute-codex-cloud-assignment-for-south-dakota",
+        "result": "all nine statement-of-mailing fields RECLASSIFIED, none disclosed; sd_arrest_expungement-set now PASS_COMPLETE with every counter zero",
+        "familiesNowHeldBy": "SDV01_SOUTH_DAKOTA_INDEPENDENT_VERIFICATION",
+        "note": "The reported commit 4c12fb7 is not an object in this repository. Reclassifying all nine rather than disclosing any is defensible for a statement of mailing, and it is exactly what SDV01 is asked to test."
+      },
+      "itemsAsDispatched": [
+        "sd_arrest_expungement-set"
+      ],
+      "ownedPathsAsDispatched": [
+        "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/**",
+        "scripts/build-census-v1-sd_arrest_expungement-set.mjs",
+        "data/rcap-grade-a/codex-cloud/sd-arrest-expungement-disclosure-repair/**"
+      ]
     },
     {
       "assignmentId": "VS01_S2_CONTINUATION_INDEPENDENT_VERIFICATION__CODEX_CLOUD",
@@ -394,16 +376,9 @@
       "supersedesBase": "98a7a57e2a354eeb8b33b3873e62f7a9785fedaf",
       "scopeIsUnchanged": true,
       "itemKind": "packetFamily",
-      "itemCount": 4,
-      "items": [
-        "ne-setaside-custodial-set",
-        "ut_pet_acquittal-set",
-        "ut_pet_conviction-set",
-        "ut_pet_dismissed_with_prejudice-set"
-      ],
-      "ownedPaths": [
-        "data/rcap-grade-a/codex-cloud/s2-continuation-verify-01/**"
-      ],
+      "itemCount": 0,
+      "items": [],
+      "ownedPaths": [],
       "prohibitedPaths": [
         "data/rcap-all50/overlays/census-v1/**",
         "scripts/build-census-v1-*.mjs",
@@ -465,7 +440,23 @@
       ],
       "grantsNothing": "An independent PASS proves a packet is complete. It approves no output and opens no commercial route.",
       "promptFile": "docs/rcap/grade-a/launch-control/codex-cloud-prompts/VS01_S2_CONTINUATION_INDEPENDENT_VERIFICATION__CODEX_CLOUD.md",
-      "status": "OPEN"
+      "status": "RETURNED_AND_INTEGRATED",
+      "returnRecord": {
+        "status": "RETURNED_AND_INTEGRATED",
+        "workerCommit": "b8886d64b",
+        "workerBranchFound": "codex/execute-codex-cloud-assignment",
+        "result": "4 of 4 PASS_COMPLETE_INDEPENDENT; 1 file changed, all inside the shard's own return directory; 0 overlay files",
+        "note": "The reported commit 6daf7b7 is not an object in this repository. The branch above carries the shard's return directory and nothing else."
+      },
+      "itemsAsDispatched": [
+        "ne-setaside-custodial-set",
+        "ut_pet_acquittal-set",
+        "ut_pet_conviction-set",
+        "ut_pet_dismissed_with_prejudice-set"
+      ],
+      "ownedPathsAsDispatched": [
+        "data/rcap-grade-a/codex-cloud/s2-continuation-verify-01/**"
+      ]
     },
     {
       "assignmentId": "VS02_S2_CONTINUATION_INDEPENDENT_VERIFICATION__CODEX_CLOUD",
@@ -479,16 +470,9 @@
       "supersedesBase": "98a7a57e2a354eeb8b33b3873e62f7a9785fedaf",
       "scopeIsUnchanged": true,
       "itemKind": "packetFamily",
-      "itemCount": 4,
-      "items": [
-        "ut_pet_dismissed_without_prejudice-set",
-        "ut_pet_limitations-set",
-        "ut_pet_no_charges-set",
-        "ut_pet_traffic-set"
-      ],
-      "ownedPaths": [
-        "data/rcap-grade-a/codex-cloud/s2-continuation-verify-02/**"
-      ],
+      "itemCount": 0,
+      "items": [],
+      "ownedPaths": [],
       "prohibitedPaths": [
         "data/rcap-all50/overlays/census-v1/**",
         "scripts/build-census-v1-*.mjs",
@@ -550,7 +534,23 @@
       ],
       "grantsNothing": "An independent PASS proves a packet is complete. It approves no output and opens no commercial route.",
       "promptFile": "docs/rcap/grade-a/launch-control/codex-cloud-prompts/VS02_S2_CONTINUATION_INDEPENDENT_VERIFICATION__CODEX_CLOUD.md",
-      "status": "OPEN"
+      "status": "RETURNED_AND_INTEGRATED",
+      "returnRecord": {
+        "status": "RETURNED_AND_INTEGRATED",
+        "workerCommit": "430e5183b",
+        "workerBranchFound": "codex/execute-codex-cloud-assignment-ekoba8",
+        "result": "4 of 4 PASS_COMPLETE_INDEPENDENT; 1 file changed, result-only",
+        "note": "Integrated although the instruction said not to wait for it: it had already returned, and holding a finished verification back would have cut the first review batch from ten families to six for no reason."
+      },
+      "itemsAsDispatched": [
+        "ut_pet_dismissed_without_prejudice-set",
+        "ut_pet_limitations-set",
+        "ut_pet_no_charges-set",
+        "ut_pet_traffic-set"
+      ],
+      "ownedPathsAsDispatched": [
+        "data/rcap-grade-a/codex-cloud/s2-continuation-verify-02/**"
+      ]
     },
     {
       "assignmentId": "VS03_S2_CONTINUATION_INDEPENDENT_VERIFICATION__CODEX_CLOUD",
@@ -564,14 +564,9 @@
       "supersedesBase": "98a7a57e2a354eeb8b33b3873e62f7a9785fedaf",
       "scopeIsUnchanged": true,
       "itemKind": "packetFamily",
-      "itemCount": 2,
-      "items": [
-        "wv_conv_multiple_misdemeanors-set",
-        "wv_conv_single_misdemeanor-set"
-      ],
-      "ownedPaths": [
-        "data/rcap-grade-a/codex-cloud/s2-continuation-verify-03/**"
-      ],
+      "itemCount": 0,
+      "items": [],
+      "ownedPaths": [],
       "prohibitedPaths": [
         "data/rcap-all50/overlays/census-v1/**",
         "scripts/build-census-v1-*.mjs",
@@ -633,7 +628,21 @@
       ],
       "grantsNothing": "An independent PASS proves a packet is complete. It approves no output and opens no commercial route.",
       "promptFile": "docs/rcap/grade-a/launch-control/codex-cloud-prompts/VS03_S2_CONTINUATION_INDEPENDENT_VERIFICATION__CODEX_CLOUD.md",
-      "status": "OPEN"
+      "status": "RETURNED_AND_INTEGRATED",
+      "returnRecord": {
+        "status": "RETURNED_AND_INTEGRATED",
+        "workerCommit": "bfb75eb68",
+        "workerBranchFound": "codex/execute-codex-cloud-assignment-o5n5kl",
+        "result": "2 of 2 PASS_COMPLETE_INDEPENDENT; 1 file changed, result-only",
+        "note": "The reported commit 21450763f is not an object in this repository."
+      },
+      "itemsAsDispatched": [
+        "wv_conv_multiple_misdemeanors-set",
+        "wv_conv_single_misdemeanor-set"
+      ],
+      "ownedPathsAsDispatched": [
+        "data/rcap-grade-a/codex-cloud/s2-continuation-verify-03/**"
+      ]
     }
   ]
 }

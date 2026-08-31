@@ -91,7 +91,43 @@ const RETURNED = {
     integratedAs: "c055f20fc63b12c5cd998fa2171cda0519c6a6f1",
     result: "9 of 9 families PASS_COMPLETE, every counter zero, re-audited under the corrected contract",
     familiesNowHeldBy: "P2V01, P2V02 and P2V03 independent verification",
-    note: "The assignment quoted commit 3b901f3358cf219b85b9bf1cf781b503a797781a, which is not an object in this repository and which the remote refuses as 'not our ref'. The integrated commit is the tip of the P2 worker branch; data/rcap-grade-a/launch-control/P2_WASHINGTON_VERIFICATION.json records both and the evidence that they are the same work."
+    note: "The assignment quoted commit 3b901f3358cf219b85b9bf1cf781b503a797781a, which is not an object in this repository and which the remote refuses as 'not our ref'. The integrated commit is the tip of the P2 worker branch; data/rcap-grade-a/launch-control/P2_WASHINGTON_VERIFICATION.json records both and the evidence that they are the same work.",
+    aSecondWashingtonReturnExists: "origin/codex/execute-committed-codex-cloud-assignment at 4e9bea921, 'Repair Washington vacatur packet completeness', built on 40ccc028a and touching the same nine families in 30 files. It is NOT integrated: the nine families already return PASS_COMPLETE on every counter from the return that was integrated, and applying a second independent repair of the same packets on top would overwrite proven artifacts with unproven ones. It is recorded here so the choice is visible rather than lost."
+  },
+  VS01_S2_CONTINUATION_INDEPENDENT_VERIFICATION__CODEX_CLOUD: {
+    status: "RETURNED_AND_INTEGRATED",
+    workerCommit: "b8886d64b",
+    workerBranchFound: "codex/execute-codex-cloud-assignment",
+    result: "4 of 4 PASS_COMPLETE_INDEPENDENT; 1 file changed, all inside the shard's own return directory; 0 overlay files",
+    note: "The reported commit 6daf7b7 is not an object in this repository. The branch above carries the shard's return directory and nothing else."
+  },
+  VS02_S2_CONTINUATION_INDEPENDENT_VERIFICATION__CODEX_CLOUD: {
+    status: "RETURNED_AND_INTEGRATED",
+    workerCommit: "430e5183b",
+    workerBranchFound: "codex/execute-codex-cloud-assignment-ekoba8",
+    result: "4 of 4 PASS_COMPLETE_INDEPENDENT; 1 file changed, result-only",
+    note: "Integrated although the instruction said not to wait for it: it had already returned, and holding a finished verification back would have cut the first review batch from ten families to six for no reason."
+  },
+  VS03_S2_CONTINUATION_INDEPENDENT_VERIFICATION__CODEX_CLOUD: {
+    status: "RETURNED_AND_INTEGRATED",
+    workerCommit: "bfb75eb68",
+    workerBranchFound: "codex/execute-codex-cloud-assignment-o5n5kl",
+    result: "2 of 2 PASS_COMPLETE_INDEPENDENT; 1 file changed, result-only",
+    note: "The reported commit 21450763f is not an object in this repository."
+  },
+  SD_ARREST_EXPUNGEMENT_DISCLOSURE_REPAIR__CODEX_CLOUD: {
+    status: "RETURNED_AND_INTEGRATED",
+    workerCommit: "0b36dd9a0",
+    workerBranchFound: "codex/execute-codex-cloud-assignment-for-south-dakota",
+    result: "all nine statement-of-mailing fields RECLASSIFIED, none disclosed; sd_arrest_expungement-set now PASS_COMPLETE with every counter zero",
+    familiesNowHeldBy: "SDV01_SOUTH_DAKOTA_INDEPENDENT_VERIFICATION",
+    note: "The reported commit 4c12fb7 is not an object in this repository. Reclassifying all nine rather than disclosing any is defensible for a statement of mailing, and it is exactly what SDV01 is asked to test."
+  },
+  R8_COMPLETENESS_REPAIR_PRIORITY_FOUR__CODEX_CLOUD: {
+    status: "SPLIT_INTO_FOUR",
+    result: "returned 13/14 with zero files changed; the failure was one gate defect, not four family defects",
+    familiesNowHeldBy: "R8A_NJ_DISORDERLY_PERSONS, R8B_CA_17B_REDUCTION, R8C_CA_1203_43, R8D_AZ_MARIJUANA_SUPERIOR_COURT",
+    note: "See data/rcap-grade-a/launch-control/R8_FOUR_WAY_SPLIT.json for the per-family preflight before and after the gate correction."
   }
 };
 
