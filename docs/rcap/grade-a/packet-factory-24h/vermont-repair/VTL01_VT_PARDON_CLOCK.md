@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** counsel-question  ·  **Sequence:** 1
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work`
-**Minimum required ancestor:** `3eeae7890f60aee3b31bad94ab475a496f3a7b7c`
+**Minimum required ancestor:** `1535d2037c196cb78231be2d9e3bbe4ab28bfa13`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md`
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -22,7 +22,7 @@ Assert every family through `node scripts/grade-a-packet-factory-24h/claim.mjs -
 
 ```sh
 source $HOME/.legalease-corpus-env
-node scripts/verify-packet-build-environment.mjs --family vt_seal_pardon-set --codex-cloud --minimum-captain-sha 3eeae7890f60aee3b31bad94ab475a496f3a7b7c
+node scripts/verify-packet-build-environment.mjs --family vt_seal_pardon-set --codex-cloud --minimum-captain-sha 1535d2037c196cb78231be2d9e3bbe4ab28bfa13
 ```
 
 It must report every applicable check passing and **0 failed**.

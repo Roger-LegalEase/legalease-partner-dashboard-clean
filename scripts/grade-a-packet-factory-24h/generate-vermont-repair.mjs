@@ -125,9 +125,36 @@ assignments.push(base("VTR01_VT_FILING_DESTINATION_HOST", "vtr01-vt-filing-desti
   familiesItReaches: PATHWAY,
   theDefect: {
     obligation: "filingDestination",
-    observed: "The instructions tell the participant to file and never say where.",
-    expected: "The Superior Court Criminal Division, in the unit where the case was decided — which both 200-00130 and 200-00132 print on their own caption, and whose Unit selector is already disclosed as a required-before-filing item.",
-    whyThisIsRepairAndNotSource: "The fact is on the document. Nothing has to be acquired to say it."
+    observed: "The instructions carry the Superior Court unit only as a blank the participant must fill — 'the Superior Court unit (county) where the case was decided' — and never state, as a direction, where the completed packet goes.",
+    expected: "A sentence that tells the participant where to file: the Superior Court Criminal Division, in the unit where the case was decided. Both 200-00130 and 200-00132 print that court on their own caption, so the direction is available; the packet asks for the unit without ever saying what to do with it.",
+    whyThisIsRepairAndNotSource: "The fact is on the document. Nothing has to be acquired to say it.",
+    /*
+     * The three verifiers do not agree about this obligation, and the
+     * disagreement is not about the packets.
+     *
+     * All three tested the same fifteen obligations. The instructions bodies
+     * are BYTE-IDENTICAL across all five families -- only the title, one
+     * description line and the trailing route footer differ. On the same
+     * sentence, VF01 and VF02 scored filingDestination FAIL and VF03 scored it
+     * PASS.
+     *
+     * So the obligation has no shared standard, and that is a defect in the
+     * verification contract rather than in any packet. The repair below
+     * satisfies both readings -- a packet that states the destination as a
+     * direction passes the strict reading and cannot fail the lenient one --
+     * but the standard still has to be written down, or the next two verifiers
+     * will disagree about the repaired text too.
+     */
+    verifiersDisagree: {
+      sameObligationSet: true,
+      obligationsTested: 15,
+      instructionsBodyIdenticalAcrossFamilies: true,
+      scoredFail: ["VF01 (vt_seal_felony-set)", "VF02 (vt_seal_misdemeanor-set)"],
+      scoredPass: ["VF03 (vt_seal_pardon-set)"],
+      onTheSameText: "the Superior Court unit (county) where the case was decided",
+      whatThisMeans: "A PASS and a FAIL on identical bytes is a missing standard, not a packet difference. Reconciled from the three returns rather than assumed.",
+      captainAction: "The standard is stated in this prompt's expected clause and must be adopted by the reverification lane."
+    }
   },
   mayNotDo: [
     "state a filing fee, a waiver route, a service recipient or a service method — those are VTR02's and are not in this repository",
@@ -277,6 +304,20 @@ const doc = {
   buildScriptsResolvingToTheHost: importersOfHost,
   distinctFailureShapes: failureShapes,
   verifierEvidence: evidence,
+  crossFamilyReconciliation: {
+    method: "The three returns were read against each other and against the five rendered packets.",
+    verifierObligationSetsIdentical: true,
+    obligationsTested: 15,
+    instructionsBodyIdenticalAcrossAllFive: "Only the title, one description line and the trailing route footer differ between the five families.",
+    hashCrossCheck: "Every independently recomputed source and artifact hash matches the committed source-receipt.json and reports/rendered-artifacts.json in all three families.",
+    noVerifierWroteIntoWhatItVerified: "All three PRs touch only their own vf0N/ directory; none touches an overlay or a build script.",
+    theRealFinding: "filingDestination was scored FAIL by two verifiers and PASS by a third ON THE SAME BYTES. The obligation has no shared standard. That is a verification-contract defect and it is Captain's to fix, not a packet difference to repair away.",
+    unverifiedFamilies: {
+      families: AWAITED.map((a) => a.familyId),
+      expectation: "Their instructions bodies are byte-identical to the three that returned, so feeAndWaiver and service would be expected to reproduce. No verdict is asserted for them here; VF11 and VF12 have not returned.",
+      filingDestination: "Not predictable from packet content, because the divergence is in the reading rather than the text."
+    }
+  },
   awaitingVerification: AWAITED,
   pardonRoute: {
     familyId: PARDON,
@@ -324,6 +365,13 @@ const promptFor = (a) => {
   if (a.theDefect) {
     p.push("## The defect", "", `Obligation: \`${a.theDefect.obligation}\``, "",
       `- **Observed:** ${a.theDefect.observed}`, `- **Expected:** ${a.theDefect.expected}`, "", `_${a.theDefect.whyThisIsRepairAndNotSource}_`, "");
+    const d = a.theDefect.verifiersDisagree;
+    if (d) {
+      p.push("### The verifiers do not agree about this obligation", "");
+      p.push(`All three tested the same ${d.obligationsTested} obligations, and the instructions bodies are byte-identical across all five families. On the same sentence — _"${d.onTheSameText}"_ — ${d.scoredFail.join(" and ")} scored **FAIL** and ${d.scoredPass.join(" and ")} scored **PASS**.`, "");
+      p.push(`**${d.whatThisMeans}**`, "");
+      p.push(`Write the destination as a DIRECTION, not as a blank to fill. A packet that states where the completed set goes passes the strict reading and cannot fail the lenient one. ${d.captainAction}`, "");
+    }
   }
   if (a.mayNotDo) p.push("## You may not", "", bullet(a.mayNotDo), "");
   if (a.excludesPardon) p.push(`> **${a.excludesPardon}**`, "");

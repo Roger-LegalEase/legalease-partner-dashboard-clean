@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate-vermont-repair.mjs",
   "question": "Three Vermont families failed independent verification on three obligations. How many defects is that?",
   "answer": "One omission and one legal question. All five families are written by one host, so the missing filing handoff is one omission reaching five packets. But the pardon route is not a packet defect at all — its own treatment record says the statute does not resolve when the participant may file.",
-  "dispatchBase": "3eeae7890f60aee3b31bad94ab475a496f3a7b7c",
+  "dispatchBase": "1535d2037c196cb78231be2d9e3bbe4ab28bfa13",
   "sharedHost": "scripts/build-census-v1-vt_seal_misdemeanor-set.mjs",
   "buildScriptsResolvingToTheHost": [
     "build-census-v1-vt_seal_18_to_21-set.mjs",
@@ -117,6 +117,23 @@
       ]
     }
   ],
+  "crossFamilyReconciliation": {
+    "method": "The three returns were read against each other and against the five rendered packets.",
+    "verifierObligationSetsIdentical": true,
+    "obligationsTested": 15,
+    "instructionsBodyIdenticalAcrossAllFive": "Only the title, one description line and the trailing route footer differ between the five families.",
+    "hashCrossCheck": "Every independently recomputed source and artifact hash matches the committed source-receipt.json and reports/rendered-artifacts.json in all three families.",
+    "noVerifierWroteIntoWhatItVerified": "All three PRs touch only their own vf0N/ directory; none touches an overlay or a build script.",
+    "theRealFinding": "filingDestination was scored FAIL by two verifiers and PASS by a third ON THE SAME BYTES. The obligation has no shared standard. That is a verification-contract defect and it is Captain's to fix, not a packet difference to repair away.",
+    "unverifiedFamilies": {
+      "families": [
+        "vt_seal_18_to_21-set",
+        "vt_seal_dui-set"
+      ],
+      "expectation": "Their instructions bodies are byte-identical to the three that returned, so feeAndWaiver and service would be expected to reproduce. No verdict is asserted for them here; VF11 and VF12 have not returned.",
+      "filingDestination": "Not predictable from packet content, because the divergence is in the reading rather than the text."
+    }
+  },
   "awaitingVerification": [
     {
       "lane": "VF11",
@@ -158,7 +175,7 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "3eeae7890f60aee3b31bad94ab475a496f3a7b7c",
+      "minimumCaptainSha": "1535d2037c196cb78231be2d9e3bbe4ab28bfa13",
       "lane": "shared-host-repair",
       "sequence": 1,
       "prohibitedCommands": [
@@ -192,9 +209,24 @@
       ],
       "theDefect": {
         "obligation": "filingDestination",
-        "observed": "The instructions tell the participant to file and never say where.",
-        "expected": "The Superior Court Criminal Division, in the unit where the case was decided — which both 200-00130 and 200-00132 print on their own caption, and whose Unit selector is already disclosed as a required-before-filing item.",
-        "whyThisIsRepairAndNotSource": "The fact is on the document. Nothing has to be acquired to say it."
+        "observed": "The instructions carry the Superior Court unit only as a blank the participant must fill — 'the Superior Court unit (county) where the case was decided' — and never state, as a direction, where the completed packet goes.",
+        "expected": "A sentence that tells the participant where to file: the Superior Court Criminal Division, in the unit where the case was decided. Both 200-00130 and 200-00132 print that court on their own caption, so the direction is available; the packet asks for the unit without ever saying what to do with it.",
+        "whyThisIsRepairAndNotSource": "The fact is on the document. Nothing has to be acquired to say it.",
+        "verifiersDisagree": {
+          "sameObligationSet": true,
+          "obligationsTested": 15,
+          "instructionsBodyIdenticalAcrossFamilies": true,
+          "scoredFail": [
+            "VF01 (vt_seal_felony-set)",
+            "VF02 (vt_seal_misdemeanor-set)"
+          ],
+          "scoredPass": [
+            "VF03 (vt_seal_pardon-set)"
+          ],
+          "onTheSameText": "the Superior Court unit (county) where the case was decided",
+          "whatThisMeans": "A PASS and a FAIL on identical bytes is a missing standard, not a packet difference. Reconciled from the three returns rather than assumed.",
+          "captainAction": "The standard is stated in this prompt's expected clause and must be adopted by the reverification lane."
+        }
       },
       "mayNotDo": [
         "state a filing fee, a waiver route, a service recipient or a service method — those are VTR02's and are not in this repository",
@@ -225,7 +257,7 @@
         "rule": "An unrecognised status is refused at integration rather than translated."
       },
       "focusedTests": [
-        "node scripts/verify-packet-build-environment.mjs --family vt_seal_felony-set --codex-cloud --minimum-captain-sha 3eeae7890f60aee3b31bad94ab475a496f3a7b7c"
+        "node scripts/verify-packet-build-environment.mjs --family vt_seal_felony-set --codex-cloud --minimum-captain-sha 1535d2037c196cb78231be2d9e3bbe4ab28bfa13"
       ],
       "stopConditions": [
         "LANE STOP — you render no packet and write into no overlay directory.",
@@ -254,7 +286,7 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "3eeae7890f60aee3b31bad94ab475a496f3a7b7c",
+      "minimumCaptainSha": "1535d2037c196cb78231be2d9e3bbe4ab28bfa13",
       "lane": "source-swarm",
       "sequence": 1,
       "prohibitedCommands": [
@@ -365,7 +397,7 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "3eeae7890f60aee3b31bad94ab475a496f3a7b7c",
+      "minimumCaptainSha": "1535d2037c196cb78231be2d9e3bbe4ab28bfa13",
       "lane": "packet-repair",
       "sequence": 2,
       "prohibitedCommands": [
@@ -464,7 +496,7 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "3eeae7890f60aee3b31bad94ab475a496f3a7b7c",
+      "minimumCaptainSha": "1535d2037c196cb78231be2d9e3bbe4ab28bfa13",
       "lane": "counsel-question",
       "sequence": 1,
       "prohibitedCommands": [
@@ -543,7 +575,7 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "3eeae7890f60aee3b31bad94ab475a496f3a7b7c",
+      "minimumCaptainSha": "1535d2037c196cb78231be2d9e3bbe4ab28bfa13",
       "lane": "independent-verification",
       "sequence": 3,
       "prohibitedCommands": [

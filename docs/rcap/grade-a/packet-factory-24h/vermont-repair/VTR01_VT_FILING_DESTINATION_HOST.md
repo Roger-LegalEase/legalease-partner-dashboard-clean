@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** shared-host-repair  ·  **Sequence:** 1
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work`
-**Minimum required ancestor:** `3eeae7890f60aee3b31bad94ab475a496f3a7b7c`
+**Minimum required ancestor:** `1535d2037c196cb78231be2d9e3bbe4ab28bfa13`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md`
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -22,7 +22,7 @@ Assert every family through `node scripts/grade-a-packet-factory-24h/claim.mjs -
 
 ```sh
 source $HOME/.legalease-corpus-env
-node scripts/verify-packet-build-environment.mjs --family vt_seal_felony-set --codex-cloud --minimum-captain-sha 3eeae7890f60aee3b31bad94ab475a496f3a7b7c
+node scripts/verify-packet-build-environment.mjs --family vt_seal_felony-set --codex-cloud --minimum-captain-sha 1535d2037c196cb78231be2d9e3bbe4ab28bfa13
 ```
 
 It must report every applicable check passing and **0 failed**.
@@ -47,10 +47,18 @@ Correct the one host that writes participant instructions for the Vermont sealin
 
 Obligation: `filingDestination`
 
-- **Observed:** The instructions tell the participant to file and never say where.
-- **Expected:** The Superior Court Criminal Division, in the unit where the case was decided — which both 200-00130 and 200-00132 print on their own caption, and whose Unit selector is already disclosed as a required-before-filing item.
+- **Observed:** The instructions carry the Superior Court unit only as a blank the participant must fill — 'the Superior Court unit (county) where the case was decided' — and never state, as a direction, where the completed packet goes.
+- **Expected:** A sentence that tells the participant where to file: the Superior Court Criminal Division, in the unit where the case was decided. Both 200-00130 and 200-00132 print that court on their own caption, so the direction is available; the packet asks for the unit without ever saying what to do with it.
 
 _The fact is on the document. Nothing has to be acquired to say it._
+
+### The verifiers do not agree about this obligation
+
+All three tested the same 15 obligations, and the instructions bodies are byte-identical across all five families. On the same sentence — _"the Superior Court unit (county) where the case was decided"_ — VF01 (vt_seal_felony-set) and VF02 (vt_seal_misdemeanor-set) scored **FAIL** and VF03 (vt_seal_pardon-set) scored **PASS**.
+
+**A PASS and a FAIL on identical bytes is a missing standard, not a packet difference. Reconciled from the three returns rather than assumed.**
+
+Write the destination as a DIRECTION, not as a blank to fill. A packet that states where the completed set goes passes the strict reading and cannot fail the lenient one. The standard is stated in this prompt's expected clause and must be adopted by the reverification lane.
 
 ## You may not
 
@@ -80,7 +88,7 @@ Array key `rows`, item key `itemId`, status words: `COMPLETED`, `STOPPED`.
 
 ## Focused tests
 
-- `node scripts/verify-packet-build-environment.mjs --family vt_seal_felony-set --codex-cloud --minimum-captain-sha 3eeae7890f60aee3b31bad94ab475a496f3a7b7c`
+- `node scripts/verify-packet-build-environment.mjs --family vt_seal_felony-set --codex-cloud --minimum-captain-sha 1535d2037c196cb78231be2d9e3bbe4ab28bfa13`
 
 ## Stop conditions
 

@@ -27,6 +27,7 @@ const GRAPH = `${DIR}/IMPORT_GRAPH.json`;
 const COLLISIONS = `${DIR}/COLLISIONS.json`;
 const CHECKPOINT = `${DIR}/CHECKPOINT.json`;
 const LEDGER = `${DIR}/claim-ledger.json`;
+const STALE = `${DIR}/STALE_LANE_RETURNS.json`;
 const RASTER = "scripts/lib/pdf-page-raster.mjs";
 const CLAIM = "scripts/grade-a-packet-factory-24h/claim.mjs";
 const WASHINGTON = `${DIR}/WASHINGTON_REPAIR.json`;
@@ -476,6 +477,56 @@ function run() {
     rasterProblems.length === 0,
     `${rasterProblems.length} problem(s): ${rasterProblems.slice(0, 2).join(" | ")}`);
 
+  // 26. A family a lane found legally blocked may not be sent to a builder.
+  //
+  // Thirteen families carried legalInputStatus SETTLED while a packet-factory
+  // lane that actually tried to build them returned BLOCKED_LEGAL_INPUT, and
+  // all thirteen were granted to packet-build lanes. A worker that hit a legal
+  // wall is better evidence about a family than a status derived from a route
+  // key, and building a packet for a route whose law is unresolved produces an
+  // artifact that should not exist.
+  const legalProblems = [];
+  const stale = fs.existsSync(path.join(ROOT, STALE)) ? read(STALE) : null;
+  if (stale) {
+    const heldByLane = [...new Set((stale.rows ?? []).filter((r) => r.destination === "LEGAL").map((r) => r.familyId))];
+    const builders = new Set(a.filter((x) => x.lane === "packet-build").flatMap((x) => x.items ?? []));
+    const repairers = new Set(a.filter((x) => x.lane === "rapid-repair").flatMap((x) => x.items ?? []));
+    for (const f of heldByLane) {
+      if (builders.has(f)) legalProblems.push(`${f} was found BLOCKED_LEGAL_INPUT by a lane and is granted to a builder`);
+      if (repairers.has(f)) legalProblems.push(`${f} was found BLOCKED_LEGAL_INPUT by a lane and is granted to a repairer`);
+      const fam = familyById.get(f);
+      if (fam && fam.legalInputStatus !== "OPEN_LEGAL_INPUT") {
+        legalProblems.push(`${f} was found BLOCKED_LEGAL_INPUT by a lane and the queue still calls it ${fam.legalInputStatus}`);
+      }
+      if (fam && fam.legalInputBasis !== "LANE_RETURN_BLOCKED_LEGAL_INPUT" && fam.legalInputStatus === "OPEN_LEGAL_INPUT" && !fam.laneReturnLegalHold) {
+        legalProblems.push(`${f} is held but does not record that a lane return is why`);
+      }
+    }
+    /*
+     * And the other direction, because the first one alone can be emptied.
+     *
+     * Reading only from the extraction means deleting every LEGAL row leaves
+     * nothing to check and the refusal passes vacuously -- which is exactly
+     * what the second mutation below did. The queue records WHY each family is
+     * held, so every family whose basis is a lane return must still have a
+     * lane return behind it.
+     */
+    const claimsLaneHold = master.families.filter((f) => f.legalInputBasis === "LANE_RETURN_BLOCKED_LEGAL_INPUT").map((f) => f.familyId);
+    const heldSet = new Set(heldByLane);
+    for (const f of claimsLaneHold) {
+      if (!heldSet.has(f)) legalProblems.push(`${f} is held on the authority of a lane return that is not in the extraction`);
+    }
+    if (claimsLaneHold.length !== heldByLane.length) {
+      legalProblems.push(`${heldByLane.length} lane-return legal finding(s) and ${claimsLaneHold.length} family(ies) held on that basis; the two must agree`);
+    }
+    check("F26", "no family a lane found legally blocked is sent to a builder or a repairer, and every hold has a finding behind it",
+      legalProblems.length === 0,
+      `${heldByLane.length} finding(s), ${claimsLaneHold.length} held on that basis; ${legalProblems.length} problem(s): ${legalProblems.slice(0, 2).join(" | ")}`);
+  } else {
+    check("F26", "no family a lane found legally blocked is sent to a builder or a repairer",
+      false, "no STALE_LANE_RETURNS.json, so the lane-return legal holds cannot be checked at all");
+  }
+
   // The arithmetic that makes the rest readable.
   check("F12", "the live denominator closes",
     master.denominator.sumsToDenominator === true
@@ -493,7 +544,7 @@ console.log(`\n${first.results.length - first.failed.length}/${first.results.len
 
 if (MUTATIONS) {
   console.log("\nmutations:");
-  const targets = { master: path.join(ROOT, MASTER), active: path.join(ROOT, ACTIVE), collisions: path.join(ROOT, COLLISIONS), checkpoint: path.join(ROOT, CHECKPOINT), ledger: path.join(ROOT, LEDGER), raster: path.join(ROOT, RASTER) };
+  const targets = { master: path.join(ROOT, MASTER), active: path.join(ROOT, ACTIVE), collisions: path.join(ROOT, COLLISIONS), checkpoint: path.join(ROOT, CHECKPOINT), ledger: path.join(ROOT, LEDGER), raster: path.join(ROOT, RASTER), stale: path.join(ROOT, STALE) };
   const originals = Object.fromEntries(Object.entries(targets).map(([k, p]) => [k, fs.readFileSync(p)]));
   const promptTarget = path.join(ROOT, PROMPTS, "PF01.md");
   const originalPrompt = fs.readFileSync(promptTarget);
@@ -528,6 +579,8 @@ if (MUTATIONS) {
     { on: "active", id: "F22", name: "an executable family dropped from every builder is caught", mutate: (j) => { firstPF(j).items.pop(); return j; } },
     /* No builder claims a shared host in a correct dispatch, so this hands a
      * real shared host from the master queue to two of them. */
+    { on: "stale", id: "F26", name: "a legally blocked family handed to a builder is caught", mutate: (j) => { const legal = j.rows.find((r) => r.destination === "LEGAL"); const built = read(ACTIVE).assignments.find((x) => x.lane === "packet-build" && x.items.length); legal.familyId = built.items[0]; return j; } },
+    { on: "stale", id: "F26", name: "dropping every legal finding is caught by the master queue still holding them", mutate: (j) => { j.rows = j.rows.map((r) => (r.destination === "LEGAL" ? { ...r, destination: "SOURCE" } : r)); return j; } },
     { on: "ledger", id: "F24", name: "one family granted to two verifiers is caught", mutate: (j) => { const v = j.claims.filter((c) => c.laneKind === "independent-verification"); v[1] = { ...v[1], familyId: v[0].familyId }; j.claims = j.claims.map((c) => (c === v[1] ? v[1] : c)); j.claims.push({ ...v[0], lane: "VF99" }); return j; } },
     { on: "ledger", id: "F24", name: "a dispatched family missing from the ledger is caught", mutate: (j) => { j.claims.shift(); return j; } },
     { on: "ledger", id: "F24", name: "a ledger pinned to a different commit than the dispatch is caught", mutate: (j) => { j.generatedAtCommit = "0123456789abcdef0123456789abcdef01234567"; return j; } },

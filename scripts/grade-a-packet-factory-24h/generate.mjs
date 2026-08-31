@@ -163,6 +163,36 @@ const verdictByFamily = new Map((IN.verificationLedger.rows ?? []).map((r) => [r
 const continuationByFamily = new Map(IN.continuation.rows.map((r) => [r.familyId, r]));
 const confirmBRoutes = new Set(IN.categoryB.rows.filter((r) => r.finalDecision === "CONFIRM_B").map((r) => r.originalRouteKey));
 const openCounselRoutes = new Set((IN.legalQueue.trueCounselQueue?.questions ?? []).filter((q) => !q.answered).map((q) => q.routeKey));
+
+/*
+ * Families a lane STOPPED on for an unresolved legal question.
+ *
+ * The queue's legalInputStatus is derived from the counsel queue's route keys.
+ * Thirteen families carry SETTLED there while a packet-factory lane that
+ * actually tried to build them returned BLOCKED_LEGAL_INPUT -- Arizona's filing
+ * court needing a case-by-case reading of the charging history, Nebraska's
+ * vehicle conflicting with the controlling legal-design evidence, Kentucky's
+ * route-election classification not yet approved. All thirteen were granted to
+ * packet-build lanes, so the dispatch would have sent a builder at every one.
+ *
+ * A worker that tried to build a family and hit a legal wall is better evidence
+ * about that family than a status field derived from a route key. The finding
+ * holds the family out of build lanes until counsel clears it; it does not
+ * silently become a counsel answer.
+ *
+ * Read defensively: the extraction is produced by a separate generator, and a
+ * dispatch must still be generatable before it has ever run.
+ */
+const laneReturnLegalHolds = new Map();
+try {
+  const stale = JSON.parse(fs.readFileSync(path.join(ROOT, `${OUT_DIR}/STALE_LANE_RETURNS.json`), "utf8"));
+  for (const r of stale.rows ?? []) {
+    if (r.destination !== "LEGAL") continue;
+    const why = [...(r.statedReasons ?? []), ...(r.statedBlockers ?? [])].filter(Boolean)[0] ?? r.declaredClass ?? "a lane returned BLOCKED_LEGAL_INPUT without stating the question";
+    if (!laneReturnLegalHolds.has(r.familyId)) laneReturnLegalHolds.set(r.familyId, { familyId: r.familyId, foundBy: [], why });
+    laneReturnLegalHolds.get(r.familyId).foundBy.push(`${r.lane} (PR #${r.pr})`);
+  }
+} catch { /* no extraction yet; the dispatch is still generatable */ }
 const c11Stopped = new Set((IN.c11.families ?? []).filter((f) => f.classification !== "BUILT").map((f) => f.familyId));
 
 /* overlay directories that exist */
@@ -324,7 +354,10 @@ for (const f of IN.scoreboard.familiesDetail) {
   const sourceIds = docs.map((d) => d.sourceId);
   const sourceHashes = docs.filter((d) => d.heldAs?.sha256).map((d) => ({ sourceId: d.sourceId, path: d.heldAs.path, sha256: d.heldAs.sha256, tier: d.tier }));
 
-  const legalBlocked = routes.some((r) => openCounselRoutes.has(r.routeKey)) || verdict?.verdict === "BLOCKED_LEGAL_APPROVAL_INPUT";
+  const laneHold = laneReturnLegalHolds.get(familyId) ?? null;
+  const legalBlocked = routes.some((r) => openCounselRoutes.has(r.routeKey))
+    || verdict?.verdict === "BLOCKED_LEGAL_APPROVAL_INPUT"
+    || Boolean(laneHold);
   const guidanceOnly = routes.length > 0 && routes.every((r) => confirmBRoutes.has(r.routeKey));
   const notAFamily = routes.length === 0;
   const routeMappingOpen = notAFamily;
@@ -347,7 +380,18 @@ for (const f of IN.scoreboard.familiesDetail) {
   else if (verdict?.verdict === "PASS") state = "VERIFIED_PASS";
   else if (comp && nineZero) state = "VERIFY_PENDING";
   else if (comp && !nineZero) state = "FAIL_REPAIR_REQUIRED";
-  else if (legalBlocked) state = "SOURCE_BLOCKED";
+  /*
+   * A legally blocked family is not source-blocked.
+   *
+   * Both used to collapse into SOURCE_BLOCKED, which was harmless while every
+   * legally blocked family also lacked its sources. It stopped being harmless
+   * the moment thirteen families whose sources bind exactly were held for an
+   * unresolved legal question: the completeness verifier then reported them as
+   * blocked with no readiness reason, because there is none -- their bytes are
+   * held. Calling them source-blocked would have sent the conveyor after
+   * documents it already has.
+   */
+  else if (legalBlocked) state = "LEGAL_BLOCKED";
   else if (!readiness.ready) state = "SOURCE_BLOCKED";
   else if (notAFamily) state = "SOURCE_BLOCKED";
   else state = "SOURCE_READY";
@@ -369,6 +413,12 @@ for (const f of IN.scoreboard.familiesDetail) {
     sourceBound,
     sourceReadiness: readiness,
     legalInputStatus: legalBlocked ? "OPEN_LEGAL_INPUT" : "SETTLED",
+    /* Where the hold came from, so a reader can tell a counsel-queue route key
+     * from a lane that tried to build the family and hit a legal wall. */
+    legalInputBasis: laneHold ? "LANE_RETURN_BLOCKED_LEGAL_INPUT"
+      : routes.some((r) => openCounselRoutes.has(r.routeKey)) ? "OPEN_COUNSEL_QUESTION"
+        : verdict?.verdict === "BLOCKED_LEGAL_APPROVAL_INPUT" ? "LEGAL_APPROVAL_VERDICT" : null,
+    laneReturnLegalHold: laneHold,
     routeMappingStatus: routeMappingOpen ? "UNBOUND_TO_A_PACKET_FAMILY" : "BOUND",
     artifactStatus: artifactPresent ? "RENDERED" : "NOT_RENDERED",
     completenessStatus,
