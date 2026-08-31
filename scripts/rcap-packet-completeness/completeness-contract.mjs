@@ -203,10 +203,32 @@ export const RESULT_CLASSES = [
   "FAIL_CURRENTNESS"
 ];
 
-/** Classify one field from its label. Never guesses: an unmatched label is UNKNOWN. */
-export function classifyField(label) {
+/**
+ * Classify one field from its label. Never guesses: an unmatched label is UNKNOWN.
+ *
+ * A SELECTION CONTROL is classified differently, because its caption is a
+ * sentence rather than a field name and the patterns above then read it wrong.
+ * Utah's certificate of service found this: `[ ] Email` was counted as a missing
+ * participant email address, `[ ] Left at business (With person in charge` as a
+ * missing offence-row cell, and `I am the [ ] Petitioner` as a missing
+ * participant identity. All three are service-method checkboxes. None is a place
+ * a fact goes, and calling them missing facts made a correctly built certificate
+ * of service fail for sixteen defects it did not have.
+ *
+ * A checkbox that is protected stays protected, and one the route determines
+ * stays route-determined -- those two are read from the same patterns first.
+ * Everything else is an election, which is what a checkbox is.
+ */
+export function classifyField(label, isSelectionControl = false) {
   const text = String(label ?? "").trim();
   if (!text) return { id: "UNLABELLED", requirement: "UNKNOWN" };
+  if (isSelectionControl) {
+    for (const cls of FIELD_CLASSES) {
+      if (!cls.label.test(text)) continue;
+      if (cls.requirement === "PROTECTED" || cls.requirement === "ROUTE_DETERMINED") return cls;
+    }
+    return { id: "SELECTION_CONTROL", requirement: "PARTICIPANT_ELECTION" };
+  }
   for (const cls of FIELD_CLASSES) if (cls.label.test(text)) return cls;
   return { id: "UNMATCHED", requirement: "UNKNOWN" };
 }
@@ -220,7 +242,7 @@ export function classifyField(label) {
  * approved reason accepted. A blank with neither is UNCLASSIFIED.
  */
 export function classifyBlank(field, reason, refusalClass = null, declared = null) {
-  const cls = classifyField(field.label);
+  const cls = classifyField(field.label, field.isSelectionControl === true);
   const text = String(reason ?? "");
   const dec = declared ?? {};
   // A row "uses the declared channel" when it states a disposition or states
@@ -339,7 +361,8 @@ export function classifyBlank(field, reason, refusalClass = null, declared = nul
 
   for (const p of POLICY_SHAPED_REASONS) {
     if (p.re.test(text)) {
-      if (cls.requirement === "REQUIRED_KNOWN" || cls.requirement === "ROUTE_DETERMINED" || cls.requirement === "UNKNOWN") {
+      if (cls.requirement === "REQUIRED_KNOWN" || cls.requirement === "ROUTE_DETERMINED"
+        || cls.requirement === "UNKNOWN" || cls.requirement === "PARTICIPANT_ELECTION") {
         return { disposition: p.disposition, fieldClass: cls.id, basis: p.why, policyShapedReason: text };
       }
     }

@@ -27,6 +27,24 @@ const OVERLAYS = "data/rcap-all50/overlays/census-v1";
 
 const readIf = (rel) => { const p = path.join(ROOT, rel); return fs.existsSync(p) ? JSON.parse(fs.readFileSync(p, "utf8")) : null; };
 
+/*
+ * The refusal class a row DECLARES, which is not the same as the first truthy
+ * thing on it.
+ *
+ * A row that states `completenessClass: null` is saying "no approved refusal
+ * class applies here; this blank is carried to the participant instead". Reading
+ * that null as "unstated" and falling through to the row's `kind` invented a
+ * refusal class out of a row shape -- `boxed_entry_control` is a kind of box,
+ * not a reason a blank is allowed -- and the invented class then failed closed
+ * against the vocabulary it was never part of. Absent and null are different
+ * answers, and only absent means "ask the next field".
+ */
+const declaredRefusalClass = (row, ...fallbacks) => {
+  if (Object.hasOwn(row, "completenessClass")) return row.completenessClass;
+  for (const f of fallbacks) if (f !== undefined && f !== null) return f;
+  return null;
+};
+
 /** Both field-map shapes reduced to one row: an id, a label, a name, a reason. */
 const normalizeRow = (row, document = null) => ({
   id: row.fieldId ?? row.fieldName ?? row.field ?? row.id ?? null,
@@ -38,6 +56,17 @@ const normalizeRow = (row, document = null) => ({
   page: row.page ?? row.widgets?.[0]?.page ?? row.widgets?.[0]?.pageIndex ?? null,
   document: row.documentId ?? row.formNumber ?? document,
   factId: row.factId ?? row.fact ?? null,
+  /*
+   * Whether this row is a CHECKBOX rather than a place to write a fact. Read
+   * from the schema where it says so, and otherwise from the printed caption: a
+   * caption carrying an empty bracket pair, or ending in "(selection)", is a
+   * control the reader marks, not a blank the platform fills.
+   */
+  isSelectionControl: row.kind === "boxed_entry_control"
+    ? false
+    : (row.isSelectionControl === true
+      || row.kind === "selection_control"
+      || /\[\s*\]/.test(String(row.effectiveLabel ?? row.printedLabel ?? row.label ?? ""))),
   /*
    * What the row DECLARES, kept separate from what it says.
    *
@@ -97,7 +126,7 @@ function readFieldRows(fieldMap) {
       }
       for (const w of doc.withheld ?? []) {
         shape = shape ?? "anchors-and-withheld";
-        blanks.push(normalizeRow({ ...w, fieldId: w.blankId, label: w.printedCaption ?? w.label, reason: w.reason, refusalClass: w.completenessClass ?? w.category ?? null, page: w.page }, id));
+        blanks.push(normalizeRow({ ...w, fieldId: w.blankId, label: w.printedCaption ?? w.label, reason: w.reason, refusalClass: declaredRefusalClass(w, w.category), page: w.page }, id));
       }
     }
     if (shape) return { writes, blanks, schema: shape };
@@ -108,11 +137,17 @@ function readFieldRows(fieldMap) {
     for (const map of fieldMap.maps) {
       const id = map.formNumber ?? null;
       for (const w of map.canonicalWrites ?? []) writes.push(normalizeRow({ fieldId: w.field, label: w.field, ...w }, id));
-      for (const r of map.canonicalRefusals ?? []) blanks.push(normalizeRow({ ...r, fieldId: r.field, label: r.regionHeading ? `${r.regionHeading} ${r.field}` : r.field, reason: r.reason, refusalClass: r.completenessClass ?? r.category ?? null }, id));
-      for (const r of map.roleRefusals ?? []) blanks.push(normalizeRow({ ...r, fieldId: r.field, label: r.field, reason: r.why, refusalClass: r.completenessClass ?? r.class ?? null }, id));
+      for (const r of map.canonicalRefusals ?? []) blanks.push(normalizeRow({ ...r, fieldId: r.field, label: r.regionHeading ? `${r.regionHeading} ${r.field}` : r.field, reason: r.reason, refusalClass: declaredRefusalClass(r, r.category) }, id));
+      for (const r of map.roleRefusals ?? []) blanks.push(normalizeRow({ ...r, fieldId: r.field, label: r.field, reason: r.why, refusalClass: declaredRefusalClass(r, r.class) }, id));
       for (const c of map.selectionControls ?? []) {
         if (String(c.disposition ?? "").toLowerCase().startsWith("select")) writes.push(normalizeRow({ fieldId: c.selectionId, label: c.field }, id));
-        else blanks.push(normalizeRow({ ...c, fieldId: c.selectionId, label: `${c.field} (selection)`, reason: c.reason, refusalClass: c.completenessClass ?? c.category ?? c.class ?? c.kind ?? null }, id));
+        // Living in the selectionControls array does not make a row a checkbox.
+        // A boxed_entry_control is a place to WRITE, and calling it an election
+        // excuses a blank the filing needs -- which is the whole failure this
+        // contract exists to catch, arriving through the reader instead. The
+        // other kinds are decided by the printed caption, because a family may
+        // name the kind after the refusal class rather than after the control.
+        else blanks.push(normalizeRow({ ...c, fieldId: c.selectionId, label: `${c.field} (selection)`, reason: c.reason, refusalClass: declaredRefusalClass(c, c.category, c.class, c.kind) }, id));
       }
     }
     return { writes, blanks, schema: "maps-with-canonical-and-boundary" };
@@ -168,11 +203,40 @@ function auditFamily(dir, familyId) {
   for (const [factId, value] of Object.entries(fieldMap?.factMap ?? fieldMap?.availableFacts ?? {})) {
     if (String(value ?? "").trim()) availableFacts.add(String(factId));
   }
+  /*
+   * A fact the platform does not hold has no fact id -- that is what not holding
+   * it means -- so a fact id alone cannot decide availability without making
+   * REQUIRED_BEFORE_FILING unreachable again. The printed label decides the rest:
+   * a blank whose own printed label is written somewhere else in this packet is
+   * a fact the packet demonstrably holds, whatever the row calls it.
+   */
+  // Scoped to the DOCUMENT, because a PDF field name repeats across the forms in
+  // one packet and means something different on each. `citystatezip` on the
+  // petition is the participant's address; `citystatezip` on the certificate of
+  // service is the prosecutor's. Matching them across documents reported six
+  // correctly-declared blanks as facts the packet already held.
+  const normLabel = (x) => String(x ?? "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+  const writtenInDocument = new Map();
+  for (const w of writes) {
+    const doc = String(w.document ?? "");
+    if (!writtenInDocument.has(doc)) writtenInDocument.set(doc, new Set());
+    for (const key of [normLabel(w.label), normLabel(w.name)]) {
+      if (key.length >= 4) writtenInDocument.get(doc).add(key);
+    }
+  }
+  const writtenBeside = (blank) => {
+    const here = writtenInDocument.get(String(blank.document ?? "")) ?? new Set();
+    return here.has(normLabel(blank.label)) || here.has(normLabel(blank.name));
+  };
 
   // ---- every blank earns its blankness ------------------------------------------
   const blankLedger = [];
   for (const blank of blanks) {
-    const declared = { ...blank.declared, factAvailable: blank.declared?.factId ? availableFacts.has(String(blank.declared.factId)) : false };
+    const declared = {
+      ...blank.declared,
+      factAvailable: (blank.declared?.factId ? availableFacts.has(String(blank.declared.factId)) : false)
+        || writtenBeside(blank)
+    };
     const verdict = classifyBlank(blank, blank.reason, blank.refusalClass, declared);
     blankLedger.push({ ...blank, ...verdict });
     const spec = BLANK_DISPOSITIONS[verdict.disposition];
@@ -222,7 +286,7 @@ function auditFamily(dir, familyId) {
   for (const [key, cells] of rows) {
     const anyWritten = cells.some((c) => c.written);
     if (!anyWritten) continue;
-    const missing = cells.filter((c) => !c.written && classifyField(c.label).requirement === "REQUIRED_KNOWN");
+    const missing = cells.filter((c) => !c.written && classifyField(c.label, c.isSelectionControl === true).requirement === "REQUIRED_KNOWN");
     if (missing.length > 0) {
       note("incompleteRows", { row: key, missingCells: missing.map((m) => m.label).slice(0, 6), why: "the row carries written cells beside required cells left blank, which reads as a finished row that is not one" });
     }
@@ -246,7 +310,7 @@ function auditFamily(dir, familyId) {
     }
   }
   for (const w of writes) {
-    if (classifyField(w.label).requirement === "PROTECTED") {
+    if (classifyField(w.label, w.isSelectionControl === true).requirement === "PROTECTED") {
       note("protectedWrites", { field: w.id, label: w.label, why: "a protected field was written" });
     }
   }
@@ -435,6 +499,19 @@ if (MUTATIONS) {
     const w = (map.writes ?? []).find((x) => x.factId);
     return w?.factId ?? null;
   })();
+  const sameDocumentWrite = (() => {
+    const map = JSON.parse(original.toString("utf8"));
+    // Whatever this family's schema calls the label, normalizeRow reads it the
+    // same way; the mutation reuses the row's own surfaces rather than assuming a
+    // shape, so it runs on every schema instead of skipping on most of them.
+    const w = (map.writes ?? []).find((x) => x.fieldName ?? x.field ?? x.fieldId);
+    if (!w) return null;
+    return {
+      name: w.fieldName ?? w.field ?? w.fieldId,
+      label: w.effectiveLabel ?? w.semanticLabel ?? w.sourceLabel ?? w.printedLine ?? w.label ?? null,
+      document: w.documentId ?? w.formNumber ?? null
+    };
+  })();
   const rbfCases = [
     { name: "CONTROL — a properly declared, disclosed, unavailable fact IS accepted", control: true,
       mutate: (m) => { m.refusals.push(rbfRow()); return m; } },
@@ -450,7 +527,19 @@ if (MUTATIONS) {
     { name: "a disposition outside the closed vocabulary is caught", counter: "unclassifiedBlanks",
       mutate: (m) => { m.refusals.push(rbfRow({ completenessDisposition: "PROBABLY_FINE" })); return m; } },
     { name: "a required-before-filing claim with no field identity is caught", counter: "unclassifiedBlanks",
-      mutate: (m) => { m.refusals.push(rbfRow({ fieldId: null, fieldName: null, field: null })); return m; } }
+      mutate: (m) => { m.refusals.push(rbfRow({ fieldId: null, fieldName: null, field: null })); return m; } },
+    /*
+     * The selection-control rule and the document-scoped availability rule, both
+     * of which can fail in two directions: excusing a blank that is not excusable,
+     * and inventing a defect that is not there. One case each way.
+     */
+    { name: "CONTROL — a service-method checkbox is NOT a missing participant fact", expectNoRise: true,
+      mutate: (m) => { m.refusals.push({ fieldId: "mut-sel", fieldName: "mut-sel", field: "mut-sel", kind: "selection_control", effectiveLabel: "[ ] E-mail", reason: "a sworn assertion or legal election the route does not determine", refusalClass: "participant_sworn_narrative_or_legal_election" }); return m; } },
+    { name: "a TEXT field with the same caption as that checkbox is still caught", counter: "knownRequiredFieldsMissing",
+      mutate: (m) => { m.refusals.push({ fieldId: "mut-txt", fieldName: "mut-txt", field: "mut-txt", effectiveLabel: "E-mail address", reason: "a sworn assertion or legal election the route does not determine", refusalClass: "participant_sworn_narrative_or_legal_election" }); return m; } },
+    { name: "a required-before-filing claim beside the same fact written on the same document is caught", counter: "knownRequiredFieldsMissing",
+      skipIf: () => sameDocumentWrite === null,
+      mutate: (m) => { m.refusals.push(rbfRow({ fieldId: "mut-dup", fieldName: sameDocumentWrite.name, field: sameDocumentWrite.name, effectiveLabel: sameDocumentWrite.label ?? sameDocumentWrite.name, documentId: sameDocumentWrite.document, factId: null })); return m; } }
   ];
 
   const baseline = auditFamily(sample.dir, sample.familyId);
@@ -467,7 +556,9 @@ if (MUTATIONS) {
     // undisclosed baseline would credit every case with the disclosure's effect.
     const before = testCase.baselineOverride ?? baseline;
     let caught;
-    if (testCase.control) {
+    if (testCase.expectNoRise) {
+      caught = PASS_COUNTERS.every((c) => after.counters[c] <= before.counters[c]);
+    } else if (testCase.control) {
       const accepted = (after.totals.blanksByDisposition?.REQUIRED_BEFORE_FILING ?? 0)
         > (before.totals.blanksByDisposition?.REQUIRED_BEFORE_FILING ?? 0);
       const noNewDefect = PASS_COUNTERS.every((c) => after.counters[c] <= before.counters[c]);
@@ -475,7 +566,8 @@ if (MUTATIONS) {
     } else {
       caught = after.counters[testCase.counter] > before.counters[testCase.counter];
     }
-    console.log(`  ${caught ? (testCase.control ? "accepted " : "detected ") : "MISSED   "} ${testCase.name}`);
+    const verb = testCase.control || testCase.expectNoRise ? "accepted " : "detected ";
+    console.log(`  ${caught ? verb : "MISSED   "} ${testCase.name}`);
     if (!caught) undetected += 1;
   };
   try {
