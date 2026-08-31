@@ -1,0 +1,260 @@
+// The shared packet-completeness contract.
+//
+// WHAT THE OLD PASS DEFINITION PROVED, AND WHAT IT DID NOT
+//
+// The build verifiers proved that every write was correct: bound to exact source
+// bytes, inside a measured box, not on a protected field. Every one of those
+// checks asks about the writes that were MADE. None asks about the writes that
+// were OWED.
+//
+// So a family could be classified PASS having written six fields out of a
+// hundred and eighty-seven. CR-180 did: it wrote the case number and the
+// defendant's name, and left every offence row -- code, section, offence type,
+// and both statutory eligibility elections, five rows of them -- entirely blank,
+// under the reason "No allowlisted, source-supported fact is offered to this
+// terminal field." That sentence describes the build's allowlist. It is not a
+// justification for a blank on a filing.
+//
+// This contract closes that by inverting the question. Every blank must earn its
+// blankness against a CLOSED vocabulary, and three of the nine dispositions are
+// defects. A free-text reason is not an approved reason: prose that states what
+// the build does ("agency fields are never prefilled by this build") classifies
+// as KNOWN_FACT_NOT_WRITTEN, because the arresting agency is a case fact the
+// platform holds or must collect, and declaring a policy does not make the
+// filing complete.
+
+/** Every blank on a rendered packet resolves to exactly one of these. */
+export const BLANK_DISPOSITIONS = {
+  PROTECTED_FIELD: {
+    allowed: true,
+    meaning: "The field must remain blank. A participant signature, a signature date, a certificate of mailing before mailing has happened, or a court-only or prosecutor-only field.",
+    requires: "The field's role or label matches a protected pattern."
+  },
+  LATER_COMPLETION: {
+    allowed: true,
+    meaning: "The field is completed at or after filing, by the court or the clerk: an assigned case number, a filing stamp, a hearing date the court sets.",
+    requires: "A named later-completion trigger."
+  },
+  NOT_APPLICABLE_ON_THIS_ROUTE: {
+    allowed: true,
+    meaning: "The field belongs to a branch of the form this route does not use.",
+    requires: "A named route condition, not a general statement that the build does not fill it."
+  },
+  REQUIRED_BEFORE_FILING: {
+    allowed: true,
+    meaning: "A required fact the platform does not hold. The blank is permitted only because the packet tells the participant it must be supplied before filing.",
+    requires: "The fact is surfaced to the participant as a required-before-filing item."
+  },
+  PARTICIPANT_ELECTION_GENUINE: {
+    allowed: true,
+    meaning: "A choice only the participant can make, and one the route does not determine.",
+    requires: "The election is not implied by the route the packet was built for."
+  },
+  OPTIONAL_PARTICIPANT_CONTENT: {
+    allowed: true,
+    meaning: "The form marks the field optional and the participant supplies it if they wish.",
+    requires: "The field's own label says optional."
+  },
+  KNOWN_FACT_NOT_WRITTEN: {
+    allowed: false,
+    defectClass: "FAIL_MISSING_REQUIRED_FACTS",
+    meaning: "A participant or case fact the platform holds, or must collect and did not, left blank on the filing."
+  },
+  ROUTE_OPTION_NOT_SELECTED: {
+    allowed: false,
+    defectClass: "FAIL_ROUTE_SELECTION",
+    meaning: "An election the route determines, left for the participant. A petition built for one statutory route must state which route it is."
+  },
+  UNCLASSIFIED_BLANK: {
+    allowed: false,
+    defectClass: "FAIL_MISSING_PREFILLS",
+    meaning: "A blank with no approved reason. The old field maps carried free prose; prose is not a disposition."
+  }
+};
+
+/**
+ * What a field is, decided from its label rather than its per-state field name.
+ *
+ * Field names differ on every form -- CR-180[0].Page1[0].P1Caption[0] on one and
+ * a measured rule id on another -- so the label is the only surface that is
+ * comparable across 43 families. The patterns are deliberately narrow: a label
+ * that matches nothing is UNKNOWN and its blank is UNCLASSIFIED, which is a
+ * defect, because a field nobody can classify is exactly the one that goes
+ * missing.
+ */
+export const FIELD_CLASSES = [
+  { id: "PROTECTED_SIGNATURE", requirement: "PROTECTED", label: /\b(signature|sign here|declarant.*sign)\b/i },
+  { id: "PROTECTED_SIGNATURE_DATE", requirement: "PROTECTED", label: /signature.*date|date.*signature|\(type or print your name\)/i },
+  { id: "COURT_ONLY", requirement: "PROTECTED", label: /\b(clerk|judge|judicial officer|court use only|for court use|by the court|deputy)\b/i },
+  { id: "PROSECUTOR_ONLY", requirement: "PROTECTED", label: /\b(district attorney'?s use|prosecutor'?s use|people'?s response)\b/i },
+  { id: "COURT_ASSIGNED", requirement: "LATER_COMPLETION", label: /\b(hearing date|date of hearing|dept\.?|department|time|courtroom|filed on|filing stamp)\b/i },
+  { id: "ATTORNEY_BLOCK", requirement: "ATTORNEY", label: /\b(attorney|state bar|bar no|bar number|ldp|counsel for)\b/i },
+  { id: "PARTICIPANT_IDENTITY", requirement: "REQUIRED_KNOWN", label: /\b(defendant|petitioner|applicant|filer|your name|full name|name of person|movant)\b/i },
+  { id: "PARTICIPANT_CONTACT", requirement: "REQUIRED_KNOWN", label: /\b(mailing address|street address|address|city.*state.*zip|telephone|phone|e-?mail)\b/i },
+  { id: "MATTER_IDENTIFIER", requirement: "REQUIRED_KNOWN", label: /\b(case number|docket|cause no|citation number|court number)\b/i },
+  { id: "COURT_IDENTITY", requirement: "REQUIRED_KNOWN", label: /\b(superior court of|court name|name of court|branch|county of|judicial district|street address of court)\b/i },
+  { id: "OFFENSE_ROW_CELL", requirement: "REQUIRED_KNOWN", label: /\b(code \(penal|^section$|type of offense|offense|charge|count|statute)\b/i },
+  { id: "DISPOSITION_FACT", requirement: "REQUIRED_KNOWN", label: /\b(date of conviction|conviction date|date of arrest|arrest date|date of dismissal|disposition|sentenc|probation)\b/i },
+  { id: "AGENCY_FACT", requirement: "REQUIRED_KNOWN", label: /\b(arresting agency|citing.*agency|law enforcement agency|prosecuting agency|agency)\b/i },
+  { id: "ROUTE_ELECTION", requirement: "ROUTE_DETERMINED", label: /\beligible for reduction|under penal code, ?§ ?17|yes or no\b/i },
+  { id: "PARTICIPANT_NARRATIVE", requirement: "OPTIONAL_OR_REQUIRED_BEFORE_FILING", label: /\b(explain|describe|reason|statement|supporting documentation|interests of justice)\b/i },
+  { id: "VIEWER_CONTROL", requirement: "NOT_A_FILING_FACT", label: /\b(save this form|print this form|clear this form|reset|for your records)\b/i }
+];
+
+/**
+ * Reason strings that DESCRIBE THE BUILD rather than justify the blank.
+ *
+ * Each of these was accepted by the old verifier. Each is now a defect when the
+ * field it excuses is a required known fact: the platform holding no allowlisted
+ * value for a case number is a gap in the platform, not a property of the form.
+ */
+export const POLICY_SHAPED_REASONS = [
+  { re: /no allowlisted[^.]*fact is offered/i, disposition: "KNOWN_FACT_NOT_WRITTEN", why: "This states that the build's allowlist offers nothing. It says nothing about whether the filing needs the value." },
+  { re: /never prefilled by this build/i, disposition: "KNOWN_FACT_NOT_WRITTEN", why: "A statement of build policy. A case fact does not stop being required because the build declines to write it." },
+  { re: /are never prefilled\b/i, disposition: "KNOWN_FACT_NOT_WRITTEN", why: "Same shape: a blanket policy standing in for a per-field justification." },
+  { re: /not established by this evidence variant/i, disposition: "ROUTE_OPTION_NOT_SELECTED", why: "A fixture that does not establish a route election is an incomplete fixture, not a reason to ship the election blank." },
+  { re: /the shared semantics never writes a checkbox/i, disposition: "ROUTE_OPTION_NOT_SELECTED", why: "A shared limitation, not a determination that this election belongs to the participant." }
+];
+
+/** Reason strings that DO justify a blank, mapped to their disposition. */
+export const APPROVED_REASONS = [
+  { re: /signature (and )?(date )?(is|are)? ?(completed|signed) by the participant|never prefilled.*signature|signature.*never prefilled/i, disposition: "PROTECTED_FIELD" },
+  { re: /^signature or date field; never prefilled/i, disposition: "PROTECTED_FIELD" },
+  { re: /attorney[- ]only|attorney\/ldp|no representation fact is held|never populated with participant data/i, disposition: "NOT_APPLICABLE_ON_THIS_ROUTE" },
+  { re: /court, clerk, prosecutor, agency, or hearing field/i, disposition: "PROTECTED_FIELD" },
+  { re: /viewer ui control|never a filing fact/i, disposition: "NOT_APPLICABLE_ON_THIS_ROUTE" },
+  { re: /optional participant-authored|the platform does not invent it/i, disposition: "OPTIONAL_PARTICIPANT_CONTENT" }
+];
+
+/**
+ * Typed refusal classes, where a family emits them instead of prose.
+ *
+ * These read as authoritative and two of them are. The other two are the same
+ * policy-shaped excuse with a schema around it:
+ *
+ *   not_supported_by_exact_participant_fact_map -- the build's fact map offers
+ *   nothing. Eighty-eight New Jersey fields sit behind this, including the
+ *   participant's own identifying facts.
+ *
+ *   court_prosecutor_clerk_or_agency_owned -- three of those four are genuinely
+ *   protected and the fourth is not. An arresting or prosecuting AGENCY name is
+ *   a case fact the participant already has from the record they screened with;
+ *   bundling it with the clerk and the judge lets a required fact hide inside a
+ *   protected class. The class is honoured for court, prosecutor and clerk
+ *   fields and refused for agency fields.
+ */
+export const REFUSAL_CLASSES = {
+  signature_or_date_participant_completion: { disposition: "PROTECTED_FIELD", trusted: true },
+  court_prosecutor_clerk_or_agency_owned: { disposition: "PROTECTED_FIELD", trusted: true, notForFieldClasses: ["AGENCY_FACT"] },
+  participant_sworn_narrative_or_legal_election: { disposition: "PARTICIPANT_ELECTION_GENUINE", trusted: true, notForFieldClasses: ["ROUTE_ELECTION", "OFFENSE_ROW_CELL", "MATTER_IDENTIFIER", "PARTICIPANT_IDENTITY", "PARTICIPANT_CONTACT", "COURT_IDENTITY", "DISPOSITION_FACT"] },
+  not_supported_by_exact_participant_fact_map: { disposition: "KNOWN_FACT_NOT_WRITTEN", trusted: false, why: "This states that the build's fact map offers no value. It says nothing about whether the filing needs one." }
+};
+
+/** The nine counters a packet must zero to return PASS. */
+export const PASS_COUNTERS = [
+  "knownRequiredFieldsMissing", "requiredFactsNotCollected", "unclassifiedBlanks",
+  "incompleteRows", "requiredOptionsMissing", "requiredComponentsMissing",
+  "invisibleWrites", "protectedWrites", "visualDefects"
+];
+
+/** The result vocabulary. Order matters: the first failing class is reported. */
+export const RESULT_CLASSES = [
+  "PASS_COMPLETE",
+  "FAIL_PROTECTED_WRITE",
+  "FAIL_VISIBLE_APPEARANCE",
+  "FAIL_MISSING_REQUIRED_FACTS",
+  "FAIL_ROUTE_SELECTION",
+  "FAIL_MISSING_PREFILLS",
+  "FAIL_COMPONENT_SET",
+  "FAIL_CURRENTNESS"
+];
+
+/** Classify one field from its label. Never guesses: an unmatched label is UNKNOWN. */
+export function classifyField(label) {
+  const text = String(label ?? "").trim();
+  if (!text) return { id: "UNLABELLED", requirement: "UNKNOWN" };
+  for (const cls of FIELD_CLASSES) if (cls.label.test(text)) return cls;
+  return { id: "UNMATCHED", requirement: "UNKNOWN" };
+}
+
+/**
+ * Classify one blank.
+ *
+ * Order is deliberate. A protected field is protected whatever the reason says,
+ * so the field class is consulted first for those. Otherwise a policy-shaped
+ * reason is a defect even when it sounds authoritative, and only then is an
+ * approved reason accepted. A blank with neither is UNCLASSIFIED.
+ */
+export function classifyBlank(field, reason, refusalClass = null) {
+  const cls = classifyField(field.label);
+  const text = String(reason ?? "");
+
+  // A typed refusal class is consulted before prose, but it is not obeyed
+  // blindly: each carries the field classes it may NOT excuse, so a protected
+  // class cannot be used to hide a required case fact.
+  const typed = refusalClass ? REFUSAL_CLASSES[refusalClass] : null;
+  if (typed) {
+    const excluded = (typed.notForFieldClasses ?? []).includes(cls.id);
+    if (typed.trusted && !excluded) return { disposition: typed.disposition, fieldClass: cls.id, basis: `refusal class ${refusalClass}` };
+    if (typed.trusted && excluded) {
+      return {
+        disposition: cls.requirement === "ROUTE_DETERMINED" ? "ROUTE_OPTION_NOT_SELECTED" : "KNOWN_FACT_NOT_WRITTEN",
+        fieldClass: cls.id,
+        basis: `refusal class ${refusalClass} does not excuse a ${cls.id} field`,
+        policyShapedReason: text || refusalClass
+      };
+    }
+    if (!typed.trusted && (cls.requirement === "REQUIRED_KNOWN" || cls.requirement === "ROUTE_DETERMINED" || cls.requirement === "UNKNOWN")) {
+      return {
+        disposition: cls.requirement === "ROUTE_DETERMINED" ? "ROUTE_OPTION_NOT_SELECTED" : "KNOWN_FACT_NOT_WRITTEN",
+        fieldClass: cls.id, basis: typed.why, policyShapedReason: text || refusalClass
+      };
+    }
+  }
+  if (cls.requirement === "PROTECTED") return { disposition: "PROTECTED_FIELD", fieldClass: cls.id, basis: "the field itself is protected" };
+  if (cls.requirement === "LATER_COMPLETION") return { disposition: "LATER_COMPLETION", fieldClass: cls.id, basis: "the court completes this field at or after filing" };
+  if (cls.requirement === "NOT_A_FILING_FACT") return { disposition: "NOT_APPLICABLE_ON_THIS_ROUTE", fieldClass: cls.id, basis: "a viewer control, not a filing fact" };
+  if (cls.requirement === "ATTORNEY" && /attorney|representation/i.test(text)) {
+    return { disposition: "NOT_APPLICABLE_ON_THIS_ROUTE", fieldClass: cls.id, basis: "no attorney-representation fact is held for this participant" };
+  }
+  for (const p of POLICY_SHAPED_REASONS) {
+    if (p.re.test(text)) {
+      if (cls.requirement === "REQUIRED_KNOWN" || cls.requirement === "ROUTE_DETERMINED" || cls.requirement === "UNKNOWN") {
+        return { disposition: p.disposition, fieldClass: cls.id, basis: p.why, policyShapedReason: text };
+      }
+    }
+  }
+  if (cls.requirement === "ROUTE_DETERMINED") {
+    return { disposition: "ROUTE_OPTION_NOT_SELECTED", fieldClass: cls.id, basis: "the route determines this election; it may not be left to the participant on a route-specific packet" };
+  }
+  for (const a of APPROVED_REASONS) if (a.re.test(text)) return { disposition: a.disposition, fieldClass: cls.id, basis: text };
+  if (cls.requirement === "REQUIRED_KNOWN") {
+    return { disposition: "KNOWN_FACT_NOT_WRITTEN", fieldClass: cls.id, basis: "a required known fact with no approved reason for being blank", policyShapedReason: text || null };
+  }
+  if (cls.requirement === "OPTIONAL_OR_REQUIRED_BEFORE_FILING") {
+    return /optional/i.test(String(field.label))
+      ? { disposition: "OPTIONAL_PARTICIPANT_CONTENT", fieldClass: cls.id, basis: "the form marks this field optional" }
+      : { disposition: "KNOWN_FACT_NOT_WRITTEN", fieldClass: cls.id, basis: "a narrative the filing requires, with no approved reason for being blank" };
+  }
+  return { disposition: "UNCLASSIFIED_BLANK", fieldClass: cls.id, basis: text || "no reason recorded" };
+}
+
+/**
+ * Row identity for a repeating table.
+ *
+ * CR-180 numbers its offence rows inside the field name; a measured overlay
+ * numbers them in the label. A row is complete when, once ANY cell in it is
+ * written, every required cell in it is written too -- a case number with no
+ * offence code beside it is worse than an empty row, because it looks finished.
+ */
+export function rowKeyOf(field) {
+  const name = String(field.name ?? "");
+  const m = name.match(/(Item\d+|Row\d+|Line\d+|\[(\d+)\])[^.]*$/i) ?? name.match(/(Item\d+\[\d+\]\.Row\d+\[\d+\])/i);
+  if (m) {
+    const table = name.match(/(Item\d+|Table\d+|Offense\w*)/i);
+    return `${table ? table[1] : "table"}::${m[0]}`;
+  }
+  const label = String(field.label ?? "");
+  const lm = label.match(/\brow\s*(\d+)|\bcount\s*(\d+)|\b(\d+)\.\s/i);
+  return lm ? `label-row::${lm[0].trim()}` : null;
+}
