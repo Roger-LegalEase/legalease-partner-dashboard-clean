@@ -53,22 +53,40 @@ const sharp = require("sharp");
  * works, because "Chromium is missing" and "Chromium is somewhere else" need
  * different fixes.
  */
+/*
+ * `headless_shell` is excluded deliberately. Playwright ships it as
+ * chromium_headless_shell-<build>, it satisfies every existence and
+ * executability test, and it has no PDF viewer: rasterizing through it fails
+ * with "Download is starting" -- the page navigates to the PDF and the browser
+ * offers to save it instead of drawing it. A preflight that accepts it passes
+ * and is then contradicted by the render step, which is the exact class of
+ * defect this resolver was written to end.
+ */
+const isRasterCapable = (p) => !/headless_shell/.test(p);
+const executableFile = (p) => {
+  try { return fs.statSync(p).isFile(); } catch { return false; }
+};
+
 function chromiumCandidates() {
   const out = [];
-  if (process.env.RCAP_CHROMIUM_PATH) out.push(process.env.RCAP_CHROMIUM_PATH);
+  // The override is a file, checked like every other candidate. It was pushed
+  // unguarded, and a directory passes fs.accessSync(X_OK) -- so RCAP_CHROMIUM_PATH
+  // pointing at chrome-linux/ instead of chrome-linux/chrome resolved cleanly and
+  // then died with EACCES inside the render.
+  if (process.env.RCAP_CHROMIUM_PATH && executableFile(process.env.RCAP_CHROMIUM_PATH)) out.push(process.env.RCAP_CHROMIUM_PATH);
   const root = process.env.PLAYWRIGHT_BROWSERS_PATH;
   if (root && fs.existsSync(root)) {
     const versioned = fs.readdirSync(root)
       .filter((d) => /^chromium(_headless_shell)?-\d+$/.test(d))
       .sort((a, b) => Number(b.split("-")[1]) - Number(a.split("-")[1]));
     for (const d of [...versioned, "chromium"]) {
-      for (const exe of ["chrome-linux/chrome", "chrome-linux/headless_shell", ""]) {
+      for (const exe of ["chrome-linux/chrome", ""]) {
         const p = exe ? path.join(root, d, exe) : path.join(root, d);
         if (fs.existsSync(p) && fs.statSync(p).isFile()) out.push(p);
       }
     }
   }
-  return [...new Set(out)];
+  return [...new Set(out)].filter(isRasterCapable);
 }
 
 export function resolveChromium() {
@@ -259,4 +277,53 @@ export async function inspectRect(render, { x0, y0, x1, y1 }, { bandPt = 1.5 } =
     borderVisible: borderDarkest < 160,
     interiorEmpty: interiorPixels > 0 && interiorDarkest > 200
   };
+}
+
+/*
+ * The preflight's question, answered by doing it.
+ *
+ * page_rasterizer_available used to pass on any path satisfying
+ * fs.accessSync(X_OK). C13 produced two environments where it printed ok and
+ * the render then failed: a browsers path holding only
+ * chromium_headless_shell (no PDF viewer, "Download is starting"), and
+ * RCAP_CHROMIUM_PATH pointed at a directory (EACCES on spawn). Executability
+ * is not renderability, and only a render can tell them apart.
+ *
+ * So this writes a one-page PDF with a black rule on it, rasterizes it through
+ * the same path the lanes use, and requires paper to be found. It costs one
+ * browser launch in a check that runs once per lane.
+ */
+export async function probeRasterizer() {
+  const resolved = resolveChromium();
+  if (!resolved.executablePath) return { ok: false, why: "no executable Chromium", tried: resolved.tried };
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "rcap-raster-probe-"));
+  const file = path.join(dir, "probe.pdf");
+  // A minimal one-page PDF, written by hand so the probe depends on no library
+  // and no fixture that could go missing.
+  const objs = [
+    "<< /Type /Catalog /Pages 2 0 R >>",
+    "<< /Type /Pages /Kids [3 0 R] /Count 1 >>",
+    "<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R >>",
+    "<< /Length 44 >>\nstream\n0 0 0 rg 100 400 412 24 re f\nendstream"
+  ];
+  let pdf = "%PDF-1.4\n";
+  const offsets = [0];
+  for (let i = 0; i < objs.length; i += 1) {
+    offsets.push(pdf.length);
+    pdf += `${i + 1} 0 obj\n${objs[i]}\nendobj\n`;
+  }
+  const xref = pdf.length;
+  pdf += `xref\n0 ${objs.length + 1}\n0000000000 65535 f \n`;
+  for (let i = 1; i <= objs.length; i += 1) pdf += `${String(offsets[i]).padStart(10, "0")} 00000 n \n`;
+  pdf += `trailer\n<< /Size ${objs.length + 1} /Root 1 0 R >>\nstartxref\n${xref}\n%%EOF\n`;
+  fs.writeFileSync(file, pdf, "latin1");
+  try {
+    const render = await rasterizePageCalibrated({ file, pageIndex: 0 });
+    if (!render || !render.paper) return { ok: false, why: "the render found no paper on a one-page PDF", executablePath: resolved.executablePath };
+    return { ok: true, executablePath: resolved.executablePath, resolvedBy: resolved.resolvedBy, paper: render.paper };
+  } catch (e) {
+    return { ok: false, why: `the render failed: ${String(e.message ?? e).split("\n")[0]}`, executablePath: resolved.executablePath };
+  } finally {
+    try { fs.rmSync(dir, { recursive: true, force: true }); } catch { /* the probe owns this directory */ }
+  }
 }

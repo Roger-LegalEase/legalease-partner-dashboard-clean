@@ -13,6 +13,7 @@
  */
 import fs from "node:fs";
 import path from "node:path";
+import { hostAllowed, ALLOWED_EXACT_HOSTS, REFUSED_HOSTS } from "./lib/official-host-policy.mjs";
 
 const ROOT = process.cwd();
 const MANIFEST = process.env.RCAP_MANIFEST || "data/rcap-grade-a/packet-factory-24h/SOURCE_ACQUISITION_MANIFEST.json";
@@ -27,16 +28,14 @@ let manifest;
 try { manifest = JSON.parse(fs.readFileSync(path.join(ROOT, MANIFEST), "utf8")); }
 catch (e) { fail(`${MANIFEST} is not readable JSON: ${e.message}`); }
 
-const acquireText = fs.readFileSync(path.join(ROOT, ACQUIRE_SCRIPT), "utf8");
-const allowBlock = /const ALLOWED_HOST_SUFFIXES = \[([\s\S]*?)\];/.exec(acquireText);
-const refuseBlock = /const REFUSED_HOSTS = new Set\(\[([\s\S]*?)\]\);/.exec(acquireText);
-const exactBlock = /const ALLOWED_EXACT_HOSTS = new Map\(\[([\s\S]*?)\n\]\);/.exec(acquireText);
-if (!allowBlock || !refuseBlock || !exactBlock) fail(`cannot read the host policy from ${ACQUIRE_SCRIPT}`);
-const ALLOWED = [...allowBlock[1].matchAll(/"([^"]+)"/g)].map((m) => m[1]);
-const REFUSED = new Set([...refuseBlock[1].matchAll(/"([^"]+)"/g)].map((m) => m[1]));
+/*
+ * One policy, imported. It used to be three regexes over the acquire script's
+ * own source text, which meant the planner could enforce a policy the acquirer
+ * no longer held, and neither copy could be tested against a host directly.
+ */
+if (!fs.existsSync(path.join(ROOT, ACQUIRE_SCRIPT))) fail(`${ACQUIRE_SCRIPT} is not present`);
 /* Exact hostnames, by full equality only. Never widened to their suffix. */
-const EXACT = new Set([...exactBlock[1].matchAll(/\["([^"]+)", \{/g)].map((m) => m[1]));
-const hostAllowed = (h) => EXACT.has(h) || ALLOWED.some((s) => h === s.replace(/^\./, "") || h.endsWith(s));
+const EXACT = new Set(ALLOWED_EXACT_HOSTS.keys());
 
 const entries = Array.isArray(manifest.entries) ? manifest.entries : null;
 if (!entries) fail("the manifest has no entries array");
@@ -69,7 +68,7 @@ for (const [i, e] of entries.entries()) {
   if (url) {
     if (url.protocol !== "https:") problems.push(`${at}: ${url.protocol}// is not HTTPS`);
     const host = url.hostname.toLowerCase();
-    if (REFUSED.has(host)) problems.push(`${at}: ${host} is a commercial form site, not the issuing body`);
+    if (REFUSED_HOSTS.has(host)) problems.push(`${at}: ${host} is a commercial form site, not the issuing body`);
     else if (!hostAllowed(host)) problems.push(`${at}: ${host} is not an allowlisted official government host`);
     if (EXACT.has(host) && !/^[0-9a-f]{64}$/.test(String(e.expectedSha256 ?? ""))) {
       problems.push(`${at}: ${host} is allowed as an exact hostname only with an expected SHA-256`);

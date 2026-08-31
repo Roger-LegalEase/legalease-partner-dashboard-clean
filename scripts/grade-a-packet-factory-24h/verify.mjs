@@ -10,6 +10,7 @@
  * for the whole 24 hours, so every one of them is broken on purpose here and
  * required to fail.
  */
+import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
@@ -21,6 +22,40 @@ const MUTATIONS = process.argv.includes("--mutations");
 
 const DIR = "data/rcap-grade-a/packet-factory-24h";
 const PROMPTS = "docs/rcap/grade-a/packet-factory-24h";
+
+/*
+ * Every prompt under the dispatch directory, including the ones in
+ * per-state subdirectories.
+ *
+ * F10, F14 and F25 used a non-recursive readdirSync, so the live
+ * vermont-repair/ and washington-repair/ lanes -- dispatched prompts that
+ * claim.mjs knows by lane kind -- were never scanned. C13 stripped the task
+ * isolation banner and the row-stop contract out of WAR03 and appended
+ * `git fetch origin`, `git pull`, `pdftoppm -r 72` and
+ * `apt-get install -y poppler-utils`, and all three checks reported ok on a
+ * 27/27 gate. The checks counted their denominator correctly; they just could
+ * not see two thirds of the lanes.
+ *
+ * Returned relative to PROMPTS so a failure names the subdirectory.
+ */
+function promptFilesRecursive() {
+  const out = [];
+  const walk = (rel) => {
+    const abs = path.join(ROOT, PROMPTS, rel);
+    if (!fs.existsSync(abs)) return;
+    for (const e of fs.readdirSync(abs, { withFileTypes: true })) {
+      const r = rel ? `${rel}/${e.name}` : e.name;
+      if (e.isDirectory()) walk(r);
+      else if (e.name.endsWith(".md")) out.push(r);
+    }
+  };
+  walk("");
+  return out.sort();
+}
+// A scan of an empty set passes every content check it applies. The dispatch
+// has never had fewer than this, and a sudden collapse is a defect rather than
+// a quiet day.
+const MINIMUM_PROMPTS = 48;
 const MASTER = `${DIR}/MASTER_QUEUE.json`;
 const ACTIVE = `${DIR}/ACTIVE_ASSIGNMENTS.json`;
 const GRAPH = `${DIR}/IMPORT_GRAPH.json`;
@@ -149,7 +184,7 @@ function run() {
 
   // 10. no Codex prompt carries a Git network command
   const FORBIDDEN = [/(^|[^`\w])git\s+fetch/, /(^|[^`\w])git\s+pull/, /(^|[^`\w])git\s+push/, /(^|[^`\w])gh\s+\w/, /(^|[^`\w])git\s+worktree/, /(^|[^`\w])git\s+clone/];
-  const promptFiles = fs.existsSync(path.join(ROOT, PROMPTS)) ? fs.readdirSync(path.join(ROOT, PROMPTS)).filter((f) => f.endsWith(".md")) : [];
+  const promptFiles = promptFilesRecursive();
   const offending = [];
   for (const f of promptFiles) {
     const text = fs.readFileSync(path.join(ROOT, PROMPTS, f), "utf8");
@@ -160,9 +195,19 @@ function run() {
       if (FORBIDDEN.some((re) => re.test(stripped))) offending.push(`${f}: ${line.trim().slice(0, 60)}`);
     }
   }
+  /*
+   * The denominator used to be `promptFiles.length === a.length`, which held
+   * only while the scan was non-recursive and the factory was the only
+   * dispatch in this tree. Recursion brings the Vermont and Washington repair
+   * prompts in too, so the claim to make is the one that was always meant: the
+   * scan reached at least the floor, and every assignment this generator makes
+   * has a prompt file on disk that the scan actually read.
+   */
+  const readSet = new Set(promptFiles.map((f) => `${PROMPTS}/${f}`));
+  const unscannedAssignments = a.filter((x) => !readSet.has(x.promptFile));
   check("F10", "no Codex prompt instructs a Git network command",
-    offending.length === 0 && promptFiles.length === a.length,
-    `${promptFiles.length} prompt(s), ${offending.length} offending line(s): ${offending.slice(0, 2).join(" | ")}`);
+    offending.length === 0 && promptFiles.length >= MINIMUM_PROMPTS && unscannedAssignments.length === 0,
+    `${promptFiles.length} prompt(s) (floor ${MINIMUM_PROMPTS}), ${unscannedAssignments.length} assignment prompt(s) the scan never read, ${offending.length} offending line(s): ${offending.slice(0, 2).join(" | ")}`);
 
   // 11. no idle lane while executable work remains
   const assignedToPF = new Set(pf.flatMap((x) => x.items));
@@ -209,6 +254,27 @@ function run() {
   for (const p of pfPrompts) {
     for (const c of REQUIRED_PROMPT_CLAUSES) if (!c.re.test(p.text)) missingClauses.push(`${p.id}: ${c.id}`);
   }
+  /*
+   * 28. Task isolation, in EVERY dispatched prompt.
+   *
+   * F14 checks the sixteen builder prompts against a clause set written in PF
+   * vocabulary. The Vermont and Washington repair prompts are dispatched the
+   * same way, into the same kind of isolated container, and F14 does not reach
+   * them: C13 stripped the isolation banner out of WAR03 and F14 stayed green
+   * because WAR03 is not a builder.
+   *
+   * The banner is what stops one container from executing a whole lane family
+   * in a single task and reporting twelve independent returns. That claim is
+   * universal, so it is checked over every prompt in the tree rather than over
+   * the ones a single generator happens to write.
+   */
+  const allPrompts = promptFilesRecursive();
+  const noIsolation = allPrompts.filter((f) =>
+    !/THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK/.test(fs.readFileSync(path.join(ROOT, PROMPTS, f), "utf8")));
+  check("F28", "every dispatched prompt in the tree carries the task-isolation banner",
+    noIsolation.length === 0 && allPrompts.length >= MINIMUM_PROMPTS,
+    `${allPrompts.length} prompt(s) (floor ${MINIMUM_PROMPTS}), ${noIsolation.length} without the banner: ${noIsolation.slice(0, 3).join(", ")}`);
+
   check("F14", "every builder prompt carries task isolation and the row-stop contract",
     pfPrompts.length === pf.length && missingClauses.length === 0,
     `${pfPrompts.length}/${pf.length} prompt(s); ${missingClauses.length} missing clause(s): ${missingClauses.slice(0, 3).join(" | ")}`);
@@ -449,6 +515,21 @@ function run() {
     for (const g of granted) if (!dispatched.has(g)) ledgerProblems.push(`${g} is granted and not dispatched`);
     if (ledger.generatedAtCommit !== master.minimumCaptainSha) ledgerProblems.push(`the ledger is pinned to ${ledger.generatedAtCommit} and the dispatch to ${master.minimumCaptainSha}`);
     if (!fs.existsSync(path.join(ROOT, CLAIM))) ledgerProblems.push("the claim mechanism the ledger names does not exist");
+    /*
+     * The grant set must have an identity, and the identity must describe the
+     * grants. generatedAtCommit is a declared floor: it did not move when
+     * commit 068136465 revoked thirteen packet-build grants, so the pre- and
+     * post-revocation ledgers named the same commit and a worker holding the
+     * stale one asserted a withdrawn grant with an indistinguishable return.
+     * claimsDigest is a function of the grants, so revocation always moves it,
+     * and claim.mjs prints it in every CLAIM_OK for exactly that reason.
+     */
+    const digest = crypto.createHash("sha256")
+      .update(JSON.stringify((ledger.claims ?? []).map((c) => [c.familyId, c.lane, c.laneKind])))
+      .digest("hex");
+    if (!ledger.claimsDigest) ledgerProblems.push("the ledger carries no grant-set identity, so a revoked grant is indistinguishable from a current one");
+    else if (ledger.claimsDigest !== digest) ledgerProblems.push(`the ledger declares grant set ${ledger.claimsDigest} and its grants hash to ${digest}`);
+    if (!/claimsDigest/.test(fs.readFileSync(path.join(ROOT, CLAIM), "utf8"))) ledgerProblems.push("the claim mechanism does not check the grant-set identity");
   }
   check("F24", "one claim ledger grants every dispatched family exactly once, to one lane of each kind",
     ledgerProblems.length === 0,
@@ -460,12 +541,21 @@ function run() {
   const rasterProblems = [];
   if (!rasterText) rasterProblems.push("no page rasterizer");
   if (!/export function resolveChromium/.test(rasterText)) rasterProblems.push("the rasterizer does not export a resolver, so its path is assumed");
+  // Resolving a path is not rendering a page. The preflight passed on any path
+  // satisfying accessSync(X_OK), and two environments -- a headless_shell-only
+  // browsers path, and RCAP_CHROMIUM_PATH pointed at a directory -- printed ok
+  // and then died inside the render.
+  if (!/export async function probeRasterizer/.test(rasterText)) rasterProblems.push("the rasterizer offers no render probe, so the preflight can only check that a file is executable");
+  if (!/probeRasterizer/.test(preflightText)) rasterProblems.push("the preflight resolves a path instead of rendering a page");
+  if (/headless_shell/.test(rasterText) && !/isRasterCapable/.test(rasterText)) rasterProblems.push("the rasterizer still accepts headless_shell, which has no PDF viewer");
   if (/const CHROMIUM = process\.env\.RCAP_CHROMIUM_PATH \?\? "/.test(rasterText)) rasterProblems.push("the rasterizer still falls back to a hardcoded browser path");
   if (!/page_rasterizer_available/.test(preflightText)) rasterProblems.push("the preflight does not check the rasterizer, so a lane can pass and then die on the render step");
   if (!/skippedAreNotPasses/.test(preflightText)) rasterProblems.push("the preflight may still count a not-applicable check as a pass");
   // No prompt may tell a worker to reach for Poppler or install packages.
   const poppler = [];
-  for (const f of fs.readdirSync(path.join(ROOT, PROMPTS)).filter((x) => x.endsWith(".md"))) {
+  const rasterPrompts = promptFilesRecursive();
+  if (rasterPrompts.length < MINIMUM_PROMPTS) rasterProblems.push(`only ${rasterPrompts.length} prompt(s) found; the dispatch carries at least ${MINIMUM_PROMPTS}, so this scan is reading the wrong tree`);
+  for (const f of rasterPrompts) {
     const t = fs.readFileSync(path.join(ROOT, PROMPTS, f), "utf8");
     for (const line of t.split("\n")) {
       const stripped = line.replace(/`[^`]*`/g, "");
@@ -566,7 +656,12 @@ console.log(`\n${first.results.length - first.failed.length}/${first.results.len
 
 if (MUTATIONS) {
   console.log("\nmutations:");
-  const targets = { master: path.join(ROOT, MASTER), active: path.join(ROOT, ACTIVE), collisions: path.join(ROOT, COLLISIONS), checkpoint: path.join(ROOT, CHECKPOINT), ledger: path.join(ROOT, LEDGER), raster: path.join(ROOT, RASTER), stale: path.join(ROOT, STALE) };
+  const targets = { master: path.join(ROOT, MASTER), active: path.join(ROOT, ACTIVE), collisions: path.join(ROOT, COLLISIONS), checkpoint: path.join(ROOT, CHECKPOINT), ledger: path.join(ROOT, LEDGER), raster: path.join(ROOT, RASTER), stale: path.join(ROOT, STALE),
+    /* A live dispatched prompt in a SUBDIRECTORY. The prompt checks read only
+     * the top level until C13 edited this exact file -- stripping its isolation
+     * banner and appending git pull, pdftoppm and apt-get -- and watched F10,
+     * F14 and F25 all report ok on a 27/27 gate. */
+    repairPrompt: path.join(ROOT, PROMPTS, "washington-repair/WAR03_WA_RERENDER_1.md") };
   const originals = Object.fromEntries(Object.entries(targets).map(([k, p]) => [k, fs.readFileSync(p)]));
   const promptTarget = path.join(ROOT, PROMPTS, "PF01.md");
   const originalPrompt = fs.readFileSync(promptTarget);
@@ -620,7 +715,21 @@ if (MUTATIONS) {
     { on: "prompt", id: "F14", name: "a builder prompt without the task-isolation banner is caught", mutateText: (t) => t.replace(/THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK\./, "This is a task.") },
     { on: "prompt", id: "F14", name: "a builder prompt whose blocked family does not continue the lane is caught", mutateText: (t) => t.replace(/CONTINUE TO THE NEXT FAMILY/g, "stop the lane") },
     { on: "prompt", id: "F14", name: "a builder prompt that drops the one-row-per-family rule is caught", mutateText: (t) => t.replace(/one row per assigned family/gi, "some rows") },
-    { on: "prompt", id: "F14", name: "a builder prompt that lets a stopped family write is caught", mutateText: (t) => t.replace(/leave its overlay directory byte-for-byte unchanged/i, "may leave partial output") }
+    { on: "prompt", id: "F14", name: "a builder prompt that lets a stopped family write is caught", mutateText: (t) => t.replace(/leave its overlay directory byte-for-byte unchanged/i, "may leave partial output") },
+    /* F24's grant-set identity. generatedAtCommit is a declared floor and did
+     * not move when thirteen grants were revoked, so both ledgers named the
+     * same commit and a stale worker's assertion was indistinguishable from a
+     * current one. The digest is a function of the grants. */
+    { on: "ledger", id: "F24", name: "a ledger whose digest does not describe its own grants is caught", mutate: (j) => { j.claimsDigest = "0".repeat(64); return j; } },
+    { on: "ledger", id: "F24", name: "a ledger with no grant-set identity at all is caught", mutate: (j) => { delete j.claimsDigest; return j; } },
+    /* F28: the isolation banner, on prompts F14 never reads. The subject is a
+     * repair prompt in a subdirectory -- exactly what the non-recursive scan
+     * could not see. */
+    { on: "repairPrompt", id: "F28", name: "a repair prompt in a subdirectory stripped of its isolation banner is caught", mutateText: (t) => t.replace(/THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK\./, "This is a task.") },
+    { on: "repairPrompt", id: "F10", name: "a repair prompt in a subdirectory instructing a Git network command is caught", mutateText: (t) => `${t}\n\nRun git pull before you start.\n` },
+    { on: "repairPrompt", id: "F25", name: "a repair prompt in a subdirectory reaching for Poppler is caught", mutateText: (t) => `${t}\n\nRender with pdftoppm -r 72 and apt-get install -y poppler-utils.\n` },
+    /* F25 now asserts the preflight renders rather than resolving a path. */
+    { on: "raster", id: "F25", name: "a rasterizer with no render probe is caught", mutateText: (t) => t.replace("export async function probeRasterizer", "async function probeRasterizerInternal") }
   ];
   let undetected = 0;
   try {

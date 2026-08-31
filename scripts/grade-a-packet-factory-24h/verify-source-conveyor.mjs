@@ -14,6 +14,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { hostAllowed } from "../lib/official-host-policy.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 process.chdir(ROOT);
@@ -29,6 +30,7 @@ const WASHINGTON = `${DIR}/WASHINGTON_REPAIR.json`;
 const WORKFLOW = ".github/workflows/rcap-official-source-acquisition-batch.yml";
 const PROMPTS_DIR = "docs/rcap/grade-a/packet-factory-24h";
 const PLANNER = "scripts/rcap-plan-source-acquisition-batch.mjs";
+const HOST_POLICY = "scripts/lib/official-host-policy.mjs";
 const ACQUIRE = "scripts/rcap-acquire-official-source.mjs";
 const SUMMARY = "scripts/rcap-summarize-source-acquisition-batch.mjs";
 const READY_WORKFLOW = ".github/workflows/rcap-source-conveyor-ready.yml";
@@ -96,13 +98,18 @@ function run() {
       const u = new URL(e.officialUrl);
       if (u.protocol !== "https:") return true;
       if (manifest.refusedHosts.includes(u.hostname)) return true;
-      if (exactAllowed.has(u.hostname)) return false;
-      return !manifest.allowedHostSuffixes.some((s) => u.hostname === s.replace(/^\./, "") || u.hostname.endsWith(s));
+      // Asked of the policy itself, not of the manifest's own description of
+      // it. The suffix list is one place now -- scripts/lib/official-host-policy.mjs
+      // -- so the conveyor, the planner and the fetcher cannot disagree.
+      return !hostAllowed(u.hostname);
     } catch { return true; }
   }).map((e) => e.sourceId);
   const plannerText = fs.readFileSync(path.join(ROOT, PLANNER), "utf8");
-  const oneAllowlistAuthority = /ALLOWED_HOST_SUFFIXES = \\\[\(\[\\s\\S\]\*\?\)\\\]/.test(plannerText.replace(/\\/g, "\\\\")) || /rcap-acquire-official-source\.mjs/.test(plannerText);
-  const plannerRestatesNoList = !/const ALLOWED = \[\s*"/.test(plannerText);
+  // One authority: the planner imports the policy module rather than restating
+  // it or scraping it out of the fetcher's source text.
+  const oneAllowlistAuthority = /from "\.\/lib\/official-host-policy\.mjs"/.test(plannerText);
+  const plannerRestatesNoList = !/const ALLOWED = \[\s*"/.test(plannerText)
+    && !/ALLOWED_HOST_SUFFIXES = \[\(/.test(plannerText);
   check("C5", "an unofficial mirror is refused, and one allowlist governs planner and fetcher",
     badHost.length === 0 && oneAllowlistAuthority && plannerRestatesNoList && manifest.refused.length >= 0,
     `${badHost.length} manifest entr(ies) on a non-official host; planner reads the allowlist from the fetcher: ${oneAllowlistAuthority && plannerRestatesNoList}; ${manifest.refused.length} URL(s) refused at generation`);
@@ -220,10 +227,10 @@ function run() {
     `${opened.length} document(s) reporting an opened route; the conveyor states it grants nothing: ${grantsNothingStated}`);
 
   // C16. An exact-host allowance is one hostname, never its suffix.
-  const acquireText = fs.readFileSync(path.join(ROOT, ACQUIRE), "utf8");
+  const policyText = fs.readFileSync(path.join(ROOT, HOST_POLICY), "utf8");
   const exactProblems = [];
-  const exactBlock = /const ALLOWED_EXACT_HOSTS = new Map\(\[([\s\S]*?)\n\]\);/.exec(acquireText);
-  if (!exactBlock) exactProblems.push("the acquisition script declares no exact-host list");
+  const exactBlock = /const ALLOWED_EXACT_HOSTS = new Map\(\[([\s\S]*?)\n\]\);/.exec(policyText);
+  if (!exactBlock) exactProblems.push("the host policy declares no exact-host list");
   const declaredExact = exactBlock ? [...exactBlock[1].matchAll(/\["([^"]+)", \{/g)].map((m) => m[1]) : [];
   for (const h of declaredExact) {
     if (h.startsWith("*") || h.startsWith(".")) exactProblems.push(`${h} is a wildcard or a suffix, not an exact hostname`);
@@ -234,11 +241,18 @@ function run() {
     if (!/provenance:/.test(body)) exactProblems.push(`${h} does not state its official provenance`);
   }
   // The suffix list must not have quietly absorbed the exception.
-  const suffixBlock = /const ALLOWED_HOST_SUFFIXES = \[([\s\S]*?)\];/.exec(acquireText);
+  const suffixBlock = /const ALLOWED_HOST_SUFFIXES = \[([\s\S]*?)\];/.exec(policyText);
   const suffixes = suffixBlock ? [...suffixBlock[1].matchAll(/"([^"]+)"/g)].map((m) => m[1]) : [];
   for (const suf of suffixes) {
     if (/blob\.core\.windows\.net|amazonaws|azureedge|cloudfront|googleapis/i.test(suf)) {
       exactProblems.push(`${suf} is a shared hosting suffix in the SUFFIX list, which allows every tenant of that service`);
+    }
+    // `.us` is open registration -- any US person or entity can register one --
+    // and it sat here under a comment reading "Only first-party government
+    // publishers." The delegated state-government namespace is state.<code>.us,
+    // which is a rule about the third level, not the TLD.
+    if (/^\.?(us|com|net|org|info|co)$/i.test(suf.replace(/^\./, ""))) {
+      exactProblems.push(`${suf} is an open-registration TLD in the SUFFIX list; anyone can register a host under it`);
     }
   }
   // And no manifest entry may ride an exact host without the hash that identifies it.
@@ -368,7 +382,7 @@ if (MUTATIONS) {
     ci: path.join(ROOT, CI_STATE), master: path.join(ROOT, MASTER),
     active: path.join(ROOT, ACTIVE), workflow: path.join(ROOT, WORKFLOW),
     planner: path.join(ROOT, PLANNER), acquire: path.join(ROOT, ACQUIRE),
-    summary: path.join(ROOT, SUMMARY)
+    summary: path.join(ROOT, SUMMARY), policy: path.join(ROOT, HOST_POLICY)
     , prompt: path.join(ROOT, PROMPTS_DIR, "DISC01.md"), ready: path.join(ROOT, READY_WORKFLOW)
   };
   const originals = Object.fromEntries(Object.entries(targets).map(([k, p]) => [k, fs.readFileSync(p)]));
@@ -385,9 +399,9 @@ if (MUTATIONS) {
     { on: "manifest", id: "C4", name: "a malformed expected hash is caught", mutate: (j) => { firstEntry(j).expectedSha256 = "not-a-hash"; return j; } },
     { on: "conveyor", id: "C4", name: "a mismatch downgraded to a warning is caught", mutate: (j) => { const l = lane(j, "PROMO"); l.refusals = l.refusals.map((r) => r.replace(/mismatch is a refusal, never a warning/i, "mismatch is logged as a warning")); return j; } },
     { on: "manifest", id: "C5", name: "an unofficial mirror in the manifest is caught", mutate: (j) => { firstEntry(j).officialUrl = "https://www.uslegalforms.com/expungement.pdf"; return j; } },
-    { on: "planner", id: "C5", name: "a planner that restates its own allowlist is caught", mutateText: (t) => t.replace(
-      'const ALLOWED = [...allowBlock[1].matchAll(/"([^"]+)"/g)].map((m) => m[1]);',
-      'const ALLOWED = [\n  ".gov",\n  ".us"\n];') },
+    { on: "planner", id: "C5", name: "a planner that restates its own allowlist instead of importing it is caught", mutateText: (t) => t.replace(
+      'import { hostAllowed, ALLOWED_EXACT_HOSTS, REFUSED_HOSTS } from "./lib/official-host-policy.mjs";',
+      'const ALLOWED = [\n  ".gov",\n  ".us"\n];\nconst hostAllowed = (h) => ALLOWED.some((s) => h.endsWith(s));\nconst ALLOWED_EXACT_HOSTS = new Map();\nconst REFUSED_HOSTS = new Set();') },
     { on: "active", id: "C6", name: "one obligation dispatched to two lanes is caught", mutate: (j) => { const s = j.assignments.filter((x) => x.itemKind === "sourceObligation" && x.items.length); s[1].items.push(s[0].items[0]); return j; } },
     { on: "manifest", id: "C6", name: "a duplicate URL in the manifest is caught", mutate: (j) => { j.entries.push({ ...j.entries[0], sourceId: `${j.entries[0].sourceId}-again` }); return j; } },
     { on: "manifest", id: "C6", name: "a duplicate source id in the manifest is caught", mutate: (j) => { j.entries.push({ ...j.entries[0], officialUrl: `${j.entries[0].officialUrl}?v=2` }); return j; } },
@@ -420,9 +434,10 @@ if (MUTATIONS) {
     { on: "ci", id: "C13", name: "a document reporting an opened commercial route is caught", mutate: (j) => { j.commercialRoutesOpened = 1; return j; } },
     { on: "conveyor", id: "C14", name: "a fifth SRC lane is caught", mutate: (j) => { j.totals.src = 5; return j; } },
     { on: "active", id: "C15", name: "a retired PF lane is caught", mutate: (j) => { j.assignments = j.assignments.filter((x) => x.assignmentId !== "PF16"); return j; } },
-    { on: "acquire", id: "C16", name: "widening the exact host to its shared suffix is caught", mutateText: (t) => t.replace('  ".uscourts.gov"', '  ".uscourts.gov",\n  ".blob.core.windows.net"') },
-    { on: "acquire", id: "C16", name: "an exact host that stops requiring a hash is caught", mutateText: (t) => t.replace("requiresExpectedSha256: true", "requiresExpectedSha256: false") },
-    { on: "acquire", id: "C16", name: "an exact host with no stated jurisdiction is caught", mutateText: (t) => t.replace(/jurisdictions: new Set\(\["IL"\]\),\n/, "") },
+    { on: "policy", id: "C16", name: "an open-registration TLD on the suffix list is caught", mutateText: (t) => t.replace('const ALLOWED_HOST_SUFFIXES = [\n  ".gov",', 'const ALLOWED_HOST_SUFFIXES = [\n  ".us",\n  ".gov",') },
+    { on: "policy", id: "C16", name: "widening the exact host to its shared suffix is caught", mutateText: (t) => t.replace('  ".uscourts.gov"', '  ".uscourts.gov",\n  ".blob.core.windows.net"') },
+    { on: "policy", id: "C16", name: "an exact host that stops requiring a hash is caught", mutateText: (t) => t.replace("requiresExpectedSha256: true", "requiresExpectedSha256: false") },
+    { on: "policy", id: "C16", name: "an exact host with no stated jurisdiction is caught", mutateText: (t) => t.replace(/jurisdictions: new Set\(\["IL"\]\),\n/, "") },
     { on: "manifest", id: "C16", name: "an exact-host entry with no expected hash is caught", mutate: (j) => { const e = j.entries.find((x) => (j.allowedExactHosts ?? []).includes(x.host)); if (!e) throw new Error("no manifest entry rides an exact host; this mutation has no subject"); e.expectedSha256 = null; return j; } },
     { on: "master", id: "C17", name: "reporting the forecast as the achieved figure is caught", mutate: (j) => { j.totals.actualPromotedAndReleased = j.totals.prospectiveReleasesAcrossSourceLanes; return j; } },
     { on: "master", id: "C17", name: "dropping the achieved count is caught", mutate: (j) => { delete j.totals.actualPromotedAndReleased; return j; } },

@@ -46,6 +46,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
+import { makeEmitter } from "../lib/generator-emit.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 process.chdir(ROOT);
@@ -212,7 +213,7 @@ assignments.push(base("VTR03_VT_RERENDER", "vtr03-vt-rerender", "packet-repair",
   ownedPaths: [...PATHWAY.map((f) => `${OVERLAYS}/${f.replace(/_/g, "-")}--official-pdf-fill/**`), "data/rcap-grade-a/codex-cloud/vtr03-vt-rerender/**"],
   prohibitedPaths: [HOST, `${OVERLAYS}/${PARDON.replace(/_/g, "-")}--official-pdf-fill/**`, "scripts/rcap-packet-completeness/**"],
   whyYouDoNotOwnTheHost: `${HOST} is VTR01's. Two lanes editing it would be two writers on one script.`,
-  rasterRule: `Page rasters go through scripts/lib/pdf-page-raster.mjs, which discovers its browser. NEVER pdftoppm, NEVER apt-get, NEVER playwright install. The preflight now gates on this, so a lane that cannot raster learns before it builds.`,
+  rasterRule: `Page rasters go through scripts/lib/pdf-page-raster.mjs, which discovers its browser. NEVER \`pdftoppm\`, NEVER \`apt-get\`, NEVER \`playwright install\`. The preflight now gates on this, so a lane that cannot raster learns before it builds.`,
   requiredOutputs: [...PATHWAY.map((f) => `${OVERLAYS}/${f.replace(/_/g, "-")}--official-pdf-fill/ — re-rendered`), "data/rcap-grade-a/codex-cloud/vtr03-vt-rerender/rows.json — one row per family with the nine counters after"],
   outputSchema: { arrayKey: "rows", itemKeyField: "itemId", completionVocabulary: ["COMPLETED", "STOPPED"], rule: "An unrecognised status is refused at integration rather than translated." },
   focusedTests: PATHWAY.map((f) => `node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ${f}`),
@@ -393,14 +394,12 @@ const promptFor = (a) => {
   return p.join("\n");
 };
 
-if (CHECK) {
-  console.log(`Vermont repair current: ${repairLanes.length} repair lane(s), ${assignments.length - repairLanes.length} reverification lane(s), ${evidence.length} verifier return(s) read.`);
-  process.exit(0);
-}
-
-fs.mkdirSync(path.join(ROOT, PROMPT_DIR), { recursive: true });
-fs.writeFileSync(path.join(ROOT, OUT), `${JSON.stringify(doc, null, 2)}\n`);
-for (const a of assignments) fs.writeFileSync(path.join(ROOT, a.promptFile), promptFor(a));
+const EMIT = makeEmitter({ root: ROOT, check: CHECK, label: "Vermont repair" });
+EMIT.emit(OUT, `${JSON.stringify(doc, null, 2)}\n`);
+for (const a of assignments) EMIT.emit(a.promptFile, promptFor(a));
+EMIT.sweep(PROMPT_DIR, (n) => n.endsWith(".md"));
+EMIT.finish();
+if (CHECK) process.exit(0);
 
 console.log(`Wrote ${OUT}`);
 console.log(`Wrote ${assignments.length} prompts into ${PROMPT_DIR}/`);

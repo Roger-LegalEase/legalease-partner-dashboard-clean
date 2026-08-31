@@ -28,6 +28,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
+import { makeEmitter } from "../lib/generator-emit.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 process.chdir(ROOT);
@@ -341,14 +342,12 @@ const promptFor = (a) => {
   return p.join("\n");
 };
 
-if (CHECK) {
-  console.log(`Washington repair current: ${FAMILIES.length} families, ${repairLanes.length} repair lane(s), ${assignments.length - repairLanes.length} reverification lane(s).`);
-  process.exit(0);
-}
-
-fs.mkdirSync(path.join(ROOT, PROMPT_DIR), { recursive: true });
-fs.writeFileSync(path.join(ROOT, OUT), `${JSON.stringify(doc, null, 2)}\n`);
-for (const a of assignments) fs.writeFileSync(path.join(ROOT, a.promptFile), promptFor(a));
+const EMIT = makeEmitter({ root: ROOT, check: CHECK, label: "Washington repair" });
+EMIT.emit(OUT, `${JSON.stringify(doc, null, 2)}\n`);
+for (const a of assignments) EMIT.emit(a.promptFile, promptFor(a));
+EMIT.sweep(PROMPT_DIR, (n) => n.endsWith(".md"));
+EMIT.finish();
+if (CHECK) process.exit(0);
 
 console.log(`Wrote ${OUT}`);
 console.log(`Wrote ${assignments.length} prompts into ${PROMPT_DIR}/`);

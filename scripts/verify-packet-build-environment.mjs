@@ -550,30 +550,39 @@ check(
 // ==============================================================================
 check(
   "page_rasterizer_available",
-  "the calibrated Chromium page rasterizer resolves a browser it can execute",
+  "the calibrated Chromium page rasterizer renders a page",
   "Four lanes returned STOPPED after passing this preflight 14/14: PF09 and PF15 on 'pdftoppm ENOENT', PF11 and PF12 on 'Playwright cannot find Chromium at /opt/pw-browsers/chromium'. A preflight that passes and is then contradicted by the render step is not checking what the lane needs. Rastering is a required build step, so its toolchain is a preflight question -- and the answer must be the repository's own Chromium path, never Poppler and never a package install.",
   (env) => {
     const lib = path.join(env, "scripts/lib/pdf-page-raster.mjs");
     if (!fs.existsSync(lib)) return { ok: false, detail: "scripts/lib/pdf-page-raster.mjs is absent" };
+    /*
+     * This launches the browser and rasterizes a one-page PDF. It used to call
+     * resolveChromium() and pass if a path came back -- and resolveChromium only
+     * asks fs.accessSync(X_OK). C13 built two environments where that printed ok
+     * and the render then failed: a browsers path holding only
+     * chromium_headless_shell, which has no PDF viewer, and RCAP_CHROMIUM_PATH
+     * pointed at a directory, which is executable and is not a program.
+     * Executability is not renderability. Rastering is a required build step, so
+     * the preflight renders.
+     */
     const probe = spawnSync(process.execPath, ["--input-type=module", "-e",
-      `import { resolveChromium } from ${JSON.stringify(pathToFileURL(lib).href)};`
-      + "const r = resolveChromium();"
-      + "process.stdout.write(JSON.stringify(r));"
-    ], { cwd: env, encoding: "utf8" });
+      `import { probeRasterizer } from ${JSON.stringify(pathToFileURL(lib).href)};`
+      + "probeRasterizer().then((r) => process.stdout.write(JSON.stringify(r)));"
+    ], { cwd: env, encoding: "utf8", timeout: 120000 });
     if (probe.status !== 0) {
       return { ok: false, detail: `the rasterizer could not be loaded: ${(probe.stderr || probe.stdout || "").trim().split("\n").slice(-1)[0]}` };
     }
     let resolved = null;
     try { resolved = JSON.parse(probe.stdout); } catch { return { ok: false, detail: "the rasterizer returned no resolution" }; }
-    if (!resolved.executablePath) {
+    if (!resolved.ok) {
       return {
-        ok: false, candidatesTried: resolved.tried ?? [],
-        detail: `no executable Chromium. Tried: ${(resolved.tried ?? []).join(", ") || "(nothing — PLAYWRIGHT_BROWSERS_PATH is unset)"}. Set RCAP_CHROMIUM_PATH; never substitute pdftoppm and never install packages.`
+        ok: false, candidatesTried: resolved.tried ?? [], executablePath: resolved.executablePath ?? null,
+        detail: `${resolved.why ?? "the rasterizer could not render"}. Tried: ${(resolved.tried ?? [resolved.executablePath]).filter(Boolean).join(", ") || "(nothing — PLAYWRIGHT_BROWSERS_PATH is unset)"}. Set RCAP_CHROMIUM_PATH to a Chromium BINARY; never substitute pdftoppm and never install packages.`
       };
     }
     return {
-      ok: true, executablePath: resolved.executablePath, resolvedBy: resolved.resolvedBy,
-      detail: `chromium at ${resolved.executablePath} (${resolved.resolvedBy})`
+      ok: true, executablePath: resolved.executablePath, resolvedBy: resolved.resolvedBy, paper: resolved.paper,
+      detail: `chromium at ${resolved.executablePath} (${resolved.resolvedBy}) rendered a page: paper ${resolved.paper.width}x${resolved.paper.height}px`
     };
   }
 );

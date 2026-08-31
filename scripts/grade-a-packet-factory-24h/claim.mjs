@@ -33,6 +33,7 @@
  * A release is recorded locally and returned in the lane's diff. Captain
  * integrates it; a worker's own copy of the ledger is evidence, not authority.
  */
+import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
@@ -80,7 +81,30 @@ function assertClaim(lane, familyId) {
     process.exit(5);
   }
 
-  const grants = (ledger.claims ?? []).filter((c) => c.familyId === familyId && c.laneKind === kind);
+  /*
+   * The ledger must describe its own grants. C13 showed that generatedAtCommit
+   * is a declared floor: it did not move when thirteen grants were revoked, so
+   * the pre- and post-revocation ledgers were indistinguishable and a stale
+   * worker asserted a withdrawn grant. The digest is a function of the grants,
+   * so it moves whenever they do -- and a ledger whose digest does not describe
+   * its own claims is a hand-edited ledger.
+   */
+  const rows = ledger.claims ?? [];
+  const digest = crypto.createHash("sha256")
+    .update(JSON.stringify(rows.map((c) => [c.familyId, c.lane, c.laneKind])))
+    .digest("hex");
+  if (!ledger.claimsDigest) {
+    console.error("LEDGER_HAS_NO_DIGEST: this ledger predates grant-set identity and cannot say which dispatch it is.");
+    console.error("Stop. Report BLOCKED_BEFORE_CLAIM naming this; Captain must regenerate the dispatch.");
+    process.exit(10);
+  }
+  if (ledger.claimsDigest !== digest) {
+    console.error(`LEDGER_DIGEST_MISMATCH: the ledger declares ${ledger.claimsDigest} and its ${rows.length} grants hash to ${digest}.`);
+    console.error("Stop. A ledger that does not describe its own grants was edited by something that is not the generator.");
+    process.exit(11);
+  }
+
+  const grants = rows.filter((c) => c.familyId === familyId && c.laneKind === kind);
   if (grants.length === 0) {
     console.error(`NOT_GRANTED: no ${kind} lane holds ${familyId} in this ledger.`);
     console.error("Stop. Do not read its artifacts.");
@@ -101,7 +125,8 @@ function assertClaim(lane, familyId) {
     console.error(`ALREADY_RELEASED: ${familyId} was released by ${lane} at ${grant.releasedAt}.`);
     process.exit(9);
   }
-  console.log(`CLAIM_OK ${lane} ${familyId} (${kind}, granted at ${ledger.generatedAtCommit ?? "unpinned"})`);
+  console.log(`CLAIM_OK ${lane} ${familyId} (${kind}, granted at ${ledger.generatedAtCommit ?? "unpinned"}, grant set ${digest.slice(0, 16)})`);
+  console.log("Report the grant set with your return. A return naming a grant set Captain has superseded acted on withdrawn grants.");
   return 0;
 }
 

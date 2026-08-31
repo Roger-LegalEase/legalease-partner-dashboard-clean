@@ -22,6 +22,7 @@ import path from "node:path";
 import crypto from "node:crypto";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
+import { makeEmitter } from "../lib/generator-emit.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 process.chdir(ROOT);
@@ -1448,9 +1449,25 @@ const promptFor = (a) => {
   p.push(`**Execution contract:** \`${a.executionContract}\` — read it before you start.`);
   p.push("**Repository:** Roger-LegalEase/legalease-partner-dashboard-clean", "");
   p.push("> There is no origin, the checkout is shallow, and your finished diff returns through the Codex Cloud interface. That is the design.", "");
-  if (a.taskIsolation) {
-    p.push("> ## " + a.taskIsolation[0], ">", ...a.taskIsolation.slice(1).map((l) => `> **${l}**`), "");
-  }
+  /*
+   * The isolation banner goes on EVERY prompt, not only the sixteen builders.
+   *
+   * F28 was added after C13 showed the prompt checks could not see the repair
+   * subdirectories, and the first thing it found was that thirty-two prompts --
+   * every source, verifier and fix lane -- had no banner at all. Only the
+   * builders did. A container handed VF01 with no banner can run VF01 through
+   * VF12 in one task and return twelve independent verifications, which is the
+   * single failure the independent-verification design exists to prevent: the
+   * whole point of VF is that it is not the same reader as PF, and twelve
+   * verdicts from one reader are one verdict wearing twelve names.
+   */
+  const family = a.assignmentId.replace(/[0-9].*$/, "") || a.assignmentId;
+  const isolation = a.taskIsolation ?? [
+    "THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.",
+    `DO NOT EXECUTE THE OTHER ${family} PROMPTS IN THIS TASK.`,
+    "DO NOT EXECUTE ANOTHER LANE'S PROMPT IN THIS CONTAINER."
+  ];
+  p.push("> ## " + isolation[0], ">", ...isolation.slice(1).map((l) => `> **${l}**`), "");
   if (a.rowStopContract) {
     const rc = a.rowStopContract;
     p.push("## Two gates, and only one of them stops the lane", "");
@@ -1541,18 +1558,12 @@ const promptFor = (a) => {
   return p.join("\n");
 };
 
-if (CHECK) {
-  console.log(`packet factory 24h current: ${families.length} families, ${sourceReady.length} source-ready, ${assignments.length} lanes, ${collisions.length} collisions.`);
-  process.exit(0);
-}
-
-fs.mkdirSync(path.join(ROOT, OUT_DIR), { recursive: true });
-fs.mkdirSync(path.join(ROOT, PROMPT_DIR), { recursive: true });
-fs.writeFileSync(path.join(ROOT, `${OUT_DIR}/MASTER_QUEUE.json`), `${JSON.stringify(masterQueue, null, 2)}\n`);
-fs.writeFileSync(path.join(ROOT, `${OUT_DIR}/ACTIVE_ASSIGNMENTS.json`), `${JSON.stringify(activeAssignmentsRecord, null, 2)}\n`);
-fs.writeFileSync(path.join(ROOT, `${OUT_DIR}/IMPORT_GRAPH.json`), `${JSON.stringify(importGraphRecord, null, 2)}\n`);
-fs.writeFileSync(path.join(ROOT, `${OUT_DIR}/COLLISIONS.json`), `${JSON.stringify(collisionsRecord, null, 2)}\n`);
-fs.writeFileSync(path.join(ROOT, `${OUT_DIR}/CHECKPOINT.json`), `${JSON.stringify(checkpointRecord, null, 2)}\n`);
+const OUT = makeEmitter({ root: ROOT, check: CHECK, label: "packet factory 24h" });
+OUT.emit(`${OUT_DIR}/MASTER_QUEUE.json`, `${JSON.stringify(masterQueue, null, 2)}\n`);
+OUT.emit(`${OUT_DIR}/ACTIVE_ASSIGNMENTS.json`, `${JSON.stringify(activeAssignmentsRecord, null, 2)}\n`);
+OUT.emit(`${OUT_DIR}/IMPORT_GRAPH.json`, `${JSON.stringify(importGraphRecord, null, 2)}\n`);
+OUT.emit(`${OUT_DIR}/COLLISIONS.json`, `${JSON.stringify(collisionsRecord, null, 2)}\n`);
+OUT.emit(`${OUT_DIR}/CHECKPOINT.json`, `${JSON.stringify(checkpointRecord, null, 2)}\n`);
 /*
  * The claim ledger.
  *
@@ -1566,6 +1577,13 @@ fs.writeFileSync(path.join(ROOT, `${OUT_DIR}/CHECKPOINT.json`), `${JSON.stringif
  * asserts its grant through scripts/grade-a-packet-factory-24h/claim.mjs and
  * stops if the ledger does not name it. There is no second mechanism.
  */
+const claimRows = assignments
+  .filter((a) => a.itemKind === "packetFamily" || a.itemKind === "streamingClaim")
+  .flatMap((a) => (a.items ?? []).map((familyId) => ({
+    familyId, lane: a.assignmentId, laneKind: a.lane, released: false, releasedAt: null
+  })))
+  .sort((x, y) => x.familyId.localeCompare(y.familyId) || x.lane.localeCompare(y.lane));
+
 const claimLedgerRecord = {
   schemaVersion: "rcap-claim-ledger/v1",
   generatedBy: "scripts/grade-a-packet-factory-24h/generate.mjs",
@@ -1579,17 +1597,46 @@ const claimLedgerRecord = {
     "a non-zero exit is a full stop: report laneStatus BLOCKED_BEFORE_CLAIM naming the exact refusal, and read nothing",
     "node scripts/grade-a-packet-factory-24h/claim.mjs --release <LANE> <familyId> when the family is finished, and leave it in the diff"
   ],
-  claims: assignments
-    .filter((a) => a.itemKind === "packetFamily" || a.itemKind === "streamingClaim")
-    .flatMap((a) => (a.items ?? []).map((familyId) => ({
-      familyId, lane: a.assignmentId, laneKind: a.lane, released: false, releasedAt: null
-    })))
-    .sort((x, y) => x.familyId.localeCompare(y.familyId) || x.lane.localeCompare(y.lane)),
+  claims: claimRows,
+  /*
+   * The identity of THIS grant set.
+   *
+   * C13 found the hole: commit 068136465 revoked thirteen packet-build grants
+   * -- exactly the families found legally blocked -- and generatedAtCommit did
+   * not move, because it is a declared constant. Both ledgers said 7476708c, so
+   * a worker holding the pre-revocation copy asserted revoked grants and its
+   * return was indistinguishable from one made against the current ledger.
+   *
+   * claimsDigest is a function of the grants themselves, so revocation always
+   * changes it. claim.mjs recomputes it, refuses a ledger whose digest does not
+   * describe its own claims, and prints it in every CLAIM_OK, so a lane return
+   * names the grant set it acted on and Captain can tell at integration whether
+   * that is the current one.
+   *
+   * What this does NOT do, stated plainly rather than implied away: an isolated
+   * container with no network cannot discover that its whole checkout is stale.
+   * A stale ledger and a stale prompt agree with each other. The residual risk
+   * is bounded Captain-side -- a lane is never launched against a superseded
+   * SHA -- and this digest is what makes a violation visible in the return
+   * rather than silent.
+   */
+  claimsDigest: crypto.createHash("sha256")
+    .update(JSON.stringify(claimRows.map((c) => [c.familyId, c.lane, c.laneKind])))
+    .digest("hex"),
+  claimsDigestCovers: "familyId, lane and laneKind of every grant, in the order written here",
+  revocationIsVisibleHow: "the digest changes whenever a grant is added or withdrawn; generatedAtCommit is a declared floor and does not",
   releases: []
 };
-fs.writeFileSync(path.join(ROOT, `${OUT_DIR}/claim-ledger.json`), `${JSON.stringify(claimLedgerRecord, null, 2)}\n`);
+OUT.emit(`${OUT_DIR}/claim-ledger.json`, `${JSON.stringify(claimLedgerRecord, null, 2)}\n`);
 
-for (const a of assignments) fs.writeFileSync(path.join(ROOT, a.promptFile), promptFor(a));
+for (const a of assignments) OUT.emit(a.promptFile, promptFor(a));
+
+// This generator owns every top-level prompt in the dispatch directory. A .md
+// file here that no assignment produced is an injected instruction, and C13
+// showed the prompt checks would not have seen it.
+OUT.sweep(PROMPT_DIR, (n) => n.endsWith(".md"));
+OUT.finish();
+if (CHECK) process.exit(0);
 
 console.log(`Wrote ${OUT_DIR}/{MASTER_QUEUE,ACTIVE_ASSIGNMENTS,IMPORT_GRAPH,COLLISIONS,CHECKPOINT}.json`);
 console.log(`Wrote ${assignments.length} prompts into ${PROMPT_DIR}/`);

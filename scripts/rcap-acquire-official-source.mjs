@@ -14,6 +14,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
+import { hostAllowed, exactHostPolicy, REFUSED_HOSTS } from "./lib/official-host-policy.mjs";
 
 const OUT_DIR = path.resolve("acquired-source");
 
@@ -56,47 +57,11 @@ const TOLERATE_FAILURE = process.env.RCAP_TOLERATE_FAILURE === "1";
 const URL_KIND = process.env.RCAP_URL_KIND ?? "direct_binary";
 const ASSET_ID = process.env.RCAP_ASSET_ID ?? null;
 
-// Only first-party government publishers. A form whose publisher is not here is
-// a decision to extend this list in a reviewed commit, not a URL pasted at
-// dispatch time. Suffix match on the registrable host, so a lookalike domain
-// ending in a permitted string cannot slip through.
-const ALLOWED_HOST_SUFFIXES = [
-  ".gov",
-  ".us",
-  ".courts.state.nh.us",
-  ".uscourts.gov"
-];
-
-/*
- * Exact hosts, allowed one hostname at a time and never by suffix.
- *
- * The Illinois judiciary publishes some of its own documents from a storage
- * bucket rather than from a .gov name. The document is official; the HOST is
- * not a government name, and `.blob.core.windows.net` is a shared storage
- * suffix anyone in the world can obtain a subdomain of. Allowing the suffix
- * would allow every tenant on that service.
- *
- * So this is an exact-hostname list. A host here is matched by full equality,
- * it carries the jurisdictions it is allowed to serve, and it requires an
- * expected SHA-256 at dispatch: a bucket URL can be repointed without any
- * visible change to the address, and the hash is what makes the substitution
- * detectable.
- */
-const ALLOWED_EXACT_HOSTS = new Map([
-  ["ilcourtsaudio.blob.core.windows.net", {
-    provenance: "Illinois judiciary — documents published by the Illinois Courts from their own storage host",
-    jurisdictions: new Set(["IL"]),
-    requiresExpectedSha256: true,
-    why: "the host is not a government name, so the document's identity rests on the hash rather than on the address"
-  }]
-]);
-
-// Hosts that are government-adjacent but not first-party publishers. Named
-// explicitly so a reviewer sees they were considered and refused.
-const REFUSED_HOSTS = new Set([
-  "www.formsworkflow.com", "www.uslegalforms.com", "www.pdffiller.com",
-  "www.scribd.com", "www.docketbird.com"
-]);
+// The host policy lives in scripts/lib/official-host-policy.mjs so that this
+// script and the batch planner cannot disagree about it. The planner used to
+// re-derive it by regex over this file's source text, and `.us` -- an
+// open-registration TLD -- was on the suffix list under a comment reading
+// "Only first-party government publishers."
 
 function fail(message) {
   console.error(`FAIL official-source acquisition — ${message}`);
@@ -159,7 +124,7 @@ if (url.protocol !== "https:") fail(`${url.protocol} is not https`);
 
 const host = url.hostname.toLowerCase();
 if (REFUSED_HOSTS.has(host)) fail(`${host} is a commercial form site, not the issuing body`);
-const exactHost = ALLOWED_EXACT_HOSTS.get(host) ?? null;
+const exactHost = exactHostPolicy(host);
 if (exactHost) {
   if (!exactHost.jurisdictions.has(jurisdiction)) {
     fail(`${host} is allowed only for ${[...exactHost.jurisdictions].join(", ")} and this dispatch is ${jurisdiction}`);
@@ -167,8 +132,8 @@ if (exactHost) {
   if (exactHost.requiresExpectedSha256 && !/^[0-9a-f]{64}$/.test(String(expectedSha256 ?? ""))) {
     fail(`${host} requires an expected SHA-256 at dispatch: ${exactHost.why}`);
   }
-} else if (!ALLOWED_HOST_SUFFIXES.some((suffix) => host === suffix.replace(/^\./, "") || host.endsWith(suffix))) {
-  fail(`${host} is not an allowlisted official government host; extend ALLOWED_HOST_SUFFIXES or ALLOWED_EXACT_HOSTS in a reviewed commit if it is one`);
+} else if (!hostAllowed(host)) {
+  fail(`${host} is not an allowlisted official government host; extend scripts/lib/official-host-policy.mjs in a reviewed commit if it is one`);
 }
 
 const retrievedAt = new Date().toISOString();
@@ -186,8 +151,7 @@ const finalUrl = response.url;
 const finalHost = new URL(finalUrl).hostname.toLowerCase();
 // A redirect off the allowlist is the interesting case: it means the publisher
 // moved the form somewhere this acquisition is not entitled to trust.
-if (!ALLOWED_EXACT_HOSTS.has(finalHost)
-  && !ALLOWED_HOST_SUFFIXES.some((suffix) => finalHost === suffix.replace(/^\./, "") || finalHost.endsWith(suffix))) {
+if (!hostAllowed(finalHost)) {
   fail(`the request redirected to ${finalHost}, which is not an allowlisted official host`);
 }
 // An exact host may only redirect to itself. It was allowed as one hostname,
@@ -210,6 +174,16 @@ const sha256 = crypto.createHash("sha256").update(bytes).digest("hex");
 if (exactHost && expectedSha256 && expectedSha256 !== sha256) {
   fail(`${host} is allowed as an exact hostname on the condition that the bytes match: expected ${expectedSha256}, retrieved ${sha256}`);
 }
+/*
+ * A hash mismatch on any other host is not a refusal to fetch -- the bytes are
+ * evidence about what the publisher is serving today, and losing them would
+ * lose the fact that the form changed. It IS a refusal to call the result an
+ * acquisition. The receipt used to say outcome "acquired" with
+ * matchesExpectedSha256 false, and nothing downstream read the second field, so
+ * a revised form promoted itself. The outcome carries it now, and the
+ * materializer refuses any outcome that is not exactly "acquired".
+ */
+const hashMismatch = Boolean(expectedSha256) && expectedSha256 !== sha256;
 
 // Read from the bytes, not the headers: a server that mislabels a PDF as
 // text/html is common, and an HTML error page served with a 200 is the failure
@@ -242,7 +216,8 @@ const receipt = {
   schemaVersion: "rcap-official-source-receipt/v1",
   ...coverage(),
   acquiredBy: ".github/workflows/rcap-official-source-acquisition.yml",
-  outcome: "acquired",
+  outcome: hashMismatch ? "acquired_but_not_the_pinned_document" : "acquired",
+  outcomeVocabulary: ["acquired", "acquired_but_not_the_pinned_document", "not_acquired"],
   jurisdiction,
   formNumber,
   assetId: ASSET_ID,

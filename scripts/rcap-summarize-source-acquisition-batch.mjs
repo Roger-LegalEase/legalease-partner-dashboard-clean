@@ -45,9 +45,15 @@ if (fs.existsSync(dir)) {
   }
 }
 
-const acquired = receipts.filter((r) => /^[0-9a-f]{64}$/.test(String(r.sha256 ?? "")));
-const failed = receipts.filter((r) => !/^[0-9a-f]{64}$/.test(String(r.sha256 ?? "")))
-  .map((r) => ({ artifact: r.artifact, jurisdiction: r.jurisdiction ?? null, formNumber: r.formNumber ?? null, why: r.failure ?? r.error ?? "the receipt carries no SHA-256" }));
+/*
+ * "Acquired" is the receipt's own word, not an inference from the presence of a
+ * hash. A receipt whose outcome is anything else -- not_acquired, or the
+ * hash-mismatch outcome the acquire script now writes instead of claiming an
+ * acquisition it cannot vouch for -- is not an acquisition.
+ */
+const acquired = receipts.filter((r) => r.outcome === "acquired" && /^[0-9a-f]{64}$/.test(String(r.sha256 ?? "")));
+const failed = receipts.filter((r) => !acquired.includes(r))
+  .map((r) => ({ artifact: r.artifact, jurisdiction: r.jurisdiction ?? null, formNumber: r.formNumber ?? null, outcome: r.outcome ?? null, why: r.failure ?? (r.outcome && r.outcome !== "acquired" ? `the receipt's outcome is ${r.outcome}` : "the receipt carries no SHA-256") }));
 /*
  * A receipt with no run id and no artifact name cannot be matched to the
  * artifact it describes, so PROMO will refuse it. That is a batch outcome, not
@@ -56,7 +62,7 @@ const failed = receipts.filter((r) => !/^[0-9a-f]{64}$/.test(String(r.sha256 ?? 
  */
 const missingProvenance = acquired.filter((r) =>
   !/^\d+$/.test(String(r.acquisitionRunId ?? "")) || !/^[A-Za-z0-9][A-Za-z0-9._-]+$/.test(String(r.artifactName ?? "")))
-  .map((r) => ({ artifact: r.artifact, sourceId: r.sourceId ?? null, acquisitionRunId: r.acquisitionRunId ?? null, artifactName: r.artifactName ?? null }));
+  .map((r) => ({ artifact: r.artifact, assetId: r.assetId ?? null, acquisitionRunId: r.acquisitionRunId ?? null, artifactName: r.artifactName ?? null }));
 const provenanceRunIdMismatch = acquired.filter((r) => acquisitionRunId && String(r.acquisitionRunId ?? "") !== String(acquisitionRunId))
   .map((r) => ({ artifact: r.artifact, receiptSaid: r.acquisitionRunId ?? null, runWas: acquisitionRunId }));
 const hashMismatches = acquired.filter((r) => r.matchesExpectedSha256 === false)
@@ -93,9 +99,19 @@ const result = {
   },
   acquired: acquired.map((r) => ({
     jurisdiction: r.jurisdiction ?? null, formNumber: r.formNumber ?? null,
-    officialUrl: r.officialUrl ?? r.url ?? null, sha256: r.sha256,
-    byteLength: r.byteLength ?? null, mediaTypeObserved: r.mediaTypeObserved ?? null,
-    pageCount: r.pageCount ?? null, technology: r.technology ?? null,
+    /*
+     * These read the key names rcap-acquire-official-source.mjs writes. They
+     * previously read officialUrl/url, byteLength, mediaTypeObserved, pageCount
+     * and technology -- five names no receipt has ever carried -- so every
+     * descriptive field published per acquired source was null, including the
+     * URL, the only field that says which document the bytes are. The batch
+     * still reported COMPLETE, because nothing here gates. H5 now asserts that
+     * every field name this file reads is a key the acquire script writes.
+     */
+    officialUrl: r.finalResolvedUrl ?? r.requestedUrl ?? null, sha256: r.sha256,
+    expectedSha256: r.expectedSha256 ?? null, publisherHost: r.publisherHost ?? null,
+    byteLength: r.observedByteLength ?? null, mediaTypeObserved: r.contentType ?? null,
+    pageCount: r.observedPageCount ?? null, technology: r.observedStructuralClass ?? null,
     acquisitionRunId: r.acquisitionRunId ?? null, artifactName: r.artifactName ?? null,
     bodyCommitted: false, promotedToCorpus: false, custodyClass: "RECEIPT_AND_ARTIFACT_ONLY_BODY_NOT_COMMITTED"
   })),

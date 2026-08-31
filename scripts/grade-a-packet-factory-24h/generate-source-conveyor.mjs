@@ -31,6 +31,8 @@ import fs from "node:fs";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
+import { makeEmitter } from "../lib/generator-emit.mjs";
+import { hostAllowed, ALLOWED_HOST_SUFFIXES, ALLOWED_EXACT_HOSTS, REFUSED_HOSTS } from "../lib/official-host-policy.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 process.chdir(ROOT);
@@ -60,19 +62,12 @@ const familyById = new Map(master.families.map((f) => [f.familyId, f]));
 /* The host allowlist has one authority: the acquisition script. Read it from
  * there rather than restating it, so a second list cannot drift from the first. */
 const acquireText = fs.readFileSync(path.join(ROOT, ACQUIRE_SCRIPT), "utf8");
-const allowBlock = /const ALLOWED_HOST_SUFFIXES = \[([\s\S]*?)\];/.exec(acquireText);
-const refuseBlock = /const REFUSED_HOSTS = new Set\(\[([\s\S]*?)\]\);/.exec(acquireText);
-const exactBlock = /const ALLOWED_EXACT_HOSTS = new Map\(\[([\s\S]*?)\n\]\);/.exec(acquireText);
-if (!allowBlock || !refuseBlock || !exactBlock) { console.error("cannot read the host policy from the acquisition script"); process.exit(1); }
-const ALLOWED_HOST_SUFFIXES = [...allowBlock[1].matchAll(/"([^"]+)"/g)].map((m) => m[1]);
-const REFUSED_HOSTS = new Set([...refuseBlock[1].matchAll(/"([^"]+)"/g)].map((m) => m[1]));
-/* Exact hostnames, allowed one at a time. Read from the same authority, and
- * deliberately kept apart from the suffix list: the Illinois judiciary's
- * storage host is one hostname, and its parent suffix belongs to every tenant
- * of that service. */
-const ALLOWED_EXACT_HOSTS = new Set([...exactBlock[1].matchAll(/\["([^"]+)", \{/g)].map((m) => m[1]));
-const hostAllowed = (host) => ALLOWED_EXACT_HOSTS.has(host)
-  || ALLOWED_HOST_SUFFIXES.some((s) => host === s.replace(/^\./, "") || host.endsWith(s));
+/* One host policy, imported. This file used to re-derive it by regex over the
+ * acquisition script's own source text -- a third copy that could silently
+ * disagree with the other two. C13 found `.us`, an open-registration TLD, on
+ * the suffix list; a policy expressed three times is a policy corrected once.
+ */
+const ALLOWED_EXACT_HOST_NAMES = new Set(ALLOWED_EXACT_HOSTS.keys());
 
 /* ---- the sixteen lanes, read from the dispatch that owns them -------------- */
 const OPERATIONS = [
@@ -107,7 +102,7 @@ const OPERATIONS = [
     handOff: "PROMO, on the uploaded artifact and its receipt",
     refusals: [
       "Consume only exact official URLs supplied by DISC. A URL you composed yourself is refused.",
-      `Download only from an approved official government host: ${ALLOWED_HOST_SUFFIXES.join(", ")}. An unofficial mirror is refused even when the official host is slow.`,
+      `Download only from an approved official government host: ${[...ALLOWED_HOST_SUFFIXES, "state.<code>.us"].join(", ")}. An unofficial mirror is refused even when the official host is slow.`,
       "The body leaves as a workflow artifact. Nothing is committed."
     ]
   },
@@ -199,6 +194,25 @@ const EVIDENCE_ROOTS = ["data/rcap-all50", "data/rcap-grade-a", "data/record-cle
 const CANDIDATE_MARKER = /route-obligation-census-candidate|-candidate\.json$|\/candidate/i;
 const URL_RE = /https:\/\/[^\s"'\\)]+\.pdf/gi;
 
+/*
+ * This sweep reads data/rcap-grade-a and writes into data/rcap-grade-a, so
+ * without this exclusion it corroborates itself: a URL recorded in one real
+ * evidence file and then echoed into this generator's own manifest counts as
+ * two distinct files and crosses the threshold on the strength of its own
+ * record. The `refused` array made it worse, because a URL rejected FOR HAVING
+ * ONE SOURCE was promoted by the record of its own rejection.
+ *
+ * The same defect was found and fixed in generate-url-promotion-candidates.mjs.
+ * It was still live here, and the corroboration counts drifted upward on every
+ * run -- 193 committed, 205 on the next run -- which is what a measurement
+ * reading its own echo looks like. Generator convergence is what found it.
+ */
+const SELF_WRITTEN = [
+  "SOURCE_URL_PROMOTION_CANDIDATES.json", "SOURCE_IDENTITY_FINDINGS.json",
+  "SOURCE_ACQUISITION_MANIFEST.json", "SOURCE_CONVEYOR_ASSIGNMENTS.json", "STALE_LANE_RETURNS.json"
+];
+const isSelfWritten = (rel) => SELF_WRITTEN.some((n) => rel.endsWith(`/${n}`));
+
 function corroboratedUrls() {
   const seen = new Map();
   const walk = (dir) => {
@@ -208,6 +222,7 @@ function corroboratedUrls() {
       const rel = `${dir}/${e.name}`;
       if (e.isDirectory()) { walk(rel); continue; }
       if (!e.name.endsWith(".json")) continue;
+      if (isSelfWritten(rel)) continue;
       let body = null;
       try { body = fs.readFileSync(path.join(ROOT, rel), "utf8"); } catch { continue; }
       const isCandidate = CANDIDATE_MARKER.test(rel);
@@ -247,7 +262,7 @@ for (const r of urlRecords) {
   if (!r.formNumber && !r.officialTitle) { refuse("neither a form number nor an official title"); continue; }
   if (seenUrl.has(r.officialUrl)) { refuse("duplicate URL"); continue; }
   if (seenSourceId.has(r.sourceId)) { refuse("duplicate source id"); continue; }
-  if (ALLOWED_EXACT_HOSTS.has(host) && !r.expectedSha256) {
+  if (ALLOWED_EXACT_HOST_NAMES.has(host) && !r.expectedSha256) {
     refuse(`${host} is allowed as an exact hostname only with an expected SHA-256; the address alone does not identify the document`);
     continue;
   }
@@ -281,8 +296,8 @@ const manifest = {
   whatItIsNot: "It is not the whole source backlog. An obligation with no recorded official URL is DISC work; putting a guessed address here would send ACQ to fetch it.",
   consumedBy: BATCH_WORKFLOW,
   hostAllowlistAuthority: ACQUIRE_SCRIPT,
-  allowedHostSuffixes: ALLOWED_HOST_SUFFIXES,
-  allowedExactHosts: [...ALLOWED_EXACT_HOSTS].sort(),
+  allowedHostSuffixes: [...ALLOWED_HOST_SUFFIXES, "state.<code>.us (the delegated state-government namespace; bare .us is open registration and is refused)"],
+  allowedExactHosts: [...ALLOWED_EXACT_HOST_NAMES].sort(),
   exactHostRule: "An exact host is matched by full equality and never by suffix. ilcourtsaudio.blob.core.windows.net is allowed; *.blob.core.windows.net is not, because that suffix belongs to every tenant of the service. An entry on this list requires official judiciary provenance, is restricted to its own jurisdiction, and requires an exact SHA-256 at dispatch.",
   refusedHosts: [...REFUSED_HOSTS].sort(),
   rules: [
@@ -433,14 +448,12 @@ if (problems.length) {
   process.exit(1);
 }
 
-if (CHECK) {
-  console.log(`source conveyor current: ${conveyorLanes.length} lanes (${conveyor.totals.disc} DISC, ${conveyor.totals.src} SRC, ${conveyor.totals.acq} ACQ, ${conveyor.totals.promo} PROMO), ${totalObligations} obligations, ${manifestEntries.length} manifest entr(ies).`);
-  process.exit(0);
-}
-
-fs.writeFileSync(path.join(ROOT, CONVEYOR), `${JSON.stringify(conveyor, null, 2)}\n`);
-fs.writeFileSync(path.join(ROOT, MANIFEST), `${JSON.stringify(manifest, null, 2)}\n`);
-fs.writeFileSync(path.join(ROOT, CI_STATE), `${JSON.stringify(ciState, null, 2)}\n`);
+const EMIT = makeEmitter({ root: ROOT, check: CHECK, label: "source conveyor" });
+EMIT.emit(CONVEYOR, `${JSON.stringify(conveyor, null, 2)}\n`);
+EMIT.emit(MANIFEST, `${JSON.stringify(manifest, null, 2)}\n`);
+EMIT.emit(CI_STATE, `${JSON.stringify(ciState, null, 2)}\n`);
+EMIT.finish();
+if (CHECK) process.exit(0);
 
 console.log(`Wrote ${CONVEYOR}`);
 console.log(`Wrote ${MANIFEST}`);

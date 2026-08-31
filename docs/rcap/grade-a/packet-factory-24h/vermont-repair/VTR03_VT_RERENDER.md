@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** packet-repair  ·  **Sequence:** 2
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work`
-**Minimum required ancestor:** `d02268746a53b24d26500a8ce31204b16bfd2e74`
+**Minimum required ancestor:** `920500aa0c6042d08c34e9096fb80e79afcc5689`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md`
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -24,7 +24,7 @@ Assert every family through `node scripts/grade-a-packet-factory-24h/claim.mjs -
 
 ```sh
 source $HOME/.legalease-corpus-env
-node scripts/verify-packet-build-environment.mjs --family vt_seal_felony-set --codex-cloud --minimum-captain-sha d02268746a53b24d26500a8ce31204b16bfd2e74
+node scripts/verify-packet-build-environment.mjs --family vt_seal_felony-set --codex-cloud --minimum-captain-sha 920500aa0c6042d08c34e9096fb80e79afcc5689
 ```
 
 It must report every applicable check passing and **0 failed**.
@@ -47,7 +47,7 @@ Re-render the four Vermont pathway families on the corrected host and the source
 
 ## Rastering
 
-Page rasters go through scripts/lib/pdf-page-raster.mjs, which discovers its browser. NEVER pdftoppm, NEVER apt-get, NEVER playwright install. The preflight now gates on this, so a lane that cannot raster learns before it builds.
+Page rasters go through scripts/lib/pdf-page-raster.mjs, which discovers its browser. NEVER `pdftoppm`, NEVER `apt-get`, NEVER `playwright install`. The preflight now gates on this, so a lane that cannot raster learns before it builds.
 
 ## The 4 item(s)
 
