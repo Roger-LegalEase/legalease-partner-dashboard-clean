@@ -616,8 +616,34 @@ function anchorsFor(document, census) {
   for (const blank of census.blanks) {
     const decision = blank.mappingDecision;
     if (!decision.writable) {
-      withheld.push({ blankId: blank.blankId, page: blank.page, printedCaption: blank.printedCaption,
-        reason: decision.reason, category: decision.category ?? null });
+      const category = decision.category ?? null;
+      const isSelection = /\[\s*\]/.test(String(blank.printedCaption ?? ""));
+      const protectedClass = category === "signature" || category === "date"
+        ? "signature_or_date_participant_completion"
+        : new Set(["court", "prosecutor", "clerk", "disposition_or_hearing"]).has(category)
+          || (document.role === "court_order" && isSelection)
+          ? "court_prosecutor_clerk_or_agency_owned"
+          : isSelection ? "participant_sworn_narrative_or_legal_election"
+          : null;
+      const agencyFact = category === "agency";
+      const unidentifiedDecoration = !cleanText(blank.printedCaption);
+      withheld.push({
+        blankId: blank.blankId, page: blank.page, printedCaption: blank.printedCaption,
+        reason: unidentifiedDecoration
+          ? "Source decorative rule with no printed caption; never a filing fact."
+          : category === "attorney"
+            ? "Attorney-only field; no representation fact is held for this participant."
+            : protectedClass
+              ? decision.reason
+              : "The platform holds no verified value for this participant-completable fact; supply it before filing.",
+        category,
+        completenessClass: protectedClass,
+        ...(protectedClass || category === "attorney" || unidentifiedDecoration ? {} : {
+          completenessDisposition: "REQUIRED_BEFORE_FILING",
+          requiredBeforeFiling: true,
+          factId: agencyFact ? "matter.law_enforcement_agency" : `participant_supplied.${blank.blankId}`
+        })
+      });
       continue;
     }
     if (document.role === "court_order"
@@ -1346,6 +1372,21 @@ async function buildOfficialFamily(familyId, records, documents) {
       "Attach only documents required by the form and court. No attachment, continuation page, prosecutor notice, or proof of service was invented by this build.",
     sourceOfBlankList: `${out}/production-field-map.json`, legalReviewStillRequired: true
   });
+  const requiredBeforeFiling = censused.flatMap(({ document, withheld }) => withheld
+    .filter((blank) => blank.requiredBeforeFiling === true)
+    .map((blank) => ({ document: document.formNumber, ...blank })));
+  const instructionLines = [
+    `# Participant completion instructions — ${familyId}`,
+    "",
+    "> Evidence only. This packet has not been approved for delivery or filing.",
+    "",
+    "Before filing, supply each verified fact below in the identified blank. Do not guess. Confirm every value against your court record, and do not complete signature, court, clerk, prosecutor, or attorney-only fields.",
+    "",
+    ...requiredBeforeFiling.map((blank) =>
+      `- **${blank.printedCaption}** (${blank.document}, page ${blank.page}; \`${blank.blankId}\`)`)
+  ];
+  fs.writeFileSync(assertOwnedOutput(familyId, `${out}/participant-instructions.md`),
+    `${instructionLines.join("\n")}\n`);
   writeJson(`${out}/reports/rendered-artifacts.json`, {
     schemaVersion: "rcap-rendered-artifacts/v1", familyId,
     renderPath: "scripts/rcap-official-forms/rcap-official-form-finalize.mjs finalizeFlatOverlay",
