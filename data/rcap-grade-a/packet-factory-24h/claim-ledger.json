@@ -1,0 +1,555 @@
+{
+  "schemaVersion": "rcap-claim-ledger/v1",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
+  "generatedAtCommit": "7476708c6236b7b2ce1b1112dbeef434d3957c59",
+  "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
+  "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
+  "laneKinds": [
+    "packet-build",
+    "independent-verification",
+    "repair",
+    "source",
+    "shared-host-repair"
+  ],
+  "oneOwnerPerFamilyPerKind": "A builder and its verifier holding one family is the design. Two verifiers holding it is the collision, and this ledger cannot express it.",
+  "workerContract": [
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert <LANE> <familyId> before reading any artifact",
+    "a non-zero exit is a full stop: report laneStatus BLOCKED_BEFORE_CLAIM naming the exact refusal, and read nothing",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --release <LANE> <familyId> when the family is finished, and leave it in the diff"
+  ],
+  "claims": [
+    {
+      "familyId": "ak-courtview-set",
+      "lane": "PF09",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "ak-tf800-set",
+      "lane": "PF05",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "ak-tf805-set",
+      "lane": "PF10",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "az_marijuana_expungement_arrest_no_charges-set",
+      "lane": "FIX01",
+      "laneKind": "rapid-repair",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "az_record_sealing_arrest_no_charges-set",
+      "lane": "PF03",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "az_record_sealing_dismissal_not_guilty-set",
+      "lane": "PF03",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "ca-1203-4-set",
+      "lane": "PF15",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "ca-1203-41-set",
+      "lane": "FIX02",
+      "laneKind": "rapid-repair",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "ca-1203-42-set",
+      "lane": "FIX03",
+      "laneKind": "rapid-repair",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "ca-1203-4a-set",
+      "lane": "FIX04",
+      "laneKind": "rapid-repair",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "ca-851-91-set",
+      "lane": "FIX01",
+      "laneKind": "rapid-repair",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "ca-prop64-set",
+      "lane": "FIX02",
+      "laneKind": "rapid-repair",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "co_decriminalized_conduct_seal-set",
+      "lane": "PF10",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "co_motion_seal_conviction-set",
+      "lane": "PF15",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "co_motion_seal_nonconviction-set",
+      "lane": "PF12",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "co_multiple_conviction_seal-set",
+      "lane": "PF13",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "co_pardoned_conviction_seal-set",
+      "lane": "PF04",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "ct-cleanslate-petition-set",
+      "lane": "PF09",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "ky_felony_expungement_after_pardon-set",
+      "lane": "PF09",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "ky_felony_vacatur_expungement-set",
+      "lane": "PF10",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "ky_misdemeanor_expungement-set",
+      "lane": "PF11",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "ky_void_seal_controlled_substance-set",
+      "lane": "PF02",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "ky_void_seal_marijuana_synthetic_salvia-set",
+      "lane": "PF02",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "ma-expunge-mj-set",
+      "lane": "PF04",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "md_second_chance_shielding-set",
+      "lane": "PF14",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "me-seal-prost-set",
+      "lane": "PF14",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "mi_setaside_marihuana-set",
+      "lane": "PF05",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "ne-setaside-custodial-set",
+      "lane": "VF01",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "ne-setaside-noncustodial-set",
+      "lane": "PF04",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "ne-trafficking-setaside-and-seal-set",
+      "lane": "PF05",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "nj_arrest_no_conviction-set",
+      "lane": "FIX03",
+      "laneKind": "rapid-repair",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "nj_clean_slate-set",
+      "lane": "FIX04",
+      "laneKind": "rapid-repair",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "nj_indictable_conviction-set",
+      "lane": "FIX01",
+      "laneKind": "rapid-repair",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "nj_ordinance-set",
+      "lane": "FIX02",
+      "laneKind": "rapid-repair",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "ny_160_59_petition-set",
+      "lane": "FIX03",
+      "laneKind": "rapid-repair",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "ny_mrta_marijuana-set",
+      "lane": "FIX04",
+      "laneKind": "rapid-repair",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "oh_marijuana_expungement-set",
+      "lane": "VF02",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "or_contempt_setaside-set",
+      "lane": "PF06",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "or_conviction_setaside-set",
+      "lane": "PF07",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "pa_490_nonconviction-set",
+      "lane": "FIX01",
+      "laneKind": "rapid-repair",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "pa_6308_underage-set",
+      "lane": "PF06",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "pa_790_nonconviction-set",
+      "lane": "FIX02",
+      "laneKind": "rapid-repair",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "pa_9122_1_limited_access-set",
+      "lane": "FIX03",
+      "laneKind": "rapid-repair",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "pa_age70_deceased-set",
+      "lane": "PF08",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "pa_pardon_expungement-set",
+      "lane": "PF08",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "pa_summary_conviction-set",
+      "lane": "FIX04",
+      "laneKind": "rapid-repair",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "rcap-oh-custom-pleading-clean-tracks",
+      "lane": "VF03",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "ri_nonconviction_sealing-set",
+      "lane": "FIX01",
+      "laneKind": "rapid-repair",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "sc_17_22_950_summary-set",
+      "lane": "PF03",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "ut_pet_acquittal-set",
+      "lane": "VF04",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "ut_pet_conviction-set",
+      "lane": "VF05",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "ut_pet_dismissed_with_prejudice-set",
+      "lane": "VF06",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "ut_pet_dismissed_without_prejudice-set",
+      "lane": "VF07",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "ut_pet_limitations-set",
+      "lane": "VF08",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "ut_pet_no_charges-set",
+      "lane": "VF09",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "ut_pet_traffic-set",
+      "lane": "VF10",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "va_exp_nonconviction-set",
+      "lane": "PF13",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "va_seal_ancillary_matter_only-set",
+      "lane": "PF01",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "va_seal_enumerated_seven_year-set",
+      "lane": "PF01",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "va_seal_petition_felony-set",
+      "lane": "PF01",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "va_seal_petition_misdemeanor-set",
+      "lane": "PF01",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "vt_exp_decriminalized-set",
+      "lane": "PF07",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "vt_seal_18_to_21-set",
+      "lane": "VF11",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "vt_seal_dui-set",
+      "lane": "VF12",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "vt_seal_felony-set",
+      "lane": "VF01",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "vt_seal_misdemeanor-set",
+      "lane": "VF02",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "vt_seal_nonconviction-set",
+      "lane": "PF08",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "vt_seal_pardon-set",
+      "lane": "VF03",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "wa_blake_vacatur_and_lfo_refund-set",
+      "lane": "PF12",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "wi_exp_cr266-set",
+      "lane": "PF16",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "wi_nc_doj_challenge-set",
+      "lane": "PF16",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "wi_nc_doj_fingerprint_removal-set",
+      "lane": "PF11",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "wv_conv_multiple_misdemeanors-set",
+      "lane": "VF04",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "wv_conv_single_misdemeanor-set",
+      "lane": "VF05",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "wv_nc_acquittal_dismissal-set",
+      "lane": "PF02",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "familyId": "wv_nc_diversion_deferred-set",
+      "lane": "PF16",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    }
+  ],
+  "releases": []
+}

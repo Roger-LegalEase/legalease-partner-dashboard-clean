@@ -36,7 +36,55 @@ const require = createRequire(import.meta.url);
 const { PDFDocument, rgb } = require("pdf-lib");
 const sharp = require("sharp");
 
-const CHROMIUM = process.env.RCAP_CHROMIUM_PATH ?? "/opt/pw-browsers/chromium";
+/*
+ * Where Chromium is, discovered rather than assumed.
+ *
+ * A hardcoded /opt/pw-browsers/chromium is right in one environment and wrong
+ * in the next. Four packet-factory lanes returned STOPPED with "Playwright
+ * cannot find Chromium at /opt/pw-browsers/chromium" or "pdftoppm ENOENT"
+ * after passing preflight 14/14 -- the environment check said the lane could
+ * run and the render step then discovered it could not. That is a preflight
+ * that does not check the thing the lane actually needs.
+ *
+ * So the path is resolved in order: an explicit override, then the layout
+ * Playwright's own PLAYWRIGHT_BROWSERS_PATH describes (a versioned
+ * chromium-<build> directory, newest first, and the unversioned symlink),
+ * then Playwright's own resolver. Every candidate is reported when none
+ * works, because "Chromium is missing" and "Chromium is somewhere else" need
+ * different fixes.
+ */
+function chromiumCandidates() {
+  const out = [];
+  if (process.env.RCAP_CHROMIUM_PATH) out.push(process.env.RCAP_CHROMIUM_PATH);
+  const root = process.env.PLAYWRIGHT_BROWSERS_PATH;
+  if (root && fs.existsSync(root)) {
+    const versioned = fs.readdirSync(root)
+      .filter((d) => /^chromium(_headless_shell)?-\d+$/.test(d))
+      .sort((a, b) => Number(b.split("-")[1]) - Number(a.split("-")[1]));
+    for (const d of [...versioned, "chromium"]) {
+      for (const exe of ["chrome-linux/chrome", "chrome-linux/headless_shell", ""]) {
+        const p = exe ? path.join(root, d, exe) : path.join(root, d);
+        if (fs.existsSync(p) && fs.statSync(p).isFile()) out.push(p);
+      }
+    }
+  }
+  return [...new Set(out)];
+}
+
+export function resolveChromium() {
+  const tried = chromiumCandidates();
+  for (const p of tried) {
+    try { fs.accessSync(p, fs.constants.X_OK); return { executablePath: p, resolvedBy: "discovered", tried }; }
+    catch { /* keep looking */ }
+  }
+  // Playwright's own resolver, which knows its registry layout better than we do.
+  try {
+    const { chromium } = require("playwright");
+    const p = chromium.executablePath();
+    if (p && fs.existsSync(p)) return { executablePath: p, resolvedBy: "playwright_executable_path", tried: [...tried, p] };
+  } catch { /* fall through to the refusal */ }
+  return { executablePath: null, resolvedBy: null, tried };
+}
 const SETTLE_MS = Number(process.env.RCAP_RASTER_SETTLE_MS ?? 5000);
 const VIEWPORT = { width: 2448, height: 3168 };
 
@@ -117,7 +165,15 @@ export async function rasterizePageCalibrated({ file, pageIndex, magnify = 2.5, 
   fs.writeFileSync(plainPdf, plain.bytes);
   fs.writeFileSync(calPdf, cal.bytes);
 
-  const browser = await chromium.launch({ executablePath: CHROMIUM, args: ["--no-sandbox"] });
+  const resolved = resolveChromium();
+  if (!resolved.executablePath) {
+    throw new Error(
+      "no usable Chromium for page rastering. Tried: "
+      + (resolved.tried.length ? resolved.tried.join(", ") : "(nothing — PLAYWRIGHT_BROWSERS_PATH is unset)")
+      + ". Set RCAP_CHROMIUM_PATH to the browser binary. Do NOT fall back to pdftoppm and do NOT install packages."
+    );
+  }
+  const browser = await chromium.launch({ executablePath: resolved.executablePath, args: ["--no-sandbox"] });
   const shoot = async (pdf, name) => {
     const tab = await browser.newPage({ viewport: VIEWPORT });
     await tab.goto(`file://${pdf}#toolbar=0&navpanes=0&scrollbar=0`);
