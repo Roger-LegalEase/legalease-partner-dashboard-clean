@@ -17,10 +17,12 @@ import {
   groupIntoLines,
   normalizeHarvestedText,
 } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
-import { finalizeFlatOverlay, finalizeOfficialForm }
+import { finalizeFlatOverlay, finalizeOfficialForm, PARTICIPANT_INK }
   from "./rcap-official-forms/rcap-official-form-finalize.mjs";
 import { drawnAt, flattenedWidgets } from "./rcap-official-forms/pdf-flattened-widgets.mjs";
 import { rulesOfPage } from "./rcap-official-forms/rcap-pdf-rule-lines.mjs";
+import { resolveFact } from "./rcap-official-forms/rcap-field-semantics.mjs";
+import { fitTextToWidget } from "./rcap-official-forms/rcap-text-fitting.mjs";
 import { scanBytesForActiveContent } from "./rcap-official-forms/rcap-active-content.mjs";
 import { strokedRectangles } from "./lib/pdf-stroked-boxes.mjs";
 
@@ -230,8 +232,9 @@ const AZ_FIELD_SPECS = Object.freeze([
     sourceLabel: "Date of Birth", semanticLabel: "Date of Birth", role: "participant_identity",
     factId: "participant.date_of_birth", writeFor: BOTH_AZ_VARIANTS },
   { id: "citing-or-arresting-agency", page: 1, construction: "underscore_leader_run", x0: 326.39, x1: 536.79, baselineY: 153.6,
-    sourceLabel: "Name of citing or arresting law enforcement agency", semanticLabel: null, role: "agency_field",
-    refusal: "Agency fields are never prefilled by this build." },
+    sourceLabel: "Name of citing or arresting law enforcement agency",
+    semanticLabel: "Citing/arresting law enforcement agency", role: "participant_stated_agency_fact",
+    factId: "matter.citing_or_arresting_agency", writeFor: BOTH_AZ_VARIANTS },
   { id: "superior-court-case-number", page: 1, construction: "underscore_leader_run", x0: 218.39, x1: 539.19, baselineY: 128,
     sourceLabel: "Superior court case number", semanticLabel: "Superior court case number", role: "matter_identifier",
     factId: "matter.case_number", writeFor: SUPERIOR_ONLY,
@@ -251,7 +254,8 @@ const AZ_FIELD_SPECS = Object.freeze([
     refusal: "Conditional on an unanswered Yes/No election; no verified Justice Court case-number fact is held." },
   { id: "prosecuting-agency", page: 2, construction: "underscore_leader_run", x0: 222.4, x1: 511.2, baselineY: 612,
     sourceLabel: "Name of prosecuting agency", semanticLabel: null, role: "prosecutor_agency_field",
-    refusal: "Prosecutor and agency fields are never prefilled by this build." },
+    blankTreatment: "REQUIRED_BEFORE_FILING",
+    refusal: "REQUIRED_BEFORE_FILING: no exact prosecuting-agency fact is held; surface this blank to the participant and do not guess." },
   { id: "conditional-conviction-date", page: 2, construction: "underscore_leader_run", x0: 466.38, x1: 571.98, baselineY: 596,
     sourceLabel: "If Yes, insert date of conviction here", semanticLabel: null, role: "conditional_disposition",
     refusal: "Conditional on the participant's unanswered conviction election; never inferred or prefilled." },
@@ -333,11 +337,11 @@ const BOUNDARY = Object.freeze({
   "matter.case_number": "0123-45-2026-CR-900123.00-AB-CDE/2201",
 });
 
-// Only participant identity and a verified matter identifier are written into
-// the three CA primary filings. Every other terminal field in every packet
-// component is recorded as an explicit refusal below. In particular, this
-// allowlist contains no election, signature/date, proof-of-service, mailing
-// certificate, attorney, court, prosecutor, clerk, or agency field.
+// Exact, field-name-bounded mappings for facts the platform already holds.
+// The names below are terminal names read first-hand from the pinned forms; no
+// label regex can add a write. Elections, signatures, service acts, local-court
+// addresses, prosecutor facts, narratives, and unheld offense subparts remain
+// refused below.
 const CA_PRIMARY_WRITES = Object.freeze({
   "CR-180": Object.freeze({
     "CR-180[0].Page1[0].P1Caption[0].TitlePartyName[0].Defendant[0]":
@@ -352,6 +356,10 @@ const CA_PRIMARY_WRITES = Object.freeze({
       "participant.full_legal_name",
     "CR-180[0].Page3[0].pXCaption[0].CaseNumber1[0]":
       "matter.case_number",
+    "CR-180[0].Page1[0].P1Caption[0].CourtInfo[0].CrtCounty[0]":
+      "matter.county",
+    "CR-180[0].Page1[0].LI1[0].li1[0].ConvictionDate[0]":
+      "matter.conviction_date",
   }),
   "CR-409": Object.freeze({
     "CR-409[0].Page1[0].LI1[0].li1a[0].TextField[0]":
@@ -362,13 +370,50 @@ const CA_PRIMARY_WRITES = Object.freeze({
       "participant.full_legal_name",
     "CR-409[0].Page2[0].PxCapton_sf[0].CaseNumber[0]":
       "matter.case_number",
+    "CR-409[0].Page1[0].LI1[0].li1a[0].T186[0]":
+      "participant.date_of_birth",
+    "CR-409[0].Page1[0].LI1[0].li1b[0].ProtectedStreet[0]":
+      "participant.street_address",
+    "CR-409[0].Page1[0].LI1[0].li1b[0].ProtectedCity[0]":
+      "participant.city",
+    "CR-409[0].Page1[0].LI1[0].li1b[0].ProtectedState[0]":
+      "participant.state",
+    "CR-409[0].Page1[0].LI1[0].li1b[0].ProtectedZip[0]":
+      "participant.zip",
+    "CR-409[0].Page1[0].LI1[0].li1b[0].ProtectedPhone[0]":
+      "participant.phone",
+    "CR-409[0].Page1[0].LI1[0].li1b[0].ProtectedEmail[0]":
+      "participant.email",
+    "CR-409[0].Page1[0].LI3[0].li3a[0].T186[0]":
+      "matter.arrest_date",
+    "CR-409[0].Page1[0].LI3[0].li3c[0].T186[0]":
+      "matter.citing_or_arresting_agency",
+    "CR-409[0].Page1[0].rightCaption[0].CourtInfo[0]":
+      "matter.county",
   }),
   "CR-400": Object.freeze({
     "CR-400[0].Page1[0].P1Caption[0].Party[0].Party2[0]":
       "participant.full_legal_name",
     "CR-400[0].Page1[0].P1Caption[0].HeaderSub[0].CaseNumber[0].CaseNumber[0]":
       "matter.case_number",
+    "CR-400[0].Page1[0].P1Caption[0].CourtInfo[0].CrtCounty[0]":
+      "matter.county",
   }),
+});
+
+// Exact semantic aliases for source labels whose wording does not match the
+// shared descriptor literally. Each alias is bound to one measured terminal
+// name; the source tooltip is retained separately in the census and field map,
+// and no label regex can add another field.
+const CA_EXACT_SEMANTIC_LABELS = Object.freeze({
+  "CR-180[0].Page1[0].LI1[0].li1[0].ConvictionDate[0]":
+    "Conviction date",
+  "CR-409[0].Page1[0].LI1[0].li1b[0].ProtectedStreet[0]":
+    "Street address",
+  "CR-409[0].Page1[0].LI3[0].li3a[0].T186[0]":
+    "Date of arrest",
+  "CR-409[0].Page1[0].LI3[0].li3c[0].T186[0]":
+    "Citing/arresting law enforcement agency",
 });
 
 const CA_ROUTE_VARIANTS = Object.freeze({
@@ -1111,7 +1156,11 @@ function caFinalizerCensus(formCensus) {
   return formCensus.fields.map((field) => ({
     name: field.name,
     type: caPdfType(field),
-    effectiveLabel: field.tooltip ?? field.shortName ?? field.name,
+    effectiveLabel: CA_EXACT_SEMANTIC_LABELS[field.name]
+      ?? field.tooltip ?? field.shortName ?? field.name,
+    sourceEffectiveLabel: field.tooltip ?? field.shortName ?? field.name,
+    semanticLabelBasis: CA_EXACT_SEMANTIC_LABELS[field.name]
+      ? "exact_terminal_name_participant_stated_subject" : "exact_source_field_metadata",
     regionHeading: null,
     multiline: field.flags?.includes("multiline") === true,
     maxLength: field.maxLen,
@@ -1144,8 +1193,8 @@ function caRefusalReason(source, field) {
       ? "Viewer UI control; never a filing fact."
       : "Legal election or conditional choice not established by this evidence variant; it remains blank rather than being inferred.";
   }
-  if (/signature|sig(name|date)?|date\b/i.test(subject)) {
-    return "Signature or date field; never prefilled.";
+  if (/signature|sig(?:name|date)?/i.test(subject)) {
+    return "Signature or signature-date field; never prefilled before the participant signs.";
   }
   if (/attorney|atty|lawyer|bar\b|firm\b/i.test(subject)) {
     return "Attorney-only field; never populated with participant data.";
@@ -1156,7 +1205,10 @@ function caRefusalReason(source, field) {
   if (field.flags?.includes("readOnly")) {
     return "Read-only source field; never overridden.";
   }
-  return "No allowlisted, source-supported fact is offered to this terminal field.";
+  if (/date\b|\bday\b|\bmonth\b|\byear\b/i.test(subject)) {
+    return "REQUIRED_BEFORE_FILING: no exact source-supported date fact is held for this terminal field; surface it to the participant and do not guess.";
+  }
+  return "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess.";
 }
 
 function caMapAndCensus(familyId, config, bridge) {
@@ -1213,7 +1265,7 @@ function caMapAndCensus(familyId, config, bridge) {
           routeSpecific: Boolean(textControl),
           reason: textControl
             ? "Exact CR-180 statutory text control is populated only in the named evidence variants with the recorded yes/no value."
-            : "Exact primary-form terminal field explicitly mapped to a safe participant identity or verified case-caption fact." };
+            : "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds." };
         writes.push(row);
         return row;
       }
@@ -1233,8 +1285,11 @@ function caMapAndCensus(familyId, config, bridge) {
         selections.push(row);
         return row;
       }
+      const reason = caRefusalReason(source, field);
       const row = { ...base, disposition: "REFUSE", factId: null,
-        reason: caRefusalReason(source, field) };
+        blankTreatment: reason.startsWith("REQUIRED_BEFORE_FILING:")
+          ? "REQUIRED_BEFORE_FILING" : null,
+        reason };
       refusals.push(row);
       return row;
     });
@@ -1460,8 +1515,30 @@ function azDisposition(config, field) {
   }
   return {
     disposition: "REFUSE", factId: null, routeSpecific: Boolean(spec.writeFor),
-    reason: spec.refusal ?? "No allowlisted fact is offered to this blank.",
+    blankTreatment: spec.blankTreatment ?? null,
+    reason: spec.refusal
+      ?? "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this blank; surface it to the participant and do not guess.",
   };
+}
+
+function westParticipantInstructions(familyId, fieldMap) {
+  const required = [...new Map((fieldMap.refusals ?? [])
+    .filter((field) => field.blankTreatment === "REQUIRED_BEFORE_FILING")
+    .map((field) => {
+      const id = field.fieldId ?? field.fieldName;
+      const label = field.sourceLabel ?? field.effectiveLabel ?? id;
+      return [id, label];
+    })).entries()]
+    .map(([field, label]) => `- ${label} (source field: \`${field}\`)`)
+    .join("\n");
+  return `# Participant and reviewer instructions\n\n`
+    + `Packet family: \`${familyId}\`\n\n`
+    + `This is a review artifact and is not approved for filing or commercial use.\n\n`
+    + `## Exact facts still required before filing\n\n`
+    + (required
+      ? `The platform does not hold the facts below. Supply and verify each applicable item before filing; the build does not guess them.\n\n${required}\n`
+      : "No required-before-filing fact gaps were recorded by this field map.\n")
+    + `\nSignatures, signature dates, service acts, court/clerk entries, attorney-only fields, and unmade participant elections remain for their proper owner or event.\n`;
 }
 
 function azMapAndAnchors(familyId, config, census) {
@@ -2021,6 +2098,7 @@ async function buildAz(familyId, config) {
     pages: census.pages, fields: census.fields, controls: census.controls,
   });
   writeJson(`${out}/production-field-map.json`, map);
+  writeText(`${out}/participant-instructions.md`, westParticipantInstructions(familyId, map));
 
   const artifacts = [];
   const actualReports = [];
@@ -2359,8 +2437,102 @@ async function overlayCaRouteTextControls(sourceBytes, measuredControls, variant
   };
 }
 
+async function overlayCaExactMappedFacts({ bytes, formCensus, explicitMappings, facts, report }) {
+  const alreadyWritten = new Set(report.written.map((row) => row.field));
+  const duplicateLosers = new Set(report.refused
+    .filter((row) => row.reason === "duplicate_widget_for_one_slot")
+    .map((row) => row.field));
+  const pending = Object.entries(explicitMappings)
+    .filter(([fieldName]) => !alreadyWritten.has(fieldName) && !duplicateLosers.has(fieldName));
+  if (pending.length === 0) return { bytes, report };
+
+  const pdf = await PDFDocument.load(bytes, { ignoreEncryption: true, updateMetadata: false });
+  const font = await pdf.embedFont(StandardFonts.Helvetica);
+  const written = [];
+  const refused = [];
+  for (const [fieldName, factId] of pending) {
+    const field = formCensus.fields.find((candidate) => candidate.name === fieldName);
+    assert.ok(field, `${fieldName}: exact mapped field is absent from the first-hand census`);
+    if (field.fieldType !== "/Tx") {
+      refused.push({ field: fieldName, factId, reason: "exact_mapping_requires_text_field" });
+      continue;
+    }
+    const value = resolveFact(facts, factId);
+    if (value == null || String(value).trim() === "") {
+      refused.push({ field: fieldName, factId, reason: "no_value_for_exact_mapping" });
+      continue;
+    }
+    const fittedWidgets = field.widgets.map((widget, widgetIndex) => {
+      assert.ok(Number.isInteger(widget.pageIndex), `${fieldName}: widget page is unresolved`);
+      const [x0, y0, x1, y1] = widget.rect;
+      const rect = { x: x0, y: y0, width: x1 - x0, height: y1 - y0 };
+      return {
+        widget, widgetIndex, rect,
+        fit: fitTextToWidget({
+          font, text: String(value), rect,
+          multiline: field.flags?.includes("multiline") === true,
+          maxFontSize: 9, minFontSize: 6,
+        }),
+      };
+    });
+    const failed = fittedWidgets.find(({ fit }) => fit.outcome === "refused");
+    if (failed) {
+      refused.push({ field: fieldName, factId, reason: failed.fit.reason,
+        widget: failed.widgetIndex });
+      continue;
+    }
+    const widgetWrites = [];
+    for (const { widget, widgetIndex, rect, fit } of fittedWidgets) {
+      const page = pdf.getPages()[widget.pageIndex];
+      assert.ok(page, `${fieldName}: measured widget page ${widget.pageIndex + 1} is absent`);
+      const lineHeight = fit.fontSize * 1.15;
+      const firstBaseline = fit.lines.length === 1
+        ? rect.y + Math.max(1, (rect.height - fit.fontSize) / 2)
+        : rect.y + rect.height - fit.fontSize - 1;
+      fit.lines.forEach((line, index) => page.drawText(line, {
+        x: rect.x + 2, y: firstBaseline - index * lineHeight,
+        size: fit.fontSize, font, color: PARTICIPANT_INK,
+      }));
+      widgetWrites.push({ widgetIndex, page: widget.pageIndex + 1, rect,
+        fontSize: fit.fontSize, outcome: fit.outcome });
+    }
+    written.push({ field: fieldName, factId, value: String(value),
+      kind: "exact_measured_fact_overlay", widgets: widgetWrites });
+  }
+
+  if (written.length === 0) {
+    return { bytes, report: { ...report, exactMappingOverlay: { written, refused } } };
+  }
+  const output = Buffer.from(await pdf.save({ useObjectStreams: false, updateMetadata: false }));
+  const active = scanBytesForActiveContent(output);
+  assert.equal(active.inspectable, true, "CA exact-mapping overlay is not byte-inspectable");
+  assert.deepEqual(active.hits, [], "CA exact-mapping overlay introduced active content");
+  const writtenNames = new Set(written.map((row) => row.field));
+  return {
+    bytes: output,
+    report: {
+      ...report,
+      written: [...report.written, ...written],
+      refused: report.refused.filter((row) => !writtenNames.has(row.field)),
+      protectedFields: (report.protectedFields ?? [])
+        .filter((row) => !writtenNames.has(row.field)),
+      expectedValues: [...(report.expectedValues ?? []),
+        ...written.map((row) => String(resolveFact(facts, row.factId)))],
+      outputSha256: sha256(output), outputBytes: output.length,
+      exactMappingOverlay: { written, refused, activeContentScan: active,
+        sourceSha256: sha256(bytes), outputSha256: sha256(output), outputBytes: output.length },
+    },
+  };
+}
+
 async function finalizeCaPrimaryFixture({ formCensus, variant, officialOptions }) {
-  const official = await finalizeCaFixture(officialOptions);
+  const finalized = await finalizeCaFixture(officialOptions);
+  const exactMapped = await overlayCaExactMappedFacts({
+    bytes: finalized.bytes, formCensus,
+    explicitMappings: officialOptions.explicitMappings,
+    facts: officialOptions.facts, report: finalized.report,
+  });
+  const official = { ...finalized, bytes: exactMapped.bytes, report: exactMapped.report };
   const measuredRouteTextControls = measuredRouteTextControlsForVariant(formCensus, variant);
   const routed = await overlayCaRouteTextControls(official.bytes, measuredRouteTextControls, variant);
   const measuredSelections = measuredSelectionsForVariant(formCensus, variant);
@@ -2701,6 +2873,7 @@ async function buildCa(familyId, config) {
       acceptanceRule: "A derivative is accepted only when source bytes remain exact and page geometry, original page content streams, terminal names/types/flags/options/default/current values, widget geometry/AP states, and XFA presence/digest are identical.",
     });
     writeJson(`${out}/production-field-map.json`, fieldMap);
+    writeText(`${out}/participant-instructions.md`, westParticipantInstructions(familyId, fieldMap));
 
     const derivedBytes = fs.readFileSync(abs(derivative.derivedPath));
     assert.equal(sha256(derivedBytes), derivative.derivedSha256);
@@ -2890,7 +3063,7 @@ async function checkAz(familyId, config, { quiet = false, requireCompletionClaim
   const before = evidenceTreeFingerprint(out);
   const required = ["source-receipt.json", "field-census.census-v1.json",
     "production-field-map.json", "reports/actual-writes.json",
-    "reports/rendered-artifacts.json", "product-wiring.json"];
+    "reports/rendered-artifacts.json", "product-wiring.json", "participant-instructions.md"];
   for (const file of required) {
     assert.ok(fs.existsSync(abs(`${out}/${file}`)), `${familyId}: missing ${file}`);
   }
@@ -2925,9 +3098,12 @@ async function checkAz(familyId, config, { quiet = false, requireCompletionClaim
   assert.equal(fieldMap.coverage.measuredPrintedControls, 19);
   assert.equal(fieldMap.coverage.unmapped, 0);
   assert.equal(fieldMap.writes.length + fieldMap.refusals.length, 50);
-  const forbiddenRoles = /signature|date$|agency|prosecutor|court_field|clerk|attorney/;
+  const forbiddenRoles = /signature|date$|prosecutor|court_field|clerk|attorney/;
   assert.equal(fieldMap.writes.filter((field) => forbiddenRoles.test(field.role)).length, 0,
-    "forbidden signature/date/agency/court/clerk/attorney role is writable");
+    "forbidden signature/date/prosecutor/court/clerk/attorney role is writable");
+  assert.deepEqual(fieldMap.writes.filter((field) => /agency/.test(field.role))
+    .map((field) => [field.fieldId, field.factId]),
+  [["citing-or-arresting-agency", "matter.citing_or_arresting_agency"]]);
   if (config.variant === "arrest_no_charges") {
     assert.equal(fieldMap.writes.some((field) => field.fieldId.includes("case-number")), false);
   } else {
@@ -3087,7 +3263,8 @@ async function checkCa(familyId, config, { quiet = false, requireCompletionClaim
   const before = evidenceTreeFingerprint(out);
   const required = ["source-receipt.json", "field-census.census-v1.json",
     "production-field-map.json", "reports/source-fidelity.json", "reports/packet-evidence.json",
-    "reports/actual-writes.json", "reports/rendered-artifacts.json", "product-wiring.json"];
+    "reports/actual-writes.json", "reports/rendered-artifacts.json", "product-wiring.json",
+    "participant-instructions.md"];
   for (const file of required) assert.ok(fs.existsSync(abs(`${out}/${file}`)), `${familyId}: missing ${file}`);
   if (requireCompletionClaims) {
     for (const file of ["approval-request.json", "build-findings.json"]) {
@@ -3301,7 +3478,12 @@ async function selfTest(requestedFamily = FIRST_FAMILY) {
   assert.equal(outputDir("az_marijuana_expungement_superior_court-set"),
     "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-superior-court-set--official-pdf-fill");
   assert.equal(AZ_FIELD_SPECS.filter((field) => field.role.includes("signature") && field.writeFor).length, 0);
-  assert.equal(AZ_FIELD_SPECS.filter((field) => /agency|prosecutor|attorney/.test(field.role) && field.writeFor).length, 0);
+  assert.deepEqual(AZ_FIELD_SPECS
+    .filter((field) => /agency|prosecutor|attorney/.test(field.role) && field.writeFor)
+    .map((field) => [field.id, field.factId]),
+  [["citing-or-arresting-agency", "matter.citing_or_arresting_agency"]]);
+  assert.equal(AZ_FIELD_SPECS.find((field) => field.id === "prosecuting-agency").blankTreatment,
+    "REQUIRED_BEFORE_FILING");
   const venueAnchor = {
     blankId: "venue-county", label: "County", factId: "matter.county",
   };
@@ -3390,6 +3572,36 @@ async function selfTest(requestedFamily = FIRST_FAMILY) {
     label: "route-text-regression",
   });
   assert.equal(routeTextProof.controls[0].textReadFromOutputBytes, "yes");
+  const exactDateField = "CR-180[0].Page1[0].LI1[0].li1[0].ConvictionDate[0]";
+  const exactFactSource = await PDFDocument.create();
+  exactFactSource.addPage([200, 200]);
+  const exactFactSourceBytes = Buffer.from(await exactFactSource.save({
+    useObjectStreams: false, updateMetadata: false,
+  }));
+  const exactFactOverlay = await overlayCaExactMappedFacts({
+    bytes: exactFactSourceBytes,
+    formCensus: { fields: [{
+      name: exactDateField, fieldType: "/Tx", flags: [],
+      widgets: [{ pageIndex: 0, rect: [20, 80, 120, 96] }],
+    }] },
+    explicitMappings: { [exactDateField]: "matter.conviction_date" },
+    facts: CANONICAL,
+    report: {
+      written: [],
+      refused: [{ field: exactDateField, reason: "protected_category",
+        category: "disposition_or_hearing" }],
+      protectedFields: [{ field: exactDateField, category: "disposition_or_hearing" }],
+      expectedValues: [],
+    },
+  });
+  assert.deepEqual(exactFactOverlay.report.refused, []);
+  assert.equal(exactFactOverlay.report.written[0].factId, "matter.conviction_date");
+  const exactFactProofPdf = await PDFDocument.load(exactFactOverlay.bytes, {
+    ignoreEncryption: true, updateMetadata: false,
+  });
+  assert.ok(extractTextItems(exactFactProofPdf.getPages()[0])
+    .some((item) => String(item.text ?? "").includes(CANONICAL["matter.conviction_date"])),
+  "exact conviction-date fallback must be visible in the output bytes");
   const caUnion = new Set(Object.values(FAMILIES).filter((family) => family.jurisdiction === "ca")
     .flatMap((family) => family.formNumbers));
   assert.deepEqual([...caUnion].sort(), Object.keys(CA_FORMS).sort());
@@ -3399,11 +3611,23 @@ async function selfTest(requestedFamily = FIRST_FAMILY) {
     assert.ok(CA_PRIMARY_WRITES[family.primaryForm], `${family.primaryForm}: primary mapping missing`);
   }
   assert.deepEqual(Object.keys(CA_PRIMARY_WRITES).sort(), ["CR-180", "CR-400", "CR-409"]);
+  assert.equal(Object.values(CA_PRIMARY_WRITES)
+    .reduce((count, mappings) => count + Object.keys(mappings).length, 0), 25);
+  assert.deepEqual(Object.keys(CA_EXACT_SEMANTIC_LABELS).sort(), [
+    "CR-180[0].Page1[0].LI1[0].li1[0].ConvictionDate[0]",
+    "CR-409[0].Page1[0].LI1[0].li1b[0].ProtectedStreet[0]",
+    "CR-409[0].Page1[0].LI3[0].li3a[0].T186[0]",
+    "CR-409[0].Page1[0].LI3[0].li3c[0].T186[0]",
+  ]);
   for (const mappings of Object.values(CA_PRIMARY_WRITES)) {
     assert.ok(Object.values(mappings).includes("matter.case_number"));
     assert.ok(Object.values(mappings).includes("participant.full_legal_name"));
-    assert.ok(Object.values(mappings).every((factId) =>
-      ["matter.case_number", "participant.full_legal_name"].includes(factId)));
+    assert.ok(Object.values(mappings).every((factId) => [
+      "matter.case_number", "matter.county", "matter.arrest_date", "matter.conviction_date",
+      "matter.citing_or_arresting_agency", "participant.full_legal_name",
+      "participant.date_of_birth", "participant.street_address", "participant.city",
+      "participant.state", "participant.zip", "participant.phone", "participant.email",
+    ].includes(factId)));
     assert.equal(Object.keys(mappings).some((name) =>
       /signature|sigdate|service|attorney|atty|lawyer|prosecutor|clerk|agency/i.test(name)), false);
   }
