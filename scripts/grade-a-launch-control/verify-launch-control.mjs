@@ -40,6 +40,7 @@ const MASS_COLLISIONS = "data/rcap-grade-a/launch-control/MASS_PACKET_PRODUCTION
 const MASS_CHECKPOINT = "data/rcap-grade-a/launch-control/MASS_PACKET_PRODUCTION_150_CHECKPOINT.json";
 const WORKLIST = "data/rcap-grade-a/launch-control/POST_WAVE_2_NATIONAL_LAUNCH_WORKLIST.json";
 const WAVE2_REPAIRS = "data/rcap-grade-a/launch-control/WAVE_2_REPAIR_ASSIGNMENTS.json";
+const CONTINUATION = "data/rcap-grade-a/launch-control/S2_CONTINUATION.json";
 // Ten committed binaries already matched a private-corpus SHA-256 before the
 // packet factory returned, under hard-forms/*/evidence/ and rcap-codex source
 // receipts. They are a governance discrepancy for Roger, not something to remove
@@ -81,6 +82,7 @@ const s2 = fs.existsSync(path.join(ROOT, S2)) ? read(S2) : null;
 const mass = fs.existsSync(path.join(ROOT, MASS)) ? read(MASS) : null;
 const massCollisions = fs.existsSync(path.join(ROOT, MASS_COLLISIONS)) ? read(MASS_COLLISIONS) : null;
 const massCheckpoint = fs.existsSync(path.join(ROOT, MASS_CHECKPOINT)) ? read(MASS_CHECKPOINT) : null;
+const continuation = fs.existsSync(path.join(ROOT, CONTINUATION)) ? read(CONTINUATION) : null;
 
 /** Everything an assignment owns, whatever shape its rows take. */
 const rowsOf = (a) => [
@@ -676,10 +678,18 @@ if (s2 && repairWave && wave2) {
 
   // The import graph, recomputed here rather than read out of the record it is
   // meant to check. 10 and 12 were both quoted this sprint; only one is derived.
-  const scriptDir = path.join(ROOT, "scripts");
-  const scriptFiles = fs.readdirSync(scriptDir).filter((f) => /^build-census-v1-.+\.mjs$/.test(f));
+  //
+  // Recomputed AT THE ASSIGNMENT'S OWN BASE, not at HEAD. The repair lanes lifted
+  // seven Utah families and one West Virginia family off this host after S2 was
+  // dispatched, so the graph at HEAD is a different graph and checking a pinned
+  // dispatch against it would report a correct record as wrong. A dispatch is
+  // measured against the tree it was dispatched from.
+  const atBase = a2.captainBaseSha;
+  const scriptFiles = (git(["ls-tree", "--name-only", atBase, "scripts/"]) ?? "")
+    .split("\n").map((f) => path.basename(f)).filter((f) => /^build-census-v1-.+\.mjs$/.test(f));
+  const sourceAt = (f) => git(["show", `${atBase}:scripts/${f}`]) ?? "";
   const directImports = new Map(scriptFiles.map((f) => [f,
-    [...new Set([...fs.readFileSync(path.join(scriptDir, f), "utf8")
+    [...new Set([...sourceAt(f)
       .matchAll(/from\s+["']\.\/(build-census-v1-[^"']+\.mjs)["']/g)].map((m) => m[1]))]]));
   const hostBase = path.basename(host);
   const memo = new Map();
@@ -696,14 +706,15 @@ if (s2 && repairWave && wave2) {
   const recorded = a2.hostImporters.families.map((f) => path.basename(f.buildScript)).sort();
 
   check("A49", "the S2 importer set is the import graph's, recomputed, not a number carried forward",
-    a2.hostImporters.count === graphImporters.length
+    scriptFiles.length > 0
+    && a2.hostImporters.count === graphImporters.length
     && s2.countReconciliation.authoritative === graphImporters.length
     && recorded.length === graphImporters.length
     && recorded.every((f, i) => f === graphImporters[i])
     && s2.countReconciliation.scriptsInTheClosure === graphImporters.length + 1
     && s2.countReconciliation.builtFamiliesInTheClosure
        === a2.hostImporters.families.filter((f) => f.c11Classification === "BUILT").length + 1,
-    `graph ${graphImporters.length} · record ${a2.hostImporters.count} · closure ${s2.countReconciliation.scriptsInTheClosure}`);
+    `graph at ${String(atBase).slice(0, 8)}: ${graphImporters.length} · record ${a2.hostImporters.count} · closure ${s2.countReconciliation.scriptsInTheClosure}`);
 
   // S2 changes shared logic. The moment it owns an overlay directory or claims a
   // packet family it stops being the fix for three lanes and becomes a fourth.
@@ -863,6 +874,68 @@ if (mass && massCollisions && massCheckpoint && wave2 && repairWave && s2) {
     `${verifierWithOverlay.length} verifier(s) with overlay paths; ${builderOwningVerification.length} builder(s) owning a verification path; ${sourceLaneClaimsProduction.length} source lane(s) claiming a produced family`);
 }
 
+// 32. The S2 continuation. A record that names commits, counters and verdicts
+// can be wrong in three ways: a commit that is not in this history, a counter
+// that disagrees with the matrix it claims to read, and a verification
+// assignment for a packet nobody proved complete.
+if (continuation && s2 && massCheckpoint !== undefined) {
+  const chain = continuation.theChain;
+  const named = [chain.s1Integrated, chain.s2Integrated, ...chain.contractFixCommits,
+    ...Object.values(chain.repairsApplied).map((r) => r.integratedAs),
+    chain.rerenderAndAudit, chain.continuationBase];
+  const notAncestors = named.filter((sha) => git(["merge-base", "--is-ancestor", sha, "HEAD"]) === null);
+  const blobAtBase = git(["rev-parse", `${chain.continuationBase}:${CONTINUATION}`]);
+  check("A57", "every commit the continuation names is in this history, and the base it names does not already carry it",
+    notAncestors.length === 0
+    && named.every((sha) => /^[0-9a-f]{40}$/.test(sha))
+    && blobAtBase === null
+    && chain.continuationBase === chain.rerenderAndAudit,
+    `${named.length} commit(s) named, ${notAncestors.length} not ancestors; record at base ${blobAtBase === null ? "absent" : "PRESENT — self-referential"}`);
+
+  // The eleven are recomputed from the S2 closure, and every counter is
+  // re-read from the matrix rather than trusted from the record.
+  const a2 = s2.assignments[0];
+  const expected = [...new Set([
+    a2.hostImporters.hostFamily?.familyId ?? "ne-setaside-custodial-set",
+    ...a2.hostImporters.families.filter((f) => f.c11Classification === "BUILT").map((f) => f.familyId)
+  ])].sort();
+  const matrix = read(COMPLETENESS);
+  const mismatched = continuation.rows.filter((r) => {
+    const m = matrix.results.find((x) => x.familyId === r.familyId);
+    if (!m) return true;
+    if (m.result !== r.resultAfter) return true;
+    return Object.entries(r.countersAfter ?? {}).some(([k, v]) => m.counters[k] !== v);
+  });
+  const passClaimedWithNonzero = continuation.rows.filter((r) =>
+    r.allNineCountersZero && Object.values(r.countersAfter ?? {}).some((v) => v > 0));
+  check("A58", "the continuation covers exactly the S2 closure, and every counter it reports is the matrix's",
+    continuation.rows.length === expected.length
+    && continuation.rows.map((r) => r.familyId).sort().every((f, i) => f === expected[i])
+    && mismatched.length === 0
+    && passClaimedWithNonzero.length === 0
+    && continuation.totals.passComplete === continuation.rows.filter((r) => r.allNineCountersZero).length,
+    `${continuation.rows.length} of ${expected.length} closure families; ${mismatched.length} counter mismatch(es); ${passClaimedWithNonzero.length} PASS with a nonzero counter`);
+
+  // Verification is for proven-complete packets only, and a failure is stated
+  // rather than absorbed.
+  const eligible = new Set(continuation.rows.filter((r) => r.allNineCountersZero).map((r) => r.familyId));
+  const vs = continuation.independentVerification.assignments;
+  const ineligible = vs.flatMap((a) => a.items.filter((f) => !eligible.has(f)));
+  const assigned = vs.flatMap((a) => a.items);
+  const armed = vs.filter((a) => (a.ownedPaths ?? []).some((p) => /overlays|build-census-v1|rcap-packet-completeness/.test(p)));
+  const failures = continuation.rows.filter((r) => !r.allNineCountersZero);
+  check("A59", "only a proven-complete packet is sent for verification, no verifier can edit what it verifies, and every failure is stated",
+    ineligible.length === 0
+    && armed.length === 0
+    && new Set(assigned).size === assigned.length
+    && assigned.length === eligible.size
+    && continuation.whatStillFails.length === failures.length
+    && failures.every((r) => continuation.whatStillFails.some((w) => w.familyId === r.familyId && w.failingCounters.length > 0))
+    && continuation.totals.commercialRoutesOpened === 0
+    && continuation.totals.productionTouched === false,
+    `${assigned.length} assigned of ${eligible.size} eligible; ${ineligible.length} ineligible; ${armed.length} armed verifier(s); ${failures.length} failure(s) stated as ${continuation.whatStillFails.length}`);
+}
+
 console.log(`\n${results.length - failures}/${results.length} checkpoint checks passed.`);
 
 if (MUTATIONS) {
@@ -874,7 +947,8 @@ if (MUTATIONS) {
     counsel: path.join(ROOT, COUNSEL), c11: path.join(ROOT, C11), wave2: path.join(ROOT, WAVE2),
     completeness: path.join(ROOT, COMPLETENESS), repairPlan: path.join(ROOT, REPAIR_PLAN),
     repairWave: path.join(ROOT, REPAIR_WAVE), s2: path.join(ROOT, S2),
-    mass: path.join(ROOT, MASS), massCollisions: path.join(ROOT, MASS_COLLISIONS), massCheckpoint: path.join(ROOT, MASS_CHECKPOINT)
+    mass: path.join(ROOT, MASS), massCollisions: path.join(ROOT, MASS_COLLISIONS), massCheckpoint: path.join(ROOT, MASS_CHECKPOINT),
+    continuation: path.join(ROOT, CONTINUATION)
   };
   const originals = Object.fromEntries(Object.entries(targets).map(([k, p]) => [k, fs.readFileSync(p)]));
   const cases = [
@@ -941,6 +1015,13 @@ if (MUTATIONS) {
     { on: "massCollisions", name: "a collision record reporting a collision it did not fail on is caught", mutate: (j) => { j.counts.pathCollisions = 1; return j; } },
     { on: "massCheckpoint", name: "a review batch cut before any family passed is caught", mutate: (j) => { j.legalReview.batchesCut = 1; return j; } },
     { on: "massCheckpoint", name: "a commercial route opened at dispatch is caught", mutate: (j) => { j.commercial.commercialRoutesOpened = 1; return j; } },
+    { on: "continuation", name: "a continuation naming a commit outside this history is caught", mutate: (j) => { j.theChain.s2Integrated = "0".repeat(40); return j; } },
+    { on: "continuation", name: "a closure family dropped from the continuation is caught", mutate: (j) => { j.rows.pop(); return j; } },
+    { on: "continuation", name: "a counter restated instead of read from the matrix is caught", mutate: (j) => { j.rows[0].countersAfter.knownRequiredFieldsMissing = 99; return j; } },
+    { on: "continuation", name: "a PASS claimed over a nonzero counter is caught", mutate: (j) => { const r = j.rows.find((x) => !x.allNineCountersZero); r.allNineCountersZero = true; return j; } },
+    { on: "continuation", name: "an unproven family sent for independent verification is caught", mutate: (j) => { const bad = j.rows.find((x) => !x.allNineCountersZero); j.independentVerification.assignments[0].items.push(bad.familyId); return j; } },
+    { on: "continuation", name: "a verifier given the overlays it verifies is caught", mutate: (j) => { j.independentVerification.assignments[0].ownedPaths.push("data/rcap-all50/overlays/census-v1/**"); return j; } },
+    { on: "continuation", name: "a remaining failure quietly dropped from the record is caught", mutate: (j) => { j.whatStillFails = []; return j; } },
     { on: "wave2", name: "a review package prepared before an independent PASS is caught", mutate: (j) => { j.outputLegalReview.batchesPrepared = 6; return j; } },
     { on: "wave2", name: "a verification shard that drops the completeness obligations is caught", mutate: (j) => { const s = j.assignments.find((a) => a.lane === "independent-verification"); s.proofObligations = s.proofObligations.filter((o) => !o.startsWith("COMPLETENESS:")); return j; } },
     { on: "completeness", name: "a family reported complete with a nonzero counter is caught", mutate: (j) => { j.results[0].result = "PASS_COMPLETE"; return j; } },
