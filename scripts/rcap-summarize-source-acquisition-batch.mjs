@@ -48,6 +48,17 @@ if (fs.existsSync(dir)) {
 const acquired = receipts.filter((r) => /^[0-9a-f]{64}$/.test(String(r.sha256 ?? "")));
 const failed = receipts.filter((r) => !/^[0-9a-f]{64}$/.test(String(r.sha256 ?? "")))
   .map((r) => ({ artifact: r.artifact, jurisdiction: r.jurisdiction ?? null, formNumber: r.formNumber ?? null, why: r.failure ?? r.error ?? "the receipt carries no SHA-256" }));
+/*
+ * A receipt with no run id and no artifact name cannot be matched to the
+ * artifact it describes, so PROMO will refuse it. That is a batch outcome, not
+ * a detail: reporting COMPLETE over receipts nothing can promote would be
+ * reporting the fetch and calling it the handoff.
+ */
+const missingProvenance = acquired.filter((r) =>
+  !/^\d+$/.test(String(r.acquisitionRunId ?? "")) || !/^[A-Za-z0-9][A-Za-z0-9._-]+$/.test(String(r.artifactName ?? "")))
+  .map((r) => ({ artifact: r.artifact, sourceId: r.sourceId ?? null, acquisitionRunId: r.acquisitionRunId ?? null, artifactName: r.artifactName ?? null }));
+const provenanceRunIdMismatch = acquired.filter((r) => acquisitionRunId && String(r.acquisitionRunId ?? "") !== String(acquisitionRunId))
+  .map((r) => ({ artifact: r.artifact, receiptSaid: r.acquisitionRunId ?? null, runWas: acquisitionRunId }));
 const hashMismatches = acquired.filter((r) => r.matchesExpectedSha256 === false)
   .map((r) => ({ artifact: r.artifact, expected: r.expectedSha256, retrieved: r.sha256 }));
 
@@ -55,7 +66,7 @@ let verdict;
 if (planResult !== "success") verdict = "REFUSED";
 else if (planned === 0) verdict = "REFUSED";
 else if (acquired.length === 0) verdict = "REFUSED";
-else if (acquired.length === planned && failed.length === 0 && unreadable.length === 0 && hashMismatches.length === 0) verdict = "COMPLETE";
+else if (acquired.length === planned && failed.length === 0 && unreadable.length === 0 && hashMismatches.length === 0 && missingProvenance.length === 0 && provenanceRunIdMismatch.length === 0) verdict = "COMPLETE";
 else verdict = "PARTIAL";
 
 const result = {
@@ -76,16 +87,21 @@ const result = {
     acquired: acquired.length,
     failed: failed.length,
     unreadableArtifacts: unreadable.length,
-    expectedHashMismatches: hashMismatches.length
+    expectedHashMismatches: hashMismatches.length,
+    missingProvenance: missingProvenance.length,
+    provenanceRunIdMismatch: provenanceRunIdMismatch.length
   },
   acquired: acquired.map((r) => ({
     jurisdiction: r.jurisdiction ?? null, formNumber: r.formNumber ?? null,
     officialUrl: r.officialUrl ?? r.url ?? null, sha256: r.sha256,
     byteLength: r.byteLength ?? null, mediaTypeObserved: r.mediaTypeObserved ?? null,
     pageCount: r.pageCount ?? null, technology: r.technology ?? null,
+    acquisitionRunId: r.acquisitionRunId ?? null, artifactName: r.artifactName ?? null,
     bodyCommitted: false, promotedToCorpus: false, custodyClass: "RECEIPT_AND_ARTIFACT_ONLY_BODY_NOT_COMMITTED"
   })),
-  failed, unreadable, hashMismatches,
+  failed, unreadable, hashMismatches, missingProvenance, provenanceRunIdMismatch,
+  promotable: acquired.length - missingProvenance.length - provenanceRunIdMismatch.length,
+  promotableMeaning: "receipts carrying a run id and an artifact name that match this run. Only these can reach PROMO; the rest are fetched bytes with no way back to the artifact.",
   bodiesCommitted: 0,
   commercialRoutesOpened: 0,
   productionTouched: false,
