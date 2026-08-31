@@ -14,12 +14,13 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family ar-act346-set::official-form:ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS \
+  --assignment-id DISC05 \
+  --source-obligation 'ar-act346-set::official-form:ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS' \
   --codex-cloud \
   --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59
 ```
 
-It must print **`PACKET_BUILD_ENVIRONMENT_READY: 14/14`**. A 13/14 in cloud mode is a real failure, not the shallow checkout being tolerated.
+It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owned row gate must both pass.
 
 ## Never run these
 
@@ -51,21 +52,89 @@ Turn a descriptive label into a document identity: exact form number, official p
 
 the issuing court or agency that publishes the document
 
-**24 obligations · 12 families this lane WOULD release if every one of them resolves · hosts: AR, MA, ND**
+**42 obligations · 23 families this lane WOULD release if every one of them resolves · hosts: AR, AZ, DE, IA, KS, MN, SD, WV**
 
 > Prospective. Nothing below is promoted custody yet, and this number is not a count of families you can build today.
 
 > This environment refuses outbound egress to court and agency hosts. Identity and inventory work runs here; anything needing a fetch is dispatched through the acquisition workflow, never attempted locally and never faked.
 
-### Every acquired or promoted source records
+### Required operation record schema
 
+- itemId
+- sourceId
+- jurisdiction
+- issuingAuthority
+- officialTitle
+- formNumber
+- revision
+- officialUrl
+- urlKind
+- intendedPacketRole
+- statewideOrLocal
+- familyIds
+- evidencePaths
+- handoffOperation
 
+### Exact obligation rows
 
-**undefined**
+| Item id | Source id | Jurisdiction | Current operation | Family ownership | Required input | Handoff |
+| --- | --- | --- | --- | --- | --- | --- |
+| `ar-act346-set::official-form:ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS` | `official-form:ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS` | AR | `exact-source-identity` | `ar-act346-set` | unresolved exact identity or URL | `ACQ` |
+| `ar-cs-possession-seal-set::official-form:ACIC-ORDER-TO-SEAL-CS-POSSESSION` | `official-form:ACIC-ORDER-TO-SEAL-CS-POSSESSION` | AR | `exact-source-identity` | `ar-cs-possession-seal-set` | unresolved exact identity or URL | `ACQ` |
+| `ar-cs-possession-seal-set::official-form:ACIC-PETITION-TO-SEAL-CS-POSSESSION` | `official-form:ACIC-PETITION-TO-SEAL-CS-POSSESSION` | AR | `exact-source-identity` | `ar-cs-possession-seal-set` | unresolved exact identity or URL | `ACQ` |
+| `ar-drug-court-set::official-form:ACIC-ORDER-DRUG-COURT` | `official-form:ACIC-ORDER-DRUG-COURT` | AR | `exact-source-identity` | `ar-drug-court-set` | unresolved exact identity or URL | `ACQ` |
+| `ar-drug-court-set::official-form:ACIC-PETITION-DRUG-COURT` | `official-form:ACIC-PETITION-DRUG-COURT` | AR | `exact-source-identity` | `ar-drug-court-set` | unresolved exact identity or URL | `ACQ` |
+| `ar-felony-seal-set::official-form:ACIC-UNIFORM-ORDER-TO-SEAL` | `official-form:ACIC-UNIFORM-ORDER-TO-SEAL` | AR | `exact-source-identity` | `ar-felony-seal-set` | unresolved exact identity or URL | `ACQ` |
+| `ar-felony-seal-set::official-form:ACIC-UNIFORM-PETITION-TO-SEAL` | `official-form:ACIC-UNIFORM-PETITION-TO-SEAL` | AR | `exact-source-identity` | `ar-felony-seal-set` | unresolved exact identity or URL | `ACQ` |
+| `ar-misdemeanor-seal-set::official-form:ACIC-UNIFORM-ORDER-TO-SEAL` | `official-form:ACIC-UNIFORM-ORDER-TO-SEAL` | AR | `exact-source-identity` | `ar-misdemeanor-seal-set` | unresolved exact identity or URL | `ACQ` |
+| `ar-misdemeanor-seal-set::official-form:ACIC-UNIFORM-PETITION-TO-SEAL` | `official-form:ACIC-UNIFORM-PETITION-TO-SEAL` | AR | `exact-source-identity` | `ar-misdemeanor-seal-set` | unresolved exact identity or URL | `ACQ` |
+| `ar-nonconviction-seal-set::official-form:ACIC-ORDER-TO-SEAL-NONCONVICTION` | `official-form:ACIC-ORDER-TO-SEAL-NONCONVICTION` | AR | `exact-source-identity` | `ar-nonconviction-seal-set` | unresolved exact identity or URL | `ACQ` |
+| `ar-nonconviction-seal-set::official-form:ACIC-PETITION-TO-SEAL-NONCONVICTION` | `official-form:ACIC-PETITION-TO-SEAL-NONCONVICTION` | AR | `exact-source-identity` | `ar-nonconviction-seal-set` | unresolved exact identity or URL | `ACQ` |
+| `ar-veterans-court-set::official-form:ACIC-ORDER-VETERANS-COURT` | `official-form:ACIC-ORDER-VETERANS-COURT` | AR | `exact-source-identity` | `ar-veterans-court-set` | unresolved exact identity or URL | `ACQ` |
+| `ar-veterans-court-set::official-form:ACIC-PETITION-VETERANS-COURT` | `official-form:ACIC-PETITION-VETERANS-COURT` | AR | `exact-source-identity` | `ar-veterans-court-set` | unresolved exact identity or URL | `ACQ` |
+| `az_wrongful_arrest_clearance-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | AZ | `exact-source-identity` | `az_wrongful_arrest_clearance-set` | unresolved exact identity or URL | `ACQ` |
+| `composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | DE | `exact-source-identity` | `composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction` | unresolved exact identity or URL | `ACQ` |
+| `composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1018_discretionary_petition::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | DE | `exact-source-identity` | `composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1018_discretionary_petition` | unresolved exact identity or URL | `ACQ` |
+| `composed-treatment:obligation:runtime-only:SD:juvenile-trafficking-expungement::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | SD | `exact-source-identity` | `composed-treatment:obligation:runtime-only:SD:juvenile-trafficking-expungement` | unresolved exact identity or URL | `ACQ` |
+| `composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | WV | `exact-source-identity` | `composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement` | unresolved exact identity or URL | `ACQ` |
+| `composed-treatment:sd_sis_sealing::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | SD | `exact-source-identity` | `composed-treatment:sd_sis_sealing` | unresolved exact identity or URL | `ACQ` |
+| `de_mandatory_expungement-set::official-form:DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION` | `official-form:DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION` | DE | `exact-source-identity` | `de_mandatory_expungement-set` | unresolved exact identity or URL | `ACQ` |
+| `ia-12346-set::official-form:Certification of Service by Mailing or Delivery` | `official-form:Certification of Service by Mailing or Delivery` | IA | `exact-source-identity` | `ia-12346-set` | unresolved exact identity or URL | `ACQ` |
+| `ia-12346-set::official-form:Rule 2.86 Form 3` | `official-form:Rule 2.86 Form 3` | IA | `exact-source-identity` | `ia-12346-set` | unresolved exact identity or URL | `ACQ` |
+| `ia-12347-set::official-form:Certification of Service by Mailing or Delivery` | `official-form:Certification of Service by Mailing or Delivery` | IA | `exact-source-identity` | `ia-12347-set` | unresolved exact identity or URL | `ACQ` |
+| `ia-7251-set::official-form:Certification of Service by Mailing or Delivery` | `official-form:Certification of Service by Mailing or Delivery` | IA | `exact-source-identity` | `ia-7251-set` | unresolved exact identity or URL | `ACQ` |
+| `ia-901c2-set::official-form:Certification of Service by Mailing or Delivery` | `official-form:Certification of Service by Mailing or Delivery` | IA | `exact-source-identity` | `ia-901c2-set` | unresolved exact identity or URL | `ACQ` |
+| `ia-901c2-set::official-form:Rule 2.86 Form 1` | `official-form:Rule 2.86 Form 1` | IA | `exact-source-identity` | `ia-901c2-set` | unresolved exact identity or URL | `ACQ` |
+| `ia-901c3-set::official-form:Certification of Service by Mailing or Delivery` | `official-form:Certification of Service by Mailing or Delivery` | IA | `exact-source-identity` | `ia-901c3-set` | unresolved exact identity or URL | `ACQ` |
+| `ia-901c3-set::official-form:Rule 2.86 Form 2` | `official-form:Rule 2.86 Form 2` | IA | `exact-source-identity` | `ia-901c3-set` | unresolved exact identity or URL | `ACQ` |
+| `ia-901c3-set::official-form:Rule 2.86 Form 2 attached sheet` | `official-form:Rule 2.86 Form 2 attached sheet` | IA | `exact-source-identity` | `ia-901c3-set` | unresolved exact identity or URL | `ACQ` |
+| `ia-dci77-set::official-form:DCI-76 Criminal History Record Check Billing Form` | `official-form:DCI-76 Criminal History Record Check Billing Form` | IA | `exact-source-identity` | `ia-dci77-set` | unresolved exact identity or URL | `ACQ` |
+| `ia-dci77-set::official-form:DCI-77 Criminal History Record Check Request Form` | `official-form:DCI-77 Criminal History Record Check Request Form` | IA | `exact-source-identity` | `ia-dci77-set` | unresolved exact identity or URL | `ACQ` |
+| `ks-21-6614-conviction-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | KS | `exact-source-identity` | `ks-21-6614-conviction-set` | unresolved exact identity or URL | `ACQ` |
+| `ks-21-6614-diversion-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | KS | `exact-source-identity` | `ks-21-6614-diversion-set` | unresolved exact identity or URL | `ACQ` |
+| `ks-21-6614-prostitution-coercion-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | KS | `exact-source-identity` | `ks-21-6614-prostitution-coercion-set` | unresolved exact identity or URL | `ACQ` |
+| `ks-21-6614-specialty-court-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | KS | `exact-source-identity` | `ks-21-6614-specialty-court-set` | unresolved exact identity or URL | `ACQ` |
+| `ks-22-2410-arrest-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | KS | `exact-source-identity` | `ks-22-2410-arrest-set` | unresolved exact identity or URL | `ACQ` |
+| `ks-22-4908-registration-relief-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | KS | `exact-source-identity` | `ks-22-4908-registration-relief-set` | unresolved exact identity or URL | `ACQ` |
+| `mn_prosecutor_agreed-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | MN | `exact-source-identity` | `mn_prosecutor_agreed-set` | unresolved exact identity or URL | `ACQ` |
+| `rcap-ks-custom-pleading::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | KS | `exact-source-identity` | `rcap-ks-custom-pleading` | unresolved exact identity or URL | `ACQ` |
+| `rcap-wv-custom-pleading::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | WV | `exact-source-identity` | `rcap-wv-custom-pleading` | unresolved exact identity or URL | `ACQ` |
+| `wv_conv_nonviolent_felony-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | WV | `exact-source-identity` | `wv_conv_nonviolent_felony-set` | unresolved exact identity or URL | `ACQ` |
+| `wv_dui_deferral_expungement-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | WV | `exact-source-identity` | `wv_dui_deferral_expungement-set` | unresolved exact identity or URL | `ACQ` |
+
+Run the row gate once per listed item, after the lane gate. This exact first command demonstrates the interface; substitute each other exact item id from the table without changing the lane:
+
+```sh
+node scripts/verify-packet-build-environment.mjs --assignment-id DISC05 --source-obligation 'ar-act346-set::official-form:ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS' --codex-cloud --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59
+
+# A failed row is recorded STOPPED; continue with unrelated rows.
+```
+
+**Prospective release is never actual release. Record familiesActuallyReleasedNow only after every remaining source binds; otherwise it is an empty array.**
 
 ### Families this lane would release
 
-`ar-cs-possession-seal-set`, `ar-drug-court-set`, `ar-felony-seal-set`, `ar-misdemeanor-seal-set`, `ar-nonconviction-seal-set`, `ar-veterans-court-set`, `ma-expunge-k-set`, `ma-expunge-time-set`, `ma-seal-admin-set`, `ma-seal-decrim-set`, `nd-nonconviction-close-petition-set`, `nd-prohibit-remote-public-access-set`
+`ar-cs-possession-seal-set`, `ar-drug-court-set`, `ar-felony-seal-set`, `ar-misdemeanor-seal-set`, `ar-nonconviction-seal-set`, `ar-veterans-court-set`, `az_wrongful_arrest_clearance-set`, `composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction`, `composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1018_discretionary_petition`, `composed-treatment:obligation:runtime-only:SD:juvenile-trafficking-expungement`, `composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement`, `composed-treatment:sd_sis_sealing`, `de_mandatory_expungement-set`, `ia-12346-set`, `ia-12347-set`, `ia-7251-set`, `ia-901c2-set`, `ia-901c3-set`, `ia-dci77-set`, `mn_prosecutor_agreed-set`, `rcap-ks-custom-pleading`, `rcap-wv-custom-pleading`, `wv_dui_deferral_expungement-set`
 
 ## Owned paths — write only here
 

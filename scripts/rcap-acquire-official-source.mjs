@@ -127,7 +127,28 @@ const rawUrl = process.env.RCAP_SOURCE_URL ?? "";
 const jurisdiction = (process.env.RCAP_JURISDICTION ?? "").trim().toUpperCase();
 const formNumber = (process.env.RCAP_FORM_NUMBER ?? "").trim();
 const expectedSha256 = (process.env.RCAP_EXPECTED_SHA256 ?? "").trim().toLowerCase();
+/*
+ * Acquisition provenance, recorded in the receipt rather than reconstructed.
+ *
+ * The materializer compares the receipt's run id and artifact name against the
+ * ones it is handed, and refuses on a mismatch. Nothing was writing either, so
+ * every handoff could only ever be refused for a difference nobody could
+ * inspect. The planner derives the artifact name once and the workflow passes
+ * it here with the run id; both are recorded verbatim.
+ */
+const acquisitionRunId = (process.env.RCAP_ACQUISITION_RUN_ID ?? "").trim();
+const artifactName = (process.env.RCAP_ARTIFACT_NAME ?? "").trim();
 
+/*
+ * Inside a workflow the provenance is mandatory, because that is the path whose
+ * receipts feed PROMO. A local run may omit it and gets a receipt that says so;
+ * a workflow run may not, because a receipt with no run id can never be matched
+ * to the artifact it describes.
+ */
+if (process.env.GITHUB_ACTIONS === "true") {
+  if (!/^\d+$/.test(acquisitionRunId)) fail("RCAP_ACQUISITION_RUN_ID must be the exact numeric workflow run id inside GitHub Actions");
+  if (!/^[A-Za-z0-9][A-Za-z0-9._-]+$/.test(artifactName)) fail("RCAP_ARTIFACT_NAME must be the exact artifact name the planner derived");
+}
 if (!rawUrl) fail("no URL supplied");
 if (!/^[A-Z]{2}$/.test(jurisdiction)) fail(`jurisdiction ${JSON.stringify(jurisdiction)} is not a two-letter code`);
 if (formNumber === "") fail("no form number supplied");
@@ -242,6 +263,9 @@ const receipt = {
   observedStructuralClass: structuralClass,
   linkedDocumentCandidates: linkedDocuments,
   binaryResolvedFromLandingPage: URL_KIND === "official_landing_page" && looksLikePdf,
+  acquisitionRunId: acquisitionRunId || null,
+  artifactName: artifactName || null,
+  provenanceComplete: Boolean(acquisitionRunId && artifactName),
   expectedSha256: expectedSha256 || null,
   matchesExpectedSha256: expectedSha256 ? expectedSha256 === sha256 : null,
   binaryFile: binaryName,

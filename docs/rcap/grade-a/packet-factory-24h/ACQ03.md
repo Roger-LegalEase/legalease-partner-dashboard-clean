@@ -14,12 +14,12 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family agency-application-treatment:obligation:track-only:CT:ct-destruction-request::NO_DOCUMENT_SOURCE_NAMED \
+  --assignment-id ACQ03 \
   --codex-cloud \
   --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59
 ```
 
-It must print **`PACKET_BUILD_ENVIRONMENT_READY: 14/14`**. A 13/14 in cloud mode is a real failure, not the shallow checkout being tolerated.
+It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owned row gate must both pass.
 
 ## Never run these
 
@@ -45,27 +45,43 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY: 14/14`**. A 13/14 in cloud mode
 
 ## Mission
 
-Dispatch one exact acquisition per official URL through .github/workflows/rcap-official-source-acquisition.yml. One URL, one dispatch, one receipt. This environment cannot fetch; the workflow does it where egress is allowed.
+Prepare the committed manifest row for one already-approved exact official URL. GitHub Actions performs acquisition; this no-egress agent does not dispatch or claim a workflow run. No obligation of this class is queued for this host group at dispatch; the lane starts the moment one arrives.
 
 ## What bounds this lane
 
 one issuing host per lane, so a host that rate-limits blocks only its own lane
 
-**34 obligations · 27 families this lane WOULD release if every one of them resolves · hosts: AK, CT, IN, KS, ME, MN, MO, ND, SD, UT, VT, WI**
+**0 obligations · 0 families this lane WOULD release if every one of them resolves · hosts: —**
 
 > Prospective. Nothing below is promoted custody yet, and this number is not a count of families you can build today.
 
 > This environment refuses outbound egress to court and agency hosts. Identity and inventory work runs here; anything needing a fetch is dispatched through the acquisition workflow, never attempted locally and never faked.
 
-### Every acquired or promoted source records
+### Required operation record schema
 
+- itemId
+- sourceId
+- jurisdiction
+- issuingAuthority
+- officialUrl
+- urlKind
+- expectedSha256
+- title/formNumber
+- manifestEntryId
+- familyIds
+- dispatchStatus
+- handoffState
 
+### Exact obligation rows
 
-**undefined**
+| Item id | Source id | Jurisdiction | Current operation | Family ownership | Required input | Handoff |
+| --- | --- | --- | --- | --- | --- | --- |
+| _No current obligations_ | — | — | `official-acquisition-dispatch` | — | Lane remains queued; do not invent an input. | — |
+**Prospective release is never actual release. Record familiesActuallyReleasedNow only after every remaining source binds; otherwise it is an empty array.**
 
 ### Families this lane would release
 
-`agency-application-treatment:obligation:track-only:CT:ct-destruction-request`, `agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon`, `agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure`, `census-pending-family:ME:juvenile-sealing`, `census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement`, `census-pending-family:UT:path-m-juvenile-expungement`, `composed-treatment:nd-nonconviction-auto-close-verify`, `composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085`, `composed-treatment:obligation:runtime-only:SD:juvenile-trafficking-expungement`, `composed-treatment:sd_sis_sealing`, `ct-cannabis-petition-set`, `ct-decriminalized-set`, `ct-missed-erasure-set`, `ct-nolle-auto-set`, `ct-pardon-erasure-set`, `ct-under18-misdemeanor-set`, `in_infraction_nondisclosure-set`, `me-nonconv-set`, `me-screening-set`, `mn_prosecutor_agreed-set`, `nd-deferred-imposition-records-set`, `rcap-ks-custom-pleading`, `rcap-mo-custom-pleading`, `rcap-nd-custom-pleading`, `rcap-wi-custom-pleading`, `vt_exp_deferred_sentence-set`, `vt_seal_under_25-set`
+
 
 ## Owned paths — write only here
 

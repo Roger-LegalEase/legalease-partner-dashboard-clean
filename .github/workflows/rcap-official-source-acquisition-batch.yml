@@ -22,6 +22,14 @@
 name: RCAP Official Source Acquisition (Batch)
 
 on:
+  push:
+    branches: [claude/legalease-sprint-captain-utucnw]
+    paths:
+      - data/rcap-grade-a/packet-factory-24h/SOURCE_ACQUISITION_MANIFEST.json
+      - scripts/rcap-plan-source-acquisition-batch.mjs
+      - scripts/rcap-acquire-official-source.mjs
+      - scripts/rcap-summarize-source-acquisition-batch.mjs
+      - .github/workflows/rcap-official-source-acquisition-batch.yml
   workflow_dispatch:
     inputs:
       manifest:
@@ -64,13 +72,13 @@ jobs:
       - name: Validate and plan
         id: plan
         env:
-          RCAP_MANIFEST: ${{ inputs.manifest }}
+          RCAP_MANIFEST: ${{ inputs.manifest || 'data/rcap-grade-a/packet-factory-24h/SOURCE_ACQUISITION_MANIFEST.json' }}
           RCAP_ONLY_JURISDICTION: ${{ inputs.jurisdiction }}
           RCAP_LIMIT: ${{ inputs.limit }}
         run: node scripts/rcap-plan-source-acquisition-batch.mjs
 
   acquire:
-    name: ${{ matrix.entry.jurisdiction }} ${{ matrix.entry.formNumber }}
+    name: ${{ matrix.entry.jurisdiction }} ${{ matrix.entry.formNumber }} (${{ matrix.entry.artifactName }})
     needs: plan
     if: needs.plan.outputs.count != '0'
     runs-on: ubuntu-latest
@@ -97,6 +105,11 @@ jobs:
           RCAP_EXPECTED_SHA256: ${{ matrix.entry.expectedSha256 }}
           RCAP_URL_KIND: ${{ matrix.entry.urlKind }}
           RCAP_ASSET_ID: ${{ matrix.entry.sourceId }}
+          # Provenance for the ACQ -> PROMO handoff. The artifact name is the
+          # planner's, used verbatim here and by upload-artifact below, so the
+          # receipt, the artifact and the materializer all name one string.
+          RCAP_ACQUISITION_RUN_ID: ${{ github.run_id }}
+          RCAP_ARTIFACT_NAME: ${{ matrix.entry.artifactName }}
           # One failing form does not stop the batch. The failure is recorded
           # as its own artifact and the remaining jobs continue.
           RCAP_TOLERATE_FAILURE: "1"
@@ -105,7 +118,7 @@ jobs:
       - name: Upload the source and its receipt
         uses: actions/upload-artifact@v4
         with:
-          name: rcap-source-${{ matrix.entry.jurisdiction }}-${{ matrix.entry.sourceId }}
+          name: ${{ matrix.entry.artifactName }}
           path: acquired-source/
           if-no-files-found: error
           retention-days: 30
@@ -150,6 +163,7 @@ jobs:
 
       - name: Write the batch result
         env:
+          RCAP_ACQUISITION_RUN_ID: ${{ github.run_id }}
           RCAP_PLANNED: ${{ needs.plan.outputs.count }}
           RCAP_PLAN_RESULT: ${{ needs.plan.result }}
           RCAP_ACQUIRE_RESULT: ${{ needs.acquire.result }}

@@ -31,6 +31,7 @@ const PROMPTS_DIR = "docs/rcap/grade-a/packet-factory-24h";
 const PLANNER = "scripts/rcap-plan-source-acquisition-batch.mjs";
 const ACQUIRE = "scripts/rcap-acquire-official-source.mjs";
 const SUMMARY = "scripts/rcap-summarize-source-acquisition-batch.mjs";
+const READY_WORKFLOW = ".github/workflows/rcap-source-conveyor-ready.yml";
 
 const read = (rel) => JSON.parse(fs.readFileSync(path.join(ROOT, rel), "utf8"));
 const results = [];
@@ -309,6 +310,27 @@ function run() {
     elasticProblems.length === 0,
     `${(ci.elasticCapacity?.thresholds ?? []).filter((e) => e.triggered).length} trigger(s) firing, ${verifyLanes.length} verifier(s); ${elasticProblems.length} problem(s): ${elasticProblems.slice(0, 2).join(" | ")}`);
 
+  // C20. Generated prompts and commit-bound gate are executable, not prose.
+  const promptTexts = conveyor.lanes.map((l) => fs.readFileSync(path.join(ROOT, l.promptFile), "utf8"));
+  const promptProblems = [];
+  if (promptTexts.some((t) => /\bundefined\b/.test(t))) promptProblems.push("a source prompt contains undefined");
+  if (promptTexts.some((t) => /--family\s+\S+::/.test(t))) promptProblems.push("a source prompt passes a synthetic obligation to --family");
+  if (promptTexts.some((t) => /<FAMILY_ID>|<placeholder>|\bTODO\b/.test(t))) promptProblems.push("a source prompt contains a placeholder");
+  if (promptTexts.some((t) => /no-egress[\s\S]{0,500}(?:agent|worker)[\s\S]{0,500}(?:it dispatched|dispatch the workflow)/i.test(t))) promptProblems.push("an ACQ worker claims it dispatched from the no-egress phase");
+  for (const a of sourceLanes.filter((x) => /^(DISC|SRC|ACQ|PROMO)\d{2}$/.test(x.assignmentId))) {
+    if ((a.itemDetails ?? []).length !== (a.items ?? []).length) promptProblems.push(`${a.assignmentId} has no explicit detail row for every item`);
+    if (a.operation === "official-acquisition-dispatch" && (a.itemDetails ?? []).some((x) => !/^https:\/\//.test(x.officialUrl ?? ""))) promptProblems.push(`${a.assignmentId} has a URL-less ACQ row`);
+    if (a.operation === "promotion-and-release" && (a.itemDetails ?? []).some((x) => !x.artifactName || !x.receiptPath)) promptProblems.push(`${a.assignmentId} has a receipt-less PROMO row`);
+  }
+  const unresolvedFamilies = new Set(sourceLanes.flatMap((a) => (a.itemDetails ?? []).flatMap((x) => x.familyIds ?? [])));
+  const releasedUnresolved = master.families.filter((f) => f.state === "SOURCE_READY" && unresolvedFamilies.has(f.familyId));
+  if (releasedUnresolved.length) promptProblems.push(`${releasedUnresolved.length} released family/families retain unresolved sources`);
+  const readyText = fs.existsSync(path.join(ROOT, READY_WORKFLOW)) ? fs.readFileSync(path.join(ROOT, READY_WORKFLOW), "utf8") : "";
+  for (const required of ["generate.mjs --check", "generate-source-conveyor.mjs --check", "generate-washington-repair.mjs --check", "verify.mjs --mutations", "verify-source-conveyor.mjs --mutations", "rcap-plan-source-acquisition-batch.mjs", "git diff --check", "git status --porcelain"]) if (!readyText.includes(required)) promptProblems.push(`readiness workflow omits ${required}`);
+  if (!/name:\s*RCAP Source Conveyor/.test(readyText) || !/^\s{2}READY_TO_RUN:/m.test(readyText)) promptProblems.push("commit-bound check name is absent");
+  check("C20", "source prompts and READY_TO_RUN gate are executable and fail closed", promptProblems.length === 0,
+    `${promptProblems.length} problem(s): ${promptProblems.slice(0, 3).join(" | ")}`);
+
   // The shape the instruction asked for, so a rename cannot pass silently.
   check("C14", "sixteen source lanes: six DISC, four SRC, three ACQ, three PROMO",
     conveyor.totals.sourceLanes === 16 && conveyor.totals.disc === 6 && conveyor.totals.src === 4
@@ -347,6 +369,7 @@ if (MUTATIONS) {
     active: path.join(ROOT, ACTIVE), workflow: path.join(ROOT, WORKFLOW),
     planner: path.join(ROOT, PLANNER), acquire: path.join(ROOT, ACQUIRE),
     summary: path.join(ROOT, SUMMARY)
+    , prompt: path.join(ROOT, PROMPTS_DIR, "DISC01.md"), ready: path.join(ROOT, READY_WORKFLOW)
   };
   const originals = Object.fromEntries(Object.entries(targets).map(([k, p]) => [k, fs.readFileSync(p)]));
   const firstEntry = (j) => j.entries[0];
@@ -408,6 +431,11 @@ if (MUTATIONS) {
     { on: "workflow", id: "C18", name: "a summary job that skips when the batch fails is caught", mutateText: (t) => t.replace("    if: always()", "    if: success()") },
     { on: "ci", id: "C19", name: "a triggered threshold whose lanes do not exist is caught", mutate: (j) => { const e = j.elasticCapacity.thresholds.find((x) => !x.triggered); e.triggered = true; return j; } },
     { on: "active", id: "C19", name: "a materialized verifier without a prompt is caught", mutate: (j) => { j.assignments.find((x) => x.lane === "independent-verification").assignmentId = "VF99"; return j; } },
+    { on: "prompt", id: "C20", name: "undefined in a source prompt is caught", mutateText: (t) => `${t}\nundefined\n` },
+    { on: "prompt", id: "C20", name: "synthetic --family in a source prompt is caught", mutateText: (t) => `${t}\n--family family::official-form:X\n` },
+    { on: "active", id: "C20", name: "a URL-less ACQ item is caught", mutate: (j) => { const a=j.assignments.find(x=>x.assignmentId==="ACQ01"); a.items=["synthetic::url-less"]; a.itemDetails=[{itemId:"synthetic::url-less",familyIds:["synthetic"]}]; return j; } },
+    { on: "active", id: "C20", name: "a receipt-less PROMO item is caught", mutate: (j) => { const a=j.assignments.find(x=>x.assignmentId==="PROMO01"); a.items=["synthetic::promo"]; a.itemDetails=[{itemId:"synthetic::promo",familyIds:["synthetic"]}]; return j; } },
+    { on: "ready", id: "C20", name: "omitting a required readiness verifier is caught", mutateText: (t) => t.replace("verify-source-conveyor.mjs --mutations", "verify-source-conveyor.mjs --disabled") },
     /* Positive control. A refusal that fires on an untouched dispatch would
      * make every mutation above meaningless, so one case changes something
      * real and irrelevant and requires the checks to still pass. */

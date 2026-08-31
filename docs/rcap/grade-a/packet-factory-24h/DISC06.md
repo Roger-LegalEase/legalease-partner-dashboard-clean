@@ -14,12 +14,13 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family fl-10yr-bridge-set::official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION \
+  --assignment-id DISC06 \
+  --source-obligation 'composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route::NO_DOCUMENT_SOURCE_NAMED' \
   --codex-cloud \
   --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59
 ```
 
-It must print **`PACKET_BUILD_ENVIRONMENT_READY: 14/14`**. A 13/14 in cloud mode is a real failure, not the shallow checkout being tolerated.
+It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owned row gate must both pass.
 
 ## Never run these
 
@@ -51,21 +52,89 @@ Turn a descriptive label into a document identity: exact form number, official p
 
 the issuing court or agency that publishes the document
 
-**24 obligations · 10 families this lane WOULD release if every one of them resolves · hosts: FL, IA, MT**
+**42 obligations · 38 families this lane WOULD release if every one of them resolves · hosts: FL, GA, MA, MS, OK, OR, PA, WY**
 
 > Prospective. Nothing below is promoted custody yet, and this number is not a count of families you can build today.
 
 > This environment refuses outbound egress to court and agency hosts. Identity and inventory work runs here; anything needing a fetch is dispatched through the acquisition workflow, never attempted locally and never faked.
 
-### Every acquired or promoted source records
+### Required operation record schema
 
+- itemId
+- sourceId
+- jurisdiction
+- issuingAuthority
+- officialTitle
+- formNumber
+- revision
+- officialUrl
+- urlKind
+- intendedPacketRole
+- statewideOrLocal
+- familyIds
+- evidencePaths
+- handoffOperation
 
+### Exact obligation rows
 
-**undefined**
+| Item id | Source id | Jurisdiction | Current operation | Family ownership | Required input | Handoff |
+| --- | --- | --- | --- | --- | --- | --- |
+| `composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | GA | `exact-source-identity` | `composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route` | unresolved exact identity or URL | `ACQ` |
+| `composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | MS | `exact-source-identity` | `composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4` | unresolved exact identity or URL | `ACQ` |
+| `composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | MS | `exact-source-identity` | `composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26` | unresolved exact identity or URL | `ACQ` |
+| `composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | MS | `exact-source-identity` | `composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59` | unresolved exact identity or URL | `ACQ` |
+| `composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | MS | `exact-source-identity` | `composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59` | unresolved exact identity or URL | `ACQ` |
+| `composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | OK | `exact-source-identity` | `composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief` | unresolved exact identity or URL | `ACQ` |
+| `composed-treatment:obligation:runtime-only:OK:juvenile-record-expungement::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | OK | `exact-source-identity` | `composed-treatment:obligation:runtime-only:OK:juvenile-record-expungement` | unresolved exact identity or URL | `ACQ` |
+| `composed-treatment:obligation:runtime-only:PA:path-k-human-trafficking-vacatur-expungement::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | PA | `exact-source-identity` | `composed-treatment:obligation:runtime-only:PA:path-k-human-trafficking-vacatur-expungement` | unresolved exact identity or URL | `ACQ` |
+| `composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | WY | `exact-source-identity` | `composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708` | unresolved exact identity or URL | `ACQ` |
+| `fl-10yr-bridge-set::official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION` | `official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION` | FL | `exact-source-identity` | `fl-10yr-bridge-set` | unresolved exact identity or URL | `ACQ` |
+| `fl-administrative-set::official-form:FDLE-ADMINISTRATIVE-EXPUNCTION-APPLICATION` | `official-form:FDLE-ADMINISTRATIVE-EXPUNCTION-APPLICATION` | FL | `exact-source-identity` | `fl-administrative-set` | unresolved exact identity or URL | `ACQ` |
+| `fl-early-juvenile-set::official-form:FDLE-EARLY-JUVENILE-EXPUNCTION-APPLICATION` | `official-form:FDLE-EARLY-JUVENILE-EXPUNCTION-APPLICATION` | FL | `exact-source-identity` | `fl-early-juvenile-set` | unresolved exact identity or URL | `ACQ` |
+| `fl-expunction-set::official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION` | `official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION` | FL | `exact-source-identity` | `fl-expunction-set` | unresolved exact identity or URL | `ACQ` |
+| `fl-juvenile-diversion-set::official-form:FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION` | `official-form:FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION` | FL | `exact-source-identity` | `fl-juvenile-diversion-set` | unresolved exact identity or URL | `ACQ` |
+| `fl-sealing-set::official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION` | `official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION` | FL | `exact-source-identity` | `fl-sealing-set` | unresolved exact identity or URL | `ACQ` |
+| `fl-self-defense-set::official-form:FDLE-SELF-DEFENSE-EXPUNCTION-APPLICATION` | `official-form:FDLE-SELF-DEFENSE-EXPUNCTION-APPLICATION` | FL | `exact-source-identity` | `fl-self-defense-set` | unresolved exact identity or URL | `ACQ` |
+| `ga-deaddocket-j3-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | GA | `exact-source-identity` | `ga-deaddocket-j3-set` | unresolved exact identity or URL | `ACQ` |
+| `ga-felony-j1-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | GA | `exact-source-identity` | `ga-felony-j1-set` | unresolved exact identity or URL | `ACQ` |
+| `ga-fugitive-j5-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | GA | `exact-source-identity` | `ga-fugitive-j5-set` | unresolved exact identity or URL | `ACQ` |
+| `ga-jail-k2-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | GA | `exact-source-identity` | `ga-jail-k2-set` | unresolved exact identity or URL | `ACQ` |
+| `ga-misd-j4-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | GA | `exact-source-identity` | `ga-misd-j4-set` | unresolved exact identity or URL | `ACQ` |
+| `ga-nonconv-post2013-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | GA | `exact-source-identity` | `ga-nonconv-post2013-set` | unresolved exact identity or URL | `ACQ` |
+| `ga-nonconv-pre2013-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | GA | `exact-source-identity` | `ga-nonconv-pre2013-set` | unresolved exact identity or URL | `ACQ` |
+| `ga-pardon-j7-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | GA | `exact-source-identity` | `ga-pardon-j7-set` | unresolved exact identity or URL | `ACQ` |
+| `ga-seal-m-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | GA | `exact-source-identity` | `ga-seal-m-set` | unresolved exact identity or URL | `ACQ` |
+| `ga-vacated-j2-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | GA | `exact-source-identity` | `ga-vacated-j2-set` | unresolved exact identity or URL | `ACQ` |
+| `ma-bmc-multi-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | MA | `exact-source-identity` | `ma-bmc-multi-set` | unresolved exact identity or URL | `ACQ` |
+| `ma-expunge-k-set::official-form:Petition for Expungement, G.L. c. 276, § 100K` | `official-form:Petition for Expungement, G.L. c. 276, § 100K` | MA | `exact-source-identity` | `ma-expunge-k-set` | unresolved exact identity or URL | `ACQ` |
+| `ma-expunge-time-set::official-form:Massachusetts Probation Service Petition to Expunge` | `official-form:Massachusetts Probation Service Petition to Expunge` | MA | `exact-source-identity` | `ma-expunge-time-set` | unresolved exact identity or URL | `ACQ` |
+| `ma-seal-admin-set::official-form:Petition to Seal (Office of the Commissioner of Probation)` | `official-form:Petition to Seal (Office of the Commissioner of Probation)` | MA | `exact-source-identity` | `ma-seal-admin-set` | unresolved exact identity or URL | `ACQ` |
+| `ma-seal-decrim-set::official-form:Petition to Seal (Office of the Commissioner of Probation), Part A box 4` | `official-form:Petition to Seal (Office of the Commissioner of Probation), Part A box 4` | MA | `exact-source-identity` | `ma-seal-decrim-set` | unresolved exact identity or URL | `ACQ` |
+| `ms-diversion-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | MS | `exact-source-identity` | `ms-diversion-set` | unresolved exact identity or URL | `ACQ` |
+| `ms-fel-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | MS | `exact-source-identity` | `ms-fel-set` | unresolved exact identity or URL | `ACQ` |
+| `ms-misd-1st-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | MS | `exact-source-identity` | `ms-misd-1st-set` | unresolved exact identity or URL | `ACQ` |
+| `ms-misd-addl-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | MS | `exact-source-identity` | `ms-misd-addl-set` | unresolved exact identity or URL | `ACQ` |
+| `ms-nonadj-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | MS | `exact-source-identity` | `ms-nonadj-set` | unresolved exact identity or URL | `ACQ` |
+| `ms-nonconv-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | MS | `exact-source-identity` | `ms-nonconv-set` | unresolved exact identity or URL | `ACQ` |
+| `rcap-ga-guidance-implementation::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | GA | `exact-source-identity` | `rcap-ga-guidance-implementation` | unresolved exact identity or URL | `ACQ` |
+| `rcap-ms-custom-pleading::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | MS | `exact-source-identity` | `rcap-ms-custom-pleading` | unresolved exact identity or URL | `ACQ` |
+| `rcap-ok-custom-pleading::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | OK | `exact-source-identity` | `rcap-ok-custom-pleading` | unresolved exact identity or URL | `ACQ` |
+| `rcap-or-official-pdf-fill::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | OR | `exact-source-identity` | `rcap-or-official-pdf-fill` | unresolved exact identity or URL | `ACQ` |
+| `wy_fel_1502-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | WY | `exact-source-identity` | `wy_fel_1502-set` | unresolved exact identity or URL | `ACQ` |
+
+Run the row gate once per listed item, after the lane gate. This exact first command demonstrates the interface; substitute each other exact item id from the table without changing the lane:
+
+```sh
+node scripts/verify-packet-build-environment.mjs --assignment-id DISC06 --source-obligation 'composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route::NO_DOCUMENT_SOURCE_NAMED' --codex-cloud --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59
+
+# A failed row is recorded STOPPED; continue with unrelated rows.
+```
+
+**Prospective release is never actual release. Record familiesActuallyReleasedNow only after every remaining source binds; otherwise it is an empty array.**
 
 ### Families this lane would release
 
-`fl-administrative-set`, `fl-early-juvenile-set`, `fl-juvenile-diversion-set`, `fl-self-defense-set`, `ia-12346-set`, `ia-12347-set`, `ia-7251-set`, `ia-901c2-set`, `ia-901c3-set`, `ia-dci77-set`
+`composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route`, `composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4`, `composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26`, `composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59`, `composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59`, `composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief`, `composed-treatment:obligation:runtime-only:OK:juvenile-record-expungement`, `composed-treatment:obligation:runtime-only:PA:path-k-human-trafficking-vacatur-expungement`, `composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708`, `fl-administrative-set`, `fl-early-juvenile-set`, `fl-juvenile-diversion-set`, `fl-self-defense-set`, `ga-deaddocket-j3-set`, `ga-felony-j1-set`, `ga-fugitive-j5-set`, `ga-jail-k2-set`, `ga-misd-j4-set`, `ga-nonconv-post2013-set`, `ga-pardon-j7-set`, `ga-seal-m-set`, `ga-vacated-j2-set`, `ma-bmc-multi-set`, `ma-expunge-k-set`, `ma-expunge-time-set`, `ma-seal-admin-set`, `ma-seal-decrim-set`, `ms-diversion-set`, `ms-fel-set`, `ms-misd-1st-set`, `ms-misd-addl-set`, `ms-nonadj-set`, `ms-nonconv-set`, `rcap-ga-guidance-implementation`, `rcap-ms-custom-pleading`, `rcap-ok-custom-pleading`, `rcap-or-official-pdf-fill`, `wy_fel_1502-set`
 
 ## Owned paths — write only here
 

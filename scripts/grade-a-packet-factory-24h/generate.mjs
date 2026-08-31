@@ -565,7 +565,7 @@ for (let i = sourceRows.length - 1; i >= 0; i -= 1) {
 const SOURCE_OPERATIONS = [
   {
     prefix: "DISC", lanes: 6, operation: "exact-source-identity",
-    absence: ["label_does_not_identify_a_document"],
+    absence: ["label_does_not_identify_a_document", "no_document_shaped_source_named"],
     mission: "Turn a descriptive label into a document identity: exact form number, official publisher, revision and the official URL it is published at. Resolve against committed inventories; never guess a form number.",
     records: ["official publisher", "exact title", "form number", "revision", "official URL"],
     handsOffTo: "ACQ, the moment an exact official URL is known — do not wait for the rest of this lane",
@@ -581,8 +581,8 @@ const SOURCE_OPERATIONS = [
   },
   {
     prefix: "ACQ", lanes: 3, operation: "official-acquisition-dispatch",
-    absence: ["no_document_shaped_source_named"],
-    mission: "Dispatch one exact acquisition per official URL through .github/workflows/rcap-official-source-acquisition.yml. One URL, one dispatch, one receipt. This environment cannot fetch; the workflow does it where egress is allowed.",
+    absence: [],
+    mission: "Prepare the committed manifest row for one already-approved exact official URL. GitHub Actions performs acquisition; this no-egress agent does not dispatch or claim a workflow run.",
     records: ["official URL", "dispatch id", "workflow run", "receipt path"],
     handsOffTo: "PROMO, on the acquired artifact receipt",
     bounded: "one issuing host per lane, so a host that rate-limits blocks only its own lane"
@@ -599,10 +599,20 @@ const SOURCE_OPERATIONS = [
 
 /** Which operation an obligation belongs to, from its own absence class. */
 const operationFor = (row) => {
-  if (row.tier && !EXACT_TIERS.has(row.tier)) return "PROMO";
+  /* An inexact corpus tier is reconciliation work, not evidence that an
+   * artifact and receipt already exist. PROMO is populated only by a later,
+   * explicit handoff carrying those exact inputs. */
+  if (row.tier && !EXACT_TIERS.has(row.tier)) return "SRC";
   const op = SOURCE_OPERATIONS.find((o) => o.absence.includes(row.absence));
   return op ? op.prefix : "PROMO";
 };
+
+const recordSchemaFor = (prefix) => ({
+  DISC: ["itemId", "sourceId", "jurisdiction", "issuingAuthority", "officialTitle", "formNumber", "revision", "officialUrl", "urlKind", "intendedPacketRole", "statewideOrLocal", "familyIds", "evidencePaths", "handoffOperation"],
+  SRC: ["itemId", "sourceId", "corpusPath", "title/formNumber", "sha256", "byteSize", "mime", "pageCount", "technology", "matchBasis", "familyIds", "handoffOperation"],
+  ACQ: ["itemId", "sourceId", "jurisdiction", "issuingAuthority", "officialUrl", "urlKind", "expectedSha256", "title/formNumber", "manifestEntryId", "familyIds", "dispatchStatus", "handoffState"],
+  PROMO: ["itemId", "sourceId", "acquisitionRunId or held-corpus evidence", "artifactName", "receiptPath", "acquiredSha256", "expectedSha256", "comparisonResult", "custodyRecordPath", "inventoryEntryPath", "remainingUnresolvedObligations", "familiesActuallyReleasedNow"]
+})[prefix];
 /* Inside an operation, N lanes by issuer host. Hosts are sorted and dealt
  * round-robin by total obligation weight so no lane inherits every large host. */
 const laneWithinOperation = (rows, laneCount) => {
@@ -928,8 +938,21 @@ for (const op of SOURCE_OPERATIONS) {
         ? `${op.mission} No obligation of this class is queued for this host group at dispatch; the lane starts the moment one arrives.`
         : op.mission,
       itemKind: "sourceObligation",
+      preflightMustReturn: "SOURCE_CONVEYOR_PREFLIGHT_READY",
       itemCount: rows.length,
       items: rows.map((r) => `${r.familyId}::${r.sourceId ?? "NO_DOCUMENT_SOURCE_NAMED"}`),
+      itemDetails: rows.map((r) => ({
+        itemId: `${r.familyId}::${r.sourceId ?? "NO_DOCUMENT_SOURCE_NAMED"}`,
+        sourceId: r.sourceId ?? "NO_DOCUMENT_SOURCE_NAMED",
+        jurisdiction: r.jurisdiction,
+        familyIds: [r.familyId],
+        currentOperation: op.operation,
+        requiredInput: op.prefix === "DISC" ? "unresolved exact identity or URL"
+          : op.prefix === "SRC" ? "named held-corpus identity or pinned SHA-256"
+          : op.prefix === "ACQ" ? "approved exact HTTPS officialUrl in SOURCE_ACQUISITION_MANIFEST.json"
+          : "exact artifactName and receiptPath from a named acquisition run or held-corpus evidence",
+        handoffOperation: op.prefix === "DISC" ? "ACQ" : op.prefix === "SRC" ? "PROMO" : op.prefix === "ACQ" ? "PROMO" : "CAPTAIN"
+      })),
       boundedBy: op.bounded,
       issuingHosts: hosts,
       // PROSPECTIVE, not achieved: the families this lane WOULD release if every
@@ -950,6 +973,7 @@ for (const op of SOURCE_OPERATIONS) {
         "MIME type", "page count", "technology (acroform, xfa, flat)", "SHA-256", "byte size", "custody path"
       ],
       recordsForThisOperation: op.records,
+      requiredRecordSchema: recordSchemaFor(op.prefix),
       handsOffTo: op.handsOffTo,
       dispatchImmediately: op.prefix === "DISC"
         ? "The moment you know an exact official URL, hand it to the ACQ lane for this host. Do not hold it until the rest of your obligations resolve."
@@ -959,6 +983,7 @@ for (const op of SOURCE_OPERATIONS) {
       acquisitionWorkflow: op.prefix === "ACQ" ? ".github/workflows/rcap-official-source-acquisition.yml" : null,
       oneDispatchPerUrl: op.prefix === "ACQ" ? "One official URL, one dispatch, one receipt. A second dispatch for a URL already dispatched is a duplicate obligation and is refused." : null,
       promotionRule: op.prefix === "PROMO" ? "A source is promoted only with exact bytes: a custody path that exists and a SHA-256 that matches the indexed entry. A promotion without bytes releases a family into a builder that cannot open its source." : null,
+      releaseRule: "Prospective release is never actual release. Record familiesActuallyReleasedNow only after every remaining source binds; otherwise it is an empty array.",
       continueAfterFailure: "An obligation that cannot be settled is a STOPPED row. The lane continues to the next one.",
       egressReality: "This environment refuses outbound egress to court and agency hosts. Identity and inventory work runs here; anything needing a fetch is dispatched through the acquisition workflow, never attempted locally and never faked.",
       ownedPaths: [`${FACT}/${slug}/**`, `data/rcap-grade-a/source-acquisition/packet-factory-24h/${slug}/**`],
@@ -1323,11 +1348,14 @@ const promptFor = (a) => {
     p.push("## Before anything else", "", "```sh",
       "source $HOME/.legalease-corpus-env",
       `node ${PREFLIGHT} \\`,
-      `  --family ${a.items?.[0] ?? "<FAMILY_ID>"} \\`,
+      ...(a.itemKind === "sourceObligation" ? [
+        `  --assignment-id ${a.assignmentId} \\`,
+        ...(a.items?.length ? [`  --source-obligation '${a.items[0].replaceAll("'", "'\\''")}' \\`] : [])
+      ] : [`  --family ${a.items?.[0] ?? "<FAMILY_ID>"} \\`]),
       "  --codex-cloud \\",
       `  --minimum-captain-sha ${a.minimumCaptainSha}`,
       "```", "");
-    p.push(`It must print **\`${a.preflightMustReturn}\`**. A 13/14 in cloud mode is a real failure, not the shallow checkout being tolerated.`, "");
+    p.push(`It must print **\`${a.preflightMustReturn}\`**.${a.itemKind === "sourceObligation" ? " The lane gate and each owned row gate must both pass." : " A 13/14 in cloud mode is a real failure, not the shallow checkout being tolerated."}`, "");
   }
   p.push("## Never run these", "", bullet(a.prohibitedCommands.map((c) => `\`${c}\``)), "");
   if (a.claimRule) p.push("## Claim before you read", "", bullet(a.claimRule), "");
@@ -1348,7 +1376,11 @@ const promptFor = (a) => {
     p.push(`**${a.itemCount} obligations · ${a.familiesThisLaneWouldReleaseCount} families this lane WOULD release if every one of them resolves · hosts: ${a.issuingHosts.join(", ") || "—"}**`, "");
     p.push(`> Prospective. Nothing below is promoted custody yet, and this number is not a count of families you can build today.`, "");
     p.push(`> ${a.egressReality}`, "");
-    p.push("### Every acquired or promoted source records", "", bullet(a.everyAcquiredSourceRecords), "");
+    p.push("### Required operation record schema", "", bullet(a.requiredRecordSchema), "");
+    p.push("### Exact obligation rows", "", "| Item id | Source id | Jurisdiction | Current operation | Family ownership | Required input | Handoff |", "| --- | --- | --- | --- | --- | --- | --- |");
+    for (const r of a.itemDetails) p.push(`| \`${r.itemId}\` | \`${r.sourceId}\` | ${r.jurisdiction} | \`${r.currentOperation}\` | ${r.familyIds.map((f) => `\`${f}\``).join(", ")} | ${r.requiredInput} | \`${r.handoffOperation}\` |`);
+    if (!a.itemDetails.length) p.push(`| _No current obligations_ | — | — | \`${a.operation}\` | — | Lane remains queued; do not invent an input. | — |`);
+    if (a.itemDetails.length) p.push("", "Run the row gate once per listed item, after the lane gate. This exact first command demonstrates the interface; substitute each other exact item id from the table without changing the lane:", "", "```sh", `node ${PREFLIGHT} --assignment-id ${a.assignmentId} --source-obligation '${a.itemDetails[0].itemId.replaceAll("'", "'\\''")}' --codex-cloud --minimum-captain-sha ${a.minimumCaptainSha}`, "", "# A failed row is recorded STOPPED; continue with unrelated rows.", "```", "");
     p.push(`**${a.releaseRule}**`, "");
     p.push("### Families this lane would release", "", a.familiesThisLaneWouldRelease.map((f) => `\`${f}\``).join(", "), "");
   } else if (a.itemKind === "streamingClaim") {

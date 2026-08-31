@@ -86,17 +86,49 @@ if (Number.isInteger(LIMIT) && LIMIT > 0) planned = planned.slice(0, LIMIT);
  * not have. */
 if (planned.length > 256) fail(`${planned.length} entries exceeds the 256-job matrix cap; dispatch with a jurisdiction or a limit`);
 
+/*
+ * One canonical artifact name, produced HERE and nowhere else.
+ *
+ * The name was being composed inline in the workflow's upload step while the
+ * materializer demanded that the receipt carry the same string. Three places
+ * built it and nothing made them agree, so a handoff could only ever be refused
+ * for a mismatch nobody could see. It is derived once, from the two fields the
+ * manifest already proves unique, and every later step is handed the result.
+ *
+ * GitHub artifact names may not contain " : < > | * ? \r \n \\ /, so the
+ * derivation sanitizes rather than trusting a source id to be safe.
+ */
+const artifactNameFor = (e) => {
+  const safe = (x) => String(x).replace(/[^A-Za-z0-9._-]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 80);
+  const name = `rcap-source-${safe(e.jurisdiction)}-${safe(e.sourceId)}`;
+  if (!/^[A-Za-z0-9][A-Za-z0-9._-]+$/.test(name)) {
+    fail(`entry ${e.sourceId}: no valid artifact name can be derived from jurisdiction ${JSON.stringify(e.jurisdiction)} and source id ${JSON.stringify(e.sourceId)}`);
+  }
+  return name;
+};
+
+/* Unique names, checked rather than assumed: two entries whose ids differ only
+ * in characters the sanitizer removes would collide into one artifact, and the
+ * second upload would overwrite the first. */
+const nameOwner = new Map();
+for (const e of planned) {
+  const n = artifactNameFor(e);
+  if (nameOwner.has(n)) fail(`${e.sourceId} and ${nameOwner.get(n)} both derive artifact name ${n}`);
+  nameOwner.set(n, e.sourceId);
+}
+
 const matrix = planned.map((e) => ({
   sourceId: e.sourceId,
   jurisdiction: e.jurisdiction,
   formNumber: e.formNumber ?? e.officialTitle,
+  artifactName: artifactNameFor(e),
   officialUrl: e.officialUrl,
   urlKind: e.urlKind ?? "direct_binary",
   expectedSha256: e.expectedSha256 ?? ""
 }));
 
 console.log(`${entries.length} manifest entr(ies) validated, ${matrix.length} planned${ONLY ? ` for ${ONLY}` : ""}.`);
-for (const m of matrix.slice(0, 10)) console.log(`  ${m.jurisdiction} ${m.formNumber} — ${m.officialUrl}`);
+for (const m of matrix.slice(0, 10)) console.log(`  ${m.jurisdiction} ${m.formNumber} [${m.artifactName}] — ${m.officialUrl}`);
 if (matrix.length > 10) console.log(`  ... and ${matrix.length - 10} more`);
 
 const out = process.env.GITHUB_OUTPUT;

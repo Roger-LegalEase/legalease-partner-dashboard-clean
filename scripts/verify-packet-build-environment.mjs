@@ -122,6 +122,48 @@ const CLOUD = argv.includes("--codex-cloud");
 const MINIMUM_CAPTAIN_SHA = flag("--minimum-captain-sha");
 const ASSIGNMENT_FILE = flag("--assignment");
 const PROMPT_FILE = flag("--prompt");
+const ASSIGNMENT_ID = flag("--assignment-id");
+const SOURCE_OBLIGATION = flag("--source-obligation");
+
+/* Source conveyor lanes are not packet builders. Their executable gate binds
+ * an exact lane and (for the row gate) an exact obligation without pretending
+ * that an obligation id is a packet-family id. Keep this before the 14 packet
+ * checks so an ACQ lane is never required to mount private packet bytes. */
+if (ASSIGNMENT_ID || SOURCE_OBLIGATION) {
+  const gitSource = (args) => { try { return execFileSync("git", args, { cwd: ROOT, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }).trim(); } catch { return null; } };
+  const activePath = "data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json";
+  const failures = [];
+  const active = JSON.parse(fs.readFileSync(path.join(ROOT, activePath), "utf8"));
+  const claims = active.assignments.filter((a) => (a.items ?? []).includes(SOURCE_OBLIGATION));
+  const lane = active.assignments.find((a) => a.assignmentId === ASSIGNMENT_ID);
+  if (!/^[0-9a-f]{40}$/.test(String(MINIMUM_CAPTAIN_SHA ?? ""))) failures.push("minimum Captain SHA is absent or malformed");
+  else if (gitSource(["merge-base", "--is-ancestor", MINIMUM_CAPTAIN_SHA, "HEAD"]) === null) failures.push("minimum Captain SHA is not an ancestor of HEAD");
+  const sourceMissingMarkers = REPOSITORY_MARKERS.filter((m) => !fs.existsSync(path.join(ROOT, m)));
+  if (sourceMissingMarkers.length) failures.push(`repository markers missing: ${sourceMissingMarkers.join(", ")}`);
+  if (gitSource(["status", "--porcelain"]) !== "") failures.push("worktree is not clean");
+  if (!lane) failures.push(`assignment ${ASSIGNMENT_ID ?? "(absent)"} does not exist`);
+  else {
+    if (lane.itemKind !== "sourceObligation" || !lane.operation) failures.push("assignment is not an operation-bound source lane");
+    if (!lane.promptFile || !fs.existsSync(path.join(ROOT, lane.promptFile))) failures.push("assignment prompt does not exist");
+    for (const declared of [...(lane.ownedPaths ?? []), ...(lane.prohibitedPaths ?? [])]) {
+      if (!declared || typeof declared !== "string") failures.push("an owned/prohibited path declaration is absent");
+    }
+    if (SOURCE_OBLIGATION && !(lane.items ?? []).includes(SOURCE_OBLIGATION)) failures.push("item does not belong to the exact lane");
+    if (SOURCE_OBLIGATION && (claims.length !== 1 || claims[0]?.assignmentId !== ASSIGNMENT_ID)) failures.push(`item has ${claims.length} current owners`);
+    if (lane.operation === "official-acquisition-dispatch" && SOURCE_OBLIGATION) {
+      const manifest = JSON.parse(fs.readFileSync(path.join(ROOT, "data/rcap-grade-a/packet-factory-24h/SOURCE_ACQUISITION_MANIFEST.json"), "utf8"));
+      if (!manifest.entries.some((e) => e.itemId === SOURCE_OBLIGATION && /^https:\/\//.test(e.officialUrl ?? ""))) failures.push("ACQ row has no approved exact URL");
+    }
+    if (lane.operation === "promotion-and-release" && SOURCE_OBLIGATION) {
+      const detail = (lane.itemDetails ?? []).find((x) => x.itemId === SOURCE_OBLIGATION);
+      if (!detail?.artifactName || !detail?.receiptPath) failures.push("PROMO row has no exact artifact and receipt");
+    }
+  }
+  for (const f of failures) console.log(`FAIL  source_lane_gate ${f}`);
+  const verdict = failures.length ? "SOURCE_CONVEYOR_PREFLIGHT_REFUSED" : "SOURCE_CONVEYOR_PREFLIGHT_READY";
+  console.log(`\n${verdict}: ${failures.length ? 0 : SOURCE_OBLIGATION ? 2 : 1}/${SOURCE_OBLIGATION ? 2 : 1} gate(s) passed`);
+  process.exit(failures.length ? 1 : 0);
+}
 
 // ---- check plumbing ----------------------------------------------------------
 // A check returns { ok, detail, ...evidence }. It never throws for a condition it

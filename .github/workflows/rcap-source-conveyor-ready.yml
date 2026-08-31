@@ -1,0 +1,116 @@
+name: RCAP Source Conveyor
+
+on:
+  push:
+    branches: [claude/legalease-sprint-captain-utucnw]
+    paths:
+      - scripts/grade-a-packet-factory-24h/**
+      - scripts/verify-packet-build-environment.mjs
+      - scripts/rcap-*.mjs
+      - data/rcap-grade-a/packet-factory-24h/**
+      - docs/rcap/grade-a/packet-factory-24h/**
+      - data/rcap-all50/overlays/census-v1/**
+      - .github/workflows/rcap-*.yml
+  pull_request:
+    paths:
+      - scripts/grade-a-packet-factory-24h/**
+      - scripts/verify-packet-build-environment.mjs
+      - scripts/rcap-*.mjs
+      - data/rcap-grade-a/packet-factory-24h/**
+      - docs/rcap/grade-a/packet-factory-24h/**
+      - data/rcap-all50/overlays/census-v1/**
+      - .github/workflows/rcap-*.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  READY_TO_RUN:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          # The ancestry gate below asks whether the dispatch base is an
+          # ancestor of HEAD. A depth-1 clone has one commit to reason over and
+          # correctly refuses to confirm a relationship it cannot observe, so
+          # the generators reported "the minimum Captain SHA is not an ancestor
+          # of HEAD" on a tree where it plainly was. Full history, or the gate
+          # is answering a question about the clone rather than the branch.
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - name: Prove exact checked-out commit
+        run: test "$(git rev-parse HEAD)" = "${GITHUB_SHA}"
+      - name: Syntax checks
+        run: |
+          set -euo pipefail
+          for f in scripts/grade-a-packet-factory-24h/*.mjs scripts/rcap-{acquire-official-source,plan-source-acquisition-batch,summarize-source-acquisition-batch,materialize-acquisition-handoff}.mjs scripts/verify-packet-build-environment.mjs; do node --check "$f"; done
+      - name: Workflow YAML validation
+        run: ruby -e 'require "yaml"; Dir[".github/workflows/*.yml"].each { |f| YAML.parse_file(f) }'
+      - name: Generator convergence
+        run: |
+          node scripts/grade-a-packet-factory-24h/generate.mjs --check
+          node scripts/grade-a-packet-factory-24h/generate-source-conveyor.mjs --check
+          node scripts/grade-a-packet-factory-24h/generate-washington-repair.mjs --check
+      - name: Factory checks
+        run: node scripts/grade-a-packet-factory-24h/verify.mjs
+      - name: Factory mutations
+        run: node scripts/grade-a-packet-factory-24h/verify.mjs --mutations
+      - name: Conveyor checks
+        run: node scripts/grade-a-packet-factory-24h/verify-source-conveyor.mjs
+      - name: Conveyor mutations
+        run: node scripts/grade-a-packet-factory-24h/verify-source-conveyor.mjs --mutations
+      - name: Validate full acquisition manifest
+        run: node scripts/rcap-plan-source-acquisition-batch.mjs
+      # The ACQ -> PROMO handoff, exercised end to end against a temporary
+      # artifact: the control proves a complete receipt is accepted, then each
+      # link is broken and the refusal is required. Without the control a gate
+      # that refuses everything would look identical to one that works.
+      - name: ACQ to PROMO handoff checks
+        run: node scripts/grade-a-packet-factory-24h/verify-acq-promo-handoff.mjs
+      - name: ACQ to PROMO handoff mutations
+        run: node scripts/grade-a-packet-factory-24h/verify-acq-promo-handoff.mjs --mutations
+      - name: Diff and clean-worktree proof
+        run: |
+          git diff --check
+          test -z "$(git status --porcelain)"
+      - name: READY_TO_RUN summary
+        if: always()
+        env:
+          JOB_STATUS: ${{ job.status }}
+        run: |
+          node - <<'NODE' >> "$GITHUB_STEP_SUMMARY"
+          const fs=require('fs');
+          const m=require('./data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json');
+          const a=require('./data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json');
+          const q=require('./data/rcap-grade-a/packet-factory-24h/SOURCE_ACQUISITION_MANIFEST.json');
+          const c=require('./data/rcap-grade-a/packet-factory-24h/COLLISIONS.json');
+          const ci=require('./data/rcap-grade-a/packet-factory-24h/CONTINUOUS_INTEGRATION_STATE.json');
+          const triggered=ci.elasticCapacity.thresholds.filter(x=>x.triggered).flatMap(x=>x.creates);
+          const verdict=process.env.JOB_STATUS==='success'?'READY_TO_RUN':'REFUSED';
+          console.log(`# ${verdict}\n\n| Field | Value |\n|---|---|`);
+          for(const [k,v] of Object.entries({exactSHA:process.env.GITHUB_SHA,factoryResult:process.env.JOB_STATUS,factoryMutations:process.env.JOB_STATUS,conveyorResult:process.env.JOB_STATUS,conveyorMutations:process.env.JOB_STATUS,generatorConvergence:process.env.JOB_STATUS,manifestEntryCount:q.entries.length,DISCBacklog:q.counts.obligationsNeedingDiscoveryFirst,actualPromotedReleased:m.totals.actualPromotedAndReleased,collisionCounts:JSON.stringify(c.counts),triggeredLanes:triggered.join(', ')||'none',sourceBodiesCommitted:q.bodiesCommitted,commercialRoutesOpened:ci.commercialRoutesOpened,productionTouched:ci.productionTouched,verdict})) console.log(`| ${k} | ${v} |`);
+          NODE
+      - name: Update control tower issue
+        if: always()
+        uses: actions/github-script@v7
+        env:
+          JOB_STATUS: ${{ job.status }}
+        with:
+          script: |
+            const fs = require('fs');
+            const active = JSON.parse(fs.readFileSync('data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json'));
+            const master = JSON.parse(fs.readFileSync('data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json'));
+            const manifest = JSON.parse(fs.readFileSync('data/rcap-grade-a/packet-factory-24h/SOURCE_ACQUISITION_MANIFEST.json'));
+            const ci = JSON.parse(fs.readFileSync('data/rcap-grade-a/packet-factory-24h/CONTINUOUS_INTEGRATION_STATE.json'));
+            const counts = s => active.assignments.filter(x => (x.status || (x.itemCount ? 'ACTIVE' : 'QUEUED')) === s).length;
+            const verdict = process.env.JOB_STATUS === 'success' ? 'READY_TO_RUN' : 'REFUSED';
+            const body = `# RCAP Packet Factory Control Tower\n\n| Field | Value |\n|---|---|\n| Exact Captain SHA | ${context.sha} |\n| Readiness verdict | ${verdict} |\n| Workflow run | ${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId} |\n| Active / queued / completed / stopped / held lanes | ${counts('ACTIVE')} / ${counts('QUEUED')} / ${counts('COMPLETED')} / ${counts('STOPPED')} / ${counts('HELD')} |\n| DISC backlog | ${manifest.counts.obligationsNeedingDiscoveryFirst} |\n| Acquisition manifest entries | ${manifest.entries.length} |\n| Batch verdict | NOT_RUN_AT_THIS_COMMIT |\n| Actually promoted/released families | ${master.totals.actualPromotedAndReleased} |\n| Packet builds | ${master.denominator.sourceReady} |\n| Verification pending | ${master.denominator.verifyPending} |\n| Repair required | ${master.denominator.repairRequired} |\n| Next integration deadline | ${ci.cadence.nextIntegrationDeadline} |\n| Next source-release deadline | ${ci.cadence.nextSourceReleaseDeadline} |\n| Commercial routes opened | ${ci.commercialRoutesOpened} |\n| Production touched | ${ci.productionTouched} |`;
+            const title = 'RCAP Packet Factory Control Tower';
+            const {data} = await github.rest.issues.listForRepo({...context.repo, state:'open', per_page:100});
+            const issue = data.find(x => !x.pull_request && x.title === title);
+            if (issue) await github.rest.issues.update({...context.repo, issue_number:issue.number, body});
+            else await github.rest.issues.create({...context.repo, title, body});

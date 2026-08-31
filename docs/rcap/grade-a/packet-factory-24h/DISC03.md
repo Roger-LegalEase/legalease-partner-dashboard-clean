@@ -14,12 +14,13 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family de_mandatory_expungement-set::official-form:DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION \
+  --assignment-id DISC03 \
+  --source-obligation 'agency-application-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request::NO_DOCUMENT_SOURCE_NAMED' \
   --codex-cloud \
   --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59
 ```
 
-It must print **`PACKET_BUILD_ENVIRONMENT_READY: 14/14`**. A 13/14 in cloud mode is a real failure, not the shallow checkout being tolerated.
+It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owned row gate must both pass.
 
 ## Never run these
 
@@ -51,21 +52,90 @@ Turn a descriptive label into a document identity: exact form number, official p
 
 the issuing court or agency that publishes the document
 
-**25 obligations · 9 families this lane WOULD release if every one of them resolves · hosts: DE, ID, LA, UT**
+**43 obligations · 28 families this lane WOULD release if every one of them resolves · hosts: AK, CO, IL, ND, RI, UT, VT**
 
 > Prospective. Nothing below is promoted custody yet, and this number is not a count of families you can build today.
 
 > This environment refuses outbound egress to court and agency hosts. Identity and inventory work runs here; anything needing a fetch is dispatched through the acquisition workflow, never attempted locally and never faked.
 
-### Every acquired or promoted source records
+### Required operation record schema
 
+- itemId
+- sourceId
+- jurisdiction
+- issuingAuthority
+- officialTitle
+- formNumber
+- revision
+- officialUrl
+- urlKind
+- intendedPacketRole
+- statewideOrLocal
+- familyIds
+- evidencePaths
+- handoffOperation
 
+### Exact obligation rows
 
-**undefined**
+| Item id | Source id | Jurisdiction | Current operation | Family ownership | Required input | Handoff |
+| --- | --- | --- | --- | --- | --- | --- |
+| `agency-application-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | CO | `exact-source-identity` | `agency-application-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request` | unresolved exact identity or URL | `ACQ` |
+| `agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record::official-form:Request to Correct Criminal Justice Information` | `official-form:Request to Correct Criminal Justice Information` | AK | `exact-source-identity` | `agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record` | unresolved exact identity or URL | `ACQ` |
+| `ak-mistaken-identity-set::official-form:DPS-REQUEST-TO-SEAL-CRIM-INFO` | `official-form:DPS-REQUEST-TO-SEAL-CRIM-INFO` | AK | `exact-source-identity` | `ak-mistaken-identity-set` | unresolved exact identity or URL | `ACQ` |
+| `census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | UT | `exact-source-identity` | `census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement` | unresolved exact identity or URL | `ACQ` |
+| `census-pending-family:UT:path-m-juvenile-expungement::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | UT | `exact-source-identity` | `census-pending-family:UT:path-m-juvenile-expungement` | unresolved exact identity or URL | `ACQ` |
+| `composed-treatment:nd-nonconviction-auto-close-verify::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | ND | `exact-source-identity` | `composed-treatment:nd-nonconviction-auto-close-verify` | unresolved exact identity or URL | `ACQ` |
+| `composed-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | CO | `exact-source-identity` | `composed-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days` | unresolved exact identity or URL | `ACQ` |
+| `composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | AK | `exact-source-identity` | `composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085` | unresolved exact identity or URL | `ACQ` |
+| `composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | IL | `exact-source-identity` | `composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief` | unresolved exact identity or URL | `ACQ` |
+| `il-cannabis-vacate-set::official-form:CXP Additional Cannabis Convictions` | `official-form:CXP Additional Cannabis Convictions` | IL | `exact-source-identity` | `il-cannabis-vacate-set` | unresolved exact identity or URL | `ACQ` |
+| `il-cannabis-vacate-set::official-form:CXP Additional Notice of Court Date` | `official-form:CXP Additional Notice of Court Date` | IL | `exact-source-identity` | `il-cannabis-vacate-set` | unresolved exact identity or URL | `ACQ` |
+| `il-cannabis-vacate-set::official-form:CXP Getting Started Motion to Vacate and Expunge` | `official-form:CXP Getting Started Motion to Vacate and Expunge` | IL | `exact-source-identity` | `il-cannabis-vacate-set` | unresolved exact identity or URL | `ACQ` |
+| `il-cannabis-vacate-set::official-form:CXP Motion to Vacate and Expunge` | `official-form:CXP Motion to Vacate and Expunge` | IL | `exact-source-identity` | `il-cannabis-vacate-set` | unresolved exact identity or URL | `ACQ` |
+| `il-cannabis-vacate-set::official-form:CXP Notice of Court Date for Motion` | `official-form:CXP Notice of Court Date for Motion` | IL | `exact-source-identity` | `il-cannabis-vacate-set` | unresolved exact identity or URL | `ACQ` |
+| `il-cannabis-vacate-set::official-form:CXP Order Granting or Denying Motion` | `official-form:CXP Order Granting or Denying Motion` | IL | `exact-source-identity` | `il-cannabis-vacate-set` | unresolved exact identity or URL | `ACQ` |
+| `il-exp-nonconv-set::official-form:EXP-AD Additional Cases Expungement` | `official-form:EXP-AD Additional Cases Expungement` | IL | `exact-source-identity` | `il-exp-nonconv-set` | unresolved exact identity or URL | `ACQ` |
+| `il-exp-nonconv-set::official-form:EXP-AD Case List` | `official-form:EXP-AD Case List` | IL | `exact-source-identity` | `il-exp-nonconv-set` | unresolved exact identity or URL | `ACQ` |
+| `il-exp-pardon-set::official-form:EXP-AD Case List` | `official-form:EXP-AD Case List` | IL | `exact-source-identity` | `il-exp-pardon-set` | unresolved exact identity or URL | `ACQ` |
+| `il-exp-precompletion-set::official-form:EXP-AD Case List` | `official-form:EXP-AD Case List` | IL | `exact-source-identity` | `il-exp-precompletion-set` | unresolved exact identity or URL | `ACQ` |
+| `il-exp-qualprob-set::official-form:EXP-AD Case List` | `official-form:EXP-AD Case List` | IL | `exact-source-identity` | `il-exp-qualprob-set` | unresolved exact identity or URL | `ACQ` |
+| `il-exp-supervision-set::official-form:EXP-AD Case List` | `official-form:EXP-AD Case List` | IL | `exact-source-identity` | `il-exp-supervision-set` | unresolved exact identity or URL | `ACQ` |
+| `il-prb-cert-set::official-form:PRB Certificate of Expungement for Military Application` | `official-form:PRB Certificate of Expungement for Military Application` | IL | `exact-source-identity` | `il-prb-cert-set` | unresolved exact identity or URL | `ACQ` |
+| `il-prb-cert-set::official-form:PRB Certificate of Expungement for Military Eligibility Acknowledgement` | `official-form:PRB Certificate of Expungement for Military Eligibility Acknowledgement` | IL | `exact-source-identity` | `il-prb-cert-set` | unresolved exact identity or URL | `ACQ` |
+| `il-prb-cert-set::official-form:PRB Certificate of Sealing Application` | `official-form:PRB Certificate of Sealing Application` | IL | `exact-source-identity` | `il-prb-cert-set` | unresolved exact identity or URL | `ACQ` |
+| `il-prb-cert-set::official-form:PRB Certificate of Sealing Eligibility Acknowledgement` | `official-form:PRB Certificate of Sealing Eligibility Acknowledgement` | IL | `exact-source-identity` | `il-prb-cert-set` | unresolved exact identity or URL | `ACQ` |
+| `il-prostitution-j-vacate-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | IL | `exact-source-identity` | `il-prostitution-j-vacate-set` | unresolved exact identity or URL | `ACQ` |
+| `il-seal-2yr-set::official-form:EXP-AD Case List` | `official-form:EXP-AD Case List` | IL | `exact-source-identity` | `il-seal-2yr-set` | unresolved exact identity or URL | `ACQ` |
+| `il-seal-3yr-set::official-form:EXP-AD Case List` | `official-form:EXP-AD Case List` | IL | `exact-source-identity` | `il-seal-3yr-set` | unresolved exact identity or URL | `ACQ` |
+| `il-seal-edu-set::official-form:EXP-AD Case List` | `official-form:EXP-AD Case List` | IL | `exact-source-identity` | `il-seal-edu-set` | unresolved exact identity or URL | `ACQ` |
+| `il-seal-nonconv-set::official-form:EXP-AD Case List` | `official-form:EXP-AD Case List` | IL | `exact-source-identity` | `il-seal-nonconv-set` | unresolved exact identity or URL | `ACQ` |
+| `nd-deferred-imposition-records-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | ND | `exact-source-identity` | `nd-deferred-imposition-records-set` | unresolved exact identity or URL | `ACQ` |
+| `nd-nonconviction-close-petition-set::official-form:ND-INSTRUCTIONS-CLOSE-NONCONVICTION` | `official-form:ND-INSTRUCTIONS-CLOSE-NONCONVICTION` | ND | `exact-source-identity` | `nd-nonconviction-close-petition-set` | unresolved exact identity or URL | `ACQ` |
+| `nd-nonconviction-close-petition-set::official-form:ND-ORDER-CLOSE-NONCONVICTION` | `official-form:ND-ORDER-CLOSE-NONCONVICTION` | ND | `exact-source-identity` | `nd-nonconviction-close-petition-set` | unresolved exact identity or URL | `ACQ` |
+| `nd-nonconviction-close-petition-set::official-form:ND-PETITION-CLOSE-NONCONVICTION` | `official-form:ND-PETITION-CLOSE-NONCONVICTION` | ND | `exact-source-identity` | `nd-nonconviction-close-petition-set` | unresolved exact identity or URL | `ACQ` |
+| `nd-prohibit-remote-public-access-set::official-form:ND-BRIEF-PROHIBIT-PUBLIC-ACCESS` | `official-form:ND-BRIEF-PROHIBIT-PUBLIC-ACCESS` | ND | `exact-source-identity` | `nd-prohibit-remote-public-access-set` | unresolved exact identity or URL | `ACQ` |
+| `nd-prohibit-remote-public-access-set::official-form:ND-DECLARATION-OF-SERVICE` | `official-form:ND-DECLARATION-OF-SERVICE` | ND | `exact-source-identity` | `nd-prohibit-remote-public-access-set` | unresolved exact identity or URL | `ACQ` |
+| `nd-prohibit-remote-public-access-set::official-form:ND-MOTION-PROHIBIT-PUBLIC-ACCESS` | `official-form:ND-MOTION-PROHIBIT-PUBLIC-ACCESS` | ND | `exact-source-identity` | `nd-prohibit-remote-public-access-set` | unresolved exact identity or URL | `ACQ` |
+| `nd-prohibit-remote-public-access-set::official-form:ND-PROPOSED-FINDINGS-PROHIBIT-PUBLIC-ACCESS` | `official-form:ND-PROPOSED-FINDINGS-PROHIBIT-PUBLIC-ACCESS` | ND | `exact-source-identity` | `nd-prohibit-remote-public-access-set` | unresolved exact identity or URL | `ACQ` |
+| `rcap-nd-custom-pleading::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | ND | `exact-source-identity` | `rcap-nd-custom-pleading` | unresolved exact identity or URL | `ACQ` |
+| `ri_marijuana-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | RI | `exact-source-identity` | `ri_marijuana-set` | unresolved exact identity or URL | `ACQ` |
+| `ut_pet_remove_link-set::official-form:1110GE or 1111GE` | `official-form:1110GE or 1111GE` | UT | `exact-source-identity` | `ut_pet_remove_link-set` | unresolved exact identity or URL | `ACQ` |
+| `vt_exp_deferred_sentence-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | VT | `exact-source-identity` | `vt_exp_deferred_sentence-set` | unresolved exact identity or URL | `ACQ` |
+| `vt_seal_under_25-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | VT | `exact-source-identity` | `vt_seal_under_25-set` | unresolved exact identity or URL | `ACQ` |
+
+Run the row gate once per listed item, after the lane gate. This exact first command demonstrates the interface; substitute each other exact item id from the table without changing the lane:
+
+```sh
+node scripts/verify-packet-build-environment.mjs --assignment-id DISC03 --source-obligation 'agency-application-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request::NO_DOCUMENT_SOURCE_NAMED' --codex-cloud --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59
+
+# A failed row is recorded STOPPED; continue with unrelated rows.
+```
+
+**Prospective release is never actual release. Record familiesActuallyReleasedNow only after every remaining source binds; otherwise it is an empty array.**
 
 ### Families this lane would release
 
-`de_mandatory_expungement-set`, `id_isp_expungement-set`, `la-976-arrest-no-conviction-set`, `la-977-misdemeanor-conviction-set`, `la-977d-marijuana-first-offense-set`, `la-978-felony-conviction-set`, `la-985-1-interim-expungement-set`, `la-985-expungement-by-redaction-set`, `la-987-set-aside-and-dismiss-set`
+`agency-application-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request`, `agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record`, `ak-mistaken-identity-set`, `census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement`, `census-pending-family:UT:path-m-juvenile-expungement`, `composed-treatment:nd-nonconviction-auto-close-verify`, `composed-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days`, `composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085`, `composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief`, `il-cannabis-vacate-set`, `il-exp-nonconv-set`, `il-exp-pardon-set`, `il-exp-precompletion-set`, `il-exp-qualprob-set`, `il-exp-supervision-set`, `il-prb-cert-set`, `il-prostitution-j-vacate-set`, `il-seal-2yr-set`, `il-seal-3yr-set`, `il-seal-edu-set`, `il-seal-nonconv-set`, `nd-deferred-imposition-records-set`, `nd-nonconviction-close-petition-set`, `nd-prohibit-remote-public-access-set`, `rcap-nd-custom-pleading`, `ri_marijuana-set`, `vt_exp_deferred_sentence-set`, `vt_seal_under_25-set`
 
 ## Owned paths — write only here
 
