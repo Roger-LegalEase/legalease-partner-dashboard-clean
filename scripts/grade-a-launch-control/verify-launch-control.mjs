@@ -3,7 +3,7 @@
 //
 //   node scripts/grade-a-launch-control/verify-launch-control.mjs [--mutations]
 //
-// Thirty-eight refusals. Each is a way the control plane could look healthy while
+// Forty-two refusals. Each is a way the control plane could look healthy while
 // being wrong, and each has cost something in this sprint or in the one before
 // it. A checkpoint that only reports numbers tells you what it was told; this
 // asks whether it was told the truth.
@@ -31,6 +31,8 @@ const COUNSEL = "data/rcap-grade-a/launch-control/COUNSEL_DETERMINATION_DELTA.js
 const C11 = "data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json";
 const C11_STOPS = "data/rcap-grade-a/launch-control/C11_STOP_CLASSIFICATION.json";
 const WAVE2 = "data/rcap-grade-a/launch-control/WAVE_2_ASSIGNMENTS.json";
+const COMPLETENESS = "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json";
+const REPAIR_PLAN = "data/rcap-grade-a/packet-completeness/COMPLETENESS_REPAIR_PLAN.json";
 // Ten committed binaries already matched a private-corpus SHA-256 before the
 // packet factory returned, under hard-forms/*/evidence/ and rcap-codex source
 // receipts. They are a governance discrepancy for Roger, not something to remove
@@ -65,6 +67,8 @@ const counsel = read(COUNSEL);
 const c11 = read(C11);
 const c11Stops = read(C11_STOPS);
 const wave2 = fs.existsSync(path.join(ROOT, WAVE2)) ? read(WAVE2) : null;
+const completeness = read(COMPLETENESS);
+const repairPlan = read(REPAIR_PLAN);
 
 /** Everything an assignment owns, whatever shape its rows take. */
 const rowsOf = (a) => [
@@ -501,6 +505,48 @@ if (wave2) {
   check("A38", "every residual lane is dispatched in Wave 2", undispatched.length === 0, undispatched.map((l) => l.residualLaneId).join(", "));
 }
 
+// 27. Completeness, and the four revoked classifications.
+//
+// A packet that writes six of a hundred and eighty-seven fields can satisfy every
+// build check ever written for it. These refuse the two ways that fact could be
+// lost: a family counted complete that the contract fails, and a revoked PASS
+// quietly carrying an output-legal review package.
+{
+  const audited = completeness.results.length;
+  const claimedComplete = completeness.results.filter((r) => r.result === "PASS_COMPLETE");
+  const wrong = claimedComplete.filter((r) => Object.values(r.counters).some((n) => n > 0));
+  check("A39", "no family is reported PASS_COMPLETE with a nonzero completeness counter",
+    wrong.length === 0 && audited > 0,
+    `${audited} audited, ${claimedComplete.length} complete, ${wrong.length} with a nonzero counter`);
+
+  const revoked = new Set(repairPlan.passRevocation.families);
+  const stillPassing = [...revoked].filter((f) => completeness.results.find((r) => r.familyId === f)?.result === "PASS_COMPLETE");
+  check("A40", "every revoked PASS family is reclassified and carries no review package",
+    revoked.size === 4 && stillPassing.length === 0
+    && repairPlan.passRevocation.newClassification === "PASS_REVOKED_PENDING_COMPLETENESS_RECHECK"
+    && repairPlan.passRevocation.lawrenceReviewPackagesPrepared === 0,
+    `${revoked.size} revoked, ${stillPassing.length} still passing, ${repairPlan.passRevocation.lawrenceReviewPackagesPrepared} package(s)`);
+
+  // The launch record must read the contract's numbers, not restate them.
+  const lcc = lc.waveOne.packetFactory.completeness;
+  check("A41", "the launch record's completeness numbers are the contract's, not a second set",
+    lcc.familiesAudited === completeness.familiesAudited
+    && lcc.passComplete === (completeness.byResult.PASS_COMPLETE ?? 0)
+    && lcc.counterTotals.knownRequiredFieldsMissing === completeness.counterTotals.knownRequiredFieldsMissing
+    && lcc.passRevoked.length === repairPlan.passRevocation.families.length,
+    `launch ${lcc.familiesAudited}/${lcc.passComplete} vs contract ${completeness.familiesAudited}/${completeness.byResult.PASS_COMPLETE ?? 0}`);
+
+  if (wave2) {
+    const shard = wave2.assignments.find((a) => a.lane === "independent-verification");
+    const adopted = (shard?.proofObligations ?? []).filter((o) => o.startsWith("COMPLETENESS:")).length;
+    const r8 = wave2.assignments.find((a) => a.assignmentId === "R8_COMPLETENESS_REPAIR_PRIORITY_FOUR");
+    check("A42", "the verification shards adopt the completeness contract and the four repairs are dispatched",
+      adopted >= 9 && r8 !== undefined && r8.items.length === 4
+      && r8.items.every((f) => revoked.has(f)),
+      `${adopted} completeness obligation(s) on each shard; R8 carries ${r8?.items.length ?? 0} famil(ies)`);
+  }
+}
+
 console.log(`\n${results.length - failures}/${results.length} checkpoint checks passed.`);
 
 if (MUTATIONS) {
@@ -509,7 +555,8 @@ if (MUTATIONS) {
     dispatch: path.join(ROOT, DISPATCH), lc: path.join(ROOT, LC), status: path.join(ROOT, STATUS),
     review: path.join(ROOT, WAVE_REVIEW), integration: path.join(ROOT, INTEGRATION),
     residual: path.join(ROOT, RESIDUAL), contract: path.join(ROOT, CONTRACT),
-    counsel: path.join(ROOT, COUNSEL), c11: path.join(ROOT, C11), wave2: path.join(ROOT, WAVE2)
+    counsel: path.join(ROOT, COUNSEL), c11: path.join(ROOT, C11), wave2: path.join(ROOT, WAVE2),
+    completeness: path.join(ROOT, COMPLETENESS), repairPlan: path.join(ROOT, REPAIR_PLAN)
   };
   const originals = Object.fromEntries(Object.entries(targets).map(([k, p]) => [k, fs.readFileSync(p)]));
   const cases = [
@@ -546,6 +593,10 @@ if (MUTATIONS) {
     { on: "wave2", name: "a shard handed to the builder is caught", mutate: (j) => { j.assignments.find((a) => a.lane === "independent-verification").workerBranch = "codex/c11-packet-factory-accelerator"; return j; } },
     { on: "wave2", name: "an assignment that does not say where to read itself is caught", mutate: (j) => { j.assignments[0].readAssignmentFrom = null; return j; } },
     { on: "wave2", name: "a review package prepared before an independent PASS is caught", mutate: (j) => { j.outputLegalReview.batchesPrepared = 6; return j; } },
+    { on: "wave2", name: "a verification shard that drops the completeness obligations is caught", mutate: (j) => { const s = j.assignments.find((a) => a.lane === "independent-verification"); s.proofObligations = s.proofObligations.filter((o) => !o.startsWith("COMPLETENESS:")); return j; } },
+    { on: "completeness", name: "a family reported complete with a nonzero counter is caught", mutate: (j) => { j.results[0].result = "PASS_COMPLETE"; return j; } },
+    { on: "repairPlan", name: "a revoked PASS quietly given a review package is caught", mutate: (j) => { j.passRevocation.lawrenceReviewPackagesPrepared = 4; return j; } },
+    { on: "lc", name: "a completeness count restated instead of read is caught", mutate: (j) => { j.waveOne.packetFactory.completeness.passComplete = 43; return j; } },
     { on: "contract", name: "a residual lane left uncovered by the execution contract is caught", mutate: (j) => { j.appliesTo.residualLanes.pop(); return j; } },
     { on: "counsel", name: "New York's mandatory split dropped from the determination is caught", mutate: (j) => { const r = j.rows.find((x) => x.mandatorySubroutes.length > 1); r.mandatorySubroutes = []; return j; } },
     { on: "counsel", name: "Utah's consent gate removed from the determination is caught", mutate: (j) => { const r = j.rows.find((x) => x.gatedBranches.length); for (const b of r.gatedBranches) b.prosecutorConsentRequired = false; return j; } },

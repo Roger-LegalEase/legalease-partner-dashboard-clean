@@ -35,7 +35,7 @@ const V1 = "data/rcap-grade-a/route-obligation-census-v1";
 const CAPTAIN_BRANCH = "claude/legalease-sprint-captain-utucnw";
 
 // The Wave 2 control-baseline commit. Workers branch from exactly this.
-const CAPTAIN_BASE_SHA = "ebb99d663f857f58a173c1d29eb73d0f15e70cbd";
+const CAPTAIN_BASE_SHA = "__WAVE2_BASE_SHA__";
 
 const read = (rel) => JSON.parse(fs.readFileSync(path.join(ROOT, rel), "utf8"));
 
@@ -44,6 +44,9 @@ const contract = read(`${LC}/WORKER_EXECUTION_CONTRACT.json`);
 const c11Review = read(`${LC}/C11_RETURN_REVIEW.json`);
 const c11Stops = read(`${LC}/C11_STOP_CLASSIFICATION.json`);
 const counsel = read(`${LC}/COUNSEL_DETERMINATION_DELTA.json`);
+const completeness = read("data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json");
+const repairPlan = read("data/rcap-grade-a/packet-completeness/COMPLETENESS_REPAIR_PLAN.json");
+const revokedFamilies = repairPlan.plans.map((p) => p.familyId);
 
 const laneOf = (id) => residual.lanes.find((l) => l.residualLaneId === id);
 const builtFamilies = c11Review.families.filter((f) => f.classification === "BUILT").map((f) => f.familyId).sort();
@@ -189,6 +192,29 @@ const LANES = [
     extraReturn: ["ROUTES IMPLEMENTED:", "NY SUBROUTES CREATED:", "UT BRANCHES GATED:", "NE MERITS PLEADING GENERATED: NO"]
   },
   {
+    id: "R8_COMPLETENESS_REPAIR_PRIORITY_FOUR", engine: "Codex", slug: "r8-completeness-repair-priority-four",
+    mission: `Repair the four families whose PASS was revoked, in priority order A to D. Each has a complete per-field ledger in the repair plan: exactly which known facts must be written, which elections the route decides, which blanks need an approved disposition, and which components must render. Re-render each against its pinned source and prove it with the completeness verifier.`,
+    itemKind: "familyId",
+    explicitItems: revokedFamilies,
+    outputs: [
+      "data/rcap-grade-a/wave-2/r8-completeness-repair-priority-four/rows.json — one row per family: itemId, status, counters before and after, and every field newly written or newly classified",
+      "the re-rendered canonical and boundary artifacts, the corrected production-field-map.json, and an updated source-receipt.json inside each family's existing overlay directory"
+    ],
+    tests: [
+      "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <family>",
+      "node scripts/verify-packet-build-environment.mjs --family <family>",
+      "node scripts/grade-a-launch-control/verify-launch-control.mjs"
+    ],
+    stops: [
+      "ACCEPTANCE — a family is repaired only when the completeness verifier returns PASS_COMPLETE with all nine counters at zero. There is no partial credit: a filing with a blank offence code is not 97 percent filable.",
+      "ROW STOP — a required fact the platform genuinely does not hold is classified REQUIRED_BEFORE_FILING and surfaced to the participant in the packet's own instructions. A disposition without that surfacing is not an approved blank.",
+      "NEVER invent a fact to fill a field. A guessed arresting agency is worse than a blank one, because the blank is visible and the guess is not.",
+      "NEVER write a protected field: participant signature, signature date, certificate of mailing before mailing, or any court-only or prosecutor-only field.",
+      "NEVER re-commit a private-corpus binary. Bind sources from MASTER_LIBRARY_SOURCE_DIR and record the SHA-256."
+    ],
+    extraReturn: ["FAMILIES REPAIRED:", "PASS_COMPLETE:", "COUNTERS REMAINING:", "FACTS CLASSIFIED REQUIRED_BEFORE_FILING:"]
+  },
+  {
     id: "R7_PACKET_REPAIR", engine: "Codex", slug: "r7-packet-repair",
     mission: `Repair the C11 return without rebuilding it: write the missing product-wiring record for ${c11Stops.builtFamilyRecordGap?.count ?? 0} built families, and complete the Pennsylvania § 6308 packet component specification. None of the 43 built families is rerun.`,
     itemKind: "familyId",
@@ -208,6 +234,11 @@ const LANES = [
 
 // ---- the seven independent verification shards -------------------------------------
 const SHARD_COUNT = 7;
+// The original nineteen obligations all asked whether the writes that were made
+// were correct. Every one could be satisfied by a packet that wrote six fields
+// out of a hundred and eighty-seven, which is what CR-180 did. The nine
+// completeness obligations ask what was OWED, and a shard cannot return PASS
+// without them.
 const PROOF_OBLIGATIONS = [
   "exact route identity", "exact packet-family identity", "source identities and SHA-256 values",
   "complete component set", "correct official form or approved composer",
@@ -216,7 +247,16 @@ const PROOF_OBLIGATIONS = [
   "page count and page order", "no clipping or overlap", "fee and waiver treatment",
   "filing destination", "service and notice", "later-completion fields",
   "no stale artifact", "no wrong-route reuse", "no source substitution",
-  "commercial status remains closed"
+  "commercial status remains closed",
+  "COMPLETENESS: every known required participant and case fact is visibly written",
+  "COMPLETENESS: every required but unknown fact blocks render or is classified required_before_filing and surfaced to the participant",
+  "COMPLETENESS: every blank carries one approved disposition from the closed vocabulary",
+  "COMPLETENESS: every route-determined option is selected rather than left to the participant",
+  "COMPLETENESS: every offence or case row is internally complete",
+  "COMPLETENESS: every required packet component is present in a rendered artifact",
+  "COMPLETENESS: every field value has a visible final appearance in the output bytes",
+  "COMPLETENESS: protected and later-completion fields remain blank",
+  "COMPLETENESS: all nine completeness counters are zero"
 ];
 const SHARD_VERDICTS = ["PASS", "FAIL_REPAIR_REQUIRED", "BLOCKED_SOURCE", "BLOCKED_LEGAL_APPROVAL_INPUT"];
 
@@ -227,7 +267,7 @@ const VERIFICATION = shards.map((families, index) => {
   const n = index + 1;
   return {
     id: `V${n}_INDEPENDENT_PACKET_VERIFICATION`, engine: "Codex", slug: `v${n}-independent-packet-verification`,
-    mission: `Independently verify ${families.length} of the 43 packet families C11 built. You did not build them and you may not repair them: this lane proves or refuses, and a repair is someone else's assignment.`,
+    mission: `Independently verify ${families.length} of the 43 packet families C11 built. You did not build them and you may not repair them: this lane proves or refuses, and a repair is someone else's assignment. Read the completeness contract before you start -- the previous PASS definition proved only that the writes that were made were correct, and every family in the fleet fails the contract today.`,
     itemKind: "familyId",
     items: families,
     outputs: [
@@ -242,6 +282,7 @@ const VERIFICATION = shards.map((families, index) => {
       "ROW STOP — BLOCKED_SOURCE when the family's pinned source cannot be bound from MASTER_LIBRARY_SOURCE_DIR at its recorded SHA-256. The 59 excluded corpus binaries are not in git by design; bind them through the corpus bootstrap.",
       "ROW STOP — BLOCKED_LEGAL_APPROVAL_INPUT when a proof obligation depends on a legal determination that is not in a controlling record.",
       "ROW STOP — FAIL_REPAIR_REQUIRED when a proof obligation is observably wrong. Record what is wrong and stop; do not fix it.",
+      "RUN THE COMPLETENESS VERIFIER FIRST. `node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <family>` must return PASS_COMPLETE before any other obligation is worth evaluating. It returns FAIL for all 43 families today, so expect FAIL_REPAIR_REQUIRED and record the counters rather than treating the shared defect as your family's alone.",
       "NEVER return PASS on a proof obligation you did not evaluate. A shard that cannot evaluate an obligation returns BLOCKED for that family, not PASS with a note."
     ],
     proofObligations: PROOF_OBLIGATIONS,
@@ -258,6 +299,7 @@ const VERIFICATION = shards.map((families, index) => {
 const assignments = [
   ...LANES.map((lane) => {
     const residualLane = laneOf(lane.id);
+    const items = lane.explicitItems ?? residualLane?.items ?? [];
     return {
       assignmentId: lane.id,
       wave: 2,
@@ -268,11 +310,13 @@ const assignments = [
       readAssignmentFrom: { branch: CAPTAIN_BRANCH, file: `${LC}/WAVE_2_ASSIGNMENTS.json`, verify: `captainBaseSha must equal ${CAPTAIN_BASE_SHA}` },
       mission: lane.mission,
       itemKind: lane.itemKind,
-      itemCount: (residualLane?.items ?? []).length,
-      items: residualLane?.items ?? [],
-      residualDetail: residualLane?.detail ?? null,
-      reuseDecision: "RESUME_FROM_RESIDUAL_RECORD",
-      reuseBasis: `Every item here is open in ${LC}/RESIDUAL_WORK.json, which refuses to carry anything the integration status reports completed.`,
+      itemCount: items.length,
+      items,
+      residualDetail: residualLane?.detail ?? (lane.explicitItems ? { repairPlan: "data/rcap-grade-a/packet-completeness/COMPLETENESS_REPAIR_PLAN.json", perFamily: repairPlan.plans } : null),
+      reuseDecision: lane.explicitItems ? "REPAIR_IN_PLACE_DO_NOT_REBUILD" : "RESUME_FROM_RESIDUAL_RECORD",
+      reuseBasis: lane.explicitItems
+        ? "These four families are built and their artifacts are byte-checked. What is missing is content, not construction: the repair writes the facts the build owed and re-renders."
+        : `Every item here is open in ${LC}/RESIDUAL_WORK.json, which refuses to carry anything the integration status reports completed.`,
       ownedPaths: residualLane?.ownedPaths ?? [`data/rcap-grade-a/wave-2/${lane.slug}/**`],
       prohibitedPaths: COMMON_PROHIBITED,
       requiredInputs: COMMON_INPUTS,
@@ -304,7 +348,7 @@ const assignments = [
     reuseBasis: "These families are built and integrated. This lane verifies them; it does not rebuild or repair them.",
     ownedPaths: [`data/rcap-grade-a/wave-2/verification/v${shard.id.match(/^V(\d+)/)[1]}/**`],
     prohibitedPaths: [...COMMON_PROHIBITED, "data/rcap-all50/overlays/census-v1/**", "scripts/build-census-v1-*.mjs"],
-    requiredInputs: [...COMMON_INPUTS, `${LC}/C11_RETURN_REVIEW.json`, "docs/rcap/grade-a/route-obligation-census/PACKET_WORKER_BRIEF.md"],
+    requiredInputs: [...COMMON_INPUTS, `${LC}/C11_RETURN_REVIEW.json`, "docs/rcap/grade-a/route-obligation-census/PACKET_WORKER_BRIEF.md", "scripts/rcap-packet-completeness/completeness-contract.mjs", "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json"],
     requiredOutputs: shard.outputs,
     outputSchema: { ...OUTPUT_SCHEMA_CLAUSE, completionVocabulary: SHARD_VERDICTS },
     focusedTests: shard.tests,
@@ -340,6 +384,9 @@ for (const a of assignments) {
   if (!/^[0-9a-f]{40}$/.test(a.captainBaseSha)) problems.push(`${a.assignmentId} has no real control-baseline SHA`);
   if (!a.workerBranch || !/^(codex|claude)\//.test(a.workerBranch)) problems.push(`${a.assignmentId} has no real worker branch`);
   if (a.itemKind !== "environment" && a.items.length === 0) problems.push(`${a.assignmentId} is a work lane with no items`);
+  if (a.assignmentId === "R8_COMPLETENESS_REPAIR_PRIORITY_FOUR" && a.items.length !== 4) {
+    problems.push(`R8 carries ${a.items.length} families; exactly four PASS classifications were revoked`);
+  }
 }
 // Every built family verified exactly once.
 {
@@ -394,9 +441,22 @@ const doc = {
     proofObligations: PROOF_OBLIGATIONS.length,
     verdicts: SHARD_VERDICTS
   },
+  packetCompleteness: {
+    contract: "scripts/rcap-packet-completeness/completeness-contract.mjs",
+    matrix: "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json",
+    repairPlan: "data/rcap-grade-a/packet-completeness/COMPLETENESS_REPAIR_PLAN.json",
+    familiesAudited: completeness.familiesAudited,
+    passComplete: completeness.byResult.PASS_COMPLETE ?? 0,
+    byResult: completeness.byResult,
+    counterTotals: completeness.counterTotals,
+    passRevoked: revokedFamilies,
+    passRevokedClassification: "PASS_REVOKED_PENDING_COMPLETENESS_RECHECK",
+    whatChanged: "The shard PASS definition proved that every write was correct and never asked what was owed. Nine completeness obligations are added, and no shard may return PASS while any of the nine counters is above zero."
+  },
   outputLegalReview: {
     batchesPrepared: 0,
-    why: "A review package is prepared only after an independent PASS. No shard has returned, so no family has independent technical proof and no package may be built.",
+    why: "A review package is prepared only after an independent PASS, and PASS now requires completeness. No family in the fleet passes the completeness contract, and the four previously classified PASS are revoked, so no package may be built for any family.",
+    blockedFamilies: revokedFamilies,
     batchSize: "6 to 8 passing families",
     bindsToExact: [
       "route key", "packet-family id", "source SHA-256", "specification SHA-256", "artifact SHA-256",
@@ -420,6 +480,7 @@ const doc = {
   totals: {
     assignments: assignments.length,
     residualLanes: LANES.length,
+    completenessRepairFamilies: revokedFamilies.length,
     verificationShards: VERIFICATION.length,
     itemsAllocated: seen.size,
     collisions: 0,

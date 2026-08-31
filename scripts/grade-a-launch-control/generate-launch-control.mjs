@@ -51,6 +51,8 @@ const contract = read("data/rcap-grade-a/launch-control/WORKER_EXECUTION_CONTRAC
 const counsel = read("data/rcap-grade-a/launch-control/COUNSEL_DETERMINATION_DELTA.json");
 const c11 = read("data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json");
 const c11Stops = read("data/rcap-grade-a/launch-control/C11_STOP_CLASSIFICATION.json");
+const completeness = read("data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json");
+const repairPlan = read("data/rcap-grade-a/packet-completeness/COMPLETENESS_REPAIR_PLAN.json");
 const crosswalk = read("data/rcap-grade-a/launch-control/CATEGORY_B_STAGE_BRANCH_CROSSWALK.json");
 const dataRights = exists("data/rcap-grade-a/participant-data-rights/nonproduction-application-readiness.json")
   ? read("data/rcap-grade-a/participant-data-rights/nonproduction-application-readiness.json") : null;
@@ -82,6 +84,8 @@ const doc = {
     counselDeterminationDelta: "data/rcap-grade-a/launch-control/COUNSEL_DETERMINATION_DELTA.json",
     c11ReturnReview: "data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json",
     c11StopClassification: "data/rcap-grade-a/launch-control/C11_STOP_CLASSIFICATION.json",
+    packetCompletenessMatrix: "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json",
+    completenessRepairPlan: "data/rcap-grade-a/packet-completeness/COMPLETENESS_REPAIR_PLAN.json",
     counselDecisionRecord: "data/record-clearing/legal-decisions/2026-08-30-lawrence-four-counsel-determinations.json",
     executionOrder: "docs/LAUNCH_SEQUENCE.md",
     productContract: "docs/PRODUCT_CONTRACT.md"
@@ -205,7 +209,22 @@ const doc = {
       packetsProvenIndependently: 0,
       stopsByClass: c11Stops.counts.byPrimaryClass,
       newLegalQuestionsRaised: c11Stops.counts.newLegalQuestions,
-      whatBuiltDoesNotMean: "Built means artifacts were rendered and byte-checked by the lane that built them. It is not independent verification, not visual review, not an output-level legal approval, and not COMPLETE_PACKET_PROVEN."
+      whatBuiltDoesNotMean: "Built means artifacts were rendered and byte-checked by the lane that built them. It is not independent verification, not visual review, not an output-level legal approval, and not COMPLETE_PACKET_PROVEN.",
+
+      // AND IT DOES NOT MEAN COMPLETE. Every build check asked whether the
+      // writes that were made were correct; none asked what was owed. Under the
+      // completeness contract no family in the fleet passes.
+      completeness: {
+        contract: "scripts/rcap-packet-completeness/completeness-contract.mjs",
+        familiesAudited: completeness.familiesAudited,
+        passComplete: completeness.byResult.PASS_COMPLETE ?? 0,
+        byResult: completeness.byResult,
+        counterTotals: completeness.counterTotals,
+        passRevoked: repairPlan.passRevocation.families,
+        passRevokedClassification: repairPlan.passRevocation.newClassification,
+        lawrenceReviewPackagesPrepared: repairPlan.passRevocation.lawrenceReviewPackagesPrepared,
+        theBlindSpot: completeness.whatTheOldPassProved
+      }
     }
   },
 
@@ -311,7 +330,7 @@ const doc = {
     { id: "BLK-5", blocker: "238 families are held for a missing source", detail: "Released automatically as sources resolve; the scoreboard recomputes releasability rather than relying on anyone remembering.", owner: "source lane C10, continued as residual lane R4", blocks: "238 of 352 families entering a build slot" },
     // C11 returned 43 built families. Built is not proven: the builder's own
     // report is evidence, and nothing independent has looked at any of them.
-    { id: "BLK-8", blocker: `${c11.summary.built} packet families are built and none is independently verified`, detail: `C11 rendered and byte-checked ${c11.summary.built} families against exact source SHA-256 values, but a builder verifying its own output proves nothing. Seven independent verification shards are dispatched in Wave 2, and no output-level legal review package may be prepared until a shard returns PASS.`, owner: "Wave 2 shards V1-V7, then Lawrence", blocks: "output-level approval, and therefore product-path proof" },
+    { id: "BLK-8", blocker: `${c11.summary.built} packet families are built, none is independently verified, and none is complete`, detail: `C11 rendered and byte-checked ${c11.summary.built} families against exact source SHA-256 values, but a builder verifying its own output proves nothing — and the completeness contract now shows the deeper problem: ${completeness.byResult.PASS_COMPLETE ?? 0} of ${completeness.familiesAudited} families contain everything a filing needs. ${completeness.counterTotals.knownRequiredFieldsMissing} known required fields are missing across the fleet and ${completeness.counterTotals.requiredOptionsMissing} route-determined elections are left to the participant. The four families previously classified PASS are revoked.`, owner: "R8 repairs the four, V1-V7 verify the rest, then Lawrence", blocks: "output-level approval, and therefore product-path proof, for every family" },
     { id: "BLK-6", blocker: "At least one worker host could not install the toolchain", detail: "32 MiB free after worktree creation, so no test needing node_modules could run and two focused tests were returned BLOCKED rather than passed. One return documents it here; the owner reports it as shared across the wave.", owner: "Roger — worker environment sizing", blocks: "every focused test in an affected lane, and the hosted acceptance lane entirely" },
     { id: "BLK-7", blocker: "The private nationwide inventory is not mounted on any worker host", detail: "33 promotion candidates were receipted against their committed hashes and none was physically promoted, because private/Nationwide Record Clearing/ was absent from the executing host.", owner: "Roger — mount the inventory for the source lane", blocks: "33 promotion obligations" }
   ],
@@ -419,6 +438,22 @@ function renderStatus(d) {
   lines.push(row("Commercial routes opened", d.waveOne.packetFactory.commercialRoutesOpened));
   lines.push("");
   lines.push(d.waveOne.packetFactory.whatBuiltDoesNotMean);
+  lines.push("");
+  lines.push("### Packet completeness");
+  lines.push("");
+  lines.push(d.waveOne.packetFactory.completeness.theBlindSpot);
+  lines.push("");
+  lines.push("| | |");
+  lines.push("| --- | ---: |");
+  lines.push(row("Families audited", d.waveOne.packetFactory.completeness.familiesAudited));
+  lines.push(row("PASS_COMPLETE", d.waveOne.packetFactory.completeness.passComplete));
+  for (const [k, v] of Object.entries(d.waveOne.packetFactory.completeness.byResult)) if (k !== "PASS_COMPLETE") lines.push(row(k, v));
+  lines.push("");
+  lines.push("| Counter | Fleet total |");
+  lines.push("| --- | ---: |");
+  for (const [k, v] of Object.entries(d.waveOne.packetFactory.completeness.counterTotals)) lines.push(row(k, v));
+  lines.push("");
+  lines.push(`**${d.waveOne.packetFactory.completeness.passRevoked.length} PASS classifications revoked** to \`${d.waveOne.packetFactory.completeness.passRevokedClassification}\`: ${d.waveOne.packetFactory.completeness.passRevoked.map((f) => `\`${f}\``).join(", ")}. Lawrence review packages prepared: ${d.waveOne.packetFactory.completeness.lawrenceReviewPackagesPrepared}.`);
   lines.push("");
   lines.push("### Residual");
   lines.push("");
