@@ -14,12 +14,13 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family ga-fo-active-pre2026-set::source-sha256:05e8621c5addcf06a7e2c52e909035c54ce55a3df5e8894bef06973a98ad8be5 \
+  --assignment-id SRC01 \
+  --source-obligation 'ca-diversion-seal-set::official-form:SDSC-CRM-307' \
   --codex-cloud \
   --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59
 ```
 
-It must print **`PACKET_BUILD_ENVIRONMENT_READY: 14/14`**. A 13/14 in cloud mode is a real failure, not the shallow checkout being tolerated.
+It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owned row gate must both pass.
 
 ## Never run these
 
@@ -39,21 +40,94 @@ Reconcile a named form number or pinned content hash against the private corpus 
 
 the private corpus and the committed inventory, read only — nothing is fetched here
 
-**47 obligations · 11 families this lane WOULD release if every one of them resolves · hosts: GA, KS, ND, NH, SC, WV**
+**49 obligations · 12 families this lane WOULD release if every one of them resolves · hosts: CA, DE, HI, KS, ND, VA**
 
 > Prospective. Nothing below is promoted custody yet, and this number is not a count of families you can build today.
 
 > This environment refuses outbound egress to court and agency hosts. Identity and inventory work runs here; anything needing a fetch is dispatched through the acquisition workflow, never attempted locally and never faked.
 
-### Every acquired or promoted source records
+### Required operation record schema
 
+- itemId
+- sourceId
+- corpusPath
+- title/formNumber
+- sha256
+- byteSize
+- mime
+- pageCount
+- technology
+- matchBasis
+- familyIds
+- handoffOperation
 
+### Exact obligation rows
 
-**undefined**
+| Item id | Source id | Jurisdiction | Current operation | Family ownership | Required input | Handoff |
+| --- | --- | --- | --- | --- | --- | --- |
+| `ca-diversion-seal-set::official-form:SDSC-CRM-307` | `official-form:SDSC-CRM-307` | CA | `held-inventory-reconciliation` | `ca-diversion-seal-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `de_discretionary_family_court-set::official-form:FORM-281` | `official-form:FORM-281` | DE | `held-inventory-reconciliation` | `de_discretionary_family_court-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `de_discretionary_family_court-set::official-form:FORM-281E` | `official-form:FORM-281E` | DE | `held-inventory-reconciliation` | `de_discretionary_family_court-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `de_discretionary_superior_court-set::official-form:CIV_EXP_02_A` | `official-form:CIV_EXP_02_A` | DE | `held-inventory-reconciliation` | `de_discretionary_superior_court-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `de_discretionary_superior_court-set::official-form:CIV_EXP_02_B` | `official-form:CIV_EXP_02_B` | DE | `held-inventory-reconciliation` | `de_discretionary_superior_court-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `de_discretionary_superior_court-set::official-form:CIV_EXP_04_A` | `official-form:CIV_EXP_04_A` | DE | `held-inventory-reconciliation` | `de_discretionary_superior_court-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `de_pardon_expungement-set::official-form:CIV_EXP_02_A` | `official-form:CIV_EXP_02_A` | DE | `held-inventory-reconciliation` | `de_pardon_expungement-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `de_pardon_expungement-set::official-form:CIV_EXP_08_A` | `official-form:CIV_EXP_08_A` | DE | `held-inventory-reconciliation` | `de_pardon_expungement-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `hi_712_1200_deferred_expungement-set::official-form:HCJDC-159B` | `official-form:HCJDC-159B` | HI | `held-inventory-reconciliation` | `hi_712_1200_deferred_expungement-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `hi_dag_danc_expungement-set::official-form:HCJDC-159B` | `official-form:HCJDC-159B` | HI | `held-inventory-reconciliation` | `hi_dag_danc_expungement-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `hi_nonconviction_expungement-set::official-form:HCJDC-159B` | `official-form:HCJDC-159B` | HI | `held-inventory-reconciliation` | `hi_nonconviction_expungement-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ks-21-6614-conviction-set::official-form:KS-CRIMINAL-COVER-SHEET-10-14-2025` | `official-form:KS-CRIMINAL-COVER-SHEET-10-14-2025` | KS | `held-inventory-reconciliation` | `ks-21-6614-conviction-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ks-21-6614-conviction-set::official-form:KSJC-NOTICE-OF-HEARING-12-2016` | `official-form:KSJC-NOTICE-OF-HEARING-12-2016` | KS | `held-inventory-reconciliation` | `ks-21-6614-conviction-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ks-21-6614-conviction-set::official-form:KSJC-ORDER-DENYING-EXPUNGEMENT-12-2016` | `official-form:KSJC-ORDER-DENYING-EXPUNGEMENT-12-2016` | KS | `held-inventory-reconciliation` | `ks-21-6614-conviction-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ks-21-6614-conviction-set::official-form:KSJC-ORDER-EXPUNGEMENT-COVER-SHEET-12-2016` | `official-form:KSJC-ORDER-EXPUNGEMENT-COVER-SHEET-12-2016` | KS | `held-inventory-reconciliation` | `ks-21-6614-conviction-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ks-21-6614-conviction-set::official-form:KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022` | `official-form:KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022` | KS | `held-inventory-reconciliation` | `ks-21-6614-conviction-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ks-21-6614-conviction-set::official-form:KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022` | `official-form:KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022` | KS | `held-inventory-reconciliation` | `ks-21-6614-conviction-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ks-21-6614-diversion-set::official-form:KS-CRIMINAL-COVER-SHEET-10-14-2025` | `official-form:KS-CRIMINAL-COVER-SHEET-10-14-2025` | KS | `held-inventory-reconciliation` | `ks-21-6614-diversion-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ks-21-6614-diversion-set::official-form:KSJC-NOTICE-OF-HEARING-12-2016` | `official-form:KSJC-NOTICE-OF-HEARING-12-2016` | KS | `held-inventory-reconciliation` | `ks-21-6614-diversion-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ks-21-6614-diversion-set::official-form:KSJC-ORDER-DENYING-EXPUNGEMENT-12-2016` | `official-form:KSJC-ORDER-DENYING-EXPUNGEMENT-12-2016` | KS | `held-inventory-reconciliation` | `ks-21-6614-diversion-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ks-21-6614-diversion-set::official-form:KSJC-ORDER-EXPUNGEMENT-COVER-SHEET-12-2016` | `official-form:KSJC-ORDER-EXPUNGEMENT-COVER-SHEET-12-2016` | KS | `held-inventory-reconciliation` | `ks-21-6614-diversion-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ks-21-6614-diversion-set::official-form:KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022` | `official-form:KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022` | KS | `held-inventory-reconciliation` | `ks-21-6614-diversion-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ks-21-6614-diversion-set::official-form:KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022` | `official-form:KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022` | KS | `held-inventory-reconciliation` | `ks-21-6614-diversion-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ks-21-6614-prostitution-coercion-set::official-form:KS-CRIMINAL-COVER-SHEET-10-14-2025` | `official-form:KS-CRIMINAL-COVER-SHEET-10-14-2025` | KS | `held-inventory-reconciliation` | `ks-21-6614-prostitution-coercion-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ks-21-6614-prostitution-coercion-set::official-form:KSJC-NOTICE-OF-HEARING-12-2016` | `official-form:KSJC-NOTICE-OF-HEARING-12-2016` | KS | `held-inventory-reconciliation` | `ks-21-6614-prostitution-coercion-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ks-21-6614-prostitution-coercion-set::official-form:KSJC-ORDER-DENYING-EXPUNGEMENT-12-2016` | `official-form:KSJC-ORDER-DENYING-EXPUNGEMENT-12-2016` | KS | `held-inventory-reconciliation` | `ks-21-6614-prostitution-coercion-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ks-21-6614-prostitution-coercion-set::official-form:KSJC-ORDER-EXPUNGEMENT-COVER-SHEET-12-2016` | `official-form:KSJC-ORDER-EXPUNGEMENT-COVER-SHEET-12-2016` | KS | `held-inventory-reconciliation` | `ks-21-6614-prostitution-coercion-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ks-21-6614-prostitution-coercion-set::official-form:KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022` | `official-form:KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022` | KS | `held-inventory-reconciliation` | `ks-21-6614-prostitution-coercion-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ks-21-6614-prostitution-coercion-set::official-form:KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022` | `official-form:KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022` | KS | `held-inventory-reconciliation` | `ks-21-6614-prostitution-coercion-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ks-21-6614-specialty-court-set::official-form:KS-CRIMINAL-COVER-SHEET-10-14-2025` | `official-form:KS-CRIMINAL-COVER-SHEET-10-14-2025` | KS | `held-inventory-reconciliation` | `ks-21-6614-specialty-court-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ks-21-6614-specialty-court-set::official-form:KSJC-NOTICE-OF-HEARING-12-2016` | `official-form:KSJC-NOTICE-OF-HEARING-12-2016` | KS | `held-inventory-reconciliation` | `ks-21-6614-specialty-court-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ks-21-6614-specialty-court-set::official-form:KSJC-ORDER-DENYING-EXPUNGEMENT-12-2016` | `official-form:KSJC-ORDER-DENYING-EXPUNGEMENT-12-2016` | KS | `held-inventory-reconciliation` | `ks-21-6614-specialty-court-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ks-21-6614-specialty-court-set::official-form:KSJC-ORDER-EXPUNGEMENT-COVER-SHEET-12-2016` | `official-form:KSJC-ORDER-EXPUNGEMENT-COVER-SHEET-12-2016` | KS | `held-inventory-reconciliation` | `ks-21-6614-specialty-court-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ks-21-6614-specialty-court-set::official-form:KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022` | `official-form:KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022` | KS | `held-inventory-reconciliation` | `ks-21-6614-specialty-court-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ks-21-6614-specialty-court-set::official-form:KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022` | `official-form:KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022` | KS | `held-inventory-reconciliation` | `ks-21-6614-specialty-court-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ks-22-2410-arrest-set::official-form:KS-CRIMINAL-COVER-SHEET-10-14-2025` | `official-form:KS-CRIMINAL-COVER-SHEET-10-14-2025` | KS | `held-inventory-reconciliation` | `ks-22-2410-arrest-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ks-22-2410-arrest-set::official-form:KSJC-ORDER-EXPUNGEMENT-ARREST-RECORD-COVER-SHEET-12-2016` | `official-form:KSJC-ORDER-EXPUNGEMENT-ARREST-RECORD-COVER-SHEET-12-2016` | KS | `held-inventory-reconciliation` | `ks-22-2410-arrest-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ks-22-2410-arrest-set::official-form:KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD-02-2013` | `official-form:KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD-02-2013` | KS | `held-inventory-reconciliation` | `ks-22-2410-arrest-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ks-22-4908-registration-relief-set::official-form:KSJC-ORDER-RELIEF-FROM-OFFENDER-REGISTRATION-COVER-SHEET-06-2022` | `official-form:KSJC-ORDER-RELIEF-FROM-OFFENDER-REGISTRATION-COVER-SHEET-06-2022` | KS | `held-inventory-reconciliation` | `ks-22-4908-registration-relief-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ks-22-4908-registration-relief-set::official-form:KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022` | `official-form:KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022` | KS | `held-inventory-reconciliation` | `ks-22-4908-registration-relief-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ks-22-4908-registration-relief-set::official-form:KSJC-PETITION-RELIEF-FROM-OFFENDER-REGISTRATION-06-2022` | `official-form:KSJC-PETITION-RELIEF-FROM-OFFENDER-REGISTRATION-06-2022` | KS | `held-inventory-reconciliation` | `ks-22-4908-registration-relief-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `nd-regular-pardon-set::official-form:SFN-14859` | `official-form:SFN-14859` | ND | `held-inventory-reconciliation` | `nd-regular-pardon-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `nd-summary-marijuana-pardon-set::official-form:SFN-61663` | `official-form:SFN-61663` | ND | `held-inventory-reconciliation` | `nd-summary-marijuana-pardon-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b::official-form:CR-430` | `official-form:CR-430` | CA | `held-inventory-reconciliation` | `official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b::official-form:CR-431` | `official-form:CR-431` | CA | `held-inventory-reconciliation` | `official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b::official-form:CR-432` | `official-form:CR-432` | CA | `held-inventory-reconciliation` | `official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b::official-form:CR-430-INFO` | `official-form:CR-430-INFO` | CA | `held-inventory-reconciliation` | `official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `rcap-hi-custom-pleading::official-form:HCJDC-159B` | `official-form:HCJDC-159B` | HI | `held-inventory-reconciliation` | `rcap-hi-custom-pleading` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `va_exp_identity_used_by_another-set::source-sha256:6176c2f55bdb3206c53f4a26a0e6b4c14dfd8b04ee19be0ee52b7b6b3fa4e97f` | `source-sha256:6176c2f55bdb3206c53f4a26a0e6b4c14dfd8b04ee19be0ee52b7b6b3fa4e97f` | VA | `held-inventory-reconciliation` | `va_exp_identity_used_by_another-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+
+Run the row gate once per listed item, after the lane gate. This exact first command demonstrates the interface; substitute each other exact item id from the table without changing the lane:
+
+```sh
+node scripts/verify-packet-build-environment.mjs --assignment-id SRC01 --source-obligation 'ca-diversion-seal-set::official-form:SDSC-CRM-307' --codex-cloud --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59
+
+# A failed row is recorded STOPPED; continue with unrelated rows.
+```
+
+**Prospective release is never actual release. Record familiesActuallyReleasedNow only after every remaining source binds; otherwise it is an empty array.**
 
 ### Families this lane would release
 
-`ga-fo-active-pre2026-set`, `ga-fo-discharged-pre2026-set`, `nd-regular-pardon-set`, `nd-summary-marijuana-pardon-set`, `nh_conviction_standard-set`, `nh_conviction_streamlined-set`, `nh_marijuana_annulment-set`, `nh_petition_nonconviction_pre2019-set`, `nh_petition_vacated-set`, `rcap-sc-custom-pleading`, `wv_acc_treatment_job_readiness-set`
+`ca-diversion-seal-set`, `de_discretionary_family_court-set`, `de_discretionary_superior_court-set`, `de_pardon_expungement-set`, `hi_712_1200_deferred_expungement-set`, `hi_dag_danc_expungement-set`, `hi_nonconviction_expungement-set`, `nd-regular-pardon-set`, `nd-summary-marijuana-pardon-set`, `official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b`, `rcap-hi-custom-pleading`, `va_exp_identity_used_by_another-set`
 
 ## Owned paths — write only here
 

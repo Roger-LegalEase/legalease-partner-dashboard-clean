@@ -25,6 +25,7 @@ const OUT = "SOURCE_ACQUISITION_BATCH_RESULT.json";
 const planned = Number.parseInt(process.env.RCAP_PLANNED ?? "0", 10) || 0;
 const planResult = process.env.RCAP_PLAN_RESULT ?? "unknown";
 const acquireResult = process.env.RCAP_ACQUIRE_RESULT ?? "unknown";
+const acquisitionRunId = process.env.RCAP_ACQUISITION_RUN_ID ?? null;
 
 const receipts = [];
 const unreadable = [];
@@ -59,6 +60,8 @@ else verdict = "PARTIAL";
 
 const result = {
   schemaVersion: "rcap-source-acquisition-batch-result/v1",
+  acquisitionRunId,
+  batchResultArtifactName: "rcap-source-acquisition-batch-result",
   verdict,
   verdictVocabulary: ["COMPLETE", "PARTIAL", "REFUSED"],
   verdictBasis: {
@@ -86,7 +89,9 @@ const result = {
   bodiesCommitted: 0,
   commercialRoutesOpened: 0,
   productionTouched: false,
-  grantsNothing: "An acquired source is bytes with a receipt. It is not promoted custody, it builds no packet, and it opens no commercial route. A human promotes it in a reviewed commit or it stays outside the repository."
+  promoLaunchNow: false,
+  promoHandoff: "Materialize with scripts/rcap-materialize-acquisition-handoff.mjs; PROMO remains refused until run id, artifact, receipt and hashes all bind.",
+  grantsNothing: "An acquired source is bytes with a receipt. It is not promoted custody, it builds no packet, and it opens no commercial route."
 };
 
 fs.writeFileSync(path.join(ROOT, OUT), `${JSON.stringify(result, null, 2)}\n`);

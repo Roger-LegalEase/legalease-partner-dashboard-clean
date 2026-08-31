@@ -14,12 +14,13 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family al-diversion-set::official-form:CR-65 \
+  --assignment-id SRC02 \
+  --source-obligation 'al-diversion-set::official-form:CR-65' \
   --codex-cloud \
   --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59
 ```
 
-It must print **`PACKET_BUILD_ENVIRONMENT_READY: 14/14`**. A 13/14 in cloud mode is a real failure, not the shallow checkout being tolerated.
+It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owned row gate must both pass.
 
 ## Never run these
 
@@ -39,21 +40,93 @@ Reconcile a named form number or pinned content hash against the private corpus 
 
 the private corpus and the committed inventory, read only — nothing is fetched here
 
-**47 obligations · 32 families this lane WOULD release if every one of them resolves · hosts: AL, AZ, CO, ID, MD, MO, RI, VA**
+**48 obligations · 35 families this lane WOULD release if every one of them resolves · hosts: AL, CO, MD, MO, NC, NE, RI**
 
 > Prospective. Nothing below is promoted custody yet, and this number is not a count of families you can build today.
 
 > This environment refuses outbound egress to court and agency hosts. Identity and inventory work runs here; anything needing a fetch is dispatched through the acquisition workflow, never attempted locally and never faked.
 
-### Every acquired or promoted source records
+### Required operation record schema
 
+- itemId
+- sourceId
+- corpusPath
+- title/formNumber
+- sha256
+- byteSize
+- mime
+- pageCount
+- technology
+- matchBasis
+- familyIds
+- handoffOperation
 
+### Exact obligation rows
 
-**undefined**
+| Item id | Source id | Jurisdiction | Current operation | Family ownership | Required input | Handoff |
+| --- | --- | --- | --- | --- | --- | --- |
+| `al-diversion-set::official-form:CR-65` | `official-form:CR-65` | AL | `held-inventory-reconciliation` | `al-diversion-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `al-felony-dwop-set::official-form:CR-65` | `official-form:CR-65` | AL | `held-inventory-reconciliation` | `al-felony-dwop-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `al-felony-nonconviction-90-set::official-form:CR-65` | `official-form:CR-65` | AL | `held-inventory-reconciliation` | `al-felony-nonconviction-90-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `al-misd-conviction-set::official-form:CR-65` | `official-form:CR-65` | AL | `held-inventory-reconciliation` | `al-misd-conviction-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `al-misd-dwop-set::official-form:CR-65` | `official-form:CR-65` | AL | `held-inventory-reconciliation` | `al-misd-dwop-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `al-misd-nonconviction-90-set::official-form:CR-65` | `official-form:CR-65` | AL | `held-inventory-reconciliation` | `al-misd-nonconviction-90-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `al-pardon-set::official-form:ABPP-3` | `official-form:ABPP-3` | AL | `held-inventory-reconciliation` | `al-pardon-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `al-pardoned-felony-set::official-form:CR-65` | `official-form:CR-65` | AL | `held-inventory-reconciliation` | `al-pardoned-felony-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `al-trafficking-set::official-form:CR-65` | `official-form:CR-65` | AL | `held-inventory-reconciliation` | `al-trafficking-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `co_municipal_conviction_seal-set::official-form:JDF-684` | `official-form:JDF-684` | CO | `held-inventory-reconciliation` | `co_municipal_conviction_seal-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `co_petition_seal_arrest-set::official-form:JDF-417-ORDER` | `official-form:JDF-417-ORDER` | CO | `held-inventory-reconciliation` | `co_petition_seal_arrest-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `composed-treatment:nc_146_dismissal_petition::official-form:AOC-CR-287-INSTRUCTIONS` | `official-form:AOC-CR-287-INSTRUCTIONS` | NC | `held-inventory-reconciliation` | `composed-treatment:nc_146_dismissal_petition` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `md_10105_early-set::official-form:CC-DC-CR-072C` | `official-form:CC-DC-CR-072C` | MD | `held-inventory-reconciliation` | `md_10105_early-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `md_10105_favorable-set::official-form:CC-DC-CR-072A` | `official-form:CC-DC-CR-072A` | MD | `held-inventory-reconciliation` | `md_10105_favorable-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `md_10110_conviction-set::official-form:CC-DC-CR-072B` | `official-form:CC-DC-CR-072B` | MD | `held-inventory-reconciliation` | `md_10110_conviction-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `md_cannabis_petition-set::official-form:CC-DC-CR-072D` | `official-form:CC-DC-CR-072D` | MD | `held-inventory-reconciliation` | `md_cannabis_petition-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `md_pardon_expungement-set::official-form:CC-DC-CR-072B` | `official-form:CC-DC-CR-072B` | MD | `held-inventory-reconciliation` | `md_pardon_expungement-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `mo-575-120-identity-theft-correction-set::official-form:CR310` | `official-form:CR310` | MO | `held-inventory-reconciliation` | `mo-575-120-identity-theft-correction-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `mo-575-120-identity-theft-correction-set::official-form:FI-05` | `official-form:FI-05` | MO | `held-inventory-reconciliation` | `mo-575-120-identity-theft-correction-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `mo-575-120-identity-theft-correction-set::official-form:GN10` | `official-form:GN10` | MO | `held-inventory-reconciliation` | `mo-575-120-identity-theft-correction-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `mo-610-122-arrest-expungement-set::official-form:CR143` | `official-form:CR143` | MO | `held-inventory-reconciliation` | `mo-610-122-arrest-expungement-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `mo-610-122-arrest-expungement-set::official-form:FI-05` | `official-form:FI-05` | MO | `held-inventory-reconciliation` | `mo-610-122-arrest-expungement-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `mo-610-122-arrest-expungement-set::official-form:GN10` | `official-form:GN10` | MO | `held-inventory-reconciliation` | `mo-610-122-arrest-expungement-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `mo-610-140-arrest-set::official-form:CR370` | `official-form:CR370` | MO | `held-inventory-reconciliation` | `mo-610-140-arrest-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `mo-610-140-arrest-set::official-form:FI-05` | `official-form:FI-05` | MO | `held-inventory-reconciliation` | `mo-610-140-arrest-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `mo-610-140-arrest-set::official-form:GN10` | `official-form:GN10` | MO | `held-inventory-reconciliation` | `mo-610-140-arrest-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `mo-610-140-conviction-set::official-form:CR370` | `official-form:CR370` | MO | `held-inventory-reconciliation` | `mo-610-140-conviction-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `mo-610-140-conviction-set::official-form:FI-05` | `official-form:FI-05` | MO | `held-inventory-reconciliation` | `mo-610-140-conviction-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `mo-610-140-conviction-set::official-form:GN10` | `official-form:GN10` | MO | `held-inventory-reconciliation` | `mo-610-140-conviction-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `mo-610-145-mistaken-identity-set::official-form:CR301` | `official-form:CR301` | MO | `held-inventory-reconciliation` | `mo-610-145-mistaken-identity-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `mo-610-145-mistaken-identity-set::official-form:CR311` | `official-form:CR311` | MO | `held-inventory-reconciliation` | `mo-610-145-mistaken-identity-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `mo-610-145-mistaken-identity-set::official-form:FI-05` | `official-form:FI-05` | MO | `held-inventory-reconciliation` | `mo-610-145-mistaken-identity-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `mo-art-xiv-marijuana-set::official-form:FI-05` | `official-form:FI-05` | MO | `held-inventory-reconciliation` | `mo-art-xiv-marijuana-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `nc_145_5_felony-set::official-form:AOC-CR-297-INSTRUCTIONS` | `official-form:AOC-CR-297-INSTRUCTIONS` | NC | `held-inventory-reconciliation` | `nc_145_5_felony-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `nc_145_5_misdemeanor-set::official-form:AOC-CR-298-INSTRUCTIONS` | `official-form:AOC-CR-298-INSTRUCTIONS` | NC | `held-inventory-reconciliation` | `nc_145_5_misdemeanor-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `nc_145_8a_youthful-set::official-form:AOC-CR-293` | `official-form:AOC-CR-293` | NC | `held-inventory-reconciliation` | `nc_145_8a_youthful-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `nc_145_8a_youthful-set::official-form:AOC-CR-293-INSTRUCTIONS` | `official-form:AOC-CR-293-INSTRUCTIONS` | NC | `held-inventory-reconciliation` | `nc_145_8a_youthful-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `nc_146_acquittal_petition-set::official-form:AOC-CR-288-INSTRUCTIONS` | `official-form:AOC-CR-288-INSTRUCTIONS` | NC | `held-inventory-reconciliation` | `nc_146_acquittal_petition-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `nc_146_dismissal_petition-set::official-form:AOC-CR-287-INSTRUCTIONS` | `official-form:AOC-CR-287-INSTRUCTIONS` | NC | `held-inventory-reconciliation` | `nc_146_dismissal_petition-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `nc_auto_146_a4_agency_followup-set::official-form:AOC-G-260` | `official-form:AOC-G-260` | NC | `held-inventory-reconciliation` | `nc_auto_146_a4_agency_followup-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ne-seal-pardoned-set::official-form:CC-6-12a` | `official-form:CC-6-12a` | NE | `held-inventory-reconciliation` | `ne-seal-pardoned-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ne-seal-pre2017-set::official-form:CC-6-12a` | `official-form:CC-6-12a` | NE | `held-inventory-reconciliation` | `ne-seal-pre2017-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ri_decriminalized-set::official-form:DC-33-AFFIDAVIT` | `official-form:DC-33-AFFIDAVIT` | RI | `held-inventory-reconciliation` | `ri_decriminalized-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ri_decriminalized-set::official-form:DC-33-ORDER` | `official-form:DC-33-ORDER` | RI | `held-inventory-reconciliation` | `ri_decriminalized-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ri_deferred_sentence-set::official-form:DC-33-ORDER` | `official-form:DC-33-ORDER` | RI | `held-inventory-reconciliation` | `ri_deferred_sentence-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ri_first_offender_felony-set::official-form:Superior-55-ORDER` | `official-form:Superior-55-ORDER` | RI | `held-inventory-reconciliation` | `ri_first_offender_felony-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ri_first_offender_misdemeanor-set::official-form:DC-33-ORDER` | `official-form:DC-33-ORDER` | RI | `held-inventory-reconciliation` | `ri_first_offender_misdemeanor-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ri_multiple_misdemeanors-set::official-form:DC-33-ORDER` | `official-form:DC-33-ORDER` | RI | `held-inventory-reconciliation` | `ri_multiple_misdemeanors-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+
+Run the row gate once per listed item, after the lane gate. This exact first command demonstrates the interface; substitute each other exact item id from the table without changing the lane:
+
+```sh
+node scripts/verify-packet-build-environment.mjs --assignment-id SRC02 --source-obligation 'al-diversion-set::official-form:CR-65' --codex-cloud --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59
+
+# A failed row is recorded STOPPED; continue with unrelated rows.
+```
+
+**Prospective release is never actual release. Record familiesActuallyReleasedNow only after every remaining source binds; otherwise it is an empty array.**
 
 ### Families this lane would release
 
-`al-diversion-set`, `al-felony-dwop-set`, `al-felony-nonconviction-90-set`, `al-misd-conviction-set`, `al-misd-dwop-set`, `al-misd-nonconviction-90-set`, `al-pardon-set`, `al-pardoned-felony-set`, `al-trafficking-set`, `az_certificate_second_chance-set`, `az_marijuana_expungement_limited_jurisdiction-set`, `az_record_sealing_conviction-set`, `az_set_aside-set`, `co_municipal_conviction_seal-set`, `co_petition_seal_arrest-set`, `id_clean_slate_shield-set`, `md_10105_early-set`, `md_10105_favorable-set`, `md_10110_conviction-set`, `md_cannabis_petition-set`, `md_pardon_expungement-set`, `mo-575-120-identity-theft-correction-set`, `mo-610-122-arrest-expungement-set`, `mo-610-140-arrest-set`, `mo-610-140-conviction-set`, `mo-art-xiv-marijuana-set`, `ri_decriminalized-set`, `ri_deferred_sentence-set`, `ri_first_offender_felony-set`, `ri_first_offender_misdemeanor-set`, `ri_multiple_misdemeanors-set`, `va_exp_identity_used_by_another-set`
+`al-diversion-set`, `al-felony-dwop-set`, `al-felony-nonconviction-90-set`, `al-misd-conviction-set`, `al-misd-dwop-set`, `al-misd-nonconviction-90-set`, `al-pardon-set`, `al-pardoned-felony-set`, `al-trafficking-set`, `co_municipal_conviction_seal-set`, `co_petition_seal_arrest-set`, `composed-treatment:nc_146_dismissal_petition`, `md_10105_early-set`, `md_10105_favorable-set`, `md_10110_conviction-set`, `md_cannabis_petition-set`, `md_pardon_expungement-set`, `mo-575-120-identity-theft-correction-set`, `mo-610-122-arrest-expungement-set`, `mo-610-140-arrest-set`, `mo-610-140-conviction-set`, `mo-art-xiv-marijuana-set`, `nc_145_5_felony-set`, `nc_145_5_misdemeanor-set`, `nc_145_8a_youthful-set`, `nc_146_acquittal_petition-set`, `nc_146_dismissal_petition-set`, `nc_auto_146_a4_agency_followup-set`, `ne-seal-pardoned-set`, `ne-seal-pre2017-set`, `ri_decriminalized-set`, `ri_deferred_sentence-set`, `ri_first_offender_felony-set`, `ri_first_offender_misdemeanor-set`, `ri_multiple_misdemeanors-set`
 
 ## Owned paths — write only here
 

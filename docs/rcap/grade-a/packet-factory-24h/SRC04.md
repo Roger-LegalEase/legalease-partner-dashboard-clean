@@ -14,12 +14,13 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family ca-diversion-seal-set::official-form:SDSC-CRM-307 \
+  --assignment-id SRC04 \
+  --source-obligation 'ar-act346-set::official-form:ACIC-ORDER-DISMISS-AND-SEAL-FIRST-OFFENDERS' \
   --codex-cloud \
   --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59
 ```
 
-It must print **`PACKET_BUILD_ENVIRONMENT_READY: 14/14`**. A 13/14 in cloud mode is a real failure, not the shallow checkout being tolerated.
+It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owned row gate must both pass.
 
 ## Never run these
 
@@ -39,21 +40,93 @@ Reconcile a named form number or pinned content hash against the private corpus 
 
 the private corpus and the committed inventory, read only — nothing is fetched here
 
-**46 obligations · 19 families this lane WOULD release if every one of them resolves · hosts: CA, FL, IN, KY, MA, ME, MN, NC**
+**48 obligations · 16 families this lane WOULD release if every one of them resolves · hosts: AR, FL, IN, KY, ME, MN, SC, UT**
 
 > Prospective. Nothing below is promoted custody yet, and this number is not a count of families you can build today.
 
 > This environment refuses outbound egress to court and agency hosts. Identity and inventory work runs here; anything needing a fetch is dispatched through the acquisition workflow, never attempted locally and never faked.
 
-### Every acquired or promoted source records
+### Required operation record schema
 
+- itemId
+- sourceId
+- corpusPath
+- title/formNumber
+- sha256
+- byteSize
+- mime
+- pageCount
+- technology
+- matchBasis
+- familyIds
+- handoffOperation
 
+### Exact obligation rows
 
-**undefined**
+| Item id | Source id | Jurisdiction | Current operation | Family ownership | Required input | Handoff |
+| --- | --- | --- | --- | --- | --- | --- |
+| `ar-act346-set::official-form:ACIC-ORDER-DISMISS-AND-SEAL-FIRST-OFFENDERS` | `official-form:ACIC-ORDER-DISMISS-AND-SEAL-FIRST-OFFENDERS` | AR | `held-inventory-reconciliation` | `ar-act346-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ar-act531-set::official-form:ACIC-ORDER-SEAL-ACT-531-ACT-1460` | `official-form:ACIC-ORDER-SEAL-ACT-531-ACT-1460` | AR | `held-inventory-reconciliation` | `ar-act531-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ar-act531-set::official-form:ACIC-PETITION-SEAL-ACT-531-ACT-1460` | `official-form:ACIC-PETITION-SEAL-ACT-531-ACT-1460` | AR | `held-inventory-reconciliation` | `ar-act531-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ar-arrest-seal-set::official-form:ACIC-ORDER-TO-SEAL-ARREST` | `official-form:ACIC-ORDER-TO-SEAL-ARREST` | AR | `held-inventory-reconciliation` | `ar-arrest-seal-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ar-arrest-seal-set::official-form:ACIC-PETITION-TO-SEAL-ARREST` | `official-form:ACIC-PETITION-TO-SEAL-ARREST` | AR | `held-inventory-reconciliation` | `ar-arrest-seal-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ar-misdemeanor-dwi-seal-set::official-form:ACIC-ORDER-TO-SEAL-MISDEMEANOR-DWI-BWI` | `official-form:ACIC-ORDER-TO-SEAL-MISDEMEANOR-DWI-BWI` | AR | `held-inventory-reconciliation` | `ar-misdemeanor-dwi-seal-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ar-misdemeanor-dwi-seal-set::official-form:ACIC-PETITION-TO-SEAL-MISDEMEANOR-DWI-BWI` | `official-form:ACIC-PETITION-TO-SEAL-MISDEMEANOR-DWI-BWI` | AR | `held-inventory-reconciliation` | `ar-misdemeanor-dwi-seal-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ar-pardon-seal-set::official-form:ACIC-ORDER-TO-SEAL-PARDONED-OFFENDER` | `official-form:ACIC-ORDER-TO-SEAL-PARDONED-OFFENDER` | AR | `held-inventory-reconciliation` | `ar-pardon-seal-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ar-pardon-seal-set::official-form:ACIC-PETITION-TO-SEAL-PARDONED-OFFENDER` | `official-form:ACIC-PETITION-TO-SEAL-PARDONED-OFFENDER` | AR | `held-inventory-reconciliation` | `ar-pardon-seal-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `fl-10yr-bridge-set::official-form:FL-RULE-3.989-ORDER` | `official-form:FL-RULE-3.989-ORDER` | FL | `held-inventory-reconciliation` | `fl-10yr-bridge-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `fl-10yr-bridge-set::official-form:FL-RULE-3.989-PETITION` | `official-form:FL-RULE-3.989-PETITION` | FL | `held-inventory-reconciliation` | `fl-10yr-bridge-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `fl-expunction-set::official-form:FL-RULE-3.989-ORDER` | `official-form:FL-RULE-3.989-ORDER` | FL | `held-inventory-reconciliation` | `fl-expunction-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `fl-expunction-set::official-form:FL-RULE-3.989-PETITION` | `official-form:FL-RULE-3.989-PETITION` | FL | `held-inventory-reconciliation` | `fl-expunction-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `fl-expunction-set::official-form:FL-RULE-3.989-SWORN-STATEMENT` | `official-form:FL-RULE-3.989-SWORN-STATEMENT` | FL | `held-inventory-reconciliation` | `fl-expunction-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `fl-sealing-set::official-form:FL-RULE-3.989-ORDER` | `official-form:FL-RULE-3.989-ORDER` | FL | `held-inventory-reconciliation` | `fl-sealing-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `fl-sealing-set::official-form:FL-RULE-3.989-PETITION` | `official-form:FL-RULE-3.989-PETITION` | FL | `held-inventory-reconciliation` | `fl-sealing-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `fl-sealing-set::official-form:FL-RULE-3.989-SWORN-STATEMENT` | `official-form:FL-RULE-3.989-SWORN-STATEMENT` | FL | `held-inventory-reconciliation` | `fl-sealing-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `fl-trafficking-set::official-form:FL-RULE-3.989-ORDER` | `official-form:FL-RULE-3.989-ORDER` | FL | `held-inventory-reconciliation` | `fl-trafficking-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `fl-trafficking-set::official-form:FL-RULE-3.989-PETITION` | `official-form:FL-RULE-3.989-PETITION` | FL | `held-inventory-reconciliation` | `fl-trafficking-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `fl-trafficking-set::official-form:FL-RULE-3.9895-SWORN-STATEMENT` | `official-form:FL-RULE-3.9895-SWORN-STATEMENT` | FL | `held-inventory-reconciliation` | `fl-trafficking-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `in_arrest_no_charges-set::official-form:CCA-GF-0120-3016` | `official-form:CCA-GF-0120-3016` | IN | `held-inventory-reconciliation` | `in_arrest_no_charges-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `in_conviction_d6-set::official-form:CCA-GF-0120-3016` | `official-form:CCA-GF-0120-3016` | IN | `held-inventory-reconciliation` | `in_conviction_d6-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `in_conviction_felony-set::official-form:CCA-GF-0120-3016` | `official-form:CCA-GF-0120-3016` | IN | `held-inventory-reconciliation` | `in_conviction_felony-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `in_conviction_misd-set::official-form:CCA-GF-0120-3016` | `official-form:CCA-GF-0120-3016` | IN | `held-inventory-reconciliation` | `in_conviction_misd-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `in_section1_petition-set::official-form:CCA-GF-0120-3016` | `official-form:CCA-GF-0120-3016` | IN | `held-inventory-reconciliation` | `in_section1_petition-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ky_expungement_certification-set::official-form:AOC-RU-009` | `official-form:AOC-RU-009` | KY | `held-inventory-reconciliation` | `ky_expungement_certification-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ky_nonconviction_expungement-set::official-form:AOC-497.2` | `official-form:AOC-497.2` | KY | `held-inventory-reconciliation` | `ky_nonconviction_expungement-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ky_protective_order_record_expungement-set::official-form:AOC-275.18` | `official-form:AOC-275.18` | KY | `held-inventory-reconciliation` | `ky_protective_order_record_expungement-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `me-seal-gen-set::official-form:CR-218` | `official-form:CR-218` | ME | `held-inventory-reconciliation` | `me-seal-gen-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `me-seal-survivor-set::official-form:CR-308` | `official-form:CR-308` | ME | `held-inventory-reconciliation` | `me-seal-survivor-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `mn_petition_15218-set::official-form:EXP102` | `official-form:EXP102` | MN | `held-inventory-reconciliation` | `mn_petition_15218-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `mn_petition_15218-set::official-form:EXP104` | `official-form:EXP104` | MN | `held-inventory-reconciliation` | `mn_petition_15218-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `mn_petition_15218-set::official-form:EXP106` | `official-form:EXP106` | MN | `held-inventory-reconciliation` | `mn_petition_15218-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `mn_petition_609a02_subd3-set::official-form:EXP101` | `official-form:EXP101` | MN | `held-inventory-reconciliation` | `mn_petition_609a02_subd3-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `mn_petition_609a02_subd3-set::official-form:EXP102` | `official-form:EXP102` | MN | `held-inventory-reconciliation` | `mn_petition_609a02_subd3-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `mn_petition_609a02_subd3-set::official-form:EXP104` | `official-form:EXP104` | MN | `held-inventory-reconciliation` | `mn_petition_609a02_subd3-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `mn_petition_609a02_subd3-set::official-form:EXP105` | `official-form:EXP105` | MN | `held-inventory-reconciliation` | `mn_petition_609a02_subd3-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `mn_petition_juvenile_as_adult-set::official-form:EXP102` | `official-form:EXP102` | MN | `held-inventory-reconciliation` | `mn_petition_juvenile_as_adult-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `mn_petition_juvenile_as_adult-set::official-form:EXP104` | `official-form:EXP104` | MN | `held-inventory-reconciliation` | `mn_petition_juvenile_as_adult-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `mn_petition_juvenile_as_adult-set::official-form:EXP106` | `official-form:EXP106` | MN | `held-inventory-reconciliation` | `mn_petition_juvenile_as_adult-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `rcap-in-custom-pleading::official-form:CCA-GF-0120-3016` | `official-form:CCA-GF-0120-3016` | IN | `held-inventory-reconciliation` | `rcap-in-custom-pleading` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `rcap-sc-custom-pleading::source-sha256:9a5d822bc98a5c774b4de6b45d6a5d161214d178f53bef560bddd46fc2972d29` | `source-sha256:9a5d822bc98a5c774b4de6b45d6a5d161214d178f53bef560bddd46fc2972d29` | SC | `held-inventory-reconciliation` | `rcap-sc-custom-pleading` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ut_pet_cannabis-set::official-form:1023EX` | `official-form:1023EX` | UT | `held-inventory-reconciliation` | `ut_pet_cannabis-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ut_pet_remove_link-set::official-form:1501CR` | `official-form:1501CR` | UT | `held-inventory-reconciliation` | `ut_pet_remove_link-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ut_pet_remove_link-set::official-form:1501CR-C` | `official-form:1501CR-C` | UT | `held-inventory-reconciliation` | `ut_pet_remove_link-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ut_pet_remove_link-set::official-form:1502CR` | `official-form:1502CR` | UT | `held-inventory-reconciliation` | `ut_pet_remove_link-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ut_pet_special_certificate-set::official-form:1001EX` | `official-form:1001EX` | UT | `held-inventory-reconciliation` | `ut_pet_special_certificate-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ut_pet_special_certificate-set::official-form:1021EX` | `official-form:1021EX` | UT | `held-inventory-reconciliation` | `ut_pet_special_certificate-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+
+Run the row gate once per listed item, after the lane gate. This exact first command demonstrates the interface; substitute each other exact item id from the table without changing the lane:
+
+```sh
+node scripts/verify-packet-build-environment.mjs --assignment-id SRC04 --source-obligation 'ar-act346-set::official-form:ACIC-ORDER-DISMISS-AND-SEAL-FIRST-OFFENDERS' --codex-cloud --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59
+
+# A failed row is recorded STOPPED; continue with unrelated rows.
+```
+
+**Prospective release is never actual release. Record familiesActuallyReleasedNow only after every remaining source binds; otherwise it is an empty array.**
 
 ### Families this lane would release
 
-`ca-diversion-seal-set`, `composed-treatment:nc_146_dismissal_petition`, `fl-trafficking-set`, `ky_expungement_certification-set`, `ky_nonconviction_expungement-set`, `ky_protective_order_record_expungement-set`, `ma-seal-court-set`, `me-seal-gen-set`, `me-seal-survivor-set`, `mn_petition_15218-set`, `mn_petition_609a02_subd3-set`, `mn_petition_juvenile_as_adult-set`, `nc_145_5_felony-set`, `nc_145_5_misdemeanor-set`, `nc_145_8a_youthful-set`, `nc_146_acquittal_petition-set`, `nc_146_dismissal_petition-set`, `nc_auto_146_a4_agency_followup-set`, `official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b`
+`ar-act531-set`, `ar-arrest-seal-set`, `ar-misdemeanor-dwi-seal-set`, `ar-pardon-seal-set`, `fl-trafficking-set`, `ky_expungement_certification-set`, `ky_nonconviction_expungement-set`, `ky_protective_order_record_expungement-set`, `me-seal-gen-set`, `me-seal-survivor-set`, `mn_petition_15218-set`, `mn_petition_609a02_subd3-set`, `mn_petition_juvenile_as_adult-set`, `rcap-sc-custom-pleading`, `ut_pet_cannabis-set`, `ut_pet_special_certificate-set`
 
 ## Owned paths — write only here
 

@@ -14,12 +14,13 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family rcap-tx-custom-pleading::official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond \
+  --assignment-id DISC01 \
+  --source-obligation 'agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge::NO_DOCUMENT_SOURCE_NAMED' \
   --codex-cloud \
   --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59
 ```
 
-It must print **`PACKET_BUILD_ENVIRONMENT_READY: 14/14`**. A 13/14 in cloud mode is a real failure, not the shallow checkout being tolerated.
+It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owned row gate must both pass.
 
 ## Never run these
 
@@ -39,21 +40,90 @@ Turn a descriptive label into a document identity: exact form number, official p
 
 the issuing court or agency that publishes the document
 
-**29 obligations · 11 families this lane WOULD release if every one of them resolves · hosts: TX**
+**43 obligations · 25 families this lane WOULD release if every one of them resolves · hosts: AL, DC, ME, NE, TN, TX**
 
 > Prospective. Nothing below is promoted custody yet, and this number is not a count of families you can build today.
 
 > This environment refuses outbound egress to court and agency hosts. Identity and inventory work runs here; anything needing a fetch is dispatched through the acquisition workflow, never attempted locally and never faked.
 
-### Every acquired or promoted source records
+### Required operation record schema
 
+- itemId
+- sourceId
+- jurisdiction
+- issuingAuthority
+- officialTitle
+- formNumber
+- revision
+- officialUrl
+- urlKind
+- intendedPacketRole
+- statewideOrLocal
+- familyIds
+- evidencePaths
+- handoffOperation
 
+### Exact obligation rows
 
-**undefined**
+| Item id | Source id | Jurisdiction | Current operation | Family ownership | Required input | Handoff |
+| --- | --- | --- | --- | --- | --- | --- |
+| `agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | AL | `exact-source-identity` | `agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge` | unresolved exact identity or URL | `ACQ` |
+| `census-pending-family:ME:juvenile-sealing::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | ME | `exact-source-identity` | `census-pending-family:ME:juvenile-sealing` | unresolved exact identity or URL | `ACQ` |
+| `dc_correct_misattributed_arrest-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | DC | `exact-source-identity` | `dc_correct_misattributed_arrest-set` | unresolved exact identity or URL | `ACQ` |
+| `dc_innocence_expungement-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | DC | `exact-source-identity` | `dc_innocence_expungement-set` | unresolved exact identity or URL | `ACQ` |
+| `dc_seal_conviction-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | DC | `exact-source-identity` | `dc_seal_conviction-set` | unresolved exact identity or URL | `ACQ` |
+| `dc_seal_fugitive-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | DC | `exact-source-identity` | `dc_seal_fugitive-set` | unresolved exact identity or URL | `ACQ` |
+| `dc_seal_nonconviction-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | DC | `exact-source-identity` | `dc_seal_nonconviction-set` | unresolved exact identity or URL | `ACQ` |
+| `dc_yra_set_aside-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | DC | `exact-source-identity` | `dc_yra_set_aside-set` | unresolved exact identity or URL | `ACQ` |
+| `me-nonconv-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | ME | `exact-source-identity` | `me-nonconv-set` | unresolved exact identity or URL | `ACQ` |
+| `me-screening-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | ME | `exact-source-identity` | `me-screening-set` | unresolved exact identity or URL | `ACQ` |
+| `ne-expunge-le-error-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | NE | `exact-source-identity` | `ne-expunge-le-error-set` | unresolved exact identity or URL | `ACQ` |
+| `ne-seal-enforcement-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | NE | `exact-source-identity` | `ne-seal-enforcement-set` | unresolved exact identity or URL | `ACQ` |
+| `official-form-treatment:obligation:research-decision-route:AL:al-olr::official-form:Alabama AOC Order of Limited Relief packet` | `official-form:Alabama AOC Order of Limited Relief packet` | AL | `exact-source-identity` | `official-form-treatment:obligation:research-decision-route:AL:al-olr` | unresolved exact identity or URL | `ACQ` |
+| `rcap-tn-custom-pleading::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | TN | `exact-source-identity` | `rcap-tn-custom-pleading` | unresolved exact identity or URL | `ACQ` |
+| `rcap-tx-custom-pleading::official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond` | `official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond` | TX | `exact-source-identity` | `rcap-tx-custom-pleading` | unresolved exact identity or URL | `ACQ` |
+| `tx_exp_acquittal-set::official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond` | `official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond` | TX | `exact-source-identity` | `tx_exp_acquittal-set` | unresolved exact identity or URL | `ACQ` |
+| `tx_nd_automatic_misdemeanor_deferred-set::official-form:OCA Instructions and Model Letter for an Order of Nondisclosure under Section 411.072` | `official-form:OCA Instructions and Model Letter for an Order of Nondisclosure under Section 411.072` | TX | `exact-source-identity` | `tx_nd_automatic_misdemeanor_deferred-set` | unresolved exact identity or URL | `ACQ` |
+| `tx_nd_automatic_misdemeanor_deferred-set::official-form:OCA Model Order of Nondisclosure under Section 411.072` | `official-form:OCA Model Order of Nondisclosure under Section 411.072` | TX | `exact-source-identity` | `tx_nd_automatic_misdemeanor_deferred-set` | unresolved exact identity or URL | `ACQ` |
+| `tx_nd_automatic_misdemeanor_deferred-set::official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond` | `official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond` | TX | `exact-source-identity` | `tx_nd_automatic_misdemeanor_deferred-set` | unresolved exact identity or URL | `ACQ` |
+| `tx_nd_conviction_no_supervision-set::official-form:OCA Model Order of Nondisclosure under Section 411.0735` | `official-form:OCA Model Order of Nondisclosure under Section 411.0735` | TX | `exact-source-identity` | `tx_nd_conviction_no_supervision-set` | unresolved exact identity or URL | `ACQ` |
+| `tx_nd_conviction_no_supervision-set::official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0735` | `official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0735` | TX | `exact-source-identity` | `tx_nd_conviction_no_supervision-set` | unresolved exact identity or URL | `ACQ` |
+| `tx_nd_conviction_no_supervision-set::official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond` | `official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond` | TX | `exact-source-identity` | `tx_nd_conviction_no_supervision-set` | unresolved exact identity or URL | `ACQ` |
+| `tx_nd_deferred_other-set::official-form:OCA Model Order of Nondisclosure under Section 411.0725` | `official-form:OCA Model Order of Nondisclosure under Section 411.0725` | TX | `exact-source-identity` | `tx_nd_deferred_other-set` | unresolved exact identity or URL | `ACQ` |
+| `tx_nd_deferred_other-set::official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0725` | `official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0725` | TX | `exact-source-identity` | `tx_nd_deferred_other-set` | unresolved exact identity or URL | `ACQ` |
+| `tx_nd_deferred_other-set::official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond` | `official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond` | TX | `exact-source-identity` | `tx_nd_deferred_other-set` | unresolved exact identity or URL | `ACQ` |
+| `tx_nd_dwi_conviction-set::official-form:OCA Model Order of Nondisclosure under Section 411.0736` | `official-form:OCA Model Order of Nondisclosure under Section 411.0736` | TX | `exact-source-identity` | `tx_nd_dwi_conviction-set` | unresolved exact identity or URL | `ACQ` |
+| `tx_nd_dwi_conviction-set::official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0736` | `official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0736` | TX | `exact-source-identity` | `tx_nd_dwi_conviction-set` | unresolved exact identity or URL | `ACQ` |
+| `tx_nd_dwi_conviction-set::official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond` | `official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond` | TX | `exact-source-identity` | `tx_nd_dwi_conviction-set` | unresolved exact identity or URL | `ACQ` |
+| `tx_nd_dwi_deferred-set::official-form:OCA Model Order of Nondisclosure (Driving While Intoxicated) under Section 411.0726` | `official-form:OCA Model Order of Nondisclosure (Driving While Intoxicated) under Section 411.0726` | TX | `exact-source-identity` | `tx_nd_dwi_deferred-set` | unresolved exact identity or URL | `ACQ` |
+| `tx_nd_dwi_deferred-set::official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0726` | `official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0726` | TX | `exact-source-identity` | `tx_nd_dwi_deferred-set` | unresolved exact identity or URL | `ACQ` |
+| `tx_nd_dwi_deferred-set::official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond` | `official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond` | TX | `exact-source-identity` | `tx_nd_dwi_deferred-set` | unresolved exact identity or URL | `ACQ` |
+| `tx_nd_dwi_probation-set::official-form:OCA Model Order of Nondisclosure under Section 411.0731` | `official-form:OCA Model Order of Nondisclosure under Section 411.0731` | TX | `exact-source-identity` | `tx_nd_dwi_probation-set` | unresolved exact identity or URL | `ACQ` |
+| `tx_nd_dwi_probation-set::official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0731` | `official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0731` | TX | `exact-source-identity` | `tx_nd_dwi_probation-set` | unresolved exact identity or URL | `ACQ` |
+| `tx_nd_dwi_probation-set::official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond` | `official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond` | TX | `exact-source-identity` | `tx_nd_dwi_probation-set` | unresolved exact identity or URL | `ACQ` |
+| `tx_nd_probation_misdemeanor-set::official-form:OCA Model Order of Nondisclosure under Section 411.073` | `official-form:OCA Model Order of Nondisclosure under Section 411.073` | TX | `exact-source-identity` | `tx_nd_probation_misdemeanor-set` | unresolved exact identity or URL | `ACQ` |
+| `tx_nd_probation_misdemeanor-set::official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.073` | `official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.073` | TX | `exact-source-identity` | `tx_nd_probation_misdemeanor-set` | unresolved exact identity or URL | `ACQ` |
+| `tx_nd_probation_misdemeanor-set::official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond` | `official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond` | TX | `exact-source-identity` | `tx_nd_probation_misdemeanor-set` | unresolved exact identity or URL | `ACQ` |
+| `tx_nd_veterans_court-set::official-form:OCA Model Order of Nondisclosure under Section 411.0727` | `official-form:OCA Model Order of Nondisclosure under Section 411.0727` | TX | `exact-source-identity` | `tx_nd_veterans_court-set` | unresolved exact identity or URL | `ACQ` |
+| `tx_nd_veterans_court-set::official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0727` | `official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0727` | TX | `exact-source-identity` | `tx_nd_veterans_court-set` | unresolved exact identity or URL | `ACQ` |
+| `tx_nd_veterans_court-set::official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond` | `official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond` | TX | `exact-source-identity` | `tx_nd_veterans_court-set` | unresolved exact identity or URL | `ACQ` |
+| `tx_nd_veterans_reemployment-set::official-form:OCA Model Order of Nondisclosure under Section 411.0729` | `official-form:OCA Model Order of Nondisclosure under Section 411.0729` | TX | `exact-source-identity` | `tx_nd_veterans_reemployment-set` | unresolved exact identity or URL | `ACQ` |
+| `tx_nd_veterans_reemployment-set::official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0729` | `official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0729` | TX | `exact-source-identity` | `tx_nd_veterans_reemployment-set` | unresolved exact identity or URL | `ACQ` |
+| `tx_nd_veterans_reemployment-set::official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond` | `official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond` | TX | `exact-source-identity` | `tx_nd_veterans_reemployment-set` | unresolved exact identity or URL | `ACQ` |
+
+Run the row gate once per listed item, after the lane gate. This exact first command demonstrates the interface; substitute each other exact item id from the table without changing the lane:
+
+```sh
+node scripts/verify-packet-build-environment.mjs --assignment-id DISC01 --source-obligation 'agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge::NO_DOCUMENT_SOURCE_NAMED' --codex-cloud --minimum-captain-sha 7476708c6236b7b2ce1b1112dbeef434d3957c59
+
+# A failed row is recorded STOPPED; continue with unrelated rows.
+```
+
+**Prospective release is never actual release. Record familiesActuallyReleasedNow only after every remaining source binds; otherwise it is an empty array.**
 
 ### Families this lane would release
 
-`rcap-tx-custom-pleading`, `tx_exp_acquittal-set`, `tx_nd_automatic_misdemeanor_deferred-set`, `tx_nd_conviction_no_supervision-set`, `tx_nd_deferred_other-set`, `tx_nd_dwi_conviction-set`, `tx_nd_dwi_deferred-set`, `tx_nd_dwi_probation-set`, `tx_nd_probation_misdemeanor-set`, `tx_nd_veterans_court-set`, `tx_nd_veterans_reemployment-set`
+`agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge`, `census-pending-family:ME:juvenile-sealing`, `dc_correct_misattributed_arrest-set`, `dc_innocence_expungement-set`, `dc_seal_conviction-set`, `dc_seal_fugitive-set`, `dc_seal_nonconviction-set`, `dc_yra_set_aside-set`, `me-nonconv-set`, `me-screening-set`, `ne-expunge-le-error-set`, `ne-seal-enforcement-set`, `official-form-treatment:obligation:research-decision-route:AL:al-olr`, `rcap-tn-custom-pleading`, `rcap-tx-custom-pleading`, `tx_exp_acquittal-set`, `tx_nd_automatic_misdemeanor_deferred-set`, `tx_nd_conviction_no_supervision-set`, `tx_nd_deferred_other-set`, `tx_nd_dwi_conviction-set`, `tx_nd_dwi_deferred-set`, `tx_nd_dwi_probation-set`, `tx_nd_probation_misdemeanor-set`, `tx_nd_veterans_court-set`, `tx_nd_veterans_reemployment-set`
 
 ## Owned paths — write only here
 
