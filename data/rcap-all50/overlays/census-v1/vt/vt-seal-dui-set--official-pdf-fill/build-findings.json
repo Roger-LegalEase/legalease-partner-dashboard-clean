@@ -1,0 +1,18 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "vt_seal_dui-set",
+  "findings": [
+    {
+      "finding": "The three Vermont forms name their widgets with bare ordinals, so no caption can be inferred from a field name.",
+      "consequence": "Every caption in the field map was read off the page at the widget's coordinates and is re-checked on every build."
+    },
+    {
+      "finding": "600-00228 is a financial affidavit and the platform holds none of its figures.",
+      "consequence": "112 blanks across the packet are required-before-filing and every one is named in participant-instructions.md."
+    },
+    {
+      "finding": "200-00132 requires the State's Attorney's signature before the court will act on it.",
+      "consequence": "Those three fields are refused as court/prosecutor-owned and the instructions tell the participant the stipulation route needs the prosecutor's agreement."
+    }
+  ]
+}
