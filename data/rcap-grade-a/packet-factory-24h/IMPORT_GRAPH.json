@@ -2,7 +2,7 @@
   "schemaVersion": "rcap-packet-factory-24h-import-graph/v1",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "Which build scripts are shared, and may a lane own the script its family uses?",
-  "scriptsScanned": 52,
+  "scriptsScanned": 57,
   "rule": "A family worker may own a family-specific script only when no unassigned family imports it. One shared host has one owner.",
   "edges": [
     {
@@ -377,6 +377,57 @@
       "importedBy": []
     },
     {
+      "script": "build-census-v1-vt_seal_18_to_21-set.mjs",
+      "imports": [
+        "build-census-v1-vt_seal_misdemeanor-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-vt_seal_misdemeanor-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-vt_seal_dui-set.mjs",
+      "imports": [
+        "build-census-v1-vt_seal_misdemeanor-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-vt_seal_misdemeanor-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-vt_seal_felony-set.mjs",
+      "imports": [
+        "build-census-v1-vt_seal_misdemeanor-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-vt_seal_misdemeanor-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-vt_seal_misdemeanor-set.mjs",
+      "imports": [],
+      "transitiveImports": [],
+      "importedBy": [
+        "build-census-v1-vt_seal_18_to_21-set.mjs",
+        "build-census-v1-vt_seal_dui-set.mjs",
+        "build-census-v1-vt_seal_felony-set.mjs",
+        "build-census-v1-vt_seal_pardon-set.mjs"
+      ]
+    },
+    {
+      "script": "build-census-v1-vt_seal_pardon-set.mjs",
+      "imports": [
+        "build-census-v1-vt_seal_misdemeanor-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-vt_seal_misdemeanor-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
       "script": "build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs",
       "imports": [],
       "transitiveImports": [],
@@ -565,6 +616,16 @@
       "owner": "UNOWNED_IN_THIS_WAVE"
     },
     {
+      "script": "build-census-v1-vt_seal_misdemeanor-set.mjs",
+      "importers": [
+        "vt_seal_18_to_21-set",
+        "vt_seal_dui-set",
+        "vt_seal_felony-set",
+        "vt_seal_pardon-set"
+      ],
+      "owner": "UNOWNED_IN_THIS_WAVE"
+    },
+    {
       "script": "build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs",
       "importers": [
         "wa_vac_cannabis-set",
@@ -582,7 +643,21 @@
   ],
   "scriptsWithheldFromLanes": [
     {
-      "lane": "PF13",
+      "lane": "PF09",
+      "withheld": [
+        {
+          "script": "scripts/build-census-v1-vt_seal_misdemeanor-set.mjs",
+          "importedByFamiliesOutsideThisLane": [
+            "vt_seal_18_to_21-set",
+            "vt_seal_dui-set",
+            "vt_seal_felony-set",
+            "vt_seal_pardon-set"
+          ]
+        }
+      ]
+    },
+    {
+      "lane": "PF14",
       "withheld": [
         {
           "script": "scripts/build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs",

@@ -39,7 +39,9 @@ Turn a descriptive label into a document identity: exact form number, official p
 
 the issuing court or agency that publishes the document
 
-**29 obligations · 11 families released if all clear · hosts: TX**
+**29 obligations · 11 families this lane WOULD release if every one of them resolves · hosts: TX**
+
+> Prospective. Nothing below is promoted custody yet, and this number is not a count of families you can build today.
 
 > This environment refuses outbound egress to court and agency hosts. Identity and inventory work runs here; anything needing a fetch is dispatched through the acquisition workflow, never attempted locally and never faked.
 
@@ -49,7 +51,7 @@ the issuing court or agency that publishes the document
 
 **undefined**
 
-### Families this lane releases
+### Families this lane would release
 
 `rcap-tx-custom-pleading`, `tx_exp_acquittal-set`, `tx_nd_automatic_misdemeanor_deferred-set`, `tx_nd_conviction_no_supervision-set`, `tx_nd_deferred_other-set`, `tx_nd_dwi_conviction-set`, `tx_nd_dwi_deferred-set`, `tx_nd_dwi_probation-set`, `tx_nd_probation_misdemeanor-set`, `tx_nd_veterans_court-set`, `tx_nd_veterans_reemployment-set`
 

@@ -13,7 +13,7 @@
     "data/rcap-grade-a/launch-control/CATEGORY_B_INTEGRATION_STATUS.json": "cf15ce284dde2fbd2ce4525e1a797a9cbced9829a612bbc14ccc0cdf113748ea",
     "data/rcap-grade-a/launch-control/COUNSEL_DETERMINATION_DELTA.json": "4cc057eb6ad0b435d154bfaa183785f75d3fbfc7f051958183b65bc38ae86db4",
     "data/rcap-grade-a/route-obligation-census-v1/legal-review-queue-v2.json": "af2176e82365396865a3405492b9d74d84237d0e78a921cd9251db90a075240e",
-    "data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json": "e4b0eb4c9bb945009527401acd8968d472bd170b838774cec110abd66ac6c041",
+    "data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json": "d04404372b8339b552573f87874a2a31ffd5ab87af838ef86c7269b896310082",
     "data/rcap-grade-a/launch-control/C11_STOP_CLASSIFICATION.json": "704f9483215b27314209f75b194784cad3cad437add5c21240dc8d4645020d5b",
     "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "37bd985ee3dac1cb8428cf2dec877c258245b12489698eac31b2524da319ce1f",
     "data/rcap-grade-a/launch-control/S2_CONTINUATION.json": "88e88084418056466a7f7986c09661a56bee0e022f69fea86a3474c301526396",
@@ -25142,8 +25142,8 @@
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-vt_seal_18_to_21-set.mjs",
-      "buildScriptExists": false,
-      "sharedBuildHost": null,
+      "buildScriptExists": true,
+      "sharedBuildHost": "build-census-v1-vt_seal_misdemeanor-set.mjs",
       "directory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill",
       "ownedPaths": [
         "data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill/**",
@@ -25226,8 +25226,8 @@
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-vt_seal_dui-set.mjs",
-      "buildScriptExists": false,
-      "sharedBuildHost": null,
+      "buildScriptExists": true,
+      "sharedBuildHost": "build-census-v1-vt_seal_misdemeanor-set.mjs",
       "directory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-dui-set--official-pdf-fill",
       "ownedPaths": [
         "data/rcap-all50/overlays/census-v1/vt/vt-seal-dui-set--official-pdf-fill/**",
@@ -25310,8 +25310,8 @@
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-vt_seal_felony-set.mjs",
-      "buildScriptExists": false,
-      "sharedBuildHost": null,
+      "buildScriptExists": true,
+      "sharedBuildHost": "build-census-v1-vt_seal_misdemeanor-set.mjs",
       "directory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-felony-set--official-pdf-fill",
       "ownedPaths": [
         "data/rcap-all50/overlays/census-v1/vt/vt-seal-felony-set--official-pdf-fill/**",
@@ -25383,8 +25383,8 @@
       },
       "legalInputStatus": "SETTLED",
       "routeMappingStatus": "BOUND",
-      "artifactStatus": "NOT_RENDERED",
-      "completenessStatus": "NOT_BUILT",
+      "artifactStatus": "RENDERED",
+      "completenessStatus": "NOT_AUDITED",
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
@@ -25394,7 +25394,7 @@
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-vt_seal_misdemeanor-set.mjs",
-      "buildScriptExists": false,
+      "buildScriptExists": true,
       "sharedBuildHost": null,
       "directory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-misdemeanor-set--official-pdf-fill",
       "ownedPaths": [
@@ -25402,8 +25402,13 @@
         "scripts/build-census-v1-vt_seal_misdemeanor-set.mjs"
       ],
       "prohibitedPaths": [],
-      "importedBy": [],
-      "exclusiveScript": true
+      "importedBy": [
+        "vt_seal_18_to_21-set",
+        "vt_seal_dui-set",
+        "vt_seal_felony-set",
+        "vt_seal_pardon-set"
+      ],
+      "exclusiveScript": false
     },
     {
       "familyId": "vt_seal_nonconviction-set",
@@ -25563,8 +25568,8 @@
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-vt_seal_pardon-set.mjs",
-      "buildScriptExists": false,
-      "sharedBuildHost": null,
+      "buildScriptExists": true,
+      "sharedBuildHost": "build-census-v1-vt_seal_misdemeanor-set.mjs",
       "directory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill",
       "ownedPaths": [
         "data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill/**",
@@ -27557,13 +27562,19 @@
     }
   ],
   "totals": {
-    "lanes": 44,
+    "lanes": 48,
     "builders": 16,
-    "verifiers": 8,
+    "verifiers": 12,
     "sourceLanes": 16,
     "repairLanes": 4,
     "familiesAssignedToBuilders": 47,
     "sourceObligationsAssigned": 449,
+    "actualPromotedAndReleased": 47,
+    "actualPromotedAndReleasedMeaning": "families whose every source is held, indexed and hash-matched now — buildable today",
+    "currentlyPromotionReady": 3,
+    "currentlyPromotionReadyMeaning": "families whose only remaining obligations are promotions — the bytes exist and the custody record does not",
+    "prospectiveReleasesAcrossSourceLanes": 256,
+    "prospectiveReleasesMeaning": "families the conveyor would release if every obligation in it resolved. A forecast, not an achievement.",
     "commercialRoutesOpened": 0,
     "productionTouched": false
   },

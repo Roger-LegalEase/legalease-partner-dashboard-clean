@@ -39,7 +39,9 @@ Reconcile a named form number or pinned content hash against the private corpus 
 
 the private corpus and the committed inventory, read only — nothing is fetched here
 
-**46 obligations · 19 families released if all clear · hosts: CA, FL, IN, KY, MA, ME, MN, NC**
+**46 obligations · 19 families this lane WOULD release if every one of them resolves · hosts: CA, FL, IN, KY, MA, ME, MN, NC**
+
+> Prospective. Nothing below is promoted custody yet, and this number is not a count of families you can build today.
 
 > This environment refuses outbound egress to court and agency hosts. Identity and inventory work runs here; anything needing a fetch is dispatched through the acquisition workflow, never attempted locally and never faked.
 
@@ -49,7 +51,7 @@ the private corpus and the committed inventory, read only — nothing is fetched
 
 **undefined**
 
-### Families this lane releases
+### Families this lane would release
 
 `ca-diversion-seal-set`, `composed-treatment:nc_146_dismissal_petition`, `fl-trafficking-set`, `ky_expungement_certification-set`, `ky_nonconviction_expungement-set`, `ky_protective_order_record_expungement-set`, `ma-seal-court-set`, `me-seal-gen-set`, `me-seal-survivor-set`, `mn_petition_15218-set`, `mn_petition_609a02_subd3-set`, `mn_petition_juvenile_as_adult-set`, `nc_145_5_felony-set`, `nc_145_5_misdemeanor-set`, `nc_145_8a_youthful-set`, `nc_146_acquittal_petition-set`, `nc_146_dismissal_petition-set`, `nc_auto_146_a4_agency_followup-set`, `official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b`
 

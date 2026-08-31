@@ -62,10 +62,17 @@ const familyById = new Map(master.families.map((f) => [f.familyId, f]));
 const acquireText = fs.readFileSync(path.join(ROOT, ACQUIRE_SCRIPT), "utf8");
 const allowBlock = /const ALLOWED_HOST_SUFFIXES = \[([\s\S]*?)\];/.exec(acquireText);
 const refuseBlock = /const REFUSED_HOSTS = new Set\(\[([\s\S]*?)\]\);/.exec(acquireText);
-if (!allowBlock || !refuseBlock) { console.error("cannot read the host allowlist from the acquisition script"); process.exit(1); }
+const exactBlock = /const ALLOWED_EXACT_HOSTS = new Map\(\[([\s\S]*?)\n\]\);/.exec(acquireText);
+if (!allowBlock || !refuseBlock || !exactBlock) { console.error("cannot read the host policy from the acquisition script"); process.exit(1); }
 const ALLOWED_HOST_SUFFIXES = [...allowBlock[1].matchAll(/"([^"]+)"/g)].map((m) => m[1]);
 const REFUSED_HOSTS = new Set([...refuseBlock[1].matchAll(/"([^"]+)"/g)].map((m) => m[1]));
-const hostAllowed = (host) => ALLOWED_HOST_SUFFIXES.some((s) => host === s.replace(/^\./, "") || host.endsWith(s));
+/* Exact hostnames, allowed one at a time. Read from the same authority, and
+ * deliberately kept apart from the suffix list: the Illinois judiciary's
+ * storage host is one hostname, and its parent suffix belongs to every tenant
+ * of that service. */
+const ALLOWED_EXACT_HOSTS = new Set([...exactBlock[1].matchAll(/\["([^"]+)", \{/g)].map((m) => m[1]));
+const hostAllowed = (host) => ALLOWED_EXACT_HOSTS.has(host)
+  || ALLOWED_HOST_SUFFIXES.some((s) => host === s.replace(/^\./, "") || host.endsWith(s));
 
 /* ---- the sixteen lanes, read from the dispatch that owns them -------------- */
 const OPERATIONS = [
@@ -188,6 +195,10 @@ for (const r of urlRecords) {
   if (!r.formNumber && !r.officialTitle) { refuse("neither a form number nor an official title"); continue; }
   if (seenUrl.has(r.officialUrl)) { refuse("duplicate URL"); continue; }
   if (seenSourceId.has(r.sourceId)) { refuse("duplicate source id"); continue; }
+  if (ALLOWED_EXACT_HOSTS.has(host) && !r.expectedSha256) {
+    refuse(`${host} is allowed as an exact hostname only with an expected SHA-256; the address alone does not identify the document`);
+    continue;
+  }
   seenUrl.add(r.officialUrl);
   seenSourceId.add(r.sourceId);
   manifestEntries.push({
@@ -219,6 +230,8 @@ const manifest = {
   consumedBy: BATCH_WORKFLOW,
   hostAllowlistAuthority: ACQUIRE_SCRIPT,
   allowedHostSuffixes: ALLOWED_HOST_SUFFIXES,
+  allowedExactHosts: [...ALLOWED_EXACT_HOSTS].sort(),
+  exactHostRule: "An exact host is matched by full equality and never by suffix. ilcourtsaudio.blob.core.windows.net is allowed; *.blob.core.windows.net is not, because that suffix belongs to every tenant of the service. An entry on this list requires official judiciary provenance, is restricted to its own jurisdiction, and requires an exact SHA-256 at dispatch.",
   refusedHosts: [...REFUSED_HOSTS].sort(),
   rules: [
     "HTTPS only.",

@@ -39,7 +39,9 @@ Reconcile a named form number or pinned content hash against the private corpus 
 
 the private corpus and the committed inventory, read only — nothing is fetched here
 
-**46 obligations · 15 families released if all clear · hosts: AR, DE, HI, MT, NE, NM, UT**
+**46 obligations · 15 families this lane WOULD release if every one of them resolves · hosts: AR, DE, HI, MT, NE, NM, UT**
+
+> Prospective. Nothing below is promoted custody yet, and this number is not a count of families you can build today.
 
 > This environment refuses outbound egress to court and agency hosts. Identity and inventory work runs here; anything needing a fetch is dispatched through the acquisition workflow, never attempted locally and never faked.
 
@@ -49,7 +51,7 @@ the private corpus and the committed inventory, read only — nothing is fetched
 
 **undefined**
 
-### Families this lane releases
+### Families this lane would release
 
 `ar-act531-set`, `de_discretionary_family_court-set`, `de_discretionary_superior_court-set`, `de_pardon_expungement-set`, `hi_712_1200_deferred_expungement-set`, `hi_dag_danc_expungement-set`, `hi_nonconviction_expungement-set`, `ne-seal-pardoned-set`, `ne-seal-pre2017-set`, `nm_conviction-set`, `nm_identity_theft-set`, `nm_release_without_conviction-set`, `rcap-hi-custom-pleading`, `ut_pet_cannabis-set`, `ut_pet_special_certificate-set`
 

@@ -67,6 +67,30 @@ const ALLOWED_HOST_SUFFIXES = [
   ".uscourts.gov"
 ];
 
+/*
+ * Exact hosts, allowed one hostname at a time and never by suffix.
+ *
+ * The Illinois judiciary publishes some of its own documents from a storage
+ * bucket rather than from a .gov name. The document is official; the HOST is
+ * not a government name, and `.blob.core.windows.net` is a shared storage
+ * suffix anyone in the world can obtain a subdomain of. Allowing the suffix
+ * would allow every tenant on that service.
+ *
+ * So this is an exact-hostname list. A host here is matched by full equality,
+ * it carries the jurisdictions it is allowed to serve, and it requires an
+ * expected SHA-256 at dispatch: a bucket URL can be repointed without any
+ * visible change to the address, and the hash is what makes the substitution
+ * detectable.
+ */
+const ALLOWED_EXACT_HOSTS = new Map([
+  ["ilcourtsaudio.blob.core.windows.net", {
+    provenance: "Illinois judiciary — documents published by the Illinois Courts from their own storage host",
+    jurisdictions: new Set(["IL"]),
+    requiresExpectedSha256: true,
+    why: "the host is not a government name, so the document's identity rests on the hash rather than on the address"
+  }]
+]);
+
 // Hosts that are government-adjacent but not first-party publishers. Named
 // explicitly so a reviewer sees they were considered and refused.
 const REFUSED_HOSTS = new Set([
@@ -114,8 +138,16 @@ if (url.protocol !== "https:") fail(`${url.protocol} is not https`);
 
 const host = url.hostname.toLowerCase();
 if (REFUSED_HOSTS.has(host)) fail(`${host} is a commercial form site, not the issuing body`);
-if (!ALLOWED_HOST_SUFFIXES.some((suffix) => host === suffix.replace(/^\./, "") || host.endsWith(suffix))) {
-  fail(`${host} is not an allowlisted official government host; extend ALLOWED_HOST_SUFFIXES in a reviewed commit if it is one`);
+const exactHost = ALLOWED_EXACT_HOSTS.get(host) ?? null;
+if (exactHost) {
+  if (!exactHost.jurisdictions.has(jurisdiction)) {
+    fail(`${host} is allowed only for ${[...exactHost.jurisdictions].join(", ")} and this dispatch is ${jurisdiction}`);
+  }
+  if (exactHost.requiresExpectedSha256 && !/^[0-9a-f]{64}$/.test(String(expectedSha256 ?? ""))) {
+    fail(`${host} requires an expected SHA-256 at dispatch: ${exactHost.why}`);
+  }
+} else if (!ALLOWED_HOST_SUFFIXES.some((suffix) => host === suffix.replace(/^\./, "") || host.endsWith(suffix))) {
+  fail(`${host} is not an allowlisted official government host; extend ALLOWED_HOST_SUFFIXES or ALLOWED_EXACT_HOSTS in a reviewed commit if it is one`);
 }
 
 const retrievedAt = new Date().toISOString();
@@ -133,8 +165,15 @@ const finalUrl = response.url;
 const finalHost = new URL(finalUrl).hostname.toLowerCase();
 // A redirect off the allowlist is the interesting case: it means the publisher
 // moved the form somewhere this acquisition is not entitled to trust.
-if (!ALLOWED_HOST_SUFFIXES.some((suffix) => finalHost === suffix.replace(/^\./, "") || finalHost.endsWith(suffix))) {
+if (!ALLOWED_EXACT_HOSTS.has(finalHost)
+  && !ALLOWED_HOST_SUFFIXES.some((suffix) => finalHost === suffix.replace(/^\./, "") || finalHost.endsWith(suffix))) {
   fail(`the request redirected to ${finalHost}, which is not an allowlisted official host`);
+}
+// An exact host may only redirect to itself. It was allowed as one hostname,
+// and a redirect from it to another allowlisted host would launder the
+// exception into the suffix list it was written to avoid.
+if (exactHost && finalHost !== host) {
+  fail(`${host} is allowed as an exact hostname and redirected to ${finalHost}`);
 }
 if (!response.ok) fail(`${finalUrl} answered HTTP ${response.status}`);
 
@@ -144,6 +183,12 @@ if (bytes.length === 0) fail("the response body is empty");
 const contentType = response.headers.get("content-type") ?? null;
 const declaredLength = response.headers.get("content-length");
 const sha256 = crypto.createHash("sha256").update(bytes).digest("hex");
+// On an exact-hostname allowance the hash is the identity. A bucket URL can be
+// repointed with no visible change to the address, so a mismatch there is a
+// refusal rather than a recorded observation.
+if (exactHost && expectedSha256 && expectedSha256 !== sha256) {
+  fail(`${host} is allowed as an exact hostname on the condition that the bytes match: expected ${expectedSha256}, retrieved ${sha256}`);
+}
 
 // Read from the bytes, not the headers: a server that mislabels a PDF as
 // text/html is common, and an HTML error page served with a 200 is the failure

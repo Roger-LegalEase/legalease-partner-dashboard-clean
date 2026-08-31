@@ -38,15 +38,29 @@ const PREFLIGHT = "scripts/verify-packet-build-environment.mjs";
 /* The minimum ancestor every lane proves it contains. */
 const MINIMUM_CAPTAIN_SHA = "72f99073c42bd28e3469efe316378b37601717c7";
 
-const PF_LANES = 16;
 /* Micro-batch: a lane returns work in hours, not at the end of a wave. Five is
  * the ceiling and two to four is the shape; a shared-host lane may exceed it
  * only because its machinery makes splitting the families unsound. */
 const PF_MAX_FAMILIES = 5;
 const PF_PREFERRED_MAX = 4;
-const VF_LANES = 8;
+/*
+ * Verification, repair and build capacity are elastic. The thresholds are the
+ * dispatch's own, and they are measured against the live queue rather than
+ * asserted: VERIFY_PENDING here means every family awaiting an independent
+ * reading, which is the pending ones plus the ones a verifier already holds --
+ * a lane roster sized only on the unclaimed half under-provisions exactly when
+ * the queue is deepest.
+ */
+const VF_LANES_BASE = 8;
+const VF_LANES_ELASTIC = 12;
+const FIX_LANES_BASE = 4;
+const FIX_LANES_ELASTIC = 8;
+const PF_LANES_BASE = 16;
+const PF_LANES_ELASTIC = 24;
+const VERIFY_ELASTIC_THRESHOLD = 20;
+const REPAIR_ELASTIC_THRESHOLD = 20;
+const BUILD_ELASTIC_THRESHOLD = 80;
 const SOURCE_LANES = 16;
-const FIX_LANES = 4;
 
 const STATES = [
   "SOURCE_BLOCKED", "SOURCE_READY", "ASSIGNED_TO_BUILD", "BUILD_IN_PROGRESS",
@@ -376,6 +390,39 @@ const sourceBlocked = remaining.filter((f) => f.state === "SOURCE_BLOCKED" && f.
 const legalBlocked = remaining.filter((f) => f.legalInputStatus === "OPEN_LEGAL_INPUT");
 const verifyPending = remaining.filter((f) => f.state === "VERIFY_PENDING");
 const repairRequired = remaining.filter((f) => f.state === "FAIL_REPAIR_REQUIRED");
+
+/*
+ * Elastic capacity, measured rather than asserted.
+ *
+ * The verification queue is every family awaiting an independent reading, and
+ * that is the ones nobody holds PLUS the ones a verifier already has. Sizing
+ * the roster on the unclaimed half alone under-provisions exactly when the
+ * queue is deepest: twelve pending beside ten in flight is twenty-two families
+ * of verification work, not twelve.
+ */
+const verifyingNow = families.filter((f) => f.state === "VERIFYING" || f.activeOwnerLane === "independent-verification");
+const VERIFY_QUEUE = verifyPending.length + verifyingNow.length;
+const REPAIR_QUEUE = repairRequired.length + families.filter((f) => f.state === "FAIL_REPAIR_REQUIRED").length - repairRequired.length;
+const BUILD_QUEUE = sourceReady.length;
+const ELASTICITY = [
+  { id: "verification", rule: `VERIFY_PENDING > ${VERIFY_ELASTIC_THRESHOLD}`, measured: VERIFY_QUEUE,
+    measuredAs: `${verifyPending.length} awaiting a verifier + ${verifyingNow.length} already held by one`,
+    threshold: VERIFY_ELASTIC_THRESHOLD, triggered: VERIFY_QUEUE > VERIFY_ELASTIC_THRESHOLD,
+    lanesWithout: VF_LANES_BASE, lanesWith: VF_LANES_ELASTIC, creates: ["VF09", "VF10", "VF11", "VF12"] },
+  { id: "repair", rule: `FAIL_REPAIR_REQUIRED > ${REPAIR_ELASTIC_THRESHOLD}`, measured: REPAIR_QUEUE,
+    measuredAs: `${repairRequired.length} families returned FAIL_REPAIR_REQUIRED and unclaimed`,
+    threshold: REPAIR_ELASTIC_THRESHOLD, triggered: REPAIR_QUEUE > REPAIR_ELASTIC_THRESHOLD,
+    lanesWithout: FIX_LANES_BASE, lanesWith: FIX_LANES_ELASTIC, creates: ["FIX05", "FIX06", "FIX07", "FIX08"] },
+  { id: "build", rule: `SOURCE_READY > ${BUILD_ELASTIC_THRESHOLD}`, measured: BUILD_QUEUE,
+    measuredAs: `${sourceReady.length} families hold every source they need`,
+    threshold: BUILD_ELASTIC_THRESHOLD, triggered: BUILD_QUEUE > BUILD_ELASTIC_THRESHOLD,
+    lanesWithout: PF_LANES_BASE, lanesWith: PF_LANES_ELASTIC,
+    creates: ["PF17", "PF18", "PF19", "PF20", "PF21", "PF22", "PF23", "PF24"] }
+];
+const laneCount = (id) => { const e = ELASTICITY.find((x) => x.id === id); return e.triggered ? e.lanesWith : e.lanesWithout; };
+const VF_LANES = laneCount("verification");
+const FIX_LANES = laneCount("repair");
+const PF_LANES = laneCount("build");
 
 /* ---------------------------------------------------------------- *
  * Grouping and lane packing
@@ -830,8 +877,15 @@ for (const op of SOURCE_OPERATIONS) {
       items: rows.map((r) => `${r.familyId}::${r.sourceId ?? "NO_DOCUMENT_SOURCE_NAMED"}`),
       boundedBy: op.bounded,
       issuingHosts: hosts,
+      // PROSPECTIVE, not achieved: the families this lane WOULD release if every
+      // one of its obligations resolved. Nothing here is promoted yet.
+      familiesThisLaneWouldRelease: fams.filter((f) => releaseOwner.get(f) === id),
+      familiesThisLaneWouldReleaseCount: fams.filter((f) => releaseOwner.get(f) === id).length,
+      countIsProspective: true,
+      countMeaning: "families this lane would release if all of its obligations resolve. It is not a count of promoted sources and must not be read as one.",
       familiesUnblocked: fams.filter((f) => releaseOwner.get(f) === id),
       familiesUnblockedCount: fams.filter((f) => releaseOwner.get(f) === id).length,
+      familiesUnblockedIsProspectiveAlias: "kept so an existing reader does not silently see zero; it means familiesThisLaneWouldRelease and nothing more",
       familiesAdvancedButNotReleasedHere: fams.filter((f) => releaseOwner.get(f) !== id)
         .map((f) => ({ familyId: f, releasedOnlyWhenAllOf: [...lanesHoldingFamily.get(f)].sort() })),
       splitFamilyRule: "A family whose obligations are split across lanes is released by no single lane. You advance it; the family is released when the last of the named lanes clears its share. Reporting it released alone is a duplicate release and is refused at integration.",
@@ -1014,6 +1068,11 @@ if (blockedInPF.length) problems.push(`${blockedInPF.length} blocked famil(ies) 
 if (!/^[0-9a-f]{40}$/.test(MINIMUM_CAPTAIN_SHA)) problems.push("no real minimum Captain SHA");
 if (git(["merge-base", "--is-ancestor", MINIMUM_CAPTAIN_SHA, "HEAD"]) === null) problems.push("the minimum Captain SHA is not an ancestor of HEAD");
 if (assignments.length !== PF_LANES + VF_LANES + SOURCE_LANES + FIX_LANES) problems.push(`${assignments.length} lanes, expected ${PF_LANES + VF_LANES + SOURCE_LANES + FIX_LANES}`);
+for (const e of ELASTICITY) {
+  const have = assignments.filter((a) => e.creates.includes(a.assignmentId)).length;
+  if (e.triggered && have !== e.creates.length) problems.push(`${e.id} elasticity is triggered at ${e.measured} and only ${have} of ${e.creates.length} extra lane(s) exist`);
+  if (!e.triggered && have !== 0) problems.push(`${e.id} elasticity is not triggered and ${have} extra lane(s) exist anyway`);
+}
 if (problems.length) {
   console.error(`packet factory 24h: ${problems.length} problem(s)`);
   for (const p of problems.slice(0, 12)) console.error(`  - ${p}`);
@@ -1069,6 +1128,27 @@ const masterQueue = {
     builders: PF_LANES, verifiers: VF_LANES, sourceLanes: SOURCE_LANES, repairLanes: FIX_LANES,
     familiesAssignedToBuilders: sourceReady.length,
     sourceObligationsAssigned: sourceRows.length,
+    /*
+     * Two counts that cannot be mistaken for each other.
+     *
+     * actualPromotedAndReleased is the achieved figure: families every one of
+     * whose sources is held, indexed and hash-matched right now, so a builder
+     * can open them today.
+     *
+     * currentlyPromotionReady is the next step, not the achieved one: families
+     * whose remaining obligations all sit in a PROMO lane, meaning the bytes
+     * exist and only the custody record is outstanding.
+     *
+     * Neither is the sum of the source lanes' prospective release counts, and
+     * that sum is deliberately not reported as a total here.
+     */
+    actualPromotedAndReleased: sourceReady.length,
+    actualPromotedAndReleasedMeaning: "families whose every source is held, indexed and hash-matched now — buildable today",
+    currentlyPromotionReady: [...new Set(sourceRows.filter((r) => r.operation === "PROMO").map((r) => r.familyId))]
+      .filter((f) => sourceRows.filter((r) => r.familyId === f).every((r) => r.operation === "PROMO")).length,
+    currentlyPromotionReadyMeaning: "families whose only remaining obligations are promotions — the bytes exist and the custody record does not",
+    prospectiveReleasesAcrossSourceLanes: [...new Set(sourceRows.map((r) => r.familyId))].length,
+    prospectiveReleasesMeaning: "families the conveyor would release if every obligation in it resolved. A forecast, not an achievement.",
     commercialRoutesOpened: 0,
     productionTouched: false
   },
@@ -1208,11 +1288,12 @@ const promptFor = (a) => {
     p.push(`## The ${a.itemCount} famil${a.itemCount === 1 ? "y" : "ies"}`, "", (a.detail ?? a.items.map((f) => ({ familyId: f }))).map((d) => `- \`${d.familyId}\`${d.failingCounters?.length ? ` — failing: ${d.failingCounters.join(", ")}` : ""}`).join("\n"), "");
   } else if (a.itemKind === "sourceObligation") {
     p.push("## What bounds this lane", "", a.boundedBy, "");
-    p.push(`**${a.itemCount} obligations · ${a.familiesUnblockedCount} families released if all clear · hosts: ${a.issuingHosts.join(", ") || "—"}**`, "");
+    p.push(`**${a.itemCount} obligations · ${a.familiesThisLaneWouldReleaseCount} families this lane WOULD release if every one of them resolves · hosts: ${a.issuingHosts.join(", ") || "—"}**`, "");
+    p.push(`> Prospective. Nothing below is promoted custody yet, and this number is not a count of families you can build today.`, "");
     p.push(`> ${a.egressReality}`, "");
     p.push("### Every acquired or promoted source records", "", bullet(a.everyAcquiredSourceRecords), "");
     p.push(`**${a.releaseRule}**`, "");
-    p.push("### Families this lane releases", "", a.familiesUnblocked.map((f) => `\`${f}\``).join(", "), "");
+    p.push("### Families this lane would release", "", a.familiesThisLaneWouldRelease.map((f) => `\`${f}\``).join(", "), "");
   } else if (a.itemKind === "streamingClaim") {
     p.push("## How work reaches you", "", a.seedItemsAreNotTheWholeJob, "");
     p.push(`- **Claim ledger:** \`${a.claimLedger}\``, `- **Rule:** ${a.claimRule}`, `- **Cadence:** ${a.checkpointRule}`, "");

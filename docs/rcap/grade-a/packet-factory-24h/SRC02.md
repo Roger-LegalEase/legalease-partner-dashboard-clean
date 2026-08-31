@@ -39,7 +39,9 @@ Reconcile a named form number or pinned content hash against the private corpus 
 
 the private corpus and the committed inventory, read only — nothing is fetched here
 
-**47 obligations · 32 families released if all clear · hosts: AL, AZ, CO, ID, MD, MO, RI, VA**
+**47 obligations · 32 families this lane WOULD release if every one of them resolves · hosts: AL, AZ, CO, ID, MD, MO, RI, VA**
+
+> Prospective. Nothing below is promoted custody yet, and this number is not a count of families you can build today.
 
 > This environment refuses outbound egress to court and agency hosts. Identity and inventory work runs here; anything needing a fetch is dispatched through the acquisition workflow, never attempted locally and never faked.
 
@@ -49,7 +51,7 @@ the private corpus and the committed inventory, read only — nothing is fetched
 
 **undefined**
 
-### Families this lane releases
+### Families this lane would release
 
 `al-diversion-set`, `al-felony-dwop-set`, `al-felony-nonconviction-90-set`, `al-misd-conviction-set`, `al-misd-dwop-set`, `al-misd-nonconviction-90-set`, `al-pardon-set`, `al-pardoned-felony-set`, `al-trafficking-set`, `az_certificate_second_chance-set`, `az_marijuana_expungement_limited_jurisdiction-set`, `az_record_sealing_conviction-set`, `az_set_aside-set`, `co_municipal_conviction_seal-set`, `co_petition_seal_arrest-set`, `id_clean_slate_shield-set`, `md_10105_early-set`, `md_10105_favorable-set`, `md_10110_conviction-set`, `md_cannabis_petition-set`, `md_pardon_expungement-set`, `mo-575-120-identity-theft-correction-set`, `mo-610-122-arrest-expungement-set`, `mo-610-140-arrest-set`, `mo-610-140-conviction-set`, `mo-art-xiv-marijuana-set`, `ri_decriminalized-set`, `ri_deferred_sentence-set`, `ri_first_offender_felony-set`, `ri_first_offender_misdemeanor-set`, `ri_multiple_misdemeanors-set`, `va_exp_identity_used_by_another-set`
 

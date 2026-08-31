@@ -39,7 +39,9 @@ Take an acquired or reconciled artifact, register its custody, promote it into t
 
 the custody register and the governed corpus index
 
-**7 obligations · 3 families released if all clear · hosts: AR**
+**7 obligations · 3 families this lane WOULD release if every one of them resolves · hosts: AR**
+
+> Prospective. Nothing below is promoted custody yet, and this number is not a count of families you can build today.
 
 > This environment refuses outbound egress to court and agency hosts. Identity and inventory work runs here; anything needing a fetch is dispatched through the acquisition workflow, never attempted locally and never faked.
 
@@ -49,7 +51,7 @@ the custody register and the governed corpus index
 
 **undefined**
 
-### Families this lane releases
+### Families this lane would release
 
 `ar-arrest-seal-set`, `ar-misdemeanor-dwi-seal-set`, `ar-pardon-seal-set`
 

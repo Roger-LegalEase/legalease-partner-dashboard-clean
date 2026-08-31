@@ -27,7 +27,10 @@ const MASTER = `${DIR}/MASTER_QUEUE.json`;
 const ACTIVE = `${DIR}/ACTIVE_ASSIGNMENTS.json`;
 const WASHINGTON = `${DIR}/WASHINGTON_REPAIR.json`;
 const WORKFLOW = ".github/workflows/rcap-official-source-acquisition-batch.yml";
+const PROMPTS_DIR = "docs/rcap/grade-a/packet-factory-24h";
 const PLANNER = "scripts/rcap-plan-source-acquisition-batch.mjs";
+const ACQUIRE = "scripts/rcap-acquire-official-source.mjs";
+const SUMMARY = "scripts/rcap-summarize-source-acquisition-batch.mjs";
 
 const read = (rel) => JSON.parse(fs.readFileSync(path.join(ROOT, rel), "utf8"));
 const results = [];
@@ -44,6 +47,7 @@ function run() {
   const every = [...active.assignments, ...wash.assignments];
   const familyById = new Map(master.families.map((f) => [f.familyId, f]));
   const sourceLanes = every.filter((x) => x.itemKind === "sourceObligation");
+  const verifyLanes = every.filter((x) => x.lane === "independent-verification");
 
   // C1. A source identity is not settled until it names an exact official URL.
   //     DISC may hold unsettled ones; the manifest may not.
@@ -83,9 +87,17 @@ function run() {
     `${mismatched.length} malformed bound hash(es), ${badManifestSha.length} malformed manifest hash(es); stated as a refusal: ${mismatchIsARefusal}`);
 
   // C5. An unofficial mirror is refused, and the allowlist has one authority.
+  // An exact host is an official host too -- it is allowed one hostname at a
+  // time rather than by suffix, and C16 is what holds that narrow.
+  const exactAllowed = new Set(manifest.allowedExactHosts ?? []);
   const badHost = manifest.entries.filter((e) => {
-    try { const u = new URL(e.officialUrl); return u.protocol !== "https:" || !manifest.allowedHostSuffixes.some((s) => u.hostname === s.replace(/^\./, "") || u.hostname.endsWith(s)) || manifest.refusedHosts.includes(u.hostname); }
-    catch { return true; }
+    try {
+      const u = new URL(e.officialUrl);
+      if (u.protocol !== "https:") return true;
+      if (manifest.refusedHosts.includes(u.hostname)) return true;
+      if (exactAllowed.has(u.hostname)) return false;
+      return !manifest.allowedHostSuffixes.some((s) => u.hostname === s.replace(/^\./, "") || u.hostname.endsWith(s));
+    } catch { return true; }
   }).map((e) => e.sourceId);
   const plannerText = fs.readFileSync(path.join(ROOT, PLANNER), "utf8");
   const oneAllowlistAuthority = /ALLOWED_HOST_SUFFIXES = \\\[\(\[\\s\\S\]\*\?\)\\\]/.test(plannerText.replace(/\\/g, "\\\\")) || /rcap-acquire-official-source\.mjs/.test(plannerText);
@@ -206,6 +218,97 @@ function run() {
     opened.length === 0 && grantsNothingStated,
     `${opened.length} document(s) reporting an opened route; the conveyor states it grants nothing: ${grantsNothingStated}`);
 
+  // C16. An exact-host allowance is one hostname, never its suffix.
+  const acquireText = fs.readFileSync(path.join(ROOT, ACQUIRE), "utf8");
+  const exactProblems = [];
+  const exactBlock = /const ALLOWED_EXACT_HOSTS = new Map\(\[([\s\S]*?)\n\]\);/.exec(acquireText);
+  if (!exactBlock) exactProblems.push("the acquisition script declares no exact-host list");
+  const declaredExact = exactBlock ? [...exactBlock[1].matchAll(/\["([^"]+)", \{/g)].map((m) => m[1]) : [];
+  for (const h of declaredExact) {
+    if (h.startsWith("*") || h.startsWith(".")) exactProblems.push(`${h} is a wildcard or a suffix, not an exact hostname`);
+    const entry = new RegExp(`\\["${h.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}", \\{([\\s\\S]*?)\\}\\]`).exec(exactBlock[1]);
+    const body = entry?.[1] ?? "";
+    if (!/jurisdictions:\s*new Set/.test(body)) exactProblems.push(`${h} does not name the jurisdictions it may serve`);
+    if (!/requiresExpectedSha256:\s*true/.test(body)) exactProblems.push(`${h} does not require an expected SHA-256`);
+    if (!/provenance:/.test(body)) exactProblems.push(`${h} does not state its official provenance`);
+  }
+  // The suffix list must not have quietly absorbed the exception.
+  const suffixBlock = /const ALLOWED_HOST_SUFFIXES = \[([\s\S]*?)\];/.exec(acquireText);
+  const suffixes = suffixBlock ? [...suffixBlock[1].matchAll(/"([^"]+)"/g)].map((m) => m[1]) : [];
+  for (const suf of suffixes) {
+    if (/blob\.core\.windows\.net|amazonaws|azureedge|cloudfront|googleapis/i.test(suf)) {
+      exactProblems.push(`${suf} is a shared hosting suffix in the SUFFIX list, which allows every tenant of that service`);
+    }
+  }
+  // And no manifest entry may ride an exact host without the hash that identifies it.
+  const exactSet = new Set(declaredExact);
+  for (const e of manifest.entries) {
+    let host = null;
+    try { host = new URL(e.officialUrl).hostname.toLowerCase(); } catch { /* C5 reports this */ }
+    if (host && exactSet.has(host) && !/^[0-9a-f]{64}$/.test(String(e.expectedSha256 ?? ""))) {
+      exactProblems.push(`${e.sourceId} is on exact host ${host} with no expected SHA-256`);
+    }
+  }
+  check("C16", "an exact-host allowance is one hostname with provenance, a jurisdiction and a required hash — never a suffix",
+    exactProblems.length === 0 && declaredExact.length > 0,
+    `${declaredExact.length} exact host(s): ${declaredExact.join(", ")}; ${exactProblems.length} problem(s): ${exactProblems.slice(0, 2).join(" | ")}`);
+
+  // C17. A forecast may not be reported as an achievement.
+  const countProblems = [];
+  const t = master.totals ?? {};
+  if (typeof t.actualPromotedAndReleased !== "number") countProblems.push("no actualPromotedAndReleased count");
+  if (typeof t.currentlyPromotionReady !== "number") countProblems.push("no currentlyPromotionReady count");
+  if (typeof t.prospectiveReleasesAcrossSourceLanes !== "number") countProblems.push("no prospective count");
+  const reallyReady = master.families.filter((f) => f.state === "SOURCE_READY" && !f.activeOwner).length;
+  if (t.actualPromotedAndReleased !== reallyReady) countProblems.push(`actualPromotedAndReleased says ${t.actualPromotedAndReleased} and ${reallyReady} families are actually source-ready`);
+  if (typeof t.prospectiveReleasesAcrossSourceLanes === "number" && t.prospectiveReleasesAcrossSourceLanes === t.actualPromotedAndReleased && reallyReady > 0) {
+    countProblems.push("the forecast and the achieved figure are the same number, which is how one gets read as the other");
+  }
+  for (const x of sourceLanes) {
+    if (x.assignmentId.startsWith("WAR")) continue;
+    if (x.countIsProspective !== true) countProblems.push(`${x.assignmentId} does not mark its release count prospective`);
+    if (!/not a count of promoted sources/i.test(String(x.countMeaning ?? ""))) countProblems.push(`${x.assignmentId} does not say what its count is not`);
+  }
+  check("C17", "a prospective release count cannot be read as families already promoted",
+    countProblems.length === 0,
+    `actual ${t.actualPromotedAndReleased}, promotion-ready ${t.currentlyPromotionReady}, forecast ${t.prospectiveReleasesAcrossSourceLanes}; ${countProblems.length} problem(s): ${countProblems.slice(0, 2).join(" | ")}`);
+
+  // C18. The batch must report a result even when it fails.
+  const summaryText = fs.existsSync(path.join(ROOT, SUMMARY)) ? fs.readFileSync(path.join(ROOT, SUMMARY), "utf8") : "";
+  const summaryProblems = [];
+  if (!summaryText) summaryProblems.push("no summary script");
+  if (!/SOURCE_ACQUISITION_BATCH_RESULT\.json/.test(summaryText)) summaryProblems.push("the summary writes no batch result file");
+  for (const verdict of ["COMPLETE", "PARTIAL", "REFUSED"]) {
+    if (!new RegExp(`"${verdict}"`).test(summaryText)) summaryProblems.push(`the summary never produces ${verdict}`);
+  }
+  if (!/needs:\s*\[plan, acquire\]/.test(wf)) summaryProblems.push("the summary job does not wait for the acquisitions");
+  if (!/if:\s*always\(\)/.test(wf)) summaryProblems.push("the summary job does not run on failure, so a wholly failed batch would report nothing");
+  if (!/rcap-summarize-source-acquisition-batch\.mjs/.test(wf)) summaryProblems.push("the workflow does not invoke the summary");
+  check("C18", "the batch reports COMPLETE, PARTIAL or REFUSED, and reports it even when every job fails",
+    summaryProblems.length === 0,
+    `${summaryProblems.length} problem(s): ${summaryProblems.slice(0, 2).join(" | ")}`);
+
+  // C19. Elastic capacity that is triggered must exist, not merely be recorded.
+  const elasticProblems = [];
+  for (const e of ci.elasticCapacity?.thresholds ?? []) {
+    const present = e.creates.filter((id) => active.assignments.some((x) => x.assignmentId === id));
+    if (e.triggered && present.length !== e.creates.length) {
+      elasticProblems.push(`${e.when} is triggered at ${e.measured} and only ${present.length}/${e.creates.length} lane(s) exist`);
+    }
+    if (!e.triggered && present.length > 0) {
+      elasticProblems.push(`${e.when} is not triggered and ${present.length} lane(s) exist anyway`);
+    }
+  }
+  for (const v of verifyLanes) {
+    if (!active.assignments.includes(v)) continue;
+    if (v.launchNow === true && !/^[0-9a-f]{7,40}$/.test(String(v.verifiesCommit ?? ""))) elasticProblems.push(`${v.assignmentId} is launchable and names no packet commit`);
+    if (!(v.ownedPaths ?? []).length || !(v.prohibitedPaths ?? []).length) elasticProblems.push(`${v.assignmentId} does not state both owned and prohibited paths`);
+    if (!fs.existsSync(path.join(ROOT, PROMPTS_DIR, `${v.assignmentId}.md`))) elasticProblems.push(`${v.assignmentId} has no prompt`);
+  }
+  check("C19", "capacity the queue triggers is materialized, with launch gates and paths",
+    elasticProblems.length === 0,
+    `${(ci.elasticCapacity?.thresholds ?? []).filter((e) => e.triggered).length} trigger(s) firing, ${verifyLanes.length} verifier(s); ${elasticProblems.length} problem(s): ${elasticProblems.slice(0, 2).join(" | ")}`);
+
   // The shape the instruction asked for, so a rename cannot pass silently.
   check("C14", "sixteen source lanes: six DISC, four SRC, three ACQ, three PROMO",
     conveyor.totals.sourceLanes === 16 && conveyor.totals.disc === 6 && conveyor.totals.src === 4
@@ -242,7 +345,8 @@ if (MUTATIONS) {
     conveyor: path.join(ROOT, CONVEYOR), manifest: path.join(ROOT, MANIFEST),
     ci: path.join(ROOT, CI_STATE), master: path.join(ROOT, MASTER),
     active: path.join(ROOT, ACTIVE), workflow: path.join(ROOT, WORKFLOW),
-    planner: path.join(ROOT, PLANNER)
+    planner: path.join(ROOT, PLANNER), acquire: path.join(ROOT, ACQUIRE),
+    summary: path.join(ROOT, SUMMARY)
   };
   const originals = Object.fromEntries(Object.entries(targets).map(([k, p]) => [k, fs.readFileSync(p)]));
   const firstEntry = (j) => j.entries[0];
@@ -293,6 +397,17 @@ if (MUTATIONS) {
     { on: "ci", id: "C13", name: "a document reporting an opened commercial route is caught", mutate: (j) => { j.commercialRoutesOpened = 1; return j; } },
     { on: "conveyor", id: "C14", name: "a fifth SRC lane is caught", mutate: (j) => { j.totals.src = 5; return j; } },
     { on: "active", id: "C15", name: "a retired PF lane is caught", mutate: (j) => { j.assignments = j.assignments.filter((x) => x.assignmentId !== "PF16"); return j; } },
+    { on: "acquire", id: "C16", name: "widening the exact host to its shared suffix is caught", mutateText: (t) => t.replace('  ".uscourts.gov"', '  ".uscourts.gov",\n  ".blob.core.windows.net"') },
+    { on: "acquire", id: "C16", name: "an exact host that stops requiring a hash is caught", mutateText: (t) => t.replace("requiresExpectedSha256: true", "requiresExpectedSha256: false") },
+    { on: "acquire", id: "C16", name: "an exact host with no stated jurisdiction is caught", mutateText: (t) => t.replace(/jurisdictions: new Set\(\["IL"\]\),\n/, "") },
+    { on: "manifest", id: "C16", name: "an exact-host entry with no expected hash is caught", mutate: (j) => { const e = j.entries.find((x) => (j.allowedExactHosts ?? []).includes(x.host)); if (!e) throw new Error("no manifest entry rides an exact host; this mutation has no subject"); e.expectedSha256 = null; return j; } },
+    { on: "master", id: "C17", name: "reporting the forecast as the achieved figure is caught", mutate: (j) => { j.totals.actualPromotedAndReleased = j.totals.prospectiveReleasesAcrossSourceLanes; return j; } },
+    { on: "master", id: "C17", name: "dropping the achieved count is caught", mutate: (j) => { delete j.totals.actualPromotedAndReleased; return j; } },
+    { on: "active", id: "C17", name: "a source lane that stops marking its count prospective is caught", mutate: (j) => { const x = j.assignments.find((y) => y.itemKind === "sourceObligation"); x.countIsProspective = false; return j; } },
+    { on: "summary", id: "C18", name: "a summary that cannot report PARTIAL is caught", mutateText: (t) => t.replace(/"PARTIAL"/g, '"OK"') },
+    { on: "workflow", id: "C18", name: "a summary job that skips when the batch fails is caught", mutateText: (t) => t.replace("    if: always()", "    if: success()") },
+    { on: "ci", id: "C19", name: "a triggered threshold whose lanes do not exist is caught", mutate: (j) => { const e = j.elasticCapacity.thresholds.find((x) => !x.triggered); e.triggered = true; return j; } },
+    { on: "active", id: "C19", name: "a materialized verifier without a prompt is caught", mutate: (j) => { j.assignments.find((x) => x.lane === "independent-verification").assignmentId = "VF99"; return j; } },
     /* Positive control. A refusal that fires on an untouched dispatch would
      * make every mutation above meaningless, so one case changes something
      * real and irrelevant and requires the checks to still pass. */

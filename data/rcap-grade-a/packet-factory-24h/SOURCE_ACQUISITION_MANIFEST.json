@@ -11,6 +11,10 @@
     ".courts.state.nh.us",
     ".uscourts.gov"
   ],
+  "allowedExactHosts": [
+    "ilcourtsaudio.blob.core.windows.net"
+  ],
+  "exactHostRule": "An exact host is matched by full equality and never by suffix. ilcourtsaudio.blob.core.windows.net is allowed; *.blob.core.windows.net is not, because that suffix belongs to every tenant of the service. An entry on this list requires official judiciary provenance, is restricted to its own jurisdiction, and requires an exact SHA-256 at dispatch.",
   "refusedHosts": [
     "www.docketbird.com",
     "www.formsworkflow.com",
@@ -29,12 +33,12 @@
   "maxParallel": 20,
   "bodiesCommitted": 0,
   "counts": {
-    "entries": 12,
-    "refused": 16,
+    "entries": 20,
+    "refused": 8,
     "urlRecordsRead": 28,
     "sourceObligationsTotal": 449,
-    "obligationsCoveredByARecordedUrl": 15,
-    "obligationsNeedingDiscoveryFirst": 434
+    "obligationsCoveredByARecordedUrl": 31,
+    "obligationsNeedingDiscoveryFirst": 418
   },
   "entries": [
     {
@@ -56,6 +60,102 @@
       "recordedIn": "data/rcap-grade-a/source-acquisition/wave-1/acquired.json"
     },
     {
+      "sourceId": "cxp-additional-cannabis-convictions",
+      "jurisdiction": "IL",
+      "formNumber": "EXC-AA 4706.2",
+      "officialTitle": "Additional Cannabis Convictions",
+      "issuingAuthority": "Supreme Court of Illinois, Administrative Office of the Illinois Courts",
+      "officialUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/85296a2c-ee02-41c9-b962-6fb1f797dc8e/CXP%20Additional%20Cannabis%20Convictions.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": "32b1ef344909ff9a38b816f0235f261678c57abaebe9858aec12b70094e55969",
+      "host": "ilcourtsaudio.blob.core.windows.net",
+      "commitBody": false,
+      "obligationKeys": [
+        "il-cannabis-vacate-set::The Illinois standardised cannabis-expungement form: Additional Cannabis Convictions."
+      ],
+      "recordedIn": "data/rcap-grade-a/source-acquisition/wave-1/acquired.json"
+    },
+    {
+      "sourceId": "cxp-additional-notice-of-court-date",
+      "jurisdiction": "IL",
+      "formNumber": "EXC-AM 4705.2",
+      "officialTitle": "Additional Notice of Court Date for Motion to Vacate & Expunge Eligible Cannabis Convictions",
+      "issuingAuthority": "Supreme Court of Illinois, Administrative Office of the Illinois Courts",
+      "officialUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/62d19ea4-46a8-423b-9e42-b975974fc77b/CXP%20Additional%20Notice%20of%20Court%20Date.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": "4a6dde5541b6531f99a4294e07a28ea85096ea5c982ee76e46cf3e8dd00b0afa",
+      "host": "ilcourtsaudio.blob.core.windows.net",
+      "commitBody": false,
+      "obligationKeys": [
+        "il-cannabis-vacate-set::The Illinois standardised cannabis-expungement form: Additional Notice of Court Date for Motion to Vacate & Expunge Eligible Cannabis Convictions."
+      ],
+      "recordedIn": "data/rcap-grade-a/source-acquisition/wave-1/acquired.json"
+    },
+    {
+      "sourceId": "cxp-getting-started-motion-to-vacate-and-expunge",
+      "jurisdiction": "IL",
+      "formNumber": "EXC-G 4700.2",
+      "officialTitle": "Getting Started Motion to Vacate & Expunge Eligible Cannabis Convictions",
+      "issuingAuthority": "Supreme Court of Illinois, Administrative Office of the Illinois Courts",
+      "officialUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/da1fc04d-1770-4e40-8a5c-527bd52ca7f9/CXP%20Getting%20Started%20Motion%20to%20Vacate%20and%20Expunge.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": "52ce3880f8d813ca7ebebb1654da5a04f4d70dca538868f7094163a7199eb0b2",
+      "host": "ilcourtsaudio.blob.core.windows.net",
+      "commitBody": false,
+      "obligationKeys": [
+        "il-cannabis-vacate-set::The Illinois standardised cannabis-expungement form: Getting Started Motion to Vacate & Expunge Eligible Cannabis Convictions."
+      ],
+      "recordedIn": "data/rcap-grade-a/source-acquisition/wave-1/acquired.json"
+    },
+    {
+      "sourceId": "cxp-motion-to-vacate-and-expunge",
+      "jurisdiction": "IL",
+      "formNumber": "EXC-M 4702.2",
+      "officialTitle": "Motion to Vacate & Expunge Eligible Cannabis Convictions",
+      "issuingAuthority": "Supreme Court of Illinois, Administrative Office of the Illinois Courts",
+      "officialUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/8562a938-0296-4236-9030-3217460e8b5c/CXP%20Motion%20to%20Vacate%20and%20Expunge.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": "728ad50c5db068d3d3a6bc68901c79431e865f8e2eaa94c37c38a086d9815acf",
+      "host": "ilcourtsaudio.blob.core.windows.net",
+      "commitBody": false,
+      "obligationKeys": [
+        "il-cannabis-vacate-set::The Illinois standardised cannabis-expungement form: Motion to Vacate & Expunge Eligible Cannabis Convictions."
+      ],
+      "recordedIn": "data/rcap-grade-a/source-acquisition/wave-1/acquired.json"
+    },
+    {
+      "sourceId": "cxp-notice-of-court-date-for-motion",
+      "jurisdiction": "IL",
+      "formNumber": "EXC-N 4703.2",
+      "officialTitle": "Notice of Court Date for Motion to Vacate & Expunge Eligible Cannabis Convictions",
+      "issuingAuthority": "Supreme Court of Illinois, Administrative Office of the Illinois Courts",
+      "officialUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/a9f72f2b-0bc7-482d-a301-9dc73e64e4b7/CXP%20Notice%20of%20Court%20Date%20for%20Motion.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": "56179412256e2c98b0f535a328801e4cf012ae3d179848c3a1efe7df6377b041",
+      "host": "ilcourtsaudio.blob.core.windows.net",
+      "commitBody": false,
+      "obligationKeys": [
+        "il-cannabis-vacate-set::The Illinois standardised cannabis-expungement form: Notice of Court Date for Motion to Vacate & Expunge Eligible Cannabis Convictions."
+      ],
+      "recordedIn": "data/rcap-grade-a/source-acquisition/wave-1/acquired.json"
+    },
+    {
+      "sourceId": "cxp-order-granting-or-denying-motion",
+      "jurisdiction": "IL",
+      "formNumber": "EXC-O 4704.2",
+      "officialTitle": "Order Granting or Denying Motion to Vacate & Expunge Eligible Cannabis Convictions",
+      "issuingAuthority": "Supreme Court of Illinois, Administrative Office of the Illinois Courts",
+      "officialUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/0c788d57-5951-47d9-9946-dfc36b7d1d50/CXP%20Order%20Granting%20or%20Denying%20Motion.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": "ca0fdef8909a3ef134c562d09a89dcc24de22036c7b8238902443892c3ac77cc",
+      "host": "ilcourtsaudio.blob.core.windows.net",
+      "commitBody": false,
+      "obligationKeys": [
+        "il-cannabis-vacate-set::The Illinois standardised cannabis-expungement form: Order Granting or Denying Motion to Vacate & Expunge Eligible Cannabis Convictions."
+      ],
+      "recordedIn": "data/rcap-grade-a/source-acquisition/wave-1/acquired.json"
+    },
+    {
       "sourceId": "dci-76-and-dci-77-criminal-history-record-check-billing-and-request-forms-fillable-source-",
       "jurisdiction": "IA",
       "formNumber": "DCI-76 / DCI-77",
@@ -69,6 +169,46 @@
       "obligationKeys": [
         "ia-dci77-set::The Iowa criminal history record check request the section 901C.3 route requires.",
         "ia-dci77-set::The billing form that accompanies the DCI-77 request."
+      ],
+      "recordedIn": "data/rcap-grade-a/source-acquisition/wave-1/acquired.json"
+    },
+    {
+      "sourceId": "exp-ad-additional-cases-expungement",
+      "jurisdiction": "IL",
+      "formNumber": "ATJ 2903.5",
+      "officialTitle": "Additional Arrests or Cases for Expungement",
+      "issuingAuthority": "Supreme Court of Illinois, Administrative Office of the Illinois Courts",
+      "officialUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/9cb2130f-056d-4962-a6e7-a592b4f4b4bb/EXP-AD%20Additional%20Cases%20Expungement.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": "36ad55c62b891fb2ede8de8bddaeb023c1acc8cbb62880c426dfcdf289686f00",
+      "host": "ilcourtsaudio.blob.core.windows.net",
+      "commitBody": false,
+      "obligationKeys": [
+        "il-exp-nonconv-set::The EXP-AD continuation sheet for additional expungement cases."
+      ],
+      "recordedIn": "data/rcap-grade-a/source-acquisition/wave-1/acquired.json"
+    },
+    {
+      "sourceId": "exp-ad-case-list-request-to-expunge-seal-records",
+      "jurisdiction": "IL",
+      "formNumber": "ATJ 2902.1",
+      "officialTitle": "Case List for Request to Expunge and/or Seal Criminal Records",
+      "issuingAuthority": "Supreme Court of Illinois, Administrative Office of the Illinois Courts",
+      "officialUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/623b7a47-9164-49c2-a653-d8998100e6bb/EXP-AD%20Case%20List%20Request%20to%20Expunge%20Seal%20Records.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": "b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c",
+      "host": "ilcourtsaudio.blob.core.windows.net",
+      "commitBody": false,
+      "obligationKeys": [
+        "il-exp-nonconv-set::The Illinois EXP-AD case list that accompanies the request to expunge or seal.",
+        "il-exp-pardon-set::The Illinois EXP-AD case list that accompanies the pardon-based request to expunge.",
+        "il-exp-precompletion-set::EXP-AD Case List",
+        "il-exp-qualprob-set::EXP-AD Case List",
+        "il-exp-supervision-set::EXP-AD Case List",
+        "il-seal-2yr-set::EXP-AD Case List",
+        "il-seal-3yr-set::EXP-AD Case List",
+        "il-seal-edu-set::EXP-AD Case List",
+        "il-seal-nonconv-set::EXP-AD Case List"
       ],
       "recordedIn": "data/rcap-grade-a/source-acquisition/wave-1/acquired.json"
     },
@@ -234,54 +374,6 @@
     }
   ],
   "refused": [
-    {
-      "officialUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/85296a2c-ee02-41c9-b962-6fb1f797dc8e/CXP%20Additional%20Cannabis%20Convictions.pdf",
-      "sourceId": "cxp-additional-cannabis-convictions",
-      "reason": "ilcourtsaudio.blob.core.windows.net is not an allowlisted official government host",
-      "recordedIn": "data/rcap-grade-a/source-acquisition/wave-1/acquired.json"
-    },
-    {
-      "officialUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/62d19ea4-46a8-423b-9e42-b975974fc77b/CXP%20Additional%20Notice%20of%20Court%20Date.pdf",
-      "sourceId": "cxp-additional-notice-of-court-date",
-      "reason": "ilcourtsaudio.blob.core.windows.net is not an allowlisted official government host",
-      "recordedIn": "data/rcap-grade-a/source-acquisition/wave-1/acquired.json"
-    },
-    {
-      "officialUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/da1fc04d-1770-4e40-8a5c-527bd52ca7f9/CXP%20Getting%20Started%20Motion%20to%20Vacate%20and%20Expunge.pdf",
-      "sourceId": "cxp-getting-started-motion-to-vacate-and-expunge",
-      "reason": "ilcourtsaudio.blob.core.windows.net is not an allowlisted official government host",
-      "recordedIn": "data/rcap-grade-a/source-acquisition/wave-1/acquired.json"
-    },
-    {
-      "officialUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/8562a938-0296-4236-9030-3217460e8b5c/CXP%20Motion%20to%20Vacate%20and%20Expunge.pdf",
-      "sourceId": "cxp-motion-to-vacate-and-expunge",
-      "reason": "ilcourtsaudio.blob.core.windows.net is not an allowlisted official government host",
-      "recordedIn": "data/rcap-grade-a/source-acquisition/wave-1/acquired.json"
-    },
-    {
-      "officialUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/a9f72f2b-0bc7-482d-a301-9dc73e64e4b7/CXP%20Notice%20of%20Court%20Date%20for%20Motion.pdf",
-      "sourceId": "cxp-notice-of-court-date-for-motion",
-      "reason": "ilcourtsaudio.blob.core.windows.net is not an allowlisted official government host",
-      "recordedIn": "data/rcap-grade-a/source-acquisition/wave-1/acquired.json"
-    },
-    {
-      "officialUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/0c788d57-5951-47d9-9946-dfc36b7d1d50/CXP%20Order%20Granting%20or%20Denying%20Motion.pdf",
-      "sourceId": "cxp-order-granting-or-denying-motion",
-      "reason": "ilcourtsaudio.blob.core.windows.net is not an allowlisted official government host",
-      "recordedIn": "data/rcap-grade-a/source-acquisition/wave-1/acquired.json"
-    },
-    {
-      "officialUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/9cb2130f-056d-4962-a6e7-a592b4f4b4bb/EXP-AD%20Additional%20Cases%20Expungement.pdf",
-      "sourceId": "exp-ad-additional-cases-expungement",
-      "reason": "ilcourtsaudio.blob.core.windows.net is not an allowlisted official government host",
-      "recordedIn": "data/rcap-grade-a/source-acquisition/wave-1/acquired.json"
-    },
-    {
-      "officialUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/623b7a47-9164-49c2-a653-d8998100e6bb/EXP-AD%20Case%20List%20Request%20to%20Expunge%20Seal%20Records.pdf",
-      "sourceId": "exp-ad-case-list-request-to-expunge-seal-records",
-      "reason": "ilcourtsaudio.blob.core.windows.net is not an allowlisted official government host",
-      "recordedIn": "data/rcap-grade-a/source-acquisition/wave-1/acquired.json"
-    },
     {
       "officialUrl": "https://www.mass.gov/lists/sealing-and-expunging-criminal-records-forms",
       "sourceId": "jud-petition-for-expungement",

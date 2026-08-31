@@ -39,7 +39,9 @@ Reconcile a named form number or pinned content hash against the private corpus 
 
 the private corpus and the committed inventory, read only — nothing is fetched here
 
-**47 obligations · 11 families released if all clear · hosts: GA, KS, ND, NH, SC, WV**
+**47 obligations · 11 families this lane WOULD release if every one of them resolves · hosts: GA, KS, ND, NH, SC, WV**
+
+> Prospective. Nothing below is promoted custody yet, and this number is not a count of families you can build today.
 
 > This environment refuses outbound egress to court and agency hosts. Identity and inventory work runs here; anything needing a fetch is dispatched through the acquisition workflow, never attempted locally and never faked.
 
@@ -49,7 +51,7 @@ the private corpus and the committed inventory, read only — nothing is fetched
 
 **undefined**
 
-### Families this lane releases
+### Families this lane would release
 
 `ga-fo-active-pre2026-set`, `ga-fo-discharged-pre2026-set`, `nd-regular-pardon-set`, `nd-summary-marijuana-pardon-set`, `nh_conviction_standard-set`, `nh_conviction_streamlined-set`, `nh_marijuana_annulment-set`, `nh_petition_nonconviction_pre2019-set`, `nh_petition_vacated-set`, `rcap-sc-custom-pleading`, `wv_acc_treatment_job_readiness-set`
 

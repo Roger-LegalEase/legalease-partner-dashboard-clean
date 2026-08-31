@@ -39,7 +39,9 @@ Turn a descriptive label into a document identity: exact form number, official p
 
 the issuing court or agency that publishes the document
 
-**25 obligations · 9 families released if all clear · hosts: DE, ID, LA, UT**
+**25 obligations · 9 families this lane WOULD release if every one of them resolves · hosts: DE, ID, LA, UT**
+
+> Prospective. Nothing below is promoted custody yet, and this number is not a count of families you can build today.
 
 > This environment refuses outbound egress to court and agency hosts. Identity and inventory work runs here; anything needing a fetch is dispatched through the acquisition workflow, never attempted locally and never faked.
 
@@ -49,7 +51,7 @@ the issuing court or agency that publishes the document
 
 **undefined**
 
-### Families this lane releases
+### Families this lane would release
 
 `de_mandatory_expungement-set`, `id_isp_expungement-set`, `la-976-arrest-no-conviction-set`, `la-977-misdemeanor-conviction-set`, `la-977d-marijuana-first-offense-set`, `la-978-felony-conviction-set`, `la-985-1-interim-expungement-set`, `la-985-expungement-by-redaction-set`, `la-987-set-aside-and-dismiss-set`
 

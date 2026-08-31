@@ -39,7 +39,9 @@ Dispatch one exact acquisition per official URL through .github/workflows/rcap-o
 
 one issuing host per lane, so a host that rate-limits blocks only its own lane
 
-**35 obligations · 31 families released if all clear · hosts: AL, DE, GA, KY, MT, NM, NV, OK, OR, PA, RI, WV, WY**
+**35 obligations · 31 families this lane WOULD release if every one of them resolves · hosts: AL, DE, GA, KY, MT, NM, NV, OK, OR, PA, RI, WV, WY**
+
+> Prospective. Nothing below is promoted custody yet, and this number is not a count of families you can build today.
 
 > This environment refuses outbound egress to court and agency hosts. Identity and inventory work runs here; anything needing a fetch is dispatched through the acquisition workflow, never attempted locally and never faked.
 
@@ -49,7 +51,7 @@ one issuing host per lane, so a host that rate-limits blocks only its own lane
 
 **undefined**
 
-### Families this lane releases
+### Families this lane would release
 
 `agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge`, `agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement`, `composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction`, `composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1018_discretionary_petition`, `composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route`, `composed-treatment:obligation:runtime-only:NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247`, `composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief`, `composed-treatment:obligation:runtime-only:OK:juvenile-record-expungement`, `composed-treatment:obligation:runtime-only:PA:path-k-human-trafficking-vacatur-expungement`, `composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement`, `composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708`, `ga-deaddocket-j3-set`, `ga-felony-j1-set`, `ga-fugitive-j5-set`, `ga-jail-k2-set`, `ga-misd-j4-set`, `ga-nonconv-post2013-set`, `ga-pardon-j7-set`, `ga-seal-m-set`, `ga-vacated-j2-set`, `ky_criminal_record_segregation-set`, `nv_repository_removal-set`, `nv_seal_probation_family-set`, `rcap-ga-guidance-implementation`, `rcap-nv-custom-pleading`, `rcap-ok-custom-pleading`, `rcap-or-official-pdf-fill`, `rcap-wv-custom-pleading`, `ri_marijuana-set`, `wv_dui_deferral_expungement-set`, `wy_fel_1502-set`
 

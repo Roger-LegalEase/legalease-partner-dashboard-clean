@@ -39,7 +39,9 @@ Dispatch one exact acquisition per official URL through .github/workflows/rcap-o
 
 one issuing host per lane, so a host that rate-limits blocks only its own lane
 
-**35 obligations · 35 families released if all clear · hosts: AZ, CO, DC, ID, IL, MA, MS, NE, NY, SC, TN, VA, WA**
+**35 obligations · 35 families this lane WOULD release if every one of them resolves · hosts: AZ, CO, DC, ID, IL, MA, MS, NE, NY, SC, TN, VA, WA**
+
+> Prospective. Nothing below is promoted custody yet, and this number is not a count of families you can build today.
 
 > This environment refuses outbound egress to court and agency hosts. Identity and inventory work runs here; anything needing a fetch is dispatched through the acquisition workflow, never attempted locally and never faked.
 
@@ -49,7 +51,7 @@ one issuing host per lane, so a host that rate-limits blocks only its own lane
 
 **undefined**
 
-### Families this lane releases
+### Families this lane would release
 
 `agency-application-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request`, `agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission`, `az_wrongful_arrest_clearance-set`, `census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260`, `composed-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days`, `composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request`, `composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief`, `composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4`, `composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26`, `composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59`, `composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59`, `composed-treatment:sc_17_22_950_summary`, `dc_correct_misattributed_arrest-set`, `dc_innocence_expungement-set`, `dc_seal_conviction-set`, `dc_seal_fugitive-set`, `dc_seal_nonconviction-set`, `dc_yra_set_aside-set`, `id_felony_reduction-set`, `id_set_aside_dismissal-set`, `il-prostitution-j-vacate-set`, `ma-bmc-multi-set`, `ms-diversion-set`, `ms-fel-set`, `ms-misd-1st-set`, `ms-misd-addl-set`, `ms-nonadj-set`, `ms-nonconv-set`, `ne-expunge-le-error-set`, `ne-seal-enforcement-set`, `rcap-ms-custom-pleading`, `rcap-tn-custom-pleading`, `rcap-wa-custom-pleading-clean-tracks`, `va_exp_absolute_pardon-set`, `wa_crop_certificate_of_restoration-set`
 

@@ -39,7 +39,9 @@ Turn a descriptive label into a document identity: exact form number, official p
 
 the issuing court or agency that publishes the document
 
-**24 obligations · 10 families released if all clear · hosts: FL, IA, MT**
+**24 obligations · 10 families this lane WOULD release if every one of them resolves · hosts: FL, IA, MT**
+
+> Prospective. Nothing below is promoted custody yet, and this number is not a count of families you can build today.
 
 > This environment refuses outbound egress to court and agency hosts. Identity and inventory work runs here; anything needing a fetch is dispatched through the acquisition workflow, never attempted locally and never faked.
 
@@ -49,7 +51,7 @@ the issuing court or agency that publishes the document
 
 **undefined**
 
-### Families this lane releases
+### Families this lane would release
 
 `fl-administrative-set`, `fl-early-juvenile-set`, `fl-juvenile-diversion-set`, `fl-self-defense-set`, `ia-12346-set`, `ia-12347-set`, `ia-7251-set`, `ia-901c2-set`, `ia-901c3-set`, `ia-dci77-set`
 

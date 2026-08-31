@@ -39,7 +39,9 @@ Turn a descriptive label into a document identity: exact form number, official p
 
 the issuing court or agency that publishes the document
 
-**25 obligations · 3 families released if all clear · hosts: AK, AL, IN**
+**25 obligations · 3 families this lane WOULD release if every one of them resolves · hosts: AK, AL, IN**
+
+> Prospective. Nothing below is promoted custody yet, and this number is not a count of families you can build today.
 
 > This environment refuses outbound egress to court and agency hosts. Identity and inventory work runs here; anything needing a fetch is dispatched through the acquisition workflow, never attempted locally and never faked.
 
@@ -49,7 +51,7 @@ the issuing court or agency that publishes the document
 
 **undefined**
 
-### Families this lane releases
+### Families this lane would release
 
 `agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record`, `ak-mistaken-identity-set`, `official-form-treatment:obligation:research-decision-route:AL:al-olr`
 

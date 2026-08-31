@@ -5,7 +5,7 @@
   "captainBranch": "claude/legalease-sprint-captain-utucnw",
   "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
   "concurrency": {
-    "lanesCreated": 44,
+    "lanesCreated": 48,
     "rule": "If available Codex concurrency is lower than 32, every assignment is still created and queued. When a task finishes, the next queued task starts immediately.",
     "startOrder": [
       "SRC01-SRC04 and every PF lane holding families start together — the conveyor and the builders are not sequential",
@@ -39,14 +39,13 @@
       ],
       "theDiffIsTheReturn": "Commit locally. Leave the final diff for the Codex Cloud interface. There is no PUSHED line in a cloud return.",
       "returnDirectory": "data/rcap-grade-a/packet-factory-24h/pf01",
-      "mission": "Build 5 packet families to the builder contract, one at a time, checkpointing as you go. A family that stops does not stop the lane.",
+      "mission": "Build 4 packet families to the builder contract, one at a time, checkpointing as you go. A family that stops does not stop the lane.",
       "itemKind": "packetFamily",
-      "itemCount": 5,
+      "itemCount": 4,
       "items": [
         "vt_seal_18_to_21-set",
         "vt_seal_dui-set",
         "vt_seal_felony-set",
-        "vt_seal_misdemeanor-set",
         "vt_seal_pardon-set"
       ],
       "provisionedEmpty": false,
@@ -58,12 +57,11 @@
       ],
       "groupsCarried": [
         {
-          "groupKey": "NO_SHARED_HOST::200-00130+200-00132+600-00228::official_pdf_fill::fee_waiver_application+filing_and_expectation_instructions+petition+stipulation_and_proposed_order",
+          "groupKey": "build-census-v1-vt_seal_misdemeanor-set.mjs::200-00130+200-00132+600-00228::official_pdf_fill::fee_waiver_application+filing_and_expectation_instructions+petition+stipulation_and_proposed_order",
           "families": [
             "vt_seal_18_to_21-set",
             "vt_seal_dui-set",
             "vt_seal_felony-set",
-            "vt_seal_misdemeanor-set",
             "vt_seal_pardon-set"
           ]
         }
@@ -88,7 +86,7 @@
           "routeCount": 1,
           "directory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill",
           "buildScript": "scripts/build-census-v1-vt_seal_18_to_21-set.mjs",
-          "sharedBuildHost": null,
+          "sharedBuildHost": "build-census-v1-vt_seal_misdemeanor-set.mjs",
           "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
           "sourceHashes": []
         },
@@ -111,7 +109,7 @@
           "routeCount": 1,
           "directory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-dui-set--official-pdf-fill",
           "buildScript": "scripts/build-census-v1-vt_seal_dui-set.mjs",
-          "sharedBuildHost": null,
+          "sharedBuildHost": "build-census-v1-vt_seal_misdemeanor-set.mjs",
           "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
           "sourceHashes": []
         },
@@ -134,30 +132,7 @@
           "routeCount": 1,
           "directory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-felony-set--official-pdf-fill",
           "buildScript": "scripts/build-census-v1-vt_seal_felony-set.mjs",
-          "sharedBuildHost": null,
-          "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
-          "sourceHashes": []
-        },
-        {
-          "familyId": "vt_seal_misdemeanor-set",
-          "jurisdiction": "VT",
-          "strategy": "official_pdf_fill",
-          "forms": [
-            "200-00130",
-            "200-00132",
-            "600-00228"
-          ],
-          "components": 3,
-          "instrumentKinds": [
-            "fee_waiver_application",
-            "filing_and_expectation_instructions",
-            "petition",
-            "stipulation_and_proposed_order"
-          ],
-          "routeCount": 1,
-          "directory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-misdemeanor-set--official-pdf-fill",
-          "buildScript": "scripts/build-census-v1-vt_seal_misdemeanor-set.mjs",
-          "sharedBuildHost": null,
+          "sharedBuildHost": "build-census-v1-vt_seal_misdemeanor-set.mjs",
           "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
           "sourceHashes": []
         },
@@ -180,7 +155,7 @@
           "routeCount": 1,
           "directory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill",
           "buildScript": "scripts/build-census-v1-vt_seal_pardon-set.mjs",
-          "sharedBuildHost": null,
+          "sharedBuildHost": "build-census-v1-vt_seal_misdemeanor-set.mjs",
           "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
           "sourceHashes": []
         }
@@ -231,12 +206,10 @@
         "data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill/**",
         "data/rcap-all50/overlays/census-v1/vt/vt-seal-dui-set--official-pdf-fill/**",
         "data/rcap-all50/overlays/census-v1/vt/vt-seal-felony-set--official-pdf-fill/**",
-        "data/rcap-all50/overlays/census-v1/vt/vt-seal-misdemeanor-set--official-pdf-fill/**",
         "data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill/**",
         "scripts/build-census-v1-vt_seal_18_to_21-set.mjs",
         "scripts/build-census-v1-vt_seal_dui-set.mjs",
         "scripts/build-census-v1-vt_seal_felony-set.mjs",
-        "scripts/build-census-v1-vt_seal_misdemeanor-set.mjs",
         "scripts/build-census-v1-vt_seal_pardon-set.mjs"
       ],
       "scriptsNotOwned": [],
@@ -892,7 +865,7 @@
       "items": [
         "az_record_sealing_arrest_no_charges-set",
         "az_record_sealing_dismissal_not_guilty-set",
-        "pa_age70_deceased-set"
+        "or_contempt_setaside-set"
       ],
       "provisionedEmpty": false,
       "refillRule": "When a source lane releases a family, Captain appends it to the emptiest PF lane and the lane starts it without waiting for the rest of the source lane to finish.",
@@ -909,9 +882,9 @@
           ]
         },
         {
-          "groupKey": "NO_SHARED_HOST::PA-RCRIM-P-790-ORDER+PA-RCRIM-P-790-PETITION::official_pdf_fill::certificate_of_service+primary_filing+proposed_order",
+          "groupKey": "NO_SHARED_HOST::OR-OJD-ADULT-SET-ASIDE-PACKET+OR-OSP-SET-ASIDE-CCH::official_pdf_fill::fingerprint_step+objection_and_hearing_instructions+post_order_verification+primary_filing+proposed_order+record_gathering_instructions+service_instructions",
           "families": [
-            "pa_age70_deceased-set"
+            "or_contempt_setaside-set"
           ]
         }
       ],
@@ -983,22 +956,26 @@
           ]
         },
         {
-          "familyId": "pa_age70_deceased-set",
-          "jurisdiction": "PA",
+          "familyId": "or_contempt_setaside-set",
+          "jurisdiction": "OR",
           "strategy": "official_pdf_fill",
           "forms": [
-            "PA-RCRIM-P-790-ORDER",
-            "PA-RCRIM-P-790-PETITION"
+            "OR-OJD-ADULT-SET-ASIDE-PACKET",
+            "OR-OSP-SET-ASIDE-CCH"
           ],
-          "components": 2,
+          "components": 3,
           "instrumentKinds": [
-            "certificate_of_service",
+            "fingerprint_step",
+            "objection_and_hearing_instructions",
+            "post_order_verification",
             "primary_filing",
-            "proposed_order"
+            "proposed_order",
+            "record_gathering_instructions",
+            "service_instructions"
           ],
-          "routeCount": 2,
-          "directory": "data/rcap-all50/overlays/census-v1/pa/pa-age70-deceased-set--official-pdf-fill",
-          "buildScript": "scripts/build-census-v1-pa_age70_deceased-set.mjs",
+          "routeCount": 1,
+          "directory": "data/rcap-all50/overlays/census-v1/or/or-contempt-setaside-set--official-pdf-fill",
+          "buildScript": "scripts/build-census-v1-or_contempt_setaside-set.mjs",
           "sharedBuildHost": null,
           "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
           "sourceHashes": []
@@ -1049,10 +1026,10 @@
         "data/rcap-grade-a/packet-factory-24h/pf04/**",
         "data/rcap-all50/overlays/census-v1/az/az-record-sealing-arrest-no-charges-set--official-pdf-fill/**",
         "data/rcap-all50/overlays/census-v1/az/az-record-sealing-dismissal-not-guilty-set--official-pdf-fill/**",
-        "data/rcap-all50/overlays/census-v1/pa/pa-age70-deceased-set--official-pdf-fill/**",
+        "data/rcap-all50/overlays/census-v1/or/or-contempt-setaside-set--official-pdf-fill/**",
         "scripts/build-census-v1-az_record_sealing_arrest_no_charges-set.mjs",
         "scripts/build-census-v1-az_record_sealing_dismissal_not_guilty-set.mjs",
-        "scripts/build-census-v1-pa_age70_deceased-set.mjs"
+        "scripts/build-census-v1-or_contempt_setaside-set.mjs"
       ],
       "scriptsNotOwned": [],
       "prohibitedPaths": [
@@ -1172,8 +1149,8 @@
       "itemCount": 3,
       "items": [
         "ne-setaside-noncustodial-set",
-        "co_motion_seal_conviction-set",
-        "sc_17_22_950_summary-set"
+        "co_decriminalized_conduct_seal-set",
+        "pa_age70_deceased-set"
       ],
       "provisionedEmpty": false,
       "refillRule": "When a source lane releases a family, Captain appends it to the emptiest PF lane and the lane starts it without waiting for the rest of the source lane to finish.",
@@ -1186,15 +1163,15 @@
           ]
         },
         {
-          "groupKey": "NO_SHARED_HOST::JDF-612+JDF-615::official_pdf_fill::primary_filing+proposed_order+required_filing",
+          "groupKey": "NO_SHARED_HOST::JDF-2371+JDF-2374::official_pdf_fill::primary_filing+proposed_order",
           "families": [
-            "co_motion_seal_conviction-set"
+            "co_decriminalized_conduct_seal-set"
           ]
         },
         {
-          "groupKey": "NO_SHARED_HOST::SCCA-223E::official_pdf_fill::Not fingerprinted+no filing — process guidance",
+          "groupKey": "NO_SHARED_HOST::PA-RCRIM-P-790-ORDER+PA-RCRIM-P-790-PETITION::official_pdf_fill::certificate_of_service+primary_filing+proposed_order",
           "families": [
-            "sc_17_22_950_summary-set"
+            "pa_age70_deceased-set"
           ]
         }
       ],
@@ -1246,41 +1223,42 @@
           ]
         },
         {
-          "familyId": "co_motion_seal_conviction-set",
+          "familyId": "co_decriminalized_conduct_seal-set",
           "jurisdiction": "CO",
           "strategy": "official_pdf_fill",
           "forms": [
-            "JDF-612",
-            "JDF-615"
+            "JDF-2371",
+            "JDF-2374"
           ],
           "components": 2,
           "instrumentKinds": [
             "primary_filing",
-            "proposed_order",
-            "required_filing"
+            "proposed_order"
           ],
           "routeCount": 1,
-          "directory": "data/rcap-all50/overlays/census-v1/co/co-motion-seal-conviction-set--official-pdf-fill",
-          "buildScript": "scripts/build-census-v1-co_motion_seal_conviction-set.mjs",
+          "directory": "data/rcap-all50/overlays/census-v1/co/co-decriminalized-conduct-seal-set--official-pdf-fill",
+          "buildScript": "scripts/build-census-v1-co_decriminalized_conduct_seal-set.mjs",
           "sharedBuildHost": null,
           "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
           "sourceHashes": []
         },
         {
-          "familyId": "sc_17_22_950_summary-set",
-          "jurisdiction": "SC",
+          "familyId": "pa_age70_deceased-set",
+          "jurisdiction": "PA",
           "strategy": "official_pdf_fill",
           "forms": [
-            "SCCA-223E"
+            "PA-RCRIM-P-790-ORDER",
+            "PA-RCRIM-P-790-PETITION"
           ],
-          "components": 1,
+          "components": 2,
           "instrumentKinds": [
-            "Not fingerprinted",
-            "no filing — process guidance"
+            "certificate_of_service",
+            "primary_filing",
+            "proposed_order"
           ],
           "routeCount": 2,
-          "directory": "data/rcap-all50/overlays/census-v1/sc/sc-17-22-950-summary-set--official-pdf-fill",
-          "buildScript": "scripts/build-census-v1-sc_17_22_950_summary-set.mjs",
+          "directory": "data/rcap-all50/overlays/census-v1/pa/pa-age70-deceased-set--official-pdf-fill",
+          "buildScript": "scripts/build-census-v1-pa_age70_deceased-set.mjs",
           "sharedBuildHost": null,
           "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
           "sourceHashes": []
@@ -1330,11 +1308,11 @@
       "ownedPaths": [
         "data/rcap-grade-a/packet-factory-24h/pf05/**",
         "data/rcap-all50/overlays/census-v1/ne/ne-setaside-noncustodial-set--custom-pleading/**",
-        "data/rcap-all50/overlays/census-v1/co/co-motion-seal-conviction-set--official-pdf-fill/**",
-        "data/rcap-all50/overlays/census-v1/sc/sc-17-22-950-summary-set--official-pdf-fill/**",
+        "data/rcap-all50/overlays/census-v1/co/co-decriminalized-conduct-seal-set--official-pdf-fill/**",
+        "data/rcap-all50/overlays/census-v1/pa/pa-age70-deceased-set--official-pdf-fill/**",
         "scripts/build-census-v1-ne-setaside-noncustodial-set.mjs",
-        "scripts/build-census-v1-co_motion_seal_conviction-set.mjs",
-        "scripts/build-census-v1-sc_17_22_950_summary-set.mjs"
+        "scripts/build-census-v1-co_decriminalized_conduct_seal-set.mjs",
+        "scripts/build-census-v1-pa_age70_deceased-set.mjs"
       ],
       "scriptsNotOwned": [],
       "prohibitedPaths": [
@@ -1454,8 +1432,8 @@
       "itemCount": 3,
       "items": [
         "ne-trafficking-setaside-and-seal-set",
-        "co_multiple_conviction_seal-set",
-        "ma-expunge-mj-set"
+        "co_motion_seal_nonconviction-set",
+        "sc_17_22_950_summary-set"
       ],
       "provisionedEmpty": false,
       "refillRule": "When a source lane releases a family, Captain appends it to the emptiest PF lane and the lane starts it without waiting for the rest of the source lane to finish.",
@@ -1468,15 +1446,15 @@
           ]
         },
         {
-          "groupKey": "NO_SHARED_HOST::JDF-641+JDF-642::official_pdf_fill::primary_filing+proposed_order",
+          "groupKey": "NO_SHARED_HOST::JDF-477+JDF-478::official_pdf_fill::primary_filing+proposed_order",
           "families": [
-            "co_multiple_conviction_seal-set"
+            "co_motion_seal_nonconviction-set"
           ]
         },
         {
-          "groupKey": "NO_SHARED_HOST::TC0021::official_pdf_fill::Massachusetts Marijuana Expungement Petition under §§ 100K / 100K¼",
+          "groupKey": "NO_SHARED_HOST::SCCA-223E::official_pdf_fill::Not fingerprinted+no filing — process guidance",
           "families": [
-            "ma-expunge-mj-set"
+            "sc_17_22_950_summary-set"
           ]
         }
       ],
@@ -1508,12 +1486,12 @@
           ]
         },
         {
-          "familyId": "co_multiple_conviction_seal-set",
+          "familyId": "co_motion_seal_nonconviction-set",
           "jurisdiction": "CO",
           "strategy": "official_pdf_fill",
           "forms": [
-            "JDF-641",
-            "JDF-642"
+            "JDF-477",
+            "JDF-478"
           ],
           "components": 2,
           "instrumentKinds": [
@@ -1521,36 +1499,30 @@
             "proposed_order"
           ],
           "routeCount": 1,
-          "directory": "data/rcap-all50/overlays/census-v1/co/co-multiple-conviction-seal-set--official-pdf-fill",
-          "buildScript": "scripts/build-census-v1-co_multiple_conviction_seal-set.mjs",
+          "directory": "data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill",
+          "buildScript": "scripts/build-census-v1-co_motion_seal_nonconviction-set.mjs",
           "sharedBuildHost": null,
           "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
           "sourceHashes": []
         },
         {
-          "familyId": "ma-expunge-mj-set",
-          "jurisdiction": "MA",
+          "familyId": "sc_17_22_950_summary-set",
+          "jurisdiction": "SC",
           "strategy": "official_pdf_fill",
           "forms": [
-            "TC0021"
+            "SCCA-223E"
           ],
           "components": 1,
           "instrumentKinds": [
-            "Massachusetts Marijuana Expungement Petition under §§ 100K / 100K¼"
+            "Not fingerprinted",
+            "no filing — process guidance"
           ],
-          "routeCount": 1,
-          "directory": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-mj-set--official-pdf-fill",
-          "buildScript": "scripts/build-census-v1-ma-expunge-mj-set.mjs",
+          "routeCount": 2,
+          "directory": "data/rcap-all50/overlays/census-v1/sc/sc-17-22-950-summary-set--official-pdf-fill",
+          "buildScript": "scripts/build-census-v1-sc_17_22_950_summary-set.mjs",
           "sharedBuildHost": null,
           "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
-          "sourceHashes": [
-            {
-              "sourceId": "official-form:TC0021",
-              "path": "STATES/MA/05_SOURCE_GATED/MA__SOURCE-GATED__TC0021__petition-for-expungement-of-marijuana-offenses-g-l-c-276-section-100k-1-4__REV-2022-11__EN.pdf",
-              "sha256": "a9d80fab51668c59a15b559aa0f5021e8b4bf661fa83429ef22b31157cbf565c",
-              "tier": "exact_form_number"
-            }
-          ]
+          "sourceHashes": []
         }
       ],
       "builderObligations": [
@@ -1597,11 +1569,11 @@
       "ownedPaths": [
         "data/rcap-grade-a/packet-factory-24h/pf06/**",
         "data/rcap-all50/overlays/census-v1/ne/ne-trafficking-setaside-and-seal-set--official-pdf-fill/**",
-        "data/rcap-all50/overlays/census-v1/co/co-multiple-conviction-seal-set--official-pdf-fill/**",
-        "data/rcap-all50/overlays/census-v1/ma/ma-expunge-mj-set--official-pdf-fill/**",
+        "data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill/**",
+        "data/rcap-all50/overlays/census-v1/sc/sc-17-22-950-summary-set--official-pdf-fill/**",
         "scripts/build-census-v1-ne-trafficking-setaside-and-seal-set.mjs",
-        "scripts/build-census-v1-co_multiple_conviction_seal-set.mjs",
-        "scripts/build-census-v1-ma-expunge-mj-set.mjs"
+        "scripts/build-census-v1-co_motion_seal_nonconviction-set.mjs",
+        "scripts/build-census-v1-sc_17_22_950_summary-set.mjs"
       ],
       "scriptsNotOwned": [],
       "prohibitedPaths": [
@@ -1721,8 +1693,8 @@
       "itemCount": 3,
       "items": [
         "pa_6308_underage-set",
-        "co_pardoned_conviction_seal-set",
-        "ak-tf805-set"
+        "co_motion_seal_conviction-set",
+        "ma-expunge-mj-set"
       ],
       "provisionedEmpty": false,
       "refillRule": "When a source lane releases a family, Captain appends it to the emptiest PF lane and the lane starts it without waiting for the rest of the source lane to finish.",
@@ -1735,15 +1707,15 @@
           ]
         },
         {
-          "groupKey": "NO_SHARED_HOST::JDF-680+JDF-681::official_pdf_fill::primary_filing+proposed_order",
+          "groupKey": "NO_SHARED_HOST::JDF-612+JDF-615::official_pdf_fill::primary_filing+proposed_order+required_filing",
           "families": [
-            "co_pardoned_conviction_seal-set"
+            "co_motion_seal_conviction-set"
           ]
         },
         {
-          "groupKey": "NO_SHARED_HOST::TF-805::official_pdf_fill::certificate_of_service+primary_filing+proposed_order",
+          "groupKey": "NO_SHARED_HOST::TC0021::official_pdf_fill::Massachusetts Marijuana Expungement Petition under §§ 100K / 100K¼",
           "families": [
-            "ak-tf805-set"
+            "ma-expunge-mj-set"
           ]
         }
       ],
@@ -1781,44 +1753,50 @@
           ]
         },
         {
-          "familyId": "co_pardoned_conviction_seal-set",
+          "familyId": "co_motion_seal_conviction-set",
           "jurisdiction": "CO",
           "strategy": "official_pdf_fill",
           "forms": [
-            "JDF-680",
-            "JDF-681"
+            "JDF-612",
+            "JDF-615"
           ],
           "components": 2,
           "instrumentKinds": [
             "primary_filing",
-            "proposed_order"
+            "proposed_order",
+            "required_filing"
           ],
           "routeCount": 1,
-          "directory": "data/rcap-all50/overlays/census-v1/co/co-pardoned-conviction-seal-set--official-pdf-fill",
-          "buildScript": "scripts/build-census-v1-co_pardoned_conviction_seal-set.mjs",
+          "directory": "data/rcap-all50/overlays/census-v1/co/co-motion-seal-conviction-set--official-pdf-fill",
+          "buildScript": "scripts/build-census-v1-co_motion_seal_conviction-set.mjs",
           "sharedBuildHost": null,
           "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
           "sourceHashes": []
         },
         {
-          "familyId": "ak-tf805-set",
-          "jurisdiction": "AK",
+          "familyId": "ma-expunge-mj-set",
+          "jurisdiction": "MA",
           "strategy": "official_pdf_fill",
           "forms": [
-            "TF-805"
+            "TC0021"
           ],
-          "components": 3,
+          "components": 1,
           "instrumentKinds": [
-            "certificate_of_service",
-            "primary_filing",
-            "proposed_order"
+            "Massachusetts Marijuana Expungement Petition under §§ 100K / 100K¼"
           ],
           "routeCount": 1,
-          "directory": "data/rcap-all50/overlays/census-v1/ak/ak-tf805-set--official-pdf-fill",
-          "buildScript": "scripts/build-census-v1-ak-tf805-set.mjs",
+          "directory": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-mj-set--official-pdf-fill",
+          "buildScript": "scripts/build-census-v1-ma-expunge-mj-set.mjs",
           "sharedBuildHost": null,
           "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
-          "sourceHashes": []
+          "sourceHashes": [
+            {
+              "sourceId": "official-form:TC0021",
+              "path": "STATES/MA/05_SOURCE_GATED/MA__SOURCE-GATED__TC0021__petition-for-expungement-of-marijuana-offenses-g-l-c-276-section-100k-1-4__REV-2022-11__EN.pdf",
+              "sha256": "a9d80fab51668c59a15b559aa0f5021e8b4bf661fa83429ef22b31157cbf565c",
+              "tier": "exact_form_number"
+            }
+          ]
         }
       ],
       "builderObligations": [
@@ -1865,11 +1843,11 @@
       "ownedPaths": [
         "data/rcap-grade-a/packet-factory-24h/pf07/**",
         "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--custom-pleading/**",
-        "data/rcap-all50/overlays/census-v1/co/co-pardoned-conviction-seal-set--official-pdf-fill/**",
-        "data/rcap-all50/overlays/census-v1/ak/ak-tf805-set--official-pdf-fill/**",
+        "data/rcap-all50/overlays/census-v1/co/co-motion-seal-conviction-set--official-pdf-fill/**",
+        "data/rcap-all50/overlays/census-v1/ma/ma-expunge-mj-set--official-pdf-fill/**",
         "scripts/build-census-v1-pa_6308_underage-set.mjs",
-        "scripts/build-census-v1-co_pardoned_conviction_seal-set.mjs",
-        "scripts/build-census-v1-ak-tf805-set.mjs"
+        "scripts/build-census-v1-co_motion_seal_conviction-set.mjs",
+        "scripts/build-census-v1-ma-expunge-mj-set.mjs"
       ],
       "scriptsNotOwned": [],
       "prohibitedPaths": [
@@ -1989,8 +1967,8 @@
       "itemCount": 3,
       "items": [
         "vt_exp_decriminalized-set",
-        "mi_setaside_marihuana-set",
-        "ak-tf800-set"
+        "co_multiple_conviction_seal-set",
+        "ak-tf805-set"
       ],
       "provisionedEmpty": false,
       "refillRule": "When a source lane releases a family, Captain appends it to the emptiest PF lane and the lane starts it without waiting for the rest of the source lane to finish.",
@@ -2006,15 +1984,15 @@
           ]
         },
         {
-          "groupKey": "NO_SHARED_HOST::MC 227a::official_pdf_fill::primary_filing",
+          "groupKey": "NO_SHARED_HOST::JDF-641+JDF-642::official_pdf_fill::primary_filing+proposed_order",
           "families": [
-            "mi_setaside_marihuana-set"
+            "co_multiple_conviction_seal-set"
           ]
         },
         {
-          "groupKey": "NO_SHARED_HOST::TF-800::official_pdf_fill::primary_filing",
+          "groupKey": "NO_SHARED_HOST::TF-805::official_pdf_fill::certificate_of_service+primary_filing+proposed_order",
           "families": [
-            "ak-tf800-set"
+            "ak-tf805-set"
           ]
         }
       ],
@@ -2043,44 +2021,41 @@
           "sourceHashes": []
         },
         {
-          "familyId": "mi_setaside_marihuana-set",
-          "jurisdiction": "MI",
+          "familyId": "co_multiple_conviction_seal-set",
+          "jurisdiction": "CO",
           "strategy": "official_pdf_fill",
           "forms": [
-            "MC 227a"
+            "JDF-641",
+            "JDF-642"
           ],
-          "components": 1,
+          "components": 2,
           "instrumentKinds": [
-            "primary_filing"
+            "primary_filing",
+            "proposed_order"
           ],
           "routeCount": 1,
-          "directory": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill",
-          "buildScript": "scripts/build-census-v1-mi_setaside_marihuana-set.mjs",
+          "directory": "data/rcap-all50/overlays/census-v1/co/co-multiple-conviction-seal-set--official-pdf-fill",
+          "buildScript": "scripts/build-census-v1-co_multiple_conviction_seal-set.mjs",
           "sharedBuildHost": null,
           "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
-          "sourceHashes": [
-            {
-              "sourceId": "official-form:MC 227a",
-              "path": "STATES/MI/02_PACKET_FORMS/MI__FORM__MC-227A__application-to-set-aside-misdemeanor-marihuana-conviction-s__REV-2024-07__EN.pdf",
-              "sha256": "d361c2082ecc761fe4e9eadda0cabd307f2d6bb3c7af9a3917a9afecad698757",
-              "tier": "exact_form_number"
-            }
-          ]
+          "sourceHashes": []
         },
         {
-          "familyId": "ak-tf800-set",
+          "familyId": "ak-tf805-set",
           "jurisdiction": "AK",
           "strategy": "official_pdf_fill",
           "forms": [
-            "TF-800"
+            "TF-805"
           ],
-          "components": 1,
+          "components": 3,
           "instrumentKinds": [
-            "primary_filing"
+            "certificate_of_service",
+            "primary_filing",
+            "proposed_order"
           ],
           "routeCount": 1,
-          "directory": "data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill",
-          "buildScript": "scripts/build-census-v1-ak-tf800-set.mjs",
+          "directory": "data/rcap-all50/overlays/census-v1/ak/ak-tf805-set--official-pdf-fill",
+          "buildScript": "scripts/build-census-v1-ak-tf805-set.mjs",
           "sharedBuildHost": null,
           "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
           "sourceHashes": []
@@ -2130,11 +2105,11 @@
       "ownedPaths": [
         "data/rcap-grade-a/packet-factory-24h/pf08/**",
         "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/**",
-        "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/**",
-        "data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill/**",
+        "data/rcap-all50/overlays/census-v1/co/co-multiple-conviction-seal-set--official-pdf-fill/**",
+        "data/rcap-all50/overlays/census-v1/ak/ak-tf805-set--official-pdf-fill/**",
         "scripts/build-census-v1-vt_exp_decriminalized-set.mjs",
-        "scripts/build-census-v1-mi_setaside_marihuana-set.mjs",
-        "scripts/build-census-v1-ak-tf800-set.mjs"
+        "scripts/build-census-v1-co_multiple_conviction_seal-set.mjs",
+        "scripts/build-census-v1-ak-tf805-set.mjs"
       ],
       "scriptsNotOwned": [],
       "prohibitedPaths": [
@@ -2253,9 +2228,9 @@
       "itemKind": "packetFamily",
       "itemCount": 3,
       "items": [
-        "vt_seal_nonconviction-set",
-        "or_contempt_setaside-set",
-        "pa_pardon_expungement-set"
+        "vt_seal_misdemeanor-set",
+        "co_pardoned_conviction_seal-set",
+        "ak-courtview-set"
       ],
       "provisionedEmpty": false,
       "refillRule": "When a source lane releases a family, Captain appends it to the emptiest PF lane and the lane starts it without waiting for the rest of the source lane to finish.",
@@ -2265,27 +2240,27 @@
       ],
       "groupsCarried": [
         {
-          "groupKey": "NO_SHARED_HOST::200-00130+200-00132+600-00228::official_pdf_fill::Ordinary contested petition at any time, § 7603(g) (official_pdf_fill)+Stipulated sealing at any time, § 7603(a)(2) (official_pdf_fill)+no filing — process guidance",
+          "groupKey": "NO_SHARED_HOST::200-00130+200-00132+600-00228::official_pdf_fill::fee_waiver_application+filing_and_expectation_instructions+petition+stipulation_and_proposed_order",
           "families": [
-            "vt_seal_nonconviction-set"
+            "vt_seal_misdemeanor-set"
           ]
         },
         {
-          "groupKey": "NO_SHARED_HOST::OR-OJD-ADULT-SET-ASIDE-PACKET+OR-OSP-SET-ASIDE-CCH::official_pdf_fill::fingerprint_step+objection_and_hearing_instructions+post_order_verification+primary_filing+proposed_order+record_gathering_instructions+service_instructions",
+          "groupKey": "NO_SHARED_HOST::JDF-680+JDF-681::official_pdf_fill::primary_filing+proposed_order",
           "families": [
-            "or_contempt_setaside-set"
+            "co_pardoned_conviction_seal-set"
           ]
         },
         {
-          "groupKey": "NO_SHARED_HOST::PA-RCRIM-P-790-ORDER+PA-RCRIM-P-790-PETITION::official_pdf_fill::Rule 790 petition where the automatic route has not cleared the record (official_pdf_fill)+no filing — process guidance",
+          "groupKey": "NO_SHARED_HOST::TF-810::official_pdf_fill::primary_filing",
           "families": [
-            "pa_pardon_expungement-set"
+            "ak-courtview-set"
           ]
         }
       ],
       "familyDetail": [
         {
-          "familyId": "vt_seal_nonconviction-set",
+          "familyId": "vt_seal_misdemeanor-set",
           "jurisdiction": "VT",
           "strategy": "official_pdf_fill",
           "forms": [
@@ -2295,58 +2270,52 @@
           ],
           "components": 3,
           "instrumentKinds": [
-            "Ordinary contested petition at any time, § 7603(g) (official_pdf_fill)",
-            "Stipulated sealing at any time, § 7603(a)(2) (official_pdf_fill)",
-            "no filing — process guidance"
-          ],
-          "routeCount": 3,
-          "directory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill",
-          "buildScript": "scripts/build-census-v1-vt_seal_nonconviction-set.mjs",
-          "sharedBuildHost": null,
-          "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
-          "sourceHashes": []
-        },
-        {
-          "familyId": "or_contempt_setaside-set",
-          "jurisdiction": "OR",
-          "strategy": "official_pdf_fill",
-          "forms": [
-            "OR-OJD-ADULT-SET-ASIDE-PACKET",
-            "OR-OSP-SET-ASIDE-CCH"
-          ],
-          "components": 3,
-          "instrumentKinds": [
-            "fingerprint_step",
-            "objection_and_hearing_instructions",
-            "post_order_verification",
-            "primary_filing",
-            "proposed_order",
-            "record_gathering_instructions",
-            "service_instructions"
+            "fee_waiver_application",
+            "filing_and_expectation_instructions",
+            "petition",
+            "stipulation_and_proposed_order"
           ],
           "routeCount": 1,
-          "directory": "data/rcap-all50/overlays/census-v1/or/or-contempt-setaside-set--official-pdf-fill",
-          "buildScript": "scripts/build-census-v1-or_contempt_setaside-set.mjs",
+          "directory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-misdemeanor-set--official-pdf-fill",
+          "buildScript": "scripts/build-census-v1-vt_seal_misdemeanor-set.mjs",
           "sharedBuildHost": null,
           "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
           "sourceHashes": []
         },
         {
-          "familyId": "pa_pardon_expungement-set",
-          "jurisdiction": "PA",
+          "familyId": "co_pardoned_conviction_seal-set",
+          "jurisdiction": "CO",
           "strategy": "official_pdf_fill",
           "forms": [
-            "PA-RCRIM-P-790-ORDER",
-            "PA-RCRIM-P-790-PETITION"
+            "JDF-680",
+            "JDF-681"
           ],
           "components": 2,
           "instrumentKinds": [
-            "Rule 790 petition where the automatic route has not cleared the record (official_pdf_fill)",
-            "no filing — process guidance"
+            "primary_filing",
+            "proposed_order"
           ],
-          "routeCount": 2,
-          "directory": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill",
-          "buildScript": "scripts/build-census-v1-pa_pardon_expungement-set.mjs",
+          "routeCount": 1,
+          "directory": "data/rcap-all50/overlays/census-v1/co/co-pardoned-conviction-seal-set--official-pdf-fill",
+          "buildScript": "scripts/build-census-v1-co_pardoned_conviction_seal-set.mjs",
+          "sharedBuildHost": null,
+          "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+          "sourceHashes": []
+        },
+        {
+          "familyId": "ak-courtview-set",
+          "jurisdiction": "AK",
+          "strategy": "official_pdf_fill",
+          "forms": [
+            "TF-810"
+          ],
+          "components": 1,
+          "instrumentKinds": [
+            "primary_filing"
+          ],
+          "routeCount": 1,
+          "directory": "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill",
+          "buildScript": "scripts/build-census-v1-ak-courtview-set.mjs",
           "sharedBuildHost": null,
           "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
           "sourceHashes": []
@@ -2395,17 +2364,27 @@
       "neverSelfVerify": "You do not verify your own packets. A builder verdict is not a verdict, and a VF lane that did not build them decides.",
       "ownedPaths": [
         "data/rcap-grade-a/packet-factory-24h/pf09/**",
-        "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/**",
-        "data/rcap-all50/overlays/census-v1/or/or-contempt-setaside-set--official-pdf-fill/**",
-        "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/**",
-        "scripts/build-census-v1-vt_seal_nonconviction-set.mjs",
-        "scripts/build-census-v1-or_contempt_setaside-set.mjs",
-        "scripts/build-census-v1-pa_pardon_expungement-set.mjs"
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-misdemeanor-set--official-pdf-fill/**",
+        "data/rcap-all50/overlays/census-v1/co/co-pardoned-conviction-seal-set--official-pdf-fill/**",
+        "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill/**",
+        "scripts/build-census-v1-co_pardoned_conviction_seal-set.mjs",
+        "scripts/build-census-v1-ak-courtview-set.mjs"
       ],
-      "scriptsNotOwned": [],
+      "scriptsNotOwned": [
+        {
+          "script": "scripts/build-census-v1-vt_seal_misdemeanor-set.mjs",
+          "importedByFamiliesOutsideThisLane": [
+            "vt_seal_18_to_21-set",
+            "vt_seal_dui-set",
+            "vt_seal_felony-set",
+            "vt_seal_pardon-set"
+          ]
+        }
+      ],
       "prohibitedPaths": [
         "scripts/rcap-packet-completeness/**",
         "data/rcap-grade-a/launch-control/**",
+        "scripts/build-census-v1-vt_seal_misdemeanor-set.mjs",
         "data/rcap-grade-a/codex-cloud/p2v01-washington-independent-verification/**",
         "data/rcap-grade-a/codex-cloud/p2v02-washington-independent-verification/**",
         "data/rcap-grade-a/codex-cloud/p2v03-washington-independent-verification/**",
@@ -2519,9 +2498,9 @@
       "itemKind": "packetFamily",
       "itemCount": 3,
       "items": [
-        "ky_felony_expungement_after_pardon-set",
-        "ct-cleanslate-petition-set",
-        "ak-courtview-set"
+        "vt_seal_nonconviction-set",
+        "mi_setaside_marihuana-set",
+        "pa_pardon_expungement-set"
       ],
       "provisionedEmpty": false,
       "refillRule": "When a source lane releases a family, Captain appends it to the emptiest PF lane and the lane starts it without waiting for the rest of the source lane to finish.",
@@ -2531,84 +2510,88 @@
       ],
       "groupsCarried": [
         {
-          "groupKey": "NO_SHARED_HOST::AOC-496.3::official_pdf_fill::certification_attachment+pardon_attachment_instructions+primary_filing",
+          "groupKey": "NO_SHARED_HOST::200-00130+200-00132+600-00228::official_pdf_fill::Ordinary contested petition at any time, § 7603(g) (official_pdf_fill)+Stipulated sealing at any time, § 7603(a)(2) (official_pdf_fill)+no filing — process guidance",
           "families": [
-            "ky_felony_expungement_after_pardon-set"
+            "vt_seal_nonconviction-set"
           ]
         },
         {
-          "groupKey": "NO_SHARED_HOST::JD-CR-202::official_pdf_fill::primary_filing",
+          "groupKey": "NO_SHARED_HOST::MC 227a::official_pdf_fill::primary_filing",
           "families": [
-            "ct-cleanslate-petition-set"
+            "mi_setaside_marihuana-set"
           ]
         },
         {
-          "groupKey": "NO_SHARED_HOST::TF-810::official_pdf_fill::primary_filing",
+          "groupKey": "NO_SHARED_HOST::PA-RCRIM-P-790-ORDER+PA-RCRIM-P-790-PETITION::official_pdf_fill::Rule 790 petition where the automatic route has not cleared the record (official_pdf_fill)+no filing — process guidance",
           "families": [
-            "ak-courtview-set"
+            "pa_pardon_expungement-set"
           ]
         }
       ],
       "familyDetail": [
         {
-          "familyId": "ky_felony_expungement_after_pardon-set",
-          "jurisdiction": "KY",
+          "familyId": "vt_seal_nonconviction-set",
+          "jurisdiction": "VT",
           "strategy": "official_pdf_fill",
           "forms": [
-            "AOC-496.3"
+            "200-00130",
+            "200-00132",
+            "600-00228"
           ],
-          "components": 1,
+          "components": 3,
           "instrumentKinds": [
-            "certification_attachment",
-            "pardon_attachment_instructions",
-            "primary_filing"
+            "Ordinary contested petition at any time, § 7603(g) (official_pdf_fill)",
+            "Stipulated sealing at any time, § 7603(a)(2) (official_pdf_fill)",
+            "no filing — process guidance"
           ],
-          "routeCount": 1,
-          "directory": "data/rcap-all50/overlays/census-v1/ky/ky-felony-expungement-after-pardon-set--official-pdf-fill",
-          "buildScript": "scripts/build-census-v1-ky_felony_expungement_after_pardon-set.mjs",
+          "routeCount": 3,
+          "directory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill",
+          "buildScript": "scripts/build-census-v1-vt_seal_nonconviction-set.mjs",
           "sharedBuildHost": null,
           "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
           "sourceHashes": []
         },
         {
-          "familyId": "ct-cleanslate-petition-set",
-          "jurisdiction": "CT",
+          "familyId": "mi_setaside_marihuana-set",
+          "jurisdiction": "MI",
           "strategy": "official_pdf_fill",
           "forms": [
-            "JD-CR-202"
+            "MC 227a"
           ],
           "components": 1,
           "instrumentKinds": [
             "primary_filing"
           ],
           "routeCount": 1,
-          "directory": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill",
-          "buildScript": "scripts/build-census-v1-ct-cleanslate-petition-set.mjs",
+          "directory": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill",
+          "buildScript": "scripts/build-census-v1-mi_setaside_marihuana-set.mjs",
           "sharedBuildHost": null,
           "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
           "sourceHashes": [
             {
-              "sourceId": "official-form:JD-CR-202",
-              "path": "STATES/CT/02_PACKET_FORMS/CT__FORM__JD-CR-202__petition-for-clean-slate-erasure-convictions-before-1-1-2000__REV-2023-11__EN.pdf",
-              "sha256": "b5a917c2cd07727172a50534a4884a63e8ae08704b631c62a199c3454623062c",
+              "sourceId": "official-form:MC 227a",
+              "path": "STATES/MI/02_PACKET_FORMS/MI__FORM__MC-227A__application-to-set-aside-misdemeanor-marihuana-conviction-s__REV-2024-07__EN.pdf",
+              "sha256": "d361c2082ecc761fe4e9eadda0cabd307f2d6bb3c7af9a3917a9afecad698757",
               "tier": "exact_form_number"
             }
           ]
         },
         {
-          "familyId": "ak-courtview-set",
-          "jurisdiction": "AK",
+          "familyId": "pa_pardon_expungement-set",
+          "jurisdiction": "PA",
           "strategy": "official_pdf_fill",
           "forms": [
-            "TF-810"
+            "PA-RCRIM-P-790-ORDER",
+            "PA-RCRIM-P-790-PETITION"
           ],
-          "components": 1,
+          "components": 2,
           "instrumentKinds": [
-            "primary_filing"
+            "Rule 790 petition where the automatic route has not cleared the record (official_pdf_fill)",
+            "no filing — process guidance"
           ],
-          "routeCount": 1,
-          "directory": "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill",
-          "buildScript": "scripts/build-census-v1-ak-courtview-set.mjs",
+          "routeCount": 2,
+          "directory": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill",
+          "buildScript": "scripts/build-census-v1-pa_pardon_expungement-set.mjs",
           "sharedBuildHost": null,
           "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
           "sourceHashes": []
@@ -2657,12 +2640,12 @@
       "neverSelfVerify": "You do not verify your own packets. A builder verdict is not a verdict, and a VF lane that did not build them decides.",
       "ownedPaths": [
         "data/rcap-grade-a/packet-factory-24h/pf10/**",
-        "data/rcap-all50/overlays/census-v1/ky/ky-felony-expungement-after-pardon-set--official-pdf-fill/**",
-        "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/**",
-        "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill/**",
-        "scripts/build-census-v1-ky_felony_expungement_after_pardon-set.mjs",
-        "scripts/build-census-v1-ct-cleanslate-petition-set.mjs",
-        "scripts/build-census-v1-ak-courtview-set.mjs"
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/**",
+        "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/**",
+        "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/**",
+        "scripts/build-census-v1-vt_seal_nonconviction-set.mjs",
+        "scripts/build-census-v1-mi_setaside_marihuana-set.mjs",
+        "scripts/build-census-v1-pa_pardon_expungement-set.mjs"
       ],
       "scriptsNotOwned": [],
       "prohibitedPaths": [
@@ -2781,8 +2764,8 @@
       "itemKind": "packetFamily",
       "itemCount": 2,
       "items": [
-        "ky_felony_vacatur_expungement-set",
-        "co_decriminalized_conduct_seal-set"
+        "ky_felony_expungement_after_pardon-set",
+        "me-seal-prost-set"
       ],
       "provisionedEmpty": false,
       "refillRule": "When a source lane releases a family, Captain appends it to the emptiest PF lane and the lane starts it without waiting for the rest of the source lane to finish.",
@@ -2792,57 +2775,54 @@
       ],
       "groupsCarried": [
         {
-          "groupKey": "NO_SHARED_HOST::AOC-496.3+AOC-496.4::official_pdf_fill::certification_attachment+fee_and_instalment_instructions+primary_filing+proposed_order",
+          "groupKey": "NO_SHARED_HOST::AOC-496.3::official_pdf_fill::certification_attachment+pardon_attachment_instructions+primary_filing",
           "families": [
-            "ky_felony_vacatur_expungement-set"
+            "ky_felony_expungement_after_pardon-set"
           ]
         },
         {
-          "groupKey": "NO_SHARED_HOST::JDF-2371+JDF-2374::official_pdf_fill::primary_filing+proposed_order",
+          "groupKey": "NO_SHARED_HOST::CR-289::official_pdf_fill::instructions+primary_filing",
           "families": [
-            "co_decriminalized_conduct_seal-set"
+            "me-seal-prost-set"
           ]
         }
       ],
       "familyDetail": [
         {
-          "familyId": "ky_felony_vacatur_expungement-set",
+          "familyId": "ky_felony_expungement_after_pardon-set",
           "jurisdiction": "KY",
           "strategy": "official_pdf_fill",
           "forms": [
-            "AOC-496.3",
-            "AOC-496.4"
+            "AOC-496.3"
           ],
-          "components": 2,
+          "components": 1,
           "instrumentKinds": [
             "certification_attachment",
-            "fee_and_instalment_instructions",
-            "primary_filing",
-            "proposed_order"
+            "pardon_attachment_instructions",
+            "primary_filing"
           ],
           "routeCount": 1,
-          "directory": "data/rcap-all50/overlays/census-v1/ky/ky-felony-vacatur-expungement-set--official-pdf-fill",
-          "buildScript": "scripts/build-census-v1-ky_felony_vacatur_expungement-set.mjs",
+          "directory": "data/rcap-all50/overlays/census-v1/ky/ky-felony-expungement-after-pardon-set--official-pdf-fill",
+          "buildScript": "scripts/build-census-v1-ky_felony_expungement_after_pardon-set.mjs",
           "sharedBuildHost": null,
           "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
           "sourceHashes": []
         },
         {
-          "familyId": "co_decriminalized_conduct_seal-set",
-          "jurisdiction": "CO",
+          "familyId": "me-seal-prost-set",
+          "jurisdiction": "ME",
           "strategy": "official_pdf_fill",
           "forms": [
-            "JDF-2371",
-            "JDF-2374"
+            "CR-289"
           ],
-          "components": 2,
+          "components": 1,
           "instrumentKinds": [
-            "primary_filing",
-            "proposed_order"
+            "instructions",
+            "primary_filing"
           ],
           "routeCount": 1,
-          "directory": "data/rcap-all50/overlays/census-v1/co/co-decriminalized-conduct-seal-set--official-pdf-fill",
-          "buildScript": "scripts/build-census-v1-co_decriminalized_conduct_seal-set.mjs",
+          "directory": "data/rcap-all50/overlays/census-v1/me/me-seal-prost-set--official-pdf-fill",
+          "buildScript": "scripts/build-census-v1-me-seal-prost-set.mjs",
           "sharedBuildHost": null,
           "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
           "sourceHashes": []
@@ -2891,10 +2871,10 @@
       "neverSelfVerify": "You do not verify your own packets. A builder verdict is not a verdict, and a VF lane that did not build them decides.",
       "ownedPaths": [
         "data/rcap-grade-a/packet-factory-24h/pf11/**",
-        "data/rcap-all50/overlays/census-v1/ky/ky-felony-vacatur-expungement-set--official-pdf-fill/**",
-        "data/rcap-all50/overlays/census-v1/co/co-decriminalized-conduct-seal-set--official-pdf-fill/**",
-        "scripts/build-census-v1-ky_felony_vacatur_expungement-set.mjs",
-        "scripts/build-census-v1-co_decriminalized_conduct_seal-set.mjs"
+        "data/rcap-all50/overlays/census-v1/ky/ky-felony-expungement-after-pardon-set--official-pdf-fill/**",
+        "data/rcap-all50/overlays/census-v1/me/me-seal-prost-set--official-pdf-fill/**",
+        "scripts/build-census-v1-ky_felony_expungement_after_pardon-set.mjs",
+        "scripts/build-census-v1-me-seal-prost-set.mjs"
       ],
       "scriptsNotOwned": [],
       "prohibitedPaths": [
@@ -3009,6 +2989,270 @@
       ],
       "theDiffIsTheReturn": "Commit locally. Leave the final diff for the Codex Cloud interface. There is no PUSHED line in a cloud return.",
       "returnDirectory": "data/rcap-grade-a/packet-factory-24h/pf12",
+      "mission": "Build 3 packet families to the builder contract, one at a time, checkpointing as you go. A family that stops does not stop the lane.",
+      "itemKind": "packetFamily",
+      "itemCount": 3,
+      "items": [
+        "ky_felony_vacatur_expungement-set",
+        "ct-cleanslate-petition-set",
+        "ak-tf800-set"
+      ],
+      "provisionedEmpty": false,
+      "refillRule": "When a source lane releases a family, Captain appends it to the emptiest PF lane and the lane starts it without waiting for the rest of the source lane to finish.",
+      "sharedAxes": [
+        "sharedBuildHost",
+        "implementationStrategy"
+      ],
+      "groupsCarried": [
+        {
+          "groupKey": "NO_SHARED_HOST::AOC-496.3+AOC-496.4::official_pdf_fill::certification_attachment+fee_and_instalment_instructions+primary_filing+proposed_order",
+          "families": [
+            "ky_felony_vacatur_expungement-set"
+          ]
+        },
+        {
+          "groupKey": "NO_SHARED_HOST::JD-CR-202::official_pdf_fill::primary_filing",
+          "families": [
+            "ct-cleanslate-petition-set"
+          ]
+        },
+        {
+          "groupKey": "NO_SHARED_HOST::TF-800::official_pdf_fill::primary_filing",
+          "families": [
+            "ak-tf800-set"
+          ]
+        }
+      ],
+      "familyDetail": [
+        {
+          "familyId": "ky_felony_vacatur_expungement-set",
+          "jurisdiction": "KY",
+          "strategy": "official_pdf_fill",
+          "forms": [
+            "AOC-496.3",
+            "AOC-496.4"
+          ],
+          "components": 2,
+          "instrumentKinds": [
+            "certification_attachment",
+            "fee_and_instalment_instructions",
+            "primary_filing",
+            "proposed_order"
+          ],
+          "routeCount": 1,
+          "directory": "data/rcap-all50/overlays/census-v1/ky/ky-felony-vacatur-expungement-set--official-pdf-fill",
+          "buildScript": "scripts/build-census-v1-ky_felony_vacatur_expungement-set.mjs",
+          "sharedBuildHost": null,
+          "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+          "sourceHashes": []
+        },
+        {
+          "familyId": "ct-cleanslate-petition-set",
+          "jurisdiction": "CT",
+          "strategy": "official_pdf_fill",
+          "forms": [
+            "JD-CR-202"
+          ],
+          "components": 1,
+          "instrumentKinds": [
+            "primary_filing"
+          ],
+          "routeCount": 1,
+          "directory": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill",
+          "buildScript": "scripts/build-census-v1-ct-cleanslate-petition-set.mjs",
+          "sharedBuildHost": null,
+          "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+          "sourceHashes": [
+            {
+              "sourceId": "official-form:JD-CR-202",
+              "path": "STATES/CT/02_PACKET_FORMS/CT__FORM__JD-CR-202__petition-for-clean-slate-erasure-convictions-before-1-1-2000__REV-2023-11__EN.pdf",
+              "sha256": "b5a917c2cd07727172a50534a4884a63e8ae08704b631c62a199c3454623062c",
+              "tier": "exact_form_number"
+            }
+          ]
+        },
+        {
+          "familyId": "ak-tf800-set",
+          "jurisdiction": "AK",
+          "strategy": "official_pdf_fill",
+          "forms": [
+            "TF-800"
+          ],
+          "components": 1,
+          "instrumentKinds": [
+            "primary_filing"
+          ],
+          "routeCount": 1,
+          "directory": "data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill",
+          "buildScript": "scripts/build-census-v1-ak-tf800-set.mjs",
+          "sharedBuildHost": null,
+          "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+          "sourceHashes": []
+        }
+      ],
+      "builderObligations": [
+        "bind every source by exact SHA-256, and stop the family rather than build on a source that does not bind",
+        "render canonical and boundary artifacts",
+        "include every required component the route names — a document mapped and not rendered is a missing companion form",
+        "fill every known required fact",
+        "classify every intentional blank against the closed vocabulary",
+        "identify a missing participant fact as REQUIRED_BEFORE_FILING, declared explicitly and disclosed in participant-instructions.md",
+        "select every route-determined option — a packet built for one statutory route states which route it is",
+        "complete every repeating case and offence row, because a partly-filled row reads as finished and is not",
+        "leave every protected field blank — participant signature, signature date, certificate of mailing before mailing, court-only and prosecutor-only",
+        "generate participant instructions and filing instructions",
+        "render all page rasters",
+        "verify the actual visible writes from the final PDF bytes, not from the finalizer's own report",
+        "return all nine completeness counters equal to zero, or return the family as STOPPED with the counter that is not"
+      ],
+      "rowStopContract": {
+        "laneGate": {
+          "what": "global environment integrity",
+          "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha 72f99073c42bd28e3469efe316378b37601717c7 --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
+          "mustReturn": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+          "onFailure": "If it does not, STOP THE LANE: nothing in it can run and no row is written.",
+          "note": "family_sources_bind reports 'not applicable' here on purpose: it is a row question, asked once per family below."
+        },
+        "rowGate": {
+          "what": "this family's own sources",
+          "command": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 72f99073c42bd28e3469efe316378b37601717c7",
+          "onFamilySourcesBindFailure": "write a BLOCKED_SOURCE row for that family naming the exact source identity that did not bind, and CONTINUE TO THE NEXT FAMILY.",
+          "onOpenLegalInput": "write a BLOCKED_LEGAL_INPUT row naming the open input, and CONTINUE TO THE NEXT FAMILY. Never guess a legal answer and never research one.",
+          "onAnyOtherCheckFailing": "that is a lane-level environment change, not a family defect. Stop the lane and say which check moved."
+        },
+        "everyFamilyGetsExactlyOneRow": "COMPLETED or STOPPED, one row per assigned family, no family missing and none twice. A lane that returns fewer rows than it was assigned families has lost work silently.",
+        "aStoppedFamilyWritesNothing": "A family you stop must leave its overlay directory byte-for-byte unchanged. A half-built packet that reads as built is worse than one that was never started.",
+        "theLaneCompletesNormally": "A lane with blocked families still completes. Blocked rows are the finding, not a failure of the lane."
+      },
+      "taskIsolation": [
+        "THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.",
+        "DO NOT EXECUTE PF01-PF16 IN ONE TASK.",
+        "DO NOT EXECUTE ANOTHER PF PROMPT IN THIS CONTAINER."
+      ],
+      "checkpointRule": "Return every five completed families, or every two hours, whichever comes first. Do not hold a whole assignment back for the last family.",
+      "neverSelfVerify": "You do not verify your own packets. A builder verdict is not a verdict, and a VF lane that did not build them decides.",
+      "ownedPaths": [
+        "data/rcap-grade-a/packet-factory-24h/pf12/**",
+        "data/rcap-all50/overlays/census-v1/ky/ky-felony-vacatur-expungement-set--official-pdf-fill/**",
+        "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/**",
+        "data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill/**",
+        "scripts/build-census-v1-ky_felony_vacatur_expungement-set.mjs",
+        "scripts/build-census-v1-ct-cleanslate-petition-set.mjs",
+        "scripts/build-census-v1-ak-tf800-set.mjs"
+      ],
+      "scriptsNotOwned": [],
+      "prohibitedPaths": [
+        "scripts/rcap-packet-completeness/**",
+        "data/rcap-grade-a/launch-control/**",
+        "data/rcap-grade-a/codex-cloud/p2v01-washington-independent-verification/**",
+        "data/rcap-grade-a/codex-cloud/p2v02-washington-independent-verification/**",
+        "data/rcap-grade-a/codex-cloud/p2v03-washington-independent-verification/**",
+        "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/**",
+        "scripts/build-census-v1-nj_disorderly_persons-set.mjs",
+        "data/rcap-grade-a/codex-cloud/r8a-nj-disorderly-persons/**",
+        "data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/**",
+        "scripts/build-census-v1-ca-17b-reduction-set.mjs",
+        "data/rcap-grade-a/codex-cloud/r8b-ca-17b-reduction/**",
+        "data/rcap-all50/overlays/census-v1/ca/ca-1203-43-set--official-pdf-fill/**",
+        "scripts/build-census-v1-ca-1203-43-set.mjs",
+        "data/rcap-grade-a/codex-cloud/r8c-ca-1203-43/**",
+        "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-superior-court-set--official-pdf-fill/**",
+        "scripts/build-census-v1-az_marijuana_expungement_superior_court-set.mjs",
+        "data/rcap-grade-a/codex-cloud/r8d-az-marijuana-superior-court/**",
+        "data/rcap-grade-a/codex-cloud/sdv01-south-dakota-independent-verification/**",
+        "data/rcap-all50/overlays/census-v1/**/nj-ordinance-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-summary-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-dismissed-without-prejudice-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-homicide-victim-prostitution-set*",
+        "data/rcap-all50/overlays/census-v1/**/wv-conv-single-misdemeanor-set*",
+        "data/rcap-all50/overlays/census-v1/**/ny-160-59-petition-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-limitations-set*",
+        "data/rcap-all50/overlays/census-v1/**/ne-setaside-custodial-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-arrest-no-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/oh-marijuana-expungement-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-clean-slate-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-490-nonconviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-acquittal-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-cannabis-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-survivor-misdemeanor-set*",
+        "data/rcap-all50/overlays/census-v1/**/ca-1203-4a-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-indictable-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-9122-1-limited-access-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-dismissed-with-prejudice-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-felony-set*",
+        "data/rcap-all50/overlays/census-v1/**/wv-conv-multiple-misdemeanors-set*"
+      ],
+      "requiredOutputs": [
+        "data/rcap-grade-a/packet-factory-24h/pf12/rows.json — one row per family: itemId, status, the nine counters, and the artifacts produced",
+        "data/rcap-grade-a/packet-factory-24h/pf12/checkpoints.json — one entry per five-family checkpoint, written as it lands"
+      ],
+      "outputSchema": {
+        "arrayKey": "rows",
+        "itemKeyField": "itemId",
+        "completionVocabulary": [
+          "COMPLETED",
+          "STOPPED"
+        ],
+        "rule": "An unrecognised status is refused at integration rather than translated."
+      },
+      "focusedTests": [
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <familyId>"
+      ],
+      "stopConditions": [
+        "ROW STOP — a family whose source does not bind by exact SHA-256 is STOPPED as BLOCKED_SOURCE naming the identity that failed. Continue to the next family.",
+        "ROW STOP — a family that needs a legal input you do not have is STOPPED as BLOCKED_LEGAL_INPUT. Never guess a legal answer and never research one.",
+        "LANE STOP — you build only the families listed here, in only the paths listed here.",
+        "NEVER invent a fact. An unavailable fact is REQUIRED_BEFORE_FILING, declared and disclosed, never guessed.",
+        "NEVER commit a private source byte, and never write into private/.",
+        "NEVER open a commercial route and never touch Production."
+      ],
+      "returnFormat": [
+        "ASSIGNMENT:",
+        "BASE SHA:",
+        "COMMIT:",
+        "FAMILIES ASSIGNED:",
+        "ROWS RETURNED (must equal FAMILIES ASSIGNED):",
+        "FAMILIES COMPLETED:",
+        "FAMILIES STOPPED:",
+        "NINE COUNTERS ZERO ON:",
+        "BLOCKED_SOURCE:",
+        "BLOCKED_LEGAL_INPUT:",
+        "OVERLAY DIRECTORIES TOUCHED BY A STOPPED FAMILY: 0",
+        "CHECKPOINTS RETURNED:",
+        "PACKETS SELF-VERIFIED: 0",
+        "OTHER PF PROMPTS EXECUTED IN THIS CONTAINER: 0",
+        "COMMERCIAL ROUTES OPENED: 0",
+        "PRODUCTION TOUCHED: NO",
+        "PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY 14/14",
+        "DIFF LEFT FOR THE CODEX UI: YES"
+      ],
+      "grantsNothing": "A built family is a built family. It is not verified, not approved, not sellable.",
+      "promptFile": "docs/rcap/grade-a/packet-factory-24h/PF12.md"
+    },
+    {
+      "assignmentId": "PF13",
+      "wave": "packet-factory-24h",
+      "engine": "Codex Cloud",
+      "lane": "packet-build",
+      "environment": "LegalEase Packet Factory",
+      "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
+      "captainBranch": "claude/legalease-sprint-captain-utucnw",
+      "workerBranch": "work",
+      "minimumCaptainSha": "72f99073c42bd28e3469efe316378b37601717c7",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 72f99073c42bd28e3469efe316378b37601717c7",
+      "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "prohibitedCommands": [
+        "git fetch",
+        "git pull",
+        "git push",
+        "gh ",
+        "git worktree",
+        "git remote add",
+        "git clone"
+      ],
+      "theDiffIsTheReturn": "Commit locally. Leave the final diff for the Codex Cloud interface. There is no PUSHED line in a cloud return.",
+      "returnDirectory": "data/rcap-grade-a/packet-factory-24h/pf13",
       "mission": "Build 3 packet families to the builder contract, one at a time, checkpointing as you go. A family that stops does not stop the lane.",
       "itemKind": "packetFamily",
       "itemCount": 3,
@@ -3150,7 +3394,7 @@
       "checkpointRule": "Return every five completed families, or every two hours, whichever comes first. Do not hold a whole assignment back for the last family.",
       "neverSelfVerify": "You do not verify your own packets. A builder verdict is not a verdict, and a VF lane that did not build them decides.",
       "ownedPaths": [
-        "data/rcap-grade-a/packet-factory-24h/pf12/**",
+        "data/rcap-grade-a/packet-factory-24h/pf13/**",
         "data/rcap-all50/overlays/census-v1/ky/ky-misdemeanor-expungement-set--official-pdf-fill/**",
         "data/rcap-all50/overlays/census-v1/wi/wi-exp-cr266-set--official-pdf-fill/**",
         "data/rcap-all50/overlays/census-v1/wv/wv-nc-acquittal-dismissal-set--official-pdf-fill/**",
@@ -3202,8 +3446,8 @@
         "data/rcap-all50/overlays/census-v1/**/wv-conv-multiple-misdemeanors-set*"
       ],
       "requiredOutputs": [
-        "data/rcap-grade-a/packet-factory-24h/pf12/rows.json — one row per family: itemId, status, the nine counters, and the artifacts produced",
-        "data/rcap-grade-a/packet-factory-24h/pf12/checkpoints.json — one entry per five-family checkpoint, written as it lands"
+        "data/rcap-grade-a/packet-factory-24h/pf13/rows.json — one row per family: itemId, status, the nine counters, and the artifacts produced",
+        "data/rcap-grade-a/packet-factory-24h/pf13/checkpoints.json — one entry per five-family checkpoint, written as it lands"
       ],
       "outputSchema": {
         "arrayKey": "rows",
@@ -3246,10 +3490,10 @@
         "DIFF LEFT FOR THE CODEX UI: YES"
       ],
       "grantsNothing": "A built family is a built family. It is not verified, not approved, not sellable.",
-      "promptFile": "docs/rcap/grade-a/packet-factory-24h/PF12.md"
+      "promptFile": "docs/rcap/grade-a/packet-factory-24h/PF13.md"
     },
     {
-      "assignmentId": "PF13",
+      "assignmentId": "PF14",
       "wave": "packet-factory-24h",
       "engine": "Codex Cloud",
       "lane": "packet-build",
@@ -3270,7 +3514,7 @@
         "git clone"
       ],
       "theDiffIsTheReturn": "Commit locally. Leave the final diff for the Codex Cloud interface. There is no PUSHED line in a cloud return.",
-      "returnDirectory": "data/rcap-grade-a/packet-factory-24h/pf13",
+      "returnDirectory": "data/rcap-grade-a/packet-factory-24h/pf14",
       "mission": "Build 3 packet families to the builder contract, one at a time, checkpointing as you go. A family that stops does not stop the lane.",
       "itemKind": "packetFamily",
       "itemCount": 3,
@@ -3433,7 +3677,7 @@
       "checkpointRule": "Return every five completed families, or every two hours, whichever comes first. Do not hold a whole assignment back for the last family.",
       "neverSelfVerify": "You do not verify your own packets. A builder verdict is not a verdict, and a VF lane that did not build them decides.",
       "ownedPaths": [
-        "data/rcap-grade-a/packet-factory-24h/pf13/**",
+        "data/rcap-grade-a/packet-factory-24h/pf14/**",
         "data/rcap-all50/overlays/census-v1/wa/wa-blake-vacatur-and-lfo-refund-set--official-pdf-fill/**",
         "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-challenge-set--official-pdf-fill/**",
         "data/rcap-all50/overlays/census-v1/wv/wv-nc-diversion-deferred-set--official-pdf-fill/**",
@@ -3500,8 +3744,8 @@
         "data/rcap-all50/overlays/census-v1/**/wv-conv-multiple-misdemeanors-set*"
       ],
       "requiredOutputs": [
-        "data/rcap-grade-a/packet-factory-24h/pf13/rows.json — one row per family: itemId, status, the nine counters, and the artifacts produced",
-        "data/rcap-grade-a/packet-factory-24h/pf13/checkpoints.json — one entry per five-family checkpoint, written as it lands"
+        "data/rcap-grade-a/packet-factory-24h/pf14/rows.json — one row per family: itemId, status, the nine counters, and the artifacts produced",
+        "data/rcap-grade-a/packet-factory-24h/pf14/checkpoints.json — one entry per five-family checkpoint, written as it lands"
       ],
       "outputSchema": {
         "arrayKey": "rows",
@@ -3544,10 +3788,10 @@
         "DIFF LEFT FOR THE CODEX UI: YES"
       ],
       "grantsNothing": "A built family is a built family. It is not verified, not approved, not sellable.",
-      "promptFile": "docs/rcap/grade-a/packet-factory-24h/PF13.md"
+      "promptFile": "docs/rcap/grade-a/packet-factory-24h/PF14.md"
     },
     {
-      "assignmentId": "PF14",
+      "assignmentId": "PF15",
       "wave": "packet-factory-24h",
       "engine": "Codex Cloud",
       "lane": "packet-build",
@@ -3568,7 +3812,7 @@
         "git clone"
       ],
       "theDiffIsTheReturn": "Commit locally. Leave the final diff for the Codex Cloud interface. There is no PUSHED line in a cloud return.",
-      "returnDirectory": "data/rcap-grade-a/packet-factory-24h/pf14",
+      "returnDirectory": "data/rcap-grade-a/packet-factory-24h/pf15",
       "mission": "Build 2 packet families to the builder contract, one at a time, checkpointing as you go. A family that stops does not stop the lane.",
       "itemKind": "packetFamily",
       "itemCount": 2,
@@ -3683,240 +3927,11 @@
       "checkpointRule": "Return every five completed families, or every two hours, whichever comes first. Do not hold a whole assignment back for the last family.",
       "neverSelfVerify": "You do not verify your own packets. A builder verdict is not a verdict, and a VF lane that did not build them decides.",
       "ownedPaths": [
-        "data/rcap-grade-a/packet-factory-24h/pf14/**",
+        "data/rcap-grade-a/packet-factory-24h/pf15/**",
         "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill/**",
         "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-fingerprint-removal-set--official-pdf-fill/**",
         "scripts/build-census-v1-va_exp_nonconviction-set.mjs",
         "scripts/build-census-v1-wi_nc_doj_fingerprint_removal-set.mjs"
-      ],
-      "scriptsNotOwned": [],
-      "prohibitedPaths": [
-        "scripts/rcap-packet-completeness/**",
-        "data/rcap-grade-a/launch-control/**",
-        "data/rcap-grade-a/codex-cloud/p2v01-washington-independent-verification/**",
-        "data/rcap-grade-a/codex-cloud/p2v02-washington-independent-verification/**",
-        "data/rcap-grade-a/codex-cloud/p2v03-washington-independent-verification/**",
-        "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/**",
-        "scripts/build-census-v1-nj_disorderly_persons-set.mjs",
-        "data/rcap-grade-a/codex-cloud/r8a-nj-disorderly-persons/**",
-        "data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/**",
-        "scripts/build-census-v1-ca-17b-reduction-set.mjs",
-        "data/rcap-grade-a/codex-cloud/r8b-ca-17b-reduction/**",
-        "data/rcap-all50/overlays/census-v1/ca/ca-1203-43-set--official-pdf-fill/**",
-        "scripts/build-census-v1-ca-1203-43-set.mjs",
-        "data/rcap-grade-a/codex-cloud/r8c-ca-1203-43/**",
-        "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-superior-court-set--official-pdf-fill/**",
-        "scripts/build-census-v1-az_marijuana_expungement_superior_court-set.mjs",
-        "data/rcap-grade-a/codex-cloud/r8d-az-marijuana-superior-court/**",
-        "data/rcap-grade-a/codex-cloud/sdv01-south-dakota-independent-verification/**",
-        "data/rcap-all50/overlays/census-v1/**/nj-ordinance-set*",
-        "data/rcap-all50/overlays/census-v1/**/pa-summary-conviction-set*",
-        "data/rcap-all50/overlays/census-v1/**/ut-pet-dismissed-without-prejudice-set*",
-        "data/rcap-all50/overlays/census-v1/**/wa-vac-homicide-victim-prostitution-set*",
-        "data/rcap-all50/overlays/census-v1/**/wv-conv-single-misdemeanor-set*",
-        "data/rcap-all50/overlays/census-v1/**/ny-160-59-petition-set*",
-        "data/rcap-all50/overlays/census-v1/**/ut-pet-limitations-set*",
-        "data/rcap-all50/overlays/census-v1/**/ne-setaside-custodial-set*",
-        "data/rcap-all50/overlays/census-v1/**/nj-arrest-no-conviction-set*",
-        "data/rcap-all50/overlays/census-v1/**/oh-marijuana-expungement-set*",
-        "data/rcap-all50/overlays/census-v1/**/nj-clean-slate-set*",
-        "data/rcap-all50/overlays/census-v1/**/pa-490-nonconviction-set*",
-        "data/rcap-all50/overlays/census-v1/**/ut-pet-acquittal-set*",
-        "data/rcap-all50/overlays/census-v1/**/wa-vac-cannabis-set*",
-        "data/rcap-all50/overlays/census-v1/**/wa-vac-survivor-misdemeanor-set*",
-        "data/rcap-all50/overlays/census-v1/**/ca-1203-4a-set*",
-        "data/rcap-all50/overlays/census-v1/**/ut-pet-conviction-set*",
-        "data/rcap-all50/overlays/census-v1/**/nj-indictable-conviction-set*",
-        "data/rcap-all50/overlays/census-v1/**/pa-9122-1-limited-access-set*",
-        "data/rcap-all50/overlays/census-v1/**/ut-pet-dismissed-with-prejudice-set*",
-        "data/rcap-all50/overlays/census-v1/**/wa-vac-felony-set*",
-        "data/rcap-all50/overlays/census-v1/**/wv-conv-multiple-misdemeanors-set*"
-      ],
-      "requiredOutputs": [
-        "data/rcap-grade-a/packet-factory-24h/pf14/rows.json — one row per family: itemId, status, the nine counters, and the artifacts produced",
-        "data/rcap-grade-a/packet-factory-24h/pf14/checkpoints.json — one entry per five-family checkpoint, written as it lands"
-      ],
-      "outputSchema": {
-        "arrayKey": "rows",
-        "itemKeyField": "itemId",
-        "completionVocabulary": [
-          "COMPLETED",
-          "STOPPED"
-        ],
-        "rule": "An unrecognised status is refused at integration rather than translated."
-      },
-      "focusedTests": [
-        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <familyId>"
-      ],
-      "stopConditions": [
-        "ROW STOP — a family whose source does not bind by exact SHA-256 is STOPPED as BLOCKED_SOURCE naming the identity that failed. Continue to the next family.",
-        "ROW STOP — a family that needs a legal input you do not have is STOPPED as BLOCKED_LEGAL_INPUT. Never guess a legal answer and never research one.",
-        "LANE STOP — you build only the families listed here, in only the paths listed here.",
-        "NEVER invent a fact. An unavailable fact is REQUIRED_BEFORE_FILING, declared and disclosed, never guessed.",
-        "NEVER commit a private source byte, and never write into private/.",
-        "NEVER open a commercial route and never touch Production."
-      ],
-      "returnFormat": [
-        "ASSIGNMENT:",
-        "BASE SHA:",
-        "COMMIT:",
-        "FAMILIES ASSIGNED:",
-        "ROWS RETURNED (must equal FAMILIES ASSIGNED):",
-        "FAMILIES COMPLETED:",
-        "FAMILIES STOPPED:",
-        "NINE COUNTERS ZERO ON:",
-        "BLOCKED_SOURCE:",
-        "BLOCKED_LEGAL_INPUT:",
-        "OVERLAY DIRECTORIES TOUCHED BY A STOPPED FAMILY: 0",
-        "CHECKPOINTS RETURNED:",
-        "PACKETS SELF-VERIFIED: 0",
-        "OTHER PF PROMPTS EXECUTED IN THIS CONTAINER: 0",
-        "COMMERCIAL ROUTES OPENED: 0",
-        "PRODUCTION TOUCHED: NO",
-        "PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY 14/14",
-        "DIFF LEFT FOR THE CODEX UI: YES"
-      ],
-      "grantsNothing": "A built family is a built family. It is not verified, not approved, not sellable.",
-      "promptFile": "docs/rcap/grade-a/packet-factory-24h/PF14.md"
-    },
-    {
-      "assignmentId": "PF15",
-      "wave": "packet-factory-24h",
-      "engine": "Codex Cloud",
-      "lane": "packet-build",
-      "environment": "LegalEase Packet Factory",
-      "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
-      "captainBranch": "claude/legalease-sprint-captain-utucnw",
-      "workerBranch": "work",
-      "minimumCaptainSha": "72f99073c42bd28e3469efe316378b37601717c7",
-      "preflight": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 72f99073c42bd28e3469efe316378b37601717c7",
-      "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
-      "prohibitedCommands": [
-        "git fetch",
-        "git pull",
-        "git push",
-        "gh ",
-        "git worktree",
-        "git remote add",
-        "git clone"
-      ],
-      "theDiffIsTheReturn": "Commit locally. Leave the final diff for the Codex Cloud interface. There is no PUSHED line in a cloud return.",
-      "returnDirectory": "data/rcap-grade-a/packet-factory-24h/pf15",
-      "mission": "Build 2 packet families to the builder contract, one at a time, checkpointing as you go. A family that stops does not stop the lane.",
-      "itemKind": "packetFamily",
-      "itemCount": 2,
-      "items": [
-        "md_second_chance_shielding-set",
-        "me-seal-prost-set"
-      ],
-      "provisionedEmpty": false,
-      "refillRule": "When a source lane releases a family, Captain appends it to the emptiest PF lane and the lane starts it without waiting for the rest of the source lane to finish.",
-      "sharedAxes": [
-        "sharedBuildHost",
-        "implementationStrategy"
-      ],
-      "groupsCarried": [
-        {
-          "groupKey": "NO_SHARED_HOST::CC-DC-CR-148+MDJ-008::official_pdf_fill::attachment+primary_filing",
-          "families": [
-            "md_second_chance_shielding-set"
-          ]
-        },
-        {
-          "groupKey": "NO_SHARED_HOST::CR-289::official_pdf_fill::instructions+primary_filing",
-          "families": [
-            "me-seal-prost-set"
-          ]
-        }
-      ],
-      "familyDetail": [
-        {
-          "familyId": "md_second_chance_shielding-set",
-          "jurisdiction": "MD",
-          "strategy": "official_pdf_fill",
-          "forms": [
-            "CC-DC-CR-148",
-            "MDJ-008"
-          ],
-          "components": 2,
-          "instrumentKinds": [
-            "attachment",
-            "primary_filing"
-          ],
-          "routeCount": 1,
-          "directory": "data/rcap-all50/overlays/census-v1/md/md-second-chance-shielding-set--official-pdf-fill",
-          "buildScript": "scripts/build-census-v1-md_second_chance_shielding-set.mjs",
-          "sharedBuildHost": null,
-          "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
-          "sourceHashes": []
-        },
-        {
-          "familyId": "me-seal-prost-set",
-          "jurisdiction": "ME",
-          "strategy": "official_pdf_fill",
-          "forms": [
-            "CR-289"
-          ],
-          "components": 1,
-          "instrumentKinds": [
-            "instructions",
-            "primary_filing"
-          ],
-          "routeCount": 1,
-          "directory": "data/rcap-all50/overlays/census-v1/me/me-seal-prost-set--official-pdf-fill",
-          "buildScript": "scripts/build-census-v1-me-seal-prost-set.mjs",
-          "sharedBuildHost": null,
-          "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
-          "sourceHashes": []
-        }
-      ],
-      "builderObligations": [
-        "bind every source by exact SHA-256, and stop the family rather than build on a source that does not bind",
-        "render canonical and boundary artifacts",
-        "include every required component the route names — a document mapped and not rendered is a missing companion form",
-        "fill every known required fact",
-        "classify every intentional blank against the closed vocabulary",
-        "identify a missing participant fact as REQUIRED_BEFORE_FILING, declared explicitly and disclosed in participant-instructions.md",
-        "select every route-determined option — a packet built for one statutory route states which route it is",
-        "complete every repeating case and offence row, because a partly-filled row reads as finished and is not",
-        "leave every protected field blank — participant signature, signature date, certificate of mailing before mailing, court-only and prosecutor-only",
-        "generate participant instructions and filing instructions",
-        "render all page rasters",
-        "verify the actual visible writes from the final PDF bytes, not from the finalizer's own report",
-        "return all nine completeness counters equal to zero, or return the family as STOPPED with the counter that is not"
-      ],
-      "rowStopContract": {
-        "laneGate": {
-          "what": "global environment integrity",
-          "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha 72f99073c42bd28e3469efe316378b37601717c7 --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
-          "mustReturn": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
-          "onFailure": "If it does not, STOP THE LANE: nothing in it can run and no row is written.",
-          "note": "family_sources_bind reports 'not applicable' here on purpose: it is a row question, asked once per family below."
-        },
-        "rowGate": {
-          "what": "this family's own sources",
-          "command": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 72f99073c42bd28e3469efe316378b37601717c7",
-          "onFamilySourcesBindFailure": "write a BLOCKED_SOURCE row for that family naming the exact source identity that did not bind, and CONTINUE TO THE NEXT FAMILY.",
-          "onOpenLegalInput": "write a BLOCKED_LEGAL_INPUT row naming the open input, and CONTINUE TO THE NEXT FAMILY. Never guess a legal answer and never research one.",
-          "onAnyOtherCheckFailing": "that is a lane-level environment change, not a family defect. Stop the lane and say which check moved."
-        },
-        "everyFamilyGetsExactlyOneRow": "COMPLETED or STOPPED, one row per assigned family, no family missing and none twice. A lane that returns fewer rows than it was assigned families has lost work silently.",
-        "aStoppedFamilyWritesNothing": "A family you stop must leave its overlay directory byte-for-byte unchanged. A half-built packet that reads as built is worse than one that was never started.",
-        "theLaneCompletesNormally": "A lane with blocked families still completes. Blocked rows are the finding, not a failure of the lane."
-      },
-      "taskIsolation": [
-        "THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.",
-        "DO NOT EXECUTE PF01-PF16 IN ONE TASK.",
-        "DO NOT EXECUTE ANOTHER PF PROMPT IN THIS CONTAINER."
-      ],
-      "checkpointRule": "Return every five completed families, or every two hours, whichever comes first. Do not hold a whole assignment back for the last family.",
-      "neverSelfVerify": "You do not verify your own packets. A builder verdict is not a verdict, and a VF lane that did not build them decides.",
-      "ownedPaths": [
-        "data/rcap-grade-a/packet-factory-24h/pf15/**",
-        "data/rcap-all50/overlays/census-v1/md/md-second-chance-shielding-set--official-pdf-fill/**",
-        "data/rcap-all50/overlays/census-v1/me/me-seal-prost-set--official-pdf-fill/**",
-        "scripts/build-census-v1-md_second_chance_shielding-set.mjs",
-        "scripts/build-census-v1-me-seal-prost-set.mjs"
       ],
       "scriptsNotOwned": [],
       "prohibitedPaths": [
@@ -4035,8 +4050,8 @@
       "itemKind": "packetFamily",
       "itemCount": 2,
       "items": [
-        "ca-1203-4-set",
-        "co_motion_seal_nonconviction-set"
+        "md_second_chance_shielding-set",
+        "ca-1203-4-set"
       ],
       "provisionedEmpty": false,
       "refillRule": "When a source lane releases a family, Captain appends it to the emptiest PF lane and the lane starts it without waiting for the rest of the source lane to finish.",
@@ -4046,19 +4061,39 @@
       ],
       "groupsCarried": [
         {
+          "groupKey": "NO_SHARED_HOST::CC-DC-CR-148+MDJ-008::official_pdf_fill::attachment+primary_filing",
+          "families": [
+            "md_second_chance_shielding-set"
+          ]
+        },
+        {
           "groupKey": "NO_SHARED_HOST::CR-106+CR-180+CR-181+MC-025+MC-031::official_pdf_fill::attachment+primary_filing+proof_of_service+proposed_order+supporting_declaration",
           "families": [
             "ca-1203-4-set"
           ]
-        },
-        {
-          "groupKey": "NO_SHARED_HOST::JDF-477+JDF-478::official_pdf_fill::primary_filing+proposed_order",
-          "families": [
-            "co_motion_seal_nonconviction-set"
-          ]
         }
       ],
       "familyDetail": [
+        {
+          "familyId": "md_second_chance_shielding-set",
+          "jurisdiction": "MD",
+          "strategy": "official_pdf_fill",
+          "forms": [
+            "CC-DC-CR-148",
+            "MDJ-008"
+          ],
+          "components": 2,
+          "instrumentKinds": [
+            "attachment",
+            "primary_filing"
+          ],
+          "routeCount": 1,
+          "directory": "data/rcap-all50/overlays/census-v1/md/md-second-chance-shielding-set--official-pdf-fill",
+          "buildScript": "scripts/build-census-v1-md_second_chance_shielding-set.mjs",
+          "sharedBuildHost": null,
+          "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+          "sourceHashes": []
+        },
         {
           "familyId": "ca-1203-4-set",
           "jurisdiction": "CA",
@@ -4115,26 +4150,6 @@
               "tier": "exact_form_number"
             }
           ]
-        },
-        {
-          "familyId": "co_motion_seal_nonconviction-set",
-          "jurisdiction": "CO",
-          "strategy": "official_pdf_fill",
-          "forms": [
-            "JDF-477",
-            "JDF-478"
-          ],
-          "components": 2,
-          "instrumentKinds": [
-            "primary_filing",
-            "proposed_order"
-          ],
-          "routeCount": 1,
-          "directory": "data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill",
-          "buildScript": "scripts/build-census-v1-co_motion_seal_nonconviction-set.mjs",
-          "sharedBuildHost": null,
-          "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
-          "sourceHashes": []
         }
       ],
       "builderObligations": [
@@ -4180,10 +4195,10 @@
       "neverSelfVerify": "You do not verify your own packets. A builder verdict is not a verdict, and a VF lane that did not build them decides.",
       "ownedPaths": [
         "data/rcap-grade-a/packet-factory-24h/pf16/**",
+        "data/rcap-all50/overlays/census-v1/md/md-second-chance-shielding-set--official-pdf-fill/**",
         "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/**",
-        "data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill/**",
-        "scripts/build-census-v1-ca-1203-4-set.mjs",
-        "scripts/build-census-v1-co_motion_seal_nonconviction-set.mjs"
+        "scripts/build-census-v1-md_second_chance_shielding-set.mjs",
+        "scripts/build-census-v1-ca-1203-4-set.mjs"
       ],
       "scriptsNotOwned": [],
       "prohibitedPaths": [
@@ -4300,18 +4315,16 @@
       "returnDirectory": "data/rcap-grade-a/packet-factory-24h/vf01",
       "mission": "Verify returned packet families independently, in rolling checkpoints, as builders land them. You claim, you measure, you record a verdict. You never edit what you verify.",
       "itemKind": "streamingClaim",
-      "itemCount": 2,
+      "itemCount": 1,
       "items": [
-        "ne-setaside-custodial-set",
-        "ut_pet_no_charges-set"
+        "ne-setaside-custodial-set"
       ],
       "seedItemsAreNotTheWholeJob": "These are the families already complete and awaiting verification at dispatch. The rest arrive as PF checkpoints land; claim from the ledger.",
       "launchNow": true,
       "launchRule": "Launch now. Every seed family below is rendered at 72f99073c42bd28e3469efe316378b37601717c7, which your checkout must contain.",
       "verifiesCommit": "72f99073c42bd28e3469efe316378b37601717c7",
       "packetDirectories": [
-        "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill",
-        "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill"
+        "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill"
       ],
       "mayNotBeRunBy": [
         "the worker that built or last repaired any family below",
@@ -4459,18 +4472,16 @@
       "returnDirectory": "data/rcap-grade-a/packet-factory-24h/vf02",
       "mission": "Verify returned packet families independently, in rolling checkpoints, as builders land them. You claim, you measure, you record a verdict. You never edit what you verify.",
       "itemKind": "streamingClaim",
-      "itemCount": 2,
+      "itemCount": 1,
       "items": [
-        "oh_marijuana_expungement-set",
-        "ut_pet_traffic-set"
+        "oh_marijuana_expungement-set"
       ],
       "seedItemsAreNotTheWholeJob": "These are the families already complete and awaiting verification at dispatch. The rest arrive as PF checkpoints land; claim from the ledger.",
       "launchNow": true,
       "launchRule": "Launch now. Every seed family below is rendered at 72f99073c42bd28e3469efe316378b37601717c7, which your checkout must contain.",
       "verifiesCommit": "72f99073c42bd28e3469efe316378b37601717c7",
       "packetDirectories": [
-        "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading",
-        "data/rcap-all50/overlays/census-v1/ut/ut-pet-traffic-set--official-pdf-fill"
+        "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading"
       ],
       "mayNotBeRunBy": [
         "the worker that built or last repaired any family below",
@@ -4618,18 +4629,16 @@
       "returnDirectory": "data/rcap-grade-a/packet-factory-24h/vf03",
       "mission": "Verify returned packet families independently, in rolling checkpoints, as builders land them. You claim, you measure, you record a verdict. You never edit what you verify.",
       "itemKind": "streamingClaim",
-      "itemCount": 2,
+      "itemCount": 1,
       "items": [
-        "rcap-oh-custom-pleading-clean-tracks",
-        "wv_conv_multiple_misdemeanors-set"
+        "rcap-oh-custom-pleading-clean-tracks"
       ],
       "seedItemsAreNotTheWholeJob": "These are the families already complete and awaiting verification at dispatch. The rest arrive as PF checkpoints land; claim from the ledger.",
       "launchNow": true,
       "launchRule": "Launch now. Every seed family below is rendered at 72f99073c42bd28e3469efe316378b37601717c7, which your checkout must contain.",
       "verifiesCommit": "72f99073c42bd28e3469efe316378b37601717c7",
       "packetDirectories": [
-        "data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading",
-        "data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill"
+        "data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading"
       ],
       "mayNotBeRunBy": [
         "the worker that built or last repaired any family below",
@@ -4777,18 +4786,16 @@
       "returnDirectory": "data/rcap-grade-a/packet-factory-24h/vf04",
       "mission": "Verify returned packet families independently, in rolling checkpoints, as builders land them. You claim, you measure, you record a verdict. You never edit what you verify.",
       "itemKind": "streamingClaim",
-      "itemCount": 2,
+      "itemCount": 1,
       "items": [
-        "ut_pet_acquittal-set",
-        "wv_conv_single_misdemeanor-set"
+        "ut_pet_acquittal-set"
       ],
       "seedItemsAreNotTheWholeJob": "These are the families already complete and awaiting verification at dispatch. The rest arrive as PF checkpoints land; claim from the ledger.",
       "launchNow": true,
       "launchRule": "Launch now. Every seed family below is rendered at 72f99073c42bd28e3469efe316378b37601717c7, which your checkout must contain.",
       "verifiesCommit": "72f99073c42bd28e3469efe316378b37601717c7",
       "packetDirectories": [
-        "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill",
-        "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill"
+        "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill"
       ],
       "mayNotBeRunBy": [
         "the worker that built or last repaired any family below",
@@ -5540,6 +5547,634 @@
       "promptFile": "docs/rcap/grade-a/packet-factory-24h/VF08.md"
     },
     {
+      "assignmentId": "VF09",
+      "wave": "packet-factory-24h",
+      "engine": "Codex Cloud",
+      "lane": "independent-verification",
+      "environment": "LegalEase Packet Factory",
+      "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
+      "captainBranch": "claude/legalease-sprint-captain-utucnw",
+      "workerBranch": "work",
+      "minimumCaptainSha": "72f99073c42bd28e3469efe316378b37601717c7",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 72f99073c42bd28e3469efe316378b37601717c7",
+      "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "prohibitedCommands": [
+        "git fetch",
+        "git pull",
+        "git push",
+        "gh ",
+        "git worktree",
+        "git remote add",
+        "git clone"
+      ],
+      "theDiffIsTheReturn": "Commit locally. Leave the final diff for the Codex Cloud interface. There is no PUSHED line in a cloud return.",
+      "returnDirectory": "data/rcap-grade-a/packet-factory-24h/vf09",
+      "mission": "Verify returned packet families independently, in rolling checkpoints, as builders land them. You claim, you measure, you record a verdict. You never edit what you verify.",
+      "itemKind": "streamingClaim",
+      "itemCount": 1,
+      "items": [
+        "ut_pet_no_charges-set"
+      ],
+      "seedItemsAreNotTheWholeJob": "These are the families already complete and awaiting verification at dispatch. The rest arrive as PF checkpoints land; claim from the ledger.",
+      "launchNow": true,
+      "launchRule": "Launch now. Every seed family below is rendered at 72f99073c42bd28e3469efe316378b37601717c7, which your checkout must contain.",
+      "verifiesCommit": "72f99073c42bd28e3469efe316378b37601717c7",
+      "packetDirectories": [
+        "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill"
+      ],
+      "mayNotBeRunBy": [
+        "the worker that built or last repaired any family below",
+        "any PF or FIX lane in this dispatch"
+      ],
+      "independenceIsThreeWay": "Not the builder, not the repairer, not a shard that has already formed a view of these packets. A second reading by the same eyes is not an independent one.",
+      "claimLedger": "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
+      "claimRule": "Claim atomically before reading. A family already claimed is skipped, never queued behind: two verifiers on one family is duplicate work reported as independent proof.",
+      "checkpointRule": "Take rolling five-to-ten-family checkpoints as soon as they land. Do not wait for a whole builder assignment.",
+      "proofObligations": [
+        "ROUTE IDENTITY: the packet is built for the route the record names",
+        "SOURCE IDENTITY: every source binds by exact SHA-256, recomputed from the bytes",
+        "COMPONENT SET: every component the route names is rendered and present",
+        "KNOWN PREFILLS: every known required fact is written and visible on the page it belongs to",
+        "REQUIRED_BEFORE_FILING: every declared item is named in participant-instructions.md, checked against the file",
+        "ROUTE OPTIONS: every route-determined election is selected",
+        "REPEATING ROWS: no row carries written cells beside required cells left blank",
+        "PROTECTED FIELDS: no signature, signature date, certificate of mailing, court-only or prosecutor-only field carries ink",
+        "ARTIFACTS: canonical and boundary bytes hash to what the record names",
+        "PAGE ORDER: the rendered page order matches the packet manifest",
+        "CLIPPING AND OVERLAP: no ink outside a measured write box",
+        "FILING DESTINATION: the instructions name the court or agency the route names",
+        "FEE AND WAIVER: the fee and any waiver route are stated",
+        "SERVICE: who must be served, and how",
+        "SELF-HELP STOP: the packet states where self-help ends"
+      ],
+      "verdicts": [
+        "PASS_COMPLETE_INDEPENDENT",
+        "FAIL_REPAIR_REQUIRED",
+        "BLOCKED_SOURCE",
+        "BLOCKED_LEGAL_INPUT"
+      ],
+      "verdictRule": "Exactly one of PASS_COMPLETE_INDEPENDENT, FAIL_REPAIR_REQUIRED, BLOCKED_SOURCE, BLOCKED_LEGAL_INPUT per family. PASS_COMPLETE_INDEPENDENT requires all nine counters zero, measured here rather than read from the builder's report.",
+      "independenceRule": "You did not build these families and you may not repair them. A defect you find is a verdict and a repair assignment, never an edit.",
+      "ownedPaths": [
+        "data/rcap-grade-a/packet-factory-24h/vf09/**"
+      ],
+      "prohibitedPaths": [
+        "data/rcap-all50/overlays/census-v1/**",
+        "scripts/build-census-v1-*.mjs",
+        "scripts/rcap-packet-completeness/**",
+        "data/rcap-grade-a/launch-control/**",
+        "data/rcap-grade-a/codex-cloud/p2v01-washington-independent-verification/**",
+        "data/rcap-grade-a/codex-cloud/p2v02-washington-independent-verification/**",
+        "data/rcap-grade-a/codex-cloud/p2v03-washington-independent-verification/**",
+        "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/**",
+        "scripts/build-census-v1-nj_disorderly_persons-set.mjs",
+        "data/rcap-grade-a/codex-cloud/r8a-nj-disorderly-persons/**",
+        "data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/**",
+        "scripts/build-census-v1-ca-17b-reduction-set.mjs",
+        "data/rcap-grade-a/codex-cloud/r8b-ca-17b-reduction/**",
+        "data/rcap-all50/overlays/census-v1/ca/ca-1203-43-set--official-pdf-fill/**",
+        "scripts/build-census-v1-ca-1203-43-set.mjs",
+        "data/rcap-grade-a/codex-cloud/r8c-ca-1203-43/**",
+        "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-superior-court-set--official-pdf-fill/**",
+        "scripts/build-census-v1-az_marijuana_expungement_superior_court-set.mjs",
+        "data/rcap-grade-a/codex-cloud/r8d-az-marijuana-superior-court/**",
+        "data/rcap-grade-a/codex-cloud/sdv01-south-dakota-independent-verification/**",
+        "data/rcap-all50/overlays/census-v1/**/nj-ordinance-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-summary-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-dismissed-without-prejudice-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-homicide-victim-prostitution-set*",
+        "data/rcap-all50/overlays/census-v1/**/wv-conv-single-misdemeanor-set*",
+        "data/rcap-all50/overlays/census-v1/**/ny-160-59-petition-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-limitations-set*",
+        "data/rcap-all50/overlays/census-v1/**/ne-setaside-custodial-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-arrest-no-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/oh-marijuana-expungement-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-clean-slate-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-490-nonconviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-acquittal-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-cannabis-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-survivor-misdemeanor-set*",
+        "data/rcap-all50/overlays/census-v1/**/ca-1203-4a-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-indictable-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-9122-1-limited-access-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-dismissed-with-prejudice-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-felony-set*",
+        "data/rcap-all50/overlays/census-v1/**/wv-conv-multiple-misdemeanors-set*"
+      ],
+      "requiredOutputs": [
+        "data/rcap-grade-a/packet-factory-24h/vf09/rows.json — one row per family claimed: itemId, verdict, the fifteen proof obligations as you measured them, and the evidence read",
+        "data/rcap-grade-a/packet-factory-24h/vf09/repair-assignments.json — every FAIL_REPAIR_REQUIRED, with the decisive defect and the exact failed proof obligations"
+      ],
+      "outputSchema": {
+        "arrayKey": "rows",
+        "itemKeyField": "itemId",
+        "completionVocabulary": [
+          "PASS_COMPLETE_INDEPENDENT",
+          "FAIL_REPAIR_REQUIRED",
+          "BLOCKED_SOURCE",
+          "BLOCKED_LEGAL_INPUT"
+        ],
+        "rule": "An unrecognised verdict is refused at integration rather than translated."
+      },
+      "focusedTests": [
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <familyId>"
+      ],
+      "stopConditions": [
+        "LANE STOP — you write into no overlay directory and no build script.",
+        "LANE STOP — you claim before you read.",
+        "ROW STOP — a family blocked by its source is BLOCKED_SOURCE and one blocked by an open legal input is BLOCKED_LEGAL_INPUT. Neither is a FAIL and neither is a PASS."
+      ],
+      "returnFormat": [
+        "ASSIGNMENT:",
+        "BASE SHA:",
+        "COMMIT:",
+        "FAMILIES CLAIMED:",
+        "PASS_COMPLETE_INDEPENDENT:",
+        "FAIL_REPAIR_REQUIRED:",
+        "BLOCKED_SOURCE:",
+        "BLOCKED_LEGAL_INPUT:",
+        "OVERLAY DIRECTORIES MODIFIED: 0",
+        "COMMERCIAL ROUTES OPENED: 0",
+        "PRODUCTION TOUCHED: NO",
+        "PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY 14/14",
+        "DIFF LEFT FOR THE CODEX UI: YES"
+      ],
+      "grantsNothing": "An independent PASS proves a packet is complete. It approves no output and opens no commercial route.",
+      "promptFile": "docs/rcap/grade-a/packet-factory-24h/VF09.md"
+    },
+    {
+      "assignmentId": "VF10",
+      "wave": "packet-factory-24h",
+      "engine": "Codex Cloud",
+      "lane": "independent-verification",
+      "environment": "LegalEase Packet Factory",
+      "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
+      "captainBranch": "claude/legalease-sprint-captain-utucnw",
+      "workerBranch": "work",
+      "minimumCaptainSha": "72f99073c42bd28e3469efe316378b37601717c7",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 72f99073c42bd28e3469efe316378b37601717c7",
+      "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "prohibitedCommands": [
+        "git fetch",
+        "git pull",
+        "git push",
+        "gh ",
+        "git worktree",
+        "git remote add",
+        "git clone"
+      ],
+      "theDiffIsTheReturn": "Commit locally. Leave the final diff for the Codex Cloud interface. There is no PUSHED line in a cloud return.",
+      "returnDirectory": "data/rcap-grade-a/packet-factory-24h/vf10",
+      "mission": "Verify returned packet families independently, in rolling checkpoints, as builders land them. You claim, you measure, you record a verdict. You never edit what you verify.",
+      "itemKind": "streamingClaim",
+      "itemCount": 1,
+      "items": [
+        "ut_pet_traffic-set"
+      ],
+      "seedItemsAreNotTheWholeJob": "These are the families already complete and awaiting verification at dispatch. The rest arrive as PF checkpoints land; claim from the ledger.",
+      "launchNow": true,
+      "launchRule": "Launch now. Every seed family below is rendered at 72f99073c42bd28e3469efe316378b37601717c7, which your checkout must contain.",
+      "verifiesCommit": "72f99073c42bd28e3469efe316378b37601717c7",
+      "packetDirectories": [
+        "data/rcap-all50/overlays/census-v1/ut/ut-pet-traffic-set--official-pdf-fill"
+      ],
+      "mayNotBeRunBy": [
+        "the worker that built or last repaired any family below",
+        "any PF or FIX lane in this dispatch"
+      ],
+      "independenceIsThreeWay": "Not the builder, not the repairer, not a shard that has already formed a view of these packets. A second reading by the same eyes is not an independent one.",
+      "claimLedger": "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
+      "claimRule": "Claim atomically before reading. A family already claimed is skipped, never queued behind: two verifiers on one family is duplicate work reported as independent proof.",
+      "checkpointRule": "Take rolling five-to-ten-family checkpoints as soon as they land. Do not wait for a whole builder assignment.",
+      "proofObligations": [
+        "ROUTE IDENTITY: the packet is built for the route the record names",
+        "SOURCE IDENTITY: every source binds by exact SHA-256, recomputed from the bytes",
+        "COMPONENT SET: every component the route names is rendered and present",
+        "KNOWN PREFILLS: every known required fact is written and visible on the page it belongs to",
+        "REQUIRED_BEFORE_FILING: every declared item is named in participant-instructions.md, checked against the file",
+        "ROUTE OPTIONS: every route-determined election is selected",
+        "REPEATING ROWS: no row carries written cells beside required cells left blank",
+        "PROTECTED FIELDS: no signature, signature date, certificate of mailing, court-only or prosecutor-only field carries ink",
+        "ARTIFACTS: canonical and boundary bytes hash to what the record names",
+        "PAGE ORDER: the rendered page order matches the packet manifest",
+        "CLIPPING AND OVERLAP: no ink outside a measured write box",
+        "FILING DESTINATION: the instructions name the court or agency the route names",
+        "FEE AND WAIVER: the fee and any waiver route are stated",
+        "SERVICE: who must be served, and how",
+        "SELF-HELP STOP: the packet states where self-help ends"
+      ],
+      "verdicts": [
+        "PASS_COMPLETE_INDEPENDENT",
+        "FAIL_REPAIR_REQUIRED",
+        "BLOCKED_SOURCE",
+        "BLOCKED_LEGAL_INPUT"
+      ],
+      "verdictRule": "Exactly one of PASS_COMPLETE_INDEPENDENT, FAIL_REPAIR_REQUIRED, BLOCKED_SOURCE, BLOCKED_LEGAL_INPUT per family. PASS_COMPLETE_INDEPENDENT requires all nine counters zero, measured here rather than read from the builder's report.",
+      "independenceRule": "You did not build these families and you may not repair them. A defect you find is a verdict and a repair assignment, never an edit.",
+      "ownedPaths": [
+        "data/rcap-grade-a/packet-factory-24h/vf10/**"
+      ],
+      "prohibitedPaths": [
+        "data/rcap-all50/overlays/census-v1/**",
+        "scripts/build-census-v1-*.mjs",
+        "scripts/rcap-packet-completeness/**",
+        "data/rcap-grade-a/launch-control/**",
+        "data/rcap-grade-a/codex-cloud/p2v01-washington-independent-verification/**",
+        "data/rcap-grade-a/codex-cloud/p2v02-washington-independent-verification/**",
+        "data/rcap-grade-a/codex-cloud/p2v03-washington-independent-verification/**",
+        "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/**",
+        "scripts/build-census-v1-nj_disorderly_persons-set.mjs",
+        "data/rcap-grade-a/codex-cloud/r8a-nj-disorderly-persons/**",
+        "data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/**",
+        "scripts/build-census-v1-ca-17b-reduction-set.mjs",
+        "data/rcap-grade-a/codex-cloud/r8b-ca-17b-reduction/**",
+        "data/rcap-all50/overlays/census-v1/ca/ca-1203-43-set--official-pdf-fill/**",
+        "scripts/build-census-v1-ca-1203-43-set.mjs",
+        "data/rcap-grade-a/codex-cloud/r8c-ca-1203-43/**",
+        "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-superior-court-set--official-pdf-fill/**",
+        "scripts/build-census-v1-az_marijuana_expungement_superior_court-set.mjs",
+        "data/rcap-grade-a/codex-cloud/r8d-az-marijuana-superior-court/**",
+        "data/rcap-grade-a/codex-cloud/sdv01-south-dakota-independent-verification/**",
+        "data/rcap-all50/overlays/census-v1/**/nj-ordinance-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-summary-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-dismissed-without-prejudice-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-homicide-victim-prostitution-set*",
+        "data/rcap-all50/overlays/census-v1/**/wv-conv-single-misdemeanor-set*",
+        "data/rcap-all50/overlays/census-v1/**/ny-160-59-petition-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-limitations-set*",
+        "data/rcap-all50/overlays/census-v1/**/ne-setaside-custodial-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-arrest-no-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/oh-marijuana-expungement-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-clean-slate-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-490-nonconviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-acquittal-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-cannabis-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-survivor-misdemeanor-set*",
+        "data/rcap-all50/overlays/census-v1/**/ca-1203-4a-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-indictable-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-9122-1-limited-access-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-dismissed-with-prejudice-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-felony-set*",
+        "data/rcap-all50/overlays/census-v1/**/wv-conv-multiple-misdemeanors-set*"
+      ],
+      "requiredOutputs": [
+        "data/rcap-grade-a/packet-factory-24h/vf10/rows.json — one row per family claimed: itemId, verdict, the fifteen proof obligations as you measured them, and the evidence read",
+        "data/rcap-grade-a/packet-factory-24h/vf10/repair-assignments.json — every FAIL_REPAIR_REQUIRED, with the decisive defect and the exact failed proof obligations"
+      ],
+      "outputSchema": {
+        "arrayKey": "rows",
+        "itemKeyField": "itemId",
+        "completionVocabulary": [
+          "PASS_COMPLETE_INDEPENDENT",
+          "FAIL_REPAIR_REQUIRED",
+          "BLOCKED_SOURCE",
+          "BLOCKED_LEGAL_INPUT"
+        ],
+        "rule": "An unrecognised verdict is refused at integration rather than translated."
+      },
+      "focusedTests": [
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <familyId>"
+      ],
+      "stopConditions": [
+        "LANE STOP — you write into no overlay directory and no build script.",
+        "LANE STOP — you claim before you read.",
+        "ROW STOP — a family blocked by its source is BLOCKED_SOURCE and one blocked by an open legal input is BLOCKED_LEGAL_INPUT. Neither is a FAIL and neither is a PASS."
+      ],
+      "returnFormat": [
+        "ASSIGNMENT:",
+        "BASE SHA:",
+        "COMMIT:",
+        "FAMILIES CLAIMED:",
+        "PASS_COMPLETE_INDEPENDENT:",
+        "FAIL_REPAIR_REQUIRED:",
+        "BLOCKED_SOURCE:",
+        "BLOCKED_LEGAL_INPUT:",
+        "OVERLAY DIRECTORIES MODIFIED: 0",
+        "COMMERCIAL ROUTES OPENED: 0",
+        "PRODUCTION TOUCHED: NO",
+        "PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY 14/14",
+        "DIFF LEFT FOR THE CODEX UI: YES"
+      ],
+      "grantsNothing": "An independent PASS proves a packet is complete. It approves no output and opens no commercial route.",
+      "promptFile": "docs/rcap/grade-a/packet-factory-24h/VF10.md"
+    },
+    {
+      "assignmentId": "VF11",
+      "wave": "packet-factory-24h",
+      "engine": "Codex Cloud",
+      "lane": "independent-verification",
+      "environment": "LegalEase Packet Factory",
+      "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
+      "captainBranch": "claude/legalease-sprint-captain-utucnw",
+      "workerBranch": "work",
+      "minimumCaptainSha": "72f99073c42bd28e3469efe316378b37601717c7",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 72f99073c42bd28e3469efe316378b37601717c7",
+      "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "prohibitedCommands": [
+        "git fetch",
+        "git pull",
+        "git push",
+        "gh ",
+        "git worktree",
+        "git remote add",
+        "git clone"
+      ],
+      "theDiffIsTheReturn": "Commit locally. Leave the final diff for the Codex Cloud interface. There is no PUSHED line in a cloud return.",
+      "returnDirectory": "data/rcap-grade-a/packet-factory-24h/vf11",
+      "mission": "Verify returned packet families independently, in rolling checkpoints, as builders land them. You claim, you measure, you record a verdict. You never edit what you verify.",
+      "itemKind": "streamingClaim",
+      "itemCount": 1,
+      "items": [
+        "wv_conv_multiple_misdemeanors-set"
+      ],
+      "seedItemsAreNotTheWholeJob": "These are the families already complete and awaiting verification at dispatch. The rest arrive as PF checkpoints land; claim from the ledger.",
+      "launchNow": true,
+      "launchRule": "Launch now. Every seed family below is rendered at 72f99073c42bd28e3469efe316378b37601717c7, which your checkout must contain.",
+      "verifiesCommit": "72f99073c42bd28e3469efe316378b37601717c7",
+      "packetDirectories": [
+        "data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill"
+      ],
+      "mayNotBeRunBy": [
+        "the worker that built or last repaired any family below",
+        "any PF or FIX lane in this dispatch"
+      ],
+      "independenceIsThreeWay": "Not the builder, not the repairer, not a shard that has already formed a view of these packets. A second reading by the same eyes is not an independent one.",
+      "claimLedger": "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
+      "claimRule": "Claim atomically before reading. A family already claimed is skipped, never queued behind: two verifiers on one family is duplicate work reported as independent proof.",
+      "checkpointRule": "Take rolling five-to-ten-family checkpoints as soon as they land. Do not wait for a whole builder assignment.",
+      "proofObligations": [
+        "ROUTE IDENTITY: the packet is built for the route the record names",
+        "SOURCE IDENTITY: every source binds by exact SHA-256, recomputed from the bytes",
+        "COMPONENT SET: every component the route names is rendered and present",
+        "KNOWN PREFILLS: every known required fact is written and visible on the page it belongs to",
+        "REQUIRED_BEFORE_FILING: every declared item is named in participant-instructions.md, checked against the file",
+        "ROUTE OPTIONS: every route-determined election is selected",
+        "REPEATING ROWS: no row carries written cells beside required cells left blank",
+        "PROTECTED FIELDS: no signature, signature date, certificate of mailing, court-only or prosecutor-only field carries ink",
+        "ARTIFACTS: canonical and boundary bytes hash to what the record names",
+        "PAGE ORDER: the rendered page order matches the packet manifest",
+        "CLIPPING AND OVERLAP: no ink outside a measured write box",
+        "FILING DESTINATION: the instructions name the court or agency the route names",
+        "FEE AND WAIVER: the fee and any waiver route are stated",
+        "SERVICE: who must be served, and how",
+        "SELF-HELP STOP: the packet states where self-help ends"
+      ],
+      "verdicts": [
+        "PASS_COMPLETE_INDEPENDENT",
+        "FAIL_REPAIR_REQUIRED",
+        "BLOCKED_SOURCE",
+        "BLOCKED_LEGAL_INPUT"
+      ],
+      "verdictRule": "Exactly one of PASS_COMPLETE_INDEPENDENT, FAIL_REPAIR_REQUIRED, BLOCKED_SOURCE, BLOCKED_LEGAL_INPUT per family. PASS_COMPLETE_INDEPENDENT requires all nine counters zero, measured here rather than read from the builder's report.",
+      "independenceRule": "You did not build these families and you may not repair them. A defect you find is a verdict and a repair assignment, never an edit.",
+      "ownedPaths": [
+        "data/rcap-grade-a/packet-factory-24h/vf11/**"
+      ],
+      "prohibitedPaths": [
+        "data/rcap-all50/overlays/census-v1/**",
+        "scripts/build-census-v1-*.mjs",
+        "scripts/rcap-packet-completeness/**",
+        "data/rcap-grade-a/launch-control/**",
+        "data/rcap-grade-a/codex-cloud/p2v01-washington-independent-verification/**",
+        "data/rcap-grade-a/codex-cloud/p2v02-washington-independent-verification/**",
+        "data/rcap-grade-a/codex-cloud/p2v03-washington-independent-verification/**",
+        "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/**",
+        "scripts/build-census-v1-nj_disorderly_persons-set.mjs",
+        "data/rcap-grade-a/codex-cloud/r8a-nj-disorderly-persons/**",
+        "data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/**",
+        "scripts/build-census-v1-ca-17b-reduction-set.mjs",
+        "data/rcap-grade-a/codex-cloud/r8b-ca-17b-reduction/**",
+        "data/rcap-all50/overlays/census-v1/ca/ca-1203-43-set--official-pdf-fill/**",
+        "scripts/build-census-v1-ca-1203-43-set.mjs",
+        "data/rcap-grade-a/codex-cloud/r8c-ca-1203-43/**",
+        "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-superior-court-set--official-pdf-fill/**",
+        "scripts/build-census-v1-az_marijuana_expungement_superior_court-set.mjs",
+        "data/rcap-grade-a/codex-cloud/r8d-az-marijuana-superior-court/**",
+        "data/rcap-grade-a/codex-cloud/sdv01-south-dakota-independent-verification/**",
+        "data/rcap-all50/overlays/census-v1/**/nj-ordinance-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-summary-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-dismissed-without-prejudice-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-homicide-victim-prostitution-set*",
+        "data/rcap-all50/overlays/census-v1/**/wv-conv-single-misdemeanor-set*",
+        "data/rcap-all50/overlays/census-v1/**/ny-160-59-petition-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-limitations-set*",
+        "data/rcap-all50/overlays/census-v1/**/ne-setaside-custodial-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-arrest-no-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/oh-marijuana-expungement-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-clean-slate-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-490-nonconviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-acquittal-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-cannabis-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-survivor-misdemeanor-set*",
+        "data/rcap-all50/overlays/census-v1/**/ca-1203-4a-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-indictable-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-9122-1-limited-access-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-dismissed-with-prejudice-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-felony-set*",
+        "data/rcap-all50/overlays/census-v1/**/wv-conv-multiple-misdemeanors-set*"
+      ],
+      "requiredOutputs": [
+        "data/rcap-grade-a/packet-factory-24h/vf11/rows.json — one row per family claimed: itemId, verdict, the fifteen proof obligations as you measured them, and the evidence read",
+        "data/rcap-grade-a/packet-factory-24h/vf11/repair-assignments.json — every FAIL_REPAIR_REQUIRED, with the decisive defect and the exact failed proof obligations"
+      ],
+      "outputSchema": {
+        "arrayKey": "rows",
+        "itemKeyField": "itemId",
+        "completionVocabulary": [
+          "PASS_COMPLETE_INDEPENDENT",
+          "FAIL_REPAIR_REQUIRED",
+          "BLOCKED_SOURCE",
+          "BLOCKED_LEGAL_INPUT"
+        ],
+        "rule": "An unrecognised verdict is refused at integration rather than translated."
+      },
+      "focusedTests": [
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <familyId>"
+      ],
+      "stopConditions": [
+        "LANE STOP — you write into no overlay directory and no build script.",
+        "LANE STOP — you claim before you read.",
+        "ROW STOP — a family blocked by its source is BLOCKED_SOURCE and one blocked by an open legal input is BLOCKED_LEGAL_INPUT. Neither is a FAIL and neither is a PASS."
+      ],
+      "returnFormat": [
+        "ASSIGNMENT:",
+        "BASE SHA:",
+        "COMMIT:",
+        "FAMILIES CLAIMED:",
+        "PASS_COMPLETE_INDEPENDENT:",
+        "FAIL_REPAIR_REQUIRED:",
+        "BLOCKED_SOURCE:",
+        "BLOCKED_LEGAL_INPUT:",
+        "OVERLAY DIRECTORIES MODIFIED: 0",
+        "COMMERCIAL ROUTES OPENED: 0",
+        "PRODUCTION TOUCHED: NO",
+        "PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY 14/14",
+        "DIFF LEFT FOR THE CODEX UI: YES"
+      ],
+      "grantsNothing": "An independent PASS proves a packet is complete. It approves no output and opens no commercial route.",
+      "promptFile": "docs/rcap/grade-a/packet-factory-24h/VF11.md"
+    },
+    {
+      "assignmentId": "VF12",
+      "wave": "packet-factory-24h",
+      "engine": "Codex Cloud",
+      "lane": "independent-verification",
+      "environment": "LegalEase Packet Factory",
+      "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
+      "captainBranch": "claude/legalease-sprint-captain-utucnw",
+      "workerBranch": "work",
+      "minimumCaptainSha": "72f99073c42bd28e3469efe316378b37601717c7",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 72f99073c42bd28e3469efe316378b37601717c7",
+      "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "prohibitedCommands": [
+        "git fetch",
+        "git pull",
+        "git push",
+        "gh ",
+        "git worktree",
+        "git remote add",
+        "git clone"
+      ],
+      "theDiffIsTheReturn": "Commit locally. Leave the final diff for the Codex Cloud interface. There is no PUSHED line in a cloud return.",
+      "returnDirectory": "data/rcap-grade-a/packet-factory-24h/vf12",
+      "mission": "Verify returned packet families independently, in rolling checkpoints, as builders land them. You claim, you measure, you record a verdict. You never edit what you verify.",
+      "itemKind": "streamingClaim",
+      "itemCount": 1,
+      "items": [
+        "wv_conv_single_misdemeanor-set"
+      ],
+      "seedItemsAreNotTheWholeJob": "These are the families already complete and awaiting verification at dispatch. The rest arrive as PF checkpoints land; claim from the ledger.",
+      "launchNow": true,
+      "launchRule": "Launch now. Every seed family below is rendered at 72f99073c42bd28e3469efe316378b37601717c7, which your checkout must contain.",
+      "verifiesCommit": "72f99073c42bd28e3469efe316378b37601717c7",
+      "packetDirectories": [
+        "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill"
+      ],
+      "mayNotBeRunBy": [
+        "the worker that built or last repaired any family below",
+        "any PF or FIX lane in this dispatch"
+      ],
+      "independenceIsThreeWay": "Not the builder, not the repairer, not a shard that has already formed a view of these packets. A second reading by the same eyes is not an independent one.",
+      "claimLedger": "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
+      "claimRule": "Claim atomically before reading. A family already claimed is skipped, never queued behind: two verifiers on one family is duplicate work reported as independent proof.",
+      "checkpointRule": "Take rolling five-to-ten-family checkpoints as soon as they land. Do not wait for a whole builder assignment.",
+      "proofObligations": [
+        "ROUTE IDENTITY: the packet is built for the route the record names",
+        "SOURCE IDENTITY: every source binds by exact SHA-256, recomputed from the bytes",
+        "COMPONENT SET: every component the route names is rendered and present",
+        "KNOWN PREFILLS: every known required fact is written and visible on the page it belongs to",
+        "REQUIRED_BEFORE_FILING: every declared item is named in participant-instructions.md, checked against the file",
+        "ROUTE OPTIONS: every route-determined election is selected",
+        "REPEATING ROWS: no row carries written cells beside required cells left blank",
+        "PROTECTED FIELDS: no signature, signature date, certificate of mailing, court-only or prosecutor-only field carries ink",
+        "ARTIFACTS: canonical and boundary bytes hash to what the record names",
+        "PAGE ORDER: the rendered page order matches the packet manifest",
+        "CLIPPING AND OVERLAP: no ink outside a measured write box",
+        "FILING DESTINATION: the instructions name the court or agency the route names",
+        "FEE AND WAIVER: the fee and any waiver route are stated",
+        "SERVICE: who must be served, and how",
+        "SELF-HELP STOP: the packet states where self-help ends"
+      ],
+      "verdicts": [
+        "PASS_COMPLETE_INDEPENDENT",
+        "FAIL_REPAIR_REQUIRED",
+        "BLOCKED_SOURCE",
+        "BLOCKED_LEGAL_INPUT"
+      ],
+      "verdictRule": "Exactly one of PASS_COMPLETE_INDEPENDENT, FAIL_REPAIR_REQUIRED, BLOCKED_SOURCE, BLOCKED_LEGAL_INPUT per family. PASS_COMPLETE_INDEPENDENT requires all nine counters zero, measured here rather than read from the builder's report.",
+      "independenceRule": "You did not build these families and you may not repair them. A defect you find is a verdict and a repair assignment, never an edit.",
+      "ownedPaths": [
+        "data/rcap-grade-a/packet-factory-24h/vf12/**"
+      ],
+      "prohibitedPaths": [
+        "data/rcap-all50/overlays/census-v1/**",
+        "scripts/build-census-v1-*.mjs",
+        "scripts/rcap-packet-completeness/**",
+        "data/rcap-grade-a/launch-control/**",
+        "data/rcap-grade-a/codex-cloud/p2v01-washington-independent-verification/**",
+        "data/rcap-grade-a/codex-cloud/p2v02-washington-independent-verification/**",
+        "data/rcap-grade-a/codex-cloud/p2v03-washington-independent-verification/**",
+        "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/**",
+        "scripts/build-census-v1-nj_disorderly_persons-set.mjs",
+        "data/rcap-grade-a/codex-cloud/r8a-nj-disorderly-persons/**",
+        "data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/**",
+        "scripts/build-census-v1-ca-17b-reduction-set.mjs",
+        "data/rcap-grade-a/codex-cloud/r8b-ca-17b-reduction/**",
+        "data/rcap-all50/overlays/census-v1/ca/ca-1203-43-set--official-pdf-fill/**",
+        "scripts/build-census-v1-ca-1203-43-set.mjs",
+        "data/rcap-grade-a/codex-cloud/r8c-ca-1203-43/**",
+        "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-superior-court-set--official-pdf-fill/**",
+        "scripts/build-census-v1-az_marijuana_expungement_superior_court-set.mjs",
+        "data/rcap-grade-a/codex-cloud/r8d-az-marijuana-superior-court/**",
+        "data/rcap-grade-a/codex-cloud/sdv01-south-dakota-independent-verification/**",
+        "data/rcap-all50/overlays/census-v1/**/nj-ordinance-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-summary-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-dismissed-without-prejudice-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-homicide-victim-prostitution-set*",
+        "data/rcap-all50/overlays/census-v1/**/wv-conv-single-misdemeanor-set*",
+        "data/rcap-all50/overlays/census-v1/**/ny-160-59-petition-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-limitations-set*",
+        "data/rcap-all50/overlays/census-v1/**/ne-setaside-custodial-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-arrest-no-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/oh-marijuana-expungement-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-clean-slate-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-490-nonconviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-acquittal-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-cannabis-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-survivor-misdemeanor-set*",
+        "data/rcap-all50/overlays/census-v1/**/ca-1203-4a-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/nj-indictable-conviction-set*",
+        "data/rcap-all50/overlays/census-v1/**/pa-9122-1-limited-access-set*",
+        "data/rcap-all50/overlays/census-v1/**/ut-pet-dismissed-with-prejudice-set*",
+        "data/rcap-all50/overlays/census-v1/**/wa-vac-felony-set*",
+        "data/rcap-all50/overlays/census-v1/**/wv-conv-multiple-misdemeanors-set*"
+      ],
+      "requiredOutputs": [
+        "data/rcap-grade-a/packet-factory-24h/vf12/rows.json — one row per family claimed: itemId, verdict, the fifteen proof obligations as you measured them, and the evidence read",
+        "data/rcap-grade-a/packet-factory-24h/vf12/repair-assignments.json — every FAIL_REPAIR_REQUIRED, with the decisive defect and the exact failed proof obligations"
+      ],
+      "outputSchema": {
+        "arrayKey": "rows",
+        "itemKeyField": "itemId",
+        "completionVocabulary": [
+          "PASS_COMPLETE_INDEPENDENT",
+          "FAIL_REPAIR_REQUIRED",
+          "BLOCKED_SOURCE",
+          "BLOCKED_LEGAL_INPUT"
+        ],
+        "rule": "An unrecognised verdict is refused at integration rather than translated."
+      },
+      "focusedTests": [
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <familyId>"
+      ],
+      "stopConditions": [
+        "LANE STOP — you write into no overlay directory and no build script.",
+        "LANE STOP — you claim before you read.",
+        "ROW STOP — a family blocked by its source is BLOCKED_SOURCE and one blocked by an open legal input is BLOCKED_LEGAL_INPUT. Neither is a FAIL and neither is a PASS."
+      ],
+      "returnFormat": [
+        "ASSIGNMENT:",
+        "BASE SHA:",
+        "COMMIT:",
+        "FAMILIES CLAIMED:",
+        "PASS_COMPLETE_INDEPENDENT:",
+        "FAIL_REPAIR_REQUIRED:",
+        "BLOCKED_SOURCE:",
+        "BLOCKED_LEGAL_INPUT:",
+        "OVERLAY DIRECTORIES MODIFIED: 0",
+        "COMMERCIAL ROUTES OPENED: 0",
+        "PRODUCTION TOUCHED: NO",
+        "PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY 14/14",
+        "DIFF LEFT FOR THE CODEX UI: YES"
+      ],
+      "grantsNothing": "An independent PASS proves a packet is complete. It approves no output and opens no commercial route.",
+      "promptFile": "docs/rcap/grade-a/packet-factory-24h/VF12.md"
+    },
+    {
       "assignmentId": "DISC01",
       "wave": "packet-factory-24h",
       "engine": "Codex Cloud",
@@ -5601,6 +6236,22 @@
       "issuingHosts": [
         "TX"
       ],
+      "familiesThisLaneWouldRelease": [
+        "rcap-tx-custom-pleading",
+        "tx_exp_acquittal-set",
+        "tx_nd_automatic_misdemeanor_deferred-set",
+        "tx_nd_conviction_no_supervision-set",
+        "tx_nd_deferred_other-set",
+        "tx_nd_dwi_conviction-set",
+        "tx_nd_dwi_deferred-set",
+        "tx_nd_dwi_probation-set",
+        "tx_nd_probation_misdemeanor-set",
+        "tx_nd_veterans_court-set",
+        "tx_nd_veterans_reemployment-set"
+      ],
+      "familiesThisLaneWouldReleaseCount": 11,
+      "countIsProspective": true,
+      "countMeaning": "families this lane would release if all of its obligations resolve. It is not a count of promoted sources and must not be read as one.",
       "familiesUnblocked": [
         "rcap-tx-custom-pleading",
         "tx_exp_acquittal-set",
@@ -5615,6 +6266,7 @@
         "tx_nd_veterans_reemployment-set"
       ],
       "familiesUnblockedCount": 11,
+      "familiesUnblockedIsProspectiveAlias": "kept so an existing reader does not silently see zero; it means familiesThisLaneWouldRelease and nothing more",
       "familiesAdvancedButNotReleasedHere": [],
       "splitFamilyRule": "A family whose obligations are split across lanes is released by no single lane. You advance it; the family is released when the last of the named lanes clears its share. Reporting it released alone is a duplicate release and is refused at integration.",
       "absenceClasses": [
@@ -5798,12 +6450,21 @@
         "AL",
         "IN"
       ],
+      "familiesThisLaneWouldRelease": [
+        "agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record",
+        "ak-mistaken-identity-set",
+        "official-form-treatment:obligation:research-decision-route:AL:al-olr"
+      ],
+      "familiesThisLaneWouldReleaseCount": 3,
+      "countIsProspective": true,
+      "countMeaning": "families this lane would release if all of its obligations resolve. It is not a count of promoted sources and must not be read as one.",
       "familiesUnblocked": [
         "agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record",
         "ak-mistaken-identity-set",
         "official-form-treatment:obligation:research-decision-route:AL:al-olr"
       ],
       "familiesUnblockedCount": 3,
+      "familiesUnblockedIsProspectiveAlias": "kept so an existing reader does not silently see zero; it means familiesThisLaneWouldRelease and nothing more",
       "familiesAdvancedButNotReleasedHere": [
         {
           "familyId": "in_arrest_no_charges-set",
@@ -6031,6 +6692,20 @@
         "LA",
         "UT"
       ],
+      "familiesThisLaneWouldRelease": [
+        "de_mandatory_expungement-set",
+        "id_isp_expungement-set",
+        "la-976-arrest-no-conviction-set",
+        "la-977-misdemeanor-conviction-set",
+        "la-977d-marijuana-first-offense-set",
+        "la-978-felony-conviction-set",
+        "la-985-1-interim-expungement-set",
+        "la-985-expungement-by-redaction-set",
+        "la-987-set-aside-and-dismiss-set"
+      ],
+      "familiesThisLaneWouldReleaseCount": 9,
+      "countIsProspective": true,
+      "countMeaning": "families this lane would release if all of its obligations resolve. It is not a count of promoted sources and must not be read as one.",
       "familiesUnblocked": [
         "de_mandatory_expungement-set",
         "id_isp_expungement-set",
@@ -6043,6 +6718,7 @@
         "la-987-set-aside-and-dismiss-set"
       ],
       "familiesUnblockedCount": 9,
+      "familiesUnblockedIsProspectiveAlias": "kept so an existing reader does not silently see zero; it means familiesThisLaneWouldRelease and nothing more",
       "familiesAdvancedButNotReleasedHere": [
         {
           "familyId": "ut_pet_remove_link-set",
@@ -6233,6 +6909,25 @@
         "IL",
         "MI"
       ],
+      "familiesThisLaneWouldRelease": [
+        "il-cannabis-vacate-set",
+        "il-exp-nonconv-set",
+        "il-exp-pardon-set",
+        "il-exp-precompletion-set",
+        "il-exp-qualprob-set",
+        "il-exp-supervision-set",
+        "il-prb-cert-set",
+        "il-seal-2yr-set",
+        "il-seal-3yr-set",
+        "il-seal-edu-set",
+        "il-seal-nonconv-set",
+        "mi_setaside_application-set",
+        "mi_setaside_first_owi-set",
+        "mi_setaside_trafficking-set"
+      ],
+      "familiesThisLaneWouldReleaseCount": 14,
+      "countIsProspective": true,
+      "countMeaning": "families this lane would release if all of its obligations resolve. It is not a count of promoted sources and must not be read as one.",
       "familiesUnblocked": [
         "il-cannabis-vacate-set",
         "il-exp-nonconv-set",
@@ -6250,6 +6945,7 @@
         "mi_setaside_trafficking-set"
       ],
       "familiesUnblockedCount": 14,
+      "familiesUnblockedIsProspectiveAlias": "kept so an existing reader does not silently see zero; it means familiesThisLaneWouldRelease and nothing more",
       "familiesAdvancedButNotReleasedHere": [],
       "splitFamilyRule": "A family whose obligations are split across lanes is released by no single lane. You advance it; the family is released when the last of the named lanes clears its share. Reporting it released alone is a duplicate release and is refused at integration.",
       "absenceClasses": [
@@ -6432,6 +7128,23 @@
         "MA",
         "ND"
       ],
+      "familiesThisLaneWouldRelease": [
+        "ar-cs-possession-seal-set",
+        "ar-drug-court-set",
+        "ar-felony-seal-set",
+        "ar-misdemeanor-seal-set",
+        "ar-nonconviction-seal-set",
+        "ar-veterans-court-set",
+        "ma-expunge-k-set",
+        "ma-expunge-time-set",
+        "ma-seal-admin-set",
+        "ma-seal-decrim-set",
+        "nd-nonconviction-close-petition-set",
+        "nd-prohibit-remote-public-access-set"
+      ],
+      "familiesThisLaneWouldReleaseCount": 12,
+      "countIsProspective": true,
+      "countMeaning": "families this lane would release if all of its obligations resolve. It is not a count of promoted sources and must not be read as one.",
       "familiesUnblocked": [
         "ar-cs-possession-seal-set",
         "ar-drug-court-set",
@@ -6447,6 +7160,7 @@
         "nd-prohibit-remote-public-access-set"
       ],
       "familiesUnblockedCount": 12,
+      "familiesUnblockedIsProspectiveAlias": "kept so an existing reader does not silently see zero; it means familiesThisLaneWouldRelease and nothing more",
       "familiesAdvancedButNotReleasedHere": [
         {
           "familyId": "ar-act346-set",
@@ -6637,6 +7351,21 @@
         "IA",
         "MT"
       ],
+      "familiesThisLaneWouldRelease": [
+        "fl-administrative-set",
+        "fl-early-juvenile-set",
+        "fl-juvenile-diversion-set",
+        "fl-self-defense-set",
+        "ia-12346-set",
+        "ia-12347-set",
+        "ia-7251-set",
+        "ia-901c2-set",
+        "ia-901c3-set",
+        "ia-dci77-set"
+      ],
+      "familiesThisLaneWouldReleaseCount": 10,
+      "countIsProspective": true,
+      "countMeaning": "families this lane would release if all of its obligations resolve. It is not a count of promoted sources and must not be read as one.",
       "familiesUnblocked": [
         "fl-administrative-set",
         "fl-early-juvenile-set",
@@ -6650,6 +7379,7 @@
         "ia-dci77-set"
       ],
       "familiesUnblockedCount": 10,
+      "familiesUnblockedIsProspectiveAlias": "kept so an existing reader does not silently see zero; it means familiesThisLaneWouldRelease and nothing more",
       "familiesAdvancedButNotReleasedHere": [
         {
           "familyId": "fl-10yr-bridge-set",
@@ -6894,6 +7624,22 @@
         "SC",
         "WV"
       ],
+      "familiesThisLaneWouldRelease": [
+        "ga-fo-active-pre2026-set",
+        "ga-fo-discharged-pre2026-set",
+        "nd-regular-pardon-set",
+        "nd-summary-marijuana-pardon-set",
+        "nh_conviction_standard-set",
+        "nh_conviction_streamlined-set",
+        "nh_marijuana_annulment-set",
+        "nh_petition_nonconviction_pre2019-set",
+        "nh_petition_vacated-set",
+        "rcap-sc-custom-pleading",
+        "wv_acc_treatment_job_readiness-set"
+      ],
+      "familiesThisLaneWouldReleaseCount": 11,
+      "countIsProspective": true,
+      "countMeaning": "families this lane would release if all of its obligations resolve. It is not a count of promoted sources and must not be read as one.",
       "familiesUnblocked": [
         "ga-fo-active-pre2026-set",
         "ga-fo-discharged-pre2026-set",
@@ -6908,6 +7654,7 @@
         "wv_acc_treatment_job_readiness-set"
       ],
       "familiesUnblockedCount": 11,
+      "familiesUnblockedIsProspectiveAlias": "kept so an existing reader does not silently see zero; it means familiesThisLaneWouldRelease and nothing more",
       "familiesAdvancedButNotReleasedHere": [
         {
           "familyId": "ga-nonconv-pre2013-set",
@@ -7177,6 +7924,43 @@
         "RI",
         "VA"
       ],
+      "familiesThisLaneWouldRelease": [
+        "al-diversion-set",
+        "al-felony-dwop-set",
+        "al-felony-nonconviction-90-set",
+        "al-misd-conviction-set",
+        "al-misd-dwop-set",
+        "al-misd-nonconviction-90-set",
+        "al-pardon-set",
+        "al-pardoned-felony-set",
+        "al-trafficking-set",
+        "az_certificate_second_chance-set",
+        "az_marijuana_expungement_limited_jurisdiction-set",
+        "az_record_sealing_conviction-set",
+        "az_set_aside-set",
+        "co_municipal_conviction_seal-set",
+        "co_petition_seal_arrest-set",
+        "id_clean_slate_shield-set",
+        "md_10105_early-set",
+        "md_10105_favorable-set",
+        "md_10110_conviction-set",
+        "md_cannabis_petition-set",
+        "md_pardon_expungement-set",
+        "mo-575-120-identity-theft-correction-set",
+        "mo-610-122-arrest-expungement-set",
+        "mo-610-140-arrest-set",
+        "mo-610-140-conviction-set",
+        "mo-art-xiv-marijuana-set",
+        "ri_decriminalized-set",
+        "ri_deferred_sentence-set",
+        "ri_first_offender_felony-set",
+        "ri_first_offender_misdemeanor-set",
+        "ri_multiple_misdemeanors-set",
+        "va_exp_identity_used_by_another-set"
+      ],
+      "familiesThisLaneWouldReleaseCount": 32,
+      "countIsProspective": true,
+      "countMeaning": "families this lane would release if all of its obligations resolve. It is not a count of promoted sources and must not be read as one.",
       "familiesUnblocked": [
         "al-diversion-set",
         "al-felony-dwop-set",
@@ -7212,6 +7996,7 @@
         "va_exp_identity_used_by_another-set"
       ],
       "familiesUnblockedCount": 32,
+      "familiesUnblockedIsProspectiveAlias": "kept so an existing reader does not silently see zero; it means familiesThisLaneWouldRelease and nothing more",
       "familiesAdvancedButNotReleasedHere": [
         {
           "familyId": "mo-610-145-mistaken-identity-set",
@@ -7430,6 +8215,26 @@
         "NM",
         "UT"
       ],
+      "familiesThisLaneWouldRelease": [
+        "ar-act531-set",
+        "de_discretionary_family_court-set",
+        "de_discretionary_superior_court-set",
+        "de_pardon_expungement-set",
+        "hi_712_1200_deferred_expungement-set",
+        "hi_dag_danc_expungement-set",
+        "hi_nonconviction_expungement-set",
+        "ne-seal-pardoned-set",
+        "ne-seal-pre2017-set",
+        "nm_conviction-set",
+        "nm_identity_theft-set",
+        "nm_release_without_conviction-set",
+        "rcap-hi-custom-pleading",
+        "ut_pet_cannabis-set",
+        "ut_pet_special_certificate-set"
+      ],
+      "familiesThisLaneWouldReleaseCount": 15,
+      "countIsProspective": true,
+      "countMeaning": "families this lane would release if all of its obligations resolve. It is not a count of promoted sources and must not be read as one.",
       "familiesUnblocked": [
         "ar-act531-set",
         "de_discretionary_family_court-set",
@@ -7448,6 +8253,7 @@
         "ut_pet_special_certificate-set"
       ],
       "familiesUnblockedCount": 15,
+      "familiesUnblockedIsProspectiveAlias": "kept so an existing reader does not silently see zero; it means familiesThisLaneWouldRelease and nothing more",
       "familiesAdvancedButNotReleasedHere": [
         {
           "familyId": "mt_deferred_dismissal-set",
@@ -7695,6 +8501,30 @@
         "MN",
         "NC"
       ],
+      "familiesThisLaneWouldRelease": [
+        "ca-diversion-seal-set",
+        "composed-treatment:nc_146_dismissal_petition",
+        "fl-trafficking-set",
+        "ky_expungement_certification-set",
+        "ky_nonconviction_expungement-set",
+        "ky_protective_order_record_expungement-set",
+        "ma-seal-court-set",
+        "me-seal-gen-set",
+        "me-seal-survivor-set",
+        "mn_petition_15218-set",
+        "mn_petition_609a02_subd3-set",
+        "mn_petition_juvenile_as_adult-set",
+        "nc_145_5_felony-set",
+        "nc_145_5_misdemeanor-set",
+        "nc_145_8a_youthful-set",
+        "nc_146_acquittal_petition-set",
+        "nc_146_dismissal_petition-set",
+        "nc_auto_146_a4_agency_followup-set",
+        "official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b"
+      ],
+      "familiesThisLaneWouldReleaseCount": 19,
+      "countIsProspective": true,
+      "countMeaning": "families this lane would release if all of its obligations resolve. It is not a count of promoted sources and must not be read as one.",
       "familiesUnblocked": [
         "ca-diversion-seal-set",
         "composed-treatment:nc_146_dismissal_petition",
@@ -7717,6 +8547,7 @@
         "official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b"
       ],
       "familiesUnblockedCount": 19,
+      "familiesUnblockedIsProspectiveAlias": "kept so an existing reader does not silently see zero; it means familiesThisLaneWouldRelease and nothing more",
       "familiesAdvancedButNotReleasedHere": [
         {
           "familyId": "fl-10yr-bridge-set",
@@ -7986,6 +8817,42 @@
         "WV",
         "WY"
       ],
+      "familiesThisLaneWouldRelease": [
+        "agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge",
+        "agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement",
+        "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction",
+        "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1018_discretionary_petition",
+        "composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route",
+        "composed-treatment:obligation:runtime-only:NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247",
+        "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
+        "composed-treatment:obligation:runtime-only:OK:juvenile-record-expungement",
+        "composed-treatment:obligation:runtime-only:PA:path-k-human-trafficking-vacatur-expungement",
+        "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
+        "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+        "ga-deaddocket-j3-set",
+        "ga-felony-j1-set",
+        "ga-fugitive-j5-set",
+        "ga-jail-k2-set",
+        "ga-misd-j4-set",
+        "ga-nonconv-post2013-set",
+        "ga-pardon-j7-set",
+        "ga-seal-m-set",
+        "ga-vacated-j2-set",
+        "ky_criminal_record_segregation-set",
+        "nv_repository_removal-set",
+        "nv_seal_probation_family-set",
+        "rcap-ga-guidance-implementation",
+        "rcap-nv-custom-pleading",
+        "rcap-ok-custom-pleading",
+        "rcap-or-official-pdf-fill",
+        "rcap-wv-custom-pleading",
+        "ri_marijuana-set",
+        "wv_dui_deferral_expungement-set",
+        "wy_fel_1502-set"
+      ],
+      "familiesThisLaneWouldReleaseCount": 31,
+      "countIsProspective": true,
+      "countMeaning": "families this lane would release if all of its obligations resolve. It is not a count of promoted sources and must not be read as one.",
       "familiesUnblocked": [
         "agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge",
         "agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement",
@@ -8020,6 +8887,7 @@
         "wy_fel_1502-set"
       ],
       "familiesUnblockedCount": 31,
+      "familiesUnblockedIsProspectiveAlias": "kept so an existing reader does not silently see zero; it means familiesThisLaneWouldRelease and nothing more",
       "familiesAdvancedButNotReleasedHere": [
         {
           "familyId": "ga-nonconv-pre2013-set",
@@ -8251,6 +9119,46 @@
         "VA",
         "WA"
       ],
+      "familiesThisLaneWouldRelease": [
+        "agency-application-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request",
+        "agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission",
+        "az_wrongful_arrest_clearance-set",
+        "census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260",
+        "composed-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days",
+        "composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request",
+        "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
+        "composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+        "composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26",
+        "composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+        "composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
+        "composed-treatment:sc_17_22_950_summary",
+        "dc_correct_misattributed_arrest-set",
+        "dc_innocence_expungement-set",
+        "dc_seal_conviction-set",
+        "dc_seal_fugitive-set",
+        "dc_seal_nonconviction-set",
+        "dc_yra_set_aside-set",
+        "id_felony_reduction-set",
+        "id_set_aside_dismissal-set",
+        "il-prostitution-j-vacate-set",
+        "ma-bmc-multi-set",
+        "ms-diversion-set",
+        "ms-fel-set",
+        "ms-misd-1st-set",
+        "ms-misd-addl-set",
+        "ms-nonadj-set",
+        "ms-nonconv-set",
+        "ne-expunge-le-error-set",
+        "ne-seal-enforcement-set",
+        "rcap-ms-custom-pleading",
+        "rcap-tn-custom-pleading",
+        "rcap-wa-custom-pleading-clean-tracks",
+        "va_exp_absolute_pardon-set",
+        "wa_crop_certificate_of_restoration-set"
+      ],
+      "familiesThisLaneWouldReleaseCount": 35,
+      "countIsProspective": true,
+      "countMeaning": "families this lane would release if all of its obligations resolve. It is not a count of promoted sources and must not be read as one.",
       "familiesUnblocked": [
         "agency-application-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request",
         "agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission",
@@ -8289,6 +9197,7 @@
         "wa_crop_certificate_of_restoration-set"
       ],
       "familiesUnblockedCount": 35,
+      "familiesUnblockedIsProspectiveAlias": "kept so an existing reader does not silently see zero; it means familiesThisLaneWouldRelease and nothing more",
       "familiesAdvancedButNotReleasedHere": [],
       "splitFamilyRule": "A family whose obligations are split across lanes is released by no single lane. You advance it; the family is released when the last of the named lanes clears its share. Reporting it released alone is a duplicate release and is refused at integration.",
       "absenceClasses": [
@@ -8489,6 +9398,38 @@
         "VT",
         "WI"
       ],
+      "familiesThisLaneWouldRelease": [
+        "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
+        "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
+        "agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure",
+        "census-pending-family:ME:juvenile-sealing",
+        "census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement",
+        "census-pending-family:UT:path-m-juvenile-expungement",
+        "composed-treatment:nd-nonconviction-auto-close-verify",
+        "composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+        "composed-treatment:obligation:runtime-only:SD:juvenile-trafficking-expungement",
+        "composed-treatment:sd_sis_sealing",
+        "ct-cannabis-petition-set",
+        "ct-decriminalized-set",
+        "ct-missed-erasure-set",
+        "ct-nolle-auto-set",
+        "ct-pardon-erasure-set",
+        "ct-under18-misdemeanor-set",
+        "in_infraction_nondisclosure-set",
+        "me-nonconv-set",
+        "me-screening-set",
+        "mn_prosecutor_agreed-set",
+        "nd-deferred-imposition-records-set",
+        "rcap-ks-custom-pleading",
+        "rcap-mo-custom-pleading",
+        "rcap-nd-custom-pleading",
+        "rcap-wi-custom-pleading",
+        "vt_exp_deferred_sentence-set",
+        "vt_seal_under_25-set"
+      ],
+      "familiesThisLaneWouldReleaseCount": 27,
+      "countIsProspective": true,
+      "countMeaning": "families this lane would release if all of its obligations resolve. It is not a count of promoted sources and must not be read as one.",
       "familiesUnblocked": [
         "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
         "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
@@ -8519,6 +9460,7 @@
         "vt_seal_under_25-set"
       ],
       "familiesUnblockedCount": 27,
+      "familiesUnblockedIsProspectiveAlias": "kept so an existing reader does not silently see zero; it means familiesThisLaneWouldRelease and nothing more",
       "familiesAdvancedButNotReleasedHere": [
         {
           "familyId": "ks-21-6614-conviction-set",
@@ -8731,12 +9673,21 @@
       "issuingHosts": [
         "AR"
       ],
+      "familiesThisLaneWouldRelease": [
+        "ar-arrest-seal-set",
+        "ar-misdemeanor-dwi-seal-set",
+        "ar-pardon-seal-set"
+      ],
+      "familiesThisLaneWouldReleaseCount": 3,
+      "countIsProspective": true,
+      "countMeaning": "families this lane would release if all of its obligations resolve. It is not a count of promoted sources and must not be read as one.",
       "familiesUnblocked": [
         "ar-arrest-seal-set",
         "ar-misdemeanor-dwi-seal-set",
         "ar-pardon-seal-set"
       ],
       "familiesUnblockedCount": 3,
+      "familiesUnblockedIsProspectiveAlias": "kept so an existing reader does not silently see zero; it means familiesThisLaneWouldRelease and nothing more",
       "familiesAdvancedButNotReleasedHere": [
         {
           "familyId": "ar-act346-set",
@@ -8897,8 +9848,13 @@
       "items": [],
       "boundedBy": "the custody register and the governed corpus index",
       "issuingHosts": [],
+      "familiesThisLaneWouldRelease": [],
+      "familiesThisLaneWouldReleaseCount": 0,
+      "countIsProspective": true,
+      "countMeaning": "families this lane would release if all of its obligations resolve. It is not a count of promoted sources and must not be read as one.",
       "familiesUnblocked": [],
       "familiesUnblockedCount": 0,
+      "familiesUnblockedIsProspectiveAlias": "kept so an existing reader does not silently see zero; it means familiesThisLaneWouldRelease and nothing more",
       "familiesAdvancedButNotReleasedHere": [],
       "splitFamilyRule": "A family whose obligations are split across lanes is released by no single lane. You advance it; the family is released when the last of the named lanes clears its share. Reporting it released alone is a duplicate release and is refused at integration.",
       "absenceClasses": [
@@ -9051,8 +10007,13 @@
       "items": [],
       "boundedBy": "the custody register and the governed corpus index",
       "issuingHosts": [],
+      "familiesThisLaneWouldRelease": [],
+      "familiesThisLaneWouldReleaseCount": 0,
+      "countIsProspective": true,
+      "countMeaning": "families this lane would release if all of its obligations resolve. It is not a count of promoted sources and must not be read as one.",
       "familiesUnblocked": [],
       "familiesUnblockedCount": 0,
+      "familiesUnblockedIsProspectiveAlias": "kept so an existing reader does not silently see zero; it means familiesThisLaneWouldRelease and nothing more",
       "familiesAdvancedButNotReleasedHere": [],
       "splitFamilyRule": "A family whose obligations are split across lanes is released by no single lane. You advance it; the family is released when the last of the named lanes clears its share. Reporting it released alone is a duplicate release and is refused at integration.",
       "absenceClasses": [

@@ -122,3 +122,55 @@ jobs:
             exit 1
           fi
           echo "OK nothing committed, nothing staged."
+
+  summarize:
+    name: Batch result
+    needs: [plan, acquire]
+    # `always()` because the point of this job is to report on failures. Without
+    # it a batch where every job failed would produce no result at all, and an
+    # absent result reads like a batch that was never dispatched.
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Download every acquisition artifact
+        uses: actions/download-artifact@v4
+        with:
+          path: batch-artifacts
+          pattern: rcap-source-*
+          merge-multiple: false
+        continue-on-error: true
+
+      - name: Write the batch result
+        env:
+          RCAP_PLANNED: ${{ needs.plan.outputs.count }}
+          RCAP_PLAN_RESULT: ${{ needs.plan.result }}
+          RCAP_ACQUIRE_RESULT: ${{ needs.acquire.result }}
+        run: node scripts/rcap-summarize-source-acquisition-batch.mjs
+
+      - name: Upload the batch result
+        uses: actions/upload-artifact@v4
+        with:
+          name: rcap-source-acquisition-batch-result
+          path: SOURCE_ACQUISITION_BATCH_RESULT.json
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Refuse a committed source body
+        run: |
+          set -euo pipefail
+          rm -f SOURCE_ACQUISITION_BATCH_RESULT.json
+          rm -rf batch-artifacts
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "FAIL the summary job left something in the working tree:"
+            git status --porcelain
+            exit 1
+          fi
+          echo "OK nothing committed, nothing staged."
