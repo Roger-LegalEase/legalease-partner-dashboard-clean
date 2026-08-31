@@ -1,0 +1,79 @@
+{
+  "schemaVersion": "rcap-packet-factory-return/v1",
+  "assignmentId": "PF07",
+  "rows": [
+    {
+      "itemId": "ne-trafficking-setaside-and-seal-set",
+      "status": "STOPPED",
+      "stopReason": "BLOCKED_LEGAL_INPUT",
+      "preflight": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "detail": "The assigned family has unresolved source-identity and duplicate-vehicle legal-design inputs: the worklist assigns custom_pleading and official_pdf_fill vehicles, while held form CC-6-12 is an instruction document rather than either required motion.",
+      "requiredResolution": "Bind the actual set-aside motion and sealing motion components by exact identity and resolve the duplicate vehicle rows before authoring or filling a packet.",
+      "evidence": [
+        "data/rcap-all50/overlays/census-v1/ne/ne-trafficking-setaside-and-seal-set--official-pdf-fill/vehicle-conflict-stop.json"
+      ],
+      "counters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "artifactsProduced": []
+    },
+    {
+      "itemId": "mo-610-140-conviction-set",
+      "status": "STOPPED",
+      "stopReason": "BLOCKED_SOURCE",
+      "preflight": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 13/14",
+      "failedCheck": "family_sources_bind",
+      "sourceIds": [
+        "official-form:CR370",
+        "official-form:FI-05",
+        "official-form:GN10"
+      ],
+      "detail": "Each listed source ID failed to resolve to exactly one committed corpus-index entry.",
+      "counters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "artifactsProduced": []
+    },
+    {
+      "itemId": "ks-22-2410-arrest-set",
+      "status": "STOPPED",
+      "stopReason": "BLOCKED_SOURCE",
+      "preflight": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 13/14",
+      "failedCheck": "family_sources_bind",
+      "sourceIds": [
+        "official-form:KS-CRIMINAL-COVER-SHEET-10-14-2025",
+        "official-form:KSJC-ORDER-EXPUNGEMENT-ARREST-RECORD-COVER-SHEET-12-2016",
+        "official-form:KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD-02-2013"
+      ],
+      "detail": "Each listed source ID failed to resolve to exactly one committed corpus-index entry.",
+      "counters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "artifactsProduced": []
+    }
+  ]
+}
