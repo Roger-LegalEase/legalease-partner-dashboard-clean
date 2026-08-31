@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** independent-review
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work`
-**Minimum required ancestor:** `a0113be04abf940895fca19a78b6a9481a4e24c3`
+**Minimum required ancestor:** `4f1b43362651f202279fb1ecf15f5405d3a2a510`
 **C12 merged at:** `1535d2037c196cb78231be2d9e3bbe4ab28bfa13`
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -45,7 +45,7 @@ It is **not** a rewrite. Change no gate, no verifier and no generator. A reviewe
 
 ```sh
 source $HOME/.legalease-corpus-env
-node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha a0113be04abf940895fca19a78b6a9481a4e24c3
+node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha 4f1b43362651f202279fb1ecf15f5405d3a2a510
 ```
 
 It must report every applicable check passing and **0 failed**.
