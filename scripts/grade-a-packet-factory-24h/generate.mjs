@@ -1,0 +1,912 @@
+#!/usr/bin/env node
+/**
+ * The 24-hour national packet factory: every remaining family, dispatched.
+ *
+ *   node scripts/grade-a-packet-factory-24h/generate.mjs [--check]
+ *
+ * The denominator is recomputed here from repository evidence rather than
+ * carried forward. 352, 372 and 329 have all been quoted this sprint and each
+ * was right about a different population; a number that is remembered rather
+ * than derived stops being true the moment the tree moves under it.
+ *
+ * The honest shape of this dispatch is stated up front, because the arithmetic
+ * is the finding: thirty-two lanes are created and queued as instructed, but the
+ * work that exists for them is not evenly distributed across the four kinds. The
+ * builders are limited by how many families have an exactly-identified official
+ * source, which is far fewer than the roster would hold. That is what the source
+ * conveyor is for, and it is reported rather than smoothed.
+ */
+import fs from "node:fs";
+import path from "node:path";
+import crypto from "node:crypto";
+import { execFileSync } from "node:child_process";
+import { fileURLToPath } from "node:url";
+
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
+process.chdir(ROOT);
+const CHECK = process.argv.includes("--check");
+
+const OUT_DIR = "data/rcap-grade-a/packet-factory-24h";
+const PROMPT_DIR = "docs/rcap/grade-a/packet-factory-24h";
+const LC = "data/rcap-grade-a/launch-control";
+const OVERLAYS = "data/rcap-all50/overlays/census-v1";
+const SCRIPTS = "scripts";
+const CAPTAIN_BRANCH = "claude/legalease-sprint-captain-utucnw";
+const CONTRACT = "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md";
+const PREFLIGHT = "scripts/verify-packet-build-environment.mjs";
+
+/* The minimum ancestor every lane proves it contains. */
+const MINIMUM_CAPTAIN_SHA = "40ccc028a2af8eac94743cdb32237e3af56a6642";
+
+const PF_LANES = 16;
+const VF_LANES = 8;
+const SRC_LANES = 4;
+const FIX_LANES = 4;
+
+const STATES = [
+  "SOURCE_BLOCKED", "SOURCE_READY", "ASSIGNED_TO_BUILD", "BUILD_IN_PROGRESS",
+  "PASS_COMPLETE", "VERIFY_PENDING", "VERIFYING", "FAIL_REPAIR_REQUIRED",
+  "VERIFIED_PASS", "LEGAL_REVIEW_READY", "LEGAL_APPROVED", "PRODUCT_PATH_PENDING",
+  "COMPLETE_PACKET_PROVEN", "LEGITIMATE_GUIDANCE_ONLY"
+];
+
+const read = (rel) => JSON.parse(fs.readFileSync(path.join(ROOT, rel), "utf8"));
+const readIf = (rel) => (fs.existsSync(path.join(ROOT, rel)) ? read(rel) : null);
+const git = (args) => { try { return execFileSync("git", args, { cwd: ROOT, encoding: "utf8", maxBuffer: 1 << 28, stdio: ["ignore", "pipe", "ignore"] }).trim(); } catch { return null; } };
+const sha = (rel) => crypto.createHash("sha256").update(fs.readFileSync(path.join(ROOT, rel))).digest("hex");
+
+/* ---------------------------------------------------------------- *
+ * STEP 1 — the live denominator, from evidence
+ * ---------------------------------------------------------------- */
+const INPUTS = {
+  scoreboard: "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json",
+  census: "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+  custody: "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json",
+  worklist: `${LC}/POST_WAVE_2_NATIONAL_LAUNCH_WORKLIST.json`,
+  categoryB: `${LC}/CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json`,
+  categoryBStatus: `${LC}/CATEGORY_B_INTEGRATION_STATUS.json`,
+  counsel: `${LC}/COUNSEL_DETERMINATION_DELTA.json`,
+  legalQueue: "data/rcap-grade-a/route-obligation-census-v1/legal-review-queue-v2.json",
+  c11: `${LC}/C11_RETURN_REVIEW.json`,
+  c11Stops: `${LC}/C11_STOP_CLASSIFICATION.json`,
+  completeness: "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json",
+  continuation: `${LC}/S2_CONTINUATION.json`,
+  cloudContinuations: `${LC}/CODEX_CLOUD_CONTINUATIONS.json`,
+  verificationLedger: `${LC}/WAVE_2_VERIFICATION_LEDGER.json`,
+  wave2: `${LC}/WAVE_2_ASSIGNMENTS.json`,
+  repairWave: `${LC}/COMPLETENESS_REPAIR_WAVE.json`,
+  s2: `${LC}/S2_SHARED_HOST_ASSIGNMENT.json`,
+  wave2Repairs: `${LC}/WAVE_2_REPAIR_ASSIGNMENTS.json`,
+  corpusIndex: "data/rcap-all50/local-source-corpus-index.json",
+  staleBlock: "data/rcap-grade-a/stale-artifact-block.json"
+};
+const IN = Object.fromEntries(Object.entries(INPUTS).map(([k, p]) => [k, read(p)]));
+
+const EXACT_TIERS = new Set(["exact_form_number", "content_hash", "exact_content_hash"]);
+
+/* routes, keyed by packet family */
+const routesByFamily = new Map();
+for (const r of IN.census.routes) {
+  const key = r.packetSetId ?? r.packetFamilyId;
+  if (!key) continue;
+  if (!routesByFamily.has(key)) routesByFamily.set(key, []);
+  routesByFamily.get(key).push(r);
+}
+const custodyByGroup = new Map(IN.custody.rows.map((r) => [r.worklistGroupId, r]));
+const completenessByFamily = new Map(IN.completeness.results.map((r) => [r.familyId, r]));
+const verdictByFamily = new Map((IN.verificationLedger.rows ?? []).map((r) => [r.family, r]));
+const continuationByFamily = new Map(IN.continuation.rows.map((r) => [r.familyId, r]));
+const confirmBRoutes = new Set(IN.categoryB.rows.filter((r) => r.finalDecision === "CONFIRM_B").map((r) => r.originalRouteKey));
+const openCounselRoutes = new Set((IN.legalQueue.trueCounselQueue?.questions ?? []).filter((q) => !q.answered).map((q) => q.routeKey));
+const c11Stopped = new Set((IN.c11.families ?? []).filter((f) => f.classification !== "BUILT").map((f) => f.familyId));
+
+/* overlay directories that exist */
+const overlayDirs = [];
+for (const st of fs.readdirSync(path.join(ROOT, OVERLAYS))) {
+  const full = path.join(ROOT, OVERLAYS, st);
+  if (!fs.statSync(full).isDirectory()) continue;
+  for (const d of fs.readdirSync(full)) overlayDirs.push(`${OVERLAYS}/${st}/${d}`);
+}
+const slugOf = (id) => id.replace(/_/g, "-").toLowerCase();
+const suffixOf = (s) => (s === "custom_pleading" ? "custom-pleading" : "official-pdf-fill");
+
+/* ---------------------------------------------------------------- *
+ * STEP 3 — the import graph (needed before ownership can be decided)
+ * ---------------------------------------------------------------- */
+const scriptFiles = fs.readdirSync(path.join(ROOT, SCRIPTS)).filter((f) => /^build-census-v1-.+\.mjs$/.test(f));
+const directImports = new Map(scriptFiles.map((f) => [f,
+  [...new Set([...fs.readFileSync(path.join(ROOT, SCRIPTS, f), "utf8")
+    .matchAll(/from\s+["']\.\/(build-census-v1-[^"']+\.mjs)["']/g)].map((m) => m[1]))]]));
+const transitiveImportsOf = (f, seen = new Set()) => {
+  if (seen.has(f)) return [];
+  seen.add(f);
+  const out = [];
+  for (const d of directImports.get(f) ?? []) { out.push(d, ...transitiveImportsOf(d, seen)); }
+  return [...new Set(out)];
+};
+const importersOf = (target) => scriptFiles.filter((f) => f !== target && transitiveImportsOf(f).includes(target));
+const familyOfScript = (f) => f.replace(/^build-census-v1-/, "").replace(/\.mjs$/, "");
+
+/* ---------------------------------------------------------------- *
+ * STEP 2 — active ownership
+ * ---------------------------------------------------------------- */
+const ACTIVE_LANES = IN.cloudContinuations.assignments;
+const activeFamilies = new Map();
+const activePaths = [];
+for (const a of ACTIVE_LANES) {
+  for (const f of a.items) activeFamilies.set(f, a.assignmentId);
+  for (const p of a.ownedPaths) activePaths.push({ lane: a.assignmentId, path: p });
+}
+/* Any still-open C11 or completeness continuation, and the wave-2 repair rows,
+ * hold paths too. They are read from their own records rather than assumed. */
+for (const r of IN.wave2Repairs.assignments) if (r.ownedPath) activePaths.push({ lane: `WAVE_2_REPAIR:${r.family}`, path: r.ownedPath });
+
+const rootOf = (p) => p.replace(/\/?\*+$/, "");
+const touches = (a, b) => { const ra = rootOf(a); const rb = rootOf(b); return ra === rb || ra.startsWith(`${rb}/`) || rb.startsWith(`${ra}/`); };
+const pathIsActive = (p) => activePaths.some((x) => touches(p, x.path) || new RegExp(`^${x.path.replace(/[.+^${}()|[\]\\]/g, "\\$&").replace(/\*\*/g, ".*").replace(/\*/g, "[^/]*")}$`).test(p));
+
+/* ---------------------------------------------------------------- *
+ * Build one record per family
+ * ---------------------------------------------------------------- */
+const families = [];
+const seen = new Set();
+for (const f of IN.scoreboard.familiesDetail) {
+  const tail = String(f.worklistGroupId ?? "").split(":").pop();
+  const familyId = routesByFamily.has(tail) ? tail : f.worklistGroupId;
+  if (seen.has(familyId)) continue;
+  seen.add(familyId);
+
+  const routes = routesByFamily.get(familyId) ?? [];
+  const custody = custodyByGroup.get(f.worklistGroupId) ?? null;
+  const comp = completenessByFamily.get(familyId) ?? null;
+  const cont = continuationByFamily.get(familyId) ?? null;
+  const verdict = verdictByFamily.get(familyId) ?? null;
+
+  const strategy = f.implementationStrategy;
+  const dirGuess = `${OVERLAYS}/${(f.jurisdictions[0] ?? "xx").toLowerCase()}/${slugOf(familyId)}--${suffixOf(strategy)}`;
+  const directory = comp?.directory
+    ?? overlayDirs.find((d) => path.basename(d).startsWith(`${slugOf(familyId)}--`))
+    ?? dirGuess;
+  const buildScript = `${SCRIPTS}/build-census-v1-${familyId}.mjs`;
+  const buildScriptExists = fs.existsSync(path.join(ROOT, buildScript));
+  const artifactPresent = fs.existsSync(path.join(ROOT, `${directory}/reports/rendered-artifacts.json`));
+
+  const forms = [...new Set(routes.flatMap((r) => (r.requiredSourceIds ?? []).filter((s) => s.startsWith("official-form:")).map((s) => s.slice(14))))].sort();
+  const components = [...new Set(routes.flatMap((r) => (r.requiredSourceIds ?? []).filter((s) => s.startsWith("component:"))))].sort();
+  const instrumentKinds = [...new Set(routes.flatMap((r) => String(r.participantFacingInstrument ?? "").split(/;\s*/).map((s) => s.split(":")[0].trim()).filter(Boolean)))].sort();
+
+  const docs = custody?.documentSources ?? [];
+  const inexact = docs.filter((d) => !d.resolved || !EXACT_TIERS.has(d.tier));
+  const sourceBound = !(f.holds ?? []).some((h) => h.kind === "missing_source");
+  const sourceStatus = !sourceBound ? (custody?.custodyClass ?? "SOURCE_IDENTITY_UNRESOLVED")
+    : inexact.length > 0 ? "SOURCE_IDENTITY_NOT_EXACT"
+    : custody ? custody.custodyClass : "NO_ACQUISITION_TASK_NAMED";
+  const sourceIds = docs.map((d) => d.sourceId);
+  const sourceHashes = docs.filter((d) => d.heldAs?.sha256).map((d) => ({ sourceId: d.sourceId, path: d.heldAs.path, sha256: d.heldAs.sha256, tier: d.tier }));
+
+  const legalBlocked = routes.some((r) => openCounselRoutes.has(r.routeKey)) || verdict?.verdict === "BLOCKED_LEGAL_APPROVAL_INPUT";
+  const guidanceOnly = routes.length > 0 && routes.every((r) => confirmBRoutes.has(r.routeKey));
+  const notAFamily = routes.length === 0;
+  const routeMappingOpen = notAFamily;
+
+  const nineZero = comp ? Object.values(comp.counters).every((v) => v === 0) : null;
+  const completenessStatus = comp ? comp.result : artifactPresent ? "NOT_AUDITED" : "NOT_BUILT";
+
+  const activeOwner = activeFamilies.get(familyId) ?? null;
+
+  /* The one state this family is in, decided in a fixed order so a family
+   * cannot be counted twice. */
+  let state;
+  if (guidanceOnly) state = "LEGITIMATE_GUIDANCE_ONLY";
+  else if (activeOwner && /VS0/.test(activeOwner)) state = "VERIFYING";
+  else if (activeOwner) state = "BUILD_IN_PROGRESS";
+  else if (verdict?.verdict === "PASS") state = "VERIFIED_PASS";
+  else if (comp && nineZero) state = "VERIFY_PENDING";
+  else if (comp && !nineZero) state = "FAIL_REPAIR_REQUIRED";
+  else if (legalBlocked) state = "SOURCE_BLOCKED";
+  else if (!sourceBound || inexact.length > 0) state = "SOURCE_BLOCKED";
+  else if (notAFamily) state = "SOURCE_BLOCKED";
+  else state = "SOURCE_READY";
+
+  families.push({
+    familyId,
+    worklistGroupId: f.worklistGroupId,
+    jurisdiction: (f.jurisdictions ?? []).join("/"),
+    routeKeys: routes.map((r) => r.routeKey),
+    routeCount: routes.length,
+    implementationStrategy: strategy,
+    packetComponents: components,
+    instrumentKinds,
+    officialFormFamily: forms.join("+") || "NONE",
+    forms,
+    sourceIds,
+    sourceHashes,
+    sourceStatus,
+    sourceBound,
+    legalInputStatus: legalBlocked ? "OPEN_LEGAL_INPUT" : "SETTLED",
+    routeMappingStatus: routeMappingOpen ? "UNBOUND_TO_A_PACKET_FAMILY" : "BOUND",
+    artifactStatus: artifactPresent ? "RENDERED" : "NOT_RENDERED",
+    completenessStatus,
+    allNineCountersZero: nineZero,
+    counters: comp?.counters ?? null,
+    failingCounters: comp ? Object.entries(comp.counters).filter(([, v]) => v > 0).map(([k]) => k) : [],
+    continuationResult: cont?.resultAfter ?? null,
+    c11Stopped: c11Stopped.has(familyId),
+    state,
+    activeOwner,
+    buildScript,
+    buildScriptExists,
+    sharedBuildHost: buildScriptExists
+      ? (transitiveImportsOf(path.basename(buildScript)).find((d) => importersOf(d).length > 1) ?? null)
+      : null,
+    directory,
+    ownedPaths: [`${directory}/**`, buildScript],
+    prohibitedPaths: []
+  });
+}
+
+/* Shared-host ownership: a family-specific script may be owned only when no
+ * unassigned family imports it. Computed after every record exists. */
+const familyByScript = new Map(families.map((f) => [path.basename(f.buildScript), f]));
+for (const f of families) {
+  const base = path.basename(f.buildScript);
+  const importers = importersOf(base).map(familyOfScript);
+  f.importedBy = importers;
+  f.exclusiveScript = importers.length === 0;
+}
+
+/* ---------------------------------------------------------------- *
+ * Populations
+ * ---------------------------------------------------------------- */
+const active = families.filter((f) => f.activeOwner);
+const guidance = families.filter((f) => f.state === "LEGITIMATE_GUIDANCE_ONLY");
+const remaining = families.filter((f) => !f.activeOwner && f.state !== "LEGITIMATE_GUIDANCE_ONLY");
+const sourceReady = remaining.filter((f) => f.state === "SOURCE_READY");
+const sourceBlocked = remaining.filter((f) => f.state === "SOURCE_BLOCKED" && f.legalInputStatus !== "OPEN_LEGAL_INPUT");
+const legalBlocked = remaining.filter((f) => f.legalInputStatus === "OPEN_LEGAL_INPUT");
+const verifyPending = remaining.filter((f) => f.state === "VERIFY_PENDING");
+const repairRequired = remaining.filter((f) => f.state === "FAIL_REPAIR_REQUIRED");
+
+/* ---------------------------------------------------------------- *
+ * Grouping and lane packing
+ * ---------------------------------------------------------------- */
+const groupKeyOf = (f) => [f.sharedBuildHost ?? "NO_SHARED_HOST", f.officialFormFamily, f.implementationStrategy, f.instrumentKinds.join("+") || "NONE"].join("::");
+const groupsOf = (pool) => {
+  const m = new Map();
+  for (const f of pool) {
+    const k = groupKeyOf(f);
+    if (!m.has(k)) m.set(k, { groupKey: k, families: [] });
+    m.get(k).families.push(f);
+  }
+  return [...m.values()].sort((a, b) => b.families.length - a.families.length || a.groupKey.localeCompare(b.groupKey));
+};
+const kinds = (g) => new Set(g.families.flatMap((f) => f.instrumentKinds));
+const jaccard = (a, b) => {
+  const A = kinds(a); const B = kinds(b);
+  const inter = [...A].filter((x) => B.has(x)).length;
+  const uni = new Set([...A, ...B]).size;
+  return uni === 0 ? 0 : inter / uni;
+};
+/** Pack whole groups into `laneCount` buckets, similarity-first, size-balanced. */
+const packGroups = (pool, laneCount) => {
+  const buckets = Array.from({ length: laneCount }, () => []);
+  const size = (b) => b.reduce((n, g) => n + g.families.length, 0);
+  for (const g of groupsOf(pool)) {
+    const smallest = Math.min(...buckets.map(size));
+    const candidates = buckets.map((b, j) => ({ j, b })).filter((x) => size(x.b) <= smallest);
+    const pick = candidates
+      .map((x) => ({ ...x, sim: x.b.length === 0 ? 0 : Math.max(...x.b.map((o) => jaccard(o, g))) }))
+      .sort((a, b) => b.sim - a.sim || a.j - b.j)[0];
+    buckets[pick.j].push(g);
+  }
+  return buckets;
+};
+
+const pfBuckets = packGroups(sourceReady, PF_LANES);
+
+/* Source lanes: bounded by issuing host and identity class, never by state. */
+const SOURCE_CLASSES = [
+  { id: "SRC01", absence: ["named_form_number_not_in_corpus"], bound: "the issuing court or agency that publishes each named form number", mission: "Acquire the exact published edition of every form number the census names and the corpus does not carry, one issuing host at a time." },
+  { id: "SRC02", absence: ["label_does_not_identify_a_document"], bound: "the committed Nationwide inventory and the state packs, read only", mission: "Turn a descriptive label into a document identity: an exact form number or an exact content hash, resolved against committed inventories." },
+  { id: "SRC03", absence: ["named_content_hash_not_in_corpus"], bound: "the issuing host for each pinned content hash that no longer resolves", mission: "Reconcile every pinned content hash the corpus cannot produce. Either the revision moved or the pin was wrong, and those have different remedies." },
+  { id: "SRC04", absence: ["no_document_shaped_source_named", "inexact_tier"], bound: "families whose match is a token subset, and those naming no document-shaped source", mission: "Promote a near-match to an exact identity or refuse it. A token-subset match inside the right jurisdiction is not an identity." }
+];
+const sourceRows = [];
+for (const f of [...sourceBlocked, ...legalBlocked]) {
+  const custody = custodyByGroup.get(f.worklistGroupId);
+  const docs = custody?.documentSources ?? [];
+  let emitted = 0;
+  for (const d of docs) {
+    if (d.resolved && EXACT_TIERS.has(d.tier)) continue;
+    emitted += 1;
+    sourceRows.push({ familyId: f.familyId, jurisdiction: f.jurisdiction, sourceId: d.sourceId, absence: d.absence ?? (d.resolved ? "inexact_tier" : "unresolved"), tier: d.tier ?? null, legalBlocked: f.legalInputStatus === "OPEN_LEGAL_INPUT" });
+  }
+  if (emitted === 0) sourceRows.push({ familyId: f.familyId, jurisdiction: f.jurisdiction, sourceId: null, absence: "no_document_shaped_source_named", tier: null, legalBlocked: f.legalInputStatus === "OPEN_LEGAL_INPUT" });
+}
+const classifyRow = (row) => {
+  if (row.tier && !EXACT_TIERS.has(row.tier)) return "SRC04";
+  return SOURCE_CLASSES.find((c) => c.absence.includes(row.absence))?.id ?? "SRC04";
+};
+for (const row of sourceRows) row.lane = classifyRow(row);
+
+/* ---------------------------------------------------------------- *
+ * Assignments
+ * ---------------------------------------------------------------- */
+const FACT = "data/rcap-grade-a/packet-factory-24h";
+const VERDICTS = ["PASS_COMPLETE_INDEPENDENT", "FAIL_REPAIR_REQUIRED", "BLOCKED_SOURCE", "BLOCKED_LEGAL_INPUT"];
+const CLOUD_PROHIBITED = ["git fetch", "git pull", "git push", "gh ", "git worktree", "git remote add", "git clone"];
+
+const BUILDER_OBLIGATIONS = [
+  "bind every source by exact SHA-256, and stop the family rather than build on a source that does not bind",
+  "render canonical and boundary artifacts",
+  "include every required component the route names — a document mapped and not rendered is a missing companion form",
+  "fill every known required fact",
+  "classify every intentional blank against the closed vocabulary",
+  "identify a missing participant fact as REQUIRED_BEFORE_FILING, declared explicitly and disclosed in participant-instructions.md",
+  "select every route-determined option — a packet built for one statutory route states which route it is",
+  "complete every repeating case and offence row, because a partly-filled row reads as finished and is not",
+  "leave every protected field blank — participant signature, signature date, certificate of mailing before mailing, court-only and prosecutor-only",
+  "generate participant instructions and filing instructions",
+  "render all page rasters",
+  "verify the actual visible writes from the final PDF bytes, not from the finalizer's own report",
+  "return all nine completeness counters equal to zero, or return the family as STOPPED with the counter that is not"
+];
+
+const base = (id, lane, slug, extra) => ({
+  assignmentId: id,
+  wave: "packet-factory-24h",
+  engine: "Codex Cloud",
+  lane,
+  environment: "LegalEase Packet Factory",
+  executionContract: CONTRACT,
+  captainBranch: CAPTAIN_BRANCH,
+  workerBranch: "work",
+  minimumCaptainSha: MINIMUM_CAPTAIN_SHA,
+  preflight: `node ${PREFLIGHT} --family <FAMILY_ID> --codex-cloud --minimum-captain-sha ${MINIMUM_CAPTAIN_SHA}`,
+  preflightMustReturn: "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+  prohibitedCommands: CLOUD_PROHIBITED,
+  theDiffIsTheReturn: "Commit locally. Leave the final diff for the Codex Cloud interface. There is no PUSHED line in a cloud return.",
+  returnDirectory: `${FACT}/${slug}`,
+  ...extra
+});
+
+const assignments = [];
+
+/* ---- PF01..PF16 ---- */
+for (let i = 0; i < PF_LANES; i += 1) {
+  const id = `PF${String(i + 1).padStart(2, "0")}`;
+  const slug = id.toLowerCase();
+  const fams = pfBuckets[i].flatMap((g) => g.families);
+  const sharedAxes = ["sharedBuildHost", "officialFormFamily", "implementationStrategy"].filter((ax) => new Set(fams.map((f) => String(f[ax]))).size === 1);
+  const scriptsOwned = fams.filter((f) => f.exclusiveScript || f.importedBy.every((imp) => fams.some((x) => x.familyId === imp))).map((f) => f.buildScript);
+  const scriptsNotOwned = fams.filter((f) => !scriptsOwned.includes(f.buildScript))
+    .map((f) => ({ script: f.buildScript, importedByFamiliesOutsideThisLane: f.importedBy.filter((imp) => !fams.some((x) => x.familyId === imp)) }));
+  assignments.push(base(id, "packet-build", slug, {
+    mission: fams.length === 0
+      ? "This lane is provisioned and empty: no source-ready family remains for it at dispatch time. It starts the moment the source conveyor releases one, and the refill rule below says which."
+      : `Build ${fams.length} packet families to the builder contract, one at a time, checkpointing as you go. A family that stops does not stop the lane.`,
+    itemKind: "packetFamily",
+    itemCount: fams.length,
+    items: fams.map((f) => f.familyId),
+    provisionedEmpty: fams.length === 0,
+    refillRule: "When a source lane releases a family, Captain appends it to the emptiest PF lane and the lane starts it without waiting for the rest of the source lane to finish.",
+    sharedAxes,
+    groupsCarried: pfBuckets[i].map((g) => ({ groupKey: g.groupKey, families: g.families.map((f) => f.familyId) })),
+    familyDetail: fams.map((f) => ({
+      familyId: f.familyId, jurisdiction: f.jurisdiction, strategy: f.implementationStrategy,
+      forms: f.forms, components: f.packetComponents.length, instrumentKinds: f.instrumentKinds,
+      routeCount: f.routeCount, directory: f.directory, buildScript: f.buildScript,
+      sharedBuildHost: f.sharedBuildHost, sourceStatus: f.sourceStatus, sourceHashes: f.sourceHashes
+    })),
+    builderObligations: BUILDER_OBLIGATIONS,
+    checkpointRule: "Return every five completed families, or every two hours, whichever comes first. Do not hold a whole assignment back for the last family.",
+    neverSelfVerify: "You do not verify your own packets. A builder verdict is not a verdict, and a VF lane that did not build them decides.",
+    ownedPaths: [`${FACT}/${slug}/**`, ...fams.map((f) => `${f.directory}/**`), ...scriptsOwned],
+    scriptsNotOwned,
+    prohibitedPaths: [
+      "scripts/rcap-packet-completeness/**",
+      `${LC}/**`,
+      ...scriptsNotOwned.map((s) => s.script),
+      ...activePaths.map((p) => p.path)
+    ],
+    requiredOutputs: [
+      `${FACT}/${slug}/rows.json — one row per family: itemId, status, the nine counters, and the artifacts produced`,
+      `${FACT}/${slug}/checkpoints.json — one entry per five-family checkpoint, written as it lands`
+    ],
+    outputSchema: { arrayKey: "rows", itemKeyField: "itemId", completionVocabulary: ["COMPLETED", "STOPPED"], rule: "An unrecognised status is refused at integration rather than translated." },
+    focusedTests: ["node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <familyId>"],
+    stopConditions: [
+      "ROW STOP — a family whose source does not bind by exact SHA-256 is STOPPED as BLOCKED_SOURCE naming the identity that failed. Continue to the next family.",
+      "ROW STOP — a family that needs a legal input you do not have is STOPPED as BLOCKED_LEGAL_INPUT. Never guess a legal answer and never research one.",
+      "LANE STOP — you build only the families listed here, in only the paths listed here.",
+      "NEVER invent a fact. An unavailable fact is REQUIRED_BEFORE_FILING, declared and disclosed, never guessed.",
+      "NEVER commit a private source byte, and never write into private/.",
+      "NEVER open a commercial route and never touch Production."
+    ],
+    returnFormat: [
+      "ASSIGNMENT:", "BASE SHA:", "COMMIT:",
+      "FAMILIES COMPLETED:", "FAMILIES STOPPED:", "NINE COUNTERS ZERO ON:",
+      "BLOCKED_SOURCE:", "BLOCKED_LEGAL_INPUT:",
+      "CHECKPOINTS RETURNED:", "PACKETS SELF-VERIFIED: 0",
+      "COMMERCIAL ROUTES OPENED: 0", "PRODUCTION TOUCHED: NO",
+      "PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY 14/14", "DIFF LEFT FOR THE CODEX UI: YES"
+    ],
+    grantsNothing: "A built family is a built family. It is not verified, not approved, not sellable."
+  }));
+}
+
+/* ---- VF01..VF08 ---- */
+const verifiablePool = [...verifyPending];
+for (let i = 0; i < VF_LANES; i += 1) {
+  const id = `VF${String(i + 1).padStart(2, "0")}`;
+  const slug = id.toLowerCase();
+  const seedItems = verifiablePool.filter((_, j) => j % VF_LANES === i).map((f) => f.familyId);
+  assignments.push(base(id, "independent-verification", slug, {
+    mission: "Verify returned packet families independently, in rolling checkpoints, as builders land them. You claim, you measure, you record a verdict. You never edit what you verify.",
+    itemKind: "streamingClaim",
+    itemCount: seedItems.length,
+    items: seedItems,
+    seedItemsAreNotTheWholeJob: "These are the families already complete and awaiting verification at dispatch. The rest arrive as PF checkpoints land; claim from the ledger.",
+    claimLedger: `${FACT}/claim-ledger.json`,
+    claimRule: "Claim atomically before reading. A family already claimed is skipped, never queued behind: two verifiers on one family is duplicate work reported as independent proof.",
+    checkpointRule: "Take rolling five-to-ten-family checkpoints as soon as they land. Do not wait for a whole builder assignment.",
+    proofObligations: [
+      "ROUTE IDENTITY: the packet is built for the route the record names",
+      "SOURCE IDENTITY: every source binds by exact SHA-256, recomputed from the bytes",
+      "COMPONENT SET: every component the route names is rendered and present",
+      "KNOWN PREFILLS: every known required fact is written and visible on the page it belongs to",
+      "REQUIRED_BEFORE_FILING: every declared item is named in participant-instructions.md, checked against the file",
+      "ROUTE OPTIONS: every route-determined election is selected",
+      "REPEATING ROWS: no row carries written cells beside required cells left blank",
+      "PROTECTED FIELDS: no signature, signature date, certificate of mailing, court-only or prosecutor-only field carries ink",
+      "ARTIFACTS: canonical and boundary bytes hash to what the record names",
+      "PAGE ORDER: the rendered page order matches the packet manifest",
+      "CLIPPING AND OVERLAP: no ink outside a measured write box",
+      "FILING DESTINATION: the instructions name the court or agency the route names",
+      "FEE AND WAIVER: the fee and any waiver route are stated",
+      "SERVICE: who must be served, and how",
+      "SELF-HELP STOP: the packet states where self-help ends"
+    ],
+    verdicts: VERDICTS,
+    verdictRule: `Exactly one of ${VERDICTS.join(", ")} per family. PASS_COMPLETE_INDEPENDENT requires all nine counters zero, measured here rather than read from the builder's report.`,
+    independenceRule: "You did not build these families and you may not repair them. A defect you find is a verdict and a repair assignment, never an edit.",
+    ownedPaths: [`${FACT}/${slug}/**`],
+    prohibitedPaths: [`${OVERLAYS}/**`, "scripts/build-census-v1-*.mjs", "scripts/rcap-packet-completeness/**", `${LC}/**`, ...activePaths.map((p) => p.path)],
+    requiredOutputs: [
+      `${FACT}/${slug}/rows.json — one row per family claimed: itemId, verdict, the fifteen proof obligations as you measured them, and the evidence read`,
+      `${FACT}/${slug}/repair-assignments.json — every FAIL_REPAIR_REQUIRED, with the decisive defect and the exact failed proof obligations`
+    ],
+    outputSchema: { arrayKey: "rows", itemKeyField: "itemId", completionVocabulary: VERDICTS, rule: "An unrecognised verdict is refused at integration rather than translated." },
+    focusedTests: ["node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <familyId>"],
+    stopConditions: [
+      "LANE STOP — you write into no overlay directory and no build script.",
+      "LANE STOP — you claim before you read.",
+      "ROW STOP — a family blocked by its source is BLOCKED_SOURCE and one blocked by an open legal input is BLOCKED_LEGAL_INPUT. Neither is a FAIL and neither is a PASS."
+    ],
+    returnFormat: [
+      "ASSIGNMENT:", "BASE SHA:", "COMMIT:",
+      "FAMILIES CLAIMED:", "PASS_COMPLETE_INDEPENDENT:", "FAIL_REPAIR_REQUIRED:",
+      "BLOCKED_SOURCE:", "BLOCKED_LEGAL_INPUT:",
+      "OVERLAY DIRECTORIES MODIFIED: 0",
+      "COMMERCIAL ROUTES OPENED: 0", "PRODUCTION TOUCHED: NO",
+      "PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY 14/14", "DIFF LEFT FOR THE CODEX UI: YES"
+    ],
+    grantsNothing: "An independent PASS proves a packet is complete. It approves no output and opens no commercial route."
+  }));
+}
+
+/* ---- SRC01..SRC04 ---- */
+for (const cls of SOURCE_CLASSES) {
+  const slug = cls.id.toLowerCase();
+  const rows = sourceRows.filter((r) => r.lane === cls.id);
+  const fams = [...new Set(rows.map((r) => r.familyId))].sort();
+  const hosts = [...new Set(rows.map((r) => r.jurisdiction))].filter(Boolean).sort();
+  assignments.push(base(cls.id, "source-identity-acquisition-promotion", slug, {
+    mission: cls.mission,
+    itemKind: "sourceObligation",
+    itemCount: rows.length,
+    items: rows.map((r) => `${r.familyId}::${r.sourceId ?? "NO_DOCUMENT_SOURCE_NAMED"}`),
+    boundedBy: cls.bound,
+    familiesUnblocked: fams,
+    familiesUnblockedCount: fams.length,
+    issuingHosts: hosts,
+    absenceClasses: cls.absence,
+    continueAfterFailure: "An individual source that cannot be settled is a STOPPED row. The lane continues to the next one.",
+    everyAcquiredSourceRecords: [
+      "official publisher", "exact title", "form number", "revision", "official URL",
+      "MIME type", "page count", "technology (acroform, xfa, flat)", "SHA-256", "byte size", "custody path"
+    ],
+    releaseRule: "As soon as a family becomes source-ready, report it in the checkpoint. Captain assigns it to the next available PF lane without waiting for this lane to finish.",
+    egressReality: "This environment refuses outbound egress to court and agency hosts. Resolution against committed inventories runs here; anything needing a fetch is recorded as an exact acquisition instruction naming its host, not attempted and not faked.",
+    ownedPaths: [`${FACT}/${slug}/**`, `data/rcap-grade-a/source-acquisition/packet-factory-24h/${slug}/**`],
+    prohibitedPaths: [`${OVERLAYS}/**`, "scripts/build-census-v1-*.mjs", `${LC}/**`, "private/**", ...activePaths.map((p) => p.path)],
+    requiredOutputs: [
+      `${FACT}/${slug}/rows.json — one row per obligation: itemId, status, the identity resolved or the exact acquisition instruction, and the families it releases`,
+      `data/rcap-grade-a/source-acquisition/packet-factory-24h/${slug}/receipts.json — the eleven recorded fields per resolved source; no body is committed`
+    ],
+    outputSchema: { arrayKey: "rows", itemKeyField: "itemId", completionVocabulary: ["COMPLETED", "STOPPED"], rule: "An unrecognised status is refused at integration rather than translated." },
+    focusedTests: ["node scripts/grade-a-packet-factory-24h/verify.mjs"],
+    stopConditions: [
+      "NEVER guess a form number and never accept an unofficial mirror. A secondary copy does not override an available official original.",
+      "NEVER commit a source body, an extracted archive or anything under private/.",
+      "LANE STOP — you build no packet and you touch no overlay directory.",
+      "ROW STOP — an identity that cannot be settled from committed inventories is a STOPPED row naming the exact host to fetch from."
+    ],
+    returnFormat: [
+      "ASSIGNMENT:", "BASE SHA:", "COMMIT:",
+      "OBLIGATIONS RESOLVED:", "OBLIGATIONS STOPPED:", "FAMILIES RELEASED INTO THE BUILD QUEUE:",
+      "IDENTITIES GUESSED: 0", "SOURCE BODIES COMMITTED: 0",
+      "COMMERCIAL ROUTES OPENED: 0", "PRODUCTION TOUCHED: NO",
+      "PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY 14/14", "DIFF LEFT FOR THE CODEX UI: YES"
+    ],
+    grantsNothing: "A bound source is a bound source. It builds nothing, proves nothing and approves nothing."
+  }));
+}
+
+/* ---- FIX01..FIX04 ---- */
+const fixSeed = repairRequired;
+for (let i = 0; i < FIX_LANES; i += 1) {
+  const id = `FIX${String(i + 1).padStart(2, "0")}`;
+  const slug = id.toLowerCase();
+  const items = fixSeed.filter((_, j) => j % FIX_LANES === i);
+  assignments.push(base(id, "rapid-repair", slug, {
+    mission: "Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.",
+    itemKind: "packetFamily",
+    itemCount: items.length,
+    items: items.map((f) => f.familyId),
+    seedItemsAreNotTheWholeJob: "These are the families already failing at dispatch. The rest arrive as VF verdicts land.",
+    receivesOnly: "the failed families and their exact failed proof obligations",
+    doNotRepeatAnalysis: "A repair lane does not repeat broad family analysis. If the failure is not reproducible from the obligations you were given, stop and say so rather than re-deriving the family.",
+    reverificationRule: "After repair, the family goes to a verifier that is neither its builder nor its repairer. Captain routes it; you do not choose.",
+    detail: items.map((f) => ({ familyId: f.familyId, directory: f.directory, failingCounters: f.failingCounters, counters: f.counters })),
+    ownedPaths: [`${FACT}/${slug}/**`, ...items.map((f) => `${f.directory}/**`), ...items.filter((f) => f.exclusiveScript).map((f) => f.buildScript)],
+    prohibitedPaths: ["scripts/rcap-packet-completeness/**", `${LC}/**`, ...activePaths.map((p) => p.path)],
+    requiredOutputs: [
+      `${FACT}/${slug}/rows.json — one row per family: itemId, status, the obligation repaired, and the nine counters after`
+    ],
+    outputSchema: { arrayKey: "rows", itemKeyField: "itemId", completionVocabulary: ["COMPLETED", "STOPPED"], rule: "An unrecognised status is refused at integration rather than translated." },
+    focusedTests: ["node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <familyId>"],
+    stopConditions: [
+      "LANE STOP — you do not change the completeness contract.",
+      "LANE STOP — only the families and obligations handed to you.",
+      "ROW STOP — an obligation you cannot repair without re-deriving the family is STOPPED with what is missing.",
+      "NEVER invent a fact and never write a protected field."
+    ],
+    returnFormat: [
+      "ASSIGNMENT:", "BASE SHA:", "COMMIT:",
+      "FAMILIES REPAIRED:", "FAMILIES STOPPED:", "NINE COUNTERS ZERO ON:",
+      "COMMERCIAL ROUTES OPENED: 0", "PRODUCTION TOUCHED: NO",
+      "PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY 14/14", "DIFF LEFT FOR THE CODEX UI: YES"
+    ],
+    grantsNothing: "A repaired family is a repaired family. It must be verified again, by someone who neither built nor repaired it."
+  }));
+}
+
+for (const a of assignments) a.promptFile = `${PROMPT_DIR}/${a.assignmentId}.md`;
+
+/* ---------------------------------------------------------------- *
+ * Collisions
+ * ---------------------------------------------------------------- */
+const wavePaths = assignments.flatMap((a) => a.ownedPaths.map((p) => ({ lane: a.assignmentId, path: p })));
+const collisions = [];
+for (const mine of wavePaths) {
+  for (const other of activePaths) if (touches(mine.path, other.path)) collisions.push({ kind: "ACTIVE_OWNERSHIP", lane: mine.lane, path: mine.path, other: other.lane, otherPath: other.path });
+}
+for (let i = 0; i < wavePaths.length; i += 1) {
+  for (let j = i + 1; j < wavePaths.length; j += 1) {
+    if (wavePaths[i].lane === wavePaths[j].lane) continue;
+    if (touches(wavePaths[i].path, wavePaths[j].path)) collisions.push({ kind: "WITHIN_WAVE", lane: wavePaths[i].lane, path: wavePaths[i].path, other: wavePaths[j].lane, otherPath: wavePaths[j].path });
+  }
+}
+/* A family may be built by one lane and verified by another; a duplicate is a
+ * collision only within one kind of work. */
+const duplicateFamilies = [];
+const byLaneKind = new Map();
+for (const a of assignments) {
+  if (a.itemKind !== "packetFamily") continue;
+  for (const f of a.items) {
+    const key = `${a.lane}::${f}`;
+    if (byLaneKind.has(key)) duplicateFamilies.push({ familyId: f, lane: a.lane, claimedBy: [byLaneKind.get(key), a.assignmentId] });
+    byLaneKind.set(key, a.assignmentId);
+  }
+}
+const activeReDispatched = assignments.filter((a) => a.itemKind === "packetFamily")
+  .flatMap((a) => a.items.filter((f) => activeFamilies.has(f)).map((f) => ({ familyId: f, lane: a.assignmentId, activeOwner: activeFamilies.get(f) })));
+
+/* Shared host with two writers. */
+const hostWriters = new Map();
+for (const a of assignments) {
+  for (const p of a.ownedPaths) {
+    if (!/^scripts\/build-census-v1-.+\.mjs$/.test(p)) continue;
+    if (!hostWriters.has(p)) hostWriters.set(p, []);
+    hostWriters.get(p).push(a.assignmentId);
+  }
+}
+const sharedHostCollisions = [...hostWriters.entries()].filter(([, ls]) => ls.length > 1).map(([script, lanes]) => ({ script, lanes }));
+
+const ownedAndProhibited = [];
+for (const a of assignments) {
+  const owned = a.ownedPaths.map(rootOf);
+  for (const p of a.prohibitedPaths ?? []) {
+    const r = rootOf(p);
+    if (owned.some((o) => o === r || o.startsWith(`${r}/`))) ownedAndProhibited.push({ lane: a.assignmentId, path: p });
+  }
+}
+const unwritableOutputs = [];
+for (const a of assignments) {
+  for (const o of a.requiredOutputs) {
+    const p = o.split("—")[0].trim().split(/[\s,]+/)[0].replace(/\/$/, "");
+    if (!p || !/^[A-Za-z0-9_./*<>-]+$/.test(p)) { unwritableOutputs.push({ lane: a.assignmentId, output: o, why: "names no path" }); continue; }
+    if (!a.ownedPaths.map(rootOf).some((root) => p === root || p.startsWith(`${root}/`))) unwritableOutputs.push({ lane: a.assignmentId, output: o, why: "outside every owned path" });
+  }
+}
+/*
+ * A double-underscore token is a placeholder only when it stands alone. The
+ * Master Library names its binaries AL__FORM__C-10-CRIMINAL__..., so an
+ * unanchored pattern reads every corpus path as an unfilled template and
+ * refuses a dispatch for carrying real source filenames.
+ */
+const PLACEHOLDER = /\b(TBD|TODO|FIXME|XXX)\b|<placeholder>|(?<![A-Za-z0-9])__[A-Z][A-Z0-9]*(?:_[A-Z0-9]+)*__(?![A-Za-z0-9])/;
+/* Placeholder detection ignores the fields that legitimately carry a literal
+ * <FAMILY_ID> or a shell template: the preflight line, the stop conditions and
+ * the focused tests are instructions to a worker, not values left unfilled. */
+const scrubbed = (a) => JSON.stringify({
+  ...a, requiredOutputs: undefined, stopConditions: undefined, focusedTests: undefined,
+  returnFormat: undefined, builderObligations: undefined, proofObligations: undefined,
+  preflight: undefined, prohibitedCommands: undefined, prohibitedPaths: undefined,
+  scriptsNotOwned: undefined, claimRule: undefined, checkpointRule: undefined,
+  everyAcquiredSourceRecords: undefined, seedItemsAreNotTheWholeJob: undefined
+});
+const placeholders = assignments.filter((a) => PLACEHOLDER.test(scrubbed(a))).map((a) => a.assignmentId);
+
+/* A source-blocked or legally blocked family must never be handed to a builder. */
+const blockedInPF = assignments.filter((a) => a.lane === "packet-build")
+  .flatMap((a) => a.items.map((f) => families.find((x) => x.familyId === f)))
+  .filter((f) => f && (f.state === "SOURCE_BLOCKED" || f.legalInputStatus === "OPEN_LEGAL_INPUT"))
+  .map((f) => f.familyId);
+
+const problems = [];
+if (collisions.length) problems.push(`${collisions.length} path collision(s)`);
+if (duplicateFamilies.length) problems.push(`${duplicateFamilies.length} duplicate famil(ies)`);
+if (activeReDispatched.length) problems.push(`${activeReDispatched.length} active famil(ies) re-dispatched`);
+if (sharedHostCollisions.length) problems.push(`${sharedHostCollisions.length} shared host(s) with two writers`);
+if (ownedAndProhibited.length) problems.push(`${ownedAndProhibited.length} path(s) owned and prohibited at once`);
+if (unwritableOutputs.length) problems.push(`${unwritableOutputs.length} unwritable output(s)`);
+if (placeholders.length) problems.push(`${placeholders.length} assignment(s) with a placeholder: ${placeholders.slice(0, 3).join(", ")} -> ${(scrubbed(assignments.find((a) => a.assignmentId === placeholders[0])).match(PLACEHOLDER) ?? []).join("|")}`);
+if (blockedInPF.length) problems.push(`${blockedInPF.length} blocked famil(ies) assigned to a builder`);
+if (!/^[0-9a-f]{40}$/.test(MINIMUM_CAPTAIN_SHA)) problems.push("no real minimum Captain SHA");
+if (git(["merge-base", "--is-ancestor", MINIMUM_CAPTAIN_SHA, "HEAD"]) === null) problems.push("the minimum Captain SHA is not an ancestor of HEAD");
+if (assignments.length !== PF_LANES + VF_LANES + SRC_LANES + FIX_LANES) problems.push(`${assignments.length} lanes, expected 32`);
+if (problems.length) {
+  console.error(`packet factory 24h: ${problems.length} problem(s)`);
+  for (const p of problems.slice(0, 12)) console.error(`  - ${p}`);
+  process.exit(1);
+}
+
+/* ---------------------------------------------------------------- *
+ * Records
+ * ---------------------------------------------------------------- */
+const countBy = (pool, key) => pool.reduce((acc, f) => ({ ...acc, [f[key]]: (acc[f[key]] ?? 0) + 1 }), {});
+
+const masterQueue = {
+  schemaVersion: "rcap-packet-factory-24h-master-queue/v1",
+  generatedBy: "scripts/grade-a-packet-factory-24h/generate.mjs",
+  question: "What is every packet family's exact state, owner and next action right now?",
+  everyCountIsDerived: "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
+  minimumCaptainSha: MINIMUM_CAPTAIN_SHA,
+  inputs: Object.fromEntries(Object.entries(INPUTS).map(([, p]) => [p, sha(p)])),
+  stateVocabulary: STATES,
+  denominator: {
+    liveFamilyDenominator: families.length,
+    activeFamiliesExcluded: active.length,
+    guidanceOnly: guidance.length,
+    remaining: remaining.length,
+    sourceReady: sourceReady.length,
+    sourceBlocked: sourceBlocked.length,
+    legalBlocked: legalBlocked.length,
+    verifyPending: verifyPending.length,
+    repairRequired: repairRequired.length,
+    sumsToDenominator: active.length + guidance.length + remaining.length === families.length
+  },
+  byState: countBy(families, "state"),
+  bySourceStatus: countBy(families, "sourceStatus"),
+  activeOwnership: {
+    lanes: ACTIVE_LANES.map((a) => a.assignmentId),
+    families: [...activeFamilies.keys()].sort(),
+    paths: activePaths.length,
+    rule: "Excluded from every new assignment. A collision with active ownership fails this generator rather than appearing as a note."
+  },
+  theHonestShape: {
+    buildersProvisioned: PF_LANES,
+    sourceReadyFamilies: sourceReady.length,
+    familiesPerBuilder: PF_LANES > 0 ? Number((sourceReady.length / PF_LANES).toFixed(1)) : 0,
+    targetPerBuilder: "15 to 25",
+    finding: `Thirty-two lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: ${sourceReady.length} do, so a full roster of ${PF_LANES} builders averages ${(sourceReady.length / PF_LANES).toFixed(1)} families each rather than 15 to 25.`,
+    whatWouldChangeIt: `The source conveyor. ${sourceRows.length} source obligations across ${sourceBlocked.length + legalBlocked.length} families stand between this dispatch and a full builder roster, and SRC01 to SRC04 hold every one of them.`,
+    whyNotFewerBuilders: "The roster is kept at sixteen because the instruction is a 24-hour rolling factory: a lane that is empty at dispatch is the lane a released family starts in an hour from now, and provisioning it later costs a cycle.",
+    noFalsePass: "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
+  },
+  families,
+  totals: {
+    lanes: assignments.length,
+    builders: PF_LANES, verifiers: VF_LANES, sourceLanes: SRC_LANES, repairLanes: FIX_LANES,
+    familiesAssignedToBuilders: sourceReady.length,
+    sourceObligationsAssigned: sourceRows.length,
+    commercialRoutesOpened: 0,
+    productionTouched: false
+  },
+  commercialPosture: "This factory builds, verifies, repairs and acquires. It opens no commercial route, proves no fulfillment authority and approves no output."
+};
+
+const activeAssignmentsRecord = {
+  schemaVersion: "rcap-packet-factory-24h-active-assignments/v1",
+  generatedBy: masterQueue.generatedBy,
+  minimumCaptainSha: MINIMUM_CAPTAIN_SHA,
+  captainBranch: CAPTAIN_BRANCH,
+  executionContract: CONTRACT,
+  concurrency: {
+    lanesCreated: assignments.length,
+    rule: "If available Codex concurrency is lower than 32, every assignment is still created and queued. When a task finishes, the next queued task starts immediately.",
+    startOrder: [
+      "SRC01-SRC04 and every PF lane holding families start together — the conveyor and the builders are not sequential",
+      "VF lanes start on the first PF checkpoint, not on a completed assignment",
+      "FIX lanes start on the first FAIL_REPAIR_REQUIRED verdict",
+      "an empty PF lane starts the moment a source lane releases a family into it"
+    ],
+    idleRule: "A lane is idle only when no executable work exists for its kind. An empty PF lane at dispatch is idle because the source queue is empty for it, and the source lanes are the work that ends that."
+  },
+  assignments
+};
+
+const importGraphRecord = {
+  schemaVersion: "rcap-packet-factory-24h-import-graph/v1",
+  generatedBy: masterQueue.generatedBy,
+  question: "Which build scripts are shared, and may a lane own the script its family uses?",
+  scriptsScanned: scriptFiles.length,
+  rule: "A family worker may own a family-specific script only when no unassigned family imports it. One shared host has one owner.",
+  edges: scriptFiles.map((f) => ({ script: f, imports: directImports.get(f) ?? [], transitiveImports: transitiveImportsOf(f), importedBy: importersOf(f) })).filter((e) => e.imports.length || e.importedBy.length),
+  sharedHosts: scriptFiles.filter((f) => importersOf(f).length > 1).map((f) => ({ script: f, importers: importersOf(f).map(familyOfScript), owner: hostWriters.get(`${SCRIPTS}/${f}`)?.[0] ?? "UNOWNED_IN_THIS_WAVE" })),
+  scriptsWithheldFromLanes: assignments.filter((a) => (a.scriptsNotOwned ?? []).length).map((a) => ({ lane: a.assignmentId, withheld: a.scriptsNotOwned }))
+};
+
+const collisionsRecord = {
+  schemaVersion: "rcap-packet-factory-24h-collisions/v1",
+  generatedBy: masterQueue.generatedBy,
+  checkedAgainst: { activeLanes: ACTIVE_LANES.map((a) => a.assignmentId), activePaths: activePaths.length, wavePaths: wavePaths.length, comparisons: wavePaths.length * activePaths.length + (wavePaths.length * (wavePaths.length - 1)) / 2 },
+  results: { pathCollisions: collisions, duplicateFamilies, activeFamiliesReDispatched: activeReDispatched, sharedHostCollisions, ownedAndProhibited, requiredOutputsOutsideOwnedPaths: unwritableOutputs, placeholders, blockedFamiliesAssignedToBuilders: blockedInPF },
+  counts: { pathCollisions: collisions.length, duplicateFamilies: duplicateFamilies.length, activeFamiliesReDispatched: activeReDispatched.length, sharedHostCollisions: sharedHostCollisions.length, ownedAndProhibited: ownedAndProhibited.length, requiredOutputsOutsideOwnedPaths: unwritableOutputs.length, placeholders: placeholders.length, blockedFamiliesAssignedToBuilders: blockedInPF.length },
+  rule: "A nonzero count here fails the generator. This record exists so the zero can be read rather than trusted."
+};
+
+const checkpointRecord = {
+  schemaVersion: "rcap-packet-factory-24h-checkpoint/v1",
+  generatedBy: masterQueue.generatedBy,
+  everyCountIsDerived: "No number here is typed.",
+  cadence: "every 2 hours",
+  checkpointNumber: 0,
+  checkpointMeans: "checkpoint 0 is the dispatch: the state the first two-hour checkpoint is measured against.",
+  liveFamilyDenominator: families.length,
+  completePacketProven: families.filter((f) => f.state === "COMPLETE_PACKET_PROVEN").length,
+  states: Object.fromEntries(STATES.map((s) => [s, families.filter((f) => f.state === s).length])),
+  sourceReady: sourceReady.length,
+  sourceBlocked: sourceBlocked.length,
+  assigned: sourceReady.length,
+  completedSinceLastCheckpoint: 0,
+  newlySourceReady: 0,
+  returnedForRepair: 0,
+  codex: {
+    activeTasks: 0,
+    queuedTasks: assignments.length,
+    lanesWithWorkAtDispatch: assignments.filter((a) => (a.items ?? []).length > 0).length,
+    lanesProvisionedEmpty: assignments.filter((a) => (a.items ?? []).length === 0).length,
+    idleCapacityRule: "A provisioned-empty lane is not idle capacity being wasted; it is capacity waiting on the source conveyor, which is itself fully assigned."
+  },
+  blockers: [...sourceBlocked, ...legalBlocked].map((f) => ({
+    family: f.familyId,
+    exactBlocker: f.legalInputStatus === "OPEN_LEGAL_INPUT" ? "an open legal input on one of its routes"
+      : f.routeMappingStatus === "UNBOUND_TO_A_PACKET_FAMILY" ? "no census route binds this id to a packet family"
+      : `${f.sourceStatus}: ${(f.sourceIds ?? []).join(", ") || "no document-shaped source named"}`,
+    owner: f.legalInputStatus === "OPEN_LEGAL_INPUT" ? "counsel" : (sourceRows.find((r) => r.familyId === f.familyId)?.lane ?? "SRC04"),
+    nextAction: f.legalInputStatus === "OPEN_LEGAL_INPUT" ? "await the counsel determination; do not research it here"
+      : f.routeMappingStatus === "UNBOUND_TO_A_PACKET_FAMILY" ? "Captain route/family binding"
+      : "resolve or acquire the exact source identity, then release into the next available PF lane"
+  })),
+  commercialRoutesOpened: 0,
+  productionTouched: false
+};
+
+/* ---------------------------------------------------------------- *
+ * Prompts
+ * ---------------------------------------------------------------- */
+const bullet = (xs) => (xs ?? []).map((x) => `- ${typeof x === "string" ? x : JSON.stringify(x)}`).join("\n");
+const promptFor = (a) => {
+  const p = [];
+  p.push(`# ${a.assignmentId}`, "");
+  p.push(`**Environment:** ${a.environment} (Codex Cloud)  ·  **Lane:** ${a.lane}`);
+  p.push(`**Repository branch to select:** \`${a.captainBranch}\``);
+  p.push(`**Branch in the container:** \`work\` — Codex Cloud names it. Do not rename it and do not create another.`);
+  p.push(`**Minimum required ancestor:** \`${a.minimumCaptainSha}\` (or the newer dispatch base)`);
+  p.push(`**Execution contract:** \`${a.executionContract}\` — read it before you start.`);
+  p.push("**Repository:** Roger-LegalEase/legalease-partner-dashboard-clean", "");
+  p.push("> There is no origin, the checkout is shallow, and your finished diff returns through the Codex Cloud interface. That is the design.", "");
+  p.push("## Before anything else", "", "```sh",
+    "source $HOME/.legalease-corpus-env",
+    `node ${PREFLIGHT} \\`,
+    `  --family ${a.items?.[0] ?? "<FAMILY_ID>"} \\`,
+    "  --codex-cloud \\",
+    `  --minimum-captain-sha ${a.minimumCaptainSha}`,
+    "```", "");
+  p.push(`It must print **\`${a.preflightMustReturn}\`**. A 13/14 in cloud mode is a real failure, not the shallow checkout being tolerated.`, "");
+  p.push("## Never run these", "", bullet(a.prohibitedCommands.map((c) => `\`${c}\``)), "");
+  p.push("## Mission", "", a.mission, "");
+  if (a.provisionedEmpty) p.push(`**This lane has no families at dispatch.** ${a.refillRule}`, "");
+
+  if (a.itemKind === "packetFamily" && a.familyDetail) {
+    p.push(`## The ${a.itemCount} families`, "");
+    if (a.sharedAxes?.length) p.push(`Shared across the lane: **${a.sharedAxes.join(", ")}**. Grouped by shared host, official form, composer and component assembly — never by state.`, "");
+    p.push("| Family | Jur | Strategy | Official forms | Component assembly | Routes | Overlay directory |", "| --- | --- | --- | --- | --- | ---: | --- |");
+    for (const f of a.familyDetail) p.push(`| \`${f.familyId}\` | ${f.jurisdiction} | ${f.strategy} | ${f.forms.join(", ") || "—"} | ${f.instrumentKinds.join(", ") || "—"} | ${f.routeCount} | \`${f.directory}\` |`);
+    p.push("");
+  } else if (a.itemKind === "packetFamily") {
+    p.push(`## The ${a.itemCount} famil${a.itemCount === 1 ? "y" : "ies"}`, "", (a.detail ?? a.items.map((f) => ({ familyId: f }))).map((d) => `- \`${d.familyId}\`${d.failingCounters?.length ? ` — failing: ${d.failingCounters.join(", ")}` : ""}`).join("\n"), "");
+  } else if (a.itemKind === "sourceObligation") {
+    p.push("## What bounds this lane", "", a.boundedBy, "");
+    p.push(`**${a.itemCount} obligations · ${a.familiesUnblockedCount} families released if all clear · hosts: ${a.issuingHosts.join(", ") || "—"}**`, "");
+    p.push(`> ${a.egressReality}`, "");
+    p.push("### Every acquired or promoted source records", "", bullet(a.everyAcquiredSourceRecords), "");
+    p.push(`**${a.releaseRule}**`, "");
+    p.push("### Families this lane releases", "", a.familiesUnblocked.map((f) => `\`${f}\``).join(", "), "");
+  } else if (a.itemKind === "streamingClaim") {
+    p.push("## How work reaches you", "", a.seedItemsAreNotTheWholeJob, "");
+    p.push(`- **Claim ledger:** \`${a.claimLedger}\``, `- **Rule:** ${a.claimRule}`, `- **Cadence:** ${a.checkpointRule}`, "");
+    if (a.items.length) p.push("### Families already awaiting verification at dispatch", "", a.items.map((f) => `\`${f}\``).join(", "), "");
+    p.push("");
+  }
+
+  if (a.builderObligations) {
+    p.push("## The builder contract — every family, all thirteen", "", bullet(a.builderObligations), "");
+    p.push(`**${a.checkpointRule}**`, "", `**${a.neverSelfVerify}**`, "");
+  }
+  if (a.proofObligations) p.push("## Proof obligations — measure each, per family", "", bullet(a.proofObligations), "");
+  if (a.verdicts) p.push("## Verdicts", "", bullet(a.verdicts.map((v) => `\`${v}\``)), "", a.verdictRule, "", `**${a.independenceRule}**`, "");
+  if (a.receivesOnly) p.push("## What you receive", "", `Only ${a.receivesOnly}.`, "", a.doNotRepeatAnalysis, "", `**${a.reverificationRule}**`, "");
+
+  p.push("## Owned paths — write only here", "", bullet(a.ownedPaths.map((x) => `\`${x}\``)), "");
+  if (a.scriptsNotOwned?.length) {
+    p.push("### Scripts you may NOT own", "", "A family-specific script is yours only when no family outside this lane imports it. These are imported from outside and belong to nobody here:", "");
+    for (const s of a.scriptsNotOwned) p.push(`- \`${s.script}\` — imported by ${s.importedByFamiliesOutsideThisLane.join(", ")}`);
+    p.push("");
+  }
+  p.push("## Never write here", "", bullet([...new Set(a.prohibitedPaths)].slice(0, 24).map((x) => `\`${x}\``)), "");
+  p.push("## Required outputs", "", bullet(a.requiredOutputs), "");
+  p.push("### Output schema", "", `Array key \`${a.outputSchema.arrayKey}\`, item key \`${a.outputSchema.itemKeyField}\`, status words: ${a.outputSchema.completionVocabulary.map((v) => `\`${v}\``).join(", ")}.`, "", a.outputSchema.rule, "");
+  p.push("## Focused tests", "", bullet(a.focusedTests.map((t) => `\`${t}\``)), "", "> Focused checks only. The full national repository chain runs at Captain checkpoints, never inside a worker.", "");
+  p.push("## Stop conditions", "", bullet(a.stopConditions), "", "Stopping with an honest account of what is missing is a complete return. One blocked family never stops the lane.", "");
+  p.push("## How you return", "", a.theDiffIsTheReturn, "", "```text", ...a.returnFormat, "```", "");
+  p.push("## What finishing does not do", "", a.grantsNothing, "");
+  return p.join("\n");
+};
+
+if (CHECK) {
+  console.log(`packet factory 24h current: ${families.length} families, ${sourceReady.length} source-ready, ${assignments.length} lanes, ${collisions.length} collisions.`);
+  process.exit(0);
+}
+
+fs.mkdirSync(path.join(ROOT, OUT_DIR), { recursive: true });
+fs.mkdirSync(path.join(ROOT, PROMPT_DIR), { recursive: true });
+fs.writeFileSync(path.join(ROOT, `${OUT_DIR}/MASTER_QUEUE.json`), `${JSON.stringify(masterQueue, null, 2)}\n`);
+fs.writeFileSync(path.join(ROOT, `${OUT_DIR}/ACTIVE_ASSIGNMENTS.json`), `${JSON.stringify(activeAssignmentsRecord, null, 2)}\n`);
+fs.writeFileSync(path.join(ROOT, `${OUT_DIR}/IMPORT_GRAPH.json`), `${JSON.stringify(importGraphRecord, null, 2)}\n`);
+fs.writeFileSync(path.join(ROOT, `${OUT_DIR}/COLLISIONS.json`), `${JSON.stringify(collisionsRecord, null, 2)}\n`);
+fs.writeFileSync(path.join(ROOT, `${OUT_DIR}/CHECKPOINT.json`), `${JSON.stringify(checkpointRecord, null, 2)}\n`);
+for (const a of assignments) fs.writeFileSync(path.join(ROOT, a.promptFile), promptFor(a));
+
+console.log(`Wrote ${OUT_DIR}/{MASTER_QUEUE,ACTIVE_ASSIGNMENTS,IMPORT_GRAPH,COLLISIONS,CHECKPOINT}.json`);
+console.log(`Wrote ${assignments.length} prompts into ${PROMPT_DIR}/`);
+console.log("");
+console.log(`  live denominator ${families.length} = ${active.length} active + ${guidance.length} guidance-only + ${remaining.length} remaining`);
+console.log(`  source-ready ${sourceReady.length} · source-blocked ${sourceBlocked.length} · legal-blocked ${legalBlocked.length} · verify-pending ${verifyPending.length} · repair ${repairRequired.length}`);
+console.log(`  lanes: ${PF_LANES} PF · ${VF_LANES} VF · ${SRC_LANES} SRC · ${FIX_LANES} FIX = ${assignments.length}`);
+console.log(`  collisions ${collisions.length} · duplicates ${duplicateFamilies.length} · shared-host collisions ${sharedHostCollisions.length} · placeholders ${placeholders.length}`);
+for (const a of assignments.filter((x) => x.lane === "packet-build")) console.log(`    ${a.assignmentId}: ${String(a.itemCount).padStart(2)} famil(ies)  ${a.sharedAxes?.join(", ") || ""}`);
+for (const a of assignments.filter((x) => x.lane === "source-identity-acquisition-promotion")) console.log(`    ${a.assignmentId}: ${a.itemCount} obligations, ${a.familiesUnblockedCount} families`);

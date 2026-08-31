@@ -1,0 +1,604 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-import-graph/v1",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
+  "question": "Which build scripts are shared, and may a lane own the script its family uses?",
+  "scriptsScanned": 52,
+  "rule": "A family worker may own a family-specific script only when no unassigned family imports it. One shared host has one owner.",
+  "edges": [
+    {
+      "script": "build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs",
+      "imports": [],
+      "transitiveImports": [],
+      "importedBy": [
+        "build-census-v1-az_marijuana_expungement_superior_court-set.mjs",
+        "build-census-v1-ca-1203-41-set.mjs",
+        "build-census-v1-ca-1203-42-set.mjs",
+        "build-census-v1-ca-1203-43-set.mjs",
+        "build-census-v1-ca-1203-4a-set.mjs",
+        "build-census-v1-ca-17b-reduction-set.mjs",
+        "build-census-v1-ca-851-91-set.mjs",
+        "build-census-v1-ca-prop64-set.mjs"
+      ]
+    },
+    {
+      "script": "build-census-v1-az_marijuana_expungement_superior_court-set.mjs",
+      "imports": [
+        "build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-ca-1203-41-set.mjs",
+      "imports": [
+        "build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-ca-1203-42-set.mjs",
+      "imports": [
+        "build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-ca-1203-43-set.mjs",
+      "imports": [
+        "build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-ca-1203-4a-set.mjs",
+      "imports": [
+        "build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-ca-17b-reduction-set.mjs",
+      "imports": [
+        "build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-ca-851-91-set.mjs",
+      "imports": [
+        "build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-ca-prop64-set.mjs",
+      "imports": [
+        "build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-ne-setaside-custodial-set.mjs",
+      "imports": [],
+      "transitiveImports": [],
+      "importedBy": [
+        "build-census-v1-ne-setaside-noncustodial-set.mjs",
+        "build-census-v1-ne-trafficking-setaside-and-seal-set.mjs",
+        "build-census-v1-sd_arrest_expungement-set.mjs",
+        "build-census-v1-wv_conv_multiple_misdemeanors-set.mjs",
+        "build-census-v1-wv_conv_single_misdemeanor-set.mjs"
+      ]
+    },
+    {
+      "script": "build-census-v1-ne-setaside-noncustodial-set.mjs",
+      "imports": [
+        "build-census-v1-ne-setaside-custodial-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-ne-setaside-custodial-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-ne-trafficking-setaside-and-seal-set.mjs",
+      "imports": [
+        "build-census-v1-ne-setaside-custodial-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-ne-setaside-custodial-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-nj_arrest_no_conviction-set.mjs",
+      "imports": [],
+      "transitiveImports": [],
+      "importedBy": [
+        "build-census-v1-nj_clean_slate-set.mjs",
+        "build-census-v1-nj_disorderly_persons-set.mjs",
+        "build-census-v1-nj_indictable_conviction-set.mjs",
+        "build-census-v1-nj_ordinance-set.mjs",
+        "build-census-v1-ny_160_59_petition-set.mjs",
+        "build-census-v1-ny_mrta_marijuana-set.mjs",
+        "build-census-v1-oh_marijuana_expungement-set.mjs",
+        "build-census-v1-pa_490_nonconviction-set.mjs",
+        "build-census-v1-pa_6308_underage-set.mjs",
+        "build-census-v1-pa_790_nonconviction-set.mjs",
+        "build-census-v1-pa_9122_1_limited_access-set.mjs",
+        "build-census-v1-pa_summary_conviction-set.mjs",
+        "build-census-v1-rcap-oh-custom-pleading-clean-tracks.mjs",
+        "build-census-v1-ri_nonconviction_sealing-set.mjs"
+      ]
+    },
+    {
+      "script": "build-census-v1-nj_clean_slate-set.mjs",
+      "imports": [
+        "build-census-v1-nj_arrest_no_conviction-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-nj_arrest_no_conviction-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-nj_disorderly_persons-set.mjs",
+      "imports": [
+        "build-census-v1-nj_arrest_no_conviction-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-nj_arrest_no_conviction-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-nj_indictable_conviction-set.mjs",
+      "imports": [
+        "build-census-v1-nj_arrest_no_conviction-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-nj_arrest_no_conviction-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-nj_ordinance-set.mjs",
+      "imports": [
+        "build-census-v1-nj_arrest_no_conviction-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-nj_arrest_no_conviction-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-ny_160_59_petition-set.mjs",
+      "imports": [
+        "build-census-v1-nj_arrest_no_conviction-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-nj_arrest_no_conviction-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-ny_mrta_marijuana-set.mjs",
+      "imports": [
+        "build-census-v1-nj_arrest_no_conviction-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-nj_arrest_no_conviction-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-oh_marijuana_expungement-set.mjs",
+      "imports": [
+        "build-census-v1-nj_arrest_no_conviction-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-nj_arrest_no_conviction-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-pa_490_nonconviction-set.mjs",
+      "imports": [
+        "build-census-v1-nj_arrest_no_conviction-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-nj_arrest_no_conviction-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-pa_6308_underage-set.mjs",
+      "imports": [
+        "build-census-v1-nj_arrest_no_conviction-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-nj_arrest_no_conviction-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-pa_790_nonconviction-set.mjs",
+      "imports": [
+        "build-census-v1-nj_arrest_no_conviction-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-nj_arrest_no_conviction-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-pa_9122_1_limited_access-set.mjs",
+      "imports": [
+        "build-census-v1-nj_arrest_no_conviction-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-nj_arrest_no_conviction-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-pa_summary_conviction-set.mjs",
+      "imports": [
+        "build-census-v1-nj_arrest_no_conviction-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-nj_arrest_no_conviction-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-rcap-oh-custom-pleading-clean-tracks.mjs",
+      "imports": [
+        "build-census-v1-nj_arrest_no_conviction-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-nj_arrest_no_conviction-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-ri_nonconviction_sealing-set.mjs",
+      "imports": [
+        "build-census-v1-nj_arrest_no_conviction-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-nj_arrest_no_conviction-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-sd_arrest_expungement-set.mjs",
+      "imports": [
+        "build-census-v1-ne-setaside-custodial-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-ne-setaside-custodial-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-ut_pet_acquittal-set.mjs",
+      "imports": [],
+      "transitiveImports": [],
+      "importedBy": [
+        "build-census-v1-ut_pet_conviction-set.mjs",
+        "build-census-v1-ut_pet_dismissed_with_prejudice-set.mjs",
+        "build-census-v1-ut_pet_dismissed_without_prejudice-set.mjs",
+        "build-census-v1-ut_pet_limitations-set.mjs",
+        "build-census-v1-ut_pet_no_charges-set.mjs",
+        "build-census-v1-ut_pet_traffic-set.mjs"
+      ]
+    },
+    {
+      "script": "build-census-v1-ut_pet_conviction-set.mjs",
+      "imports": [
+        "build-census-v1-ut_pet_acquittal-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-ut_pet_acquittal-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-ut_pet_dismissed_with_prejudice-set.mjs",
+      "imports": [
+        "build-census-v1-ut_pet_acquittal-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-ut_pet_acquittal-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-ut_pet_dismissed_without_prejudice-set.mjs",
+      "imports": [
+        "build-census-v1-ut_pet_acquittal-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-ut_pet_acquittal-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-ut_pet_limitations-set.mjs",
+      "imports": [
+        "build-census-v1-ut_pet_acquittal-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-ut_pet_acquittal-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-ut_pet_no_charges-set.mjs",
+      "imports": [
+        "build-census-v1-ut_pet_acquittal-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-ut_pet_acquittal-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-ut_pet_traffic-set.mjs",
+      "imports": [
+        "build-census-v1-ut_pet_acquittal-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-ut_pet_acquittal-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs",
+      "imports": [],
+      "transitiveImports": [],
+      "importedBy": [
+        "build-census-v1-wa_vac_cannabis-set.mjs",
+        "build-census-v1-wa_vac_domestic_violence-set.mjs",
+        "build-census-v1-wa_vac_felony-set.mjs",
+        "build-census-v1-wa_vac_homicide_victim_prostitution-set.mjs",
+        "build-census-v1-wa_vac_misdemeanor_ordinary-set.mjs",
+        "build-census-v1-wa_vac_substance_use_disorder-set.mjs",
+        "build-census-v1-wa_vac_survivor_felony-set.mjs",
+        "build-census-v1-wa_vac_survivor_misdemeanor-set.mjs",
+        "build-census-v1-wa_vac_treaty_fishing-set.mjs"
+      ]
+    },
+    {
+      "script": "build-census-v1-wa_vac_cannabis-set.mjs",
+      "imports": [
+        "build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-wa_vac_domestic_violence-set.mjs",
+      "imports": [
+        "build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-wa_vac_felony-set.mjs",
+      "imports": [
+        "build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-wa_vac_homicide_victim_prostitution-set.mjs",
+      "imports": [
+        "build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-wa_vac_misdemeanor_ordinary-set.mjs",
+      "imports": [
+        "build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-wa_vac_substance_use_disorder-set.mjs",
+      "imports": [
+        "build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-wa_vac_survivor_felony-set.mjs",
+      "imports": [
+        "build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-wa_vac_survivor_misdemeanor-set.mjs",
+      "imports": [
+        "build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-wa_vac_treaty_fishing-set.mjs",
+      "imports": [
+        "build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-wv_conv_multiple_misdemeanors-set.mjs",
+      "imports": [
+        "build-census-v1-ne-setaside-custodial-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-ne-setaside-custodial-set.mjs"
+      ],
+      "importedBy": [
+        "build-census-v1-wv_conv_single_misdemeanor-set.mjs"
+      ]
+    },
+    {
+      "script": "build-census-v1-wv_conv_single_misdemeanor-set.mjs",
+      "imports": [
+        "build-census-v1-wv_conv_multiple_misdemeanors-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-wv_conv_multiple_misdemeanors-set.mjs",
+        "build-census-v1-ne-setaside-custodial-set.mjs"
+      ],
+      "importedBy": []
+    }
+  ],
+  "sharedHosts": [
+    {
+      "script": "build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs",
+      "importers": [
+        "az_marijuana_expungement_superior_court-set",
+        "ca-1203-41-set",
+        "ca-1203-42-set",
+        "ca-1203-43-set",
+        "ca-1203-4a-set",
+        "ca-17b-reduction-set",
+        "ca-851-91-set",
+        "ca-prop64-set"
+      ],
+      "owner": "UNOWNED_IN_THIS_WAVE"
+    },
+    {
+      "script": "build-census-v1-ne-setaside-custodial-set.mjs",
+      "importers": [
+        "ne-setaside-noncustodial-set",
+        "ne-trafficking-setaside-and-seal-set",
+        "sd_arrest_expungement-set",
+        "wv_conv_multiple_misdemeanors-set",
+        "wv_conv_single_misdemeanor-set"
+      ],
+      "owner": "UNOWNED_IN_THIS_WAVE"
+    },
+    {
+      "script": "build-census-v1-nj_arrest_no_conviction-set.mjs",
+      "importers": [
+        "nj_clean_slate-set",
+        "nj_disorderly_persons-set",
+        "nj_indictable_conviction-set",
+        "nj_ordinance-set",
+        "ny_160_59_petition-set",
+        "ny_mrta_marijuana-set",
+        "oh_marijuana_expungement-set",
+        "pa_490_nonconviction-set",
+        "pa_6308_underage-set",
+        "pa_790_nonconviction-set",
+        "pa_9122_1_limited_access-set",
+        "pa_summary_conviction-set",
+        "rcap-oh-custom-pleading-clean-tracks",
+        "ri_nonconviction_sealing-set"
+      ],
+      "owner": "UNOWNED_IN_THIS_WAVE"
+    },
+    {
+      "script": "build-census-v1-ut_pet_acquittal-set.mjs",
+      "importers": [
+        "ut_pet_conviction-set",
+        "ut_pet_dismissed_with_prejudice-set",
+        "ut_pet_dismissed_without_prejudice-set",
+        "ut_pet_limitations-set",
+        "ut_pet_no_charges-set",
+        "ut_pet_traffic-set"
+      ],
+      "owner": "UNOWNED_IN_THIS_WAVE"
+    },
+    {
+      "script": "build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs",
+      "importers": [
+        "wa_vac_cannabis-set",
+        "wa_vac_domestic_violence-set",
+        "wa_vac_felony-set",
+        "wa_vac_homicide_victim_prostitution-set",
+        "wa_vac_misdemeanor_ordinary-set",
+        "wa_vac_substance_use_disorder-set",
+        "wa_vac_survivor_felony-set",
+        "wa_vac_survivor_misdemeanor-set",
+        "wa_vac_treaty_fishing-set"
+      ],
+      "owner": "UNOWNED_IN_THIS_WAVE"
+    }
+  ],
+  "scriptsWithheldFromLanes": [
+    {
+      "lane": "PF14",
+      "withheld": [
+        {
+          "script": "scripts/build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs",
+          "importedByFamiliesOutsideThisLane": [
+            "wa_vac_cannabis-set",
+            "wa_vac_domestic_violence-set",
+            "wa_vac_felony-set",
+            "wa_vac_homicide_victim_prostitution-set",
+            "wa_vac_misdemeanor_ordinary-set",
+            "wa_vac_substance_use_disorder-set",
+            "wa_vac_survivor_felony-set",
+            "wa_vac_survivor_misdemeanor-set",
+            "wa_vac_treaty_fishing-set"
+          ]
+        }
+      ]
+    }
+  ]
+}
