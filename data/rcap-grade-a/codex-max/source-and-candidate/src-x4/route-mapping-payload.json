@@ -1,0 +1,206 @@
+{
+  "schemaVersion": "src-x4-route-mapping-payload/v1",
+  "authority": "APPLY_READY_ONLY_DO_NOT_APPLY",
+  "head": "ca94bd1b5375d19da682362b44447006c826439c",
+  "source": "data/rcap-grade-a/codex-5h/cb01-route-integration/stopped.json",
+  "examinedCount": 16,
+  "readyCount": 0,
+  "stoppedCount": 16,
+  "patches": [],
+  "stops": [
+    {
+      "rowId": "CAPTAIN_ROUTE_MAPPING:obligation:runtime-only:MD:juvenile-expungement",
+      "routeKey": "obligation:runtime-only:MD:juvenile-expungement",
+      "jurisdiction": "MD",
+      "head": "ca94bd1b5375d19da682362b44447006c826439c",
+      "originalReason": "The terminal crosswalk record proves a registry gap: Maryland's existing stages are adult Title 10 mechanisms, while juvenile expungement is a distinct process.",
+      "currentResolution": {
+        "status": "STOPPED_NEW_STAGE_REQUIRED",
+        "mappedRegistryTrackIds": [],
+        "requiredStageAuthority": "Md. Cts. & Jud. Proc. § 3-8A-27.1; Md. Rule 11-506",
+        "requiredAction": "Create or adjudicate the missing census stage through the national census generator before binding this runtime pathway."
+      },
+      "verdict": "STOPPED_ROUTE_OR_LEGAL_IDENTITY",
+      "stop": "Create or adjudicate the missing census stage through the national census generator before binding this runtime pathway.",
+      "evidenceSource": "data/rcap-grade-a/captain-route-mapping/reconciled.json"
+    },
+    {
+      "rowId": "CAPTAIN_ROUTE_MAPPING:obligation:runtime-only:ND:general-conviction-sealing-under-n-d-c-c-chapter-12-60-1",
+      "routeKey": "obligation:runtime-only:ND:general-conviction-sealing-under-n-d-c-c-chapter-12-60-1",
+      "jurisdiction": "ND",
+      "head": "ca94bd1b5375d19da682362b44447006c826439c",
+      "originalReason": "The broad runtime pathway combines misdemeanor, felony, and pardoned-conviction stages and also includes nonconviction material served by another pathway.",
+      "currentResolution": {
+        "status": "STOPPED_SPLIT_RUNTIME_REQUIRED",
+        "mappedRegistryTrackIds": [],
+        "stageCandidates": [
+          "nd-seal-misdemeanor-conviction",
+          "nd-seal-felony-conviction",
+          "nd-seal-pardoned-conviction"
+        ],
+        "requiredAction": "Split the runtime identity into stage-specific pathways and remove the separately represented nonconviction branch; do not select one claimant."
+      },
+      "verdict": "STOPPED_ROUTE_OR_LEGAL_IDENTITY",
+      "stop": "Split the runtime identity into stage-specific pathways and remove the separately represented nonconviction branch; do not select one claimant.",
+      "evidenceSource": "data/rcap-grade-a/captain-route-mapping/reconciled.json"
+    },
+    {
+      "rowId": "CAPTAIN_ROUTE_MAPPING:obligation:runtime-only:WV:juvenile-record-relief",
+      "routeKey": "obligation:runtime-only:WV:juvenile-record-relief",
+      "jurisdiction": "WV",
+      "head": "ca94bd1b5375d19da682362b44447006c826439c",
+      "originalReason": "No West Virginia census stage carries chapter 49 juvenile authority; existing stages are adult conviction, nonconviction, drug, DUI, and pardon routes.",
+      "currentResolution": {
+        "status": "STOPPED_NEW_STAGE_REQUIRED",
+        "mappedRegistryTrackIds": [],
+        "requiredStageAuthority": "W. Va. Code § 49-5-104",
+        "requiredAction": "Create or adjudicate the missing census stage through the national census generator before binding this runtime pathway."
+      },
+      "verdict": "STOPPED_ROUTE_OR_LEGAL_IDENTITY",
+      "stop": "Create or adjudicate the missing census stage through the national census generator before binding this runtime pathway.",
+      "evidenceSource": "data/rcap-grade-a/captain-route-mapping/reconciled.json"
+    },
+    {
+      "rowId": "LIVE_CHECKPOINT_NO_FAMILY:agency-application-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request",
+      "routeKey": "agency-application-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request",
+      "head": "ca94bd1b5375d19da682362b44447006c826439c",
+      "originalReason": "no census route binds this id to a packet family",
+      "verdict": "STOPPED_ROUTE_OR_LEGAL_IDENTITY",
+      "stop": "no census route binds this id to a packet family",
+      "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+    },
+    {
+      "rowId": "LIVE_CHECKPOINT_NO_FAMILY:composed-treatment:nc_146_dismissal_petition",
+      "routeKey": "composed-treatment:nc_146_dismissal_petition",
+      "head": "ca94bd1b5375d19da682362b44447006c826439c",
+      "originalReason": "no census route binds this id to a packet family",
+      "verdict": "STOPPED_ROUTE_OR_LEGAL_IDENTITY",
+      "stop": "no census route binds this id to a packet family",
+      "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+    },
+    {
+      "rowId": "LIVE_CHECKPOINT_NO_FAMILY:composed-treatment:nd-nonconviction-auto-close-verify",
+      "routeKey": "composed-treatment:nd-nonconviction-auto-close-verify",
+      "head": "ca94bd1b5375d19da682362b44447006c826439c",
+      "originalReason": "no census route binds this id to a packet family",
+      "verdict": "STOPPED_ROUTE_OR_LEGAL_IDENTITY",
+      "stop": "no census route binds this id to a packet family",
+      "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+    },
+    {
+      "rowId": "LIVE_CHECKPOINT_NO_FAMILY:composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+      "routeKey": "composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+      "head": "ca94bd1b5375d19da682362b44447006c826439c",
+      "originalReason": "no census route binds this id to a packet family",
+      "verdict": "STOPPED_ROUTE_OR_LEGAL_IDENTITY",
+      "stop": "no census route binds this id to a packet family",
+      "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+    },
+    {
+      "rowId": "LIVE_CHECKPOINT_NO_FAMILY:composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+      "routeKey": "composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+      "head": "ca94bd1b5375d19da682362b44447006c826439c",
+      "originalReason": "no census route binds this id to a packet family",
+      "verdict": "STOPPED_ROUTE_OR_LEGAL_IDENTITY",
+      "stop": "no census route binds this id to a packet family",
+      "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+    },
+    {
+      "rowId": "LIVE_CHECKPOINT_NO_FAMILY:composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26",
+      "routeKey": "composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26",
+      "head": "ca94bd1b5375d19da682362b44447006c826439c",
+      "originalReason": "no census route binds this id to a packet family",
+      "verdict": "STOPPED_ROUTE_OR_LEGAL_IDENTITY",
+      "stop": "no census route binds this id to a packet family",
+      "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+    },
+    {
+      "rowId": "LIVE_CHECKPOINT_NO_FAMILY:composed-treatment:obligation:runtime-only:NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247",
+      "routeKey": "composed-treatment:obligation:runtime-only:NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247",
+      "head": "ca94bd1b5375d19da682362b44447006c826439c",
+      "originalReason": "no census route binds this id to a packet family",
+      "verdict": "STOPPED_ROUTE_OR_LEGAL_IDENTITY",
+      "stop": "no census route binds this id to a packet family",
+      "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+    },
+    {
+      "rowId": "LIVE_CHECKPOINT_NO_FAMILY:composed-treatment:sd_sis_sealing",
+      "routeKey": "composed-treatment:sd_sis_sealing",
+      "head": "ca94bd1b5375d19da682362b44447006c826439c",
+      "originalReason": "no census route binds this id to a packet family",
+      "verdict": "STOPPED_ROUTE_OR_LEGAL_IDENTITY",
+      "stop": "no census route binds this id to a packet family",
+      "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+    },
+    {
+      "rowId": "LIVE_CHECKPOINT_NO_FAMILY:rcap-ga-guidance-implementation",
+      "routeKey": "rcap-ga-guidance-implementation",
+      "head": "ca94bd1b5375d19da682362b44447006c826439c",
+      "originalReason": "no census route binds this id to a packet family",
+      "verdict": "STOPPED_ROUTE_OR_LEGAL_IDENTITY",
+      "stop": "no census route binds this id to a packet family",
+      "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+    },
+    {
+      "rowId": "LIVE_CHECKPOINT_NO_FAMILY:rcap-wv-custom-pleading",
+      "routeKey": "rcap-wv-custom-pleading",
+      "head": "ca94bd1b5375d19da682362b44447006c826439c",
+      "originalReason": "no census route binds this id to a packet family",
+      "verdict": "STOPPED_ROUTE_OR_LEGAL_IDENTITY",
+      "stop": "no census route binds this id to a packet family",
+      "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+    },
+    {
+      "rowId": "WAVE_2_R3:obligation:runtime-only:MD:juvenile-expungement",
+      "routeKey": "obligation:runtime-only:MD:juvenile-expungement",
+      "jurisdiction": "MD",
+      "head": "ca94bd1b5375d19da682362b44447006c826439c",
+      "originalReason": "The terminal crosswalk record proves a registry gap: Maryland's existing stages are adult Title 10 mechanisms, while juvenile expungement is a distinct process.",
+      "currentResolution": {
+        "status": "STOPPED_NEW_STAGE_REQUIRED",
+        "mappedRegistryTrackIds": [],
+        "requiredStageAuthority": "Md. Cts. & Jud. Proc. § 3-8A-27.1; Md. Rule 11-506",
+        "requiredAction": "Create or adjudicate the missing census stage through the national census generator before binding this runtime pathway."
+      },
+      "verdict": "STOPPED_ROUTE_OR_LEGAL_IDENTITY",
+      "stop": "Create or adjudicate the missing census stage through the national census generator before binding this runtime pathway.",
+      "evidenceSource": "data/rcap-grade-a/wave-2/r3-route-mapping-remainder/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R3:obligation:runtime-only:ND:general-conviction-sealing-under-n-d-c-c-chapter-12-60-1",
+      "routeKey": "obligation:runtime-only:ND:general-conviction-sealing-under-n-d-c-c-chapter-12-60-1",
+      "jurisdiction": "ND",
+      "head": "ca94bd1b5375d19da682362b44447006c826439c",
+      "originalReason": "The broad runtime pathway combines misdemeanor, felony, and pardoned-conviction stages and also includes nonconviction material served by another pathway.",
+      "currentResolution": {
+        "status": "STOPPED_SPLIT_RUNTIME_REQUIRED",
+        "mappedRegistryTrackIds": [],
+        "stageCandidates": [
+          "nd-seal-misdemeanor-conviction",
+          "nd-seal-felony-conviction",
+          "nd-seal-pardoned-conviction"
+        ],
+        "requiredAction": "Split the runtime identity into stage-specific pathways and remove the separately represented nonconviction branch; do not select one claimant."
+      },
+      "verdict": "STOPPED_ROUTE_OR_LEGAL_IDENTITY",
+      "stop": "Split the runtime identity into stage-specific pathways and remove the separately represented nonconviction branch; do not select one claimant.",
+      "evidenceSource": "data/rcap-grade-a/wave-2/r3-route-mapping-remainder/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R3:obligation:runtime-only:WV:juvenile-record-relief",
+      "routeKey": "obligation:runtime-only:WV:juvenile-record-relief",
+      "jurisdiction": "WV",
+      "head": "ca94bd1b5375d19da682362b44447006c826439c",
+      "originalReason": "No West Virginia census stage carries chapter 49 juvenile authority; existing stages are adult conviction, nonconviction, drug, DUI, and pardon routes.",
+      "currentResolution": {
+        "status": "STOPPED_NEW_STAGE_REQUIRED",
+        "mappedRegistryTrackIds": [],
+        "requiredStageAuthority": "W. Va. Code § 49-5-104",
+        "requiredAction": "Create or adjudicate the missing census stage through the national census generator before binding this runtime pathway."
+      },
+      "verdict": "STOPPED_ROUTE_OR_LEGAL_IDENTITY",
+      "stop": "Create or adjudicate the missing census stage through the national census generator before binding this runtime pathway.",
+      "evidenceSource": "data/rcap-grade-a/wave-2/r3-route-mapping-remainder/rows.json"
+    }
+  ]
+}
