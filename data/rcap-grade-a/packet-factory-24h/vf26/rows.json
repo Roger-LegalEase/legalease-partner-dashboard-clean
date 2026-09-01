@@ -26,7 +26,7 @@
   "commercialRoutesOpened": 0,
   "productionTouched": false,
   "verdictSummary": {
-    "PASS_COMPLETE_INDEPENDENT": 3,
+    "PASS_COMPLETE_INDEPENDENT": 4,
     "FAIL_REPAIR_REQUIRED": 0,
     "BLOCKED_SOURCE": 0,
     "BLOCKED_LEGAL_INPUT": 0
@@ -554,6 +554,184 @@
         "data/rcap-all50/overlays/census-v1/va/va-seal-enumerated-seven-year-set--official-pdf-fill/reports/actual-writes.json",
         "data/rcap-all50/overlays/census-v1/va/va-seal-enumerated-seven-year-set--official-pdf-fill/fixtures/canonical.pdf",
         "data/rcap-all50/overlays/census-v1/va/va-seal-enumerated-seven-year-set--official-pdf-fill/fixtures/boundary.pdf",
+        "data/rcap-grade-a/fable-packet-factory/DETERMINATION_CC1203_SUBSTITUTION.json",
+        "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"
+      ]
+    },
+    {
+      "itemId": "va_seal_ancillary_matter_only-set",
+      "lane": "VF26",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/va/va-seal-ancillary-matter-only-set--official-pdf-fill",
+      "firstReadBy": "VF03",
+      "builderDeclaredStatus": {
+        "buildStatus": "state_built",
+        "reviewStatus": "qa_review_pending",
+        "commercialRoutesOpened": 0
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "familyId agrees across source-receipt.json, build-status.json, reports/rendered-artifacts.json, production-field-map.json and reports/actual-writes.json; routeSelectionId 'va-seal-ancillary-matter-only-cc-1203-complete-set' for route obligation:track-pathway:VA:va_seal_ancillary_matter_only:petition-based-sealing. The packet is built on the form DETERMINATION_CC1203_SUBSTITUTION.json names: the receipt hash equals the corpus CC-1203 hash I recomputed myself (25d08cb32e0b0bed778465d91b869f43d8f94ce6986c5036c5de7e307a31d35a), and the packet's own page-1 bytes carry the determination's deciding title line — 'And/or ancillary matters related to previously sealed charges or convictions' — the very words that answer whether the form admits a standalone ancillary matter. The route election marks option II, § 19.2-392.12:1(B), the standalone-ancillary section. The field map records the deviation openly (assignedOfficialForm CC-1201, officialFormMatchesAssignment=false); the determination settles that the assignment table was wrong and CC-1203 is correct."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "recomputed from the corpus bytes in this container. STATES/VA/02_PACKET_FORMS/VA__FORM__CC-1203__petition-for-sealing-pursuant__REV-2026-07__EN.pdf hashes 25d08cb32e0b0bed778465d91b869f43d8f94ce6986c5036c5de7e307a31d35a at 320887 bytes, equal to source-receipt.json; every non-null pageManifest sourceSha256 in both fixtures equals the receipt hash. RECORDED DEVIATION: the family's MASTER_QUEUE row still names CC-1201 as its boundSource — the stale pre-determination assignment binding, superseded by DETERMINATION_CC1203_SUBSTITUTION.json, recorded here because the queue is Captain-owned."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "all five declared components appear in the page manifest of both fixtures in the declared order; per-page text extracted from the bytes confirms the CC-1203 title on page 1, the form's Section A/B structure on pages 2–6, and each composed component's heading on pages 7–10"
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "knownRequiredFieldsMissing=0 measured by running the completeness verifier here; independently, all 10 mapped CC-1203 writes carry non-empty flattened-appearance text decoded from the PDF bytes at each field's own measured rect in BOTH fixtures, and the composed pages carry the fixture facts in their extracted text"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "25 REQUIRED_BEFORE_FILING items declared in production-field-map.json; every one of the 25 disclosureLabels appears verbatim in participant-instructions.md, each naming the document, page and printed words beside the blank"
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "requiredOptionsMissing=0 measured here; the packet states its own election (routeSelectionId 'va-seal-ancillary-matter-only-cc-1203-complete-set', statute Va. Code § 19.2-392.12:1(B)) and all seven route-determined elections — the page-1 'filed pursuant to § 19.2-392.12:1(B)' option II the route itself decides, plus the six pro-se blocks on page 6 — are proved as painted strokes inside their own measured checkbox rects, read from the content-stream bytes; participant-instructions.md discloses all seven with stated reasons"
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "incompleteRows=0, measured by running the completeness verifier in this container"
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "zero ink on signature, date, clerk and court-owned fields, proved from bytes on both fixtures: no non-empty flattened appearance lands at either protected acroform rect, all 14 added strokes land inside declared selection-control boxes and none inside a protected rect, every one of the 130 flattened appearances lands at a mapped rect, and the composed pages' signature and date lines are blank in the extracted text; protectedWrites=0 measured here"
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "all four declared artifacts recomputed from committed bytes and hash to the record: canonical 0ca22f4c… (206660 bytes), boundary fcc5c9df… (206933 bytes), canonical primary-filing d891fd96…, boundary primary-filing 5c7faa39…. No absent unchanged-official components are declared for this family"
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "10 pages read from the bytes of each fixture, equal to the record and the raster queue's expectedPages; CC-1203 source pages ascending 1–6 and per-page text confirms the manifest's component order on pages 7–10 in both fixtures"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "visualDefects=0 measured here; zero non-empty flattened appearances land outside every mapped rect on either fixture, recomputed from bytes; the complete-coverage central raster receipt binds to the same bytes"
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "the instructions name the court the route names: 'File the completed packet with the Circuit Court for the city or county printed in the caption of the petition', and the caption is filled; the district-court edge case is addressed explicitly"
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "the fee and its waiver are addressed by delegation to a named checkable authority, which the house standard accepts: 'The filing fee, and whether it can be waived. Ask the clerk of the circuit court above'"
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "who and how are stated: a copy goes to the Attorney for the Commonwealth for the county or city where the petition is filed, 'by delivery or by first-class mail with postage prepaid'; the packet ships the service copy page, and the deadline question is delegated to the named clerk with the form's own silence stated"
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "the packet states where self-help ends: 'Check each marked box against your own record before you file. If any of them is wrong for you, this is the wrong packet and you should not file it', and 'What this packet is not' states it is not legal advice, is not filed for you, and does not decide whether the court will grant sealing"
+        }
+      },
+      "failedProofObligations": [],
+      "notMeasurableHere": [],
+      "recordedDeviations": [
+        "MASTER_QUEUE row names CC-1201 as this family's boundSource while the packet is built on CC-1203; superseded by data/rcap-grade-a/fable-packet-factory/DETERMINATION_CC1203_SUBSTITUTION.json (the assignment table was wrong), recorded here because the queue is Captain-owned"
+      ],
+      "rasterBinding": {
+        "currentRasterState": "RASTER_PASS",
+        "workflowRunId": "33495068504",
+        "jobId": "99815920167",
+        "renderedCommitSha": "5f144ec10d2bf7404faf0811e98418e0b13f06ba",
+        "pinnedCanonicalSha256": "0ca22f4c4720d2d5325d67fa67657746292923fbfb45580ef94094d5e94ad893",
+        "pinnedBoundarySha256": "fcc5c9df64bd93e04cd5c6143cbb00f38a8895a965dd76ca00e62f3235d4c0a5",
+        "canonicalRecomputedFromDiskMatchesPin": true,
+        "boundaryRecomputedFromDiskMatchesPin": true,
+        "coversTheWholeFamily": true,
+        "expectedPages": 10
+      },
+      "artifactProof": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/va/va-seal-ancillary-matter-only-set--official-pdf-fill/fixtures/canonical.pdf",
+          "recordedSha256": "0ca22f4c4720d2d5325d67fa67657746292923fbfb45580ef94094d5e94ad893",
+          "recomputedSha256": "0ca22f4c4720d2d5325d67fa67657746292923fbfb45580ef94094d5e94ad893",
+          "bindsFromDisk": true,
+          "observedByteLength": 206660
+        },
+        {
+          "fixture": "canonical-primary-filing",
+          "file": "data/rcap-all50/overlays/census-v1/va/va-seal-ancillary-matter-only-set--official-pdf-fill/fixtures/canonical--CC-1203-primary-filing.pdf",
+          "recordedSha256": "d891fd96362d9b258e1b5d7d6fb7ab08ab57d8294b018a82cac8e63693587273",
+          "recomputedSha256": "d891fd96362d9b258e1b5d7d6fb7ab08ab57d8294b018a82cac8e63693587273",
+          "bindsFromDisk": true
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/va/va-seal-ancillary-matter-only-set--official-pdf-fill/fixtures/boundary.pdf",
+          "recordedSha256": "fcc5c9df64bd93e04cd5c6143cbb00f38a8895a965dd76ca00e62f3235d4c0a5",
+          "recomputedSha256": "fcc5c9df64bd93e04cd5c6143cbb00f38a8895a965dd76ca00e62f3235d4c0a5",
+          "bindsFromDisk": true,
+          "observedByteLength": 206933
+        },
+        {
+          "fixture": "boundary-primary-filing",
+          "file": "data/rcap-all50/overlays/census-v1/va/va-seal-ancillary-matter-only-set--official-pdf-fill/fixtures/boundary--CC-1203-primary-filing.pdf",
+          "recordedSha256": "5c7faa39593d14c3705ae2c24dc4bbf4be74bc946460b027614c876743eb3560",
+          "recomputedSha256": "5c7faa39593d14c3705ae2c24dc4bbf4be74bc946460b027614c876743eb3560",
+          "bindsFromDisk": true
+        }
+      ],
+      "sourceIdentityProof": [
+        {
+          "formNumber": "CC-1203",
+          "pathInArchive": "STATES/VA/02_PACKET_FORMS/VA__FORM__CC-1203__petition-for-sealing-pursuant__REV-2026-07__EN.pdf",
+          "receiptSha256": "25d08cb32e0b0bed778465d91b869f43d8f94ce6986c5036c5de7e307a31d35a",
+          "recomputedFromCorpusBytes": "25d08cb32e0b0bed778465d91b869f43d8f94ce6986c5036c5de7e307a31d35a",
+          "receiptByteLength": 320887,
+          "observedByteLength": 320887,
+          "matchesReceipt": true,
+          "matchesMasterQueueBoundSource": false,
+          "masterQueueDiscrepancy": "the queue's boundSource is the stale CC-1201 assignment binding, superseded by DETERMINATION_CC1203_SUBSTITUTION.json"
+        }
+      ],
+      "evidenceRead": [
+        "data/rcap-all50/overlays/census-v1/va/va-seal-ancillary-matter-only-set--official-pdf-fill/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/va/va-seal-ancillary-matter-only-set--official-pdf-fill/build-status.json",
+        "data/rcap-all50/overlays/census-v1/va/va-seal-ancillary-matter-only-set--official-pdf-fill/build-findings.json",
+        "data/rcap-all50/overlays/census-v1/va/va-seal-ancillary-matter-only-set--official-pdf-fill/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/va/va-seal-ancillary-matter-only-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/va/va-seal-ancillary-matter-only-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/va/va-seal-ancillary-matter-only-set--official-pdf-fill/reports/actual-writes.json",
+        "data/rcap-all50/overlays/census-v1/va/va-seal-ancillary-matter-only-set--official-pdf-fill/fixtures/canonical.pdf",
+        "data/rcap-all50/overlays/census-v1/va/va-seal-ancillary-matter-only-set--official-pdf-fill/fixtures/boundary.pdf",
         "data/rcap-grade-a/fable-packet-factory/DETERMINATION_CC1203_SUBSTITUTION.json",
         "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
         "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"
