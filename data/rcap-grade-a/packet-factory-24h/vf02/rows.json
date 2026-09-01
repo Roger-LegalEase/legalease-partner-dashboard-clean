@@ -1,0 +1,117 @@
+{
+  "rows": [
+    {
+      "itemId": "vt_seal_misdemeanor-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "proofObligations": {
+        "routeIdentity": {
+          "result": "PASS",
+          "finding": "The source receipt and production field map bind the packet to the same adult-misdemeanor sealing route and route-selection ID.",
+          "evidence": {
+            "routeKey": "obligation:track-pathway:VT:vt_seal_misdemeanor:adult-misdemeanor-conviction-sealing",
+            "routeSelectionId": "vt-seal-misdemeanor-200-00130-complete-set"
+          }
+        },
+        "sourceIdentity": {
+          "result": "PASS",
+          "finding": "SHA-256 was independently recomputed from each mounted source byte stream and matched the source receipt.",
+          "evidence": [
+            { "formNumber": "200-00130", "recordedSha256": "ff914f49c2a78a8b96d48f1242b70ab12ff7cb25beeeb8b850505357fdf982ed", "recomputedSha256": "ff914f49c2a78a8b96d48f1242b70ab12ff7cb25beeeb8b850505357fdf982ed" },
+            { "formNumber": "200-00132", "recordedSha256": "088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2", "recomputedSha256": "088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2" },
+            { "formNumber": "600-00228", "recordedSha256": "263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654", "recomputedSha256": "263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654" }
+          ]
+        },
+        "componentSet": {
+          "result": "PASS",
+          "finding": "Both fixtures contain all three receipt documents in the rendered packet.",
+          "evidence": { "documents": ["200-00130", "200-00132", "600-00228"], "canonicalPageCount": 6, "boundaryPageCount": 6 }
+        },
+        "knownPrefills": {
+          "result": "PASS",
+          "finding": "Final-byte appearance evidence contains visible writes for every reported known prefill in both fixtures.",
+          "evidence": { "canonicalWrites": 24, "boundaryWrites": 23, "knownFactIds": ["matter.case_number", "participant.city_state_zip", "participant.date_of_birth", "participant.email", "participant.full_legal_name", "participant.phone", "participant.street_address"], "invisibleWrites": 0 }
+        },
+        "requiredBeforeFiling": {
+          "result": "PASS",
+          "finding": "All 112 declared participant-supplied fields are named by form, page, printed caption, and required input in participant-instructions.md.",
+          "evidence": { "declared": 112, "requiredFactsNotCollected": 0 }
+        },
+        "routeOptions": {
+          "result": "PASS",
+          "finding": "The packet is restricted to the misdemeanor-sealing route; remaining checkboxes are participant sworn facts or participant elections rather than route-determined choices.",
+          "evidence": { "routeSelectionId": "vt-seal-misdemeanor-200-00130-complete-set", "requiredOptionsMissing": 0 }
+        },
+        "repeatingRows": {
+          "result": "PASS",
+          "finding": "The independent completeness audit found no partially completed repeating row.",
+          "evidence": { "incompleteRows": 0 }
+        },
+        "protectedFields": {
+          "result": "PASS",
+          "finding": "Signature, signature-date, prosecutor, and court fields remain uninked in the finalized fixtures.",
+          "evidence": { "protectedWrites": 0 }
+        },
+        "artifacts": {
+          "result": "PASS",
+          "finding": "Canonical and boundary SHA-256 values were recomputed from the committed PDF bytes and match the rendered-artifacts record.",
+          "evidence": [
+            { "fixture": "canonical", "recordedSha256": "0ebbe0c8c7c4c72ba2eb8b2dbd820bba50dc8038e7928c2ef6a92988b8786e78", "recomputedSha256": "0ebbe0c8c7c4c72ba2eb8b2dbd820bba50dc8038e7928c2ef6a92988b8786e78" },
+            { "fixture": "boundary", "recordedSha256": "3c8d8a90f83aadb2a930e6564b7bb8b211e0fe54f20a9b9175322ffd7b3007da", "recomputedSha256": "3c8d8a90f83aadb2a930e6564b7bb8b211e0fe54f20a9b9175322ffd7b3007da" }
+          ]
+        },
+        "pageOrder": {
+          "result": "PASS",
+          "finding": "Both packet manifests have the same six-page sequence: both pages of 200-00130, both pages of 200-00132, then both pages of 600-00228.",
+          "evidence": ["200-00130:1", "200-00130:2", "200-00132:1", "200-00132:2", "600-00228:1", "600-00228:2"]
+        },
+        "clippingAndOverlap": {
+          "result": "PASS",
+          "finding": "Final-byte measurement reports zero non-whitespace glyphs outside measured write boxes for every document in both fixtures; the focused audit reports zero visual defects.",
+          "evidence": { "artifactDocumentMeasurements": 6, "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0, "visualDefects": 0 }
+        },
+        "filingDestination": {
+          "result": "FAIL",
+          "finding": "participant-instructions.md says to supply a Superior Court unit but never affirmatively tells the participant which court or clerk receives the filing.",
+          "evidence": { "instructionMentions": ["the Superior Court unit (county) where the case was decided"], "missing": "an explicit file-with destination" }
+        },
+        "feeAndWaiver": {
+          "result": "FAIL",
+          "finding": "The instructions explain when to use form 600-00228 but state no filing-fee amount and do not say when no fee is charged or how to confirm the current fee.",
+          "evidence": { "waiverForm": "600-00228", "feeAmountStated": false, "waiverRouteStated": true }
+        },
+        "service": {
+          "result": "FAIL",
+          "finding": "The instructions require the State's Attorney's signature on a stipulation but never state who must be served or furnished copies, how service must occur, or whether the clerk handles notice.",
+          "evidence": { "prosecutorSignatureInstructionPresent": true, "serviceRecipientStated": false, "serviceMethodStated": false }
+        },
+        "selfHelpStop": {
+          "result": "PASS",
+          "finding": "The instructions state that the packet is not legal advice, is not filed for the participant, and cannot decide whether sealing will be granted.",
+          "evidence": "participant-instructions.md — What this packet is not"
+        }
+      },
+      "completenessCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "evidenceRead": [
+        "source-receipt.json",
+        "production-field-map.json",
+        "participant-instructions.md",
+        "reports/actual-writes.json",
+        "reports/rendered-artifacts.json",
+        "fixtures/canonical.pdf",
+        "fixtures/boundary.pdf",
+        "mounted source bytes for forms 200-00130, 200-00132, and 600-00228",
+        "focused packet-completeness verifier output"
+      ]
+    }
+  ]
+}
