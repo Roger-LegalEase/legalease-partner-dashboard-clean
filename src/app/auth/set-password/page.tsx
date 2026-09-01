@@ -13,6 +13,10 @@ import {
   isWellFormedClaimTokenValue,
   submitClaim
 } from "@/lib/expungement-ai/claim/claim-handoff";
+import {
+  consumerAuthContinuationFrom,
+  consumerAuthContinuationQuery
+} from "@/lib/expungement-ai/auth-continuation";
 import { createBrowserSupabaseClient } from "@/lib/supabase/browser";
 
 type InviteState = "checking" | "ready" | "invalid" | "saving" | "saved";
@@ -463,9 +467,10 @@ function defaultNextPath() {
 // itself the moment the server has seen it.
 function scrubAuthUrl(nextPath: string) {
   const search = new URLSearchParams(window.location.search);
-  const cleanParams = new URLSearchParams({ next: safeAppRedirectPath(nextPath) });
-  const claimToken = search.get(CLAIM_TOKEN_PARAM);
-  if (isWellFormedClaimTokenValue(claimToken)) cleanParams.set(CLAIM_TOKEN_PARAM, claimToken);
+  const cleanParams = new URLSearchParams(consumerAuthContinuationQuery({
+    ...consumerAuthContinuationFrom(search),
+    nextPath: safeAppRedirectPath(nextPath)
+  }));
   window.history.replaceState({}, document.title, `${window.location.pathname}?${cleanParams.toString()}`);
 }
 
@@ -481,5 +486,10 @@ async function claimExpungementPending(nextPath: string) {
   const claimToken = params.get(CLAIM_TOKEN_PARAM);
   if (!isWellFormedClaimTokenValue(claimToken)) return safeAppRedirectPath(nextPath, "/briefcase");
   const claimed = await submitClaim(claimToken);
-  return claimed.ok ? claimed.redirectTo : safeAppRedirectPath(nextPath, "/briefcase");
+  if (claimed.ok) return claimed.redirectTo;
+  const continuation = consumerAuthContinuationFrom(params);
+  return `/expungement-ai/sign-in?${consumerAuthContinuationQuery(continuation, {
+    mode: "signin",
+    claimRetry: "1"
+  })}`;
 }

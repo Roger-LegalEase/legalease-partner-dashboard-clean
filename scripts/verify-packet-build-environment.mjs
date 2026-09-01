@@ -815,6 +815,21 @@ check(
       };
     }
     if (resolved.sources.length === 0) {
+      /* The wording below is only true of a fill family. A custom pleading (or
+       * participant agency application) composed from settled codified
+       * authority binds zero document bytes by design -- MASTER_QUEUE records
+       * it as CUSTOM_PLEADING_FROM_CODIFIED_TEXT -- and refusing it here
+       * blocked five ready DC families with an official_pdf_fill message.
+       * Same rule as factory check F13: zero sources is the correct count for
+       * that strategy, not a missing binding. */
+      const queue = readJson("data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json", env);
+      const queueRow = queue?.families?.find((f) => f.familyId === FAMILY || f.worklistGroupId === FAMILY);
+      if (queueRow?.sourceStatus === "CUSTOM_PLEADING_FROM_CODIFIED_TEXT") {
+        return {
+          ok: true, family: FAMILY, custodyClass: resolved.custodyClass, sources: 0,
+          detail: `${FAMILY} is a zero-source composition (CUSTOM_PLEADING_FROM_CODIFIED_TEXT): it binds committed legal records by hash inside its builder, not document bytes here`
+        };
+      }
       return {
         ok: false, family: FAMILY, custodyClass: resolved.custodyClass, sources: 0,
         detail: `${FAMILY} names no resolved document source. An official_pdf_fill family with no bound source is not dispatchable.`

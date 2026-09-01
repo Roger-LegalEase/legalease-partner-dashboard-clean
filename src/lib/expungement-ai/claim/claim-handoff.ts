@@ -54,10 +54,10 @@ export type ClaimAttempt =
   | { ok: false; status: number };
 
 /**
- * Submits the claim. The token is stripped from the URL as soon as the server
- * has seen it, whatever the answer: a token that has been presented is spent
- * from the browser's point of view, and leaving it in the address bar only
- * creates somewhere else for it to leak from.
+ * Submits the claim. Successful and definitive client-error attempts remove
+ * the token. A network or server failure keeps it for an explicit retry: the
+ * participant must not have to repeat screening because our claim service was
+ * temporarily unavailable.
  */
 export async function submitClaim(claimToken: string): Promise<ClaimAttempt> {
   if (!isWellFormedClaimTokenValue(claimToken)) return { ok: false, status: 400 };
@@ -81,6 +81,8 @@ export async function submitClaim(claimToken: string): Promise<ClaimAttempt> {
   } catch {
     return { ok: false, status: status || 0 };
   } finally {
-    if (status !== 401) stripClaimTokenFromUrl();
+    if ((status >= 200 && status < 300) || (status >= 400 && status < 500 && status !== 401)) {
+      stripClaimTokenFromUrl();
+    }
   }
 }
