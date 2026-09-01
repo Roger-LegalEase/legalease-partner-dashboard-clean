@@ -429,7 +429,11 @@
       "disposition": "REFUSE",
       "factId": null,
       "routeSpecific": false,
-      "reason": "Agency fields are never prefilled by this build."
+      "reason": "The platform holds no value for this and the participant supplies it before filing: the name of the law enforcement agency that cited or arrested you, as it appears on your citation or arrest paperwork.",
+      "completenessDisposition": "REQUIRED_BEFORE_FILING",
+      "requiredBeforeFiling": true,
+      "routeDetermined": false,
+      "participantMustSupply": "the name of the law enforcement agency that cited or arrested you, as it appears on your citation or arrest paperwork"
     },
     {
       "fieldId": "superior-court-case-number",
@@ -1199,8 +1203,14 @@
     "unmapped": 0
   },
   "dispositionVocabulary": "rcap-packet-completeness/closed-blank-dispositions",
-  "requiredBeforeFilingCount": 5,
+  "requiredBeforeFilingCount": 6,
   "requiredBeforeFiling": [
+    {
+      "fieldId": "citing-or-arresting-agency",
+      "label": "Name of citing or arresting law enforcement agency",
+      "page": 1,
+      "participantMustSupply": "the name of the law enforcement agency that cited or arrested you, as it appears on your citation or arrest paperwork"
+    },
     {
       "fieldId": "justice-court-name",
       "label": "If Yes, insert name of Justice Court here",
