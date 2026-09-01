@@ -20,7 +20,7 @@ import {
   captureWidgetContext, extractPageGeometry, extractTextItems, groupIntoLines, normalizeHarvestedText,
 } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
 import {
-  finalizeFlatOverlay, finalizeOfficialForm, PARTICIPANT_INK,
+  finalizeFlatOverlay, finalizeOfficialForm, PARTICIPANT_INK_RGB,
 } from "./rcap-official-forms/rcap-official-form-finalize.mjs";
 import { drawnAt, flattenedWidgets } from "./rcap-official-forms/pdf-flattened-widgets.mjs";
 import { strokedRectangles } from "./lib/pdf-stroked-boxes.mjs";
@@ -33,6 +33,7 @@ const require = createRequire(import.meta.url);
 const {
   PDFDocument, PDFTextField, PDFCheckBox, PDFRadioGroup, PDFDropdown,
   PDFOptionList, PDFRawStream, PDFName, StandardFonts, decodePDFRawStream,
+  pushGraphicsState, popGraphicsState, translate, drawObject,
 } = require("pdf-lib");
 
 const CORPUS_INDEX = "data/rcap-all50/local-source-corpus-index.json";
@@ -910,7 +911,53 @@ async function censusDocument(doc, bytes) {
   };
 }
 
-function fieldMapFor(doc, census) {
+/**
+ * Completeness classifications a repair lane installed on the family's map.
+ *
+ * FIX07 (and its siblings) hand-classified every refused row of these families
+ * on the packet-completeness contract's declared channel: required-before-
+ * filing declarations with identities and disclosures, and the contract's own
+ * trusted refusal classes. Those classifications are per-row legal work the
+ * host cannot re-derive, and this host's own refusal vocabulary is not the
+ * contract's. A rebuild that regenerates the map from classifyRefusal alone
+ * therefore destroys the installed repair and regresses the family's
+ * completeness audit (measured: knownRequiredFieldsMissing 7 -> 36 and
+ * unclassifiedBlanks 0 -> 72 on nj_arrest_no_conviction-set).
+ *
+ * So a rebuild carries the installed classification forward, row by row, for
+ * every field that REMAINS a refusal: the prior row is reused verbatim with
+ * only its measured widgets refreshed from the first-hand census. A field the
+ * allowlist now writes takes the fresh candidate_write row -- the stale
+ * refusal is never carried over a write. Rows on the stale untrusted class
+ * (not_supported_by_exact_participant_fact_map) and rows with no declared or
+ * trusted classification are regenerated, because there is nothing installed
+ * on them worth keeping.
+ */
+const CONTRACT_TRUSTED_REFUSAL_CLASSES = new Set([
+  "signature_or_date_participant_completion",
+  "court_prosecutor_clerk_or_agency_owned",
+  "participant_sworn_narrative_or_legal_election",
+]);
+
+function carriesInstalledClassification(row) {
+  if (Object.hasOwn(row, "requiredBeforeFiling") || Object.hasOwn(row, "completenessDisposition")
+    || Object.hasOwn(row, "completenessClass")) return true;
+  return CONTRACT_TRUSTED_REFUSAL_CLASSES.has(row.refusalClass);
+}
+
+function installedRefusalRows(priorMap) {
+  const rows = new Map();
+  for (const doc of priorMap?.documents ?? []) {
+    for (const row of doc.fields ?? []) {
+      if (String(row.decision) !== "refuse") continue;
+      if (!carriesInstalledClassification(row)) continue;
+      rows.set(`${doc.documentId}::${row.field}`, row);
+    }
+  }
+  return rows;
+}
+
+function fieldMapFor(doc, census, installed = new Map()) {
   const selected = new Set(doc.selections ?? []);
   const factMappings = factMappingsForDocument(doc);
   const sharedMappings = SHARED_EXACT_FACT_ALLOWLIST[doc.documentId] ?? {};
@@ -932,6 +979,8 @@ function fieldMapFor(doc, census) {
         decisionBasis: "route-specific election drawn only inside an existing measured widget",
         widgets: field.widgets };
     }
+    const installedRow = installed.get(`${doc.documentId}::${field.name}`);
+    if (installedRow) return { ...installedRow, widgets: field.widgets };
     const refusalClass = doc.render === false
       ? "source_only_not_generated"
       : classifyRefusal(field.name, field.effectiveLabel ?? "");
@@ -987,6 +1036,56 @@ function mergeReport(fieldReport, selectionReport = null) {
   };
 }
 
+/**
+ * Draws one fitted exact-mapped value as a flattened widget appearance.
+ *
+ * The previous writer used page.drawText, which emits bare text operators into
+ * a page content stream. Every artifact-evidence reader on this host --
+ * pdf-flattened-widgets.mjs, proofFromArtifact, the packet-completeness
+ * verifier -- decodes participant ink exclusively from the `q <cm> /XObject Do`
+ * appearance placements that form.flatten() emits for filled fields. So every
+ * exact-mapped overlay write was reported by the finalizer yet absent from the
+ * decoded flattened appearance streams, and the build aborted on its own
+ * missing-ink assertion after resetOwnedOutput had cleared the family
+ * directory (the east-host appearance-stream defect).
+ *
+ * This writer emits the same construction flatten does: a Form XObject whose
+ * stream draws the value in widget-local coordinates, placed at the widget's
+ * measured rectangle with `q / 1 0 0 1 x y cm / Do / Q`. The baseline
+ * arithmetic, inset, font and ink are unchanged from the drawText writer, so
+ * the mark lands exactly where it always did -- it now also exists as an
+ * appearance stream the evidence layer can decode. Names come from
+ * page.node.newXObject, whose suffixes draw on the context's seeded RNG, so
+ * two builds of the same inputs stay byte-identical.
+ */
+function placeExactFactAppearance({ pdf, page, font, widget, fit }) {
+  const n = (v) => +Number(v).toFixed(3);
+  const lineHeight = fit.fontSize * 1.15;
+  const firstBaseline = fit.lines.length === 1
+    ? Math.max(1, (widget.rect.height - fit.fontSize) / 2)
+    : widget.rect.height - fit.fontSize - 1;
+  const ink = PARTICIPANT_INK_RGB;
+  const content = [
+    "BT",
+    `${n(ink.r)} ${n(ink.g)} ${n(ink.b)} rg`,
+    `/F0 ${n(fit.fontSize)} Tf`,
+    ...fit.lines.flatMap((line, index) => [
+      `1 0 0 1 2 ${n(firstBaseline - index * lineHeight)} Tm`,
+      `${font.encodeText(line).toString()} Tj`,
+    ]),
+    "ET",
+  ].join("\n");
+  const stream = pdf.context.stream(content, {
+    Type: "XObject", Subtype: "Form",
+    BBox: [0, 0, n(widget.rect.width), n(widget.rect.height)],
+    Resources: { Font: { F0: font.ref } },
+  });
+  const key = page.node.newXObject("ExactFactOverlay", pdf.context.register(stream));
+  page.pushOperators(pushGraphicsState(), translate(n(widget.rect.x), n(widget.rect.y)),
+    drawObject(key), popGraphicsState());
+  return { renderedAs: "form_xobject_appearance", xObject: key.toString() };
+}
+
 async function overlayExactMappedFacts({ bytes, census, fieldMap, facts, report }) {
   const alreadyWritten = new Set(report.written.map((row) => row.field));
   const duplicateLosers = new Set(report.refused
@@ -1031,16 +1130,9 @@ async function overlayExactMappedFacts({ bytes, census, fieldMap, facts, report 
     for (const { widget, fit } of fittedWidgets) {
       const page = pdf.getPages()[widget.page - 1];
       assert.ok(page, `${mapping.field}: measured widget page ${widget.page} is absent`);
-      const lineHeight = fit.fontSize * 1.15;
-      const firstBaseline = fit.lines.length === 1
-        ? widget.rect.y + Math.max(1, (widget.rect.height - fit.fontSize) / 2)
-        : widget.rect.y + widget.rect.height - fit.fontSize - 1;
-      fit.lines.forEach((line, index) => page.drawText(line, {
-        x: widget.rect.x + 2, y: firstBaseline - index * lineHeight,
-        size: fit.fontSize, font, color: PARTICIPANT_INK,
-      }));
+      const appearance = placeExactFactAppearance({ pdf, page, font, widget, fit });
       widgetWrites.push({ widgetIndex: widget.widgetIndex, page: widget.page,
-        rect: widget.rect, fontSize: fit.fontSize, outcome: fit.outcome });
+        rect: widget.rect, fontSize: fit.fontSize, outcome: fit.outcome, ...appearance });
     }
     written.push({ field: mapping.field, factId: mapping.factId,
       kind: "exact_measured_fact_overlay", widgets: widgetWrites });
@@ -1364,7 +1456,18 @@ function participantInstructions(config, fieldMaps) {
 
 async function buildOfficial(familyId, config) {
   const out = officialOut(familyId, config.jurisdiction);
+  // Read what a repair lane installed on this family BEFORE the reset clears
+  // it: the completeness classifications on the prior field map (carried
+  // forward row by row, see installedRefusalRows) and the captain-installed
+  // integration record, which no build path generates and which a reset must
+  // therefore not destroy.
+  const priorMapFile = abs(`${out}/production-field-map.json`);
+  const installed = installedRefusalRows(
+    fs.existsSync(priorMapFile) ? JSON.parse(fs.readFileSync(priorMapFile, "utf8")) : null);
+  const wiringFile = abs(`${out}/product-wiring.json`);
+  const installedWiring = fs.existsSync(wiringFile) ? fs.readFileSync(wiringFile) : null;
   resetOwnedOutput(out);
+  if (installedWiring) fs.writeFileSync(wiringFile, installedWiring);
   const rows = [];
   const fieldMaps = [];
   const artifactReports = [];
@@ -1374,7 +1477,7 @@ async function buildOfficial(familyId, config) {
     console.log(`\n=== ${familyId}: ${doc.documentId} ===`);
     const sourceRow = resolveSource(doc);
     const census = await censusDocument(doc, sourceRow.bytes);
-    const map = fieldMapFor(doc, census);
+    const map = fieldMapFor(doc, census, installed);
     rows.push({ doc, sourceRow, census });
     fieldMaps.push({ documentId: doc.documentId, documentRole: doc.documentRole,
       generatedParticipantArtifact: doc.render !== false, fields: map });
@@ -1630,7 +1733,9 @@ async function checkOfficial(familyId, config) {
     assert.ok(doc && documentCensus && documentMap, `${artifact.file}: proof inputs are incomplete`);
     const sourceRow = resolveSource(doc);
     const liveCensus = await censusDocument(doc, sourceRow.bytes);
-    const liveMap = fieldMapFor(doc, liveCensus);
+    // The stored map is its own carry-forward source: a carried row carries to
+    // itself, so the drift check still proves the stored map is reproducible.
+    const liveMap = fieldMapFor(doc, liveCensus, installedRefusalRows(map));
     assert.deepEqual(liveCensus.fields, documentCensus.fields,
       `${artifact.file}: live first-hand census drift`);
     assert.deepEqual(liveMap, documentMap.fields,
