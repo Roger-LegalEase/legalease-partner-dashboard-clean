@@ -1,0 +1,100 @@
+{
+  "schemaVersion": "rcap-family-source-receipt/v1",
+  "familyId": "ga-deaddocket-j3-set",
+  "worklistGroupId": "ga-deaddocket-j3-set",
+  "jurisdiction": "GA",
+  "implementationStrategy": "custom_pleading",
+  "custodyClass": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+  "acquisitionCommissioned": false,
+  "corpusRootFromEnvironment": "MASTER_LIBRARY_SOURCE_DIR",
+  "bindingMethod": "held Master Library bytes hashed on every build + the archive's own STATE_MANIFEST.csv recorded SHA-256 + this host's pinned SHA-256 + printed-statement anchor verification, with the committed legal-design records hashed alongside",
+  "routeKeys": [
+    "obligation:track-only:GA:ga-deaddocket-j3"
+  ],
+  "statutoryAuthority": "O.C.G.A. § 35-3-37(j)(3)",
+  "legalName": "Petition to Restrict Access to Criminal History Record Information for a Charge Dead Docketed for More Than 12 Months",
+  "allSourcesExact": true,
+  "formIdentityNote": "The MASTER_QUEUE row binds NO official form (officialFormFamily NONE, forms [], boundSources []): no statewide Georgia judiciary form exists for this filing, which the controlling state review states in terms. The packet is composed from codified text exactly as the row's sourceStatus (CUSTOM_PLEADING_FROM_CODIFIED_TEXT) directs. The held, hashable codified-text source is the Georgia legal review of 2026-07-30 in the mounted Master Library; its Part 3 custom-pleading specification supplies the caption structure, the pleading titles, the controlling citations, the proposed-order requirements, the certificate-of-service form and the local-form warning this packet renders. The adopted legal-design intake record and the packet-set manifest carry that specification into this track's components, inputs, rules and limitations; both are committed in this repository and hashed below.",
+  "documents": [
+    {
+      "sourceIds": [
+        "source-sha256:85e22768a4cfc27dd0633791fe6ed8a020682c39899144239bbcb95727d6fd22"
+      ],
+      "documentId": "GA-LEGAL-REVIEW-2026-07-30",
+      "formNumber": "GA-LEGAL-REVIEW-2026-07-30",
+      "revision": "ASOF-2026-07-30",
+      "pathInArchive": "STATES/GA/01_LEGAL_REVIEW/GA__LEGAL-REVIEW__STATEWIDE__georgia-record-clearing-legal-review__ASOF-2026-07-30__EN.md",
+      "sha256": "85e22768a4cfc27dd0633791fe6ed8a020682c39899144239bbcb95727d6fd22",
+      "byteLength": 81432,
+      "instrumentKind": "codified_text_source",
+      "role": "held codified-text source; grounds the composed pleadings and is NOT included in the rendered packet",
+      "faceAnchorsVerified": [
+        "PART 3: CUSTOM-PLEADING SPECIFICATION",
+        "IN THE [COURT] OF [COUNTY] COUNTY",
+        "It must not default to Superior Court.",
+        "Defendant's Motion to Restrict and Seal Records of a Misdemeanor Conviction",
+        "Defendant's Motion to Seal Clerk of Court Records",
+        "Petition to Restrict Access to Criminal History Record Information Following Pardon",
+        "Petition to Restrict Access to Criminal History Record Information (Felony Charge)",
+        "Petition to Restrict Access to Criminal History Record Information (Dead Docket)",
+        "Petition to Restrict and Seal First Offender Records (Active) / (Completed)",
+        "A restriction order that does not name GCIC is not actionable.",
+        "confirm the filing method with the clerk before filing",
+        "Defendant, Pro Se",
+        "identified as District Attorney or Solicitor-General",
+        "registered mail, certified mail or statutory overnight delivery",
+        "Include the OTN wherever known.",
+        "limit disclosure to what § 35-3-37(t) and (v) permit",
+        "the arresting agency and the jail or detention center",
+        "record restriction",
+        "35-3-37(u)",
+        "42-8-62.1",
+        "42-8-62.2",
+        "fugitive from justice warrant",
+        "within four years of the arrest",
+        "dead docket"
+      ],
+      "archiveManifestSha256": "5b9bca5897f88fdfce83354d8963bb5e6bd55ffe079122b082ebd3955bdcd894"
+    },
+    {
+      "sourceIds": [
+        "source-sha256:44e596a27f9aa2bc053968f6d469ae3c69ba492629af848d335b757842f42183"
+      ],
+      "documentId": "GA-LEGAL-DESIGN-INTAKE-MEMO",
+      "formNumber": "GA-LEGAL-DESIGN-INTAKE-MEMO",
+      "revision": "1.0.0",
+      "pathInArchive": "data/record-clearing/legal-design-intake/GA.memo.json",
+      "sha256": "44e596a27f9aa2bc053968f6d469ae3c69ba492629af848d335b757842f42183",
+      "byteLength": null,
+      "instrumentKind": "committed_legal_design_record",
+      "role": "adopted legal-design intake record, track ga-deaddocket-j3; committed in this repository and read at build time"
+    },
+    {
+      "sourceIds": [
+        "source-sha256:80d88d69dc5710b9a763abb31c6864069f9bb6d74b942c5e5849925144693ffa"
+      ],
+      "documentId": "GA-PACKET-SET-MANIFEST",
+      "formNumber": "GA-PACKET-SET-MANIFEST",
+      "revision": null,
+      "pathInArchive": "data/record-clearing/legal-design-packet-set-manifests.json",
+      "sha256": "80d88d69dc5710b9a763abb31c6864069f9bb6d74b942c5e5849925144693ffa",
+      "byteLength": null,
+      "instrumentKind": "committed_legal_design_record",
+      "role": "packet-set manifest, packetSetId ga-deaddocket-j3-set; committed in this repository and read at build time"
+    }
+  ],
+  "composedComponentsAuthoredByThisBuild": [
+    "primary_filing",
+    "proposed_order",
+    "certificate_of_service",
+    "exhibit_a_dead_docket_entry"
+  ],
+  "sourceBinaryCommitted": false,
+  "commercialRoutesOpened": 0,
+  "whatThisReceiptDoesNotEstablish": [
+    "that the Georgia legal review of 2026-07-30 reflects the law on any later date",
+    "that the enrolled text of 2026 Ga. Laws Act 403 (HB 162) has been verified against the review's summary of it",
+    "that any output is approved for participant delivery",
+    "that any record is eligible for relief under the cited Code sections"
+  ]
+}
