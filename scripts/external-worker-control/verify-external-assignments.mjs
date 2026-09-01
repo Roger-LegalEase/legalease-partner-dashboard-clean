@@ -33,15 +33,28 @@ const run = () => {
     `${assignments.length} assignment file(s), index lists ${index.workers?.length ?? 0}`);
 
   /* E2. No external subject sits under a live Claude claim. */
+  /*
+   * A collision is a live claim on a lane OTHER than this assignment's own.
+   *
+   * The first version flagged any live claim at all, which was right until the
+   * transfers ran and then reported all twenty workers as stealing their own
+   * grants: after a transfer the live claim IS the external worker's, on the
+   * lane the assignment names. That is the intended end state, not a
+   * collision. The guard still catches what it exists for -- a live claim held
+   * by a Claude lane -- because that claim is on a different lane.
+   */
   const liveBy = new Map();
   for (const c of ledger.claims) {
     if (c.released === true) continue;
     if (!liveBy.has(c.subjectId)) liveBy.set(c.subjectId, []);
-    liveBy.get(c.subjectId).push(`${c.lane}/${c.laneKind}`);
+    liveBy.get(c.subjectId).push({ lane: c.lane, laneKind: c.laneKind });
   }
   const stolen = [];
   for (const a of assignments) for (const s of a.subjectIds ?? []) {
-    if (liveBy.has(s)) stolen.push(`${a.workerId} names ${s}, held live by ${liveBy.get(s).join(", ")}`);
+    const elsewhere = (liveBy.get(s) ?? []).filter((c) => c.lane !== a.lane);
+    if (elsewhere.length) {
+      stolen.push(`${a.workerId} names ${s}, held live by ${elsewhere.map((c) => `${c.lane}/${c.laneKind}`).join(", ")}`);
+    }
   }
   check("E2", "no external assignment names a subject a live claim already holds",
     stolen.length === 0, `${assignments.reduce((n, a) => n + (a.subjectIds?.length ?? 0), 0)} subject(s); ${stolen.length} collision(s): ${stolen.slice(0, 2).join(" | ")}`);
@@ -161,8 +174,15 @@ if (MUTATIONS) {
   const target = path.join(ROOT, CTL, "assignments", "CLOUD01.json");
   const idxPath = path.join(ROOT, CTL, "EXTERNAL_ASSIGNMENTS.json");
   const cases = [
+    /* Picks a live claim held by some OTHER lane, so the mutation is a genuine
+     * collision. Taking the first live claim became a no-op once the transfers
+     * ran: the first one is now CLOUD01's own grant on CLOUD01's own lane, and
+     * assigning a worker its own subject changes nothing. */
     { id: "E2", name: "an external assignment over a live Claude claim is caught", file: target,
-      edit: (j) => { const l = read(`${FACT}/claim-ledger.json`); const held = l.claims.find((c) => c.released !== true); j.subjectIds = [held.subjectId]; return j; } },
+      edit: (j) => { const l = read(`${FACT}/claim-ledger.json`);
+        const held = l.claims.find((c) => c.released !== true && c.lane !== j.lane);
+        if (!held) return j;
+        j.subjectIds = [held.subjectId]; return j; } },
     { id: "E4", name: "an unresolvable lane name is caught", file: target,
       edit: (j) => { j.lane = "XVF-A"; return j; } },
     { id: "E5", name: "an assert on a family that already holds that claim is caught", file: target,

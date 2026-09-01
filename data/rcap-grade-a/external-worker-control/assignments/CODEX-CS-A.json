@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-external-assignment/v1",
-  "captainSha": "d89e26693f6d9365bea6ed5885517a877fb40f56",
-  "createdAt": "2026-09-01T11:23:15Z",
+  "captainSha": "595a3fff4dcb07c4e4a21fdc83b062818fe16710",
+  "createdAt": "2026-09-01T11:37:22Z",
   "minimumAncestor": "f240e47687eddd47d432996823ce932affcd54cc",
   "commercialRoutesOpened": 0,
   "productionTouched": false,
@@ -22,7 +22,7 @@
     "verify a packet you built or repaired"
   ],
   "workerId": "CODEX-CS-A",
-  "assignmentVersion": 3,
+  "assignmentVersion": 4,
   "mode": "PACKET_BUILD",
   "role": "Primary Packet Build Factory (persistent Codespace)",
   "lane": "PF17",
@@ -78,6 +78,7 @@
       "subjectId": "ca-1203-4-set",
       "kind": "TRANSFER",
       "holdingLane": "PF03",
+      "operation": "packet-build",
       "captainAction": "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer PF03 PF17 ca-1203-4-set --reason \"<why this lane takes it>\"",
       "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF17 ca-1203-4-set   # only after Captain's transfer"
     },
@@ -85,6 +86,7 @@
       "subjectId": "ky_felony_vacatur_expungement-set",
       "kind": "TRANSFER",
       "holdingLane": "PF01",
+      "operation": "packet-build",
       "captainAction": "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer PF01 PF17 ky_felony_vacatur_expungement-set --reason \"<why this lane takes it>\"",
       "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF17 ky_felony_vacatur_expungement-set   # only after Captain's transfer"
     },
@@ -92,6 +94,7 @@
       "subjectId": "or_conviction_setaside-set",
       "kind": "TRANSFER",
       "holdingLane": "PF06",
+      "operation": "packet-build",
       "captainAction": "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer PF06 PF17 or_conviction_setaside-set --reason \"<why this lane takes it>\"",
       "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF17 or_conviction_setaside-set   # only after Captain's transfer"
     },
@@ -99,6 +102,7 @@
       "subjectId": "sc_17_22_950_summary-set",
       "kind": "TRANSFER",
       "holdingLane": "PF08",
+      "operation": "packet-build",
       "captainAction": "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer PF08 PF17 sc_17_22_950_summary-set --reason \"<why this lane takes it>\"",
       "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF17 sc_17_22_950_summary-set   # only after Captain's transfer"
     },
@@ -106,6 +110,7 @@
       "subjectId": "wi_nc_doj_challenge-set",
       "kind": "TRANSFER",
       "holdingLane": "PF04",
+      "operation": "packet-build",
       "captainAction": "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer PF04 PF17 wi_nc_doj_challenge-set --reason \"<why this lane takes it>\"",
       "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF17 wi_nc_doj_challenge-set   # only after Captain's transfer"
     },
@@ -113,6 +118,7 @@
       "subjectId": "wi_nc_doj_fingerprint_removal-set",
       "kind": "TRANSFER",
       "holdingLane": "PF05",
+      "operation": "packet-build",
       "captainAction": "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer PF05 PF17 wi_nc_doj_fingerprint_removal-set --reason \"<why this lane takes it>\"",
       "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF17 wi_nc_doj_fingerprint_removal-set   # only after Captain's transfer"
     }

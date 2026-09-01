@@ -633,6 +633,28 @@ function run() {
     }
     // Every claimable item in the dispatch must be in the ledger, and nothing else.
     const dispatched = new Set(a.flatMap((x) => (x.items ?? []).map((id) => `${x.itemKind === "sourceObligation" ? "source-obligation" : "packet-family"}::${id}::${x.itemKind === "sourceObligation" ? x.operation : x.lane}`)));
+    /*
+     * External workers are dispatched through the control plane, not through
+     * ACTIVE_ASSIGNMENTS, and their grants are real. Without this a transfer to
+     * a Codespace or Cloud lane lands a live grant that F24 reads as
+     * undispatched -- which is the state that kept this check red for four
+     * heads, arrived at deliberately this time.
+     *
+     * The key uses laneKind, because that is what claim.mjs writes into a
+     * claim's `operation`. Using the lane's display name instead is how the
+     * hand-minted FIX09 attempt failed: the repair assignments call the lane
+     * "rapid-repair" while the operation is "repair".
+     */
+    const EXTERNAL_INDEX = "data/rcap-grade-a/external-worker-control/EXTERNAL_ASSIGNMENTS.json";
+    if (fs.existsSync(path.join(ROOT, EXTERNAL_INDEX))) {
+      try {
+        const ext = JSON.parse(fs.readFileSync(path.join(ROOT, EXTERNAL_INDEX), "utf8"));
+        for (const w of ext.workers ?? []) {
+          const op = w.operation ?? w.laneKind;
+          for (const id of w.subjectIds ?? []) dispatched.add(`packet-family::${id}::${op}`);
+        }
+      } catch { ledgerProblems.push("the external assignment index exists and does not parse"); }
+    }
     const granted = new Set((ledger.claims ?? []).map((c) => `${c.subjectType}::${c.subjectId}::${c.operation}`));
     for (const d of dispatched) if (!granted.has(d)) ledgerProblems.push(`${d} is dispatched and not granted`);
     /*

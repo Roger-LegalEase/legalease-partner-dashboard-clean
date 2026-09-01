@@ -109,15 +109,19 @@ const neverRead = rasterPass.filter((f) => !anyVerify.has(f));
 const claimPathFor = (subjectId, laneKind, targetLane) => {
   const held = ledger.claims.find((c) => c.subjectId === subjectId && c.laneKind === laneKind);
   if (!held) {
-    return { kind: "MINT", holdingLane: null,
+    return { kind: "MINT", holdingLane: null, operation: laneKind,
       captainAction: null,
       workerCommand: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert ${targetLane} ${subjectId}` };
   }
   if (held.released !== true) {
-    return { kind: "BLOCKED_LIVE", holdingLane: held.lane, captainAction: null, workerCommand: null };
+    return { kind: "BLOCKED_LIVE", holdingLane: held.lane, operation: held.operation, captainAction: null, workerCommand: null };
   }
   return {
-    kind: "TRANSFER", holdingLane: held.lane,
+    /* The operation is read off the claim, never inferred from the kind. A
+     * repair claim's operation is "rapid-repair" while its laneKind is
+     * "repair", and a checker that derives one from the other reports six
+     * perfectly good grants as undispatched. */
+    kind: "TRANSFER", holdingLane: held.lane, operation: held.operation,
     captainAction: `node scripts/grade-a-packet-factory-24h/claim.mjs --transfer ${held.lane} ${targetLane} ${subjectId} --reason "<why this lane takes it>"`,
     workerCommand: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert ${targetLane} ${subjectId}   # only after Captain's transfer`,
   };
@@ -370,6 +374,10 @@ const index = {
   workers: assignments.map((a) => ({
     workerId: a.workerId, assignmentVersion: a.assignmentVersion, mode: a.mode,
     lane: a.lane, laneKind: a.laneKind, subjectIds: a.subjectIds,
+    /* What a claim on these subjects is actually keyed by. */
+    operation: (a.claimPlan ?? [])[0]?.operation
+      ?? (ledger.claims.find((c) => a.subjectIds?.includes(c.subjectId) && c.laneKind === a.laneKind)?.operation)
+      ?? a.laneKind,
     subjectCount: a.subjectIds.length,
     requiresCaptainTransferFirst: (a.claimPlan ?? []).some((p) => p.kind === "TRANSFER")
       || Boolean(a.claimPrerequisite && /--transfer/.test(a.claimPrerequisite)),

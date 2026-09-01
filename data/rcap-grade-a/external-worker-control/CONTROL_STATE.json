@@ -1,122 +1,207 @@
 {
   "schemaVersion": "rcap-external-control-state/v1",
-  "updatedAt": "2026-09-01T11:27:09Z",
-  "captainSha": "d89e26693f6d9365bea6ed5885517a877fb40f56",
-  "state": "ASSIGNMENTS_PUBLISHED_TRANSFERS_PENDING",
-  "whatIsTrueRightNow": "Ten assignment files are published and verified. NOT ONE external worker holds a grant yet, because every subject in the dispatch already holds a released claim of the matching kind and a second claim is refused as a duplicate. Captain must run the transfer per subject before that worker asserts.",
-  "transfersPending": [
+  "updatedAt": "2026-09-01T11:40:17Z",
+  "captainSha": "595a3fff4dcb07c4e4a21fdc83b062818fe16710",
+  "state": "GRANTS_LIVE_WORKERS_MAY_ASSERT",
+  "whatIsTrueRightNow": "All 20 transfers are complete and every external worker now holds a live grant on its own lane. A worker may assert its subjects. An assert that is refused is still a full stop — report the refusal, do not work without a grant.",
+  "completionIsMeasuredNotAsserted": "Each entry below was read back out of the claim ledger: a live grant on the destination lane AND a matching entry in ledger.transfers. Having run the command is not evidence that it took.",
+  "transfersCompleted": [
     {
       "workerId": "CODEX-CS-A",
       "lane": "PF17",
-      "subjectIds": [
-        "ca-1203-4-set",
-        "ky_felony_vacatur_expungement-set",
-        "or_conviction_setaside-set",
-        "sc_17_22_950_summary-set",
-        "wi_nc_doj_challenge-set",
-        "wi_nc_doj_fingerprint_removal-set"
-      ],
-      "commands": [
-        "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer PF03 PF17 ca-1203-4-set --reason \"<why this lane takes it>\"",
-        "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer PF01 PF17 ky_felony_vacatur_expungement-set --reason \"<why this lane takes it>\"",
-        "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer PF06 PF17 or_conviction_setaside-set --reason \"<why this lane takes it>\"",
-        "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer PF08 PF17 sc_17_22_950_summary-set --reason \"<why this lane takes it>\"",
-        "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer PF04 PF17 wi_nc_doj_challenge-set --reason \"<why this lane takes it>\"",
-        "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer PF05 PF17 wi_nc_doj_fingerprint_removal-set --reason \"<why this lane takes it>\""
-      ]
+      "subjectId": "ca-1203-4-set",
+      "fromLane": "PF03",
+      "transferredAt": "2026-09-01T11:38:03.496Z",
+      "operation": "packet-build",
+      "grantIsLive": true
+    },
+    {
+      "workerId": "CODEX-CS-A",
+      "lane": "PF17",
+      "subjectId": "ky_felony_vacatur_expungement-set",
+      "fromLane": "PF01",
+      "transferredAt": "2026-09-01T11:38:03.577Z",
+      "operation": "packet-build",
+      "grantIsLive": true
+    },
+    {
+      "workerId": "CODEX-CS-A",
+      "lane": "PF17",
+      "subjectId": "or_conviction_setaside-set",
+      "fromLane": "PF06",
+      "transferredAt": "2026-09-01T11:38:03.651Z",
+      "operation": "packet-build",
+      "grantIsLive": true
+    },
+    {
+      "workerId": "CODEX-CS-A",
+      "lane": "PF17",
+      "subjectId": "sc_17_22_950_summary-set",
+      "fromLane": "PF08",
+      "transferredAt": "2026-09-01T11:38:03.727Z",
+      "operation": "packet-build",
+      "grantIsLive": true
+    },
+    {
+      "workerId": "CODEX-CS-A",
+      "lane": "PF17",
+      "subjectId": "wi_nc_doj_challenge-set",
+      "fromLane": "PF04",
+      "transferredAt": "2026-09-01T11:38:03.804Z",
+      "operation": "packet-build",
+      "grantIsLive": true
+    },
+    {
+      "workerId": "CODEX-CS-A",
+      "lane": "PF17",
+      "subjectId": "wi_nc_doj_fingerprint_removal-set",
+      "fromLane": "PF05",
+      "transferredAt": "2026-09-01T11:38:03.891Z",
+      "operation": "packet-build",
+      "grantIsLive": true
     },
     {
       "workerId": "CODEX-CS-B",
       "lane": "FIX09",
-      "subjectIds": [
-        "az_marijuana_expungement_arrest_no_charges-set",
-        "ca-1203-42-set",
-        "ca-851-91-set",
-        "nj_arrest_no_conviction-set",
-        "nj_indictable_conviction-set",
-        "ny_160_59_petition-set"
-      ],
-      "commands": [
-        "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer FIX01 FIX09 az_marijuana_expungement_arrest_no_charges-set --reason \"<why this lane takes it>\"",
-        "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer FIX03 FIX09 ca-1203-42-set --reason \"<why this lane takes it>\"",
-        "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer FIX05 FIX09 ca-851-91-set --reason \"<why this lane takes it>\"",
-        "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer FIX08 FIX09 nj_arrest_no_conviction-set --reason \"<why this lane takes it>\"",
-        "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer FIX02 FIX09 nj_indictable_conviction-set --reason \"<why this lane takes it>\"",
-        "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer FIX04 FIX09 ny_160_59_petition-set --reason \"<why this lane takes it>\""
-      ]
+      "subjectId": "az_marijuana_expungement_arrest_no_charges-set",
+      "fromLane": "FIX01",
+      "transferredAt": "2026-09-01T11:38:03.969Z",
+      "operation": "rapid-repair",
+      "grantIsLive": true
+    },
+    {
+      "workerId": "CODEX-CS-B",
+      "lane": "FIX09",
+      "subjectId": "ca-1203-42-set",
+      "fromLane": "FIX03",
+      "transferredAt": "2026-09-01T11:38:04.054Z",
+      "operation": "rapid-repair",
+      "grantIsLive": true
+    },
+    {
+      "workerId": "CODEX-CS-B",
+      "lane": "FIX09",
+      "subjectId": "ca-851-91-set",
+      "fromLane": "FIX05",
+      "transferredAt": "2026-09-01T11:38:04.129Z",
+      "operation": "rapid-repair",
+      "grantIsLive": true
+    },
+    {
+      "workerId": "CODEX-CS-B",
+      "lane": "FIX09",
+      "subjectId": "nj_arrest_no_conviction-set",
+      "fromLane": "FIX08",
+      "transferredAt": "2026-09-01T11:38:04.203Z",
+      "operation": "rapid-repair",
+      "grantIsLive": true
+    },
+    {
+      "workerId": "CODEX-CS-B",
+      "lane": "FIX09",
+      "subjectId": "nj_indictable_conviction-set",
+      "fromLane": "FIX02",
+      "transferredAt": "2026-09-01T11:38:04.277Z",
+      "operation": "rapid-repair",
+      "grantIsLive": true
+    },
+    {
+      "workerId": "CODEX-CS-B",
+      "lane": "FIX09",
+      "subjectId": "ny_160_59_petition-set",
+      "fromLane": "FIX04",
+      "transferredAt": "2026-09-01T11:38:04.354Z",
+      "operation": "rapid-repair",
+      "grantIsLive": true
     },
     {
       "workerId": "CLOUD01",
       "lane": "VF18",
-      "subjectIds": [
-        "ak-courtview-set"
-      ],
-      "commands": []
+      "subjectId": "ak-courtview-set",
+      "fromLane": "VF01",
+      "transferredAt": "2026-09-01T11:38:04.433Z",
+      "operation": "independent-verification",
+      "grantIsLive": true
     },
     {
       "workerId": "CLOUD02",
       "lane": "VF19",
-      "subjectIds": [
-        "ak-tf800-set"
-      ],
-      "commands": []
+      "subjectId": "ak-tf800-set",
+      "fromLane": "VF02",
+      "transferredAt": "2026-09-01T11:38:04.510Z",
+      "operation": "independent-verification",
+      "grantIsLive": true
     },
     {
       "workerId": "CLOUD03",
       "lane": "VF20",
-      "subjectIds": [
-        "ak-tf805-set"
-      ],
-      "commands": []
+      "subjectId": "ak-tf805-set",
+      "fromLane": "VF03",
+      "transferredAt": "2026-09-01T11:38:04.588Z",
+      "operation": "independent-verification",
+      "grantIsLive": true
     },
     {
       "workerId": "CLOUD04",
       "lane": "VF21",
-      "subjectIds": [
-        "ar-arrest-seal-set"
-      ],
-      "commands": []
+      "subjectId": "ar-arrest-seal-set",
+      "fromLane": "VF04",
+      "transferredAt": "2026-09-01T11:38:04.661Z",
+      "operation": "independent-verification",
+      "grantIsLive": true
     },
     {
       "workerId": "CLOUD05",
       "lane": "VF22",
-      "subjectIds": [
-        "ar-misdemeanor-dwi-seal-set"
-      ],
-      "commands": []
+      "subjectId": "ar-misdemeanor-dwi-seal-set",
+      "fromLane": "VF05",
+      "transferredAt": "2026-09-01T11:38:04.733Z",
+      "operation": "independent-verification",
+      "grantIsLive": true
     },
     {
       "workerId": "CLOUD06",
       "lane": "VF23",
-      "subjectIds": [
-        "co_motion_seal_nonconviction-set"
-      ],
-      "commands": []
+      "subjectId": "co_motion_seal_nonconviction-set",
+      "fromLane": "VF06",
+      "transferredAt": "2026-09-01T11:38:04.825Z",
+      "operation": "independent-verification",
+      "grantIsLive": true
     },
     {
       "workerId": "CLOUD07",
       "lane": "VF24",
-      "subjectIds": [
-        "ct-cleanslate-petition-set"
-      ],
-      "commands": []
+      "subjectId": "ct-cleanslate-petition-set",
+      "fromLane": "VF09",
+      "transferredAt": "2026-09-01T11:38:04.914Z",
+      "operation": "independent-verification",
+      "grantIsLive": true
     },
     {
       "workerId": "CLOUD08",
       "lane": "VF25",
-      "subjectIds": [
-        "mi_setaside_marihuana-set"
-      ],
-      "commands": []
+      "subjectId": "mi_setaside_marihuana-set",
+      "fromLane": "VF01",
+      "transferredAt": "2026-09-01T11:38:04.993Z",
+      "operation": "independent-verification",
+      "grantIsLive": true
     }
   ],
-  "transfersCompleted": [],
-  "workerMayAssertWhen": "this file lists the worker under transfersCompleted. Until then an assert is refused and the correct response is to stop and report, not to work without a grant.",
+  "transfersPending": [],
+  "transfersLoggedInLedger": 20,
+  "workerMayAssertWhen": "its subject appears under transfersCompleted with grantIsLive true.",
+  "whatTheTransfersDidNotDo": [
+    "No packet, overlay, field map, source receipt or raster receipt was touched.",
+    "No claim identity was created or destroyed: 549 before and after, 0 lost, 0 gained.",
+    "376 releases and 3 reissues preserved exactly; 20 released flags re-opened, which is what a transfer is.",
+    "No Claude worker was interrupted and no live Claude claim was moved — every transferred grant had already been released by the lane that held it."
+  ],
   "branchWatch": {
     "CODEX-CS-A": "codex/cs-a/",
     "CODEX-CS-B": "codex/cs-b/",
     "cloud": "a completed Codex Cloud task opens a PR; evidence-only paths under the worker's return directory",
-    "ingestOnlyAfter": "the branch or PR exists. An assignment is not a return."
+    "ingestOnlyAfter": "the branch or PR exists. An assignment is not a return.",
+    "ingestWith": "node scripts/external-worker-control/ingest-external-return.mjs --worker <ID> --changed-paths <file>"
   },
   "captainRetainsSolely": [
     "the claim ledger and every grant, transfer, release and reissue in it",
@@ -127,9 +212,7 @@
   ],
   "claudeWorkersUntouched": {
     "interrupted": 0,
-    "claimsMoved": 0,
-    "liveClaudeClaims": 180,
-    "rule": "An item under a live claim is invisible to this control plane. The generator refuses outright if an external assignment names one."
+    "liveClaimsMoved": 0
   },
   "openSloViolations": [
     {
@@ -145,7 +228,7 @@
       "count": 32
     }
   ],
-  "capacityIsTheConstraint": "The violations are queue depth, not idle slots: all ten workers are assigned. 32 families are transfer-eligible for a second read against 8 verification lanes, and 11 repairs are queued behind 6 repair slots. More slots, not more dispatch logic.",
+  "capacityIsTheConstraint": "The violations are queue depth, not idle slots: all ten workers are assigned and now hold grants. Families queue behind lanes, not behind dispatch logic.",
   "commercialRoutesOpened": 0,
   "productionTouched": false
 }
