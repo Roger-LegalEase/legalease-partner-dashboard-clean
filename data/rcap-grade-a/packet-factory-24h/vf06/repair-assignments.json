@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
+  "lane": "VF06",
+  "worker": "VF-SRC-A",
+  "baseSha": "09b741ad00be0d630bd73a72f66640294abab397",
+  "assignmentCount": 1,
+  "assignments": [
+    {
+      "itemId": "ut_pet_dismissed_with_prejudice-set",
+      "lane": "VF06",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill",
+      "decisiveDefect": "the packet never states where self-help ends",
+      "failedProofObligations": [
+        "SELF_HELP_STOP"
+      ],
+      "perObligation": {
+        "SELF_HELP_STOP": {
+          "measuredDetail": "the packet never states where self-help ends",
+          "whatRepairMustDo": "participant-instructions.md must state where self-help ends. The Vermont packets close with a 'What this packet is not' section and the Ohio composed drafts carry 'Hard stops'; this family states nothing."
+        }
+      },
+      "repairMustNotDo": [
+        "do not edit any artifact merely so a receipt matches it",
+        "this verification opens no commercial route and grants no approval"
+      ]
+    }
+  ]
+}
