@@ -1,13 +1,13 @@
 {
   "schemaVersion": "rcap-continuous-integration-state/v1",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate-source-conveyor.mjs",
-  "generatedAt": "2026-09-01T07:04:52.538Z",
-  "captainHead": "13771582866352d77e46e5d0b9bc86f1abbb6752",
+  "generatedAt": "2026-09-01T16:24:57.671Z",
+  "captainHead": "54bb5fe60316e874981e0d7daa6b3e34a201e45c",
   "cadence": {
     "integrateEvery": "three completed worker returns, or twenty minutes, whichever comes first",
     "releaseIntoBuildersEvery": "five families released by PROMO, or thirty minutes, whichever comes first",
-    "nextIntegrationDeadline": "2026-09-01T07:24:52.538Z",
-    "nextSourceReleaseDeadline": "2026-09-01T07:34:52.538Z",
+    "nextIntegrationDeadline": "2026-09-01T16:44:57.671Z",
+    "nextSourceReleaseDeadline": "2026-09-01T16:54:57.671Z",
     "everyCheckpointMust": [
       "inspect the exact changed paths of each return",
       "integrate the returns that touch only their own owned paths",
@@ -34,9 +34,9 @@
           "VF11",
           "VF12"
         ],
-        "measured": 18,
+        "measured": 37,
         "threshold": 20,
-        "triggered": false
+        "triggered": true
       },
       {
         "when": "FAIL_REPAIR_REQUIRED > 20",
@@ -46,7 +46,7 @@
           "FIX07",
           "FIX08"
         ],
-        "measured": 26,
+        "measured": 24,
         "threshold": 20,
         "triggered": true
       },
@@ -62,7 +62,7 @@
           "PF23",
           "PF24"
         ],
-        "measured": 29,
+        "measured": 2,
         "threshold": 80,
         "triggered": false
       }
@@ -78,19 +78,19 @@
   },
   "liveCounts": {
     "liveFamilyDenominator": 346,
-    "sourceReady": 29,
-    "sourceBlocked": 256,
+    "sourceReady": 2,
+    "sourceBlocked": 253,
     "legalBlocked": 13,
-    "verifyPending": 18,
-    "repairRequired": 26,
+    "verifyPending": 37,
+    "repairRequired": 24,
     "byState": {
-      "SOURCE_BLOCKED": 256,
-      "SOURCE_READY": 29,
-      "FAIL_REPAIR_REQUIRED": 26,
+      "SOURCE_BLOCKED": 253,
+      "VERIFIED_PASS": 13,
+      "VERIFY_PENDING": 37,
+      "FAIL_REPAIR_REQUIRED": 24,
       "BUILD_IN_PROGRESS": 4,
       "LEGAL_BLOCKED": 13,
-      "VERIFY_PENDING": 17,
-      "VERIFYING": 1
+      "SOURCE_READY": 2
     }
   },
   "commercialRoutesOpened": 0,
