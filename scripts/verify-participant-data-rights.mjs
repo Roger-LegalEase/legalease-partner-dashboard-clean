@@ -1043,6 +1043,7 @@ let proofA = null;
   );
   const proof = (await mintProof(PARTNER_STAFF, "account_deletion")).body.proof;
   setSession({ isAuthenticated: true, userId: PARTNER_STAFF, email: "staff@partner.test" });
+  const deliverySession = await apiSession.requireConsumerBriefcaseApiSession();
   const response = await accountRoute.POST(
     req("/api/expungement-ai/privacy/account", { proof, confirmation: "DELETE MY ACCOUNT", idempotencyKey: "staff-self-0001" })
   );
@@ -1052,6 +1053,7 @@ let proofA = null;
   check("P3", "both participants can still sign in", count(`select count(*) from auth.users where id in ('${USER_A}','${USER_B}')`) === 2);
   check("P4", "no participant tombstone was written", count(`select count(*) from public.participant_account_tombstones where user_id in ('${USER_A}','${USER_B}')`) === 0);
   check("P5", "the denied staff account remains active and has no deletion request", count(`select count(*) from auth.users where id='${PARTNER_STAFF}'`) === 1 && count(`select count(*) from public.participant_privacy_requests where user_id='${PARTNER_STAFF}' and request_type='account_deletion'`) === 0);
+  check("P6", "privacy role exclusion does not block the shared private-delivery session guard", deliverySession.ok === true);
 }
 
 // =============================================================================

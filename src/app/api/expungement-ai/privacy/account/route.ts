@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 
-import { requireConsumerBriefcaseApiSession } from "@/lib/expungement-ai/privacy/api-session";
+import { requireParticipantPrivacyApiSession } from "@/lib/expungement-ai/privacy/api-session";
 import { PRIVACY_RATE_LIMIT_POLICIES } from "@/lib/expungement-ai/privacy/contract";
 import { runAccountDeletion, type DeletionOutcome } from "@/lib/expungement-ai/privacy/deletion";
 import { participantPrivacyReadiness } from "@/lib/expungement-ai/privacy/readiness";
@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
 
   // A frozen account is admitted HERE and nowhere else, so a participant whose
   // deletion stopped half-way can resume it. See the helper for why.
-  const session = await requireConsumerBriefcaseApiSession({ allowFrozen: true });
+  const session = await requireParticipantPrivacyApiSession({ allowFrozen: true });
   if (!session.ok) return session.response;
 
   // The page and API intentionally call the same runtime readiness contract.

@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 
-import { requireConsumerBriefcaseApiSession } from "@/lib/expungement-ai/privacy/api-session";
+import { requireParticipantPrivacyApiSession } from "@/lib/expungement-ai/privacy/api-session";
 import { PRIVACY_RATE_LIMIT_POLICIES } from "@/lib/expungement-ai/privacy/contract";
 import { runMatterDeletion } from "@/lib/expungement-ai/privacy/deletion";
 import { participantSubjectPseudonym } from "@/lib/expungement-ai/privacy/pseudonym";
@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
     throw error;
   }
 
-  const session = await requireConsumerBriefcaseApiSession();
+  const session = await requireParticipantPrivacyApiSession();
   if (!session.ok) return session.response;
 
   let matterId: string;
