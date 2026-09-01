@@ -15,7 +15,9 @@
       "CR-180[0].Page2[0].pXCaption[0].Defendant[0]": "participant.full_legal_name",
       "CR-180[0].Page2[0].pXCaption[0].CaseNumber1[0]": "matter.case_number",
       "CR-180[0].Page3[0].pXCaption[0].Defendant[0]": "participant.full_legal_name",
-      "CR-180[0].Page3[0].pXCaption[0].CaseNumber1[0]": "matter.case_number"
+      "CR-180[0].Page3[0].pXCaption[0].CaseNumber1[0]": "matter.case_number",
+      "CR-180[0].Page1[0].P1Caption[0].CourtInfo[0].CrtCounty[0]": "matter.county",
+      "CR-180[0].Page1[0].LI1[0].li1[0].ConvictionDate[0]": "matter.conviction_date"
     }
   },
   "statutorySelectionsByVariant": {
@@ -31,6 +33,43 @@
   "runtimeSelectable": false,
   "commercialRoutesOpened": 0,
   "writes": [
+    {
+      "formNumber": "CR-180",
+      "documentId": "CA-CR-180-PETITION-FOR-DISMISSAL",
+      "documentRole": "primary_filing",
+      "fieldName": "CR-180[0].Page1[0].P1Caption[0].CourtInfo[0].CrtCounty[0]",
+      "fieldType": "/Tx",
+      "effectiveLabel": "SUPERIOR COURT OF CALIFORNIA, COUNTY OF",
+      "flags": [
+        "doNotScroll"
+      ],
+      "maxLen": null,
+      "widgets": [
+        {
+          "pageIndex": 0,
+          "rect": [
+            227.78,
+            637.69,
+            394.06,
+            646.69
+          ],
+          "width": 166.28,
+          "height": 9,
+          "onStates": [],
+          "appearanceStates": [],
+          "markRegion": null,
+          "hidden": false
+        }
+      ],
+      "disposition": "WRITE",
+      "factId": "matter.county",
+      "appliesToVariants": [
+        "pc-1203-42"
+      ],
+      "variantValues": null,
+      "routeSpecific": false,
+      "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
+    },
     {
       "formNumber": "CR-180",
       "documentId": "CA-CR-180-PETITION-FOR-DISMISSAL",
@@ -66,7 +105,7 @@
       ],
       "variantValues": null,
       "routeSpecific": false,
-      "reason": "Exact primary-form terminal field explicitly mapped to a safe participant identity or verified case-caption fact."
+      "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
     },
     {
       "formNumber": "CR-180",
@@ -103,7 +142,44 @@
       ],
       "variantValues": null,
       "routeSpecific": false,
-      "reason": "Exact primary-form terminal field explicitly mapped to a safe participant identity or verified case-caption fact."
+      "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
+    },
+    {
+      "formNumber": "CR-180",
+      "documentId": "CA-CR-180-PETITION-FOR-DISMISSAL",
+      "documentRole": "primary_filing",
+      "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvictionDate[0]",
+      "fieldType": "/Tx",
+      "effectiveLabel": "(date):",
+      "flags": [
+        "doNotScroll"
+      ],
+      "maxLen": null,
+      "widgets": [
+        {
+          "pageIndex": 0,
+          "rect": [
+            93.71,
+            435.29,
+            163.67,
+            444.29
+          ],
+          "width": 69.97,
+          "height": 9,
+          "onStates": [],
+          "appearanceStates": [],
+          "markRegion": null,
+          "hidden": false
+        }
+      ],
+      "disposition": "WRITE",
+      "factId": "matter.conviction_date",
+      "appliesToVariants": [
+        "pc-1203-42"
+      ],
+      "variantValues": null,
+      "routeSpecific": false,
+      "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
     },
     {
       "formNumber": "CR-180",
@@ -141,7 +217,7 @@
       ],
       "variantValues": null,
       "routeSpecific": false,
-      "reason": "Exact primary-form terminal field explicitly mapped to a safe participant identity or verified case-caption fact."
+      "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
     },
     {
       "formNumber": "CR-180",
@@ -179,7 +255,7 @@
       ],
       "variantValues": null,
       "routeSpecific": false,
-      "reason": "Exact primary-form terminal field explicitly mapped to a safe participant identity or verified case-caption fact."
+      "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
     },
     {
       "formNumber": "CR-180",
@@ -216,7 +292,7 @@
       ],
       "variantValues": null,
       "routeSpecific": false,
-      "reason": "Exact primary-form terminal field explicitly mapped to a safe participant identity or verified case-caption fact."
+      "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
     },
     {
       "formNumber": "CR-180",
@@ -253,7 +329,7 @@
       ],
       "variantValues": null,
       "routeSpecific": false,
-      "reason": "Exact primary-form terminal field explicitly mapped to a safe participant identity or verified case-caption fact."
+      "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
     }
   ],
   "selections": [
@@ -340,6 +416,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "Attorney-only field; never populated with participant data."
     },
     {
@@ -372,6 +449,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "Attorney-only field; never populated with participant data."
     },
     {
@@ -404,6 +482,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "Attorney-only field; never populated with participant data."
     },
     {
@@ -436,6 +515,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "Attorney-only field; never populated with participant data."
     },
     {
@@ -468,6 +548,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "Attorney-only field; never populated with participant data."
     },
     {
@@ -498,6 +579,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "Attorney-only field; never populated with participant data."
     },
     {
@@ -530,6 +612,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "Attorney-only field; never populated with participant data."
     },
     {
@@ -562,6 +645,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "Attorney-only field; never populated with participant data."
     },
     {
@@ -594,6 +678,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "Attorney-only field; never populated with participant data."
     },
     {
@@ -626,6 +711,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "Attorney-only field; never populated with participant data."
     },
     {
@@ -658,39 +744,8 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "Attorney-only field; never populated with participant data."
-    },
-    {
-      "formNumber": "CR-180",
-      "documentId": "CA-CR-180-PETITION-FOR-DISMISSAL",
-      "documentRole": "primary_filing",
-      "fieldName": "CR-180[0].Page1[0].P1Caption[0].CourtInfo[0].CrtCounty[0]",
-      "fieldType": "/Tx",
-      "effectiveLabel": "SUPERIOR COURT OF CALIFORNIA, COUNTY OF",
-      "flags": [
-        "doNotScroll"
-      ],
-      "maxLen": null,
-      "widgets": [
-        {
-          "pageIndex": 0,
-          "rect": [
-            227.78,
-            637.69,
-            394.06,
-            646.69
-          ],
-          "width": 166.28,
-          "height": 9,
-          "onStates": [],
-          "appearanceStates": [],
-          "markRegion": null,
-          "hidden": false
-        }
-      ],
-      "disposition": "REFUSE",
-      "factId": null,
-      "reason": "Court, clerk, prosecutor, agency, or hearing field; never prefilled."
     },
     {
       "formNumber": "CR-180",
@@ -722,6 +777,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "Court, clerk, prosecutor, agency, or hearing field; never prefilled."
     },
     {
@@ -754,6 +810,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "Court, clerk, prosecutor, agency, or hearing field; never prefilled."
     },
     {
@@ -786,6 +843,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "Court, clerk, prosecutor, agency, or hearing field; never prefilled."
     },
     {
@@ -818,7 +876,8 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "Signature or date field; never prefilled."
+      "blankTreatment": null,
+      "reason": "Court, clerk, prosecutor, agency, or hearing field; never prefilled."
     },
     {
       "formNumber": "CR-180",
@@ -850,7 +909,8 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "No allowlisted, source-supported fact is offered to this terminal field."
+      "blankTreatment": null,
+      "reason": "Court, clerk, prosecutor, agency, or hearing field; never prefilled."
     },
     {
       "formNumber": "CR-180",
@@ -882,39 +942,8 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "Court, clerk, prosecutor, agency, or hearing field; never prefilled."
-    },
-    {
-      "formNumber": "CR-180",
-      "documentId": "CA-CR-180-PETITION-FOR-DISMISSAL",
-      "documentRole": "primary_filing",
-      "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvictionDate[0]",
-      "fieldType": "/Tx",
-      "effectiveLabel": "(date):",
-      "flags": [
-        "doNotScroll"
-      ],
-      "maxLen": null,
-      "widgets": [
-        {
-          "pageIndex": 0,
-          "rect": [
-            93.71,
-            435.29,
-            163.67,
-            444.29
-          ],
-          "width": 69.97,
-          "height": 9,
-          "onStates": [],
-          "appearanceStates": [],
-          "markRegion": null,
-          "hidden": false
-        }
-      ],
-      "disposition": "REFUSE",
-      "factId": null,
-      "reason": "Signature or date field; never prefilled."
     },
     {
       "formNumber": "CR-180",
@@ -944,11 +973,11 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess.",
       "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess. The participant completes it, and the platform does not guess.",
       "requiredBeforeFiling": true,
       "routeDetermined": false,
-      "identity": "CR-180 field CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Code1[0]"
+      "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Code1[0]"
     },
     {
       "formNumber": "CR-180",
@@ -978,11 +1007,11 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess.",
       "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess. The participant completes it, and the platform does not guess.",
       "requiredBeforeFiling": true,
       "routeDetermined": false,
-      "identity": "CR-180 field CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Section1[0]"
+      "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Section1[0]"
     },
     {
       "formNumber": "CR-180",
@@ -1012,11 +1041,11 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess.",
       "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess. The participant completes it, and the platform does not guess.",
       "requiredBeforeFiling": true,
       "routeDetermined": false,
-      "identity": "CR-180 field CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].TypeOff1[0]"
+      "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].TypeOff1[0]"
     },
     {
       "formNumber": "CR-180",
@@ -1046,7 +1075,8 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "The Penal Code section 17(b) reduction election belongs to the ca-17b-reduction route, which maps these exact terminal names as route controls. This packet is built for Penal Code section 1203.42 and does not use that branch of the form. The election is route-determined and this lane may not mark it: marking it needs a re-render, and the packet build environment cannot bind sources here.",
+      "blankTreatment": null,
+      "reason": "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it.",
       "routeDetermined": true
     },
     {
@@ -1079,7 +1109,8 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "The Penal Code section 17(b) reduction election belongs to the ca-17b-reduction route, which maps these exact terminal names as route controls. This packet is built for Penal Code section 1203.42 and does not use that branch of the form. The election is route-determined and this lane may not mark it: marking it needs a re-render, and the packet build environment cannot bind sources here.",
+      "blankTreatment": null,
+      "reason": "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it.",
       "routeDetermined": true
     },
     {
@@ -1110,11 +1141,11 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess.",
       "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess. The participant completes it, and the platform does not guess.",
       "requiredBeforeFiling": true,
       "routeDetermined": false,
-      "identity": "CR-180 field CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].Code2[0]"
+      "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].Code2[0]"
     },
     {
       "formNumber": "CR-180",
@@ -1144,11 +1175,11 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess.",
       "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess. The participant completes it, and the platform does not guess.",
       "requiredBeforeFiling": true,
       "routeDetermined": false,
-      "identity": "CR-180 field CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].Section2[0]"
+      "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].Section2[0]"
     },
     {
       "formNumber": "CR-180",
@@ -1178,11 +1209,11 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess.",
       "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess. The participant completes it, and the platform does not guess.",
       "requiredBeforeFiling": true,
       "routeDetermined": false,
-      "identity": "CR-180 field CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].TypeOff2[0]"
+      "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].TypeOff2[0]"
     },
     {
       "formNumber": "CR-180",
@@ -1212,7 +1243,8 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "The Penal Code section 17(b) reduction election belongs to the ca-17b-reduction route, which maps these exact terminal names as route controls. This packet is built for Penal Code section 1203.42 and does not use that branch of the form. The election is route-determined and this lane may not mark it: marking it needs a re-render, and the packet build environment cannot bind sources here.",
+      "blankTreatment": null,
+      "reason": "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it.",
       "routeDetermined": true
     },
     {
@@ -1245,7 +1277,8 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "The Penal Code section 17(b) reduction election belongs to the ca-17b-reduction route, which maps these exact terminal names as route controls. This packet is built for Penal Code section 1203.42 and does not use that branch of the form. The election is route-determined and this lane may not mark it: marking it needs a re-render, and the packet build environment cannot bind sources here.",
+      "blankTreatment": null,
+      "reason": "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it.",
       "routeDetermined": true
     },
     {
@@ -1276,11 +1309,11 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess.",
       "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess. The participant completes it, and the platform does not guess.",
       "requiredBeforeFiling": true,
       "routeDetermined": false,
-      "identity": "CR-180 field CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].Code3[0]"
+      "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].Code3[0]"
     },
     {
       "formNumber": "CR-180",
@@ -1310,11 +1343,11 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess.",
       "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess. The participant completes it, and the platform does not guess.",
       "requiredBeforeFiling": true,
       "routeDetermined": false,
-      "identity": "CR-180 field CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].Section3[0]"
+      "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].Section3[0]"
     },
     {
       "formNumber": "CR-180",
@@ -1344,11 +1377,11 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess.",
       "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess. The participant completes it, and the platform does not guess.",
       "requiredBeforeFiling": true,
       "routeDetermined": false,
-      "identity": "CR-180 field CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].TypeOff3[0]"
+      "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].TypeOff3[0]"
     },
     {
       "formNumber": "CR-180",
@@ -1378,7 +1411,8 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "The Penal Code section 17(b) reduction election belongs to the ca-17b-reduction route, which maps these exact terminal names as route controls. This packet is built for Penal Code section 1203.42 and does not use that branch of the form. The election is route-determined and this lane may not mark it: marking it needs a re-render, and the packet build environment cannot bind sources here.",
+      "blankTreatment": null,
+      "reason": "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it.",
       "routeDetermined": true
     },
     {
@@ -1411,7 +1445,8 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "The Penal Code section 17(b) reduction election belongs to the ca-17b-reduction route, which maps these exact terminal names as route controls. This packet is built for Penal Code section 1203.42 and does not use that branch of the form. The election is route-determined and this lane may not mark it: marking it needs a re-render, and the packet build environment cannot bind sources here.",
+      "blankTreatment": null,
+      "reason": "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it.",
       "routeDetermined": true
     },
     {
@@ -1442,11 +1477,11 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess.",
       "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess. The participant completes it, and the platform does not guess.",
       "requiredBeforeFiling": true,
       "routeDetermined": false,
-      "identity": "CR-180 field CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].Code4[0]"
+      "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].Code4[0]"
     },
     {
       "formNumber": "CR-180",
@@ -1476,11 +1511,11 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess.",
       "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess. The participant completes it, and the platform does not guess.",
       "requiredBeforeFiling": true,
       "routeDetermined": false,
-      "identity": "CR-180 field CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].Section4[0]"
+      "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].Section4[0]"
     },
     {
       "formNumber": "CR-180",
@@ -1510,11 +1545,11 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess.",
       "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess. The participant completes it, and the platform does not guess.",
       "requiredBeforeFiling": true,
       "routeDetermined": false,
-      "identity": "CR-180 field CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].TypeOff4[0]"
+      "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].TypeOff4[0]"
     },
     {
       "formNumber": "CR-180",
@@ -1544,7 +1579,8 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "The Penal Code section 17(b) reduction election belongs to the ca-17b-reduction route, which maps these exact terminal names as route controls. This packet is built for Penal Code section 1203.42 and does not use that branch of the form. The election is route-determined and this lane may not mark it: marking it needs a re-render, and the packet build environment cannot bind sources here.",
+      "blankTreatment": null,
+      "reason": "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it.",
       "routeDetermined": true
     },
     {
@@ -1577,7 +1613,8 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "The Penal Code section 17(b) reduction election belongs to the ca-17b-reduction route, which maps these exact terminal names as route controls. This packet is built for Penal Code section 1203.42 and does not use that branch of the form. The election is route-determined and this lane may not mark it: marking it needs a re-render, and the packet build environment cannot bind sources here.",
+      "blankTreatment": null,
+      "reason": "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it.",
       "routeDetermined": true
     },
     {
@@ -1608,11 +1645,11 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess.",
       "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess. The participant completes it, and the platform does not guess.",
       "requiredBeforeFiling": true,
       "routeDetermined": false,
-      "identity": "CR-180 field CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].Code5[0]"
+      "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].Code5[0]"
     },
     {
       "formNumber": "CR-180",
@@ -1642,11 +1679,11 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess.",
       "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess. The participant completes it, and the platform does not guess.",
       "requiredBeforeFiling": true,
       "routeDetermined": false,
-      "identity": "CR-180 field CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].Section5[0]"
+      "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].Section5[0]"
     },
     {
       "formNumber": "CR-180",
@@ -1676,11 +1713,11 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess.",
       "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess. The participant completes it, and the platform does not guess.",
       "requiredBeforeFiling": true,
       "routeDetermined": false,
-      "identity": "CR-180 field CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].TypeOff5[0]"
+      "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].TypeOff5[0]"
     },
     {
       "formNumber": "CR-180",
@@ -1710,7 +1747,8 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "The Penal Code section 17(b) reduction election belongs to the ca-17b-reduction route, which maps these exact terminal names as route controls. This packet is built for Penal Code section 1203.42 and does not use that branch of the form. The election is route-determined and this lane may not mark it: marking it needs a re-render, and the packet build environment cannot bind sources here.",
+      "blankTreatment": null,
+      "reason": "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it.",
       "routeDetermined": true
     },
     {
@@ -1743,7 +1781,8 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "The Penal Code section 17(b) reduction election belongs to the ca-17b-reduction route, which maps these exact terminal names as route controls. This packet is built for Penal Code section 1203.42 and does not use that branch of the form. The election is route-determined and this lane may not mark it: marking it needs a re-render, and the packet build environment cannot bind sources here.",
+      "blankTreatment": null,
+      "reason": "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it.",
       "routeDetermined": true
     },
     {
@@ -1786,6 +1825,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "A control the participant marks. The platform never marks an election on a sworn filing; the participant instructions name it and the participant marks it before signing.",
       "refusalClass": "participant_sworn_narrative_or_legal_election",
       "isSelectionControl": true
@@ -1830,6 +1870,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "A control the participant marks. The platform never marks an election on a sworn filing; the participant instructions name it and the participant marks it before signing.",
       "refusalClass": "participant_sworn_narrative_or_legal_election",
       "isSelectionControl": true
@@ -1874,6 +1915,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "A control the participant marks. The platform never marks an election on a sworn filing; the participant instructions name it and the participant marks it before signing.",
       "refusalClass": "participant_sworn_narrative_or_legal_election",
       "isSelectionControl": true
@@ -1918,6 +1960,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "A control the participant marks. The platform never marks an election on a sworn filing; the participant instructions name it and the participant marks it before signing.",
       "refusalClass": "participant_sworn_narrative_or_legal_election",
       "isSelectionControl": true
@@ -1953,11 +1996,11 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess.",
       "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess. The participant completes it, and the platform does not guess.",
       "requiredBeforeFiling": true,
       "routeDetermined": false,
-      "identity": "CR-180 field CR-180[0].Page1[0].LI2[0].li2c[0].TextField6[0]"
+      "identity": "CR-180[0].Page1[0].LI2[0].li2c[0].TextField6[0]"
     },
     {
       "formNumber": "CR-180",
@@ -1997,6 +2040,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "Viewer UI control; never a filing fact."
     },
     {
@@ -2039,6 +2083,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "A control the participant marks. The platform never marks an election on a sworn filing; the participant instructions name it and the participant marks it before signing.",
       "refusalClass": "participant_sworn_narrative_or_legal_election",
       "isSelectionControl": true
@@ -2083,6 +2128,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "A control the participant marks. The platform never marks an election on a sworn filing; the participant instructions name it and the participant marks it before signing.",
       "refusalClass": "participant_sworn_narrative_or_legal_election",
       "isSelectionControl": true
@@ -2127,6 +2173,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "A control the participant marks. The platform never marks an election on a sworn filing; the participant instructions name it and the participant marks it before signing.",
       "refusalClass": "participant_sworn_narrative_or_legal_election",
       "isSelectionControl": true
@@ -2162,11 +2209,11 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess.",
       "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess. The participant completes it, and the platform does not guess.",
       "requiredBeforeFiling": true,
       "routeDetermined": false,
-      "identity": "CR-180 field CR-180[0].Page2[0].LI3[0].li3b[0].TextField6[0]"
+      "identity": "CR-180[0].Page2[0].LI3[0].li3b[0].TextField6[0]"
     },
     {
       "formNumber": "CR-180",
@@ -2208,6 +2255,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "A control the participant marks. The platform never marks an election on a sworn filing; the participant instructions name it and the participant marks it before signing.",
       "refusalClass": "participant_sworn_narrative_or_legal_election",
       "isSelectionControl": true
@@ -2243,11 +2291,11 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess.",
       "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess. The participant completes it, and the platform does not guess.",
       "requiredBeforeFiling": true,
       "routeDetermined": false,
-      "identity": "CR-180 field CR-180[0].Page2[0].LI4[0].li4[0].TextField6[0]"
+      "identity": "CR-180[0].Page2[0].LI4[0].li4[0].TextField6[0]"
     },
     {
       "formNumber": "CR-180",
@@ -2289,6 +2337,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "A control the participant marks. The platform never marks an election on a sworn filing; the participant instructions name it and the participant marks it before signing.",
       "refusalClass": "participant_sworn_narrative_or_legal_election",
       "isSelectionControl": true
@@ -2333,6 +2382,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "A control the participant marks. The platform never marks an election on a sworn filing; the participant instructions name it and the participant marks it before signing.",
       "refusalClass": "participant_sworn_narrative_or_legal_election",
       "isSelectionControl": true
@@ -2377,6 +2427,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "A control the participant marks. The platform never marks an election on a sworn filing; the participant instructions name it and the participant marks it before signing.",
       "refusalClass": "participant_sworn_narrative_or_legal_election",
       "isSelectionControl": true
@@ -2421,6 +2472,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "A control the participant marks. The platform never marks an election on a sworn filing; the participant instructions name it and the participant marks it before signing.",
       "refusalClass": "participant_sworn_narrative_or_legal_election",
       "isSelectionControl": true
@@ -2456,11 +2508,11 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess.",
       "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess. The participant completes it, and the platform does not guess.",
       "requiredBeforeFiling": true,
       "routeDetermined": false,
-      "identity": "CR-180 field CR-180[0].Page2[0].LI5[0].li5c[0].T66[0]"
+      "identity": "CR-180[0].Page2[0].LI5[0].li5c[0].T66[0]"
     },
     {
       "formNumber": "CR-180",
@@ -2493,11 +2545,11 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess.",
       "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess. The participant completes it, and the platform does not guess.",
       "requiredBeforeFiling": true,
       "routeDetermined": false,
-      "identity": "CR-180 field CR-180[0].Page3[0].LI6[0].li6[0].T66[0]"
+      "identity": "CR-180[0].Page3[0].LI6[0].li6[0].T66[0]"
     },
     {
       "formNumber": "CR-180",
@@ -2539,6 +2591,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "A control the participant marks. The platform never marks an election on a sworn filing; the participant instructions name it and the participant marks it before signing.",
       "refusalClass": "participant_sworn_narrative_or_legal_election",
       "isSelectionControl": true
@@ -2573,7 +2626,11 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "Signature or date field; never prefilled."
+      "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: no exact source-supported date fact is held for this terminal field; surface it to the participant and do not guess. The participant completes it, and the platform does not guess.",
+      "requiredBeforeFiling": true,
+      "routeDetermined": false,
+      "identity": "CR-180[0].Page3[0].LI7[0].DateField1[0]"
     },
     {
       "formNumber": "CR-180",
@@ -2615,6 +2672,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "A control the participant marks. The platform never marks an election on a sworn filing; the participant instructions name it and the participant marks it before signing.",
       "refusalClass": "participant_sworn_narrative_or_legal_election",
       "isSelectionControl": true
@@ -2659,6 +2717,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "A control the participant marks. The platform never marks an election on a sworn filing; the participant instructions name it and the participant marks it before signing.",
       "refusalClass": "participant_sworn_narrative_or_legal_election",
       "isSelectionControl": true
@@ -2703,6 +2762,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "A control the participant marks. The platform never marks an election on a sworn filing; the participant instructions name it and the participant marks it before signing.",
       "refusalClass": "participant_sworn_narrative_or_legal_election",
       "isSelectionControl": true
@@ -2747,6 +2807,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "A control the participant marks. The platform never marks an election on a sworn filing; the participant instructions name it and the participant marks it before signing.",
       "refusalClass": "participant_sworn_narrative_or_legal_election",
       "isSelectionControl": true
@@ -2781,7 +2842,9 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "Signature or date field; never prefilled."
+      "blankTreatment": null,
+      "reason": "Signature or signature-date field; never prefilled before the participant signs.",
+      "refusalClass": "signature_or_date_participant_completion"
     },
     {
       "formNumber": "CR-180",
@@ -2813,7 +2876,9 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "Signature or date field; never prefilled."
+      "blankTreatment": null,
+      "reason": "Signature or signature-date field; never prefilled before the participant signs.",
+      "refusalClass": "signature_or_date_participant_completion"
     },
     {
       "formNumber": "CR-180",
@@ -2854,6 +2919,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "Viewer UI control; never a filing fact."
     },
     {
@@ -2895,6 +2961,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "Viewer UI control; never a filing fact."
     },
     {
@@ -2936,6 +3003,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "Viewer UI control; never a filing fact."
     },
     {
@@ -2977,6 +3045,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "Viewer UI control; never a filing fact."
     },
     {
@@ -3009,6 +3078,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "The proposed order is court-owned; every order field is left for the court.",
       "refusalClass": "court_prosecutor_clerk_or_agency_owned"
     },
@@ -3042,6 +3112,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "The proposed order is court-owned; every order field is left for the court.",
       "refusalClass": "court_prosecutor_clerk_or_agency_owned"
     },
@@ -3075,6 +3146,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "The proposed order is court-owned; every order field is left for the court.",
       "refusalClass": "court_prosecutor_clerk_or_agency_owned"
     },
@@ -3108,6 +3180,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "The proposed order is court-owned; every order field is left for the court.",
       "refusalClass": "court_prosecutor_clerk_or_agency_owned"
     },
@@ -3141,6 +3214,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "The proposed order is court-owned; every order field is left for the court.",
       "refusalClass": "court_prosecutor_clerk_or_agency_owned"
     },
@@ -3172,6 +3246,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "The proposed order is court-owned; every order field is left for the court.",
       "refusalClass": "court_prosecutor_clerk_or_agency_owned"
     },
@@ -3205,6 +3280,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "The proposed order is court-owned; every order field is left for the court.",
       "refusalClass": "court_prosecutor_clerk_or_agency_owned"
     },
@@ -3238,6 +3314,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "The proposed order is court-owned; every order field is left for the court.",
       "refusalClass": "court_prosecutor_clerk_or_agency_owned"
     },
@@ -3271,6 +3348,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "The proposed order is court-owned; every order field is left for the court.",
       "refusalClass": "court_prosecutor_clerk_or_agency_owned"
     },
@@ -3304,6 +3382,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "The proposed order is court-owned; every order field is left for the court.",
       "refusalClass": "court_prosecutor_clerk_or_agency_owned"
     },
@@ -3337,6 +3416,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "The proposed order is court-owned; every order field is left for the court.",
       "refusalClass": "court_prosecutor_clerk_or_agency_owned"
     },
@@ -3370,6 +3450,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "The proposed order is court-owned; every order field is left for the court.",
       "refusalClass": "court_prosecutor_clerk_or_agency_owned"
     },
@@ -3403,6 +3484,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "The proposed order is court-owned; every order field is left for the court.",
       "refusalClass": "court_prosecutor_clerk_or_agency_owned"
     },
@@ -3436,6 +3518,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "The proposed order is court-owned; every order field is left for the court.",
       "refusalClass": "court_prosecutor_clerk_or_agency_owned"
     },
@@ -3469,6 +3552,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "The proposed order is court-owned; every order field is left for the court.",
       "refusalClass": "court_prosecutor_clerk_or_agency_owned"
     },
@@ -3502,6 +3586,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "The proposed order is court-owned; every order field is left for the court.",
       "refusalClass": "court_prosecutor_clerk_or_agency_owned"
     },
@@ -3535,6 +3620,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "The proposed order is court-owned; every order field is left for the court.",
       "refusalClass": "court_prosecutor_clerk_or_agency_owned"
     },
@@ -3578,8 +3664,10 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "The proposed order is court-owned; every order field is left for the court.",
-      "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "isSelectionControl": true
     },
     {
       "formNumber": "CR-181",
@@ -3621,8 +3709,10 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "The proposed order is court-owned; every order field is left for the court.",
-      "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "isSelectionControl": true
     },
     {
       "formNumber": "CR-181",
@@ -3664,8 +3754,10 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "The proposed order is court-owned; every order field is left for the court.",
-      "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "isSelectionControl": true
     },
     {
       "formNumber": "CR-181",
@@ -3707,8 +3799,10 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "The proposed order is court-owned; every order field is left for the court.",
-      "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "isSelectionControl": true
     },
     {
       "formNumber": "CR-181",
@@ -3741,6 +3835,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "The proposed order is court-owned; every order field is left for the court.",
       "refusalClass": "court_prosecutor_clerk_or_agency_owned"
     },
@@ -3784,8 +3879,10 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "The proposed order is court-owned; every order field is left for the court.",
-      "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "isSelectionControl": true
     },
     {
       "formNumber": "CR-181",
@@ -3827,8 +3924,10 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "The proposed order is court-owned; every order field is left for the court.",
-      "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "isSelectionControl": true
     },
     {
       "formNumber": "CR-181",
@@ -3870,8 +3969,10 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "The proposed order is court-owned; every order field is left for the court.",
-      "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "isSelectionControl": true
     },
     {
       "formNumber": "CR-181",
@@ -3913,8 +4014,10 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "The proposed order is court-owned; every order field is left for the court.",
-      "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "isSelectionControl": true
     },
     {
       "formNumber": "CR-181",
@@ -3947,6 +4050,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "The proposed order is court-owned; every order field is left for the court.",
       "refusalClass": "court_prosecutor_clerk_or_agency_owned"
     },
@@ -3990,8 +4094,10 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "The proposed order is court-owned; every order field is left for the court.",
-      "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "isSelectionControl": true
     },
     {
       "formNumber": "CR-181",
@@ -4033,8 +4139,10 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "The proposed order is court-owned; every order field is left for the court.",
-      "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "isSelectionControl": true
     },
     {
       "formNumber": "CR-181",
@@ -4076,8 +4184,10 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "The proposed order is court-owned; every order field is left for the court.",
-      "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "isSelectionControl": true
     },
     {
       "formNumber": "CR-181",
@@ -4119,8 +4229,10 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "The proposed order is court-owned; every order field is left for the court.",
-      "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "isSelectionControl": true
     },
     {
       "formNumber": "CR-181",
@@ -4162,8 +4274,10 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "The proposed order is court-owned; every order field is left for the court.",
-      "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "isSelectionControl": true
     },
     {
       "formNumber": "CR-181",
@@ -4205,8 +4319,10 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "The proposed order is court-owned; every order field is left for the court.",
-      "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "isSelectionControl": true
     },
     {
       "formNumber": "CR-181",
@@ -4248,8 +4364,10 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "The proposed order is court-owned; every order field is left for the court.",
-      "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "isSelectionControl": true
     },
     {
       "formNumber": "CR-181",
@@ -4291,8 +4409,10 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "The proposed order is court-owned; every order field is left for the court.",
-      "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "isSelectionControl": true
     },
     {
       "formNumber": "CR-181",
@@ -4334,8 +4454,10 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "The proposed order is court-owned; every order field is left for the court.",
-      "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "isSelectionControl": true
     },
     {
       "formNumber": "CR-181",
@@ -4368,6 +4490,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "The proposed order is court-owned; every order field is left for the court.",
       "refusalClass": "court_prosecutor_clerk_or_agency_owned"
     },
@@ -4403,6 +4526,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "The proposed order is court-owned; every order field is left for the court.",
       "refusalClass": "court_prosecutor_clerk_or_agency_owned"
     },
@@ -4436,6 +4560,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "The proposed order is court-owned; every order field is left for the court.",
       "refusalClass": "court_prosecutor_clerk_or_agency_owned"
     },
@@ -4479,8 +4604,10 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "The proposed order is court-owned; every order field is left for the court.",
-      "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "isSelectionControl": true
     },
     {
       "formNumber": "CR-181",
@@ -4522,8 +4649,10 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "The proposed order is court-owned; every order field is left for the court.",
-      "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "isSelectionControl": true
     },
     {
       "formNumber": "CR-181",
@@ -4565,8 +4694,10 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "The proposed order is court-owned; every order field is left for the court.",
-      "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "isSelectionControl": true
     },
     {
       "formNumber": "CR-181",
@@ -4608,8 +4739,10 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "The proposed order is court-owned; every order field is left for the court.",
-      "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "isSelectionControl": true
     },
     {
       "formNumber": "CR-181",
@@ -4651,8 +4784,10 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "The proposed order is court-owned; every order field is left for the court.",
-      "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "isSelectionControl": true
     },
     {
       "formNumber": "CR-181",
@@ -4694,8 +4829,10 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "The proposed order is court-owned; every order field is left for the court.",
-      "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "isSelectionControl": true
     },
     {
       "formNumber": "CR-181",
@@ -4737,8 +4874,10 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "The proposed order is court-owned; every order field is left for the court.",
-      "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "isSelectionControl": true
     },
     {
       "formNumber": "CR-181",
@@ -4780,8 +4919,10 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "The proposed order is court-owned; every order field is left for the court.",
-      "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "isSelectionControl": true
     },
     {
       "formNumber": "CR-181",
@@ -4823,8 +4964,10 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "The proposed order is court-owned; every order field is left for the court.",
-      "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "isSelectionControl": true
     },
     {
       "formNumber": "CR-181",
@@ -4857,6 +5000,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "The proposed order is court-owned; every order field is left for the court.",
       "refusalClass": "court_prosecutor_clerk_or_agency_owned"
     },
@@ -4900,8 +5044,10 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "The proposed order is court-owned; every order field is left for the court.",
-      "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "isSelectionControl": true
     },
     {
       "formNumber": "CR-181",
@@ -4943,8 +5089,10 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "The proposed order is court-owned; every order field is left for the court.",
-      "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "isSelectionControl": true
     },
     {
       "formNumber": "CR-181",
@@ -4986,8 +5134,10 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "The proposed order is court-owned; every order field is left for the court.",
-      "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "isSelectionControl": true
     },
     {
       "formNumber": "CR-181",
@@ -5019,6 +5169,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "The proposed order is court-owned; every order field is left for the court.",
       "refusalClass": "court_prosecutor_clerk_or_agency_owned"
     },
@@ -5052,6 +5203,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "The proposed order is court-owned; every order field is left for the court.",
       "refusalClass": "court_prosecutor_clerk_or_agency_owned"
     },
@@ -5094,7 +5246,8 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "The proposed order is court-owned; every order field is left for the court."
+      "blankTreatment": null,
+      "reason": "Viewer UI control; never a filing fact."
     },
     {
       "formNumber": "CR-181",
@@ -5135,7 +5288,8 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "The proposed order is court-owned; every order field is left for the court."
+      "blankTreatment": null,
+      "reason": "Viewer UI control; never a filing fact."
     },
     {
       "formNumber": "CR-181",
@@ -5176,7 +5330,8 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "The proposed order is court-owned; every order field is left for the court."
+      "blankTreatment": null,
+      "reason": "Viewer UI control; never a filing fact."
     },
     {
       "formNumber": "CR-181",
@@ -5217,7 +5372,8 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "The proposed order is court-owned; every order field is left for the court."
+      "blankTreatment": null,
+      "reason": "Viewer UI control; never a filing fact."
     },
     {
       "formNumber": "CR-106",
@@ -5250,11 +5406,11 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
       "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
       "requiredBeforeFiling": true,
       "routeDetermined": false,
-      "identity": "CR-106 field CR-106[0].Page1[0].RightCaption[0].CourtInfo[0]"
+      "identity": "CR-106[0].Page1[0].RightCaption[0].CourtInfo[0]"
     },
     {
       "formNumber": "CR-106",
@@ -5286,11 +5442,11 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
       "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
       "requiredBeforeFiling": true,
       "routeDetermined": false,
-      "identity": "CR-106 field CR-106[0].Page1[0].RightCaption[0].CaseNumber[0]"
+      "identity": "CR-106[0].Page1[0].RightCaption[0].CaseNumber[0]"
     },
     {
       "formNumber": "CR-106",
@@ -5332,6 +5488,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "A control the participant marks. The platform never marks an election on a sworn filing; the participant instructions name it and the participant marks it before signing.",
       "refusalClass": "participant_sworn_narrative_or_legal_election",
       "isSelectionControl": true
@@ -5376,6 +5533,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "A control the participant marks. The platform never marks an election on a sworn filing; the participant instructions name it and the participant marks it before signing.",
       "refusalClass": "participant_sworn_narrative_or_legal_election",
       "isSelectionControl": true
@@ -5410,11 +5568,8 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
-      "blankTreatment": "REQUIRED_BEFORE_FILING",
-      "requiredBeforeFiling": true,
-      "routeDetermined": false,
-      "identity": "CR-106 field CR-106[0].Page1[0].#area[2].AppellantLawyerMailingZip[0]"
+      "blankTreatment": null,
+      "reason": "Attorney-only field; never populated with participant data."
     },
     {
       "formNumber": "CR-106",
@@ -5446,11 +5601,8 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
-      "blankTreatment": "REQUIRED_BEFORE_FILING",
-      "requiredBeforeFiling": true,
-      "routeDetermined": false,
-      "identity": "CR-106 field CR-106[0].Page1[0].#area[2].AppellantLawyerMailingAddress[0]"
+      "blankTreatment": null,
+      "reason": "Attorney-only field; never populated with participant data."
     },
     {
       "formNumber": "CR-106",
@@ -5482,11 +5634,8 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
-      "blankTreatment": "REQUIRED_BEFORE_FILING",
-      "requiredBeforeFiling": true,
-      "routeDetermined": false,
-      "identity": "CR-106 field CR-106[0].Page1[0].#area[2].AppellantLawyerMailingCity[0]"
+      "blankTreatment": null,
+      "reason": "Attorney-only field; never populated with participant data."
     },
     {
       "formNumber": "CR-106",
@@ -5518,11 +5667,8 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
-      "blankTreatment": "REQUIRED_BEFORE_FILING",
-      "requiredBeforeFiling": true,
-      "routeDetermined": false,
-      "identity": "CR-106 field CR-106[0].Page1[0].#area[2].AppellantLawyerMailingState[0]"
+      "blankTreatment": null,
+      "reason": "Attorney-only field; never populated with participant data."
     },
     {
       "formNumber": "CR-106",
@@ -5554,11 +5700,11 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
       "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
       "requiredBeforeFiling": true,
       "routeDetermined": false,
-      "identity": "CR-106 field CR-106[0].Page1[0].RightCaption[0].TCCaseName_ft[0]"
+      "identity": "CR-106[0].Page1[0].RightCaption[0].TCCaseName_ft[0]"
     },
     {
       "formNumber": "CR-106",
@@ -5591,11 +5737,11 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
       "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
       "requiredBeforeFiling": true,
       "routeDetermined": false,
-      "identity": "CR-106 field CR-106[0].Page1[0].TextField6[0]"
+      "identity": "CR-106[0].Page1[0].TextField6[0]"
     },
     {
       "formNumber": "CR-106",
@@ -5627,11 +5773,11 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
       "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
       "requiredBeforeFiling": true,
       "routeDetermined": false,
-      "identity": "CR-106 field CR-106[0].Page1[0].FillText59[0]"
+      "identity": "CR-106[0].Page1[0].FillText59[0]"
     },
     {
       "formNumber": "CR-106",
@@ -5663,11 +5809,11 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
       "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
       "requiredBeforeFiling": true,
       "routeDetermined": false,
-      "identity": "CR-106 field CR-106[0].Page1[0].SrvMailingAddress1[0]"
+      "identity": "CR-106[0].Page1[0].SrvMailingAddress1[0]"
     },
     {
       "formNumber": "CR-106",
@@ -5699,11 +5845,11 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
       "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
       "requiredBeforeFiling": true,
       "routeDetermined": false,
-      "identity": "CR-106 field CR-106[0].Page1[0].#area[7].SrvMailingState1[0]"
+      "identity": "CR-106[0].Page1[0].#area[7].SrvMailingState1[0]"
     },
     {
       "formNumber": "CR-106",
@@ -5735,11 +5881,11 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
       "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
       "requiredBeforeFiling": true,
       "routeDetermined": false,
-      "identity": "CR-106 field CR-106[0].Page1[0].#area[7].SrvMailingZip1[0]"
+      "identity": "CR-106[0].Page1[0].#area[7].SrvMailingZip1[0]"
     },
     {
       "formNumber": "CR-106",
@@ -5771,11 +5917,11 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
       "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
       "requiredBeforeFiling": true,
       "routeDetermined": false,
-      "identity": "CR-106 field CR-106[0].Page1[0].#area[7].SrvMailingCity1[0]"
+      "identity": "CR-106[0].Page1[0].#area[7].SrvMailingCity1[0]"
     },
     {
       "formNumber": "CR-106",
@@ -5807,11 +5953,11 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
       "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
       "requiredBeforeFiling": true,
       "routeDetermined": false,
-      "identity": "CR-106 field CR-106[0].Page1[0].FillText181[0]"
+      "identity": "CR-106[0].Page1[0].FillText181[0]"
     },
     {
       "formNumber": "CR-106",
@@ -5843,11 +5989,11 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
       "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
       "requiredBeforeFiling": true,
       "routeDetermined": false,
-      "identity": "CR-106 field CR-106[0].Page1[0].#area[8].SrvMailingZip2[0]"
+      "identity": "CR-106[0].Page1[0].#area[8].SrvMailingZip2[0]"
     },
     {
       "formNumber": "CR-106",
@@ -5879,11 +6025,11 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
       "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
       "requiredBeforeFiling": true,
       "routeDetermined": false,
-      "identity": "CR-106 field CR-106[0].Page1[0].#area[8].SrvMailingState2[0]"
+      "identity": "CR-106[0].Page1[0].#area[8].SrvMailingState2[0]"
     },
     {
       "formNumber": "CR-106",
@@ -5915,11 +6061,11 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
       "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
       "requiredBeforeFiling": true,
       "routeDetermined": false,
-      "identity": "CR-106 field CR-106[0].Page1[0].#area[8].SrvMailingAddress2[0]"
+      "identity": "CR-106[0].Page1[0].#area[8].SrvMailingAddress2[0]"
     },
     {
       "formNumber": "CR-106",
@@ -5951,11 +6097,11 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
       "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
       "requiredBeforeFiling": true,
       "routeDetermined": false,
-      "identity": "CR-106 field CR-106[0].Page1[0].#area[8].SrvMailingCity2[0]"
+      "identity": "CR-106[0].Page1[0].#area[8].SrvMailingCity2[0]"
     },
     {
       "formNumber": "CR-106",
@@ -5997,6 +6143,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "A control the participant marks. The platform never marks an election on a sworn filing; the participant instructions name it and the participant marks it before signing.",
       "refusalClass": "participant_sworn_narrative_or_legal_election",
       "isSelectionControl": true
@@ -6031,11 +6178,11 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
       "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
       "requiredBeforeFiling": true,
       "routeDetermined": false,
-      "identity": "CR-106 field CR-106[0].Page1[0].FillText72[0]"
+      "identity": "CR-106[0].Page1[0].FillText72[0]"
     },
     {
       "formNumber": "CR-106",
@@ -6067,11 +6214,11 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
       "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
       "requiredBeforeFiling": true,
       "routeDetermined": false,
-      "identity": "CR-106 field CR-106[0].Page1[0].FillText72[1]"
+      "identity": "CR-106[0].Page1[0].FillText72[1]"
     },
     {
       "formNumber": "CR-106",
@@ -6103,11 +6250,11 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
       "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
       "requiredBeforeFiling": true,
       "routeDetermined": false,
-      "identity": "CR-106 field CR-106[0].Page1[0].FillText72[2]"
+      "identity": "CR-106[0].Page1[0].FillText72[2]"
     },
     {
       "formNumber": "CR-106",
@@ -6149,6 +6296,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "A control the participant marks. The platform never marks an election on a sworn filing; the participant instructions name it and the participant marks it before signing.",
       "refusalClass": "participant_sworn_narrative_or_legal_election",
       "isSelectionControl": true
@@ -6193,6 +6341,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "A control the participant marks. The platform never marks an election on a sworn filing; the participant instructions name it and the participant marks it before signing.",
       "refusalClass": "participant_sworn_narrative_or_legal_election",
       "isSelectionControl": true
@@ -6227,11 +6376,11 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
       "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
       "requiredBeforeFiling": true,
       "routeDetermined": false,
-      "identity": "CR-106 field CR-106[0].Page2[0].PxCaption[0].CaseNumber[0]"
+      "identity": "CR-106[0].Page2[0].PxCaption[0].CaseNumber[0]"
     },
     {
       "formNumber": "CR-106",
@@ -6263,11 +6412,11 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
       "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
       "requiredBeforeFiling": true,
       "routeDetermined": false,
-      "identity": "CR-106 field CR-106[0].Page2[0].FillText39[0]"
+      "identity": "CR-106[0].Page2[0].FillText39[0]"
     },
     {
       "formNumber": "CR-106",
@@ -6299,11 +6448,11 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
       "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
       "requiredBeforeFiling": true,
       "routeDetermined": false,
-      "identity": "CR-106 field CR-106[0].Page2[0].#area[1].SrvMailingAddress3[0]"
+      "identity": "CR-106[0].Page2[0].#area[1].SrvMailingAddress3[0]"
     },
     {
       "formNumber": "CR-106",
@@ -6335,11 +6484,11 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
       "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
       "requiredBeforeFiling": true,
       "routeDetermined": false,
-      "identity": "CR-106 field CR-106[0].Page2[0].#area[1].SrvMailingCity3[0]"
+      "identity": "CR-106[0].Page2[0].#area[1].SrvMailingCity3[0]"
     },
     {
       "formNumber": "CR-106",
@@ -6371,11 +6520,11 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
       "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
       "requiredBeforeFiling": true,
       "routeDetermined": false,
-      "identity": "CR-106 field CR-106[0].Page2[0].#area[1].SrvMailingState3[0]"
+      "identity": "CR-106[0].Page2[0].#area[1].SrvMailingState3[0]"
     },
     {
       "formNumber": "CR-106",
@@ -6407,11 +6556,11 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
       "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
       "requiredBeforeFiling": true,
       "routeDetermined": false,
-      "identity": "CR-106 field CR-106[0].Page2[0].#area[1].SrvMailingZip3[0]"
+      "identity": "CR-106[0].Page2[0].#area[1].SrvMailingZip3[0]"
     },
     {
       "formNumber": "CR-106",
@@ -6443,11 +6592,11 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
       "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
       "requiredBeforeFiling": true,
       "routeDetermined": false,
-      "identity": "CR-106 field CR-106[0].Page2[0].FillText72[0]"
+      "identity": "CR-106[0].Page2[0].FillText72[0]"
     },
     {
       "formNumber": "CR-106",
@@ -6479,6 +6628,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them."
     },
     {
@@ -6511,11 +6661,11 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
       "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
       "requiredBeforeFiling": true,
       "routeDetermined": false,
-      "identity": "CR-106 field CR-106[0].Page2[0].FillText39[1]"
+      "identity": "CR-106[0].Page2[0].FillText39[1]"
     },
     {
       "formNumber": "CR-106",
@@ -6547,11 +6697,11 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
       "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
       "requiredBeforeFiling": true,
       "routeDetermined": false,
-      "identity": "CR-106 field CR-106[0].Page2[0].#area[2].SrvMailingAddress4[0]"
+      "identity": "CR-106[0].Page2[0].#area[2].SrvMailingAddress4[0]"
     },
     {
       "formNumber": "CR-106",
@@ -6583,11 +6733,11 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
       "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
       "requiredBeforeFiling": true,
       "routeDetermined": false,
-      "identity": "CR-106 field CR-106[0].Page2[0].#area[2].SrvMailingState4[0]"
+      "identity": "CR-106[0].Page2[0].#area[2].SrvMailingState4[0]"
     },
     {
       "formNumber": "CR-106",
@@ -6619,11 +6769,11 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
       "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
       "requiredBeforeFiling": true,
       "routeDetermined": false,
-      "identity": "CR-106 field CR-106[0].Page2[0].#area[2].SrvMailingZip4[0]"
+      "identity": "CR-106[0].Page2[0].#area[2].SrvMailingZip4[0]"
     },
     {
       "formNumber": "CR-106",
@@ -6655,11 +6805,11 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
       "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
       "requiredBeforeFiling": true,
       "routeDetermined": false,
-      "identity": "CR-106 field CR-106[0].Page2[0].#area[2].SrvMailingCity4[0]"
+      "identity": "CR-106[0].Page2[0].#area[2].SrvMailingCity4[0]"
     },
     {
       "formNumber": "CR-106",
@@ -6691,11 +6841,11 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
       "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
       "requiredBeforeFiling": true,
       "routeDetermined": false,
-      "identity": "CR-106 field CR-106[0].Page2[0].FillText72[1]"
+      "identity": "CR-106[0].Page2[0].FillText72[1]"
     },
     {
       "formNumber": "CR-106",
@@ -6727,6 +6877,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them."
     },
     {
@@ -6769,7 +6920,10 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them."
+      "blankTreatment": null,
+      "reason": "A control the participant marks. The platform never marks an election on a sworn filing; the participant instructions name it and the participant marks it before signing.",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "isSelectionControl": true
     },
     {
       "formNumber": "CR-106",
@@ -6801,6 +6955,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. Signature and signature date are completed by the participant at the moment of signing and are never prefilled.",
       "refusalClass": "signature_or_date_participant_completion"
     },
@@ -6834,6 +6989,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. Signature and signature date are completed by the participant at the moment of signing and are never prefilled.",
       "refusalClass": "signature_or_date_participant_completion"
     },
@@ -6876,7 +7032,8 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them."
+      "blankTreatment": null,
+      "reason": "Viewer UI control; never a filing fact."
     },
     {
       "formNumber": "CR-106",
@@ -6917,7 +7074,8 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them."
+      "blankTreatment": null,
+      "reason": "Viewer UI control; never a filing fact."
     },
     {
       "formNumber": "CR-106",
@@ -6958,7 +7116,8 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them."
+      "blankTreatment": null,
+      "reason": "Viewer UI control; never a filing fact."
     },
     {
       "formNumber": "CR-106",
@@ -6999,7 +7158,8 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them."
+      "blankTreatment": null,
+      "reason": "Viewer UI control; never a filing fact."
     },
     {
       "formNumber": "MC-031",
@@ -7032,11 +7192,11 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: No verified declaration narrative or signed declaration act is held; every declaration field is left to the declarant. The participant completes it, and the platform does not guess.",
       "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: No verified declaration narrative or signed declaration act is held; every declaration field is left to the declarant. The participant completes it, and the platform does not guess.",
       "requiredBeforeFiling": true,
       "routeDetermined": false,
-      "identity": "MC-031 field NoticeHeader1"
+      "identity": "NoticeHeader1"
     },
     {
       "formNumber": "MC-031",
@@ -7068,11 +7228,11 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: No verified declaration narrative or signed declaration act is held; every declaration field is left to the declarant. The participant completes it, and the platform does not guess.",
       "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: No verified declaration narrative or signed declaration act is held; every declaration field is left to the declarant. The participant completes it, and the platform does not guess.",
       "requiredBeforeFiling": true,
       "routeDetermined": false,
-      "identity": "MC-031 field FillText10"
+      "identity": "FillText10"
     },
     {
       "formNumber": "MC-031",
@@ -7104,11 +7264,11 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: No verified declaration narrative or signed declaration act is held; every declaration field is left to the declarant. The participant completes it, and the platform does not guess.",
       "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: No verified declaration narrative or signed declaration act is held; every declaration field is left to the declarant. The participant completes it, and the platform does not guess.",
       "requiredBeforeFiling": true,
       "routeDetermined": false,
-      "identity": "MC-031 field FillText11"
+      "identity": "FillText11"
     },
     {
       "formNumber": "MC-031",
@@ -7140,11 +7300,11 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: No verified declaration narrative or signed declaration act is held; every declaration field is left to the declarant. The participant completes it, and the platform does not guess.",
       "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: No verified declaration narrative or signed declaration act is held; every declaration field is left to the declarant. The participant completes it, and the platform does not guess.",
       "requiredBeforeFiling": true,
       "routeDetermined": false,
-      "identity": "MC-031 field FillText9"
+      "identity": "FillText9"
     },
     {
       "formNumber": "MC-031",
@@ -7177,11 +7337,11 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: No verified declaration narrative or signed declaration act is held; every declaration field is left to the declarant. The participant completes it, and the platform does not guess.",
       "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: No verified declaration narrative or signed declaration act is held; every declaration field is left to the declarant. The participant completes it, and the platform does not guess.",
       "requiredBeforeFiling": true,
       "routeDetermined": false,
-      "identity": "MC-031 field FillText8"
+      "identity": "FillText8"
     },
     {
       "formNumber": "MC-031",
@@ -7213,11 +7373,11 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: No verified declaration narrative or signed declaration act is held; every declaration field is left to the declarant. The participant completes it, and the platform does not guess.",
       "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: No verified declaration narrative or signed declaration act is held; every declaration field is left to the declarant. The participant completes it, and the platform does not guess.",
       "requiredBeforeFiling": true,
       "routeDetermined": false,
-      "identity": "MC-031 field FillText14"
+      "identity": "FillText14"
     },
     {
       "formNumber": "MC-031",
@@ -7249,11 +7409,11 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: No verified declaration narrative or signed declaration act is held; every declaration field is left to the declarant. The participant completes it, and the platform does not guess.",
       "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: No verified declaration narrative or signed declaration act is held; every declaration field is left to the declarant. The participant completes it, and the platform does not guess.",
       "requiredBeforeFiling": true,
       "routeDetermined": false,
-      "identity": "MC-031 field FillText7"
+      "identity": "FillText7"
     },
     {
       "formNumber": "MC-031",
@@ -7295,6 +7455,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "A control the participant marks. The platform never marks an election on a sworn filing; the participant instructions name it and the participant marks it before signing.",
       "refusalClass": "participant_sworn_narrative_or_legal_election",
       "isSelectionControl": true
@@ -7339,6 +7500,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "A control the participant marks. The platform never marks an election on a sworn filing; the participant instructions name it and the participant marks it before signing.",
       "refusalClass": "participant_sworn_narrative_or_legal_election",
       "isSelectionControl": true
@@ -7383,6 +7545,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "A control the participant marks. The platform never marks an election on a sworn filing; the participant instructions name it and the participant marks it before signing.",
       "refusalClass": "participant_sworn_narrative_or_legal_election",
       "isSelectionControl": true
@@ -7427,6 +7590,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "A control the participant marks. The platform never marks an election on a sworn filing; the participant instructions name it and the participant marks it before signing.",
       "refusalClass": "participant_sworn_narrative_or_legal_election",
       "isSelectionControl": true
@@ -7471,6 +7635,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "A control the participant marks. The platform never marks an election on a sworn filing; the participant instructions name it and the participant marks it before signing.",
       "refusalClass": "participant_sworn_narrative_or_legal_election",
       "isSelectionControl": true
@@ -7515,6 +7680,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "A control the participant marks. The platform never marks an election on a sworn filing; the participant instructions name it and the participant marks it before signing.",
       "refusalClass": "participant_sworn_narrative_or_legal_election",
       "isSelectionControl": true
@@ -7549,11 +7715,11 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: No verified declaration narrative or signed declaration act is held; every declaration field is left to the declarant. The participant completes it, and the platform does not guess.",
       "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: No verified declaration narrative or signed declaration act is held; every declaration field is left to the declarant. The participant completes it, and the platform does not guess.",
       "requiredBeforeFiling": true,
       "routeDetermined": false,
-      "identity": "MC-031 field FillText13"
+      "identity": "FillText13"
     },
     {
       "formNumber": "MC-031",
@@ -7586,11 +7752,11 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
-      "reason": "REQUIRED_BEFORE_FILING: No verified declaration narrative or signed declaration act is held; every declaration field is left to the declarant. The participant completes it, and the platform does not guess.",
       "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: No verified declaration narrative or signed declaration act is held; every declaration field is left to the declarant. The participant completes it, and the platform does not guess.",
       "requiredBeforeFiling": true,
       "routeDetermined": false,
-      "identity": "MC-031 field NoticeFooter1"
+      "identity": "NoticeFooter1"
     },
     {
       "formNumber": "MC-031",
@@ -7631,6 +7797,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "Viewer UI control; never a filing fact."
     },
     {
@@ -7672,6 +7839,7 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "Viewer UI control; never a filing fact."
     },
     {
@@ -7713,16 +7881,17 @@
       ],
       "disposition": "REFUSE",
       "factId": null,
+      "blankTreatment": null,
       "reason": "Viewer UI control; never a filing fact."
     }
   ],
   "coverage": {
     "terminalFields": 205,
-    "writes": 6,
+    "writes": 8,
     "selections": 1,
-    "refusals": 198,
+    "refusals": 196,
     "unmapped": 0
   },
   "dispositionVocabulary": "rcap-packet-completeness/closed-blank-dispositions",
-  "requiredBeforeFilingCount": 63
+  "requiredBeforeFilingCount": 60
 }
