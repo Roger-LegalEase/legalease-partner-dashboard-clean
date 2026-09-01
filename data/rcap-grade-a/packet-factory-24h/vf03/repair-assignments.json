@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
+  "lane": "VF03",
+  "worker": "VF-SRC-A",
+  "baseSha": "09b741ad00be0d630bd73a72f66640294abab397",
+  "assignmentCount": 2,
+  "assignments": [
+    {
+      "itemId": "rcap-oh-custom-pleading-clean-tracks",
+      "lane": "VF03",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading",
+      "decisiveDefect": "oh_2953_32_expungement/canonical/text: recomputed df03928dc2472ad0c0df8c9ba8195babeb3a0e0875f923c5a262708e8fbb906d != recorded b4c8e7418bce8f850d99258c99223ec3d423338ad0bbcbb3335b3843ef17ad75; oh_2953_32_expungement/boundary/text: recomputed d517101c6cfa8c3daaf50036c0d45f8f19ef87d37cd308193e923c4c68598b23 != recorded e92f6d72549f2431529627190ecb5277b46273cb277ecf56535b6ce0701d03ca; oh_2953_32_sealing/canonical/text: recomputed fe64611c4210754a8ee09fcb5327d71b0b6b1119fefa9fede1c9f1b6a5014663 != recorded 58b45ebe8409742d4f947979fa7a28cc1655ffc0f0e4d20142b778598b8614e7; oh_2953_32_sealing/boundary/text: recomputed ce9db7c5209927d9dea07ec5a77e3286d730ebc569910c74a5801e76a2accae0 != recorded c19d58b602703c18a3fa02b14bc344fd0c5999390bcd6e2cb0d07144b985bd28; oh_2953_33_nonconviction/canonical/text: recomputed 2f32cdb52861d413df5d2b30f5890120b437bdc288890c5abf106bcac44afef0 != recorded 991fba47c74c5291f8612180bae1a5b3d213a80b2fc2929da41dd7a376811bba; oh_2953_33_nonconviction/boundary/text: recomputed 7e45041c15d5388fa88645be63c73bef5fcc5c4384bc87f5667aa47d972e8d2e != recorded fe2b0f375782b1df3c31970d14a4a5eef948f4e0ecd8903fa09cbe063c94bba9; oh_2953_35_firearm/canonical/text: recomputed b4a0c0c824a08114cea0d96c29d29ea2f5a923f06d060d6fd01d5410af8d3003 != recorded 25882b6fed7633674425fef709835a2f79aeca35462499af75de4c0308d20a27; oh_2953_35_firearm/boundary/text: recomputed d3a3c97b0d09c1119d94f580c0559b5165ccaf03324a3f9341c429b2c37931c3 != recorded a66624492479c8654d94a37304a16b070b57428da362c2916d45932b92b32d05",
+      "failedProofObligations": [
+        "ARTIFACTS"
+      ],
+      "perObligation": {
+        "ARTIFACTS": {
+          "measuredDetail": "oh_2953_32_expungement/canonical/text: recomputed df03928dc2472ad0c0df8c9ba8195babeb3a0e0875f923c5a262708e8fbb906d != recorded b4c8e7418bce8f850d99258c99223ec3d423338ad0bbcbb3335b3843ef17ad75; oh_2953_32_expungement/boundary/text: recomputed d517101c6cfa8c3daaf50036c0d45f8f19ef87d37cd308193e923c4c68598b23 != recorded e92f6d72549f2431529627190ecb5277b46273cb277ecf56535b6ce0701d03ca; oh_2953_32_sealing/canonical/text: recomputed fe64611c4210754a8ee09fcb5327d71b0b6b1119fefa9fede1c9f1b6a5014663 != recorded 58b45ebe8409742d4f947979fa7a28cc1655ffc0f0e4d20142b778598b8614e7; oh_2953_32_sealing/boundary/text: recomputed ce9db7c5209927d9dea07ec5a77e3286d730ebc569910c74a5801e76a2accae0 != recorded c19d58b602703c18a3fa02b14bc344fd0c5999390bcd6e2cb0d07144b985bd28; oh_2953_33_nonconviction/canonical/text: recomputed 2f32cdb52861d413df5d2b30f5890120b437bdc288890c5abf106bcac44afef0 != recorded 991fba47c74c5291f8612180bae1a5b3d213a80b2fc2929da41dd7a376811bba; oh_2953_33_nonconviction/boundary/text: recomputed 7e45041c15d5388fa88645be63c73bef5fcc5c4384bc87f5667aa47d972e8d2e != recorded fe2b0f375782b1df3c31970d14a4a5eef948f4e0ecd8903fa09cbe063c94bba9; oh_2953_35_firearm/canonical/text: recomputed b4a0c0c824a08114cea0d96c29d29ea2f5a923f06d060d6fd01d5410af8d3003 != recorded 25882b6fed7633674425fef709835a2f79aeca35462499af75de4c0308d20a27; oh_2953_35_firearm/boundary/text: recomputed d3a3c97b0d09c1119d94f580c0559b5165ccaf03324a3f9341c429b2c37931c3 != recorded a66624492479c8654d94a37304a16b070b57428da362c2916d45932b92b32d05",
+          "whatRepairMustDo": "The composed-pleading render report's text receipt was computed on the rendered text before its final newline was written, so text.sha256 and text.byteLength describe the file minus one trailing 0x0a. Every PDF receipt in the same reports binds correctly. Recompute the text receipt over the bytes as committed, or stop writing the trailing newline; do not rewrite the artifact to match the receipt without deciding which is canonical."
+        }
+      },
+      "repairMustNotDo": [
+        "do not edit any artifact merely so a receipt matches it",
+        "this verification opens no commercial route and grants no approval"
+      ]
+    },
+    {
+      "itemId": "vt_seal_pardon-set",
+      "lane": "VF03",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill",
+      "decisiveDefect": "the instructions never state who must be served or how",
+      "failedProofObligations": [
+        "SERVICE"
+      ],
+      "perObligation": {
+        "SERVICE": {
+          "measuredDetail": "the instructions never state who must be served or how",
+          "whatRepairMustDo": "participant-instructions.md must state who must be served and by what method. The Vermont felony and misdemeanor packets carry an explicit 'Who must be served, and how' bullet; this family does not."
+        }
+      },
+      "repairMustNotDo": [
+        "do not edit any artifact merely so a receipt matches it",
+        "this verification opens no commercial route and grants no approval"
+      ]
+    }
+  ]
+}
