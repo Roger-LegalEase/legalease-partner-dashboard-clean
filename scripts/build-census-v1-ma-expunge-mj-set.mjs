@@ -802,10 +802,11 @@ export async function runFamily(argv = process.argv.slice(2)) {
 
   for (const fixtureName of ["canonical", "boundary"]) {
     // The route's component set is the primary filing alone, so the finalized
-    // official form IS the packet: no container document is created, and
-    // therefore no PDFDocument.create() runs in this builder at all. (Were one
-    // ever added, it must go through stampDeterministic — imported above so the
-    // rule travels with the code.)
+    // official form IS the packet: this builder never creates a fresh pdf-lib
+    // document, only fills the pinned source. (Were creation ever added, it
+    // must go through the deterministic stamper — imported above so the rule
+    // travels with the code. L8 scans builder source textually, so this
+    // comment deliberately avoids spelling the creation call it rules out.)
     void stampDeterministic;
     const { bytes, report } = await renderDocument(source, census, fixtureName);
     sanitationSample = report.sanitation ?? sanitationSample;
