@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-return/v1",
+  "assignmentId": "PF10",
+  "minimumCaptainSha": "8b0bf43758838c98eafd712944b702e348cccf5d",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "rows": [
+    {
+      "itemId": "ky_felony_expungement_after_pardon-set",
+      "status": "STOPPED",
+      "stopReason": "BLOCKED_LEGAL_INPUT",
+      "blockers": [
+        "The committed route-obligation worklist does not record affidavitOrVerification, certificateOfService, contestedHearingOrOppositionHandoff, coverSheet, filingDeadline, filingMethod, notice, postFilingInstructions, proposedOrder, schedulesOrContinuationPages, serviceMethod, serviceTiming, or uncontestedHearingTreatment. The builder contract requires complete certification/pardon attachment instructions and filing instructions, so these legal inputs cannot be guessed."
+      ],
+      "preflight": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "counters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "artifactsProduced": []
+    },
+    {
+      "itemId": "ct-cleanslate-petition-set",
+      "status": "STOPPED",
+      "stopReason": "BLOCKED_GLOBAL_ENVIRONMENT",
+      "blockers": [
+        "The row preflight passed 14/14, but the family build exposed a global PDF toolchain failure: Playwright could not launch Chromium because /opt/pw-browsers/chromium does not exist. The lane stopped as required for a PDF toolchain failure."
+      ],
+      "preflight": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "counters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "artifactsProduced": []
+    },
+    {
+      "itemId": "ak-courtview-set",
+      "status": "STOPPED",
+      "stopReason": "LANE_STOPPED_BEFORE_ROW_PREFLIGHT",
+      "blockers": [
+        "Not attempted because the preceding CT build exposed the lane-wide missing Chromium PDF toolchain."
+      ],
+      "preflight": "NOT_RUN_DUE_TO_GLOBAL_ENVIRONMENT_STOP",
+      "counters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "artifactsProduced": []
+    }
+  ]
+}
