@@ -72,7 +72,11 @@ fs.mkdirSync(outputDir, { recursive: true });
 try {
   await resetFixture();
   await seedFixture();
-  browser = await chromium.launch({ headless: true, executablePath: chromiumResolution.executablePath });
+  browser = await chromium.launch({
+    headless: true,
+    executablePath: chromiumResolution.executablePath,
+    args: ["--disable-dev-shm-usage"]
+  });
 
   devServer = await startDevServer({ onboardingEnabled: true });
   const flagOn = await runOnboardingEnabledPhase();
@@ -735,7 +739,7 @@ async function startDevServer({ onboardingEnabled }) {
   await waitForPortState(false, 30_000);
   const child = spawn(
     "npm",
-    ["run", "dev", "--", "--hostname", "127.0.0.1", "--port", "3000"],
+    ["run", "dev", "--", "--webpack", "--hostname", "127.0.0.1", "--port", "3000"],
     {
       cwd: root,
       // Next runs as a grandchild of npm. Its own process group lets the whole

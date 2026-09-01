@@ -142,6 +142,9 @@ try {
   const routePage = await routeContext.newPage();
   await routePage.goto(`${appUrl}${clinicPath}/assist`, { waitUntil: "domcontentloaded" });
   assert.ok(routePage.url().includes("/expungement-ai/sign-in"), "unauthenticated assistance route did not fail closed to participant sign-in");
+  await routePage.locator('[data-auth-mode="create"]').waitFor();
+  assert.equal(await routePage.getByRole("heading", { name: "Create your account" }).count(), 1,
+    "auth continuation did not hydrate in the server-selected create mode");
   const syntheticEventId = event.id;
   const routeChecks = [
     await routeContext.request.get(`${appUrl}/api/clinic/events/${syntheticEventId}/queue`),
@@ -213,18 +216,25 @@ try {
     { name: "clinic_session", value: clinicSessionToken, domain: "localhost", path: "/", httpOnly: true, sameSite: "Strict" },
     { name: "clinic_event", value: event.public_slug, domain: "localhost", path: "/", httpOnly: true, sameSite: "Strict" }
   ]);
-  const clinicBriefcasePage = await clinicBriefcaseContext.newPage();
   const protectedBriefcasePaths = [
     "/briefcase/reminders",
     "/briefcase/60000000-0000-4000-8000-000000000099",
     "/briefcase/60000000-0000-4000-8000-000000000099/packet-information",
     "/briefcase/60000000-0000-4000-8000-000000000099/review"
   ];
-  for (const protectedPath of protectedBriefcasePaths) {
-    const protectedBriefcase = await clinicBriefcasePage.goto(`${appUrl}${protectedPath}`, { waitUntil: "networkidle" });
+  let clinicBriefcasePage;
+  for (const [index, protectedPath] of protectedBriefcasePaths.entries()) {
+    const pageForPath = await clinicBriefcaseContext.newPage();
+    const protectedBriefcase = await pageForPath.goto(`${appUrl}${protectedPath}`, { waitUntil: "networkidle" });
     assert.equal(protectedBriefcase?.status(), 200, `Clinic participant route ${protectedPath} did not load`);
-    await clinicBriefcasePage.getByText("Shared-device privacy is active", { exact: true }).waitFor();
+    await pageForPath.getByText("Shared-device privacy is active", { exact: true }).waitFor({ timeout: 90_000 });
+    if (index === protectedBriefcasePaths.length - 1) {
+      clinicBriefcasePage = pageForPath;
+    } else {
+      await pageForPath.close();
+    }
   }
+  assert.ok(clinicBriefcasePage, "Clinic review page was not exercised");
   const boundaryReset = clinicBriefcasePage.getByRole("button", { name: "End clinic session / Reset device", exact: true });
   await boundaryReset.waitFor();
   await clinicBriefcasePage.evaluate(async () => {

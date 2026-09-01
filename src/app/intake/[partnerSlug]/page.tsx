@@ -121,9 +121,10 @@ export default async function RcapPartnerIntakePage({
 
             {auth.isAuthenticated ? (
               context.accessMode === "open" ? (
-                <form action={startRcapPartnerScreening} className="mt-8">
-                  <input type="hidden" name="partnerSlug" value={context.partnerSlug} />
-                  <input type="hidden" name="jurisdiction" value={context.jurisdiction} />
+                <form
+                  action={startRcapPartnerScreening.bind(null, context.partnerSlug, context.jurisdiction)}
+                  className="mt-8"
+                >
                   {Object.entries(attribution).map(([key, value]) => (
                     <input key={key} type="hidden" name={`attr_${key}`} value={value} />
                   ))}
@@ -187,11 +188,13 @@ function AccountFirstActions({ partnerSlug, attribution }: { partnerSlug: string
   );
 }
 
-async function startRcapPartnerScreening(formData: FormData) {
+async function startRcapPartnerScreening(
+  partnerSlug: string,
+  jurisdiction: string,
+  formData: FormData
+) {
   "use server";
 
-  const partnerSlug = String(formData.get("partnerSlug") ?? "");
-  const jurisdiction = String(formData.get("jurisdiction") ?? "");
   const attribution = readAttributionFromFormData(formData);
   const result = await claimRcapPartnerScreeningSession({ partnerSlug, jurisdiction, analyticsAttribution: attribution });
 
@@ -211,11 +214,13 @@ async function startRcapPartnerScreening(formData: FormData) {
   redirect(`/intake/${encodeURIComponent(partnerSlug)}?status=inactive`);
 }
 
-async function startRcapPartnerScreeningWithCode(formData: FormData) {
+async function startRcapPartnerScreeningWithCode(
+  partnerSlug: string,
+  jurisdiction: string,
+  formData: FormData
+) {
   "use server";
 
-  const partnerSlug = String(formData.get("partnerSlug") ?? "");
-  const jurisdiction = String(formData.get("jurisdiction") ?? "");
   const accessCode = String(formData.get("accessCode") ?? "");
   const attribution = readAttributionFromFormData(formData);
 
@@ -279,6 +284,11 @@ function AccessCodeStartForm({
 }) {
   const required = context.accessMode === "required_code" || context.accessMode === "invite_only";
   const consumerHref = `/expungement-ai/screening/${context.jurisdiction.toLowerCase()}`;
+  const startAction = startRcapPartnerScreeningWithCode.bind(
+    null,
+    context.partnerSlug,
+    context.jurisdiction
+  );
   return (
     <div className="mt-8">
       {codeError ? (
@@ -288,9 +298,7 @@ function AccessCodeStartForm({
         </div>
       ) : null}
 
-      <form action={startRcapPartnerScreeningWithCode}>
-        <input type="hidden" name="partnerSlug" value={context.partnerSlug} />
-        <input type="hidden" name="jurisdiction" value={context.jurisdiction} />
+      <form action={startAction}>
         {Object.entries(attribution).map(([key, value]) => (
           <input key={key} type="hidden" name={`attr_${key}`} value={value} />
         ))}

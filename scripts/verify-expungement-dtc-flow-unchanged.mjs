@@ -175,7 +175,7 @@ function approvedCommercialFlowViolations(input) {
   require(input.signInForm.includes("expungementAuthRedirectTo(requestContext.nextPath, requestContext.claimToken)"), "DTC email verification must preserve the pending exact-result handoff.");
   require(input.claimHandoff.includes("isExactMatterPath(redirectTo)"), "A claimed pending result must accept only an exact matter redirect.");
 
-  require(input.pendingCreate.includes('attribution.isPartnerSession ? "rcap_partner" : "expungement_ai_dtc"'), "Pending-result storage must derive the product from server-resolved attribution.");
+  require(input.pendingCreate.includes('sponsorshipAuthority.isPartnerSession ? "rcap_partner" : "expungement_ai_dtc"'), "Pending-result storage must derive the product from server-resolved attribution.");
   require(input.claimService.includes("evaluateAuthoritativeScreeningResult"), "Pending claims must re-evaluate stored screening inputs server-side.");
   require(input.pendingCreate.includes("resolveScreeningAttribution"), "Only a validated RCAP source session may receive sponsored save posture.");
   require(input.claimService.includes('supabase.rpc("claim_pending_screening_result"'), "Pending claims must persist through the one atomic claim transaction.");

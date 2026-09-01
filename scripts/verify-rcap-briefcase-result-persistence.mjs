@@ -171,7 +171,7 @@ function persistenceWiringViolations(input) {
   // The browser no longer declares the product. The server reads sponsorship
   // from its own record of the anonymous session, so a browser cannot elect
   // itself into a partner posture it was never granted.
-  require(input.pendingCreate.includes('attribution.isPartnerSession ? "rcap_partner" : "expungement_ai_dtc"'), "Pending-result product must be derived from server-resolved attribution.");
+  require(input.pendingCreate.includes('sponsorshipAuthority.isPartnerSession ? "rcap_partner" : "expungement_ai_dtc"'), "Pending-result product must be derived from server-resolved attribution.");
   require(!input.pendingCreate.includes("body.product"), "The browser must not declare the pending-result product.");
 
   require(input.pendingClaim.includes("getRcapBriefcaseAuthState") && input.pendingClaim.includes('error: "auth_required"') && input.pendingClaim.includes("status: 401"), "Pending claims must require the authenticated consumer session.");

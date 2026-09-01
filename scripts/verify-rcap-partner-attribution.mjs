@@ -81,6 +81,10 @@ const intake = fs.readFileSync(path.join(root, "src/app/intake/[partnerSlug]/pag
 const pendingRoute = fs.readFileSync(path.join(root, "src/app/api/expungement-ai/screening/pending/route.ts"), "utf8");
 const claimService = fs.readFileSync(path.join(root, "src/lib/expungement-ai/claim/claim-service.ts"), "utf8");
 check(intake.includes("analyticsAttribution: attribution"), "server session creation receives normalized analytics");
+check(intake.includes("startRcapPartnerScreening.bind(null, context.partnerSlug, context.jurisdiction)"),
+  "sponsorship authority is bound from the server-rendered route context");
+check(!intake.includes('name="partnerSlug"') && !intake.includes('name="jurisdiction"'),
+  "browser fields cannot replace partner or jurisdiction authority");
 check(pendingRoute.includes("const { sponsorshipAuthority, analyticsAttribution } = attribution"),
   "pending creation separates sponsorship authority from analytics");
 check(pendingRoute.includes("analytics_attribution: analyticsAttribution"), "pending result persists analytics server-side");

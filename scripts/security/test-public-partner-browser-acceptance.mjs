@@ -60,6 +60,7 @@ try {
 
   await verifyPrivateCombinations();
   await verifyLivePublication();
+  await verifyAttributionAuthContinuation();
   await verifyResponsiveAndAccessibleLivePage();
   await verifyDiscoveryParity();
 } finally {
@@ -163,6 +164,39 @@ async function verifyLivePublication() {
   assert.equal(response.status, 200);
   assert.ok(body.includes(privateMarker));
   pass("an explicitly approved, launched, active fixture returns 200");
+}
+
+async function verifyAttributionAuthContinuation() {
+  const context = await browser.newContext({ viewport: { width: 390, height: 844 } });
+  const page = await context.newPage();
+  const query = new URLSearchParams({
+    county: "Hinds County",
+    utm_source: "newsletter",
+    utm_medium: "email",
+    utm_campaign: "fresh-start-2026",
+    source: "partner-site",
+    ref: "fall-clinic"
+  });
+  const response = await page.goto(`${baseUrl}/intake/${slug}?${query}`, {
+    waitUntil: "domcontentloaded",
+    timeout: 90_000
+  });
+  assert.equal(response?.status(), 200);
+  const startLink = page.getByRole("link", { name: "Start your record-clearing screening" });
+  await startLink.waitFor({ timeout: 90_000 });
+  const createHref = await startLink.getAttribute("href");
+  assert.ok(createHref);
+  const authUrl = new URL(createHref, baseUrl);
+  const nextPath = authUrl.searchParams.get("next");
+  assert.equal(authUrl.searchParams.get("mode"), "create");
+  assert.ok(nextPath);
+  const continuation = new URL(nextPath, baseUrl);
+  for (const [key, value] of query) assert.equal(continuation.searchParams.get(key), value, `${key} was lost before authentication`);
+  await page.goto(authUrl.toString(), { waitUntil: "domcontentloaded", timeout: 90_000 });
+  await page.locator('[data-auth-mode="create"]').waitFor({ timeout: 90_000 });
+  assert.equal(await page.getByRole("heading", { name: "Create your account" }).count(), 1);
+  await context.close();
+  pass("county, UTM and source/ref survive the real authentication continuation without becoming authority fields");
 }
 
 async function verifyResponsiveAndAccessibleLivePage() {

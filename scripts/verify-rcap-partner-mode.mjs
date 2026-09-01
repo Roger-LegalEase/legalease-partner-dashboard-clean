@@ -105,7 +105,8 @@ function verifySourceWiring() {
   const migration = read("supabase/phase-39-rcap-partner-packet-cap.sql");
 
   assert(intakePage.includes("resolveRcapPartnerIntakeContext(partnerSlug)"), "Partner intake must resolve context on load.");
-  assert(intakePage.includes("form action={startRcapPartnerScreening}"), "Partner intake start must be explicit.");
+  assert(intakePage.includes("action={startRcapPartnerScreening.bind(null, context.partnerSlug, context.jurisdiction)}"), "Partner intake start must bind server-rendered partner authority.");
+  assert(!intakePage.includes('name="partnerSlug"') && !intakePage.includes('name="jurisdiction"'), "Browser fields must not choose partner sponsorship authority.");
   assert(intakePage.includes("claimRcapPartnerScreeningSession({ partnerSlug, jurisdiction, analyticsAttribution: attribution })"), "Partner intake start must call the RPC wrapper with normalized analytics.");
   assert(intakePage.includes("This link is not active right now"), "Inactive link copy missing.");
   assert(intakePage.includes("This program is currently full"), "Program-full headline copy missing.");
