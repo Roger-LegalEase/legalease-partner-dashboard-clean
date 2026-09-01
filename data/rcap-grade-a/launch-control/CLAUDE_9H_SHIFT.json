@@ -2,7 +2,7 @@
   "schemaVersion": "claude-9h-shift/v1",
   "startedAt": "2026-09-01T07:14:06Z",
   "endsAt": "2026-09-01T16:14:06Z",
-  "shiftBaseSha": "2e6ca51b6cf785f0a7b8a6f820051bfd4eaa4dff",
+  "shiftBaseSha": "9c3836e798e5d1bf563337501fd85793bd6ec512",
   "captainBranch": "claude/legalease-sprint-captain-utucnw",
   "workers": {
     "PF-A": {
@@ -192,46 +192,45 @@
       "readThis": "laneSupersession in this file explains why your lane name changed. The families did not change owner except where that block says so."
     },
     "PF-B": {
-      "assignedAt": "2026-09-01T09:51:26Z",
-      "lane": "VF15",
+      "assignedAt": "2026-09-01T10:15:14Z",
+      "lane": "DUP-ROUTE-A",
       "kind": "independent-verification",
-      "grantsMinted": 5,
-      "whyYou": "You have verified nothing, so you are a clean independent reader for these. Independent verification of the nonvisual obligations needs NO corpus -- VF-SRC-A did exactly this work without one. Your corpus block does not stop this lane.",
-      "stillHeld": "PF07-PF11 remain re-dispatched to PF-C. Do not reclaim them.",
-      "ceiling": "These families hold a central RASTER_PASS from run 33488713831. That is one gate, not a pass: verify the nonvisual obligations independently and do not inherit the builder's verdict.",
-      "openFamilies": 5,
-      "familiesByLane": {
-        "VF15": [
-          "sd_arrest_expungement-set",
-          "wa_vac_cannabis-set",
-          "wa_vac_domestic_violence-set",
-          "wa_vac_felony-set",
-          "wa_vac_homicide_victim_prostitution-set"
-        ]
-      },
-      "supersedes": "VF15",
-      "readThis": "laneSupersession in this file explains why your lane name changed. The families did not change owner except where that block says so."
+      "state": "ASSIGNED",
+      "subject": "the twelve families that pin identical bytes, in three groups",
+      "families": [
+        "ut_pet_acquittal-set",
+        "ut_pet_conviction-set",
+        "ut_pet_dismissed_with_prejudice-set",
+        "ut_pet_limitations-set",
+        "wa_vac_domestic_violence-set",
+        "wa_vac_homicide_victim_prostitution-set",
+        "wa_vac_misdemeanor_ordinary-set",
+        "wa_vac_substance_use_disorder-set",
+        "wa_vac_survivor_misdemeanor-set",
+        "wa_vac_treaty_fishing-set",
+        "wa_vac_felony-set",
+        "wa_vac_survivor_felony-set"
+      ],
+      "why": "You found this on two families. It is twelve, and the Utah group you had no reason to look at is the largest single-form group. You already hold the measurement method.",
+      "theQuestionPerGroup": "Does the statutory route these families differ by change what the document must say? If yes, identical bytes is a defect and the packet is missing a route election. If no, identical bytes is correct and the finding is that one render was recorded as several verdicts.",
+      "doNotDo": "Do not repair. Classify and evidence. A verifier that repairs its own subject cannot then verify it.",
+      "ceiling": "Your VF15 verdicts stand. This lane cannot promote anything.",
+      "grantsPending": "Ask and I will mint them; ten of the twelve already hold a verification claim, so this may need a lane transfer rather than a grant. Say the word and I will resolve it before you claim."
     },
     "FIX-B": {
-      "assignedAt": "2026-09-01T09:51:26Z",
-      "lane": "VF16",
-      "kind": "independent-verification",
-      "grantsMinted": 5,
-      "whyYou": "Same as PF-B: you have verified nothing and this lane needs no corpus.",
-      "stillHeld": "FIX02/04/06/08 remain re-dispatched to PF-A. Do not reclaim them.",
-      "ceiling": "Central RASTER_PASS is one gate, not a pass.",
-      "openFamilies": 5,
-      "familiesByLane": {
-        "VF16": [
-          "wa_vac_misdemeanor_ordinary-set",
-          "wa_vac_substance_use_disorder-set",
-          "wa_vac_survivor_felony-set",
-          "wa_vac_survivor_misdemeanor-set",
-          "wa_vac_treaty_fishing-set"
-        ]
-      },
-      "supersedes": "VF16",
-      "readThis": "laneSupersession in this file explains why your lane name changed. The families did not change owner except where that block says so."
+      "assignedAt": "2026-09-01T10:15:14Z",
+      "lane": "READBACK-01",
+      "kind": "repair",
+      "state": "ASSIGNED",
+      "subject": "the write read-back that fails in both directions",
+      "why": "VF-SRC-B established it on Connecticut and Alaska; VF-SRC-A found the mirror image in both Vermont families. One read-back failing both ways is likelier than three unrelated defects, and you have verified none of these.",
+      "theTwoDirections": [
+        "CT reports six canonical writes and records drawnText: [] for four of them with readBackFromBytes: true, while all four ARE in the bytes — a correct packet whose evidence artifact is wrong. A verifier trusting the per-field evidence fails a correct family.",
+        "VT counts eight values where seven reach the bytes — a claimed write the bytes do not carry.",
+        "AK transcribes a boundary name without its apostrophe where the stream carries 0x92."
+      ],
+      "repairTheReportNotTheOverlay": "VF-SRC-B was explicit that the Connecticut packet is sound and its report is wrong. Do not touch the packet bytes to make a report agree with them.",
+      "ceiling": "These families' raster receipts are unaffected; a report fix changes no PDF."
     },
     "FIX-A": {
       "assignedAt": "2026-09-01T09:23:31Z",
@@ -291,7 +290,7 @@
   "newlyReleasedFamilies": [],
   "productionTouched": false,
   "commercialRoutesOpened": 0,
-  "shiftBaseRebasedAt": "2026-09-01T09:51:26Z",
+  "shiftBaseRebasedAt": "2026-09-01T10:15:14Z",
   "shiftBaseRebaseReason": "Three workers reported this file stale and were right. shiftBaseSha still named c6d7ffe7 while the branch head carried three integration waves, the raster batch and the ledger repairs; integratedReturns was empty while seven returns were in; and masterLibrarySourceDirExportRequired still read false after I had corrected exactly that. Verifiers were rebasing onto a base that did not contain the work they were sent to read.",
   "previousShiftBaseSha": "09b741ad00be0d630bd73a72f66640294abab397",
   "masterLibraryCorpus": {
@@ -444,26 +443,80 @@
     }
   },
   "rasterGate": {
-    "state": "REACHABLE AND EXERCISED",
-    "workflowOnDefaultBranch": true,
-    "firstCompleteBatch": {
-      "runId": "33488713831",
-      "renderedCommitSha": "71894f3f2dde0f5af34818a2fa8dc8bce84e0d24",
-      "jobsGreen": "27/27",
-      "rasterPass": 25,
-      "rasterFail": 0
+    "state": "REACHABLE, EXERCISED TWICE, QUEUE FULLY RENDERED",
+    "batches": [
+      {
+        "runId": "33488713831",
+        "renderedCommitSha": "71894f3f2dde0f5af34818a2fa8dc8bce84e0d24",
+        "families": 25,
+        "jobsGreen": "27/27"
+      },
+      {
+        "runId": "33495068504",
+        "renderedCommitSha": "5f144ec10d2bf7404faf0811e98418e0b13f06ba",
+        "families": 22,
+        "jobsGreen": "24/24"
+      }
+    ],
+    "rows": "47 rows, all RASTER_PASS",
+    "butReadThisBeforeTreatingThatAsFortySeven": {
+      "completeCoverage": 36,
+      "partialCoverage": 11,
+      "whatPartialMeans": "the family ships several canonical documents and no assembled packet, so the row renders one of them. L4 counts only complete-coverage rows toward a family being proven, so a partial row cannot promote anything however green it is.",
+      "partialFamilies": {
+        "ar-arrest-seal-set": [
+          "order-canonical-filled.pdf"
+        ],
+        "ar-misdemeanor-dwi-seal-set": [
+          "order-canonical-filled.pdf"
+        ],
+        "wa_vac_cannabis-set": [
+          "crrlj-09-0870-canonical-filled.pdf"
+        ],
+        "wa_vac_domestic_violence-set": [
+          "crrlj-09-0200-canonical-filled.pdf"
+        ],
+        "wa_vac_felony-set": [
+          "cr-08-0920-canonical-filled.pdf"
+        ],
+        "wa_vac_homicide_victim_prostitution-set": [
+          "crrlj-09-0200-canonical-filled.pdf"
+        ],
+        "wa_vac_misdemeanor_ordinary-set": [
+          "crrlj-09-0200-canonical-filled.pdf"
+        ],
+        "wa_vac_substance_use_disorder-set": [
+          "crrlj-09-0200-canonical-filled.pdf"
+        ],
+        "wa_vac_survivor_felony-set": [
+          "cr-08-0920-canonical-filled.pdf"
+        ],
+        "wa_vac_survivor_misdemeanor-set": [
+          "crrlj-09-0200-canonical-filled.pdf"
+        ],
+        "wa_vac_treaty_fishing-set": [
+          "crrlj-09-0200-canonical-filled.pdf"
+        ]
+      },
+      "creditWhereDue": "PF-B and FIX-B both reported this independently from their own measurements before I had it recorded, and PF-B reported it as a correction to my dispatch. It was a correction, and it was right."
     },
-    "ceilingUnchanged": "RASTER_PASS is one gate. No family is PASS_COMPLETE without it AND an independent read by a worker that did not build it."
+    "elevenRowsWereRenderingTheWrongFile": "The queue chose its canonical fixture with a substring match over a sorted listing, and canonical--<FORM>.pdf sorts before canonical.pdf because '-' precedes '.'. Eleven rows pointed at one component of a multi-component packet. Fixed before the second batch ran, so those verdicts describe the assembled packet. None of the 25 already-passing rows was affected."
   },
   "owedMechanisms": [
     {
-      "what": "lane transfer for a second independent read",
-      "why": "15 of the 25 rastered families already hold a verification claim from VF01-VF12, so no second grant can be minted without making them AMBIGUOUS_GRANT. They now carry RASTER_PASS, which the first read did not have, so a second read is real work that the ledger currently cannot express.",
-      "deferredFamilies": 15
+      "what": "a per-document raster queue",
+      "why": "Eleven families ship several canonical documents with no assembled packet, so one row can only ever cover one of them. The row now DECLARES this and L4 refuses to count it as a family verdict, which makes the gap honest but does not close it. Closing it means either rendering every canonical document in one job or keying rows by document instead of family; the latter changes the workflow matrix and the artifact naming, so it is not a mid-shift change.",
+      "owner": "Captain",
+      "blockedFamilies": 11
     },
     {
-      "what": "preflight must probe the rasterizer the hosts actually use",
-      "why": "FIX-A established that both build hosts call popplerRasterIdentity/rasterizeWithPoppler and neither imports scripts/raster/pdf-page-raster.mjs. The preflight probes the browser rasterizer, which works, so a lane reads READY, builds, and dies at the raster step with its overlay already modified. This is the only undeclared dependency the preflight appears to cover while covering something else.",
+      "what": "lane transfer for a second independent read",
+      "why": "Families that already hold a released independent-verification claim cannot be granted a second one without becoming AMBIGUOUS_GRANT, but they now carry a RASTER_PASS the first read did not have. A second read is real work the ledger cannot currently express.",
+      "owner": "Captain"
+    },
+    {
+      "what": "Poppler in the builder image",
+      "why": "Both build hosts call popplerRasterIdentity/rasterizeWithPoppler and neither imports the browser rasterizer. The preflight now probes the rasterizer the hosts actually use, so a lane reads NOT_READY instead of dying mid-build with its overlay already modified — but the image still lacks the binary.",
       "owner": "Captain"
     }
   ],
@@ -490,5 +543,50 @@
     },
     "independenceRecheckedAfterTheMove": "PASS at the worker level. VF-SRC-A and VF-SRC-B hold no PF or FIX lane, so no family is now verified by the worker that built or repaired it. Checking lanes rather than workers reports seventeen conflicts and all seventeen are false: a build claim on PF12 and a verification claim on VF02 for one family is the design, not a collision.",
     "ceilingUnchanged": "A lane rename promotes nothing. These families remain BUILT_RASTER_PENDING or RASTER_PASS; none becomes PASS_COMPLETE without both the hash-bound raster receipt and this independent read."
+  },
+  "checksNowGreen": {
+    "at": "9c3836e798e5d1bf563337501fd85793bd6ec512",
+    "factory": "30/30 — F20 and F24 both closed",
+    "mutations": "62/62 caught, every mutated file restored, none unprovable",
+    "laneContracts": "LANE_CONTRACTS_HELD, 7/7 (L7 is new: a row must state what its verdict covers)",
+    "ledger": "CLAIM_LEDGER_OK 549 claims",
+    "toTheThreeWorkersWhoReportedF24": "You were right and you were right not to fix it. It spanned five lanes across four workers. Both halves are now settled: the nine COMPLETED packet-build grants were being demanded of a dispatch that had correctly stopped listing them — a released grant is history and needs no live dispatch row — and the eighteen live VF15/VF16/VF17 grants were mine, minted through this file without dispatch rows. Stop reporting it.",
+    "toEveryoneOnF20": "Verification lanes named MINIMUM_CAPTAIN_SHA as the commit they verify. That is a floor, not a tree: the packets did not exist there. Repointed at the generation head. If you were told to read a directory that was not present, that was why."
+  },
+  "duplicatePinnedBytes": {
+    "measuredAt": "9c3836e798e5d1bf563337501fd85793bd6ec512",
+    "finding": "Twelve families across three groups pin byte-identical canonical AND boundary PDFs. Every one of them is in the RASTER_PASS set, so 47 green rows rest on 38 distinct byte-sets, not 47.",
+    "groups": [
+      {
+        "families": [
+          "ut_pet_acquittal-set",
+          "ut_pet_conviction-set",
+          "ut_pet_dismissed_with_prejudice-set",
+          "ut_pet_limitations-set"
+        ],
+        "count": 4
+      },
+      {
+        "families": [
+          "wa_vac_domestic_violence-set",
+          "wa_vac_homicide_victim_prostitution-set",
+          "wa_vac_misdemeanor_ordinary-set",
+          "wa_vac_substance_use_disorder-set",
+          "wa_vac_survivor_misdemeanor-set",
+          "wa_vac_treaty_fishing-set"
+        ],
+        "count": 6
+      },
+      {
+        "families": [
+          "wa_vac_felony-set",
+          "wa_vac_survivor_felony-set"
+        ],
+        "count": 2
+      }
+    ],
+    "whoFoundIt": "PF-B, on two Washington families, as a correction to my dispatch. The full extent is six times larger and includes four Utah families it was not looking at.",
+    "whyItMatters": "These are distinct statutory routes. If two routes produce identical bytes, the packet does not record which route it is, and one render produced two verdicts. PF-B established the mechanism on the Washington pair: the WA host declares legal elections under neverWritten and carries no routeSelectionId, while South Dakota does carry one and passes the same obligation.",
+    "notYetClassified": "Whether identical bytes are a defect depends on whether the route is legally material to the document. That is per-group and unmeasured. It is assigned, not concluded."
   }
 }
