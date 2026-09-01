@@ -9,16 +9,16 @@ Both are prepared under Md. Criminal Procedure §§ 10-301 through 10-306; Md. R
 
 The platform filled in what it holds about you and your case — your name, your date of birth, your street address, your city, state and zip, your telephone number, your e-mail and the case number — on both forms. Everything else is yours, and every one of those blanks is listed below by the form and the section it is in.
 
-## Two boxes on MDJ-008 that you must mark, and why the packet did not
+## Two boxes on MDJ-008 the packet marked for you, and why
 
-MDJ-008 asks which restricted category your submission falls in. For this packet that is not a matter of preference: the petition is filed under **Md. Rule 16-941**, which CC-DC-CR-148 prints in its opening sentence, and MDJ-008 prints the matching category as “Sealing or Shielding Motion: while pending, but not to exceed five (5) business days. Rule 16-941 & 16-914(k)(2)”. The same rule number is on both forms.
+MDJ-008 asks which restricted category your submission falls in. For this packet that is not a matter of preference: the petition is filed under **Md. Rule 16-941**, which CC-DC-CR-148 prints in its opening sentence, and MDJ-008 prints the matching category as “Sealing or Shielding Motion: while pending, but not to exceed five (5) business days. Rule 16-941 & 16-914(k)(2)”. The same rule number is on both forms, so the route — not you and not the packet's own judgment — determines the answer.
 
-**Mark these two boxes on MDJ-008 before you file:**
+**These two boxes on MDJ-008 are already marked:**
 
 - 1. RESTRICTED DOCUMENT — the entire document is not subject to inspection — page 1.
 - Restricted document category — Sealing or Shielding Motion — page 1.
 
-The packet could not mark them for you. The shared machinery this packet is built on can write text into a form and can mark a box on a printed form, but it has no way to mark a box on a form that carries its own fillable controls, which is what MDJ-008 is. That is a limitation of the builder, not of your filing, and it is recorded in `build-findings.json` for the people who own that code. **Nothing here is a substitute for marking them: an MDJ-008 filed with section 1 unmarked does not tell the clerk that the petition is restricted.**
+Each mark is two diagonal strokes inside the form's own box; no new box was drawn. **Check them against your own filing before you sign**: if what you are filing is not a petition for shielding under Md. Rule 16-941, this is not your packet, and the marks would be wrong. An MDJ-008 filed with section 1 unmarked does not tell the clerk that the petition is restricted.
 
 ## Paragraph 1 is the substance of this petition
 
@@ -44,7 +44,7 @@ File both forms with the **clerk of the Maryland court that entered the convicti
 
 ## What you must do before you file
 
-1. **Mark the two MDJ-008 boxes named above.**
+1. **Check the two marked MDJ-008 boxes named above** against your own filing.
 2. **Tick each offence in paragraph 1 you were convicted of, and write its case number or numbers.**
 3. **Fill in every item in the tables below.** Each names the form, the section and the blank.
 4. **Make the choices listed under _The choices that are yours_** — which court, and which city or county.
@@ -150,7 +150,7 @@ File both forms with the **clerk of the Maryland court that entered the convicti
 - **The whole attorney column** on CC-DC-CR-148 and the Attorney Number on MDJ-008. You are filing this yourself; no attorney-representation fact is held for you.
 - **The Plaintiff/Petitioner line on MDJ-008.** The plaintiff in a criminal case is the State of Maryland, which the form pre-prints above that line.
 - **The court's address and telephone number**, on both forms.
-- **Every tick box.** See the section above: the packet cannot mark a box on either of these forms.
+- **Every tick box except the two route-determined MDJ-008 section 1 boxes marked above.** Which court, which city or county, and which of the twelve offences apply to you are facts about your own record, and those boxes are yours.
 
 ## What this packet is not
 

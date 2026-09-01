@@ -13,8 +13,13 @@
           "field": "Village_Court_Specify",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NY-MRTA-DESTRUCTION-REQUEST field Village_Court_Specify",
+          "effectiveLabel": "Village Court, Village of",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -33,8 +38,13 @@
           "field": "CJTN",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NY-MRTA-DESTRUCTION-REQUEST field CJTN",
+          "effectiveLabel": "CJTN/Criminal Justice Tracking Number (NOTE: If you were not",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -53,7 +63,7 @@
           "field": "Applicant_First_Name",
           "decision": "candidate_write",
           "factId": "participant.first_name",
-          "decisionBasis": "family explicit participant-fact allowlist; shared semantic finalizer still controls",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -72,7 +82,7 @@
           "field": "Docket_Case_Number",
           "decision": "candidate_write",
           "factId": "matter.case_number",
-          "decisionBasis": "family explicit participant-fact allowlist; shared semantic finalizer still controls",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -91,7 +101,7 @@
           "field": "Cell_Phone",
           "decision": "candidate_write",
           "factId": "participant.phone",
-          "decisionBasis": "family explicit participant-fact allowlist; shared semantic finalizer still controls",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -110,7 +120,7 @@
           "field": "Street_Address",
           "decision": "candidate_write",
           "factId": "participant.street_address",
-          "decisionBasis": "family explicit participant-fact allowlist; shared semantic finalizer still controls",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -129,8 +139,13 @@
           "field": "NYSID",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NY-MRTA-DESTRUCTION-REQUEST field NYSID",
+          "effectiveLabel": "NYSID/New York State Identification Number (NOTE: If you wer",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -147,10 +162,9 @@
         },
         {
           "field": "DOB",
-          "decision": "refuse",
-          "factId": null,
-          "refusalClass": "signature_or_date_participant_completion",
-          "reason": "No write is authorized for this field in this family build.",
+          "decision": "candidate_write",
+          "factId": "participant.date_of_birth",
+          "decisionBasis": "shared exact terminal-name fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -167,10 +181,9 @@
         },
         {
           "field": "Court_County",
-          "decision": "refuse",
-          "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "decision": "candidate_write",
+          "factId": "matter.county",
+          "decisionBasis": "shared exact terminal-name fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -189,8 +202,13 @@
           "field": "Town_Court_Specify",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NY-MRTA-DESTRUCTION-REQUEST field Town_Court_Specify",
+          "effectiveLabel": "Village Court, Village o",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -209,7 +227,7 @@
           "field": "Zip_Code",
           "decision": "candidate_write",
           "factId": "participant.zip",
-          "decisionBasis": "family explicit participant-fact allowlist; shared semantic finalizer still controls",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -228,7 +246,7 @@
           "field": "State",
           "decision": "candidate_write",
           "factId": "participant.state",
-          "decisionBasis": "family explicit participant-fact allowlist; shared semantic finalizer still controls",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -247,7 +265,7 @@
           "field": "City_Town",
           "decision": "candidate_write",
           "factId": "participant.city",
-          "decisionBasis": "family explicit participant-fact allowlist; shared semantic finalizer still controls",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -266,8 +284,13 @@
           "field": "CJTN_Unknown",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NY-MRTA-DESTRUCTION-REQUEST field CJTN_Unknown",
+          "effectiveLabel": "NYSID/New York State Identification N",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -286,8 +309,10 @@
           "field": "Reset_Form",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "refusalClass": "not_a_filing_fact",
+          "blankTreatment": null,
+          "effectiveLabel": "Reset_Form",
+          "reason": "Viewer UI control; not a filing fact and never written into the participant artifact.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -306,7 +331,7 @@
           "field": "Applicant_Middle_Name",
           "decision": "candidate_write",
           "factId": "participant.middle_name",
-          "decisionBasis": "family explicit participant-fact allowlist; shared semantic finalizer still controls",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -325,8 +350,13 @@
           "field": "Aliases",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NY-MRTA-DESTRUCTION-REQUEST field Aliases",
+          "effectiveLabel": "Aliases (if any)",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -345,8 +375,13 @@
           "field": "City_Court_Specify",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NY-MRTA-DESTRUCTION-REQUEST field City_Court_Specify",
+          "effectiveLabel": "City of",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -365,8 +400,13 @@
           "field": "NYSID_Unknown",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NY-MRTA-DESTRUCTION-REQUEST field NYSID_Unknown",
+          "effectiveLabel": "NYSID/New York State Identification N",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -385,8 +425,13 @@
           "field": "Docket_Case_Number_Unknown",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NY-MRTA-DESTRUCTION-REQUEST field Docket_Case_Number_Unknown",
+          "effectiveLabel": "______________________________",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -405,7 +450,7 @@
           "field": "Applicant_Last_Name",
           "decision": "candidate_write",
           "factId": "participant.last_name",
-          "decisionBasis": "family explicit participant-fact allowlist; shared semantic finalizer still controls",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -444,7 +489,7 @@
           "field": "Email",
           "decision": "candidate_write",
           "factId": "participant.email",
-          "decisionBasis": "family explicit participant-fact allowlist; shared semantic finalizer still controls",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -523,8 +568,13 @@
           "field": "Conviction_Court",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NY-MRTA-DESTRUCTION-REQUEST field Conviction_Court",
+          "effectiveLabel": "County where convicted",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -629,8 +679,13 @@
           "field": "Application_Complete",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NY-MRTA-DESTRUCTION-REQUEST field Application_Complete",
+          "effectiveLabel": "1. Applicant provided proper ID if submitted in person or ap",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -722,8 +777,13 @@
           "field": "File_Copy",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NY-MRTA-DESTRUCTION-REQUEST field File_Copy",
+          "effectiveLabel": "4. SA\u0001\u0001\u0001o\u0001]\u0001\u0010De\u0001\u0002\u0001stru\u0001]\u0001}\u0001vction S\u0001µ \u0001(\u0001}\u0001 \u0001\u000f\u0001u\u0001]\u0001\u0001do",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -753,8 +813,13 @@
           "field": "Copies_Sent",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NY-MRTA-DESTRUCTION-REQUEST field Copies_Sent",
+          "effectiveLabel": "5. Application is scanned/uploaded to case management system",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,

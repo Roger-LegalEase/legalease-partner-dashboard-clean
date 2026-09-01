@@ -543,8 +543,27 @@ Object.assign(FAMILY, {
   },
   "pa_790_nonconviction-set": {
     jurisdiction: "PA", routeKeys: ["obligation:track-pathway:PA:pa_790_nonconviction:path-a-non-conviction-expungement"],
-    documents: [cloneDoc(PA_790_PETITION, { allow: PA_PETITION_ALLOW }), cloneDoc(PA_790_ORDER, { allow: PA_ORDER_ALLOW }), PA_IFP_CCP],
-    notes: ["The fee-waiver motion is retained only as conditional source evidence; no financial or sworn fact is filled."],
+    documents: [cloneDoc(PA_790_PETITION, { allow: PA_PETITION_ALLOW_TABLE_UNTOUCHED }), cloneDoc(PA_790_ORDER, { allow: PA_ORDER_ALLOW }), PA_IFP_CCP],
+    notes: ["The fee-waiver motion is retained only as conditional source evidence; no financial or sworn fact is filled.",
+      "The petition's offence table is left whole for the participant: its rows carry Section, Subsection, Counts, Grade and Disposition cells the platform holds no fact for, and a row is complete or it is untouched."],
+    guidance: {
+      afterTheTable: [
+        "Do not leave one of these blank because you are unsure. Ask the clerk of the court where the charges were filed.",
+        "The filing fee and whether it can be waived, who must be served and by what method, and the addresses the petition is served on are not established in this repository. Ask the same clerk. An unsourced figure in a filing instruction would be worse than none.",
+      ],
+      selfHelpEnds: [
+        "This packet prepares the Pennsylvania Rule of Criminal Procedure 790 petition and proposed order for you to review, complete, sign and file yourself. Self-help ends at any question this packet refuses to answer:",
+        "- whether your charges are eligible for expungement — a legal judgment this packet does not make;",
+        "- any blank listed above that you cannot complete from your own court records;",
+        "- anything the prosecuting attorney objects to, and any hearing the court schedules.",
+        "When you reach one of those points, stop and ask someone with the authority to answer. The clerk of the court where the charges were filed answers procedural questions — filing, fees, copies and service addresses. Only a lawyer admitted to practice in Pennsylvania may advise you on eligibility, on what to argue, or at a contested hearing; if you cannot afford one, ask that same clerk's office how to reach the county's legal aid or lawyer referral service. This packet is not legal advice, and no lawyer has reviewed your case in preparing it.",
+      ],
+      notYours: [
+        "**The fee-waiver motion (PA-IFP-CCP)** is held as exact source evidence only. It is not generated into your packet and nothing on it is a blank on this filing. If you need a fee waiver, ask the clerk for the current form.",
+        "**The proposed order** carries the court's blocks; submit them blank.",
+        "**Every signature and signature date** is yours to complete after you have read the finished packet.",
+      ],
+    },
   },
   "pa_9122_1_limited_access-set": {
     jurisdiction: "PA", routeKeys: ["obligation:track-pathway:PA:pa_9122_1_limited_access:path-i-petition-for-limited-access"],
@@ -572,8 +591,27 @@ Object.assign(FAMILY, {
   },
   "pa_summary_conviction-set": {
     jurisdiction: "PA", routeKeys: ["obligation:track-pathway:PA:pa_summary_conviction:path-c-summary-conviction-expungement"],
-    documents: [cloneDoc(PA_490_PETITION, { allow: PA_PETITION_ALLOW }), cloneDoc(PA_490_ORDER, { allow: PA_ORDER_ALLOW }), cloneDoc(PA_790_PETITION, { allow: PA_PETITION_ALLOW })],
-    notes: ["Both Rule 490 and Rule 790 petition branches are review artifacts; court-status routing remains a release blocker and no branch is silently chosen."],
+    documents: [cloneDoc(PA_490_PETITION, { allow: PA_PETITION_ALLOW_TABLE_UNTOUCHED }), cloneDoc(PA_490_ORDER, { allow: PA_ORDER_ALLOW }), cloneDoc(PA_790_PETITION, { allow: PA_PETITION_ALLOW_TABLE_UNTOUCHED })],
+    notes: ["Both Rule 490 and Rule 790 petition branches are review artifacts; court-status routing remains a release blocker and no branch is silently chosen.",
+      "Each petition's offence table is left whole for the participant: its rows carry Section, Subsection, Counts, Grade and Disposition cells the platform holds no fact for, and a row is complete or it is untouched."],
+    guidance: {
+      afterTheTable: [
+        "Do not leave one of these blank because you are unsure. Ask the clerk of the court where the summary conviction was entered.",
+        "The filing fee and whether it can be waived, who must be served and by what method, and the addresses the petition is served on are not established in this repository. Ask the same clerk. An unsourced figure in a filing instruction would be worse than none.",
+      ],
+      selfHelpEnds: [
+        "This packet prepares both the Pennsylvania Rule of Criminal Procedure 490 petition (for a summary case in a magisterial district court) and the Rule 790 petition (for a case in a court of common pleas), with a proposed order, for you to review, complete, sign and file yourself. Self-help ends at any question this packet refuses to answer:",
+        "- which of the two petitions your case requires — that depends on the court where your summary conviction sits, and this packet does not choose for you;",
+        "- whether your summary conviction is eligible for expungement — a legal judgment this packet does not make;",
+        "- any blank listed above that you cannot complete from your own court records;",
+        "- anything the prosecuting attorney objects to, and any hearing the court schedules.",
+        "When you reach one of those points, stop and ask someone with the authority to answer. The clerk of the court where the summary conviction was entered answers procedural questions — which petition applies, filing, fees, copies and service addresses. Only a lawyer admitted to practice in Pennsylvania may advise you on eligibility, on what to argue, or at a contested hearing; if you cannot afford one, ask that same clerk's office how to reach the county's legal aid or lawyer referral service. This packet is not legal advice, and no lawyer has reviewed your case in preparing it.",
+      ],
+      notYours: [
+        "**The proposed order** carries the court's blocks; submit them blank.",
+        "**Every signature and signature date** is yours to complete after you have read the finished packet.",
+      ],
+    },
   },
   "ri_nonconviction_sealing-set": {
     jurisdiction: "RI", routeKeys: ["obligation:unit:RI:ri_nonconviction_sealing:ri-nonconviction-motion-to-seal"],
@@ -1452,17 +1490,47 @@ async function proofFromArtifact(file, census, fieldMap, report, facts, label,
     .filter((item) => !sourceTextKeys?.[page - 1]?.has(
       `${Math.round(item.x)}|${Math.round(item.y)}|${String(item.text ?? "").trim()}`))
     .map((item) => String(item.text ?? "").trim()).filter(Boolean);
+  /*
+   * A dropdown write draws the OPTION the form's own /Opt list offers, which
+   * is not always the literal held fact string: NY-MRTA-DESTRUCTION-REQUEST's
+   * Court_County offers "ALBANY" where the held fact reads "Albany County".
+   * The proof therefore expects the option the finalizer's published match
+   * rule selects, recomputed here FROM THE SOURCE FORM'S OWN OPTION LIST —
+   * never the drawn text itself, so a wrong option still fails the proof.
+   * When no option matches (the finalizer would have refused the write), the
+   * raw fact stands as expected and a drawn appearance still fails loudly.
+   */
+  let sourceDropdownOptions = null;
+  if (sourceBytes && (report.written ?? []).some((write) => write.kind === "dropdown")) {
+    const sourceDoc = await PDFDocument.load(sourceBytes, { ignoreEncryption: true, updateMetadata: false });
+    sourceDropdownOptions = new Map();
+    for (const sourceField of sourceDoc.getForm().getFields()) {
+      if (sourceField instanceof PDFDropdown) {
+        sourceDropdownOptions.set(sourceField.getName(), sourceField.getOptions?.() ?? []);
+      }
+    }
+  }
+  const dropdownExpectedOption = (fieldName, factValue) => {
+    const options = sourceDropdownOptions?.get(fieldName) ?? [];
+    const wanted = String(factValue ?? "").trim().toLowerCase();
+    return options.find((option) => String(option).trim().toLowerCase() === wanted)
+      ?? options.find((option) => String(option).trim().toLowerCase() === wanted.replace(/\s*county$/, ""))
+      ?? factValue;
+  };
   const writtenProof = [];
   const missingWrittenInk = [];
   const wrongWrittenValues = [];
   for (const write of report.written) {
     const field = census.fields.find((row) => row.name === write.field);
-    const expected = write.factId?.startsWith("matter.charges[")
+    const factExpected = write.factId?.startsWith("matter.charges[")
       ? (() => {
         const match = /^matter\.charges\[(\d+)]\.(.+)$/.exec(write.factId);
         return match ? facts["matter.charges"]?.[Number(match[1])]?.[match[2]] : null;
       })()
       : facts[write.factId];
+    const expected = write.kind === "dropdown"
+      ? dropdownExpectedOption(write.field, factExpected)
+      : factExpected;
     const overlayWrite = overlayKinds.has(write.kind);
     const byWidget = overlayWrite
       ? (write.widgets ?? []).map((w) => overlayTextAt(w.page, w.rect))

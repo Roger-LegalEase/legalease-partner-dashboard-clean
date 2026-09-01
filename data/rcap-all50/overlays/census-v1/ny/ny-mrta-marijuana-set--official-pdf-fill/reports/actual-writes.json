@@ -6,8 +6,8 @@
       "documentId": "NY-MRTA-DESTRUCTION-REQUEST",
       "fixture": "canonical",
       "file": "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/fixtures/mrta-destruction-request-canonical.pdf",
-      "sha256": "9138fe581413d39258e7110bfd835d139274d14a01a7af95d45b079d78a3fdaa",
-      "byteLength": 247324,
+      "sha256": "37d456b6c2b79c3801bb9c07030072d5b0487a95f711a92a3fd8ef14e99b05ff",
+      "byteLength": 247978,
       "written": [
         {
           "field": "Applicant_First_Name",
@@ -40,6 +40,19 @@
           "fontSize": 10.818,
           "outcome": "fit",
           "lines": 1
+        },
+        {
+          "field": "DOB",
+          "factId": "participant.date_of_birth",
+          "kind": "text",
+          "fontSize": 11,
+          "outcome": "fit",
+          "lines": 1
+        },
+        {
+          "field": "Court_County",
+          "factId": "matter.county",
+          "kind": "dropdown"
         },
         {
           "field": "Zip_Code",
@@ -103,16 +116,6 @@
         },
         {
           "field": "NYSID",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
-        },
-        {
-          "field": "DOB",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
-        },
-        {
-          "field": "Court_County",
           "reason": "classified_unwritable_by_role",
           "category": "role"
         },
@@ -306,9 +309,9 @@
         "rule": "remove /V and /DV; force button widgets to /AS /Off; never infer a participant or court answer"
       },
       "proof": {
-        "artifactSha256": "9138fe581413d39258e7110bfd835d139274d14a01a7af95d45b079d78a3fdaa",
-        "artifactByteLength": 247324,
-        "appearanceCount": 38,
+        "artifactSha256": "37d456b6c2b79c3801bb9c07030072d5b0487a95f711a92a3fd8ef14e99b05ff",
+        "artifactByteLength": 247978,
+        "appearanceCount": 39,
         "writtenProof": [
           {
             "field": "Applicant_First_Name",
@@ -346,6 +349,26 @@
             "expectedValue": "118 Maple Street",
             "drawnText": [
               "118 Maple Street"
+            ],
+            "exactValueObserved": true,
+            "derivedFrom": "flattened artifact appearance streams at every measured widget"
+          },
+          {
+            "field": "DOB",
+            "factId": "participant.date_of_birth",
+            "expectedValue": "1991-04-17",
+            "drawnText": [
+              "1991-04-17"
+            ],
+            "exactValueObserved": true,
+            "derivedFrom": "flattened artifact appearance streams at every measured widget"
+          },
+          {
+            "field": "Court_County",
+            "factId": "matter.county",
+            "expectedValue": "ALBANY",
+            "drawnText": [
+              "ALBANY"
             ],
             "exactValueObserved": true,
             "derivedFrom": "flattened artifact appearance streams at every measured widget"
@@ -422,8 +445,8 @@
       "documentId": "NY-MRTA-DESTRUCTION-REQUEST",
       "fixture": "boundary",
       "file": "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/fixtures/mrta-destruction-request-boundary.pdf",
-      "sha256": "85e973929f05e9ef98ecb55c5c1a6120287e74660575251d833757b7559f4468",
-      "byteLength": 247077,
+      "sha256": "5f61e8f23675070c7691b16c6522745f5fa033083725f1eefb9caccc32cb3457",
+      "byteLength": 247265,
       "written": [
         {
           "field": "Applicant_First_Name",
@@ -455,6 +478,14 @@
           "kind": "text",
           "fontSize": 7.818,
           "outcome": "shrunk",
+          "lines": 1
+        },
+        {
+          "field": "DOB",
+          "factId": "participant.date_of_birth",
+          "kind": "text",
+          "fontSize": 11,
+          "outcome": "fit",
           "lines": 1
         },
         {
@@ -503,16 +534,6 @@
         },
         {
           "field": "NYSID",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
-        },
-        {
-          "field": "DOB",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
-        },
-        {
-          "field": "Court_County",
           "reason": "classified_unwritable_by_role",
           "category": "role"
         },
@@ -605,6 +626,11 @@
           "field": "Copies_Sent",
           "reason": "classified_unwritable_by_role",
           "category": "role"
+        },
+        {
+          "field": "Court_County",
+          "reason": "value_not_among_field_options",
+          "factId": "matter.county"
         },
         {
           "field": "City_Town",
@@ -716,8 +742,8 @@
         "rule": "remove /V and /DV; force button widgets to /AS /Off; never infer a participant or court answer"
       },
       "proof": {
-        "artifactSha256": "85e973929f05e9ef98ecb55c5c1a6120287e74660575251d833757b7559f4468",
-        "artifactByteLength": 247077,
+        "artifactSha256": "5f61e8f23675070c7691b16c6522745f5fa033083725f1eefb9caccc32cb3457",
+        "artifactByteLength": 247265,
         "appearanceCount": 38,
         "writtenProof": [
           {
@@ -756,6 +782,16 @@
             "expectedValue": "12345 Southwest Grandview Boulevard Northeast, Building 7",
             "drawnText": [
               "12345 Southwest Grandview Boulevard Northeast, Building 7"
+            ],
+            "exactValueObserved": true,
+            "derivedFrom": "flattened artifact appearance streams at every measured widget"
+          },
+          {
+            "field": "DOB",
+            "factId": "participant.date_of_birth",
+            "expectedValue": "1991-04-17",
+            "drawnText": [
+              "1991-04-17"
             ],
             "exactValueObserved": true,
             "derivedFrom": "flattened artifact appearance streams at every measured widget"

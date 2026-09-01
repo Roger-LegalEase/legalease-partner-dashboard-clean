@@ -13,7 +13,7 @@
           "field": "Applicant_Name",
           "decision": "candidate_write",
           "factId": "participant.full_legal_name",
-          "decisionBasis": "family explicit participant-fact allowlist; shared semantic finalizer still controls",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -102,10 +102,9 @@
         },
         {
           "field": "Date_of_Birth",
-          "decision": "refuse",
-          "factId": null,
-          "refusalClass": "signature_or_date_participant_completion",
-          "reason": "No write is authorized for this field in this family build.",
+          "decision": "candidate_write",
+          "factId": "participant.date_of_birth",
+          "decisionBasis": "shared exact terminal-name fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -148,7 +147,7 @@
           "field": "Docket_Indictment_SCI_Number_1",
           "decision": "candidate_write",
           "factId": "matter.case_number",
-          "decisionBasis": "family explicit participant-fact allowlist; shared semantic finalizer still controls",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -165,10 +164,9 @@
         },
         {
           "field": "Court_Name_1",
-          "decision": "refuse",
-          "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "decision": "candidate_write",
+          "factId": "matter.court",
+          "decisionBasis": "shared exact terminal-name fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -211,7 +209,7 @@
           "field": "Conviction_Charge_1",
           "decision": "candidate_write",
           "factId": "matter.charge",
-          "decisionBasis": "family explicit participant-fact allowlist; shared semantic finalizer still controls",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -300,10 +298,9 @@
         },
         {
           "field": "Conviction_Date_1",
-          "decision": "refuse",
-          "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "decision": "candidate_write",
+          "factId": "matter.conviction_date",
+          "decisionBasis": "shared exact terminal-name fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1237,7 +1234,7 @@
           "field": "Applicant_Street_Address",
           "decision": "candidate_write",
           "factId": "participant.street_address",
-          "decisionBasis": "family explicit participant-fact allowlist; shared semantic finalizer still controls",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1256,7 +1253,7 @@
           "field": "Applicant_City_State_Zip",
           "decision": "candidate_write",
           "factId": "participant.city_state_zip",
-          "decisionBasis": "family explicit participant-fact allowlist; shared semantic finalizer still controls",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1275,7 +1272,7 @@
           "field": "Applicant_Phone",
           "decision": "candidate_write",
           "factId": "participant.phone",
-          "decisionBasis": "family explicit participant-fact allowlist; shared semantic finalizer still controls",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1294,7 +1291,7 @@
           "field": "Applicant_Email",
           "decision": "candidate_write",
           "factId": "participant.email",
-          "decisionBasis": "family explicit participant-fact allowlist; shared semantic finalizer still controls",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1321,6 +1318,8 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "not_a_filing_fact",
+          "blankTreatment": null,
+          "effectiveLabel": "New York State Uniﬁ ed Court Sys",
           "reason": "Viewer UI control; not a filing fact and never written into the participant artifact.",
           "widgets": [
             {
@@ -1334,15 +1333,13 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ],
-          "effectiveLabel": "New York State Uniﬁ ed Court Sys"
+          ]
         },
         {
           "field": "CourtName",
-          "decision": "refuse",
-          "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "decision": "candidate_write",
+          "factId": "matter.court",
+          "decisionBasis": "shared exact terminal-name fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1409,7 +1406,7 @@
           "field": "RequestorName",
           "decision": "candidate_write",
           "factId": "participant.full_legal_name",
-          "decisionBasis": "family explicit participant-fact allowlist; shared semantic finalizer still controls",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1428,7 +1425,7 @@
           "field": "RequestorAddress",
           "decision": "candidate_write",
           "factId": "participant.street_address",
-          "decisionBasis": "family explicit participant-fact allowlist; shared semantic finalizer still controls",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1447,7 +1444,7 @@
           "field": "RequestorPhone",
           "decision": "candidate_write",
           "factId": "participant.phone",
-          "decisionBasis": "family explicit participant-fact allowlist; shared semantic finalizer still controls",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1466,7 +1463,7 @@
           "field": "RequestorEmail",
           "decision": "candidate_write",
           "factId": "participant.email",
-          "decisionBasis": "family explicit participant-fact allowlist; shared semantic finalizer still controls",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1505,7 +1502,7 @@
           "field": "DefendantFirstName",
           "decision": "candidate_write",
           "factId": "participant.first_name",
-          "decisionBasis": "family explicit participant-fact allowlist; shared semantic finalizer still controls",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1524,7 +1521,7 @@
           "field": "DefendantMiddleNameorInitial",
           "decision": "candidate_write",
           "factId": "participant.middle_name",
-          "decisionBasis": "family explicit participant-fact allowlist; shared semantic finalizer still controls",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1543,7 +1540,7 @@
           "field": "DefendantLastName",
           "decision": "candidate_write",
           "factId": "participant.last_name",
-          "decisionBasis": "family explicit participant-fact allowlist; shared semantic finalizer still controls",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1580,10 +1577,9 @@
         },
         {
           "field": "Date of Birth",
-          "decision": "refuse",
-          "factId": null,
-          "refusalClass": "signature_or_date_participant_completion",
-          "reason": "No write is authorized for this field in this family build.",
+          "decision": "candidate_write",
+          "factId": "participant.date_of_birth",
+          "decisionBasis": "shared exact terminal-name fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1602,7 +1598,7 @@
           "field": "DocketIndictmentSCINumber",
           "decision": "candidate_write",
           "factId": "matter.case_number",
-          "decisionBasis": "family explicit participant-fact allowlist; shared semantic finalizer still controls",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1859,10 +1855,9 @@
         },
         {
           "field": "ArrestDate",
-          "decision": "refuse",
-          "factId": null,
-          "refusalClass": "signature_or_date_participant_completion",
-          "reason": "No write is authorized for this field in this family build.",
+          "decision": "candidate_write",
+          "factId": "matter.arrest_date",
+          "decisionBasis": "shared exact terminal-name fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1923,10 +1918,9 @@
         },
         {
           "field": "IncidentDate",
-          "decision": "refuse",
-          "factId": null,
-          "refusalClass": "signature_or_date_participant_completion",
-          "reason": "No write is authorized for this field in this family build.",
+          "decision": "candidate_write",
+          "factId": "matter.offense_date",
+          "decisionBasis": "shared exact terminal-name fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1989,7 +1983,7 @@
           "field": "DefendantAddress",
           "decision": "candidate_write",
           "factId": "participant.street_address",
-          "decisionBasis": "family explicit participant-fact allowlist; shared semantic finalizer still controls",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2008,7 +2002,7 @@
           "field": "Charges",
           "decision": "candidate_write",
           "factId": "matter.charge",
-          "decisionBasis": "family explicit participant-fact allowlist; shared semantic finalizer still controls",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2057,6 +2051,8 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "not_a_filing_fact",
+          "blankTreatment": null,
+          "effectiveLabel": "Print_Form",
           "reason": "Viewer UI control; not a filing fact and never written into the participant artifact.",
           "widgets": [
             {
@@ -2070,8 +2066,7 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ],
-          "effectiveLabel": "Print_Form"
+          ]
         },
         {
           "field": "RequestorRole",
@@ -2337,10 +2332,9 @@
         },
         {
           "field": "Date of Birth",
-          "decision": "refuse",
-          "factId": null,
-          "refusalClass": "signature_or_date_participant_completion",
-          "reason": "No write is authorized for this field in this family build.",
+          "decision": "candidate_write",
+          "factId": "participant.date_of_birth",
+          "decisionBasis": "shared exact terminal-name fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2533,8 +2527,13 @@
           "field": "Keep copies for your records",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NY-CPL-160.59-PRO-SE-PACKET field Keep copies for your records",
+          "effectiveLabel": "Keep copies for your records",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2749,7 +2748,7 @@
           "field": "Applicant Name",
           "decision": "candidate_write",
           "factId": "participant.full_legal_name",
-          "decisionBasis": "family explicit participant-fact allowlist; shared semantic finalizer still controls",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2801,7 +2800,7 @@
           "field": "Street Address",
           "decision": "candidate_write",
           "factId": "participant.street_address",
-          "decisionBasis": "family explicit participant-fact allowlist; shared semantic finalizer still controls",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2831,7 +2830,7 @@
           "field": "City State Zip",
           "decision": "candidate_write",
           "factId": "participant.city_state_zip",
-          "decisionBasis": "family explicit participant-fact allowlist; shared semantic finalizer still controls",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2861,7 +2860,7 @@
           "field": "Phone",
           "decision": "candidate_write",
           "factId": "participant.phone",
-          "decisionBasis": "family explicit participant-fact allowlist; shared semantic finalizer still controls",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3213,7 +3212,7 @@
           "field": "Email",
           "decision": "candidate_write",
           "factId": "participant.email",
-          "decisionBasis": "family explicit participant-fact allowlist; shared semantic finalizer still controls",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3241,10 +3240,9 @@
         },
         {
           "field": "Filing Court County",
-          "decision": "refuse",
-          "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "decision": "candidate_write",
+          "factId": "matter.county",
+          "decisionBasis": "shared exact terminal-name fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3272,10 +3270,9 @@
         },
         {
           "field": "Filing Court Name",
-          "decision": "refuse",
-          "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "decision": "candidate_write",
+          "factId": "matter.court",
+          "decisionBasis": "shared exact terminal-name fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3305,7 +3302,7 @@
           "field": "Case Number 1",
           "decision": "candidate_write",
           "factId": "matter.case_number",
-          "decisionBasis": "family explicit participant-fact allowlist; shared semantic finalizer still controls",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3333,10 +3330,9 @@
         },
         {
           "field": "Court Name 1",
-          "decision": "refuse",
-          "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "decision": "candidate_write",
+          "factId": "matter.court",
+          "decisionBasis": "shared exact terminal-name fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3710,7 +3706,5 @@
       "generatedParticipantArtifact": false,
       "fields": []
     }
-  ],
-  "dispositionVocabulary": "rcap-packet-completeness/closed-blank-dispositions",
-  "requiredBeforeFilingCount": 65
+  ]
 }
