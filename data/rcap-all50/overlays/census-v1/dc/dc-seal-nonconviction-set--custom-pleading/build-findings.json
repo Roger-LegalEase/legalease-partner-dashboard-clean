@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "dc_seal_nonconviction-set",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "Every MASTER_QUEUE row for this family binds no document source (sourceStatus CUSTOM_PLEADING_FROM_CODIFIED_TEXT, officialFormFamily NONE), and the family's own legal-design record states in terms that no official form exists and the statute fixes the content of the motion.",
+      "consequence": "The primary filing is a composed motion, exactly as the packet-set manifest and the MASTER_QUEUE row direct. The one DC document the Master Library holds - the Criminal Division instruction sheet, Rev. April 10, 2024 - is bound byte-exact as the shared REFERENCE instrument: its verified face grounds the filing-channel steps and the help-organization list, and it is not included in any rendered packet. No form was substituted and none was invented."
+    },
+    {
+      "finding": "SOURCE-FIDELITY DISCREPANCY, memo versus face: the intake memo states \"The court's instruction sheet states no fee.\" The pinned sheet's printed face states nothing about fees at all.",
+      "consequence": "The packet follows the face: it nowhere asserts that filing is free, and the fee and fee-waiver questions are delegated to the Criminal Division clerk's office by name and number, both printed on the pinned face. The discrepancy is raised as a counsel question in approval-request.json."
+    },
+    {
+      "finding": "No held source states the caption practice for these motions, the prosecutor-routing rule between the U.S. Attorney's Office and the Office of the Attorney General, a service address, or any filing channel beyond the Seal Team mailbox printed on the pinned face.",
+      "consequence": "The composed caption uses a neutral in-the-matter-of form with the underlying case number as a labelled participant blank; the service page names the two possible offices and delegates the choice and the address to the clerk by name; and the instructions delegate any non-email filing channel to the clerk. Nothing was guessed."
+    },
+    {
+      "finding": "The intake record carries a build-blocker question on the eligibility branch: which subsections of § 16-806 revert when the temporary amendments expire on September 11, 2026, including the § 16-806(a)(1)(B)(i) before-October-1-2027 route for offenses not on the § 16-805(b) list. The MASTER_QUEUE row dispatches the family legalInputStatus SETTLED.",
+      "consequence": "The motion asserts only the stable § 16-806(a)(1) grounds and states the October 1, 2027 gate from the recorded rule as a printed note with a named authority to ask; the packet resolves nothing about the expiry, and the question travels to counsel in approval-request.json. Build ends at state_built either way; the question blocks approval, not the build-first artifact."
+    }
+  ]
+}
