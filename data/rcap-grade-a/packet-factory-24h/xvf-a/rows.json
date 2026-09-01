@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "XVF-A",
+  "laneKind": "independent-verification",
+  "worker": "VF-SRC-A",
+  "baseSha": "c6d7ffe7cfdf45629f873e1a0e58ae4b174d45c6",
+  "assignedBy": "CAPTAIN-9H via data/rcap-grade-a/launch-control/CLAUDE_9H_SHIFT.json nextLaneByWorker at 2026-09-01T08:20:52Z",
+  "laneStatus": "BLOCKED_BEFORE_CLAIM",
+  "packetArtifactsRead": 0,
+  "overlayDirectoriesModified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "whyNothingWasRead": "The lane contract is claim before you read, and a non-zero claim exit is a full stop for that family: report BLOCKED_BEFORE_CLAIM naming the exact refusal and read none of its artifacts. The claim was refused for every family, so no packet artifact was opened and no hash was recomputed.",
+  "blockers": [
+    {
+      "id": "LANE_NAME_OUTSIDE_THE_CLOSED_VOCABULARY",
+      "exactRefusal": "UNKNOWN_LANE: XVF-A",
+      "exitCode": 4,
+      "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert XVF-A <familyId>",
+      "why": "scripts/grade-a-packet-factory-24h/claim.mjs resolves a lane kind with /^(VF|WARV|P2V|VS)/ for independent-verification. The name XVF-A begins with X, so LANE_KIND returns unknown and the ledger refuses the assert before looking at any family.",
+      "whatWouldFixIt": "dispatch the lane under a name the kind regex resolves, for example VF13, or widen the regex deliberately. This alone is not sufficient; the next blocker survives it."
+    },
+    {
+      "id": "NO_INDEPENDENT_VERIFICATION_GRANT_EXISTS",
+      "exactRefusal": "NOT_GRANTED: no independent-verification lane holds va_seal_petition_felony-set",
+      "exitCode": 6,
+      "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF13 va_seal_petition_felony-set",
+      "why": "Tested under a lane name the regex does resolve, to separate the naming problem from the grant problem. All four families are held in the ledger by PF01 with laneKind packet-build and released=false. No independent-verification lane holds any of them, so there is nothing for this lane to claim.",
+      "whatWouldFixIt": "mint independent-verification grants for the four families and republish the ledger. PF01 still holding them unreleased is the substantive part: a verifier claiming a family its builder has not released is the double ownership the ledger exists to refuse, and factory check F21 says no verification worker is the builder or the repairer of what it verifies."
+    },
+    {
+      "id": "THE_PACKET_COMMIT_IS_NOT_AT_THE_SHIFT_BASE",
+      "why": "The four families do not exist under data/rcap-all50/overlays/census-v1/va at the shift base c6d7ffe7. PF-A built them on claude/9h-pf-a at 4a4a2f591, which descends from the previous base 09b741ad and is not an ancestor of c6d7ffe7. CLAUDE_9H_SHIFT.json records integratedReturns as empty, so nothing has been integrated.",
+      "whatWouldFixIt": "integrate PF-A's PF01 return and republish the shift base, so the packet commit the verification must read exists at the base it is dispatched against. Factory check F20 says no verification assignment is launchable before the packet commit it must read exists.",
+      "note": "Verifying the artifacts straight off claude/9h-pf-a would not be equivalent: it would measure a commit no shift base carries, and the exact canonical and boundary hashes this lane must recompute are only meaningful against the integrated bytes."
+    }
+  ],
+  "orderToFixThemIn": "Integrate PF-A's PF01 return and republish the base, mint independent-verification grants for the four families with PF01's build claims released, and dispatch the lane under a name the kind regex resolves. Any one of the three alone still leaves the lane refused.",
+  "captainAssignmentIsOtherwiseSound": "The independence Captain asserts holds: VF-SRC-A neither built nor repaired any Virginia family, and its phase-1 lanes VF01-VF06 covered Nebraska, Ohio, Utah, Vermont and West Virginia. Nothing here disputes the assignment; the mechanism cannot express it yet.",
+  "rasterCeilingAcknowledged": "Captain sets the verdict ceiling at BUILT_RASTER_PENDING because no central RASTER_PASS exists for these families. That ceiling is recorded here and will be honoured when the lane runs: no family will be returned PASS_COMPLETE however clean its nonvisual evidence reads.",
+  "pointerForWhoeverRunsThisLane": "PF-A's own commit f7a215077 is titled 'build the Virginia petition-based sealing families, and report a wrong official form'. That is the builder's claim and is the thing under test, not evidence for it. It was read from the branch log while locating the work; no packet artifact was opened.",
+  "rows": []
+}
