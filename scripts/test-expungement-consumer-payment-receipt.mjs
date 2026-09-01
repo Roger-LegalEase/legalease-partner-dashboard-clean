@@ -85,6 +85,7 @@ function stripeSession(row, overrides = {}) {
 function harness(initialRow = paymentRow(), { sponsored = false } = {}) {
   let row = initialRow;
   const reads = [];
+  const authorityReads = [];
   const stripeRetrievals = [];
   const admin = {
     from(table) {
@@ -127,15 +128,18 @@ function harness(initialRow = paymentRow(), { sponsored = false } = {}) {
       CONSUMER_PACKET_CURRENCY: "usd",
       CONSUMER_PACKET_PRICE_CENTS: 5000,
       CONSUMER_PACKET_PRODUCT_ID: "expungement_packet",
-      consumerPacketPaymentAuthority: async (itemId, userId, binding) => ({
-        valid: itemId === row.id
-          && userId === row.user_id
-          && binding.productId === row.payment_product_id
-          && binding.personId === row.payment_person_id
-          && binding.matterId === row.payment_matter_id,
-        reason: "fixture",
-        providerEventId: row.provider_event_id
-      })
+      consumerPacketPaymentAuthority: async (itemId, userId, binding) => {
+        authorityReads.push({ itemId, userId, binding });
+        return {
+          valid: itemId === row.id
+            && userId === row.user_id
+            && binding.productId === row.payment_product_id
+            && binding.personId === row.payment_person_id
+            && binding.matterId === row.payment_matter_id,
+          reason: "fixture",
+          providerEventId: row.provider_event_id
+        };
+      }
     },
     "@/lib/expungement-ai/consumer-identity": {
       consumerMatterIdForItem: (itemId) => itemId === ITEM ? MATTER : `matter:${itemId}`
@@ -146,6 +150,7 @@ function harness(initialRow = paymentRow(), { sponsored = false } = {}) {
   return {
     receipt,
     reads,
+    authorityReads,
     stripeRetrievals,
     setRow(next) { row = next; }
   };
@@ -203,13 +208,31 @@ assert.equal((await h.receipt.resolveConsumerPaymentReceipt({
   now: new Date(NOW.getTime() + 20 * 60_000)
 })).status, "denied", "an expired receipt reference must fail closed");
 
+const authorityReadsBeforeRefund = h.authorityReads.length;
 h.setRow(paymentRow({ payment_status: "refunded" }));
+const refundedAction = await h.receipt.createConsumerPaymentReceiptAction({
+  consumerAuthUserId: USER,
+  briefcaseItemId: ITEM,
+  now: NOW
+});
+assert.ok(refundedAction, "a refund must preserve the owner-scoped payment-history receipt action");
+assert.deepEqual(await h.receipt.resolveConsumerPaymentReceipt({
+  consumerAuthUserId: USER,
+  briefcaseItemId: ITEM,
+  reference,
+  now: NOW
+}), { status: "available", receiptUrl: RECEIPT_URL },
+"a refund must preserve the original receipt without restoring fulfillment authority");
+assert.equal(h.authorityReads.length, authorityReadsBeforeRefund,
+  "refunded receipt history must not consult or restore paid fulfillment authority");
+
+h.setRow(paymentRow({ payment_status: "unpaid" }));
 assert.equal((await h.receipt.resolveConsumerPaymentReceipt({
   consumerAuthUserId: USER,
   briefcaseItemId: ITEM,
   reference,
   now: NOW
-})).status, "denied", "revoked payment authority must revoke an old receipt reference");
+})).status, "denied", "a genuinely unpaid or revoked record must invalidate the old receipt reference");
 
 for (const override of [
   { payment_provider: "dry_run" },
@@ -282,4 +305,4 @@ const confirmSource = fs.readFileSync(path.join(root, "src/app/api/expungement-a
 assert.ok(!moduleSource.includes("createConsumerPacketCheckout"), "receipt access cannot create Checkout or a charge");
 assert.ok(!confirmSource.includes("receiptUrl: status.receiptUrl"), "browser polling must not receive a raw provider receipt URL");
 
-console.log("Expungement.ai consumer payment receipt tests passed: owner/matter/provider binding, repeat access, expiry, revocation, sponsorship, and cross-user denial.");
+console.log("Expungement.ai consumer payment receipt tests passed: owner/matter/provider binding, refund history, repeat access, expiry, revocation, sponsorship, and cross-user denial.");

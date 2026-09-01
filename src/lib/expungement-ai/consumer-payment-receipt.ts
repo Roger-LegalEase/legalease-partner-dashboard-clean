@@ -55,7 +55,8 @@ type ReceiptResolution =
  * The per-payment HMAC key is derived from protected, server-written Stripe
  * evidence. The browser receives only the matter id, expiry and MAC. Changing
  * the user, matter, provider payment, amount, currency or expiry invalidates
- * the reference, and refund/revocation makes the underlying authority fail.
+ * the reference. A refund revokes fulfillment but deliberately preserves this
+ * financial-history authority; an unpaid/revoked record still fails closed.
  */
 export async function createConsumerPaymentReceiptAction(input: {
   consumerAuthUserId: string;
@@ -146,7 +147,7 @@ async function receiptRowAuthorized(
 ): Promise<boolean> {
   const matterId = consumerMatterIdForItem(row.id);
   if (row.user_id !== consumerAuthUserId
-    || row.payment_status !== "paid"
+    || !["paid", "refunded"].includes(row.payment_status)
     || row.payment_provider !== "stripe"
     || row.amount_cents !== CONSUMER_PACKET_PRICE_CENTS
     || row.currency?.toLowerCase() !== CONSUMER_PACKET_CURRENCY
@@ -159,6 +160,11 @@ async function receiptRowAuthorized(
     || !row.payment_intent_id?.startsWith("pi_")) return false;
 
   if (row.source_session_id && await sourceSessionIsSponsored(row.source_session_id)) return false;
+  // Refunds remove packet-generation authority, not access to the retained
+  // financial record. The immutable Stripe identity and server-only bindings
+  // above are the separate receipt-history boundary; never call the paid-only
+  // fulfillment probe for this status.
+  if (row.payment_status === "refunded") return true;
   const authority = await consumerPacketPaymentAuthority(row.id, consumerAuthUserId, {
     productId: CONSUMER_PACKET_PRODUCT_ID,
     personId: row.payment_person_id,

@@ -99,6 +99,16 @@ try {
     expected: "receipt authority must resolve even when legal or artifact presentation is unavailable"
   });
   mutation({
+    name: "refunded receipt coupled to paid fulfillment authority",
+    file: files[2],
+    replacements: [[
+      '    || !["paid", "refunded"].includes(row.payment_status)',
+      '    || row.payment_status !== "paid"'
+    ]],
+    verifier: "scripts/test-expungement-consumer-payment-receipt.mjs",
+    expected: "a refund must preserve the owner-scoped payment-history receipt action"
+  });
+  mutation({
     name: "participant-controlled download owner",
     file: files[6],
     replacements: [[
@@ -137,4 +147,4 @@ if (failures) {
   console.error(`Consumer verifier mutation suite failed: ${failures} mutation(s) escaped or failed incorrectly.`);
   process.exit(1);
 }
-console.log("Consumer verifier mutation suite passed: 7/7 authority and presentation defects turned red.");
+console.log("Consumer verifier mutation suite passed: 8/8 authority and presentation defects turned red.");
