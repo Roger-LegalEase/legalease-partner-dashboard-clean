@@ -1,0 +1,79 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+  "assignmentId": "PF12",
+  "workerId": "PF-C",
+  "lane": "packet-build",
+  "engine": "Claude 9h worker (normal Git; commits and pushes to claude/9h-pf-c)",
+  "shiftBaseSha": "09b741ad00be0d630bd73a72f66640294abab397",
+  "familiesAssigned": 2,
+  "preflight": {
+    "laneGate": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 2 not applicable",
+    "note": "This container resolves a real Chromium at /opt/pw-browsers/chromium-1194/chrome-linux/chrome, so browser_environment_exported passes on an executable that renders rather than on a waiver, and --require-rasterizer renders a page. Page rasters were produced here; the family is returned RASTER_LOCAL_PENDING_CENTRAL rather than BUILT_RASTER_PENDING, and PASS_COMPLETE still requires a hash-bound RASTER_PASS from the central workflow."
+  },
+  "selfVerification": "none. The builder does not verify its own packets; the counters below are the builder's own count using the repository's own contract functions, not a verdict.",
+  "rows": [
+    {
+      "itemId": "ak-tf800-set",
+      "status": "COMPLETED",
+      "jurisdiction": "AK",
+      "routeKey": "track:AK:ak-tf800",
+      "statutoryAuthority": "Alaska Court System form TF-800 (5/25); Alaska Administrative Rule 37.6",
+      "implementationStrategy": "official_pdf_fill",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-ak-tf800-set.mjs",
+      "sourcesBound": [
+        {
+          "sourceId": "official-form:TF-800",
+          "pathInArchive": "STATES/AK/02_PACKET_FORMS/AK__FORM__TF-800__request-to-make-case-records-confidential-or-sealed-under-administrative-rule-37-6__REV-2025-05__EN.pdf",
+          "sha256": "94bab52533d74551f7a8ff8644a9671241b38075c7e05f10806d627dfb898cbd",
+          "byteLength": 130602,
+          "boundBy": "exact form number + committed corpus-index SHA-256 + on-disk SHA-256 + byte length"
+        }
+      ],
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersBasis": "reports/completeness-counters.json — computed with scripts/rcap-packet-completeness/completeness-contract.mjs over this family's field map, byte proof, rendered artifacts and participant-instructions.md",
+      "fields": {
+        "total": 28,
+        "written": 7,
+        "requiredBeforeFiling": 7,
+        "participantElections": 10,
+        "protected": 4
+      },
+      "artifacts": [
+        {
+          "fixture": "tf800-canonical",
+          "file": "data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill/fixtures/tf800-canonical-filled.pdf",
+          "sha256": "66d0c390198984a8c42a550d0077ef63dae98af3900f51630490ec8fcb0c54d6",
+          "byteLength": 108325,
+          "pageCount": 3,
+          "rasterPages": 3
+        },
+        {
+          "fixture": "tf800-boundary",
+          "file": "data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill/fixtures/tf800-boundary-filled.pdf",
+          "sha256": "b077fbfff439494d3af3ecf8e72c58af882b3c3b224205e632238e89459c95a5",
+          "byteLength": 108449,
+          "pageCount": 3,
+          "rasterPages": 3
+        }
+      ],
+      "componentsRendered": ["primary_filing"],
+      "advisoryFindings": [
+        "The boundary participant's name carries a typographic apostrophe (U+2019) and the finalized bytes carry the name without it. Recorded in build-findings.json for visual review; the behaviour is in the shared finalizer's font encoding and reproduces identically in vt_seal_misdemeanor-set, which is already PASS_COMPLETE."
+      ],
+      "independentVerificationStatus": "PENDING",
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    }
+  ]
+}
