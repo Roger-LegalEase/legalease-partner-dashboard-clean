@@ -1,19 +1,10 @@
 {
-  "schemaVersion": "rcap-output-approval-request/v1",
+  "schemaVersion": "rcap-family-approval-request/v1",
   "familyId": "ak-tf805-set",
-  "routeKeys": [
-    "obligation:track-only:AK:ak-tf805"
-  ],
-  "status": "REQUESTED",
-  "grantedBy": null,
-  "note": "This is a REQUEST for output-level legal review. This build grants no approval, opens no commercial route, creates no fulfilment record and marks no packet proven. The family remains not runtime-selectable and generationAllowed is false.",
-  "workTypesAddressed": {
-    "OFFICIAL_SOURCE_ACQUISITION_REQUIRED": "Resolved as custody, not acquisition: the source was already held and is bound by pinned SHA-256.",
-    "OFFICIAL_FORM_MAP_REQUIRED": "Field map built from geometry measured off the binary by this lane, and cross-checked against the inherited record in measurement-vs-inherited.json.",
-    "LOCAL_VARIATION_REQUIRED": "Recorded, and two gaps the previous lane had to leave open are now closed from the document itself. Testing against a rendered packet is now possible and the fixtures exist; whether a filing fee applies remains unresolved and is named as such.",
-    "PRODUCT_WIRING_REQUIRED": "Specified, not installed. Compiled runtime is untouched.",
-    "ARTIFACT_REVIEW_REQUIRED": "Canonical and boundary fixtures rendered and verified from the artifact bytes; every page rastered. An INDEPENDENT human visual review is still required and is not discharged by this build.",
-    "OUTPUT_LEGAL_APPROVAL_REQUIRED": "NOT addressed. Requested here; a human legal reviewer grants it or does not."
-  },
-  "independentVisualReviewRequired": true
+  "requested": "independent completeness verification, visual review and counsel review",
+  "buildStatus": "state_built",
+  "status": "PENDING_INDEPENDENT_VERIFICATION",
+  "approvedForLive": false,
+  "live": false,
+  "commercialRoutesOpened": 0
 }
