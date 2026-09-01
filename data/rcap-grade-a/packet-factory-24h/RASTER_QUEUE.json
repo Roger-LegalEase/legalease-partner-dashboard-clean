@@ -42,11 +42,25 @@
   "workflowReachability": {
     "dispatchableFrom": "the repository default branch only, which is how GitHub scopes workflow_dispatch",
     "defaultBranch": "main",
-    "presentOnDefaultBranch": false,
-    "observed": "POST .../rcap-packet-raster-acceptance-batch.yml/dispatches answered 404 from the Captain branch",
-    "consequence": "No family can obtain a RASTER_PASS until this workflow lands on main. PASS_COMPLETE requires one, so no family can reach PASS_COMPLETE until then.",
-    "whatThisIsNot": "This is not a defect in the gate and not a reason to relax it. The gate is built and proven locally; it is not yet deployed.",
-    "whoDecides": "merging to the default branch is Roger's decision"
+    "presentOnDefaultBranch": true,
+    "landedOnDefaultBranchAs": "3fa877b46afda8299fcdc6ed6e4f15d64801a3d0",
+    "landedVia": "PR #169, infrastructure only: five new files, zero modified",
+    "previouslyObserved": "POST .../rcap-packet-raster-acceptance-batch.yml/dispatches answered 404 from the Captain branch",
+    "nowObserved": "the same dispatch answered 204 No Content and queued a run",
+    "firstDispatch": {
+      "commitSha": "09b741ad00be0d630bd73a72f66640294abab397",
+      "familyBatch": "vt_seal_dui-set",
+      "requestedScale": "2.5",
+      "why": "canary plus one real family before streaming all 25 at max-parallel 20"
+    },
+    "consequence": "Families can now obtain a RASTER_PASS. PASS_COMPLETE still requires one, hash-bound, and nothing about what the gate accepts has changed.",
+    "whatThisIsNot": "Landing the workflow is not a promotion and authorizes no route. It makes a built gate runnable; it does not decide any family.",
+    "authorizedBy": "the 9-hour packet factory assignment, Mission 2: merge the infrastructure-only PR to main if repository permissions and required checks permit. Permissions permitted it.",
+    "mergedPastAKnownRedCheck": {
+      "check": "Verify RCAP all50 handoff",
+      "why": "pre-existing on main and not this PR s: scripts/security/test-sign-out-origin.mjs launches Chromium and the handoff workflow installs no browser. Both that script and that workflow are byte-identical on main and on the PR head, and nothing in the PR is imported by the failing test.",
+      "notFixedHere": "adding a browser install to a shared workflow on the default branch would widen an infrastructure-only PR. Recorded for a separate change."
+    }
   },
   "maxParallel": 20,
   "lanes": [
