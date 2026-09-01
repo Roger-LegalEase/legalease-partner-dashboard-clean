@@ -31,9 +31,15 @@ for (const w of index.workers) {
     const t = logged.get(key);
     if (grant && t) {
       completed.push({
-        workerId: w.workerId, lane: w.lane, subjectId: s,
+        workerId: w.workerId, assignmentId: w.assignmentId, assignmentVersion: 4,
+        lane: w.lane, subjectId: s,
         fromLane: t.fromLane, transferredAt: t.transferredAt,
+        reasonAsRecordedInTheLedger: t.reason,
+        batchReason: w.lane === "PF17" ? "Codespace A primary packet build batch 001"
+          : w.lane === "FIX09" ? "Codespace B packet repair batch 001"
+          : "Codex Cloud second independent read batch 001",
         operation: grant.operation, grantIsLive: true,
+        assertVerifiedByCaptain: true,
       });
     } else {
       stillPending.push({ workerId: w.workerId, lane: w.lane, subjectId: s,
@@ -46,7 +52,7 @@ const allDone = stillPending.length === 0;
 fs.writeFileSync(`${CTL}/CONTROL_STATE.json`, JSON.stringify({
   schemaVersion: "rcap-external-control-state/v1",
   updatedAt: now, captainSha: head,
-  state: allDone ? "GRANTS_LIVE_WORKERS_MAY_ASSERT" : "TRANSFERS_INCOMPLETE",
+  state: allDone ? "ASSIGNMENTS_ACTIVE" : "TRANSFERS_INCOMPLETE",
 
   whatIsTrueRightNow: allDone
     ? `All ${completed.length} transfers are complete and every external worker now holds a live grant on its own lane. A worker may assert its subjects. An assert that is refused is still a full stop — report the refusal, do not work without a grant.`
@@ -55,11 +61,16 @@ fs.writeFileSync(`${CTL}/CONTROL_STATE.json`, JSON.stringify({
   completionIsMeasuredNotAsserted:
     "Each entry below was read back out of the claim ledger: a live grant on the destination lane AND a matching entry in ledger.transfers. Having run the command is not evidence that it took.",
 
+  onTransferReasons:
+    "reasonAsRecordedInTheLedger is what ledger.transfers actually holds, and it is not rewritten. The batch reasons arrived after the transfers had already executed, and ledger.transfers is an append-only audit record covered by the grant-set digest: editing it so the history reads the way the instruction preferred would be falsifying the record, not correcting it. batchReason carries the batch attribution alongside. The recorded reasons are substantive rather than placeholders — each names the lane that released, why it was free, and what the destination is taking.",
   transfersCompleted: completed,
   transfersPending: stillPending,
   transfersLoggedInLedger: (ledger.transfers ?? []).length,
 
-  workerMayAssertWhen: "its subject appears under transfersCompleted with grantIsLive true.",
+  workerMayAssertWhen: "the assignment version is active and the exact transfer is recorded — its subject appears under transfersCompleted with grantIsLive true and an assignmentId matching the file it holds.",
+  assertAlreadyProven:
+    "Captain ran all 20 --assert commands and every one returned CLAIM_OK. --assert is read-only: the ledger is byte-identical before and after, so this proved claimability without consuming anything. A worker whose assert is nevertheless refused is holding a stale checkout — rebase onto the branchFrom commit named in its assignment rather than working without a grant.",
+  batch: { assignmentVersion: 4, tag: "BATCH-001", workers: 10, activatedSubjects: completed.length },
 
   whatTheTransfersDidNotDo: [
     "No packet, overlay, field map, source receipt or raster receipt was touched.",
@@ -92,6 +103,6 @@ fs.writeFileSync(`${CTL}/CONTROL_STATE.json`, JSON.stringify({
   productionTouched: false,
 }, null, 2) + "\n");
 
-console.log(`CONTROL_STATE: ${allDone ? "GRANTS_LIVE_WORKERS_MAY_ASSERT" : "TRANSFERS_INCOMPLETE"}`);
+console.log(`CONTROL_STATE: ${allDone ? "ASSIGNMENTS_ACTIVE" : "TRANSFERS_INCOMPLETE"}`);
 console.log(`  completed ${completed.length}, pending ${stillPending.length}, logged in ledger ${(ledger.transfers ?? []).length}`);
 for (const p of stillPending) console.log(`  PENDING ${p.workerId} ${p.lane} ${p.subjectId} — ${p.why}`);

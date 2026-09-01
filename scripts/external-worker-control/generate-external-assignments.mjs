@@ -78,16 +78,33 @@ const duplicateGroups = [...byBytes.values()].filter((g) => g.length > 1);
 const duplicateFamilies = new Set(duplicateGroups.flat());
 
 /* ---- eligibility ---------------------------------------------------------- */
+/*
+ * A family whose live claim is on the EXTERNAL lane this dispatch targets is
+ * still that worker's work, not somebody else's.
+ *
+ * Eligibility is "no live claim", which was right until the transfers ran and
+ * then removed six of Codespace A's own families from its next assignment --
+ * regenerating would have un-assigned the work it had just activated, and the
+ * worker would have found its batch gone. A live grant held by the destination
+ * lane is the activated state, not a collision.
+ */
+const heldByLane = (lane) => new Set(ledger.claims
+  .filter((c) => c.lane === lane && c.released !== true).map((c) => c.subjectId));
+const pf17Held = heldByLane("PF17");
+const fix09Held = heldByLane("FIX09");
+
 const sourceReadyUnowned = master.families
-  .filter((f) => f.state === "SOURCE_READY" && !liveBuild.has(f.familyId))
+  .filter((f) => f.state === "SOURCE_READY" && (!liveBuild.has(f.familyId) || pf17Held.has(f.familyId)))
   .map((f) => f.familyId);
 const failNoRepairer = master.families
-  .filter((f) => f.state === "FAIL_REPAIR_REQUIRED" && !liveRepair.has(f.familyId))
+  .filter((f) => f.state === "FAIL_REPAIR_REQUIRED" && (!liveRepair.has(f.familyId) || fix09Held.has(f.familyId)))
   .map((f) => f.familyId);
 /* Second-read candidates: the first read is finished AND the family has since
  * earned a raster receipt the first read did not have. */
+const vfExternalHeld = new Set(ledger.claims
+  .filter((c) => /^VF(1[89]|2[0-5])$/.test(c.lane) && c.released !== true).map((c) => c.subjectId));
 const secondReadCandidates = rasterPass
-  .filter((f) => releasedVerify.has(f) && !liveVerify.has(f));
+  .filter((f) => (releasedVerify.has(f) && !liveVerify.has(f)) || vfExternalHeld.has(f));
 const neverRead = rasterPass.filter((f) => !anyVerify.has(f));
 
 /*
@@ -114,6 +131,15 @@ const claimPathFor = (subjectId, laneKind, targetLane) => {
       workerCommand: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert ${targetLane} ${subjectId}` };
   }
   if (held.released !== true) {
+    /* A live grant already ON the target lane is the activated state: the
+     * transfer ran, the worker simply has not asserted yet. Only a live grant
+     * held ELSEWHERE blocks. Conflating the two made the generator refuse to
+     * re-publish the six families it had activated moments earlier. */
+    if (held.lane === targetLane) {
+      return { kind: "ALREADY_ACTIVE", holdingLane: held.lane, operation: held.operation,
+        captainAction: null,
+        workerCommand: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert ${targetLane} ${subjectId}` };
+    }
     return { kind: "BLOCKED_LIVE", holdingLane: held.lane, operation: held.operation, captainAction: null, workerCommand: null };
   }
   return {
@@ -137,6 +163,22 @@ const claimPlanFor = (subjectIds, laneKind, targetLane) => {
   }
   return plan;
 };
+
+/*
+ * Batch identity. An assignment without a stable id cannot be referenced by a
+ * branch, a return, an integration record or a conversation, and both
+ * Codespaces correctly refused to start without one.
+ *
+ * The version is pinned to the batch rather than incremented per run. A version
+ * that bumps on every regeneration is noise: it made these files v4 through
+ * four regenerations that changed nothing a worker would act on, and a worker
+ * cannot tell a real re-dispatch from a re-render. The id embeds the version so
+ * the two cannot drift, and a check below refuses them if they do.
+ */
+const BATCH = { version: 4, tag: "BATCH-001" };
+const WORKER_PREFIX = { "CODEX-CS-A": "CSA", "CODEX-CS-B": "CSB" };
+const assignmentIdFor = (workerId, lane) =>
+  `${WORKER_PREFIX[workerId] ?? workerId}-${lane}-V${BATCH.version}-${BATCH.tag}`;
 
 const CAP = { "CODEX-CS-A": 6, "CODEX-CS-B": 6, cloudVerify: 5, cloudResearch: 20 };
 
@@ -168,13 +210,38 @@ const COMMON = {
   ],
 };
 
-const assignment = (workerId, spec) => ({
-  ...COMMON,
-  workerId,
-  assignmentVersion: priorVersion(workerId) + 1,
-  ...spec,
-  returnPath: `${CTL}/returns/${workerId}`,
-});
+const assignment = (workerId, spec) => {
+  const assignmentId = assignmentIdFor(workerId, spec.lane);
+  /* The id must name the version it belongs to, or a worker holding a stale
+   * file cannot tell which batch it is executing. */
+  if (!assignmentId.includes(`V${BATCH.version}-${BATCH.tag}`)) {
+    console.error(`REFUSED: ${workerId} assignmentId ${assignmentId} does not embed V${BATCH.version}-${BATCH.tag}`);
+    process.exit(1);
+  }
+  const prior = priorVersion(workerId);
+  if (prior > BATCH.version) {
+    console.error(`REFUSED: ${workerId} is already at v${prior}; this batch pins v${BATCH.version} and would move it backwards`);
+    process.exit(1);
+  }
+  return {
+    ...COMMON,
+    workerId,
+    assignmentId,
+    assignmentVersion: BATCH.version,
+    batchTag: BATCH.tag,
+    ...spec,
+    /* The return path and the branch both carry the id, so a return can be
+     * matched to the exact assignment that produced it rather than to whatever
+     * version happens to be current when it lands. */
+    returnPath: `${CTL}/returns/${workerId}/${assignmentId}`,
+    branch: spec.branchPrefix ? `${spec.branchPrefix}${assignmentId.toLowerCase()}` : null,
+    branchFrom: {
+      remote: "origin/claude/legalease-sprint-captain-utucnw",
+      mustContain: head,
+      why: "the activated ledger and this assignment live at that commit; branching from an earlier one gives you a ledger where your grant does not exist",
+    },
+  };
+};
 
 const familyDetail = (f) => ({
   familyId: f,
@@ -307,7 +374,7 @@ for (let i = 0; i < 8; i += 1) {
       claimPrerequisite: `Captain must first run: node scripts/grade-a-packet-factory-24h/claim.mjs --transfer ${releasedVerify.get(family)} ${lane} ${family} --reason "second independent read; the family earned a RASTER_PASS the first read did not have". Do not assert until CONTROL_STATE.json shows this transfer completed — a fresh assert on this family is a duplicate and will be refused.`,
       claimAssertions: [`node scripts/grade-a-packet-factory-24h/claim.mjs --assert ${lane} ${family}   # only after Captain's transfer`],
       whyASecondRead: "The first read predates this family's hash-bound raster receipt over its complete document set. That receipt is evidence the first reader did not have.",
-      ownedPaths: [`${CTL}/returns/${id}/**`],
+      ownedPaths: [`${CTL}/returns/${id}/${assignmentIdFor(id, family ? VF_LANES[i] : `DISC${String(7 + i).padStart(2, "0")}`)}/**`],
       prohibitedPaths: [
         "data/rcap-all50/**", `${FACT}/**`,
         "any packet PDF, overlay, field map, build script or source receipt",
@@ -345,7 +412,7 @@ for (let i = 0; i < 8; i += 1) {
       claimPrerequisite: "None. This slot writes evidence and holds no canonical claim; it cannot release a source or promote bytes.",
       whyNoVerificationWork: `Every RASTER_PASS family already holds an independent-verification claim (${anyVerify.size} families claimed, ${liveVerify.size} live), so only ${secondReadCandidates.length} are transfer-eligible and ${VF_LANES.length} verification lanes are provisioned. This slot researches instead of idling.`,
       task: "Source identity and currentness research on families the master queue holds at SOURCE_BLOCKED, and route crosswalk research from controlling repository decisions.",
-      ownedPaths: [`${CTL}/returns/${id}/**`],
+      ownedPaths: [`${CTL}/returns/${id}/${assignmentIdFor(id, family ? VF_LANES[i] : `DISC${String(7 + i).padStart(2, "0")}`)}/**`],
       prohibitedPaths: ["data/rcap-all50/**", `${FACT}/**`, "private/**"],
       readOnly: "Evidence only. Never record a source identity you did not corroborate, never fabricate a URL, and never impersonate a live source claim.",
       controllingEvidencePaths: [
@@ -373,6 +440,7 @@ const index = {
   externalLanes: [...new Set(assignments.map((a) => a.lane))].sort(),
   workers: assignments.map((a) => ({
     workerId: a.workerId, assignmentVersion: a.assignmentVersion, mode: a.mode,
+    assignmentId: a.assignmentId,
     lane: a.lane, laneKind: a.laneKind, subjectIds: a.subjectIds,
     /* What a claim on these subjects is actually keyed by. */
     operation: (a.claimPlan ?? [])[0]?.operation
@@ -385,9 +453,12 @@ const index = {
   })),
   claudeOwnershipUntouched: {
     liveClaudeClaimsAtGeneration: ledger.claims.filter((c) => c.released !== true).length,
-    externalSubjectsOverlappingALiveClaim: assignments
-      .flatMap((a) => a.subjectIds)
-      .filter((s) => liveBuild.has(s) || liveRepair.has(s) || liveVerify.has(s) || livePromo.has(s)),
+    /* Overlap means a live claim on a lane OTHER than the one this assignment
+     * targets. A worker's own activated grant is not a theft of its own work. */
+    externalSubjectsOverlappingALiveClaim: assignments.flatMap((a) =>
+      (a.subjectIds ?? []).filter((s) => ledger.claims.some((c) =>
+        c.subjectId === s && c.released !== true && c.lane !== a.lane))
+        .map((s) => `${a.workerId}/${a.lane}:${s}`)),
   },
   commercialRoutesOpened: 0,
   productionTouched: false,

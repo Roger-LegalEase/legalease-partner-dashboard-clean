@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-external-assignments/v1",
-  "generatedAt": "2026-09-01T11:37:22Z",
-  "captainSha": "595a3fff4dcb07c4e4a21fdc83b062818fe16710",
+  "generatedAt": "2026-09-01T11:53:30Z",
+  "captainSha": "0a9ba2265e31d705d252a955414658db81a14bac",
   "minimumAncestor": "f240e47687eddd47d432996823ce932affcd54cc",
   "purpose": "The canonical record of externally dispatched lanes. The packet-factory generator reads this so regeneration cannot delete an external grant, and F24 reads it so an external grant is not an undispatched one.",
   "externalLanes": [
@@ -21,6 +21,7 @@
       "workerId": "CODEX-CS-A",
       "assignmentVersion": 4,
       "mode": "PACKET_BUILD",
+      "assignmentId": "CSA-PF17-V4-BATCH-001",
       "lane": "PF17",
       "laneKind": "packet-build",
       "subjectIds": [
@@ -33,20 +34,14 @@
       ],
       "operation": "packet-build",
       "subjectCount": 6,
-      "requiresCaptainTransferFirst": true,
-      "captainTransferCommands": [
-        "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer PF03 PF17 ca-1203-4-set --reason \"<why this lane takes it>\"",
-        "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer PF01 PF17 ky_felony_vacatur_expungement-set --reason \"<why this lane takes it>\"",
-        "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer PF06 PF17 or_conviction_setaside-set --reason \"<why this lane takes it>\"",
-        "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer PF08 PF17 sc_17_22_950_summary-set --reason \"<why this lane takes it>\"",
-        "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer PF04 PF17 wi_nc_doj_challenge-set --reason \"<why this lane takes it>\"",
-        "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer PF05 PF17 wi_nc_doj_fingerprint_removal-set --reason \"<why this lane takes it>\""
-      ]
+      "requiresCaptainTransferFirst": false,
+      "captainTransferCommands": []
     },
     {
       "workerId": "CODEX-CS-B",
       "assignmentVersion": 4,
       "mode": "PACKET_REPAIR",
+      "assignmentId": "CSB-FIX09-V4-BATCH-001",
       "lane": "FIX09",
       "laneKind": "repair",
       "subjectIds": [
@@ -59,20 +54,14 @@
       ],
       "operation": "rapid-repair",
       "subjectCount": 6,
-      "requiresCaptainTransferFirst": true,
-      "captainTransferCommands": [
-        "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer FIX01 FIX09 az_marijuana_expungement_arrest_no_charges-set --reason \"<why this lane takes it>\"",
-        "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer FIX03 FIX09 ca-1203-42-set --reason \"<why this lane takes it>\"",
-        "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer FIX05 FIX09 ca-851-91-set --reason \"<why this lane takes it>\"",
-        "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer FIX08 FIX09 nj_arrest_no_conviction-set --reason \"<why this lane takes it>\"",
-        "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer FIX02 FIX09 nj_indictable_conviction-set --reason \"<why this lane takes it>\"",
-        "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer FIX04 FIX09 ny_160_59_petition-set --reason \"<why this lane takes it>\""
-      ]
+      "requiresCaptainTransferFirst": false,
+      "captainTransferCommands": []
     },
     {
       "workerId": "CLOUD01",
       "assignmentVersion": 4,
       "mode": "SECOND_INDEPENDENT_READ",
+      "assignmentId": "CLOUD01-VF18-V4-BATCH-001",
       "lane": "VF18",
       "laneKind": "independent-verification",
       "subjectIds": [
@@ -87,6 +76,7 @@
       "workerId": "CLOUD02",
       "assignmentVersion": 4,
       "mode": "SECOND_INDEPENDENT_READ",
+      "assignmentId": "CLOUD02-VF19-V4-BATCH-001",
       "lane": "VF19",
       "laneKind": "independent-verification",
       "subjectIds": [
@@ -101,6 +91,7 @@
       "workerId": "CLOUD03",
       "assignmentVersion": 4,
       "mode": "SECOND_INDEPENDENT_READ",
+      "assignmentId": "CLOUD03-VF20-V4-BATCH-001",
       "lane": "VF20",
       "laneKind": "independent-verification",
       "subjectIds": [
@@ -115,6 +106,7 @@
       "workerId": "CLOUD04",
       "assignmentVersion": 4,
       "mode": "SECOND_INDEPENDENT_READ",
+      "assignmentId": "CLOUD04-VF21-V4-BATCH-001",
       "lane": "VF21",
       "laneKind": "independent-verification",
       "subjectIds": [
@@ -129,6 +121,7 @@
       "workerId": "CLOUD05",
       "assignmentVersion": 4,
       "mode": "SECOND_INDEPENDENT_READ",
+      "assignmentId": "CLOUD05-VF22-V4-BATCH-001",
       "lane": "VF22",
       "laneKind": "independent-verification",
       "subjectIds": [
@@ -143,6 +136,7 @@
       "workerId": "CLOUD06",
       "assignmentVersion": 4,
       "mode": "SECOND_INDEPENDENT_READ",
+      "assignmentId": "CLOUD06-VF23-V4-BATCH-001",
       "lane": "VF23",
       "laneKind": "independent-verification",
       "subjectIds": [
@@ -157,6 +151,7 @@
       "workerId": "CLOUD07",
       "assignmentVersion": 4,
       "mode": "SECOND_INDEPENDENT_READ",
+      "assignmentId": "CLOUD07-VF24-V4-BATCH-001",
       "lane": "VF24",
       "laneKind": "independent-verification",
       "subjectIds": [
@@ -171,6 +166,7 @@
       "workerId": "CLOUD08",
       "assignmentVersion": 4,
       "mode": "SECOND_INDEPENDENT_READ",
+      "assignmentId": "CLOUD08-VF25-V4-BATCH-001",
       "lane": "VF25",
       "laneKind": "independent-verification",
       "subjectIds": [
@@ -183,7 +179,7 @@
     }
   ],
   "claudeOwnershipUntouched": {
-    "liveClaudeClaimsAtGeneration": 180,
+    "liveClaudeClaimsAtGeneration": 200,
     "externalSubjectsOverlappingALiveClaim": []
   },
   "commercialRoutesOpened": 0,

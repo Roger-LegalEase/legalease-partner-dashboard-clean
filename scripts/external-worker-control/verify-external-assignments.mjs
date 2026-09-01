@@ -107,7 +107,11 @@ const run = () => {
       const key = `packet-family|${s}|${a.laneKind}`;
       if (!existing.has(key)) continue;
       const kind = planned.get(s);
-      if (kind === "TRANSFER") continue;
+      /* TRANSFER: Captain moves the grant, then the assert succeeds.
+       * ALREADY_ACTIVE: the transfer has already run and the grant is live on
+       * this very lane, so the assert succeeds now. Both are assertable; only
+       * an unplanned assert over an existing claim is the XVF-A failure. */
+      if (kind === "TRANSFER" || kind === "ALREADY_ACTIVE") continue;
       if (!a.claimPlan && prosePromisesTransfer) continue;   // cloud slots carry the prerequisite inline
       unmintable.push(`${a.workerId} would assert ${a.laneKind} on ${s}, which already holds one; the plan says ${kind ?? "nothing"}`);
     }
@@ -131,7 +135,7 @@ const run = () => {
     writeProblems.length === 0, `${writeProblems.length} problem(s): ${writeProblems.slice(0, 2).join(" | ")}`);
 
   /* E7. The contract fields the control plane depends on are present. */
-  const REQUIRED = ["schemaVersion", "assignmentVersion", "workerId", "createdAt", "captainSha",
+  const REQUIRED = ["schemaVersion", "assignmentId", "assignmentVersion", "workerId", "createdAt", "captainSha",
     "mode", "lane", "laneKind", "subjectIds", "ownedPaths", "prohibitedPaths",
     "controllingEvidencePaths", "focusedTestCommands", "rasterDisposition",
     "stopConditions", "returnPath", "commercialRoutesOpened", "productionTouched"];
@@ -145,6 +149,29 @@ const run = () => {
   }
   check("E7", "every assignment carries the full contract and opens nothing",
     missing.length === 0, `${assignments.length} file(s) x ${REQUIRED.length + 1} field(s); ${missing.length} problem(s): ${missing.slice(0, 2).join(" | ")}`);
+
+  /*
+   * E9. An assignment without a stable id cannot be referenced by a branch, a
+   * return, an integration record or a person, and both Codespaces correctly
+   * refused to start without one. The id must also agree with the version it
+   * claims, or a worker holding a stale file cannot tell which batch it is
+   * running.
+   */
+  const idProblems = [];
+  const seenIds = new Map();
+  for (const a of assignments) {
+    const id = a.assignmentId;
+    if (typeof id !== "string" || id.trim() === "") { idProblems.push(`${a.workerId} has no assignmentId`); continue; }
+    if (seenIds.has(id)) idProblems.push(`${id} is used by both ${seenIds.get(id)} and ${a.workerId}`);
+    seenIds.set(id, a.workerId);
+    if (!id.includes(`V${a.assignmentVersion}`)) idProblems.push(`${a.workerId}: id ${id} does not name version ${a.assignmentVersion}`);
+    if (!id.includes(a.lane)) idProblems.push(`${a.workerId}: id ${id} does not name lane ${a.lane}`);
+    if (a.returnPath && !a.returnPath.includes(id)) idProblems.push(`${a.workerId}: returnPath does not carry the assignmentId, so a return cannot be matched to the batch that produced it`);
+    if (a.branch && !a.branch.includes(id.toLowerCase())) idProblems.push(`${a.workerId}: branch does not carry the assignmentId`);
+  }
+  check("E9", "every assignment has a stable, unique id that names its lane and version, and the return path carries it",
+    idProblems.length === 0 && assignments.length > 0,
+    `${seenIds.size} distinct id(s) over ${assignments.length} assignment(s); ${idProblems.length} problem(s): ${idProblems.slice(0, 2).join(" | ")}`);
 
   /* E8. A verifier must not be told to verify what it was told to build. */
   const byWorkerKind = new Map();
@@ -183,6 +210,10 @@ if (MUTATIONS) {
         const held = l.claims.find((c) => c.released !== true && c.lane !== j.lane);
         if (!held) return j;
         j.subjectIds = [held.subjectId]; return j; } },
+    { id: "E9", name: "an assignment with no id is caught", file: target,
+      edit: (j) => { delete j.assignmentId; return j; } },
+    { id: "E9", name: "an id that disagrees with its version is caught", file: target,
+      edit: (j) => { j.assignmentId = j.assignmentId.replace(/V\d+/, "V99"); return j; } },
     { id: "E4", name: "an unresolvable lane name is caught", file: target,
       edit: (j) => { j.lane = "XVF-A"; return j; } },
     { id: "E5", name: "an assert on a family that already holds that claim is caught", file: target,

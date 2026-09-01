@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-external-assignment/v1",
-  "captainSha": "595a3fff4dcb07c4e4a21fdc83b062818fe16710",
-  "createdAt": "2026-09-01T11:37:22Z",
+  "captainSha": "0a9ba2265e31d705d252a955414658db81a14bac",
+  "createdAt": "2026-09-01T11:53:30Z",
   "minimumAncestor": "f240e47687eddd47d432996823ce932affcd54cc",
   "commercialRoutesOpened": 0,
   "productionTouched": false,
@@ -22,7 +22,9 @@
     "verify a packet you built or repaired"
   ],
   "workerId": "CODEX-CS-B",
+  "assignmentId": "CSB-FIX09-V4-BATCH-001",
   "assignmentVersion": 4,
+  "batchTag": "BATCH-001",
   "mode": "PACKET_REPAIR",
   "role": "Repair and Promotion Factory (persistent Codespace)",
   "lane": "FIX09",
@@ -82,60 +84,60 @@
   "claimPlan": [
     {
       "subjectId": "az_marijuana_expungement_arrest_no_charges-set",
-      "kind": "TRANSFER",
-      "holdingLane": "FIX01",
+      "kind": "ALREADY_ACTIVE",
+      "holdingLane": "FIX09",
       "operation": "rapid-repair",
-      "captainAction": "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer FIX01 FIX09 az_marijuana_expungement_arrest_no_charges-set --reason \"<why this lane takes it>\"",
-      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 az_marijuana_expungement_arrest_no_charges-set   # only after Captain's transfer"
+      "captainAction": null,
+      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 az_marijuana_expungement_arrest_no_charges-set"
     },
     {
       "subjectId": "ca-1203-42-set",
-      "kind": "TRANSFER",
-      "holdingLane": "FIX03",
+      "kind": "ALREADY_ACTIVE",
+      "holdingLane": "FIX09",
       "operation": "rapid-repair",
-      "captainAction": "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer FIX03 FIX09 ca-1203-42-set --reason \"<why this lane takes it>\"",
-      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 ca-1203-42-set   # only after Captain's transfer"
+      "captainAction": null,
+      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 ca-1203-42-set"
     },
     {
       "subjectId": "ca-851-91-set",
-      "kind": "TRANSFER",
-      "holdingLane": "FIX05",
+      "kind": "ALREADY_ACTIVE",
+      "holdingLane": "FIX09",
       "operation": "rapid-repair",
-      "captainAction": "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer FIX05 FIX09 ca-851-91-set --reason \"<why this lane takes it>\"",
-      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 ca-851-91-set   # only after Captain's transfer"
+      "captainAction": null,
+      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 ca-851-91-set"
     },
     {
       "subjectId": "nj_arrest_no_conviction-set",
-      "kind": "TRANSFER",
-      "holdingLane": "FIX08",
+      "kind": "ALREADY_ACTIVE",
+      "holdingLane": "FIX09",
       "operation": "rapid-repair",
-      "captainAction": "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer FIX08 FIX09 nj_arrest_no_conviction-set --reason \"<why this lane takes it>\"",
-      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 nj_arrest_no_conviction-set   # only after Captain's transfer"
+      "captainAction": null,
+      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 nj_arrest_no_conviction-set"
     },
     {
       "subjectId": "nj_indictable_conviction-set",
-      "kind": "TRANSFER",
-      "holdingLane": "FIX02",
+      "kind": "ALREADY_ACTIVE",
+      "holdingLane": "FIX09",
       "operation": "rapid-repair",
-      "captainAction": "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer FIX02 FIX09 nj_indictable_conviction-set --reason \"<why this lane takes it>\"",
-      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 nj_indictable_conviction-set   # only after Captain's transfer"
+      "captainAction": null,
+      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 nj_indictable_conviction-set"
     },
     {
       "subjectId": "ny_160_59_petition-set",
-      "kind": "TRANSFER",
-      "holdingLane": "FIX04",
+      "kind": "ALREADY_ACTIVE",
+      "holdingLane": "FIX09",
       "operation": "rapid-repair",
-      "captainAction": "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer FIX04 FIX09 ny_160_59_petition-set --reason \"<why this lane takes it>\"",
-      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 ny_160_59_petition-set   # only after Captain's transfer"
+      "captainAction": null,
+      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 ny_160_59_petition-set"
     }
   ],
   "claimAssertions": [
-    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 az_marijuana_expungement_arrest_no_charges-set   # only after Captain's transfer",
-    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 ca-1203-42-set   # only after Captain's transfer",
-    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 ca-851-91-set   # only after Captain's transfer",
-    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 nj_arrest_no_conviction-set   # only after Captain's transfer",
-    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 nj_indictable_conviction-set   # only after Captain's transfer",
-    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 ny_160_59_petition-set   # only after Captain's transfer"
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 az_marijuana_expungement_arrest_no_charges-set",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 ca-1203-42-set",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 ca-851-91-set",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 nj_arrest_no_conviction-set",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 nj_indictable_conviction-set",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 ny_160_59_petition-set"
   ],
   "claimPrerequisite": "Every one of these families already holds a RELEASED repair claim from FIX01-FIX08, so a bare --assert is refused as a duplicate. Captain transfers each grant to FIX09 first; claimPlan carries the exact command per subject.",
   "ownedPaths": [
@@ -172,5 +174,11 @@
   ],
   "branchPrefix": "codex/cs-b/",
   "expiresAt": null,
-  "returnPath": "data/rcap-grade-a/external-worker-control/returns/CODEX-CS-B"
+  "returnPath": "data/rcap-grade-a/external-worker-control/returns/CODEX-CS-B/CSB-FIX09-V4-BATCH-001",
+  "branch": "codex/cs-b/csb-fix09-v4-batch-001",
+  "branchFrom": {
+    "remote": "origin/claude/legalease-sprint-captain-utucnw",
+    "mustContain": "0a9ba2265e31d705d252a955414658db81a14bac",
+    "why": "the activated ledger and this assignment live at that commit; branching from an earlier one gives you a ledger where your grant does not exist"
+  }
 }
