@@ -92,12 +92,15 @@ const heldByLane = (lane) => new Set(ledger.claims
   .filter((c) => c.lane === lane && c.released !== true).map((c) => c.subjectId));
 const pf17Held = heldByLane("PF17");
 const fix09Held = heldByLane("FIX09");
+const fix10Held = heldByLane("FIX10");
+const fix11Held = heldByLane("FIX11");
 
 const sourceReadyUnowned = master.families
   .filter((f) => f.state === "SOURCE_READY" && (!liveBuild.has(f.familyId) || pf17Held.has(f.familyId)))
   .map((f) => f.familyId);
 const failNoRepairer = master.families
-  .filter((f) => f.state === "FAIL_REPAIR_REQUIRED" && (!liveRepair.has(f.familyId) || fix09Held.has(f.familyId)))
+  .filter((f) => f.state === "FAIL_REPAIR_REQUIRED"
+    && (!liveRepair.has(f.familyId) || fix09Held.has(f.familyId) || fix10Held.has(f.familyId) || fix11Held.has(f.familyId)))
   .map((f) => f.familyId);
 /* Second-read candidates: the first read is finished AND the family has since
  * earned a raster receipt the first read did not have. */
@@ -126,7 +129,11 @@ const neverRead = rasterPass.filter((f) => !anyVerify.has(f));
 const claimPathFor = (subjectId, laneKind, targetLane) => {
   const held = ledger.claims.find((c) => c.subjectId === subjectId && c.laneKind === laneKind);
   if (!held) {
-    return { kind: "MINT", holdingLane: null, operation: laneKind,
+    /* The operation a mint will actually write. repair's operation is
+     * "rapid-repair" everywhere in the ledger; recording the laneKind here made
+     * F24 read nine fresh grants as undispatched — the same repair/rapid-repair
+     * mismatch as before, from the opposite side. */
+    return { kind: "MINT", holdingLane: null, operation: laneKind === "repair" ? "rapid-repair" : laneKind,
       captainAction: null,
       workerCommand: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert ${targetLane} ${subjectId}` };
   }
@@ -176,7 +183,7 @@ const claimPlanFor = (subjectIds, laneKind, targetLane) => {
  * the two cannot drift, and a check below refuses them if they do.
  */
 const BATCH = { version: 4, tag: "BATCH-001" };
-const WORKER_PREFIX = { "CODEX-CS-A": "CSA", "CODEX-CS-B": "CSB" };
+const WORKER_PREFIX = { "CODEX-CS-A": "CSA", "CODEX-CS-B": "CSB", "FABLE-R3": "FR3", "FABLE-R4": "FR4" };
 const assignmentIdFor = (workerId, lane) =>
   `${WORKER_PREFIX[workerId] ?? workerId}-${lane}-V${BATCH.version}-${BATCH.tag}`;
 
@@ -341,6 +348,62 @@ assignments.push(assignment("CODEX-CS-B", {
   branchPrefix: "codex/cs-b/",
   expiresAt: null,
 }));
+
+/* ---- Fable repair lanes: the director's own subagents ---------------------- */
+/*
+ * Codex is off the critical packet path; the repairs beyond Codespace B's cap
+ * go to the director's long-lived subagents. Same contract, same locks, same
+ * checks -- only the runner differs. FIX10 carries the nine Washington vacate
+ * families, which share one host and one instructions generator, so a single
+ * writer repairs all nine without a shared-host collision. FIX11 carries the
+ * Pennsylvania pair, whose failures are packet-content and will move bytes.
+ */
+const remainingRepairs = failNoRepairer.filter((f) => !bFamilies.includes(f));
+const waRepairs = remainingRepairs.filter((f) => /^wa_vac_/.test(f)).slice(0, 10);
+const otherRepairs = remainingRepairs.filter((f) => !waRepairs.includes(f)).slice(0, 6);
+
+for (const [workerId, lane, fams, note] of [
+  ["FABLE-R3", "FIX10", waRepairs,
+    "All nine share the Washington vacate host. Repair the instructions obligations (FEE_AND_WAIVER, FILING_DESTINATION, SERVICE, SELF_HELP_STOP) from sourced material without touching packet bytes, so the raster receipts survive. ROUTE_OPTIONS on the four families that fail it is the duplicate-byte route-election question: classify it from the official form's face (does the form carry a ground or election the participant must mark? South Dakota's host carries routeSelectionId and passes) — if the form does, the packet is missing a route election and that IS a byte repair, do it per the SD pattern and say the receipts die; if it is genuinely a legal question, return BLOCKED_LEGAL_INPUT naming it."],
+  ["FABLE-R4", "FIX11", otherRepairs,
+    "Packet-content failures (REPEATING_ROWS, KNOWN_PREFILLS, SELF_HELP_STOP). Byte changes are expected: rebuild deterministically, twice byte-identical, and state that the raster receipt is invalidated so the captain re-rasters."],
+]) {
+  if (!fams.length) continue;
+  assignments.push(assignment(workerId, {
+    mode: "PACKET_REPAIR",
+    role: "Fable director subagent (isolated worktree)",
+    lane, laneKind: "repair",
+    subjectIds: fams,
+    subjects: fams.map((f) => ({ ...familyDetail(f), firstReadBy: releasedVerify.get(f) ?? null })),
+    claimPlan: claimPlanFor(fams, "repair", lane),
+    claimAssertions: claimPlanFor(fams, "repair", lane).map((p) => p.workerCommand),
+    claimPrerequisite: "claimPlan is per subject: MINT rows are minted by the director before the agent starts; TRANSFER rows are moved with claim.mjs --transfer. Assert before touching anything; a refusal is a full stop.",
+    laneNote: note,
+    ownedPaths: fams.map((f) => dirOf.get(f)).filter(Boolean).map((d) => `${d}/**`),
+    prohibitedPaths: [
+      `${FACT}/claim-ledger.json`, `${FACT}/RASTER_QUEUE.json`,
+      `${FACT}/MASTER_QUEUE.json`, `${FACT}/ACTIVE_ASSIGNMENTS.json`,
+    ],
+    controllingEvidencePaths: [
+      "data/rcap-grade-a/launch-control/next-waves/REPAIR_BY_DEFECT_CLASS.json",
+      "data/rcap-grade-a/launch-control/next-waves/PARTICIPANT_INSTRUCTIONS_GAP.json",
+      "data/rcap-grade-a/fable-packet-factory/FACTORY_MEMORY.md",
+    ],
+    focusedTestCommands: [
+      "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs",
+      "node scripts/grade-a-packet-factory-24h/verify-lane-contracts.mjs",
+    ],
+    rasterDisposition: "Instructions-only repairs leave packet bytes untouched and the receipt survives — say so explicitly per family. Byte changes invalidate the receipt — say that too.",
+    repairerSeparation: "You repair. A different worker verifies.",
+    stopConditions: [
+      "a claim assert is refused",
+      "the repair would require an unsourced court, fee, waiver route or service rule",
+      "a live verification grant is open on the family",
+    ],
+    branchPrefix: "fable/",
+    expiresAt: null,
+  }));
+}
 
 /* ---- Codex Cloud: eight slots --------------------------------------------- */
 /* All eight, not five. The mission allots VF18-VF25 and the fill order puts

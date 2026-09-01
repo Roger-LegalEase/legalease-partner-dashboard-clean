@@ -1,11 +1,13 @@
 {
   "schemaVersion": "rcap-external-assignments/v1",
-  "generatedAt": "2026-09-01T11:53:30Z",
-  "captainSha": "0a9ba2265e31d705d252a955414658db81a14bac",
+  "generatedAt": "2026-09-01T12:22:08Z",
+  "captainSha": "26aa64d00e7eb0406e5c7939febed85b50d0cf60",
   "minimumAncestor": "f240e47687eddd47d432996823ce932affcd54cc",
   "purpose": "The canonical record of externally dispatched lanes. The packet-factory generator reads this so regeneration cannot delete an external grant, and F24 reads it so an external grant is not an undispatched one.",
   "externalLanes": [
     "FIX09",
+    "FIX10",
+    "FIX11",
     "PF17",
     "VF18",
     "VF19",
@@ -55,6 +57,45 @@
       "operation": "rapid-repair",
       "subjectCount": 6,
       "requiresCaptainTransferFirst": false,
+      "captainTransferCommands": []
+    },
+    {
+      "workerId": "FABLE-R3",
+      "assignmentVersion": 4,
+      "mode": "PACKET_REPAIR",
+      "assignmentId": "FR3-FIX10-V4-BATCH-001",
+      "lane": "FIX10",
+      "laneKind": "repair",
+      "subjectIds": [
+        "wa_vac_cannabis-set",
+        "wa_vac_domestic_violence-set",
+        "wa_vac_felony-set",
+        "wa_vac_homicide_victim_prostitution-set",
+        "wa_vac_misdemeanor_ordinary-set",
+        "wa_vac_substance_use_disorder-set",
+        "wa_vac_survivor_felony-set",
+        "wa_vac_survivor_misdemeanor-set",
+        "wa_vac_treaty_fishing-set"
+      ],
+      "operation": "rapid-repair",
+      "subjectCount": 9,
+      "requiresCaptainTransferFirst": true,
+      "captainTransferCommands": []
+    },
+    {
+      "workerId": "FABLE-R4",
+      "assignmentVersion": 4,
+      "mode": "PACKET_REPAIR",
+      "assignmentId": "FR4-FIX11-V4-BATCH-001",
+      "lane": "FIX11",
+      "laneKind": "repair",
+      "subjectIds": [
+        "pa_490_nonconviction-set",
+        "pa_9122_1_limited_access-set"
+      ],
+      "operation": "rapid-repair",
+      "subjectCount": 2,
+      "requiresCaptainTransferFirst": true,
       "captainTransferCommands": []
     },
     {
@@ -179,7 +220,7 @@
     }
   ],
   "claudeOwnershipUntouched": {
-    "liveClaudeClaimsAtGeneration": 200,
+    "liveClaudeClaimsAtGeneration": 211,
     "externalSubjectsOverlappingALiveClaim": []
   },
   "commercialRoutesOpened": 0,
