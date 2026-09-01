@@ -22,10 +22,10 @@
   "supersessionRule": "one current verdict per family: the highest-precedence lane wins (factory vf lanes over codex-cloud directories, then higher lane number); superseded rows remain as history with superseded: true",
   "counts": {
     "returnDirectories": 29,
-    "rows": 77,
-    "independentVerdicts": 45,
+    "rows": 88,
+    "independentVerdicts": 55,
     "failRepairRequired": 29,
-    "passIndependent": 13
+    "passIndependent": 23
   },
   "failRepairRequiredFamilies": [
     "ar-arrest-seal-set",
@@ -33,6 +33,8 @@
     "az_marijuana_expungement_arrest_no_charges-set",
     "ca-1203-42-set",
     "ca-851-91-set",
+    "ky_void_seal_controlled_substance-set",
+    "ky_void_seal_marijuana_synthetic_salvia-set",
     "mi_setaside_marihuana-set",
     "nj_arrest_no_conviction-set",
     "nj_indictable_conviction-set",
@@ -44,8 +46,6 @@
     "sd_arrest_expungement-set",
     "ut_pet_dismissed_without_prejudice-set",
     "ut_pet_limitations-set",
-    "ut_pet_no_charges-set",
-    "ut_pet_traffic-set",
     "vt_seal_18_to_21-set",
     "vt_seal_dui-set",
     "wa_vac_cannabis-set",
@@ -435,6 +435,158 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf14/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf14/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ct-cleanslate-petition-set",
+      "superseded": false
+    },
+    {
+      "familyId": "dc_correct_misattributed_arrest-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf10",
+      "isIndependentVerification": true,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf10/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf10/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family dc_correct_misattributed_arrest-set",
+      "superseded": false
+    },
+    {
+      "familyId": "dc_innocence_expungement-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf11",
+      "isIndependentVerification": true,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf11/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf11/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family dc_innocence_expungement-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ga-fo-active-pre2026-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf10",
+      "isIndependentVerification": true,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf10/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf10/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ga-fo-active-pre2026-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ga-fo-discharged-pre2026-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf11",
+      "isIndependentVerification": true,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf11/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf11/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ga-fo-discharged-pre2026-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ky_felony_vacatur_expungement-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf11",
+      "isIndependentVerification": true,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf11/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf11/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ky_felony_vacatur_expungement-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ky_void_seal_controlled_substance-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf10",
+      "isIndependentVerification": true,
+      "failedObligations": [
+        {
+          "obligation": "routeIdentity",
+          "finding": "The family's own artifacts disagree on the route key, and the key the participant-facing pages print does not exist. production-field-map.json, participant-instructions.md and the Route: line printed on the pages of both fixtures carry \"obligation:track-pathway:KY:ky_void_seal_controlled_substance:void-and-seal\", while product-wiring.json and the MASTER_QUEUE row carry \"obligation:track-only:KY:ky_void_seal_controlled_substance\". The canonical route universe (data/rcap-grade-a/route-obligation-census-candidate/canonical-route-universe.json) contains only the track-only key; the track-pathway:...:void-and-seal key occurs zero times there. The statute, jurisdiction and track id all agree, so this is a keying defect, not a wrong-route packet - but a Grade-A record must be keyed to an exact route, and the face and field map are keyed to a route that does not exist. Repair: re-key production-field-map.json and participant-instructions.md to the canonical track-only key and rerender so the printed Route: line matches; every other one of this verifier's obligations passes on the current bytes.",
+          "evidence": {
+            "fieldMapRouteKeys": [
+              "obligation:track-pathway:KY:ky_void_seal_controlled_substance:void-and-seal"
+            ],
+            "wiringRouteKeys": [
+              "obligation:track-only:KY:ky_void_seal_controlled_substance"
+            ],
+            "masterQueueRouteKeys": [
+              "obligation:track-only:KY:ky_void_seal_controlled_substance"
+            ],
+            "canonicalUniverseOccurrences": {
+              "trackOnlyKey": "present",
+              "trackPathwayVoidAndSealKey": 0
+            },
+            "routeLinePrintedOnFace": "obligation:track-pathway:KY:ky_void_seal_controlled_substance:void-and-seal",
+            "comparison": "the other ten families in this verifier two lanes all agree fieldMap = wiring = MASTER_QUEUE; only these two Kentucky families disagree"
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "routeIdentity"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf10/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf10/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ky_void_seal_controlled_substance-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ky_void_seal_marijuana_synthetic_salvia-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf11",
+      "isIndependentVerification": true,
+      "failedObligations": [
+        {
+          "obligation": "routeIdentity",
+          "finding": "The family's own artifacts disagree on the route key, and the key the participant-facing pages print does not exist. production-field-map.json, participant-instructions.md and the Route: line printed on the pages of both fixtures carry \"obligation:track-pathway:KY:ky_void_seal_marijuana_synthetic_salvia:void-and-seal\", while product-wiring.json and the MASTER_QUEUE row carry \"obligation:track-only:KY:ky_void_seal_marijuana_synthetic_salvia\". The canonical route universe (data/rcap-grade-a/route-obligation-census-candidate/canonical-route-universe.json) contains only the track-only key; the track-pathway:...:void-and-seal key occurs zero times there. The statute, jurisdiction and track id all agree, so this is a keying defect, not a wrong-route packet - but a Grade-A record must be keyed to an exact route, and the face and field map are keyed to a route that does not exist. Repair: re-key production-field-map.json and participant-instructions.md to the canonical track-only key and rerender so the printed Route: line matches; every other one of this verifier's obligations passes on the current bytes.",
+          "evidence": {
+            "fieldMapRouteKeys": [
+              "obligation:track-pathway:KY:ky_void_seal_marijuana_synthetic_salvia:void-and-seal"
+            ],
+            "wiringRouteKeys": [
+              "obligation:track-only:KY:ky_void_seal_marijuana_synthetic_salvia"
+            ],
+            "masterQueueRouteKeys": [
+              "obligation:track-only:KY:ky_void_seal_marijuana_synthetic_salvia"
+            ],
+            "canonicalUniverseOccurrences": {
+              "trackOnlyKey": "present",
+              "trackPathwayVoidAndSealKey": 0
+            },
+            "routeLinePrintedOnFace": "obligation:track-pathway:KY:ky_void_seal_marijuana_synthetic_salvia:void-and-seal",
+            "comparison": "the other ten families in this verifier two lanes all agree fieldMap = wiring = MASTER_QUEUE; only these two Kentucky families disagree"
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "routeIdentity"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf11/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf11/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ky_void_seal_marijuana_synthetic_salvia-set",
+      "superseded": false
+    },
+    {
+      "familyId": "me-nonconv-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf11",
+      "isIndependentVerification": true,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf11/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf11/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family me-nonconv-set",
       "superseded": false
     },
     {
@@ -1262,6 +1414,19 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf09/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_no_charges-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ut_pet_no_charges-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf10",
+      "isIndependentVerification": true,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf10/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf10/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_no_charges-set",
       "superseded": false
     },
     {
@@ -1279,103 +1444,14 @@
     },
     {
       "familyId": "ut_pet_traffic-set",
-      "verdict": "FAIL_REPAIR_REQUIRED",
-      "lane": "vf10",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf11",
       "isIndependentVerification": true,
-      "failedObligations": [
-        {
-          "obligation": "requiredBeforeFiling",
-          "finding": "Of the 5 blanks the map declares REQUIRED_BEFORE_FILING, the four \"Court Address\" blanks on 1002EX and 1022EX are named by \"- Judicial district and court street address for the filing venue\". The fifth, 1002EX blankId p1-y296.76-x65.88 captured as \"1. Certificate of eligibility is not required\", is named by no instruction line. Reading the source bytes at that position shows why: the caption was taken from the numbered paragraph below it (printed at page 1 y=273.5), while the measured rule at y=296.76 spanning x65.88-x324.12 is the bottom border of the caption table's left cell. It is a table rule, not a blank, and on this route no certificate of eligibility is required at all, so there is nothing for the participant to supply.",
-          "evidence": {
-            "declaredBlankDispositions": {
-              "REQUIRED_BEFORE_FILING": 5,
-              "PROTECTED_FIELD": 35,
-              "NOT_APPLICABLE_ON_THIS_ROUTE": 103,
-              "OPTIONAL_PARTICIPANT_CONTENT": 37,
-              "LATER_COMPLETION": 3
-            },
-            "requiredBeforeFilingCount": 5,
-            "itemsNotNamedInInstructions": [
-              {
-                "formNumber": "1002EX",
-                "blankId": "p1-y296.76-x65.88",
-                "capturedCaption": "1. Certificate of eligibility is not required",
-                "construction": "content_stream_rule",
-                "measured": {
-                  "x0": 65.88,
-                  "x1": 324.12,
-                  "baselineY": 296.76
-                },
-                "printedTextAtThatPositionReadFromBytes": "nothing; the nearest printed lines are \"Judge\" at y=305.4 (right column, x=329.76) and the numbered paragraph \"1. Certificate of eligibility is not required\" at y=273.5",
-                "routeNote": "routeSelectionId ut-traffic-direct-court-no-bci requires no certificate of eligibility"
-              }
-            ],
-            "itemsNamedAndHowTheyWereMatched": [
-              {
-                "blanks": "1002EX Court Address x2; 1022EX Court Address x2",
-                "namedBy": "- Judicial district and court street address for the filing venue"
-              }
-            ]
-          }
-        },
-        {
-          "obligation": "filingDestination",
-          "finding": "participant-instructions.md never tells the participant where to file. It lists \"Judicial district and court street address for the filing venue\" as a blank the participant must supply, which is the opposite of naming the destination, and it never mentions the district court that receives the traffic expungement or deletion petition. The packet's own caption does carry route-determined evidence of a destination — the \"In the [ ] District [ ] Justice Court of Utah\" election is marked District and the county is written — but a marked caption box is not the instructions naming a court.",
-          "evidence": {
-            "instructionsHeadings": [
-              "# Required before filing"
-            ],
-            "courtOrAgencyNamedInInstructions": null,
-            "routeDestinations": "the district court that receives the traffic expungement or deletion petition",
-            "captionEvidenceOnTheBytes": {
-              "election": "In the [ ] District [ ] Justice Court of Utah",
-              "marked": "District",
-              "countyWritten": "Example County"
-            },
-            "instructionLineTreatingTheVenueAsAParticipantBlank": "- Judicial district and court street address for the filing venue"
-          }
-        },
-        {
-          "obligation": "feeAndWaiver",
-          "finding": "The court filing fee is stated: the packet fills and selects the district-court cover sheet row \"$150 [ ] Expungement Petition - Criminal (E)\" on 1044XX page 2, proved by an X read from the output bytes at x355.98 y359.1 inside that row's bracket. No waiver route is stated anywhere in the packet or the instructions — no fee-waiver motion is included, named or referenced.",
-          "evidence": {
-            "courtFeeStated": true,
-            "courtFeeEvidence": {
-              "form": "1044XX",
-              "sourcePage": 2,
-              "row": "$150  [ ] Expungement Petition - Criminal (E)",
-              "markReadFromOutputBytes": {
-                "x": 357.48,
-                "y": 359.1,
-                "glyph": "X"
-              }
-            },
-            "waiverRouteStated": false,
-            "waiverFormIncluded": false
-          }
-        },
-        {
-          "obligation": "service",
-          "finding": "The instructions never state who must be served or how. The only service line, \"Service method, address, date, and certification only after service occurs\", hands the participant the method and the recipient as blanks to fill in, and the closing sentence records that service certifications are protected. Neither names a recipient or a method.",
-          "evidence": {
-            "recipientStated": false,
-            "methodStated": false,
-            "instructionLines": [
-              "- Service method, address, date, and certification only after service occurs",
-              "Signatures, signature dates, service certifications, court-only fields, agency-only fields, prosecutor-only fields, victim fields, and optional third-party authorizations remain protected."
-            ]
-          }
-        }
-      ],
-      "failedObligationNames": [
-        "feeAndWaiver",
-        "filingDestination",
-        "requiredBeforeFiling",
-        "service"
-      ],
+      "failedObligations": [],
+      "failedObligationNames": [],
       "unmeasuredObligations": [],
-      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf10/rows.json",
-      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf10/repair-assignments.json",
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf11/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf11/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_traffic-set",
       "superseded": false
     },
@@ -1489,6 +1565,19 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf26/rows.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_seal_petition_misdemeanor-set",
+      "superseded": false
+    },
+    {
+      "familyId": "vt_exp_deferred_sentence-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf10",
+      "isIndependentVerification": true,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf10/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf10/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_exp_deferred_sentence-set",
       "superseded": false
     },
     {
@@ -1742,6 +1831,19 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_misdemeanor-set",
+      "superseded": false
+    },
+    {
+      "familyId": "vt_seal_under_25-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf11",
+      "isIndependentVerification": true,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf11/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf11/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_under_25-set",
       "superseded": false
     },
     {
