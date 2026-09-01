@@ -56,11 +56,9 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 4 families
+## The 2 families
 
 - `ca-851-91-set` — failing: knownRequiredFieldsMissing, incompleteRows
-- `nj_indictable_conviction-set` — failing: knownRequiredFieldsMissing
-- `pa_790_nonconviction-set` — failing: knownRequiredFieldsMissing, unclassifiedBlanks, incompleteRows, requiredComponentsMissing
 - `ut_pet_no_charges-set`
 
 ## What you receive
@@ -75,12 +73,8 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 
 - `data/rcap-grade-a/packet-factory-24h/fix04/**`
 - `data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/**`
 - `scripts/build-census-v1-ca-851-91-set.mjs`
-- `scripts/build-census-v1-nj_indictable_conviction-set.mjs`
-- `scripts/build-census-v1-pa_790_nonconviction-set.mjs`
 - `scripts/build-census-v1-ut_pet_no_charges-set.mjs`
 
 ## Never write here

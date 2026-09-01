@@ -56,11 +56,9 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 5 families
+## The 3 families
 
 - `ca-1203-42-set` — failing: incompleteRows, requiredOptionsMissing
-- `md_second_chance_shielding-set` — failing: requiredOptionsMissing
-- `ny_160_59_petition-set` — failing: knownRequiredFieldsMissing
 - `ut_pet_dismissed_without_prejudice-set`
 - `vt_seal_18_to_21-set`
 
@@ -76,13 +74,9 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 
 - `data/rcap-grade-a/packet-factory-24h/fix02/**`
 - `data/rcap-all50/overlays/census-v1/ca/ca-1203-42-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/md/md-second-chance-shielding-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/ny/ny-160-59-petition-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill/**`
 - `scripts/build-census-v1-ca-1203-42-set.mjs`
-- `scripts/build-census-v1-md_second_chance_shielding-set.mjs`
-- `scripts/build-census-v1-ny_160_59_petition-set.mjs`
 - `scripts/build-census-v1-ut_pet_dismissed_without_prejudice-set.mjs`
 - `scripts/build-census-v1-vt_seal_18_to_21-set.mjs`
 
