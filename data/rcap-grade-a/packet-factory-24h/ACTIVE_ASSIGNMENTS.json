@@ -310,7 +310,7 @@
       "itemKind": "packetFamily",
       "itemCount": 1,
       "items": [
-        "va_exp_identity_used_by_another-set"
+        "wv_nc_diversion_deferred-set"
       ],
       "provisionedEmpty": false,
       "refillRule": "When a source lane releases a family, Captain appends it to the emptiest PF lane and the lane starts it without waiting for the rest of the source lane to finish.",
@@ -321,39 +321,33 @@
       ],
       "groupsCarried": [
         {
-          "groupKey": "NO_SHARED_HOST::NONE::custom_pleading::commonwealth_service+filing_instructions+law_enforcement_fingerprint_instructions+misidentification_motion+primary_filing",
+          "groupKey": "NO_SHARED_HOST::SCA-C903::official_pdf_fill::certificate_of_service+filing_instructions+primary_filing+supplemental_pleading",
           "families": [
-            "va_exp_identity_used_by_another-set"
+            "wv_nc_diversion_deferred-set"
           ]
         }
       ],
       "familyDetail": [
         {
-          "familyId": "va_exp_identity_used_by_another-set",
-          "jurisdiction": "VA",
-          "strategy": "custom_pleading",
-          "forms": [],
-          "components": 0,
+          "familyId": "wv_nc_diversion_deferred-set",
+          "jurisdiction": "WV",
+          "strategy": "official_pdf_fill",
+          "forms": [
+            "SCA-C903"
+          ],
+          "components": 2,
           "instrumentKinds": [
-            "commonwealth_service",
+            "certificate_of_service",
             "filing_instructions",
-            "law_enforcement_fingerprint_instructions",
-            "misidentification_motion",
-            "primary_filing"
+            "primary_filing",
+            "supplemental_pleading"
           ],
           "routeCount": 1,
-          "directory": "data/rcap-all50/overlays/census-v1/va/va-exp-identity-used-by-another-set--custom-pleading",
-          "buildScript": "scripts/build-census-v1-va_exp_identity_used_by_another-set.mjs",
+          "directory": "data/rcap-all50/overlays/census-v1/wv/wv-nc-diversion-deferred-set--official-pdf-fill",
+          "buildScript": "scripts/build-census-v1-wv_nc_diversion_deferred-set.mjs",
           "sharedBuildHost": null,
           "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
-          "sourceHashes": [
-            {
-              "sourceId": "source-sha256:6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
-              "path": "STATES/VA/02_PACKET_FORMS/VA__FORM__CC-1473__petition-for-expungement__REV-2026-07__EN.pdf",
-              "sha256": "6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
-              "tier": "exact_content_hash"
-            }
-          ]
+          "sourceHashes": []
         }
       ],
       "builderObligations": [
@@ -399,8 +393,8 @@
       "neverSelfVerify": "You do not verify your own packets. A builder verdict is not a verdict, and a VF lane that did not build them decides.",
       "ownedPaths": [
         "data/rcap-grade-a/packet-factory-24h/pf02/**",
-        "data/rcap-all50/overlays/census-v1/va/va-exp-identity-used-by-another-set--custom-pleading/**",
-        "scripts/build-census-v1-va_exp_identity_used_by_another-set.mjs"
+        "data/rcap-all50/overlays/census-v1/wv/wv-nc-diversion-deferred-set--official-pdf-fill/**",
+        "scripts/build-census-v1-wv_nc_diversion_deferred-set.mjs"
       ],
       "scriptsNotOwned": [],
       "prohibitedPaths": [
@@ -529,50 +523,15 @@
       ],
       "theDiffIsTheReturn": "Commit locally. Leave the final diff for the Codex Cloud interface. There is no PUSHED line in a cloud return.",
       "returnDirectory": "data/rcap-grade-a/packet-factory-24h/pf03",
-      "mission": "Build 1 packet families to the builder contract, one at a time, checkpointing as you go. A family that stops does not stop the lane.",
+      "mission": "This lane is provisioned and empty: no source-ready family remains for it at dispatch time. It starts the moment the source conveyor releases one, and the refill rule below says which.",
       "itemKind": "packetFamily",
-      "itemCount": 1,
-      "items": [
-        "wv_nc_diversion_deferred-set"
-      ],
-      "provisionedEmpty": false,
+      "itemCount": 0,
+      "items": [],
+      "provisionedEmpty": true,
       "refillRule": "When a source lane releases a family, Captain appends it to the emptiest PF lane and the lane starts it without waiting for the rest of the source lane to finish.",
-      "sharedAxes": [
-        "sharedBuildHost",
-        "officialFormFamily",
-        "implementationStrategy"
-      ],
-      "groupsCarried": [
-        {
-          "groupKey": "NO_SHARED_HOST::SCA-C903::official_pdf_fill::certificate_of_service+filing_instructions+primary_filing+supplemental_pleading",
-          "families": [
-            "wv_nc_diversion_deferred-set"
-          ]
-        }
-      ],
-      "familyDetail": [
-        {
-          "familyId": "wv_nc_diversion_deferred-set",
-          "jurisdiction": "WV",
-          "strategy": "official_pdf_fill",
-          "forms": [
-            "SCA-C903"
-          ],
-          "components": 2,
-          "instrumentKinds": [
-            "certificate_of_service",
-            "filing_instructions",
-            "primary_filing",
-            "supplemental_pleading"
-          ],
-          "routeCount": 1,
-          "directory": "data/rcap-all50/overlays/census-v1/wv/wv-nc-diversion-deferred-set--official-pdf-fill",
-          "buildScript": "scripts/build-census-v1-wv_nc_diversion_deferred-set.mjs",
-          "sharedBuildHost": null,
-          "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
-          "sourceHashes": []
-        }
-      ],
+      "sharedAxes": [],
+      "groupsCarried": [],
+      "familyDetail": [],
       "builderObligations": [
         "bind every source by exact SHA-256, and stop the family rather than build on a source that does not bind",
         "render canonical and boundary artifacts",
@@ -615,9 +574,7 @@
       "checkpointRule": "Return every five completed families, or every two hours, whichever comes first. Do not hold a whole assignment back for the last family.",
       "neverSelfVerify": "You do not verify your own packets. A builder verdict is not a verdict, and a VF lane that did not build them decides.",
       "ownedPaths": [
-        "data/rcap-grade-a/packet-factory-24h/pf03/**",
-        "data/rcap-all50/overlays/census-v1/wv/wv-nc-diversion-deferred-set--official-pdf-fill/**",
-        "scripts/build-census-v1-wv_nc_diversion_deferred-set.mjs"
+        "data/rcap-grade-a/packet-factory-24h/pf03/**"
       ],
       "scriptsNotOwned": [],
       "prohibitedPaths": [
@@ -3084,16 +3041,16 @@
       "items": [
         "ak-tf800-set",
         "pa_490_nonconviction-set",
-        "vt_seal_pardon-set"
+        "vt_seal_nonconviction-set"
       ],
       "seedItemsAreNotTheWholeJob": "These are the families already complete and awaiting verification at dispatch. The rest arrive as PF checkpoints land; claim from the ledger.",
       "launchNow": true,
       "launchRule": "Launch now. Every seed family below is rendered at 13771582866352d77e46e5d0b9bc86f1abbb6752, which your checkout must contain.",
-      "verifiesCommit": "1338a0bcfb045bee523331046d668004a00555f0",
+      "verifiesCommit": "1420b6aec24fb2a9faba6800fdcb32d05450b375",
       "packetDirectories": [
         "data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill",
         "data/rcap-all50/overlays/census-v1/pa/pa-490-nonconviction-set--official-pdf-fill",
-        "data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill"
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill"
       ],
       "mayNotBeRunBy": [
         "the worker that built or last repaired any family below",
@@ -3251,16 +3208,16 @@
       "items": [
         "az_marijuana_expungement_arrest_no_charges-set",
         "pa_9122_1_limited_access-set",
-        "wi_nc_doj_challenge-set"
+        "vt_seal_pardon-set"
       ],
       "seedItemsAreNotTheWholeJob": "These are the families already complete and awaiting verification at dispatch. The rest arrive as PF checkpoints land; claim from the ledger.",
       "launchNow": true,
       "launchRule": "Launch now. Every seed family below is rendered at 13771582866352d77e46e5d0b9bc86f1abbb6752, which your checkout must contain.",
-      "verifiesCommit": "1338a0bcfb045bee523331046d668004a00555f0",
+      "verifiesCommit": "1420b6aec24fb2a9faba6800fdcb32d05450b375",
       "packetDirectories": [
         "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-arrest-no-charges-set--official-pdf-fill",
         "data/rcap-all50/overlays/census-v1/pa/pa-9122-1-limited-access-set--official-pdf-fill",
-        "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-challenge-set--official-pdf-fill"
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill"
       ],
       "mayNotBeRunBy": [
         "the worker that built or last repaired any family below",
@@ -3418,16 +3375,16 @@
       "items": [
         "co_multiple_conviction_seal-set",
         "pa_age70_deceased-set",
-        "wi_nc_doj_fingerprint_removal-set"
+        "wi_nc_doj_challenge-set"
       ],
       "seedItemsAreNotTheWholeJob": "These are the families already complete and awaiting verification at dispatch. The rest arrive as PF checkpoints land; claim from the ledger.",
       "launchNow": true,
       "launchRule": "Launch now. Every seed family below is rendered at 13771582866352d77e46e5d0b9bc86f1abbb6752, which your checkout must contain.",
-      "verifiesCommit": "1338a0bcfb045bee523331046d668004a00555f0",
+      "verifiesCommit": "1420b6aec24fb2a9faba6800fdcb32d05450b375",
       "packetDirectories": [
         "data/rcap-all50/overlays/census-v1/co/co-multiple-conviction-seal-set--official-pdf-fill",
         "data/rcap-all50/overlays/census-v1/pa/pa-age70-deceased-set--official-pdf-fill",
-        "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-fingerprint-removal-set--official-pdf-fill"
+        "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-challenge-set--official-pdf-fill"
       ],
       "mayNotBeRunBy": [
         "the worker that built or last repaired any family below",
@@ -3581,18 +3538,20 @@
       "returnDirectory": "data/rcap-grade-a/packet-factory-24h/vf04",
       "mission": "Verify returned packet families independently, in rolling checkpoints, as builders land them. You claim, you measure, you record a verdict. You never edit what you verify.",
       "itemKind": "streamingClaim",
-      "itemCount": 2,
+      "itemCount": 3,
       "items": [
         "co_pardoned_conviction_seal-set",
-        "pa_pardon_expungement-set"
+        "pa_pardon_expungement-set",
+        "wi_nc_doj_fingerprint_removal-set"
       ],
       "seedItemsAreNotTheWholeJob": "These are the families already complete and awaiting verification at dispatch. The rest arrive as PF checkpoints land; claim from the ledger.",
       "launchNow": true,
       "launchRule": "Launch now. Every seed family below is rendered at 13771582866352d77e46e5d0b9bc86f1abbb6752, which your checkout must contain.",
-      "verifiesCommit": "1338a0bcfb045bee523331046d668004a00555f0",
+      "verifiesCommit": "1420b6aec24fb2a9faba6800fdcb32d05450b375",
       "packetDirectories": [
         "data/rcap-all50/overlays/census-v1/co/co-pardoned-conviction-seal-set--official-pdf-fill",
-        "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill"
+        "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill",
+        "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-fingerprint-removal-set--official-pdf-fill"
       ],
       "mayNotBeRunBy": [
         "the worker that built or last repaired any family below",
@@ -3754,7 +3713,7 @@
       "seedItemsAreNotTheWholeJob": "These are the families already complete and awaiting verification at dispatch. The rest arrive as PF checkpoints land; claim from the ledger.",
       "launchNow": true,
       "launchRule": "Launch now. Every seed family below is rendered at 13771582866352d77e46e5d0b9bc86f1abbb6752, which your checkout must contain.",
-      "verifiesCommit": "1338a0bcfb045bee523331046d668004a00555f0",
+      "verifiesCommit": "1420b6aec24fb2a9faba6800fdcb32d05450b375",
       "packetDirectories": [
         "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill",
         "data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading"
@@ -3919,7 +3878,7 @@
       "seedItemsAreNotTheWholeJob": "These are the families already complete and awaiting verification at dispatch. The rest arrive as PF checkpoints land; claim from the ledger.",
       "launchNow": true,
       "launchRule": "Launch now. Every seed family below is rendered at 13771582866352d77e46e5d0b9bc86f1abbb6752, which your checkout must contain.",
-      "verifiesCommit": "1338a0bcfb045bee523331046d668004a00555f0",
+      "verifiesCommit": "1420b6aec24fb2a9faba6800fdcb32d05450b375",
       "packetDirectories": [
         "data/rcap-all50/overlays/census-v1/ky/ky-felony-vacatur-expungement-set--official-pdf-fill",
         "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill"
@@ -4084,7 +4043,7 @@
       "seedItemsAreNotTheWholeJob": "These are the families already complete and awaiting verification at dispatch. The rest arrive as PF checkpoints land; claim from the ledger.",
       "launchNow": true,
       "launchRule": "Launch now. Every seed family below is rendered at 13771582866352d77e46e5d0b9bc86f1abbb6752, which your checkout must contain.",
-      "verifiesCommit": "1338a0bcfb045bee523331046d668004a00555f0",
+      "verifiesCommit": "1420b6aec24fb2a9faba6800fdcb32d05450b375",
       "packetDirectories": [
         "data/rcap-all50/overlays/census-v1/ky/ky-void-seal-controlled-substance-set--custom-pleading",
         "data/rcap-all50/overlays/census-v1/sc/sc-17-22-950-summary-set--official-pdf-fill"
@@ -4244,15 +4203,15 @@
       "itemCount": 2,
       "items": [
         "ky_void_seal_marijuana_synthetic_salvia-set",
-        "va_exp_nonconviction-set"
+        "va_exp_identity_used_by_another-set"
       ],
       "seedItemsAreNotTheWholeJob": "These are the families already complete and awaiting verification at dispatch. The rest arrive as PF checkpoints land; claim from the ledger.",
       "launchNow": true,
       "launchRule": "Launch now. Every seed family below is rendered at 13771582866352d77e46e5d0b9bc86f1abbb6752, which your checkout must contain.",
-      "verifiesCommit": "1338a0bcfb045bee523331046d668004a00555f0",
+      "verifiesCommit": "1420b6aec24fb2a9faba6800fdcb32d05450b375",
       "packetDirectories": [
         "data/rcap-all50/overlays/census-v1/ky/ky-void-seal-marijuana-synthetic-salvia-set--custom-pleading",
-        "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill"
+        "data/rcap-all50/overlays/census-v1/va/va-exp-identity-used-by-another-set--custom-pleading"
       ],
       "mayNotBeRunBy": [
         "the worker that built or last repaired any family below",
@@ -4409,15 +4368,15 @@
       "itemCount": 2,
       "items": [
         "ma-expunge-mj-set",
-        "vt_exp_decriminalized-set"
+        "va_exp_nonconviction-set"
       ],
       "seedItemsAreNotTheWholeJob": "These are the families already complete and awaiting verification at dispatch. The rest arrive as PF checkpoints land; claim from the ledger.",
       "launchNow": true,
       "launchRule": "Launch now. Every seed family below is rendered at 13771582866352d77e46e5d0b9bc86f1abbb6752, which your checkout must contain.",
-      "verifiesCommit": "1338a0bcfb045bee523331046d668004a00555f0",
+      "verifiesCommit": "1420b6aec24fb2a9faba6800fdcb32d05450b375",
       "packetDirectories": [
         "data/rcap-all50/overlays/census-v1/ma/ma-expunge-mj-set--official-pdf-fill",
-        "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill"
+        "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill"
       ],
       "mayNotBeRunBy": [
         "the worker that built or last repaired any family below",
@@ -4574,15 +4533,15 @@
       "itemCount": 2,
       "items": [
         "me-seal-prost-set",
-        "vt_seal_felony-set"
+        "vt_exp_decriminalized-set"
       ],
       "seedItemsAreNotTheWholeJob": "These are the families already complete and awaiting verification at dispatch. The rest arrive as PF checkpoints land; claim from the ledger.",
       "launchNow": true,
       "launchRule": "Launch now. Every seed family below is rendered at 13771582866352d77e46e5d0b9bc86f1abbb6752, which your checkout must contain.",
-      "verifiesCommit": "1338a0bcfb045bee523331046d668004a00555f0",
+      "verifiesCommit": "1420b6aec24fb2a9faba6800fdcb32d05450b375",
       "packetDirectories": [
         "data/rcap-all50/overlays/census-v1/me/me-seal-prost-set--official-pdf-fill",
-        "data/rcap-all50/overlays/census-v1/vt/vt-seal-felony-set--official-pdf-fill"
+        "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill"
       ],
       "mayNotBeRunBy": [
         "the worker that built or last repaired any family below",
@@ -4739,15 +4698,15 @@
       "itemCount": 2,
       "items": [
         "nj_arrest_no_conviction-set",
-        "vt_seal_misdemeanor-set"
+        "vt_seal_felony-set"
       ],
       "seedItemsAreNotTheWholeJob": "These are the families already complete and awaiting verification at dispatch. The rest arrive as PF checkpoints land; claim from the ledger.",
       "launchNow": true,
       "launchRule": "Launch now. Every seed family below is rendered at 13771582866352d77e46e5d0b9bc86f1abbb6752, which your checkout must contain.",
-      "verifiesCommit": "1338a0bcfb045bee523331046d668004a00555f0",
+      "verifiesCommit": "1420b6aec24fb2a9faba6800fdcb32d05450b375",
       "packetDirectories": [
         "data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill",
-        "data/rcap-all50/overlays/census-v1/vt/vt-seal-misdemeanor-set--official-pdf-fill"
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-felony-set--official-pdf-fill"
       ],
       "mayNotBeRunBy": [
         "the worker that built or last repaired any family below",
@@ -4904,15 +4863,15 @@
       "itemCount": 2,
       "items": [
         "or_conviction_setaside-set",
-        "vt_seal_nonconviction-set"
+        "vt_seal_misdemeanor-set"
       ],
       "seedItemsAreNotTheWholeJob": "These are the families already complete and awaiting verification at dispatch. The rest arrive as PF checkpoints land; claim from the ledger.",
       "launchNow": true,
       "launchRule": "Launch now. Every seed family below is rendered at 13771582866352d77e46e5d0b9bc86f1abbb6752, which your checkout must contain.",
-      "verifiesCommit": "1338a0bcfb045bee523331046d668004a00555f0",
+      "verifiesCommit": "1420b6aec24fb2a9faba6800fdcb32d05450b375",
       "packetDirectories": [
         "data/rcap-all50/overlays/census-v1/or/or-conviction-setaside-set--official-pdf-fill",
-        "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill"
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-misdemeanor-set--official-pdf-fill"
       ],
       "mayNotBeRunBy": [
         "the worker that built or last repaired any family below",
