@@ -15,7 +15,7 @@ export function accessCodeErrorResponse(
         ? 404
         : error.code === "invalid_input"
           ? 400
-          : error.code === "duplicate_code"
+          : error.code === "duplicate_code" || error.code === "launch_not_ready"
             ? 409
             : error.code === "supabase_unconfigured"
               ? 503

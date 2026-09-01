@@ -103,6 +103,7 @@ export class PartnerAccessCodeError extends Error {
       | "invalid_input"
       | "duplicate_code"
       | "not_found"
+      | "launch_not_ready"
       | "read_failed"
       | "write_failed",
     message: string
@@ -280,7 +281,7 @@ export async function setPartnerAccessCodeLifecycle(input: {
     throw new PartnerAccessCodeError("not_found", "Access code not found for this organization.");
   }
   if (outcome === "partner_not_launch_ready") {
-    throw new PartnerAccessCodeError("write_failed", "The partner must be approved, published, and active before a code can go live.");
+    throw new PartnerAccessCodeError("launch_not_ready", "The partner must be approved, published, and active before a code can go live.");
   }
   if (!["updated", "unchanged"].includes(String(outcome))) {
     throw new PartnerAccessCodeError("write_failed", "Could not update the access code.");

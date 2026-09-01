@@ -3,6 +3,7 @@ import { getSafeRequestId, logSecurityError, logSecurityInfo, logSecurityWarn } 
 import { SessionPartnerError } from "@/lib/partners/session-partner";
 import { isSameOriginPartnerMutation, partnerAuthStatus, resolveAuthorizedPartnerSlug } from "@/lib/partners/partner-scope-auth";
 import { PartnerAccessCodeError, setPartnerAccessCodeLifecycle } from "@/lib/partners/partner-access-codes";
+import { accessCodeErrorResponse } from "../error-response";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -52,9 +53,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ success: true, code });
   } catch (error) {
     if (error instanceof PartnerAccessCodeError) {
-      const status = error.code === "not_found" ? 404 : error.code === "supabase_unconfigured" ? 503 : 500;
-      logSecurityWarn({ event: "access code toggle failed", route: ROUTE, outcome: error.code, requestId });
-      return NextResponse.json({ success: false, error: error.message, code: error.code }, { status });
+      return accessCodeErrorResponse(error, requestId, "lifecycle");
     }
     logSecurityError({ event: "access code toggle error", route: ROUTE, outcome: "error", requestId, error });
     throw error;
