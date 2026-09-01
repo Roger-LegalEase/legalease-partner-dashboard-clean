@@ -1051,17 +1051,17 @@
     {
       "jurisdiction": "MO",
       "canonicalArtifactId": "FI-05",
-      "canonicalArtifactTitle": "St. Louis County publishes FI-05; the 7th Circuit currently identifies the analogous form as FI-50",
-      "canonicalPublisher": "publisher of https://stlcountycourts.com/forms/associate-civil/confidential-case-filing-information-sheet/",
-      "officialSourcePage": "https://stlcountycourts.com/forms/associate-civil/confidential-case-filing-information-sheet/",
+      "canonicalArtifactTitle": "Confidential Case Filing Information Sheet — Non-Domestic Relations",
+      "canonicalPublisher": "Supreme Court of Missouri — State Judicial Records Committee (SJRC), published statewide by the Office of the State Courts Administrator",
+      "officialSourcePage": "https://www.courts.mo.gov/page.jsp?id=191585",
       "officialArtifactUrl": null,
       "artifactSha256": "53f1e04eba653d7ed8e2f2f059e57854d3780845e6364bb6b2a57c7728cd412e",
       "humanReturn": null,
       "heldPath": "private/Nationwide Record Clearing/LegalEase Missouri/Conf Case Filing Info Sheet(FI-05).pdf",
       "heldCandidates": [],
       "localAmbiguityResolvedByVerification": false,
-      "sourceState": "SOURCE_SCOPE_AND_VERSION_AMBIGUITY",
-      "sourceStateBasis": "externally verified 2026-08-31: SOURCE_SCOPE_AND_VERSION_AMBIGUITY",
+      "sourceState": "CURRENTNESS_UNVERIFIED",
+      "sourceStateBasis": "Scope and identity settled 2026-09-01 by FABLE-D1 from committed evidence; the remaining open question is whether the publisher still issues the held edition, which is currentness, not scope. The prior state (SOURCE_SCOPE_AND_VERSION_AMBIGUITY, externally verified 2026-08-31) asked whether FI-05 is statewide or a St. Louis County local form: the committed legal-design record answers it — FI-05 is the SJRC (04-23) statewide confidential filing sheet, mandatory with a new case filing under Missouri Supreme Court Operating Rule 4.07, with case type code X5 for a § 610.140 expungement taken from the Case Types List SJRC (07-23).",
       "externallyVerified": true,
       "aliases": [],
       "components": [],
@@ -1123,10 +1123,24 @@
         "official-form:FI-05: no corpus index entries for this form number",
         "official-form:GN10: no corpus index entries for this form number"
       ],
-      "verifiedNote": "Define statewide versus circuit-specific scope and FI-05/FI-50 aliasing before any targeted authority inquiry.",
+      "verifiedNote": "Superseded in part: the FI-05/FI-50 scope question is settled from committed evidence (see d1ScopeResolution); the stlcountycourts.com page is a circuit-level copy of the statewide SJRC form, not the canonical publisher.",
       "humanContactTarget": null,
       "humanContactQuestion": null,
-      "humanAction": null
+      "humanAction": null,
+      "d1ScopeResolution": {
+        "settledBy": "FABLE-D1 source-discovery continuation (branch fable/d1)",
+        "settledOn": "2026-09-01",
+        "revision": "SJRC (04-23) FI-05, with the Case Types List SJRC (07-23)",
+        "statewideOrLocal": "statewide — an SJRC form under Operating Rule 4.07; the 7th Circuit's 'FI-50' is a local analog identifier, not a different statewide instrument, and the St. Louis County page previously recorded as publisher is a circuit copy",
+        "intendedPacketRole": "confidential cover sheet filed with every new-case petition (CR360/CR300 §§ 610.140/610.122 packets), case type X5 where the Case Types List names one; carries the full SSN under Operating Rule 4.07 and is itself confidential",
+        "corroboratingCommittedEvidence": [
+          "data/record-clearing/legal-design-intake/MO.memo.json — officialSources title 'Confidential Case Filing Information Sheet — Non-Domestic Relations, SJRC (04-23) FI-05, with the Case Types List SJRC (07-23), Supreme Court of Missouri / State Judicial Records Committee'; component notes: four pages, 111 AcroForm fields, mandatory with a new case filing, case type X5",
+          "data/rcap-all50/review-artifacts/terminalization-evidence-briefs.json — same SJRC (04-23) FI-05 title and publisher",
+          "data/rcap-all50/terminalization-treatments/mo.json — 'Forms CR360, CR370, FI-05 and GN10 are published by the Office of the State Courts Administrator at https://www.courts.mo.gov/page.jsp?id=191585' (repeated across tracks)"
+        ],
+        "heldBytes": "custody sha256 53f1e04eba653d7ed8e2f2f059e57854d3780845e6364bb6b2a57c7728cd412e recorded for the operational path 'private/Nationwide Record Clearing/LegalEase Missouri/Conf Case Filing Info Sheet(FI-05).pdf' in data/rcap-all50/nationwide-source-inventory.json; those bytes are NOT present in this container (no byte-identical Master Library copy — the s2 finding stands), so the printed face was not re-read here and this record binds identity to the committed custody row, not to a fresh face read",
+        "exactUrlStillMissing": "No committed record carries an exact artifact URL for FI-05 (courts.mo.gov serves forms behind the page.jsp index). The corroborated official page is https://www.courts.mo.gov/page.jsp?id=191585; the stlcountycourts.com confidential-case-filing-information-sheet page remains recorded in TOP20_EXTERNAL_VERIFICATION as a circuit copy."
+      }
     },
     {
       "jurisdiction": "IA",
@@ -3115,8 +3129,8 @@
       "jurisdiction": "IN",
       "canonicalArtifactId": "CCA conviction expungement order",
       "canonicalArtifactTitle": "REQUIRES_LOOKUP — no printed title is recorded",
-      "canonicalPublisher": "REQUIRES_LOOKUP — no issuing body is recorded for this identity in any committed record",
-      "officialSourcePage": null,
+      "canonicalPublisher": "Indiana Coalition for Court Access (CCA), via indianalegalhelp.org",
+      "officialSourcePage": "https://indianalegalhelp.org/legal-topic/expungement-criminal-and-non-conviction/",
       "officialArtifactUrl": null,
       "artifactSha256": null,
       "humanReturn": null,
@@ -3149,7 +3163,7 @@
         "restricted": null,
         "note": "not assessed"
       },
-      "jurisdictionScope": "unknown",
+      "jurisdictionScope": "statewide",
       "owner": "DISC settles source identity and the route or family relationship",
       "uniqueFamilies": [
         "in_conviction_d6-set",
@@ -3179,14 +3193,21 @@
       "verifiedNote": null,
       "humanContactTarget": null,
       "humanContactQuestion": null,
-      "humanAction": null
+      "humanAction": null,
+      "d1PartialIdentity": {
+        "settledBy": "FABLE-D1 source-discovery continuation (branch fable/d1)",
+        "settledOn": "2026-09-01",
+        "settled": "publisher and official source page only",
+        "stillMissing": "the exact artifact URL and the bytes of the conviction petition-and-order bundle itself. The corpus holds only the CCA conviction INSERTS for Sections 2/3/4 (CCA-XP-0220-7008/7009/7010, bound under their own identities) and committed evidence carries only the conviction petition INSTRUCTIONS address (https://indianalegalhelp.org/wp-content/uploads/2023/08/ConvictionPetitionInstructions0320.pdf, in data/rcap-all50/nationwide-source-inventory.json and data/record-clearing/source-artifact-registry.json). Inferring the petition bundle's address from the instructions filename pattern would be a guess and is refused.",
+        "nextOperation": "targeted acquisition with egress: resolve the conviction petition-and-order bundle address on the CCA topic page, then ACQ fetches the bundle once"
+      }
     },
     {
       "jurisdiction": "IN",
       "canonicalArtifactId": "CCA conviction expungement petition",
       "canonicalArtifactTitle": "REQUIRES_LOOKUP — no printed title is recorded",
-      "canonicalPublisher": "REQUIRES_LOOKUP — no issuing body is recorded for this identity in any committed record",
-      "officialSourcePage": null,
+      "canonicalPublisher": "Indiana Coalition for Court Access (CCA), via indianalegalhelp.org",
+      "officialSourcePage": "https://indianalegalhelp.org/legal-topic/expungement-criminal-and-non-conviction/",
       "officialArtifactUrl": null,
       "artifactSha256": null,
       "humanReturn": null,
@@ -3219,7 +3240,7 @@
         "restricted": null,
         "note": "not assessed"
       },
-      "jurisdictionScope": "unknown",
+      "jurisdictionScope": "statewide",
       "owner": "DISC settles source identity and the route or family relationship",
       "uniqueFamilies": [
         "in_conviction_d6-set",
@@ -3249,7 +3270,14 @@
       "verifiedNote": null,
       "humanContactTarget": null,
       "humanContactQuestion": null,
-      "humanAction": null
+      "humanAction": null,
+      "d1PartialIdentity": {
+        "settledBy": "FABLE-D1 source-discovery continuation (branch fable/d1)",
+        "settledOn": "2026-09-01",
+        "settled": "publisher and official source page only",
+        "stillMissing": "the exact artifact URL and the bytes of the conviction petition-and-order bundle itself. The corpus holds only the CCA conviction INSERTS for Sections 2/3/4 (CCA-XP-0220-7008/7009/7010, bound under their own identities) and committed evidence carries only the conviction petition INSTRUCTIONS address (https://indianalegalhelp.org/wp-content/uploads/2023/08/ConvictionPetitionInstructions0320.pdf, in data/rcap-all50/nationwide-source-inventory.json and data/record-clearing/source-artifact-registry.json). Inferring the petition bundle's address from the instructions filename pattern would be a guess and is refused.",
+        "nextOperation": "targeted acquisition with egress: resolve the conviction petition-and-order bundle address on the CCA topic page, then ACQ fetches the bundle once"
+      }
     },
     {
       "jurisdiction": "MD",
@@ -4032,20 +4060,28 @@
     {
       "jurisdiction": "IN",
       "canonicalArtifactId": "CCA Section 1 expungement order",
-      "canonicalArtifactTitle": "REQUIRES_LOOKUP — no printed title is recorded",
-      "canonicalPublisher": "REQUIRES_LOOKUP — no issuing body is recorded for this identity in any committed record",
-      "officialSourcePage": null,
-      "officialArtifactUrl": null,
+      "canonicalArtifactTitle": "Order on Verified Petition for Expungement/Sealing of Records of Arrest, Criminal Charges, or Juvenile Delinquency Allegations (Section 1, I.C. 35-38-9-1), within the CCA Section 1 petition-and-order bundle",
+      "canonicalPublisher": "Indiana Coalition for Court Access (CCA), via indianalegalhelp.org",
+      "officialSourcePage": "https://indianalegalhelp.org/legal-topic/expungement-criminal-and-non-conviction/",
+      "officialArtifactUrl": "https://indianalegalhelp.org/wp-content/uploads/2023/08/NonConvictionPetitionOrderFILLABLE2021.pdf",
       "artifactSha256": null,
       "humanReturn": null,
       "heldPath": null,
       "heldCandidates": [],
       "localAmbiguityResolvedByVerification": false,
-      "sourceState": "MISSING_CANONICAL_RELATIONSHIP_METADATA",
-      "sourceStateBasis": "no canonical publisher, address or component locator is recorded for this identity",
+      "sourceState": "BUNDLE_COMPONENT",
+      "sourceStateBasis": "Settled 2026-09-01 by FABLE-D1 from held bytes: the order is printed pages 9-14 (zero-based 8-13) of the 15-page CCA Section 1 non-conviction petition-and-order bundle the corpus holds; there is no separate binary. Page 9 opens the NOT FOR PUBLIC RECORD order caption; page 12 prints 'ORDER — It is therefore ORDERED, ADJUDGED, and DECREED that Petitioner's VERIFIED PETITION FOR EXPUNGEMENT/SEALING OF RECORDS OF ARREST, CRIMINAL CHARGES, OR JUVENILE DELINQUENCY ALLEGATIONS shall be GRANTED'.",
       "externallyVerified": false,
       "aliases": [],
-      "components": [],
+      "components": [
+        {
+          "componentId": "CCA-SECTION1-ORDER",
+          "printedIdentity": "no printed form number; order caption and decretal text as quoted",
+          "containerArtifact": "CCA Section 1 non-conviction expungement petition-and-order bundle (SOURCE-2021)",
+          "containerSha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+          "componentLocator": "printed pages 9-14 / zero-based pages 8-13 of the 15-page bundle"
+        }
+      ],
       "relationships": [
         {
           "routeOrFamilyId": "in_arrest_no_charges-set",
@@ -4062,8 +4098,8 @@
         "restricted": null,
         "note": "not assessed"
       },
-      "jurisdictionScope": "unknown",
-      "owner": "DISC settles source identity and the route or family relationship",
+      "jurisdictionScope": "statewide",
+      "owner": "no separate acquisition — the container is already an ACQ target via its recorded URL and its bytes are held; PROMO binds the component pages",
       "uniqueFamilies": [
         "in_arrest_no_charges-set",
         "in_section1_petition-set"
@@ -4089,15 +4125,27 @@
       "verifiedNote": null,
       "humanContactTarget": null,
       "humanContactQuestion": null,
-      "humanAction": null
+      "humanAction": null,
+      "d1BundleComponentResolution": {
+        "settledBy": "FABLE-D1 source-discovery continuation (branch fable/d1)",
+        "settledOn": "2026-09-01",
+        "recomputedContainerSha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+        "recomputedFrom": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+        "faceReadBasis": "per-page pdftotext read in this container (pages 9, 12 quoted in sourceStateBasis)",
+        "corroboratingCommittedEvidence": [
+          "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json — the sibling BUNDLE_COMPONENT records (CCA-GF-0120-3016 pages 1-2, CCA-XP-0120-7002 page 7, Confidential Information Form page 8) already bind the same container URL",
+          "data/rcap-grade-a/source-verification/TOP20_EXTERNAL_VERIFICATION.json — ranks 9-10 record the same 15-page bundle and URL with 'Do not create a separate acquisition obligation for this component'",
+          "data/rcap-grade-a/fable-packet-factory/returns/s2.json — the s2 bind of the Section 1 petition to these bytes records the order as a component of the same bundle for DISC to close"
+        ]
+      }
     },
     {
       "jurisdiction": "IN",
       "canonicalArtifactId": "CCA Section 1 non-conviction expungement petition",
       "canonicalArtifactTitle": "Verified Petition for Expungement of and Sealing of Records of Arrest, Criminal Charges, or Juvenile Delinquency Allegations (I.C. 35-38-9-1), within the CCA Section 1 petition-and-order bundle",
-      "canonicalPublisher": "REQUIRES_LOOKUP — no issuing body is recorded for this identity in any committed record",
-      "officialSourcePage": null,
-      "officialArtifactUrl": null,
+      "canonicalPublisher": "Indiana Coalition for Court Access (CCA), via indianalegalhelp.org",
+      "officialSourcePage": "https://indianalegalhelp.org/legal-topic/expungement-criminal-and-non-conviction/",
+      "officialArtifactUrl": "https://indianalegalhelp.org/wp-content/uploads/2023/08/NonConvictionPetitionOrderFILLABLE2021.pdf",
       "artifactSha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
       "humanReturn": null,
       "heldPath": "private/Nationwide Record Clearing/LegalEase Indiana/forms/CCA__section-1-nonconviction-expungement-petition-and-order-bundle__source-2021.pdf",
@@ -4124,7 +4172,7 @@
         "restricted": null,
         "note": "not assessed"
       },
-      "jurisdictionScope": "court_specific",
+      "jurisdictionScope": "statewide",
       "owner": "DISC compares the held edition against the publisher's own forms index",
       "uniqueFamilies": [
         "in_arrest_no_charges-set",
@@ -4177,6 +4225,17 @@
           "in_section1_petition-set"
         ],
         "natureOfDocument": "a 15-page bundle: the Section 1 verified petition is one section; the bundle also contains the Appearance by Unrepresented Person and the Findings and Order Granting Petition for Expungement/Sealing under I.C. 35-38-9-1 — the latter is the separate queue identity 'CCA Section 1 expungement order', satisfied by these same bytes as a bundle component"
+      },
+      "d1UrlSettlement": {
+        "settledBy": "FABLE-D1 source-discovery continuation (branch fable/d1)",
+        "settledOn": "2026-09-01",
+        "basis": "The bytes s2 bound to this identity (sha256 b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5, recomputed again in this lane) ARE the 15-page petition-and-order bundle published at the recorded URL: the three sibling BUNDLE_COMPONENT registry records and TOP20_EXTERNAL_VERIFICATION ranks 9-10 record that URL for the same 15-page container. The petition body is printed pages 3-6 (caption/verified petition p3, insert placeholder p4, wherefore/verification p5, certificate of service p6).",
+        "componentLocator": "printed pages 3-6 / zero-based pages 2-5 of the 15-page bundle",
+        "corroboratingCommittedEvidence": [
+          "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json (sibling component records)",
+          "data/rcap-grade-a/source-verification/TOP20_EXTERNAL_VERIFICATION.json (ranks 9-10)",
+          "data/rcap-grade-a/codex-5h/cb06-source-coverage/relationship-gaps.json (same URL for the IN Section 1 set)"
+        ]
       }
     },
     {
@@ -4236,8 +4295,8 @@
     {
       "jurisdiction": "MI",
       "canonicalArtifactId": "MC 227 page 3 Proof of Service",
-      "canonicalArtifactTitle": "REQUIRES_LOOKUP — no printed title is recorded",
-      "canonicalPublisher": "REQUIRES_LOOKUP — no issuing body is recorded for this identity in any committed record",
+      "canonicalArtifactTitle": "Proof of Service — page 3 of SCAO Form MC 227, Application to Set Aside Conviction(s)",
+      "canonicalPublisher": "Michigan State Court Administrative Office (SCAO)",
       "officialSourcePage": null,
       "officialArtifactUrl": null,
       "artifactSha256": null,
@@ -4245,8 +4304,8 @@
       "heldPath": null,
       "heldCandidates": [],
       "localAmbiguityResolvedByVerification": false,
-      "sourceState": "MISSING_CANONICAL_RELATIONSHIP_METADATA",
-      "sourceStateBasis": "no canonical publisher, address or component locator is recorded for this identity",
+      "sourceState": "EMBEDDED_SECTION",
+      "sourceStateBasis": "Settled 2026-09-01 by FABLE-D1 from committed evidence: this is a section inside SCAO Form MC 227, not a separate binary. data/record-clearing/legal-design-intake/MI.memo.json components carry officialFormId 'MC 227 page 3 Proof of Service' with role certificate_of_service ('Completed by the participant after mailing to MSP, the Attorney General and the prosecuting official') under the MC 227 primary filing; the same structure is carried in data/record-clearing/legal-design-track-registry.json. The parent MC 227 custody question (mc227.pdf bytes, absent from this container — SRR-050) is unchanged by this classification and remains the only acquisition-shaped item.",
       "externallyVerified": false,
       "aliases": [],
       "components": [],
@@ -4266,7 +4325,7 @@
         "restricted": null,
         "note": "not assessed"
       },
-      "jurisdictionScope": "unknown",
+      "jurisdictionScope": "statewide",
       "owner": "DISC settles source identity and the route or family relationship",
       "uniqueFamilies": [
         "mi_setaside_application-set",
@@ -4455,8 +4514,8 @@
       "jurisdiction": "MT",
       "canonicalArtifactId": "MT-OCA-MMRTA",
       "canonicalArtifactTitle": "REQUIRES_LOOKUP — no printed title is recorded",
-      "canonicalPublisher": "REQUIRES_LOOKUP — no issuing body is recorded for this identity in any committed record",
-      "officialSourcePage": null,
+      "canonicalPublisher": "Montana Office of the Court Administrator (Montana Judicial Branch)",
+      "officialSourcePage": "https://courts.mt.gov/Forms/mmrta",
       "officialArtifactUrl": null,
       "artifactSha256": null,
       "humanReturn": null,
@@ -4559,6 +4618,26 @@
         "byteIdentityBasis": "the operational tree private/Nationwide Record Clearing is not mounted in this container; the SHA-256 recomputed from the byte-identical Master Library copy equals the SHA-256 recorded for the operational heldPath, and equal SHA-256 digests are equal bytes",
         "whySingleBindIsRefused": "the required relationship is exactly one canonical artifact identity bound to the held bytes; a certificate of service is not a proposed order, and binding either alone would repeat the class of collision this wave exists to catch. The identity must be split into per-instrument identities (a queue/census change outside this lane's writable set) before any single bind is possible.",
         "perInstrumentDigestsRecordedIn": "components"
+      },
+      "d1IdentitySplitResolution": {
+        "settledBy": "FABLE-D1 source-discovery continuation (branch fable/d1)",
+        "settledOn": "2026-09-01",
+        "answer": "MT-OCA-MMRTA is a constructed set identifier over two companion instruments, and the routes require BOTH — this is not a pick-one ambiguity. Committed route evidence: data/rcap-all50/composed-routes/montana/mt_mmrta_serving/route.json — 'File in the court of conviction with a proposed order and certificate of service on the county attorney (21 days to oppose)' and the Judicial Branch profile passage listing 'Proposed Order — Submitted with petition / Certificate of Service — Shows service on county attorney' alongside Forms A and B; both instruments serve mt_mmrta_serving-set and mt_mmrta_completed-set equally as petition companions.",
+        "perInstrument": [
+          {
+            "componentId": "MT-OCA-MMRTA__certificate-of-service",
+            "role": "certificate_of_service",
+            "sha256": "d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9",
+            "exactArtifactUrlCandidate": "https://courts.mt.gov/external/forms/mmrta/cert-service.docx (Master Library legal review only; candidate, not settled)"
+          },
+          {
+            "componentId": "MT-OCA-MMRTA__proposed-order",
+            "role": "proposed_order",
+            "sha256": "2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+            "exactArtifactUrlCandidate": "https://courts.mt.gov/external/forms/mmrta/proposed-order.docx (Master Library legal review only; candidate, not settled)"
+          }
+        ],
+        "whyStateIsKept": "sourceState stays FAMILY_IDENTITY_AMBIGUOUS mechanically: two held artifacts genuinely match this constructed identity and no single artifactSha256 bind is possible (model check S11). The cure is the per-instrument identity split in the generated census/queue vocabulary, which this lane does not own; the digests, roles and per-instrument evidence above make that split mechanical."
       }
     },
     {
@@ -6969,20 +7048,39 @@
     {
       "jurisdiction": "DE",
       "canonicalArtifactId": "FORM-281",
-      "canonicalArtifactTitle": "REQUIRES_LOOKUP — no printed title is recorded (the file previously held under this identity prints Form 281E)",
-      "canonicalPublisher": "REQUIRES_LOOKUP — no issuing body is recorded for this identity in any committed record",
-      "officialSourcePage": null,
+      "canonicalArtifactTitle": "Petition for Expungement of Adult Record (Form 281)",
+      "canonicalPublisher": "Family Court of the State of Delaware",
+      "officialSourcePage": "https://courts.delaware.gov/forms/",
       "officialArtifactUrl": null,
       "artifactSha256": null,
       "humanReturn": null,
       "heldPath": null,
       "heldCandidates": [],
       "localAmbiguityResolvedByVerification": false,
-      "sourceState": "MISSING_SOURCE_BINARY",
-      "sourceStateBasis": "the file previously recorded under this identity prints Form 281E, the charge-sheet continuation, not Form 281 the petition; examined 2026-09-01 by SRR-025. No held bytes print Form 281, so the source binary for this identity is genuinely absent",
+      "sourceState": "BUNDLE_COMPONENT",
+      "sourceStateBasis": "Settled 2026-09-01 by FABLE-D1 from held bytes: the Form 1021IP Adult Expungement Instruction Packet (Rev 10/23), held byte-identically at data/rcap-all50/hard-forms/delaware/family-court-form-281/evidence/ and in the Master Library (STATES/DE/03_INSTRUCTIONS), prints Form 281 Rev 9/22, 'The Family Court of the State of Delaware ... PETITION FOR EXPUNGEMENT OF ADULT RECORD', on printed page 14 of its 15 pages, and Form 283 Rev 6/20, 'ORDER GRANTING EXPUNGEMENT OF ADULT RECORD', on printed page 15. The petition previously judged genuinely absent (SRR-025, s1 collision repair) exists as a page inside a public bundle the corpus already holds; there is no separate binary to acquire. The bundle's exact official URL is not carried by any committed record — only the publisher pages https://courts.delaware.gov/forms/ and https://courts.state.de.us/family (printed on the bundle's own page 1).",
       "externallyVerified": false,
       "aliases": [],
-      "components": [],
+      "components": [
+        {
+          "componentId": "FORM-281",
+          "printedIdentity": "Form 281 Rev 9/22",
+          "printedTitle": "The Family Court of the State of Delaware — PETITION FOR EXPUNGEMENT OF ADULT RECORD (Pursuant to 10 Del. C. § 1025 and 11 Del. C. § 4374)",
+          "containerArtifact": "Form 1021IP — Adult Expungement Instruction Packet, Rev 10/23",
+          "containerSha256": "f2c8a0b1b8a4b3d82e4041f25b8bbf62a61e8e93b8d243274c06aa1cc11fb602",
+          "componentLocator": "printed page 14 / zero-based page 13 of the 15-page 1021IP bundle",
+          "jurisdictionScope": "statewide (caption offers New Castle, Kent and Sussex counties)"
+        },
+        {
+          "componentId": "FORM-283",
+          "printedIdentity": "Form 283 Rev 6/20",
+          "printedTitle": "The Family Court of the State of Delaware — ORDER GRANTING EXPUNGEMENT OF ADULT RECORD",
+          "containerArtifact": "Form 1021IP — Adult Expungement Instruction Packet, Rev 10/23",
+          "containerSha256": "f2c8a0b1b8a4b3d82e4041f25b8bbf62a61e8e93b8d243274c06aa1cc11fb602",
+          "componentLocator": "printed page 15 / zero-based page 14 of the 15-page 1021IP bundle",
+          "jurisdictionScope": "statewide"
+        }
+      ],
       "relationships": [
         {
           "routeOrFamilyId": "de_discretionary_family_court-set",
@@ -6994,8 +7092,8 @@
         "restricted": null,
         "note": "not assessed"
       },
-      "jurisdictionScope": "unknown",
-      "owner": "ACQ, once DISC has settled an exact official address",
+      "jurisdictionScope": "statewide",
+      "owner": "ACQ acquires the 1021IP BUNDLE once (exact address still unsettled — only the publisher forms page is committed); PROMO binds the component pages. The held bundle bytes already satisfy component custody at the recorded container digest.",
       "uniqueFamilies": [
         "de_discretionary_family_court-set"
       ],
@@ -7044,6 +7142,23 @@
           "officialSourcePageEvidence": "named by the census route obligation:track-only:DE:de_discretionary_family_court as source-url (data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json); the publisher-printed page in the held Form 1021IP is https://courts.delaware.gov/family (data/rcap-all50/hard-forms/delaware/family-court-form-281/profile.json, pinned carrier DE-1021IP). No exact artifact URL for Form 281 exists in committed evidence, so none is recorded; DISC settles it on the publisher forms index before ACQ fetches.",
           "doNotDo": "Do not rebuild Form 281 from the charge sheet or the instruction packet, and do not satisfy this identity with Superior Court CIV_EXP_02_A/B, which is a different court and track."
         }
+      },
+      "d1BundleComponentResolution": {
+        "settledBy": "FABLE-D1 source-discovery continuation (branch fable/d1)",
+        "settledOn": "2026-09-01",
+        "supersedes": "MISSING_SOURCE_BINARY (SRR-025 / s1CollisionRepair). That stop was correct about the charge sheet — no held bytes print Form 281 as a STANDALONE file — but the petition is embedded in the held instruction packet, which both the s1 search and SRR-025 treated only as an instruction carrier.",
+        "recomputedContainerSha256": "f2c8a0b1b8a4b3d82e4041f25b8bbf62a61e8e93b8d243274c06aa1cc11fb602",
+        "recomputedFrom": [
+          "data/rcap-all50/hard-forms/delaware/family-court-form-281/evidence/DE_FORM-1021IP_adult-expungement-instruction-packet_REV-2023-10.pdf",
+          "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/DE/03_INSTRUCTIONS/DE__INSTRUCTIONS__FORM-1021IP__adult-expungement-instruction-packet__REV-2023-10__EN.pdf"
+        ],
+        "faceReadBasis": "per-page pdftotext read in this container: page 14 prints 'Form 281 / Rev 9/22 / The Family Court of the State of Delaware / In and For New Castle County Kent County Sussex County / PETITION FOR EXPUNGEMENT OF ADULT RECORD'; page 15 prints 'Form 283 / Rev 6/20 / ... ORDER GRANTING EXPUNGEMENT OF ADULT RECORD'",
+        "corroboratingCommittedEvidence": [
+          "data/rcap-all50/nationwide-source-inventory.json — the 1021IP row (same sha256) records 'the packet embeds Form 281 Rev. 9/22 and Form 283 Rev. 6/20'",
+          "data/rcap-all50/hard-forms/delaware/family-court-form-281/profile.json — pins the same 1021IP bytes and quotes 'The forms include: a. The Petition (Form 281) b. Proposed Order (Form 283)' plus the petition language 'Pursuant to 10 Del. C. § 1025 and 11 Del. C. § 4374 ... hereby petitions Family Court', verified present in the pinned extracted text"
+        ],
+        "currentnessCaveat": "nationwide-source-inventory geographyNote records that Rev 9/22 / Rev 6/20 'are not the current forms identified by the legal review'. Binding here is to the held edition; a promotion lane compares against the publisher's current edition before any release.",
+        "exactUrlStillMissing": "No committed record carries an exact artifact URL for the 1021IP bundle or for Form 281. Targeted acquisition: resolve the bundle's address on https://courts.delaware.gov/forms/ (Family Court, expungement)."
       }
     },
     {
@@ -7864,17 +7979,17 @@
     {
       "jurisdiction": "ID",
       "canonicalArtifactId": "ISP-BCI-EXPUNGEMENT-APPLICATION",
-      "canonicalArtifactTitle": "REQUIRES_LOOKUP — no printed title is recorded",
-      "canonicalPublisher": "REQUIRES_LOOKUP — no issuing body is recorded for this identity in any committed record",
-      "officialSourcePage": null,
+      "canonicalArtifactTitle": "Expungement Application (Idaho State Police, Bureau of Criminal Identification)",
+      "canonicalPublisher": "Idaho State Police — Bureau of Criminal Identification",
+      "officialSourcePage": "https://isp.idaho.gov/BCI/",
       "officialArtifactUrl": null,
-      "artifactSha256": null,
+      "artifactSha256": "7442267d7799b9b117b20494b919a875974e8086f1317c7bc7532f038c131bcf",
       "humanReturn": null,
       "heldPath": null,
       "heldCandidates": [],
       "localAmbiguityResolvedByVerification": false,
-      "sourceState": "MISSING_CANONICAL_RELATIONSHIP_METADATA",
-      "sourceStateBasis": "no canonical publisher, address or component locator is recorded for this identity",
+      "sourceState": "CURRENTNESS_UNVERIFIED",
+      "sourceStateBasis": "Settled 2026-09-01 by FABLE-D1 from held bytes: the Master Library PDF prints 'Idaho State Police / Bureau of Criminal Identification / Expungement Application'; sha256 recomputed. The form carries NO printed revision marking (ID.memo.json records this exactly: 'Uploaded copy carries no revision marking, which makes drift undetectable'), so the open question is currentness against the publisher.",
       "externallyVerified": false,
       "aliases": [],
       "components": [],
@@ -7889,7 +8004,7 @@
         "restricted": null,
         "note": "not assessed"
       },
-      "jurisdictionScope": "unknown",
+      "jurisdictionScope": "statewide",
       "owner": "DISC settles source identity and the route or family relationship",
       "uniqueFamilies": [
         "id_isp_expungement-set"
@@ -7907,7 +8022,18 @@
       "verifiedNote": null,
       "humanContactTarget": null,
       "humanContactQuestion": null,
-      "humanAction": null
+      "humanAction": null,
+      "d1IdentityBind": {
+        "settledBy": "FABLE-D1 source-discovery continuation (branch fable/d1)",
+        "settledOn": "2026-09-01",
+        "recomputedSha256": "7442267d7799b9b117b20494b919a875974e8086f1317c7bc7532f038c131bcf",
+        "recomputedFrom": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/ID/05_SOURCE_GATED/ID__SOURCE-GATED__ISP-BCI__idaho-state-police-bureau-of-criminal-identification-expungement-application__REV-UNKNOWN__EN.pdf",
+        "corroboratingCommittedEvidence": [
+          "data/record-clearing/legal-design-intake/ID.memo.json — officialFormId ISP-BCI-EXPUNGEMENT-APPLICATION, title 'Idaho State Police, Bureau of Criminal Identification, Expungement Application, as uploaded', url https://isp.idaho.gov/BCI/",
+          "data/record-clearing/legal-design-track-registry.json — same page recorded for the § 67-3004(10) agency route"
+        ],
+        "exactUrlStillMissing": "No committed record carries an exact artifact URL; the corroborated official page is https://isp.idaho.gov/BCI/. The role is the § 67-3004(10) agency application (mail/fax submission per the memo), statewide."
+      }
     },
     {
       "jurisdiction": "IL",
@@ -9846,8 +9972,8 @@
     {
       "jurisdiction": "MI",
       "canonicalArtifactId": "MC 227 item 2.c",
-      "canonicalArtifactTitle": "REQUIRES_LOOKUP — no printed title is recorded",
-      "canonicalPublisher": "REQUIRES_LOOKUP — no issuing body is recorded for this identity in any committed record",
+      "canonicalArtifactTitle": "Item 2.c of SCAO Form MC 227 — affirmation that the applicant has not previously applied for and received a first-violation OWI set-aside",
+      "canonicalPublisher": "Michigan State Court Administrative Office (SCAO)",
       "officialSourcePage": null,
       "officialArtifactUrl": null,
       "artifactSha256": null,
@@ -9855,8 +9981,8 @@
       "heldPath": null,
       "heldCandidates": [],
       "localAmbiguityResolvedByVerification": false,
-      "sourceState": "MISSING_CANONICAL_RELATIONSHIP_METADATA",
-      "sourceStateBasis": "no canonical publisher, address or component locator is recorded for this identity",
+      "sourceState": "EMBEDDED_SECTION",
+      "sourceStateBasis": "Settled 2026-09-01 by FABLE-D1 from committed evidence: an item inside SCAO Form MC 227, not a separate binary. data/record-clearing/legal-design-intake/MI.memo.json: 'The ordinary application form, item 2.c, which requires the applicant to affirm they have not previously applied to have and had a first-violation OWI conviction set aside' and the design invariant 'Once only. MC 227 item 2.c requires an affirmation...'. Parent MC 227 custody (SRR-050) is the only acquisition-shaped remainder.",
       "externallyVerified": false,
       "aliases": [],
       "components": [],
@@ -9871,7 +9997,7 @@
         "restricted": null,
         "note": "not assessed"
       },
-      "jurisdictionScope": "unknown",
+      "jurisdictionScope": "statewide",
       "owner": "DISC settles source identity and the route or family relationship",
       "uniqueFamilies": [
         "mi_setaside_first_owi-set"
@@ -9944,8 +10070,8 @@
     {
       "jurisdiction": "MI",
       "canonicalArtifactId": "Proof of Service",
-      "canonicalArtifactTitle": "REQUIRES_LOOKUP — no printed title is recorded",
-      "canonicalPublisher": "REQUIRES_LOOKUP — no issuing body is recorded for this identity in any committed record",
+      "canonicalArtifactTitle": "Proof of Service — page 3 of SCAO Form MC 227b, Application for Human Trafficking Victim to Set Aside Conviction(s) (Rev 7/24)",
+      "canonicalPublisher": "Michigan State Court Administrative Office (SCAO)",
       "officialSourcePage": null,
       "officialArtifactUrl": null,
       "artifactSha256": null,
@@ -9953,8 +10079,8 @@
       "heldPath": null,
       "heldCandidates": [],
       "localAmbiguityResolvedByVerification": false,
-      "sourceState": "MISSING_CANONICAL_RELATIONSHIP_METADATA",
-      "sourceStateBasis": "no canonical publisher, address or component locator is recorded for this identity",
+      "sourceState": "EMBEDDED_SECTION",
+      "sourceStateBasis": "Settled 2026-09-01 by FABLE-D1 from held bytes: the mi_setaside_trafficking-set route's application is SCAO Form MC 227b, and its page 3 (of 3) prints the NOTICE OF HEARING and 'PROOF OF SERVICE — I certify that copies of this application and certified record of conviction ... were served on the prosecuting official ... Attorney General ... Michigan State Police'. Face read in this container from the Master Library copy; sha256 recomputed as 1620aa798830917707112ce6fb770aeeedc24c44e69f15b05f8b0c1c20e478a6, equal to this registry's MC 227b record. There is no separate binary to acquire.",
       "externallyVerified": false,
       "aliases": [],
       "components": [],
@@ -9969,7 +10095,7 @@
         "restricted": null,
         "note": "not assessed"
       },
-      "jurisdictionScope": "unknown",
+      "jurisdictionScope": "statewide",
       "owner": "DISC settles source identity and the route or family relationship",
       "uniqueFamilies": [
         "mi_setaside_trafficking-set"
@@ -9987,7 +10113,19 @@
       "verifiedNote": null,
       "humanContactTarget": null,
       "humanContactQuestion": null,
-      "humanAction": null
+      "humanAction": null,
+      "d1EmbeddedSectionBind": {
+        "settledBy": "FABLE-D1 source-discovery continuation (branch fable/d1)",
+        "settledOn": "2026-09-01",
+        "parentArtifact": "MC 227b (Rev 7/24)",
+        "parentSha256": "1620aa798830917707112ce6fb770aeeedc24c44e69f15b05f8b0c1c20e478a6",
+        "recomputedFrom": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MI/02_PACKET_FORMS/MI__FORM__MC-227B__application-by-human-trafficking-victim-to-set-aside-conviction-s__REV-2024-07__EN.pdf",
+        "componentLocator": "printed page 3 of 3 (Notice of Hearing + Proof of Service)",
+        "corroboratingCommittedEvidence": [
+          "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json — the MC 227b record carries the same sha256",
+          "data/record-clearing/legal-design-intake/MI.memo.json — the trafficking track's service step: 'serves by mail on MSP, the Attorney General and the prosecuting official, then completes the Proof of Service on page 3'"
+        ]
+      }
     },
     {
       "jurisdiction": "MN",
@@ -10436,17 +10574,17 @@
     {
       "jurisdiction": "MT",
       "canonicalArtifactId": "MT-FORM-A",
-      "canonicalArtifactTitle": "REQUIRES_LOOKUP — no printed title is recorded",
-      "canonicalPublisher": "REQUIRES_LOOKUP — no issuing body is recorded for this identity in any committed record",
-      "officialSourcePage": null,
+      "canonicalArtifactTitle": "FORM A — Petition for Expungement or Resentencing of Conviction (use if currently serving the sentence; MMRTA, § 16-12-113 MCA)",
+      "canonicalPublisher": "Montana Office of the Court Administrator (Montana Judicial Branch)",
+      "officialSourcePage": "https://courts.mt.gov/Forms/mmrta",
       "officialArtifactUrl": null,
-      "artifactSha256": null,
+      "artifactSha256": "968f68c78ce0d421b3751244bfcbd01c309eb7cea26027845b5e5dc6dbdb003d",
       "humanReturn": null,
       "heldPath": null,
       "heldCandidates": [],
       "localAmbiguityResolvedByVerification": false,
-      "sourceState": "MISSING_CANONICAL_RELATIONSHIP_METADATA",
-      "sourceStateBasis": "no canonical publisher, address or component locator is recorded for this identity",
+      "sourceState": "CURRENTNESS_UNVERIFIED",
+      "sourceStateBasis": "Settled 2026-09-01 by FABLE-D1 from held bytes: the Master Library DOCX prints 'FORM A: Use this form for Expungement or Resentencing if you are currently serving your sentence' and the caption 'Petition for Expungement or Resentencing of Conviction' with District/Justice/Municipal-City court checkboxes; sha256 recomputed. No printed revision. The open question is whether the publisher still issues this edition.",
       "externallyVerified": false,
       "aliases": [],
       "components": [],
@@ -10461,7 +10599,7 @@
         "restricted": null,
         "note": "not assessed"
       },
-      "jurisdictionScope": "unknown",
+      "jurisdictionScope": "statewide",
       "owner": "DISC settles source identity and the route or family relationship",
       "uniqueFamilies": [
         "mt_mmrta_serving-set"
@@ -10491,22 +10629,33 @@
       "verifiedNote": null,
       "humanContactTarget": null,
       "humanContactQuestion": null,
-      "humanAction": null
+      "humanAction": null,
+      "d1IdentityBind": {
+        "settledBy": "FABLE-D1 source-discovery continuation (branch fable/d1)",
+        "settledOn": "2026-09-01",
+        "recomputedSha256": "968f68c78ce0d421b3751244bfcbd01c309eb7cea26027845b5e5dc6dbdb003d",
+        "recomputedFrom": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-FORM-A__form-a__REV-UNKNOWN__EN.docx",
+        "corroboratingCommittedEvidence": [
+          "data/rcap-all50/composed-routes/montana/mt_mmrta_serving/route.json — 'MMRTA Form A — Petition for Expungement, Resentencing, or Redesignation (currently serving), Montana Office of the Court Administrator, published at https://courts.mt.gov/Forms/mmrta (source binary form-a.docx, sha256 968f68c78ce0d421b3751244bfcbd01c309eb7cea26027845b5e5dc6dbdb003d)' — same digest",
+          "data/record-clearing/source-artifact-registry.json and data/record-clearing/legal-design-track-registry.json carry the same digest"
+        ],
+        "exactArtifactUrlCandidate": "https://courts.mt.gov/external/forms/mmrta/form-a.docx — named only by the mounted Master Library legal review (STATES/MT/01_LEGAL_REVIEW); a single non-committed source, so recorded as a candidate, not a settled address. The committed, corroborated address is the publisher page above."
+      }
     },
     {
       "jurisdiction": "MT",
       "canonicalArtifactId": "MT-FORM-B",
-      "canonicalArtifactTitle": "REQUIRES_LOOKUP — no printed title is recorded",
-      "canonicalPublisher": "REQUIRES_LOOKUP — no issuing body is recorded for this identity in any committed record",
-      "officialSourcePage": null,
+      "canonicalArtifactTitle": "FORM B — Petition for Expungement or Redesignation of Conviction (use where the sentence has been served; MMRTA, § 16-12-113 MCA)",
+      "canonicalPublisher": "Montana Office of the Court Administrator (Montana Judicial Branch)",
+      "officialSourcePage": "https://courts.mt.gov/Forms/mmrta",
       "officialArtifactUrl": null,
-      "artifactSha256": null,
+      "artifactSha256": "cb2fa9c3d9f38b0b7b0b11b503b05c91cd61c491ad37b74ea1298a6f12747207",
       "humanReturn": null,
       "heldPath": null,
       "heldCandidates": [],
       "localAmbiguityResolvedByVerification": false,
-      "sourceState": "MISSING_CANONICAL_RELATIONSHIP_METADATA",
-      "sourceStateBasis": "no canonical publisher, address or component locator is recorded for this identity",
+      "sourceState": "CURRENTNESS_UNVERIFIED",
+      "sourceStateBasis": "Settled 2026-09-01 by FABLE-D1 from held bytes: the Master Library DOCX prints 'FORM B: Use this form for Expungement or Redesignation where Sentence has been served' and the caption 'Petition for Expungement or Redesignation of Conviction'; sha256 recomputed. No printed revision. The open question is currentness.",
       "externallyVerified": false,
       "aliases": [],
       "components": [],
@@ -10521,7 +10670,7 @@
         "restricted": null,
         "note": "not assessed"
       },
-      "jurisdictionScope": "unknown",
+      "jurisdictionScope": "statewide",
       "owner": "DISC settles source identity and the route or family relationship",
       "uniqueFamilies": [
         "mt_mmrta_completed-set"
@@ -10551,7 +10700,18 @@
       "verifiedNote": null,
       "humanContactTarget": null,
       "humanContactQuestion": null,
-      "humanAction": null
+      "humanAction": null,
+      "d1IdentityBind": {
+        "settledBy": "FABLE-D1 source-discovery continuation (branch fable/d1)",
+        "settledOn": "2026-09-01",
+        "recomputedSha256": "cb2fa9c3d9f38b0b7b0b11b503b05c91cd61c491ad37b74ea1298a6f12747207",
+        "recomputedFrom": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-FORM-B__form-b__REV-UNKNOWN__EN.docx",
+        "corroboratingCommittedEvidence": [
+          "data/rcap-all50/composed-routes/montana/mt_mmrta_serving/route.json — the compiled Judicial Branch profile passage: 'MMRTA Form B Sentence completed; request expungement or redesignation' on the same Forms/mmrta page",
+          "data/record-clearing/source-artifact-registry.json and data/record-clearing/legal-design-track-registry.json carry the same digest"
+        ],
+        "exactArtifactUrlCandidate": "https://courts.mt.gov/external/forms/mmrta/form-b.docx — Master Library legal review only; candidate, not settled"
+      }
     },
     {
       "jurisdiction": "NC",
