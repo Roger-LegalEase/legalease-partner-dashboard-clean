@@ -157,6 +157,10 @@ assert.ok(
 assert.ok(signInSource.includes('data-claim-recovery-state={claimRecoveryState}'), "recovery must expose an explicit visible state");
 assert.ok(signInSource.includes('translate("signin.claim_definitive_error"'), "definitive failure must be explicit and localized");
 assert.ok(
+  signInSource.includes("if (continuation.locale) setLocale(continuation.locale)"),
+  "post-reset recovery must apply the validated locale to the visible handoff state"
+);
+assert.ok(
   forgotSource.includes("const continuation = consumerAuthContinuationFrom(params)")
     && forgotSource.includes("continuation\n  });"),
   "reset request must use the shared continuation"

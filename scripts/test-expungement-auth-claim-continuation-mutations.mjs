@@ -71,6 +71,13 @@ try {
     "Forgot Password must preserve locale"
   );
   mutation(
+    "visible recovery locale is ignored",
+    files[2],
+    "    if (continuation.locale) setLocale(continuation.locale);",
+    "    // mutation: visible recovery state ignores the validated locale",
+    "post-reset recovery must apply the validated locale to the visible handoff state"
+  );
+  mutation(
     "server attribution is dropped",
     files[1],
     "      eventId: row.event_id,",
@@ -114,4 +121,4 @@ if (failures > 0) {
   console.error(`Auth continuation mutation suite failed: ${failures} mutation(s) escaped or failed incorrectly.`);
   process.exit(1);
 }
-console.log("Auth continuation mutation suite passed: 8/8 defects turned the behavioral verifier red.");
+console.log("Auth continuation mutation suite passed: 9/9 defects turned the behavioral verifier red.");

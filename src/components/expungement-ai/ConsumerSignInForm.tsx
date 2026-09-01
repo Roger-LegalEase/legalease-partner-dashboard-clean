@@ -35,7 +35,7 @@ export function ConsumerSignInForm({
 }: {
   initialRecoveryHandoff?: ConsumerClaimRecoveryHandoffKind;
 }) {
-  const { t: translate } = useLocalization();
+  const { t: translate, setLocale } = useLocalization();
   const [mode, setMode] = useState<AuthMode>(() => initialAuthMode());
   const [errorMessage, setErrorMessage] = useState("");
   const [noticeMessage, setNoticeMessage] = useState("");
@@ -63,6 +63,7 @@ export function ConsumerSignInForm({
     const continuation = consumerAuthContinuationFrom(search);
     const recoveryHandoff = consumerClaimRecoveryHandoffFrom(search);
     setRequestContext(continuation);
+    if (continuation.locale) setLocale(continuation.locale);
 
     if (recoveryHandoff !== "none") {
       const cleanPath = consumerSignInAfterRecoveryPath(continuation, recoveryHandoff);
@@ -72,7 +73,7 @@ export function ConsumerSignInForm({
     if (recoveryHandoff === "definitive_error") {
       setRequestContext({ ...continuation, claimToken: "" });
       setClaimRecoveryState("definitive_error");
-      setErrorMessage(translate("signin.claim_definitive_error", definitiveClaimError));
+      setErrorMessage("");
     } else if (recoveryHandoff === "retry") {
       setClaimRecoveryState("saving");
       setIsSubmitting(true);
@@ -85,7 +86,7 @@ export function ConsumerSignInForm({
     const syncRequestContext = () => setRequestContext(readAuthRequestContext());
     window.addEventListener("popstate", syncRequestContext);
     return () => window.removeEventListener("popstate", syncRequestContext);
-  }, [translate]);
+  }, [setLocale]);
 
   function applyClaimAttempt(claimed: Awaited<ReturnType<typeof submitClaim>>) {
     if (claimed.ok) {
@@ -99,13 +100,13 @@ export function ConsumerSignInForm({
     if (claimed.retryable && current.claimToken) {
       setPendingClaimFailed(true);
       setClaimRecoveryState("retryable_error");
-      setErrorMessage(translate("signin.pending_claim_error", pendingClaimError));
+      setErrorMessage("");
       return;
     }
 
     setPendingClaimFailed(false);
     setClaimRecoveryState("definitive_error");
-    setErrorMessage(translate("signin.claim_definitive_error", definitiveClaimError));
+    setErrorMessage("");
   }
 
   // The claim token is read from the URL on every attempt and never stashed in
