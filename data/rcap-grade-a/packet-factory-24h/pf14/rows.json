@@ -1,0 +1,82 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-return/v1",
+  "assignment": "PF14",
+  "lanePrompt": "docs/rcap/grade-a/packet-factory-24h/PF14.md",
+  "baseSha": "8b0bf43758838c98eafd712944b702e348cccf5d",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "packetsSelfVerified": 0,
+  "rows": [
+    {
+      "itemId": "wa_blake_vacatur_and_lfo_refund-set",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_LEGAL_INPUT",
+      "counters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "artifactsProduced": [],
+      "blockingInputs": [
+        "Resolve whether BLAKE-002 is the courts-of-limited-jurisdiction alternative to BLAKE-001 or a separate lfo_refund_claim component.",
+        "If a separate lfo_refund_claim is required, identify and bind its actual source."
+      ],
+      "evidence": [
+        "data/rcap-all50/overlays/census-v1/wa/wa-blake-vacatur-and-lfo-refund-set--official-pdf-fill/source-vehicle-stop.json"
+      ]
+    },
+    {
+      "itemId": "mo-610-140-arrest-set",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_SOURCE",
+      "counters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "artifactsProduced": [],
+      "missingOrMismatchedSourceIds": [
+        "official-form:CR370",
+        "official-form:FI-05",
+        "official-form:GN10"
+      ]
+    },
+    {
+      "itemId": "co_motion_seal_conviction-set",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_LEGAL_INPUT",
+      "counters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "artifactsProduced": [],
+      "blockingInputs": [
+        "Resolve and bind the required NOTICE form identity; the committed first-hand record says its form number is unknown and the form is absent from the corpus.",
+        "Resolve and bind the additional required ORDER form identity; the committed first-hand record says its form number is unknown and the form is absent from the corpus."
+      ],
+      "evidence": [
+        "data/rcap-all50/candidate-evidence/colorado/lane-g-route-dispositions.json",
+        "data/rcap-all50/overlays/production/colorado/jdf-612-form-motion-en/specification/reports/incomplete-filing-set.json"
+      ]
+    }
+  ]
+}
