@@ -97,6 +97,31 @@ export async function openPrivacyRequest(input: {
   return row;
 }
 
+export async function acquireAccountDeletionRunLease(input: {
+  supabase: SupabaseClient;
+  requestId: string;
+  leaseToken: string;
+}): Promise<boolean> {
+  const { data, error } = await input.supabase.rpc(
+    "acquire_participant_account_deletion_run_lease",
+    { p_request_id: input.requestId, p_lease_token: input.leaseToken }
+  );
+  if (error) throw new Error(`could not acquire account-deletion run lease: ${error.message}`);
+  return data === true;
+}
+
+export async function releaseAccountDeletionRunLease(input: {
+  supabase: SupabaseClient;
+  requestId: string;
+  leaseToken: string;
+}): Promise<void> {
+  const { error } = await input.supabase.rpc(
+    "release_participant_account_deletion_run_lease",
+    { p_request_id: input.requestId, p_lease_token: input.leaseToken }
+  );
+  if (error) throw new Error(`could not release account-deletion run lease: ${error.message}`);
+}
+
 export async function readPrivacyRequest(
   supabase: SupabaseClient,
   requestId: string

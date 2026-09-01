@@ -1,4 +1,5 @@
 import { NextRequest } from "next/server";
+import { randomUUID } from "node:crypto";
 
 import { requireParticipantPrivacyApiSession } from "@/lib/expungement-ai/privacy/api-session";
 import { PRIVACY_RATE_LIMIT_POLICIES } from "@/lib/expungement-ai/privacy/contract";
@@ -16,8 +17,10 @@ import {
   requireIdempotencyKey
 } from "@/lib/expungement-ai/privacy/request-security";
 import {
+  acquireAccountDeletionRunLease,
   openPrivacyRequest,
   PrivacyStoreUnavailableError,
+  releaseAccountDeletionRunLease,
   requirePrivacyAdminClient
 } from "@/lib/expungement-ai/privacy/store";
 import { checkResumeRateLimit } from "@/lib/expungement-ai/screening-resume-rate-limit";
@@ -153,20 +156,40 @@ export async function POST(request: NextRequest) {
     });
   }
 
+  const leaseToken = randomUUID();
+  const leaseAcquired = await acquireAccountDeletionRunLease({
+    supabase,
+    requestId: privacyRequest.id,
+    leaseToken
+  });
+  if (!leaseAcquired) {
+    return privacyJson(
+      {
+        error: "A deletion attempt is already running for this account. Try again shortly.",
+        code: "deletion_in_progress"
+      },
+      409
+    );
+  }
+
   let outcome: DeletionOutcome;
   try {
-    outcome = await runAccountDeletion({ supabase, request: privacyRequest });
-  } catch (error) {
-    if (error instanceof PrivacyProcessorConfigError) {
-      return privacyJson(
-        {
-          error: "Account deletion is temporarily unavailable. Nothing has been changed. Try again later.",
-          code: "privacy_not_ready"
-        },
-        503
-      );
+    try {
+      outcome = await runAccountDeletion({ supabase, request: privacyRequest, leaseToken });
+    } catch (error) {
+      if (error instanceof PrivacyProcessorConfigError) {
+        return privacyJson(
+          {
+            error: "Account deletion is temporarily unavailable. Nothing has been changed. Try again later.",
+            code: "privacy_not_ready"
+          },
+          503
+        );
+      }
+      throw error;
     }
-    throw error;
+  } finally {
+    await releaseAccountDeletionRunLease({ supabase, requestId: privacyRequest.id, leaseToken });
   }
 
   if (outcome.status === "blocked_legal_hold") {

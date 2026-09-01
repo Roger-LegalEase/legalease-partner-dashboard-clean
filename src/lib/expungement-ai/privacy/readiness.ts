@@ -7,7 +7,7 @@ import {
 } from "@/lib/expungement-ai/privacy/processor-config";
 
 export const PARTICIPANT_ACCOUNT_DELETION_CONTRACT_VERSION =
-  "20260901180000.partial-deletion.v2";
+  "20260901180000.partial-deletion.v3";
 
 /**
  * Is this deployment actually able to honour a data-rights request?

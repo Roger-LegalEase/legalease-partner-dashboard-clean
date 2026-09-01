@@ -21,6 +21,7 @@ import {
 import { requireProcessorConfig } from "@/lib/expungement-ai/privacy/processor-config";
 import { participantPseudonymUserId, participantSubjectPseudonym } from "@/lib/expungement-ai/privacy/pseudonym";
 import {
+  acquireAccountDeletionRunLease,
   completePrivacyRequest,
   readPrivacySteps,
   recordLegalHoldCheck,
@@ -498,12 +499,21 @@ export async function runMatterDeletion(input: {
 export async function runAccountDeletion(input: {
   supabase: SupabaseClient;
   request: PrivacyRequestRow;
+  leaseToken: string;
   deps?: DeletionDependencies;
 }): Promise<DeletionOutcome> {
   const { supabase, request } = input;
   const deps = input.deps ?? defaultDeletionDependencies(supabase);
   const userId = request.user_id;
   const subjectPseudonym = request.subject_pseudonym ?? participantSubjectPseudonym(userId);
+
+  if (!(await acquireAccountDeletionRunLease({
+    supabase,
+    requestId: request.id,
+    leaseToken: input.leaseToken
+  }))) {
+    throw new Error("account-deletion run lease is not held by this attempt");
+  }
 
   // This is a second boundary behind the page/API readiness check. Direct
   // worker callers and a configuration change between request validation and
@@ -534,6 +544,13 @@ export async function runAccountDeletion(input: {
   let scope: MatterScope = { itemIds: [], artifactPaths: [] };
   try {
     for (const stepKey of ACCOUNT_DELETION_STEPS) {
+      if (!(await acquireAccountDeletionRunLease({
+        supabase,
+        requestId: request.id,
+        leaseToken: input.leaseToken
+      }))) {
+        throw new Error("account-deletion run lease was lost before the next step");
+      }
       await runStep({
         supabase,
         requestId: request.id,

@@ -158,6 +158,42 @@ if (!source.includes(requiredCheck)) {
         console.log("Privacy readiness mutation caught: dropping established processor variables turns the verifier red.");
       }
     }
+
+    restore();
+    const exclusiveLeasePredicate =
+      "    where public.participant_account_deletion_run_leases.lease_token = excluded.lease_token\n" +
+      "       or public.participant_account_deletion_run_leases.lease_expires_at <= clock_timestamp()";
+    if (!migrationSource.includes(exclusiveLeasePredicate)) {
+      console.error("Privacy readiness mutation could not find the exclusive deletion-run lease predicate.");
+      process.exitCode = 1;
+    } else {
+      fs.writeFileSync(
+        absoluteMigrationTarget,
+        migrationSource.replace(exclusiveLeasePredicate, "    where true -- mutation: overlapping deletion runners allowed")
+      );
+      const leaseChild = spawnSync(process.execPath, ["scripts/verify-participant-data-rights.mjs"], {
+        cwd: root,
+        encoding: "utf8",
+        timeout: 300_000,
+        maxBuffer: 100 * 1024 * 1024,
+        env: { ...process.env, GIT_TERMINAL_PROMPT: "0", GIT_OPTIONAL_LOCKS: "0" }
+      });
+      const leaseOutput = `${leaseChild.stdout ?? ""}${leaseChild.stderr ?? ""}`;
+      const leaseExpected = "concurrent retries converge on one live ledger and one destructive runner";
+      if (leaseChild.error?.code === "ETIMEDOUT" || leaseChild.signal) {
+        console.error("Privacy deletion-run lease mutation verifier timed out.");
+        process.exitCode = 1;
+      } else if (leaseChild.status === 0) {
+        console.error("Privacy deletion-run lease mutation survived: overlapping destructive runners stayed green.");
+        process.exitCode = 1;
+      } else if (!leaseOutput.includes(leaseExpected)) {
+        console.error("Privacy deletion-run lease mutation turned red for the wrong reason.");
+        console.error(leaseOutput);
+        process.exitCode = 1;
+      } else {
+        console.log("Privacy readiness mutation caught: overlapping destructive deletion runners turn the verifier red.");
+      }
+    }
   } finally {
     restore();
     disposeRestore();

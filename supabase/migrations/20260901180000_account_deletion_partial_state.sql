@@ -35,6 +35,94 @@ create index participant_privacy_requests_resumable_idx
   where status in ('pending', 'in_progress')
      or (request_type = 'account_deletion' and status = 'partially_completed');
 
+-- The request opener's transaction lock prevents duplicate ledgers, but it is
+-- released before the application performs the destructive run. This private
+-- lease keeps one server attempt authoritative across that whole run. A stale
+-- worker releases itself after fifteen minutes; the active worker renews at
+-- every ordered step, so a process crash remains resumable without allowing
+-- overlapping processors or destructive sweeps.
+create table if not exists public.participant_account_deletion_run_leases (
+  request_id uuid primary key references public.participant_privacy_requests(id) on delete cascade,
+  lease_token uuid not null,
+  lease_expires_at timestamptz not null,
+  acquired_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  constraint participant_account_deletion_run_leases_expiry_check
+    check (lease_expires_at > acquired_at)
+);
+
+alter table public.participant_account_deletion_run_leases enable row level security;
+revoke all on table public.participant_account_deletion_run_leases from public, anon, authenticated;
+
+create or replace function public.acquire_participant_account_deletion_run_lease(
+  p_request_id uuid,
+  p_lease_token uuid
+)
+returns boolean
+language plpgsql
+security definer
+set search_path = ''
+as $$
+declare
+  v_acquired boolean := false;
+begin
+  if p_request_id is null or p_lease_token is null or not exists (
+    select 1
+    from public.participant_privacy_requests
+    where id = p_request_id
+      and request_type = 'account_deletion'
+      and status in ('pending', 'in_progress', 'partially_completed')
+  ) then
+    return false;
+  end if;
+
+  insert into public.participant_account_deletion_run_leases (
+    request_id, lease_token, lease_expires_at
+  ) values (
+    p_request_id, p_lease_token, clock_timestamp() + interval '15 minutes'
+  )
+  on conflict (request_id) do update
+    set lease_token = excluded.lease_token,
+        lease_expires_at = excluded.lease_expires_at,
+        updated_at = clock_timestamp()
+    where public.participant_account_deletion_run_leases.lease_token = excluded.lease_token
+       or public.participant_account_deletion_run_leases.lease_expires_at <= clock_timestamp()
+  returning true into v_acquired;
+
+  return coalesce(v_acquired, false);
+end;
+$$;
+
+create or replace function public.release_participant_account_deletion_run_lease(
+  p_request_id uuid,
+  p_lease_token uuid
+)
+returns boolean
+language plpgsql
+security definer
+set search_path = ''
+as $$
+declare
+  v_released boolean := false;
+begin
+  delete from public.participant_account_deletion_run_leases
+  where request_id = p_request_id
+    and lease_token = p_lease_token
+  returning true into v_released;
+  return coalesce(v_released, false);
+end;
+$$;
+
+revoke all on function public.acquire_participant_account_deletion_run_lease(uuid, uuid)
+  from public, anon, authenticated;
+grant execute on function public.acquire_participant_account_deletion_run_lease(uuid, uuid)
+  to service_role;
+
+revoke all on function public.release_participant_account_deletion_run_lease(uuid, uuid)
+  from public, anon, authenticated;
+grant execute on function public.release_participant_account_deletion_run_lease(uuid, uuid)
+  to service_role;
+
 -- Preserve the exact-idempotency behavior for every request type. Account
 -- deletion gets one additional rule: a new recent-auth proof and idempotency
 -- key resume the one live ledger instead of opening a second ledger beside a
@@ -204,11 +292,11 @@ stable
 security definer
 set search_path = ''
 as $$
-  select '20260901180000.partial-deletion.v2'::text
+  select '20260901180000.partial-deletion.v3'::text
 $$;
 
 comment on function public.participant_account_deletion_contract_version() is
-  'Service-role capability handshake for resumable partial account deletion contract 20260901180000.partial-deletion.v2.';
+  'Service-role capability handshake for resumable partial account deletion contract 20260901180000.partial-deletion.v3.';
 
 revoke all on function public.participant_account_deletion_contract_version()
   from public, anon, authenticated;

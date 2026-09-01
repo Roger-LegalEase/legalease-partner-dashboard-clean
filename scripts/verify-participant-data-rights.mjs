@@ -113,11 +113,18 @@ process.env.RATE_LIMIT_HASH_SECRET = "participant-privacy-rate-limit-secret-for-
  */
 let processorMode = "success";
 const processorRequests = [];
+let pausedProcessorStarted = null;
+let pausedProcessorRelease = null;
 const processorServer = http.createServer((req, res) => {
   let body = "";
   req.on("data", (chunk) => { body += chunk; });
-  req.on("end", () => {
+  req.on("end", async () => {
     processorRequests.push({ url: req.url, body, mode: processorMode });
+    if (processorMode === "pause_once") {
+      processorMode = "success";
+      pausedProcessorStarted?.();
+      await new Promise((resolve) => { pausedProcessorRelease = resolve; });
+    }
     if (processorMode === "retryable") {
       res.writeHead(500, { "content-type": "application/json" });
       res.end(JSON.stringify({ error: "temporarily unavailable" }));
@@ -695,6 +702,15 @@ async function mintProof(userId, purpose, password = gotrue.password) {
     scalar(`select status from public.participant_privacy_requests where id='${matterFailureRequest}'`) === "failed"
       && scalar(`select failure_code from public.participant_privacy_requests where id='${matterFailureRequest}'`) === "pseudonymize_retained_records");
   db.sql(`delete from public.participant_privacy_requests where id='${matterFailureRequest}'`);
+  check("V9", "browser roles cannot inspect or acquire an account-deletion run lease",
+    /permission denied/i.test(db.sqlExpectError(
+      `set role authenticated; select * from public.participant_account_deletion_run_leases`
+    ))
+      && /permission denied/i.test(db.sqlExpectError(
+        `set role authenticated; select public.acquire_participant_account_deletion_run_lease(
+          gen_random_uuid(), gen_random_uuid()
+        )`
+      )));
 }
 
 console.log("\nParticipant data rights\n");
@@ -1219,24 +1235,42 @@ let accountReceipt = null;
       && count(`select count(*) from public.participant_privacy_requests where user_id='${USER_A}' and request_type='account_deletion' and status='partially_completed'`) === 1,
     `${accountRequestId} / ${processorFailure.requestId}`);
 
-  const concurrentOpens = await Promise.all([
-    db.sqlAsync(
-      `select id from public.open_participant_privacy_request(
-         '${USER_A}'::uuid, 'account_deletion', 'account-a-concurrent-1',
-         'subject-a', now(), 'password_reauthentication', 'concurrent-proof-1', null,
-         array['freeze_account','revoke_sessions'])`
-    ),
-    db.sqlAsync(
-      `select id from public.open_participant_privacy_request(
-         '${USER_A}'::uuid, 'account_deletion', 'account-a-concurrent-2',
-         'subject-a', now(), 'password_reauthentication', 'concurrent-proof-2', null,
-         array['freeze_account','revoke_sessions'])`
-    )
+  // Hold the first retry inside a real processor request, then overlap a
+  // second POST with a different proof and idempotency key. The durable run
+  // lease must refuse the second attempt before it can repeat any step.
+  resetResumeRateLimitsForTests();
+  sql(`delete from public.request_rate_limit_buckets`);
+  processorMode = "pause_once";
+  const processorPaused = new Promise((resolve) => { pausedProcessorStarted = resolve; });
+  const concurrentProofOne = (await mintProof(USER_A, "account_deletion")).body.proof;
+  const concurrentProofTwo = (await mintProof(USER_A, "account_deletion")).body.proof;
+  setSession({ isAuthenticated: true, userId: USER_A, email: "a@participant.test" });
+  const processorRequestsBeforeConcurrentRun = processorRequests.length;
+  const firstConcurrentRun = accountRoute.POST(
+    req("/api/expungement-ai/privacy/account", {
+      proof: concurrentProofOne,
+      confirmation: "DELETE MY ACCOUNT",
+      idempotencyKey: "account-a-concurrent-1"
+    })
+  );
+  await Promise.race([
+    processorPaused,
+    new Promise((_, reject) => setTimeout(() => reject(new Error("processor pause was not reached")), 10_000))
   ]);
-  check("N11", "concurrent retries converge on one live deletion ledger",
-    concurrentOpens.every((result) => result.ok && result.out === accountRequestId)
-      && count(`select count(*) from public.participant_privacy_requests where user_id='${USER_A}' and request_type='account_deletion' and status='partially_completed'`) === 1,
-    JSON.stringify(concurrentOpens));
+  const secondConcurrentResponse = await accountRoute.POST(
+    req("/api/expungement-ai/privacy/account", {
+      proof: concurrentProofTwo,
+      confirmation: "DELETE MY ACCOUNT",
+      idempotencyKey: "account-a-concurrent-2"
+    })
+  );
+  const secondConcurrentBody = await jsonOf(secondConcurrentResponse);
+  check("N11", "concurrent retries converge on one live ledger and one destructive runner",
+    secondConcurrentResponse.status === 409
+      && secondConcurrentBody.code === "deletion_in_progress"
+      && count(`select count(*) from public.participant_privacy_requests where user_id='${USER_A}' and request_type='account_deletion' and status='partially_completed'`) === 1
+      && count(`select count(*) from public.participant_account_deletion_run_leases where request_id='${accountRequestId}'`) === 1,
+    `${secondConcurrentResponse.status} ${JSON.stringify(secondConcurrentBody)}`);
   check("N12", "the live unique index refuses a second ledger while deletion is partial",
     /participant_privacy_requests_live_account_deletion_uk/.test(db.sqlExpectError(
       `insert into public.participant_privacy_requests
@@ -1246,15 +1280,16 @@ let accountReceipt = null;
                'pending', now(), 'password_reauthentication', 'forbidden-second-proof')`
     )));
 
-  // Restore the processor and resume the SAME durable request a second time.
-  processorMode = "success";
-  const finalProof = (await mintProof(USER_A, "account_deletion")).body.proof;
-  setSession({ isAuthenticated: true, userId: USER_A, email: "a@participant.test" });
-  const completedResponse = await accountRoute.POST(
-    req("/api/expungement-ai/privacy/account", { proof: finalProof, confirmation: "DELETE MY ACCOUNT", idempotencyKey: "account-a-final-retry" })
-  );
+  pausedProcessorRelease?.();
+  const completedResponse = await firstConcurrentRun;
   accountReceipt = await jsonOf(completedResponse);
-  check("N13", "the resumed processor step completes the same deletion", completedResponse.status === 200 && accountReceipt.status === "completed" && accountReceipt.requestId === accountRequestId, `${completedResponse.status} ${JSON.stringify(accountReceipt).slice(0, 300)}`);
+  check("N13", "the leased processor retry completes the same deletion exactly once",
+    completedResponse.status === 200
+      && accountReceipt.status === "completed"
+      && accountReceipt.requestId === accountRequestId
+      && processorRequests.length === processorRequestsBeforeConcurrentRun + 2
+      && count(`select count(*) from public.participant_account_deletion_run_leases where request_id='${accountRequestId}'`) === 0,
+    `${completedResponse.status} ${JSON.stringify(accountReceipt).slice(0, 300)}`);
   check("N14", "resuming did not re-run an already completed destructive step", count(`select s.attempt_count from public.participant_privacy_request_steps s join public.participant_privacy_requests r on r.id = s.request_id where r.user_id='${USER_A}' and s.step_key='freeze_account'`) === freezeAttemptsBefore, "freeze_account was executed twice");
   check("N15", "every retry used the same request rather than duplicating work", count(`select count(*) from public.participant_privacy_requests where user_id='${USER_A}' and request_type='account_deletion' and status <> 'blocked_legal_hold'`) === 1);
   check("N16", "every ordered step is recorded completed, in order", ACCOUNT_DELETION_STEPS.every((step, index) => count(`select count(*) from public.participant_privacy_request_steps s join public.participant_privacy_requests r on r.id = s.request_id where r.user_id='${USER_A}' and s.step_key='${step}' and s.step_order=${index + 1} and s.status='completed'`) === 1), "a step is missing, out of order, or not completed");

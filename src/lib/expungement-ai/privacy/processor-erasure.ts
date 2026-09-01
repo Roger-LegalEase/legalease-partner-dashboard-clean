@@ -214,6 +214,7 @@ async function transmit(
     const response = await fetch(endpoint, {
       method: "POST",
       headers: { "content-type": "application/json", authorization: `Bearer ${token}` },
+      signal: AbortSignal.timeout(20_000),
       body: JSON.stringify({
         action,
         subject: request.subjectPseudonym,
