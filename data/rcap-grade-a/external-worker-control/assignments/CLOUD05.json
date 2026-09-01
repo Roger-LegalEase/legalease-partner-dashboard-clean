@@ -1,0 +1,89 @@
+{
+  "schemaVersion": "rcap-external-assignment/v1",
+  "captainSha": "d89e26693f6d9365bea6ed5885517a877fb40f56",
+  "createdAt": "2026-09-01T11:23:15Z",
+  "minimumAncestor": "f240e47687eddd47d432996823ce932affcd54cc",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "captainIsSoleAuthorityFor": [
+    "the claim ledger",
+    "the master and raster queues",
+    "central raster dispatch",
+    "integration",
+    "commercial authority",
+    "anything touching Production"
+  ],
+  "neverDo": [
+    "claim a family a live grant already holds",
+    "modify data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
+    "modify RASTER_QUEUE.json, MASTER_QUEUE.json or ACTIVE_ASSIGNMENTS.json",
+    "open a commercial route, alter checkout, entitlement or packet-credit behaviour",
+    "touch Production, Supabase RLS, Stripe live mode, or any secret",
+    "verify a packet you built or repaired"
+  ],
+  "workerId": "CLOUD05",
+  "assignmentVersion": 3,
+  "mode": "SECOND_INDEPENDENT_READ",
+  "role": "Codex Cloud verification slot (isolated, read-only on packet bodies)",
+  "lane": "VF22",
+  "laneKind": "independent-verification",
+  "subjectIds": [
+    "ar-misdemeanor-dwi-seal-set"
+  ],
+  "subjects": [
+    {
+      "familyId": "ar-misdemeanor-dwi-seal-set",
+      "directory": "data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-dwi-seal-set--official-pdf-fill",
+      "masterQueueState": "VERIFY_PENDING",
+      "sharesBytesWithAnotherFamily": false,
+      "firstReadBy": "VF05"
+    }
+  ],
+  "claimPrerequisite": "Captain must first run: node scripts/grade-a-packet-factory-24h/claim.mjs --transfer VF05 VF22 ar-misdemeanor-dwi-seal-set --reason \"second independent read; the family earned a RASTER_PASS the first read did not have\". Do not assert until CONTROL_STATE.json shows this transfer completed — a fresh assert on this family is a duplicate and will be refused.",
+  "claimAssertions": [
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF22 ar-misdemeanor-dwi-seal-set   # only after Captain's transfer"
+  ],
+  "whyASecondRead": "The first read predates this family's hash-bound raster receipt over its complete document set. That receipt is evidence the first reader did not have.",
+  "ownedPaths": [
+    "data/rcap-grade-a/external-worker-control/returns/CLOUD05/**"
+  ],
+  "prohibitedPaths": [
+    "data/rcap-all50/**",
+    "data/rcap-grade-a/packet-factory-24h/**",
+    "any packet PDF, overlay, field map, build script or source receipt"
+  ],
+  "readOnly": "You write evidence only, under your own return path. You modify no packet and no source body.",
+  "controllingEvidencePaths": [
+    "data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-dwi-seal-set--official-pdf-fill/**",
+    "data/rcap-grade-a/launch-control/GRADE_A_READINESS.json"
+  ],
+  "focusedTestCommands": [
+    "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs"
+  ],
+  "theFifteenObligations": [
+    "ROUTE_IDENTITY",
+    "SOURCE_IDENTITY",
+    "COMPONENT_SET",
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "PROTECTED_FIELDS",
+    "ARTIFACTS",
+    "PAGE_ORDER",
+    "CLIPPING_AND_OVERLAP",
+    "FILING_DESTINATION",
+    "FEE_AND_WAIVER",
+    "SERVICE",
+    "SELF_HELP_STOP"
+  ],
+  "scoreAllFifteen": "A PASS_COMPLETE_INDEPENDENT verdict requires every one of the fifteen. Lane contract L9 refuses the verdict from a return that scored a subset — one lane already had five verdicts withdrawn for exactly this.",
+  "rasterDisposition": "This family holds a hash-bound RASTER_PASS over its whole document set. That is one gate. Your read is the other.",
+  "stopConditions": [
+    "CONTROL_STATE.json does not show the transfer completed",
+    "the assert is refused",
+    "you cannot measure an obligation in this environment (return NOT_MEASURABLE_HERE, never a pass)"
+  ],
+  "expiresAt": null,
+  "returnPath": "data/rcap-grade-a/external-worker-control/returns/CLOUD05"
+}

@@ -1,0 +1,82 @@
+{
+  "schemaVersion": "rcap-external-metrics/v1",
+  "measuredAt": "2026-09-01T11:27:09Z",
+  "captainSha": "d89e26693f6d9365bea6ed5885517a877fb40f56",
+  "slots": {
+    "provisioned": 10,
+    "assigned": 10,
+    "researchOnly": 0,
+    "idle": 0
+  },
+  "queueDepth": {
+    "sourceReadyTotal": 9,
+    "sourceReadyUnowned": 1,
+    "failRepairTotal": 26,
+    "failRepairUnowned": 11,
+    "rasterPassTotal": 47,
+    "rasterPassUnverified": 32
+  },
+  "throughput": {
+    "note": "Per-hour rates need two measurements. This is the first; rates appear once a second cycle has a prior METRICS.json to difference against. Publishing a rate from one sample would be inventing a denominator.",
+    "priorSample": "2026-09-01T11:23:16Z",
+    "cumulative": {
+      "claimsReleased": 369,
+      "releasesLogged": 376,
+      "transfersLogged": 0,
+      "rasterReceipts": 47,
+      "familiesPassComplete": 0,
+      "familiesPassCompleteBasis": "GRADE_A_READINESS.json — every independent read so far returned a defect"
+    }
+  },
+  "pendingReturnsAwaitingIntegration": [],
+  "sloViolations": [
+    {
+      "rule": "SOURCE_READY family with no builder and no external assignment",
+      "count": 1,
+      "items": [
+        "wv_nc_diversion_deferred-set"
+      ],
+      "detail": "a family that can be built and is not assigned is idle capacity, not a queue"
+    },
+    {
+      "rule": "FAIL_REPAIR_REQUIRED family with no repairer and no external assignment",
+      "count": 11,
+      "items": [
+        "pa_490_nonconviction-set",
+        "pa_9122_1_limited_access-set",
+        "wa_vac_cannabis-set",
+        "wa_vac_domestic_violence-set",
+        "wa_vac_felony-set",
+        "wa_vac_homicide_victim_prostitution-set",
+        "wa_vac_misdemeanor_ordinary-set",
+        "wa_vac_substance_use_disorder-set",
+        "wa_vac_survivor_felony-set",
+        "wa_vac_survivor_misdemeanor-set",
+        "wa_vac_treaty_fishing-set"
+      ],
+      "detail": "the repair queue is the largest blocker to any family reaching PASS_COMPLETE"
+    },
+    {
+      "rule": "RASTER_PASS family with no verifier and no external assignment",
+      "count": 32,
+      "items": [
+        "ne-setaside-custodial-set",
+        "pa_age70_deceased-set",
+        "pa_pardon_expungement-set",
+        "ri_nonconviction_sealing-set",
+        "sd_arrest_expungement-set",
+        "ut_pet_acquittal-set",
+        "ut_pet_conviction-set",
+        "ut_pet_dismissed_with_prejudice-set",
+        "ut_pet_dismissed_without_prejudice-set",
+        "ut_pet_limitations-set",
+        "ut_pet_no_charges-set",
+        "ut_pet_traffic-set"
+      ],
+      "detail": "these need claim.mjs --transfer for a second read; a fresh grant is refused as a duplicate"
+    }
+  ],
+  "sloViolationCount": 3,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}

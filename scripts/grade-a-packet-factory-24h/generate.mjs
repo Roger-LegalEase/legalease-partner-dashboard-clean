@@ -1834,10 +1834,47 @@ for (const row of claimRows) {
  * a verification lane Captain minted by hand for a cross-read, say -- is
  * external, and dropping it would delete a grant its owner is about to assert.
  */
+/*
+ * External lanes are dispatched outside this generator and must survive it.
+ *
+ * EXTERNAL_ASSIGNMENTS.json is the control plane's record of which lanes belong
+ * to a Codespace or a Codex Cloud slot. This generator does not emit them, so
+ * without reading that file a routine regeneration would drop every external
+ * grant the moment one existed -- the same class of loss that wiped 25 raster
+ * receipts and 339 releases earlier in this shift, and the reason the mission
+ * requires this integration rather than trusting the carry-forward alone.
+ */
+const EXTERNAL_INDEX = "data/rcap-grade-a/external-worker-control/EXTERNAL_ASSIGNMENTS.json";
+const externalLanes = new Set((() => {
+  const abs = path.join(ROOT, EXTERNAL_INDEX);
+  if (!fs.existsSync(abs)) return [];
+  try { return JSON.parse(fs.readFileSync(abs, "utf8")).externalLanes ?? []; }
+  catch { return []; }
+})());
+
 const generatedLanes = new Set(claimRows.map((c) => c.lane));
+for (const lane of externalLanes) generatedLanes.delete(lane);
 const generatedKeys = new Set(claimRows.map(claimKey));
+/*
+ * Preserve by IDENTITY, not by lane.
+ *
+ * This read `!generatedLanes.has(c.lane) && !generatedKeys.has(key)`, which
+ * drops a claim whose lane the generator still emits but which it no longer
+ * dispatches -- a family that has moved past SOURCE_READY keeps its
+ * packet-build grant on PF01 while PF01 goes on being emitted for other
+ * families. Twelve identities were being destroyed on every regeneration,
+ * including six Virginia and Kentucky packet-build grants and a Rhode Island
+ * repair, and the earlier check that said "0 lost" only compared
+ * independent-verification subjects, so it never looked at them.
+ *
+ * The lane condition was there to stop four withdrawn Arkansas grants
+ * reappearing. It was aimed at the wrong mechanism: those came back through the
+ * MERGE RESOLVER pulling them off a worker branch, not through this generator,
+ * and the resolver now refuses them by consulting the merge base. A grant
+ * withdrawn from the ledger is absent from priorLedger and cannot return here.
+ */
 const preservedGrants = (priorLedger.claims ?? [])
-  .filter((c) => !generatedLanes.has(c.lane) && !generatedKeys.has(claimKey(c)));
+  .filter((c) => !generatedKeys.has(claimKey(c)));
 const mergedClaims = [...claimRows, ...preservedGrants]
   .sort((x, y) => x.subjectType.localeCompare(y.subjectType) || x.subjectId.localeCompare(y.subjectId) || x.operation.localeCompare(y.operation) || x.lane.localeCompare(y.lane));
 
@@ -1881,8 +1918,53 @@ const claimLedgerRecord = {
   claimsDigestCovers: digestFields,
   revocationIsVisibleHow: "the digest changes whenever a grant is added or withdrawn; generatedAtCommit is a declared floor and does not",
   releases: priorLedger.releases ?? [],
-  reissues: priorLedger.reissues ?? []
+  reissues: priorLedger.reissues ?? [],
+  /* The transfer log carries the same weight as releases and reissues: it is
+   * how a family read twice is auditable at all. It was added to claim.mjs
+   * after this generator was last touched, so without this line the first
+   * regeneration after any transfer would erase the record of it. */
+  transfers: priorLedger.transfers ?? []
 };
+
+/*
+ * Identity comparison, not counts.
+ *
+ * A smaller consistent ledger is still consistent, which is how a regeneration
+ * destroyed 27 claims, 339 releases and 3 reissues earlier in this shift and
+ * still verified afterwards. Counting caught it only because I happened to
+ * compare 537 against 510. So the check is set difference on identity, and it
+ * refuses rather than warns: a destructive regeneration that prints a warning
+ * and writes anyway has destroyed the thing the warning is about.
+ */
+const identityOf = (c) => `${c.subjectType}|${c.subjectId}|${c.operation}`;
+const beforeIds = new Set((priorLedger.claims ?? []).map(identityOf));
+const afterIds = new Set(mergedClaims.map(identityOf));
+const lostIdentities = [...beforeIds].filter((k) => !afterIds.has(k));
+const beforeReleased = new Set((priorLedger.claims ?? []).filter((c) => c.released === true).map(identityOf));
+const lostReleaseFlags = [...beforeReleased].filter((k) => {
+  const after = mergedClaims.find((c) => identityOf(c) === k);
+  return after && after.released !== true;
+});
+const shrank = [
+  ["releases", (priorLedger.releases ?? []).length, (claimLedgerRecord.releases ?? []).length],
+  ["reissues", (priorLedger.reissues ?? []).length, (claimLedgerRecord.reissues ?? []).length],
+  ["transfers", (priorLedger.transfers ?? []).length, (claimLedgerRecord.transfers ?? []).length],
+].filter(([, b, a]) => a < b);
+
+if (lostIdentities.length || lostReleaseFlags.length || shrank.length) {
+  console.error("REFUSED: this regeneration would destroy history the tree cannot rebuild.");
+  if (lostIdentities.length) {
+    console.error(`  ${lostIdentities.length} claim identity(ies) present before and absent after:`);
+    for (const k of lostIdentities.slice(0, 8)) console.error(`    ${k}`);
+  }
+  if (lostReleaseFlags.length) {
+    console.error(`  ${lostReleaseFlags.length} released flag(s) would be cleared:`);
+    for (const k of lostReleaseFlags.slice(0, 8)) console.error(`    ${k}`);
+  }
+  for (const [name, b, a] of shrank) console.error(`  ${name}: ${b} -> ${a}`);
+  console.error("  Nothing was written. Fix the generator, not the data.");
+  process.exit(1);
+}
 OUT.emit(`${OUT_DIR}/claim-ledger.json`, `${JSON.stringify(claimLedgerRecord, null, 2)}\n`);
 OUT.emit(`${OUT_DIR}/CLAIM_LEDGER_REPAIR.json`, `${JSON.stringify({
   schemaVersion: "rcap-claim-ledger-repair/v1",
