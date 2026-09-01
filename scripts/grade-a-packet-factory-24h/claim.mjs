@@ -109,6 +109,62 @@ function reissue(ledgerPath, lane, subjectId, reason) {
   console.log(`REISSUED ${lane} ${subjectId} (was released ${previouslyReleasedAt}) — ${reason}`);
 }
 
+/*
+ * Move a released grant to a different lane so the family can be read again.
+ *
+ * A repaired family needs a SECOND independent read, and until now the ledger
+ * could not express one. A family may hold only one claim per operation, so no
+ * second grant is mintable; --reissue re-opens the grant but leaves it on the
+ * lane that already read it, which is wrong precisely when that lane also did
+ * the repair. Twenty-two families sit at FAIL_REPAIR_REQUIRED waiting on this.
+ *
+ * The independence rule is that a verifier is not the builder or the repairer
+ * of what it verifies -- not that a different worker must read it each time. So
+ * a transfer is refused only when the destination has actually written the
+ * family, and the caller states which lane is taking it and why.
+ */
+function transfer(ledgerPath, fromLane, toLane, subjectId, reason) {
+  const { absolute, ledger } = read(ledgerPath); validate(ledger);
+  const grant = locate(ledger, fromLane, subjectId);
+  if (!reason) die(10, `TRANSFER_NEEDS_REASON: moving ${subjectId} requires --reason "<why>"`);
+  if (!grant.released) die(11, `NOT_RELEASED: ${subjectId} is still live on ${fromLane}; release it or let that lane finish`);
+  if (fromLane === toLane) die(12, `SAME_LANE: ${toLane} already holds this grant; --reissue re-opens it in place`);
+  const toKind = LANE_KIND(toLane);
+  if (toKind === "unknown") die(4, `UNKNOWN_LANE: ${toLane}`);
+  if (toKind !== grant.laneKind) die(14, `KIND_MISMATCH: ${subjectId} is a ${grant.laneKind} grant and ${toLane} is ${toKind}`);
+
+  /*
+   * A structural guard, and it is honest about how little it can reach.
+   *
+   * LANE_KIND derives the kind from the lane's PREFIX, so a VF lane can never
+   * hold a packet-build or repair claim and the kind check above fires first --
+   * I tested a transfer to the lane that actually built the family and got
+   * KIND_MISMATCH, not this. So this catches a ledger where lane and laneKind
+   * disagree, which means corruption or a hand-edit, not a bad dispatch.
+   *
+   * Real independence is a question about WORKERS, not lanes: VF20 and the FIX
+   * lane that repaired the family can belong to one worker and every check here
+   * would pass. That is enforced by the roster in CLAUDE_9H_SHIFT.json and by
+   * factory check F21, which reads lane ownership. Captain checks it when
+   * choosing the destination; this function cannot.
+   */
+  const wrote = ledger.claims.filter((c) => c.subjectId === subjectId
+    && c.lane === toLane
+    && ["packet-build", "repair", "shared-host-repair"].includes(c.laneKind));
+  if (wrote.length) die(15, `LEDGER_INCONSISTENT: ${toLane} resolves to ${toKind} but holds a ${wrote[0].laneKind} claim on ${subjectId}`);
+
+  const from = grant.lane;
+  const previouslyReleasedAt = grant.releasedAt;
+  grant.lane = toLane; grant.released = false; grant.releasedAt = null;
+  ledger.transfers = [...(ledger.transfers ?? []), {
+    subjectType: grant.subjectType, subjectId, operation: grant.operation, laneKind: grant.laneKind,
+    fromLane: from, toLane, previouslyReleasedAt, transferredAt: new Date().toISOString(), reason
+  }];
+  ledger.claimsDigest = claimsDigest(ledger.claims);
+  fs.writeFileSync(absolute, `${JSON.stringify(ledger, null, 2)}\n`);
+  console.log(`TRANSFERRED ${subjectId} ${from} -> ${toLane} (was released ${previouslyReleasedAt}) — ${reason}`);
+}
+
 function status(ledgerPath, lane) {
   const { ledger } = read(ledgerPath); validate(ledger);
   const claims = ledger.claims.filter((c) => (!lane || c.lane === lane) && !c.released);
@@ -124,5 +180,6 @@ const [mode, lane, subjectId] = args;
 if (mode === "--assert" && lane && subjectId) assertClaim(ledgerPath, lane, subjectId);
 else if (mode === "--release" && lane && subjectId) release(ledgerPath, lane, subjectId);
 else if (mode === "--reissue" && lane && subjectId) reissue(ledgerPath, lane, subjectId, reason);
+else if (mode === "--transfer" && lane && subjectId && args[3]) transfer(ledgerPath, lane, subjectId, args[3], reason);
 else if (mode === "--status") status(ledgerPath, lane);
-else die(2, "usage: claim.mjs [--ledger path] --assert|--release <LANE> <familyId|itemId> | --reissue <LANE> <subjectId> --reason \"<why>\" | --status [LANE]");
+else die(2, "usage: claim.mjs [--ledger path] --assert|--release <LANE> <familyId|itemId> | --reissue <LANE> <subjectId> --reason \"<why>\" | --transfer <FROM_LANE> <TO_LANE> <subjectId> --reason \"<why>\" | --status [LANE]");
