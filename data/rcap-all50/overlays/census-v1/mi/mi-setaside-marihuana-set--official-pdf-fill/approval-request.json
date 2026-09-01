@@ -1,23 +1,14 @@
 {
-  "schemaVersion": "rcap-output-approval-request/v1",
-  "familyId": "mi-setaside-marihuana-set",
-  "worklistGroupId": "mi_setaside_marihuana-set",
-  "routeKeys": [
-    "obligation:track-pathway:MI:mi_setaside_marihuana:misdemeanor-marijuana-set-aside-under-mcl-780-621e"
-  ],
-  "status": "REQUESTED",
-  "grantedBy": null,
-  "note": "This is a REQUEST for output-level legal review. This build grants no approval, opens no commercial route, creates no fulfillment record and marks no packet proven. The family remains not runtime-selectable and generationAllowed is false.",
-  "workTypesAddressed": {
-    "OFFICIAL_SOURCE_ACQUISITION_REQUIRED": "Resolved as custody, not acquisition: the source was already held and is bound by pinned SHA-256 on both the bytes and the committed corpus index. Nothing was acquired.",
-    "OFFICIAL_FORM_MAP_REQUIRED": "Field map built from measured widget geometry for all 37 fields; every field is written, refused by a shared rule, or refused by role with a stated reason. `not_mapped` appears nowhere. The map is thin for reasons recorded in reports/squashed-caption-band-findings.json.",
-    "ARTIFACT_REVIEW_REQUIRED": "Canonical and boundary fixtures rendered and verified from the artifact bytes at their measured rectangles; every page rastered. The boundary fixture exercises a four-conviction listing, one per printed row.",
-    "OUTPUT_LEGAL_APPROVAL_REQUIRED": "NOT addressed. Requested here; a human legal reviewer grants it or does not."
-  },
-  "questionsForTheReviewer": [
-    "The form is not substantially fillable by the shared binder. Is a one-value application worth delivering at all, or does this family need the caption harvester corrected first?",
-    "The route's coded note says the court must enter the order within 21 days absent an answer; MC 227a's own instructions state the 60-day answer period and no 21-day figure. Which controls?",
-    "MC 227a REV-2024-07 currency has not been established."
-  ],
-  "independentVisualReviewRequired": true
+  "schemaVersion": "rcap-family-approval-request/v1",
+  "familyId": "mi_setaside_marihuana-set",
+  "requested": "independent completeness verification, visual review and counsel review",
+  "buildStatus": "state_built",
+  "status": "PENDING_INDEPENDENT_VERIFICATION",
+  "approvedForLive": false,
+  "live": false,
+  "commercialRoutesOpened": 0,
+  "mattersForTheReviewersAttention": [
+    "reports/caption-evidence.json — these two forms cannot be caption-checked from their own text stream, so visual review carries more weight here than usual.",
+    "reports/blanks-left-for-the-participant.json — sixty offence-table cells are left to the participant, which is a lot of paper to hand back; confirm the instructions make the table legible to fill."
+  ]
 }

@@ -1,0 +1,159 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+  "assignmentId": "PF16",
+  "workerId": "PF-C",
+  "lane": "packet-build",
+  "engine": "Claude 9h worker (normal Git; commits and pushes to claude/9h-pf-c)",
+  "shiftBaseSha": "09b741ad00be0d630bd73a72f66640294abab397",
+  "familiesAssigned": 2,
+  "preflight": {
+    "laneGate": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 2 not applicable",
+    "rowGate": "PACKET_BUILD_ENVIRONMENT_READY: 15/15 passed for each family"
+  },
+  "selfVerification": "none. The counters below are the builder's own count using the repository's own contract functions, not a verdict.",
+  "rows": [
+    {
+      "itemId": "mi_setaside_marihuana-set",
+      "status": "COMPLETED",
+      "jurisdiction": "MI",
+      "routeKey": "track:MI:mi_setaside_marihuana",
+      "statutoryAuthority": "MCL 780.621e; MCL 780.621b, MCL 780.621f, MCL 780.622, MCL 780.623; SCAO form MC 227a (Rev. 7/24)",
+      "implementationStrategy": "official_pdf_fill",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-mi_setaside_marihuana-set.mjs",
+      "sourcesBound": [
+        {
+          "sourceId": "official-form:MC-227A",
+          "pathInArchive": "STATES/MI/02_PACKET_FORMS/MI__FORM__MC-227A__application-to-set-aside-misdemeanor-marihuana-conviction-s__REV-2024-07__EN.pdf",
+          "sha256": "d361c2082ecc761fe4e9eadda0cabd307f2d6bb3c7af9a3917a9afecad698757"
+        }
+      ],
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersBasis": "reports/completeness-counters.json — computed with scripts/rcap-packet-completeness/completeness-contract.mjs",
+      "fields": {
+        "total": 37,
+        "written": 2,
+        "requiredBeforeFiling": 26,
+        "participantElections": 3,
+        "protected": 5,
+        "attorney": 1
+      },
+      "onlyTwoWrites": "This packet writes two facts — the county and the case number — and that is the honest maximum for this form rather than a shortfall. MC 227a has no separate name, address or telephone field: it has one free-text box captioned 'Defendant's name, address, and telephone no.', and everything else on it is a court or police record fact (judicial district, judicial circuit, ORI, court address, court telephone number, police report number, CTN/TCN, SID) or the conviction table, which the form's own instruction 4 says to get from the court. A reviewer opening the raster will see a nearly empty page; this is why.",
+      "componentsRendered": [
+        "primary_filing"
+      ],
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "c1506f35f448464374ad7d080c9b71cde24a4902d90a15259248b3962995737b",
+          "byteLength": 262869,
+          "pageCount": 2,
+          "rasterPages": 2
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "ac7806c7b4ed40e1dcac078b6dcd23e127aa3e9f31fb1d7d0097a4c411585e99",
+          "byteLength": 262883,
+          "pageCount": 2,
+          "rasterPages": 2
+        }
+      ],
+      "notableDecisions": [
+        "The certificate of mailing at the foot of page 1 is left entirely blank. It is declared under the penalties of perjury and the court's own instruction sheet puts it at step 8, after the packet has been mailed at step 7. The participant instructions carry those four steps in the court's order, because the order is the point.",
+        "No cell of the four-row conviction table is written: instruction 4 says the exact date and charge come from the court and that a certified copy of each conviction must be attached, and the platform holds neither.",
+        "The `dinfo` box asks for name, address and telephone number in one free-text block. The platform holds all three separately and the shared registry has no composed contact fact, so a field — which binds one fact — could write at most one of the three. It is left to the participant with the reason stated, rather than putting a third of an answer in the box the court reads for contact details."
+      ],
+      "findingsRaisedForOthers": [
+        "The shared semantic registry has no composed participant contact fact, which is what MC 227a's `dinfo` box needs. scripts/rcap-official-forms/rcap-field-semantics.mjs is outside this lane's owned paths and was read, never edited.",
+        "scripts/build-census-v1-mi-setaside-marihuana-set.mjs (hyphenated) also writes this family's overlay directory and predates this lane. PF16 owns the underscored name and the directory; this build supersedes what that script produced and the two must not both be run. Removing or redirecting the other script is the Captain's call, not this lane's."
+      ],
+      "independentVerificationStatus": "PENDING",
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "supersededEvidenceRemoved": [
+        "fixtures/application-{canonical,boundary}-filled.pdf and raster/application-{canonical,boundary}/ — the previous build's artifacts and page rasters, replaced by the fixtures and calibrated per-page renders written beside them.",
+        "reports/charge-caption-proof.json and reports/participant-name-placement.json — both are measurements of the previous artifacts' bytes and describe bytes that no longer exist."
+      ],
+      "priorEvidenceKept": [
+        "reports/shared-vocabulary-gaps.json and reports/squashed-caption-band-findings.json — observations about the shared field-semantics and anchor-capture modules rather than about the old bytes. They are still true and were left where they are."
+      ]
+    },
+    {
+      "itemId": "ak-courtview-set",
+      "status": "COMPLETED",
+      "jurisdiction": "AK",
+      "routeKey": "track:AK:ak-courtview",
+      "statutoryAuthority": "AS 22.35.030; Alaska Administrative Rule 40(a); Alaska Court System form TF-810 (5/25)",
+      "implementationStrategy": "official_pdf_fill",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-ak-courtview-set.mjs",
+      "sourcesBound": [
+        {
+          "sourceId": "official-form:TF-810",
+          "pathInArchive": "STATES/AK/02_PACKET_FORMS/AK__FORM__TF-810__request-to-exclude-case-from-online-public-index-courtview-under-administrative-rule-40-a__REV-2025-05__EN.pdf",
+          "sha256": "c5e55ce0c0bb2a008ad9cde5e62c4900f413c8fb64a913e94c81554c64b69582"
+        }
+      ],
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersBasis": "reports/completeness-counters.json — computed with scripts/rcap-packet-completeness/completeness-contract.mjs",
+      "fields": {
+        "total": 23,
+        "written": 5,
+        "requiredBeforeFiling": 2,
+        "participantElections": 14,
+        "protected": 2
+      },
+      "componentsRendered": [
+        "primary_filing"
+      ],
+      "artifacts": [
+        {
+          "fixture": "tf810-canonical",
+          "file": "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill/fixtures/tf810-canonical-filled.pdf",
+          "sha256": "ac2111fa8215881775b35f198d5098aab766703ad55cf24a74a1e5aba843df83",
+          "byteLength": 66667,
+          "pageCount": 1,
+          "rasterPages": 1
+        },
+        {
+          "fixture": "tf810-boundary",
+          "file": "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill/fixtures/tf810-boundary-filled.pdf",
+          "sha256": "03b335a1c82762e2e3a98a9fe0e2d5dc8bd74896ade06b5c88100cd9afdd0e1e",
+          "byteLength": 66782,
+          "pageCount": 1,
+          "rasterPages": 1
+        }
+      ],
+      "notableDecisions": [
+        "TF-810 is a correction request, not a petition: the form states that its ten grounds are removals the court system performs automatically and that the form exists for a requester who believes the court made an error. There is no verification, no certificate of service and no proposed order on it, and the packet does not invent any.",
+        "All ten printed grounds are participant elections. The packet is built for Administrative Rule 40(a) and AS 22.35.030; ticking a ground would assert a disposition the platform does not hold. Grounds 4 and 9 each require an attachment the platform does not have, and the instructions say so in the form's own terms.",
+        "The widget named `partyNames` is the CASE NAME box, and the grounds printed as 9 and 10 are marked by widgets named `Check Box8.1` and `Check Box8.2`. Field names are not a reliable channel on this form; every caption is read off the page at the widget's own coordinate and re-checked on each build, and both mismatches are recorded in the field census."
+      ],
+      "independentVerificationStatus": "PENDING",
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    }
+  ]
+}
