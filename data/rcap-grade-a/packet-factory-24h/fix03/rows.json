@@ -56,8 +56,39 @@
         "mechanism": "the host's own decisionBasis says it: \"shared exact terminal-name fact allowlist; shared semantic finalizer still controls\". The allowlist promotes the field to candidate_write, the finalizer refuses it by role, and the build then asserts because the map claimed a write that produced no appearance. That is why the rebuild fails and why no overlay has been rebuilt since commit 9a484a6.",
         "whyItMattersForTheseRows": "if the finalizer is right that these fields are not writable by role, then the treatment this lane applied to them -- declare the blank required before filing and name it for the participant -- is the correct final answer and not a placeholder, and the repair is to withdraw the allowlist entries rather than to make the finalizer draw them. If the allowlist is right, the finalizer's role classification is what needs to change. Which way it resolves is a legal and product question about whether, for example, the defendant's own name on the New Jersey petition is the platform's to write, and a repair lane does not decide it.",
         "whatWouldSettleIt": "one owner of the shared finalizer and the two hosts reconciling the role classification against the allowlist, field by field, and stating which side governs. Until then no east or west family can be rebuilt, and the stopped rows in these four returns stay stopped.",
-        "notDecidedHere": "this lane changed neither host, neither allowlist, nor the finalizer. Other lanes in this shift build from the same files."
+        "notDecidedHere": "this lane changed neither host, neither allowlist, nor the finalizer. Other lanes in this shift build from the same files.",
+        "correction": {
+          "correctedAt": "2026-09-01T09:00:00Z",
+          "correctedBy": "FIX-A, accepting CAPTAIN-9H's correction of 2026-09-01",
+          "whatIGotWrong": "this return recorded classified_unwritable_by_role as the root cause of the east-host rebuild failure. That reading came from the committed reports/actual-writes.json, which records 173 such refusals from an older build. The live run does not fail there.",
+          "whatIsActuallyObserved": "the live failure is the appearance assertion on a handful of address, date-of-birth, charge and court fields whose values the finalizer reports writing and which never reach the flattened appearance streams. On nj_indictable_conviction-set this lane observed arrestOff1, guiltyDt, guiltyCrt, DefAddr2, DefBirthDt and arrest1Dt; Captain's run of nj_arrest_no_conviction-set observed arrestOff1, dismissDt, dismissCrt, DefAddr2, DefAddr3, DefBirthDt and arrest1Dt. DefName is in neither live list.",
+          "standing": "the failure and the field lists stand as reported. The mechanism does not: cross-referencing an older actual-writes record to explain a live assertion was an inference, and it was stated here as a finding. It is withdrawn.",
+          "separately": "Roger Roman decided on 2026-09-01 that the participant's own name is a platform-written participant fact. DefName is already bound to participant.full_legal_name in the shared allowlist, so no allowlist change follows from it, and no artifact can show it until the host finishes a build."
+        }
       }
+    },
+    "rebuildAttempt": {
+      "attemptedAt": "2026-09-01T09:00:00Z",
+      "grants": "re-issued by Captain and asserted exit 0 for FIX01 az_marijuana_expungement_arrest_no_charges-set, FIX03 ca-1203-42-set and FIX05 ca-851-91-set. CLAIM_LEDGER_OK.",
+      "westHostFixConfirmed": "writeText is defined at line 921 and the AZ build now runs past the instruction step and renders both fixtures. Captain's fix is real and it did unblock the path.",
+      "newBlocker": {
+        "what": "both build hosts raster with Poppler pdftoppm, which is absent from this container.",
+        "failure": "AssertionError: Poppler version probe failed: spawnSync pdftoppm ENOENT, at popplerRasterIdentity (west host line 1868), from rasterizeArtifacts (2058) called by buildAz (2135).",
+        "scope": "not AZ-only. rasterizeCaArtifacts (line 2823) calls the same popplerRasterIdentity() before rendering a page, so ca-1203-42-set and ca-851-91-set fail identically. The east host takes POPPLER_PDFTOPPM at its line 41 the same way. All three re-issued families are blocked on one missing binary.",
+        "whenItIsHit": "after the fixtures have already been rendered and the field map and census rewritten. The AZ attempt left seven modified or deleted paths, restored from HEAD, worktree confirmed clean."
+      },
+      "whyThePreflightDidNotCatchIt": {
+        "finding": "the preflight checks a different rasterizer than the one the hosts use.",
+        "evidence": "verify-packet-build-environment.mjs --require-rasterizer reports page_rasterizer_available ok: \"chromium at /opt/pw-browsers/chromium-1194/chrome-linux/chrome (PLAYWRIGHT_BROWSERS_PATH) rendered a page: paper 2040x2640px\". The browser rasterizer works here. Neither host uses it: both call popplerRasterIdentity and rasterizeWithPoppler, and neither imports scripts/lib/pdf-page-raster.mjs.",
+        "consequence": "the lane contract's promise that \"a lane that cannot raster learns before it builds rather than after\" does not hold for these two hosts. A lane reads PACKET_BUILD_ENVIRONMENT_READY, builds, and dies at the raster step with its overlay already modified. That is the third undeclared environment dependency in this host pair, after the Master Library and pikepdf, and the only one the preflight appears to cover while actually covering something else.",
+        "alsoObserved": "with --require-rasterizer the only failing check is browser_environment_exported, which wants RCAP_CHROMIUM_PATH exported or recorded in private/source-corpus-environment.txt. That is an export rather than an install, and the check names the path itself. It does not help here, because the hosts do not use that browser."
+      },
+      "whatThisLaneDidNotDo": "no apt-get and no package installation. The lane contract forbids both by name, and after the pikepdf disclosure this lane is not adding another global dependency without being asked. The two CA builds were not run: the code path proves they fail at the same probe, and running them would only modify two more overlays for a result already established.",
+      "twoWaysToUnblock": [
+        "put Poppler in the builder image, and have the preflight probe pdftoppm rather than only the browser, so a lane learns before it builds; or",
+        "move both hosts' build-time raster onto scripts/lib/pdf-page-raster.mjs, which is the measurement the lane contract already mandates and which this container can execute today."
+      ],
+      "grantsReleased": "all three released, so a Poppler-equipped worker can take the rebuild without a second re-issue. FIX-A is not holding them."
     }
   },
   "fleetObservation": {
