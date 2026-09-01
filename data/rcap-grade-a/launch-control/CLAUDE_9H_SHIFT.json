@@ -2,7 +2,7 @@
   "schemaVersion": "claude-9h-shift/v1",
   "startedAt": "2026-09-01T07:14:06Z",
   "endsAt": "2026-09-01T16:14:06Z",
-  "shiftBaseSha": "c6d7ffe7cfdf45629f873e1a0e58ae4b174d45c6",
+  "shiftBaseSha": "696d65bcfde395b64c0c86d80721447f655285a9",
   "captainBranch": "claude/legalease-sprint-captain-utucnw",
   "workers": {
     "PF-A": {
@@ -87,94 +87,119 @@
     }
   },
   "nextLaneByWorker": {
-    "PF-C": {
-      "lanes": [
-        "PF07",
-        "PF08",
-        "PF09",
-        "PF10",
-        "PF11"
-      ],
-      "takeAfter": "your static queue PF12-PF16",
-      "why": "PF-B cannot mount the Master Library in its session and you demonstrably can: you reached PACKET_BUILD_ENVIRONMENT_READY and built ak-tf800-set. These are build lanes, the same kind you already run.",
-      "ownershipTransfer": "PF-B has written no overlay byte, claimed no family and returned no row for any of these. There is no partial state to reconcile and no double ownership.",
-      "doNotSelfVerify": true
-    },
-    "PF-A": {
-      "lanes": [
-        "FIX02",
-        "FIX04",
-        "FIX06",
-        "FIX08"
-      ],
-      "takeAfter": "your static queue PF01-PF06",
-      "why": "FIX-B cannot mount the Master Library in its session and you can; you attached legalease-source-artifacts yourself. These are repair rather than build lanes, and Captain authorizes you to run them: same source gates, same legal gates, same component contract.",
-      "ownershipTransfer": "FIX-B wrote nothing to any family, zeroed no counter and fabricated no hash. Its diagnosis is in its lane returns and is worth reading first: all 8 families reproduce their assigned obligations exactly from the committed verifier evidence, so no family needs re-deriving to diagnose.",
-      "repairRules": "Read the exact verifier failure first. Repair only the failed proof obligations and their mechanically dependent outputs. Preserve exact source bytes and legal treatment. Never self-verify.",
-      "doNotSelfVerify": true
-    },
-    "PF-B": {
-      "lanes": [],
-      "state": "HELD_ON_OWNER_ACTION",
-      "why": "No corpus can be mounted in this session and add_repo is classifier-denied, so no packet work is possible here. PF07-PF11 have been re-dispatched to PF-C. Do not re-run the refused fetch on a timer.",
-      "resumeWhen": "Roger-LegalEase/legalease-source-artifacts is granted to this workspace at https://claude.ai/admin-settings/claude-tag, or add_repo is approved in this session.",
-      "onResume": "Report to Captain before claiming anything: PF07-PF11 now belong to PF-C and must not be double-claimed."
-    },
-    "FIX-B": {
-      "lanes": [],
-      "state": "HELD_ON_OWNER_ACTION",
-      "why": "Same session scoping. FIX02/FIX04/FIX06/FIX08 have been re-dispatched to PF-A. Do not re-run the refused fetch on a timer.",
-      "resumeWhen": "Roger-LegalEase/legalease-source-artifacts is granted to this workspace at https://claude.ai/admin-settings/claude-tag, or add_repo is approved in this session.",
-      "onResume": "Report to Captain before claiming anything: your four lanes now belong to PF-A and must not be double-claimed."
-    },
-    "FIX-A": {
-      "lanes": [],
-      "state": "STATIC_QUEUE_COMPLETE",
-      "supersedes": "the earlier PARTIALLY_BLOCKED entry, which is out of date: FIX-A obtained add_repo approval, installed the corpus (51 jurisdictions / 499 files / 329 PDFs, archive SHA-256 verified) and reads PACKET_BUILD_ENVIRONMENT_READY 13/13.",
-      "returned": "FIX01, FIX03, FIX05, FIX07 -- 9 families, 880 defects down to 46; ri_nonconviction_sealing-set to zero on all nine counters. Fleet knownRequiredFieldsMissing 1198->725, unclassifiedBlanks 779->455.",
-      "awaitingCrossVerification": true,
-      "note": "Every family returned BUILT_RASTER_PENDING and visualDefects reads zero only because nobody has looked. Not PASS_COMPLETE."
-    },
     "VF-SRC-A": {
-      "assignedAt": "2026-09-01T08:20:52Z",
-      "lane": "XVF-A",
+      "assignedAt": "2026-09-01T09:23:31Z",
+      "lane": "VF17",
       "kind": "independent-verification",
+      "grantsMinted": 9,
       "families": [
-        "va_seal_petition_misdemeanor-set",
-        "va_seal_petition_felony-set",
-        "va_seal_enumerated_seven_year-set",
-        "va_seal_ancillary_matter_only-set"
+        "ri_nonconviction_sealing-set",
+        "pa_490_nonconviction-set",
+        "az_marijuana_expungement_arrest_no_charges-set",
+        "pa_9122_1_limited_access-set",
+        "ny_160_59_petition-set",
+        "ca-851-91-set",
+        "nj_arrest_no_conviction-set",
+        "nj_indictable_conviction-set",
+        "ca-1203-42-set"
       ],
-      "builtBy": "PF-A",
-      "whyThisIsIndependent": "VF-SRC-A neither built nor repaired any Virginia family, and has not previously verified one. Its phase-1 lanes VF01-VF06 covered different families entirely.",
-      "verify": "exact canonical and boundary hashes recomputed from disk, component sets, field evidence, blank classifications, protected fields, and nonvisual completeness. Modify no packet and no overlay.",
-      "rasterRule": "There is no central RASTER_PASS for these yet, so the correct verdict ceiling is BUILT_RASTER_PENDING. Do not return PASS_COMPLETE for any family, however clean the nonvisual evidence is.",
-      "returnVocabulary": "only the prompt's closed verdict set"
+      "repairedBy": "FIX-A",
+      "alsoNowGranted": "VF13 covers the four Virginia families you already read without a claim. The grant exists now, so re-record that verdict under a claimed lane; the reading itself stands and does not need repeating.",
+      "whyIndependent": "You neither built nor repaired any of these, and FIX-A has verified none of its own work.",
+      "ceiling": "BUILT_RASTER_PENDING. None of these nine is in the rastered set."
     },
     "VF-SRC-B": {
-      "assignedAt": "2026-09-01T08:20:52Z",
-      "lane": "XVF-B",
+      "assignedAt": "2026-09-01T09:23:31Z",
+      "lane": "VF14",
       "kind": "independent-verification",
+      "grantsMinted": 2,
       "families": [
         "ak-tf800-set",
         "ct-cleanslate-petition-set"
       ],
       "builtBy": "PF-C",
-      "whyThisIsIndependent": "VF-SRC-B neither built nor repaired either family, and its phase-1 lanes VF07-VF12 covered Utah and Vermont, not Alaska or Connecticut.",
-      "verify": "same contract as XVF-A.",
-      "specialAttention": {
-        "rasterLocalPendingCentral": "ak-tf800-set carries page rasters PF-C produced in its own container. They are NOT gate receipts: uncalibrated runner, no canary, no negative controls, and no receipt binding them to the queue's pinned hashes. The declared state RASTER_LOCAL_PENDING_CENTRAL proves nothing and authorizes nothing. Treat it as RASTER_PENDING and do not let the presence of PNGs read as a visual pass.",
-        "doNotInheritTheBuildersVerdict": "PF-C returned COMPLETED on its own nonvisual measurements. That is the claim under test, not evidence for it."
-      },
-      "rasterRule": "same as XVF-A: BUILT_RASTER_PENDING is the ceiling until the central workflow issues a hash-bound RASTER_PASS."
+      "note": "You were right to stop: the grant did not exist and the lane name was unresolvable. Both are fixed. Claim under VF14, which LANE_KIND resolves.",
+      "rasterLocalWarning": "ak-tf800-set carries rasters PF-C produced in its own container, declared RASTER_LOCAL_PENDING_CENTRAL. Not gate receipts: uncalibrated runner, no canary, no negative controls, no binding to the queue's pinned hashes. Neither family is in the central rastered set.",
+      "ceiling": "BUILT_RASTER_PENDING"
+    },
+    "PF-B": {
+      "assignedAt": "2026-09-01T09:23:31Z",
+      "lane": "VF15",
+      "kind": "independent-verification",
+      "grantsMinted": 5,
+      "whyYou": "You have verified nothing, so you are a clean independent reader for these. Independent verification of the nonvisual obligations needs NO corpus -- VF-SRC-A did exactly this work without one. Your corpus block does not stop this lane.",
+      "stillHeld": "PF07-PF11 remain re-dispatched to PF-C. Do not reclaim them.",
+      "ceiling": "These families hold a central RASTER_PASS from run 33488713831. That is one gate, not a pass: verify the nonvisual obligations independently and do not inherit the builder's verdict."
+    },
+    "FIX-B": {
+      "assignedAt": "2026-09-01T09:23:31Z",
+      "lane": "VF16",
+      "kind": "independent-verification",
+      "grantsMinted": 5,
+      "whyYou": "Same as PF-B: you have verified nothing and this lane needs no corpus.",
+      "stillHeld": "FIX02/04/06/08 remain re-dispatched to PF-A. Do not reclaim them.",
+      "ceiling": "Central RASTER_PASS is one gate, not a pass."
+    },
+    "FIX-A": {
+      "assignedAt": "2026-09-01T09:23:31Z",
+      "lane": "east-host appearance defect",
+      "state": "ASSIGNED",
+      "why": "Roger has decided the participant-name question, so the east host is no longer routed to counsel and is yours. The live blocker is NOT the role classification you first reported and later withdrew -- correctly. It is: 'NJ-CN-10557/canonical: finalizer reported writes that have no artifact appearance' on address, date-of-birth, charge and court fields. DefName is not among them.",
+      "doNotWait": "Poppler blocks the west-host rebuilds, not this. Diagnosing why a reported write never reaches the flattened appearance stream is code reading and does not need pdftoppm.",
+      "hazard": "A failed run clears the family output directory before erroring. Restore from HEAD after any aborted build.",
+      "decisionRecorded": "data/record-clearing/legal-decisions/2026-09-01-nj-cn-10557-participant-name.json"
+    },
+    "PF-A": {
+      "assignedAt": "2026-09-01T09:23:31Z",
+      "lane": "PF05, PF06",
+      "state": "GRANTS_NEEDED_ON_REQUEST",
+      "note": "You released PF05's claims on stopping, which was right. Ask and I will re-issue them with claim.mjs --reissue; do not work without a grant."
+    },
+    "PF-C": {
+      "assignedAt": "2026-09-01T09:23:31Z",
+      "lane": "continue PF14, PF15 and the re-dispatched PF07-PF11",
+      "state": "ACTIVE"
     }
   },
-  "integratedReturns": [],
+  "integratedReturns": [
+    {
+      "wave": 1,
+      "workers": [
+        "PF-C",
+        "FIX-A",
+        "VF-SRC-A",
+        "VF-SRC-B"
+      ],
+      "releasesTaken": 172
+    },
+    {
+      "wave": 2,
+      "workers": [
+        "PF-A",
+        "PF-B",
+        "PF-C",
+        "FIX-A",
+        "FIX-B",
+        "VF-SRC-A",
+        "VF-SRC-B"
+      ],
+      "releasesTaken": 95
+    },
+    {
+      "wave": 3,
+      "workers": [
+        "PF-A",
+        "PF-C",
+        "VF-SRC-B"
+      ],
+      "releasesTaken": 56
+    }
+  ],
   "newlyReleasedFamilies": [],
   "productionTouched": false,
   "commercialRoutesOpened": 0,
-  "shiftBaseRebasedAt": "2026-09-01T07:35:00Z",
-  "shiftBaseRebaseReason": "browser_environment_exported was still mandatory after the central raster split, so PACKET_BUILD_ENVIRONMENT_READY was unreachable for every builder. The first shift base 09b741ad00be0d630bd73a72f66640294abab397 could not pass preflight; this base does (13/13 passed, 0 failed, 3 not applicable).",
+  "shiftBaseRebasedAt": "2026-09-01T09:23:31Z",
+  "shiftBaseRebaseReason": "Three workers reported this file stale and were right. shiftBaseSha still named c6d7ffe7 while the branch head carried three integration waves, the raster batch and the ledger repairs; integratedReturns was empty while seven returns were in; and masterLibrarySourceDirExportRequired still read false after I had corrected exactly that. Verifiers were rebasing onto a base that did not contain the work they were sent to read.",
   "previousShiftBaseSha": "09b741ad00be0d630bd73a72f66640294abab397",
   "masterLibraryCorpus": {
     "note": "Not a permission problem. The session token already reads the private release (HTTP 200). Each worker recovers the corpus itself; the bytes are never committed.",
@@ -183,7 +208,8 @@
     "releaseTag": "source-corpus-2026-08-28",
     "archiveSha256": "a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89",
     "verified": "51 jurisdictions / 499 files / 329 PDFs",
-    "masterLibrarySourceDirExportRequired": false
+    "masterLibrarySourceDirExportRequired": true,
+    "exportCorrection": "This flag read false and was wrong. The preflight falls back to the default install root so it reads 13/13 without the variable, but the build hosts refuse outright: 'MASTER_LIBRARY_SOURCE_DIR must be set explicitly to the extracted Master Library'. Export it."
   },
   "captainBroadcast": {
     "issuedAt": "2026-09-01T07:36:05Z",
@@ -323,5 +349,29 @@
       ],
       "routeWhen": "whichever of VF-SRC-A or VF-SRC-B returns first"
     }
-  }
+  },
+  "rasterGate": {
+    "state": "REACHABLE AND EXERCISED",
+    "workflowOnDefaultBranch": true,
+    "firstCompleteBatch": {
+      "runId": "33488713831",
+      "renderedCommitSha": "71894f3f2dde0f5af34818a2fa8dc8bce84e0d24",
+      "jobsGreen": "27/27",
+      "rasterPass": 25,
+      "rasterFail": 0
+    },
+    "ceilingUnchanged": "RASTER_PASS is one gate. No family is PASS_COMPLETE without it AND an independent read by a worker that did not build it."
+  },
+  "owedMechanisms": [
+    {
+      "what": "lane transfer for a second independent read",
+      "why": "15 of the 25 rastered families already hold a verification claim from VF01-VF12, so no second grant can be minted without making them AMBIGUOUS_GRANT. They now carry RASTER_PASS, which the first read did not have, so a second read is real work that the ledger currently cannot express.",
+      "deferredFamilies": 15
+    },
+    {
+      "what": "preflight must probe the rasterizer the hosts actually use",
+      "why": "FIX-A established that both build hosts call popplerRasterIdentity/rasterizeWithPoppler and neither imports scripts/raster/pdf-page-raster.mjs. The preflight probes the browser rasterizer, which works, so a lane reads READY, builds, and dies at the raster step with its overlay already modified. This is the only undeclared dependency the preflight appears to cover while covering something else.",
+      "owner": "Captain"
+    }
+  ]
 }
