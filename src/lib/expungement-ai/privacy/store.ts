@@ -122,6 +122,39 @@ export async function releaseAccountDeletionRunLease(input: {
   if (error) throw new Error(`could not release account-deletion run lease: ${error.message}`);
 }
 
+export const ACCOUNT_DELETION_RUN_LEASE_HEARTBEAT_MS = 5_000;
+
+export function startAccountDeletionRunLeaseHeartbeat(input: {
+  supabase: SupabaseClient;
+  requestId: string;
+  leaseToken: string;
+}): { stop: () => Promise<void> } {
+  let stopped = false;
+  let inFlight = Promise.resolve();
+  const renew = () => {
+    inFlight = inFlight.then(async () => {
+      if (stopped) return;
+      try {
+        await acquireAccountDeletionRunLease(input);
+      } catch {
+        // A transient renewal error does not end the request. The existing
+        // fifteen-minute lease remains authoritative and the next heartbeat
+        // retries; a competing request still cannot acquire it meanwhile.
+      }
+    });
+  };
+  const timer = setInterval(renew, ACCOUNT_DELETION_RUN_LEASE_HEARTBEAT_MS);
+  timer.unref?.();
+
+  return {
+    async stop() {
+      stopped = true;
+      clearInterval(timer);
+      await inFlight;
+    }
+  };
+}
+
 export async function readPrivacyRequest(
   supabase: SupabaseClient,
   requestId: string

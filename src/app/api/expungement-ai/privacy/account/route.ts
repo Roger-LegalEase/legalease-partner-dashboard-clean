@@ -21,7 +21,8 @@ import {
   openPrivacyRequest,
   PrivacyStoreUnavailableError,
   releaseAccountDeletionRunLease,
-  requirePrivacyAdminClient
+  requirePrivacyAdminClient,
+  startAccountDeletionRunLeaseHeartbeat
 } from "@/lib/expungement-ai/privacy/store";
 import { checkResumeRateLimit } from "@/lib/expungement-ai/screening-resume-rate-limit";
 
@@ -171,6 +172,11 @@ export async function POST(request: NextRequest) {
       409
     );
   }
+  const leaseHeartbeat = startAccountDeletionRunLeaseHeartbeat({
+    supabase,
+    requestId: privacyRequest.id,
+    leaseToken
+  });
 
   let outcome: DeletionOutcome;
   try {
@@ -189,7 +195,14 @@ export async function POST(request: NextRequest) {
       throw error;
     }
   } finally {
-    await releaseAccountDeletionRunLease({ supabase, requestId: privacyRequest.id, leaseToken });
+    await leaseHeartbeat.stop();
+    try {
+      await releaseAccountDeletionRunLease({ supabase, requestId: privacyRequest.id, leaseToken });
+    } catch {
+      // Completion and its durable receipt take precedence over best-effort
+      // lease cleanup. A failed release cannot expose the private row and its
+      // short expiry still permits a later resumable attempt.
+    }
   }
 
   if (outcome.status === "blocked_legal_hold") {

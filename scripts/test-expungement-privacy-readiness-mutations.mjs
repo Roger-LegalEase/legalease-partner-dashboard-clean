@@ -9,19 +9,33 @@ import { registerTrackedMutation } from "./lib/tracked-mutation-guard.mjs";
 
 const root = process.cwd();
 const target = "src/lib/expungement-ai/privacy/processor-config.ts";
+const accountRouteTarget = "src/app/api/expungement-ai/privacy/account/route.ts";
 const erasureTarget = "src/lib/expungement-ai/privacy/processor-erasure.ts";
+const storeTarget = "src/lib/expungement-ai/privacy/store.ts";
 const migrationTarget = "supabase/migrations/20260901180000_account_deletion_partial_state.sql";
 const absoluteTarget = path.join(root, target);
+const absoluteAccountRouteTarget = path.join(root, accountRouteTarget);
 const absoluteErasureTarget = path.join(root, erasureTarget);
+const absoluteStoreTarget = path.join(root, storeTarget);
 const absoluteMigrationTarget = path.join(root, migrationTarget);
 const original = fs.readFileSync(absoluteTarget);
+const accountRouteOriginal = fs.readFileSync(absoluteAccountRouteTarget);
 const erasureOriginal = fs.readFileSync(absoluteErasureTarget);
+const storeOriginal = fs.readFileSync(absoluteStoreTarget);
 const migrationOriginal = fs.readFileSync(absoluteMigrationTarget);
 
-registerTrackedMutation("test-expungement-privacy-readiness-mutations.mjs", [target, erasureTarget, migrationTarget]);
+registerTrackedMutation("test-expungement-privacy-readiness-mutations.mjs", [
+  target,
+  accountRouteTarget,
+  erasureTarget,
+  storeTarget,
+  migrationTarget
+]);
 const restore = () => {
   fs.writeFileSync(absoluteTarget, original);
+  fs.writeFileSync(absoluteAccountRouteTarget, accountRouteOriginal);
   fs.writeFileSync(absoluteErasureTarget, erasureOriginal);
+  fs.writeFileSync(absoluteStoreTarget, storeOriginal);
   fs.writeFileSync(absoluteMigrationTarget, migrationOriginal);
 };
 const disposeRestore = registerMutationRestore(restore);
@@ -231,6 +245,84 @@ if (!source.includes(requiredCheck)) {
         process.exitCode = 1;
       } else {
         console.log("Privacy readiness mutation caught: asynchronous processor acceptance cannot settle deletion.");
+      }
+    }
+
+    restore();
+    const heartbeatInterval = "ACCOUNT_DELETION_RUN_LEASE_HEARTBEAT_MS = 5_000";
+    const storeSource = storeOriginal.toString("utf8");
+    if (!storeSource.includes(heartbeatInterval)) {
+      console.error("Privacy readiness mutation could not find the deletion-run heartbeat interval.");
+      process.exitCode = 1;
+    } else {
+      fs.writeFileSync(
+        absoluteStoreTarget,
+        storeSource.replace(heartbeatInterval, "ACCOUNT_DELETION_RUN_LEASE_HEARTBEAT_MS = 60_000")
+      );
+      const heartbeatChild = spawnSync(process.execPath, ["scripts/verify-participant-data-rights.mjs"], {
+        cwd: root,
+        encoding: "utf8",
+        timeout: 300_000,
+        maxBuffer: 100 * 1024 * 1024,
+        env: { ...process.env, GIT_TERMINAL_PROMPT: "0", GIT_OPTIONAL_LOCKS: "0" }
+      });
+      const heartbeatOutput = `${heartbeatChild.stdout ?? ""}${heartbeatChild.stderr ?? ""}`;
+      const heartbeatExpected = "the heartbeat keeps an active long-running deletion lease from expiring";
+      if (heartbeatChild.error?.code === "ETIMEDOUT" || heartbeatChild.signal) {
+        console.error("Privacy deletion-run heartbeat mutation verifier timed out.");
+        process.exitCode = 1;
+      } else if (heartbeatChild.status === 0) {
+        console.error("Privacy deletion-run heartbeat mutation survived: an active worker's lease expired.");
+        process.exitCode = 1;
+      } else if (!heartbeatOutput.includes(heartbeatExpected)) {
+        console.error("Privacy deletion-run heartbeat mutation turned red for the wrong reason.");
+        console.error(heartbeatOutput);
+        process.exitCode = 1;
+      } else {
+        console.log("Privacy readiness mutation caught: a long-running deletion requires a live heartbeat.");
+      }
+    }
+
+    restore();
+    const cleanupGuard = `    try {
+      await releaseAccountDeletionRunLease({ supabase, requestId: privacyRequest.id, leaseToken });
+    } catch {
+      // Completion and its durable receipt take precedence over best-effort
+      // lease cleanup. A failed release cannot expose the private row and its
+      // short expiry still permits a later resumable attempt.
+    }`;
+    const accountRouteSource = accountRouteOriginal.toString("utf8");
+    if (!accountRouteSource.includes(cleanupGuard)) {
+      console.error("Privacy readiness mutation could not find the best-effort lease-cleanup guard.");
+      process.exitCode = 1;
+    } else {
+      fs.writeFileSync(
+        absoluteAccountRouteTarget,
+        accountRouteSource.replace(
+          cleanupGuard,
+          "    await releaseAccountDeletionRunLease({ supabase, requestId: privacyRequest.id, leaseToken });"
+        )
+      );
+      const cleanupChild = spawnSync(process.execPath, ["scripts/verify-participant-data-rights.mjs"], {
+        cwd: root,
+        encoding: "utf8",
+        timeout: 300_000,
+        maxBuffer: 100 * 1024 * 1024,
+        env: { ...process.env, GIT_TERMINAL_PROMPT: "0", GIT_OPTIONAL_LOCKS: "0" }
+      });
+      const cleanupOutput = `${cleanupChild.stdout ?? ""}${cleanupChild.stderr ?? ""}`;
+      if (cleanupChild.error?.code === "ETIMEDOUT" || cleanupChild.signal) {
+        console.error("Privacy lease-cleanup mutation verifier timed out.");
+        process.exitCode = 1;
+      } else if (cleanupChild.status === 0) {
+        console.error("Privacy lease-cleanup mutation survived: cleanup failure still hid no completion response.");
+        process.exitCode = 1;
+      } else if (!cleanupOutput.includes("synthetic transient release failure")) {
+        console.error("Privacy lease-cleanup mutation turned red for the wrong reason.");
+        console.error(cleanupOutput);
+        process.exitCode = 1;
+      } else {
+        console.log("Privacy readiness mutation caught: lease cleanup cannot replace a completed deletion response.");
       }
     }
   } finally {

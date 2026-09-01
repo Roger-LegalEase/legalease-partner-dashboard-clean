@@ -1263,6 +1263,18 @@ let accountReceipt = null;
     processorPaused,
     new Promise((_, reject) => setTimeout(() => reject(new Error("processor pause was not reached")), 10_000))
   ]);
+  const activeLeaseToken = scalar(
+    `select lease_token from public.participant_account_deletion_run_leases where request_id='${accountRequestId}'`
+  );
+  sql(
+    `update public.participant_account_deletion_run_leases
+     set lease_expires_at = clock_timestamp() + interval '500 milliseconds'
+     where request_id='${accountRequestId}'`
+  );
+  await new Promise((resolve) => setTimeout(resolve, 5_750));
+  check("N11a", "the heartbeat keeps an active long-running deletion lease from expiring",
+    scalar(`select lease_token from public.participant_account_deletion_run_leases where request_id='${accountRequestId}'`) === activeLeaseToken
+      && count(`select count(*) from public.participant_account_deletion_run_leases where request_id='${accountRequestId}' and lease_expires_at > clock_timestamp() + interval '10 minutes'`) === 1);
   const secondConcurrentResponse = await accountRoute.POST(
     req("/api/expungement-ai/privacy/account", {
       proof: concurrentProofTwo,
@@ -1286,6 +1298,15 @@ let accountReceipt = null;
                'pending', now(), 'password_reauthentication', 'forbidden-second-proof')`
     )));
 
+  sql(
+    `create or replace function public.release_participant_account_deletion_run_lease(
+       p_request_id uuid, p_lease_token uuid
+     ) returns boolean language plpgsql security definer set search_path = '' as $$
+     begin
+       raise exception 'synthetic transient release failure';
+     end;
+     $$`
+  );
   pausedProcessorRelease?.();
   const completedResponse = await firstConcurrentRun;
   accountReceipt = await jsonOf(completedResponse);
@@ -1293,9 +1314,34 @@ let accountReceipt = null;
     completedResponse.status === 200
       && accountReceipt.status === "completed"
       && accountReceipt.requestId === accountRequestId
-      && processorRequests.length === processorRequestsBeforeConcurrentRun + 2
-      && count(`select count(*) from public.participant_account_deletion_run_leases where request_id='${accountRequestId}'`) === 0,
+      && processorRequests.length === processorRequestsBeforeConcurrentRun + 2,
     `${completedResponse.status} ${JSON.stringify(accountReceipt).slice(0, 300)}`);
+  check("N13a", "a transient lease-release failure cannot hide the durable completion receipt",
+    completedResponse.status === 200
+      && accountReceipt.receiptCode
+      && count(`select count(*) from public.participant_account_deletion_run_leases where request_id='${accountRequestId}'`) === 1);
+  sql(
+    `create or replace function public.release_participant_account_deletion_run_lease(
+       p_request_id uuid, p_lease_token uuid
+     ) returns boolean language plpgsql security definer set search_path = '' as $$
+     declare
+       v_released boolean := false;
+     begin
+       delete from public.participant_account_deletion_run_leases
+       where request_id = p_request_id and lease_token = p_lease_token
+       returning true into v_released;
+       return coalesce(v_released, false);
+     end;
+     $$`
+  );
+  scalar(
+    `select public.release_participant_account_deletion_run_lease(
+       '${accountRequestId}'::uuid,
+       (select lease_token from public.participant_account_deletion_run_leases where request_id='${accountRequestId}')
+     )`
+  );
+  check("N13b", "a leftover private lease remains safely cleanable after the response",
+    count(`select count(*) from public.participant_account_deletion_run_leases where request_id='${accountRequestId}'`) === 0);
   check("N14", "resuming did not re-run an already completed destructive step", count(`select s.attempt_count from public.participant_privacy_request_steps s join public.participant_privacy_requests r on r.id = s.request_id where r.user_id='${USER_A}' and s.step_key='freeze_account'`) === freezeAttemptsBefore, "freeze_account was executed twice");
   check("N15", "every retry used the same request rather than duplicating work", count(`select count(*) from public.participant_privacy_requests where user_id='${USER_A}' and request_type='account_deletion' and status <> 'blocked_legal_hold'`) === 1);
   check("N16", "every ordered step is recorded completed, in order", ACCOUNT_DELETION_STEPS.every((step, index) => count(`select count(*) from public.participant_privacy_request_steps s join public.participant_privacy_requests r on r.id = s.request_id where r.user_id='${USER_A}' and s.step_key='${step}' and s.step_order=${index + 1} and s.status='completed'`) === 1), "a step is missing, out of order, or not completed");
