@@ -1,0 +1,104 @@
+{
+  "schemaVersion": "rcap-blanks-left-for-the-participant/v1",
+  "familyId": "me-nonconv-set",
+  "requiredBeforeFiling": [
+    {
+      "document": "process_guidance",
+      "field": "process_guidance.problem_location",
+      "page": 1,
+      "printedContext": "Where the record is actually causing a problem - the Bureau record, the court docket, or a private vendor's report",
+      "disclosureLabel": "Where the record is actually causing a problem - the Bureau record, the court docket, or a private vendor's report",
+      "identity": "process_guidance field problem_location",
+      "why": "the three problems have three different remedies and only the participant's own documents can say which applies",
+      "participantMustSupply": "where the record is actually hurting you, decided after you have your own Bureau record from the State Bureau of Identification, your court paperwork from the court's records office, or the vendor's report - it decides which remedy, if any, this packet holds"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.charge_description",
+      "page": 1,
+      "printedContext": "What the requester was charged with",
+      "disclosureLabel": "What the requester was charged with",
+      "identity": "primary_filing field charge_description",
+      "why": "no charge fact is held for this record",
+      "participantMustSupply": "the charge, worded as your court paperwork words it"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.correction_requested",
+      "page": 1,
+      "printedContext": "The amendment or correction requested, with the Sec. 703(2) paragraph where one applies",
+      "disclosureLabel": "The amendment or correction requested, with the Sec. 703(2) paragraph where one applies",
+      "identity": "primary_filing field correction_requested",
+      "why": "the correction is the participant's own request, grounded on their own paperwork; the platform asserts nothing about the agency's conduct",
+      "participantMustSupply": "what the record should show instead, and - where the disposition is on the Sec. 703(2) list - which paragraph it falls under, taken from the classification worksheet"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.disposition_date",
+      "page": 1,
+      "printedContext": "Date the case ended, from the record",
+      "disclosureLabel": "Date the case ended, from the record",
+      "identity": "primary_filing field disposition_date",
+      "why": "no disposition fact is held for this record",
+      "participantMustSupply": "the date the case ended, taken from the court order or docket entry"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.disposition_statement",
+      "page": 1,
+      "printedContext": "How the case ended, copied from the court order or docket entry, including any with-prejudice or plea-agreement wording exactly as the paperwork says",
+      "disclosureLabel": "How the case ended, copied from the court order or docket entry, including any with-prejudice or plea-agreement wording exactly as the paperwork says",
+      "identity": "primary_filing field disposition_statement",
+      "why": "the two dismissal facts decide the classification and neither can be inferred; where the order is silent the field stays blank and the participant is routed to the records office or to advice",
+      "participantMustSupply": "how the case ended, copied exactly - for a dismissal, whether it was with prejudice and whether it was outside a plea agreement decide the Sec. 703(2) classification; where your paperwork does not say, leave the line blank and ask the court's records office before sending, or get advice"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.docket_number",
+      "page": 1,
+      "printedContext": "Docket number of the case, where the paperwork states one",
+      "disclosureLabel": "Docket number of the case, where the paperwork states one",
+      "identity": "primary_filing field docket_number",
+      "why": "no case identifier is held for this record",
+      "participantMustSupply": "the docket number, copied from your court paperwork where it states one"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.record_court",
+      "page": 1,
+      "printedContext": "Court that handled the case, and its county",
+      "disclosureLabel": "Court that handled the case, and its county",
+      "identity": "primary_filing field record_court",
+      "why": "no court identity is held for this record",
+      "participantMustSupply": "which court handled the case and its county, from your court paperwork; the court's records office can confirm both"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.record_currently_shows",
+      "page": 1,
+      "printedContext": "What the agency record currently shows about the case, copied from the requester's own Bureau record",
+      "disclosureLabel": "What the agency record currently shows about the case, copied from the requester's own Bureau record",
+      "identity": "primary_filing field record_currently_shows",
+      "why": "what the agency currently carries can only come from the participant's own record",
+      "participantMustSupply": "what your own Bureau record currently carries for this case, copied from the record itself - obtain it from the State Bureau of Identification first"
+    }
+  ],
+  "protectedBlanks": [
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.requester_signature",
+      "label": "Signature of the requester on the Sec. 709 request",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "the participant signs the request personally"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.signature_date",
+      "label": "Date beside the requester's signature on the request",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "a date written before the request is signed would be false"
+    }
+  ],
+  "everyRequiredBeforeFilingItemIsDisclosed": true,
+  "disclosedIn": "data/rcap-all50/overlays/census-v1/me/me-nonconv-set--custom-pleading/participant-instructions.md"
+}
