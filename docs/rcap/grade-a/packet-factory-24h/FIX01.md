@@ -19,7 +19,7 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family ar-arrest-seal-set \
+  --family ca-1203-41-set \
   --codex-cloud \
   --minimum-captain-sha 13771582866352d77e46e5d0b9bc86f1abbb6752
 ```
@@ -56,11 +56,13 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 3 families
+## The 5 families
 
-- `ar-arrest-seal-set`
-- `mi_setaside_marihuana-set`
+- `ca-1203-41-set` — failing: knownRequiredFieldsMissing, unclassifiedBlanks, incompleteRows, requiredOptionsMissing, requiredComponentsMissing
+- `ca-prop64-set` — failing: knownRequiredFieldsMissing, unclassifiedBlanks, incompleteRows, requiredOptionsMissing, requiredComponentsMissing
+- `nj_ordinance-set` — failing: knownRequiredFieldsMissing
 - `pa_summary_conviction-set` — failing: knownRequiredFieldsMissing, unclassifiedBlanks, incompleteRows
+- `ut_pet_traffic-set`
 
 ## What you receive
 
@@ -73,12 +75,16 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/fix01/**`
-- `data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/ca/ca-1203-41-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/ca/ca-prop64-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/nj/nj-ordinance-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/pa/pa-summary-conviction-set--official-pdf-fill/**`
-- `scripts/build-census-v1-ar-arrest-seal-set.mjs`
-- `scripts/build-census-v1-mi_setaside_marihuana-set.mjs`
+- `data/rcap-all50/overlays/census-v1/ut/ut-pet-traffic-set--official-pdf-fill/**`
+- `scripts/build-census-v1-ca-1203-41-set.mjs`
+- `scripts/build-census-v1-ca-prop64-set.mjs`
+- `scripts/build-census-v1-nj_ordinance-set.mjs`
 - `scripts/build-census-v1-pa_summary_conviction-set.mjs`
+- `scripts/build-census-v1-ut_pet_traffic-set.mjs`
 
 ## Never write here
 

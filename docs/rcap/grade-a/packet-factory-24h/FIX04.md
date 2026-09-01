@@ -19,7 +19,7 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family ca-1203-42-set \
+  --family ca-851-91-set \
   --codex-cloud \
   --minimum-captain-sha 13771582866352d77e46e5d0b9bc86f1abbb6752
 ```
@@ -56,11 +56,12 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 3 families
+## The 4 families
 
-- `ca-1203-42-set` — failing: incompleteRows, requiredOptionsMissing
-- `nj_ordinance-set` — failing: knownRequiredFieldsMissing
-- `ut_pet_limitations-set`
+- `ca-851-91-set` — failing: knownRequiredFieldsMissing, incompleteRows
+- `nj_indictable_conviction-set` — failing: knownRequiredFieldsMissing
+- `pa_790_nonconviction-set` — failing: knownRequiredFieldsMissing, unclassifiedBlanks, incompleteRows, requiredComponentsMissing
+- `ut_pet_no_charges-set`
 
 ## What you receive
 
@@ -73,12 +74,14 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/fix04/**`
-- `data/rcap-all50/overlays/census-v1/ca/ca-1203-42-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/nj/nj-ordinance-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/ut/ut-pet-limitations-set--official-pdf-fill/**`
-- `scripts/build-census-v1-ca-1203-42-set.mjs`
-- `scripts/build-census-v1-nj_ordinance-set.mjs`
-- `scripts/build-census-v1-ut_pet_limitations-set.mjs`
+- `data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/**`
+- `scripts/build-census-v1-ca-851-91-set.mjs`
+- `scripts/build-census-v1-nj_indictable_conviction-set.mjs`
+- `scripts/build-census-v1-pa_790_nonconviction-set.mjs`
+- `scripts/build-census-v1-ut_pet_no_charges-set.mjs`
 
 ## Never write here
 
