@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "rcap-family-source-receipt/v1",
+  "familyId": "agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement",
+  "worklistGroupId": "agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement",
+  "jurisdiction": "NM",
+  "implementationStrategy": "participant_agency_application",
+  "routeKey": "obligation:runtime-only:NM:dna-sample-profile-expungement",
+  "legalName": "Expungement of Samples and DNA Records from the DNA Identification System and CODIS, NMSA 1978, Section 29-16-10",
+  "deliverableType": "participant_agency_application_guidance",
+  "bindingMethod": "pinned evidence-file SHA-256 set + literal anchor verification on every build; held agency documents bound by committed corpus-index SHA-256 and recomputed from mounted bytes when available",
+  "evidence": [
+    {
+      "id": "NM_MEMO",
+      "path": "data/record-clearing/legal-design-intake/NM.memo.json",
+      "sha256": "94fe9d381be4e2b03e78397bb67a76c30c5005854d178606604689d19e002f25",
+      "role": "legal-design intake memo, track nm_dna_expungement (controlling summary, exclusions, self-help limits, the unresolved receiving-office question)"
+    },
+    {
+      "id": "NM_PROFILE",
+      "path": "src/lib/rcap-engine/compiled/profiles/NM-new-mexico.json",
+      "sha256": "ec03515fa44ddab02dd1b4d2be31c42752f145f142d2f46841fa73c052634086",
+      "role": "compiled runtime pathway dna-sample-profile-expungement: LD-NM-02 authority block, packet components, processing-period rule, Lawrence hold_guidance ratification"
+    },
+    {
+      "id": "NM_ROUTE_CONTRACT",
+      "path": "src/lib/legal-authority/routes/single-routes.json",
+      "sha256": "3c96528143c0e86363873c68dc64bcb8704241900681731e6d24c7c3e8ab5a36",
+      "role": "route contract NM:dna-sample-profile-expungement (decisionId LD-NM-02, outcomeMode agency_application)"
+    },
+    {
+      "id": "CENSUS_ROUTE",
+      "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+      "sha256": "e615283930c6a9aab3be570ca5dd74a8990deb71dc2817733a3d262e48af6816",
+      "role": "route record for obligation:runtime-only:NM:dna-sample-profile-expungement (participant_agency_application)"
+    }
+  ],
+  "anchorCount": 30,
+  "heldFormComponents": [],
+  "factsDeliberatelyNotStated": [
+    "the receiving office, unit and address for a Section 29-16-10 request (no held source identifies it; DPS is the checkable authority and the instructions stop the participant until it is confirmed)",
+    "the accepted request format and any required form (none established; the receiving office is the checkable authority)",
+    "any fee for the request (none stated in any held source; the receiving office is the checkable authority)",
+    "the full statutory text of Section 29-16-10, which the memo records as not read at any official New Mexico channel"
+  ],
+  "sourceBinaryCommitted": false,
+  "commercialRoutesOpened": 0,
+  "whatThisReceiptDoesNotEstablish": [
+    "that any agency's current published requirements match the pinned evidence",
+    "that any output is approved for participant delivery",
+    "that the participant is eligible for the relief this route describes",
+    "the current official text of NMSA 1978, Section 29-16-10",
+    "the identity of the administrative center of the state DNA identification system",
+    "that the recorded eligibility branches match the statute as currently in force"
+  ]
+}

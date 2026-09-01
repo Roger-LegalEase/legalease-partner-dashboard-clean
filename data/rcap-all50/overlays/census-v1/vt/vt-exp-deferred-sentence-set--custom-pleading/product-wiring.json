@@ -1,0 +1,44 @@
+{
+  "schemaVersion": "rcap-census-v1-product-wiring/v1",
+  "family": "vt_exp_deferred_sentence-set",
+  "routeKey": "obligation:unit:VT:vt_exp_deferred_sentence:vt-deferred-automatic-and-verification",
+  "routeKeys": [
+    "obligation:unit:VT:vt_exp_deferred_sentence:vt-deferred-automatic-and-verification",
+    "obligation:unit:VT:vt_exp_deferred_sentence:vt-deferred-written-request"
+  ],
+  "workType": "PRODUCT_WIRING_REQUIRED",
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+  "derivedFrom": "data/rcap-all50/overlays/census-v1/vt/vt-exp-deferred-sentence-set--custom-pleading/reports/rendered-artifacts.json",
+  "explicitNonGrants": [
+    "This document opens no commercial route.",
+    "It creates no fulfillment record and consumes no packet credit.",
+    "It marks no packet proven and grants no output approval.",
+    "It does not add this track to compiled runtime. src/lib/rcap-engine/compiled/** is untouched.",
+    "It does not change any live RCAP route.",
+    "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This is not that record."
+  ],
+  "currentState": {
+    "serviceDisposition": "missing_from_compiled_runtime",
+    "commercialState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP",
+    "existingArtifactIds": [],
+    "generationAllowed": false
+  },
+  "proposedRepresentation": {
+    "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
+    "packetSetId": "vt_exp_deferred_sentence-set",
+    "outputStrategy": "custom_pleading",
+    "components": [
+      {
+        "componentId": "vt_exp_deferred_sentence-set-component-1",
+        "role": "primary_filing",
+        "order": 1,
+        "documentId": "canonical",
+        "file": "data/rcap-all50/overlays/census-v1/vt/vt-exp-deferred-sentence-set--custom-pleading/fixtures/canonical.pdf",
+        "sha256": "b4e5975feb1e5727502cf876d0265157e65b94b56769a3cf5a1ae9abd284f96d",
+        "requirement": "required"
+      }
+    ]
+  }
+}

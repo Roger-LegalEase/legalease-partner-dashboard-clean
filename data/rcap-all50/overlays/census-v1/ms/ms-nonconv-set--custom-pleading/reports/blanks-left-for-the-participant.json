@@ -1,0 +1,281 @@
+{
+  "schemaVersion": "rcap-blanks-left-for-the-participant/v1",
+  "familyId": "ms-nonconv-set",
+  "requiredBeforeFiling": [
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.agency_case_number",
+      "page": 1,
+      "printedContext": "That agency's own case or citation number, where the record states one",
+      "disclosureLabel": "That agency's own case or citation number, where the record states one",
+      "identity": "primary_filing field agency_case_number",
+      "why": "no agency identifier is held for this record",
+      "participantMustSupply": "the arresting agency's case or citation number, copied from the record where one is stated"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.arrest_date",
+      "page": 1,
+      "printedContext": "Date of arrest or citation, from the record",
+      "disclosureLabel": "Date of arrest or citation, from the record",
+      "identity": "primary_filing field arrest_date",
+      "why": "no arrest fact is held for this record",
+      "participantMustSupply": "the date of arrest or citation, taken from the case papers"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.arresting_agency",
+      "page": 1,
+      "printedContext": "Agency that made the arrest or issued the citation",
+      "disclosureLabel": "Agency that made the arrest or issued the citation",
+      "identity": "primary_filing field arresting_agency",
+      "why": "an agency name is a case fact the participant obtains from the record, not a field the court owns",
+      "participantMustSupply": "the name of the agency that arrested or cited you, taken from the case papers"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.case_end_date",
+      "page": 1,
+      "printedContext": "Date on which the case ended, from the record",
+      "disclosureLabel": "Date on which the case ended, from the record",
+      "identity": "primary_filing field case_end_date",
+      "why": "no disposition fact is held for this record",
+      "participantMustSupply": "the date the case ended, taken from the certified copy of the disposition order"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.cause_number",
+      "page": 1,
+      "printedContext": "Cause number of the case, copied from the court record",
+      "disclosureLabel": "Cause number of the case, copied from the court record",
+      "identity": "primary_filing field cause_number",
+      "why": "no case identifier is held for this record",
+      "participantMustSupply": "the cause or case number, checked against the certified copy of the disposition order - correct the packet if they disagree; where the court assigns a new number for the expungement it is supplied at filing"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.charge_description",
+      "page": 1,
+      "printedContext": "What the petitioner was charged with, worded as the court record words it",
+      "disclosureLabel": "What the petitioner was charged with, worded as the court record words it",
+      "identity": "primary_filing field charge_description",
+      "why": "no charge fact is held for this record",
+      "participantMustSupply": "the charge, worded exactly as the court record words it, with the Mississippi Code section where the record states one"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.indictment_statement",
+      "page": 1,
+      "printedContext": "Where a grand jury returned an indictment, its date and court, stated from the record",
+      "disclosureLabel": "Where a grand jury returned an indictment, its date and court, stated from the record",
+      "identity": "primary_filing field indictment_statement",
+      "why": "the archived models plead an indictment in every case, which is wrong for most misdemeanours and for cases dismissed before indictment; the packet pleads one only where it exists",
+      "participantMustSupply": "the indictment's date and court, ONLY where a grand jury actually returned an indictment - leave the line blank where the case was never indicted; most are not"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.offense_date",
+      "page": 1,
+      "printedContext": "Date of the offence alleged, from the record",
+      "disclosureLabel": "Date of the offence alleged, from the record",
+      "identity": "primary_filing field offense_date",
+      "why": "no offence fact is held for this record",
+      "participantMustSupply": "the date of the offence alleged, taken from the case papers"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.pending_court",
+      "page": 1,
+      "printedContext": "Court in which the case was pending, named in the caption with its county or city",
+      "disclosureLabel": "Court in which the case was pending, named in the caption with its county or city",
+      "identity": "primary_filing field pending_court",
+      "why": "the court the case was pending in is a case fact the participant establishes from the record",
+      "participantMustSupply": "which court the case was pending in - justice, county, circuit or municipal - and its county, or for a municipal court its city; the records office of that court can confirm both"
+    },
+    {
+      "document": "proposed_order",
+      "field": "proposed_order.order_arresting_agency",
+      "page": 1,
+      "printedContext": "Agency that made the arrest or issued the citation, as the order must direct it",
+      "disclosureLabel": "Agency that made the arrest or issued the citation, as the order must direct it",
+      "identity": "proposed_order field order_arresting_agency",
+      "why": "the agency list of the order is a set of fillable fields from the participant's own record, never hardcoded",
+      "participantMustSupply": "the arresting or citing agency's name, from the case papers, so the order reaches its records"
+    },
+    {
+      "document": "proposed_order",
+      "field": "proposed_order.order_cause_number",
+      "page": 1,
+      "printedContext": "Cause number in the caption of the proposed order",
+      "disclosureLabel": "Cause number in the caption of the proposed order",
+      "identity": "proposed_order field order_cause_number",
+      "why": "no case identifier is held for this record",
+      "participantMustSupply": "the same cause number as the petition's caption"
+    },
+    {
+      "document": "proposed_order",
+      "field": "proposed_order.order_court",
+      "page": 1,
+      "printedContext": "Court named in the caption of the proposed order, with its county or city",
+      "disclosureLabel": "Court named in the caption of the proposed order, with its county or city",
+      "identity": "proposed_order field order_court",
+      "why": "the court the case was pending in is a case fact the participant establishes from the record",
+      "participantMustSupply": "the same court and county (or city) as the petition's caption"
+    },
+    {
+      "document": "proposed_order",
+      "field": "proposed_order.order_other_agencies",
+      "page": 1,
+      "printedContext": "Any other person or agency keeping an official record of the case, to be named in the order",
+      "disclosureLabel": "Any other person or agency keeping an official record of the case, to be named in the order",
+      "identity": "proposed_order field order_other_agencies",
+      "why": "the agency list of the order is participant data from the record",
+      "participantMustSupply": "any other office the case papers show keeping an official record of the arrest or the case"
+    },
+    {
+      "document": "proposed_order",
+      "field": "proposed_order.order_sheriff",
+      "page": 1,
+      "printedContext": "Sheriff's department of the county, where its records carry the case",
+      "disclosureLabel": "Sheriff's department of the county, where its records carry the case",
+      "identity": "proposed_order field order_sheriff",
+      "why": "which county's records carry the case is a case fact from the participant's own record",
+      "participantMustSupply": "the county sheriff's department, where its records carry the case"
+    },
+    {
+      "document": "certificate_of_service",
+      "field": "certificate_of_service.prosecuting_authority_address",
+      "page": 1,
+      "printedContext": "Mailing address at which the prosecuting authority was served",
+      "disclosureLabel": "Mailing address at which the prosecuting authority was served",
+      "identity": "certificate_of_service field prosecuting_authority_address",
+      "why": "no address for the prosecuting authority is held, and a guessed address on a certificate would be false",
+      "participantMustSupply": "the mailing address of that office, confirmed with the court's records office before service"
+    },
+    {
+      "document": "certificate_of_service",
+      "field": "certificate_of_service.prosecuting_authority_name",
+      "page": 1,
+      "printedContext": "Prosecuting authority served, written as the court record names the office",
+      "disclosureLabel": "Prosecuting authority served, written as the court record names the office",
+      "identity": "certificate_of_service field prosecuting_authority_name",
+      "why": "the prosecuting authority is participant data and is never defaulted; the archived model's fixed address is deliberately not reused",
+      "participantMustSupply": "which prosecuting authority handled the case - the district attorney for the circuit district, or the county or municipal prosecuting attorney; for a municipal court case it is the city prosecutor, and the court's records office can confirm the office"
+    },
+    {
+      "document": "certificate_of_service",
+      "field": "certificate_of_service.service_cause_number",
+      "page": 1,
+      "printedContext": "Cause number in the caption of the certificate of service",
+      "disclosureLabel": "Cause number in the caption of the certificate of service",
+      "identity": "certificate_of_service field service_cause_number",
+      "why": "no case identifier is held for this record",
+      "participantMustSupply": "the same cause number as the petition's caption"
+    },
+    {
+      "document": "certificate_of_service",
+      "field": "certificate_of_service.service_court",
+      "page": 1,
+      "printedContext": "Court named in the caption of the certificate of service, with its county or city",
+      "disclosureLabel": "Court named in the caption of the certificate of service, with its county or city",
+      "identity": "certificate_of_service field service_court",
+      "why": "the court the case was pending in is a case fact the participant establishes from the record",
+      "participantMustSupply": "the same court and county (or city) as the petition's caption"
+    }
+  ],
+  "protectedBlanks": [
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.disposition_dismissed",
+      "label": "[  ] An arrest was made, the petitioner was released, and the case was dismissed. (statutory category, mark exactly one)",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "why": "which statutory ending is true belongs to the participant's own record; only the true one is pleaded and no qualifier such as 'with prejudice' is added unless the order itself says so"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.disposition_dropped",
+      "label": "[  ] The charges were dropped. (statutory category, mark exactly one)",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "why": "which statutory ending is true belongs to the participant's own record"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.disposition_none",
+      "label": "[  ] There was no disposition of the case. (statutory category, mark exactly one)",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "why": "which statutory ending is true belongs to the participant's own record; whether a case 'passed to the file' counts as no disposition is a recorded open question and routes to advice"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.disposition_not_guilty",
+      "label": "[  ] The petitioner was found not guilty at trial. (statutory category, mark exactly one)",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "why": "which statutory ending is true belongs to the participant's own record"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.petitioner_signature",
+      "label": "Signature of the petitioner on the petition",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "the petitioner signs the petition personally"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.signature_date",
+      "label": "Date beside the petitioner's signature on the petition",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "a date written before the petition is signed would be false"
+    },
+    {
+      "document": "proposed_order",
+      "field": "proposed_order.entry_date",
+      "label": "Entered, this the day of - the entry line of the order",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the Court alone dates and enters the order"
+    },
+    {
+      "document": "proposed_order",
+      "field": "proposed_order.judicial_signature",
+      "label": "Judicial officer of the Court - the signing block of the order",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the order is the Court's; it is never completed, signed or entered by the preparer"
+    },
+    {
+      "document": "proposed_order",
+      "field": "proposed_order.approved_as_to_form",
+      "label": "Approved as to form block for the prosecuting authority",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "some districts expect the prosecuting authority to approve the order as to form; the block is never pre-signed or pre-filled"
+    },
+    {
+      "document": "certificate_of_service",
+      "field": "certificate_of_service.service_by_mail",
+      "label": "[  ] By United States mail (manner of delivery)",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "why": "the manner of delivery is the participant's own act and is marked when the copy actually goes out"
+    },
+    {
+      "document": "certificate_of_service",
+      "field": "certificate_of_service.service_by_hand",
+      "label": "[  ] By hand delivery (manner of delivery)",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "why": "the manner of delivery is the participant's own act and is marked when the copy actually goes out"
+    },
+    {
+      "document": "certificate_of_service",
+      "field": "certificate_of_service.service_date",
+      "label": "Date of delivery of the copy",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "a date written before the copy actually goes out would be false"
+    },
+    {
+      "document": "certificate_of_service",
+      "field": "certificate_of_service.service_signature",
+      "label": "Signature of the petitioner on the certificate of service",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "the petitioner signs the certificate when the copy actually goes out"
+    }
+  ],
+  "everyRequiredBeforeFilingItemIsDisclosed": true,
+  "disclosedIn": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/participant-instructions.md"
+}
