@@ -6,6 +6,9 @@ import {
   type PrivacyProcessorConfigName
 } from "@/lib/expungement-ai/privacy/processor-config";
 
+export const PARTICIPANT_ACCOUNT_DELETION_CONTRACT_VERSION =
+  "20260901180000.partial-deletion.v2";
+
 /**
  * Is this deployment actually able to honour a data-rights request?
  *
@@ -24,6 +27,7 @@ export type PrivacyReadiness = {
   missing: string[];
   checked: {
     migrationPresent: boolean;
+    partialStateContractPresent: boolean;
     artifactAuthorityPresent: boolean;
     proofSecretPresent: boolean;
     pseudonymSecretPresent: boolean;
@@ -58,6 +62,7 @@ export async function participantPrivacyReadiness(): Promise<PrivacyReadiness> {
   missing.push(...processorConfig.missing);
 
   let migrationPresent = false;
+  let partialStateContractPresent = false;
   let artifactAuthorityPresent = false;
 
   const supabase = getSupabaseAdminClient();
@@ -73,6 +78,18 @@ export async function participantPrivacyReadiness(): Promise<PrivacyReadiness> {
       .limit(1);
     migrationPresent = !tableError;
     if (tableError) missing.push("participant_privacy_requests");
+
+    // The table and generic step recorder both existed before resumable partial
+    // deletion. Only this exact service-role RPC proves that the matching
+    // status transition, live indexes and resume semantics are installed.
+    const { data: contractVersion, error: contractError } = await supabase.rpc(
+      "participant_account_deletion_contract_version"
+    );
+    partialStateContractPresent =
+      !contractError && contractVersion === PARTICIPANT_ACCOUNT_DELETION_CONTRACT_VERSION;
+    if (!partialStateContractPresent) {
+      missing.push(`participant_account_deletion_contract:${PARTICIPANT_ACCOUNT_DELETION_CONTRACT_VERSION}`);
+    }
 
     // The artifact authority the deletion proof depends on. Called with a nil
     // uuid, which returns the absent state rather than anything about a real
@@ -90,6 +107,7 @@ export async function participantPrivacyReadiness(): Promise<PrivacyReadiness> {
     missing,
     checked: {
       migrationPresent,
+      partialStateContractPresent,
       artifactAuthorityPresent,
       proofSecretPresent,
       pseudonymSecretPresent,

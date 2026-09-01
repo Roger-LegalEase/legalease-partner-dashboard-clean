@@ -13,7 +13,10 @@ process.env.NEXT_PUBLIC_PARTNER_APP_URL = "https://legaleasepartner.com";
 const {
   consumerAuthCallbackPath,
   consumerAuthContinuationFrom,
+  consumerClaimRecoveryHandoffFrom,
   consumerForgotPasswordPath,
+  consumerSignInAfterRecoveryPath,
+  runConsumerClaimRecoveryOnce,
   consumerSignInRecoveryPath
 } = await import("../src/lib/expungement-ai/auth-continuation.ts");
 const { isRetryableClaimStatus } = await import("../src/lib/expungement-ai/claim/claim-handoff.ts");
@@ -84,6 +87,57 @@ assert.equal(isRetryableClaimStatus(503), true, "server failure retains the clai
 assert.equal(isRetryableClaimStatus(404), false, "definitive denial does not keep a rejected token in the URL");
 assert.equal(new URL(consumerSignInRecoveryPath(initial, true), "https://expungement.ai").searchParams.get("claim"), token);
 assert.equal(new URL(consumerSignInRecoveryPath(initial, false), "https://expungement.ai").searchParams.get("claim"), null);
+
+const retryUrl = new URL(consumerSignInRecoveryPath(initial, true), "https://expungement.ai");
+assert.equal(consumerClaimRecoveryHandoffFrom(retryUrl.searchParams), "retry", "a valid retry handoff must be consumed");
+const cleanRetry = new URL(consumerSignInAfterRecoveryPath(initial, "retry"), "https://expungement.ai");
+assert.equal(cleanRetry.searchParams.get("claimRetry"), null, "the retry flag must be consumed before the request starts");
+assert.equal(cleanRetry.searchParams.get("claim"), token, "a retryable handoff must retain the opaque claim");
+assert.equal(cleanRetry.searchParams.get("locale"), "es", "flag cleanup must preserve locale");
+assert.equal(cleanRetry.searchParams.get("next"), initial.nextPath, "flag cleanup must preserve the safe next path");
+
+let automaticClaims = 0;
+const automaticSuccess = await runConsumerClaimRecoveryOnce(token, async (submittedToken) => {
+  automaticClaims += 1;
+  assert.equal(submittedToken, token);
+  return { ok: true, redirectTo: `/briefcase/matters/${matterId}` };
+});
+const strictModeReplay = await runConsumerClaimRecoveryOnce(token, async () => {
+  automaticClaims += 1;
+  return { ok: false, status: 503, retryable: true };
+});
+assert.deepEqual(automaticSuccess, {
+  kind: "attempted",
+  result: { ok: true, redirectTo: `/briefcase/matters/${matterId}` }
+}, "automatic post-reset claim success must carry the exact matter redirect");
+assert.deepEqual(strictModeReplay, { kind: "duplicate" }, "Strict Mode replay must not submit another claim");
+assert.equal(automaticClaims, 1, "Strict Mode duplicate-effect protection must produce zero duplicate claims");
+
+const retryToken = `${token.slice(0, -1)}R`;
+const retryableAttempt = await runConsumerClaimRecoveryOnce(retryToken, async () => ({
+  ok: false,
+  status: 503,
+  retryable: true
+}));
+assert.equal(retryableAttempt.kind, "attempted");
+assert.equal(retryableAttempt.result.ok, false);
+assert.equal(retryableAttempt.result.retryable, true, "409/503 must remain available to the visible manual retry");
+
+const definitiveUrl = new URL(consumerSignInRecoveryPath(initial, false), "https://expungement.ai");
+assert.equal(consumerClaimRecoveryHandoffFrom(definitiveUrl.searchParams), "definitive_error");
+const cleanDefinitive = new URL(consumerSignInAfterRecoveryPath(initial, "definitive_error"), "https://expungement.ai");
+assert.equal(cleanDefinitive.searchParams.get("claimError"), null, "the definitive flag must be consumed");
+assert.equal(cleanDefinitive.searchParams.get("claim"), null, "a definitive failure must not retain or retry the claim");
+assert.equal(cleanDefinitive.searchParams.get("locale"), "es");
+assert.equal(cleanDefinitive.searchParams.get("next"), initial.nextPath);
+
+for (const malformedFlags of [
+  new URLSearchParams({ claimRetry: "1", claim: "short", next: initial.nextPath, locale: "es" }),
+  new URLSearchParams({ claimRetry: "2", claim: token, next: initial.nextPath, locale: "es" }),
+  new URLSearchParams({ claimRetry: "1", claimError: "1", claim: token, next: initial.nextPath, locale: "es" })
+]) {
+  assert.equal(consumerClaimRecoveryHandoffFrom(malformedFlags), "definitive_error", "malformed recovery handoffs must fail closed");
+}
 assert.equal(isExactMatterPath(`/briefcase/matters/${matterId}`), true);
 assert.equal(isExactMatterPath("/briefcase"), false);
 assert.equal(isExactMatterPath("https://attacker.example/briefcase"), false);
@@ -93,6 +147,15 @@ const forgotSource = read("src/app/auth/forgot-password/page.tsx");
 const setPasswordSource = read("src/app/auth/set-password/page.tsx");
 const claimServiceSource = read("src/lib/expungement-ai/claim/claim-service.ts");
 assert.ok(signInSource.includes("consumerForgotPasswordPath"), "sign-in must use the shared continuation for Forgot Password");
+assert.ok(signInSource.includes("runConsumerClaimRecoveryOnce(continuation.claimToken, submitClaim)"), "post-reset retry must submit automatically once");
+assert.ok(signInSource.includes("consumerSignInAfterRecoveryPath(continuation, recoveryHandoff)"), "post-reset flags must be cleaned before the claim request");
+assert.ok(
+  signInSource.includes('if (claimRecoveryState !== "none")')
+    && signInSource.indexOf('if (claimRecoveryState !== "none")') < signInSource.indexOf('<form className="mt-6 grid gap-4"'),
+  "post-reset recovery must render before and instead of a second password form"
+);
+assert.ok(signInSource.includes('data-claim-recovery-state={claimRecoveryState}'), "recovery must expose an explicit visible state");
+assert.ok(signInSource.includes('translate("signin.claim_definitive_error"'), "definitive failure must be explicit and localized");
 assert.ok(forgotSource.includes("continuation: consumerAuthContinuationFrom(params)"), "reset request must use the shared continuation");
 assert.ok(setPasswordSource.includes("consumerSignInRecoveryPath"), "callback failure must use the shared recovery path");
 assert.ok(

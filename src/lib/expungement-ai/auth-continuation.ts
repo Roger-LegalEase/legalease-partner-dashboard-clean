@@ -1,7 +1,8 @@
 import { safeAppRedirectPath } from "@/lib/auth/redirect";
 import {
   CLAIM_TOKEN_PARAM,
-  isWellFormedClaimTokenValue
+  isWellFormedClaimTokenValue,
+  type ClaimAttempt
 } from "@/lib/expungement-ai/claim/claim-handoff";
 
 export type ConsumerAuthLocale = "en" | "es";
@@ -19,6 +20,17 @@ type ConsumerContinuationExtras = {
   claimRetry?: "1";
   claimError?: "1";
 };
+
+export type ConsumerClaimRecoveryHandoffKind =
+  | "none"
+  | "retry"
+  | "definitive_error";
+
+export type ConsumerClaimRecoveryAttempt =
+  | { kind: "attempted"; result: ClaimAttempt }
+  | { kind: "duplicate" };
+
+const automaticRecoveryClaims = new Set<string>();
 
 /**
  * The only browser-carried DTC authentication continuation.
@@ -84,4 +96,61 @@ export function consumerSignInRecoveryPath(
     mode: "signin",
     ...(retryable ? { claimRetry: "1" as const } : { claimError: "1" as const })
   })}`;
+}
+
+/**
+ * Parses only the two server-produced post-reset flags. Any malformed,
+ * conflicting, or token-less retry handoff is a definitive failure: it never
+ * falls through to a credential form and never submits an unvalidated token.
+ */
+export function consumerClaimRecoveryHandoffFrom(
+  search: URLSearchParams
+): ConsumerClaimRecoveryHandoffKind {
+  const hasRetry = search.has("claimRetry");
+  const hasError = search.has("claimError");
+  if (!hasRetry && !hasError) return "none";
+
+  const continuation = consumerAuthContinuationFrom(search);
+  if (hasRetry
+    && !hasError
+    && search.get("claimRetry") === "1"
+    && continuation.claimToken) return "retry";
+  if (hasError
+    && !hasRetry
+    && search.get("claimError") === "1") return "definitive_error";
+  return "definitive_error";
+}
+
+/** Rebuilds the URL from validated continuation fields and consumes flags. */
+export function consumerSignInAfterRecoveryPath(
+  continuation: ConsumerAuthContinuation,
+  handoff: Exclude<ConsumerClaimRecoveryHandoffKind, "none">
+): string {
+  const safeContinuation = handoff === "retry"
+    ? continuation
+    : { ...continuation, claimToken: "" };
+  return `/expungement-ai/sign-in?${consumerAuthContinuationQuery(safeContinuation, {
+    mode: "signin"
+  })}`;
+}
+
+/**
+ * React Strict Mode deliberately runs mount effects twice. This browser-memory
+ * guard allows one automatic claim request for an opaque token across effect
+ * replays and remounts. Manual participant retries remain available after a
+ * retryable response and do not pass through this one-shot guard.
+ */
+export async function runConsumerClaimRecoveryOnce(
+  claimToken: string,
+  attempt: (token: string) => Promise<ClaimAttempt>
+): Promise<ConsumerClaimRecoveryAttempt> {
+  if (!isWellFormedClaimTokenValue(claimToken)) {
+    return {
+      kind: "attempted",
+      result: { ok: false, status: 400, retryable: false }
+    };
+  }
+  if (automaticRecoveryClaims.has(claimToken)) return { kind: "duplicate" };
+  automaticRecoveryClaims.add(claimToken);
+  return { kind: "attempted", result: await attempt(claimToken) };
 }

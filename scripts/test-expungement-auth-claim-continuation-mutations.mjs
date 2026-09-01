@@ -10,7 +10,8 @@ import { registerTrackedMutation } from "./lib/tracked-mutation-guard.mjs";
 const root = process.cwd();
 const files = [
   "src/lib/expungement-ai/auth-continuation.ts",
-  "src/lib/expungement-ai/claim/claim-service.ts"
+  "src/lib/expungement-ai/claim/claim-service.ts",
+  "src/components/expungement-ai/ConsumerSignInForm.tsx"
 ];
 const originals = new Map(files.map((file) => [file, fs.readFileSync(path.join(root, file))]));
 const restore = () => {
@@ -76,6 +77,34 @@ try {
     "      eventId: null,",
     "server claim must preserve protected pending attribution: eventId: row.event_id"
   );
+  mutation(
+    "Strict Mode guard is removed",
+    files[0],
+    '  if (automaticRecoveryClaims.has(claimToken)) return { kind: "duplicate" };',
+    "  // mutation: automatic retry can run more than once",
+    "Strict Mode replay must not submit another claim"
+  );
+  mutation(
+    "retry flag survives cleanup",
+    files[0],
+    '    mode: "signin"\n  })}`;',
+    '    mode: "signin", claimRetry: "1"\n  })}`;',
+    "the retry flag must be consumed before the request starts"
+  );
+  mutation(
+    "malformed retry is accepted",
+    files[0],
+    '    && continuation.claimToken) return "retry";',
+    ') return "retry";',
+    "malformed recovery handoffs must fail closed"
+  );
+  mutation(
+    "recovery renders the password form",
+    files[2],
+    '  if (claimRecoveryState !== "none") {',
+    '  if (claimRecoveryState === "none") {',
+    "post-reset recovery must render before and instead of a second password form"
+  );
 } finally {
   restore();
   disposeRestore();
@@ -85,4 +114,4 @@ if (failures > 0) {
   console.error(`Auth continuation mutation suite failed: ${failures} mutation(s) escaped or failed incorrectly.`);
   process.exit(1);
 }
-console.log("Auth continuation mutation suite passed: 4/4 defects turned the behavioral verifier red.");
+console.log("Auth continuation mutation suite passed: 8/8 defects turned the behavioral verifier red.");

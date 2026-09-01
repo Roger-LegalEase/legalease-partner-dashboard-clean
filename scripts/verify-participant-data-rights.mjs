@@ -167,9 +167,10 @@ const SEQUENCE = [
   "supabase/phase-54-rcap-person-namespace-hardening.sql",
   "supabase/phase-55-expungement-matter-payment-binding.sql",
   "supabase/phase-24-request-rate-limit-buckets.sql",
-  "supabase/migrations/20260830120000_participant_data_rights.sql",
-  "supabase/migrations/20260901180000_account_deletion_partial_state.sql"
+  "supabase/migrations/20260830120000_participant_data_rights.sql"
 ];
+const PARTIAL_STATE_MIGRATION =
+  "supabase/migrations/20260901180000_account_deletion_partial_state.sql";
 
 const USER_A = fixtureUuid("participant-a");
 const USER_B = fixtureUuid("participant-b");
@@ -591,6 +592,77 @@ async function mintProof(userId, purpose, password = gotrue.password) {
   setSession({ isAuthenticated: true, userId, email: `${userId === USER_A ? "a" : userId === USER_B ? "b" : "staff"}@${userId === PARTNER_STAFF ? "partner" : "participant"}.test` });
   const response = await reauthRoute.POST(req("/api/expungement-ai/privacy/reauth", { purpose, password }));
   return { status: response.status, body: await jsonOf(response) };
+}
+
+// =============================================================================
+// OLD-SCHEMA CAPABILITY GATE
+//
+// The cluster is deliberately still at the schema immediately before the
+// partial-state migration. Current application code must refuse deletion
+// before it opens a request or performs any destructive operation. The same
+// cluster is then upgraded and used for every behavioral deletion check below.
+// =============================================================================
+
+{
+  const { participantPrivacyReadiness } = await import("../src/lib/expungement-ai/privacy/readiness.ts");
+  const oldSchemaReadiness = await participantPrivacyReadiness();
+  const requestsBefore = count(
+    `select count(*) from public.participant_privacy_requests where user_id='${USER_B}' and request_type='account_deletion'`
+  );
+  const mattersBefore = count(`select count(*) from public.consumer_briefcase_items where user_id='${USER_B}'`);
+  setSession({ isAuthenticated: true, userId: USER_B, email: "b@participant.test" });
+  const refused = await accountRoute.POST(
+    req("/api/expungement-ai/privacy/account", {
+      proof: "must-not-be-consumed-on-old-schema",
+      confirmation: "DELETE MY ACCOUNT",
+      idempotencyKey: "old-schema-capability-refusal"
+    })
+  );
+  const refusedBody = await jsonOf(refused);
+  check("V1", "the immediately preceding schema fails the exact partial-deletion capability probe",
+    oldSchemaReadiness.ready === false
+      && oldSchemaReadiness.checked.migrationPresent === true
+      && oldSchemaReadiness.checked.partialStateContractPresent === false
+      && oldSchemaReadiness.missing.some((entry) => entry.startsWith("participant_account_deletion_contract:")),
+    JSON.stringify(oldSchemaReadiness));
+  check("V2", "old-schema deletion returns 503 before opening a request or freezing the account",
+    refused.status === 503
+      && refusedBody.code === "privacy_not_ready"
+      && count(`select count(*) from public.participant_privacy_requests where user_id='${USER_B}' and request_type='account_deletion'`) === requestsBefore
+      && count(`select count(*) from public.participant_account_tombstones where user_id='${USER_B}'`) === 0,
+    `${refused.status} ${JSON.stringify(refusedBody)}`);
+  check("V3", "old-schema refusal performs zero destructive or processor operations",
+    count(`select count(*) from auth.users where id='${USER_B}'`) === 1
+      && count(`select count(*) from public.consumer_briefcase_items where user_id='${USER_B}'`) === mattersBefore
+      && gotrue.logoutCalls.length === 0
+      && storageRemovals().length === 0
+      && processorRequests.length === 0);
+
+  db.applyFile(path.join(rootDir, PARTIAL_STATE_MIGRATION));
+  const upgraded = await participantPrivacyReadiness();
+  check("V4", "applying the migration exposes the exact service-role contract version",
+    upgraded.ready === true && upgraded.checked.partialStateContractPresent === true,
+    JSON.stringify(upgraded));
+
+  db.sql(
+    `create or replace function public.participant_account_deletion_contract_version()
+       returns text language sql stable security definer set search_path=''
+       as $$ select 'stale.partial-deletion.v1'::text $$`
+  );
+  const wrongVersion = await participantPrivacyReadiness();
+  check("V5", "a stale contract version closes the deletion gate",
+    wrongVersion.ready === false && wrongVersion.checked.partialStateContractPresent === false);
+  db.applyFile(path.join(rootDir, PARTIAL_STATE_MIGRATION));
+
+  db.sql(`revoke execute on function public.participant_account_deletion_contract_version() from service_role`);
+  const inaccessible = await participantPrivacyReadiness();
+  check("V6", "an inaccessible contract capability closes the deletion gate",
+    inaccessible.ready === false && inaccessible.checked.partialStateContractPresent === false);
+  db.applyFile(path.join(rootDir, PARTIAL_STATE_MIGRATION));
+  check("V7", "browser roles cannot invoke the readiness capability",
+    /permission denied/i.test(db.sqlExpectError(
+      `set role authenticated; select public.participant_account_deletion_contract_version()`
+    )));
 }
 
 console.log("\nParticipant data rights\n");
@@ -1021,9 +1093,10 @@ let accountReceipt = null;
   const proof = (await mintProof(USER_A, "account_deletion")).body.proof;
   setSession({ isAuthenticated: true, userId: USER_A, email: "a@participant.test" });
   const failed = await accountRoute.POST(
-    req("/api/expungement-ai/privacy/account", { proof, confirmation: "DELETE MY ACCOUNT", idempotencyKey: "account-a-0001" })
+    req("/api/expungement-ai/privacy/account", { proof, confirmation: "DELETE MY ACCOUNT", idempotencyKey: "account-a-initial" })
   );
   const failedBody = await jsonOf(failed);
+  const accountRequestId = failedBody.requestId;
   check("N1", "a mid-pipeline failure is reported as partial and resumable", failed.status === 500 && failedBody.status === "partially_completed" && failedBody.resumable === true && failedBody.code === "deletion_incomplete", `${failed.status} ${JSON.stringify(failedBody).slice(0, 250)}`);
   check("N2", "the account is already frozen at the point of failure", count(`select count(*) from public.participant_account_tombstones where user_id='${USER_A}' and restoration_barrier and deleted_at is null`) === 1);
   check("N3", "a frozen account is refused new participant writes", /frozen or erased/.test(db.sqlExpectError(`insert into public.consumer_briefcase_items (user_id, item_type, jurisdiction, status, payment_allowed) values ('${USER_A}','packet','MS','packet_ready',true)`)));
@@ -1041,25 +1114,67 @@ let accountReceipt = null;
   const resumeProof = (await mintProof(USER_A, "account_deletion")).body.proof;
   setSession({ isAuthenticated: true, userId: USER_A, email: "a@participant.test" });
   const resumed = await accountRoute.POST(
-    req("/api/expungement-ai/privacy/account", { proof: resumeProof, confirmation: "DELETE MY ACCOUNT", idempotencyKey: "account-a-0001" })
+    req("/api/expungement-ai/privacy/account", { proof: resumeProof, confirmation: "DELETE MY ACCOUNT", idempotencyKey: "account-a-processor-retry" })
   );
   const processorFailure = await jsonOf(resumed);
   check("N7", "a processor outage after local deletion remains truthfully partial", resumed.status === 500 && processorFailure.status === "partially_completed" && processorFailure.resumable === true, `${resumed.status} ${JSON.stringify(processorFailure).slice(0, 300)}`);
   check("N8", "the durable request and processor ledger name incomplete work without completing", count(`select count(*) from public.participant_privacy_requests where user_id='${USER_A}' and status='partially_completed' and completed_at is null and failure_code='propagate_to_processors'`) === 1 && count(`select count(*) from public.participant_processor_propagations p join public.participant_privacy_requests r on r.id=p.request_id where r.user_id='${USER_A}' and p.status in ('pending','failed')`) >= 2);
   check("N9", "Auth deletion does not run while a required processor is outstanding", count(`select count(*) from auth.users where id='${USER_A}'`) === 1 && count(`select count(*) from public.participant_privacy_request_steps s join public.participant_privacy_requests r on r.id=s.request_id where r.user_id='${USER_A}' and s.step_key='delete_auth_user' and s.status <> 'pending'`) === 0);
+  check("N10", "a new proof and idempotency key resume the same partial request",
+    processorFailure.requestId === accountRequestId
+      && count(`select count(*) from public.participant_privacy_requests where user_id='${USER_A}' and request_type='account_deletion' and status='partially_completed'`) === 1,
+    `${accountRequestId} / ${processorFailure.requestId}`);
+
+  const concurrentOpens = await Promise.all([
+    db.sqlAsync(
+      `select id from public.open_participant_privacy_request(
+         '${USER_A}'::uuid, 'account_deletion', 'account-a-concurrent-1',
+         'subject-a', now(), 'password_reauthentication', 'concurrent-proof-1', null,
+         array['freeze_account','revoke_sessions'])`
+    ),
+    db.sqlAsync(
+      `select id from public.open_participant_privacy_request(
+         '${USER_A}'::uuid, 'account_deletion', 'account-a-concurrent-2',
+         'subject-a', now(), 'password_reauthentication', 'concurrent-proof-2', null,
+         array['freeze_account','revoke_sessions'])`
+    )
+  ]);
+  check("N11", "concurrent retries converge on one live deletion ledger",
+    concurrentOpens.every((result) => result.ok && result.out === accountRequestId)
+      && count(`select count(*) from public.participant_privacy_requests where user_id='${USER_A}' and request_type='account_deletion' and status='partially_completed'`) === 1,
+    JSON.stringify(concurrentOpens));
+  check("N12", "the live unique index refuses a second ledger while deletion is partial",
+    /participant_privacy_requests_live_account_deletion_uk/.test(db.sqlExpectError(
+      `insert into public.participant_privacy_requests
+         (user_id, subject_pseudonym, request_type, idempotency_key, status,
+          recent_auth_verified_at, recent_auth_method, recent_auth_proof_hash)
+       values ('${USER_A}', 'subject-a', 'account_deletion', 'account-a-forbidden-second',
+               'pending', now(), 'password_reauthentication', 'forbidden-second-proof')`
+    )));
 
   // Restore the processor and resume the SAME durable request a second time.
   processorMode = "success";
   const finalProof = (await mintProof(USER_A, "account_deletion")).body.proof;
   setSession({ isAuthenticated: true, userId: USER_A, email: "a@participant.test" });
   const completedResponse = await accountRoute.POST(
-    req("/api/expungement-ai/privacy/account", { proof: finalProof, confirmation: "DELETE MY ACCOUNT", idempotencyKey: "account-a-0001" })
+    req("/api/expungement-ai/privacy/account", { proof: finalProof, confirmation: "DELETE MY ACCOUNT", idempotencyKey: "account-a-final-retry" })
   );
   accountReceipt = await jsonOf(completedResponse);
-  check("N10", "the resumed processor step completes the deletion", completedResponse.status === 200 && accountReceipt.status === "completed", `${completedResponse.status} ${JSON.stringify(accountReceipt).slice(0, 300)}`);
-  check("N11", "resuming did not re-run an already completed destructive step", count(`select s.attempt_count from public.participant_privacy_request_steps s join public.participant_privacy_requests r on r.id = s.request_id where r.user_id='${USER_A}' and s.step_key='freeze_account'`) === freezeAttemptsBefore, "freeze_account was executed twice");
-  check("N12", "every retry used the same request rather than duplicating work", count(`select count(*) from public.participant_privacy_requests where user_id='${USER_A}' and request_type='account_deletion' and idempotency_key='account-a-0001'`) === 1);
-  check("N13", "every ordered step is recorded completed, in order", ACCOUNT_DELETION_STEPS.every((step, index) => count(`select count(*) from public.participant_privacy_request_steps s join public.participant_privacy_requests r on r.id = s.request_id where r.user_id='${USER_A}' and s.step_key='${step}' and s.step_order=${index + 1} and s.status='completed'`) === 1), "a step is missing, out of order, or not completed");
+  check("N13", "the resumed processor step completes the same deletion", completedResponse.status === 200 && accountReceipt.status === "completed" && accountReceipt.requestId === accountRequestId, `${completedResponse.status} ${JSON.stringify(accountReceipt).slice(0, 300)}`);
+  check("N14", "resuming did not re-run an already completed destructive step", count(`select s.attempt_count from public.participant_privacy_request_steps s join public.participant_privacy_requests r on r.id = s.request_id where r.user_id='${USER_A}' and s.step_key='freeze_account'`) === freezeAttemptsBefore, "freeze_account was executed twice");
+  check("N15", "every retry used the same request rather than duplicating work", count(`select count(*) from public.participant_privacy_requests where user_id='${USER_A}' and request_type='account_deletion' and status <> 'blocked_legal_hold'`) === 1);
+  check("N16", "every ordered step is recorded completed, in order", ACCOUNT_DELETION_STEPS.every((step, index) => count(`select count(*) from public.participant_privacy_request_steps s join public.participant_privacy_requests r on r.id = s.request_id where r.user_id='${USER_A}' and s.step_key='${step}' and s.step_order=${index + 1} and s.status='completed'`) === 1), "a step is missing, out of order, or not completed");
+
+  const releasedRequestId = scalar(
+    `select id from public.open_participant_privacy_request(
+       '${USER_A}'::uuid, 'account_deletion', 'account-a-after-terminal',
+       'subject-a', now(), 'password_reauthentication', 'after-terminal-proof', null,
+       array['freeze_account'])`
+  );
+  check("N17", "live uniqueness releases only after the original request is completed",
+    releasedRequestId !== "" && releasedRequestId !== accountRequestId
+      && count(`select count(*) from public.participant_privacy_requests where id='${accountRequestId}' and status='completed'`) === 1);
+  sql(`delete from public.participant_privacy_requests where id='${releasedRequestId}'`);
 }
 
 // =============================================================================
@@ -1337,7 +1452,7 @@ let accountReceipt = null;
   check("G1", "readiness passes when the migration, RPC, secrets and every required processor are present",
     ready.ready === true && ready.missing.length === 0, JSON.stringify(ready.missing));
   check("G2", "readiness names artifact, workflow and processor authority as checked",
-    ready.checked.migrationPresent === true && ready.checked.artifactAuthorityPresent === true && ready.checked.processorConfigPresent === true && Object.values(ready.checked.processorConfig).every(Boolean));
+    ready.checked.migrationPresent === true && ready.checked.partialStateContractPresent === true && ready.checked.artifactAuthorityPresent === true && ready.checked.processorConfigPresent === true && Object.values(ready.checked.processorConfig).every(Boolean));
 
   const savedProof = process.env.PARTICIPANT_PRIVACY_PROOF_SECRET;
   delete process.env.PARTICIPANT_PRIVACY_PROOF_SECRET;
