@@ -70,7 +70,14 @@ process.chdir(rootDir);
 const require = createRequire(import.meta.url);
 const { PDFDocument, PDFTextField, PDFCheckBox, PDFRadioGroup, PDFDropdown, PDFOptionList } = require("pdf-lib");
 
-const FAMILY_ID = "mi-setaside-marihuana-set";
+// The familyId is the exact key the worklist, the claim ledger, the raster
+// queue and any fulfillment record use, and it is spelled with underscores:
+// mi_setaside_marihuana-set. This script's earlier hyphenated spelling put a
+// second identity into four of the family's own records (product-wiring,
+// local-filing-variation, shared-vocabulary-gaps, squashed-caption-band-
+// findings) — the ROUTE_IDENTITY failure vf25 recorded. Only the directory
+// name keeps the hyphenated form, by overlay-path convention.
+const FAMILY_ID = "mi_setaside_marihuana-set";
 const WORKLIST_GROUP_ID = "mi_setaside_marihuana-set";
 const OUT = "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill";
 const CORPUS_INDEX = "data/rcap-all50/local-source-corpus-index.json";
