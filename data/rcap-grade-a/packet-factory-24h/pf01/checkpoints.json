@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-checkpoints/v1",
+  "assignmentId": "PF01",
+  "workerId": "PF-A",
+  "workerBranch": "claude/9h-pf-a",
+  "checkpointRule": "Return every five completed families, or every two hours, whichever comes first. Under the Claude-worker overrides this lane also commits and pushes after each completed family or every sixty minutes, whichever comes first.",
+  "checkpoints": [
+    {
+      "n": 1,
+      "familiesCompletedAtThisPoint": ["va_seal_petition_misdemeanor-set"],
+      "what": "The shared host, the four entry points and the first family. Both official forms already bound by exact SHA-256 and both field dictionaries were already complete at this point; the checkpoint was cut on the first family's rasters rather than held for the other three.",
+      "pushed": true
+    },
+    {
+      "n": 2,
+      "familiesCompletedAtThisPoint": [
+        "va_seal_petition_misdemeanor-set",
+        "va_seal_petition_felony-set",
+        "va_seal_enumerated_seven_year-set",
+        "va_seal_ancillary_matter_only-set"
+      ],
+      "what": "All four families, rebuilt end to end after three participant-facing corrections: the two acknowledgments the companion pages discharge are now cited separately and worded as separate obligations; the required-before-filing list is ordered page by page and down the page rather than in AcroForm field order; and the route-selection disclosure names every box the route decided rather than only the offence-level one, which is six or seven boxes per family and not one.",
+      "whyRebuiltRatherThanPatched": "The three corrections change bytes the packet's own hashes pin. Amending the text without re-rendering would have left rows.json quoting hashes for artifacts that no longer existed, which is the class of drift the raster queue is hash-bound to prevent.",
+      "pushed": true
+    }
+  ],
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}
