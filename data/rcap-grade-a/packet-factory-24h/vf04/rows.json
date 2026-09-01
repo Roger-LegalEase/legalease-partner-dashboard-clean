@@ -3,20 +3,41 @@
   "lane": "VF04",
   "laneKind": "independent-verification",
   "worker": "VF-SRC-A",
-  "baseSha": "09b741ad00be0d630bd73a72f66640294abab397",
-  "measuredBy": "the fifteen proof obligations measured in this container; the nine counters produced by running scripts/rcap-packet-completeness/verify-packet-completeness.mjs here rather than read from any builder report",
-  "sourceIdentityLimitation": "SOURCE_IDENTITY could not be recomputed from the source bytes for any family in this lane: the Master Library corpus is absent at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 and scripts/rcap-corpus/bootstrap-private-corpus.sh cannot resolve the pinned release asset (HTTP 403 from Roger-LegalEase/legalease-source-artifacts@source-corpus-2026-08-28). Cross-record consistency was measured instead and is recorded as such; it is not a substitute, and no family in this lane is recorded PASS_COMPLETE_INDEPENDENT on its strength.",
+  "laneMembership": [
+    "ar-arrest-seal-set",
+    "pa_age70_deceased-set"
+  ],
+  "verdictCeiling": "BUILT_RASTER_PENDING — no family returns PASS_COMPLETE_INDEPENDENT",
+  "measuredBy": "the fifteen proof obligations measured in this container; the nine counters produced by running scripts/rcap-packet-completeness/verify-packet-completeness.mjs here rather than read from the builder's report",
   "overlayDirectoriesModified": 0,
+  "packetsModified": 0,
   "commercialRoutesOpened": 0,
   "productionTouched": false,
+  "laneMembershipChanged": {
+    "what": "VF04 previously covered different families. generate.mjs re-emitted the VF01-VF12 independent-verification space, which dissolved the hand-minted VF13 and VF14 and moved families between lane names; laneSupersession in CLAUDE_9H_SHIFT.json records the moves.",
+    "priorRowsPreservedBelow": true,
+    "priorFamilies": [
+      "ut_pet_acquittal-set",
+      "wv_conv_multiple_misdemeanors-set"
+    ],
+    "nothingIsWithdrawn": "The earlier reading stands on its own evidence and is preserved verbatim under supersededLaneMembership. It is kept because those verdicts are real work, not because this lane still owns those families."
+  },
+  "summary": {
+    "families": 2,
+    "PASS_COMPLETE_INDEPENDENT": 0,
+    "FAIL_REPAIR_REQUIRED": 1,
+    "BLOCKED_SOURCE": 1,
+    "BLOCKED_LEGAL_INPUT": 0
+  },
   "rows": [
     {
-      "itemId": "ut_pet_acquittal-set",
+      "itemId": "ar-arrest-seal-set",
       "lane": "VF04",
       "verdict": "FAIL_REPAIR_REQUIRED",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill",
-      "composedFamily": false,
-      "tracks": [],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill",
+      "buildStatus": null,
+      "rasterState": null,
+      "verdictCeilingApplied": "BUILT_RASTER_PENDING",
       "nineCounters": {
         "knownRequiredFieldsMissing": 0,
         "requiredFactsNotCollected": 0,
@@ -34,17 +55,152 @@
         "ROUTE_IDENTITY": {
           "measured": true,
           "result": "PASS",
-          "detail": "familyId agrees across 5 record(s); routeSelectionId ut-acquittal-bci-plus-court"
+          "detail": "familyId agrees across 3 record(s); routeSelectionId (none)"
         },
         "SOURCE_IDENTITY": {
           "measured": false,
           "result": "NOT_MEASURABLE_HERE",
-          "detail": "the source bytes are not reachable in this container, so no SHA-256 was recomputed from them: the Master Library is absent at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 and scripts/rcap-corpus/bootstrap-private-corpus.sh cannot resolve the pinned release asset (HTTP 403 from Roger-LegalEase/legalease-source-artifacts@source-corpus-2026-08-28). Cross-record consistency only, which is not a substitute: 9 declared source(s), 0 page-manifest hash(es) with no matching receipt document."
+          "detail": "the source bytes are not reachable in this container, so no SHA-256 was recomputed from them: the Master Library is absent at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 and scripts/rcap-corpus/bootstrap-private-corpus.sh cannot resolve the pinned release asset (HTTP 403 from Roger-LegalEase/legalease-source-artifacts@source-corpus-2026-08-28). Cross-record consistency only, which is not a substitute: 2 declared source(s), 0 page-manifest hash(es) with no matching receipt document."
         },
         "COMPONENT_SET": {
           "measured": true,
           "result": "PASS",
-          "detail": "all 9 declared component(s) appear in the canonical page manifest"
+          "detail": "all 2 declared component(s) are rendered as their own canonical artifact: AR-ACIC-PETITION-TO-SEAL-ARREST-UNDER-ACT-1460, AR-ACIC-ORDER-TO-SEAL-ARREST-UNDER-ACT-1460"
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "knownRequiredFieldsMissing=0 (measured by running the completeness verifier in this container)"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "participant-instructions.md does not exist, so no declared item can be named in it"
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "requiredOptionsMissing=0 (measured by running the completeness verifier in this container)"
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "incompleteRows=0 (measured by running the completeness verifier in this container)"
+        },
+        "PROTECTED_FIELDS": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "no actual-writes report exists"
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "4 artifact(s) verified: 4 recomputed from committed bytes and hash to the record"
+        },
+        "PAGE_ORDER": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "no artifact records a page manifest or a page count, so this family declares no packet page order to check the bytes against"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "visualDefects=0 (measured by running the completeness verifier in this container)"
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "participant-instructions.md does not exist, so the packet states nothing to the participant"
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "participant-instructions.md does not exist, so the packet states nothing to the participant"
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "participant-instructions.md does not exist, so the packet states nothing to the participant"
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "participant-instructions.md does not exist, so the packet states nothing to the participant"
+        }
+      },
+      "failedProofObligations": [
+        "REQUIRED_BEFORE_FILING",
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SERVICE",
+        "SELF_HELP_STOP"
+      ],
+      "notMeasurableHere": [
+        "SOURCE_IDENTITY",
+        "PAGE_ORDER",
+        "PROTECTED_FIELDS"
+      ],
+      "sourceIdentityCrossBinding": {
+        "recomputedFromSourceBytes": false,
+        "why": "the Master Library corpus is absent in this container, so no source hash was recomputed from the form's own bytes",
+        "boundInstead": "each source hash was matched against the committed corpus index",
+        "documents": [
+          {
+            "formNumber": null,
+            "receiptSha256": "f77e17b669bd6e01cc3818329181bb378dd774b1facd9a15c4083d37d380194c",
+            "boundToCommittedCorpusIndex": true
+          },
+          {
+            "formNumber": null,
+            "receiptSha256": "5bd4ed5bd1b658295b50c2ea7126e276982fd705045f36adfc1f074923722581",
+            "boundToCommittedCorpusIndex": true
+          }
+        ],
+        "allBound": true
+      },
+      "evidenceRead": [
+        "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/field-census.census-v1.json",
+        "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/build-findings.json"
+      ]
+    },
+    {
+      "itemId": "pa_age70_deceased-set",
+      "lane": "VF04",
+      "verdict": "BLOCKED_SOURCE",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/pa/pa-age70-deceased-set--official-pdf-fill",
+      "buildStatus": "state_built",
+      "rasterState": null,
+      "verdictCeilingApplied": "BUILT_RASTER_PENDING",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "familyId agrees across 4 record(s); routeSelectionId (none)"
+        },
+        "SOURCE_IDENTITY": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "the source bytes are not reachable in this container, so no SHA-256 was recomputed from them: the Master Library is absent at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 and scripts/rcap-corpus/bootstrap-private-corpus.sh cannot resolve the pinned release asset (HTTP 403 from Roger-LegalEase/legalease-source-artifacts@source-corpus-2026-08-28). Cross-record consistency only, which is not a substitute: 2 declared source(s), 0 page-manifest hash(es) with no matching receipt document."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "all 2 declared component(s) appear in the canonical page manifest"
         },
         "KNOWN_PREFILLS": {
           "measured": true,
@@ -54,7 +210,7 @@
         "REQUIRED_BEFORE_FILING": {
           "measured": true,
           "result": "PASS",
-          "detail": "10 required-before-filing item(s) are listed"
+          "detail": "5 required-before-filing item(s) are listed"
         },
         "ROUTE_OPTIONS": {
           "measured": true,
@@ -69,12 +225,12 @@
         "PROTECTED_FIELDS": {
           "measured": true,
           "result": "PASS",
-          "detail": "no signature, signature date, certificate of mailing, court-only or prosecutor-only field carries ink across 2 document(s); derivedFromArtifactBytes=true"
+          "detail": "no signature, signature date, certificate of mailing, court-only or prosecutor-only field carries ink across 4 document(s); derivedFromArtifactBytes=true"
         },
         "ARTIFACTS": {
           "measured": true,
           "result": "PASS",
-          "detail": "2 artifact(s) recomputed from committed bytes and hash to the record"
+          "detail": "2 artifact(s) verified: 2 recomputed from committed bytes and hash to the record"
         },
         "PAGE_ORDER": {
           "measured": true,
@@ -103,145 +259,290 @@
         },
         "SELF_HELP_STOP": {
           "measured": true,
-          "result": "FAIL",
-          "detail": "the packet never states where self-help ends"
+          "result": "PASS",
+          "detail": "the packet states where self-help ends"
         }
       },
-      "failedProofObligations": [
-        "SELF_HELP_STOP"
-      ],
+      "failedProofObligations": [],
       "notMeasurableHere": [
         "SOURCE_IDENTITY"
       ],
-      "openLegalInputs": [],
-      "evidenceRead": [
-        "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/source-receipt.json",
-        "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/product-wiring.json",
-        "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/build-status.json",
-        "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/reports/rendered-artifacts.json",
-        "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/reports/actual-writes.json",
-        "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/field-census.census-v1.json",
-        "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/participant-instructions.md",
-        "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/build-findings.json",
-        "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/participant-instructions.md"
-      ]
-    },
-    {
-      "itemId": "wv_conv_multiple_misdemeanors-set",
-      "lane": "VF04",
-      "verdict": "FAIL_REPAIR_REQUIRED",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill",
-      "composedFamily": false,
-      "tracks": [],
-      "nineCounters": {
-        "knownRequiredFieldsMissing": 0,
-        "requiredFactsNotCollected": 0,
-        "unclassifiedBlanks": 0,
-        "incompleteRows": 0,
-        "requiredOptionsMissing": 0,
-        "requiredComponentsMissing": 0,
-        "invisibleWrites": 0,
-        "protectedWrites": 0,
-        "visualDefects": 0,
-        "allZero": true,
-        "measuredHere": true
+      "sourceIdentityCrossBinding": {
+        "recomputedFromSourceBytes": false,
+        "why": "the Master Library corpus is absent in this container, so no source hash was recomputed from the form's own bytes",
+        "boundInstead": "each source hash was matched against the committed corpus index",
+        "documents": [
+          {
+            "formNumber": "PA-RCRIM-P-790-PETITION",
+            "receiptSha256": "fc06486e75773d4f6d81c263706827ab7f9facfb6dde9907cbee120c063289de",
+            "boundToCommittedCorpusIndex": true
+          },
+          {
+            "formNumber": "PA-RCRIM-P-790-ORDER",
+            "receiptSha256": "4d312ebde4aed7c1941e1ae9d734c90ba7183db273778839b15a84be8e611c95",
+            "boundToCommittedCorpusIndex": true
+          }
+        ],
+        "allBound": true
       },
-      "proofObligations": {
-        "ROUTE_IDENTITY": {
-          "measured": true,
-          "result": "PASS",
-          "detail": "familyId agrees across 5 record(s); routeSelectionId wv-sca-c906-multiple-misdemeanors"
-        },
-        "SOURCE_IDENTITY": {
-          "measured": false,
-          "result": "NOT_MEASURABLE_HERE",
-          "detail": "the source bytes are not reachable in this container, so no SHA-256 was recomputed from them: the Master Library is absent at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 and scripts/rcap-corpus/bootstrap-private-corpus.sh cannot resolve the pinned release asset (HTTP 403 from Roger-LegalEase/legalease-source-artifacts@source-corpus-2026-08-28). Cross-record consistency only, which is not a substitute: 1 declared source(s), 0 page-manifest hash(es) with no matching receipt document."
-        },
-        "COMPONENT_SET": {
-          "measured": true,
-          "result": "PASS",
-          "detail": "all 1 declared component(s) appear in the canonical page manifest"
-        },
-        "KNOWN_PREFILLS": {
-          "measured": true,
-          "result": "PASS",
-          "detail": "knownRequiredFieldsMissing=0 (measured by running the completeness verifier in this container)"
-        },
-        "REQUIRED_BEFORE_FILING": {
-          "measured": true,
-          "result": "PASS",
-          "detail": "11 required-before-filing item(s) are listed"
-        },
-        "ROUTE_OPTIONS": {
-          "measured": true,
-          "result": "PASS",
-          "detail": "requiredOptionsMissing=0 (measured by running the completeness verifier in this container)"
-        },
-        "REPEATING_ROWS": {
-          "measured": true,
-          "result": "PASS",
-          "detail": "incompleteRows=0 (measured by running the completeness verifier in this container)"
-        },
-        "PROTECTED_FIELDS": {
-          "measured": true,
-          "result": "PASS",
-          "detail": "no signature, signature date, certificate of mailing, court-only or prosecutor-only field carries ink across 2 document(s); derivedFromArtifactBytes=true"
-        },
-        "ARTIFACTS": {
-          "measured": true,
-          "result": "PASS",
-          "detail": "2 artifact(s) recomputed from committed bytes and hash to the record"
-        },
-        "PAGE_ORDER": {
-          "measured": true,
-          "result": "PASS",
-          "detail": "page order in the bytes matches the packet manifest across 2 artifact(s)"
-        },
-        "CLIPPING_AND_OVERLAP": {
-          "measured": true,
-          "result": "PASS",
-          "detail": "visualDefects=0 (measured by running the completeness verifier in this container)"
-        },
-        "FILING_DESTINATION": {
-          "measured": true,
-          "result": "PASS",
-          "detail": "the instructions name the court or agency the route names"
-        },
-        "FEE_AND_WAIVER": {
-          "measured": true,
-          "result": "FAIL",
-          "detail": "neither a filing fee nor a waiver route is stated"
-        },
-        "SERVICE": {
-          "measured": true,
-          "result": "PASS",
-          "detail": "who must be served, and how, is stated"
-        },
-        "SELF_HELP_STOP": {
-          "measured": true,
-          "result": "FAIL",
-          "detail": "the packet never states where self-help ends"
-        }
-      },
-      "failedProofObligations": [
-        "FEE_AND_WAIVER",
-        "SELF_HELP_STOP"
-      ],
-      "notMeasurableHere": [
-        "SOURCE_IDENTITY"
-      ],
-      "openLegalInputs": [],
       "evidenceRead": [
-        "data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/source-receipt.json",
-        "data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/product-wiring.json",
-        "data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/build-status.json",
-        "data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/reports/rendered-artifacts.json",
-        "data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/reports/actual-writes.json",
-        "data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/field-census.census-v1.json",
-        "data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/participant-instructions.md",
-        "data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/build-findings.json",
-        "data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/participant-instructions.md"
+        "data/rcap-all50/overlays/census-v1/pa/pa-age70-deceased-set--official-pdf-fill/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/pa/pa-age70-deceased-set--official-pdf-fill/build-status.json",
+        "data/rcap-all50/overlays/census-v1/pa/pa-age70-deceased-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/pa/pa-age70-deceased-set--official-pdf-fill/reports/actual-writes.json",
+        "data/rcap-all50/overlays/census-v1/pa/pa-age70-deceased-set--official-pdf-fill/field-census.census-v1.json",
+        "data/rcap-all50/overlays/census-v1/pa/pa-age70-deceased-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/pa/pa-age70-deceased-set--official-pdf-fill/build-findings.json",
+        "data/rcap-all50/overlays/census-v1/pa/pa-age70-deceased-set--official-pdf-fill/participant-instructions.md"
       ]
     }
-  ]
+  ],
+  "supersededLaneMembership": {
+    "note": "the earlier reading, when this lane covered other families",
+    "schemaVersion": "rcap-independent-verification-rows/v1",
+    "lane": "VF04",
+    "laneKind": "independent-verification",
+    "worker": "VF-SRC-A",
+    "baseSha": "09b741ad00be0d630bd73a72f66640294abab397",
+    "measuredBy": "the fifteen proof obligations measured in this container; the nine counters produced by running scripts/rcap-packet-completeness/verify-packet-completeness.mjs here rather than read from any builder report",
+    "sourceIdentityLimitation": "SOURCE_IDENTITY could not be recomputed from the source bytes for any family in this lane: the Master Library corpus is absent at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 and scripts/rcap-corpus/bootstrap-private-corpus.sh cannot resolve the pinned release asset (HTTP 403 from Roger-LegalEase/legalease-source-artifacts@source-corpus-2026-08-28). Cross-record consistency was measured instead and is recorded as such; it is not a substitute, and no family in this lane is recorded PASS_COMPLETE_INDEPENDENT on its strength.",
+    "overlayDirectoriesModified": 0,
+    "commercialRoutesOpened": 0,
+    "productionTouched": false,
+    "rows": [
+      {
+        "itemId": "ut_pet_acquittal-set",
+        "lane": "VF04",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "familyDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill",
+        "composedFamily": false,
+        "tracks": [],
+        "nineCounters": {
+          "knownRequiredFieldsMissing": 0,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 0,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 0,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0,
+          "allZero": true,
+          "measuredHere": true
+        },
+        "proofObligations": {
+          "ROUTE_IDENTITY": {
+            "measured": true,
+            "result": "PASS",
+            "detail": "familyId agrees across 5 record(s); routeSelectionId ut-acquittal-bci-plus-court"
+          },
+          "SOURCE_IDENTITY": {
+            "measured": false,
+            "result": "NOT_MEASURABLE_HERE",
+            "detail": "the source bytes are not reachable in this container, so no SHA-256 was recomputed from them: the Master Library is absent at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 and scripts/rcap-corpus/bootstrap-private-corpus.sh cannot resolve the pinned release asset (HTTP 403 from Roger-LegalEase/legalease-source-artifacts@source-corpus-2026-08-28). Cross-record consistency only, which is not a substitute: 9 declared source(s), 0 page-manifest hash(es) with no matching receipt document."
+          },
+          "COMPONENT_SET": {
+            "measured": true,
+            "result": "PASS",
+            "detail": "all 9 declared component(s) appear in the canonical page manifest"
+          },
+          "KNOWN_PREFILLS": {
+            "measured": true,
+            "result": "PASS",
+            "detail": "knownRequiredFieldsMissing=0 (measured by running the completeness verifier in this container)"
+          },
+          "REQUIRED_BEFORE_FILING": {
+            "measured": true,
+            "result": "PASS",
+            "detail": "10 required-before-filing item(s) are listed"
+          },
+          "ROUTE_OPTIONS": {
+            "measured": true,
+            "result": "PASS",
+            "detail": "requiredOptionsMissing=0 (measured by running the completeness verifier in this container)"
+          },
+          "REPEATING_ROWS": {
+            "measured": true,
+            "result": "PASS",
+            "detail": "incompleteRows=0 (measured by running the completeness verifier in this container)"
+          },
+          "PROTECTED_FIELDS": {
+            "measured": true,
+            "result": "PASS",
+            "detail": "no signature, signature date, certificate of mailing, court-only or prosecutor-only field carries ink across 2 document(s); derivedFromArtifactBytes=true"
+          },
+          "ARTIFACTS": {
+            "measured": true,
+            "result": "PASS",
+            "detail": "2 artifact(s) recomputed from committed bytes and hash to the record"
+          },
+          "PAGE_ORDER": {
+            "measured": true,
+            "result": "PASS",
+            "detail": "page order in the bytes matches the packet manifest across 2 artifact(s)"
+          },
+          "CLIPPING_AND_OVERLAP": {
+            "measured": true,
+            "result": "PASS",
+            "detail": "visualDefects=0 (measured by running the completeness verifier in this container)"
+          },
+          "FILING_DESTINATION": {
+            "measured": true,
+            "result": "PASS",
+            "detail": "the instructions name the court or agency the route names"
+          },
+          "FEE_AND_WAIVER": {
+            "measured": true,
+            "result": "PASS",
+            "detail": "the fee and a waiver route are stated"
+          },
+          "SERVICE": {
+            "measured": true,
+            "result": "PASS",
+            "detail": "who must be served, and how, is stated"
+          },
+          "SELF_HELP_STOP": {
+            "measured": true,
+            "result": "FAIL",
+            "detail": "the packet never states where self-help ends"
+          }
+        },
+        "failedProofObligations": [
+          "SELF_HELP_STOP"
+        ],
+        "notMeasurableHere": [
+          "SOURCE_IDENTITY"
+        ],
+        "openLegalInputs": [],
+        "evidenceRead": [
+          "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/source-receipt.json",
+          "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/product-wiring.json",
+          "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/build-status.json",
+          "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/reports/rendered-artifacts.json",
+          "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/reports/actual-writes.json",
+          "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/field-census.census-v1.json",
+          "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/participant-instructions.md",
+          "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/build-findings.json",
+          "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/participant-instructions.md"
+        ]
+      },
+      {
+        "itemId": "wv_conv_multiple_misdemeanors-set",
+        "lane": "VF04",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "familyDirectory": "data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill",
+        "composedFamily": false,
+        "tracks": [],
+        "nineCounters": {
+          "knownRequiredFieldsMissing": 0,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 0,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 0,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0,
+          "allZero": true,
+          "measuredHere": true
+        },
+        "proofObligations": {
+          "ROUTE_IDENTITY": {
+            "measured": true,
+            "result": "PASS",
+            "detail": "familyId agrees across 5 record(s); routeSelectionId wv-sca-c906-multiple-misdemeanors"
+          },
+          "SOURCE_IDENTITY": {
+            "measured": false,
+            "result": "NOT_MEASURABLE_HERE",
+            "detail": "the source bytes are not reachable in this container, so no SHA-256 was recomputed from them: the Master Library is absent at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 and scripts/rcap-corpus/bootstrap-private-corpus.sh cannot resolve the pinned release asset (HTTP 403 from Roger-LegalEase/legalease-source-artifacts@source-corpus-2026-08-28). Cross-record consistency only, which is not a substitute: 1 declared source(s), 0 page-manifest hash(es) with no matching receipt document."
+          },
+          "COMPONENT_SET": {
+            "measured": true,
+            "result": "PASS",
+            "detail": "all 1 declared component(s) appear in the canonical page manifest"
+          },
+          "KNOWN_PREFILLS": {
+            "measured": true,
+            "result": "PASS",
+            "detail": "knownRequiredFieldsMissing=0 (measured by running the completeness verifier in this container)"
+          },
+          "REQUIRED_BEFORE_FILING": {
+            "measured": true,
+            "result": "PASS",
+            "detail": "11 required-before-filing item(s) are listed"
+          },
+          "ROUTE_OPTIONS": {
+            "measured": true,
+            "result": "PASS",
+            "detail": "requiredOptionsMissing=0 (measured by running the completeness verifier in this container)"
+          },
+          "REPEATING_ROWS": {
+            "measured": true,
+            "result": "PASS",
+            "detail": "incompleteRows=0 (measured by running the completeness verifier in this container)"
+          },
+          "PROTECTED_FIELDS": {
+            "measured": true,
+            "result": "PASS",
+            "detail": "no signature, signature date, certificate of mailing, court-only or prosecutor-only field carries ink across 2 document(s); derivedFromArtifactBytes=true"
+          },
+          "ARTIFACTS": {
+            "measured": true,
+            "result": "PASS",
+            "detail": "2 artifact(s) recomputed from committed bytes and hash to the record"
+          },
+          "PAGE_ORDER": {
+            "measured": true,
+            "result": "PASS",
+            "detail": "page order in the bytes matches the packet manifest across 2 artifact(s)"
+          },
+          "CLIPPING_AND_OVERLAP": {
+            "measured": true,
+            "result": "PASS",
+            "detail": "visualDefects=0 (measured by running the completeness verifier in this container)"
+          },
+          "FILING_DESTINATION": {
+            "measured": true,
+            "result": "PASS",
+            "detail": "the instructions name the court or agency the route names"
+          },
+          "FEE_AND_WAIVER": {
+            "measured": true,
+            "result": "FAIL",
+            "detail": "neither a filing fee nor a waiver route is stated"
+          },
+          "SERVICE": {
+            "measured": true,
+            "result": "PASS",
+            "detail": "who must be served, and how, is stated"
+          },
+          "SELF_HELP_STOP": {
+            "measured": true,
+            "result": "FAIL",
+            "detail": "the packet never states where self-help ends"
+          }
+        },
+        "failedProofObligations": [
+          "FEE_AND_WAIVER",
+          "SELF_HELP_STOP"
+        ],
+        "notMeasurableHere": [
+          "SOURCE_IDENTITY"
+        ],
+        "openLegalInputs": [],
+        "evidenceRead": [
+          "data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/source-receipt.json",
+          "data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/product-wiring.json",
+          "data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/build-status.json",
+          "data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/reports/rendered-artifacts.json",
+          "data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/reports/actual-writes.json",
+          "data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/field-census.census-v1.json",
+          "data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/participant-instructions.md",
+          "data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/build-findings.json",
+          "data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/participant-instructions.md"
+        ]
+      }
+    ]
+  }
 }
