@@ -1,0 +1,210 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "VF25",
+  "laneKind": "independent-verification",
+  "worker": "VERIFIER-1",
+  "baseSha": "321650b5a71d16ce6b59e78147c8d39cd94c9d80",
+  "grantSet": "a9956c8db0b9c13d",
+  "measuredBy": "the fifteen proof obligations measured in this container from the committed bytes and records; the nine counters produced by running scripts/rcap-packet-completeness/verify-packet-completeness.mjs here; every artifact SHA-256 and raster PNG recomputed from the committed bytes; every flattened widget appearance decoded from the fixture PDF bytes with scripts/rcap-official-forms/pdf-flattened-widgets.mjs; the boundSource SHA-256 recomputed from the corpus file under MASTER_LIBRARY_SOURCE_DIR, and the pinned form's own instruction sheet read from those corpus bytes",
+  "independence": "VERIFIER-1 built and repaired nothing in this factory and inherited no verdict. The prior read (vf01, FAIL on ROUTE_IDENTITY and SERVICE) is the claim under test: both failed obligations were re-measured here from the current bytes — one reproduced, one did not — and neither the prior FAIL nor the later spelling-variance characterization was inherited.",
+  "sourceIdentityNote": "Unlike the vf01 read, the Master Library corpus IS mounted in this container, so SOURCE_IDENTITY is measured from the source bytes themselves.",
+  "verdictSummary": {
+    "PASS_COMPLETE_INDEPENDENT": 0,
+    "FAIL_REPAIR_REQUIRED": 1,
+    "BLOCKED_SOURCE": 0,
+    "BLOCKED_LEGAL_INPUT": 0
+  },
+  "overlayDirectoriesModified": 0,
+  "packetsBuiltOrRepairedHere": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "rows": [
+    {
+      "itemId": "mi_setaside_marihuana-set",
+      "lane": "VF25",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill",
+      "composedFamily": false,
+      "tracks": [
+        "obligation:track-pathway:MI:mi_setaside_marihuana:misdemeanor-marijuana-set-aside-under-mcl-780-621e"
+      ],
+      "builderDeclaredStatus": {
+        "buildStatus": "state_built",
+        "reviewStatus": "qa_review_pending",
+        "generationAllowed": false,
+        "runtimeSelectable": false,
+        "commercialRoutesOpened": 0
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "re-measured on the current bytes rather than inherited from either prior conclusion. The route is NOT wrong: every record that names a route names exactly one — obligation:track-pathway:MI:mi_setaside_marihuana:misdemeanor-marijuana-set-aside-under-mcl-780-621e (product-wiring.json routeKeys, local-filing-variation.json routeKeys) or its route-key form track:MI:mi_setaside_marihuana (source-receipt.json, production-field-map.json, the instructions footer), and product-wiring.json's worklistGroupId is the correct 'mi_setaside_marihuana-set'. But the familyId — the exact key a fulfillment record, the claim ledger, the raster queue and the worklist all use — does not agree across the family's own records: 12 records carry 'mi_setaside_marihuana-set' and 4 carry 'mi-setaside-marihuana-set' (product-wiring.json, local-filing-variation.json, reports/shared-vocabulary-gaps.json, reports/squashed-caption-band-findings.json — enumerated by grep over every committed JSON in the directory). The closest line the packet has is product-wiring.json line 3: \"familyId\": \"mi-setaside-marihuana-set\". An exact-match lookup keyed on the worklist family id misses those four records, and commercial authority is keyed to an exact route AND packet family, so the identity must agree byte for byte. build-findings.json itself records the origin: the hyphenated build script predates this lane and also writes this overlay directory."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "recomputed from the corpus bytes in this container: sha256(STATES/MI/02_PACKET_FORMS/MI__FORM__MC-227A__application-to-set-aside-misdemeanor-marihuana-conviction-s__REV-2024-07__EN.pdf) = d361c2082ecc761fe4e9eadda0cabd307f2d6bb3c7af9a3917a9afecad698757 at 262566 bytes, equal to the boundSource in source-receipt.json and to every pageManifest sourceSha256 in reports/rendered-artifacts.json."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "the route names one component, the MC 227a primary filing; both fixtures render both pages of the pinned binary — the application (page 1) and the court's own instruction sheet INST MC 227a (page 2), which the participant instructions direct the reader to; requiredComponentsMissing=0 measured here."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "decoded from the flattened widget appearance streams of both fixtures (37 appearances each): exactly the 2 mapped facts are drawn — the county at its mapped rect (36,672) and the case number at (409.2,697.2) — in both fixtures, matching the field map's two explicitMappings and the instructions' own claim ('The platform filled in what it holds about your case: the county and the case number'); knownRequiredFieldsMissing=0 measured by the completeness verifier here. The form's narrow fillability (the defendant name/address/phone box, the caption court fields and the whole conviction table are participant-supplied) is disclosed item by item, and product-wiring.json records it as an enablement blocker in its own words. The build-findings boundary-apostrophe advisory is moot on this family: no name is written on this form."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "production-field-map.json declares 26 REQUIRED_BEFORE_FILING items and participant-instructions.md names all 26 — six caption fields, four parties fields, and all sixteen cells of the four-line conviction table — each with the section, the printed words and what to write, matched one for one in this lane. The decoded bytes confirm every one of those blanks carries no ink."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "requiredOptionsMissing=0 measured here. routeDeterminedSelections is deliberately empty with a recorded reason: nothing on MC 227a is a route election — the two People-of boxes state who prosecuted and the multiple-case-numbers box states what the table lists, all facts about the participant's record. All 3 selection controls are disclosed in 'The choices that are yours', and the form's own routing of the two neighbouring applications (MC 227b for trafficking victims, MC 227 for non-marijuana misdemeanours) is carried into 'Check you are on the right form'."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "incompleteRows=0 measured by the completeness verifier here. The conviction table's four lines and four columns are wholly participant-supplied, disclosed cell by cell with the form's own additional-sheets and certified-copy directions; the platform writes none of it, so no row is half-filled."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "proven from the decoded appearance streams: all 35 non-prefill widget appearances are empty in both fixtures — the sworn Certificate of Mailing at the foot of page 1, the signature and date, the judge's name (court-owned), the attorney block, every caption and conviction field. protectedWrites=0 and invisibleWrites=0 measured here."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "every declared artifact recomputed from the committed bytes and equal to its record: canonical.pdf c1506f35f448464374ad7d080c9b71cde24a4902d90a15259248b3962995737b at 262869 bytes, boundary.pdf ac7806c7b4ed40e1dcac078b6dcd23e127aa3e9f31fb1d7d0097a4c411585e99 at 262883 bytes, and all four raster PNGs match reports/rendered-artifacts.json. No *-unchanged-official.pdf component is declared; the uncommitted source binary was verified against the corpus bytes directly (SOURCE_IDENTITY above)."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "2 pages read from the bytes of each fixture (pdfinfo), equal to the raster queue's expectedPages and the pageManifest (packet pages 1-2 → MC-227A source pages 1-2); the decoded appearance positions confirm the application content on page 1, and page 2 is the form's own instruction sheet."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "visualDefects=0 measured by the completeness verifier here; both writes land at their mapped rects exactly in both fixtures, including the boundary's 28-character case number."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "participant-instructions.md: 'File in the court where the conviction happened, and use a separate application for each court — instruction 2', matching the worklist's recorded destination ('File in the convicting court') and the pinned form's own instruction sheet, read in this lane from the corpus bytes ('You must file the application in the court where the conviction occurred. You must use a separate application for each court.'). The court's street address and telephone are disclosed REQUIRED_BEFORE_FILING items."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "the filing fee IS stated, from a named checkable authority that ships inside the packet: 'There should be no filing fee, instruction 6 says so' — and this lane confirmed instruction 6 on the pinned form's own instruction sheet in the corpus bytes: 'There should be no filing fee for filing the application.' The one fee that can arise — for certified copies of each conviction — is stated with its source (instruction 4) and the packet says the platform does not obtain them. The worklist's caution to 'confirm against the current MC 227a form before quoting $0' is satisfied the strong way: the quote is the current pinned form's own sentence, rendered as page 2 of the packet."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "re-measured on the current bytes: the catch-all the vf01 read failed is no longer the packet's only word on service. 'The order of the last three steps matters' states WHO ('Mail a copy of the whole packet to the prosecuting official who prosecuted the offence — instruction 7'), HOW (by mail), PROOF ('Only then fill in and sign the Certificate of Mailing on both remaining copies, and take or mail one to the court — instruction 8', sworn under the penalties of perjury), and ORDER (sign, copy, file, mail, then certify — with the certificate's date and signature left blank until step 4). Every step was confirmed against the pinned form's own instruction sheet (instructions 5-8) read from the corpus bytes in this lane, and the post-filing 30-day/60-day consequences are carried in 'What happens after you file'."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "stated in 'What this packet is not': not legal advice, not filed for you, and it does not decide eligibility. The stop is drawn item by item: eligibility is the participant's to check against the listed MCL offences, the conviction table comes from the court's own records with certified copies attached, the sworn Certificate of Mailing is untouched until service has happened, the judge's name is the court's and the attorney block is left for counsel."
+        }
+      },
+      "failedProofObligations": [
+        "ROUTE_IDENTITY"
+      ],
+      "smallestExactRepair": {
+        "ROUTE_IDENTITY": "In exactly four files, change the familyId value 'mi-setaside-marihuana-set' to 'mi_setaside_marihuana-set' and nothing else: data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/product-wiring.json (line 3), .../local-filing-variation.json, .../reports/shared-vocabulary-gaps.json, .../reports/squashed-caption-band-findings.json. The directory name and build-script name keep their hyphenated forms (path conventions, not identity keys), and no fixture byte changes, so the RASTER_PASS receipt's pinned hashes remain valid — this is a records-only repair requiring no rerender."
+      },
+      "notMeasurableHere": [],
+      "openLegalInputs": [],
+      "recordedDeviations": [
+        "this lane's SERVICE outcome diverges from the vf01 read because the packet changed underneath it: the current participant-instructions.md (from the PF16 rebuild, commit 968c82269, which postdates vf01's first read) carries the four-step service section vf01 found missing; the divergence is a repaired packet, not a different standard.",
+        "the vf01 ROUTE_IDENTITY finding is REPRODUCED on current bytes: the PF16 rebuild did not touch the four variant-spelling records. The later characterization ('spelling variance, not a wrong route') is confirmed by measurement — the route is the correct single route everywhere — but the identity key still fails to agree, so the obligation still fails until the four values are corrected."
+      ],
+      "rasterCeiling": {
+        "currentRasterState": "RASTER_PASS",
+        "workflowRunId": "33495068504",
+        "jobId": "99815920377",
+        "renderedCommitSha": "5f144ec10d2bf7404faf0811e98418e0b13f06ba",
+        "pinnedCanonicalBindsToDiskHere": true,
+        "pinnedBoundaryBindsToDiskHere": true,
+        "pinnedDocument": "canonical.pdf",
+        "artifactsTheFamilyRenders": 2,
+        "artifactsTheGatePinned": 2,
+        "pagesTheFamilyRenders": 4,
+        "pagesTheGateRendered": 4,
+        "coverage": "COMPLETE",
+        "bindingProof": "canonical c1506f35f448464374ad7d080c9b71cde24a4902d90a15259248b3962995737b and boundary ac7806c7b4ed40e1dcac078b6dcd23e127aa3e9f31fb1d7d0097a4c411585e99 recomputed from disk in this container and equal to the receipt's pinned hashes"
+      },
+      "artifactProof": [
+        {
+          "document": "MC-227A",
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/fixtures/canonical.pdf",
+          "recordedSha256": "c1506f35f448464374ad7d080c9b71cde24a4902d90a15259248b3962995737b",
+          "recomputedSha256": "c1506f35f448464374ad7d080c9b71cde24a4902d90a15259248b3962995737b",
+          "bindsFromDisk": true,
+          "recordedByteLength": 262869,
+          "observedByteLength": 262869
+        },
+        {
+          "document": "MC-227A",
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/fixtures/boundary.pdf",
+          "recordedSha256": "ac7806c7b4ed40e1dcac078b6dcd23e127aa3e9f31fb1d7d0097a4c411585e99",
+          "recomputedSha256": "ac7806c7b4ed40e1dcac078b6dcd23e127aa3e9f31fb1d7d0097a4c411585e99",
+          "bindsFromDisk": true,
+          "recordedByteLength": 262883,
+          "observedByteLength": 262883
+        }
+      ],
+      "sourceProof": [
+        {
+          "sourceId": "official-form:MC-227A",
+          "corpusPath": "STATES/MI/02_PACKET_FORMS/MI__FORM__MC-227A__application-to-set-aside-misdemeanor-marihuana-conviction-s__REV-2024-07__EN.pdf",
+          "recordedSha256": "d361c2082ecc761fe4e9eadda0cabd307f2d6bb3c7af9a3917a9afecad698757",
+          "recomputedFromCorpusBytes": "d361c2082ecc761fe4e9eadda0cabd307f2d6bb3c7af9a3917a9afecad698757",
+          "recordedByteLength": 262566,
+          "observedByteLength": 262566,
+          "bindsFromCorpus": true
+        }
+      ],
+      "evidenceRead": [
+        "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/build-status.json",
+        "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/product-wiring.json",
+        "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/build-findings.json",
+        "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/local-filing-variation.json",
+        "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/reports/completeness-counters.json",
+        "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+        "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/reports/shared-vocabulary-gaps.json",
+        "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/reports/squashed-caption-band-findings.json",
+        "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/fixtures/canonical.pdf",
+        "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/fixtures/boundary.pdf",
+        "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+        "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+        "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json",
+        "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MI/02_PACKET_FORMS/MI__FORM__MC-227A__application-to-set-aside-misdemeanor-marihuana-conviction-s__REV-2024-07__EN.pdf"
+      ]
+    }
+  ]
+}

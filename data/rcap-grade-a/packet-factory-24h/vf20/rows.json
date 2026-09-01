@@ -1,0 +1,205 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "VF20",
+  "laneKind": "independent-verification",
+  "worker": "VERIFIER-1",
+  "baseSha": "321650b5a71d16ce6b59e78147c8d39cd94c9d80",
+  "grantSet": "a9956c8db0b9c13d",
+  "measuredBy": "the fifteen proof obligations measured in this container from the committed bytes and records; the nine counters produced by running scripts/rcap-packet-completeness/verify-packet-completeness.mjs here; every artifact SHA-256 recomputed from the committed bytes; every flattened widget appearance decoded from the fixture PDF bytes with scripts/rcap-official-forms/pdf-flattened-widgets.mjs rather than read from any builder report; the boundSource SHA-256 recomputed from the corpus file bytes under MASTER_LIBRARY_SOURCE_DIR",
+  "independence": "VERIFIER-1 built and repaired nothing in this factory and inherited no verdict. The prior read of this family (vf03, BLOCKED_SOURCE) is the claim under test, not evidence: every obligation below was re-measured here, including the ones vf03 recorded as PASS.",
+  "sourceIdentityNote": "Unlike every earlier verification of this family, the Master Library corpus IS mounted in this container, so SOURCE_IDENTITY is measured from the source bytes themselves, not from cross-record consistency.",
+  "verdictSummary": {
+    "PASS_COMPLETE_INDEPENDENT": 1,
+    "FAIL_REPAIR_REQUIRED": 0,
+    "BLOCKED_SOURCE": 0,
+    "BLOCKED_LEGAL_INPUT": 0
+  },
+  "overlayDirectoriesModified": 0,
+  "packetsBuiltOrRepairedHere": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "rows": [
+    {
+      "itemId": "ak-tf805-set",
+      "lane": "VF20",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ak/ak-tf805-set--official-pdf-fill",
+      "composedFamily": false,
+      "tracks": [
+        "obligation:track-only:AK:ak-tf805"
+      ],
+      "builderDeclaredStatus": {
+        "buildStatus": "state_built",
+        "reviewStatus": "qa_review_pending",
+        "generationAllowed": false,
+        "runtimeSelectable": false,
+        "commercialRoutesOpened": 0
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "familyId 'ak-tf805-set' agrees across build-status.json, source-receipt.json, product-wiring.json, production-field-map.json, reports/rendered-artifacts.json, reports/completeness-counters.json and build-findings.json. The worklist names exactly one route for the group, 'obligation:track-only:AK:ak-tf805'; product-wiring.json carries that routeKey verbatim, and source-receipt.json/production-field-map.json carry its route-key form 'track:AK:ak-tf805' — the same track in the two namespaces the records use, with no competing track named anywhere. production-field-map.json carries routeSelectionId 'ak-tf805-set-tf-805-primary-filing'."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "recomputed from the corpus bytes in this container: sha256(STATES/AK/02_PACKET_FORMS/AK__FORM__TF-805__request-to-remove-name-from-online-public-index-courtview-under-administrative-rule-40-b-o__REV-2025-05__EN.pdf) = 96306d64eda397e25094f92c3d67a642372b82cba12f97c6666e5500136e8f54 at 93899 bytes, equal to the boundSource in source-receipt.json, source-verification.json (verdict PROCEED), and every pageManifest sourceSha256 in reports/rendered-artifacts.json. This is the first read of this family for which the source bytes were reachable."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "the route names three components (primary_filing, certificate_of_service, proposed_order) and all three are blocks of the single two-page TF-805 binary — measured: the certificate of service is the stroked box on page 2 at x 56.40..553.65, y 501.62..604.22 and the ORDER block sits below it. Both fixtures render both pages of that binary, so every component the route names is present."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "decoded from the flattened widget appearance streams of both fixture PDFs in this container (18 appearances per fixture): exactly 5 carry text — name, address, email, dayPhone, caseNo — each at the exact mapped rect (e.g. name at 106.52,559.53; caseNo at 413.33,489.26), matching the field map's five explicitMappings; knownRequiredFieldsMissing=0 measured by the completeness verifier here. reports/actual-writes.json was NOT relied on. Advisory carried forward from build-findings.json: the boundary participant name is written with a typographic apostrophe (U+2019) and the drawn bytes read back without it ('Maria-Alejandra OShaughnessy-Whitfield'); the write is visible and correctly placed, one glyph is not drawn — the same shared-finalizer font-encoding behaviour already recorded and accepted on vt_seal_misdemeanor-set."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "production-field-map.json declares exactly 3 REQUIRED_BEFORE_FILING items (caseName, partyNames, reason) and participant-instructions.md names all three in its 'The items you must supply' table with page number and the printed words beside each blank; the decoded bytes confirm all three blanks carry no ink."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "requiredOptionsMissing=0 measured here. routeDeterminedSelections is deliberately empty with a recorded reason: Administrative Rule 40 is one rule and TF-805 its one form; the 40(b)/40(c) ground is a fact about the requester's case, disclosed to the participant as a genuine election in 'The choices that are yours' together with the five-year limit of a 40(c) removal. The packet states its own election as routeSelectionId 'ak-tf805-set-tf-805-primary-filing' and the instructions footer names the route."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "incompleteRows=0 measured by the completeness verifier here; TF-805 carries no repeating rows."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "proven from the decoded appearance streams: all 13 non-prefill widget appearances are empty in both fixtures — the sworn verification, both ground selections, the reason narrative, and every page-2 field (certificate-of-service date/time/recipients/signature and the four service-method controls). The judge's ORDER block carries no AcroForm widget at all and receives no overlay ink; protectedWrites=0 and invisibleWrites=0 measured here."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "every declared artifact recomputed from the committed bytes and equal to its record: tf805-canonical-filled.pdf bffda336… at 68920 bytes, tf805-boundary-filled.pdf 5dd98fef… at 69035 bytes, and all four raster PNGs (73100fa2…, 4ff1cebe…, eab47141…, 4ff1cebe…) match reports/rendered-artifacts.json. No *-unchanged-official.pdf component is declared; the source binary is uncommitted by design and was verified against the corpus bytes directly (SOURCE_IDENTITY above)."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "2 pages read from the bytes of each fixture, equal to the raster queue's expectedPages and the pageManifest (packetPage 1→TF-805 p1, 2→p2); the decoded content confirms page 1 carries the request blanks and page 2 the certificate/order blocks."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "visualDefects=0 measured by the completeness verifier here; every decoded write lands at its mapped rect exactly (positions equal to the field map to 0.01pt), and the boundary fixture's long values (74-char address, 58-char email) render within their write boxes."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "participant-instructions.md 'Where you file this': file with the clerk's office of the Alaska trial court where the case is or was pending — the court named in the case number at the top of the form — and the clerk of that court can confirm it from the case number. That is the destination the route records (the local trial court of Alaska's unitary system), named and checkable."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "the fee question is delegated to a named checkable authority, not caught in a catch-all: the instructions carry a dedicated item — 'Any filing fee, and whether one applies. Ask the clerk of the court above.' — where 'the court above' is the specific clerk's office identified from the case number. local-variation.json records first-hand that the form itself does not answer the fee question, so the packet declines to invent a figure and says so ('an unsourced figure in a filing instruction is worse than none'). Under the house standard, delegation to a named checkable authority passes."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "WHO: 'Give a copy to every party in the case.' HOW: the four service methods (mail, hand-delivery, TrueFiling, e-mail) are listed as the participant's election ticked at the time of actual service, with the TrueFiling condition stated. PROOF: 'complete the certificate of service on page 2 after you have done so', and the certificate is a component of this packet. TIMING: service and its certificate precede filing in the numbered pre-filing steps."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "stated in 'What this packet is not': not legal advice, not filed for you, and it does not decide the outcome — the judge's weighing of protection against the public interest 'is theirs alone'. The boundary of self-help is drawn item by item: the ground election and its narrative are the participant's alone, the sworn verification happens only before an authorised person, and the ORDER is left to the court."
+        }
+      },
+      "failedProofObligations": [],
+      "notMeasurableHere": [],
+      "openLegalInputs": [],
+      "recordedDeviations": [
+        "reports/participant-name-placement.json and reports/charge-caption-proof.json describe an earlier fixture iteration, not the committed bytes: they carry personas ('Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III', canonical email jordan.reyes@example.com) and a partyNames prefill that do not exist in the committed fixtures (boundary persona Maria-Alejandra O'Shaughnessy-Whitfield, canonical email jordan.reyes@example.org, partyNames refused and blank). Neither report was relied on for any obligation — placement and caption safety were re-measured here from the decoded appearance streams (names land only in the name blank and inside the exact email values; TF-805 has no charge-vocabulary blank). Stale evidence worth regenerating, not an obligation failure.",
+        "boundary-name apostrophe advisory (see KNOWN_PREFILLS): one U+2019 glyph not drawn by the shared finalizer's font encoding; recorded for visual review, matching the accepted precedent on vt_seal_misdemeanor-set."
+      ],
+      "rasterCeiling": {
+        "currentRasterState": "RASTER_PASS",
+        "workflowRunId": "33495068504",
+        "jobId": "99815920039",
+        "renderedCommitSha": "5f144ec10d2bf7404faf0811e98418e0b13f06ba",
+        "pinnedCanonicalBindsToDiskHere": true,
+        "pinnedBoundaryBindsToDiskHere": true,
+        "pinnedDocument": "tf805-canonical-filled.pdf",
+        "artifactsTheFamilyRenders": 2,
+        "artifactsTheGatePinned": 2,
+        "pagesTheFamilyRenders": 4,
+        "pagesTheGateRendered": 4,
+        "coverage": "COMPLETE",
+        "bindingProof": "canonical bffda336fac95d0980e0a9130913c9189077e1fdc3f05b5a1d55065e5f5c9703 and boundary 5dd98fef218f8310a8e46e41a9ca83e53d5295507bac0c82fce77e44f96d0ff5 recomputed from disk in this container and equal to the receipt's pinned hashes"
+      },
+      "artifactProof": [
+        {
+          "document": "TF-805",
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/ak/ak-tf805-set--official-pdf-fill/fixtures/tf805-canonical-filled.pdf",
+          "recordedSha256": "bffda336fac95d0980e0a9130913c9189077e1fdc3f05b5a1d55065e5f5c9703",
+          "recomputedSha256": "bffda336fac95d0980e0a9130913c9189077e1fdc3f05b5a1d55065e5f5c9703",
+          "bindsFromDisk": true,
+          "recordedByteLength": 68920,
+          "observedByteLength": 68920
+        },
+        {
+          "document": "TF-805",
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/ak/ak-tf805-set--official-pdf-fill/fixtures/tf805-boundary-filled.pdf",
+          "recordedSha256": "5dd98fef218f8310a8e46e41a9ca83e53d5295507bac0c82fce77e44f96d0ff5",
+          "recomputedSha256": "5dd98fef218f8310a8e46e41a9ca83e53d5295507bac0c82fce77e44f96d0ff5",
+          "bindsFromDisk": true,
+          "recordedByteLength": 69035,
+          "observedByteLength": 69035
+        }
+      ],
+      "sourceProof": [
+        {
+          "sourceId": "official-form:TF-805",
+          "corpusPath": "STATES/AK/02_PACKET_FORMS/AK__FORM__TF-805__request-to-remove-name-from-online-public-index-courtview-under-administrative-rule-40-b-o__REV-2025-05__EN.pdf",
+          "recordedSha256": "96306d64eda397e25094f92c3d67a642372b82cba12f97c6666e5500136e8f54",
+          "recomputedFromCorpusBytes": "96306d64eda397e25094f92c3d67a642372b82cba12f97c6666e5500136e8f54",
+          "recordedByteLength": 93899,
+          "observedByteLength": 93899,
+          "bindsFromCorpus": true
+        }
+      ],
+      "evidenceRead": [
+        "data/rcap-all50/overlays/census-v1/ak/ak-tf805-set--official-pdf-fill/build-status.json",
+        "data/rcap-all50/overlays/census-v1/ak/ak-tf805-set--official-pdf-fill/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/ak/ak-tf805-set--official-pdf-fill/source-verification.json",
+        "data/rcap-all50/overlays/census-v1/ak/ak-tf805-set--official-pdf-fill/product-wiring.json",
+        "data/rcap-all50/overlays/census-v1/ak/ak-tf805-set--official-pdf-fill/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/ak/ak-tf805-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/ak/ak-tf805-set--official-pdf-fill/build-findings.json",
+        "data/rcap-all50/overlays/census-v1/ak/ak-tf805-set--official-pdf-fill/local-variation.json",
+        "data/rcap-all50/overlays/census-v1/ak/ak-tf805-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/ak/ak-tf805-set--official-pdf-fill/reports/completeness-counters.json",
+        "data/rcap-all50/overlays/census-v1/ak/ak-tf805-set--official-pdf-fill/reports/participant-name-placement.json",
+        "data/rcap-all50/overlays/census-v1/ak/ak-tf805-set--official-pdf-fill/reports/charge-caption-proof.json",
+        "data/rcap-all50/overlays/census-v1/ak/ak-tf805-set--official-pdf-fill/reports/service-block-proof.json",
+        "data/rcap-all50/overlays/census-v1/ak/ak-tf805-set--official-pdf-fill/fixtures/tf805-canonical-filled.pdf",
+        "data/rcap-all50/overlays/census-v1/ak/ak-tf805-set--official-pdf-fill/fixtures/tf805-boundary-filled.pdf",
+        "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+        "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json",
+        "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AK/02_PACKET_FORMS/AK__FORM__TF-805__request-to-remove-name-from-online-public-index-courtview-under-administrative-rule-40-b-o__REV-2025-05__EN.pdf"
+      ]
+    }
+  ]
+}
