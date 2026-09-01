@@ -6,8 +6,8 @@
       "documentId": "PA-RCRIM-P-791-PETITION",
       "fixture": "canonical",
       "file": "data/rcap-all50/overlays/census-v1/pa/pa-9122-1-limited-access-set--official-pdf-fill/fixtures/rule-791-petition-canonical.pdf",
-      "sha256": "9b891ec94c31eca7553022ece34db2d1f0f17f514d837781c8f9edfc7ef0ab2c",
-      "byteLength": 217216,
+      "sha256": "93606779f35f027aa560fabc34f2d00ce82563b0dbcc99e4cdadc70f2f89f9e4",
+      "byteLength": 218075,
       "written": [
         {
           "field": "Full Name",
@@ -26,18 +26,18 @@
           "lines": 1
         },
         {
-          "field": "Statute DescriptionRow1",
-          "factId": "matter.charges[0].charge",
+          "field": "DOB",
+          "factId": "participant.date_of_birth",
           "kind": "text",
-          "fontSize": 9.64,
+          "fontSize": 10.96,
           "outcome": "fit",
           "lines": 1
         },
         {
-          "field": "County",
-          "factId": "matter.county",
+          "field": "Court of Common Pleas Philadelphia Municipal Court or Magisterial District Docket Number",
+          "factId": "matter.case_number",
           "kind": "text",
-          "fontSize": 9.546,
+          "fontSize": 11,
           "outcome": "fit",
           "lines": 1
         },
@@ -50,20 +50,61 @@
           "lines": 1
         },
         {
+          "field": "County",
+          "factId": "matter.county",
+          "kind": "text",
+          "fontSize": 9.546,
+          "outcome": "fit",
+          "lines": 1
+        },
+        {
           "field": "Address",
           "factId": "participant.street_address",
           "kind": "text",
           "fontSize": 11,
           "outcome": "fit",
           "lines": 1
+        },
+        {
+          "field": "Name of Arresting Agency",
+          "factId": "matter.citing_or_arresting_agency",
+          "kind": "exact_measured_fact_overlay",
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 1,
+              "rect": {
+                "x": 200.64,
+                "y": 396.96,
+                "width": 245.64,
+                "height": 14.88
+              },
+              "fontSize": 9,
+              "outcome": "fit"
+            }
+          ]
+        },
+        {
+          "field": "DateofArrest",
+          "factId": "matter.arrest_date",
+          "kind": "exact_measured_fact_overlay",
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 1,
+              "rect": {
+                "x": 44.43,
+                "y": 397.57,
+                "width": 150,
+                "height": 13.723
+              },
+              "fontSize": 9,
+              "outcome": "fit"
+            }
+          ]
         }
       ],
       "refused": [
-        {
-          "field": "DOB",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
-        },
         {
           "field": "Social Security Number",
           "reason": "classified_unwritable_by_role",
@@ -90,16 +131,6 @@
           "category": "role"
         },
         {
-          "field": "Court of Common Pleas Philadelphia Municipal Court or Magisterial District Docket Number",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
-        },
-        {
-          "field": "Name of Arresting Agency",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
-        },
-        {
           "field": "PA Statute TitleRow1",
           "reason": "classified_unwritable_by_role",
           "category": "role"
@@ -111,6 +142,11 @@
         },
         {
           "field": "SubsectionRow1",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Statute DescriptionRow1",
           "reason": "classified_unwritable_by_role",
           "category": "role"
         },
@@ -310,11 +346,6 @@
           "category": "role"
         },
         {
-          "field": "DateofArrest",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
-        },
-        {
           "field": "OTN",
           "reason": "classified_unwritable_by_role",
           "category": "role"
@@ -349,8 +380,8 @@
         "rule": "remove /V and /DV; force button widgets to /AS /Off; never infer a participant or court answer"
       },
       "proof": {
-        "artifactSha256": "9b891ec94c31eca7553022ece34db2d1f0f17f514d837781c8f9edfc7ef0ab2c",
-        "artifactByteLength": 217216,
+        "artifactSha256": "93606779f35f027aa560fabc34f2d00ce82563b0dbcc99e4cdadc70f2f89f9e4",
+        "artifactByteLength": 218075,
         "appearanceCount": 63,
         "writtenProof": [
           {
@@ -374,21 +405,21 @@
             "derivedFrom": "flattened artifact appearance streams at every measured widget"
           },
           {
-            "field": "Statute DescriptionRow1",
-            "factId": "matter.charges[0].charge",
-            "expectedValue": "Possession of a controlled substance",
+            "field": "DOB",
+            "factId": "participant.date_of_birth",
+            "expectedValue": "1991-04-17",
             "drawnText": [
-              "Possession of a controlled substance"
+              "1991-04-17"
             ],
             "exactValueObserved": true,
             "derivedFrom": "flattened artifact appearance streams at every measured widget"
           },
           {
-            "field": "County",
-            "factId": "matter.county",
-            "expectedValue": "Dauphin County",
+            "field": "Court of Common Pleas Philadelphia Municipal Court or Magisterial District Docket Number",
+            "factId": "matter.case_number",
+            "expectedValue": "24-CR-001234",
             "drawnText": [
-              "Dauphin County"
+              "24-CR-001234"
             ],
             "exactValueObserved": true,
             "derivedFrom": "flattened artifact appearance streams at every measured widget"
@@ -404,6 +435,16 @@
             "derivedFrom": "flattened artifact appearance streams at every measured widget"
           },
           {
+            "field": "County",
+            "factId": "matter.county",
+            "expectedValue": "Dauphin County",
+            "drawnText": [
+              "Dauphin County"
+            ],
+            "exactValueObserved": true,
+            "derivedFrom": "flattened artifact appearance streams at every measured widget"
+          },
+          {
             "field": "Address",
             "factId": "participant.street_address",
             "expectedValue": "118 Maple Street",
@@ -412,6 +453,26 @@
             ],
             "exactValueObserved": true,
             "derivedFrom": "flattened artifact appearance streams at every measured widget"
+          },
+          {
+            "field": "Name of Arresting Agency",
+            "factId": "matter.citing_or_arresting_agency",
+            "expectedValue": "Example Police Department",
+            "drawnText": [
+              "Example Police Department"
+            ],
+            "exactValueObserved": true,
+            "derivedFrom": "page text items read from the artifact content stream at every overlay rectangle"
+          },
+          {
+            "field": "DateofArrest",
+            "factId": "matter.arrest_date",
+            "expectedValue": "2019-03-08",
+            "drawnText": [
+              "2019-03-08"
+            ],
+            "exactValueObserved": true,
+            "derivedFrom": "page text items read from the artifact content stream at every overlay rectangle"
           }
         ],
         "missingWrittenInk": [],
@@ -425,9 +486,25 @@
       "documentId": "PA-RCRIM-P-791-PETITION",
       "fixture": "boundary",
       "file": "data/rcap-all50/overlays/census-v1/pa/pa-9122-1-limited-access-set--official-pdf-fill/fixtures/rule-791-petition-boundary.pdf",
-      "sha256": "1a17ea6142bd73cfeb93c0f853db378ede98157f317d49cdb670e8ad97974012",
-      "byteLength": 216382,
+      "sha256": "d1a297d1fc078d78d6d90af30240223e86038ef19bbaffa991c8b0ee02b6389e",
+      "byteLength": 217486,
       "written": [
+        {
+          "field": "DOB",
+          "factId": "participant.date_of_birth",
+          "kind": "text",
+          "fontSize": 10.96,
+          "outcome": "fit",
+          "lines": 1
+        },
+        {
+          "field": "Court of Common Pleas Philadelphia Municipal Court or Magisterial District Docket Number",
+          "factId": "matter.case_number",
+          "kind": "text",
+          "fontSize": 11,
+          "outcome": "fit",
+          "lines": 1
+        },
         {
           "field": "Address",
           "factId": "participant.street_address",
@@ -435,14 +512,47 @@
           "fontSize": 11,
           "outcome": "fit",
           "lines": 2
+        },
+        {
+          "field": "Name of Arresting Agency",
+          "factId": "matter.citing_or_arresting_agency",
+          "kind": "exact_measured_fact_overlay",
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 1,
+              "rect": {
+                "x": 200.64,
+                "y": 396.96,
+                "width": 245.64,
+                "height": 14.88
+              },
+              "fontSize": 9,
+              "outcome": "fit"
+            }
+          ]
+        },
+        {
+          "field": "DateofArrest",
+          "factId": "matter.arrest_date",
+          "kind": "exact_measured_fact_overlay",
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 1,
+              "rect": {
+                "x": 44.43,
+                "y": 397.57,
+                "width": 150,
+                "height": 13.723
+              },
+              "fontSize": 9,
+              "outcome": "fit"
+            }
+          ]
         }
       ],
       "refused": [
-        {
-          "field": "DOB",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
-        },
         {
           "field": "Social Security Number",
           "reason": "classified_unwritable_by_role",
@@ -469,16 +579,6 @@
           "category": "role"
         },
         {
-          "field": "Court of Common Pleas Philadelphia Municipal Court or Magisterial District Docket Number",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
-        },
-        {
-          "field": "Name of Arresting Agency",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
-        },
-        {
           "field": "PA Statute TitleRow1",
           "reason": "classified_unwritable_by_role",
           "category": "role"
@@ -490,6 +590,11 @@
         },
         {
           "field": "SubsectionRow1",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Statute DescriptionRow1",
           "reason": "classified_unwritable_by_role",
           "category": "role"
         },
@@ -689,11 +794,6 @@
           "category": "role"
         },
         {
-          "field": "DateofArrest",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
-        },
-        {
           "field": "OTN",
           "reason": "classified_unwritable_by_role",
           "category": "role"
@@ -719,17 +819,12 @@
           "category": "unfittable"
         },
         {
-          "field": "Statute DescriptionRow1",
+          "field": "DocketNumber",
           "reason": "value_exceeds_widget_width_at_minimum_font",
           "category": "unfittable"
         },
         {
           "field": "County",
-          "reason": "value_exceeds_widget_width_at_minimum_font",
-          "category": "unfittable"
-        },
-        {
-          "field": "DocketNumber",
           "reason": "value_exceeds_widget_width_at_minimum_font",
           "category": "unfittable"
         }
@@ -753,10 +848,30 @@
         "rule": "remove /V and /DV; force button widgets to /AS /Off; never infer a participant or court answer"
       },
       "proof": {
-        "artifactSha256": "1a17ea6142bd73cfeb93c0f853db378ede98157f317d49cdb670e8ad97974012",
-        "artifactByteLength": 216382,
+        "artifactSha256": "d1a297d1fc078d78d6d90af30240223e86038ef19bbaffa991c8b0ee02b6389e",
+        "artifactByteLength": 217486,
         "appearanceCount": 63,
         "writtenProof": [
+          {
+            "field": "DOB",
+            "factId": "participant.date_of_birth",
+            "expectedValue": "1991-04-17",
+            "drawnText": [
+              "1991-04-17"
+            ],
+            "exactValueObserved": true,
+            "derivedFrom": "flattened artifact appearance streams at every measured widget"
+          },
+          {
+            "field": "Court of Common Pleas Philadelphia Municipal Court or Magisterial District Docket Number",
+            "factId": "matter.case_number",
+            "expectedValue": "0123-45-2026-CR-900123.00-AB-CDE/2201",
+            "drawnText": [
+              "0123-45-2026-CR-900123.00-AB-CDE/2201"
+            ],
+            "exactValueObserved": true,
+            "derivedFrom": "flattened artifact appearance streams at every measured widget"
+          },
           {
             "field": "Address",
             "factId": "participant.street_address",
@@ -766,6 +881,26 @@
             ],
             "exactValueObserved": true,
             "derivedFrom": "flattened artifact appearance streams at every measured widget"
+          },
+          {
+            "field": "Name of Arresting Agency",
+            "factId": "matter.citing_or_arresting_agency",
+            "expectedValue": "Example Police Department",
+            "drawnText": [
+              "Example Police Department"
+            ],
+            "exactValueObserved": true,
+            "derivedFrom": "page text items read from the artifact content stream at every overlay rectangle"
+          },
+          {
+            "field": "DateofArrest",
+            "factId": "matter.arrest_date",
+            "expectedValue": "2019-03-08",
+            "drawnText": [
+              "2019-03-08"
+            ],
+            "exactValueObserved": true,
+            "derivedFrom": "page text items read from the artifact content stream at every overlay rectangle"
           }
         ],
         "missingWrittenInk": [],
@@ -779,8 +914,8 @@
       "documentId": "PA-RCRIM-P-791-ORDER",
       "fixture": "canonical",
       "file": "data/rcap-all50/overlays/census-v1/pa/pa-9122-1-limited-access-set--official-pdf-fill/fixtures/rule-791-order-canonical.pdf",
-      "sha256": "ab894ee67b88ef9176a423a6a2a5d806f5722e1f7bded51294bb9023663ae5f9",
-      "byteLength": 621746,
+      "sha256": "37bd644a99bfa80976d55ae6cfd757ab7440b8989e8bf76527e0cd4f2149fd2d",
+      "byteLength": 622556,
       "written": [
         {
           "field": "Petitioner's Name",
@@ -793,6 +928,22 @@
         {
           "field": "Address",
           "factId": "participant.street_address",
+          "kind": "text",
+          "fontSize": 11,
+          "outcome": "fit",
+          "lines": 1
+        },
+        {
+          "field": "DOB",
+          "factId": "participant.date_of_birth",
+          "kind": "text",
+          "fontSize": 11,
+          "outcome": "fit",
+          "lines": 1
+        },
+        {
+          "field": "ComplaintArrestDate",
+          "factId": "matter.arrest_date",
           "kind": "text",
           "fontSize": 11,
           "outcome": "fit",
@@ -821,6 +972,25 @@
           "fontSize": 9.981,
           "outcome": "fit",
           "lines": 1
+        },
+        {
+          "field": "ChargesDisposition",
+          "factId": "matter.charge",
+          "kind": "exact_measured_fact_overlay",
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 2,
+              "rect": {
+                "x": 72.012,
+                "y": 243.263,
+                "width": 494.553,
+                "height": 74.271
+              },
+              "fontSize": 9,
+              "outcome": "fit"
+            }
+          ]
         }
       ],
       "refused": [
@@ -850,16 +1020,6 @@
           "category": "role"
         },
         {
-          "field": "DOB",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
-        },
-        {
-          "field": "ComplaintArrestDate",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
-        },
-        {
           "field": "NameAddressofJudge",
           "reason": "classified_unwritable_by_role",
           "category": "role"
@@ -873,12 +1033,6 @@
           "field": "CostsPaid",
           "reason": "classified_unwritable_by_role",
           "category": "role"
-        },
-        {
-          "field": "ChargesDisposition",
-          "reason": "protected_category",
-          "category": "disposition_or_hearing",
-          "regionHeading": null
         },
         {
           "field": "ReasonforLimitedAccess",
@@ -929,8 +1083,8 @@
         "rule": "remove /V and /DV; force button widgets to /AS /Off; never infer a participant or court answer"
       },
       "proof": {
-        "artifactSha256": "ab894ee67b88ef9176a423a6a2a5d806f5722e1f7bded51294bb9023663ae5f9",
-        "artifactByteLength": 621746,
+        "artifactSha256": "37bd644a99bfa80976d55ae6cfd757ab7440b8989e8bf76527e0cd4f2149fd2d",
+        "artifactByteLength": 622556,
         "appearanceCount": 24,
         "writtenProof": [
           {
@@ -949,6 +1103,26 @@
             "expectedValue": "118 Maple Street",
             "drawnText": [
               "118 Maple Street"
+            ],
+            "exactValueObserved": true,
+            "derivedFrom": "flattened artifact appearance streams at every measured widget"
+          },
+          {
+            "field": "DOB",
+            "factId": "participant.date_of_birth",
+            "expectedValue": "1991-04-17",
+            "drawnText": [
+              "1991-04-17"
+            ],
+            "exactValueObserved": true,
+            "derivedFrom": "flattened artifact appearance streams at every measured widget"
+          },
+          {
+            "field": "ComplaintArrestDate",
+            "factId": "matter.arrest_date",
+            "expectedValue": "2019-03-08",
+            "drawnText": [
+              "2019-03-08"
             ],
             "exactValueObserved": true,
             "derivedFrom": "flattened artifact appearance streams at every measured widget"
@@ -982,6 +1156,16 @@
             ],
             "exactValueObserved": true,
             "derivedFrom": "flattened artifact appearance streams at every measured widget"
+          },
+          {
+            "field": "ChargesDisposition",
+            "factId": "matter.charge",
+            "expectedValue": "Possession of a controlled substance",
+            "drawnText": [
+              "Possession of a controlled substance"
+            ],
+            "exactValueObserved": true,
+            "derivedFrom": "page text items read from the artifact content stream at every overlay rectangle"
           }
         ],
         "missingWrittenInk": [],
@@ -995,8 +1179,8 @@
       "documentId": "PA-RCRIM-P-791-ORDER",
       "fixture": "boundary",
       "file": "data/rcap-all50/overlays/census-v1/pa/pa-9122-1-limited-access-set--official-pdf-fill/fixtures/rule-791-order-boundary.pdf",
-      "sha256": "c7050f244e64cea8ccdefab70bd74b9b290e9389416a0b2f93842828149ba83e",
-      "byteLength": 621668,
+      "sha256": "a3e9045d3b01d2f5ff87cb9810333ac17b2f4cf8d6502142f0514a1e499c46ab",
+      "byteLength": 622520,
       "written": [
         {
           "field": "Petitioner's Name",
@@ -1015,12 +1199,47 @@
           "lines": 1
         },
         {
+          "field": "DOB",
+          "factId": "participant.date_of_birth",
+          "kind": "text",
+          "fontSize": 11,
+          "outcome": "fit",
+          "lines": 1
+        },
+        {
+          "field": "ComplaintArrestDate",
+          "factId": "matter.arrest_date",
+          "kind": "text",
+          "fontSize": 11,
+          "outcome": "fit",
+          "lines": 1
+        },
+        {
           "field": "Defendant",
           "factId": "participant.full_legal_name",
           "kind": "text",
           "fontSize": 6.5,
           "outcome": "shrunk",
           "lines": 1
+        },
+        {
+          "field": "ChargesDisposition",
+          "factId": "matter.charge",
+          "kind": "exact_measured_fact_overlay",
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 2,
+              "rect": {
+                "x": 72.012,
+                "y": 243.263,
+                "width": 494.553,
+                "height": 74.271
+              },
+              "fontSize": 9,
+              "outcome": "fit"
+            }
+          ]
         }
       ],
       "refused": [
@@ -1050,16 +1269,6 @@
           "category": "role"
         },
         {
-          "field": "DOB",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
-        },
-        {
-          "field": "ComplaintArrestDate",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
-        },
-        {
           "field": "NameAddressofJudge",
           "reason": "classified_unwritable_by_role",
           "category": "role"
@@ -1073,12 +1282,6 @@
           "field": "CostsPaid",
           "reason": "classified_unwritable_by_role",
           "category": "role"
-        },
-        {
-          "field": "ChargesDisposition",
-          "reason": "protected_category",
-          "category": "disposition_or_hearing",
-          "regionHeading": null
         },
         {
           "field": "ReasonforLimitedAccess",
@@ -1139,8 +1342,8 @@
         "rule": "remove /V and /DV; force button widgets to /AS /Off; never infer a participant or court answer"
       },
       "proof": {
-        "artifactSha256": "c7050f244e64cea8ccdefab70bd74b9b290e9389416a0b2f93842828149ba83e",
-        "artifactByteLength": 621668,
+        "artifactSha256": "a3e9045d3b01d2f5ff87cb9810333ac17b2f4cf8d6502142f0514a1e499c46ab",
+        "artifactByteLength": 622520,
         "appearanceCount": 24,
         "writtenProof": [
           {
@@ -1164,6 +1367,26 @@
             "derivedFrom": "flattened artifact appearance streams at every measured widget"
           },
           {
+            "field": "DOB",
+            "factId": "participant.date_of_birth",
+            "expectedValue": "1991-04-17",
+            "drawnText": [
+              "1991-04-17"
+            ],
+            "exactValueObserved": true,
+            "derivedFrom": "flattened artifact appearance streams at every measured widget"
+          },
+          {
+            "field": "ComplaintArrestDate",
+            "factId": "matter.arrest_date",
+            "expectedValue": "2019-03-08",
+            "drawnText": [
+              "2019-03-08"
+            ],
+            "exactValueObserved": true,
+            "derivedFrom": "flattened artifact appearance streams at every measured widget"
+          },
+          {
             "field": "Defendant",
             "factId": "participant.full_legal_name",
             "expectedValue": "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III",
@@ -1172,6 +1395,16 @@
             ],
             "exactValueObserved": true,
             "derivedFrom": "flattened artifact appearance streams at every measured widget"
+          },
+          {
+            "field": "ChargesDisposition",
+            "factId": "matter.charge",
+            "expectedValue": "Possession of a controlled substance with an unusually long statutory description",
+            "drawnText": [
+              "Possession of a controlled substance with an unusually long statutory description"
+            ],
+            "exactValueObserved": true,
+            "derivedFrom": "page text items read from the artifact content stream at every overlay rectangle"
           }
         ],
         "missingWrittenInk": [],

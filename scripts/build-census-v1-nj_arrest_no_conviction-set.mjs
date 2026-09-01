@@ -547,8 +547,27 @@ Object.assign(FAMILY, {
   },
   "pa_9122_1_limited_access-set": {
     jurisdiction: "PA", routeKeys: ["obligation:track-pathway:PA:pa_9122_1_limited_access:path-i-petition-for-limited-access"],
-    documents: [cloneDoc(PA_791_PETITION, { allow: PA_PETITION_ALLOW }), cloneDoc(PA_791_ORDER, { allow: PA_ORDER_ALLOW }), PA_IFP_CCP],
-    notes: ["Reasons, signature/date, criminal-history election, costs-paid election, court disposition, and agency-service fields remain blank."],
+    documents: [cloneDoc(PA_791_PETITION, { allow: PA_PETITION_ALLOW_TABLE_UNTOUCHED }), cloneDoc(PA_791_ORDER, { allow: PA_ORDER_ALLOW }), PA_IFP_CCP],
+    notes: ["Reasons, signature/date, criminal-history election, costs-paid election, court disposition, and agency-service fields remain blank.",
+      "The petition's offence table is left whole for the participant: its rows carry Section, Subsection, Counts, Grade and Disposition cells the platform holds no fact for, and a row is complete or it is untouched."],
+    guidance: {
+      afterTheTable: [
+        "Do not leave one of these blank because you are unsure. Ask the clerk of the court where the conviction was entered.",
+        "The filing fee and whether it can be waived, who must be served and by what method, and the addresses the petition is served on are not established in this repository. Ask the same clerk. An unsourced figure in a filing instruction would be worse than none.",
+      ],
+      selfHelpEnds: [
+        "This packet prepares the Pennsylvania Rule of Criminal Procedure 791 petition for an order for limited access and its proposed order for you to review, complete, sign and file yourself. Self-help ends at any question this packet refuses to answer:",
+        "- whether your conviction qualifies for limited access under 18 Pa.C.S. § 9122.1 — a legal judgment this packet does not make;",
+        "- any blank listed above that you cannot complete from your own court records;",
+        "- anything the district attorney objects to, and any hearing the court schedules.",
+        "When you reach one of those points, stop and ask someone with the authority to answer. The clerk of the court where the conviction was entered answers procedural questions — filing, fees, copies and service addresses. Only a lawyer admitted to practice in Pennsylvania may advise you on eligibility, on what to argue, or at a contested hearing; if you cannot afford one, ask that same clerk's office how to reach the county's legal aid or lawyer referral service. This packet is not legal advice, and no lawyer has reviewed your case in preparing it.",
+      ],
+      notYours: [
+        "**The fee-waiver motion (PA-IFP-CCP)** is held as exact source evidence only. It is not generated into your packet and nothing on it is a blank on this filing. If you need a fee waiver, ask the clerk for the current form.",
+        "**The proposed order** carries the court's blocks; submit them blank.",
+        "**Every signature and signature date** is yours to complete after you have read the finished packet.",
+      ],
+    },
   },
   "pa_summary_conviction-set": {
     jurisdiction: "PA", routeKeys: ["obligation:track-pathway:PA:pa_summary_conviction:path-c-summary-conviction-expungement"],
