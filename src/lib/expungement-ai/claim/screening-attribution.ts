@@ -40,6 +40,8 @@ type ScreeningSessionRow = {
   partner_benefit_active: boolean | null;
   campaign_name: string | null;
   partner_access_code_id: string | null;
+  program_id: string | null;
+  event_id: string | null;
 };
 
 type AssistedSessionRow = {
@@ -69,7 +71,7 @@ export async function resolveScreeningAttribution(
 
   const session = await supabase
     .from("screening_sessions")
-    .select("session_id, flow_mode, partner_slug, partner_benefit_active, campaign_name, partner_access_code_id")
+    .select("session_id, flow_mode, partner_slug, partner_benefit_active, campaign_name, partner_access_code_id, program_id, event_id")
     .eq("session_id", anonymousSessionId)
     .maybeSingle<ScreeningSessionRow>();
 
@@ -92,17 +94,29 @@ export async function resolveScreeningAttribution(
     .limit(1)
     .maybeSingle<AssistedSessionRow>();
 
-  const eventId = assisted.error ? null : assisted.data?.event_id ?? null;
+  const assistedEventId = assisted.error ? null : assisted.data?.event_id ?? null;
   const consentGrantId = assisted.error ? null : assisted.data?.id ?? null;
 
-  let programId: string | null = null;
+  // Both values are written by server-side scope enforcement. If a Clinic
+  // consent points at a different event, fail closed rather than joining two
+  // program contexts.
+  if (row.event_id && assistedEventId && row.event_id !== assistedEventId) {
+    return emptyScreeningAttribution;
+  }
+  const eventId = assistedEventId ?? row.event_id ?? null;
+
+  let programId: string | null = row.program_id ?? null;
   if (eventId) {
     const event = await supabase
       .from("clinic_events")
       .select("id, program_key")
       .eq("id", eventId)
       .maybeSingle<ClinicEventRow>();
-    programId = event.error ? null : event.data?.program_key ?? null;
+    const eventProgramId = event.error ? null : event.data?.program_key ?? null;
+    if (programId && eventProgramId && programId !== eventProgramId) {
+      return emptyScreeningAttribution;
+    }
+    programId = eventProgramId ?? programId;
   }
 
   return {

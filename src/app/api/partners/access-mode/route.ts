@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSafeRequestId, logSecurityError, logSecurityInfo, logSecurityWarn } from "@/lib/observability/logger";
 import { SessionPartnerError } from "@/lib/partners/session-partner";
-import { partnerAuthStatus, resolveAuthorizedPartnerSlug } from "@/lib/partners/partner-scope-auth";
+import { isSameOriginPartnerMutation, partnerAuthStatus, resolveAuthorizedPartnerSlug } from "@/lib/partners/partner-scope-auth";
 import {
   PARTNER_ACCESS_MODES,
   PartnerAccessCodeError,
@@ -17,6 +17,10 @@ const ROUTE = "/api/partners/access-mode";
 export async function POST(request: NextRequest) {
   const requestId = getSafeRequestId(request);
 
+  if (!isSameOriginPartnerMutation(request)) {
+    return NextResponse.json({ success: false, error: "Invalid request origin." }, { status: 403 });
+  }
+
   let body: Record<string, unknown>;
   try {
     body = (await request.json()) as Record<string, unknown>;
@@ -31,7 +35,10 @@ export async function POST(request: NextRequest) {
 
   let partnerSlug: string;
   try {
-    ({ partnerSlug } = await resolveAuthorizedPartnerSlug(typeof body.partnerSlug === "string" ? body.partnerSlug : null));
+    ({ partnerSlug } = await resolveAuthorizedPartnerSlug(
+      typeof body.partnerSlug === "string" ? body.partnerSlug : null,
+      { requireAdministrator: true }
+    ));
   } catch (error) {
     if (error instanceof SessionPartnerError) {
       logSecurityWarn({ event: "access mode denied", route: ROUTE, outcome: error.code, requestId, error });

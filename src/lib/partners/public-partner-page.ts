@@ -12,11 +12,14 @@ type ActivationRow = {
 };
 
 type PublicationRow = {
+  partner_slug?: string | null;
   status: string | null;
   landing_page_ready: boolean | null;
   internal_approved_at: string | null;
   launched_at: string | null;
 };
+
+type ActivationListRow = ActivationRow & { partner_slug: string | null };
 
 /**
  * Resolves only partners whose separate publication and activation gates are
@@ -73,6 +76,49 @@ export async function getAuthoritativelyPublicPartnerRecord(
     return partner?.partnerSlug === slug ? partner : undefined;
   } catch {
     return undefined;
+  }
+}
+
+/**
+ * The partner sitemap uses the same two independent authority gates as the
+ * public route. Query failures omit every partner instead of publishing a
+ * partially checked tenant.
+ */
+export async function listAuthoritativelyPublicPartnerSlugs(): Promise<string[]> {
+  const supabase = getSupabaseAdminClient();
+  if (!supabase) return [];
+
+  try {
+    const [activationResult, publicationResult] = await Promise.all([
+      supabase
+        .from("partner_records")
+        .select("partner_slug, payment_status, qualification_status, provisioning_status")
+        .in("payment_status", ["paid", "demo_paid"])
+        .eq("qualification_status", "qualified")
+        .in("provisioning_status", ["provisioned", "active"]),
+      supabase
+        .from("partner_onboarding")
+        .select("partner_slug, status, landing_page_ready, internal_approved_at, launched_at")
+        .eq("status", "live")
+        .eq("landing_page_ready", true)
+        .not("internal_approved_at", "is", null)
+        .not("launched_at", "is", null)
+    ]);
+
+    if (activationResult.error || publicationResult.error) return [];
+    const activated = new Set(
+      ((activationResult.data ?? []) as ActivationListRow[])
+        .map((row) => normalizePartnerSlug(row.partner_slug ?? ""))
+        .filter(Boolean)
+    );
+
+    return Array.from(new Set(
+      ((publicationResult.data ?? []) as PublicationRow[])
+        .map((row) => normalizePartnerSlug(row.partner_slug ?? ""))
+        .filter((slug) => slug && activated.has(slug))
+    )).sort();
+  } catch {
+    return [];
   }
 }
 

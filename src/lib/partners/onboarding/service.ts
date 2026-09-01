@@ -156,7 +156,7 @@ export type PartnerOnboardingPortal = {
   };
   organizationName: string;
   programName: string | null;
-  role: "partner_admin" | "partner_staff";
+  role: "partner_admin" | "partner_staff" | "partner_viewer";
   canEdit: boolean;
   data: OnboardingPartnerData;
   sections: OnboardingSectionView[];

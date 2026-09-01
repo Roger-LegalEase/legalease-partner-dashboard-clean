@@ -3,6 +3,7 @@ import { clinicErrorResponse } from "@/app/api/clinic/error-response";
 import { listClinicFollowUps, saveClinicFollowUp } from "@/lib/clinic-mode/reporting-service";
 import type { ClinicFollowUp, SaveClinicFollowUpInput } from "@/lib/clinic-mode/types";
 import { parseEventId } from "@/lib/clinic-mode/validation";
+import { assertClinicMutationRequest } from "@/lib/clinic-mode/request-security";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -22,6 +23,7 @@ export async function GET(_request: NextRequest, { params }: { params: Promise<{
 
 export async function POST(request: NextRequest, { params }: { params: Promise<{ eventId: string }> }) {
   try {
+    assertClinicMutationRequest(request);
     const { eventId } = await params;
     const input = parseInput(await request.json());
     const id = await saveClinicFollowUp(parseEventId(eventId), input);

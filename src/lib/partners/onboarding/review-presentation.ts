@@ -11,7 +11,7 @@ export type PartnerOnboardingRoleSurface =
   | "staff_summary";
 
 export function onboardingRoleSurface(
-  role: "partner_admin" | "partner_staff"
+  role: "partner_admin" | "partner_staff" | "partner_viewer"
 ): PartnerOnboardingRoleSurface {
-  return role === "partner_staff" ? "staff_summary" : "administrator_editor";
+  return role === "partner_admin" ? "administrator_editor" : "staff_summary";
 }

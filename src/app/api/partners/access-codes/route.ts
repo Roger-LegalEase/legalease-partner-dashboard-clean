@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSafeRequestId, logSecurityError, logSecurityInfo, logSecurityWarn } from "@/lib/observability/logger";
 import { SessionPartnerError } from "@/lib/partners/session-partner";
-import { partnerAuthStatus, resolveAuthorizedPartnerSlug } from "@/lib/partners/partner-scope-auth";
+import { isSameOriginPartnerMutation, partnerAuthStatus, resolveAuthorizedPartnerSlug } from "@/lib/partners/partner-scope-auth";
 import {
   createPartnerAccessCode,
   getPartnerAccessCodeAnalytics,
@@ -36,6 +36,10 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const requestId = getSafeRequestId(request);
 
+  if (!isSameOriginPartnerMutation(request)) {
+    return NextResponse.json({ success: false, error: "Invalid request origin." }, { status: 403 });
+  }
+
   let body: Record<string, unknown>;
   try {
     body = (await request.json()) as Record<string, unknown>;
@@ -44,8 +48,12 @@ export async function POST(request: NextRequest) {
   }
 
   let partnerSlug: string;
+  let actorUserId: string;
   try {
-    ({ partnerSlug } = await resolveAuthorizedPartnerSlug(typeof body.partnerSlug === "string" ? body.partnerSlug : null));
+    ({ partnerSlug, authUserId: actorUserId } = await resolveAuthorizedPartnerSlug(
+      typeof body.partnerSlug === "string" ? body.partnerSlug : null,
+      { requireAdministrator: true }
+    ));
   } catch (error) {
     return authErrorResponse(error, requestId);
   }
@@ -63,7 +71,12 @@ export async function POST(request: NextRequest) {
       maxUses: typeof body.maxUses === "number" ? body.maxUses : parseMaxUses(body.maxUses),
       startsAt: typeof body.startsAt === "string" ? body.startsAt : null,
       expiresAt: typeof body.expiresAt === "string" ? body.expiresAt : null,
-      createdBy: "partner_admin"
+      jurisdictions: Array.isArray(body.jurisdictions)
+        ? body.jurisdictions.filter((value): value is string => typeof value === "string")
+        : null,
+      programId: typeof body.programId === "string" ? body.programId : null,
+      eventId: typeof body.eventId === "string" ? body.eventId : null,
+      createdBy: actorUserId
     });
     logSecurityInfo({ event: "access code created", route: ROUTE, outcome: "ok", requestId });
     return NextResponse.json({ success: true, code });

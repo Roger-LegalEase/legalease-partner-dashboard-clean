@@ -11,7 +11,7 @@ type PartnerTeamInviteFormProps = {
 type SubmitState =
   | { kind: "idle" }
   | { kind: "submitting" }
-  | { kind: "success"; message: string; email: string; partnerSlug: string; role: "partner_staff" }
+  | { kind: "success"; message: string; email: string; partnerSlug: string; role: "partner_staff" | "partner_viewer" }
   | { kind: "error"; message: string };
 
 type InviteResponse = {
@@ -37,7 +37,8 @@ export function PartnerTeamInviteForm({ partnerSlug, partnerName }: PartnerTeamI
     const formData = new FormData(form);
     const payload = {
       email: String(formData.get("email") ?? ""),
-      name: String(formData.get("name") ?? "")
+      name: String(formData.get("name") ?? ""),
+      role: formData.get("role") === "partner_viewer" ? "partner_viewer" : "partner_staff"
     };
 
     isSubmittingRef.current = true;
@@ -58,7 +59,7 @@ export function PartnerTeamInviteForm({ partnerSlug, partnerName }: PartnerTeamI
           message: result.message ?? successMessage(result.outcome),
           email: result.email ?? payload.email,
           partnerSlug: result.partnerSlug ?? partnerSlug,
-          role: "partner_staff"
+          role: result.role === "partner_viewer" ? "partner_viewer" : "partner_staff"
         });
         safelyResetForm(form);
         return;
@@ -104,12 +105,13 @@ export function PartnerTeamInviteForm({ partnerSlug, partnerName }: PartnerTeamI
         />
       </label>
 
-      <div className="grid gap-1.5">
+      <label className="grid gap-1.5">
         <span className="text-sm font-black text-navy">Role</span>
-        <div className="min-h-11 rounded-md border border-grayWilma-200 bg-grayWilma-100 px-3 py-3 text-sm font-semibold text-grayWilma-700">
-          Partner staff
-        </div>
-      </div>
+        <select name="role" className="min-h-11 rounded-md border border-grayWilma-200 bg-white px-3 text-sm font-semibold text-navy shadow-sm outline-none transition focus:border-teal focus:ring-2 focus:ring-teal/25">
+          <option value="partner_staff">Partner staff (program and assigned Clinic work)</option>
+          <option value="partner_viewer">Partner viewer (read-only workspace)</option>
+        </select>
+      </label>
 
       {state.kind === "success" ? (
         <div className="rounded-md border border-teal/25 bg-teal/10 px-4 py-4 text-sm text-teal">
@@ -125,7 +127,7 @@ export function PartnerTeamInviteForm({ partnerSlug, partnerName }: PartnerTeamI
             </div>
             <div className="grid gap-0.5">
               <dt className="text-xs font-black uppercase text-grayWilma-600">Role</dt>
-              <dd className="font-semibold">Partner staff</dd>
+              <dd className="font-semibold">{state.role === "partner_viewer" ? "Partner viewer" : "Partner staff"}</dd>
             </div>
             <div className="grid gap-0.5">
               <dt className="text-xs font-black uppercase text-grayWilma-600">Next step</dt>
@@ -145,7 +147,7 @@ export function PartnerTeamInviteForm({ partnerSlug, partnerName }: PartnerTeamI
         disabled={state.kind === "submitting"}
         type="submit"
       >
-        {state.kind === "submitting" ? "Sending invite..." : "Send partner staff invite"}
+        {state.kind === "submitting" ? "Sending invite..." : "Send team invitation"}
       </button>
     </form>
   );
