@@ -57,12 +57,13 @@ includes(homepageCopy, 'hero_cta1: "Check my options"', "approved homepage Engli
 
 // Account gate: conversion intent defaults to create-account; header sign-in remains sign-in.
 includes(consumerSignInForm, 'type AuthMode = "create" | "signin"', "account gate two-state mode");
-includes(consumerSignInForm, 'params.get("mode") === "create"', "explicit create mode");
-includes(consumerSignInForm, 'params.get("mode") === "signin"', "explicit sign-in mode");
-includes(consumerSignInForm, 'isConversionNextPath(next) ? "create" : "signin"', "conversion default create mode");
-includes(consumerSignInForm, 'next.startsWith("/expungement-ai/pay")', "pay conversion path");
-includes(consumerSignInForm, 'next.startsWith("/expungement-ai/packet-ready")', "packet-ready conversion path");
-includes(consumerSignInForm, 'next.startsWith("/briefcase")', "briefcase conversion path");
+includes(authContinuation, 'search.get("mode") === "create"', "explicit create mode");
+includes(authContinuation, 'search.get("mode") === "signin"', "explicit sign-in mode");
+includes(authContinuation, 'if (!requestedNext) return "signin"', "bare sign-in stays in sign-in mode");
+includes(authContinuation, 'isConversionNextPath(next) ? "create" : "signin"', "explicit conversion defaults to create mode");
+includes(authContinuation, 'next.startsWith("/expungement-ai/pay")', "pay conversion path");
+includes(authContinuation, 'next.startsWith("/expungement-ai/packet-ready")', "packet-ready conversion path");
+includes(authContinuation, 'next.startsWith("/briefcase")', "briefcase conversion path");
 includes(consumerSignInForm, "supabase.auth.signUp", "create-account uses Supabase signUp");
 includes(consumerSignInForm, "supabase.auth.signInWithPassword", "returning-user sign-in remains");
 includes(consumerSignInForm, "consumerAuthContinuationFrom", "account gate uses the validated continuation contract");

@@ -19,6 +19,7 @@ export async function participantPrivacyActorEligible(userId: string): Promise<b
     .from("partner_users")
     .select("role")
     .eq("auth_user_id", userId)
+    .eq("status", "active")
     .maybeSingle<{ role: string }>();
   if (error) return false;
   return !data || !["partner_admin", "partner_staff", "internal_admin"].includes(data.role);

@@ -8,6 +8,7 @@ import { submitClaim } from "@/lib/expungement-ai/claim/claim-handoff";
 import {
   consumerAuthCallbackPath,
   consumerAuthContinuationFrom,
+  consumerAuthModeFrom,
   consumerClaimRecoveryHandoffFrom,
   consumerForgotPasswordPath,
   consumerSignInAfterRecoveryPath,
@@ -459,17 +460,7 @@ function emptyAuthRequestContext(): ConsumerAuthContinuation {
 
 function initialAuthMode(): AuthMode {
   if (typeof window === "undefined") return "signin";
-  const params = new URLSearchParams(window.location.search);
-  if (params.get("mode") === "create") return "create";
-  if (params.get("mode") === "signin") return "signin";
-  const next = consumerAuthContinuationFrom(params).nextPath;
-  return isConversionNextPath(next) ? "create" : "signin";
-}
-
-function isConversionNextPath(next: string) {
-  return next.startsWith("/expungement-ai/pay")
-    || next.startsWith("/expungement-ai/packet-ready")
-    || next.startsWith("/briefcase");
+  return consumerAuthModeFrom(new URLSearchParams(window.location.search));
 }
 
 function isCaptchaError(error: unknown) {

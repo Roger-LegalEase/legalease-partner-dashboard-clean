@@ -50,6 +50,27 @@ export function consumerAuthContinuationFrom(search: URLSearchParams): ConsumerA
   };
 }
 
+/**
+ * A direct sign-in URL belongs to returning participants. Account creation is
+ * inferred only from an explicit, validated conversion destination; the
+ * fallback Briefcase path is not itself evidence of conversion intent.
+ */
+export function consumerAuthModeFrom(search: URLSearchParams): "create" | "signin" {
+  if (search.get("mode") === "create") return "create";
+  if (search.get("mode") === "signin") return "signin";
+  const requestedNext = search.get("next");
+  if (!requestedNext) return "signin";
+  const next = consumerAuthContinuationFrom(search).nextPath;
+  if (next !== requestedNext) return "signin";
+  return isConversionNextPath(next) ? "create" : "signin";
+}
+
+function isConversionNextPath(next: string) {
+  return next.startsWith("/expungement-ai/pay")
+    || next.startsWith("/expungement-ai/packet-ready")
+    || next.startsWith("/briefcase");
+}
+
 export function consumerAuthContinuationQuery(
   continuation: ConsumerAuthContinuation,
   extras: ConsumerContinuationExtras = {}

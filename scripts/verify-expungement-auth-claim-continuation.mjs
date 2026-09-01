@@ -13,6 +13,7 @@ process.env.NEXT_PUBLIC_PARTNER_APP_URL = "https://legaleasepartner.com";
 const {
   consumerAuthCallbackPath,
   consumerAuthContinuationFrom,
+  consumerAuthModeFrom,
   consumerClaimRecoveryHandoffFrom,
   consumerForgotPasswordPath,
   consumerSignInAfterRecoveryPath,
@@ -40,6 +41,10 @@ assert.equal(initial.claimToken, token, "valid opaque claim must be accepted");
 assert.equal(initial.locale, "es", "supported locale must be accepted");
 assert.equal(initial.nextPath, `/briefcase/matters/${matterId}?section=review`, "safe same-app next must be accepted");
 assert.deepEqual(Object.keys(initial).sort(), ["claimToken", "locale", "nextPath"], "browser continuation must carry no attribution authority");
+assert.equal(consumerAuthModeFrom(new URLSearchParams()), "signin", "the bare sign-in route must remain in sign-in mode");
+assert.equal(consumerAuthModeFrom(new URLSearchParams({ mode: "create" })), "create", "explicit create mode must be preserved");
+assert.equal(consumerAuthModeFrom(new URLSearchParams({ next: "/briefcase" })), "create", "an explicit Briefcase conversion may default to account creation");
+assert.equal(consumerAuthModeFrom(new URLSearchParams({ next: "https://attacker.example/briefcase" })), "signin", "an external next URL must not manufacture conversion intent");
 
 const forgot = new URL(consumerForgotPasswordPath(initial), "https://expungement.ai");
 assert.equal(forgot.pathname, "/auth/forgot-password");

@@ -175,6 +175,7 @@ const PARTIAL_STATE_MIGRATION =
 const USER_A = fixtureUuid("participant-a");
 const USER_B = fixtureUuid("participant-b");
 const PARTNER_STAFF = fixtureUuid("partner-staff");
+const FORMER_PARTNER = fixtureUuid("former-partner");
 
 const results = [];
 let failures = 0;
@@ -232,7 +233,8 @@ function boot() {
        id uuid primary key default gen_random_uuid(),
        auth_user_id uuid not null,
        partner_slug text,
-       role text not null
+       role text not null,
+       status text not null default 'active'
      )`
   );
   db.sql(
@@ -272,7 +274,8 @@ function boot() {
     `insert into auth.users (id, email, email_confirmed_at, last_sign_in_at) values
        ('${USER_A}','a@participant.test', now(), now()),
        ('${USER_B}','b@participant.test', now(), now()),
-       ('${PARTNER_STAFF}','staff@partner.test', now(), now())`
+       ('${PARTNER_STAFF}','staff@partner.test', now(), now()),
+       ('${FORMER_PARTNER}','former@partner.test', now(), now())`
   );
   db.sql(
     `insert into public.partner_records (partner_slug, partner_name, contact_email, compliance_notes)
@@ -280,8 +283,10 @@ function boot() {
   );
   db.sql(
     `insert into public.partner_users (auth_user_id, partner_slug, role)
-     values ('${PARTNER_STAFF}','second-chance-clinic','internal_admin')`
+     values ('${PARTNER_STAFF}','second-chance-clinic','internal_admin'),
+            ('${FORMER_PARTNER}','second-chance-clinic','partner_admin')`
   );
+  db.sql(`update public.partner_users set status='disabled' where auth_user_id='${FORMER_PARTNER}'`);
   return db;
 }
 
@@ -1002,6 +1007,11 @@ let proofA = null;
 {
   // Workforce and partner identities use their governed offboarding path. The
   // participant endpoint must not run even against the staff member's own id.
+  check(
+    "P0",
+    "a fully offboarded former partner may use participant account deletion",
+    await apiSession.participantPrivacyActorEligible(FORMER_PARTNER)
+  );
   const proof = (await mintProof(PARTNER_STAFF, "account_deletion")).body.proof;
   setSession({ isAuthenticated: true, userId: PARTNER_STAFF, email: "staff@partner.test" });
   const response = await accountRoute.POST(
@@ -1189,7 +1199,7 @@ let accountReceipt = null;
   check("D5", "follow-up queue entries are gone", count(`select count(*) from public.legalease_os_support_items where user_id='${USER_A}'`) === 0);
   check("D6", "unstarted renders were cancelled with an honest reason", count(`select count(*) from public.packet_render_jobs where id='${A.queuedJobId}' and status='failed' and error_code='participant_deletion_cancelled'`) === 1, scalar(`select status || '/' || coalesce(error_code,'-') from public.packet_render_jobs where id='${A.queuedJobId}'`));
   check("D7", "assisted partner access has ended", count(`select count(*) from public.screening_sessions where partner_slug='second-chance-clinic'`) === 0);
-  check("D8", "the partner's own records are untouched", count(`select count(*) from public.partner_records where partner_slug='second-chance-clinic'`) === 1 && count(`select count(*) from public.partner_users where partner_slug='second-chance-clinic'`) === 1);
+  check("D8", "the partner's own records are untouched", count(`select count(*) from public.partner_records where partner_slug='second-chance-clinic'`) === 1 && count(`select count(*) from public.partner_users where partner_slug='second-chance-clinic'`) === 2);
   check("D9", "the credit ledger is byte-for-byte intact", count(`select count(*) from public.packet_credit_ledger`) === ledgerBefore);
   check("D10", "payment records are retained, not deleted", count(`select count(*) from public.consumer_packet_payment_consumption`) === consumptionBefore);
   check("D11", "retained payment records carry the pseudonym, not the account id", count(`select count(*) from public.consumer_packet_payment_consumption where consumer_auth_user_id='${USER_A}'`) === 0 && count(`select count(*) from public.consumer_packet_payment_consumption where consumer_auth_user_id='${participantPseudonymUserId(USER_A)}'`) === 1);

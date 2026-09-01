@@ -78,6 +78,13 @@ try {
     "post-reset recovery must apply the validated locale to the visible handoff state"
   );
   mutation(
+    "bare sign-in defaults to account creation",
+    files[0],
+    '  if (!requestedNext) return "signin";',
+    '  if (!requestedNext) return "create";',
+    "the bare sign-in route must remain in sign-in mode"
+  );
+  mutation(
     "server attribution is dropped",
     files[1],
     "      eventId: row.event_id,",
@@ -121,4 +128,4 @@ if (failures > 0) {
   console.error(`Auth continuation mutation suite failed: ${failures} mutation(s) escaped or failed incorrectly.`);
   process.exit(1);
 }
-console.log("Auth continuation mutation suite passed: 9/9 defects turned the behavioral verifier red.");
+console.log("Auth continuation mutation suite passed: 10/10 defects turned the behavioral verifier red.");
