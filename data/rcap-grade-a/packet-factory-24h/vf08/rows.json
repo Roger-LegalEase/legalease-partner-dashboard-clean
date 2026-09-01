@@ -580,6 +580,1413 @@
     "data/rcap-grade-a/stale-artifact-block.json",
     "data/rcap-grade-a/packet-factory-24h/claim-ledger.json"
    ]
+  },
+  {
+   "itemId": "co_pardoned_conviction_seal-set",
+   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/co/co-pardoned-conviction-seal-set--official-pdf-fill",
+   "baseSha": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666",
+   "proofObligations": {
+    "completenessAudit": {
+     "result": "PASS",
+     "finding": "The registered completeness verifier was run in this lane against this family and returned PASS_COMPLETE with all nine counters zero.",
+     "evidence": {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family co_pardoned_conviction_seal-set",
+      "result": "PASS_COMPLETE",
+      "counters": {
+       "knownRequiredFieldsMissing": 0,
+       "requiredFactsNotCollected": 0,
+       "unclassifiedBlanks": 0,
+       "incompleteRows": 0,
+       "requiredOptionsMissing": 0,
+       "requiredComponentsMissing": 0,
+       "invisibleWrites": 0,
+       "protectedWrites": 0,
+       "visualDefects": 0
+      }
+     }
+    },
+    "sourceIdentity": {
+     "result": "PASS",
+     "finding": "Every declared source (2) was rehashed in this lane — Master Library entries from the bootstrapped corpus bytes, repository-path entries from the committed files — and every recomputed SHA-256 and byte length agrees with source-receipt.json.",
+     "evidence": {
+      "declaredSources": 2,
+      "rehashedFromMasterLibraryBytes": 2,
+      "entries": [
+       {
+        "doc": "JDF-680",
+        "pathInArchive": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-680__motion-to-seal-conviction-records-pardoned__REV-2022-08-10__EN.pdf",
+        "recordedSha256": "ae3d5f1c345394dcc104fd5cc0ac72b636068e52985cb38edf4592688d8ac0ae",
+        "recomputedSha256": "ae3d5f1c345394dcc104fd5cc0ac72b636068e52985cb38edf4592688d8ac0ae",
+        "matched": true
+       },
+       {
+        "doc": "JDF-681",
+        "pathInArchive": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-681__order-to-seal-pardoned-conviction-records__REV-2024-03-20__EN.pdf",
+        "recordedSha256": "cf20dc0fdcbd71b49c2a43a6a11b1c952fd65943a5d0755f50299a10447a799d",
+        "recomputedSha256": "cf20dc0fdcbd71b49c2a43a6a11b1c952fd65943a5d0755f50299a10447a799d",
+        "matched": true
+       }
+      ]
+     }
+    },
+    "artifactIntegrity": {
+     "result": "PASS",
+     "finding": "Every artifact named in reports/rendered-artifacts.json was rehashed in this lane; every recomputed SHA-256 and byte length agrees with the record.",
+     "evidence": [
+      {
+       "file": "data/rcap-all50/overlays/census-v1/co/co-pardoned-conviction-seal-set--official-pdf-fill/fixtures/canonical.pdf",
+       "fixture": "canonical",
+       "recordedSha256": "d285a03f788cb5e5b3a8d1f17babd379b199cd24c34d2e98b52363cd2c436bf7",
+       "recomputedSha256": "d285a03f788cb5e5b3a8d1f17babd379b199cd24c34d2e98b52363cd2c436bf7",
+       "recordedByteLength": 229182,
+       "byteLengthOnDisk": 229182,
+       "matched": true,
+       "note": null
+      },
+      {
+       "file": "data/rcap-all50/overlays/census-v1/co/co-pardoned-conviction-seal-set--official-pdf-fill/fixtures/boundary.pdf",
+       "fixture": "boundary",
+       "recordedSha256": "407db19ec374b58b0e429b40ac6de54877510b47fe16db77739400e4edbada4c",
+       "recomputedSha256": "407db19ec374b58b0e429b40ac6de54877510b47fe16db77739400e4edbada4c",
+       "recordedByteLength": 229360,
+       "byteLengthOnDisk": 229360,
+       "matched": true,
+       "note": null
+      }
+     ]
+    },
+    "routeAndStatuteOnTheFace": {
+     "result": "PASS",
+     "finding": "The canonical fixture is the Colorado JDF-680 Motion to Seal Conviction Records (Pardoned) with JDF-681 order, citing C.R.S. § 24-72-710 on its face, captioned to a Colorado District/County court with the county written (Denver), matching the queue row's route obligation:track-only:CO:co_pardoned_conviction_seal and forms JDF-680+JDF-681.",
+     "evidence": {
+      "statuteOnFace": "§ 24-72-710",
+      "forms": [
+       "JDF-680",
+       "JDF-681"
+      ],
+      "caption": "Plaintiff: People of the State of Colorado v. Defendant (fixture participant)",
+      "pageCount": 4
+     }
+    },
+    "participantFieldsPopulated": {
+     "result": "PASS",
+     "finding": "reports/actual-writes.json proves 35 non-empty writes across 4 fixture documents on the output bytes (schema rcap-actual-writes-byte-proof/v1), and the face shows participant name, address, phone, email and case number populated.",
+     "evidence": {
+      "documents": 4,
+      "nonEmptyWrites": 35,
+      "emptyWrites": 0
+     }
+    },
+    "placeholderAndWrongStateScan": {
+     "result": "PASS",
+     "finding": "pdftotext over the canonical fixture found no placeholder text (TODO, PLACEHOLDER, Lorem ipsum, {{...}}, FIXME, TBD) and the face carries the correct state's caption and vocabulary.",
+     "evidence": {
+      "canonicalPdf": "data/rcap-all50/overlays/census-v1/co/co-pardoned-conviction-seal-set--official-pdf-fill/fixtures/canonical.pdf",
+      "placeholderHits": [],
+      "faceTextLength": 4048
+     }
+    },
+    "filingInstructions": {
+     "result": "PASS",
+     "finding": "participant-instructions.md names the filing destination affirmatively (the clerk of the Colorado court that entered the conviction, District or County, in the county already written on the motion), delegates the unestablished court fee to that named clerk in a dedicated line while stating the CBI's own sealing fee and how it is paid, and walks the JDF-680 certificate of service by recipient and method with the CBI's required address printed (690 Kipling St. STE 3000, Lakewood, CO 80215).",
+     "evidence": {
+      "destination": "clerk of the Colorado court that entered the conviction (county prefilled)",
+      "fee": "court fee delegated to the named clerk (not established by any held source); CBI fee stated to exist with payment contact",
+      "service": "JDF-680 §4 certificate of service walked by recipient and method; CBI recipient required with printed address"
+     }
+    }
+   },
+   "standardApplied": {
+    "measuredHere": "Every obligation below was measured in this lane at base edf5ff14b9bb418dfafc57b75e4a7acc6ece1666 from the committed artifacts, the registered completeness verifier (scripts/rcap-packet-completeness/verify-packet-completeness.mjs), and — for source identity — the Master Library bytes bootstrapped in this container (archive sha256 a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89). No counter was copied from a builder report; where a builder report is cited it is cited as the thing being checked, not as the answer.",
+    "feeAndServiceStandard": "Where a fee, address or service mechanic is not held by any committed source, a dedicated instruction line that names the checkable authority (the clerk of the specific named court or the named agency) is treated as meeting the obligation, following the PASS standard vf18 recorded on ak-courtview-set; a catch-all line naming nobody is not. VERMONT_REPAIR.json records that the filingDestination standard is a known verification-contract divergence; the standard applied here is stated so the difference is legible rather than silent."
+   }
+  },
+  {
+   "itemId": "ct-pardon-erasure-set",
+   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ct/ct-pardon-erasure-set--custom-pleading",
+   "baseSha": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666",
+   "proofObligations": {
+    "completenessAudit": {
+     "result": "PASS",
+     "finding": "The registered completeness verifier was run in this lane against this family and returned PASS_COMPLETE with all nine counters zero.",
+     "evidence": {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ct-pardon-erasure-set",
+      "result": "PASS_COMPLETE",
+      "counters": {
+       "knownRequiredFieldsMissing": 0,
+       "requiredFactsNotCollected": 0,
+       "unclassifiedBlanks": 0,
+       "incompleteRows": 0,
+       "requiredOptionsMissing": 0,
+       "requiredComponentsMissing": 0,
+       "invisibleWrites": 0,
+       "protectedWrites": 0,
+       "visualDefects": 0
+      }
+     }
+    },
+    "sourceIdentity": {
+     "result": "PASS",
+     "finding": "The family is a custom pleading composed from codified text (sourceStatus CUSTOM_PLEADING_FROM_CODIFIED_TEXT, officialFormFamily NONE); the receipt binds no official-form bytes, so there is no source hash to recompute and none is owed.",
+     "evidence": {
+      "declaredSources": 0
+     }
+    },
+    "artifactIntegrity": {
+     "result": "PASS",
+     "finding": "Every artifact named in reports/rendered-artifacts.json was rehashed in this lane; every recomputed SHA-256 and byte length agrees with the record.",
+     "evidence": [
+      {
+       "file": "data/rcap-all50/overlays/census-v1/ct/ct-pardon-erasure-set--custom-pleading/fixtures/canonical.pdf",
+       "fixture": "canonical",
+       "recordedSha256": "fb22c04456ff31e1526fcc6127330c67618fdd5378da60fd512b4be51b7c410b",
+       "recomputedSha256": "fb22c04456ff31e1526fcc6127330c67618fdd5378da60fd512b4be51b7c410b",
+       "recordedByteLength": 8188,
+       "byteLengthOnDisk": 8188,
+       "matched": true,
+       "note": null
+      },
+      {
+       "file": "data/rcap-all50/overlays/census-v1/ct/ct-pardon-erasure-set--custom-pleading/fixtures/boundary.pdf",
+       "fixture": "boundary",
+       "recordedSha256": "dc26b69ffdb89472c0d674378196a1e04664caf06f6c724d43117d80f28838ef",
+       "recomputedSha256": "dc26b69ffdb89472c0d674378196a1e04664caf06f6c724d43117d80f28838ef",
+       "recordedByteLength": 8351,
+       "byteLengthOnDisk": 8351,
+       "matched": true,
+       "note": null
+      }
+     ]
+    },
+    "routeAndStatuteOnTheFace": {
+     "result": "PASS",
+     "finding": "The canonical fixture is a composed Petition for Erasure of Records Following an Absolute Pardon citing C.G.S. § 54-142a(d) on its face, with the branch rule stated correctly on the page: pre-1 October 1974 pardons petition the Superior Court; on-or-after pardons are erased without a petition and the packet's process page says to file nothing. Both queue route keys (post-1974-automatic, pre-1974-petition) are covered by exactly those two components.",
+     "evidence": {
+      "statuteOnFace": "C.G.S. § 54-142a(d)",
+      "branches": [
+       "pre-1974 petition to Superior Court",
+       "post-1974 automatic, nothing filed"
+      ],
+      "pageCount": 3
+     }
+    },
+    "participantFieldsPopulated": {
+     "result": "PASS",
+     "finding": "reports/actual-writes.json proves 10 non-empty writes across 2 documents on the output bytes; participant identity fields are populated and every case fact is a labelled dotted blank by design, each named in the instructions.",
+     "evidence": {
+      "documents": 2,
+      "nonEmptyWrites": 10,
+      "emptyWrites": 0
+     }
+    },
+    "placeholderAndWrongStateScan": {
+     "result": "PASS",
+     "finding": "pdftotext over the canonical fixture found no placeholder text (TODO, PLACEHOLDER, Lorem ipsum, {{...}}, FIXME, TBD) and the face carries the correct state's caption and vocabulary.",
+     "evidence": {
+      "canonicalPdf": "data/rcap-all50/overlays/census-v1/ct/ct-pardon-erasure-set--custom-pleading/fixtures/canonical.pdf",
+      "placeholderHits": [],
+      "faceTextLength": 5069
+     }
+    },
+    "filingInstructions": {
+     "result": "PASS",
+     "finding": "The instructions name the destination (the Superior Court; the caption/location is an open counsel question the packet handles by directing the participant to the clerk's office by name), state the fee position exactly (§ 54-142a(k): no fee in any court for a § 54-142a petition, so no waiver arises), and state the branch decision rule. The open caption question is carried to counsel review in the packet's own words rather than guessed.",
+     "evidence": {
+      "destination": "Superior Court (clerk's office named as the caption authority)",
+      "fee": "none — C.G.S. § 54-142a(k) stated",
+      "service": "clerk asked whether any notarization or service applies locally; none is established by held sources"
+     }
+    }
+   },
+   "standardApplied": {
+    "measuredHere": "Every obligation below was measured in this lane at base edf5ff14b9bb418dfafc57b75e4a7acc6ece1666 from the committed artifacts, the registered completeness verifier (scripts/rcap-packet-completeness/verify-packet-completeness.mjs), and — for source identity — the Master Library bytes bootstrapped in this container (archive sha256 a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89). No counter was copied from a builder report; where a builder report is cited it is cited as the thing being checked, not as the answer.",
+    "feeAndServiceStandard": "Where a fee, address or service mechanic is not held by any committed source, a dedicated instruction line that names the checkable authority (the clerk of the specific named court or the named agency) is treated as meeting the obligation, following the PASS standard vf18 recorded on ak-courtview-set; a catch-all line naming nobody is not. VERMONT_REPAIR.json records that the filingDestination standard is a known verification-contract divergence; the standard applied here is stated so the difference is legible rather than silent."
+   }
+  },
+  {
+   "itemId": "ct-under18-misdemeanor-set",
+   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ct/ct-under18-misdemeanor-set--custom-pleading",
+   "baseSha": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666",
+   "proofObligations": {
+    "completenessAudit": {
+     "result": "PASS",
+     "finding": "The registered completeness verifier was run in this lane against this family and returned PASS_COMPLETE with all nine counters zero.",
+     "evidence": {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ct-under18-misdemeanor-set",
+      "result": "PASS_COMPLETE",
+      "counters": {
+       "knownRequiredFieldsMissing": 0,
+       "requiredFactsNotCollected": 0,
+       "unclassifiedBlanks": 0,
+       "incompleteRows": 0,
+       "requiredOptionsMissing": 0,
+       "requiredComponentsMissing": 0,
+       "invisibleWrites": 0,
+       "protectedWrites": 0,
+       "visualDefects": 0
+      }
+     }
+    },
+    "sourceIdentity": {
+     "result": "PASS",
+     "finding": "The family is a custom pleading composed from codified text (sourceStatus CUSTOM_PLEADING_FROM_CODIFIED_TEXT, officialFormFamily NONE); the receipt binds no official-form bytes, so there is no source hash to recompute and none is owed.",
+     "evidence": {
+      "declaredSources": 0
+     }
+    },
+    "artifactIntegrity": {
+     "result": "PASS",
+     "finding": "Every artifact named in reports/rendered-artifacts.json was rehashed in this lane; every recomputed SHA-256 and byte length agrees with the record.",
+     "evidence": [
+      {
+       "file": "data/rcap-all50/overlays/census-v1/ct/ct-under18-misdemeanor-set--custom-pleading/fixtures/canonical.pdf",
+       "fixture": "canonical",
+       "recordedSha256": "590845d99eebe8690b046e6e165e2774307f008eb81def64b009603b70b556ae",
+       "recomputedSha256": "590845d99eebe8690b046e6e165e2774307f008eb81def64b009603b70b556ae",
+       "recordedByteLength": 7233,
+       "byteLengthOnDisk": 7233,
+       "matched": true,
+       "note": null
+      },
+      {
+       "file": "data/rcap-all50/overlays/census-v1/ct/ct-under18-misdemeanor-set--custom-pleading/fixtures/boundary.pdf",
+       "fixture": "boundary",
+       "recordedSha256": "3a951c8005870a9f49b4f426d2602fb4400430ff40c85af54b87adf5a7bb5888",
+       "recomputedSha256": "3a951c8005870a9f49b4f426d2602fb4400430ff40c85af54b87adf5a7bb5888",
+       "recordedByteLength": 7249,
+       "byteLengthOnDisk": 7249,
+       "matched": true,
+       "note": null
+      }
+     ]
+    },
+    "routeAndStatuteOnTheFace": {
+     "result": "PASS",
+     "finding": "The canonical fixture is the § 54-142a(f) branch worksheet naming both branches — (f)(1) automatic for offenses 1 Jan 2000–1 Jul 2012, (f)(2) petition for pre-2000 offenses — and states on its face that the relief is erasure of an adult record. The packet deliberately generates no petition: no Judicial Branch (f)(2) form exists, JD-CR-202 is a Clean Slate form on its face, and the legal-design record retains the petition branch as a blocker; the worksheet plus the stop-and-get-help boundary is the declared deliverable for both route keys.",
+     "evidence": {
+      "statuteOnFace": "C.G.S. § 54-142a(f)",
+      "deliverable": "branch worksheet; no filing generated on either branch, stated on the face and in the instructions",
+      "pageCount": 2
+     }
+    },
+    "participantFieldsPopulated": {
+     "result": "PASS",
+     "finding": "reports/actual-writes.json proves 2 non-empty writes on the output bytes (the prepared-for participant identity); every branch-deciding fact is a participant-supplied worksheet item, each named in the instructions with its source (Judicial Branch case look-up).",
+     "evidence": {
+      "documents": 2,
+      "nonEmptyWrites": 2,
+      "emptyWrites": 0
+     }
+    },
+    "placeholderAndWrongStateScan": {
+     "result": "PASS",
+     "finding": "pdftotext over the canonical fixture found no placeholder text (TODO, PLACEHOLDER, Lorem ipsum, {{...}}, FIXME, TBD) and the face carries the correct state's caption and vocabulary.",
+     "evidence": {
+      "canonicalPdf": "data/rcap-all50/overlays/census-v1/ct/ct-under18-misdemeanor-set--custom-pleading/fixtures/canonical.pdf",
+      "placeholderHits": [],
+      "faceTextLength": 4778
+     }
+    },
+    "filingInstructions": {
+     "result": "PASS",
+     "finding": "The instructions state the two branches and the decision rule, the no-fee position with its statute (§ 54-142a(k)), the documents to obtain and where, and a precise stop list (pre-2000 offenses, § 54-142a(f)(3) same-information charges, motor-vehicle/title-14/§ 51-164r offenses, immigration matters). Service does not arise because the packet files nothing.",
+     "evidence": {
+      "fee": "none — § 54-142a(k) stated",
+      "service": "not applicable — the packet generates no filing and says so",
+      "selfHelpStop": "explicit stop list including the unbuilt petition branch"
+     }
+    }
+   },
+   "standardApplied": {
+    "measuredHere": "Every obligation below was measured in this lane at base edf5ff14b9bb418dfafc57b75e4a7acc6ece1666 from the committed artifacts, the registered completeness verifier (scripts/rcap-packet-completeness/verify-packet-completeness.mjs), and — for source identity — the Master Library bytes bootstrapped in this container (archive sha256 a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89). No counter was copied from a builder report; where a builder report is cited it is cited as the thing being checked, not as the answer.",
+    "feeAndServiceStandard": "Where a fee, address or service mechanic is not held by any committed source, a dedicated instruction line that names the checkable authority (the clerk of the specific named court or the named agency) is treated as meeting the obligation, following the PASS standard vf18 recorded on ak-courtview-set; a catch-all line naming nobody is not. VERMONT_REPAIR.json records that the filingDestination standard is a known verification-contract divergence; the standard applied here is stated so the difference is legible rather than silent."
+   }
+  },
+  {
+   "itemId": "ga-deaddocket-j3-set",
+   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ga/ga-deaddocket-j3-set--custom-pleading",
+   "baseSha": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666",
+   "proofObligations": {
+    "completenessAudit": {
+     "result": "PASS",
+     "finding": "The registered completeness verifier was run in this lane against this family and returned PASS_COMPLETE with all nine counters zero.",
+     "evidence": {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ga-deaddocket-j3-set",
+      "result": "PASS_COMPLETE",
+      "counters": {
+       "knownRequiredFieldsMissing": 0,
+       "requiredFactsNotCollected": 0,
+       "unclassifiedBlanks": 0,
+       "incompleteRows": 0,
+       "requiredOptionsMissing": 0,
+       "requiredComponentsMissing": 0,
+       "invisibleWrites": 0,
+       "protectedWrites": 0,
+       "visualDefects": 0
+      }
+     }
+    },
+    "sourceIdentity": {
+     "result": "FAIL",
+     "finding": "A declared source hash does not match.",
+     "evidence": {
+      "declaredSources": 3,
+      "rehashedFromMasterLibraryBytes": 1,
+      "entries": [
+       {
+        "doc": "GA-LEGAL-REVIEW-2026-07-30",
+        "pathInArchive": "STATES/GA/01_LEGAL_REVIEW/GA__LEGAL-REVIEW__STATEWIDE__georgia-record-clearing-legal-review__ASOF-2026-07-30__EN.md",
+        "recordedSha256": "85e22768a4cfc27dd0633791fe6ed8a020682c39899144239bbcb95727d6fd22",
+        "recomputedSha256": "85e22768a4cfc27dd0633791fe6ed8a020682c39899144239bbcb95727d6fd22",
+        "matched": true
+       },
+       {
+        "doc": "GA-LEGAL-DESIGN-INTAKE-MEMO",
+        "pathInArchive": "data/record-clearing/legal-design-intake/GA.memo.json",
+        "matched": false
+       },
+       {
+        "doc": "GA-PACKET-SET-MANIFEST",
+        "pathInArchive": "data/record-clearing/legal-design-packet-set-manifests.json",
+        "matched": false
+       }
+      ]
+     }
+    },
+    "artifactIntegrity": {
+     "result": "PASS",
+     "finding": "Every artifact named in reports/rendered-artifacts.json was rehashed in this lane; every recomputed SHA-256 and byte length agrees with the record.",
+     "evidence": [
+      {
+       "file": "data/rcap-all50/overlays/census-v1/ga/ga-deaddocket-j3-set--custom-pleading/fixtures/canonical.pdf",
+       "fixture": "canonical",
+       "recordedSha256": "0860a52c8b3607370fee4757b2224ade00b514f13df43ee92589099c69a278fd",
+       "recomputedSha256": "0860a52c8b3607370fee4757b2224ade00b514f13df43ee92589099c69a278fd",
+       "recordedByteLength": 14575,
+       "byteLengthOnDisk": 14575,
+       "matched": true,
+       "note": null
+      },
+      {
+       "file": "data/rcap-all50/overlays/census-v1/ga/ga-deaddocket-j3-set--custom-pleading/fixtures/boundary.pdf",
+       "fixture": "boundary",
+       "recordedSha256": "65217c5b184350454e5dac9e0d0986162ac9edc600e1291c9638ea2572f95f96",
+       "recomputedSha256": "65217c5b184350454e5dac9e0d0986162ac9edc600e1291c9638ea2572f95f96",
+       "recordedByteLength": 14859,
+       "byteLengthOnDisk": 14859,
+       "matched": true,
+       "note": null
+      }
+     ]
+    },
+    "routeAndStatuteOnTheFace": {
+     "result": "PASS",
+     "finding": "The canonical fixture is a composed Petition to Restrict Access to Criminal History Record Information (Dead Docket) citing O.C.G.A. § 35-3-37(j)(3) on its face, filed in the existing criminal case under the existing case number, styled State of Georgia v. Defendant, with the 12-month dead-docket recital printed — matching the route obligation:track-only:GA:ga-deaddocket-j3.",
+     "evidence": {
+      "statuteOnFace": "O.C.G.A. § 35-3-37(j)(3)",
+      "recital": "charge on the dead docket more than 12 months",
+      "pageCount": 6
+     }
+    },
+    "participantFieldsPopulated": {
+     "result": "PASS",
+     "finding": "reports/actual-writes.json proves 16 non-empty writes across 2 documents on the output bytes; participant identity is populated and every case fact is a labelled dotted blank named in the instructions with the clerk as its source.",
+     "evidence": {
+      "documents": 2,
+      "nonEmptyWrites": 16,
+      "emptyWrites": 0
+     }
+    },
+    "placeholderAndWrongStateScan": {
+     "result": "PASS",
+     "finding": "pdftotext over the canonical fixture found no placeholder text (TODO, PLACEHOLDER, Lorem ipsum, {{...}}, FIXME, TBD) and the face carries the correct state's caption and vocabulary.",
+     "evidence": {
+      "canonicalPdf": "data/rcap-all50/overlays/census-v1/ga/ga-deaddocket-j3-set--custom-pleading/fixtures/canonical.pdf",
+      "placeholderHits": [],
+      "faceTextLength": 8896
+     }
+    },
+    "filingInstructions": {
+     "result": "PASS",
+     "finding": "The instructions name the destination (the court in which the charge is pending, from the participant's own case papers, confirmable by that court's clerk), carry a dedicated fee paragraph (no statutory filing fee identified for a filing in an existing criminal case; whether any clerk charges one is unresolved and county-specific, so ask the clerk of the named court; § 9-15-2 pauper's-affidavit reach likewise sent to the same clerk), and state service exactly (prosecuting attorney — District Attorney or Solicitor-General — and the clerk of court, by certified mail, e-filing or hand delivery, certificate completed only when copies actually go out).",
+     "evidence": {
+      "destination": "court in which the charge is pending (clerk named as confirming authority)",
+      "fee": "dedicated paragraph; no figure quoted because none is sourced; named clerk to ask",
+      "service": "prosecuting attorney and clerk of court; methods listed; certificate completed only after service"
+     }
+    },
+    "repositoryBoundSources": {
+     "result": "PASS",
+     "finding": "The receipt's three non-library documents (GA legal review, GA legal-design intake memo, packet-set manifest) live at repository paths; each was rehashed from the committed file and matches the receipt.",
+     "evidence": {
+      "matched": [
+       "GA-LEGAL-REVIEW-2026-07-30",
+       "GA-LEGAL-DESIGN-INTAKE-MEMO",
+       "GA-PACKET-SET-MANIFEST"
+      ]
+     }
+    }
+   },
+   "standardApplied": {
+    "measuredHere": "Every obligation below was measured in this lane at base edf5ff14b9bb418dfafc57b75e4a7acc6ece1666 from the committed artifacts, the registered completeness verifier (scripts/rcap-packet-completeness/verify-packet-completeness.mjs), and — for source identity — the Master Library bytes bootstrapped in this container (archive sha256 a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89). No counter was copied from a builder report; where a builder report is cited it is cited as the thing being checked, not as the answer.",
+    "feeAndServiceStandard": "Where a fee, address or service mechanic is not held by any committed source, a dedicated instruction line that names the checkable authority (the clerk of the specific named court or the named agency) is treated as meeting the obligation, following the PASS standard vf18 recorded on ak-courtview-set; a catch-all line naming nobody is not. VERMONT_REPAIR.json records that the filingDestination standard is a known verification-contract divergence; the standard applied here is stated so the difference is legible rather than silent."
+   }
+  },
+  {
+   "itemId": "ky_criminal_record_segregation-set",
+   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ky/ky-criminal-record-segregation-set--custom-pleading",
+   "baseSha": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666",
+   "proofObligations": {
+    "completenessAudit": {
+     "result": "PASS",
+     "finding": "The registered completeness verifier was run in this lane against this family and returned PASS_COMPLETE with all nine counters zero.",
+     "evidence": {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ky_criminal_record_segregation-set",
+      "result": "PASS_COMPLETE",
+      "counters": {
+       "knownRequiredFieldsMissing": 0,
+       "requiredFactsNotCollected": 0,
+       "unclassifiedBlanks": 0,
+       "incompleteRows": 0,
+       "requiredOptionsMissing": 0,
+       "requiredComponentsMissing": 0,
+       "invisibleWrites": 0,
+       "protectedWrites": 0,
+       "visualDefects": 0
+      }
+     }
+    },
+    "sourceIdentity": {
+     "result": "PASS",
+     "finding": "The family is a custom pleading composed from codified text (sourceStatus CUSTOM_PLEADING_FROM_CODIFIED_TEXT, officialFormFamily NONE); the receipt binds no official-form bytes, so there is no source hash to recompute and none is owed.",
+     "evidence": {
+      "declaredSources": 0
+     }
+    },
+    "artifactIntegrity": {
+     "result": "PASS",
+     "finding": "Every artifact named in reports/rendered-artifacts.json was rehashed in this lane; every recomputed SHA-256 and byte length agrees with the record.",
+     "evidence": [
+      {
+       "file": "data/rcap-all50/overlays/census-v1/ky/ky-criminal-record-segregation-set--custom-pleading/fixtures/canonical.pdf",
+       "fixture": "canonical",
+       "recordedSha256": "688787fb65152b5bb91ee9677012709e808db28da9dccb7599f85a631ac97970",
+       "recomputedSha256": "688787fb65152b5bb91ee9677012709e808db28da9dccb7599f85a631ac97970",
+       "recordedByteLength": 13884,
+       "byteLengthOnDisk": 13884,
+       "matched": true,
+       "note": null
+      },
+      {
+       "file": "data/rcap-all50/overlays/census-v1/ky/ky-criminal-record-segregation-set--custom-pleading/fixtures/boundary.pdf",
+       "fixture": "boundary",
+       "recordedSha256": "7e8e5f3eda4cc8cd5a5cc5a29d6c10e83eae825a3508a24e4d9ed7732a5cb470",
+       "recomputedSha256": "7e8e5f3eda4cc8cd5a5cc5a29d6c10e83eae825a3508a24e4d9ed7732a5cb470",
+       "recordedByteLength": 14152,
+       "byteLengthOnDisk": 14152,
+       "matched": true,
+       "note": null
+      }
+     ]
+    },
+    "routeAndStatuteOnTheFace": {
+     "result": "PASS",
+     "finding": "The canonical fixture is a composed Application for Order of Segregation of Records Pursuant to KRS 17.142, captioned to the Kentucky court in which the case was tried (or would have been tried), Commonwealth of Kentucky — matching both queue route keys (court application under KRS 17.142(2) and agency written request under KRS 17.142(1)), each with its own component.",
+     "evidence": {
+      "statuteOnFace": "KRS 17.142",
+      "components": [
+       "court application",
+       "agency letters"
+      ],
+      "pageCount": 5
+     }
+    },
+    "participantFieldsPopulated": {
+     "result": "PASS",
+     "finding": "reports/actual-writes.json proves 14 non-empty writes across 2 documents on the output bytes; participant identity is populated and every case fact is a labelled dotted blank named in the instructions with its record source.",
+     "evidence": {
+      "documents": 2,
+      "nonEmptyWrites": 14,
+      "emptyWrites": 0
+     }
+    },
+    "placeholderAndWrongStateScan": {
+     "result": "PASS",
+     "finding": "pdftotext over the canonical fixture found no placeholder text (TODO, PLACEHOLDER, Lorem ipsum, {{...}}, FIXME, TBD) and the face carries the correct state's caption and vocabulary.",
+     "evidence": {
+      "canonicalPdf": "data/rcap-all50/overlays/census-v1/ky/ky-criminal-record-segregation-set--custom-pleading/fixtures/canonical.pdf",
+      "placeholderHits": [],
+      "faceTextLength": 9123
+     }
+    },
+    "filingInstructions": {
+     "result": "PASS",
+     "finding": "The instructions route honestly (segregation is the weakest route; KRS 431.076/431.078 records are sent to those stronger statutes; court records cannot be segregated), name the filing mechanics (circuit court clerk of the county, who files for both District and Circuit Court and resolves the unrecorded court level), state the fee position (none identified for either route — confirm with that named clerk), and state the service position from the statute (no notice or service on anyone else is required on the court route — KRS 17.142 provides for none).",
+     "evidence": {
+      "destination": "circuit court clerk of the county (named as filing and court-level authority)",
+      "fee": "none identified; named clerk to confirm",
+      "service": "statute requires none on the court route; agency route is direct signed letters to each agency"
+     }
+    }
+   },
+   "standardApplied": {
+    "measuredHere": "Every obligation below was measured in this lane at base edf5ff14b9bb418dfafc57b75e4a7acc6ece1666 from the committed artifacts, the registered completeness verifier (scripts/rcap-packet-completeness/verify-packet-completeness.mjs), and — for source identity — the Master Library bytes bootstrapped in this container (archive sha256 a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89). No counter was copied from a builder report; where a builder report is cited it is cited as the thing being checked, not as the answer.",
+    "feeAndServiceStandard": "Where a fee, address or service mechanic is not held by any committed source, a dedicated instruction line that names the checkable authority (the clerk of the specific named court or the named agency) is treated as meeting the obligation, following the PASS standard vf18 recorded on ak-courtview-set; a catch-all line naming nobody is not. VERMONT_REPAIR.json records that the filingDestination standard is a known verification-contract divergence; the standard applied here is stated so the difference is legible rather than silent."
+   }
+  },
+  {
+   "itemId": "ne-expunge-le-error-set",
+   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ne/ne-expunge-le-error-set--custom-pleading",
+   "baseSha": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666",
+   "proofObligations": {
+    "completenessAudit": {
+     "result": "PASS",
+     "finding": "The registered completeness verifier was run in this lane against this family and returned PASS_COMPLETE with all nine counters zero.",
+     "evidence": {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ne-expunge-le-error-set",
+      "result": "PASS_COMPLETE",
+      "counters": {
+       "knownRequiredFieldsMissing": 0,
+       "requiredFactsNotCollected": 0,
+       "unclassifiedBlanks": 0,
+       "incompleteRows": 0,
+       "requiredOptionsMissing": 0,
+       "requiredComponentsMissing": 0,
+       "invisibleWrites": 0,
+       "protectedWrites": 0,
+       "visualDefects": 0
+      }
+     }
+    },
+    "sourceIdentity": {
+     "result": "PASS",
+     "finding": "The family is a custom pleading composed from codified text (sourceStatus CUSTOM_PLEADING_FROM_CODIFIED_TEXT, officialFormFamily NONE); the receipt binds no official-form bytes, so there is no source hash to recompute and none is owed.",
+     "evidence": {
+      "declaredSources": 0
+     }
+    },
+    "artifactIntegrity": {
+     "result": "PASS",
+     "finding": "Every artifact named in reports/rendered-artifacts.json was rehashed in this lane; every recomputed SHA-256 and byte length agrees with the record.",
+     "evidence": [
+      {
+       "file": "data/rcap-all50/overlays/census-v1/ne/ne-expunge-le-error-set--custom-pleading/fixtures/canonical.pdf",
+       "fixture": "canonical",
+       "recordedSha256": "b3ad99b4a1ae52c251751a357bb0dc4745dd1ceb6281ed03861cb9a0988a9be8",
+       "recomputedSha256": "b3ad99b4a1ae52c251751a357bb0dc4745dd1ceb6281ed03861cb9a0988a9be8",
+       "recordedByteLength": 10381,
+       "byteLengthOnDisk": 10381,
+       "matched": true,
+       "note": null
+      },
+      {
+       "file": "data/rcap-all50/overlays/census-v1/ne/ne-expunge-le-error-set--custom-pleading/fixtures/boundary.pdf",
+       "fixture": "boundary",
+       "recordedSha256": "df7386e9e32ad77e32fcbfebc123a0a0d5a31e24a46ad9a02050216a227c8f69",
+       "recomputedSha256": "df7386e9e32ad77e32fcbfebc123a0a0d5a31e24a46ad9a02050216a227c8f69",
+       "recordedByteLength": 10583,
+       "byteLengthOnDisk": 10583,
+       "matched": true,
+       "note": null
+      }
+     ]
+    },
+    "routeAndStatuteOnTheFace": {
+     "result": "PASS",
+     "finding": "The canonical fixture is a Petition to Expunge Criminal History Record Information citing Neb. Rev. Stat. § 29-3523(9) on its face, captioned to the district court of the county in which the arrest occurred as a new civil matter, with the county attorney of that county as respondent — exactly the venue and respondent the recorded controlling decisions Q-023 and Q-024 settle.",
+     "evidence": {
+      "statuteOnFace": "Neb. Rev. Stat. § 29-3523(9)",
+      "venue": "district court of the county of arrest (Q-023)",
+      "respondent": "the county attorney of that county (Q-024)",
+      "pageCount": 4
+     }
+    },
+    "participantFieldsPopulated": {
+     "result": "PASS",
+     "finding": "reports/actual-writes.json proves 12 non-empty writes across 2 documents on the output bytes; participant identity is populated and the error narrative is the participant's own words on dotted lines, as the memo requires.",
+     "evidence": {
+      "documents": 2,
+      "nonEmptyWrites": 12,
+      "emptyWrites": 0
+     }
+    },
+    "placeholderAndWrongStateScan": {
+     "result": "PASS",
+     "finding": "pdftotext over the canonical fixture found no placeholder text (TODO, PLACEHOLDER, Lorem ipsum, {{...}}, FIXME, TBD) and the face carries the correct state's caption and vocabulary.",
+     "evidence": {
+      "canonicalPdf": "data/rcap-all50/overlays/census-v1/ne/ne-expunge-le-error-set--custom-pleading/fixtures/canonical.pdf",
+      "placeholderHits": [],
+      "faceTextLength": 5946
+     }
+    },
+    "filingInstructions": {
+     "result": "PASS",
+     "finding": "The instructions name the destination (clerk of the district court of the county of arrest, new civil matter), delegate the unestablished filing fee to that named clerk in a dedicated line while stating the § 25-2301.01 fee-waiver availability, and state the service posture from Q-024 (formal service as a new civil action on the county attorney, mechanics confirmed with the named clerk because the decision record itself notes local practices vary).",
+     "evidence": {
+      "destination": "clerk of the district court of the county of arrest",
+      "fee": "not established by any held source; named clerk to ask; § 25-2301.01 waiver stated",
+      "service": "county attorney served as a new civil action per Q-024"
+     }
+    },
+    "queueRowDiscrepancy": {
+     "result": "PASS",
+     "finding": "The MASTER_QUEUE row label's § 29-3523(6) is a recorded label discrepancy, not a defect in the packet: build-findings.json records that the memo and the controlling decisions Q-023/Q-024/Q-025 all say § 29-3523(9), follows them, and records the discrepancy rather than smoothing it over. The face and every instruction cite (9). This lane read Q-023 (venue) and Q-024 (respondent/service) in data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json and the build matches both holdings.",
+     "evidence": {
+      "queueLabel": "§ 29-3523(6) in instrumentKinds",
+      "controllingRecords": "§ 29-3523(9) per NE.memo.json and Q-023/Q-024/Q-025",
+      "buildFollows": "§ 29-3523(9)",
+      "recordedAt": "data/rcap-all50/overlays/census-v1/ne/ne-expunge-le-error-set--custom-pleading/build-findings.json"
+     }
+    }
+   },
+   "standardApplied": {
+    "measuredHere": "Every obligation below was measured in this lane at base edf5ff14b9bb418dfafc57b75e4a7acc6ece1666 from the committed artifacts, the registered completeness verifier (scripts/rcap-packet-completeness/verify-packet-completeness.mjs), and — for source identity — the Master Library bytes bootstrapped in this container (archive sha256 a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89). No counter was copied from a builder report; where a builder report is cited it is cited as the thing being checked, not as the answer.",
+    "feeAndServiceStandard": "Where a fee, address or service mechanic is not held by any committed source, a dedicated instruction line that names the checkable authority (the clerk of the specific named court or the named agency) is treated as meeting the obligation, following the PASS standard vf18 recorded on ak-courtview-set; a catch-all line naming nobody is not. VERMONT_REPAIR.json records that the filingDestination standard is a known verification-contract divergence; the standard applied here is stated so the difference is legible rather than silent."
+   }
+  },
+  {
+   "itemId": "ny_mrta_marijuana-set",
+   "verdict": "BLOCKED_LEGAL_INPUT",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill",
+   "baseSha": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666",
+   "proofObligations": {
+    "completenessAudit": {
+     "result": "PASS",
+     "finding": "The registered completeness verifier returned PASS_COMPLETE with all nine counters zero.",
+     "evidence": {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ny_mrta_marijuana-set",
+      "result": "PASS_COMPLETE",
+      "counters": {
+       "knownRequiredFieldsMissing": 0,
+       "requiredFactsNotCollected": 0,
+       "unclassifiedBlanks": 0,
+       "incompleteRows": 0,
+       "requiredOptionsMissing": 0,
+       "requiredComponentsMissing": 0,
+       "invisibleWrites": 0,
+       "protectedWrites": 0,
+       "visualDefects": 0
+      }
+     }
+    },
+    "sourceIdentity": {
+     "result": "PASS",
+     "finding": "Every declared source (1) was rehashed in this lane — Master Library entries from the bootstrapped corpus bytes, repository-path entries from the committed files — and every recomputed SHA-256 and byte length agrees with source-receipt.json.",
+     "evidence": {
+      "declaredSources": 1,
+      "rehashedFromMasterLibraryBytes": 1,
+      "entries": [
+       {
+        "doc": "NY-MRTA-DESTRUCTION-REQUEST",
+        "pathInArchive": "STATES/NY/02_PACKET_FORMS/NY__FORM__MRTA-DESTRUCTION-REQUEST__application-to-destroy-marijuana-conviction-record__REV-UNKNOWN__EN.pdf",
+        "recordedSha256": "55c8ec044ecd2adf30508b6a2403c690fc441419d6fba0ccc657eba182298544",
+        "recomputedSha256": "55c8ec044ecd2adf30508b6a2403c690fc441419d6fba0ccc657eba182298544",
+        "matched": true
+       }
+      ]
+     }
+    },
+    "artifactIntegrity": {
+     "result": "PASS",
+     "finding": "Both fixture PDFs named in reports/rendered-artifacts.json were rehashed in this lane and match the record.",
+     "evidence": [
+      {
+       "file": "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/fixtures/mrta-destruction-request-canonical.pdf",
+       "fixture": "canonical",
+       "recordedSha256": "37d456b6c2b79c3801bb9c07030072d5b0487a95f711a92a3fd8ef14e99b05ff",
+       "recomputedSha256": "37d456b6c2b79c3801bb9c07030072d5b0487a95f711a92a3fd8ef14e99b05ff",
+       "recordedByteLength": 247978,
+       "byteLengthOnDisk": 247978,
+       "matched": true,
+       "note": null
+      },
+      {
+       "file": "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/fixtures/mrta-destruction-request-boundary.pdf",
+       "fixture": "boundary",
+       "recordedSha256": "5f61e8f23675070c7691b16c6522745f5fa033083725f1eefb9caccc32cb3457",
+       "recomputedSha256": "5f61e8f23675070c7691b16c6522745f5fa033083725f1eefb9caccc32cb3457",
+       "recordedByteLength": 247265,
+       "byteLengthOnDisk": 247265,
+       "matched": true,
+       "note": null
+      }
+     ]
+    },
+    "routeAndStatuteOnTheFace": {
+     "result": "PASS",
+     "finding": "The canonical fixture is the official MRTA destruction-request application on its own bytes — Application to Destroy Expunged Marihuana Conviction Record, citing CPL 160.50(3)(k), 160.50(5)(a), 440.46-a and 1.20(45) on its face, submitted to the court of conviction — matching the ny-mrta-destruction-request route key. The automatic-expungement branch generates no document by design (componentsNotGenerated is recorded in the report).",
+     "evidence": {
+      "statutesOnFace": [
+       "CPL 160.50(3)(k)",
+       "CPL 160.50(5)(a)",
+       "CPL 440.46-a",
+       "CPL 1.20(45)"
+      ],
+      "participantFieldsOnFace": [
+       "name",
+       "date of birth"
+      ],
+      "destinationOnFace": "Submit your application to the Court where you were convicted"
+     }
+    },
+    "legalInput": {
+     "result": "BLOCKED_LEGAL_INPUT",
+     "finding": "MASTER_QUEUE records this family legalInputStatus OPEN_LEGAL_INPUT with basis LEGAL_APPROVAL_VERDICT, and WAVE_2_LEGAL_INPUT_ASSIGNMENTS.json records the decisive obligation — fee and waiver treatment for a named court — as an input still to be supplied and recorded in the controlling file before re-verification. The form's own face prints 'There is no application fee', but no controlling record has yet absorbed that answer and closed the input; an independent verifier does not settle open legal inputs. Until the input is recorded, no completeness verdict can issue.",
+     "evidence": {
+      "queueLegalInputStatus": "OPEN_LEGAL_INPUT",
+      "legalInputBasis": "LEGAL_APPROVAL_VERDICT",
+      "assignment": "data/rcap-grade-a/launch-control/WAVE_2_LEGAL_INPUT_ASSIGNMENTS.json — family ny_mrta_marijuana-set, decisiveObligation 'fee and waiver treatment', action 'supply the missing input and record it in the controlling file, then re-verify'",
+      "faceEvidence": "the official form prints 'NOTE: There is no application fee.'"
+     }
+    },
+    "filingInstructions": {
+     "result": "NOT_MEASURABLE_HERE",
+     "finding": "participant-instructions.md exists and lists the exact facts still required, but its fee/destination/service line is the catch-all 'Confirm current revision, filing destination, local procedures, fees, attachments, service, and proposed-order requirements before filing' — the same shape vf17 failed on ri_nonconviction_sealing-set. Because the family's fee-and-waiver treatment is the very input the open legal-input record says must be supplied first, this obligation is not scoreable until that input lands; it is recorded rather than guessed.",
+     "evidence": {
+      "catchAllLine": "Confirm current revision, filing destination, local procedures, fees, attachments, service, and proposed-order requirements before filing.",
+      "blockedBy": "the same open fee-and-waiver input recorded in WAVE_2_LEGAL_INPUT_ASSIGNMENTS.json"
+     }
+    }
+   },
+   "standardApplied": {
+    "measuredHere": "Every obligation below was measured in this lane at base edf5ff14b9bb418dfafc57b75e4a7acc6ece1666 from the committed artifacts, the registered completeness verifier (scripts/rcap-packet-completeness/verify-packet-completeness.mjs), and — for source identity — the Master Library bytes bootstrapped in this container (archive sha256 a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89). No counter was copied from a builder report; where a builder report is cited it is cited as the thing being checked, not as the answer.",
+    "feeAndServiceStandard": "Where a fee, address or service mechanic is not held by any committed source, a dedicated instruction line that names the checkable authority (the clerk of the specific named court or the named agency) is treated as meeting the obligation, following the PASS standard vf18 recorded on ak-courtview-set; a catch-all line naming nobody is not. VERMONT_REPAIR.json records that the filingDestination standard is a known verification-contract divergence; the standard applied here is stated so the difference is legible rather than silent."
+   }
+  },
+  {
+   "itemId": "oh_marijuana_expungement-set",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading",
+   "baseSha": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666",
+   "proofObligations": {
+    "priorDefectRepaired": {
+     "result": "PASS",
+     "finding": "The defect vf02 failed — render-report text hashes not matching the bytes written — is repaired and proven in this lane: canonical.txt rehashes to 13a210a2aac2f8a80a8319f0fbb6516bd57ffadd7c57ae663d206fa10bc64073 (4063 bytes) and boundary.txt to 025dee088bf52e1fc4543eb63b17c8db91f7b70d8cb66792cf88a78434b57345 (4717 bytes), exactly what each render-report.json now records; both fixture PDF hashes also match their reports. These recomputed values equal the 'recomputed' values in vf02's failing row, so the reports now record the truth vf02 measured.",
+     "evidence": {
+      "repairCommit": "da596ed81 fix(oh_marijuana_expungement-set): render-report text records now hash the bytes actually written",
+      "canonicalTxt": {
+       "recomputedSha256": "13a210a2aac2f8a80a8319f0fbb6516bd57ffadd7c57ae663d206fa10bc64073",
+       "byteLength": 4063,
+       "matchesRenderReport": true
+      },
+      "boundaryTxt": {
+       "recomputedSha256": "025dee088bf52e1fc4543eb63b17c8db91f7b70d8cb66792cf88a78434b57345",
+       "byteLength": 4717,
+       "matchesRenderReport": true
+      },
+      "canonicalPdf": {
+       "recomputedSha256": "f46c9e873fb90524b0207f8007086aa3763082394ae52effed9703fba24f2a5a",
+       "matchesReports": true
+      },
+      "boundaryPdf": {
+       "recomputedSha256": "44f8a1befb19e29b22506ed4a9f30364458ea948b0a67b16fba3708ff9da8422",
+       "matchesReports": true
+      }
+     }
+    },
+    "completenessAudit": {
+     "result": "FAIL",
+     "finding": "The registered completeness verifier returns FAIL_COMPONENT_SET (0/0 written): the family publishes no production-field-map.json at the family root, so nothing in the schema the completeness contract reads states what the packet was supposed to write, and the verifier refuses rather than reading it as empty. The family also carries no reports/actual-writes.json, reports/completeness-counters.json or reports/blanks-left-for-the-participant.json. Every other custom-pleading family in this lane (CT x2, GA, KY, NE, VA-identity) publishes that contract and passes; this family's tracks/ layout predates it. MASTER_QUEUE's own completenessStatus for the family is FAIL_COMPONENT_SET.",
+     "evidence": {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family oh_marijuana_expungement-set",
+      "result": "FAIL_COMPONENT_SET",
+      "verifierReason": "the family has no production-field-map.json, so nothing states what it was supposed to write",
+      "missingContractFiles": [
+       "production-field-map.json",
+       "reports/actual-writes.json",
+       "reports/completeness-counters.json",
+       "reports/blanks-left-for-the-participant.json"
+      ],
+      "queueCompletenessStatus": "FAIL_COMPONENT_SET"
+     }
+    },
+    "sourceIdentity": {
+     "result": "PASS",
+     "finding": "The single declared source (OH-BCI-SEALING-EXPUNGEMENT-REQUEST) was rehashed from the Master Library bytes in this container and matches source-receipt.json exactly (sha256 9234ec76..., 235789 bytes). The committed copy at companion/ is absent from git under the recorded corpus-binary exclusion (commit c01b87d15: byte-identical corpus PDFs are excluded, the receipt's hash is the record); its committed raster page and contact sheet both rehash to their recorded values.",
+     "evidence": {
+      "declaredSources": 1,
+      "rehashedFromMasterLibraryBytes": 1,
+      "entries": [
+       {
+        "doc": "OH-BCI-SEALING-EXPUNGEMENT-REQUEST",
+        "pathInArchive": "STATES/OH/04_SUPPORTING_PROCESS/OH__SUPPORT__OH-BCI-SEALING-EXPUNGEMENT-REQUEST__re-sealing-and-or-expungements__REV-UNKNOWN__EN.pdf",
+        "recordedSha256": "9234ec763403b1ccfbed796dfcf86f29bf7887390d1770460d0bcc9da31fc8cb",
+        "recomputedSha256": "9234ec763403b1ccfbed796dfcf86f29bf7887390d1770460d0bcc9da31fc8cb",
+        "matched": true
+       }
+      ]
+     }
+    },
+    "routeAndStatuteOnTheFace": {
+     "result": "PASS",
+     "finding": "The canonical fixture cites Ohio Rev. Code § 2953.321 (qualifying marijuana/hashish possession expungement) and § 2953.61 (same-act multiple-charge limits) on its face, captioned Criminal Division, State of Ohio v. applicant — matching the route obligation:track-pathway:OH:oh_marijuana_expungement:marijuana-hashish-possession-expungement-under-2953-321. No placeholder text; participant fields populated on the face.",
+     "evidence": {
+      "statutesOnFace": [
+       "Ohio Rev. Code § 2953.321",
+       "Ohio Rev. Code § 2953.61"
+      ],
+      "placeholderHits": [],
+      "legalDesignStatus": "legal_design_approved_with_limitations"
+     }
+    },
+    "filingInstructions": {
+     "result": "NOT_MEASURABLE_HERE",
+     "finding": "tracks/oh_marijuana_expungement/participant-instructions.md exists and mentions the court, the recorded $50 fee/indigency exception and prosecutor notice, but the family's own build-findings record that no statewide mandatory primary application was identified and the sentencing court's current local application and filing instructions must be obtained before release — an explicit release blocker the build itself declares. The obligation is recorded as the build states it rather than independently scored while the completeness contract itself is unreadable for this family.",
+     "evidence": {
+      "buildBlockers": [
+       "obtain and review the current local-court application and filing instructions",
+       "resolve each track's recorded eligibility hard stops from primary authority and case records",
+       "obtain completed-output legal approval before any participant or commercial release"
+      ]
+     }
+    }
+   },
+   "repairRequired": "Publish this family's field-disposition evidence in the schema the registered completeness verifier reads — a production-field-map.json at the family root plus reports/actual-writes.json, reports/completeness-counters.json and reports/blanks-left-for-the-participant.json, as every other custom-pleading family in this lane does — then re-run verify-packet-completeness.mjs and take a fresh independent read. The rendered artifacts themselves are proven sound; the defect is that the family's evidence cannot be audited by the registered contract, so a completeness PASS cannot exist for it.",
+   "standardApplied": {
+    "measuredHere": "Every obligation below was measured in this lane at base edf5ff14b9bb418dfafc57b75e4a7acc6ece1666 from the committed artifacts, the registered completeness verifier (scripts/rcap-packet-completeness/verify-packet-completeness.mjs), and — for source identity — the Master Library bytes bootstrapped in this container (archive sha256 a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89). No counter was copied from a builder report; where a builder report is cited it is cited as the thing being checked, not as the answer.",
+    "feeAndServiceStandard": "Where a fee, address or service mechanic is not held by any committed source, a dedicated instruction line that names the checkable authority (the clerk of the specific named court or the named agency) is treated as meeting the obligation, following the PASS standard vf18 recorded on ak-courtview-set; a catch-all line naming nobody is not. VERMONT_REPAIR.json records that the filingDestination standard is a known verification-contract divergence; the standard applied here is stated so the difference is legible rather than silent."
+   }
+  },
+  {
+   "itemId": "ut_pet_dismissed_without_prejudice-set",
+   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill",
+   "baseSha": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666",
+   "proofObligations": {
+    "completenessAudit": {
+     "result": "PASS",
+     "finding": "The registered completeness verifier was run in this lane against this family and returned PASS_COMPLETE with all nine counters zero.",
+     "evidence": {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_dismissed_without_prejudice-set",
+      "result": "PASS_COMPLETE",
+      "counters": {
+       "knownRequiredFieldsMissing": 0,
+       "requiredFactsNotCollected": 0,
+       "unclassifiedBlanks": 0,
+       "incompleteRows": 0,
+       "requiredOptionsMissing": 0,
+       "requiredComponentsMissing": 0,
+       "invisibleWrites": 0,
+       "protectedWrites": 0,
+       "visualDefects": 0
+      }
+     }
+    },
+    "sourceIdentity": {
+     "result": "PASS",
+     "finding": "Every declared source (9) was rehashed in this lane — Master Library entries from the bootstrapped corpus bytes, repository-path entries from the committed files — and every recomputed SHA-256 and byte length agrees with source-receipt.json.",
+     "evidence": {
+      "declaredSources": 9,
+      "rehashedFromMasterLibraryBytes": 9,
+      "entries": [
+       {
+        "doc": "1000EX",
+        "pathInArchive": "STATES/UT/02_PACKET_FORMS/UT__FORM__1000EX__petition-to-expunge-records-with-certificate-of-eligibility__REV-2022-04-11__EN.pdf",
+        "recordedSha256": "401e0563ae4dddee7a447c4b3fa9d043477402188c98fd3b108087c84c986611",
+        "recomputedSha256": "401e0563ae4dddee7a447c4b3fa9d043477402188c98fd3b108087c84c986611",
+        "matched": true
+       },
+       {
+        "doc": "1020EX",
+        "pathInArchive": "STATES/UT/02_PACKET_FORMS/UT__FORM__1020EX__order-on-petition-to-expunge-records-with-certificate-of-eligibility__REV-2022-04-11__EN.pdf",
+        "recordedSha256": "cc437e7fa0abaa1001f5309e1d842c6f7649b152fcab616bd9356293e241acd2",
+        "recomputedSha256": "cc437e7fa0abaa1001f5309e1d842c6f7649b152fcab616bd9356293e241acd2",
+        "matched": true
+       },
+       {
+        "doc": "1044XX",
+        "pathInArchive": "STATES/UT/02_PACKET_FORMS/UT__FORM__1044XX__district-court-cover-sheet-for-civil-actions__REV-2026-05-06__EN.pdf",
+        "recordedSha256": "b99586289df6304da5b34181bee95ec2b7f098806c1c949a0f112daeb0244a52",
+        "recomputedSha256": "b99586289df6304da5b34181bee95ec2b7f098806c1c949a0f112daeb0244a52",
+        "matched": true
+       },
+       {
+        "doc": "1146XX",
+        "pathInArchive": "STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1146XX__acceptance-of-service-expungement__REV-2019-05-01__EN.pdf",
+        "recordedSha256": "39f1205f48bd73fc7b9686a101369be74a988b419697ea964c2ff5a5c0ce63ad",
+        "recomputedSha256": "39f1205f48bd73fc7b9686a101369be74a988b419697ea964c2ff5a5c0ce63ad",
+        "matched": true
+       },
+       {
+        "doc": "1148XX",
+        "pathInArchive": "STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1148XX__consent-and-waiver-of-hearing-expungement__REV-2019-05-01__EN.pdf",
+        "recordedSha256": "43c6d4fd232f67453357b342794cac209da82373ce4e93c686c285b42e553288",
+        "recomputedSha256": "43c6d4fd232f67453357b342794cac209da82373ce4e93c686c285b42e553288",
+        "matched": true
+       },
+       {
+        "doc": "1149XX",
+        "pathInArchive": "STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1149XX__victim-s-or-prosecutor-s-statement__REV-2019-05-01__EN.pdf",
+        "recordedSha256": "79f16112e639b74a3189dbde1a4bb725ea7e5f4f92988a476f8d1e9bd24662d3",
+        "recomputedSha256": "79f16112e639b74a3189dbde1a4bb725ea7e5f4f92988a476f8d1e9bd24662d3",
+        "matched": true
+       },
+       {
+        "doc": "1169XX",
+        "pathInArchive": "STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1169XX__reply-to-victim-s-statement-prosecutor-s-statement-or-ap-p-response__REV-2010-07-16__EN.pdf",
+        "recordedSha256": "bd5594c76fd9d3b5a8017ae25c0df7951bf2fb9381b752ddd61c2c7a2d713244",
+        "recomputedSha256": "bd5594c76fd9d3b5a8017ae25c0df7951bf2fb9381b752ddd61c2c7a2d713244",
+        "matched": true
+       },
+       {
+        "doc": "UT-BCI-EXP-APPLICATION",
+        "pathInArchive": "STATES/UT/04_SUPPORTING_PROCESS/UT__SUPPORT__UT-BCI-EXP-APPLICATION__bci-application-for-certificate-of-eligibility-for-expungement__REV-UNKNOWN__EN.pdf",
+        "recordedSha256": "b4eacb2b9f78c9d69da76ee6528d12c58d0d896a7d2869aeb7ba77de24a91b13",
+        "recomputedSha256": "b4eacb2b9f78c9d69da76ee6528d12c58d0d896a7d2869aeb7ba77de24a91b13",
+        "matched": true
+       },
+       {
+        "doc": "UT-BCI-THIRD-PARTY-RELEASE",
+        "pathInArchive": "STATES/UT/04_SUPPORTING_PROCESS/UT__SUPPORT__UT-BCI-THIRD-PARTY-RELEASE__bci-third-party-release-form__REV-UNKNOWN__EN.pdf",
+        "recordedSha256": "c4b59e479aeb5dcef0229fdc924905e7cfaa5ea611403d05a7cf636a50528451",
+        "recomputedSha256": "c4b59e479aeb5dcef0229fdc924905e7cfaa5ea611403d05a7cf636a50528451",
+        "matched": true
+       }
+      ]
+     }
+    },
+    "artifactIntegrity": {
+     "result": "PASS",
+     "finding": "Every artifact named in reports/rendered-artifacts.json was rehashed in this lane; every recomputed SHA-256 and byte length agrees with the record.",
+     "evidence": [
+      {
+       "file": "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill/fixtures/canonical.pdf",
+       "fixture": "canonical",
+       "recordedSha256": "8efb78f3f885af303bc74f461172d319f63b60bb747720329e401c1bd4d417f4",
+       "recomputedSha256": "8efb78f3f885af303bc74f461172d319f63b60bb747720329e401c1bd4d417f4",
+       "recordedByteLength": 3024971,
+       "byteLengthOnDisk": 3024971,
+       "matched": true,
+       "note": null
+      },
+      {
+       "file": "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill/fixtures/boundary.pdf",
+       "fixture": "boundary",
+       "recordedSha256": "6d9406adbba1c50f34b9349ed41f14a68295547c3838a08a141c69e2e228d142",
+       "recomputedSha256": "6d9406adbba1c50f34b9349ed41f14a68295547c3838a08a141c69e2e228d142",
+       "recordedByteLength": 3025608,
+       "byteLengthOnDisk": 3025608,
+       "matched": true,
+       "note": null
+      }
+     ]
+    },
+    "routeAndStatuteOnTheFace": {
+     "result": "PASS",
+     "finding": "The canonical fixture is the nine-document Utah official-form packet (1000EX petition, 1020EX order, 1044XX cover sheet, 1146XX/1148XX/1149XX/1169XX, BCI application and third-party release), 19 pages, with the caption's District Court election marked, the county written, and Utah Code 77-40a-305(1)(a) on the petition face — matching both queue route keys (BCI certificate and court petition).",
+     "evidence": {
+      "forms": [
+       "1000EX",
+       "1020EX",
+       "1044XX",
+       "1146XX",
+       "1148XX",
+       "1149XX",
+       "1169XX",
+       "UT-BCI-EXP-APPLICATION",
+       "UT-BCI-THIRD-PARTY-RELEASE"
+      ],
+      "statuteOnFace": "Utah Code 77-40a-305(1)(a)",
+      "pageCount": 19
+     }
+    },
+    "participantFieldsPopulated": {
+     "result": "PASS",
+     "finding": "reports/actual-writes.json (schema rcap-actual-writes-byte-proof/v1-completeness-repair) proves every write by glyph geometry read back from the final PDF bytes at the committed measured boxes — 39 finalizer values per fixture, zero glyphs outside measured write boxes, zero refused fields with ink — and the face shows the participant's name, address, phone and email populated.",
+     "evidence": {
+      "fixtures": 2,
+      "valuesReportedByFinalizerPerFixture": 39,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+      "refusedFieldsWithInk": 0
+     }
+    },
+    "placeholderAndWrongStateScan": {
+     "result": "PASS",
+     "finding": "pdftotext over the canonical fixture found no placeholder text (TODO, PLACEHOLDER, Lorem ipsum, {{...}}, FIXME, TBD) and the face carries the correct state's caption and vocabulary.",
+     "evidence": {
+      "canonicalPdf": "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill/fixtures/canonical.pdf",
+      "placeholderHits": [],
+      "faceTextLength": 27573
+     }
+    },
+    "filingInstructions": {
+     "result": "PASS",
+     "finding": "participant-instructions.md now meets all four obligations vf07 failed. filingDestination: both destinations named in order — the Utah Bureau of Criminal Identification for the certificate, then the district court for the county where the case was heard, with the 180-day deadline between them. feeAndWaiver: the $150 court fee stated with the selected 1044XX row, the 1305GE waiver motion named with its statute (78A-2-302, CJA 4-508), and BCI's separate per-applicant fee and indigent-instructions waiver route stated. service: the prosecutor must receive a copy of what is filed, by mail or email, with 1146XX included for acknowledgment and the certificate completed only after service occurs. Every direction cites the held publication it is quoted from, by SHA-256.",
+     "evidence": {
+      "priorFailures": [
+       "requiredBeforeFiling",
+       "filingDestination",
+       "feeAndWaiver",
+       "service"
+      ],
+      "repairCommit": "45763a715 FIX07: repair ut_pet_dismissed_without_prejudice-set on the four failed obligations",
+      "destination": "BCI then the district court for the county where the case was heard; 180-day certificate deadline stated",
+      "fee": "$150 stated and selected on 1044XX; waiver route 1305GE named; BCI fee and indigent waiver route stated",
+      "service": "prosecutor, by mail or email; 1146XX acceptance of service included"
+     }
+    },
+    "requiredBeforeFilingRepair": {
+     "result": "PASS",
+     "finding": "The map now declares exactly 12 REQUIRED_BEFORE_FILING blanks and every one is named in the instructions' 'facts you must supply' list (judicial district/court address x6, certificate-of-eligibility number, public-interest explanation, previously used names, and the BCI application's gender/SSN/driver-license blanks). The SID#R&F blank vf07 failed — inside the form's printed BUREAU USE ONLY box — is reclassified PROTECTED with the agency-use region's measured baseline recorded in the map (heading y=58.14, blank y=37.35).",
+     "evidence": {
+      "requiredBeforeFilingCount": 12,
+      "allNamedInInstructions": true,
+      "sidBlank": {
+       "blankId": "p2-y37.35-x188.34",
+       "previousDisposition": "REQUIRED_BEFORE_FILING",
+       "currentDisposition": "PROTECTED_FIELD",
+       "justificationInMap": "form prints an agency-use-only heading on page 2 at y=58.14 and this blank sits at y=37.35, inside that box"
+      }
+     }
+    }
+   },
+   "standardApplied": {
+    "measuredHere": "Every obligation below was measured in this lane at base edf5ff14b9bb418dfafc57b75e4a7acc6ece1666 from the committed artifacts, the registered completeness verifier (scripts/rcap-packet-completeness/verify-packet-completeness.mjs), and — for source identity — the Master Library bytes bootstrapped in this container (archive sha256 a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89). No counter was copied from a builder report; where a builder report is cited it is cited as the thing being checked, not as the answer.",
+    "feeAndServiceStandard": "Where a fee, address or service mechanic is not held by any committed source, a dedicated instruction line that names the checkable authority (the clerk of the specific named court or the named agency) is treated as meeting the obligation, following the PASS standard vf18 recorded on ak-courtview-set; a catch-all line naming nobody is not. VERMONT_REPAIR.json records that the filingDestination standard is a known verification-contract divergence; the standard applied here is stated so the difference is legible rather than silent."
+   }
+  },
+  {
+   "itemId": "va_exp_identity_used_by_another-set",
+   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/va/va-exp-identity-used-by-another-set--custom-pleading",
+   "baseSha": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666",
+   "proofObligations": {
+    "completenessAudit": {
+     "result": "PASS",
+     "finding": "The registered completeness verifier was run in this lane against this family and returned PASS_COMPLETE with all nine counters zero.",
+     "evidence": {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_exp_identity_used_by_another-set",
+      "result": "PASS_COMPLETE",
+      "counters": {
+       "knownRequiredFieldsMissing": 0,
+       "requiredFactsNotCollected": 0,
+       "unclassifiedBlanks": 0,
+       "incompleteRows": 0,
+       "requiredOptionsMissing": 0,
+       "requiredComponentsMissing": 0,
+       "invisibleWrites": 0,
+       "protectedWrites": 0,
+       "visualDefects": 0
+      }
+     }
+    },
+    "sourceIdentity": {
+     "result": "PASS",
+     "finding": "Every declared source (1) was rehashed in this lane — Master Library entries from the bootstrapped corpus bytes, repository-path entries from the committed files — and every recomputed SHA-256 and byte length agrees with source-receipt.json.",
+     "evidence": {
+      "declaredSources": 1,
+      "rehashedFromMasterLibraryBytes": 1,
+      "entries": [
+       {
+        "doc": "CC-1473",
+        "pathInArchive": "STATES/VA/02_PACKET_FORMS/VA__FORM__CC-1473__petition-for-expungement__REV-2026-07__EN.pdf",
+        "recordedSha256": "6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
+        "recomputedSha256": "6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
+        "matched": true
+       }
+      ]
+     }
+    },
+    "artifactIntegrity": {
+     "result": "PASS",
+     "finding": "Every artifact named in reports/rendered-artifacts.json was rehashed in this lane; every recomputed SHA-256 and byte length agrees with the record.",
+     "evidence": [
+      {
+       "file": "data/rcap-all50/overlays/census-v1/va/va-exp-identity-used-by-another-set--custom-pleading/fixtures/canonical.pdf",
+       "fixture": "canonical",
+       "recordedSha256": "e01f67987b25265e945bf774750a5af8a10f2360cad8790ca6bbbd116fc099b4",
+       "recomputedSha256": "e01f67987b25265e945bf774750a5af8a10f2360cad8790ca6bbbd116fc099b4",
+       "recordedByteLength": 19902,
+       "byteLengthOnDisk": 19902,
+       "matched": true,
+       "note": null
+      },
+      {
+       "file": "data/rcap-all50/overlays/census-v1/va/va-exp-identity-used-by-another-set--custom-pleading/fixtures/boundary.pdf",
+       "fixture": "boundary",
+       "recordedSha256": "eb054b41c4548fd97bd5ab8fcf368b4cdc9d3ac3d43e98b6e6c271b362376f66",
+       "recomputedSha256": "eb054b41c4548fd97bd5ab8fcf368b4cdc9d3ac3d43e98b6e6c271b362376f66",
+       "recordedByteLength": 20302,
+       "byteLengthOnDisk": 20302,
+       "matched": true,
+       "note": null
+      }
+     ]
+    },
+    "routeAndStatuteOnTheFace": {
+     "result": "PASS",
+     "finding": "The canonical fixture is a composed Petition for Expungement under Va. Code § 19.2-392.2(B) — the identity-theft subsection, for which no official form exists (CC-1473 is captioned to subsection (A) alone) — captioned VIRGINIA: In the court that disposed of the charge, In re petitioner v. Commonwealth of Virginia, with the § 19.2-392.2(H) misidentification motion as the alternative instrument and the § 19.2-392.2(E) fingerprint step included — matching obligation:track-only:VA:va_exp_identity_used_by_another.",
+     "evidence": {
+      "statuteOnFace": "Va. Code § 19.2-392.2(B)",
+      "alternativeInstrument": "§ 19.2-392.2(H) motion, file exactly one",
+      "fingerprintStep": "§ 19.2-392.2(E) routed to CCRE",
+      "pageCount": 8
+     }
+    },
+    "participantFieldsPopulated": {
+     "result": "PASS",
+     "finding": "reports/actual-writes.json proves 24 non-empty writes across 2 documents on the output bytes; participant identity (name, DOB, address, phone, email) is populated and every case fact is a labelled dotted blank named in the instructions.",
+     "evidence": {
+      "documents": 2,
+      "nonEmptyWrites": 24,
+      "emptyWrites": 0
+     }
+    },
+    "placeholderAndWrongStateScan": {
+     "result": "PASS",
+     "finding": "pdftotext over the canonical fixture found no placeholder text (TODO, PLACEHOLDER, Lorem ipsum, {{...}}, FIXME, TBD) and the face carries the correct state's caption and vocabulary.",
+     "evidence": {
+      "canonicalPdf": "data/rcap-all50/overlays/census-v1/va/va-exp-identity-used-by-another-set--custom-pleading/fixtures/canonical.pdf",
+      "placeholderHits": [],
+      "faceTextLength": 13188
+     }
+    },
+    "filingInstructions": {
+     "result": "PASS",
+     "finding": "The instructions name the destination (the circuit court that disposed of the charge — or the dismissing court on the (H) route), state the fee exactly (no court fee or cost payable for filing under § 19.2-392.2(B)), and state service (a copy on the attorney for the Commonwealth of the locality of filing, with the 21-day objection window stated; the manner of service and any local cover sheet delegated to the named circuit court clerk in a dedicated line).",
+     "evidence": {
+      "destination": "the court that disposed of the charge; dismissing court on the (H) route",
+      "fee": "none payable under § 19.2-392.2(B), stated",
+      "service": "attorney for the Commonwealth; 21-day window stated; manner via the named clerk"
+     }
+    }
+   },
+   "standardApplied": {
+    "measuredHere": "Every obligation below was measured in this lane at base edf5ff14b9bb418dfafc57b75e4a7acc6ece1666 from the committed artifacts, the registered completeness verifier (scripts/rcap-packet-completeness/verify-packet-completeness.mjs), and — for source identity — the Master Library bytes bootstrapped in this container (archive sha256 a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89). No counter was copied from a builder report; where a builder report is cited it is cited as the thing being checked, not as the answer.",
+    "feeAndServiceStandard": "Where a fee, address or service mechanic is not held by any committed source, a dedicated instruction line that names the checkable authority (the clerk of the specific named court or the named agency) is treated as meeting the obligation, following the PASS standard vf18 recorded on ak-courtview-set; a catch-all line naming nobody is not. VERMONT_REPAIR.json records that the filingDestination standard is a known verification-contract divergence; the standard applied here is stated so the difference is legible rather than silent."
+   }
+  },
+  {
+   "itemId": "va_exp_nonconviction-set",
+   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill",
+   "baseSha": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666",
+   "proofObligations": {
+    "completenessAudit": {
+     "result": "PASS",
+     "finding": "The registered completeness verifier was run in this lane against this family and returned PASS_COMPLETE with all nine counters zero.",
+     "evidence": {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_exp_nonconviction-set",
+      "result": "PASS_COMPLETE",
+      "counters": {
+       "knownRequiredFieldsMissing": 0,
+       "requiredFactsNotCollected": 0,
+       "unclassifiedBlanks": 0,
+       "incompleteRows": 0,
+       "requiredOptionsMissing": 0,
+       "requiredComponentsMissing": 0,
+       "invisibleWrites": 0,
+       "protectedWrites": 0,
+       "visualDefects": 0
+      }
+     }
+    },
+    "sourceIdentity": {
+     "result": "PASS",
+     "finding": "Every declared source (1) was rehashed in this lane — Master Library entries from the bootstrapped corpus bytes, repository-path entries from the committed files — and every recomputed SHA-256 and byte length agrees with source-receipt.json.",
+     "evidence": {
+      "declaredSources": 1,
+      "rehashedFromMasterLibraryBytes": 1,
+      "entries": [
+       {
+        "doc": "CC-1473",
+        "pathInArchive": "STATES/VA/02_PACKET_FORMS/VA__FORM__CC-1473__petition-for-expungement__REV-2026-07__EN.pdf",
+        "recordedSha256": "6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
+        "recomputedSha256": "6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
+        "matched": true
+       }
+      ]
+     }
+    },
+    "artifactIntegrity": {
+     "result": "PASS",
+     "finding": "Every artifact named in reports/rendered-artifacts.json was rehashed in this lane; every recomputed SHA-256 and byte length agrees with the record.",
+     "evidence": [
+      {
+       "file": "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill/fixtures/canonical.pdf",
+       "fixture": "canonical",
+       "recordedSha256": "bb6747c8e639fc5310e718e9165352bd1a9204a92e82b5a10703c75590b65f6c",
+       "recomputedSha256": "bb6747c8e639fc5310e718e9165352bd1a9204a92e82b5a10703c75590b65f6c",
+       "recordedByteLength": 126758,
+       "byteLengthOnDisk": 126758,
+       "matched": true,
+       "note": null
+      },
+      {
+       "file": "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill/fixtures/boundary.pdf",
+       "fixture": "boundary",
+       "recordedSha256": "dddcc00729d7adcb5803ae64f8cbaa33fa32e050a0afb13e0f12001dd83db885",
+       "recomputedSha256": "dddcc00729d7adcb5803ae64f8cbaa33fa32e050a0afb13e0f12001dd83db885",
+       "recordedByteLength": 127000,
+       "byteLengthOnDisk": 127000,
+       "matched": true,
+       "note": null
+      }
+     ]
+    },
+    "routeAndStatuteOnTheFace": {
+     "result": "PASS",
+     "finding": "The canonical fixture's petition is CC-1473, the official Virginia circuit court Petition for Expungement Filed in a Circuit Court – Acquittal/Dismissal, printing Va. Code § 19.2-392.2(A) on its own face — the queue row's exact form for obligation:track-only:VA:va_exp_nonconviction — with the fingerprint/CCRE steps of § 19.2-392.2 in the packet.",
+     "evidence": {
+      "form": "CC-1473",
+      "statuteOnFace": "Va. Code § 19.2-392.2(A)",
+      "pageCount": "canonical packet with separate primary-filing fixture recorded"
+     }
+    },
+    "participantFieldsPopulated": {
+     "result": "PASS",
+     "finding": "reports/actual-writes.json proves 12 non-empty writes across 2 documents on the output bytes; the caption, signature-block name, DOB, address, phone and email are populated and every remaining petition item is listed by the words printed beside its blank.",
+     "evidence": {
+      "documents": 2,
+      "nonEmptyWrites": 12,
+      "emptyWrites": 0
+     }
+    },
+    "placeholderAndWrongStateScan": {
+     "result": "PASS",
+     "finding": "pdftotext over the canonical fixture found no placeholder text (TODO, PLACEHOLDER, Lorem ipsum, {{...}}, FIXME, TBD) and the face carries the correct state's caption and vocabulary.",
+     "evidence": {
+      "canonicalPdf": "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill/fixtures/canonical.pdf",
+      "placeholderHits": [],
+      "faceTextLength": 14573
+     }
+    },
+    "filingInstructions": {
+     "result": "PASS",
+     "finding": "The instructions name the destination affirmatively (the Circuit Court of the county or city in which the charge was disposed of, from the petition's own page-2 checklist, with CC-1416 named if the clerk requires a cover sheet), and put the two unestablished items — the filing fee/waiver and the manner of service on the Commonwealth's Attorney — in dedicated lines that name the clerk of that circuit court as the checkable authority, while stating from the checklist that a copy must be served on the Commonwealth's Attorney.",
+     "evidence": {
+      "destination": "Circuit Court of the county or city where the charge was disposed of",
+      "fee": "dedicated line; not established by the petition; named clerk to ask",
+      "service": "recipient stated (Commonwealth's Attorney per the form's checklist); manner via the named clerk"
+     }
+    }
+   },
+   "standardApplied": {
+    "measuredHere": "Every obligation below was measured in this lane at base edf5ff14b9bb418dfafc57b75e4a7acc6ece1666 from the committed artifacts, the registered completeness verifier (scripts/rcap-packet-completeness/verify-packet-completeness.mjs), and — for source identity — the Master Library bytes bootstrapped in this container (archive sha256 a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89). No counter was copied from a builder report; where a builder report is cited it is cited as the thing being checked, not as the answer.",
+    "feeAndServiceStandard": "Where a fee, address or service mechanic is not held by any committed source, a dedicated instruction line that names the checkable authority (the clerk of the specific named court or the named agency) is treated as meeting the obligation, following the PASS standard vf18 recorded on ak-courtview-set; a catch-all line naming nobody is not. VERMONT_REPAIR.json records that the filingDestination standard is a known verification-contract divergence; the standard applied here is stated so the difference is legible rather than silent."
+   }
+  },
+  {
+   "itemId": "wi_nc_doj_challenge-set",
+   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-challenge-set--official-pdf-fill",
+   "baseSha": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666",
+   "proofObligations": {
+    "completenessAudit": {
+     "result": "PASS",
+     "finding": "The registered completeness verifier was run in this lane against this family and returned PASS_COMPLETE with all nine counters zero.",
+     "evidence": {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wi_nc_doj_challenge-set",
+      "result": "PASS_COMPLETE",
+      "counters": {
+       "knownRequiredFieldsMissing": 0,
+       "requiredFactsNotCollected": 0,
+       "unclassifiedBlanks": 0,
+       "incompleteRows": 0,
+       "requiredOptionsMissing": 0,
+       "requiredComponentsMissing": 0,
+       "invisibleWrites": 0,
+       "protectedWrites": 0,
+       "visualDefects": 0
+      }
+     }
+    },
+    "sourceIdentity": {
+     "result": "PASS",
+     "finding": "Every declared source (1) was rehashed in this lane — Master Library entries from the bootstrapped corpus bytes, repository-path entries from the committed files — and every recomputed SHA-256 and byte length agrees with source-receipt.json.",
+     "evidence": {
+      "declaredSources": 1,
+      "rehashedFromMasterLibraryBytes": 1,
+      "entries": [
+       {
+        "doc": "DJ-LE-247",
+        "pathInArchive": "STATES/WI/04_SUPPORTING_PROCESS/WI__SUPPORT__DJ-LE-247__wisconsin-criminal-history-record-challenge-form__REV-UNKNOWN__EN.pdf",
+        "recordedSha256": "ada016d389ef1f0b343432b187aec8c8c93bd7711c85d4ccce847f75572ae6f7",
+        "recomputedSha256": "ada016d389ef1f0b343432b187aec8c8c93bd7711c85d4ccce847f75572ae6f7",
+        "matched": true
+       }
+      ]
+     }
+    },
+    "artifactIntegrity": {
+     "result": "PASS",
+     "finding": "Every artifact named in reports/rendered-artifacts.json was rehashed in this lane; every recomputed SHA-256 and byte length agrees with the record.",
+     "evidence": [
+      {
+       "file": "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-challenge-set--official-pdf-fill/fixtures/canonical.pdf",
+       "fixture": "canonical",
+       "recordedSha256": "edb7338200e12436a22390b6857b54bb0b44d074abc745b5c02c158f85457b4f",
+       "recomputedSha256": "edb7338200e12436a22390b6857b54bb0b44d074abc745b5c02c158f85457b4f",
+       "recordedByteLength": 123942,
+       "byteLengthOnDisk": 123942,
+       "matched": true,
+       "note": null
+      },
+      {
+       "file": "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-challenge-set--official-pdf-fill/fixtures/boundary.pdf",
+       "fixture": "boundary",
+       "recordedSha256": "365d25ebf98bc23dba12805e97f985d6f39fc2403cec591b9646a6be8f35596e",
+       "recomputedSha256": "365d25ebf98bc23dba12805e97f985d6f39fc2403cec591b9646a6be8f35596e",
+       "recordedByteLength": 124023,
+       "byteLengthOnDisk": 124023,
+       "matched": true,
+       "note": null
+      }
+     ]
+    },
+    "routeAndStatuteOnTheFace": {
+     "result": "PASS",
+     "finding": "The canonical fixture is the official DJ-LE-247 Wisconsin Criminal History Challenge (s. 165.83(2) Wis. Stats), Wisconsin Department of Justice, with the submission destination printed on the form's own face: Crime Information Bureau, P.O. Box 2718, Madison, WI 53701-2718 — matching obligation:track-only:WI:wi_nc_doj_challenge. Page 2 is the Bureau's own information sheet with nothing to fill in.",
+     "evidence": {
+      "form": "DJ-LE-247 (2/17)",
+      "statuteOnFace": "s. 165.83(2) Wis. Stats",
+      "destinationOnFace": "Crime Information Bureau, P.O. Box 2718, Madison, WI 53701-2718",
+      "pageCount": 2
+     }
+    },
+    "participantFieldsPopulated": {
+     "result": "PASS",
+     "finding": "reports/actual-writes.json proves 10 non-empty writes across 2 fixture documents on the output bytes; the requester's street address, city/state/zip, phone, email and date of birth are populated on the face.",
+     "evidence": {
+      "documents": 2,
+      "nonEmptyWrites": 10,
+      "emptyWrites": 0
+     }
+    },
+    "placeholderAndWrongStateScan": {
+     "result": "PASS",
+     "finding": "pdftotext over the canonical fixture found no placeholder text (TODO, PLACEHOLDER, Lorem ipsum, {{...}}, FIXME, TBD) and the face carries the correct state's caption and vocabulary.",
+     "evidence": {
+      "canonicalPdf": "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-challenge-set--official-pdf-fill/fixtures/canonical.pdf",
+      "placeholderHits": [],
+      "faceTextLength": 7668
+     }
+    },
+    "filingInstructions": {
+     "result": "PASS",
+     "finding": "The instructions state the destination (the Crime Information Bureau of the Wisconsin DOJ, not a court, quoting the form's printed address), the money position (the Bureau's own printed fees for obtaining the record — $7 online, $12 by mail; the challenge itself carries no fee on the form's face), the 6-month challenge window the Bureau prints, the fingerprint-card requirement for the identity reasons, and what the Bureau will and will not do (state law does not permit removal of arrest or disposition information; notations only). Court-style service does not arise for an agency submission. The reports directory also carries record-discrepancy-analysis.json, caption-evidence.json and an independent-visual-review.json, each read off the printed page.",
+     "evidence": {
+      "destination": "printed on the form and quoted in the instructions",
+      "fee": "record-copy fees stated ($7/$12); no challenge fee printed",
+      "service": "not applicable — agency submission by mail to the printed address",
+      "extraReports": [
+       "record-discrepancy-analysis.json",
+       "caption-evidence.json",
+       "independent-visual-review.json"
+      ]
+     }
+    }
+   },
+   "standardApplied": {
+    "measuredHere": "Every obligation below was measured in this lane at base edf5ff14b9bb418dfafc57b75e4a7acc6ece1666 from the committed artifacts, the registered completeness verifier (scripts/rcap-packet-completeness/verify-packet-completeness.mjs), and — for source identity — the Master Library bytes bootstrapped in this container (archive sha256 a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89). No counter was copied from a builder report; where a builder report is cited it is cited as the thing being checked, not as the answer.",
+    "feeAndServiceStandard": "Where a fee, address or service mechanic is not held by any committed source, a dedicated instruction line that names the checkable authority (the clerk of the specific named court or the named agency) is treated as meeting the obligation, following the PASS standard vf18 recorded on ak-courtview-set; a catch-all line naming nobody is not. VERMONT_REPAIR.json records that the filingDestination standard is a known verification-contract divergence; the standard applied here is stated so the difference is legible rather than silent."
+   }
   }
  ]
 }
