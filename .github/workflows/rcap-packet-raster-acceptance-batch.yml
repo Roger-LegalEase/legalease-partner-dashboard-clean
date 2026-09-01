@@ -97,7 +97,7 @@ jobs:
           # calibration tolerances are measured against this one.
           npx --yes playwright install --with-deps chromium
           EXE="$(node --input-type=module -e '
-            import { resolveChromium } from "./scripts/lib/pdf-page-raster.mjs";
+            import { resolveChromium } from "./scripts/raster/pdf-page-raster.mjs";
             process.stdout.write(resolveChromium().executablePath ?? "");
           ')"
           [ -n "$EXE" ] || { echo "no executable Chromium on a runner that is supposed to have one"; exit 1; }

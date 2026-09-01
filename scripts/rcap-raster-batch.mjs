@@ -19,7 +19,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { PDFDocument } from "pdf-lib";
 import sharp from "sharp";
-import { resolveChromium, rasterizePageCalibrated } from "./lib/pdf-page-raster.mjs";
+import { resolveChromium, rasterizePageCalibrated } from "./raster/pdf-page-raster.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const flag = (n) => { const i = process.argv.indexOf(n); return i < 0 ? null : process.argv[i + 1]; };
