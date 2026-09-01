@@ -1,0 +1,178 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-return/v1",
+  "assignmentId": "FIX07",
+  "worker": "FIX-A",
+  "workerBranch": "claude/9h-fix-a",
+  "shiftBaseSha": "09b741ad00be0d630bd73a72f66640294abab397",
+  "laneKind": "repair",
+  "question": "Were exactly the failed proof obligations repaired, on exactly the families they failed on?",
+  "environment": {
+    "preflight": "PACKET_BUILD_ENVIRONMENT_NOT_READY",
+    "whyItMatters": "the lane preflight gates on rendering and this container cannot bind sources. Every repair here is a non-rendering repair: no ink was added and every fixture PDF is byte-identical to the committed one, recomputed from disk and recorded on its row.",
+    "blocker": {
+      "what": "the pinned Master Library is not present and cannot be recovered in this container",
+      "detail": "scripts/rcap-corpus/bootstrap-private-corpus.sh resolves the release asset Expungement_AI_RCAP_Master_Library_Edition_1.zip from Roger-LegalEase/legalease-source-artifacts@source-corpus-2026-08-28 and the request answers HTTP 403 to this session token. verify-packet-build-environment.mjs reports PACKET_BUILD_ENVIRONMENT_NOT_READY with family_sources_bind failing, so neither --build nor --check starts for any family and no PDF can be re-rendered.",
+      "consequence": "a repair that requires new ink is a rebuild, and no rebuild can run here."
+    },
+    "rasterState": "BUILT_RASTER_PENDING. Nothing here is self-verified, none is RASTER_PASS, and visualDefects reads zero because nobody has looked."
+  },
+  "noteOnOwnership": "FIX07's owned paths include the nj-arrest-no-conviction overlay but not scripts/build-census-v1-nj_arrest_no_conviction-set.mjs, which is the shared east host itself and carries that family's name. The repairs here are in the overlay only; the host was read and never written.",
+  "productionTouched": false,
+  "commercialRoutesOpened": 0,
+  "selfVerified": false,
+  "rows": [
+    {
+      "itemId": "nj_arrest_no_conviction-set",
+      "status": "STOPPED",
+      "verdict": "BUILT_RASTER_PENDING for the repaired obligations; seven rows returned unrepaired",
+      "obligationsHandedToThisLane": [
+        "knownRequiredFieldsMissing"
+      ],
+      "obligationsRepaired": [
+        {
+          "obligation": "knownRequiredFieldsMissing",
+          "from": 86,
+          "to": 7,
+          "repair": "the fifth family on the stale untrusted class not_supported_by_exact_participant_fact_map, which the current shared host never emits. Sixty-eight rows are the host's own required_before_filing determination on the contract's declared channel, every one disclosed by field name and page in the packet's participant-instructions.md; nine checkbox and radio terminals are elections; two are the PDF viewer buttons formPrint and formSafeClear."
+        }
+      ],
+      "obligationsStopped": [
+        {
+          "obligation": "knownRequiredFieldsMissing",
+          "count": 7,
+          "fields": [
+            "DefName",
+            "DefAddrStr",
+            "DefAddr2",
+            "DefAddr3",
+            "ExpungeCntyName",
+            "arrest1Dt",
+            "arrest1CaseNum"
+          ],
+          "whatIsMissing": "a rebuild. SHARED_EXACT_FACT_ALLOWLIST[\"NJ-CN-10557\"] binds each of these terminal names to a held fact, so a rebuild emits them as writes. They are left exactly as the stale build recorded them rather than reclassified into blanks the participant would be told to fill.",
+          "blockedBy": {
+            "what": "the pinned Master Library is not present and cannot be recovered in this container",
+            "detail": "scripts/rcap-corpus/bootstrap-private-corpus.sh resolves the release asset Expungement_AI_RCAP_Master_Library_Edition_1.zip from Roger-LegalEase/legalease-source-artifacts@source-corpus-2026-08-28 and the request answers HTTP 403 to this session token. verify-packet-build-environment.mjs reports PACKET_BUILD_ENVIRONMENT_NOT_READY with family_sources_bind failing, so neither --build nor --check starts for any family and no PDF can be re-rendered.",
+            "consequence": "a repair that requires new ink is a rebuild, and no rebuild can run here."
+          }
+        }
+      ],
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 86,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 7,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "nonvisualCountersZeroed": false,
+      "packetBytesUnchanged": true,
+      "fixtureSha256": {
+        "cn-10557-boundary.pdf": "9b56176b9e8ae246e046b70e6b897e95929e329a59d2cf6fda03992fd3416d65",
+        "cn-10557-canonical.pdf": "b3c21cc9c11cd3ead5ca39cd155ec84562e8dd6fc4d855674dfd34ae85799c8e"
+      }
+    },
+    {
+      "itemId": "pa_9122_1_limited_access-set",
+      "status": "STOPPED",
+      "verdict": "BUILT_RASTER_PENDING for the repaired obligations; three rows returned unrepaired",
+      "obligationsHandedToThisLane": [
+        "knownRequiredFieldsMissing",
+        "unclassifiedBlanks",
+        "incompleteRows",
+        "requiredComponentsMissing"
+      ],
+      "obligationsRepaired": [
+        {
+          "obligation": "unclassifiedBlanks",
+          "from": 68,
+          "to": 0,
+          "repair": "all sixty-eight are on a companion the field map records as generatedParticipantArtifact false. The participant never receives that document, so no blank on it is a blank on this filing; the host's own class source_only_not_generated is kept and its sentence completed to say so."
+        },
+        {
+          "obligation": "knownRequiredFieldsMissing",
+          "from": 51,
+          "to": 2,
+          "repair": "fifty rows on the stale untrusted class, of which fifty-two determinations were transcribed from the current host and disclosed by field name and page; one sworn election whose caption tripped the offence-row pattern now declares isSelectionControl and keeps the election class it always had."
+        },
+        {
+          "obligation": "requiredComponentsMissing",
+          "from": 1,
+          "to": 0,
+          "repair": "the source-only companion is not a missing companion form. reports/rendered-artifacts.json now carries a componentsNotGenerated array saying so, matching the treatment given NY-CPL-160.59-SEAL-VERIFICATION and PA-IFP-MDJ."
+        }
+      ],
+      "obligationsStopped": [
+        {
+          "obligation": "knownRequiredFieldsMissing",
+          "count": 2,
+          "fields": [
+            "Court of Common Pleas Philadelphia Municipal Court or Magisterial District Docket Number",
+            "ComplaintArrestDate"
+          ],
+          "whatIsMissing": "a rebuild. SHARED_EXACT_FACT_ALLOWLIST binds the first to matter.case_number and the second to matter.arrest_date, so a rebuild emits both as writes.",
+          "blockedBy": {
+            "what": "the pinned Master Library is not present and cannot be recovered in this container",
+            "detail": "scripts/rcap-corpus/bootstrap-private-corpus.sh resolves the release asset Expungement_AI_RCAP_Master_Library_Edition_1.zip from Roger-LegalEase/legalease-source-artifacts@source-corpus-2026-08-28 and the request answers HTTP 403 to this session token. verify-packet-build-environment.mjs reports PACKET_BUILD_ENVIRONMENT_NOT_READY with family_sources_bind failing, so neither --build nor --check starts for any family and no PDF can be re-rendered.",
+            "consequence": "a repair that requires new ink is a rebuild, and no rebuild can run here."
+          }
+        },
+        {
+          "obligation": "incompleteRows",
+          "count": 1,
+          "row": "table::Row1",
+          "whatIsMissing": "the petition's charge table carries a written cell in row 1 beside required cells left blank. Completing the row means writing those cells, which needs a re-render, and one of the bound facts above sits in the same row.",
+          "blockedBy": {
+            "what": "the pinned Master Library is not present and cannot be recovered in this container",
+            "detail": "scripts/rcap-corpus/bootstrap-private-corpus.sh resolves the release asset Expungement_AI_RCAP_Master_Library_Edition_1.zip from Roger-LegalEase/legalease-source-artifacts@source-corpus-2026-08-28 and the request answers HTTP 403 to this session token. verify-packet-build-environment.mjs reports PACKET_BUILD_ENVIRONMENT_NOT_READY with family_sources_bind failing, so neither --build nor --check starts for any family and no PDF can be re-rendered.",
+            "consequence": "a repair that requires new ink is a rebuild, and no rebuild can run here."
+          }
+        }
+      ],
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 51,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 68,
+        "incompleteRows": 1,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 1,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 2,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 1,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "nonvisualCountersZeroed": false,
+      "packetBytesUnchanged": true,
+      "fixtureSha256": {
+        "rule-791-order-boundary.pdf": "c7050f244e64cea8ccdefab70bd74b9b290e9389416a0b2f93842828149ba83e",
+        "rule-791-order-canonical.pdf": "ab894ee67b88ef9176a423a6a2a5d806f5722e1f7bded51294bb9023663ae5f9",
+        "rule-791-petition-boundary.pdf": "1a17ea6142bd73cfeb93c0f853db378ede98157f317d49cdb670e8ad97974012",
+        "rule-791-petition-canonical.pdf": "9b891ec94c31eca7553022ece34db2d1f0f17f514d837781c8f9edfc7ef0ab2c"
+      }
+    }
+  ]
+}
