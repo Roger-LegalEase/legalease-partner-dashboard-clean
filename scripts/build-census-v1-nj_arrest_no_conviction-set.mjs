@@ -1452,17 +1452,47 @@ async function proofFromArtifact(file, census, fieldMap, report, facts, label,
     .filter((item) => !sourceTextKeys?.[page - 1]?.has(
       `${Math.round(item.x)}|${Math.round(item.y)}|${String(item.text ?? "").trim()}`))
     .map((item) => String(item.text ?? "").trim()).filter(Boolean);
+  /*
+   * A dropdown write draws the OPTION the form's own /Opt list offers, which
+   * is not always the literal held fact string: NY-MRTA-DESTRUCTION-REQUEST's
+   * Court_County offers "ALBANY" where the held fact reads "Albany County".
+   * The proof therefore expects the option the finalizer's published match
+   * rule selects, recomputed here FROM THE SOURCE FORM'S OWN OPTION LIST —
+   * never the drawn text itself, so a wrong option still fails the proof.
+   * When no option matches (the finalizer would have refused the write), the
+   * raw fact stands as expected and a drawn appearance still fails loudly.
+   */
+  let sourceDropdownOptions = null;
+  if (sourceBytes && (report.written ?? []).some((write) => write.kind === "dropdown")) {
+    const sourceDoc = await PDFDocument.load(sourceBytes, { ignoreEncryption: true, updateMetadata: false });
+    sourceDropdownOptions = new Map();
+    for (const sourceField of sourceDoc.getForm().getFields()) {
+      if (sourceField instanceof PDFDropdown) {
+        sourceDropdownOptions.set(sourceField.getName(), sourceField.getOptions?.() ?? []);
+      }
+    }
+  }
+  const dropdownExpectedOption = (fieldName, factValue) => {
+    const options = sourceDropdownOptions?.get(fieldName) ?? [];
+    const wanted = String(factValue ?? "").trim().toLowerCase();
+    return options.find((option) => String(option).trim().toLowerCase() === wanted)
+      ?? options.find((option) => String(option).trim().toLowerCase() === wanted.replace(/\s*county$/, ""))
+      ?? factValue;
+  };
   const writtenProof = [];
   const missingWrittenInk = [];
   const wrongWrittenValues = [];
   for (const write of report.written) {
     const field = census.fields.find((row) => row.name === write.field);
-    const expected = write.factId?.startsWith("matter.charges[")
+    const factExpected = write.factId?.startsWith("matter.charges[")
       ? (() => {
         const match = /^matter\.charges\[(\d+)]\.(.+)$/.exec(write.factId);
         return match ? facts["matter.charges"]?.[Number(match[1])]?.[match[2]] : null;
       })()
       : facts[write.factId];
+    const expected = write.kind === "dropdown"
+      ? dropdownExpectedOption(write.field, factExpected)
+      : factExpected;
     const overlayWrite = overlayKinds.has(write.kind);
     const byWidget = overlayWrite
       ? (write.widgets ?? []).map((w) => overlayTextAt(w.page, w.rect))
