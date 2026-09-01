@@ -373,9 +373,47 @@ function sourceReadiness(familyId, worklistGroupId, custody, routes, holds, impl
   // 1. Direct: the obvious association, straight off the governed index.
   for (const id of named) {
     const formNumber = id.slice("official-form:".length);
-    const matches = indexByForm.get(formNumber) ?? [];
+    let matches = indexByForm.get(formNumber) ?? [];
+    let tier = "exact_form_number";
+    let resolvedBy = "census_form_number_against_committed_index";
+    /* The census sometimes names a document by its printed title while the
+     * index keys the same bytes by short form ID — Texas: "OCA Model Order of
+     * Nondisclosure under Section 411.0735" vs "TX-GC-411.0725-411.073-411.0735".
+     * The statute section printed in both IS the identity, and petition/order
+     * is disambiguated by what the filename says the document is. Only a
+     * single match binds; anything else stays a stated reason. */
+    if (matches.length !== 1) {
+      const section = formNumber.match(/[Ss]ection\s+(411\.\d+[a-z\-]*)/)?.[1];
+      /* Instructions, letters and statements are their own documents: they
+       * must never bind the petition's or order's bytes by sharing a section. */
+      const isOtherInstrument = /instruction|letter|statement/i.test(formNumber);
+      const kind = isOtherInstrument ? null : /petition/i.test(formNumber) ? "petition" : /order/i.test(formNumber) ? "order" : null;
+      if (section && kind) {
+        /* Section as a whole token: "411.073" must not match 411.0731's
+         * digits, while the combined order "TX-GC-411.0725-411.073-411.0735"
+         * genuinely covers 411.073 and binds a name asking for it. */
+        const sectionToken = new RegExp(`(^|[^0-9])${section.replace(/\./g, "\\.")}([^0-9]|$)`);
+        const candidates = (IN.corpusIndex.entries ?? []).filter((e) =>
+          sectionToken.test(String(e.formNumber ?? ""))
+          /* An instructions document shares its form's section and even the
+           * word "petition" in its filename; it is not the form. */
+          && !/instructions/i.test(e.path)
+          && (kind === "petition" ? /petition/i.test(e.path) : (/order-of-nondisclosure/i.test(e.path) && !/petition/i.test(e.path))));
+        /* The corpus can hold one document at two paths; identical hashes are
+         * one identity, and the lexically first path is the deterministic pick. */
+        const bySha = new Set(candidates.map((c) => c.sha256));
+        const unique = bySha.size === 1 && candidates.length > 0
+          ? [candidates.slice().sort((a, b) => a.path.localeCompare(b.path))[0]]
+          : candidates;
+        if (unique.length === 1) {
+          matches = unique;
+          tier = "exact_statute_section_and_document_kind";
+          resolvedBy = "census_title_section_number_against_committed_index_filename_kind";
+        }
+      }
+    }
     if (matches.length === 1 && matches[0].sha256) {
-      bound.push({ sourceId: id, path: matches[0].path, sha256: matches[0].sha256, tier: "exact_form_number", resolvedBy: "census_form_number_against_committed_index" });
+      bound.push({ sourceId: id, path: matches[0].path, sha256: matches[0].sha256, tier, resolvedBy });
       boundIds.add(id);
     }
   }
