@@ -381,6 +381,23 @@ function legalAuthorityFromTrustedSource(
   source: TrustedBriefcasePresentationSource,
   evaluate: BriefcasePresentationDependencies["evaluateAuthoritative"]
 ): BriefcaseLegalPresentationAuthority {
+  const seeded = protectedPacketVerificationSeedFromTrustedSource(source, evaluate);
+  if (!seeded) {
+    return { status: "unavailable", reason: "trusted_source_reevaluation_failed" };
+  }
+  const model = protectedPacketInformationModelFor(seeded.verification);
+  return legalAuthorityFromEvaluation("trusted_source", seeded.authoritative, {
+    verificationStatus: "trusted_source",
+    packetProgress: model ? "not_started" : evaluationPacketProgress(seeded.authoritative),
+    packetDraft: model ? presentationDraftForModel(model) : { status: "unavailable" }
+  });
+}
+
+/** Creates the protected revision-zero seed from the server-owned claim row. */
+export function protectedPacketVerificationSeedFromTrustedSource(
+  source: TrustedBriefcasePresentationSource,
+  evaluate: BriefcasePresentationDependencies["evaluateAuthoritative"] = evaluateAuthoritativeScreeningResult
+): { authoritative: AuthoritativeEvaluation; verification: ProtectedPacketVerificationRecord } | null {
   let authoritative: AuthoritativeEvaluation;
   try {
     authoritative = evaluate({
@@ -390,7 +407,7 @@ function legalAuthorityFromTrustedSource(
       answers: source.answers
     });
   } catch {
-    return { status: "unavailable", reason: "trusted_source_reevaluation_failed" };
+    return null;
   }
   const seed = protectedPacketDraftSeedFromAuthoritative({
     authoritative,
@@ -402,18 +419,17 @@ function legalAuthorityFromTrustedSource(
     },
     capturedAt: source.claimedAt
   });
-  const model = seed ? protectedPacketInformationModelFor({
-    status: "unverified",
-    reason: "final_verification_not_completed",
-    revision: 0,
-    draftHash: seed.hash,
-    draftSnapshot: seed.snapshot
-  }) : null;
-  return legalAuthorityFromEvaluation("trusted_source", authoritative, {
-    verificationStatus: "trusted_source",
-    packetProgress: model ? "not_started" : evaluationPacketProgress(authoritative),
-    packetDraft: model ? presentationDraftForModel(model) : { status: "unavailable" }
-  });
+  if (!seed) return null;
+  return {
+    authoritative,
+    verification: {
+      status: "unverified",
+      reason: "final_verification_not_completed",
+      revision: 0,
+      draftHash: seed.hash,
+      draftSnapshot: seed.snapshot
+    }
+  };
 }
 
 function presentationDraftForModel(
