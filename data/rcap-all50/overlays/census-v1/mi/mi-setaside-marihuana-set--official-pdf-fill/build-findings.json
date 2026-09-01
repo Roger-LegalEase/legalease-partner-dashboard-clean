@@ -1,18 +1,28 @@
 {
-  "schemaVersion": "rcap-build-findings/v1",
-  "familyId": "mi-setaside-marihuana-set",
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "mi_setaside_marihuana-set",
   "blocking": [],
-  "findingCount": 0,
-  "nonBlockingObservations": [
-    "reports/squashed-caption-band-findings.json — five wrong bindings refused by role, four over-refusals reported.",
-    "reports/shared-vocabulary-gaps.json — CHARGE_VALUE_WORDS does not contain 'crime'; the service-block vocabulary does not contain 'certificate of mailing'.",
-    "The AcroForm field name for the county box is \"county \" with a trailing space, preserved verbatim everywhere in this family's records.",
-    "The boundary fixture writes NOTHING. Its county value needs 143.6pt at the 6pt minimum readable size and the measured box is 118.15pt wide, so the single writable field is refused as `value_exceeds_widget_width_at_minimum_font`. The value is refused rather than shrunk below legibility or overflowed past the measured rectangle, which is the correct outcome; the consequence is that the boundary artifact is a blank form and its listing cells are empty for two independent reasons.",
-    "Neither fixture writes anything into the conviction listing, so the multi-conviction boundary case is proved safe rather than proved correct: reports/charge-caption-proof.json records, row by row, that a conviction WAS supplied for every printed row and that every cell is nonetheless empty."
-  ],
-  "whatThisBuildDoesNotClaim": [
-    "That MC 227a can be usefully filled by the shared binder. It cannot: 1 of 37 fields is written on the canonical fixture and 0 on the boundary fixture.",
-    "That the conviction listing is mapped. It is measured, censused and proved safe, and no cell of it binds any fact.",
-    "That the absence of a participant name in the listing was achieved by the charge-caption correction. On this form nothing binds a participant name anywhere, so the correction was never exercised here."
+  "findings": [
+    {
+      "finding": "MC 227a carries a sworn CERTIFICATE OF MAILING at the foot of page 1, and the court's own instruction sheet puts it at step 8 — after the packet has been mailed to the prosecuting official at step 7.",
+      "consequence": "Its date and signature are left blank, which is what the builder contract names: a certificate of mailing before mailing is a protected field. The participant instructions carry the four steps in the order the court sets them, because the order is the point."
+    },
+    {
+      "finding": "The conviction table asks for the crime, the charge code, the date of conviction and the case number, and instruction 4 says to get the exact date and charge FROM THE COURT and to attach a certified copy of each.",
+      "consequence": "No cell of it is written. That record is not one the platform holds, and a line with the crime filled and the conviction date blank would read as finished while missing the fact the application turns on. All sixteen cells are declared and disclosed."
+    },
+    {
+      "finding": "`dinfo` is captioned \"Defendant's name, address, and telephone no.\" — three facts in one free-text box. The platform holds all three separately and the shared semantic registry has no composed fact for a name-address-telephone block, so a field, which takes one fact, can bind at most one of them.",
+      "consequence": "The box is left to the participant and the reason is stated in the disclosure rather than implied. Writing only the name would put a third of an answer in the box the court reads for the applicant's contact details. The gap is a shared-registry one: a composed participant contact fact would let this box be filled, and that list is outside this family's owned paths."
+    },
+    {
+      "finding": "scripts/build-census-v1-mi-setaside-marihuana-set.mjs (hyphenated) also writes this family's overlay directory and predates this lane.",
+      "consequence": "PF16 owns the underscored script name and this directory, and this build supersedes what that script produced. The two must not both be run. Flagged rather than resolved here: the other script is not in this lane's owned paths, so removing or redirecting it is the Captain's call."
+    },
+    {
+      "severity": "advisory",
+      "finding": "The boundary participant's name carries a typographic apostrophe (U+2019) and the finalized bytes carry the name without it.",
+      "consequence": "Recorded for visual review. The behaviour is in the shared finalizer's font encoding and reproduces in vt_seal_misdemeanor-set, which is already PASS_COMPLETE."
+    }
   ]
 }

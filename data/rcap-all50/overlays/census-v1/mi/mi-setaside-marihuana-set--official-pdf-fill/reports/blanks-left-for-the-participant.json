@@ -1,352 +1,344 @@
 {
-  "schemaVersion": "rcap-participant-blanks/v1",
-  "familyId": "mi-setaside-marihuana-set",
-  "note": "Every blank this family does not fill, and why. A blank here is not an omission to be closed later by widening the map: each is either the participant's to complete, the court's, an identifier somebody else assigns, or a value the platform does not hold.",
-  "unreachableParticipantBlocks": [
+  "schemaVersion": "rcap-blanks-left-for-the-participant/v1",
+  "familyId": "mi_setaside_marihuana-set",
+  "requiredBeforeFiling": [
     {
-      "field": "dinfo",
-      "printedCaption": "Defendant’s name, address, and telephone no.",
-      "whyUnreachable": "The caption is printed INSIDE the widget rectangle (caption baseline y=623.6; widget y 580.66 to 628.66), so captureWidgetContext finds no caption above or beside the box and reports `no_printed_caption_within_reach`. The field name `dinfo` matches no fact descriptor. This is the applicant's own name, address and telephone block — the single most obviously participant-owned block on the form — and it is left blank.",
-      "consequence": "The participant completes it by hand. Nothing incorrect is printed, but this family cannot claim to produce a substantially completed application."
+      "document": "MC-227A",
+      "field": "MC-227A/district",
+      "page": 1,
+      "section": "Caption",
+      "disclosureLabel": "Judicial District",
+      "identity": "MC-227A field district",
+      "why": "the platform holds no value for this and the participant supplies it before filing: the judicial district number of the court where the conviction was entered — instruction 2 says you file in that court, and a separate application for each court",
+      "participantMustSupply": "the judicial district number of the court where the conviction was entered — instruction 2 says you file in that court, and a separate application for each court"
     },
     {
-      "field": "caseno",
-      "printedCaption": "CASE NO. and JUDGE",
-      "whyUnreachable": "Binds matter.case_number on the field-name channel, then is refused as `protected_page_region` because the region heading harvested for it is the squashed band 'STATE OF MICHIGANCASE NO. and JUDGE', which contains the word JUDGE. The cell genuinely does hold both the case number (top) and the judge (bottom), so the heading is not wrong — it is shared. An over-refusal.",
-      "consequence": "The caption case number is left for the participant. Safe direction; reported, not worked around."
+      "document": "MC-227A",
+      "field": "MC-227A/circuit",
+      "page": 1,
+      "section": "Caption",
+      "disclosureLabel": "Judicial Circuit",
+      "identity": "MC-227A field circuit",
+      "why": "the platform holds no value for this and the participant supplies it before filing: the judicial circuit number of that court, if it is a circuit court",
+      "participantMustSupply": "the judicial circuit number of that court, if it is a circuit court"
     },
     {
-      "field": "cno1",
-      "printedCaption": "CASE NUMBER (row a of the conviction listing)",
-      "whyUnreachable": "Refused as `disposition_or_hearing` because the caption harvested for it is the single word CONVICTION — the second line of the THIRD column's header, mis-attributed to the fourth column. The platform holds case numbers and this cell wants one.",
-      "consequence": "An over-refusal produced by the same squashed header band that mis-binds `ch1`."
+      "document": "MC-227A",
+      "field": "MC-227A/ori",
+      "page": 1,
+      "section": "Caption",
+      "disclosureLabel": "ORI",
+      "identity": "MC-227A field ori",
+      "why": "the platform holds no value for this and the participant supplies it before filing: the ORI number of the agency, which begins MI- and appears on your court and police paperwork",
+      "participantMustSupply": "the ORI number of the agency, which begins MI- and appears on your court and police paperwork"
+    },
+    {
+      "document": "MC-227A",
+      "field": "MC-227A/prno",
+      "page": 1,
+      "section": "Caption",
+      "disclosureLabel": "Police Report No.",
+      "identity": "MC-227A field prno",
+      "why": "the platform holds no value for this and the participant supplies it before filing: the police report number for the offence, from the police or court record",
+      "participantMustSupply": "the police report number for the offence, from the police or court record"
+    },
+    {
+      "document": "MC-227A",
+      "field": "MC-227A/ctaddress",
+      "page": 1,
+      "section": "Caption",
+      "disclosureLabel": "Court address",
+      "identity": "MC-227A field ctaddress",
+      "why": "the platform holds no value for this and the participant supplies it before filing: the street address of the court where the conviction was entered",
+      "participantMustSupply": "the street address of the court where the conviction was entered"
+    },
+    {
+      "document": "MC-227A",
+      "field": "MC-227A/cttelno",
+      "page": 1,
+      "section": "Caption",
+      "disclosureLabel": "Court telephone no.",
+      "identity": "MC-227A field cttelno",
+      "why": "the platform holds no value for this and the participant supplies it before filing: that court's telephone number",
+      "participantMustSupply": "that court's telephone number"
+    },
+    {
+      "document": "MC-227A",
+      "field": "MC-227A/peopleof",
+      "page": 1,
+      "section": "Parties",
+      "disclosureLabel": "The People of — the named city, village or township",
+      "identity": "MC-227A field peopleof",
+      "why": "the platform holds no value for this and the participant supplies it before filing: the name of the city, village or township that prosecuted the offence, if it was not the State of Michigan",
+      "participantMustSupply": "the name of the city, village or township that prosecuted the offence, if it was not the State of Michigan"
+    },
+    {
+      "document": "MC-227A",
+      "field": "MC-227A/dinfo",
+      "page": 1,
+      "section": "Parties",
+      "disclosureLabel": "Defendant's name, address, and telephone no.",
+      "identity": "MC-227A field dinfo",
+      "why": "the platform holds no value for this and the participant supplies it before filing: your name, your address and your telephone number, together in this one box. The platform holds all three but has no way to compose them into a single block for this form, and writing only one of the three would leave the court without the contact details it needs",
+      "participantMustSupply": "your name, your address and your telephone number, together in this one box. The platform holds all three but has no way to compose them into a single block for this form, and writing only one of the three would leave the court without the contact details it needs"
+    },
+    {
+      "document": "MC-227A",
+      "field": "MC-227A/ctntcn",
+      "page": 1,
+      "section": "Parties",
+      "disclosureLabel": "CTN/TCN",
+      "identity": "MC-227A field ctntcn",
+      "why": "the platform holds no value for this and the participant supplies it before filing: the CTN or TCN number from the court or police record",
+      "participantMustSupply": "the CTN or TCN number from the court or police record"
+    },
+    {
+      "document": "MC-227A",
+      "field": "MC-227A/sid",
+      "page": 1,
+      "section": "Parties",
+      "disclosureLabel": "SID",
+      "identity": "MC-227A field sid",
+      "why": "the platform holds no value for this and the participant supplies it before filing: your SID number, from the court or police record",
+      "participantMustSupply": "your SID number, from the court or police record"
+    },
+    {
+      "document": "MC-227A",
+      "field": "MC-227A/c1",
+      "page": 1,
+      "section": "1. Convictions to be set aside",
+      "disclosureLabel": "Conviction a — Crime",
+      "identity": "MC-227A field c1",
+      "why": "the platform holds no value for this and the participant supplies it before filing: the crime you were convicted of, exactly as the court's record states it. This is line a of the four the table has room for; the form says to use additional sheets if you need more, and to attach a certified copy of each conviction",
+      "participantMustSupply": "the crime you were convicted of, exactly as the court's record states it. This is line a of the four the table has room for; the form says to use additional sheets if you need more, and to attach a certified copy of each conviction"
+    },
+    {
+      "document": "MC-227A",
+      "field": "MC-227A/ch1",
+      "page": 1,
+      "section": "1. Convictions to be set aside",
+      "disclosureLabel": "Conviction a — Charge code(s) — MCL citation / PACC Code",
+      "identity": "MC-227A field ch1",
+      "why": "the platform holds no value for this and the participant supplies it before filing: the charge code, the MCL citation or PACC code, from the court's record. This is line a of the four the table has room for; the form says to use additional sheets if you need more, and to attach a certified copy of each conviction",
+      "participantMustSupply": "the charge code, the MCL citation or PACC code, from the court's record. This is line a of the four the table has room for; the form says to use additional sheets if you need more, and to attach a certified copy of each conviction"
+    },
+    {
+      "document": "MC-227A",
+      "field": "MC-227A/cdate1",
+      "page": 1,
+      "section": "1. Convictions to be set aside",
+      "disclosureLabel": "Conviction a — Date of conviction",
+      "identity": "MC-227A field cdate1",
+      "why": "the platform holds no value for this and the participant supplies it before filing: the exact date of the conviction, which instruction 4 tells you to get from the court. This is line a of the four the table has room for; the form says to use additional sheets if you need more, and to attach a certified copy of each conviction",
+      "participantMustSupply": "the exact date of the conviction, which instruction 4 tells you to get from the court. This is line a of the four the table has room for; the form says to use additional sheets if you need more, and to attach a certified copy of each conviction"
+    },
+    {
+      "document": "MC-227A",
+      "field": "MC-227A/cno1",
+      "page": 1,
+      "section": "1. Convictions to be set aside",
+      "disclosureLabel": "Conviction a — Case number",
+      "identity": "MC-227A field cno1",
+      "why": "the platform holds no value for this and the participant supplies it before filing: the case number for that conviction. This is line a of the four the table has room for; the form says to use additional sheets if you need more, and to attach a certified copy of each conviction",
+      "participantMustSupply": "the case number for that conviction. This is line a of the four the table has room for; the form says to use additional sheets if you need more, and to attach a certified copy of each conviction"
+    },
+    {
+      "document": "MC-227A",
+      "field": "MC-227A/c2",
+      "page": 1,
+      "section": "1. Convictions to be set aside",
+      "disclosureLabel": "Conviction b — Crime",
+      "identity": "MC-227A field c2",
+      "why": "the platform holds no value for this and the participant supplies it before filing: the crime you were convicted of, exactly as the court's record states it. This is line b of the four the table has room for; the form says to use additional sheets if you need more, and to attach a certified copy of each conviction",
+      "participantMustSupply": "the crime you were convicted of, exactly as the court's record states it. This is line b of the four the table has room for; the form says to use additional sheets if you need more, and to attach a certified copy of each conviction"
+    },
+    {
+      "document": "MC-227A",
+      "field": "MC-227A/ch2",
+      "page": 1,
+      "section": "1. Convictions to be set aside",
+      "disclosureLabel": "Conviction b — Charge code(s) — MCL citation / PACC Code",
+      "identity": "MC-227A field ch2",
+      "why": "the platform holds no value for this and the participant supplies it before filing: the charge code, the MCL citation or PACC code, from the court's record. This is line b of the four the table has room for; the form says to use additional sheets if you need more, and to attach a certified copy of each conviction",
+      "participantMustSupply": "the charge code, the MCL citation or PACC code, from the court's record. This is line b of the four the table has room for; the form says to use additional sheets if you need more, and to attach a certified copy of each conviction"
+    },
+    {
+      "document": "MC-227A",
+      "field": "MC-227A/cdate2",
+      "page": 1,
+      "section": "1. Convictions to be set aside",
+      "disclosureLabel": "Conviction b — Date of conviction",
+      "identity": "MC-227A field cdate2",
+      "why": "the platform holds no value for this and the participant supplies it before filing: the exact date of the conviction, which instruction 4 tells you to get from the court. This is line b of the four the table has room for; the form says to use additional sheets if you need more, and to attach a certified copy of each conviction",
+      "participantMustSupply": "the exact date of the conviction, which instruction 4 tells you to get from the court. This is line b of the four the table has room for; the form says to use additional sheets if you need more, and to attach a certified copy of each conviction"
+    },
+    {
+      "document": "MC-227A",
+      "field": "MC-227A/cno2",
+      "page": 1,
+      "section": "1. Convictions to be set aside",
+      "disclosureLabel": "Conviction b — Case number",
+      "identity": "MC-227A field cno2",
+      "why": "the platform holds no value for this and the participant supplies it before filing: the case number for that conviction. This is line b of the four the table has room for; the form says to use additional sheets if you need more, and to attach a certified copy of each conviction",
+      "participantMustSupply": "the case number for that conviction. This is line b of the four the table has room for; the form says to use additional sheets if you need more, and to attach a certified copy of each conviction"
+    },
+    {
+      "document": "MC-227A",
+      "field": "MC-227A/c3",
+      "page": 1,
+      "section": "1. Convictions to be set aside",
+      "disclosureLabel": "Conviction c — Crime",
+      "identity": "MC-227A field c3",
+      "why": "the platform holds no value for this and the participant supplies it before filing: the crime you were convicted of, exactly as the court's record states it. This is line c of the four the table has room for; the form says to use additional sheets if you need more, and to attach a certified copy of each conviction",
+      "participantMustSupply": "the crime you were convicted of, exactly as the court's record states it. This is line c of the four the table has room for; the form says to use additional sheets if you need more, and to attach a certified copy of each conviction"
+    },
+    {
+      "document": "MC-227A",
+      "field": "MC-227A/ch3",
+      "page": 1,
+      "section": "1. Convictions to be set aside",
+      "disclosureLabel": "Conviction c — Charge code(s) — MCL citation / PACC Code",
+      "identity": "MC-227A field ch3",
+      "why": "the platform holds no value for this and the participant supplies it before filing: the charge code, the MCL citation or PACC code, from the court's record. This is line c of the four the table has room for; the form says to use additional sheets if you need more, and to attach a certified copy of each conviction",
+      "participantMustSupply": "the charge code, the MCL citation or PACC code, from the court's record. This is line c of the four the table has room for; the form says to use additional sheets if you need more, and to attach a certified copy of each conviction"
+    },
+    {
+      "document": "MC-227A",
+      "field": "MC-227A/cdate3",
+      "page": 1,
+      "section": "1. Convictions to be set aside",
+      "disclosureLabel": "Conviction c — Date of conviction",
+      "identity": "MC-227A field cdate3",
+      "why": "the platform holds no value for this and the participant supplies it before filing: the exact date of the conviction, which instruction 4 tells you to get from the court. This is line c of the four the table has room for; the form says to use additional sheets if you need more, and to attach a certified copy of each conviction",
+      "participantMustSupply": "the exact date of the conviction, which instruction 4 tells you to get from the court. This is line c of the four the table has room for; the form says to use additional sheets if you need more, and to attach a certified copy of each conviction"
+    },
+    {
+      "document": "MC-227A",
+      "field": "MC-227A/cno3",
+      "page": 1,
+      "section": "1. Convictions to be set aside",
+      "disclosureLabel": "Conviction c — Case number",
+      "identity": "MC-227A field cno3",
+      "why": "the platform holds no value for this and the participant supplies it before filing: the case number for that conviction. This is line c of the four the table has room for; the form says to use additional sheets if you need more, and to attach a certified copy of each conviction",
+      "participantMustSupply": "the case number for that conviction. This is line c of the four the table has room for; the form says to use additional sheets if you need more, and to attach a certified copy of each conviction"
+    },
+    {
+      "document": "MC-227A",
+      "field": "MC-227A/c4",
+      "page": 1,
+      "section": "1. Convictions to be set aside",
+      "disclosureLabel": "Conviction d — Crime",
+      "identity": "MC-227A field c4",
+      "why": "the platform holds no value for this and the participant supplies it before filing: the crime you were convicted of, exactly as the court's record states it. This is line d of the four the table has room for; the form says to use additional sheets if you need more, and to attach a certified copy of each conviction",
+      "participantMustSupply": "the crime you were convicted of, exactly as the court's record states it. This is line d of the four the table has room for; the form says to use additional sheets if you need more, and to attach a certified copy of each conviction"
+    },
+    {
+      "document": "MC-227A",
+      "field": "MC-227A/ch4",
+      "page": 1,
+      "section": "1. Convictions to be set aside",
+      "disclosureLabel": "Conviction d — Charge code(s) — MCL citation / PACC Code",
+      "identity": "MC-227A field ch4",
+      "why": "the platform holds no value for this and the participant supplies it before filing: the charge code, the MCL citation or PACC code, from the court's record. This is line d of the four the table has room for; the form says to use additional sheets if you need more, and to attach a certified copy of each conviction",
+      "participantMustSupply": "the charge code, the MCL citation or PACC code, from the court's record. This is line d of the four the table has room for; the form says to use additional sheets if you need more, and to attach a certified copy of each conviction"
+    },
+    {
+      "document": "MC-227A",
+      "field": "MC-227A/cdate4",
+      "page": 1,
+      "section": "1. Convictions to be set aside",
+      "disclosureLabel": "Conviction d — Date of conviction",
+      "identity": "MC-227A field cdate4",
+      "why": "the platform holds no value for this and the participant supplies it before filing: the exact date of the conviction, which instruction 4 tells you to get from the court. This is line d of the four the table has room for; the form says to use additional sheets if you need more, and to attach a certified copy of each conviction",
+      "participantMustSupply": "the exact date of the conviction, which instruction 4 tells you to get from the court. This is line d of the four the table has room for; the form says to use additional sheets if you need more, and to attach a certified copy of each conviction"
+    },
+    {
+      "document": "MC-227A",
+      "field": "MC-227A/cno4",
+      "page": 1,
+      "section": "1. Convictions to be set aside",
+      "disclosureLabel": "Conviction d — Case number",
+      "identity": "MC-227A field cno4",
+      "why": "the platform holds no value for this and the participant supplies it before filing: the case number for that conviction. This is line d of the four the table has room for; the form says to use additional sheets if you need more, and to attach a certified copy of each conviction",
+      "participantMustSupply": "the case number for that conviction. This is line d of the four the table has room for; the form says to use additional sheets if you need more, and to attach a certified copy of each conviction"
     }
   ],
-  "count": 36,
-  "blanks": [
+  "participantElections": [
     {
-      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
-      "field": "district",
+      "document": "MC-227A",
+      "field": "MC-227A/multcaseno",
       "page": 1,
-      "effectiveLabel": "STATE OF MICHIGANCASE NO. and JUDGE",
-      "reason": "protected_category",
-      "category": "court",
-      "why": null
+      "section": "Caption",
+      "label": "This application includes multiple case numbers as listed in item 1 (selection)",
+      "why": "tick this if you are listing convictions from more than one case number in the table below — but note instruction 2: a separate application is needed for each COURT"
     },
     {
-      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
-      "field": "circuit",
+      "document": "MC-227A",
+      "field": "MC-227A/somcheck",
       "page": 1,
-      "effectiveLabel": "JUDICIAL DISTRICT",
-      "reason": "classified_unwritable_by_role",
-      "category": "role",
-      "why": "The JUDICIAL CIRCUIT number box. Binds matter.court via a caption that belongs to the JUDICIAL DISTRICT row above it: on this form each caption is printed to the right of its own box on the same line, and the harvester reads the line above. The box wants a circuit number, which the platform does not hold."
+      "section": "Parties",
+      "label": "The People of the State of Michigan (selection)",
+      "why": "tick this if the State of Michigan prosecuted the offence"
     },
     {
-      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
-      "field": "caseno",
+      "document": "MC-227A",
+      "field": "MC-227A/peoplecheck",
       "page": 1,
-      "effectiveLabel": "APPLICATION TO SET ASIDE",
-      "reason": "protected_page_region",
-      "category": "court",
-      "why": null
-    },
-    {
-      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
-      "field": "judge",
-      "page": 1,
-      "effectiveLabel": "APPLICATION TO SET ASIDE",
-      "reason": "protected_category",
-      "category": "court",
-      "why": null
-    },
-    {
-      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
-      "field": "multcaseno",
-      "page": 1,
-      "effectiveLabel": "CONVICTION(S)",
-      "reason": "protected_category",
-      "category": "disposition_or_hearing",
-      "why": null
-    },
-    {
-      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
-      "field": "ori",
-      "page": 1,
-      "effectiveLabel": "ORI",
-      "reason": "classified_unwritable_by_role",
-      "category": "role",
-      "why": "The Originating Agency Identifier. Assigned to a Michigan court by the state; the form prints the 'MI-' stem beside it. Nothing matches it today, but 'nothing happens to match it' is not a refusal."
-    },
-    {
-      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
-      "field": "prno",
-      "page": 1,
-      "effectiveLabel": "Police Report No",
-      "reason": "protected_category",
-      "category": "agency",
-      "why": null
-    },
-    {
-      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
-      "field": "ctaddress",
-      "page": 1,
-      "effectiveLabel": "ORICourt addressCourt telephone no",
-      "reason": "classified_unwritable_by_role",
-      "category": "role",
-      "why": "The COURT'S address box. Binds participant.phone through the squashed 'ORICourt addressCourt telephone no' caption band. A participant's telephone number is not a court address, and the court's address is not a fact this platform holds."
-    },
-    {
-      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
-      "field": "cttelno",
-      "page": 1,
-      "effectiveLabel": "ORICourt addressCourt telephone no",
-      "reason": "classified_unwritable_by_role",
-      "category": "role",
-      "why": "The COURT'S telephone number box. Binds participant.phone through the same squashed band. The participant's telephone number is not the court's."
-    },
-    {
-      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
-      "field": "somcheck",
-      "page": 1,
-      "effectiveLabel": "THE PEOPLE OF",
-      "reason": "non_text_field_type",
-      "category": "type_guard",
-      "why": null
-    },
-    {
-      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
-      "field": "peoplecheck",
-      "page": 1,
-      "effectiveLabel": null,
-      "reason": "non_text_field_type",
-      "category": "type_guard",
-      "why": null
-    },
-    {
-      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
-      "field": "peopleof",
-      "page": 1,
-      "effectiveLabel": "The State of Michigan",
-      "reason": "classified_unwritable_by_role",
-      "category": "role",
-      "why": "The local-unit line in the 'THE PEOPLE OF' block, used when the conviction was under a city, village or township ordinance. Binds participant.state through the caption of the adjacent option, 'The State of Michigan'. The prosecuting authority is a legal election the participant makes with the checkbox beside it, and that checkbox is refused by the type guard."
-    },
-    {
-      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
-      "field": "dinfo",
-      "page": 1,
-      "effectiveLabel": "v",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "why": null
-    },
-    {
-      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
-      "field": "ctntcn",
-      "page": 1,
-      "effectiveLabel": "CTN/TCNSID",
-      "reason": "classified_unwritable_by_role",
-      "category": "role",
-      "why": "The CTN/TCN, assigned when a case is tracked through Michigan's criminal-history system. The agency's to state, not the platform's."
-    },
-    {
-      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
-      "field": "sid",
-      "page": 1,
-      "effectiveLabel": "Defendant’s attorney",
-      "reason": "classified_unwritable_by_role",
-      "category": "role",
-      "why": "The State Identification number. Refused today as `attorney`, because the caption harvested for it is 'Defendant's attorney' from the cell to its left — an incidental refusal on the wrong ground. An SID is a government identifier and is refused as one here."
-    },
-    {
-      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
-      "field": "dattyinfo",
-      "page": 1,
-      "effectiveLabel": "If you are asking to have a non-marihuana related misdemeano",
-      "reason": "classified_unwritable_by_role",
-      "category": "role",
-      "why": "The defendant's attorney, bar number, address and telephone block. The shared attorney rule matches 'atty' on a word boundary and this field name is one squashed token, so it does not reach it. A platform that fills this asserts the applicant is represented by counsel who is the applicant."
-    },
-    {
-      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
-      "field": "c1",
-      "page": 1,
-      "effectiveLabel": "a",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "why": null
-    },
-    {
-      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
-      "field": "ch1",
-      "page": 1,
-      "effectiveLabel": "CRIMEMCL citation/PACC CodeCONVICTIONCASE NUMBER",
-      "reason": "classified_unwritable_by_role",
-      "category": "role",
-      "why": "Row a of the 'CHARGE CODE(S) / MCL citation/PACC Code' column. Binds matter.charges[0].case_number through the printed-label fallback, because the harvested label is the whole four-column header line and the words CASE NUMBER belong to the fourth column. The statutory citation and the case number are different facts and this family refuses to print one as the other."
-    },
-    {
-      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
-      "field": "cdate1",
-      "page": 1,
-      "effectiveLabel": "MCL citation/PACC Code",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "why": null
-    },
-    {
-      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
-      "field": "cno1",
-      "page": 1,
-      "effectiveLabel": "CONVICTION",
-      "reason": "protected_category",
-      "category": "disposition_or_hearing",
-      "why": null
-    },
-    {
-      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
-      "field": "c2",
-      "page": 1,
-      "effectiveLabel": "a",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "why": null
-    },
-    {
-      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
-      "field": "ch2",
-      "page": 1,
-      "effectiveLabel": null,
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "why": null
-    },
-    {
-      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
-      "field": "cdate2",
-      "page": 1,
-      "effectiveLabel": null,
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "why": null
-    },
-    {
-      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
-      "field": "cno2",
-      "page": 1,
-      "effectiveLabel": null,
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "why": null
-    },
-    {
-      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
-      "field": "c3",
-      "page": 1,
-      "effectiveLabel": "b",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "why": null
-    },
-    {
-      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
-      "field": "ch3",
-      "page": 1,
-      "effectiveLabel": null,
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "why": null
-    },
-    {
-      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
-      "field": "cdate3",
-      "page": 1,
-      "effectiveLabel": null,
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "why": null
-    },
-    {
-      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
-      "field": "cno3",
-      "page": 1,
-      "effectiveLabel": null,
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "why": null
-    },
-    {
-      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
-      "field": "c4",
-      "page": 1,
-      "effectiveLabel": "d",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "why": null
-    },
-    {
-      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
-      "field": "ch4",
-      "page": 1,
-      "effectiveLabel": null,
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "why": null
-    },
-    {
-      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
-      "field": "cdate4",
-      "page": 1,
-      "effectiveLabel": null,
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "why": null
-    },
-    {
-      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
-      "field": "cno4",
-      "page": 1,
-      "effectiveLabel": null,
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "why": null
-    },
-    {
-      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
-      "field": "datesig",
-      "page": 1,
-      "effectiveLabel": "2. A certified copy of each conviction is attached",
-      "reason": "classified_unwritable_by_role",
-      "category": "role",
-      "why": "The date beside the applicant's signature. Refused today only because the caption above it mentions a conviction; refused here because the participant signs and dates the application themselves, per the form's own instruction 5."
-    },
-    {
-      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
-      "field": "sig",
-      "page": 1,
-      "effectiveLabel": null,
-      "reason": "protected_category",
-      "category": "signature",
-      "why": null
-    },
-    {
-      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
-      "field": "comdate",
-      "page": 1,
-      "effectiveLabel": null,
-      "reason": "classified_unwritable_by_role",
-      "category": "role",
-      "why": "The date on the Certificate of Mailing. The form's instruction 8 has the participant complete this AFTER mailing the packet to the prosecuting official; a date here certifies a mailing that has not occurred. The shared service_block rule does not reach the words 'certificate of mailing', so this is refused by role."
-    },
-    {
-      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
-      "field": "comsig",
-      "page": 1,
-      "effectiveLabel": null,
-      "reason": "classified_unwritable_by_role",
-      "category": "role",
-      "why": "The signature on the Certificate of Mailing, made under penalty of perjury. Never prefilled, and refused here rather than left to a caption."
+      "section": "Parties",
+      "label": "The People of a named city, village or township (selection)",
+      "why": "tick this instead if a city, village or township prosecuted the offence under its own ordinance, and name it on the line beside"
     }
-  ]
+  ],
+  "protectedBlanks": [
+    {
+      "document": "MC-227A",
+      "field": "MC-227A/judge",
+      "page": 1,
+      "label": "Judge",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the judge assigned to the application is the court's to name"
+    },
+    {
+      "document": "MC-227A",
+      "field": "MC-227A/dattyinfo",
+      "page": 1,
+      "label": "Defendant's attorney, bar no., address, and telephone no.",
+      "refusalClass": null,
+      "why": "attorney-only; no attorney-representation fact is held for this participant"
+    },
+    {
+      "document": "MC-227A",
+      "field": "MC-227A/datesig",
+      "page": 1,
+      "label": "Date of applicant signature",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "you date it when you sign it; a date written in advance would be false"
+    },
+    {
+      "document": "MC-227A",
+      "field": "MC-227A/sig",
+      "page": 1,
+      "label": "Applicant signature",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "you sign the application yourself"
+    },
+    {
+      "document": "MC-227A",
+      "field": "MC-227A/comdate",
+      "page": 1,
+      "label": "Certificate of Mailing — date of signature",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "the certificate of mailing is completed at instruction 8, AFTER the packet has been mailed at instruction 7, and it is declared under the penalties of perjury; a date written before the mailing would be false"
+    },
+    {
+      "document": "MC-227A",
+      "field": "MC-227A/comsig",
+      "page": 1,
+      "label": "Certificate of Mailing — signature",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "the certificate of mailing is declared under the penalties of perjury and is signed by you after you have mailed the packet to the prosecuting official"
+    }
+  ],
+  "everyRequiredBeforeFilingItemIsDisclosed": true,
+  "disclosedIn": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/participant-instructions.md"
 }

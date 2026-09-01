@@ -1,45 +1,28 @@
 {
-  "schemaVersion": "rcap-build-findings/v1",
+  "schemaVersion": "rcap-family-build-findings/v1",
   "familyId": "ak-tf805-set",
   "blocking": [],
-  "findingCount": 0,
-  "observations": [
+  "findings": [
     {
-      "id": "region-channel-silent-on-this-document",
-      "severity": "observation",
-      "where": "AK TF-805, page 2, and scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs pageRegions",
-      "finding": "TF-805 sets every line on both pages at 11pt and prints 'Certificate of Service' and 'Verification' in mixed case. pageRegions marks a heading only when a line is set at least 0.5pt larger than body text or is written in full capitals, so neither is detected. The only regions found on page 2 are 'ORDER' and 'DENIED.', both of which begin BELOW every widget on the page. No widget on this document is inside any region.",
-      "consequence": "The region channel -- built so that renaming a protected field cannot move it off the page -- contributes nothing on this form. Six of the eight certificate-of-service fields were left refused only by the checkbox type guard or by no descriptor happening to match their names.",
-      "actionTakenHere": "All six are refused by ROLE in this family, and the artifact proof asserts the block is empty by MEASURED GEOMETRY -- the stroked box the form draws around its certificate of service -- rather than by field naming.",
-      "notFixedHere": "pageRegions is shared and is outside this family's owned path. Changing the heading heuristic would change region detection for every family in the corpus, which is not this lane's call to make."
+      "finding": "TF-805 prints the request, a sworn verification, a certificate of service and the judge's order on the same two sheets.",
+      "consequence": "Only the request is filled. The verification, the certificate and the order are refused by class, so a prepared packet cannot read as a sworn or served one."
     },
     {
-      "id": "stroked-box-detector-read-undecoded-in-the-reference-build",
-      "severity": "observation",
-      "where": "scripts/build-census-v1-ar-arrest-seal-set.mjs, the page-content read that feeds strokedRectangles",
-      "finding": "That build reads page content with PDFRawStream.getContents(), which returns the stream as stored. Every Master Library source checked is Flate-compressed, so the detector receives compressed bytes, matches no operators, and returns an empty array without erroring. All 66 fields in that family's census and all 13 write boxes in its field map carry measuredRuleUnderWriteBox: null.",
-      "howConfirmed": "Both ACIC sources for that family were re-read here with decodePDFRawStream: raw lengths are 2-5 KB against decoded lengths of 6-18 KB, the raw read yields zero rectangles on every page of every Arkansas source, and the decoded read yields rectangles on several of them -- 4 on page 1 and 8 on page 2 of the petition to seal, among others.",
-      "consequence": "That family's stroked-geometry corroboration is empty rather than absent. Nothing it wrote is wrong: its write boxes are widget rectangles and were never derived from stroked geometry. The corroborating channel simply did not run, and a null reads as 'this form draws no rule here'.",
-      "actionTakenHere": "This family decodes the stream before scanning, and says so in its census. On TF-805 the difference is 0 rectangles against 11 -- including the box that makes this family's service-block proof possible.",
-      "notFixedHere": "data/rcap-all50/overlays/census-v1/ar/** and scripts/build-census-v1-ar-arrest-seal-set.mjs are another family's owned path. Reported, not edited."
+      "finding": "Administrative Rule 40 gives two grounds -- 40(b) and 40(c) -- and this packet is built for the rule rather than for one of them.",
+      "consequence": "The ground is left to the participant and recorded as a genuine participant election. A route-determined selection here would assert a fact about the participant's own case that the platform does not hold."
     },
     {
-      "id": "case-name-and-party-names-merged-into-one-slot",
-      "severity": "observation",
-      "where": "AK TF-805 page 1, fields `caseName` and `partyNames`, and selectOnePerSlot in rcap-field-semantics.mjs",
-      "finding": "`name`, `caseName` and `partyNames` all bind participant.full_legal_name. selectOnePerSlot groups same-fact widgets on a page into slots by transitive rectangle overlap, and `caseName` (measured at y 490.26..504.66) overlaps `partyNames` (y 476.26..490.66) by 0.40pt. They are two distinct printed lines of the form -- 'Case Name:' and 'Party Names:' -- but the widgets are 14.40pt tall on a 14.00pt line pitch, so they touch. The two are merged into one slot and one of them is refused as a `duplicate_widget_for_one_slot`.",
-      "whatActuallyHappened": "`partyNames` was kept and `caseName` refused, decided by the larger-area tiebreak in slotRank: 400.60x14.40 = 5768.6 against 226.59x14.40 = 3262.9. The outcome is the right one -- Party Names is the blank this form exists to fill, since it names the party whose name is to be removed from the index -- but it was decided by which box is bigger, not by which blank matters.",
-      "risk": "Had the areas fallen the other way, TF-805 would render with Party Names blank and the participant's name written on the Case Name line instead. On a request to remove a party's name from the public index, that is the one blank that should not be empty. The refusal is also invisible as a category error: it reads as an intentional de-duplication rather than as two different questions collapsed into one.",
-      "actionTakenHere": "Recorded and proved from the bytes: reports/participant-name-placement.json shows the name drawn at `name` and `partyNames` in both fixtures and nowhere else, and production-field-map.json carries the refusal with its reason. `caseName` is left blank for the participant. Nothing was overridden.",
-      "notFixedHere": "selectOnePerSlot is shared and outside this family's owned path. A 0.4pt overlap being treated as one slot affects every family whose widget heights exceed the form's line pitch, and re-tuning that threshold is not this lane's call. For a reviewer: whether TF-805 should offer a partial case name at all is a separate question, since the platform holds no matter.case_name fact and an Alaska case name is a caption ('State of Alaska v. Reyes') rather than a person's name."
+      "finding": "A removal under Rule 40(c) lasts five years and must then be re-requested; the form says so on its face.",
+      "consequence": "The instructions carry that in the form's own terms, beside the election, rather than leaving the participant to find it in the small print."
     },
     {
-      "id": "label-harvest-misreads-two-page-1-captions",
-      "severity": "observation",
-      "where": "AK TF-805 page 1, fields `name` and `dayPhone`",
-      "finding": "The printed-label harvester returns 'Addres' for `name` and 'By providing an email address, you agree that the court and ' for `dayPhone`. Matched as labels those resolve to participant.street_address and participant.email respectively -- the street address onto the Name line, the email address onto the Daytime Phone line.",
-      "whyNothingIsWrongInTheOutput": "The label is only a FALLBACK. Both fields have names the descriptor list matches directly, so the name channel decides both and the label is never consulted. Verified from the artifact bytes: the canonical fixture draws the name on the Name line and the phone on the Daytime Phone line.",
-      "risk": "It is decided by field naming rather than by the label being right. A future edition of TF-805 that renamed these fields to something the descriptors do not match would fall through to labels that are wrong, and the fallback exists precisely for forms whose field names say nothing."
+      "finding": "This form's text stream interleaves its glyph runs on two lines, so the captions read back scrambled at the widget's coordinate.",
+      "consequence": "The dictionary records what is actually in the stream and the drift check still runs against it; the readable wording is carried in the label, and both are recorded in the field census."
+    },
+    {
+      "severity": "advisory",
+      "finding": "The boundary participant's name carries a typographic apostrophe (U+2019) and the bytes read back carry the name without it. The write is visible and correctly placed; one character of it is not drawn.",
+      "consequence": "Recorded for visual review rather than repaired here. The behaviour is in the shared finalizer's font encoding and reproduces identically in vt_seal_misdemeanor-set, which is already PASS_COMPLETE."
     }
   ]
 }

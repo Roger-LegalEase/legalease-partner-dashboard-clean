@@ -1,0 +1,137 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+  "assignmentId": "PF14",
+  "workerId": "PF-C",
+  "lane": "packet-build",
+  "engine": "Claude 9h worker (normal Git; commits and pushes to claude/9h-pf-c)",
+  "shiftBaseSha": "09b741ad00be0d630bd73a72f66640294abab397",
+  "familiesAssigned": 2,
+  "preflight": {
+    "laneGate": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 2 not applicable",
+    "rowGate": "PACKET_BUILD_ENVIRONMENT_READY: 15/15 passed for each family"
+  },
+  "selfVerification": "none. The counters below are the builder's own count using the repository's own contract functions, not a verdict.",
+  "rows": [
+    {
+      "itemId": "co_multiple_conviction_seal-set",
+      "status": "COMPLETED",
+      "jurisdiction": "CO",
+      "routeKey": "track:CO:co_multiple_conviction_seal",
+      "statutoryAuthority": "C.R.S. § 24-72-709; Colorado Judicial Department forms JDF 641 and JDF 642",
+      "implementationStrategy": "official_pdf_fill",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/co/co-multiple-conviction-seal-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-co_multiple_conviction_seal-set.mjs",
+      "sourcesBound": [
+        {
+          "sourceId": "official-form:JDF-641",
+          "pathInArchive": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-641__motion-to-seal-multiple-conviction-records__REV-2025-07-01__EN.pdf",
+          "sha256": "6ad1d7c43b454b3b50c9c77313528b9660ada8a730d9ed5c384479809173ab02",
+          "byteLength": 721895
+        },
+        {
+          "sourceId": "official-form:JDF-642",
+          "pathInArchive": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-642__order-to-seal-multiple-conviction-records__REV-2025-07-01__EN.pdf",
+          "sha256": "584708616e982657f341b17bd58166a73ca05529a73bae715ce5f38168f0c52c",
+          "byteLength": 576543
+        }
+      ],
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersBasis": "reports/completeness-counters.json — computed with scripts/rcap-packet-completeness/completeness-contract.mjs",
+      "fields": { "total": 132, "written": 13, "requiredBeforeFiling": 84, "participantElections": 21 },
+      "componentsRendered": ["primary_filing", "proposed_order"],
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/co/co-multiple-conviction-seal-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "3cb52dc501311af75b69ef7c8e339849b0fbb2d632bd16e0f6b3a4483e89a0cd",
+          "byteLength": 404458, "pageCount": 7, "rasterPages": 7
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/co/co-multiple-conviction-seal-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "204a36fd7f6f27ba2dd630afd90c7065e5521419c8c379ef095ead0883101d44",
+          "byteLength": 404748, "pageCount": 7, "rasterPages": 7
+        }
+      ],
+      "notableDecisions": [
+        "No cell of section 4's fifteen-row, four-column offence table is written. Which convictions a participant brings under § 24-72-709 is the substance of the motion and the platform does not hold them; the fourth column is the date supervision ended, which is the fact the statutory waiting period runs from, so a row with the charge filled and that date blank would read as finished and be missing what the court needs.",
+        "The `∆` field carries two widgets — the page-1 caption and the Print Your Name line in section 10 — so the name is written in both. Section 10 of JDF 641 is a plain signature block, not a verification under penalty of perjury, which is why the printed name is written here and left blank on JDF 477.",
+        "JDF 642 prints 'City, State, and Zip Code' and the shared descriptor matches /city\\s*state\\s*zip/, which the interposed 'and' defeats. The dictionary now carries a separate bindingLabel for the semantics and keeps the form's printed words as the participant-facing label, rather than rewording the caption to suit a regular expression."
+      ],
+      "findingsRaisedForOthers": [
+        "JDF 641 and JDF 642 interleave their glyph runs; no printed-caption check can be run on either, and the absence is recorded per field in reports/caption-evidence.json."
+      ],
+      "independentVerificationStatus": "PENDING",
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "ak-tf805-set",
+      "status": "COMPLETED",
+      "jurisdiction": "AK",
+      "routeKey": "track:AK:ak-tf805",
+      "statutoryAuthority": "Alaska Court System form TF-805 (5/25); Alaska Administrative Rule 40(b) and 40(c)",
+      "implementationStrategy": "official_pdf_fill",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/ak/ak-tf805-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-ak-tf805-set.mjs",
+      "sourcesBound": [
+        {
+          "sourceId": "official-form:TF-805",
+          "pathInArchive": "STATES/AK/02_PACKET_FORMS/AK__FORM__TF-805__request-to-remove-name-from-online-public-index-courtview-under-administrative-rule-40-b-o__REV-2025-05__EN.pdf",
+          "sha256": "96306d64eda397e25094f92c3d67a642372b82cba12f97c6666e5500136e8f54"
+        }
+      ],
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersBasis": "reports/completeness-counters.json — computed with scripts/rcap-packet-completeness/completeness-contract.mjs",
+      "fields": { "total": 17, "written": 5, "requiredBeforeFiling": 3, "participantElections": 5, "protected": 4 },
+      "componentsRendered": ["primary_filing", "certificate_of_service", "proposed_order"],
+      "componentsNote": "TF-805 prints the request, the sworn verification, the certificate of service and the judge's order on its own two sheets; all three instrument kinds are in the one binary, and the certificate and the order are refused by class rather than filled.",
+      "whatChanged": "This family existed before this lane. Its production-field-map was written in a schema the completeness verifier refuses as unauditable, and it carried no participant-instructions.md, no byte-proof record and no build status. It now carries a contract-readable map, reports/actual-writes.json read back from the finalized bytes, participant instructions naming every required-before-filing item, page rasters through scripts/lib/pdf-page-raster.mjs, and the builder's own count of the nine counters.",
+      "supersededEvidenceRemoved": [
+        "build-record.json — it recorded the two fixture hashes of the previous build, which these bytes replace.",
+        "raster/tf805-{canonical,boundary}/page-0{1,2}.png — the previous build's page rasters, superseded by the calibrated per-page renders now written beside them."
+      ],
+      "artifacts": [
+        {
+          "fixture": "tf805-canonical",
+          "file": "data/rcap-all50/overlays/census-v1/ak/ak-tf805-set--official-pdf-fill/fixtures/tf805-canonical-filled.pdf",
+          "sha256": "bffda336fac95d0980e0a9130913c9189077e1fdc3f05b5a1d55065e5f5c9703",
+          "byteLength": 68920, "pageCount": 2, "rasterPages": 2
+        },
+        {
+          "fixture": "tf805-boundary",
+          "file": "data/rcap-all50/overlays/census-v1/ak/ak-tf805-set--official-pdf-fill/fixtures/tf805-boundary-filled.pdf",
+          "sha256": "5dd98fef218f8310a8e46e41a9ca83e53d5295507bac0c82fce77e44f96d0ff5",
+          "byteLength": 69035, "pageCount": 2, "rasterPages": 2
+        }
+      ],
+      "notableDecisions": [
+        "The choice between the Rule 40(b) ground and the Rule 40(c) ground is a participant election, not a route-determined selection: this packet is built for Rule 40, and which ground fits is a fact about the participant's own case.",
+        "The five-year limit on a 40(c) removal is carried into the instructions in the form's own terms, beside the election."
+      ],
+      "independentVerificationStatus": "PENDING",
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    }
+  ]
+}

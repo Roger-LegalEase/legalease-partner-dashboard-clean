@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-checkpoints/v1",
+  "assignmentId": "PF14",
+  "workerId": "PF-C",
+  "checkpointRule": "Return every five completed families, or every two hours, whichever comes first. This lane carries two families and checkpoints per family.",
+  "checkpoints": [
+    {
+      "checkpoint": 1,
+      "at": "2026-09-01T08:31:32Z",
+      "familiesCompletedSoFar": [
+        "co_multiple_conviction_seal-set"
+      ],
+      "familiesStoppedSoFar": [],
+      "familiesRemaining": [
+        "ak-tf805-set"
+      ],
+      "note": "JDF 641 and JDF 642 built together, 132 fields across seven pages. Section 4's fifteen-row offence table is left whole: which convictions the participant brings, and the supervision end date the statutory waiting period runs from, are the substance of the motion and the platform holds neither."
+    },
+    {
+      "checkpoint": 2,
+      "at": "2026-09-01T08:34:21Z",
+      "familiesCompletedSoFar": [
+        "co_multiple_conviction_seal-set",
+        "ak-tf805-set"
+      ],
+      "familiesStoppedSoFar": [],
+      "familiesRemaining": [],
+      "note": "TF-805 brought to the builder contract. It existed before this lane with a field map the completeness verifier refuses as unauditable and no byte-proof record; two superseded evidence files were removed rather than left to read as current. PF14 returns two rows for two assigned families, both COMPLETED, neither self-verified."
+    }
+  ],
+  "laneComplete": true,
+  "familiesAssigned": 2,
+  "rowsReturned": 2,
+  "timestampBasis": "Each checkpoint time is the modification time of that family's build-status.json on the build host, which is when the build that produced it finished. An earlier revision of this file carried times estimated rather than read; they were wrong by about five hours and are corrected here."
+}

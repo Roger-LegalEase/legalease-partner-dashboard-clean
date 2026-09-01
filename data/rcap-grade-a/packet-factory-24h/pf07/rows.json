@@ -1,0 +1,122 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+  "assignmentId": "PF07",
+  "workerId": "PF-C",
+  "lane": "packet-build",
+  "engine": "Claude 9h worker (normal Git; commits and pushes to claude/9h-pf-c)",
+  "shiftBaseSha": "09b741ad00be0d630bd73a72f66640294abab397",
+  "takenAfter": "the static queue PF12-PF16, as the Captain's nextLaneByWorker assignment for PF-C",
+  "familiesAssigned": 1,
+  "preflight": {
+    "laneGate": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 2 not applicable",
+    "rowGate": "PACKET_BUILD_ENVIRONMENT_READY: 15/15 passed"
+  },
+  "selfVerification": "none. The counters below are the builder's own count using the repository's own contract functions, not a verdict.",
+  "rows": [
+    {
+      "itemId": "md_second_chance_shielding-set",
+      "status": "STOPPED",
+      "stopClass": "shared_machinery_gap",
+      "stopReason": "Two route-determined selections on MDJ-008 are left unmarked because finalizeOfficialForm — the AcroForm path every form-filling family in this factory uses — has no channel for marking a selection control. finalizeFlatOverlay, in the same file, does. Shared machinery is not this lane's to edit.",
+      "overlayBytesWritten": true,
+      "whyOverlayBytesWereStillWritten": "This is not a source or legal row stop. Both sources bound by exact SHA-256, the route is established, and the packet renders. The defect is two unmarked boxes on rendered paper, and the rendered paper is the evidence of it.",
+      "jurisdiction": "MD",
+      "routeKey": "track:MD:md_second_chance_shielding",
+      "statutoryAuthority": "Md. Criminal Procedure §§ 10-301 through 10-306; Md. Rule 16-941; Md. Rule 20-201.1; Md. Rule 16-914(k)(2); Judiciary forms CC-DC-CR-148 and MDJ-008 (Rev. 07/2026)",
+      "implementationStrategy": "official_pdf_fill",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/md/md-second-chance-shielding-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-md_second_chance_shielding-set.mjs",
+      "sourcesBound": [
+        {
+          "sourceId": "official-form:CC-DC-CR-148",
+          "pathInArchive": "STATES/MD/02_PACKET_FORMS/MD__FORM__CC-DC-CR-148__petition-for-shielding-under-the-maryland-second-chance-act__REV-2026-07__EN.pdf",
+          "sha256": "abcafbc298d56937ad41ba44675147942b1ab540325898917efafed3f5b43e3f",
+          "byteLength": 238823,
+          "instrumentKind": "primary_filing"
+        },
+        {
+          "sourceId": "official-form:MDJ-008",
+          "pathInArchive": "STATES/MD/02_PACKET_FORMS/MD__FORM__MDJ-008__notice-regarding-restricted-information-pursuant-to-rule-20-201-1__REV-2026-07__EN.pdf",
+          "sha256": "42510792803b979974b3967dfd0f871271e7518cf64e226d5a80e22b67a6e369",
+          "byteLength": 248175,
+          "instrumentKind": "attachment"
+        }
+      ],
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 2,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersBasis": "reports/completeness-counters.json — computed with scripts/rcap-packet-completeness/completeness-contract.mjs",
+      "theTwoDefects": [
+        {
+          "field": "MDJ-008/Restricted Document - The entire document is not subject to inspection",
+          "disposition": "ROUTE_OPTION_NOT_SELECTED",
+          "whatDeterminesIt": "CC-DC-CR-148 prints \"This form contains Restricted Information\" at the head of page 1 and asserts in paragraph 6 that \"This petition is to be shielded by the clerk\"."
+        },
+        {
+          "field": "MDJ-008/Sealing or Shielding Motion",
+          "disposition": "ROUTE_OPTION_NOT_SELECTED",
+          "whatDeterminesIt": "The petition is filed under Md. Rule 16-941, printed in the opening sentence of CC-DC-CR-148, and this line of MDJ-008 reads \"Sealing or Shielding Motion: while pending, but not to exceed five (5) business days. Rule 16-941 & 16-914(k)(2)\" — the same rule."
+        }
+      ],
+      "fields": {
+        "total": 113,
+        "CC-DC-CR-148": 56,
+        "MDJ-008": 57,
+        "written": 16,
+        "requiredBeforeFiling": 30,
+        "participantElections": 48,
+        "routeDeterminedAndUnmarked": 2,
+        "protected": 5,
+        "attorney": 10,
+        "viewerControls": 2
+      },
+      "componentsRendered": [
+        "primary_filing",
+        "attachment"
+      ],
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/md/md-second-chance-shielding-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "df087d9d3627bdedf2fcad7612664bc0152ec9a42ace34019aec94a7ffdf64c3",
+          "byteLength": 465389,
+          "pageCount": 2,
+          "rasterPages": 2
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/md/md-second-chance-shielding-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "29bc0aab2f4733c417508bb7f202e395080ffffdac37183ebc2ea630e83cc357",
+          "byteLength": 465616,
+          "pageCount": 2,
+          "rasterPages": 2
+        }
+      ],
+      "notableDecisions": [
+        "The two MDJ-008 controls are declared route-determined and counted as defects rather than relabelled participant elections. Calling a box the route determines a genuine participant election would have zeroed the counters and misdescribed the packet, and it is the exact substitution the closed disposition vocabulary exists to catch.",
+        "MDJ-008 is carried as an attachment rather than as a separate optional form because CC-DC-CR-148 says so on its face: \"You must file a Notice Regarding Restricted Information Pursuant to Rule 20-201.1 (form MDJ-008) with this submission.\"",
+        "Both Maryland forms extract clean text and Maryland authored its AcroForm field names as the printed captions, so every caption claim here is checked against the paper. reports/caption-evidence.json records per field whether the caption was found verbatim on its own page — 23 of 56 on CC-DC-CR-148 and 47 of 57 on MDJ-008 — and records the printed line at the widget coordinate where it was not, rather than explaining the misses away.",
+        "None of the twelve shieldable offences in paragraph 1 is ticked and none of the seventeen case-number lines is written. Which of the twelve applies is a fact about the participant's record; a ticked box with no case number beside it would be an incomplete allegation. All seventeen lines are declared required before filing and named individually in the instructions.",
+        "The CC-DC-CR-148 signature block prints the same five captions twice — the attorney's column at x=72 and the petitioner's at x=319. Every left-hand field is refused as attorney-only and every right-hand field is written; a drift between the columns would file a petition asserting counsel who is the petitioner, so it is the first item put to the visual reviewer.",
+        "The MDJ-008 plaintiff line is refused rather than filled. The form pre-prints STATE OF MARYLAND above it followed by \"OR\", so on a criminal shielding petition nothing goes in it.",
+        "The boundary fixture reports three unfittable values on CC-DC-CR-148 — a 31-character case number, a phone with an extension and a 58-character e-mail, each wider than its widget at the minimum font. They are reported as refusals rather than drawn small or clipped."
+      ],
+      "findingsRaisedForOthers": [
+        "BLOCKING, owner scripts/rcap-official-forms/rcap-official-form-finalize.mjs: finalizeOfficialForm accepts no `selections` argument and never calls markSelections; finalizeFlatOverlay, defined in the same file and sharing the same ink, protected-rule set and page list, does. An AcroForm family therefore cannot mark a selection control at all, so every official_pdf_fill family in this factory with a route-determined checkbox is structurally unable to zero its counters. The fix is the same parameter and the same call, after the widgets are flattened. The measured rectangles this family needs are already in its field map under routeDeterminedSelections, read first-hand from the pinned binary.",
+        "ADVISORY, owner scripts/rcap-packet-completeness/completeness-contract.mjs: BLANK_DISPOSITIONS carries NOT_APPLICABLE_ON_THIS_ROUTE, but the only reasons that reach it are a viewer control and an attorney block. A field genuinely not applicable for a third reason — here, a caption line the form pre-prints for this case type — has no channel to say so, and is filed under a protected class instead.",
+        "ADVISORY: a selection control can never be declared REQUIRED_BEFORE_FILING. classifyField returns PARTICIPANT_ELECTION for any selection control, and PARTICIPANT_ELECTION is not in PARTICIPANT_COMPLETABLE_REQUIREMENTS, so the declaration returns UNCLASSIFIED_BLANK. That is the right default for a service-method checkbox and the wrong one for a dropdown of counties, which is what MDJ-008 and CC-DC-CR-148 both use for City/County."
+      ],
+      "independentVerificationStatus": "PENDING",
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    }
+  ]
+}
