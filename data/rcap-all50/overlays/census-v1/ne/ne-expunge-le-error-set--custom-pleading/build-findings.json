@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "ne-expunge-le-error-set",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "The MASTER_QUEUE row's instrumentKinds names a 'Nebraska § 29-3523(6) Error Petition', while the memo, the recorded controlling decisions (Q-023/Q-024/Q-025) and the statute citation they carry all say § 29-3523(9).",
+      "consequence": "This build follows the memo and the decision record — § 29-3523(9) — and records the queue-row discrepancy here rather than smoothing it over. The queue text is a label, not a legal record; the memo and the counsel decisions are the family's controlling records."
+    },
+    {
+      "finding": "Recorded controlling decision Q-023 settles venue: the district court of the county in which the arrest occurred, implemented as a new civil petition in that court. Q-024 settles the respondent (the county attorney) and the service posture (formal service as a new civil action; a courtesy copy is not enough).",
+      "consequence": "The caption names that county's district court with the county as a participant-supplied blank, the respondent line names the county attorney of the same county, and the service page states the formal civil-service rule with the local mechanics delegated to the clerk of that district court by name, because the decision record itself notes the local practices vary."
+    },
+    {
+      "finding": "Recorded decision Q-025 holds that the CANDIDATE packet should contain more than the petition — a civil case-opening cover sheet, summons and praecipe, a proposed order and evidence exhibits among them — with delivery ARTIFACT_LEGAL_REVIEW_REQUIRED. The packet-set manifest for this family names exactly three components: the petition, the service instructions and the attorney-review recommendation.",
+      "consequence": "This build renders the manifest's three components and does not draft the additional instruments: a proposed order would invent the court's operative terms, and no held record supplies a Nebraska summons, praecipe or cover-sheet format. The Q-025 holding travels to reviewers unresolved in approval-request.json, which is exactly what its ARTIFACT_LEGAL_REVIEW_REQUIRED delivery calls for."
+    },
+    {
+      "finding": "The memo forbids the petition to assert the error as a legal conclusion, to characterise the evidence as clear and convincing, or to predict the outcome; and the memo's own unresolved question records that the custom-pleading classification overrides the review's process-guidance classification, with the override flagged for counsel confirmation.",
+      "consequence": "The petition states the statutory standard as a recital and expressly leaves whether it is met to the court; the error narrative is the participant's own words on dotted lines. The classification override is raised again in approval-request.json, noting that the recorded controlling decisions (RELEASE — PACKET on Q-023) already treat the route as a packet."
+    },
+    {
+      "finding": "The district court civil filing fee is recorded as not established, and no source states the local service mechanics.",
+      "consequence": "The petition and instructions delegate both to the clerk of the district court of the county of arrest by name, and state the § 25-2301.01 fee-waiver availability exactly as recorded."
+    }
+  ]
+}
