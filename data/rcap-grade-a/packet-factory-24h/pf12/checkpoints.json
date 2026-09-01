@@ -6,16 +6,23 @@
   "checkpoints": [
     {
       "checkpoint": 1,
-      "at": "2026-09-01T07:52:00Z",
-      "familiesCompletedSoFar": ["ak-tf800-set"],
+      "at": "2026-09-01T07:45:53Z",
+      "familiesCompletedSoFar": [
+        "ak-tf800-set"
+      ],
       "familiesStoppedSoFar": [],
-      "familiesRemaining": ["ct-cleanslate-petition-set"],
+      "familiesRemaining": [
+        "ct-cleanslate-petition-set"
+      ],
       "note": "TF-800 built to the builder contract: one official form, three pages, primary_filing. Canonical and boundary fixtures rendered and rastered, every visible write read back from the finalized bytes, all nine counters zero by the builder's own count. Not verified here."
     },
     {
       "checkpoint": 2,
-      "at": "2026-09-01T10:15:00Z",
-      "familiesCompletedSoFar": ["ak-tf800-set", "ct-cleanslate-petition-set"],
+      "at": "2026-09-01T08:02:53Z",
+      "familiesCompletedSoFar": [
+        "ak-tf800-set",
+        "ct-cleanslate-petition-set"
+      ],
       "familiesStoppedSoFar": [],
       "familiesRemaining": [],
       "note": "JD-CR-202 brought to the builder contract. The family existed before this lane and could not be audited: its field map used a schema the completeness verifier refuses, and three of the participant's own facts were blank on the filing because the form prints its column headings a row above its inputs. Captions are now measured and re-checked against the pinned binary; the packet identifies its petitioner. PF12 returns two rows for two assigned families, both COMPLETED, neither self-verified."
@@ -23,5 +30,6 @@
   ],
   "laneComplete": true,
   "familiesAssigned": 2,
-  "rowsReturned": 2
+  "rowsReturned": 2,
+  "timestampBasis": "Each checkpoint time is the modification time of that family's build-status.json on the build host, which is when the build that produced it finished. An earlier revision of this file carried times estimated rather than read; they were wrong by about five hours and are corrected here."
 }
