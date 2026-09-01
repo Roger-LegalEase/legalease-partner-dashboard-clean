@@ -13,8 +13,8 @@
           "field": "formPrint",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "refusalClass": "not_a_filing_fact",
+          "reason": "Viewer UI control; not a filing fact and never written into the participant artifact.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -27,14 +27,15 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "formPrint"
         },
         {
           "field": "formSafeClear",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "refusalClass": "not_a_filing_fact",
+          "reason": "Viewer UI control; not a filing fact and never written into the participant artifact.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -47,7 +48,8 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "formSafeClear"
         },
         {
           "field": "DefPhone",
@@ -396,8 +398,7 @@
           "field": "arrestOff2",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -410,14 +411,18 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "offense(s))",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field arrestOff2"
         },
         {
           "field": "arrestStatute",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -430,14 +435,18 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "in violation of N.J.S.A. (statute(s))",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field arrestStatute"
         },
         {
           "field": "arrestMuni",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -450,7 +459,12 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "(original indict",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field arrestMuni"
         },
         {
           "field": "origCaseNums",
@@ -1035,8 +1049,8 @@
           "field": "contOwe",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "refusalClass": "participant_sworn_narrative_or_legal_election",
+          "reason": "A control the participant marks. The platform never marks an election on a sworn filing; the participant instructions name it and the participant marks it before signing.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1060,14 +1074,15 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "contOwe",
+          "isSelectionControl": true
         },
         {
           "field": "oweDocket",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1091,14 +1106,18 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "Original",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field oweDocket"
         },
         {
           "field": "oweAmt",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1122,14 +1141,18 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "in the amount of $",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field oweAmt"
         },
         {
           "field": "cnt",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1142,14 +1165,18 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "cnt",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field cnt"
         },
         {
           "field": "contArrestDt",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1162,14 +1189,18 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": ". I was arrested/taken into custody on (dat",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field contArrestDt"
         },
         {
           "field": "contOffense1",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1182,14 +1213,18 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": ". I was arre",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field contOffense1"
         },
         {
           "field": "contOffense2",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1202,14 +1237,18 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "contOffense2",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field contOffense2"
         },
         {
           "field": "contStatute",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1222,14 +1261,18 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "in violation of N.J.S.A. (statute(s))",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field contStatute"
         },
         {
           "field": "contArrestMuni",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1242,14 +1285,18 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "(municipalities",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field contArrestMuni"
         },
         {
           "field": "contOrigNums",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1262,7 +1309,12 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "(original indictment/accusation/summons/war",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field contOrigNums"
         },
         {
           "field": "contDismiss",
@@ -1328,8 +1380,7 @@
           "field": "contDsmissOff2",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1342,7 +1393,12 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "a",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field contDsmissOff2"
         },
         {
           "field": "contDismissCrt",
@@ -1839,8 +1895,8 @@
           "field": "seek5yrs",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "refusalClass": "participant_sworn_narrative_or_legal_election",
+          "reason": "A control the participant marks. The platform never marks an election on a sworn filing; the participant instructions name it and the participant marks it before signing.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1853,14 +1909,16 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "seek5yrs",
+          "isSelectionControl": true
         },
         {
           "field": "seek34degree",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "refusalClass": "participant_sworn_narrative_or_legal_election",
+          "reason": "A control the participant marks. The platform never marks an election on a sworn filing; the participant instructions name it and the participant marks it before signing.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1873,14 +1931,15 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "seek34degree",
+          "isSelectionControl": true
         },
         {
           "field": "seek5yrsDetails",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1915,14 +1974,19 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "conviction. The compelling circumstances for the Court to gr",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field seek5yrsDetails"
         },
         {
           "field": "seekJuvNever",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "refusalClass": "participant_sworn_narrative_or_legal_election",
+          "reason": "A control the participant marks. The platform never marks an election on a sworn filing; the participant instructions name it and the participant marks it before signing.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1935,14 +1999,16 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "3",
+          "isSelectionControl": true
         },
         {
           "field": "changeName",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "refusalClass": "participant_sworn_narrative_or_legal_election",
+          "reason": "A control the participant marks. The platform never marks an election on a sworn filing; the participant instructions name it and the participant marks it before signing.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1955,7 +2021,9 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "changeName",
+          "isSelectionControl": true
         },
         {
           "field": "notaryDay",
@@ -2372,8 +2440,7 @@
           "field": "orderHearYr",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2386,14 +2453,18 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": ",",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field orderHearYr"
         },
         {
           "field": "hearDay",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2406,7 +2477,12 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "an Order of",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field hearDay"
         },
         {
           "field": "hearMnth",
@@ -2452,8 +2528,7 @@
           "field": "hearTime",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2466,14 +2541,18 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "at",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field hearTime"
         },
         {
           "field": "hearTimeM",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2486,14 +2565,18 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "at        o'clock",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field hearTimeM"
         },
         {
           "field": "sigHearJdg",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2506,14 +2589,19 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "sigHearJdg",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field sigHearJdg"
         },
         {
           "field": "gradDC",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "refusalClass": "participant_sworn_narrative_or_legal_election",
+          "reason": "A control the participant marks. The platform never marks an election on a sworn filing; the participant instructions name it and the participant marks it before signing.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2526,14 +2614,16 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "gradDC",
+          "isSelectionControl": true
         },
         {
           "field": "marijuana",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "refusalClass": "participant_sworn_narrative_or_legal_election",
+          "reason": "A control the participant marks. The platform never marks an election on a sworn filing; the participant instructions name it and the participant marks it before signing.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2546,14 +2636,16 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "marijuana",
+          "isSelectionControl": true
         },
         {
           "field": "cleanSlate",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "refusalClass": "participant_sworn_narrative_or_legal_election",
+          "reason": "A control the participant marks. The platform never marks an election on a sworn filing; the participant instructions name it and the participant marks it before signing.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2566,7 +2658,9 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "cleanSlate",
+          "isSelectionControl": true
         },
         {
           "field": "DefBirthDt",
@@ -2634,8 +2728,7 @@
           "field": "orderFinalDay",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2648,7 +2741,12 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "IT IS ORDERED this",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field orderFinalDay"
         },
         {
           "field": "orderFinalMnth",
@@ -2736,8 +2834,7 @@
           "field": "MuniCrts",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2794,7 +2891,12 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "The administrator(s) of the",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field MuniCrts"
         },
         {
           "field": "PoliceLoc",
@@ -2864,8 +2966,7 @@
           "field": "probDivCntys",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2900,7 +3001,12 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "The",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field probDivCntys"
         },
         {
           "field": "WardenLoc",
@@ -3074,8 +3180,7 @@
           "field": "arrest1Statute",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3088,7 +3193,12 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "(statute)",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field arrest1Statute"
         },
         {
           "field": "arrest1CaseNum",
@@ -3114,8 +3224,7 @@
           "field": "arrest2Dt",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3128,14 +3237,18 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "(statu",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field arrest2Dt"
         },
         {
           "field": "arrest2Statute",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3148,14 +3261,18 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "(statute",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field arrest2Statute"
         },
         {
           "field": "arrest2CaseNum",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3168,14 +3285,18 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "summons/warrant/ complaint/FJ or FO docket number)",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field arrest2CaseNum"
         },
         {
           "field": "arrest3Dt",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3188,7 +3309,12 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "(statu",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field arrest3Dt"
         },
         {
           "field": "arrest3Statute",
@@ -3214,8 +3340,7 @@
           "field": "arrest3CaseNum",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3228,14 +3353,18 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "summons/warrant/ complaint/FJ or FO docket number)",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field arrest3CaseNum"
         },
         {
           "field": "arrest4Dt",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3248,7 +3377,12 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "(statut",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field arrest4Dt"
         },
         {
           "field": "arrest4Statute",
@@ -3274,8 +3408,7 @@
           "field": "arrest4CaseNum",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3288,14 +3421,18 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "summons/warrant/ complaint/FJ or FO docket number)",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field arrest4CaseNum"
         },
         {
           "field": "arrest5Dt",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3308,7 +3445,12 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "(statu",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field arrest5Dt"
         },
         {
           "field": "arrest5Statute",
@@ -3334,8 +3476,7 @@
           "field": "arrest5CaseNum",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3348,14 +3489,18 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "summons/warrant/ complaint/FJ or FO docket number)",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field arrest5CaseNum"
         },
         {
           "field": "fjDocketNums",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3379,14 +3524,19 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "If applicable, including the following Family Par",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field fjDocketNums"
         },
         {
           "field": "jdmnt",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "refusalClass": "participant_sworn_narrative_or_legal_election",
+          "reason": "A control the participant marks. The platform never marks an election on a sworn filing; the participant instructions name it and the participant marks it before signing.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3399,14 +3549,15 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "jdmnt",
+          "isSelectionControl": true
         },
         {
           "field": "jdgmntDocket1",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3419,14 +3570,18 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "jdgmntDocket1",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field jdgmntDocket1"
         },
         {
           "field": "jdgmntAmt1",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3439,14 +3594,18 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "in the amount of $",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field jdgmntAmt1"
         },
         {
           "field": "jdgmntDocket2",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3459,14 +3618,18 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "jdgmntDocket2",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field jdgmntDocket2"
         },
         {
           "field": "jdgmntAmt2",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3479,14 +3642,18 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "in the amount of $",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field jdgmntAmt2"
         },
         {
           "field": "jdgmntDocket3",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3499,14 +3666,18 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "jdgmntDocket3",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field jdgmntDocket3"
         },
         {
           "field": "jdgmntAmt3",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3519,14 +3690,18 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "in the amount of $",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field jdgmntAmt3"
         },
         {
           "field": "jdgmntDocket4",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3539,14 +3714,18 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "jdgmntDocket4",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field jdgmntDocket4"
         },
         {
           "field": "jdgmntAmt4",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3559,14 +3738,18 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "in the amount of $",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field jdgmntAmt4"
         },
         {
           "field": "sigFinalJdg",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3579,14 +3762,18 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "sigFinalJdg",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field sigFinalJdg"
         },
         {
           "field": "CoverLtrDDt",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3599,14 +3786,18 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "CoverLtrDDt",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field CoverLtrDDt"
         },
         {
           "field": "SccCntyName",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3619,14 +3810,18 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "(county)",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field SccCntyName"
         },
         {
           "field": "SccAddrStr",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3639,14 +3834,18 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "(address)",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field SccAddrStr"
         },
         {
           "field": "SccAddr2",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3659,14 +3858,18 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "(city, state, zip code)",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field SccAddr2"
         },
         {
           "field": "enc",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3679,14 +3882,18 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "Kit up",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field enc"
         },
         {
           "field": "CoverLtrEDt",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3699,7 +3906,12 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "CoverLtrEDt",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field CoverLtrEDt"
         },
         {
           "field": "SheriffLoc",
@@ -3765,8 +3977,7 @@
           "field": "CoverLtrEHearDt",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3779,14 +3990,18 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "Re: Expungement Hearing",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field CoverLtrEHearDt"
         },
         {
           "field": "CoverLtrEHearTime",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3799,14 +4014,18 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "at",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field CoverLtrEHearTime"
         },
         {
           "field": "expungDocketNum",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3819,7 +4038,12 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "Docket Number",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field expungDocketNum"
         },
         {
           "field": "mailPetition",
@@ -3845,8 +4069,7 @@
           "field": "sigNoticeDt",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3859,14 +4082,18 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "sigNoticeDt",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field sigNoticeDt"
         },
         {
           "field": "CoverLtrGDt",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3879,7 +4106,12 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "Cover Letter – Notice Expungement Granted (Form G)",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field CoverLtrGDt"
         },
         {
           "field": "ProsCntyName",
@@ -3947,8 +4179,7 @@
           "field": "ProsAddr2",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3972,7 +4203,12 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "(address) (address)",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field ProsAddr2"
         },
         {
           "field": "PoliceAddrStr",
@@ -4040,8 +4276,7 @@
           "field": "ProbCntyName",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -4065,14 +4300,18 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "County Probation",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field ProbCntyName"
         },
         {
           "field": "ProbAddrStr",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -4096,14 +4335,18 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "ProbAddrStr",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field ProbAddrStr"
         },
         {
           "field": "ProbAddr2",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -4127,7 +4370,12 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "(address) (address)",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field ProbAddr2"
         },
         {
           "field": "SuperintendentAddrStr",
@@ -4195,8 +4443,7 @@
           "field": "MuniCrtsAddrStr",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -4220,14 +4467,18 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "MuniCrtsAddrStr",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field MuniCrtsAddrStr"
         },
         {
           "field": "MuniCrtsAddr2",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -4251,7 +4502,12 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "(city, state, zip code)",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field MuniCrtsAddr2"
         },
         {
           "field": "WardenAddrStr",
@@ -4319,8 +4575,7 @@
           "field": "Prob2CntyName",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -4344,14 +4599,18 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "County Probatio",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field Prob2CntyName"
         },
         {
           "field": "Prob2AddrStr",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -4375,14 +4634,18 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "(use in Transfer Cases only)",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field Prob2AddrStr"
         },
         {
           "field": "Prob2Addr2",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -4406,14 +4669,18 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "(city, state, zip code)",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field Prob2Addr2"
         },
         {
           "field": "IdbCnty",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -4426,14 +4693,18 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "(name of institution for juvenile only)",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field IdbCnty"
         },
         {
           "field": "IdbAddrStr",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -4446,14 +4717,18 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "IdbAddrStr",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field IdbAddrStr"
         },
         {
           "field": "FamDivName",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -4466,14 +4741,18 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "Records and Identification Unit",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field FamDivName"
         },
         {
           "field": "FamDivAddrStr",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -4486,14 +4765,18 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "Records and Identification Unit",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field FamDivAddrStr"
         },
         {
           "field": "FamDivAddr2",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -4517,7 +4800,12 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "(address) (address)",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field FamDivAddr2"
         },
         {
           "field": "ExpungeDocketNum",
@@ -4554,8 +4842,7 @@
           "field": "AdminMuniCts",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -4568,9 +4855,16 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "effectiveLabel": "The administrator(s) of the",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field AdminMuniCts"
         }
       ]
     }
-  ]
+  ],
+  "dispositionVocabulary": "rcap-packet-completeness/closed-blank-dispositions",
+  "requiredBeforeFilingCount": 68
 }
