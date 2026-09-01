@@ -1,0 +1,124 @@
+{
+  "schemaVersion": "rcap-blanks-left-for-the-participant/v1",
+  "familyId": "ga-nonconv-post2013-set",
+  "requiredBeforeFiling": [
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.arrest_date",
+      "page": 1,
+      "printedContext": "Date of arrest, in paragraph 2 of the request",
+      "disclosureLabel": "Date of arrest, in paragraph 2 of the request",
+      "identity": "primary_filing field arrest_date",
+      "why": "no arrest fact is held for a record the platform has not seen",
+      "participantMustSupply": "the date of the arrest, from your criminal history report"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.arresting_agency",
+      "page": 1,
+      "printedContext": "Arresting law enforcement agency, in paragraph 2 of the request",
+      "disclosureLabel": "Arresting law enforcement agency, in paragraph 2 of the request",
+      "identity": "primary_filing field arresting_agency",
+      "why": "no arrest fact is held for a record the platform has not seen",
+      "participantMustSupply": "the agency that arrested you, from your criminal history report"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.charges",
+      "page": 1,
+      "printedContext": "Offences arrested for, as the record states them, in paragraph 2 of the request",
+      "disclosureLabel": "Offences arrested for, as the record states them, in paragraph 2 of the request",
+      "identity": "primary_filing field charges",
+      "why": "no charge fact is held for a record the platform has not seen",
+      "participantMustSupply": "the offences you were arrested for, worded as the record words them"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.county_of_arrest",
+      "page": 1,
+      "printedContext": "County of arrest, in paragraph 2 of the request",
+      "disclosureLabel": "County of arrest, in paragraph 2 of the request",
+      "identity": "primary_filing field county_of_arrest",
+      "why": "no arrest fact is held for a record the platform has not seen",
+      "participantMustSupply": "the Georgia county where you were arrested, from your criminal history report"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.court_and_case_number",
+      "page": 1,
+      "printedContext": "Court that handled the case, and its case number, in paragraph 2 of the request",
+      "disclosureLabel": "Court that handled the case, and its case number, in paragraph 2 of the request",
+      "identity": "primary_filing field court_and_case_number",
+      "why": "no case identifier is held for a record the platform has not seen",
+      "participantMustSupply": "the court that handled the case and the case number, from your court paperwork - the clerk of that court holds the file"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.disposition",
+      "page": 1,
+      "printedContext": "How the case ended (the disposition), exactly as the court record states it, in paragraph 2 of the request",
+      "disclosureLabel": "How the case ended (the disposition), exactly as the court record states it, in paragraph 2 of the request",
+      "identity": "primary_filing field disposition",
+      "why": "no disposition fact is held for a record the platform has not seen",
+      "participantMustSupply": "the disposition, exactly as the court record states it - checked against your criminal history report and, where it is missing or wrong there, against the certified final disposition from the clerk"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.disposition_date",
+      "page": 1,
+      "printedContext": "Date the case ended, in paragraph 2 of the request",
+      "disclosureLabel": "Date the case ended, in paragraph 2 of the request",
+      "identity": "primary_filing field disposition_date",
+      "why": "no disposition fact is held for a record the platform has not seen",
+      "participantMustSupply": "the date the case ended, from the court record"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.participant_account",
+      "page": 1,
+      "printedContext": "The requester's own statement of what they are asking the office to do and why the record matters now, in paragraph 3 of the request",
+      "disclosureLabel": "The requester's own statement of what they are asking the office to do and why the record matters now, in paragraph 3 of the request",
+      "identity": "primary_filing field participant_account",
+      "why": "the platform prints the participant's own account and writes none of it",
+      "participantMustSupply": "your own words: what you are asking the prosecuting attorney's office to do, and why this record matters to you now - these lines are yours alone"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.prosecutor_office_destination",
+      "page": 1,
+      "printedContext": "Office name and postal or e-mail destination of the prosecuting attorney, in the addressee block of the request",
+      "disclosureLabel": "Office name and postal or e-mail destination of the prosecuting attorney, in the addressee block of the request",
+      "identity": "primary_filing field prosecutor_office_destination",
+      "why": "intake format and destination vary by county office and must be confirmed with that office; no directory is held",
+      "participantMustSupply": "the name of the prosecuting attorney's office for the county of arrest, and the postal or e-mail destination that office directs - intake format and destination vary by county, so confirm both with the office before sending, and ask whether it has its own intake form"
+    },
+    {
+      "document": "attachment",
+      "field": "attachment.attached_disposition_identity",
+      "page": 1,
+      "printedContext": "Which court issued the certified disposition being attached, and the date it bears",
+      "disclosureLabel": "Which court issued the certified disposition being attached, and the date it bears",
+      "identity": "attachment field attached_disposition_identity",
+      "why": "the certified disposition is a record the platform never collects, inspects or authenticates",
+      "participantMustSupply": "the issuing court and the date on the certified final disposition, copied from the document itself after you obtain it from the clerk of the court that handled the case"
+    }
+  ],
+  "protectedBlanks": [
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.requester_signature",
+      "label": "Signature on the written request",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "the request is the participant's own; the participant signs it personally"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.signature_date",
+      "label": "Date beside the signature on the written request",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "a date written before the request is signed would be false"
+    }
+  ],
+  "everyRequiredBeforeFilingItemIsDisclosed": true,
+  "disclosedIn": "data/rcap-all50/overlays/census-v1/ga/ga-nonconv-post2013-set--custom-pleading/participant-instructions.md"
+}
