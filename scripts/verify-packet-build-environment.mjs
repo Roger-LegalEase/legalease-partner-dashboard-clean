@@ -587,6 +587,49 @@ check(
 );
 
 // ==============================================================================
+// 6a2. the rasterizer the BUILD HOSTS actually use
+// ==============================================================================
+check(
+  "build_time_rasterizer_available",
+  "the Poppler rasterizer the build hosts call can start and identify itself",
+  "The preflight probed Chromium and the build hosts do not use it. Both call popplerRasterIdentity()/rasterizeWithPoppler() and neither imports the browser rasterizer -- 25 Poppler references in the west host and 13 in the east, against zero imports of scripts/raster/pdf-page-raster.mjs. So --require-rasterizer reported a working rasterizer while the one the build was about to use was absent, and FIX-A read READY, built, and died on 'spawnSync pdftoppm ENOENT' at popplerRasterIdentity with the family's output directory ALREADY CLEARED. That is the one dependency this preflight appeared to cover while covering something else, and the lane contract's promise that a lane which cannot raster learns before it builds rather than after did not hold for this host pair. This check probes the same executable, by the same environment variable, with the same -v call the hosts make.",
+  () => {
+    /*
+     * Gated exactly like its sibling: a lane that renders nothing needs no
+     * rasterizer of either kind. DISC, SRC, ACQ and PROMO never open a PDF.
+     */
+    if (!REQUIRE_RASTERIZER) {
+      return {
+        ok: true, skipped: true,
+        detail: "not applicable: this invocation renders nothing. Pass --require-rasterizer where a build is actually about to raster."
+      };
+    }
+    const exe = process.env.RCAP_PDFTOPPM ?? "pdftoppm";
+    if (path.isAbsolute(exe) && !fs.existsSync(exe)) {
+      return { ok: false, executable: exe, detail: `RCAP_PDFTOPPM points at ${exe}, which does not exist` };
+    }
+    const probe = spawnSync(exe, ["-v"], { encoding: "utf8", timeout: 15000 });
+    if (probe.error?.code === "ENOENT") {
+      return {
+        ok: false, executable: exe,
+        detail: `${exe} is not on PATH. The build hosts raster with Poppler, so a build will die at popplerRasterIdentity AFTER clearing the family output directory. Never apt-get it from a lane; the builder image must carry it.`
+      };
+    }
+    if (probe.status !== 0) {
+      return { ok: false, executable: exe, detail: `${exe} -v exited ${probe.status}: ${(probe.stderr || probe.stdout || "").trim().split("\n")[0]}` };
+    }
+    // The hosts do not accept a binary that runs but will not name itself, and
+    // neither does this: they parse the version out of -v and assert on it.
+    const output = `${probe.stderr ?? ""}\n${probe.stdout ?? ""}`;
+    const match = /\bpdftoppm version\s+([^\s]+)/i.exec(output);
+    if (!match) {
+      return { ok: false, executable: exe, detail: `${exe} ran but did not identify itself as pdftoppm, which is what popplerRasterIdentity asserts on` };
+    }
+    return { ok: true, executable: exe, version: match[1], detail: `pdftoppm ${match[1]} — the rasterizer the build hosts actually call` };
+  }
+);
+
+// ==============================================================================
 // 6b. the page rasterizer can actually start
 // ==============================================================================
 check(
