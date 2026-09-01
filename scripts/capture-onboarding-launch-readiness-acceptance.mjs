@@ -12,6 +12,10 @@ import path from "node:path";
 import { spawn } from "node:child_process";
 import { createClient } from "@supabase/supabase-js";
 import { chromium } from "playwright";
+import { announceChromiumResolution, resolveApprovedChromiumExecutable } from "./lib/approved-chromium.mjs";
+
+const chromiumResolution = resolveApprovedChromiumExecutable({ managedExecutablePath: chromium.executablePath() });
+announceChromiumResolution(chromiumResolution);
 
 const root = process.cwd();
 const baseUrl = "http://127.0.0.1:3000";
@@ -72,7 +76,7 @@ async function main() {
 
   try {
     await seedTenants();
-    browser = await chromium.launch({ headless: true });
+    browser = await chromium.launch({ headless: true, executablePath: chromiumResolution.executablePath });
     devServer = await startDevServer();
 
     const operator = await signedInContext(

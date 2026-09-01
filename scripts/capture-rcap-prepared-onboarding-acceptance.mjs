@@ -29,6 +29,10 @@ import { fileURLToPath } from "node:url";
 import { register } from "node:module";
 import { createClient } from "@supabase/supabase-js";
 import { chromium } from "playwright";
+import { announceChromiumResolution, resolveApprovedChromiumExecutable } from "./lib/approved-chromium.mjs";
+
+const chromiumResolution = resolveApprovedChromiumExecutable({ managedExecutablePath: chromium.executablePath() });
+announceChromiumResolution(chromiumResolution);
 
 register("./lib/ts-esm-loader.mjs", import.meta.url);
 
@@ -131,7 +135,7 @@ async function main() {
 
   assertLoopbackBuild();
   const server = await startServer();
-  const browser = await chromium.launch();
+  const browser = await chromium.launch({ headless: true, executablePath: chromiumResolution.executablePath });
   try {
     await runDesktop(browser, workspaceId);
     await runPartnerEdit(browser, workspaceId);

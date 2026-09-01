@@ -4,6 +4,10 @@ import path from "node:path";
 import { execFileSync, spawn } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
+import { announceChromiumResolution, resolveApprovedChromiumExecutable } from "./lib/approved-chromium.mjs";
+
+const chromiumResolution = resolveApprovedChromiumExecutable({ managedExecutablePath: chromium.executablePath() });
+announceChromiumResolution(chromiumResolution);
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const port = Number(process.env.LEGACY_INTERNAL_ADMIN_VERIFY_PORT ?? 3168);
@@ -42,7 +46,7 @@ let browser;
 try {
   if (failures.length === 0) {
     server = await startNextServer();
-    browser = await chromium.launch({ headless: true });
+    browser = await chromium.launch({ headless: true, executablePath: chromiumResolution.executablePath });
     await verifyUnauthenticatedUsersDenied();
     await verifyPartnerUserDenied("partner_admin", requiredEnv.PARTNER_RLS_WMV_ADMIN_EMAIL, requiredEnv.PARTNER_RLS_WMV_ADMIN_PASSWORD);
     if (optionalEnv.PARTNER_RLS_DEMO_STAFF_EMAIL && optionalEnv.PARTNER_RLS_DEMO_STAFF_PASSWORD) {

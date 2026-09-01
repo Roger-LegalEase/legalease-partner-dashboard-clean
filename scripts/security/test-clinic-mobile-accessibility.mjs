@@ -17,6 +17,10 @@ import path from "node:path";
 import { spawn } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
+import { announceChromiumResolution, resolveApprovedChromiumExecutable } from "../lib/approved-chromium.mjs";
+
+const chromiumResolution = resolveApprovedChromiumExecutable({ managedExecutablePath: chromium.executablePath() });
+announceChromiumResolution(chromiumResolution);
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const axeSource = fs.readFileSync(path.join(root, "node_modules/axe-core/axe.min.js"), "utf8");
@@ -82,7 +86,7 @@ const evidence = [];
 let browser;
 try {
   await waitFor(`${appUrl}${clinicPath}`, 90_000);
-  browser = await chromium.launch({ headless: true });
+  browser = await chromium.launch({ headless: true, executablePath: chromiumResolution.executablePath });
 
   for (const viewport of VIEWPORTS) {
     const context = await browser.newContext({

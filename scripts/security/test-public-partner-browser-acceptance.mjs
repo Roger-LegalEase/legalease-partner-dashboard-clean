@@ -12,6 +12,10 @@ import path from "node:path";
 import { spawn } from "node:child_process";
 import { createClient } from "@supabase/supabase-js";
 import { chromium } from "playwright";
+import { announceChromiumResolution, resolveApprovedChromiumExecutable } from "../lib/approved-chromium.mjs";
+
+const chromiumResolution = resolveApprovedChromiumExecutable({ managedExecutablePath: chromium.executablePath() });
+announceChromiumResolution(chromiumResolution);
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
 const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
@@ -52,7 +56,7 @@ try {
   await makePrivateReadyFixture();
 
   server = await startServer();
-  browser = await chromium.launch({ headless: true });
+  browser = await chromium.launch({ headless: true, executablePath: chromiumResolution.executablePath });
 
   await verifyPrivateCombinations();
   await verifyLivePublication();

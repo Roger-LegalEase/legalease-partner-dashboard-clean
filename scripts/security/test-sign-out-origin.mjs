@@ -4,6 +4,10 @@ import http from "node:http";
 import path from "node:path";
 import { register } from "node:module";
 import { chromium } from "playwright";
+import { announceChromiumResolution, resolveApprovedChromiumExecutable } from "../lib/approved-chromium.mjs";
+
+const chromiumResolution = resolveApprovedChromiumExecutable({ managedExecutablePath: chromium.executablePath() });
+announceChromiumResolution(chromiumResolution);
 
 register("../lib/ts-esm-loader.mjs", import.meta.url);
 register("../lib/internal-auth-test-loader.mjs", import.meta.url);
@@ -218,7 +222,7 @@ async function runChromiumTests() {
   await listen(appServer);
   appBase = serverOrigin(appServer);
 
-  const browser = await chromium.launch({ headless: true });
+  const browser = await chromium.launch({ headless: true, executablePath: chromiumResolution.executablePath });
   try {
     await proveNoReferrerRegression(browser, appBase, signOutRequests);
 
