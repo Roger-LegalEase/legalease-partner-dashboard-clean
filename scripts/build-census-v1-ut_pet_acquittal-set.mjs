@@ -95,6 +95,99 @@ const REQUIRED_BEFORE_FILING = Object.freeze([
   "Service method, address, date, and certification only after service occurs"
 ]);
 
+const CORPUS_INDEX = "data/rcap-all50/local-source-corpus-index.json";
+
+/**
+ * The held publications the filing instructions quote, and nothing else.
+ *
+ * Independent verification failed filingDestination, feeAndWaiver and service
+ * on these packets because the instructions treated the venue as a blank to
+ * fill, stated no fee and no waiver route, and named no one to serve. None of
+ * those is a fact this lane may invent, and none of them had to be: Utah
+ * publishes all three, and the bytes are already in the committed corpus.
+ *
+ * Every statement the instructions make about where to file, what it costs and
+ * who receives a copy is quoted from one of these, and each is re-hashed
+ * against the committed corpus index on every build. A drifted source refuses
+ * the build rather than shipping a stale instruction a participant would act
+ * on.
+ */
+const CITED_AUTHORITIES = Object.freeze([
+  {
+    id: "UT-BCI-EXP-INSTRUCTIONS",
+    title: "Expungement Applicant Instructions (Utah Bureau of Criminal Identification)",
+    pathInArchive: "STATES/UT/03_INSTRUCTIONS/UT__INSTRUCTIONS__UT-BCI-EXP-INSTRUCTIONS__bci-expungement-applicant-instructions__REV-UNKNOWN__EN.pdf",
+    supports: ["filingDestination", "feeAndWaiver", "service"],
+    // The traffic route obtains no certificate, so this publication's BCI steps
+    // do not apply to it. Its court step -- mail or email the prosecutor copies
+    // of what you file -- is the only thing the traffic instructions quote from
+    // it, and the instructions say so and send the reader to the clerk to
+    // confirm the method for a traffic petition.
+    trafficRoute: true,
+    trafficSupports: ["service"]
+  },
+  {
+    id: "UT-BCI-INDIGENT-INSTRUCTIONS",
+    title: "Indigent Expungement Applicant Instructions (Utah Bureau of Criminal Identification)",
+    pathInArchive: "STATES/UT/03_INSTRUCTIONS/UT__INSTRUCTIONS__UT-BCI-INDIGENT-INSTRUCTIONS__bci-indigent-expungement-instructions__REV-UNKNOWN__EN.pdf",
+    supports: ["feeAndWaiver"],
+    trafficRoute: false
+  },
+  {
+    id: "1044XX",
+    title: "District Court Cover Sheet for Civil Actions (Utah State Courts)",
+    pathInArchive: "STATES/UT/02_PACKET_FORMS/UT__FORM__1044XX__district-court-cover-sheet-for-civil-actions__REV-2026-05-06__EN.pdf",
+    supports: ["filingDestination", "feeAndWaiver"],
+    trafficRoute: true
+  },
+  {
+    id: "1305GE",
+    title: "Motion to Waive Fees for Expungement - Criminal (Utah State Courts)",
+    pathInArchive: "STATES/UT/04_SUPPORTING_PROCESS/UT__SUPPORT__1305GE__motion-to-waive-fees-for-expungement__REV-2019-06-24__EN.pdf",
+    supports: ["feeAndWaiver"],
+    trafficRoute: true
+  },
+  {
+    id: "1146XX",
+    title: "Acceptance of Service - Expungement (Prosecutor) (Utah State Courts)",
+    pathInArchive: "STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1146XX__acceptance-of-service-expungement__REV-2019-05-01__EN.pdf",
+    supports: ["service"],
+    trafficRoute: true
+  }
+]);
+
+/**
+ * Re-hashes every cited publication and returns its recorded identity.
+ *
+ * No hash is written into this file. The committed corpus index is the record,
+ * the bytes on disk are the thing, and the build refuses when they disagree --
+ * so an instruction quoting a superseded revision cannot ship quietly.
+ */
+function resolveCitedAuthorities(config) {
+  const index = readJson(CORPUS_INDEX);
+  const raw = index.entries ?? index.files ?? index;
+  const entries = Array.isArray(raw) ? raw : Object.values(raw);
+  const master = sourceRoot();
+  const resolved = [];
+  for (const authority of CITED_AUTHORITIES) {
+    if (config.traffic && authority.trafficRoute !== true) continue;
+    const entry = entries.find((row) => (row.path ?? row.relativePath) === authority.pathInArchive);
+    assert.ok(entry, `${authority.id}: not in the committed corpus index at ${authority.pathInArchive}`);
+    const bytes = fs.readFileSync(path.join(master, authority.pathInArchive));
+    const digest = sha256(bytes);
+    const indexed = String(entry.sha256 ?? entry.sha ?? "");
+    assert.equal(digest, indexed,
+      `${authority.id}: SHA-256 drift; the index records ${indexed} and the held bytes hash to ${digest}`);
+    resolved.push({
+      id: authority.id, title: authority.title, pathInArchive: authority.pathInArchive,
+      sha256: digest, byteLength: bytes.length,
+      supports: (config.traffic && authority.trafficSupports) ? authority.trafficSupports : authority.supports,
+      verifiedBy: "re-hashed on this build against the committed corpus index"
+    });
+  }
+  return resolved;
+}
+
 const sha256 = (bytes) => crypto.createHash("sha256").update(bytes).digest("hex");
 const round = (value) => Number(Number(value).toFixed(2));
 const normalize = (value) => String(value ?? "").replace(/\s+/g, " ").trim();
@@ -386,6 +479,45 @@ function isFooterOrArtifact(field) {
     || /Approved|Revised|Page \d|APPLICATION FOR CERTIFICATE|^_$|^\s*-+\s*$/i.test(text);
 }
 
+/**
+ * Where each page's agency-use region begins, measured off the census.
+ *
+ * A form that prints "BUREAU USE ONLY" is drawing a boundary on its own face:
+ * everything under that heading is completed by the issuing agency, not by the
+ * participant. Reading the heading's own caption caught only the heading blank
+ * itself, so UT-BCI-EXP-APPLICATION's "SID#R&F" rule -- which sits INSIDE that
+ * box at page 2 y=37.35, twenty points below the heading at y=58.14, and which
+ * the census independently marks protectCategory "government_identifier" --
+ * was classified REQUIRED_BEFORE_FILING and asked of the participant. A blank
+ * the bureau completes is not an item the participant must supply before
+ * filing.
+ *
+ * The rule is geometric and names no form: on any page, the highest agency-use
+ * heading sets a baseline, and every blank at or below it belongs to the
+ * agency. Nothing above the heading is touched -- the SSN and driver-licence
+ * blanks the participant really does supply sit hundreds of points higher.
+ */
+const AGENCY_USE_HEADING = /\b(?:BUREAU|OFFICE|AGENCY|OFFICIAL|COURT|CLERK)\s+USE\s+ONLY\b/i;
+
+function agencyUseBaselines(fields) {
+  const byPage = new Map();
+  for (const field of fields) {
+    if (!AGENCY_USE_HEADING.test(`${field.caption ?? ""} ${field.regionHeading ?? ""}`)) continue;
+    const baseline = field.measured?.baselineY;
+    if (typeof baseline !== "number") continue;
+    const current = byPage.get(field.page);
+    if (current === undefined || baseline > current) byPage.set(field.page, baseline);
+  }
+  return byPage;
+}
+
+function inAgencyUseRegion(field, agencyBaselines) {
+  const baseline = agencyBaselines.get(field.page);
+  if (typeof baseline !== "number") return false;
+  const y = field.measured?.baselineY;
+  return typeof y === "number" && y <= baseline;
+}
+
 function requiredBeforeFilingReason(detail) {
   return {
     approvedBlankDisposition: "REQUIRED_BEFORE_FILING",
@@ -395,7 +527,7 @@ function requiredBeforeFilingReason(detail) {
   };
 }
 
-function refusalFor(field, formNumber, config) {
+function refusalFor(field, formNumber, config, agencyBaselines = new Map()) {
   const caption = normalize(field.caption);
   const common = {
     blankId: field.blankId,
@@ -438,6 +570,12 @@ function refusalFor(field, formNumber, config) {
     why: "viewer UI control or source-layout artifact; never a filing fact",
     approvedBlankDisposition: "NOT_APPLICABLE_ON_THIS_ROUTE"
   };
+  if (inAgencyUseRegion(field, agencyBaselines)) return {
+    ...common,
+    why: `court, clerk, prosecutor, agency, or hearing field; protected for the authorized actor — the form prints an agency-use-only heading on page ${field.page} at y=${round(agencyBaselines.get(field.page))} and this blank sits at y=${round(field.measured?.baselineY)}, inside that box`,
+    agencyUseRegionBaselineY: round(agencyBaselines.get(field.page)),
+    approvedBlankDisposition: "PROTECTED_FIELD"
+  };
   if (formNumber === "1044XX") return {
     ...common,
     why: "attorney-only or an additional-party/damages branch not applicable on this single-petitioner expungement route",
@@ -453,6 +591,21 @@ function refusalFor(field, formNumber, config) {
   }
   if (/Court Address|Judicial District/i.test(protectedText)) return {
     ...common, ...requiredBeforeFilingReason(caption || "filing venue detail")
+  };
+  // The traffic route obtains no certificate of eligibility -- 1002EX prints
+  // "1. Certificate of eligibility is not required" as a heading, and the route
+  // is ut-traffic-direct-court-no-bci. The measured rule at page 1 y=296.76 is
+  // the bottom border of the caption table's left cell, twenty-three points
+  // below that printed heading, and the caption was taken from the heading
+  // because it was the nearest overlapping printed line. Asking a traffic
+  // petitioner for a certificate number the route does not use is asking for a
+  // fact that does not exist.
+  if (config.traffic && /certificate of eligibility/i.test(protectedText)) return {
+    ...common,
+    why: "source-layout artifact; never a filing fact — nothing is printed at the measured position, the caption was taken from the numbered heading above it, and on this route no certificate of eligibility is obtained at all",
+    routeSelection: "ut-traffic-direct-court-no-bci",
+    captionTakenFromNearestOverlappingPrintedLine: true,
+    approvedBlankDisposition: "NOT_APPLICABLE_ON_THIS_ROUTE"
   };
   if (/certificate of eligibility|interests of the public|public because/i.test(protectedText)) return {
     ...common, ...requiredBeforeFilingReason(caption || "petition fact")
@@ -504,7 +657,7 @@ function selectionRefusal(control, formNumber) {
   };
 }
 
-function repairFieldMap(config, original, census, canonicalPlans, boundaryPlans) {
+function repairFieldMap(config, original, census, canonicalPlans, boundaryPlans, citedAuthorities = []) {
   const selectedIds = new Set(canonicalPlans.filter((row) => row.kind === "selection").map((row) => row.fieldId));
   const textIds = new Set(canonicalPlans.filter((row) => row.kind === "text")
     .map((row) => `${row.formNumber}:${row.fieldId}`));
@@ -513,9 +666,10 @@ function repairFieldMap(config, original, census, canonicalPlans, boundaryPlans)
   const blankLedger = [];
   const maps = original.maps.map((oldMap) => {
     const fields = censusFields(census, oldMap.formNumber);
+    const agencyBaselines = agencyUseBaselines(fields);
     const roleRefusals = fields
       .filter((field) => !textIds.has(`${oldMap.formNumber}:${field.blankId}`))
-      .map((field) => refusalFor(field, oldMap.formNumber, config));
+      .map((field) => refusalFor(field, oldMap.formNumber, config, agencyBaselines));
     const selectionControls = (oldMap.selectionControls ?? []).map((control) => {
       if (selectedIds.has(control.selectionId)) return {
         ...control,
@@ -561,6 +715,10 @@ function repairFieldMap(config, original, census, canonicalPlans, boundaryPlans)
         everyIntentionalBlankClassified: true,
         everyRouteDeterminedOptionSelected: true,
         requiredBeforeFilingSurfaced: true,
+        filingDestinationStated: true,
+        feeAndWaiverRouteStated: true,
+        serviceRecipientAndMethodStated: true,
+        citedAuthorities,
         protectedWrites: 0,
         commercialRoutesOpened: 0
       }
@@ -798,13 +956,89 @@ async function rasterPacket(file, outDirRel) {
   return { pages, provenance };
 }
 
-function participantInstructions(config) {
+/**
+ * The filing instructions the packet ships with.
+ *
+ * The previous version listed the blanks and stopped there. Independent
+ * verification failed it on three counts and each finding was right:
+ *
+ *   filingDestination -- it never said where the packet goes. It listed
+ *     "Judicial district and court street address for the filing venue" as a
+ *     blank the participant must supply, which is the opposite of naming a
+ *     destination, and a route-determined mark in the caption box is not the
+ *     instructions naming a court.
+ *   feeAndWaiver -- the packet marks the $150 cover-sheet row but no text ever
+ *     stated the fee, and no waiver route was named or referenced anywhere.
+ *   service -- "Service method, address, date, and certification only after
+ *     service occurs" hands the participant the recipient and the method as
+ *     blanks. It names neither.
+ *
+ * None of the three needed inventing. Utah publishes all of them and the bytes
+ * are held: the cover sheet prints the fee, the BCI applicant instructions name
+ * the court step and the prosecutor service step, and 1305GE is the waiver
+ * motion. Where Utah's own publications stop -- the BCI certificate fee, which
+ * BCI sets per applicant in its own letter -- the instruction stops with them
+ * and names the office that answers it, rather than guessing an amount a
+ * participant would pay.
+ */
+function participantInstructions(config, authorities) {
   const items = REQUIRED_BEFORE_FILING.filter((item) => {
     if (config.traffic && /BCI certificate|previously used name|Gender|BCI payment|Government-issued/i.test(item)) return false;
     if (config.routeKind !== "incident" && /Law-enforcement incident/i.test(item)) return false;
     return true;
   });
-  return `# Required before filing\n\nThis review fixture deliberately leaves the following facts or acts blank. Supply them from your own records or complete them when the named event occurs; do not guess.\n\n${items.map((item) => `- ${item}`).join("\n")}\n\nSignatures, signature dates, service certifications, court-only fields, agency-only fields, prosecutor-only fields, victim fields, and optional third-party authorizations remain protected.\n`;
+  const petition = config.traffic ? "1002EX" : "1000EX";
+  const order = config.traffic ? "1022EX" : "1020EX";
+  const out = [];
+
+  out.push("# Filing instructions and what you must supply", "");
+  out.push("This is a review fixture built from exact held official Utah forms. The platform filled in what it holds about you and about your case. Everything below is either a direction taken from Utah's own published instructions, or a fact you supply yourself.", "");
+
+  out.push("## Where you file this", "");
+  if (config.traffic) {
+    out.push(`File the cover sheet (1044XX), the petition (${petition}) and the proposed order (${order}) with the **Utah district court for the county where the case was heard**. That court is the one printed on your own case paperwork, and its case number is on the caption of every page of this packet.`, "");
+    out.push("This route needs no certificate of eligibility. Form 1002EX says so on its own face: paragraph 1 reads \"Certificate of eligibility is not required\". You do not apply to the Bureau of Criminal Identification for this petition.", "");
+  } else {
+    out.push("Filing this packet has **two destinations, in this order**.", "");
+    out.push("1. **The Utah Bureau of Criminal Identification (BCI)** issues the certificate of eligibility this petition depends on. BCI's own Expungement Applicant Instructions direct you to apply to BCI, and BCI then sends a letter naming which incidents are eligible and what each certificate costs. Paragraph 1 of the petition (1000EX) is where that certificate's identification number goes.");
+    out.push(`2. **The Utah district court for the county where the case was heard.** BCI's instructions direct you to "File a Cover Sheet, Petition to Expunge and Order on Petition to Expunge with the appropriate court" — in this packet, 1044XX, ${petition} and ${order} — and to take the certificate list "to the court that is listed for that case".`, "");
+    out.push("BCI's instructions also set a deadline between the two steps: you have **180 days, including weekends and holidays, from the date on the BCI letter** to petition the court. After that the certificates expire and you must reapply.", "");
+  }
+  out.push("The caption on the petition and the order is already marked **District Court**, and the county is written from your case. The judicial district number and the court's street address are still blank and are yours to write; the clerk of that court will confirm both.", "");
+
+  out.push("## What it costs, and how to ask for a waiver", "");
+  out.push("**The court filing fee is $150.** The district court cover sheet in this packet (1044XX, page 2) prints the row `$150 [ ] Expungement Petition - Criminal (E)`, and this packet has already selected that row for you.", "");
+  out.push("**If you cannot pay it, Utah has a waiver route for exactly this filing.** It is the *Motion to Waive Fees for Expungement – Criminal*, Utah court form **1305GE**, brought under Utah Code 78A-2-302 and Code of Judicial Administration Rule 4-508. That form is not included in this review fixture; ask the clerk of the court named above for it, or get it from the Utah State Courts self-help forms for expungement. It asks you to name the filing fee amount from the cover sheet and to say why you qualify.", "");
+  if (!config.traffic) {
+    out.push("**The BCI certificate carries a separate fee, and this packet does not state an amount because BCI sets it per applicant.** BCI's instructions tell you to \"pay all associated fees as indicated in the BCI letter\", and a certificate must be purchased for each eligible incident you want expunged. BCI publishes separate *Indigent Expungement Applicant Instructions* under which BCI sends a fee waiver together with the certificate list. Ask the Bureau of Criminal Identification what your certificates cost and whether you qualify for its fee waiver; do not assume the court's $150 waiver covers BCI's fee, because they are two different offices.", "");
+  }
+
+  out.push("## Who must receive a copy, and how", "");
+  if (config.traffic) {
+    out.push("**The prosecutor must receive a copy of what you file.** This packet includes form 1146XX, *Acceptance of Service – Expungement (Prosecutor)*, whose printed text is the prosecutor acknowledging \"receipt of a copy of the Petition for Expungement\" — the form exists because the prosecutor gets a copy.", "");
+    out.push("For an expungement petition Utah's published applicant instructions direct you to **mail or email the prosecutor copies of what you file**. Because this is the traffic route rather than the BCI route, confirm the method and the prosecutor's current address with the clerk of the district court where you file, or with the Utah State Courts Self-Help Center on **888-583-0009**, before you serve.", "");
+  } else {
+    out.push("**The prosecutor must receive a copy of what you file, by mail or by email.** BCI's Expungement Applicant Instructions state the step plainly: after filing with the court, \"Mail or email the prosecutor copies of what you file.\" This packet includes form 1146XX, *Acceptance of Service – Expungement (Prosecutor)*, for the prosecutor to acknowledge receipt.", "");
+    out.push("The prosecutor or a victim in your case may object; if the court schedules a hearing, attend it. The Utah State Courts Self-Help Center answers questions about this on **888-583-0009**.", "");
+  }
+  out.push("Fill in the service method, the address you used and the date **only after service has actually happened**. A certificate of service dated before service is a false statement, so this packet leaves it blank.", "");
+
+  out.push("## The facts you must supply before filing", "");
+  out.push("This review fixture deliberately leaves the following facts or acts blank. Supply them from your own records or complete them when the named event occurs; do not guess.", "");
+  out.push(...items.map((item) => `- ${item}`), "");
+
+  out.push("Signatures, signature dates, service certifications, court-only fields, agency-only fields, prosecutor-only fields, victim fields, and optional third-party authorizations remain protected.", "");
+
+  out.push("## What this packet is not", "");
+  out.push("This is a prepared set of official Utah forms built for review. It is not legal advice, it is not filed for you, and it does not decide whether the court will grant expungement.", "");
+
+  out.push("## Where these directions come from", "");
+  out.push("Every direction above is quoted from a publication held in this repository and re-hashed on the build that produced this packet:", "");
+  for (const authority of authorities) {
+    out.push(`- **${authority.id}** — ${authority.title}; SHA-256 \`${authority.sha256}\` (${authority.supports.join(", ")})`);
+  }
+  out.push("");
+  return `${out.join("\n")}\n`;
 }
 
 function updateRows(familyId, config, canonicalPlans, blankLedger, artifactSummary) {
@@ -868,10 +1102,14 @@ export async function runUtahCompletenessRepair(familyId, argv = process.argv.sl
   assert.equal(census.familyId, familyId);
   assert.equal(originalMap.familyId, familyId);
 
+  // Before any instruction quotes them: every cited publication is re-hashed
+  // against the committed corpus index, so a drifted source refuses the build.
+  const citedAuthorities = resolveCitedAuthorities(config);
+
   const base = await sourcePacket(receipt);
   const canonicalPlans = [...textPlansFor(config, census, "canonical"), ...selectionPlansFor(config, originalMap)];
   const boundaryPlans = [...textPlansFor(config, census, "boundary"), ...selectionPlansFor(config, originalMap)];
-  const repaired = repairFieldMap(config, originalMap, census, canonicalPlans, boundaryPlans);
+  const repaired = repairFieldMap(config, originalMap, census, canonicalPlans, boundaryPlans, citedAuthorities);
 
   const artifacts = [];
   const documentProofs = [];
@@ -936,18 +1174,21 @@ export async function runUtahCompletenessRepair(familyId, argv = process.argv.sl
     byteDerivedHashes: true,
     independentVerificationPending: true
   });
-  fs.writeFileSync(path.join(rootDir, `${out}/participant-instructions.md`), participantInstructions(config));
+  fs.writeFileSync(path.join(rootDir, `${out}/participant-instructions.md`), participantInstructions(config, citedAuthorities));
   writeJson(`${out}/build-findings.json`, {
     schemaVersion: "rcap-build-findings/v1-completeness-repair",
     familyId,
     blocking: [],
     findingCount: 0,
+    citedAuthorities,
     observations: [
       "Known participant and case facts are written at committed source-measured geometry.",
       "Route-determined petition, court-type, order-branch, and cover-sheet selections are marked.",
       "Every remaining blank carries an explicit closed-vocabulary disposition.",
       "Genuinely missing facts are surfaced in participant-instructions.md as required before filing.",
       "Signatures, signature dates, service acts, and court/agency/prosecutor/victim fields remain protected.",
+      "The filing destination, the $150 court fee, the 1305GE waiver route and the prosecutor service step are stated in participant-instructions.md and quoted from the cited held publications, each re-hashed against the committed corpus index on this build.",
+      "Blanks printed inside the form's own agency-use-only box are protected for the issuing agency rather than asked of the participant.",
       "Independent completeness and visual verification remain pending."
     ]
   });
