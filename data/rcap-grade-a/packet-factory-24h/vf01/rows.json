@@ -1,0 +1,170 @@
+{
+  "rows": [
+    {
+      "itemId": "vt_seal_felony-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "proofObligations": {
+        "routeIdentity": {
+          "result": "PASS",
+          "finding": "The field map binds the felony-sealing family to the named adult-felony-conviction-sealing route.",
+          "evidence": {
+            "routeKey": "obligation:track-pathway:VT:vt_seal_felony:adult-felony-conviction-sealing",
+            "routeSelectionId": "vt-seal-felony-200-00130-complete-set"
+          }
+        },
+        "sourceIdentity": {
+          "result": "PASS",
+          "finding": "All three corpus source SHA-256 values were recomputed from the mounted bytes and match the receipt.",
+          "evidence": {
+            "bindingMethod": "sha256sum -c",
+            "matched": 3,
+            "total": 3,
+            "sha256": [
+              "ff914f49c2a78a8b96d48f1242b70ab12ff7cb25beeeb8b850505357fdf982ed",
+              "088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2",
+              "263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654"
+            ]
+          }
+        },
+        "componentSet": {
+          "result": "PASS",
+          "finding": "Receipt and both rendered manifests contain the same three two-page forms.",
+          "evidence": {
+            "documents": [
+              "200-00130",
+              "200-00132",
+              "600-00228"
+            ],
+            "canonicalPages": 6,
+            "boundaryPages": 6,
+            "requiredComponentsMissing": 0
+          }
+        },
+        "knownPrefills": {
+          "result": "PASS",
+          "finding": "Artifact-byte readback found all known required facts written visibly, with no missing or invisible writes.",
+          "evidence": {
+            "written": 24,
+            "knownRequiredFieldsMissing": 0,
+            "invisibleWrites": 0
+          }
+        },
+        "requiredBeforeFiling": {
+          "result": "PASS",
+          "finding": "The field map declares 112 participant-completion items and participant-instructions.md names them by form, page, printed blank, and requested value.",
+          "evidence": {
+            "declaredCount": 112,
+            "instructionsCount": 112,
+            "requiredFactsNotCollected": 0
+          }
+        },
+        "routeOptions": {
+          "result": "PASS",
+          "finding": "The family-specific route and its three-form selection are fixed; participant-owned checkboxes remain genuine elections rather than route defaults.",
+          "evidence": {
+            "routeSelectionId": "vt-seal-felony-200-00130-complete-set",
+            "requiredOptionsMissing": 0
+          }
+        },
+        "repeatingRows": {
+          "result": "PASS",
+          "finding": "Focused completeness inspection found no partly written repeating row.",
+          "evidence": {
+            "rowsInspected": 1,
+            "incompleteRows": 0
+          }
+        },
+        "protectedFields": {
+          "result": "PASS",
+          "finding": "Signature/date, prosecutor, and court-owned fields remain blank in the finalized bytes.",
+          "evidence": {
+            "protectedWrites": 0,
+            "protectedBlankCount": 9
+          }
+        },
+        "artifacts": {
+          "result": "PASS",
+          "finding": "Canonical and boundary artifact SHA-256 values were independently recomputed and match rendered-artifacts.json.",
+          "evidence": {
+            "canonicalSha256": "8d4d706c28ddbec58685ab1b37f06e8013f86f20021a63cc334e422f7985d7ab",
+            "boundarySha256": "7ece5ed27b13e7a74d11b2b898072b44a5b757bb15a59de5ee91f366696c46be"
+          }
+        },
+        "pageOrder": {
+          "result": "PASS",
+          "finding": "Both six-page manifests order petition pages 1-2, stipulation/order pages 1-2, then fee-waiver pages 1-2.",
+          "evidence": {
+            "pageManifest": [
+              "200-00130:1",
+              "200-00130:2",
+              "200-00132:1",
+              "200-00132:2",
+              "600-00228:1",
+              "600-00228:2"
+            ]
+          }
+        },
+        "clippingAndOverlap": {
+          "result": "PASS",
+          "finding": "Artifact-byte geometry reports zero non-whitespace glyphs outside measured write boxes and zero visual defects.",
+          "evidence": {
+            "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+            "visualDefects": 0
+          }
+        },
+        "filingDestination": {
+          "result": "FAIL",
+          "finding": "participant-instructions.md never tells the participant where to file; references to a Superior Court unit are blank-completion guidance, not a named filing destination.",
+          "evidence": {
+            "instructionFile": "data/rcap-all50/overlays/census-v1/vt/vt-seal-felony-set--official-pdf-fill/participant-instructions.md",
+            "destinationStatementPresent": false
+          }
+        },
+        "feeAndWaiver": {
+          "result": "FAIL",
+          "finding": "The instructions include form 600-00228 and explain when to use it, but state no filing-fee amount.",
+          "evidence": {
+            "waiverRouteStated": true,
+            "feeAmountStated": false
+          }
+        },
+        "service": {
+          "result": "FAIL",
+          "finding": "The instructions mention obtaining the State’s Attorney signature on an optional stipulation but never state who must be served or how service is made.",
+          "evidence": {
+            "serviceRecipientStated": false,
+            "serviceMethodStated": false
+          }
+        },
+        "selfHelpStop": {
+          "result": "PASS",
+          "finding": "The closing section says the packet is not legal advice, is not filed for the participant, and does not decide whether sealing is granted.",
+          "evidence": {
+            "heading": "What this packet is not"
+          }
+        }
+      },
+      "nineCountersMeasured": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "evidenceRead": [
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-felony-set--official-pdf-fill/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-felony-set--official-pdf-fill/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-felony-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-felony-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-felony-set--official-pdf-fill/reports/actual-writes.json",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-felony-set--official-pdf-fill/fixtures/canonical.pdf",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-felony-set--official-pdf-fill/fixtures/boundary.pdf",
+        "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json"
+      ]
+    }
+  ]
+}
