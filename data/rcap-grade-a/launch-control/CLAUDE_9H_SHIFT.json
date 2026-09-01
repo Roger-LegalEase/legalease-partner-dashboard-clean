@@ -2,7 +2,7 @@
   "schemaVersion": "claude-9h-shift/v1",
   "startedAt": "2026-09-01T07:14:06Z",
   "endsAt": "2026-09-01T16:14:06Z",
-  "shiftBaseSha": "9c3836e798e5d1bf563337501fd85793bd6ec512",
+  "shiftBaseSha": "fc147830196fbc698a9e65f7e0c8ad9bc0f49031",
   "captainBranch": "claude/legalease-sprint-captain-utucnw",
   "workers": {
     "PF-A": {
@@ -248,9 +248,28 @@
       "note": "You released PF05's claims on stopping, which was right. Ask and I will re-issue them with claim.mjs --reissue; do not work without a grant."
     },
     "PF-C": {
-      "assignedAt": "2026-09-01T09:23:31Z",
-      "lane": "continue PF14, PF15 and the re-dispatched PF07-PF11",
-      "state": "ACTIVE"
+      "assignedAt": "2026-09-01T10:23:34Z",
+      "lane": "REPRO-01",
+      "kind": "packet-build",
+      "state": "ASSIGNED",
+      "subject": "prove the reproducibility fix on the six families whose receipts it puts at risk",
+      "families": [
+        "co_motion_seal_nonconviction-set",
+        "co_multiple_conviction_seal-set",
+        "co_pardoned_conviction_seal-set",
+        "mi_setaside_marihuana-set",
+        "pa_age70_deceased-set",
+        "vt_seal_misdemeanor-set"
+      ],
+      "why": "You found the defect and you own most of these builders. The fix is in and unproven: nothing has yet built one of these twice and compared.",
+      "theMethod": [
+        "1. Build each family twice from identical inputs, in the same container, and compare the SHA-256 of every emitted PDF. Byte-identical or it is not fixed.",
+        "2. Report the pair of hashes per family per fixture. A single hash proves nothing here.",
+        "3. Do NOT hand-edit a PDF to make hashes agree."
+      ],
+      "expectTheReceiptsToDie": "These six hold a RASTER_PASS bound to bytes built before the fix. A correct rebuild WILL change those bytes and invalidate the receipt, and that is the intended outcome, not a regression. Say so in your return; I re-raster them centrally afterwards. This is the last time these hashes move.",
+      "doNotTouch": "Any family outside this list. VF lanes are reading several of them and moving bytes under a verifier is the one thing that wastes a whole lane.",
+      "ceiling": "A rebuild proves reproducibility and nothing else. No family here becomes PASS_COMPLETE from this lane."
     }
   },
   "integratedReturns": [
@@ -285,12 +304,31 @@
         "VF-SRC-B"
       ],
       "releasesTaken": 56
+    },
+    {
+      "wave": 5,
+      "workers": [
+        "VF-SRC-A",
+        "VF-SRC-B",
+        "PF-B",
+        "FIX-B"
+      ],
+      "releasesTaken": 25,
+      "at": "2026-09-01T10:23:34Z"
+    },
+    {
+      "wave": 6,
+      "workers": [
+        "PF-C"
+      ],
+      "note": "15 rows for 15 families, 12 COMPLETED, 3 STOPPED, none self-verified",
+      "at": "2026-09-01T10:23:34Z"
     }
   ],
   "newlyReleasedFamilies": [],
   "productionTouched": false,
   "commercialRoutesOpened": 0,
-  "shiftBaseRebasedAt": "2026-09-01T10:15:14Z",
+  "shiftBaseRebasedAt": "2026-09-01T10:23:34Z",
   "shiftBaseRebaseReason": "Three workers reported this file stale and were right. shiftBaseSha still named c6d7ffe7 while the branch head carried three integration waves, the raster batch and the ledger repairs; integratedReturns was empty while seven returns were in; and masterLibrarySourceDirExportRequired still read false after I had corrected exactly that. Verifiers were rebasing onto a base that did not contain the work they were sent to read.",
   "previousShiftBaseSha": "09b741ad00be0d630bd73a72f66640294abab397",
   "masterLibraryCorpus": {
@@ -588,5 +626,25 @@
     "whoFoundIt": "PF-B, on two Washington families, as a correction to my dispatch. The full extent is six times larger and includes four Utah families it was not looking at.",
     "whyItMatters": "These are distinct statutory routes. If two routes produce identical bytes, the packet does not record which route it is, and one render produced two verdicts. PF-B established the mechanism on the Washington pair: the WA host declares legal elections under neverWritten and carries no routeSelectionId, while South Dakota does carry one and passes the same obligation.",
     "notYetClassified": "Whether identical bytes are a defect depends on whether the route is legally material to the document. That is per-group and unmeasured. It is assigned, not concluded."
+  },
+  "pfcFindingsConfirmed": {
+    "confirmedAt": "fc147830196fbc698a9e65f7e0c8ad9bc0f49031",
+    "one": {
+      "finding": "scripts/lib/pdf-page-raster.mjs does not exist at the Captain head and 15 builders import it",
+      "verdict": "CONFIRMED and FIXED. Mine: I moved the module out of scripts/lib/ because the Dockerfile copies that directory into the render worker image, and left every importer behind. All 25 importers are on the one real path, each checked to resolve and not merely to parse.",
+      "onPfcsDualPathShim": "Right call for a worker that should not edit shared machinery, and now removed: a fallback to a path that does not exist hides the breakage instead of reporting it."
+    },
+    "two": {
+      "finding": "packet PDFs are not byte-reproducible; PDFDocument.create() stamps the wall clock",
+      "verdict": "CONFIRMED, and larger than reported. PF-C said six bytes; measured on two empty documents 1.1s apart it is 257 of 583 — six bytes of date and every offset they move, cascading through the xref table.",
+      "whyItMattersToTheGate": "A RASTER_PASS binds a SHA-256 and the queue carries a verdict forward only while both pinned hashes are unchanged. A rebuild that changed nothing moves the hash, and the verdict is discarded as though the packet had been edited. The gate keeps working and keeps losing its own evidence.",
+      "scope": "Eight census-v1 builders assembled PDFs unstamped; six of the eight hold a live RASTER_PASS. The two shared assemblers were already correct and no census-v1 builder uses them.",
+      "fixed": "All eight delegate to one shared constant at the date the shared assemblers already use. New lane contract L8 refuses a receipt on a family whose builder can stamp the clock.",
+      "onPfcHoldingBack": "PF-C fixed only the three families no verifier was reading and left the rest alone. That was the right judgement and it is why nothing in flight was disturbed."
+    },
+    "three": {
+      "finding": "88 unpushed commits in the primary checkout, reported by a hook",
+      "verdict": "PF-C was right to refuse. That checkout is mine, its tree is clean, and it is level with origin. Pushing another agent's branch, and republishing rewritten-away history over a live head, are both Roger's calls and neither was needed."
+    }
   }
 }
