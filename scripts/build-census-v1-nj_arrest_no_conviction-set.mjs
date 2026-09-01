@@ -572,8 +572,27 @@ Object.assign(FAMILY, {
   },
   "pa_summary_conviction-set": {
     jurisdiction: "PA", routeKeys: ["obligation:track-pathway:PA:pa_summary_conviction:path-c-summary-conviction-expungement"],
-    documents: [cloneDoc(PA_490_PETITION, { allow: PA_PETITION_ALLOW }), cloneDoc(PA_490_ORDER, { allow: PA_ORDER_ALLOW }), cloneDoc(PA_790_PETITION, { allow: PA_PETITION_ALLOW })],
-    notes: ["Both Rule 490 and Rule 790 petition branches are review artifacts; court-status routing remains a release blocker and no branch is silently chosen."],
+    documents: [cloneDoc(PA_490_PETITION, { allow: PA_PETITION_ALLOW_TABLE_UNTOUCHED }), cloneDoc(PA_490_ORDER, { allow: PA_ORDER_ALLOW }), cloneDoc(PA_790_PETITION, { allow: PA_PETITION_ALLOW_TABLE_UNTOUCHED })],
+    notes: ["Both Rule 490 and Rule 790 petition branches are review artifacts; court-status routing remains a release blocker and no branch is silently chosen.",
+      "Each petition's offence table is left whole for the participant: its rows carry Section, Subsection, Counts, Grade and Disposition cells the platform holds no fact for, and a row is complete or it is untouched."],
+    guidance: {
+      afterTheTable: [
+        "Do not leave one of these blank because you are unsure. Ask the clerk of the court where the summary conviction was entered.",
+        "The filing fee and whether it can be waived, who must be served and by what method, and the addresses the petition is served on are not established in this repository. Ask the same clerk. An unsourced figure in a filing instruction would be worse than none.",
+      ],
+      selfHelpEnds: [
+        "This packet prepares both the Pennsylvania Rule of Criminal Procedure 490 petition (for a summary case in a magisterial district court) and the Rule 790 petition (for a case in a court of common pleas), with a proposed order, for you to review, complete, sign and file yourself. Self-help ends at any question this packet refuses to answer:",
+        "- which of the two petitions your case requires — that depends on the court where your summary conviction sits, and this packet does not choose for you;",
+        "- whether your summary conviction is eligible for expungement — a legal judgment this packet does not make;",
+        "- any blank listed above that you cannot complete from your own court records;",
+        "- anything the prosecuting attorney objects to, and any hearing the court schedules.",
+        "When you reach one of those points, stop and ask someone with the authority to answer. The clerk of the court where the summary conviction was entered answers procedural questions — which petition applies, filing, fees, copies and service addresses. Only a lawyer admitted to practice in Pennsylvania may advise you on eligibility, on what to argue, or at a contested hearing; if you cannot afford one, ask that same clerk's office how to reach the county's legal aid or lawyer referral service. This packet is not legal advice, and no lawyer has reviewed your case in preparing it.",
+      ],
+      notYours: [
+        "**The proposed order** carries the court's blocks; submit them blank.",
+        "**Every signature and signature date** is yours to complete after you have read the finished packet.",
+      ],
+    },
   },
   "ri_nonconviction_sealing-set": {
     jurisdiction: "RI", routeKeys: ["obligation:unit:RI:ri_nonconviction_sealing:ri-nonconviction-motion-to-seal"],
