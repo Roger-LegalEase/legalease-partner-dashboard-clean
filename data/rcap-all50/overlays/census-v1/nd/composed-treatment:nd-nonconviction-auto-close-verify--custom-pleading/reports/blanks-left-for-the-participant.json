@@ -1,0 +1,189 @@
+{
+  "schemaVersion": "rcap-blanks-left-for-the-participant/v1",
+  "familyId": "composed-treatment:nd-nonconviction-auto-close-verify",
+  "requiredBeforeFiling": [
+    {
+      "document": "clerk_correction_request",
+      "field": "clerk_correction_request.addressed_court",
+      "page": 1,
+      "printedContext": "Court name and county or location in the To block of the request",
+      "disclosureLabel": "Court name and county or location in the To block of the request",
+      "identity": "clerk_correction_request field addressed_court",
+      "why": "which court holds the original case belongs to the participant's record",
+      "participantMustSupply": "the name of the court in the original criminal case, and its county or location - that court's own office can confirm both"
+    },
+    {
+      "document": "clerk_correction_request",
+      "field": "clerk_correction_request.calculated_deadline",
+      "page": 1,
+      "printedContext": "Date 61 complete days after the disposition date, on the request",
+      "disclosureLabel": "Date 61 complete days after the disposition date, on the request",
+      "identity": "clerk_correction_request field calculated_deadline",
+      "why": "the deadline is computed from a disposition date the platform does not hold",
+      "participantMustSupply": "the calculated deadline: the date 61 complete days after the disposition date"
+    },
+    {
+      "document": "clerk_correction_request",
+      "field": "clerk_correction_request.case_number",
+      "page": 1,
+      "printedContext": "Case number of the original criminal case, on the request",
+      "disclosureLabel": "Case number of the original criminal case, on the request",
+      "identity": "clerk_correction_request field case_number",
+      "why": "no case identifier is held for a record the platform has not seen",
+      "participantMustSupply": "the case number of the original criminal case, copied from the court record"
+    },
+    {
+      "document": "clerk_correction_request",
+      "field": "clerk_correction_request.disposition_date",
+      "page": 1,
+      "printedContext": "Date the qualifying disposition was entered, on the request",
+      "disclosureLabel": "Date the qualifying disposition was entered, on the request",
+      "identity": "clerk_correction_request field disposition_date",
+      "why": "the recorded rule makes the exact disposition date decide which branch governs, and it lives on the record",
+      "participantMustSupply": "the exact date the qualifying disposition was entered, from the court record - it must be on or after August 1, 2025 for this branch to apply"
+    },
+    {
+      "document": "clerk_correction_request",
+      "field": "clerk_correction_request.public_access_evidence",
+      "page": 1,
+      "printedContext": "Your evidence of continuing public access, described on the request",
+      "disclosureLabel": "Your evidence of continuing public access, described on the request",
+      "identity": "clerk_correction_request field public_access_evidence",
+      "why": "what the public index showed on day 62 is a fact only the participant can state",
+      "participantMustSupply": "what your day-62 check showed, in your own words, with a dated printout or similar evidence attached"
+    },
+    {
+      "document": "clerk_correction_request",
+      "field": "clerk_correction_request.qualifying_disposition",
+      "page": 1,
+      "printedContext": "Qualifying non-conviction disposition, worded exactly as the court record words it, on the request",
+      "disclosureLabel": "Qualifying non-conviction disposition, worded exactly as the court record words it, on the request",
+      "identity": "clerk_correction_request field qualifying_disposition",
+      "why": "no disposition fact is held for a record the platform has not seen",
+      "participantMustSupply": "the qualifying non-conviction disposition, worded exactly as the court record words it"
+    },
+    {
+      "document": "enforcement_motion",
+      "field": "enforcement_motion.motion_case_number",
+      "page": 1,
+      "printedContext": "Case number of the original criminal case, in the caption of the motion",
+      "disclosureLabel": "Case number of the original criminal case, in the caption of the motion",
+      "identity": "enforcement_motion field motion_case_number",
+      "why": "no case identifier is held for a record the platform has not seen",
+      "participantMustSupply": "the case number of the original criminal case, copied from the court record"
+    },
+    {
+      "document": "enforcement_motion",
+      "field": "enforcement_motion.motion_court",
+      "page": 1,
+      "printedContext": "Court named in the caption of the motion, and its county or location",
+      "disclosureLabel": "Court named in the caption of the motion, and its county or location",
+      "identity": "enforcement_motion field motion_court",
+      "why": "which court holds the original case belongs to the participant's record",
+      "participantMustSupply": "the same court and county or location as the original criminal case"
+    },
+    {
+      "document": "enforcement_motion",
+      "field": "enforcement_motion.motion_disposition",
+      "page": 1,
+      "printedContext": "Qualifying non-conviction disposition, worded exactly as the court record words it, on the motion",
+      "disclosureLabel": "Qualifying non-conviction disposition, worded exactly as the court record words it, on the motion",
+      "identity": "enforcement_motion field motion_disposition",
+      "why": "no disposition fact is held for a record the platform has not seen",
+      "participantMustSupply": "the qualifying non-conviction disposition, worded exactly as the court record words it"
+    },
+    {
+      "document": "enforcement_motion",
+      "field": "enforcement_motion.motion_disposition_date",
+      "page": 1,
+      "printedContext": "Date the qualifying disposition was entered, on the motion",
+      "disclosureLabel": "Date the qualifying disposition was entered, on the motion",
+      "identity": "enforcement_motion field motion_disposition_date",
+      "why": "the recorded rule makes the exact disposition date decide which branch governs, and it lives on the record",
+      "participantMustSupply": "the exact date the qualifying disposition was entered, from the court record"
+    },
+    {
+      "document": "enforcement_motion",
+      "field": "enforcement_motion.office_response",
+      "page": 1,
+      "printedContext": "What the office of this court said or did in response to your written request",
+      "disclosureLabel": "What the office of this court said or did in response to your written request",
+      "identity": "enforcement_motion field office_response",
+      "why": "the response to the participant's own request is a fact only the participant can state",
+      "participantMustSupply": "what the office of the court said or did in response to your written request, in your own words, with a copy of your request attached"
+    },
+    {
+      "document": "proposed_order",
+      "field": "proposed_order.order_case_number",
+      "page": 1,
+      "printedContext": "Case number of the original criminal case, in the caption of the proposed order",
+      "disclosureLabel": "Case number of the original criminal case, in the caption of the proposed order",
+      "identity": "proposed_order field order_case_number",
+      "why": "no case identifier is held for a record the platform has not seen",
+      "participantMustSupply": "the same original criminal case number you wrote in the motion's caption"
+    },
+    {
+      "document": "proposed_order",
+      "field": "proposed_order.order_court_name",
+      "page": 1,
+      "printedContext": "Court named in the caption of the proposed order, and its county or location",
+      "disclosureLabel": "Court named in the caption of the proposed order, and its county or location",
+      "identity": "proposed_order field order_court_name",
+      "why": "the proposed order travels with the motion and carries the same caption the participant establishes",
+      "participantMustSupply": "the same court name and county or location you wrote in the motion's caption"
+    }
+  ],
+  "protectedBlanks": [
+    {
+      "document": "clerk_correction_request",
+      "field": "clerk_correction_request.request_signature",
+      "label": "Signature on the request",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "the participant signs the request personally"
+    },
+    {
+      "document": "clerk_correction_request",
+      "field": "clerk_correction_request.request_signature_date",
+      "label": "Date beside the signature on the request",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "a date written before the request is signed would be false"
+    },
+    {
+      "document": "enforcement_motion",
+      "field": "enforcement_motion.motion_signature",
+      "label": "Signature of the defendant on the motion",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "the defendant signs the motion personally"
+    },
+    {
+      "document": "enforcement_motion",
+      "field": "enforcement_motion.motion_signature_date",
+      "label": "Date beside the defendant's signature on the motion",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "a date written before the motion is signed would be false"
+    },
+    {
+      "document": "proposed_order",
+      "field": "proposed_order.order_decision",
+      "label": "The decision line of the proposed order, decided by the court",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "every decision on the proposed order is the court's"
+    },
+    {
+      "document": "proposed_order",
+      "field": "proposed_order.order_signature",
+      "label": "Signature line of the proposed order, for the court",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the court signs the order if, and only if, it grants the motion"
+    },
+    {
+      "document": "proposed_order",
+      "field": "proposed_order.order_date",
+      "label": "Date line of the proposed order, for the court",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the court dates the order when it decides"
+    }
+  ],
+  "everyRequiredBeforeFilingItemIsDisclosed": true,
+  "disclosedIn": "data/rcap-all50/overlays/census-v1/nd/composed-treatment:nd-nonconviction-auto-close-verify--custom-pleading/participant-instructions.md"
+}
