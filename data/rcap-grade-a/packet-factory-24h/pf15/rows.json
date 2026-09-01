@@ -1,0 +1,86 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+  "assignmentId": "PF15",
+  "workerId": "PF-C",
+  "lane": "packet-build",
+  "engine": "Claude 9h worker (normal Git; commits and pushes to claude/9h-pf-c)",
+  "shiftBaseSha": "09b741ad00be0d630bd73a72f66640294abab397",
+  "familiesAssigned": 1,
+  "preflight": {
+    "laneGate": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 2 not applicable",
+    "rowGate": "PACKET_BUILD_ENVIRONMENT_READY: 15/15 passed; family_sources_bind 2/2"
+  },
+  "selfVerification": "none. The counters below are the builder's own count using the repository's own contract functions, not a verdict.",
+  "rows": [
+    {
+      "itemId": "co_pardoned_conviction_seal-set",
+      "status": "COMPLETED",
+      "jurisdiction": "CO",
+      "routeKey": "track:CO:co_pardoned_conviction_seal",
+      "statutoryAuthority": "C.R.S. § 24-72-710; Colorado Judicial Department forms JDF 680 and JDF 681",
+      "implementationStrategy": "official_pdf_fill",
+      "implementationStrategyNote": "The assignment names official_pdf_fill and JDF 681 gets exactly that. JDF 680 is recorded in the committed corpus index as flat_pdf with acroFieldCount 0 and it is: two pages of printed text and ruled lines with nothing fillable on them. It is built as a measured overlay through finalizeFlatOverlay, the same path the Washington vacatur families use, with every write box derived from a rule read out of the page's own content stream. The per-document strategy is recorded in the source receipt rather than left to be inferred.",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/co/co-pardoned-conviction-seal-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-co_pardoned_conviction_seal-set.mjs",
+      "sourcesBound": [
+        {
+          "sourceId": "official-form:JDF-680",
+          "pathInArchive": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-680__motion-to-seal-conviction-records-pardoned__REV-2022-08-10__EN.pdf",
+          "sha256": "ae3d5f1c345394dcc104fd5cc0ac72b636068e52985cb38edf4592688d8ac0ae",
+          "structuralClassObserved": "flat_pdf",
+          "acroFieldCount": 0
+        },
+        {
+          "sourceId": "official-form:JDF-681",
+          "pathInArchive": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-681__order-to-seal-pardoned-conviction-records__REV-2024-03-20__EN.pdf",
+          "sha256": "cf20dc0fdcbd71b49c2a43a6a11b1c952fd65943a5d0755f50299a10447a799d",
+          "structuralClassObserved": "acroform",
+          "acroFieldCount": 16
+        }
+      ],
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersBasis": "reports/completeness-counters.json — computed with scripts/rcap-packet-completeness/completeness-contract.mjs",
+      "fields": {
+        "total": 51,
+        "written": 17,
+        "requiredBeforeFiling": 20,
+        "protected": 14,
+        "printedTickBoxesNotMeasured": 14
+      },
+      "componentsRendered": ["primary_filing", "proposed_order"],
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/co/co-pardoned-conviction-seal-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "d285a03f788cb5e5b3a8d1f17babd379b199cd24c34d2e98b52363cd2c436bf7",
+          "byteLength": 229182, "pageCount": 4, "rasterPages": 4
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/co/co-pardoned-conviction-seal-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "407db19ec374b58b0e429b40ac6de54877510b47fe16db77739400e4edbada4c",
+          "byteLength": 229360, "pageCount": 4, "rasterPages": 4
+        }
+      ],
+      "notableDecisions": [
+        "JDF 680's 35 blanks are the printed rules the values sit on, measured from the page's own content stream on every build; the build refuses if any rule has moved by more than a point, and the rule travels with each write in the byte proof so a reviewer can check placement against the paper.",
+        "The byte proof reads the flat document back from the finalized page text at those coordinates rather than from flattened widget appearances, because an overlay has no widgets and the widget reader reported nine correct writes as invisible. The form's own printed text at the same coordinates is subtracted from the source, so the certificate-of-service sentence printed across its own rule is not reported as ink on a refused field.",
+        "JDF 680's fourteen tick boxes are drawn as glyphs, not stroked paths: checkboxCandidates finds none. No geometry was invented for them. They are listed as printedSelectionControlsNotMeasured, named in the instructions as boxes the participant marks by hand, and the build asserts on every run that they are still unmeasurable.",
+        "The Governor's pardon is the whole of this route and the platform does not hold it. Section 3's attachment requirement is the first thing the instructions state."
+      ],
+      "independentVerificationStatus": "PENDING",
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    }
+  ]
+}
