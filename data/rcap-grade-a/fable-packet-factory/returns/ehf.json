@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "rcap-fable-east-host-fixer-return/v1",
+  "worker": "EAST-HOST-FIXER",
+  "branch": "fable/ehf",
+  "returnedAt": "2026-09-01",
+  "singleWriter": "No claim exists for this shared-host work and none was minted; I am the single writer on this host by captain dispatch. The claim ledger was not touched.",
+  "reproduction": {
+    "command": "node scripts/build-census-v1-nj_arrest_no_conviction-set.mjs (MASTER_LIBRARY_SOURCE_DIR exported)",
+    "observed": "the build aborted on its own assertion 'NJ-CN-10557/canonical: finalizer reported writes that have no artifact appearance' listing exactly seven fields: arrestOff1, dismissDt, dismissCrt, DefAddr2, DefAddr3, DefBirthDt, arrest1Dt; the participant name (DefName) was not among them",
+    "mechanicalDemonstration": "for every allowlisted fact the finalizer claims to write, the flattened widget appearance streams of the emitted canonical PDF were decoded with scripts/rcap-official-forms/pdf-flattened-widgets.mjs at each field's measured widget rectangle; the seven fields decoded to nothing in the appearance streams while their values were present only as bare hex text operators in raw page content streams, invisible to every artifact-evidence reader",
+    "directoryWipeHazardReproduced": "the abort happened after resetOwnedOutput had cleared the family output directory; the directory was restored with git checkout -- after every aborted run, exactly as FACTORY_MEMORY warns"
+  },
+  "rootCause": "overlayExactMappedFacts in the shared east host (scripts/build-census-v1-nj_arrest_no_conviction-set.mjs, the engine every NJ/NY/PA/RI east family drives via runEastFamily) wrote exact-mapped facts that the shared semantic finalizer refuses by name-heuristics using page.drawText, which emits bare text operators into a page content stream. The factory's entire evidence layer (pdf-flattened-widgets.mjs, proofFromArtifact, the packet-completeness verifier) decodes participant ink exclusively from the 'q <cm> /XObject Do' appearance placements that form.flatten() emits for filled fields, so every overlay write was reported by the finalizer and absent from the decoded flattened appearance streams, and the host aborted on its own missing-ink assertion. Not needAppearances, not multiline/comb, not page ordering, not name collision: the writes bypassed appearance streams entirely. Two rebuild-safety defects were exposed by the first fixed rebuild and repaired in the same shared path: regenerating production-field-map.json from classifyRefusal alone destroyed the completeness classifications FIX07 installed on the declared channel (measured regression 7/0 to 36/72), and resetOwnedOutput destroyed the captain-installed product-wiring.json that no build path regenerates.",
+  "fixFile": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+  "fixSummary": "placeExactFactAppearance now renders each fitted exact-mapped value as a Form XObject drawing the value in widget-local coordinates, placed at the widget's measured rectangle with q / 1 0 0 1 x y cm / Do / Q -- the identical construction form.flatten() emits -- with unchanged baseline arithmetic, inset, font and ink; XObject names draw on pdf-lib's seeded per-context RNG so builds stay deterministic. buildOfficial reads the committed field map and product-wiring.json before resetOwnedOutput, restores the wiring record, and fieldMapFor carries installed completeness classifications forward verbatim for every field that remains a refusal (a field the allowlist now writes always takes the fresh candidate_write row; stale not_supported_by_exact_participant_fact_map rows are never carried). checkOfficial feeds the stored map back as its own carry source, so the drift check still proves reproducibility. scripts/rcap-official-forms/rcap-official-form-finalize.mjs was not changed.",
+  "controlFamilyUnchanged": true,
+  "controlFamily": {
+    "familyId": "me-seal-prost-set",
+    "rebuiltWith": "scripts/build-census-v1-me-seal-prost-set.mjs after the fix",
+    "fixtureSha256UnchangedBeforeAndAfter": {
+      "cr289-canonical-filled.pdf": "ce2e6bde63ac9524927ace30a128938174ff79db091ec8db26a4ad3d307daaf7",
+      "cr289-boundary-filled.pdf": "c56d43ba1b2341526fa7b7c17115b77435a1e030f70e2dfc93c76815f9cc2695"
+    },
+    "note": "the only working-tree movement was an environmental raster-engine path label in reports/rendered-artifacts.json (scripts/lib -> scripts/raster module move that predates this repair); it was reverted, not committed. No bytes moved on the control family."
+  },
+  "njFieldsNowAppearing": ["arrestOff1", "dismissDt", "dismissCrt", "DefAddr2", "DefAddr3", "DefBirthDt", "arrest1Dt"],
+  "eastHostProof": {
+    "deterministic": "two full rebuilds of nj_arrest_no_conviction-set from the restored HEAD state produced 98/98 byte-identical files (SHA-256 over every file in the family directory); the second run also proves the carry-forward is a fixed point, since it carried from the first run's regenerated map",
+    "appearanceStreams": "all 17 reported canonical writes and all 15 boundary writes decode from the flattened widget appearance streams at their measured rectangles with the exact expected values; no bare page-content text writes remain",
+    "protectedFieldsInkFree": "the build's own proof asserts zero protected-field text appearances and zero protected-field vector paths on both fixtures, and the completeness verifier reports protectedWrites 0",
+    "checkGate": "node scripts/build-census-v1-nj_arrest_no_conviction-set.mjs --check passes on the committed family (CHECK PASS, 2 PDFs, 86 rasters); --self-test passes",
+    "boundaryRefusals": "dismissOff1 and arrest1CaseNum are refused on the boundary fixture as value_exceeds_widget_width_at_minimum_font -- honest unfittable refusals, recorded in actual-writes.json"
+  },
+  "countersBeforeAfter": {
+    "before": { "knownRequiredFieldsMissing": 7, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0, "written": "9/179" },
+    "after": { "knownRequiredFieldsMissing": 5, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0, "written": "19/179" },
+    "whyNotZero": "the expected 7->0 lands at 7->5 for a reason outside this repair's owned paths. The five residual rows (arrest2CaseNum, arrest3CaseNum, arrest4CaseNum, arrest5CaseNum, arrest4Dt) are FIX07's honest required-before-filing declarations on repeating-table rows 2-5, and they were passing at HEAD only because row 1 was not yet written. Now that arrest1CaseNum and arrest1Dt carry ink, the completeness contract's same-label availability heuristic (writtenBeside in verify-packet-completeness.mjs) reads the repeated printed caption as proof the packet holds the fact and reclassifies the declarations KNOWN_FACT_NOT_WRITTEN. Those rows name OTHER matters of the participant's record, which the platform genuinely does not hold; the follow-up belongs in the completeness contract (row-aware availability), not in this family's map, and no reclassification was faked to force a zero. Separately, ExpungeCntyName left the missing counter as a candidate_write map row, but its county dropdown still takes no ink: the semantic finalizer refuses its name-channel conflict and the exact overlay writes text fields only. That refusal is recorded in actual-writes.json; the county remains a blank the participant selects.",
+    "measuredWithoutCarryForward": "rebuilding without the carry-forward repair regressed the audit to knownRequiredFieldsMissing 36 and unclassifiedBlanks 72, which is why the carry-forward is part of the shared-path fix rather than a family patch"
+  },
+  "rasterReceiptInvalidated": true,
+  "rasterNote": "nj_arrest_no_conviction-set packet bytes changed (canonical 18463feda4cfdbf5766c3c98ea7214eb4368a95de28df48732ddddcebda5ff28, boundary ac3e45fb78f2ca63a2c35e271bcbdd22d4fbbee7722d6251accaf941f35569ad); its raster receipt is invalidated and the captain re-rasters through the central gate",
+  "notRebuilt": ["nj_indictable_conviction-set", "ny_160_59_petition-set"],
+  "commits": [
+    { "sha": "4a10da0db", "paths": ["scripts/build-census-v1-nj_arrest_no_conviction-set.mjs"], "what": "shared-path fix + control-family proof note" },
+    { "sha": "a7789c43e", "paths": ["data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill/"], "what": "rebuilt family" }
+  ],
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}
