@@ -224,6 +224,13 @@ async function transmit(
     });
     const reference = response.headers.get("x-request-id");
     if (response.ok) {
+      // 202 means the provider accepted work for later processing. Its request
+      // reference proves submission, not erasure, so acknowledgement-enabled
+      // adapters must keep the deletion outstanding until a later retry gets
+      // a synchronous completion response.
+      if (response.status === 202) {
+        return { status: "sent", reference, detail: { httpStatus: response.status, action, asynchronous: true } };
+      }
       // Acknowledged only when the provider hands back its own reference.
       // Without one there is nothing to show a participant or an auditor, so
       // the honest answer is that it was sent.

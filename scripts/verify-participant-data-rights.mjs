@@ -106,6 +106,7 @@ process.env.RATE_LIMIT_HASH_SECRET = "participant-privacy-rate-limit-secret-for-
  * server makes the request real and its outcome deterministic:
  *
  *   200 with x-request-id -> acknowledged
+ *   202 with x-request-id -> sent and still outstanding
  *   500                   -> retryable, so the adapter retries and reports pending
  *   400                   -> permanent, reported failed without a retry
  *
@@ -133,6 +134,11 @@ const processorServer = http.createServer((req, res) => {
     if (processorMode === "permanent") {
       res.writeHead(400, { "content-type": "application/json" });
       res.end(JSON.stringify({ error: "unknown subject" }));
+      return;
+    }
+    if (processorMode === "accepted") {
+      res.writeHead(202, { "content-type": "application/json", "x-request-id": `provider-ref-${processorRequests.length}` });
+      res.end(JSON.stringify({ accepted: true }));
       return;
     }
     res.writeHead(200, { "content-type": "application/json", "x-request-id": `provider-ref-${processorRequests.length}` });
@@ -1389,6 +1395,18 @@ let accountReceipt = null;
     ok.status === "acknowledged" && typeof ok.reference === "string" && ok.reference.length > 0
       && processorRequests.length > before,
     JSON.stringify(ok)
+  );
+
+  processorMode = "accepted";
+  const accepted = await byKey("email_delivery").erase({ ...request, processorKey: "email_delivery" });
+  check(
+    "PR1a",
+    "an asynchronously accepted erasure remains sent and outstanding",
+    accepted.status === "sent"
+      && typeof accepted.reference === "string"
+      && accepted.detail.httpStatus === 202
+      && processorOutcomeIsSettled(byKey("email_delivery"), accepted) === false,
+    JSON.stringify(accepted)
   );
 
   processorMode = "retryable";

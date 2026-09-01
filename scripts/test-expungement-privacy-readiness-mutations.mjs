@@ -9,15 +9,19 @@ import { registerTrackedMutation } from "./lib/tracked-mutation-guard.mjs";
 
 const root = process.cwd();
 const target = "src/lib/expungement-ai/privacy/processor-config.ts";
+const erasureTarget = "src/lib/expungement-ai/privacy/processor-erasure.ts";
 const migrationTarget = "supabase/migrations/20260901180000_account_deletion_partial_state.sql";
 const absoluteTarget = path.join(root, target);
+const absoluteErasureTarget = path.join(root, erasureTarget);
 const absoluteMigrationTarget = path.join(root, migrationTarget);
 const original = fs.readFileSync(absoluteTarget);
+const erasureOriginal = fs.readFileSync(absoluteErasureTarget);
 const migrationOriginal = fs.readFileSync(absoluteMigrationTarget);
 
-registerTrackedMutation("test-expungement-privacy-readiness-mutations.mjs", [target, migrationTarget]);
+registerTrackedMutation("test-expungement-privacy-readiness-mutations.mjs", [target, erasureTarget, migrationTarget]);
 const restore = () => {
   fs.writeFileSync(absoluteTarget, original);
+  fs.writeFileSync(absoluteErasureTarget, erasureOriginal);
   fs.writeFileSync(absoluteMigrationTarget, migrationOriginal);
 };
 const disposeRestore = registerMutationRestore(restore);
@@ -192,6 +196,41 @@ if (!source.includes(requiredCheck)) {
         process.exitCode = 1;
       } else {
         console.log("Privacy readiness mutation caught: overlapping destructive deletion runners turn the verifier red.");
+      }
+    }
+
+    restore();
+    const asynchronousAcceptanceGate = "response.status === 202";
+    const erasureSource = erasureOriginal.toString("utf8");
+    if (!erasureSource.includes(asynchronousAcceptanceGate)) {
+      console.error("Privacy readiness mutation could not find the asynchronous processor-acceptance gate.");
+      process.exitCode = 1;
+    } else {
+      fs.writeFileSync(
+        absoluteErasureTarget,
+        erasureSource.replace(asynchronousAcceptanceGate, "false /* mutation: 202 treated as completed */")
+      );
+      const acceptedChild = spawnSync(process.execPath, ["scripts/verify-participant-data-rights.mjs"], {
+        cwd: root,
+        encoding: "utf8",
+        timeout: 300_000,
+        maxBuffer: 100 * 1024 * 1024,
+        env: { ...process.env, GIT_TERMINAL_PROMPT: "0", GIT_OPTIONAL_LOCKS: "0" }
+      });
+      const acceptedOutput = `${acceptedChild.stdout ?? ""}${acceptedChild.stderr ?? ""}`;
+      const acceptedExpected = "an asynchronously accepted erasure remains sent and outstanding";
+      if (acceptedChild.error?.code === "ETIMEDOUT" || acceptedChild.signal) {
+        console.error("Privacy asynchronous-acceptance mutation verifier timed out.");
+        process.exitCode = 1;
+      } else if (acceptedChild.status === 0) {
+        console.error("Privacy asynchronous-acceptance mutation survived: a queued processor erasure settled deletion.");
+        process.exitCode = 1;
+      } else if (!acceptedOutput.includes(acceptedExpected)) {
+        console.error("Privacy asynchronous-acceptance mutation turned red for the wrong reason.");
+        console.error(acceptedOutput);
+        process.exitCode = 1;
+      } else {
+        console.log("Privacy readiness mutation caught: asynchronous processor acceptance cannot settle deletion.");
       }
     }
   } finally {
