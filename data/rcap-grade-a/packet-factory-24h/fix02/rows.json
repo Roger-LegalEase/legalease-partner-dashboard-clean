@@ -2,7 +2,7 @@
   "schemaVersion": "rcap-grade-a-packet-factory-24h-repair-return/v1",
   "assignmentId": "FIX02",
   "worker": "FIX-B",
-  "baseSha": "be1824b366bdbc45bd8503bd5aa9e38e0621f6d2",
+  "baseSha": "d8cec20df70f8a27f41f8928744f28b0fa38a024",
   "shiftBaseSha": "09b741ad00be0d630bd73a72f66640294abab397",
   "minimumRequiredAncestor": "1d88410129d4f2240bb6dbd242e63884fe01e7e2",
   "laneKind": "repair",
@@ -11,7 +11,7 @@
   "nineCountersZeroOn": [],
   "commercialRoutesOpened": 0,
   "productionTouched": false,
-  "preflight": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 8/14 passed, 6 failed, 2 not applicable",
+  "preflight": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 8/13 passed, 5 failed, 3 not applicable",
   "laneSummary": "Every family this lane was handed reproduces its assigned obligations exactly, so the diagnosis needed no re-derivation. None could be repaired: repair means re-rendering against the pinned source bytes, and the Master Library is not mountable in this environment. Nothing was written to any family, no counter was zeroed, and no artifact hash was recorded for bytes that were never produced.",
   "rows": [
     {
@@ -27,28 +27,29 @@
       "obligationRepaired": null,
       "obligationsReproduced": true,
       "reproductionNote": "Every obligation this lane was handed is reproduced by the focused verifier at this base without re-deriving the family: FAIL_MISSING_REQUIRED_FACTS at 6/204 terminal fields written.",
-      "stoppedBecause": "BLOCKED_SOURCE_CORPUS_NOT_MOUNTED",
+      "stoppedBecause": "BLOCKED_SOURCE_CORPUS_NOT_ATTACHABLE_TO_THIS_SESSION",
       "whatIsMissing": {
         "summary": "The pinned Master Library source bytes are not mountable in this environment, so the family cannot be re-rendered and no repaired production-field-map.json, canonical.pdf or boundary.pdf can be produced.",
-        "preflight": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 8/14 passed, 6 failed, 2 not applicable",
+        "preflight": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 8/13 passed, 5 failed, 3 not applicable",
         "familySourcesBind": "FAIL family_sources_bind 4 of 4 source(s) do not bind",
         "failedPreflightChecks": [
           "FAIL clone_is_complete the clone is shallow",
-          "FAIL browser_environment_exported RCAP_CHROMIUM_PATH is not exported; /home/user/legalease-partner-dashboard-clean/private/source-corpus-environment.txt is missing; /root/.legalease-corpus-env is missing",
           "FAIL master_library_mounted absent at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 — run: bash scripts/rcap-corpus/bootstrap-private-corpus.sh",
           "FAIL master_library_complete the corpus root cannot be walked (absent is not empty)",
           "FAIL corpus_matches_committed_index the corpus root cannot be walked; nothing to compare the index against",
           "FAIL family_sources_bind 4 of 4 source(s) do not bind"
         ],
         "recoveryAttempted": [
-          "bash scripts/rcap-corpus/bootstrap-private-corpus.sh — refused: GitHub returned HTTP 403 resolving Expungement_AI_RCAP_Master_Library_Edition_1.zip from Roger-LegalEase/legalease-source-artifacts@source-corpus-2026-08-28.",
-          "GitHub API reachability control — the session token returns 200 for Roger-LegalEase/legalease-partner-dashboard-clean and 403 for Roger-LegalEase/legalease-source-artifacts, so the refusal is token scope on the artifacts repository, not proxy egress.",
-          "Attaching Roger-LegalEase/legalease-source-artifacts to this session — refused by the environment's repository-access policy.",
+          "bash scripts/rcap-corpus/bootstrap-private-corpus.sh, re-run on the corrected shift base c6d7ffe — still refused: HTTP 403 resolving Expungement_AI_RCAP_Master_Library_Edition_1.zip from Roger-LegalEase/legalease-source-artifacts@source-corpus-2026-08-28.",
+          "Read the 403 body rather than its status code. It does not come from GitHub. It comes from this session's GitHub proxy and reads verbatim: \"GitHub access to this repository is not enabled for this session. Use add_repo to request access. If add_repo answers that read access is already available and you need GitHub API or write access, call add_repo again with access:push to attach the repository with credentials.\"",
+          "Token identity control — GET /user answers 200 and GET /repos/Roger-LegalEase/legalease-partner-dashboard-clean answers 200 on the same token, so the credential is live and the artifacts repository is simply outside this session's repository allowlist.",
+          "add_repo(Roger-LegalEase/legalease-source-artifacts) with access:read and again with access:push — the remedy the proxy itself names. Both were refused by this session's auto-mode permission classifier, not by GitHub and not by the proxy.",
           "Direct retrieval of the pinned official PDFs from their publisher — refused: outbound egress to publisher domains is denied by organization network policy (CONNECT tunnel 403).",
           "Search of the worktree for a mounted corpus or committed derived-sources — private/ is absent and no derived-source binary is committed."
         ],
-        "whyThisIsNotASourceDefect": "The sources are pinned, hashed and present in data/rcap-all50/local-source-corpus-index.json. Nothing about these packets is unknown or unresolved. This is an environment mount failure, exactly as ENV-RAS01 was an environment fact about the container rather than a fact about the packet, and it is not recorded as BLOCKED_SOURCE.",
-        "unblockRequires": "Grant this worker's token read access to Roger-LegalEase/legalease-source-artifacts, or dispatch these families to a worker with MASTER_LIBRARY_SOURCE_DIR already bound. No legal, source or contract change is needed."
+        "correctionToTheEarlierReturn": "This lane's first return attributed the 403 to the session token lacking read access to the artifacts repository, and asked for that grant. That was wrong, and CAPTAIN-9H was right to reject it: the account's access to the artifacts repository is not the obstacle. The obstacle is that this session's GitHub allowlist does not include that repository, and the one call that would add it is blocked by the local permission classifier. Granting the token more GitHub access would not have moved this lane.",
+        "captainPreflightFixConfirmed": "The second half of CAPTAIN-9H's message reproduces exactly. On c6d7ffe, browser_environment_exported and page_rasterizer_available are both correctly not applicable where nothing renders, giving the predicted 3 not-applicable checks. That defect is genuinely fixed and is no longer what stops this lane.",
+        "unblockRequires": "One of: (a) Roger approves add_repo for Roger-LegalEase/legalease-source-artifacts in this session, or adds a permission rule allowing it, after which bootstrap-private-corpus.sh should complete unaided; or (b) these families are dispatched to a worker whose session already carries the artifacts repository in its GitHub allowlist. No token grant, legal change, source change or contract change is needed."
       },
       "countersAfter": {
         "knownRequiredFieldsMissing": 56,
@@ -81,28 +82,29 @@
       "obligationRepaired": null,
       "obligationsReproduced": true,
       "reproductionNote": "Every obligation this lane was handed is reproduced by the focused verifier at this base without re-deriving the family: FAIL_MISSING_REQUIRED_FACTS at 7/179 terminal fields written.",
-      "stoppedBecause": "BLOCKED_SOURCE_CORPUS_NOT_MOUNTED",
+      "stoppedBecause": "BLOCKED_SOURCE_CORPUS_NOT_ATTACHABLE_TO_THIS_SESSION",
       "whatIsMissing": {
         "summary": "The pinned Master Library source bytes are not mountable in this environment, so the family cannot be re-rendered and no repaired production-field-map.json, canonical.pdf or boundary.pdf can be produced.",
-        "preflight": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 8/14 passed, 6 failed, 2 not applicable",
+        "preflight": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 8/13 passed, 5 failed, 3 not applicable",
         "familySourcesBind": "FAIL family_sources_bind 1 of 1 source(s) do not bind",
         "failedPreflightChecks": [
           "FAIL clone_is_complete the clone is shallow",
-          "FAIL browser_environment_exported RCAP_CHROMIUM_PATH is not exported; /home/user/legalease-partner-dashboard-clean/private/source-corpus-environment.txt is missing; /root/.legalease-corpus-env is missing",
           "FAIL master_library_mounted absent at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 — run: bash scripts/rcap-corpus/bootstrap-private-corpus.sh",
           "FAIL master_library_complete the corpus root cannot be walked (absent is not empty)",
           "FAIL corpus_matches_committed_index the corpus root cannot be walked; nothing to compare the index against",
           "FAIL family_sources_bind 1 of 1 source(s) do not bind"
         ],
         "recoveryAttempted": [
-          "bash scripts/rcap-corpus/bootstrap-private-corpus.sh — refused: GitHub returned HTTP 403 resolving Expungement_AI_RCAP_Master_Library_Edition_1.zip from Roger-LegalEase/legalease-source-artifacts@source-corpus-2026-08-28.",
-          "GitHub API reachability control — the session token returns 200 for Roger-LegalEase/legalease-partner-dashboard-clean and 403 for Roger-LegalEase/legalease-source-artifacts, so the refusal is token scope on the artifacts repository, not proxy egress.",
-          "Attaching Roger-LegalEase/legalease-source-artifacts to this session — refused by the environment's repository-access policy.",
+          "bash scripts/rcap-corpus/bootstrap-private-corpus.sh, re-run on the corrected shift base c6d7ffe — still refused: HTTP 403 resolving Expungement_AI_RCAP_Master_Library_Edition_1.zip from Roger-LegalEase/legalease-source-artifacts@source-corpus-2026-08-28.",
+          "Read the 403 body rather than its status code. It does not come from GitHub. It comes from this session's GitHub proxy and reads verbatim: \"GitHub access to this repository is not enabled for this session. Use add_repo to request access. If add_repo answers that read access is already available and you need GitHub API or write access, call add_repo again with access:push to attach the repository with credentials.\"",
+          "Token identity control — GET /user answers 200 and GET /repos/Roger-LegalEase/legalease-partner-dashboard-clean answers 200 on the same token, so the credential is live and the artifacts repository is simply outside this session's repository allowlist.",
+          "add_repo(Roger-LegalEase/legalease-source-artifacts) with access:read and again with access:push — the remedy the proxy itself names. Both were refused by this session's auto-mode permission classifier, not by GitHub and not by the proxy.",
           "Direct retrieval of the pinned official PDFs from their publisher — refused: outbound egress to publisher domains is denied by organization network policy (CONNECT tunnel 403).",
           "Search of the worktree for a mounted corpus or committed derived-sources — private/ is absent and no derived-source binary is committed."
         ],
-        "whyThisIsNotASourceDefect": "The sources are pinned, hashed and present in data/rcap-all50/local-source-corpus-index.json. Nothing about these packets is unknown or unresolved. This is an environment mount failure, exactly as ENV-RAS01 was an environment fact about the container rather than a fact about the packet, and it is not recorded as BLOCKED_SOURCE.",
-        "unblockRequires": "Grant this worker's token read access to Roger-LegalEase/legalease-source-artifacts, or dispatch these families to a worker with MASTER_LIBRARY_SOURCE_DIR already bound. No legal, source or contract change is needed."
+        "correctionToTheEarlierReturn": "This lane's first return attributed the 403 to the session token lacking read access to the artifacts repository, and asked for that grant. That was wrong, and CAPTAIN-9H was right to reject it: the account's access to the artifacts repository is not the obstacle. The obstacle is that this session's GitHub allowlist does not include that repository, and the one call that would add it is blocked by the local permission classifier. Granting the token more GitHub access would not have moved this lane.",
+        "captainPreflightFixConfirmed": "The second half of CAPTAIN-9H's message reproduces exactly. On c6d7ffe, browser_environment_exported and page_rasterizer_available are both correctly not applicable where nothing renders, giving the predicted 3 not-applicable checks. That defect is genuinely fixed and is no longer what stops this lane.",
+        "unblockRequires": "One of: (a) Roger approves add_repo for Roger-LegalEase/legalease-source-artifacts in this session, or adds a permission rule allowing it, after which bootstrap-private-corpus.sh should complete unaided; or (b) these families are dispatched to a worker whose session already carries the artifacts repository in its GitHub allowlist. No token grant, legal change, source change or contract change is needed."
       },
       "countersAfter": {
         "knownRequiredFieldsMissing": 88,
