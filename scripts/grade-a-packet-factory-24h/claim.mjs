@@ -74,6 +74,41 @@ function release(ledgerPath, lane, subjectId) {
   fs.writeFileSync(absolute, `${JSON.stringify(ledger, null, 2)}\n`);
   console.log(`RELEASED ${lane} ${subjectId}`);
 }
+/*
+ * Re-open a released grant, deliberately and on the record.
+ *
+ * The ledger was one-shot per subject with no way back, and a lane that did
+ * exactly what its contract requires -- release on return -- could then never be
+ * asked to touch the family again. FIX-A hit this: it released FIX01/03/05/07,
+ * Captain assigned it the rebuilds those very lanes were blocked on, and every
+ * --assert answered ALREADY_RELEASED. The correct behaviour of the worker made
+ * the work impossible.
+ *
+ * This does not append a second grant: locate() requires exactly one claim per
+ * subject and laneKind, so a duplicate would make the subject permanently
+ * AMBIGUOUS_GRANT and unassertable by anyone. It re-opens the existing grant
+ * and keeps the whole history -- the original release stays in ledger.releases,
+ * and the reissue is appended to ledger.reissues with its reason.
+ *
+ * A reason is required. Re-opening a claim is how two workers could end up
+ * writing one family, so it must be a deliberate act with an author and a
+ * stated cause, never a retry that quietly succeeds.
+ */
+function reissue(ledgerPath, lane, subjectId, reason) {
+  const { absolute, ledger } = read(ledgerPath); validate(ledger); const grant = locate(ledger, lane, subjectId);
+  if (!reason) die(10, `REISSUE_NEEDS_REASON: re-opening ${subjectId} requires --reason "<why>"`);
+  if (!grant.released) die(11, `NOT_RELEASED: ${subjectId} is already live; nothing to re-issue`);
+  const previouslyReleasedAt = grant.releasedAt;
+  grant.released = false; grant.releasedAt = null;
+  ledger.reissues = [...(ledger.reissues ?? []), {
+    lane, subjectType: grant.subjectType, subjectId, operation: grant.operation, laneKind: grant.laneKind,
+    previouslyReleasedAt, reissuedAt: new Date().toISOString(), reason
+  }];
+  ledger.claimsDigest = claimsDigest(ledger.claims);
+  fs.writeFileSync(absolute, `${JSON.stringify(ledger, null, 2)}\n`);
+  console.log(`REISSUED ${lane} ${subjectId} (was released ${previouslyReleasedAt}) — ${reason}`);
+}
+
 function status(ledgerPath, lane) {
   const { ledger } = read(ledgerPath); validate(ledger);
   const claims = ledger.claims.filter((c) => (!lane || c.lane === lane) && !c.released);
@@ -83,8 +118,11 @@ function status(ledgerPath, lane) {
 
 const args = process.argv.slice(2); let ledgerPath = DEFAULT_LEDGER;
 const li = args.indexOf("--ledger"); if (li >= 0) { ledgerPath = args[li + 1]; args.splice(li, 2); }
+const ri = args.indexOf("--reason"); let reason = null;
+if (ri >= 0) { reason = args[ri + 1] ?? null; args.splice(ri, 2); }
 const [mode, lane, subjectId] = args;
 if (mode === "--assert" && lane && subjectId) assertClaim(ledgerPath, lane, subjectId);
 else if (mode === "--release" && lane && subjectId) release(ledgerPath, lane, subjectId);
+else if (mode === "--reissue" && lane && subjectId) reissue(ledgerPath, lane, subjectId, reason);
 else if (mode === "--status") status(ledgerPath, lane);
-else die(2, "usage: claim.mjs [--ledger path] --assert|--release <LANE> <familyId|itemId> | --status [LANE]");
+else die(2, "usage: claim.mjs [--ledger path] --assert|--release <LANE> <familyId|itemId> | --reissue <LANE> <subjectId> --reason \"<why>\" | --status [LANE]");
