@@ -2,7 +2,7 @@
   "schemaVersion": "claude-9h-shift/v1",
   "startedAt": "2026-09-01T07:14:06Z",
   "endsAt": "2026-09-01T16:14:06Z",
-  "shiftBaseSha": "696d65bcfde395b64c0c86d80721447f655285a9",
+  "shiftBaseSha": "2e6ca51b6cf785f0a7b8a6f820051bfd4eaa4dff",
   "captainBranch": "claude/legalease-sprint-captain-utucnw",
   "workers": {
     "PF-A": {
@@ -21,7 +21,8 @@
         "PF08",
         "PF09",
         "PF10",
-        "PF11"
+        "PF11",
+        "VF15"
       ]
     },
     "PF-C": {
@@ -46,7 +47,8 @@
         "FIX02",
         "FIX04",
         "FIX06",
-        "FIX08"
+        "FIX08",
+        "VF16"
       ]
     },
     "VF-SRC-A": {
@@ -65,7 +67,8 @@
         "ACQ01",
         "ACQ02",
         "PROMO01",
-        "PROMO02"
+        "PROMO02",
+        "VF17"
       ]
     },
     "VF-SRC-B": {
@@ -88,8 +91,8 @@
   },
   "nextLaneByWorker": {
     "VF-SRC-A": {
-      "assignedAt": "2026-09-01T09:23:31Z",
-      "lane": "VF17",
+      "assignedAt": "2026-09-01T09:51:26Z",
+      "lane": "VF01, VF02, VF03, VF04, VF05, VF06, VF17",
       "kind": "independent-verification",
       "grantsMinted": 9,
       "families": [
@@ -106,11 +109,51 @@
       "repairedBy": "FIX-A",
       "alsoNowGranted": "VF13 covers the four Virginia families you already read without a claim. The grant exists now, so re-record that verdict under a claimed lane; the reading itself stands and does not need repeating.",
       "whyIndependent": "You neither built nor repaired any of these, and FIX-A has verified none of its own work.",
-      "ceiling": "BUILT_RASTER_PENDING. None of these nine is in the rastered set."
+      "ceiling": "BUILT_RASTER_PENDING. None of these nine is in the rastered set.",
+      "openFamilies": 21,
+      "familiesByLane": {
+        "VF01": [
+          "ak-courtview-set",
+          "mi_setaside_marihuana-set"
+        ],
+        "VF02": [
+          "ak-tf800-set"
+        ],
+        "VF03": [
+          "ak-tf805-set",
+          "va_seal_ancillary_matter_only-set"
+        ],
+        "VF04": [
+          "ar-arrest-seal-set",
+          "pa_age70_deceased-set",
+          "va_seal_enumerated_seven_year-set"
+        ],
+        "VF05": [
+          "ar-misdemeanor-dwi-seal-set",
+          "pa_pardon_expungement-set",
+          "va_seal_petition_felony-set"
+        ],
+        "VF06": [
+          "co_motion_seal_nonconviction-set",
+          "va_seal_petition_misdemeanor-set"
+        ],
+        "VF17": [
+          "az_marijuana_expungement_arrest_no_charges-set",
+          "ca-1203-42-set",
+          "ca-851-91-set",
+          "nj_arrest_no_conviction-set",
+          "nj_indictable_conviction-set",
+          "ny_160_59_petition-set",
+          "pa_490_nonconviction-set",
+          "pa_9122_1_limited_access-set"
+        ]
+      },
+      "supersedes": "VF17",
+      "readThis": "laneSupersession in this file explains why your lane name changed. The families did not change owner except where that block says so."
     },
     "VF-SRC-B": {
-      "assignedAt": "2026-09-01T09:23:31Z",
-      "lane": "VF14",
+      "assignedAt": "2026-09-01T09:51:26Z",
+      "lane": "VF07, VF08, VF09, VF10, VF11, VF12",
       "kind": "independent-verification",
       "grantsMinted": 2,
       "families": [
@@ -120,25 +163,75 @@
       "builtBy": "PF-C",
       "note": "You were right to stop: the grant did not exist and the lane name was unresolvable. Both are fixed. Claim under VF14, which LANE_KIND resolves.",
       "rasterLocalWarning": "ak-tf800-set carries rasters PF-C produced in its own container, declared RASTER_LOCAL_PENDING_CENTRAL. Not gate receipts: uncalibrated runner, no canary, no negative controls, no binding to the queue's pinned hashes. Neither family is in the central rastered set.",
-      "ceiling": "BUILT_RASTER_PENDING"
+      "ceiling": "BUILT_RASTER_PENDING",
+      "openFamilies": 9,
+      "familiesByLane": {
+        "VF07": [
+          "co_multiple_conviction_seal-set",
+          "ri_nonconviction_sealing-set",
+          "vt_exp_decriminalized-set"
+        ],
+        "VF08": [
+          "co_pardoned_conviction_seal-set"
+        ],
+        "VF09": [
+          "ct-cleanslate-petition-set"
+        ],
+        "VF10": [
+          "ky_void_seal_controlled_substance-set"
+        ],
+        "VF11": [
+          "ky_void_seal_marijuana_synthetic_salvia-set"
+        ],
+        "VF12": [
+          "me-seal-prost-set",
+          "vt_seal_nonconviction-set"
+        ]
+      },
+      "supersedes": "VF14",
+      "readThis": "laneSupersession in this file explains why your lane name changed. The families did not change owner except where that block says so."
     },
     "PF-B": {
-      "assignedAt": "2026-09-01T09:23:31Z",
+      "assignedAt": "2026-09-01T09:51:26Z",
       "lane": "VF15",
       "kind": "independent-verification",
       "grantsMinted": 5,
       "whyYou": "You have verified nothing, so you are a clean independent reader for these. Independent verification of the nonvisual obligations needs NO corpus -- VF-SRC-A did exactly this work without one. Your corpus block does not stop this lane.",
       "stillHeld": "PF07-PF11 remain re-dispatched to PF-C. Do not reclaim them.",
-      "ceiling": "These families hold a central RASTER_PASS from run 33488713831. That is one gate, not a pass: verify the nonvisual obligations independently and do not inherit the builder's verdict."
+      "ceiling": "These families hold a central RASTER_PASS from run 33488713831. That is one gate, not a pass: verify the nonvisual obligations independently and do not inherit the builder's verdict.",
+      "openFamilies": 5,
+      "familiesByLane": {
+        "VF15": [
+          "sd_arrest_expungement-set",
+          "wa_vac_cannabis-set",
+          "wa_vac_domestic_violence-set",
+          "wa_vac_felony-set",
+          "wa_vac_homicide_victim_prostitution-set"
+        ]
+      },
+      "supersedes": "VF15",
+      "readThis": "laneSupersession in this file explains why your lane name changed. The families did not change owner except where that block says so."
     },
     "FIX-B": {
-      "assignedAt": "2026-09-01T09:23:31Z",
+      "assignedAt": "2026-09-01T09:51:26Z",
       "lane": "VF16",
       "kind": "independent-verification",
       "grantsMinted": 5,
       "whyYou": "Same as PF-B: you have verified nothing and this lane needs no corpus.",
       "stillHeld": "FIX02/04/06/08 remain re-dispatched to PF-A. Do not reclaim them.",
-      "ceiling": "Central RASTER_PASS is one gate, not a pass."
+      "ceiling": "Central RASTER_PASS is one gate, not a pass.",
+      "openFamilies": 5,
+      "familiesByLane": {
+        "VF16": [
+          "wa_vac_misdemeanor_ordinary-set",
+          "wa_vac_substance_use_disorder-set",
+          "wa_vac_survivor_felony-set",
+          "wa_vac_survivor_misdemeanor-set",
+          "wa_vac_treaty_fishing-set"
+        ]
+      },
+      "supersedes": "VF16",
+      "readThis": "laneSupersession in this file explains why your lane name changed. The families did not change owner except where that block says so."
     },
     "FIX-A": {
       "assignedAt": "2026-09-01T09:23:31Z",
@@ -198,7 +291,7 @@
   "newlyReleasedFamilies": [],
   "productionTouched": false,
   "commercialRoutesOpened": 0,
-  "shiftBaseRebasedAt": "2026-09-01T09:23:31Z",
+  "shiftBaseRebasedAt": "2026-09-01T09:51:26Z",
   "shiftBaseRebaseReason": "Three workers reported this file stale and were right. shiftBaseSha still named c6d7ffe7 while the branch head carried three integration waves, the raster batch and the ledger repairs; integratedReturns was empty while seven returns were in; and masterLibrarySourceDirExportRequired still read false after I had corrected exactly that. Verifiers were rebasing onto a base that did not contain the work they were sent to read.",
   "previousShiftBaseSha": "09b741ad00be0d630bd73a72f66640294abab397",
   "masterLibraryCorpus": {
@@ -373,5 +466,29 @@
       "why": "FIX-A established that both build hosts call popplerRasterIdentity/rasterizeWithPoppler and neither imports scripts/raster/pdf-page-raster.mjs. The preflight probes the browser rasterizer, which works, so a lane reads READY, builds, and dies at the raster step with its overlay already modified. This is the only undeclared dependency the preflight appears to cover while covering something else.",
       "owner": "Captain"
     }
-  ]
+  ],
+  "laneSupersession": {
+    "recordedAt": "2026-09-01T09:51:26Z",
+    "atCaptainHead": "2e6ca51b6cf785f0a7b8a6f820051bfd4eaa4dff",
+    "what": "VF13 and VF14 no longer exist. Every family in them is still claimed, still open, and still yours -- under a different lane name.",
+    "why": "VF13 and VF14 were minted by hand. generate.mjs owns the VF01-VF12 space and re-emitted its own independent-verification claim for those same families, and a family may hold only one such claim, so the hand-minted lane lost the key. VF15, VF16 and VF17 survived because the generator does not emit those families at all.",
+    "verifiedNothingWasLost": {
+      "ivSubjectsBefore": 39,
+      "ivSubjectsAfter": 57,
+      "subjectsLost": 0,
+      "releasedFlagsLost": 0,
+      "method": "compared the independent-verification claim set across the regeneration commit by subjectId, and every released flag by subject"
+    },
+    "whereTheWorkWent": {
+      "va_seal_ancillary_matter_only-set": "VF13 -> VF03 (still VF-SRC-A)",
+      "va_seal_enumerated_seven_year-set": "VF13 -> VF04 (still VF-SRC-A)",
+      "va_seal_petition_felony-set": "VF13 -> VF05 (still VF-SRC-A)",
+      "va_seal_petition_misdemeanor-set": "VF13 -> VF06 (still VF-SRC-A)",
+      "ak-tf800-set": "VF14 -> VF02, which transfers it from VF-SRC-B to VF-SRC-A",
+      "ct-cleanslate-petition-set": "VF14 -> VF09 (still VF-SRC-B)",
+      "ri_nonconviction_sealing-set": "VF17 -> VF07, which transfers it from VF-SRC-A to VF-SRC-B"
+    },
+    "independenceRecheckedAfterTheMove": "PASS at the worker level. VF-SRC-A and VF-SRC-B hold no PF or FIX lane, so no family is now verified by the worker that built or repaired it. Checking lanes rather than workers reports seventeen conflicts and all seventeen are false: a build claim on PF12 and a verification claim on VF02 for one family is the design, not a collision.",
+    "ceilingUnchanged": "A lane rename promotes nothing. These families remain BUILT_RASTER_PENDING or RASTER_PASS; none becomes PASS_COMPLETE without both the hash-bound raster receipt and this independent read."
+  }
 }
