@@ -27,8 +27,20 @@ expect(new Set(keys).size === keys.length, "duplicate subject and operation");
 
 const activeSourceLanes = new Map(SOURCE.lanes.filter((l) => l.status === "ACTIVE").map((l) => [l.assignmentId, l]));
 const expectedSources = ACTIVE.assignments.filter((a) => activeSourceLanes.has(a.assignmentId)).flatMap((a) => a.items.map((itemId) => `${a.assignmentId}\0${itemId}`));
-const actualSources = ledger.claims.filter((c) => c.subjectType === "source-obligation").map((c) => `${c.lane}\0${c.itemId}`);
-expect(expectedSources.length === actualSources.length && expectedSources.every((x) => actualSources.includes(x)), "source assignment omitted from ledger");
+/*
+ * Exact set equality broke the moment a family left the source queue: its
+ * released obligations stay in the ledger as history while the regenerated
+ * dispatch rightly stops listing them, and this check read that as an
+ * omission. Same rule as F24: a RELEASED claim absent from the dispatch is
+ * finished work; an ACTIVE dispatch item missing from the ledger, or a LIVE
+ * claim the dispatch no longer lists, are still fatal.
+ */
+const sourceClaims = ledger.claims.filter((c) => c.subjectType === "source-obligation");
+const actualSources = sourceClaims.map((c) => `${c.lane}\0${c.itemId}`);
+const liveSources = new Set(sourceClaims.filter((c) => c.released !== true).map((c) => `${c.lane}\0${c.itemId}`));
+const expectedSet = new Set(expectedSources);
+expect(expectedSources.every((x) => actualSources.includes(x)), "source assignment omitted from ledger");
+expect([...liveSources].every((x) => expectedSet.has(x)), "a live source claim is no longer dispatched");
 const disc06 = ledger.claims.filter((c) => c.lane === "DISC06");
 expect(activeSourceLanes.has("DISC06"), "DISC06 not ACTIVE");
 expect(disc06.length === 42, `DISC06 has ${disc06.length} claims`);

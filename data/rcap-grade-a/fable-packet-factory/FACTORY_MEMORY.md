@@ -70,3 +70,12 @@ paid for once already.
   HELD facts — not disclosure gaps. Only a rebuild with new ink repairs them,
   and that waits on the east-host appearance-stream fix. Do not reclassify held
   facts as required-before-filing; FIX-A refused exactly that and was right.
+- generate.mjs re-emits identities under its OWN lane packing and knows nothing
+  about transfers: it silently moved 26 externally-held grants back to
+  generator lanes, and resurrected old-grant release flags from its historical
+  inputs (spot them: releasedAt equals the transfer's previouslyReleasedAt).
+  Fixed: prior claims on external lanes beat regenerated rows, and a LIVE
+  grant's lane is immovable under regeneration.
+- The shared WEST-host CA finalizer fails its own read-back at line-wraps
+  (space lost: "…Northern Reaches County" -> "NorthernReaches", builder line
+  2735). Blocks every CA rebuild; not a corpus problem.

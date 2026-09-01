@@ -1873,9 +1873,23 @@ const generatedKeys = new Set(claimRows.map(claimKey));
  * and the resolver now refuses them by consulting the merge base. A grant
  * withdrawn from the ledger is absent from priorLedger and cannot return here.
  */
+/*
+ * A prior claim on an EXTERNAL lane beats the freshly generated row for the
+ * same identity. The generator packs its own lanes and knows nothing about
+ * transfers, so re-emitting an identity moved to PF17 put it back on PF09 —
+ * six build grants, one repair grant, silently, while their workers were
+ * asserting them. Identity preservation without lane comparison is how it got
+ * past the destruction guard.
+ */
+const priorExternal = new Map((priorLedger.claims ?? [])
+  .filter((c) => externalLanes.has(c.lane))
+  .map((c) => [claimKey(c), c]));
+const claimRowsRespectingExternal = claimRows.filter((c) => !priorExternal.has(claimKey(c)));
 const preservedGrants = (priorLedger.claims ?? [])
-  .filter((c) => !generatedKeys.has(claimKey(c)));
-const mergedClaims = [...claimRows, ...preservedGrants]
+  .filter((c) => externalLanes.has(c.lane)
+    ? true
+    : !generatedKeys.has(claimKey(c)) );
+const mergedClaims = [...claimRowsRespectingExternal, ...preservedGrants]
   .sort((x, y) => x.subjectType.localeCompare(y.subjectType) || x.subjectId.localeCompare(y.subjectId) || x.operation.localeCompare(y.operation) || x.lane.localeCompare(y.lane));
 
 const claimLedgerRecord = {
@@ -1941,6 +1955,12 @@ const beforeIds = new Set((priorLedger.claims ?? []).map(identityOf));
 const afterIds = new Set(mergedClaims.map(identityOf));
 const lostIdentities = [...beforeIds].filter((k) => !afterIds.has(k));
 const beforeReleased = new Set((priorLedger.claims ?? []).filter((c) => c.released === true).map(identityOf));
+/* A live grant is owned; regeneration may not move it between lanes. A
+ * released claim's lane is history and may be re-packed freely. */
+const priorLiveLane = new Map((priorLedger.claims ?? []).filter((c) => c.released !== true).map((c) => [identityOf(c), c.lane]));
+const movedLiveLanes = mergedClaims
+  .filter((c) => c.released !== true && priorLiveLane.has(identityOf(c)) && priorLiveLane.get(identityOf(c)) !== c.lane)
+  .map((c) => `${identityOf(c)}: ${priorLiveLane.get(identityOf(c))} -> ${c.lane}`);
 const lostReleaseFlags = [...beforeReleased].filter((k) => {
   const after = mergedClaims.find((c) => identityOf(c) === k);
   return after && after.released !== true;
@@ -1951,7 +1971,7 @@ const shrank = [
   ["transfers", (priorLedger.transfers ?? []).length, (claimLedgerRecord.transfers ?? []).length],
 ].filter(([, b, a]) => a < b);
 
-if (lostIdentities.length || lostReleaseFlags.length || shrank.length) {
+if (lostIdentities.length || lostReleaseFlags.length || shrank.length || movedLiveLanes.length) {
   console.error("REFUSED: this regeneration would destroy history the tree cannot rebuild.");
   if (lostIdentities.length) {
     console.error(`  ${lostIdentities.length} claim identity(ies) present before and absent after:`);
@@ -1962,6 +1982,10 @@ if (lostIdentities.length || lostReleaseFlags.length || shrank.length) {
     for (const k of lostReleaseFlags.slice(0, 8)) console.error(`    ${k}`);
   }
   for (const [name, b, a] of shrank) console.error(`  ${name}: ${b} -> ${a}`);
+  if (movedLiveLanes.length) {
+    console.error(`  ${movedLiveLanes.length} LIVE grant(s) would change lanes — a live grant is owned:`);
+    for (const m of movedLiveLanes.slice(0, 8)) console.error(`    ${m}`);
+  }
   console.error("  Nothing was written. Fix the generator, not the data.");
   process.exit(1);
 }
