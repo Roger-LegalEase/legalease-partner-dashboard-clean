@@ -2,7 +2,7 @@
   "schemaVersion": "claude-9h-shift/v1",
   "startedAt": "2026-09-01T07:14:06Z",
   "endsAt": "2026-09-01T16:14:06Z",
-  "shiftBaseSha": "fc147830196fbc698a9e65f7e0c8ad9bc0f49031",
+  "shiftBaseSha": "b292bfd0ee7f435e40b59ce62870c15b9e27191e",
   "captainBranch": "claude/legalease-sprint-captain-utucnw",
   "workers": {
     "PF-A": {
@@ -192,8 +192,8 @@
       "readThis": "laneSupersession in this file explains why your lane name changed. The families did not change owner except where that block says so."
     },
     "PF-B": {
-      "assignedAt": "2026-09-01T10:15:14Z",
-      "lane": "DUP-ROUTE-A",
+      "assignedAt": "2026-09-01T10:41:30Z",
+      "lane": "duplicate-byte classification (a label, not a lane id)",
       "kind": "independent-verification",
       "state": "ASSIGNED",
       "subject": "the twelve families that pin identical bytes, in three groups",
@@ -215,11 +215,13 @@
       "theQuestionPerGroup": "Does the statutory route these families differ by change what the document must say? If yes, identical bytes is a defect and the packet is missing a route election. If no, identical bytes is correct and the finding is that one render was recorded as several verdicts.",
       "doNotDo": "Do not repair. Classify and evidence. A verifier that repairs its own subject cannot then verify it.",
       "ceiling": "Your VF15 verdicts stand. This lane cannot promote anything.",
-      "grantsPending": "Ask and I will mint them; ten of the twelve already hold a verification claim, so this may need a lane transfer rather than a grant. Say the word and I will resolve it before you claim."
+      "grantsPending": "Ask and I will mint them; ten of the twelve already hold a verification claim, so this may need a lane transfer rather than a grant. Say the word and I will resolve it before you claim.",
+      "claimRequired": false,
+      "claimWhy": "read-and-report; you write only under your own return directory. All twelve families already hold an independent-verification claim, so no second grant is mintable and none is needed."
     },
     "FIX-B": {
-      "assignedAt": "2026-09-01T10:15:14Z",
-      "lane": "READBACK-01",
+      "assignedAt": "2026-09-01T10:41:30Z",
+      "lane": "read-back diagnosis (a label, not a lane id)",
       "kind": "repair",
       "state": "ASSIGNED",
       "subject": "the write read-back that fails in both directions",
@@ -230,7 +232,11 @@
         "AK transcribes a boundary name without its apostrophe where the stream carries 0x92."
       ],
       "repairTheReportNotTheOverlay": "VF-SRC-B was explicit that the Connecticut packet is sound and its report is wrong. Do not touch the packet bytes to make a report agree with them.",
-      "ceiling": "These families' raster receipts are unaffected; a report fix changes no PDF."
+      "ceiling": "These families' raster receipts are unaffected; a report fix changes no PDF.",
+      "claimRequired": false,
+      "claimWhy": "Diagnose and propose; do not write a report artifact yet. Two of the four families are still under a live verification grant (VF07, VF12) and repairing them now would move artifacts under a verifier mid-read.",
+      "deliverable": "the root cause, one proposed patch, and which of the four it applies to — CT reporting drawnText:[] for writes that ARE in the bytes, VT counting 8 values where 7 reach them, AK dropping an apostrophe the stream carries as 0x92.",
+      "grantWillFollow": "Once VF07 and VF12 release, a repair lane is minted through the generator and you get all four."
     },
     "FIX-A": {
       "assignedAt": "2026-09-01T09:23:31Z",
@@ -328,7 +334,7 @@
   "newlyReleasedFamilies": [],
   "productionTouched": false,
   "commercialRoutesOpened": 0,
-  "shiftBaseRebasedAt": "2026-09-01T10:23:34Z",
+  "shiftBaseRebasedAt": "2026-09-01T10:41:30Z",
   "shiftBaseRebaseReason": "Three workers reported this file stale and were right. shiftBaseSha still named c6d7ffe7 while the branch head carried three integration waves, the raster batch and the ledger repairs; integratedReturns was empty while seven returns were in; and masterLibrarySourceDirExportRequired still read false after I had corrected exactly that. Verifiers were rebasing onto a base that did not contain the work they were sent to read.",
   "previousShiftBaseSha": "09b741ad00be0d630bd73a72f66640294abab397",
   "masterLibraryCorpus": {
@@ -645,6 +651,20 @@
     "three": {
       "finding": "88 unpushed commits in the primary checkout, reported by a hook",
       "verdict": "PF-C was right to refuse. That checkout is mine, its tree is clean, and it is level with origin. Pushing another agent's branch, and republishing rewritten-away history over a live head, are both Roger's calls and neither was needed."
+    }
+  },
+  "grantsForTheseTwoLanes": {
+    "decidedAt": "2026-09-01T10:41:30Z",
+    "decision": "Neither DUP-ROUTE-A nor READBACK-01 gets a claim, and neither needs one.",
+    "why": "The ledger arbitrates WRITES to a family's artifacts. Both lanes are read-and-report: they measure, classify and propose, and they write only under their own return directory. A grant would record an ownership neither lane exercises, and on the duplicate-byte families it could not be minted anyway — all twelve already hold an independent-verification claim, and a second would be a duplicate subject and operation.",
+    "whatThisDoesNotLicense": "Neither lane may modify a packet PDF, an overlay, a field map or a report artifact. The moment either wants to change a family's bytes it stops and asks; that IS a grant, and it will be minted through the generator rather than by hand.",
+    "lanNamesCorrected": "DUP-ROUTE-A and READBACK-01 are labels in this file, not lane ids. LANE_KIND resolves lane ids by prefix and would return `unknown` for both — the same refusal XVF-A and XVF-B hit. No claim command should be run with either string.",
+    "whyIDidNotJustMintARepairLane": {
+      "attempted": "FIX09, repair, on the four read-back families.",
+      "whatHappened": "Two of the four could be granted; two were correctly deferred because VF07 and VF12 still hold LIVE independent-verification grants on them, and a repairer changing artifacts under a live verifier makes that verifier's verdict describe neither the before nor the after.",
+      "thenItFailedAnyway": "F24 keys a dispatched packet-family on the assignment's `lane` field, which for repair assignments is `rapid-repair`, not the `repair` laneKind. My grants used `repair`, so all of them read as dispatched-and-not-granted. Hand-adding the assignment also moved the lane count past F12's generated denominator.",
+      "theRealLesson": "ACTIVE_ASSIGNMENTS and the denominator are generated. Minting a lane by hand means matching a key derivation and a count that the generator owns, and getting either wrong turns two checks red. A new lane comes from the generator.",
+      "andOneOfMyOwn": "My first attempt wrote the ledger and THEN failed resolving the dispatch template, leaving two live grants with no dispatch row — the exact state the script existed to prevent. It now validates everything before writing anything. Both files were reverted; 30/30 and CLAIM_LEDGER_OK 549 confirmed after."
     }
   }
 }
