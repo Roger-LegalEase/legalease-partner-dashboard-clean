@@ -1,0 +1,513 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+  "assignmentId": "PF04",
+  "workerId": "PF-A",
+  "workerBranch": "claude/9h-pf-a",
+  "engine": "Claude 9h worker (isolated git worktree), executing the PF04 prompt under the Claude-worker overrides",
+  "lane": "packet-build",
+  "captainBranch": "claude/legalease-sprint-captain-utucnw",
+  "shiftBaseSha": "09b741ad00be0d630bd73a72f66640294abab397",
+  "minimumCaptainSha": "13771582866352d77e46e5d0b9bc86f1abbb6752",
+  "familiesAssigned": 2,
+  "rowsReturned": 2,
+  "familiesCompleted": [
+    "vt_seal_nonconviction-set",
+    "pa_pardon_expungement-set"
+  ],
+  "familiesStopped": [],
+  "blockedSource": [],
+  "blockedLegalInput": [],
+  "overlayDirectoriesTouchedByAStoppedFamily": 0,
+  "laneGate": {
+    "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --require-rasterizer --minimum-captain-sha 13771582866352d77e46e5d0b9bc86f1abbb6752 --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
+    "result": "PACKET_BUILD_ENVIRONMENT_READY: 15/15 passed, 0 failed, 1 not applicable"
+  },
+  "focusedCheck": {
+    "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <familyId>",
+    "result": "0 famil(ies) audited",
+    "why": "The focused check enumerates only families listed BUILT in data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json, an earlier wave's record and a path PF04 may not write."
+  },
+  "laneNotes": [
+    "Both families in this lane carry a MULTI-ROUTE assembly, and both carry the route that files nothing as a component rather than dropping it. Vermont has three routes -- contested petition, stipulated sealing, and no filing; Pennsylvania has two -- a Rule 790 petition and no filing where the automatic route has already cleared the record. A packet that only ever told a participant to file would be telling them to do work they may not need to do, and to pay for it.",
+    "Vermont's route determination is one question: the packet marks 'I was not convicted for the offenses listed above' on 200-00130 and refuses the conviction block beneath it. What ENDED the case without a conviction -- never charged, no probable cause, or dismissed -- is not route-determined and stays with the participant.",
+    "Pennsylvania marks NO box on either form, and its field map says so rather than inventing an election to satisfy a counter: the two routes are told apart by whether the automatic route has already cleared the record, and neither the petition nor the order asks that. The guidance component carries the distinction instead.",
+    "PA-RCRIM-P-790-ORDER is filled in caption mode only. Caption mode refused the petitioner's street address on the Rule 790 information page as court_issued_order_accepts_caption_facts_only, which is the right answer -- that page is an attachment to the court's order and the petitioner completes it -- so it is declared required-before-filing and disclosed.",
+    "The builder's own visual-defect counter was wrong before it was right, and the correction is in the code with its reason: one empty comb field on the PA petition flattens to an appearance of NUL bytes, and one appearance is not a text appearance at all -- its stream decodes to 2,481 bytes of binary. Counting either as ink reported thousands of stray marks on a page that carries none. Control characters are no longer counted, and an appearance under half printable is RECORDED as a non-text appearance rather than dropped, so it stays visible in the evidence."
+  ],
+  "packetsSelfVerified": 0,
+  "otherPfPromptsExecutedInThisWorktree": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "grantsNothing": "A built family is a built family. It is not verified, not approved and not sellable, and no route was opened.",
+  "rows": [
+    {
+      "itemId": "vt_seal_nonconviction-set",
+      "status": "COMPLETED",
+      "jurisdiction": "VT",
+      "implementationStrategy": "official_pdf_fill",
+      "routeKeys": [
+        "obligation:track-pathway:VT:vt_seal_nonconviction:non-conviction-sealing"
+      ],
+      "routeSelectionId": "vt-seal-nonconviction-200-00130-complete-set",
+      "statute": "13 V.S.A. Sec. 7603",
+      "legalName": "Petition to Seal a Non-Conviction Record, 13 V.S.A. Sec. 7603",
+      "officialForms": [
+        "200-00130",
+        "200-00132",
+        "600-00228"
+      ],
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill",
+      "buildStatus": "state_built",
+      "reviewStatus": "qa_review_pending",
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "nineCountersZero": true,
+      "totals": {
+        "terminalFields": 167,
+        "written": 27,
+        "blank": 140
+      },
+      "componentsRequiredByRoute": [
+        "petition",
+        "stipulation_and_proposed_order",
+        "fee_waiver_application",
+        "process_guidance"
+      ],
+      "componentsRendered": [
+        "petition",
+        "200-00130",
+        "stipulation_and_proposed_order",
+        "200-00132",
+        "fee_waiver_application",
+        "600-00228",
+        "process_guidance"
+      ],
+      "requiredBeforeFilingDeclaredAndDisclosed": 110,
+      "routeSelectionsMade": 0,
+      "routeSelectionNote": "Question 2 of 200-00130 asks whether the petitioner was convicted, and this family is non-conviction sealing, so the route determines the answer: the packet marks 'I was not convicted for the offenses listed above' and refuses the conviction block beneath it. Which non-conviction ending applies -- never charged, no probable cause, or dismissed -- is not route-determined and stays with the participant.",
+      "sources": [
+        {
+          "sourceIds": [
+            "official-form:200-00130"
+          ],
+          "formNumber": "200-00130",
+          "revision": "2025-07",
+          "sha256": "ff914f49c2a78a8b96d48f1242b70ab12ff7cb25beeeb8b850505357fdf982ed",
+          "byteLength": 1535506
+        },
+        {
+          "sourceIds": [
+            "official-form:200-00132"
+          ],
+          "formNumber": "200-00132",
+          "revision": "2025-07",
+          "sha256": "088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2",
+          "byteLength": 1999317
+        },
+        {
+          "sourceIds": [
+            "official-form:600-00228"
+          ],
+          "formNumber": "600-00228",
+          "revision": "2026-04",
+          "sha256": "263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654",
+          "byteLength": 2871072
+        }
+      ],
+      "allSourcesExact": true,
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "03715884a313d7de5d522bdd5da26a4bc947ea555d43c88eff4165def5b317f6",
+          "pageCount": 8,
+          "byteLength": 856947
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "5205cc895fdddef3328749c3dd4b821672023ccdcad18252f4f45712990faefd",
+          "pageCount": 8,
+          "byteLength": 857395
+        }
+      ],
+      "rasterEngine": "scripts/lib/pdf-page-raster.mjs (Chromium, calibrated)",
+      "rasterPages": 16,
+      "rasterPageHashes": [
+        {
+          "fixture": "canonical",
+          "page": 1,
+          "component": "petition",
+          "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/raster/canonical/page-01/page.png",
+          "sha256": "92fd7dd37515c688b49562b4c4a0ff6b5d3917a180ee578a6e8591a36e70ec60"
+        },
+        {
+          "fixture": "canonical",
+          "page": 2,
+          "component": "petition",
+          "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/raster/canonical/page-02/page.png",
+          "sha256": "640e7d874bec228feac8d21309e852e475a962d1fda3333333f44e102c7da878"
+        },
+        {
+          "fixture": "canonical",
+          "page": 3,
+          "component": "stipulation_and_proposed_order",
+          "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/raster/canonical/page-03/page.png",
+          "sha256": "c6096f0ae499786447d522f48497bf93e1ef5afadf1af07131036ce6d8652248"
+        },
+        {
+          "fixture": "canonical",
+          "page": 4,
+          "component": "stipulation_and_proposed_order",
+          "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/raster/canonical/page-04/page.png",
+          "sha256": "8763dc00cfb45346d020fe9c6c6cb50d9b1df3f0e7038923d30e459e6f8e9a8c"
+        },
+        {
+          "fixture": "canonical",
+          "page": 5,
+          "component": "fee_waiver_application",
+          "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/raster/canonical/page-05/page.png",
+          "sha256": "f49be45483809c98c4a733f9a32d9333e85f6784accfa62cea2dc34294e8fdfc"
+        },
+        {
+          "fixture": "canonical",
+          "page": 6,
+          "component": "fee_waiver_application",
+          "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/raster/canonical/page-06/page.png",
+          "sha256": "6904224f09e293d357311cf1daaa4f8ef92f15b4ee44c46c600d683c97d62b70"
+        },
+        {
+          "fixture": "canonical",
+          "page": 7,
+          "component": "process_guidance",
+          "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/raster/canonical/page-07/page.png",
+          "sha256": "f81f95c4a2f0bf213f3ddf4e15c5c23f5611f3ef7dbf10bff4fd90967d240f7a"
+        },
+        {
+          "fixture": "canonical",
+          "page": 8,
+          "component": "process_guidance",
+          "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/raster/canonical/page-08/page.png",
+          "sha256": "dcc20d6c3cd0d4c0a526e96a54a515ddf669d2e65a48c8ae03fc6790549ac682"
+        },
+        {
+          "fixture": "boundary",
+          "page": 1,
+          "component": "petition",
+          "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/raster/boundary/page-01/page.png",
+          "sha256": "7fd4c6885ea0befb1b8a5ee24174c1d1146a4243383ee55b07737c0528216754"
+        },
+        {
+          "fixture": "boundary",
+          "page": 2,
+          "component": "petition",
+          "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/raster/boundary/page-02/page.png",
+          "sha256": "5bc1880e6cf5f0d51b628b863f3691f04e5e934c0b3c5979c6a23129d947d77c"
+        },
+        {
+          "fixture": "boundary",
+          "page": 3,
+          "component": "stipulation_and_proposed_order",
+          "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/raster/boundary/page-03/page.png",
+          "sha256": "59544b41a29e1c5fda32a3800780b4a4dfe7e32130327866f885a91b2d0d9031"
+        },
+        {
+          "fixture": "boundary",
+          "page": 4,
+          "component": "stipulation_and_proposed_order",
+          "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/raster/boundary/page-04/page.png",
+          "sha256": "8763dc00cfb45346d020fe9c6c6cb50d9b1df3f0e7038923d30e459e6f8e9a8c"
+        },
+        {
+          "fixture": "boundary",
+          "page": 5,
+          "component": "fee_waiver_application",
+          "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/raster/boundary/page-05/page.png",
+          "sha256": "c5f3b463b03e7424bd524d7ddcce0f8762406c6edf70c19ed2acba8007db8ab1"
+        },
+        {
+          "fixture": "boundary",
+          "page": 6,
+          "component": "fee_waiver_application",
+          "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/raster/boundary/page-06/page.png",
+          "sha256": "0326ffc28e2baf2217abaaed760d3339ff26b97e43ecb49111648d84ca9cab5f"
+        },
+        {
+          "fixture": "boundary",
+          "page": 7,
+          "component": "process_guidance",
+          "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/raster/boundary/page-07/page.png",
+          "sha256": "d07fa53ce2160160fcaf17ea35057d8aa477b17e6d07a3ef0e2faff2e08386c5"
+        },
+        {
+          "fixture": "boundary",
+          "page": 8,
+          "component": "process_guidance",
+          "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/raster/boundary/page-08/page.png",
+          "sha256": "dcc20d6c3cd0d4c0a526e96a54a515ddf669d2e65a48c8ae03fc6790549ac682"
+        }
+      ],
+      "byteProof": [
+        {
+          "fixture": "canonical",
+          "formNumber": "200-00130",
+          "valuesReportedByFinalizer": 8,
+          "addedGlyphsReadFromOutputBytes": 130,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 51,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        {
+          "fixture": "canonical",
+          "formNumber": "200-00132",
+          "valuesReportedByFinalizer": 8,
+          "addedGlyphsReadFromOutputBytes": 130,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 32,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        {
+          "fixture": "canonical",
+          "formNumber": "600-00228",
+          "valuesReportedByFinalizer": 8,
+          "addedGlyphsReadFromOutputBytes": 138,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 78,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        {
+          "fixture": "boundary",
+          "formNumber": "200-00130",
+          "valuesReportedByFinalizer": 8,
+          "addedGlyphsReadFromOutputBytes": 266,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 51,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        {
+          "fixture": "boundary",
+          "formNumber": "200-00132",
+          "valuesReportedByFinalizer": 7,
+          "addedGlyphsReadFromOutputBytes": 208,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 32,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        {
+          "fixture": "boundary",
+          "formNumber": "600-00228",
+          "valuesReportedByFinalizer": 8,
+          "addedGlyphsReadFromOutputBytes": 295,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 78,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        }
+      ],
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "pa_pardon_expungement-set",
+      "status": "COMPLETED",
+      "jurisdiction": "PA",
+      "implementationStrategy": "official_pdf_fill",
+      "routeKeys": [
+        "obligation:track-pathway:PA:pa_pardon_expungement:rule-790-expungement"
+      ],
+      "routeSelectionId": "pa-pardon-expungement-rule-790-complete-set",
+      "statute": "Pa.R.Crim.P. 790",
+      "legalName": "Expungement Following an Unconditional Pardon",
+      "officialForms": [
+        "PA-RCRIM-P-790-PETITION",
+        "PA-RCRIM-P-790-ORDER"
+      ],
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill",
+      "buildStatus": "state_built",
+      "reviewStatus": "qa_review_pending",
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "nineCountersZero": true,
+      "totals": {
+        "terminalFields": 109,
+        "written": 17,
+        "blank": 92
+      },
+      "componentsRequiredByRoute": [
+        "primary_filing",
+        "proposed_order",
+        "process_guidance"
+      ],
+      "componentsRendered": [
+        "primary_filing",
+        "PA-RCRIM-P-790-PETITION",
+        "proposed_order",
+        "PA-RCRIM-P-790-ORDER",
+        "process_guidance"
+      ],
+      "requiredBeforeFilingDeclaredAndDisclosed": 78,
+      "routeSelectionsMade": 0,
+      "routeSelectionNote": "Question 2 of 200-00130 asks whether the petitioner was convicted, and this family is non-conviction sealing, so the route determines the answer: the packet marks 'I was not convicted for the offenses listed above' and refuses the conviction block beneath it. Which non-conviction ending applies -- never charged, no probable cause, or dismissed -- is not route-determined and stays with the participant.",
+      "sources": [
+        {
+          "sourceIds": [
+            "official-form:PA-RCRIM-P-790-PETITION"
+          ],
+          "formNumber": "PA-RCRIM-P-790-PETITION",
+          "revision": "2009-03",
+          "sha256": "fc06486e75773d4f6d81c263706827ab7f9facfb6dde9907cbee120c063289de",
+          "byteLength": 87647
+        },
+        {
+          "sourceIds": [
+            "official-form:PA-RCRIM-P-790-ORDER"
+          ],
+          "formNumber": "PA-RCRIM-P-790-ORDER",
+          "revision": "2021-07",
+          "sha256": "4d312ebde4aed7c1941e1ae9d734c90ba7183db273778839b15a84be8e611c95",
+          "byteLength": 151853
+        }
+      ],
+      "allSourcesExact": true,
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "4a7113112f29b05fdf21e6d6f6822d8ca41d3768c3ff2640cff72af6bbf308e0",
+          "pageCount": 5,
+          "byteLength": 317747
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "95b2026728702121ab3a551ca49e1c532a0a9a53f8035dd53855cfa06e86a61a",
+          "pageCount": 5,
+          "byteLength": 317903
+        }
+      ],
+      "rasterEngine": "scripts/lib/pdf-page-raster.mjs (Chromium, calibrated)",
+      "rasterPages": 10,
+      "rasterPageHashes": [
+        {
+          "fixture": "canonical",
+          "page": 1,
+          "component": "primary_filing",
+          "file": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/raster/canonical/page-01/page.png",
+          "sha256": "68280c079639f9675dc2f78a7e9acca31ff6531f72ca35278e8f9a1ea5716295"
+        },
+        {
+          "fixture": "canonical",
+          "page": 2,
+          "component": "proposed_order",
+          "file": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/raster/canonical/page-02/page.png",
+          "sha256": "2c71fc0094591a1cfa5b0d154bd0f5ae70371ceb5e0bc6a18142f22a1e933b80"
+        },
+        {
+          "fixture": "canonical",
+          "page": 3,
+          "component": "proposed_order",
+          "file": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/raster/canonical/page-03/page.png",
+          "sha256": "1b81a7224ed89f13d1f6c00ab8836109bb65478d1110279d1afd72be4ad076c2"
+        },
+        {
+          "fixture": "canonical",
+          "page": 4,
+          "component": "process_guidance",
+          "file": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/raster/canonical/page-04/page.png",
+          "sha256": "ae0b159005ec91f4be07858db79982956d1351fe1409f922cc7a42e745202341"
+        },
+        {
+          "fixture": "canonical",
+          "page": 5,
+          "component": "process_guidance",
+          "file": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/raster/canonical/page-05/page.png",
+          "sha256": "d89dba2be5a35bedce9cc132212197f26825c8f622adc34ea14ffc8ce678d871"
+        },
+        {
+          "fixture": "boundary",
+          "page": 1,
+          "component": "primary_filing",
+          "file": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/raster/boundary/page-01/page.png",
+          "sha256": "2b405b41f1fb1c186509278c9715d1cebf46cf36b1eccae6618681452341b285"
+        },
+        {
+          "fixture": "boundary",
+          "page": 2,
+          "component": "proposed_order",
+          "file": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/raster/boundary/page-02/page.png",
+          "sha256": "324f7cd7ac3916159f33d60e337ab02ed00f2fd9a29e20c66c3438b26895526e"
+        },
+        {
+          "fixture": "boundary",
+          "page": 3,
+          "component": "proposed_order",
+          "file": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/raster/boundary/page-03/page.png",
+          "sha256": "2802f1ca612178aa4b72fe352ba75b14cf509059ca6a4f8c65a5f935fae7ab95"
+        },
+        {
+          "fixture": "boundary",
+          "page": 4,
+          "component": "process_guidance",
+          "file": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/raster/boundary/page-04/page.png",
+          "sha256": "d671f0c15a9059864b1fc32d8b7400b9959d38e6fbe1d180c24047ba159d2f2a"
+        },
+        {
+          "fixture": "boundary",
+          "page": 5,
+          "component": "process_guidance",
+          "file": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/raster/boundary/page-05/page.png",
+          "sha256": "d89dba2be5a35bedce9cc132212197f26825c8f622adc34ea14ffc8ce678d871"
+        }
+      ],
+      "byteProof": [
+        {
+          "fixture": "canonical",
+          "formNumber": "PA-RCRIM-P-790-PETITION",
+          "valuesReportedByFinalizer": 9,
+          "addedGlyphsReadFromOutputBytes": 113,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 79,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        {
+          "fixture": "canonical",
+          "formNumber": "PA-RCRIM-P-790-ORDER",
+          "valuesReportedByFinalizer": 6,
+          "addedGlyphsReadFromOutputBytes": 100,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 29,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        {
+          "fixture": "boundary",
+          "formNumber": "PA-RCRIM-P-790-PETITION",
+          "valuesReportedByFinalizer": 7,
+          "addedGlyphsReadFromOutputBytes": 182,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 79,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        {
+          "fixture": "boundary",
+          "formNumber": "PA-RCRIM-P-790-ORDER",
+          "valuesReportedByFinalizer": 6,
+          "addedGlyphsReadFromOutputBytes": 137,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 29,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        }
+      ],
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    }
+  ]
+}
