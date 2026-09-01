@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "wi_nc_doj_challenge-set",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "The requester's name box is captioned \"(Last, First, Middle, Suffix)\" and the platform holds the name in natural order.",
+      "consequence": "The box is left blank and the reason is stated to the participant in its own section of the instructions. Writing the held name there would put the first name where the Bureau reads a surname, on a form whose whole subject is a record matched to the wrong person. Recorded in the field map under factsHeldButNotWritable, so the audit sees a fact held and not written rather than a fact absent."
+    },
+    {
+      "severity": "advisory",
+      "owner": "scripts/rcap-official-forms/rcap-official-form-finalize.mjs",
+      "finding": "The subject's date-of-birth box is captioned \"(mm/dd/yy)\" and the value is written in ISO form, because the shared finalizer formats no dates: its only normalisation is stripping whitespace.",
+      "consequence": "The date is written, because it is the same date and reads correctly either way — unlike the name above, where the order changes which name it is. The difference is disclosed to the participant and put to the visual reviewer. A date-format channel on the finalizer, driven by the caption, would close it."
+    },
+    {
+      "finding": "One caption on this form wraps to two printed lines — \"If challenge is due to results of a criminal / background check, approximate date of check\" — and its second line sits where a fixed offset from the bottom rule would put a value.",
+      "consequence": "The top of every write box on this form is measured: three points under the lowest printed line inside the cell. A cell with less than six points of clear space is recorded as too shallow to write in, and the build asserts that no cell it writes to is one of those."
+    },
+    {
+      "finding": "Page 1's two columns interleave character by character when the page is read as lines.",
+      "consequence": "No caption in this build comes from a line. Each is read inside its own measured cell, so the caption claim and the geometry claim rest on the same four measured strokes. Page 2 extracts cleanly and is quoted verbatim rather than summarised."
+    },
+    {
+      "finding": "The six challenge-reason tick boxes are not strokes in the page's content stream — checkboxCandidates and strokedRectangles both return zero for this page, the same as on DJ-LE-250B.",
+      "consequence": "They are recorded as printed controls this build could not measure, with the printed heading and the y each sits on. None is marked in any event: which reason applies is the substance of the challenge."
+    },
+    {
+      "finding": "The form rules one cell it never captions — the right half of the signature band.",
+      "consequence": "It is measured and recorded as a cell with no printed caption. Nothing is said about what belongs in it, because the form says nothing, and it is given no disposition rather than a guessed one."
+    },
+    {
+      "finding": "The corpus files DJ-LE-247 under 04_SUPPORTING_PROCESS with assetClass SUPPORT and revision REV-UNKNOWN, although the form itself prints \"DJ-LE-247 (2/17)\" and is the operative challenge form for this route.",
+      "consequence": "The source is resolved by state and form number rather than by assetClass, and binds by exact SHA-256. The filing and the missing revision are raised for the owner of the corpus index."
+    },
+    {
+      "severity": "advisory",
+      "finding": "The boundary participant's name carries a typographic apostrophe (U+2019); it is not written on this form, so the shared finalizer's encoding behaviour does not appear here.",
+      "consequence": "Recorded so a reviewer comparing this family with the others knows why."
+    }
+  ]
+}

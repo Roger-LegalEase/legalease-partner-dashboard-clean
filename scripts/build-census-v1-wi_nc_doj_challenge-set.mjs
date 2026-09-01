@@ -1,82 +1,67 @@
 #!/usr/bin/env node
 /**
- * The Wisconsin DOJ fingerprint-record removal family — `wi_nc_doj_fingerprint_removal-set`.
+ * The Wisconsin criminal-history challenge family — `wi_nc_doj_challenge-set`.
  *
- *   node scripts/build-census-v1-wi_nc_doj_fingerprint_removal-set.mjs [--check] [--no-raster]
+ *   node scripts/build-census-v1-wi_nc_doj_challenge-set.mjs [--check] [--no-raster]
  *
- * One document, DJ-LE-250B, the _Wisconsin Fingerprint Record Removal Request_,
- * made to the Crime Information Bureau of the Wisconsin Department of Justice
- * under Wis. Stat. § 165.84. Page 1 is the Bureau's printed instructions and
- * carries nothing to fill. Page 2 is the request.
+ * One document, DJ-LE-247, the _Wisconsin Criminal History Challenge_, made to
+ * the Crime Information Bureau of the Wisconsin Department of Justice under
+ * s. 165.83(2) Wis. Stats. Page 1 is the challenge. Page 2 is the Bureau's
+ * printed information sheet about the process and carries nothing to fill.
  *
- * THIS IS A FLAT FORM WITH NO FILLABLE FIELD AND NO UNDERLINE TO WRITE ON.
+ * A MEASURED TABLE, LIKE DJ-LE-250B, WITH ONE DIFFERENCE THAT MATTERED.
  *
- * The form has zero AcroForm fields, so `finalizeOfficialForm` has nothing to
- * fill. It is also not the Washington shape, where a value sits on a printed
- * underline: page 2 is a TABLE. Its cells are bounded by full-width horizontal
- * rules and by vertical dividers, all of them strokes in the page's own content
- * stream, and the caption of each cell is printed at the top of the cell with
- * the answer written beneath it.
+ * The form has no fillable field, and its answers go in the cells of a ruled
+ * table rather than on printed underlines, so every write box is a measured
+ * CELL: the rule above, the rule below and a vertical divider on each side,
+ * read out of the page's own content stream and re-checked against the pinned
+ * binary on every build, with each divider required to run at least 80% of the
+ * height of the cell it bounds.
  *
- * So every write box here is a measured CELL: four measured strokes — the rule
- * above, the rule below, the divider left and the divider right — read out of
- * the content stream by scripts/rcap-official-forms/rcap-pdf-rule-lines.mjs.
- * CELLS below records all four for every box, and the build re-reads all four
- * from the pinned binary on every run and refuses the box if any has moved. A
- * vertical divider is additionally required to SPAN the cell it bounds, so a
- * divider belonging to a different band cannot stand in for a missing one.
+ * The difference is the TOP of the box. On DJ-LE-250B every caption is one
+ * printed line, so a fixed offset from the bottom rule cleared it. Here one
+ * caption is two lines -- "If challenge is due to results of a criminal /
+ * background check, approximate date of check" -- and its second line sits
+ * where a fixed offset would put the value. So the top of every write box is
+ * measured too: it is three points under the LOWEST printed line inside that
+ * cell. A cell whose caption leaves less than six points of clear space is
+ * recorded as too shallow to write in rather than written over, and this build
+ * asserts that no cell it writes to is one of those.
  *
- * MUCH OF THIS FORM'S PRINTED TEXT CANNOT BE READ, AND IS NOT GUESSED.
+ * WHAT IS WRITTEN, AND THE ONE FACT DELIBERATELY NOT WRITTEN.
  *
- * DJ-LE-250B embeds a subsetted font whose glyph codes are the ASCII of the
- * character minus 29, so those runs extract as "ILQJHUSULQW UHFRUG" where the
- * paper reads "fingerprint record". Other runs on the same line use a normally
- * encoded font and extract plainly. The shift is exact and reversible, but
- * which of the two encodings a given run uses is not something this build can
- * read, and a rule that shifts the runs that "look wrong" is a rule that
- * invents text.
+ * Written: the requester's street address, city/state/zip, phone number and
+ * e-mail, and the subject's date of birth. The subject is the requester unless
+ * the requester says otherwise -- the form's own caption for the second name
+ * box is "Subject's Name (If different from requester)" -- so the subject
+ * columns describe the participant.
  *
- * So this build quotes the form ONLY where the form extracts plainly, and
- * records the rest as unreadable in reports/caption-evidence.json. Every
- * requirement stated in the participant instructions is a plain-extracting
- * sentence, quoted rather than paraphrased. The cell captions are not affected:
- * they are read from their own coordinates and every one of them — LAST NAME,
- * FIRST NAME, FULL MIDDLE NAME, STREET ADDRESS, APARTMENT NUMBER, CITY, STATE,
- * ZIP, GENDER, RACE, DATE OF BIRTH, DATE OF ARREST, ARRESTING AGENCY, ARRESTING
- * AGENCY CASE #, DATE OF CONVICTION OR ADJUDICATION, NAME OF COURT, CHARGE &
- * DISPOSITION — extracts plainly at least in part.
+ * NOT written: the requester's name. Its box is captioned "(Last, First,
+ * Middle, Suffix)", and the platform holds the name in natural order. Writing
+ * "Jordan Avery Reyes" into a box that asks for surname first does not produce
+ * a differently formatted name, it produces a different name -- a reader takes
+ * "Jordan" as the surname. A field takes one fact and there is no allowlisted
+ * fact for a name in that order, so the box is left to the participant and the
+ * reason is stated rather than implied. This is recorded as a fact HELD and not
+ * writable, not as a fact the platform lacks.
  *
- * THREE THINGS ARE DELIBERATELY LEFT BLANK.
+ * The subject's date of birth is a related but different case, and is decided
+ * the other way. The box is captioned "(mm/dd/yy)" and the platform holds the
+ * date in ISO form. "1991-04-17" under that caption is the same date, read
+ * correctly by anyone who reads it; a name in the wrong order is not the same
+ * name. So the date is written and the format difference is recorded as a
+ * finding against the shared finalizer, which formats no dates at all.
  *
- * The DATE OF BIRTH cell prints its own segmented template, "__ __ / __ __ /
- * ____", at y=534. The platform holds one composed date, not three components,
- * and there is no measured box for any individual segment — the segments are
- * underscore glyphs, not strokes. A composed date drawn across the template
- * would overprint it. The date is left to the participant with that reason
- * stated.
+ * WHAT COULD NOT BE MEASURED.
  *
- * The ARREST AND CONVICTION TABLE — three arrest rows and three conviction rows,
- * eighteen cells — is left entirely blank. One cell of it, ARRESTING AGENCY
- * CASE #, is the arresting agency's own case number, which is not the court case
- * number the platform holds and must not be filled with it. A row whose arrest
- * date and agency are filled and whose agency case number is blank reads as
- * finished and is not, so no cell of any row is written and all eighteen are
- * declared and disclosed.
- *
- * GENDER and RACE have no allowlisted fact behind them. Race is refused by the
- * shared semantics as a protected category in any event, and the platform holds
- * no gender fact. Both are left to the participant.
- *
- * The FINGERPRINT boxes take inked rolled impressions of the subject's index
- * fingers, which page 1 calls mandatory, and a packet cannot produce one. Only
- * the LEFT box is measurable: its top and bottom strokes are in the page's
- * content stream at y=200.47 and y=101.53, x=280..399. The right box's strokes
- * are not there at all, and neither are the Male and Female tick boxes in the
- * GENDER cell -- `checkboxCandidates` and `strokedRectangles` both return zero
- * for this page, although a reader plainly sees all of them on the paper. They
- * are drawn some other way, and this build records what it could measure and
- * says plainly what it could not, rather than reporting a coordinate it
- * inferred from a caption.
+ * The six challenge reasons -- INCORRECT CHARGE INFORMATION, MISSING
+ * DISPOSITION INFORMATION, INCORRECT DISPOSITION INFORMATION, IDENTITY THEFT,
+ * MISTAKEN IDENTITY/FALSE MATCH and OTHER -- each print a tick box, and none of
+ * them is a stroke in the page's content stream: `checkboxCandidates` and
+ * `strokedRectangles` both return zero for this page, exactly as on DJ-LE-250B.
+ * They are recorded as printed controls this build could not measure. Nothing
+ * is marked in any event: which of the six a participant is claiming is the
+ * substance of the challenge and the platform does not hold it.
  *
  * Rasterization goes through scripts/lib/pdf-page-raster.mjs. Never Poppler.
  */
@@ -90,6 +75,7 @@ import { fileURLToPath } from "node:url";
 import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
 import { finalizeFlatOverlay } from "./rcap-official-forms/rcap-official-form-finalize.mjs";
 import { rulesOfPage } from "./rcap-official-forms/rcap-pdf-rule-lines.mjs";
+import { checkboxCandidates } from "./lib/pdf-stroked-boxes.mjs";
 import { rasterizePageCalibrated } from "./lib/pdf-page-raster.mjs";
 import { BLANK_DISPOSITIONS, PASS_COUNTERS, classifyField, classifyBlank, rowKeyOf }
   from "./rcap-packet-completeness/completeness-contract.mjs";
@@ -100,19 +86,19 @@ process.chdir(ROOT);
 const require = createRequire(import.meta.url);
 const { PDFDocument } = require("pdf-lib");
 
-const FAMILY_ID = "wi_nc_doj_fingerprint_removal-set";
+const FAMILY_ID = "wi_nc_doj_challenge-set";
 const CORPUS_INDEX = "data/rcap-all50/local-source-corpus-index.json";
-const OUT = "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-fingerprint-removal-set--official-pdf-fill";
-const BUILD_SCRIPT = "scripts/build-census-v1-wi_nc_doj_fingerprint_removal-set.mjs";
+const OUT = "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-challenge-set--official-pdf-fill";
+const BUILD_SCRIPT = "scripts/build-census-v1-wi_nc_doj_challenge-set.mjs";
 
 const ROUTE = Object.freeze({
   jurisdiction: "WI",
-  routeKey: "track:WI:wi_nc_doj_fingerprint_removal",
-  routeSelectionId: "wi-nc-doj-fingerprint-removal-set-dj-le-250b-primary-filing",
-  publicLabel: "Ask the Wisconsin DOJ to remove a fingerprint arrest record",
-  authority: "Wis. Stat. § 165.84; Wisconsin Department of Justice, Crime Information Bureau form DJ-LE-250B",
+  routeKey: "track:WI:wi_nc_doj_challenge",
+  routeSelectionId: "wi-nc-doj-challenge-set-dj-le-247-primary-filing",
+  publicLabel: "Challenge a Wisconsin criminal history record",
+  authority: "s. 165.83(2) Wis. Stats.; Wisconsin Department of Justice, Crime Information Bureau form DJ-LE-247 (2/17)",
   documents: [
-    { formNumber: "DJ-LE-250B", title: "Wisconsin Fingerprint Record Removal Request", instrumentKind: "primary_filing", strategy: "measured_flat_overlay" }
+    { formNumber: "DJ-LE-247", title: "Wisconsin Criminal History Challenge", instrumentKind: "primary_filing", strategy: "measured_flat_overlay" }
   ]
 });
 
@@ -130,226 +116,204 @@ const PROTECT = (refusalClass, why) => ({ policy: "protect", refusalClass, why }
 const SIGNATURE = "signature_or_date_participant_completion";
 const AGENCY_OWNED = "court_prosecutor_clerk_or_agency_owned";
 
-/** How far a measured stroke may have moved before the box is refused. */
 const RULE_TOLERANCE = 0.75;
-/** The value sits in the lower part of its cell, clear of the printed caption. */
+/** How much of a cell's height a divider must run before it counts as that cell's edge. */
+const SPAN_OVERLAP = 0.8;
 const CELL_INSET = 3;
-const MAX_WRITE_BOX_HEIGHT = 10;
-/** Clear space a cell must have under its lowest printed line to be writable. */
-const MIN_WRITE_BOX_HEIGHT = 6;
-/** How far under the lowest printed line in a cell the write box begins. */
-const CAPTION_CLEARANCE = 3;
 /*
  * How far above the cell's bottom rule the baseline sits.
  *
  * The shared finalizer draws at writeBox.y, and its own BASELINE_ABOVE_RULE is
  * 2 -- right for a value on a printed UNDERLINE, where a descender touching the
  * line reads as handwriting. In a table CELL the rule is the border, and a
- * descender crossing it reads as ink belonging to the cell below.
+ * descender crossing it reads as ink belonging to the cell below. The first
+ * raster of this family showed exactly that on "jordan.reyes@example.org". Four
+ * points puts a 9pt descender two points clear of the border.
  */
 const WRITE_BOX_LIFT = 4;
-/** How much of a cell's height a divider must run before it counts as that cell's edge. */
-const SPAN_OVERLAP = 0.8;
+const MAX_WRITE_BOX_HEIGHT = 11;
+/** Clear space a cell must have under its lowest printed line to be writable. */
+const MIN_WRITE_BOX_HEIGHT = 6;
+/** How far under the lowest printed line in a cell the write box begins. */
+const CAPTION_CLEARANCE = 3;
 
-const REQUESTER = "Person Submitting the Request";
-const SUBJECT = "Subject of the Record to be Removed";
-const TABLE = "Arrest and conviction table";
+const REQUESTER = "Requester and subject";
+const CHALLENGED = "Record being challenged";
 
 /*
- * Every write box on this form, as the four measured strokes that bound it.
+ * Every measured cell on this form, as the four strokes that bound it.
  *
- *   top / bottom  — the y of a full-width horizontal rule
- *   left / right  — the x of a vertical divider, which must SPAN this cell
+ *   top / bottom  — the y of a horizontal rule segment
+ *   left / right  — the x of a vertical divider, which must run this cell
  *
- * All five numbers per cell were read out of the pinned binary's content
- * stream, and all five are re-read and re-checked on every build.
+ * All read out of the pinned binary's content stream and re-read on every build.
  */
 const CELLS = {
-  /* --- Person Submitting the Request ---------------------------------------- */
-  "requester-last-name": {
-    page: 2, top: 679.66, bottom: 652.74, left: 35.6, right: 235.4,
-    section: REQUESTER, label: "Person submitting the request — LAST NAME", ...WRITE("participant.last_name")
+  /* --- the identification table, two columns ------------------------------- */
+  "requester-name": {
+    page: 1, top: 672.46, bottom: 647.26, left: 29.5, right: 305.6,
+    section: REQUESTER, label: "Requester Name (Last, First, Middle, Suffix)",
+    ...SUPPLY(
+      "your name, surname first, in the order this box asks for: last, first, middle, suffix. The platform holds your "
+      + "name in natural order and writing it here as it holds it would put your first name where the Bureau reads a "
+      + "surname, which is a different name rather than a differently written one"
+    )
   },
-  "requester-first-name": {
-    page: 2, top: 679.66, bottom: 652.74, left: 235.4, right: 435.1,
-    section: REQUESTER, label: "Person submitting the request — FIRST NAME", ...WRITE("participant.first_name")
-  },
-  "requester-middle-name": {
-    page: 2, top: 679.66, bottom: 652.74, left: 435.1, right: 585.8,
-    section: REQUESTER, label: "Person submitting the request — FULL MIDDLE NAME", ...WRITE("participant.middle_name")
+  "subject-name": {
+    page: 1, top: 672.46, bottom: 647.26, left: 305.6, right: 580.4,
+    section: REQUESTER, label: "Subject’s Name (If different from requester; Last, First, Middle, Suffix)",
+    ...SUPPLY(
+      "nothing, if the record you are challenging is your own — the form asks for this only if the subject of the record "
+      + "is someone other than you. If you are challenging someone else's record on their behalf, put their name here, "
+      + "surname first"
+    )
   },
   "requester-street-address": {
-    page: 2, top: 652.74, bottom: 628.74, left: 35.6, right: 435.1,
-    section: REQUESTER, label: "Person submitting the request — STREET ADDRESS", ...WRITE("participant.street_address")
+    page: 1, top: 644.5, bottom: 620.5, left: 29.5, right: 305.6,
+    section: REQUESTER, label: "Requester’s Street Address", ...WRITE("participant.street_address")
   },
-  "requester-apartment-number": {
-    page: 2, top: 652.74, bottom: 628.74, left: 435.1, right: 585.8,
-    section: REQUESTER, label: "Person submitting the request — APARTMENT NUMBER",
-    ...SUPPLY("your apartment number, if your address has one. The platform holds your street address as one line and does not hold the apartment separately, so writing part of the address here would put the same information in two places")
+  "subject-maiden-alias-names": {
+    page: 1, top: 644.5, bottom: 620.5, left: 305.6, right: 580.4,
+    section: REQUESTER, label: "Subject’s Maiden/Alias Names",
+    ...SUPPLY("any maiden name or alias the subject's record might be held under. The platform holds no alias fact")
   },
-  "requester-city": {
-    page: 2, top: 628.74, bottom: 604.62, left: 35.6, right: 308.7,
-    section: REQUESTER, label: "Person submitting the request — CITY", ...WRITE("participant.city")
+  "requester-city-state-zip": {
+    page: 1, top: 617.74, bottom: 593.74, left: 29.5, right: 305.6,
+    section: REQUESTER, label: "Requester’s City, State, Zip Code", ...WRITE("participant.city_state_zip")
   },
-  "requester-state": {
-    page: 2, top: 628.74, bottom: 604.62, left: 308.7, right: 435.1,
-    section: REQUESTER, label: "Person submitting the request — STATE", ...WRITE("participant.state")
+  wiupin: {
+    page: 1, top: 617.74, bottom: 593.74, left: 305.6, right: 580.4,
+    section: REQUESTER, label: "WiUPIN (If available)",
+    ...SUPPLY("your Wisconsin Unique Personal Identification Number, if you have one. It is a government identifier the platform does not hold and never writes")
   },
-  "requester-zip": {
-    page: 2, top: 628.74, bottom: 604.62, left: 435.1, right: 585.8,
-    section: REQUESTER, label: "Person submitting the request — ZIP", ...WRITE("participant.zip")
+  "requester-phone": {
+    page: 1, top: 590.98, bottom: 566.98, left: 29.5, right: 191.5,
+    section: REQUESTER, label: "Requester’s Phone Number", ...WRITE("participant.phone")
   },
-
-  /* --- Subject of the Record ------------------------------------------------- */
-  "subject-last-name": {
-    page: 2, top: 588.65, bottom: 557.74, left: 35.6, right: 193.8,
-    section: SUBJECT, label: "Subject of the record — LAST NAME", ...WRITE("participant.last_name")
-  },
-  "subject-first-name": {
-    page: 2, top: 588.65, bottom: 557.74, left: 193.8, right: 379.3,
-    section: SUBJECT, label: "Subject of the record — FIRST NAME", ...WRITE("participant.first_name")
-  },
-  "subject-middle-name": {
-    page: 2, top: 588.65, bottom: 557.74, left: 379.3, right: 585.8,
-    section: SUBJECT, label: "Subject of the record — FULL MIDDLE NAME", ...WRITE("participant.middle_name")
-  },
-  "subject-gender": {
-    page: 2, top: 557.74, bottom: 523.31, left: 35.6, right: 193.8,
-    section: SUBJECT, label: "Subject of the record — GENDER",
-    ...SUPPLY("your gender, by marking the Male or the Female tick box the form prints inside this cell. The platform holds no gender fact, and those two tick boxes are not strokes in the page's content stream — checkboxCandidates and strokedRectangles both find none anywhere on this page — so there is no measured box for a packet to mark")
+  "subject-sex": {
+    page: 1, top: 590.98, bottom: 566.98, left: 191.5, right: 269.6,
+    section: REQUESTER, label: "Subject’s Sex",
+    ...SUPPLY("the subject's sex as the arresting agency recorded it. The platform holds no such fact")
   },
   "subject-race": {
-    page: 2, top: 557.74, bottom: 523.31, left: 193.8, right: 379.3,
-    section: SUBJECT, label: "Subject of the record — RACE",
-    ...SUPPLY("your race, as the arresting agency recorded it. The platform holds no race fact and the shared semantics refuses to write one anywhere, which is deliberate")
+    page: 1, top: 590.98, bottom: 566.98, left: 269.6, right: 344.7,
+    section: REQUESTER, label: "Subject’s Race",
+    ...SUPPLY("the subject's race as the arresting agency recorded it. The platform holds no race fact and the shared semantics refuses to write one anywhere, which is deliberate")
   },
   "subject-date-of-birth": {
-    page: 2, top: 557.74, bottom: 523.31, left: 379.3, right: 585.8,
-    section: SUBJECT, label: "Subject of the record — DATE OF BIRTH (mm/dd/yyyy)",
-    ...SUPPLY("your date of birth, in the segmented template the form prints inside this box — two digits for the month, two for the day, four for the year. The platform holds your date of birth as one composed value and the form's three segments are underscore characters rather than measured boxes, so a single value written across them would print over the template")
+    page: 1, top: 590.98, bottom: 566.98, left: 344.7, right: 449.6,
+    section: REQUESTER, label: "Subject’s Date of Birth (mm/dd/yy)", ...WRITE("participant.date_of_birth")
+  },
+  "social-security-number": {
+    page: 1, top: 590.98, bottom: 566.98, left: 449.6, right: 580.4,
+    section: REQUESTER, label: "Social Security Number",
+    ...SUPPLY("your social security number, if you choose to give it. The platform holds no social security number and the shared semantics refuses to write one anywhere")
+  },
+  "requester-email": {
+    page: 1, top: 564.22, bottom: 540.22, left: 29.5, right: 305.6,
+    section: REQUESTER, label: "Requester’s Email", ...WRITE("participant.email")
+  },
+  "subject-drivers-licence": {
+    page: 1, top: 564.22, bottom: 540.22, left: 305.6, right: 580.4,
+    section: REQUESTER, label: "Subject’s Driver License Number & State",
+    ...SUPPLY("the subject's driver licence number and the state that issued it. It is a government identifier the platform does not hold and never writes")
+  },
+  "approximate-date-of-check": {
+    page: 1, top: 537.46, bottom: 513.43, left: 29.5, right: 305.6,
+    section: REQUESTER, label: "If challenge is due to results of a criminal background check, approximate date of check",
+    ...SUPPLY("roughly when the background check that produced the record was run, if that is what brought you here")
+  },
+  "party-who-requested-the-check": {
+    page: 1, top: 537.46, bottom: 513.43, left: 305.6, right: 580.4,
+    section: REQUESTER, label: "Party who requested background check",
+    ...SUPPLY("who ran the background check — an employer, a licensing body, a landlord. The platform does not hold it")
+  },
+  "signature-and-date": {
+    page: 1, top: 510.67, bottom: 484.51, left: 29.5, right: 305.6,
+    section: "Signature", label: "Signature of Requester, and Date",
+    ...PROTECT(SIGNATURE, "you sign this yourself, and you date it when you sign it")
+  },
+
+  /* --- the right-hand sub-table: the record being challenged ---------------- */
+  "challenged-wi-sid": {
+    page: 1, top: 303.41, bottom: 280.01, left: 339.8, right: 418.0,
+    section: CHALLENGED, label: "Record being challenged — WI SID",
+    ...SUPPLY("the WI SID number printed on the record you are challenging. It is on the criminal history record the Bureau or the agency gave you")
+  },
+  "challenged-name": {
+    page: 1, top: 303.41, bottom: 280.01, left: 418.0, right: 574.7,
+    section: CHALLENGED, label: "Record being challenged — Name",
+    ...SUPPLY("the name as it appears on the record you are challenging, which on an identity-theft or mistaken-identity challenge is not necessarily your own")
+  },
+  "challenged-sex-race": {
+    page: 1, top: 280.01, bottom: 256.49, left: 339.8, right: 418.0,
+    section: CHALLENGED, label: "Record being challenged — Sex/Race",
+    ...SUPPLY("the sex and race as they appear on the record you are challenging")
+  },
+  "challenged-dob": {
+    page: 1, top: 280.01, bottom: 256.49, left: 418.0, right: 496.3,
+    section: CHALLENGED, label: "Record being challenged — DOB",
+    ...SUPPLY("the date of birth as it appears on the record you are challenging")
+  },
+  "challenged-ssn": {
+    page: 1, top: 280.01, bottom: 256.49, left: 496.3, right: 574.7,
+    section: CHALLENGED, label: "Record being challenged — SSN",
+    ...SUPPLY("the social security number as it appears on the record you are challenging, if the record shows one")
+  },
+  "challenged-before": {
+    page: 1, top: 256.49, bottom: 232.97, left: 339.8, right: 574.7,
+    section: CHALLENGED, label: "Have you successfully challenged a record before?",
+    ...SUPPLY("whether you have successfully challenged a record before, and if so when")
   }
-};
-
-/* The arrest and conviction table: three arrest rows and three conviction rows,
- * generated so the six cells of one row cannot drift apart. Not one cell of it
- * is written; see the header. */
-const TABLE_BANDS = [
-  { row: 1, kind: "arrest", top: 503.56, bottom: 472.88 },
-  { row: 1, kind: "conviction", top: 472.88, bottom: 439.26 },
-  { row: 2, kind: "arrest", top: 436.26, bottom: 406.83 },
-  { row: 2, kind: "conviction", top: 406.83, bottom: 379.26 },
-  { row: 3, kind: "arrest", top: 375.79, bottom: 343.39 },
-  { row: 3, kind: "conviction", top: 343.39, bottom: 312.34 }
-];
-const TABLE_COLUMNS = { left: 34.8, mid1: 236.1, mid2: 385.9, right: 585.8 };
-const TABLE_CELLS = {
-  arrest: [
-    ["date-of-arrest", "DATE OF ARREST", "left", "mid1",
-      "the date of the arrest whose fingerprint record you are asking the Department of Justice to remove"],
-    ["arresting-agency", "ARRESTING AGENCY", "mid1", "mid2",
-      "the agency that arrested you"],
-    ["arresting-agency-case-number", "ARRESTING AGENCY CASE #", "mid2", "right",
-      "the ARRESTING AGENCY's own case number, which is not the court case number and is on the agency's paperwork rather than the court's"]
-  ],
-  conviction: [
-    ["date-of-conviction", "DATE OF CONVICTION OR ADJUDICATION", "left", "mid1",
-      "the date of the conviction or adjudication, if there was one"],
-    ["name-of-court", "NAME OF COURT", "mid1", "mid2",
-      "the name of the court. The form's instruction 2a says the court case number and charge may be found on CCAP, Wisconsin Circuit Court Access, or through the Municipal Court for ordinance offences"],
-    ["charge-and-disposition", "CHARGE & DISPOSITION", "mid2", "right",
-      "the charge and how it was disposed of. Instruction 2a says this information must include the court case number and the charge"]
-  ]
-};
-
-function tableCells() {
-  const out = {};
-  for (const band of TABLE_BANDS) {
-    for (const [suffix, heading, leftKey, rightKey, what] of TABLE_CELLS[band.kind]) {
-      out[`row-${band.row}-${suffix}`] = {
-        page: 2, top: band.top, bottom: band.bottom,
-        left: TABLE_COLUMNS[leftKey], right: TABLE_COLUMNS[rightKey],
-        section: TABLE,
-        label: `Row ${band.row} — ${heading}`,
-        ...SUPPLY(
-          `${what}. This is row ${band.row} of the three the table has room for. Fill a row completely or leave it `
-          + "empty: a row with the date filled and the agency case number missing reads as finished and is not"
-        )
-      };
-    }
-  }
-  return out;
-}
-
-Object.assign(CELLS, tableCells());
-
-/* The signature band. Nothing here is written, and there is no measured
- * divider between the signature and its date — the form prints the two captions
- * side by side and strokes no line between them, so the band is recorded whole
- * rather than split at a coordinate nobody measured. */
-CELLS["signature-of-requester"] = {
-  page: 2, top: 259.62, bottom: 211.13, left: 35.5, right: 584.4,
-  section: "Signature",
-  label: "Signature of Requester, and Date",
-  ...PROTECT(SIGNATURE,
-    "you sign this yourself, and you date it when you sign it. The line above it reads \"I attest that all the "
-    + "information provided is accurate and true to the best of my knowledge\", and the paragraph above that says the "
-    + "signature also requests expungement of your DNA Databank Record at the Wisconsin State Crime Laboratory")
 };
 
 /*
- * The fingerprint boxes.
- *
- * The form prints two, captioned LEFT INDEX FINGER and RIGHT INDEX FINGER. Only
- * the left one has strokes in the page's content stream -- its top rule at
- * y=200.47 and its bottom rule at y=101.53, both spanning x=280..399. The right
- * box is drawn some other way and nothing in this page's rules, checkbox
- * candidates or stroked rectangles reaches it. It is recorded as unmeasured
- * rather than given a coordinate this build worked out from where its caption
- * sits.
+ * A cell the form rules and never captions: the right half of the signature
+ * band. It is measured and recorded because it is there, and nothing is said
+ * about what belongs in it, because the form says nothing.
  */
-const FINGERPRINT_BOXES = [
-  {
-    page: 2, label: "Fingerprint box — LEFT INDEX FINGER",
-    rules: [{ y: 200.47, x0: 282.72, x1: 398.92, edge: "top" }, { y: 101.53, x0: 280.22, x1: 398.27, edge: "bottom" }]
-  }
+const UNCAPTIONED_CELLS = [
+  { page: 1, id: "signature-band-right-half", top: 510.67, bottom: 484.51, left: 305.6, right: 580.4 }
 ];
+
+/*
+ * The six challenge reasons. Each prints a tick box on the paper and none of
+ * them is a stroke in the content stream, so none has a measured box. Recorded
+ * with the printed heading and the y it sits on, and marked unmeasured.
+ */
 const UNMEASURED_PRINTED_CONTROLS = [
-  {
-    page: 2, label: "Fingerprint box — RIGHT INDEX FINGER",
-    why: "the form prints this box and its caption, and its strokes are not in the page content stream; rulesOfPage finds no rule and strokedRectangles finds no rectangle anywhere in that region"
-  },
-  {
-    page: 2, label: "GENDER — the Male and Female tick boxes",
-    why: "the form prints a tick box beside each word and neither is a stroke in the page content stream; checkboxCandidates and strokedRectangles both return zero for this page"
-  }
-];
+  { page: 1, label: "INCORRECT CHARGE INFORMATION", printedAtY: 412 },
+  { page: 1, label: "MISSING DISPOSITION INFORMATION", printedAtY: 373 },
+  { page: 1, label: "INCORRECT DISPOSITION INFORMATION", printedAtY: 343 },
+  { page: 1, label: "IDENTITY THEFT", printedAtY: 306 },
+  { page: 1, label: "MISTAKEN IDENTITY/FALSE MATCH", printedAtY: 267 },
+  { page: 1, label: "OTHER", printedAtY: 219 }
+].map((c) => ({
+  ...c,
+  why: "the form prints a tick box beside this heading and it is not a stroke in the page content stream; checkboxCandidates and strokedRectangles both return zero for this page"
+}));
 
 /* ---- fixtures ------------------------------------------------------------ */
 const FIXTURES = {
   canonical: {
-    "participant.first_name": "Jordan",
-    "participant.middle_name": "Avery",
-    "participant.last_name": "Reyes",
+    "participant.full_legal_name": "Jordan Avery Reyes",
     "participant.street_address": "412 North Carroll Street",
-    "participant.city": "Madison",
-    "participant.state": "WI",
-    "participant.zip": "53703",
+    "participant.city_state_zip": "Madison, WI 53703",
+    "participant.phone": "608-555-0142",
+    "participant.email": "jordan.reyes@example.org",
     "participant.date_of_birth": "1991-04-17"
   },
   boundary: {
-    "participant.first_name": "Maria-Alejandra",
-    "participant.middle_name": "Consuelo Estefania",
-    "participant.last_name": "O’Shaughnessy-Whitfield",
-    "participant.street_address": "1188 Upper Notch Crossing Road",
-    "participant.city": "Wisconsin Rapids",
-    "participant.state": "Wisconsin",
-    "participant.zip": "54494-2214",
+    "participant.full_legal_name": "Maria-Alejandra O’Shaughnessy-Whitfield",
+    "participant.street_address": "1188 Upper Notch Crossing Road, Apartment 14B",
+    "participant.city_state_zip": "Wisconsin Rapids, Wisconsin 54494-2214",
+    "participant.phone": "(715) 555-0199 ext. 4417",
+    "participant.email": "maria.alejandra.oshaughnessy.whitfield@longmailexample.org",
     "participant.date_of_birth": "1968-12-31"
   }
 };
 
 const RASTER_ENGINE = "scripts/lib/pdf-page-raster.mjs (Chromium, calibrated)";
-
 /* ---- source binding ------------------------------------------------------ */
 function resolveSources() {
   const index = JSON.parse(fs.readFileSync(path.join(ROOT, CORPUS_INDEX), "utf8"));
@@ -450,11 +414,12 @@ async function censusOf(source) {
     }
 
     /*
-     * The TOP of the box is measured too, not offset by a constant: on this
-     * form the APARTMENT NUMBER caption sits two points above where a constant
-     * offset would put the box's top edge. The box begins three points under
-     * the LOWEST printed line inside the cell, and a cell with less clear space
-     * than MIN_WRITE_BOX_HEIGHT is recorded as too shallow to write in.
+     * The TOP of the box is measured too, not offset by a constant. One caption
+     * on this form wraps to two lines and its second line sits exactly where a
+     * fixed offset would put the value, so the box begins three points under
+     * the LOWEST printed line inside the cell. A cell with less clear space
+     * than MIN_WRITE_BOX_HEIGHT is recorded as too shallow to write in rather
+     * than written over.
      */
     const items = pageText.find((p) => p.page === entry.page)?.items ?? [];
     const printedInCell = items
@@ -466,7 +431,8 @@ async function censusOf(source) {
     const boxBottom = bottom.y + WRITE_BOX_LIFT;
     const ceiling = lowestPrintedLine === null
       ? top.y - CAPTION_CLEARANCE : lowestPrintedLine - CAPTION_CLEARANCE;
-    const height = Number(Math.min(MAX_WRITE_BOX_HEIGHT, ceiling - boxBottom).toFixed(2));
+    const available = ceiling - boxBottom;
+    const height = Number(Math.min(MAX_WRITE_BOX_HEIGHT, available).toFixed(2));
     const writeBox = {
       x: Number((left.x + CELL_INSET).toFixed(2)),
       y: Number(boxBottom.toFixed(2)),
@@ -501,20 +467,42 @@ async function censusOf(source) {
     });
   }
 
-  const fingerprintBoxes = FINGERPRINT_BOXES.map((b) => {
-    const here = measured.find((m) => m.page === b.page) ?? { horizontal: [] };
-    const found = b.rules.map((want) => {
-      const rule = here.horizontal.find((r) =>
-        Math.abs(r.y - want.y) <= RULE_TOLERANCE
-        && Math.abs(r.x - want.x0) <= RULE_TOLERANCE
-        && Math.abs(r.endX - want.x1) <= RULE_TOLERANCE);
-      return { edge: want.edge, measured: Boolean(rule), rule: rule ? { y: rule.y, x: rule.x, endX: rule.endX, thickness: rule.height } : null };
-    });
-    return { page: b.page, label: b.label, edges: found, measured: found.every((f) => f.measured) };
+  // Cells the form rules and never captions. Measured because they are there;
+  // nothing is said about what belongs in them, because the form says nothing.
+  const uncaptionedCells = UNCAPTIONED_CELLS.map((c) => {
+    const here = measured.find((m) => m.page === c.page) ?? { horizontal: [], vertical: [] };
+    const h = (y) => here.horizontal.find((r) => Math.abs(r.y - y) <= RULE_TOLERANCE);
+    const cellHeight = c.top - c.bottom;
+    const cover = (v) => {
+      const y0 = Number(v.y);
+      const y1 = y0 + Number(v.height ?? 0);
+      return Math.max(0, Math.min(y1, c.top) - Math.max(y0, c.bottom)) / cellHeight;
+    };
+    const v = (x) => here.vertical
+      .filter((k) => Math.abs(k.x - x) <= RULE_TOLERANCE && cover(k) >= SPAN_OVERLAP)
+      .sort((a, b) => cover(b) - cover(a))[0];
+    const printed = (pageText.find((p) => p.page === c.page)?.items ?? [])
+      .filter((t) => t.text.trim() && t.x >= c.left - 2 && t.x <= c.right + 2
+        && t.y >= c.bottom - 1 && t.y <= c.top + 1);
+    return {
+      ...c,
+      measured: Boolean(h(c.top) && h(c.bottom) && v(c.left) && v(c.right)),
+      printedTextInThisCell: printed.map((t) => ({ x: Math.round(t.x), y: Math.round(t.y), extracted: t.text })),
+      why: "the form rules this cell and prints no caption in it; nothing can be said about what belongs there, so nothing is"
+    };
   });
 
+  // The claim that this page's tick boxes are not strokes is a claim, so it is
+  // checked on every build rather than asserted once.
+  let content = "";
+  for (const stream of pages[0].node.normalizedEntries?.().Contents?.asArray?.() ?? []) {
+    try { content += Buffer.from(doc.context.lookup(stream).getContents()).toString("latin1"); } catch { /* not a stream */ }
+  }
+  const strokedCheckboxCount = content ? checkboxCandidates(content).length : 0;
+
   return {
-    rows, geometryDrift, pageText, pageCount: pages.length, acroFieldCount, fingerprintBoxes,
+    rows, geometryDrift, pageText, pageCount: pages.length, acroFieldCount,
+    uncaptionedCells, strokedCheckboxCount,
     measuredHorizontalRules: measured.reduce((n, m) => n + m.horizontal.length, 0),
     measuredVerticalRules: measured.reduce((n, m) => n + m.vertical.length, 0)
   };
@@ -549,7 +537,7 @@ async function renderDocument(source, census, fixtureName) {
     documentTextLines: census.pageText.flatMap((p) => p.lines.map((l) => l.text)),
     title: source.title
   });
-  if (process.env.WI250B_DEBUG_RENDER) {
+  if (process.env.WI247_DEBUG_RENDER) {
     console.log(`-- ${source.formNumber} ${fixtureName}: written=${report.written.length} refused=${report.refused.length}`);
     for (const r of report.refused) console.log(`   ${r.anchor ?? r.field}: ${r.reason}${r.category ? ` (${r.category})` : ""}`);
     for (const u of report.unfittable ?? []) console.log(`   UNFIT ${u.anchor ?? u.field}: ${u.reason} ${JSON.stringify(u.value)}`);
@@ -667,11 +655,15 @@ function mapFor(source, census, report) {
     explicitMappings: Object.fromEntries(canonicalWrites.map((w) => [w.field, w.factId])),
     roleRefusals: [], selectionControls: [], canonicalWrites, canonicalRefusals,
     boundaryWrites: canonicalWrites, boundaryRefusals: canonicalRefusals,
-    printedControlsNotWritten: census.fingerprintBoxes.map((b) => ({
-      page: b.page, label: b.label, measuredEdges: b.edges,
-      why: "this box takes an inked rolled fingerprint impression, which page 1 of the form calls mandatory. Nothing a packet can draw belongs in it."
-    })),
-    printedControlsNotMeasured: UNMEASURED_PRINTED_CONTROLS
+    printedControlsNotMeasured: UNMEASURED_PRINTED_CONTROLS,
+    measuredCellsWithNoPrintedCaption: census.uncaptionedCells,
+    factsHeldButNotWritable: [
+      {
+        cell: `${source.formNumber}/requester-name`,
+        factHeld: "participant.full_legal_name",
+        why: "the box is captioned (Last, First, Middle, Suffix) and the platform holds the name in natural order. Writing it as held would put the first name where the Bureau reads a surname, which is a different name rather than a differently written one. There is no allowlisted fact for a name in that order and a field takes one fact."
+      }
+    ]
   };
 }
 
@@ -788,88 +780,127 @@ function requiredBeforeFilingItems(maps) {
     })));
 }
 
+
 /*
- * What page 1 requires, quoted only where page 1 extracts plainly.
+ * What page 2 says, quoted verbatim.
  *
- * Each entry is a sentence this build read verbatim out of the pinned binary's
- * text. Nothing here is reconstructed from the shifted encoding, and nothing is
- * paraphrased into a requirement the form does not state.
+ * Unlike DJ-LE-250B, this form's information sheet extracts cleanly, so the
+ * quotations below are the Bureau's own sentences rather than a summary. Page 1
+ * extracts with its two columns interleaved character by character -- "Requester
+ * Name (Last, First, Middle, Suffix) Subject' Nasme (If different..." -- which
+ * is why every caption in this build is read at its own cell's coordinates
+ * rather than from a line.
  */
-const PLAIN_QUOTES = [
-  { where: "page 1, instruction 1 (after the injured-finger sentence)", quote: "If either finger is injured, provide the impression of another finger, but clearly designate which fingers were used for the rolled impression." },
-  { where: "page 1, instruction 2a", quote: "Conviction information must include court case number and charge. This information may be found on CCAP (Wisconsin Circuit Court Access) http://wcca.wicourts.gov/index.xsl" },
-  { where: "page 1, instruction 2b", quote: "If the request is subsequent to a conviction, finding, or an adjudication, supporting documentation must be provided which shall include, a certified copy of the court order reversing, setting aside, or vacating the conviction." },
-  { where: "page 1, instruction 4", quote: "Court expungement seals the court files but has no effect on files maintained by the Wisconsin Department of Justice. Removal of arrest information from the Department of Justice files has no effect on the availability of the same information from court files or police records. State v. Leitner, 2002 WI 77, 253 Wis. 2d 449, 646 N.W.2d 341, 00-1718." },
-  { where: "page 1, instruction 6", quote: "Successful requests will result in either the return of the arrest fingerprint card or deletion of the electronically stored document." },
-  { where: "page 1, instruction 7", quote: "Time to process a request varies. If your request qualifies and the disposition has been reported to the Department of Justice your request will be processed promptly. If the disposition has not been submitted by the court, prosecutor or arresting agency, staff will need to obtain the disposition, make sure the disposition qualifies the removal of the record, update the criminal history and then process the request. If you have documentation regarding the dismissal of the offense(s) involved in your request, you should include copies with the request to speed processing." },
-  { where: "page 2, above the signature", quote: "If necessary to proceed with your fingerprint record removal request, the signature below also represents a request to expunge your DNA Databank Record at the Wisconsin State Crime Laboratory." },
-  { where: "page 2, the attestation", quote: "I attest that all the information provided is accurate and true to the best of my knowledge." }
+const PAGE_TWO_QUOTES = [
+  {
+    where: "page 2, opening paragraph",
+    quote: "Wisconsin statutes permit access to criminal history information based on non-unique identifiers such as name and date of birth. Criminal history records returned based on non-unique identifiers are not guaranteed to be the subject of the inquiry. Several individuals may have the same name and date of birth. All arrest information in the Wisconsin criminal history database is based on the submission of arrest fingerprint cards and can be positively matched using fingerprints."
+  },
+  {
+    where: "page 2, the six-month bullet",
+    quote: "Due to the fluid nature of criminal history records, any challenge should be made within 6 months of receipt of the criminal history record. You should submit a copy of the record with your challenge and indicate the information you believe to be incorrect."
+  },
+  {
+    where: "page 2, the removal bullet",
+    quote: "State law does not permit the removal of arrest or disposition information but notations are added to the disposition information for the following: Special dispositions under 973.015, 961.47 or 161.47 Wis. Stats. Court-ordered expungements for cases that did not result in dismissal of all charges. Governor’s Pardon or Executive Clemency."
+  },
+  {
+    where: "page 2, the open-case bullet",
+    quote: "If you believe that a case is open on your record that should be closed, please submit the Judgment of Conviction or Order for Dismissal issued by the court. You may also submit a letter from the prosecutor indicating the case was not prosecuted. These documents must be obtained from the court having jurisdiction or the office prosecuting the offense."
+  },
+  {
+    where: "page 2, the disposition bullet",
+    quote: "If you believe that a disposition is incorrect, contact the court having jurisdiction to obtain a Judgment of Conviction or Order for Dismissal to submit with your request. Many courts have their case information available online at http://wcca.wicourts.gov . Challenges to online court records ( http://wcca.wicourts.gov ) must be directed to the court having jurisdiction."
+  },
+  {
+    where: "page 2, the FBI bullet",
+    quote: "Challenges to FBI records not based on a Wisconsin arrest must be directed to the FBI or the state submitting the information to the FBI."
+  },
+  {
+    where: "page 2, the fee bullet",
+    quote: "CIB charges $7 fee to provide an individual with a copy of his/her criminal record via the website using your Master Card or Visa. If your request is by mail, the fee is $12."
+  },
+  {
+    where: "page 1, the address block",
+    quote: "Submit forms to: Crime Information Bureau, P.O. Box 2718, Madison, WI 53701-2718"
+  },
+  {
+    where: "page 1, above the challenge-reason section",
+    quote: "What is the problem with your criminal history? Be specific; use another sheet of paper to explain if necessary. Attach court documents or other supporting documents, if available."
+  }
 ];
 
-function participantInstructions(maps, rbf, census) {
+const quoteAt = (needle) => PAGE_TWO_QUOTES.find((q) => q.where.includes(needle)).quote;
+
+function participantInstructions(maps, rbf) {
   const byDoc = new Map();
   for (const i of rbf) byDoc.set(i.document, [...(byDoc.get(i.document) ?? []), i]);
 
   const out = [];
   out.push(`# Filing instructions — ${ROUTE.publicLabel}`, "");
   out.push(
-    "This packet is one form: **DJ-LE-250B**, the _Wisconsin Fingerprint Record Removal Request_. It is sent to the "
-    + "**Crime Information Bureau of the Wisconsin Department of Justice**, not to a court. Page 1 is the Bureau's own "
-    + "instruction sheet and there is nothing to fill in on it; page 2 is the request.", "",
+    "This packet is one form: **DJ-LE-247**, the _Wisconsin Criminal History Challenge_. It goes to the **Crime "
+    + "Information Bureau of the Wisconsin Department of Justice**, not to a court. Page 1 is the challenge; page 2 is "
+    + "the Bureau's own information sheet about how the process works, and there is nothing to fill in on it.", "",
     `It is prepared under ${ROUTE.authority}.`, ""
   );
+  out.push(`> ${quoteAt("address block")}`, "");
   out.push(
-    "The platform filled in what it holds about you: your last, first and full middle name in **both** name blocks — the "
-    + "person submitting the request and the subject of the record, which the form's own instruction 1 says are the same "
-    + "person — and your street address, city, state and zip. Everything else on the form is yours, and every one of "
-    + "those blanks is listed below.", ""
+    "The platform filled in what it holds about you: your street address, your city, state and zip, your phone number, "
+    + "your e-mail and your date of birth. Everything else is yours, and every one of those blanks is listed below.", ""
   );
 
-  out.push("## This is not a court expungement, and the form says so", "");
+  out.push("## Your name is not filled in, and that is deliberate", "");
   out.push(
-    "> " + PLAIN_QUOTES.find((q) => q.where.includes("instruction 4")).quote, "",
-    "Read that before you send this. A Wisconsin court order expunging your case does **not** remove the fingerprint "
-    + "record the Department of Justice holds, and removing the Department of Justice record does not change what the "
-    + "court or the police still hold. They are separate records and this form reaches one of them.", ""
+    "The first box asks for your name **surname first**: “Requester Name (Last, First, Middle, Suffix)”. The platform "
+    + "holds your name the way you gave it, in natural order, and writing it into that box as it holds it would put "
+    + "your first name where the Bureau reads a surname. That is not a differently written name, it is a different "
+    + "name — and this is a form about a record being matched to the wrong person. **Write your name there yourself, "
+    + "surname first.**", ""
   );
 
-  out.push("## Your signature also asks for something else", "");
+  out.push("## What this form can and cannot change", "");
+  out.push(`> ${quoteAt("removal bullet")}`, "");
   out.push(
-    "> " + PLAIN_QUOTES.find((q) => q.where.includes("above the signature")).quote, "",
-    "That sentence is printed above the signature line. If you do not want your DNA Databank record touched, do not "
-    + "sign this form until you have asked the Bureau about it.", ""
+    "Read that before you send this. The Bureau does not delete arrest or disposition information from a Wisconsin "
+    + "criminal history record. What it does is add a notation in the three cases the sentence lists. A challenge is "
+    + "for information that is **wrong**, missing, or not yours.", ""
+  );
+  out.push(`> ${quoteAt("opening paragraph")}`, "");
+
+  out.push("## Send it within six months, with a copy of the record", "");
+  out.push(`> ${quoteAt("six-month bullet")}`, "");
+  out.push(`> ${quoteAt("fee bullet")}`, "");
+
+  out.push("## Say which of the six problems yours is", "");
+  out.push(
+    "The lower half of page 1 lists six reasons — incorrect charge information, missing disposition information, "
+    + "incorrect disposition information, identity theft, mistaken identity or false match, and other — each with a "
+    + "tick box. **None of them is ticked**, because which one applies is the substance of your challenge and the "
+    + "platform does not hold it. Tick the one that fits, and use the space beneath it, or another sheet of paper, to "
+    + "explain.", ""
+  );
+  out.push(`> ${quoteAt("above the challenge-reason section")}`, "");
+  out.push(
+    "The two identity reasons carry an extra requirement the form prints beside them: **you must submit a fingerprint "
+    + "card with the challenge form**, and complete the “Record being challenged” boxes in the right-hand column. Those "
+    + "boxes describe the record you say is not yours, so the name, sex, race, date of birth and social security "
+    + "number in them are the ones printed on that record — not necessarily your own.", ""
   );
 
-  out.push("## The arrest and conviction table is yours to complete", "");
-  out.push(
-    "The middle of page 2 is three rows, each with an arrest line and a conviction line — six boxes to a row, eighteen "
-    + "in all. **Not one of them is filled in.** Which arrest you are asking the Bureau to remove is the substance of "
-    + "the request and the platform does not hold it, and one of the boxes — **ARRESTING AGENCY CASE #** — is the "
-    + "arresting agency's own case number, which is not the court case number and must not be filled in with it. "
-    + "**Fill a row completely or leave it empty:** a row with the arrest date and the agency filled and the agency "
-    + "case number missing reads as finished and is not.", ""
-  );
-  out.push("> " + PLAIN_QUOTES.find((q) => q.where.includes("2a")).quote, "");
-
-  out.push("## The two fingerprint boxes", "");
-  out.push(
-    "The bottom of page 2 has two boxes, one for each index finger. Page 1 calls legible inked fingerprint impressions "
-    + "mandatory, and says any law enforcement agency can help you obtain the inked rolled impression. **Nothing a "
-    + "printed packet can do puts a fingerprint in those boxes.**", ""
-  );
-  out.push("> " + PLAIN_QUOTES.find((q) => q.where.includes("injured")).quote, "");
-
-  out.push("## Documentation you must send with it", "");
-  out.push("> " + PLAIN_QUOTES.find((q) => q.where.includes("2b")).quote, "");
-  out.push("> " + PLAIN_QUOTES.find((q) => q.where.includes("instruction 7")).quote, "");
+  out.push("## Documents to send with it", "");
+  out.push(`> ${quoteAt("open-case bullet")}`, "");
+  out.push(`> ${quoteAt("disposition bullet")}`, "");
+  out.push(`> ${quoteAt("FBI bullet")}`, "");
 
   out.push("## What you must do before you send this", "");
-  out.push("1. **Complete the arrest and conviction table** — every box of every row you use.");
-  out.push("2. **Fill in every item in the table below.** Each names the section of the form and the box.");
-  out.push("3. **Have your index fingers inked and rolled into the two boxes.** Any law enforcement agency can help.");
-  out.push("4. **Gather the supporting documentation** the two quotations above describe, and send copies with the request.");
-  out.push("5. **Sign and date it yourself**, after reading what the signature also asks for.");
-  out.push("6. **Leave the box at the foot of the page alone.** It is marked for the Bureau's use.");
+  out.push("1. **Write your name in the first box, surname first.**");
+  out.push("2. **Tick the one of the six reasons that fits, and explain it** in the space under it or on another sheet.");
+  out.push("3. **Fill in every item in the table below.** Each names the section of the form and the box.");
+  out.push("4. **Attach a copy of the criminal history record you are challenging**, with the wrong information marked.");
+  out.push("5. **Attach the court or prosecutor documents** the quotations above describe.");
+  out.push("6. **On an identity-theft or mistaken-identity challenge, include a fingerprint card** and complete the right-hand “Record being challenged” boxes.");
+  out.push("7. **Sign and date it yourself.**");
   out.push("");
 
   for (const [doc, items] of byDoc) {
@@ -880,19 +911,25 @@ function participantInstructions(maps, rbf, census) {
   }
 
   out.push("## What the platform deliberately left blank", "");
-  out.push("- **Your date of birth.** The box prints its own segmented template — two digits, two digits, four digits — and the platform holds one composed date. Writing it across the template would print over it.");
-  out.push("- **Gender and race.** The platform holds neither, and the shared semantics refuses to write a race anywhere.");
-  out.push("- **The whole arrest and conviction table.** See above.");
+  out.push("- **Your name**, for the reason above.");
+  out.push("- **Your social security number and any driver licence or WiUPIN number.** These are government identifiers; the platform holds none and never writes one.");
+  out.push("- **Sex and race.** The platform holds neither, and the shared semantics refuses to write a race anywhere.");
+  out.push("- **Every tick box.** The form's tick boxes are not drawn in a way this packet can measure, and which reason applies is yours in any event.");
   out.push("- **Your signature and its date.**");
-  out.push("- **The two fingerprint boxes.**");
   out.push("");
+
+  out.push("## One thing to check on the form", "");
+  out.push(
+    "Your date of birth is filled in as it is held, in year-month-day order. The box is captioned **(mm/dd/yy)**. It is "
+    + "the same date either way and a reader will not mistake it, but if you would rather it matched the caption, cross "
+    + "it out and write it again in month/day/year order.", ""
+  );
 
   out.push("## What this packet is not", "");
   out.push(
-    "This is a prepared copy of an official Wisconsin Department of Justice form. It is not legal advice, it is not sent "
-    + "for you, and **it does not decide whether your fingerprint record can be removed**. Page 1 of the form sets out "
-    + "the conditions, and this packet does not restate them, because most of page 1 does not extract readably from the "
-    + "file — see `reports/caption-evidence.json`. **Read page 1 on the paper before you send this.**"
+    "This is a prepared copy of an official Wisconsin Department of Justice form. It is not legal advice, it is not "
+    + "sent for you, and **it does not decide whether your record will be changed**. Read page 2 before you send it: it "
+    + "is the Bureau's own account of what a challenge can do."
   );
   out.push("");
   out.push(`_Route: ${ROUTE.routeKey} — ${ROUTE.authority}_`);
@@ -922,8 +959,9 @@ export async function runFamily(argv = process.argv.slice(2)) {
       `${source.formNumber}: ${census.geometryDrift.length} measured cell(s) no longer match the pinned binary: ${JSON.stringify(census.geometryDrift.slice(0, 3))}`);
     assert.equal(census.rows.length, Object.keys(CELLS).length,
       `${source.formNumber}: measured ${census.rows.length} cells, the dictionary declares ${Object.keys(CELLS).length}`);
-    assert.ok(census.fingerprintBoxes.every((b) => b.measured),
-      `${source.formNumber}: a fingerprint box rule did not measure: ${JSON.stringify(census.fingerprintBoxes)}`);
+    assert.ok(census.uncaptionedCells.every((c) => c.measured),
+      `${source.formNumber}: an uncaptioned cell did not measure: ${JSON.stringify(census.uncaptionedCells)}`);
+    // A cell whose caption leaves no clear space may be recorded, never written into.
     const shallowWrites = census.rows.filter((r) => r.policy === "write" && r.tooShallowToWriteIn);
     assert.equal(shallowWrites.length, 0,
       `${source.formNumber}: ${shallowWrites.length} cell(s) this build writes to have no clear space under their printed caption: ${JSON.stringify(shallowWrites.map((r) => r.key))}`);
@@ -936,6 +974,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
       documents: censuses.map(({ source, census }) => ({
         formNumber: source.formNumber, sha256: source.sha256, pageCount: census.pageCount,
         acroFieldCount: census.acroFieldCount,
+        strokedCheckboxCount: census.strokedCheckboxCount,
         measuredHorizontalRules: census.measuredHorizontalRules,
         measuredVerticalRules: census.measuredVerticalRules,
         cells: census.rows.length,
@@ -943,7 +982,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
         writes: census.rows.filter((r) => r.policy === "write").length,
         supply: census.rows.filter((r) => r.policy === "supply").length,
         protected: census.rows.filter((r) => r.policy === "protect").length,
-        fingerprintBoxesMeasured: census.fingerprintBoxes.filter((b) => b.measured).length
+        uncaptionedCellsMeasured: census.uncaptionedCells.filter((c) => c.measured).length
       }))
     };
   }
@@ -1019,7 +1058,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
   }
 
   const rbf = requiredBeforeFilingItems(maps);
-  const instructionsText = participantInstructions(maps, rbf, censuses[0].census);
+  const instructionsText = participantInstructions(maps, rbf);
   fs.writeFileSync(path.join(ROOT, OUT, "participant-instructions.md"), instructionsText);
 
   writeJson(`${OUT}/source-receipt.json`, {
@@ -1030,7 +1069,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
     corpusRootFromEnvironment: "MASTER_LIBRARY_SOURCE_DIR",
     bindingMethod: "exact form number + committed corpus-index SHA-256 + on-disk SHA-256 + byte length",
     bindingNote:
-      "Matched by state and form number rather than by assetClass: the corpus files DJ-LE-250B under "
+      "Matched by state and form number rather than by assetClass: the corpus files DJ-LE-247 under "
       + "04_SUPPORTING_PROCESS with assetClass SUPPORT. That is a filing question about the archive; the SHA-256 "
       + "binding is what decides these are the form's bytes, and it holds.",
     routeKey: ROUTE.routeKey, routeSelectionId: ROUTE.routeSelectionId, statutoryAuthority: ROUTE.authority,
@@ -1048,18 +1087,24 @@ export async function runFamily(argv = process.argv.slice(2)) {
     schemaVersion: "rcap-official-form-field-census/v1-census-v1", familyId: FAMILY_ID,
     structuralClass: "measured_flat_overlay",
     captionBasis:
-      "This form has no fillable field. Every box below is a measured TABLE CELL: four strokes read out of the page's "
-      + "own content stream — the rule above, the rule below and the vertical divider on each side — and every one of "
-      + "them is re-checked against the pinned binary on each build. A divider must span the cell it bounds, so a "
-      + "divider from a different band cannot stand in for a missing one. The caption is whatever the form prints "
-      + "inside the cell, recorded verbatim at its own coordinates in printedTextInThisCell.",
+      "This form has no fillable field. Every box below is a measured TABLE CELL: the rule above, the rule below and a "
+      + "vertical divider on each side, all read from the page's own content stream, re-checked against the pinned "
+      + "binary on each build, with each divider required to run at least 80% of the cell it bounds. The TOP of each "
+      + "write box is measured too — three points under the lowest printed line inside the cell — because one caption "
+      + "on this form wraps to two lines. The caption is whatever the form prints inside the cell, recorded verbatim at "
+      + "its own coordinates in printedTextInThisCell.",
+    pageOneExtractionNote:
+      "Page 1's two columns interleave character by character when the page is read as lines — \"Requester Name (Last, "
+      + "First, Middle, Suffix) Subject' Nasme (If different...\" — so no caption here is taken from a line. Every one "
+      + "is read at its own cell's coordinates. Page 2 extracts cleanly and is quoted verbatim in the instructions.",
     documents: censuses.map(({ source, census }) => ({
       documentId: source.formNumber, formNumber: source.formNumber, sourceSha256: source.sha256,
       pageCount: census.pageCount, acroFieldCount: census.acroFieldCount,
+      strokedCheckboxCount: census.strokedCheckboxCount,
       measuredHorizontalRules: census.measuredHorizontalRules,
       measuredVerticalRules: census.measuredVerticalRules,
       cellCount: census.rows.length,
-      fingerprintBoxes: census.fingerprintBoxes,
+      uncaptionedCells: census.uncaptionedCells,
       fields: census.rows.map((r) => ({
         field: r.key, page: r.page, rect: r.rect, rectBasis: r.rectBasis, measuredCell: r.measuredCell,
         tooShallowToWriteIn: r.tooShallowToWriteIn, lowestPrintedLineInCell: r.lowestPrintedLineInCell,
@@ -1073,19 +1118,13 @@ export async function runFamily(argv = process.argv.slice(2)) {
   writeJson(`${OUT}/reports/caption-evidence.json`, {
     schemaVersion: "rcap-caption-evidence/v1", familyId: FAMILY_ID,
     finding:
-      "DJ-LE-250B embeds a subsetted font whose glyph codes are the ASCII of the character minus 29. Runs set in that "
-      + "font extract as \"ILQJHUSULQW UHFRUG\" where the paper reads \"fingerprint record\". Other runs on the same "
-      + "printed line use a normally encoded font and extract plainly, so a single page mixes the two.",
+      "Page 1 of DJ-LE-247 interleaves its two columns when read as lines, so a printed-caption check against a LINE "
+      + "would compare against text that belongs to two different boxes. Page 2 extracts cleanly.",
     whyThisIsNotWorkedAround:
-      "The shift is exact and reversible, but which encoding a given run uses is not something this build reads, and a "
-      + "rule that un-shifts the runs that look wrong is a rule that invents text. Every sentence this packet quotes "
-      + "from the form is one that extracted plainly, listed below with where it was read. Everything else is recorded "
-      + "as unreadable, and the participant instructions tell the reader to read page 1 on the paper.",
-    plainQuotationsUsed: PLAIN_QUOTES,
-    whatTheCellCaptionsRestOn:
-      "Cell captions are not affected by the encoding question, because the cell is defined by four measured strokes "
-      + "rather than by its caption. What the form prints inside each measured cell is recorded verbatim at its own "
-      + "coordinates in the field census, shifted runs included, for a reviewer reading the paper.",
+      "No caption here is taken from a line. Each is read inside its own measured cell, at that cell's coordinates, "
+      + "and recorded verbatim in the field census — so the caption claim and the geometry claim rest on the same four "
+      + "measured strokes rather than on a text match.",
+    pageTwoQuotationsUsed: PAGE_TWO_QUOTES,
     perCell: censuses.flatMap(({ source, census }) => census.rows.map((r) => ({
       document: source.formNumber, cell: r.key, page: r.page, rect: r.rect,
       labelThisBuildUses: r.effectiveLabel, section: r.section,
@@ -1093,42 +1132,54 @@ export async function runFamily(argv = process.argv.slice(2)) {
     })))
   });
 
-  writeJson(`${OUT}/reports/disposition-documentation-package.json`, {
-    schemaVersion: "rcap-disposition-documentation-package/v1", familyId: FAMILY_ID,
+  writeJson(`${OUT}/reports/record-discrepancy-analysis.json`, {
+    schemaVersion: "rcap-record-discrepancy-analysis/v1", familyId: FAMILY_ID,
     whatThisIs:
-      "What the Bureau's own instruction sheet says must accompany this request, quoted from the sentences of page 1 "
-      + "that extract plainly. It is not a checklist this build composed.",
-    documentsTheFormRequires: [
+      "The six discrepancies DJ-LE-247 recognises, with what the form itself says each one requires. Read off the "
+      + "printed page; nothing here is composed.",
+    whatTheBureauWillAndWillNotDo: quoteAt("removal bullet"),
+    discrepancies: [
       {
-        when: "the request is subsequent to a conviction, finding, or an adjudication",
-        require: "a certified copy of the court order reversing, setting aside, or vacating the conviction",
-        quotedFrom: "page 1, instruction 2b"
+        reason: "INCORRECT CHARGE INFORMATION",
+        formSays: "the record lists an incorrect charge or charge severity (felony, misdemeanor or non-criminal); include the Date of Arrest and original charge information in the space below",
+        marked: false, markable: false
       },
       {
-        when: "you have documentation regarding the dismissal of the offence or offences involved in your request",
-        require: "copies sent with the request, which the form says speeds processing",
-        quotedFrom: "page 1, instruction 7"
+        reason: "MISSING DISPOSITION INFORMATION",
+        formSays: "you must provide the disposition document provided by the prosecutor or court (Judgment of Conviction, Order for Dismissal, etc.)",
+        marked: false, markable: false
       },
       {
-        when: "always",
-        require: "legible inked rolled impressions of the subject's index fingers, in the two boxes at the foot of page 2",
-        quotedFrom: "page 1, instruction 1 — and the two boxes are measured in the field census"
+        reason: "INCORRECT DISPOSITION INFORMATION",
+        formSays: "you must provide supporting disposition documents provided by the prosecutor or court (Judgment of Conviction, Order for Dismissal, etc.)",
+        marked: false, markable: false
+      },
+      {
+        reason: "IDENTITY THEFT",
+        formSays: "my personal information was used by another individual when arrested — must submit fingerprint card with challenge form and complete the information in the right column",
+        marked: false, markable: false
+      },
+      {
+        reason: "MISTAKEN IDENTITY/FALSE MATCH",
+        formSays: "I am not the person whose record was returned — must submit fingerprint card with challenge form and complete the information in the right column",
+        marked: false, markable: false
+      },
+      {
+        reason: "OTHER",
+        formSays: "explanation; attach another sheet of paper to explain if necessary",
+        marked: false, markable: false
       }
     ],
-    whatIsNotListedHere:
-      "Page 1's instructions 1, 3 and 5, and the first half of 2 and 4, set out further conditions and do not extract "
-      + "readably from this file. They are not restated, guessed or summarised. The participant instructions say so and "
-      + "tell the reader to read page 1 on the paper.",
-    arrestEventMapping: {
-      whatItIs: "How this build maps an arrest event onto the form's table.",
-      rowsAvailableOnTheForm: 3,
-      cellsPerRow: 6,
-      cellsWritten: 0,
-      why:
-        "One cell of every arrest row, ARRESTING AGENCY CASE #, is the arresting agency's own case number. It is not "
-        + "matter.case_number and must not be filled with it, so no row can be completed from the platform's fact map "
-        + "and no row is started. All eighteen cells are declared required before filing and named to the participant."
-    }
+    whyNoneIsMarked:
+      "Which discrepancy a participant is claiming is the substance of the challenge and the platform does not hold "
+      + "it. It is also not markable: the tick boxes are not strokes in the page's content stream, so there is no "
+      + "measured box for a packet to mark. Both reasons are true and the first is the operative one.",
+    supportingDocumentsTheFormRequires: [
+      { when: "a case is open that should be closed", require: quoteAt("open-case bullet") },
+      { when: "a disposition is incorrect", require: quoteAt("disposition bullet") },
+      { when: "the record is an FBI record not based on a Wisconsin arrest", require: quoteAt("FBI bullet") },
+      { when: "always", require: quoteAt("six-month bullet") }
+    ]
   });
 
   writeJson(`${OUT}/production-field-map.json`, {
@@ -1138,13 +1189,12 @@ export async function runFamily(argv = process.argv.slice(2)) {
     dispositionVocabulary: [SIGNATURE, AGENCY_OWNED],
     routeDeterminedSelections: [],
     routeSelectionNote:
-      "There is no election on this form. It carries no checkbox and no radio group — the only thing resembling one is "
-      + "the words \"Male\" and \"Female\" printed as text inside the GENDER cell, which are glyphs rather than strokes "
-      + "and therefore have no measured box to mark. Nothing here is route-determined.",
-    bothNameBlocksNote:
-      "The participant's name is written into both name blocks. The form's own instruction 1 says the request must be "
-      + "made by the requesting candidate, so on this route the person submitting the request and the subject of the "
-      + "record are the same person. That is read off the form rather than assumed.",
+      "Nothing on this form is route-determined. The six challenge reasons are facts about the participant's own "
+      + "record, and the form carries no other election.",
+    subjectIsTheRequesterNote:
+      "The subject columns are filled from the participant's own facts because the form's caption for the second name "
+      + "box is \"Subject's Name (If different from requester)\": the subject is the requester unless the requester "
+      + "says otherwise. That is read off the form rather than assumed.",
     requiredBeforeFilingCount: rbf.length, requiredBeforeFiling: rbf,
     maps, generationAllowed: false, runtimeSelectable: false, commercialRoutesOpened: 0
   });
@@ -1185,8 +1235,9 @@ export async function runFamily(argv = process.argv.slice(2)) {
     protectedBlanks: maps.flatMap((m) => m.canonicalRefusals.filter((r) => r.requiredBeforeFiling !== true).map((r) => ({
       document: m.formNumber, field: r.field, page: r.page, label: r.effectiveLabel, refusalClass: r.category, why: r.why
     }))),
-    physicalActsNoPacketCanPerform: maps.flatMap((m) => m.printedControlsNotWritten),
     printedControlsThisBuildCouldNotMeasure: maps.flatMap((m) => m.printedControlsNotMeasured),
+    measuredCellsWithNoPrintedCaption: maps.flatMap((m) => m.measuredCellsWithNoPrintedCaption),
+    factsHeldButNotWritable: maps.flatMap((m) => m.factsHeldButNotWritable),
     everyRequiredBeforeFilingItemIsDisclosed: true,
     disclosedIn: `${OUT}/participant-instructions.md`
   });
@@ -1196,22 +1247,27 @@ export async function runFamily(argv = process.argv.slice(2)) {
     required: true, granted: false, reviewedBy: null,
     note:
       "Every page of both fixtures is rastered for a human who did not build this family. It matters more than usual "
-      + "here: this is a measured overlay onto a table, so the check that a value sits in the cell it belongs to is a "
-      + "reviewer looking at the paper.",
+      + "here: this is a measured overlay onto a table whose two columns interleave in the text stream, so a reviewer "
+      + "looking at the paper is the check that a value sits in the cell it belongs to.",
     whatToLookAt: [
-      "Page 2, the Person Submitting the Request block: last, first and full middle name each in their own column, "
-        + "under their own printed caption; the street address in the wide left box and the apartment box empty; city, "
-        + "state and zip each in their own column. Nothing may sit on a printed rule or cross a divider.",
-      "Page 2, the Subject of the Record block: the same three names again, in the three columns of the narrower band "
-        + "beneath. The two blocks have DIFFERENT column widths and different divider positions — 235/435 above and "
-        + "193/379 below — so a value that looks right in one block and wrong in the other is the defect to catch.",
-      "Page 2, the GENDER, RACE and DATE OF BIRTH cells: all three empty, and the form's own Male and Female tick "
-        + "boxes and its segmented date template untouched and unobscured. Those tick boxes are not strokes in the "
-        + "content stream, so a reader is the only check that they are still there and still empty.",
-      "Page 2, the arrest and conviction table: all three rows and all eighteen boxes empty.",
-      "Page 2, the signature band and the two fingerprint boxes: empty.",
-      "Page 1: completely untouched. Nothing is drawn on the instruction sheet.",
-      "Boundary fixture: a 23-character hyphenated surname, an 18-character middle name and a 16-character city. Each "
+      "Page 1, the identification table: the street address, the city/state/zip, the phone number and the e-mail each "
+        + "in the LEFT column under their own captions, and nothing in the right column except the date of birth in "
+        + "the fourth of the five narrow boxes.",
+      "Page 1, the first box: the requester's name is EMPTY. That is deliberate — the box asks for surname first and "
+        + "the platform holds the name in natural order. Confirm the instructions make that legible to a reader.",
+      "Page 1, the narrow five-column band: the phone number is in the first box and the date of birth in the fourth. "
+        + "The three between them — Subject's Sex, Subject's Race, and Social Security Number — must be empty, and the "
+        + "date of birth must not have drifted into the Social Security Number box beside it.",
+      "Page 1, the box captioned \"If challenge is due to results of a criminal background check, approximate date of "
+        + "check\": its printed caption is two lines and leaves almost no clear space. Confirm nothing is written in "
+        + "it and the caption is unobscured.",
+      "Page 1, the six challenge reasons and their tick boxes: all unmarked, all still visible.",
+      "Page 1, the right-hand \"Record being challenged\" boxes: all six empty.",
+      "Page 1, the signature band: empty.",
+      "Page 2: completely untouched. Nothing is drawn on the Bureau's information sheet.",
+      "The date of birth is written as held, in year-month-day order, under a caption that asks for mm/dd/yy. Confirm "
+        + "it is legible and unambiguous; the instructions say a participant may rewrite it.",
+      "Boundary fixture: a 45-character street address, a 38-character city/state/zip and a 58-character e-mail. Each "
         + "either fits its column or is reported unfittable — nothing may spill into the next column."
     ],
     artifacts: artifacts.map((a) => ({ fixture: a.fixture, file: a.file, sha256: a.sha256, pageCount: a.pageCount })),
@@ -1252,76 +1308,72 @@ export async function runFamily(argv = process.argv.slice(2)) {
     findings: [
       {
         finding:
-          "DJ-LE-250B has no AcroForm field, and it is not the shape the flat-overlay path was written for either: its "
-          + "answers go in the cells of a ruled table rather than on printed underlines.",
+          "The requester's name box is captioned \"(Last, First, Middle, Suffix)\" and the platform holds the name in "
+          + "natural order.",
         consequence:
-          "Every write box here is a measured CELL — the rule above, the rule below and a vertical divider on each "
-          + "side, all read from the content stream, and the divider is additionally required to span the cell it "
-          + "bounds. All four strokes are re-read from the pinned binary on every build and the box is refused if any "
-          + "has moved. This is the first family in the factory to bound a write box on four measured strokes rather "
-          + "than one."
+          "The box is left blank and the reason is stated to the participant in its own section of the instructions. "
+          + "Writing the held name there would put the first name where the Bureau reads a surname, on a form whose "
+          + "whole subject is a record matched to the wrong person. Recorded in the field map under "
+          + "factsHeldButNotWritable, so the audit sees a fact held and not written rather than a fact absent."
+      },
+      {
+        severity: "advisory",
+        owner: "scripts/rcap-official-forms/rcap-official-form-finalize.mjs",
+        finding:
+          "The subject's date-of-birth box is captioned \"(mm/dd/yy)\" and the value is written in ISO form, because "
+          + "the shared finalizer formats no dates: its only normalisation is stripping whitespace.",
+        consequence:
+          "The date is written, because it is the same date and reads correctly either way — unlike the name above, "
+          + "where the order changes which name it is. The difference is disclosed to the participant and put to the "
+          + "visual reviewer. A date-format channel on the finalizer, driven by the caption, would close it."
       },
       {
         finding:
-          "The form embeds a subsetted font whose glyph codes are the ASCII of the character minus 29, mixed on the "
-          + "same lines with normally encoded runs.",
+          "One caption on this form wraps to two printed lines — \"If challenge is due to results of a criminal / "
+          + "background check, approximate date of check\" — and its second line sits where a fixed offset from the "
+          + "bottom rule would put a value.",
         consequence:
-          "Most of page 1 does not extract readably. This build quotes only what extracts plainly, records the rest as "
-          + "unreadable in reports/caption-evidence.json, and tells the participant to read page 1 on the paper. "
-          + "Un-shifting the runs that look wrong would be inventing the form's text."
+          "The top of every write box on this form is measured: three points under the lowest printed line inside the "
+          + "cell. A cell with less than six points of clear space is recorded as too shallow to write in, and the "
+          + "build asserts that no cell it writes to is one of those."
       },
       {
         finding:
-          "The ARRESTING AGENCY CASE # column asks for the arresting agency's own case number, which is a different "
-          + "fact from matter.case_number.",
+          "Page 1's two columns interleave character by character when the page is read as lines.",
         consequence:
-          "No cell of the three-row arrest and conviction table is written. A row completed from the platform's facts "
-          + "would be missing that one cell and would read as finished. All eighteen are declared and disclosed."
+          "No caption in this build comes from a line. Each is read inside its own measured cell, so the caption claim "
+          + "and the geometry claim rest on the same four measured strokes. Page 2 extracts cleanly and is quoted "
+          + "verbatim rather than summarised."
       },
       {
         finding:
-          "The form prints two fingerprint boxes and two GENDER tick boxes that are not in the page's content stream. "
-          + "Only the LEFT fingerprint box has strokes there (its top and bottom rules); the right one, and the Male "
-          + "and Female tick boxes, are found by neither rulesOfPage nor checkboxCandidates nor strokedRectangles, "
-          + "although a reader sees all of them on the paper.",
+          "The six challenge-reason tick boxes are not strokes in the page's content stream — checkboxCandidates and "
+          + "strokedRectangles both return zero for this page, the same as on DJ-LE-250B.",
         consequence:
-          "They are recorded as printed controls this build could not measure, with the coordinates it did measure "
-          + "beside them. No coordinate is inferred from where a caption sits: a write box nobody measured is a write "
-          + "box nobody can review. Nothing is written in any of them in any event."
+          "They are recorded as printed controls this build could not measure, with the printed heading and the y each "
+          + "sits on. None is marked in any event: which reason applies is the substance of the challenge."
       },
       {
         finding:
-          "The DATE OF BIRTH cell prints its own segmented template, \"__ __ / __ __ / ____\", drawn as underscore "
-          + "glyphs rather than as strokes.",
+          "The form rules one cell it never captions — the right half of the signature band.",
         consequence:
-          "There is no measured box for any individual segment and the platform holds one composed date. The date is "
-          + "left to the participant with that reason stated, rather than drawn across the form's own template."
+          "It is measured and recorded as a cell with no printed caption. Nothing is said about what belongs in it, "
+          + "because the form says nothing, and it is given no disposition rather than a guessed one."
       },
       {
         finding:
-          "The signature on page 2 carries a second request. The form prints, above the signature line: \"If necessary "
-          + "to proceed with your fingerprint record removal request, the signature below also represents a request to "
-          + "expunge your DNA Databank Record at the Wisconsin State Crime Laboratory.\"",
+          "The corpus files DJ-LE-247 under 04_SUPPORTING_PROCESS with assetClass SUPPORT and revision REV-UNKNOWN, "
+          + "although the form itself prints \"DJ-LE-247 (2/17)\" and is the operative challenge form for this route.",
         consequence:
-          "Quoted in the participant instructions under its own heading, with the plain statement that a participant "
-          + "who does not want their DNA Databank record touched should ask the Bureau before signing."
-      },
-      {
-        finding:
-          "The corpus files DJ-LE-250B under 04_SUPPORTING_PROCESS with assetClass SUPPORT and revision REV-UNKNOWN, "
-          + "although the document is the operative request form for this route.",
-        consequence:
-          "The source is resolved by state and form number rather than by assetClass. The SHA-256 binding is "
-          + "unchanged. Raised for the owner of the corpus index, which is outside this lane's owned paths."
+          "The source is resolved by state and form number rather than by assetClass, and binds by exact SHA-256. The "
+          + "filing and the missing revision are raised for the owner of the corpus index."
       },
       {
         severity: "advisory",
         finding:
-          "The boundary participant's name carries a typographic apostrophe (U+2019) and the finalized bytes carry the "
-          + "name without it.",
-        consequence:
-          "Recorded for visual review. The behaviour is in the shared finalizer's font encoding and reproduces across "
-          + "every family in this factory that uses the same boundary fixture."
+          "The boundary participant's name carries a typographic apostrophe (U+2019); it is not written on this form, "
+          + "so the shared finalizer's encoding behaviour does not appear here.",
+        consequence: "Recorded so a reviewer comparing this family with the others knows why."
       }
     ]
   });
@@ -1333,14 +1385,15 @@ export async function runFamily(argv = process.argv.slice(2)) {
     status: "PENDING_INDEPENDENT_VERIFICATION",
     approvedForLive: false, live: false, commercialRoutesOpened: 0,
     mattersForTheReviewersAttention: [
-      "This is a measured overlay onto a TABLE, and the two name blocks have different column widths — dividers at "
-        + "235/435 in the upper block and 193/379 in the lower. Visual review is the check that each value is in its "
-        + "own cell.",
-      "reports/caption-evidence.json — most of page 1 does not extract readably. Counsel review of what this route "
-        + "requires cannot be done from the extracted text and has to be done from the paper.",
-      "reports/disposition-documentation-package.json — what the Bureau's own instructions say must accompany the "
-        + "request, quoted rather than composed.",
-      "The DNA Databank sentence above the signature line. A participant signs two requests with one signature."
+      "The requester's name box is deliberately blank. Counsel should confirm that leaving it to the participant, with "
+        + "the reason stated, is the right call against writing a name in an order the form does not ask for.",
+      "The date of birth is written in ISO form under a caption asking for mm/dd/yy. Counsel should confirm that is "
+        + "acceptable to the Crime Information Bureau, or say that it is not.",
+      "reports/record-discrepancy-analysis.json — the six discrepancies the form recognises and what each requires, "
+        + "read off the printed page.",
+      "Page 2 is the Bureau's own statement that it does not remove arrest or disposition information. A participant "
+        + "arriving at this route expecting removal is at the wrong route, and the instructions say so in the "
+        + "Bureau's words."
     ]
   });
 
