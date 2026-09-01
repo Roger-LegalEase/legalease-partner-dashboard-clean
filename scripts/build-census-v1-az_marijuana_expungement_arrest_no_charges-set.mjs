@@ -911,6 +911,17 @@ const writeJson = (relativePath, value) => {
   fs.mkdirSync(path.dirname(abs(relativePath)), { recursive: true });
   fs.writeFileSync(abs(relativePath), `${JSON.stringify(value, null, 2)}\n`);
 };
+// The participant-instruction writer. westParticipantInstructions() has existed
+// since this host was written and returns markdown, but nothing ever defined
+// the function that writes it -- so buildAz and buildCa both died on
+// "ReferenceError: writeText is not defined" at the instruction step, and every
+// AZ and CA family in the fleet was unbuildable. buildAz reached it after
+// rewriting the field map and before rendering, so an unrestored run left a
+// half-rebuilt overlay behind.
+const writeText = (relativePath, text) => {
+  fs.mkdirSync(path.dirname(abs(relativePath)), { recursive: true });
+  fs.writeFileSync(abs(relativePath), text.endsWith("\n") ? text : `${text}\n`);
+};
 
 function requireFamily(familyId) {
   const family = FAMILIES[familyId];
