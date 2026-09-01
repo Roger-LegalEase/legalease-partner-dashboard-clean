@@ -44,9 +44,9 @@ type PublicWilmaRequest = {
 // Only non-case-bearing surfaces are valid on the anonymous path.
 const PUBLIC_PAGE_CONTEXTS: WilmaPageContext[] = ["landing", "pricing", "start"];
 
-const RATE_LIMIT_COPY = "I'm getting a lot of questions right now. Wait a few seconds and try again. The free guided check is still available.";
-const BOT_COPY = "I couldn't verify this request. Refresh the page and try again, or start the free guided check.";
-const TURNS_COPY = "We've covered a lot. This is a good time to start the free guided check, which uses your answers and your state's rules to show what may be available.";
+const RATE_LIMIT_COPY = "I'm getting a lot of questions right now. Wait a few seconds and try again. The free screening is still available.";
+const BOT_COPY = "I couldn't verify this request. Refresh the page and try again, or start the free screening.";
+const TURNS_COPY = "We've covered a lot. This is a good time to start the free screening, which uses your answers and your state's rules to show what may be available.";
 
 export async function POST(request: NextRequest) {
   const body = await request.json().catch(() => null) as PublicWilmaRequest | null;

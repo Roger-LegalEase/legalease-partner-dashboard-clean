@@ -1,0 +1,462 @@
+{
+  "schemaVersion": "rcap-grade-a-launch-control/v1",
+  "generatedBy": "scripts/grade-a-launch-control/generate-launch-control.mjs",
+  "thisIsTheControllingLaunchRecord": "One record claims current launch authority, and this is it. It does not restate the completion scoreboard: it consumes it. Everything the scoreboard owns -- families, sources, legal review, category B, the launch gate, commercial state -- is read from the scoreboard at generation time and pointed at, not copied. Everything here that the scoreboard does not cover is generated from its own record. Nothing in this file is typed in by hand.",
+  "consumes": {
+    "completionScoreboard": "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json",
+    "censusFreeze": "data/rcap-grade-a/route-obligation-census-v1/FREEZE.json",
+    "reuseIndex": "data/rcap-grade-a/launch-control/EXISTING_WORK_REUSE_INDEX.json",
+    "legalQueue": "data/rcap-grade-a/route-obligation-census-v1/legal-review-queue-v2.json",
+    "legalRetriage": "data/rcap-grade-a/route-obligation-census-v1/legal-review-queue-v2-retriage.json",
+    "sourceQueue": "data/rcap-grade-a/route-obligation-census-v1/source-queue-reconciliation.json",
+    "frozenCategoryB": "data/rcap-grade-a/route-obligation-census-candidate/category-b-medium-confidence-revalidation.json",
+    "categoryBIntegrationDelta": "data/rcap-grade-a/launch-control/CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json",
+    "categoryBStageBranchCrosswalk": "data/rcap-grade-a/launch-control/CATEGORY_B_STAGE_BRANCH_CROSSWALK.json",
+    "waveOneReturnReview": "data/rcap-grade-a/launch-control/WAVE_1_RETURN_REVIEW.json",
+    "categoryBIntegrationStatus": "data/rcap-grade-a/launch-control/CATEGORY_B_INTEGRATION_STATUS.json",
+    "residualWork": "data/rcap-grade-a/launch-control/RESIDUAL_WORK.json",
+    "workerExecutionContract": "data/rcap-grade-a/launch-control/WORKER_EXECUTION_CONTRACT.json",
+    "counselDeterminationDelta": "data/rcap-grade-a/launch-control/COUNSEL_DETERMINATION_DELTA.json",
+    "c11ReturnReview": "data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json",
+    "c11StopClassification": "data/rcap-grade-a/launch-control/C11_STOP_CLASSIFICATION.json",
+    "packetCompletenessMatrix": "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json",
+    "completenessRepairPlan": "data/rcap-grade-a/packet-completeness/COMPLETENESS_REPAIR_PLAN.json",
+    "counselDecisionRecord": "data/record-clearing/legal-decisions/2026-08-30-lawrence-four-counsel-determinations.json",
+    "executionOrder": "docs/LAUNCH_SEQUENCE.md",
+    "productContract": "docs/PRODUCT_CONTRACT.md"
+  },
+  "lineage": {
+    "captainBranch": "claude/legalease-sprint-captain-utucnw",
+    "captainSha": "7476708c6236b7b2ce1b1112dbeef434d3957c59",
+    "censusFingerprint": "sha256:3fe4e0fd1828e2ddeef1f5b013c45112cf918c18143c9ac4ab46b9db682b8455",
+    "censusLedgerBlob": "c6e1bb3d2af354f4f48a40a43e08a5b21e7fd8c5",
+    "productionConnected": false,
+    "productionConnectedEvidence": "No SUPABASE_, STRIPE_ or VERCEL_ variable is set in the generating environment, and egress to api.supabase.com is refused by policy."
+  },
+  "denominator": {
+    "terminalObligations": 703,
+    "categoryA": 451,
+    "categoryB": 166,
+    "legalReview": 86,
+    "packetFamilies": 352,
+    "runtimeRoutes": 337,
+    "statutoryLegalTracks": 497,
+    "jurisdictions": 51,
+    "note": "Read from the frozen census. A denominator that moves without an explanation is a verifier failure, not a rounding difference."
+  },
+  "frozenCategoryB": {
+    "record": "data/rcap-grade-a/route-obligation-census-candidate/category-b-medium-confidence-revalidation.json",
+    "rows": 55,
+    "uniqueRouteKeys": 55,
+    "jurisdictions": 26,
+    "pinnedSourceCommit": "1b0ce4de0c56ce88853e53bbed42016e33a91227",
+    "pinnedSourceBlob": "0673c2e3ca934ff7e20fd5abc3214eebf7bb6148",
+    "postRegenerationDelta": "data/rcap-grade-a/route-obligation-census-v1/route-obligation-census-candidate/category-b-medium-confidence-post-regeneration-delta.json",
+    "status": "REVALIDATED_AND_RECONCILED",
+    "revalidation": {
+      "assignmentCommit": "583e3d72581bd09f6a9d79b8dcc4ab631e1f952e",
+      "returnedDecisions": {
+        "SPLIT_B_STAGE_AND_A_BRANCH": 49,
+        "CONFIRM_B": 3,
+        "CONVERT_ALL_TO_A": 3
+      },
+      "needsLegalDecision": 0,
+      "researchLanesStillRequired": 0,
+      "note": "The 55 came back classified. The four Category B research lanes the first dispatch carried are obsolete and are not in the active manifest; what remains is implementation."
+    }
+  },
+  "categoryBIntegration": {
+    "rows": 55,
+    "jurisdictions": 26,
+    "aBranchesAlreadyExisting": 17,
+    "aBranchesNewlyRequired": 35,
+    "aliasOrCrosswalkRepairs": 6,
+    "categoryBStagesRetained": 52,
+    "guidanceFamiliesTheseRoutesSitInToday": 26,
+    "participantPacketFamiliesRequired": 23,
+    "participantPacketFamiliesAlreadyInCensus": 3,
+    "newPacketFamiliesRequired": 20,
+    "stageBranchPairs": 49,
+    "confirmedBStages": 3,
+    "convertedToA": 3,
+    "projectedDenominator": {
+      "currentCategoryA": 451,
+      "currentCategoryB": 157,
+      "currentTerminalObligations": 694,
+      "categoryAAfterIntegration": 486,
+      "categoryBStageAfterIntegration": 154,
+      "terminalObligationsAfterIntegration": 729,
+      "thisIsAProjectionNotAFact": "These are what the denominator BECOMES when the branches are created, computed from the reconciliation rather than assumed. The census itself is unchanged until the branches exist, and the national census generator remains the only thing that may move it."
+    },
+    "archetypeRouting": {
+      "C3_SPLIT_AGENCY_PROSECUTOR_APPLICATION": 4,
+      "C1_SPLIT_AUTOMATIC_CORRECTION_STATUS": 9,
+      "C2_SPLIT_AUTOMATIC_COURT_PETITION": 25,
+      "C4_SPLIT_OBJECTION_HEARING_APPEAL": 1,
+      "C5_SPLIT_POST_ORDER_ENFORCEMENT": 10,
+      "C7_CONFIRM_B_GUIDANCE": 3,
+      "C6_CONVERT_ALL_TO_A": 3
+    },
+    "grantsNothing": "These classifications create implementation obligations and nothing else. They authorize no checkout, sponsorship, packet-credit consumption, provider dispatch, artifact attachment, delivery, repeat download, commercially eligible status or COMPLETE_PACKET_PROVEN. Every fail-closed commercial gate stands unchanged."
+  },
+  "waveOne": {
+    "returnsReported": 12,
+    "scopeAndOutputVerified": 11,
+    "scopeCleanOutputMissing": 1,
+    "refused": 0,
+    "stillRunning": 0,
+    "laneStillRunning": null,
+    "outOfScopeWrites": 0,
+    "prohibitedPathViolations": 0,
+    "branchIdentities": {
+      "classifiedRoutes": 55,
+      "completed": 41,
+      "stopped": 14,
+      "newBranchIdentitiesIntegrated": 28,
+      "crosswalksIntegrated": 10,
+      "confirmedBGuidanceIdentitiesIntegrated": 3,
+      "packetFamiliesCreated": 0
+    },
+    "residual": {
+      "residualLanes": 7,
+      "counselDeterminationRoutes": 4,
+      "c11StoppedFamilies": 4,
+      "c11BuiltFamiliesNeedingRepair": 23,
+      "c11CorpusBinariesExcluded": 59,
+      "residualRoutes": 14,
+      "residualAlreadyAnsweredRows": 37,
+      "residualMappingRows": 29,
+      "residualPairBindings": 13,
+      "residualSourceIdentities": 19,
+      "residualOfficialUrls": 30,
+      "residualAcquisitions": 49,
+      "residualPromotions": 33,
+      "counselDeterminationSubroutes": 2,
+      "counselDeterminationGatedBranches": 4,
+      "totalDistinctItems": 142,
+      "collisions": 0
+    },
+    "systemicFindings": [
+      {
+        "id": "SYS-A",
+        "finding": "Workers were told to branch from the control baseline and to read the assignment manifest as a required input, but the manifest and the prompt directory exist only in the dispatch commit that follows it.",
+        "fix": "Every prompt and the manifest now state two commits: branch from the control baseline, and read and verify the assignment from the dispatch commit."
+      },
+      {
+        "id": "SYS-B",
+        "finding": "At least one worker host could not install dependencies: 32 MiB free after worktree creation, so no test that needs node_modules could run.",
+        "fix": "The worker execution contract states a minimum free-disk precondition and requires a lane to report DEPENDENCIES_UNINSTALLABLE rather than reporting a test as run."
+      },
+      {
+        "id": "SYS-C",
+        "finding": "Acquisition stopped on all 49 obligations because the assignment's group stop rule said egress was refused, not because a probe found it refused. C10's own HEAD probe reached 5 of the 7 official hosts it tested.",
+        "fix": "Egress is recorded per exact source. A next-wave worker is given the refused hosts and told not to retry them, and the reachable hosts without a blanket stop."
+      },
+      {
+        "id": "SYS-D",
+        "finding": "Seven branch-identity lanes returned seven different schemas for the same two required filenames: different array keys, different status vocabularies, different field names for the same fact.",
+        "fix": "A canonical integration status is generated from the seven returns through explicit per-lane adapters, and the next dispatch states the output schema each lane must emit."
+      }
+    ],
+    "executionContract": {
+      "record": "data/rcap-grade-a/launch-control/WORKER_EXECUTION_CONTRACT.json",
+      "clauses": 6,
+      "bindsFromWave": 2,
+      "currentDispatchNotRewritten": "C11_PACKET_FACTORY_ACCELERATOR is still running against this manifest. Regenerating it would change a live worker's row list, owned paths and verification target mid-flight, which is worse than the defect being fixed."
+    },
+    "integrationOpensNothing": "An integrated branch identity is an identity. It opens no commercial route, proves no packet, consumes no packet credit and creates no packet family. Every fail-closed commercial gate stands unchanged.",
+    "packetFactory": {
+      "assignmentId": "C11_PACKET_FACTORY_ACCELERATOR",
+      "verdict": "ACCEPTED_WITH_FOUR_VALID_STOPS_AFTER_CORPUS_BINARY_EXCLUSION",
+      "familiesAssigned": 47,
+      "familiesBuilt": 43,
+      "familiesStopped": 4,
+      "sourceReceiptsExact": 9,
+      "sourceReferences": 27,
+      "corpusBinariesExcluded": 59,
+      "builtFamiliesMissingWiringRecord": 23,
+      "outputApprovalsGranted": 0,
+      "commercialRoutesOpened": 0,
+      "pathOwnershipReleased": true,
+      "packetsProvenIndependently": 0,
+      "stopsByClass": {
+        "COMPOSED_PLEADING_SPECIFICATION": 1,
+        "SOURCE_IDENTITY": 2,
+        "PACKET_COMPONENT_IDENTITY": 1
+      },
+      "newLegalQuestionsRaised": 0,
+      "whatBuiltDoesNotMean": "Built means artifacts were rendered and byte-checked by the lane that built them. It is not independent verification, not visual review, not an output-level legal approval, and not COMPLETE_PACKET_PROVEN.",
+      "completeness": {
+        "contract": "scripts/rcap-packet-completeness/completeness-contract.mjs",
+        "familiesAudited": 48,
+        "passComplete": 25,
+        "byResult": {
+          "FAIL_MISSING_REQUIRED_FACTS": 21,
+          "PASS_COMPLETE": 25,
+          "FAIL_COMPONENT_SET": 2
+        },
+        "counterTotals": {
+          "knownRequiredFieldsMissing": 1198,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 779,
+          "incompleteRows": 11,
+          "requiredOptionsMissing": 121,
+          "requiredComponentsMissing": 31,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        },
+        "passRevoked": [
+          "nj_disorderly_persons-set",
+          "ca-17b-reduction-set",
+          "ca-1203-43-set",
+          "az_marijuana_expungement_superior_court-set"
+        ],
+        "passRevokedClassification": "PASS_REVOKED_PENDING_COMPLETENESS_RECHECK",
+        "lawrenceReviewPackagesPrepared": 0,
+        "theBlindSpot": "That every write was correct: bound to exact source bytes, inside a measured box, off every protected field. It never asked what was owed, so a family could pass having written 6 of 187 fields."
+      }
+    }
+  },
+  "legalWork": {
+    "trueCounselQuestions": 4,
+    "trueCounselAnswered": 4,
+    "trueCounselOpen": 0,
+    "trueCounselDetail": [
+      "#4 AL — Alabama de novo circuit-court review after final agency denial — ANSWERED 2026-08-30: A — LegalEase must fulfil a bounded, participant-filed circuit-court appeal.",
+      "#47 NE — Where to go if you want your Nebraska conviction overturned — ANSWERED 2026-08-30: B — legitimate exclusion, UNSUITABLE_FOR_SELF_HELP. A pro se verified motion legally exists; merits drafting is excluded as a product-suitability decision.",
+      "#54 NY — Possible pre-November 1, 1991 legacy motion — ANSWERED 2026-08-30: A — fulfil, but only after splitting the legacy cohort at September 1, 1980. One generic pre-1991 § 160.55(3) motion would be legally inaccurate.",
+      "#76 UT — Not eligible yet? Reducing the conviction level may open a route — ANSWERED 2026-08-30: A — fulfil the defendant-filed § 76-3-402 branches; separately gate the consent-dependent and joint-motion branches."
+    ],
+    "counselDeterminations": {
+      "answered": 4,
+      "categoryA": 3,
+      "categoryB": 1,
+      "mandatoryRouteSplits": 1,
+      "subroutesRequired": 2,
+      "branchesGatedBehindConsent": 4,
+      "branchesParticipantFiled": 5,
+      "obligationDelta": 1,
+      "projectedDenominator": {
+        "terminalObligations": 730,
+        "categoryA": 490,
+        "categoryB": 155,
+        "needsLegalReview": 82
+      },
+      "sourceIdentityObligations": [
+        {
+          "jurisdiction": "UT",
+          "constraint": {
+            "observed": "Utah Courts currently displays the required motion form identifier as '1023XX', which appears to be a placeholder rather than a final usable form number.",
+            "classification": "SOURCE_IDENTITY_ISSUE_NOT_A_ROUTE_RETIREMENT",
+            "requirement": "Do not hard-code '1023XX' as the final production form identity. This is a source-identity issue, not a reason to retire the legal route."
+          },
+          "classification": "SOURCE_IDENTITY_PLACEHOLDER_IN_GOVERNANCE_RECORD",
+          "isRuntimeDefect": false,
+          "isPacketDefect": false,
+          "isRouteRetirement": false,
+          "blocksUtahPacketBuildUntilResolved": true,
+          "owner": "R4_SOURCE_IDENTITY_AND_ACQUISITION",
+          "occurrences": {
+            "governanceRecords": [
+              "data/rcap-grade-a/launch-control/COUNSEL_DETERMINATION_DELTA.json",
+              "data/rcap-grade-a/launch-control/GRADE_A_LAUNCH_CONTROL.json",
+              "data/rcap-grade-a/launch-control/RESIDUAL_WORK.json",
+              "data/record-clearing/legal-decisions/2026-08-30-lawrence-four-counsel-determinations.json",
+              "scripts/grade-a-launch-control/generate-counsel-determination-delta.mjs"
+            ],
+            "actionableSurfaces": []
+          },
+          "governanceRecordCount": 5,
+          "actionableSurfaceCount": 0,
+          "rule": "The text must not appear as a final usable form identifier in a participant packet, route contract, packet specification, or runtime selector. Appearing inside a governance or decision record that names the constraint is not a defect; that is the record doing its job.",
+          "verdict": "PLACEHOLDER_CONFINED_TO_GOVERNANCE_RECORDS — it appears only where the constraint is stated, on no packet, contract, specification or selector. Utah's 402 packet build stays blocked until the real form identity is resolved.",
+          "whatWouldResolveIt": "The final Utah Courts form number for the Motion to Reduce Conviction, from the issuing authority rather than inferred.",
+          "routeToLane": "R4_SOURCE_IDENTITY_AND_ACQUISITION"
+        }
+      ],
+      "grantsNothing": "These determinations create implementation obligations only. No commercial route opens and no packet is proven."
+    },
+    "alreadyAnsweredImplementationQueue": 37,
+    "captainMappingQueue": 33,
+    "sourceIdentityQuestions": 8,
+    "duplicateOrSuperseded": 4,
+    "total": 86
+  },
+  "sourceWork": {
+    "byDisposition": {
+      "LEGAL_DESIGN_DECISION_REQUIRED": 19,
+      "NO_OFFICIAL_FORM_COMPOSE_OUTPUT": 31,
+      "NO_PARTICIPANT_DOCUMENT": 3,
+      "ALREADY_HELD_VERIFIED_CORPUS": 81,
+      "UNRESOLVED_IDENTITY": 19,
+      "RESOLVE_OFFICIAL_URL": 11,
+      "PROMOTE_FROM_NATIONWIDE_INVENTORY": 33,
+      "NOT_A_SEPARATE_DOCUMENT": 18,
+      "ACQUIRE_FROM_EXACT_OFFICIAL_SOURCE": 59
+    },
+    "rowStatus": {
+      "fullyResolved": 134,
+      "partiallyResolved": 10,
+      "unresolved": 22
+    },
+    "acquisitionBlockedOnEgress": 59,
+    "acquisitionEvidence": "docs/rcap/grade-a/route-obligation-census/ACQUISITION_EGRESS_PROBE.md"
+  },
+  "packetFamilies": {
+    "total": 352,
+    "releasable": 114,
+    "heldBack": 238,
+    "evidenceInCaptainTree": 50,
+    "evidenceOnBranchAwaitingIntegration": 6,
+    "freeToDispatch": 296,
+    "byState": {
+      "AL": 11,
+      "CO": 9,
+      "NY": 4,
+      "NM": 4,
+      "CT": 10,
+      "AK": 6,
+      "AR": 11,
+      "AZ": 9,
+      "CA": 10,
+      "ME": 6,
+      "UT": 12,
+      "WA": 13,
+      "NC": 7,
+      "ND": 7,
+      "DE": 6,
+      "GA": 14,
+      "IL": 13,
+      "MS": 11,
+      "NV": 4,
+      "OK": 3,
+      "PA": 8,
+      "SD": 3,
+      "WV": 10,
+      "WY": 2,
+      "SC": 3,
+      "DC": 6,
+      "FL": 8,
+      "HI": 4,
+      "IA": 6,
+      "ID": 4,
+      "IN": 7,
+      "KS": 7,
+      "KY": 9,
+      "LA": 9,
+      "MA": 7,
+      "MD": 6,
+      "MI": 4,
+      "MN": 4,
+      "MO": 7,
+      "MT": 6,
+      "NE": 8,
+      "NH": 5,
+      "NJ": 5,
+      "OH": 2,
+      "OR": 3,
+      "TN": 1,
+      "TX": 11,
+      "WI": 4,
+      "RI": 7,
+      "VA": 7,
+      "VT": 9
+    },
+    "completePacketProven": 0
+  },
+  "productPath": {
+    "commercialRoutesOpened": 0,
+    "commerciallyEligible": 0,
+    "moneyGate": "scripts/verify-rcap-census-v1-money-credit-gate.mjs — 337 of 337 routes refused: no price, checkout, sponsorship, credit, attach or delivery",
+    "staleArtifactBlock": "data/rcap-grade-a/stale-artifact-block.json"
+  },
+  "participantDataRights": {
+    "branch": "claude/census-v1-current-participant-data-rights",
+    "focusedTests": "117/117",
+    "migration": "supabase/migrations/20260830120000_participant_data_rights.sql",
+    "applied": false,
+    "verdict": "NOT_APPLIED_PRECONDITIONS_UNSATISFIABLE_IN_THIS_SESSION",
+    "codeIntegration": "integrated on the Captain branch",
+    "nonproductionMigration": "authorized and unspent — preconditions unsatisfiable in an environment that cannot reach the project"
+  },
+  "testStatus": {
+    "focusedControlPlane": "generated at run time by the checkpoint verifier",
+    "fullChain": "NOT RUN — a broad tracked-file mutation suite is not run while external workers are active",
+    "hostedAcceptance": "NOT RUN — no hosted environment is reachable from the Captain environment",
+    "productionPreflight": "NOT RUN — Production is not connected and no Production authorization exists"
+  },
+  "launchGate": {
+    "familiesNotLaunchReady": 352,
+    "blockersByKind": {
+      "missing_source": 238,
+      "missing_artifact_review": 352,
+      "missing_output_approval": 337,
+      "missing_form_map": 261
+    },
+    "gateOpen": false
+  },
+  "exactBlockers": [
+    {
+      "id": "BLK-1",
+      "blocker": "Official-source acquisition has not run, and the reason is per source rather than a blanket policy refusal",
+      "detail": "A HEAD probe from a worker host reached 5 of 7 official hosts tested; the rest refused. No document body was downloaded, so reachability is proven and acquisition is not. The 49 obligations stopped on this dispatch's blanket egress stop condition, which the worker execution contract removes.",
+      "owner": "Captain — reissue acquisition per reachable source; Roger — escalate the refused hosts",
+      "blocks": "49 acquisition obligations and 33 promotion candidates"
+    },
+    {
+      "id": "BLK-2",
+      "blocker": "CLOSED — the four true counsel questions are answered",
+      "detail": "4 of 4 answered on 2026-08-30 by Lawrence Blackmon: 3 Category A, 1 legitimate exclusion. New York requires a mandatory split into 2 date-specific subroutes and Utah gates 4 of nine branches behind prosecutorial consent. What remains is implementation, carried as residual lane R6.",
+      "owner": "Captain — residual lane R6_COUNSEL_DETERMINATION_IMPLEMENTATION",
+      "blocks": "nothing; this blocker is closed"
+    },
+    {
+      "id": "BLK-3",
+      "blocker": "No packet family has an independent review or output approval",
+      "detail": "Six families carry candidate evidence in the tree and six more await integration; none has passed independent technical verification, independent visual review or Lawrence approval.",
+      "owner": "Captain then Lawrence",
+      "blocks": "COMPLETE_PACKET_PROVEN for every family, and therefore every commercial route"
+    },
+    {
+      "id": "BLK-4",
+      "blocker": "The data-rights migration cannot be applied from this environment",
+      "detail": "Authorized for the synthetic acceptance project and unspent; the preconditions are observations about a project this environment cannot reach.",
+      "owner": "an environment with the project ref and egress",
+      "blocks": "hosted data-rights acceptance"
+    },
+    {
+      "id": "BLK-5",
+      "blocker": "238 families are held for a missing source",
+      "detail": "Released automatically as sources resolve; the scoreboard recomputes releasability rather than relying on anyone remembering.",
+      "owner": "source lane C10, continued as residual lane R4",
+      "blocks": "238 of 352 families entering a build slot"
+    },
+    {
+      "id": "BLK-8",
+      "blocker": "43 packet families are built, none is independently verified, and none is complete",
+      "detail": "C11 rendered and byte-checked 43 families against exact source SHA-256 values, but a builder verifying its own output proves nothing — and the completeness contract now shows the deeper problem: 25 of 48 families contain everything a filing needs. 1198 known required fields are missing across the fleet and 121 route-determined elections are left to the participant. The four families previously classified PASS are revoked.",
+      "owner": "R8 repairs the four, V1-V7 verify the rest, then Lawrence",
+      "blocks": "output-level approval, and therefore product-path proof, for every family"
+    },
+    {
+      "id": "BLK-6",
+      "blocker": "At least one worker host could not install the toolchain",
+      "detail": "32 MiB free after worktree creation, so no test needing node_modules could run and two focused tests were returned BLOCKED rather than passed. One return documents it here; the owner reports it as shared across the wave.",
+      "owner": "Roger — worker environment sizing",
+      "blocks": "every focused test in an affected lane, and the hosted acceptance lane entirely"
+    },
+    {
+      "id": "BLK-7",
+      "blocker": "The private nationwide inventory is not mounted on any worker host",
+      "detail": "33 promotion candidates were receipted against their committed hashes and none was physically promoted, because private/Nationwide Record Clearing/ was absent from the executing host.",
+      "owner": "Roger — mount the inventory for the source lane",
+      "blocks": "33 promotion obligations"
+    }
+  ],
+  "goHold": {
+    "decision": "HOLD",
+    "because": "No family is COMPLETE_PACKET_PROVEN, no route is commercially open, and the launch gate is closed on every one of the 352 families. GO is a statement about proven packets, and there are none yet. Holding is the correct state, not a failure.",
+    "whatWouldChangeIt": "One family passing the full sequence — independent technical verification, independent visual review, an exact output-review package, Lawrence's approval of exact hashes, a Grade-A fulfilment record, product wiring and both path proofs — would open exactly that family's route and nothing else."
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-checkpoints/v1",
+  "assignmentId": "PF02",
+  "workerId": "PF-A",
+  "workerBranch": "claude/9h-pf-a",
+  "checkpointRule": "Return every five completed families, or every two hours, whichever comes first. Under the Claude-worker overrides this lane also commits and pushes after each completed family or every sixty minutes, whichever comes first.",
+  "checkpoints": [
+    {
+      "n": 1,
+      "familiesCompletedAtThisPoint": [
+        "ky_void_seal_controlled_substance-set",
+        "ky_void_seal_marijuana_synthetic_salvia-set"
+      ],
+      "what": "Both families in one checkpoint. The lane holds two families that share one host, one official form and one caption-mode policy, so the second was finished within the hour the first was; holding the first back would have returned the same diff later.",
+      "pushed": true
+    }
+  ],
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}

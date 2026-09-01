@@ -1,0 +1,981 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "VF15",
+  "laneKind": "independent-verification",
+  "worker": "PF-B",
+  "baseSha": "696d65bcfde395b64c0c86d80721447f655285a9",
+  "grantSet": "30e78203a0fe30f0",
+  "measuredBy": "the fifteen proof obligations measured in this container; the nine counters produced by running scripts/rcap-packet-completeness/verify-packet-completeness.mjs here rather than read from any builder report; every artifact SHA-256 recomputed from the committed bytes rather than read from the builder's record",
+  "independence": "PF-B built none of these five families and has verified nothing before this lane. No builder verdict was inherited.",
+  "sourceIdentityLimitation": "SOURCE_IDENTITY could not be recomputed from the source bytes for any family in this lane: the Master Library corpus is absent and cannot be fetched from this session. bootstrap-private-corpus.sh was run twice and refused both times with HTTP 403, and the refusal is issued by this session's GitHub access layer ('GitHub access to this repository is not enabled for this session'), not by GitHub; add_repo, the remedy that refusal names, was denied in both read and push modes. Cross-record consistency was measured instead, is recorded as such, is not a substitute, and no family in this lane is recorded PASS_COMPLETE_INDEPENDENT on its strength.",
+  "rasterCeilingFinding": "RASTER_PASS from run 33488713831 is narrower than one family. Every pinned pair still binds to the bytes on disk here, and for sd_arrest_expungement-set the gate covered the whole family (28 of 28 pages). For all four WA families the queue pinned ONE document pair out of the two documents each family renders, so the gate rendered 2 of 6 pages (cannabis), 10 of 22 (domestic violence), 6 of 12 (felony) and 10 of 22 (homicide/victim/prostitution). CRRLJ-09.0870, CRRLJ-09.0200, CR-08.0920 and CRRLJ-09.0200 have never been through the visual gate. Separately, wa_vac_domestic_violence-set and wa_vac_homicide_victim_prostitution-set pin IDENTICAL canonical and boundary hashes, so the batch rendered the same bytes twice and recorded two family passes from one measurement.",
+  "verdictSummary": {
+    "PASS_COMPLETE_INDEPENDENT": 0,
+    "FAIL_REPAIR_REQUIRED": 5,
+    "BLOCKED_SOURCE": 0,
+    "BLOCKED_LEGAL_INPUT": 0
+  },
+  "nineCountersAllZeroOn": 5,
+  "whyNoPassDespiteZeroCounters": "All five families return all nine completeness counters zero, measured here — the first families in this factory to do so. They are still FAIL_REPAIR_REQUIRED because the nine counters are not the fifteen proof obligations: every family fails on the participant-facing filing obligations, which no counter measures. SOURCE_IDENTITY is additionally unmeasured here, which alone would bar a PASS.",
+  "overlayDirectoriesModified": 0,
+  "packetsBuiltOrRepairedHere": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "rows": [
+    {
+      "itemId": "sd_arrest_expungement-set",
+      "lane": "VF15",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill",
+      "composedFamily": true,
+      "tracks": [
+        "obligation:unit:SD:sd_arrest_expungement:sd-arrest-stage-2-ujs-motion-packet"
+      ],
+      "builderDeclaredStatus": {
+        "buildStatus": "BUILT_REVIEW_PENDING",
+        "generationAllowed": false,
+        "runtimeSelectable": false,
+        "commercialRoutesOpened": 0
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "familyId agrees across every record in the directory; product-wiring.json names routeSelectionId 'sd-stage-2-ujs-232-391-through-395' for route obligation:unit:SD:sd_arrest_expungement:sd-arrest-stage-2-ujs-motion-packet"
+        },
+        "SOURCE_IDENTITY": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "the source bytes are not reachable in this container, so no SHA-256 was recomputed from them: the Master Library is absent at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1, scripts/rcap-corpus/bootstrap-private-corpus.sh was run twice and refused both times, and the HTTP 403 is issued by this session's GitHub access layer ('GitHub access to this repository is not enabled for this session') rather than by GitHub. add_repo, the remedy that refusal names, was denied in both read and push modes. Cross-record consistency was measured instead and is not a substitute: the source SHA-256 each record pins agrees across source-receipt.json, production-field-map.json and the committed corpus index, which proves the records agree with each other and nothing about the bytes."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "all six official forms the route names (UJS-232, UJS-391, UJS-392, UJS-393, UJS-394, UJS-395) appear in both fixtures: the byte proof reads 12 document sections, six per fixture, and the route's six components are each represented"
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "knownRequiredFieldsMissing=0, measured by running the completeness verifier in this container; the byte proof records 65 mapped writes per fixture, all re-read from the final PDF bytes"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "every declared item is named in the file. production-field-map.json carries 10 blanks with blankDisposition REQUIRED_BEFORE_FILING, and all 10 are the same fact — the Judicial Circuit number — on UJS-391 (x2), UJS-392 (x2), UJS-393 (x4) and UJS-395 (x2). participant-instructions.md bullet 1 names it and the moment it is needed: \"Judicial Circuit number (UJS-391, UJS-392, UJS-393, UJS-394, UJS-395): before filing each captioned component\" — a superset of the mapped forms, so nothing declared is unnamed. The file carries 5 bullets in total; the other 4 (State’s Attorney name and address, notice recipient name and address) are additional participant disclosures with no corresponding REQUIRED_BEFORE_FILING disposition in the map."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "requiredOptionsMissing=0 measured here, and the packet states its own election: product-wiring.json carries routeSelectionId 'sd-stage-2-ujs-232-391-through-395', so the packet says which statutory route it is built for"
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "incompleteRows=0, measured by running the completeness verifier in this container"
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "protectedFieldsWritten=0 and refusedFieldsWithInk=[] on both fixtures, derived from the artifact bytes (derivedFromArtifactBytes=true, recomputedAfterFinalPdfWrite=true) rather than from the finalizer's own report; the byte proof's finalPdfSha256 for both fixtures equals the SHA-256 I recomputed from disk"
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "both artifacts recomputed from the committed bytes in this container and hash to the record, byte lengths included; canonical 627e6502… and boundary 79b2e9ac… agree with reports/actual-writes.json, reports/rendered-artifacts.json and the raster queue's pins"
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "14 pages read from the bytes of each fixture, matching the record and the 14 PNG rasters held per fixture"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes=0 on both fixtures, read from the output bytes; visualDefects=0 measured by the completeness verifier here"
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "the instructions never name the court or agency to file with. They require a Judicial Circuit number 'before filing each captioned component' but name no clerk, court or filing address, so the participant is told what to write and not where to take it."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "neither a filing fee nor a waiver route is stated anywhere in participant-instructions.md. The route's census records feeWaiverTreatment as missing implementation work."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "partially stated and therefore not met. The instructions name WHO: the State's Attorney (UJS-391, 'before service') and the notice recipients (UJS-393, UJS-395, 'before mailing the notice'). They never state HOW: no service method for the State's Attorney, no proof or certificate of service step, and no deadline. The route's census records certificateOfService as missing implementation work."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "the packet never states where self-help ends. It says the fixtures are review fixtures and not to copy sample values, and it reserves official-only fields for the authorized actor, but it never tells the participant when the task exceeds self-help or when counsel is needed."
+        }
+      },
+      "failedProofObligations": [
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SERVICE",
+        "SELF_HELP_STOP"
+      ],
+      "notMeasurableHere": [
+        "SOURCE_IDENTITY"
+      ],
+      "openLegalInputs": [],
+      "recordedDeviations": [],
+      "rasterCeiling": {
+        "currentRasterState": "RASTER_PASS",
+        "workflowRunId": "33488713831",
+        "jobId": "99795497665",
+        "renderedCommitSha": "71894f3f2dde0f5af34818a2fa8dc8bce84e0d24",
+        "pinnedCanonicalBindsToDiskHere": true,
+        "pinnedBoundaryBindsToDiskHere": true,
+        "pinnedDocument": "canonical.pdf",
+        "artifactsTheFamilyRenders": 2,
+        "artifactsTheGatePinned": 2,
+        "pagesTheFamilyRenders": 28,
+        "pagesTheGateRendered": 28,
+        "coverage": "COMPLETE"
+      },
+      "artifactProof": [
+        {
+          "document": null,
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+          "recordedSha256": "627e6502e0340f5d6d75ae855314cad53160d92acab710a1d43add2341dbe47d",
+          "recomputedSha256": "627e6502e0340f5d6d75ae855314cad53160d92acab710a1d43add2341dbe47d",
+          "bindsFromDisk": true,
+          "recordedByteLength": 572296,
+          "observedByteLength": 572296
+        },
+        {
+          "document": null,
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
+          "recordedSha256": "79b2e9ac4ca0cfadba32a9896f39fe82ae7d0dc543d3a7a42d2a338bf318a8ed",
+          "recomputedSha256": "79b2e9ac4ca0cfadba32a9896f39fe82ae7d0dc543d3a7a42d2a338bf318a8ed",
+          "bindsFromDisk": true,
+          "recordedByteLength": 573828,
+          "observedByteLength": 573828
+        }
+      ],
+      "evidenceRead": [
+        "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/build-status.json",
+        "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/product-wiring.json",
+        "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/build-findings.json",
+        "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/reports/actual-writes.json",
+        "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+        "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
+        "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+        "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json"
+      ]
+    },
+    {
+      "itemId": "wa_vac_cannabis-set",
+      "lane": "VF15",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/wa/wa-vac-cannabis-set--official-pdf-fill",
+      "composedFamily": false,
+      "tracks": [
+        "obligation:track-pathway:WA:wa_vac_cannabis:misdemeanor-cannabis-conviction-vacation"
+      ],
+      "builderDeclaredStatus": {
+        "buildStatus": "BUILT_EVIDENCE_ONLY",
+        "participantInstructionStatus": "EVIDENCE_ONLY_NOT_APPROVED_FOR_DELIVERY",
+        "generationAllowed": false,
+        "runtimeSelectable": false,
+        "commercialRoutesOpened": 0
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "familyId agrees across build-status.json, source-receipt.json, reports/rendered-artifacts.json, production-field-map.json and participant-completion-instructions.json; the record names exactly one route, obligation:track-pathway:WA:wa_vac_cannabis:misdemeanor-cannabis-conviction-vacation"
+        },
+        "SOURCE_IDENTITY": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "the source bytes are not reachable in this container, so no SHA-256 was recomputed from them: the Master Library is absent at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1, scripts/rcap-corpus/bootstrap-private-corpus.sh was run twice and refused both times, and the HTTP 403 is issued by this session's GitHub access layer ('GitHub access to this repository is not enabled for this session') rather than by GitHub. add_repo, the remedy that refusal names, was denied in both read and push modes. Cross-record consistency was measured instead and is not a substitute: the source SHA-256 each record pins agrees across source-receipt.json, production-field-map.json and the committed corpus index, which proves the records agree with each other and nothing about the bytes."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "both documents the route names (CRRLJ-09.0800, CRRLJ-09.0870) are rendered as canonical and boundary fixtures; 4 artifact(s) present and accounted for in the fixture manifest"
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "knownRequiredFieldsMissing=0, measured by running scripts/rcap-packet-completeness/verify-packet-completeness.mjs in this container; 29 writable anchor(s) carry a factId and a measured write box"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "zero REQUIRED_BEFORE_FILING items are declared, and every one of the 22 withheld blanks carries an approved disposition in the closed vocabulary (signature_or_date_participant_completion, court_prosecutor_clerk_or_agency_owned, participant-authored narrative). The participant-authored blanks are disclosed to the participant in instruction 3. RECORDED DEVIATION: this family has no participant-instructions.md — the file the obligation names — and discloses through participant-completion-instructions.json instead."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "no route-determined election is selected anywhere in the packet. production-field-map.json declares 'legal elections or checkboxes' under explicitSafetyPolicy.neverWritten; the protection report records selectionControlsMarked=false with every observed selection control proved unmarked; product-wiring.json carries no routeSelectionId (the SD family in this same lane does carry one). No twin comparison applies to this family."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "incompleteRows=0, measured by running the completeness verifier in this container"
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "no signature, signature date, certificate of mailing, court-only or prosecutor-only field carries ink: signatureAndCourtFieldsWritten=false and selectionControlsMarked=false across 2 document(s), with vectorPathsAdded=0 and controlsMarked=0 proved per fixture; protectedWrites=0 measured here"
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "4 of 4 artifact(s) recomputed from the committed bytes in this container and hash to the record, byte lengths included; deterministicSecondRenderSha256 equals the recorded hash on every artifact"
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "page counts read from the PDF bytes match reports/rendered-artifacts.json on every artifact, and the raster set per document matches the page count"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "visualDefects=0 measured by the completeness verifier here. Recorded limit: the in-overlay rasters were produced by Poppler pdftoppm (reports/rendered-artifacts.json rasterPath), which the factory contract excludes as a different measurement from scripts/lib/pdf-page-raster.mjs. The central gate's own render is the binding one, and its coverage is recorded under rasterCeiling."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "the instruction file never names the court or agency the route names. Instruction 1 hands the choice to the participant ('choose the correct court and eligibility path') and instruction 6 defers to 'the sentencing court' without naming it. The route names a District/Municipal or Superior Court forum; the packet does not."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "neither a filing fee nor a waiver route is stated. Instruction 6 explicitly defers fee to the participant: 'Confirm local filing, notice, service, fee, and hearing requirements with the sentencing court before filing.' The route's own census records feeWaiverTreatment as missing implementation work."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "the instructions never state who must be served or how. Instruction 6 defers service along with fee and hearing. The route's census records certificateOfService as missing implementation work, and the family renders no proof or certificate of service component."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "stated: instruction 1 ('this build does not make legal elections'), instruction 3 (participant-authored narrative is never invented), instruction 5 (judicial and clerk portions left to the named official), with legalReviewStillRequired=true and status EVIDENCE_ONLY_NOT_APPROVED_FOR_DELIVERY."
+        }
+      },
+      "failedProofObligations": [
+        "ROUTE_OPTIONS",
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SERVICE"
+      ],
+      "notMeasurableHere": [
+        "SOURCE_IDENTITY"
+      ],
+      "openLegalInputs": [],
+      "recordedDeviations": [
+        "participant-instructions.md is absent; the family discloses through participant-completion-instructions.json"
+      ],
+      "rasterCeiling": {
+        "currentRasterState": "RASTER_PASS",
+        "workflowRunId": "33488713831",
+        "jobId": "99795498276",
+        "renderedCommitSha": "71894f3f2dde0f5af34818a2fa8dc8bce84e0d24",
+        "pinnedCanonicalBindsToDiskHere": true,
+        "pinnedBoundaryBindsToDiskHere": true,
+        "pinnedDocument": "crrlj-09-0800-canonical-filled.pdf",
+        "artifactsTheFamilyRenders": 4,
+        "artifactsTheGatePinned": 2,
+        "pagesTheFamilyRenders": 6,
+        "pagesTheGateRendered": 2,
+        "coverage": "PARTIAL"
+      },
+      "builderAdvisoriesRead": [
+        "The state-bounded map writes held participant and case facts into exact source-measured cells; legal elections, participant-authored narratives, execution fields, and judicial findings retain approved blank dispositions.",
+        "Machine raster production and byte-level placement proof are not human independent visual review.",
+        "The worklist records unresolved local filing, notice, service, fee, and hearing variation; this build does not resolve those legal-design questions."
+      ],
+      "artifactProof": [
+        {
+          "document": "CRRLJ-09.0800",
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-cannabis-set--official-pdf-fill/fixtures/crrlj-09-0800-canonical-filled.pdf",
+          "recordedSha256": "9ccebef430b4a7de3614df3a9796d57524385147e01e82a4e7c186b1cc7088ad",
+          "recomputedSha256": "9ccebef430b4a7de3614df3a9796d57524385147e01e82a4e7c186b1cc7088ad",
+          "bindsFromDisk": true,
+          "recordedByteLength": 53904,
+          "observedByteLength": 53904
+        },
+        {
+          "document": "CRRLJ-09.0800",
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-cannabis-set--official-pdf-fill/fixtures/crrlj-09-0800-boundary-filled.pdf",
+          "recordedSha256": "22c9ec04f47a5ae0222cc4d84e859cf402c7585379fa7337d0243d57c41c8942",
+          "recomputedSha256": "22c9ec04f47a5ae0222cc4d84e859cf402c7585379fa7337d0243d57c41c8942",
+          "bindsFromDisk": true,
+          "recordedByteLength": 54059,
+          "observedByteLength": 54059
+        },
+        {
+          "document": "CRRLJ-09.0870",
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-cannabis-set--official-pdf-fill/fixtures/crrlj-09-0870-canonical-filled.pdf",
+          "recordedSha256": "05e54d039621b60c26af09cfc106485a17289ebfbc998774c013d1a2380dedbc",
+          "recomputedSha256": "05e54d039621b60c26af09cfc106485a17289ebfbc998774c013d1a2380dedbc",
+          "bindsFromDisk": true,
+          "recordedByteLength": 130126,
+          "observedByteLength": 130126
+        },
+        {
+          "document": "CRRLJ-09.0870",
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-cannabis-set--official-pdf-fill/fixtures/crrlj-09-0870-boundary-filled.pdf",
+          "recordedSha256": "73a23e0f22cebf5cde9af115504e81118b22ac1f688f0482646159627d758e4e",
+          "recomputedSha256": "73a23e0f22cebf5cde9af115504e81118b22ac1f688f0482646159627d758e4e",
+          "bindsFromDisk": true,
+          "recordedByteLength": 130221,
+          "observedByteLength": 130221
+        }
+      ],
+      "evidenceRead": [
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-cannabis-set--official-pdf-fill/build-status.json",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-cannabis-set--official-pdf-fill/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-cannabis-set--official-pdf-fill/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-cannabis-set--official-pdf-fill/participant-completion-instructions.json",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-cannabis-set--official-pdf-fill/build-findings.json",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-cannabis-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-cannabis-set--official-pdf-fill/reports/protection-report.json",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-cannabis-set--official-pdf-fill/fixtures/fixture-manifest.json",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-cannabis-set--official-pdf-fill/fixtures/crrlj-09-0800-canonical-filled.pdf",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-cannabis-set--official-pdf-fill/fixtures/crrlj-09-0800-boundary-filled.pdf",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-cannabis-set--official-pdf-fill/fixtures/crrlj-09-0870-canonical-filled.pdf",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-cannabis-set--official-pdf-fill/fixtures/crrlj-09-0870-boundary-filled.pdf",
+        "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+        "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json"
+      ]
+    },
+    {
+      "itemId": "wa_vac_domestic_violence-set",
+      "lane": "VF15",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/wa/wa-vac-domestic-violence-set--official-pdf-fill",
+      "composedFamily": false,
+      "tracks": [
+        "obligation:track-pathway:WA:wa_vac_domestic_violence:adult-misdemeanor-gross-misdemeanor-vacation-under-rcw-9-96-060"
+      ],
+      "builderDeclaredStatus": {
+        "buildStatus": "BUILT_EVIDENCE_ONLY",
+        "participantInstructionStatus": "EVIDENCE_ONLY_NOT_APPROVED_FOR_DELIVERY",
+        "generationAllowed": false,
+        "runtimeSelectable": false,
+        "commercialRoutesOpened": 0
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "familyId agrees across build-status.json, source-receipt.json, reports/rendered-artifacts.json, production-field-map.json and participant-completion-instructions.json; the record names exactly one route, obligation:track-pathway:WA:wa_vac_domestic_violence:adult-misdemeanor-gross-misdemeanor-vacation-under-rcw-9-96-060"
+        },
+        "SOURCE_IDENTITY": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "the source bytes are not reachable in this container, so no SHA-256 was recomputed from them: the Master Library is absent at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1, scripts/rcap-corpus/bootstrap-private-corpus.sh was run twice and refused both times, and the HTTP 403 is issued by this session's GitHub access layer ('GitHub access to this repository is not enabled for this session') rather than by GitHub. add_repo, the remedy that refusal names, was denied in both read and push modes. Cross-record consistency was measured instead and is not a substitute: the source SHA-256 each record pins agrees across source-receipt.json, production-field-map.json and the committed corpus index, which proves the records agree with each other and nothing about the bytes."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "both documents the route names (CRRLJ-09.0100, CRRLJ-09.0200) are rendered as canonical and boundary fixtures; 4 artifact(s) present and accounted for in the fixture manifest"
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "knownRequiredFieldsMissing=0, measured by running scripts/rcap-packet-completeness/verify-packet-completeness.mjs in this container; 28 writable anchor(s) carry a factId and a measured write box"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "zero REQUIRED_BEFORE_FILING items are declared, and every one of the 43 withheld blanks carries an approved disposition in the closed vocabulary (signature_or_date_participant_completion, court_prosecutor_clerk_or_agency_owned, participant-authored narrative). The participant-authored blanks are disclosed to the participant in instruction 3. RECORDED DEVIATION: this family has no participant-instructions.md — the file the obligation names — and discloses through participant-completion-instructions.json instead."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "no route-determined election is selected anywhere in the packet. production-field-map.json declares 'legal elections or checkboxes' under explicitSafetyPolicy.neverWritten; the protection report records selectionControlsMarked=false with every observed selection control proved unmarked; product-wiring.json carries no routeSelectionId (the SD family in this same lane does carry one). Decisively demonstrated: wa_vac_domestic_violence-set and wa_vac_homicide_victim_prostitution-set are two distinct statutory routes that render BYTE-IDENTICAL packets — all four fixtures share the same SHA-256, and their production-field-map.json files are identical except for the family id. A packet built for one statutory route must state which route it is; these two are indistinguishable from their bytes."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "incompleteRows=0, measured by running the completeness verifier in this container"
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "no signature, signature date, certificate of mailing, court-only or prosecutor-only field carries ink: signatureAndCourtFieldsWritten=false and selectionControlsMarked=false across 2 document(s), with vectorPathsAdded=0 and controlsMarked=0 proved per fixture; protectedWrites=0 measured here"
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "4 of 4 artifact(s) recomputed from the committed bytes in this container and hash to the record, byte lengths included; deterministicSecondRenderSha256 equals the recorded hash on every artifact"
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "page counts read from the PDF bytes match reports/rendered-artifacts.json on every artifact, and the raster set per document matches the page count"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "visualDefects=0 measured by the completeness verifier here. Recorded limit: the in-overlay rasters were produced by Poppler pdftoppm (reports/rendered-artifacts.json rasterPath), which the factory contract excludes as a different measurement from scripts/lib/pdf-page-raster.mjs. The central gate's own render is the binding one, and its coverage is recorded under rasterCeiling."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "the instruction file never names the court or agency the route names. Instruction 1 hands the choice to the participant ('choose the correct court and eligibility path') and instruction 6 defers to 'the sentencing court' without naming it. The route names a District/Municipal or Superior Court forum; the packet does not."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "neither a filing fee nor a waiver route is stated. Instruction 6 explicitly defers fee to the participant: 'Confirm local filing, notice, service, fee, and hearing requirements with the sentencing court before filing.' The route's own census records feeWaiverTreatment as missing implementation work."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "the instructions never state who must be served or how. Instruction 6 defers service along with fee and hearing. The route's census records certificateOfService as missing implementation work, and the family renders no proof or certificate of service component."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "stated: instruction 1 ('this build does not make legal elections'), instruction 3 (participant-authored narrative is never invented), instruction 5 (judicial and clerk portions left to the named official), with legalReviewStillRequired=true and status EVIDENCE_ONLY_NOT_APPROVED_FOR_DELIVERY."
+        }
+      },
+      "failedProofObligations": [
+        "ROUTE_OPTIONS",
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SERVICE"
+      ],
+      "notMeasurableHere": [
+        "SOURCE_IDENTITY"
+      ],
+      "openLegalInputs": [],
+      "recordedDeviations": [
+        "participant-instructions.md is absent; the family discloses through participant-completion-instructions.json"
+      ],
+      "rasterCeiling": {
+        "currentRasterState": "RASTER_PASS",
+        "workflowRunId": "33488713831",
+        "jobId": "99795498424",
+        "renderedCommitSha": "71894f3f2dde0f5af34818a2fa8dc8bce84e0d24",
+        "pinnedCanonicalBindsToDiskHere": true,
+        "pinnedBoundaryBindsToDiskHere": true,
+        "pinnedDocument": "crrlj-09-0100-canonical-filled.pdf",
+        "artifactsTheFamilyRenders": 4,
+        "artifactsTheGatePinned": 2,
+        "pagesTheFamilyRenders": 22,
+        "pagesTheGateRendered": 10,
+        "coverage": "PARTIAL"
+      },
+      "builderAdvisoriesRead": [
+        "The state-bounded map writes held participant and case facts into exact source-measured cells; legal elections, participant-authored narratives, execution fields, and judicial findings retain approved blank dispositions.",
+        "Machine raster production and byte-level placement proof are not human independent visual review.",
+        "The worklist records unresolved local filing, notice, service, fee, and hearing variation; this build does not resolve those legal-design questions."
+      ],
+      "artifactProof": [
+        {
+          "document": "CRRLJ-09.0100",
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-domestic-violence-set--official-pdf-fill/fixtures/crrlj-09-0100-canonical-filled.pdf",
+          "recordedSha256": "846360e75578ce6233dba77b03b25545a529b50cd553ad31f88d3008b429a6ad",
+          "recomputedSha256": "846360e75578ce6233dba77b03b25545a529b50cd553ad31f88d3008b429a6ad",
+          "bindsFromDisk": true,
+          "recordedByteLength": 158439,
+          "observedByteLength": 158439
+        },
+        {
+          "document": "CRRLJ-09.0100",
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-domestic-violence-set--official-pdf-fill/fixtures/crrlj-09-0100-boundary-filled.pdf",
+          "recordedSha256": "75fac347051d6b710015ef5bbcc10b43df0a1de59078195ede75a744f4c42b77",
+          "recomputedSha256": "75fac347051d6b710015ef5bbcc10b43df0a1de59078195ede75a744f4c42b77",
+          "bindsFromDisk": true,
+          "recordedByteLength": 158615,
+          "observedByteLength": 158615
+        },
+        {
+          "document": "CRRLJ-09.0200",
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-domestic-violence-set--official-pdf-fill/fixtures/crrlj-09-0200-canonical-filled.pdf",
+          "recordedSha256": "3abc2475b78da8cff2445a99a78fa7aa18641d4c27f17d0c5eea3d6f07e40ce7",
+          "recomputedSha256": "3abc2475b78da8cff2445a99a78fa7aa18641d4c27f17d0c5eea3d6f07e40ce7",
+          "bindsFromDisk": true,
+          "recordedByteLength": 157661,
+          "observedByteLength": 157661
+        },
+        {
+          "document": "CRRLJ-09.0200",
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-domestic-violence-set--official-pdf-fill/fixtures/crrlj-09-0200-boundary-filled.pdf",
+          "recordedSha256": "4d844aece78a8ae1c1e97407edd305f45dbdaa2c509f8e55ef51fef03bcb3a55",
+          "recomputedSha256": "4d844aece78a8ae1c1e97407edd305f45dbdaa2c509f8e55ef51fef03bcb3a55",
+          "bindsFromDisk": true,
+          "recordedByteLength": 157759,
+          "observedByteLength": 157759
+        }
+      ],
+      "evidenceRead": [
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-domestic-violence-set--official-pdf-fill/build-status.json",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-domestic-violence-set--official-pdf-fill/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-domestic-violence-set--official-pdf-fill/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-domestic-violence-set--official-pdf-fill/participant-completion-instructions.json",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-domestic-violence-set--official-pdf-fill/build-findings.json",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-domestic-violence-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-domestic-violence-set--official-pdf-fill/reports/protection-report.json",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-domestic-violence-set--official-pdf-fill/fixtures/fixture-manifest.json",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-domestic-violence-set--official-pdf-fill/fixtures/crrlj-09-0100-canonical-filled.pdf",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-domestic-violence-set--official-pdf-fill/fixtures/crrlj-09-0100-boundary-filled.pdf",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-domestic-violence-set--official-pdf-fill/fixtures/crrlj-09-0200-canonical-filled.pdf",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-domestic-violence-set--official-pdf-fill/fixtures/crrlj-09-0200-boundary-filled.pdf",
+        "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+        "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json"
+      ]
+    },
+    {
+      "itemId": "wa_vac_felony-set",
+      "lane": "VF15",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/wa/wa-vac-felony-set--official-pdf-fill",
+      "composedFamily": false,
+      "tracks": [
+        "obligation:track-pathway:WA:wa_vac_felony:adult-felony-vacation-under-rcw-9-94a-640"
+      ],
+      "builderDeclaredStatus": {
+        "buildStatus": "BUILT_EVIDENCE_ONLY",
+        "participantInstructionStatus": "EVIDENCE_ONLY_NOT_APPROVED_FOR_DELIVERY",
+        "generationAllowed": false,
+        "runtimeSelectable": false,
+        "commercialRoutesOpened": 0
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "familyId agrees across build-status.json, source-receipt.json, reports/rendered-artifacts.json, production-field-map.json and participant-completion-instructions.json; the record names exactly one route, obligation:track-pathway:WA:wa_vac_felony:adult-felony-vacation-under-rcw-9-94a-640"
+        },
+        "SOURCE_IDENTITY": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "the source bytes are not reachable in this container, so no SHA-256 was recomputed from them: the Master Library is absent at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1, scripts/rcap-corpus/bootstrap-private-corpus.sh was run twice and refused both times, and the HTTP 403 is issued by this session's GitHub access layer ('GitHub access to this repository is not enabled for this session') rather than by GitHub. add_repo, the remedy that refusal names, was denied in both read and push modes. Cross-record consistency was measured instead and is not a substitute: the source SHA-256 each record pins agrees across source-receipt.json, production-field-map.json and the committed corpus index, which proves the records agree with each other and nothing about the bytes."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "both documents the route names (CR-08.0900, CR-08.0920) are rendered as canonical and boundary fixtures; 4 artifact(s) present and accounted for in the fixture manifest"
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "knownRequiredFieldsMissing=0, measured by running scripts/rcap-packet-completeness/verify-packet-completeness.mjs in this container; 49 writable anchor(s) carry a factId and a measured write box"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "zero REQUIRED_BEFORE_FILING items are declared, and every one of the 33 withheld blanks carries an approved disposition in the closed vocabulary (signature_or_date_participant_completion, court_prosecutor_clerk_or_agency_owned, participant-authored narrative). The participant-authored blanks are disclosed to the participant in instruction 3. RECORDED DEVIATION: this family has no participant-instructions.md — the file the obligation names — and discloses through participant-completion-instructions.json instead."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "no route-determined election is selected anywhere in the packet. production-field-map.json declares 'legal elections or checkboxes' under explicitSafetyPolicy.neverWritten; the protection report records selectionControlsMarked=false with every observed selection control proved unmarked; product-wiring.json carries no routeSelectionId (the SD family in this same lane does carry one). No twin comparison applies to this family."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "incompleteRows=0, measured by running the completeness verifier in this container"
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "no signature, signature date, certificate of mailing, court-only or prosecutor-only field carries ink: signatureAndCourtFieldsWritten=false and selectionControlsMarked=false across 2 document(s), with vectorPathsAdded=0 and controlsMarked=0 proved per fixture; protectedWrites=0 measured here"
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "4 of 4 artifact(s) recomputed from the committed bytes in this container and hash to the record, byte lengths included; deterministicSecondRenderSha256 equals the recorded hash on every artifact"
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "page counts read from the PDF bytes match reports/rendered-artifacts.json on every artifact, and the raster set per document matches the page count"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "visualDefects=0 measured by the completeness verifier here. Recorded limit: the in-overlay rasters were produced by Poppler pdftoppm (reports/rendered-artifacts.json rasterPath), which the factory contract excludes as a different measurement from scripts/lib/pdf-page-raster.mjs. The central gate's own render is the binding one, and its coverage is recorded under rasterCeiling."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "the instruction file never names the court or agency the route names. Instruction 1 hands the choice to the participant ('choose the correct court and eligibility path') and instruction 6 defers to 'the sentencing court' without naming it. The route names a District/Municipal or Superior Court forum; the packet does not."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "neither a filing fee nor a waiver route is stated. Instruction 6 explicitly defers fee to the participant: 'Confirm local filing, notice, service, fee, and hearing requirements with the sentencing court before filing.' The route's own census records feeWaiverTreatment as missing implementation work."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "the instructions never state who must be served or how. Instruction 6 defers service along with fee and hearing. The route's census records certificateOfService as missing implementation work, and the family renders no proof or certificate of service component."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "stated: instruction 1 ('this build does not make legal elections'), instruction 3 (participant-authored narrative is never invented), instruction 5 (judicial and clerk portions left to the named official), with legalReviewStillRequired=true and status EVIDENCE_ONLY_NOT_APPROVED_FOR_DELIVERY."
+        }
+      },
+      "failedProofObligations": [
+        "ROUTE_OPTIONS",
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SERVICE"
+      ],
+      "notMeasurableHere": [
+        "SOURCE_IDENTITY"
+      ],
+      "openLegalInputs": [],
+      "recordedDeviations": [
+        "participant-instructions.md is absent; the family discloses through participant-completion-instructions.json"
+      ],
+      "rasterCeiling": {
+        "currentRasterState": "RASTER_PASS",
+        "workflowRunId": "33488713831",
+        "jobId": "99795498129",
+        "renderedCommitSha": "71894f3f2dde0f5af34818a2fa8dc8bce84e0d24",
+        "pinnedCanonicalBindsToDiskHere": true,
+        "pinnedBoundaryBindsToDiskHere": true,
+        "pinnedDocument": "cr-08-0900-canonical-filled.pdf",
+        "artifactsTheFamilyRenders": 4,
+        "artifactsTheGatePinned": 2,
+        "pagesTheFamilyRenders": 12,
+        "pagesTheGateRendered": 6,
+        "coverage": "PARTIAL"
+      },
+      "builderAdvisoriesRead": [
+        "The state-bounded map writes held participant and case facts into exact source-measured cells; legal elections, participant-authored narratives, execution fields, and judicial findings retain approved blank dispositions.",
+        "Machine raster production and byte-level placement proof are not human independent visual review.",
+        "The worklist records unresolved local filing, notice, service, fee, and hearing variation; this build does not resolve those legal-design questions."
+      ],
+      "artifactProof": [
+        {
+          "document": "CR-08.0900",
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-felony-set--official-pdf-fill/fixtures/cr-08-0900-canonical-filled.pdf",
+          "recordedSha256": "3c40568209578ca04893ce46b64539a44af355dc11bd75b7daee75d215eda37f",
+          "recomputedSha256": "3c40568209578ca04893ce46b64539a44af355dc11bd75b7daee75d215eda37f",
+          "bindsFromDisk": true,
+          "recordedByteLength": 131245,
+          "observedByteLength": 131245
+        },
+        {
+          "document": "CR-08.0900",
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-felony-set--official-pdf-fill/fixtures/cr-08-0900-boundary-filled.pdf",
+          "recordedSha256": "2da76cc75f1ccd72cc12fdefef71edb90f477199877714e3263d9b46a4fccc8d",
+          "recomputedSha256": "2da76cc75f1ccd72cc12fdefef71edb90f477199877714e3263d9b46a4fccc8d",
+          "bindsFromDisk": true,
+          "recordedByteLength": 131437,
+          "observedByteLength": 131437
+        },
+        {
+          "document": "CR-08.0920",
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-felony-set--official-pdf-fill/fixtures/cr-08-0920-canonical-filled.pdf",
+          "recordedSha256": "1c715d2be4cfa5398a82fad6999570e1502a607a3f939061f01710f443d5e6eb",
+          "recomputedSha256": "1c715d2be4cfa5398a82fad6999570e1502a607a3f939061f01710f443d5e6eb",
+          "bindsFromDisk": true,
+          "recordedByteLength": 158875,
+          "observedByteLength": 158875
+        },
+        {
+          "document": "CR-08.0920",
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-felony-set--official-pdf-fill/fixtures/cr-08-0920-boundary-filled.pdf",
+          "recordedSha256": "e5014e2e979599132c6232fae1b94fe8dd271eef6a63c113e42a886377840721",
+          "recomputedSha256": "e5014e2e979599132c6232fae1b94fe8dd271eef6a63c113e42a886377840721",
+          "bindsFromDisk": true,
+          "recordedByteLength": 158983,
+          "observedByteLength": 158983
+        }
+      ],
+      "evidenceRead": [
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-felony-set--official-pdf-fill/build-status.json",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-felony-set--official-pdf-fill/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-felony-set--official-pdf-fill/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-felony-set--official-pdf-fill/participant-completion-instructions.json",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-felony-set--official-pdf-fill/build-findings.json",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-felony-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-felony-set--official-pdf-fill/reports/protection-report.json",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-felony-set--official-pdf-fill/fixtures/fixture-manifest.json",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-felony-set--official-pdf-fill/fixtures/cr-08-0900-canonical-filled.pdf",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-felony-set--official-pdf-fill/fixtures/cr-08-0900-boundary-filled.pdf",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-felony-set--official-pdf-fill/fixtures/cr-08-0920-canonical-filled.pdf",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-felony-set--official-pdf-fill/fixtures/cr-08-0920-boundary-filled.pdf",
+        "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+        "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json"
+      ]
+    },
+    {
+      "itemId": "wa_vac_homicide_victim_prostitution-set",
+      "lane": "VF15",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill",
+      "composedFamily": false,
+      "tracks": [
+        "obligation:track-only:WA:wa_vac_homicide_victim_prostitution"
+      ],
+      "builderDeclaredStatus": {
+        "buildStatus": "BUILT_EVIDENCE_ONLY",
+        "participantInstructionStatus": "EVIDENCE_ONLY_NOT_APPROVED_FOR_DELIVERY",
+        "generationAllowed": false,
+        "runtimeSelectable": false,
+        "commercialRoutesOpened": 0
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "familyId agrees across build-status.json, source-receipt.json, reports/rendered-artifacts.json, production-field-map.json and participant-completion-instructions.json; the record names exactly one route, obligation:track-only:WA:wa_vac_homicide_victim_prostitution"
+        },
+        "SOURCE_IDENTITY": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "the source bytes are not reachable in this container, so no SHA-256 was recomputed from them: the Master Library is absent at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1, scripts/rcap-corpus/bootstrap-private-corpus.sh was run twice and refused both times, and the HTTP 403 is issued by this session's GitHub access layer ('GitHub access to this repository is not enabled for this session') rather than by GitHub. add_repo, the remedy that refusal names, was denied in both read and push modes. Cross-record consistency was measured instead and is not a substitute: the source SHA-256 each record pins agrees across source-receipt.json, production-field-map.json and the committed corpus index, which proves the records agree with each other and nothing about the bytes."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "both documents the route names (CRRLJ-09.0100, CRRLJ-09.0200) are rendered as canonical and boundary fixtures; 4 artifact(s) present and accounted for in the fixture manifest"
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "knownRequiredFieldsMissing=0, measured by running scripts/rcap-packet-completeness/verify-packet-completeness.mjs in this container; 28 writable anchor(s) carry a factId and a measured write box"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "zero REQUIRED_BEFORE_FILING items are declared, and every one of the 43 withheld blanks carries an approved disposition in the closed vocabulary (signature_or_date_participant_completion, court_prosecutor_clerk_or_agency_owned, participant-authored narrative). The participant-authored blanks are disclosed to the participant in instruction 3. RECORDED DEVIATION: this family has no participant-instructions.md — the file the obligation names — and discloses through participant-completion-instructions.json instead."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "no route-determined election is selected anywhere in the packet. production-field-map.json declares 'legal elections or checkboxes' under explicitSafetyPolicy.neverWritten; the protection report records selectionControlsMarked=false with every observed selection control proved unmarked; product-wiring.json carries no routeSelectionId (the SD family in this same lane does carry one). Decisively demonstrated: wa_vac_domestic_violence-set and wa_vac_homicide_victim_prostitution-set are two distinct statutory routes that render BYTE-IDENTICAL packets — all four fixtures share the same SHA-256, and their production-field-map.json files are identical except for the family id. A packet built for one statutory route must state which route it is; these two are indistinguishable from their bytes."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "incompleteRows=0, measured by running the completeness verifier in this container"
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "no signature, signature date, certificate of mailing, court-only or prosecutor-only field carries ink: signatureAndCourtFieldsWritten=false and selectionControlsMarked=false across 2 document(s), with vectorPathsAdded=0 and controlsMarked=0 proved per fixture; protectedWrites=0 measured here"
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "4 of 4 artifact(s) recomputed from the committed bytes in this container and hash to the record, byte lengths included; deterministicSecondRenderSha256 equals the recorded hash on every artifact"
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "page counts read from the PDF bytes match reports/rendered-artifacts.json on every artifact, and the raster set per document matches the page count"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "visualDefects=0 measured by the completeness verifier here. Recorded limit: the in-overlay rasters were produced by Poppler pdftoppm (reports/rendered-artifacts.json rasterPath), which the factory contract excludes as a different measurement from scripts/lib/pdf-page-raster.mjs. The central gate's own render is the binding one, and its coverage is recorded under rasterCeiling."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "the instruction file never names the court or agency the route names. Instruction 1 hands the choice to the participant ('choose the correct court and eligibility path') and instruction 6 defers to 'the sentencing court' without naming it. The route names a District/Municipal or Superior Court forum; the packet does not."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "neither a filing fee nor a waiver route is stated. Instruction 6 explicitly defers fee to the participant: 'Confirm local filing, notice, service, fee, and hearing requirements with the sentencing court before filing.' The route's own census records feeWaiverTreatment as missing implementation work."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "the instructions never state who must be served or how. Instruction 6 defers service along with fee and hearing. The route's census records certificateOfService as missing implementation work, and the family renders no proof or certificate of service component."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "stated: instruction 1 ('this build does not make legal elections'), instruction 3 (participant-authored narrative is never invented), instruction 5 (judicial and clerk portions left to the named official), with legalReviewStillRequired=true and status EVIDENCE_ONLY_NOT_APPROVED_FOR_DELIVERY."
+        }
+      },
+      "failedProofObligations": [
+        "ROUTE_OPTIONS",
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SERVICE"
+      ],
+      "notMeasurableHere": [
+        "SOURCE_IDENTITY"
+      ],
+      "openLegalInputs": [],
+      "recordedDeviations": [
+        "participant-instructions.md is absent; the family discloses through participant-completion-instructions.json"
+      ],
+      "rasterCeiling": {
+        "currentRasterState": "RASTER_PASS",
+        "workflowRunId": "33488713831",
+        "jobId": "99795498262",
+        "renderedCommitSha": "71894f3f2dde0f5af34818a2fa8dc8bce84e0d24",
+        "pinnedCanonicalBindsToDiskHere": true,
+        "pinnedBoundaryBindsToDiskHere": true,
+        "pinnedDocument": "crrlj-09-0100-canonical-filled.pdf",
+        "artifactsTheFamilyRenders": 4,
+        "artifactsTheGatePinned": 2,
+        "pagesTheFamilyRenders": 22,
+        "pagesTheGateRendered": 10,
+        "coverage": "PARTIAL"
+      },
+      "builderAdvisoriesRead": [
+        "The state-bounded map writes held participant and case facts into exact source-measured cells; legal elections, participant-authored narratives, execution fields, and judicial findings retain approved blank dispositions.",
+        "Machine raster production and byte-level placement proof are not human independent visual review.",
+        "The worklist records unresolved local filing, notice, service, fee, and hearing variation; this build does not resolve those legal-design questions."
+      ],
+      "artifactProof": [
+        {
+          "document": "CRRLJ-09.0100",
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/fixtures/crrlj-09-0100-canonical-filled.pdf",
+          "recordedSha256": "846360e75578ce6233dba77b03b25545a529b50cd553ad31f88d3008b429a6ad",
+          "recomputedSha256": "846360e75578ce6233dba77b03b25545a529b50cd553ad31f88d3008b429a6ad",
+          "bindsFromDisk": true,
+          "recordedByteLength": 158439,
+          "observedByteLength": 158439
+        },
+        {
+          "document": "CRRLJ-09.0100",
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/fixtures/crrlj-09-0100-boundary-filled.pdf",
+          "recordedSha256": "75fac347051d6b710015ef5bbcc10b43df0a1de59078195ede75a744f4c42b77",
+          "recomputedSha256": "75fac347051d6b710015ef5bbcc10b43df0a1de59078195ede75a744f4c42b77",
+          "bindsFromDisk": true,
+          "recordedByteLength": 158615,
+          "observedByteLength": 158615
+        },
+        {
+          "document": "CRRLJ-09.0200",
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/fixtures/crrlj-09-0200-canonical-filled.pdf",
+          "recordedSha256": "3abc2475b78da8cff2445a99a78fa7aa18641d4c27f17d0c5eea3d6f07e40ce7",
+          "recomputedSha256": "3abc2475b78da8cff2445a99a78fa7aa18641d4c27f17d0c5eea3d6f07e40ce7",
+          "bindsFromDisk": true,
+          "recordedByteLength": 157661,
+          "observedByteLength": 157661
+        },
+        {
+          "document": "CRRLJ-09.0200",
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/fixtures/crrlj-09-0200-boundary-filled.pdf",
+          "recordedSha256": "4d844aece78a8ae1c1e97407edd305f45dbdaa2c509f8e55ef51fef03bcb3a55",
+          "recomputedSha256": "4d844aece78a8ae1c1e97407edd305f45dbdaa2c509f8e55ef51fef03bcb3a55",
+          "bindsFromDisk": true,
+          "recordedByteLength": 157759,
+          "observedByteLength": 157759
+        }
+      ],
+      "evidenceRead": [
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/build-status.json",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/participant-completion-instructions.json",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/build-findings.json",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/reports/protection-report.json",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/fixtures/fixture-manifest.json",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/fixtures/crrlj-09-0100-canonical-filled.pdf",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/fixtures/crrlj-09-0100-boundary-filled.pdf",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/fixtures/crrlj-09-0200-canonical-filled.pdf",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/fixtures/crrlj-09-0200-boundary-filled.pdf",
+        "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+        "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json"
+      ]
+    }
+  ]
+}

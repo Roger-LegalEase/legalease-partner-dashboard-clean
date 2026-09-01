@@ -1,0 +1,184 @@
+name: RCAP Source Conveyor
+
+on:
+  push:
+    branches: [claude/legalease-sprint-captain-utucnw]
+    paths:
+      - scripts/grade-a-packet-factory-24h/**
+      - scripts/verify-packet-build-environment.mjs
+      - scripts/rcap-*.mjs
+      - scripts/lib/**
+      - scripts/raster/**
+      - scripts/codex-cloud/**
+      - package.json
+      - package-lock.json
+      - docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md
+      - data/rcap-grade-a/packet-factory-24h/**
+      - docs/rcap/grade-a/packet-factory-24h/**
+      - data/rcap-all50/overlays/census-v1/**
+      - .github/workflows/rcap-*.yml
+  pull_request:
+    paths:
+      - scripts/grade-a-packet-factory-24h/**
+      - scripts/verify-packet-build-environment.mjs
+      - scripts/rcap-*.mjs
+      - scripts/lib/**
+      - scripts/raster/**
+      - scripts/codex-cloud/**
+      - package.json
+      - package-lock.json
+      - docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md
+      - data/rcap-grade-a/packet-factory-24h/**
+      - docs/rcap/grade-a/packet-factory-24h/**
+      - data/rcap-all50/overlays/census-v1/**
+      - .github/workflows/rcap-*.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  READY_TO_RUN:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          # The ancestry gate below asks whether the dispatch base is an
+          # ancestor of HEAD. A depth-1 clone has one commit to reason over and
+          # correctly refuses to confirm a relationship it cannot observe, so
+          # the generators reported "the minimum Captain SHA is not an ancestor
+          # of HEAD" on a tree where it plainly was. Full history, or the gate
+          # is answering a question about the clone rather than the branch.
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - name: Prove exact checked-out commit
+        run: test "$(git rev-parse HEAD)" = "${GITHUB_SHA}"
+      - name: Syntax checks
+        run: |
+          set -euo pipefail
+          for f in scripts/grade-a-packet-factory-24h/*.mjs scripts/rcap-{acquire-official-source,plan-source-acquisition-batch,summarize-source-acquisition-batch,materialize-acquisition-handoff}.mjs scripts/verify-packet-build-environment.mjs; do node --check "$f"; done
+      - name: Workflow YAML validation
+        run: ruby -e 'require "yaml"; Dir[".github/workflows/*.yml"].each { |f| YAML.parse_file(f) }'
+      - name: Generator convergence
+        run: |
+          node scripts/grade-a-packet-factory-24h/generate.mjs --check
+          node scripts/grade-a-packet-factory-24h/generate-source-conveyor.mjs --check
+          node scripts/grade-a-packet-factory-24h/generate-washington-repair.mjs --check
+      - name: Factory checks
+        run: node scripts/grade-a-packet-factory-24h/verify.mjs
+      - name: Factory mutations
+        run: node scripts/grade-a-packet-factory-24h/verify.mjs --mutations
+      - name: Conveyor checks
+        run: node scripts/grade-a-packet-factory-24h/verify-source-conveyor.mjs
+      - name: Conveyor mutations
+        run: node scripts/grade-a-packet-factory-24h/verify-source-conveyor.mjs --mutations
+      - name: Validate full acquisition manifest
+        run: node scripts/rcap-plan-source-acquisition-batch.mjs
+      # The ACQ -> PROMO handoff, exercised end to end against a temporary
+      # artifact: the control proves a complete receipt is accepted, then each
+      # link is broken and the refusal is required. Without the control a gate
+      # that refuses everything would look identical to one that works.
+      - name: ACQ to PROMO handoff checks
+        run: node scripts/grade-a-packet-factory-24h/verify-acq-promo-handoff.mjs
+      - name: ACQ to PROMO handoff mutations
+        run: node scripts/grade-a-packet-factory-24h/verify-acq-promo-handoff.mjs --mutations
+      - name: Diff and clean-worktree proof
+        run: |
+          git diff --check
+          test -z "$(git status --porcelain)"
+      - name: READY_TO_RUN summary
+        if: always()
+        env:
+          JOB_STATUS: ${{ job.status }}
+        run: |
+          node - <<'NODE' >> "$GITHUB_STEP_SUMMARY"
+          const fs=require('fs');
+          const m=require('./data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json');
+          const a=require('./data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json');
+          const q=require('./data/rcap-grade-a/packet-factory-24h/SOURCE_ACQUISITION_MANIFEST.json');
+          const c=require('./data/rcap-grade-a/packet-factory-24h/COLLISIONS.json');
+          const ci=require('./data/rcap-grade-a/packet-factory-24h/CONTINUOUS_INTEGRATION_STATE.json');
+          const triggered=ci.elasticCapacity.thresholds.filter(x=>x.triggered).flatMap(x=>x.creates);
+          const verdict=process.env.JOB_STATUS==='success'?'READY_TO_RUN':'REFUSED';
+          console.log(`# ${verdict}\n\n| Field | Value |\n|---|---|`);
+          for(const [k,v] of Object.entries({exactSHA:process.env.GITHUB_SHA,factoryResult:process.env.JOB_STATUS,factoryMutations:process.env.JOB_STATUS,conveyorResult:process.env.JOB_STATUS,conveyorMutations:process.env.JOB_STATUS,generatorConvergence:process.env.JOB_STATUS,manifestEntryCount:q.entries.length,DISCBacklog:q.counts.obligationsNeedingDiscoveryFirst,actualPromotedReleased:m.totals.actualPromotedAndReleased,collisionCounts:JSON.stringify(c.counts),triggeredLanes:triggered.join(', ')||'none',sourceBodiesCommitted:q.bodiesCommitted,commercialRoutesOpened:ci.commercialRoutesOpened,productionTouched:ci.productionTouched,verdict})) console.log(`| ${k} | ${v} |`);
+          NODE
+      # ---- each lane type, asked its own contract ------------------------------
+      #
+      # This job used to provision a browser and run the packet runtime
+      # acceptance, and it failed -- not on Chromium, which installed fine, but
+      # on `Cannot find module 'pdf-lib'`, because this job never runs npm ci.
+      # A packet-runtime check bolted onto a dependency-free control-plane job
+      # was wrong twice over: wrong about what this gate is for, and unable to
+      # run even where a browser exists.
+      #
+      # This gate is source-conveyor readiness. A source lane settles identity,
+      # fetches bytes and writes custody records; it renders nothing. So what is
+      # asked here is the source-lane contract, and the packet render contract is
+      # asked where rendering happens, in rcap-packet-raster-acceptance-batch.yml,
+      # which keeps the canary and the negative controls.
+      - name: A source-lane preflight requires no rasterizer
+        run: |
+          set -euo pipefail
+          out="$(node scripts/verify-packet-build-environment.mjs --codex-cloud 2>&1 || true)"
+          echo "$out"
+          # Not applicable, and skipped is never counted as a pass.
+          echo "$out" | grep -qE '^\s*-\s+page_rasterizer_available\s+not applicable' \
+            || { echo "REFUSED: a source-lane preflight is asking for a rasterizer no source lane uses"; exit 1; }
+          echo "$out" | grep -qE 'PACKET_BUILD_ENVIRONMENT_(READY|NOT_READY):' \
+            || { echo "REFUSED: the preflight produced no verdict line"; exit 1; }
+
+      - name: Codex setup requires no browser
+        run: |
+          set -euo pipefail
+          # ENV-RAS01 proved the Playwright CDN answers 403 from inside Codex, so
+          # a setup phase that reaches for a browser cannot finish -- and a setup
+          # that cannot finish leaves every lane with no corpus at all.
+          for forbidden in 'playwright install' 'apt-get' 'pdftoppm' 'RCAP_CHROMIUM_PATH'; do
+            if grep -n "$forbidden" scripts/codex-cloud/setup-packet-factory.sh \
+                 | grep -vE '^\s*[0-9]+:\s*#' > /tmp/hit; then
+              echo "REFUSED: Codex setup reaches for $forbidden"; cat /tmp/hit; exit 1
+            fi
+          done
+          echo "Codex setup: no browser required, installed or proven."
+
+      - name: Lane contracts — each lane type asked its own
+        run: node scripts/grade-a-packet-factory-24h/verify-lane-contracts.mjs
+
+      - name: Source relationship model
+        # The previous human queue was 232 rows and invalid: it flattened
+        # bundles, embedded sections, variant IDs, statutes and reuse
+        # restrictions into "find this form" and "ask a clerk".
+        run: node scripts/grade-a-packet-factory-24h/verify-source-relationship-model.mjs
+
+      - name: Source relationship model mutations
+        run: node scripts/grade-a-packet-factory-24h/verify-source-relationship-model.mjs --mutations
+
+      - name: Lane-contract mutations
+        # Including the two the split turns on: Codex setup reaching for a
+        # browser again, and a packet reaching PASS_COMPLETE with no RASTER_PASS.
+        run: node scripts/grade-a-packet-factory-24h/verify-lane-contracts.mjs --mutations
+
+      - name: Update control tower issue
+        if: always()
+        uses: actions/github-script@v7
+        env:
+          JOB_STATUS: ${{ job.status }}
+        with:
+          script: |
+            const fs = require('fs');
+            const active = JSON.parse(fs.readFileSync('data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json'));
+            const master = JSON.parse(fs.readFileSync('data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json'));
+            const manifest = JSON.parse(fs.readFileSync('data/rcap-grade-a/packet-factory-24h/SOURCE_ACQUISITION_MANIFEST.json'));
+            const ci = JSON.parse(fs.readFileSync('data/rcap-grade-a/packet-factory-24h/CONTINUOUS_INTEGRATION_STATE.json'));
+            const counts = s => active.assignments.filter(x => (x.status || (x.itemCount ? 'ACTIVE' : 'QUEUED')) === s).length;
+            const verdict = process.env.JOB_STATUS === 'success' ? 'READY_TO_RUN' : 'REFUSED';
+            const body = `# RCAP Packet Factory Control Tower\n\n| Field | Value |\n|---|---|\n| Exact Captain SHA | ${context.sha} |\n| Readiness verdict | ${verdict} |\n| Workflow run | ${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId} |\n| Active / queued / completed / stopped / held lanes | ${counts('ACTIVE')} / ${counts('QUEUED')} / ${counts('COMPLETED')} / ${counts('STOPPED')} / ${counts('HELD')} |\n| DISC backlog | ${manifest.counts.obligationsNeedingDiscoveryFirst} |\n| Acquisition manifest entries | ${manifest.entries.length} |\n| Batch verdict | NOT_RUN_AT_THIS_COMMIT |\n| Actually promoted/released families | ${master.totals.actualPromotedAndReleased} |\n| Packet builds | ${master.denominator.sourceReady} |\n| Verification pending | ${master.denominator.verifyPending} |\n| Repair required | ${master.denominator.repairRequired} |\n| Next integration deadline | ${ci.cadence.nextIntegrationDeadline} |\n| Next source-release deadline | ${ci.cadence.nextSourceReleaseDeadline} |\n| Commercial routes opened | ${ci.commercialRoutesOpened} |\n| Production touched | ${ci.productionTouched} |`;
+            const title = 'RCAP Packet Factory Control Tower';
+            const {data} = await github.rest.issues.listForRepo({...context.repo, state:'open', per_page:100});
+            const issue = data.find(x => !x.pull_request && x.title === title);
+            if (issue) await github.rest.issues.update({...context.repo, issue_number:issue.number, body});
+            else await github.rest.issues.create({...context.repo, title, body});

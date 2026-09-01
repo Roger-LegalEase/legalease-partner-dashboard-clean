@@ -67,7 +67,7 @@ Drafting the pleading is supportable because **no statewide expunction form exis
 ## Evidence
 
 - `/home/user/wt-c1-pleadings/src/lib/rcap/state-packs/texas/index.ts`, `/home/user/wt-c1-pleadings/src/lib/rcap/state-packs/texas/all50-build-metadata.ts`
-- `/home/user/wt-c1-pleadings/src/lib/rcap-engine/compiled/profiles/TX-texas.json` (sha256 `2820312fd974151afe465d6f04d0454b4a5c3cc991982142bd0e3ab9c3a297df`, profileVersion `2026-06-19-source-conversion-1`)
+- `/home/user/wt-c1-pleadings/src/lib/rcap-engine/compiled/profiles/TX-texas.json` (sha256 `5d86879a794303a7b38faa37533db4037a356eb017f8a3229e62c51041309dc4`, profileVersion `2026-06-19-source-conversion-1`)
 - Pinned registry entry `tracks[409]` (`trackId=tx_exp_pardon_other`)
 
 The committed Texas state pack records build metadata and the Nationwide inventory only — three files under `LegalEase Texas` — and carries no track-level filing text, no caption and no vocabulary. Every filing step in `participant-instructions.md` comes from the track's `rules`, `packetInstructions`, `packetSet.participantActionRequired`, `participantFilingRequirements` and `selfHelpStopConditions`, corroborated by the compiled profile's seven-step filing sequence (`profile:sourceSections[6]`) and the state pack's own `filingSteps` and `filingDestinationGuidance`.

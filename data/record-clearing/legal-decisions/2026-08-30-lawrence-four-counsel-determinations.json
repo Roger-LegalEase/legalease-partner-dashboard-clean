@@ -1,0 +1,407 @@
+{
+  "schemaVersion": "rcap-legal-decisions/v1",
+  "recordId": "LWD-2026-08-30-FOUR-COUNSEL-DETERMINATIONS",
+  "createsApproval": false,
+  "createsOutputLevelApproval": false,
+  "note": "The four true counsel questions from the 86-row triage, answered. These are legal determinations. They create implementation obligations and nothing else: no checkout, sponsorship, packet-credit consumption, provider dispatch, artifact attachment, delivery, repeat download, commercially eligible status or COMPLETE_PACKET_PROVEN. Every fail-closed commercial gate stands unchanged. Output-level approval for any packet built from these determinations is a separate act on exact hashes.",
+  "decisionOwner": "Lawrence Blackmon",
+  "decisionDate": "2026-08-30",
+  "reviewedThrough": "2026-08-30",
+  "decisionSource": "Reviewer determinations returned to Captain A on 2026-08-30 for questions 4, 47, 54 and 76 of the legal-review queue.",
+  "answersQueue": "data/rcap-grade-a/route-obligation-census-v1/legal-review-queue-v2.json",
+  "supersedes": [],
+
+  "decisions": [
+    {
+      "decisionId": "LWD-2026-08-30-AL-Q4-DE-NOVO-REVIEW",
+      "questionId": "Q4",
+      "jurisdiction": "AL",
+      "routeKey": "obligation:research-decision-route:AL:al-uncharged-arrest:de_novo_court_review_after_final_denial",
+      "publicLabel": "Alabama de novo circuit-court review after final agency denial",
+      "answer": "A — LEGALEASE MUST FULFILL",
+      "classification": "CATEGORY_A_BOUNDED_PARTICIPANT_FILED_APPEAL",
+      "categoryBReason": null,
+      "participantFiledFallbackExists": true,
+      "participantFiledFallbackBasis": "Alabama expressly permits 'the individual or his or her attorney' to appeal, so the filing right belongs to the participant rather than exclusively to counsel. Counsel is not required for the first circuit-court filing.",
+      "jurisdictionalPrecondition": "The circuit-court filing is available only after completion of the AJIC administrative process. Failure to exhaust deprives the circuit court of subject-matter jurisdiction.",
+      "instrument": {
+        "shape": "TWO_DOCUMENT_INITIATING_PACKET",
+        "documents": [
+          "Notice of Appeal or Review from Final AJIC Commission Decision, filed with the Alabama Justice Information Commission under Ala. Code § 41-22-20",
+          "Petition for De Novo Judicial Review and Appeal Under Ala. Code §§ 41-9-645 and 41-22-20, filed in circuit court"
+        ],
+        "standardOfReview": "The circuit petition must expressly invoke the de novo standard under § 41-9-645 rather than the ordinary record-review standard used in most Alabama administrative appeals.",
+        "statutoryPetitionContents": "Section 41-22-20 requires a notice at the agency level and a circuit-court petition naming the agency and specifying the action, jurisdiction, grounds and relief."
+      },
+      "filingActor": "The individual whose Alabama criminal-history record is being challenged, appearing self-represented or through counsel. The statute does not require counsel.",
+      "destination": {
+        "administrativeNotice": "The AJIC Director/Commission, as the agency that issued the final administrative decision.",
+        "judicialPetition": "The circuit court of the participant's county of residence, or the circuit court of the county where the agency of record exists.",
+        "service": "Serve the AJIC Commission, the original agency of record and any other party of record. Registered or certified mail is statutorily sufficient service on the agency."
+      },
+      "trigger": [
+        "The participant obtained and reviewed the Alabama criminal-history record.",
+        "The participant timely submitted the AJIC challenge application and supporting official documentation.",
+        "The original agency of record denied the requested correction or removal.",
+        "The participant filed the required written administrative appeal to the AJIC Director.",
+        "The Commission completed its review and issued a final decision.",
+        "The participant remains dissatisfied with that final decision."
+      ],
+      "cohortSpecificClaim": "For the uncharged-arrest cohort, the substantive claim is that the participant was released without charge or cleared through criminal proceedings and that the statutorily covered information was not eliminated and removed as required by § 41-9-625. The underlying AJIC challenge ordinarily must have been initiated within one calendar year after AJIC's response to the participant's criminal-history application.",
+      "deadline": {
+        "rule": "File both documents on the same day and no later than 30 days after the participant received or was served with the final Commission decision.",
+        "why": "Section 41-22-20 generally allows an agency-level notice within 30 days and a circuit petition within 30 days after that notice, but the more specific § 41-9-645 requires the circuit appeal to be entered within 30 days of the decision. Do not rely on the general statute's additional 30-day petition period. Concurrent filing by day 30 is the risk-controlled rule."
+      },
+      "requiredComponents": [
+        "participant's full identifying and contact information",
+        "circuit-court caption and case-opening information",
+        "identification of AJIC and the original agency of record",
+        "identification of the precise arrest entry being challenged",
+        "arrest date, agency, alleged charge, and available incident or tracking number",
+        "allegation that the participant was released without charge or otherwise cleared",
+        "date and nature of the original agency's decision",
+        "facts establishing completion of the AJIC administrative appeal",
+        "date the final Commission decision was received",
+        "jurisdiction and venue allegations",
+        "explanation of why continued reporting is inaccurate, incomplete, misleading or contrary to § 41-9-625",
+        "requested relief directing the appropriate purge, modification, supplementation or explanatory notation",
+        "a request for de novo review",
+        "proof of service by certified or registered mail",
+        "any locally required civil cover sheet or case-opening document"
+      ],
+      "attachments": [
+        "the challenged AJIC/ALEA criminal-history record",
+        "the original challenge application",
+        "official documentation establishing release without charge or clearance",
+        "the original agency response",
+        "the written administrative appeal",
+        "the final Commission order or decision",
+        "documentation showing when the final decision was received",
+        "certified-mail receipts and tracking",
+        "a proposed order"
+      ],
+      "costAndBond": "Section 41-9-645 specifically excuses an advance bond and advance payment of costs. The petition must cite that exemption. A contrary demand by an agency or clerk triggers legal review rather than an improvised payment or bond response.",
+      "selfHelpMayFulfil": [
+        "administrative-exhaustion verification",
+        "notice and petition preparation",
+        "exhibit assembly",
+        "filing and service instructions",
+        "a standard document-based hearing checklist",
+        "a request for the statutorily required de novo hearing"
+      ],
+      "selfHelpStop": [
+        "the agency disputes a material fact concerning identity, disposition, release or clearance",
+        "the agency contends that § 41-9-625 does not require removal of the particular information",
+        "a motion to dismiss or jurisdictional challenge is filed",
+        "discovery, subpoenas, witness preparation, live evidentiary testimony or cross-examination is required",
+        "bespoke legal briefing is required",
+        "appellate review beyond the circuit court is sought",
+        "the participant is actually seeking a general Alabama expungement under Title 15 rather than correction or removal of AJIC criminal-history information",
+        "the requested relief includes sealing or erasing court files"
+      ],
+      "scopeLimit": "The AJIC Act does not provide a general mechanism for sealing court records merely because the corresponding AJIC information is corrected or removed.",
+      "controllingAuthority": [
+        "Ala. Code § 41-9-625",
+        "Ala. Code § 41-9-645",
+        "Ala. Code § 41-9-646",
+        "Ala. Code § 41-22-20",
+        "Ala. Admin. Code r. 265-X-2-.03",
+        "Stowe v. Alabama Board of Pardons & Paroles, 216 So. 3d 423 (Ala. Civ. App. 2017)",
+        "Mobile Press Register, Inc. v. Lackey, 938 So. 2d 398 (Ala. 2006)"
+      ]
+    },
+
+    {
+      "decisionId": "LWD-2026-08-30-NE-Q47-POSTCONVICTION",
+      "questionId": "Q47",
+      "jurisdiction": "NE",
+      "routeKey": "obligation:track-only:NE:ne-postconviction-routing",
+      "publicLabel": "Where to go if you want your Nebraska conviction overturned",
+      "answer": "B — LEGITIMATE EXCLUSION",
+      "classification": "CATEGORY_B_EXCLUSION",
+      "categoryBReason": "UNSUITABLE_FOR_SELF_HELP",
+      "categoryBReasonIsNotLegalImpossibility": "Nebraska does not require counsel; a person may file a postconviction motion pro se. The exclusion is a product-suitability decision: the verified motion is the operative, claim-fixing pleading; pro se litigants are held to essentially the same substantive pleading requirements as lawyers; omitted claims may be procedurally barred; successive motions are restricted; and Nebraska does not recognise equitable tolling of the one-year limitation period.",
+      "participantFiledFallbackExists": true,
+      "instrument": {
+        "shape": "PROFESSIONAL_ONLY_MERITS_PLEADING",
+        "documents": ["Verified Motion for Postconviction Relief Under Neb. Rev. Stat. § 29-3001"],
+        "note": "This is not a general motion asking the court to reconsider a conviction. It must plead a qualifying federal or Nebraska constitutional violation that renders the judgment void or voidable and prejudices the person's rights."
+      },
+      "filingActor": "A person who remains in custody under the Nebraska sentence, filing personally or through counsel. The custody requirement must exist when the proceeding is commenced. A completely discharged conviction ordinarily cannot be attacked through § 29-3001 merely because collateral consequences continue.",
+      "destination": "The court that imposed the sentence, using the original criminal caption, case number and sentencing court unless that court directs otherwise.",
+      "trigger": [
+        "a federal or Nebraska constitutional right was infringed",
+        "the infringement was prejudicial",
+        "the judgment is therefore void or voidable",
+        "the participant is entitled to release, a new trial, resentencing or another remedy authorized by the Postconviction Act"
+      ],
+      "triggerExclusions": "Ordinary trial error, dissatisfaction with a sentence, newly preferred legal arguments, and claims that were or could have been resolved on direct appeal do not automatically qualify. Procedural default, prior appellate counsel, record availability and previous postconviction proceedings must all be evaluated.",
+      "deadline": {
+        "rule": "Within one year after the latest of the five statutory events.",
+        "events": [
+          "the judgment became final by conclusion of direct review or expiration of the time for seeking direct review",
+          "the factual predicate of the claim could have been discovered through due diligence",
+          "a state-created impediment that violated the federal or Nebraska Constitution or laws was removed",
+          "the United States Supreme Court or Nebraska Supreme Court first recognised a new constitutional right that is retroactively applicable",
+          "the United States Supreme Court denied certiorari or affirmed the conviction, but only where the participant filed the required notice in the sentencing court within 30 days after filing the certiorari petition"
+        ],
+        "noEquitableTolling": "Nebraska's Supreme Court has held that equitable tolling is unavailable under this limitations provision. A sympathetic explanation for lateness does not authorise the court to disregard the statute."
+      },
+      "verification": {
+        "requirement": "The motion must be verified by oath or affirmation.",
+        "permittedForms": [
+          "verification incorporated into the motion",
+          "verification in a separately filed document, but only when filed simultaneously and directed solely and specifically to verifying that motion"
+        ],
+        "safestImplementation": "Verification incorporated into the motion and sworn or affirmed before a notary or other authorised officer.",
+        "doNotAssume": "Do not assume that a generic unsworn declaration will satisfy § 29-3001.",
+        "authority": "State v. Anthony, 320 Neb. 757 (2026)"
+      },
+      "selfHelpMayFulfil": [
+        "neutral remedy education",
+        "a conspicuous one-year-deadline warning",
+        "a record and transcript collection checklist",
+        "identification of the sentencing court",
+        "referrals to postconviction counsel, public defenders where available, innocence organizations or legal aid",
+        "information that appointment of counsel is discretionary rather than automatic"
+      ],
+      "selfHelpStop": [
+        "LegalEase must stop before selecting, framing, drafting, verifying or filing any substantive postconviction ground",
+        "must not generate the merits motion",
+        "must not determine which constitutional claims to assert",
+        "must not decide whether a claim is procedurally defaulted",
+        "must not calculate prejudice",
+        "must not select a limitations exception",
+        "must not advise a participant to omit or reserve a potential claim"
+      ],
+      "discretionaryCounselNote": "Appointment of postconviction counsel is discretionary, but that does not make automated merits pleading safe.",
+      "controllingAuthority": [
+        "Neb. Rev. Stat. § 29-3001",
+        "Neb. Rev. Stat. § 29-3003",
+        "Neb. Rev. Stat. § 29-3004",
+        "State v. Jaeger, 311 Neb. 69 (2022)",
+        "State v. Boeggeman, 316 Neb. 581 (2024)",
+        "State v. Anthony, 320 Neb. 757 (2026)"
+      ]
+    },
+
+    {
+      "decisionId": "LWD-2026-08-30-NY-Q54-LEGACY-160-55",
+      "questionId": "Q54",
+      "jurisdiction": "NY",
+      "routeKey": "obligation:research-decision-route:NY:ny_160_55_violation:pre_1991_legacy_motion",
+      "publicLabel": "Possible pre-November 1, 1991 legacy motion",
+      "answer": "A — LEGALEASE MUST FULFILL, BUT ONLY AS TWO DATE-SPECIFIC SUBROUTES",
+      "classification": "CATEGORY_A_MANDATORY_ROUTE_SPLIT",
+      "categoryBReason": null,
+      "participantFiledFallbackExists": true,
+      "mandatoryRouteSplit": {
+        "why": "A single 'pre-November 1, 1991 motion under CPL § 160.55(3)' is legally inaccurate. One generic motion would misstate the governing provision for the later cohort.",
+        "cohorts": [
+          {
+            "cohortId": "NY-160-55-LEGACY-COHORT-1",
+            "conviction": "before September 1, 1980",
+            "governedBy": "the current CPL § 160.55(3) motion, expressly",
+            "basis": "Section 160.55 became effective September 1, 1980. The current subdivision 3, originally subdivision 2, was the retroactivity provision for convictions entered before that original effective date. It allows the convicted person to move in the terminating court on at least 20 days' notice to the district attorney.",
+            "instrument": "Motion for an Order Granting Relief Under CPL § 160.55(3)",
+            "noticeRule": "The full motion must be provided to the district attorney on not less than 20 days' notice before the motion is submitted or heard.",
+            "presumption": "The motion should state the statutory presumption that relief should be granted unless the district attorney establishes that the interests of justice require otherwise."
+          },
+          {
+            "cohortId": "NY-160-55-LEGACY-COHORT-2",
+            "conviction": "September 1, 1980 through October 31, 1991",
+            "governedBy": "former CPL § 160.55, through a motion to enter or enforce the omitted legacy sealing order",
+            "basis": "This cohort is not literally within the 'prior to the effective date' language of current § 160.55(3). Before November 1, 1991 sealing depended on the court-generated sealing process then required by § 160.55. The 1991 amendment added the modern rule under which the disposition report itself supplies the sealing notice, and renumbered the prior provisions. New York Courts nevertheless instructs people with pre-November 1, 1991 convictions to ask the terminating court to seal the records.",
+            "instrument": "Motion to Enter and Enforce a Legacy Sealing Order Under Former CPL § 160.55",
+            "instrumentTitleIsDescriptive": "This is a legally descriptive motion title, not the name of an approved statewide form. No current statute supplies a specially named clerk application for this cohort. Request entry of the sealing order that should have accompanied the disposition under the law then in effect, and the relief described in current § 160.55(1).",
+            "doNotInvokeModernProcess": "Do not attempt to invoke the modern automatic-reporting process as though it applied at the original disposition, and do not apply the current automatic clerk-report mechanism as the initiating procedure.",
+            "noticeRule": "No current statewide statute supplies a separate legacy notice period. Serve the district attorney and comply with the terminating court's local criminal-motion return-date and service rules. 20 days may be used as a conservative operational minimum only where consistent with local practice, and must not be stated as an express statutory requirement for this cohort.",
+            "additionalAllegation": "The motion must state the historical failure to enter or transmit the sealing order required by the law governing the disposition."
+          }
+        ],
+        "nuncProTunc": "'Nunc pro tunc' relief may be included only where the terminating court's local practice recognises that terminology. It must not be hard-coded as a statewide requirement."
+      },
+      "filingActor": "The person who was convicted of the qualifying violation or traffic infraction, acting personally or through counsel. For the pre-September 1980 cohort, § 160.55(3) expressly gives the person the right to move; official court guidance likewise directs people with pre-November 1991 convictions to ask the court.",
+      "destination": "The court in which the criminal action or proceeding terminated, using the original docket or case number where available. If the original court no longer exists or its records have been transferred, court administration must identify the successor court or record custodian before the motion is generated.",
+      "trigger": [
+        "a final conviction entered before November 1, 1991",
+        "for a traffic infraction or violation",
+        "other than driving while ability impaired under VTL § 1192(1)",
+        "a record that remains unsealed at DCJS, a police agency or a prosecutor's office",
+        "no known prior interests-of-justice determination directing that the record remain unsealed"
+      ],
+      "screeningRequirement": "The screening must identify the exact conviction date, because that date determines which motion theory applies.",
+      "reliefScope": "The requested relief concerns the records described in § 160.55(1). It does not turn the conviction into a dismissal and does not generally seal the courthouse file itself.",
+      "deadline": {
+        "rule": "No outer filing deadline is stated for either legacy branch.",
+        "perCohortNotice": "See each cohort's noticeRule."
+      },
+      "requiredComponents": [
+        "participant's current and former names",
+        "date of birth and other identifiers required for record matching",
+        "court, docket number, arrest number, and DCJS or NYSID number if known",
+        "original charge or charges",
+        "final conviction offense",
+        "disposition and sentence dates",
+        "whether a conditional discharge was imposed and when it ended",
+        "exact conviction date and applicable legacy branch",
+        "that the conviction was for a qualifying traffic infraction or violation",
+        "that it was not VTL § 1192(1)",
+        "that the record remains unsealed or appears on the participant's criminal-history record",
+        "that no prior order denying sealing in the interests of justice is known",
+        "the precise agencies to which the sealing notification should be transmitted",
+        "requested relief under § 160.55(1)"
+      ],
+      "attachments": [
+        "certificate of disposition",
+        "accusatory instrument, plea, sentencing record or docket sheet if available",
+        "current DCJS rap sheet or other official record showing the matter remains unsealed",
+        "proof of identity and any legal name change",
+        "participant affidavit",
+        "proposed sealing order",
+        "proof of service"
+      ],
+      "missingRecordsRule": "The statute does not enumerate a mandatory attachment package, so missing historical records must not automatically defeat generation. The motion must explain any unavailable record and identify the available substitute.",
+      "selfHelpMayFulfil": ["an uncontested, records-based legacy motion and proposed order"],
+      "selfHelpStop": [
+        "the district attorney opposes sealing in the interests of justice",
+        "a prior order directed that sealing not occur",
+        "the court disputes whether the September 1980 to October 1991 motion is the correct procedural vehicle",
+        "the court requires a different successor-court or transferred-record procedure",
+        "identity, offense, disposition or conviction date is disputed",
+        "the potential § 160.55(4) exclusion is implicated",
+        "the participant seeks sealing of the actual court file rather than the law-enforcement, DCJS and prosecutor records covered by § 160.55",
+        "an evidentiary hearing, factual investigation or appellate proceeding is required"
+      ],
+      "scopeLimit": "New York's official guidance expressly distinguishes § 160.55 agency-record sealing from courthouse-file sealing.",
+      "controllingAuthority": [
+        "CPL § 160.55(1), (2), (3) and (4)",
+        "L. 1980, ch. 192, effective September 1, 1980",
+        "L. 1991, ch. 142",
+        "New York State Unified Court System, 'Sealed Records: Violations and Traffic Infractions'",
+        "People v. Gartenberg, 105 Misc. 2d 657 (Crim. Ct. Queens County 1980)",
+        "People v. Nicholas, 19 Misc. 3d 322 (Watertown City Ct. 2008)"
+      ]
+    },
+
+    {
+      "decisionId": "LWD-2026-08-30-UT-Q76-402-REDUCTION",
+      "questionId": "Q76",
+      "jurisdiction": "UT",
+      "routeKey": "obligation:track-only:UT:ut_adj_reduction_402",
+      "publicLabel": "Not eligible yet? Reducing the conviction level may open a route",
+      "answer": "A — LEGALEASE MUST FULFILL THE DEFENDANT-FILED BRANCHES; SEPARATELY GATE THE CONSENT-DEPENDENT AND JOINT-MOTION BRANCHES",
+      "classification": "CATEGORY_A_WITH_SEPARATELY_GATED_BRANCHES",
+      "categoryBReason": null,
+      "participantFiledFallbackExists": true,
+      "participantFiledFallbackBasis": "Utah expressly recognises defendant-filed § 76-3-402 motions and provides a public self-help process. The mechanism is not categorically professional-only: Utah Courts tells participants how to file the motion, serve the prosecutor, respond to opposition and submit the matter for decision.",
+      "instrument": {
+        "shape": "MOTION_PLUS_SUBMISSION_WORKFLOW",
+        "documents": [
+          "the defendant's Motion to Reduce Conviction Pursuant to Utah Code § 76-3-402 (a '402 Motion')",
+          "supporting declaration or evidentiary exhibits",
+          "proof of service",
+          "Request to Submit for Decision, when the response period has expired",
+          "Findings of Fact, Conclusions of Law, and Order on Motion to Reduce Conviction"
+        ]
+      },
+      "sourceIdentityConstraint": {
+        "observed": "Utah Courts currently displays the required motion form identifier as '1023XX', which appears to be a placeholder rather than a final usable form number.",
+        "classification": "SOURCE_IDENTITY_ISSUE_NOT_A_ROUTE_RETIREMENT",
+        "requirement": "Do not hard-code '1023XX' as the final production form identity. This is a source-identity issue, not a reason to retire the legal route."
+      },
+      "filingActor": "The defendant may file the ordinary sentencing or post-sentence reduction motion. The prosecutor may also move. Certain branches require written or on-record prosecutorial agreement, or a joint motion signed by the defendant and prosecutor. The substantial-assistance branch is not a unilateral defendant motion.",
+      "destination": "The same court that handled the original criminal case, using the same case number. A separate motion is prepared for each criminal case.",
+      "eligibilityBranches": [
+        { "branchId": "UT-402-SENTENCING", "when": "at sentencing", "basis": "The defendant asks the court to enter the conviction at a lower degree because the otherwise applicable degree would be unduly harsh after consideration of the offense, circumstances, history, character, and views of the prosecutor and victim.", "consentRequired": false, "selfHelpFulfilled": true },
+        { "branchId": "UT-402-AFTER-SUCCESSFUL-PROBATION", "when": "after successful completion of probation or parole", "basis": "One-degree reduction after successful completion, payment of fines and restitution, resolution or expiration of applicable registration requirements, and an interests-of-justice finding.", "consentRequired": false, "selfHelpFulfilled": true },
+        { "branchId": "UT-402-AFTER-REHAB-PROGRAM", "when": "after a qualifying rehabilitation program", "basis": "One-degree reduction after at least three years, subject to the statutory clean-period, no-pending-case, supervision, payment, registration, violent-felony and interests-of-justice requirements.", "consentRequired": false, "selfHelpFulfilled": true },
+        { "branchId": "UT-402-LATER-CASE-FIVE-YEAR", "when": "after successful probation or parole in a later case, five years from sentencing in the later case", "basis": "One-degree reduction together with the other statutory conditions.", "consentRequired": false, "selfHelpFulfilled": true },
+        { "branchId": "UT-402-LATER-CASE-THREE-YEAR", "when": "after successful probation or parole in a later case, three years from sentencing in the later case", "basis": "The shortened three-year period requires prosecutorial agreement instead of waiting five years.", "consentRequired": true, "selfHelpFulfilled": false },
+        { "branchId": "UT-402-AFTER-UNSUCCESSFUL-DISCHARGE", "when": "after an unsuccessful probation or parole discharge, five years", "basis": "One-degree reduction subject to the remaining statutory conditions.", "consentRequired": false, "selfHelpFulfilled": true },
+        { "branchId": "UT-402-TWO-DEGREE", "when": "any branch where a two-degree reduction is sought", "basis": "The prosecutor must specifically agree in writing or on the court record.", "consentRequired": true, "selfHelpFulfilled": false },
+        { "branchId": "UT-402-VIOLENT-FELONY", "when": "the offense is a statutorily defined violent felony under the applicable post-sentence branches", "basis": "Prosecutorial agreement is required.", "consentRequired": true, "selfHelpFulfilled": false },
+        { "branchId": "UT-402-SUBSTANTIAL-ASSISTANCE", "when": "within one year after sentencing", "basis": "A one- or two-degree reduction may be requested only through the required defendant-prosecutor joint process. This is not a unilateral defendant motion.", "consentRequired": true, "selfHelpFulfilled": false }
+      ],
+      "consentRule": "No prosecutor consent is categorically required for an otherwise qualifying, ordinary one-degree defendant-filed reduction. The prosecutor may oppose it, but opposition is different from a statutory veto. The court may not reduce an offense by more than two degrees.",
+      "timing": {
+        "sentencingStage": "File in writing at least 14 days before sentencing, unless sentencing was set within ten days after conviction.",
+        "postSentence": "May be filed at any time after the participant satisfies the applicable statutory trigger and waiting period. There is no general outer deadline.",
+        "prosecutorResponse": "The prosecutor has 35 days to respond to the defendant's post-sentence motion. If no opposition is filed after the response period, the participant may file the Request to Submit for Decision and proposed findings and order."
+      },
+      "requiredComponents": [
+        "court, case number and defendant",
+        "conviction offense and statute",
+        "current conviction degree",
+        "requested reduced degree",
+        "the exact § 76-3-402 eligibility branch",
+        "sentencing and discharge dates",
+        "probation or parole completion status",
+        "any qualifying rehabilitation program and completion date",
+        "later-case conviction, sentence and completion information where applicable",
+        "criminal-history facts during the required period",
+        "absence of pending criminal proceedings",
+        "absence of current incarceration, probation or parole when required",
+        "payment of all fines and court-ordered restitution",
+        "sex-offender registration status",
+        "child-abuse-offender registration status",
+        "whether the offense is a statutorily defined violent felony",
+        "facts supporting the interests of justice and public safety",
+        "rehabilitation, employment, education, family, treatment, community involvement and other relevant post-conviction conduct",
+        "the degree of reduction requested",
+        "the prosecutor's consent where legally required",
+        "proof of service"
+      ],
+      "attachments": [
+        "discharge or successful-completion order",
+        "probation or parole completion letter",
+        "rehabilitation-program certificate",
+        "payment ledger showing satisfaction of fines and restitution",
+        "criminal-history record",
+        "documentation concerning registration expiration",
+        "letters or records supporting rehabilitation",
+        "written prosecutorial consent",
+        "proposed findings and order"
+      ],
+      "selfHelpMayFulfil": [
+        "objectively eligible one-degree, defendant-filed motions",
+        "supporting declaration and exhibit assembly",
+        "service instructions",
+        "the 35-day response workflow",
+        "Request to Submit for Decision",
+        "proposed findings and order"
+      ],
+      "selfHelpStop": [
+        "the requested reduction requires prosecutorial consent and no signed consent has been obtained",
+        "the participant seeks a two-degree reduction without agreement",
+        "the substantial-assistance branch requires negotiation or a joint motion",
+        "the offense may be a violent felony and consent is unresolved",
+        "the prosecutor or victim files substantive opposition",
+        "the participant must rebut disputed facts in a reply",
+        "a contested hearing is scheduled",
+        "successful completion, restitution, registry status, pending charges, supervision status or criminal-history facts are disputed",
+        "the motion is being used to renegotiate a plea or sentencing arrangement",
+        "the participant seeks appellate review after denial"
+      ],
+      "hearingRule": "A routine court hearing that merely confirms undisputed documentary eligibility may be supported with neutral hearing instructions. A contested hearing involving argument, credibility, victim opposition or prosecutorial negotiation requires professional handoff.",
+      "controllingAuthority": [
+        "Utah Code § 76-3-402, current version effective May 6, 2026",
+        "Utah Rule of Criminal Procedure 12(c)(2)",
+        "Utah State Courts, 'Motion to Reduce Conviction (402 Motion)'"
+      ]
+    }
+  ],
+
+  "whatTheseDecisionsDoNotAuthorize": [
+    "checkout",
+    "sponsorship",
+    "packet-credit consumption",
+    "provider dispatch",
+    "artifact attachment",
+    "delivery",
+    "repeat download",
+    "commercially eligible status",
+    "COMPLETE_PACKET_PROVEN",
+    "any movement of the frozen census denominator by hand"
+  ]
+}

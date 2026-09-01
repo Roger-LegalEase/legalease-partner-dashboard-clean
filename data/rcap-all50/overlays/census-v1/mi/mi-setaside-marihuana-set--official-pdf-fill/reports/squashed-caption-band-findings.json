@@ -1,0 +1,108 @@
+{
+  "schemaVersion": "rcap-family-build-observation/v1",
+  "familyId": "mi-setaside-marihuana-set",
+  "subject": "scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs (shared; NOT modified by this family)",
+  "observation": "MC 227a lays its captions out in horizontal bands — a four-column table header, a three-cell court block, an ORI/address/telephone strip, a two-option plaintiff election. groupIntoLines groups a band into ONE line, so a blank in the band harvests the whole band as its caption, including the words printed over a DIFFERENT column. Every consequence of that on this form is listed below.",
+  "whyItIsNotFixedHere": "The capture module is shared by every family in the corpus and is outside this family's owned path. Changing how captions are harvested would change the binding of forms this family has not looked at. It is reported for whoever owns that module; here each consequence is refused by role and the refusal is proved from the artifact bytes.",
+  "wrongBindings": [
+    {
+      "field": "ch1",
+      "boundFact": "matter.charges[0].case_number",
+      "factBasis": "printed_label",
+      "harvestedCaption": "CRIMEMCL citation/PACC CodeCONVICTIONCASE NUMBER",
+      "measuredCaptionForThisColumn": "CHARGE CODE(S) MCL citation/PACC Code",
+      "wouldHavePrinted": "24-CR-001234 in the MCL citation / PACC Code column",
+      "why": "The words CASE NUMBER are the header of the fourth column, measured at x 496.3 to 555.8; this blank's own column band is x 218.4 to 387.0.",
+      "disposition": "refused by role; proved absent from both fixtures"
+    },
+    {
+      "field": "circuit",
+      "boundFact": "matter.court",
+      "factBasis": "printed_label",
+      "harvestedCaption": "JUDICIAL DISTRICT",
+      "measuredCaptionForThisBox": "JUDICIAL CIRCUIT",
+      "wouldHavePrinted": "District Court in the box that wants a circuit number",
+      "why": "Each caption in this block is printed to the RIGHT of its own box on the same line; the harvester reads the line above, which is the preceding cell's caption.",
+      "disposition": "refused by role; proved absent from both fixtures"
+    },
+    {
+      "field": "ctaddress",
+      "boundFact": "participant.phone",
+      "factBasis": "printed_label",
+      "harvestedCaption": "ORICourt addressCourt telephone no",
+      "measuredCaptionForThisBox": "Court address",
+      "wouldHavePrinted": "the participant's telephone number as the court's address",
+      "why": "Three separate captions on one printed line; `telephone` reaches both boxes under it.",
+      "disposition": "refused by role; proved absent from both fixtures"
+    },
+    {
+      "field": "cttelno",
+      "boundFact": "participant.phone",
+      "factBasis": "printed_label",
+      "harvestedCaption": "ORICourt addressCourt telephone no",
+      "measuredCaptionForThisBox": "Court telephone no.",
+      "wouldHavePrinted": "the participant's telephone number as the court's telephone number",
+      "why": "Same squashed line.",
+      "disposition": "refused by role; proved absent from both fixtures"
+    },
+    {
+      "field": "peopleof",
+      "boundFact": "participant.state",
+      "factBasis": "printed_label",
+      "harvestedCaption": "The State of Michigan",
+      "measuredCaptionForThisBox": "(the second option of the THE PEOPLE OF election; no caption of its own)",
+      "wouldHavePrinted": "the participant's residence state as the prosecuting authority",
+      "why": "The caption harvested is the printed text of the OTHER option in a two-option election.",
+      "disposition": "refused by role; proved absent from both fixtures"
+    }
+  ],
+  "correctBindingDespiteAMisharvestedCaption": [
+    {
+      "field": "county ",
+      "boundFact": "matter.county",
+      "factBasis": "field_name",
+      "harvestedCaption": "JUDICIAL CIRCUIT",
+      "measuredCaptionForThisBox": "COUNTY",
+      "measuredCaptionGeometry": {
+        "text": "COUNTY",
+        "x0": 159.2,
+        "x1": 201.4,
+        "y": 672,
+        "widgetRect": {
+          "x": 36,
+          "y": 672,
+          "width": 118.15,
+          "height": 12
+        }
+      },
+      "why": "The caption COUNTY is printed to the RIGHT of this box on the same baseline, so the harvester's line-above rule takes the preceding row's caption instead. The field's own NAME is `county `, which matches matter.county directly, and the name channel is tried first — so the wrong label never reached the decision. The binding is correct; the label displayed beside it is not.",
+      "fieldNameNote": "The AcroForm name carries a trailing space, \"county \". It is preserved verbatim in every record this family writes, because trimming it would silently address a different field."
+    }
+  ],
+  "overRefusals": [
+    {
+      "field": "caseno",
+      "refusedAs": "protected_page_region/court",
+      "why": "The region heading harvested is 'STATE OF MICHIGANCASE NO. and JUDGE'; the cell is shared between the case number and the judge.",
+      "effect": "The caption case number, which the platform holds, is left blank."
+    },
+    {
+      "field": "cno1",
+      "refusedAs": "protected_category/disposition_or_hearing",
+      "why": "The caption harvested is 'CONVICTION', the third column's header word, mis-attributed to the fourth column.",
+      "effect": "Row a's case number, which the platform holds, is left blank."
+    },
+    {
+      "field": "sid",
+      "refusedAs": "protected_category/attorney",
+      "why": "The caption harvested is 'Defendant's attorney' from the cell to its left. The refusal is correct in outcome and wrong in ground; an SID is a government identifier.",
+      "effect": "None on the paper. Re-refused by role here so the ground does not depend on a mis-harvested caption."
+    },
+    {
+      "field": "datesig",
+      "refusedAs": "protected_category/disposition_or_hearing",
+      "why": "The caption harvested is item 2, 'A certified copy of each conviction is attached'.",
+      "effect": "None on the paper. Re-refused by role as a participant signature date."
+    }
+  ]
+}

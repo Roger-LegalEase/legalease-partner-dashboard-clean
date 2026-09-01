@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-checkpoints/v1",
+  "assignmentId": "PF15",
+  "workerId": "PF-C",
+  "checkpointRule": "Return every five completed families, or every two hours, whichever comes first. This lane carries one family.",
+  "timestampBasis": "The checkpoint time is the modification time of the family's build-status.json on the build host, which is when the build that produced it finished.",
+  "checkpoints": [
+    {
+      "checkpoint": 1,
+      "at": "2026-09-01T08:47:33Z",
+      "familiesCompletedSoFar": ["co_pardoned_conviction_seal-set"],
+      "familiesStoppedSoFar": [],
+      "familiesRemaining": [],
+      "note": "JDF 680 and JDF 681 built together. JDF 680 has no AcroForm field at all, so it is built as a measured overlay onto the rules the form prints — 35 blanks, every write box read out of the page's own content stream and re-measured on each build. PF15 returns one row for one assigned family, COMPLETED, not self-verified."
+    }
+  ],
+  "laneComplete": true,
+  "familiesAssigned": 1,
+  "rowsReturned": 1
+}

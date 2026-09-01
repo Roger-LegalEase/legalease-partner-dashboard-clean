@@ -71,6 +71,14 @@ export async function POST(request: NextRequest) {
         { error: "A recorded payment is required before rendering.", reason: outcome.reason },
         { status: 402 }
       );
+    // The Grade-A authority refused the route or the participant. No job was
+    // enqueued and no provider saw participant data. The reason is not echoed:
+    // it can name a matter or an owner.
+    case "commercial_admission_denied":
+      return NextResponse.json(
+        { error: "This isn’t available yet. Your information is saved in your Briefcase.", status: outcome.status },
+        { status: 403 }
+      );
     case "identity_unresolved":
     case "enqueue_failed":
       return NextResponse.json(

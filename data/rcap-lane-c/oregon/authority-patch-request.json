@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "rcap-lane-c-oregon-authority-patch-request/v1",
+  "lane": "C",
+  "generatedBy": "scripts/generate-rcap-oregon-grade-a-authority-proofs.mjs",
+  "target": "data/rcap-grade-a/fulfillment-authority-registry.json",
+  "targetOwner": "Captain A",
+  "laneDoesNotEditTarget": true,
+  "createsApproval": false,
+  "statement": "Lane C produced two of the four proofs the Grade-A authority reports missing for Oregon's three routes. These are the exact values to patch. Patching them does not authorize anything: output-level legal approval and final-verification binding remain unobtained, so every Oregon route stays INCOMPLETE and not commercially eligible.",
+  "routes": [
+    "OR:set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+    "OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+    "OR:marijuana-specific-set-aside-redesignation"
+  ],
+  "proofsLaneCCloses": {
+    "officialSources": [
+      {
+        "sourceId": "OR-OJD-ADULT-SET-ASIDE-PACKET",
+        "sha256": "b22cc346caf6c38730e9992d74016e948180d92b379b6592ab333b06ac880071",
+        "heldInRepository": false,
+        "note": "sha256 is the content digest of the official binary, corroborated by two independent committed records. heldInRepository stays false; see blockedByContractDefect below."
+      },
+      {
+        "sourceId": "OR-OSP-SET-ASIDE-CCH",
+        "sha256": "a523a9ffc3eb0cc35d89e1c81df8eafcd703cf1ffdb4237a0106b72e1e793ac6",
+        "heldInRepository": false,
+        "note": "sha256 is the content digest of the official binary, corroborated by two independent committed records. heldInRepository stays false; see blockedByContractDefect below."
+      }
+    ],
+    "visualReview": {
+      "state": "passed",
+      "pagesReviewed": 7,
+      "pageCount": 7,
+      "evidenceSha256": "faa790d2b3b22d3e624467396cd7972c7973f52b31022a023bc8c6549875d885",
+      "reviewedBy": "lane-c/claude-opus-5/oregon-official-pdf-grade-a",
+      "reviewedAt": "2026-08-29",
+      "evidencePath": "data/rcap-lane-c/oregon/visual-review.json"
+    }
+  },
+  "proofsLaneCCannotClose": {
+    "outputLegalApproval": "A named legal reviewer must decide the completed output and record an approved-output scope hash. Not a lane's to grant.",
+    "finalVerification": "A verifier must bind the current inputs and record a bound-inputs hash. Not a lane's to grant."
+  },
+  "observationSnapshotMustAlsoMove": {
+    "reason": "evaluateFulfillmentAuthority compares the record against the observation snapshot. Patching officialSourceSha256 into the record without moving officialSourceSha256ById in the observation turns the missing proof into a staleness failure. Both sides move together or neither does.",
+    "file": "data/rcap-grade-a/fulfillment-observation-snapshot.json",
+    "officialSourceSha256ById": {
+      "OR-OJD-ADULT-SET-ASIDE-PACKET": "b22cc346caf6c38730e9992d74016e948180d92b379b6592ab333b06ac880071",
+      "OR-OSP-SET-ASIDE-CCH": "a523a9ffc3eb0cc35d89e1c81df8eafcd703cf1ffdb4237a0106b72e1e793ac6"
+    },
+    "visualReviewEvidenceSha256": "faa790d2b3b22d3e624467396cd7972c7973f52b31022a023bc8c6549875d885"
+  }
+}

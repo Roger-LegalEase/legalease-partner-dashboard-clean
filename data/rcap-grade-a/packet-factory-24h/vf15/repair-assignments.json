@@ -1,0 +1,308 @@
+{
+  "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
+  "lane": "VF15",
+  "worker": "PF-B",
+  "baseSha": "696d65bcfde395b64c0c86d80721447f655285a9",
+  "assignmentsTotal": 5,
+  "twoRepairUnitsNotFive": "sd_arrest_expungement-set is its own unit. The four WA families share one host, one instruction generator and one route-election decision, and should be repaired together.",
+  "separateFindingForTheRasterQueueOwner": {
+    "finding": "RASTER_PASS from run 33488713831 is narrower than a family for every WA family in this lane, and one of its passes is a duplicate measurement.",
+    "coverage": [
+      {
+        "itemId": "wa_vac_cannabis-set",
+        "pinnedDocument": "crrlj-09-0800-canonical-filled.pdf",
+        "pagesRendered": 2,
+        "pagesInFamily": 6
+      },
+      {
+        "itemId": "wa_vac_domestic_violence-set",
+        "pinnedDocument": "crrlj-09-0100-canonical-filled.pdf",
+        "pagesRendered": 10,
+        "pagesInFamily": 22
+      },
+      {
+        "itemId": "wa_vac_felony-set",
+        "pinnedDocument": "cr-08-0900-canonical-filled.pdf",
+        "pagesRendered": 6,
+        "pagesInFamily": 12
+      },
+      {
+        "itemId": "wa_vac_homicide_victim_prostitution-set",
+        "pinnedDocument": "crrlj-09-0100-canonical-filled.pdf",
+        "pagesRendered": 10,
+        "pagesInFamily": 22
+      }
+    ],
+    "neverGated": [
+      "CRRLJ-09.0870 (wa_vac_cannabis-set)",
+      "CRRLJ-09.0200 (wa_vac_domestic_violence-set)",
+      "CR-08.0920 (wa_vac_felony-set)",
+      "CRRLJ-09.0200 (wa_vac_homicide_victim_prostitution-set)"
+    ],
+    "duplicateMeasurement": "wa_vac_domestic_violence-set and wa_vac_homicide_victim_prostitution-set pin identical canonical (846360e7…) and boundary (75fac347…) hashes. The batch rendered one set of bytes and recorded two family passes.",
+    "notAPacketDefect": "This is a limit on what the gate proves, not a defect in the packets. It is recorded here because the ceiling was stated to this lane as a family-level RASTER_PASS and it is not one.",
+    "ownedBy": "the raster queue owner, not a packet repair lane"
+  },
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "assignments": [
+    {
+      "itemId": "sd_arrest_expungement-set",
+      "lane": "VF15",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill",
+      "repairKind": "packet-completeness-repair",
+      "doNotAssignTo": [
+        "PF-B"
+      ],
+      "whyNotPFB": "PF-B read these; a verifier does not repair what it verified.",
+      "decisiveDefect": "The participant instructions tell the participant what to write but not where to file it, what it costs, how to serve it, or when to stop and get help.",
+      "failedProofObligations": [
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SERVICE",
+        "SELF_HELP_STOP"
+      ],
+      "evidence": [
+        "participant-instructions.md names no clerk, court or filing address",
+        "participant-instructions.md states no filing fee and no waiver route",
+        "participant-instructions.md names the State's Attorney and notice recipients but no service method, no proof of service and no deadline",
+        "participant-instructions.md never states where self-help ends",
+        "the route's own census records feeWaiverTreatment and certificateOfService as missing implementation work"
+      ],
+      "whatIsAlreadySound": [
+        "all nine completeness counters zero, measured independently in this container",
+        "every artifact recomputed from disk hashes to the record (2 artifact(s)), byte lengths included",
+        "no protected field carries ink, proved from the artifact bytes",
+        "page order in the bytes matches the manifest",
+        "the component set the route names is fully rendered"
+      ],
+      "doNotRegress": "These five are the first families in this factory to return all nine counters zero. A repair that fixes the instructions must not disturb the artifact bytes; if it does, the RASTER_PASS pinned to those hashes is void and the family returns to the raster queue.",
+      "stillUnmeasured": [
+        "SOURCE_IDENTITY — no corpus in the verifying container; a repair lane with corpus access should bind it"
+      ],
+      "rasterCeiling": {
+        "currentRasterState": "RASTER_PASS",
+        "workflowRunId": "33488713831",
+        "jobId": "99795497665",
+        "renderedCommitSha": "71894f3f2dde0f5af34818a2fa8dc8bce84e0d24",
+        "pinnedCanonicalBindsToDiskHere": true,
+        "pinnedBoundaryBindsToDiskHere": true,
+        "pinnedDocument": "canonical.pdf",
+        "artifactsTheFamilyRenders": 2,
+        "artifactsTheGatePinned": 2,
+        "pagesTheFamilyRenders": 28,
+        "pagesTheGateRendered": 28,
+        "coverage": "COMPLETE"
+      }
+    },
+    {
+      "itemId": "wa_vac_cannabis-set",
+      "lane": "VF15",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/wa/wa-vac-cannabis-set--official-pdf-fill",
+      "repairKind": "packet-completeness-repair",
+      "doNotAssignTo": [
+        "PF-B"
+      ],
+      "whyNotPFB": "PF-B read these; a verifier does not repair what it verified.",
+      "decisiveDefect": "The packet does not say which statutory route it is built for, and its participant instructions defer every filing obligation. ROUTE_OPTIONS is the decisive one: no route-determined election is selected anywhere in the packet.",
+      "failedProofObligations": [
+        "ROUTE_OPTIONS",
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SERVICE"
+      ],
+      "evidence": [
+        "production-field-map.json explicitSafetyPolicy.neverWritten includes 'legal elections or checkboxes'",
+        "reports/protection-report.json: selectionControlsMarked=false, every observed selection control proved unmarked on both fixtures",
+        "product-wiring.json carries no routeSelectionId; sd_arrest_expungement-set in this same lane carries 'sd-stage-2-ujs-232-391-through-395'",
+        "participant-completion-instructions.json instruction 6 defers filing, notice, service, fee and hearing to the participant in one sentence",
+        "the route's own census records feeWaiverTreatment and certificateOfService as missing implementation work"
+      ],
+      "whatIsAlreadySound": [
+        "all nine completeness counters zero, measured independently in this container",
+        "every artifact recomputed from disk hashes to the record (4 artifact(s)), byte lengths included",
+        "no protected field carries ink, proved from the artifact bytes",
+        "page order in the bytes matches the manifest",
+        "the component set the route names is fully rendered"
+      ],
+      "doNotRegress": "These five are the first families in this factory to return all nine counters zero. A repair that fixes the instructions must not disturb the artifact bytes; if it does, the RASTER_PASS pinned to those hashes is void and the family returns to the raster queue.",
+      "stillUnmeasured": [
+        "SOURCE_IDENTITY — no corpus in the verifying container; a repair lane with corpus access should bind it"
+      ],
+      "rasterCeiling": {
+        "currentRasterState": "RASTER_PASS",
+        "workflowRunId": "33488713831",
+        "jobId": "99795498276",
+        "renderedCommitSha": "71894f3f2dde0f5af34818a2fa8dc8bce84e0d24",
+        "pinnedCanonicalBindsToDiskHere": true,
+        "pinnedBoundaryBindsToDiskHere": true,
+        "pinnedDocument": "crrlj-09-0800-canonical-filled.pdf",
+        "artifactsTheFamilyRenders": 4,
+        "artifactsTheGatePinned": 2,
+        "pagesTheFamilyRenders": 6,
+        "pagesTheGateRendered": 2,
+        "coverage": "PARTIAL"
+      },
+      "sharedRootCause": "One builder decision, four families. The WA host writes held facts into measured cells and declares 'legal elections or checkboxes' under explicitSafetyPolicy.neverWritten, and its participant instruction set defers filing, notice, service, fee and hearing to the participant in a single sentence. Repairing one family in isolation will not fix the other three; the instruction generator and the route-election decision are the units of repair.",
+      "doNotRepairBy": "Do not close FILING_DESTINATION, FEE_AND_WAIVER or SERVICE by writing a generic sentence. The route names a forum and the census records feeWaiverTreatment and certificateOfService as missing implementation work; the repair is to record those from the route, not to paraphrase the deferral."
+    },
+    {
+      "itemId": "wa_vac_domestic_violence-set",
+      "lane": "VF15",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/wa/wa-vac-domestic-violence-set--official-pdf-fill",
+      "repairKind": "packet-completeness-repair",
+      "doNotAssignTo": [
+        "PF-B"
+      ],
+      "whyNotPFB": "PF-B read these; a verifier does not repair what it verified.",
+      "decisiveDefect": "The packet does not say which statutory route it is built for, and its participant instructions defer every filing obligation. ROUTE_OPTIONS is the decisive one: no route-determined election is selected anywhere in the packet.",
+      "failedProofObligations": [
+        "ROUTE_OPTIONS",
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SERVICE"
+      ],
+      "evidence": [
+        "production-field-map.json explicitSafetyPolicy.neverWritten includes 'legal elections or checkboxes'",
+        "reports/protection-report.json: selectionControlsMarked=false, every observed selection control proved unmarked on both fixtures",
+        "product-wiring.json carries no routeSelectionId; sd_arrest_expungement-set in this same lane carries 'sd-stage-2-ujs-232-391-through-395'",
+        "participant-completion-instructions.json instruction 6 defers filing, notice, service, fee and hearing to the participant in one sentence",
+        "the route's own census records feeWaiverTreatment and certificateOfService as missing implementation work"
+      ],
+      "whatIsAlreadySound": [
+        "all nine completeness counters zero, measured independently in this container",
+        "every artifact recomputed from disk hashes to the record (4 artifact(s)), byte lengths included",
+        "no protected field carries ink, proved from the artifact bytes",
+        "page order in the bytes matches the manifest",
+        "the component set the route names is fully rendered"
+      ],
+      "doNotRegress": "These five are the first families in this factory to return all nine counters zero. A repair that fixes the instructions must not disturb the artifact bytes; if it does, the RASTER_PASS pinned to those hashes is void and the family returns to the raster queue.",
+      "stillUnmeasured": [
+        "SOURCE_IDENTITY — no corpus in the verifying container; a repair lane with corpus access should bind it"
+      ],
+      "rasterCeiling": {
+        "currentRasterState": "RASTER_PASS",
+        "workflowRunId": "33488713831",
+        "jobId": "99795498424",
+        "renderedCommitSha": "71894f3f2dde0f5af34818a2fa8dc8bce84e0d24",
+        "pinnedCanonicalBindsToDiskHere": true,
+        "pinnedBoundaryBindsToDiskHere": true,
+        "pinnedDocument": "crrlj-09-0100-canonical-filled.pdf",
+        "artifactsTheFamilyRenders": 4,
+        "artifactsTheGatePinned": 2,
+        "pagesTheFamilyRenders": 22,
+        "pagesTheGateRendered": 10,
+        "coverage": "PARTIAL"
+      },
+      "sharedRootCause": "One builder decision, four families. The WA host writes held facts into measured cells and declares 'legal elections or checkboxes' under explicitSafetyPolicy.neverWritten, and its participant instruction set defers filing, notice, service, fee and hearing to the participant in a single sentence. Repairing one family in isolation will not fix the other three; the instruction generator and the route-election decision are the units of repair.",
+      "doNotRepairBy": "Do not close FILING_DESTINATION, FEE_AND_WAIVER or SERVICE by writing a generic sentence. The route names a forum and the census records feeWaiverTreatment and certificateOfService as missing implementation work; the repair is to record those from the route, not to paraphrase the deferral."
+    },
+    {
+      "itemId": "wa_vac_felony-set",
+      "lane": "VF15",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/wa/wa-vac-felony-set--official-pdf-fill",
+      "repairKind": "packet-completeness-repair",
+      "doNotAssignTo": [
+        "PF-B"
+      ],
+      "whyNotPFB": "PF-B read these; a verifier does not repair what it verified.",
+      "decisiveDefect": "The packet does not say which statutory route it is built for, and its participant instructions defer every filing obligation. ROUTE_OPTIONS is the decisive one: no route-determined election is selected anywhere in the packet.",
+      "failedProofObligations": [
+        "ROUTE_OPTIONS",
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SERVICE"
+      ],
+      "evidence": [
+        "production-field-map.json explicitSafetyPolicy.neverWritten includes 'legal elections or checkboxes'",
+        "reports/protection-report.json: selectionControlsMarked=false, every observed selection control proved unmarked on both fixtures",
+        "product-wiring.json carries no routeSelectionId; sd_arrest_expungement-set in this same lane carries 'sd-stage-2-ujs-232-391-through-395'",
+        "participant-completion-instructions.json instruction 6 defers filing, notice, service, fee and hearing to the participant in one sentence",
+        "the route's own census records feeWaiverTreatment and certificateOfService as missing implementation work"
+      ],
+      "whatIsAlreadySound": [
+        "all nine completeness counters zero, measured independently in this container",
+        "every artifact recomputed from disk hashes to the record (4 artifact(s)), byte lengths included",
+        "no protected field carries ink, proved from the artifact bytes",
+        "page order in the bytes matches the manifest",
+        "the component set the route names is fully rendered"
+      ],
+      "doNotRegress": "These five are the first families in this factory to return all nine counters zero. A repair that fixes the instructions must not disturb the artifact bytes; if it does, the RASTER_PASS pinned to those hashes is void and the family returns to the raster queue.",
+      "stillUnmeasured": [
+        "SOURCE_IDENTITY — no corpus in the verifying container; a repair lane with corpus access should bind it"
+      ],
+      "rasterCeiling": {
+        "currentRasterState": "RASTER_PASS",
+        "workflowRunId": "33488713831",
+        "jobId": "99795498129",
+        "renderedCommitSha": "71894f3f2dde0f5af34818a2fa8dc8bce84e0d24",
+        "pinnedCanonicalBindsToDiskHere": true,
+        "pinnedBoundaryBindsToDiskHere": true,
+        "pinnedDocument": "cr-08-0900-canonical-filled.pdf",
+        "artifactsTheFamilyRenders": 4,
+        "artifactsTheGatePinned": 2,
+        "pagesTheFamilyRenders": 12,
+        "pagesTheGateRendered": 6,
+        "coverage": "PARTIAL"
+      },
+      "sharedRootCause": "One builder decision, four families. The WA host writes held facts into measured cells and declares 'legal elections or checkboxes' under explicitSafetyPolicy.neverWritten, and its participant instruction set defers filing, notice, service, fee and hearing to the participant in a single sentence. Repairing one family in isolation will not fix the other three; the instruction generator and the route-election decision are the units of repair.",
+      "doNotRepairBy": "Do not close FILING_DESTINATION, FEE_AND_WAIVER or SERVICE by writing a generic sentence. The route names a forum and the census records feeWaiverTreatment and certificateOfService as missing implementation work; the repair is to record those from the route, not to paraphrase the deferral."
+    },
+    {
+      "itemId": "wa_vac_homicide_victim_prostitution-set",
+      "lane": "VF15",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill",
+      "repairKind": "packet-completeness-repair",
+      "doNotAssignTo": [
+        "PF-B"
+      ],
+      "whyNotPFB": "PF-B read these; a verifier does not repair what it verified.",
+      "decisiveDefect": "The packet does not say which statutory route it is built for, and its participant instructions defer every filing obligation. ROUTE_OPTIONS is the decisive one: no route-determined election is selected anywhere in the packet.",
+      "failedProofObligations": [
+        "ROUTE_OPTIONS",
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SERVICE"
+      ],
+      "evidence": [
+        "production-field-map.json explicitSafetyPolicy.neverWritten includes 'legal elections or checkboxes'",
+        "reports/protection-report.json: selectionControlsMarked=false, every observed selection control proved unmarked on both fixtures",
+        "product-wiring.json carries no routeSelectionId; sd_arrest_expungement-set in this same lane carries 'sd-stage-2-ujs-232-391-through-395'",
+        "participant-completion-instructions.json instruction 6 defers filing, notice, service, fee and hearing to the participant in one sentence",
+        "the route's own census records feeWaiverTreatment and certificateOfService as missing implementation work"
+      ],
+      "whatIsAlreadySound": [
+        "all nine completeness counters zero, measured independently in this container",
+        "every artifact recomputed from disk hashes to the record (4 artifact(s)), byte lengths included",
+        "no protected field carries ink, proved from the artifact bytes",
+        "page order in the bytes matches the manifest",
+        "the component set the route names is fully rendered"
+      ],
+      "doNotRegress": "These five are the first families in this factory to return all nine counters zero. A repair that fixes the instructions must not disturb the artifact bytes; if it does, the RASTER_PASS pinned to those hashes is void and the family returns to the raster queue.",
+      "stillUnmeasured": [
+        "SOURCE_IDENTITY — no corpus in the verifying container; a repair lane with corpus access should bind it"
+      ],
+      "rasterCeiling": {
+        "currentRasterState": "RASTER_PASS",
+        "workflowRunId": "33488713831",
+        "jobId": "99795498262",
+        "renderedCommitSha": "71894f3f2dde0f5af34818a2fa8dc8bce84e0d24",
+        "pinnedCanonicalBindsToDiskHere": true,
+        "pinnedBoundaryBindsToDiskHere": true,
+        "pinnedDocument": "crrlj-09-0100-canonical-filled.pdf",
+        "artifactsTheFamilyRenders": 4,
+        "artifactsTheGatePinned": 2,
+        "pagesTheFamilyRenders": 22,
+        "pagesTheGateRendered": 10,
+        "coverage": "PARTIAL"
+      },
+      "sharedRootCause": "One builder decision, four families. The WA host writes held facts into measured cells and declares 'legal elections or checkboxes' under explicitSafetyPolicy.neverWritten, and its participant instruction set defers filing, notice, service, fee and hearing to the participant in a single sentence. Repairing one family in isolation will not fix the other three; the instruction generator and the route-election decision are the units of repair.",
+      "doNotRepairBy": "Do not close FILING_DESTINATION, FEE_AND_WAIVER or SERVICE by writing a generic sentence. The route names a forum and the census records feeWaiverTreatment and certificateOfService as missing implementation work; the repair is to record those from the route, not to paraphrase the deferral."
+    }
+  ]
+}

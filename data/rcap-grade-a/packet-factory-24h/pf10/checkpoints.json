@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-checkpoints/v1",
+  "assignmentId": "PF10",
+  "workerId": "PF-C",
+  "checkpointRule": "Return every five completed families, or every two hours, whichever comes first. This lane carries two families, so it checkpoints per family rather than holding both back.",
+  "checkpoints": [
+    {
+      "checkpoint": 1,
+      "at": "2026-09-01T10:01:21Z",
+      "familiesCompletedSoFar": [
+        "wi_nc_doj_challenge-set"
+      ],
+      "familiesStoppedSoFar": [],
+      "familiesRemaining": [
+        "wv_nc_diversion_deferred-set"
+      ],
+      "note": "DJ-LE-247 built as a measured flat overlay onto a ruled table: twenty-two cells, each bounded by four strokes read from the page content stream, with the top of every write box measured against the lowest printed line inside its cell. Five participant facts written and read back from the finalized bytes; the requester's name deliberately not written, because the box asks for surname first and the platform holds the name in natural order. All nine counters zero by the builder's own count. A placement defect found on the first raster — values sitting on their cell borders — was fixed before return, in this family and in the sibling family in PF11. Not verified here."
+    },
+    {
+      "checkpoint": 2,
+      "at": "2026-09-01T10:01:50Z",
+      "familiesCompletedSoFar": [
+        "wi_nc_doj_challenge-set"
+      ],
+      "familiesStoppedSoFar": [
+        "wv_nc_diversion_deferred-set"
+      ],
+      "familiesRemaining": [],
+      "note": "SCA-C903 binds by exact SHA-256 and is an AES-256 encrypted PDF that pdf-lib cannot open. Its encryption dictionary was read directly out of the bytes and is recorded in the row with the load error. The overlay directory does not exist and this lane did not create it. Nothing was rendered and no counters are claimed. PF10 returns two rows for two assigned families, one COMPLETED and one STOPPED."
+    }
+  ],
+  "laneComplete": true,
+  "familiesAssigned": 2,
+  "rowsReturned": 2,
+  "timestampBasis": "Checkpoint 1 is the modification time of the family's build-status.json on the build host. Checkpoint 2 is the wall clock at the time the stopped row was written, read from `date -u`."
+}

@@ -27,9 +27,9 @@ export type WilmaGuardResult = {
   redirectTarget: "screening_tool" | "human_help" | "none";
 };
 
-const safeScreeningRedirect = "The free guided check uses your answers and your state's rules to show what may be available. I can explain each question, but I do not decide which option is available or promise an outcome. Let's use the guided check for that part.";
+const safeScreeningRedirect = "The free screening uses your answers and your state's rules to show what may be available. I can explain each question, but I do not decide which option is available or promise an outcome. Let's use the screening for that part.";
 const safeHumanRedirect = "This is a question for a lawyer or legal aid, and I do not want to guess about something this important. I can still explain the general steps in plain English while you find legal help.";
-const safeScreeningRedirectEs = "La revisión guiada gratis usa sus respuestas y las reglas de su estado para mostrar qué opciones podrían estar disponibles. Puedo explicar cada pregunta, pero no decido qué opción está disponible ni prometo un resultado. Use la revisión guiada para esa parte.";
+const safeScreeningRedirectEs = "La evaluación gratuita usa sus respuestas y las reglas de su estado para mostrar qué opciones podrían estar disponibles. Puedo explicar cada pregunta, pero no decido qué opción está disponible ni prometo un resultado. Use la evaluación para esa parte.";
 const safeHumanRedirectEs = "Esta pregunta requiere la ayuda de un abogado o de asistencia legal, y no quiero adivinar sobre algo tan importante. Puedo explicar los pasos generales con palabras claras mientras busca ayuda legal.";
 
 const responseGuards: Array<{ category: WilmaGuardCategory; pattern: RegExp; target?: WilmaGuardResult["redirectTarget"] }> = [
@@ -79,7 +79,7 @@ export function guardWilmaResponse({
       blocked: false,
       flags,
       response: participantResponse,
-      redirectOccurred: /free guided check|guided check|legal helper|lawyer|legal aid/i.test(participantResponse),
+      redirectOccurred: /free screening|screening|legal helper|lawyer|legal aid/i.test(participantResponse),
       redirectTarget: redirectTargetFor(participantResponse)
     };
   }
@@ -105,14 +105,14 @@ export function safeWilmaUnavailableMessage() {
 
 function redirectTargetFor(response: string): WilmaGuardResult["redirectTarget"] {
   if (/lawyer|attorney|legal aid|legal helper|human help/i.test(response)) return "human_help";
-  if (/free guided check|guided check|screening tool/i.test(response)) return "screening_tool";
+  if (/free screening|screening|screening tool/i.test(response)) return "screening_tool";
   return "none";
 }
 
 function normalizeWilmaParticipantCopy(response: string) {
   return response
     .replace(/\s*—\s*/g, ", ")
-    .replace(/\b(?:the )?(?:free )?screening tool\b/gi, "the free guided check");
+    .replace(/\b(?:the )?(?:free )?screening tool\b/gi, "the free screening");
 }
 
 function hasVerifiedLegalFactSupport(context: WilmaContext) {

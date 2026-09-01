@@ -1389,6 +1389,63 @@
         "5c695ce8e227b22c18db181a00b294328746c9f3ea2b3c0d2fa384b33e754d4e",
         "a96372dd5e8b4c7e274aa89dc98c3bcde51eb6d12b0bab7e8e3d6fbe80011077"
       ]
+    },
+    {
+      "id": "auth-2026-08-30-participant-data-rights-current-head",
+      "kind": "migration",
+      "phase": 59,
+      "title": "Participant data rights: export, single-matter deletion, account deletion",
+      "artifacts": [
+        "supabase/migrations/20260830120000_participant_data_rights.sql"
+      ],
+      "supersedes": "the obsolete-base draft supabase/phase-57-participant-data-rights.sql and its queue entry auth-2026-08-30-phase-57-participant-data-rights, neither of which is integrated here",
+      "status": "authorized_scoped",
+      "decision": "approved_for_code_integration_only",
+      "requestedBy": "Captain A — current-head replay",
+      "requestedAt": "2026-08-30",
+      "authorizedBy": "Roger Roman — 2026-08-30, authorizing the replay and integration of the participant data-rights feature onto the current Captain head",
+      "authorizedAt": "2026-08-30",
+      "authorizationScope": "code_integration_and_ephemeral_testing_only",
+      "scopedAuthorization": {
+        "CODE_INTEGRATION": "AUTHORIZED 2026-08-30 — repository code, the rebuilt current-head migration as a proposal, generated evidence, and local or ephemeral focused testing.",
+        "NONPRODUCTION_MIGRATION": "AUTHORIZED 2026-08-30 by Roger Roman, for a one-time application to the dedicated synthetic acceptance project only — and NOT YET SPENT. This session cannot satisfy the preconditions the authorization attaches: no Supabase credential or project ref is configured here, egress to api.supabase.com is refused by policy (http_code 000, while registry.npmjs.org returns 200), and the Supabase CLI is not installed. The ref, the dedicated-synthetic proof, and the six confirmations are all observations about a project this environment cannot reach, so none was asserted. See data/rcap-grade-a/participant-data-rights/nonproduction-application-readiness.json. The authorization stays open and needs no renewal — only an environment that can reach the project.",
+        "PRODUCTION_MIGRATION": "still queued, and explicitly excluded by the 2026-08-30 authorization.",
+        "PRODUCTION_DEPLOYMENT": "still queued, and explicitly excluded by the 2026-08-30 authorization, as is any change to Production environment variables."
+      },
+      "oneAuthorizationDoesNotImplyAnother": "Code integration is not permission to apply. Applying to a synthetic acceptance project is not permission to apply to Production. Applying to Production is not permission to deploy. Each is asked for and recorded separately, and the absence of a record is a refusal rather than a gap.",
+      "alsoExcluded": [
+        "applying the obsolete phase-57 draft",
+        "changing Production environment variables",
+        "deleting any real participant data"
+      ],
+      "why": "Creates the durable participant privacy-request workflow the three data-rights controls run on -- participant_privacy_requests, participant_privacy_request_steps, participant_legal_holds, participant_account_tombstones and participant_processor_propagations -- with the security-definer functions that write them. It re-creates four EXISTING guard functions with one narrow, named exception each, gated on a session-local erasure authority: packet_render_jobs_consumer_binding_immutable and consumer_payment_consumption_binding_guard may substitute a keyed pseudonym for consumer_auth_user_id; guard_packet_delivery_events may substitute one for actor_user_id; guard_packet_render_job_transition permits queued -> failed under the cancel_participant_render_jobs authority, because a queued job holds no fencing token and the canonical failure function cannot reach it. packet_render_jobs_error_code_check gains one value, participant_deletion_cancelled, and loses none. packet_credit_ledger is deliberately untouched.",
+      "risk": "high",
+      "riskNote": "Two reasons this is not routine, and one apply-order hazard the current-head rebuild removes. First, the erasure path deletes participant records irreversibly and deletes the Auth user; a defect in it is not recoverable by rollback. Second, it re-creates four functions other phases own. The obsolete draft carried a real hazard here -- applied out of numeric order it would have reverted those guards to its own text -- but this rebuild is a timestamped migration at the end of the forward-only chain, so ordering is the chain's, not an operator's. The guard bodies were grafted onto the canonical definitions in 20260818202000 and 20260818203000 and drop no clause, which was verified by diffing each rebuilt body against the canonical one. Against the residual risk: no existing refusal is weakened. Without rcap.participant_erasure_authority set, every original refusal still fires; and with it, amount, currency, product id, receipt reference, event type, item binding, person and matter still refuse to move. EXECUTE on every new function is revoked from PUBLIC -- not merely from anon and authenticated, because PostgreSQL's default PUBLIC grant would otherwise leave them callable by a browser role -- and granted to service_role alone.",
+      "rollback": "Forward-only in the chain, reversible by statement. Drop the five new tables (referenced by nothing outside this migration), drop the eleven new functions, drop the reject_tombstoned_consumer_briefcase_writes trigger, restore packet_render_jobs_error_code_check without participant_deletion_cancelled, and re-apply the canonical bodies of the four guards from 20260818202000_rcap_upgrade_02_functions.sql. No existing table is dropped, no column removed and no data rewritten by the migration itself. Erasures already performed by the application are by design not reversible; that is the feature, and it is why the tombstone and the receipt outlive the account.",
+      "evidence": [
+        "node scripts/verify-participant-data-rights.mjs — 117/117 against an ephemeral PostgreSQL cluster built from the current migration sequence, driving the real route handlers and the real deletion pipeline.",
+        "Processor erasure (PR1-PR7) runs against a real loopback HTTP endpoint rather than a stub: acknowledged requires the provider's own reference, a 500 retries into pending, a 400 fails without retry, and payment_processor and packet_render_worker are classified not_applicable with their reasons recorded. PR7 reintroduces the original defect — an unconfigured provider reporting 'sent' — as a mutation, and catches it.",
+        "Storage (S1-S10) sweeps 1,201 objects across a 1,100-object page boundary and three levels of nesting, in every approved location, chunked. Removing pagination, removing recursion and swallowing a listing failure are each caught as mutations. An interrupted sweep resumes and a sibling participant's object survives.",
+        "Private-artifact authority: get_consumer_packet_artifact_authority is implemented in this migration with its provenance table, immutability trigger and legacy backfill. M8 and M9 both pass, and M9 is non-vacuous — an absent dependency satisfies neither.",
+        "Deployment readiness (G1-G4): the participant control is not served, and the Briefcase link is not rendered, unless the migration, the RPC and both secrets are present in the deployment being served.",
+        "npm run typecheck — clean. eslint on the ported paths — clean. git diff --check — clean.",
+        "Current regressions re-run: payment, render, delivery, claim, ownership, Clinic and cross-tenant."
+      ],
+      "doesNotAuthorize": [
+        "applying this migration anywhere",
+        "a Production deployment",
+        "a Stripe or payment change",
+        "deleting any real participant data",
+        "opening any commercial route"
+      ],
+      "closeoutResolved": [
+        "processor propagation is real or explicitly classified, never asserted",
+        "storage deletion is paginated, recursive, chunked, idempotent and resumable",
+        "the private-artifact authority dependency is closed in the current schema"
+      ],
+      "nonproductionApplicationReadiness": "data/rcap-grade-a/participant-data-rights/nonproduction-application-readiness.json",
+      "migrationSha256": "991fe21eab48b1ee72ab9f06346339f959f82d5f668b34560eef97bda08272ca",
+      "integratedAtCaptainSha": "63dc6bdf26a4d34da1328077fbacd9ab1dc8d20f"
     }
   ],
   "statusVocabulary": {

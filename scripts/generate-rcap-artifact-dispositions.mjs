@@ -30,7 +30,7 @@ import crypto from "node:crypto";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 
-import { nonFilingNoticeOf, nonFilingParticipantInstruction, REFERENCE_ONLY_LABEL } from "./rcap-official-forms/rcap-non-filing-notice.mjs";
+import { NON_FILING_PATTERNS, nonFilingNoticeOf, nonFilingParticipantInstruction, REFERENCE_ONLY_LABEL } from "./rcap-official-forms/rcap-non-filing-notice.mjs";
 
 const require = createRequire(import.meta.url);
 const { PDFDocument } = require("pdf-lib");
@@ -75,10 +75,55 @@ function noticeSourceFor(dir) {
   return null;
 }
 
+/**
+ * A reference-only family deliberately has no rendered fixture after its
+ * non-filing hold is enforced. Preserve that refusal from the family's current
+ * source record instead of requiring the withdrawn artifact to remain in-tree.
+ */
+function recordedNonFilingNoticeFor(dir) {
+  const sourceRecordPath = path.join(dir, "source-record.json");
+  const renderedArtifactsPath = path.join(dir, "reports/rendered-artifacts.json");
+  if (!fs.existsSync(sourceRecordPath) || !fs.existsSync(renderedArtifactsPath)) return null;
+
+  const sourceRecordBytes = fs.readFileSync(sourceRecordPath);
+  const sourceRecord = JSON.parse(sourceRecordBytes.toString("utf8"));
+  const renderedArtifacts = JSON.parse(fs.readFileSync(renderedArtifactsPath, "utf8"));
+  const recordedText = [
+    sourceRecord.ownerDisposition?.basis,
+    renderedArtifacts.whyNoArtifact
+  ].filter(Boolean).join(" ");
+
+  const hasPrintedNotice = NON_FILING_PATTERNS.some(({ pattern }) => pattern.test(recordedText));
+  const refusalIsCurrent = sourceRecord.ownerDisposition?.referenceOnly === true
+    // The participant instruction contract below is intentionally bilingual
+    // English/Spanish. Do not silently apply it to another translation.
+    && sourceRecord.language === "ES"
+    && sourceRecord.implementationStatus === "no_fill_reference_only_translation"
+    && Object.keys(renderedArtifacts.artifacts ?? {}).length === 0
+    && /non_filing_hold_enforced/i.test(String(renderedArtifacts.whyNoArtifact ?? ""));
+  if (!hasPrintedNotice || !refusalIsCurrent) return null;
+
+  return {
+    disposition: "informational_companion",
+    basis: "the document's own printed notice",
+    languages: [...new Set(["en", String(sourceRecord.language ?? "").toLowerCase()].filter(Boolean))].sort(),
+    fileInsteadFormId: sourceRecord.documentId ?? null,
+    printedNotice: [{
+      page: null,
+      language: "en",
+      printedText: recordedText.slice(0, 400)
+    }],
+    readFrom: {
+      path: path.relative(rootDir, sourceRecordPath),
+      sha256: sha256(sourceRecordBytes)
+    },
+    evidenceKind: "current_source_record_after_non_filing_artifact_withdrawal"
+  };
+}
+
 const rows = [];
 for (const family of audit.families ?? []) {
   const present = (family.artifacts ?? []).filter((a) => a.present);
-  if (present.length === 0) continue;
 
   const dir = familyDir(family.familyId);
   let notice = null;
@@ -92,6 +137,37 @@ for (const family of audit.families ?? []) {
         if (notice) notice.readFrom = { path: path.relative(rootDir, source.file), sha256: sha256(bytes) };
       } catch { notice = null; }
     }
+  }
+  if (!notice && dir) notice = recordedNonFilingNoticeFor(dir);
+
+  // A court-declared reference-only translation has no output artifact by
+  // design. Record the refused component once from its current source record;
+  // otherwise a correct withdrawal disappears from the denominator entirely.
+  if (present.length === 0) {
+    if (!notice) continue;
+    rows.push({
+      familyId: family.familyId,
+      artifact: null,
+      disposition: "informational_companion",
+      finalized: false,
+      flattened: true,
+      activeContentClean: true,
+      provenancePresent: true,
+      recordedFailures: ["participant_values_absent_from_the_artifact_entirely"],
+      informational: {
+        basis: notice.basis,
+        languages: notice.languages,
+        fileInsteadFormId: notice.fileInsteadFormId,
+        printedNotice: notice.printedNotice,
+        readFrom: notice.readFrom,
+        evidenceKind: notice.evidenceKind,
+        participantInstruction: nonFilingParticipantInstruction(notice.fileInsteadFormId),
+        participantLabel: REFERENCE_ONLY_LABEL,
+        refusalWasCorrect: true,
+        countsAsAFileableArtifact: false
+      }
+    });
+    continue;
   }
 
   for (const artifact of present) {
@@ -174,23 +250,19 @@ if (CHECK) {
   /**
    * The committed dispositions are validated, not re-derived.
    *
-   * Byte equality against a fresh derivation reported the committed record as
-   * stale and would have replaced it with one that dropped 485 lines: filing
-   * artifacts 91 to 90, and the two court-declared informational companions --
-   * the forms whose own printed notice says DO NOT COMPLETE THIS FORM FOR
-   * FILING -- from correctly refused to not recorded at all. A disposition
-   * ledger that loses a refusal is not fresher than one that keeps it.
-   *
-   * So what is checked is the contract: every disposition is one of the known
-   * kinds, filing artifacts are still finalized, informational companions are
-   * still refused rather than filled, nothing is unresolved, and the stated
-   * totals are the tally of the rows they claim to summarise.
+   * The derivation consumes both rendered fixtures and the current source-record
+   * evidence for artifacts withdrawn by the non-filing hold. Byte equality is
+   * therefore safe again: it cannot erase a correct refusal merely because the
+   * refused output was deliberately removed.
    */
   const committed = fs.existsSync(abs(OUT)) ? JSON.parse(fs.readFileSync(abs(OUT), "utf8")) : null;
   const problems = [];
   if (!committed) {
     problems.push(`${OUT} has not been generated`);
   } else {
+    if (`${JSON.stringify(committed, null, 2)}\n` !== serialized) {
+      problems.push(`${OUT} is stale against the current audit and source-record evidence`);
+    }
     const committedRows = committed.rows ?? [];
     if (committedRows.length === 0) problems.push("the disposition ledger carries no rows");
 

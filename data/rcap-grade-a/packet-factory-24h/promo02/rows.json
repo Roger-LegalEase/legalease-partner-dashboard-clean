@@ -1,0 +1,16 @@
+{
+  "schemaVersion": "rcap-source-promotion-rows/v1",
+  "lane": "PROMO02",
+  "laneKind": "source-promotion",
+  "worker": "VF-SRC-A",
+  "baseSha": "09b741ad00be0d630bd73a72f66640294abab397",
+  "obligationsDispatched": 0,
+  "whyThisLaneIsEmpty": "This lane was dispatched with zero obligations. Its prompt records the same thing: no obligation of this class was queued for this host group at dispatch, and the lane starts the moment one arrives. None arrived during this shift, so the honest return is zero rows rather than work invented to fill the lane.",
+  "environmentNote": "A promotion without exact bytes is refused, and this container can put hands on no exact bytes at all: the private corpus is absent (the bootstrap script cannot resolve the pinned release asset, HTTP 403), and the human-returned bodies live outside git under private/human-source-returns/. So even had an obligation been queued, this lane could not have promoted it here. The candidates below are ready for promotion in an environment that holds the bytes, where PROMO must recompute every hash from those bytes rather than carry forward the hash recorded upstream.",
+  "nothingWasFetched": true,
+  "sourceBodiesCommitted": 0,
+  "promotionsWithoutExactBytes": 0,
+  "familiesActuallyReleasedNow": [],
+  "handoffCandidatesArePreparedIn": "data/rcap-grade-a/source-acquisition/packet-factory-24h/promo02/handoff-candidates.json",
+  "rows": []
+}

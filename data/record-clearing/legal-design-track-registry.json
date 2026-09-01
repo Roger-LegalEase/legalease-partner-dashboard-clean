@@ -71604,7 +71604,7 @@
         "Anything other than a first conviction for possession of a controlled substance.",
         "Trafficking offences.",
         "Any person who has already had a conviction voided under KRS 218A.275, which may occur only once.",
-        "Any person who has previously had a possession charge dismissed after completing a deferred prosecution under KRS 218A.14151. KRS 218A.275(12) makes that an absolute bar and the controlling review does not record it."
+        "Any person who has previously had a possession charge dismissed after completing a deferred prosecution under KRS 218A.14151. KRS 218A.275(12) makes that an absolute bar, and the controlling decision owner recorded it on 2026-08-29 (LWD-2026-08-29-KY-218A-275)."
       ],
       "waitingPeriods": [
         {
@@ -72076,7 +72076,31 @@
           "kind": "source_gate",
           "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
         }
-      ]
+      ],
+      "requiredScreeningFacts": [
+        {
+          "factId": "prior_218a_14151_deferred_prosecution_dismissal",
+          "prompt": "Have you previously had a drug possession charge dismissed after completing a deferred prosecution program in Kentucky?",
+          "requirement": "required",
+          "effectWhenConfirmed": "deny_this_route",
+          "denialIsRouteSpecific": true,
+          "denialScopeNote": "A confirmed prior dismissal denies the KRS 218A.275 voiding route and nothing else. It must not be presented as making every other Kentucky remedy unavailable, and it does not reach KRS 218A.276.",
+          "authority": "KRS 218A.275(12)",
+          "recordedBy": "LWD-2026-08-29-KY-218A-275",
+          "recordedOn": "2026-08-29"
+        }
+      ],
+      "controllingDecisions": [
+        "LWD-2026-08-29-KY-218A-275"
+      ],
+      "controllingDecisionRecord": "data/record-clearing/legal-decisions/2026-08-29-lawrence-six-decisions.json",
+      "routeIndependence": {
+        "remainsSeparateFrom": [
+          "KRS 431.078"
+        ],
+        "recordedBy": "LWD-2026-08-29-KY-218A-275",
+        "statement": "KRS 218A.275 remains a separate void-and-seal route and is not merged into KRS 431.078."
+      }
     },
     {
       "jurisdiction": "KY",
@@ -72493,7 +72517,24 @@
           "kind": "source_gate",
           "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
         }
-      ]
+      ],
+      "controllingDecisions": [
+        "LWD-2026-08-29-KY-218A-276"
+      ],
+      "controllingDecisionRecord": "data/record-clearing/legal-decisions/2026-08-29-lawrence-six-decisions.json",
+      "routeIndependence": {
+        "remainsSeparateFrom": [
+          "KRS 431.078",
+          "KRS 218A.275"
+        ],
+        "recordedBy": "LWD-2026-08-29-KY-218A-276",
+        "statement": "KRS 218A.276 remains an independent route with its own eligible offence set, treatment and completion requirements, voiding treatment, sealing treatment, packet or court-order treatment, route contract and terminalization record.",
+        "doesNotInherit": {
+          "from": "ky_void_seal_controlled_substance",
+          "what": "the KRS 218A.275(12) prior-deferred-prosecution exclusion",
+          "why": "The decision owner recorded expressly that the subsection (12) exclusion is NOT imported into KRS 218A.276 unless separate controlling authority requires it. Importing it because the two routes look alike is exactly the inference the decision forecloses."
+        }
+      }
     },
     {
       "jurisdiction": "KY",
@@ -245687,7 +245728,50 @@
           "kind": "source_gate",
           "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
         }
-      ]
+      ],
+      "controllingDecisions": [
+        "LWD-2026-08-29-WV-17C-5-2B"
+      ],
+      "controllingDecisionRecord": "data/record-clearing/legal-decisions/2026-08-29-lawrence-six-decisions.json",
+      "controllingVehicle": {
+        "statute": "W. Va. Code § 17C-5-2b(g)",
+        "recordedBy": "LWD-2026-08-29-WV-17C-5-2B",
+        "statement": "§ 17C-5-2b(g) remains the controlling participant filing vehicle for a dismissal entered under § 17C-5-2b(c).",
+        "mustNotRouteThrough": [
+          "W. Va. Code § 61-11-25",
+          "SCA-C903"
+        ]
+      },
+      "waitingPeriodCalculation": {
+        "length": "one year",
+        "clockStarts": "immediately upon expiration of the probation term",
+        "clockDoesNotStartFrom": [
+          "dismissal",
+          "plea",
+          "entry into deferral",
+          "conviction",
+          "completion of treatment",
+          "payment of costs"
+        ],
+        "requiredDateFacts": [
+          {
+            "factId": "wv_probation_start_date",
+            "label": "probation start"
+          },
+          {
+            "factId": "wv_probation_expiration_date",
+            "label": "probation expiration"
+          },
+          {
+            "factId": "wv_application_eligibility_date",
+            "label": "application eligibility date"
+          }
+        ],
+        "eligibilityDateDerivation": "wv_application_eligibility_date = wv_probation_expiration_date + 1 year",
+        "whyTheDistinctionMatters": "Six other dates in this matter are plausible starting points and every one of them is wrong. A calculation that takes the dismissal or the plea produces an eligibility date that is too early, and an application filed too early is refused.",
+        "recordedBy": "LWD-2026-08-29-WV-17C-5-2B",
+        "recordedOn": "2026-08-29"
+      }
     },
     {
       "jurisdiction": "WV",

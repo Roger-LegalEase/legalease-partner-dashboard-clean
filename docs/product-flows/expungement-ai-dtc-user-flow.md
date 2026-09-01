@@ -31,21 +31,21 @@ RCAP-sponsored matters use the same Briefcase where appropriate but never use pa
 
 ## Direct-to-consumer flow
 
-1. **Start a free record check**
+1. **Start a free screening**
 
    A visitor can begin without an account. Landing and result disclosure:
 
-   > Start with a free record check. If a self-help packet is available for your matter, it costs $50 to generate.
+   > Start with a free screening. If a self-help packet is available for your matter, it costs $50 to generate.
 
 2. **Complete the profile-driven screening**
 
-   The engine asks the state and route-specific questions needed to produce an authoritative result. The frontend never infers eligibility, pathway, packet type, or `paymentAllowed`.
+   The engine asks the state and route-specific questions needed to produce a preliminary result. The frontend never infers eligibility, pathway, packet type, or `paymentAllowed`.
 
-3. **Review the authoritative result**
+3. **Review the preliminary result**
 
    The result identifies the exact state, pathway or remedy, plain-language reasons, cautions and boundaries, whether a packet path may be available, and the $50 packet price when applicable. It always explains that Expungement.ai is self-help software and does not guarantee court or agency approval.
 
-   A packet-ready result uses the primary action **Save this matter and continue**. Guidance, waiting-period, and more-information-needed results use a next-step action that saves the same result without presenting payment.
+   A packet-ready result uses the primary action **Save my result and continue**. Guidance, waiting-period, and more-information-needed results use a next-step action that saves the same result without presenting payment.
 
 4. **Create an account or sign in**
 
@@ -95,7 +95,7 @@ RCAP-sponsored matters use the same Briefcase where appropriate but never use pa
 
 ## Human-facing matter states
 
-- Screening saved
+- Matter saved
 - Guidance saved
 - More information needed
 - Waiting period not met
@@ -124,7 +124,7 @@ Internal route, render, payment, and job vocabulary must not be shown to consume
 
 ## Guardrails
 
-- No account wall before the free record check.
+- No account wall before the free screening.
 - No payment before the state-specific packet builder and final accuracy review.
 - Result copy says **A path may be available**, never "you qualify."
 - Do not promise expungement, clearance, filing, court approval, or legal representation.
@@ -136,7 +136,7 @@ Internal route, render, payment, and job vocabulary must not be shown to consume
 
 ## Clean final flow
 
-**Start free record check** -> profile-driven screening -> authoritative result -> **Save this matter and continue** -> create account or sign in -> exact free Briefcase matter -> **Complete packet information** -> save and resume -> accuracy review -> **Pay $50 and generate my packet** -> verified matter-level payment -> durable packet generation -> **Packet ready** -> authenticated download and filing checklist -> outcome follow-up.
+**Start free screening** -> profile-driven screening -> preliminary result -> **Save my result and continue** -> create account or sign in -> exact free Briefcase matter -> **Complete packet information** -> save and resume -> accuracy review -> **Pay $50 and generate my packet** -> verified matter-level payment -> durable packet generation -> **Packet ready** -> authenticated download and filing checklist -> outcome follow-up.
 # Participant language
 
 This flow follows the shared participant-language rule in [Product Flow Source of Truth](./README.md): external copy explains the result, next steps, costs, and packet progress without exposing implementation details.

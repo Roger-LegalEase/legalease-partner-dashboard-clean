@@ -37,12 +37,11 @@ permissions:
   packages: read
 
 env:
-  AUTHORIZED_APPLICATION_SHA: f7ed0ad3a8f37a0c1446b62760b1a36fb163c926
-  AUTHORIZED_WORKER_SOURCE_SHA: 5ac0d8d6910aec3dc6259b2d4da6931abc5af7e8
-  AUTHORIZED_WORKER_DIGEST: sha256:4e5b58e4492289446bcbdd100bb39dcd13dd4512916679fa2a252e4532ab9530
+  AUTHORIZED_WORKER_SOURCE_SHA: 441ee3188ee52047a012232d8d11f890a09b4ac5
+  AUTHORIZED_WORKER_DIGEST: sha256:67132df2d1bee49d123d0d2918880f283d2109195b49150265d348fe1d07a69c
   AUTHORIZED_ACCEPTANCE_PROJECT_REF: hyflxnlhpmiqxvvcoiia
   IMAGE_REPOSITORY: ghcr.io/roger-legalease/rcap-render-worker
-  CANONICAL_INTEGRATION_BRANCH: main
+  CANONICAL_INTEGRATION_BRANCH: claude/legalease-sprint-captain-utucnw
   CLOUDFLARED_VERSION: 2026.8.2
   CLOUDFLARED_LINUX_AMD64_SHA256: fcfb02b575a52ca1af2e3267af4e1517bcdeb30ac48c834c69abaed3c0576ad2
   CLOUDFLARED_LINUX_AMD64_URL: https://github.com/cloudflare/cloudflared/releases/download/2026.8.2/cloudflared-linux-amd64
@@ -59,16 +58,18 @@ jobs:
           REQUESTED_WORKER_SOURCE_SHA: ${{ inputs.worker_source_sha }}
           REQUESTED_WORKER_DIGEST: ${{ inputs.worker_digest }}
           REQUESTED_TOOLS_SHA: ${{ inputs.tools_sha }}
+          WORKFLOW_SHA: ${{ github.sha }}
           REQUESTED_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
           STRIPE_TEST_SECRET_INPUT: ${{ secrets.HOSTED_STRIPE_TEST_SECRET }}
           STRIPE_WEBHOOK_SECRET_INPUT: ${{ secrets.HOSTED_STRIPE_TEST_WEBHOOK_SECRET }}
         run: |
           set -euo pipefail
-          [ "$REQUESTED_APPLICATION_SHA" = "$AUTHORIZED_APPLICATION_SHA" ] || { echo "::error::application_sha is not authorized"; exit 1; }
+          printf '%s' "$REQUESTED_APPLICATION_SHA" | grep -Eq '^[0-9a-f]{40}$' || { echo "::error::application_sha must be a full commit SHA"; exit 1; }
           [ "$REQUESTED_WORKER_SOURCE_SHA" = "$AUTHORIZED_WORKER_SOURCE_SHA" ] || { echo "::error::worker_source_sha is not authorized"; exit 1; }
           [ "$REQUESTED_WORKER_DIGEST" = "$AUTHORIZED_WORKER_DIGEST" ] || { echo "::error::worker_digest is not authorized"; exit 1; }
           [ "$REQUESTED_SUPABASE_PROJECT_REF" = "$AUTHORIZED_ACCEPTANCE_PROJECT_REF" ] || { echo "::error::Supabase ref is not the acceptance project"; exit 1; }
           printf '%s' "$REQUESTED_TOOLS_SHA" | grep -Eq '^[0-9a-f]{40}$' || { echo "::error::tools_sha must be a full SHA"; exit 1; }
+          [ "$REQUESTED_TOOLS_SHA" = "$WORKFLOW_SHA" ] || { echo "::error::tools_sha must equal the workflow source SHA"; exit 1; }
           case "$STRIPE_TEST_SECRET_INPUT" in sk_test_*) ;; *) echo "::error::Stripe key is not sandbox sk_test_"; exit 1;; esac
           case "$STRIPE_WEBHOOK_SECRET_INPUT" in whsec_*) ;; *) echo "::error::Stripe webhook signing secret is not whsec_"; exit 1;; esac
 
@@ -77,7 +78,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Prove main ancestry and frozen application and worker inputs
+      - name: Prove captain-branch ancestry and frozen application and worker inputs
         env:
           REQUESTED_APPLICATION_SHA: ${{ inputs.application_sha }}
           REQUESTED_WORKER_SOURCE_SHA: ${{ inputs.worker_source_sha }}
@@ -87,12 +88,18 @@ jobs:
           git fetch --no-tags origin "$CANONICAL_INTEGRATION_BRANCH"
           for SHA in "$REQUESTED_APPLICATION_SHA" "$REQUESTED_WORKER_SOURCE_SHA" "$REQUESTED_TOOLS_SHA"; do
             git cat-file -e "${SHA}^{commit}" || { echo "::error::$SHA does not resolve"; exit 1; }
-            git merge-base --is-ancestor "$SHA" "origin/$CANONICAL_INTEGRATION_BRANCH" || { echo "::error::$SHA is outside main ancestry"; exit 1; }
+            git merge-base --is-ancestor "$SHA" "origin/$CANONICAL_INTEGRATION_BRANCH" || { echo "::error::$SHA is outside captain-branch ancestry"; exit 1; }
           done
-          git diff --quiet "$REQUESTED_APPLICATION_SHA" "$REQUESTED_TOOLS_SHA" -- src package.json package-lock.json tsconfig.json next.config.ts public docs/record-clearing/field-map-drafts \
+          git merge-base --is-ancestor "$REQUESTED_WORKER_SOURCE_SHA" "$REQUESTED_APPLICATION_SHA" \
+            || { echo "::error::accepted worker source is not an ancestor of the final application candidate"; exit 1; }
+          git merge-base --is-ancestor "$REQUESTED_APPLICATION_SHA" "$REQUESTED_TOOLS_SHA" \
+            || { echo "::error::final application candidate is not an ancestor of workflow tools"; exit 1; }
+          git diff --quiet "$REQUESTED_APPLICATION_SHA" "$REQUESTED_TOOLS_SHA" -- src package.json package-lock.json tsconfig.json next.config.ts postcss.config.mjs tailwind.config.ts public docs/record-clearing/field-map-drafts \
             || { echo "::error::tools_sha changes frozen application inputs"; exit 1; }
-          git diff --quiet "$REQUESTED_WORKER_SOURCE_SHA" "$REQUESTED_TOOLS_SHA" -- package.json package-lock.json tsconfig.json scripts/rcap-render-worker.mjs deploy/rcap-render-worker/Dockerfile scripts/lib src \
-            || { echo "::error::tools_sha changes frozen worker inputs"; exit 1; }
+          git diff --quiet "$REQUESTED_WORKER_SOURCE_SHA" "$REQUESTED_APPLICATION_SHA" -- package.json package-lock.json tsconfig.json scripts/rcap-render-worker.mjs deploy/rcap-render-worker/Dockerfile scripts/lib src \
+            || { echo "::error::final application changes canonical worker inputs; build and pin one new full-SHA image"; exit 1; }
+          git diff --quiet "$REQUESTED_APPLICATION_SHA" "$REQUESTED_TOOLS_SHA" -- package.json package-lock.json tsconfig.json scripts/rcap-render-worker.mjs deploy/rcap-render-worker/Dockerfile scripts/lib src \
+            || { echo "::error::workflow tools change final-candidate worker inputs"; exit 1; }
           git checkout --detach "$REQUESTED_TOOLS_SHA"
 
       - name: Set up Node
@@ -130,6 +137,8 @@ jobs:
 
       - name: Open one temporary HTTPS tunnel and record its exact URL
         id: tunnel
+        env:
+          HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
         run: |
           set -euo pipefail
           nohup env -i PATH="$PATH" /tmp/rcap-cloudflared tunnel --url http://127.0.0.1:3000 --no-autoupdate --metrics 127.0.0.1:20241 >/tmp/rcap-cloudflared.log 2>&1 &
@@ -147,7 +156,7 @@ jobs:
           printf 'HOSTED_PUBLIC_URL=%s\n' "$HOSTED_PUBLIC_URL" >>"$GITHUB_ENV"
           printf 'hosted_url=%s\n' "$HOSTED_PUBLIC_URL" >>"$GITHUB_OUTPUT"
           mkdir -p hosted-acceptance-evidence
-          HOSTED_PUBLIC_URL="$HOSTED_PUBLIC_URL" node -e 'const fs=require("fs");const u=new URL(process.env.HOSTED_PUBLIC_URL);fs.writeFileSync("hosted-acceptance-evidence/github-host.json",JSON.stringify({schemaVersion:"rcap-github-temporary-host/v1",provider:"cloudflare_quick_tunnel",origin:u.origin,applicationSha:process.env.AUTHORIZED_APPLICATION_SHA,production:false,vercel:false,temporary:true},null,2)+"\n")'
+          HOSTED_PUBLIC_URL="$HOSTED_PUBLIC_URL" node -e 'const fs=require("fs");const u=new URL(process.env.HOSTED_PUBLIC_URL);fs.writeFileSync("hosted-acceptance-evidence/github-host.json",JSON.stringify({schemaVersion:"rcap-github-temporary-host/v1",provider:"cloudflare_quick_tunnel",origin:u.origin,applicationSha:process.env.HOSTED_APPLICATION_SHA,production:false,vercel:false,temporary:true},null,2)+"\n")'
           {
             echo "## GitHub-hosted RCAP acceptance environment"
             echo

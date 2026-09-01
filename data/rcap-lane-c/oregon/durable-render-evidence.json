@@ -1,0 +1,122 @@
+{
+  "schemaVersion": "rcap-oregon-durable-render-evidence/v1",
+  "generatedBy": "scripts/verify-rcap-oregon-durable-render.mjs",
+  "routeKey": "OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+  "posture": "Exercised in a nonproduction stack. No Supabase credential was read, no Production configuration was touched, and no participant, payment, credit or entitlement exists outside the process that ran this.",
+  "real": [
+    "PostgreSQL 16, ephemeral, listening on no TCP address",
+    "the committed render-job schema, its enqueue, claim and complete functions",
+    "the shipped job-queue row mapper and the shipped delivery decision and streaming code",
+    "the committed Oregon filing PDF and its SHA-256"
+  ],
+  "synthetic": [
+    "the participant, matter and briefcase item",
+    "the storage backend: a filesystem implementation of the same PacketArtifactStorage interface, with the same write-once rule"
+  ],
+  "artifactSha256": "582100f2383ff0ad4b282a6d347eda76c5297c23cddbaf82ce164d6ff801543f",
+  "artifactBytes": 217271,
+  "storagePathShape": "<ownerUserId>/<jobId>/<outputSha256>.pdf",
+  "checks": [
+    {
+      "check": "the artifact under test is the committed Oregon filing PDF",
+      "passed": true,
+      "detail": "582100f2383ff0ad4b282a6d347eda76c5297c23cddbaf82ce164d6ff801543f"
+    },
+    {
+      "check": "the committed render-job schema applies to a clean PostgreSQL 16 cluster",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "a render job enqueues for the Oregon route",
+      "passed": true,
+      "detail": "<generated-uuid>"
+    },
+    {
+      "check": "a worker claims it with a fencing token",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "the first write of the artifact succeeds",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "a second write to the same path is refused rather than upserted",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "the stored bytes read back exactly",
+      "passed": true,
+      "detail": "217271 bytes"
+    },
+    {
+      "check": "the stored bytes still hash to the enqueued output hash",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "a stored digest that disagrees with the rendered one does not validate",
+      "passed": true,
+      "detail": "{\"credit_ledger_id\":null,\"accounting_result\":\"not_validated\",\"delivery_eligibility\":\"not_evaluated\",\"consumption_unit_hash\":null}"
+    },
+    {
+      "check": "and the job is failed with checksum_mismatch rather than left validating",
+      "passed": true,
+      "detail": "failed / checksum_mismatch"
+    },
+    {
+      "check": "a synthetic consumer payment records through the shipped function",
+      "passed": true,
+      "detail": "{\"outcome\":\"recorded_paid\",\"briefcase_item_id\":\"5e7a7e9b-0000-4000-8000-0000000000a1\",\"provider_event_id\":\"evt_durable_render_harness\"}"
+    },
+    {
+      "check": "the job validates once local and stored digests agree",
+      "passed": true,
+      "detail": "{\"credit_ledger_id\":\"<generated-uuid>\",\"accounting_result\":\"zero_charge\",\"delivery_eligibility\":\"eligible\",\"consumption_unit_hash\":\"96c0f98191087d553740db3f6d4b9e3433d6429c5eef2ceff3373f44d09567c8\"}"
+    },
+    {
+      "check": "the finalized job reports its delivery eligibility and accounting result",
+      "passed": true,
+      "detail": "eligibility eligible, accounting zero_charge"
+    },
+    {
+      "check": "the job records the storage path and byte count it was finalized with",
+      "passed": true,
+      "detail": "artifact_validated 5e7a7e9b-0000-4000-8000-000000000001/<jobId>/582100f2383ff0ad4b282a6d347eda76c5297c23cddbaf82ce164d6ff801543f.pdf 217271"
+    },
+    {
+      "check": "a participant who does not own the item is denied delivery",
+      "passed": true,
+      "detail": "unauthorized"
+    },
+    {
+      "check": "altered stored bytes fail closed at delivery",
+      "passed": true,
+      "detail": "artifact_corrupt"
+    },
+    {
+      "check": "with everything else satisfied, the last door is Grade-A commercial admission",
+      "passed": true,
+      "detail": "commercial_admission_denied"
+    },
+    {
+      "check": "the streamed bytes are the stored bytes, byte for byte",
+      "passed": true,
+      "detail": "217271 of 217271 bytes"
+    },
+    {
+      "check": "the stream recorded authorized, started and completed in order",
+      "passed": true,
+      "detail": "delivery_authorized, transmission_started, transmission_completed"
+    }
+  ],
+  "theLastDoor": "With the object stored, re-read, hash-verified and untampered, the job validated, a synthetic consumer payment recorded through the shipped function, and the owner asking for their own matter, delivery is still refused with commercial_admission_denied. Everything durable render is responsible for holds; what refuses is the Grade-A authority, because this route is not commercially eligible. That is the correct outcome and the reason this exercise opens nothing.",
+  "doesNotEstablish": [
+    "that Supabase Storage enforces the same rule; that is a deployment property and belongs to the worker deployment specification",
+    "any commercial status: the route remains denied at all ten admission points",
+    "that the packet may be delivered to anyone; the delivery gate refused it here and refuses it in the product"
+  ]
+}

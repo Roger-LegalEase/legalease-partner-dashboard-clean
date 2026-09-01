@@ -1,0 +1,34 @@
+{
+  "schemaVersion": "rcap-source-vehicle-stop/v1",
+  "familyId": "wa_blake_vacatur_and_lfo_refund-set",
+  "status": "STOPPED",
+  "stopClass": "SOURCE_VEHICLE_ROLE_MISMATCH",
+  "requiredVehicleRelationship": "lfo_refund_claim: Blake-002",
+  "heldSourceClaimedForThatRelationship": {
+    "formNumber": "BLAKE-002",
+    "sha256": "f3c516804c01f2d8950a7ec5b594e73be94a93504312ec26771152b729c2fd5d",
+    "observedTitleLines": [
+      "Blake Motion to Vacate Drug Possession",
+      "Conviction and Refund Paid LFOs Amounts",
+      "Blake Motion to Vacate Drug Possession Conviction and",
+      "Refund Paid LFO Amounts",
+      "Defendant’s motion",
+      "State’s motion",
+      "Motion of the Court, in the interest of justice",
+      "2. Motion and Relief Requested",
+      "The movant requests the court vacate unconstitutionally void Blake conviction/s and",
+      "order a refund of legal financial obligations (LFOs) paid on the unconstitutional",
+      "resulting solely from the void convictions. This motion is based on State v. Blake, 197",
+      "(04/2026) CLJ Blake Motion"
+    ]
+  },
+  "finding": "The worklist assigns BLAKE-002 as a separate lfo_refund_claim, but first-hand inspection of the pinned BLAKE-002 bytes identifies it as the courts-of-limited-jurisdiction Blake Motion to Vacate Drug Possession Conviction and Refund Paid LFO Amounts. It is an alternate-jurisdiction motion, not a separate refund-claim vehicle. Treating it as both would misstate the packet topology.",
+  "whyBuildStopped": "C11 requires a stop when source identity or output vehicle is unresolved. No replacement form, role, or inferred component was invented.",
+  "neededToResume": [
+    "Correct the worklist relationship if BLAKE-002 is intended as the CLJ alternative to BLAKE-001, or",
+    "identify and bind the actual separate LFO-refund claim source if one is required."
+  ],
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "commercialRoutesOpened": 0
+}
