@@ -19,7 +19,7 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family nj_clean_slate-set \
+  --family md_second_chance_shielding-set \
   --codex-cloud \
   --minimum-captain-sha 13771582866352d77e46e5d0b9bc86f1abbb6752
 ```
@@ -56,10 +56,11 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 2 families
+## The 3 families
 
-- `nj_clean_slate-set` — failing: knownRequiredFieldsMissing
-- `pa_summary_conviction-set` — failing: knownRequiredFieldsMissing, unclassifiedBlanks, incompleteRows
+- `md_second_chance_shielding-set` — failing: requiredOptionsMissing
+- `pa_790_nonconviction-set` — failing: knownRequiredFieldsMissing, unclassifiedBlanks, incompleteRows, requiredComponentsMissing
+- `vt_seal_dui-set`
 
 ## What you receive
 
@@ -72,10 +73,12 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/fix08/**`
-- `data/rcap-all50/overlays/census-v1/nj/nj-clean-slate-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/pa/pa-summary-conviction-set--official-pdf-fill/**`
-- `scripts/build-census-v1-nj_clean_slate-set.mjs`
-- `scripts/build-census-v1-pa_summary_conviction-set.mjs`
+- `data/rcap-all50/overlays/census-v1/md/md-second-chance-shielding-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/vt/vt-seal-dui-set--official-pdf-fill/**`
+- `scripts/build-census-v1-md_second_chance_shielding-set.mjs`
+- `scripts/build-census-v1-pa_790_nonconviction-set.mjs`
+- `scripts/build-census-v1-vt_seal_dui-set.mjs`
 
 ## Never write here
 

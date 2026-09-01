@@ -19,14 +19,35 @@
     "false"
   ],
   "obligationVocabularyNote": "The P2V rows record thirteen obligations as strings and two as booleans. Both are read; a third spelling refuses, because reading only the strings turned two passing obligations into failures and doubled the defect count.",
+  "supersessionRule": "one current verdict per family: the highest-precedence lane wins (factory vf lanes over codex-cloud directories, then higher lane number); superseded rows remain as history with superseded: true",
   "counts": {
-    "returnDirectories": 7,
-    "rows": 28,
-    "independentVerdicts": 19,
-    "failRepairRequired": 9,
-    "passIndependent": 10
+    "returnDirectories": 29,
+    "rows": 77,
+    "independentVerdicts": 45,
+    "failRepairRequired": 29,
+    "passIndependent": 13
   },
   "failRepairRequiredFamilies": [
+    "ar-arrest-seal-set",
+    "ar-misdemeanor-dwi-seal-set",
+    "az_marijuana_expungement_arrest_no_charges-set",
+    "ca-1203-42-set",
+    "ca-851-91-set",
+    "mi_setaside_marihuana-set",
+    "nj_arrest_no_conviction-set",
+    "nj_indictable_conviction-set",
+    "ny_160_59_petition-set",
+    "oh_marijuana_expungement-set",
+    "pa_490_nonconviction-set",
+    "pa_9122_1_limited_access-set",
+    "ri_nonconviction_sealing-set",
+    "sd_arrest_expungement-set",
+    "ut_pet_dismissed_without_prejudice-set",
+    "ut_pet_limitations-set",
+    "ut_pet_no_charges-set",
+    "ut_pet_traffic-set",
+    "vt_seal_18_to_21-set",
+    "vt_seal_dui-set",
     "wa_vac_cannabis-set",
     "wa_vac_domestic_violence-set",
     "wa_vac_felony-set",
@@ -45,9 +66,286 @@
       "isIndependentVerification": false,
       "failedObligations": [],
       "failedObligationNames": [],
+      "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/codex-cloud/sd-arrest-expungement-disclosure-repair/rows.json",
       "repairAssignmentsPath": null,
-      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family addressed mailed to"
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family addressed mailed to",
+      "superseded": false
+    },
+    {
+      "familyId": "ak-courtview-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "failedObligations": [
+        {
+          "obligation": "SERVICE",
+          "finding": null,
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "SERVICE"
+      ],
+      "unmeasuredObligations": [
+        "COMPONENT_SET",
+        "SOURCE_IDENTITY"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ak-courtview-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ak-courtview-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf18",
+      "isIndependentVerification": true,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf18/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ak-courtview-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ak-tf800-set",
+      "verdict": null,
+      "lane": "vf14",
+      "isIndependentVerification": true,
+      "failedObligations": [
+        {
+          "obligation": "feeAndWaiver",
+          "finding": "The fee is not stated and no waiver route is stated. The packet says so itself and says why: 'Any filing fee, and whether one applies to this request. Ask the clerk of the court above.' That is an honest refusal to write an unsourced figure into a filing instruction and it is the right instinct, but an instruction to ask the clerk is not the fee being stated. Nothing in the committed evidence establishes the Alaska fee for a Rule 37.6 request, so this is an open source obligation rather than a drafting defect, and no packet lane should invent it.",
+          "evidence": {
+            "feeAmountStated": false,
+            "waiverRouteStated": false,
+            "instructionText": "Two things this packet does not tell you, because they are not established here and an unsourced figure in a filing instruction is worse than none: Any filing fee, and whether one applies to this request. Ask the clerk of the court above.",
+            "whatWouldSettleIt": "a sourced Alaska Court System fee schedule entry for a Rule 37.6 request, or a sourced statement that no fee applies",
+            "notForAPacketLaneToInfer": true
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "feeAndWaiver"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf14/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf14/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ak-tf800-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ak-tf805-set",
+      "verdict": "BLOCKED_SOURCE",
+      "lane": "vf03",
+      "isIndependentVerification": true,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "COMPONENT_SET",
+        "SOURCE_IDENTITY"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ak-tf805-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ak-tf805-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf20",
+      "isIndependentVerification": true,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ak-tf805-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ar-arrest-seal-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf04",
+      "isIndependentVerification": true,
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "FILING_DESTINATION",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": null,
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP",
+        "SERVICE"
+      ],
+      "unmeasuredObligations": [
+        "PAGE_ORDER",
+        "PROTECTED_FIELDS",
+        "SOURCE_IDENTITY"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-arrest-seal-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ar-misdemeanor-dwi-seal-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf05",
+      "isIndependentVerification": true,
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "FILING_DESTINATION",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": null,
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP",
+        "SERVICE"
+      ],
+      "unmeasuredObligations": [
+        "PAGE_ORDER",
+        "PROTECTED_FIELDS",
+        "SOURCE_IDENTITY"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-misdemeanor-dwi-seal-set",
+      "superseded": false
+    },
+    {
+      "familyId": "az_marijuana_expungement_arrest_no_charges-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf17",
+      "isIndependentVerification": true,
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": null,
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS"
+      ],
+      "unmeasuredObligations": [
+        "COMPONENT_SET",
+        "SOURCE_IDENTITY"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf17/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf17/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family az_marijuana_expungement_arrest_no_charges-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ca-1203-42-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf17",
+      "isIndependentVerification": true,
+      "failedObligations": [
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "REPEATING_ROWS",
+          "finding": null,
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "REPEATING_ROWS",
+        "ROUTE_OPTIONS"
+      ],
+      "unmeasuredObligations": [
+        "COMPONENT_SET",
+        "SOURCE_IDENTITY"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf17/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf17/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ca-1203-42-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ca-851-91-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf17",
+      "isIndependentVerification": true,
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "REPEATING_ROWS",
+          "finding": null,
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS",
+        "REPEATING_ROWS"
+      ],
+      "unmeasuredObligations": [
+        "COMPONENT_SET",
+        "SOURCE_IDENTITY"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf17/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf17/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ca-851-91-set",
+      "superseded": false
     },
     {
       "familyId": "city mailed to",
@@ -56,9 +354,11 @@
       "isIndependentVerification": false,
       "failedObligations": [],
       "failedObligationNames": [],
+      "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/codex-cloud/sd-arrest-expungement-disclosure-repair/rows.json",
       "repairAssignmentsPath": null,
-      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family city mailed to"
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family city mailed to",
+      "superseded": false
     },
     {
       "familyId": "City State Zip Code-som",
@@ -67,9 +367,11 @@
       "isIndependentVerification": false,
       "failedObligations": [],
       "failedObligationNames": [],
+      "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/codex-cloud/sd-arrest-expungement-disclosure-repair/rows.json",
       "repairAssignmentsPath": null,
-      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family City State Zip Code-som"
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family City State Zip Code-som",
+      "superseded": false
     },
     {
       "familyId": "city, state, and zip code",
@@ -78,9 +380,112 @@
       "isIndependentVerification": false,
       "failedObligations": [],
       "failedObligationNames": [],
+      "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/codex-cloud/sd-arrest-expungement-disclosure-repair/rows.json",
       "repairAssignmentsPath": null,
-      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family city, state, and zip code"
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family city, state, and zip code",
+      "superseded": false
+    },
+    {
+      "familyId": "co_motion_seal_nonconviction-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf06",
+      "isIndependentVerification": true,
+      "failedObligations": [
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": null,
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER"
+      ],
+      "unmeasuredObligations": [
+        "SOURCE_IDENTITY"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf06/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family co_motion_seal_nonconviction-set",
+      "superseded": true
+    },
+    {
+      "familyId": "co_motion_seal_nonconviction-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf23",
+      "isIndependentVerification": true,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf23/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family co_motion_seal_nonconviction-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ct-cleanslate-petition-set",
+      "verdict": null,
+      "lane": "vf14",
+      "isIndependentVerification": true,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "service"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf14/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf14/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ct-cleanslate-petition-set",
+      "superseded": false
+    },
+    {
+      "familyId": "mi_setaside_marihuana-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "failedObligations": [
+        {
+          "obligation": "ROUTE_IDENTITY",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": null,
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "ROUTE_IDENTITY",
+        "SERVICE"
+      ],
+      "unmeasuredObligations": [
+        "SOURCE_IDENTITY"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mi_setaside_marihuana-set",
+      "superseded": true
+    },
+    {
+      "familyId": "mi_setaside_marihuana-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf25",
+      "isIndependentVerification": true,
+      "failedObligations": [
+        {
+          "obligation": "ROUTE_IDENTITY",
+          "finding": null,
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "ROUTE_IDENTITY"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf25/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mi_setaside_marihuana-set",
+      "superseded": false
     },
     {
       "familyId": "name mailed to",
@@ -89,9 +494,11 @@
       "isIndependentVerification": false,
       "failedObligations": [],
       "failedObligationNames": [],
+      "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/codex-cloud/sd-arrest-expungement-disclosure-repair/rows.json",
       "repairAssignmentsPath": null,
-      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family name mailed to"
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family name mailed to",
+      "superseded": false
     },
     {
       "familyId": "ne-setaside-custodial-set",
@@ -100,9 +507,279 @@
       "isIndependentVerification": true,
       "failedObligations": [],
       "failedObligationNames": [],
+      "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/codex-cloud/s2-continuation-verify-01/rows.json",
       "repairAssignmentsPath": null,
-      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ne-setaside-custodial-set"
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ne-setaside-custodial-set",
+      "superseded": false
+    },
+    {
+      "familyId": "nj_arrest_no_conviction-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf17",
+      "isIndependentVerification": true,
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": null,
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS"
+      ],
+      "unmeasuredObligations": [
+        "ARTIFACTS",
+        "COMPONENT_SET",
+        "PAGE_ORDER",
+        "SOURCE_IDENTITY"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf17/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf17/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_arrest_no_conviction-set",
+      "superseded": false
+    },
+    {
+      "familyId": "nj_indictable_conviction-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf17",
+      "isIndependentVerification": true,
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": null,
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS"
+      ],
+      "unmeasuredObligations": [
+        "ARTIFACTS",
+        "COMPONENT_SET",
+        "PAGE_ORDER",
+        "SOURCE_IDENTITY"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf17/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf17/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_indictable_conviction-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ny_160_59_petition-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf17",
+      "isIndependentVerification": true,
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": null,
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS"
+      ],
+      "unmeasuredObligations": [
+        "ARTIFACTS",
+        "COMPONENT_SET",
+        "PAGE_ORDER",
+        "SOURCE_IDENTITY"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf17/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf17/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ny_160_59_petition-set",
+      "superseded": false
+    },
+    {
+      "familyId": "oh_marijuana_expungement-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "failedObligations": [
+        {
+          "obligation": "ARTIFACTS",
+          "finding": null,
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "ARTIFACTS"
+      ],
+      "unmeasuredObligations": [
+        "SOURCE_IDENTITY"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family oh_marijuana_expungement-set",
+      "superseded": false
+    },
+    {
+      "familyId": "pa_490_nonconviction-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf17",
+      "isIndependentVerification": true,
+      "failedObligations": [
+        {
+          "obligation": "REPEATING_ROWS",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": null,
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "REPEATING_ROWS",
+        "SELF_HELP_STOP"
+      ],
+      "unmeasuredObligations": [
+        "ARTIFACTS",
+        "COMPONENT_SET",
+        "PAGE_ORDER",
+        "SOURCE_IDENTITY"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf17/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf17/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_490_nonconviction-set",
+      "superseded": false
+    },
+    {
+      "familyId": "pa_9122_1_limited_access-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf17",
+      "isIndependentVerification": true,
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "REPEATING_ROWS",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": null,
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS",
+        "REPEATING_ROWS",
+        "SELF_HELP_STOP"
+      ],
+      "unmeasuredObligations": [
+        "ARTIFACTS",
+        "COMPONENT_SET",
+        "PAGE_ORDER",
+        "SOURCE_IDENTITY"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf17/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf17/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_9122_1_limited_access-set",
+      "superseded": false
+    },
+    {
+      "familyId": "pa_age70_deceased-set",
+      "verdict": "BLOCKED_SOURCE",
+      "lane": "vf04",
+      "isIndependentVerification": true,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "SOURCE_IDENTITY"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_age70_deceased-set",
+      "superseded": false
+    },
+    {
+      "familyId": "pa_pardon_expungement-set",
+      "verdict": "BLOCKED_SOURCE",
+      "lane": "vf05",
+      "isIndependentVerification": true,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "SOURCE_IDENTITY"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_pardon_expungement-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ri_nonconviction_sealing-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf17",
+      "isIndependentVerification": true,
+      "failedObligations": [
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": null,
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER"
+      ],
+      "unmeasuredObligations": [
+        "ARTIFACTS",
+        "COMPONENT_SET",
+        "PAGE_ORDER",
+        "SOURCE_IDENTITY"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf17/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf17/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_nonconviction_sealing-set",
+      "superseded": false
+    },
+    {
+      "familyId": "sd_arrest_expungement-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf15",
+      "isIndependentVerification": true,
+      "failedObligations": [
+        {
+          "obligation": "FILING_DESTINATION",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": null,
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "SELF_HELP_STOP",
+        "SERVICE"
+      ],
+      "unmeasuredObligations": [
+        "SOURCE_IDENTITY"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf15/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf15/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family sd_arrest_expungement-set",
+      "superseded": false
     },
     {
       "familyId": "state Code mailed to",
@@ -111,9 +788,11 @@
       "isIndependentVerification": false,
       "failedObligations": [],
       "failedObligationNames": [],
+      "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/codex-cloud/sd-arrest-expungement-disclosure-repair/rows.json",
       "repairAssignmentsPath": null,
-      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family state Code mailed to"
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family state Code mailed to",
+      "superseded": false
     },
     {
       "familyId": "street address",
@@ -122,9 +801,11 @@
       "isIndependentVerification": false,
       "failedObligations": [],
       "failedObligationNames": [],
+      "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/codex-cloud/sd-arrest-expungement-disclosure-repair/rows.json",
       "repairAssignmentsPath": null,
-      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family street address"
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family street address",
+      "superseded": false
     },
     {
       "familyId": "ut_pet_acquittal-set",
@@ -133,9 +814,11 @@
       "isIndependentVerification": true,
       "failedObligations": [],
       "failedObligationNames": [],
+      "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/codex-cloud/s2-continuation-verify-01/rows.json",
       "repairAssignmentsPath": null,
-      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_acquittal-set"
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_acquittal-set",
+      "superseded": false
     },
     {
       "familyId": "ut_pet_conviction-set",
@@ -144,9 +827,11 @@
       "isIndependentVerification": true,
       "failedObligations": [],
       "failedObligationNames": [],
+      "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/codex-cloud/s2-continuation-verify-01/rows.json",
       "repairAssignmentsPath": null,
-      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_conviction-set"
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_conviction-set",
+      "superseded": false
     },
     {
       "familyId": "ut_pet_dismissed_with_prejudice-set",
@@ -155,9 +840,11 @@
       "isIndependentVerification": true,
       "failedObligations": [],
       "failedObligationNames": [],
+      "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/codex-cloud/s2-continuation-verify-01/rows.json",
       "repairAssignmentsPath": null,
-      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_dismissed_with_prejudice-set"
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_dismissed_with_prejudice-set",
+      "superseded": false
     },
     {
       "familyId": "ut_pet_dismissed_without_prejudice-set",
@@ -166,9 +853,136 @@
       "isIndependentVerification": true,
       "failedObligations": [],
       "failedObligationNames": [],
+      "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/codex-cloud/s2-continuation-verify-02/rows.json",
       "repairAssignmentsPath": null,
-      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_dismissed_without_prejudice-set"
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_dismissed_without_prejudice-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ut_pet_dismissed_without_prejudice-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf07",
+      "isIndependentVerification": true,
+      "failedObligations": [
+        {
+          "obligation": "requiredBeforeFiling",
+          "finding": "Of the 13 blanks the map declares REQUIRED_BEFORE_FILING, every one is named in participant-instructions.md except UT-BCI-EXP-APPLICATION p2 \"SID#R&F\" (blankId p2-y37.35-x188.34). No instruction line asks the participant to write a SID number or an R&F number. It is not merely unnamed: reading the source bytes at that position shows the blank sits inside the form's printed \"BUREAU USE ONLY\" box (heading read at page 2 y=51, x=26.93), and the family's own field census marks the same blank protectCategory \"government_identifier\". A blank the bureau completes cannot be an item the participant must supply before filing.",
+          "evidence": {
+            "declaredBlankDispositions": {
+              "NOT_APPLICABLE_ON_THIS_ROUTE": 109,
+              "REQUIRED_BEFORE_FILING": 13,
+              "PROTECTED_FIELD": 45,
+              "OPTIONAL_PARTICIPANT_CONTENT": 203,
+              "LATER_COMPLETION": 4,
+              "PARTICIPANT_ELECTION_GENUINE": 31
+            },
+            "requiredBeforeFilingCount": 13,
+            "itemsNotNamedInInstructions": [
+              {
+                "formNumber": "UT-BCI-EXP-APPLICATION",
+                "blankId": "p2-y37.35-x188.34",
+                "capturedCaption": "SID#R&F",
+                "printedRegionReadFromSourceBytes": "BUREAU USE ONLY",
+                "censusProtectCategory": "government_identifier",
+                "mapDisposition": "REQUIRED_BEFORE_FILING"
+              }
+            ],
+            "itemsNamedAndHowTheyWereMatched": [
+              {
+                "blanks": "1000EX Judicial District; 1000EX Court Address x3; 1020EX Court Address x2",
+                "namedBy": "- Judicial district and court street address for the filing venue"
+              },
+              {
+                "blanks": "1000EX \"certificate of eligibility is\"",
+                "namedBy": "- BCI certificate-of-eligibility identification number (non-traffic packets)"
+              },
+              {
+                "blanks": "1000EX \"2. Expunging my records will not harm the interests of the public because\"",
+                "namedBy": "- Participant's public-interest explanation on the petition"
+              },
+              {
+                "blanks": "UT-BCI-EXP-APPLICATION PREVIOUSLY USED NAME(S)",
+                "namedBy": "- Every previously used name, or an express statement that there are none"
+              },
+              {
+                "blanks": "UT-BCI-EXP-APPLICATION p2-y622.60-x445.83 (captured as \"MAILING ADDRESS\"; the census regionHeading and the source bytes both read \"DATE OF BIRTH ____ GENDER ____\", so this is the GENDER blank)",
+                "namedBy": "- Gender, Social Security number, and driver-license number/state required by the BCI application"
+              },
+              {
+                "blanks": "UT-BCI-EXP-APPLICATION SOCIAL SECURITY",
+                "namedBy": "- Gender, Social Security number, and driver-license number/state required by the BCI application"
+              },
+              {
+                "blanks": "UT-BCI-EXP-APPLICATION p2-y567.70-x424.55 (captured as \"ATE\"; the source row reads \"DRIVER LICENSE # AND STATE : ____\")",
+                "namedBy": "- Gender, Social Security number, and driver-license number/state required by the BCI application"
+              }
+            ],
+            "captionCaptureObservation": "Three of the thirteen captured captions do not match the printed label at the measured position (\"MAILING ADDRESS\" for the GENDER blank, \"ATE\" for the DRIVER LICENSE # AND STATE blank, \"SID#R&F\" for a BUREAU USE ONLY box). The first two resolve to items the instructions do name; the third does not."
+          }
+        },
+        {
+          "obligation": "filingDestination",
+          "finding": "participant-instructions.md never tells the participant where to file. It lists \"Judicial district and court street address for the filing venue\" as a blank the participant must supply, which is the opposite of naming the destination, and it never mentions the Utah Bureau of Criminal Identification, which issues the certificate of eligibility the route names, or the district court that receives the petition. The packet's own caption does carry route-determined evidence of a destination — the \"In the [ ] District [ ] Justice Court of Utah\" election is marked District and the county is written — but a marked caption box is not the instructions naming a court.",
+          "evidence": {
+            "instructionsHeadings": [
+              "# Required before filing"
+            ],
+            "courtOrAgencyNamedInInstructions": null,
+            "routeDestinations": "the Utah Bureau of Criminal Identification, which issues the certificate of eligibility the route names, or the district court that receives the petition",
+            "captionEvidenceOnTheBytes": {
+              "election": "In the [ ] District [ ] Justice Court of Utah",
+              "marked": "District",
+              "countyWritten": "Example County"
+            },
+            "instructionLineTreatingTheVenueAsAParticipantBlank": "- Judicial district and court street address for the filing venue"
+          }
+        },
+        {
+          "obligation": "feeAndWaiver",
+          "finding": "The court filing fee is stated: the packet fills and selects the district-court cover sheet row \"$150 [ ] Expungement Petition - Criminal (E)\" on 1044XX page 2, proved by an X read from the output bytes at x355.98 y359.1 inside that row's bracket. No waiver route is stated anywhere in the packet or the instructions — no fee-waiver motion is included, named or referenced. The BCI certificate step carries its own fee, and the instructions name it only as a blank ('BCI payment or fee-waiver election and any payment details') without stating an amount or a waiver route.",
+          "evidence": {
+            "courtFeeStated": true,
+            "courtFeeEvidence": {
+              "form": "1044XX",
+              "sourcePage": 2,
+              "row": "$150  [ ] Expungement Petition - Criminal (E)",
+              "markReadFromOutputBytes": {
+                "x": 357.48,
+                "y": 359.1,
+                "glyph": "X"
+              }
+            },
+            "waiverRouteStated": false,
+            "waiverFormIncluded": false,
+            "bciFeeStated": false,
+            "bciInstructionLine": "- BCI payment or fee-waiver election and any payment details"
+          }
+        },
+        {
+          "obligation": "service",
+          "finding": "The instructions never state who must be served or how. The only service line, \"Service method, address, date, and certification only after service occurs\", hands the participant the method and the recipient as blanks to fill in, and the closing sentence records that service certifications are protected. Neither names a recipient or a method.",
+          "evidence": {
+            "recipientStated": false,
+            "methodStated": false,
+            "instructionLines": [
+              "- Service method, address, date, and certification only after service occurs",
+              "Signatures, signature dates, service certifications, court-only fields, agency-only fields, prosecutor-only fields, victim fields, and optional third-party authorizations remain protected."
+            ]
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "feeAndWaiver",
+        "filingDestination",
+        "requiredBeforeFiling",
+        "service"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf07/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_dismissed_without_prejudice-set",
+      "superseded": false
     },
     {
       "familyId": "ut_pet_limitations-set",
@@ -177,9 +991,136 @@
       "isIndependentVerification": true,
       "failedObligations": [],
       "failedObligationNames": [],
+      "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/codex-cloud/s2-continuation-verify-02/rows.json",
       "repairAssignmentsPath": null,
-      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_limitations-set"
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_limitations-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ut_pet_limitations-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf08",
+      "isIndependentVerification": true,
+      "failedObligations": [
+        {
+          "obligation": "requiredBeforeFiling",
+          "finding": "Of the 13 blanks the map declares REQUIRED_BEFORE_FILING, every one is named in participant-instructions.md except UT-BCI-EXP-APPLICATION p2 \"SID#R&F\" (blankId p2-y37.35-x188.34). No instruction line asks the participant to write a SID number or an R&F number. It is not merely unnamed: reading the source bytes at that position shows the blank sits inside the form's printed \"BUREAU USE ONLY\" box (heading read at page 2 y=51, x=26.93), and the family's own field census marks the same blank protectCategory \"government_identifier\". A blank the bureau completes cannot be an item the participant must supply before filing.",
+          "evidence": {
+            "declaredBlankDispositions": {
+              "NOT_APPLICABLE_ON_THIS_ROUTE": 110,
+              "REQUIRED_BEFORE_FILING": 13,
+              "PROTECTED_FIELD": 45,
+              "OPTIONAL_PARTICIPANT_CONTENT": 203,
+              "LATER_COMPLETION": 4,
+              "PARTICIPANT_ELECTION_GENUINE": 31
+            },
+            "requiredBeforeFilingCount": 13,
+            "itemsNotNamedInInstructions": [
+              {
+                "formNumber": "UT-BCI-EXP-APPLICATION",
+                "blankId": "p2-y37.35-x188.34",
+                "capturedCaption": "SID#R&F",
+                "printedRegionReadFromSourceBytes": "BUREAU USE ONLY",
+                "censusProtectCategory": "government_identifier",
+                "mapDisposition": "REQUIRED_BEFORE_FILING"
+              }
+            ],
+            "itemsNamedAndHowTheyWereMatched": [
+              {
+                "blanks": "1000EX Judicial District; 1000EX Court Address x3; 1020EX Court Address x2",
+                "namedBy": "- Judicial district and court street address for the filing venue"
+              },
+              {
+                "blanks": "1000EX \"certificate of eligibility is\"",
+                "namedBy": "- BCI certificate-of-eligibility identification number (non-traffic packets)"
+              },
+              {
+                "blanks": "1000EX \"2. Expunging my records will not harm the interests of the public because\"",
+                "namedBy": "- Participant's public-interest explanation on the petition"
+              },
+              {
+                "blanks": "UT-BCI-EXP-APPLICATION PREVIOUSLY USED NAME(S)",
+                "namedBy": "- Every previously used name, or an express statement that there are none"
+              },
+              {
+                "blanks": "UT-BCI-EXP-APPLICATION p2-y622.60-x445.83 (captured as \"MAILING ADDRESS\"; the census regionHeading and the source bytes both read \"DATE OF BIRTH ____ GENDER ____\", so this is the GENDER blank)",
+                "namedBy": "- Gender, Social Security number, and driver-license number/state required by the BCI application"
+              },
+              {
+                "blanks": "UT-BCI-EXP-APPLICATION SOCIAL SECURITY",
+                "namedBy": "- Gender, Social Security number, and driver-license number/state required by the BCI application"
+              },
+              {
+                "blanks": "UT-BCI-EXP-APPLICATION p2-y567.70-x424.55 (captured as \"ATE\"; the source row reads \"DRIVER LICENSE # AND STATE : ____\")",
+                "namedBy": "- Gender, Social Security number, and driver-license number/state required by the BCI application"
+              }
+            ],
+            "captionCaptureObservation": "Three of the thirteen captured captions do not match the printed label at the measured position (\"MAILING ADDRESS\" for the GENDER blank, \"ATE\" for the DRIVER LICENSE # AND STATE blank, \"SID#R&F\" for a BUREAU USE ONLY box). The first two resolve to items the instructions do name; the third does not."
+          }
+        },
+        {
+          "obligation": "filingDestination",
+          "finding": "participant-instructions.md never tells the participant where to file. It lists \"Judicial district and court street address for the filing venue\" as a blank the participant must supply, which is the opposite of naming the destination, and it never mentions the Utah Bureau of Criminal Identification, which issues the certificate of eligibility the route names, or the district court that receives the petition. The packet's own caption does carry route-determined evidence of a destination — the \"In the [ ] District [ ] Justice Court of Utah\" election is marked District and the county is written — but a marked caption box is not the instructions naming a court.",
+          "evidence": {
+            "instructionsHeadings": [
+              "# Required before filing"
+            ],
+            "courtOrAgencyNamedInInstructions": null,
+            "routeDestinations": "the Utah Bureau of Criminal Identification, which issues the certificate of eligibility the route names, or the district court that receives the petition",
+            "captionEvidenceOnTheBytes": {
+              "election": "In the [ ] District [ ] Justice Court of Utah",
+              "marked": "District",
+              "countyWritten": "Example County"
+            },
+            "instructionLineTreatingTheVenueAsAParticipantBlank": "- Judicial district and court street address for the filing venue"
+          }
+        },
+        {
+          "obligation": "feeAndWaiver",
+          "finding": "The court filing fee is stated: the packet fills and selects the district-court cover sheet row \"$150 [ ] Expungement Petition - Criminal (E)\" on 1044XX page 2, proved by an X read from the output bytes at x355.98 y359.1 inside that row's bracket. No waiver route is stated anywhere in the packet or the instructions — no fee-waiver motion is included, named or referenced. The BCI certificate step carries its own fee, and the instructions name it only as a blank ('BCI payment or fee-waiver election and any payment details') without stating an amount or a waiver route.",
+          "evidence": {
+            "courtFeeStated": true,
+            "courtFeeEvidence": {
+              "form": "1044XX",
+              "sourcePage": 2,
+              "row": "$150  [ ] Expungement Petition - Criminal (E)",
+              "markReadFromOutputBytes": {
+                "x": 357.48,
+                "y": 359.1,
+                "glyph": "X"
+              }
+            },
+            "waiverRouteStated": false,
+            "waiverFormIncluded": false,
+            "bciFeeStated": false,
+            "bciInstructionLine": "- BCI payment or fee-waiver election and any payment details"
+          }
+        },
+        {
+          "obligation": "service",
+          "finding": "The instructions never state who must be served or how. The only service line, \"Service method, address, date, and certification only after service occurs\", hands the participant the method and the recipient as blanks to fill in, and the closing sentence records that service certifications are protected. Neither names a recipient or a method.",
+          "evidence": {
+            "recipientStated": false,
+            "methodStated": false,
+            "instructionLines": [
+              "- Service method, address, date, and certification only after service occurs",
+              "Signatures, signature dates, service certifications, court-only fields, agency-only fields, prosecutor-only fields, victim fields, and optional third-party authorizations remain protected."
+            ]
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "feeAndWaiver",
+        "filingDestination",
+        "requiredBeforeFiling",
+        "service"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_limitations-set",
+      "superseded": false
     },
     {
       "familyId": "ut_pet_no_charges-set",
@@ -188,9 +1129,140 @@
       "isIndependentVerification": true,
       "failedObligations": [],
       "failedObligationNames": [],
+      "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/codex-cloud/s2-continuation-verify-02/rows.json",
       "repairAssignmentsPath": null,
-      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_no_charges-set"
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_no_charges-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ut_pet_no_charges-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf09",
+      "isIndependentVerification": true,
+      "failedObligations": [
+        {
+          "obligation": "requiredBeforeFiling",
+          "finding": "Of the 17 blanks the map declares REQUIRED_BEFORE_FILING, every one is named in participant-instructions.md except UT-BCI-EXP-APPLICATION p2 \"SID#R&F\" (blankId p2-y37.35-x188.34). No instruction line asks the participant to write a SID number or an R&F number. It is not merely unnamed: reading the source bytes at that position shows the blank sits inside the form's printed \"BUREAU USE ONLY\" box (heading read at page 2 y=51, x=26.93), and the family's own field census marks the same blank protectCategory \"government_identifier\". A blank the bureau completes cannot be an item the participant must supply before filing.",
+          "evidence": {
+            "declaredBlankDispositions": {
+              "NOT_APPLICABLE_ON_THIS_ROUTE": 110,
+              "REQUIRED_BEFORE_FILING": 17,
+              "PROTECTED_FIELD": 45,
+              "OPTIONAL_PARTICIPANT_CONTENT": 199,
+              "LATER_COMPLETION": 4,
+              "PARTICIPANT_ELECTION_GENUINE": 31
+            },
+            "requiredBeforeFilingCount": 17,
+            "itemsNotNamedInInstructions": [
+              {
+                "formNumber": "UT-BCI-EXP-APPLICATION",
+                "blankId": "p2-y37.35-x188.34",
+                "capturedCaption": "SID#R&F",
+                "printedRegionReadFromSourceBytes": "BUREAU USE ONLY",
+                "censusProtectCategory": "government_identifier",
+                "mapDisposition": "REQUIRED_BEFORE_FILING"
+              }
+            ],
+            "itemsNamedAndHowTheyWereMatched": [
+              {
+                "blanks": "1000EX Judicial District; 1000EX Court Address x3; 1020EX Court Address x2",
+                "namedBy": "- Judicial district and court street address for the filing venue"
+              },
+              {
+                "blanks": "1000EX \"certificate of eligibility is\"",
+                "namedBy": "- BCI certificate-of-eligibility identification number (non-traffic packets)"
+              },
+              {
+                "blanks": "1000EX \"2. Expunging my records will not harm the interests of the public because\"",
+                "namedBy": "- Participant's public-interest explanation on the petition"
+              },
+              {
+                "blanks": "UT-BCI-EXP-APPLICATION PREVIOUSLY USED NAME(S)",
+                "namedBy": "- Every previously used name, or an express statement that there are none"
+              },
+              {
+                "blanks": "UT-BCI-EXP-APPLICATION p2-y622.60-x445.83 (captured as \"MAILING ADDRESS\"; the census regionHeading and the source bytes both read \"DATE OF BIRTH ____ GENDER ____\", so this is the GENDER blank)",
+                "namedBy": "- Gender, Social Security number, and driver-license number/state required by the BCI application"
+              },
+              {
+                "blanks": "UT-BCI-EXP-APPLICATION SOCIAL SECURITY",
+                "namedBy": "- Gender, Social Security number, and driver-license number/state required by the BCI application"
+              },
+              {
+                "blanks": "UT-BCI-EXP-APPLICATION p2-y567.70-x424.55 (captured as \"ATE\"; the source row reads \"DRIVER LICENSE # AND STATE : ____\")",
+                "namedBy": "- Gender, Social Security number, and driver-license number/state required by the BCI application"
+              },
+              {
+                "blanks": "1020EX \"[ ] the following incidents\" x2 and \"number) of\" x2",
+                "namedBy": "- Law-enforcement incident file number and agency name for a no-charges order"
+              }
+            ],
+            "captionCaptureObservation": "Three of the thirteen captured captions do not match the printed label at the measured position (\"MAILING ADDRESS\" for the GENDER blank, \"ATE\" for the DRIVER LICENSE # AND STATE blank, \"SID#R&F\" for a BUREAU USE ONLY box). The first two resolve to items the instructions do name; the third does not."
+          }
+        },
+        {
+          "obligation": "filingDestination",
+          "finding": "participant-instructions.md never tells the participant where to file. It lists \"Judicial district and court street address for the filing venue\" as a blank the participant must supply, which is the opposite of naming the destination, and it never mentions the Utah Bureau of Criminal Identification, which issues the certificate of eligibility the route names, or the district court that receives the petition. The packet's own caption does carry route-determined evidence of a destination — the \"In the [ ] District [ ] Justice Court of Utah\" election is marked District and the county is written — but a marked caption box is not the instructions naming a court.",
+          "evidence": {
+            "instructionsHeadings": [
+              "# Required before filing"
+            ],
+            "courtOrAgencyNamedInInstructions": null,
+            "routeDestinations": "the Utah Bureau of Criminal Identification, which issues the certificate of eligibility the route names, or the district court that receives the petition",
+            "captionEvidenceOnTheBytes": {
+              "election": "In the [ ] District [ ] Justice Court of Utah",
+              "marked": "District",
+              "countyWritten": "Example County"
+            },
+            "instructionLineTreatingTheVenueAsAParticipantBlank": "- Judicial district and court street address for the filing venue"
+          }
+        },
+        {
+          "obligation": "feeAndWaiver",
+          "finding": "The court filing fee is stated: the packet fills and selects the district-court cover sheet row \"$150 [ ] Expungement Petition - Criminal (E)\" on 1044XX page 2, proved by an X read from the output bytes at x355.98 y359.1 inside that row's bracket. No waiver route is stated anywhere in the packet or the instructions — no fee-waiver motion is included, named or referenced. The BCI certificate step carries its own fee, and the instructions name it only as a blank ('BCI payment or fee-waiver election and any payment details') without stating an amount or a waiver route.",
+          "evidence": {
+            "courtFeeStated": true,
+            "courtFeeEvidence": {
+              "form": "1044XX",
+              "sourcePage": 2,
+              "row": "$150  [ ] Expungement Petition - Criminal (E)",
+              "markReadFromOutputBytes": {
+                "x": 357.48,
+                "y": 359.1,
+                "glyph": "X"
+              }
+            },
+            "waiverRouteStated": false,
+            "waiverFormIncluded": false,
+            "bciFeeStated": false,
+            "bciInstructionLine": "- BCI payment or fee-waiver election and any payment details"
+          }
+        },
+        {
+          "obligation": "service",
+          "finding": "The instructions never state who must be served or how. The only service line, \"Service method, address, date, and certification only after service occurs\", hands the participant the method and the recipient as blanks to fill in, and the closing sentence records that service certifications are protected. Neither names a recipient or a method.",
+          "evidence": {
+            "recipientStated": false,
+            "methodStated": false,
+            "instructionLines": [
+              "- Service method, address, date, and certification only after service occurs",
+              "Signatures, signature dates, service certifications, court-only fields, agency-only fields, prosecutor-only fields, victim fields, and optional third-party authorizations remain protected."
+            ]
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "feeAndWaiver",
+        "filingDestination",
+        "requiredBeforeFiling",
+        "service"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf09/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_no_charges-set",
+      "superseded": false
     },
     {
       "familyId": "ut_pet_traffic-set",
@@ -199,9 +1271,478 @@
       "isIndependentVerification": true,
       "failedObligations": [],
       "failedObligationNames": [],
+      "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/codex-cloud/s2-continuation-verify-02/rows.json",
       "repairAssignmentsPath": null,
-      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_traffic-set"
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_traffic-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ut_pet_traffic-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf10",
+      "isIndependentVerification": true,
+      "failedObligations": [
+        {
+          "obligation": "requiredBeforeFiling",
+          "finding": "Of the 5 blanks the map declares REQUIRED_BEFORE_FILING, the four \"Court Address\" blanks on 1002EX and 1022EX are named by \"- Judicial district and court street address for the filing venue\". The fifth, 1002EX blankId p1-y296.76-x65.88 captured as \"1. Certificate of eligibility is not required\", is named by no instruction line. Reading the source bytes at that position shows why: the caption was taken from the numbered paragraph below it (printed at page 1 y=273.5), while the measured rule at y=296.76 spanning x65.88-x324.12 is the bottom border of the caption table's left cell. It is a table rule, not a blank, and on this route no certificate of eligibility is required at all, so there is nothing for the participant to supply.",
+          "evidence": {
+            "declaredBlankDispositions": {
+              "REQUIRED_BEFORE_FILING": 5,
+              "PROTECTED_FIELD": 35,
+              "NOT_APPLICABLE_ON_THIS_ROUTE": 103,
+              "OPTIONAL_PARTICIPANT_CONTENT": 37,
+              "LATER_COMPLETION": 3
+            },
+            "requiredBeforeFilingCount": 5,
+            "itemsNotNamedInInstructions": [
+              {
+                "formNumber": "1002EX",
+                "blankId": "p1-y296.76-x65.88",
+                "capturedCaption": "1. Certificate of eligibility is not required",
+                "construction": "content_stream_rule",
+                "measured": {
+                  "x0": 65.88,
+                  "x1": 324.12,
+                  "baselineY": 296.76
+                },
+                "printedTextAtThatPositionReadFromBytes": "nothing; the nearest printed lines are \"Judge\" at y=305.4 (right column, x=329.76) and the numbered paragraph \"1. Certificate of eligibility is not required\" at y=273.5",
+                "routeNote": "routeSelectionId ut-traffic-direct-court-no-bci requires no certificate of eligibility"
+              }
+            ],
+            "itemsNamedAndHowTheyWereMatched": [
+              {
+                "blanks": "1002EX Court Address x2; 1022EX Court Address x2",
+                "namedBy": "- Judicial district and court street address for the filing venue"
+              }
+            ]
+          }
+        },
+        {
+          "obligation": "filingDestination",
+          "finding": "participant-instructions.md never tells the participant where to file. It lists \"Judicial district and court street address for the filing venue\" as a blank the participant must supply, which is the opposite of naming the destination, and it never mentions the district court that receives the traffic expungement or deletion petition. The packet's own caption does carry route-determined evidence of a destination — the \"In the [ ] District [ ] Justice Court of Utah\" election is marked District and the county is written — but a marked caption box is not the instructions naming a court.",
+          "evidence": {
+            "instructionsHeadings": [
+              "# Required before filing"
+            ],
+            "courtOrAgencyNamedInInstructions": null,
+            "routeDestinations": "the district court that receives the traffic expungement or deletion petition",
+            "captionEvidenceOnTheBytes": {
+              "election": "In the [ ] District [ ] Justice Court of Utah",
+              "marked": "District",
+              "countyWritten": "Example County"
+            },
+            "instructionLineTreatingTheVenueAsAParticipantBlank": "- Judicial district and court street address for the filing venue"
+          }
+        },
+        {
+          "obligation": "feeAndWaiver",
+          "finding": "The court filing fee is stated: the packet fills and selects the district-court cover sheet row \"$150 [ ] Expungement Petition - Criminal (E)\" on 1044XX page 2, proved by an X read from the output bytes at x355.98 y359.1 inside that row's bracket. No waiver route is stated anywhere in the packet or the instructions — no fee-waiver motion is included, named or referenced.",
+          "evidence": {
+            "courtFeeStated": true,
+            "courtFeeEvidence": {
+              "form": "1044XX",
+              "sourcePage": 2,
+              "row": "$150  [ ] Expungement Petition - Criminal (E)",
+              "markReadFromOutputBytes": {
+                "x": 357.48,
+                "y": 359.1,
+                "glyph": "X"
+              }
+            },
+            "waiverRouteStated": false,
+            "waiverFormIncluded": false
+          }
+        },
+        {
+          "obligation": "service",
+          "finding": "The instructions never state who must be served or how. The only service line, \"Service method, address, date, and certification only after service occurs\", hands the participant the method and the recipient as blanks to fill in, and the closing sentence records that service certifications are protected. Neither names a recipient or a method.",
+          "evidence": {
+            "recipientStated": false,
+            "methodStated": false,
+            "instructionLines": [
+              "- Service method, address, date, and certification only after service occurs",
+              "Signatures, signature dates, service certifications, court-only fields, agency-only fields, prosecutor-only fields, victim fields, and optional third-party authorizations remain protected."
+            ]
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "feeAndWaiver",
+        "filingDestination",
+        "requiredBeforeFiling",
+        "service"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf10/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf10/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_traffic-set",
+      "superseded": false
+    },
+    {
+      "familyId": "va_seal_ancillary_matter_only-set",
+      "verdict": "BLOCKED_LEGAL_INPUT",
+      "lane": "vf13",
+      "isIndependentVerification": true,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "SOURCE_IDENTITY"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf13/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf13/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_seal_ancillary_matter_only-set",
+      "superseded": true
+    },
+    {
+      "familyId": "va_seal_ancillary_matter_only-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf26",
+      "isIndependentVerification": true,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf26/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_seal_ancillary_matter_only-set",
+      "superseded": false
+    },
+    {
+      "familyId": "va_seal_enumerated_seven_year-set",
+      "verdict": "BLOCKED_LEGAL_INPUT",
+      "lane": "vf13",
+      "isIndependentVerification": true,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "SOURCE_IDENTITY"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf13/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf13/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_seal_enumerated_seven_year-set",
+      "superseded": true
+    },
+    {
+      "familyId": "va_seal_enumerated_seven_year-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf26",
+      "isIndependentVerification": true,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf26/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_seal_enumerated_seven_year-set",
+      "superseded": false
+    },
+    {
+      "familyId": "va_seal_petition_felony-set",
+      "verdict": "BLOCKED_SOURCE",
+      "lane": "vf13",
+      "isIndependentVerification": true,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "SOURCE_IDENTITY"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf13/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf13/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_seal_petition_felony-set",
+      "superseded": true
+    },
+    {
+      "familyId": "va_seal_petition_felony-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf26",
+      "isIndependentVerification": true,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf26/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_seal_petition_felony-set",
+      "superseded": false
+    },
+    {
+      "familyId": "va_seal_petition_misdemeanor-set",
+      "verdict": "BLOCKED_SOURCE",
+      "lane": "vf13",
+      "isIndependentVerification": true,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "SOURCE_IDENTITY"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf13/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf13/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_seal_petition_misdemeanor-set",
+      "superseded": true
+    },
+    {
+      "familyId": "va_seal_petition_misdemeanor-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf26",
+      "isIndependentVerification": true,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf26/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_seal_petition_misdemeanor-set",
+      "superseded": false
+    },
+    {
+      "familyId": "vt_seal_18_to_21-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf11",
+      "isIndependentVerification": true,
+      "failedObligations": [
+        {
+          "obligation": "knownPrefills",
+          "finding": "One mapped known prefill is absent from the boundary artifact's bytes. participant.email is mapped to 200-00132 page 1 field \"34i\" (rect x395.69 y120.55 w174.74 h12.96) in both fixtures. The canonical artifact carries it: packet page 3 holds eight flattened widget appearances, the eighth reading \"jordan.reyes@example.org\". The boundary artifact carries only seven on the same page and the email is not among them, while the family's own report still records valuesReportedByFinalizer 8 for that document and fixture. The loss is silent — no refusal, no unfittable note, no finding. It is not a policy on long values either: the same boundary email, maria.alejandra.oshaughnessy.whitfield@longmailexample.org, is written and present on packet page 2 (200-00130) and packet page 5 (600-00228) of the same artifact.",
+          "evidence": {
+            "missingWrite": {
+              "formNumber": "200-00132",
+              "sourcePage": 1,
+              "field": "34i",
+              "factId": "participant.email",
+              "fixture": "boundary",
+              "rect": {
+                "x": 395.69,
+                "y": 120.55,
+                "width": 174.74,
+                "height": 12.96
+              }
+            },
+            "flattenedWidgetAppearancesReadFromArtifactBytes": {
+              "canonicalPage3": 8,
+              "boundaryPage3": 7,
+              "canonicalPage3Values": [
+                "123-4-21 Cncr",
+                "Jordan Avery Reyes",
+                "1991-04-17",
+                "42 Maple Street",
+                "Burlington, VT 05401",
+                "Jordan Avery Reyes",
+                "802-555-0142",
+                "jordan.reyes@example.org"
+              ],
+              "boundaryPage3Values": [
+                "1276-11-24 Frcr",
+                "Maria-Alejandra O’Shaughnessy-Whitfield",
+                "1968-12-31",
+                "1188 Upper Notch Crossing Road, Apartment 14B",
+                "South Burlington, Vermont 05403-2214",
+                "Maria-Alejandra O’Shaughnessy-Whitfield",
+                "(802) 555-0199 ext. 4417"
+              ]
+            },
+            "theSameValueSurvivesElsewhereInTheSameArtifact": [
+              {
+                "packetPage": 2,
+                "formNumber": "200-00130",
+                "value": "maria.alejandra.oshaughnessy.whitfield@longmailexample.org"
+              },
+              {
+                "packetPage": 5,
+                "formNumber": "600-00228",
+                "value": "maria.alejandra.oshaughnessy.whitfield@longmailexample.org"
+              }
+            ],
+            "familyReportStillClaimsTheWrite": {
+              "document": "200-00132",
+              "fixture": "boundary",
+              "valuesReportedByFinalizer": 8,
+              "writesActuallyPresent": 7
+            },
+            "method": "Every page of both artifacts was opened and its flattened widget appearance streams decoded byte-exactly in this lane; the counts and values above are read from the PDF bytes, not from reports/actual-writes.json.",
+            "reportTranscriptionObservation": "reports/actual-writes.json renders the boundary name as \"Maria-Alejandra OShaughnessy-Whitfield\", dropping the apostrophe. The bytes are correct: the appearance stream carries 0x92 (WinAnsi right single quotation mark) between O and S. The dropped character is a defect in the report's read-back transcription, not in the artifact, and no obligation is failed on it.",
+            "counts": {
+              "mappedWrites": {
+                "canonical": 24,
+                "boundary": 24
+              },
+              "writesProvedOnTheOutputBytes": {
+                "canonical": 24,
+                "boundary": 23
+              }
+            }
+          }
+        },
+        {
+          "obligation": "feeAndWaiver",
+          "finding": "The fee is not stated and no waiver route is established. The instructions say so themselves: \"The filing fee, and whether it can be waived. Ask the clerk of the unit above what the fee is for a petition to seal under 13 V.S.A. § 7602, and whether the fee-waiver application in this packet applies. The waiver form is included; the amount it waives is not stated here.\" The waiver form 600-00228 is in the packet and filled, which is more than nothing, but the packet does not establish that it applies to this filing, and an instruction to ask the clerk is not the fee being stated.",
+          "evidence": {
+            "feeAmountStated": false,
+            "waiverRouteStated": false,
+            "waiverFormIncludedAndFilled": "600-00228",
+            "instructionText": "**The filing fee, and whether it can be waived.** Ask the clerk of the unit above what the fee is for a petition to seal under 13 V.S.A. § 7602, and whether the fee-waiver application in this packet applies. The waiver form is included; the amount it waives is not stated here.",
+            "openSourceObligations": [
+              "vt_seal_18_to_21-set::filing-fee-and-waiver-route"
+            ],
+            "dispatchedTo": "docs/rcap/grade-a/packet-factory-24h/vermont-repair/VTR02_VT_FEE_AND_SERVICE_SOURCE.md",
+            "note": "This is an open source obligation, already dispatched. The repair is to land the sourced fact, not to have a packet lane infer a fee."
+          }
+        },
+        {
+          "obligation": "service",
+          "finding": "Who must be served, and how, is not stated. The instructions say: \"Who must be served, and how. Ask the same clerk who must receive a copy of the petition and by what method. The stipulation route needs the State's Attorney's signature, which is not the same thing as service and does not substitute for it.\" The packet correctly refuses to conflate the prosecutor's signature with service, and correctly declines to invent a rule, but neither a recipient nor a method is stated.",
+          "evidence": {
+            "recipientStated": false,
+            "methodStated": false,
+            "openSourceObligations": [
+              "vt_seal_18_to_21-set::service-recipient-and-method"
+            ],
+            "instructionText": "**Who must be served, and how.** Ask the same clerk who must receive a copy of the petition and by what method. The stipulation route needs the State's Attorney's signature, which is not the same thing as service and does not substitute for it.",
+            "dispatchedTo": "docs/rcap/grade-a/packet-factory-24h/vermont-repair/VTR02_VT_FEE_AND_SERVICE_SOURCE.md",
+            "note": "This is an open source obligation, already dispatched. The repair is to land the sourced fact, not to have a packet lane infer a service rule."
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "feeAndWaiver",
+        "knownPrefills",
+        "service"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf11/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf11/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_18_to_21-set",
+      "superseded": false
+    },
+    {
+      "familyId": "vt_seal_dui-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf12",
+      "isIndependentVerification": true,
+      "failedObligations": [
+        {
+          "obligation": "knownPrefills",
+          "finding": "One mapped known prefill is absent from the boundary artifact's bytes. participant.email is mapped to 200-00132 page 1 field \"34i\" (rect x395.69 y120.55 w174.74 h12.96) in both fixtures. The canonical artifact carries it: packet page 3 holds eight flattened widget appearances, the eighth reading \"jordan.reyes@example.org\". The boundary artifact carries only seven on the same page and the email is not among them, while the family's own report still records valuesReportedByFinalizer 8 for that document and fixture. The loss is silent — no refusal, no unfittable note, no finding. It is not a policy on long values either: the same boundary email, maria.alejandra.oshaughnessy.whitfield@longmailexample.org, is written and present on packet page 2 (200-00130) and packet page 5 (600-00228) of the same artifact.",
+          "evidence": {
+            "missingWrite": {
+              "formNumber": "200-00132",
+              "sourcePage": 1,
+              "field": "34i",
+              "factId": "participant.email",
+              "fixture": "boundary",
+              "rect": {
+                "x": 395.69,
+                "y": 120.55,
+                "width": 174.74,
+                "height": 12.96
+              }
+            },
+            "flattenedWidgetAppearancesReadFromArtifactBytes": {
+              "canonicalPage3": 8,
+              "boundaryPage3": 7,
+              "canonicalPage3Values": [
+                "123-4-21 Cncr",
+                "Jordan Avery Reyes",
+                "1991-04-17",
+                "42 Maple Street",
+                "Burlington, VT 05401",
+                "Jordan Avery Reyes",
+                "802-555-0142",
+                "jordan.reyes@example.org"
+              ],
+              "boundaryPage3Values": [
+                "1276-11-24 Frcr",
+                "Maria-Alejandra O’Shaughnessy-Whitfield",
+                "1968-12-31",
+                "1188 Upper Notch Crossing Road, Apartment 14B",
+                "South Burlington, Vermont 05403-2214",
+                "Maria-Alejandra O’Shaughnessy-Whitfield",
+                "(802) 555-0199 ext. 4417"
+              ]
+            },
+            "theSameValueSurvivesElsewhereInTheSameArtifact": [
+              {
+                "packetPage": 2,
+                "formNumber": "200-00130",
+                "value": "maria.alejandra.oshaughnessy.whitfield@longmailexample.org"
+              },
+              {
+                "packetPage": 5,
+                "formNumber": "600-00228",
+                "value": "maria.alejandra.oshaughnessy.whitfield@longmailexample.org"
+              }
+            ],
+            "familyReportStillClaimsTheWrite": {
+              "document": "200-00132",
+              "fixture": "boundary",
+              "valuesReportedByFinalizer": 8,
+              "writesActuallyPresent": 7
+            },
+            "method": "Every page of both artifacts was opened and its flattened widget appearance streams decoded byte-exactly in this lane; the counts and values above are read from the PDF bytes, not from reports/actual-writes.json.",
+            "reportTranscriptionObservation": "reports/actual-writes.json renders the boundary name as \"Maria-Alejandra OShaughnessy-Whitfield\", dropping the apostrophe. The bytes are correct: the appearance stream carries 0x92 (WinAnsi right single quotation mark) between O and S. The dropped character is a defect in the report's read-back transcription, not in the artifact, and no obligation is failed on it.",
+            "counts": {
+              "mappedWrites": {
+                "canonical": 24,
+                "boundary": 24
+              },
+              "writesProvedOnTheOutputBytes": {
+                "canonical": 24,
+                "boundary": 23
+              }
+            }
+          }
+        },
+        {
+          "obligation": "feeAndWaiver",
+          "finding": "The fee is not stated and no waiver route is established. The instructions say so themselves: \"The filing fee, and whether it can be waived. Ask the clerk of the unit above what the fee is for a petition to seal under 13 V.S.A. § 7602, and whether the fee-waiver application in this packet applies. The waiver form is included; the amount it waives is not stated here.\" The waiver form 600-00228 is in the packet and filled, which is more than nothing, but the packet does not establish that it applies to this filing, and an instruction to ask the clerk is not the fee being stated.",
+          "evidence": {
+            "feeAmountStated": false,
+            "waiverRouteStated": false,
+            "waiverFormIncludedAndFilled": "600-00228",
+            "instructionText": "**The filing fee, and whether it can be waived.** Ask the clerk of the unit above what the fee is for a petition to seal under 13 V.S.A. § 7602, and whether the fee-waiver application in this packet applies. The waiver form is included; the amount it waives is not stated here.",
+            "openSourceObligations": [
+              "vt_seal_dui-set::filing-fee-and-waiver-route"
+            ],
+            "dispatchedTo": "docs/rcap/grade-a/packet-factory-24h/vermont-repair/VTR02_VT_FEE_AND_SERVICE_SOURCE.md",
+            "note": "This is an open source obligation, already dispatched. The repair is to land the sourced fact, not to have a packet lane infer a fee."
+          }
+        },
+        {
+          "obligation": "service",
+          "finding": "Who must be served, and how, is not stated. The instructions say: \"Who must be served, and how. Ask the same clerk who must receive a copy of the petition and by what method. The stipulation route needs the State's Attorney's signature, which is not the same thing as service and does not substitute for it.\" The packet correctly refuses to conflate the prosecutor's signature with service, and correctly declines to invent a rule, but neither a recipient nor a method is stated.",
+          "evidence": {
+            "recipientStated": false,
+            "methodStated": false,
+            "openSourceObligations": [
+              "vt_seal_dui-set::service-recipient-and-method"
+            ],
+            "instructionText": "**Who must be served, and how.** Ask the same clerk who must receive a copy of the petition and by what method. The stipulation route needs the State's Attorney's signature, which is not the same thing as service and does not substitute for it.",
+            "dispatchedTo": "docs/rcap/grade-a/packet-factory-24h/vermont-repair/VTR02_VT_FEE_AND_SERVICE_SOURCE.md",
+            "note": "This is an open source obligation, already dispatched. The repair is to land the sourced fact, not to have a packet lane infer a service rule."
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "feeAndWaiver",
+        "knownPrefills",
+        "service"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf12/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf12/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_dui-set",
+      "superseded": false
+    },
+    {
+      "familyId": "vt_seal_misdemeanor-set",
+      "verdict": "BLOCKED_SOURCE",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "SOURCE_IDENTITY"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_misdemeanor-set",
+      "superseded": false
     },
     {
       "familyId": "wa_vac_cannabis-set",
@@ -232,9 +1773,52 @@
         "feeAndWaiver",
         "service"
       ],
+      "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/codex-cloud/p2v01-washington-independent-verification/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/codex-cloud/p2v01-washington-independent-verification/repair-assignments.json",
-      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_cannabis-set"
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_cannabis-set",
+      "superseded": true
+    },
+    {
+      "familyId": "wa_vac_cannabis-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf15",
+      "isIndependentVerification": true,
+      "failedObligations": [
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "FILING_DESTINATION",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": null,
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "ROUTE_OPTIONS",
+        "SERVICE"
+      ],
+      "unmeasuredObligations": [
+        "SOURCE_IDENTITY"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf15/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf15/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_cannabis-set",
+      "superseded": false
     },
     {
       "familyId": "wa_vac_domestic_violence-set",
@@ -265,9 +1849,52 @@
         "feeAndWaiver",
         "service"
       ],
+      "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/codex-cloud/p2v01-washington-independent-verification/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/codex-cloud/p2v01-washington-independent-verification/repair-assignments.json",
-      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_domestic_violence-set"
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_domestic_violence-set",
+      "superseded": true
+    },
+    {
+      "familyId": "wa_vac_domestic_violence-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf15",
+      "isIndependentVerification": true,
+      "failedObligations": [
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "FILING_DESTINATION",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": null,
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "ROUTE_OPTIONS",
+        "SERVICE"
+      ],
+      "unmeasuredObligations": [
+        "SOURCE_IDENTITY"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf15/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf15/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_domestic_violence-set",
+      "superseded": false
     },
     {
       "familyId": "wa_vac_felony-set",
@@ -298,9 +1925,52 @@
         "feeAndWaiver",
         "service"
       ],
+      "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/codex-cloud/p2v01-washington-independent-verification/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/codex-cloud/p2v01-washington-independent-verification/repair-assignments.json",
-      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_felony-set"
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_felony-set",
+      "superseded": true
+    },
+    {
+      "familyId": "wa_vac_felony-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf15",
+      "isIndependentVerification": true,
+      "failedObligations": [
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "FILING_DESTINATION",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": null,
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "ROUTE_OPTIONS",
+        "SERVICE"
+      ],
+      "unmeasuredObligations": [
+        "SOURCE_IDENTITY"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf15/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf15/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_felony-set",
+      "superseded": false
     },
     {
       "familyId": "wa_vac_homicide_victim_prostitution-set",
@@ -331,9 +2001,52 @@
         "feeAndWaiver",
         "service"
       ],
+      "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/codex-cloud/p2v02-washington-independent-verification/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/codex-cloud/p2v02-washington-independent-verification/repair-assignments.json",
-      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_homicide_victim_prostitution-set"
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_homicide_victim_prostitution-set",
+      "superseded": true
+    },
+    {
+      "familyId": "wa_vac_homicide_victim_prostitution-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf15",
+      "isIndependentVerification": true,
+      "failedObligations": [
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "FILING_DESTINATION",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": null,
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "ROUTE_OPTIONS",
+        "SERVICE"
+      ],
+      "unmeasuredObligations": [
+        "SOURCE_IDENTITY"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf15/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf15/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_homicide_victim_prostitution-set",
+      "superseded": false
     },
     {
       "familyId": "wa_vac_misdemeanor_ordinary-set",
@@ -364,9 +2077,24 @@
         "feeAndWaiver",
         "service"
       ],
+      "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/codex-cloud/p2v02-washington-independent-verification/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/codex-cloud/p2v02-washington-independent-verification/repair-assignments.json",
-      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_misdemeanor_ordinary-set"
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_misdemeanor_ordinary-set",
+      "superseded": true
+    },
+    {
+      "familyId": "wa_vac_misdemeanor_ordinary-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf16",
+      "isIndependentVerification": true,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf16/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_misdemeanor_ordinary-set",
+      "superseded": false
     },
     {
       "familyId": "wa_vac_substance_use_disorder-set",
@@ -397,9 +2125,24 @@
         "feeAndWaiver",
         "service"
       ],
+      "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/codex-cloud/p2v02-washington-independent-verification/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/codex-cloud/p2v02-washington-independent-verification/repair-assignments.json",
-      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_substance_use_disorder-set"
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_substance_use_disorder-set",
+      "superseded": true
+    },
+    {
+      "familyId": "wa_vac_substance_use_disorder-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf16",
+      "isIndependentVerification": true,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf16/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_substance_use_disorder-set",
+      "superseded": false
     },
     {
       "familyId": "wa_vac_survivor_felony-set",
@@ -430,9 +2173,24 @@
         "feeAndWaiver",
         "service"
       ],
+      "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/codex-cloud/p2v03-washington-independent-verification/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/codex-cloud/p2v03-washington-independent-verification/repair-assignments.json",
-      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_survivor_felony-set"
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_survivor_felony-set",
+      "superseded": true
+    },
+    {
+      "familyId": "wa_vac_survivor_felony-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf16",
+      "isIndependentVerification": true,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf16/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_survivor_felony-set",
+      "superseded": false
     },
     {
       "familyId": "wa_vac_survivor_misdemeanor-set",
@@ -463,9 +2221,24 @@
         "feeAndWaiver",
         "service"
       ],
+      "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/codex-cloud/p2v03-washington-independent-verification/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/codex-cloud/p2v03-washington-independent-verification/repair-assignments.json",
-      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_survivor_misdemeanor-set"
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_survivor_misdemeanor-set",
+      "superseded": true
+    },
+    {
+      "familyId": "wa_vac_survivor_misdemeanor-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf16",
+      "isIndependentVerification": true,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf16/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_survivor_misdemeanor-set",
+      "superseded": false
     },
     {
       "familyId": "wa_vac_treaty_fishing-set",
@@ -496,9 +2269,24 @@
         "feeAndWaiver",
         "service"
       ],
+      "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/codex-cloud/p2v03-washington-independent-verification/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/codex-cloud/p2v03-washington-independent-verification/repair-assignments.json",
-      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_treaty_fishing-set"
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_treaty_fishing-set",
+      "superseded": true
+    },
+    {
+      "familyId": "wa_vac_treaty_fishing-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf16",
+      "isIndependentVerification": true,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf16/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_treaty_fishing-set",
+      "superseded": false
     },
     {
       "familyId": "who mailed to",
@@ -507,9 +2295,11 @@
       "isIndependentVerification": false,
       "failedObligations": [],
       "failedObligationNames": [],
+      "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/codex-cloud/sd-arrest-expungement-disclosure-repair/rows.json",
       "repairAssignmentsPath": null,
-      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family who mailed to"
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family who mailed to",
+      "superseded": false
     },
     {
       "familyId": "wv_conv_multiple_misdemeanors-set",
@@ -518,9 +2308,11 @@
       "isIndependentVerification": true,
       "failedObligations": [],
       "failedObligationNames": [],
+      "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/codex-cloud/s2-continuation-verify-03/rows.json",
       "repairAssignmentsPath": null,
-      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wv_conv_multiple_misdemeanors-set"
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wv_conv_multiple_misdemeanors-set",
+      "superseded": false
     },
     {
       "familyId": "wv_conv_single_misdemeanor-set",
@@ -529,9 +2321,11 @@
       "isIndependentVerification": true,
       "failedObligations": [],
       "failedObligationNames": [],
+      "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/codex-cloud/s2-continuation-verify-03/rows.json",
       "repairAssignmentsPath": null,
-      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wv_conv_single_misdemeanor-set"
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wv_conv_single_misdemeanor-set",
+      "superseded": false
     },
     {
       "familyId": "zip code mailed to",
@@ -540,9 +2334,11 @@
       "isIndependentVerification": false,
       "failedObligations": [],
       "failedObligationNames": [],
+      "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/codex-cloud/sd-arrest-expungement-disclosure-repair/rows.json",
       "repairAssignmentsPath": null,
-      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family zip code mailed to"
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family zip code mailed to",
+      "superseded": false
     }
   ],
   "commercialRoutesOpened": 0,

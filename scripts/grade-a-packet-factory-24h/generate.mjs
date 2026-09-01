@@ -275,6 +275,9 @@ try {
   const vr = JSON.parse(fs.readFileSync(path.join(ROOT, `${OUT_DIR}/VERIFIER_RETURNS.json`), "utf8"));
   for (const r of vr.rows ?? []) {
     if (!r.isIndependentVerification || !r.verdict) continue;
+    /* A superseded verdict is history, not state: a family failed by VF06 and
+     * passed by VF23 after repair must not be re-dispatched for repair. */
+    if (r.superseded) continue;
     independentReturnByFamily.set(r.familyId, r);
   }
 } catch { /* no extraction yet */ }
@@ -434,6 +437,27 @@ const pathIsActive = (p) => activePaths.some((x) => touches(p, x.path) || new Re
 /* ---------------------------------------------------------------- *
  * Build one record per family
  * ---------------------------------------------------------------- */
+/*
+ * A FAIL_REPAIR_REQUIRED verdict is superseded by a completed repair: the
+ * repair lane released its claim after doing exactly the work the verdict
+ * demanded, and holding the family in FAIL after that re-dispatches finished
+ * work. A family with a LIVE repair claim is still being repaired and stays
+ * failed until that lane returns. Ordering caveat, stated rather than implied:
+ * the ledger does not order releases against verdicts, so a family failed
+ * AGAIN after its repair released must come back through a new repair grant
+ * (reissue/transfer), which flips it back to live here.
+ */
+const repairReleasedFamilies = new Set();
+const repairLiveFamilies = new Set();
+try {
+  const led = JSON.parse(fs.readFileSync(path.join(ROOT, `${OUT_DIR}/claim-ledger.json`), "utf8"));
+  for (const c of led.claims ?? []) {
+    if (c.laneKind !== "repair" && c.laneKind !== "shared-host-repair") continue;
+    for (const fid of c.familyIds ?? (c.familyId ? [c.familyId] : []))
+      (c.released === true ? repairReleasedFamilies : repairLiveFamilies).add(fid);
+  }
+} catch { /* no ledger yet */ }
+
 const families = [];
 const seen = new Set();
 for (const f of IN.scoreboard.familiesDetail) {
@@ -505,6 +529,10 @@ for (const f of IN.scoreboard.familiesDetail) {
    * would have reached Lawrence review as in-flight rather than as failed. A
    * lane that has returned is not still verifying.
    */
+  else if (independentReturn?.verdict === "PASS_COMPLETE_INDEPENDENT") state = "VERIFIED_PASS";
+  else if (independentFail
+    && repairReleasedFamilies.has(familyId) && !repairLiveFamilies.has(familyId)
+    && comp && nineZero) state = "VERIFY_PENDING";
   else if (independentFail) state = "FAIL_REPAIR_REQUIRED";
   else if (activeOwner && activeOwnerLane === "independent-verification") state = "VERIFYING";
   else if (activeOwner) state = "BUILD_IN_PROGRESS";
@@ -556,6 +584,8 @@ for (const f of IN.scoreboard.familiesDetail) {
     allNineCountersZero: nineZero,
     counters: comp?.counters ?? null,
     failingCounters: comp ? Object.entries(comp.counters).filter(([, v]) => v > 0).map(([k]) => k) : [],
+    failedObligationNames: independentFail ? independentReturn?.failedObligationNames ?? [] : [],
+    failedObligations: independentFail ? independentReturn?.failedObligations ?? [] : [],
     continuationResult: cont?.resultAfter ?? null,
     c11Stopped: c11Stopped.has(familyId),
     state,
@@ -586,6 +616,42 @@ for (const f of families) {
 /* ---------------------------------------------------------------- *
  * Populations
  * ---------------------------------------------------------------- */
+/*
+ * A returned verdict outranks an active-owner claim — in the DISPATCH too,
+ * not only in the state machine. The active-lane roster is static records,
+ * and SDV01 kept "holding" sd_arrest_expungement-set months after returning
+ * its FAIL, so the family was failed, unowned in the ledger, and dispatched
+ * to no repair lane at once. The claim ledger is the ground truth for
+ * ownership: a failed family with no LIVE claim on it is dispatchable.
+ */
+const liveClaimLanesByFamily = new Map();
+try {
+  const led = JSON.parse(fs.readFileSync(path.join(ROOT, `${OUT_DIR}/claim-ledger.json`), "utf8"));
+  for (const c of led.claims ?? []) {
+    if (c.released === true) continue;
+    for (const fid of c.familyIds ?? (c.familyId ? [c.familyId] : [])) {
+      if (!liveClaimLanesByFamily.has(fid)) liveClaimLanesByFamily.set(fid, new Set());
+      liveClaimLanesByFamily.get(fid).add(c.lane);
+    }
+  }
+} catch { /* no ledger yet */ }
+/* The roster owner holds the family only while its own claim is alive (or the
+ * family carries no returned FAIL). A live claim held by a DIFFERENT lane —
+ * the repair grant this dispatch itself minted last run — is that lane's
+ * ownership, not the roster's, and must not swallow the family back out of
+ * the dispatch (that is the flap this comment is the tombstone of). */
+const ownerStillHolds = (f) => f.activeOwner
+  && !(f.state === "FAIL_REPAIR_REQUIRED" && !(liveClaimLanesByFamily.get(f.familyId)?.has(f.activeOwner)));
+/* Ended ownership is cleared on the row itself, so every downstream reader —
+ * the dispatch packers, F4's collision sweep, the checkpoint — sees one
+ * consistent answer. The roster's name survives as staleRosterOwner. */
+for (const f of families) {
+  if (f.activeOwner && !ownerStillHolds(f)) {
+    f.staleRosterOwner = f.activeOwner;
+    f.activeOwner = null;
+    f.activeOwnerLane = null;
+  }
+}
 const active = families.filter((f) => f.activeOwner);
 const guidance = families.filter((f) => f.state === "LEGITIMATE_GUIDANCE_ONLY");
 const remaining = families.filter((f) => !f.activeOwner && f.state !== "LEGITIMATE_GUIDANCE_ONLY");
@@ -1302,7 +1368,14 @@ for (let i = 0; i < FIX_LANES; i += 1) {
     receivesOnly: "the failed families and their exact failed proof obligations",
     doNotRepeatAnalysis: "A repair lane does not repeat broad family analysis. If the failure is not reproducible from the obligations you were given, stop and say so rather than re-deriving the family.",
     reverificationRule: "After repair, the family goes to a verifier that is neither its builder nor its repairer. Captain routes it; you do not choose.",
-    detail: items.map((f) => ({ familyId: f.familyId, directory: f.directory, failingCounters: f.failingCounters, counters: f.counters })),
+    detail: items.map((f) => ({
+      familyId: f.familyId, directory: f.directory, failingCounters: f.failingCounters, counters: f.counters,
+      /* The verifier's own record, carried verbatim: a repair lane fixes the
+       * exact obligations a verifier failed, and a dispatch that does not name
+       * them hands the lane a family and a shrug. */
+      failedObligationNames: f.failedObligationNames ?? [],
+      failedObligations: f.failedObligations ?? []
+    })),
     ownedPaths: [`${FACT}/${slug}/**`, ...items.map((f) => `${f.directory}/**`), ...items.filter((f) => f.exclusiveScript).map((f) => f.buildScript)],
     prohibitedPaths: ["scripts/rcap-packet-completeness/**", `${LC}/**`, ...activePaths.map((p) => p.path)],
     requiredOutputs: [
@@ -1357,8 +1430,12 @@ for (const a of assignments) {
     byLaneKind.set(key, a.assignmentId);
   }
 }
+/* Ownership that the ledger says has ended (a returned verdict, no live
+ * claim held by that owner) is not re-dispatch: it is the stale roster row
+ * SDV01 left behind. Ended ownership was cleared on the family rows above. */
+const staleRosterFamilies = new Set(families.filter((f) => f.staleRosterOwner).map((f) => f.familyId));
 const activeReDispatched = assignments.filter((a) => a.itemKind === "packetFamily")
-  .flatMap((a) => a.items.filter((f) => activeFamilies.has(f)).map((f) => ({ familyId: f, lane: a.assignmentId, activeOwner: activeFamilies.get(f) })));
+  .flatMap((a) => a.items.filter((f) => activeFamilies.has(f) && !staleRosterFamilies.has(f)).map((f) => ({ familyId: f, lane: a.assignmentId, activeOwner: activeFamilies.get(f) })));
 
 /* Shared host with two writers. */
 const hostWriters = new Map();
@@ -1472,7 +1549,11 @@ const masterQueue = {
   bySourceStatus: countBy(families, "sourceStatus"),
   activeOwnership: {
     lanes: ACTIVE_LANES.map((a) => a.assignmentId),
-    families: [...activeFamilies.keys()].sort(),
+    /* The roster minus ownership the ledger says has ended: a family whose
+     * owner returned its verdict and holds no live claim is not active, and
+     * publishing it here would re-collide it with its own repair dispatch. */
+    families: families.filter((f) => f.activeOwner).map((f) => f.familyId).sort(),
+    staleRosterFamilies: families.filter((f) => f.staleRosterOwner).map((f) => ({ familyId: f.familyId, roster: f.staleRosterOwner })),
     paths: activePaths.length,
     rule: "Excluded from every new assignment. A collision with active ownership fails this generator rather than appearing as a note."
   },

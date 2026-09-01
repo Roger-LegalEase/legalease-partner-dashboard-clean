@@ -19,7 +19,7 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family nj_arrest_no_conviction-set \
+  --family ca-prop64-set \
   --codex-cloud \
   --minimum-captain-sha 13771582866352d77e46e5d0b9bc86f1abbb6752
 ```
@@ -56,10 +56,11 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 2 families
+## The 3 families
 
-- `nj_arrest_no_conviction-set` — failing: knownRequiredFieldsMissing
-- `pa_9122_1_limited_access-set` — failing: knownRequiredFieldsMissing, incompleteRows
+- `ca-prop64-set` — failing: knownRequiredFieldsMissing, unclassifiedBlanks, incompleteRows, requiredOptionsMissing, requiredComponentsMissing
+- `oh_marijuana_expungement-set`
+- `vt_seal_18_to_21-set`
 
 ## What you receive
 
@@ -72,9 +73,12 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/fix07/**`
-- `data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/pa/pa-9122-1-limited-access-set--official-pdf-fill/**`
-- `scripts/build-census-v1-pa_9122_1_limited_access-set.mjs`
+- `data/rcap-all50/overlays/census-v1/ca/ca-prop64-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/**`
+- `data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill/**`
+- `scripts/build-census-v1-ca-prop64-set.mjs`
+- `scripts/build-census-v1-oh_marijuana_expungement-set.mjs`
+- `scripts/build-census-v1-vt_seal_18_to_21-set.mjs`
 
 ## Never write here
 

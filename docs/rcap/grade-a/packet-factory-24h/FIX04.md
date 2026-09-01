@@ -19,7 +19,7 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family ca-851-91-set \
+  --family ca-1203-42-set \
   --codex-cloud \
   --minimum-captain-sha 13771582866352d77e46e5d0b9bc86f1abbb6752
 ```
@@ -56,10 +56,11 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 2 families
+## The 3 families
 
-- `ca-851-91-set` — failing: knownRequiredFieldsMissing, incompleteRows
-- `ny_mrta_marijuana-set` — failing: knownRequiredFieldsMissing
+- `ca-1203-42-set` — failing: incompleteRows, requiredOptionsMissing
+- `nj_ordinance-set` — failing: knownRequiredFieldsMissing
+- `ut_pet_limitations-set`
 
 ## What you receive
 
@@ -72,10 +73,12 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/fix04/**`
-- `data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/**`
-- `scripts/build-census-v1-ca-851-91-set.mjs`
-- `scripts/build-census-v1-ny_mrta_marijuana-set.mjs`
+- `data/rcap-all50/overlays/census-v1/ca/ca-1203-42-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/nj/nj-ordinance-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/ut/ut-pet-limitations-set--official-pdf-fill/**`
+- `scripts/build-census-v1-ca-1203-42-set.mjs`
+- `scripts/build-census-v1-nj_ordinance-set.mjs`
+- `scripts/build-census-v1-ut_pet_limitations-set.mjs`
 
 ## Never write here
 

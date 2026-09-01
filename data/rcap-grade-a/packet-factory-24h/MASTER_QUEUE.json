@@ -15,7 +15,7 @@
     "data/rcap-grade-a/route-obligation-census-v1/legal-review-queue-v2.json": "af2176e82365396865a3405492b9d74d84237d0e78a921cd9251db90a075240e",
     "data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json": "965a9e5bfee3994daa89b80f81bc79e3b4918ef75fd94288e9d31076bd74addf",
     "data/rcap-grade-a/launch-control/C11_STOP_CLASSIFICATION.json": "704f9483215b27314209f75b194784cad3cad437add5c21240dc8d4645020d5b",
-    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "7d58704b6c5f49870f0dfcfc4f9873a5ab6f2ac021be262399ccce8a4455e6f1",
+    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "2e22d262bfdd7a857095d6ffe66ab9b82341518981b6f39677a46d3719d6070b",
     "data/rcap-grade-a/launch-control/S2_CONTINUATION.json": "88e88084418056466a7f7986c09661a56bee0e022f69fea86a3474c301526396",
     "data/rcap-grade-a/launch-control/CODEX_CLOUD_CONTINUATIONS.json": "da1f072a0848ce21152735108f543966c42b2091121f9e1a89d5e447e4c5cb98",
     "data/rcap-grade-a/launch-control/P2_WASHINGTON_VERIFICATION.json": "674616f7acc6a04f6496e3242ffb0579082a089abd897157d3d5d64fffeae5d5",
@@ -54,24 +54,24 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 14,
+    "activeFamiliesExcluded": 13,
     "guidanceOnly": 0,
-    "remaining": 332,
+    "remaining": 333,
     "sourceReady": 3,
     "sourceBlocked": 253,
-    "legalBlocked": 24,
-    "verifyPending": 47,
-    "repairRequired": 16,
+    "legalBlocked": 25,
+    "verifyPending": 27,
+    "repairRequired": 24,
     "sumsToDenominator": true
   },
   "byState": {
     "SOURCE_BLOCKED": 253,
-    "VERIFY_PENDING": 47,
+    "VERIFIED_PASS": 13,
+    "VERIFY_PENDING": 36,
+    "FAIL_REPAIR_REQUIRED": 24,
     "BUILD_IN_PROGRESS": 4,
     "LEGAL_BLOCKED": 13,
-    "SOURCE_READY": 3,
-    "FAIL_REPAIR_REQUIRED": 25,
-    "VERIFYING": 1
+    "SOURCE_READY": 3
   },
   "bySourceStatus": {
     "SOURCE_IDENTITY_UNRESOLVED": 163,
@@ -110,7 +110,6 @@
       "ca-1203-43-set",
       "ca-17b-reduction-set",
       "nj_disorderly_persons-set",
-      "sd_arrest_expungement-set",
       "wa_vac_cannabis-set",
       "wa_vac_domestic_violence-set",
       "wa_vac_felony-set",
@@ -121,6 +120,12 @@
       "wa_vac_survivor_misdemeanor-set",
       "wa_vac_treaty_fishing-set"
     ],
+    "staleRosterFamilies": [
+      {
+        "familyId": "sd_arrest_expungement-set",
+        "roster": "SDV01_SOUTH_DAKOTA_INDEPENDENT_VERIFICATION"
+      }
+    ],
     "paths": 38,
     "rule": "Excluded from every new assignment. A collision with active ownership fails this generator rather than appearing as a note."
   },
@@ -130,7 +135,7 @@
     "familiesPerBuilder": 0.2,
     "targetPerBuilder": "15 to 25",
     "finding": "Thirty-two lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 3 do, so a full roster of 16 builders averages 0.2 families each rather than 15 to 25.",
-    "whatWouldChangeIt": "The source conveyor. 444 source obligations across 277 families stand between this dispatch and a full builder roster, and the sixteen-lane source swarm holds every one of them.",
+    "whatWouldChangeIt": "The source conveyor. 444 source obligations across 278 families stand between this dispatch and a full builder roster, and the sixteen-lane source swarm holds every one of them.",
     "whyNotFewerBuilders": "The roster is kept at sixteen because the instruction is a 24-hour rolling factory: a lane that is empty at dispatch is the lane a released family starts in an hour from now, and provisioning it later costs a cycle.",
     "noFalsePass": "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
   },
@@ -171,6 +176,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -224,6 +231,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -277,6 +286,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -330,6 +341,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -383,6 +396,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -436,6 +451,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -489,6 +506,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -545,6 +564,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -620,9 +641,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "VERIFIED_PASS",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ak-courtview-set.mjs",
@@ -684,6 +707,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -759,6 +784,8 @@
         "visualDefects": 0
       },
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "VERIFY_PENDING",
@@ -838,9 +865,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "VERIFIED_PASS",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ak-tf805-set.mjs",
@@ -922,6 +951,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -1006,6 +1037,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -1090,6 +1123,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -1174,6 +1209,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -1258,6 +1295,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -1344,6 +1383,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -1408,6 +1449,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -1493,6 +1536,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -1575,6 +1620,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -1652,6 +1699,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -1721,6 +1770,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -1811,9 +1862,43 @@
         "visualDefects": 0
       },
       "failingCounters": [],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP",
+        "SERVICE"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "FILING_DESTINATION",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": null,
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ar-arrest-seal-set.mjs",
@@ -1880,6 +1965,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -1950,6 +2037,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -2019,6 +2108,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -2110,9 +2201,43 @@
         "visualDefects": 0
       },
       "failingCounters": [],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP",
+        "SERVICE"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "FILING_DESTINATION",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": null,
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ar-misdemeanor-dwi-seal-set.mjs",
@@ -2179,6 +2304,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -2248,6 +2375,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -2329,6 +2458,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -2399,6 +2530,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -2468,6 +2601,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -2552,6 +2687,16 @@
         "visualDefects": 0
       },
       "failingCounters": [],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": null,
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "VERIFY_PENDING",
@@ -2643,6 +2788,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -2732,6 +2879,8 @@
         "requiredOptionsMissing",
         "requiredComponentsMissing"
       ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "BUILD_IN_PROGRESS",
@@ -2829,6 +2978,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "LEGAL_BLOCKED",
@@ -2928,6 +3079,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -3025,6 +3178,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "LEGAL_BLOCKED",
@@ -3099,6 +3254,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -3156,6 +3313,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -3298,6 +3457,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_READY",
@@ -3439,6 +3600,8 @@
         "requiredOptionsMissing",
         "requiredComponentsMissing"
       ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
@@ -3577,6 +3740,22 @@
         "incompleteRows",
         "requiredOptionsMissing"
       ],
+      "failedObligationNames": [
+        "REPEATING_ROWS",
+        "ROUTE_OPTIONS"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "REPEATING_ROWS",
+          "finding": null,
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
@@ -3701,6 +3880,8 @@
         "requiredOptionsMissing",
         "requiredComponentsMissing"
       ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "BUILD_IN_PROGRESS",
@@ -3842,6 +4023,8 @@
         "requiredOptionsMissing",
         "requiredComponentsMissing"
       ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
@@ -3966,6 +4149,8 @@
         "requiredOptionsMissing",
         "requiredComponentsMissing"
       ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "BUILD_IN_PROGRESS",
@@ -4104,6 +4289,22 @@
         "knownRequiredFieldsMissing",
         "incompleteRows"
       ],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS",
+        "REPEATING_ROWS"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "REPEATING_ROWS",
+          "finding": null,
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
@@ -4170,6 +4371,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -4296,6 +4499,8 @@
         "requiredOptionsMissing",
         "requiredComponentsMissing"
       ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
@@ -4353,6 +4558,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -4410,6 +4617,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -4467,6 +4676,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -4524,6 +4735,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -4605,6 +4818,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "LEGAL_BLOCKED",
@@ -4687,6 +4902,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "LEGAL_BLOCKED",
@@ -4772,9 +4989,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "VERIFIED_PASS",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-co_motion_seal_nonconviction-set.mjs",
@@ -4857,6 +5076,8 @@
         "visualDefects": 0
       },
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "VERIFY_PENDING",
@@ -4939,6 +5160,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -5024,6 +5247,8 @@
         "visualDefects": 0
       },
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "VERIFY_PENDING",
@@ -5108,6 +5333,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -5235,6 +5462,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -5288,6 +5517,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -5341,6 +5572,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -5394,6 +5627,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -5447,6 +5682,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -5500,6 +5737,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -5553,6 +5792,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -5606,6 +5847,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -5659,6 +5902,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -5712,6 +5957,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -5765,6 +6012,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -5818,6 +6067,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -5871,6 +6122,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -5924,6 +6177,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -5977,6 +6232,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -6030,6 +6287,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -6083,6 +6342,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -6136,6 +6397,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -6189,6 +6452,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -6242,6 +6507,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -6295,6 +6562,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -6348,6 +6617,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -6406,6 +6677,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -6490,6 +6763,8 @@
         "visualDefects": 0
       },
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "VERIFY_PENDING",
@@ -6547,6 +6822,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -6606,6 +6883,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -6665,6 +6944,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -6724,6 +7005,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -6783,6 +7066,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -6840,6 +7125,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -6897,6 +7184,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -6955,6 +7244,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -7012,6 +7303,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -7069,6 +7362,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -7126,6 +7421,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -7196,6 +7493,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -7271,6 +7570,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -7335,6 +7636,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -7405,6 +7708,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -7479,6 +7784,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -7543,6 +7850,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -7607,6 +7916,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -7686,6 +7997,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -7750,6 +8063,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -7826,6 +8141,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -7890,6 +8207,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -7962,6 +8281,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -8022,6 +8343,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -8082,6 +8405,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -8147,6 +8472,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -8212,6 +8539,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -8272,6 +8601,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -8330,6 +8661,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -8390,6 +8723,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -8449,6 +8784,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -8510,6 +8847,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -8570,6 +8909,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -8631,6 +8972,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -8691,6 +9034,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -8755,6 +9100,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -8819,6 +9166,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -8883,6 +9232,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -8952,6 +9303,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -9034,6 +9387,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -9116,6 +9471,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -9186,6 +9543,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -9261,6 +9620,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -9331,6 +9692,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -9395,6 +9758,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -9452,6 +9817,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -9516,6 +9883,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -9573,6 +9942,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -9661,6 +10032,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -9782,6 +10155,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -9898,6 +10273,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -10014,6 +10391,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -10130,6 +10509,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -10246,6 +10627,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -10347,6 +10730,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -10405,6 +10790,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -10521,6 +10908,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -10637,6 +11026,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -10753,6 +11144,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -10869,6 +11262,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -10951,6 +11346,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -11050,6 +11447,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -11149,6 +11548,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -11248,6 +11649,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -11307,6 +11710,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -11390,6 +11795,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -11468,6 +11875,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -11546,6 +11955,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -11624,6 +12035,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -11699,6 +12112,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -11767,6 +12182,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -11835,6 +12252,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -11894,6 +12313,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -11960,6 +12381,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -12033,6 +12456,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "LEGAL_BLOCKED",
@@ -12120,6 +12545,8 @@
         "visualDefects": 0
       },
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "VERIFY_PENDING",
@@ -12203,6 +12630,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "LEGAL_BLOCKED",
@@ -12286,6 +12715,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -12352,6 +12783,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -12429,6 +12862,8 @@
         "visualDefects": 0
       },
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "VERIFY_PENDING",
@@ -12508,6 +12943,8 @@
         "visualDefects": 0
       },
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "VERIFY_PENDING",
@@ -12617,6 +13054,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -12743,6 +13182,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -12844,6 +13285,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -12972,6 +13415,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -13069,6 +13514,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -13174,6 +13621,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -13239,6 +13688,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -13297,6 +13748,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -13361,6 +13814,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -13445,6 +13900,8 @@
         "visualDefects": 0
       },
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "VERIFY_PENDING",
@@ -13511,6 +13968,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -13576,6 +14035,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -13640,6 +14101,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -13704,6 +14167,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -13786,6 +14251,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -13850,6 +14317,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -13932,6 +14401,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -14014,6 +14485,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -14096,6 +14569,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -14183,6 +14658,8 @@
       "failingCounters": [
         "requiredOptionsMissing"
       ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
@@ -14242,6 +14719,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -14301,6 +14780,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -14365,6 +14846,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -14441,6 +14924,8 @@
         "visualDefects": 0
       },
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "VERIFY_PENDING",
@@ -14536,6 +15021,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -14605,6 +15092,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -14674,6 +15163,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -14758,9 +15249,19 @@
         "visualDefects": 0
       },
       "failingCounters": [],
+      "failedObligationNames": [
+        "ROUTE_IDENTITY"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "ROUTE_IDENTITY",
+          "finding": null,
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-mi_setaside_marihuana-set.mjs",
@@ -14839,6 +15340,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -14931,6 +15434,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -15024,6 +15529,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -15116,6 +15623,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -15178,6 +15687,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -15258,6 +15769,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -15333,6 +15846,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -15414,6 +15929,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -15490,6 +16007,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -15558,6 +16077,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -15630,6 +16151,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -15689,6 +16212,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -15746,6 +16271,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -15803,6 +16330,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -15862,6 +16391,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -15923,6 +16454,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -15980,6 +16513,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -16042,6 +16577,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -16104,6 +16641,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -16187,6 +16726,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -16270,6 +16811,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -16414,6 +16957,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -16572,6 +17117,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -16685,6 +17232,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -16797,6 +17346,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -16940,6 +17491,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -17007,6 +17560,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -17066,6 +17621,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -17138,6 +17695,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -17217,6 +17776,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -17282,6 +17843,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -17348,6 +17911,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -17405,6 +17970,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -17465,6 +18032,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -17549,6 +18118,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -17650,6 +18221,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -17787,9 +18360,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "VERIFIED_PASS",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ne-setaside-custodial-set.mjs",
@@ -17921,6 +18496,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": true,
       "state": "LEGAL_BLOCKED",
@@ -18003,6 +18580,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": true,
       "state": "LEGAL_BLOCKED",
@@ -18128,6 +18707,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -18247,6 +18828,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -18350,6 +18933,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -18468,6 +19053,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -18586,6 +19173,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -18659,10 +19248,10 @@
       "laneReturnLegalHold": null,
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
-      "completenessStatus": "FAIL_MISSING_REQUIRED_FACTS",
-      "allNineCountersZero": false,
+      "completenessStatus": "PASS_COMPLETE",
+      "allNineCountersZero": true,
       "counters": {
-        "knownRequiredFieldsMissing": 7,
+        "knownRequiredFieldsMissing": 0,
         "requiredFactsNotCollected": 0,
         "unclassifiedBlanks": 0,
         "incompleteRows": 0,
@@ -18672,12 +19261,20 @@
         "protectedWrites": 0,
         "visualDefects": 0
       },
-      "failingCounters": [
-        "knownRequiredFieldsMissing"
+      "failingCounters": [],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": null,
+          "evidence": null
+        }
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
@@ -18779,6 +19376,8 @@
       "failingCounters": [
         "knownRequiredFieldsMissing"
       ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
@@ -18868,6 +19467,8 @@
       "failingCounters": [
         "knownRequiredFieldsMissing"
       ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "BUILD_IN_PROGRESS",
@@ -18965,6 +19566,16 @@
       "failingCounters": [
         "knownRequiredFieldsMissing"
       ],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": null,
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
@@ -19061,6 +19672,8 @@
       "failingCounters": [
         "knownRequiredFieldsMissing"
       ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
@@ -19171,6 +19784,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -19265,6 +19880,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -19375,6 +19992,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -19437,6 +20056,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -19501,6 +20122,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -19643,6 +20266,16 @@
       "failingCounters": [
         "knownRequiredFieldsMissing"
       ],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": null,
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
@@ -19731,6 +20364,8 @@
       "failingCounters": [
         "knownRequiredFieldsMissing"
       ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
@@ -19787,6 +20422,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -19864,6 +20501,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -19948,9 +20587,19 @@
         "visualDefects": 0
       },
       "failingCounters": [],
+      "failedObligationNames": [
+        "ARTIFACTS"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "ARTIFACTS",
+          "finding": null,
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-oh_marijuana_expungement-set.mjs",
@@ -20035,6 +20684,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "LEGAL_BLOCKED",
@@ -20120,6 +20771,8 @@
         "visualDefects": 0
       },
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "VERIFY_PENDING",
@@ -20253,25 +20906,39 @@
       "laneReturnLegalHold": null,
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
-      "completenessStatus": "FAIL_MISSING_REQUIRED_FACTS",
-      "allNineCountersZero": false,
+      "completenessStatus": "PASS_COMPLETE",
+      "allNineCountersZero": true,
       "counters": {
         "knownRequiredFieldsMissing": 0,
         "requiredFactsNotCollected": 0,
         "unclassifiedBlanks": 0,
-        "incompleteRows": 1,
+        "incompleteRows": 0,
         "requiredOptionsMissing": 0,
         "requiredComponentsMissing": 0,
         "invisibleWrites": 0,
         "protectedWrites": 0,
         "visualDefects": 0
       },
-      "failingCounters": [
-        "incompleteRows"
+      "failingCounters": [],
+      "failedObligationNames": [
+        "REPEATING_ROWS",
+        "SELF_HELP_STOP"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "REPEATING_ROWS",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": null,
+          "evidence": null
+        }
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-pa_490_nonconviction-set.mjs",
@@ -20365,6 +21032,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": true,
       "state": "LEGAL_BLOCKED",
@@ -20517,6 +21186,8 @@
         "incompleteRows",
         "requiredComponentsMissing"
       ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
@@ -20650,26 +21321,45 @@
       "laneReturnLegalHold": null,
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
-      "completenessStatus": "FAIL_MISSING_REQUIRED_FACTS",
-      "allNineCountersZero": false,
+      "completenessStatus": "PASS_COMPLETE",
+      "allNineCountersZero": true,
       "counters": {
-        "knownRequiredFieldsMissing": 2,
+        "knownRequiredFieldsMissing": 0,
         "requiredFactsNotCollected": 0,
         "unclassifiedBlanks": 0,
-        "incompleteRows": 1,
+        "incompleteRows": 0,
         "requiredOptionsMissing": 0,
         "requiredComponentsMissing": 0,
         "invisibleWrites": 0,
         "protectedWrites": 0,
         "visualDefects": 0
       },
-      "failingCounters": [
-        "knownRequiredFieldsMissing",
-        "incompleteRows"
+      "failingCounters": [],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS",
+        "REPEATING_ROWS",
+        "SELF_HELP_STOP"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "REPEATING_ROWS",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": null,
+          "evidence": null
+        }
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-pa_9122_1_limited_access-set.mjs",
@@ -20754,6 +21444,8 @@
         "visualDefects": 0
       },
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "VERIFY_PENDING",
@@ -20840,6 +21532,8 @@
         "visualDefects": 0
       },
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "VERIFY_PENDING",
@@ -20976,6 +21670,8 @@
         "unclassifiedBlanks",
         "incompleteRows"
       ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
@@ -21029,6 +21725,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -21085,6 +21783,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -21145,6 +21845,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -21198,6 +21900,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -21249,6 +21953,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -21302,6 +22008,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -21355,6 +22063,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -21408,6 +22118,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -21484,6 +22196,8 @@
         "visualDefects": 0
       },
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "VERIFY_PENDING",
@@ -21537,6 +22251,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -21588,6 +22304,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -21659,6 +22377,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -21712,6 +22432,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -21768,6 +22490,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -21821,6 +22545,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -21874,6 +22600,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -21927,6 +22655,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -22015,6 +22745,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -22100,6 +22832,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -22184,6 +22918,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -22268,6 +23004,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -22327,6 +23065,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -22411,6 +23151,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -22497,6 +23239,16 @@
         "visualDefects": 0
       },
       "failingCounters": [],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": null,
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "VERIFY_PENDING",
@@ -22574,6 +23326,8 @@
         "visualDefects": 0
       },
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "VERIFY_PENDING",
@@ -22741,11 +23495,39 @@
         "visualDefects": 0
       },
       "failingCounters": [],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "SELF_HELP_STOP",
+        "SERVICE"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "FILING_DESTINATION",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": null,
+          "evidence": null
+        }
+      ],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
-      "state": "VERIFYING",
-      "activeOwner": "SDV01_SOUTH_DAKOTA_INDEPENDENT_VERIFICATION",
-      "activeOwnerLane": "independent-verification",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-sd_arrest_expungement-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-ne-setaside-custodial-set.mjs",
@@ -22756,7 +23538,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "staleRosterOwner": "SDV01_SOUTH_DAKOTA_INDEPENDENT_VERIFICATION"
     },
     {
       "familyId": "tx_exp_acquittal-set",
@@ -22807,6 +23590,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -22881,6 +23666,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -22957,6 +23744,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -23033,6 +23822,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -23109,6 +23900,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -23185,6 +23978,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -23261,6 +24056,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -23337,6 +24134,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -23413,6 +24212,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -23487,6 +24288,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -23701,9 +24504,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "VERIFIED_PASS",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ut_pet_acquittal-set.mjs",
@@ -23837,6 +24642,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -24051,9 +24858,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "VERIFIED_PASS",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ut_pet_conviction-set.mjs",
@@ -24265,9 +25074,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "VERIFIED_PASS",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ut_pet_dismissed_with_prejudice-set.mjs",
@@ -24479,9 +25290,123 @@
         "visualDefects": 0
       },
       "failingCounters": [],
+      "failedObligationNames": [
+        "feeAndWaiver",
+        "filingDestination",
+        "requiredBeforeFiling",
+        "service"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "requiredBeforeFiling",
+          "finding": "Of the 13 blanks the map declares REQUIRED_BEFORE_FILING, every one is named in participant-instructions.md except UT-BCI-EXP-APPLICATION p2 \"SID#R&F\" (blankId p2-y37.35-x188.34). No instruction line asks the participant to write a SID number or an R&F number. It is not merely unnamed: reading the source bytes at that position shows the blank sits inside the form's printed \"BUREAU USE ONLY\" box (heading read at page 2 y=51, x=26.93), and the family's own field census marks the same blank protectCategory \"government_identifier\". A blank the bureau completes cannot be an item the participant must supply before filing.",
+          "evidence": {
+            "declaredBlankDispositions": {
+              "NOT_APPLICABLE_ON_THIS_ROUTE": 109,
+              "REQUIRED_BEFORE_FILING": 13,
+              "PROTECTED_FIELD": 45,
+              "OPTIONAL_PARTICIPANT_CONTENT": 203,
+              "LATER_COMPLETION": 4,
+              "PARTICIPANT_ELECTION_GENUINE": 31
+            },
+            "requiredBeforeFilingCount": 13,
+            "itemsNotNamedInInstructions": [
+              {
+                "formNumber": "UT-BCI-EXP-APPLICATION",
+                "blankId": "p2-y37.35-x188.34",
+                "capturedCaption": "SID#R&F",
+                "printedRegionReadFromSourceBytes": "BUREAU USE ONLY",
+                "censusProtectCategory": "government_identifier",
+                "mapDisposition": "REQUIRED_BEFORE_FILING"
+              }
+            ],
+            "itemsNamedAndHowTheyWereMatched": [
+              {
+                "blanks": "1000EX Judicial District; 1000EX Court Address x3; 1020EX Court Address x2",
+                "namedBy": "- Judicial district and court street address for the filing venue"
+              },
+              {
+                "blanks": "1000EX \"certificate of eligibility is\"",
+                "namedBy": "- BCI certificate-of-eligibility identification number (non-traffic packets)"
+              },
+              {
+                "blanks": "1000EX \"2. Expunging my records will not harm the interests of the public because\"",
+                "namedBy": "- Participant's public-interest explanation on the petition"
+              },
+              {
+                "blanks": "UT-BCI-EXP-APPLICATION PREVIOUSLY USED NAME(S)",
+                "namedBy": "- Every previously used name, or an express statement that there are none"
+              },
+              {
+                "blanks": "UT-BCI-EXP-APPLICATION p2-y622.60-x445.83 (captured as \"MAILING ADDRESS\"; the census regionHeading and the source bytes both read \"DATE OF BIRTH ____ GENDER ____\", so this is the GENDER blank)",
+                "namedBy": "- Gender, Social Security number, and driver-license number/state required by the BCI application"
+              },
+              {
+                "blanks": "UT-BCI-EXP-APPLICATION SOCIAL SECURITY",
+                "namedBy": "- Gender, Social Security number, and driver-license number/state required by the BCI application"
+              },
+              {
+                "blanks": "UT-BCI-EXP-APPLICATION p2-y567.70-x424.55 (captured as \"ATE\"; the source row reads \"DRIVER LICENSE # AND STATE : ____\")",
+                "namedBy": "- Gender, Social Security number, and driver-license number/state required by the BCI application"
+              }
+            ],
+            "captionCaptureObservation": "Three of the thirteen captured captions do not match the printed label at the measured position (\"MAILING ADDRESS\" for the GENDER blank, \"ATE\" for the DRIVER LICENSE # AND STATE blank, \"SID#R&F\" for a BUREAU USE ONLY box). The first two resolve to items the instructions do name; the third does not."
+          }
+        },
+        {
+          "obligation": "filingDestination",
+          "finding": "participant-instructions.md never tells the participant where to file. It lists \"Judicial district and court street address for the filing venue\" as a blank the participant must supply, which is the opposite of naming the destination, and it never mentions the Utah Bureau of Criminal Identification, which issues the certificate of eligibility the route names, or the district court that receives the petition. The packet's own caption does carry route-determined evidence of a destination — the \"In the [ ] District [ ] Justice Court of Utah\" election is marked District and the county is written — but a marked caption box is not the instructions naming a court.",
+          "evidence": {
+            "instructionsHeadings": [
+              "# Required before filing"
+            ],
+            "courtOrAgencyNamedInInstructions": null,
+            "routeDestinations": "the Utah Bureau of Criminal Identification, which issues the certificate of eligibility the route names, or the district court that receives the petition",
+            "captionEvidenceOnTheBytes": {
+              "election": "In the [ ] District [ ] Justice Court of Utah",
+              "marked": "District",
+              "countyWritten": "Example County"
+            },
+            "instructionLineTreatingTheVenueAsAParticipantBlank": "- Judicial district and court street address for the filing venue"
+          }
+        },
+        {
+          "obligation": "feeAndWaiver",
+          "finding": "The court filing fee is stated: the packet fills and selects the district-court cover sheet row \"$150 [ ] Expungement Petition - Criminal (E)\" on 1044XX page 2, proved by an X read from the output bytes at x355.98 y359.1 inside that row's bracket. No waiver route is stated anywhere in the packet or the instructions — no fee-waiver motion is included, named or referenced. The BCI certificate step carries its own fee, and the instructions name it only as a blank ('BCI payment or fee-waiver election and any payment details') without stating an amount or a waiver route.",
+          "evidence": {
+            "courtFeeStated": true,
+            "courtFeeEvidence": {
+              "form": "1044XX",
+              "sourcePage": 2,
+              "row": "$150  [ ] Expungement Petition - Criminal (E)",
+              "markReadFromOutputBytes": {
+                "x": 357.48,
+                "y": 359.1,
+                "glyph": "X"
+              }
+            },
+            "waiverRouteStated": false,
+            "waiverFormIncluded": false,
+            "bciFeeStated": false,
+            "bciInstructionLine": "- BCI payment or fee-waiver election and any payment details"
+          }
+        },
+        {
+          "obligation": "service",
+          "finding": "The instructions never state who must be served or how. The only service line, \"Service method, address, date, and certification only after service occurs\", hands the participant the method and the recipient as blanks to fill in, and the closing sentence records that service certifications are protected. Neither names a recipient or a method.",
+          "evidence": {
+            "recipientStated": false,
+            "methodStated": false,
+            "instructionLines": [
+              "- Service method, address, date, and certification only after service occurs",
+              "Signatures, signature dates, service certifications, court-only fields, agency-only fields, prosecutor-only fields, victim fields, and optional third-party authorizations remain protected."
+            ]
+          }
+        }
+      ],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ut_pet_dismissed_without_prejudice-set.mjs",
@@ -24693,9 +25618,123 @@
         "visualDefects": 0
       },
       "failingCounters": [],
+      "failedObligationNames": [
+        "feeAndWaiver",
+        "filingDestination",
+        "requiredBeforeFiling",
+        "service"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "requiredBeforeFiling",
+          "finding": "Of the 13 blanks the map declares REQUIRED_BEFORE_FILING, every one is named in participant-instructions.md except UT-BCI-EXP-APPLICATION p2 \"SID#R&F\" (blankId p2-y37.35-x188.34). No instruction line asks the participant to write a SID number or an R&F number. It is not merely unnamed: reading the source bytes at that position shows the blank sits inside the form's printed \"BUREAU USE ONLY\" box (heading read at page 2 y=51, x=26.93), and the family's own field census marks the same blank protectCategory \"government_identifier\". A blank the bureau completes cannot be an item the participant must supply before filing.",
+          "evidence": {
+            "declaredBlankDispositions": {
+              "NOT_APPLICABLE_ON_THIS_ROUTE": 110,
+              "REQUIRED_BEFORE_FILING": 13,
+              "PROTECTED_FIELD": 45,
+              "OPTIONAL_PARTICIPANT_CONTENT": 203,
+              "LATER_COMPLETION": 4,
+              "PARTICIPANT_ELECTION_GENUINE": 31
+            },
+            "requiredBeforeFilingCount": 13,
+            "itemsNotNamedInInstructions": [
+              {
+                "formNumber": "UT-BCI-EXP-APPLICATION",
+                "blankId": "p2-y37.35-x188.34",
+                "capturedCaption": "SID#R&F",
+                "printedRegionReadFromSourceBytes": "BUREAU USE ONLY",
+                "censusProtectCategory": "government_identifier",
+                "mapDisposition": "REQUIRED_BEFORE_FILING"
+              }
+            ],
+            "itemsNamedAndHowTheyWereMatched": [
+              {
+                "blanks": "1000EX Judicial District; 1000EX Court Address x3; 1020EX Court Address x2",
+                "namedBy": "- Judicial district and court street address for the filing venue"
+              },
+              {
+                "blanks": "1000EX \"certificate of eligibility is\"",
+                "namedBy": "- BCI certificate-of-eligibility identification number (non-traffic packets)"
+              },
+              {
+                "blanks": "1000EX \"2. Expunging my records will not harm the interests of the public because\"",
+                "namedBy": "- Participant's public-interest explanation on the petition"
+              },
+              {
+                "blanks": "UT-BCI-EXP-APPLICATION PREVIOUSLY USED NAME(S)",
+                "namedBy": "- Every previously used name, or an express statement that there are none"
+              },
+              {
+                "blanks": "UT-BCI-EXP-APPLICATION p2-y622.60-x445.83 (captured as \"MAILING ADDRESS\"; the census regionHeading and the source bytes both read \"DATE OF BIRTH ____ GENDER ____\", so this is the GENDER blank)",
+                "namedBy": "- Gender, Social Security number, and driver-license number/state required by the BCI application"
+              },
+              {
+                "blanks": "UT-BCI-EXP-APPLICATION SOCIAL SECURITY",
+                "namedBy": "- Gender, Social Security number, and driver-license number/state required by the BCI application"
+              },
+              {
+                "blanks": "UT-BCI-EXP-APPLICATION p2-y567.70-x424.55 (captured as \"ATE\"; the source row reads \"DRIVER LICENSE # AND STATE : ____\")",
+                "namedBy": "- Gender, Social Security number, and driver-license number/state required by the BCI application"
+              }
+            ],
+            "captionCaptureObservation": "Three of the thirteen captured captions do not match the printed label at the measured position (\"MAILING ADDRESS\" for the GENDER blank, \"ATE\" for the DRIVER LICENSE # AND STATE blank, \"SID#R&F\" for a BUREAU USE ONLY box). The first two resolve to items the instructions do name; the third does not."
+          }
+        },
+        {
+          "obligation": "filingDestination",
+          "finding": "participant-instructions.md never tells the participant where to file. It lists \"Judicial district and court street address for the filing venue\" as a blank the participant must supply, which is the opposite of naming the destination, and it never mentions the Utah Bureau of Criminal Identification, which issues the certificate of eligibility the route names, or the district court that receives the petition. The packet's own caption does carry route-determined evidence of a destination — the \"In the [ ] District [ ] Justice Court of Utah\" election is marked District and the county is written — but a marked caption box is not the instructions naming a court.",
+          "evidence": {
+            "instructionsHeadings": [
+              "# Required before filing"
+            ],
+            "courtOrAgencyNamedInInstructions": null,
+            "routeDestinations": "the Utah Bureau of Criminal Identification, which issues the certificate of eligibility the route names, or the district court that receives the petition",
+            "captionEvidenceOnTheBytes": {
+              "election": "In the [ ] District [ ] Justice Court of Utah",
+              "marked": "District",
+              "countyWritten": "Example County"
+            },
+            "instructionLineTreatingTheVenueAsAParticipantBlank": "- Judicial district and court street address for the filing venue"
+          }
+        },
+        {
+          "obligation": "feeAndWaiver",
+          "finding": "The court filing fee is stated: the packet fills and selects the district-court cover sheet row \"$150 [ ] Expungement Petition - Criminal (E)\" on 1044XX page 2, proved by an X read from the output bytes at x355.98 y359.1 inside that row's bracket. No waiver route is stated anywhere in the packet or the instructions — no fee-waiver motion is included, named or referenced. The BCI certificate step carries its own fee, and the instructions name it only as a blank ('BCI payment or fee-waiver election and any payment details') without stating an amount or a waiver route.",
+          "evidence": {
+            "courtFeeStated": true,
+            "courtFeeEvidence": {
+              "form": "1044XX",
+              "sourcePage": 2,
+              "row": "$150  [ ] Expungement Petition - Criminal (E)",
+              "markReadFromOutputBytes": {
+                "x": 357.48,
+                "y": 359.1,
+                "glyph": "X"
+              }
+            },
+            "waiverRouteStated": false,
+            "waiverFormIncluded": false,
+            "bciFeeStated": false,
+            "bciInstructionLine": "- BCI payment or fee-waiver election and any payment details"
+          }
+        },
+        {
+          "obligation": "service",
+          "finding": "The instructions never state who must be served or how. The only service line, \"Service method, address, date, and certification only after service occurs\", hands the participant the method and the recipient as blanks to fill in, and the closing sentence records that service certifications are protected. Neither names a recipient or a method.",
+          "evidence": {
+            "recipientStated": false,
+            "methodStated": false,
+            "instructionLines": [
+              "- Service method, address, date, and certification only after service occurs",
+              "Signatures, signature dates, service certifications, court-only fields, agency-only fields, prosecutor-only fields, victim fields, and optional third-party authorizations remain protected."
+            ]
+          }
+        }
+      ],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ut_pet_limitations-set.mjs",
@@ -24907,9 +25946,127 @@
         "visualDefects": 0
       },
       "failingCounters": [],
+      "failedObligationNames": [
+        "feeAndWaiver",
+        "filingDestination",
+        "requiredBeforeFiling",
+        "service"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "requiredBeforeFiling",
+          "finding": "Of the 17 blanks the map declares REQUIRED_BEFORE_FILING, every one is named in participant-instructions.md except UT-BCI-EXP-APPLICATION p2 \"SID#R&F\" (blankId p2-y37.35-x188.34). No instruction line asks the participant to write a SID number or an R&F number. It is not merely unnamed: reading the source bytes at that position shows the blank sits inside the form's printed \"BUREAU USE ONLY\" box (heading read at page 2 y=51, x=26.93), and the family's own field census marks the same blank protectCategory \"government_identifier\". A blank the bureau completes cannot be an item the participant must supply before filing.",
+          "evidence": {
+            "declaredBlankDispositions": {
+              "NOT_APPLICABLE_ON_THIS_ROUTE": 110,
+              "REQUIRED_BEFORE_FILING": 17,
+              "PROTECTED_FIELD": 45,
+              "OPTIONAL_PARTICIPANT_CONTENT": 199,
+              "LATER_COMPLETION": 4,
+              "PARTICIPANT_ELECTION_GENUINE": 31
+            },
+            "requiredBeforeFilingCount": 17,
+            "itemsNotNamedInInstructions": [
+              {
+                "formNumber": "UT-BCI-EXP-APPLICATION",
+                "blankId": "p2-y37.35-x188.34",
+                "capturedCaption": "SID#R&F",
+                "printedRegionReadFromSourceBytes": "BUREAU USE ONLY",
+                "censusProtectCategory": "government_identifier",
+                "mapDisposition": "REQUIRED_BEFORE_FILING"
+              }
+            ],
+            "itemsNamedAndHowTheyWereMatched": [
+              {
+                "blanks": "1000EX Judicial District; 1000EX Court Address x3; 1020EX Court Address x2",
+                "namedBy": "- Judicial district and court street address for the filing venue"
+              },
+              {
+                "blanks": "1000EX \"certificate of eligibility is\"",
+                "namedBy": "- BCI certificate-of-eligibility identification number (non-traffic packets)"
+              },
+              {
+                "blanks": "1000EX \"2. Expunging my records will not harm the interests of the public because\"",
+                "namedBy": "- Participant's public-interest explanation on the petition"
+              },
+              {
+                "blanks": "UT-BCI-EXP-APPLICATION PREVIOUSLY USED NAME(S)",
+                "namedBy": "- Every previously used name, or an express statement that there are none"
+              },
+              {
+                "blanks": "UT-BCI-EXP-APPLICATION p2-y622.60-x445.83 (captured as \"MAILING ADDRESS\"; the census regionHeading and the source bytes both read \"DATE OF BIRTH ____ GENDER ____\", so this is the GENDER blank)",
+                "namedBy": "- Gender, Social Security number, and driver-license number/state required by the BCI application"
+              },
+              {
+                "blanks": "UT-BCI-EXP-APPLICATION SOCIAL SECURITY",
+                "namedBy": "- Gender, Social Security number, and driver-license number/state required by the BCI application"
+              },
+              {
+                "blanks": "UT-BCI-EXP-APPLICATION p2-y567.70-x424.55 (captured as \"ATE\"; the source row reads \"DRIVER LICENSE # AND STATE : ____\")",
+                "namedBy": "- Gender, Social Security number, and driver-license number/state required by the BCI application"
+              },
+              {
+                "blanks": "1020EX \"[ ] the following incidents\" x2 and \"number) of\" x2",
+                "namedBy": "- Law-enforcement incident file number and agency name for a no-charges order"
+              }
+            ],
+            "captionCaptureObservation": "Three of the thirteen captured captions do not match the printed label at the measured position (\"MAILING ADDRESS\" for the GENDER blank, \"ATE\" for the DRIVER LICENSE # AND STATE blank, \"SID#R&F\" for a BUREAU USE ONLY box). The first two resolve to items the instructions do name; the third does not."
+          }
+        },
+        {
+          "obligation": "filingDestination",
+          "finding": "participant-instructions.md never tells the participant where to file. It lists \"Judicial district and court street address for the filing venue\" as a blank the participant must supply, which is the opposite of naming the destination, and it never mentions the Utah Bureau of Criminal Identification, which issues the certificate of eligibility the route names, or the district court that receives the petition. The packet's own caption does carry route-determined evidence of a destination — the \"In the [ ] District [ ] Justice Court of Utah\" election is marked District and the county is written — but a marked caption box is not the instructions naming a court.",
+          "evidence": {
+            "instructionsHeadings": [
+              "# Required before filing"
+            ],
+            "courtOrAgencyNamedInInstructions": null,
+            "routeDestinations": "the Utah Bureau of Criminal Identification, which issues the certificate of eligibility the route names, or the district court that receives the petition",
+            "captionEvidenceOnTheBytes": {
+              "election": "In the [ ] District [ ] Justice Court of Utah",
+              "marked": "District",
+              "countyWritten": "Example County"
+            },
+            "instructionLineTreatingTheVenueAsAParticipantBlank": "- Judicial district and court street address for the filing venue"
+          }
+        },
+        {
+          "obligation": "feeAndWaiver",
+          "finding": "The court filing fee is stated: the packet fills and selects the district-court cover sheet row \"$150 [ ] Expungement Petition - Criminal (E)\" on 1044XX page 2, proved by an X read from the output bytes at x355.98 y359.1 inside that row's bracket. No waiver route is stated anywhere in the packet or the instructions — no fee-waiver motion is included, named or referenced. The BCI certificate step carries its own fee, and the instructions name it only as a blank ('BCI payment or fee-waiver election and any payment details') without stating an amount or a waiver route.",
+          "evidence": {
+            "courtFeeStated": true,
+            "courtFeeEvidence": {
+              "form": "1044XX",
+              "sourcePage": 2,
+              "row": "$150  [ ] Expungement Petition - Criminal (E)",
+              "markReadFromOutputBytes": {
+                "x": 357.48,
+                "y": 359.1,
+                "glyph": "X"
+              }
+            },
+            "waiverRouteStated": false,
+            "waiverFormIncluded": false,
+            "bciFeeStated": false,
+            "bciInstructionLine": "- BCI payment or fee-waiver election and any payment details"
+          }
+        },
+        {
+          "obligation": "service",
+          "finding": "The instructions never state who must be served or how. The only service line, \"Service method, address, date, and certification only after service occurs\", hands the participant the method and the recipient as blanks to fill in, and the closing sentence records that service certifications are protected. Neither names a recipient or a method.",
+          "evidence": {
+            "recipientStated": false,
+            "methodStated": false,
+            "instructionLines": [
+              "- Service method, address, date, and certification only after service occurs",
+              "Signatures, signature dates, service certifications, court-only fields, agency-only fields, prosecutor-only fields, victim fields, and optional third-party authorizations remain protected."
+            ]
+          }
+        }
+      ],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ut_pet_no_charges-set.mjs",
@@ -24987,6 +26144,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -25170,6 +26329,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -25323,9 +26484,100 @@
         "visualDefects": 0
       },
       "failingCounters": [],
+      "failedObligationNames": [
+        "feeAndWaiver",
+        "filingDestination",
+        "requiredBeforeFiling",
+        "service"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "requiredBeforeFiling",
+          "finding": "Of the 5 blanks the map declares REQUIRED_BEFORE_FILING, the four \"Court Address\" blanks on 1002EX and 1022EX are named by \"- Judicial district and court street address for the filing venue\". The fifth, 1002EX blankId p1-y296.76-x65.88 captured as \"1. Certificate of eligibility is not required\", is named by no instruction line. Reading the source bytes at that position shows why: the caption was taken from the numbered paragraph below it (printed at page 1 y=273.5), while the measured rule at y=296.76 spanning x65.88-x324.12 is the bottom border of the caption table's left cell. It is a table rule, not a blank, and on this route no certificate of eligibility is required at all, so there is nothing for the participant to supply.",
+          "evidence": {
+            "declaredBlankDispositions": {
+              "REQUIRED_BEFORE_FILING": 5,
+              "PROTECTED_FIELD": 35,
+              "NOT_APPLICABLE_ON_THIS_ROUTE": 103,
+              "OPTIONAL_PARTICIPANT_CONTENT": 37,
+              "LATER_COMPLETION": 3
+            },
+            "requiredBeforeFilingCount": 5,
+            "itemsNotNamedInInstructions": [
+              {
+                "formNumber": "1002EX",
+                "blankId": "p1-y296.76-x65.88",
+                "capturedCaption": "1. Certificate of eligibility is not required",
+                "construction": "content_stream_rule",
+                "measured": {
+                  "x0": 65.88,
+                  "x1": 324.12,
+                  "baselineY": 296.76
+                },
+                "printedTextAtThatPositionReadFromBytes": "nothing; the nearest printed lines are \"Judge\" at y=305.4 (right column, x=329.76) and the numbered paragraph \"1. Certificate of eligibility is not required\" at y=273.5",
+                "routeNote": "routeSelectionId ut-traffic-direct-court-no-bci requires no certificate of eligibility"
+              }
+            ],
+            "itemsNamedAndHowTheyWereMatched": [
+              {
+                "blanks": "1002EX Court Address x2; 1022EX Court Address x2",
+                "namedBy": "- Judicial district and court street address for the filing venue"
+              }
+            ]
+          }
+        },
+        {
+          "obligation": "filingDestination",
+          "finding": "participant-instructions.md never tells the participant where to file. It lists \"Judicial district and court street address for the filing venue\" as a blank the participant must supply, which is the opposite of naming the destination, and it never mentions the district court that receives the traffic expungement or deletion petition. The packet's own caption does carry route-determined evidence of a destination — the \"In the [ ] District [ ] Justice Court of Utah\" election is marked District and the county is written — but a marked caption box is not the instructions naming a court.",
+          "evidence": {
+            "instructionsHeadings": [
+              "# Required before filing"
+            ],
+            "courtOrAgencyNamedInInstructions": null,
+            "routeDestinations": "the district court that receives the traffic expungement or deletion petition",
+            "captionEvidenceOnTheBytes": {
+              "election": "In the [ ] District [ ] Justice Court of Utah",
+              "marked": "District",
+              "countyWritten": "Example County"
+            },
+            "instructionLineTreatingTheVenueAsAParticipantBlank": "- Judicial district and court street address for the filing venue"
+          }
+        },
+        {
+          "obligation": "feeAndWaiver",
+          "finding": "The court filing fee is stated: the packet fills and selects the district-court cover sheet row \"$150 [ ] Expungement Petition - Criminal (E)\" on 1044XX page 2, proved by an X read from the output bytes at x355.98 y359.1 inside that row's bracket. No waiver route is stated anywhere in the packet or the instructions — no fee-waiver motion is included, named or referenced.",
+          "evidence": {
+            "courtFeeStated": true,
+            "courtFeeEvidence": {
+              "form": "1044XX",
+              "sourcePage": 2,
+              "row": "$150  [ ] Expungement Petition - Criminal (E)",
+              "markReadFromOutputBytes": {
+                "x": 357.48,
+                "y": 359.1,
+                "glyph": "X"
+              }
+            },
+            "waiverRouteStated": false,
+            "waiverFormIncluded": false
+          }
+        },
+        {
+          "obligation": "service",
+          "finding": "The instructions never state who must be served or how. The only service line, \"Service method, address, date, and certification only after service occurs\", hands the participant the method and the recipient as blanks to fill in, and the closing sentence records that service certifications are protected. Neither names a recipient or a method.",
+          "evidence": {
+            "recipientStated": false,
+            "methodStated": false,
+            "instructionLines": [
+              "- Service method, address, date, and certification only after service occurs",
+              "Signatures, signature dates, service certifications, court-only fields, agency-only fields, prosecutor-only fields, victim fields, and optional third-party authorizations remain protected."
+            ]
+          }
+        }
+      ],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ut_pet_traffic-set.mjs",
@@ -25382,6 +26634,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -25456,6 +26710,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_READY",
@@ -25535,6 +26791,8 @@
         "visualDefects": 0
       },
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "VERIFY_PENDING",
@@ -25614,9 +26872,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "VERIFIED_PASS",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-va_seal_ancillary_matter_only-set.mjs",
@@ -25693,9 +26953,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "VERIFIED_PASS",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-va_seal_enumerated_seven_year-set.mjs",
@@ -25772,9 +27034,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "VERIFIED_PASS",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-va_seal_petition_felony-set.mjs",
@@ -25851,9 +27115,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "VERIFIED_PASS",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-va_seal_petition_misdemeanor-set.mjs",
@@ -25951,6 +27217,8 @@
         "visualDefects": 0
       },
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "VERIFY_PENDING",
@@ -26010,6 +27278,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -26106,9 +27376,117 @@
         "visualDefects": 0
       },
       "failingCounters": [],
+      "failedObligationNames": [
+        "feeAndWaiver",
+        "knownPrefills",
+        "service"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "knownPrefills",
+          "finding": "One mapped known prefill is absent from the boundary artifact's bytes. participant.email is mapped to 200-00132 page 1 field \"34i\" (rect x395.69 y120.55 w174.74 h12.96) in both fixtures. The canonical artifact carries it: packet page 3 holds eight flattened widget appearances, the eighth reading \"jordan.reyes@example.org\". The boundary artifact carries only seven on the same page and the email is not among them, while the family's own report still records valuesReportedByFinalizer 8 for that document and fixture. The loss is silent — no refusal, no unfittable note, no finding. It is not a policy on long values either: the same boundary email, maria.alejandra.oshaughnessy.whitfield@longmailexample.org, is written and present on packet page 2 (200-00130) and packet page 5 (600-00228) of the same artifact.",
+          "evidence": {
+            "missingWrite": {
+              "formNumber": "200-00132",
+              "sourcePage": 1,
+              "field": "34i",
+              "factId": "participant.email",
+              "fixture": "boundary",
+              "rect": {
+                "x": 395.69,
+                "y": 120.55,
+                "width": 174.74,
+                "height": 12.96
+              }
+            },
+            "flattenedWidgetAppearancesReadFromArtifactBytes": {
+              "canonicalPage3": 8,
+              "boundaryPage3": 7,
+              "canonicalPage3Values": [
+                "123-4-21 Cncr",
+                "Jordan Avery Reyes",
+                "1991-04-17",
+                "42 Maple Street",
+                "Burlington, VT 05401",
+                "Jordan Avery Reyes",
+                "802-555-0142",
+                "jordan.reyes@example.org"
+              ],
+              "boundaryPage3Values": [
+                "1276-11-24 Frcr",
+                "Maria-Alejandra O’Shaughnessy-Whitfield",
+                "1968-12-31",
+                "1188 Upper Notch Crossing Road, Apartment 14B",
+                "South Burlington, Vermont 05403-2214",
+                "Maria-Alejandra O’Shaughnessy-Whitfield",
+                "(802) 555-0199 ext. 4417"
+              ]
+            },
+            "theSameValueSurvivesElsewhereInTheSameArtifact": [
+              {
+                "packetPage": 2,
+                "formNumber": "200-00130",
+                "value": "maria.alejandra.oshaughnessy.whitfield@longmailexample.org"
+              },
+              {
+                "packetPage": 5,
+                "formNumber": "600-00228",
+                "value": "maria.alejandra.oshaughnessy.whitfield@longmailexample.org"
+              }
+            ],
+            "familyReportStillClaimsTheWrite": {
+              "document": "200-00132",
+              "fixture": "boundary",
+              "valuesReportedByFinalizer": 8,
+              "writesActuallyPresent": 7
+            },
+            "method": "Every page of both artifacts was opened and its flattened widget appearance streams decoded byte-exactly in this lane; the counts and values above are read from the PDF bytes, not from reports/actual-writes.json.",
+            "reportTranscriptionObservation": "reports/actual-writes.json renders the boundary name as \"Maria-Alejandra OShaughnessy-Whitfield\", dropping the apostrophe. The bytes are correct: the appearance stream carries 0x92 (WinAnsi right single quotation mark) between O and S. The dropped character is a defect in the report's read-back transcription, not in the artifact, and no obligation is failed on it.",
+            "counts": {
+              "mappedWrites": {
+                "canonical": 24,
+                "boundary": 24
+              },
+              "writesProvedOnTheOutputBytes": {
+                "canonical": 24,
+                "boundary": 23
+              }
+            }
+          }
+        },
+        {
+          "obligation": "feeAndWaiver",
+          "finding": "The fee is not stated and no waiver route is established. The instructions say so themselves: \"The filing fee, and whether it can be waived. Ask the clerk of the unit above what the fee is for a petition to seal under 13 V.S.A. § 7602, and whether the fee-waiver application in this packet applies. The waiver form is included; the amount it waives is not stated here.\" The waiver form 600-00228 is in the packet and filled, which is more than nothing, but the packet does not establish that it applies to this filing, and an instruction to ask the clerk is not the fee being stated.",
+          "evidence": {
+            "feeAmountStated": false,
+            "waiverRouteStated": false,
+            "waiverFormIncludedAndFilled": "600-00228",
+            "instructionText": "**The filing fee, and whether it can be waived.** Ask the clerk of the unit above what the fee is for a petition to seal under 13 V.S.A. § 7602, and whether the fee-waiver application in this packet applies. The waiver form is included; the amount it waives is not stated here.",
+            "openSourceObligations": [
+              "vt_seal_18_to_21-set::filing-fee-and-waiver-route"
+            ],
+            "dispatchedTo": "docs/rcap/grade-a/packet-factory-24h/vermont-repair/VTR02_VT_FEE_AND_SERVICE_SOURCE.md",
+            "note": "This is an open source obligation, already dispatched. The repair is to land the sourced fact, not to have a packet lane infer a fee."
+          }
+        },
+        {
+          "obligation": "service",
+          "finding": "Who must be served, and how, is not stated. The instructions say: \"Who must be served, and how. Ask the same clerk who must receive a copy of the petition and by what method. The stipulation route needs the State's Attorney's signature, which is not the same thing as service and does not substitute for it.\" The packet correctly refuses to conflate the prosecutor's signature with service, and correctly declines to invent a rule, but neither a recipient nor a method is stated.",
+          "evidence": {
+            "recipientStated": false,
+            "methodStated": false,
+            "openSourceObligations": [
+              "vt_seal_18_to_21-set::service-recipient-and-method"
+            ],
+            "instructionText": "**Who must be served, and how.** Ask the same clerk who must receive a copy of the petition and by what method. The stipulation route needs the State's Attorney's signature, which is not the same thing as service and does not substitute for it.",
+            "dispatchedTo": "docs/rcap/grade-a/packet-factory-24h/vermont-repair/VTR02_VT_FEE_AND_SERVICE_SOURCE.md",
+            "note": "This is an open source obligation, already dispatched. The repair is to land the sourced fact, not to have a packet lane infer a service rule."
+          }
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-vt_seal_18_to_21-set.mjs",
@@ -26202,9 +27580,117 @@
         "visualDefects": 0
       },
       "failingCounters": [],
+      "failedObligationNames": [
+        "feeAndWaiver",
+        "knownPrefills",
+        "service"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "knownPrefills",
+          "finding": "One mapped known prefill is absent from the boundary artifact's bytes. participant.email is mapped to 200-00132 page 1 field \"34i\" (rect x395.69 y120.55 w174.74 h12.96) in both fixtures. The canonical artifact carries it: packet page 3 holds eight flattened widget appearances, the eighth reading \"jordan.reyes@example.org\". The boundary artifact carries only seven on the same page and the email is not among them, while the family's own report still records valuesReportedByFinalizer 8 for that document and fixture. The loss is silent — no refusal, no unfittable note, no finding. It is not a policy on long values either: the same boundary email, maria.alejandra.oshaughnessy.whitfield@longmailexample.org, is written and present on packet page 2 (200-00130) and packet page 5 (600-00228) of the same artifact.",
+          "evidence": {
+            "missingWrite": {
+              "formNumber": "200-00132",
+              "sourcePage": 1,
+              "field": "34i",
+              "factId": "participant.email",
+              "fixture": "boundary",
+              "rect": {
+                "x": 395.69,
+                "y": 120.55,
+                "width": 174.74,
+                "height": 12.96
+              }
+            },
+            "flattenedWidgetAppearancesReadFromArtifactBytes": {
+              "canonicalPage3": 8,
+              "boundaryPage3": 7,
+              "canonicalPage3Values": [
+                "123-4-21 Cncr",
+                "Jordan Avery Reyes",
+                "1991-04-17",
+                "42 Maple Street",
+                "Burlington, VT 05401",
+                "Jordan Avery Reyes",
+                "802-555-0142",
+                "jordan.reyes@example.org"
+              ],
+              "boundaryPage3Values": [
+                "1276-11-24 Frcr",
+                "Maria-Alejandra O’Shaughnessy-Whitfield",
+                "1968-12-31",
+                "1188 Upper Notch Crossing Road, Apartment 14B",
+                "South Burlington, Vermont 05403-2214",
+                "Maria-Alejandra O’Shaughnessy-Whitfield",
+                "(802) 555-0199 ext. 4417"
+              ]
+            },
+            "theSameValueSurvivesElsewhereInTheSameArtifact": [
+              {
+                "packetPage": 2,
+                "formNumber": "200-00130",
+                "value": "maria.alejandra.oshaughnessy.whitfield@longmailexample.org"
+              },
+              {
+                "packetPage": 5,
+                "formNumber": "600-00228",
+                "value": "maria.alejandra.oshaughnessy.whitfield@longmailexample.org"
+              }
+            ],
+            "familyReportStillClaimsTheWrite": {
+              "document": "200-00132",
+              "fixture": "boundary",
+              "valuesReportedByFinalizer": 8,
+              "writesActuallyPresent": 7
+            },
+            "method": "Every page of both artifacts was opened and its flattened widget appearance streams decoded byte-exactly in this lane; the counts and values above are read from the PDF bytes, not from reports/actual-writes.json.",
+            "reportTranscriptionObservation": "reports/actual-writes.json renders the boundary name as \"Maria-Alejandra OShaughnessy-Whitfield\", dropping the apostrophe. The bytes are correct: the appearance stream carries 0x92 (WinAnsi right single quotation mark) between O and S. The dropped character is a defect in the report's read-back transcription, not in the artifact, and no obligation is failed on it.",
+            "counts": {
+              "mappedWrites": {
+                "canonical": 24,
+                "boundary": 24
+              },
+              "writesProvedOnTheOutputBytes": {
+                "canonical": 24,
+                "boundary": 23
+              }
+            }
+          }
+        },
+        {
+          "obligation": "feeAndWaiver",
+          "finding": "The fee is not stated and no waiver route is established. The instructions say so themselves: \"The filing fee, and whether it can be waived. Ask the clerk of the unit above what the fee is for a petition to seal under 13 V.S.A. § 7602, and whether the fee-waiver application in this packet applies. The waiver form is included; the amount it waives is not stated here.\" The waiver form 600-00228 is in the packet and filled, which is more than nothing, but the packet does not establish that it applies to this filing, and an instruction to ask the clerk is not the fee being stated.",
+          "evidence": {
+            "feeAmountStated": false,
+            "waiverRouteStated": false,
+            "waiverFormIncludedAndFilled": "600-00228",
+            "instructionText": "**The filing fee, and whether it can be waived.** Ask the clerk of the unit above what the fee is for a petition to seal under 13 V.S.A. § 7602, and whether the fee-waiver application in this packet applies. The waiver form is included; the amount it waives is not stated here.",
+            "openSourceObligations": [
+              "vt_seal_dui-set::filing-fee-and-waiver-route"
+            ],
+            "dispatchedTo": "docs/rcap/grade-a/packet-factory-24h/vermont-repair/VTR02_VT_FEE_AND_SERVICE_SOURCE.md",
+            "note": "This is an open source obligation, already dispatched. The repair is to land the sourced fact, not to have a packet lane infer a fee."
+          }
+        },
+        {
+          "obligation": "service",
+          "finding": "Who must be served, and how, is not stated. The instructions say: \"Who must be served, and how. Ask the same clerk who must receive a copy of the petition and by what method. The stipulation route needs the State's Attorney's signature, which is not the same thing as service and does not substitute for it.\" The packet correctly refuses to conflate the prosecutor's signature with service, and correctly declines to invent a rule, but neither a recipient nor a method is stated.",
+          "evidence": {
+            "recipientStated": false,
+            "methodStated": false,
+            "openSourceObligations": [
+              "vt_seal_dui-set::service-recipient-and-method"
+            ],
+            "instructionText": "**Who must be served, and how.** Ask the same clerk who must receive a copy of the petition and by what method. The stipulation route needs the State's Attorney's signature, which is not the same thing as service and does not substitute for it.",
+            "dispatchedTo": "docs/rcap/grade-a/packet-factory-24h/vermont-repair/VTR02_VT_FEE_AND_SERVICE_SOURCE.md",
+            "note": "This is an open source obligation, already dispatched. The repair is to land the sourced fact, not to have a packet lane infer a service rule."
+          }
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-vt_seal_dui-set.mjs",
@@ -26298,6 +27784,8 @@
         "visualDefects": 0
       },
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "VERIFY_PENDING",
@@ -26394,6 +27882,8 @@
         "visualDefects": 0
       },
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "VERIFY_PENDING",
@@ -26496,6 +27986,8 @@
         "visualDefects": 0
       },
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "VERIFY_PENDING",
@@ -26592,6 +28084,8 @@
         "visualDefects": 0
       },
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "VERIFY_PENDING",
@@ -26651,6 +28145,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -26767,6 +28263,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": true,
       "state": "LEGAL_BLOCKED",
@@ -26838,6 +28336,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -26938,9 +28438,37 @@
         "visualDefects": 0
       },
       "failingCounters": [],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "ROUTE_OPTIONS",
+        "SERVICE"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "FILING_DESTINATION",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": null,
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": "P2V01_WASHINGTON_INDEPENDENT_VERIFICATION",
       "activeOwnerLane": "independent-verification",
       "buildScript": "scripts/build-census-v1-wa_vac_cannabis-set.mjs",
@@ -27042,9 +28570,37 @@
         "visualDefects": 0
       },
       "failingCounters": [],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "ROUTE_OPTIONS",
+        "SERVICE"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "FILING_DESTINATION",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": null,
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": "P2V01_WASHINGTON_INDEPENDENT_VERIFICATION",
       "activeOwnerLane": "independent-verification",
       "buildScript": "scripts/build-census-v1-wa_vac_domestic_violence-set.mjs",
@@ -27146,9 +28702,37 @@
         "visualDefects": 0
       },
       "failingCounters": [],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "ROUTE_OPTIONS",
+        "SERVICE"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "FILING_DESTINATION",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": null,
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": "P2V01_WASHINGTON_INDEPENDENT_VERIFICATION",
       "activeOwnerLane": "independent-verification",
       "buildScript": "scripts/build-census-v1-wa_vac_felony-set.mjs",
@@ -27248,9 +28832,37 @@
         "visualDefects": 0
       },
       "failingCounters": [],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "ROUTE_OPTIONS",
+        "SERVICE"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "FILING_DESTINATION",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": null,
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": "P2V02_WASHINGTON_INDEPENDENT_VERIFICATION",
       "activeOwnerLane": "independent-verification",
       "buildScript": "scripts/build-census-v1-wa_vac_homicide_victim_prostitution-set.mjs",
@@ -27351,9 +28963,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": "P2V02_WASHINGTON_INDEPENDENT_VERIFICATION",
       "activeOwnerLane": "independent-verification",
       "buildScript": "scripts/build-census-v1-wa_vac_misdemeanor_ordinary-set.mjs",
@@ -27455,9 +29069,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": "P2V02_WASHINGTON_INDEPENDENT_VERIFICATION",
       "activeOwnerLane": "independent-verification",
       "buildScript": "scripts/build-census-v1-wa_vac_substance_use_disorder-set.mjs",
@@ -27559,9 +29175,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": "P2V03_WASHINGTON_INDEPENDENT_VERIFICATION",
       "activeOwnerLane": "independent-verification",
       "buildScript": "scripts/build-census-v1-wa_vac_survivor_felony-set.mjs",
@@ -27663,9 +29281,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": "P2V03_WASHINGTON_INDEPENDENT_VERIFICATION",
       "activeOwnerLane": "independent-verification",
       "buildScript": "scripts/build-census-v1-wa_vac_survivor_misdemeanor-set.mjs",
@@ -27766,9 +29386,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": "P2V03_WASHINGTON_INDEPENDENT_VERIFICATION",
       "activeOwnerLane": "independent-verification",
       "buildScript": "scripts/build-census-v1-wa_vac_treaty_fishing-set.mjs",
@@ -27848,6 +29470,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "LEGAL_BLOCKED",
@@ -27925,6 +29549,8 @@
         "visualDefects": 0
       },
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "VERIFY_PENDING",
@@ -28003,6 +29629,8 @@
         "visualDefects": 0
       },
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "VERIFY_PENDING",
@@ -28102,6 +29730,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -28207,9 +29837,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "VERIFIED_PASS",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-wv_conv_multiple_misdemeanors-set.mjs",
@@ -28276,6 +29908,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -28394,9 +30028,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "VERIFIED_PASS",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-wv_conv_single_misdemeanor-set.mjs",
@@ -28453,6 +30089,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",
@@ -28527,6 +30165,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "LEGAL_BLOCKED",
@@ -28596,6 +30236,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_READY",
@@ -28657,6 +30299,8 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "SOURCE_BLOCKED",

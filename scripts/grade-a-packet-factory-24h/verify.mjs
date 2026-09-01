@@ -306,7 +306,26 @@ function run() {
   try { vr = JSON.parse(fs.readFileSync(path.join(ROOT, DIR, "VERIFIER_RETURNS.json"), "utf8")); }
   catch { returnedVerdictProblems.push("no verifier-return extraction; a returned verdict nothing reads cannot move a family"); }
   if (vr) {
-    const failedFamilies = (vr.rows ?? []).filter((r) => r.isIndependentVerification && r.verdict === "FAIL_REPAIR_REQUIRED");
+    /* A superseded verdict is history: a family failed by VF06 and passed by
+     * VF23 after repair is not a failed family, and demanding a live repair
+     * dispatch for it would re-open finished work. */
+    /* A completed repair supersedes the verdict it answered: the repair lane
+     * released its claim after fixing exactly the failed obligations, and the
+     * family is awaiting re-raster and a fresh independent read. Demanding a
+     * live repair dispatch for it would re-open finished work. A LIVE repair
+     * claim means the repair is still running and the family stays failed. */
+    const repairDone = new Set();
+    const repairLive = new Set();
+    {
+      const led = fs.existsSync(path.join(ROOT, LEDGER)) ? read(LEDGER) : null;
+      for (const c of led?.claims ?? []) {
+        if (c.laneKind !== "repair" && c.laneKind !== "shared-host-repair") continue;
+        for (const fid of c.familyIds ?? (c.familyId ? [c.familyId] : []))
+          (c.released === true ? repairDone : repairLive).add(fid);
+      }
+    }
+    const failedFamilies = (vr.rows ?? []).filter((r) => r.isIndependentVerification && r.verdict === "FAIL_REPAIR_REQUIRED" && !r.superseded
+      && !(repairDone.has(r.familyId) && !repairLive.has(r.familyId)));
     const PROVEN = new Set(["VERIFYING", "VERIFIED_PASS", "LEGAL_REVIEW_READY", "LEGAL_APPROVED", "PRODUCT_PATH_PENDING", "COMPLETE_PACKET_PROVEN"]);
     const repairText = fs.existsSync(path.join(ROOT, DIR, "WASHINGTON_REPAIR.json"))
       ? fs.readFileSync(path.join(ROOT, DIR, "WASHINGTON_REPAIR.json"), "utf8") : "";
@@ -330,6 +349,13 @@ function run() {
         let doc = null;
         try { doc = JSON.parse(text); } catch { continue; }
         for (const row of doc.evidence ?? []) if (row.familyId === familyId) out.push(JSON.stringify(row));
+      }
+      /* The generated dispatch is a repair record too: FIX lane detail rows
+       * carry the verifier's failedObligationNames verbatim, which is exactly
+       * the naming this check demands. */
+      for (const x of a ?? []) {
+        if (x.lane !== "rapid-repair" && x.lane !== "shared-host-repair") continue;
+        for (const row of x.detail ?? []) if (row.familyId === familyId) out.push(JSON.stringify(row));
       }
       return out.join("\n");
     };

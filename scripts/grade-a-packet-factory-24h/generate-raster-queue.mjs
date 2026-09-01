@@ -182,7 +182,11 @@ const declaredFixture = (dir, fixture, pdfs) => {
   if (!fs.existsSync(p)) return null;
   let doc;
   try { doc = JSON.parse(fs.readFileSync(p, "utf8")); } catch { return null; }
-  const hit = (doc.artifacts ?? []).find((a) => a.fixture === fixture);
+  /* Two declaration shapes exist: the WA-style host writes `artifacts` rows
+   * with `document`, the east host writes rcap-rendered-artifacts/v1 `pdfs`
+   * rows with `documentId`. Both name each file's fixture; the first declared
+   * match is the row's primary, and coverage still spans every document. */
+  const hit = [...(doc.artifacts ?? []), ...(doc.pdfs ?? [])].find((a) => a.fixture === fixture);
   if (!hit?.file) return null;
   const name = path.basename(hit.file);
   return pdfs.includes(name) ? name : null;
@@ -395,25 +399,29 @@ const doc = {
    * from working and must not be recorded as the same.
    *
    * GitHub dispatches a workflow_dispatch workflow only from the DEFAULT
-   * branch. This one exists on the Captain branch and not on main, so
-   * dispatching it answers 404 -- confirmed by trying. Until this branch
-   * merges, no family can obtain a RASTER_PASS, and because PASS_COMPLETE now
-   * requires one, no family can become PASS_COMPLETE either.
-   *
-   * That is the honest state of the visual gate. Left unrecorded, the factory
-   * would read as having a working renderer that simply has not run yet, and
-   * the difference would surface as a mystery the first time somebody asked why
-   * nothing ever passes. Merging to main is Roger's call, not mine.
+   * branch. It landed on main (the raster infra PR merged and the canary ran),
+   * so reachability is now MEASURED here rather than asserted: the recorded
+   * state is true only while `git cat-file -e origin/main:<workflow>` passes,
+   * and goes back to unreachable-with-consequence the moment it does not.
    */
-  workflowReachability: {
-    dispatchableFrom: "the repository default branch only, which is how GitHub scopes workflow_dispatch",
-    defaultBranch: "main",
-    presentOnDefaultBranch: false,
-    observed: "POST .../rcap-packet-raster-acceptance-batch.yml/dispatches answered 404 from the Captain branch",
-    consequence: "No family can obtain a RASTER_PASS until this workflow lands on main. PASS_COMPLETE requires one, so no family can reach PASS_COMPLETE until then.",
-    whatThisIsNot: "This is not a defect in the gate and not a reason to relax it. The gate is built and proven locally; it is not yet deployed.",
-    whoDecides: "merging to the default branch is Roger's decision"
-  },
+  workflowReachability: (() => {
+    const wf = ".github/workflows/rcap-packet-raster-acceptance-batch.yml";
+    let onMain = false;
+    try { execFileSync("git", ["cat-file", "-e", `origin/main:${wf}`], { cwd: ROOT, stdio: "ignore" }); onMain = true; } catch { /* measured as absent */ }
+    return {
+      dispatchableFrom: "the repository default branch only, which is how GitHub scopes workflow_dispatch",
+      defaultBranch: "main",
+      presentOnDefaultBranch: onMain,
+      observed: onMain
+        ? `origin/main carries ${wf}; dispatched batches have returned receipts (e.g. run 33495068504, whose complete-coverage RASTER_PASS receipts the VF26 verdicts bind to)`
+        : `origin/main does not carry ${wf}`,
+      consequence: onMain
+        ? "RASTER_PASS is obtainable: dispatch from main with the full 40-hex commit SHA of the pushed head. PASS_COMPLETE still requires a hash-bound complete-coverage receipt plus an independent read; reachability waives neither."
+        : "No family can obtain a RASTER_PASS until this workflow lands on main. PASS_COMPLETE requires one, so no family can reach PASS_COMPLETE until then.",
+      whatThisIsNot: "This is not a defect in the gate and not a reason to relax it.",
+      whoDecides: "merging workflow changes to the default branch is Roger's decision"
+    };
+  })(),
   maxParallel: 20,
   lanes: LANES,
   counts: {

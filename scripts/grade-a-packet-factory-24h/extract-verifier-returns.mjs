@@ -28,6 +28,17 @@ import { fileURLToPath } from "node:url";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const RETURNS = "data/rcap-grade-a/codex-cloud";
+/*
+ * The factory's own verification lanes return verdicts as
+ * data/rcap-grade-a/packet-factory-24h/vf<NN>/rows.json. This sweep read only
+ * the codex-cloud directory, so every factory-lane verdict — including the
+ * first genuine PASS_COMPLETE_INDEPENDENT rows this sprint produced — was
+ * invisible to the generator and the families sat in VERIFY_PENDING forever.
+ * Only vf<NN> directories are read here: builder and repair lanes are not
+ * verdict sources, and vf-src-a is source verification, not packet
+ * verification.
+ */
+const FACTORY_RETURNS = "data/rcap-grade-a/packet-factory-24h";
 const OUT = "data/rcap-grade-a/packet-factory-24h/VERIFIER_RETURNS.json";
 const CHECK = process.argv.includes("--check");
 
@@ -35,21 +46,33 @@ const VERDICTS = ["PASS_COMPLETE_INDEPENDENT", "PASS", "FAIL_REPAIR_REQUIRED", "
 const FAILING = new Set(["FAIL_REPAIR_REQUIRED"]);
 const PASSING = new Set(["PASS_COMPLETE_INDEPENDENT", "PASS"]);
 
-// An obligation result is PASS, FAIL, or a refusal to read it.
+// An obligation result is PASS, FAIL, NOT_MEASURABLE_HERE, or a refusal to
+// read it. NOT_MEASURABLE_HERE is what the pre-corpus-mount verification lanes
+// recorded when an obligation (usually SOURCE_IDENTITY) could not be measured
+// in their environment: it is not a packet defect, and it is not a pass — a
+// row claiming PASS_COMPLETE_INDEPENDENT while carrying one is refused below.
+const UNMEASURED = new Set(["NOT_MEASURABLE_HERE", "BLOCKED_LEGAL_INPUT"]);
 const obligationFailed = (r) => {
-  if (r === "PASS" || r === true) return false;
+  if (r === "PASS" || r === true || UNMEASURED.has(r)) return false;
   if (r === "FAIL" || r === false) return true;
-  throw new Error(`unreadable obligation result ${JSON.stringify(r)}; the vocabulary is "PASS"/"FAIL" or a boolean and nothing else`);
+  throw new Error(`unreadable obligation result ${JSON.stringify(r)}; the vocabulary is "PASS"/"FAIL"/"NOT_MEASURABLE_HERE"/"BLOCKED_LEGAL_INPUT" or a boolean and nothing else`);
 };
+const obligationUnmeasured = (r) => UNMEASURED.has(r);
 
 const problems = [];
 const rows = [];
-const dirs = fs.existsSync(path.join(ROOT, RETURNS))
-  ? fs.readdirSync(path.join(ROOT, RETURNS), { withFileTypes: true }).filter((d) => d.isDirectory()).map((d) => d.name).sort()
+const dirsUnder = (base, keep) => fs.existsSync(path.join(ROOT, base))
+  ? fs.readdirSync(path.join(ROOT, base), { withFileTypes: true })
+      .filter((d) => d.isDirectory() && keep(d.name)).map((d) => ({ base, name: d.name })).sort((a, b) => a.name.localeCompare(b.name))
   : [];
+const sweep = [
+  ...dirsUnder(RETURNS, () => true),
+  ...dirsUnder(FACTORY_RETURNS, (n) => /^vf\d+$/.test(n))
+];
+const dirs = sweep.map((s) => s.name);
 
-for (const d of dirs) {
-  const p = path.join(ROOT, RETURNS, d, "rows.json");
+for (const { base, name: d } of sweep) {
+  const p = path.join(ROOT, base, d, "rows.json");
   if (!fs.existsSync(p)) continue;
   let doc;
   try { doc = JSON.parse(fs.readFileSync(p, "utf8")); }
@@ -58,42 +81,65 @@ for (const d of dirs) {
   // Only lanes that are actually independent verification. A builder's own row
   // is not a verdict, and counting one would be the self-verification the whole
   // design refuses.
-  const isVerification = /verif/i.test(d);
+  const isVerification = base === FACTORY_RETURNS
+    ? (doc.laneKind ?? "") === "independent-verification" || /^vf\d+$/.test(d)
+    : /verif/i.test(d);
   for (const r of list) {
     const familyId = r.itemId ?? r.familyId ?? r.family ?? null;
     if (!familyId) { problems.push(`${d}: a row names no family`); continue; }
-    const verdict = r.verdict ?? null;
+    // BUILT_RASTER_PENDING is a factory workflow state, not a launch verdict
+    // (the prompt contract says so in as many words). It zeroes nothing and
+    // waives nothing; reading it as a verdict would refuse the whole sweep.
+    const rawVerdict = r.verdict ?? null;
+    const verdict = rawVerdict === "BUILT_RASTER_PENDING" ? null : rawVerdict;
     if (verdict && !VERDICTS.includes(verdict)) { problems.push(`${d}/${familyId}: undeclared verdict ${verdict}`); continue; }
     let failedObligations = [];
+    let unmeasuredObligations = [];
     if (r.proofObligations) {
       try {
         failedObligations = Object.entries(r.proofObligations)
           .filter(([, v]) => obligationFailed(v?.result))
           .map(([k, v]) => ({ obligation: k, finding: v.finding ?? null, evidence: v.evidence ?? null }));
+        unmeasuredObligations = Object.entries(r.proofObligations)
+          .filter(([, v]) => obligationUnmeasured(v?.result)).map(([k]) => k).sort();
       } catch (e) { problems.push(`${d}/${familyId}: ${e.message}`); continue; }
     }
+    if (verdict === "PASS_COMPLETE_INDEPENDENT" && unmeasuredObligations.length)
+      { problems.push(`${d}/${familyId}: claims PASS_COMPLETE_INDEPENDENT with ${unmeasuredObligations.length} unmeasured obligation(s): ${unmeasuredObligations.join(", ")}`); continue; }
     rows.push({
       familyId, verdict, lane: d, isIndependentVerification: isVerification,
       failedObligations, failedObligationNames: failedObligations.map((x) => x.obligation).sort(),
-      evidencePath: `${RETURNS}/${d}/rows.json`,
-      repairAssignmentsPath: fs.existsSync(path.join(ROOT, RETURNS, d, "repair-assignments.json"))
-        ? `${RETURNS}/${d}/repair-assignments.json` : null,
+      unmeasuredObligations,
+      evidencePath: `${base}/${d}/rows.json`,
+      repairAssignmentsPath: fs.existsSync(path.join(ROOT, base, d, "repair-assignments.json"))
+        ? `${base}/${d}/repair-assignments.json` : null,
       reproduction: `node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ${familyId}`
     });
   }
 }
 
-// One family, one independent verdict. Two verifiers holding one family is a
-// collision the ledger cannot express and a disagreement nobody adjudicates.
-const seen = new Map();
+// One family, one CURRENT independent verdict. Lanes are minted in order, so
+// a later lane's read supersedes an earlier lane's — a family failed by VF06
+// and passed by VF23 after repair is a passing family, not a disagreement.
+// Factory lanes outrank the codex-cloud return directories (the factory is
+// the current channel; the codex-cloud verdicts predate it). The superseded
+// rows stay in `rows` as history; only `current` feeds the counts and the
+// failing-family list.
+const lanePrecedence = (r) => {
+  const n = Number((r.lane.match(/(\d+)$/) ?? [])[1] ?? 0);
+  const factory = r.evidencePath.startsWith(FACTORY_RETURNS) ? 1000 : 0;
+  return factory + n;
+};
+const current = new Map();
 for (const r of rows.filter((x) => x.isIndependentVerification && x.verdict)) {
-  const prior = seen.get(r.familyId);
-  if (prior && prior.lane !== r.lane) problems.push(`${r.familyId} carries independent verdicts from both ${prior.lane} and ${r.lane}`);
-  else seen.set(r.familyId, r);
+  const prior = current.get(r.familyId);
+  if (!prior || lanePrecedence(r) > lanePrecedence(prior)) current.set(r.familyId, r);
 }
+for (const r of rows) r.superseded = r.isIndependentVerification && !!r.verdict && current.get(r.familyId) !== r;
 
-const failed = rows.filter((r) => r.isIndependentVerification && FAILING.has(r.verdict));
-const passed = rows.filter((r) => r.isIndependentVerification && PASSING.has(r.verdict));
+const currentRows = [...current.values()];
+const failed = currentRows.filter((r) => FAILING.has(r.verdict));
+const passed = currentRows.filter((r) => PASSING.has(r.verdict));
 
 const doc = {
   schemaVersion: "rcap-verifier-returns/v1",
@@ -102,10 +148,11 @@ const doc = {
   verdictVocabulary: VERDICTS,
   obligationResultVocabulary: ['"PASS"', '"FAIL"', "true", "false"],
   obligationVocabularyNote: "The P2V rows record thirteen obligations as strings and two as booleans. Both are read; a third spelling refuses, because reading only the strings turned two passing obligations into failures and doubled the defect count.",
+  supersessionRule: "one current verdict per family: the highest-precedence lane wins (factory vf lanes over codex-cloud directories, then higher lane number); superseded rows remain as history with superseded: true",
   counts: {
     returnDirectories: dirs.length,
     rows: rows.length,
-    independentVerdicts: rows.filter((r) => r.isIndependentVerification && r.verdict).length,
+    independentVerdicts: currentRows.length,
     failRepairRequired: failed.length,
     passIndependent: passed.length
   },
