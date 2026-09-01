@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** source-swarm
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `13771582866352d77e46e5d0b9bc86f1abbb6752` (or the newer dispatch base)
+**Minimum required ancestor:** `e7995f68f07f801e28fd5443a6c2f3d531e4baf1` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -20,9 +20,9 @@
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --assignment-id DISC04 \
-  --source-obligation 'agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission::NO_DOCUMENT_SOURCE_NAMED' \
+  --source-obligation 'id_isp_expungement-set::official-form:ISP-BCI-EXPUNGEMENT-APPLICATION' \
   --codex-cloud \
-  --minimum-captain-sha 13771582866352d77e46e5d0b9bc86f1abbb6752
+  --minimum-captain-sha e7995f68f07f801e28fd5443a6c2f3d531e4baf1
 ```
 
 It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owned row gate must both pass.
@@ -40,7 +40,7 @@ It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owne
 ## Claim before you read
 
 - Assert each exact source obligation before reading evidence: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert DISC04 <itemId>`
-- The committed assignment contains exactly 43 itemIds; iterate those values only. A familyId is metadata and is not a source claim key.
+- The committed assignment contains exactly 22 itemIds; iterate those values only. A familyId is metadata and is not a source claim key.
 - A non-zero exit stops that row only: record `BLOCKED_BEFORE_CLAIM`, read none of its evidence, and continue with unrelated obligations.
 - Release each completed obligation independently: `node scripts/grade-a-packet-factory-24h/claim.mjs --release DISC04 <itemId>`.
 
@@ -78,7 +78,7 @@ Turn a descriptive label into a document identity: exact form number, official p
 
 the issuing court or agency that publishes the document
 
-**43 obligations · 28 families this lane WOULD release if every one of them resolves · hosts: CT, KY, LA, NM, NV, NY, VA, WA**
+**22 obligations · 4 families this lane WOULD release if every one of them resolves · hosts: ID, IN, MI**
 
 > Prospective. Nothing below is promoted custody yet, and this number is not a count of families you can build today.
 
@@ -105,57 +105,36 @@ the issuing court or agency that publishes the document
 
 | Item id | Source id | Jurisdiction | Current operation | Family ownership | Required input | Handoff |
 | --- | --- | --- | --- | --- | --- | --- |
-| `agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | NY | `exact-source-identity` | `agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission` | unresolved exact identity or URL | `ACQ` |
-| `agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | NM | `exact-source-identity` | `agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement` | unresolved exact identity or URL | `ACQ` |
-| `agency-application-treatment:obligation:track-only:CT:ct-destruction-request::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | CT | `exact-source-identity` | `agency-application-treatment:obligation:track-only:CT:ct-destruction-request` | unresolved exact identity or URL | `ACQ` |
-| `agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | CT | `exact-source-identity` | `agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon` | unresolved exact identity or URL | `ACQ` |
-| `agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | CT | `exact-source-identity` | `agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure` | unresolved exact identity or URL | `ACQ` |
-| `census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | WA | `exact-source-identity` | `census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260` | unresolved exact identity or URL | `ACQ` |
-| `composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | NY | `exact-source-identity` | `composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request` | unresolved exact identity or URL | `ACQ` |
-| `composed-treatment:obligation:runtime-only:NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | NV | `exact-source-identity` | `composed-treatment:obligation:runtime-only:NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247` | unresolved exact identity or URL | `ACQ` |
-| `ct-cannabis-petition-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | CT | `exact-source-identity` | `ct-cannabis-petition-set` | unresolved exact identity or URL | `ACQ` |
-| `ct-decriminalized-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | CT | `exact-source-identity` | `ct-decriminalized-set` | unresolved exact identity or URL | `ACQ` |
-| `ct-missed-erasure-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | CT | `exact-source-identity` | `ct-missed-erasure-set` | unresolved exact identity or URL | `ACQ` |
-| `ct-nolle-auto-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | CT | `exact-source-identity` | `ct-nolle-auto-set` | unresolved exact identity or URL | `ACQ` |
-| `ct-pardon-erasure-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | CT | `exact-source-identity` | `ct-pardon-erasure-set` | unresolved exact identity or URL | `ACQ` |
-| `ct-under18-misdemeanor-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | CT | `exact-source-identity` | `ct-under18-misdemeanor-set` | unresolved exact identity or URL | `ACQ` |
-| `ky_criminal_record_segregation-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | KY | `exact-source-identity` | `ky_criminal_record_segregation-set` | unresolved exact identity or URL | `ACQ` |
-| `la-976-arrest-no-conviction-set::official-form:LA-CCRP-ART-988` | `official-form:LA-CCRP-ART-988` | LA | `exact-source-identity` | `la-976-arrest-no-conviction-set` | unresolved exact identity or URL | `ACQ` |
-| `la-976-arrest-no-conviction-set::official-form:LA-CCRP-ART-989` | `official-form:LA-CCRP-ART-989` | LA | `exact-source-identity` | `la-976-arrest-no-conviction-set` | unresolved exact identity or URL | `ACQ` |
-| `la-976-arrest-no-conviction-set::official-form:LA-CCRP-ART-991` | `official-form:LA-CCRP-ART-991` | LA | `exact-source-identity` | `la-976-arrest-no-conviction-set` | unresolved exact identity or URL | `ACQ` |
-| `la-976-arrest-no-conviction-set::official-form:LA-CCRP-ART-992` | `official-form:LA-CCRP-ART-992` | LA | `exact-source-identity` | `la-976-arrest-no-conviction-set` | unresolved exact identity or URL | `ACQ` |
-| `la-977-misdemeanor-conviction-set::official-form:LA-CCRP-ART-988` | `official-form:LA-CCRP-ART-988` | LA | `exact-source-identity` | `la-977-misdemeanor-conviction-set` | unresolved exact identity or URL | `ACQ` |
-| `la-977-misdemeanor-conviction-set::official-form:LA-CCRP-ART-989` | `official-form:LA-CCRP-ART-989` | LA | `exact-source-identity` | `la-977-misdemeanor-conviction-set` | unresolved exact identity or URL | `ACQ` |
-| `la-977-misdemeanor-conviction-set::official-form:LA-CCRP-ART-991` | `official-form:LA-CCRP-ART-991` | LA | `exact-source-identity` | `la-977-misdemeanor-conviction-set` | unresolved exact identity or URL | `ACQ` |
-| `la-977-misdemeanor-conviction-set::official-form:LA-CCRP-ART-992` | `official-form:LA-CCRP-ART-992` | LA | `exact-source-identity` | `la-977-misdemeanor-conviction-set` | unresolved exact identity or URL | `ACQ` |
-| `la-977d-marijuana-first-offense-set::official-form:LA-CCRP-ART-988` | `official-form:LA-CCRP-ART-988` | LA | `exact-source-identity` | `la-977d-marijuana-first-offense-set` | unresolved exact identity or URL | `ACQ` |
-| `la-977d-marijuana-first-offense-set::official-form:LA-CCRP-ART-991` | `official-form:LA-CCRP-ART-991` | LA | `exact-source-identity` | `la-977d-marijuana-first-offense-set` | unresolved exact identity or URL | `ACQ` |
-| `la-977d-marijuana-first-offense-set::official-form:LA-CCRP-ART-992` | `official-form:LA-CCRP-ART-992` | LA | `exact-source-identity` | `la-977d-marijuana-first-offense-set` | unresolved exact identity or URL | `ACQ` |
-| `la-978-felony-conviction-set::official-form:LA-CCRP-ART-988` | `official-form:LA-CCRP-ART-988` | LA | `exact-source-identity` | `la-978-felony-conviction-set` | unresolved exact identity or URL | `ACQ` |
-| `la-978-felony-conviction-set::official-form:LA-CCRP-ART-989` | `official-form:LA-CCRP-ART-989` | LA | `exact-source-identity` | `la-978-felony-conviction-set` | unresolved exact identity or URL | `ACQ` |
-| `la-978-felony-conviction-set::official-form:LA-CCRP-ART-991` | `official-form:LA-CCRP-ART-991` | LA | `exact-source-identity` | `la-978-felony-conviction-set` | unresolved exact identity or URL | `ACQ` |
-| `la-978-felony-conviction-set::official-form:LA-CCRP-ART-992` | `official-form:LA-CCRP-ART-992` | LA | `exact-source-identity` | `la-978-felony-conviction-set` | unresolved exact identity or URL | `ACQ` |
-| `la-985-1-interim-expungement-set::official-form:LA-CCRP-ART-988` | `official-form:LA-CCRP-ART-988` | LA | `exact-source-identity` | `la-985-1-interim-expungement-set` | unresolved exact identity or URL | `ACQ` |
-| `la-985-1-interim-expungement-set::official-form:LA-CCRP-ART-994` | `official-form:LA-CCRP-ART-994` | LA | `exact-source-identity` | `la-985-1-interim-expungement-set` | unresolved exact identity or URL | `ACQ` |
-| `la-985-expungement-by-redaction-set::official-form:LA-CCRP-ART-988` | `official-form:LA-CCRP-ART-988` | LA | `exact-source-identity` | `la-985-expungement-by-redaction-set` | unresolved exact identity or URL | `ACQ` |
-| `la-985-expungement-by-redaction-set::official-form:LA-CCRP-ART-989` | `official-form:LA-CCRP-ART-989` | LA | `exact-source-identity` | `la-985-expungement-by-redaction-set` | unresolved exact identity or URL | `ACQ` |
-| `la-985-expungement-by-redaction-set::official-form:LA-CCRP-ART-991` | `official-form:LA-CCRP-ART-991` | LA | `exact-source-identity` | `la-985-expungement-by-redaction-set` | unresolved exact identity or URL | `ACQ` |
-| `la-985-expungement-by-redaction-set::official-form:LA-CCRP-ART-992` | `official-form:LA-CCRP-ART-992` | LA | `exact-source-identity` | `la-985-expungement-by-redaction-set` | unresolved exact identity or URL | `ACQ` |
-| `la-987-set-aside-and-dismiss-set::official-form:LA-CCRP-ART-987` | `official-form:LA-CCRP-ART-987` | LA | `exact-source-identity` | `la-987-set-aside-and-dismiss-set` | unresolved exact identity or URL | `ACQ` |
-| `nv_repository_removal-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | NV | `exact-source-identity` | `nv_repository_removal-set` | unresolved exact identity or URL | `ACQ` |
-| `nv_seal_probation_family-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | NV | `exact-source-identity` | `nv_seal_probation_family-set` | unresolved exact identity or URL | `ACQ` |
-| `rcap-nv-custom-pleading::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | NV | `exact-source-identity` | `rcap-nv-custom-pleading` | unresolved exact identity or URL | `ACQ` |
-| `rcap-wa-custom-pleading-clean-tracks::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | WA | `exact-source-identity` | `rcap-wa-custom-pleading-clean-tracks` | unresolved exact identity or URL | `ACQ` |
-| `va_exp_absolute_pardon-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | VA | `exact-source-identity` | `va_exp_absolute_pardon-set` | unresolved exact identity or URL | `ACQ` |
-| `wa_crop_certificate_of_restoration-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | WA | `exact-source-identity` | `wa_crop_certificate_of_restoration-set` | unresolved exact identity or URL | `ACQ` |
+| `id_isp_expungement-set::official-form:ISP-BCI-EXPUNGEMENT-APPLICATION` | `official-form:ISP-BCI-EXPUNGEMENT-APPLICATION` | ID | `exact-source-identity` | `id_isp_expungement-set` | unresolved exact identity or URL | `ACQ` |
+| `in_arrest_no_charges-set::official-form:CCA Section 1 expungement order` | `official-form:CCA Section 1 expungement order` | IN | `exact-source-identity` | `in_arrest_no_charges-set` | unresolved exact identity or URL | `ACQ` |
+| `in_arrest_no_charges-set::official-form:CCA Section 1 non-conviction expungement petition` | `official-form:CCA Section 1 non-conviction expungement petition` | IN | `exact-source-identity` | `in_arrest_no_charges-set` | unresolved exact identity or URL | `ACQ` |
+| `in_arrest_no_charges-set::official-form:CCA-XP-0120-7002 Form ACR` | `official-form:CCA-XP-0120-7002 Form ACR` | IN | `exact-source-identity` | `in_arrest_no_charges-set` | unresolved exact identity or URL | `ACQ` |
+| `in_arrest_no_charges-set::official-form:Confidential Information Form` | `official-form:Confidential Information Form` | IN | `exact-source-identity` | `in_arrest_no_charges-set` | unresolved exact identity or URL | `ACQ` |
+| `in_conviction_d6-set::official-form:CCA-XP-0120-7002 Form ACR` | `official-form:CCA-XP-0120-7002 Form ACR` | IN | `exact-source-identity` | `in_conviction_d6-set` | unresolved exact identity or URL | `ACQ` |
+| `in_conviction_d6-set::official-form:Confidential Information Form` | `official-form:Confidential Information Form` | IN | `exact-source-identity` | `in_conviction_d6-set` | unresolved exact identity or URL | `ACQ` |
+| `in_conviction_felony-set::official-form:CCA-XP-0120-7002 Form ACR` | `official-form:CCA-XP-0120-7002 Form ACR` | IN | `exact-source-identity` | `in_conviction_felony-set` | unresolved exact identity or URL | `ACQ` |
+| `in_conviction_felony-set::official-form:Confidential Information Form` | `official-form:Confidential Information Form` | IN | `exact-source-identity` | `in_conviction_felony-set` | unresolved exact identity or URL | `ACQ` |
+| `in_conviction_misd-set::official-form:CCA-XP-0120-7002 Form ACR` | `official-form:CCA-XP-0120-7002 Form ACR` | IN | `exact-source-identity` | `in_conviction_misd-set` | unresolved exact identity or URL | `ACQ` |
+| `in_conviction_misd-set::official-form:Confidential Information Form` | `official-form:Confidential Information Form` | IN | `exact-source-identity` | `in_conviction_misd-set` | unresolved exact identity or URL | `ACQ` |
+| `in_section1_petition-set::official-form:CCA Section 1 expungement order` | `official-form:CCA Section 1 expungement order` | IN | `exact-source-identity` | `in_section1_petition-set` | unresolved exact identity or URL | `ACQ` |
+| `in_section1_petition-set::official-form:CCA Section 1 non-conviction expungement petition` | `official-form:CCA Section 1 non-conviction expungement petition` | IN | `exact-source-identity` | `in_section1_petition-set` | unresolved exact identity or URL | `ACQ` |
+| `in_section1_petition-set::official-form:CCA-XP-0120-7002 Form ACR` | `official-form:CCA-XP-0120-7002 Form ACR` | IN | `exact-source-identity` | `in_section1_petition-set` | unresolved exact identity or URL | `ACQ` |
+| `in_section1_petition-set::official-form:Confidential Information Form` | `official-form:Confidential Information Form` | IN | `exact-source-identity` | `in_section1_petition-set` | unresolved exact identity or URL | `ACQ` |
+| `mi_setaside_application-set::official-form:MC 227` | `official-form:MC 227` | MI | `exact-source-identity` | `mi_setaside_application-set` | unresolved exact identity or URL | `ACQ` |
+| `mi_setaside_application-set::official-form:MC 227 page 3 Proof of Service` | `official-form:MC 227 page 3 Proof of Service` | MI | `exact-source-identity` | `mi_setaside_application-set` | unresolved exact identity or URL | `ACQ` |
+| `mi_setaside_first_owi-set::official-form:MC 227 item 2.c` | `official-form:MC 227 item 2.c` | MI | `exact-source-identity` | `mi_setaside_first_owi-set` | unresolved exact identity or URL | `ACQ` |
+| `mi_setaside_first_owi-set::official-form:MC 227 page 3 Proof of Service` | `official-form:MC 227 page 3 Proof of Service` | MI | `exact-source-identity` | `mi_setaside_first_owi-set` | unresolved exact identity or URL | `ACQ` |
+| `mi_setaside_trafficking-set::official-form:Proof of Service` | `official-form:Proof of Service` | MI | `exact-source-identity` | `mi_setaside_trafficking-set` | unresolved exact identity or URL | `ACQ` |
+| `rcap-in-custom-pleading::official-form:CCA-XP-0120-7002 Form ACR` | `official-form:CCA-XP-0120-7002 Form ACR` | IN | `exact-source-identity` | `rcap-in-custom-pleading` | unresolved exact identity or URL | `ACQ` |
+| `rcap-in-custom-pleading::official-form:Confidential Information Form` | `official-form:Confidential Information Form` | IN | `exact-source-identity` | `rcap-in-custom-pleading` | unresolved exact identity or URL | `ACQ` |
 
-Deterministically assert exactly the 43 committed itemIds (failures are recorded per row and do not terminate the loop):
+Deterministically assert exactly the 22 committed itemIds (failures are recorded per row and do not terminate the loop):
 
 ```sh
 node - <<'NODE'
 const {spawnSync}=require('node:child_process');
 const a=require('./data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json').assignments.find(x=>x.assignmentId==='DISC04');
-if (!a || a.items.length !== 43) throw new Error('DISC04 committed item count changed');
+if (!a || a.items.length !== 22) throw new Error('DISC04 committed item count changed');
 for (const itemId of a.items) {
   const r=spawnSync(process.execPath,['scripts/grade-a-packet-factory-24h/claim.mjs','--assert','DISC04',itemId],{stdio:'inherit'});
   if (r.status !== 0) console.error('ROW_STOP', itemId);
@@ -167,7 +146,7 @@ NODE
 Run the row gate once per listed item, after the lane gate. This exact first command demonstrates the interface; substitute each other exact item id from the table without changing the lane:
 
 ```sh
-node scripts/verify-packet-build-environment.mjs --assignment-id DISC04 --source-obligation 'agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission::NO_DOCUMENT_SOURCE_NAMED' --codex-cloud --minimum-captain-sha 13771582866352d77e46e5d0b9bc86f1abbb6752
+node scripts/verify-packet-build-environment.mjs --assignment-id DISC04 --source-obligation 'id_isp_expungement-set::official-form:ISP-BCI-EXPUNGEMENT-APPLICATION' --codex-cloud --minimum-captain-sha e7995f68f07f801e28fd5443a6c2f3d531e4baf1
 
 # A failed row is recorded STOPPED; continue with unrelated rows.
 ```
@@ -176,7 +155,7 @@ node scripts/verify-packet-build-environment.mjs --assignment-id DISC04 --source
 
 ### Families this lane would release
 
-`agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission`, `agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement`, `agency-application-treatment:obligation:track-only:CT:ct-destruction-request`, `agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon`, `agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure`, `census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260`, `composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request`, `composed-treatment:obligation:runtime-only:NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247`, `ct-cannabis-petition-set`, `ct-decriminalized-set`, `ct-missed-erasure-set`, `ct-nolle-auto-set`, `ct-pardon-erasure-set`, `ct-under18-misdemeanor-set`, `ky_criminal_record_segregation-set`, `la-976-arrest-no-conviction-set`, `la-977-misdemeanor-conviction-set`, `la-977d-marijuana-first-offense-set`, `la-978-felony-conviction-set`, `la-985-1-interim-expungement-set`, `la-985-expungement-by-redaction-set`, `la-987-set-aside-and-dismiss-set`, `nv_repository_removal-set`, `nv_seal_probation_family-set`, `rcap-nv-custom-pleading`, `rcap-wa-custom-pleading-clean-tracks`, `va_exp_absolute_pardon-set`, `wa_crop_certificate_of_restoration-set`
+`id_isp_expungement-set`, `mi_setaside_application-set`, `mi_setaside_first_owi-set`, `mi_setaside_trafficking-set`
 
 
 ### Settle these first
@@ -185,18 +164,10 @@ node scripts/verify-packet-build-environment.mjs --assignment-id DISC04 --source
 
 | Document | Jurisdiction | Families waiting |
 | --- | --- | --- |
-| LA-CCRP-ART-988 | LA | 6 |
-| LA-CCRP-ART-987 | LA | 1 |
-| NO_DOCUMENT_SOURCE_NAMED | NY | 0 |
-| NO_DOCUMENT_SOURCE_NAMED | NM | 0 |
-| NO_DOCUMENT_SOURCE_NAMED | CT | 0 |
-| NO_DOCUMENT_SOURCE_NAMED | CT | 0 |
-| NO_DOCUMENT_SOURCE_NAMED | CT | 0 |
-| NO_DOCUMENT_SOURCE_NAMED | WA | 0 |
-| NO_DOCUMENT_SOURCE_NAMED | NY | 0 |
-| NO_DOCUMENT_SOURCE_NAMED | NV | 0 |
-| NO_DOCUMENT_SOURCE_NAMED | CT | 0 |
-| NO_DOCUMENT_SOURCE_NAMED | CT | 0 |
+| CCA-GF-0120-3016 | IN | 6 |
+| MC 227 page 3 Proof of Service | MI | 2 |
+| ISP-BCI-EXPUNGEMENT-APPLICATION | ID | 1 |
+| MC 227b | MI | 1 |
 
 > On 2026-08-31 an acquisition batch fetched thirty documents successfully and unblocked zero families — all thirty belonged to jurisdictions already resolved, with no overlap against the 238 documents gating the 256 blocked families. Fetch capacity is not the constraint. Knowing which document to fetch is.
 

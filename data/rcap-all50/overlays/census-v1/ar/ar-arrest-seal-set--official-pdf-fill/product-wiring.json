@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "rcap-census-v1-product-wiring/v1",
+  "family": "ar-arrest-seal-set",
+  "routeKey": "obligation:track-pathway:AR:ar-arrest-seal:situation-a-non-convictions",
+  "routeKeys": [
+    "obligation:track-pathway:AR:ar-arrest-seal:situation-a-non-convictions"
+  ],
+  "workType": "PRODUCT_WIRING_REQUIRED",
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+  "derivedFrom": "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/reports/rendered-artifacts.json",
+  "explicitNonGrants": [
+    "This document opens no commercial route.",
+    "It creates no fulfillment record and consumes no packet credit.",
+    "It marks no packet proven and grants no output approval.",
+    "It does not add this track to compiled runtime. src/lib/rcap-engine/compiled/** is untouched.",
+    "It does not change any live RCAP route.",
+    "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This is not that record."
+  ],
+  "currentState": {
+    "serviceDisposition": "missing_from_compiled_runtime",
+    "commercialState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP",
+    "existingArtifactIds": [],
+    "generationAllowed": false
+  },
+  "proposedRepresentation": {
+    "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
+    "packetSetId": "ar-arrest-seal-set",
+    "outputStrategy": "official_pdf_fill",
+    "components": [
+      {
+        "componentId": "ar-arrest-seal-set-component-1",
+        "role": "primary_filing",
+        "order": 1,
+        "documentId": "AR-ACIC-PETITION-TO-SEAL-ARREST-UNDER-ACT-1460",
+        "file": "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf",
+        "sha256": "78ef189e981b35fec69688cc6d3181df245b309e7405c954fcabd503e426bea5",
+        "requirement": "required"
+      },
+      {
+        "componentId": "ar-arrest-seal-set-component-2",
+        "role": "companion_document",
+        "order": 2,
+        "documentId": "AR-ACIC-ORDER-TO-SEAL-ARREST-UNDER-ACT-1460",
+        "file": "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/fixtures/order-canonical-filled.pdf",
+        "sha256": "161971dca56b9292dac5a8bd9eda03e2deb910d0c1cfbecc98d017bbf17841bb",
+        "requirement": "required"
+      }
+    ]
+  }
+}

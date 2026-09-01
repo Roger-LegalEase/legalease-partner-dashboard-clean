@@ -1,0 +1,56 @@
+{
+  "schemaVersion": "rcap-family-source-receipt/v1",
+  "familyId": "ky_criminal_record_segregation-set",
+  "worklistGroupId": "ky_criminal_record_segregation-set",
+  "jurisdiction": "KY",
+  "implementationStrategy": "custom_pleading",
+  "custodyClass": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+  "acquisitionCommissioned": false,
+  "bindingMethod": "no source bytes are bound — the MASTER_QUEUE row binds none (sourceStatus CUSTOM_PLEADING_FROM_CODIFIED_TEXT, boundSources []) — so the build grounds on the family's committed legal-design records and the route-level drafted precedent, each verified by SHA-256 and by content assertion before composing",
+  "routeKeys": [
+    "obligation:unit:KY:ky_criminal_record_segregation:ky_seg_court_application",
+    "obligation:unit:KY:ky_criminal_record_segregation:ky_seg_agency_written_request"
+  ],
+  "statutoryAuthority": "KRS 17.142",
+  "legalName": "Segregation of Arrest Records After Acquittal, Dismissal or Withdrawal of Charges (KRS 17.142)",
+  "allSourcesExact": true,
+  "groundingRecords": [
+    {
+      "record": "memo",
+      "path": "data/record-clearing/legal-design-intake/KY.memo.json",
+      "sha256": "2328bbcbf8eca7e74772761b22d79e9d99de75e8d50222c4f513e952bafeeb19",
+      "byteLength": 192810,
+      "anchorsVerified": 13
+    },
+    {
+      "record": "manifest",
+      "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+      "sha256": "80d88d69dc5710b9a763abb31c6864069f9bb6d74b942c5e5849925144693ffa",
+      "byteLength": 3674510,
+      "anchorsVerified": 3
+    },
+    {
+      "record": "pleadingConfig",
+      "path": "data/rcap-all50/composed-routes/kentucky/ky_criminal_record_segregation/components/ky_criminal_record_segregation-primary-filing-1/pleading-config.json",
+      "sha256": "e1fa4791a58e7af036ef44931c3798454118282c4a1d6d04532d8f62bbafe64d",
+      "byteLength": 35681,
+      "anchorsVerified": 5
+    }
+  ],
+  "documents": [],
+  "composedComponentsAuthoredByThisBuild": [
+    "ky_criminal_record_segregation-primary-filing-1",
+    "ky_criminal_record_segregation-agency-written-request-2",
+    "ky_criminal_record_segregation-routing-guidance-3"
+  ],
+  "sourceBinaryCommitted": false,
+  "commercialRoutesOpened": 0,
+  "whatThisReceiptDoesNotEstablish": [
+    "that KRS 17.142 as recorded in the memo (reviewed 2026-08-06) is the current text of the statute",
+    "counsel ratification of building KRS 17.142 segregation as a participant-facing relief track (the memo's standing build-blocker question, carried at the top of approval-request.json)",
+    "whether any court filing fee attaches to a KRS 17.142(2) application (none was identified)",
+    "whether the application must be verified (no source addresses it)",
+    "that any output is approved for participant delivery",
+    "that any record qualifies for segregation under KRS 17.142"
+  ]
+}

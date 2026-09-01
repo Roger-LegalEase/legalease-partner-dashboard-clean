@@ -28,6 +28,7 @@ const pendingClaimError = "You are signed in, but we could not save your result 
 const definitiveClaimError = "We could not save this preliminary result. Continue to your Briefcase to check your saved matters or start another check.";
 type AuthMode = "create" | "signin";
 type ClaimRecoveryUiState = "none" | "saving" | "retryable_error" | "definitive_error";
+type PasswordlessState = "idle" | "magic" | "oauth";
 
 export function ConsumerSignInForm({
   initialRecoveryHandoff = "none"
@@ -42,6 +43,7 @@ export function ConsumerSignInForm({
   const [pendingClaimFailed, setPendingClaimFailed] = useState(false);
   const [captchaToken, setCaptchaToken] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [passwordlessState, setPasswordlessState] = useState<PasswordlessState>("idle");
   const [requestContext, setRequestContext] = useState<ConsumerAuthContinuation>(() => emptyAuthRequestContext());
   const [claimRecoveryState, setClaimRecoveryState] = useState<ClaimRecoveryUiState>(() => (
     initialRecoveryHandoff === "retry"
@@ -182,6 +184,50 @@ export function ConsumerSignInForm({
     }
 
     window.location.assign(requestContext.nextPath);
+  }
+
+  async function sendMagicLink(event: FormEvent<HTMLButtonElement>) {
+    const form = event.currentTarget.form;
+    const email = String(new FormData(form ?? undefined).get("email") ?? "").trim();
+    if (!email || (isAuthCaptchaRequired() && !captchaToken.trim())) {
+      setErrorMessage(!email ? genericError : authCaptchaFailureMessage);
+      return;
+    }
+    const requestContext = readAuthRequestContext();
+    setPasswordlessState("magic");
+    setErrorMessage("");
+    setNoticeMessage("");
+    const { error } = await createBrowserSupabaseClient().auth.signInWithOtp({
+      email,
+      options: {
+        shouldCreateUser: false,
+        emailRedirectTo: expungementAuthRedirectTo(requestContext),
+        ...captchaOptions(captchaToken)
+      }
+    });
+    setPasswordlessState("idle");
+    if (error) {
+      setErrorMessage(isCaptchaError(error) ? authCaptchaFailureMessage : genericError);
+      return;
+    }
+    setNoticeMessage("Check your email for a secure sign-in link. Your saved result will still be here.");
+  }
+
+  async function continueWithGoogle() {
+    const requestContext = readAuthRequestContext();
+    setPasswordlessState("oauth");
+    setErrorMessage("");
+    const { error } = await createBrowserSupabaseClient().auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: expungementAuthRedirectTo(requestContext),
+        skipBrowserRedirect: false
+      }
+    });
+    if (error) {
+      setPasswordlessState("idle");
+      setErrorMessage(genericError);
+    }
   }
 
   const createMode = mode === "create";
@@ -327,7 +373,31 @@ export function ConsumerSignInForm({
               ? translate("signin.create_submit", "Create account and continue")
               : translate("common.sign_in", "Sign in")}
         </button>
+        {!createMode ? (
+          <button
+            className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#00A99D] bg-white px-5 text-sm font-bold text-[#0B6F68] transition hover:bg-[#00A99D]/5 disabled:cursor-not-allowed disabled:opacity-60"
+            disabled={isSubmitting || passwordlessState !== "idle"}
+            onClick={sendMagicLink}
+            type="button"
+          >
+            {passwordlessState === "magic" ? "Sending secure link..." : "Email me a secure sign-in link"}
+          </button>
+        ) : null}
       </form>
+
+      <div className="my-5 flex items-center gap-3" aria-hidden="true">
+        <span className="h-px flex-1 bg-[#ECEFF4]" />
+        <span className="text-xs font-bold uppercase text-[#5A6275]">or</span>
+        <span className="h-px flex-1 bg-[#ECEFF4]" />
+      </div>
+      <button
+        className="inline-flex min-h-11 w-full items-center justify-center rounded-md border border-[#ECEFF4] bg-white px-5 text-sm font-bold text-[#0B1320] transition hover:border-[#00A99D] disabled:cursor-not-allowed disabled:opacity-60"
+        disabled={isSubmitting || passwordlessState !== "idle"}
+        onClick={() => void continueWithGoogle()}
+        type="button"
+      >
+        {passwordlessState === "oauth" ? "Opening Google..." : "Continue with Google"}
+      </button>
 
       <div className="mt-5 flex flex-col gap-3">
         <button

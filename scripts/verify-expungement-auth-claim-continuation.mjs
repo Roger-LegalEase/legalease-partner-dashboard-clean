@@ -156,7 +156,11 @@ assert.ok(
 );
 assert.ok(signInSource.includes('data-claim-recovery-state={claimRecoveryState}'), "recovery must expose an explicit visible state");
 assert.ok(signInSource.includes('translate("signin.claim_definitive_error"'), "definitive failure must be explicit and localized");
-assert.ok(forgotSource.includes("continuation: consumerAuthContinuationFrom(params)"), "reset request must use the shared continuation");
+assert.ok(
+  forgotSource.includes("const continuation = consumerAuthContinuationFrom(params)")
+    && forgotSource.includes("continuation\n  });"),
+  "reset request must use the shared continuation"
+);
 assert.ok(setPasswordSource.includes("consumerSignInRecoveryPath"), "callback failure must use the shared recovery path");
 assert.ok(
   setPasswordSource.indexOf("await supabase.auth.updateUser({ password })")
@@ -174,7 +178,12 @@ for (const source of [signInSource, forgotSource, setPasswordSource, read("src/l
   assert.ok(!/console\.(?:log|info|warn|error)/.test(code), "claim continuation must not enter logs");
 }
 
-assert.ok(!/signInWithOAuth|signInWithOtp/.test(signInSource), "focused acceptance must not assert OAuth or magic-link modes the product does not expose");
+assert.ok(signInSource.includes("signInWithOtp"), "the exposed magic-link mode must preserve the shared continuation");
+assert.ok(signInSource.includes("signInWithOAuth"), "the exposed OAuth mode must preserve the shared continuation");
+assert.ok(
+  (signInSource.match(/expungementAuthRedirectTo\(requestContext\)/g) ?? []).length >= 3,
+  "password, magic-link and OAuth initiation must share the validated callback handoff"
+);
 
 console.log("Expungement.ai password-recovery claim continuation verified: exact claim, safe next, locale, server attribution, retry, and exact-matter redirect.");
-console.log("OAuth/magic-link disposition: not exposed by the consumer sign-in surface; no fictional continuation asserted.");
+console.log("OAuth/magic-link disposition: exposed modes preserve the validated claim callback handoff.");

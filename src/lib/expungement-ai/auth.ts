@@ -17,6 +17,11 @@ export async function requireConsumerBriefcaseSession(nextPath?: string): Promis
     redirect(`/expungement-ai/sign-in?mode=create&next=${encodeURIComponent(next)}`);
   }
 
+  if (auth.isVerified !== true) {
+    const next = nextPath && nextPath.startsWith("/") && !nextPath.startsWith("//") ? nextPath : "/briefcase";
+    redirect(`/expungement-ai/sign-in?verification=required&next=${encodeURIComponent(next)}`);
+  }
+
   // A frozen or erased account is not a signed-in account, whatever its token
   // still says. This is what makes "the deleted account cannot sign in" true
   // for a token minted before the revocation, and for a restored backup.

@@ -42,8 +42,13 @@ const PREFLIGHT = "scripts/verify-packet-build-environment.mjs";
  * which is a floor and not a tree anyone reads. */
 const PACKET_COMMIT = execFileSync("git", ["rev-parse", "HEAD"], { cwd: ROOT, encoding: "utf8" }).trim();
 
-/* The minimum ancestor every lane proves it contains. */
-const MINIMUM_CAPTAIN_SHA = "13771582866352d77e46e5d0b9bc86f1abbb6752";
+/* The minimum ancestor every lane proves it contains: the generation head
+ * itself. A frozen constant here is how the committed dispatch came to carry
+ * two distinct pins — every sibling generator stamps its generation head, and
+ * the convergence sweep demands ONE distinct pin that is an ancestor of HEAD.
+ * A worker must hold at least the commit this dispatch was generated from,
+ * which is exactly what stamping the generation head says. */
+const MINIMUM_CAPTAIN_SHA = PACKET_COMMIT;
 
 /* Micro-batch: a lane returns work in hours, not at the end of a wave. Five is
  * the ceiling and two to four is the shape; a shared-host lane may exceed it
@@ -340,48 +345,121 @@ for (const e of IN.corpusIndex.entries ?? []) {
  * task. A family whose route names official forms and resolves none of them is
  * blocked, whatever its custody class says.
  */
-function sourceReadiness(familyId, worklistGroupId, custody, routes, holds) {
+/*
+ * SIMPLIFIED BY DIRECTIVE (Roger, 2026-09-01): the goal is the participant
+ * deliverable, not the queueing system. If the official PDF a route names is
+ * known and already held, it attaches DIRECTLY — a custody row with
+ * unresolved relationship metadata is background bookkeeping, never a veto
+ * over bytes we hold whose hash matches the governed index. Precedence:
+ *   1. direct binding: named official form -> exactly one held, indexed,
+ *      hash-carrying corpus entry;
+ *   2. custody binding: an exact-tier custody entry whose held bytes match
+ *      the index (this can bind documents the form-number join cannot);
+ *   3. only what binds NEITHER way is a reason, and it is a SPECIFIC one —
+ *      a missing document or an unresolved form identity, per escalation
+ *      rule 10.
+ * A custom-pleading family drafts from codified text: it is not blocked on
+ * an official PDF it will never fill. Its named forms bind opportunistically
+ * as references, and readiness turns on the route being settled.
+ */
+function sourceReadiness(familyId, worklistGroupId, custody, routes, holds, implementationStrategy) {
   const reasons = [];
   const bound = [];
-  if ((holds ?? []).some((h) => h.kind === "missing_source")) reasons.push("the census carries a missing_source hold");
-  if (custody && CUSTODY_CLASSES_NEVER_READY.has(custody.custodyClass)) reasons.push(`custody class ${custody.custodyClass}`);
+  const boundIds = new Set();
 
   const named = [...new Set(routes.flatMap((r) => (r.requiredSourceIds ?? [])
     .filter((x) => typeof x === "string" && x.startsWith("official-form:"))))];
 
-  if (custody && (custody.documentSources ?? []).length > 0) {
-    for (const d of custody.documentSources) {
-      if (!d.resolved) { reasons.push(`${d.sourceId}: unresolved identity`); continue; }
-      if (!EXACT_TIERS.has(d.tier)) { reasons.push(`${d.sourceId}: tier ${d.tier} is not exact`); continue; }
-      if (!d.heldAs?.path) { reasons.push(`${d.sourceId}: exact identity with no held path`); continue; }
-      if (!d.heldAs?.sha256) { reasons.push(`${d.sourceId}: held path with no SHA-256`); continue; }
-      const entry = indexByPath.get(d.heldAs.path);
-      if (!entry) { reasons.push(`${d.sourceId}: held path is not in the governed corpus index`); continue; }
-      if (entry.sha256 !== d.heldAs.sha256) { reasons.push(`${d.sourceId}: indexed SHA-256 does not equal the held SHA-256`); continue; }
-      bound.push({ sourceId: d.sourceId, path: d.heldAs.path, sha256: d.heldAs.sha256, tier: d.tier, resolvedBy: "custody_reconciliation" });
+  // 1. Direct: the obvious association, straight off the governed index.
+  for (const id of named) {
+    const formNumber = id.slice("official-form:".length);
+    let matches = indexByForm.get(formNumber) ?? [];
+    let tier = "exact_form_number";
+    let resolvedBy = "census_form_number_against_committed_index";
+    /* The census sometimes names a document by its printed title while the
+     * index keys the same bytes by short form ID — Texas: "OCA Model Order of
+     * Nondisclosure under Section 411.0735" vs "TX-GC-411.0725-411.073-411.0735".
+     * The statute section printed in both IS the identity, and petition/order
+     * is disambiguated by what the filename says the document is. Only a
+     * single match binds; anything else stays a stated reason. */
+    if (matches.length !== 1) {
+      const section = formNumber.match(/[Ss]ection\s+(411\.\d+[a-z\-]*)/)?.[1];
+      /* Instructions, letters and statements are their own documents: they
+       * must never bind the petition's or order's bytes by sharing a section. */
+      const isOtherInstrument = /instruction|letter|statement/i.test(formNumber);
+      const kind = isOtherInstrument ? null : /petition/i.test(formNumber) ? "petition" : /order/i.test(formNumber) ? "order" : null;
+      if (section && kind) {
+        /* Section as a whole token: "411.073" must not match 411.0731's
+         * digits, while the combined order "TX-GC-411.0725-411.073-411.0735"
+         * genuinely covers 411.073 and binds a name asking for it. */
+        const sectionToken = new RegExp(`(^|[^0-9])${section.replace(/\./g, "\\.")}([^0-9]|$)`);
+        const candidates = (IN.corpusIndex.entries ?? []).filter((e) =>
+          sectionToken.test(String(e.formNumber ?? ""))
+          /* An instructions document shares its form's section and even the
+           * word "petition" in its filename; it is not the form. */
+          && !/instructions/i.test(e.path)
+          && (kind === "petition" ? /petition/i.test(e.path) : (/order-of-nondisclosure/i.test(e.path) && !/petition/i.test(e.path))));
+        /* The corpus can hold one document at two paths; identical hashes are
+         * one identity, and the lexically first path is the deterministic pick. */
+        const bySha = new Set(candidates.map((c) => c.sha256));
+        const unique = bySha.size === 1 && candidates.length > 0
+          ? [candidates.slice().sort((a, b) => a.path.localeCompare(b.path))[0]]
+          : candidates;
+        if (unique.length === 1) {
+          matches = unique;
+          tier = "exact_statute_section_and_document_kind";
+          resolvedBy = "census_title_section_number_against_committed_index_filename_kind";
+        }
+      }
     }
-  } else {
-    for (const id of named) {
-      const formNumber = id.slice("official-form:".length);
-      const matches = indexByForm.get(formNumber) ?? [];
-      if (matches.length !== 1) { reasons.push(`${id}: ${matches.length === 0 ? "no" : `${matches.length}`} corpus index entr${matches.length === 1 ? "y" : "ies"} for this form number`); continue; }
-      if (!matches[0].sha256) { reasons.push(`${id}: corpus entry carries no SHA-256`); continue; }
-      bound.push({ sourceId: id, path: matches[0].path, sha256: matches[0].sha256, tier: "exact_form_number", resolvedBy: "census_form_number_against_committed_index" });
+    if (matches.length === 1 && matches[0].sha256) {
+      bound.push({ sourceId: id, path: matches[0].path, sha256: matches[0].sha256, tier, resolvedBy });
+      boundIds.add(id);
     }
   }
 
-  if (bound.length === 0) {
-    reasons.push(named.length > 0
-      ? "no named official form resolves to a held, indexed, hash-matching binary"
-      : "the family names no document-shaped source, so nothing binds");
+  // 2. Custody entries supplement what the direct join could not bind.
+  for (const d of custody?.documentSources ?? []) {
+    if (boundIds.has(d.sourceId)) continue;
+    if (!d.resolved || !EXACT_TIERS.has(d.tier) || !d.heldAs?.path || !d.heldAs?.sha256) continue;
+    const entry = indexByPath.get(d.heldAs.path);
+    if (!entry || entry.sha256 !== d.heldAs.sha256) continue;
+    bound.push({ sourceId: d.sourceId, path: d.heldAs.path, sha256: d.heldAs.sha256, tier: d.tier, resolvedBy: "custody_reconciliation" });
+    boundIds.add(d.sourceId);
   }
+
+  // 3. Reasons are per-document and specific.
+  for (const id of named) {
+    if (boundIds.has(id)) continue;
+    const formNumber = id.slice("official-form:".length);
+    const matches = indexByForm.get(formNumber) ?? [];
+    if (matches.length === 0) reasons.push(`${id}: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding`);
+    else if (matches.length > 1) reasons.push(`${id}: UNRESOLVED_FORM_IDENTITY — ${matches.length} corpus entries share this form number and no custody entry disambiguates`);
+    else reasons.push(`${id}: held corpus entry carries no SHA-256`);
+  }
+
+  /* Both strategies draft their deliverable from committed research rather
+   * than filling a court PDF: a custom pleading from codified text, an agency
+   * application from the agency's own published process. Neither is blocked
+   * on an official form it will never fill; named missing components still
+   * block both honestly. */
+  const customPleading = implementationStrategy === "custom_pleading"
+    || implementationStrategy === "participant_agency_application";
+  if (!customPleading && named.length === 0 && bound.length === 0) {
+    reasons.push("the family names no document-shaped source, so nothing binds");
+  }
+  /* A custom pleading drafts from codified text, so it needs no PDF to fill —
+   * but a named required component it lacks (Alabama's CR-65) is a genuine
+   * missing document, and that reason still blocks. */
+  const ready = reasons.length === 0 && (customPleading || bound.length > 0);
   return {
-    ready: reasons.length === 0,
+    ready,
     reasons,
     boundSources: bound,
     namedOfficialForms: named.length,
     boundCount: bound.length,
-    custodyClass: custody?.custodyClass ?? "NO_ACQUISITION_TASK_NAMED"
+    custodyClass: custody?.custodyClass ?? "NO_ACQUISITION_TASK_NAMED",
+    directAttachment: true
   };
 }
 
@@ -458,15 +536,45 @@ try {
   }
 } catch { /* no ledger yet */ }
 
+/*
+ * The terminal transition, derived from evidence and never stamped by hand:
+ * COMPLETE_PACKET_PROVEN = a fifteen-obligation PASS_COMPLETE_INDEPENDENT
+ * verdict + a complete-coverage RASTER_PASS receipt whose bound hashes are the
+ * row's CURRENT canonical/boundary hashes + no open legal input + a declared
+ * product wiring. Anything less stays VERIFIED_PASS and says why by absence.
+ */
+const rasterPassByFamily = new Map();
+try {
+  const rq = JSON.parse(fs.readFileSync(path.join(ROOT, `${OUT_DIR}/RASTER_QUEUE.json`), "utf8"));
+  for (const r of rq.rows ?? []) {
+    const rec = r.rasterReceipt;
+    rasterPassByFamily.set(r.familyId,
+      r.currentRasterState === "RASTER_PASS"
+      && rec?.verdict === "RASTER_PASS"
+      && r.coverage?.complete === true
+      && rec?.boundToCanonicalSha256 === r.canonicalPdfSha256
+      && rec?.boundToBoundarySha256 === r.boundaryPdfSha256);
+  }
+} catch { /* no raster queue yet: nothing can be proven */ }
+
 const families = [];
 const seen = new Set();
+/* The census route join keys on packetSetId, which treatment-prefixed rows
+ * (agency-application-treatment:*, composed-treatment:*, rcap-* tracks) never
+ * carry — their routes travel on the worklist row itself. Reading them there
+ * is not invention: the worklist is census-generated and committed. Without
+ * this fallback 48 rows sat "route not bound" while their routes sat in the
+ * same repository. */
+const worklistRowById = new Map((JSON.parse(fs.readFileSync(path.join(ROOT, "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json"), "utf8")).packetFamilies ?? []).map((r) => [r.worklistGroupId, r]));
 for (const f of IN.scoreboard.familiesDetail) {
   const tail = String(f.worklistGroupId ?? "").split(":").pop();
   const familyId = routesByFamily.has(tail) ? tail : f.worklistGroupId;
   if (seen.has(familyId)) continue;
   seen.add(familyId);
 
-  const routes = routesByFamily.get(familyId) ?? [];
+  const routes = (routesByFamily.get(familyId) ?? []).length > 0
+    ? routesByFamily.get(familyId)
+    : (worklistRowById.get(f.worklistGroupId)?.routes ?? []);
   const custody = custodyByGroup.get(f.worklistGroupId) ?? null;
   const comp = completenessByFamily.get(familyId) ?? null;
   const cont = continuationByFamily.get(familyId) ?? null;
@@ -489,9 +597,19 @@ for (const f of IN.scoreboard.familiesDetail) {
 
   const docs = custody?.documentSources ?? [];
   const inexact = docs.filter((d) => !d.resolved || !EXACT_TIERS.has(d.tier));
-  const readiness = sourceReadiness(familyId, f.worklistGroupId, custody, routes, f.holds);
+  const readiness = sourceReadiness(familyId, f.worklistGroupId, custody, routes, f.holds, strategy);
+  /* A route not bound to any packet family cannot be built whatever it holds;
+   * the block carries its reason so no family is blocked silently. */
+  if (routes.length === 0) {
+    readiness.ready = false;
+    readiness.reasons.push("route not bound to a packet family — route mapping open");
+  }
   const sourceBound = readiness.ready;
-  const sourceStatus = readiness.ready ? "SOURCE_BOUND_BY_HELD_BYTES"
+  /* A ready custom pleading with nothing bound drafts from codified text —
+   * calling that "bound by held bytes" would promote a source that has no
+   * bytes, which F18 rightly refuses. */
+  const sourceStatus = readiness.ready
+    ? (readiness.boundCount === 0 ? "CUSTOM_PLEADING_FROM_CODIFIED_TEXT" : "SOURCE_BOUND_BY_HELD_BYTES")
     : !((f.holds ?? []).some((h) => h.kind === "missing_source"))
       ? (inexact.length > 0 ? "SOURCE_IDENTITY_NOT_EXACT" : `SOURCE_NAMED_BUT_NOT_HELD: ${readiness.reasons[0]}`)
       : (custody?.custodyClass ?? "SOURCE_IDENTITY_UNRESOLVED");
@@ -529,6 +647,10 @@ for (const f of IN.scoreboard.familiesDetail) {
    * would have reached Lawrence review as in-flight rather than as failed. A
    * lane that has returned is not still verifying.
    */
+  else if (independentReturn?.verdict === "PASS_COMPLETE_INDEPENDENT"
+    && rasterPassByFamily.get(familyId) === true
+    && !legalBlocked
+    && fs.existsSync(path.join(ROOT, `${directory}/product-wiring.json`))) state = "COMPLETE_PACKET_PROVEN";
   else if (independentReturn?.verdict === "PASS_COMPLETE_INDEPENDENT") state = "VERIFIED_PASS";
   else if (independentFail
     && repairReleasedFamilies.has(familyId) && !repairLiveFamilies.has(familyId)
@@ -729,7 +851,25 @@ const packGroups = (pool, laneCount) => {
   return buckets;
 };
 
-const pfBuckets = packGroups(sourceReady, PF_LANES);
+/* A live packet-build claim pins its family to its lane, exactly as source
+ * claims pin theirs: the packer re-deals on every regeneration, and a family
+ * whose builder is mid-work must not drift to another lane's dispatch while
+ * its grant stays put. Claimed families are placed first, on their claim
+ * lanes; only unclaimed families are dealt. */
+const livePacketLane = new Map();
+try {
+  const led = JSON.parse(fs.readFileSync(path.join(ROOT, `${OUT_DIR}/claim-ledger.json`), "utf8"));
+  for (const c of led.claims ?? []) {
+    if (c.subjectType === "packet-family" && c.operation === "packet-build" && c.released !== true && /^PF\d+$/.test(c.lane)) livePacketLane.set(c.subjectId, c.lane);
+  }
+} catch { /* no ledger yet */ }
+const pinnedFamilies = new Set(sourceReady.filter((f) => livePacketLane.has(f.familyId)).map((f) => f.familyId));
+const pfBuckets = packGroups(sourceReady.filter((f) => !pinnedFamilies.has(f.familyId)), PF_LANES);
+for (const f of sourceReady) {
+  if (!pinnedFamilies.has(f.familyId)) continue;
+  const laneIdx = Number(livePacketLane.get(f.familyId).slice(2)) - 1;
+  if (laneIdx >= 0 && laneIdx < pfBuckets.length) pfBuckets[laneIdx].push({ families: [f], host: null, pinnedByClaim: true });
+}
 /* Any lane over the ceiling sheds its smallest group to the emptiest lane that
  * can take it, unless the group is a single shared-host group that cannot be
  * split without two writers on one script. */
@@ -737,7 +877,8 @@ const bucketSize = (b) => b.reduce((n, g) => n + g.families.length, 0);
 for (let guard = 0; guard < 60; guard += 1) {
   const over = pfBuckets.findIndex((b) => bucketSize(b) > PF_MAX_FAMILIES);
   if (over < 0) break;
-  const donor = [...pfBuckets[over]].sort((a, b) => a.families.length - b.families.length)[0];
+  /* A claim-pinned group is immovable: its grant names its lane. */
+  const donor = [...pfBuckets[over]].filter((g) => !g.pinnedByClaim).sort((a, b) => a.families.length - b.families.length)[0];
   if (!donor || pfBuckets[over].length === 1) break;
   const target = pfBuckets
     .map((b, j) => ({ j, size: bucketSize(b) }))
@@ -874,9 +1015,27 @@ const laneWithinOperation = (rows, laneCount) => {
   return buckets;
 };
 for (const row of sourceRows) row.operation = operationFor(row);
+/*
+ * A live claim pins its obligation to its lane. The round-robin deals hosts
+ * afresh every regeneration, so as the obligation set shrinks a claimed
+ * obligation would drift to another lane while its grant stays put — the
+ * dispatch and the ledger then disagree about who owns the work, which
+ * verify-claim-ledger rightly refuses. Only unclaimed rows are re-dealt.
+ */
+const liveSourceLane = new Map();
+try {
+  const led = JSON.parse(fs.readFileSync(path.join(ROOT, `${OUT_DIR}/claim-ledger.json`), "utf8"));
+  for (const c of led.claims ?? []) {
+    if (c.subjectType === "source-obligation" && c.released !== true) liveSourceLane.set(c.subjectId, c.lane);
+  }
+} catch { /* no ledger yet */ }
+const obligationItemIdOf = (r) => `${r.familyId}::${r.sourceId ?? "NO_DOCUMENT_SOURCE_NAMED"}`;
 for (const op of SOURCE_OPERATIONS) {
   const rows = sourceRows.filter((r) => r.operation === op.prefix);
-  const buckets = laneWithinOperation(rows, op.lanes);
+  const pinned = rows.filter((r) => (liveSourceLane.get(obligationItemIdOf(r)) ?? "").startsWith(op.prefix));
+  const pinnedSet = new Set(pinned);
+  for (const r of pinned) r.lane = liveSourceLane.get(obligationItemIdOf(r));
+  const buckets = laneWithinOperation(rows.filter((r) => !pinnedSet.has(r)), op.lanes);
   buckets.forEach((bucket, i) => {
     for (const r of bucket) r.lane = `${op.prefix}${String(i + 1).padStart(2, "0")}`;
   });
@@ -1991,7 +2150,36 @@ const preservedGrants = (priorLedger.claims ?? [])
   .filter((c) => priorPinned.has(claimKey(c))
     ? true
     : !generatedKeys.has(claimKey(c)) );
-const mergedClaims = [...claimRowsRespectingExternal, ...preservedGrants]
+/*
+ * DISSOLUTION (simplification directive): a live grant whose subject the
+ * current dispatch no longer names — in ACTIVE_ASSIGNMENTS or the external
+ * worker index — is moot: the obligation dissolved (a family's documents
+ * attached directly, or a family left the state the grant's kind serves).
+ * Withdrawing it is safe exactly because nothing dispatches it: no worker can
+ * hold work the dispatch does not name. Withdrawals are logged with reasons
+ * and change the claims digest, so a stale ledger cannot pass for this one.
+ * Released claims are history and are never withdrawn.
+ */
+const dispatchedKeys = new Set(assignments.flatMap((x) => (x.items ?? []).map((id) =>
+  `${x.itemKind === "sourceObligation" ? "source-obligation" : "packet-family"}::${id}::${x.itemKind === "sourceObligation" ? x.operation : x.lane}`)));
+try {
+  const ext = JSON.parse(fs.readFileSync(path.join(ROOT, "data/rcap-grade-a/external-worker-control/EXTERNAL_ASSIGNMENTS.json"), "utf8"));
+  for (const w of ext.workers ?? []) {
+    const op = w.operation ?? w.laneKind;
+    for (const id of w.subjectIds ?? []) dispatchedKeys.add(`packet-family::${id}::${op}`);
+  }
+} catch { /* no external index */ }
+const claimDispatchKey = (c) => `${c.subjectType}::${c.subjectId}::${c.operation}`;
+const withdrawnNow = [];
+const survivingClaims = [...claimRowsRespectingExternal, ...preservedGrants].filter((c) => {
+  if (c.released === true) return true;
+  if (dispatchedKeys.has(claimDispatchKey(c))) return true;
+  withdrawnNow.push({ subjectType: c.subjectType, subjectId: c.subjectId, operation: c.operation, lane: c.lane,
+    withdrawnAt: new Date().toISOString().replace(/\.\d{3}Z$/, "Z"),
+    reason: "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)" });
+  return false;
+});
+const mergedClaims = survivingClaims
   .sort((x, y) => x.subjectType.localeCompare(y.subjectType) || x.subjectId.localeCompare(y.subjectId) || x.operation.localeCompare(y.operation) || x.lane.localeCompare(y.lane));
 
 const claimLedgerRecord = {
@@ -2039,7 +2227,8 @@ const claimLedgerRecord = {
    * how a family read twice is auditable at all. It was added to claim.mjs
    * after this generator was last touched, so without this line the first
    * regeneration after any transfer would erase the record of it. */
-  transfers: priorLedger.transfers ?? []
+  transfers: priorLedger.transfers ?? [],
+  withdrawals: [...(priorLedger.withdrawals ?? []), ...withdrawnNow]
 };
 
 /*
@@ -2055,7 +2244,12 @@ const claimLedgerRecord = {
 const identityOf = (c) => `${c.subjectType}|${c.subjectId}|${c.operation}`;
 const beforeIds = new Set((priorLedger.claims ?? []).map(identityOf));
 const afterIds = new Set(mergedClaims.map(identityOf));
-const lostIdentities = [...beforeIds].filter((k) => !afterIds.has(k));
+/* A withdrawal logged in this run's withdrawals list is not silent
+ * destruction — the identity moves into the ledger's withdrawal log with a
+ * reason, and the claims digest changes with it. Only an UNLOGGED absence is
+ * destroyed history. */
+const withdrawnIds = new Set(withdrawnNow.map((w) => [w.subjectType, w.subjectId, w.operation].join("|")));
+const lostIdentities = [...beforeIds].filter((k) => !afterIds.has(k) && !withdrawnIds.has(k));
 const beforeReleased = new Set((priorLedger.claims ?? []).filter((c) => c.released === true).map(identityOf));
 /* A live grant is owned; regeneration may not move it between lanes. A
  * released claim's lane is history and may be re-packed freely. */

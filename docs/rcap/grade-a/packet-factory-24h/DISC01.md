@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** source-swarm
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `13771582866352d77e46e5d0b9bc86f1abbb6752` (or the newer dispatch base)
+**Minimum required ancestor:** `e7995f68f07f801e28fd5443a6c2f3d531e4baf1` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -20,9 +20,9 @@
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --assignment-id DISC01 \
-  --source-obligation 'agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge::NO_DOCUMENT_SOURCE_NAMED' \
+  --source-obligation 'census-pending-family:ME:juvenile-sealing::NO_DOCUMENT_SOURCE_NAMED' \
   --codex-cloud \
-  --minimum-captain-sha 13771582866352d77e46e5d0b9bc86f1abbb6752
+  --minimum-captain-sha e7995f68f07f801e28fd5443a6c2f3d531e4baf1
 ```
 
 It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owned row gate must both pass.
@@ -40,7 +40,7 @@ It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owne
 ## Claim before you read
 
 - Assert each exact source obligation before reading evidence: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert DISC01 <itemId>`
-- The committed assignment contains exactly 43 itemIds; iterate those values only. A familyId is metadata and is not a source claim key.
+- The committed assignment contains exactly 31 itemIds; iterate those values only. A familyId is metadata and is not a source claim key.
 - A non-zero exit stops that row only: record `BLOCKED_BEFORE_CLAIM`, read none of its evidence, and continue with unrelated obligations.
 - Release each completed obligation independently: `node scripts/grade-a-packet-factory-24h/claim.mjs --release DISC01 <itemId>`.
 
@@ -78,7 +78,7 @@ Turn a descriptive label into a document identity: exact form number, official p
 
 the issuing court or agency that publishes the document
 
-**43 obligations · 25 families this lane WOULD release if every one of them resolves · hosts: AL, DC, ME, NE, TN, TX**
+**31 obligations · 13 families this lane WOULD release if every one of them resolves · hosts: AL, ME, TX**
 
 > Prospective. Nothing below is promoted custody yet, and this number is not a count of families you can build today.
 
@@ -105,20 +105,8 @@ the issuing court or agency that publishes the document
 
 | Item id | Source id | Jurisdiction | Current operation | Family ownership | Required input | Handoff |
 | --- | --- | --- | --- | --- | --- | --- |
-| `agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | AL | `exact-source-identity` | `agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge` | unresolved exact identity or URL | `ACQ` |
 | `census-pending-family:ME:juvenile-sealing::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | ME | `exact-source-identity` | `census-pending-family:ME:juvenile-sealing` | unresolved exact identity or URL | `ACQ` |
-| `dc_correct_misattributed_arrest-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | DC | `exact-source-identity` | `dc_correct_misattributed_arrest-set` | unresolved exact identity or URL | `ACQ` |
-| `dc_innocence_expungement-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | DC | `exact-source-identity` | `dc_innocence_expungement-set` | unresolved exact identity or URL | `ACQ` |
-| `dc_seal_conviction-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | DC | `exact-source-identity` | `dc_seal_conviction-set` | unresolved exact identity or URL | `ACQ` |
-| `dc_seal_fugitive-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | DC | `exact-source-identity` | `dc_seal_fugitive-set` | unresolved exact identity or URL | `ACQ` |
-| `dc_seal_nonconviction-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | DC | `exact-source-identity` | `dc_seal_nonconviction-set` | unresolved exact identity or URL | `ACQ` |
-| `dc_yra_set_aside-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | DC | `exact-source-identity` | `dc_yra_set_aside-set` | unresolved exact identity or URL | `ACQ` |
-| `me-nonconv-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | ME | `exact-source-identity` | `me-nonconv-set` | unresolved exact identity or URL | `ACQ` |
-| `me-screening-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | ME | `exact-source-identity` | `me-screening-set` | unresolved exact identity or URL | `ACQ` |
-| `ne-expunge-le-error-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | NE | `exact-source-identity` | `ne-expunge-le-error-set` | unresolved exact identity or URL | `ACQ` |
-| `ne-seal-enforcement-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | NE | `exact-source-identity` | `ne-seal-enforcement-set` | unresolved exact identity or URL | `ACQ` |
 | `official-form-treatment:obligation:research-decision-route:AL:al-olr::official-form:Alabama AOC Order of Limited Relief packet` | `official-form:Alabama AOC Order of Limited Relief packet` | AL | `exact-source-identity` | `official-form-treatment:obligation:research-decision-route:AL:al-olr` | unresolved exact identity or URL | `ACQ` |
-| `rcap-tn-custom-pleading::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | TN | `exact-source-identity` | `rcap-tn-custom-pleading` | unresolved exact identity or URL | `ACQ` |
 | `rcap-tx-custom-pleading::official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond` | `official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond` | TX | `exact-source-identity` | `rcap-tx-custom-pleading` | unresolved exact identity or URL | `ACQ` |
 | `tx_exp_acquittal-set::official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond` | `official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond` | TX | `exact-source-identity` | `tx_exp_acquittal-set` | unresolved exact identity or URL | `ACQ` |
 | `tx_nd_automatic_misdemeanor_deferred-set::official-form:OCA Instructions and Model Letter for an Order of Nondisclosure under Section 411.072` | `official-form:OCA Instructions and Model Letter for an Order of Nondisclosure under Section 411.072` | TX | `exact-source-identity` | `tx_nd_automatic_misdemeanor_deferred-set` | unresolved exact identity or URL | `ACQ` |
@@ -149,13 +137,13 @@ the issuing court or agency that publishes the document
 | `tx_nd_veterans_reemployment-set::official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0729` | `official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0729` | TX | `exact-source-identity` | `tx_nd_veterans_reemployment-set` | unresolved exact identity or URL | `ACQ` |
 | `tx_nd_veterans_reemployment-set::official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond` | `official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond` | TX | `exact-source-identity` | `tx_nd_veterans_reemployment-set` | unresolved exact identity or URL | `ACQ` |
 
-Deterministically assert exactly the 43 committed itemIds (failures are recorded per row and do not terminate the loop):
+Deterministically assert exactly the 31 committed itemIds (failures are recorded per row and do not terminate the loop):
 
 ```sh
 node - <<'NODE'
 const {spawnSync}=require('node:child_process');
 const a=require('./data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json').assignments.find(x=>x.assignmentId==='DISC01');
-if (!a || a.items.length !== 43) throw new Error('DISC01 committed item count changed');
+if (!a || a.items.length !== 31) throw new Error('DISC01 committed item count changed');
 for (const itemId of a.items) {
   const r=spawnSync(process.execPath,['scripts/grade-a-packet-factory-24h/claim.mjs','--assert','DISC01',itemId],{stdio:'inherit'});
   if (r.status !== 0) console.error('ROW_STOP', itemId);
@@ -167,7 +155,7 @@ NODE
 Run the row gate once per listed item, after the lane gate. This exact first command demonstrates the interface; substitute each other exact item id from the table without changing the lane:
 
 ```sh
-node scripts/verify-packet-build-environment.mjs --assignment-id DISC01 --source-obligation 'agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge::NO_DOCUMENT_SOURCE_NAMED' --codex-cloud --minimum-captain-sha 13771582866352d77e46e5d0b9bc86f1abbb6752
+node scripts/verify-packet-build-environment.mjs --assignment-id DISC01 --source-obligation 'census-pending-family:ME:juvenile-sealing::NO_DOCUMENT_SOURCE_NAMED' --codex-cloud --minimum-captain-sha e7995f68f07f801e28fd5443a6c2f3d531e4baf1
 
 # A failed row is recorded STOPPED; continue with unrelated rows.
 ```
@@ -176,7 +164,7 @@ node scripts/verify-packet-build-environment.mjs --assignment-id DISC01 --source
 
 ### Families this lane would release
 
-`agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge`, `census-pending-family:ME:juvenile-sealing`, `dc_correct_misattributed_arrest-set`, `dc_innocence_expungement-set`, `dc_seal_conviction-set`, `dc_seal_fugitive-set`, `dc_seal_nonconviction-set`, `dc_yra_set_aside-set`, `me-nonconv-set`, `me-screening-set`, `ne-expunge-le-error-set`, `ne-seal-enforcement-set`, `official-form-treatment:obligation:research-decision-route:AL:al-olr`, `rcap-tn-custom-pleading`, `rcap-tx-custom-pleading`, `tx_exp_acquittal-set`, `tx_nd_automatic_misdemeanor_deferred-set`, `tx_nd_conviction_no_supervision-set`, `tx_nd_deferred_other-set`, `tx_nd_dwi_conviction-set`, `tx_nd_dwi_deferred-set`, `tx_nd_dwi_probation-set`, `tx_nd_probation_misdemeanor-set`, `tx_nd_veterans_court-set`, `tx_nd_veterans_reemployment-set`
+`census-pending-family:ME:juvenile-sealing`, `official-form-treatment:obligation:research-decision-route:AL:al-olr`, `rcap-tx-custom-pleading`, `tx_exp_acquittal-set`, `tx_nd_automatic_misdemeanor_deferred-set`, `tx_nd_conviction_no_supervision-set`, `tx_nd_deferred_other-set`, `tx_nd_dwi_conviction-set`, `tx_nd_dwi_deferred-set`, `tx_nd_dwi_probation-set`, `tx_nd_probation_misdemeanor-set`, `tx_nd_veterans_court-set`, `tx_nd_veterans_reemployment-set`
 
 
 ### Settle these first
@@ -185,18 +173,9 @@ node scripts/verify-packet-build-environment.mjs --assignment-id DISC01 --source
 
 | Document | Jurisdiction | Families waiting |
 | --- | --- | --- |
-| Statement of Inability to Afford Payment of Court Costs or an Appeal Bond | TX | 10 |
-| NO_DOCUMENT_SOURCE_NAMED | AL | 0 |
+| Statement of Inability to Afford Payment of Court Costs or an Appeal Bond | TX | 11 |
+| Alabama AOC Order of Limited Relief packet | AL | 1 |
 | NO_DOCUMENT_SOURCE_NAMED | ME | 0 |
-| NO_DOCUMENT_SOURCE_NAMED | DC | 0 |
-| NO_DOCUMENT_SOURCE_NAMED | DC | 0 |
-| NO_DOCUMENT_SOURCE_NAMED | DC | 0 |
-| NO_DOCUMENT_SOURCE_NAMED | DC | 0 |
-| NO_DOCUMENT_SOURCE_NAMED | DC | 0 |
-| NO_DOCUMENT_SOURCE_NAMED | DC | 0 |
-| NO_DOCUMENT_SOURCE_NAMED | ME | 0 |
-| NO_DOCUMENT_SOURCE_NAMED | ME | 0 |
-| NO_DOCUMENT_SOURCE_NAMED | NE | 0 |
 
 > On 2026-08-31 an acquisition batch fetched thirty documents successfully and unblocked zero families — all thirty belonged to jurisdictions already resolved, with no overlap against the 238 documents gating the 256 blocked families. Fetch capacity is not the constraint. Knowing which document to fetch is.
 

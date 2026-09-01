@@ -118,10 +118,11 @@ export default function ForgotPasswordPage() {
 
 function passwordResetRedirectTo() {
   const params = typeof window !== "undefined" ? new URLSearchParams(window.location.search) : new URLSearchParams();
+  const continuation = consumerAuthContinuationFrom(params);
   return passwordResetRedirectUrl({
     product: params.get("product"),
     hostname: typeof window !== "undefined" ? window.location.hostname : null,
-    continuation: consumerAuthContinuationFrom(params)
+    continuation
   });
 }
 
