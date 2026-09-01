@@ -1,0 +1,59 @@
+{
+  "schemaVersion": "rcap-family-source-receipt/v1",
+  "familyId": "in_infraction_nondisclosure-set",
+  "worklistGroupId": "in_infraction_nondisclosure-set",
+  "jurisdiction": "IN",
+  "implementationStrategy": "custom_pleading",
+  "custodyClass": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+  "acquisitionCommissioned": false,
+  "bindingMethod": "no source bytes are bound — the MASTER_QUEUE row binds none (sourceStatus CUSTOM_PLEADING_FROM_CODIFIED_TEXT, boundSources []) — so the build grounds on the family's committed legal-design records and the stage-2 component's own dependency record, each verified by SHA-256 and by content assertion before composing",
+  "routeKeys": [
+    "obligation:unit:IN:in_infraction_nondisclosure:in_infraction_nondisclosure-stage-1",
+    "obligation:unit:IN:in_infraction_nondisclosure:in_infraction_nondisclosure-stage-2"
+  ],
+  "statutoryAuthority": "I.C. 34-28-5-15",
+  "legalName": "Infraction Non-Disclosure under I.C. 34-28-5-15",
+  "allSourcesExact": true,
+  "groundingRecords": [
+    {
+      "record": "memo",
+      "path": "data/record-clearing/legal-design-intake/IN.memo.json",
+      "sha256": "eea7b6933c5e5a9703d7cdb59026bada6468de934dffec5ce13be7963834eccb",
+      "byteLength": 176778,
+      "anchorsVerified": 11
+    },
+    {
+      "record": "manifest",
+      "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+      "sha256": "80d88d69dc5710b9a763abb31c6864069f9bb6d74b942c5e5849925144693ffa",
+      "byteLength": 3674510,
+      "anchorsVerified": 3
+    },
+    {
+      "record": "dependency",
+      "path": "data/rcap-all50/composed-routes/indiana/in_infraction_nondisclosure/components/in_infraction_nondisclosure-primary-filing-2/dependency.json",
+      "sha256": "18dd47b13899182aaa15d97d1e359f35ea6b05fcde97c469997fd0a0e479ab15",
+      "byteLength": 4985,
+      "anchorsVerified": 3
+    }
+  ],
+  "documents": [],
+  "composedComponentsAuthoredByThisBuild": [
+    "in_infraction_nondisclosure-process-guidance-1"
+  ],
+  "componentDeliberatelyAbsent": {
+    "componentId": "in_infraction_nondisclosure-primary-filing-2",
+    "unitId": "in_infraction_nondisclosure-stage-2",
+    "whyAbsent": "The manifest makes this component conditional on 'once the form and MC case-type gates close', and they have not: the memo records the unit unavailable ('No statewide form has been identified and county handling of the MC case-type assignment is unconfirmed'), and the component's own dependency record states drafted false, dependencyKind unresolved_form_question, with the missing determination assigned to the source-acquisition lanes. Drafting it here would override the family's own controlling records.",
+    "dependencyRecord": "data/rcap-all50/composed-routes/indiana/in_infraction_nondisclosure/components/in_infraction_nondisclosure-primary-filing-2/dependency.json"
+  },
+  "sourceBinaryCommitted": false,
+  "commercialRoutesOpened": 0,
+  "whatThisReceiptDoesNotEstablish": [
+    "that I.C. 34-28-5-15 as recorded in the memo (reviewed 2026-07-30) is the current text of the statute",
+    "whether a statewide form exists for the stage-2 petition (the open question that keeps it undrafted)",
+    "how counties handle the MC case-type assignment where no cause number was assigned",
+    "that any output is approved for participant delivery",
+    "that any record qualifies for non-disclosure under I.C. 34-28-5-15"
+  ]
+}

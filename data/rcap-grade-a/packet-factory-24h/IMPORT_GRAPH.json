@@ -2,7 +2,7 @@
   "schemaVersion": "rcap-packet-factory-24h-import-graph/v1",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "Which build scripts are shared, and may a lane own the script its family uses?",
-  "scriptsScanned": 83,
+  "scriptsScanned": 115,
   "rule": "A family worker may own a family-specific script only when no unassigned family imports it. One shared host has one owner.",
   "edges": [
     {
@@ -97,6 +97,163 @@
       ],
       "transitiveImports": [
         "build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-dc_correct_misattributed_arrest-set.mjs",
+      "imports": [
+        "build-census-v1-dc_seal_nonconviction-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-dc_seal_nonconviction-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-dc_innocence_expungement-set.mjs",
+      "imports": [
+        "build-census-v1-dc_seal_nonconviction-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-dc_seal_nonconviction-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-dc_seal_conviction-set.mjs",
+      "imports": [
+        "build-census-v1-dc_seal_nonconviction-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-dc_seal_nonconviction-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-dc_seal_fugitive-set.mjs",
+      "imports": [
+        "build-census-v1-dc_seal_nonconviction-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-dc_seal_nonconviction-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-dc_seal_nonconviction-set.mjs",
+      "imports": [],
+      "transitiveImports": [],
+      "importedBy": [
+        "build-census-v1-dc_correct_misattributed_arrest-set.mjs",
+        "build-census-v1-dc_innocence_expungement-set.mjs",
+        "build-census-v1-dc_seal_conviction-set.mjs",
+        "build-census-v1-dc_seal_fugitive-set.mjs"
+      ]
+    },
+    {
+      "script": "build-census-v1-ga-deaddocket-j3-set.mjs",
+      "imports": [
+        "build-census-v1-ga-host.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-ga-host.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-ga-felony-j1-set.mjs",
+      "imports": [
+        "build-census-v1-ga-host.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-ga-host.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-ga-fo-active-pre2026-set.mjs",
+      "imports": [
+        "build-census-v1-ga-host.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-ga-host.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-ga-fo-discharged-pre2026-set.mjs",
+      "imports": [
+        "build-census-v1-ga-host.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-ga-host.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-ga-fugitive-j5-set.mjs",
+      "imports": [
+        "build-census-v1-ga-host.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-ga-host.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-ga-host.mjs",
+      "imports": [],
+      "transitiveImports": [],
+      "importedBy": [
+        "build-census-v1-ga-deaddocket-j3-set.mjs",
+        "build-census-v1-ga-felony-j1-set.mjs",
+        "build-census-v1-ga-fo-active-pre2026-set.mjs",
+        "build-census-v1-ga-fo-discharged-pre2026-set.mjs",
+        "build-census-v1-ga-fugitive-j5-set.mjs",
+        "build-census-v1-ga-misd-j4-set.mjs",
+        "build-census-v1-ga-pardon-j7-set.mjs",
+        "build-census-v1-ga-seal-m-set.mjs",
+        "build-census-v1-ga-vacated-j2-set.mjs"
+      ]
+    },
+    {
+      "script": "build-census-v1-ga-misd-j4-set.mjs",
+      "imports": [
+        "build-census-v1-ga-host.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-ga-host.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-ga-pardon-j7-set.mjs",
+      "imports": [
+        "build-census-v1-ga-host.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-ga-host.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-ga-seal-m-set.mjs",
+      "imports": [
+        "build-census-v1-ga-host.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-ga-host.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-ga-vacated-j2-set.mjs",
+      "imports": [
+        "build-census-v1-ga-host.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-ga-host.mjs"
       ],
       "importedBy": []
     },
@@ -627,6 +784,31 @@
         "ca-17b-reduction-set",
         "ca-851-91-set",
         "ca-prop64-set"
+      ],
+      "owner": "UNOWNED_IN_THIS_WAVE"
+    },
+    {
+      "script": "build-census-v1-dc_seal_nonconviction-set.mjs",
+      "importers": [
+        "dc_correct_misattributed_arrest-set",
+        "dc_innocence_expungement-set",
+        "dc_seal_conviction-set",
+        "dc_seal_fugitive-set"
+      ],
+      "owner": "UNOWNED_IN_THIS_WAVE"
+    },
+    {
+      "script": "build-census-v1-ga-host.mjs",
+      "importers": [
+        "ga-deaddocket-j3-set",
+        "ga-felony-j1-set",
+        "ga-fo-active-pre2026-set",
+        "ga-fo-discharged-pre2026-set",
+        "ga-fugitive-j5-set",
+        "ga-misd-j4-set",
+        "ga-pardon-j7-set",
+        "ga-seal-m-set",
+        "ga-vacated-j2-set"
       ],
       "owner": "UNOWNED_IN_THIS_WAVE"
     },

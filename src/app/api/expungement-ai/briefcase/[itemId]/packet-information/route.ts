@@ -3,6 +3,10 @@ import { NextResponse } from "next/server";
 import { getRcapBriefcaseAuthState } from "@/lib/rcap/briefcase/auth";
 import { getBriefcaseItem } from "@/lib/expungement-ai/briefcase";
 import {
+  protectedPacketVerificationSeedFromTrustedSource,
+  readTrustedBriefcasePresentationSource
+} from "@/lib/expungement-ai/briefcase-presentation-authority";
+import {
   packetInformationPatch,
   protectedPacketInformationModelFor
 } from "@/lib/expungement-ai/packet-information";
@@ -25,6 +29,9 @@ export async function POST(
   if (!auth.isAuthenticated || !auth.userId) {
     return NextResponse.json({ ok: false, error: "auth_required" }, { status: 401 });
   }
+  if (auth.isVerified !== true) {
+    return NextResponse.json({ ok: false, error: "verified_account_required" }, { status: 403 });
+  }
 
   const { itemId } = await context.params;
   const item = await getBriefcaseItem(auth.userId, itemId);
@@ -37,10 +44,18 @@ export async function POST(
     return NextResponse.json({ ok: false, error: "invalid_request" }, { status: 400 });
   }
 
-  const protectedRead = await readProtectedPacketVerification({
+  let protectedRead = await readProtectedPacketVerification({
     consumerAuthUserId: auth.userId,
     briefcaseItemId: item.id
   });
+  if (!protectedRead.ok && protectedRead.reason === "protected_verification_authority_missing") {
+    const trusted = await readTrustedBriefcasePresentationSource({
+      consumerAuthUserId: auth.userId,
+      item
+    });
+    const seeded = trusted.ok ? protectedPacketVerificationSeedFromTrustedSource(trusted.value) : null;
+    if (seeded) protectedRead = { ok: true, value: seeded.verification };
+  }
   if (!protectedRead.ok) {
     return NextResponse.json({ ok: false, error: "protected_verification_unavailable" }, { status: 503 });
   }

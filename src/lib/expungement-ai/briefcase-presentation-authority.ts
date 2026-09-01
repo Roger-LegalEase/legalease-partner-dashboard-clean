@@ -42,7 +42,7 @@ export type BriefcasePresentationArtifact =
   | {
     status: "ready";
     canDownload: boolean;
-    source: "source_driven_packet_plan" | "mississippi_legacy_petition_packet";
+    source: "source_driven_packet_plan" | "mississippi_legacy_petition_packet" | "verified_render_job";
     packetId: string;
     packetPlanId: string | null;
     generatedAt: string;
@@ -220,6 +220,26 @@ function sanitizeProtectedPresentationArtifact(
       ]
     };
   }
+  if (value.provider === "rcap_durable_render_v1"
+    && value.source === "verified_render_job"
+    && typeof value.packetId === "string"
+    && typeof value.renderJobId === "string"
+    && typeof value.artifactSha256 === "string"
+    && /^[a-f0-9]{64}$/.test(value.artifactSha256)
+    && typeof value.fileName === "string"
+    && typeof value.generatedAt === "string"
+    && typeof value.downloadPath === "string"
+    && value.downloadPath.startsWith("/api/expungement-ai/packet/download-link?briefcaseItemId=")) {
+    return {
+      status: "ready",
+      canDownload: true,
+      source: "verified_render_job",
+      packetId: value.packetId,
+      packetPlanId: null,
+      generatedAt: value.generatedAt,
+      documents: [{ kind: "full", fileName: value.fileName, downloadPath: value.downloadPath }]
+    };
+  }
   return { status: "absent", canDownload: false, documents: [] };
 }
 
@@ -381,6 +401,23 @@ function legalAuthorityFromTrustedSource(
   source: TrustedBriefcasePresentationSource,
   evaluate: BriefcasePresentationDependencies["evaluateAuthoritative"]
 ): BriefcaseLegalPresentationAuthority {
+  const seeded = protectedPacketVerificationSeedFromTrustedSource(source, evaluate);
+  if (!seeded) {
+    return { status: "unavailable", reason: "trusted_source_reevaluation_failed" };
+  }
+  const model = protectedPacketInformationModelFor(seeded.verification);
+  return legalAuthorityFromEvaluation("trusted_source", seeded.authoritative, {
+    verificationStatus: "trusted_source",
+    packetProgress: model ? "not_started" : evaluationPacketProgress(seeded.authoritative),
+    packetDraft: model ? presentationDraftForModel(model) : { status: "unavailable" }
+  });
+}
+
+/** Creates the protected revision-zero seed from the server-owned claim row. */
+export function protectedPacketVerificationSeedFromTrustedSource(
+  source: TrustedBriefcasePresentationSource,
+  evaluate: BriefcasePresentationDependencies["evaluateAuthoritative"] = evaluateAuthoritativeScreeningResult
+): { authoritative: AuthoritativeEvaluation; verification: ProtectedPacketVerificationRecord } | null {
   let authoritative: AuthoritativeEvaluation;
   try {
     authoritative = evaluate({
@@ -390,7 +427,7 @@ function legalAuthorityFromTrustedSource(
       answers: source.answers
     });
   } catch {
-    return { status: "unavailable", reason: "trusted_source_reevaluation_failed" };
+    return null;
   }
   const seed = protectedPacketDraftSeedFromAuthoritative({
     authoritative,
@@ -402,18 +439,17 @@ function legalAuthorityFromTrustedSource(
     },
     capturedAt: source.claimedAt
   });
-  const model = seed ? protectedPacketInformationModelFor({
-    status: "unverified",
-    reason: "final_verification_not_completed",
-    revision: 0,
-    draftHash: seed.hash,
-    draftSnapshot: seed.snapshot
-  }) : null;
-  return legalAuthorityFromEvaluation("trusted_source", authoritative, {
-    verificationStatus: "trusted_source",
-    packetProgress: model ? "not_started" : evaluationPacketProgress(authoritative),
-    packetDraft: model ? presentationDraftForModel(model) : { status: "unavailable" }
-  });
+  if (!seed) return null;
+  return {
+    authoritative,
+    verification: {
+      status: "unverified",
+      reason: "final_verification_not_completed",
+      revision: 0,
+      draftHash: seed.hash,
+      draftSnapshot: seed.snapshot
+    }
+  };
 }
 
 function presentationDraftForModel(
