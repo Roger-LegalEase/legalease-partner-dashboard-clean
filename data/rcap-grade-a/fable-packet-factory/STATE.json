@@ -1,7 +1,7 @@
 {
   "schemaVersion": "fable-packet-factory-state/v1",
-  "updatedAt": "2026-09-01T12:15:02Z",
-  "captainSha": "a0c32ecdebde5521fea7c296f60cff14d062a888",
+  "updatedAt": "2026-09-01T12:28:11Z",
+  "captainSha": "45e29603d9e0ee06e9d9ea0ef905af8ee418feea",
   "director": "Fable 5 (this session) — sole packet-factory director; Codex off the critical path",
   "denominator": 346,
   "classification": {
@@ -11,13 +11,90 @@
     "LEGAL_INPUT_REQUIRED": 13,
     "VERIFY_NOW": 39,
     "IN_FLIGHT": 5,
-    "ALREADY_COMPLETE": 0
+    "ALREADY_COMPLETE": 0,
+    "REPAIR_NOW_OWNED": 17,
+    "REPAIR_NOW_UNOWNED_REMAINING": 9
   },
   "familiesBuilt": 0,
   "familiesRepaired": 0,
   "familiesRastered": 47,
   "familiesIndependentlyPassed": 0,
-  "activeSubagents": [],
+  "activeSubagents": [
+    {
+      "id": "b1",
+      "kind": "builder",
+      "lane": "PF17",
+      "families": 3,
+      "note": "ky felony vacatur, or setaside, ca-1203-4 (known AES stop)"
+    },
+    {
+      "id": "b2",
+      "kind": "builder",
+      "lane": "PF17",
+      "families": 3,
+      "note": "sc 17-22-950, wi doj challenge, wi doj fingerprint"
+    },
+    {
+      "id": "b3",
+      "kind": "builder",
+      "lane": "PF09/PF02",
+      "families": 2,
+      "note": "ma-expunge-mj, va_exp_nonconviction"
+    },
+    {
+      "id": "r1",
+      "kind": "repairer",
+      "lane": "FIX09",
+      "families": 3,
+      "note": "az, ca-1203-42, ca-851-91"
+    },
+    {
+      "id": "r2",
+      "kind": "repairer",
+      "lane": "FIX09",
+      "families": 3,
+      "note": "nj x2 (byte changes forbidden on the defective host), ny"
+    },
+    {
+      "id": "r3",
+      "kind": "repairer",
+      "lane": "FIX10",
+      "families": 9,
+      "note": "WA vacate shared host: instructions for all nine + the route-election classification"
+    },
+    {
+      "id": "r4",
+      "kind": "repairer",
+      "lane": "FIX11",
+      "families": 2,
+      "note": "PA pair, packet-content, byte changes expected"
+    },
+    {
+      "id": "s1",
+      "kind": "source",
+      "defects": 3,
+      "note": "VA corrupted pin, DE FORM-281 collision, KS null digests"
+    },
+    {
+      "id": "s2",
+      "kind": "source",
+      "rows": "up to 25 of 120",
+      "note": "misrouted held-byte relationships; metric = families fully bound"
+    },
+    {
+      "id": "v1",
+      "kind": "verifier",
+      "lanes": "VF18/20/23/25",
+      "families": 4
+    },
+    {
+      "id": "v2",
+      "kind": "verifier",
+      "lane": "VF26",
+      "families": 4,
+      "note": "the four Virginia families — highest-probability genuine passes"
+    }
+  ],
   "currentStops": {
     "encryptedSources": [
       "ca-1203-4-set",
@@ -27,5 +104,8 @@
   },
   "throughputPerHour": null,
   "commercialRoutesOpened": 0,
-  "productionTouched": false
+  "productionTouched": false,
+  "determinations": [
+    "DETERMINATION_CC1203_SUBSTITUTION.json — CC-1203 correct, settled from the forms’ faces"
+  ]
 }
