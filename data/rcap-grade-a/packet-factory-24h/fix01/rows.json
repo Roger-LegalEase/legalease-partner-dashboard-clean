@@ -1,0 +1,224 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-return/v1",
+  "assignmentId": "FIX01",
+  "worker": "FIX-A",
+  "workerBranch": "claude/9h-fix-a",
+  "shiftBaseSha": "09b741ad00be0d630bd73a72f66640294abab397",
+  "laneKind": "repair",
+  "question": "Were exactly the failed proof obligations repaired, on exactly the families they failed on?",
+  "environment": {
+    "preflight": "PACKET_BUILD_ENVIRONMENT_NOT_READY",
+    "whyItMatters": "the lane preflight is a gate on rendering, and this container cannot bind sources. Every repair in this return is therefore a non-rendering repair: no ink was added, and every canonical and boundary PDF is byte-identical to the committed fixture whose SHA-256 is recorded on its row.",
+    "blocker": {
+      "what": "the pinned Master Library is not present and cannot be recovered in this container",
+      "detail": "scripts/rcap-corpus/bootstrap-private-corpus.sh resolves the release asset Expungement_AI_RCAP_Master_Library_Edition_1.zip from Roger-LegalEase/legalease-source-artifacts@source-corpus-2026-08-28 and the request answers HTTP 403 to this session token. verify-packet-build-environment.mjs reports PACKET_BUILD_ENVIRONMENT_NOT_READY with family_sources_bind failing, so neither --build nor --check starts for any family and no PDF can be re-rendered.",
+      "consequence": "a repair that requires new ink is a rebuild, and no rebuild can run here."
+    },
+    "rasterState": "BUILT_RASTER_PENDING. No family in this return is self-verified, none is RASTER_PASS, and visualDefects reads zero on every row because nobody has looked, not because there is nothing to see."
+  },
+  "fleetObservation": {
+    "finding": "the overlay artifacts are stale against their own build hosts, and the staleness is fleet-wide rather than family-specific.",
+    "evidence": [
+      "commit 9a484a6 (lane S1, shared fact allowlist) extended SHARED_EXACT_FACT_ALLOWLIST and the AZ field specs on 2026-08-31 and no family was rebuilt afterwards; the overlays still carry the pre-S1 decisions.",
+      "the refusal class not_supported_by_exact_participant_fact_map appears on 88 New Jersey and 52 Rhode Island rows and is not emitted anywhere in the current shared host.",
+      "the shared host classifyRefusal returns six classes, of which only court_prosecutor_clerk_or_agency_owned and participant_sworn_narrative_or_legal_election are in the completeness contract closed refusal vocabulary. required_before_filing, signature_or_sworn_participant_act, unmailed_or_unperformed_service and not_a_filing_fact are not, and the host never states requiredBeforeFiling on the declared channel the contract reads."
+    ],
+    "whatThisLaneCouldNotDo": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs is the shared host for the New Jersey, Rhode Island and Pennsylvania families and is owned by no FIX lane in this shift. FIX01 owns only the three-line nj_indictable entry point that imports it, and FIX07 owns neither. The transcription in this return puts the host own determinations into two stale artifacts by hand; a rebuild would overwrite it, and four sibling New Jersey families and the Pennsylvania families still carry the same defect untouched. This is one shared host reaching many packets, the same shape as the Vermont and Washington shared-host repairs, and it needs a lane that owns the host.",
+    "alsoObserved": "RI-DC-33 fields \"Date of Birth\" and \"Date of Birth_2\" are bound to participant.date_of_birth in SHARED_EXACT_FACT_ALLOWLIST and are refused in the committed overlay under signature_or_date_participant_completion. That row passes the completeness contract today, so it was not in the obligations handed to this lane and was not touched. It is the same staleness and a rebuild will change it."
+  },
+  "instructionsQualityNote": "the New Jersey and Rhode Island disclosures name every required-before-filing blank by the field name in the source PDF and by the caption the census measured beside it. Many of those captions are fragments the measurement could reach only partly, so the participant is told which page to read where the fragment is not self-explanatory. Better captions are a host measurement improvement, not something this lane can invent.",
+  "productionTouched": false,
+  "commercialRoutesOpened": 0,
+  "selfVerified": false,
+  "rows": [
+    {
+      "itemId": "az_marijuana_expungement_arrest_no_charges-set",
+      "status": "STOPPED",
+      "verdict": "BUILT_RASTER_PENDING for the repaired obligations; one obligation returned unrepaired",
+      "obligationsHandedToThisLane": [
+        "knownRequiredFieldsMissing",
+        "unclassifiedBlanks",
+        "requiredOptionsMissing",
+        "requiredComponentsMissing"
+      ],
+      "obligationsRepaired": [
+        {
+          "obligation": "requiredOptionsMissing",
+          "from": 19,
+          "to": 0,
+          "repair": "the nineteen printed bracket-pair controls carried the reason \"the shared semantics never writes a checkbox/radio election\", which the contract reads as a shared build limitation rather than a determination that the election belongs to the participant. Each now declares refusalClass participant_sworn_narrative_or_legal_election and isSelectionControl, which the field map construction printed_bracket_glyph_pair already stated. They are sworn statements about the petitioner own record and a request for a hearing; the route determines none of them and the build marks no box a petitioner swears to."
+        },
+        {
+          "obligation": "unclassifiedBlanks",
+          "from": 1,
+          "to": 0,
+          "repair": "justice-court-name is declared requiredBeforeFiling and named in the new participant-instructions.md."
+        },
+        {
+          "obligation": "knownRequiredFieldsMissing",
+          "from": 7,
+          "to": 1,
+          "repair": "five blanks declared requiredBeforeFiling and disclosed by name: the Justice Court name and case number, the prosecuting agency, and the two conditional disposition dates. The host field spec already states blankTreatment REQUIRED_BEFORE_FILING for the prosecuting agency. The caption case number and the superior court case number are not the participant to supply on this route: no charge was filed, so no number exists until the clerk assigns one, and both now carry refusalClass court_prosecutor_clerk_or_agency_owned with the route record own sentence unchanged."
+        },
+        {
+          "obligation": "requiredComponentsMissing",
+          "from": 1,
+          "to": 0,
+          "repair": "reports/rendered-artifacts.json rendered AZ-AOC-CREM3F and never named it. The documentId and formNumber are now on each artifact and raster record."
+        }
+      ],
+      "obligationsStopped": [
+        {
+          "obligation": "knownRequiredFieldsMissing",
+          "field": "citing-or-arresting-agency",
+          "whatIsMissing": "a rebuild. scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs binds this blank to matter.citing_or_arresting_agency with writeFor set to both AZ variants, and its own --check asserts that agency write is present in the recorded field map. The committed overlay predates that binding. The platform holds this fact, so declaring it required-before-filing would assert the opposite of what the host states, and an available fact is not an unavailable one.",
+          "blockedBy": {
+            "what": "the pinned Master Library is not present and cannot be recovered in this container",
+            "detail": "scripts/rcap-corpus/bootstrap-private-corpus.sh resolves the release asset Expungement_AI_RCAP_Master_Library_Edition_1.zip from Roger-LegalEase/legalease-source-artifacts@source-corpus-2026-08-28 and the request answers HTTP 403 to this session token. verify-packet-build-environment.mjs reports PACKET_BUILD_ENVIRONMENT_NOT_READY with family_sources_bind failing, so neither --build nor --check starts for any family and no PDF can be re-rendered.",
+            "consequence": "a repair that requires new ink is a rebuild, and no rebuild can run here."
+          }
+        }
+      ],
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 7,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 1,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 19,
+        "requiredComponentsMissing": 1,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 1,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "nonvisualCountersZeroed": false,
+      "packetBytesUnchanged": true,
+      "canonicalSha256": "ffc7cddda9fb8ae479e69bacda4065e03dd6985f22beb23ffd1e0f051c4930a3",
+      "boundarySha256": "84072b659f796c90f5f9a86db12c550bfed79b5b9989a4aa1bab6584d079e85a"
+    },
+    {
+      "itemId": "nj_indictable_conviction-set",
+      "status": "STOPPED",
+      "verdict": "BUILT_RASTER_PENDING for the repaired obligations; nine rows returned unrepaired",
+      "obligationsHandedToThisLane": [
+        "knownRequiredFieldsMissing"
+      ],
+      "obligationsRepaired": [
+        {
+          "obligation": "knownRequiredFieldsMissing",
+          "from": 88,
+          "to": 9,
+          "repair": "all eighty-eight rows carried the single untrusted refusal class not_supported_by_exact_participant_fact_map, which the current shared host scripts/build-census-v1-nj_arrest_no_conviction-set.mjs no longer emits at all: its classifyRefusal returns one of six per-field classes. The overlay is stale build output. Seventy-seven rows are the host own required_before_filing determination, transcribed into the contract declared channel as requiredBeforeFiling true with the host own reason string, and every one of them is disclosed by field name and page in a new participant-instructions.md. Two rows are the host not_a_filing_fact determination for the PDF viewer buttons formPrint and formSafeClear, carrying the host own sentence."
+        }
+      ],
+      "obligationsStopped": [
+        {
+          "obligation": "knownRequiredFieldsMissing",
+          "fields": [
+            "DefName",
+            "DefAddrStr",
+            "DefAddr2",
+            "DefAddr3",
+            "ExpungeCntyName",
+            "origCaseNums",
+            "arrestOff1",
+            "arrest1Dt",
+            "arrest1CaseNum"
+          ],
+          "whatIsMissing": "a rebuild. SHARED_EXACT_FACT_ALLOWLIST[\"NJ-CN-10557\"] in the shared host binds each of these terminal names to a held fact, so a rebuild emits them as candidate_write. The committed overlay predates that binding and refuses them. The platform holds these facts and they are left exactly as the stale build recorded them rather than reclassified into blanks the participant would be told to fill.",
+          "blockedBy": {
+            "what": "the pinned Master Library is not present and cannot be recovered in this container",
+            "detail": "scripts/rcap-corpus/bootstrap-private-corpus.sh resolves the release asset Expungement_AI_RCAP_Master_Library_Edition_1.zip from Roger-LegalEase/legalease-source-artifacts@source-corpus-2026-08-28 and the request answers HTTP 403 to this session token. verify-packet-build-environment.mjs reports PACKET_BUILD_ENVIRONMENT_NOT_READY with family_sources_bind failing, so neither --build nor --check starts for any family and no PDF can be re-rendered.",
+            "consequence": "a repair that requires new ink is a rebuild, and no rebuild can run here."
+          }
+        }
+      ],
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 88,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 9,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "nonvisualCountersZeroed": false,
+      "packetBytesUnchanged": true,
+      "canonicalSha256": "ba8d6101f5910a53c3dd7b5b616f1884efb45f2ebb2b81549ce8c8fad7baf804",
+      "boundarySha256": "ada8787e67629adafbef785f09aa6c4295ab06c84b86f4b29ba107e52111a3a1"
+    },
+    {
+      "itemId": "ri_nonconviction_sealing-set",
+      "status": "COMPLETED",
+      "verdict": "BUILT_RASTER_PENDING",
+      "obligationsHandedToThisLane": [
+        "knownRequiredFieldsMissing",
+        "unclassifiedBlanks"
+      ],
+      "obligationsRepaired": [
+        {
+          "obligation": "knownRequiredFieldsMissing",
+          "from": 49,
+          "to": 0,
+          "repair": "the same stale untrusted refusal class as New Jersey, on the same shared host. Fifty-one rows are the host own required_before_filing determination, transcribed into the contract declared channel and disclosed by field name and page in participant-instructions.md."
+        },
+        {
+          "obligation": "unclassifiedBlanks",
+          "from": 2,
+          "to": 0,
+          "repair": "both rows were in the same stale class and are covered by the same transcription; one PDF viewer button carries the host not_a_filing_fact determination."
+        }
+      ],
+      "obligationsStopped": [],
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 49,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 2,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "nonvisualCountersZeroed": true,
+      "packetBytesUnchanged": true,
+      "canonicalSha256": "e8ba4ef7f10b867113072a9f2febfaeb0a2d3f31b26a5d639636402b095633f2",
+      "boundarySha256": "49cdd9b2c6ad0bd2c0b0f6952486e4b3f6e61cc0986b7687d383f09ad6916358"
+    }
+  ]
+}
