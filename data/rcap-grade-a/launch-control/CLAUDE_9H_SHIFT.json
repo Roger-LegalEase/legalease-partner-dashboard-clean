@@ -86,7 +86,55 @@
       ]
     }
   },
-  "nextLaneByWorker": {},
+  "nextLaneByWorker": {
+    "PF-C": {
+      "lanes": [
+        "PF07",
+        "PF08",
+        "PF09",
+        "PF10",
+        "PF11"
+      ],
+      "takeAfter": "your static queue PF12-PF16",
+      "why": "PF-B cannot mount the Master Library in its session and you demonstrably can: you reached PACKET_BUILD_ENVIRONMENT_READY and built ak-tf800-set. These are build lanes, the same kind you already run.",
+      "ownershipTransfer": "PF-B has written no overlay byte, claimed no family and returned no row for any of these. There is no partial state to reconcile and no double ownership.",
+      "doNotSelfVerify": true
+    },
+    "PF-A": {
+      "lanes": [
+        "FIX02",
+        "FIX04",
+        "FIX06",
+        "FIX08"
+      ],
+      "takeAfter": "your static queue PF01-PF06",
+      "why": "FIX-B cannot mount the Master Library in its session and you can; you attached legalease-source-artifacts yourself. These are repair rather than build lanes, and Captain authorizes you to run them: same source gates, same legal gates, same component contract.",
+      "ownershipTransfer": "FIX-B wrote nothing to any family, zeroed no counter and fabricated no hash. Its diagnosis is in its lane returns and is worth reading first: all 8 families reproduce their assigned obligations exactly from the committed verifier evidence, so no family needs re-deriving to diagnose.",
+      "repairRules": "Read the exact verifier failure first. Repair only the failed proof obligations and their mechanically dependent outputs. Preserve exact source bytes and legal treatment. Never self-verify.",
+      "doNotSelfVerify": true
+    },
+    "PF-B": {
+      "lanes": [],
+      "state": "HELD_ON_OWNER_ACTION",
+      "why": "No corpus can be mounted in this session and add_repo is classifier-denied, so no packet work is possible here. PF07-PF11 have been re-dispatched to PF-C. Do not re-run the refused fetch on a timer.",
+      "resumeWhen": "Roger-LegalEase/legalease-source-artifacts is granted to this workspace at https://claude.ai/admin-settings/claude-tag, or add_repo is approved in this session.",
+      "onResume": "Report to Captain before claiming anything: PF07-PF11 now belong to PF-C and must not be double-claimed."
+    },
+    "FIX-B": {
+      "lanes": [],
+      "state": "HELD_ON_OWNER_ACTION",
+      "why": "Same session scoping. FIX02/FIX04/FIX06/FIX08 have been re-dispatched to PF-A. Do not re-run the refused fetch on a timer.",
+      "resumeWhen": "Roger-LegalEase/legalease-source-artifacts is granted to this workspace at https://claude.ai/admin-settings/claude-tag, or add_repo is approved in this session.",
+      "onResume": "Report to Captain before claiming anything: your four lanes now belong to PF-A and must not be double-claimed."
+    },
+    "FIX-A": {
+      "lanes": [],
+      "state": "PARTIALLY_BLOCKED",
+      "why": "family_sources_bind is failing in this session too: FIX01 returned 1 completed and 2 stopped, FIX03 both stopped. Continue any family that binds; hold the rest.",
+      "resumeWhen": "same owner action as PF-B and FIX-B.",
+      "doNotSelfVerify": true
+    }
+  },
   "integratedReturns": [],
   "newlyReleasedFamilies": [],
   "productionTouched": false,
@@ -174,5 +222,6 @@
         "doesNotBlockTheShift": "Captain is re-dispatching the affected families to corpus-equipped workers meanwhile."
       }
     }
-  }
+  },
+  "reDispatchNote": "Re-dispatch is by lane, not by claim. No claim was released and no family is owned by two workers: PF-B and FIX-B wrote nothing to any family, so there is no partial state to reconcile."
 }
