@@ -1,18 +1,12 @@
 {
   "schemaVersion": "rcap-family-build-findings/v1",
   "familyId": "md_second_chance_shielding-set",
-  "blocking": [
-    {
-      "severity": "blocking",
-      "owner": "scripts/rcap-official-forms/rcap-official-form-finalize.mjs",
-      "finding": "finalizeOfficialForm accepts no `selections` argument and never calls markSelections. finalizeFlatOverlay, defined in the same file and sharing the same ink, protected-rule set and page list, does: it refuses a box that was not measured off the document, refuses one that lands on a rule the court owns, refuses one too small to mark inside its own stroke, and otherwise strikes two diagonals inset 2pt within the court's box.",
-      "consequence": "An AcroForm family cannot mark a selection control at all. This family needs two marked -- the MDJ-008 section 1 heading and the \"Sealing or Shielding Motion\" category -- and both are route-determined, so they are declared route-determined and counted as two requiredOptionsMissing. The family returns STOPPED with those two defects and no others.",
-      "scopeBeyondThisFamily": "This is not a Maryland problem. Every official_pdf_fill family in this factory with a route-determined checkbox is structurally unable to zero its counters, and the only alternative available to a builder is to relabel the box a participant election -- which is the substitution BLANK_DISPOSITIONS exists to catch.",
-      "whatWouldFixIt": "Give finalizeOfficialForm the same `selections` parameter and the same markSelections call finalizeFlatOverlay already has, after the widgets are flattened so the mark is not covered. The measured rectangles are already in this family's field map under routeDeterminedSelections, read first-hand from the pinned binary.",
-      "notFixedHere": "Shared machinery is not this lane's to edit, and a builder-local re-implementation of a safety-checked marking routine would be a copy of a guard with its checks unaudited."
-    }
-  ],
+  "blocking": [],
   "findings": [
+    {
+      "finding": "The two route-determined MDJ-008 section 1 controls are marked by this family's own post-finalize pass (markRouteDeterminedSelections), because finalizeOfficialForm still accepts no `selections` argument. The pass reuses the shared machinery's published SELECTION_INSET, SELECTION_LINE_WIDTH and participant ink, enforces the shared markSelections guards as hard assertions (measured box, verbatim printed caption, unanswered pinned source, on-page, large enough to mark inside its own stroke), and proves each mark out of the artifact bytes as added painted paths.",
+      "consequence": "A `selections` parameter on finalizeOfficialForm would still be the better home for this — every official_pdf_fill family with a route-determined checkbox needs it — and the measured rectangles remain in this family's field map under routeDeterminedSelections for that migration. Recorded for the owner of scripts/rcap-official-forms/."
+    },
     {
       "finding": "CC-DC-CR-148 prints, at page 1 y=616, \"You must file a Notice Regarding Restricted Information Pursuant to Rule 20-201.1 (form MDJ-008) with this submission.\"",
       "consequence": "MDJ-008 is carried in this family as an attachment rather than as a separate optional form, and the instructions say why in the form's own words."

@@ -14,7 +14,7 @@
  *                 this submission."
  *   MDJ-008       that notice -- the attachment, not an optional companion.
  *
- * THIS FAMILY RETURNS STOPPED, AND THE REASON IS THE POINT OF BUILDING IT.
+ * THE TWO ROUTE-DETERMINED BOXES ON MDJ-008 ARE MARKED BY THE BUILD.
  *
  * MDJ-008 asks the filer to identify which restricted category the submission
  * falls in. For this packet that is not a preference and not a fact about the
@@ -30,24 +30,20 @@
  * in two places: "This form contains Restricted Information" at the head of
  * page 1, and paragraph 6, "This petition is to be shielded by the clerk".
  *
- * The packet cannot mark either box. `finalizeOfficialForm` -- the AcroForm path
- * every form-filling family in this factory uses -- has no selection channel at
- * all. `finalizeFlatOverlay`, beside it in the same file, does: it takes
- * `selections`, refuses any box not measured off the document, refuses one that
- * lands on a rule the court owns, and strikes two diagonals strictly inside the
- * court's own stroke. An AcroForm family has no way to reach that code, and the
- * shared finalizer is not this lane's to edit.
- *
- * So the two controls are declared route-determined and left unmade, which the
- * completeness contract counts -- correctly -- as two requiredOptionsMissing.
- * The family returns STOPPED with those two defects and nothing else. The
- * alternative was to call a box the route determines a "genuine participant
- * election", which is the exact substitution BLANK_DISPOSITIONS exists to catch,
- * and it would have produced a green family and a wrong one.
- *
- * The gap is machinery, not Maryland: every AcroForm family in this factory with
- * a route-determined checkbox is structurally unable to zero its counters. It is
- * raised for the owner of scripts/rcap-official-forms/ in build-findings.json.
+ * An earlier revision of this family returned STOPPED with two
+ * requiredOptionsMissing, because `finalizeOfficialForm` -- the AcroForm path
+ * every form-filling family in this factory uses -- has no selection channel,
+ * and relabelling a route-determined box a "genuine participant election" is
+ * the substitution BLANK_DISPOSITIONS exists to catch. The FIX07 repair
+ * answers both elections per the form's own printed face, the WA
+ * route-election pattern: `markRouteDeterminedSelections` strikes two
+ * diagonals strictly inside each court-drawn box on the finalized bytes,
+ * using the shared machinery's own published SELECTION_INSET,
+ * SELECTION_LINE_WIDTH and participant ink, guarded by the same refusals the
+ * shared markSelections applies (measured box, verbatim printed caption,
+ * unanswered on the pinned source, on-page, big enough to mark inside its own
+ * stroke), and each mark is proved back out of the artifact bytes as added
+ * painted paths. The route answers the election; nothing is invented.
  *
  * WHAT IS BUILT, AND IS COMPLETE.
  *
@@ -74,8 +70,9 @@ import path from "node:path";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 
-import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
-import { finalizeOfficialForm } from "./rcap-official-forms/rcap-official-form-finalize.mjs";
+import { extractPageGeometry, extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
+import { finalizeOfficialForm, PARTICIPANT_INK_RGB, SELECTION_INSET, SELECTION_LINE_WIDTH }
+  from "./rcap-official-forms/rcap-official-form-finalize.mjs";
 import { flattenedWidgets, drawnAt } from "./rcap-official-forms/pdf-flattened-widgets.mjs";
 import { BLANK_DISPOSITIONS, PASS_COUNTERS, classifyField, classifyBlank, rowKeyOf }
   from "./rcap-packet-completeness/completeness-contract.mjs";
@@ -97,7 +94,7 @@ const thisFile = fileURLToPath(import.meta.url);
 const ROOT = path.resolve(path.dirname(thisFile), "..");
 process.chdir(ROOT);
 const require = createRequire(import.meta.url);
-const { PDFDocument } = require("pdf-lib");
+const { PDFDocument, rgb } = require("pdf-lib");
 
 const FAMILY_ID = "md_second_chance_shielding-set";
 const CORPUS_INDEX = "data/rcap-all50/local-source-corpus-index.json";
@@ -129,8 +126,12 @@ const PROTECT = (refusalClass, why) => ({ policy: "protect", refusalClass, why }
 const ELECTION = (why) => ({ policy: "election", why });
 const ATTORNEY = (why) => ({ policy: "attorney", why });
 const VIEWER = (why) => ({ policy: "viewer", why });
-/* A selection the ROUTE determines. Declared as such, and left unmade because
- * the shared AcroForm finalizer has no channel to mark it. See the header. */
+/* A selection the ROUTE determines. Declared as such and MARKED BY THE BUILD,
+ * per the form's own printed face — the WA route-election pattern. The shared
+ * AcroForm finalizer still has no selections channel, so the mark is drawn by
+ * this family's own post-finalize pass (markRouteDeterminedSelections below),
+ * with the same inset, stroke and refusal guards as the shared markSelections,
+ * and proved back out of the artifact bytes as added vector paths. */
 const ROUTE_DETERMINED = (why) => ({ policy: "route_determined", why });
 
 const SIGNATURE = "signature_or_date_participant_completion";
@@ -346,9 +347,9 @@ const FORM_FIELDS = {
       label: "1. RESTRICTED DOCUMENT — the entire document is not subject to inspection (selection)",
       ...ROUTE_DETERMINED(
         "The route determines this. CC-DC-CR-148 prints \"This form contains Restricted Information\" at the head of page 1 "
-        + "and asserts in paragraph 6 that \"This petition is to be shielded by the clerk\". The packet cannot mark it: the "
-        + "shared AcroForm finalizer has no channel for marking a selection control, and this lane may not edit shared "
-        + "machinery. Mark it yourself."
+        + "and asserts in paragraph 6 that \"This petition is to be shielded by the clerk\". The build marks it, per the "
+        + "form's own printed face: two diagonal strokes inside the court's box, never a new box, and the mark is read "
+        + "back out of the artifact bytes."
       )
     },
     "Sealing or Shielding Motion": {
@@ -358,7 +359,8 @@ const FORM_FIELDS = {
         "The route determines this. The petition is filed under Md. Rule 16-941, which CC-DC-CR-148 prints in its opening "
         + "sentence, and this "
         + "line of MDJ-008 reads \"Sealing or Shielding Motion: while pending, but not to exceed five (5) business days. "
-        + "Rule 16-941 & 16-914(k)(2)\" — the same rule. The packet cannot mark it, for the reason above. Mark it yourself."
+        + "Rule 16-941 & 16-914(k)(2)\" — the same rule. The build marks it, per the form's own printed face, in the same "
+        + "way as the heading box above."
       )
     },
     ...mdjCategoryFields(),
@@ -577,7 +579,112 @@ async function renderDocument(source, census, fixtureName) {
     console.log(`-- ${source.formNumber} ${fixtureName}: written=${report.written.length} refused=${report.refused.length}`);
     for (const r of report.refused) console.log(`   ${r.field ?? r.anchor}: ${r.reason}${r.category ? ` (${r.category})` : ""}`);
   }
-  return { bytes, report };
+  const marked = await markRouteDeterminedSelections(bytes, census, source.formNumber);
+  return { bytes: marked.bytes, report, routeMarks: marked.marks };
+}
+
+/* ---- route-determined selection marks --------------------------------------- */
+/*
+ * Marks the selection controls the ROUTE determines, on the finalized bytes.
+ *
+ * This is the WA route-election pattern brought to an AcroForm family: the
+ * route answers the election per the form's own printed face — never the
+ * build's invention — and the mark is two diagonal strokes drawn strictly
+ * inside the court's own box, after flatten so nothing covers it. The shared
+ * finalizeOfficialForm has no `selections` channel; this pass reuses the
+ * shared machinery's own published constants (SELECTION_INSET,
+ * SELECTION_LINE_WIDTH, PARTICIPANT_INK_RGB) and re-implements its refusal
+ * guards as hard assertions, because on a route-specific packet a refused
+ * route mark is a build failure, not a footnote:
+ *
+ *   - only a checkbox selection control may carry a route mark;
+ *   - the control's printed caption must have been found verbatim on its own
+ *     page (the printed face is what determines the answer);
+ *   - the pinned source must show the control unanswered — a box the court
+ *     or the form already marked is never re-marked;
+ *   - the box must sit fully on its page and be large enough to mark inside
+ *     its own stroke at the shared inset.
+ *
+ * The mark is then proved from the output bytes: the painted paths added
+ * relative to the pre-mark bytes must include at least two inside each box
+ * (the two diagonals), read first-hand with the same geometry walk the
+ * census uses. No new box is drawn and the court's stroke is never redrawn.
+ */
+async function markRouteDeterminedSelections(bytes, census, formNumber) {
+  const targets = census.rows.filter((r) => r.policy === "route_determined");
+  if (targets.length === 0) return { bytes, marks: [] };
+  const ink = rgb(PARTICIPANT_INK_RGB.r, PARTICIPANT_INK_RGB.g, PARTICIPANT_INK_RGB.b);
+  const pdf = await PDFDocument.load(bytes, { ignoreEncryption: true, updateMetadata: false });
+  const pages = pdf.getPages();
+  const marks = [];
+  for (const r of targets) {
+    assert.equal(r.type, "checkbox",
+      `${formNumber}/${r.key}: only a checkbox selection control may carry a route mark`);
+    assert.ok(r.printedCaptionFound,
+      `${formNumber}/${r.key}: a route mark must rest on a caption found verbatim on the printed page`);
+    assert.ok(r.sourceValue == null,
+      `${formNumber}/${r.key}: the pinned source already answers this control; the build must not re-mark it`);
+    assert.equal(r.widgets.length, 1, `${formNumber}/${r.key}: expected exactly one measured widget`);
+    const { page: pageNumber, rect } = r.widgets[0];
+    const page = pages[pageNumber - 1];
+    assert.ok(page, `${formNumber}/${r.key}: measured widget page ${pageNumber} is absent`);
+    const { width: pageWidth, height: pageHeight } = page.getSize();
+    assert.ok(rect.x >= 0 && rect.y >= 0
+      && rect.x + rect.width <= pageWidth + 0.5 && rect.y + rect.height <= pageHeight + 0.5,
+      `${formNumber}/${r.key}: selection box falls outside its page`);
+    const inset = SELECTION_INSET;
+    assert.ok(rect.width > inset * 2 + 1 && rect.height > inset * 2 + 1,
+      `${formNumber}/${r.key}: ${rect.width}x${rect.height}pt is too small to mark inside its own stroke at a ${inset}pt inset`);
+    const a = { x: rect.x + inset, y: rect.y + inset };
+    const b = { x: rect.x + rect.width - inset, y: rect.y + rect.height - inset };
+    page.drawLine({ start: a, end: b, thickness: SELECTION_LINE_WIDTH, color: ink });
+    page.drawLine({ start: { x: a.x, y: b.y }, end: { x: b.x, y: a.y }, thickness: SELECTION_LINE_WIDTH, color: ink });
+    marks.push({
+      field: r.key, page: pageNumber, box: rect, inset, lineWidth: SELECTION_LINE_WIDTH,
+      mark: "two_diagonal_strokes_inset", drewANewBox: false, redrewTheCourtsBox: false,
+      determinedBy: r.why
+    });
+  }
+  const output = Buffer.from(await pdf.save({ useObjectStreams: false, updateMetadata: false }));
+  const added = await addedPaintedPathsMd(bytes, output);
+  const proof = marks.map((mark) => {
+    const inside = added.filter((row) => row.page === mark.page
+      && row.x >= mark.box.x && row.y >= mark.box.y
+      && row.x + row.width <= mark.box.x + mark.box.width + 0.5
+      && row.y + row.height <= mark.box.y + mark.box.height + 0.5);
+    return { ...mark, artifactDerivedMarkPaths: inside.length, markObservedInArtifactBytes: inside.length >= 2 };
+  });
+  for (const p of proof) {
+    assert.ok(p.markObservedInArtifactBytes,
+      `${formNumber}/${p.field}: the route mark is absent from the artifact-derived painted paths`);
+  }
+  return { bytes: output, marks: proof };
+}
+
+async function paintedPathsMd(bytes) {
+  const pdf = await PDFDocument.load(bytes, { ignoreEncryption: true, updateMetadata: false });
+  return pdf.getPages().flatMap((page, index) => extractPageGeometry(page).paths
+    .filter((row) => /^(S|s|f|F|f\*|B|B\*|b|b\*)$/.test(String(row.paintedBy ?? "")))
+    .map((row) => ({
+      page: index + 1, operator: row.operator, paintedBy: row.paintedBy,
+      x: +row.x.toFixed(3), y: +row.y.toFixed(3),
+      width: +row.width.toFixed(3), height: +row.height.toFixed(3)
+    })));
+}
+
+async function addedPaintedPathsMd(beforeBytes, afterBytes) {
+  const before = await paintedPathsMd(beforeBytes);
+  const after = await paintedPathsMd(afterBytes);
+  const key = (row) => [row.page, row.operator, row.paintedBy, row.x, row.y, row.width, row.height].join("|");
+  const counts = new Map();
+  for (const row of before) counts.set(key(row), (counts.get(key(row)) ?? 0) + 1);
+  return after.filter((row) => {
+    const fingerprint = key(row);
+    const remaining = counts.get(fingerprint) ?? 0;
+    if (remaining <= 0) return true;
+    counts.set(fingerprint, remaining - 1);
+    return false;
+  });
 }
 
 /* ---- byte proof ------------------------------------------------------------ */
@@ -622,7 +729,7 @@ async function byteProof(source, census, artifactBytes, report, fixtureName) {
 }
 
 /* ---- field map ------------------------------------------------------------- */
-function mapFor(source, census, report) {
+function mapFor(source, census, report, routeMarks = []) {
   const writtenNames = new Set(report.written.map((w) => w.field));
   const canonicalWrites = [];
   const canonicalRefusals = [];
@@ -658,25 +765,30 @@ function mapFor(source, census, report) {
     }
 
     /*
-     * A selection the ROUTE determines, declared as one and left unmade.
-     *
-     * This is the family's stop. The shared AcroForm finalizer has no channel
-     * for marking a selection control; the flat-overlay path beside it does.
-     * Declaring these two "genuine participant elections" would zero the
-     * counters and misdescribe the packet, so they are declared for what they
-     * are and counted as the defect they are.
+     * A selection the ROUTE determines, declared as one and MARKED BY THE
+     * BUILD per the form's own printed face — the WA route-election pattern.
+     * The disposition string starts with "selected" deliberately: that is the
+     * completeness contract's channel for a selection control the build
+     * answered, and the mark itself is proved out of the artifact bytes in
+     * markRouteDeterminedSelections. Declaring these two "genuine participant
+     * elections" instead would misdescribe the packet; the route, not the
+     * participant, answers them.
      */
     if (r.policy === "route_determined") {
+      const mark = (routeMarks ?? []).find((m) => m.field === r.key);
+      assert.ok(mark && mark.markObservedInArtifactBytes,
+        `${source.formNumber}/${r.key}: route-determined selection carries no artifact-proved mark`);
       selectionControls.push({
         ...base, selectionId: base.field, kind: "selection_control", type: r.type,
-        widgets: r.widgets, disposition: "explicit_refusal",
+        widgets: r.widgets, disposition: "selected_route_determined_marked_by_build",
         reason: r.why, category: null, completenessClass: null, class: null,
         requiredBeforeFiling: false, routeDetermined: true,
-        markable: false,
-        markingBlockedBy:
-          "finalizeOfficialForm (scripts/rcap-official-forms/rcap-official-form-finalize.mjs) accepts no `selections` "
-          + "argument and never calls markSelections; finalizeFlatOverlay, in the same file, does. An AcroForm family "
-          + "cannot reach it, and shared machinery is not this lane's to edit."
+        marked: true, markable: true, markedBy: BUILD_SCRIPT,
+        markProof: {
+          mark: mark.mark, page: mark.page, box: mark.box, inset: mark.inset, lineWidth: mark.lineWidth,
+          artifactDerivedMarkPaths: mark.artifactDerivedMarkPaths,
+          markObservedInArtifactBytes: mark.markObservedInArtifactBytes
+        }
       });
       continue;
     }
@@ -749,10 +861,19 @@ function countCompleteness(maps, writeProofs, artifacts, instructionsText) {
     }
   });
 
-  const writes = maps.flatMap((m) => m.canonicalWrites.map((w) => row(w)));
+  // A selection control whose disposition starts with "select" was answered by
+  // the build (a route-determined mark proved out of the artifact bytes) and is
+  // counted on the write side — the same reading the shared completeness
+  // verifier applies to this map schema. Every other selection control remains
+  // a blank that must earn its blankness.
+  const selectionAnswered = (c) => String(c.disposition ?? "").toLowerCase().startsWith("select");
+  const writes = maps.flatMap((m) => [
+    ...m.canonicalWrites.map((w) => row(w)),
+    ...m.selectionControls.filter(selectionAnswered).map((c) => row(c, true))
+  ]);
   const blanks = maps.flatMap((m) => [
     ...m.canonicalRefusals.map((r) => row(r)),
-    ...m.selectionControls.map((c) => row(c, true))
+    ...m.selectionControls.filter((c) => !selectionAnswered(c)).map((c) => row(c, true))
   ]);
 
   const availableFacts = new Set(writes.map((w) => w.factId).filter(Boolean));
@@ -853,8 +974,9 @@ function routeDeterminedSelections(maps) {
     .map((c) => ({
       document: m.formNumber, field: c.field, page: c.page, rect: c.rect,
       section: c.sectionHeading, label: c.effectiveLabel,
-      determinedBy: c.reason, marked: false, markable: c.markable === true,
-      markingBlockedBy: c.markingBlockedBy ?? null
+      determinedBy: c.reason, marked: c.marked === true, markable: c.markable === true,
+      markingBlockedBy: c.markingBlockedBy ?? null,
+      markProof: c.markProof ?? null
     })));
 }
 
@@ -881,22 +1003,22 @@ function participantInstructions(maps, rbf, determined) {
     + "is yours, and every one of those blanks is listed below by the form and the section it is in.", ""
   );
 
-  out.push("## Two boxes on MDJ-008 that you must mark, and why the packet did not", "");
+  out.push("## Two boxes on MDJ-008 the packet marked for you, and why", "");
   out.push(
     "MDJ-008 asks which restricted category your submission falls in. For this packet that is not a matter of preference: "
     + "the petition is filed under **Md. Rule 16-941**, which CC-DC-CR-148 prints in its opening sentence, and MDJ-008 "
     + "prints the matching category as “Sealing or Shielding Motion: while pending, but not to exceed five (5) business "
-    + "days. Rule 16-941 & 16-914(k)(2)”. The same rule number is on both forms.", ""
+    + "days. Rule 16-941 & 16-914(k)(2)”. The same rule number is on both forms, so the route — not you and not the "
+    + "packet's own judgment — determines the answer.", ""
   );
-  out.push("**Mark these two boxes on MDJ-008 before you file:**", "");
-  for (const d of determined) out.push(`- ${d.label.replace(/ \(selection\)$/, "")} — page ${d.page}.`);
+  out.push("**These two boxes on MDJ-008 are already marked:**", "");
+  for (const d of determined) out.push(`- ${d.label.replace(/ \(selection\)$/, "")} — page ${d.page}${d.marked ? "" : " — NOT MARKED; mark it yourself before you file"}.`);
   out.push("");
   out.push(
-    "The packet could not mark them for you. The shared machinery this packet is built on can write text into a form and "
-    + "can mark a box on a printed form, but it has no way to mark a box on a form that carries its own fillable "
-    + "controls, which is what MDJ-008 is. That is a limitation of the builder, not of your filing, and it is recorded in "
-    + "`build-findings.json` for the people who own that code. **Nothing here is a substitute for marking them: an MDJ-008 "
-    + "filed with section 1 unmarked does not tell the clerk that the petition is restricted.**", ""
+    "Each mark is two diagonal strokes inside the form's own box; no new box was drawn. **Check them against your own "
+    + "filing before you sign**: if what you are filing is not a petition for shielding under Md. Rule 16-941, this is "
+    + "not your packet, and the marks would be wrong. An MDJ-008 filed with section 1 unmarked does not tell the clerk "
+    + "that the petition is restricted.", ""
   );
 
   out.push("## Paragraph 1 is the substance of this petition", "");
@@ -936,7 +1058,7 @@ function participantInstructions(maps, rbf, determined) {
   );
 
   out.push("## What you must do before you file", "");
-  out.push("1. **Mark the two MDJ-008 boxes named above.**");
+  out.push("1. **Check the two marked MDJ-008 boxes named above** against your own filing.");
   out.push("2. **Tick each offence in paragraph 1 you were convicted of, and write its case number or numbers.**");
   out.push("3. **Fill in every item in the tables below.** Each names the form, the section and the blank.");
   out.push("4. **Make the choices listed under _The choices that are yours_** — which court, and which city or county.");
@@ -962,7 +1084,7 @@ function participantInstructions(maps, rbf, determined) {
   out.push("- **The whole attorney column** on CC-DC-CR-148 and the Attorney Number on MDJ-008. You are filing this yourself; no attorney-representation fact is held for you.");
   out.push("- **The Plaintiff/Petitioner line on MDJ-008.** The plaintiff in a criminal case is the State of Maryland, which the form pre-prints above that line.");
   out.push("- **The court's address and telephone number**, on both forms.");
-  out.push("- **Every tick box.** See the section above: the packet cannot mark a box on either of these forms.");
+  out.push("- **Every tick box except the two route-determined MDJ-008 section 1 boxes marked above.** Which court, which city or county, and which of the twelve offences apply to you are facts about your own record, and those boxes are yours.");
   out.push("");
 
   out.push("## What this packet is not", "");
@@ -1035,7 +1157,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
     const packet = await PDFDocument.create();
     const pageManifest = [];
     for (const { source, census } of censuses) {
-      const { bytes, report } = await renderDocument(source, census, fixtureName);
+      const { bytes, report, routeMarks } = await renderDocument(source, census, fixtureName);
       const proof = await byteProof(source, census, bytes, report, fixtureName);
       writeProofs.push({
         fixture: fixtureName, formNumber: source.formNumber, sourceSha256: source.sha256,
@@ -1047,7 +1169,8 @@ export async function runFamily(argv = process.argv.slice(2)) {
         refusedFieldsWithInk: proof.refusedFieldsWithInk,
         documentAuthoredAppearances: proof.documentAuthoredAppearances,
         unfittable: report.unfittable,
-        actualWrites: proof.actualWrites
+        actualWrites: proof.actualWrites,
+        routeDeterminedMarks: routeMarks
       });
       const doc = await PDFDocument.load(bytes, { ignoreEncryption: true });
       const copied = await packet.copyPages(doc, doc.getPageIndices());
@@ -1055,7 +1178,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
         packet.addPage(p);
         pageManifest.push({ packetPage: packet.getPageCount(), formNumber: source.formNumber, sourcePage: i + 1, sourceSha256: source.sha256 });
       }
-      if (fixtureName === "canonical") maps.push(mapFor(source, census, report));
+      if (fixtureName === "canonical") maps.push(mapFor(source, census, report, routeMarks));
     }
 
     /*
@@ -1193,11 +1316,11 @@ export async function runFamily(argv = process.argv.slice(2)) {
       + "as elections: the section 1 heading, \"RESTRICTED DOCUMENT - The entire document is not subject to inspection\", "
       + "and the category beneath it, \"Sealing or Shielding Motion ... Rule 16-941 & 16-914(k)(2)\". CC-DC-CR-148 is "
       + "filed under Md. Rule 16-941, prints \"This form contains Restricted Information\" at the head of page 1, and "
-      + "asserts in paragraph 6 that the petition is to be shielded by the clerk. Neither is marked, because "
-      + "finalizeOfficialForm has no channel for marking a selection control; both are counted as requiredOptionsMissing "
-      + "and named to the participant in the instructions. Nothing else on either form is route-determined: which court "
-      + "convicted the participant, which city or county it sits in, and which of the twelve offences they were convicted "
-      + "of are all facts about their own record.",
+      + "asserts in paragraph 6 that the petition is to be shielded by the clerk. Both are MARKED BY THIS BUILD, per the "
+      + "form's own printed face — two diagonal strokes inside each court-drawn box, after flatten, proved back out of "
+      + "the artifact bytes as added painted paths (see routeDeterminedSelections[].markProof). Nothing else on either "
+      + "form is route-determined: which court convicted the participant, which city or county it sits in, and which of "
+      + "the twelve offences they were convicted of are all facts about their own record.",
     offenceListNote:
       "Paragraph 1 of CC-DC-CR-148 prints twelve shieldable offences, each with a tick box and one or two case-number "
       + "lines. No box is ticked and no case number is written: which of the twelve applies is a fact about the "
@@ -1235,7 +1358,8 @@ export async function runFamily(argv = process.argv.slice(2)) {
   writeJson(`${OUT}/reports/blanks-left-for-the-participant.json`, {
     schemaVersion: "rcap-blanks-left-for-the-participant/v1", familyId: FAMILY_ID,
     requiredBeforeFiling: rbf,
-    routeDeterminedAndUnmarked: determined,
+    routeDeterminedAndMarkedByBuild: determined.filter((d) => d.marked === true),
+    routeDeterminedAndUnmarked: determined.filter((d) => d.marked !== true),
     participantElections: maps.flatMap((m) => m.selectionControls.filter((c) => c.routeDetermined !== true).map((c) => ({
       document: m.formNumber, field: c.field, page: c.page, section: c.sectionHeading, label: c.effectiveLabel, why: c.reason
     }))),
@@ -1250,8 +1374,9 @@ export async function runFamily(argv = process.argv.slice(2)) {
     schemaVersion: "rcap-independent-visual-review/v1", familyId: FAMILY_ID,
     required: true, granted: false, reviewedBy: null,
     note:
-      "Every page of both fixtures is rastered for a human who did not build this family. This family also carries two "
-      + "known defects, so the reviewer is asked to confirm what the packet DOES do as well as what it does not.",
+      "Every page of both fixtures is rastered for a human who did not build this family. This family carries two "
+      + "route-determined marks made by the build, so the reviewer is asked to confirm what the packet DOES do as well "
+      + "as what it does not.",
     whatToLookAt: [
       "CC-DC-CR-148, the caption: the case number sits on the Case No. line and the petitioner's name on the Petitioner "
         + "line. The court name, address and telephone are blank, and no court box is ticked.",
@@ -1263,8 +1388,10 @@ export async function runFamily(argv = process.argv.slice(2)) {
         + "city/state/zip, telephone and e-mail, and the signature and date lines above them are blank. The LEFT-hand "
         + "attorney column is blank throughout. Confirm nothing has drifted between the two columns — they are the same "
         + "five printed captions twice over, which is the placement risk on this form.",
-      "MDJ-008, section 1: BOTH the heading box and the \"Sealing or Shielding Motion\" box are unmarked. This is the "
-        + "family's declared defect; confirm it is what the paper shows.",
+      "MDJ-008, section 1: BOTH the heading box (\"RESTRICTED DOCUMENT\") and the \"Sealing or Shielding Motion\" box "
+        + "carry a route-determined mark — two diagonal strokes strictly inside the court's own printed box, no new box "
+        + "drawn, nothing struck through the printed caption. Every other tick box on the form is unmarked. Confirm the "
+        + "marks sit inside their boxes and nowhere else.",
       "MDJ-008, the caption: the plaintiff line is blank beneath the printed STATE OF MARYLAND, and the participant's "
         + "name is on the Defendant/Respondent line.",
       "MDJ-008, the signature block: printed name, street address, city/state/zip, telephone and e-mail filled; date, "
@@ -1288,8 +1415,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
     independentVerificationStatus: "PENDING", selfVerified: false,
     stopped: !allZero,
     stopReason: allZero ? null
-      : "Two route-determined selections on MDJ-008 are left unmarked because the shared AcroForm finalizer has no "
-        + "channel for marking a selection control. See build-findings.json.",
+      : "A completeness counter is non-zero. See reports/completeness-counters.json.",
     generationAllowed: false, runtimeSelectable: false,
     commercialRoutesOpened: 0, productionTouched: false,
     grantsNothing: "A rendered packet is review evidence. It authorizes no fulfillment and opens no commercial route."
@@ -1314,30 +1440,25 @@ export async function runFamily(argv = process.argv.slice(2)) {
     blocking: allZero ? [] : [
       {
         severity: "blocking",
-        owner: "scripts/rcap-official-forms/rcap-official-form-finalize.mjs",
-        finding:
-          "finalizeOfficialForm accepts no `selections` argument and never calls markSelections. finalizeFlatOverlay, "
-          + "defined in the same file and sharing the same ink, protected-rule set and page list, does: it refuses a box "
-          + "that was not measured off the document, refuses one that lands on a rule the court owns, refuses one too "
-          + "small to mark inside its own stroke, and otherwise strikes two diagonals inset 2pt within the court's box.",
-        consequence:
-          "An AcroForm family cannot mark a selection control at all. This family needs two marked -- the MDJ-008 "
-          + "section 1 heading and the \"Sealing or Shielding Motion\" category -- and both are route-determined, so "
-          + "they are declared route-determined and counted as two requiredOptionsMissing. The family returns STOPPED "
-          + "with those two defects and no others.",
-        scopeBeyondThisFamily:
-          "This is not a Maryland problem. Every official_pdf_fill family in this factory with a route-determined "
-          + "checkbox is structurally unable to zero its counters, and the only alternative available to a builder is "
-          + "to relabel the box a participant election -- which is the substitution BLANK_DISPOSITIONS exists to catch.",
-        whatWouldFixIt:
-          "Give finalizeOfficialForm the same `selections` parameter and the same markSelections call finalizeFlatOverlay "
-          + "already has, after the widgets are flattened so the mark is not covered. The measured rectangles are already "
-          + "in this family's field map under routeDeterminedSelections, read first-hand from the pinned binary.",
-        notFixedHere: "Shared machinery is not this lane's to edit, and a builder-local re-implementation of a "
-          + "safety-checked marking routine would be a copy of a guard with its checks unaudited."
+        finding: "A completeness counter is non-zero on this build.",
+        consequence: "See reports/completeness-counters.json for the counter and the finding rows behind it."
       }
     ],
     findings: [
+      {
+        finding:
+          "The two route-determined MDJ-008 section 1 controls are marked by this family's own post-finalize pass "
+          + "(markRouteDeterminedSelections), because finalizeOfficialForm still accepts no `selections` argument. The "
+          + "pass reuses the shared machinery's published SELECTION_INSET, SELECTION_LINE_WIDTH and participant ink, "
+          + "enforces the shared markSelections guards as hard assertions (measured box, verbatim printed caption, "
+          + "unanswered pinned source, on-page, large enough to mark inside its own stroke), and proves each mark out "
+          + "of the artifact bytes as added painted paths.",
+        consequence:
+          "A `selections` parameter on finalizeOfficialForm would still be the better home for this — every "
+          + "official_pdf_fill family with a route-determined checkbox needs it — and the measured rectangles remain in "
+          + "this family's field map under routeDeterminedSelections for that migration. Recorded for the owner of "
+          + "scripts/rcap-official-forms/."
+      },
       {
         finding:
           "CC-DC-CR-148 prints, at page 1 y=616, \"You must file a Notice Regarding Restricted Information Pursuant to "
@@ -1403,10 +1524,9 @@ export async function runFamily(argv = process.argv.slice(2)) {
     status: allZero ? "PENDING_INDEPENDENT_VERIFICATION" : "STOPPED_PENDING_SHARED_MACHINERY",
     approvedForLive: false, live: false, commercialRoutesOpened: 0,
     mattersForTheReviewersAttention: [
-      "build-findings.json, the blocking entry — this family stops on shared machinery, not on Maryland. The fix is a "
-        + "`selections` parameter on finalizeOfficialForm, and the measured rectangles are already in the field map.",
-      "reports/blanks-left-for-the-participant.json, routeDeterminedAndUnmarked — the two MDJ-008 boxes, with the "
-        + "printed lines that determine them.",
+      "The two route-determined MDJ-008 section 1 marks — production-field-map.json routeDeterminedSelections, each with "
+        + "the printed line that determines it and the artifact-derived markProof. Confirm on the rasters that each mark "
+        + "sits strictly inside the court's own box and that every OTHER tick box on both forms is unmarked.",
       "The CC-DC-CR-148 signature block: two columns, the same five captions twice, attorney on the left and petitioner "
         + "on the right. A drift between the columns would file a petition asserting counsel who is the petitioner."
     ]
@@ -1415,12 +1535,13 @@ export async function runFamily(argv = process.argv.slice(2)) {
   return {
     familyId: FAMILY_ID,
     status: allZero ? "COMPLETED" : "STOPPED",
-    stopReason: allZero ? null : "two route-determined selections on MDJ-008 cannot be marked by the shared AcroForm finalizer",
+    stopReason: allZero ? null : "a completeness counter is non-zero; see counterFindings",
     counters: counted.counters, counterFindings: counted.findings,
     directory: OUT, documents: resolved.map((r) => r.formNumber),
     writes: maps.reduce((n, m) => n + m.canonicalWrites.length, 0),
     requiredBeforeFiling: rbf.length,
-    routeDeterminedUnmarked: determined.length,
+    routeDeterminedMarkedByBuild: determined.filter((d) => d.marked === true).length,
+    routeDeterminedUnmarked: determined.filter((d) => d.marked !== true).length,
     participantElections: maps.reduce((n, m) => n + m.selectionControls.filter((c) => c.routeDetermined !== true).length, 0),
     artifacts: artifacts.map((a) => ({ fixture: a.fixture, sha256: a.sha256, byteLength: a.byteLength, pageCount: a.pageCount })),
     rasterPages: rasterPages.length

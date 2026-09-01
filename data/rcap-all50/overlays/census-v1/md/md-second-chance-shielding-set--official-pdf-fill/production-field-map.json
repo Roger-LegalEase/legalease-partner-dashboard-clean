@@ -25,10 +25,24 @@
       },
       "section": "1. Restricted Document",
       "label": "1. RESTRICTED DOCUMENT — the entire document is not subject to inspection (selection)",
-      "determinedBy": "The route determines this. CC-DC-CR-148 prints \"This form contains Restricted Information\" at the head of page 1 and asserts in paragraph 6 that \"This petition is to be shielded by the clerk\". The packet cannot mark it: the shared AcroForm finalizer has no channel for marking a selection control, and this lane may not edit shared machinery. Mark it yourself.",
-      "marked": false,
-      "markable": false,
-      "markingBlockedBy": "finalizeOfficialForm (scripts/rcap-official-forms/rcap-official-form-finalize.mjs) accepts no `selections` argument and never calls markSelections; finalizeFlatOverlay, in the same file, does. An AcroForm family cannot reach it, and shared machinery is not this lane's to edit."
+      "determinedBy": "The route determines this. CC-DC-CR-148 prints \"This form contains Restricted Information\" at the head of page 1 and asserts in paragraph 6 that \"This petition is to be shielded by the clerk\". The build marks it, per the form's own printed face: two diagonal strokes inside the court's box, never a new box, and the mark is read back out of the artifact bytes.",
+      "marked": true,
+      "markable": true,
+      "markingBlockedBy": null,
+      "markProof": {
+        "mark": "two_diagonal_strokes_inset",
+        "page": 1,
+        "box": {
+          "x": 29.84,
+          "y": 575.73,
+          "width": 9,
+          "height": 9
+        },
+        "inset": 2,
+        "lineWidth": 1.2,
+        "artifactDerivedMarkPaths": 2,
+        "markObservedInArtifactBytes": true
+      }
     },
     {
       "document": "MDJ-008",
@@ -42,13 +56,27 @@
       },
       "section": "1. Restricted Document",
       "label": "Restricted document category — Sealing or Shielding Motion (selection)",
-      "determinedBy": "The route determines this. The petition is filed under Md. Rule 16-941, which CC-DC-CR-148 prints in its opening sentence, and this line of MDJ-008 reads \"Sealing or Shielding Motion: while pending, but not to exceed five (5) business days. Rule 16-941 & 16-914(k)(2)\" — the same rule. The packet cannot mark it, for the reason above. Mark it yourself.",
-      "marked": false,
-      "markable": false,
-      "markingBlockedBy": "finalizeOfficialForm (scripts/rcap-official-forms/rcap-official-form-finalize.mjs) accepts no `selections` argument and never calls markSelections; finalizeFlatOverlay, in the same file, does. An AcroForm family cannot reach it, and shared machinery is not this lane's to edit."
+      "determinedBy": "The route determines this. The petition is filed under Md. Rule 16-941, which CC-DC-CR-148 prints in its opening sentence, and this line of MDJ-008 reads \"Sealing or Shielding Motion: while pending, but not to exceed five (5) business days. Rule 16-941 & 16-914(k)(2)\" — the same rule. The build marks it, per the form's own printed face, in the same way as the heading box above.",
+      "marked": true,
+      "markable": true,
+      "markingBlockedBy": null,
+      "markProof": {
+        "mark": "two_diagonal_strokes_inset",
+        "page": 1,
+        "box": {
+          "x": 38.67,
+          "y": 256.47,
+          "width": 9,
+          "height": 9
+        },
+        "inset": 2,
+        "lineWidth": 1.2,
+        "artifactDerivedMarkPaths": 2,
+        "markObservedInArtifactBytes": true
+      }
     }
   ],
-  "routeSelectionNote": "Two controls on MDJ-008 are determined by the route and are declared as such rather than handed to the participant as elections: the section 1 heading, \"RESTRICTED DOCUMENT - The entire document is not subject to inspection\", and the category beneath it, \"Sealing or Shielding Motion ... Rule 16-941 & 16-914(k)(2)\". CC-DC-CR-148 is filed under Md. Rule 16-941, prints \"This form contains Restricted Information\" at the head of page 1, and asserts in paragraph 6 that the petition is to be shielded by the clerk. Neither is marked, because finalizeOfficialForm has no channel for marking a selection control; both are counted as requiredOptionsMissing and named to the participant in the instructions. Nothing else on either form is route-determined: which court convicted the participant, which city or county it sits in, and which of the twelve offences they were convicted of are all facts about their own record.",
+  "routeSelectionNote": "Two controls on MDJ-008 are determined by the route and are declared as such rather than handed to the participant as elections: the section 1 heading, \"RESTRICTED DOCUMENT - The entire document is not subject to inspection\", and the category beneath it, \"Sealing or Shielding Motion ... Rule 16-941 & 16-914(k)(2)\". CC-DC-CR-148 is filed under Md. Rule 16-941, prints \"This form contains Restricted Information\" at the head of page 1, and asserts in paragraph 6 that the petition is to be shielded by the clerk. Both are MARKED BY THIS BUILD, per the form's own printed face — two diagonal strokes inside each court-drawn box, after flatten, proved back out of the artifact bytes as added painted paths (see routeDeterminedSelections[].markProof). Nothing else on either form is route-determined: which court convicted the participant, which city or county it sits in, and which of the twelve offences they were convicted of are all facts about their own record.",
   "offenceListNote": "Paragraph 1 of CC-DC-CR-148 prints twelve shieldable offences, each with a tick box and one or two case-number lines. No box is ticked and no case number is written: which of the twelve applies is a fact about the participant's record and the platform does not hold it. All seventeen case-number lines are declared required before filing and named individually in participant-instructions.md.",
   "requiredBeforeFilingCount": 30,
   "requiredBeforeFiling": [
@@ -4581,15 +4609,30 @@
               "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
             }
           ],
-          "disposition": "explicit_refusal",
-          "reason": "The route determines this. CC-DC-CR-148 prints \"This form contains Restricted Information\" at the head of page 1 and asserts in paragraph 6 that \"This petition is to be shielded by the clerk\". The packet cannot mark it: the shared AcroForm finalizer has no channel for marking a selection control, and this lane may not edit shared machinery. Mark it yourself.",
+          "disposition": "selected_route_determined_marked_by_build",
+          "reason": "The route determines this. CC-DC-CR-148 prints \"This form contains Restricted Information\" at the head of page 1 and asserts in paragraph 6 that \"This petition is to be shielded by the clerk\". The build marks it, per the form's own printed face: two diagonal strokes inside the court's box, never a new box, and the mark is read back out of the artifact bytes.",
           "category": null,
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
           "routeDetermined": true,
-          "markable": false,
-          "markingBlockedBy": "finalizeOfficialForm (scripts/rcap-official-forms/rcap-official-form-finalize.mjs) accepts no `selections` argument and never calls markSelections; finalizeFlatOverlay, in the same file, does. An AcroForm family cannot reach it, and shared machinery is not this lane's to edit."
+          "marked": true,
+          "markable": true,
+          "markedBy": "scripts/build-census-v1-md_second_chance_shielding-set.mjs",
+          "markProof": {
+            "mark": "two_diagonal_strokes_inset",
+            "page": 1,
+            "box": {
+              "x": 29.84,
+              "y": 575.73,
+              "width": 9,
+              "height": 9
+            },
+            "inset": 2,
+            "lineWidth": 1.2,
+            "artifactDerivedMarkPaths": 2,
+            "markObservedInArtifactBytes": true
+          }
         },
         {
           "field": "MDJ-008/Child Abuse/Neglect",
@@ -5537,15 +5580,30 @@
               "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
             }
           ],
-          "disposition": "explicit_refusal",
-          "reason": "The route determines this. The petition is filed under Md. Rule 16-941, which CC-DC-CR-148 prints in its opening sentence, and this line of MDJ-008 reads \"Sealing or Shielding Motion: while pending, but not to exceed five (5) business days. Rule 16-941 & 16-914(k)(2)\" — the same rule. The packet cannot mark it, for the reason above. Mark it yourself.",
+          "disposition": "selected_route_determined_marked_by_build",
+          "reason": "The route determines this. The petition is filed under Md. Rule 16-941, which CC-DC-CR-148 prints in its opening sentence, and this line of MDJ-008 reads \"Sealing or Shielding Motion: while pending, but not to exceed five (5) business days. Rule 16-941 & 16-914(k)(2)\" — the same rule. The build marks it, per the form's own printed face, in the same way as the heading box above.",
           "category": null,
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
           "routeDetermined": true,
-          "markable": false,
-          "markingBlockedBy": "finalizeOfficialForm (scripts/rcap-official-forms/rcap-official-form-finalize.mjs) accepts no `selections` argument and never calls markSelections; finalizeFlatOverlay, in the same file, does. An AcroForm family cannot reach it, and shared machinery is not this lane's to edit."
+          "marked": true,
+          "markable": true,
+          "markedBy": "scripts/build-census-v1-md_second_chance_shielding-set.mjs",
+          "markProof": {
+            "mark": "two_diagonal_strokes_inset",
+            "page": 1,
+            "box": {
+              "x": 38.67,
+              "y": 256.47,
+              "width": 9,
+              "height": 9
+            },
+            "inset": 2,
+            "lineWidth": 1.2,
+            "artifactDerivedMarkPaths": 2,
+            "markObservedInArtifactBytes": true
+          }
         },
         {
           "field": "MDJ-008/Tax Returns",
