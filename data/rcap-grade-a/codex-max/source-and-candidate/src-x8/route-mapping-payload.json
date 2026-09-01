@@ -1,0 +1,381 @@
+{
+  "applyMode": "APPLY_READY_ONLY_NOT_APPLIED",
+  "readyToApply": [],
+  "rowsExamined": 17,
+  "schemaVersion": "src-x8-route-mapping-payload/v1",
+  "stops": [
+    {
+      "measuredAtCommit": "ca94bd1b5375d19da682362b44447006c826439c",
+      "routeKey": "obligation:runtime-only:CA:tool-3-petition-based-felony-sealing",
+      "sourceRow": {
+        "evidenceSource": "data/rcap-grade-a/captain-route-mapping/reconciled.json",
+        "id": "obligation:runtime-only:CA:tool-3-petition-based-felony-sealing",
+        "jurisdiction": "CA",
+        "reason": "The runtime asserts a four-year petition-based felony sealing route under Penal Code \u00a7 1203.49, but the registry evidence identifies \u00a7 1203.49 as trafficking relief and places the relevant SB 731 dismissal authority at \u00a7 1203.41.",
+        "resolution": {
+          "candidateTrackAfterRuntimeRewrite": [
+            "ca-1203-41"
+          ],
+          "mappedRegistryTrackIds": [],
+          "requiredAction": "Rewrite the runtime to the actual \u00a7 1203.41 route or retire the invalid identity before binding; do not bind the pathway as written.",
+          "status": "STOPPED_RUNTIME_IDENTITY_INVALID"
+        },
+        "rowId": "CAPTAIN_ROUTE_MAPPING:obligation:runtime-only:CA:tool-3-petition-based-felony-sealing",
+        "source": "CAPTAIN_ROUTE_MAPPING",
+        "status": "STOPPED"
+      },
+      "status": "STOPPED_REQUIRES_EXACT_CANONICAL_ROUTE_AND_DECISION_RECORD"
+    },
+    {
+      "measuredAtCommit": "ca94bd1b5375d19da682362b44447006c826439c",
+      "routeKey": "obligation:track-pathway:CO:co_clean_slate:automatic-clean-slate-sealing-13-3-117",
+      "sourceRow": {
+        "evidenceSource": "data/rcap-grade-a/captain-route-mapping/reconciled.json",
+        "id": "obligation:track-pathway:CO:co_clean_slate:automatic-clean-slate-sealing-13-3-117",
+        "jurisdiction": "CO",
+        "reason": "One obligation conflates the automatic \u00a7 13-3-117 stage with the participant JDF-2363 objection or hearing-response branch; the runtime is automatic/no-filing while the track-derived treatment is participant official-PDF filing.",
+        "resolution": {
+          "existingRuntimeTarget": {
+            "outputStrategy": "process_guidance",
+            "packetSetId": null,
+            "runtimePathwayId": "automatic-clean-slate-sealing-13-3-117",
+            "stageRole": "automatic_B_stage"
+          },
+          "requiredButAbsent": "A distinct census A-stage identity and runtime pathway for the JDF-2363 response branch.",
+          "status": "STOPPED_DENOMINATOR_AND_MISSING_BRANCH_RUNTIME"
+        },
+        "rowId": "CAPTAIN_ROUTE_MAPPING:obligation:track-pathway:CO:co_clean_slate:automatic-clean-slate-sealing-13-3-117",
+        "source": "CAPTAIN_ROUTE_MAPPING",
+        "status": "STOPPED"
+      },
+      "status": "STOPPED_REQUIRES_EXACT_CANONICAL_ROUTE_AND_DECISION_RECORD"
+    },
+    {
+      "measuredAtCommit": "ca94bd1b5375d19da682362b44447006c826439c",
+      "routeKey": "obligation:runtime-only:ID:juvenile-expungement",
+      "sourceRow": {
+        "evidenceSource": "data/rcap-grade-a/captain-route-mapping/reconciled.json",
+        "id": "obligation:runtime-only:ID:juvenile-expungement",
+        "jurisdiction": "ID",
+        "reason": "Idaho Code \u00a7 20-525A juvenile expungement is a distinct mechanism with no census stage.",
+        "resolution": {
+          "mappedRegistryTrackIds": [],
+          "requiredAction": "Create or adjudicate the missing census stage through the national census generator before binding this runtime pathway.",
+          "requiredStageAuthority": "Idaho Code \u00a7 20-525A",
+          "status": "STOPPED_NEW_STAGE_REQUIRED"
+        },
+        "rowId": "CAPTAIN_ROUTE_MAPPING:obligation:runtime-only:ID:juvenile-expungement",
+        "source": "CAPTAIN_ROUTE_MAPPING",
+        "status": "STOPPED"
+      },
+      "status": "STOPPED_REQUIRES_EXACT_CANONICAL_ROUTE_AND_DECISION_RECORD"
+    },
+    {
+      "measuredAtCommit": "ca94bd1b5375d19da682362b44447006c826439c",
+      "routeKey": "obligation:track-pathway:MN:mn_auto_cannabis_nonfelony:cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06",
+      "sourceRow": {
+        "evidenceSource": "data/rcap-grade-a/captain-route-mapping/reconciled.json",
+        "id": "obligation:track-pathway:MN:mn_auto_cannabis_nonfelony:cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06",
+        "jurisdiction": "MN",
+        "reason": "The composite runtime is mapped only to mn_auto_cannabis_nonfelony while mn_ceb_felony_cannabis remains track-only, even though the evidence requires distinct automatic and Board-review mechanisms; runtime product metadata also misclassifies the route as a participant court petition.",
+        "resolution": {
+          "exactRuntimePathwayIds": null,
+          "requiredAction": "Create distinct runtime identities through the generator; do not assign the composite pathway to either one stage.",
+          "requiredSplit": [
+            {
+              "mechanism": "\u00a7 609A.055 automatic",
+              "outputStrategy": "process_guidance",
+              "participantCanInitiate": false,
+              "trackId": "mn_auto_cannabis_nonfelony"
+            },
+            {
+              "mechanism": "\u00a7 609A.06 Cannabis Expungement Board review",
+              "outputStrategy": "referral_process_guidance",
+              "participantCanInitiate": false,
+              "trackId": "mn_ceb_felony_cannabis"
+            }
+          ],
+          "status": "STOPPED_COMPOSITE_PATHWAY"
+        },
+        "rowId": "CAPTAIN_ROUTE_MAPPING:obligation:track-pathway:MN:mn_auto_cannabis_nonfelony:cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06",
+        "source": "CAPTAIN_ROUTE_MAPPING",
+        "status": "STOPPED"
+      },
+      "status": "STOPPED_REQUIRES_EXACT_CANONICAL_ROUTE_AND_DECISION_RECORD"
+    },
+    {
+      "measuredAtCommit": "ca94bd1b5375d19da682362b44447006c826439c",
+      "routeKey": "obligation:unit:RI:ri_deferred_sentence:ri-deferred-sentence-stage-3-notice-hearing-and-certified-copies",
+      "sourceRow": {
+        "evidenceSource": "data/rcap-grade-a/captain-route-mapping/reconciled.json",
+        "id": "obligation:unit:RI:ri_deferred_sentence:ri-deferred-sentence-stage-3-notice-hearing-and-certified-copies",
+        "jurisdiction": "RI",
+        "reason": "Stage 3 is marked process_guidance but carries filing, sworn-affidavit, hearing, and certified-order duties already partly owned by the stage-2 DC-33/DC-33-ORDER packet; all three units inherit one runtime pathway.",
+        "resolution": {
+          "candidateMappingsNotChosen": [
+            "Move filing, affidavit, and proposed-order duties to stage 2 and retain stage 3 only as notice/hearing/certified-copy guidance.",
+            "Keep stage 3 participant-facing with its own distinct runtime identity."
+          ],
+          "requiredAction": "Obtain a deciding unit-boundary record and make any denominator change only through the generator.",
+          "status": "STOPPED_MIXED_STAGE_CONTRADICTION"
+        },
+        "rowId": "CAPTAIN_ROUTE_MAPPING:obligation:unit:RI:ri_deferred_sentence:ri-deferred-sentence-stage-3-notice-hearing-and-certified-copies",
+        "source": "CAPTAIN_ROUTE_MAPPING",
+        "status": "STOPPED"
+      },
+      "status": "STOPPED_REQUIRES_EXACT_CANONICAL_ROUTE_AND_DECISION_RECORD"
+    },
+    {
+      "measuredAtCommit": "ca94bd1b5375d19da682362b44447006c826439c",
+      "routeKey": "obligation:runtime-only:WI:juvenile-adjudication-expungement-under-wis-stat-938-355-4m",
+      "sourceRow": {
+        "evidenceSource": "data/rcap-grade-a/captain-route-mapping/reconciled.json",
+        "id": "obligation:runtime-only:WI:juvenile-adjudication-expungement-under-wis-stat-938-355-4m",
+        "jurisdiction": "WI",
+        "reason": "No Wisconsin census stage carries chapter 938 juvenile authority or JD-1780.",
+        "resolution": {
+          "mappedRegistryTrackIds": [],
+          "requiredAction": "Create or adjudicate the missing census stage through the national census generator before binding this runtime pathway.",
+          "requiredStageAuthority": "Wis. Stat. \u00a7 938.355(4m)",
+          "status": "STOPPED_NEW_STAGE_REQUIRED"
+        },
+        "rowId": "CAPTAIN_ROUTE_MAPPING:obligation:runtime-only:WI:juvenile-adjudication-expungement-under-wis-stat-938-355-4m",
+        "source": "CAPTAIN_ROUTE_MAPPING",
+        "status": "STOPPED"
+      },
+      "status": "STOPPED_REQUIRES_EXACT_CANONICAL_ROUTE_AND_DECISION_RECORD"
+    },
+    {
+      "measuredAtCommit": "ca94bd1b5375d19da682362b44447006c826439c",
+      "routeKey": "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
+      "sourceRow": {
+        "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json",
+        "id": "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
+        "nextAction": "Captain route/family binding",
+        "reason": "no census route binds this id to a packet family",
+        "rowId": "LIVE_CHECKPOINT_NO_FAMILY:agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
+        "source": "LIVE_CHECKPOINT_NO_FAMILY",
+        "status": "STOPPED"
+      },
+      "status": "STOPPED_REQUIRES_EXACT_CANONICAL_ROUTE_AND_DECISION_RECORD"
+    },
+    {
+      "measuredAtCommit": "ca94bd1b5375d19da682362b44447006c826439c",
+      "routeKey": "official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b",
+      "sourceRow": {
+        "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json",
+        "id": "official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b",
+        "nextAction": "Captain route/family binding",
+        "reason": "no census route binds this id to a packet family",
+        "rowId": "LIVE_CHECKPOINT_NO_FAMILY:official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b",
+        "source": "LIVE_CHECKPOINT_NO_FAMILY",
+        "status": "STOPPED"
+      },
+      "status": "STOPPED_REQUIRES_EXACT_CANONICAL_ROUTE_AND_DECISION_RECORD"
+    },
+    {
+      "measuredAtCommit": "ca94bd1b5375d19da682362b44447006c826439c",
+      "routeKey": "rcap-ks-custom-pleading",
+      "sourceRow": {
+        "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json",
+        "id": "rcap-ks-custom-pleading",
+        "nextAction": "Captain route/family binding",
+        "reason": "no census route binds this id to a packet family",
+        "rowId": "LIVE_CHECKPOINT_NO_FAMILY:rcap-ks-custom-pleading",
+        "source": "LIVE_CHECKPOINT_NO_FAMILY",
+        "status": "STOPPED"
+      },
+      "status": "STOPPED_REQUIRES_EXACT_CANONICAL_ROUTE_AND_DECISION_RECORD"
+    },
+    {
+      "measuredAtCommit": "ca94bd1b5375d19da682362b44447006c826439c",
+      "routeKey": "rcap-sc-custom-pleading",
+      "sourceRow": {
+        "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json",
+        "id": "rcap-sc-custom-pleading",
+        "nextAction": "Captain route/family binding",
+        "reason": "no census route binds this id to a packet family",
+        "rowId": "LIVE_CHECKPOINT_NO_FAMILY:rcap-sc-custom-pleading",
+        "source": "LIVE_CHECKPOINT_NO_FAMILY",
+        "status": "STOPPED"
+      },
+      "status": "STOPPED_REQUIRES_EXACT_CANONICAL_ROUTE_AND_DECISION_RECORD"
+    },
+    {
+      "measuredAtCommit": "ca94bd1b5375d19da682362b44447006c826439c",
+      "routeKey": "obligation:runtime-only:CA:tool-3-petition-based-felony-sealing",
+      "sourceRow": {
+        "evidenceSource": "data/rcap-grade-a/wave-2/r3-route-mapping-remainder/rows.json",
+        "id": "obligation:runtime-only:CA:tool-3-petition-based-felony-sealing",
+        "jurisdiction": "CA",
+        "reason": "The runtime asserts a four-year petition-based felony sealing route under Penal Code \u00a7 1203.49, but the registry evidence identifies \u00a7 1203.49 as trafficking relief and places the relevant SB 731 dismissal authority at \u00a7 1203.41.",
+        "resolution": {
+          "candidateTrackAfterRuntimeRewrite": [
+            "ca-1203-41"
+          ],
+          "mappedRegistryTrackIds": [],
+          "requiredAction": "Rewrite the runtime to the actual \u00a7 1203.41 route or retire the invalid identity before binding; do not bind the pathway as written.",
+          "status": "STOPPED_RUNTIME_IDENTITY_INVALID"
+        },
+        "rowId": "WAVE_2_R3:obligation:runtime-only:CA:tool-3-petition-based-felony-sealing",
+        "source": "WAVE_2_R3",
+        "status": "STOPPED"
+      },
+      "status": "STOPPED_REQUIRES_EXACT_CANONICAL_ROUTE_AND_DECISION_RECORD"
+    },
+    {
+      "measuredAtCommit": "ca94bd1b5375d19da682362b44447006c826439c",
+      "routeKey": "obligation:track-pathway:CO:co_clean_slate:automatic-clean-slate-sealing-13-3-117",
+      "sourceRow": {
+        "evidenceSource": "data/rcap-grade-a/wave-2/r3-route-mapping-remainder/rows.json",
+        "id": "obligation:track-pathway:CO:co_clean_slate:automatic-clean-slate-sealing-13-3-117",
+        "jurisdiction": "CO",
+        "reason": "One obligation conflates the automatic \u00a7 13-3-117 stage with the participant JDF-2363 objection or hearing-response branch; the runtime is automatic/no-filing while the track-derived treatment is participant official-PDF filing.",
+        "resolution": {
+          "existingRuntimeTarget": {
+            "outputStrategy": "process_guidance",
+            "packetSetId": null,
+            "runtimePathwayId": "automatic-clean-slate-sealing-13-3-117",
+            "stageRole": "automatic_B_stage"
+          },
+          "requiredButAbsent": "A distinct census A-stage identity and runtime pathway for the JDF-2363 response branch.",
+          "status": "STOPPED_DENOMINATOR_AND_MISSING_BRANCH_RUNTIME"
+        },
+        "rowId": "WAVE_2_R3:obligation:track-pathway:CO:co_clean_slate:automatic-clean-slate-sealing-13-3-117",
+        "source": "WAVE_2_R3",
+        "status": "STOPPED"
+      },
+      "status": "STOPPED_REQUIRES_EXACT_CANONICAL_ROUTE_AND_DECISION_RECORD"
+    },
+    {
+      "measuredAtCommit": "ca94bd1b5375d19da682362b44447006c826439c",
+      "routeKey": "obligation:runtime-only:ID:juvenile-expungement",
+      "sourceRow": {
+        "evidenceSource": "data/rcap-grade-a/wave-2/r3-route-mapping-remainder/rows.json",
+        "id": "obligation:runtime-only:ID:juvenile-expungement",
+        "jurisdiction": "ID",
+        "reason": "Idaho Code \u00a7 20-525A juvenile expungement is a distinct mechanism with no census stage.",
+        "resolution": {
+          "mappedRegistryTrackIds": [],
+          "requiredAction": "Create or adjudicate the missing census stage through the national census generator before binding this runtime pathway.",
+          "requiredStageAuthority": "Idaho Code \u00a7 20-525A",
+          "status": "STOPPED_NEW_STAGE_REQUIRED"
+        },
+        "rowId": "WAVE_2_R3:obligation:runtime-only:ID:juvenile-expungement",
+        "source": "WAVE_2_R3",
+        "status": "STOPPED"
+      },
+      "status": "STOPPED_REQUIRES_EXACT_CANONICAL_ROUTE_AND_DECISION_RECORD"
+    },
+    {
+      "measuredAtCommit": "ca94bd1b5375d19da682362b44447006c826439c",
+      "routeKey": "obligation:track-pathway:MN:mn_auto_cannabis_nonfelony:cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06",
+      "sourceRow": {
+        "evidenceSource": "data/rcap-grade-a/wave-2/r3-route-mapping-remainder/rows.json",
+        "id": "obligation:track-pathway:MN:mn_auto_cannabis_nonfelony:cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06",
+        "jurisdiction": "MN",
+        "reason": "The composite runtime is mapped only to mn_auto_cannabis_nonfelony while mn_ceb_felony_cannabis remains track-only, even though the evidence requires distinct automatic and Board-review mechanisms; runtime product metadata also misclassifies the route as a participant court petition.",
+        "resolution": {
+          "exactRuntimePathwayIds": null,
+          "requiredAction": "Create distinct runtime identities through the generator; do not assign the composite pathway to either one stage.",
+          "requiredSplit": [
+            {
+              "mechanism": "\u00a7 609A.055 automatic",
+              "outputStrategy": "process_guidance",
+              "participantCanInitiate": false,
+              "trackId": "mn_auto_cannabis_nonfelony"
+            },
+            {
+              "mechanism": "\u00a7 609A.06 Cannabis Expungement Board review",
+              "outputStrategy": "referral_process_guidance",
+              "participantCanInitiate": false,
+              "trackId": "mn_ceb_felony_cannabis"
+            }
+          ],
+          "status": "STOPPED_COMPOSITE_PATHWAY"
+        },
+        "rowId": "WAVE_2_R3:obligation:track-pathway:MN:mn_auto_cannabis_nonfelony:cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06",
+        "source": "WAVE_2_R3",
+        "status": "STOPPED"
+      },
+      "status": "STOPPED_REQUIRES_EXACT_CANONICAL_ROUTE_AND_DECISION_RECORD"
+    },
+    {
+      "measuredAtCommit": "ca94bd1b5375d19da682362b44447006c826439c",
+      "routeKey": "obligation:unit:RI:ri_deferred_sentence:ri-deferred-sentence-stage-3-notice-hearing-and-certified-copies",
+      "sourceRow": {
+        "evidenceSource": "data/rcap-grade-a/wave-2/r3-route-mapping-remainder/rows.json",
+        "id": "obligation:unit:RI:ri_deferred_sentence:ri-deferred-sentence-stage-3-notice-hearing-and-certified-copies",
+        "jurisdiction": "RI",
+        "reason": "Stage 3 is marked process_guidance but carries filing, sworn-affidavit, hearing, and certified-order duties already partly owned by the stage-2 DC-33/DC-33-ORDER packet; all three units inherit one runtime pathway.",
+        "resolution": {
+          "candidateMappingsNotChosen": [
+            "Move filing, affidavit, and proposed-order duties to stage 2 and retain stage 3 only as notice/hearing/certified-copy guidance.",
+            "Keep stage 3 participant-facing with its own distinct runtime identity."
+          ],
+          "requiredAction": "Obtain a deciding unit-boundary record and make any denominator change only through the generator.",
+          "status": "STOPPED_MIXED_STAGE_CONTRADICTION"
+        },
+        "rowId": "WAVE_2_R3:obligation:unit:RI:ri_deferred_sentence:ri-deferred-sentence-stage-3-notice-hearing-and-certified-copies",
+        "source": "WAVE_2_R3",
+        "status": "STOPPED"
+      },
+      "status": "STOPPED_REQUIRES_EXACT_CANONICAL_ROUTE_AND_DECISION_RECORD"
+    },
+    {
+      "measuredAtCommit": "ca94bd1b5375d19da682362b44447006c826439c",
+      "routeKey": "obligation:runtime-only:WI:juvenile-adjudication-expungement-under-wis-stat-938-355-4m",
+      "sourceRow": {
+        "evidenceSource": "data/rcap-grade-a/wave-2/r3-route-mapping-remainder/rows.json",
+        "id": "obligation:runtime-only:WI:juvenile-adjudication-expungement-under-wis-stat-938-355-4m",
+        "jurisdiction": "WI",
+        "reason": "No Wisconsin census stage carries chapter 938 juvenile authority or JD-1780.",
+        "resolution": {
+          "mappedRegistryTrackIds": [],
+          "requiredAction": "Create or adjudicate the missing census stage through the national census generator before binding this runtime pathway.",
+          "requiredStageAuthority": "Wis. Stat. \u00a7 938.355(4m)",
+          "status": "STOPPED_NEW_STAGE_REQUIRED"
+        },
+        "rowId": "WAVE_2_R3:obligation:runtime-only:WI:juvenile-adjudication-expungement-under-wis-stat-938-355-4m",
+        "source": "WAVE_2_R3",
+        "status": "STOPPED"
+      },
+      "status": "STOPPED_REQUIRES_EXACT_CANONICAL_ROUTE_AND_DECISION_RECORD"
+    },
+    {
+      "measuredAtCommit": "ca94bd1b5375d19da682362b44447006c826439c",
+      "routeKey": "stage-branch-pair:20",
+      "sourceRow": {
+        "evidenceSource": "data/rcap-grade-a/wave-2/r3-route-mapping-remainder/rows.json",
+        "id": "stage-branch-pair:20",
+        "jurisdiction": "MD",
+        "reason": "The prior binding is not safe to settle because its recorded stage or branch claim is duplicate or ambiguous.",
+        "resolution": {
+          "aBranchRouteKey": "obligation:track-pathway:MD:md_10105_favorable:adult-non-conviction-expungement-under-crim-proc-10-105",
+          "aBranchRuntimeBinding": {
+            "censusClaimantRouteKeys": [
+              "obligation:track-pathway:MD:md_10105_early:adult-non-conviction-expungement-under-crim-proc-10-105",
+              "obligation:track-pathway:MD:md_10105_favorable:adult-non-conviction-expungement-under-crim-proc-10-105"
+            ],
+            "runtimePathwayId": "adult-non-conviction-expungement-under-crim-proc-10-105",
+            "status": "DUPLICATE_CENSUS_STAGE_CLAIM"
+          },
+          "bStageRouteKey": "obligation:track-pathway:MD:md_10105_1_automatic:automatic-expungement-under-crim-proc-10-105-1",
+          "bStageRuntimeBinding": {
+            "censusClaimantRouteKeys": [
+              "obligation:track-pathway:MD:md_10105_1_automatic:automatic-expungement-under-crim-proc-10-105-1"
+            ],
+            "runtimePathwayId": "automatic-expungement-under-crim-proc-10-105-1",
+            "status": "BOUND_TO_CENSUS_RUNTIME_PATHWAY"
+          },
+          "disposition": "STOPPED_AND_REPORTED",
+          "participantBranchRouteKeysSettled": []
+        },
+        "rowId": "WAVE_2_R3:stage-branch-pair:20",
+        "source": "WAVE_2_R3",
+        "status": "STOPPED"
+      },
+      "status": "STOPPED_REQUIRES_EXACT_CANONICAL_ROUTE_AND_DECISION_RECORD"
+    }
+  ]
+}
