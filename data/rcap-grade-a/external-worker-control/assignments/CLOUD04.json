@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-external-assignment/v1",
-  "captainSha": "36b60710c1b3d14fbd6ff71842a3375caac1dcd4",
-  "createdAt": "2026-09-01T12:25:55Z",
+  "captainSha": "cf29f4c9653deb48ac6e80f1323d3d859b7bbb4d",
+  "createdAt": "2026-09-01T15:38:03Z",
   "minimumAncestor": "f240e47687eddd47d432996823ce932affcd54cc",
   "commercialRoutesOpened": 0,
   "productionTouched": false,
@@ -29,14 +29,12 @@
   "role": "Codex Cloud verification slot (isolated, read-only on packet bodies)",
   "lane": "VF21",
   "laneKind": "independent-verification",
-  "subjectIds": [
-    "ar-arrest-seal-set"
-  ],
+  "subjectIds": [],
   "subjects": [
     {
       "familyId": "ar-arrest-seal-set",
       "directory": "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill",
-      "masterQueueState": "VERIFY_PENDING",
+      "masterQueueState": "FAIL_REPAIR_REQUIRED",
       "sharesBytesWithAnotherFamily": false
     }
   ],
@@ -90,7 +88,14 @@
   "branch": null,
   "branchFrom": {
     "remote": "origin/claude/legalease-sprint-captain-utucnw",
-    "mustContain": "36b60710c1b3d14fbd6ff71842a3375caac1dcd4",
+    "mustContain": "cf29f4c9653deb48ac6e80f1323d3d859b7bbb4d",
     "why": "the activated ledger and this assignment live at that commit; branching from an earlier one gives you a ledger where your grant does not exist"
-  }
+  },
+  "status": "ON_HOLD_REPAIR_IN_PROGRESS",
+  "heldSubjects": [
+    {
+      "subjectId": "ar-arrest-seal-set",
+      "why": "family is mid-repair on FIX01; the read this slot was minted for can only happen against post-repair bytes and a fresh raster receipt. The released VF grant is re-openable by captain transfer when the family returns to VERIFY_PENDING."
+    }
+  ]
 }

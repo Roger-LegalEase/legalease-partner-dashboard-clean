@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-external-assignment/v1",
-  "captainSha": "36b60710c1b3d14fbd6ff71842a3375caac1dcd4",
-  "createdAt": "2026-09-01T12:25:55Z",
+  "captainSha": "cf29f4c9653deb48ac6e80f1323d3d859b7bbb4d",
+  "createdAt": "2026-09-01T15:38:03Z",
   "minimumAncestor": "f240e47687eddd47d432996823ce932affcd54cc",
   "commercialRoutesOpened": 0,
   "productionTouched": false,
@@ -29,14 +29,7 @@
   "role": "Primary Packet Build Factory (persistent Codespace)",
   "lane": "PF17",
   "laneKind": "packet-build",
-  "subjectIds": [
-    "ca-1203-4-set",
-    "ky_felony_vacatur_expungement-set",
-    "or_conviction_setaside-set",
-    "sc_17_22_950_summary-set",
-    "wi_nc_doj_challenge-set",
-    "wi_nc_doj_fingerprint_removal-set"
-  ],
+  "subjectIds": [],
   "subjects": [
     {
       "familyId": "ca-1203-4-set",
@@ -45,32 +38,8 @@
       "sharesBytesWithAnotherFamily": false
     },
     {
-      "familyId": "ky_felony_vacatur_expungement-set",
-      "directory": "data/rcap-all50/overlays/census-v1/ky/ky-felony-vacatur-expungement-set--official-pdf-fill",
-      "masterQueueState": "SOURCE_READY",
-      "sharesBytesWithAnotherFamily": false
-    },
-    {
-      "familyId": "or_conviction_setaside-set",
-      "directory": "data/rcap-all50/overlays/census-v1/or/or-conviction-setaside-set--official-pdf-fill",
-      "masterQueueState": "SOURCE_READY",
-      "sharesBytesWithAnotherFamily": false
-    },
-    {
-      "familyId": "sc_17_22_950_summary-set",
-      "directory": "data/rcap-all50/overlays/census-v1/sc/sc-17-22-950-summary-set--official-pdf-fill",
-      "masterQueueState": "SOURCE_READY",
-      "sharesBytesWithAnotherFamily": false
-    },
-    {
-      "familyId": "wi_nc_doj_challenge-set",
-      "directory": "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-challenge-set--official-pdf-fill",
-      "masterQueueState": "SOURCE_READY",
-      "sharesBytesWithAnotherFamily": false
-    },
-    {
-      "familyId": "wi_nc_doj_fingerprint_removal-set",
-      "directory": "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-fingerprint-removal-set--official-pdf-fill",
+      "familyId": "wv_nc_diversion_deferred-set",
+      "directory": "data/rcap-all50/overlays/census-v1/wv/wv-nc-diversion-deferred-set--official-pdf-fill",
       "masterQueueState": "SOURCE_READY",
       "sharesBytesWithAnotherFamily": false
     }
@@ -78,69 +47,29 @@
   "claimPlan": [
     {
       "subjectId": "ca-1203-4-set",
-      "kind": "ALREADY_ACTIVE",
+      "kind": "TRANSFER",
       "holdingLane": "PF17",
       "operation": "packet-build",
-      "captainAction": null,
-      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF17 ca-1203-4-set"
+      "captainAction": "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer PF17 PF17 ca-1203-4-set --reason \"<why this lane takes it>\"",
+      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF17 ca-1203-4-set   # only after Captain's transfer"
     },
     {
-      "subjectId": "ky_felony_vacatur_expungement-set",
-      "kind": "ALREADY_ACTIVE",
-      "holdingLane": "PF17",
+      "subjectId": "wv_nc_diversion_deferred-set",
+      "kind": "TRANSFER",
+      "holdingLane": "PF03",
       "operation": "packet-build",
-      "captainAction": null,
-      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF17 ky_felony_vacatur_expungement-set"
-    },
-    {
-      "subjectId": "or_conviction_setaside-set",
-      "kind": "ALREADY_ACTIVE",
-      "holdingLane": "PF17",
-      "operation": "packet-build",
-      "captainAction": null,
-      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF17 or_conviction_setaside-set"
-    },
-    {
-      "subjectId": "sc_17_22_950_summary-set",
-      "kind": "ALREADY_ACTIVE",
-      "holdingLane": "PF17",
-      "operation": "packet-build",
-      "captainAction": null,
-      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF17 sc_17_22_950_summary-set"
-    },
-    {
-      "subjectId": "wi_nc_doj_challenge-set",
-      "kind": "ALREADY_ACTIVE",
-      "holdingLane": "PF17",
-      "operation": "packet-build",
-      "captainAction": null,
-      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF17 wi_nc_doj_challenge-set"
-    },
-    {
-      "subjectId": "wi_nc_doj_fingerprint_removal-set",
-      "kind": "ALREADY_ACTIVE",
-      "holdingLane": "PF17",
-      "operation": "packet-build",
-      "captainAction": null,
-      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF17 wi_nc_doj_fingerprint_removal-set"
+      "captainAction": "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer PF03 PF17 wv_nc_diversion_deferred-set --reason \"<why this lane takes it>\"",
+      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF17 wv_nc_diversion_deferred-set   # only after Captain's transfer"
     }
   ],
   "claimAssertions": [
-    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF17 ca-1203-4-set",
-    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF17 ky_felony_vacatur_expungement-set",
-    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF17 or_conviction_setaside-set",
-    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF17 sc_17_22_950_summary-set",
-    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF17 wi_nc_doj_challenge-set",
-    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF17 wi_nc_doj_fingerprint_removal-set"
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF17 ca-1203-4-set   # only after Captain's transfer",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF17 wv_nc_diversion_deferred-set   # only after Captain's transfer"
   ],
   "claimPrerequisite": "Every one of these families already holds a RELEASED packet-build claim from an earlier PF lane, so a bare --assert is a duplicate subject+operation and the ledger refuses it. Captain transfers each grant to PF17 first; claimPlan carries the exact command per subject. Do not assert until CONTROL_STATE.json shows the transfer completed, and if an assert is refused STOP and return the refusal rather than working without a grant.",
   "ownedPaths": [
     "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/**",
-    "data/rcap-all50/overlays/census-v1/ky/ky-felony-vacatur-expungement-set--official-pdf-fill/**",
-    "data/rcap-all50/overlays/census-v1/or/or-conviction-setaside-set--official-pdf-fill/**",
-    "data/rcap-all50/overlays/census-v1/sc/sc-17-22-950-summary-set--official-pdf-fill/**",
-    "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-challenge-set--official-pdf-fill/**",
-    "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-fingerprint-removal-set--official-pdf-fill/**"
+    "data/rcap-all50/overlays/census-v1/wv/wv-nc-diversion-deferred-set--official-pdf-fill/**"
   ],
   "prohibitedPaths": [
     "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
@@ -175,7 +104,21 @@
   "branch": "codex/cs-a/csa-pf17-v4-batch-001",
   "branchFrom": {
     "remote": "origin/claude/legalease-sprint-captain-utucnw",
-    "mustContain": "36b60710c1b3d14fbd6ff71842a3375caac1dcd4",
+    "mustContain": "cf29f4c9653deb48ac6e80f1323d3d859b7bbb4d",
     "why": "the activated ledger and this assignment live at that commit; branching from an earlier one gives you a ledger where your grant does not exist"
+  },
+  "status": "STOOD_DOWN_COMPLETE",
+  "completedSubjects": [
+    "ca-1203-4-set",
+    "ky_felony_vacatur_expungement-set",
+    "or_conviction_setaside-set",
+    "sc_17_22_950_summary-set",
+    "wi_nc_doj_challenge-set",
+    "wi_nc_doj_fingerprint_removal-set"
+  ],
+  "standDown": {
+    "on": "2026-09-01",
+    "why": "Every packet-build subject this Codespace was assigned finished internally: the claim ledger holds a RELEASED PF17 packet-build grant for all six (ca-1203-4-set released back to its source block). The takeover directive moved Codex off the critical packet-production path; nothing is reassigned here, the ledger already records the completions.",
+    "measuredFrom": "data/rcap-grade-a/packet-factory-24h/claim-ledger.json"
   }
 }

@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-external-assignment/v1",
-  "captainSha": "36b60710c1b3d14fbd6ff71842a3375caac1dcd4",
-  "createdAt": "2026-09-01T12:25:55Z",
+  "captainSha": "cf29f4c9653deb48ac6e80f1323d3d859b7bbb4d",
+  "createdAt": "2026-09-01T15:38:03Z",
   "minimumAncestor": "f240e47687eddd47d432996823ce932affcd54cc",
   "commercialRoutesOpened": 0,
   "productionTouched": false,
@@ -36,11 +36,12 @@
     {
       "familyId": "ak-courtview-set",
       "directory": "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill",
-      "masterQueueState": "VERIFY_PENDING",
-      "sharesBytesWithAnotherFamily": false
+      "masterQueueState": "VERIFIED_PASS",
+      "sharesBytesWithAnotherFamily": false,
+      "firstReadBy": "VF18"
     }
   ],
-  "claimPrerequisite": "Captain must first run: node scripts/grade-a-packet-factory-24h/claim.mjs --transfer undefined VF18 ak-courtview-set --reason \"second independent read; the family earned a RASTER_PASS the first read did not have\". Do not assert until CONTROL_STATE.json shows this transfer completed — a fresh assert on this family is a duplicate and will be refused.",
+  "claimPrerequisite": "Captain must first run: node scripts/grade-a-packet-factory-24h/claim.mjs --transfer VF18 VF18 ak-courtview-set --reason \"second independent read; the family earned a RASTER_PASS the first read did not have\". Do not assert until CONTROL_STATE.json shows this transfer completed — a fresh assert on this family is a duplicate and will be refused.",
   "claimAssertions": [
     "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF18 ak-courtview-set   # only after Captain's transfer"
   ],
@@ -90,7 +91,7 @@
   "branch": null,
   "branchFrom": {
     "remote": "origin/claude/legalease-sprint-captain-utucnw",
-    "mustContain": "36b60710c1b3d14fbd6ff71842a3375caac1dcd4",
+    "mustContain": "cf29f4c9653deb48ac6e80f1323d3d859b7bbb4d",
     "why": "the activated ledger and this assignment live at that commit; branching from an earlier one gives you a ledger where your grant does not exist"
   }
 }

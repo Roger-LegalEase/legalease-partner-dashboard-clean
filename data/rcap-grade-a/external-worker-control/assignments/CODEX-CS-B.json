@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-external-assignment/v1",
-  "captainSha": "36b60710c1b3d14fbd6ff71842a3375caac1dcd4",
-  "createdAt": "2026-09-01T12:25:55Z",
+  "captainSha": "cf29f4c9653deb48ac6e80f1323d3d859b7bbb4d",
+  "createdAt": "2026-09-01T15:38:03Z",
   "minimumAncestor": "f240e47687eddd47d432996823ce932affcd54cc",
   "commercialRoutesOpened": 0,
   "productionTouched": false,
@@ -30,21 +30,12 @@
   "lane": "FIX09",
   "laneKind": "repair",
   "subjectIds": [
-    "az_marijuana_expungement_arrest_no_charges-set",
     "ca-1203-42-set",
     "ca-851-91-set",
-    "nj_arrest_no_conviction-set",
     "nj_indictable_conviction-set",
     "ny_160_59_petition-set"
   ],
   "subjects": [
-    {
-      "familyId": "az_marijuana_expungement_arrest_no_charges-set",
-      "directory": "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-arrest-no-charges-set--official-pdf-fill",
-      "masterQueueState": "FAIL_REPAIR_REQUIRED",
-      "sharesBytesWithAnotherFamily": false,
-      "firstReadBy": "VF17"
-    },
     {
       "familyId": "ca-1203-42-set",
       "directory": "data/rcap-all50/overlays/census-v1/ca/ca-1203-42-set--official-pdf-fill",
@@ -55,13 +46,6 @@
     {
       "familyId": "ca-851-91-set",
       "directory": "data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill",
-      "masterQueueState": "FAIL_REPAIR_REQUIRED",
-      "sharesBytesWithAnotherFamily": false,
-      "firstReadBy": "VF17"
-    },
-    {
-      "familyId": "nj_arrest_no_conviction-set",
-      "directory": "data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill",
       "masterQueueState": "FAIL_REPAIR_REQUIRED",
       "sharesBytesWithAnotherFamily": false,
       "firstReadBy": "VF17"
@@ -83,68 +67,48 @@
   ],
   "claimPlan": [
     {
-      "subjectId": "az_marijuana_expungement_arrest_no_charges-set",
-      "kind": "ALREADY_ACTIVE",
-      "holdingLane": "FIX09",
-      "operation": "rapid-repair",
-      "captainAction": null,
-      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 az_marijuana_expungement_arrest_no_charges-set"
-    },
-    {
       "subjectId": "ca-1203-42-set",
-      "kind": "ALREADY_ACTIVE",
+      "kind": "TRANSFER",
       "holdingLane": "FIX09",
       "operation": "rapid-repair",
-      "captainAction": null,
-      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 ca-1203-42-set"
+      "captainAction": "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer FIX09 FIX09 ca-1203-42-set --reason \"<why this lane takes it>\"",
+      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 ca-1203-42-set   # only after Captain's transfer"
     },
     {
       "subjectId": "ca-851-91-set",
-      "kind": "ALREADY_ACTIVE",
+      "kind": "TRANSFER",
       "holdingLane": "FIX09",
       "operation": "rapid-repair",
-      "captainAction": null,
-      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 ca-851-91-set"
-    },
-    {
-      "subjectId": "nj_arrest_no_conviction-set",
-      "kind": "ALREADY_ACTIVE",
-      "holdingLane": "FIX09",
-      "operation": "rapid-repair",
-      "captainAction": null,
-      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 nj_arrest_no_conviction-set"
+      "captainAction": "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer FIX09 FIX09 ca-851-91-set --reason \"<why this lane takes it>\"",
+      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 ca-851-91-set   # only after Captain's transfer"
     },
     {
       "subjectId": "nj_indictable_conviction-set",
-      "kind": "ALREADY_ACTIVE",
+      "kind": "TRANSFER",
       "holdingLane": "FIX09",
       "operation": "rapid-repair",
-      "captainAction": null,
-      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 nj_indictable_conviction-set"
+      "captainAction": "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer FIX09 FIX09 nj_indictable_conviction-set --reason \"<why this lane takes it>\"",
+      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 nj_indictable_conviction-set   # only after Captain's transfer"
     },
     {
       "subjectId": "ny_160_59_petition-set",
-      "kind": "ALREADY_ACTIVE",
+      "kind": "TRANSFER",
       "holdingLane": "FIX09",
       "operation": "rapid-repair",
-      "captainAction": null,
-      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 ny_160_59_petition-set"
+      "captainAction": "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer FIX09 FIX09 ny_160_59_petition-set --reason \"<why this lane takes it>\"",
+      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 ny_160_59_petition-set   # only after Captain's transfer"
     }
   ],
   "claimAssertions": [
-    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 az_marijuana_expungement_arrest_no_charges-set",
-    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 ca-1203-42-set",
-    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 ca-851-91-set",
-    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 nj_arrest_no_conviction-set",
-    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 nj_indictable_conviction-set",
-    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 ny_160_59_petition-set"
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 ca-1203-42-set   # only after Captain's transfer",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 ca-851-91-set   # only after Captain's transfer",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 nj_indictable_conviction-set   # only after Captain's transfer",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 ny_160_59_petition-set   # only after Captain's transfer"
   ],
   "claimPrerequisite": "Every one of these families already holds a RELEASED repair claim from FIX01-FIX08, so a bare --assert is refused as a duplicate. Captain transfers each grant to FIX09 first; claimPlan carries the exact command per subject.",
   "ownedPaths": [
-    "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-arrest-no-charges-set--official-pdf-fill/**",
     "data/rcap-all50/overlays/census-v1/ca/ca-1203-42-set--official-pdf-fill/**",
     "data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill/**",
-    "data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill/**",
     "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/**",
     "data/rcap-all50/overlays/census-v1/ny/ny-160-59-petition-set--official-pdf-fill/**"
   ],
@@ -165,7 +129,7 @@
   "rasterDisposition": "A repair that moves packet bytes INVALIDATES that family's raster receipt. That is expected, not a regression: say so in the return and Captain re-rasters centrally.",
   "repairerSeparation": "You repair. You never verify your own repair — a different worker reads it, and Captain moves the grant with claim.mjs --transfer.",
   "repairOnlyTheNamedObligations": "REPAIR_BY_DEFECT_CLASS.json names the failing obligation per family. Repair those. Widening the change costs the receipt for no gain.",
-  "theTrapInThisQueue": "12 families across 3 groups pin byte-identical documents, which is what a missing route election looks like from outside. PF-B holds that classification. Do not repair ROUTE_OPTIONS on a family flagged sharesBytesWithAnotherFamily until PF-B returns.",
+  "theTrapInThisQueue": "9 families across 2 groups pin byte-identical documents, which is what a missing route election looks like from outside. PF-B holds that classification. Do not repair ROUTE_OPTIONS on a family flagged sharesBytesWithAnotherFamily until PF-B returns.",
   "stopConditions": [
     "a claim assert is refused",
     "the repair would require writing an unsourced court, fee, waiver route or service rule",
@@ -178,7 +142,7 @@
   "branch": "codex/cs-b/csb-fix09-v4-batch-001",
   "branchFrom": {
     "remote": "origin/claude/legalease-sprint-captain-utucnw",
-    "mustContain": "36b60710c1b3d14fbd6ff71842a3375caac1dcd4",
+    "mustContain": "cf29f4c9653deb48ac6e80f1323d3d859b7bbb4d",
     "why": "the activated ledger and this assignment live at that commit; branching from an earlier one gives you a ledger where your grant does not exist"
   }
 }

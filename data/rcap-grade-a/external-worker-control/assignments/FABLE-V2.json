@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-external-assignment/v1",
-  "captainSha": "36b60710c1b3d14fbd6ff71842a3375caac1dcd4",
-  "createdAt": "2026-09-01T12:25:55Z",
+  "captainSha": "cf29f4c9653deb48ac6e80f1323d3d859b7bbb4d",
+  "createdAt": "2026-09-01T15:38:03Z",
   "minimumAncestor": "f240e47687eddd47d432996823ce932affcd54cc",
   "commercialRoutesOpened": 0,
   "productionTouched": false,
@@ -39,63 +39,63 @@
     {
       "familyId": "va_seal_petition_felony-set",
       "directory": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-felony-set--official-pdf-fill",
-      "masterQueueState": "VERIFY_PENDING",
+      "masterQueueState": "VERIFIED_PASS",
       "sharesBytesWithAnotherFamily": false,
-      "firstReadBy": "VF05"
+      "firstReadBy": "VF26"
     },
     {
       "familyId": "va_seal_petition_misdemeanor-set",
       "directory": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill",
-      "masterQueueState": "VERIFY_PENDING",
+      "masterQueueState": "VERIFIED_PASS",
       "sharesBytesWithAnotherFamily": false,
-      "firstReadBy": "VF06"
+      "firstReadBy": "VF26"
     },
     {
       "familyId": "va_seal_enumerated_seven_year-set",
       "directory": "data/rcap-all50/overlays/census-v1/va/va-seal-enumerated-seven-year-set--official-pdf-fill",
-      "masterQueueState": "VERIFY_PENDING",
+      "masterQueueState": "VERIFIED_PASS",
       "sharesBytesWithAnotherFamily": false,
-      "firstReadBy": "VF04"
+      "firstReadBy": "VF26"
     },
     {
       "familyId": "va_seal_ancillary_matter_only-set",
       "directory": "data/rcap-all50/overlays/census-v1/va/va-seal-ancillary-matter-only-set--official-pdf-fill",
-      "masterQueueState": "VERIFY_PENDING",
+      "masterQueueState": "VERIFIED_PASS",
       "sharesBytesWithAnotherFamily": false,
-      "firstReadBy": "VF03"
+      "firstReadBy": "VF26"
     }
   ],
   "claimPlan": [
     {
       "subjectId": "va_seal_petition_felony-set",
       "kind": "TRANSFER",
-      "holdingLane": "VF05",
+      "holdingLane": "VF26",
       "operation": "independent-verification",
-      "captainAction": "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer VF05 VF26 va_seal_petition_felony-set --reason \"<why this lane takes it>\"",
+      "captainAction": "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer VF26 VF26 va_seal_petition_felony-set --reason \"<why this lane takes it>\"",
       "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF26 va_seal_petition_felony-set   # only after Captain's transfer"
     },
     {
       "subjectId": "va_seal_petition_misdemeanor-set",
       "kind": "TRANSFER",
-      "holdingLane": "VF06",
+      "holdingLane": "VF26",
       "operation": "independent-verification",
-      "captainAction": "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer VF06 VF26 va_seal_petition_misdemeanor-set --reason \"<why this lane takes it>\"",
+      "captainAction": "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer VF26 VF26 va_seal_petition_misdemeanor-set --reason \"<why this lane takes it>\"",
       "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF26 va_seal_petition_misdemeanor-set   # only after Captain's transfer"
     },
     {
       "subjectId": "va_seal_enumerated_seven_year-set",
       "kind": "TRANSFER",
-      "holdingLane": "VF04",
+      "holdingLane": "VF26",
       "operation": "independent-verification",
-      "captainAction": "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer VF04 VF26 va_seal_enumerated_seven_year-set --reason \"<why this lane takes it>\"",
+      "captainAction": "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer VF26 VF26 va_seal_enumerated_seven_year-set --reason \"<why this lane takes it>\"",
       "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF26 va_seal_enumerated_seven_year-set   # only after Captain's transfer"
     },
     {
       "subjectId": "va_seal_ancillary_matter_only-set",
       "kind": "TRANSFER",
-      "holdingLane": "VF03",
+      "holdingLane": "VF26",
       "operation": "independent-verification",
-      "captainAction": "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer VF03 VF26 va_seal_ancillary_matter_only-set --reason \"<why this lane takes it>\"",
+      "captainAction": "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer VF26 VF26 va_seal_ancillary_matter_only-set --reason \"<why this lane takes it>\"",
       "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF26 va_seal_ancillary_matter_only-set   # only after Captain's transfer"
     }
   ],
@@ -132,7 +132,7 @@
   "branch": "fable/fv2-vf26-v4-batch-001",
   "branchFrom": {
     "remote": "origin/claude/legalease-sprint-captain-utucnw",
-    "mustContain": "36b60710c1b3d14fbd6ff71842a3375caac1dcd4",
+    "mustContain": "cf29f4c9653deb48ac6e80f1323d3d859b7bbb4d",
     "why": "the activated ledger and this assignment live at that commit; branching from an earlier one gives you a ledger where your grant does not exist"
   }
 }

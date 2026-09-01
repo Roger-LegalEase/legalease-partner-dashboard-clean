@@ -93,3 +93,38 @@ paid for once already.
 - The shared WEST-host CA finalizer fails its own read-back at line-wraps
   (space lost: "…Northern Reaches County" -> "NorthernReaches", builder line
   2735). Blocks every CA rebuild; not a corpus problem.
+
+## Integration cycle — 2026-09-01 ~15:20 UTC (head cf29f4c96)
+
+- **Verdicts must FLOW or the queue lies.** extract-verifier-returns read only
+  `codex-cloud/`; every factory `vf<NN>/rows.json` verdict — including all
+  seven genuine passes — was invisible, so passed families sat VERIFY_PENDING
+  and repaired families sat FAIL forever. The extractor now sweeps both, keeps
+  ONE current verdict per family (later lane supersedes; factory outranks
+  codex-cloud), treats NOT_MEASURABLE_HERE / BLOCKED_LEGAL_INPUT as
+  unmeasured-not-failed, refuses any "pass" carrying an unmeasured obligation,
+  and treats BUILT_RASTER_PENDING as workflow state, not verdict.
+- **A completed repair supersedes the FAIL it answered** (released repair
+  claim + nine zero counters -> VERIFY_PENDING), and **the claim ledger is the
+  ground truth for dispatch ownership** — SDV01's stale roster row shadowed
+  sd_arrest_expungement-set for months. Stale ownership is now cleared on the
+  family row itself (staleRosterOwner) so every reader agrees.
+- **PENDING_EMITS must restore immediate emit at flush.** The flush-only
+  version dropped every post-guard write (ledger, prompts) silently while
+  printing "Wrote 52 prompts". Wrote-messages are not writes.
+- **Two rendered-artifacts shapes exist**: WA-style `artifacts[]`/`document`
+  and east `pdfs[]`/`documentId` (rcap-rendered-artifacts/v1). The raster
+  queue reads both; refusing the second shape kept both PA families out of
+  the queue as "2 PDFs could be canonical".
+- **The merged east host (r4 evidence vocabulary + ehf XObject overlay) is
+  better than either branch**: NJ went 5 -> 0 knownRequiredFieldsMissing. When
+  two agents rewrite one shared host, git's textual merge CAN be the correct
+  union — verify with `git merge-file -p` against their common base before
+  assuming loss, then rebuild every family the host serves, twice.
+- **Raster reachability is measured, not asserted** (`git cat-file -e
+  origin/main:<workflow>`). The hardcoded "not on main" record outlived
+  reality by days and turned L6 red against 13 legitimately proven families.
+- External control plane truth-up: CS-A stood down complete (all six build
+  subjects RELEASED on PF17), CLOUD08 complete (vf25 FAIL recorded), CLOUD04/05
+  on hold with their idle VF21/VF22 grants released — a verification slot whose
+  family fell into repair reads post-repair bytes or it reads garbage.

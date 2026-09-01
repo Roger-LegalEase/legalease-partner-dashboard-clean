@@ -1,7 +1,7 @@
 {
   "schemaVersion": "fable-packet-factory-state/v1",
-  "updatedAt": "2026-09-01T12:28:11Z",
-  "captainSha": "45e29603d9e0ee06e9d9ea0ef905af8ee418feea",
+  "updatedAt": "2026-09-01T15:41:20Z",
+  "captainSha": "cf29f4c9653deb48ac6e80f1323d3d859b7bbb4d",
   "director": "Fable 5 (this session) — sole packet-factory director; Codex off the critical path",
   "denominator": 346,
   "classification": {
@@ -15,86 +15,11 @@
     "REPAIR_NOW_OWNED": 17,
     "REPAIR_NOW_UNOWNED_REMAINING": 9
   },
-  "familiesBuilt": 0,
-  "familiesRepaired": 0,
-  "familiesRastered": 47,
-  "familiesIndependentlyPassed": 0,
-  "activeSubagents": [
-    {
-      "id": "b1",
-      "kind": "builder",
-      "lane": "PF17",
-      "families": 3,
-      "note": "ky felony vacatur, or setaside, ca-1203-4 (known AES stop)"
-    },
-    {
-      "id": "b2",
-      "kind": "builder",
-      "lane": "PF17",
-      "families": 3,
-      "note": "sc 17-22-950, wi doj challenge, wi doj fingerprint"
-    },
-    {
-      "id": "b3",
-      "kind": "builder",
-      "lane": "PF09/PF02",
-      "families": 2,
-      "note": "ma-expunge-mj, va_exp_nonconviction"
-    },
-    {
-      "id": "r1",
-      "kind": "repairer",
-      "lane": "FIX09",
-      "families": 3,
-      "note": "az, ca-1203-42, ca-851-91"
-    },
-    {
-      "id": "r2",
-      "kind": "repairer",
-      "lane": "FIX09",
-      "families": 3,
-      "note": "nj x2 (byte changes forbidden on the defective host), ny"
-    },
-    {
-      "id": "r3",
-      "kind": "repairer",
-      "lane": "FIX10",
-      "families": 9,
-      "note": "WA vacate shared host: instructions for all nine + the route-election classification"
-    },
-    {
-      "id": "r4",
-      "kind": "repairer",
-      "lane": "FIX11",
-      "families": 2,
-      "note": "PA pair, packet-content, byte changes expected"
-    },
-    {
-      "id": "s1",
-      "kind": "source",
-      "defects": 3,
-      "note": "VA corrupted pin, DE FORM-281 collision, KS null digests"
-    },
-    {
-      "id": "s2",
-      "kind": "source",
-      "rows": "up to 25 of 120",
-      "note": "misrouted held-byte relationships; metric = families fully bound"
-    },
-    {
-      "id": "v1",
-      "kind": "verifier",
-      "lanes": "VF18/20/23/25",
-      "families": 4
-    },
-    {
-      "id": "v2",
-      "kind": "verifier",
-      "lane": "VF26",
-      "families": 4,
-      "note": "the four Virginia families — highest-probability genuine passes"
-    }
-  ],
+  "familiesBuilt": 7,
+  "familiesRepaired": 12,
+  "familiesRastered": 45,
+  "familiesIndependentlyPassed": 7,
+  "activeSubagents": [],
   "currentStops": {
     "encryptedSources": [
       "ca-1203-4-set",
@@ -107,5 +32,37 @@
   "productionTouched": false,
   "determinations": [
     "DETERMINATION_CC1203_SUBSTITUTION.json — CC-1203 correct, settled from the forms’ faces"
-  ]
+  ],
+  "queueStates": {
+    "SOURCE_BLOCKED": 253,
+    "VERIFIED_PASS": 13,
+    "VERIFY_PENDING": 36,
+    "FAIL_REPAIR_REQUIRED": 24,
+    "BUILD_IN_PROGRESS": 4,
+    "LEGAL_BLOCKED": 13,
+    "SOURCE_READY": 3
+  },
+  "rasterPending": 13,
+  "independentPasses": [
+    "ak-tf805-set",
+    "ak-courtview-set",
+    "co_motion_seal_nonconviction-set",
+    "va_seal_petition_felony-set",
+    "va_seal_petition_misdemeanor-set",
+    "va_seal_enumerated_seven_year-set",
+    "va_seal_ancillary_matter_only-set"
+  ],
+  "inFlight": {
+    "rasterBatch": {
+      "dispatchedAt": "2026-09-01T15:41:20Z",
+      "commitSha": "cf29f4c9653deb48ac6e80f1323d3d859b7bbb4d",
+      "families": 13,
+      "workflow": "rcap-packet-raster-acceptance-batch.yml"
+    }
+  },
+  "milestone": {
+    "next": 10,
+    "at": 7,
+    "note": "three more full passes reach the first milestone; 13 families await re-raster then fresh reads"
+  }
 }

@@ -27,7 +27,12 @@
       "assignmentId": "CSA-PF17-V4-BATCH-001",
       "lane": "PF17",
       "laneKind": "packet-build",
-      "subjectIds": [
+      "subjectIds": [],
+      "operation": "packet-build",
+      "subjectCount": 6,
+      "requiresCaptainTransferFirst": false,
+      "captainTransferCommands": [],
+      "completedSubjects": [
         "ca-1203-4-set",
         "ky_felony_vacatur_expungement-set",
         "or_conviction_setaside-set",
@@ -35,10 +40,12 @@
         "wi_nc_doj_challenge-set",
         "wi_nc_doj_fingerprint_removal-set"
       ],
-      "operation": "packet-build",
-      "subjectCount": 6,
-      "requiresCaptainTransferFirst": false,
-      "captainTransferCommands": []
+      "status": "STOOD_DOWN_COMPLETE",
+      "standDown": {
+        "on": "2026-09-01",
+        "why": "Every packet-build subject this Codespace was assigned finished internally: the claim ledger holds a RELEASED PF17 packet-build grant for all six (ca-1203-4-set released back to its source block). The takeover directive moved Codex off the critical packet-production path; nothing is reassigned here, the ledger already records the completions.",
+        "measuredFrom": "data/rcap-grade-a/packet-factory-24h/claim-ledger.json"
+      }
     },
     {
       "workerId": "CODEX-CS-B",
@@ -174,13 +181,18 @@
       "assignmentId": "CLOUD04-VF21-V4-BATCH-001",
       "lane": "VF21",
       "laneKind": "independent-verification",
-      "subjectIds": [
-        "ar-arrest-seal-set"
-      ],
+      "subjectIds": [],
       "operation": "independent-verification",
       "subjectCount": 1,
       "requiresCaptainTransferFirst": true,
-      "captainTransferCommands": []
+      "captainTransferCommands": [],
+      "heldSubjects": [
+        {
+          "subjectId": "ar-arrest-seal-set",
+          "why": "family is mid-repair on FIX01; the read this slot was minted for can only happen against post-repair bytes and a fresh raster receipt. The released VF grant is re-openable by captain transfer when the family returns to VERIFY_PENDING."
+        }
+      ],
+      "status": "ON_HOLD_REPAIR_IN_PROGRESS"
     },
     {
       "workerId": "CLOUD05",
@@ -189,13 +201,18 @@
       "assignmentId": "CLOUD05-VF22-V4-BATCH-001",
       "lane": "VF22",
       "laneKind": "independent-verification",
-      "subjectIds": [
-        "ar-misdemeanor-dwi-seal-set"
-      ],
+      "subjectIds": [],
       "operation": "independent-verification",
       "subjectCount": 1,
       "requiresCaptainTransferFirst": true,
-      "captainTransferCommands": []
+      "captainTransferCommands": [],
+      "heldSubjects": [
+        {
+          "subjectId": "ar-misdemeanor-dwi-seal-set",
+          "why": "family is mid-repair on FIX02; the read this slot was minted for can only happen against post-repair bytes and a fresh raster receipt. The released VF grant is re-openable by captain transfer when the family returns to VERIFY_PENDING."
+        }
+      ],
+      "status": "ON_HOLD_REPAIR_IN_PROGRESS"
     },
     {
       "workerId": "CLOUD06",
@@ -234,13 +251,20 @@
       "assignmentId": "CLOUD08-VF25-V4-BATCH-001",
       "lane": "VF25",
       "laneKind": "independent-verification",
-      "subjectIds": [
-        "mi_setaside_marihuana-set"
-      ],
+      "subjectIds": [],
       "operation": "independent-verification",
       "subjectCount": 1,
       "requiresCaptainTransferFirst": true,
-      "captainTransferCommands": []
+      "captainTransferCommands": [],
+      "completedSubjects": [
+        "mi_setaside_marihuana-set"
+      ],
+      "status": "COMPLETE",
+      "completion": {
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "recordedAt": "data/rcap-grade-a/packet-factory-24h/vf25/rows.json",
+        "note": "the read happened and returned FAIL; the family moved to repair (FIX02 live), and its next read is a fresh dispatch after repair"
+      }
     }
   ],
   "claudeOwnershipUntouched": {
