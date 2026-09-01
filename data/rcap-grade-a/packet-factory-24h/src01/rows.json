@@ -1274,9 +1274,20 @@
       "registrySourceState": null,
       "identityGuessed": false,
       "status": "STOPPED",
-      "reason": "the pinned content hash 6176c2f55bdb3206 matches no entry in the committed corpus index, so the bytes it pins are not among the held inventory this lane can read",
+      "reason": "the pinned content hash 6176c2f55bdb3206 matches no entry in the committed corpus index, so the bytes it pins are not among the held inventory this lane can read See suspectedCorruptedPin on this row: the pin shares its first 64 bits with the held Virginia petition for expungement and then diverges, which is worth settling before anyone tries to acquire it.",
       "hostThatOwnsTheNextStep": "the issuing court or agency in VA",
-      "nextOperationThatOwnsIt": "ACQ, once DISC has settled an exact official address for the pinned bytes"
+      "nextOperationThatOwnsIt": "ACQ, once DISC has settled an exact official address for the pinned bytes",
+      "suspectedCorruptedPin": {
+        "finding": "The pinned hash shares its first 64 bits with a held file and then diverges. That is not chance.",
+        "pinnedSha256": "6176c2f55bdb3206c53f4a26a0e6b4c14dfd8b04ee19be0ee52b7b6b3fa4e97f",
+        "heldFile": "VA__FORM__CC-1473__petition-for-expungement__REV-2026-07__EN.pdf",
+        "heldSha256": "6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
+        "sharedPrefix": "6176c2f55bdb3206 — 16 hex characters, 64 bits",
+        "divergesAt": "character 17: the pin reads c53f4a26a0e6, the held file reads 82acecf0a799",
+        "whyThisMatters": "A 64-bit SHA-256 prefix collision between two documents does not occur by chance across a 329-file corpus. The obligation belongs to va_exp_identity_used_by_another-set, a Virginia expungement family, and CC-1473 is the Virginia petition for expungement: the document the route would need. The most likely explanation is that the pin was truncated and then padded or regenerated, rather than copied whole from the bytes.",
+        "whatThisLaneDidNotDo": "It did not bind the obligation to CC-1473. A pin that does not match is a pin that does not match, and binding on a prefix would state a guess as a measurement. The row stays STOPPED.",
+        "whatWouldSettleIt": "Recompute the hash of the CC-1473 bytes the route intends and repin the obligation from that value, or establish that the pin names a genuinely different document. Either is a DISC identity question, not an acquisition."
+      }
     }
   ]
 }

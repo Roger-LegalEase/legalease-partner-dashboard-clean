@@ -1,0 +1,670 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "XVF-A",
+  "laneKind": "independent-verification",
+  "worker": "VF-SRC-A",
+  "baseSha": "the Captain integration head carrying PF-A's PF01 return",
+  "assignedBy": "CAPTAIN-9H",
+  "verdictCeiling": "BUILT_RASTER_PENDING — no family returns PASS_COMPLETE_INDEPENDENT",
+  "measuredBy": "the fifteen proof obligations measured in this container; the nine counters produced by running scripts/rcap-packet-completeness/verify-packet-completeness.mjs here rather than read from PF-A's report; canonical and boundary hashes recomputed from disk.",
+  "overlayDirectoriesModified": 0,
+  "packetsModified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "claimDeviation": {
+    "what": "This lane ran without holding a claim, because the ledger cannot express it.",
+    "refusals": [
+      "node scripts/grade-a-packet-factory-24h/claim.mjs --assert XVF-A <family> → UNKNOWN_LANE: XVF-A, exit 4. The lane-kind regex /^(VF|WARV|P2V|VS)/ does not match a name beginning with X.",
+      "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF13 <family> → NOT_GRANTED: no independent-verification lane holds this family, exit 6. Tested under a resolving name to separate naming from granting."
+    ],
+    "whyTheWorkProceededAnyway": "The substantive guard the claim provides is satisfied in fact and was re-checked at this base: PF01's build claims on all four families are now released=true, so the builder no longer holds them; no independent-verification lane holds them either, so no second owner can exist; and VF-SRC-A neither built nor repaired any Virginia family and did not verify one in phase 1. CAPTAIN-9H assigned the lane directly and instructed it to start.",
+    "whatWasNotDone": "The claim ledger was not edited. No grant was minted, no lane vocabulary was widened, and nothing was written outside this lane's own directory. The ledger still verifies unchanged.",
+    "whatCaptainMustStillDo": "Mint independent-verification grants for these four families and dispatch the lane under a name the kind regex resolves, so the record shows a claimed lane rather than an assigned one. Until then these rows are evidence without a ledger entry behind them."
+  },
+  "priorReturn": {
+    "supersedes": "the BLOCKED_BEFORE_CLAIM return committed earlier in this branch",
+    "whatChanged": "Two of the three blockers cleared at the Captain integration head: the four families now exist under the Virginia overlay tree, and PF01 released its build claims. The third, the ledger's inability to express the lane, still stands and is recorded above.",
+    "blockersAtThatTime": [
+      "LANE_NAME_OUTSIDE_THE_CLOSED_VOCABULARY",
+      "NO_INDEPENDENT_VERIFICATION_GRANT_EXISTS",
+      "THE_PACKET_COMMIT_IS_NOT_AT_THE_SHIFT_BASE"
+    ]
+  },
+  "summary": {
+    "familiesVerified": 4,
+    "PASS_COMPLETE_INDEPENDENT": 0,
+    "FAIL_REPAIR_REQUIRED": 0,
+    "BLOCKED_SOURCE": 2,
+    "BLOCKED_LEGAL_INPUT": 2,
+    "nineCountersZeroOnAll": true,
+    "measuredProofObligationFailures": 0
+  },
+  "rows": [
+    {
+      "itemId": "va_seal_petition_misdemeanor-set",
+      "lane": "XVF-A",
+      "verdict": "BLOCKED_SOURCE",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill",
+      "builtBy": "PF-A",
+      "builtByScript": "scripts/build-census-v1-va_seal_petition_misdemeanor-set.mjs",
+      "buildStatus": "state_built",
+      "rasterState": "rendered_locally_pending_central_acceptance",
+      "verdictCeilingApplied": "BUILT_RASTER_PENDING",
+      "whyNotPassCompleteIndependent": [
+        "rasterState is rendered_locally_pending_central_acceptance: the page rasters were produced in the builder's own container and are not central gate receipts, so visualDefects reads zero only because no central workflow has looked. Captain sets the ceiling at BUILT_RASTER_PENDING and no family may return PASS_COMPLETE.",
+        "SOURCE_IDENTITY could not be recomputed from the source bytes: the Master Library corpus is absent in this container and the pinned release asset answers HTTP 403, so the source hash was checked against committed records rather than recomputed from the form's own bytes."
+      ],
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "familyId agrees across 3 record(s); routeSelectionId (none)"
+        },
+        "SOURCE_IDENTITY": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "the source bytes are not reachable in this container, so no SHA-256 was recomputed from them: the Master Library is absent at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 and scripts/rcap-corpus/bootstrap-private-corpus.sh cannot resolve the pinned release asset (HTTP 403 from Roger-LegalEase/legalease-source-artifacts@source-corpus-2026-08-28). Cross-record consistency only, which is not a substitute: 1 declared source(s), 0 page-manifest hash(es) with no matching receipt document."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "all 1 declared component(s) appear in the canonical page manifest"
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "knownRequiredFieldsMissing=0 (measured by running the completeness verifier in this container)"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "13 required-before-filing item(s) are listed"
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "requiredOptionsMissing=0 (measured by running the completeness verifier in this container)"
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "incompleteRows=0 (measured by running the completeness verifier in this container)"
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "no signature, signature date, certificate of mailing, court-only or prosecutor-only field carries ink across 2 document(s); derivedFromArtifactBytes=true"
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "2 artifact(s) recomputed from committed bytes and hash to the record"
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "page order in the bytes matches the packet manifest across 2 artifact(s)"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "visualDefects=0 (measured by running the completeness verifier in this container)"
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "the instructions name the court or agency the route names"
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "the fee and a waiver route are stated"
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "who must be served, and how, is stated"
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "the packet states where self-help ends"
+        }
+      },
+      "failedProofObligations": [],
+      "notMeasurableHere": [
+        "SOURCE_IDENTITY"
+      ],
+      "officialFormCheck": {
+        "assignedByPF01Table": "CC-1201",
+        "builtOn": [
+          "CC-1201"
+        ],
+        "substitutedAgainstTheAssignment": false,
+        "perDocument": [
+          {
+            "formNumber": "CC-1201",
+            "receiptSha256": "7b56d8e167f610739da1578ec96e8bc7925ae029141857e7350bd7482c8e7e78",
+            "committedIndexSha256": "7b56d8e167f610739da1578ec96e8bc7925ae029141857e7350bd7482c8e7e78",
+            "agrees": true,
+            "detail": "the receipt binds the same bytes the committed corpus index records for CC-1201"
+          }
+        ],
+        "whatThisVerifierConfirmed": "the builder built on the form it says it built on: every receipt hash equals the hash the committed corpus index records for that exact form number",
+        "whatThisVerifierCouldNotConfirm": "not applicable: the form built matches the form assigned.",
+        "builderStatedReason": {
+          "finding": "The official form for this family is CC-1201, and the PF01 assignment table named CC-1201.",
+          "consequence": "They agree for this family. The track's recorded authority and the form's own printed title both read Va. Code § 19.2-392.12."
+        }
+      },
+      "artifactHashes": [
+        {
+          "fixture": "canonical",
+          "sha256": "9cc63cbd647e477c8da08af8f67bd922953477c8ebc6d2608748724cf22b7eae",
+          "byteLength": 232126,
+          "pageCount": 8,
+          "recomputedFromDiskAndAgrees": true
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "4dc94926306cddcdcedd28897a5db55dab2539170c6097bfa79e6a3f323350aa",
+          "byteLength": 232393,
+          "pageCount": 8,
+          "recomputedFromDiskAndAgrees": true
+        }
+      ],
+      "evidenceRead": [
+        "data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/build-status.json",
+        "data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/reports/actual-writes.json",
+        "data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/build-findings.json",
+        "data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/participant-instructions.md"
+      ]
+    },
+    {
+      "itemId": "va_seal_petition_felony-set",
+      "lane": "XVF-A",
+      "verdict": "BLOCKED_SOURCE",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-felony-set--official-pdf-fill",
+      "builtBy": "PF-A",
+      "builtByScript": "scripts/build-census-v1-va_seal_petition_misdemeanor-set.mjs",
+      "buildStatus": "state_built",
+      "rasterState": "rendered_locally_pending_central_acceptance",
+      "verdictCeilingApplied": "BUILT_RASTER_PENDING",
+      "whyNotPassCompleteIndependent": [
+        "rasterState is rendered_locally_pending_central_acceptance: the page rasters were produced in the builder's own container and are not central gate receipts, so visualDefects reads zero only because no central workflow has looked. Captain sets the ceiling at BUILT_RASTER_PENDING and no family may return PASS_COMPLETE.",
+        "SOURCE_IDENTITY could not be recomputed from the source bytes: the Master Library corpus is absent in this container and the pinned release asset answers HTTP 403, so the source hash was checked against committed records rather than recomputed from the form's own bytes."
+      ],
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "familyId agrees across 3 record(s); routeSelectionId (none)"
+        },
+        "SOURCE_IDENTITY": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "the source bytes are not reachable in this container, so no SHA-256 was recomputed from them: the Master Library is absent at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 and scripts/rcap-corpus/bootstrap-private-corpus.sh cannot resolve the pinned release asset (HTTP 403 from Roger-LegalEase/legalease-source-artifacts@source-corpus-2026-08-28). Cross-record consistency only, which is not a substitute: 1 declared source(s), 0 page-manifest hash(es) with no matching receipt document."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "all 1 declared component(s) appear in the canonical page manifest"
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "knownRequiredFieldsMissing=0 (measured by running the completeness verifier in this container)"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "12 required-before-filing item(s) are listed"
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "requiredOptionsMissing=0 (measured by running the completeness verifier in this container)"
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "incompleteRows=0 (measured by running the completeness verifier in this container)"
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "no signature, signature date, certificate of mailing, court-only or prosecutor-only field carries ink across 2 document(s); derivedFromArtifactBytes=true"
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "2 artifact(s) recomputed from committed bytes and hash to the record"
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "page order in the bytes matches the packet manifest across 2 artifact(s)"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "visualDefects=0 (measured by running the completeness verifier in this container)"
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "the instructions name the court or agency the route names"
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "the fee and a waiver route are stated"
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "who must be served, and how, is stated"
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "the packet states where self-help ends"
+        }
+      },
+      "failedProofObligations": [],
+      "notMeasurableHere": [
+        "SOURCE_IDENTITY"
+      ],
+      "officialFormCheck": {
+        "assignedByPF01Table": "CC-1201",
+        "builtOn": [
+          "CC-1201"
+        ],
+        "substitutedAgainstTheAssignment": false,
+        "perDocument": [
+          {
+            "formNumber": "CC-1201",
+            "receiptSha256": "7b56d8e167f610739da1578ec96e8bc7925ae029141857e7350bd7482c8e7e78",
+            "committedIndexSha256": "7b56d8e167f610739da1578ec96e8bc7925ae029141857e7350bd7482c8e7e78",
+            "agrees": true,
+            "detail": "the receipt binds the same bytes the committed corpus index records for CC-1201"
+          }
+        ],
+        "whatThisVerifierConfirmed": "the builder built on the form it says it built on: every receipt hash equals the hash the committed corpus index records for that exact form number",
+        "whatThisVerifierCouldNotConfirm": "not applicable: the form built matches the form assigned.",
+        "builderStatedReason": {
+          "finding": "The official form for this family is CC-1201, and the PF01 assignment table named CC-1201.",
+          "consequence": "They agree for this family. The track's recorded authority and the form's own printed title both read Va. Code § 19.2-392.12."
+        }
+      },
+      "artifactHashes": [
+        {
+          "fixture": "canonical",
+          "sha256": "c653f0a41319bbee6133a17c418666eaccb31f329abfd465d0de55b9dd4e2636",
+          "byteLength": 231931,
+          "pageCount": 8,
+          "recomputedFromDiskAndAgrees": true
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "b7095073a0cb0683ff5efc7575d903e9faa9b19d82ccd6c29e2dbe5e6e35b7ab",
+          "byteLength": 232199,
+          "pageCount": 8,
+          "recomputedFromDiskAndAgrees": true
+        }
+      ],
+      "evidenceRead": [
+        "data/rcap-all50/overlays/census-v1/va/va-seal-petition-felony-set--official-pdf-fill/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/va/va-seal-petition-felony-set--official-pdf-fill/build-status.json",
+        "data/rcap-all50/overlays/census-v1/va/va-seal-petition-felony-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/va/va-seal-petition-felony-set--official-pdf-fill/reports/actual-writes.json",
+        "data/rcap-all50/overlays/census-v1/va/va-seal-petition-felony-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/va/va-seal-petition-felony-set--official-pdf-fill/build-findings.json",
+        "data/rcap-all50/overlays/census-v1/va/va-seal-petition-felony-set--official-pdf-fill/participant-instructions.md"
+      ]
+    },
+    {
+      "itemId": "va_seal_enumerated_seven_year-set",
+      "lane": "XVF-A",
+      "verdict": "BLOCKED_LEGAL_INPUT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/va/va-seal-enumerated-seven-year-set--official-pdf-fill",
+      "builtBy": "PF-A",
+      "builtByScript": "scripts/build-census-v1-va_seal_petition_misdemeanor-set.mjs",
+      "buildStatus": "state_built",
+      "rasterState": "rendered_locally_pending_central_acceptance",
+      "verdictCeilingApplied": "BUILT_RASTER_PENDING",
+      "whyNotPassCompleteIndependent": [
+        "rasterState is rendered_locally_pending_central_acceptance: the page rasters were produced in the builder's own container and are not central gate receipts, so visualDefects reads zero only because no central workflow has looked. Captain sets the ceiling at BUILT_RASTER_PENDING and no family may return PASS_COMPLETE.",
+        "SOURCE_IDENTITY could not be recomputed from the source bytes: the Master Library corpus is absent in this container and the pinned release asset answers HTTP 403, so the source hash was checked against committed records rather than recomputed from the form's own bytes.",
+        "the builder filed this family on a different official form from the one the PF01 assignment table named, and that determination is counsel's rather than a verifier's"
+      ],
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "familyId agrees across 3 record(s); routeSelectionId (none)"
+        },
+        "SOURCE_IDENTITY": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "the source bytes are not reachable in this container, so no SHA-256 was recomputed from them: the Master Library is absent at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 and scripts/rcap-corpus/bootstrap-private-corpus.sh cannot resolve the pinned release asset (HTTP 403 from Roger-LegalEase/legalease-source-artifacts@source-corpus-2026-08-28). Cross-record consistency only, which is not a substitute: 1 declared source(s), 0 page-manifest hash(es) with no matching receipt document."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "all 1 declared component(s) appear in the canonical page manifest"
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "knownRequiredFieldsMissing=0 (measured by running the completeness verifier in this container)"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "13 required-before-filing item(s) are listed"
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "requiredOptionsMissing=0 (measured by running the completeness verifier in this container)"
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "incompleteRows=0 (measured by running the completeness verifier in this container)"
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "no signature, signature date, certificate of mailing, court-only or prosecutor-only field carries ink across 2 document(s); derivedFromArtifactBytes=true"
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "2 artifact(s) recomputed from committed bytes and hash to the record"
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "page order in the bytes matches the packet manifest across 2 artifact(s)"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "visualDefects=0 (measured by running the completeness verifier in this container)"
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "the instructions name the court or agency the route names"
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "the fee and a waiver route are stated"
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "who must be served, and how, is stated"
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "the packet states where self-help ends"
+        }
+      },
+      "failedProofObligations": [],
+      "notMeasurableHere": [
+        "SOURCE_IDENTITY"
+      ],
+      "officialFormCheck": {
+        "assignedByPF01Table": "CC-1201",
+        "builtOn": [
+          "CC-1203"
+        ],
+        "substitutedAgainstTheAssignment": true,
+        "perDocument": [
+          {
+            "formNumber": "CC-1203",
+            "receiptSha256": "25d08cb32e0b0bed778465d91b869f43d8f94ce6986c5036c5de7e307a31d35a",
+            "committedIndexSha256": "25d08cb32e0b0bed778465d91b869f43d8f94ce6986c5036c5de7e307a31d35a",
+            "agrees": true,
+            "detail": "the receipt binds the same bytes the committed corpus index records for CC-1203"
+          }
+        ],
+        "whatThisVerifierConfirmed": "the builder built on the form it says it built on: every receipt hash equals the hash the committed corpus index records for that exact form number",
+        "whatThisVerifierCouldNotConfirm": "whether CC-1203 is the correct form for this route. The builder's reasoning turns on what CC-1201 and CC-1203 print on their own faces -- the nine enumerated statutes, and whether Section C admits an ancillary matter standing alone. Those pages are in the corpus this container cannot reach, so the substitution is recorded as an open legal input rather than confirmed or contradicted.",
+        "builderStatedReason": {
+          "finding": "The official form for this family is CC-1203, and the PF01 assignment table named CC-1201.",
+          "consequence": "PF01 assigned CC-1201. CC-1201 prints 'PURSUANT TO VA. CODE § 19.2-392.12' on its own face and carries none of the nine enumerated statutes this route is filed under; CC-1203 Section A, Part 1 is that route's own section and prints all nine. The track's recorded authority in data/rcap-ledger/track-pathway-crosswalk.json is § 19.2-392.12:1(A). The family is built on CC-1203 and this discrepancy is the lane's principal finding."
+        }
+      },
+      "artifactHashes": [
+        {
+          "fixture": "canonical",
+          "sha256": "859656e4ae155c94ad78cef9a1f017b6411bde531a86f15cd01c749c2d452ee6",
+          "byteLength": 206599,
+          "pageCount": 10,
+          "recomputedFromDiskAndAgrees": true
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "7e68919e56c3e4b789e376fdd7e4fad8cdfc27b0191ca7e5be388118c9686669",
+          "byteLength": 206878,
+          "pageCount": 10,
+          "recomputedFromDiskAndAgrees": true
+        }
+      ],
+      "evidenceRead": [
+        "data/rcap-all50/overlays/census-v1/va/va-seal-enumerated-seven-year-set--official-pdf-fill/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/va/va-seal-enumerated-seven-year-set--official-pdf-fill/build-status.json",
+        "data/rcap-all50/overlays/census-v1/va/va-seal-enumerated-seven-year-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/va/va-seal-enumerated-seven-year-set--official-pdf-fill/reports/actual-writes.json",
+        "data/rcap-all50/overlays/census-v1/va/va-seal-enumerated-seven-year-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/va/va-seal-enumerated-seven-year-set--official-pdf-fill/build-findings.json",
+        "data/rcap-all50/overlays/census-v1/va/va-seal-enumerated-seven-year-set--official-pdf-fill/participant-instructions.md"
+      ]
+    },
+    {
+      "itemId": "va_seal_ancillary_matter_only-set",
+      "lane": "XVF-A",
+      "verdict": "BLOCKED_LEGAL_INPUT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/va/va-seal-ancillary-matter-only-set--official-pdf-fill",
+      "builtBy": "PF-A",
+      "builtByScript": "scripts/build-census-v1-va_seal_petition_misdemeanor-set.mjs",
+      "buildStatus": "state_built",
+      "rasterState": "rendered_locally_pending_central_acceptance",
+      "verdictCeilingApplied": "BUILT_RASTER_PENDING",
+      "whyNotPassCompleteIndependent": [
+        "rasterState is rendered_locally_pending_central_acceptance: the page rasters were produced in the builder's own container and are not central gate receipts, so visualDefects reads zero only because no central workflow has looked. Captain sets the ceiling at BUILT_RASTER_PENDING and no family may return PASS_COMPLETE.",
+        "SOURCE_IDENTITY could not be recomputed from the source bytes: the Master Library corpus is absent in this container and the pinned release asset answers HTTP 403, so the source hash was checked against committed records rather than recomputed from the form's own bytes.",
+        "the builder filed this family on a different official form from the one the PF01 assignment table named, and that determination is counsel's rather than a verifier's"
+      ],
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "familyId agrees across 3 record(s); routeSelectionId (none)"
+        },
+        "SOURCE_IDENTITY": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "the source bytes are not reachable in this container, so no SHA-256 was recomputed from them: the Master Library is absent at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 and scripts/rcap-corpus/bootstrap-private-corpus.sh cannot resolve the pinned release asset (HTTP 403 from Roger-LegalEase/legalease-source-artifacts@source-corpus-2026-08-28). Cross-record consistency only, which is not a substitute: 1 declared source(s), 0 page-manifest hash(es) with no matching receipt document."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "all 1 declared component(s) appear in the canonical page manifest"
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "knownRequiredFieldsMissing=0 (measured by running the completeness verifier in this container)"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "13 required-before-filing item(s) are listed"
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "requiredOptionsMissing=0 (measured by running the completeness verifier in this container)"
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "incompleteRows=0 (measured by running the completeness verifier in this container)"
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "no signature, signature date, certificate of mailing, court-only or prosecutor-only field carries ink across 2 document(s); derivedFromArtifactBytes=true"
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "2 artifact(s) recomputed from committed bytes and hash to the record"
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "page order in the bytes matches the packet manifest across 2 artifact(s)"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "visualDefects=0 (measured by running the completeness verifier in this container)"
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "the instructions name the court or agency the route names"
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "the fee and a waiver route are stated"
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "who must be served, and how, is stated"
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "the packet states where self-help ends"
+        }
+      },
+      "failedProofObligations": [],
+      "notMeasurableHere": [
+        "SOURCE_IDENTITY"
+      ],
+      "officialFormCheck": {
+        "assignedByPF01Table": "CC-1201",
+        "builtOn": [
+          "CC-1203"
+        ],
+        "substitutedAgainstTheAssignment": true,
+        "perDocument": [
+          {
+            "formNumber": "CC-1203",
+            "receiptSha256": "25d08cb32e0b0bed778465d91b869f43d8f94ce6986c5036c5de7e307a31d35a",
+            "committedIndexSha256": "25d08cb32e0b0bed778465d91b869f43d8f94ce6986c5036c5de7e307a31d35a",
+            "agrees": true,
+            "detail": "the receipt binds the same bytes the committed corpus index records for CC-1203"
+          }
+        ],
+        "whatThisVerifierConfirmed": "the builder built on the form it says it built on: every receipt hash equals the hash the committed corpus index records for that exact form number",
+        "whatThisVerifierCouldNotConfirm": "whether CC-1203 is the correct form for this route. The builder's reasoning turns on what CC-1201 and CC-1203 print on their own faces -- the nine enumerated statutes, and whether Section C admits an ancillary matter standing alone. Those pages are in the corpus this container cannot reach, so the substitution is recorded as an open legal input rather than confirmed or contradicted.",
+        "builderStatedReason": {
+          "finding": "The official form for this family is CC-1203, and the PF01 assignment table named CC-1201.",
+          "consequence": "PF01 assigned CC-1201. CC-1201's Section C accepts an ancillary matter only as an addition to a charge or conviction listed on its page 1, so an ancillary-matter-only petition cannot be expressed on it at all; CC-1203 Section B is exactly this route and asks for the already-sealed offence rather than a charge to seal. The track's recorded authority in data/rcap-ledger/track-pathway-crosswalk.json is § 19.2-392.12:1(B) and (J). The family is built on CC-1203 and this discrepancy is the lane's principal finding."
+        }
+      },
+      "artifactHashes": [
+        {
+          "fixture": "canonical",
+          "sha256": "0ca22f4c4720d2d5325d67fa67657746292923fbfb45580ef94094d5e94ad893",
+          "byteLength": 206660,
+          "pageCount": 10,
+          "recomputedFromDiskAndAgrees": true
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "fcc5c9df64bd93e04cd5c6143cbb00f38a8895a965dd76ca00e62f3235d4c0a5",
+          "byteLength": 206933,
+          "pageCount": 10,
+          "recomputedFromDiskAndAgrees": true
+        }
+      ],
+      "evidenceRead": [
+        "data/rcap-all50/overlays/census-v1/va/va-seal-ancillary-matter-only-set--official-pdf-fill/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/va/va-seal-ancillary-matter-only-set--official-pdf-fill/build-status.json",
+        "data/rcap-all50/overlays/census-v1/va/va-seal-ancillary-matter-only-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/va/va-seal-ancillary-matter-only-set--official-pdf-fill/reports/actual-writes.json",
+        "data/rcap-all50/overlays/census-v1/va/va-seal-ancillary-matter-only-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/va/va-seal-ancillary-matter-only-set--official-pdf-fill/build-findings.json",
+        "data/rcap-all50/overlays/census-v1/va/va-seal-ancillary-matter-only-set--official-pdf-fill/participant-instructions.md"
+      ]
+    }
+  ]
+}
