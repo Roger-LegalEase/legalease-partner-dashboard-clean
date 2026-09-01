@@ -34,6 +34,20 @@ paid for once already.
 - A failed build run may clear the family output directory before erroring —
   restore from HEAD after any aborted build (east-host hazard).
 
+## Source relationship repair
+- The operational tree private/Nationwide Record Clearing is NOT mounted in
+  fable containers; verify held bytes through byte-identical Master Library
+  copies (match the recorded held SHA-256 against a hash of every ML file —
+  the corpus index alone misses .docx and 05_SOURCE_GATED). 35 of the wave's
+  67 priority-1 rows have no bytes anywhere in the container: say so, never
+  guess (S2 return lists them).
+- All 53 priority-2 SRR rows are lane re-routing repairs with empty
+  affectedFamilies; their cure lives in conveyor/queue dispatch, not the
+  registry — registry lanes should skip them.
+- DE "FORM-281" held bytes print Form 281E (the charge-sheet continuation);
+  MT-OCA-MMRTA is a set identifier over two instruments; NM 4-960's name
+  matches are 4-960.1/4-960.2. Read the face before binding, every time.
+
 ## Verifying
 - PASS_COMPLETE_INDEPENDENT requires ALL 15 obligations scored; L9 refuses a
   subset. The nine counters are not the fifteen obligations.
