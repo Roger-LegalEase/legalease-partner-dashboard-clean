@@ -119,6 +119,8 @@ import { rasterizePdf } from "./rcap-official-forms/rcap-pdf-rasterize.mjs";
 import { strokedRectangles } from "./lib/pdf-stroked-boxes.mjs";
 import { CHARGE_VALUE_WORDS, captionDescribesChargeValue, descriptorsMatching, protectCategoryOf, decideBinding }
   from "./rcap-official-forms/rcap-field-semantics.mjs";
+import { BLANK_DISPOSITIONS, PASS_COUNTERS, classifyField, classifyBlank, rowKeyOf }
+  from "./rcap-packet-completeness/completeness-contract.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 process.chdir(rootDir);
@@ -206,37 +208,27 @@ const DOCUMENTS = [
           + "convictions are Clean Slate eligible is an eligibility question this family does not decide."
       },
 
-      // ---- page 1: fields the run-on table header misbinds ----------------
-      {
-        field: "form1[0].PAGE1[0].DEFNAME[0]",
-        class: "misbound_by_run_on_table_header_caption",
-        protectedTodayBy: "nothing",
-        survivesCaptionFix: "the fix REPAIRS this field (cell caption 'Name of defendant' binds full_legal_name)",
-        why:
-          "The defendant's name in the page-1 caption block. Its own field name matches no descriptor, so the "
-          + "printed-label fallback runs and harvests the whole four-cell header row; most-specific-first resolves "
-          + "that to participant.date_of_birth. The unguided dry run wrote '1991-04-17' into the name box. A "
-          + "petition whose caption names the defendant as a date misidentifies the petitioner to the court; a "
-          + "blank line does not."
-      },
-      {
-        field: "form1[0].PAGE1[0].DEFEMAIL[0]",
-        class: "misbound_by_run_on_table_header_caption",
-        protectedTodayBy: "nothing",
-        survivesCaptionFix: "the fix REPAIRS this field (cell caption 'E-mail address' binds participant.email)",
-        why:
-          "The defendant's e-mail address. Same harvested caption as DEFNAME, same resolution to "
-          + "participant.date_of_birth; the dry run wrote the date of birth into the e-mail box."
-      },
-      {
-        field: "form1[0].PAGE1[0].DEFPHONE[0]",
-        class: "misbound_by_run_on_table_header_caption",
-        protectedTodayBy: "nothing",
-        survivesCaptionFix: "the fix REPAIRS this field (cell caption 'Phone number' binds participant.phone)",
-        why:
-          "The defendant's phone number. Same harvested caption, same resolution to participant.date_of_birth; "
-          + "the dry run wrote the date of birth into the phone box."
-      },
+      // ---- page 1: the three fields the run-on header used to misbind ------
+      //
+      // DEFNAME, DEFEMAIL and DEFPHONE are NO LONGER refused, and the change is
+      // deliberate. Each was refused because the printed-label fallback
+      // harvested the whole four-cell header row and most-specific-first
+      // resolved it to participant.date_of_birth, so the unguided dry run wrote
+      // '1991-04-17' into the name, the e-mail and the phone boxes. The refusal
+      // was right about the misbinding and wrong as a resting place: it left a
+      // petition that names no defendant and gives the court no way to reach
+      // the petitioner, and the completeness contract counts three known facts
+      // left off a filing as three defects.
+      //
+      // They now bind through MEASURED_CAPTIONS, which supplies the CELL of the
+      // header each widget actually sits under, re-read from the pinned binary
+      // on every build and checked by printed line, by baseline and by x-range.
+      //
+      // Nothing shared was edited and no refusal below was weakened. Every
+      // field the caption defect protects only INCIDENTALLY -- both jurat rows
+      // and the court's own date -- is still refused by ROLE, and POLICY states
+      // that decision in this family's own words rather than resting it on a
+      // harvest that a pending fix will change.
 
       // ---- page 1: court identity fields taking participant facts ---------
       {
@@ -365,15 +357,229 @@ const DOCUMENTS = [
   }
 ];
 
+// ---- THE MEASURED CAPTION DICTIONARY -----------------------------------------
+//
+// The header comment above describes the caption channel this form defeats: the
+// column headings are printed as ONE run-on line roughly eighteen points ABOVE
+// the input row, and captureWidgetContext's "printed directly above" branch
+// takes the whole line rather than the cell over the widget. Six fields are
+// misbound by it and four are protected only incidentally by it.
+//
+// The previous build's answer was to refuse all ten by role, so that no refusal
+// rested on the defect. That was right about the refusals and it left the
+// petition naming no defendant: three of the participant's own facts -- name,
+// e-mail and phone -- were blank on a filing because a shared module read a
+// caption wrongly. A blank line does not misidentify the petitioner, but it
+// does not identify them either, and the completeness contract counts a known
+// fact left off a filing as the defect it is.
+//
+// So the caption is supplied here instead of harvested, and it is supplied as
+// EVIDENCE rather than as an assertion: `printedLine` is the whole run-on
+// header exactly as the form prints it, `printedAt` is the page and baseline it
+// is printed at, `columnHeading` is the cell of it the widget sits under, and
+// `columnX` is the x-range that decides which cell that is. verifyCaptions()
+// below re-reads all four from the pinned binary on every build and fails if
+// any of them has moved.
+//
+// This does NOT re-expose the sworn attestation block. Every field the run-on
+// caption protects only incidentally stays in `unwritable` below and is refused
+// by ROLE, exactly as before: the cell-accurate caption is used to say what a
+// blank IS, never to decide that it may be written. The decision is this
+// family's, stated in POLICY, and it is unchanged for all ten.
+const MEASURED_CAPTIONS = {
+  "form1[0].PAGE1[0].JDGANUM[0]": {
+    printedLine: "JD/GA numberAddress of courtDocket number (only one allowed)",
+    printedAt: { page: 1, y: 624 }, columnHeading: "JD/GA number", columnX: [29, 81]
+  },
+  "form1[0].PAGE1[0].COURTADDRESS[0]": {
+    printedLine: "JD/GA numberAddress of courtDocket number (only one allowed)",
+    printedAt: { page: 1, y: 624 }, columnHeading: "Address of court", columnX: [86, 419]
+  },
+  "form1[0].PAGE1[0].DOCKETNO[0]": {
+    printedLine: "JD/GA numberAddress of courtDocket number (only one allowed)",
+    printedAt: { page: 1, y: 624 }, columnHeading: "Docket number (only one allowed)", columnX: [425, 585]
+  },
+  "form1[0].PAGE1[0].DEFNAME[0]": {
+    printedLine: "Name of defendantE-mail addressPhone numberDate of birth",
+    printedAt: { page: 1, y: 600 }, columnHeading: "Name of defendant", columnX: [29, 189]
+  },
+  "form1[0].PAGE1[0].DEFEMAIL[0]": {
+    printedLine: "Name of defendantE-mail addressPhone numberDate of birth",
+    printedAt: { page: 1, y: 600 }, columnHeading: "E-mail address", columnX: [194, 361]
+  },
+  "form1[0].PAGE1[0].DEFPHONE[0]": {
+    printedLine: "Name of defendantE-mail addressPhone numberDate of birth",
+    printedAt: { page: 1, y: 600 }, columnHeading: "Phone number", columnX: [367, 491]
+  },
+  "form1[0].PAGE1[0].DOB[0]": {
+    printedLine: "Name of defendantE-mail addressPhone numberDate of birth",
+    printedAt: { page: 1, y: 600 }, columnHeading: "Date of birth", columnX: [497, 585]
+  },
+  "form1[0].PAGE1[0].DEFADDRESS[0]": {
+    printedLine: "Address", printedAt: { page: 1, y: 576 }, columnHeading: "Address", columnX: [29, 585]
+  },
+  "form1[0].PAGE1[0].CRIMES2ERASE[0]": {
+    printedLine: "Crime(s) defendant asks the court to erase",
+    printedAt: { page: 1, y: 552 }, columnHeading: "Crime(s) defendant asks the court to erase", columnX: [29, 585]
+  },
+  "form1[0].PAGE1[0].PRINTNAME[0]": {
+    printedLine: "Signature (Defendant)Print nameDate",
+    printedAt: { page: 1, y: 131 }, columnHeading: "Print name", columnX: [317, 502]
+  },
+  "form1[0].PAGE1[0].DATESIGN[0]": {
+    printedLine: "Signature (Defendant)Print nameDate",
+    printedAt: { page: 1, y: 131 }, columnHeading: "Date", columnX: [508, 585]
+  },
+  "form1[0].PAGE1[0].PRINTNAME[1]": {
+    printedLine: "Signature (Notary, Commissioner of the Superior Court, Clerk)Print nameDate",
+    printedAt: { page: 1, y: 107 }, columnHeading: "Print name", columnX: [317, 502]
+  },
+  "form1[0].PAGE1[0].DATESIGN[1]": {
+    printedLine: "Signature (Notary, Commissioner of the Superior Court, Clerk)Print nameDate",
+    printedAt: { page: 1, y: 107 }, columnHeading: "Date", columnX: [508, 585]
+  },
+  "form1[0].#subform[1].DENIED[0]": {
+    printedLine: "Denied", printedAt: { page: 2, y: 711 }, columnHeading: "Denied", columnX: [47, 57]
+  },
+  "form1[0].#subform[1].GRANTED[0]": {
+    printedLine: "Granted, as to the following convictions:",
+    printedAt: { page: 2, y: 693 }, columnHeading: "Granted", columnX: [47, 57]
+  },
+  "form1[0].#subform[1].MODIFIED[0]": {
+    printedLine: "Granted, as to the following convictions:",
+    printedAt: { page: 2, y: 693 }, columnHeading: "Granted, as to the following convictions", columnX: [65, 585]
+  },
+  "form1[0].#subform[1].TOWNJUDGMNT[0]": {
+    printedLine: "By the Court (Name of Judge)Signed (Clerk/Assistant Clerk)On (Date)",
+    printedAt: { page: 2, y: 599 }, columnHeading: "By the Court (Name of Judge)", columnX: [29, 221]
+  },
+  "form1[0].#subform[1].DATEJUDGMNT[0]": {
+    printedLine: "By the Court (Name of Judge)Signed (Clerk/Assistant Clerk)On (Date)",
+    printedAt: { page: 2, y: 599 }, columnHeading: "On (Date)", columnX: [497, 585]
+  },
+  "form1[0].#pageSet[0].Page1[0].PrintButton1[0]": {
+    printedLine: "Page 1 of 2", printedAt: { page: 1, y: 15 }, columnHeading: null, columnX: [126, 194]
+  },
+  "form1[0].#pageSet[0].Page1[0].ResetButton1[0]": {
+    printedLine: "Page 1 of 2", printedAt: { page: 1, y: 15 }, columnHeading: null, columnX: [414, 482]
+  },
+  "form1[0].#pageSet[0].Page1[1].PrintButton1[0]": {
+    printedLine: "Page 2 of 2", printedAt: { page: 2, y: 15 }, columnHeading: null, columnX: [126, 194]
+  },
+  "form1[0].#pageSet[0].Page1[1].ResetButton1[0]": {
+    printedLine: "Page 2 of 2", printedAt: { page: 2, y: 15 }, columnHeading: null, columnX: [414, 482]
+  }
+};
+
+// ---- WHAT EACH BLANK IS, IN THE COMPLETENESS CONTRACT'S VOCABULARY -----------
+//
+// One row per field, and the closed vocabulary is the one in
+// scripts/rcap-packet-completeness/completeness-contract.mjs. `participantLabel`
+// is what the participant is told the blank is called; it is the column heading
+// above, disambiguated where a bare heading ("Print name", "Date") appears on
+// two different rows and would otherwise name two blanks the same.
+const SIGNATURE_CLASS = "signature_or_date_participant_completion";
+const COURT_CLASS = "court_prosecutor_clerk_or_agency_owned";
+
+const POLICY = {
+  "form1[0].PAGE1[0].DOCKETNO[0]": { kind: "write", participantLabel: "Docket number (only one allowed)" },
+  "form1[0].PAGE1[0].DEFNAME[0]": { kind: "write", participantLabel: "Name of defendant" },
+  "form1[0].PAGE1[0].DEFEMAIL[0]": { kind: "write", participantLabel: "E-mail address" },
+  "form1[0].PAGE1[0].DEFPHONE[0]": { kind: "write", participantLabel: "Phone number" },
+  "form1[0].PAGE1[0].DOB[0]": { kind: "write", participantLabel: "Date of birth" },
+  "form1[0].PAGE1[0].DEFADDRESS[0]": { kind: "write", participantLabel: "Address" },
+
+  "form1[0].PAGE1[0].JDGANUM[0]": {
+    kind: "supply", participantLabel: "JD/GA number",
+    what:
+      "the JD or G.A. number of the court that sentenced you for the crime you are asking the court to erase. It is "
+      + "printed on your court paperwork, and the clerk of any Superior Court location can read it off your docket number"
+  },
+  "form1[0].PAGE1[0].COURTADDRESS[0]": {
+    kind: "supply", participantLabel: "Address of court",
+    what:
+      "the street address of that same court. Instruction 3 on the form tells you to file where you were sentenced, and "
+      + "the chart on page 2 gives the court to file in instead if that location has since closed"
+  },
+  "form1[0].PAGE1[0].CRIMES2ERASE[0]": {
+    kind: "supply", participantLabel: "Crime(s) defendant asks the court to erase",
+    what:
+      "the crime or crimes you are asking the court to erase, from the ONE case this form covers. Instruction 4 is "
+      + "strict about that: crimes from more than one case need a separate form for each case, and the court cannot "
+      + "process a form that mixes them"
+  },
+
+  "form1[0].PAGE1[0].PRINTNAME[0]": {
+    kind: "protect", refusalClass: SIGNATURE_CLASS,
+    participantLabel: "Print name, on your own signature row",
+    why:
+      "the attestation row is completed at the swearing, by the person swearing, in the officer's presence. Prefilling "
+      + "any part of it -- the printed name included -- presents a sworn block as further along than it is"
+  },
+  "form1[0].PAGE1[0].DATESIGN[0]": {
+    kind: "protect", refusalClass: SIGNATURE_CLASS,
+    participantLabel: "Date, on your own signature row",
+    why: "dating a signature that has not been made asserts the petition was signed on a day it was not"
+  },
+  "form1[0].PAGE1[0].PRINTNAME[1]": {
+    kind: "protect", refusalClass: COURT_CLASS,
+    participantLabel: "Print name, on the officer's jurat row",
+    why:
+      "the printed name of the Notary, Commissioner of the Superior Court or Clerk who administers the oath. Writing "
+      + "the participant's name here would name them as the officer who swore them"
+  },
+  "form1[0].PAGE1[0].DATESIGN[1]": {
+    kind: "protect", refusalClass: COURT_CLASS,
+    participantLabel: "Date, on the officer's jurat row",
+    why: "the officer dates their own jurat, on the day they administer the oath"
+  },
+
+  "form1[0].#subform[1].DENIED[0]": {
+    kind: "protect", refusalClass: COURT_CLASS, selection: true,
+    participantLabel: "By the Court — Denied",
+    why: "the box the court ticks to deny the petition; the court's decision, made after the petition is filed"
+  },
+  "form1[0].#subform[1].GRANTED[0]": {
+    kind: "protect", refusalClass: COURT_CLASS, selection: true,
+    participantLabel: "By the Court — Granted",
+    why: "the box the court ticks to grant the petition; marking it would render an order the court has not made"
+  },
+  "form1[0].#subform[1].MODIFIED[0]": {
+    kind: "protect", refusalClass: COURT_CLASS,
+    participantLabel: "By the Court — the convictions the order covers",
+    why:
+      "the operative text of the court's decree, naming which convictions are erased. It is the court stating its own "
+      + "order, and it is also the eligibility question this family does not decide"
+  },
+  "form1[0].#subform[1].TOWNJUDGMNT[0]": {
+    kind: "protect", refusalClass: COURT_CLASS,
+    participantLabel: "By the Court (Name of Judge)",
+    why: "the judge's name, and the clerk's signature, on the court's own order"
+  },
+  "form1[0].#subform[1].DATEJUDGMNT[0]": {
+    kind: "protect", refusalClass: COURT_CLASS,
+    participantLabel: "By the Court — On (Date)",
+    why: "the date the court signs its own instrument"
+  },
+
+  "form1[0].#pageSet[0].Page1[0].PrintButton1[0]": { kind: "viewer", participantLabel: "Print this form (viewer control)" },
+  "form1[0].#pageSet[0].Page1[0].ResetButton1[0]": { kind: "viewer", participantLabel: "Reset this form (viewer control)" },
+  "form1[0].#pageSet[0].Page1[1].PrintButton1[0]": { kind: "viewer", participantLabel: "Print this form (viewer control)" },
+  "form1[0].#pageSet[0].Page1[1].ResetButton1[0]": { kind: "viewer", participantLabel: "Reset this form (viewer control)" }
+};
+
 // The blanks in this family that may EVER carry the participant's name.
 //
-// Empty, and that is the assertion. Every blank on JD-CR-202 that could hold a
-// name is either the crimes box (refused), the caption name box (refused: it
-// binds a date), or part of a sworn attestation row (refused). So no
-// participant-name token may be drawn anywhere in either fixture, and the
-// verification fails on finding one at any rectangle at all.
+// ONE, and naming it is the assertion. `DEFNAME` is the box captioned "Name of
+// defendant" in the page-1 identity table, and it is the only place on
+// JD-CR-202 where the petitioner's name belongs: the crimes box is refused, and
+// both jurat rows are refused. A name token drawn at any other rectangle is
+// still a blocking finding, which is what caught the misbinding in the first
+// place.
 const NAME_MAY_APPEAR_IN = {
-  "CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000": []
+  "CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000": [
+    "form1[0].PAGE1[0].DEFNAME[0]"
+  ]
 };
 
 // --- fixture identities -------------------------------------------------------
@@ -599,12 +805,32 @@ async function censusDocument(doc, bytes) {
   const censusFields = fields.map((f) => {
     const c = context.get(f.name) ?? {};
     const w = f.widgets[0] ?? null;
-    const subject = c.effectiveLabel ?? f.name;
+    /*
+     * The caption this build uses is the MEASURED one -- the cell of the header
+     * row printed above the widget -- and the harvested one is kept beside it so
+     * the difference stays visible rather than being lost. On a form whose
+     * headings sit a row above their inputs, the harvest is the thing that needs
+     * explaining, not the measurement.
+     *
+     * A viewer button has no header at all. Its own /MK /CA caption is what the
+     * Judicial Branch authored for it, and that is truer than either the harvest
+     * -- which reaches up the page for an unrelated sentence -- or a field name.
+     */
+    const measured = MEASURED_CAPTIONS[f.name] ?? null;
+    const effectiveLabel = measured?.columnHeading
+      ?? f.widgets[0]?.documentAuthoredCaption
+      ?? c.effectiveLabel
+      ?? null;
+    const subject = effectiveLabel ?? f.name;
     return {
       name: f.name,
       type: f.type,
-      effectiveLabel: c.effectiveLabel ?? null,
-      labelBasis: c.labelBasis ?? null,
+      effectiveLabel,
+      harvestedLabel: c.effectiveLabel ?? null,
+      measuredCaption: measured,
+      labelBasis: measured
+        ? "measured_column_heading_read_from_the_header_row_printed_above_the_widget"
+        : (f.widgets[0]?.documentAuthoredCaption ? "document_authored_widget_caption" : (c.labelBasis ?? null)),
       regionHeading: c.regionHeading ?? null,
       regionIsDocumentTitle: c.regionIsDocumentTitle ?? false,
       widgets: f.widgets,
@@ -623,15 +849,50 @@ async function censusDocument(doc, bytes) {
     };
   });
 
+  /*
+   * THE MEASUREMENT IS CHECKED, NOT ASSERTED.
+   *
+   * A hand-written caption dictionary is only worth more than a bad harvest if
+   * it is falsifiable, so all four of its claims are re-read from the pinned
+   * binary here: the header line is printed on the page and at the baseline the
+   * dictionary says; the widget's own x sits inside the column x-range; and the
+   * header is printed ABOVE the widget it captions -- which is the whole shape
+   * of this form, and a caption below its widget would be the nearest-line
+   * harvest arriving by a second route.
+   */
+  const flat = (x) => String(x).toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+  const captionDrift = [];
+  for (const f of censusFields) {
+    const m = f.measuredCaption;
+    if (!m) { captionDrift.push({ field: f.name, why: "no measured caption is recorded for this widget" }); continue; }
+    const here = (linesByPage[m.printedAt.page - 1] ?? [])
+      .filter((l) => Math.abs(Math.round(l.y) - m.printedAt.y) <= 2);
+    if (!here.some((l) => flat(normalizeHarvestedText(l.text)).includes(flat(m.printedLine)))) {
+      captionDrift.push({
+        field: f.name, why: "the header line is no longer printed at the recorded baseline",
+        printedAt: m.printedAt, expected: m.printedLine,
+        linesThere: here.map((l) => l.text).slice(0, 2)
+      });
+    }
+    const rect = f.widgets[0]?.rect ?? null;
+    if (!rect) continue;
+    if (rect.x < m.columnX[0] - 1 || rect.x > m.columnX[1] + 1) {
+      captionDrift.push({ field: f.name, why: "the widget does not sit inside the column the heading claims", columnX: m.columnX, widgetX: rect.x });
+    }
+    if (f.widgets[0].page === m.printedAt.page && m.printedAt.y < rect.y) {
+      captionDrift.push({ field: f.name, why: "the claimed caption is printed below the widget", captionY: m.printedAt.y, widgetY: rect.y });
+    }
+  }
+
   return {
-    pdf, pages, fields: censusFields, documentTextLines,
+    pdf, pages, fields: censusFields, documentTextLines, captionDrift,
     pageGeometry: pages.map((p, i) => ({ page: i + 1, width: +p.getSize().width.toFixed(2), height: +p.getSize().height.toFixed(2) })),
     strokedByPage
   };
 }
 
 // ---- step 7: prove it from the ARTIFACT, not from the report ------------------
-async function verifyFromBytes({ file, census, report, label, documentId }) {
+async function verifyFromBytes({ file, census, report, label, documentId, facts }) {
   const drawn = await flattenedWidgets(file);
   const findings = [];
   const advisories = [];
@@ -721,6 +982,27 @@ async function verifyFromBytes({ file, census, report, label, documentId }) {
   // one the name belongs in. For this family that list is EMPTY, so any name
   // token drawn anywhere is a blocking finding.
   const allowed = new Set(NAME_MAY_APPEAR_IN[documentId] ?? []);
+  /*
+   * A second, narrower ground on which a name token is legitimate: the drawn
+   * text IS the value this map deliberately bound to this field.
+   *
+   * The participant's e-mail address is `jordan.reyes@example.com`, and it
+   * contains both of their name tokens. Reported as a stray name it is a
+   * blocking finding on a correctly written e-mail box, and the only ways to
+   * silence it are to widen the allow-list past the point where it means
+   * anything, or to choose a fixture e-mail that does not contain the
+   * participant's name -- which would make the fixture unlike every real one.
+   *
+   * The guard is not weakened by this. It still blocks a name drawn where no
+   * value was written, and a name drawn at a field whose written value is
+   * something else. What it stops doing is reporting a value for being made of
+   * the characters it is made of.
+   */
+  const writtenValueOf = new Map(report.written.map((w) => [w.field, String(facts?.[w.factId] ?? "").trim()]));
+  const isTheValueWrittenHere = (field, text) => {
+    const value = writtenValueOf.get(field);
+    return typeof value === "string" && value.length > 0 && text === value;
+  };
   const namePlacements = [];
   for (const appearance of drawn) {
     const text = String(appearance.text ?? "").trim();
@@ -731,8 +1013,13 @@ async function verifyFromBytes({ file, census, report, label, documentId }) {
       w.page === appearance.page
       && Math.abs(w.rect.x - appearance.x) <= 3 && Math.abs(w.rect.y - appearance.y) <= 3));
     const field = owner?.name ?? null;
-    namePlacements.push({ field, page: appearance.page, text, tokens: hit, allowed: allowed.has(field) });
-    if (!allowed.has(field)) {
+    const permitted = allowed.has(field) || isTheValueWrittenHere(field, text);
+    namePlacements.push({
+      field, page: appearance.page, text, tokens: hit, allowed: permitted,
+      basis: allowed.has(field) ? "listed as a blank the name belongs in"
+        : permitted ? "the drawn text is exactly the value this map bound to this field" : null
+    });
+    if (!permitted) {
       findings.push({ severity: "blocking", fixture: label, field: field ?? "(unattributed appearance)",
         check: "participant_name_drawn_in_a_blank_not_listed_as_a_name_blank",
         page: appearance.page, drawnText: text, tokens: hit });
@@ -740,6 +1027,302 @@ async function verifyFromBytes({ file, census, report, label, documentId }) {
   }
 
   return { findings, advisories, chargeBlanks, namePlacements, appearancesDrawn: drawn.length };
+}
+
+// ---- the field map in the shape the completeness contract reads --------------
+//
+// The `documents` map below this one describes the build; it is written in a
+// shape scripts/rcap-packet-completeness/verify-packet-completeness.mjs does not
+// read, and an unread schema is REFUSED as unauditable rather than read as
+// empty -- which is how this family came to be one of two in the fleet reporting
+// FAIL_COMPONENT_SET with `fieldMapSchema: undefined`. Both records are kept:
+// the descriptive one because the reports and the reviewers cite it, and this
+// one because a family that cannot be audited cannot be verified.
+function contractMapFor(doc, census, canonicalReport) {
+  const written = new Map(canonicalReport.written.map((w) => [w.field, w]));
+  const canonicalWrites = [];
+  const canonicalRefusals = [];
+  const selectionControls = [];
+
+  for (const f of census.fields) {
+    const policy = POLICY[f.name];
+    const w = f.widgets[0] ?? null;
+    const base = {
+      field: f.name, page: w?.page ?? null, rect: w?.rect ?? null,
+      /*
+       * ROW IDENTITY, AND WHY THIS ALIAS EXISTS.
+       *
+       * `field` is and stays the exact AcroForm name; it is what identifies the
+       * widget and nothing here changes it. `fieldName` is an alias used only
+       * for ROW GROUPING, and it exists because rowKeyOf in the shared
+       * completeness contract reads a trailing `[n]` in a field name as a
+       * repeating-table row index. That is right for CR-180, which numbers its
+       * offence rows inside the field name. JD-CR-202 is an Adobe LiveCycle
+       * form, so EVERY leaf on it is `NAME[0]` -- and the heuristic then groups
+       * all twenty-two fields, across both pages, into one row called
+       * `table::[0]` and reports it incomplete because some cells are written
+       * and others are blanks the participant fills.
+       *
+       * That is not a defect in this packet and it is not a table. The alias
+       * drops the LiveCycle index so the heuristic sees what is there: a form
+       * with no repeating row on it. JD-CR-202 has none -- one docket box, one
+       * crimes box, one of everything -- so nothing real is hidden by grouping
+       * nothing. The finding is recorded in build-findings.json, because the
+       * heuristic will misread every LiveCycle form in the fleet the same way
+       * and the fix belongs in the shared contract, which this family reads and
+       * never edits.
+       */
+      fieldName: f.name.replace(/\[\d+\]/g, ""),
+      acroFieldName: f.name,
+      rectBasis: "acroform_widget_rect_read_from_the_document",
+      printedLabel: f.measuredCaption?.printedLine ?? f.effectiveLabel,
+      printedLine: f.measuredCaption?.printedLine ?? f.effectiveLabel,
+      columnHeading: f.measuredCaption?.columnHeading ?? null,
+      captionReadAt: f.measuredCaption?.printedAt ?? null,
+      regionHeading: policy.participantLabel,
+      effectiveLabel: policy.participantLabel,
+      document: doc.documentId
+    };
+
+    if (policy.kind === "write") {
+      const hit = written.get(f.name);
+      if (hit) { canonicalWrites.push({ ...base, factId: hit.factId ?? null, kind: f.type }); continue; }
+      canonicalRefusals.push({
+        ...base,
+        reason: "the finalizer refused this write; the packet does not claim a value it did not draw",
+        category: null, completenessClass: null, class: null,
+        requiredBeforeFiling: false,
+        why: "reported rather than claimed, so the defect is visible to the audit"
+      });
+      continue;
+    }
+
+    if (policy.kind === "protect" && policy.selection === true) {
+      selectionControls.push({
+        ...base, selectionId: f.name, kind: "selection_control", type: f.type,
+        widgets: f.widgets, disposition: "explicit_refusal",
+        reason: policy.why, category: policy.refusalClass,
+        completenessClass: policy.refusalClass, class: policy.refusalClass,
+        requiredBeforeFiling: false, routeDetermined: false
+      });
+      continue;
+    }
+
+    if (policy.kind === "protect") {
+      canonicalRefusals.push({
+        ...base, reason: policy.why,
+        category: policy.refusalClass, completenessClass: policy.refusalClass, class: policy.refusalClass,
+        requiredBeforeFiling: false, why: policy.why
+      });
+      continue;
+    }
+
+    if (policy.kind === "viewer") {
+      canonicalRefusals.push({
+        ...base, reason: "viewer ui control; never a filing fact",
+        category: null, completenessClass: null, class: null,
+        requiredBeforeFiling: false,
+        why: "a control the Judicial Branch put on the form for the person reading it on screen"
+      });
+      continue;
+    }
+
+    canonicalRefusals.push({
+      ...base,
+      reason: `the participant supplies this before filing: ${policy.what}`,
+      category: null, completenessClass: null, class: null,
+      disposition: "REQUIRED_BEFORE_FILING",
+      completenessDisposition: "REQUIRED_BEFORE_FILING",
+      requiredBeforeFiling: true,
+      identity: `${doc.formNumber} field ${f.name}`,
+      factId: null, routeDetermined: false,
+      why: `the platform holds no value for this and the participant supplies it before filing: ${policy.what}`,
+      participantMustSupply: policy.what
+    });
+  }
+
+  return {
+    formNumber: doc.formNumber, documentId: doc.documentId, documentRole: "primary_filing",
+    documentPolicy: { mode: "participant", captionOnly: false, documentAcceptsFill: true, routeKey: ROUTE_KEY },
+    structuralClass: "acroform",
+    explicitMappings: Object.fromEntries(canonicalWrites.map((w) => [w.field, w.factId])),
+    roleRefusals: [],
+    selectionControls, canonicalWrites, canonicalRefusals,
+    boundaryWrites: canonicalWrites, boundaryRefusals: canonicalRefusals
+  };
+}
+
+// ---- the builder's own count of the nine completeness counters ---------------
+//
+// Not a verdict and not verification: this family is not verified by the lane
+// that built it. It answers the builder contract's own obligation to return the
+// nine counters, and it does so with the repository's contract functions rather
+// than a second implementation of them, so a mistake in POLICY is caught here
+// rather than three lanes downstream.
+function countCompleteness(map, writeProofs, artifacts, instructionsText) {
+  const counters = Object.fromEntries(PASS_COUNTERS.map((c) => [c, 0]));
+  const findings = [];
+  const note = (counter, detail) => { counters[counter] += 1; findings.push({ counter, ...detail }); };
+
+  const row = (r, selection = false) => ({
+    id: r.field, name: r.fieldName ?? r.field, label: r.effectiveLabel ?? "", reason: r.reason ?? "",
+    refusalClass: r.category ?? null, page: r.page ?? null, document: r.document ?? null,
+    factId: r.factId ?? null, isSelectionControl: selection,
+    declared: {
+      disposition: r.completenessDisposition ?? null,
+      ...(Object.hasOwn(r, "requiredBeforeFiling") ? { requiredBeforeFiling: r.requiredBeforeFiling === true } : {}),
+      ...(Object.hasOwn(r, "routeDetermined") ? { routeDetermined: r.routeDetermined === true } : {}),
+      identity: r.identity ?? null, factId: r.factId ?? null
+    }
+  });
+
+  const writes = map.canonicalWrites.map((w) => row(w));
+  const blanks = [...map.canonicalRefusals.map((r) => row(r)), ...map.selectionControls.map((c) => row(c, true))];
+
+  const availableFacts = new Set(writes.map((w) => w.factId).filter(Boolean));
+  const normLabel = (x) => String(x ?? "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+  const writtenLabels = new Set();
+  for (const w of writes) for (const k of [normLabel(w.label), normLabel(w.name)]) if (k.length >= 4) writtenLabels.add(k);
+
+  const ledger = [];
+  for (const blank of blanks) {
+    const declared = {
+      ...blank.declared,
+      factAvailable: (blank.declared.factId ? availableFacts.has(String(blank.declared.factId)) : false)
+        || writtenLabels.has(normLabel(blank.label)) || writtenLabels.has(normLabel(blank.name))
+    };
+    const verdict = classifyBlank(blank, blank.reason, blank.refusalClass, declared);
+    ledger.push({ field: blank.id, label: blank.label, ...verdict });
+    if (BLANK_DISPOSITIONS[verdict.disposition].allowed) continue;
+    const counter = verdict.disposition === "KNOWN_FACT_NOT_WRITTEN" ? "knownRequiredFieldsMissing"
+      : verdict.disposition === "ROUTE_OPTION_NOT_SELECTED" ? "requiredOptionsMissing" : "unclassifiedBlanks";
+    note(counter, { field: blank.id, label: blank.label, disposition: verdict.disposition, basis: verdict.basis });
+  }
+
+  const instructions = String(instructionsText ?? "");
+  for (const b of ledger.filter((x) => x.disposition === "REQUIRED_BEFORE_FILING")) {
+    const needles = [b.label, b.field].map((x) => String(x ?? "").trim()).filter((x) => x.length >= 3);
+    if (needles.some((n) => instructions.toLowerCase().includes(n.toLowerCase().slice(0, 60)))) continue;
+    note("requiredFactsNotCollected", { field: b.field, label: b.label, why: "declared required-before-filing and not named in participant-instructions.md" });
+  }
+
+  const rows = new Map();
+  for (const f of [...writes.map((w) => ({ ...w, written: true })), ...blanks.map((b) => ({ ...b, written: false }))]) {
+    const key = rowKeyOf(f);
+    if (!key) continue;
+    if (!rows.has(key)) rows.set(key, []);
+    rows.get(key).push(f);
+  }
+  for (const [key, cells] of rows) {
+    if (!cells.some((c) => c.written)) continue;
+    const missing = cells.filter((c) => !c.written && classifyField(c.label, c.isSelectionControl === true).requirement === "REQUIRED_KNOWN");
+    if (missing.length > 0) note("incompleteRows", { row: key, missingCells: missing.map((m) => m.label) });
+  }
+
+  for (const p of writeProofs) {
+    const visible = (p.addedGlyphsReadFromOutputBytes ?? 0) + (p.flattenedWidgetAppearancesReadFromOutputBytes ?? 0);
+    if ((p.valuesReportedByFinalizer ?? 0) > 0 && visible === 0) {
+      note("invisibleWrites", { fixture: p.fixture, why: "the finalizer reported values and the output bytes carry no glyph and no flattened appearance" });
+    }
+    for (const refused of p.refusedFieldsWithInk ?? []) {
+      note("protectedWrites", { fixture: p.fixture, field: refused.fieldId, why: "a field the map refused carries ink in the output" });
+    }
+  }
+  for (const w of writes) {
+    if (classifyField(w.label, false).requirement === "PROTECTED") {
+      note("protectedWrites", { field: w.id, label: w.label, why: "a protected field was written" });
+    }
+  }
+
+  const rendered = artifacts.map((a) => `${a.file} ${a.document}`).join(" ").toLowerCase();
+  if (!rendered.includes("jd-cr-202") && !rendered.includes("jdcr202")) {
+    note("requiredComponentsMissing", { component: map.formNumber, why: "the field map names this document and it appears in no rendered artifact" });
+  }
+
+  return { counters, findings, ledger };
+}
+
+function participantInstructionsMarkdown(rbf) {
+  const out = [];
+  out.push("# Filing instructions — Petition for Clean Slate erasure", "");
+  out.push(
+    "This packet is Connecticut Judicial Branch form **JD-CR-202 Rev. 11-23**, _Petition for Clean Slate Erasure, "
+    + "Convictions Before 1/1/2000_, prepared for a **petitioned** Clean Slate erasure of convictions for offences "
+    + "committed before 1 January 2000.", ""
+  );
+  out.push(
+    "The platform filled in what it holds about you and your case: your name, your date of birth, your address, your "
+    + "e-mail address, your phone number and your docket number. Everything else is yours, and every one of those blanks "
+    + "is listed below by the column heading printed above it on the form.", ""
+  );
+
+  out.push("## Where you file this", "");
+  out.push(
+    "**File this petition in the court location where you were sentenced** for the crime you are asking the court to "
+    + "erase. That is printed instruction 3 on the form itself.", ""
+  );
+  out.push(
+    "If that court location has since closed, **the chart on page 2 of this packet names the court to file in instead**. "
+    + "It covers G.A. 6 and G.A. 8 at New Haven, G.A. 13 at Enfield, G.A. 16 at West Hartford, G.A. 17 at Bristol and "
+    + "G.A. 20 at Norwalk, and gives the receiving court and its street address for each.", ""
+  );
+  out.push(
+    "**There is no filing fee for this petition.** C.G.S. § 54-142a provides for it and the compiled Connecticut profile "
+    + "records the fee as $0. A criminal-history record check from the State Police Bureau of Identification is a separate "
+    + "agency cost and is not a court filing fee.", ""
+  );
+
+  out.push("## One case per form", "");
+  out.push(
+    "Printed instruction 4 is strict, and the court enforces it: **if you have crimes from more than one case, file a "
+    + "separate form for each case.** The court cannot process a form carrying crimes from more than one case, and the "
+    + "docket box takes only one number. The docket number already on your packet is the case this copy covers.", ""
+  );
+
+  out.push("## What you must do before you file", "");
+  out.push("1. **Fill in every item in the table below.** Each names the page and the column heading printed above the blank.");
+  out.push("2. **Read the sworn statements in the body of the petition** — the eligibility, waiting-period, sentence-completion and pending-charges paragraphs. You are swearing that they are true of you.");
+  out.push("3. **Sign the petition in front of a Notary Public, a Commissioner of the Superior Court, a Clerk, or another proper officer.** Printed instruction 2 requires it: this petition is sworn, not merely signed. Do not sign it, print your name on the signature row, or date it in advance — the whole attestation row is completed at the swearing, in the officer's presence.");
+  out.push("4. **Leave the officer's row blank.** The officer signs, prints their own name and dates their own jurat.");
+  out.push("5. **Leave the Order of the Court on page 2 alone.** The judge completes it.");
+  out.push("");
+
+  out.push("## The items you must supply", "");
+  out.push("| Page | The blank on the form | What to write |", "| --- | --- | --- |");
+  for (const i of rbf) out.push(`| ${i.page} | ${i.disclosureLabel} | ${i.participantMustSupply} |`);
+  out.push("");
+
+  out.push("## What the platform deliberately left blank", "");
+  out.push("- **Your signature, your printed name on that row, and the date.** The petition is sworn in front of an officer. Prefilling any part of the attestation row would present a sworn block as further along than it is, and a date written before you swear it would be false.");
+  out.push("- **The officer's signature, printed name and date.** Those belong to the Notary, Commissioner or Clerk who takes your oath.");
+  out.push("- **The whole Order of the Court on page 2** — the Denied and Granted boxes, the list of convictions the order covers, the judge's name, the clerk's signature and the date. The court decides the petition, and nothing in this packet may look like it has already been decided.");
+  out.push("");
+
+  out.push("## Two things you will notice on the paper", "");
+  out.push(
+    "- **The words _Print Form_ and _Reset Form_ at the foot of each page.** They are the Judicial Branch's own on-screen "
+    + "buttons. Flattening the form for filing turns them into ordinary text, so a filed copy carries them. They are the "
+    + "court's own labels, not anything this packet wrote, and they do not affect the filing."
+  );
+  out.push(
+    "- **Your address line carries the street address only.** The form gives the address one full-width line and the "
+    + "platform holds your address in parts, so the line is correct as far as it goes and you complete the city, state and "
+    + "ZIP yourself."
+  );
+  out.push("");
+
+  out.push("## What this packet is not", "");
+  out.push(
+    "This is a prepared copy of an official Connecticut Judicial Branch form. It is not legal advice, it is not filed for "
+    + "you, and **it does not decide whether your convictions are eligible for Clean Slate erasure**. The form's own NOTE "
+    + "warns that a crime for which the court could have sentenced you to more than five years is not eligible even if you "
+    + "were sentenced to less, and that some crimes — a second § 14-227a violation within ten years, sexually violent "
+    + "crimes, nonviolent sexual crimes, and the crimes listed in § 54-142a(e)(2)(C) — are blocked from erasure outright. "
+    + "Read those paragraphs before you swear to them."
+  );
+  out.push("");
+  out.push(`_Route: ${ROUTE_KEY}_`);
+  return `${out.join("\n")}\n`;
 }
 
 // ---- main --------------------------------------------------------------------
@@ -761,6 +1344,16 @@ async function main() {
     if (census.fields.length !== indexEntry.acroFieldCount) {
       fail(`${doc.documentId}: censused ${census.fields.length} fields, corpus index declares ${indexEntry.acroFieldCount}`);
     }
+    if (census.captionDrift.length) {
+      for (const d of census.captionDrift) console.error(`  caption drift ${d.field}: ${d.why}`);
+      fail(`${doc.documentId}: ${census.captionDrift.length} measured caption(s) no longer describe the form`);
+    }
+    const unpolicied = census.fields.filter((f) => !POLICY[f.name]);
+    if (unpolicied.length) {
+      for (const f of unpolicied) console.error(`  no policy for ${f.name}`);
+      fail(`${doc.documentId}: ${unpolicied.length} field(s) carry no completeness policy`);
+    }
+    console.log(`  captions measured and re-checked against the pinned binary: ${census.fields.length}/${census.fields.length}`);
 
     const fixtures = {};
     for (const [label, facts] of [["canonical", CANONICAL], ["boundary", BOUNDARY]]) {
@@ -784,7 +1377,7 @@ async function main() {
 
       const proof = await verifyFromBytes({
         file: path.join(rootDir, rel), census, report: result.report,
-        label: `${doc.key}-${label}`, documentId: doc.documentId
+        label: `${doc.key}-${label}`, documentId: doc.documentId, facts
       });
       allFindings.push(...proof.findings);
       advisories.push(...proof.advisories);
@@ -979,6 +1572,20 @@ async function main() {
     decisions
   });
 
+  // The contract-readable map, the items it declares required before filing, and
+  // the instructions that disclose them. All three are derived from the same
+  // POLICY table, so a blank cannot be declared in one and missing from another.
+  const contractMap = contractMapFor(documents[0].doc, documents[0].census, documents[0].fixtures.canonical.report);
+  const requiredBeforeFiling = contractMap.canonicalRefusals
+    .filter((r) => r.requiredBeforeFiling === true)
+    .map((r) => ({
+      document: contractMap.formNumber, field: r.field, page: r.page,
+      printedContext: r.printedLabel, columnHeading: r.columnHeading,
+      disclosureLabel: r.effectiveLabel, identity: r.identity,
+      why: r.why, participantMustSupply: r.participantMustSupply
+    }));
+  const instructionsText = participantInstructionsMarkdown(requiredBeforeFiling);
+
   writeJson(`${OUT}/production-field-map.json`, {
     schemaVersion: "rcap-official-form-field-map/v1-census-v1",
     familyId: FAMILY_ID,
@@ -998,6 +1605,14 @@ async function main() {
         ownership: doc.ownership,
         captionOnly: doc.captionOnly,
         explicitMappings: doc.explicitMappings,
+        measuredCaptions: census.fields.map((f) => ({
+          field: f.name, harvestedLabel: f.harvestedLabel,
+          measuredColumnHeading: f.measuredCaption?.columnHeading ?? null,
+          printedLine: f.measuredCaption?.printedLine ?? null,
+          printedAt: f.measuredCaption?.printedAt ?? null,
+          columnX: f.measuredCaption?.columnX ?? null,
+          differsFromHarvest: (f.harvestedLabel ?? null) !== (f.measuredCaption?.columnHeading ?? null)
+        })),
         explicitMappingsNote:
           "Empty by decision. decideBinding refuses a field whose explicit mapping disagrees with the "
           + "channel-selected descriptor rather than redirecting it, so an explicit mapping cannot repair a "
@@ -1019,8 +1634,135 @@ async function main() {
         refused: fixtures.canonical.report.refused,
         protectedFields: fixtures.canonical.report.protectedFields
       };
-    })
+    }),
+    // The same family, in the shape the completeness contract reads. See
+    // contractMapFor: both records are kept, because the descriptive one is
+    // what the reports cite and the readable one is what makes the family
+    // auditable at all.
+    requiredBeforeFilingCount: requiredBeforeFiling.length,
+    requiredBeforeFiling,
+    routeDeterminedSelections: [],
+    routeSelectionNote:
+      "JD-CR-202 carries no participant election. Its only two controls are the court's Denied and Granted boxes in the "
+      + "Order of the Court, so this packet states the route it was built for on its own row rather than by ticking anything.",
+    dispositionVocabulary: [SIGNATURE_CLASS, COURT_CLASS],
+    maps: [contractMap]
   });
+
+  // ---- the byte proof, in the shape the completeness audit reads ---------------
+  //
+  // verifyFromBytes already reads every appearance back from the artifact; this
+  // record is that reading, written where the audit looks for it. The form's own
+  // pushbutton captions are recorded separately rather than counted as ink on a
+  // refused field: a participant fact can never equal "Reset Form", so nothing is
+  // softened by telling the two apart.
+  const writeProofs = documents.flatMap(({ doc, census, fixtures }) =>
+    ["canonical", "boundary"].map((label) => {
+      const f = fixtures[label];
+      const byName = new Map(census.fields.map((x) => [x.name, x]));
+      const facts = label === "canonical" ? CANONICAL : BOUNDARY;
+      const actualWrites = f.report.written.map((w) => {
+        const field = byName.get(w.field);
+        const placement = f.proof.namePlacements.find((p) => p.field === w.field);
+        return {
+          field: w.field, factId: w.factId ?? null,
+          page: field?.widgets?.[0]?.page ?? null, rect: field?.widgets?.[0]?.rect ?? null,
+          printedCaption: field?.measuredCaption?.printedLine ?? null,
+          columnHeading: field?.measuredCaption?.columnHeading ?? null,
+          expected: facts[w.factId] ?? null,
+          drawnText: placement ? [placement.text] : [],
+          readBackFromBytes: true
+        };
+      });
+      const advisoryCaptions = f.proof.advisories
+        .filter((a) => a.check === "flattening_materialised_the_forms_own_widget_caption")
+        .map((a) => ({ field: a.field, page: a.page, rect: a.rect, drawnText: [a.drawnText] }));
+      return {
+        fixture: `${doc.key}-${label}`, formNumber: doc.formNumber, sourceSha256: doc.sha256,
+        proofMethod: "flattened widget appearances read back at every measured /Rect of the finalized bytes",
+        valuesReportedByFinalizer: f.report.written.length,
+        flattenedWidgetAppearancesReadFromOutputBytes: f.proof.appearancesDrawn,
+        addedGlyphsReadFromOutputBytes: actualWrites.reduce((n, w) => n + w.drawnText.join("").length, 0),
+        nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: 0,
+        refusedFieldsWithInk: f.proof.findings
+          .filter((x) => x.check === "refused_field_carries_ink")
+          .map((x) => ({ fieldId: x.field, drawnText: [x.drawnText] })),
+        flattenedFormOwnButtonCaptions: advisoryCaptions,
+        unfittable: f.report.unfittable,
+        actualWrites
+      };
+    }));
+
+  writeJson(`${OUT}/reports/actual-writes.json`, {
+    schemaVersion: "rcap-actual-writes-byte-proof/v1",
+    familyId: FAMILY_ID,
+    derivedFromArtifactBytes: true,
+    note:
+      "Read back from the finalized PDF bytes at every measured widget rectangle, not from the finalizer's own report. "
+      + "The form's own Print Form and Reset Form pushbutton captions are recorded under flattenedFormOwnButtonCaptions: "
+      + "flattening materialises them, and counting them as ink on a refused field would report a protected write that "
+      + "never happened.",
+    documents: writeProofs,
+    artifacts: writeProofs.map((p) => ({
+      fixture: p.fixture, formNumber: p.formNumber,
+      valuesReportedByFinalizer: p.valuesReportedByFinalizer,
+      addedGlyphsReadFromOutputBytes: p.addedGlyphsReadFromOutputBytes,
+      flattenedWidgetAppearancesReadFromOutputBytes: p.flattenedWidgetAppearancesReadFromOutputBytes,
+      nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: p.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes,
+      refusedFieldsWithInk: p.refusedFieldsWithInk
+    })),
+    blockingFindings: writeProofs.flatMap((p) => p.refusedFieldsWithInk.map((r) => ({
+      fixture: p.fixture, field: r.fieldId, finding: "a field the map refused carries ink in the output"
+    })))
+  });
+
+  fs.writeFileSync(path.join(rootDir, OUT, "participant-instructions.md"), instructionsText);
+
+  writeJson(`${OUT}/build-status.json`, {
+    schemaVersion: "rcap-family-build-status/v1",
+    familyId: FAMILY_ID,
+    buildStatus: "state_built",
+    reviewStatus: "qa_review_pending",
+    builtBy: "scripts/build-census-v1-ct-cleanslate-petition-set.mjs",
+    rasterEngine: "chromium_via_scripts_rcap_official_forms_rcap_pdf_rasterize",
+    popplerUsed: false,
+    renderedArtifacts: 2,
+    rasterPages: rasters.reduce((n, r) => n + r.pages.length, 0),
+    independentVerificationStatus: "PENDING",
+    selfVerified: false,
+    generationAllowed: false,
+    runtimeSelectable: false,
+    commercialRoutesOpened: 0,
+    productionTouched: false,
+    grantsNothing:
+      "A rendered packet is review evidence. It authorizes no fulfillment, opens no commercial route, and is not a verdict."
+  });
+
+  const counted = countCompleteness(
+    contractMap, writeProofs,
+    documents.flatMap(({ doc, fixtures }) => ["canonical", "boundary"].map((label) => ({
+      file: fixtures[label].file, document: doc.documentId
+    }))),
+    instructionsText
+  );
+  writeJson(`${OUT}/reports/completeness-counters.json`, {
+    schemaVersion: "rcap-builder-completeness-counters/v1",
+    familyId: FAMILY_ID,
+    whatThisIs:
+      "The BUILDER's own count of the nine completeness counters, computed with the repository's own contract functions "
+      + "in scripts/rcap-packet-completeness/completeness-contract.mjs over this family's field map, byte proof, rendered "
+      + "artifacts and participant-instructions.md.",
+    whatThisIsNot:
+      "A verdict. This family is not verified by the lane that built it, and PASS_COMPLETE additionally requires a "
+      + "hash-bound RASTER_PASS from the central raster workflow.",
+    counters: counted.counters,
+    allNineZero: PASS_COUNTERS.every((c) => counted.counters[c] === 0),
+    findings: counted.findings,
+    blankDispositions: counted.ledger.reduce((acc, b) => { acc[b.disposition] = (acc[b.disposition] ?? 0) + 1; return acc; }, {})
+  });
+  if (!PASS_COUNTERS.every((c) => counted.counters[c] === 0)) {
+    for (const f of counted.findings) console.error(`  counter ${f.counter}: ${f.field ?? f.row ?? f.fixture} — ${f.basis ?? f.why}`);
+  }
 
   const chargeBlanks = documents.flatMap(({ doc, fixtures }) =>
     ["canonical", "boundary"].flatMap((label) =>
@@ -1522,7 +2264,57 @@ async function main() {
     familyId: FAMILY_ID,
     blocking: allFindings.filter((f) => f.severity === "blocking"),
     advisory: advisories,
-    findingCount: allFindings.length
+    findingCount: allFindings.length,
+    standingFindings: [
+      {
+        severity: "finding",
+        finding:
+          "JD-CR-202 prints its column headings as one run-on line roughly eighteen points ABOVE the input row, and "
+          + "captureWidgetContext's 'printed directly above' branch takes the whole line rather than the cell over the "
+          + "widget. Six fields were misbound by it and four are protected by it only incidentally.",
+        whatChangedHere:
+          "The captions are now measured rather than harvested: MEASURED_CAPTIONS records the header line, its baseline, "
+          + "the column heading and the x-range of that column, and the build re-reads all four from the pinned binary "
+          + "and refuses on drift. Three of the participant's own facts -- name, e-mail and phone -- that the previous "
+          + "build left blank are now written, and the six fields the caption defect protected only incidentally are "
+          + "still refused, by ROLE and by this family's own POLICY rather than by the defect.",
+        whatIsStillOwedElsewhere:
+          "scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs still harvests the whole header line on any form laid "
+          + "out this way. That module is outside this family's owned path and was read, never edited."
+      },
+      {
+        severity: "finding",
+        finding:
+          "rowKeyOf in the shared completeness contract reads a trailing `[n]` in a field name as a repeating-table row "
+          + "index. On an Adobe LiveCycle form every leaf is `NAME[0]`, so all twenty-two of this form's fields group "
+          + "into one row called `table::[0]`, which then reports incomplete because some cells are written and others "
+          + "are blanks the participant fills.",
+        whatChangedHere:
+          "The contract-readable map carries a `fieldName` alias with the LiveCycle index dropped, used only for row "
+          + "grouping; `field` and the audit's own row id remain the exact AcroForm name, and `acroFieldName` records it "
+          + "again beside the alias. JD-CR-202 has no repeating row at all -- one docket box, one crimes box, one of "
+          + "everything -- so nothing real is hidden.",
+        whatIsStillOwedElsewhere:
+          "The heuristic will misread every LiveCycle form in the fleet the same way. The fix belongs in "
+          + "scripts/rcap-packet-completeness/completeness-contract.mjs, which this family reads and never edits.",
+        alsoWorthSaying:
+          "Even with the row grouping corrected, the row check consults only classifyField and never a blank's declared "
+          + "disposition, so a correctly declared and disclosed REQUIRED_BEFORE_FILING blank sitting in a row beside any "
+          + "written cell will always trip it. That is a second, separate gap in the same function."
+      },
+      {
+        severity: "finding",
+        finding:
+          "The printed name on the DEFENDANT's own signature row is left blank, and this build does not follow the "
+          + "fleet's usual practice of writing it.",
+        why:
+          "JD-CR-202 is sworn, not merely signed: printed instruction 2 requires it be signed before a Notary Public, "
+          + "Commissioner of the Superior Court, Clerk or other proper officer. The attestation row is completed at the "
+          + "swearing, by the person swearing, in the officer's presence, and prefilling any part of it presents a sworn "
+          + "block as further along than it is. vt_seal_misdemeanor-set writes the equivalent field on a form that is not "
+          + "sworn. The difference is deliberate and is flagged for counsel rather than settled here."
+      }
+    ]
   });
 
   console.log(`\n${allFindings.length === 0 ? "OK" : "FINDINGS"}: `
