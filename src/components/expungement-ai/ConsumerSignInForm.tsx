@@ -104,7 +104,7 @@ export function ConsumerSignInForm({
         setClaimRecoveryState("saving");
         setIsSubmitting(true);
         void runConsumerClaimRecoveryOnce(continuation.claimToken, submitClaim).then((attempt) => {
-          if (attempt.kind === "duplicate") return;
+          if (!active) return;
           applyClaimAttempt(attempt.result);
         });
       }

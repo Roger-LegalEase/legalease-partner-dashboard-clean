@@ -87,8 +87,8 @@ try {
   mutation(
     "Strict Mode guard is removed",
     files[0],
-    '  if (automaticRecoveryClaims.has(claimToken)) return { kind: "duplicate" };',
-    "  // mutation: automatic retry can run more than once",
+    "  const existing = automaticRecoveryClaims.get(claimToken);",
+    "  const existing = undefined; // mutation: automatic retry can run more than once",
     "Strict Mode replay must not submit another claim"
   );
   mutation(

@@ -28,9 +28,9 @@ export type ConsumerClaimRecoveryHandoffKind =
 
 export type ConsumerClaimRecoveryAttempt =
   | { kind: "attempted"; result: ClaimAttempt }
-  | { kind: "duplicate" };
+  | { kind: "duplicate"; result: ClaimAttempt };
 
-const automaticRecoveryClaims = new Set<string>();
+const automaticRecoveryClaims = new Map<string, Promise<ClaimAttempt>>();
 
 /**
  * The only browser-carried DTC authentication continuation.
@@ -150,7 +150,9 @@ export async function runConsumerClaimRecoveryOnce(
       result: { ok: false, status: 400, retryable: false }
     };
   }
-  if (automaticRecoveryClaims.has(claimToken)) return { kind: "duplicate" };
-  automaticRecoveryClaims.add(claimToken);
-  return { kind: "attempted", result: await attempt(claimToken) };
+  const existing = automaticRecoveryClaims.get(claimToken);
+  if (existing) return { kind: "duplicate", result: await existing };
+  const pending = attempt(claimToken);
+  automaticRecoveryClaims.set(claimToken, pending);
+  return { kind: "attempted", result: await pending };
 }

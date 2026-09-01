@@ -110,7 +110,10 @@ assert.deepEqual(automaticSuccess, {
   kind: "attempted",
   result: { ok: true, redirectTo: `/briefcase/matters/${matterId}` }
 }, "automatic post-reset claim success must carry the exact matter redirect");
-assert.deepEqual(strictModeReplay, { kind: "duplicate" }, "Strict Mode replay must not submit another claim");
+assert.deepEqual(strictModeReplay, {
+  kind: "duplicate",
+  result: { ok: true, redirectTo: `/briefcase/matters/${matterId}` }
+}, "Strict Mode replay must not submit another claim; remount must share the original result");
 assert.equal(automaticClaims, 1, "Strict Mode duplicate-effect protection must produce zero duplicate claims");
 
 const retryToken = `${token.slice(0, -1)}R`;
