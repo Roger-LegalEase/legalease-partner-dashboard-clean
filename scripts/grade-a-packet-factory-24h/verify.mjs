@@ -861,6 +861,31 @@ if (MUTATIONS) {
   const promptTarget = path.join(ROOT, PROMPTS, "PF01.md");
   const originalPrompt = fs.readFileSync(promptTarget);
   const firstPF = (j) => j.assignments.find((x) => x.lane === "packet-build" && x.items.length > 0);
+  const heldSourceReady = (j) => {
+    const family = j.families.find((candidate) => {
+      const readiness = candidate.sourceReadiness;
+      return candidate.state === "SOURCE_READY"
+        && readiness
+        && Array.isArray(readiness.boundSources)
+        && readiness.boundSources.length > 0
+        && readiness.boundSources.some((source) => source && typeof source === "object");
+    });
+    const source = family?.sourceReadiness.boundSources.find((candidate) => candidate && typeof candidate === "object");
+    if (!family || !source) {
+      throw new Error("F13 held-source mutation requires a SOURCE_READY family with at least one bound source record");
+    }
+    return { family, source };
+  };
+  const directAttachmentSourceReady = (j) => {
+    const family = j.families.find((candidate) => candidate.state === "SOURCE_READY"
+      && candidate.sourceReadiness?.directAttachment === true
+      && Array.isArray(candidate.sourceReadiness.boundSources)
+      && candidate.sourceReadiness.boundSources.length === 0);
+    if (!family) {
+      throw new Error("F13 direct-attachment mutation requires a SOURCE_READY direct-attachment family with no bound sources");
+    }
+    return family;
+  };
   /* Recompute the grant-set identity the way the ledger and claim.mjs do, so a
    * mutation that legitimately adds or removes a grant is judged on the rule it
    * is testing rather than on a digest it was never trying to break. */
@@ -919,10 +944,11 @@ if (MUTATIONS) {
     { on: "prompt", id: "F25", name: "a prompt telling a worker to use pdftoppm is caught", mutateText: (t) => `${t}\n\nRender the pages with pdftoppm -r 72 if Chromium is unavailable.\n` },
     { on: "active", id: "F23", name: "a shared build host handed to two lanes is caught", mutate: (j) => { const shared = read(MASTER).families.find((f) => (f.importedBy ?? []).length > 0 && f.buildScript); if (!shared) throw new Error("the master queue names no shared build host at all"); const b = j.assignments.filter((x) => x.lane === "packet-build"); b[0].ownedPaths.push(shared.buildScript); b[1].ownedPaths.push(shared.buildScript); return j; } },
     { on: "master", id: "F13", name: "an exact identity with no held byte classified SOURCE_READY is caught", mutate: (j) => { const f = j.families.find((x) => x.state === "SOURCE_BLOCKED"); f.state = "SOURCE_READY"; return j; } },
-    { on: "master", id: "F13", name: "a held path with no SHA classified SOURCE_READY is caught", mutate: (j) => { const f = j.families.find((x) => x.state === "SOURCE_READY"); f.sourceReadiness.boundSources[0].sha256 = null; return j; } },
-    { on: "master", id: "F13", name: "a held SHA with no indexed path classified SOURCE_READY is caught", mutate: (j) => { const f = j.families.find((x) => x.state === "SOURCE_READY"); f.sourceReadiness.boundSources[0].path = null; return j; } },
+    { on: "master", id: "F13", name: "a held path with no SHA classified SOURCE_READY is caught", mutate: (j) => { heldSourceReady(j).source.sha256 = null; return j; } },
+    { on: "master", id: "F13", name: "a held SHA with no indexed path classified SOURCE_READY is caught", mutate: (j) => { heldSourceReady(j).source.path = null; return j; } },
     { on: "master", id: "F13", name: "a readiness verdict with a stated reason still called ready is caught", mutate: (j) => { const f = j.families.find((x) => x.state === "SOURCE_READY"); f.sourceReadiness.reasons = ["indexed SHA-256 does not equal the held SHA-256"]; return j; } },
-    { on: "master", id: "F13", name: "a family with zero bound sources classified SOURCE_READY is caught", mutate: (j) => { const f = j.families.find((x) => x.state === "SOURCE_READY"); f.sourceReadiness.boundSources = []; f.sourceReadiness.boundCount = 0; return j; } },
+    { on: "master", id: "F13", name: "a family with zero bound sources classified SOURCE_READY is caught", mutate: (j) => { const f = heldSourceReady(j).family; f.sourceReadiness.boundSources = []; f.sourceReadiness.boundCount = 0; return j; } },
+    { on: "master", id: "F13", expectPass: true, name: "a direct-attachment SOURCE_READY family with no bound sources stays green", mutate: (j) => { const f = directAttachmentSourceReady(j); f.sourceReadiness = { ...f.sourceReadiness, ready: true, boundCount: 0, boundSources: [], reasons: [] }; return j; } },
     { on: "prompt", id: "F14", name: "a builder prompt without the task-isolation banner is caught", mutateText: (t) => t.replace(/THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK\./, "This is a task.") },
     { on: "prompt", id: "F14", name: "a builder prompt whose blocked family does not continue the lane is caught", mutateText: (t) => t.replace(/CONTINUE TO THE NEXT FAMILY/g, "stop the lane") },
     { on: "prompt", id: "F14", name: "a builder prompt that drops the one-row-per-family rule is caught", mutateText: (t) => t.replace(/one row per assigned family/gi, "some rows") },
