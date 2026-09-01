@@ -1,0 +1,22 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-checkpoints/v1",
+  "assignmentId": "PF08",
+  "workerId": "PF-C",
+  "checkpointRule": "Return every five completed families, or every two hours, whichever comes first. This lane carries one family, so it checkpoints once.",
+  "checkpoints": [
+    {
+      "checkpoint": 1,
+      "at": "2026-09-01T09:32:23Z",
+      "familiesCompletedSoFar": [],
+      "familiesStoppedSoFar": [
+        "ca-1203-4-set"
+      ],
+      "familiesRemaining": [],
+      "note": "All five sources bind by exact SHA-256 and all five are encrypted PDFs that pdf-lib cannot open. The encryption dictionary of each was read directly out of the bytes and is recorded in the row, together with the load error. The overlay directory was left byte-for-byte unchanged and its tree hash is recorded on both sides of the lane. Nothing was rendered and no counters are claimed."
+    }
+  ],
+  "laneComplete": true,
+  "familiesAssigned": 1,
+  "rowsReturned": 1,
+  "timestampBasis": "The checkpoint time is the modification time of this lane's rows.json on the build host, which is when the row was written."
+}

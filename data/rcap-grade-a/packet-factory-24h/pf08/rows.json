@@ -1,0 +1,100 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+  "assignmentId": "PF08",
+  "workerId": "PF-C",
+  "lane": "packet-build",
+  "engine": "Claude 9h worker (normal Git; commits and pushes to claude/9h-pf-c)",
+  "shiftBaseSha": "09b741ad00be0d630bd73a72f66640294abab397",
+  "takenAfter": "the static queue PF12-PF16, as the Captain's nextLaneByWorker assignment for PF-C",
+  "familiesAssigned": 1,
+  "preflight": {
+    "laneGate": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 2 not applicable",
+    "rowGate": "PACKET_BUILD_ENVIRONMENT_READY: 15/15 passed — including family_sources_bind, 5/5 source(s) bind by exact SHA-256"
+  },
+  "selfVerification": "none.",
+  "rows": [
+    {
+      "itemId": "ca-1203-4-set",
+      "status": "STOPPED",
+      "stopClass": "source_present_and_exact_but_not_readable_by_the_toolchain",
+      "notBlockedSource": "The row gate's family_sources_bind check passes: all five sources are present at their indexed paths and every one hashes to the SHA-256 the committed corpus index declares. Nothing about the custody of these bytes is in doubt, so this is not a BLOCKED_SOURCE row.",
+      "stopReason": "Every one of the five Judicial Council forms this family needs is an encrypted PDF, and pdf-lib — the only PDF reader in this toolchain — implements no decryption. Each throws on load, with `ignoreEncryption: true` set, before a single widget can be censused. Nothing can be measured, so nothing may be written.",
+      "jurisdiction": "CA",
+      "routeKey": "track:CA:ca-1203-4",
+      "implementationStrategy": "official_pdf_fill",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill",
+      "overlayDirectoryTouched": false,
+      "overlayDirectoryEvidence": {
+        "files": 7,
+        "treeHash": "44ba11eda2c137b8e761bf0fd2f38cf89b187ab2685dca33401799704c935ab7",
+        "treeHashBasis": "sha256 of the sorted sha256sum listing of every file under the overlay directory, taken before and after this lane's work; unchanged.",
+        "note": "The directory holds a previous build's artifacts. This lane wrote no byte into it, so what a reviewer opens there is that earlier build and not a partial one."
+      },
+      "sourcesExamined": [
+        {
+          "sourceId": "official-form:CR-106",
+          "title": "Proof of Service (criminal record clearing)",
+          "pathInArchive": "STATES/CA/02_PACKET_FORMS/CA__FORM__CR-106__proof-of-service-criminal-record-clearing__REV-2020-01-01__EN.pdf",
+          "sha256": "f8a37a9a8c30a016b432bb39fd67407717c3dee7be74bc3e3d471127bf190c5a",
+          "byteLength": 104278,
+          "bindsByExactSha256": true,
+          "encryption": "/Encrypt present, /V 4 /R 4, /CFM AESV2",
+          "pdfLibLoad": "throws: Expected instance of PDFDict, but got instance of undefined"
+        },
+        {
+          "sourceId": "official-form:CR-180",
+          "title": "Petition for Dismissal",
+          "pathInArchive": "STATES/CA/02_PACKET_FORMS/CA__FORM__CR-180__petition-for-dismissal__REV-2024-01-01__EN.pdf",
+          "byteLength": 110684,
+          "bindsByExactSha256": true,
+          "encryption": "/Encrypt present, /V 5 /R 6, /CFM AESV3 (AES-256)",
+          "pdfLibLoad": "throws: Expected instance of PDFDict, but got instance of undefined",
+          "sha256": "06c1b64315ebd5c7f8260d7169abc2392d6373a202dc39f4788cb8a8c98bbdbe"
+        },
+        {
+          "sourceId": "official-form:CR-181",
+          "title": "Order for Dismissal",
+          "pathInArchive": "STATES/CA/02_PACKET_FORMS/CA__FORM__CR-181__order-for-dismissal__REV-2024-01-01__EN.pdf",
+          "byteLength": 110123,
+          "bindsByExactSha256": true,
+          "encryption": "/Encrypt present, /V 5 /R 6, /CFM AESV3 (AES-256)",
+          "pdfLibLoad": "throws: Expected instance of PDFDict, but got instance of undefined",
+          "sha256": "f737503a89465d40206b11b1123e815e44a249d324bad16d313c337a695ce504"
+        },
+        {
+          "sourceId": "official-form:MC-025",
+          "title": "Attachment to Judicial Council Form",
+          "pathInArchive": "STATES/CA/02_PACKET_FORMS/CA__FORM__MC-025__attachment-to-judicial-council-form__REV-2009-07-01__EN.pdf",
+          "byteLength": 104832,
+          "bindsByExactSha256": true,
+          "encryption": "/Encrypt present, /V 4 /R 4, /CFM V2 (RC4)",
+          "pdfLibLoad": "throws: Expected instance of PDFDict, but got instance of undefined",
+          "sha256": "b0ca1509f2c3de152518079de7c1eb2771eaa1eb7da457c2e918498894f6f0af"
+        },
+        {
+          "sourceId": "official-form:MC-031",
+          "title": "Attached Declaration",
+          "pathInArchive": "STATES/CA/02_PACKET_FORMS/CA__FORM__MC-031__attached-declaration__REV-2005-07-01__EN.pdf",
+          "byteLength": 109506,
+          "bindsByExactSha256": true,
+          "encryption": "/Encrypt present, /V 4 /R 4, /CFM V2 (RC4)",
+          "pdfLibLoad": "throws: Expected instance of PDFDict, but got instance of undefined",
+          "sha256": "defc9108f6baa4c2ca444c1571d737d841af78289bef337f874f51e595191075"
+        }
+      ],
+      "corroboration": "The committed corpus index records pageCount: null and acroFieldCount: null for all five, and for no other form in this lane's reach. Whatever built that index could not open them either.",
+      "whatWasNotClaimed": "This lane did not test another PDF reader against these files, because it has none, and so states nothing about whether some other reader could open them. The finding is about this toolchain, and it is stated as such.",
+      "counters": null,
+      "countersNote": "No counters are returned. A counter set implies a censused form, and no form here was censused. Returning nine zeros for a family that rendered nothing would be the worst possible row.",
+      "componentsRendered": [],
+      "artifacts": [],
+      "findingsRaisedForOthers": [
+        "BLOCKING for this family, owner of the acquisition pipeline: all five California Judicial Council forms in the Master Library are encrypted PDFs — CR-106, MC-025 and MC-031 with /V 4 /R 4, CR-180 and CR-181 with /V 5 /R 6 AES-256. They bind by exact SHA-256 and cannot be read. This family cannot be built until either the corpus carries decrypted-at-acquisition copies of these five, with their own recorded custody, or the toolchain gains a reader that decrypts. Both are decisions above this lane.",
+        "The same condition holds for WV SCA-C903, returned separately in the PF10 row. The two are one problem, not two: whatever acquired these files preserved the publisher's encryption, and every downstream family that needs one of them stops in the same place."
+      ],
+      "independentVerificationStatus": "NOT_APPLICABLE_NOTHING_WAS_BUILT",
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    }
+  ]
+}

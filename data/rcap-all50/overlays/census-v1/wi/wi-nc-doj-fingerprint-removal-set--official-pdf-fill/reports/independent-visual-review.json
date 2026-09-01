@@ -1,0 +1,57 @@
+{
+  "schemaVersion": "rcap-independent-visual-review/v1",
+  "familyId": "wi_nc_doj_fingerprint_removal-set",
+  "required": true,
+  "granted": false,
+  "reviewedBy": null,
+  "note": "Every page of both fixtures is rastered for a human who did not build this family. It matters more than usual here: this is a measured overlay onto a table, so the check that a value sits in the cell it belongs to is a reviewer looking at the paper.",
+  "whatToLookAt": [
+    "Page 2, the Person Submitting the Request block: last, first and full middle name each in their own column, under their own printed caption; the street address in the wide left box and the apartment box empty; city, state and zip each in their own column. Nothing may sit on a printed rule or cross a divider.",
+    "Page 2, the Subject of the Record block: the same three names again, in the three columns of the narrower band beneath. The two blocks have DIFFERENT column widths and different divider positions — 235/435 above and 193/379 below — so a value that looks right in one block and wrong in the other is the defect to catch.",
+    "Page 2, the GENDER, RACE and DATE OF BIRTH cells: all three empty, and the form's own Male and Female tick boxes and its segmented date template untouched and unobscured. Those tick boxes are not strokes in the content stream, so a reader is the only check that they are still there and still empty.",
+    "Page 2, the arrest and conviction table: all three rows and all eighteen boxes empty.",
+    "Page 2, the signature band and the two fingerprint boxes: empty.",
+    "Page 1: completely untouched. Nothing is drawn on the instruction sheet.",
+    "Boundary fixture: a 23-character hyphenated surname, an 18-character middle name and a 16-character city. Each either fits its column or is reported unfittable — nothing may spill into the next column."
+  ],
+  "artifacts": [
+    {
+      "fixture": "canonical",
+      "file": "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-fingerprint-removal-set--official-pdf-fill/fixtures/canonical.pdf",
+      "sha256": "836fbd80e7f8705a68989faf5f8458b9e0222054080bed93c6d31bdaeee6a1c6",
+      "pageCount": 2
+    },
+    {
+      "fixture": "boundary",
+      "file": "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-fingerprint-removal-set--official-pdf-fill/fixtures/boundary.pdf",
+      "sha256": "c7d76757c0f087c09fd65c70c995e0a0ab2513454094332dc234980547e31445",
+      "pageCount": 2
+    }
+  ],
+  "rasterPages": [
+    {
+      "fixture": "canonical",
+      "page": 1,
+      "file": "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-fingerprint-removal-set--official-pdf-fill/raster/canonical/page-01/page.png",
+      "sha256": "c53e0970b39992b19ee77accf29e2df8857d6c5551fe46161a16776e4cb55579"
+    },
+    {
+      "fixture": "canonical",
+      "page": 2,
+      "file": "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-fingerprint-removal-set--official-pdf-fill/raster/canonical/page-02/page.png",
+      "sha256": "713f22aa7c48f98e33319d41fb9198f08a9c8f5b21fc9f3f6de176fc91897ced"
+    },
+    {
+      "fixture": "boundary",
+      "page": 1,
+      "file": "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-fingerprint-removal-set--official-pdf-fill/raster/boundary/page-01/page.png",
+      "sha256": "c53e0970b39992b19ee77accf29e2df8857d6c5551fe46161a16776e4cb55579"
+    },
+    {
+      "fixture": "boundary",
+      "page": 2,
+      "file": "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-fingerprint-removal-set--official-pdf-fill/raster/boundary/page-02/page.png",
+      "sha256": "3ad52950dc89f7eb7e2a5e31217fe2cb2dc13f54e61ff29917d4bcaa5a7ce880"
+    }
+  ]
+}

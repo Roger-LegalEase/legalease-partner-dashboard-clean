@@ -1,0 +1,101 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+  "assignmentId": "PF11",
+  "workerId": "PF-C",
+  "lane": "packet-build",
+  "engine": "Claude 9h worker (normal Git; commits and pushes to claude/9h-pf-c)",
+  "shiftBaseSha": "09b741ad00be0d630bd73a72f66640294abab397",
+  "takenAfter": "the static queue PF12-PF16, as the Captain's nextLaneByWorker assignment for PF-C",
+  "familiesAssigned": 1,
+  "preflight": {
+    "laneGate": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 2 not applicable",
+    "rowGate": "PACKET_BUILD_ENVIRONMENT_READY: 15/15 passed"
+  },
+  "selfVerification": "none. The counters below are the builder's own count using the repository's own contract functions, not a verdict.",
+  "rows": [
+    {
+      "itemId": "wi_nc_doj_fingerprint_removal-set",
+      "status": "COMPLETED",
+      "jurisdiction": "WI",
+      "routeKey": "track:WI:wi_nc_doj_fingerprint_removal",
+      "statutoryAuthority": "Wis. Stat. § 165.84; Wisconsin Department of Justice, Crime Information Bureau form DJ-LE-250B",
+      "implementationStrategy": "official_pdf_fill",
+      "renderStrategy": "measured_flat_overlay",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-fingerprint-removal-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-wi_nc_doj_fingerprint_removal-set.mjs",
+      "sourcesBound": [
+        {
+          "sourceId": "official-form:DJ-LE-250B",
+          "pathInArchive": "STATES/WI/04_SUPPORTING_PROCESS/WI__SUPPORT__DJ-LE-250B__fingerprint-record-removal-request__REV-UNKNOWN__EN.pdf",
+          "sha256": "3c5d4806ff1061246ec06c93716cfa80ec3d61b9e21c5c79639114ab1e5454b6",
+          "byteLength": 475556,
+          "assetClassInCorpus": "SUPPORT"
+        }
+      ],
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersBasis": "reports/completeness-counters.json — computed with scripts/rcap-packet-completeness/completeness-contract.mjs",
+      "fields": {
+        "acroFormFields": 0,
+        "measuredCells": 33,
+        "written": 10,
+        "requiredBeforeFiling": 22,
+        "protected": 1,
+        "measuredHorizontalRules": 36,
+        "measuredVerticalRules": 15
+      },
+      "componentsRendered": [
+        "primary_filing",
+        "filing_instructions",
+        "arrest_event_mapping",
+        "disposition_documentation_package"
+      ],
+      "componentsNote": "primary_filing is the rendered form; filing_instructions is participant-instructions.md; arrest_event_mapping and disposition_documentation_package are reports/disposition-documentation-package.json, which records how an arrest event maps onto the form's three-row table and what the Bureau's own instruction sheet says must accompany the request.",
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-fingerprint-removal-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "836fbd80e7f8705a68989faf5f8458b9e0222054080bed93c6d31bdaeee6a1c6",
+          "byteLength": 490963,
+          "pageCount": 2,
+          "rasterPages": 2
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-fingerprint-removal-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "c7d76757c0f087c09fd65c70c995e0a0ab2513454094332dc234980547e31445",
+          "byteLength": 491022,
+          "pageCount": 2,
+          "rasterPages": 2
+        }
+      ],
+      "notableDecisions": [
+        "This form has no AcroForm field and is not the shape the flat-overlay path was written for either: its answers go in the cells of a ruled table rather than on printed underlines. Every write box here is bounded by FOUR measured strokes — the rule above, the rule below and a vertical divider on each side — read out of the page's content stream and re-checked against the pinned binary on every build. A divider must additionally cover at least 80% of the height of the cell it bounds, because x=585.8 carries two separate strokes on this page, one down the name blocks and one down the arrest table, and the wrong one would put a value in the wrong column. This is the first family in the factory to bound a write box on four measured strokes rather than one.",
+        "No cell of the three-row arrest and conviction table is written. One column of every arrest row, ARRESTING AGENCY CASE #, is the arresting agency's own case number rather than the court case number the platform holds, so no row can be completed from the fact map and none is started. All eighteen cells are declared required before filing and named to the participant.",
+        "The DATE OF BIRTH cell is left blank. The form prints its own segmented template inside it, and the segments are underscore glyphs rather than strokes, so there is no measured box for any one of them and a single composed date written across the cell would print over the template.",
+        "The participant's name is written into BOTH name blocks — Person Submitting the Request and Subject of the Record. That is read off the form's own instruction 1, which says the request must be made by the requesting candidate, rather than assumed.",
+        "The form embeds a subsetted font whose glyph codes are the ASCII of the character minus 29, mixed on the same lines with normally encoded runs, so most of page 1 does not extract readably. The shift is exact and reversible, but which encoding a given run uses is not something the build reads, and a rule that un-shifts the runs that look wrong invents text. Every sentence the packet quotes from the form extracted plainly and is listed with where it was read; the rest is recorded as unreadable and the instructions tell the participant to read page 1 on the paper."
+      ],
+      "correctionsMadeToThisRow": [
+        "A first revision of this builder labelled the two measured strokes at the foot of page 2 as two fingerprint boxes, one per index finger. The page raster showed that wrong: both strokes span x=280..399 and are the top and bottom of the SAME box, the one captioned LEFT INDEX FINGER. The right box's strokes are not in the page content stream at all, and neither are the Male and Female tick boxes in the GENDER cell — rulesOfPage, checkboxCandidates and strokedRectangles all find nothing there, although a reader sees all of them on the paper. The builder now records what it measured and says plainly what it could not, and infers no coordinate from where a caption sits."
+      ],
+      "findingsRaisedForOthers": [
+        "The corpus files DJ-LE-250B under 04_SUPPORTING_PROCESS with assetClass SUPPORT and revision REV-UNKNOWN, although it is the operative request form for this route. The source is resolved by state and form number and binds by exact SHA-256; the filing is raised for the owner of the corpus index, which is outside this lane's owned paths.",
+        "Parts of this page's chrome — one of the two fingerprint boxes and both GENDER tick boxes — are drawn in a way that neither rulesOfPage nor pdf-stroked-boxes reaches, while the table rules on the same page are found normally. Any future family measuring geometry off a Wisconsin DOJ form should expect that split rather than treat a zero from checkboxCandidates as proof there is no box.",
+        "The boundary participant's name carries a typographic apostrophe (U+2019) and the finalized bytes carry the name without it. The behaviour is in the shared finalizer's font encoding and reproduces across every family in this factory that uses the same boundary fixture."
+      ],
+      "independentVerificationStatus": "PENDING",
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    }
+  ]
+}
