@@ -59,6 +59,14 @@ jobs:
         with:
           ref: ${{ inputs.commit_sha }}
       - name: Refuse a movable ref and prove the checkout is the pinned commit
+        # The input arrives through env, never interpolated into shell source.
+        # ${{ }} is substituted into the script BEFORE the shell parses it, so
+        # an existing ref named  x';exit${IFS}0;#  would have closed the quote
+        # and exited 0 before either assertion ran -- the guard defeating
+        # itself. Git permits such a ref name, and actions/checkout would take
+        # it. Through env it is inert data.
+        env:
+          REF: ${{ inputs.commit_sha }}
         run: |
           set -euo pipefail
           # actions/checkout accepts a branch or tag here despite the input
@@ -67,7 +75,6 @@ jobs:
           # every receipt recorded the literal branch name as the pin. An
           # immutable 40-hex commit, verified against the checked-out HEAD, is
           # the only input that makes a receipt findable again.
-          REF='${{ inputs.commit_sha }}'
           case "$REF" in
             *[!0-9a-f]* | "") echo "REFUSED: commit_sha must be a full 40-character commit hash, got '$REF'"; exit 1;;
           esac
@@ -105,30 +112,43 @@ jobs:
           echo "RCAP_CHROMIUM_PATH=$EXE" >> "$GITHUB_ENV"
 
       - name: Record the runtime
+        # Values reach the receipt through env and are serialised by JSON
+        # stringify, so a value containing a quote or a shell metacharacter
+        # cannot break out of either the shell or the JSON.
+        env:
+          COMMIT_SHA: ${{ inputs.commit_sha }}
+          BROWSER_EXECUTABLE: ${{ steps.browser.outputs.executable }}
+          BROWSER_VERSION: ${{ steps.browser.outputs.version }}
+          REQUESTED_SCALE: ${{ inputs.requested_scale }}
+          WORKFLOW_RUN_ID: ${{ github.run_id }}
         run: |
           set -euo pipefail
           mkdir -p raster-out
-          cat > raster-out/runtime-receipt.json <<JSON
-          {
-            "schemaVersion": "rcap-raster-runtime-receipt/v1",
-            "commitSha": "${{ inputs.commit_sha }}",
-            "browserExecutable": "${{ steps.browser.outputs.executable }}",
-            "browserVersion": "${{ steps.browser.outputs.version }}",
-            "operatingSystem": "$(uname -srm)",
-            "runnerImage": "${RUNNER_OS:-unknown}",
-            "nodeVersion": "$(node --version)",
-            "requestedScale": "${{ inputs.requested_scale }}",
-            "workflowRunId": "${{ github.run_id }}",
-            "bodiesCommitted": 0,
-            "packetPdfsModified": 0,
-            "commercialRoutesOpened": 0,
-            "productionTouched": false
-          }
-          JSON
+          node -e '
+            const fs = require("node:fs");
+            const { execFileSync } = require("node:child_process");
+            fs.writeFileSync("raster-out/runtime-receipt.json", JSON.stringify({
+              schemaVersion: "rcap-raster-runtime-receipt/v1",
+              commitSha: process.env.COMMIT_SHA,
+              browserExecutable: process.env.BROWSER_EXECUTABLE,
+              browserVersion: process.env.BROWSER_VERSION,
+              operatingSystem: execFileSync("uname", ["-srm"], { encoding: "utf8" }).trim(),
+              runnerImage: process.env.RUNNER_OS ?? "unknown",
+              nodeVersion: process.version,
+              requestedScale: process.env.REQUESTED_SCALE,
+              workflowRunId: process.env.WORKFLOW_RUN_ID,
+              bodiesCommitted: 0,
+              packetPdfsModified: 0,
+              commercialRoutesOpened: 0,
+              productionTouched: false
+            }, null, 2) + "\n");
+          '
           cat raster-out/runtime-receipt.json
 
       - name: Synthetic one-page PDF, rendered and measured
-        run: node scripts/rcap-raster-canary.mjs --out raster-out --scale "${{ inputs.requested_scale }}"
+        env:
+          REQUESTED_SCALE: ${{ inputs.requested_scale }}
+        run: node scripts/rcap-raster-canary.mjs --out raster-out --scale "$REQUESTED_SCALE"
 
       - name: Live negative controls
         run: node scripts/rcap-raster-canary.mjs --negative-controls --out raster-out
@@ -155,6 +175,14 @@ jobs:
         with:
           ref: ${{ inputs.commit_sha }}
       - name: Refuse a movable ref and prove the checkout is the pinned commit
+        # The input arrives through env, never interpolated into shell source.
+        # ${{ }} is substituted into the script BEFORE the shell parses it, so
+        # an existing ref named  x';exit${IFS}0;#  would have closed the quote
+        # and exited 0 before either assertion ran -- the guard defeating
+        # itself. Git permits such a ref name, and actions/checkout would take
+        # it. Through env it is inert data.
+        env:
+          REF: ${{ inputs.commit_sha }}
         run: |
           set -euo pipefail
           # actions/checkout accepts a branch or tag here despite the input
@@ -163,7 +191,6 @@ jobs:
           # every receipt recorded the literal branch name as the pin. An
           # immutable 40-hex commit, verified against the checked-out HEAD, is
           # the only input that makes a receipt findable again.
-          REF='${{ inputs.commit_sha }}'
           case "$REF" in
             *[!0-9a-f]* | "") echo "REFUSED: commit_sha must be a full 40-character commit hash, got '$REF'"; exit 1;;
           esac
@@ -175,10 +202,13 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: 22 }
       - id: plan
+        env:
+          MANIFEST_PATH: ${{ inputs.raster_manifest_path }}
+          FAMILY_BATCH: ${{ inputs.family_batch }}
         run: |
           node scripts/rcap-raster-plan.mjs \
-            --manifest "${{ inputs.raster_manifest_path }}" \
-            --families "${{ inputs.family_batch }}" >> "$GITHUB_OUTPUT"
+            --manifest "$MANIFEST_PATH" \
+            --families "$FAMILY_BATCH" >> "$GITHUB_OUTPUT"
 
   raster:
     name: ${{ matrix.family }}
@@ -197,6 +227,14 @@ jobs:
         with:
           ref: ${{ inputs.commit_sha }}
       - name: Refuse a movable ref and prove the checkout is the pinned commit
+        # The input arrives through env, never interpolated into shell source.
+        # ${{ }} is substituted into the script BEFORE the shell parses it, so
+        # an existing ref named  x';exit${IFS}0;#  would have closed the quote
+        # and exited 0 before either assertion ran -- the guard defeating
+        # itself. Git permits such a ref name, and actions/checkout would take
+        # it. Through env it is inert data.
+        env:
+          REF: ${{ inputs.commit_sha }}
         run: |
           set -euo pipefail
           # actions/checkout accepts a branch or tag here despite the input
@@ -205,7 +243,6 @@ jobs:
           # every receipt recorded the literal branch name as the pin. An
           # immutable 40-hex commit, verified against the checked-out HEAD, is
           # the only input that makes a receipt findable again.
-          REF='${{ inputs.commit_sha }}'
           case "$REF" in
             *[!0-9a-f]* | "") echo "REFUSED: commit_sha must be a full 40-character commit hash, got '$REF'"; exit 1;;
           esac
@@ -225,13 +262,19 @@ jobs:
           echo "PLAYWRIGHT_BROWSERS_PATH=$PLAYWRIGHT_BROWSERS_PATH" >> "$GITHUB_ENV"
 
       - name: Render and measure ${{ matrix.family }}
+        env:
+          MANIFEST_PATH: ${{ inputs.raster_manifest_path }}
+          FAMILY: ${{ matrix.family }}
+          COMMIT_SHA: ${{ inputs.commit_sha }}
+          REQUESTED_SCALE: ${{ inputs.requested_scale }}
+          WORKFLOW_RUN_ID: ${{ github.run_id }}
         run: |
           node scripts/rcap-raster-batch.mjs \
-            --manifest "${{ inputs.raster_manifest_path }}" \
-            --family "${{ matrix.family }}" \
-            --commit "${{ inputs.commit_sha }}" \
-            --scale "${{ inputs.requested_scale }}" \
-            --run-id "${{ github.run_id }}" \
+            --manifest "$MANIFEST_PATH" \
+            --family "$FAMILY" \
+            --commit "$COMMIT_SHA" \
+            --scale "$REQUESTED_SCALE" \
+            --run-id "$WORKFLOW_RUN_ID" \
             --out raster-out
 
       - name: Refuse a modified packet byte
