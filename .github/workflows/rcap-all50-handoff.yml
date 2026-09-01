@@ -63,6 +63,16 @@ jobs:
         if: ${{ steps.scope.outputs.rcapAffected == 'true' }}
         run: npm run typecheck
 
+      # npm test reaches scripts/security/test-sign-out-origin.mjs and the clinic
+      # security tests, which drive a real browser. Nothing installed one, so the
+      # step died on "Executable doesn't exist at .../chromium_headless_shell-1223"
+      # and this check was red for every RCAP-scoped change regardless of the
+      # change. The browsers come from the committed package-lock's Playwright,
+      # never apt-get, so the stack under the tests is the pinned one.
+      - name: Install the browsers the security tests drive
+        if: ${{ steps.scope.outputs.rcapAffected == 'true' }}
+        run: npx --yes playwright install --with-deps chromium
+
       - name: Test
         if: ${{ steps.scope.outputs.rcapAffected == 'true' }}
         run: npm test
