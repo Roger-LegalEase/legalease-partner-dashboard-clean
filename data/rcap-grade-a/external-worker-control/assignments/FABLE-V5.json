@@ -1,0 +1,94 @@
+{
+  "schemaVersion": "rcap-external-assignment/v1",
+  "captainSha": "54bb5fe60",
+  "createdAt": "2026-09-01T16:45:58Z",
+  "minimumAncestor": "f240e47687eddd47d432996823ce932affcd54cc",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "captainIsSoleAuthorityFor": [
+    "the claim ledger",
+    "the master and raster queues",
+    "central raster dispatch",
+    "integration",
+    "commercial authority",
+    "anything touching Production"
+  ],
+  "neverDo": [
+    "claim a family a live grant already holds",
+    "modify data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
+    "modify RASTER_QUEUE.json, MASTER_QUEUE.json or ACTIVE_ASSIGNMENTS.json",
+    "open a commercial route, alter checkout, entitlement or packet-credit behaviour",
+    "touch Production, Supabase RLS, Stripe live mode, or any secret",
+    "verify a packet you built or repaired"
+  ],
+  "workerId": "FABLE-V5",
+  "assignmentId": "FV5-VF28-V4-BATCH-001",
+  "assignmentVersion": 4,
+  "batchTag": "BATCH-001",
+  "mode": "SECOND_INDEPENDENT_READ",
+  "role": "Fable director subagent (isolated worktree, read-only on packet bodies)",
+  "lane": "VF28",
+  "laneKind": "independent-verification",
+  "subjectIds": [
+    "nj_indictable_conviction-set",
+    "ny_160_59_petition-set"
+  ],
+  "subjects": [
+    {
+      "subjectId": "nj_indictable_conviction-set",
+      "familyId": "nj_indictable_conviction-set"
+    },
+    {
+      "subjectId": "ny_160_59_petition-set",
+      "familyId": "ny_160_59_petition-set"
+    }
+  ],
+  "claimPlan": [
+    {
+      "subjectId": "nj_indictable_conviction-set",
+      "kind": "ALREADY_ACTIVE",
+      "holdingLane": "VF28",
+      "operation": "independent-verification",
+      "captainAction": null,
+      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF28 nj_indictable_conviction-set"
+    },
+    {
+      "subjectId": "ny_160_59_petition-set",
+      "kind": "ALREADY_ACTIVE",
+      "holdingLane": "VF28",
+      "operation": "independent-verification",
+      "captainAction": null,
+      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF28 ny_160_59_petition-set"
+    }
+  ],
+  "claimAssertions": [
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF28 nj_indictable_conviction-set",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF28 ny_160_59_petition-set"
+  ],
+  "claimPrerequisite": "Both grants live on VF28: captain transfers ran 2026-09-01 with reasons logged (post-repair second reads after raster run 33531491985). A bare --assert succeeds; a refusal is a full stop.",
+  "controllingEvidencePaths": [
+    "data/rcap-grade-a/fable-packet-factory/DETERMINATION_CC1203_SUBSTITUTION.json",
+    "data/rcap-grade-a/fable-packet-factory/FACTORY_MEMORY.md"
+  ],
+  "ownedPaths": [
+    "data/rcap-grade-a/packet-factory-24h/vf28/**",
+    "data/rcap-grade-a/fable-packet-factory/returns/v5/**"
+  ],
+  "prohibitedPaths": [
+    "data/rcap-all50/**"
+  ],
+  "focusedTestCommands": [
+    "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs"
+  ],
+  "rasterDisposition": "Each family holds a complete-coverage hash-bound RASTER_PASS; bind it, never re-render.",
+  "independentVerifierSeparation": "This agent has built and repaired nothing.",
+  "stopConditions": [
+    "an assert is refused",
+    "an obligation is not measurable here (NOT_MEASURABLE is the answer, never a pass)"
+  ],
+  "branchPrefix": "fable/",
+  "expiresAt": "2026-09-03T00:00:00Z",
+  "returnPath": "data/rcap-grade-a/fable-packet-factory/returns/v5/FV5-VF28-V4-BATCH-001.json",
+  "branch": "fable/v5-fv5-vf28-v4-batch-001",
+  "branchFrom": "claude/legalease-sprint-captain-utucnw"
+}

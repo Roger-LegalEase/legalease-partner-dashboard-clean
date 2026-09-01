@@ -766,10 +766,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF05",
+      "lane": "VF28",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-01T09:38:20.601Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -826,10 +826,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF07",
+      "lane": "VF28",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-01T09:38:20.154Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -8351,7 +8351,7 @@
       "releasedAt": null
     }
   ],
-  "claimsDigest": "72110cbd1f2b6cfd3756efdc29eb9b7232e32c6fdc5f2b241a94673554c7ad08",
+  "claimsDigest": "658be29caf1edc4b10a5d36aa26c8e2a48d23e15ad1cf16459a1535ef2ad1562",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -12388,6 +12388,28 @@
       "previouslyReleasedAt": "2026-09-01T09:38:20.010Z",
       "transferredAt": "2026-09-01T16:17:50.131Z",
       "reason": "post-repair second read: the family was repaired after this lane's FAIL, re-rastered in run 33526896195 with a complete-coverage receipt, and the fresh independent read must come from a lane that neither built nor repaired it"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nj_indictable_conviction-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF05",
+      "toLane": "VF28",
+      "previouslyReleasedAt": "2026-09-01T09:38:20.601Z",
+      "transferredAt": "2026-09-01T16:45:57.950Z",
+      "reason": "post-repair second read: repaired on FIX03, re-rastered in run 33531491985 with a complete-coverage receipt; the fresh read comes from a lane that neither built nor repaired it"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ny_160_59_petition-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF07",
+      "toLane": "VF28",
+      "previouslyReleasedAt": "2026-09-01T09:38:20.154Z",
+      "transferredAt": "2026-09-01T16:45:58.020Z",
+      "reason": "post-repair second read: repaired on FIX05, re-rastered in run 33531491985 with a complete-coverage receipt; the fresh read comes from a lane that neither built nor repaired it"
     }
   ]
 }
