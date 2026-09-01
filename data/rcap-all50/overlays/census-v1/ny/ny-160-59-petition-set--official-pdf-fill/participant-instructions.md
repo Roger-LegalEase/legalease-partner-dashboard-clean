@@ -69,7 +69,7 @@ The platform holds no value for any of these, and this packet never guesses at o
 | 2 | `IncidentDateRangeEnd` | the measurement could reach no printed caption; read the printed page |
 | 2 | `NYSIDNumber` | the form prints `Ticket Number` beside it |
 | 2 | `OrderofProtectionNumber` | the form prints `Arrest Number` beside it |
-| 2 | `Other` | the form prints `Charges` beside it |
+| 2 | `Other` | the form prints `Other:` beside it — a case identifier of another kind, if you have one |
 | 2 | `PartialDocketNumber` | the form prints `NYSID Number` beside it |
 | 2 | `TicketNumber` | the form prints `Complaint Number` beside it |
 
