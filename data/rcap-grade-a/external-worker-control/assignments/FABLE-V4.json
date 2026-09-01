@@ -1,0 +1,150 @@
+{
+  "schemaVersion": "rcap-external-assignment/v1",
+  "captainSha": "54bb5fe60",
+  "createdAt": "2026-09-01T16:19:35Z",
+  "minimumAncestor": "f240e47687eddd47d432996823ce932affcd54cc",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "captainIsSoleAuthorityFor": [
+    "the claim ledger",
+    "the master and raster queues",
+    "central raster dispatch",
+    "integration",
+    "commercial authority",
+    "anything touching Production"
+  ],
+  "neverDo": [
+    "claim a family a live grant already holds",
+    "modify data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
+    "modify RASTER_QUEUE.json, MASTER_QUEUE.json or ACTIVE_ASSIGNMENTS.json",
+    "open a commercial route, alter checkout, entitlement or packet-credit behaviour",
+    "touch Production, Supabase RLS, Stripe live mode, or any secret",
+    "verify a packet you built or repaired"
+  ],
+  "workerId": "FABLE-V4",
+  "assignmentId": "FV4-VF27-V4-BATCH-001",
+  "assignmentVersion": 4,
+  "batchTag": "BATCH-001",
+  "mode": "SECOND_INDEPENDENT_READ",
+  "role": "Fable director subagent (isolated worktree, read-only on packet bodies)",
+  "lane": "VF27",
+  "laneKind": "independent-verification",
+  "subjectIds": [
+    "az_marijuana_expungement_arrest_no_charges-set",
+    "nj_arrest_no_conviction-set",
+    "wa_vac_domestic_violence-set",
+    "wa_vac_felony-set",
+    "pa_490_nonconviction-set",
+    "pa_9122_1_limited_access-set"
+  ],
+  "subjects": [
+    {
+      "subjectId": "az_marijuana_expungement_arrest_no_charges-set",
+      "familyId": "az_marijuana_expungement_arrest_no_charges-set"
+    },
+    {
+      "subjectId": "nj_arrest_no_conviction-set",
+      "familyId": "nj_arrest_no_conviction-set"
+    },
+    {
+      "subjectId": "wa_vac_domestic_violence-set",
+      "familyId": "wa_vac_domestic_violence-set"
+    },
+    {
+      "subjectId": "wa_vac_felony-set",
+      "familyId": "wa_vac_felony-set"
+    },
+    {
+      "subjectId": "pa_490_nonconviction-set",
+      "familyId": "pa_490_nonconviction-set"
+    },
+    {
+      "subjectId": "pa_9122_1_limited_access-set",
+      "familyId": "pa_9122_1_limited_access-set"
+    }
+  ],
+  "claimPlan": [
+    {
+      "subjectId": "az_marijuana_expungement_arrest_no_charges-set",
+      "kind": "ALREADY_ACTIVE",
+      "holdingLane": "VF27",
+      "operation": "independent-verification",
+      "captainAction": null,
+      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF27 az_marijuana_expungement_arrest_no_charges-set"
+    },
+    {
+      "subjectId": "nj_arrest_no_conviction-set",
+      "kind": "ALREADY_ACTIVE",
+      "holdingLane": "VF27",
+      "operation": "independent-verification",
+      "captainAction": null,
+      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF27 nj_arrest_no_conviction-set"
+    },
+    {
+      "subjectId": "wa_vac_domestic_violence-set",
+      "kind": "ALREADY_ACTIVE",
+      "holdingLane": "VF27",
+      "operation": "independent-verification",
+      "captainAction": null,
+      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF27 wa_vac_domestic_violence-set"
+    },
+    {
+      "subjectId": "wa_vac_felony-set",
+      "kind": "ALREADY_ACTIVE",
+      "holdingLane": "VF27",
+      "operation": "independent-verification",
+      "captainAction": null,
+      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF27 wa_vac_felony-set"
+    },
+    {
+      "subjectId": "pa_490_nonconviction-set",
+      "kind": "ALREADY_ACTIVE",
+      "holdingLane": "VF27",
+      "operation": "independent-verification",
+      "captainAction": null,
+      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF27 pa_490_nonconviction-set"
+    },
+    {
+      "subjectId": "pa_9122_1_limited_access-set",
+      "kind": "ALREADY_ACTIVE",
+      "holdingLane": "VF27",
+      "operation": "independent-verification",
+      "captainAction": null,
+      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF27 pa_9122_1_limited_access-set"
+    }
+  ],
+  "claimAssertions": [
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF27 az_marijuana_expungement_arrest_no_charges-set",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF27 nj_arrest_no_conviction-set",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF27 wa_vac_domestic_violence-set",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF27 wa_vac_felony-set",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF27 pa_490_nonconviction-set",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF27 pa_9122_1_limited_access-set"
+  ],
+  "claimPrerequisite": "All six grants already live on VF27: the captain ran the transfers 2026-09-01 with reasons in the ledger transfer log (post-repair second reads after raster run 33526896195). A bare --assert succeeds; a refusal is a full stop.",
+  "controllingEvidencePaths": [
+    "data/rcap-grade-a/fable-packet-factory/DETERMINATION_CC1203_SUBSTITUTION.json",
+    "data/rcap-grade-a/fable-packet-factory/FACTORY_MEMORY.md"
+  ],
+  "ownedPaths": [
+    "data/rcap-grade-a/packet-factory-24h/vf27/**",
+    "data/rcap-grade-a/fable-packet-factory/returns/v4/**"
+  ],
+  "prohibitedPaths": [
+    "data/rcap-all50/**"
+  ],
+  "focusedTestCommands": [
+    "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs"
+  ],
+  "rasterDisposition": "Each family holds a complete-coverage hash-bound RASTER_PASS; bind it, never re-render.",
+  "independentVerifierSeparation": "This agent has built and repaired nothing.",
+  "stopConditions": [
+    "an assert is refused",
+    "an obligation is not measurable here (NOT_MEASURABLE is the answer, never a pass)"
+  ],
+  "branchPrefix": "fable/",
+  "expiresAt": "2026-09-03T00:00:00Z",
+  "returnPath": "data/rcap-grade-a/fable-packet-factory/returns/v4/FV4-VF27-V4-BATCH-001.json",
+  "branch": "fable/v4-fv4-vf27-v4-batch-001",
+  "branchFrom": "claude/legalease-sprint-captain-utucnw"
+}
