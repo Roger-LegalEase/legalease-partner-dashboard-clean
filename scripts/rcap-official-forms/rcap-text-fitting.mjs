@@ -36,16 +36,27 @@ function widthAt(font, text, size) {
 /**
  * Greedy wrap at word boundaries, splitting a word that cannot fit a line on
  * its own so a single long token cannot silently overflow.
+ *
+ * A line completed at a word boundary keeps the space that separated it from
+ * the word that starts the next line. A line break carries no character of its
+ * own in finished PDF bytes -- each wrapped line becomes its own show-text op,
+ * so a dropped boundary space is deleted from the artifact and the flattened
+ * appearance reads back "...Northern" + "Reaches..." as "NorthernReaches"
+ * (the west-host CA finalizer failed its own read-back on exactly this).
+ * The trailing space is budgeted inside `maxWidth` below, so no downstream
+ * appearance generator can be forced to re-wrap the line, and it draws no ink.
+ * A mid-word split adds no space: no character sat between the pieces.
  */
 export function wrapToWidth(font, text, size, maxWidth) {
   const lines = [];
+  const boundarySpace = widthAt(font, " ", size);
   for (const paragraph of String(text).split(/\r?\n/)) {
     let line = "";
     for (const word of paragraph.split(/\s+/).filter(Boolean)) {
       const candidate = line ? `${line} ${word}` : word;
-      if (widthAt(font, candidate, size) <= maxWidth) { line = candidate; continue; }
-      if (line) lines.push(line);
-      if (widthAt(font, word, size) <= maxWidth) { line = word; continue; }
+      if (widthAt(font, candidate, size) + boundarySpace <= maxWidth) { line = candidate; continue; }
+      if (line) lines.push(`${line} `);
+      if (widthAt(font, word, size) + boundarySpace <= maxWidth) { line = word; continue; }
       // A single token wider than the line: break it at the last character
       // that still fits, repeatedly.
       let rest = word;

@@ -17,7 +17,7 @@ import {
   groupIntoLines,
   normalizeHarvestedText,
 } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
-import { finalizeFlatOverlay, finalizeOfficialForm, PARTICIPANT_INK }
+import { finalizeFlatOverlay, finalizeOfficialForm, PARTICIPANT_INK, PARTICIPANT_INK_RGB }
   from "./rcap-official-forms/rcap-official-form-finalize.mjs";
 import { drawnAt, flattenedWidgets } from "./rcap-official-forms/pdf-flattened-widgets.mjs";
 import { rulesOfPage } from "./rcap-official-forms/rcap-pdf-rule-lines.mjs";
@@ -30,7 +30,8 @@ import { strokedRectangles } from "./lib/pdf-stroked-boxes.mjs";
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 process.chdir(rootDir);
 const require = createRequire(import.meta.url);
-const { PDFDocument, PDFName, PDFRawStream, StandardFonts, decodePDFRawStream } = require("pdf-lib");
+const { PDFDocument, PDFName, PDFRawStream, StandardFonts, decodePDFRawStream,
+  pushGraphicsState, popGraphicsState, translate, drawObject } = require("pdf-lib");
 const sharp = require("sharp");
 
 const CORPUS_INDEX = "data/rcap-all50/local-source-corpus-index.json";
@@ -826,7 +827,11 @@ for target in req["targets"]:
     if req["mode"] == "create":
         os.makedirs(os.path.dirname(derived_path), exist_ok=True)
         with pikepdf.open(source_path) as pdf:
-            pdf.save(derived_path)
+            # deterministic_id derives the trailer /ID from the file contents.
+            # Without it every save mints a fresh random /ID, so two builds of
+            # the same pinned source disagree on derivedSha256 and the family
+            # can never rebuild byte-identically.
+            pdf.save(derived_path, deterministic_id=True)
     if not os.path.exists(derived_path):
         raise RuntimeError(f"{form}: expected derived PDF is absent")
 
@@ -868,7 +873,7 @@ for target in req["targets"]:
         "derivedPath": derived_path,
         "derivedSha256": sha256_file(derived_path),
         "derivedByteLength": os.path.getsize(derived_path),
-        "createdBy": "pikepdf.open(exact_source).save(derived_path)",
+        "createdBy": "pikepdf.open(exact_source).save(derived_path, deterministic_id=True)",
         "openedWithEmptyUserPassword": True,
         "derivedEncrypted": derived_encrypted,
         "officialHadXfa": census["acroForm"]["isHybridXfa"],
@@ -1189,38 +1194,128 @@ function caFinalizerCensus(formCensus) {
   }));
 }
 
-function caRefusalReason(source, field) {
+/*
+ * The typed completeness declaration for one refused terminal field.
+ *
+ * The packet-completeness contract reads TYPED channels, never prose: a
+ * refusal earns its blankness through `requiredBeforeFiling`,
+ * `routeDetermined`, `isSelectionControl` and `refusalClass`, or through a
+ * reason string on the contract's own approved list. The prose-only reasons
+ * this host used to emit classified as UNCLASSIFIED_BLANK (or, worse, as
+ * policy-shaped KNOWN_FACT findings), which is how a correctly refused blank
+ * still failed the audit. The classifications below reproduce the reviewed
+ * FIX-A declaration layer that vf17 verified on ca-851-91-set and
+ * ca-1203-42-set (committed field maps at the pre-repair HEAD), extended to
+ * the sibling CA families that share the same four-form packet shape.
+ */
+function caRefusalDisposition(source, field) {
   const subject = `${field.name} ${field.tooltip ?? ""}`;
-  if (source.role === "proof_of_service") {
-    return "Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them.";
+  const pushButton = field.fieldType === "/Btn" && field.flags?.includes("pushButton") === true;
+  const markControl = field.fieldType === "/Btn" && !pushButton;
+  const requiredBeforeFiling = (reason) => ({
+    reason: `REQUIRED_BEFORE_FILING: ${reason} The participant completes it, and the platform does not guess.`,
+    blankTreatment: "REQUIRED_BEFORE_FILING",
+    requiredBeforeFiling: true,
+    routeDetermined: false,
+    identity: field.name,
+  });
+
+  if (pushButton) {
+    return { reason: "Viewer UI control; never a filing fact." };
   }
   if (source.role === "proposed_order") {
-    return "The proposed order is court-owned; every order field is left for the court.";
+    if (!markControl && /report number/i.test(subject)) {
+      // The agency and prosecutor report numbers on the proposed order are the
+      // participant's to copy from their own records; everything else on the
+      // order is the court's, front to back.
+      return requiredBeforeFiling("the participant copies this report number from their own records before filing; the rest of the proposed order is the court's.");
+    }
+    return {
+      reason: "The proposed order is court-owned; every order field is left for the court.",
+      refusalClass: "court_prosecutor_clerk_or_agency_owned",
+      ...(markControl ? { isSelectionControl: true } : {}),
+    };
+  }
+  if (source.role === "proof_of_service") {
+    if (/signature|sig(?:name|date)/i.test(subject)) {
+      return {
+        reason: "Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. Signature and signature date are completed by the participant at the moment of signing and are never prefilled.",
+        refusalClass: "signature_or_date_participant_completion",
+      };
+    }
+    if (markControl) {
+      return {
+        reason: "A control the participant marks. The platform never marks an election on a sworn filing; the participant instructions name it and the participant marks it before signing.",
+        refusalClass: "participant_sworn_narrative_or_legal_election",
+        isSelectionControl: true,
+      };
+    }
+    if (/\btime\b/i.test(subject)) {
+      // Completed at the moment of service, not before; the label's own
+      // wording classifies it as later completion.
+      return { reason: "Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them." };
+    }
+    if (/attorney|atty(?![a-z])|lawyer|\bbar\b|bar number|\bfirm\b/i.test(subject)) {
+      // The caption's attorney block is not the participant's to complete;
+      // declaring it required-before-filing would hand a lawyer-only field to
+      // the participant.
+      return { reason: "Attorney-only field; never populated with participant data." };
+    }
+    return requiredBeforeFiling("Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them.");
   }
   if (source.role === "supporting_declaration") {
-    return "No verified declaration narrative or signed declaration act is held; every declaration field is left to the declarant.";
+    if (markControl) {
+      return {
+        reason: "A control the participant marks. The platform never marks an election on a sworn filing; the participant instructions name it and the participant marks it before signing.",
+        refusalClass: "participant_sworn_narrative_or_legal_election",
+        isSelectionControl: true,
+      };
+    }
+    return requiredBeforeFiling("No verified declaration narrative or signed declaration act is held; every declaration field is left to the declarant.");
   }
-  if (field.fieldType === "/Btn") {
-    return field.flags?.includes("pushButton")
-      ? "Viewer UI control; never a filing fact."
-      : "Legal election or conditional choice not established by this evidence variant; it remains blank rather than being inferred.";
+  // ---- primary filing ----------------------------------------------------
+  if (markControl) {
+    return {
+      reason: "A control the participant marks. The platform never marks an election on a sworn filing; the participant instructions name it and the participant marks it before signing.",
+      refusalClass: "participant_sworn_narrative_or_legal_election",
+      isSelectionControl: true,
+    };
+  }
+  if (/eligible for reduction/i.test(field.tooltip ?? "")) {
+    // The CR-180 conviction table's 17(b)/17(d)(2) yes-or-no cells. Only the
+    // ca-17b-reduction routes determine them; on every other route the
+    // election is honestly declared route-determined and unmade, which the
+    // completeness contract counts as requiredOptionsMissing until a
+    // captain-level field-classification determination (or a per-election
+    // evidence-variant design) resolves who answers these cells on dismissal
+    // routes. Declaring them participant-completable instead would be the
+    // exact self-excuse channel the contract closed.
+    return {
+      reason: "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it.",
+      routeDetermined: true,
+    };
   }
   if (/signature|sig(?:name|date)?/i.test(subject)) {
-    return "Signature or signature-date field; never prefilled before the participant signs.";
+    return {
+      reason: "Signature or signature-date field; never prefilled before the participant signs.",
+      refusalClass: "signature_or_date_participant_completion",
+    };
   }
   if (/attorney|atty|lawyer|bar\b|firm\b/i.test(subject)) {
-    return "Attorney-only field; never populated with participant data.";
+    return { reason: "Attorney-only field; never populated with participant data." };
   }
-  if (/court|judge|clerk|department|hearing|prosecutor|agency|law enforcement/i.test(subject)) {
-    return "Court, clerk, prosecutor, agency, or hearing field; never prefilled.";
+  // CrtUse is the XFA name of the caption's FOR COURT USE ONLY stamp region
+  // (CR-180's clerk date/stamp cells live under P1Caption.HeaderSub.CrtUse).
+  if (/court|crtuse|judge|clerk|department|hearing|prosecutor|agency|law enforcement/i.test(subject)) {
+    return { reason: "Court, clerk, prosecutor, agency, or hearing field; never prefilled." };
   }
   if (field.flags?.includes("readOnly")) {
-    return "Read-only source field; never overridden.";
+    return { reason: "Read-only source field; never overridden." };
   }
   if (/date\b|\bday\b|\bmonth\b|\byear\b/i.test(subject)) {
-    return "REQUIRED_BEFORE_FILING: no exact source-supported date fact is held for this terminal field; surface it to the participant and do not guess.";
+    return requiredBeforeFiling("no exact source-supported date fact is held for this terminal field; surface it to the participant and do not guess.");
   }
-  return "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess.";
+  return requiredBeforeFiling("the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess.");
 }
 
 function caMapAndCensus(familyId, config, bridge) {
@@ -1297,11 +1392,10 @@ function caMapAndCensus(familyId, config, bridge) {
         selections.push(row);
         return row;
       }
-      const reason = caRefusalReason(source, field);
+      const disposition = caRefusalDisposition(source, field);
       const row = { ...base, disposition: "REFUSE", factId: null,
-        blankTreatment: reason.startsWith("REQUIRED_BEFORE_FILING:")
-          ? "REQUIRED_BEFORE_FILING" : null,
-        reason };
+        blankTreatment: disposition.blankTreatment ?? null,
+        ...disposition };
       refusals.push(row);
       return row;
     });
@@ -1341,6 +1435,8 @@ function caMapAndCensus(familyId, config, bridge) {
         terminalFields: total, writes: writes.length, selections: selections.length,
         refusals: refusals.length, unmapped: total - writes.length - selections.length - refusals.length,
       },
+      dispositionVocabulary: "rcap-packet-completeness/closed-blank-dispositions",
+      requiredBeforeFilingCount: refusals.filter((row) => row.requiredBeforeFiling === true).length,
     },
   };
 }
@@ -1551,6 +1647,106 @@ function westParticipantInstructions(familyId, fieldMap) {
       ? `The platform does not hold the facts below. Supply and verify each applicable item before filing; the build does not guess them.\n\n${required}\n`
       : "No required-before-filing fact gaps were recorded by this field map.\n")
     + `\nSignatures, signature dates, service acts, court/clerk entries, attorney-only fields, and unmade participant elections remain for their proper owner or event.\n`;
+}
+
+/*
+ * Per-family participant guidance, modeled on the reviewed FIX-A instructions
+ * verified by vf17 on ca-851-91-set and ca-1203-42-set. The filing-guidance
+ * house standard is delegation to a NAMED CHECKABLE AUTHORITY: the clerk of
+ * the Superior Court in the named county. No fee figure, address, or service
+ * recipe is invented here.
+ */
+const CA_PARTICIPANT_GUIDANCE = Object.freeze({
+  "ca-1203-41-set": Object.freeze({
+    title: "Penal Code section 1203.41 dismissal",
+    countyOf: "conviction", orderForm: "CR-181", orderName: "order for dismissal",
+    primaryName: "CR-180 (Petition for Dismissal)",
+  }),
+  "ca-1203-42-set": Object.freeze({
+    title: "Penal Code section 1203.42 dismissal",
+    countyOf: "conviction", orderForm: "CR-181", orderName: "order for dismissal",
+    primaryName: "CR-180 (Petition for Dismissal)",
+  }),
+  "ca-1203-43-set": Object.freeze({
+    title: "Penal Code section 1203.43 dismissal",
+    countyOf: "conviction", orderForm: "CR-181", orderName: "order for dismissal",
+    primaryName: "CR-180 (Petition for Dismissal)",
+  }),
+  "ca-1203-4a-set": Object.freeze({
+    title: "Penal Code section 1203.4a dismissal",
+    countyOf: "conviction", orderForm: "CR-181", orderName: "order for dismissal",
+    primaryName: "CR-180 (Petition for Dismissal)",
+  }),
+  "ca-17b-reduction-set": Object.freeze({
+    title: "Penal Code section 17(b)/17(d)(2) reduction",
+    countyOf: "conviction", orderForm: "CR-181", orderName: "order for dismissal",
+    primaryName: "CR-180 (Petition for Dismissal)",
+  }),
+  "ca-851-91-set": Object.freeze({
+    title: "Penal Code section 851.91 petition to seal an arrest record",
+    countyOf: "arrest", orderForm: "CR-410", orderName: "order to seal",
+    primaryName: "CR-409 (Petition to Seal Arrest and Related Records)",
+  }),
+  "ca-prop64-set": Object.freeze({
+    title: "Health and Safety Code section 11361.8 (Proposition 64) relief",
+    countyOf: "conviction", orderForm: "CR-403", orderName: "order after petition",
+    primaryName: "CR-400 (Petition/Application under Health and Safety Code section 11361.8)",
+  }),
+});
+
+function caParticipantInstructions(familyId, config, fieldMap) {
+  const guidance = CA_PARTICIPANT_GUIDANCE[familyId];
+  assert.ok(guidance, `${familyId}: no participant guidance is configured`);
+  const companionNames = config.formNumbers
+    .filter((formNumber) => formNumber !== config.primaryForm)
+    .map((formNumber) => `${formNumber} (${CA_FORMS[formNumber].officialTitle ?? CA_FORMS[formNumber].role.replace(/_/g, " ")})`);
+  const required = (fieldMap.refusals ?? []).filter((row) => row.requiredBeforeFiling === true);
+  const byDocument = new Map();
+  for (const row of required) {
+    const key = row.documentId;
+    if (!byDocument.has(key)) byDocument.set(key, []);
+    byDocument.get(key).push(row);
+  }
+  const shortFieldName = (name) => String(name).replace(/^[^.]*\./, "");
+  const tables = [...byDocument.entries()].map(([documentId, rows]) => {
+    const service = rows[0].documentRole === "proof_of_service";
+    const lines = rows
+      .map((row) => ({
+        page: (row.widgets?.[0]?.pageIndex ?? 0) + 1,
+        name: shortFieldName(row.fieldName),
+        label: String(row.effectiveLabel ?? "").trim(),
+      }))
+      .sort((left, right) => left.page - right.page || left.name.localeCompare(right.name))
+      .map((row) => `| ${row.page} | \`${row.name}\` | ${row.label
+        ? `the form prints \`${row.label}\` beside it`
+        : "the measurement could reach no printed caption; read the printed page"}${service
+        ? " — complete this only after service has actually occurred" : ""} |`);
+    return `### ${documentId}\n\n| Page | Form field | What the form says |\n| --- | --- | --- |\n${lines.join("\n")}\n`;
+  }).join("\n");
+  const routeDeterminedNote = (fieldMap.refusals ?? []).some((row) => row.routeDetermined === true)
+    ? "\n- **The 17(b)/17(d)(2) yes-or-no cells in the conviction table** — a route-level election this packet family does not determine; it is recorded as unmade rather than guessed.\n"
+    : "\n";
+  return `# Participant and reviewer instructions — ${guidance.title}\n\n`
+    + `These files are deterministic review fixtures made from exact held official sources. They are not approved filing packets.\n\n`
+    + config.routeKeys.map((route) => `- Route scope: \`${route}\``).join("\n") + "\n"
+    + `- Primary form: ${guidance.primaryName}, with ${companionNames.join(", ")}.\n\n`
+    + `The platform filled in only identity and record facts it verifiably holds — name, case number, county, date of birth, contact details, and the recorded arrest or conviction facts — in the caption and identity items of the primary form. Everything else is yours to complete, and this page lists it.\n\n`
+    + `## What you must do before you file\n\n`
+    + `1. **Fill in every blank listed below.** Each row names the page, the form field as the source PDF names it, and the words printed beside the blank.\n`
+    + `2. **Mark every election yourself.** The platform never marks a box on a sworn filing.\n`
+    + `3. **Sign and date each form yourself**, and complete the proof of service only after service has actually occurred.\n`
+    + `4. **Leave ${guidance.orderForm} entirely blank**${required.some((row) => row.documentRole === "proposed_order")
+      ? " except the report numbers listed below" : ""}. The ${guidance.orderName} is the court's form.\n\n`
+    + `## What this packet does not tell you\n\n`
+    + `The filing fee and whether it can be waived, who must be served and by what method, and the address of the court are not established in this repository. Ask the clerk of the Superior Court in the county of the ${guidance.countyOf}. An unsourced figure in a filing instruction would be worse than none. This is where this packet's self-help ends: fee, waiver, service, and local filing practice come from the clerk of that court, not from this packet.\n\n`
+    + `## The blanks you must fill in\n\n`
+    + `The platform holds no value for any of these, and this packet never guesses at one.\n\n`
+    + tables
+    + `\n## Blanks that are not yours to fill\n\n`
+    + `- **${guidance.orderForm}, the ${guidance.orderName}** — the court completes and signs it.\n`
+    + `- **The attorney block on the primary form** — leave it blank unless a lawyer is filing for you.\n`
+    + `- **Every signature and signature date** — yours to complete at the moment you sign.`
+    + routeDeterminedNote;
 }
 
 function azMapAndAnchors(familyId, config, census) {
@@ -2498,16 +2694,49 @@ async function overlayCaExactMappedFacts({ bytes, formCensus, explicitMappings, 
     for (const { widget, widgetIndex, rect, fit } of fittedWidgets) {
       const page = pdf.getPages()[widget.pageIndex];
       assert.ok(page, `${fieldName}: measured widget page ${widget.pageIndex + 1} is absent`);
+      // The previous writer used page.drawText, which emits bare text
+      // operators into the page content stream. Every artifact-evidence
+      // reader on this host — pdf-flattened-widgets.mjs, verifyCaArtifact,
+      // the packet-completeness verifier — decodes participant ink
+      // exclusively from `q <cm> /XObject Do` appearance placements, so an
+      // overlay write was reported by the finalizer yet ABSENT from the
+      // decoded flattened appearances, and buildCa aborted on its own
+      // missing-ink assertion (CR-180's ConvictionDate hit exactly this: the
+      // ink sat in page content stream 17 while drawnAt read nothing at the
+      // widget rectangle). This writer emits the same construction
+      // form.flatten() does — a Form XObject in widget-local coordinates,
+      // placed at the measured rectangle — with the identical baseline
+      // arithmetic, inset, font and ink the drawText writer used, so the mark
+      // lands exactly where it always did and now also exists as an
+      // appearance stream the evidence layer can decode. (This is the east
+      // host's proven placeExactFactAppearance pattern.)
+      const n = (v) => +Number(v).toFixed(3);
       const lineHeight = fit.fontSize * 1.15;
       const firstBaseline = fit.lines.length === 1
-        ? rect.y + Math.max(1, (rect.height - fit.fontSize) / 2)
-        : rect.y + rect.height - fit.fontSize - 1;
-      fit.lines.forEach((line, index) => page.drawText(line, {
-        x: rect.x + 2, y: firstBaseline - index * lineHeight,
-        size: fit.fontSize, font, color: PARTICIPANT_INK,
-      }));
+        ? Math.max(1, (rect.height - fit.fontSize) / 2)
+        : rect.height - fit.fontSize - 1;
+      const ink = PARTICIPANT_INK_RGB;
+      const content = [
+        "BT",
+        `${n(ink.r)} ${n(ink.g)} ${n(ink.b)} rg`,
+        `/F0 ${n(fit.fontSize)} Tf`,
+        ...fit.lines.flatMap((line, index) => [
+          `1 0 0 1 2 ${n(firstBaseline - index * lineHeight)} Tm`,
+          `${font.encodeText(line).toString()} Tj`,
+        ]),
+        "ET",
+      ].join("\n");
+      const stream = pdf.context.stream(content, {
+        Type: "XObject", Subtype: "Form",
+        BBox: [0, 0, n(rect.width), n(rect.height)],
+        Resources: { Font: { F0: font.ref } },
+      });
+      const key = page.node.newXObject("ExactFactOverlay", pdf.context.register(stream));
+      page.pushOperators(pushGraphicsState(), translate(n(rect.x), n(rect.y)),
+        drawObject(key), popGraphicsState());
       widgetWrites.push({ widgetIndex, page: widget.pageIndex + 1, rect,
-        fontSize: fit.fontSize, outcome: fit.outcome });
+        fontSize: fit.fontSize, outcome: fit.outcome,
+        renderedAs: "form_xobject_appearance", xObject: key.toString() });
     }
     written.push({ field: fieldName, factId, value: String(value),
       kind: "exact_measured_fact_overlay", widgets: widgetWrites });
@@ -2886,7 +3115,7 @@ async function buildCa(familyId, config) {
       acceptanceRule: "A derivative is accepted only when source bytes remain exact and page geometry, original page content streams, terminal names/types/flags/options/default/current values, widget geometry/AP states, and XFA presence/digest are identical.",
     });
     writeJson(`${out}/production-field-map.json`, fieldMap);
-    writeText(`${out}/participant-instructions.md`, westParticipantInstructions(familyId, fieldMap));
+    writeText(`${out}/participant-instructions.md`, caParticipantInstructions(familyId, config, fieldMap));
 
     const derivedBytes = fs.readFileSync(abs(derivative.derivedPath));
     assert.equal(sha256(derivedBytes), derivative.derivedSha256);
@@ -2947,7 +3176,12 @@ async function buildCa(familyId, config) {
         const artifact = {
           packetId: packet.packetId, fixture: packet.fixture,
           variantId: packet.variantId, routeKey: packet.routeKey,
-          formNumber: document.formNumber, documentRole: document.role,
+          formNumber: document.formNumber,
+          // The packet-completeness component check binds every documentId the
+          // field map or receipt names to a rendered artifact; without the id
+          // here the rendered record cannot answer for its own components.
+          documentId: CA_FORMS[document.formNumber].documentId,
+          documentRole: document.role,
           evidenceMode: document.evidenceMode, file: document.file,
           sha256: proof.sha256, byteLength: proof.byteLength,
           pageCount: proof.pageCount, pageGeometry: formCensus.pages,
@@ -3322,11 +3556,31 @@ async function checkCa(familyId, config, { quiet = false, requireCompletionClaim
   assert.equal(fieldMap.coverage.unmapped, 0);
   assert.equal(fieldMap.coverage.writes + fieldMap.coverage.selections + fieldMap.coverage.refusals,
     fieldMap.coverage.terminalFields);
+  // The bounded write set is the S1 shared-fact-allowlist decision of record
+  // (data/rcap-grade-a/wave-2/s1-shared-fact-allowlist/rows.json, runner
+  // runWestFamilyCli): identity/caption facts plus the held participant
+  // contact facts and the participant-stated citing/arresting agency. The
+  // previous two-fact list predated S1 and condemned exactly the held writes
+  // S1 ordered, so every post-S1 rebuild failed its own completion check.
+  const s1BoundWriteFacts = new Set([
+    "participant.full_legal_name", "matter.case_number",
+    "participant.street_address", "participant.city", "participant.state",
+    "participant.zip", "participant.phone", "participant.email",
+    "participant.date_of_birth", "matter.county", "matter.arrest_date",
+    "matter.conviction_date", "matter.citing_or_arresting_agency",
+  ]);
   for (const write of fieldMap.writes) {
-    assert.ok(["participant.full_legal_name", "matter.case_number"].includes(write.factId)
+    assert.ok(s1BoundWriteFacts.has(write.factId)
       || write.factId.startsWith("route."), `${write.fieldName}: unbounded fact mapping`);
     const subject = `${write.fieldName} ${write.effectiveLabel ?? ""}`;
-    assert.equal(/signature|sigdate|service|mailing certificate|attorney|atty|lawyer|prosecutor|clerk|agency/i.test(subject), false,
+    // S1 retired the blanket agency refusal for the one participant-stated
+    // citing/arresting-agency fact only; prosecutor/clerk/service/signature
+    // subjects stay protected for it, and every other write keeps the full
+    // protected-subject net including "agency".
+    const protectedSubject = write.factId === "matter.citing_or_arresting_agency"
+      ? /signature|sigdate|service|mailing certificate|attorney|atty|lawyer|prosecutor|clerk/i
+      : /signature|sigdate|service|mailing certificate|attorney|atty|lawyer|prosecutor|clerk|agency/i;
+    assert.equal(protectedSubject.test(subject), false,
       `${write.fieldName}: protected field is writable`);
   }
   assert.ok(fieldMap.selections.length >= 1 || familyId === "ca-17b-reduction-set",
