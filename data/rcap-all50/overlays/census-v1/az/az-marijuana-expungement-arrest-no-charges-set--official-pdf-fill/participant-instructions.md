@@ -2,7 +2,7 @@
 
 This packet is prepared for a **petition to expunge marijuana records where you were arrested or cited and no charge was ever filed**, on the Arizona Administrative Office of the Courts form **AOC-CREM3F** (Petition to Expunge Records — Superior Court).
 
-The platform filled in what it knows about you: the person filing, your mailing address, your city, state and ZIP, your email, your telephone, the county, the defendant name, your date of birth, the arrest date, and the address, email and phone in the declaration block. Everything else on this form is yours to complete, and this page lists every one of them by the words printed beside the blank.
+The platform filled in what it knows about you: the person filing, your mailing address, your city, state and ZIP, your email, your telephone, the county, the defendant name, your date of birth, the arrest date, the name of the citing or arresting law enforcement agency you stated, and the address, email and phone in the declaration block. Everything else on this form is yours to complete, and this page lists every one of them by the words printed beside the blank.
 
 ## Where you file this
 
@@ -19,6 +19,7 @@ Two things this packet does **not** tell you, because they are not established i
 2. **Fill in every blank listed below.** Each one names the page and the printed words next to the blank.
 3. **Sign and date the petition yourself.** The platform never signs for you and never dates a signature. The blank signature and date line is deliberate.
 4. **Leave the attorney block empty** unless a lawyer or a licensed legal paraprofessional is filing this for you. The State Bar or LDP number, the party represented, and the whole attorney block at the end are theirs to complete, not yours.
+5. **Check the citing or arresting agency printed at question 2 of page 1** against your citation or arrest paperwork. The platform printed the agency name you stated; correct it before filing if it does not match your paperwork.
 
 ## The elections you must mark
 
@@ -53,7 +54,6 @@ If you were arrested or cited and no charge was ever filed, questions 4, 5, 6 an
 
 | Page | The blank on the form | What to write |
 | --- | --- | --- |
-| 1 | Name of citing or arresting law enforcement agency (`citing-or-arresting-agency`) | the name of the law enforcement agency that cited or arrested you, as it appears on your citation or arrest paperwork |
 | 2 | If Yes, insert name of Justice Court here (`justice-court-name`) | the name of the Justice Court, if you answered Yes to question 2 — leave blank if you answered No |
 | 2 | Justice Court case number here (`justice-court-case-number`) | the Justice Court case number, if you answered Yes to question 2 — leave blank if you answered No |
 | 2 | Name of prosecuting agency (`prosecuting-agency`) | the name of the prosecuting agency, as it appears on your paperwork |

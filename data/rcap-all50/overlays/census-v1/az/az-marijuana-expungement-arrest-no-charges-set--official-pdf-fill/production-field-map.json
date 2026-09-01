@@ -17,6 +17,7 @@
     "County": "matter.county",
     "Defendant name": "participant.full_legal_name",
     "Date of Birth": "participant.date_of_birth",
+    "Citing/arresting law enforcement agency": "matter.citing_or_arresting_agency",
     "Arrest date": "matter.arrest_date",
     "Petitioner's Mailing Address": "participant.street_address",
     "Petitioner's Email Address": "participant.email",
@@ -227,6 +228,31 @@
       "reason": "Participant or matter fact explicitly mapped for this route."
     },
     {
+      "fieldId": "citing-or-arresting-agency",
+      "page": 1,
+      "sourceLabel": "Name of citing or arresting law enforcement agency",
+      "semanticLabel": "Citing/arresting law enforcement agency",
+      "role": "participant_stated_agency_fact",
+      "measured": {
+        "construction": "underscore_leader_run",
+        "x0": 326.39,
+        "x1": 536.79,
+        "baselineY": 153.6,
+        "width": 210.4,
+        "glyphCount": 38,
+        "printedFontSize": 11.2,
+        "metricsExact": true,
+        "pathOperator": null,
+        "paintedBy": null,
+        "geometrySource": "underscore glyph run from scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs"
+      },
+      "printedLine": "2. Name of citing or arresting law enforcement agency: ______________________________________.",
+      "disposition": "WRITE",
+      "factId": "matter.citing_or_arresting_agency",
+      "routeSpecific": false,
+      "reason": "Participant or matter fact explicitly mapped for this route."
+    },
+    {
       "fieldId": "arrest-date",
       "page": 2,
       "sourceLabel": "I was arrested on [insert date]",
@@ -405,35 +431,6 @@
       "completenessDisposition": "PROTECTED_FIELD",
       "routeDetermined": false,
       "refusalClass": "court_prosecutor_clerk_or_agency_owned"
-    },
-    {
-      "fieldId": "citing-or-arresting-agency",
-      "page": 1,
-      "sourceLabel": "Name of citing or arresting law enforcement agency",
-      "semanticLabel": null,
-      "role": "agency_field",
-      "measured": {
-        "construction": "underscore_leader_run",
-        "x0": 326.39,
-        "x1": 536.79,
-        "baselineY": 153.6,
-        "width": 210.4,
-        "glyphCount": 38,
-        "printedFontSize": 11.2,
-        "metricsExact": true,
-        "pathOperator": null,
-        "paintedBy": null,
-        "geometrySource": "underscore glyph run from scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs"
-      },
-      "printedLine": "2. Name of citing or arresting law enforcement agency: ______________________________________.",
-      "disposition": "REFUSE",
-      "factId": null,
-      "routeSpecific": false,
-      "reason": "The platform holds no value for this and the participant supplies it before filing: the name of the law enforcement agency that cited or arrested you, as it appears on your citation or arrest paperwork.",
-      "completenessDisposition": "REQUIRED_BEFORE_FILING",
-      "requiredBeforeFiling": true,
-      "routeDetermined": false,
-      "participantMustSupply": "the name of the law enforcement agency that cited or arrested you, as it appears on your citation or arrest paperwork"
     },
     {
       "fieldId": "superior-court-case-number",
@@ -1198,19 +1195,13 @@
   "coverage": {
     "measuredBlanks": 31,
     "measuredPrintedControls": 19,
-    "writes": 12,
-    "refusals": 38,
+    "writes": 13,
+    "refusals": 37,
     "unmapped": 0
   },
   "dispositionVocabulary": "rcap-packet-completeness/closed-blank-dispositions",
-  "requiredBeforeFilingCount": 6,
+  "requiredBeforeFilingCount": 5,
   "requiredBeforeFiling": [
-    {
-      "fieldId": "citing-or-arresting-agency",
-      "label": "Name of citing or arresting law enforcement agency",
-      "page": 1,
-      "participantMustSupply": "the name of the law enforcement agency that cited or arrested you, as it appears on your citation or arrest paperwork"
-    },
     {
       "fieldId": "justice-court-name",
       "label": "If Yes, insert name of Justice Court here",
