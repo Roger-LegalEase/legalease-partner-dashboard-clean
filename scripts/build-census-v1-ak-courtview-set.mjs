@@ -43,9 +43,28 @@ import { fileURLToPath } from "node:url";
 import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
 import { finalizeOfficialForm } from "./rcap-official-forms/rcap-official-form-finalize.mjs";
 import { flattenedWidgets, drawnAt } from "./rcap-official-forms/pdf-flattened-widgets.mjs";
-import { rasterizePageCalibrated } from "./lib/pdf-page-raster.mjs";
 import { BLANK_DISPOSITIONS, PASS_COUNTERS, classifyField, classifyBlank, rowKeyOf }
   from "./rcap-packet-completeness/completeness-contract.mjs";
+
+/*
+ * The calibrated page rasterizer, resolved wherever it lives.
+ *
+ * The Captain branch moved this module from scripts/lib/ to scripts/raster/ at
+ * 5f144ec, and fifteen builders on that branch — including this one — still
+ * import the old path, which is not there. Rather than pick one and break on
+ * the other base, the import is tried at the new path first and falls back to
+ * the old. Only a genuinely missing module is caught: a syntax error or a
+ * failed dependency inside the module still throws, because a rasterizer that
+ * silently resolves to a stale copy is worse than one that refuses.
+ */
+const { rasterizePageCalibrated } = await (async () => {
+  try {
+    return await import("./raster/pdf-page-raster.mjs");
+  } catch (error) {
+    if (error?.code !== "ERR_MODULE_NOT_FOUND") throw error;
+    return import("./lib/pdf-page-raster.mjs");
+  }
+})();
 
 const thisFile = fileURLToPath(import.meta.url);
 const ROOT = path.resolve(path.dirname(thisFile), "..");

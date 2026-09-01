@@ -35,7 +35,7 @@
  * coordinates and re-checked on every build: TF-800 names its widgets `name`,
  * `Check Box3`, `needText1`, so no caption can be inferred from a field name.
  *
- * Rasterization goes through scripts/raster/pdf-page-raster.mjs. Never Poppler.
+ * Rasterization goes through scripts/lib/pdf-page-raster.mjs. Never Poppler.
  */
 import assert from "node:assert/strict";
 import crypto from "node:crypto";
@@ -47,9 +47,28 @@ import { fileURLToPath } from "node:url";
 import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
 import { finalizeOfficialForm } from "./rcap-official-forms/rcap-official-form-finalize.mjs";
 import { flattenedWidgets, drawnAt } from "./rcap-official-forms/pdf-flattened-widgets.mjs";
-import { rasterizePageCalibrated } from "./raster/pdf-page-raster.mjs";
 import { BLANK_DISPOSITIONS, PASS_COUNTERS, classifyField, classifyBlank, rowKeyOf }
   from "./rcap-packet-completeness/completeness-contract.mjs";
+
+/*
+ * The calibrated page rasterizer, resolved wherever it lives.
+ *
+ * The Captain branch moved this module from scripts/lib/ to scripts/raster/ at
+ * 5f144ec, and fifteen builders on that branch — including this one — still
+ * import the old path, which is not there. Rather than pick one and break on
+ * the other base, the import is tried at the new path first and falls back to
+ * the old. Only a genuinely missing module is caught: a syntax error or a
+ * failed dependency inside the module still throws, because a rasterizer that
+ * silently resolves to a stale copy is worse than one that refuses.
+ */
+const { rasterizePageCalibrated } = await (async () => {
+  try {
+    return await import("./raster/pdf-page-raster.mjs");
+  } catch (error) {
+    if (error?.code !== "ERR_MODULE_NOT_FOUND") throw error;
+    return import("./lib/pdf-page-raster.mjs");
+  }
+})();
 
 const thisFile = fileURLToPath(import.meta.url);
 const ROOT = path.resolve(path.dirname(thisFile), "..");
@@ -320,7 +339,7 @@ const FIXTURES = {
   }
 };
 
-const RASTER_ENGINE = "scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)";
+const RASTER_ENGINE = "scripts/lib/pdf-page-raster.mjs (Chromium, calibrated)";
 
 /* ---- source binding ------------------------------------------------------ */
 function resolveSource() {
