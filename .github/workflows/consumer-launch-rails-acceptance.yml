@@ -1,0 +1,69 @@
+name: Consumer launch rails DB acceptance
+
+# Manual only. Boots a DISPOSABLE runner-local Supabase stack, applies the
+# repository's supabase/migrations sequence to it, and runs the consumer
+# launch-rail database acceptance script end to end
+# (scripts/verify-consumer-launch-rails-db.mjs). The script itself refuses
+# any non-loopback database, and everything here lives and dies inside the
+# runner: no hosted project, no persistent environment, no production
+# surface is touched, and nothing outlives the run. This is acceptance
+# evidence only — it authorizes no route promotion and applies no live
+# migration.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: consumer-launch-rails-acceptance
+  cancel-in-progress: false
+
+jobs:
+  db-acceptance:
+    name: Runner-local Supabase DB acceptance
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out the candidate commit
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Start the disposable Supabase stack (runner-local only)
+        run: |
+          set -euo pipefail
+          npm install -g supabase@2
+          # The repo tracks supabase/migrations but no config.toml; init
+          # creates one so the CLI can run, and leaves the migrations
+          # directory untouched (same pattern as rcap-f1-ephemeral-staging).
+          supabase init --force >/dev/null
+          # Only the services the DB script needs: Postgres (plus the core
+          # stack the CLI always brings). Everything binds to the runner's
+          # loopback; no port is exposed beyond this machine.
+          supabase start -x studio,imgproxy,edge-runtime,logflare,vector,supavisor,realtime,postgres-meta
+          supabase status -o env > /tmp/supabase.env
+          sed 's/KEY=.*/KEY=***REDACTED***/' /tmp/supabase.env || true
+
+      - name: Apply the full migration sequence to the local database
+        run: |
+          set -euo pipefail
+          # supabase start applies pending migrations on a fresh database;
+          # migration up makes that explicit and is a no-op when already applied.
+          supabase migration up
+          supabase migration list --local
+
+      - name: Run the consumer launch-rail database acceptance end to end
+        run: |
+          set -euo pipefail
+          set -a; source /tmp/supabase.env; set +a
+          export CONSUMER_ACCEPTANCE_DATABASE_URL="${DB_URL:-postgresql://postgres:postgres@127.0.0.1:54322/postgres}"
+          node scripts/verify-consumer-launch-rails-db.mjs
+
+      - name: Stop the disposable stack
+        if: always()
+        run: supabase stop --no-backup || true

@@ -35,6 +35,9 @@ export async function requireConsumerBriefcaseApiSession(
   if (!auth.isAuthenticated || !auth.userId) {
     return { ok: false, response: privacyJson({ error: "Sign in to continue.", code: "not_authenticated" }, 401) };
   }
+  if (auth.isVerified !== true) {
+    return { ok: false, response: privacyJson({ error: "Verify your account to continue.", code: "account_unverified" }, 403) };
+  }
   if (!allowFrozen && (await isParticipantAccountBlocked(auth.userId))) {
     return { ok: false, response: privacyJson({ error: "This account has been deleted.", code: "account_deleted" }, 403) };
   }
