@@ -2705,7 +2705,22 @@
       "verifiedNote": "Issuer is Montana DOJ/CRISS, not the judiciary. Official guidance says no form is required for post-July 1, 2017 automatic removals, so one form cannot map blindly to all four families.",
       "humanContactTarget": null,
       "humanContactQuestion": null,
-      "humanAction": null
+      "humanAction": null,
+      "d1RelationshipResolution": {
+        "settledBy": "FABLE-D1 source-discovery continuation (branch fable/d1)",
+        "settledOn": "2026-09-01",
+        "scope": "the two MMRTA family relationships only; the mt_deferred_dismissal-set and mt_misdemeanor_expungement-set mappings remain the recorded legal decision and are not touched",
+        "answer": "For mt_mmrta_serving-set and mt_mmrta_completed-set the relationship IS supported by adopted legal-design output: data/rcap-all50/composed-routes/montana/mt_mmrta_serving/components/mt_mmrta_serving-primary-filing-5/dependency.json carries this exact artifact as a required official_form_dependency ('Expungement/Removal Request Form — Montana Department of Justice, Criminal Records Information Services Section (CRISS), updated 29 April 2024', role primary_filing, Unit 2 conditional DOJ stage, drafting prohibited because §§ 46-18-1110(2)(b) and 46-18-204(2) refer to a form prepared by the department of justice), with the same sha256 and the same exact URL; and the compiled Judicial Branch profile passage in that route's route.json covers both MMRTA postures: 'If the court grants marijuana-related expungement, the petitioner must file the DOJ Expungement/Removal Request Form with the Montana Department of Justice along with the court order.'",
+        "heldBytesRecomputedSha256": "4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
+        "recomputedFrom": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/04_SUPPORTING_PROCESS/MT__SUPPORT__EXPUNGEMENTREMOVALREQUESTFORM.DOCX__20240429-updated-expungementremovalrequestform__REV-UNKNOWN__EN.docx",
+        "exactUrlCorroboration": [
+          "data/rcap-all50/composed-routes/montana/mt_mmrta_serving/components/mt_mmrta_serving-primary-filing-5/dependency.json",
+          "data/rcap-all50/composed-routes/montana/mt_mmrta_serving/route.json",
+          "data/rcap-all50/review-artifacts/c-dependency-correction-assignment.json",
+          "data/rcap-all50/review-artifacts/terminalization-evidence-briefs.json"
+        ],
+        "whyStateIsKept": "sourceState stays UNSUPPORTED_RELATIONSHIP at record level because the external verification's route-mapping defect concerns the blind mapping of one form to all four families — the deferred-dismissal and misdemeanor mappings are still the open legal decision. The MMRTA half of the mapping is now evidence-backed."
+      }
     },
     {
       "jurisdiction": "NC",
@@ -5031,10 +5046,10 @@
     {
       "jurisdiction": "WV",
       "canonicalArtifactId": "SCA-C907",
-      "canonicalArtifactTitle": "SCA-C907.pdf",
-      "canonicalPublisher": "REQUIRES_LOOKUP — no issuing body is recorded for this identity in any committed record",
-      "officialSourcePage": null,
-      "officialArtifactUrl": null,
+      "canonicalArtifactTitle": "SCA-C907 — Petition for Expungement of Criminal Records (nonviolent felony conviction, W. Va. Code § 61-11-26)",
+      "canonicalPublisher": "Supreme Court of Appeals of West Virginia",
+      "officialSourcePage": "https://www.courtswv.gov/public-resources/court-forms",
+      "officialArtifactUrl": "https://www.courtswv.gov/sites/default/pubfilesmnt/2026-04/SCA-C907.pdf",
       "artifactSha256": "2a72314146636c4120d87bdfb83f8609e35e9e904eed2f8169bc2375fba30222",
       "humanReturn": null,
       "heldPath": "private/Nationwide Record Clearing/LegalEase West Virginia/SCA-C907.pdf",
@@ -5085,7 +5100,16 @@
       "verifiedNote": null,
       "humanContactTarget": null,
       "humanContactQuestion": null,
-      "humanAction": null
+      "humanAction": null,
+      "d1UrlBackfill": {
+        "settledBy": "FABLE-D1 source-discovery continuation (branch fable/d1)",
+        "settledOn": "2026-09-01",
+        "basis": "Backfill of an address the conveyor already settled and corroborated: the exact artifact URL was recorded by the DISC pass in data/rcap-grade-a/packet-factory-24h/disc05/rows.json (with title and form number) and handed to acquisition in data/rcap-grade-a/packet-factory-24h/acq03/rows.json — two distinct committed non-candidate carriers; the publisher forms page is separately corroborated in data/rcap-all50/terminalization-treatments/wv.json, data/rcap-all50/review-artifacts/terminalization-evidence-briefs.json and the wv_dui_deferral_expungement composed route. This registry record simply had not been filled in. Held bytes (sha256 2a72314146636c4120d87bdfb83f8609e35e9e904eed2f8169bc2375fba30222) are in Nationwide custody and absent from this container (SIF-4); currentness comparison stays with ACQ/PROMO.",
+        "familiesAffected": [
+          "wv_conv_nonviolent_felony-set",
+          "wv_acc_treatment_job_readiness-set"
+        ]
+      }
     },
     {
       "jurisdiction": "AK",

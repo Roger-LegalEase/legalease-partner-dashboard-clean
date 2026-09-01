@@ -187,11 +187,20 @@
         "official-form-treatment:obligation:research-decision-route:AL:al-olr"
       ],
       "status": "STOPPED",
-      "reason": "the source names a document (\"Alabama AOC Order of Limited Relief packet\") that has no record in SOURCE_RELATIONSHIP_REGISTRY.json, so no publisher, address or held candidate is recorded anywhere in committed inventory",
+      "reason": "STOPPED, narrowed by FABLE-D1 2026-09-01: no committed record establishes that an 'Alabama AOC Order of Limited Relief packet' exists as a document. What committed evidence DOES settle: the route's legal basis is a Petition for an Order of Limited Relief under Ala. Code § 12-26-1 et seq. (AL.memo.json track 'Order of Limited Relief from licensing bars'); the memo's open question AL-9 records that 'the governing output strategy and complete filing requirements ... remain unresolved' and that 'the absence of an official form alone would not block a custom pleading'; and a separate counsel question asks whether the OLR belongs in the catalogue at all, since it is a civil licensing-relief petition rather than a record-clearing route. The corroborated place an AOC form would be published if one exists is https://judicial.alabama.gov/library/criminal_forms (AL.memo.json + legal-design-track-registry.json). DISC cannot settle an identity for a packet no evidence names; the next owners are counsel (catalogue question) and, if kept, legal design (custom pleading vs form).",
       "registrySourceState": null,
       "hostThatOwnsTheNextStep": "the issuing court or agency in AL",
-      "nextOperationThatOwnsIt": "DISC must first obtain a registry record for this artifact; ACQ has no address to fetch",
-      "identityGuessed": false
+      "nextOperationThatOwnsIt": "counsel decides catalogue membership; if kept, legal design chooses custom pleading or names a document — only then does DISC have an identity to settle",
+      "identityGuessed": false,
+      "settledIdentityFragments": {
+        "legalBasis": "Ala. Code § 12-26-1 et seq. — Petition for an Order of Limited Relief",
+        "publisherPageIfAFormExists": "https://judicial.alabama.gov/library/criminal_forms",
+        "openCounselQuestion": "whether the § 12-26 Order of Limited Relief belongs in the LegalEase catalogue at all (AL.memo.json)",
+        "evidencePaths": [
+          "data/record-clearing/legal-design-intake/AL.memo.json",
+          "data/record-clearing/legal-design-track-registry.json"
+        ]
+      }
     },
     {
       "itemId": "rcap-tn-custom-pleading::NO_DOCUMENT_SOURCE_NAMED",
@@ -809,5 +818,10 @@
       "note": "identity was already settled by a recorded human return witnessed end to end; this lane re-asserts it from committed evidence and derives nothing new. The remaining work is PROMO custody, not acquisition.",
       "identityGuessed": false
     }
-  ]
+  ],
+  "d1Continuation": {
+    "by": "FABLE-D1 source-discovery continuation (branch fable/d1)",
+    "on": "2026-09-01",
+    "rowsEnrichedStillStopped": 1
+  }
 }
