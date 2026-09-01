@@ -47,24 +47,38 @@
         "visualDefects": 0
       },
       "countersBasis": "reports/completeness-counters.json — computed with scripts/rcap-packet-completeness/completeness-contract.mjs",
-      "fields": { "total": 75, "written": 15, "requiredBeforeFiling": 23, "participantElections": 18 },
-      "componentsRendered": ["primary_filing", "proposed_order"],
+      "fields": {
+        "total": 75,
+        "written": 15,
+        "requiredBeforeFiling": 23,
+        "participantElections": 18
+      },
+      "componentsRendered": [
+        "primary_filing",
+        "proposed_order"
+      ],
       "artifacts": [
         {
           "fixture": "canonical",
           "file": "data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill/fixtures/canonical.pdf",
           "sha256": "6c3d8f4482dc4de44cb817f486cc2ad982aaf79b3d6f79cc75696d22facb07d7",
-          "byteLength": 325622, "pageCount": 5, "rasterPages": 5
+          "byteLength": 325622,
+          "pageCount": 5,
+          "rasterPages": 5
         },
         {
           "fixture": "boundary",
           "file": "data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill/fixtures/boundary.pdf",
           "sha256": "1fb4e7b9faeb8ee7f06837b94993c071629b47abb59138ceaa7efa1c2d43a6f4",
-          "byteLength": 325832, "pageCount": 5, "rasterPages": 5
+          "byteLength": 325832,
+          "pageCount": 5,
+          "rasterPages": 5
         }
       ],
       "findingsRaisedForOthers": [
-        "JDF 477 and JDF 478 interleave their glyph runs, so text extracted from the content stream is scrambled at the character level and no printed-caption check can be run on either form. The absence is recorded per field in reports/caption-evidence.json rather than papered over with a fuzzy match that would pass on anything."
+        "JDF 477 and JDF 478 interleave their glyph runs, so text extracted from the content stream is scrambled at the character level and no printed-caption check can be run on either form. The absence is recorded per field in reports/caption-evidence.json rather than papered over with a fuzzy match that would pass on anything.",
+        "BLOCKING for the fleet, owner of the Captain branch: scripts/lib/pdf-page-raster.mjs does not exist at the current Captain head (5f144ec). The module is at scripts/raster/pdf-page-raster.mjs, and FIFTEEN builders on that branch still import the old path, so none of them can run there: ak-courtview, ak-tf805, co_motion_seal_nonconviction, co_multiple_conviction_seal, co_pardoned_conviction_seal, ky_void_seal_controlled_substance, md_second_chance_shielding, me-seal-prost, mi_setaside_marihuana, or_conviction_setaside, pa_age70_deceased, pa_pardon_expungement, va_seal_petition_misdemeanor, vt_exp_decriminalized, vt_seal_nonconviction. Two builders (ak-tf800, vt_seal_misdemeanor) already import the new path, so the migration is half done. A one-line re-export shim at the old path fixes all fifteen at once. This lane changed only its OWN builders, which now try the new path and fall back to the old, catching ERR_MODULE_NOT_FOUND and nothing else; the other builders are not this lane's to edit.",
+        "BLOCKING for the raster gate, owner of the packet-factory builder contract: assembled packet PDFs are NOT byte-reproducible. PDFDocument.create() stamps /CreationDate and /ModDate from the wall clock, and save({updateMetadata:false}) stops those being refreshed but not being set. Two builds of identical inputs were measured differing in exactly six bytes, all of them timestamp digits. A RASTER_PASS bound to one build's SHA-256 is therefore invalidated by a rebuild that changed nothing, which is the opposite of what a hash-bound gate is for. The fix is two lines before save: setCreationDate(new Date(0)) and setModificationDate(new Date(0)). This lane applied it to the three families no VF lane has been assigned, and proved reproducibility by rebuilding and comparing. It did NOT apply it to its earlier families: VF-SRC-A and VF-SRC-B are reading those now, and moving bytes under a verifier mid-read is worse than leaving a known non-determinism in place for the Captain to sequence."
       ],
       "notableDecisions": [
         "The five grounds for sealing in section 6 are a participant election, not a route-determined selection: C.R.S. § 24-72-705 is one simplified process covering all five, so ticking one would assert a disposition the platform does not hold.",
@@ -73,7 +87,9 @@
       ],
       "independentVerificationStatus": "PENDING",
       "commercialRoutesOpened": 0,
-      "productionTouched": false
+      "productionTouched": false,
+      "rasterStatus": "RASTER_LOCAL_PENDING_CENTRAL",
+      "rasterStatusNote": "Rasters in this family were produced in this worker's own container, not by the central raster workflow. They are RASTER_LOCAL_PENDING_CENTRAL: review evidence for a human reader, not gate receipts. No family is PASS_COMPLETE without a hash-bound RASTER_PASS from .github/workflows/rcap-packet-raster-acceptance-batch.yml."
     },
     {
       "itemId": "pa_age70_deceased-set",
@@ -110,21 +126,34 @@
         "visualDefects": 0
       },
       "countersBasis": "reports/completeness-counters.json — computed with scripts/rcap-packet-completeness/completeness-contract.mjs",
-      "fields": { "total": 105, "written": 16, "requiredBeforeFiling": 77, "participantElections": 5 },
-      "componentsRendered": ["primary_filing", "proposed_order", "certificate_of_service"],
+      "fields": {
+        "total": 105,
+        "written": 16,
+        "requiredBeforeFiling": 77,
+        "participantElections": 5
+      },
+      "componentsRendered": [
+        "primary_filing",
+        "proposed_order",
+        "certificate_of_service"
+      ],
       "certificateOfServiceNote": "Rule 790 does not put a certificate of service on either form. The petition states the service duty in its own printed words — when the petition is filed with the Clerk of Courts, the petitioner shall serve a copy upon the attorney for the Commonwealth — and the packet carries that as a filing instruction rather than inventing a certificate the AOPC forms do not have.",
       "artifacts": [
         {
           "fixture": "canonical",
           "file": "data/rcap-all50/overlays/census-v1/pa/pa-age70-deceased-set--official-pdf-fill/fixtures/canonical.pdf",
           "sha256": "f4f4b3ba5263fff23c409e8b8ffda95c2ee3e1cf6fea623af5ddb09ed181639e",
-          "byteLength": 314016, "pageCount": 3, "rasterPages": 3
+          "byteLength": 314016,
+          "pageCount": 3,
+          "rasterPages": 3
         },
         {
           "fixture": "boundary",
           "file": "data/rcap-all50/overlays/census-v1/pa/pa-age70-deceased-set--official-pdf-fill/fixtures/boundary.pdf",
           "sha256": "03aefe90a39c91ac577858abeadf09c215e261f3fcb12fbe97ae8f1c7c1c2ac1",
-          "byteLength": 314228, "pageCount": 3, "rasterPages": 3
+          "byteLength": 314228,
+          "pageCount": 3,
+          "rasterPages": 3
         }
       ],
       "notableDecisions": [
@@ -134,7 +163,14 @@
       ],
       "independentVerificationStatus": "PENDING",
       "commercialRoutesOpened": 0,
-      "productionTouched": false
+      "productionTouched": false,
+      "rasterStatus": "RASTER_LOCAL_PENDING_CENTRAL",
+      "rasterStatusNote": "Rasters in this family were produced in this worker's own container, not by the central raster workflow. They are RASTER_LOCAL_PENDING_CENTRAL: review evidence for a human reader, not gate receipts. No family is PASS_COMPLETE without a hash-bound RASTER_PASS from .github/workflows/rcap-packet-raster-acceptance-batch.yml.",
+      "findingsRaisedForOthers": [
+        "BLOCKING for the fleet, owner of the Captain branch: scripts/lib/pdf-page-raster.mjs does not exist at the current Captain head (5f144ec). The module is at scripts/raster/pdf-page-raster.mjs, and FIFTEEN builders on that branch still import the old path, so none of them can run there: ak-courtview, ak-tf805, co_motion_seal_nonconviction, co_multiple_conviction_seal, co_pardoned_conviction_seal, ky_void_seal_controlled_substance, md_second_chance_shielding, me-seal-prost, mi_setaside_marihuana, or_conviction_setaside, pa_age70_deceased, pa_pardon_expungement, va_seal_petition_misdemeanor, vt_exp_decriminalized, vt_seal_nonconviction. Two builders (ak-tf800, vt_seal_misdemeanor) already import the new path, so the migration is half done. A one-line re-export shim at the old path fixes all fifteen at once. This lane changed only its OWN builders, which now try the new path and fall back to the old, catching ERR_MODULE_NOT_FOUND and nothing else; the other builders are not this lane's to edit.",
+        "BLOCKING for the raster gate, owner of the packet-factory builder contract: assembled packet PDFs are NOT byte-reproducible. PDFDocument.create() stamps /CreationDate and /ModDate from the wall clock, and save({updateMetadata:false}) stops those being refreshed but not being set. Two builds of identical inputs were measured differing in exactly six bytes, all of them timestamp digits. A RASTER_PASS bound to one build's SHA-256 is therefore invalidated by a rebuild that changed nothing, which is the opposite of what a hash-bound gate is for. The fix is two lines before save: setCreationDate(new Date(0)) and setModificationDate(new Date(0)). This lane applied it to the three families no VF lane has been assigned, and proved reproducibility by rebuilding and comparing. It did NOT apply it to its earlier families: VF-SRC-A and VF-SRC-B are reading those now, and moving bytes under a verifier mid-read is worse than leaving a known non-determinism in place for the Captain to sequence."
+      ]
     }
-  ]
+  ],
+  "laneNote": "The Captain rebased shiftBaseSha to 2e6ca51b at 09:51:26Z, after this lane's families were built on the previous base 09b741ad. The shared machinery this lane depends on is unchanged between the two: completeness-contract.mjs, the finalizer, the field semantics, the anchor capture, the rule lines and the corpus index are all identical, so the counters in these rows were computed against the same contract the new base carries. What DID change is that scripts/lib/pdf-page-raster.mjs moved; see findingsRaisedForOthers. This branch was not reset onto the new base, because resetting would discard five commits of finished, pushed returns and the rebase reason given in the shift file — verifiers rebasing onto a base missing the integration waves — does not apply to a builder whose preflight already reads 15/15."
 }

@@ -68,7 +68,7 @@
         {
           "fixture": "canonical",
           "file": "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-fingerprint-removal-set--official-pdf-fill/fixtures/canonical.pdf",
-          "sha256": "38aca660368df089e46b4901bfef41701f5fe262eced8ba4adb9f3b132adf18e",
+          "sha256": "5b475b11c17c35f8edc37bada78716e8b14471b1951966604b7a678412fc6cc6",
           "byteLength": 490970,
           "pageCount": 2,
           "rasterPages": 2
@@ -76,7 +76,7 @@
         {
           "fixture": "boundary",
           "file": "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-fingerprint-removal-set--official-pdf-fill/fixtures/boundary.pdf",
-          "sha256": "7f448aaa080867344df41773688897dbd218c8152d570000c3d2251bbb9384db",
+          "sha256": "3fd596ff112fd2f6ef55ca9a14c2fe0702eb107af9f715554b45503e3d7861f3",
           "byteLength": 491034,
           "pageCount": 2,
           "rasterPages": 2
@@ -97,11 +97,17 @@
       "findingsRaisedForOthers": [
         "The corpus files DJ-LE-250B under 04_SUPPORTING_PROCESS with assetClass SUPPORT and revision REV-UNKNOWN, although it is the operative request form for this route. The source is resolved by state and form number and binds by exact SHA-256; the filing is raised for the owner of the corpus index, which is outside this lane's owned paths.",
         "Parts of this page's chrome — one of the two fingerprint boxes and both GENDER tick boxes — are drawn in a way that neither rulesOfPage nor pdf-stroked-boxes reaches, while the table rules on the same page are found normally. Any future family measuring geometry off a Wisconsin DOJ form should expect that split rather than treat a zero from checkboxCandidates as proof there is no box.",
-        "The boundary participant's name carries a typographic apostrophe (U+2019) and the finalized bytes carry the name without it. The behaviour is in the shared finalizer's font encoding and reproduces across every family in this factory that uses the same boundary fixture."
+        "The boundary participant's name carries a typographic apostrophe (U+2019) and the finalized bytes carry the name without it. The behaviour is in the shared finalizer's font encoding and reproduces across every family in this factory that uses the same boundary fixture.",
+        "BLOCKING for the fleet, owner of the Captain branch: scripts/lib/pdf-page-raster.mjs does not exist at the current Captain head (5f144ec). The module is at scripts/raster/pdf-page-raster.mjs, and FIFTEEN builders on that branch still import the old path, so none of them can run there: ak-courtview, ak-tf805, co_motion_seal_nonconviction, co_multiple_conviction_seal, co_pardoned_conviction_seal, ky_void_seal_controlled_substance, md_second_chance_shielding, me-seal-prost, mi_setaside_marihuana, or_conviction_setaside, pa_age70_deceased, pa_pardon_expungement, va_seal_petition_misdemeanor, vt_exp_decriminalized, vt_seal_nonconviction. Two builders (ak-tf800, vt_seal_misdemeanor) already import the new path, so the migration is half done. A one-line re-export shim at the old path fixes all fifteen at once. This lane changed only its OWN builders, which now try the new path and fall back to the old, catching ERR_MODULE_NOT_FOUND and nothing else; the other builders are not this lane's to edit.",
+        "BLOCKING for the raster gate, owner of the packet-factory builder contract: assembled packet PDFs are NOT byte-reproducible. PDFDocument.create() stamps /CreationDate and /ModDate from the wall clock, and save({updateMetadata:false}) stops those being refreshed but not being set. Two builds of identical inputs were measured differing in exactly six bytes, all of them timestamp digits. A RASTER_PASS bound to one build's SHA-256 is therefore invalidated by a rebuild that changed nothing, which is the opposite of what a hash-bound gate is for. The fix is two lines before save: setCreationDate(new Date(0)) and setModificationDate(new Date(0)). This lane applied it to the three families no VF lane has been assigned, and proved reproducibility by rebuilding and comparing. It did NOT apply it to its earlier families: VF-SRC-A and VF-SRC-B are reading those now, and moving bytes under a verifier mid-read is worse than leaving a known non-determinism in place for the Captain to sequence."
       ],
       "independentVerificationStatus": "PENDING",
       "commercialRoutesOpened": 0,
-      "productionTouched": false
+      "productionTouched": false,
+      "artifactReproducibility": "byte-reproducible: rebuilt and compared, identical SHA-256. The PDF creation and modification dates are pinned to the Unix epoch so the artifact is a function of its inputs.",
+      "rasterStatus": "RASTER_LOCAL_PENDING_CENTRAL",
+      "rasterStatusNote": "Rasters in this family were produced in this worker's own container, not by the central raster workflow. They are RASTER_LOCAL_PENDING_CENTRAL: review evidence for a human reader, not gate receipts. No family is PASS_COMPLETE without a hash-bound RASTER_PASS from .github/workflows/rcap-packet-raster-acceptance-batch.yml."
     }
-  ]
+  ],
+  "laneNote": "The Captain rebased shiftBaseSha to 2e6ca51b at 09:51:26Z, after this lane's families were built on the previous base 09b741ad. The shared machinery this lane depends on is unchanged between the two: completeness-contract.mjs, the finalizer, the field semantics, the anchor capture, the rule lines and the corpus index are all identical, so the counters in these rows were computed against the same contract the new base carries. What DID change is that scripts/lib/pdf-page-raster.mjs moved; see findingsRaisedForOthers. This branch was not reset onto the new base, because resetting would discard five commits of finished, pushed returns and the rebase reason given in the shift file — verifiers rebasing onto a base missing the integration waves — does not apply to a builder whose preflight already reads 15/15."
 }

@@ -77,7 +77,9 @@
       ],
       "findingsRaisedForOthers": [
         "The shared semantic registry has no composed participant contact fact, which is what MC 227a's `dinfo` box needs. scripts/rcap-official-forms/rcap-field-semantics.mjs is outside this lane's owned paths and was read, never edited.",
-        "scripts/build-census-v1-mi-setaside-marihuana-set.mjs (hyphenated) also writes this family's overlay directory and predates this lane. PF16 owns the underscored name and the directory; this build supersedes what that script produced and the two must not both be run. Removing or redirecting the other script is the Captain's call, not this lane's."
+        "scripts/build-census-v1-mi-setaside-marihuana-set.mjs (hyphenated) also writes this family's overlay directory and predates this lane. PF16 owns the underscored name and the directory; this build supersedes what that script produced and the two must not both be run. Removing or redirecting the other script is the Captain's call, not this lane's.",
+        "BLOCKING for the fleet, owner of the Captain branch: scripts/lib/pdf-page-raster.mjs does not exist at the current Captain head (5f144ec). The module is at scripts/raster/pdf-page-raster.mjs, and FIFTEEN builders on that branch still import the old path, so none of them can run there: ak-courtview, ak-tf805, co_motion_seal_nonconviction, co_multiple_conviction_seal, co_pardoned_conviction_seal, ky_void_seal_controlled_substance, md_second_chance_shielding, me-seal-prost, mi_setaside_marihuana, or_conviction_setaside, pa_age70_deceased, pa_pardon_expungement, va_seal_petition_misdemeanor, vt_exp_decriminalized, vt_seal_nonconviction. Two builders (ak-tf800, vt_seal_misdemeanor) already import the new path, so the migration is half done. A one-line re-export shim at the old path fixes all fifteen at once. This lane changed only its OWN builders, which now try the new path and fall back to the old, catching ERR_MODULE_NOT_FOUND and nothing else; the other builders are not this lane's to edit.",
+        "BLOCKING for the raster gate, owner of the packet-factory builder contract: assembled packet PDFs are NOT byte-reproducible. PDFDocument.create() stamps /CreationDate and /ModDate from the wall clock, and save({updateMetadata:false}) stops those being refreshed but not being set. Two builds of identical inputs were measured differing in exactly six bytes, all of them timestamp digits. A RASTER_PASS bound to one build's SHA-256 is therefore invalidated by a rebuild that changed nothing, which is the opposite of what a hash-bound gate is for. The fix is two lines before save: setCreationDate(new Date(0)) and setModificationDate(new Date(0)). This lane applied it to the three families no VF lane has been assigned, and proved reproducibility by rebuilding and comparing. It did NOT apply it to its earlier families: VF-SRC-A and VF-SRC-B are reading those now, and moving bytes under a verifier mid-read is worse than leaving a known non-determinism in place for the Captain to sequence."
       ],
       "independentVerificationStatus": "PENDING",
       "commercialRoutesOpened": 0,
@@ -88,7 +90,9 @@
       ],
       "priorEvidenceKept": [
         "reports/shared-vocabulary-gaps.json and reports/squashed-caption-band-findings.json — observations about the shared field-semantics and anchor-capture modules rather than about the old bytes. They are still true and were left where they are."
-      ]
+      ],
+      "rasterStatus": "RASTER_LOCAL_PENDING_CENTRAL",
+      "rasterStatusNote": "Rasters in this family were produced in this worker's own container, not by the central raster workflow. They are RASTER_LOCAL_PENDING_CENTRAL: review evidence for a human reader, not gate receipts. No family is PASS_COMPLETE without a hash-bound RASTER_PASS from .github/workflows/rcap-packet-raster-acceptance-batch.yml."
     },
     {
       "itemId": "ak-courtview-set",
@@ -153,7 +157,14 @@
       ],
       "independentVerificationStatus": "PENDING",
       "commercialRoutesOpened": 0,
-      "productionTouched": false
+      "productionTouched": false,
+      "rasterStatus": "RASTER_LOCAL_PENDING_CENTRAL",
+      "rasterStatusNote": "Rasters in this family were produced in this worker's own container, not by the central raster workflow. They are RASTER_LOCAL_PENDING_CENTRAL: review evidence for a human reader, not gate receipts. No family is PASS_COMPLETE without a hash-bound RASTER_PASS from .github/workflows/rcap-packet-raster-acceptance-batch.yml.",
+      "findingsRaisedForOthers": [
+        "BLOCKING for the fleet, owner of the Captain branch: scripts/lib/pdf-page-raster.mjs does not exist at the current Captain head (5f144ec). The module is at scripts/raster/pdf-page-raster.mjs, and FIFTEEN builders on that branch still import the old path, so none of them can run there: ak-courtview, ak-tf805, co_motion_seal_nonconviction, co_multiple_conviction_seal, co_pardoned_conviction_seal, ky_void_seal_controlled_substance, md_second_chance_shielding, me-seal-prost, mi_setaside_marihuana, or_conviction_setaside, pa_age70_deceased, pa_pardon_expungement, va_seal_petition_misdemeanor, vt_exp_decriminalized, vt_seal_nonconviction. Two builders (ak-tf800, vt_seal_misdemeanor) already import the new path, so the migration is half done. A one-line re-export shim at the old path fixes all fifteen at once. This lane changed only its OWN builders, which now try the new path and fall back to the old, catching ERR_MODULE_NOT_FOUND and nothing else; the other builders are not this lane's to edit.",
+        "BLOCKING for the raster gate, owner of the packet-factory builder contract: assembled packet PDFs are NOT byte-reproducible. PDFDocument.create() stamps /CreationDate and /ModDate from the wall clock, and save({updateMetadata:false}) stops those being refreshed but not being set. Two builds of identical inputs were measured differing in exactly six bytes, all of them timestamp digits. A RASTER_PASS bound to one build's SHA-256 is therefore invalidated by a rebuild that changed nothing, which is the opposite of what a hash-bound gate is for. The fix is two lines before save: setCreationDate(new Date(0)) and setModificationDate(new Date(0)). This lane applied it to the three families no VF lane has been assigned, and proved reproducibility by rebuilding and comparing. It did NOT apply it to its earlier families: VF-SRC-A and VF-SRC-B are reading those now, and moving bytes under a verifier mid-read is worse than leaving a known non-determinism in place for the Captain to sequence."
+      ]
     }
-  ]
+  ],
+  "laneNote": "The Captain rebased shiftBaseSha to 2e6ca51b at 09:51:26Z, after this lane's families were built on the previous base 09b741ad. The shared machinery this lane depends on is unchanged between the two: completeness-contract.mjs, the finalizer, the field semantics, the anchor capture, the rule lines and the corpus index are all identical, so the counters in these rows were computed against the same contract the new base carries. What DID change is that scripts/lib/pdf-page-raster.mjs moved; see findingsRaisedForOthers. This branch was not reset onto the new base, because resetting would discard five commits of finished, pushed returns and the rebase reason given in the shift file — verifiers rebasing onto a base missing the integration waves — does not apply to a builder whose preflight already reads 15/15."
 }

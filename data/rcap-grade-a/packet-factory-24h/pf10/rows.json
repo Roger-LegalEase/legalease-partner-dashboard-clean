@@ -51,7 +51,9 @@
         "written": 5,
         "requiredBeforeFiling": 16,
         "protected": 1,
-        "cellsTooShallowToWriteIn": ["approximate-date-of-check"],
+        "cellsTooShallowToWriteIn": [
+          "approximate-date-of-check"
+        ],
         "measuredCellsWithNoPrintedCaption": 1,
         "measuredHorizontalRules": 61,
         "measuredVerticalRules": 49
@@ -66,7 +68,7 @@
         {
           "fixture": "canonical",
           "file": "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-challenge-set--official-pdf-fill/fixtures/canonical.pdf",
-          "sha256": "2e1e1953a9ecdb712cf7371cdf2674b3d4076264ea35374e825f46d9a3dfc0f2",
+          "sha256": "edb7338200e12436a22390b6857b54bb0b44d074abc745b5c02c158f85457b4f",
           "byteLength": 123942,
           "pageCount": 2,
           "rasterPages": 2
@@ -74,7 +76,7 @@
         {
           "fixture": "boundary",
           "file": "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-challenge-set--official-pdf-fill/fixtures/boundary.pdf",
-          "sha256": "3eb09bd52faf5bba4947228689bcb2b55b2260fbafe9e3b2b3bba3c330c65b24",
+          "sha256": "365d25ebf98bc23dba12805e97f985d6f39fc2403cec591b9646a6be8f35596e",
           "byteLength": 124023,
           "pageCount": 2,
           "rasterPages": 2
@@ -91,11 +93,16 @@
       "findingsRaisedForOthers": [
         "ADVISORY, owner scripts/rcap-official-forms/rcap-official-form-finalize.mjs: the finalizer formats no dates — its only normalisation is stripping whitespace — so a caption that names a date format cannot be honoured. DJ-LE-247 asks for mm/dd/yy and gets ISO.",
         "The corpus files DJ-LE-247 under 04_SUPPORTING_PROCESS with assetClass SUPPORT and revision REV-UNKNOWN, although the form prints \"DJ-LE-247 (2/17)\" on its face and is the operative challenge form for this route. Resolved by state and form number; binds by exact SHA-256; raised for the owner of the corpus index.",
-        "This page's tick boxes are not strokes in the content stream, the same as DJ-LE-250B in PF11. Two Wisconsin DOJ forms now show that split — table rules found normally, tick boxes not found at all — so a zero from checkboxCandidates on a Wisconsin DOJ form is not evidence that there is no box."
+        "This page's tick boxes are not strokes in the content stream, the same as DJ-LE-250B in PF11. Two Wisconsin DOJ forms now show that split — table rules found normally, tick boxes not found at all — so a zero from checkboxCandidates on a Wisconsin DOJ form is not evidence that there is no box.",
+        "BLOCKING for the fleet, owner of the Captain branch: scripts/lib/pdf-page-raster.mjs does not exist at the current Captain head (5f144ec). The module is at scripts/raster/pdf-page-raster.mjs, and FIFTEEN builders on that branch still import the old path, so none of them can run there: ak-courtview, ak-tf805, co_motion_seal_nonconviction, co_multiple_conviction_seal, co_pardoned_conviction_seal, ky_void_seal_controlled_substance, md_second_chance_shielding, me-seal-prost, mi_setaside_marihuana, or_conviction_setaside, pa_age70_deceased, pa_pardon_expungement, va_seal_petition_misdemeanor, vt_exp_decriminalized, vt_seal_nonconviction. Two builders (ak-tf800, vt_seal_misdemeanor) already import the new path, so the migration is half done. A one-line re-export shim at the old path fixes all fifteen at once. This lane changed only its OWN builders, which now try the new path and fall back to the old, catching ERR_MODULE_NOT_FOUND and nothing else; the other builders are not this lane's to edit.",
+        "BLOCKING for the raster gate, owner of the packet-factory builder contract: assembled packet PDFs are NOT byte-reproducible. PDFDocument.create() stamps /CreationDate and /ModDate from the wall clock, and save({updateMetadata:false}) stops those being refreshed but not being set. Two builds of identical inputs were measured differing in exactly six bytes, all of them timestamp digits. A RASTER_PASS bound to one build's SHA-256 is therefore invalidated by a rebuild that changed nothing, which is the opposite of what a hash-bound gate is for. The fix is two lines before save: setCreationDate(new Date(0)) and setModificationDate(new Date(0)). This lane applied it to the three families no VF lane has been assigned, and proved reproducibility by rebuilding and comparing. It did NOT apply it to its earlier families: VF-SRC-A and VF-SRC-B are reading those now, and moving bytes under a verifier mid-read is worse than leaving a known non-determinism in place for the Captain to sequence."
       ],
       "independentVerificationStatus": "PENDING",
       "commercialRoutesOpened": 0,
-      "productionTouched": false
+      "productionTouched": false,
+      "artifactReproducibility": "byte-reproducible: rebuilt and compared, identical SHA-256. The PDF creation and modification dates are pinned to the Unix epoch so the artifact is a function of its inputs.",
+      "rasterStatus": "RASTER_LOCAL_PENDING_CENTRAL",
+      "rasterStatusNote": "Rasters in this family were produced in this worker's own container, not by the central raster workflow. They are RASTER_LOCAL_PENDING_CENTRAL: review evidence for a human reader, not gate receipts. No family is PASS_COMPLETE without a hash-bound RASTER_PASS from .github/workflows/rcap-packet-raster-acceptance-batch.yml."
     },
     {
       "itemId": "wv_nc_diversion_deferred-set",
@@ -132,11 +139,14 @@
       "componentsRendered": [],
       "artifacts": [],
       "findingsRaisedForOthers": [
-        "BLOCKING for this family, owner of the acquisition pipeline: WV SCA-C903 in the Master Library is an AES-256 encrypted PDF (/V 5 /R 6, /CFM AESV3). It binds by exact SHA-256 and cannot be read. This family cannot be built until either the corpus carries a decrypted-at-acquisition copy with its own recorded custody, or the toolchain gains a reader that decrypts. Both are decisions above this lane, and both are the same decision PF08 needs."
+        "BLOCKING for this family, owner of the acquisition pipeline: WV SCA-C903 in the Master Library is an AES-256 encrypted PDF (/V 5 /R 6, /CFM AESV3). It binds by exact SHA-256 and cannot be read. This family cannot be built until either the corpus carries a decrypted-at-acquisition copy with its own recorded custody, or the toolchain gains a reader that decrypts. Both are decisions above this lane, and both are the same decision PF08 needs.",
+        "BLOCKING for the fleet, owner of the Captain branch: scripts/lib/pdf-page-raster.mjs does not exist at the current Captain head (5f144ec). The module is at scripts/raster/pdf-page-raster.mjs, and FIFTEEN builders on that branch still import the old path, so none of them can run there: ak-courtview, ak-tf805, co_motion_seal_nonconviction, co_multiple_conviction_seal, co_pardoned_conviction_seal, ky_void_seal_controlled_substance, md_second_chance_shielding, me-seal-prost, mi_setaside_marihuana, or_conviction_setaside, pa_age70_deceased, pa_pardon_expungement, va_seal_petition_misdemeanor, vt_exp_decriminalized, vt_seal_nonconviction. Two builders (ak-tf800, vt_seal_misdemeanor) already import the new path, so the migration is half done. A one-line re-export shim at the old path fixes all fifteen at once. This lane changed only its OWN builders, which now try the new path and fall back to the old, catching ERR_MODULE_NOT_FOUND and nothing else; the other builders are not this lane's to edit.",
+        "BLOCKING for the raster gate, owner of the packet-factory builder contract: assembled packet PDFs are NOT byte-reproducible. PDFDocument.create() stamps /CreationDate and /ModDate from the wall clock, and save({updateMetadata:false}) stops those being refreshed but not being set. Two builds of identical inputs were measured differing in exactly six bytes, all of them timestamp digits. A RASTER_PASS bound to one build's SHA-256 is therefore invalidated by a rebuild that changed nothing, which is the opposite of what a hash-bound gate is for. The fix is two lines before save: setCreationDate(new Date(0)) and setModificationDate(new Date(0)). This lane applied it to the three families no VF lane has been assigned, and proved reproducibility by rebuilding and comparing. It did NOT apply it to its earlier families: VF-SRC-A and VF-SRC-B are reading those now, and moving bytes under a verifier mid-read is worse than leaving a known non-determinism in place for the Captain to sequence."
       ],
       "independentVerificationStatus": "NOT_APPLICABLE_NOTHING_WAS_BUILT",
       "commercialRoutesOpened": 0,
       "productionTouched": false
     }
-  ]
+  ],
+  "laneNote": "The Captain rebased shiftBaseSha to 2e6ca51b at 09:51:26Z, after this lane's families were built on the previous base 09b741ad. The shared machinery this lane depends on is unchanged between the two: completeness-contract.mjs, the finalizer, the field semantics, the anchor capture, the rule lines and the corpus index are all identical, so the counters in these rows were computed against the same contract the new base carries. What DID change is that scripts/lib/pdf-page-raster.mjs moved; see findingsRaisedForOthers. This branch was not reset onto the new base, because resetting would discard five commits of finished, pushed returns and the rebase reason given in the shift file — verifiers rebasing onto a base missing the integration waves — does not apply to a builder whose preflight already reads 15/15."
 }

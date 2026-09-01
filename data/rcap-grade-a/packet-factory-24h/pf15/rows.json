@@ -57,19 +57,26 @@
         "protected": 14,
         "printedTickBoxesNotMeasured": 14
       },
-      "componentsRendered": ["primary_filing", "proposed_order"],
+      "componentsRendered": [
+        "primary_filing",
+        "proposed_order"
+      ],
       "artifacts": [
         {
           "fixture": "canonical",
           "file": "data/rcap-all50/overlays/census-v1/co/co-pardoned-conviction-seal-set--official-pdf-fill/fixtures/canonical.pdf",
           "sha256": "d285a03f788cb5e5b3a8d1f17babd379b199cd24c34d2e98b52363cd2c436bf7",
-          "byteLength": 229182, "pageCount": 4, "rasterPages": 4
+          "byteLength": 229182,
+          "pageCount": 4,
+          "rasterPages": 4
         },
         {
           "fixture": "boundary",
           "file": "data/rcap-all50/overlays/census-v1/co/co-pardoned-conviction-seal-set--official-pdf-fill/fixtures/boundary.pdf",
           "sha256": "407db19ec374b58b0e429b40ac6de54877510b47fe16db77739400e4edbada4c",
-          "byteLength": 229360, "pageCount": 4, "rasterPages": 4
+          "byteLength": 229360,
+          "pageCount": 4,
+          "rasterPages": 4
         }
       ],
       "notableDecisions": [
@@ -80,7 +87,14 @@
       ],
       "independentVerificationStatus": "PENDING",
       "commercialRoutesOpened": 0,
-      "productionTouched": false
+      "productionTouched": false,
+      "rasterStatus": "RASTER_LOCAL_PENDING_CENTRAL",
+      "rasterStatusNote": "Rasters in this family were produced in this worker's own container, not by the central raster workflow. They are RASTER_LOCAL_PENDING_CENTRAL: review evidence for a human reader, not gate receipts. No family is PASS_COMPLETE without a hash-bound RASTER_PASS from .github/workflows/rcap-packet-raster-acceptance-batch.yml.",
+      "findingsRaisedForOthers": [
+        "BLOCKING for the fleet, owner of the Captain branch: scripts/lib/pdf-page-raster.mjs does not exist at the current Captain head (5f144ec). The module is at scripts/raster/pdf-page-raster.mjs, and FIFTEEN builders on that branch still import the old path, so none of them can run there: ak-courtview, ak-tf805, co_motion_seal_nonconviction, co_multiple_conviction_seal, co_pardoned_conviction_seal, ky_void_seal_controlled_substance, md_second_chance_shielding, me-seal-prost, mi_setaside_marihuana, or_conviction_setaside, pa_age70_deceased, pa_pardon_expungement, va_seal_petition_misdemeanor, vt_exp_decriminalized, vt_seal_nonconviction. Two builders (ak-tf800, vt_seal_misdemeanor) already import the new path, so the migration is half done. A one-line re-export shim at the old path fixes all fifteen at once. This lane changed only its OWN builders, which now try the new path and fall back to the old, catching ERR_MODULE_NOT_FOUND and nothing else; the other builders are not this lane's to edit.",
+        "BLOCKING for the raster gate, owner of the packet-factory builder contract: assembled packet PDFs are NOT byte-reproducible. PDFDocument.create() stamps /CreationDate and /ModDate from the wall clock, and save({updateMetadata:false}) stops those being refreshed but not being set. Two builds of identical inputs were measured differing in exactly six bytes, all of them timestamp digits. A RASTER_PASS bound to one build's SHA-256 is therefore invalidated by a rebuild that changed nothing, which is the opposite of what a hash-bound gate is for. The fix is two lines before save: setCreationDate(new Date(0)) and setModificationDate(new Date(0)). This lane applied it to the three families no VF lane has been assigned, and proved reproducibility by rebuilding and comparing. It did NOT apply it to its earlier families: VF-SRC-A and VF-SRC-B are reading those now, and moving bytes under a verifier mid-read is worse than leaving a known non-determinism in place for the Captain to sequence."
+      ]
     }
-  ]
+  ],
+  "laneNote": "The Captain rebased shiftBaseSha to 2e6ca51b at 09:51:26Z, after this lane's families were built on the previous base 09b741ad. The shared machinery this lane depends on is unchanged between the two: completeness-contract.mjs, the finalizer, the field semantics, the anchor capture, the rule lines and the corpus index are all identical, so the counters in these rows were computed against the same contract the new base carries. What DID change is that scripts/lib/pdf-page-raster.mjs moved; see findingsRaisedForOthers. This branch was not reset onto the new base, because resetting would discard five commits of finished, pushed returns and the rebase reason given in the shift file — verifiers rebasing onto a base missing the integration waves — does not apply to a builder whose preflight already reads 15/15."
 }

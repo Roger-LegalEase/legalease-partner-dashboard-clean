@@ -90,9 +90,28 @@ import { fileURLToPath } from "node:url";
 import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
 import { finalizeFlatOverlay } from "./rcap-official-forms/rcap-official-form-finalize.mjs";
 import { rulesOfPage } from "./rcap-official-forms/rcap-pdf-rule-lines.mjs";
-import { rasterizePageCalibrated } from "./lib/pdf-page-raster.mjs";
 import { BLANK_DISPOSITIONS, PASS_COUNTERS, classifyField, classifyBlank, rowKeyOf }
   from "./rcap-packet-completeness/completeness-contract.mjs";
+
+/*
+ * The calibrated page rasterizer, resolved wherever it lives.
+ *
+ * The Captain branch moved this module from scripts/lib/ to scripts/raster/ at
+ * 5f144ec, and fifteen builders on that branch — including this one — still
+ * import the old path, which is not there. Rather than pick one and break on
+ * the other base, the import is tried at the new path first and falls back to
+ * the old. Only a genuinely missing module is caught: a syntax error or a
+ * failed dependency inside the module still throws, because a rasterizer that
+ * silently resolves to a stale copy is worse than one that refuses.
+ */
+const { rasterizePageCalibrated } = await (async () => {
+  try {
+    return await import("./raster/pdf-page-raster.mjs");
+  } catch (error) {
+    if (error?.code !== "ERR_MODULE_NOT_FOUND") throw error;
+    return import("./lib/pdf-page-raster.mjs");
+  }
+})();
 
 const thisFile = fileURLToPath(import.meta.url);
 const ROOT = path.resolve(path.dirname(thisFile), "..");
@@ -985,6 +1004,24 @@ export async function runFamily(argv = process.argv.slice(2)) {
       if (fixtureName === "canonical") maps.push(mapFor(source, census, report));
     }
 
+    /*
+     * A packet has to be byte-reproducible, because the raster receipt that
+     * clears it is bound to its SHA-256.
+     *
+     * `PDFDocument.create()` stamps /CreationDate and /ModDate with the wall
+     * clock, and `updateMetadata: false` only stops them being refreshed on
+     * save -- it does not stop them being set. Two builds of identical inputs
+     * therefore differ, measurably, in exactly six bytes: the timestamp digits.
+     * A receipt pinned to one of those hashes is invalidated by a rebuild that
+     * changed nothing.
+     *
+     * So both dates are pinned to the Unix epoch. It is plainly not a claim
+     * about when the document was made -- that is the point of choosing a date
+     * no reader could mistake for one -- and it makes the artifact a function
+     * of its inputs, which is what a hash-bound gate needs.
+     */
+    packet.setCreationDate(new Date(0));
+    packet.setModificationDate(new Date(0));
     const packetBytes = await packet.save({ useObjectStreams: false, updateMetadata: false });
     const file = `${OUT}/fixtures/${fixtureName}.pdf`;
     fs.writeFileSync(path.join(ROOT, file), packetBytes);
