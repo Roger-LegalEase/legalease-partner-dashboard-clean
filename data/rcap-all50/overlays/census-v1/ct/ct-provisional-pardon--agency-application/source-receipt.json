@@ -1,0 +1,74 @@
+{
+  "schemaVersion": "rcap-family-source-receipt/v1",
+  "familyId": "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
+  "worklistGroupId": "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
+  "jurisdiction": "CT",
+  "implementationStrategy": "participant_agency_application",
+  "routeKey": "obligation:track-only:CT:ct-provisional-pardon",
+  "legalName": "Provisional Pardon and Certificate of Employability, Board of Pardons and Paroles",
+  "deliverableType": "participant_agency_application_guidance",
+  "bindingMethod": "pinned evidence-file SHA-256 set + literal anchor verification on every build; held agency documents bound by committed corpus-index SHA-256 and recomputed from mounted bytes when available",
+  "evidence": [
+    {
+      "id": "CT_MEMO",
+      "path": "data/record-clearing/legal-design-intake/CT.memo.json",
+      "sha256": "90d96d9d8a25ed7d64b86c3777f753eecfdb651ac083c0f9b53cbda06db5d448",
+      "role": "legal-design intake memo, track ct-provisional-pardon"
+    },
+    {
+      "id": "CT_GUIDANCE",
+      "path": "data/rcap-all50/guidance-packets/ct.json",
+      "sha256": "0acfc6fe64c87db98079fa17048c063513665bd27ff269d31a9604216460a023",
+      "role": "committed complete_guidance record for trackId ct-provisional-pardon (jobId T-B-CT-complete-guidance)"
+    },
+    {
+      "id": "CENSUS_ROUTE",
+      "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+      "sha256": "e615283930c6a9aab3be570ca5dd74a8990deb71dc2817733a3d262e48af6816",
+      "role": "route record for obligation:track-only:CT:ct-provisional-pardon (participant_agency_application, destination the Board)"
+    },
+    {
+      "id": "COUNSEL_MANIFEST",
+      "path": "data/rcap-ledger/completed-output-counsel-manifest.json",
+      "sha256": "99e8029120d705df8970d0deba651a95b00f4b81097c46a28ac8d0e128f8c93c",
+      "role": "counsel family rcap-ct-guidance-implementation, tracksServed includes ct-provisional-pardon"
+    },
+    {
+      "id": "CORPUS_INDEX",
+      "path": "data/rcap-all50/local-source-corpus-index.json",
+      "sha256": "59fb63edc571e8cba54f28c983d8b62add9fdc77a642d82d203f53c5cd16dd6a",
+      "role": "committed corpus index carrying the held DPS-0846-C support document"
+    }
+  ],
+  "anchorCount": 21,
+  "heldFormComponents": [
+    {
+      "componentRole": "criminal_history_record_request_support",
+      "formNumber": "DPS-0846-C",
+      "officialTitle": "State of Connecticut Criminal History Record Request Form",
+      "revision": "REV-2017-12-01",
+      "state": "CT",
+      "pathInArchive": "STATES/CT/04_SUPPORTING_PROCESS/CT__SUPPORT__DPS-0846-C__state-of-connecticut-criminal-history-record-request-form__REV-2017-12-01__EN.pdf",
+      "sha256": "8db6e31c03131d94f6ed8383f403b1daf45e9c4d12336cbf0abcebb4e65b588e",
+      "byteLength": 104351,
+      "binding": "exact form number + committed corpus-index SHA-256 + committed byte length; recomputed and asserted against the mounted Master Library bytes whenever MASTER_LIBRARY_SOURCE_DIR is present, with any mismatch refusing the build",
+      "includedAsBytes": false,
+      "whyReferencedNotEmbedded": "the participant obtains and completes the agency's own current document; this packet binds the held edition by hash as the identified instrument and never redistributes or modifies the official bytes"
+    }
+  ],
+  "factsDeliberatelyNotStated": [
+    "the Board's eligibility rules for this relief (not verified in the reviewed record; the Board's application materials are the checkable authority)",
+    "the Board's fees for this application (not established; the Board's application materials are the checkable authority)",
+    "the DESPP-SPBI record-request fee amount (not stated in any held source; the form and the Bureau are the checkable authorities)",
+    "the Board's notice rules after application (not stated; the Board's own instructions govern)"
+  ],
+  "sourceBinaryCommitted": false,
+  "commercialRoutesOpened": 0,
+  "whatThisReceiptDoesNotEstablish": [
+    "that any agency's current published requirements match the pinned evidence",
+    "that any output is approved for participant delivery",
+    "that the participant is eligible for the relief this route describes",
+    "that DPS-0846-C REV-2017-12-01 is the current published edition of the record-request form",
+    "that the DESPP-SPBI mailing address in the memo is still current"
+  ]
+}

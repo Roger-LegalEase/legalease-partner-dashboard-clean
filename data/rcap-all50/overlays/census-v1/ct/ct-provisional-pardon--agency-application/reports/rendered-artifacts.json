@@ -1,0 +1,54 @@
+{
+  "schemaVersion": "rcap-rendered-artifacts/v1",
+  "familyId": "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
+  "deliverableType": "participant_agency_application_guidance",
+  "renderedFresh": true,
+  "derivedFromBytes": true,
+  "byteDerivedHashes": true,
+  "componentSet": [
+    "participant_instructions",
+    "criminal_history_record_request_support"
+  ],
+  "pdfs": [],
+  "artifacts": [
+    {
+      "file": "data/rcap-all50/overlays/census-v1/ct/ct-provisional-pardon--agency-application/participant-instructions.md",
+      "documentId": "participant_instructions",
+      "role": "participant_instructions",
+      "sha256": "6cc63aab8747d14d618e66c4ba54e00c89a12852b85f6337e30b12a7e6b5534a",
+      "byteLength": 4688
+    }
+  ],
+  "heldFormComponents": [
+    {
+      "componentRole": "criminal_history_record_request_support",
+      "formNumber": "DPS-0846-C",
+      "officialTitle": "State of Connecticut Criminal History Record Request Form",
+      "revision": "REV-2017-12-01",
+      "state": "CT",
+      "pathInArchive": "STATES/CT/04_SUPPORTING_PROCESS/CT__SUPPORT__DPS-0846-C__state-of-connecticut-criminal-history-record-request-form__REV-2017-12-01__EN.pdf",
+      "sha256": "8db6e31c03131d94f6ed8383f403b1daf45e9c4d12336cbf0abcebb4e65b588e",
+      "byteLength": 104351,
+      "binding": "exact form number + committed corpus-index SHA-256 + committed byte length; recomputed and asserted against the mounted Master Library bytes whenever MASTER_LIBRARY_SOURCE_DIR is present, with any mismatch refusing the build",
+      "includedAsBytes": false,
+      "whyReferencedNotEmbedded": "the participant obtains and completes the agency's own current document; this packet binds the held edition by hash as the identified instrument and never redistributes or modifies the official bytes"
+    }
+  ],
+  "rasterEngine": null,
+  "rasterSkipped": true,
+  "rasterPages": [],
+  "whyNoRaster": "the deliverable is a guidance instruction document; no PDF page exists to rasterize",
+  "completenessAudit": {
+    "fieldMapAuditable": false,
+    "whatTheCompletenessVerifierCannotMeasureHere": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs counts owed writes against made writes over a production field map and fixture PDFs; this family renders no paper instrument, so the nine field-level counters are undefined for it and the verifier does not audit it. The verifier is not weakened to pretend otherwise.",
+    "whatIsMeasurableInstead": [
+      "every pinned evidence file re-hashes to its recorded SHA-256 on every build",
+      "every literal anchor quote is still present in its evidence file's bytes",
+      "held agency documents re-verify against the committed corpus index (and against mounted bytes when present)",
+      "two builds produce byte-identical output trees",
+      "every declared self-help stop and lookup delegation is present in the rendered instruction bytes",
+      "no undeclared dollar figure and no signature line appears in the instruction bytes"
+    ]
+  },
+  "independentVerificationPending": true
+}
