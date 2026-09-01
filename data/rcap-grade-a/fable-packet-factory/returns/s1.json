@@ -1,0 +1,143 @@
+{
+  "schemaVersion": "fable-packet-factory-return/v1",
+  "lane": "SOURCE-1",
+  "branch": "fable/s1",
+  "baseSha": "321650b5a71d16ce6b59e78147c8d39cd94c9d80",
+  "date": "2026-09-01",
+  "nothingWasFetched": true,
+  "sourceBodiesCommitted": 0,
+  "filesModified": [
+    "data/record-clearing/legal-design-track-registry.json",
+    "data/record-clearing/legal-design-track-source-relationships.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json"
+  ],
+  "verifiers": {
+    "verify-source-relationship-model.mjs": "SOURCE_RELATIONSHIP_MODEL_HELD (11/11; 19/19 mutations caught)",
+    "verify-source-conveyor.mjs": "23/23 conveyor checks passed; CLAIM_LEDGER_OK 549 claims"
+  },
+  "defectsResolved": [
+    {
+      "defect": "VIRGINIA_CORRUPTED_PIN",
+      "whatWasDone": "The SHA-256 pin on the CC-1473 obligation shared its first 64 bits with the held petition and then diverged. Repaired in both governed carriers - data/record-clearing/legal-design-track-registry.json (tracks va_exp_nonconviction and va_exp_identity_used_by_another, officialSources) and data/record-clearing/legal-design-track-source-relationships.json (va_exp_nonconviction-primary-filing-1) - each with a sha256PinRepair note recording old value 6176c2f55bdb3206c53f4a26a0e6b4c14dfd8b04ee19be0ee52b7b6b3fa4e97f, new value 6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219, and basis. The new value was recomputed with sha256sum from the held corpus bytes (STATES/VA/02_PACKET_FORMS/VA__FORM__CC-1473__petition-for-expungement__REV-2026-07__EN.pdf, 120875 bytes) and equals the committed corpus index, data/rcap-grade-a/official-source-registry.json (already corroborated with match:true) and the production overlay source record. The PDF face was opened and prints FORM CC-1473 (MASTER, Page 1 of 2) 07/26, PETITION FOR EXPUNGEMENT FILED IN A CIRCUIT COURT - ACQUITTAL/DISMISSAL, Va. Code 19.2-392.2(A): it IS the petition for expungement the obligation names.",
+      "familiesReleased": [
+        "va_exp_identity_used_by_another-set"
+      ],
+      "sourceReadyInFact": "YES. The family's only document-shaped bound source is source-sha256:6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219, which now resolves to exactly one committed corpus index entry whose bytes are held and were recomputed to the same digest - all seven of the queue's binding conditions hold (exact content-hash identity, accepted tier, held path, held SHA-256, indexed entry, indexed hash equal, at least one source resolved). Its remaining requiredSourceIds are three source-url references (statute page, Norfolk clerk page, the vacourts cc1473.pdf address), which are not document-shaped custody obligations. The committed MASTER_QUEUE row still says SOURCE_BLOCKED / SOURCE_GENUINELY_MISSING because the census, custody reconciliation and queue are generated files that this lane may not edit; they reproduce the corrupted pin until their generators re-run over the repaired legal-design records, at which point the family binds with no further source work. A builder can take this family the moment the census/queue regenerate: the source it builds against is the held CC-1473 plus the settled statutory text, and the route is a custom pleading under Va. Code 19.2-392.2(B)."
+    },
+    {
+      "defect": "DELAWARE_FORM_281_COLLISION",
+      "whatWasDone": "The registry bound both FORM-281 and FORM-281E to the one held DOCX, which prints Form-281E - PETITION FOR EXPUNGEMENT OF ADULT RECORD CHARGE SHEET (the continuation sheet). Resolved in data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json: FORM-281E keeps the bytes it prints (sha256 aaca121e3bb4ce51ab9ab4ff6d933138bf7a36b6d97269c02cbf3c0290e87b33, recomputed from the mounted corpus and equal to the Nationwide custody row and the pinned hard-forms evidence copy). FORM-281 - the Family Court principal petition per the held Form 1021IP (\"The forms include: a. The Petition (Form 281) b. Proposed Order (Form 283)\") - was searched for across the mounted corpus STATES/DE (six files), the committed corpus index and data/record-clearing/source-artifact-registry.json: its bytes are genuinely not held. The record is now MISSING_SOURCE_BINARY, acquisition-ready, with the official Delaware Courts page recorded from committed evidence only: https://courts.delaware.gov/forms/ (named by the census route for de_discretionary_family_court-set), corroborated by the publisher page https://courts.delaware.gov/family printed inside the held 1021IP. No artifact URL was invented and nothing was fetched. Both records carry an s1CollisionRepair note.",
+      "familiesReleased": [],
+      "familiesAdvancedButNotReleasedHere": [
+        {
+          "familyId": "de_discretionary_family_court-set",
+          "advance": "the collision is resolved, so the family's blocker is now a correctly-targeted acquisition (FORM-281 bytes) instead of a false custody claim that hid the missing petition behind the charge sheet's hash"
+        }
+      ]
+    },
+    {
+      "defect": "KANSAS_NULL_DIGESTS",
+      "whatWasDone": "All ten KS registry records carried artifactSha256 null (SIF-2), so SHA-256 reconciliation could not run. Each of the three Kansas binaries in the mounted Master Library corpus was opened, its printed face read, and its digest recomputed with sha256sum before binding. Three records bound; seven left unbound, each with the exact reason in an s1DigestRepair note on the record in data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json.",
+      "perFile": [
+        {
+          "record": "KSJC-NOTICE-OF-HEARING-12-2016",
+          "decision": "BOUND",
+          "sha256": "a960c857ec505a3013e725526718580ad2047aa9b3dd85191a70b8375cc83ffd",
+          "basis": "face prints NOTICE OF HEARING ON PETITION FOR EXPUNGEMENT OF CONVICTION OR DIVERSION, KSJC 12/2016"
+        },
+        {
+          "record": "KSJC-ORDER-EXPUNGEMENT-COVER-SHEET-12-2016",
+          "decision": "BOUND",
+          "sha256": "d4171396d12f55a50d6c4e0d5a3b694ad982325e7377d74deaa5839d3bfad537",
+          "basis": "face prints ORDER OF EXPUNGEMENT OF CONVICTION OR DIVERSION COVER SHEET (for submission to the Kansas Bureau of Investigation), KSJC 12/2016. Supersedes disc05's index-slug refusal: that lane could not open bytes and the index slug drops the words Cover Sheet; the opened bytes, the original Nationwide filename and the KS STATE_MANIFEST all say the file IS the cover sheet"
+        },
+        {
+          "record": "KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022",
+          "decision": "BOUND",
+          "sha256": "104c40187f530d4a55306550f262ba9eefdec8ba732e2adbb1790dfd9378e683",
+          "basis": "face prints ORDER FOR EXPUNGEMENT, Pursuant to K.S.A. 21-6614, Rev. KSJC 08/2022 on all five pages; order only, no petition embedded"
+        },
+        {
+          "record": "KS-CRIMINAL-COVER-SHEET-10-14-2025",
+          "decision": "LEFT_UNBOUND",
+          "reason": "bytes not in the mounted corpus; Nationwide custody row exists (Criminal Cover Sheet 102025.pdf, 6384f934...) but cannot be opened here to verify printed identity or recompute the digest; also LICENSE_PERMISSION_REVIEW stands with counsel"
+        },
+        {
+          "record": "KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022",
+          "decision": "LEFT_UNBOUND",
+          "reason": "the only held 08/2022 KSJC document is the Order for Expungement, and an order is not a petition; Nationwide custody row exists (Petition for Expungement of Conviction or Diversion 82022.pdf, 1113f7b6...) but its bytes are not in this container; LICENSE_PERMISSION_REVIEW stands with counsel"
+        },
+        {
+          "record": "KSJC-ORDER-DENYING-EXPUNGEMENT-12-2016",
+          "decision": "LEFT_UNBOUND",
+          "reason": "the held 12/2016 file whose slug says order is, on its printed face, the KBI cover sheet - a cover sheet cannot satisfy an order identity; Nationwide custody row exists (Order Denying Expungement of Conviction or Diversion 122016.pdf, b29254fb...) but its bytes are not in this container"
+        },
+        {
+          "record": "KSJC-ORDER-EXPUNGEMENT-ARREST-RECORD-COVER-SHEET-12-2016",
+          "decision": "LEFT_UNBOUND",
+          "reason": "no mounted file matches; Nationwide custody row d13bc7b7... not openable in this container"
+        },
+        {
+          "record": "KSJC-ORDER-RELIEF-FROM-OFFENDER-REGISTRATION-COVER-SHEET-06-2022",
+          "decision": "LEFT_UNBOUND",
+          "reason": "no mounted file matches; Nationwide custody row 0c9c5a75... not openable in this container"
+        },
+        {
+          "record": "KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD-02-2013",
+          "decision": "LEFT_UNBOUND",
+          "reason": "no mounted file matches; Nationwide custody row bf4b2309... not openable in this container"
+        },
+        {
+          "record": "KSJC-PETITION-RELIEF-FROM-OFFENDER-REGISTRATION-06-2022",
+          "decision": "LEFT_UNBOUND",
+          "reason": "no mounted file matches; Nationwide custody row 9264dc51... not openable in this container"
+        }
+      ],
+      "familiesReleased": [],
+      "familiesAdvancedButNotReleasedHere": [
+        {
+          "familyId": "ks-21-6614-conviction-set",
+          "advance": "three of its six named identities now carry held, recomputed digests; SHA-256 reconciliation runs"
+        },
+        {
+          "familyId": "ks-21-6614-diversion-set",
+          "advance": "three of six identities bound"
+        },
+        {
+          "familyId": "ks-21-6614-prostitution-coercion-set",
+          "advance": "three of six identities bound"
+        },
+        {
+          "familyId": "ks-21-6614-specialty-court-set",
+          "advance": "three of six identities bound"
+        }
+      ]
+    }
+  ],
+  "defectsNotResolvable": [
+    {
+      "defect": "KANSAS_NULL_DIGESTS (seven of ten records)",
+      "exactMissingFact": "The bytes of the seven remaining Kansas documents are not present in this container: the mounted Master Library corpus holds exactly three KS binaries, and the private Nationwide corpus that data/record-clearing/source-artifact-registry.json measured is not mounted (bootstrap returns HTTP 403 on the pinned release asset). Binding requires opening those files to verify printed identity and recompute SHA-256 from bytes; the custody rows name each file and its measured digest, so a lane with the Nationwide corpus mounted can finish this in minutes. Separately, no Kansas family reaches SOURCE_READY from these binds alone, and two identities (the criminal cover sheet and the conviction/diversion petition) additionally sit in LICENSE_PERMISSION_REVIEW with counsel because the Kansas Judicial Council restricts commercial reuse."
+    },
+    {
+      "defect": "DELAWARE_FORM_281_COLLISION (acquisition remainder)",
+      "exactMissingFact": "Form 281 (Family Court principal petition) bytes, at any revision, plus its Form 283 proposed order. No committed evidence carries an exact artifact URL - only the official pages https://courts.delaware.gov/forms/ and https://courts.delaware.gov/family - so DISC settles the exact address on the publisher's forms index and ACQ fetches; this lane fetches nothing."
+    }
+  ],
+  "commits": [
+    {
+      "sha": "d3086af7226f32ad89b136db6ed62e045563cedb",
+      "subject": "Repair the corrupted Virginia CC-1473 SHA-256 pin in the governed legal-design source records"
+    },
+    {
+      "sha": "173515d49c20d18f60ed06e2df3f1793c1e9d679",
+      "subject": "Resolve the Delaware FORM-281/FORM-281E identity collision in the source relationship registry"
+    },
+    {
+      "sha": "1e950e42ea259d1e29a65b91c7cef224f00c9b8e",
+      "subject": "Fill the Kansas null digests in the source relationship registry: three bound by printed identity, seven left unbound with exact reasons"
+    }
+  ],
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}
