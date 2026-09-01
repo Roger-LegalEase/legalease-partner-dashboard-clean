@@ -851,7 +851,25 @@ const packGroups = (pool, laneCount) => {
   return buckets;
 };
 
-const pfBuckets = packGroups(sourceReady, PF_LANES);
+/* A live packet-build claim pins its family to its lane, exactly as source
+ * claims pin theirs: the packer re-deals on every regeneration, and a family
+ * whose builder is mid-work must not drift to another lane's dispatch while
+ * its grant stays put. Claimed families are placed first, on their claim
+ * lanes; only unclaimed families are dealt. */
+const livePacketLane = new Map();
+try {
+  const led = JSON.parse(fs.readFileSync(path.join(ROOT, `${OUT_DIR}/claim-ledger.json`), "utf8"));
+  for (const c of led.claims ?? []) {
+    if (c.subjectType === "packet-family" && c.operation === "packet-build" && c.released !== true && /^PF\d+$/.test(c.lane)) livePacketLane.set(c.subjectId, c.lane);
+  }
+} catch { /* no ledger yet */ }
+const pinnedFamilies = new Set(sourceReady.filter((f) => livePacketLane.has(f.familyId)).map((f) => f.familyId));
+const pfBuckets = packGroups(sourceReady.filter((f) => !pinnedFamilies.has(f.familyId)), PF_LANES);
+for (const f of sourceReady) {
+  if (!pinnedFamilies.has(f.familyId)) continue;
+  const laneIdx = Number(livePacketLane.get(f.familyId).slice(2)) - 1;
+  if (laneIdx >= 0 && laneIdx < pfBuckets.length) pfBuckets[laneIdx].push({ families: [f], host: null, pinnedByClaim: true });
+}
 /* Any lane over the ceiling sheds its smallest group to the emptiest lane that
  * can take it, unless the group is a single shared-host group that cannot be
  * split without two writers on one script. */
@@ -859,7 +877,8 @@ const bucketSize = (b) => b.reduce((n, g) => n + g.families.length, 0);
 for (let guard = 0; guard < 60; guard += 1) {
   const over = pfBuckets.findIndex((b) => bucketSize(b) > PF_MAX_FAMILIES);
   if (over < 0) break;
-  const donor = [...pfBuckets[over]].sort((a, b) => a.families.length - b.families.length)[0];
+  /* A claim-pinned group is immovable: its grant names its lane. */
+  const donor = [...pfBuckets[over]].filter((g) => !g.pinnedByClaim).sort((a, b) => a.families.length - b.families.length)[0];
   if (!donor || pfBuckets[over].length === 1) break;
   const target = pfBuckets
     .map((b, j) => ({ j, size: bucketSize(b) }))
