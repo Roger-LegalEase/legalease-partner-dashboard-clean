@@ -1,0 +1,138 @@
+{
+  "schemaVersion": "rcap-external-assignment/v1",
+  "captainSha": "36b60710c1b3d14fbd6ff71842a3375caac1dcd4",
+  "createdAt": "2026-09-01T12:25:55Z",
+  "minimumAncestor": "f240e47687eddd47d432996823ce932affcd54cc",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "captainIsSoleAuthorityFor": [
+    "the claim ledger",
+    "the master and raster queues",
+    "central raster dispatch",
+    "integration",
+    "commercial authority",
+    "anything touching Production"
+  ],
+  "neverDo": [
+    "claim a family a live grant already holds",
+    "modify data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
+    "modify RASTER_QUEUE.json, MASTER_QUEUE.json or ACTIVE_ASSIGNMENTS.json",
+    "open a commercial route, alter checkout, entitlement or packet-credit behaviour",
+    "touch Production, Supabase RLS, Stripe live mode, or any secret",
+    "verify a packet you built or repaired"
+  ],
+  "workerId": "FABLE-V2",
+  "assignmentId": "FV2-VF26-V4-BATCH-001",
+  "assignmentVersion": 4,
+  "batchTag": "BATCH-001",
+  "mode": "SECOND_INDEPENDENT_READ",
+  "role": "Fable director subagent (isolated worktree, read-only on packet bodies)",
+  "lane": "VF26",
+  "laneKind": "independent-verification",
+  "subjectIds": [
+    "va_seal_petition_felony-set",
+    "va_seal_petition_misdemeanor-set",
+    "va_seal_enumerated_seven_year-set",
+    "va_seal_ancillary_matter_only-set"
+  ],
+  "subjects": [
+    {
+      "familyId": "va_seal_petition_felony-set",
+      "directory": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-felony-set--official-pdf-fill",
+      "masterQueueState": "VERIFY_PENDING",
+      "sharesBytesWithAnotherFamily": false,
+      "firstReadBy": "VF05"
+    },
+    {
+      "familyId": "va_seal_petition_misdemeanor-set",
+      "directory": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill",
+      "masterQueueState": "VERIFY_PENDING",
+      "sharesBytesWithAnotherFamily": false,
+      "firstReadBy": "VF06"
+    },
+    {
+      "familyId": "va_seal_enumerated_seven_year-set",
+      "directory": "data/rcap-all50/overlays/census-v1/va/va-seal-enumerated-seven-year-set--official-pdf-fill",
+      "masterQueueState": "VERIFY_PENDING",
+      "sharesBytesWithAnotherFamily": false,
+      "firstReadBy": "VF04"
+    },
+    {
+      "familyId": "va_seal_ancillary_matter_only-set",
+      "directory": "data/rcap-all50/overlays/census-v1/va/va-seal-ancillary-matter-only-set--official-pdf-fill",
+      "masterQueueState": "VERIFY_PENDING",
+      "sharesBytesWithAnotherFamily": false,
+      "firstReadBy": "VF03"
+    }
+  ],
+  "claimPlan": [
+    {
+      "subjectId": "va_seal_petition_felony-set",
+      "kind": "TRANSFER",
+      "holdingLane": "VF05",
+      "operation": "independent-verification",
+      "captainAction": "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer VF05 VF26 va_seal_petition_felony-set --reason \"<why this lane takes it>\"",
+      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF26 va_seal_petition_felony-set   # only after Captain's transfer"
+    },
+    {
+      "subjectId": "va_seal_petition_misdemeanor-set",
+      "kind": "TRANSFER",
+      "holdingLane": "VF06",
+      "operation": "independent-verification",
+      "captainAction": "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer VF06 VF26 va_seal_petition_misdemeanor-set --reason \"<why this lane takes it>\"",
+      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF26 va_seal_petition_misdemeanor-set   # only after Captain's transfer"
+    },
+    {
+      "subjectId": "va_seal_enumerated_seven_year-set",
+      "kind": "TRANSFER",
+      "holdingLane": "VF04",
+      "operation": "independent-verification",
+      "captainAction": "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer VF04 VF26 va_seal_enumerated_seven_year-set --reason \"<why this lane takes it>\"",
+      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF26 va_seal_enumerated_seven_year-set   # only after Captain's transfer"
+    },
+    {
+      "subjectId": "va_seal_ancillary_matter_only-set",
+      "kind": "TRANSFER",
+      "holdingLane": "VF03",
+      "operation": "independent-verification",
+      "captainAction": "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer VF03 VF26 va_seal_ancillary_matter_only-set --reason \"<why this lane takes it>\"",
+      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF26 va_seal_ancillary_matter_only-set   # only after Captain's transfer"
+    }
+  ],
+  "claimAssertions": [
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF26 va_seal_petition_felony-set   # only after Captain's transfer",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF26 va_seal_petition_misdemeanor-set   # only after Captain's transfer",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF26 va_seal_enumerated_seven_year-set   # only after Captain's transfer",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF26 va_seal_ancillary_matter_only-set   # only after Captain's transfer"
+  ],
+  "claimPrerequisite": "claimPlan per subject; TRANSFER rows are moved by the director before the agent starts.",
+  "controllingEvidencePaths": [
+    "data/rcap-grade-a/fable-packet-factory/DETERMINATION_CC1203_SUBSTITUTION.json",
+    "data/rcap-grade-a/fable-packet-factory/FACTORY_MEMORY.md"
+  ],
+  "ownedPaths": [
+    "data/rcap-grade-a/packet-factory-24h/vf26/**",
+    "data/rcap-grade-a/fable-packet-factory/returns/v2/**"
+  ],
+  "prohibitedPaths": [
+    "data/rcap-all50/**"
+  ],
+  "focusedTestCommands": [
+    "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs"
+  ],
+  "rasterDisposition": "Each family holds a complete-coverage hash-bound RASTER_PASS; bind it, never re-render.",
+  "independentVerifierSeparation": "This agent has built and repaired nothing.",
+  "stopConditions": [
+    "an assert is refused",
+    "an obligation is not measurable here (NOT_MEASURABLE is the answer, never a pass)"
+  ],
+  "branchPrefix": "fable/",
+  "expiresAt": null,
+  "returnPath": "data/rcap-grade-a/external-worker-control/returns/FABLE-V2/FV2-VF26-V4-BATCH-001",
+  "branch": "fable/fv2-vf26-v4-batch-001",
+  "branchFrom": {
+    "remote": "origin/claude/legalease-sprint-captain-utucnw",
+    "mustContain": "36b60710c1b3d14fbd6ff71842a3375caac1dcd4",
+    "why": "the activated ledger and this assignment live at that commit; branching from an earlier one gives you a ledger where your grant does not exist"
+  }
+}

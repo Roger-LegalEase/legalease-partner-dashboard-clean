@@ -183,7 +183,7 @@ const claimPlanFor = (subjectIds, laneKind, targetLane) => {
  * the two cannot drift, and a check below refuses them if they do.
  */
 const BATCH = { version: 4, tag: "BATCH-001" };
-const WORKER_PREFIX = { "CODEX-CS-A": "CSA", "CODEX-CS-B": "CSB", "FABLE-R3": "FR3", "FABLE-R4": "FR4" };
+const WORKER_PREFIX = { "CODEX-CS-A": "CSA", "CODEX-CS-B": "CSB", "FABLE-R3": "FR3", "FABLE-R4": "FR4", "FABLE-V2": "FV2" };
 const assignmentIdFor = (workerId, lane) =>
   `${WORKER_PREFIX[workerId] ?? workerId}-${lane}-V${BATCH.version}-${BATCH.tag}`;
 
@@ -400,6 +400,41 @@ for (const [workerId, lane, fams, note] of [
       "the repair would require an unsourced court, fee, waiver route or service rule",
       "a live verification grant is open on the family",
     ],
+    branchPrefix: "fable/",
+    expiresAt: null,
+  }));
+}
+
+/* ---- Fable verifier: the four Virginia families ---------------------------- */
+/*
+ * The highest-probability genuine passes in the tree. All four measured clean
+ * on every corpus-free obligation; two were blocked solely on SOURCE_IDENTITY
+ * (the corpus is now reachable) and two on the CC-1203 form question, settled
+ * from the forms' own faces in DETERMINATION_CC1203_SUBSTITUTION.json.
+ */
+const VA_FOUR = ["va_seal_petition_felony-set", "va_seal_petition_misdemeanor-set",
+  "va_seal_enumerated_seven_year-set", "va_seal_ancillary_matter_only-set"]
+  .filter((f) => rasterPass.includes(f));
+if (VA_FOUR.length) {
+  assignments.push(assignment("FABLE-V2", {
+    mode: "SECOND_INDEPENDENT_READ",
+    role: "Fable director subagent (isolated worktree, read-only on packet bodies)",
+    lane: "VF26", laneKind: "independent-verification",
+    subjectIds: VA_FOUR,
+    subjects: VA_FOUR.map((f) => ({ ...familyDetail(f), firstReadBy: releasedVerify.get(f) ?? null })),
+    claimPlan: claimPlanFor(VA_FOUR, "independent-verification", "VF26"),
+    claimAssertions: claimPlanFor(VA_FOUR, "independent-verification", "VF26").map((p) => p.workerCommand),
+    claimPrerequisite: "claimPlan per subject; TRANSFER rows are moved by the director before the agent starts.",
+    controllingEvidencePaths: [
+      "data/rcap-grade-a/fable-packet-factory/DETERMINATION_CC1203_SUBSTITUTION.json",
+      "data/rcap-grade-a/fable-packet-factory/FACTORY_MEMORY.md",
+    ],
+    ownedPaths: ["data/rcap-grade-a/packet-factory-24h/vf26/**", "data/rcap-grade-a/fable-packet-factory/returns/v2/**"],
+    prohibitedPaths: ["data/rcap-all50/**"],
+    focusedTestCommands: ["node scripts/rcap-packet-completeness/verify-packet-completeness.mjs"],
+    rasterDisposition: "Each family holds a complete-coverage hash-bound RASTER_PASS; bind it, never re-render.",
+    independentVerifierSeparation: "This agent has built and repaired nothing.",
+    stopConditions: ["an assert is refused", "an obligation is not measurable here (NOT_MEASURABLE is the answer, never a pass)"],
     branchPrefix: "fable/",
     expiresAt: null,
   }));
