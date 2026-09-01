@@ -17,7 +17,7 @@ import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { PDFDocument, rgb } from "pdf-lib";
 import sharp from "sharp";
-import { resolveChromium, rasterizePageCalibrated } from "./lib/pdf-page-raster.mjs";
+import { resolveChromium, rasterizePageCalibrated } from "./raster/pdf-page-raster.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const flag = (n) => { const i = process.argv.indexOf(n); return i < 0 ? null : process.argv[i + 1]; };
@@ -61,13 +61,27 @@ const synthetic = async (file) => {
 
 const runControls = async () => {
   const results = [];
-  const record = (id, refused, detail) => results.push({ id, refused, detail });
+  const record = (id, refused, detail, extra) => results.push({ id, refused, detail, ...(extra ?? {}) });
 
   // C1. No browser at all.
   const empty = fs.mkdtempSync(path.join(os.tmpdir(), "rcap-no-browser-"));
+  /*
+   * RCAP_BROWSER_RESOLVER_TEST_ONLY=1 confines the resolver to the two groups
+   * these controls actually manipulate: RCAP_CHROMIUM_PATH and
+   * PLAYWRIGHT_BROWSERS_PATH.
+   *
+   * Without it these controls proved nothing on a runner that has a browser.
+   * Emptying those two variables and blanking PATH still left
+   * playwright_executable_path and the reviewed system paths, and the runner's
+   * own Chrome answered through them -- so "an environment with no browser"
+   * was never built, the resolver correctly found a browser, and the control
+   * recorded MISSED. Confirmed live on ubuntu-latest: run 33483029118 reported
+   * no_browser_refused, non_executable_refused and directory_refused all
+   * MISSED while the synthetic render passed.
+   */
   const probe = (env) => spawnSync(process.execPath, ["--input-type=module", "-e",
-    'import{resolveChromium}from"./scripts/lib/pdf-page-raster.mjs";const r=resolveChromium();process.exit(r.executablePath?0:1)'],
-    { cwd: ROOT, encoding: "utf8", env: { ...process.env, ...env } });
+    'import{resolveChromium}from"./scripts/raster/pdf-page-raster.mjs";const r=resolveChromium();process.exit(r.executablePath?0:1)'],
+    { cwd: ROOT, encoding: "utf8", env: { ...process.env, RCAP_BROWSER_RESOLVER_TEST_ONLY: "1", ...env } });
   record("no_browser_refused",
     probe({ RCAP_CHROMIUM_PATH: "", PLAYWRIGHT_BROWSERS_PATH: empty, PATH: "/nonexistent-for-this-control" }).status !== 0,
     "an environment with no browser must resolve nothing");
@@ -92,15 +106,44 @@ const runControls = async () => {
     ? fs.readdirSync(registry).filter((d) => /^chromium_headless_shell-\d+$/.test(d))
       .map((d) => path.join(registry, d, "chrome-linux/headless_shell")).find((p) => fs.existsSync(p))
     : null;
+  /*
+   * This control had no subject on a runner without a headless_shell installed,
+   * so it recorded MISSED and failed the canary for a reason that was not a
+   * defect -- confirmed live in run 33483029118.
+   *
+   * A negative test whose subject cannot exist proves nothing, so construct the
+   * subject instead of searching for one. The property the gate actually rests
+   * on is a resolver refusal by name: isRasterCapable() rejects any candidate
+   * whose path contains headless_shell, which is what keeps a viewer-less
+   * binary out of the render. That is fully constructible -- an executable file
+   * at a headless_shell-shaped path -- and is asserted here on every runner.
+   *
+   * The stronger claim, that a real headless_shell launches and cannot draw a
+   * PDF, still needs a real one, so it is asserted additionally and only when
+   * one is present. Neither claim is ever reported as proven when it was not
+   * exercised.
+   */
+  const shellDir = fs.mkdtempSync(path.join(os.tmpdir(), "rcap-shellshape-"));
+  const shellShaped = path.join(shellDir, "chromium_headless_shell-0", "chrome-linux");
+  fs.mkdirSync(shellShaped, { recursive: true });
+  const fakeShell = path.join(shellShaped, "headless_shell");
+  fs.writeFileSync(fakeShell, "#!/bin/sh\nexit 0\n"); fs.chmodSync(fakeShell, 0o755);
+  record("headless_shell_path_refused",
+    probe({ RCAP_CHROMIUM_PATH: fakeShell, PLAYWRIGHT_BROWSERS_PATH: empty, PATH: "/nonexistent-for-this-control" }).status !== 0,
+    "an executable at a headless_shell path must not resolve as a browser");
+
   if (!shell) {
-    // A negative test whose subject cannot exist proves nothing, and saying so
-    // is better than reporting a pass over an empty set.
-    record("headless_shell_refused", false, "no headless_shell on this runner, so this control has no subject and proves nothing here");
+    // Reported, not counted: this runner has no real headless_shell, so the
+    // launch-and-cannot-draw claim was not exercised here. The name refusal
+    // above was, and it is the one the resolver enforces.
+    record("headless_shell_render_refused", null,
+      "not exercised: no real headless_shell on this runner. The resolver-level refusal is proven by headless_shell_path_refused.",
+      { exercised: false });
   } else {
     const r = spawnSync(process.execPath, ["--input-type=module", "-e",
-      'import{probeRasterizer}from"./scripts/lib/pdf-page-raster.mjs";const r=await probeRasterizer();process.exit(r.ok?0:1)'],
+      'import{probeRasterizer}from"./scripts/raster/pdf-page-raster.mjs";const r=await probeRasterizer();process.exit(r.ok?0:1)'],
       { cwd: ROOT, encoding: "utf8", env: { ...process.env, RCAP_CHROMIUM_PATH: shell, PLAYWRIGHT_BROWSERS_PATH: empty, PATH: "/nonexistent-for-this-control" } });
-    record("headless_shell_refused", r.status !== 0, "headless_shell launches and has no PDF viewer");
+    record("headless_shell_render_refused", r.status !== 0, "headless_shell launches and has no PDF viewer");
   }
 
   // C5. A blank page must not read as a rendered one.
@@ -131,14 +174,27 @@ const runControls = async () => {
   } catch (e) { blankDetail = `the render refused a well-formed blank page: ${String(e.message).split("\n")[0]}`; }
   record("blank_page_is_detectable", blankDetected, blankDetail);
 
-  try { fs.rmSync(empty, { recursive: true, force: true }); fs.rmSync(blankDir, { recursive: true, force: true }); } catch { /* owned here */ }
+  try { for (const d of [empty, shellDir, blankDir]) fs.rmSync(d, { recursive: true, force: true }); } catch { /* owned here */ }
 
-  const failed = results.filter((r) => !r.refused);
+  /*
+   * Three states, not two. refused === null means the control was not
+   * exercised on this runner, which is neither a refusal nor a miss: counting
+   * it either way would be a lie in one direction or a spurious red in the
+   * other. It prints distinctly, it is carried in the JSON as exercised:false,
+   * and it is never added to the refused tally.
+   */
+  const failed = results.filter((r) => r.refused === false);
+  const notExercised = results.filter((r) => r.refused === null);
+  const refused = results.filter((r) => r.refused === true);
   fs.writeFileSync(path.join(OUT, "negative-controls.json"), `${JSON.stringify({
-    schemaVersion: "rcap-raster-negative-controls/v1", results,
-    allRefused: failed.length === 0, failed: failed.map((r) => r.id)
+    schemaVersion: "rcap-raster-negative-controls/v2", results,
+    refusedCount: refused.length, notExercisedCount: notExercised.length,
+    allExercisedRefused: failed.length === 0,
+    failed: failed.map((r) => r.id), notExercised: notExercised.map((r) => r.id)
   }, null, 2)}\n`);
-  for (const r of results) console.log(`  ${r.refused ? "refused " : "MISSED  "} ${r.id.padEnd(28)} ${r.detail}`);
+  const label = (r) => (r.refused === true ? "refused " : r.refused === null ? "not run " : "MISSED  ");
+  for (const r of results) console.log(`  ${label(r)} ${r.id.padEnd(30)} ${r.detail}`);
+  console.log(`\n${refused.length} refused, ${failed.length} missed, ${notExercised.length} not exercised on this runner.`);
   if (failed.length) { console.error(`\nREFUSED: ${failed.length} negative control(s) did not refuse.`); process.exit(1); }
   console.log("\nRCAP_RASTER_NEGATIVE_CONTROLS_HELD");
 };
