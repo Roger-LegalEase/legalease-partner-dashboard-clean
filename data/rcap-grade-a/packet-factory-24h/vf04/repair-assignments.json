@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
+  "lane": "VF04",
+  "worker": "VF-SRC-A",
+  "baseSha": "09b741ad00be0d630bd73a72f66640294abab397",
+  "assignmentCount": 2,
+  "assignments": [
+    {
+      "itemId": "ut_pet_acquittal-set",
+      "lane": "VF04",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill",
+      "decisiveDefect": "the packet never states where self-help ends",
+      "failedProofObligations": [
+        "SELF_HELP_STOP"
+      ],
+      "perObligation": {
+        "SELF_HELP_STOP": {
+          "measuredDetail": "the packet never states where self-help ends",
+          "whatRepairMustDo": "participant-instructions.md must state where self-help ends. The Vermont packets close with a 'What this packet is not' section and the Ohio composed drafts carry 'Hard stops'; this family states nothing."
+        }
+      },
+      "repairMustNotDo": [
+        "do not edit any artifact merely so a receipt matches it",
+        "this verification opens no commercial route and grants no approval"
+      ]
+    },
+    {
+      "itemId": "wv_conv_multiple_misdemeanors-set",
+      "lane": "VF04",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill",
+      "decisiveDefect": "neither a filing fee nor a waiver route is stated",
+      "failedProofObligations": [
+        "FEE_AND_WAIVER",
+        "SELF_HELP_STOP"
+      ],
+      "perObligation": {
+        "FEE_AND_WAIVER": {
+          "measuredDetail": "neither a filing fee nor a waiver route is stated",
+          "whatRepairMustDo": "participant-instructions.md must state the filing fee and any waiver route, or name the clerk to ask and say plainly that the amount is not stated. The Vermont packets do the latter and are the model."
+        },
+        "SELF_HELP_STOP": {
+          "measuredDetail": "the packet never states where self-help ends",
+          "whatRepairMustDo": "participant-instructions.md must state where self-help ends. The Vermont packets close with a 'What this packet is not' section and the Ohio composed drafts carry 'Hard stops'; this family states nothing."
+        }
+      },
+      "repairMustNotDo": [
+        "do not edit any artifact merely so a receipt matches it",
+        "this verification opens no commercial route and grants no approval"
+      ]
+    }
+  ]
+}
