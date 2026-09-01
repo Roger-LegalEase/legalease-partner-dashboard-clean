@@ -248,6 +248,7 @@ export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
   "briefcase.payment_history": { en: "Payment history", es: "Historial de pagos" },
   "briefcase.packet_label": { en: "Packet", es: "Paquete" },
   "briefcase.receipt": { en: "Receipt", es: "Recibo" },
+  "briefcase.view_receipt": { en: "View receipt", es: "Ver recibo" },
   "briefcase.no_payments": {
     en: "No payments yet. You only pay when a packet is ready, and you will see the price first.",
     es: "Aún no hay pagos. Solo paga cuando un paquete está listo, y verá el precio primero."

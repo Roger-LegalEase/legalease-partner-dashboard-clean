@@ -76,8 +76,9 @@ assert(continuedUrl.searchParams.get("partner") === null, "DTC reset must not pr
 //    the partner sign-in link uses the partner default (no product hint).
 const consumerForm = read("src/components/expungement-ai/ConsumerSignInForm.tsx");
 assert(
-  consumerForm.includes("consumerForgotPasswordPath(readAuthRequestContext())"),
-  "Consumer sign-in form must build Forgot Password from the validated continuation."
+  consumerForm.includes("consumerForgotPasswordPath(requestContext)")
+    && consumerForm.includes("setRequestContext(readAuthRequestContext())"),
+  "Consumer sign-in form must hydrate Forgot Password from the validated continuation."
 );
 const partnerSignIn = read("src/app/sign-in/page.tsx");
 assert(

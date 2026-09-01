@@ -450,6 +450,20 @@ export function PaymentsView({ items }: { items: BriefcasePresentationItem[] }) 
               <p className="font-bold text-[#0B1320]">$50 <LocalizedText k="payment.one_time" fallback="one-time" />: paid</p>
               <p className="mt-1 text-[#5A6275]">{item.title}</p>
               <p className="mt-1 text-[#5A6275]"><LocalizedText k="briefcase.packet_label" fallback="Packet" />: {item.artifact.status === "ready" ? "ready" : "not ready"}</p>
+              {item.paymentReceipt ? (
+                <a
+                  className="mt-3 inline-flex min-h-10 items-center gap-2 rounded-[10px] border border-[#D9DEE8] bg-white px-4 text-[13px] font-bold text-[#0B1320]"
+                  href={item.paymentReceipt.actionPath}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  <CreditCard className="h-4 w-4" aria-hidden="true" />
+                  <LocalizedText k="briefcase.view_receipt" fallback="View receipt" />
+                  <span className="sr-only"> (opens in a new tab)</span>
+                </a>
+              ) : (
+                <p className="mt-3 text-[13px] text-[#5A6275]" role="status">Receipt temporarily unavailable.</p>
+              )}
             </div>
           ))
         ) : hasConsumerMatter ? (

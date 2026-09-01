@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { TurnstileWidget } from "@/components/auth/TurnstileWidget";
 import { authCaptchaFailureMessage, captchaOptions, isAuthCaptchaRequired } from "@/lib/auth/captcha";
 import { submitClaim } from "@/lib/expungement-ai/claim/claim-handoff";
@@ -10,6 +10,7 @@ import {
   consumerAuthContinuationFrom,
   consumerForgotPasswordPath
 } from "@/lib/expungement-ai/auth-continuation";
+import type { ConsumerAuthContinuation } from "@/lib/expungement-ai/auth-continuation";
 import { absoluteExpungementAiUrl } from "@/lib/app-url";
 import { createBrowserSupabaseClient } from "@/lib/supabase/browser";
 import { useLocalization } from "@/components/expungement-ai/LocalizationProvider";
@@ -29,7 +30,17 @@ export function ConsumerSignInForm() {
   const [pendingClaimFailed, setPendingClaimFailed] = useState(false);
   const [captchaToken, setCaptchaToken] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const { claimToken } = readAuthRequestContext();
+  const [requestContext, setRequestContext] = useState<ConsumerAuthContinuation>(() => emptyAuthRequestContext());
+  const { claimToken } = requestContext;
+
+  // Server rendering has no window, so hydrate the link from the validated URL
+  // context after mount. Auth submission still re-reads the live URL below.
+  useEffect(() => {
+    const syncRequestContext = () => setRequestContext(readAuthRequestContext());
+    syncRequestContext();
+    window.addEventListener("popstate", syncRequestContext);
+    return () => window.removeEventListener("popstate", syncRequestContext);
+  }, []);
 
   // The claim token is read from the URL on every attempt and never stashed in
   // localStorage. submitClaim strips it after success or a definitive denial;
@@ -40,6 +51,7 @@ export function ConsumerSignInForm() {
     setErrorMessage("");
     const claimed = await submitClaim(requestContext.claimToken);
     if (!claimed.ok) {
+      setRequestContext(readAuthRequestContext());
       setPendingClaimFailed(true);
       setErrorMessage(translate("signin.pending_claim_error", pendingClaimError));
       setIsSubmitting(false);
@@ -215,7 +227,7 @@ export function ConsumerSignInForm() {
             ? translate("signin.switch_to_signin", "Already have an account? Sign in")
             : translate("signin.switch_to_create", "New here? Create account")}
         </button>
-        {!createMode ? <Link href={forgotPasswordHref()} className="text-sm font-semibold text-[#00A99D] hover:text-[#0B1320]">
+        {!createMode ? <Link href={consumerForgotPasswordPath(requestContext)} className="text-sm font-semibold text-[#00A99D] hover:text-[#0B1320]">
           {translate("signin.forgot", "Forgot your password?")}
         </Link> : null}
       </div>
@@ -239,13 +251,13 @@ function isExpungementHost(hostname: string) {
 
 function readAuthRequestContext() {
   if (typeof window === "undefined") {
-    return { nextPath: "/briefcase", claimToken: "", locale: null } as const;
+    return emptyAuthRequestContext();
   }
   return consumerAuthContinuationFrom(new URLSearchParams(window.location.search));
 }
 
-function forgotPasswordHref() {
-  return consumerForgotPasswordPath(readAuthRequestContext());
+function emptyAuthRequestContext(): ConsumerAuthContinuation {
+  return { nextPath: "/briefcase", claimToken: "", locale: null };
 }
 
 function initialAuthMode(): AuthMode {
