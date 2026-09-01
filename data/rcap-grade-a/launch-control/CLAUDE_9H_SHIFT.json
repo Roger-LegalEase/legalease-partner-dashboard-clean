@@ -2,7 +2,7 @@
   "schemaVersion": "claude-9h-shift/v1",
   "startedAt": "2026-09-01T07:14:06Z",
   "endsAt": "2026-09-01T16:14:06Z",
-  "shiftBaseSha": "b292bfd0ee7f435e40b59ce62870c15b9e27191e",
+  "shiftBaseSha": "be3e738287ca82867099093f78480e4fbb7b91bc",
   "captainBranch": "claude/legalease-sprint-captain-utucnw",
   "workers": {
     "PF-A": {
@@ -334,7 +334,7 @@
   "newlyReleasedFamilies": [],
   "productionTouched": false,
   "commercialRoutesOpened": 0,
-  "shiftBaseRebasedAt": "2026-09-01T10:41:30Z",
+  "shiftBaseRebasedAt": "2026-09-01T11:15:36Z",
   "shiftBaseRebaseReason": "Three workers reported this file stale and were right. shiftBaseSha still named c6d7ffe7 while the branch head carried three integration waves, the raster batch and the ledger repairs; integratedReturns was empty while seven returns were in; and masterLibrarySourceDirExportRequired still read false after I had corrected exactly that. Verifiers were rebasing onto a base that did not contain the work they were sent to read.",
   "previousShiftBaseSha": "09b741ad00be0d630bd73a72f66640294abab397",
   "masterLibraryCorpus": {
@@ -666,5 +666,35 @@
       "theRealLesson": "ACTIVE_ASSIGNMENTS and the denominator are generated. Minting a lane by hand means matching a key derivation and a count that the generator owns, and getting either wrong turns two checks red. A new lane comes from the generator.",
       "andOneOfMyOwn": "My first attempt wrote the ledger and THEN failed resolving the dispatch template, leaving two live grants with no dispatch row — the exact state the script existed to prevent. It now validates everything before writing anything. Both files were reverted; 30/30 and CLAIM_LEDGER_OK 549 confirmed after."
     }
+  },
+  "whereTheSprintActuallyStands": {
+    "measuredAt": "be3e738287ca82867099093f78480e4fbb7b91bc",
+    "record": "data/rcap-grade-a/launch-control/GRADE_A_READINESS.json",
+    "familiesWithACompleteCoverageRasterReceipt": 47,
+    "familiesIndependentlyRead": 32,
+    "familiesPASS_COMPLETE": 0,
+    "readThisBeforeQuotingTheFortySeven": "Zero families are PASS_COMPLETE. Forty-seven hold a hash-bound receipt over their whole packet and every independent read so far returned a defect. That is the gate working — nothing was waved through — but 47 is not a count of proven families and must not be reported as one.",
+    "theMistakeIAlmostPublished": "Counting families whose independent-verification CLAIM was released gives 31 'both gates met'. A released claim means the read happened, not that it passed. The ledger records ownership; only the lane return records a verdict.",
+    "theBiggestSingleDefect": "Participant-facing filing guidance. SERVICE 20, FEE_AND_WAIVER 20, FILING_DESTINATION 16, SELF_HELP_STOP 10 across 31 families needing repair, and 17 families ship no participant-instructions document at all."
+  },
+  "openWaves": {
+    "REPAIR_BY_DEFECT_CLASS": "31 families grouped into filing guidance, packet content and evidence artifact. Three different kinds of work that share one verdict name.",
+    "PARTICIPANT_INSTRUCTIONS_GAP": "17 families with no participant instructions anywhere. Four obligations fail on the absence.",
+    "SOURCE_RELATIONSHIP_REPAIR_WAVE": "unchanged",
+    "CB02_CANDIDATE_VERIFICATION_WAVE": "still blocked; CB02 remains unpublished and is not to be fabricated",
+    "RASTER_QUEUE_COMPLETION_WAVE": "CLOSED — the queue is complete, do not work it"
+  },
+  "secondReadIsNowExpressible": {
+    "mechanism": "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer <FROM_LANE> <TO_LANE> <subjectId> --reason \"<why>\"",
+    "why": "A family holds one claim per operation, so a repaired family could not be granted a second independent read. This moves the released grant to a lane that did not repair it.",
+    "refuses": [
+      "no reason",
+      "a grant that is still live",
+      "a same-lane move (that is --reissue)",
+      "an unresolvable lane name",
+      "a lane-kind mismatch"
+    ],
+    "whatItCannotSee": "WORKERS. VF20 and the FIX lane that repaired a family can belong to one worker and every check inside the tool would pass. Captain confirms the destination worker neither built nor repaired the family before transferring; the tool cannot, and no longer implies it can.",
+    "exercised": "Every refusal and the success path were run against a ledger copy. The live ledger was untouched."
   }
 }
