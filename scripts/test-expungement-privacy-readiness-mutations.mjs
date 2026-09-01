@@ -368,6 +368,75 @@ if (!source.includes(requiredCheck)) {
         console.log("Privacy readiness mutation caught: accepted provider references require a status-resume path.");
       }
     }
+
+    restore();
+    const ledgerReadGuard =
+      "  if (error) throw new Error(`could not read processor propagation ledger: ${error.message}`);";
+    if (!storeSource.includes(ledgerReadGuard)) {
+      console.error("Privacy readiness mutation could not find the processor-ledger read guard.");
+      process.exitCode = 1;
+    } else {
+      fs.writeFileSync(
+        absoluteStoreTarget,
+        storeSource.replace(ledgerReadGuard, "  // mutation: processor-ledger read error discarded")
+      );
+      const ledgerChild = spawnSync(process.execPath, ["scripts/verify-participant-data-rights.mjs"], {
+        cwd: root,
+        encoding: "utf8",
+        timeout: 300_000,
+        maxBuffer: 100 * 1024 * 1024,
+        env: { ...process.env, GIT_TERMINAL_PROMPT: "0", GIT_OPTIONAL_LOCKS: "0" }
+      });
+      const ledgerOutput = `${ledgerChild.stdout ?? ""}${ledgerChild.stderr ?? ""}`;
+      const ledgerExpected = "a processor propagation ledger read failure stops the resumable run";
+      if (ledgerChild.error?.code === "ETIMEDOUT" || ledgerChild.signal) {
+        console.error("Privacy processor-ledger mutation verifier timed out.");
+        process.exitCode = 1;
+      } else if (ledgerChild.status === 0) {
+        console.error("Privacy processor-ledger mutation survived: a durable ledger read failure was ignored.");
+        process.exitCode = 1;
+      } else if (!ledgerOutput.includes(ledgerExpected)) {
+        console.error("Privacy processor-ledger mutation turned red for the wrong reason.");
+        console.error(ledgerOutput);
+        process.exitCode = 1;
+      } else {
+        console.log("Privacy readiness mutation caught: processor-ledger reads fail closed.");
+      }
+    }
+
+    restore();
+    const transportReferenceGuard = "      reference: request.providerReference ?? null,";
+    if (!erasureSource.includes(transportReferenceGuard)) {
+      console.error("Privacy readiness mutation could not find the failed-status-poll reference guard.");
+      process.exitCode = 1;
+    } else {
+      fs.writeFileSync(
+        absoluteErasureTarget,
+        erasureSource.replace(transportReferenceGuard, "      reference: null,")
+      );
+      const referenceChild = spawnSync(process.execPath, ["scripts/verify-participant-data-rights.mjs"], {
+        cwd: root,
+        encoding: "utf8",
+        timeout: 300_000,
+        maxBuffer: 100 * 1024 * 1024,
+        env: { ...process.env, GIT_TERMINAL_PROMPT: "0", GIT_OPTIONAL_LOCKS: "0" }
+      });
+      const referenceOutput = `${referenceChild.stdout ?? ""}${referenceChild.stderr ?? ""}`;
+      const referenceExpected = "a failed asynchronous status poll preserves the durable provider reference";
+      if (referenceChild.error?.code === "ETIMEDOUT" || referenceChild.signal) {
+        console.error("Privacy status-reference mutation verifier timed out.");
+        process.exitCode = 1;
+      } else if (referenceChild.status === 0) {
+        console.error("Privacy status-reference mutation survived: a transport error erased the provider reference.");
+        process.exitCode = 1;
+      } else if (!referenceOutput.includes(referenceExpected)) {
+        console.error("Privacy status-reference mutation turned red for the wrong reason.");
+        console.error(referenceOutput);
+        process.exitCode = 1;
+      } else {
+        console.log("Privacy readiness mutation caught: failed status polls preserve provider references.");
+      }
+    }
   } finally {
     restore();
     disposeRestore();

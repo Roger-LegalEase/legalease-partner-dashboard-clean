@@ -203,10 +203,11 @@ export async function readProcessorPropagations(
   supabase: SupabaseClient,
   requestId: string
 ): Promise<PrivacyProcessorPropagationRow[]> {
-  const { data } = await supabase
+  const { data, error } = await supabase
     .from("participant_processor_propagations")
     .select("processor_key, status, reference, detail")
     .eq("request_id", requestId);
+  if (error) throw new Error(`could not read processor propagation ledger: ${error.message}`);
   return (data as PrivacyProcessorPropagationRow[] | null) ?? [];
 }
 

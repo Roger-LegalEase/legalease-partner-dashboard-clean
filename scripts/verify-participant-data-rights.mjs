@@ -724,6 +724,23 @@ async function mintProof(userId, purpose, password = gotrue.password) {
           gen_random_uuid(), gen_random_uuid()
         )`
       )));
+
+  const { readProcessorPropagations } = await import("../src/lib/expungement-ai/privacy/store.ts");
+  let ledgerReadFailedClosed = false;
+  try {
+    await readProcessorPropagations({
+      from() {
+        return {
+          select() { return this; },
+          async eq() { return { data: null, error: { message: "synthetic ledger read failure" } }; }
+        };
+      }
+    }, fixtureUuid("failed-processor-ledger-read"));
+  } catch (error) {
+    ledgerReadFailedClosed = /could not read processor propagation ledger/.test(String(error));
+  }
+  check("V10", "a processor propagation ledger read failure stops the resumable run",
+    ledgerReadFailedClosed);
 }
 
 console.log("\nParticipant data rights\n");
@@ -1480,6 +1497,24 @@ let accountReceipt = null;
       && statusRequest.action === "status"
       && statusRequest.providerReference === accepted.reference,
     `${JSON.stringify(completedAccepted)} / ${JSON.stringify(statusRequest)}`
+  );
+  const savedEmailEndpoint = process.env.PRIVACY_EMAIL_PROCESSOR_ENDPOINT;
+  process.env.PRIVACY_EMAIL_PROCESSOR_ENDPOINT = "http://127.0.0.1:1/email";
+  const interruptedStatus = await defaultProcessorAdapters()
+    .find((adapter) => adapter.key === "email_delivery")
+    .erase({
+      ...request,
+      processorKey: "email_delivery",
+      providerReference: accepted.reference
+    });
+  process.env.PRIVACY_EMAIL_PROCESSOR_ENDPOINT = savedEmailEndpoint;
+  check(
+    "PR1c",
+    "a failed asynchronous status poll preserves the durable provider reference",
+    interruptedStatus.status === "pending"
+      && interruptedStatus.reference === accepted.reference
+      && interruptedStatus.detail.statusCheck === true,
+    JSON.stringify(interruptedStatus)
   );
 
   processorMode = "retryable";

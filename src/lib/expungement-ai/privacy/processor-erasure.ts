@@ -280,7 +280,7 @@ async function transmit(
   } catch (error) {
     return {
       status: "pending",
-      reference: null,
+      reference: request.providerReference ?? null,
       detail: {
         action,
         asynchronous: checkingAsynchronousRequest,
