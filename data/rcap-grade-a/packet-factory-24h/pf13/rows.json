@@ -1,0 +1,140 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+  "assignmentId": "PF13",
+  "workerId": "PF-C",
+  "lane": "packet-build",
+  "engine": "Claude 9h worker (normal Git; commits and pushes to claude/9h-pf-c)",
+  "shiftBaseSha": "09b741ad00be0d630bd73a72f66640294abab397",
+  "familiesAssigned": 2,
+  "preflight": {
+    "laneGate": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 2 not applicable",
+    "rowGate": "PACKET_BUILD_ENVIRONMENT_READY: 15/15 passed for each family; family_sources_bind 2/2 on both"
+  },
+  "selfVerification": "none. The builder does not verify its own packets; the counters below are the builder's own count using the repository's own contract functions, not a verdict.",
+  "rows": [
+    {
+      "itemId": "co_motion_seal_nonconviction-set",
+      "status": "COMPLETED",
+      "jurisdiction": "CO",
+      "routeKey": "track:CO:co_motion_seal_nonconviction",
+      "statutoryAuthority": "C.R.S. § 24-72-705(2) and (3); Colorado Judicial Department forms JDF 477 and JDF 478",
+      "implementationStrategy": "official_pdf_fill",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-co_motion_seal_nonconviction-set.mjs",
+      "sourcesBound": [
+        {
+          "sourceId": "official-form:JDF-477",
+          "pathInArchive": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-477__motion-to-seal-non-conviction-records__REV-2024-08-07__EN.pdf",
+          "sha256": "b9cbad7f3a66a1a952e10ad15e59d77afb9b68714465fe0e88333cf2c3159643",
+          "byteLength": 605652
+        },
+        {
+          "sourceId": "official-form:JDF-478",
+          "pathInArchive": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-478__order-to-seal-non-conviction-records__REV-2024-08-07__EN.pdf",
+          "sha256": "8208caab3019164f8f0671aea1f0dbcf460805d61455346887cfd1d133c0e159",
+          "byteLength": 576543
+        }
+      ],
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersBasis": "reports/completeness-counters.json — computed with scripts/rcap-packet-completeness/completeness-contract.mjs",
+      "fields": { "total": 75, "written": 15, "requiredBeforeFiling": 23, "participantElections": 18 },
+      "componentsRendered": ["primary_filing", "proposed_order"],
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "6c3d8f4482dc4de44cb817f486cc2ad982aaf79b3d6f79cc75696d22facb07d7",
+          "byteLength": 325622, "pageCount": 5, "rasterPages": 5
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "1fb4e7b9faeb8ee7f06837b94993c071629b47abb59138ceaa7efa1c2d43a6f4",
+          "byteLength": 325832, "pageCount": 5, "rasterPages": 5
+        }
+      ],
+      "findingsRaisedForOthers": [
+        "JDF 477 and JDF 478 interleave their glyph runs, so text extracted from the content stream is scrambled at the character level and no printed-caption check can be run on either form. The absence is recorded per field in reports/caption-evidence.json rather than papered over with a fuzzy match that would pass on anything."
+      ],
+      "notableDecisions": [
+        "The five grounds for sealing in section 6 are a participant election, not a route-determined selection: C.R.S. § 24-72-705 is one simplified process covering all five, so ticking one would assert a disposition the platform does not hold.",
+        "Every agency name, number and address is declared REQUIRED_BEFORE_FILING rather than bundled into a protected class — the completeness contract refuses to let a court or clerk class excuse an agency fact, and is right to.",
+        "JDF 477 ships with the Colorado Bureau of Investigation box already ticked because the form marks that agency required. The census reads each control's value from the pinned source, so the byte proof records that tick as a documentAuthoredAppearance rather than as a protected write this build never made."
+      ],
+      "independentVerificationStatus": "PENDING",
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "pa_age70_deceased-set",
+      "status": "COMPLETED",
+      "jurisdiction": "PA",
+      "routeKey": "track:PA:pa_age70_deceased",
+      "statutoryAuthority": "18 Pa.C.S. § 9122(b); Pa.R.Crim.P. 790",
+      "implementationStrategy": "official_pdf_fill",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/pa/pa-age70-deceased-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-pa_age70_deceased-set.mjs",
+      "sourcesBound": [
+        {
+          "sourceId": "official-form:PA-RCRIM-P-790-PETITION",
+          "pathInArchive": "STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-790-PETITION__pa-r-crim-p-790-petition__REV-2009-03__EN.pdf",
+          "sha256": "fc06486e75773d4f6d81c263706827ab7f9facfb6dde9907cbee120c063289de",
+          "byteLength": 87647
+        },
+        {
+          "sourceId": "official-form:PA-RCRIM-P-790-ORDER",
+          "pathInArchive": "STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-790-ORDER__pa-r-crim-p-790-blank-expungement-order__REV-2021-07__EN.pdf",
+          "sha256": "4d312ebde4aed7c1941e1ae9d734c90ba7183db273778839b15a84be8e611c95",
+          "byteLength": 151853
+        }
+      ],
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersBasis": "reports/completeness-counters.json — computed with scripts/rcap-packet-completeness/completeness-contract.mjs",
+      "fields": { "total": 105, "written": 16, "requiredBeforeFiling": 77, "participantElections": 5 },
+      "componentsRendered": ["primary_filing", "proposed_order", "certificate_of_service"],
+      "certificateOfServiceNote": "Rule 790 does not put a certificate of service on either form. The petition states the service duty in its own printed words — when the petition is filed with the Clerk of Courts, the petitioner shall serve a copy upon the attorney for the Commonwealth — and the packet carries that as a filing instruction rather than inventing a certificate the AOPC forms do not have.",
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/pa/pa-age70-deceased-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "f4f4b3ba5263fff23c409e8b8ffda95c2ee3e1cf6fea623af5ddb09ed181639e",
+          "byteLength": 314016, "pageCount": 3, "rasterPages": 3
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/pa/pa-age70-deceased-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "03aefe90a39c91ac577858abeadf09c215e261f3fcb12fbe97ae8f1c7c1c2ac1",
+          "byteLength": 314228, "pageCount": 3, "rasterPages": 3
+        }
+      ],
+      "notableDecisions": [
+        "No cell of the petition's five-row, seven-column charge table is written. The form says the values are copied from the charging document, which the platform does not hold, and the fleet's existing pa_790_nonconviction-set shows the cost of half-filling it: it writes Statute DescriptionRow1 and refuses the other six cells of the same row, which is exactly the finished-looking incomplete row the completeness contract exists to catch.",
+        "The Social Security number is declared REQUIRED_BEFORE_FILING on both forms. The platform does not hold it and does not ask for it.",
+        "The four CP docket segments are declared rather than derived by splitting the docket string; the full docket number is written wherever the form takes it whole."
+      ],
+      "independentVerificationStatus": "PENDING",
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    }
+  ]
+}

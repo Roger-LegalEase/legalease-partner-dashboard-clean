@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "co_motion_seal_nonconviction-set",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "JDF 477 and JDF 478 interleave their glyph runs; extracted text is scrambled at the character level.",
+      "consequence": "No printed-caption check can be run on either form. The captions rest on Colorado's own authored field names and the printed section headings; the scrambled extraction is recorded per field in reports/caption-evidence.json, and placement is left to the visual reviewer, who can read the paper."
+    },
+    {
+      "finding": "C.R.S. § 24-72-705 is one simplified process covering five different grounds, and JDF 477 asks which one applies.",
+      "consequence": "The ground is a participant election rather than a route-determined selection. A packet built for this route that ticked one of the five would be asserting a disposition the platform does not hold."
+    },
+    {
+      "finding": "Both forms ask for the agencies holding records, and the completeness contract refuses to let a court or clerk refusal class excuse an agency fact.",
+      "consequence": "Every agency name, number and address is declared REQUIRED_BEFORE_FILING and named to the participant in participant-instructions.md, rather than being bundled into a protected class."
+    },
+    {
+      "finding": "JDF 477 section 10 is a verification under penalty of perjury, not a plain signature line.",
+      "consequence": "The whole block — date, city, state, printed name and signature — is left blank. Prefilling any part of a verification presents a sworn instrument as further along than it is."
+    },
+    {
+      "finding": "JDF 477 ships with the Colorado Bureau of Investigation box already ticked, because the form marks that agency required. The finished artifact therefore draws a tick at a rectangle this map refuses.",
+      "consequence": "The census reads each control's value from the pinned source, and the byte proof records ink at a control the source already carried as a documentAuthoredAppearance rather than as ink on a refused field. Reading it the other way would report a protected write this build never made. Nothing is softened: a control the source leaves empty that carries ink in the output is still a blocking finding."
+    },
+    {
+      "severity": "advisory",
+      "finding": "The boundary participant's full mailing address does not fit JDF 477's single Address line at the minimum readable font, so the finalizer refuses it rather than clipping it.",
+      "consequence": "Recorded in reports/actual-writes.json under unfittable. That is the boundary fixture doing its job; the canonical fixture writes the address."
+    },
+    {
+      "severity": "advisory",
+      "finding": "The boundary participant's name carries a typographic apostrophe (U+2019) and the finalized bytes carry the name without it.",
+      "consequence": "Recorded for visual review. The behaviour is in the shared finalizer's font encoding and reproduces in vt_seal_misdemeanor-set, which is already PASS_COMPLETE."
+    }
+  ]
+}
