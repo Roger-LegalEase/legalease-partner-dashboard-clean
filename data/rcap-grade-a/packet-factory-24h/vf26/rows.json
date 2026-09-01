@@ -26,7 +26,7 @@
   "commercialRoutesOpened": 0,
   "productionTouched": false,
   "verdictSummary": {
-    "PASS_COMPLETE_INDEPENDENT": 1,
+    "PASS_COMPLETE_INDEPENDENT": 2,
     "FAIL_REPAIR_REQUIRED": 0,
     "BLOCKED_SOURCE": 0,
     "BLOCKED_LEGAL_INPUT": 0
@@ -204,6 +204,179 @@
         "data/rcap-all50/overlays/census-v1/va/va-seal-petition-felony-set--official-pdf-fill/reports/builder-completeness-counters.json",
         "data/rcap-all50/overlays/census-v1/va/va-seal-petition-felony-set--official-pdf-fill/fixtures/canonical.pdf",
         "data/rcap-all50/overlays/census-v1/va/va-seal-petition-felony-set--official-pdf-fill/fixtures/boundary.pdf",
+        "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"
+      ]
+    },
+    {
+      "itemId": "va_seal_petition_misdemeanor-set",
+      "lane": "VF26",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill",
+      "firstReadBy": "VF06",
+      "builderDeclaredStatus": {
+        "buildStatus": "state_built",
+        "reviewStatus": "qa_review_pending",
+        "commercialRoutesOpened": 0
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "familyId agrees across source-receipt.json, build-status.json, reports/rendered-artifacts.json, production-field-map.json and reports/actual-writes.json; routeSelectionId 'va-seal-petition-misdemeanor-cc-1201-complete-set' for route obligation:track-pathway:VA:va_seal_petition_misdemeanor:petition-based-sealing; the packet is built on CC-1201, the form the assignment named (officialFormMatchesAssignment=true), and the receipt hash equals the SHA-256 I recomputed from the corpus CC-1201 bytes (7b56d8e1…)"
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "recomputed from the corpus bytes in this container. STATES/VA/02_PACKET_FORMS/VA__FORM__CC-1201__petition-for-sealing-pursuant__REV-2026-07__EN.pdf hashes 7b56d8e167f610739da1578ec96e8bc7925ae029141857e7350bd7482c8e7e78 at 282919 bytes, equal to source-receipt.json and to the MASTER_QUEUE row's boundSource; every non-null pageManifest sourceSha256 in both fixtures equals the receipt hash"
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "all five declared components appear in the page manifest of both fixtures in the declared order; per-page text extracted from the bytes confirms the CC-1201 title on page 1 and each composed component's heading on pages 5–8"
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "knownRequiredFieldsMissing=0 measured by running the completeness verifier here; independently, all 10 mapped CC-1201 writes carry non-empty flattened-appearance text decoded from the PDF bytes at each field's own measured rect in BOTH fixtures, and the composed pages carry the fixture facts in their extracted text"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "28 REQUIRED_BEFORE_FILING items declared in production-field-map.json; every one of the 28 disclosureLabels appears verbatim in participant-instructions.md, each naming the document, page and printed words beside the blank"
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "requiredOptionsMissing=0 measured here; the packet states its own election (routeSelectionId 'va-seal-petition-misdemeanor-cc-1201-complete-set') and all seven route-determined elections — the six pro-se blocks on page 4 plus the page-1 'This charge is a misdemeanor' offence-level box the misdemeanour route itself decides — are proved as painted strokes inside their own measured checkbox rects, read from the content-stream bytes; participant-instructions.md discloses all seven under 'What the packet answered for you', each with its stated reason"
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "incompleteRows=0, measured by running the completeness verifier in this container"
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "zero ink on signature, date, clerk and court-owned fields, proved from bytes on both fixtures: no non-empty flattened appearance lands at the two protected acroform rects (User.CaseNo, User.DateSigned2), all 14 added strokes land inside declared selection-control boxes and none inside a protected rect, every one of the 102 flattened appearances lands at a mapped rect, and the composed pages' signature and date lines are blank in the extracted text; protectedWrites=0 measured here"
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "all four declared artifacts recomputed from committed bytes and hash to the record, byte lengths included: canonical 9cc63cbd… (232126 bytes), boundary 4dc94926… (232393 bytes), canonical primary-filing bd4d68ef…, boundary primary-filing 1f7ec0b6…. No absent unchanged-official components are declared for this family"
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "8 pages read from the bytes of each fixture, equal to the record and the raster queue's expectedPages; CC-1201 source pages ascending 1–4 and per-page text confirms the manifest's component order on pages 5–8 in both fixtures"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "visualDefects=0 measured here; zero non-empty flattened appearances land outside every mapped rect on either fixture, recomputed from bytes; the complete-coverage central raster receipt binds to the same bytes"
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "the instructions name the court the route names: 'File the completed packet with the Circuit Court for the city or county printed in the caption of the petition', and the caption is filled; the district-court edge case is addressed explicitly"
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "the fee and its waiver are addressed by delegation to a named checkable authority, which the house standard accepts: 'The filing fee, and whether it can be waived. Ask the clerk of the circuit court above'"
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "who and how are stated: a copy goes to the Attorney for the Commonwealth for the county or city where the petition is filed, 'by delivery or by first-class mail with postage prepaid'; the packet ships the service copy page, and the deadline question is delegated to the named clerk with the form's own silence stated"
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "the packet states where self-help ends: 'Check each marked box against your own record before you file. If any of them is wrong for you, this is the wrong packet and you should not file it', and 'What this packet is not' states it is not legal advice, is not filed for you, and does not decide whether the court will grant sealing"
+        }
+      },
+      "failedProofObligations": [],
+      "notMeasurableHere": [],
+      "rasterBinding": {
+        "currentRasterState": "RASTER_PASS",
+        "workflowRunId": "33495068504",
+        "jobId": "99815920118",
+        "renderedCommitSha": "5f144ec10d2bf7404faf0811e98418e0b13f06ba",
+        "pinnedCanonicalSha256": "9cc63cbd647e477c8da08af8f67bd922953477c8ebc6d2608748724cf22b7eae",
+        "pinnedBoundarySha256": "4dc94926306cddcdcedd28897a5db55dab2539170c6097bfa79e6a3f323350aa",
+        "canonicalRecomputedFromDiskMatchesPin": true,
+        "boundaryRecomputedFromDiskMatchesPin": true,
+        "coversTheWholeFamily": true,
+        "expectedPages": 8
+      },
+      "artifactProof": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/fixtures/canonical.pdf",
+          "recordedSha256": "9cc63cbd647e477c8da08af8f67bd922953477c8ebc6d2608748724cf22b7eae",
+          "recomputedSha256": "9cc63cbd647e477c8da08af8f67bd922953477c8ebc6d2608748724cf22b7eae",
+          "bindsFromDisk": true,
+          "observedByteLength": 232126
+        },
+        {
+          "fixture": "canonical-primary-filing",
+          "file": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/fixtures/canonical--CC-1201-primary-filing.pdf",
+          "recordedSha256": "bd4d68ef306dbd5b34089f61ce03fef25c99bc467acc294c44b7a23c3bb33543",
+          "recomputedSha256": "bd4d68ef306dbd5b34089f61ce03fef25c99bc467acc294c44b7a23c3bb33543",
+          "bindsFromDisk": true
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/fixtures/boundary.pdf",
+          "recordedSha256": "4dc94926306cddcdcedd28897a5db55dab2539170c6097bfa79e6a3f323350aa",
+          "recomputedSha256": "4dc94926306cddcdcedd28897a5db55dab2539170c6097bfa79e6a3f323350aa",
+          "bindsFromDisk": true,
+          "observedByteLength": 232393
+        },
+        {
+          "fixture": "boundary-primary-filing",
+          "file": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/fixtures/boundary--CC-1201-primary-filing.pdf",
+          "recordedSha256": "1f7ec0b66d176edc0c24c00647def4e3863b1ffbc881a6e1b8cffb3616143128",
+          "recomputedSha256": "1f7ec0b66d176edc0c24c00647def4e3863b1ffbc881a6e1b8cffb3616143128",
+          "bindsFromDisk": true
+        }
+      ],
+      "sourceIdentityProof": [
+        {
+          "formNumber": "CC-1201",
+          "pathInArchive": "STATES/VA/02_PACKET_FORMS/VA__FORM__CC-1201__petition-for-sealing-pursuant__REV-2026-07__EN.pdf",
+          "receiptSha256": "7b56d8e167f610739da1578ec96e8bc7925ae029141857e7350bd7482c8e7e78",
+          "recomputedFromCorpusBytes": "7b56d8e167f610739da1578ec96e8bc7925ae029141857e7350bd7482c8e7e78",
+          "receiptByteLength": 282919,
+          "observedByteLength": 282919,
+          "matchesReceipt": true,
+          "matchesMasterQueueBoundSource": true
+        }
+      ],
+      "evidenceRead": [
+        "data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/build-status.json",
+        "data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/build-findings.json",
+        "data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/reports/actual-writes.json",
+        "data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/fixtures/canonical.pdf",
+        "data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/fixtures/boundary.pdf",
         "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
         "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"
       ]
