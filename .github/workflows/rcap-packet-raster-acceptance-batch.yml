@@ -1,0 +1,196 @@
+# The visual gate, run where a browser exists.
+#
+# Every packet-build lane in the fleet stopped on the same thing: PF09/PF15 on
+# `pdftoppm ENOENT`, PF11/PF12 on "Playwright cannot find Chromium". ENV-RAS01
+# then established the Codex container cannot even fetch one -- the Playwright
+# CDN answers HTTP 403 from inside it. So the render moves here, to a runner
+# that ships with Chrome, and the builders stop being blocked by a toolchain
+# they cannot obtain.
+#
+# This weakens nothing. A family with no RASTER_PASS is not PASS_COMPLETE. The
+# workflow renders the exact bytes the queue pinned by SHA-256 and publishes
+# receipts; RAS01-RAS04 read those receipts and decide.
+#
+# It commits nothing, deploys nothing, modifies no packet PDF, touches no
+# Production resource and opens no commercial route. It has read-only contents
+# permission, which is the enforcement rather than the promise.
+name: RCAP Packet Raster Acceptance (batch)
+
+on:
+  workflow_dispatch:
+    inputs:
+      commit_sha:
+        description: The exact commit to render. Not a branch — a branch moves under the run and the receipt would name bytes nobody can find again.
+        required: true
+        type: string
+      raster_manifest_path:
+        description: Path to the raster queue.
+        required: false
+        default: data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json
+        type: string
+      family_batch:
+        description: Optional comma-separated family ids. Empty renders every RASTER_PENDING row.
+        required: false
+        default: ""
+        type: string
+      requested_scale:
+        description: Raster magnification, in PDF points to pixels.
+        required: false
+        default: "2.5"
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # The canary runs FIRST and the matrix depends on it. A batch of green
+  # per-family verdicts from a runner that cannot actually render is worse than
+  # a red batch: it is a visual gate reporting that it looked.
+  # ---------------------------------------------------------------------------
+  canary:
+    name: Synthetic canary and live negative controls
+    runs-on: ubuntu-latest
+    outputs:
+      browser: ${{ steps.browser.outputs.executable }}
+      version: ${{ steps.browser.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.commit_sha }}
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - run: npm ci --cache /tmp/npm-cache
+
+      - name: Locate a full Chrome or Chromium, and refuse headless_shell
+        id: browser
+        run: |
+          set -euo pipefail
+          export PLAYWRIGHT_BROWSERS_PATH="$HOME/.cache/ms-playwright"
+          # The version is the committed package-lock's. Never apt-get: a
+          # distribution build is a different rendering stack and the
+          # calibration tolerances are measured against this one.
+          npx --yes playwright install --with-deps chromium
+          EXE="$(node --input-type=module -e '
+            import { resolveChromium } from "./scripts/lib/pdf-page-raster.mjs";
+            process.stdout.write(resolveChromium().executablePath ?? "");
+          ')"
+          [ -n "$EXE" ] || { echo "no executable Chromium on a runner that is supposed to have one"; exit 1; }
+          [ -f "$EXE" ] && [ -x "$EXE" ] || { echo "$EXE is not an executable file"; exit 1; }
+          # headless_shell launches, satisfies every existence test, and has no
+          # PDF viewer: navigating to a PDF starts a download instead of drawing
+          # a page. A gate that accepts it reports that it looked.
+          case "$EXE" in *headless_shell*) echo "REFUSED: $EXE is headless_shell, which cannot render a PDF"; exit 1;; esac
+          echo "executable=$EXE" >> "$GITHUB_OUTPUT"
+          echo "version=$("$EXE" --version 2>/dev/null || echo unknown)" >> "$GITHUB_OUTPUT"
+          echo "PLAYWRIGHT_BROWSERS_PATH=$PLAYWRIGHT_BROWSERS_PATH" >> "$GITHUB_ENV"
+          echo "RCAP_CHROMIUM_PATH=$EXE" >> "$GITHUB_ENV"
+
+      - name: Record the runtime
+        run: |
+          set -euo pipefail
+          mkdir -p raster-out
+          cat > raster-out/runtime-receipt.json <<JSON
+          {
+            "schemaVersion": "rcap-raster-runtime-receipt/v1",
+            "commitSha": "${{ inputs.commit_sha }}",
+            "browserExecutable": "${{ steps.browser.outputs.executable }}",
+            "browserVersion": "${{ steps.browser.outputs.version }}",
+            "operatingSystem": "$(uname -srm)",
+            "runnerImage": "${RUNNER_OS:-unknown}",
+            "nodeVersion": "$(node --version)",
+            "requestedScale": "${{ inputs.requested_scale }}",
+            "workflowRunId": "${{ github.run_id }}",
+            "bodiesCommitted": 0,
+            "packetPdfsModified": 0,
+            "commercialRoutesOpened": 0,
+            "productionTouched": false
+          }
+          JSON
+          cat raster-out/runtime-receipt.json
+
+      - name: Synthetic one-page PDF, rendered and measured
+        run: node scripts/rcap-raster-canary.mjs --out raster-out --scale "${{ inputs.requested_scale }}"
+
+      - name: Live negative controls
+        run: node scripts/rcap-raster-canary.mjs --negative-controls --out raster-out
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rcap-raster-canary
+          path: raster-out/
+          if-no-files-found: error
+          retention-days: 14
+
+  # ---------------------------------------------------------------------------
+  # The family matrix, read from the committed queue at the pinned commit.
+  # ---------------------------------------------------------------------------
+  plan:
+    name: Plan the family matrix
+    needs: canary
+    runs-on: ubuntu-latest
+    outputs:
+      families: ${{ steps.plan.outputs.families }}
+      count: ${{ steps.plan.outputs.count }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.commit_sha }}
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - id: plan
+        run: |
+          node scripts/rcap-raster-plan.mjs \
+            --manifest "${{ inputs.raster_manifest_path }}" \
+            --families "${{ inputs.family_batch }}" >> "$GITHUB_OUTPUT"
+
+  raster:
+    name: ${{ matrix.family }}
+    needs: [canary, plan]
+    if: needs.plan.outputs.count != '0'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      # One failing family does not stop the batch. A refusal is evidence about
+      # that packet, and losing nineteen renders to it would be the wrong trade.
+      max-parallel: 20
+      matrix:
+        family: ${{ fromJson(needs.plan.outputs.families) }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.commit_sha }}
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - run: npm ci --cache /tmp/npm-cache
+      - name: Provision the browser
+        run: |
+          set -euo pipefail
+          export PLAYWRIGHT_BROWSERS_PATH="$HOME/.cache/ms-playwright"
+          npx --yes playwright install --with-deps chromium
+          echo "PLAYWRIGHT_BROWSERS_PATH=$PLAYWRIGHT_BROWSERS_PATH" >> "$GITHUB_ENV"
+
+      - name: Render and measure ${{ matrix.family }}
+        run: |
+          node scripts/rcap-raster-batch.mjs \
+            --manifest "${{ inputs.raster_manifest_path }}" \
+            --family "${{ matrix.family }}" \
+            --commit "${{ inputs.commit_sha }}" \
+            --scale "${{ inputs.requested_scale }}" \
+            --run-id "${{ github.run_id }}" \
+            --out raster-out
+
+      - name: Refuse a modified packet byte
+        run: |
+          set -euo pipefail
+          # The render writes only under raster-out/. If a tracked file moved,
+          # something wrote where it must not.
+          git diff --quiet && git diff --cached --quiet \
+            || { echo "REFUSED: the render modified tracked files"; git status --porcelain; exit 1; }
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rcap-raster-${{ matrix.family }}-${{ github.run_id }}
+          path: raster-out/
+          if-no-files-found: error
+          retention-days: 14
