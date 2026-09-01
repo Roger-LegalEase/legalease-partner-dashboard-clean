@@ -20,17 +20,17 @@
     "whoDecides": "merging to the default branch is Roger's decision"
   },
   "lastBatch": {
-    "workflowRunId": "33495068504",
-    "renderedCommitSha": "5f144ec10d2bf7404faf0811e98418e0b13f06ba",
-    "familiesRendered": 22,
+    "workflowRunId": "33497786539",
+    "renderedCommitSha": "422ccb49e37966a14b5b4026a0054ce97c3af974",
+    "familiesRendered": 11,
     "verdicts": {
-      "RASTER_PASS": 22,
+      "RASTER_PASS": 11,
       "RASTER_FAIL": 0,
       "RASTER_BLOCKED_ENVIRONMENT": 0
     },
-    "jobsGreen": "24/24",
+    "jobsGreen": "11/11",
     "whatChangedSinceTheLastBatch": "Eleven of these rows were retargeted before dispatch: the queue had been pointing at one component of a multi-component packet because a substring match over a sorted listing picks canonical--<FORM>.pdf before canonical.pdf. These verdicts describe the assembled packet.",
-    "partialCoverageAmongThese": 2,
+    "partialCoverageAmongThese": 0,
     "howTheVerdictIsKnown": "rcap-raster-batch.mjs exits 0 only on RASTER_PASS; RASTER_FAIL and RASTER_BLOCKED_ENVIRONMENT both exit 1, so a green job cannot carry another verdict.",
     "receiptArtifactsNotDownloadedHere": "This session cannot fetch workflow artifacts: the download redirects to blob storage the egress proxy denies. The PNG receipts were NOT read here. The binding rests on the pinned commit, the queue's own pinned SHA-256 pair (which the batch re-verifies from disk and refuses on mismatch), the job conclusion, and the receipt artifact id and zip digest.",
     "packetPdfsModified": 0,
@@ -95,11 +95,7 @@
       "RAS04": 11
     },
     "byState": {
-      "RASTER_PENDING": 11,
-      "RASTER_RUNNING": 0,
-      "RASTER_PASS": 36,
-      "RASTER_FAIL": 0,
-      "RASTER_BLOCKED_ENVIRONMENT": 0
+      "RASTER_PASS": 47
     },
     "notEligible": 299
   },
@@ -420,8 +416,8 @@
       },
       "requestedScale": 2.5,
       "builderAssignment": "VF04",
-      "currentRasterState": "RASTER_PENDING",
-      "nextOwner": "RAS04",
+      "currentRasterState": "RASTER_PASS",
+      "nextOwner": "independent-verification",
       "supersededReceipts": [
         {
           "verdict": "RASTER_PASS",
@@ -449,7 +445,30 @@
           "supersededBecause": "the row now renders a different set of documents",
           "supersededAt": "2026-09-01T10:27:12Z"
         }
-      ]
+      ],
+      "rasterReceipt": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33497786539",
+        "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "renderedCommitSha": "422ccb49e37966a14b5b4026a0054ce97c3af974",
+        "jobId": "99824472374",
+        "jobConclusion": "success",
+        "boundToCanonicalSha256": "78ef189e981b35fec69688cc6d3181df245b309e7405c954fcabd503e426bea5",
+        "boundToBoundarySha256": "fb32678b598155af6d1436eeb51098cb665fe2f1711bd826ec2b980b1c30a811",
+        "documentsCovered": [
+          "order-canonical-filled.pdf",
+          "petition-canonical-filled.pdf"
+        ],
+        "documentsNotCovered": [],
+        "coversTheWholeFamily": true,
+        "receiptArtifact": {
+          "id": "9796618823",
+          "name": "rcap-raster-ar-arrest-seal-set-33497786539",
+          "zipSha256": "sha256:de001ef1c02fbac753ea4f9767e1fc4129441057653d7c2e4e9bd06d99e511dc",
+          "expiresAt": "2026-09-15T10:36:41Z"
+        },
+        "canaryPrecondition": "the canary job and its live negative controls passed in the same run; the family matrix depends on that job, so no family verdict exists without it"
+      }
     },
     {
       "familyId": "ar-misdemeanor-dwi-seal-set",
@@ -509,8 +528,8 @@
       },
       "requestedScale": 2.5,
       "builderAssignment": "VF05",
-      "currentRasterState": "RASTER_PENDING",
-      "nextOwner": "RAS01",
+      "currentRasterState": "RASTER_PASS",
+      "nextOwner": "independent-verification",
       "supersededReceipts": [
         {
           "verdict": "RASTER_PASS",
@@ -538,7 +557,30 @@
           "supersededBecause": "the row now renders a different set of documents",
           "supersededAt": "2026-09-01T10:27:12Z"
         }
-      ]
+      ],
+      "rasterReceipt": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33497786539",
+        "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "renderedCommitSha": "422ccb49e37966a14b5b4026a0054ce97c3af974",
+        "jobId": "99824472419",
+        "jobConclusion": "success",
+        "boundToCanonicalSha256": "6bf0184ddc31364f316cb656745f364f8def8aa547428beb881c4c632e2f750d",
+        "boundToBoundarySha256": "a6cef12f7344600b5f9e89aefee9785440de185d88340d051b090ec6011bdfb8",
+        "documentsCovered": [
+          "order-canonical-filled.pdf",
+          "petition-canonical-filled.pdf"
+        ],
+        "documentsNotCovered": [],
+        "coversTheWholeFamily": true,
+        "receiptArtifact": {
+          "id": "9796610807",
+          "name": "rcap-raster-ar-misdemeanor-dwi-seal-set-33497786539",
+          "zipSha256": "sha256:92b542848c82f2fe052b17fe99ba73e62dba9d2ceaa59af1ea83b75caa8706b9",
+          "expiresAt": "2026-09-15T10:36:27Z"
+        },
+        "canaryPrecondition": "the canary job and its live negative controls passed in the same run; the family matrix depends on that job, so no family verdict exists without it"
+      }
     },
     {
       "familyId": "co_motion_seal_nonconviction-set",
@@ -2605,8 +2647,8 @@
       },
       "requestedScale": 2.5,
       "builderAssignment": null,
-      "currentRasterState": "RASTER_PENDING",
-      "nextOwner": "RAS01",
+      "currentRasterState": "RASTER_PASS",
+      "nextOwner": "independent-verification",
       "supersededReceipts": [
         {
           "verdict": "RASTER_PASS",
@@ -2627,7 +2669,30 @@
           "supersededBecause": "the row now renders a different set of documents",
           "supersededAt": "2026-09-01T10:27:12Z"
         }
-      ]
+      ],
+      "rasterReceipt": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33497786539",
+        "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "renderedCommitSha": "422ccb49e37966a14b5b4026a0054ce97c3af974",
+        "jobId": "99824472415",
+        "jobConclusion": "success",
+        "boundToCanonicalSha256": "9ccebef430b4a7de3614df3a9796d57524385147e01e82a4e7c186b1cc7088ad",
+        "boundToBoundarySha256": "22c9ec04f47a5ae0222cc4d84e859cf402c7585379fa7337d0243d57c41c8942",
+        "documentsCovered": [
+          "crrlj-09-0800-canonical-filled.pdf",
+          "crrlj-09-0870-canonical-filled.pdf"
+        ],
+        "documentsNotCovered": [],
+        "coversTheWholeFamily": true,
+        "receiptArtifact": {
+          "id": "9796577241",
+          "name": "rcap-raster-wa_vac_cannabis-set-33497786539",
+          "zipSha256": "sha256:6c4deeac08160a28e9a745899ec938d9a4e12c7d8cc3d00b9b048ed7c2c68c1f",
+          "expiresAt": "2026-09-15T10:35:25Z"
+        },
+        "canaryPrecondition": "the canary job and its live negative controls passed in the same run; the family matrix depends on that job, so no family verdict exists without it"
+      }
     },
     {
       "familyId": "wa_vac_domestic_violence-set",
@@ -2687,8 +2752,8 @@
       },
       "requestedScale": 2.5,
       "builderAssignment": null,
-      "currentRasterState": "RASTER_PENDING",
-      "nextOwner": "RAS02",
+      "currentRasterState": "RASTER_PASS",
+      "nextOwner": "independent-verification",
       "supersededReceipts": [
         {
           "verdict": "RASTER_PASS",
@@ -2709,7 +2774,30 @@
           "supersededBecause": "the row now renders a different set of documents",
           "supersededAt": "2026-09-01T10:27:12Z"
         }
-      ]
+      ],
+      "rasterReceipt": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33497786539",
+        "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "renderedCommitSha": "422ccb49e37966a14b5b4026a0054ce97c3af974",
+        "jobId": "99824472461",
+        "jobConclusion": "success",
+        "boundToCanonicalSha256": "846360e75578ce6233dba77b03b25545a529b50cd553ad31f88d3008b429a6ad",
+        "boundToBoundarySha256": "75fac347051d6b710015ef5bbcc10b43df0a1de59078195ede75a744f4c42b77",
+        "documentsCovered": [
+          "crrlj-09-0100-canonical-filled.pdf",
+          "crrlj-09-0200-canonical-filled.pdf"
+        ],
+        "documentsNotCovered": [],
+        "coversTheWholeFamily": true,
+        "receiptArtifact": {
+          "id": "9796683074",
+          "name": "rcap-raster-wa_vac_domestic_violence-set-33497786539",
+          "zipSha256": "sha256:355969c25b3be2e037d1af2d02c73f296052a10e37d5fdc501eb64c596d38d54",
+          "expiresAt": "2026-09-15T10:38:34Z"
+        },
+        "canaryPrecondition": "the canary job and its live negative controls passed in the same run; the family matrix depends on that job, so no family verdict exists without it"
+      }
     },
     {
       "familyId": "wa_vac_felony-set",
@@ -2769,8 +2857,8 @@
       },
       "requestedScale": 2.5,
       "builderAssignment": null,
-      "currentRasterState": "RASTER_PENDING",
-      "nextOwner": "RAS03",
+      "currentRasterState": "RASTER_PASS",
+      "nextOwner": "independent-verification",
       "supersededReceipts": [
         {
           "verdict": "RASTER_PASS",
@@ -2791,7 +2879,30 @@
           "supersededBecause": "the row now renders a different set of documents",
           "supersededAt": "2026-09-01T10:27:12Z"
         }
-      ]
+      ],
+      "rasterReceipt": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33497786539",
+        "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "renderedCommitSha": "422ccb49e37966a14b5b4026a0054ce97c3af974",
+        "jobId": "99824472428",
+        "jobConclusion": "success",
+        "boundToCanonicalSha256": "3c40568209578ca04893ce46b64539a44af355dc11bd75b7daee75d215eda37f",
+        "boundToBoundarySha256": "2da76cc75f1ccd72cc12fdefef71edb90f477199877714e3263d9b46a4fccc8d",
+        "documentsCovered": [
+          "cr-08-0900-canonical-filled.pdf",
+          "cr-08-0920-canonical-filled.pdf"
+        ],
+        "documentsNotCovered": [],
+        "coversTheWholeFamily": true,
+        "receiptArtifact": {
+          "id": "9796616234",
+          "name": "rcap-raster-wa_vac_felony-set-33497786539",
+          "zipSha256": "sha256:95d88cc0ce114427cece6ecb72c28bc46752f61e35591b88be108d8698a7d501",
+          "expiresAt": "2026-09-15T10:36:36Z"
+        },
+        "canaryPrecondition": "the canary job and its live negative controls passed in the same run; the family matrix depends on that job, so no family verdict exists without it"
+      }
     },
     {
       "familyId": "wa_vac_homicide_victim_prostitution-set",
@@ -2851,8 +2962,8 @@
       },
       "requestedScale": 2.5,
       "builderAssignment": null,
-      "currentRasterState": "RASTER_PENDING",
-      "nextOwner": "RAS04",
+      "currentRasterState": "RASTER_PASS",
+      "nextOwner": "independent-verification",
       "supersededReceipts": [
         {
           "verdict": "RASTER_PASS",
@@ -2873,7 +2984,30 @@
           "supersededBecause": "the row now renders a different set of documents",
           "supersededAt": "2026-09-01T10:27:12Z"
         }
-      ]
+      ],
+      "rasterReceipt": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33497786539",
+        "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "renderedCommitSha": "422ccb49e37966a14b5b4026a0054ce97c3af974",
+        "jobId": "99824472439",
+        "jobConclusion": "success",
+        "boundToCanonicalSha256": "846360e75578ce6233dba77b03b25545a529b50cd553ad31f88d3008b429a6ad",
+        "boundToBoundarySha256": "75fac347051d6b710015ef5bbcc10b43df0a1de59078195ede75a744f4c42b77",
+        "documentsCovered": [
+          "crrlj-09-0100-canonical-filled.pdf",
+          "crrlj-09-0200-canonical-filled.pdf"
+        ],
+        "documentsNotCovered": [],
+        "coversTheWholeFamily": true,
+        "receiptArtifact": {
+          "id": "9796685838",
+          "name": "rcap-raster-wa_vac_homicide_victim_prostitution-set-33497786539",
+          "zipSha256": "sha256:317aac2f21be99cf83f905277f48baf81b84217b0cfbea17d871834d05cc7f69",
+          "expiresAt": "2026-09-15T10:38:38Z"
+        },
+        "canaryPrecondition": "the canary job and its live negative controls passed in the same run; the family matrix depends on that job, so no family verdict exists without it"
+      }
     },
     {
       "familyId": "wa_vac_misdemeanor_ordinary-set",
@@ -2933,8 +3067,8 @@
       },
       "requestedScale": 2.5,
       "builderAssignment": null,
-      "currentRasterState": "RASTER_PENDING",
-      "nextOwner": "RAS01",
+      "currentRasterState": "RASTER_PASS",
+      "nextOwner": "independent-verification",
       "supersededReceipts": [
         {
           "verdict": "RASTER_PASS",
@@ -2955,7 +3089,30 @@
           "supersededBecause": "the row now renders a different set of documents",
           "supersededAt": "2026-09-01T10:27:12Z"
         }
-      ]
+      ],
+      "rasterReceipt": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33497786539",
+        "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "renderedCommitSha": "422ccb49e37966a14b5b4026a0054ce97c3af974",
+        "jobId": "99824472563",
+        "jobConclusion": "success",
+        "boundToCanonicalSha256": "846360e75578ce6233dba77b03b25545a529b50cd553ad31f88d3008b429a6ad",
+        "boundToBoundarySha256": "75fac347051d6b710015ef5bbcc10b43df0a1de59078195ede75a744f4c42b77",
+        "documentsCovered": [
+          "crrlj-09-0100-canonical-filled.pdf",
+          "crrlj-09-0200-canonical-filled.pdf"
+        ],
+        "documentsNotCovered": [],
+        "coversTheWholeFamily": true,
+        "receiptArtifact": {
+          "id": "9796678069",
+          "name": "rcap-raster-wa_vac_misdemeanor_ordinary-set-33497786539",
+          "zipSha256": "sha256:8e730cabe2ef78f28de9fd3824555671b3b2af5a27a9e2944f1e66788fbb9b52",
+          "expiresAt": "2026-09-15T10:38:24Z"
+        },
+        "canaryPrecondition": "the canary job and its live negative controls passed in the same run; the family matrix depends on that job, so no family verdict exists without it"
+      }
     },
     {
       "familyId": "wa_vac_substance_use_disorder-set",
@@ -3015,8 +3172,8 @@
       },
       "requestedScale": 2.5,
       "builderAssignment": null,
-      "currentRasterState": "RASTER_PENDING",
-      "nextOwner": "RAS02",
+      "currentRasterState": "RASTER_PASS",
+      "nextOwner": "independent-verification",
       "supersededReceipts": [
         {
           "verdict": "RASTER_PASS",
@@ -3037,7 +3194,30 @@
           "supersededBecause": "the row now renders a different set of documents",
           "supersededAt": "2026-09-01T10:27:12Z"
         }
-      ]
+      ],
+      "rasterReceipt": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33497786539",
+        "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "renderedCommitSha": "422ccb49e37966a14b5b4026a0054ce97c3af974",
+        "jobId": "99824472518",
+        "jobConclusion": "success",
+        "boundToCanonicalSha256": "846360e75578ce6233dba77b03b25545a529b50cd553ad31f88d3008b429a6ad",
+        "boundToBoundarySha256": "75fac347051d6b710015ef5bbcc10b43df0a1de59078195ede75a744f4c42b77",
+        "documentsCovered": [
+          "crrlj-09-0100-canonical-filled.pdf",
+          "crrlj-09-0200-canonical-filled.pdf"
+        ],
+        "documentsNotCovered": [],
+        "coversTheWholeFamily": true,
+        "receiptArtifact": {
+          "id": "9796680982",
+          "name": "rcap-raster-wa_vac_substance_use_disorder-set-33497786539",
+          "zipSha256": "sha256:a4acd47e8cbe3ef59a218abefe3ea997feded2af05c2fea7af516b4929ea0ff7",
+          "expiresAt": "2026-09-15T10:38:30Z"
+        },
+        "canaryPrecondition": "the canary job and its live negative controls passed in the same run; the family matrix depends on that job, so no family verdict exists without it"
+      }
     },
     {
       "familyId": "wa_vac_survivor_felony-set",
@@ -3097,8 +3277,8 @@
       },
       "requestedScale": 2.5,
       "builderAssignment": null,
-      "currentRasterState": "RASTER_PENDING",
-      "nextOwner": "RAS03",
+      "currentRasterState": "RASTER_PASS",
+      "nextOwner": "independent-verification",
       "supersededReceipts": [
         {
           "verdict": "RASTER_PASS",
@@ -3119,7 +3299,30 @@
           "supersededBecause": "the row now renders a different set of documents",
           "supersededAt": "2026-09-01T10:27:12Z"
         }
-      ]
+      ],
+      "rasterReceipt": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33497786539",
+        "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "renderedCommitSha": "422ccb49e37966a14b5b4026a0054ce97c3af974",
+        "jobId": "99824472641",
+        "jobConclusion": "success",
+        "boundToCanonicalSha256": "3c40568209578ca04893ce46b64539a44af355dc11bd75b7daee75d215eda37f",
+        "boundToBoundarySha256": "2da76cc75f1ccd72cc12fdefef71edb90f477199877714e3263d9b46a4fccc8d",
+        "documentsCovered": [
+          "cr-08-0900-canonical-filled.pdf",
+          "cr-08-0920-canonical-filled.pdf"
+        ],
+        "documentsNotCovered": [],
+        "coversTheWholeFamily": true,
+        "receiptArtifact": {
+          "id": "9796614079",
+          "name": "rcap-raster-wa_vac_survivor_felony-set-33497786539",
+          "zipSha256": "sha256:de51686ee35cf632794075d60814bc3f9878450e2d8d2e372b9bbe7507db2700",
+          "expiresAt": "2026-09-15T10:36:33Z"
+        },
+        "canaryPrecondition": "the canary job and its live negative controls passed in the same run; the family matrix depends on that job, so no family verdict exists without it"
+      }
     },
     {
       "familyId": "wa_vac_survivor_misdemeanor-set",
@@ -3179,8 +3382,8 @@
       },
       "requestedScale": 2.5,
       "builderAssignment": null,
-      "currentRasterState": "RASTER_PENDING",
-      "nextOwner": "RAS04",
+      "currentRasterState": "RASTER_PASS",
+      "nextOwner": "independent-verification",
       "supersededReceipts": [
         {
           "verdict": "RASTER_PASS",
@@ -3201,7 +3404,30 @@
           "supersededBecause": "the row now renders a different set of documents",
           "supersededAt": "2026-09-01T10:27:12Z"
         }
-      ]
+      ],
+      "rasterReceipt": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33497786539",
+        "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "renderedCommitSha": "422ccb49e37966a14b5b4026a0054ce97c3af974",
+        "jobId": "99824472594",
+        "jobConclusion": "success",
+        "boundToCanonicalSha256": "846360e75578ce6233dba77b03b25545a529b50cd553ad31f88d3008b429a6ad",
+        "boundToBoundarySha256": "75fac347051d6b710015ef5bbcc10b43df0a1de59078195ede75a744f4c42b77",
+        "documentsCovered": [
+          "crrlj-09-0100-canonical-filled.pdf",
+          "crrlj-09-0200-canonical-filled.pdf"
+        ],
+        "documentsNotCovered": [],
+        "coversTheWholeFamily": true,
+        "receiptArtifact": {
+          "id": "9796677444",
+          "name": "rcap-raster-wa_vac_survivor_misdemeanor-set-33497786539",
+          "zipSha256": "sha256:944119d935b2a927c88472bb7737c28b02ed0ee69d87ddda3517c9cab1104823",
+          "expiresAt": "2026-09-15T10:38:23Z"
+        },
+        "canaryPrecondition": "the canary job and its live negative controls passed in the same run; the family matrix depends on that job, so no family verdict exists without it"
+      }
     },
     {
       "familyId": "wa_vac_treaty_fishing-set",
@@ -3261,8 +3487,8 @@
       },
       "requestedScale": 2.5,
       "builderAssignment": null,
-      "currentRasterState": "RASTER_PENDING",
-      "nextOwner": "RAS01",
+      "currentRasterState": "RASTER_PASS",
+      "nextOwner": "independent-verification",
       "supersededReceipts": [
         {
           "verdict": "RASTER_PASS",
@@ -3283,7 +3509,30 @@
           "supersededBecause": "the row now renders a different set of documents",
           "supersededAt": "2026-09-01T10:27:12Z"
         }
-      ]
+      ],
+      "rasterReceipt": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33497786539",
+        "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "renderedCommitSha": "422ccb49e37966a14b5b4026a0054ce97c3af974",
+        "jobId": "99824472505",
+        "jobConclusion": "success",
+        "boundToCanonicalSha256": "846360e75578ce6233dba77b03b25545a529b50cd553ad31f88d3008b429a6ad",
+        "boundToBoundarySha256": "75fac347051d6b710015ef5bbcc10b43df0a1de59078195ede75a744f4c42b77",
+        "documentsCovered": [
+          "crrlj-09-0100-canonical-filled.pdf",
+          "crrlj-09-0200-canonical-filled.pdf"
+        ],
+        "documentsNotCovered": [],
+        "coversTheWholeFamily": true,
+        "receiptArtifact": {
+          "id": "9796678531",
+          "name": "rcap-raster-wa_vac_treaty_fishing-set-33497786539",
+          "zipSha256": "sha256:b278600d582daa0582eeacc1a88aed94363669cda03df347cc254d184872be84",
+          "expiresAt": "2026-09-15T10:38:26Z"
+        },
+        "canaryPrecondition": "the canary job and its live negative controls passed in the same run; the family matrix depends on that job, so no family verdict exists without it"
+      }
     },
     {
       "familyId": "wv_conv_multiple_misdemeanors-set",
