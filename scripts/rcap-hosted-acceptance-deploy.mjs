@@ -7,8 +7,9 @@
 // What this deliberately does not do, and how that is enforced rather than
 // promised:
 //
-//   * It never passes --prod, never assigns an alias, and asserts afterwards
-//     that the deployment's own `target` is not "production".
+//   * It never passes --prod. It binds exactly one deterministic SHA-scoped
+//     nonproduction alias, known before build, and asserts afterwards that the
+//     deployment's own `target` is not "production".
 //   * It never writes a project-level environment variable. Every value is
 //     passed per-deployment with --env / --build-env, so other Preview
 //     deployments and the Production environment keep exactly the variables
@@ -30,23 +31,34 @@ import path from "node:path";
 import { spawn } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
+import { prepareHostedAcceptanceEvidenceLayout } from "./rcap-hosted-acceptance-evidence-layout.mjs";
+import { redactHostedAcceptanceOutput } from "./rcap-hosted-acceptance-redaction.mjs";
+import {
+  HOSTED_VERCEL_TEAM_SLUG,
+  expectedHostedReturnOrigin,
+  hostedVercelCliEnvironment,
+  hostedVercelScopedUrl,
+  resolveHostedVercelIdentity
+} from "./rcap-hosted-acceptance-vercel-identity.mjs";
+
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const EVIDENCE_DIR = path.join(rootDir, "hosted-acceptance-evidence");
-fs.mkdirSync(EVIDENCE_DIR, { recursive: true });
+const { root: EVIDENCE_DIR } = prepareHostedAcceptanceEvidenceLayout({ rootDir });
 
 const VERCEL_TOKEN = process.env.VERCEL_TOKEN ?? "";
-const VERCEL_ORG_ID = process.env.VERCEL_ORG_ID ?? "";
-const VERCEL_PROJECT_ID = process.env.VERCEL_PROJECT_ID ?? "";
 const SUPABASE_ACCESS_TOKEN = process.env.SUPABASE_ACCESS_TOKEN ?? "";
 const PROJECT_REF = process.env.ACCEPTANCE_SUPABASE_PROJECT_REF ?? "";
 const APPLICATION_SHA = process.env.HOSTED_APPLICATION_SHA ?? "";
+const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
 let SCOPE_IDS = (process.env.HOSTED_STAGING_SCOPE ?? "").trim();
 const ROUTE_STATE = (process.env.HOSTED_ROUTE_STATE ?? "").trim();
 
-if (!VERCEL_TOKEN || !VERCEL_ORG_ID || !VERCEL_PROJECT_ID || !SUPABASE_ACCESS_TOKEN || !/^[a-z]{20}$/.test(PROJECT_REF)) {
-  console.error("DEPLOY: VERCEL_TOKEN, VERCEL_ORG_ID, VERCEL_PROJECT_ID, SUPABASE_ACCESS_TOKEN and a well-formed ACCEPTANCE_SUPABASE_PROJECT_REF are required");
+if (!VERCEL_TOKEN || !SUPABASE_ACCESS_TOKEN || PROJECT_REF !== EXPECTED_PROJECT_REF || !/^[0-9a-f]{40}$/.test(APPLICATION_SHA)) {
+  console.error("DEPLOY: VERCEL_TOKEN, SUPABASE_ACCESS_TOKEN, the pinned acceptance project ref and one exact application SHA are required");
   process.exit(1);
 }
+const VERCEL_IDENTITY = await resolveHostedVercelIdentity({ token: VERCEL_TOKEN });
+const RETURN_ORIGIN = expectedHostedReturnOrigin(APPLICATION_SHA);
+const RETURN_ALIAS_HOST = new URL(RETURN_ORIGIN).host;
 
 const SUPABASE_URL = `https://${PROJECT_REF}.supabase.co`;
 const verdicts = new Map();
@@ -58,17 +70,18 @@ function record(caseId, passed, observed) {
 const REQUIRED_CASES = [
   "deployed_to_preview_not_production",
   "deployment_carries_the_final_application_sha",
+  "deterministic_nonproduction_return_alias_bound",
   "bound_to_the_acceptance_supabase_project_only",
   "production_aliases_unchanged",
   "production_environment_variables_unchanged",
+  "deployed_application_health_is_200",
   "delivery_route_refuses_on_the_deployed_instance"
 ];
 
-async function vercelApi(pathname) {
-  const joiner = pathname.includes("?") ? "&" : "?";
-  const param = VERCEL_ORG_ID.startsWith("team_") ? "teamId" : "slug";
-  const res = await fetch(`https://api.vercel.com${pathname}${joiner}${param}=${encodeURIComponent(VERCEL_ORG_ID)}`, {
-    headers: { Authorization: `Bearer ${VERCEL_TOKEN}` }
+async function vercelApi(pathname, init = {}) {
+  const res = await fetch(hostedVercelScopedUrl(pathname, VERCEL_IDENTITY), {
+    ...init,
+    headers: { Authorization: `Bearer ${VERCEL_TOKEN}`, ...(init.headers ?? {}) }
   });
   const text = await res.text();
   let json = null;
@@ -104,12 +117,16 @@ const evidence = {
 };
 
 // --- 0. Before-picture of everything this run must not disturb ---------------
-const beforeProject = await vercelApi(`/v9/projects/${encodeURIComponent(VERCEL_PROJECT_ID)}`);
-const beforeEnv = await vercelApi(`/v9/projects/${encodeURIComponent(VERCEL_PROJECT_ID)}/env`);
+const beforeProject = await vercelApi(`/v9/projects/${encodeURIComponent(VERCEL_IDENTITY.projectId)}`);
+const beforeEnv = await vercelApi(`/v9/projects/${encodeURIComponent(VERCEL_IDENTITY.projectId)}/env`);
 const aliasesBefore = Array.isArray(beforeProject.json?.alias)
   ? beforeProject.json.alias.filter((a) => a?.target === "PRODUCTION").map((a) => a.domain).sort()
   : [];
 const envBefore = envShape(Array.isArray(beforeEnv.json?.envs) ? beforeEnv.json.envs : []);
+if (aliasesBefore.includes(RETURN_ALIAS_HOST)) {
+  console.error(`DEPLOY: deterministic acceptance alias ${RETURN_ALIAS_HOST} is attached to Production; refusing`);
+  process.exit(1);
+}
 
 // --- 0b. Reuse a READY Preview deployment of these exact bytes, if one exists -
 //
@@ -133,20 +150,31 @@ const STRIPE_CONFIGURED = Boolean(process.env.HOSTED_STRIPE_TEST_SECRET && proce
 const ROUTE_STATE_TAG = ROUTE_STATE || "disabled";
 
 async function findReusableDeployment() {
-  const res = await vercelApi(`/v6/deployments?projectId=${encodeURIComponent(VERCEL_PROJECT_ID)}&limit=100&state=READY`);
+  const res = await vercelApi(`/v6/deployments?projectId=${encodeURIComponent(VERCEL_IDENTITY.projectId)}&limit=100&state=READY`);
   if (res.status !== 200 || !Array.isArray(res.json?.deployments)) return null;
   const match = res.json.deployments.find(
     (d) =>
       (d.readyState ?? d.state) === "READY" &&
-      d.target !== "production" &&
+      (d.target === null || d.target === "preview") &&
       d.meta?.rcapApplicationSha === APPLICATION_SHA &&
+      d.meta?.rcapAcceptanceProjectRef === PROJECT_REF &&
       d.meta?.rcapStripeConfigured === String(STRIPE_CONFIGURED) &&
-      d.meta?.rcapRouteState === ROUTE_STATE_TAG
+      d.meta?.rcapRouteState === ROUTE_STATE_TAG &&
+      d.meta?.rcapReturnOrigin === RETURN_ORIGIN
   );
   return match ? { url: `https://${match.url}`, id: match.uid ?? match.id ?? null } : null;
 }
 
 const reusable = await findReusableDeployment();
+
+// Resolve the acceptance project's keys before the scoped-identity decision.
+// A completely fresh acceptance project has no consumer A yet, and the scope
+// must name a real UUID before Vercel bakes the deployment environment.
+const keys = await supabaseKeys();
+if (!keys.anon || !keys.service) {
+  console.error("DEPLOY: could not read the acceptance project's anon/service_role keys");
+  process.exit(1);
+}
 
 // The scoped state names UUIDs, and a deployment's environment is fixed at
 // creation, so the scope has to be resolved BEFORE the build rather than after.
@@ -159,25 +187,40 @@ if (ROUTE_STATE === "staging_scoped" && !SCOPE_IDS) {
     body: JSON.stringify({ query: "select id from auth.users where email = 'acceptance-consumer-a@rcap-acceptance.test' limit 1" })
   });
   const rows = await lookup.json().catch(() => null);
-  const id = Array.isArray(rows) ? rows[0]?.id : null;
+  let id = Array.isArray(rows) ? rows[0]?.id : null;
   if (!id) {
-    console.error("DEPLOY: staging_scoped was requested but the acceptance consumer identity does not exist yet; run the accept phase first so the scope names a real user");
+    const created = await fetch(`${SUPABASE_URL}/auth/v1/admin/users`, {
+      method: "POST",
+      headers: {
+        apikey: keys.service,
+        Authorization: `Bearer ${keys.service}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        email: "acceptance-consumer-a@rcap-acceptance.test",
+        password: "Acceptance-a-4f7c21!",
+        email_confirm: true
+      })
+    });
+    const createdUser = await created.json().catch(() => null);
+    id = createdUser?.id ?? createdUser?.user?.id ?? null;
+    evidence.syntheticConsumerBootstrap = id ? "created_consumer_a" : `failed_status_${created.status}`;
+  } else {
+    evidence.syntheticConsumerBootstrap = "reused_consumer_a";
+  }
+  if (!id) {
+    console.error("DEPLOY: staging_scoped was requested but consumer A could not be resolved or created in the pinned acceptance project");
     process.exit(1);
   }
   SCOPE_IDS = id;
 }
 
 // --- 1. Deploy to Preview ----------------------------------------------------
-const keys = await supabaseKeys();
-if (!keys.anon || !keys.service) {
-  console.error("DEPLOY: could not read the acceptance project's anon/service_role keys");
-  process.exit(1);
-}
-
 // Public at build time, server-only at runtime. The delivery flag is passed
 // ONLY when ROUTE_STATE is explicitly set; the default deployment carries no
 // flag at all, so the control's own default (disabled) applies.
 const runtimeEnv = {
+  NEXT_PUBLIC_EXPUNGEMENT_AI_URL: RETURN_ORIGIN,
   NEXT_PUBLIC_SUPABASE_URL: SUPABASE_URL,
   NEXT_PUBLIC_SUPABASE_ANON_KEY: keys.anon,
   SUPABASE_URL,
@@ -192,6 +235,7 @@ const runtimeEnv = {
   VERCEL_SUPPORT_LARGE_FUNCTIONS: "1"
 };
 const buildEnv = {
+  NEXT_PUBLIC_EXPUNGEMENT_AI_URL: RETURN_ORIGIN,
   NEXT_PUBLIC_SUPABASE_URL: SUPABASE_URL,
   NEXT_PUBLIC_SUPABASE_ANON_KEY: keys.anon,
   // The first deploy built cleanly and then failed at "Deploying outputs":
@@ -242,7 +286,7 @@ const buildEnv = {
 // gallery step, which runs even when the deploy fails, reported "no READY
 // non-production deployment carrying 264d2a24" — so after 59 minutes Vercel had
 // not been handed a complete deployment at all.
-const args = ["vercel@latest", "deploy", "--archive=tgz", "--yes", "--token", VERCEL_TOKEN, "--scope", VERCEL_ORG_ID];
+const args = ["vercel@latest", "deploy", "--archive=tgz", "--yes", "--token", VERCEL_TOKEN, "--scope", HOSTED_VERCEL_TEAM_SLUG];
 for (const [key, value] of Object.entries(runtimeEnv)) args.push("--env", `${key}=${value}`);
 for (const [key, value] of Object.entries(buildEnv)) args.push("--build-env", `${key}=${value}`);
 args.push("--meta", `rcapApplicationSha=${APPLICATION_SHA}`);
@@ -253,22 +297,26 @@ args.push("--meta", `rcapAcceptanceProjectRef=${PROJECT_REF}`);
 // creates or the next run cannot tell two builds of the same SHA apart.
 args.push("--meta", `rcapStripeConfigured=${STRIPE_CONFIGURED}`);
 args.push("--meta", `rcapRouteState=${ROUTE_STATE_TAG}`);
+args.push("--meta", `rcapReturnOrigin=${RETURN_ORIGIN}`);
 
-const redact = (text) => String(text ?? "")
-  .replaceAll(VERCEL_TOKEN, "***")
-  .replaceAll(SUPABASE_ACCESS_TOKEN, "***")
-  .replace(/eyJ[A-Za-z0-9_.-]{20,}/g, "***REDACTED***")
-  .replace(/sk_(test|live)_[A-Za-z0-9_]+/g, "***REDACTED***");
+const redact = (text) => redactHostedAcceptanceOutput(text, [
+  VERCEL_TOKEN,
+  SUPABASE_ACCESS_TOKEN,
+  process.env.HOSTED_STRIPE_TEST_SECRET,
+  process.env.HOSTED_STRIPE_TEST_WEBHOOK_SECRET,
+  keys.anon,
+  keys.service
+]);
 
-let previewUrl = null;
+let deploymentUrl = null;
 if (reusable) {
   // No third deployment is created. Every proof below still runs against this
   // URL unchanged — reuse skips the creation, never the verification.
-  previewUrl = reusable.url;
+  deploymentUrl = reusable.url;
   evidence.deploymentOrigin = "reused an existing READY Preview deployment of the same application SHA";
   console.log(`  reusing READY Preview deployment ${reusable.id ?? "(id unknown)"} — no new deployment created`);
 } else {
-  console.log(`  deploying ${APPLICATION_SHA.slice(0, 12)}… to the Preview environment (no --prod, no alias, no project-level env write)`);
+  console.log(`  deploying ${APPLICATION_SHA.slice(0, 12)}… to Preview (no --prod; deterministic SHA-scoped nonproduction return alias)`);
   // Streamed, not buffered.
   //
   // This used to be spawnSync with piped stdio, which holds every byte until
@@ -287,7 +335,7 @@ if (reusable) {
       // had already accepted the deployment, which is the worst shape of
       // failure: the work succeeded and the harness reported failure.
       stdio: ["ignore", "pipe", "pipe"],
-      env: { ...process.env, VERCEL_ORG_ID, VERCEL_PROJECT_ID }
+      env: { ...process.env, ...hostedVercelCliEnvironment(VERCEL_IDENTITY) }
     });
 
     let combined = "";
@@ -317,48 +365,85 @@ if (reusable) {
 
   const combined = `${deploy.stdout ?? ""}\n${deploy.stderr ?? ""}`;
   const urlMatch = combined.match(/https:\/\/[a-z0-9-]+\.vercel\.app/gi) ?? [];
-  previewUrl = urlMatch[urlMatch.length - 1] ?? null;
+  deploymentUrl = urlMatch[urlMatch.length - 1] ?? null;
 
-  if (deploy.status !== 0 || !previewUrl) {
+  if (deploy.status !== 0 || !deploymentUrl) {
     fs.writeFileSync(path.join(EVIDENCE_DIR, "deploy.json"), `${JSON.stringify({ ...evidence, passed: false, exitCode: deploy.status, tail: redact(combined).slice(-1500) }, null, 2)}\n`);
     console.error(`DEPLOY FAILED — vercel exited ${deploy.status}\n${redact(combined).slice(-2000)}`);
     process.exit(1);
   }
   evidence.deploymentOrigin = "created a new Preview deployment";
 }
-evidence.previewUrl = previewUrl;
-console.log(`  deployment URL: ${previewUrl}`);
+evidence.deploymentUrl = deploymentUrl;
+console.log(`  immutable deployment URL: ${deploymentUrl}`);
 
-// --- 2. Prove it is Preview, not Production ---------------------------------
+// --- 2. Prove Preview identity, then bind the build-time return alias --------
+let deployedAcceptanceProjectRef = null;
+let deploymentId = null;
 {
-  const host = previewUrl.replace(/^https:\/\//, "");
+  const host = deploymentUrl.replace(/^https:\/\//, "");
   const detail = await vercelApi(`/v13/deployments/${encodeURIComponent(host)}`);
   const target = detail.json?.target ?? null;
   const meta = detail.json?.meta ?? {};
+  deploymentId = detail.json?.id ?? detail.json?.uid ?? null;
   record(
     "deployed_to_preview_not_production",
-    detail.status === 200 && target !== "production",
-    `Vercel reports target=${JSON.stringify(target)} for this deployment (must not be "production"); readyState=${detail.json?.readyState ?? "unknown"}`
+    detail.status === 200 && (target === null || target === "preview"),
+    `Vercel reports target=${JSON.stringify(target)} for this deployment (must be Preview); readyState=${detail.json?.readyState ?? "unknown"}`
   );
   record(
     "deployment_carries_the_final_application_sha",
-    meta.rcapApplicationSha === APPLICATION_SHA,
-    `deployment metadata records rcapApplicationSha=${meta.rcapApplicationSha ?? "(absent)"} against the declared final SHA ${APPLICATION_SHA}`
+    meta.rcapApplicationSha === APPLICATION_SHA && meta.rcapReturnOrigin === RETURN_ORIGIN,
+    `deployment metadata records rcapApplicationSha=${meta.rcapApplicationSha ?? "(absent)"} and rcapReturnOrigin=${meta.rcapReturnOrigin ?? "(absent)"}`
   );
-  evidence.deployment = { id: detail.json?.id ?? null, target, readyState: detail.json?.readyState ?? null };
+  deployedAcceptanceProjectRef = meta.rcapAcceptanceProjectRef ?? null;
+  evidence.deployment = { id: deploymentId, target, readyState: detail.json?.readyState ?? null, immutableHostname: host };
   evidence.deploymentAliases = Array.isArray(detail.json?.alias) ? detail.json.alias : [];
 }
+
+if (deploymentId) {
+  const current = await vercelApi(`/v13/deployments/${encodeURIComponent(RETURN_ALIAS_HOST)}`);
+  const currentId = current.json?.id ?? current.json?.uid ?? null;
+  if (current.status !== 200 || currentId !== deploymentId) {
+    const assigned = await vercelApi(`/v2/deployments/${encodeURIComponent(deploymentId)}/aliases`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ alias: RETURN_ALIAS_HOST })
+    });
+    if (assigned.status < 200 || assigned.status >= 300) {
+      evidence.aliasAssignment = { status: assigned.status, passed: false };
+    }
+  }
+  const bound = await vercelApi(`/v13/deployments/${encodeURIComponent(RETURN_ALIAS_HOST)}`);
+  const boundId = bound.json?.id ?? bound.json?.uid ?? null;
+  const boundTarget = bound.json?.target ?? null;
+  const boundMeta = bound.json?.meta ?? {};
+  const aliasPassed = bound.status === 200
+    && boundId === deploymentId
+    && (boundTarget === null || boundTarget === "preview")
+    && boundMeta.rcapApplicationSha === APPLICATION_SHA
+    && boundMeta.rcapReturnOrigin === RETURN_ORIGIN;
+  record(
+    "deterministic_nonproduction_return_alias_bound",
+    aliasPassed,
+    `${RETURN_ALIAS_HOST} resolves to deployment ${boundId ?? "(none)"}; target=${JSON.stringify(boundTarget)}; exact SHA/return-origin metadata=${boundMeta.rcapApplicationSha === APPLICATION_SHA && boundMeta.rcapReturnOrigin === RETURN_ORIGIN}`
+  );
+  evidence.aliasAssignment = { hostname: RETURN_ALIAS_HOST, deploymentId: boundId, target: boundTarget, passed: aliasPassed };
+} else {
+  record("deterministic_nonproduction_return_alias_bound", false, "Vercel returned no deployment id to bind");
+}
+
+const previewUrl = RETURN_ORIGIN;
+evidence.previewUrl = previewUrl;
+console.log(`  exact acceptance return origin: ${previewUrl}`);
 
 // --- 2b. Where does the Stripe webhook now have to point? --------------------
 //
 // A Stripe webhook destination is configured once and then keeps firing at
-// whatever URL it holds. `vercel deploy` mints a fresh per-deployment hostname
-// and this script deliberately assigns no alias, so a redeploy of different
-// bytes generally moves the application to a NEW host and leaves the old host
-// serving the OLD deployment — still READY, still answering 200, still
-// verifying signatures with the same whsec_. That is the dangerous shape: a
-// stale destination does not look broken, it looks fine while delivering every
-// real completion event to bytes that were replaced.
+// whatever URL it holds. This release uses the deterministic SHA-scoped alias
+// above for both browser return URLs and the webhook destination. The existing
+// sandbox destination is still retargeted and reverified explicitly because it
+// currently names the superseded immutable deployment hostname.
 //
 // So this is derived rather than assumed. The previous host is queried on its
 // own and asked which application SHA it carries; the new deployment is asked
@@ -414,11 +499,11 @@ console.log(`  deployment URL: ${previewUrl}`);
   const acceptanceHash = crypto.createHash("sha256").update(SUPABASE_URL).digest("hex");
   record(
     "bound_to_the_acceptance_supabase_project_only",
-    Boolean(keys.anon && keys.service),
-    `every Supabase value passed to this deployment was read from ${PROJECT_REF} moments ago; the acceptance URL hashes to ${acceptanceHash.slice(0, 16)}… and no other project's URL or key was passed`
+    deployedAcceptanceProjectRef === PROJECT_REF,
+    `deployment metadata records rcapAcceptanceProjectRef=${deployedAcceptanceProjectRef ?? "(absent)"} against ${PROJECT_REF}; the acceptance URL hashes to ${acceptanceHash.slice(0, 16)}…`
   );
 
-  const afterProject = await vercelApi(`/v9/projects/${encodeURIComponent(VERCEL_PROJECT_ID)}`);
+  const afterProject = await vercelApi(`/v9/projects/${encodeURIComponent(VERCEL_IDENTITY.projectId)}`);
   const aliasesAfter = Array.isArray(afterProject.json?.alias)
     ? afterProject.json.alias.filter((a) => a?.target === "PRODUCTION").map((a) => a.domain).sort()
     : [];
@@ -428,7 +513,7 @@ console.log(`  deployment URL: ${previewUrl}`);
     `${aliasesBefore.length} production alias(es) before, ${aliasesAfter.length} after, identical sets`
   );
 
-  const afterEnv = await vercelApi(`/v9/projects/${encodeURIComponent(VERCEL_PROJECT_ID)}/env`);
+  const afterEnv = await vercelApi(`/v9/projects/${encodeURIComponent(VERCEL_IDENTITY.projectId)}/env`);
   const envAfter = envShape(Array.isArray(afterEnv.json?.envs) ? afterEnv.json.envs : []);
   record(
     "production_environment_variables_unchanged",
@@ -472,6 +557,16 @@ console.log(`  deployment URL: ${previewUrl}`);
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ itemId: crypto.randomUUID() })
   });
+
+  const healthy = health.status === 200
+    && health.json !== null
+    && typeof health.json === "object"
+    && "checks" in health.json;
+  record(
+    "deployed_application_health_is_200",
+    healthy,
+    `GET /api/health=${health.status}; application JSON with checks=${Boolean(health.json && typeof health.json === "object" && "checks" in health.json)}`
+  );
 
   // 401 is Vercel deployment protection answering ahead of the app; 503 is the
   // delivery control answering; 401 from the app is the auth gate. All three

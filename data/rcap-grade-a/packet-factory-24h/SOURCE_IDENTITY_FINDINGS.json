@@ -1,0 +1,92 @@
+{
+  "schemaVersion": "rcap-source-identity-findings/v1",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-source-identity-findings.mjs",
+  "question": "The conveyor has 449 obligations and 198 documents with no known address. Which of them can be acquired at all?",
+  "answer": "Not all of them. Louisiana's four highest-leverage 'forms' are statutory articles with no published PDF, and Kansas's may already be held behind a lookup that cannot match. Both were queued as acquisition work.",
+  "method": "Two read-only discovery passes over committed evidence only, with every claim re-checked here against the files it cites. A finding whose evidence has moved fails this generator rather than being restated.",
+  "everyClaimVerifiedAtGenerationTime": true,
+  "findings": [
+    {
+      "id": "SIF-1",
+      "jurisdiction": "LA",
+      "severity": "high",
+      "claim": "LA-CCRP-ART-988, 989, 991 and 992 are statutory article citations, not published forms. There is no official PDF to acquire for any of them.",
+      "evidence": [
+        "src/lib/rcap/state-packs/louisiana/official-forms.ts header: \"Louisiana's forms are STATUTORY: they are built into the Code of Criminal Procedure... The source folder contains the Louisiana Laws HTML pages (statutory text), not separate blank PDF form files — so blankPdfInSource is false for every entry (the 'form' is the codal form).\"",
+        "src/lib/rcap/state-packs/louisiana/official-forms.ts: 11 entries carry blankPdfInSource: false and none carries true."
+      ],
+      "whatItChanges": "These obligations are not acquisition work. A lane sent to find their URL will fail, report BLOCKED_SOURCE, and leave the families looking permanently source-blocked. They are custom-pleading work drafted from the codified text, which is a different lane and a different skill.",
+      "reclassifyTo": "STATUTORY_INSTRUMENT_NOT_A_PUBLISHED_FORM",
+      "doNotDo": "Do not dispatch an acquisition for these. Do not record a URL for them. Do not treat a statute page as a form source.",
+      "verified": true
+    },
+    {
+      "id": "SIF-2",
+      "jurisdiction": "KS",
+      "severity": "medium",
+      "claim": "Kansas documents may already be held. The registry reports them unaccounted because the corpus index truncates formNumber at about 46 characters while the registry keys carry a date suffix, so the two never match.",
+      "evidence": [
+        "data/rcap-all50/local-source-corpus-index.json: 2 KS entr(ies) carry a formNumber at or past the truncation length, e.g. \"KS-NOTICE-OF-HEARING-ON-PETITION-FOR-EXPUNGEM\", \"KS-ORDER-OF-EXPUNGEMENT-OF-CONVICTION-OR-DIVE\"",
+        "The registry's expected ids use a NAME-MM-YYYY convention that a truncated name cannot produce."
+      ],
+      "whatItChanges": "This is a reconciliation defect, not a discovery gap. Sending a DISC lane to find documents the corpus may already hold spends the scarcest capacity in the factory on a lookup bug.",
+      "reclassifyTo": "RECONCILE_BEFORE_DISPATCH",
+      "doNotDo": "Do not acquire a Kansas document before reconciling the corpus index against the registry by SHA-256 rather than by formNumber string.",
+      "verified": true
+    },
+    {
+      "id": "SIF-3",
+      "jurisdiction": "IL",
+      "severity": "low",
+      "claim": "EXP-AD Case List is fully identified with an official URL and an expected SHA-256 already in the acquisition manifest. EXP-AD Request and EXP-AD Order Granting have candidate URLs only, in a record whose own name says candidate, with no expected hash and no corroboration.",
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/SOURCE_ACQUISITION_MANIFEST.json carries EXP-AD Case List with an official URL and expectedSha256.",
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json carries URLs for Request and Order Granting and nothing else does."
+      ],
+      "whatItChanges": "One of the four Illinois documents is acquirable now. The other two need their candidate URL corroborated before any lane fetches it — an uncorroborated address in a candidate file is a guess with a filename.",
+      "reclassifyTo": "ONE_ACQUIRABLE_TWO_UNCORROBORATED",
+      "doNotDo": "Do not promote a candidate URL into the manifest without a second source and an expected hash.",
+      "verified": true
+    },
+    {
+      "id": "SIF-4",
+      "jurisdiction": "ALL",
+      "severity": "high",
+      "claim": "private/Nationwide Record Clearing/ — the sprint's stated source inventory — is not present in this worktree.",
+      "evidence": [
+        "The directory does not exist here, and data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json declares presentInWorktree: false with ingestionStatus ABSENT_FROM_THIS_WORKTREE."
+      ],
+      "whatItChanges": "Discovery lanes in this environment cannot ingest the inventory the build discipline names as the first source. They can only reconcile what is already committed, which is a narrower job than the DISC prompts describe.",
+      "reclassifyTo": "DISCOVERY_LIMITED_TO_COMMITTED_EVIDENCE",
+      "doNotDo": "Do not report a DISC lane as having exhausted discovery when the primary inventory was never mounted.",
+      "verified": true
+    }
+  ],
+  "affected": {
+    "louisianaFamilies": [
+      "la-976-arrest-no-conviction-set",
+      "la-977-misdemeanor-conviction-set",
+      "la-977d-marijuana-first-offense-set",
+      "la-978-felony-conviction-set",
+      "la-985-1-interim-expungement-set",
+      "la-985-expungement-by-redaction-set",
+      "la-987-set-aside-and-dismiss-set"
+    ],
+    "kansasFamilies": [
+      "ks-21-6614-conviction-set",
+      "ks-21-6614-diversion-set",
+      "ks-21-6614-prostitution-coercion-set",
+      "ks-21-6614-specialty-court-set",
+      "ks-22-2410-arrest-set",
+      "ks-22-4908-registration-relief-set",
+      "rcap-ks-custom-pleading"
+    ]
+  },
+  "whatThisDoesNotEstablish": [
+    "that any Louisiana instrument has been drafted",
+    "that any Kansas document is in fact held — only that the lookup cannot currently tell",
+    "that any URL here has been fetched, or that any byte has been promoted"
+  ],
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}

@@ -1,0 +1,94 @@
+{
+  "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
+  "lane": "VF01",
+  "worker": "VF-SRC-A",
+  "assignmentCount": 2,
+  "assignments": [
+    {
+      "itemId": "ak-courtview-set",
+      "lane": "VF01",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill",
+      "decisiveDefect": "the packet never mentions who must be served or how at all",
+      "failedProofObligations": [
+        "SERVICE"
+      ],
+      "perObligation": {
+        "SERVICE": {
+          "measuredDetail": "the packet never mentions who must be served or how at all",
+          "whatRepairMustDo": "participant-instructions.md must state who must be served and by what method."
+        }
+      },
+      "repairMustNotDo": [
+        "do not edit an artifact merely so a receipt matches it",
+        "this verification opens no commercial route and grants no approval"
+      ]
+    },
+    {
+      "itemId": "mi_setaside_marihuana-set",
+      "lane": "VF01",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill",
+      "decisiveDefect": "the packet is built for the route the record names, but the family is spelled inconsistently across records, so a lookup keyed on familyId misses: expected \"mi_setaside_marihuana-set\" and product-wiring.json names \"mi-setaside-marihuana-set\"",
+      "failedProofObligations": [
+        "ROUTE_IDENTITY",
+        "SERVICE"
+      ],
+      "perObligation": {
+        "ROUTE_IDENTITY": {
+          "measuredDetail": "the packet is built for the route the record names, but the family is spelled inconsistently across records, so a lookup keyed on familyId misses: expected \"mi_setaside_marihuana-set\" and product-wiring.json names \"mi-setaside-marihuana-set\"",
+          "whatRepairMustDo": "Spell the familyId identically in every record. A lookup keyed on it misses the record that spells it differently."
+        },
+        "SERVICE": {
+          "measuredDetail": "the packet does not state who must be served or how. The closest it gets is a catch-all line that names it among other items without answering it or naming who to ask: \"The court's instruction sheet says: if the prosecuting agency files a response opposing your application, the court must set a hearing within 30 days and mail you notice of it, and you should appear. \"",
+          "whatRepairMustDo": "participant-instructions.md must state who must be served and by what method."
+        }
+      },
+      "repairMustNotDo": [
+        "do not edit an artifact merely so a receipt matches it",
+        "this verification opens no commercial route and grants no approval"
+      ]
+    }
+  ],
+  "supersededLaneMembership": {
+    "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
+    "lane": "VF01",
+    "worker": "VF-SRC-A",
+    "baseSha": "09b741ad00be0d630bd73a72f66640294abab397",
+    "assignmentCount": 1,
+    "assignments": [
+      {
+        "itemId": "ne-setaside-custodial-set",
+        "lane": "VF01",
+        "familyDirectory": "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill",
+        "decisiveDefect": "the instructions never name a court or agency to file with",
+        "failedProofObligations": [
+          "FILING_DESTINATION",
+          "FEE_AND_WAIVER",
+          "SERVICE",
+          "SELF_HELP_STOP"
+        ],
+        "perObligation": {
+          "FILING_DESTINATION": {
+            "measuredDetail": "the instructions never name a court or agency to file with",
+            "whatRepairMustDo": "participant-instructions.md must name the court or agency the route names, or name exactly who the participant must get it from. The Vermont felony and misdemeanor packets in this same wave do this under a 'Where you file this' heading and are the model."
+          },
+          "FEE_AND_WAIVER": {
+            "measuredDetail": "neither a filing fee nor a waiver route is stated",
+            "whatRepairMustDo": "participant-instructions.md must state the filing fee and any waiver route, or name the clerk to ask and say plainly that the amount is not stated. The Vermont packets do the latter and are the model."
+          },
+          "SERVICE": {
+            "measuredDetail": "the instructions never state who must be served or how",
+            "whatRepairMustDo": "participant-instructions.md must state who must be served and by what method. The Vermont felony and misdemeanor packets carry an explicit 'Who must be served, and how' bullet; this family does not."
+          },
+          "SELF_HELP_STOP": {
+            "measuredDetail": "the packet never states where self-help ends",
+            "whatRepairMustDo": "participant-instructions.md must state where self-help ends. The Vermont packets close with a 'What this packet is not' section and the Ohio composed drafts carry 'Hard stops'; this family states nothing."
+          }
+        },
+        "repairMustNotDo": [
+          "do not edit any artifact merely so a receipt matches it",
+          "this verification opens no commercial route and grants no approval"
+        ]
+      }
+    ]
+  }
+}

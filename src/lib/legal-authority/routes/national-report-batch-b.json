@@ -1,0 +1,437 @@
+{
+  "batch": "national-report-2026-08-28-batch-b",
+  "authority": "National Record-Clearing Legal Decision Report, current through 2026-08-28 (docs/record-clearing/NATIONAL_LEGAL_DECISION_REPORT_2026-08-28.md, sha256 84ef2b61126aa26cd66dec5dfb39a112d87c5a92397ab92efd452cc1e5ad1336). Batch B: Louisiana, Maine and Alaska. Separate from the Batch A file so each batch can be reverted alone and a reader can tell which decisions arrived when.",
+  "note": "Every gate here is a condition the report itself states. The routes it names already ran with checkout derived open and no gate holding them: eight Louisiana contracts and one Maine contract carried packet_checkout with zero deliveryGates and zero packetReleasePreconditions while the report's own implementation matrix recorded four of these questions as CONDITIONAL — SOURCE GATE, one as ARTIFACT REVIEW STILL REQUIRED and one as a FORM-CONFLICT GATE. The conditions existed in the report and had never been projected into anything that runs. No route here carries effectiveFrom. It means the date a mechanism comes into force, and every statute in this batch — La. C.Cr.P. art. 977/985/998, 15 M.R.S. § 2264, 16 M.R.S. § 703, AS 12.55.085 — has been in force for years. Setting it to 2026-08-28 because that is when the report was written held all seven routes as legal_authority_not_in_force in any evaluation dated earlier, which the 2026-07-01 witness replay showed immediately.",
+  "routes": [
+    {
+      "routeKey": "LA:first-offense-marijuana-expungement-after-90-days-art-998",
+      "jurisdiction": "LA",
+      "pathwayId": "first-offense-marijuana-expungement-after-90-days-art-998",
+      "decisionId": "NATIONAL-2026-08-28-B-LA-01",
+      "ruleId": "LA-977D-998-POST-SUNSET-FEE-SCHEDULE",
+      "mechanism": "First-offense marijuana expungement after the ninety-day period",
+      "statute": "La. C.Cr.P. art. 998; La. C.Cr.P. art. 977(D)",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "elapsed_eligibility_clock",
+        "value": 90,
+        "unit": "days",
+        "anchorFactId": "disposition_date",
+        "anchorText": "ninety days from the disposition that ends the first-offense marijuana matter"
+      },
+      "requiredFacts": [
+        "Which parish clerk of court receives the motion?",
+        "What fee schedule does that clerk apply to an Article 977(D) motion filed after 1 August 2026?",
+        "Has the ninety-day period run?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "offense_level"
+      ],
+      "exclusions": [
+        "This route is the first-offense marijuana branch only; an ordinary Article 977 or 978 matter takes its own route"
+      ],
+      "packetFamily": "Louisiana Article 977(D) First-Offense Marijuana Expungement Packet",
+      "packetComponents": [
+        "Motion for expungement under La. C.Cr.P. art. 998",
+        "Proposed order",
+        "Clerk fee statement for the receiving parish"
+      ],
+      "deliveryGates": [
+        {
+          "id": "la_977d_post_sunset_fee_schedule",
+          "kind": "source_acquisition",
+          "items": [
+            "the fee a parish clerk actually charges for an Article 977(D) motion filed after 1 August 2026",
+            "whether any parish still applies the terminated Article 983(M) three-hundred-dollar schedule",
+            "any parish that publishes a different collection practice for Article 977(D) motions"
+          ],
+          "owner": "RCAP source acquisition",
+          "statusSource": "server_configuration_record",
+          "evidenceReference": "pending: no parish fee-practice record exists yet",
+          "note": "Report disposition CONDITIONAL — SOURCE GATE for Q-004. The statute sunset the Article 983(M) schedule on 1 August 2026; what is unknown is whether every clerk stopped applying it. Quoting a fee that a parish does not charge is a filing failure, not a legal error, which is why this is a source gate and not a legal question."
+        }
+      ],
+      "commercialPosture": {
+        "checkoutEnabled": true,
+        "sponsoredGenerationEnabled": true,
+        "packetCreditsConsumed": 1,
+        "note": "A real participant motion. The fee gate, not the posture, is what holds it closed."
+      },
+      "notes": "Batch B. The legal mechanism is settled; the parish-level fee practice is not. This is operational configuration, NOT unresolved legal research, and must never be sent to counsel as though it were."
+    },
+    {
+      "routeKey": "LA:expungement-by-redaction-for-multi-person-records",
+      "jurisdiction": "LA",
+      "pathwayId": "expungement-by-redaction-for-multi-person-records",
+      "decisionId": "NATIONAL-2026-08-28-B-LA-02",
+      "ruleId": "LA-985-989-REDACTION-ELECTION",
+      "mechanism": "Expungement by redaction where a record names more than one person",
+      "statute": "La. C.Cr.P. art. 985; La. C.Cr.P. art. 989; La. C.Cr.P. art. 992",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "available where the record names more than one person and only the participant's portion may be cleared"
+      },
+      "requiredFacts": [
+        "Does the record name more than one person?",
+        "Is redaction rather than full expungement the relief sought?",
+        "Which court holds the record?"
+      ],
+      "screeningFactIds": [
+        "case_outcome"
+      ],
+      "exclusions": [
+        "A single-person record takes the ordinary expungement route, not redaction"
+      ],
+      "packetFamily": "Louisiana Article 985 Redaction Packet",
+      "packetComponents": [
+        "Official Article 989 motion",
+        "Redaction supplement electing Article 985 relief",
+        "Proposed Article 992 order carrying the redaction paragraph"
+      ],
+      "artifactApprovalRequired": true,
+      "deliveryGates": [
+        {
+          "id": "la_985_redaction_supplement_review",
+          "kind": "artifact_legal_review",
+          "items": [
+            "a rendered Article 989 motion with the redaction election",
+            "the supplement's text and its hash",
+            "counsel's reading of whether the election belongs in the motion at all"
+          ],
+          "owner": "RCAP packet factory, then artifact-level counsel review",
+          "statusSource": "server_configuration_record",
+          "evidenceReference": "pending: no candidate artifact exists yet",
+          "note": "Report disposition ARTIFACT REVIEW STILL REQUIRED for Q-007. The report's product decision is 'official motion + redaction supplement', and the open question is whether Article 989 requires a distinct pleading or election at all, given that the redaction paragraph appears in the Article 992 order rather than in the motion and Article 985(A) speaks of petitioning the court. That cannot be answered before a candidate artifact exists to read."
+        }
+      ],
+      "commercialPosture": {
+        "checkoutEnabled": true,
+        "sponsoredGenerationEnabled": true,
+        "packetCreditsConsumed": 1,
+        "note": "A real participant motion once its artifact is approved. artifactApprovalRequired closes checkout until then, with no input that can satisfy it short of that approval."
+      },
+      "notes": "Batch B. Supersedes the ungated LD-LA-05 contract for this route, which derived packet_checkout with nothing holding it while the report recorded artifact review as still required."
+    },
+    {
+      "routeKey": "LA:immediate-expungement-after-successful-court-program-completion-art-985-3",
+      "jurisdiction": "LA",
+      "pathwayId": "immediate-expungement-after-successful-court-program-completion-art-985-3",
+      "decisionId": "NATIONAL-2026-08-28-B-LA-03",
+      "ruleId": "LA-985-3-IMMEDIATE-COMPLETION-BRANCH",
+      "mechanism": "Immediate expungement on successful completion of a court-ordered programme",
+      "statute": "La. C.Cr.P. art. 985.3",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "successful completion of a court-ordered probation or alternative sentencing programme; Article 985.3 displaces the Article 977(A)(2) five-year and Article 978(A)(2) ten-year waits for a person otherwise eligible"
+      },
+      "requiredFacts": [
+        "Was a court-ordered probation or alternative sentencing programme completed successfully?",
+        "Is completion documented by the court?",
+        "Is the timing contested by the district attorney or the court?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "court_requirements_completed"
+      ],
+      "exclusions": [
+        "Unsuccessful or partial completion leaves this branch and returns to the ordinary Article 977 or 978 wait"
+      ],
+      "packetFamily": "Louisiana Article 985.3 Immediate Expungement Packet",
+      "failureDisposition": [
+        {
+          "id": "la_985_3_timing_contested",
+          "when": "the displacement of the ordinary waiting period is contested",
+          "selector": {
+            "operator": "is_true",
+            "factId": "la_985_3_timing_contested",
+            "requiredProvenance": "participant_authenticated"
+          },
+          "disposition": "retained_counsel",
+          "note": "Report disposition RELEASE — PACKET; contested timing to counsel. The packet releases on the ordinary facts; a contested displacement is individualized advocacy about whether the wait applies at all, and is not a self-help filing."
+        }
+      ],
+      "commercialPosture": {
+        "checkoutEnabled": true,
+        "sponsoredGenerationEnabled": true,
+        "packetCreditsConsumed": 1,
+        "note": "Released as a packet by the report. The contested-timing branch leaves the route rather than holding it."
+      },
+      "notes": "Batch B. Supersedes the ungated LD-LA-05 contract for this route by adding the contested-timing handoff the report requires. The release itself is unchanged: Article 985.3 does displace the ordinary waits for a person otherwise eligible.",
+      "serviceBranches": [
+        {
+          "id": "contested-timing-to-counsel",
+          "when": "the matter's disposition selects the CONTESTED TIMING TO COUNSEL treatment named by NATIONAL-2026-08-28-B-LA-03",
+          "outcomeMode": "referral",
+          "packetFamily": null,
+          "stage": "single_stage",
+          "note": "NATIONAL-2026-08-28-B-LA-03 states this route's output treatment as \"PARTICIPANT PACKET, CONTESTED TIMING TO COUNSEL\". Each branch carries its own stable branch id and is selected by its own disposition predicate. Two branches may not resolve to one undifferentiated configuration, and may not share a checkout path. Installed by the Wave 2 integration from R2_ALREADY_ANSWERED_ENGINEERING with no selector and a null packet family: the branch identity is the decision, and its disposition predicate and packet configuration are owed by the branch-identity and packet-factory lanes. It therefore records the requirement without opening anything or inventing a predicate."
+        }
+      ]
+    },
+    {
+      "routeKey": "ME:adult-conviction-sealing",
+      "jurisdiction": "ME",
+      "pathwayId": "adult-conviction-sealing",
+      "decisionId": "NATIONAL-2026-08-28-B-ME-01",
+      "ruleId": "ME-2264-3-PROSECUTOR-NOTICE-LOCAL-METHOD",
+      "mechanism": "Adult conviction sealing by motion",
+      "statute": "15 M.R.S. § 2264",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "sealing by motion in the sentencing court under 15 M.R.S. § 2264"
+      },
+      "requiredFacts": [
+        "Which court entered the conviction?",
+        "Does that court require the movant to serve the prosecutorial office, or does the court give notice?",
+        "Which prosecutorial office represented the State?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "offense_level"
+      ],
+      "exclusions": [
+        "A non-conviction record takes the adult non-conviction route"
+      ],
+      "packetFamily": "Maine § 2264 Adult Conviction Sealing Motion",
+      "packetComponents": [
+        "Motion to seal under 15 M.R.S. § 2264",
+        "Proposed order",
+        "Notice to the prosecutorial office where the court requires the movant to give it"
+      ],
+      "deliveryGates": [
+        {
+          "id": "me_2264_prosecutor_notice_method",
+          "kind": "source_acquisition",
+          "items": [
+            "whether the movant serves the prosecutorial office or the court performs all notice",
+            "the method each court requires, which the report records as local",
+            "a certificate-of-service form, if the court requires one"
+          ],
+          "owner": "RCAP source acquisition",
+          "statusSource": "server_configuration_record",
+          "evidenceReference": "pending: no court notice-practice record exists yet",
+          "note": "Report disposition CONDITIONAL — SOURCE GATE for Q-009, product decision 'prosecutor notice; local method'. Section 2264(3) directs notice to the prosecutorial office that represented the State but does not assign the act to the movant, and none of CR-218, CR-289 or CR-307 carries a certificate of service. Releasing a packet that tells a participant to serve a party the court will serve — or that omits service the court expects of them — is a filing failure either way."
+        }
+      ],
+      "commercialPosture": {
+        "checkoutEnabled": true,
+        "sponsoredGenerationEnabled": true,
+        "packetCreditsConsumed": 1,
+        "note": "A real participant motion. The notice-method gate is what holds it closed."
+      },
+      "notes": "Batch B. This route carried no contract at all before Batch B, so nothing recorded the report's condition on it."
+    },
+    {
+      "routeKey": "ME:sex-trafficking-sexual-exploitation-survivor-sealing",
+      "jurisdiction": "ME",
+      "pathwayId": "sex-trafficking-sexual-exploitation-survivor-sealing",
+      "decisionId": "NATIONAL-2026-08-28-B-ME-02",
+      "ruleId": "ME-2264-7-CR-308-FORM-CONFLICT",
+      "mechanism": "Survivor sealing for sex-trafficking or sexual-exploitation-related convictions",
+      "statute": "15 M.R.S. § 2264(7), as amended by PL 2025, c. 513",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "available to a survivor whose conviction arose from trafficking or sexual exploitation"
+      },
+      "requiredFacts": [
+        "Did the conviction arise from trafficking or sexual exploitation?",
+        "Which court entered the conviction?",
+        "Does that court require the movant to serve the prosecutorial office?"
+      ],
+      "screeningFactIds": [
+        "case_outcome"
+      ],
+      "exclusions": [
+        "An ordinary conviction with no trafficking or exploitation origin takes the adult conviction sealing route"
+      ],
+      "packetFamily": "Maine § 2264(7) Survivor Sealing Motion",
+      "deliveryGates": [
+        {
+          "id": "me_2264_7_cr308_warning_conflict",
+          "kind": "source_acquisition",
+          "items": [
+            "a corrected CR-308, or the court's confirmation that the printed warning box no longer states the law",
+            "what the court actually does when a survivor is later convicted of a new crime"
+          ],
+          "owner": "RCAP source acquisition",
+          "statusSource": "server_configuration_record",
+          "evidenceReference": "pending: CR-308 page 2 warning box, read at source, conflicts with the amended statute",
+          "note": "Report disposition CONDITIONAL — FORM-CONFLICT GATE for Q-010, product decision 'statute overrides CR-308 warning'. Form CR-308 page 2 warns that a later conviction anywhere extinguishes the order. That is inconsistent with § 2264(7) as amended by PL 2025, c. 513. The legal answer is settled — the statute governs — and the product still cannot hand a participant an official form whose own printed warning contradicts the relief being sought without knowing what the court does in practice."
+        },
+        {
+          "id": "me_2264_7_prosecutor_notice_method",
+          "kind": "source_acquisition",
+          "items": [
+            "whether the movant serves the prosecutorial office or the court performs all notice",
+            "the method each court requires"
+          ],
+          "owner": "RCAP source acquisition",
+          "statusSource": "server_configuration_record",
+          "evidenceReference": "pending: no court notice-practice record exists yet",
+          "note": "Report disposition CONDITIONAL — SOURCE GATE for Q-011. The same § 2264(3) notice question as the adult conviction route, on a different route, and it is its own gate so closing one route's notice practice does not silently release the other."
+        }
+      ],
+      "commercialPosture": {
+        "checkoutEnabled": true,
+        "sponsoredGenerationEnabled": true,
+        "packetCreditsConsumed": 1,
+        "note": "A real participant motion behind two independent source gates."
+      },
+      "notes": "Batch B. Two gates, not one: the form conflict and the notice method are separate facts about separate documents, and a single gate would let either close the route on the other's evidence."
+    },
+    {
+      "routeKey": "ME:adult-non-conviction-record-relief",
+      "jurisdiction": "ME",
+      "pathwayId": "adult-non-conviction-record-relief",
+      "decisionId": "NATIONAL-2026-08-28-B-ME-03",
+      "ruleId": "ME-703-2-DEFERRED-DISPOSITION-NOT-ESTABLISHED",
+      "mechanism": "Adult non-conviction record relief",
+      "statute": "16 M.R.S. § 703(2)",
+      "stage": "single_stage",
+      "outcomeMode": "guidance_status",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "the confidentiality of a non-conviction record follows from the statute's own list, not from a court order the participant obtains"
+      },
+      "requiredFacts": [
+        "Was the charge dismissed after a deferred disposition under 17-A M.R.S. ch. 67 subch. 4?",
+        "Which paragraph of § 703(2), if any, covers the record?"
+      ],
+      "screeningFactIds": [
+        "case_outcome"
+      ],
+      "exclusions": [
+        "A conviction takes the adult conviction sealing route"
+      ],
+      "packetFamily": null,
+      "commercialPosture": {
+        "checkoutEnabled": false,
+        "sponsoredGenerationEnabled": false,
+        "packetCreditsConsumed": 0,
+        "note": "Guidance is never sold and never consumes a sponsored credit."
+      },
+      "notes": "Report disposition RELEASE — GUIDANCE for Q-008, product decision 'no automatic confidentiality promise'. Whether a charge dismissed after a successful deferred disposition is confidential criminal history record information under § 703(2) is recorded as NOT ESTABLISHED against current official text. The route releases as guidance and the guidance may not promise confidentiality follows automatically. This is the whole of the decision: it is a limit on what the product may say, not a hold on saying anything."
+    },
+    {
+      "routeKey": "AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+      "jurisdiction": "AK",
+      "pathwayId": "set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+      "decisionId": "NATIONAL-2026-08-28-B-AK-01",
+      "ruleId": "AK-12-55-085-E-BELATED-SET-ASIDE-MOTION",
+      "mechanism": "Belated determination and set-aside after a suspended imposition of sentence",
+      "statute": "AS 12.55.085(e)",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "where discharge occurred without a set-aside decision, Alaska appellate law permits a belated determination focused on the circumstances that existed when probation was discharged"
+      },
+      "requiredFacts": [
+        "Was the sentence a suspended imposition under AS 12.55.085?",
+        "Did discharge occur without a set-aside determination?",
+        "What were the circumstances at discharge?",
+        "Does the offense fall within the subsection (f) exclusions?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "court_requirements_completed"
+      ],
+      "exclusions": [
+        "An offense within the AS 12.55.085(f) exclusions is outside this route",
+        "A set-aside already determined at discharge is not re-litigated here"
+      ],
+      "packetFamily": "Alaska AS 12.55.085(e) Belated Set-Aside Motion",
+      "packetComponents": [
+        "Motion for Belated Determination and Set-Aside Under AS 12.55.085(e)",
+        "Discharge order and probation-completion record",
+        "Judgment and sentencing documents",
+        "Evidence concerning compliance and rehabilitation as of discharge",
+        "Statement addressing the exclusions in subsection (f)",
+        "Prosecutor service",
+        "Proposed order",
+        "Instructions explaining that a set-aside does not physically erase the historical court file"
+      ],
+      "deliveryGates": [
+        {
+          "id": "ak_12_55_085_e_motion_artifact",
+          "kind": "artifact_generation",
+          "items": [
+            "the custom motion, filed in the original sentencing criminal case and not as a new civil petition",
+            "the subsection (f) exclusions statement",
+            "the compliance-and-rehabilitation-at-discharge component",
+            "prosecutor service instructions",
+            "the proposed order",
+            "the instruction that a set-aside does not physically erase the historical court file"
+          ],
+          "owner": "RCAP packet factory",
+          "statusSource": "server_configuration_record",
+          "evidenceReference": "pending: no Alaska Court System form specific to a post-discharge request was located",
+          "note": "The report located no official form, so every component is custom. The motion belongs in the original criminal case; producing it as a new civil petition would file it in the wrong proceeding."
+        }
+      ],
+      "failureDisposition": [
+        {
+          "id": "ak_set_aside_probation_violation_alleged",
+          "when": "the State alleges probation violations",
+          "selector": {
+            "operator": "is_true",
+            "factId": "ak_set_aside_probation_violation_alleged",
+            "requiredProvenance": "participant_authenticated"
+          },
+          "disposition": "retained_counsel",
+          "note": "Report self-help boundary. A contested compliance record is advocacy about the facts at discharge, not a form to fill in."
+        },
+        {
+          "id": "ak_set_aside_previously_denied",
+          "when": "the court previously denied set-aside relief",
+          "selector": {
+            "operator": "is_true",
+            "factId": "ak_set_aside_previously_denied",
+            "requiredProvenance": "participant_authenticated"
+          },
+          "disposition": "retained_counsel",
+          "note": "Report self-help boundary. A second request after a denial is a different motion with a different burden."
+        },
+        {
+          "id": "ak_set_aside_discharge_disputed",
+          "when": "the discharge status is disputed",
+          "selector": {
+            "operator": "is_true",
+            "factId": "ak_set_aside_discharge_disputed",
+            "requiredProvenance": "participant_authenticated"
+          },
+          "disposition": "retained_counsel",
+          "note": "Report self-help boundary. The whole motion turns on the circumstances at discharge; a disputed discharge has no fixed point to argue from."
+        },
+        {
+          "id": "ak_set_aside_subsection_f_offense",
+          "when": "the offense may fall within the subsection (f) exclusions",
+          "selector": {
+            "operator": "is_true",
+            "factId": "ak_set_aside_subsection_f_possible",
+            "requiredProvenance": "participant_authenticated"
+          },
+          "disposition": "retained_counsel",
+          "note": "Report self-help boundary. Whether an offense is excluded is the merits question, and answering it wrong files a motion the statute forbids."
+        }
+      ],
+      "commercialPosture": {
+        "checkoutEnabled": true,
+        "sponsoredGenerationEnabled": true,
+        "packetCreditsConsumed": 1,
+        "note": "A real participant motion once its custom artifact exists. The artifact gate, not the posture, is what holds it closed."
+      },
+      "notes": "Batch B. Alaska carried no route contract at all before this. The report's three Alaska tracks are ak-set-aside, ak-cannabis-seal and ak-correct-record; only ak-set-aside has a compiled pathway to attach to. The other two are recorded in data/rcap-ledger/batch-b-unattached-decisions.json rather than invented here: a contract needs a routeKey that resolves to a pathway, and creating pathways to receive contracts would let the authority file define the product's route inventory."
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "co_multiple_conviction_seal-set",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "JDF 641 and JDF 642 interleave their glyph runs; extracted text is scrambled at the character level.",
+      "consequence": "No printed-caption check can be run on either form. The captions rest on Colorado's own authored field names and the printed section headings; the scrambled extraction is recorded per field in reports/caption-evidence.json, and placement is left to the visual reviewer, who can read the paper."
+    },
+    {
+      "finding": "Section 4 of JDF 641 is fifteen rows of four columns, one row per conviction, and the fourth column is the date probation or parole supervision ended.",
+      "consequence": "No cell of it is written. Which convictions a participant brings under C.R.S. § 24-72-709 is the substance of the motion and the platform does not hold them, and the supervision end date is the fact the statutory waiting period runs from. A row with the charge filled and that date blank would read as finished and would be missing the fact the court needs. All sixty cells are declared and disclosed."
+    },
+    {
+      "finding": "`∆` is one AcroForm field with two widgets: the defendant's name in the page-1 caption and the Print Your Name line in the Sign & Date block on page 5.",
+      "consequence": "The name is written and appears in both. Section 10 of this form is a plain signature block, not a verification under penalty of perjury — unlike section 10 of JDF 477, where the printed name is left blank for exactly that reason. The signature and its date stay blank on both forms."
+    },
+    {
+      "finding": "Whether the district attorney consents is a three-way election on page 4, and the form sets out what a participant must show by clear and convincing evidence if they do not.",
+      "consequence": "The election and the showing are both left to the participant, and the instructions carry the form's three requirements in the form's own terms."
+    },
+    {
+      "finding": "Every agency name, number and address is an agency fact, which no court or clerk refusal class may excuse.",
+      "consequence": "Each is declared REQUIRED_BEFORE_FILING and named to the participant in participant-instructions.md."
+    },
+    {
+      "severity": "advisory",
+      "finding": "The boundary participant's name carries a typographic apostrophe (U+2019) and the finalized bytes carry the name without it.",
+      "consequence": "Recorded for visual review. The behaviour is in the shared finalizer's font encoding and reproduces in vt_seal_misdemeanor-set, which is already PASS_COMPLETE."
+    }
+  ]
+}

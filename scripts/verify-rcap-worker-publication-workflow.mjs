@@ -62,9 +62,19 @@ check('the canonical integration history is main',
 // deadlock: the required PR check runs the staging-action gate, which refuses
 // to pass until a worker exists for the current image inputs. The widening is
 // held to one exact branch name so it cannot become "any branch".
+// The expected name is pinned here as well as in the workflow, so the two must
+// be changed together and a silent widening in one is caught by the other. The
+// sprint's release integration moved to the captain branch on 2026-08-29 and the
+// old name, sprint/20260825-full-product-captain, is retired: a candidate on the
+// live branch would have been refused before anything was fetched.
+const EXPECTED_RELEASE_INTEGRATION_BRANCH = 'claude/legalease-sprint-captain-utucnw';
 check('the release-integration branch is pinned to one exact name',
-  /^\s{2}RELEASE_INTEGRATION_BRANCH:\s*claude\/rcap-48h-launch-integration\s*$/m.test(src),
-  'the release-integration branch is absent or is not the exact expected branch');
+  new RegExp(`^\\s{2}RELEASE_INTEGRATION_BRANCH:\\s*${EXPECTED_RELEASE_INTEGRATION_BRANCH.replace(/[/\\-]/g, '\\$&')}\\s*$`, 'm').test(src),
+  `the release-integration branch is absent or is not ${EXPECTED_RELEASE_INTEGRATION_BRANCH}`);
+
+check('the retired integration branch is gone from the publish workflow',
+  !/sprint\/20260825-full-product-captain/.test(src),
+  'the retired sprint/20260825-full-product-captain pin is still present');
 
 check('no wildcard or pattern is accepted as a containment branch',
   !/RELEASE_INTEGRATION_BRANCH:\s*.*[*?\[\]]/.test(src)

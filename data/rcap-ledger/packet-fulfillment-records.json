@@ -1,0 +1,134 @@
+{
+  "schemaVersion": 2,
+  "note": "The canonical Grade-A fulfillment record set. A route has commercial authority only if it appears here with every field satisfied AND the posture for the surface in question is open. An empty set is universal refusal, and a record with a held posture proves a packet exists without opening a sale. Authority for the model: ADR-0004 and data/record-clearing/legal-decisions/2026-08-28-legacy-generator-retirement.json.",
+  "postureVocabulary": {
+    "open": "The surface may proceed for this route.",
+    "held": "The packet is proven but this surface stays closed. A hold is a decision with a named reason, not an absence."
+  },
+  "records": [
+    {
+      "routeKey": "ND:first-offense-possession-sealing",
+      "jurisdiction": "ND",
+      "pathwayId": "first-offense-possession-sealing",
+      "packetFamily": "rcap-nd-custom-pleading",
+      "packetFamilyLabel": "North Dakota First-Offense Possession Sealing Motion under N.D.C.C. ch. 19-03.1",
+      "packetSpecificationId": "nd-first-offense-possession-sealing",
+      "packetSpecificationVersion": "1.0.0",
+      "packetSpecificationPath": "data/record-clearing/packet-specifications/ND-first-offense-possession-sealing.v1.json",
+      "packetSpecificationSha256": "41bceab2b973bf498f48b696d1eee1c62c6d79e7a21f4e7d0cc4007f79b60bf2",
+      "packetComponents": [
+        "primary filing or application",
+        "proposed order where required",
+        "attachments or schedules",
+        "filing destination",
+        "fee or waiver instructions",
+        "service or notice",
+        "post-filing steps"
+      ],
+      "sourceIdentities": [
+        {
+          "sourceId": "nd-marijuana-first-offense-seal-set@1.0.0",
+          "kind": "owner_approved_packet_set_manifest",
+          "location": "data/record-clearing/legal-design-packet-set-manifests.json",
+          "verification": "present_in_repository",
+          "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output"
+        },
+        {
+          "sourceId": "ND-profile:section:90-95",
+          "kind": "compiled_profile_source_section",
+          "verification": "asserted_by_ingestion",
+          "note": "private/Nationwide Record Clearing/ is absent from this container, so the identity is carried by the compiled profile's ingestion record and has NOT been re-verified against bytes here. Recorded as asserted so it is never read as a live verification."
+        },
+        {
+          "sourceId": "ND-profile:corpus-unit:38",
+          "kind": "compiled_profile_source_section",
+          "verification": "asserted_by_ingestion",
+          "note": "Same provenance and same limitation."
+        }
+      ],
+      "artifactProvider": "rcap_grade_a_composer_v1",
+      "artifactProviderVersion": "1.0.0",
+      "renderer": "rcap_grade_a_document_v1",
+      "rendererVersion": "1.0.0",
+      "contentType": "application/pdf",
+      "requiredFacts": [
+        "participant_full_legal_name",
+        "contact_information",
+        "court",
+        "residency_or_location",
+        "case_number",
+        "charge",
+        "offense_category",
+        "offense_level",
+        "record_type",
+        "case_outcome",
+        "disposition_date",
+        "nd_charged_quantity",
+        "nd_first_offense_confirmation",
+        "criminal_history",
+        "prior_relief"
+      ],
+      "finalVerificationRequirements": [
+        "The date the court entered the judgment of guilt is confirmed against the criminal judgment obtained from the clerk of court.",
+        "The quantity charged is confirmed against the charging document obtained from the clerk of court.",
+        "Where the participant is unsure whether any further controlled-substance conviction exists, the answer is confirmed against the North Dakota BCI criminal history record.",
+        "The participant confirms that this was a first controlled-substance offense.",
+        "The participant signs the motion. No notarization is required.",
+        "No filing fee is identified, so none is collected and no waiver application is prepared."
+      ],
+      "verificationBinding": "The composed packet carries the matter's protected verification hash, and the composer refuses a matter with no binding. A change to any confirmed answer moves the hash, which invalidates the packet rather than silently superseding it.",
+      "privateDelivery": true,
+      "repeatDownload": true,
+      "artifactApprovalStatus": "composed_and_machine_verified_pending_counsel_review",
+      "consumerPosture": "held",
+      "sponsoredPosture": "held",
+      "holdReason": "Three things are outstanding and every one of them is a reason a participant should not yet be charged. (1) No counsel has reviewed the composed document set. Machine verification proves the packet is complete against its own specification; it says nothing about whether the specification is legally right. (2) Page-image review has not happened: this container has no PDF rasteriser, so the packet was reviewed as composed content and as parsed PDF structure rather than as rendered pages. (3) The specification records a gap in the approved legal design \u2014 neither the registry's required inputs nor the packet-set manifest names a first-offense confirmation, though the statute makes first-offense status an element and the motion asserts it. The fact is now collected and confirmed, and the gap belongs in the next legal-design review of this route. Opening either posture is an owner decision, not a consequence of this record existing.",
+      "provenBy": "scripts/verify-grade-a-first-packet.mjs",
+      "provenOn": "2026-08-28",
+      "proofSummary": "5 documents, 7 pages, 17,271 bytes, application/pdf, artifact sha256 97d288c0\u2026, 104 checks. Every required fact was removed one at a time and each removal proven to refuse composition by name; a whitespace-only fact, another route's matter, an unbound matter, an unimplemented section kind and an empty packet each proven to refuse. Determinism proven across separate processes. Three defects found during review and closed.",
+      "artifactSha256": "97d288c01daa880c9f7ed329ac4e5b27d4465bb0cb3751f2816b5cdaf7cda964",
+      "artifactBytes": 17271,
+      "artifactPages": 7,
+      "artifactIsDeterministic": true,
+      "artifactDeterminismNote": "Rendering twice from the same specification and the same verified facts produces byte-identical output. That is what makes repeat download work with nothing stored, and what makes the hash above mean anything.",
+      "officialPdfRequired": false,
+      "officialPdfCustody": "OFFICIAL_PDF_NOT_REQUIRED_COMPOSED_PLEADING. The owner-approved packet set composes the filing and names no official form id; N.D.C.C. ch. 19-03.1 prescribes no form. All twelve inventoried North Dakota source artifacts are SOURCE_PRESENT_AND_REVERIFIED, and none of them is a mandatory form for this route.",
+      "visualReview": {
+        "status": "not_performed_no_rasteriser_in_this_runtime",
+        "whatWasReviewed": "The composed document set was read in full, page order and all, and two defects were found and closed. The PDF was parsed back and its page count and structure checked.",
+        "whatWasNot": "Page images. This container has no PDF rasteriser (poppler-utils is not installed and cannot be installed here), so no page was reviewed as rendered pixels.",
+        "consequence": "Both commercial postures stay held. A packet whose pages nobody has looked at is not sold."
+      },
+      "outputLegalReview": {
+        "status": "not_performed",
+        "why": "Machine verification proves the packet is complete against its own specification. It says nothing about whether the specification is legally right. That is counsel's, and until it happens the artifact approval status cannot reach a state that carries a sale."
+      },
+      "defects": [
+        {
+          "id": "nd-first-offense-element-unbacked",
+          "foundBy": "reading the composed document set",
+          "severity": "legal",
+          "description": "The motion asserted first-offense status to the court as a statutory element, and the only facts behind the assertion were record_type and prior_relief, neither of which establishes it.",
+          "closedBy": "Added nd_first_offense_confirmation as a required fact, a final-verification requirement and a participant checklist item, and made the ground cite it. The gap in the approved legal design is recorded in the specification rather than papered over.",
+          "status": "closed"
+        },
+        {
+          "id": "mixed-orthography",
+          "foundBy": "reading the composed document set",
+          "severity": "copy",
+          "description": "Authored packet text used British spellings \u2014 misdemeanour, notarisation \u2014 beside the American spellings the compiled profile uses. A US filing packet that cannot spell its own offense level consistently reads as unreviewed.",
+          "closedBy": "Normalised the authored specification text and the composer's signature-block notes to American spelling. The approved manifest's own wording is left untouched.",
+          "status": "closed"
+        },
+        {
+          "id": "artifact-hash-named-a-moment-not-a-packet",
+          "foundBy": "pinning the artifact hash in the record and re-rendering in a separate process",
+          "severity": "integrity",
+          "description": "pdf-lib stamps the current clock into CreationDate and ModDate, so every render produced different bytes. Two renders inside one process happened to match, which is why it looked deterministic at first; across processes it was not. A fulfillment record pinning that hash would have been naming a moment rather than a packet, and a participant re-downloading would have received bytes that no longer matched what was vouched for.",
+          "closedBy": "The renderer stamps both dates from the matter's verification time, making the artifact a pure function of its inputs. Proven by rendering in three separate processes and comparing.",
+          "status": "closed"
+        }
+      ]
+    }
+  ]
+}

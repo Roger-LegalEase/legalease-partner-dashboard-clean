@@ -1,0 +1,4373 @@
+{
+  "schemaVersion": "rcap-official-form-field-map/v1-census-v1",
+  "familyId": "co_pardoned_conviction_seal-set",
+  "routeKeys": [
+    "track:CO:co_pardoned_conviction_seal"
+  ],
+  "routeSelectionId": "co-pardoned-conviction-seal-set-jdf-680-jdf-681",
+  "renderStrategy": "acroform_fill_and_measured_flat_overlay",
+  "dispositionVocabulary": [
+    "signature_or_date_participant_completion",
+    "court_prosecutor_clerk_or_agency_owned",
+    "participant_sworn_narrative_or_legal_election"
+  ],
+  "routeDeterminedSelections": [],
+  "routeSelectionNote": "C.R.S. § 24-72-710 is one section and these two forms are its instruments. Nothing on either is a route election: the court type, the agency list, the pardon attachment and the service method are all facts about the participant's own case and their own acts.",
+  "flatOverlayNote": "JDF 680 carries no AcroForm field. Every value written on it sits on a rule measured from the page's own content stream; measuredRule records the rule each write box was derived from, and the build refuses if any of them has moved by more than a point.",
+  "requiredBeforeFilingCount": 20,
+  "requiredBeforeFiling": [
+    {
+      "document": "JDF-680",
+      "field": "JDF-680/court-mailing-address",
+      "page": 1,
+      "section": "Court",
+      "disclosureLabel": "Court Mailing Address",
+      "identity": "JDF-680 blank court-mailing-address",
+      "why": "the platform holds no value for this and the participant supplies it before filing: the mailing address of the courthouse where the conviction was entered. The Colorado Judicial Department publishes it for every county; the platform holds no court directory",
+      "participantMustSupply": "the mailing address of the courthouse where the conviction was entered. The Colorado Judicial Department publishes it for every county; the platform holds no court directory"
+    },
+    {
+      "document": "JDF-680",
+      "field": "JDF-680/filed-by-fax",
+      "page": 1,
+      "section": "Filed by",
+      "disclosureLabel": "Filed by — Fax",
+      "identity": "JDF-680 blank filed-by-fax",
+      "why": "the platform holds no value for this and the participant supplies it before filing: a fax number, if you have one; most people do not and the line is left empty",
+      "participantMustSupply": "a fax number, if you have one; most people do not and the line is left empty"
+    },
+    {
+      "document": "JDF-680",
+      "field": "JDF-680/petitioner-address",
+      "page": 1,
+      "section": "1. Information about the Defendant",
+      "disclosureLabel": "Petitioner's Mailing Address, if different from 'filed by'",
+      "identity": "JDF-680 blank petitioner-address",
+      "why": "the platform holds no value for this and the participant supplies it before filing: a mailing address, ONLY if the petitioner's differs from the one in the 'filed by' box above. The form asks for it only in that case, so it is left empty rather than repeating what is already on the page",
+      "participantMustSupply": "a mailing address, ONLY if the petitioner's differs from the one in the 'filed by' box above. The form asks for it only in that case, so it is left empty rather than repeating what is already on the page"
+    },
+    {
+      "document": "JDF-680",
+      "field": "JDF-680/petitioner-city",
+      "page": 1,
+      "section": "1. Information about the Defendant",
+      "disclosureLabel": "Petitioner's City, if different",
+      "identity": "JDF-680 blank petitioner-city",
+      "why": "the platform holds no value for this and the participant supplies it before filing: the city of that different address, if there is one",
+      "participantMustSupply": "the city of that different address, if there is one"
+    },
+    {
+      "document": "JDF-680",
+      "field": "JDF-680/petitioner-state",
+      "page": 1,
+      "section": "1. Information about the Defendant",
+      "disclosureLabel": "Petitioner's State, if different",
+      "identity": "JDF-680 blank petitioner-state",
+      "why": "the platform holds no value for this and the participant supplies it before filing: the state of that different address, if there is one",
+      "participantMustSupply": "the state of that different address, if there is one"
+    },
+    {
+      "document": "JDF-680",
+      "field": "JDF-680/petitioner-zip",
+      "page": 1,
+      "section": "1. Information about the Defendant",
+      "disclosureLabel": "Petitioner's Zip Code, if different",
+      "identity": "JDF-680 blank petitioner-zip",
+      "why": "the platform holds no value for this and the participant supplies it before filing: the ZIP code of that different address, if there is one",
+      "participantMustSupply": "the ZIP code of that different address, if there is one"
+    },
+    {
+      "document": "JDF-680",
+      "field": "JDF-680/petitioner-main-phone",
+      "page": 1,
+      "section": "1. Information about the Defendant",
+      "disclosureLabel": "Petitioner's Main Phone number, if different",
+      "identity": "JDF-680 blank petitioner-main-phone",
+      "why": "the platform holds no value for this and the participant supplies it before filing: a main phone number, only if it differs from the one in the 'filed by' box",
+      "participantMustSupply": "a main phone number, only if it differs from the one in the 'filed by' box"
+    },
+    {
+      "document": "JDF-680",
+      "field": "JDF-680/petitioner-work-phone",
+      "page": 1,
+      "section": "1. Information about the Defendant",
+      "disclosureLabel": "Petitioner's Work Phone number",
+      "identity": "JDF-680 blank petitioner-work-phone",
+      "why": "the platform holds no value for this and the participant supplies it before filing: a work phone number, if you have one",
+      "participantMustSupply": "a work phone number, if you have one"
+    },
+    {
+      "document": "JDF-680",
+      "field": "JDF-680/agency-district-county-court-case",
+      "page": 1,
+      "section": "2. Agencies with custody of the records",
+      "disclosureLabel": "District / County Court — case number",
+      "identity": "JDF-680 blank agency-district-county-court-case",
+      "why": "the platform holds no value for this and the participant supplies it before filing: the case number of the District or County Court case you are asking to seal",
+      "participantMustSupply": "the case number of the District or County Court case you are asking to seal"
+    },
+    {
+      "document": "JDF-680",
+      "field": "JDF-680/agency-municipal-court-cases",
+      "page": 1,
+      "section": "2. Agencies with custody of the records",
+      "disclosureLabel": "Municipal Court — case numbers",
+      "identity": "JDF-680 blank agency-municipal-court-cases",
+      "why": "the platform holds no value for this and the participant supplies it before filing: the case numbers of any Municipal Court cases you are asking to seal",
+      "participantMustSupply": "the case numbers of any Municipal Court cases you are asking to seal"
+    },
+    {
+      "document": "JDF-680",
+      "field": "JDF-680/agency-municipal-court-address",
+      "page": 1,
+      "section": "2. Agencies with custody of the records",
+      "disclosureLabel": "Municipal Court — Mailing Address",
+      "identity": "JDF-680 blank agency-municipal-court-address",
+      "why": "the platform holds no value for this and the participant supplies it before filing: that Municipal Court's mailing address",
+      "participantMustSupply": "that Municipal Court's mailing address"
+    },
+    {
+      "document": "JDF-680",
+      "field": "JDF-680/agency-sheriff-address",
+      "page": 1,
+      "section": "2. Agencies with custody of the records",
+      "disclosureLabel": "Sheriff's Department — Mailing Address",
+      "identity": "JDF-680 blank agency-sheriff-address",
+      "why": "the platform holds no value for this and the participant supplies it before filing: the mailing address of the Sheriff's Department holding these records",
+      "participantMustSupply": "the mailing address of the Sheriff's Department holding these records"
+    },
+    {
+      "document": "JDF-680",
+      "field": "JDF-680/agency-city-attorney-address",
+      "page": 1,
+      "section": "2. Agencies with custody of the records",
+      "disclosureLabel": "City Attorney — Mailing Address",
+      "identity": "JDF-680 blank agency-city-attorney-address",
+      "why": "the platform holds no value for this and the participant supplies it before filing: the City Attorney's mailing address",
+      "participantMustSupply": "the City Attorney's mailing address"
+    },
+    {
+      "document": "JDF-680",
+      "field": "JDF-680/agency-law-enforcement-name",
+      "page": 2,
+      "section": "2. Agencies with custody of the records",
+      "disclosureLabel": "Law Enforcement Agency — name",
+      "identity": "JDF-680 blank agency-law-enforcement-name",
+      "why": "the platform holds no value for this and the participant supplies it before filing: the name of the law enforcement agency that arrested or cited you",
+      "participantMustSupply": "the name of the law enforcement agency that arrested or cited you"
+    },
+    {
+      "document": "JDF-680",
+      "field": "JDF-680/agency-law-enforcement-case",
+      "page": 2,
+      "section": "2. Agencies with custody of the records",
+      "disclosureLabel": "Law Enforcement Agency — Agency Case Number",
+      "identity": "JDF-680 blank agency-law-enforcement-case",
+      "why": "the platform holds no value for this and the participant supplies it before filing: that agency's own case number, which is usually different from the court case number",
+      "participantMustSupply": "that agency's own case number, which is usually different from the court case number"
+    },
+    {
+      "document": "JDF-680",
+      "field": "JDF-680/agency-law-enforcement-address",
+      "page": 2,
+      "section": "2. Agencies with custody of the records",
+      "disclosureLabel": "Law Enforcement Agency — Mailing Address",
+      "identity": "JDF-680 blank agency-law-enforcement-address",
+      "why": "the platform holds no value for this and the participant supplies it before filing: that agency's mailing address",
+      "participantMustSupply": "that agency's mailing address"
+    },
+    {
+      "document": "JDF-680",
+      "field": "JDF-680/agency-other-name",
+      "page": 2,
+      "section": "2. Agencies with custody of the records",
+      "disclosureLabel": "Other agency — name",
+      "identity": "JDF-680 blank agency-other-name",
+      "why": "the platform holds no value for this and the participant supplies it before filing: the name of any other agency holding records of this conviction",
+      "participantMustSupply": "the name of any other agency holding records of this conviction"
+    },
+    {
+      "document": "JDF-680",
+      "field": "JDF-680/agency-other-address",
+      "page": 2,
+      "section": "2. Agencies with custody of the records",
+      "disclosureLabel": "Other agency — Mailing Address",
+      "identity": "JDF-680 blank agency-other-address",
+      "why": "the platform holds no value for this and the participant supplies it before filing: that agency's mailing address",
+      "participantMustSupply": "that agency's mailing address"
+    },
+    {
+      "document": "JDF-681",
+      "field": "JDF-681/Court Address",
+      "page": 1,
+      "section": "A. Court",
+      "disclosureLabel": "Court Mailing Address",
+      "identity": "JDF-681 blank Court Address",
+      "why": "the platform holds no value for this and the participant supplies it before filing: the courthouse's mailing address, copied from the motion",
+      "participantMustSupply": "the courthouse's mailing address, copied from the motion"
+    },
+    {
+      "document": "JDF-681",
+      "field": "JDF-681/681.4A.1",
+      "page": 1,
+      "section": "4. Court Orders",
+      "disclosureLabel": "Records sealed — the law enforcement agency and its case number",
+      "identity": "JDF-681 blank 681.4A.1",
+      "why": "the platform holds no value for this and the participant supplies it before filing: the law enforcement agency and its case number, copied from the motion, so the order names the records it seals",
+      "participantMustSupply": "the law enforcement agency and its case number, copied from the motion, so the order names the records it seals"
+    }
+  ],
+  "maps": [
+    {
+      "formNumber": "JDF-680",
+      "documentId": "JDF-680",
+      "documentRole": "primary_filing",
+      "documentPolicy": {
+        "mode": "participant",
+        "captionOnly": false,
+        "documentAcceptsFill": true,
+        "routeKey": "track:CO:co_pardoned_conviction_seal"
+      },
+      "structuralClass": "flat_pdf_measured_overlay",
+      "explicitMappings": {
+        "JDF-680/co-county": "matter.county",
+        "JDF-680/defendant": "participant.full_legal_name",
+        "JDF-680/filed-by-name": "participant.full_legal_name",
+        "JDF-680/filed-by-address": "participant.street_address",
+        "JDF-680/filed-by-phone": "participant.phone",
+        "JDF-680/filed-by-email": "participant.email",
+        "JDF-680/case-number": "matter.case_number",
+        "JDF-680/defendant-dob": "participant.date_of_birth",
+        "JDF-680/print-your-name": "participant.full_legal_name"
+      },
+      "roleRefusals": [],
+      "selectionControls": [],
+      "canonicalWrites": [
+        {
+          "field": "JDF-680/co-county",
+          "fieldName": "JDF-680/co-county",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 151.94,
+            "y": 687.44,
+            "width": 200.66,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 685.44,
+            "x": 149.94,
+            "endX": 354.6,
+            "width": 204.66,
+            "thickness": 0.96
+          },
+          "printedLabel": "Colorado County",
+          "printedLine": "Colorado County",
+          "sectionHeading": "Court",
+          "regionHeading": "Colorado County",
+          "effectiveLabel": "Colorado County",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 687,
+              "extracted": "Colorado County:"
+            },
+            {
+              "y": 672,
+              "extracted": "Court Mailing Address.:"
+            }
+          ],
+          "document": "JDF-680",
+          "factId": "matter.county",
+          "kind": "flat_overlay_text"
+        },
+        {
+          "field": "JDF-680/defendant",
+          "fieldName": "JDF-680/defendant",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 125.96,
+            "y": 606.38,
+            "width": 226.64,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 604.38,
+            "x": 123.96,
+            "endX": 354.6,
+            "width": 230.64,
+            "thickness": 0.96
+          },
+          "printedLabel": "Defendant",
+          "printedLine": "Defendant",
+          "sectionHeading": "Parties",
+          "regionHeading": "Defendant",
+          "effectiveLabel": "Defendant",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 606,
+              "extracted": "Defendant:"
+            },
+            {
+              "y": 595,
+              "extracted": "This box for court use only."
+            }
+          ],
+          "document": "JDF-680",
+          "factId": "participant.full_legal_name",
+          "kind": "flat_overlay_text"
+        },
+        {
+          "field": "JDF-680/filed-by-name",
+          "fieldName": "JDF-680/filed-by-name",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 108.38,
+            "y": 563.12,
+            "width": 244.22,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 561.12,
+            "x": 106.38,
+            "endX": 354.6,
+            "width": 248.22,
+            "thickness": 0.96
+          },
+          "printedLabel": "Filed by — Name",
+          "printedLine": "Filed by — Name",
+          "sectionHeading": "Filed by",
+          "regionHeading": "Filed by — Name",
+          "effectiveLabel": "Filed by — Name",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 563,
+              "extracted": "Name:"
+            },
+            {
+              "y": 557,
+              "extracted": "Number:"
+            }
+          ],
+          "document": "JDF-680",
+          "factId": "participant.full_legal_name",
+          "kind": "flat_overlay_text"
+        },
+        {
+          "field": "JDF-680/filed-by-address",
+          "fieldName": "JDF-680/filed-by-address",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 150.92,
+            "y": 547.58,
+            "width": 201.68,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 545.58,
+            "x": 148.92,
+            "endX": 354.6,
+            "width": 205.68,
+            "thickness": 0.96
+          },
+          "printedLabel": "Filed by — Mailing Address",
+          "printedLine": "Filed by — Mailing Address",
+          "sectionHeading": "Filed by",
+          "regionHeading": "Filed by — Mailing Address",
+          "effectiveLabel": "Filed by — Mailing Address",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 548,
+              "extracted": "Mailing Address.:"
+            },
+            {
+              "y": 539,
+              "extracted": "Division:"
+            }
+          ],
+          "document": "JDF-680",
+          "factId": "participant.street_address",
+          "kind": "flat_overlay_text"
+        },
+        {
+          "field": "JDF-680/filed-by-phone",
+          "fieldName": "JDF-680/filed-by-phone",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 107.9,
+            "y": 532.1,
+            "width": 160.22,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 530.1,
+            "x": 105.9,
+            "endX": 270.12,
+            "width": 164.22,
+            "thickness": 0.96
+          },
+          "printedLabel": "Filed by — Phone",
+          "printedLine": "Filed by — Phone",
+          "sectionHeading": "Filed by",
+          "regionHeading": "Filed by — Phone",
+          "effectiveLabel": "Filed by — Phone",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 532,
+              "extracted": "Phone Fax:"
+            },
+            {
+              "y": 539,
+              "extracted": "Division:"
+            }
+          ],
+          "document": "JDF-680",
+          "factId": "participant.phone",
+          "kind": "flat_overlay_text"
+        },
+        {
+          "field": "JDF-680/filed-by-email",
+          "fieldName": "JDF-680/filed-by-email",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 106.88,
+            "y": 516.62,
+            "width": 147.74,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 514.62,
+            "x": 104.88,
+            "endX": 256.62,
+            "width": 151.74,
+            "thickness": 0.96
+          },
+          "printedLabel": "Filed by — Email",
+          "printedLine": "Filed by — Email",
+          "sectionHeading": "Filed by",
+          "regionHeading": "Filed by — Email",
+          "effectiveLabel": "Filed by — Email",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 517,
+              "extracted": "Email: Bar Number:"
+            },
+            {
+              "y": 521,
+              "extracted": "Courtroom:"
+            }
+          ],
+          "document": "JDF-680",
+          "factId": "participant.email",
+          "kind": "flat_overlay_text"
+        },
+        {
+          "field": "JDF-680/case-number",
+          "fieldName": "JDF-680/case-number",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 404.42,
+            "y": 557.18,
+            "width": 124.7,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 555.18,
+            "x": 402.42,
+            "endX": 531.12,
+            "width": 128.7,
+            "thickness": 0.96
+          },
+          "printedLabel": "Case Number",
+          "printedLine": "Case Number",
+          "sectionHeading": "Case (court use)",
+          "regionHeading": "Case Number",
+          "effectiveLabel": "Case Number",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 557,
+              "extracted": "Number:"
+            },
+            {
+              "y": 548,
+              "extracted": "Mailing Address.:"
+            }
+          ],
+          "document": "JDF-680",
+          "factId": "matter.case_number",
+          "kind": "flat_overlay_text"
+        },
+        {
+          "field": "JDF-680/defendant-dob",
+          "fieldName": "JDF-680/defendant-dob",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 360.14,
+            "y": 373.64,
+            "width": 177.86,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 371.64,
+            "x": 358.14,
+            "endX": 540,
+            "width": 181.86,
+            "thickness": 1.08
+          },
+          "printedLabel": "Date of Birth",
+          "printedLine": "Date of Birth",
+          "sectionHeading": "1. Information about the Defendant",
+          "regionHeading": "Date of Birth",
+          "effectiveLabel": "Date of Birth",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 374,
+              "extracted": "1. Information about the Defendant: Date of Birth:"
+            }
+          ],
+          "document": "JDF-680",
+          "factId": "participant.date_of_birth",
+          "kind": "flat_overlay_text"
+        },
+        {
+          "field": "JDF-680/print-your-name",
+          "fieldName": "JDF-680/print-your-name",
+          "acroFieldName": null,
+          "page": 2,
+          "rect": {
+            "x": 189.44,
+            "y": 303.56,
+            "width": 276.56,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 301.56,
+            "x": 187.44,
+            "endX": 468,
+            "width": 280.56,
+            "thickness": 1.08
+          },
+          "printedLabel": "Print Your Name",
+          "printedLine": "Print Your Name",
+          "sectionHeading": "5. Sign and Date",
+          "regionHeading": "Print Your Name",
+          "effectiveLabel": "Print Your Name",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 304,
+              "extracted": "Print Your Name:"
+            }
+          ],
+          "document": "JDF-680",
+          "factId": "participant.full_legal_name",
+          "kind": "flat_overlay_text"
+        }
+      ],
+      "canonicalRefusals": [
+        {
+          "field": "JDF-680/court-mailing-address",
+          "fieldName": "JDF-680/court-mailing-address",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 175.4,
+            "y": 671.9,
+            "width": 177.2,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 669.9,
+            "x": 173.4,
+            "endX": 354.6,
+            "width": 181.2,
+            "thickness": 0.96
+          },
+          "printedLabel": "Court Mailing Address",
+          "printedLine": "Court Mailing Address",
+          "sectionHeading": "Court",
+          "regionHeading": "Court Mailing Address",
+          "effectiveLabel": "Court Mailing Address",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 672,
+              "extracted": "Court Mailing Address.:"
+            }
+          ],
+          "document": "JDF-680",
+          "reason": "the participant supplies this before filing: the mailing address of the courthouse where the conviction was entered. The Colorado Judicial Department publishes it for every county; the platform holds no court directory",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "JDF-680 blank court-mailing-address",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: the mailing address of the courthouse where the conviction was entered. The Colorado Judicial Department publishes it for every county; the platform holds no court directory",
+          "participantMustSupply": "the mailing address of the courthouse where the conviction was entered. The Colorado Judicial Department publishes it for every county; the platform holds no court directory"
+        },
+        {
+          "field": "JDF-680/filed-by-fax",
+          "fieldName": "JDF-680/filed-by-fax",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 301.1,
+            "y": 532.1,
+            "width": 51.5,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 530.1,
+            "x": 299.1,
+            "endX": 354.6,
+            "width": 55.5,
+            "thickness": 0.96
+          },
+          "printedLabel": "Filed by — Fax",
+          "printedLine": "Filed by — Fax",
+          "sectionHeading": "Filed by",
+          "regionHeading": "Filed by — Fax",
+          "effectiveLabel": "Filed by — Fax",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 532,
+              "extracted": "Phone Fax:"
+            },
+            {
+              "y": 539,
+              "extracted": "Division:"
+            }
+          ],
+          "document": "JDF-680",
+          "reason": "the participant supplies this before filing: a fax number, if you have one; most people do not and the line is left empty",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "JDF-680 blank filed-by-fax",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: a fax number, if you have one; most people do not and the line is left empty",
+          "participantMustSupply": "a fax number, if you have one; most people do not and the line is left empty"
+        },
+        {
+          "field": "JDF-680/division",
+          "fieldName": "JDF-680/division",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 403.88,
+            "y": 539.12,
+            "width": 125.24,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 537.12,
+            "x": 401.88,
+            "endX": 531.12,
+            "width": 129.24,
+            "thickness": 0.96
+          },
+          "printedLabel": "Division",
+          "printedLine": "Division",
+          "sectionHeading": "Case (court use)",
+          "regionHeading": "Division",
+          "effectiveLabel": "Division",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 539,
+              "extracted": "Division:"
+            },
+            {
+              "y": 532,
+              "extracted": "Phone Fax:"
+            }
+          ],
+          "document": "JDF-680",
+          "reason": "the division is assigned by the court; the form marks this box for court use only",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the division is assigned by the court; the form marks this box for court use only"
+        },
+        {
+          "field": "JDF-680/courtroom",
+          "fieldName": "JDF-680/courtroom",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 414.92,
+            "y": 521.06,
+            "width": 114.2,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 519.06,
+            "x": 412.92,
+            "endX": 531.12,
+            "width": 118.2,
+            "thickness": 0.96
+          },
+          "printedLabel": "Courtroom",
+          "printedLine": "Courtroom",
+          "sectionHeading": "Case (court use)",
+          "regionHeading": "Courtroom",
+          "effectiveLabel": "Courtroom",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 521,
+              "extracted": "Courtroom:"
+            },
+            {
+              "y": 517,
+              "extracted": "Email: Bar Number:"
+            }
+          ],
+          "document": "JDF-680",
+          "reason": "the courtroom is assigned by the court; the form marks this box for court use only",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the courtroom is assigned by the court; the form marks this box for court use only"
+        },
+        {
+          "field": "JDF-680/petitioner-address",
+          "fieldName": "JDF-680/petitioner-address",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 186.68,
+            "y": 333.14,
+            "width": 351.32,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 331.14,
+            "x": 184.68,
+            "endX": 540,
+            "width": 355.32,
+            "thickness": 1.08
+          },
+          "printedLabel": "Petitioner's Mailing Address, if different from 'filed by'",
+          "printedLine": "Petitioner's Mailing Address, if different from 'filed by'",
+          "sectionHeading": "1. Information about the Defendant",
+          "regionHeading": "Petitioner's Mailing Address, if different from 'filed by'",
+          "effectiveLabel": "Petitioner's Mailing Address, if different from 'filed by'",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 333,
+              "extracted": "Mailing Address:"
+            }
+          ],
+          "document": "JDF-680",
+          "reason": "the participant supplies this before filing: a mailing address, ONLY if the petitioner's differs from the one in the 'filed by' box above. The form asks for it only in that case, so it is left empty rather than repeating what is already on the page",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "JDF-680 blank petitioner-address",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: a mailing address, ONLY if the petitioner's differs from the one in the 'filed by' box above. The form asks for it only in that case, so it is left empty rather than repeating what is already on the page",
+          "participantMustSupply": "a mailing address, ONLY if the petitioner's differs from the one in the 'filed by' box above. The form asks for it only in that case, so it is left empty rather than repeating what is already on the page"
+        },
+        {
+          "field": "JDF-680/petitioner-city",
+          "fieldName": "JDF-680/petitioner-city",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 209.3,
+            "y": 315.92,
+            "width": 139.7,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 313.92,
+            "x": 207.3,
+            "endX": 351,
+            "width": 143.7,
+            "thickness": 1.08
+          },
+          "printedLabel": "Petitioner's City, if different",
+          "printedLine": "Petitioner's City, if different",
+          "sectionHeading": "1. Information about the Defendant",
+          "regionHeading": "Petitioner's City, if different",
+          "effectiveLabel": "Petitioner's City, if different",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 316,
+              "extracted": "City: State: Zip Code:"
+            }
+          ],
+          "document": "JDF-680",
+          "reason": "the participant supplies this before filing: the city of that different address, if there is one",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "JDF-680 blank petitioner-city",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: the city of that different address, if there is one",
+          "participantMustSupply": "the city of that different address, if there is one"
+        },
+        {
+          "field": "JDF-680/petitioner-state",
+          "fieldName": "JDF-680/petitioner-state",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 384.68,
+            "y": 315.92,
+            "width": 36.32,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 313.92,
+            "x": 382.68,
+            "endX": 423,
+            "width": 40.32,
+            "thickness": 1.08
+          },
+          "printedLabel": "Petitioner's State, if different",
+          "printedLine": "Petitioner's State, if different",
+          "sectionHeading": "1. Information about the Defendant",
+          "regionHeading": "Petitioner's State, if different",
+          "effectiveLabel": "Petitioner's State, if different",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 316,
+              "extracted": "City: State: Zip Code:"
+            }
+          ],
+          "document": "JDF-680",
+          "reason": "the participant supplies this before filing: the state of that different address, if there is one",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "JDF-680 blank petitioner-state",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: the state of that different address, if there is one",
+          "participantMustSupply": "the state of that different address, if there is one"
+        },
+        {
+          "field": "JDF-680/petitioner-zip",
+          "fieldName": "JDF-680/petitioner-zip",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 473.9,
+            "y": 315.92,
+            "width": 64.1,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 313.92,
+            "x": 471.9,
+            "endX": 540,
+            "width": 68.1,
+            "thickness": 1.08
+          },
+          "printedLabel": "Petitioner's Zip Code, if different",
+          "printedLine": "Petitioner's Zip Code, if different",
+          "sectionHeading": "1. Information about the Defendant",
+          "regionHeading": "Petitioner's Zip Code, if different",
+          "effectiveLabel": "Petitioner's Zip Code, if different",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 316,
+              "extracted": "City: State: Zip Code:"
+            }
+          ],
+          "document": "JDF-680",
+          "reason": "the participant supplies this before filing: the ZIP code of that different address, if there is one",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "JDF-680 blank petitioner-zip",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: the ZIP code of that different address, if there is one",
+          "participantMustSupply": "the ZIP code of that different address, if there is one"
+        },
+        {
+          "field": "JDF-680/petitioner-main-phone",
+          "fieldName": "JDF-680/petitioner-main-phone",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 177.26,
+            "y": 298.7,
+            "width": 144.74,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 296.7,
+            "x": 175.26,
+            "endX": 324,
+            "width": 148.74,
+            "thickness": 1.08
+          },
+          "printedLabel": "Petitioner's Main Phone number, if different",
+          "printedLine": "Petitioner's Main Phone number, if different",
+          "sectionHeading": "1. Information about the Defendant",
+          "regionHeading": "Petitioner's Main Phone number, if different",
+          "effectiveLabel": "Petitioner's Main Phone number, if different",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 299,
+              "extracted": "Main Phone #: Work Phone #:"
+            }
+          ],
+          "document": "JDF-680",
+          "reason": "the participant supplies this before filing: a main phone number, only if it differs from the one in the 'filed by' box",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "JDF-680 blank petitioner-main-phone",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: a main phone number, only if it differs from the one in the 'filed by' box",
+          "participantMustSupply": "a main phone number, only if it differs from the one in the 'filed by' box"
+        },
+        {
+          "field": "JDF-680/petitioner-work-phone",
+          "fieldName": "JDF-680/petitioner-work-phone",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 397.7,
+            "y": 298.7,
+            "width": 140.3,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 296.7,
+            "x": 395.7,
+            "endX": 540,
+            "width": 144.3,
+            "thickness": 1.08
+          },
+          "printedLabel": "Petitioner's Work Phone number",
+          "printedLine": "Petitioner's Work Phone number",
+          "sectionHeading": "1. Information about the Defendant",
+          "regionHeading": "Petitioner's Work Phone number",
+          "effectiveLabel": "Petitioner's Work Phone number",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 299,
+              "extracted": "Main Phone #: Work Phone #:"
+            }
+          ],
+          "document": "JDF-680",
+          "reason": "the participant supplies this before filing: a work phone number, if you have one",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "JDF-680 blank petitioner-work-phone",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: a work phone number, if you have one",
+          "participantMustSupply": "a work phone number, if you have one"
+        },
+        {
+          "field": "JDF-680/agency-district-county-court-case",
+          "fieldName": "JDF-680/agency-district-county-court-case",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 292.16,
+            "y": 240.2,
+            "width": 137.84,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 238.2,
+            "x": 290.16,
+            "endX": 432,
+            "width": 141.84,
+            "thickness": 1.08
+          },
+          "printedLabel": "District / County Court — case number",
+          "printedLine": "District / County Court — case number",
+          "sectionHeading": "2. Agencies with custody of the records",
+          "regionHeading": "District / County Court — case number",
+          "effectiveLabel": "District / County Court — case number",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 240,
+              "extracted": "District / County Court: (case number)"
+            }
+          ],
+          "document": "JDF-680",
+          "reason": "the participant supplies this before filing: the case number of the District or County Court case you are asking to seal",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "JDF-680 blank agency-district-county-court-case",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: the case number of the District or County Court case you are asking to seal",
+          "participantMustSupply": "the case number of the District or County Court case you are asking to seal"
+        },
+        {
+          "field": "JDF-680/agency-municipal-court-cases",
+          "fieldName": "JDF-680/agency-municipal-court-cases",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 267.98,
+            "y": 193.7,
+            "width": 162.02,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 191.7,
+            "x": 265.98,
+            "endX": 432,
+            "width": 166.02,
+            "thickness": 1.08
+          },
+          "printedLabel": "Municipal Court — case numbers",
+          "printedLine": "Municipal Court — case numbers",
+          "sectionHeading": "2. Agencies with custody of the records",
+          "regionHeading": "Municipal Court — case numbers",
+          "effectiveLabel": "Municipal Court — case numbers",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 194,
+              "extracted": "Municipal Court: (case numbers)"
+            }
+          ],
+          "document": "JDF-680",
+          "reason": "the participant supplies this before filing: the case numbers of any Municipal Court cases you are asking to seal",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "JDF-680 blank agency-municipal-court-cases",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: the case numbers of any Municipal Court cases you are asking to seal",
+          "participantMustSupply": "the case numbers of any Municipal Court cases you are asking to seal"
+        },
+        {
+          "field": "JDF-680/agency-municipal-court-address",
+          "fieldName": "JDF-680/agency-municipal-court-address",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 204.68,
+            "y": 176.42,
+            "width": 333.32,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 174.42,
+            "x": 202.68,
+            "endX": 540,
+            "width": 337.32,
+            "thickness": 1.08
+          },
+          "printedLabel": "Municipal Court — Mailing Address",
+          "printedLine": "Municipal Court — Mailing Address",
+          "sectionHeading": "2. Agencies with custody of the records",
+          "regionHeading": "Municipal Court — Mailing Address",
+          "effectiveLabel": "Municipal Court — Mailing Address",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 177,
+              "extracted": "Mailing Address:"
+            }
+          ],
+          "document": "JDF-680",
+          "reason": "the participant supplies this before filing: that Municipal Court's mailing address",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "JDF-680 blank agency-municipal-court-address",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: that Municipal Court's mailing address",
+          "participantMustSupply": "that Municipal Court's mailing address"
+        },
+        {
+          "field": "JDF-680/agency-sheriff-address",
+          "fieldName": "JDF-680/agency-sheriff-address",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 204.68,
+            "y": 135.92,
+            "width": 333.32,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 133.92,
+            "x": 202.68,
+            "endX": 540,
+            "width": 337.32,
+            "thickness": 1.08
+          },
+          "printedLabel": "Sheriff's Department — Mailing Address",
+          "printedLine": "Sheriff's Department — Mailing Address",
+          "sectionHeading": "2. Agencies with custody of the records",
+          "regionHeading": "Sheriff's Department — Mailing Address",
+          "effectiveLabel": "Sheriff's Department — Mailing Address",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 136,
+              "extracted": "Mailing Address:"
+            }
+          ],
+          "document": "JDF-680",
+          "reason": "the participant supplies this before filing: the mailing address of the Sheriff's Department holding these records",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "JDF-680 blank agency-sheriff-address",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: the mailing address of the Sheriff's Department holding these records",
+          "participantMustSupply": "the mailing address of the Sheriff's Department holding these records"
+        },
+        {
+          "field": "JDF-680/agency-city-attorney-address",
+          "fieldName": "JDF-680/agency-city-attorney-address",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 204.68,
+            "y": 95.42,
+            "width": 333.32,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 93.42,
+            "x": 202.68,
+            "endX": 540,
+            "width": 337.32,
+            "thickness": 1.08
+          },
+          "printedLabel": "City Attorney — Mailing Address",
+          "printedLine": "City Attorney — Mailing Address",
+          "sectionHeading": "2. Agencies with custody of the records",
+          "regionHeading": "City Attorney — Mailing Address",
+          "effectiveLabel": "City Attorney — Mailing Address",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 96,
+              "extracted": "Mailing Address:"
+            }
+          ],
+          "document": "JDF-680",
+          "reason": "the participant supplies this before filing: the City Attorney's mailing address",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "JDF-680 blank agency-city-attorney-address",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: the City Attorney's mailing address",
+          "participantMustSupply": "the City Attorney's mailing address"
+        },
+        {
+          "field": "JDF-680/agency-law-enforcement-name",
+          "fieldName": "JDF-680/agency-law-enforcement-name",
+          "acroFieldName": null,
+          "page": 2,
+          "rect": {
+            "x": 281.96,
+            "y": 710.48,
+            "width": 220.04,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 708.48,
+            "x": 279.96,
+            "endX": 504,
+            "width": 224.04,
+            "thickness": 1.08
+          },
+          "printedLabel": "Law Enforcement Agency — name",
+          "printedLine": "Law Enforcement Agency — name",
+          "sectionHeading": "2. Agencies with custody of the records",
+          "regionHeading": "Law Enforcement Agency — name",
+          "effectiveLabel": "Law Enforcement Agency — name",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 711,
+              "extracted": "Law Enforcement Agency (Identify)"
+            }
+          ],
+          "document": "JDF-680",
+          "reason": "the participant supplies this before filing: the name of the law enforcement agency that arrested or cited you",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "JDF-680 blank agency-law-enforcement-name",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: the name of the law enforcement agency that arrested or cited you",
+          "participantMustSupply": "the name of the law enforcement agency that arrested or cited you"
+        },
+        {
+          "field": "JDF-680/agency-law-enforcement-case",
+          "fieldName": "JDF-680/agency-law-enforcement-case",
+          "acroFieldName": null,
+          "page": 2,
+          "rect": {
+            "x": 231.38,
+            "y": 693.26,
+            "width": 306.62,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 691.26,
+            "x": 229.38,
+            "endX": 540,
+            "width": 310.62,
+            "thickness": 1.08
+          },
+          "printedLabel": "Law Enforcement Agency — Agency Case Number",
+          "printedLine": "Law Enforcement Agency — Agency Case Number",
+          "sectionHeading": "2. Agencies with custody of the records",
+          "regionHeading": "Law Enforcement Agency — Agency Case Number",
+          "effectiveLabel": "Law Enforcement Agency — Agency Case Number",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 693,
+              "extracted": "Agency Case Number:"
+            }
+          ],
+          "document": "JDF-680",
+          "reason": "the participant supplies this before filing: that agency's own case number, which is usually different from the court case number",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "JDF-680 blank agency-law-enforcement-case",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: that agency's own case number, which is usually different from the court case number",
+          "participantMustSupply": "that agency's own case number, which is usually different from the court case number"
+        },
+        {
+          "field": "JDF-680/agency-law-enforcement-address",
+          "fieldName": "JDF-680/agency-law-enforcement-address",
+          "acroFieldName": null,
+          "page": 2,
+          "rect": {
+            "x": 204.68,
+            "y": 675.98,
+            "width": 333.32,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 673.98,
+            "x": 202.68,
+            "endX": 540,
+            "width": 337.32,
+            "thickness": 1.08
+          },
+          "printedLabel": "Law Enforcement Agency — Mailing Address",
+          "printedLine": "Law Enforcement Agency — Mailing Address",
+          "sectionHeading": "2. Agencies with custody of the records",
+          "regionHeading": "Law Enforcement Agency — Mailing Address",
+          "effectiveLabel": "Law Enforcement Agency — Mailing Address",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 676,
+              "extracted": "Mailing Address:"
+            }
+          ],
+          "document": "JDF-680",
+          "reason": "the participant supplies this before filing: that agency's mailing address",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "JDF-680 blank agency-law-enforcement-address",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: that agency's mailing address",
+          "participantMustSupply": "that agency's mailing address"
+        },
+        {
+          "field": "JDF-680/agency-other-name",
+          "fieldName": "JDF-680/agency-other-name",
+          "acroFieldName": null,
+          "page": 2,
+          "rect": {
+            "x": 158.54,
+            "y": 613.94,
+            "width": 379.46,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 611.94,
+            "x": 156.54,
+            "endX": 540,
+            "width": 383.46,
+            "thickness": 1.08
+          },
+          "printedLabel": "Other agency — name",
+          "printedLine": "Other agency — name",
+          "sectionHeading": "2. Agencies with custody of the records",
+          "regionHeading": "Other agency — name",
+          "effectiveLabel": "Other agency — name",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 614,
+              "extracted": "Other:"
+            }
+          ],
+          "document": "JDF-680",
+          "reason": "the participant supplies this before filing: the name of any other agency holding records of this conviction",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "JDF-680 blank agency-other-name",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: the name of any other agency holding records of this conviction",
+          "participantMustSupply": "the name of any other agency holding records of this conviction"
+        },
+        {
+          "field": "JDF-680/agency-other-address",
+          "fieldName": "JDF-680/agency-other-address",
+          "acroFieldName": null,
+          "page": 2,
+          "rect": {
+            "x": 204.68,
+            "y": 596.72,
+            "width": 333.32,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 594.72,
+            "x": 202.68,
+            "endX": 540,
+            "width": 337.32,
+            "thickness": 1.08
+          },
+          "printedLabel": "Other agency — Mailing Address",
+          "printedLine": "Other agency — Mailing Address",
+          "sectionHeading": "2. Agencies with custody of the records",
+          "regionHeading": "Other agency — Mailing Address",
+          "effectiveLabel": "Other agency — Mailing Address",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 597,
+              "extracted": "Mailing Address:"
+            }
+          ],
+          "document": "JDF-680",
+          "reason": "the participant supplies this before filing: that agency's mailing address",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "JDF-680 blank agency-other-address",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: that agency's mailing address",
+          "participantMustSupply": "that agency's mailing address"
+        },
+        {
+          "field": "JDF-680/certificate-date",
+          "fieldName": "JDF-680/certificate-date",
+          "acroFieldName": null,
+          "page": 2,
+          "rect": {
+            "x": 218.66,
+            "y": 471.5,
+            "width": 139.34,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 469.5,
+            "x": 216.66,
+            "endX": 360,
+            "width": 143.34,
+            "thickness": 1.08
+          },
+          "printedLabel": "Certificate of Service — date of service, entered at signature",
+          "printedLine": "Certificate of Service — date of service, entered at signature",
+          "sectionHeading": "4. Certificate of Service",
+          "regionHeading": "Certificate of Service — date of service, entered at signature",
+          "effectiveLabel": "Certificate of Service — date of service, entered at signature",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 472,
+              "extracted": "I certify that on (enter date) , I gave a copy of this document to the"
+            }
+          ],
+          "document": "JDF-680",
+          "reason": "service has not happened when the packet is prepared, and a certificate dated before the act it certifies would be false",
+          "category": "signature_or_date_participant_completion",
+          "completenessClass": "signature_or_date_participant_completion",
+          "class": "signature_or_date_participant_completion",
+          "requiredBeforeFiling": false,
+          "why": "service has not happened when the packet is prepared, and a certificate dated before the act it certifies would be false"
+        },
+        {
+          "field": "JDF-680/certificate-email-or-fax",
+          "fieldName": "JDF-680/certificate-email-or-fax",
+          "acroFieldName": null,
+          "page": 2,
+          "rect": {
+            "x": 233.12,
+            "y": 413.72,
+            "width": 304.88,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 411.72,
+            "x": 231.12,
+            "endX": 540,
+            "width": 308.88,
+            "thickness": 1.08
+          },
+          "printedLabel": "Certificate of Service — email or fax address served",
+          "printedLine": "Certificate of Service — email or fax address served",
+          "sectionHeading": "4. Certificate of Service",
+          "regionHeading": "Certificate of Service — email or fax address served",
+          "effectiveLabel": "Certificate of Service — email or fax address served",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 414,
+              "extracted": "Email or Fax to:"
+            }
+          ],
+          "document": "JDF-680",
+          "reason": "the certificate records where you actually sent it and is completed when you sign it, after service",
+          "category": "signature_or_date_participant_completion",
+          "completenessClass": "signature_or_date_participant_completion",
+          "class": "signature_or_date_participant_completion",
+          "requiredBeforeFiling": false,
+          "why": "the certificate records where you actually sent it and is completed when you sign it, after service"
+        },
+        {
+          "field": "JDF-680/certificate-recipient-1",
+          "fieldName": "JDF-680/certificate-recipient-1",
+          "acroFieldName": null,
+          "page": 2,
+          "rect": {
+            "x": 193.64,
+            "y": 379.28,
+            "width": 326.36,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 377.28,
+            "x": 191.64,
+            "endX": 522,
+            "width": 330.36,
+            "thickness": 1.08
+          },
+          "printedLabel": "Certificate of Service — first recipient served, by hand delivery or regular mail",
+          "printedLine": "Certificate of Service — first recipient served, by hand delivery or regular mail",
+          "sectionHeading": "4. Certificate of Service",
+          "regionHeading": "Certificate of Service — first recipient served, by hand delivery or regular mail",
+          "effectiveLabel": "Certificate of Service — first recipient served, by hand delivery or regular mail",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 379,
+              "extracted": "1)"
+            },
+            {
+              "y": 366,
+              "extracted": "2)"
+            }
+          ],
+          "document": "JDF-680",
+          "reason": "the certificate records who you actually served and is completed when you sign it, after service",
+          "category": "signature_or_date_participant_completion",
+          "completenessClass": "signature_or_date_participant_completion",
+          "class": "signature_or_date_participant_completion",
+          "requiredBeforeFiling": false,
+          "why": "the certificate records who you actually served and is completed when you sign it, after service"
+        },
+        {
+          "field": "JDF-680/certificate-recipient-2",
+          "fieldName": "JDF-680/certificate-recipient-2",
+          "acroFieldName": null,
+          "page": 2,
+          "rect": {
+            "x": 193.64,
+            "y": 366.02,
+            "width": 326.36,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 364.02,
+            "x": 191.64,
+            "endX": 522,
+            "width": 330.36,
+            "thickness": 1.08
+          },
+          "printedLabel": "Certificate of Service — second recipient served, by hand delivery or regular mail",
+          "printedLine": "Certificate of Service — second recipient served, by hand delivery or regular mail",
+          "sectionHeading": "4. Certificate of Service",
+          "regionHeading": "Certificate of Service — second recipient served, by hand delivery or regular mail",
+          "effectiveLabel": "Certificate of Service — second recipient served, by hand delivery or regular mail",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 366,
+              "extracted": "2)"
+            }
+          ],
+          "document": "JDF-680",
+          "reason": "the certificate records who you actually served and is completed when you sign it, after service",
+          "category": "signature_or_date_participant_completion",
+          "completenessClass": "signature_or_date_participant_completion",
+          "class": "signature_or_date_participant_completion",
+          "requiredBeforeFiling": false,
+          "why": "the certificate records who you actually served and is completed when you sign it, after service"
+        },
+        {
+          "field": "JDF-680/signature",
+          "fieldName": "JDF-680/signature",
+          "acroFieldName": null,
+          "page": 2,
+          "rect": {
+            "x": 110,
+            "y": 274.28,
+            "width": 212,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 272.28,
+            "x": 108,
+            "endX": 324,
+            "width": 216,
+            "thickness": 1.08
+          },
+          "printedLabel": "Signature",
+          "printedLine": "Signature",
+          "sectionHeading": "5. Sign and Date",
+          "regionHeading": "Signature",
+          "effectiveLabel": "Signature",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 263,
+              "extracted": "Signature Date"
+            }
+          ],
+          "document": "JDF-680",
+          "reason": "you sign this yourself",
+          "category": "signature_or_date_participant_completion",
+          "completenessClass": "signature_or_date_participant_completion",
+          "class": "signature_or_date_participant_completion",
+          "requiredBeforeFiling": false,
+          "why": "you sign this yourself"
+        },
+        {
+          "field": "JDF-680/signature-date",
+          "fieldName": "JDF-680/signature-date",
+          "acroFieldName": null,
+          "page": 2,
+          "rect": {
+            "x": 362,
+            "y": 274.28,
+            "width": 140,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 272.28,
+            "x": 360,
+            "endX": 504,
+            "width": 144,
+            "thickness": 1.08
+          },
+          "printedLabel": "Date of signature",
+          "printedLine": "Date of signature",
+          "sectionHeading": "5. Sign and Date",
+          "regionHeading": "Date of signature",
+          "effectiveLabel": "Date of signature",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 263,
+              "extracted": "Signature Date"
+            }
+          ],
+          "document": "JDF-680",
+          "reason": "you date it when you sign it; a date written in advance would be false",
+          "category": "signature_or_date_participant_completion",
+          "completenessClass": "signature_or_date_participant_completion",
+          "class": "signature_or_date_participant_completion",
+          "requiredBeforeFiling": false,
+          "why": "you date it when you sign it; a date written in advance would be false"
+        }
+      ],
+      "boundaryWrites": [
+        {
+          "field": "JDF-680/co-county",
+          "fieldName": "JDF-680/co-county",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 151.94,
+            "y": 687.44,
+            "width": 200.66,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 685.44,
+            "x": 149.94,
+            "endX": 354.6,
+            "width": 204.66,
+            "thickness": 0.96
+          },
+          "printedLabel": "Colorado County",
+          "printedLine": "Colorado County",
+          "sectionHeading": "Court",
+          "regionHeading": "Colorado County",
+          "effectiveLabel": "Colorado County",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 687,
+              "extracted": "Colorado County:"
+            },
+            {
+              "y": 672,
+              "extracted": "Court Mailing Address.:"
+            }
+          ],
+          "document": "JDF-680",
+          "factId": "matter.county",
+          "kind": "flat_overlay_text"
+        },
+        {
+          "field": "JDF-680/defendant",
+          "fieldName": "JDF-680/defendant",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 125.96,
+            "y": 606.38,
+            "width": 226.64,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 604.38,
+            "x": 123.96,
+            "endX": 354.6,
+            "width": 230.64,
+            "thickness": 0.96
+          },
+          "printedLabel": "Defendant",
+          "printedLine": "Defendant",
+          "sectionHeading": "Parties",
+          "regionHeading": "Defendant",
+          "effectiveLabel": "Defendant",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 606,
+              "extracted": "Defendant:"
+            },
+            {
+              "y": 595,
+              "extracted": "This box for court use only."
+            }
+          ],
+          "document": "JDF-680",
+          "factId": "participant.full_legal_name",
+          "kind": "flat_overlay_text"
+        },
+        {
+          "field": "JDF-680/filed-by-name",
+          "fieldName": "JDF-680/filed-by-name",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 108.38,
+            "y": 563.12,
+            "width": 244.22,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 561.12,
+            "x": 106.38,
+            "endX": 354.6,
+            "width": 248.22,
+            "thickness": 0.96
+          },
+          "printedLabel": "Filed by — Name",
+          "printedLine": "Filed by — Name",
+          "sectionHeading": "Filed by",
+          "regionHeading": "Filed by — Name",
+          "effectiveLabel": "Filed by — Name",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 563,
+              "extracted": "Name:"
+            },
+            {
+              "y": 557,
+              "extracted": "Number:"
+            }
+          ],
+          "document": "JDF-680",
+          "factId": "participant.full_legal_name",
+          "kind": "flat_overlay_text"
+        },
+        {
+          "field": "JDF-680/filed-by-address",
+          "fieldName": "JDF-680/filed-by-address",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 150.92,
+            "y": 547.58,
+            "width": 201.68,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 545.58,
+            "x": 148.92,
+            "endX": 354.6,
+            "width": 205.68,
+            "thickness": 0.96
+          },
+          "printedLabel": "Filed by — Mailing Address",
+          "printedLine": "Filed by — Mailing Address",
+          "sectionHeading": "Filed by",
+          "regionHeading": "Filed by — Mailing Address",
+          "effectiveLabel": "Filed by — Mailing Address",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 548,
+              "extracted": "Mailing Address.:"
+            },
+            {
+              "y": 539,
+              "extracted": "Division:"
+            }
+          ],
+          "document": "JDF-680",
+          "factId": "participant.street_address",
+          "kind": "flat_overlay_text"
+        },
+        {
+          "field": "JDF-680/filed-by-phone",
+          "fieldName": "JDF-680/filed-by-phone",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 107.9,
+            "y": 532.1,
+            "width": 160.22,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 530.1,
+            "x": 105.9,
+            "endX": 270.12,
+            "width": 164.22,
+            "thickness": 0.96
+          },
+          "printedLabel": "Filed by — Phone",
+          "printedLine": "Filed by — Phone",
+          "sectionHeading": "Filed by",
+          "regionHeading": "Filed by — Phone",
+          "effectiveLabel": "Filed by — Phone",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 532,
+              "extracted": "Phone Fax:"
+            },
+            {
+              "y": 539,
+              "extracted": "Division:"
+            }
+          ],
+          "document": "JDF-680",
+          "factId": "participant.phone",
+          "kind": "flat_overlay_text"
+        },
+        {
+          "field": "JDF-680/filed-by-email",
+          "fieldName": "JDF-680/filed-by-email",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 106.88,
+            "y": 516.62,
+            "width": 147.74,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 514.62,
+            "x": 104.88,
+            "endX": 256.62,
+            "width": 151.74,
+            "thickness": 0.96
+          },
+          "printedLabel": "Filed by — Email",
+          "printedLine": "Filed by — Email",
+          "sectionHeading": "Filed by",
+          "regionHeading": "Filed by — Email",
+          "effectiveLabel": "Filed by — Email",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 517,
+              "extracted": "Email: Bar Number:"
+            },
+            {
+              "y": 521,
+              "extracted": "Courtroom:"
+            }
+          ],
+          "document": "JDF-680",
+          "factId": "participant.email",
+          "kind": "flat_overlay_text"
+        },
+        {
+          "field": "JDF-680/case-number",
+          "fieldName": "JDF-680/case-number",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 404.42,
+            "y": 557.18,
+            "width": 124.7,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 555.18,
+            "x": 402.42,
+            "endX": 531.12,
+            "width": 128.7,
+            "thickness": 0.96
+          },
+          "printedLabel": "Case Number",
+          "printedLine": "Case Number",
+          "sectionHeading": "Case (court use)",
+          "regionHeading": "Case Number",
+          "effectiveLabel": "Case Number",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 557,
+              "extracted": "Number:"
+            },
+            {
+              "y": 548,
+              "extracted": "Mailing Address.:"
+            }
+          ],
+          "document": "JDF-680",
+          "factId": "matter.case_number",
+          "kind": "flat_overlay_text"
+        },
+        {
+          "field": "JDF-680/defendant-dob",
+          "fieldName": "JDF-680/defendant-dob",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 360.14,
+            "y": 373.64,
+            "width": 177.86,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 371.64,
+            "x": 358.14,
+            "endX": 540,
+            "width": 181.86,
+            "thickness": 1.08
+          },
+          "printedLabel": "Date of Birth",
+          "printedLine": "Date of Birth",
+          "sectionHeading": "1. Information about the Defendant",
+          "regionHeading": "Date of Birth",
+          "effectiveLabel": "Date of Birth",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 374,
+              "extracted": "1. Information about the Defendant: Date of Birth:"
+            }
+          ],
+          "document": "JDF-680",
+          "factId": "participant.date_of_birth",
+          "kind": "flat_overlay_text"
+        },
+        {
+          "field": "JDF-680/print-your-name",
+          "fieldName": "JDF-680/print-your-name",
+          "acroFieldName": null,
+          "page": 2,
+          "rect": {
+            "x": 189.44,
+            "y": 303.56,
+            "width": 276.56,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 301.56,
+            "x": 187.44,
+            "endX": 468,
+            "width": 280.56,
+            "thickness": 1.08
+          },
+          "printedLabel": "Print Your Name",
+          "printedLine": "Print Your Name",
+          "sectionHeading": "5. Sign and Date",
+          "regionHeading": "Print Your Name",
+          "effectiveLabel": "Print Your Name",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 304,
+              "extracted": "Print Your Name:"
+            }
+          ],
+          "document": "JDF-680",
+          "factId": "participant.full_legal_name",
+          "kind": "flat_overlay_text"
+        }
+      ],
+      "boundaryRefusals": [
+        {
+          "field": "JDF-680/court-mailing-address",
+          "fieldName": "JDF-680/court-mailing-address",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 175.4,
+            "y": 671.9,
+            "width": 177.2,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 669.9,
+            "x": 173.4,
+            "endX": 354.6,
+            "width": 181.2,
+            "thickness": 0.96
+          },
+          "printedLabel": "Court Mailing Address",
+          "printedLine": "Court Mailing Address",
+          "sectionHeading": "Court",
+          "regionHeading": "Court Mailing Address",
+          "effectiveLabel": "Court Mailing Address",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 672,
+              "extracted": "Court Mailing Address.:"
+            }
+          ],
+          "document": "JDF-680",
+          "reason": "the participant supplies this before filing: the mailing address of the courthouse where the conviction was entered. The Colorado Judicial Department publishes it for every county; the platform holds no court directory",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "JDF-680 blank court-mailing-address",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: the mailing address of the courthouse where the conviction was entered. The Colorado Judicial Department publishes it for every county; the platform holds no court directory",
+          "participantMustSupply": "the mailing address of the courthouse where the conviction was entered. The Colorado Judicial Department publishes it for every county; the platform holds no court directory"
+        },
+        {
+          "field": "JDF-680/filed-by-fax",
+          "fieldName": "JDF-680/filed-by-fax",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 301.1,
+            "y": 532.1,
+            "width": 51.5,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 530.1,
+            "x": 299.1,
+            "endX": 354.6,
+            "width": 55.5,
+            "thickness": 0.96
+          },
+          "printedLabel": "Filed by — Fax",
+          "printedLine": "Filed by — Fax",
+          "sectionHeading": "Filed by",
+          "regionHeading": "Filed by — Fax",
+          "effectiveLabel": "Filed by — Fax",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 532,
+              "extracted": "Phone Fax:"
+            },
+            {
+              "y": 539,
+              "extracted": "Division:"
+            }
+          ],
+          "document": "JDF-680",
+          "reason": "the participant supplies this before filing: a fax number, if you have one; most people do not and the line is left empty",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "JDF-680 blank filed-by-fax",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: a fax number, if you have one; most people do not and the line is left empty",
+          "participantMustSupply": "a fax number, if you have one; most people do not and the line is left empty"
+        },
+        {
+          "field": "JDF-680/division",
+          "fieldName": "JDF-680/division",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 403.88,
+            "y": 539.12,
+            "width": 125.24,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 537.12,
+            "x": 401.88,
+            "endX": 531.12,
+            "width": 129.24,
+            "thickness": 0.96
+          },
+          "printedLabel": "Division",
+          "printedLine": "Division",
+          "sectionHeading": "Case (court use)",
+          "regionHeading": "Division",
+          "effectiveLabel": "Division",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 539,
+              "extracted": "Division:"
+            },
+            {
+              "y": 532,
+              "extracted": "Phone Fax:"
+            }
+          ],
+          "document": "JDF-680",
+          "reason": "the division is assigned by the court; the form marks this box for court use only",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the division is assigned by the court; the form marks this box for court use only"
+        },
+        {
+          "field": "JDF-680/courtroom",
+          "fieldName": "JDF-680/courtroom",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 414.92,
+            "y": 521.06,
+            "width": 114.2,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 519.06,
+            "x": 412.92,
+            "endX": 531.12,
+            "width": 118.2,
+            "thickness": 0.96
+          },
+          "printedLabel": "Courtroom",
+          "printedLine": "Courtroom",
+          "sectionHeading": "Case (court use)",
+          "regionHeading": "Courtroom",
+          "effectiveLabel": "Courtroom",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 521,
+              "extracted": "Courtroom:"
+            },
+            {
+              "y": 517,
+              "extracted": "Email: Bar Number:"
+            }
+          ],
+          "document": "JDF-680",
+          "reason": "the courtroom is assigned by the court; the form marks this box for court use only",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the courtroom is assigned by the court; the form marks this box for court use only"
+        },
+        {
+          "field": "JDF-680/petitioner-address",
+          "fieldName": "JDF-680/petitioner-address",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 186.68,
+            "y": 333.14,
+            "width": 351.32,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 331.14,
+            "x": 184.68,
+            "endX": 540,
+            "width": 355.32,
+            "thickness": 1.08
+          },
+          "printedLabel": "Petitioner's Mailing Address, if different from 'filed by'",
+          "printedLine": "Petitioner's Mailing Address, if different from 'filed by'",
+          "sectionHeading": "1. Information about the Defendant",
+          "regionHeading": "Petitioner's Mailing Address, if different from 'filed by'",
+          "effectiveLabel": "Petitioner's Mailing Address, if different from 'filed by'",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 333,
+              "extracted": "Mailing Address:"
+            }
+          ],
+          "document": "JDF-680",
+          "reason": "the participant supplies this before filing: a mailing address, ONLY if the petitioner's differs from the one in the 'filed by' box above. The form asks for it only in that case, so it is left empty rather than repeating what is already on the page",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "JDF-680 blank petitioner-address",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: a mailing address, ONLY if the petitioner's differs from the one in the 'filed by' box above. The form asks for it only in that case, so it is left empty rather than repeating what is already on the page",
+          "participantMustSupply": "a mailing address, ONLY if the petitioner's differs from the one in the 'filed by' box above. The form asks for it only in that case, so it is left empty rather than repeating what is already on the page"
+        },
+        {
+          "field": "JDF-680/petitioner-city",
+          "fieldName": "JDF-680/petitioner-city",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 209.3,
+            "y": 315.92,
+            "width": 139.7,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 313.92,
+            "x": 207.3,
+            "endX": 351,
+            "width": 143.7,
+            "thickness": 1.08
+          },
+          "printedLabel": "Petitioner's City, if different",
+          "printedLine": "Petitioner's City, if different",
+          "sectionHeading": "1. Information about the Defendant",
+          "regionHeading": "Petitioner's City, if different",
+          "effectiveLabel": "Petitioner's City, if different",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 316,
+              "extracted": "City: State: Zip Code:"
+            }
+          ],
+          "document": "JDF-680",
+          "reason": "the participant supplies this before filing: the city of that different address, if there is one",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "JDF-680 blank petitioner-city",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: the city of that different address, if there is one",
+          "participantMustSupply": "the city of that different address, if there is one"
+        },
+        {
+          "field": "JDF-680/petitioner-state",
+          "fieldName": "JDF-680/petitioner-state",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 384.68,
+            "y": 315.92,
+            "width": 36.32,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 313.92,
+            "x": 382.68,
+            "endX": 423,
+            "width": 40.32,
+            "thickness": 1.08
+          },
+          "printedLabel": "Petitioner's State, if different",
+          "printedLine": "Petitioner's State, if different",
+          "sectionHeading": "1. Information about the Defendant",
+          "regionHeading": "Petitioner's State, if different",
+          "effectiveLabel": "Petitioner's State, if different",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 316,
+              "extracted": "City: State: Zip Code:"
+            }
+          ],
+          "document": "JDF-680",
+          "reason": "the participant supplies this before filing: the state of that different address, if there is one",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "JDF-680 blank petitioner-state",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: the state of that different address, if there is one",
+          "participantMustSupply": "the state of that different address, if there is one"
+        },
+        {
+          "field": "JDF-680/petitioner-zip",
+          "fieldName": "JDF-680/petitioner-zip",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 473.9,
+            "y": 315.92,
+            "width": 64.1,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 313.92,
+            "x": 471.9,
+            "endX": 540,
+            "width": 68.1,
+            "thickness": 1.08
+          },
+          "printedLabel": "Petitioner's Zip Code, if different",
+          "printedLine": "Petitioner's Zip Code, if different",
+          "sectionHeading": "1. Information about the Defendant",
+          "regionHeading": "Petitioner's Zip Code, if different",
+          "effectiveLabel": "Petitioner's Zip Code, if different",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 316,
+              "extracted": "City: State: Zip Code:"
+            }
+          ],
+          "document": "JDF-680",
+          "reason": "the participant supplies this before filing: the ZIP code of that different address, if there is one",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "JDF-680 blank petitioner-zip",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: the ZIP code of that different address, if there is one",
+          "participantMustSupply": "the ZIP code of that different address, if there is one"
+        },
+        {
+          "field": "JDF-680/petitioner-main-phone",
+          "fieldName": "JDF-680/petitioner-main-phone",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 177.26,
+            "y": 298.7,
+            "width": 144.74,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 296.7,
+            "x": 175.26,
+            "endX": 324,
+            "width": 148.74,
+            "thickness": 1.08
+          },
+          "printedLabel": "Petitioner's Main Phone number, if different",
+          "printedLine": "Petitioner's Main Phone number, if different",
+          "sectionHeading": "1. Information about the Defendant",
+          "regionHeading": "Petitioner's Main Phone number, if different",
+          "effectiveLabel": "Petitioner's Main Phone number, if different",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 299,
+              "extracted": "Main Phone #: Work Phone #:"
+            }
+          ],
+          "document": "JDF-680",
+          "reason": "the participant supplies this before filing: a main phone number, only if it differs from the one in the 'filed by' box",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "JDF-680 blank petitioner-main-phone",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: a main phone number, only if it differs from the one in the 'filed by' box",
+          "participantMustSupply": "a main phone number, only if it differs from the one in the 'filed by' box"
+        },
+        {
+          "field": "JDF-680/petitioner-work-phone",
+          "fieldName": "JDF-680/petitioner-work-phone",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 397.7,
+            "y": 298.7,
+            "width": 140.3,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 296.7,
+            "x": 395.7,
+            "endX": 540,
+            "width": 144.3,
+            "thickness": 1.08
+          },
+          "printedLabel": "Petitioner's Work Phone number",
+          "printedLine": "Petitioner's Work Phone number",
+          "sectionHeading": "1. Information about the Defendant",
+          "regionHeading": "Petitioner's Work Phone number",
+          "effectiveLabel": "Petitioner's Work Phone number",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 299,
+              "extracted": "Main Phone #: Work Phone #:"
+            }
+          ],
+          "document": "JDF-680",
+          "reason": "the participant supplies this before filing: a work phone number, if you have one",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "JDF-680 blank petitioner-work-phone",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: a work phone number, if you have one",
+          "participantMustSupply": "a work phone number, if you have one"
+        },
+        {
+          "field": "JDF-680/agency-district-county-court-case",
+          "fieldName": "JDF-680/agency-district-county-court-case",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 292.16,
+            "y": 240.2,
+            "width": 137.84,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 238.2,
+            "x": 290.16,
+            "endX": 432,
+            "width": 141.84,
+            "thickness": 1.08
+          },
+          "printedLabel": "District / County Court — case number",
+          "printedLine": "District / County Court — case number",
+          "sectionHeading": "2. Agencies with custody of the records",
+          "regionHeading": "District / County Court — case number",
+          "effectiveLabel": "District / County Court — case number",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 240,
+              "extracted": "District / County Court: (case number)"
+            }
+          ],
+          "document": "JDF-680",
+          "reason": "the participant supplies this before filing: the case number of the District or County Court case you are asking to seal",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "JDF-680 blank agency-district-county-court-case",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: the case number of the District or County Court case you are asking to seal",
+          "participantMustSupply": "the case number of the District or County Court case you are asking to seal"
+        },
+        {
+          "field": "JDF-680/agency-municipal-court-cases",
+          "fieldName": "JDF-680/agency-municipal-court-cases",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 267.98,
+            "y": 193.7,
+            "width": 162.02,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 191.7,
+            "x": 265.98,
+            "endX": 432,
+            "width": 166.02,
+            "thickness": 1.08
+          },
+          "printedLabel": "Municipal Court — case numbers",
+          "printedLine": "Municipal Court — case numbers",
+          "sectionHeading": "2. Agencies with custody of the records",
+          "regionHeading": "Municipal Court — case numbers",
+          "effectiveLabel": "Municipal Court — case numbers",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 194,
+              "extracted": "Municipal Court: (case numbers)"
+            }
+          ],
+          "document": "JDF-680",
+          "reason": "the participant supplies this before filing: the case numbers of any Municipal Court cases you are asking to seal",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "JDF-680 blank agency-municipal-court-cases",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: the case numbers of any Municipal Court cases you are asking to seal",
+          "participantMustSupply": "the case numbers of any Municipal Court cases you are asking to seal"
+        },
+        {
+          "field": "JDF-680/agency-municipal-court-address",
+          "fieldName": "JDF-680/agency-municipal-court-address",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 204.68,
+            "y": 176.42,
+            "width": 333.32,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 174.42,
+            "x": 202.68,
+            "endX": 540,
+            "width": 337.32,
+            "thickness": 1.08
+          },
+          "printedLabel": "Municipal Court — Mailing Address",
+          "printedLine": "Municipal Court — Mailing Address",
+          "sectionHeading": "2. Agencies with custody of the records",
+          "regionHeading": "Municipal Court — Mailing Address",
+          "effectiveLabel": "Municipal Court — Mailing Address",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 177,
+              "extracted": "Mailing Address:"
+            }
+          ],
+          "document": "JDF-680",
+          "reason": "the participant supplies this before filing: that Municipal Court's mailing address",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "JDF-680 blank agency-municipal-court-address",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: that Municipal Court's mailing address",
+          "participantMustSupply": "that Municipal Court's mailing address"
+        },
+        {
+          "field": "JDF-680/agency-sheriff-address",
+          "fieldName": "JDF-680/agency-sheriff-address",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 204.68,
+            "y": 135.92,
+            "width": 333.32,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 133.92,
+            "x": 202.68,
+            "endX": 540,
+            "width": 337.32,
+            "thickness": 1.08
+          },
+          "printedLabel": "Sheriff's Department — Mailing Address",
+          "printedLine": "Sheriff's Department — Mailing Address",
+          "sectionHeading": "2. Agencies with custody of the records",
+          "regionHeading": "Sheriff's Department — Mailing Address",
+          "effectiveLabel": "Sheriff's Department — Mailing Address",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 136,
+              "extracted": "Mailing Address:"
+            }
+          ],
+          "document": "JDF-680",
+          "reason": "the participant supplies this before filing: the mailing address of the Sheriff's Department holding these records",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "JDF-680 blank agency-sheriff-address",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: the mailing address of the Sheriff's Department holding these records",
+          "participantMustSupply": "the mailing address of the Sheriff's Department holding these records"
+        },
+        {
+          "field": "JDF-680/agency-city-attorney-address",
+          "fieldName": "JDF-680/agency-city-attorney-address",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 204.68,
+            "y": 95.42,
+            "width": 333.32,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 93.42,
+            "x": 202.68,
+            "endX": 540,
+            "width": 337.32,
+            "thickness": 1.08
+          },
+          "printedLabel": "City Attorney — Mailing Address",
+          "printedLine": "City Attorney — Mailing Address",
+          "sectionHeading": "2. Agencies with custody of the records",
+          "regionHeading": "City Attorney — Mailing Address",
+          "effectiveLabel": "City Attorney — Mailing Address",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 96,
+              "extracted": "Mailing Address:"
+            }
+          ],
+          "document": "JDF-680",
+          "reason": "the participant supplies this before filing: the City Attorney's mailing address",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "JDF-680 blank agency-city-attorney-address",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: the City Attorney's mailing address",
+          "participantMustSupply": "the City Attorney's mailing address"
+        },
+        {
+          "field": "JDF-680/agency-law-enforcement-name",
+          "fieldName": "JDF-680/agency-law-enforcement-name",
+          "acroFieldName": null,
+          "page": 2,
+          "rect": {
+            "x": 281.96,
+            "y": 710.48,
+            "width": 220.04,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 708.48,
+            "x": 279.96,
+            "endX": 504,
+            "width": 224.04,
+            "thickness": 1.08
+          },
+          "printedLabel": "Law Enforcement Agency — name",
+          "printedLine": "Law Enforcement Agency — name",
+          "sectionHeading": "2. Agencies with custody of the records",
+          "regionHeading": "Law Enforcement Agency — name",
+          "effectiveLabel": "Law Enforcement Agency — name",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 711,
+              "extracted": "Law Enforcement Agency (Identify)"
+            }
+          ],
+          "document": "JDF-680",
+          "reason": "the participant supplies this before filing: the name of the law enforcement agency that arrested or cited you",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "JDF-680 blank agency-law-enforcement-name",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: the name of the law enforcement agency that arrested or cited you",
+          "participantMustSupply": "the name of the law enforcement agency that arrested or cited you"
+        },
+        {
+          "field": "JDF-680/agency-law-enforcement-case",
+          "fieldName": "JDF-680/agency-law-enforcement-case",
+          "acroFieldName": null,
+          "page": 2,
+          "rect": {
+            "x": 231.38,
+            "y": 693.26,
+            "width": 306.62,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 691.26,
+            "x": 229.38,
+            "endX": 540,
+            "width": 310.62,
+            "thickness": 1.08
+          },
+          "printedLabel": "Law Enforcement Agency — Agency Case Number",
+          "printedLine": "Law Enforcement Agency — Agency Case Number",
+          "sectionHeading": "2. Agencies with custody of the records",
+          "regionHeading": "Law Enforcement Agency — Agency Case Number",
+          "effectiveLabel": "Law Enforcement Agency — Agency Case Number",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 693,
+              "extracted": "Agency Case Number:"
+            }
+          ],
+          "document": "JDF-680",
+          "reason": "the participant supplies this before filing: that agency's own case number, which is usually different from the court case number",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "JDF-680 blank agency-law-enforcement-case",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: that agency's own case number, which is usually different from the court case number",
+          "participantMustSupply": "that agency's own case number, which is usually different from the court case number"
+        },
+        {
+          "field": "JDF-680/agency-law-enforcement-address",
+          "fieldName": "JDF-680/agency-law-enforcement-address",
+          "acroFieldName": null,
+          "page": 2,
+          "rect": {
+            "x": 204.68,
+            "y": 675.98,
+            "width": 333.32,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 673.98,
+            "x": 202.68,
+            "endX": 540,
+            "width": 337.32,
+            "thickness": 1.08
+          },
+          "printedLabel": "Law Enforcement Agency — Mailing Address",
+          "printedLine": "Law Enforcement Agency — Mailing Address",
+          "sectionHeading": "2. Agencies with custody of the records",
+          "regionHeading": "Law Enforcement Agency — Mailing Address",
+          "effectiveLabel": "Law Enforcement Agency — Mailing Address",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 676,
+              "extracted": "Mailing Address:"
+            }
+          ],
+          "document": "JDF-680",
+          "reason": "the participant supplies this before filing: that agency's mailing address",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "JDF-680 blank agency-law-enforcement-address",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: that agency's mailing address",
+          "participantMustSupply": "that agency's mailing address"
+        },
+        {
+          "field": "JDF-680/agency-other-name",
+          "fieldName": "JDF-680/agency-other-name",
+          "acroFieldName": null,
+          "page": 2,
+          "rect": {
+            "x": 158.54,
+            "y": 613.94,
+            "width": 379.46,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 611.94,
+            "x": 156.54,
+            "endX": 540,
+            "width": 383.46,
+            "thickness": 1.08
+          },
+          "printedLabel": "Other agency — name",
+          "printedLine": "Other agency — name",
+          "sectionHeading": "2. Agencies with custody of the records",
+          "regionHeading": "Other agency — name",
+          "effectiveLabel": "Other agency — name",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 614,
+              "extracted": "Other:"
+            }
+          ],
+          "document": "JDF-680",
+          "reason": "the participant supplies this before filing: the name of any other agency holding records of this conviction",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "JDF-680 blank agency-other-name",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: the name of any other agency holding records of this conviction",
+          "participantMustSupply": "the name of any other agency holding records of this conviction"
+        },
+        {
+          "field": "JDF-680/agency-other-address",
+          "fieldName": "JDF-680/agency-other-address",
+          "acroFieldName": null,
+          "page": 2,
+          "rect": {
+            "x": 204.68,
+            "y": 596.72,
+            "width": 333.32,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 594.72,
+            "x": 202.68,
+            "endX": 540,
+            "width": 337.32,
+            "thickness": 1.08
+          },
+          "printedLabel": "Other agency — Mailing Address",
+          "printedLine": "Other agency — Mailing Address",
+          "sectionHeading": "2. Agencies with custody of the records",
+          "regionHeading": "Other agency — Mailing Address",
+          "effectiveLabel": "Other agency — Mailing Address",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 597,
+              "extracted": "Mailing Address:"
+            }
+          ],
+          "document": "JDF-680",
+          "reason": "the participant supplies this before filing: that agency's mailing address",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "JDF-680 blank agency-other-address",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: that agency's mailing address",
+          "participantMustSupply": "that agency's mailing address"
+        },
+        {
+          "field": "JDF-680/certificate-date",
+          "fieldName": "JDF-680/certificate-date",
+          "acroFieldName": null,
+          "page": 2,
+          "rect": {
+            "x": 218.66,
+            "y": 471.5,
+            "width": 139.34,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 469.5,
+            "x": 216.66,
+            "endX": 360,
+            "width": 143.34,
+            "thickness": 1.08
+          },
+          "printedLabel": "Certificate of Service — date of service, entered at signature",
+          "printedLine": "Certificate of Service — date of service, entered at signature",
+          "sectionHeading": "4. Certificate of Service",
+          "regionHeading": "Certificate of Service — date of service, entered at signature",
+          "effectiveLabel": "Certificate of Service — date of service, entered at signature",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 472,
+              "extracted": "I certify that on (enter date) , I gave a copy of this document to the"
+            }
+          ],
+          "document": "JDF-680",
+          "reason": "service has not happened when the packet is prepared, and a certificate dated before the act it certifies would be false",
+          "category": "signature_or_date_participant_completion",
+          "completenessClass": "signature_or_date_participant_completion",
+          "class": "signature_or_date_participant_completion",
+          "requiredBeforeFiling": false,
+          "why": "service has not happened when the packet is prepared, and a certificate dated before the act it certifies would be false"
+        },
+        {
+          "field": "JDF-680/certificate-email-or-fax",
+          "fieldName": "JDF-680/certificate-email-or-fax",
+          "acroFieldName": null,
+          "page": 2,
+          "rect": {
+            "x": 233.12,
+            "y": 413.72,
+            "width": 304.88,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 411.72,
+            "x": 231.12,
+            "endX": 540,
+            "width": 308.88,
+            "thickness": 1.08
+          },
+          "printedLabel": "Certificate of Service — email or fax address served",
+          "printedLine": "Certificate of Service — email or fax address served",
+          "sectionHeading": "4. Certificate of Service",
+          "regionHeading": "Certificate of Service — email or fax address served",
+          "effectiveLabel": "Certificate of Service — email or fax address served",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 414,
+              "extracted": "Email or Fax to:"
+            }
+          ],
+          "document": "JDF-680",
+          "reason": "the certificate records where you actually sent it and is completed when you sign it, after service",
+          "category": "signature_or_date_participant_completion",
+          "completenessClass": "signature_or_date_participant_completion",
+          "class": "signature_or_date_participant_completion",
+          "requiredBeforeFiling": false,
+          "why": "the certificate records where you actually sent it and is completed when you sign it, after service"
+        },
+        {
+          "field": "JDF-680/certificate-recipient-1",
+          "fieldName": "JDF-680/certificate-recipient-1",
+          "acroFieldName": null,
+          "page": 2,
+          "rect": {
+            "x": 193.64,
+            "y": 379.28,
+            "width": 326.36,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 377.28,
+            "x": 191.64,
+            "endX": 522,
+            "width": 330.36,
+            "thickness": 1.08
+          },
+          "printedLabel": "Certificate of Service — first recipient served, by hand delivery or regular mail",
+          "printedLine": "Certificate of Service — first recipient served, by hand delivery or regular mail",
+          "sectionHeading": "4. Certificate of Service",
+          "regionHeading": "Certificate of Service — first recipient served, by hand delivery or regular mail",
+          "effectiveLabel": "Certificate of Service — first recipient served, by hand delivery or regular mail",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 379,
+              "extracted": "1)"
+            },
+            {
+              "y": 366,
+              "extracted": "2)"
+            }
+          ],
+          "document": "JDF-680",
+          "reason": "the certificate records who you actually served and is completed when you sign it, after service",
+          "category": "signature_or_date_participant_completion",
+          "completenessClass": "signature_or_date_participant_completion",
+          "class": "signature_or_date_participant_completion",
+          "requiredBeforeFiling": false,
+          "why": "the certificate records who you actually served and is completed when you sign it, after service"
+        },
+        {
+          "field": "JDF-680/certificate-recipient-2",
+          "fieldName": "JDF-680/certificate-recipient-2",
+          "acroFieldName": null,
+          "page": 2,
+          "rect": {
+            "x": 193.64,
+            "y": 366.02,
+            "width": 326.36,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 364.02,
+            "x": 191.64,
+            "endX": 522,
+            "width": 330.36,
+            "thickness": 1.08
+          },
+          "printedLabel": "Certificate of Service — second recipient served, by hand delivery or regular mail",
+          "printedLine": "Certificate of Service — second recipient served, by hand delivery or regular mail",
+          "sectionHeading": "4. Certificate of Service",
+          "regionHeading": "Certificate of Service — second recipient served, by hand delivery or regular mail",
+          "effectiveLabel": "Certificate of Service — second recipient served, by hand delivery or regular mail",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 366,
+              "extracted": "2)"
+            }
+          ],
+          "document": "JDF-680",
+          "reason": "the certificate records who you actually served and is completed when you sign it, after service",
+          "category": "signature_or_date_participant_completion",
+          "completenessClass": "signature_or_date_participant_completion",
+          "class": "signature_or_date_participant_completion",
+          "requiredBeforeFiling": false,
+          "why": "the certificate records who you actually served and is completed when you sign it, after service"
+        },
+        {
+          "field": "JDF-680/signature",
+          "fieldName": "JDF-680/signature",
+          "acroFieldName": null,
+          "page": 2,
+          "rect": {
+            "x": 110,
+            "y": 274.28,
+            "width": 212,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 272.28,
+            "x": 108,
+            "endX": 324,
+            "width": 216,
+            "thickness": 1.08
+          },
+          "printedLabel": "Signature",
+          "printedLine": "Signature",
+          "sectionHeading": "5. Sign and Date",
+          "regionHeading": "Signature",
+          "effectiveLabel": "Signature",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 263,
+              "extracted": "Signature Date"
+            }
+          ],
+          "document": "JDF-680",
+          "reason": "you sign this yourself",
+          "category": "signature_or_date_participant_completion",
+          "completenessClass": "signature_or_date_participant_completion",
+          "class": "signature_or_date_participant_completion",
+          "requiredBeforeFiling": false,
+          "why": "you sign this yourself"
+        },
+        {
+          "field": "JDF-680/signature-date",
+          "fieldName": "JDF-680/signature-date",
+          "acroFieldName": null,
+          "page": 2,
+          "rect": {
+            "x": 362,
+            "y": 274.28,
+            "width": 140,
+            "height": 12
+          },
+          "rectBasis": "measured_printed_rule_read_from_the_page_content_stream",
+          "measuredRule": {
+            "y": 272.28,
+            "x": 360,
+            "endX": 504,
+            "width": 144,
+            "thickness": 1.08
+          },
+          "printedLabel": "Date of signature",
+          "printedLine": "Date of signature",
+          "sectionHeading": "5. Sign and Date",
+          "regionHeading": "Date of signature",
+          "effectiveLabel": "Date of signature",
+          "captionBasis": "the printed section, and the measured rule the value sits on",
+          "printedTextAtCoordinate": [
+            {
+              "y": 263,
+              "extracted": "Signature Date"
+            }
+          ],
+          "document": "JDF-680",
+          "reason": "you date it when you sign it; a date written in advance would be false",
+          "category": "signature_or_date_participant_completion",
+          "completenessClass": "signature_or_date_participant_completion",
+          "class": "signature_or_date_participant_completion",
+          "requiredBeforeFiling": false,
+          "why": "you date it when you sign it; a date written in advance would be false"
+        }
+      ],
+      "printedSelectionControlsNotMeasured": [
+        {
+          "page": 1,
+          "section": "Court",
+          "printedNear": "Court: District County",
+          "what": "whether the case was in District or County Court"
+        },
+        {
+          "page": 1,
+          "section": "2. Agencies with custody of the records",
+          "printedNear": "District / County Court: (case number)",
+          "what": "that the District or County Court holds records"
+        },
+        {
+          "page": 1,
+          "section": "2. Agencies with custody of the records",
+          "printedNear": "District Attorney",
+          "what": "that the District Attorney holds records"
+        },
+        {
+          "page": 1,
+          "section": "2. Agencies with custody of the records",
+          "printedNear": "Municipal Court: (case numbers)",
+          "what": "that a Municipal Court holds records"
+        },
+        {
+          "page": 1,
+          "section": "2. Agencies with custody of the records",
+          "printedNear": "Sheriff’s Department",
+          "what": "that the Sheriff's Department holds records"
+        },
+        {
+          "page": 1,
+          "section": "2. Agencies with custody of the records",
+          "printedNear": "City Attorney",
+          "what": "that the City Attorney holds records"
+        },
+        {
+          "page": 2,
+          "section": "2. Agencies with custody of the records",
+          "printedNear": "Law Enforcement Agency (Identify)",
+          "what": "that a law enforcement agency holds records"
+        },
+        {
+          "page": 2,
+          "section": "2. Agencies with custody of the records",
+          "printedNear": "Colorado Bureau of Investigation (Required)",
+          "what": "the Colorado Bureau of Investigation, which the form marks required and whose address it prints for you"
+        },
+        {
+          "page": 2,
+          "section": "2. Agencies with custody of the records",
+          "printedNear": "Other:",
+          "what": "that some other agency holds records"
+        },
+        {
+          "page": 2,
+          "section": "3. Pardon",
+          "printedNear": "I attached the Governor’s full and unconditional pardon for the convictions in this case.",
+          "what": "that you have attached the Governor's full and unconditional pardon — this route does not exist without it"
+        },
+        {
+          "page": 2,
+          "section": "4. Certificate of Service",
+          "printedNear": "Colorado Courts E-Filing (only available to lawyers)",
+          "what": "that you served through Colorado Courts E-Filing"
+        },
+        {
+          "page": 2,
+          "section": "4. Certificate of Service",
+          "printedNear": "Email or Fax to:",
+          "what": "that you served by email or fax"
+        },
+        {
+          "page": 2,
+          "section": "4. Certificate of Service",
+          "printedNear": "Hand Delivery, to: (name, place)",
+          "what": "that you served by hand delivery"
+        },
+        {
+          "page": 2,
+          "section": "4. Certificate of Service",
+          "printedNear": "Regular Mail, addressed to: (name, full address)",
+          "what": "that you served by regular mail"
+        }
+      ]
+    },
+    {
+      "formNumber": "JDF-681",
+      "documentId": "JDF-681",
+      "documentRole": "proposed_order",
+      "documentPolicy": {
+        "mode": "participant",
+        "captionOnly": false,
+        "documentAcceptsFill": true,
+        "routeKey": "track:CO:co_pardoned_conviction_seal"
+      },
+      "structuralClass": "acroform",
+      "explicitMappings": {
+        "JDF-681/County": "matter.county",
+        "JDF-681/Case Number": "matter.case_number",
+        "JDF-681/∆": "participant.full_legal_name",
+        "JDF-681/∆ DoB": "participant.date_of_birth",
+        "JDF-681/∆ Street Address": "participant.street_address",
+        "JDF-681/∆ City": "participant.city",
+        "JDF-681/∆ State": "participant.state",
+        "JDF-681/∆ Zip": "participant.zip"
+      },
+      "roleRefusals": [],
+      "selectionControls": [
+        {
+          "field": "JDF-681/Group478.5B",
+          "fieldName": "JDF-681/Group478.5B",
+          "acroFieldName": "Group478.5B",
+          "page": 2,
+          "rect": {
+            "x": 125.34,
+            "y": 348.44,
+            "width": 12.24,
+            "height": 12.24
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "By the Court — Judge or Magistrate (selection)",
+          "printedLine": "By the Court — Judge or Magistrate (selection)",
+          "sectionHeading": "So Ordered",
+          "regionHeading": "By the Court — Judge or Magistrate (selection)",
+          "effectiveLabel": "By the Court — Judge or Magistrate (selection)",
+          "captionBasis": "authored AcroForm field name plus the printed section it sits in",
+          "printedTextAtCoordinate": [
+            {
+              "y": 350,
+              "extracted": "-Xd Je 0 aJis trate"
+            },
+            {
+              "y": 362,
+              "extracted": "%\\: Date d:"
+            }
+          ],
+          "document": "JDF-681",
+          "selectionId": "JDF-681/Group478.5B",
+          "kind": "selection_control",
+          "type": "radiogroup",
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 125.34,
+                "y": 348.44,
+                "width": 12.24,
+                "height": 12.24
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            },
+            {
+              "page": 2,
+              "rect": {
+                "x": 180.65,
+                "y": 348.6,
+                "width": 12.24,
+                "height": 12.24
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "disposition": "explicit_refusal",
+          "reason": "the officer who signs states which they are",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "routeDetermined": false
+        }
+      ],
+      "canonicalWrites": [
+        {
+          "field": "JDF-681/County",
+          "fieldName": "JDF-681/County",
+          "acroFieldName": "County",
+          "page": 1,
+          "rect": {
+            "x": 161.13,
+            "y": 646.62,
+            "width": 189,
+            "height": 10.8
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Colorado County",
+          "printedLine": "Colorado County",
+          "sectionHeading": "A. Court",
+          "regionHeading": "Colorado County",
+          "effectiveLabel": "Colorado County",
+          "captionBasis": "authored AcroForm field name plus the printed section it sits in",
+          "printedTextAtCoordinate": [
+            {
+              "y": 648,
+              "extracted": "Colorado County :"
+            },
+            {
+              "y": 635,
+              "extracted": "0ailing Address\u001d"
+            }
+          ],
+          "document": "JDF-681",
+          "factId": "matter.county",
+          "kind": "text"
+        },
+        {
+          "field": "JDF-681/Case Number",
+          "fieldName": "JDF-681/Case Number",
+          "acroFieldName": "Case Number",
+          "page": 1,
+          "rect": {
+            "x": 419.67,
+            "y": 578.66,
+            "width": 111.6,
+            "height": 10.8
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Case Number",
+          "printedLine": "Case Number",
+          "sectionHeading": "C. Case Details",
+          "regionHeading": "Case Number",
+          "effectiveLabel": "Case Number",
+          "captionBasis": "authored AcroForm field name plus the printed section it sits in",
+          "printedTextAtCoordinate": [
+            {
+              "y": 579,
+              "extracted": "v. 1umEer\u001d"
+            },
+            {
+              "y": 564,
+              "extracted": "Division\u001d"
+            }
+          ],
+          "document": "JDF-681",
+          "factId": "matter.case_number",
+          "kind": "text"
+        },
+        {
+          "field": "JDF-681/∆",
+          "fieldName": "JDF-681/∆",
+          "acroFieldName": "∆",
+          "page": 1,
+          "rect": {
+            "x": 136.91,
+            "y": 559.08,
+            "width": 213.44,
+            "height": 10.8
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Defendant — Full Name, in the caption and at 2(a)",
+          "printedLine": "Defendant — Full Name, in the caption and at 2(a)",
+          "sectionHeading": "B. Parties to the Case",
+          "regionHeading": "Defendant — Full Name, in the caption and at 2(a)",
+          "effectiveLabel": "Defendant — Full Name, in the caption and at 2(a)",
+          "captionBasis": "authored AcroForm field name plus the printed section it sits in",
+          "printedTextAtCoordinate": [
+            {
+              "y": 560,
+              "extracted": "Defend\u001d ant"
+            },
+            {
+              "y": 564,
+              "extracted": "Division\u001d"
+            }
+          ],
+          "document": "JDF-681",
+          "factId": "participant.full_legal_name",
+          "kind": "text"
+        },
+        {
+          "field": "JDF-681/∆ DoB",
+          "fieldName": "JDF-681/∆ DoB",
+          "acroFieldName": "∆ DoB",
+          "page": 1,
+          "rect": {
+            "x": 194.04,
+            "y": 395.06,
+            "width": 165.93,
+            "height": 12.24
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Birth Date",
+          "printedLine": "Birth Date",
+          "sectionHeading": "2. Defendant's Information",
+          "regionHeading": "Birth Date",
+          "effectiveLabel": "Birth Date",
+          "captionBasis": "authored AcroForm field name plus the printed section it sits in",
+          "printedTextAtCoordinate": [
+            {
+              "y": 396,
+              "extracted": "E) Birth Date\u001d"
+            }
+          ],
+          "document": "JDF-681",
+          "factId": "participant.date_of_birth",
+          "kind": "text"
+        },
+        {
+          "field": "JDF-681/∆ Street Address",
+          "fieldName": "JDF-681/∆ Street Address",
+          "acroFieldName": "∆ Street Address",
+          "page": 1,
+          "rect": {
+            "x": 220.64,
+            "y": 371.71,
+            "width": 319.58,
+            "height": 12.24
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Mailing Address",
+          "printedLine": "Mailing Address",
+          "sectionHeading": "2. Defendant's Information",
+          "regionHeading": "Mailing Address",
+          "effectiveLabel": "Mailing Address",
+          "captionBasis": "authored AcroForm field name plus the printed section it sits in",
+          "printedTextAtCoordinate": [
+            {
+              "y": 373,
+              "extracted": "c) 0ailin g Address\u001d"
+            },
+            {
+              "y": 356,
+              "extracted": "Cit\\\u001d S7 \u001d =iS Co de\u001d"
+            }
+          ],
+          "document": "JDF-681",
+          "factId": "participant.street_address",
+          "kind": "text"
+        },
+        {
+          "field": "JDF-681/∆ City",
+          "fieldName": "JDF-681/∆ City",
+          "acroFieldName": "∆ City",
+          "page": 1,
+          "rect": {
+            "x": 220.8,
+            "y": 354.52,
+            "width": 139.42,
+            "height": 12.24
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "City",
+          "printedLine": "City",
+          "sectionHeading": "2. Defendant's Information",
+          "regionHeading": "City",
+          "effectiveLabel": "City",
+          "captionBasis": "authored AcroForm field name plus the printed section it sits in",
+          "printedTextAtCoordinate": [
+            {
+              "y": 356,
+              "extracted": "Cit\\\u001d S7 \u001d =iS Co de\u001d"
+            }
+          ],
+          "document": "JDF-681",
+          "factId": "participant.city",
+          "kind": "text"
+        },
+        {
+          "field": "JDF-681/∆ State",
+          "fieldName": "JDF-681/∆ State",
+          "acroFieldName": "∆ State",
+          "page": 1,
+          "rect": {
+            "x": 381.06,
+            "y": 354.47,
+            "width": 33.05,
+            "height": 12.24
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "State",
+          "printedLine": "State",
+          "sectionHeading": "2. Defendant's Information",
+          "regionHeading": "State",
+          "effectiveLabel": "State",
+          "captionBasis": "authored AcroForm field name plus the printed section it sits in",
+          "printedTextAtCoordinate": [
+            {
+              "y": 356,
+              "extracted": "Cit\\\u001d S7 \u001d =iS Co de\u001d"
+            }
+          ],
+          "document": "JDF-681",
+          "factId": "participant.state",
+          "kind": "text"
+        },
+        {
+          "field": "JDF-681/∆ Zip",
+          "fieldName": "JDF-681/∆ Zip",
+          "acroFieldName": "∆ Zip",
+          "page": 1,
+          "rect": {
+            "x": 463.2,
+            "y": 354.42,
+            "width": 77.07,
+            "height": 12.24
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Zip Code",
+          "printedLine": "Zip Code",
+          "sectionHeading": "2. Defendant's Information",
+          "regionHeading": "Zip Code",
+          "effectiveLabel": "Zip Code",
+          "captionBasis": "authored AcroForm field name plus the printed section it sits in",
+          "printedTextAtCoordinate": [
+            {
+              "y": 356,
+              "extracted": "Cit\\\u001d S7 \u001d =iS Co de\u001d"
+            }
+          ],
+          "document": "JDF-681",
+          "factId": "participant.zip",
+          "kind": "text"
+        }
+      ],
+      "canonicalRefusals": [
+        {
+          "field": "JDF-681/Court Address",
+          "fieldName": "JDF-681/Court Address",
+          "acroFieldName": "Court Address",
+          "page": 1,
+          "rect": {
+            "x": 157.85,
+            "y": 633.7,
+            "width": 192.27,
+            "height": 10.8
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Court Mailing Address",
+          "printedLine": "Court Mailing Address",
+          "sectionHeading": "A. Court",
+          "regionHeading": "Court Mailing Address",
+          "effectiveLabel": "Court Mailing Address",
+          "captionBasis": "authored AcroForm field name plus the printed section it sits in",
+          "printedTextAtCoordinate": [
+            {
+              "y": 635,
+              "extracted": "0ailing Address\u001d"
+            },
+            {
+              "y": 648,
+              "extracted": "Colorado County :"
+            }
+          ],
+          "document": "JDF-681",
+          "reason": "the participant supplies this before filing: the courthouse's mailing address, copied from the motion",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "JDF-681 blank Court Address",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: the courthouse's mailing address, copied from the motion",
+          "participantMustSupply": "the courthouse's mailing address, copied from the motion"
+        },
+        {
+          "field": "JDF-681/Division",
+          "fieldName": "JDF-681/Division",
+          "acroFieldName": "Division",
+          "page": 1,
+          "rect": {
+            "x": 419.35,
+            "y": 563.12,
+            "width": 111.6,
+            "height": 10.8
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Division",
+          "printedLine": "Division",
+          "sectionHeading": "C. Case Details",
+          "regionHeading": "Division",
+          "effectiveLabel": "Division",
+          "captionBasis": "authored AcroForm field name plus the printed section it sits in",
+          "printedTextAtCoordinate": [
+            {
+              "y": 564,
+              "extracted": "Division\u001d"
+            },
+            {
+              "y": 560,
+              "extracted": "Defend\u001d ant"
+            }
+          ],
+          "document": "JDF-681",
+          "reason": "assigned by the court; the box beside it is marked for court use",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "assigned by the court; the box beside it is marked for court use"
+        },
+        {
+          "field": "JDF-681/Courtroom",
+          "fieldName": "JDF-681/Courtroom",
+          "acroFieldName": "Courtroom",
+          "page": 1,
+          "rect": {
+            "x": 430.14,
+            "y": 547.74,
+            "width": 100.96,
+            "height": 10.8
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Courtroom",
+          "printedLine": "Courtroom",
+          "sectionHeading": "C. Case Details",
+          "regionHeading": "Courtroom",
+          "effectiveLabel": "Courtroom",
+          "captionBasis": "authored AcroForm field name plus the printed section it sits in",
+          "printedTextAtCoordinate": [
+            {
+              "y": 549,
+              "extracted": "Courtroom\u001d"
+            },
+            {
+              "y": 560,
+              "extracted": "Defend\u001d ant"
+            }
+          ],
+          "document": "JDF-681",
+          "reason": "assigned by the court; the box beside it is marked for court use",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "assigned by the court; the box beside it is marked for court use"
+        },
+        {
+          "field": "JDF-681/681.4A.1",
+          "fieldName": "JDF-681/681.4A.1",
+          "acroFieldName": "681.4A.1",
+          "page": 1,
+          "rect": {
+            "x": 180.27,
+            "y": 77.92,
+            "width": 360.78,
+            "height": 33.32
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Records sealed — the law enforcement agency and its case number",
+          "printedLine": "Records sealed — the law enforcement agency and its case number",
+          "sectionHeading": "4. Court Orders",
+          "regionHeading": "Records sealed — the law enforcement agency and its case number",
+          "effectiveLabel": "Records sealed — the law enforcement agency and its case number",
+          "captionBasis": "authored AcroForm field name plus the printed section it sits in",
+          "printedTextAtCoordinate": [],
+          "document": "JDF-681",
+          "reason": "the participant supplies this before filing: the law enforcement agency and its case number, copied from the motion, so the order names the records it seals",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "JDF-681 blank 681.4A.1",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: the law enforcement agency and its case number, copied from the motion, so the order names the records it seals",
+          "participantMustSupply": "the law enforcement agency and its case number, copied from the motion, so the order names the records it seals"
+        },
+        {
+          "field": "JDF-681/478.4D",
+          "fieldName": "JDF-681/478.4D",
+          "acroFieldName": "478.4D",
+          "page": 2,
+          "rect": {
+            "x": 143.32,
+            "y": 411.64,
+            "width": 397.2,
+            "height": 46.41
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "By the Court — other orders",
+          "printedLine": "By the Court — other orders",
+          "sectionHeading": "4. Court Orders",
+          "regionHeading": "By the Court — other orders",
+          "effectiveLabel": "By the Court — other orders",
+          "captionBasis": "authored AcroForm field name plus the printed section it sits in",
+          "printedTextAtCoordinate": [],
+          "document": "JDF-681",
+          "reason": "the decree is the court's; a proposed order that wrote the court's other orders would be drafting the judge's ruling",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the decree is the court's; a proposed order that wrote the court's other orders would be drafting the judge's ruling"
+        },
+        {
+          "field": "JDF-681/478.5A",
+          "fieldName": "JDF-681/478.5A",
+          "acroFieldName": "478.5A",
+          "page": 2,
+          "rect": {
+            "x": 125.18,
+            "y": 361.16,
+            "width": 198.87,
+            "height": 13.68
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "By the Court — signature",
+          "printedLine": "By the Court — signature",
+          "sectionHeading": "So Ordered",
+          "regionHeading": "By the Court — signature",
+          "effectiveLabel": "By the Court — signature",
+          "captionBasis": "authored AcroForm field name plus the printed section it sits in",
+          "printedTextAtCoordinate": [
+            {
+              "y": 362,
+              "extracted": "%\\: Date d:"
+            },
+            {
+              "y": 350,
+              "extracted": "-Xd Je 0 aJis trate"
+            }
+          ],
+          "document": "JDF-681",
+          "reason": "the judge or magistrate signs their own order",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the judge or magistrate signs their own order"
+        },
+        {
+          "field": "JDF-681/478.5C",
+          "fieldName": "JDF-681/478.5C",
+          "acroFieldName": "478.5C",
+          "page": 2,
+          "rect": {
+            "x": 392.3,
+            "y": 360.98,
+            "width": 147.87,
+            "height": 13.68
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "By the Court — Dated",
+          "printedLine": "By the Court — Dated",
+          "sectionHeading": "So Ordered",
+          "regionHeading": "By the Court — Dated",
+          "effectiveLabel": "By the Court — Dated",
+          "captionBasis": "authored AcroForm field name plus the printed section it sits in",
+          "printedTextAtCoordinate": [
+            {
+              "y": 362,
+              "extracted": "%\\: Date d:"
+            },
+            {
+              "y": 350,
+              "extracted": "-Xd Je 0 aJis trate"
+            }
+          ],
+          "document": "JDF-681",
+          "reason": "the court dates its own order",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the court dates its own order"
+        }
+      ],
+      "boundaryWrites": [
+        {
+          "field": "JDF-681/County",
+          "fieldName": "JDF-681/County",
+          "acroFieldName": "County",
+          "page": 1,
+          "rect": {
+            "x": 161.13,
+            "y": 646.62,
+            "width": 189,
+            "height": 10.8
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Colorado County",
+          "printedLine": "Colorado County",
+          "sectionHeading": "A. Court",
+          "regionHeading": "Colorado County",
+          "effectiveLabel": "Colorado County",
+          "captionBasis": "authored AcroForm field name plus the printed section it sits in",
+          "printedTextAtCoordinate": [
+            {
+              "y": 648,
+              "extracted": "Colorado County :"
+            },
+            {
+              "y": 635,
+              "extracted": "0ailing Address\u001d"
+            }
+          ],
+          "document": "JDF-681",
+          "factId": "matter.county",
+          "kind": "text"
+        },
+        {
+          "field": "JDF-681/Case Number",
+          "fieldName": "JDF-681/Case Number",
+          "acroFieldName": "Case Number",
+          "page": 1,
+          "rect": {
+            "x": 419.67,
+            "y": 578.66,
+            "width": 111.6,
+            "height": 10.8
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Case Number",
+          "printedLine": "Case Number",
+          "sectionHeading": "C. Case Details",
+          "regionHeading": "Case Number",
+          "effectiveLabel": "Case Number",
+          "captionBasis": "authored AcroForm field name plus the printed section it sits in",
+          "printedTextAtCoordinate": [
+            {
+              "y": 579,
+              "extracted": "v. 1umEer\u001d"
+            },
+            {
+              "y": 564,
+              "extracted": "Division\u001d"
+            }
+          ],
+          "document": "JDF-681",
+          "factId": "matter.case_number",
+          "kind": "text"
+        },
+        {
+          "field": "JDF-681/∆",
+          "fieldName": "JDF-681/∆",
+          "acroFieldName": "∆",
+          "page": 1,
+          "rect": {
+            "x": 136.91,
+            "y": 559.08,
+            "width": 213.44,
+            "height": 10.8
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Defendant — Full Name, in the caption and at 2(a)",
+          "printedLine": "Defendant — Full Name, in the caption and at 2(a)",
+          "sectionHeading": "B. Parties to the Case",
+          "regionHeading": "Defendant — Full Name, in the caption and at 2(a)",
+          "effectiveLabel": "Defendant — Full Name, in the caption and at 2(a)",
+          "captionBasis": "authored AcroForm field name plus the printed section it sits in",
+          "printedTextAtCoordinate": [
+            {
+              "y": 560,
+              "extracted": "Defend\u001d ant"
+            },
+            {
+              "y": 564,
+              "extracted": "Division\u001d"
+            }
+          ],
+          "document": "JDF-681",
+          "factId": "participant.full_legal_name",
+          "kind": "text"
+        },
+        {
+          "field": "JDF-681/∆ DoB",
+          "fieldName": "JDF-681/∆ DoB",
+          "acroFieldName": "∆ DoB",
+          "page": 1,
+          "rect": {
+            "x": 194.04,
+            "y": 395.06,
+            "width": 165.93,
+            "height": 12.24
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Birth Date",
+          "printedLine": "Birth Date",
+          "sectionHeading": "2. Defendant's Information",
+          "regionHeading": "Birth Date",
+          "effectiveLabel": "Birth Date",
+          "captionBasis": "authored AcroForm field name plus the printed section it sits in",
+          "printedTextAtCoordinate": [
+            {
+              "y": 396,
+              "extracted": "E) Birth Date\u001d"
+            }
+          ],
+          "document": "JDF-681",
+          "factId": "participant.date_of_birth",
+          "kind": "text"
+        },
+        {
+          "field": "JDF-681/∆ Street Address",
+          "fieldName": "JDF-681/∆ Street Address",
+          "acroFieldName": "∆ Street Address",
+          "page": 1,
+          "rect": {
+            "x": 220.64,
+            "y": 371.71,
+            "width": 319.58,
+            "height": 12.24
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Mailing Address",
+          "printedLine": "Mailing Address",
+          "sectionHeading": "2. Defendant's Information",
+          "regionHeading": "Mailing Address",
+          "effectiveLabel": "Mailing Address",
+          "captionBasis": "authored AcroForm field name plus the printed section it sits in",
+          "printedTextAtCoordinate": [
+            {
+              "y": 373,
+              "extracted": "c) 0ailin g Address\u001d"
+            },
+            {
+              "y": 356,
+              "extracted": "Cit\\\u001d S7 \u001d =iS Co de\u001d"
+            }
+          ],
+          "document": "JDF-681",
+          "factId": "participant.street_address",
+          "kind": "text"
+        },
+        {
+          "field": "JDF-681/∆ City",
+          "fieldName": "JDF-681/∆ City",
+          "acroFieldName": "∆ City",
+          "page": 1,
+          "rect": {
+            "x": 220.8,
+            "y": 354.52,
+            "width": 139.42,
+            "height": 12.24
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "City",
+          "printedLine": "City",
+          "sectionHeading": "2. Defendant's Information",
+          "regionHeading": "City",
+          "effectiveLabel": "City",
+          "captionBasis": "authored AcroForm field name plus the printed section it sits in",
+          "printedTextAtCoordinate": [
+            {
+              "y": 356,
+              "extracted": "Cit\\\u001d S7 \u001d =iS Co de\u001d"
+            }
+          ],
+          "document": "JDF-681",
+          "factId": "participant.city",
+          "kind": "text"
+        },
+        {
+          "field": "JDF-681/∆ State",
+          "fieldName": "JDF-681/∆ State",
+          "acroFieldName": "∆ State",
+          "page": 1,
+          "rect": {
+            "x": 381.06,
+            "y": 354.47,
+            "width": 33.05,
+            "height": 12.24
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "State",
+          "printedLine": "State",
+          "sectionHeading": "2. Defendant's Information",
+          "regionHeading": "State",
+          "effectiveLabel": "State",
+          "captionBasis": "authored AcroForm field name plus the printed section it sits in",
+          "printedTextAtCoordinate": [
+            {
+              "y": 356,
+              "extracted": "Cit\\\u001d S7 \u001d =iS Co de\u001d"
+            }
+          ],
+          "document": "JDF-681",
+          "factId": "participant.state",
+          "kind": "text"
+        },
+        {
+          "field": "JDF-681/∆ Zip",
+          "fieldName": "JDF-681/∆ Zip",
+          "acroFieldName": "∆ Zip",
+          "page": 1,
+          "rect": {
+            "x": 463.2,
+            "y": 354.42,
+            "width": 77.07,
+            "height": 12.24
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Zip Code",
+          "printedLine": "Zip Code",
+          "sectionHeading": "2. Defendant's Information",
+          "regionHeading": "Zip Code",
+          "effectiveLabel": "Zip Code",
+          "captionBasis": "authored AcroForm field name plus the printed section it sits in",
+          "printedTextAtCoordinate": [
+            {
+              "y": 356,
+              "extracted": "Cit\\\u001d S7 \u001d =iS Co de\u001d"
+            }
+          ],
+          "document": "JDF-681",
+          "factId": "participant.zip",
+          "kind": "text"
+        }
+      ],
+      "boundaryRefusals": [
+        {
+          "field": "JDF-681/Court Address",
+          "fieldName": "JDF-681/Court Address",
+          "acroFieldName": "Court Address",
+          "page": 1,
+          "rect": {
+            "x": 157.85,
+            "y": 633.7,
+            "width": 192.27,
+            "height": 10.8
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Court Mailing Address",
+          "printedLine": "Court Mailing Address",
+          "sectionHeading": "A. Court",
+          "regionHeading": "Court Mailing Address",
+          "effectiveLabel": "Court Mailing Address",
+          "captionBasis": "authored AcroForm field name plus the printed section it sits in",
+          "printedTextAtCoordinate": [
+            {
+              "y": 635,
+              "extracted": "0ailing Address\u001d"
+            },
+            {
+              "y": 648,
+              "extracted": "Colorado County :"
+            }
+          ],
+          "document": "JDF-681",
+          "reason": "the participant supplies this before filing: the courthouse's mailing address, copied from the motion",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "JDF-681 blank Court Address",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: the courthouse's mailing address, copied from the motion",
+          "participantMustSupply": "the courthouse's mailing address, copied from the motion"
+        },
+        {
+          "field": "JDF-681/Division",
+          "fieldName": "JDF-681/Division",
+          "acroFieldName": "Division",
+          "page": 1,
+          "rect": {
+            "x": 419.35,
+            "y": 563.12,
+            "width": 111.6,
+            "height": 10.8
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Division",
+          "printedLine": "Division",
+          "sectionHeading": "C. Case Details",
+          "regionHeading": "Division",
+          "effectiveLabel": "Division",
+          "captionBasis": "authored AcroForm field name plus the printed section it sits in",
+          "printedTextAtCoordinate": [
+            {
+              "y": 564,
+              "extracted": "Division\u001d"
+            },
+            {
+              "y": 560,
+              "extracted": "Defend\u001d ant"
+            }
+          ],
+          "document": "JDF-681",
+          "reason": "assigned by the court; the box beside it is marked for court use",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "assigned by the court; the box beside it is marked for court use"
+        },
+        {
+          "field": "JDF-681/Courtroom",
+          "fieldName": "JDF-681/Courtroom",
+          "acroFieldName": "Courtroom",
+          "page": 1,
+          "rect": {
+            "x": 430.14,
+            "y": 547.74,
+            "width": 100.96,
+            "height": 10.8
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Courtroom",
+          "printedLine": "Courtroom",
+          "sectionHeading": "C. Case Details",
+          "regionHeading": "Courtroom",
+          "effectiveLabel": "Courtroom",
+          "captionBasis": "authored AcroForm field name plus the printed section it sits in",
+          "printedTextAtCoordinate": [
+            {
+              "y": 549,
+              "extracted": "Courtroom\u001d"
+            },
+            {
+              "y": 560,
+              "extracted": "Defend\u001d ant"
+            }
+          ],
+          "document": "JDF-681",
+          "reason": "assigned by the court; the box beside it is marked for court use",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "assigned by the court; the box beside it is marked for court use"
+        },
+        {
+          "field": "JDF-681/681.4A.1",
+          "fieldName": "JDF-681/681.4A.1",
+          "acroFieldName": "681.4A.1",
+          "page": 1,
+          "rect": {
+            "x": 180.27,
+            "y": 77.92,
+            "width": 360.78,
+            "height": 33.32
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Records sealed — the law enforcement agency and its case number",
+          "printedLine": "Records sealed — the law enforcement agency and its case number",
+          "sectionHeading": "4. Court Orders",
+          "regionHeading": "Records sealed — the law enforcement agency and its case number",
+          "effectiveLabel": "Records sealed — the law enforcement agency and its case number",
+          "captionBasis": "authored AcroForm field name plus the printed section it sits in",
+          "printedTextAtCoordinate": [],
+          "document": "JDF-681",
+          "reason": "the participant supplies this before filing: the law enforcement agency and its case number, copied from the motion, so the order names the records it seals",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "JDF-681 blank 681.4A.1",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: the law enforcement agency and its case number, copied from the motion, so the order names the records it seals",
+          "participantMustSupply": "the law enforcement agency and its case number, copied from the motion, so the order names the records it seals"
+        },
+        {
+          "field": "JDF-681/478.4D",
+          "fieldName": "JDF-681/478.4D",
+          "acroFieldName": "478.4D",
+          "page": 2,
+          "rect": {
+            "x": 143.32,
+            "y": 411.64,
+            "width": 397.2,
+            "height": 46.41
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "By the Court — other orders",
+          "printedLine": "By the Court — other orders",
+          "sectionHeading": "4. Court Orders",
+          "regionHeading": "By the Court — other orders",
+          "effectiveLabel": "By the Court — other orders",
+          "captionBasis": "authored AcroForm field name plus the printed section it sits in",
+          "printedTextAtCoordinate": [],
+          "document": "JDF-681",
+          "reason": "the decree is the court's; a proposed order that wrote the court's other orders would be drafting the judge's ruling",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the decree is the court's; a proposed order that wrote the court's other orders would be drafting the judge's ruling"
+        },
+        {
+          "field": "JDF-681/478.5A",
+          "fieldName": "JDF-681/478.5A",
+          "acroFieldName": "478.5A",
+          "page": 2,
+          "rect": {
+            "x": 125.18,
+            "y": 361.16,
+            "width": 198.87,
+            "height": 13.68
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "By the Court — signature",
+          "printedLine": "By the Court — signature",
+          "sectionHeading": "So Ordered",
+          "regionHeading": "By the Court — signature",
+          "effectiveLabel": "By the Court — signature",
+          "captionBasis": "authored AcroForm field name plus the printed section it sits in",
+          "printedTextAtCoordinate": [
+            {
+              "y": 362,
+              "extracted": "%\\: Date d:"
+            },
+            {
+              "y": 350,
+              "extracted": "-Xd Je 0 aJis trate"
+            }
+          ],
+          "document": "JDF-681",
+          "reason": "the judge or magistrate signs their own order",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the judge or magistrate signs their own order"
+        },
+        {
+          "field": "JDF-681/478.5C",
+          "fieldName": "JDF-681/478.5C",
+          "acroFieldName": "478.5C",
+          "page": 2,
+          "rect": {
+            "x": 392.3,
+            "y": 360.98,
+            "width": 147.87,
+            "height": 13.68
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "By the Court — Dated",
+          "printedLine": "By the Court — Dated",
+          "sectionHeading": "So Ordered",
+          "regionHeading": "By the Court — Dated",
+          "effectiveLabel": "By the Court — Dated",
+          "captionBasis": "authored AcroForm field name plus the printed section it sits in",
+          "printedTextAtCoordinate": [
+            {
+              "y": 362,
+              "extracted": "%\\: Date d:"
+            },
+            {
+              "y": 350,
+              "extracted": "-Xd Je 0 aJis trate"
+            }
+          ],
+          "document": "JDF-681",
+          "reason": "the court dates its own order",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the court dates its own order"
+        }
+      ]
+    }
+  ],
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "commercialRoutesOpened": 0
+}

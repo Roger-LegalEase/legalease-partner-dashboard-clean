@@ -1,0 +1,3015 @@
+{
+  "batch": "route-splits",
+  "authority": "Record Clearing Implementation Authority Reconciled (2026-08-24), Completed Decision Matrix — decisions that split one grouped route into several statutory mechanisms",
+  "routes": [
+    {
+      "routeKey": "FL:administrative-expunction-mistaken-or-unlawful-arrest",
+      "jurisdiction": "FL",
+      "pathwayId": "administrative-expunction-mistaken-or-unlawful-arrest",
+      "decisionId": "LD-FL-01",
+      "ruleId": "FL-943.0578-0581-0582-0583-059-0595-SIX-ROUTE-MAP",
+      "mechanism": "Administrative expunction for a mistaken or unlawful arrest",
+      "statute": "Fla. Stat. § 943.0581",
+      "stage": "single_stage",
+      "outcomeMode": "agency_application",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "no elapsed wait; the route requires the arresting agency, State Attorney, or court determination and endorsement"
+      },
+      "processingDeadlines": [
+        {
+          "label": "FDLE processing",
+          "note": "agency processing after submission, not a prefiling wait"
+        }
+      ],
+      "requiredFacts": [
+        "Route?",
+        "Arrest/disposition?",
+        "Supervision completion?",
+        "Prior sealing/expunction?",
+        "Agency/State Attorney endorsement?",
+        "Diversion completion?",
+        "Self-defense certification?",
+        "Trafficking nexus?",
+        "Automatic-seal status?"
+      ],
+      "screeningFactIds": [
+        "case_outcome"
+      ],
+      "exclusions": [
+        "Exact Florida statutory mechanism and all route-specific eligibility/certification conditions"
+      ],
+      "packetFamily": "FDLE Administrative Expunction Application under § 943.0581",
+      "packetComponents": [
+        "FDLE application",
+        "Agency or State Attorney endorsement",
+        "Arrest record"
+      ],
+      "notes": "An FDLE administrative route, not a court filing."
+    },
+    {
+      "routeKey": "FL:automatic-sealing-943-0595",
+      "jurisdiction": "FL",
+      "pathwayId": "automatic-sealing-943-0595",
+      "decisionId": "LD-FL-01",
+      "ruleId": "FL-943.0578-0581-0582-0583-059-0595-SIX-ROUTE-MAP",
+      "mechanism": "Automatic sealing",
+      "statute": "Fla. Stat. § 943.0595",
+      "stage": "automatic",
+      "outcomeMode": "automatic_relief",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "automatic statutory processing; the participant files nothing"
+      },
+      "requiredFacts": [
+        "Route?",
+        "Arrest/disposition?",
+        "Supervision completion?",
+        "Prior sealing/expunction?",
+        "Agency/State Attorney endorsement?",
+        "Diversion completion?",
+        "Self-defense certification?",
+        "Trafficking nexus?",
+        "Automatic-seal status?"
+      ],
+      "screeningFactIds": [
+        "case_outcome"
+      ],
+      "exclusions": [
+        "Exact Florida statutory mechanism and all route-specific eligibility/certification conditions"
+      ],
+      "packetFamily": null,
+      "notes": "Not a participant-filed packet. Status and correction guidance only; checkout and packet credit stay closed."
+    },
+    {
+      "routeKey": "FL:court-ordered-sealing-943-059",
+      "jurisdiction": "FL",
+      "pathwayId": "court-ordered-sealing-943-059",
+      "decisionId": "LD-FL-01",
+      "ruleId": "FL-943.0578-0581-0582-0583-059-0595-SIX-ROUTE-MAP",
+      "mechanism": "Court-ordered sealing",
+      "statute": "Fla. Stat. § 943.059",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorFactId": "court_requirements_completed",
+        "anchorText": "no separate numeric wait; statutory eligibility plus completion of all supervision and the FDLE certificate where required"
+      },
+      "requiredFacts": [
+        "Route?",
+        "Arrest/disposition?",
+        "Supervision completion?",
+        "Prior sealing/expunction?",
+        "Agency/State Attorney endorsement?",
+        "Diversion completion?",
+        "Self-defense certification?",
+        "Trafficking nexus?",
+        "Automatic-seal status?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "court_requirements_completed"
+      ],
+      "exclusions": [
+        "Exact Florida statutory mechanism and all route-specific eligibility/certification conditions"
+      ],
+      "packetFamily": "Florida Petition to Seal under § 943.059",
+      "packetComponents": [
+        "Petition to seal",
+        "FDLE certificate of eligibility",
+        "Supervision completion proof",
+        "Proposed order"
+      ],
+      "notes": "Requires an FDLE certificate where the statute calls for one; do not treat FDLE processing time as a prefiling wait."
+    },
+    {
+      "routeKey": "FL:human-trafficking-victim-expunction-943-0583",
+      "jurisdiction": "FL",
+      "pathwayId": "human-trafficking-victim-expunction-943-0583",
+      "decisionId": "LD-FL-01",
+      "ruleId": "FL-943.0578-0581-0582-0583-059-0595-SIX-ROUTE-MAP",
+      "mechanism": "Human-trafficking victim expunction",
+      "statute": "Fla. Stat. § 943.0583",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "no fixed period; the survivor must satisfy the trafficking nexus and the statutory due-diligence and safety provisions"
+      },
+      "requiredFacts": [
+        "Route?",
+        "Arrest/disposition?",
+        "Supervision completion?",
+        "Prior sealing/expunction?",
+        "Agency/State Attorney endorsement?",
+        "Diversion completion?",
+        "Self-defense certification?",
+        "Trafficking nexus?",
+        "Automatic-seal status?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "offense_level"
+      ],
+      "exclusions": [
+        "Exact Florida statutory mechanism and all route-specific eligibility/certification conditions"
+      ],
+      "packetFamily": "Florida Trafficking-Victim Expunction Petition under § 943.0583",
+      "packetComponents": [
+        "Petition under § 943.0583",
+        "Trafficking nexus evidence",
+        "Due-diligence and safety showing"
+      ],
+      "notes": "Its own intake, proof requirements, output, and court destination."
+    },
+    {
+      "routeKey": "FL:juvenile-diversion-expunction-943-0582",
+      "jurisdiction": "FL",
+      "pathwayId": "juvenile-diversion-expunction-943-0582",
+      "decisionId": "LD-FL-01",
+      "ruleId": "FL-943.0578-0581-0582-0583-059-0595-SIX-ROUTE-MAP",
+      "mechanism": "Juvenile diversion expunction",
+      "statute": "Fla. Stat. § 943.0582",
+      "stage": "post_completion",
+      "outcomeMode": "agency_application",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorFactId": "court_requirements_completed",
+        "anchorText": "unlocks after successful diversion completion and the required prosecutor or state-attorney certification"
+      },
+      "requiredFacts": [
+        "Route?",
+        "Arrest/disposition?",
+        "Supervision completion?",
+        "Prior sealing/expunction?",
+        "Agency/State Attorney endorsement?",
+        "Diversion completion?",
+        "Self-defense certification?",
+        "Trafficking nexus?",
+        "Automatic-seal status?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "court_requirements_completed"
+      ],
+      "exclusions": [
+        "Exact Florida statutory mechanism and all route-specific eligibility/certification conditions"
+      ],
+      "packetFamily": "Florida Juvenile Diversion Expunction Application under § 943.0582",
+      "packetComponents": [
+        "FDLE application",
+        "Diversion completion proof",
+        "State Attorney certification"
+      ],
+      "notes": "Do not treat prosecutor processing deadlines as prefiling waits."
+    },
+    {
+      "routeKey": "FL:lawful-self-defense-expunction-943-0578",
+      "jurisdiction": "FL",
+      "pathwayId": "lawful-self-defense-expunction-943-0578",
+      "decisionId": "LD-FL-01",
+      "ruleId": "FL-943.0578-0581-0582-0583-059-0595-SIX-ROUTE-MAP",
+      "mechanism": "Lawful self-defense expunction",
+      "statute": "Fla. Stat. § 943.0578",
+      "stage": "single_stage",
+      "outcomeMode": "agency_application",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "unlocks upon the required State Attorney or court certification"
+      },
+      "requiredFacts": [
+        "Route?",
+        "Arrest/disposition?",
+        "Supervision completion?",
+        "Prior sealing/expunction?",
+        "Agency/State Attorney endorsement?",
+        "Diversion completion?",
+        "Self-defense certification?",
+        "Trafficking nexus?",
+        "Automatic-seal status?"
+      ],
+      "screeningFactIds": [
+        "case_outcome"
+      ],
+      "exclusions": [
+        "Exact Florida statutory mechanism and all route-specific eligibility/certification conditions"
+      ],
+      "packetFamily": "Florida Lawful Self-Defense Expunction Application under § 943.0578",
+      "packetComponents": [
+        "FDLE application",
+        "State Attorney or court certification"
+      ],
+      "notes": "Certification is the trigger; there is no elapsed wait."
+    },
+    {
+      "routeKey": "IL:criminal-identity-theft-mistaken-identity-relief",
+      "jurisdiction": "IL",
+      "pathwayId": "criminal-identity-theft-mistaken-identity-relief",
+      "decisionId": "LD-IL-04",
+      "ruleId": "IL-MISTAKEN-IDENTITY-AND-PROSTITUTION-TWO-ROUTE-MAP",
+      "mechanism": "Mistaken-identity correction and sealing",
+      "statute": "20 ILCS 2630/5.2, mistaken-identity provisions",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "no elapsed waiting period; the verified petition may be filed upon learning of the record"
+      },
+      "requiredFacts": [
+        "Identity theft report and mismatched identifiers?",
+        "Arrest circuit?",
+        "Exact prostitution statute/class?",
+        "Sentence completion?",
+        "Trafficking/victimization facts?",
+        "Automatic-seal status?"
+      ],
+      "screeningFactIds": [
+        "case_outcome"
+      ],
+      "exclusions": [
+        "Verified stolen/mistaken identity or qualifying Class 4 prostitution record under the specific statutory relief provisions"
+      ],
+      "packetFamily": "Illinois Verified Mistaken-Identity Petition under 20 ILCS 2630/5.2",
+      "packetComponents": [
+        "Verified petition",
+        "Identity-theft report",
+        "Mismatched identifier evidence"
+      ],
+      "notes": "A nunc pro tunc correction, removal and sealing mechanism, not an ordinary conviction-expungement clock. Do not route it through the ordinary expungement eligibility engine."
+    },
+    {
+      "routeKey": "IL:felony-prostitution-relief",
+      "jurisdiction": "IL",
+      "pathwayId": "felony-prostitution-relief",
+      "decisionId": "LD-IL-04",
+      "ruleId": "IL-MISTAKEN-IDENTITY-AND-PROSTITUTION-TWO-ROUTE-MAP",
+      "mechanism": "Felony prostitution vacatur and expungement",
+      "statute": "20 ILCS 2630/5.2, prostitution-relief provisions",
+      "stage": "post_completion",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorFactId": "court_requirements_completed",
+        "anchorText": "no extra period after completion of the sentence and the statutory conditions"
+      },
+      "requiredFacts": [
+        "Identity theft report and mismatched identifiers?",
+        "Arrest circuit?",
+        "Exact prostitution statute/class?",
+        "Sentence completion?",
+        "Trafficking/victimization facts?",
+        "Automatic-seal status?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "offense_level",
+        "court_requirements_completed"
+      ],
+      "exclusions": [
+        "Verified stolen/mistaken identity or qualifying Class 4 prostitution record under the specific statutory relief provisions"
+      ],
+      "packetFamily": "Illinois Prostitution Vacatur and Expungement Petition under 20 ILCS 2630/5.2",
+      "packetComponents": [
+        "Petition to vacate and expunge",
+        "Sentence completion proof",
+        "Victimization evidence"
+      ],
+      "notes": "Limited to a qualifying Class 4 prostitution conviction. No separate generic felony waiting period. Qualifying prostitution records are also automatically sealed on the statutory implementation schedule; check that status first."
+    },
+    {
+      "routeKey": "KY:juvenile-automatic-dismissal",
+      "jurisdiction": "KY",
+      "pathwayId": "juvenile-automatic-dismissal",
+      "decisionId": "LD-KY-02",
+      "ruleId": "KY-610.330-AUTOMATIC-VS-TWO-YEAR-PETITION",
+      "mechanism": "Automatic juvenile dismissal and expungement",
+      "statute": "KRS § 610.330",
+      "stage": "automatic",
+      "outcomeMode": "automatic_relief",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "the court's statutory automatic mechanism applies on a dismissal or not-delinquent finding, without a participant waiting period"
+      },
+      "requiredFacts": [
+        "Disposition?",
+        "Jurisdiction-end date?",
+        "Unconditional-release date?",
+        "Offense category?",
+        "Pending matters?",
+        "Extraordinary-circumstances basis?",
+        "Whether automatic relief already occurred?"
+      ],
+      "screeningFactIds": [
+        "case_outcome"
+      ],
+      "exclusions": [
+        "Kentucky juvenile record within KRS § 610.330",
+        "No excluded violent/sex offense",
+        "No disqualifying pending matter",
+        "Waiver only on extraordinary circumstances"
+      ],
+      "packetFamily": null,
+      "notes": "Never present the two-year petition period to a user in this branch."
+    },
+    {
+      "routeKey": "KY:juvenile-petition-610330",
+      "jurisdiction": "KY",
+      "pathwayId": "juvenile-petition-610330",
+      "decisionId": "LD-KY-02",
+      "ruleId": "KY-610.330-AUTOMATIC-VS-TWO-YEAR-PETITION",
+      "mechanism": "Petition-based juvenile expungement",
+      "statute": "KRS § 610.330",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "elapsed_eligibility_clock",
+        "value": 2,
+        "unit": "years",
+        "anchorFactId": "release_date",
+        "anchorAlternates": [
+          "discharge_date"
+        ],
+        "anchorText": "two years after the termination of juvenile-court jurisdiction or the person's unconditional release from commitment, whichever applies, subject to the statutory waiver for extraordinary circumstances"
+      },
+      "requiredFacts": [
+        "Disposition?",
+        "Jurisdiction-end date?",
+        "Unconditional-release date?",
+        "Offense category?",
+        "Pending matters?",
+        "Extraordinary-circumstances basis?",
+        "Whether automatic relief already occurred?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "offense_level",
+        "pending_cases",
+        "release_date"
+      ],
+      "exclusions": [
+        "Kentucky juvenile record within KRS § 610.330",
+        "No excluded violent/sex offense",
+        "No disqualifying pending matter",
+        "Waiver only on extraordinary circumstances"
+      ],
+      "packetFamily": "Kentucky Juvenile Expungement Petition under KRS § 610.330",
+      "packetComponents": [
+        "Petition under § 610.330",
+        "Jurisdiction termination or release proof"
+      ],
+      "notes": "The statutory waiver for extraordinary circumstances is available; the no-pending-case and offense exclusions must be satisfied.",
+      "serviceBranches": [
+        {
+          "id": "automatic-status-correction-guidance",
+          "when": "the matter's disposition selects the AUTOMATIC STATUS/CORRECTION GUIDANCE treatment named by LD-KY-02",
+          "outcomeMode": "automatic_relief",
+          "packetFamily": null,
+          "stage": "automatic",
+          "note": "LD-KY-02 states this route's output treatment as \"AUTOMATIC STATUS/CORRECTION GUIDANCE OR JUVENILE COURT PETITION PACKET\". Each branch carries its own stable branch id and is selected by its own disposition predicate. Two branches may not resolve to one undifferentiated configuration, and may not share a checkout path. Installed by the Wave 2 integration from R2_ALREADY_ANSWERED_ENGINEERING with no selector and a null packet family: the branch identity is the decision, and its disposition predicate and packet configuration are owed by the branch-identity and packet-factory lanes. It therefore records the requirement without opening anything or inventing a predicate."
+        }
+      ]
+    },
+    {
+      "routeKey": "LA:automated-expungement-status-verification-art-985-2",
+      "jurisdiction": "LA",
+      "pathwayId": "automated-expungement-status-verification-art-985-2",
+      "decisionId": "LD-LA-05",
+      "ruleId": "LA-985-985.1-985.2-985.3-983H-FIVE-PROCEDURE-MAP",
+      "mechanism": "Automated expungement status verification",
+      "statute": "La. Code Crim. Proc. art. 985.2",
+      "stage": "automatic",
+      "outcomeMode": "guidance_status",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "a request and status process tied to the underlying Articles 976-978 eligibility; it carries no independent clock"
+      },
+      "processingDeadlines": [
+        {
+          "label": "Agency and court processing windows",
+          "note": "processing after the request, not filing waits"
+        }
+      ],
+      "requiredFacts": [
+        "Underlying eligibility basis?",
+        "Redaction need?",
+        "Funding/automation availability?",
+        "Prosecutor trafficking certification?",
+        "Program completion?",
+        "Original felony arrest and final misdemeanor disposition?"
+      ],
+      "screeningFactIds": [
+        "case_outcome"
+      ],
+      "exclusions": [
+        "Exact Louisiana procedure and all underlying Article 976-978 or special-route predicates"
+      ],
+      "packetFamily": null,
+      "notes": "Availability remains subject to statutory funding and implementation, so this route stays operationally gated and never opens checkout."
+    },
+    {
+      "routeKey": "LA:expungement-by-redaction-for-multi-person-records",
+      "jurisdiction": "LA",
+      "pathwayId": "expungement-by-redaction-for-multi-person-records",
+      "decisionId": "LD-LA-05",
+      "ruleId": "LA-985-985.1-985.2-985.3-983H-FIVE-PROCEDURE-MAP",
+      "mechanism": "Expungement by redaction for a record naming more than one person",
+      "statute": "La. Code Crim. Proc. art. 985",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "derivative of the applicant's underlying expungement eligibility; it has no independent clock"
+      },
+      "requiredFacts": [
+        "Underlying eligibility basis?",
+        "Redaction need?",
+        "Funding/automation availability?",
+        "Prosecutor trafficking certification?",
+        "Program completion?",
+        "Original felony arrest and final misdemeanor disposition?"
+      ],
+      "screeningFactIds": [
+        "case_outcome"
+      ],
+      "exclusions": [
+        "Exact Louisiana procedure and all underlying Article 976-978 or special-route predicates"
+      ],
+      "packetFamily": "Louisiana Article 985 Redaction Packet",
+      "packetComponents": [
+        "Motion for expungement by redaction",
+        "Underlying eligibility showing"
+      ],
+      "notes": "Eligibility follows whatever underlying route the applicant qualifies for."
+    },
+    {
+      "routeKey": "LA:human-trafficking-survivor-expungement-fee-exempt-route",
+      "jurisdiction": "LA",
+      "pathwayId": "human-trafficking-survivor-expungement-fee-exempt-route",
+      "decisionId": "LD-LA-05",
+      "ruleId": "LA-985-985.1-985.2-985.3-983H-FIVE-PROCEDURE-MAP",
+      "mechanism": "Human-trafficking survivor expungement, fee exempt",
+      "statute": "La. Code Crim. Proc. arts. 983(H) and 997",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "the Articles 977 and 978 delays and fees are waived once the trafficking nexus is established and the Article 997 prosecutor certification supports it"
+      },
+      "requiredFacts": [
+        "Underlying eligibility basis?",
+        "Redaction need?",
+        "Funding/automation availability?",
+        "Prosecutor trafficking certification?",
+        "Program completion?",
+        "Original felony arrest and final misdemeanor disposition?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "offense_level"
+      ],
+      "exclusions": [
+        "Exact Louisiana procedure and all underlying Article 976-978 or special-route predicates"
+      ],
+      "packetFamily": "Louisiana Trafficking-Survivor Expungement Packet under art. 983(H)",
+      "packetComponents": [
+        "Motion for expungement",
+        "Article 997 prosecutor certification",
+        "Trafficking nexus evidence"
+      ],
+      "notes": "Statutory delays and fees are waived; never import the ordinary Article 977/978 clean periods."
+    },
+    {
+      "routeKey": "LA:immediate-expungement-after-successful-court-program-completion-art-985-3",
+      "jurisdiction": "LA",
+      "pathwayId": "immediate-expungement-after-successful-court-program-completion-art-985-3",
+      "decisionId": "LD-LA-05",
+      "ruleId": "LA-985-985.1-985.2-985.3-983H-FIVE-PROCEDURE-MAP",
+      "mechanism": "Immediate expungement after successful court-program completion",
+      "statute": "La. Code Crim. Proc. art. 985.3",
+      "stage": "post_completion",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorFactId": "court_requirements_completed",
+        "anchorText": "immediate upon successful completion of the specified court program where the person is otherwise eligible, subject to court action"
+      },
+      "requiredFacts": [
+        "Underlying eligibility basis?",
+        "Redaction need?",
+        "Funding/automation availability?",
+        "Prosecutor trafficking certification?",
+        "Program completion?",
+        "Original felony arrest and final misdemeanor disposition?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "court_requirements_completed"
+      ],
+      "exclusions": [
+        "Exact Louisiana procedure and all underlying Article 976-978 or special-route predicates"
+      ],
+      "packetFamily": "Louisiana Article 985.3 Immediate Expungement Packet",
+      "packetComponents": [
+        "Motion under art. 985.3",
+        "Program completion proof"
+      ],
+      "notes": "Subject to court action; the person must still be otherwise eligible."
+    },
+    {
+      "routeKey": "LA:interim-expungement-of-a-felony-arrest-reduced-to-a-misdemeanor-conviction",
+      "jurisdiction": "LA",
+      "pathwayId": "interim-expungement-of-a-felony-arrest-reduced-to-a-misdemeanor-conviction",
+      "decisionId": "LD-LA-05",
+      "ruleId": "LA-985-985.1-985.2-985.3-983H-FIVE-PROCEDURE-MAP",
+      "mechanism": "Interim expungement of a felony arrest reduced to a misdemeanor conviction",
+      "statute": "La. Code Crim. Proc. art. 985.1",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "not subject to the ordinary Articles 977 and 978 five- or ten-year limits"
+      },
+      "requiredFacts": [
+        "Underlying eligibility basis?",
+        "Redaction need?",
+        "Funding/automation availability?",
+        "Prosecutor trafficking certification?",
+        "Program completion?",
+        "Original felony arrest and final misdemeanor disposition?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "offense_level"
+      ],
+      "exclusions": [
+        "Exact Louisiana procedure and all underlying Article 976-978 or special-route predicates"
+      ],
+      "packetFamily": "Louisiana Article 985.1 Interim Expungement Packet",
+      "packetComponents": [
+        "Motion for interim expungement",
+        "Disposition record showing the reduction"
+      ],
+      "notes": "Concerns the felony-arrest portion only, not final expungement of the misdemeanor conviction."
+    },
+    {
+      "routeKey": "MA:automatic-non-conviction-sealing-for-not-guilty-no-bill-or-no-probable-cause-outcomes-100c",
+      "jurisdiction": "MA",
+      "pathwayId": "automatic-non-conviction-sealing-for-not-guilty-no-bill-or-no-probable-cause-outcomes-100c",
+      "decisionId": "LD-MA-02",
+      "ruleId": "MA-276-100C-100K-100KQUARTER-THREE-PROCESS-MAP",
+      "mechanism": "Automatic nonconviction sealing for a not-guilty finding, no bill, or no probable cause",
+      "statute": "Mass. Gen. Laws ch. 276, § 100C",
+      "stage": "automatic",
+      "outcomeMode": "automatic_relief",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "sealed through § 100C's automatic disposition mechanism without an elapsed wait"
+      },
+      "requiredFacts": [
+        "Disposition type/date?",
+        "Automatic-seal status?",
+        "Dismissal/nolle substantial-justice facts?",
+        "Marijuana statute, conduct, date, and quantity?",
+        "Other charges in the record?"
+      ],
+      "screeningFactIds": [
+        "case_outcome"
+      ],
+      "exclusions": [
+        "Exact § 100C disposition or qualifying marijuana record",
+        "Use § 100A periods only for the separate conviction-sealing route"
+      ],
+      "packetFamily": null,
+      "notes": "Never apply § 100A's three- or seven-year conviction-sealing periods to a § 100C nonconviction."
+    },
+    {
+      "routeKey": "MA:court-requested-sealing-for-dismissal-or-nolle-prosequi-100c",
+      "jurisdiction": "MA",
+      "pathwayId": "court-requested-sealing-for-dismissal-or-nolle-prosequi-100c",
+      "decisionId": "LD-MA-02",
+      "ruleId": "MA-276-100C-100K-100KQUARTER-THREE-PROCESS-MAP",
+      "mechanism": "Court-requested sealing for a dismissal or nolle prosequi",
+      "statute": "Mass. Gen. Laws ch. 276, § 100C",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorFactId": "disposition_date",
+        "anchorText": "the separate court-requested substantial-justice process, available on the dismissal or nolle prosequi without an elapsed wait"
+      },
+      "requiredFacts": [
+        "Disposition type/date?",
+        "Automatic-seal status?",
+        "Dismissal/nolle substantial-justice facts?",
+        "Marijuana statute, conduct, date, and quantity?",
+        "Other charges in the record?"
+      ],
+      "screeningFactIds": [
+        "case_outcome"
+      ],
+      "exclusions": [
+        "Exact § 100C disposition or qualifying marijuana record",
+        "Use § 100A periods only for the separate conviction-sealing route"
+      ],
+      "packetFamily": "Massachusetts § 100C Court-Requested Sealing Packet",
+      "packetComponents": [
+        "Request to seal under § 100C",
+        "Substantial-justice statement",
+        "Disposition record"
+      ],
+      "notes": "Never apply § 100A's conviction-sealing waits here."
+    },
+    {
+      "routeKey": "MA:marijuana-only-expungement",
+      "jurisdiction": "MA",
+      "pathwayId": "marijuana-only-expungement",
+      "decisionId": "LD-MA-02",
+      "ruleId": "MA-276-100C-100K-100KQUARTER-THREE-PROCESS-MAP",
+      "mechanism": "Marijuana-only expungement",
+      "statute": "Mass. Gen. Laws ch. 276, §§ 100K, 100K¼",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "eligibility under the marijuana-expungement statute for conduct that is no longer criminal or falls within the statutory marijuana category; no general conviction-sealing period applies"
+      },
+      "requiredFacts": [
+        "Disposition type/date?",
+        "Automatic-seal status?",
+        "Dismissal/nolle substantial-justice facts?",
+        "Marijuana statute, conduct, date, and quantity?",
+        "Other charges in the record?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "offense_level"
+      ],
+      "exclusions": [
+        "Exact § 100C disposition or qualifying marijuana record",
+        "Use § 100A periods only for the separate conviction-sealing route"
+      ],
+      "packetFamily": "Massachusetts Marijuana Expungement Petition under §§ 100K / 100K¼",
+      "packetComponents": [
+        "Petition to expunge",
+        "Offense record showing the marijuana category"
+      ],
+      "notes": "A special route; no general conviction-sealing period applies."
+    },
+    {
+      "routeKey": "MN:arrest-identification-data-destruction-when-no-charges-were-filed-minn-stat-299c-11",
+      "jurisdiction": "MN",
+      "pathwayId": "arrest-identification-data-destruction-when-no-charges-were-filed-minn-stat-299c-11",
+      "decisionId": "LD-MN-01",
+      "ruleId": "MN-299C.11-609A-SIX-MECHANISM-MAP",
+      "mechanism": "Arrest identification-data destruction where no charges were filed",
+      "statute": "Minn. Stat. § 299C.11",
+      "stage": "single_stage",
+      "outcomeMode": "agency_application",
+      "timing": {
+        "kind": "lookback",
+        "value": 10,
+        "unit": "years",
+        "anchorFactId": "last_conviction_date",
+        "anchorText": "available on the qualifying no-charge or early-dismissal disposition and a demand to the agency; the statute's ten-year language is a disqualifying lookback for a felony or gross-misdemeanor conviction, not a ten-year wait from arrest"
+      },
+      "requiredFacts": [
+        "Exact route?",
+        "Arrest/disposition?",
+        "Charge filing?",
+        "Conviction lookback?",
+        "Offense class?",
+        "Diversion/stay?",
+        "Discharge date?",
+        "Prosecutor agreement?",
+        "Cannabis statute/amount?",
+        "Automatic status?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "last_conviction_date"
+      ],
+      "exclusions": [
+        "Exact Minnesota statute and process",
+        "Offense level and statutory category",
+        "No-charge lookback",
+        "Discharge and clean-record conditions"
+      ],
+      "packetFamily": "Minnesota § 299C.11 Demand to the Agency",
+      "packetComponents": [
+        "Written demand to the agency",
+        "Disposition record"
+      ],
+      "notes": "The ten-year condition must be labelled explicitly as a prior-conviction lookback, never as a clock from arrest."
+    },
+    {
+      "routeKey": "MN:automatic-clean-slate-expungement-under-609a-015",
+      "jurisdiction": "MN",
+      "pathwayId": "automatic-clean-slate-expungement-under-609a-015",
+      "decisionId": "LD-MN-01",
+      "ruleId": "MN-299C.11-609A-SIX-MECHANISM-MAP",
+      "mechanism": "Automatic Clean Slate expungement",
+      "statute": "Minn. Stat. § 609A.015",
+      "stage": "automatic",
+      "outcomeMode": "automatic_relief",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "category-specific statutory triggers: favorable outcomes are event-driven, diversion and stay branches use the specified one-year period, and conviction categories use the applicable two-, three-, four-, or five-year period from discharge"
+      },
+      "requiredFacts": [
+        "Exact route?",
+        "Arrest/disposition?",
+        "Charge filing?",
+        "Conviction lookback?",
+        "Offense class?",
+        "Diversion/stay?",
+        "Discharge date?",
+        "Prosecutor agreement?",
+        "Cannabis statute/amount?",
+        "Automatic status?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "offense_level",
+        "discharge_date"
+      ],
+      "exclusions": [
+        "Exact Minnesota statute and process",
+        "Offense level and statutory category",
+        "No-charge lookback",
+        "Discharge and clean-record conditions"
+      ],
+      "packetFamily": null,
+      "notes": "Automatic relief; the participant files nothing and checkout stays closed. The category-specific periods govern when the automatic system acts, and the intake must capture the exact category rather than a generic value."
+    },
+    {
+      "routeKey": "MN:automatic-mistaken-identity-expungement-under-609a-017",
+      "jurisdiction": "MN",
+      "pathwayId": "automatic-mistaken-identity-expungement-under-609a-017",
+      "decisionId": "LD-MN-01",
+      "ruleId": "MN-299C.11-609A-SIX-MECHANISM-MAP",
+      "mechanism": "Automatic mistaken-identity expungement",
+      "statute": "Minn. Stat. § 609A.017",
+      "stage": "automatic",
+      "outcomeMode": "automatic_relief",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "automatic and corrective; not an elapsed-wait route"
+      },
+      "requiredFacts": [
+        "Exact route?",
+        "Arrest/disposition?",
+        "Charge filing?",
+        "Conviction lookback?",
+        "Offense class?",
+        "Diversion/stay?",
+        "Discharge date?",
+        "Prosecutor agreement?",
+        "Cannabis statute/amount?",
+        "Automatic status?"
+      ],
+      "screeningFactIds": [
+        "case_outcome"
+      ],
+      "exclusions": [
+        "Exact Minnesota statute and process",
+        "Offense level and statutory category",
+        "No-charge lookback",
+        "Discharge and clean-record conditions"
+      ],
+      "packetFamily": null,
+      "notes": "Correction guidance only; no elapsed wait and no checkout."
+    },
+    {
+      "routeKey": "MN:cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06",
+      "jurisdiction": "MN",
+      "pathwayId": "cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06",
+      "decisionId": "LD-MN-01",
+      "ruleId": "MN-299C.11-609A-SIX-MECHANISM-MAP",
+      "mechanism": "Cannabis expungement — Cannabis Expungement Board review category",
+      "statute": "Minn. Stat. §§ 609A.055-.06",
+      "stage": "single_stage",
+      "outcomeMode": "referral",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "eligibility is determined by the Cannabis Expungement Board rather than by an elapsed participant wait"
+      },
+      "requiredFacts": [
+        "Exact route?",
+        "Arrest/disposition?",
+        "Charge filing?",
+        "Conviction lookback?",
+        "Offense class?",
+        "Diversion/stay?",
+        "Discharge date?",
+        "Prosecutor agreement?",
+        "Cannabis statute/amount?",
+        "Automatic status?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "offense_level"
+      ],
+      "exclusions": [
+        "Exact Minnesota statute and process",
+        "Offense level and statutory category",
+        "No-charge lookback",
+        "Discharge and clean-record conditions"
+      ],
+      "packetFamily": null,
+      "notes": "The automatic cannabis category and the Board-review category are separate; neither is a participant-filed petition, so checkout stays closed on both."
+    },
+    {
+      "routeKey": "MN:petition-based-expungement-under-609a-02-03",
+      "jurisdiction": "MN",
+      "pathwayId": "petition-based-expungement-under-609a-02-03",
+      "decisionId": "LD-MN-01",
+      "ruleId": "MN-299C.11-609A-SIX-MECHANISM-MAP",
+      "mechanism": "Petition-based expungement",
+      "statute": "Minn. Stat. §§ 609A.02-.03",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "elapsed_eligibility_clock",
+        "value": 2,
+        "unit": "years",
+        "anchorFactId": "discharge_date",
+        "anchorText": "the statutory category period measured from discharge; the two-, three-, four-, and five-year categories are assigned by offense category and must be collected, not assumed"
+      },
+      "requiredFacts": [
+        "Exact route?",
+        "Arrest/disposition?",
+        "Charge filing?",
+        "Conviction lookback?",
+        "Offense class?",
+        "Diversion/stay?",
+        "Discharge date?",
+        "Prosecutor agreement?",
+        "Cannabis statute/amount?",
+        "Automatic status?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "offense_level",
+        "eligible_conviction_class",
+        "discharge_date"
+      ],
+      "exclusions": [
+        "Exact Minnesota statute and process",
+        "Offense level and statutory category",
+        "No-charge lookback",
+        "Discharge and clean-record conditions"
+      ],
+      "packetFamily": "Minnesota Expungement Petition under §§ 609A.02-.03",
+      "packetComponents": [
+        "Petition and proposed order",
+        "Discharge proof",
+        "Service on the required agencies"
+      ],
+      "notes": "The value stored here is the lowest statutory category; the exact category is a mandatory intake fact."
+    },
+    {
+      "routeKey": "MN:prosecutor-agreed-sealing-without-a-full-petition-under-609a-025",
+      "jurisdiction": "MN",
+      "pathwayId": "prosecutor-agreed-sealing-without-a-full-petition-under-609a-025",
+      "decisionId": "LD-MN-01",
+      "ruleId": "MN-299C.11-609A-SIX-MECHANISM-MAP",
+      "mechanism": "Prosecutor-agreed sealing without a full petition",
+      "statute": "Minn. Stat. § 609A.025",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "unlocks upon the required prosecutor agreement"
+      },
+      "requiredFacts": [
+        "Exact route?",
+        "Arrest/disposition?",
+        "Charge filing?",
+        "Conviction lookback?",
+        "Offense class?",
+        "Diversion/stay?",
+        "Discharge date?",
+        "Prosecutor agreement?",
+        "Cannabis statute/amount?",
+        "Automatic status?"
+      ],
+      "screeningFactIds": [
+        "case_outcome"
+      ],
+      "exclusions": [
+        "Exact Minnesota statute and process",
+        "Offense level and statutory category",
+        "No-charge lookback",
+        "Discharge and clean-record conditions"
+      ],
+      "packetFamily": "Minnesota Prosecutor-Agreed Sealing Packet under § 609A.025",
+      "packetComponents": [
+        "Agreement documentation",
+        "Proposed order"
+      ],
+      "notes": "Must not force the full petition process."
+    },
+    {
+      "routeKey": "MO:closed-record-outcome-under-rsmo-610-105",
+      "jurisdiction": "MO",
+      "pathwayId": "closed-record-outcome-under-rsmo-610-105",
+      "decisionId": "LD-MO-02",
+      "ruleId": "MO-610.105-610.122-610.145-THREE-CORRECTION-MECHANISMS",
+      "mechanism": "Closed-record outcome on a qualifying final nonconviction",
+      "statute": "Mo. Rev. Stat. § 610.105",
+      "stage": "automatic",
+      "outcomeMode": "automatic_relief",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "records close upon the qualifying final nonconviction outcome; no participant waiting period is imposed"
+      },
+      "requiredFacts": [
+        "Disposition and finality?",
+        "Charging facts?",
+        "False-information evidence?",
+        "Agency record?",
+        "Identity-theft report?",
+        "Biometric/identifier mismatch?",
+        "Whether automatic closure appears?"
+      ],
+      "screeningFactIds": [
+        "case_outcome"
+      ],
+      "exclusions": [
+        "Exact statutory correction/closure route",
+        "Required disposition or error elements",
+        "No borrowing from general conviction-expungement rules"
+      ],
+      "packetFamily": null,
+      "notes": "Missouri's additional automatic-closure legislation takes effect 2026-08-28 and must be separately effective-date gated; it is not active as of 2026-08-24 and must not be described as available."
+    },
+    {
+      "routeKey": "MO:false-information-or-qualifying-arrest-record-expungement-under-610-122-123",
+      "jurisdiction": "MO",
+      "pathwayId": "false-information-or-qualifying-arrest-record-expungement-under-610-122-123",
+      "decisionId": "LD-MO-02",
+      "ruleId": "MO-610.105-610.122-610.145-THREE-CORRECTION-MECHANISMS",
+      "mechanism": "Expungement of a false-information or qualifying arrest record",
+      "statute": "Mo. Rev. Stat. §§ 610.122-.123",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "unlocked by proof of the statutory elements; no general elapsed wait applies"
+      },
+      "requiredFacts": [
+        "Disposition and finality?",
+        "Charging facts?",
+        "False-information evidence?",
+        "Agency record?",
+        "Identity-theft report?",
+        "Biometric/identifier mismatch?",
+        "Whether automatic closure appears?"
+      ],
+      "screeningFactIds": [
+        "case_outcome"
+      ],
+      "exclusions": [
+        "Exact statutory correction/closure route",
+        "Required disposition or error elements",
+        "No borrowing from general conviction-expungement rules"
+      ],
+      "packetFamily": "Missouri §§ 610.122-.123 Petition",
+      "packetComponents": [
+        "Petition under §§ 610.122-.123",
+        "Proof of the statutory elements"
+      ],
+      "notes": "No unrelated § 610.140 clock may be imported."
+    },
+    {
+      "routeKey": "MO:stolen-or-mistaken-identity-expungement-under-610-145",
+      "jurisdiction": "MO",
+      "pathwayId": "stolen-or-mistaken-identity-expungement-under-610-145",
+      "decisionId": "LD-MO-02",
+      "ruleId": "MO-610.105-610.122-610.145-THREE-CORRECTION-MECHANISMS",
+      "mechanism": "Stolen or mistaken-identity expungement and correction",
+      "statute": "Mo. Rev. Stat. § 610.145",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "triggered by proof of the identity error, without an elapsed wait"
+      },
+      "requiredFacts": [
+        "Disposition and finality?",
+        "Charging facts?",
+        "False-information evidence?",
+        "Agency record?",
+        "Identity-theft report?",
+        "Biometric/identifier mismatch?",
+        "Whether automatic closure appears?"
+      ],
+      "screeningFactIds": [
+        "case_outcome"
+      ],
+      "exclusions": [
+        "Exact statutory correction/closure route",
+        "Required disposition or error elements",
+        "No borrowing from general conviction-expungement rules"
+      ],
+      "packetFamily": "Missouri § 610.145 Identity-Error Expungement Packet",
+      "packetComponents": [
+        "Petition under § 610.145",
+        "Proof of stolen or mistaken identity"
+      ],
+      "notes": "A distinct correction process, separate from ordinary expungement."
+    },
+    {
+      "routeKey": "MT:doj-record-removal-update-request",
+      "jurisdiction": "MT",
+      "pathwayId": "doj-record-removal-update-request",
+      "decisionId": "LD-MT-02",
+      "ruleId": "MT-DOJ-CORRECTION-VS-16-12-113-MARIJUANA-SPLIT",
+      "mechanism": "Administrative criminal-history record correction request",
+      "statute": "Mont. Code Ann. § 44-5-215",
+      "stage": "single_stage",
+      "outcomeMode": "agency_application",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "triggered by an inaccurate, incomplete or legally removable record; there is no elapsed waiting period"
+      },
+      "requiredFacts": [
+        "Record source and error?",
+        "Disposition/order?",
+        "Agency response?",
+        "Marijuana statute/conduct/quantity?",
+        "Sentence status?",
+        "Completion?",
+        "Requested expungement versus redesignation?"
+      ],
+      "screeningFactIds": [
+        "case_outcome"
+      ],
+      "exclusions": [
+        "Separate DOJ/CRISS correction facts from a qualifying marijuana conviction under current MMRTA conduct/classification rules"
+      ],
+      "packetFamily": "Montana DOJ Record Correction Request",
+      "packetComponents": [
+        "Correction or removal request",
+        "Evidence of the record error"
+      ],
+      "notes": "An administrative correction process. Do not send a record-correction user through the marijuana or general set-aside engine."
+    },
+    {
+      "routeKey": "MT:marijuana-related-redesignation-expungement-under-mmrta",
+      "jurisdiction": "MT",
+      "pathwayId": "marijuana-related-redesignation-expungement-under-mmrta",
+      "decisionId": "LD-MT-02",
+      "ruleId": "MT-DOJ-CORRECTION-VS-16-12-113-MARIJUANA-SPLIT",
+      "mechanism": "Marijuana redesignation, resentencing, or expungement under the MMRTA",
+      "statute": "Mont. Code Ann. § 16-12-113",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "a person currently serving a sentence for conduct made lawful may petition for resentencing or expungement; a person who completed the sentence may petition for expungement or redesignation on the current statutory category. Neither branch uses an unrelated general waiting period"
+      },
+      "requiredFacts": [
+        "Record source and error?",
+        "Disposition/order?",
+        "Agency response?",
+        "Marijuana statute/conduct/quantity?",
+        "Sentence status?",
+        "Completion?",
+        "Requested expungement versus redesignation?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "offense_level"
+      ],
+      "exclusions": [
+        "Separate DOJ/CRISS correction facts from a qualifying marijuana conviction under current MMRTA conduct/classification rules"
+      ],
+      "packetFamily": "Montana MMRTA Redesignation or Expungement Petition under § 16-12-113",
+      "packetComponents": [
+        "Petition under § 16-12-113",
+        "Offense record",
+        "Sentence-status evidence"
+      ],
+      "notes": "Branch on whether the person is currently serving the sentence or has completed it."
+    },
+    {
+      "routeKey": "NE:law-enforcement-error-expungement",
+      "jurisdiction": "NE",
+      "pathwayId": "law-enforcement-error-expungement",
+      "decisionId": "LD-NE-05",
+      "ruleId": "NE-29-3523-ERROR-VS-29-2264-SET-ASIDE",
+      "mechanism": "Expungement for a law-enforcement error",
+      "statute": "Neb. Rev. Stat. § 29-3523(6)",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "no elapsed waiting period; relief is sought on proof that the arrest or record resulted from law-enforcement error"
+      },
+      "requiredFacts": [
+        "Error evidence and agency?",
+        "Arrest/disposition?",
+        "Exact conviction?",
+        "Probation/fine/community-service completion?",
+        "Discharge order?",
+        "Later conduct?",
+        "Requested legal effect?"
+      ],
+      "screeningFactIds": [
+        "case_outcome"
+      ],
+      "exclusions": [
+        "Exact Nebraska correction or set-aside mechanism",
+        "Evidentiary and discretionary standards satisfied"
+      ],
+      "packetFamily": "Nebraska § 29-3523(6) Error Petition",
+      "packetComponents": [
+        "Petition under § 29-3523(6)",
+        "Clear-and-convincing proof of the error"
+      ],
+      "notes": "The clear-and-convincing proof standard must be collected before the packet is offered."
+    },
+    {
+      "routeKey": "NE:set-aside-probation-fine-community-service",
+      "jurisdiction": "NE",
+      "pathwayId": "set-aside-probation-fine-community-service",
+      "decisionId": "LD-NE-05",
+      "ruleId": "NE-29-3523-ERROR-VS-29-2264-SET-ASIDE",
+      "mechanism": "Conviction set-aside after satisfactory sentence completion",
+      "statute": "Neb. Rev. Stat. § 29-2264",
+      "stage": "post_completion",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorFactId": "discharge_date",
+        "anchorText": "available after satisfactory fulfilment of probation, fine, community service and the other sentence conditions, and discharge; no additional time period applies"
+      },
+      "requiredFacts": [
+        "Error evidence and agency?",
+        "Arrest/disposition?",
+        "Exact conviction?",
+        "Probation/fine/community-service completion?",
+        "Discharge order?",
+        "Later conduct?",
+        "Requested legal effect?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "court_requirements_completed",
+        "discharge_date"
+      ],
+      "exclusions": [
+        "Exact Nebraska correction or set-aside mechanism",
+        "Evidentiary and discretionary standards satisfied"
+      ],
+      "packetFamily": "Nebraska Set-Aside Application under § 29-2264",
+      "packetComponents": [
+        "Application to set aside",
+        "Discharge order",
+        "Completion proof"
+      ],
+      "notes": "Relief is discretionary, and results copy must say that a set-aside does not erase the Nebraska record: it adds the statutory set-aside effect and notation."
+    },
+    {
+      "routeKey": "NJ:arrest-dismissal-and-other-non-conviction-expungement-under-n-j-s-a-2c-52-6",
+      "jurisdiction": "NJ",
+      "pathwayId": "arrest-dismissal-and-other-non-conviction-expungement-under-n-j-s-a-2c-52-6",
+      "decisionId": "LD-NJ-01",
+      "ruleId": "NJ-2C52-NONCONVICTION-REGULAR-CLEANSLATE-MARIJUANA-MAP",
+      "mechanism": "Arrest, dismissal and other nonconviction expungement",
+      "statute": "N.J.S.A. 2C:52-6",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorFactId": "disposition_date",
+        "anchorText": "available without a general elapsed wait on a qualifying arrest, dismissal, acquittal or other nonconviction, subject to the specific disposition rules; a diversionary dismissal uses its separate statutory period, commonly six months after dismissal"
+      },
+      "requiredFacts": [
+        "Disposition?",
+        "Diversion?",
+        "All conviction counts?",
+        "Exact statutes?",
+        "Sentence/probation/parole/release dates?",
+        "Financial assessments?",
+        "Early-path basis?",
+        "Clean-slate exclusions?",
+        "Marijuana status?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "pending_cases"
+      ],
+      "exclusions": [
+        "Exact New Jersey route",
+        "Conviction count and type",
+        "Completion/payment dates",
+        "Statutory exclusions",
+        "Automatic marijuana status"
+      ],
+      "packetFamily": "New Jersey Nonconviction Expungement Petition under 2C:52-6",
+      "packetComponents": [
+        "Verified petition",
+        "Disposition record",
+        "Service on the required agencies"
+      ],
+      "notes": "The six-month diversionary-dismissal branch is separate and must not be applied to an ordinary dismissal or acquittal."
+    },
+    {
+      "routeKey": "NJ:clean-slate-petition-under-n-j-s-a-2c-52-5-3",
+      "jurisdiction": "NJ",
+      "pathwayId": "clean-slate-petition-under-n-j-s-a-2c-52-5-3",
+      "decisionId": "LD-NJ-01",
+      "ruleId": "NJ-2C52-NONCONVICTION-REGULAR-CLEANSLATE-MARIJUANA-MAP",
+      "mechanism": "Clean-slate expungement",
+      "statute": "N.J.S.A. 2C:52-5.3",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "elapsed_eligibility_clock",
+        "value": 10,
+        "unit": "years",
+        "anchorFactId": "sentence_completion_actual_date",
+        "anchorAlternates": [
+          "last_conviction_date",
+          "release_date",
+          "probation_parole_supervision_end_date"
+        ],
+        "anchorText": "ten years from the latest qualifying anchor, subject to the case-count and offense exclusions"
+      },
+      "requiredFacts": [
+        "Disposition?",
+        "Diversion?",
+        "All conviction counts?",
+        "Exact statutes?",
+        "Sentence/probation/parole/release dates?",
+        "Financial assessments?",
+        "Early-path basis?",
+        "Clean-slate exclusions?",
+        "Marijuana status?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "offense_level",
+        "eligible_conviction_count",
+        "sentence_completion_actual_date"
+      ],
+      "exclusions": [
+        "Exact New Jersey route",
+        "Conviction count and type",
+        "Completion/payment dates",
+        "Statutory exclusions",
+        "Automatic marijuana status"
+      ],
+      "packetFamily": "New Jersey Clean Slate Petition under 2C:52-5.3",
+      "packetComponents": [
+        "Verified petition",
+        "Complete case history",
+        "Service on the required agencies"
+      ],
+      "notes": "Use the current ten-year statute as of 2026-08-24; do not implement pending 2026 bills as enacted law."
+    },
+    {
+      "routeKey": "NJ:marijuana-hashish-expungement-under-n-j-s-a-2c-52-5-1-5-2-and-6-1",
+      "jurisdiction": "NJ",
+      "pathwayId": "marijuana-hashish-expungement-under-n-j-s-a-2c-52-5-1-5-2-and-6-1",
+      "decisionId": "LD-NJ-01",
+      "ruleId": "NJ-2C52-NONCONVICTION-REGULAR-CLEANSLATE-MARIJUANA-MAP",
+      "mechanism": "Marijuana and hashish expungement",
+      "statute": "N.J.S.A. 2C:52-5.1, 2C:52-5.2 and 2C:52-6.1",
+      "stage": "automatic",
+      "outcomeMode": "automatic_relief",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "handled through the special automatic and summary statutory mechanisms; no participant elapsed wait applies"
+      },
+      "requiredFacts": [
+        "Disposition?",
+        "Diversion?",
+        "All conviction counts?",
+        "Exact statutes?",
+        "Sentence/probation/parole/release dates?",
+        "Financial assessments?",
+        "Early-path basis?",
+        "Clean-slate exclusions?",
+        "Marijuana status?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "offense_level"
+      ],
+      "exclusions": [
+        "Exact New Jersey route",
+        "Conviction count and type",
+        "Completion/payment dates",
+        "Statutory exclusions",
+        "Automatic marijuana status"
+      ],
+      "packetFamily": null,
+      "notes": "Provide status and correction guidance before any petition is generated; checkout stays closed on the automatic mechanism."
+    },
+    {
+      "routeKey": "NJ:regular-expungement-under-n-j-s-a-2c-52-2-2c-52-3",
+      "jurisdiction": "NJ",
+      "pathwayId": "regular-expungement-under-n-j-s-a-2c-52-2-2c-52-3",
+      "decisionId": "LD-NJ-01",
+      "ruleId": "NJ-2C52-NONCONVICTION-REGULAR-CLEANSLATE-MARIJUANA-MAP",
+      "mechanism": "Regular conviction expungement",
+      "statute": "N.J.S.A. 2C:52-2 and 2C:52-3",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "elapsed_eligibility_clock",
+        "value": 5,
+        "unit": "years",
+        "anchorFactId": "sentence_completion_actual_date",
+        "anchorAlternates": [
+          "conviction_date",
+          "probation_parole_supervision_end_date",
+          "release_date"
+        ],
+        "anchorText": "generally five years from the latest statutory anchor, which is the later of conviction, payment of the court-ordered financial assessment, satisfactory completion of probation or parole, and release, subject to the early-path and other statutory rules"
+      },
+      "requiredFacts": [
+        "Disposition?",
+        "Diversion?",
+        "All conviction counts?",
+        "Exact statutes?",
+        "Sentence/probation/parole/release dates?",
+        "Financial assessments?",
+        "Early-path basis?",
+        "Clean-slate exclusions?",
+        "Marijuana status?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "offense_level",
+        "financial_obligations",
+        "court_requirements_completed",
+        "sentence_completion_actual_date"
+      ],
+      "exclusions": [
+        "Exact New Jersey route",
+        "Conviction count and type",
+        "Completion/payment dates",
+        "Statutory exclusions",
+        "Automatic marijuana status"
+      ],
+      "packetFamily": "New Jersey Regular Expungement Petition under 2C:52-2 / 2C:52-3",
+      "packetComponents": [
+        "Verified petition",
+        "Judgment of conviction",
+        "Proof of financial-assessment payment",
+        "Service on the required agencies"
+      ],
+      "notes": "Use the current five-year statute as of 2026-08-24; do not implement pending 2026 bills as enacted law."
+    },
+    {
+      "routeKey": "NV:deferred-judgment-dismissal-and-sealing-under-nrs-176-211",
+      "jurisdiction": "NV",
+      "pathwayId": "deferred-judgment-dismissal-and-sealing-under-nrs-176-211",
+      "decisionId": "LD-NV-04",
+      "ruleId": "NV-176.211-DEFERRED-EVENT-AND-179.247-TRAFFICKING-EVENT",
+      "mechanism": "Deferred-judgment dismissal and sealing",
+      "statute": "Nev. Rev. Stat. § 176.211",
+      "stage": "post_completion",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorFactId": "discharge_date",
+        "anchorText": "the operative period is the deferred-judgment term set by the court; after successful completion, discharge and dismissal the sealing consequence is available without an additional generic wait"
+      },
+      "requiredFacts": [
+        "Deferred-judgment term/order?",
+        "Completion/dismissal?",
+        "Exact offense?",
+        "Trafficking nexus?",
+        "Cessation/services/safety facts?",
+        "Prosecutor notice?",
+        "Other counts?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "court_requirements_completed",
+        "discharge_date"
+      ],
+      "exclusions": [
+        "Exact Nevada route",
+        "Valid deferred-judgment order or covered trafficking-caused offense with required nexus and diligence facts"
+      ],
+      "packetFamily": "Nevada Sealing Packet under NRS 176.211",
+      "packetComponents": [
+        "Petition to seal",
+        "Discharge and dismissal order"
+      ],
+      "supersedes": {
+        "note": "NRS 176A.245, 176A.265 and 176A.295 timing, which must not be transplanted into NRS 176.211"
+      },
+      "notes": "The court-set deferred-judgment term is not a fixed statutory waiting value and must not be stored as one."
+    },
+    {
+      "routeKey": "NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247",
+      "jurisdiction": "NV",
+      "pathwayId": "trafficking-victim-vacatur-and-sealing-under-nrs-179-247",
+      "decisionId": "LD-NV-04",
+      "ruleId": "NV-176.211-DEFERRED-EVENT-AND-179.247-TRAFFICKING-EVENT",
+      "mechanism": "Trafficking-victim vacatur and sealing",
+      "statute": "Nev. Rev. Stat. § 179.247",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "no fixed elapsed waiting period; the petition follows satisfaction of the statutory victimization nexus and the due-diligence and safety requirements"
+      },
+      "processingDeadlines": [
+        {
+          "label": "Prosecutor response period",
+          "note": "post-filing procedure, not a filing clock"
+        }
+      ],
+      "requiredFacts": [
+        "Deferred-judgment term/order?",
+        "Completion/dismissal?",
+        "Exact offense?",
+        "Trafficking nexus?",
+        "Cessation/services/safety facts?",
+        "Prosecutor notice?",
+        "Other counts?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "offense_level"
+      ],
+      "exclusions": [
+        "Exact Nevada route",
+        "Valid deferred-judgment order or covered trafficking-caused offense with required nexus and diligence facts"
+      ],
+      "packetFamily": "Nevada Trafficking-Victim Vacatur and Sealing Petition under NRS 179.247",
+      "packetComponents": [
+        "Petition to vacate and seal",
+        "Victimization nexus evidence",
+        "Due-diligence and safety showing"
+      ],
+      "notes": "Its own nexus and safety conditions; never inherits the deferred-judgment rule."
+    },
+    {
+      "routeKey": "OK:arrest-with-no-charges-filed",
+      "jurisdiction": "OK",
+      "pathwayId": "arrest-with-no-charges-filed",
+      "decisionId": "LD-OK-01",
+      "ruleId": "OK-SB2030-2026-ELEVEN-ROUTE-TRANSITION-MAP",
+      "mechanism": "Arrest with no charges filed",
+      "statute": "22 O.S. § 18",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "available when the limitations period has expired or the prosecutor confirms that no prosecution will follow"
+      },
+      "requiredFacts": [
+        "Exact route?",
+        "Arrest/charge limitations?",
+        "Prosecutor declination?",
+        "Reversal/dismissal?",
+        "DNA innocence?",
+        "Pardon?",
+        "Deferred order and dismissal?",
+        "Full-record versus court-record relief?",
+        "Reclassification date?",
+        "Fine amount/payment?",
+        "Trafficking nexus?",
+        "Juvenile completion?",
+        "VPO hearing/vacatur/death?",
+        "Portal/automatic status?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "pending_cases"
+      ],
+      "exclusions": [
+        "Current Oklahoma law effective July 1, 2026",
+        "Exact remedy, offense class, disposition, completion, and operational availability",
+        "Excluded offenses and clean-record rules apply"
+      ],
+      "packetFamily": "Oklahoma § 18 Expungement Petition — arrest with no charges",
+      "packetComponents": [
+        "Petition under § 18",
+        "Arrest record",
+        "Prosecutor confirmation or limitations showing"
+      ],
+      "effectiveFrom": "2026-07-01",
+      "notes": "Governed by the law effective July 1, 2026 under S.B. 2030."
+    },
+    {
+      "routeKey": "OK:clean-slate-automatic-expungement",
+      "jurisdiction": "OK",
+      "pathwayId": "clean-slate-automatic-expungement",
+      "decisionId": "LD-OK-01",
+      "ruleId": "OK-SB2030-2026-ELEVEN-ROUTE-TRANSITION-MAP",
+      "mechanism": "Clean Slate automatic expungement",
+      "statute": "22 O.S. § 18b",
+      "stage": "automatic",
+      "outcomeMode": "guidance_status",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "a no-petition statutory process; the participant files nothing"
+      },
+      "processingDeadlines": [
+        {
+          "label": "Expedited portal due 2026-11-01",
+          "note": "an implementation deadline for the state, not a participant wait"
+        },
+        {
+          "label": "Automated identification due to begin 2027-11-01",
+          "note": "an implementation deadline for the state, not a participant wait"
+        },
+        {
+          "label": "Eligible electronic backlog due 2029-11-01",
+          "note": "an implementation deadline for the state, not a participant wait"
+        }
+      ],
+      "requiredFacts": [
+        "Exact route?",
+        "Arrest/charge limitations?",
+        "Prosecutor declination?",
+        "Reversal/dismissal?",
+        "DNA innocence?",
+        "Pardon?",
+        "Deferred order and dismissal?",
+        "Full-record versus court-record relief?",
+        "Reclassification date?",
+        "Fine amount/payment?",
+        "Trafficking nexus?",
+        "Juvenile completion?",
+        "VPO hearing/vacatur/death?",
+        "Portal/automatic status?"
+      ],
+      "screeningFactIds": [
+        "case_outcome"
+      ],
+      "exclusions": [
+        "Current Oklahoma law effective July 1, 2026",
+        "Exact remedy, offense class, disposition, completion, and operational availability",
+        "Excluded offenses and clean-record rules apply"
+      ],
+      "packetFamily": null,
+      "effectiveFrom": "2026-07-01",
+      "notes": "As of 2026-08-24 none of these systems is due yet, so they must not be represented as live. Keep manual petition and correction options available until deployment is verified."
+    },
+    {
+      "routeKey": "OK:conviction-reversed-and-case-dismissed",
+      "jurisdiction": "OK",
+      "pathwayId": "conviction-reversed-and-case-dismissed",
+      "decisionId": "LD-OK-01",
+      "ruleId": "OK-SB2030-2026-ELEVEN-ROUTE-TRANSITION-MAP",
+      "mechanism": "Conviction reversed and case dismissed",
+      "statute": "22 O.S. § 18",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "event-triggered by the reversal plus dismissal; no ordinary wait applies"
+      },
+      "requiredFacts": [
+        "Exact route?",
+        "Arrest/charge limitations?",
+        "Prosecutor declination?",
+        "Reversal/dismissal?",
+        "DNA innocence?",
+        "Pardon?",
+        "Deferred order and dismissal?",
+        "Full-record versus court-record relief?",
+        "Reclassification date?",
+        "Fine amount/payment?",
+        "Trafficking nexus?",
+        "Juvenile completion?",
+        "VPO hearing/vacatur/death?",
+        "Portal/automatic status?"
+      ],
+      "screeningFactIds": [
+        "case_outcome"
+      ],
+      "exclusions": [
+        "Current Oklahoma law effective July 1, 2026",
+        "Exact remedy, offense class, disposition, completion, and operational availability",
+        "Excluded offenses and clean-record rules apply"
+      ],
+      "packetFamily": "Oklahoma § 18 Expungement Petition — reversal and dismissal",
+      "packetComponents": [
+        "Petition under § 18",
+        "Reversal order",
+        "Dismissal order"
+      ],
+      "effectiveFrom": "2026-07-01"
+    },
+    {
+      "routeKey": "OK:deferred-sentence-court-record-expungement-under-991-c",
+      "jurisdiction": "OK",
+      "pathwayId": "deferred-sentence-court-record-expungement-under-991-c",
+      "decisionId": "LD-OK-01",
+      "ruleId": "OK-SB2030-2026-ELEVEN-ROUTE-TRANSITION-MAP",
+      "mechanism": "Deferred-sentence court-record expungement",
+      "statute": "22 O.S. § 991c",
+      "stage": "post_completion",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorFactId": "discharge_date",
+        "anchorText": "the § 991c court-record consequence unlocks upon successful completion and dismissal; a separate full § 18 expungement of a deferred matter uses the amended one-year misdemeanor or five-year nonviolent-felony clock where applicable"
+      },
+      "requiredFacts": [
+        "Exact route?",
+        "Arrest/charge limitations?",
+        "Prosecutor declination?",
+        "Reversal/dismissal?",
+        "DNA innocence?",
+        "Pardon?",
+        "Deferred order and dismissal?",
+        "Full-record versus court-record relief?",
+        "Reclassification date?",
+        "Fine amount/payment?",
+        "Trafficking nexus?",
+        "Juvenile completion?",
+        "VPO hearing/vacatur/death?",
+        "Portal/automatic status?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "offense_level",
+        "court_requirements_completed",
+        "discharge_date"
+      ],
+      "exclusions": [
+        "Current Oklahoma law effective July 1, 2026",
+        "Exact remedy, offense class, disposition, completion, and operational availability",
+        "Excluded offenses and clean-record rules apply"
+      ],
+      "packetFamily": "Oklahoma § 991c Court-Record Expungement Packet",
+      "packetComponents": [
+        "Motion under § 991c",
+        "Completion and dismissal order"
+      ],
+      "effectiveFrom": "2026-07-01",
+      "notes": "The § 991c consequence and the full § 18 expungement are different remedies with different clocks; do not merge them."
+    },
+    {
+      "routeKey": "OK:dna-factual-innocence-expungement",
+      "jurisdiction": "OK",
+      "pathwayId": "dna-factual-innocence-expungement",
+      "decisionId": "LD-OK-01",
+      "ruleId": "OK-SB2030-2026-ELEVEN-ROUTE-TRANSITION-MAP",
+      "mechanism": "DNA factual-innocence expungement",
+      "statute": "22 O.S. § 18",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "event-triggered by the factual-innocence determination; no ordinary wait applies"
+      },
+      "requiredFacts": [
+        "Exact route?",
+        "Arrest/charge limitations?",
+        "Prosecutor declination?",
+        "Reversal/dismissal?",
+        "DNA innocence?",
+        "Pardon?",
+        "Deferred order and dismissal?",
+        "Full-record versus court-record relief?",
+        "Reclassification date?",
+        "Fine amount/payment?",
+        "Trafficking nexus?",
+        "Juvenile completion?",
+        "VPO hearing/vacatur/death?",
+        "Portal/automatic status?"
+      ],
+      "screeningFactIds": [
+        "case_outcome"
+      ],
+      "exclusions": [
+        "Current Oklahoma law effective July 1, 2026",
+        "Exact remedy, offense class, disposition, completion, and operational availability",
+        "Excluded offenses and clean-record rules apply"
+      ],
+      "packetFamily": "Oklahoma § 18 Expungement Petition — DNA factual innocence",
+      "packetComponents": [
+        "Petition under § 18",
+        "Factual-innocence order"
+      ],
+      "effectiveFrom": "2026-07-01"
+    },
+    {
+      "routeKey": "OK:felony-reclassified-as-a-misdemeanor",
+      "jurisdiction": "OK",
+      "pathwayId": "felony-reclassified-as-a-misdemeanor",
+      "decisionId": "LD-OK-01",
+      "ruleId": "OK-SB2030-2026-ELEVEN-ROUTE-TRANSITION-MAP",
+      "mechanism": "Felony reclassified as a misdemeanor",
+      "statute": "22 O.S. § 18",
+      "stage": "post_completion",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "elapsed_eligibility_clock",
+        "value": 30,
+        "unit": "days",
+        "anchorFactId": "sentence_completion_actual_date",
+        "anchorText": "thirty days after completion or commutation, together with the statutory obligations"
+      },
+      "requiredFacts": [
+        "Exact route?",
+        "Arrest/charge limitations?",
+        "Prosecutor declination?",
+        "Reversal/dismissal?",
+        "DNA innocence?",
+        "Pardon?",
+        "Deferred order and dismissal?",
+        "Full-record versus court-record relief?",
+        "Reclassification date?",
+        "Fine amount/payment?",
+        "Trafficking nexus?",
+        "Juvenile completion?",
+        "VPO hearing/vacatur/death?",
+        "Portal/automatic status?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "offense_level",
+        "financial_obligations",
+        "sentence_completion_actual_date"
+      ],
+      "exclusions": [
+        "Current Oklahoma law effective July 1, 2026",
+        "Exact remedy, offense class, disposition, completion, and operational availability",
+        "Excluded offenses and clean-record rules apply"
+      ],
+      "packetFamily": "Oklahoma § 18 Expungement Petition — reclassified felony",
+      "packetComponents": [
+        "Petition under § 18",
+        "Reclassification order",
+        "Completion or commutation proof"
+      ],
+      "effectiveFrom": "2026-07-01"
+    },
+    {
+      "routeKey": "OK:fine-only-misdemeanor-conviction-expungement",
+      "jurisdiction": "OK",
+      "pathwayId": "fine-only-misdemeanor-conviction-expungement",
+      "decisionId": "LD-OK-01",
+      "ruleId": "OK-SB2030-2026-ELEVEN-ROUTE-TRANSITION-MAP",
+      "mechanism": "Fine-only misdemeanor conviction expungement",
+      "statute": "22 O.S. § 18",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "unlocks when the fine and the required obligations are paid, under the amended threshold"
+      },
+      "requiredFacts": [
+        "Exact route?",
+        "Arrest/charge limitations?",
+        "Prosecutor declination?",
+        "Reversal/dismissal?",
+        "DNA innocence?",
+        "Pardon?",
+        "Deferred order and dismissal?",
+        "Full-record versus court-record relief?",
+        "Reclassification date?",
+        "Fine amount/payment?",
+        "Trafficking nexus?",
+        "Juvenile completion?",
+        "VPO hearing/vacatur/death?",
+        "Portal/automatic status?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "offense_level",
+        "financial_obligations"
+      ],
+      "exclusions": [
+        "Current Oklahoma law effective July 1, 2026",
+        "Exact remedy, offense class, disposition, completion, and operational availability",
+        "Excluded offenses and clean-record rules apply"
+      ],
+      "packetFamily": "Oklahoma § 18 Expungement Petition — fine-only misdemeanor",
+      "packetComponents": [
+        "Petition under § 18",
+        "Proof of payment"
+      ],
+      "effectiveFrom": "2026-07-01"
+    },
+    {
+      "routeKey": "OK:human-trafficking-survivor-relief",
+      "jurisdiction": "OK",
+      "pathwayId": "human-trafficking-survivor-relief",
+      "decisionId": "LD-OK-01",
+      "ruleId": "OK-SB2030-2026-ELEVEN-ROUTE-TRANSITION-MAP",
+      "mechanism": "Human-trafficking survivor relief",
+      "statute": "22 O.S. § 19c",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "event and nexus based; no elapsed wait applies"
+      },
+      "requiredFacts": [
+        "Exact route?",
+        "Arrest/charge limitations?",
+        "Prosecutor declination?",
+        "Reversal/dismissal?",
+        "DNA innocence?",
+        "Pardon?",
+        "Deferred order and dismissal?",
+        "Full-record versus court-record relief?",
+        "Reclassification date?",
+        "Fine amount/payment?",
+        "Trafficking nexus?",
+        "Juvenile completion?",
+        "VPO hearing/vacatur/death?",
+        "Portal/automatic status?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "offense_level"
+      ],
+      "exclusions": [
+        "Current Oklahoma law effective July 1, 2026",
+        "Exact remedy, offense class, disposition, completion, and operational availability",
+        "Excluded offenses and clean-record rules apply"
+      ],
+      "packetFamily": "Oklahoma Trafficking-Survivor Relief Petition under § 19c",
+      "packetComponents": [
+        "Petition under § 19c",
+        "Trafficking nexus evidence"
+      ],
+      "effectiveFrom": "2026-07-01"
+    },
+    {
+      "routeKey": "OK:juvenile-record-expungement",
+      "jurisdiction": "OK",
+      "pathwayId": "juvenile-record-expungement",
+      "decisionId": "LD-OK-01",
+      "ruleId": "OK-SB2030-2026-ELEVEN-ROUTE-TRANSITION-MAP",
+      "mechanism": "Juvenile record expungement",
+      "statute": "10A O.S. § 2-6-109",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "available at final review, or after successful informal adjustment or closure, when the statutory conditions are met; no generic clock applies"
+      },
+      "requiredFacts": [
+        "Exact route?",
+        "Arrest/charge limitations?",
+        "Prosecutor declination?",
+        "Reversal/dismissal?",
+        "DNA innocence?",
+        "Pardon?",
+        "Deferred order and dismissal?",
+        "Full-record versus court-record relief?",
+        "Reclassification date?",
+        "Fine amount/payment?",
+        "Trafficking nexus?",
+        "Juvenile completion?",
+        "VPO hearing/vacatur/death?",
+        "Portal/automatic status?"
+      ],
+      "screeningFactIds": [
+        "case_outcome"
+      ],
+      "exclusions": [
+        "Current Oklahoma law effective July 1, 2026",
+        "Exact remedy, offense class, disposition, completion, and operational availability",
+        "Excluded offenses and clean-record rules apply"
+      ],
+      "packetFamily": "Oklahoma Juvenile Expungement Petition under 10A O.S. § 2-6-109",
+      "packetComponents": [
+        "Petition under § 2-6-109",
+        "Disposition or closure record"
+      ],
+      "effectiveFrom": "2026-07-01"
+    },
+    {
+      "routeKey": "OK:pardon-based-expungement",
+      "jurisdiction": "OK",
+      "pathwayId": "pardon-based-expungement",
+      "decisionId": "LD-OK-01",
+      "ruleId": "OK-SB2030-2026-ELEVEN-ROUTE-TRANSITION-MAP",
+      "mechanism": "Pardon-based expungement",
+      "statute": "22 O.S. § 18",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "event-triggered by the full pardon; no ordinary wait applies"
+      },
+      "requiredFacts": [
+        "Exact route?",
+        "Arrest/charge limitations?",
+        "Prosecutor declination?",
+        "Reversal/dismissal?",
+        "DNA innocence?",
+        "Pardon?",
+        "Deferred order and dismissal?",
+        "Full-record versus court-record relief?",
+        "Reclassification date?",
+        "Fine amount/payment?",
+        "Trafficking nexus?",
+        "Juvenile completion?",
+        "VPO hearing/vacatur/death?",
+        "Portal/automatic status?"
+      ],
+      "screeningFactIds": [
+        "case_outcome"
+      ],
+      "exclusions": [
+        "Current Oklahoma law effective July 1, 2026",
+        "Exact remedy, offense class, disposition, completion, and operational availability",
+        "Excluded offenses and clean-record rules apply"
+      ],
+      "packetFamily": "Oklahoma § 18 Expungement Petition — full pardon",
+      "packetComponents": [
+        "Petition under § 18",
+        "Pardon documentation"
+      ],
+      "effectiveFrom": "2026-07-01"
+    },
+    {
+      "routeKey": "OK:victim-protective-order-record-relief",
+      "jurisdiction": "OK",
+      "pathwayId": "victim-protective-order-record-relief",
+      "decisionId": "LD-OK-01",
+      "ruleId": "OK-SB2030-2026-ELEVEN-ROUTE-TRANSITION-MAP",
+      "mechanism": "Victim-protective-order record sealing",
+      "statute": "22 O.S. § 60.18",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "elapsed_eligibility_clock",
+        "value": 90,
+        "unit": "days",
+        "anchorFactId": "disposition_date",
+        "anchorText": "ninety days after the last full-hearing date where the order was dismissed, denied, or the plaintiff failed to appear; three years after vacatur; or the respondent's death, whichever branch applies"
+      },
+      "requiredFacts": [
+        "Exact route?",
+        "Arrest/charge limitations?",
+        "Prosecutor declination?",
+        "Reversal/dismissal?",
+        "DNA innocence?",
+        "Pardon?",
+        "Deferred order and dismissal?",
+        "Full-record versus court-record relief?",
+        "Reclassification date?",
+        "Fine amount/payment?",
+        "Trafficking nexus?",
+        "Juvenile completion?",
+        "VPO hearing/vacatur/death?",
+        "Portal/automatic status?"
+      ],
+      "screeningFactIds": [
+        "case_outcome"
+      ],
+      "exclusions": [
+        "Current Oklahoma law effective July 1, 2026",
+        "Exact remedy, offense class, disposition, completion, and operational availability",
+        "Excluded offenses and clean-record rules apply"
+      ],
+      "packetFamily": "Oklahoma VPO Sealing Motion under § 60.18",
+      "packetComponents": [
+        "Motion under § 60.18",
+        "Protective-order docket record"
+      ],
+      "effectiveFrom": "2026-07-01",
+      "notes": "Three distinct branches: ninety days, three years, and death. The stored value is the ninety-day branch, and the branch fact is mandatory intake."
+    },
+    {
+      "routeKey": "PA:path-d-ard-expungement",
+      "jurisdiction": "PA",
+      "pathwayId": "path-d-ard-expungement",
+      "decisionId": "LD-PA-03",
+      "ruleId": "PA-ARD-9122-UNDERAGE-3019-TRAFFICKING-THREE-ROUTE-MAP",
+      "mechanism": "ARD expungement",
+      "statute": "Pa.R.Crim.P. 320",
+      "stage": "post_completion",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorFactId": "discharge_date",
+        "anchorText": "unlocked by successful completion of ARD and the resulting dismissal or order; there is no additional generic elapsed wait"
+      },
+      "requiredFacts": [
+        "ARD order/completion/dismissal?",
+        "Exact offense and victim age?",
+        "Date of birth and age 21?",
+        "Sentence terms?",
+        "Trafficking nexus?",
+        "Prosecutor consent/certification?",
+        "Diversion completion?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "court_requirements_completed",
+        "discharge_date"
+      ],
+      "exclusions": [
+        "Exact Pennsylvania route and statutory exclusions",
+        "ARD sexual-offense exclusions",
+        "§ 6308 only for underage branch",
+        "§ 3019 trafficking predicate"
+      ],
+      "packetFamily": "Pennsylvania ARD Expungement Petition under Pa.R.Crim.P. 320",
+      "packetComponents": [
+        "Petition to expunge",
+        "ARD completion record",
+        "Dismissal order"
+      ],
+      "notes": "ARD completion and the dismissal are distinct facts and both must be captured. Statutory ARD-expungement exclusions must be screened."
+    },
+    {
+      "routeKey": "PA:path-g-underage-drinking-conviction-expungement",
+      "jurisdiction": "PA",
+      "pathwayId": "path-g-underage-drinking-conviction-expungement",
+      "decisionId": "LD-PA-03",
+      "ruleId": "PA-ARD-9122-UNDERAGE-3019-TRAFFICKING-THREE-ROUTE-MAP",
+      "mechanism": "Underage-drinking conviction expungement",
+      "statute": "18 Pa.C.S. § 9122",
+      "stage": "post_completion",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorFactId": "twenty_first_birthday",
+        "anchorAlternates": [
+          "sentence_completion_actual_date"
+        ],
+        "anchorText": "available when the person is twenty-one or older and has satisfied all terms and conditions of the sentence; no extra period applies after those events"
+      },
+      "requiredFacts": [
+        "ARD order/completion/dismissal?",
+        "Exact offense and victim age?",
+        "Date of birth and age 21?",
+        "Sentence terms?",
+        "Trafficking nexus?",
+        "Prosecutor consent/certification?",
+        "Diversion completion?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "court_requirements_completed"
+      ],
+      "exclusions": [
+        "Exact Pennsylvania route and statutory exclusions",
+        "ARD sexual-offense exclusions",
+        "§ 6308 only for underage branch",
+        "§ 3019 trafficking predicate"
+      ],
+      "packetFamily": "Pennsylvania § 9122 Underage-Drinking Expungement Petition",
+      "packetComponents": [
+        "Petition under § 9122",
+        "Sentence completion proof"
+      ],
+      "notes": "Limited to a conviction under 18 Pa.C.S. § 6308."
+    },
+    {
+      "routeKey": "PA:path-k-human-trafficking-vacatur-expungement",
+      "jurisdiction": "PA",
+      "pathwayId": "path-k-human-trafficking-vacatur-expungement",
+      "decisionId": "LD-PA-03",
+      "ruleId": "PA-ARD-9122-UNDERAGE-3019-TRAFFICKING-THREE-ROUTE-MAP",
+      "mechanism": "Human-trafficking vacatur and expungement",
+      "statute": "18 Pa.C.S. § 3019",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "no ordinary waiting period; relief follows completion of the statutory diversion route, or the offense and direct-result nexus showing for vacatur"
+      },
+      "requiredFacts": [
+        "ARD order/completion/dismissal?",
+        "Exact offense and victim age?",
+        "Date of birth and age 21?",
+        "Sentence terms?",
+        "Trafficking nexus?",
+        "Prosecutor consent/certification?",
+        "Diversion completion?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "offense_level"
+      ],
+      "exclusions": [
+        "Exact Pennsylvania route and statutory exclusions",
+        "ARD sexual-offense exclusions",
+        "§ 6308 only for underage branch",
+        "§ 3019 trafficking predicate"
+      ],
+      "packetFamily": "Pennsylvania § 3019 Trafficking Vacatur and Expungement Packet",
+      "packetComponents": [
+        "Petition to vacate or expunge",
+        "Trafficking nexus evidence",
+        "Diversion completion record where applicable"
+      ]
+    },
+    {
+      "routeKey": "RI:path-e-filed-complaint-relief-under-12-10-12",
+      "jurisdiction": "RI",
+      "pathwayId": "path-e-filed-complaint-relief-under-12-10-12",
+      "decisionId": "LD-RI-06",
+      "ruleId": "RI-12-10-12-12-1.3-5-FILED-COMPLAINT-MARIJUANA-DECRIM-SPLIT",
+      "mechanism": "Filed-complaint relief",
+      "statute": "R.I. Gen. Laws § 12-10-12",
+      "stage": "post_completion",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorFactId": "court_requirements_completed",
+        "anchorText": "expunged after the court-set filing period is successfully completed; a domestic-violence complaint uses the distinct three-year statutory branch if no disqualifying domestic-violence charge occurs"
+      },
+      "requiredFacts": [
+        "Complaint type?",
+        "Filing order and end date?",
+        "DV designation and later charges?",
+        "Marijuana statute/amount?",
+        "Automatic-expungement status?",
+        "Other decriminalized statute?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "court_requirements_completed"
+      ],
+      "exclusions": [
+        "Exact complaint/offense type",
+        "Successful filing completion",
+        "No disqualifying DV charge",
+        "Marijuana/decriminalized statutory category"
+      ],
+      "packetFamily": "Rhode Island Filed-Complaint Expungement Packet under § 12-10-12",
+      "packetComponents": [
+        "Application to expunge",
+        "Proof the filing period was completed"
+      ],
+      "notes": "Do not convert the court-set filing term into a generic fixed waiting-period rule; it is set case by case.",
+      "serviceBranches": [
+        {
+          "id": "status-correction-guidance",
+          "when": "the matter's disposition selects the STATUS/CORRECTION GUIDANCE treatment named by LD-RI-06",
+          "outcomeMode": "guidance_status",
+          "packetFamily": null,
+          "stage": "single_stage",
+          "note": "LD-RI-06 states this route's output treatment as \"STATUS/CORRECTION GUIDANCE OR LIMITED COURT APPLICATION\". Each branch carries its own stable branch id and is selected by its own disposition predicate. Two branches may not resolve to one undifferentiated configuration, and may not share a checkout path. Installed by the Wave 2 integration from R2_ALREADY_ANSWERED_ENGINEERING with no selector and a null packet family: the branch identity is the decision, and its disposition predicate and packet configuration are owed by the branch-identity and packet-factory lanes. It therefore records the requirement without opening anything or inventing a predicate."
+        }
+      ]
+    },
+    {
+      "routeKey": "RI:path-f-marijuana-possession-expungement",
+      "jurisdiction": "RI",
+      "pathwayId": "path-f-marijuana-possession-expungement",
+      "decisionId": "LD-RI-06",
+      "ruleId": "RI-12-10-12-12-1.3-5-FILED-COMPLAINT-MARIJUANA-DECRIM-SPLIT",
+      "mechanism": "Decriminalized marijuana-possession expungement",
+      "statute": "R.I. Gen. Laws § 12-1.3-5",
+      "stage": "automatic",
+      "outcomeMode": "automatic_relief",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "the automatic and expedited statutory process applies; there is no participant waiting period"
+      },
+      "requiredFacts": [
+        "Complaint type?",
+        "Filing order and end date?",
+        "DV designation and later charges?",
+        "Marijuana statute/amount?",
+        "Automatic-expungement status?",
+        "Other decriminalized statute?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "offense_level"
+      ],
+      "exclusions": [
+        "Exact complaint/offense type",
+        "Successful filing completion",
+        "No disqualifying DV charge",
+        "Marijuana/decriminalized statutory category"
+      ],
+      "packetFamily": null,
+      "notes": "No disqualification based solely on unpaid fees, prior records, or pending matters where the statute removes those barriers. Checkout stays closed."
+    },
+    {
+      "routeKey": "RI:path-g-decriminalized-offense-expungement",
+      "jurisdiction": "RI",
+      "pathwayId": "path-g-decriminalized-offense-expungement",
+      "decisionId": "LD-RI-06",
+      "ruleId": "RI-12-10-12-12-1.3-5-FILED-COMPLAINT-MARIJUANA-DECRIM-SPLIT",
+      "mechanism": "Decriminalized-offense expungement outside the marijuana statute",
+      "statute": "R.I. Gen. Laws § 12-1.3-5 and the statute governing the specific decriminalized offense",
+      "stage": "single_stage",
+      "outcomeMode": "referral",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "routed under the offense's own statute and disposition; it has no shared clock"
+      },
+      "requiredFacts": [
+        "Complaint type?",
+        "Filing order and end date?",
+        "DV designation and later charges?",
+        "Marijuana statute/amount?",
+        "Automatic-expungement status?",
+        "Other decriminalized statute?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "offense_level"
+      ],
+      "exclusions": [
+        "Exact complaint/offense type",
+        "Successful filing completion",
+        "No disqualifying DV charge",
+        "Marijuana/decriminalized statutory category"
+      ],
+      "packetFamily": null,
+      "notes": "Must not be merged with the filed-complaint clock. Until the specific statute is identified the route refers rather than sells."
+    },
+    {
+      "routeKey": "SC:eligible-conviction-expungement",
+      "jurisdiction": "SC",
+      "pathwayId": "eligible-conviction-expungement",
+      "decisionId": "LD-SC-01",
+      "ruleId": "SC-CONVICTION-OFFENSE-MAP-NONCONVICTION-JUVENILE-PARDON-SPLIT",
+      "mechanism": "Eligible conviction expungement — offense-specific period map",
+      "statute": "S.C. Code §§ 34-11-90, 22-5-910, 56-5-750(F), 22-5-920",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "elapsed_eligibility_clock",
+        "value": 1,
+        "unit": "years",
+        "anchorFactId": "conviction_date",
+        "anchorAlternates": [
+          "sentence_completion_actual_date"
+        ],
+        "anchorText": "the period differs by exact statute: one year from conviction for a first misdemeanor fraudulent-check conviction under § 34-11-90; three years for a qualifying first low-level offense under § 22-5-910; five years for third-degree domestic violence under that section; three years after sentence completion for a qualifying first-offense failure to stop for a blue light under § 56-5-750(F); and five years after sentence completion for an eligible Youthful Offender Act sentence under § 22-5-920"
+      },
+      "requiredFacts": [
+        "Exact statute/offense?",
+        "Conviction and completion dates?",
+        "Later/pending record?",
+        "DV3?",
+        "Fraudulent check?",
+        "Blue-light injury/death?",
+        "YOA sentence?",
+        "Nonconviction disposition?",
+        "Juvenile age/completion?",
+        "Pardon?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "offense_level",
+        "conviction_date",
+        "sentence_completion_actual_date"
+      ],
+      "exclusions": [
+        "Exact South Carolina offense/statute and route",
+        "First-offense/clean-record conditions",
+        "Exclusions",
+        "Juvenile requirements",
+        "Pardon is notation only"
+      ],
+      "packetFamily": "South Carolina Conviction Expungement Application",
+      "packetComponents": [
+        "Application to the solicitor's office",
+        "Conviction record",
+        "Completion proof where the branch requires it"
+      ],
+      "notes": "The exact statute is a mandatory intake fact; the stored value is the shortest branch and must never be applied to another."
+    },
+    {
+      "routeKey": "SC:general-sessions-non-conviction-expungement",
+      "jurisdiction": "SC",
+      "pathwayId": "general-sessions-non-conviction-expungement",
+      "decisionId": "LD-SC-01",
+      "ruleId": "SC-CONVICTION-OFFENSE-MAP-NONCONVICTION-JUVENILE-PARDON-SPLIT",
+      "mechanism": "General-sessions nonconviction expungement",
+      "statute": "S.C. Code § 17-1-40",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorFactId": "disposition_date",
+        "anchorText": "disposition-triggered; no elapsed wait applies"
+      },
+      "requiredFacts": [
+        "Exact statute/offense?",
+        "Conviction and completion dates?",
+        "Later/pending record?",
+        "DV3?",
+        "Fraudulent check?",
+        "Blue-light injury/death?",
+        "YOA sentence?",
+        "Nonconviction disposition?",
+        "Juvenile age/completion?",
+        "Pardon?"
+      ],
+      "screeningFactIds": [
+        "case_outcome"
+      ],
+      "exclusions": [
+        "Exact South Carolina offense/statute and route",
+        "First-offense/clean-record conditions",
+        "Exclusions",
+        "Juvenile requirements",
+        "Pardon is notation only"
+      ],
+      "packetFamily": "South Carolina § 17-1-40 Nonconviction Expungement Application",
+      "packetComponents": [
+        "Application under § 17-1-40",
+        "Disposition record"
+      ]
+    },
+    {
+      "routeKey": "SC:juvenile-expungement",
+      "jurisdiction": "SC",
+      "pathwayId": "juvenile-expungement",
+      "decisionId": "LD-SC-01",
+      "ruleId": "SC-CONVICTION-OFFENSE-MAP-NONCONVICTION-JUVENILE-PARDON-SPLIT",
+      "mechanism": "Juvenile expungement",
+      "statute": "S.C. Code § 63-19-2050",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorFactId": "discharge_date",
+        "anchorText": "the juvenile-specific age, completion, clean-record and pending-case conditions govern; favorable-outcome relief is handled separately"
+      },
+      "requiredFacts": [
+        "Exact statute/offense?",
+        "Conviction and completion dates?",
+        "Later/pending record?",
+        "DV3?",
+        "Fraudulent check?",
+        "Blue-light injury/death?",
+        "YOA sentence?",
+        "Nonconviction disposition?",
+        "Juvenile age/completion?",
+        "Pardon?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "pending_cases",
+        "discharge_date"
+      ],
+      "exclusions": [
+        "Exact South Carolina offense/statute and route",
+        "First-offense/clean-record conditions",
+        "Exclusions",
+        "Juvenile requirements",
+        "Pardon is notation only"
+      ],
+      "packetFamily": "South Carolina Juvenile Expungement Application under § 63-19-2050",
+      "packetComponents": [
+        "Application under § 63-19-2050",
+        "Completion proof"
+      ],
+      "serviceBranches": [
+        {
+          "id": "pardon-guidance-only",
+          "when": "the matter's disposition selects the PARDON GUIDANCE ONLY treatment named by LD-SC-01",
+          "outcomeMode": "guidance_status",
+          "packetFamily": null,
+          "stage": "single_stage",
+          "note": "LD-SC-01 states this route's output treatment as \"OFFENSE-SPECIFIC PACKET, NONCONVICTION/JUVENILE PACKET, OR PARDON GUIDANCE ONLY\". Each branch carries its own stable branch id and is selected by its own disposition predicate. Two branches may not resolve to one undifferentiated configuration, and may not share a checkout path. Installed by the Wave 2 integration from R2_ALREADY_ANSWERED_ENGINEERING with no selector and a null packet family: the branch identity is the decision, and its disposition predicate and packet configuration are owed by the branch-identity and packet-factory lanes. It therefore records the requirement without opening anything or inventing a predicate."
+        }
+      ]
+    },
+    {
+      "routeKey": "SC:pardon-guidance-for-otherwise-ineligible-convictions",
+      "jurisdiction": "SC",
+      "pathwayId": "pardon-guidance-for-otherwise-ineligible-convictions",
+      "decisionId": "LD-SC-01",
+      "ruleId": "SC-CONVICTION-OFFENSE-MAP-NONCONVICTION-JUVENILE-PARDON-SPLIT",
+      "mechanism": "Pardon guidance for otherwise ineligible convictions",
+      "statute": "S.C. Department of Probation, Parole and Pardon Services pardon process",
+      "stage": "single_stage",
+      "outcomeMode": "guidance_status",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "guidance only; a pardon is not expungement and carries no expungement clock"
+      },
+      "requiredFacts": [
+        "Exact statute/offense?",
+        "Conviction and completion dates?",
+        "Later/pending record?",
+        "DV3?",
+        "Fraudulent check?",
+        "Blue-light injury/death?",
+        "YOA sentence?",
+        "Nonconviction disposition?",
+        "Juvenile age/completion?",
+        "Pardon?"
+      ],
+      "screeningFactIds": [
+        "case_outcome"
+      ],
+      "exclusions": [
+        "Exact South Carolina offense/statute and route",
+        "First-offense/clean-record conditions",
+        "Exclusions",
+        "Juvenile requirements",
+        "Pardon is notation only"
+      ],
+      "packetFamily": null,
+      "notes": "Results copy must affirmatively disclose that a South Carolina pardon does not erase or seal the conviction: the conviction remains visible with a pardon notation. This route must never promise record deletion and must never open checkout."
+    },
+    {
+      "routeKey": "SD:juvenile-trafficking-expungement",
+      "jurisdiction": "SD",
+      "pathwayId": "juvenile-trafficking-expungement",
+      "decisionId": "LD-SD-02",
+      "ruleId": "SD-26-7A-115.1-TRAFFICKING-AND-23A-27-13-SIS-SPLIT",
+      "mechanism": "Juvenile trafficking and sexual-exploitation victim expungement",
+      "statute": "S.D. Codified Laws § 26-7A-115.1",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "an eligible victim who is over eighteen may petition upon establishing the statutory victimization nexus; no additional elapsed wait is stated"
+      },
+      "requiredFacts": [
+        "Age?",
+        "Juvenile offense/adjudication?",
+        "Trafficking/exploitation nexus?",
+        "SIS order?",
+        "Probation completion/discharge?",
+        "Prior SIS relief?",
+        "Excluded offense?",
+        "Sealing status?"
+      ],
+      "screeningFactIds": [
+        "case_outcome"
+      ],
+      "exclusions": [
+        "Exact juvenile victim-relief statute or valid suspended-imposition order",
+        "Statutory nexus, offense, once-only, and completion limitations"
+      ],
+      "packetFamily": "South Dakota Juvenile Trafficking Expungement Petition under § 26-7A-115.1",
+      "packetComponents": [
+        "Petition under § 26-7A-115.1",
+        "Victimization nexus evidence"
+      ],
+      "notes": "Do not preserve the prior blanket attorney-referral treatment for an otherwise complete intake."
+    },
+    {
+      "routeKey": "SD:suspended-imposition-of-sentence-sealing",
+      "jurisdiction": "SD",
+      "pathwayId": "suspended-imposition-of-sentence-sealing",
+      "decisionId": "LD-SD-02",
+      "ruleId": "SD-26-7A-115.1-TRAFFICKING-AND-23A-27-13-SIS-SPLIT",
+      "mechanism": "Suspended-imposition-of-sentence sealing",
+      "statute": "S.D. Codified Laws §§ 23A-27-13 and 23A-27-14",
+      "stage": "post_completion",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorFactId": "discharge_date",
+        "anchorText": "sealed after successful completion of probation and discharge, under the statutory once-only and offense limitations; no extra period applies"
+      },
+      "requiredFacts": [
+        "Age?",
+        "Juvenile offense/adjudication?",
+        "Trafficking/exploitation nexus?",
+        "SIS order?",
+        "Probation completion/discharge?",
+        "Prior SIS relief?",
+        "Excluded offense?",
+        "Sealing status?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "court_requirements_completed",
+        "discharge_date"
+      ],
+      "exclusions": [
+        "Exact juvenile victim-relief statute or valid suspended-imposition order",
+        "Statutory nexus, offense, once-only, and completion limitations"
+      ],
+      "packetFamily": "South Dakota SIS Sealing Packet under §§ 23A-27-13 / 23A-27-14",
+      "packetComponents": [
+        "Motion or application to seal",
+        "Discharge order"
+      ]
+    },
+    {
+      "routeKey": "TX:expunction-after-pardon-or-actual-innocence-relief",
+      "jurisdiction": "TX",
+      "pathwayId": "expunction-after-pardon-or-actual-innocence-relief",
+      "decisionId": "LD-TX-02",
+      "ruleId": "TX-55A-PARDON-INNOCENCE-CLASSC-DISMISSAL-FOUR-BRANCH-MAP",
+      "mechanism": "Expunction after a pardon or actual-innocence relief",
+      "statute": "Tex. Code Crim. Proc. arts. 55A.003 and 55A.004",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "event-triggered by the qualifying pardon or court order; the ex parte petition may be filed upon issuance, with no general elapsed wait"
+      },
+      "processingDeadlines": [
+        {
+          "label": "Court's 30-day order deadline after notice",
+          "note": "post-event processing, not a participant wait"
+        },
+        {
+          "label": "Hearing notice period",
+          "note": "procedural, never stored as an eligibility wait"
+        }
+      ],
+      "requiredFacts": [
+        "Pardon type/order?",
+        "Actual-innocence finding?",
+        "Class C charge and deferred disposition?",
+        "Completion/dismissal?",
+        "Indictment/information?",
+        "Dismissal reason?",
+        "Arrest date?",
+        "Limitations period?",
+        "Prosecutor certification?",
+        "Related charges?"
+      ],
+      "screeningFactIds": [
+        "case_outcome"
+      ],
+      "exclusions": [
+        "Exact Chapter 55A legal basis and all charge-unit, pending-case, conviction, limitations, and prosecutor-certification conditions"
+      ],
+      "packetFamily": "Texas Ex Parte Petition for Expunction under art. 55A.003 / 55A.004",
+      "packetComponents": [
+        "Ex parte petition",
+        "Pardon or actual-innocence order",
+        "Proposed order"
+      ]
+    },
+    {
+      "routeKey": "TX:expunction-after-qualifying-class-c-deferred-disposition",
+      "jurisdiction": "TX",
+      "pathwayId": "expunction-after-qualifying-class-c-deferred-disposition",
+      "decisionId": "LD-TX-02",
+      "ruleId": "TX-55A-PARDON-INNOCENCE-CLASSC-DISMISSAL-FOUR-BRANCH-MAP",
+      "mechanism": "Expunction after a qualifying Class C deferred disposition",
+      "statute": "Tex. Code Crim. Proc. arts. 55A.051-.054",
+      "stage": "post_completion",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorFactId": "discharge_date",
+        "anchorText": "the specific statutory branch applies after successful completion and dismissal; no additional 180-day general arrest clock is imposed where that branch applies"
+      },
+      "requiredFacts": [
+        "Pardon type/order?",
+        "Actual-innocence finding?",
+        "Class C charge and deferred disposition?",
+        "Completion/dismissal?",
+        "Indictment/information?",
+        "Dismissal reason?",
+        "Arrest date?",
+        "Limitations period?",
+        "Prosecutor certification?",
+        "Related charges?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "offense_level",
+        "pending_cases",
+        "court_requirements_completed"
+      ],
+      "exclusions": [
+        "Exact Chapter 55A legal basis and all charge-unit, pending-case, conviction, limitations, and prosecutor-certification conditions"
+      ],
+      "packetFamily": "Texas Ex Parte Petition for Expunction — Class C deferred disposition",
+      "packetComponents": [
+        "Ex parte petition",
+        "Completion and dismissal order",
+        "Proposed order"
+      ],
+      "supersedes": {
+        "value": 180,
+        "unit": "days",
+        "note": "the general 180-day arrest clock, which does not apply where the Class C deferred branch governs"
+      },
+      "notes": "Subject to the no-pending and no-final-conviction conditions."
+    },
+    {
+      "routeKey": "TX:expunction-after-qualifying-dismissal-or-quash",
+      "jurisdiction": "TX",
+      "pathwayId": "expunction-after-qualifying-dismissal-or-quash",
+      "decisionId": "LD-TX-02",
+      "ruleId": "TX-55A-PARDON-INNOCENCE-CLASSC-DISMISSAL-FOUR-BRANCH-MAP",
+      "mechanism": "Expunction after a qualifying dismissal or quash",
+      "statute": "Tex. Code Crim. Proc. arts. 55A.053 and 55A.054",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorFactId": "disposition_date",
+        "anchorText": "immediately eligible only when one of art. 55A.053's specified reasons is present; otherwise art. 55A.054 may require expiration of the applicable limitations period or another statutory condition"
+      },
+      "requiredFacts": [
+        "Pardon type/order?",
+        "Actual-innocence finding?",
+        "Class C charge and deferred disposition?",
+        "Completion/dismissal?",
+        "Indictment/information?",
+        "Dismissal reason?",
+        "Arrest date?",
+        "Limitations period?",
+        "Prosecutor certification?",
+        "Related charges?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "pending_cases"
+      ],
+      "exclusions": [
+        "Exact Chapter 55A legal basis and all charge-unit, pending-case, conviction, limitations, and prosecutor-certification conditions"
+      ],
+      "packetFamily": "Texas Ex Parte Petition for Expunction — dismissal or quash",
+      "packetComponents": [
+        "Ex parte petition",
+        "Dismissal or quash order",
+        "Proposed order"
+      ],
+      "notes": "The two articles are different branches; the reason for the dismissal is a mandatory intake fact."
+    },
+    {
+      "routeKey": "UT:path-a-automatic-clean-slate-expungement",
+      "jurisdiction": "UT",
+      "pathwayId": "path-a-automatic-clean-slate-expungement",
+      "decisionId": "LD-UT-02",
+      "ruleId": "UT-77-40A-AUTOMATIC-VS-PETITION-CLEAN-SLATE-MAP",
+      "mechanism": "Automatic Clean Slate expungement",
+      "statute": "Utah Code § 77-40a-205",
+      "stage": "automatic",
+      "outcomeMode": "automatic_relief",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "the automatic categories use the statute's class-specific periods — five years for a Class C misdemeanor or infraction, six years for a Class B misdemeanor, and seven years for the specified Class A controlled-substance-possession category — measured from the statutory adjudication or disposition anchor"
+      },
+      "requiredFacts": [
+        "Utah class?",
+        "Statute?",
+        "Conviction/plea-in-abeyance/dismissal?",
+        "Adjudication and completion dates?",
+        "Case count?",
+        "Restitution/fees?",
+        "Pending cases?",
+        "Automatic processing status?",
+        "Certificate need?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "eligible_conviction_class"
+      ],
+      "exclusions": [
+        "Exact Utah offense class, disposition, case-count limits, completion/payment, excluded offense, and automatic-versus-petition status"
+      ],
+      "packetFamily": null,
+      "notes": "The participant files nothing; checkout stays closed. Generic offense_level is insufficient: the flow must collect the Utah Class A/B/C or infraction and the precise statutory category."
+    },
+    {
+      "routeKey": "UT:path-c-clean-slate-eligible-convictions-and-plea-in-abeyance-dismissals",
+      "jurisdiction": "UT",
+      "pathwayId": "path-c-clean-slate-eligible-convictions-and-plea-in-abeyance-dismissals",
+      "decisionId": "LD-UT-02",
+      "ruleId": "UT-77-40A-AUTOMATIC-VS-PETITION-CLEAN-SLATE-MAP",
+      "mechanism": "Petition-based expungement, including plea-in-abeyance dismissals",
+      "statute": "Utah Code § 77-40a-301 et seq.",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "elapsed_eligibility_clock",
+        "value": 3,
+        "unit": "years",
+        "anchorFactId": "sentence_completion_actual_date",
+        "anchorAlternates": [
+          "discharge_date"
+        ],
+        "anchorText": "the separate petition map applies — three, four, five, seven, or ten years by category — rather than the automatic table"
+      },
+      "requiredFacts": [
+        "Utah class?",
+        "Statute?",
+        "Conviction/plea-in-abeyance/dismissal?",
+        "Adjudication and completion dates?",
+        "Case count?",
+        "Restitution/fees?",
+        "Pending cases?",
+        "Automatic processing status?",
+        "Certificate need?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "eligible_conviction_class",
+        "sentence_completion_actual_date"
+      ],
+      "exclusions": [
+        "Exact Utah offense class, disposition, case-count limits, completion/payment, excluded offense, and automatic-versus-petition status"
+      ],
+      "packetFamily": "Utah Expungement Petition under § 77-40a-301 et seq.",
+      "packetComponents": [
+        "Petition and certificate of eligibility where required",
+        "Completion proof",
+        "Service on the required agencies"
+      ],
+      "notes": "The stored value is the shortest petition category; the exact Utah class and statutory category are mandatory intake facts.",
+      "serviceBranches": [
+        {
+          "id": "automatic-status-correction-guidance",
+          "when": "the matter's disposition selects the AUTOMATIC STATUS/CORRECTION GUIDANCE treatment named by LD-UT-02",
+          "outcomeMode": "automatic_relief",
+          "packetFamily": null,
+          "stage": "automatic",
+          "note": "LD-UT-02 states this route's output treatment as \"AUTOMATIC STATUS/CORRECTION GUIDANCE OR PETITION PACKET\". Each branch carries its own stable branch id and is selected by its own disposition predicate. Two branches may not resolve to one undifferentiated configuration, and may not share a checkout path. Installed by the Wave 2 integration from R2_ALREADY_ANSWERED_ENGINEERING with no selector and a null packet family: the branch identity is the decision, and its disposition predicate and packet configuration are owed by the branch-identity and packet-factory lanes. It therefore records the requirement without opening anything or inventing a predicate."
+        }
+      ]
+    },
+    {
+      "routeKey": "UT:path-j-cannabis-possession-petition-without-a-bci-certificate",
+      "jurisdiction": "UT",
+      "pathwayId": "path-j-cannabis-possession-petition-without-a-bci-certificate",
+      "decisionId": "LD-UT-07",
+      "ruleId": "UT-CANNABIS-PARDON-TRAFFICKING-JUVENILE-FOUR-ROUTE-MAP",
+      "mechanism": "Cannabis-possession petition authorised without a BCI certificate",
+      "statute": "Utah Code Title 77, Chapter 40a cannabis provisions",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "governed by the special cannabis statute and offense facts, not a generic waiting table; no additional elapsed period exists"
+      },
+      "requiredFacts": [
+        "Cannabis statute/amount/date?",
+        "Pardon order?",
+        "Trafficking-caused offense and evidence?",
+        "Juvenile age?",
+        "Jurisdiction-end/release date?",
+        "Later record?",
+        "Automatic/favorable disposition?",
+        "Waiver basis?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "offense_level"
+      ],
+      "exclusions": [
+        "Exact Utah special statute and all offense, nexus, age, completion, and exclusion conditions"
+      ],
+      "packetFamily": "Utah Cannabis-Possession Expungement Petition",
+      "packetComponents": [
+        "Petition under the special cannabis provision",
+        "Offense record"
+      ],
+      "notes": "The current guidance-only treatment must be removed: the statute expressly authorises a participant-filed petition."
+    },
+    {
+      "routeKey": "UT:path-k-pardon-based-expungement",
+      "jurisdiction": "UT",
+      "pathwayId": "path-k-pardon-based-expungement",
+      "decisionId": "LD-UT-07",
+      "ruleId": "UT-CANNABIS-PARDON-TRAFFICKING-JUVENILE-FOUR-ROUTE-MAP",
+      "mechanism": "Pardon-based expungement",
+      "statute": "Utah Code Title 77, Chapter 40a pardon provisions",
+      "stage": "single_stage",
+      "outcomeMode": "guidance_status",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "triggered by the Board of Pardons and Parole's grant and the resulting expungement order or process; there is no separate wait"
+      },
+      "requiredFacts": [
+        "Cannabis statute/amount/date?",
+        "Pardon order?",
+        "Trafficking-caused offense and evidence?",
+        "Juvenile age?",
+        "Jurisdiction-end/release date?",
+        "Later record?",
+        "Automatic/favorable disposition?",
+        "Waiver basis?"
+      ],
+      "screeningFactIds": [
+        "case_outcome"
+      ],
+      "exclusions": [
+        "Exact Utah special statute and all offense, nexus, age, completion, and exclusion conditions"
+      ],
+      "packetFamily": null,
+      "notes": "The expungement follows from the Board's own order and process, so the product gives status and correction guidance rather than selling a petition."
+    },
+    {
+      "routeKey": "UT:path-l-vacatur-human-trafficking-related-expungement",
+      "jurisdiction": "UT",
+      "pathwayId": "path-l-vacatur-human-trafficking-related-expungement",
+      "decisionId": "LD-UT-07",
+      "ruleId": "UT-CANNABIS-PARDON-TRAFFICKING-JUVENILE-FOUR-ROUTE-MAP",
+      "mechanism": "Human-trafficking-related vacatur and expungement",
+      "statute": "Utah Code Title 77, Chapter 40a trafficking provisions",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "available upon proof that the covered offense resulted from trafficking; no fixed elapsed period applies"
+      },
+      "requiredFacts": [
+        "Cannabis statute/amount/date?",
+        "Pardon order?",
+        "Trafficking-caused offense and evidence?",
+        "Juvenile age?",
+        "Jurisdiction-end/release date?",
+        "Later record?",
+        "Automatic/favorable disposition?",
+        "Waiver basis?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "offense_level"
+      ],
+      "exclusions": [
+        "Exact Utah special statute and all offense, nexus, age, completion, and exclusion conditions"
+      ],
+      "packetFamily": "Utah Trafficking Vacatur and Expungement Petition",
+      "packetComponents": [
+        "Petition to vacate or expunge",
+        "Trafficking nexus evidence"
+      ],
+      "notes": "The current guidance-only treatment must be removed: the statute expressly authorises a participant-filed petition."
+    },
+    {
+      "routeKey": "UT:path-m-juvenile-expungement",
+      "jurisdiction": "UT",
+      "pathwayId": "path-m-juvenile-expungement",
+      "decisionId": "LD-UT-07",
+      "ruleId": "UT-CANNABIS-PARDON-TRAFFICKING-JUVENILE-FOUR-ROUTE-MAP",
+      "mechanism": "Juvenile expungement — ordinary petition branch",
+      "statute": "Utah juvenile expungement statutes",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "elapsed_eligibility_clock",
+        "value": 1,
+        "unit": "years",
+        "anchorFactId": "release_date",
+        "anchorAlternates": [
+          "discharge_date"
+        ],
+        "anchorText": "the person must be at least eighteen and generally one year beyond termination of juvenile-court jurisdiction or release, subject to the statutory waiver"
+      },
+      "requiredFacts": [
+        "Cannabis statute/amount/date?",
+        "Pardon order?",
+        "Trafficking-caused offense and evidence?",
+        "Juvenile age?",
+        "Jurisdiction-end/release date?",
+        "Later record?",
+        "Automatic/favorable disposition?",
+        "Waiver basis?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "release_date"
+      ],
+      "exclusions": [
+        "Exact Utah special statute and all offense, nexus, age, completion, and exclusion conditions"
+      ],
+      "packetFamily": "Utah Juvenile Expungement Petition",
+      "packetComponents": [
+        "Petition",
+        "Jurisdiction termination or release proof"
+      ],
+      "notes": "Separate automatic and favourable-outcome branches exist and are not subject to this age-and-time rule."
+    },
+    {
+      "routeKey": "WA:misdemeanor-cannabis-conviction-vacation",
+      "jurisdiction": "WA",
+      "pathwayId": "misdemeanor-cannabis-conviction-vacation",
+      "decisionId": "LD-WA-05",
+      "ruleId": "WA-RCW-9.96.0605-CANNABIS-AND-9.96.080-VICTIM-SPLIT",
+      "mechanism": "Misdemeanor cannabis conviction vacation",
+      "statute": "RCW 9.96.060(5)",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "a person who was twenty-one or older at the time of the qualifying misdemeanor marijuana offense may apply without the ordinary three-year misdemeanor waiting period; the court shall vacate when the special statutory conditions are satisfied"
+      },
+      "requiredFacts": [
+        "Cannabis statute/date and age at offense?",
+        "Conviction court?",
+        "Victimization/trafficking nexus?",
+        "Affidavit evidence?",
+        "Sentence/restitution?",
+        "Later/pending crimes?",
+        "Excluded offense?",
+        "Other counts?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "offense_level"
+      ],
+      "exclusions": [
+        "Exact Washington special route",
+        "Cannabis age/statute eligibility or covered victim-caused offense with statutory proof and exclusions"
+      ],
+      "packetFamily": "Washington Cannabis Vacation Application under RCW 9.96.060(5)",
+      "packetComponents": [
+        "Motion and application to vacate",
+        "Conviction record",
+        "Age-at-offense evidence"
+      ],
+      "supersedes": {
+        "value": 3,
+        "unit": "years",
+        "note": "the ordinary RCW 9.96.060 three-year misdemeanor rule, bypassed only for the express cannabis subsection"
+      }
+    },
+    {
+      "routeKey": "WA:victim-survivor-conviction-vacation-route",
+      "jurisdiction": "WA",
+      "pathwayId": "victim-survivor-conviction-vacation-route",
+      "decisionId": "LD-WA-05",
+      "ruleId": "WA-RCW-9.96.0605-CANNABIS-AND-9.96.080-VICTIM-SPLIT",
+      "mechanism": "Victim-survivor conviction vacation",
+      "statute": "RCW 9.96.080",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorFactId": "sentence_completion_actual_date",
+        "anchorText": "route-specific: the covered offense and victimization nexus, the affidavit and preponderance standard, the pending-case and sentence or restitution conditions, and any route-specific clean-period requirement"
+      },
+      "requiredFacts": [
+        "Cannabis statute/date and age at offense?",
+        "Conviction court?",
+        "Victimization/trafficking nexus?",
+        "Affidavit evidence?",
+        "Sentence/restitution?",
+        "Later/pending crimes?",
+        "Excluded offense?",
+        "Other counts?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "offense_level",
+        "pending_cases",
+        "financial_obligations"
+      ],
+      "exclusions": [
+        "Exact Washington special route",
+        "Cannabis age/statute eligibility or covered victim-caused offense with statutory proof and exclusions"
+      ],
+      "packetFamily": "Washington Victim-Survivor Vacation Packet under RCW 9.96.080",
+      "packetComponents": [
+        "Motion to vacate",
+        "Affidavit",
+        "Victimization nexus evidence",
+        "Completion and restitution proof"
+      ],
+      "notes": "Must not inherit the cannabis no-wait rule or the ordinary misdemeanor rule."
+    }
+  ]
+}

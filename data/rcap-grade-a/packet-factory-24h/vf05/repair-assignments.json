@@ -1,0 +1,99 @@
+{
+  "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
+  "lane": "VF05",
+  "worker": "VF-SRC-A",
+  "assignmentCount": 1,
+  "assignments": [
+    {
+      "itemId": "ar-misdemeanor-dwi-seal-set",
+      "lane": "VF05",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-dwi-seal-set--official-pdf-fill",
+      "decisiveDefect": "participant-instructions.md does not exist, so no declared item can be named in it",
+      "failedProofObligations": [
+        "REQUIRED_BEFORE_FILING",
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SERVICE",
+        "SELF_HELP_STOP"
+      ],
+      "perObligation": {
+        "REQUIRED_BEFORE_FILING": {
+          "measuredDetail": "participant-instructions.md does not exist, so no declared item can be named in it",
+          "whatRepairMustDo": "The family has no participant-instructions.md at all. Every blank the filing needs must be declared and named there."
+        },
+        "FILING_DESTINATION": {
+          "measuredDetail": "participant-instructions.md does not exist, so the packet states nothing to the participant",
+          "whatRepairMustDo": "participant-instructions.md must name the court or agency the route names, or name exactly who to get it from."
+        },
+        "FEE_AND_WAIVER": {
+          "measuredDetail": "participant-instructions.md does not exist, so the packet states nothing to the participant",
+          "whatRepairMustDo": "participant-instructions.md must state the filing fee and any waiver route, or name who to ask and say the amount is not stated."
+        },
+        "SERVICE": {
+          "measuredDetail": "participant-instructions.md does not exist, so the packet states nothing to the participant",
+          "whatRepairMustDo": "participant-instructions.md must state who must be served and by what method."
+        },
+        "SELF_HELP_STOP": {
+          "measuredDetail": "participant-instructions.md does not exist, so the packet states nothing to the participant",
+          "whatRepairMustDo": "participant-instructions.md must state where self-help ends."
+        }
+      },
+      "repairMustNotDo": [
+        "do not edit an artifact merely so a receipt matches it",
+        "this verification opens no commercial route and grants no approval"
+      ]
+    }
+  ],
+  "supersededLaneMembership": {
+    "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
+    "lane": "VF05",
+    "worker": "VF-SRC-A",
+    "baseSha": "09b741ad00be0d630bd73a72f66640294abab397",
+    "assignmentCount": 2,
+    "assignments": [
+      {
+        "itemId": "ut_pet_conviction-set",
+        "lane": "VF05",
+        "familyDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill",
+        "decisiveDefect": "the packet never states where self-help ends",
+        "failedProofObligations": [
+          "SELF_HELP_STOP"
+        ],
+        "perObligation": {
+          "SELF_HELP_STOP": {
+            "measuredDetail": "the packet never states where self-help ends",
+            "whatRepairMustDo": "participant-instructions.md must state where self-help ends. The Vermont packets close with a 'What this packet is not' section and the Ohio composed drafts carry 'Hard stops'; this family states nothing."
+          }
+        },
+        "repairMustNotDo": [
+          "do not edit any artifact merely so a receipt matches it",
+          "this verification opens no commercial route and grants no approval"
+        ]
+      },
+      {
+        "itemId": "wv_conv_single_misdemeanor-set",
+        "lane": "VF05",
+        "familyDirectory": "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill",
+        "decisiveDefect": "neither a filing fee nor a waiver route is stated",
+        "failedProofObligations": [
+          "FEE_AND_WAIVER",
+          "SELF_HELP_STOP"
+        ],
+        "perObligation": {
+          "FEE_AND_WAIVER": {
+            "measuredDetail": "neither a filing fee nor a waiver route is stated",
+            "whatRepairMustDo": "participant-instructions.md must state the filing fee and any waiver route, or name the clerk to ask and say plainly that the amount is not stated. The Vermont packets do the latter and are the model."
+          },
+          "SELF_HELP_STOP": {
+            "measuredDetail": "the packet never states where self-help ends",
+            "whatRepairMustDo": "participant-instructions.md must state where self-help ends. The Vermont packets close with a 'What this packet is not' section and the Ohio composed drafts carry 'Hard stops'; this family states nothing."
+          }
+        },
+        "repairMustNotDo": [
+          "do not edit any artifact merely so a receipt matches it",
+          "this verification opens no commercial route and grants no approval"
+        ]
+      }
+    ]
+  }
+}

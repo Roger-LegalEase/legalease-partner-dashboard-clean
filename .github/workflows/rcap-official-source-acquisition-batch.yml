@@ -1,0 +1,198 @@
+# Batch official-source acquisition.
+#
+# The single-URL workflow is correct and slow: one dispatch per form, by hand.
+# The source conveyor produces hundreds of obligations, so this reads a
+# COMMITTED manifest and fans it out — one matrix job per exact official URL,
+# twenty at a time, each job running the same acquisition script the
+# single-URL workflow runs. There is one acquisition implementation, not two.
+#
+# What it does not do, ever:
+#   - commit anything, including a source body;
+#   - deploy anything;
+#   - touch a Production resource, a secret or an environment.
+#
+# The bytes leave here as workflow artifacts. A human decides whether they
+# enter the repository, after identity, currentness and intended use are
+# confirmed. That decision is a reviewed commit, not a workflow run.
+#
+# The manifest is validated before any job runs. A manifest that fails
+# validation stops the run rather than acquiring the entries that happen to be
+# well-formed: a batch that half-ran is harder to reason about than one that
+# did not start.
+name: RCAP Official Source Acquisition (Batch)
+
+on:
+  push:
+    branches: [claude/legalease-sprint-captain-utucnw]
+    paths:
+      - data/rcap-grade-a/packet-factory-24h/SOURCE_ACQUISITION_MANIFEST.json
+      - scripts/rcap-plan-source-acquisition-batch.mjs
+      - scripts/rcap-acquire-official-source.mjs
+      - scripts/rcap-summarize-source-acquisition-batch.mjs
+      - .github/workflows/rcap-official-source-acquisition-batch.yml
+  workflow_dispatch:
+    inputs:
+      manifest:
+        description: "Committed manifest path"
+        required: false
+        default: data/rcap-grade-a/packet-factory-24h/SOURCE_ACQUISITION_MANIFEST.json
+        type: string
+      jurisdiction:
+        description: "Optional: restrict to one two-letter jurisdiction"
+        required: false
+        type: string
+      limit:
+        description: "Optional: acquire at most this many entries"
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: rcap-source-acquisition-batch
+  cancel-in-progress: false
+
+jobs:
+  plan:
+    name: Validate the manifest and plan the matrix
+    runs-on: ubuntu-latest
+    outputs:
+      entries: ${{ steps.plan.outputs.entries }}
+      count: ${{ steps.plan.outputs.count }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Validate and plan
+        id: plan
+        env:
+          RCAP_MANIFEST: ${{ inputs.manifest || 'data/rcap-grade-a/packet-factory-24h/SOURCE_ACQUISITION_MANIFEST.json' }}
+          RCAP_ONLY_JURISDICTION: ${{ inputs.jurisdiction }}
+          RCAP_LIMIT: ${{ inputs.limit }}
+        run: node scripts/rcap-plan-source-acquisition-batch.mjs
+
+  acquire:
+    name: ${{ matrix.entry.jurisdiction }} ${{ matrix.entry.formNumber }} (${{ matrix.entry.artifactName }})
+    needs: plan
+    if: needs.plan.outputs.count != '0'
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    strategy:
+      fail-fast: false
+      max-parallel: 20
+      matrix:
+        entry: ${{ fromJson(needs.plan.outputs.entries) }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Acquire and receipt the official source
+        env:
+          RCAP_SOURCE_URL: ${{ matrix.entry.officialUrl }}
+          RCAP_JURISDICTION: ${{ matrix.entry.jurisdiction }}
+          RCAP_FORM_NUMBER: ${{ matrix.entry.formNumber }}
+          RCAP_EXPECTED_SHA256: ${{ matrix.entry.expectedSha256 }}
+          RCAP_URL_KIND: ${{ matrix.entry.urlKind }}
+          RCAP_ASSET_ID: ${{ matrix.entry.sourceId }}
+          # Provenance for the ACQ -> PROMO handoff. The artifact name is the
+          # planner's, used verbatim here and by upload-artifact below, so the
+          # receipt, the artifact and the materializer all name one string.
+          RCAP_ACQUISITION_RUN_ID: ${{ github.run_id }}
+          RCAP_ARTIFACT_NAME: ${{ matrix.entry.artifactName }}
+          # One failing form does not stop the batch. The failure is recorded
+          # as its own artifact and the remaining jobs continue.
+          RCAP_TOLERATE_FAILURE: "1"
+        run: node scripts/rcap-acquire-official-source.mjs
+
+      - name: Upload the source and its receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.entry.artifactName }}
+          path: acquired-source/
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Refuse a committed source body
+        # The acquisition script writes fetched bytes into acquired-source/.
+        # This step used to assert that directory was gitignored; it was not,
+        # so the check would have reported the happy path as a failure and a
+        # real anomaly would have been indistinguishable from the noise.
+        #
+        # Two things are checked now, and the first is the one that matters:
+        # that the ignore rule actually exists, rather than being claimed.
+        run: |
+          set -euo pipefail
+          if ! git check-ignore -q acquired-source; then
+            echo "FAIL acquired-source/ is not gitignored — fetched bytes could be committed"
+            exit 1
+          fi
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "FAIL something reached the working tree outside the ignored acquisition directory:"
+            git status --porcelain
+            exit 1
+          fi
+          echo "OK acquired-source/ is ignored, and nothing else reached the tree."
+
+  summarize:
+    name: Batch result
+    needs: [plan, acquire]
+    # `always()` because the point of this job is to report on failures. Without
+    # it a batch where every job failed would produce no result at all, and an
+    # absent result reads like a batch that was never dispatched.
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Download every acquisition artifact
+        uses: actions/download-artifact@v4
+        with:
+          path: batch-artifacts
+          pattern: rcap-source-*
+          merge-multiple: false
+        continue-on-error: true
+
+      - name: Write the batch result
+        env:
+          RCAP_ACQUISITION_RUN_ID: ${{ github.run_id }}
+          RCAP_PLANNED: ${{ needs.plan.outputs.count }}
+          RCAP_PLAN_RESULT: ${{ needs.plan.result }}
+          RCAP_ACQUIRE_RESULT: ${{ needs.acquire.result }}
+        run: node scripts/rcap-summarize-source-acquisition-batch.mjs
+
+      - name: Upload the batch result
+        uses: actions/upload-artifact@v4
+        with:
+          name: rcap-source-acquisition-batch-result
+          path: SOURCE_ACQUISITION_BATCH_RESULT.json
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Refuse a committed source body
+        run: |
+          set -euo pipefail
+          rm -f SOURCE_ACQUISITION_BATCH_RESULT.json
+          rm -rf batch-artifacts
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "FAIL the summary job left something in the working tree:"
+            git status --porcelain
+            exit 1
+          fi
+          echo "OK nothing committed, nothing staged."

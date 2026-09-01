@@ -1,0 +1,126 @@
+{
+  "schemaVersion": "rcap-census-legal-review-queue/v2",
+  "supersedes": "data/rcap-grade-a/route-obligation-census-v1/legal-review-triage.json",
+  "recordedBy": "Captain A",
+  "recordedAt": "2026-08-30",
+  "authority": "Roger's routing instruction of 2026-08-30, which re-routes 43 of the 47 rows the Captain's own triage had sent to counsel.",
+  "theCorrection": {
+    "captainTriageSaid": {
+      "ALREADY_ANSWERED": 16,
+      "SOURCE_IDENTITY_QUESTION": 0,
+      "CAPTAIN_MAPPING_CORRECTION": 23,
+      "TRUE_COUNSEL_DECISION": 47
+    },
+    "correctedRouting": {
+      "TRUE_COUNSEL_DECISION": 4,
+      "CAPTAIN_MAPPING_CORRECTION": 30,
+      "SOURCE_IDENTITY_QUESTION": 8,
+      "DUPLICATE_OR_SUPERSEDED": 7,
+      "ALREADY_ANSWERED": 37
+    },
+    "bothSumTo": 86,
+    "whatTheCaptainGotWrong": "The triage was conservative in the wrong direction. It routed to counsel any row it could not itself close, which turned 'the Captain has not yet done the mapping work' into 'an attorney must decide this'. Forty-three of those rows are answerable from this repository or already decided in it. Sending 86 questions to Lawrence would have buried four real decisions in eighty-two the Captain owed."
+  },
+  "questionNumbering": {
+    "basis": "the 86 rows of data/rcap-grade-a/route-obligation-census-candidate/unresolved-legal-review-queue.json, stably sorted by jurisdiction",
+    "howItWasEstablished": "The instruction numbered the four counsel questions 4, 47, 54 and 76 and named their jurisdictions as Alabama, Nebraska, New York and Utah. No ordering the Captain held reproduced that: the queue's own file order puts Delaware at 4 and Connecticut at 47. A stable sort by jurisdiction reproduces all four positions exactly -- AK occupies 1-3 so AL falls at 4, NE at 46-48, NY at 54-55, UT at 75-77 -- which identifies the numbering rather than guessing at it.",
+    "whyThisMattered": "Nebraska and Utah carry three questions each and New York two. Without recovering the numbering, three of the four counsel questions would have been ambiguous, and picking the wrong one would have sent counsel the wrong decision and left the real one unasked."
+  },
+  "trueCounselQueue": {
+    "count": 4,
+    "sendToLawrence": true,
+    "whatTheyHaveInCommon": "Each asks whether a route supports bounded self-help at all, or whether a professional handoff controls it from the outset. That is not a mapping question and no amount of repository evidence settles it: it is a judgement about what a participant may safely be handed.",
+    "questions": [
+      {
+        "number": 4,
+        "jurisdiction": "AL",
+        "publicLabel": "Alabama de novo circuit-court review after final agency denial",
+        "routeKey": "obligation:research-decision-route:AL:al-uncharged-arrest:de_novo_court_review_after_final_denial",
+        "question": "Does the post-denial de novo circuit-court branch support a bounded self-help custom appeal, or does the current contested-appeal handoff require counsel from first filing?",
+        "confidence": "high",
+        "answered": true,
+        "answeredOn": "2026-08-30",
+        "answeredBy": "Lawrence Blackmon",
+        "decisionId": "LWD-2026-08-30-AL-Q4-DE-NOVO-REVIEW",
+        "answerSummary": "A — LegalEase must fulfil a bounded, participant-filed circuit-court appeal."
+      },
+      {
+        "number": 47,
+        "jurisdiction": "NE",
+        "publicLabel": "Where to go if you want your Nebraska conviction overturned",
+        "routeKey": "obligation:track-only:NE:ne-postconviction-routing",
+        "question": "Does the Nebraska postconviction professional handoff control every case, or must the participant-facing verified motion be represented as a separate composed-pleading output?",
+        "confidence": "high",
+        "note": "Nebraska carries three questions; this is the second in the jurisdiction ordering. The other two -- the pardon route and the juvenile-record route -- are not in the counsel queue.",
+        "answered": true,
+        "answeredOn": "2026-08-30",
+        "answeredBy": "Lawrence Blackmon",
+        "decisionId": "LWD-2026-08-30-NE-Q47-POSTCONVICTION",
+        "answerSummary": "B — legitimate exclusion, UNSUITABLE_FOR_SELF_HELP. A pro se verified motion legally exists; merits drafting is excluded as a product-suitability decision."
+      },
+      {
+        "number": 54,
+        "jurisdiction": "NY",
+        "publicLabel": "Possible pre-November 1, 1991 legacy motion",
+        "routeKey": "obligation:research-decision-route:NY:ny_160_55_violation:pre_1991_legacy_motion",
+        "question": "Which exact motion, eligibility rule, and filing procedure governs the pre-November 1, 1991 section 160.55 legacy branch?",
+        "confidence": "high",
+        "note": "New York's other question, conditional/treatment sealing under CPL 160.58, is a Captain mapping correction, not a counsel decision.",
+        "answered": true,
+        "answeredOn": "2026-08-30",
+        "answeredBy": "Lawrence Blackmon",
+        "decisionId": "LWD-2026-08-30-NY-Q54-LEGACY-160-55",
+        "answerSummary": "A — fulfil, but only after splitting the legacy cohort at September 1, 1980. One generic pre-1991 § 160.55(3) motion would be legally inaccurate."
+      },
+      {
+        "number": 76,
+        "jurisdiction": "UT",
+        "publicLabel": "Not eligible yet? Reducing the conviction level may open a route",
+        "routeKey": "obligation:track-only:UT:ut_adj_reduction_402",
+        "question": "Must Utah's section 76-3-402 reduction motion be represented as a separate participant filing, or does an express professional-only handoff control the adjacent mechanism?",
+        "confidence": "high",
+        "note": "Utah carries three questions; the juvenile favorable-outcome branch and Clean Slate are both already answered.",
+        "answered": true,
+        "answeredOn": "2026-08-30",
+        "answeredBy": "Lawrence Blackmon",
+        "decisionId": "LWD-2026-08-30-UT-Q76-402-REDUCTION",
+        "answerSummary": "A — fulfil the defendant-filed § 76-3-402 branches; separately gate the consent-dependent and joint-motion branches."
+      }
+    ],
+    "answered": 4,
+    "open": 0,
+    "decisionRecord": "data/record-clearing/legal-decisions/2026-08-30-lawrence-four-counsel-determinations.json",
+    "reconciliation": "data/rcap-grade-a/launch-control/COUNSEL_DETERMINATION_DELTA.json",
+    "statusNote": "All four are answered. The questions stay in this record rather than being deleted: the queue is the history of what was asked and of whom, and the determination record is the answer. What each answer requires of the tree is reconciled in the counsel determination delta, which moves no census count."
+  },
+  "remainingEightyTwo": {
+    "count": 82,
+    "targetRouting": {
+      "CAPTAIN_MAPPING_CORRECTION": 30,
+      "SOURCE_IDENTITY_QUESTION": 8,
+      "DUPLICATE_OR_SUPERSEDED": 7,
+      "ALREADY_ANSWERED": 37
+    },
+    "assignmentStatus": "TARGETS_SET_ROW_ASSIGNMENT_PENDING",
+    "honestly": "The instruction gives per-bucket counts but names rows only for the four counsel questions. The Captain will not invent the other 82 assignments to make the counts add up: a row wrongly filed as ALREADY_ANSWERED is a question that never gets asked, and a row wrongly filed as DUPLICATE_OR_SUPERSEDED is one that gets deleted. Each of the 82 is assigned from its own evidence, and where the evidence-derived count differs from the target the difference is reported rather than forced.",
+    "assignedTo": "a dedicated re-triage worker; see worker-assignments.json",
+    "bucketMeanings": {
+      "CAPTAIN_MAPPING_CORRECTION": "The Captain owes the route/output mapping. Stays with the Captain; never goes to counsel.",
+      "SOURCE_IDENTITY_QUESTION": "The answer is a document identity. Goes to the source team, and both identity batches plus the source-queue reconciliation may already settle it.",
+      "DUPLICATE_OR_SUPERSEDED": "The same question is asked by another row, or a later decision has overtaken it. Removed, with the row it duplicates named.",
+      "ALREADY_ANSWERED": "A controlling decision exists in this repository. The work is to implement it, not to ask it again -- and the controlling record must be cited by id, not asserted."
+    }
+  },
+  "doNotInstall": {
+    "what": "the 78-A / 8-B synthesis register",
+    "asWhat": "controlling production authority",
+    "until": "attorney ratification is recorded",
+    "why": "A synthesis of answers is not the answers. Installing it as controlling authority before ratification would let a derived reading govern routes that no attorney has approved."
+  },
+  "whatThisQueueDoesNotDo": [
+    "It decides no legal question.",
+    "It opens no commercial route and approves no output.",
+    "It creates no fulfilment record.",
+    "It does not implement the 37 already-answered rows -- it identifies that they are answered, and the implementation cites the controlling decision by id."
+  ]
+}

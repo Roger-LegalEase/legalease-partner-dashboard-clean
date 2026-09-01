@@ -1,0 +1,228 @@
+{
+  "schemaVersion": "rcap-external-assignments/v1",
+  "generatedAt": "2026-09-01T12:22:08Z",
+  "captainSha": "26aa64d00e7eb0406e5c7939febed85b50d0cf60",
+  "minimumAncestor": "f240e47687eddd47d432996823ce932affcd54cc",
+  "purpose": "The canonical record of externally dispatched lanes. The packet-factory generator reads this so regeneration cannot delete an external grant, and F24 reads it so an external grant is not an undispatched one.",
+  "externalLanes": [
+    "FIX09",
+    "FIX10",
+    "FIX11",
+    "PF17",
+    "VF18",
+    "VF19",
+    "VF20",
+    "VF21",
+    "VF22",
+    "VF23",
+    "VF24",
+    "VF25"
+  ],
+  "workers": [
+    {
+      "workerId": "CODEX-CS-A",
+      "assignmentVersion": 4,
+      "mode": "PACKET_BUILD",
+      "assignmentId": "CSA-PF17-V4-BATCH-001",
+      "lane": "PF17",
+      "laneKind": "packet-build",
+      "subjectIds": [
+        "ca-1203-4-set",
+        "ky_felony_vacatur_expungement-set",
+        "or_conviction_setaside-set",
+        "sc_17_22_950_summary-set",
+        "wi_nc_doj_challenge-set",
+        "wi_nc_doj_fingerprint_removal-set"
+      ],
+      "operation": "packet-build",
+      "subjectCount": 6,
+      "requiresCaptainTransferFirst": false,
+      "captainTransferCommands": []
+    },
+    {
+      "workerId": "CODEX-CS-B",
+      "assignmentVersion": 4,
+      "mode": "PACKET_REPAIR",
+      "assignmentId": "CSB-FIX09-V4-BATCH-001",
+      "lane": "FIX09",
+      "laneKind": "repair",
+      "subjectIds": [
+        "az_marijuana_expungement_arrest_no_charges-set",
+        "ca-1203-42-set",
+        "ca-851-91-set",
+        "nj_arrest_no_conviction-set",
+        "nj_indictable_conviction-set",
+        "ny_160_59_petition-set"
+      ],
+      "operation": "rapid-repair",
+      "subjectCount": 6,
+      "requiresCaptainTransferFirst": false,
+      "captainTransferCommands": []
+    },
+    {
+      "workerId": "FABLE-R3",
+      "assignmentVersion": 4,
+      "mode": "PACKET_REPAIR",
+      "assignmentId": "FR3-FIX10-V4-BATCH-001",
+      "lane": "FIX10",
+      "laneKind": "repair",
+      "subjectIds": [
+        "wa_vac_cannabis-set",
+        "wa_vac_domestic_violence-set",
+        "wa_vac_felony-set",
+        "wa_vac_homicide_victim_prostitution-set",
+        "wa_vac_misdemeanor_ordinary-set",
+        "wa_vac_substance_use_disorder-set",
+        "wa_vac_survivor_felony-set",
+        "wa_vac_survivor_misdemeanor-set",
+        "wa_vac_treaty_fishing-set"
+      ],
+      "operation": "rapid-repair",
+      "subjectCount": 9,
+      "requiresCaptainTransferFirst": true,
+      "captainTransferCommands": []
+    },
+    {
+      "workerId": "FABLE-R4",
+      "assignmentVersion": 4,
+      "mode": "PACKET_REPAIR",
+      "assignmentId": "FR4-FIX11-V4-BATCH-001",
+      "lane": "FIX11",
+      "laneKind": "repair",
+      "subjectIds": [
+        "pa_490_nonconviction-set",
+        "pa_9122_1_limited_access-set"
+      ],
+      "operation": "rapid-repair",
+      "subjectCount": 2,
+      "requiresCaptainTransferFirst": true,
+      "captainTransferCommands": []
+    },
+    {
+      "workerId": "CLOUD01",
+      "assignmentVersion": 4,
+      "mode": "SECOND_INDEPENDENT_READ",
+      "assignmentId": "CLOUD01-VF18-V4-BATCH-001",
+      "lane": "VF18",
+      "laneKind": "independent-verification",
+      "subjectIds": [
+        "ak-courtview-set"
+      ],
+      "operation": "independent-verification",
+      "subjectCount": 1,
+      "requiresCaptainTransferFirst": true,
+      "captainTransferCommands": []
+    },
+    {
+      "workerId": "CLOUD02",
+      "assignmentVersion": 4,
+      "mode": "SECOND_INDEPENDENT_READ",
+      "assignmentId": "CLOUD02-VF19-V4-BATCH-001",
+      "lane": "VF19",
+      "laneKind": "independent-verification",
+      "subjectIds": [
+        "ak-tf800-set"
+      ],
+      "operation": "independent-verification",
+      "subjectCount": 1,
+      "requiresCaptainTransferFirst": true,
+      "captainTransferCommands": []
+    },
+    {
+      "workerId": "CLOUD03",
+      "assignmentVersion": 4,
+      "mode": "SECOND_INDEPENDENT_READ",
+      "assignmentId": "CLOUD03-VF20-V4-BATCH-001",
+      "lane": "VF20",
+      "laneKind": "independent-verification",
+      "subjectIds": [
+        "ak-tf805-set"
+      ],
+      "operation": "independent-verification",
+      "subjectCount": 1,
+      "requiresCaptainTransferFirst": true,
+      "captainTransferCommands": []
+    },
+    {
+      "workerId": "CLOUD04",
+      "assignmentVersion": 4,
+      "mode": "SECOND_INDEPENDENT_READ",
+      "assignmentId": "CLOUD04-VF21-V4-BATCH-001",
+      "lane": "VF21",
+      "laneKind": "independent-verification",
+      "subjectIds": [
+        "ar-arrest-seal-set"
+      ],
+      "operation": "independent-verification",
+      "subjectCount": 1,
+      "requiresCaptainTransferFirst": true,
+      "captainTransferCommands": []
+    },
+    {
+      "workerId": "CLOUD05",
+      "assignmentVersion": 4,
+      "mode": "SECOND_INDEPENDENT_READ",
+      "assignmentId": "CLOUD05-VF22-V4-BATCH-001",
+      "lane": "VF22",
+      "laneKind": "independent-verification",
+      "subjectIds": [
+        "ar-misdemeanor-dwi-seal-set"
+      ],
+      "operation": "independent-verification",
+      "subjectCount": 1,
+      "requiresCaptainTransferFirst": true,
+      "captainTransferCommands": []
+    },
+    {
+      "workerId": "CLOUD06",
+      "assignmentVersion": 4,
+      "mode": "SECOND_INDEPENDENT_READ",
+      "assignmentId": "CLOUD06-VF23-V4-BATCH-001",
+      "lane": "VF23",
+      "laneKind": "independent-verification",
+      "subjectIds": [
+        "co_motion_seal_nonconviction-set"
+      ],
+      "operation": "independent-verification",
+      "subjectCount": 1,
+      "requiresCaptainTransferFirst": true,
+      "captainTransferCommands": []
+    },
+    {
+      "workerId": "CLOUD07",
+      "assignmentVersion": 4,
+      "mode": "SECOND_INDEPENDENT_READ",
+      "assignmentId": "CLOUD07-VF24-V4-BATCH-001",
+      "lane": "VF24",
+      "laneKind": "independent-verification",
+      "subjectIds": [
+        "ct-cleanslate-petition-set"
+      ],
+      "operation": "independent-verification",
+      "subjectCount": 1,
+      "requiresCaptainTransferFirst": true,
+      "captainTransferCommands": []
+    },
+    {
+      "workerId": "CLOUD08",
+      "assignmentVersion": 4,
+      "mode": "SECOND_INDEPENDENT_READ",
+      "assignmentId": "CLOUD08-VF25-V4-BATCH-001",
+      "lane": "VF25",
+      "laneKind": "independent-verification",
+      "subjectIds": [
+        "mi_setaside_marihuana-set"
+      ],
+      "operation": "independent-verification",
+      "subjectCount": 1,
+      "requiresCaptainTransferFirst": true,
+      "captainTransferCommands": []
+    }
+  ],
+  "claudeOwnershipUntouched": {
+    "liveClaudeClaimsAtGeneration": 211,
+    "externalSubjectsOverlappingALiveClaim": []
+  },
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}

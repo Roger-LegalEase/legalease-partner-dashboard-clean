@@ -1,0 +1,333 @@
+{
+  "schemaVersion": "rcap-source-supplement/v1",
+  "supplementId": "co-supplement-2026-08-29",
+  "jurisdiction": "CO",
+  "producedByLane": "G-CO-SOURCE",
+  "producedAtBaseSha": "148382ab2a2acbe673b6d35c8967f5a908342e60",
+  "why": "source-corpus-2026-08-28 is pinned and immutable. It is also incomplete for Colorado: the issuing court's own guides require seven filings it does not contain. Republishing the base release under its own tag to add them would break the pin every downstream field map, census and fixture is keyed to. So the seven arrive as a supplement with its own identity, layered beside the base rather than into it.",
+  "relationshipToBaseCorpus": {
+    "baseReleaseRepository": "Roger-LegalEase/legalease-source-artifacts",
+    "baseReleaseTag": "source-corpus-2026-08-28",
+    "baseArchiveSha256": "a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89",
+    "baseCounts": {
+      "jurisdictions": 51,
+      "files": 499,
+      "pdfs": 329
+    },
+    "kind": "additive_disjoint_supplement",
+    "baseIsModified": false,
+    "baseIsRepublished": false,
+    "installsInto": "its own root, private/source-imports/Expungement_AI_RCAP_CO_Supplement_2026-08-29",
+    "installsIntoBaseTree": false,
+    "whySeparateRoot": "The base bootstrap asserts exactly 51 jurisdictions, 499 files and 329 PDFs and fails on any other count. Extracting the supplement into the base tree would either break that assertion or force it to be loosened, and a loosened invariant is how a corpus stops being pinned. A separate root keeps the base tree byte-identical to the release under every ordering of the two bootstraps.",
+    "pathDisjointness": {
+      "asserted": true,
+      "assertedBy": "scripts/rcap-corpus/verify-colorado-supplement.mjs, which fails if any supplement path also exists under the base root",
+      "verifiedAtAuthoringTime": true,
+      "verificationNote": "checked against the mounted base corpus on 2026-08-29: none of the seven target paths, and no JDF 613, 614, 419, 435, 205, 206 or 302 file under any name, exists in the base tree",
+      "consequence": "the supplement can never shadow or supersede a base document; a resolver may read both roots in either order without ambiguity"
+    },
+    "countsAfterBothMounted": {
+      "jurisdictions": 51,
+      "files": 508,
+      "pdfs": 336
+    },
+    "countsAfterBothMountedStatus": "projected",
+    "countsAfterBothMountedNote": "499 base files + 7 official PDFs + 2 supplement governance files. Projected because the seven have not been retrieved; the acquirer stamps the measured counts and this field is compared against them."
+  },
+  "release": {
+    "status": "UNPUBLISHED",
+    "repository": "Roger-LegalEase/legalease-source-artifacts",
+    "tag": "co-supplement-2026-08-29",
+    "assetName": "Expungement_AI_RCAP_CO_Supplement_2026-08-29.tar.gz",
+    "archiveSha256": null,
+    "archiveSha256Status": "not_yet_computable",
+    "archiveSha256Note": "The archive contains the seven official PDFs. None could be retrieved, so no archive exists and no digest can be recorded. Recording a placeholder digest here would be indistinguishable from a real pin to every consumer that reads this file, so the field stays null and the bootstrap refuses to run while it is null.",
+    "immutableOncePublished": true,
+    "immutabilityRule": "Once this tag carries an asset, neither the tag nor the asset is ever replaced. A correction is a new supplement id and a new tag, exactly as this supplement is a new identity rather than an edit to source-corpus-2026-08-28."
+  },
+  "archiveContract": {
+    "topLevelDirectory": "Expungement_AI_RCAP_CO_Supplement_2026-08-29",
+    "format": "tar.gz",
+    "deterministic": true,
+    "determinismRecipe": {
+      "tar": "tar --sort=name --format=pax --pax-option=exthdr.name=%d/PaxHeaders/%f,delete=atime,delete=ctime,delete=mtime --mtime=@1756425600 --owner=0 --group=0 --numeric-owner -cf -",
+      "gzip": "gzip -n -9",
+      "mtimeEpoch": 1756425600,
+      "mtimeIso": "2026-08-29T00:00:00Z",
+      "why": "Two runs of the acquirer over the same seven documents must produce the same archive digest, or the digest pins the run rather than the bytes. Sorted names, a fixed mtime, zeroed ownership and a gzip header without a timestamp are what make that true."
+    },
+    "contents": [
+      "STATES/CO/**  -- the seven official PDFs, named by the corpus convention",
+      "00_GOVERNANCE/CO_SUPPLEMENT_MANIFEST.json  -- per-document metadata, written by the acquirer",
+      "00_GOVERNANCE/CO_SUPPLEMENT_CHECKSUMS.sha256  -- sha256sum -c format, one line per PDF"
+    ],
+    "excludes": [
+      "the base corpus",
+      "any derivative render",
+      "any product artifact"
+    ]
+  },
+  "documents": [
+    {
+      "documentId": "JDF-611",
+      "formNumber": "JDF 611",
+      "officialTitle": "Guide to Sealing Conviction Records",
+      "sourceUrl": "https://www.coloradojudicial.gov/sites/default/files/2025-07/JDF611.pdf",
+      "officialPage": "https://www.coloradojudicial.gov/self-help-and-forms/self-help-forms/guide-sealing-conviction-records",
+      "corpusSection": "03_INSTRUCTIONS",
+      "identityKind": "INSTRUCTIONS",
+      "slug": "guide-to-sealing-conviction-records-single-case",
+      "revision": "2025-07-01",
+      "revisionStatus": "officialReported",
+      "filingSetRole": "INSTRUCTIONS",
+      "requiredness": "required",
+      "routeIds": [
+        "CO:petition-based-conviction-sealing-jdf-612-24-72-706"
+      ],
+      "plannedCorpusRelativePath": "STATES/CO/03_INSTRUCTIONS/CO__INSTRUCTIONS__JDF-611__guide-to-sealing-conviction-records-single-case__REV-2025-07-01__EN.pdf",
+      "supersedesBaseDocument": {
+        "reason": "The pinned corpus holds this guide at R: August 7, 2024. The issuing court has since published R: July 1, 2025. A route's source provenance may not continue to bind a superseded guide once the current one is identified, and the base release is immutable, so the current revision arrives in the supplement beside the pinned copy rather than replacing it.",
+        "baseReleaseTag": "source-corpus-2026-08-28",
+        "baseCorpusRelativePath": "STATES/CO/03_INSTRUCTIONS/CO__INSTRUCTIONS__JDF-611__guide-to-sealing-conviction-records-single-case__REV-2024-08-07__EN.pdf",
+        "baseSha256": "b628ee77cfdbb1e02208a74b04f6a03083e2843505f4bb4a7c3e0f2b3503843e",
+        "baseByteSize": 606173,
+        "baseRevision": "2024-08-07",
+        "baseShaProvenance": "recomputed with sha256sum by the captain from the corpus mounted by scripts/rcap-corpus/bootstrap-private-corpus.sh; not read back from a committed record",
+        "supersedingRevision": "2025-07-01",
+        "baseCopyRemains": true,
+        "baseCopyIsNotDeletedOrOverwritten": "The pinned bytes stay exactly where they are and keep their digest. The base still verifies at 51/499/329. What changes is which revision a Grade-A route is permitted to bind, and that is a provenance decision recorded here, not a file operation.",
+        "identificationEvidence": "data/rcap-all50/candidate-evidence/colorado/co-jdf-611-filing-set-identification.json",
+        "identifiedRevisionOfCurrentGuide": "R: July 1, 2025",
+        "currentGuideNamesTheSameFourFilings": true
+      },
+      "sha256": null,
+      "byteSize": null,
+      "pageCount": null,
+      "contentType": null,
+      "formTechnology": null,
+      "retrievedAt": null
+    },
+    {
+      "documentId": "JDF-613",
+      "formNumber": "JDF 613",
+      "officialTitle": "Order Denying Request to Seal Conviction Records",
+      "sourceUrl": "https://www.coloradojudicial.gov/sites/default/files/2024-08/JDF613.pdf",
+      "officialPage": "https://www.coloradojudicial.gov/self-help-and-forms/self-help-forms/order-denying-request-seal-conviction-records",
+      "corpusSection": "02_PACKET_FORMS",
+      "identityKind": "FORM",
+      "slug": "order-denying-request-to-seal-conviction-records",
+      "revision": "2024-08-07",
+      "revisionStatus": "officialReported",
+      "filingSetRole": "ORDER_DENYING",
+      "requiredness": "required",
+      "routeIds": [
+        "CO:petition-based-conviction-sealing-jdf-612-24-72-706"
+      ],
+      "plannedCorpusRelativePath": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-613__order-denying-request-to-seal-conviction-records__REV-2024-08-07__EN.pdf",
+      "sha256": null,
+      "byteSize": null,
+      "pageCount": null,
+      "contentType": null,
+      "formTechnology": null,
+      "retrievedAt": null
+    },
+    {
+      "documentId": "JDF-614",
+      "formNumber": "JDF 614",
+      "officialTitle": "Order and Notice of Hearing to Seal Conviction Records",
+      "sourceUrl": "https://www.coloradojudicial.gov/sites/default/files/2024-08/JDF614.pdf",
+      "officialPage": "https://www.coloradojudicial.gov/self-help-and-forms/self-help-forms/order-and-notice-hearing-seal-conviction-records",
+      "corpusSection": "02_PACKET_FORMS",
+      "identityKind": "FORM",
+      "slug": "order-and-notice-of-hearing-to-seal-conviction-records",
+      "revision": "2024-08-07",
+      "revisionStatus": "officialReported",
+      "filingSetRole": "NOTICE",
+      "requiredness": "required",
+      "routeIds": [
+        "CO:petition-based-conviction-sealing-jdf-612-24-72-706"
+      ],
+      "plannedCorpusRelativePath": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-614__order-and-notice-of-hearing-to-seal-conviction-records__REV-2024-08-07__EN.pdf",
+      "sha256": null,
+      "byteSize": null,
+      "pageCount": null,
+      "contentType": null,
+      "formTechnology": null,
+      "retrievedAt": null
+    },
+    {
+      "documentId": "JDF-419",
+      "formNumber": "JDF 419",
+      "officialTitle": "Order and Notice of Hearing (Sealing of Arrest and Criminal Records)",
+      "sourceUrl": "https://www.coloradojudicial.gov/sites/default/files/2023-07/JDF%20419%20Order%20and%20Notice%20of%20Hearing.pdf",
+      "officialPage": "https://www.coloradojudicial.gov/self-help-and-forms/self-help-forms/order-and-notice-hearing-sealing-arrest-and-criminal-records",
+      "corpusSection": "02_PACKET_FORMS",
+      "identityKind": "FORM",
+      "slug": "order-and-notice-of-hearing-sealing-of-arrest-and-criminal-records",
+      "revision": null,
+      "revisionStatus": "unresolved",
+      "filingSetRole": "NOTICE",
+      "requiredness": "required",
+      "routeIds": [
+        "CO:petition-based-non-conviction-sealing-jdf-417-24-72-704"
+      ],
+      "plannedCorpusRelativePath": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-419__order-and-notice-of-hearing-sealing-of-arrest-and-criminal-records__REV-UNKNOWN__EN.pdf",
+      "plannedPathIsProvisional": true,
+      "plannedPathNote": "REV-UNKNOWN is a placeholder. The acquirer reads the R: date from the retrieved document and renames the entry before packaging; the corpus already carries REV-UNKNOWN entries for documents whose revision the issuing body does not print, so the placeholder survives only if the document itself is undated.",
+      "sha256": null,
+      "byteSize": null,
+      "pageCount": null,
+      "contentType": null,
+      "formTechnology": null,
+      "retrievedAt": null
+    },
+    {
+      "documentId": "JDF-435",
+      "formNumber": "JDF 435",
+      "officialTitle": "Order Denying Petition to Seal Arrest & Criminal Records",
+      "sourceUrl": "https://www.coloradojudicial.gov/sites/default/files/2023-07/JDF%20435%20order%20denying%20petition%20to%20seal.pdf",
+      "officialPage": "https://www.coloradojudicial.gov/self-help-and-forms/self-help-forms/order-denying-petition-seal-arrest-criminal-records",
+      "corpusSection": "02_PACKET_FORMS",
+      "identityKind": "FORM",
+      "slug": "order-denying-petition-to-seal-arrest-and-criminal-records",
+      "revision": null,
+      "revisionStatus": "unresolved",
+      "filingSetRole": "ORDER_DENYING",
+      "requiredness": "required",
+      "routeIds": [
+        "CO:petition-based-non-conviction-sealing-jdf-417-24-72-704"
+      ],
+      "plannedCorpusRelativePath": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-435__order-denying-petition-to-seal-arrest-and-criminal-records__REV-UNKNOWN__EN.pdf",
+      "plannedPathIsProvisional": true,
+      "sha256": null,
+      "byteSize": null,
+      "pageCount": null,
+      "contentType": null,
+      "formTechnology": null,
+      "retrievedAt": null
+    },
+    {
+      "documentId": "JDF-205",
+      "formNumber": "JDF 205",
+      "officialTitle": "Motion to Waive Fees",
+      "sourceUrl": "https://www.coloradojudicial.gov/sites/default/files/2024-05/JDF205.pdf",
+      "officialPage": "https://www.coloradojudicial.gov/self-help-and-forms/self-help-forms/motion-waive-fees",
+      "corpusSection": "04_SUPPORTING_PROCESS",
+      "identityKind": "FORM",
+      "slug": "motion-to-waive-fees",
+      "revision": "2024-04-02",
+      "revisionStatus": "officialReported",
+      "filingSetRole": "MOTION_FEE_WAIVER",
+      "requiredness": "conditional",
+      "routeIds": [
+        "CO:petition-based-conviction-sealing-jdf-612-24-72-706",
+        "CO:petition-based-non-conviction-sealing-jdf-417-24-72-704"
+      ],
+      "plannedCorpusRelativePath": "STATES/CO/04_SUPPORTING_PROCESS/CO__FORM__JDF-205__motion-to-waive-fees__REV-2024-04-02__EN.pdf",
+      "sha256": null,
+      "byteSize": null,
+      "pageCount": null,
+      "contentType": null,
+      "formTechnology": null,
+      "retrievedAt": null
+    },
+    {
+      "documentId": "JDF-206",
+      "formNumber": "JDF 206",
+      "officialTitle": "Order re Court Fees",
+      "sourceUrl": "https://www.coloradojudicial.gov/sites/default/files/2024-08/JDF206.pdf",
+      "officialPage": "https://www.coloradojudicial.gov/self-help-and-forms/self-help-forms/order-re-fee-waiver",
+      "corpusSection": "04_SUPPORTING_PROCESS",
+      "identityKind": "FORM",
+      "slug": "order-re-court-fees",
+      "revision": "2024-08-20",
+      "revisionStatus": "officialReported",
+      "filingSetRole": "ORDER_FEE_WAIVER",
+      "requiredness": "conditional",
+      "routeIds": [
+        "CO:petition-based-conviction-sealing-jdf-612-24-72-706",
+        "CO:petition-based-non-conviction-sealing-jdf-417-24-72-704"
+      ],
+      "plannedCorpusRelativePath": "STATES/CO/04_SUPPORTING_PROCESS/CO__FORM__JDF-206__order-re-court-fees__REV-2024-08-20__EN.pdf",
+      "sha256": null,
+      "byteSize": null,
+      "pageCount": null,
+      "contentType": null,
+      "formTechnology": null,
+      "retrievedAt": null
+    },
+    {
+      "documentId": "JDF-302",
+      "formNumber": "JDF 302",
+      "officialTitle": "Petition to Expunge Court Records",
+      "sourceUrl": "https://www.coloradojudicial.gov/sites/default/files/2023-07/JDF302.pdf",
+      "officialPage": "https://www.coloradojudicial.gov/self-help-and-forms/self-help-forms/petition-expunge-court-records",
+      "corpusSection": "02_PACKET_FORMS",
+      "identityKind": "FORM",
+      "slug": "petition-to-expunge-court-records",
+      "revision": null,
+      "revisionStatus": "unresolved",
+      "filingSetRole": "PETITION",
+      "requiredness": "required",
+      "routeIds": [
+        "CO:juvenile-expungement-19-1-306"
+      ],
+      "plannedCorpusRelativePath": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-302__petition-to-expunge-court-records__REV-UNKNOWN__EN.pdf",
+      "plannedPathIsProvisional": true,
+      "sha256": null,
+      "byteSize": null,
+      "pageCount": null,
+      "contentType": null,
+      "formTechnology": null,
+      "retrievedAt": null
+    }
+  ],
+  "acquisition": {
+    "status": "BLOCKED",
+    "blocker": "this session's network egress policy allows only an allowlist of hosts and refuses every other host, the Colorado Judicial Branch among them, with a 403 to CONNECT",
+    "blockedHosts": [
+      "www.coloradojudicial.gov",
+      "coloradojudicial.gov",
+      "www.courts.state.co.us"
+    ],
+    "blockerIsNotColoradoSpecific": {
+      "measuredByCaptain": "57bf41104c15a80050d9bb4790d32bbdaaeb1703",
+      "evidence": [
+        "https://example.com/ is refused with the same 403 to CONNECT, so the denial is an allowlist policy rather than a refusal by the issuing court",
+        "https://registry.npmjs.org/ succeeds, so egress is not simply absent",
+        "the proxy's own status endpoint records the refusals as 'gateway answered 403 to CONNECT (policy denial or upstream failure)'"
+      ],
+      "whyItMatters": "An unproxied request in this sandbox comes back as a bare HTTP 403, which reads in a record exactly like the court refusing to serve the form. Those have opposite remedies. The acquirer now routes through the configured proxy so the failure it records is the real one."
+    },
+    "attemptedByCaptain": {
+      "at": "57bf41104c15a80050d9bb4790d32bbdaaeb1703",
+      "command": "node scripts/rcap-corpus/acquire-colorado-supplement.mjs --stage <outside the working tree>",
+      "documentsAttempted": 8,
+      "documentsAcquired": 0,
+      "exitCode": 1,
+      "observedPerDocument": "fetch failed <- Request was cancelled. <- Proxy response (403) !== 200 when HTTP Tunneling",
+      "packaged": false,
+      "note": "The all-or-nothing behaviour was exercised live over all eight: nothing was packaged, no archive was produced, no digest was recorded, and no byte reached the working tree."
+    },
+    "unblockedBy": "allowing www.coloradojudicial.gov for the session, then: node scripts/rcap-corpus/acquire-colorado-supplement.mjs --write-index",
+    "everythingElseIsReady": "URLs, roles, routes, requiredness, corpus paths, the release identity, the archive recipe and the JDF 611 supersession are all settled. The acquisition run is a fetch-hash-package pass with nothing left to decide.",
+    "scopeNote": "Eight documents, not seven: JDF 611 (current revision) was added by the captain after the lane identified it as newer than the pinned copy. The blocker applies to all eight equally."
+  },
+  "scopeCorrection": {
+    "correctedBy": "Captain A",
+    "correctedAtCaptainHead": "57bf41104c15a80050d9bb4790d32bbdaaeb1703",
+    "wasDocumentCount": 7,
+    "isDocumentCount": 8,
+    "added": [
+      "JDF-611"
+    ],
+    "why": "G-CO-SOURCE identified the current JDF 611 guide (R: July 1, 2025) while resolving the filing set, and recorded that it is newer than the pinned August 2024 copy. Identifying a stale binding and leaving it bound is not a closed finding. The current guide joins the governed acquisition scope so the same all-or-nothing contract covers it.",
+    "doesNotChange": [
+      "the base release identity or its 51/499/329 counts",
+      "the supplement's separate tag, root and archive contract",
+      "the all-or-nothing acquisition behaviour",
+      "any commercial status: all three Colorado routes stay denied"
+    ]
+  }
+}

@@ -63,15 +63,15 @@ try {
     }
   });
 
-  // 1. Public landing to the anonymous state-specific free check.
+  // 1. Public landing to the anonymous state-specific free screening.
   const landingResponse = await page.goto(baseUrl, { waitUntil: "networkidle" });
   check(landingResponse?.ok(), `DTC landing returned ${landingResponse?.status() ?? "no response"}.`);
-  await expectText(page, "Start with a free record check");
+  await expectText(page, "Start with a free screening");
   const landingCta = page.getByRole("link", { name: /Check my record free/i }).first();
   check(await landingCta.isVisible(), "Landing did not show the free record-check CTA.");
   await landingCta.click();
   await page.waitForURL((url) => url.origin === new URL(baseUrl).origin && url.pathname === "/expungement-ai/start");
-  await page.getByRole("link", { name: /Start free/i }).click();
+  await page.getByRole("link", { name: /Check my options/i }).click();
   await page.waitForURL((url) => url.pathname === "/expungement-ai/screening");
   await page.getByRole("link", { name: /Mississippi\s+MS/i }).click();
   await page.waitForURL((url) => url.pathname.toLowerCase() === "/expungement-ai/screening/ms");
@@ -101,7 +101,7 @@ try {
     (response) => response.request().method() === "POST" && safePath(response.url()) === "/api/expungement-ai/screening/pending/claim",
     { timeout: 20_000 }
   );
-  await page.getByRole("button", { name: "Save this matter and continue", exact: true }).click();
+  await page.getByRole("button", { name: "Save my result and continue", exact: true }).click();
   const pendingResponse = await pendingResponsePromise;
   check(pendingResponse.ok(), `DTC pending-result write returned ${pendingResponse.status()}.`);
   const unauthenticatedClaim = await unauthenticatedClaimPromise;
@@ -174,7 +174,7 @@ try {
   for (let step = 0; step < 80 && safePath(page.url()).endsWith("/packet-information"); step += 1) {
     await answerCurrentBuilderQuestion(page);
     const saveResponsePromise = packetInformationResponse(page, itemId);
-    const finalButton = page.getByRole("button", { name: "Review for accuracy", exact: true });
+    const finalButton = page.getByRole("button", { name: "Review packet facts", exact: true });
     if (await finalButton.isVisible().catch(() => false)) {
       await finalButton.click();
     } else {
@@ -186,13 +186,21 @@ try {
     await page.waitForTimeout(30);
   }
   await page.waitForURL((url) => url.pathname === `/briefcase/${itemId}/review`, { timeout: 20_000 });
-  await expectText(page, "Accuracy review");
-  await expectText(page, "$50 one time for this matter.");
+  await expectText(page, "Final verification");
+  await expectText(page, "$50 one time after final verification");
   const finalCta = page.getByRole("button", { name: "Pay $50 and generate my packet", exact: true });
-  check(await finalCta.isVisible(), "Accuracy review did not render the exact final $50 CTA.");
-  check((await page.getByText("No required packet fields are missing", { exact: false }).count()) > 0, "Accuracy review still reports missing packet information.");
-  check(checkoutRequests.length === 0, "Checkout was requested before the final accuracy-review CTA.");
-  await screenshotPair(page, "04-accuracy-review-final-cta");
+  check((await finalCta.count()) === 0, "Checkout was requested before explicit final verification.");
+  check((await page.getByText("All required information is here.", { exact: false }).count()) > 0, "Final verification still reports missing packet information.");
+  check(checkoutRequests.length === 0, "Checkout was requested before final verification.");
+  await screenshotPair(page, "04-packet-facts-before-verification");
+
+  const verificationResponsePromise = packetInformationResponse(page, itemId);
+  await page.getByRole("button", { name: "I verified these packet facts" }).click();
+  const verificationResponse = await verificationResponsePromise;
+  check(verificationResponse.ok(), `Explicit packet verification returned ${verificationResponse.status()}.`);
+  check(await finalCta.isVisible(), "Verified review did not render the exact final $50 CTA.");
+  check(checkoutRequests.length === 0, "Checkout was requested by final verification instead of the checkout CTA.");
+  await screenshotPair(page, "05-verified-final-cta");
 
   // 6. Create Checkout only at final review and stop before card entry.
   const firstCheckoutResponsePromise = checkoutResponse(page);
@@ -220,6 +228,7 @@ try {
     startPath: "/expungement-ai",
     itemId,
     resultState: "MS",
+    verificationResponseStatus: verificationResponse.status(),
     checkoutRequestCount: checkoutRequests.length,
     checkoutSessionId: firstCheckout.checkoutSessionId,
     checkoutSessionReused: false,

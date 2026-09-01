@@ -17,19 +17,34 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { prepareHostedAcceptanceEvidenceLayout } from "./rcap-hosted-acceptance-evidence-layout.mjs";
+import {
+  hostedVercelScopedUrl,
+  resolveHostedVercelIdentity
+} from "./rcap-hosted-acceptance-vercel-identity.mjs";
+
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const EVIDENCE_DIR = path.join(rootDir, "hosted-acceptance-evidence");
-fs.mkdirSync(EVIDENCE_DIR, { recursive: true });
+const { root: EVIDENCE_DIR } = prepareHostedAcceptanceEvidenceLayout({ rootDir });
 
+const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
 const APPLICATION_SHA = process.env.HOSTED_APPLICATION_SHA ?? "";
+const EXACT_DEPLOYMENT_ID = process.env.HOSTED_PREVIEW_DEPLOYMENT_ID ?? "";
+const EXACT_PREVIEW_HOSTNAME = (process.env.HOSTED_PREVIEW_HOSTNAME ?? "").replace(/^https?:\/\//, "").replace(/\/+$/, "");
+// This step is `if: always()` in the hosted workflow and historically did not
+// receive the workflow input. Default only to the one repository-pinned
+// acceptance project; an explicit different value still fails closed below.
+const PROJECT_REF = process.env.ACCEPTANCE_SUPABASE_PROJECT_REF ?? EXPECTED_PROJECT_REF;
 const VERCEL_TOKEN = process.env.VERCEL_TOKEN ?? "";
-const VERCEL_ORG_ID = process.env.VERCEL_ORG_ID ?? "";
-const VERCEL_PROJECT_ID = process.env.VERCEL_PROJECT_ID ?? "";
 
-if (!VERCEL_TOKEN || !VERCEL_ORG_ID || !VERCEL_PROJECT_ID || !/^[0-9a-f]{40}$/.test(APPLICATION_SHA)) {
-  console.error("GALLERY: VERCEL_TOKEN, VERCEL_ORG_ID, VERCEL_PROJECT_ID and HOSTED_APPLICATION_SHA are required");
+if (!VERCEL_TOKEN
+  || !/^[0-9a-f]{40}$/.test(APPLICATION_SHA)
+  || PROJECT_REF !== EXPECTED_PROJECT_REF
+  || !/^dpl_[A-Za-z0-9]+$/.test(EXACT_DEPLOYMENT_ID)
+  || !/^[A-Za-z0-9.-]+\.vercel\.app$/.test(EXACT_PREVIEW_HOSTNAME)) {
+  console.error("GALLERY: final application SHA, pinned acceptance ref, and one exact resolved Preview identity are required");
   process.exit(1);
 }
+const VERCEL_IDENTITY = await resolveHostedVercelIdentity({ token: VERCEL_TOKEN });
 
 const PRIORITY = [
   { code: "PA", slug: "pennsylvania", name: "Pennsylvania" },
@@ -44,9 +59,7 @@ function record(caseId, passed, observed) {
 }
 
 async function vercelApi(pathname) {
-  const joiner = pathname.includes("?") ? "&" : "?";
-  const param = VERCEL_ORG_ID.startsWith("team_") ? "teamId" : "slug";
-  const res = await fetch(`https://api.vercel.com${pathname}${joiner}${param}=${encodeURIComponent(VERCEL_ORG_ID)}`, {
+  const res = await fetch(hostedVercelScopedUrl(pathname, VERCEL_IDENTITY), {
     headers: { Authorization: `Bearer ${VERCEL_TOKEN}` }
   });
   let json = null;
@@ -107,17 +120,23 @@ const evidence = {
   states: []
 };
 
-// --- discover the Preview deployment, same predicate as every other step -----
+// --- re-read the one Preview resolved by the workflow boundary ----------------
 let previewUrl = null;
 {
-  const res = await vercelApi(`/v6/deployments?projectId=${encodeURIComponent(VERCEL_PROJECT_ID)}&limit=100&state=READY`);
-  const match = (Array.isArray(res.json?.deployments) ? res.json.deployments : []).find(
-    (d) => (d.readyState ?? d.state) === "READY" && d.target !== "production" && d.meta?.rcapApplicationSha === APPLICATION_SHA
-  );
-  previewUrl = match ? `https://${match.url}` : null;
-  record("gallery_preview_deployment_discovered", Boolean(previewUrl), previewUrl ?? `no READY non-production deployment carrying ${APPLICATION_SHA}`);
+  const res = await vercelApi(`/v13/deployments/${encodeURIComponent(EXACT_DEPLOYMENT_ID)}`);
+  const match = res.json;
+  const exact = res.status === 200
+    && match?.id === EXACT_DEPLOYMENT_ID
+    && match?.url === EXACT_PREVIEW_HOSTNAME
+    && (match?.readyState ?? match?.state) === "READY"
+    && (match?.target === null || match?.target === "preview")
+    && match?.meta?.rcapApplicationSha === APPLICATION_SHA
+    && match?.meta?.rcapAcceptanceProjectRef === PROJECT_REF;
+  previewUrl = exact ? `https://${EXACT_PREVIEW_HOSTNAME}` : null;
+  record("gallery_preview_deployment_discovered", Boolean(previewUrl), previewUrl ?? `resolved deployment ${EXACT_DEPLOYMENT_ID} did not preserve the exact READY nonproduction candidate contract`);
   if (!previewUrl) finish();
   evidence.previewUrl = previewUrl;
+  evidence.previewDeploymentId = EXACT_DEPLOYMENT_ID;
 }
 
 // --- the must-succeed anchor: the bypass reaches the application -------------

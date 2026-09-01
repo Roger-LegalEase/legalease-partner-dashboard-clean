@@ -1,0 +1,3670 @@
+{
+  "schemaVersion": 1,
+  "generatedBy": "scripts/generate-all51-coverage-reconciliation.mjs",
+  "denominator": {
+    "rule": "50 states plus the District of Columbia",
+    "expected": 51,
+    "actual": 51
+  },
+  "sources": {
+    "closureLedger": "data/rcap-ledger/sellable-pathway-closure.json",
+    "launchGraph": "data/rcap-ledger/launch-graph.json",
+    "buildManifest": "data/rcap-all50/all-state-build-manifest.json",
+    "compiledProfiles": "src/lib/rcap-engine/compiled/profiles"
+  },
+  "launchGraphCounters": {
+    "intendedPaid": 260,
+    "correctPathwayPublicWitnesses": 260,
+    "wrongPathwayWitnesses": 0,
+    "nonConvergingWitnesses": 0,
+    "exactTrackAndPacketSet": 220,
+    "registryGapWithPathwayPacketSet": 40,
+    "registryGapWithoutAPacketRecord": 0,
+    "ownerApprovedLegal": 93,
+    "factoryV2Selected": 167,
+    "factoryV2Resolved": 167,
+    "factoryV2AdmittedButSuppressed": [
+      {
+        "pathwayKey": "AR:situation-b-misdemeanor-convictions",
+        "suppressedBy": "exact_supported_deferral"
+      },
+      {
+        "pathwayKey": "KY:felony-conviction-431073",
+        "suppressedBy": "exact_supported_deferral"
+      },
+      {
+        "pathwayKey": "WV:eligible-conviction-expungement-under-w-va-code-61-11-26",
+        "suppressedBy": "exact_supported_deferral"
+      }
+    ],
+    "paymentAllowed": 29,
+    "deterministicallyRenderedComposedText": 167,
+    "deterministicallyRendered": 38,
+    "officialFormsNamedButNotHeldInThisRepository": 129,
+    "operationallySellable": 0
+  },
+  "unmetOperationalGates": {
+    "ownerApprovedLegalDesign": 167,
+    "technicalApprovalCurrent": 192,
+    "deterministicArtifactProven": 222,
+    "noProblematicPdfHold": 19,
+    "paymentAllowed": 231,
+    "rendererSelected": 63,
+    "packetSpecificationComplete": 40
+  },
+  "classificationCounts": {
+    "REMAINING_TO_BUILD": 41,
+    "EXISTING_BRANCH_TO_PORT": 6,
+    "BLOCKED_EXACTLY": 4
+  },
+  "total": 51,
+  "missingJurisdictions": [],
+  "duplicatedJurisdictions": [],
+  "jurisdictions": [
+    {
+      "jurisdiction": "AK",
+      "slug": "alaska",
+      "name": "Alaska",
+      "profile": {
+        "path": "src/lib/rcap-engine/compiled/profiles/AK-alaska.json",
+        "version": "2026-06-19-source-conversion-1",
+        "pathwayCount": 5
+      },
+      "buildManifestStatus": "state_built",
+      "reviewStatuses": {
+        "qa": "pending",
+        "visual": "pending",
+        "counsel": "pending",
+        "sourceFreshness": "pending"
+      },
+      "legacyGenerator": false,
+      "pathways": {
+        "total": 5,
+        "byCategory": {
+          "paid_packet_intended": 5
+        },
+        "paidIntended": 5,
+        "nonPacketService": 0
+      },
+      "stages": {
+        "intendedSellable": 5,
+        "publiclyReachableSellable": 1,
+        "authoritativePacketReady": 1,
+        "packetSpecComplete": 3,
+        "technicallyApprovedPacket": 2,
+        "legallyApprovedPacket": 1,
+        "successfullyRendered": 2
+      },
+      "renderedPaidPathways": 2,
+      "paymentAllowedPathways": 1,
+      "fullyClosedPaidPathways": 1,
+      "openBlockers": [
+        {
+          "id": "legal_review_pending",
+          "severity": "blocking",
+          "statement": "No current counsel ratification records this route as packet-capable and payable.",
+          "count": 4
+        },
+        {
+          "id": "not_paid_product",
+          "severity": "blocking",
+          "statement": "Route metadata records this as not a paid product, and committed treatment evidence records that the participant files their own document(s) on this route. The conflict is unresolved; under the controlling decision it is an open blocker, not a completed guidance treatment.",
+          "count": 3
+        },
+        {
+          "id": "renderer_unavailable",
+          "severity": "blocking",
+          "statement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+          "count": 3
+        },
+        {
+          "id": "packet_spec_incomplete",
+          "severity": "blocking",
+          "statement": "The compiled packet plan does not yet name the required inputs, source rules and source forms a packet needs.",
+          "count": 2
+        },
+        {
+          "id": "filing_determination_missing",
+          "severity": "blocking",
+          "statement": "Route metadata types this as board_or_pardon and does not record whether the participant files something, so no product decision closes this pathway either way.",
+          "count": 1
+        },
+        {
+          "id": "route_metadata",
+          "severity": "blocking",
+          "statement": "The engine does not recognise this as a user-filed court/administrative route; explicit product route metadata is not set.",
+          "count": 1
+        }
+      ],
+      "branchWork": null,
+      "hostedAccepted": false,
+      "classification": "REMAINING_TO_BUILD",
+      "classificationBasis": "4 of 5 adopted participant-filed routes have an unmet engineering gate.",
+      "smallestRemainingDelta": "legal_review_pending (4); not_paid_product (3); renderer_unavailable (3); packet_spec_incomplete (2); filing_determination_missing (1); route_metadata (1)"
+    },
+    {
+      "jurisdiction": "AL",
+      "slug": "alabama",
+      "name": "Alabama",
+      "profile": {
+        "path": "src/lib/rcap-engine/compiled/profiles/AL-alabama.json",
+        "version": "2026-06-19-source-conversion-1",
+        "pathwayCount": 4
+      },
+      "buildManifestStatus": "state_built",
+      "reviewStatuses": {
+        "qa": "pending",
+        "visual": "pending",
+        "counsel": "pending",
+        "sourceFreshness": "pending"
+      },
+      "legacyGenerator": false,
+      "pathways": {
+        "total": 4,
+        "byCategory": {
+          "paid_packet_intended": 4
+        },
+        "paidIntended": 4,
+        "nonPacketService": 0
+      },
+      "stages": {
+        "intendedSellable": 4,
+        "publiclyReachableSellable": 0,
+        "authoritativePacketReady": 0,
+        "packetSpecComplete": 4,
+        "technicallyApprovedPacket": 1,
+        "legallyApprovedPacket": 0,
+        "successfullyRendered": 4
+      },
+      "renderedPaidPathways": 4,
+      "paymentAllowedPathways": 0,
+      "fullyClosedPaidPathways": 0,
+      "openBlockers": [
+        {
+          "id": "legal_review_pending",
+          "severity": "blocking",
+          "statement": "No current counsel ratification records this route as packet-capable and payable.",
+          "count": 4
+        },
+        {
+          "id": "route_metadata",
+          "severity": "blocking",
+          "statement": "The engine does not recognise this as a user-filed court/administrative route; explicit product route metadata is not set.",
+          "count": 3
+        },
+        {
+          "id": "not_paid_product",
+          "severity": "blocking",
+          "statement": "Route metadata records this as not a paid product, and committed treatment evidence records that the participant files their own document(s) on this route. The conflict is unresolved; under the controlling decision it is an open blocker, not a completed guidance treatment.",
+          "count": 1
+        }
+      ],
+      "branchWork": null,
+      "hostedAccepted": false,
+      "classification": "REMAINING_TO_BUILD",
+      "classificationBasis": "4 of 4 adopted participant-filed routes have an unmet engineering gate.",
+      "smallestRemainingDelta": "legal_review_pending (4); route_metadata (3); not_paid_product (1)"
+    },
+    {
+      "jurisdiction": "AR",
+      "slug": "arkansas",
+      "name": "Arkansas",
+      "profile": {
+        "path": "src/lib/rcap-engine/compiled/profiles/AR-arkansas.json",
+        "version": "2026-06-19-source-conversion-1",
+        "pathwayCount": 3
+      },
+      "buildManifestStatus": "state_built",
+      "reviewStatuses": {
+        "qa": "pending",
+        "visual": "pending",
+        "counsel": "pending",
+        "sourceFreshness": "pending"
+      },
+      "legacyGenerator": false,
+      "pathways": {
+        "total": 3,
+        "byCategory": {
+          "paid_packet_intended": 3
+        },
+        "paidIntended": 3,
+        "nonPacketService": 0
+      },
+      "stages": {
+        "intendedSellable": 3,
+        "publiclyReachableSellable": 2,
+        "authoritativePacketReady": 2,
+        "packetSpecComplete": 3,
+        "technicallyApprovedPacket": 2,
+        "legallyApprovedPacket": 2,
+        "successfullyRendered": 2
+      },
+      "renderedPaidPathways": 2,
+      "paymentAllowedPathways": 2,
+      "fullyClosedPaidPathways": 1,
+      "openBlockers": [
+        {
+          "id": "not_paid_product",
+          "severity": "blocking",
+          "statement": "Route metadata records this as not a paid product, and committed treatment evidence records that the participant files their own document(s) on this route. The conflict is unresolved; under the controlling decision it is an open blocker, not a completed guidance treatment.",
+          "count": 1
+        },
+        {
+          "id": "legal_review_pending",
+          "severity": "blocking",
+          "statement": "No current counsel ratification records this route as packet-capable and payable.",
+          "count": 1
+        },
+        {
+          "id": "renderer_unavailable",
+          "severity": "blocking",
+          "statement": "No packet artifact is produced for this route today (resolver refused: routeKind=exact_supported_deferral).",
+          "count": 1
+        }
+      ],
+      "branchWork": null,
+      "hostedAccepted": false,
+      "classification": "REMAINING_TO_BUILD",
+      "classificationBasis": "2 of 3 adopted participant-filed routes have an unmet engineering gate.",
+      "smallestRemainingDelta": "not_paid_product (1); legal_review_pending (1); renderer_unavailable (1)"
+    },
+    {
+      "jurisdiction": "AZ",
+      "slug": "arizona",
+      "name": "Arizona",
+      "profile": {
+        "path": "src/lib/rcap-engine/compiled/profiles/AZ-arizona.json",
+        "version": "2026-06-19-source-conversion-1",
+        "pathwayCount": 3
+      },
+      "buildManifestStatus": "state_built",
+      "reviewStatuses": {
+        "qa": "pending",
+        "visual": "pending",
+        "counsel": "pending",
+        "sourceFreshness": "pending"
+      },
+      "legacyGenerator": false,
+      "pathways": {
+        "total": 3,
+        "byCategory": {
+          "paid_packet_intended": 3
+        },
+        "paidIntended": 3,
+        "nonPacketService": 0
+      },
+      "stages": {
+        "intendedSellable": 3,
+        "publiclyReachableSellable": 1,
+        "authoritativePacketReady": 1,
+        "packetSpecComplete": 3,
+        "technicallyApprovedPacket": 1,
+        "legallyApprovedPacket": 1,
+        "successfullyRendered": 3
+      },
+      "renderedPaidPathways": 3,
+      "paymentAllowedPathways": 1,
+      "fullyClosedPaidPathways": 1,
+      "openBlockers": [
+        {
+          "id": "route_metadata",
+          "severity": "blocking",
+          "statement": "The engine does not recognise this as a user-filed court/administrative route; explicit product route metadata is not set.",
+          "count": 2
+        },
+        {
+          "id": "legal_review_pending",
+          "severity": "blocking",
+          "statement": "No current counsel ratification records this route as packet-capable and payable.",
+          "count": 2
+        }
+      ],
+      "branchWork": null,
+      "hostedAccepted": false,
+      "classification": "REMAINING_TO_BUILD",
+      "classificationBasis": "2 of 3 adopted participant-filed routes have an unmet engineering gate.",
+      "smallestRemainingDelta": "route_metadata (2); legal_review_pending (2)"
+    },
+    {
+      "jurisdiction": "CA",
+      "slug": "california",
+      "name": "California",
+      "profile": {
+        "path": "src/lib/rcap-engine/compiled/profiles/CA-california.json",
+        "version": "2026-06-19-source-conversion-1",
+        "pathwayCount": 7
+      },
+      "buildManifestStatus": "state_built",
+      "reviewStatuses": {
+        "qa": "pending",
+        "visual": "pending",
+        "counsel": "pending",
+        "sourceFreshness": "pending"
+      },
+      "legacyGenerator": false,
+      "pathways": {
+        "total": 7,
+        "byCategory": {
+          "paid_packet_intended": 5,
+          "non_filing_guidance": 1,
+          "product_scope_exclusion": 1
+        },
+        "paidIntended": 5,
+        "nonPacketService": 2
+      },
+      "stages": {
+        "intendedSellable": 5,
+        "publiclyReachableSellable": 5,
+        "authoritativePacketReady": 5,
+        "packetSpecComplete": 5,
+        "technicallyApprovedPacket": 3,
+        "legallyApprovedPacket": 5,
+        "successfullyRendered": 3
+      },
+      "renderedPaidPathways": 3,
+      "paymentAllowedPathways": 5,
+      "fullyClosedPaidPathways": 3,
+      "openBlockers": [
+        {
+          "id": "renderer_unavailable",
+          "severity": "blocking",
+          "statement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+          "count": 2
+        }
+      ],
+      "branchWork": {
+        "branch": "feat/record-clearing-production-integration",
+        "commit": "3b6f4c10",
+        "evidence": "5 tranche manifests naming CA",
+        "artifacts": "legal design, packet specification and packet-engine implementation"
+      },
+      "hostedAccepted": false,
+      "classification": "EXISTING_BRANCH_TO_PORT",
+      "classificationBasis": "Reviewed implementation for this jurisdiction exists on feat/record-clearing-production-integration at 3b6f4c10 (5 tranche manifests naming CA), and the controlling branch does not carry it.",
+      "smallestRemainingDelta": "Port the reviewed legal design, packet specification and packet-engine implementation for CA from feat/record-clearing-production-integration; do not merge the branch wholesale."
+    },
+    {
+      "jurisdiction": "CO",
+      "slug": "colorado",
+      "name": "Colorado",
+      "profile": {
+        "path": "src/lib/rcap-engine/compiled/profiles/CO-colorado.json",
+        "version": "2026-06-19-source-conversion-1",
+        "pathwayCount": 4
+      },
+      "buildManifestStatus": "state_built",
+      "reviewStatuses": {
+        "qa": "pending",
+        "visual": "pending",
+        "counsel": "pending",
+        "sourceFreshness": "pending"
+      },
+      "legacyGenerator": false,
+      "pathways": {
+        "total": 4,
+        "byCategory": {
+          "non_filing_guidance": 1,
+          "paid_packet_intended": 3
+        },
+        "paidIntended": 3,
+        "nonPacketService": 1
+      },
+      "stages": {
+        "intendedSellable": 3,
+        "publiclyReachableSellable": 1,
+        "authoritativePacketReady": 1,
+        "packetSpecComplete": 3,
+        "technicallyApprovedPacket": 0,
+        "legallyApprovedPacket": 1,
+        "successfullyRendered": 0
+      },
+      "renderedPaidPathways": 0,
+      "paymentAllowedPathways": 1,
+      "fullyClosedPaidPathways": 0,
+      "openBlockers": [
+        {
+          "id": "renderer_unavailable",
+          "severity": "blocking",
+          "statement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+          "count": 3
+        },
+        {
+          "id": "legal_review_pending",
+          "severity": "blocking",
+          "statement": "No current counsel ratification records this route as packet-capable and payable.",
+          "count": 2
+        },
+        {
+          "id": "wait_anchor_fix",
+          "severity": "blocking",
+          "statement": "The route-specific waiting period / anchor is not coded, so the engine fails closed on ambiguity.",
+          "count": 1
+        },
+        {
+          "id": "gate_build",
+          "severity": "blocking",
+          "statement": "The named substantive eligibility gate is not coded and verified, so the route fails closed to review.",
+          "count": 1
+        }
+      ],
+      "branchWork": null,
+      "hostedAccepted": false,
+      "classification": "REMAINING_TO_BUILD",
+      "classificationBasis": "3 of 3 adopted participant-filed routes have an unmet engineering gate.",
+      "smallestRemainingDelta": "renderer_unavailable (3); legal_review_pending (2); wait_anchor_fix (1); gate_build (1)"
+    },
+    {
+      "jurisdiction": "CT",
+      "slug": "connecticut",
+      "name": "Connecticut",
+      "profile": {
+        "path": "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json",
+        "version": "2026-06-19-source-conversion-1",
+        "pathwayCount": 5
+      },
+      "buildManifestStatus": "state_built",
+      "reviewStatuses": {
+        "qa": "pending",
+        "visual": "pending",
+        "counsel": "pending",
+        "sourceFreshness": "pending"
+      },
+      "legacyGenerator": false,
+      "pathways": {
+        "total": 5,
+        "byCategory": {
+          "paid_packet_intended": 2,
+          "non_filing_guidance": 3
+        },
+        "paidIntended": 2,
+        "nonPacketService": 3
+      },
+      "stages": {
+        "intendedSellable": 2,
+        "publiclyReachableSellable": 1,
+        "authoritativePacketReady": 1,
+        "packetSpecComplete": 1,
+        "technicallyApprovedPacket": 2,
+        "legallyApprovedPacket": 1,
+        "successfullyRendered": 2
+      },
+      "renderedPaidPathways": 2,
+      "paymentAllowedPathways": 1,
+      "fullyClosedPaidPathways": 1,
+      "openBlockers": [
+        {
+          "id": "filing_determination_missing",
+          "severity": "blocking",
+          "statement": "Route metadata types this as board_or_pardon and does not record whether the participant files something, so no product decision closes this pathway either way.",
+          "count": 1
+        },
+        {
+          "id": "not_paid_product",
+          "severity": "blocking",
+          "statement": "Route metadata records this as not a paid product, and committed treatment evidence records that the participant files their own document(s) on this route. The conflict is unresolved; under the controlling decision it is an open blocker, not a completed guidance treatment.",
+          "count": 1
+        },
+        {
+          "id": "packet_spec_incomplete",
+          "severity": "blocking",
+          "statement": "The compiled packet plan does not yet name the required inputs, source rules and source forms a packet needs.",
+          "count": 1
+        },
+        {
+          "id": "legal_review_pending",
+          "severity": "blocking",
+          "statement": "No current counsel ratification records this route as packet-capable and payable.",
+          "count": 1
+        }
+      ],
+      "branchWork": null,
+      "hostedAccepted": false,
+      "classification": "REMAINING_TO_BUILD",
+      "classificationBasis": "1 of 2 adopted participant-filed routes have an unmet engineering gate.",
+      "smallestRemainingDelta": "filing_determination_missing (1); not_paid_product (1); packet_spec_incomplete (1); legal_review_pending (1)"
+    },
+    {
+      "jurisdiction": "DC",
+      "slug": "district-of-columbia",
+      "name": "District of Columbia",
+      "profile": {
+        "path": "src/lib/rcap-engine/compiled/profiles/DC-district-of-columbia.json",
+        "version": "2026-06-19-source-conversion-1",
+        "pathwayCount": 7
+      },
+      "buildManifestStatus": "state_built",
+      "reviewStatuses": {
+        "qa": "pending",
+        "visual": "pending",
+        "counsel": "pending",
+        "sourceFreshness": "pending"
+      },
+      "legacyGenerator": true,
+      "pathways": {
+        "total": 7,
+        "byCategory": {
+          "paid_packet_intended": 4,
+          "legally_unavailable": 2,
+          "non_filing_guidance": 1
+        },
+        "paidIntended": 4,
+        "nonPacketService": 3
+      },
+      "stages": {
+        "intendedSellable": 4,
+        "publiclyReachableSellable": 1,
+        "authoritativePacketReady": 1,
+        "packetSpecComplete": 4,
+        "technicallyApprovedPacket": 4,
+        "legallyApprovedPacket": 1,
+        "successfullyRendered": 4
+      },
+      "renderedPaidPathways": 4,
+      "paymentAllowedPathways": 1,
+      "fullyClosedPaidPathways": 1,
+      "openBlockers": [
+        {
+          "id": "not_paid_product",
+          "severity": "blocking",
+          "statement": "Route metadata records this as not a paid product, and committed treatment evidence records that the participant files their own document(s) on this route. The conflict is unresolved; under the controlling decision it is an open blocker, not a completed guidance treatment.",
+          "count": 3
+        },
+        {
+          "id": "legal_review_pending",
+          "severity": "blocking",
+          "statement": "No current counsel ratification records this route as packet-capable and payable.",
+          "count": 3
+        }
+      ],
+      "branchWork": {
+        "branch": "feat/record-clearing-production-integration",
+        "commit": "3b6f4c10",
+        "evidence": "5 tranche manifests naming DC",
+        "artifacts": "legal design, packet specification and packet-engine implementation"
+      },
+      "hostedAccepted": false,
+      "classification": "EXISTING_BRANCH_TO_PORT",
+      "classificationBasis": "Reviewed implementation for this jurisdiction exists on feat/record-clearing-production-integration at 3b6f4c10 (5 tranche manifests naming DC), and the controlling branch does not carry it.",
+      "smallestRemainingDelta": "Port the reviewed legal design, packet specification and packet-engine implementation for DC from feat/record-clearing-production-integration; do not merge the branch wholesale."
+    },
+    {
+      "jurisdiction": "DE",
+      "slug": "delaware",
+      "name": "Delaware",
+      "profile": {
+        "path": "src/lib/rcap-engine/compiled/profiles/DE-delaware.json",
+        "version": "2026-06-19-source-conversion-1",
+        "pathwayCount": 4
+      },
+      "buildManifestStatus": "state_built",
+      "reviewStatuses": {
+        "qa": "pending",
+        "visual": "pending",
+        "counsel": "pending",
+        "sourceFreshness": "pending"
+      },
+      "legacyGenerator": false,
+      "pathways": {
+        "total": 4,
+        "byCategory": {
+          "paid_packet_intended": 3,
+          "non_filing_guidance": 1
+        },
+        "paidIntended": 3,
+        "nonPacketService": 1
+      },
+      "stages": {
+        "intendedSellable": 3,
+        "publiclyReachableSellable": 1,
+        "authoritativePacketReady": 1,
+        "packetSpecComplete": 3,
+        "technicallyApprovedPacket": 2,
+        "legallyApprovedPacket": 1,
+        "successfullyRendered": 2
+      },
+      "renderedPaidPathways": 2,
+      "paymentAllowedPathways": 1,
+      "fullyClosedPaidPathways": 1,
+      "openBlockers": [
+        {
+          "id": "legal_review_pending",
+          "severity": "blocking",
+          "statement": "No current counsel ratification records this route as packet-capable and payable.",
+          "count": 2
+        },
+        {
+          "id": "route_metadata",
+          "severity": "blocking",
+          "statement": "The engine does not recognise this as a user-filed court/administrative route; explicit product route metadata is not set.",
+          "count": 1
+        },
+        {
+          "id": "renderer_unavailable",
+          "severity": "blocking",
+          "statement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+          "count": 1
+        },
+        {
+          "id": "filing_determination_missing",
+          "severity": "blocking",
+          "statement": "Route metadata types this as board_or_pardon and does not record whether the participant files something, so no product decision closes this pathway either way.",
+          "count": 1
+        },
+        {
+          "id": "not_paid_product",
+          "severity": "blocking",
+          "statement": "Route metadata records this as not a paid product, and committed treatment evidence records that the participant files their own document(s) on this route. The conflict is unresolved; under the controlling decision it is an open blocker, not a completed guidance treatment.",
+          "count": 1
+        }
+      ],
+      "branchWork": null,
+      "hostedAccepted": false,
+      "classification": "REMAINING_TO_BUILD",
+      "classificationBasis": "2 of 3 adopted participant-filed routes have an unmet engineering gate.",
+      "smallestRemainingDelta": "legal_review_pending (2); route_metadata (1); renderer_unavailable (1); filing_determination_missing (1); not_paid_product (1)"
+    },
+    {
+      "jurisdiction": "FL",
+      "slug": "florida",
+      "name": "Florida",
+      "profile": {
+        "path": "src/lib/rcap-engine/compiled/profiles/FL-florida.json",
+        "version": "2026-06-19-source-conversion-1",
+        "pathwayCount": 8
+      },
+      "buildManifestStatus": "state_built",
+      "reviewStatuses": {
+        "qa": "pending",
+        "visual": "pending",
+        "counsel": "pending",
+        "sourceFreshness": "pending"
+      },
+      "legacyGenerator": false,
+      "pathways": {
+        "total": 8,
+        "byCategory": {
+          "product_scope_exclusion": 3,
+          "non_filing_guidance": 1,
+          "paid_packet_intended": 4
+        },
+        "paidIntended": 4,
+        "nonPacketService": 4
+      },
+      "stages": {
+        "intendedSellable": 4,
+        "publiclyReachableSellable": 1,
+        "authoritativePacketReady": 1,
+        "packetSpecComplete": 4,
+        "technicallyApprovedPacket": 2,
+        "legallyApprovedPacket": 1,
+        "successfullyRendered": 4
+      },
+      "renderedPaidPathways": 4,
+      "paymentAllowedPathways": 1,
+      "fullyClosedPaidPathways": 1,
+      "openBlockers": [
+        {
+          "id": "legal_review_pending",
+          "severity": "blocking",
+          "statement": "No current counsel ratification records this route as packet-capable and payable.",
+          "count": 3
+        },
+        {
+          "id": "gate_build",
+          "severity": "blocking",
+          "statement": "The named substantive eligibility gate is not coded and verified, so the route fails closed to review.",
+          "count": 1
+        },
+        {
+          "id": "not_paid_product",
+          "severity": "blocking",
+          "statement": "Route metadata records this as not a paid product, and committed treatment evidence records that the participant files their own document(s) on this route. The conflict is unresolved; under the controlling decision it is an open blocker, not a completed guidance treatment.",
+          "count": 1
+        },
+        {
+          "id": "intake_fix",
+          "severity": "blocking",
+          "statement": "A required screening fact is not modelable from the current public intake.",
+          "count": 1
+        }
+      ],
+      "branchWork": null,
+      "hostedAccepted": false,
+      "classification": "REMAINING_TO_BUILD",
+      "classificationBasis": "3 of 4 adopted participant-filed routes have an unmet engineering gate.",
+      "smallestRemainingDelta": "legal_review_pending (3); gate_build (1); not_paid_product (1); intake_fix (1)"
+    },
+    {
+      "jurisdiction": "GA",
+      "slug": "georgia",
+      "name": "Georgia",
+      "profile": {
+        "path": "src/lib/rcap-engine/compiled/profiles/GA-georgia.json",
+        "version": "2026-06-19-source-conversion-1",
+        "pathwayCount": 6
+      },
+      "buildManifestStatus": "state_built",
+      "reviewStatuses": {
+        "qa": "pending",
+        "visual": "pending",
+        "counsel": "pending",
+        "sourceFreshness": "pending"
+      },
+      "legacyGenerator": false,
+      "pathways": {
+        "total": 6,
+        "byCategory": {
+          "non_filing_guidance": 1,
+          "paid_packet_intended": 5
+        },
+        "paidIntended": 5,
+        "nonPacketService": 1
+      },
+      "stages": {
+        "intendedSellable": 5,
+        "publiclyReachableSellable": 1,
+        "authoritativePacketReady": 1,
+        "packetSpecComplete": 5,
+        "technicallyApprovedPacket": 2,
+        "legallyApprovedPacket": 1,
+        "successfullyRendered": 4
+      },
+      "renderedPaidPathways": 4,
+      "paymentAllowedPathways": 1,
+      "fullyClosedPaidPathways": 1,
+      "openBlockers": [
+        {
+          "id": "legal_review_pending",
+          "severity": "blocking",
+          "statement": "No current counsel ratification records this route as packet-capable and payable.",
+          "count": 4
+        },
+        {
+          "id": "route_metadata",
+          "severity": "blocking",
+          "statement": "The engine does not recognise this as a user-filed court/administrative route; explicit product route metadata is not set.",
+          "count": 2
+        },
+        {
+          "id": "gate_build",
+          "severity": "blocking",
+          "statement": "The named substantive eligibility gate is not coded and verified, so the route fails closed to review.",
+          "count": 1
+        },
+        {
+          "id": "renderer_unavailable",
+          "severity": "blocking",
+          "statement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+          "count": 1
+        },
+        {
+          "id": "legal_reconfirmation",
+          "severity": "blocking",
+          "statement": "Counsel ratification of this route is not current.",
+          "count": 1
+        }
+      ],
+      "branchWork": {
+        "branch": "feat/record-clearing-production-integration",
+        "commit": "3b6f4c10",
+        "evidence": "5 tranche manifests naming GA",
+        "artifacts": "legal design, packet specification and packet-engine implementation"
+      },
+      "hostedAccepted": false,
+      "classification": "EXISTING_BRANCH_TO_PORT",
+      "classificationBasis": "Reviewed implementation for this jurisdiction exists on feat/record-clearing-production-integration at 3b6f4c10 (5 tranche manifests naming GA), and the controlling branch does not carry it.",
+      "smallestRemainingDelta": "Port the reviewed legal design, packet specification and packet-engine implementation for GA from feat/record-clearing-production-integration; do not merge the branch wholesale."
+    },
+    {
+      "jurisdiction": "HI",
+      "slug": "hawaii",
+      "name": "Hawaii",
+      "profile": {
+        "path": "src/lib/rcap-engine/compiled/profiles/HI-hawaii.json",
+        "version": "2026-06-19-source-conversion-1",
+        "pathwayCount": 5
+      },
+      "buildManifestStatus": "state_built",
+      "reviewStatuses": {
+        "qa": "pending",
+        "visual": "pending",
+        "counsel": "pending",
+        "sourceFreshness": "pending"
+      },
+      "legacyGenerator": false,
+      "pathways": {
+        "total": 5,
+        "byCategory": {
+          "paid_packet_intended": 5
+        },
+        "paidIntended": 5,
+        "nonPacketService": 0
+      },
+      "stages": {
+        "intendedSellable": 5,
+        "publiclyReachableSellable": 3,
+        "authoritativePacketReady": 3,
+        "packetSpecComplete": 5,
+        "technicallyApprovedPacket": 5,
+        "legallyApprovedPacket": 3,
+        "successfullyRendered": 5
+      },
+      "renderedPaidPathways": 5,
+      "paymentAllowedPathways": 3,
+      "fullyClosedPaidPathways": 3,
+      "openBlockers": [
+        {
+          "id": "filing_determination_missing",
+          "severity": "blocking",
+          "statement": "Route metadata types this as unknown and does not record whether the participant files something, so no product decision closes this pathway either way.",
+          "count": 2
+        },
+        {
+          "id": "legal_action_required",
+          "severity": "blocking",
+          "statement": "A named legal question is open and owned.",
+          "count": 2
+        },
+        {
+          "id": "legal_review_pending",
+          "severity": "blocking",
+          "statement": "No current counsel ratification records this route as packet-capable and payable.",
+          "count": 2
+        }
+      ],
+      "branchWork": null,
+      "hostedAccepted": false,
+      "classification": "REMAINING_TO_BUILD",
+      "classificationBasis": "2 of 5 adopted participant-filed routes have an unmet engineering gate.",
+      "smallestRemainingDelta": "filing_determination_missing (2); legal_action_required (2); legal_review_pending (2)"
+    },
+    {
+      "jurisdiction": "IA",
+      "slug": "iowa",
+      "name": "Iowa",
+      "profile": {
+        "path": "src/lib/rcap-engine/compiled/profiles/IA-iowa.json",
+        "version": "2026-06-19-source-conversion-1",
+        "pathwayCount": 5
+      },
+      "buildManifestStatus": "state_built",
+      "reviewStatuses": {
+        "qa": "pending",
+        "visual": "pending",
+        "counsel": "pending",
+        "sourceFreshness": "pending"
+      },
+      "legacyGenerator": false,
+      "pathways": {
+        "total": 5,
+        "byCategory": {
+          "paid_packet_intended": 5
+        },
+        "paidIntended": 5,
+        "nonPacketService": 0
+      },
+      "stages": {
+        "intendedSellable": 5,
+        "publiclyReachableSellable": 1,
+        "authoritativePacketReady": 1,
+        "packetSpecComplete": 5,
+        "technicallyApprovedPacket": 1,
+        "legallyApprovedPacket": 1,
+        "successfullyRendered": 5
+      },
+      "renderedPaidPathways": 5,
+      "paymentAllowedPathways": 1,
+      "fullyClosedPaidPathways": 1,
+      "openBlockers": [
+        {
+          "id": "gate_build",
+          "severity": "blocking",
+          "statement": "The named substantive eligibility gate is not coded and verified, so the route fails closed to review.",
+          "count": 4
+        },
+        {
+          "id": "legal_review_pending",
+          "severity": "blocking",
+          "statement": "No current counsel ratification records this route as packet-capable and payable.",
+          "count": 4
+        }
+      ],
+      "branchWork": null,
+      "hostedAccepted": false,
+      "classification": "REMAINING_TO_BUILD",
+      "classificationBasis": "4 of 5 adopted participant-filed routes have an unmet engineering gate.",
+      "smallestRemainingDelta": "gate_build (4); legal_review_pending (4)"
+    },
+    {
+      "jurisdiction": "ID",
+      "slug": "idaho",
+      "name": "Idaho",
+      "profile": {
+        "path": "src/lib/rcap-engine/compiled/profiles/ID-idaho.json",
+        "version": "2026-06-19-source-conversion-1",
+        "pathwayCount": 5
+      },
+      "buildManifestStatus": "state_built",
+      "reviewStatuses": {
+        "qa": "pending",
+        "visual": "pending",
+        "counsel": "pending",
+        "sourceFreshness": "pending"
+      },
+      "legacyGenerator": false,
+      "pathways": {
+        "total": 5,
+        "byCategory": {
+          "paid_packet_intended": 5
+        },
+        "paidIntended": 5,
+        "nonPacketService": 0
+      },
+      "stages": {
+        "intendedSellable": 5,
+        "publiclyReachableSellable": 1,
+        "authoritativePacketReady": 1,
+        "packetSpecComplete": 5,
+        "technicallyApprovedPacket": 1,
+        "legallyApprovedPacket": 1,
+        "successfullyRendered": 2
+      },
+      "renderedPaidPathways": 2,
+      "paymentAllowedPathways": 1,
+      "fullyClosedPaidPathways": 0,
+      "openBlockers": [
+        {
+          "id": "legal_review_pending",
+          "severity": "blocking",
+          "statement": "No current counsel ratification records this route as packet-capable and payable.",
+          "count": 4
+        },
+        {
+          "id": "renderer_unavailable",
+          "severity": "blocking",
+          "statement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+          "count": 3
+        },
+        {
+          "id": "intake_fix",
+          "severity": "blocking",
+          "statement": "A required screening fact is not modelable from the current public intake.",
+          "count": 2
+        },
+        {
+          "id": "route_metadata",
+          "severity": "blocking",
+          "statement": "The engine does not recognise this as a user-filed court/administrative route; explicit product route metadata is not set.",
+          "count": 1
+        },
+        {
+          "id": "not_paid_product",
+          "severity": "blocking",
+          "statement": "Route metadata records this as not a paid product, and committed treatment evidence records that the participant files their own document(s) on this route. The conflict is unresolved; under the controlling decision it is an open blocker, not a completed guidance treatment.",
+          "count": 1
+        }
+      ],
+      "branchWork": null,
+      "hostedAccepted": false,
+      "classification": "REMAINING_TO_BUILD",
+      "classificationBasis": "5 of 5 adopted participant-filed routes have an unmet engineering gate.",
+      "smallestRemainingDelta": "legal_review_pending (4); renderer_unavailable (3); intake_fix (2); route_metadata (1); not_paid_product (1)"
+    },
+    {
+      "jurisdiction": "IL",
+      "slug": "illinois",
+      "name": "Illinois",
+      "profile": {
+        "path": "src/lib/rcap-engine/compiled/profiles/IL-illinois.json",
+        "version": "2026-06-19-source-conversion-1",
+        "pathwayCount": 9
+      },
+      "buildManifestStatus": "state_built",
+      "reviewStatuses": {
+        "qa": "pending",
+        "visual": "pending",
+        "counsel": "pending",
+        "sourceFreshness": "pending"
+      },
+      "legacyGenerator": true,
+      "pathways": {
+        "total": 9,
+        "byCategory": {
+          "paid_packet_intended": 8,
+          "non_filing_guidance": 1
+        },
+        "paidIntended": 8,
+        "nonPacketService": 1
+      },
+      "stages": {
+        "intendedSellable": 8,
+        "publiclyReachableSellable": 5,
+        "authoritativePacketReady": 5,
+        "packetSpecComplete": 8,
+        "technicallyApprovedPacket": 8,
+        "legallyApprovedPacket": 5,
+        "successfullyRendered": 8
+      },
+      "renderedPaidPathways": 8,
+      "paymentAllowedPathways": 5,
+      "fullyClosedPaidPathways": 5,
+      "openBlockers": [
+        {
+          "id": "not_paid_product",
+          "severity": "blocking",
+          "statement": "Route metadata records this as not a paid product, and committed treatment evidence records that the participant files their own document(s) on this route. The conflict is unresolved; under the controlling decision it is an open blocker, not a completed guidance treatment.",
+          "count": 3
+        },
+        {
+          "id": "legal_review_pending",
+          "severity": "blocking",
+          "statement": "No current counsel ratification records this route as packet-capable and payable.",
+          "count": 3
+        }
+      ],
+      "branchWork": {
+        "branch": "feat/record-clearing-production-integration",
+        "commit": "3b6f4c10",
+        "evidence": "5 tranche manifests naming IL",
+        "artifacts": "legal design, packet specification and packet-engine implementation"
+      },
+      "hostedAccepted": false,
+      "classification": "EXISTING_BRANCH_TO_PORT",
+      "classificationBasis": "Reviewed implementation for this jurisdiction exists on feat/record-clearing-production-integration at 3b6f4c10 (5 tranche manifests naming IL), and the controlling branch does not carry it.",
+      "smallestRemainingDelta": "Port the reviewed legal design, packet specification and packet-engine implementation for IL from feat/record-clearing-production-integration; do not merge the branch wholesale."
+    },
+    {
+      "jurisdiction": "IN",
+      "slug": "indiana",
+      "name": "Indiana",
+      "profile": {
+        "path": "src/lib/rcap-engine/compiled/profiles/IN-indiana.json",
+        "version": "2026-06-19-source-conversion-1",
+        "pathwayCount": 4
+      },
+      "buildManifestStatus": "state_built",
+      "reviewStatuses": {
+        "qa": "pending",
+        "visual": "pending",
+        "counsel": "pending",
+        "sourceFreshness": "pending"
+      },
+      "legacyGenerator": false,
+      "pathways": {
+        "total": 4,
+        "byCategory": {
+          "paid_packet_intended": 4
+        },
+        "paidIntended": 4,
+        "nonPacketService": 0
+      },
+      "stages": {
+        "intendedSellable": 4,
+        "publiclyReachableSellable": 1,
+        "authoritativePacketReady": 1,
+        "packetSpecComplete": 4,
+        "technicallyApprovedPacket": 4,
+        "legallyApprovedPacket": 1,
+        "successfullyRendered": 4
+      },
+      "renderedPaidPathways": 4,
+      "paymentAllowedPathways": 1,
+      "fullyClosedPaidPathways": 1,
+      "openBlockers": [
+        {
+          "id": "legal_reconfirmation",
+          "severity": "blocking",
+          "statement": "Counsel ratification of this route is not current.",
+          "count": 3
+        },
+        {
+          "id": "legal_review_pending",
+          "severity": "blocking",
+          "statement": "No current counsel ratification records this route as packet-capable and payable.",
+          "count": 3
+        }
+      ],
+      "branchWork": null,
+      "hostedAccepted": false,
+      "classification": "BLOCKED_EXACTLY",
+      "classificationBasis": "Every open blocker is an owner decision. The technical chain resolves; no engineering work is outstanding.",
+      "smallestRemainingDelta": "Counsel ratification recording each adopted route as packet-capable and payable."
+    },
+    {
+      "jurisdiction": "KS",
+      "slug": "kansas",
+      "name": "Kansas",
+      "profile": {
+        "path": "src/lib/rcap-engine/compiled/profiles/KS-kansas.json",
+        "version": "2026-06-19-source-conversion-1",
+        "pathwayCount": 4
+      },
+      "buildManifestStatus": "state_built",
+      "reviewStatuses": {
+        "qa": "pending",
+        "visual": "pending",
+        "counsel": "pending",
+        "sourceFreshness": "pending"
+      },
+      "legacyGenerator": false,
+      "pathways": {
+        "total": 4,
+        "byCategory": {
+          "paid_packet_intended": 3,
+          "non_filing_guidance": 1
+        },
+        "paidIntended": 3,
+        "nonPacketService": 1
+      },
+      "stages": {
+        "intendedSellable": 3,
+        "publiclyReachableSellable": 1,
+        "authoritativePacketReady": 1,
+        "packetSpecComplete": 3,
+        "technicallyApprovedPacket": 1,
+        "legallyApprovedPacket": 1,
+        "successfullyRendered": 3
+      },
+      "renderedPaidPathways": 3,
+      "paymentAllowedPathways": 1,
+      "fullyClosedPaidPathways": 1,
+      "openBlockers": [
+        {
+          "id": "legal_review_pending",
+          "severity": "blocking",
+          "statement": "No current counsel ratification records this route as packet-capable and payable.",
+          "count": 2
+        },
+        {
+          "id": "gate_build",
+          "severity": "blocking",
+          "statement": "The named substantive eligibility gate is not coded and verified, so the route fails closed to review.",
+          "count": 1
+        },
+        {
+          "id": "intake_fix",
+          "severity": "blocking",
+          "statement": "A required screening fact is not modelable from the current public intake.",
+          "count": 1
+        }
+      ],
+      "branchWork": null,
+      "hostedAccepted": false,
+      "classification": "REMAINING_TO_BUILD",
+      "classificationBasis": "2 of 3 adopted participant-filed routes have an unmet engineering gate.",
+      "smallestRemainingDelta": "legal_review_pending (2); gate_build (1); intake_fix (1)"
+    },
+    {
+      "jurisdiction": "KY",
+      "slug": "kentucky",
+      "name": "Kentucky",
+      "profile": {
+        "path": "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
+        "version": "2026-06-19-source-conversion-1",
+        "pathwayCount": 5
+      },
+      "buildManifestStatus": "state_built",
+      "reviewStatuses": {
+        "qa": "pending",
+        "visual": "pending",
+        "counsel": "pending",
+        "sourceFreshness": "pending"
+      },
+      "legacyGenerator": false,
+      "pathways": {
+        "total": 5,
+        "byCategory": {
+          "paid_packet_intended": 3,
+          "non_filing_guidance": 2
+        },
+        "paidIntended": 3,
+        "nonPacketService": 2
+      },
+      "stages": {
+        "intendedSellable": 3,
+        "publiclyReachableSellable": 0,
+        "authoritativePacketReady": 0,
+        "packetSpecComplete": 3,
+        "technicallyApprovedPacket": 2,
+        "legallyApprovedPacket": 0,
+        "successfullyRendered": 2
+      },
+      "renderedPaidPathways": 2,
+      "paymentAllowedPathways": 0,
+      "fullyClosedPaidPathways": 0,
+      "openBlockers": [
+        {
+          "id": "legal_review_pending",
+          "severity": "blocking",
+          "statement": "No current counsel ratification records this route as packet-capable and payable.",
+          "count": 3
+        },
+        {
+          "id": "not_paid_product",
+          "severity": "blocking",
+          "statement": "Route metadata records this as not a paid product, and committed treatment evidence records that the participant files their own document(s) on this route. The conflict is unresolved; under the controlling decision it is an open blocker, not a completed guidance treatment.",
+          "count": 2
+        },
+        {
+          "id": "renderer_unavailable",
+          "severity": "blocking",
+          "statement": "No packet artifact is produced for this route today (resolver refused: routeKind=exact_supported_deferral).",
+          "count": 1
+        },
+        {
+          "id": "legal_reconfirmation",
+          "severity": "blocking",
+          "statement": "Counsel ratification of this route is not current.",
+          "count": 1
+        }
+      ],
+      "branchWork": null,
+      "hostedAccepted": false,
+      "classification": "REMAINING_TO_BUILD",
+      "classificationBasis": "3 of 3 adopted participant-filed routes have an unmet engineering gate.",
+      "smallestRemainingDelta": "legal_review_pending (3); not_paid_product (2); renderer_unavailable (1); legal_reconfirmation (1)"
+    },
+    {
+      "jurisdiction": "LA",
+      "slug": "louisiana",
+      "name": "Louisiana",
+      "profile": {
+        "path": "src/lib/rcap-engine/compiled/profiles/LA-louisiana.json",
+        "version": "2026-06-19-source-conversion-1",
+        "pathwayCount": 12
+      },
+      "buildManifestStatus": "state_built",
+      "reviewStatuses": {
+        "qa": "pending",
+        "visual": "not_applicable",
+        "counsel": "pending",
+        "sourceFreshness": "pending"
+      },
+      "legacyGenerator": false,
+      "pathways": {
+        "total": 12,
+        "byCategory": {
+          "non_filing_guidance": 1,
+          "paid_packet_intended": 11
+        },
+        "paidIntended": 11,
+        "nonPacketService": 1
+      },
+      "stages": {
+        "intendedSellable": 11,
+        "publiclyReachableSellable": 4,
+        "authoritativePacketReady": 4,
+        "packetSpecComplete": 11,
+        "technicallyApprovedPacket": 9,
+        "legallyApprovedPacket": 4,
+        "successfullyRendered": 10
+      },
+      "renderedPaidPathways": 10,
+      "paymentAllowedPathways": 4,
+      "fullyClosedPaidPathways": 4,
+      "openBlockers": [
+        {
+          "id": "legal_review_pending",
+          "severity": "blocking",
+          "statement": "No current counsel ratification records this route as packet-capable and payable.",
+          "count": 7
+        },
+        {
+          "id": "not_paid_product",
+          "severity": "blocking",
+          "statement": "Route metadata records this as not a paid product, and committed treatment evidence records that the participant files their own document(s) on this route. The conflict is unresolved; under the controlling decision it is an open blocker, not a completed guidance treatment.",
+          "count": 3
+        },
+        {
+          "id": "legal_reconfirmation",
+          "severity": "blocking",
+          "statement": "Counsel ratification of this route is not current.",
+          "count": 2
+        },
+        {
+          "id": "filing_determination_missing",
+          "severity": "blocking",
+          "statement": "Route metadata types this as board_or_pardon and does not record whether the participant files something, so no product decision closes this pathway either way.",
+          "count": 1
+        },
+        {
+          "id": "intake_fix",
+          "severity": "blocking",
+          "statement": "A required screening fact is not modelable from the current public intake.",
+          "count": 1
+        },
+        {
+          "id": "route_metadata",
+          "severity": "blocking",
+          "statement": "The engine does not recognise this as a user-filed court/administrative route; explicit product route metadata is not set.",
+          "count": 1
+        },
+        {
+          "id": "renderer_unavailable",
+          "severity": "blocking",
+          "statement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+          "count": 1
+        }
+      ],
+      "branchWork": null,
+      "hostedAccepted": false,
+      "classification": "REMAINING_TO_BUILD",
+      "classificationBasis": "7 of 11 adopted participant-filed routes have an unmet engineering gate.",
+      "smallestRemainingDelta": "legal_review_pending (7); not_paid_product (3); legal_reconfirmation (2); filing_determination_missing (1); intake_fix (1); route_metadata (1); renderer_unavailable (1)"
+    },
+    {
+      "jurisdiction": "MA",
+      "slug": "massachusetts",
+      "name": "Massachusetts",
+      "profile": {
+        "path": "src/lib/rcap-engine/compiled/profiles/MA-massachusetts.json",
+        "version": "2026-06-19-source-conversion-1",
+        "pathwayCount": 7
+      },
+      "buildManifestStatus": "state_built",
+      "reviewStatuses": {
+        "qa": "pending",
+        "visual": "pending",
+        "counsel": "pending",
+        "sourceFreshness": "pending"
+      },
+      "legacyGenerator": false,
+      "pathways": {
+        "total": 7,
+        "byCategory": {
+          "paid_packet_intended": 6,
+          "non_filing_guidance": 1
+        },
+        "paidIntended": 6,
+        "nonPacketService": 1
+      },
+      "stages": {
+        "intendedSellable": 6,
+        "publiclyReachableSellable": 0,
+        "authoritativePacketReady": 0,
+        "packetSpecComplete": 6,
+        "technicallyApprovedPacket": 5,
+        "legallyApprovedPacket": 0,
+        "successfullyRendered": 6
+      },
+      "renderedPaidPathways": 6,
+      "paymentAllowedPathways": 0,
+      "fullyClosedPaidPathways": 0,
+      "openBlockers": [
+        {
+          "id": "legal_review_pending",
+          "severity": "blocking",
+          "statement": "No current counsel ratification records this route as packet-capable and payable.",
+          "count": 6
+        },
+        {
+          "id": "not_paid_product",
+          "severity": "blocking",
+          "statement": "Route metadata records this as not a paid product, and committed treatment evidence records that the participant files their own document(s) on this route. The conflict is unresolved; under the controlling decision it is an open blocker, not a completed guidance treatment.",
+          "count": 3
+        },
+        {
+          "id": "legal_reconfirmation",
+          "severity": "blocking",
+          "statement": "Counsel ratification of this route is not current.",
+          "count": 2
+        },
+        {
+          "id": "route_metadata",
+          "severity": "blocking",
+          "statement": "The engine does not recognise this as a user-filed court/administrative route; explicit product route metadata is not set.",
+          "count": 1
+        }
+      ],
+      "branchWork": null,
+      "hostedAccepted": false,
+      "classification": "REMAINING_TO_BUILD",
+      "classificationBasis": "6 of 6 adopted participant-filed routes have an unmet engineering gate.",
+      "smallestRemainingDelta": "legal_review_pending (6); not_paid_product (3); legal_reconfirmation (2); route_metadata (1)"
+    },
+    {
+      "jurisdiction": "MD",
+      "slug": "maryland",
+      "name": "Maryland",
+      "profile": {
+        "path": "src/lib/rcap-engine/compiled/profiles/MD-maryland.json",
+        "version": "2026-06-19-source-conversion-1",
+        "pathwayCount": 8
+      },
+      "buildManifestStatus": "state_built",
+      "reviewStatuses": {
+        "qa": "pending",
+        "visual": "pending",
+        "counsel": "pending",
+        "sourceFreshness": "pending"
+      },
+      "legacyGenerator": false,
+      "pathways": {
+        "total": 8,
+        "byCategory": {
+          "paid_packet_intended": 7,
+          "non_filing_guidance": 1
+        },
+        "paidIntended": 7,
+        "nonPacketService": 1
+      },
+      "stages": {
+        "intendedSellable": 7,
+        "publiclyReachableSellable": 3,
+        "authoritativePacketReady": 3,
+        "packetSpecComplete": 7,
+        "technicallyApprovedPacket": 4,
+        "legallyApprovedPacket": 3,
+        "successfullyRendered": 5
+      },
+      "renderedPaidPathways": 5,
+      "paymentAllowedPathways": 3,
+      "fullyClosedPaidPathways": 2,
+      "openBlockers": [
+        {
+          "id": "legal_review_pending",
+          "severity": "blocking",
+          "statement": "No current counsel ratification records this route as packet-capable and payable.",
+          "count": 4
+        },
+        {
+          "id": "not_paid_product",
+          "severity": "blocking",
+          "statement": "Route metadata records this as not a paid product, and committed treatment evidence records that the participant files their own document(s) on this route. The conflict is unresolved; under the controlling decision it is an open blocker, not a completed guidance treatment.",
+          "count": 3
+        },
+        {
+          "id": "renderer_unavailable",
+          "severity": "blocking",
+          "statement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+          "count": 2
+        },
+        {
+          "id": "gate_build",
+          "severity": "blocking",
+          "statement": "The named substantive eligibility gate is not coded and verified, so the route fails closed to review.",
+          "count": 1
+        }
+      ],
+      "branchWork": {
+        "branch": "feat/record-clearing-production-integration",
+        "commit": "3b6f4c10",
+        "evidence": "5 tranche manifests naming MD",
+        "artifacts": "legal design, packet specification and packet-engine implementation"
+      },
+      "hostedAccepted": false,
+      "classification": "EXISTING_BRANCH_TO_PORT",
+      "classificationBasis": "Reviewed implementation for this jurisdiction exists on feat/record-clearing-production-integration at 3b6f4c10 (5 tranche manifests naming MD), and the controlling branch does not carry it.",
+      "smallestRemainingDelta": "Port the reviewed legal design, packet specification and packet-engine implementation for MD from feat/record-clearing-production-integration; do not merge the branch wholesale."
+    },
+    {
+      "jurisdiction": "ME",
+      "slug": "maine",
+      "name": "Maine",
+      "profile": {
+        "path": "src/lib/rcap-engine/compiled/profiles/ME-maine.json",
+        "version": "2026-06-19-source-conversion-1",
+        "pathwayCount": 5
+      },
+      "buildManifestStatus": "state_built",
+      "reviewStatuses": {
+        "qa": "pending",
+        "visual": "pending",
+        "counsel": "pending",
+        "sourceFreshness": "pending"
+      },
+      "legacyGenerator": false,
+      "pathways": {
+        "total": 5,
+        "byCategory": {
+          "paid_packet_intended": 4,
+          "non_filing_guidance": 1
+        },
+        "paidIntended": 4,
+        "nonPacketService": 1
+      },
+      "stages": {
+        "intendedSellable": 4,
+        "publiclyReachableSellable": 1,
+        "authoritativePacketReady": 1,
+        "packetSpecComplete": 4,
+        "technicallyApprovedPacket": 2,
+        "legallyApprovedPacket": 1,
+        "successfullyRendered": 2
+      },
+      "renderedPaidPathways": 2,
+      "paymentAllowedPathways": 1,
+      "fullyClosedPaidPathways": 1,
+      "openBlockers": [
+        {
+          "id": "legal_review_pending",
+          "severity": "blocking",
+          "statement": "No current counsel ratification records this route as packet-capable and payable.",
+          "count": 3
+        },
+        {
+          "id": "renderer_unavailable",
+          "severity": "blocking",
+          "statement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+          "count": 2
+        },
+        {
+          "id": "not_paid_product",
+          "severity": "blocking",
+          "statement": "Route metadata records this as not a paid product, and committed treatment evidence records that the participant files their own document(s) on this route. The conflict is unresolved; under the controlling decision it is an open blocker, not a completed guidance treatment.",
+          "count": 2
+        },
+        {
+          "id": "route_metadata",
+          "severity": "blocking",
+          "statement": "The engine does not recognise this as a user-filed court/administrative route; explicit product route metadata is not set.",
+          "count": 1
+        },
+        {
+          "id": "filing_determination_missing",
+          "severity": "blocking",
+          "statement": "Route metadata types this as board_or_pardon and does not record whether the participant files something, so no product decision closes this pathway either way.",
+          "count": 1
+        }
+      ],
+      "branchWork": null,
+      "hostedAccepted": false,
+      "classification": "REMAINING_TO_BUILD",
+      "classificationBasis": "3 of 4 adopted participant-filed routes have an unmet engineering gate.",
+      "smallestRemainingDelta": "legal_review_pending (3); renderer_unavailable (2); not_paid_product (2); route_metadata (1); filing_determination_missing (1)"
+    },
+    {
+      "jurisdiction": "MI",
+      "slug": "michigan",
+      "name": "Michigan",
+      "profile": {
+        "path": "src/lib/rcap-engine/compiled/profiles/MI-michigan.json",
+        "version": "2026-06-19-source-conversion-1",
+        "pathwayCount": 5
+      },
+      "buildManifestStatus": "state_built",
+      "reviewStatuses": {
+        "qa": "pending",
+        "visual": "pending",
+        "counsel": "pending",
+        "sourceFreshness": "pending"
+      },
+      "legacyGenerator": false,
+      "pathways": {
+        "total": 5,
+        "byCategory": {
+          "non_filing_guidance": 1,
+          "paid_packet_intended": 4
+        },
+        "paidIntended": 4,
+        "nonPacketService": 1
+      },
+      "stages": {
+        "intendedSellable": 4,
+        "publiclyReachableSellable": 1,
+        "authoritativePacketReady": 1,
+        "packetSpecComplete": 4,
+        "technicallyApprovedPacket": 1,
+        "legallyApprovedPacket": 1,
+        "successfullyRendered": 4
+      },
+      "renderedPaidPathways": 4,
+      "paymentAllowedPathways": 1,
+      "fullyClosedPaidPathways": 1,
+      "openBlockers": [
+        {
+          "id": "legal_review_pending",
+          "severity": "blocking",
+          "statement": "No current counsel ratification records this route as packet-capable and payable.",
+          "count": 3
+        },
+        {
+          "id": "wait_anchor_fix",
+          "severity": "blocking",
+          "statement": "The route-specific waiting period / anchor is not coded, so the engine fails closed on ambiguity.",
+          "count": 1
+        },
+        {
+          "id": "intake_fix",
+          "severity": "blocking",
+          "statement": "A required screening fact is not modelable from the current public intake.",
+          "count": 1
+        },
+        {
+          "id": "gate_build",
+          "severity": "blocking",
+          "statement": "The named substantive eligibility gate is not coded and verified, so the route fails closed to review.",
+          "count": 1
+        }
+      ],
+      "branchWork": null,
+      "hostedAccepted": false,
+      "classification": "REMAINING_TO_BUILD",
+      "classificationBasis": "3 of 4 adopted participant-filed routes have an unmet engineering gate.",
+      "smallestRemainingDelta": "legal_review_pending (3); wait_anchor_fix (1); intake_fix (1); gate_build (1)"
+    },
+    {
+      "jurisdiction": "MN",
+      "slug": "minnesota",
+      "name": "Minnesota",
+      "profile": {
+        "path": "src/lib/rcap-engine/compiled/profiles/MN-minnesota.json",
+        "version": "2026-06-19-source-conversion-1",
+        "pathwayCount": 6
+      },
+      "buildManifestStatus": "state_built",
+      "reviewStatuses": {
+        "qa": "pending",
+        "visual": "pending",
+        "counsel": "pending",
+        "sourceFreshness": "pending"
+      },
+      "legacyGenerator": false,
+      "pathways": {
+        "total": 6,
+        "byCategory": {
+          "non_filing_guidance": 3,
+          "paid_packet_intended": 3
+        },
+        "paidIntended": 3,
+        "nonPacketService": 3
+      },
+      "stages": {
+        "intendedSellable": 3,
+        "publiclyReachableSellable": 1,
+        "authoritativePacketReady": 1,
+        "packetSpecComplete": 2,
+        "technicallyApprovedPacket": 1,
+        "legallyApprovedPacket": 1,
+        "successfullyRendered": 2
+      },
+      "renderedPaidPathways": 2,
+      "paymentAllowedPathways": 1,
+      "fullyClosedPaidPathways": 1,
+      "openBlockers": [
+        {
+          "id": "legal_review_pending",
+          "severity": "blocking",
+          "statement": "No current counsel ratification records this route as packet-capable and payable.",
+          "count": 2
+        },
+        {
+          "id": "not_paid_product",
+          "severity": "blocking",
+          "statement": "Route metadata records this as not a paid product, and committed treatment evidence records that the participant files their own document(s) on this route. The conflict is unresolved; under the controlling decision it is an open blocker, not a completed guidance treatment.",
+          "count": 1
+        },
+        {
+          "id": "packet_spec_incomplete",
+          "severity": "blocking",
+          "statement": "The compiled packet plan does not yet name the required inputs, source rules and source forms a packet needs.",
+          "count": 1
+        },
+        {
+          "id": "renderer_unavailable",
+          "severity": "blocking",
+          "statement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+          "count": 1
+        },
+        {
+          "id": "route_metadata",
+          "severity": "blocking",
+          "statement": "The engine does not recognise this as a user-filed court/administrative route; explicit product route metadata is not set.",
+          "count": 1
+        }
+      ],
+      "branchWork": null,
+      "hostedAccepted": false,
+      "classification": "REMAINING_TO_BUILD",
+      "classificationBasis": "2 of 3 adopted participant-filed routes have an unmet engineering gate.",
+      "smallestRemainingDelta": "legal_review_pending (2); not_paid_product (1); packet_spec_incomplete (1); renderer_unavailable (1); route_metadata (1)"
+    },
+    {
+      "jurisdiction": "MO",
+      "slug": "missouri",
+      "name": "Missouri",
+      "profile": {
+        "path": "src/lib/rcap-engine/compiled/profiles/MO-missouri.json",
+        "version": "2026-06-19-source-conversion-1",
+        "pathwayCount": 8
+      },
+      "buildManifestStatus": "state_built",
+      "reviewStatuses": {
+        "qa": "pending",
+        "visual": "pending",
+        "counsel": "pending",
+        "sourceFreshness": "pending"
+      },
+      "legacyGenerator": false,
+      "pathways": {
+        "total": 8,
+        "byCategory": {
+          "non_filing_guidance": 3,
+          "paid_packet_intended": 5
+        },
+        "paidIntended": 5,
+        "nonPacketService": 3
+      },
+      "stages": {
+        "intendedSellable": 5,
+        "publiclyReachableSellable": 2,
+        "authoritativePacketReady": 2,
+        "packetSpecComplete": 5,
+        "technicallyApprovedPacket": 5,
+        "legallyApprovedPacket": 2,
+        "successfullyRendered": 5
+      },
+      "renderedPaidPathways": 5,
+      "paymentAllowedPathways": 2,
+      "fullyClosedPaidPathways": 2,
+      "openBlockers": [
+        {
+          "id": "legal_review_pending",
+          "severity": "blocking",
+          "statement": "No current counsel ratification records this route as packet-capable and payable.",
+          "count": 3
+        },
+        {
+          "id": "legal_reconfirmation",
+          "severity": "blocking",
+          "statement": "Counsel ratification of this route is not current.",
+          "count": 2
+        },
+        {
+          "id": "not_paid_product",
+          "severity": "blocking",
+          "statement": "Route metadata records this as not a paid product, and committed treatment evidence records that the participant files their own document(s) on this route. The conflict is unresolved; under the controlling decision it is an open blocker, not a completed guidance treatment.",
+          "count": 1
+        }
+      ],
+      "branchWork": null,
+      "hostedAccepted": false,
+      "classification": "REMAINING_TO_BUILD",
+      "classificationBasis": "3 of 5 adopted participant-filed routes have an unmet engineering gate.",
+      "smallestRemainingDelta": "legal_review_pending (3); legal_reconfirmation (2); not_paid_product (1)"
+    },
+    {
+      "jurisdiction": "MS",
+      "slug": "mississippi",
+      "name": "Mississippi",
+      "profile": {
+        "path": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
+        "version": "2026-06-19-source-conversion-1",
+        "pathwayCount": 23
+      },
+      "buildManifestStatus": "state_built",
+      "reviewStatuses": {
+        "qa": "pending",
+        "visual": "pending",
+        "counsel": "pending",
+        "sourceFreshness": "pending"
+      },
+      "legacyGenerator": true,
+      "pathways": {
+        "total": 23,
+        "byCategory": {
+          "paid_packet_intended": 15,
+          "non_filing_guidance": 8
+        },
+        "paidIntended": 15,
+        "nonPacketService": 8
+      },
+      "stages": {
+        "intendedSellable": 15,
+        "publiclyReachableSellable": 9,
+        "authoritativePacketReady": 9,
+        "packetSpecComplete": 13,
+        "technicallyApprovedPacket": 8,
+        "legallyApprovedPacket": 9,
+        "successfullyRendered": 12
+      },
+      "renderedPaidPathways": 12,
+      "paymentAllowedPathways": 9,
+      "fullyClosedPaidPathways": 8,
+      "openBlockers": [
+        {
+          "id": "legal_review_pending",
+          "severity": "blocking",
+          "statement": "No current counsel ratification records this route as packet-capable and payable.",
+          "count": 6
+        },
+        {
+          "id": "route_metadata",
+          "severity": "blocking",
+          "statement": "The engine does not recognise this as a user-filed court/administrative route; explicit product route metadata is not set.",
+          "count": 4
+        },
+        {
+          "id": "renderer_unavailable",
+          "severity": "blocking",
+          "statement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+          "count": 3
+        },
+        {
+          "id": "not_paid_product",
+          "severity": "blocking",
+          "statement": "Route metadata records this as not a paid product, and committed treatment evidence records that the participant files their own document(s) on this route. The conflict is unresolved; under the controlling decision it is an open blocker, not a completed guidance treatment.",
+          "count": 2
+        },
+        {
+          "id": "packet_spec_incomplete",
+          "severity": "blocking",
+          "statement": "The compiled packet plan does not yet name the required inputs, source rules and source forms a packet needs.",
+          "count": 2
+        }
+      ],
+      "branchWork": {
+        "branch": "feat/record-clearing-production-integration",
+        "commit": "3b6f4c10",
+        "evidence": "5 tranche manifests naming MS",
+        "artifacts": "legal design, packet specification and packet-engine implementation"
+      },
+      "hostedAccepted": false,
+      "classification": "EXISTING_BRANCH_TO_PORT",
+      "classificationBasis": "Reviewed implementation for this jurisdiction exists on feat/record-clearing-production-integration at 3b6f4c10 (5 tranche manifests naming MS), and the controlling branch does not carry it.",
+      "smallestRemainingDelta": "Port the reviewed legal design, packet specification and packet-engine implementation for MS from feat/record-clearing-production-integration; do not merge the branch wholesale."
+    },
+    {
+      "jurisdiction": "MT",
+      "slug": "montana",
+      "name": "Montana",
+      "profile": {
+        "path": "src/lib/rcap-engine/compiled/profiles/MT-montana.json",
+        "version": "2026-06-19-source-conversion-1",
+        "pathwayCount": 5
+      },
+      "buildManifestStatus": "state_built",
+      "reviewStatuses": {
+        "qa": "pending",
+        "visual": "pending",
+        "counsel": "pending",
+        "sourceFreshness": "pending"
+      },
+      "legacyGenerator": false,
+      "pathways": {
+        "total": 5,
+        "byCategory": {
+          "product_scope_exclusion": 1,
+          "non_filing_guidance": 2,
+          "paid_packet_intended": 2
+        },
+        "paidIntended": 2,
+        "nonPacketService": 3
+      },
+      "stages": {
+        "intendedSellable": 2,
+        "publiclyReachableSellable": 2,
+        "authoritativePacketReady": 2,
+        "packetSpecComplete": 2,
+        "technicallyApprovedPacket": 2,
+        "legallyApprovedPacket": 2,
+        "successfullyRendered": 2
+      },
+      "renderedPaidPathways": 2,
+      "paymentAllowedPathways": 2,
+      "fullyClosedPaidPathways": 2,
+      "openBlockers": [],
+      "branchWork": null,
+      "hostedAccepted": false,
+      "classification": "BLOCKED_EXACTLY",
+      "classificationBasis": "The chain closes and no blocker is open. What is missing is hosted generation acceptance, which depends on Track A Phase 8 rather than on any work in this jurisdiction.",
+      "smallestRemainingDelta": "Execute hosted generation acceptance for this jurisdiction once the participant platform reaches controlled hosted acceptance."
+    },
+    {
+      "jurisdiction": "NC",
+      "slug": "north-carolina",
+      "name": "North Carolina",
+      "profile": {
+        "path": "src/lib/rcap-engine/compiled/profiles/NC-north-carolina.json",
+        "version": "2026-06-19-source-conversion-1",
+        "pathwayCount": 3
+      },
+      "buildManifestStatus": "state_built",
+      "reviewStatuses": {
+        "qa": "pending",
+        "visual": "pending",
+        "counsel": "pending",
+        "sourceFreshness": "pending"
+      },
+      "legacyGenerator": false,
+      "pathways": {
+        "total": 3,
+        "byCategory": {
+          "paid_packet_intended": 3
+        },
+        "paidIntended": 3,
+        "nonPacketService": 0
+      },
+      "stages": {
+        "intendedSellable": 3,
+        "publiclyReachableSellable": 1,
+        "authoritativePacketReady": 1,
+        "packetSpecComplete": 3,
+        "technicallyApprovedPacket": 1,
+        "legallyApprovedPacket": 1,
+        "successfullyRendered": 3
+      },
+      "renderedPaidPathways": 3,
+      "paymentAllowedPathways": 1,
+      "fullyClosedPaidPathways": 1,
+      "openBlockers": [
+        {
+          "id": "legal_review_pending",
+          "severity": "blocking",
+          "statement": "No current counsel ratification records this route as packet-capable and payable.",
+          "count": 2
+        },
+        {
+          "id": "gate_build",
+          "severity": "blocking",
+          "statement": "The named substantive eligibility gate is not coded and verified, so the route fails closed to review.",
+          "count": 1
+        },
+        {
+          "id": "route_metadata",
+          "severity": "blocking",
+          "statement": "The engine does not recognise this as a user-filed court/administrative route; explicit product route metadata is not set.",
+          "count": 1
+        }
+      ],
+      "branchWork": null,
+      "hostedAccepted": false,
+      "classification": "REMAINING_TO_BUILD",
+      "classificationBasis": "2 of 3 adopted participant-filed routes have an unmet engineering gate.",
+      "smallestRemainingDelta": "legal_review_pending (2); gate_build (1); route_metadata (1)"
+    },
+    {
+      "jurisdiction": "ND",
+      "slug": "north-dakota",
+      "name": "North Dakota",
+      "profile": {
+        "path": "src/lib/rcap-engine/compiled/profiles/ND-north-dakota.json",
+        "version": "2026-06-19-source-conversion-1",
+        "pathwayCount": 6
+      },
+      "buildManifestStatus": "state_built",
+      "reviewStatuses": {
+        "qa": "pending",
+        "visual": "pending",
+        "counsel": "pending",
+        "sourceFreshness": "pending"
+      },
+      "legacyGenerator": false,
+      "pathways": {
+        "total": 6,
+        "byCategory": {
+          "paid_packet_intended": 5,
+          "non_filing_guidance": 1
+        },
+        "paidIntended": 5,
+        "nonPacketService": 1
+      },
+      "stages": {
+        "intendedSellable": 5,
+        "publiclyReachableSellable": 4,
+        "authoritativePacketReady": 4,
+        "packetSpecComplete": 5,
+        "technicallyApprovedPacket": 3,
+        "legallyApprovedPacket": 4,
+        "successfullyRendered": 4
+      },
+      "renderedPaidPathways": 4,
+      "paymentAllowedPathways": 4,
+      "fullyClosedPaidPathways": 3,
+      "openBlockers": [
+        {
+          "id": "gate_build",
+          "severity": "blocking",
+          "statement": "The named substantive eligibility gate is not coded and verified, so the route fails closed to review.",
+          "count": 1
+        },
+        {
+          "id": "legal_review_pending",
+          "severity": "blocking",
+          "statement": "No current counsel ratification records this route as packet-capable and payable.",
+          "count": 1
+        },
+        {
+          "id": "renderer_unavailable",
+          "severity": "blocking",
+          "statement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+          "count": 1
+        }
+      ],
+      "branchWork": null,
+      "hostedAccepted": false,
+      "classification": "REMAINING_TO_BUILD",
+      "classificationBasis": "2 of 5 adopted participant-filed routes have an unmet engineering gate.",
+      "smallestRemainingDelta": "gate_build (1); legal_review_pending (1); renderer_unavailable (1)"
+    },
+    {
+      "jurisdiction": "NE",
+      "slug": "nebraska",
+      "name": "Nebraska",
+      "profile": {
+        "path": "src/lib/rcap-engine/compiled/profiles/NE-nebraska.json",
+        "version": "2026-06-19-source-conversion-1",
+        "pathwayCount": 8
+      },
+      "buildManifestStatus": "state_built",
+      "reviewStatuses": {
+        "qa": "pending",
+        "visual": "pending",
+        "counsel": "pending",
+        "sourceFreshness": "pending"
+      },
+      "legacyGenerator": false,
+      "pathways": {
+        "total": 8,
+        "byCategory": {
+          "non_filing_guidance": 2,
+          "paid_packet_intended": 6
+        },
+        "paidIntended": 6,
+        "nonPacketService": 2
+      },
+      "stages": {
+        "intendedSellable": 6,
+        "publiclyReachableSellable": 2,
+        "authoritativePacketReady": 2,
+        "packetSpecComplete": 6,
+        "technicallyApprovedPacket": 4,
+        "legallyApprovedPacket": 2,
+        "successfullyRendered": 5
+      },
+      "renderedPaidPathways": 5,
+      "paymentAllowedPathways": 2,
+      "fullyClosedPaidPathways": 2,
+      "openBlockers": [
+        {
+          "id": "legal_review_pending",
+          "severity": "blocking",
+          "statement": "No current counsel ratification records this route as packet-capable and payable.",
+          "count": 4
+        },
+        {
+          "id": "route_metadata",
+          "severity": "blocking",
+          "statement": "The engine does not recognise this as a user-filed court/administrative route; explicit product route metadata is not set.",
+          "count": 1
+        },
+        {
+          "id": "renderer_unavailable",
+          "severity": "blocking",
+          "statement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+          "count": 1
+        },
+        {
+          "id": "legal_reconfirmation",
+          "severity": "blocking",
+          "statement": "Counsel ratification of this route is not current.",
+          "count": 1
+        },
+        {
+          "id": "filing_determination_missing",
+          "severity": "blocking",
+          "statement": "Route metadata types this as board_or_pardon and does not record whether the participant files something, so no product decision closes this pathway either way.",
+          "count": 1
+        },
+        {
+          "id": "not_paid_product",
+          "severity": "blocking",
+          "statement": "Route metadata records this as not a paid product, and committed treatment evidence records that the participant files their own document(s) on this route. The conflict is unresolved; under the controlling decision it is an open blocker, not a completed guidance treatment.",
+          "count": 1
+        },
+        {
+          "id": "intake_fix",
+          "severity": "blocking",
+          "statement": "A required screening fact is not modelable from the current public intake.",
+          "count": 1
+        }
+      ],
+      "branchWork": null,
+      "hostedAccepted": false,
+      "classification": "REMAINING_TO_BUILD",
+      "classificationBasis": "4 of 6 adopted participant-filed routes have an unmet engineering gate.",
+      "smallestRemainingDelta": "legal_review_pending (4); route_metadata (1); renderer_unavailable (1); legal_reconfirmation (1); filing_determination_missing (1); not_paid_product (1); intake_fix (1)"
+    },
+    {
+      "jurisdiction": "NH",
+      "slug": "new-hampshire",
+      "name": "New Hampshire",
+      "profile": {
+        "path": "src/lib/rcap-engine/compiled/profiles/NH-new-hampshire.json",
+        "version": "2026-06-19-source-conversion-1",
+        "pathwayCount": 6
+      },
+      "buildManifestStatus": "state_built",
+      "reviewStatuses": {
+        "qa": "pending",
+        "visual": "pending",
+        "counsel": "pending",
+        "sourceFreshness": "pending"
+      },
+      "legacyGenerator": false,
+      "pathways": {
+        "total": 6,
+        "byCategory": {
+          "paid_packet_intended": 5,
+          "product_scope_exclusion": 1
+        },
+        "paidIntended": 5,
+        "nonPacketService": 1
+      },
+      "stages": {
+        "intendedSellable": 5,
+        "publiclyReachableSellable": 1,
+        "authoritativePacketReady": 1,
+        "packetSpecComplete": 5,
+        "technicallyApprovedPacket": 0,
+        "legallyApprovedPacket": 1,
+        "successfullyRendered": 3
+      },
+      "renderedPaidPathways": 3,
+      "paymentAllowedPathways": 1,
+      "fullyClosedPaidPathways": 0,
+      "openBlockers": [
+        {
+          "id": "legal_review_pending",
+          "severity": "blocking",
+          "statement": "No current counsel ratification records this route as packet-capable and payable.",
+          "count": 4
+        },
+        {
+          "id": "renderer_unavailable",
+          "severity": "blocking",
+          "statement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+          "count": 2
+        },
+        {
+          "id": "legal_reconfirmation",
+          "severity": "blocking",
+          "statement": "Counsel ratification of this route is not current.",
+          "count": 1
+        },
+        {
+          "id": "gate_build",
+          "severity": "blocking",
+          "statement": "The named substantive eligibility gate is not coded and verified, so the route fails closed to review.",
+          "count": 1
+        },
+        {
+          "id": "route_metadata",
+          "severity": "blocking",
+          "statement": "The engine does not recognise this as a user-filed court/administrative route; explicit product route metadata is not set.",
+          "count": 1
+        },
+        {
+          "id": "wait_anchor_fix",
+          "severity": "blocking",
+          "statement": "The route-specific waiting period / anchor is not coded, so the engine fails closed on ambiguity.",
+          "count": 1
+        }
+      ],
+      "branchWork": null,
+      "hostedAccepted": false,
+      "classification": "REMAINING_TO_BUILD",
+      "classificationBasis": "5 of 5 adopted participant-filed routes have an unmet engineering gate.",
+      "smallestRemainingDelta": "legal_review_pending (4); renderer_unavailable (2); legal_reconfirmation (1); gate_build (1); route_metadata (1); wait_anchor_fix (1)"
+    },
+    {
+      "jurisdiction": "NJ",
+      "slug": "new-jersey",
+      "name": "New Jersey",
+      "profile": {
+        "path": "src/lib/rcap-engine/compiled/profiles/NJ-new-jersey.json",
+        "version": "2026-06-19-source-conversion-1",
+        "pathwayCount": 4
+      },
+      "buildManifestStatus": "state_built",
+      "reviewStatuses": {
+        "qa": "pending",
+        "visual": "pending",
+        "counsel": "pending",
+        "sourceFreshness": "pending"
+      },
+      "legacyGenerator": false,
+      "pathways": {
+        "total": 4,
+        "byCategory": {
+          "paid_packet_intended": 3,
+          "non_filing_guidance": 1
+        },
+        "paidIntended": 3,
+        "nonPacketService": 1
+      },
+      "stages": {
+        "intendedSellable": 3,
+        "publiclyReachableSellable": 1,
+        "authoritativePacketReady": 1,
+        "packetSpecComplete": 3,
+        "technicallyApprovedPacket": 2,
+        "legallyApprovedPacket": 1,
+        "successfullyRendered": 3
+      },
+      "renderedPaidPathways": 3,
+      "paymentAllowedPathways": 1,
+      "fullyClosedPaidPathways": 1,
+      "openBlockers": [
+        {
+          "id": "legal_review_pending",
+          "severity": "blocking",
+          "statement": "No current counsel ratification records this route as packet-capable and payable.",
+          "count": 2
+        },
+        {
+          "id": "legal_reconfirmation",
+          "severity": "blocking",
+          "statement": "Counsel ratification of this route is not current.",
+          "count": 1
+        },
+        {
+          "id": "gate_build",
+          "severity": "blocking",
+          "statement": "The named substantive eligibility gate is not coded and verified, so the route fails closed to review.",
+          "count": 1
+        }
+      ],
+      "branchWork": null,
+      "hostedAccepted": false,
+      "classification": "REMAINING_TO_BUILD",
+      "classificationBasis": "2 of 3 adopted participant-filed routes have an unmet engineering gate.",
+      "smallestRemainingDelta": "legal_review_pending (2); legal_reconfirmation (1); gate_build (1)"
+    },
+    {
+      "jurisdiction": "NM",
+      "slug": "new-mexico",
+      "name": "New Mexico",
+      "profile": {
+        "path": "src/lib/rcap-engine/compiled/profiles/NM-new-mexico.json",
+        "version": "2026-06-19-source-conversion-1",
+        "pathwayCount": 5
+      },
+      "buildManifestStatus": "state_built",
+      "reviewStatuses": {
+        "qa": "pending",
+        "visual": "pending",
+        "counsel": "pending",
+        "sourceFreshness": "pending"
+      },
+      "legacyGenerator": false,
+      "pathways": {
+        "total": 5,
+        "byCategory": {
+          "non_filing_guidance": 1,
+          "paid_packet_intended": 3,
+          "product_scope_exclusion": 1
+        },
+        "paidIntended": 3,
+        "nonPacketService": 2
+      },
+      "stages": {
+        "intendedSellable": 3,
+        "publiclyReachableSellable": 2,
+        "authoritativePacketReady": 2,
+        "packetSpecComplete": 3,
+        "technicallyApprovedPacket": 1,
+        "legallyApprovedPacket": 2,
+        "successfullyRendered": 2
+      },
+      "renderedPaidPathways": 2,
+      "paymentAllowedPathways": 2,
+      "fullyClosedPaidPathways": 1,
+      "openBlockers": [
+        {
+          "id": "renderer_unavailable",
+          "severity": "blocking",
+          "statement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+          "count": 1
+        },
+        {
+          "id": "wait_anchor_fix",
+          "severity": "blocking",
+          "statement": "The route-specific waiting period / anchor is not coded, so the engine fails closed on ambiguity.",
+          "count": 1
+        },
+        {
+          "id": "legal_review_pending",
+          "severity": "blocking",
+          "statement": "No current counsel ratification records this route as packet-capable and payable.",
+          "count": 1
+        }
+      ],
+      "branchWork": null,
+      "hostedAccepted": false,
+      "classification": "REMAINING_TO_BUILD",
+      "classificationBasis": "2 of 3 adopted participant-filed routes have an unmet engineering gate.",
+      "smallestRemainingDelta": "renderer_unavailable (1); wait_anchor_fix (1); legal_review_pending (1)"
+    },
+    {
+      "jurisdiction": "NV",
+      "slug": "nevada",
+      "name": "Nevada",
+      "profile": {
+        "path": "src/lib/rcap-engine/compiled/profiles/NV-nevada.json",
+        "version": "2026-06-19-source-conversion-1",
+        "pathwayCount": 7
+      },
+      "buildManifestStatus": "state_built",
+      "reviewStatuses": {
+        "qa": "pending",
+        "visual": "pending",
+        "counsel": "pending",
+        "sourceFreshness": "pending"
+      },
+      "legacyGenerator": false,
+      "pathways": {
+        "total": 7,
+        "byCategory": {
+          "paid_packet_intended": 7
+        },
+        "paidIntended": 7,
+        "nonPacketService": 0
+      },
+      "stages": {
+        "intendedSellable": 7,
+        "publiclyReachableSellable": 1,
+        "authoritativePacketReady": 1,
+        "packetSpecComplete": 7,
+        "technicallyApprovedPacket": 1,
+        "legallyApprovedPacket": 1,
+        "successfullyRendered": 4
+      },
+      "renderedPaidPathways": 4,
+      "paymentAllowedPathways": 1,
+      "fullyClosedPaidPathways": 1,
+      "openBlockers": [
+        {
+          "id": "legal_review_pending",
+          "severity": "blocking",
+          "statement": "No current counsel ratification records this route as packet-capable and payable.",
+          "count": 6
+        },
+        {
+          "id": "renderer_unavailable",
+          "severity": "blocking",
+          "statement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+          "count": 3
+        },
+        {
+          "id": "route_metadata",
+          "severity": "blocking",
+          "statement": "The engine does not recognise this as a user-filed court/administrative route; explicit product route metadata is not set.",
+          "count": 2
+        },
+        {
+          "id": "wait_anchor_fix",
+          "severity": "blocking",
+          "statement": "The route-specific waiting period / anchor is not coded, so the engine fails closed on ambiguity.",
+          "count": 2
+        },
+        {
+          "id": "legal_reconfirmation",
+          "severity": "blocking",
+          "statement": "Counsel ratification of this route is not current.",
+          "count": 1
+        },
+        {
+          "id": "intake_fix",
+          "severity": "blocking",
+          "statement": "A required screening fact is not modelable from the current public intake.",
+          "count": 1
+        }
+      ],
+      "branchWork": null,
+      "hostedAccepted": false,
+      "classification": "REMAINING_TO_BUILD",
+      "classificationBasis": "6 of 7 adopted participant-filed routes have an unmet engineering gate.",
+      "smallestRemainingDelta": "legal_review_pending (6); renderer_unavailable (3); route_metadata (2); wait_anchor_fix (2); legal_reconfirmation (1); intake_fix (1)"
+    },
+    {
+      "jurisdiction": "NY",
+      "slug": "new-york",
+      "name": "New York",
+      "profile": {
+        "path": "src/lib/rcap-engine/compiled/profiles/NY-new-york.json",
+        "version": "2026-06-19-source-conversion-1",
+        "pathwayCount": 5
+      },
+      "buildManifestStatus": "state_built",
+      "reviewStatuses": {
+        "qa": "pending",
+        "visual": "pending",
+        "counsel": "pending",
+        "sourceFreshness": "pending"
+      },
+      "legacyGenerator": false,
+      "pathways": {
+        "total": 5,
+        "byCategory": {
+          "non_filing_guidance": 3,
+          "paid_packet_intended": 2
+        },
+        "paidIntended": 2,
+        "nonPacketService": 3
+      },
+      "stages": {
+        "intendedSellable": 2,
+        "publiclyReachableSellable": 2,
+        "authoritativePacketReady": 2,
+        "packetSpecComplete": 2,
+        "technicallyApprovedPacket": 1,
+        "legallyApprovedPacket": 2,
+        "successfullyRendered": 1
+      },
+      "renderedPaidPathways": 1,
+      "paymentAllowedPathways": 2,
+      "fullyClosedPaidPathways": 1,
+      "openBlockers": [
+        {
+          "id": "renderer_unavailable",
+          "severity": "blocking",
+          "statement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+          "count": 1
+        }
+      ],
+      "branchWork": null,
+      "hostedAccepted": false,
+      "classification": "REMAINING_TO_BUILD",
+      "classificationBasis": "1 of 2 adopted participant-filed routes have an unmet engineering gate.",
+      "smallestRemainingDelta": "renderer_unavailable (1)"
+    },
+    {
+      "jurisdiction": "OH",
+      "slug": "ohio",
+      "name": "Ohio",
+      "profile": {
+        "path": "src/lib/rcap-engine/compiled/profiles/OH-ohio.json",
+        "version": "2026-06-19-source-conversion-1",
+        "pathwayCount": 7
+      },
+      "buildManifestStatus": "state_built",
+      "reviewStatuses": {
+        "qa": "pending",
+        "visual": "pending",
+        "counsel": "pending",
+        "sourceFreshness": "pending"
+      },
+      "legacyGenerator": false,
+      "pathways": {
+        "total": 7,
+        "byCategory": {
+          "paid_packet_intended": 7
+        },
+        "paidIntended": 7,
+        "nonPacketService": 0
+      },
+      "stages": {
+        "intendedSellable": 7,
+        "publiclyReachableSellable": 1,
+        "authoritativePacketReady": 1,
+        "packetSpecComplete": 7,
+        "technicallyApprovedPacket": 2,
+        "legallyApprovedPacket": 1,
+        "successfullyRendered": 4
+      },
+      "renderedPaidPathways": 4,
+      "paymentAllowedPathways": 1,
+      "fullyClosedPaidPathways": 1,
+      "openBlockers": [
+        {
+          "id": "legal_review_pending",
+          "severity": "blocking",
+          "statement": "No current counsel ratification records this route as packet-capable and payable.",
+          "count": 6
+        },
+        {
+          "id": "renderer_unavailable",
+          "severity": "blocking",
+          "statement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+          "count": 3
+        },
+        {
+          "id": "intake_fix",
+          "severity": "blocking",
+          "statement": "A required screening fact is not modelable from the current public intake.",
+          "count": 2
+        },
+        {
+          "id": "gate_build",
+          "severity": "blocking",
+          "statement": "The named substantive eligibility gate is not coded and verified, so the route fails closed to review.",
+          "count": 1
+        },
+        {
+          "id": "wait_anchor_fix",
+          "severity": "blocking",
+          "statement": "The route-specific waiting period / anchor is not coded, so the engine fails closed on ambiguity.",
+          "count": 1
+        },
+        {
+          "id": "route_metadata",
+          "severity": "blocking",
+          "statement": "The engine does not recognise this as a user-filed court/administrative route; explicit product route metadata is not set.",
+          "count": 1
+        },
+        {
+          "id": "legal_reconfirmation",
+          "severity": "blocking",
+          "statement": "Counsel ratification of this route is not current.",
+          "count": 1
+        }
+      ],
+      "branchWork": null,
+      "hostedAccepted": false,
+      "classification": "REMAINING_TO_BUILD",
+      "classificationBasis": "6 of 7 adopted participant-filed routes have an unmet engineering gate.",
+      "smallestRemainingDelta": "legal_review_pending (6); renderer_unavailable (3); intake_fix (2); gate_build (1); wait_anchor_fix (1); route_metadata (1); legal_reconfirmation (1)"
+    },
+    {
+      "jurisdiction": "OK",
+      "slug": "oklahoma",
+      "name": "Oklahoma",
+      "profile": {
+        "path": "src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json",
+        "version": "2026-06-19-source-conversion-1",
+        "pathwayCount": 18
+      },
+      "buildManifestStatus": "state_built",
+      "reviewStatuses": {
+        "qa": "pending",
+        "visual": "not_applicable",
+        "counsel": "pending",
+        "sourceFreshness": "pending"
+      },
+      "legacyGenerator": false,
+      "pathways": {
+        "total": 18,
+        "byCategory": {
+          "paid_packet_intended": 17,
+          "non_filing_guidance": 1
+        },
+        "paidIntended": 17,
+        "nonPacketService": 1
+      },
+      "stages": {
+        "intendedSellable": 17,
+        "publiclyReachableSellable": 1,
+        "authoritativePacketReady": 1,
+        "packetSpecComplete": 17,
+        "technicallyApprovedPacket": 2,
+        "legallyApprovedPacket": 1,
+        "successfullyRendered": 15
+      },
+      "renderedPaidPathways": 15,
+      "paymentAllowedPathways": 1,
+      "fullyClosedPaidPathways": 1,
+      "openBlockers": [
+        {
+          "id": "legal_review_pending",
+          "severity": "blocking",
+          "statement": "No current counsel ratification records this route as packet-capable and payable.",
+          "count": 16
+        },
+        {
+          "id": "route_metadata",
+          "severity": "blocking",
+          "statement": "The engine does not recognise this as a user-filed court/administrative route; explicit product route metadata is not set.",
+          "count": 9
+        },
+        {
+          "id": "gate_build",
+          "severity": "blocking",
+          "statement": "The named substantive eligibility gate is not coded and verified, so the route fails closed to review.",
+          "count": 3
+        },
+        {
+          "id": "renderer_unavailable",
+          "severity": "blocking",
+          "statement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+          "count": 2
+        },
+        {
+          "id": "intake_fix",
+          "severity": "blocking",
+          "statement": "A required screening fact is not modelable from the current public intake.",
+          "count": 1
+        },
+        {
+          "id": "legal_reconfirmation",
+          "severity": "blocking",
+          "statement": "Counsel ratification of this route is not current.",
+          "count": 1
+        },
+        {
+          "id": "filing_determination_missing",
+          "severity": "blocking",
+          "statement": "Route metadata types this as board_or_pardon and does not record whether the participant files something, so no product decision closes this pathway either way.",
+          "count": 1
+        },
+        {
+          "id": "not_paid_product",
+          "severity": "blocking",
+          "statement": "Route metadata records this as not a paid product, and committed treatment evidence records that the participant files their own document(s) on this route. The conflict is unresolved; under the controlling decision it is an open blocker, not a completed guidance treatment.",
+          "count": 1
+        },
+        {
+          "id": "wait_anchor_fix",
+          "severity": "blocking",
+          "statement": "The route-specific waiting period / anchor is not coded, so the engine fails closed on ambiguity.",
+          "count": 1
+        }
+      ],
+      "branchWork": null,
+      "hostedAccepted": false,
+      "classification": "REMAINING_TO_BUILD",
+      "classificationBasis": "16 of 17 adopted participant-filed routes have an unmet engineering gate.",
+      "smallestRemainingDelta": "legal_review_pending (16); route_metadata (9); gate_build (3); renderer_unavailable (2); intake_fix (1); legal_reconfirmation (1); filing_determination_missing (1); not_paid_product (1); wait_anchor_fix (1)"
+    },
+    {
+      "jurisdiction": "OR",
+      "slug": "oregon",
+      "name": "Oregon",
+      "profile": {
+        "path": "src/lib/rcap-engine/compiled/profiles/OR-oregon.json",
+        "version": "2026-06-19-source-conversion-1",
+        "pathwayCount": 3
+      },
+      "buildManifestStatus": "state_built",
+      "reviewStatuses": {
+        "qa": "pending",
+        "visual": "pending",
+        "counsel": "pending",
+        "sourceFreshness": "pending"
+      },
+      "legacyGenerator": false,
+      "pathways": {
+        "total": 3,
+        "byCategory": {
+          "paid_packet_intended": 3
+        },
+        "paidIntended": 3,
+        "nonPacketService": 0
+      },
+      "stages": {
+        "intendedSellable": 3,
+        "publiclyReachableSellable": 1,
+        "authoritativePacketReady": 1,
+        "packetSpecComplete": 3,
+        "technicallyApprovedPacket": 2,
+        "legallyApprovedPacket": 1,
+        "successfullyRendered": 3
+      },
+      "renderedPaidPathways": 3,
+      "paymentAllowedPathways": 1,
+      "fullyClosedPaidPathways": 1,
+      "openBlockers": [
+        {
+          "id": "legal_review_pending",
+          "severity": "blocking",
+          "statement": "No current counsel ratification records this route as packet-capable and payable.",
+          "count": 2
+        },
+        {
+          "id": "legal_reconfirmation",
+          "severity": "blocking",
+          "statement": "Counsel ratification of this route is not current.",
+          "count": 1
+        },
+        {
+          "id": "gate_build",
+          "severity": "blocking",
+          "statement": "The named substantive eligibility gate is not coded and verified, so the route fails closed to review.",
+          "count": 1
+        }
+      ],
+      "branchWork": null,
+      "hostedAccepted": false,
+      "classification": "REMAINING_TO_BUILD",
+      "classificationBasis": "2 of 3 adopted participant-filed routes have an unmet engineering gate.",
+      "smallestRemainingDelta": "legal_review_pending (2); legal_reconfirmation (1); gate_build (1)"
+    },
+    {
+      "jurisdiction": "PA",
+      "slug": "pennsylvania",
+      "name": "Pennsylvania",
+      "profile": {
+        "path": "src/lib/rcap-engine/compiled/profiles/PA-pennsylvania.json",
+        "version": "2026-06-19-source-conversion-1",
+        "pathwayCount": 11
+      },
+      "buildManifestStatus": "state_built",
+      "reviewStatuses": {
+        "qa": "pending",
+        "visual": "pending",
+        "counsel": "pending",
+        "sourceFreshness": "pending"
+      },
+      "legacyGenerator": true,
+      "pathways": {
+        "total": 11,
+        "byCategory": {
+          "paid_packet_intended": 1,
+          "product_scope_exclusion": 9,
+          "non_filing_guidance": 1
+        },
+        "paidIntended": 1,
+        "nonPacketService": 10
+      },
+      "stages": {
+        "intendedSellable": 1,
+        "publiclyReachableSellable": 1,
+        "authoritativePacketReady": 1,
+        "packetSpecComplete": 1,
+        "technicallyApprovedPacket": 1,
+        "legallyApprovedPacket": 1,
+        "successfullyRendered": 1
+      },
+      "renderedPaidPathways": 1,
+      "paymentAllowedPathways": 1,
+      "fullyClosedPaidPathways": 1,
+      "openBlockers": [],
+      "branchWork": null,
+      "hostedAccepted": false,
+      "classification": "BLOCKED_EXACTLY",
+      "classificationBasis": "The chain closes and no blocker is open. What is missing is hosted generation acceptance, which depends on Track A Phase 8 rather than on any work in this jurisdiction.",
+      "smallestRemainingDelta": "Execute hosted generation acceptance for this jurisdiction once the participant platform reaches controlled hosted acceptance."
+    },
+    {
+      "jurisdiction": "RI",
+      "slug": "rhode-island",
+      "name": "Rhode Island",
+      "profile": {
+        "path": "src/lib/rcap-engine/compiled/profiles/RI-rhode-island.json",
+        "version": "2026-06-19-source-conversion-1",
+        "pathwayCount": 8
+      },
+      "buildManifestStatus": "state_built",
+      "reviewStatuses": {
+        "qa": "pending",
+        "visual": "pending",
+        "counsel": "pending",
+        "sourceFreshness": "pending"
+      },
+      "legacyGenerator": false,
+      "pathways": {
+        "total": 8,
+        "byCategory": {
+          "paid_packet_intended": 6,
+          "non_filing_guidance": 2
+        },
+        "paidIntended": 6,
+        "nonPacketService": 2
+      },
+      "stages": {
+        "intendedSellable": 6,
+        "publiclyReachableSellable": 0,
+        "authoritativePacketReady": 0,
+        "packetSpecComplete": 6,
+        "technicallyApprovedPacket": 1,
+        "legallyApprovedPacket": 0,
+        "successfullyRendered": 4
+      },
+      "renderedPaidPathways": 4,
+      "paymentAllowedPathways": 0,
+      "fullyClosedPaidPathways": 0,
+      "openBlockers": [
+        {
+          "id": "legal_review_pending",
+          "severity": "blocking",
+          "statement": "No current counsel ratification records this route as packet-capable and payable.",
+          "count": 6
+        },
+        {
+          "id": "gate_build",
+          "severity": "blocking",
+          "statement": "The named substantive eligibility gate is not coded and verified, so the route fails closed to review.",
+          "count": 2
+        },
+        {
+          "id": "legal_reconfirmation",
+          "severity": "blocking",
+          "statement": "Counsel ratification of this route is not current.",
+          "count": 2
+        },
+        {
+          "id": "renderer_unavailable",
+          "severity": "blocking",
+          "statement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+          "count": 2
+        },
+        {
+          "id": "wait_anchor_fix",
+          "severity": "blocking",
+          "statement": "The route-specific waiting period / anchor is not coded, so the engine fails closed on ambiguity.",
+          "count": 1
+        },
+        {
+          "id": "intake_fix",
+          "severity": "blocking",
+          "statement": "A required screening fact is not modelable from the current public intake.",
+          "count": 1
+        }
+      ],
+      "branchWork": null,
+      "hostedAccepted": false,
+      "classification": "REMAINING_TO_BUILD",
+      "classificationBasis": "6 of 6 adopted participant-filed routes have an unmet engineering gate.",
+      "smallestRemainingDelta": "legal_review_pending (6); gate_build (2); legal_reconfirmation (2); renderer_unavailable (2); wait_anchor_fix (1); intake_fix (1)"
+    },
+    {
+      "jurisdiction": "SC",
+      "slug": "south-carolina",
+      "name": "South Carolina",
+      "profile": {
+        "path": "src/lib/rcap-engine/compiled/profiles/SC-south-carolina.json",
+        "version": "2026-06-19-source-conversion-1",
+        "pathwayCount": 7
+      },
+      "buildManifestStatus": "state_built",
+      "reviewStatuses": {
+        "qa": "pending",
+        "visual": "pending",
+        "counsel": "pending",
+        "sourceFreshness": "pending"
+      },
+      "legacyGenerator": false,
+      "pathways": {
+        "total": 7,
+        "byCategory": {
+          "non_filing_guidance": 2,
+          "paid_packet_intended": 5
+        },
+        "paidIntended": 5,
+        "nonPacketService": 2
+      },
+      "stages": {
+        "intendedSellable": 5,
+        "publiclyReachableSellable": 0,
+        "authoritativePacketReady": 0,
+        "packetSpecComplete": 5,
+        "technicallyApprovedPacket": 1,
+        "legallyApprovedPacket": 0,
+        "successfullyRendered": 4
+      },
+      "renderedPaidPathways": 4,
+      "paymentAllowedPathways": 0,
+      "fullyClosedPaidPathways": 0,
+      "openBlockers": [
+        {
+          "id": "legal_review_pending",
+          "severity": "blocking",
+          "statement": "No current counsel ratification records this route as packet-capable and payable.",
+          "count": 5
+        },
+        {
+          "id": "route_metadata",
+          "severity": "blocking",
+          "statement": "The engine does not recognise this as a user-filed court/administrative route; explicit product route metadata is not set.",
+          "count": 2
+        },
+        {
+          "id": "gate_build",
+          "severity": "blocking",
+          "statement": "The named substantive eligibility gate is not coded and verified, so the route fails closed to review.",
+          "count": 1
+        },
+        {
+          "id": "renderer_unavailable",
+          "severity": "blocking",
+          "statement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+          "count": 1
+        },
+        {
+          "id": "legal_reconfirmation",
+          "severity": "blocking",
+          "statement": "Counsel ratification of this route is not current.",
+          "count": 1
+        },
+        {
+          "id": "wait_anchor_fix",
+          "severity": "blocking",
+          "statement": "The route-specific waiting period / anchor is not coded, so the engine fails closed on ambiguity.",
+          "count": 1
+        }
+      ],
+      "branchWork": null,
+      "hostedAccepted": false,
+      "classification": "REMAINING_TO_BUILD",
+      "classificationBasis": "5 of 5 adopted participant-filed routes have an unmet engineering gate.",
+      "smallestRemainingDelta": "legal_review_pending (5); route_metadata (2); gate_build (1); renderer_unavailable (1); legal_reconfirmation (1); wait_anchor_fix (1)"
+    },
+    {
+      "jurisdiction": "SD",
+      "slug": "south-dakota",
+      "name": "South Dakota",
+      "profile": {
+        "path": "src/lib/rcap-engine/compiled/profiles/SD-south-dakota.json",
+        "version": "2026-06-19-source-conversion-1",
+        "pathwayCount": 8
+      },
+      "buildManifestStatus": "state_built",
+      "reviewStatuses": {
+        "qa": "pending",
+        "visual": "pending",
+        "counsel": "pending",
+        "sourceFreshness": "pending"
+      },
+      "legacyGenerator": false,
+      "pathways": {
+        "total": 8,
+        "byCategory": {
+          "paid_packet_intended": 6,
+          "non_filing_guidance": 2
+        },
+        "paidIntended": 6,
+        "nonPacketService": 2
+      },
+      "stages": {
+        "intendedSellable": 6,
+        "publiclyReachableSellable": 1,
+        "authoritativePacketReady": 1,
+        "packetSpecComplete": 6,
+        "technicallyApprovedPacket": 1,
+        "legallyApprovedPacket": 1,
+        "successfullyRendered": 1
+      },
+      "renderedPaidPathways": 1,
+      "paymentAllowedPathways": 1,
+      "fullyClosedPaidPathways": 1,
+      "openBlockers": [
+        {
+          "id": "legal_review_pending",
+          "severity": "blocking",
+          "statement": "No current counsel ratification records this route as packet-capable and payable.",
+          "count": 5
+        },
+        {
+          "id": "renderer_unavailable",
+          "severity": "blocking",
+          "statement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+          "count": 5
+        },
+        {
+          "id": "legal_reconfirmation",
+          "severity": "blocking",
+          "statement": "Counsel ratification of this route is not current.",
+          "count": 2
+        },
+        {
+          "id": "route_metadata",
+          "severity": "blocking",
+          "statement": "The engine does not recognise this as a user-filed court/administrative route; explicit product route metadata is not set.",
+          "count": 1
+        },
+        {
+          "id": "intake_fix",
+          "severity": "blocking",
+          "statement": "A required screening fact is not modelable from the current public intake.",
+          "count": 1
+        },
+        {
+          "id": "gate_build",
+          "severity": "blocking",
+          "statement": "The named substantive eligibility gate is not coded and verified, so the route fails closed to review.",
+          "count": 1
+        }
+      ],
+      "branchWork": null,
+      "hostedAccepted": false,
+      "classification": "REMAINING_TO_BUILD",
+      "classificationBasis": "5 of 6 adopted participant-filed routes have an unmet engineering gate.",
+      "smallestRemainingDelta": "legal_review_pending (5); renderer_unavailable (5); legal_reconfirmation (2); route_metadata (1); intake_fix (1); gate_build (1)"
+    },
+    {
+      "jurisdiction": "TN",
+      "slug": "tennessee",
+      "name": "Tennessee",
+      "profile": {
+        "path": "src/lib/rcap-engine/compiled/profiles/TN-tennessee.json",
+        "version": "2026-06-19-source-conversion-1",
+        "pathwayCount": 4
+      },
+      "buildManifestStatus": "state_built",
+      "reviewStatuses": {
+        "qa": "pending",
+        "visual": "pending",
+        "counsel": "pending",
+        "sourceFreshness": "pending"
+      },
+      "legacyGenerator": false,
+      "pathways": {
+        "total": 4,
+        "byCategory": {
+          "paid_packet_intended": 4
+        },
+        "paidIntended": 4,
+        "nonPacketService": 0
+      },
+      "stages": {
+        "intendedSellable": 4,
+        "publiclyReachableSellable": 1,
+        "authoritativePacketReady": 1,
+        "packetSpecComplete": 4,
+        "technicallyApprovedPacket": 1,
+        "legallyApprovedPacket": 1,
+        "successfullyRendered": 3
+      },
+      "renderedPaidPathways": 3,
+      "paymentAllowedPathways": 1,
+      "fullyClosedPaidPathways": 0,
+      "openBlockers": [
+        {
+          "id": "legal_review_pending",
+          "severity": "blocking",
+          "statement": "No current counsel ratification records this route as packet-capable and payable.",
+          "count": 3
+        },
+        {
+          "id": "gate_build",
+          "severity": "blocking",
+          "statement": "The named substantive eligibility gate is not coded and verified, so the route fails closed to review.",
+          "count": 2
+        },
+        {
+          "id": "renderer_unavailable",
+          "severity": "blocking",
+          "statement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+          "count": 1
+        },
+        {
+          "id": "legal_reconfirmation",
+          "severity": "blocking",
+          "statement": "Counsel ratification of this route is not current.",
+          "count": 1
+        }
+      ],
+      "branchWork": null,
+      "hostedAccepted": false,
+      "classification": "REMAINING_TO_BUILD",
+      "classificationBasis": "4 of 4 adopted participant-filed routes have an unmet engineering gate.",
+      "smallestRemainingDelta": "legal_review_pending (3); gate_build (2); renderer_unavailable (1); legal_reconfirmation (1)"
+    },
+    {
+      "jurisdiction": "TX",
+      "slug": "texas",
+      "name": "Texas",
+      "profile": {
+        "path": "src/lib/rcap-engine/compiled/profiles/TX-texas.json",
+        "version": "2026-06-19-source-conversion-1",
+        "pathwayCount": 9
+      },
+      "buildManifestStatus": "state_built",
+      "reviewStatuses": {
+        "qa": "pending",
+        "visual": "pending",
+        "counsel": "pending",
+        "sourceFreshness": "pending"
+      },
+      "legacyGenerator": true,
+      "pathways": {
+        "total": 9,
+        "byCategory": {
+          "non_filing_guidance": 1,
+          "paid_packet_intended": 8
+        },
+        "paidIntended": 8,
+        "nonPacketService": 1
+      },
+      "stages": {
+        "intendedSellable": 8,
+        "publiclyReachableSellable": 1,
+        "authoritativePacketReady": 1,
+        "packetSpecComplete": 8,
+        "technicallyApprovedPacket": 0,
+        "legallyApprovedPacket": 1,
+        "successfullyRendered": 5
+      },
+      "renderedPaidPathways": 5,
+      "paymentAllowedPathways": 1,
+      "fullyClosedPaidPathways": 0,
+      "openBlockers": [
+        {
+          "id": "legal_review_pending",
+          "severity": "blocking",
+          "statement": "No current counsel ratification records this route as packet-capable and payable.",
+          "count": 7
+        },
+        {
+          "id": "renderer_unavailable",
+          "severity": "blocking",
+          "statement": "No packet artifact is produced for this route today (resolver refused: routeKind=exact_supported_deferral).",
+          "count": 3
+        },
+        {
+          "id": "route_metadata",
+          "severity": "blocking",
+          "statement": "The engine does not recognise this as a user-filed court/administrative route; explicit product route metadata is not set.",
+          "count": 3
+        },
+        {
+          "id": "wait_anchor_fix",
+          "severity": "blocking",
+          "statement": "The route-specific waiting period / anchor is not coded, so the engine fails closed on ambiguity.",
+          "count": 2
+        },
+        {
+          "id": "gate_build",
+          "severity": "blocking",
+          "statement": "The named substantive eligibility gate is not coded and verified, so the route fails closed to review.",
+          "count": 2
+        }
+      ],
+      "branchWork": null,
+      "hostedAccepted": false,
+      "classification": "REMAINING_TO_BUILD",
+      "classificationBasis": "8 of 8 adopted participant-filed routes have an unmet engineering gate.",
+      "smallestRemainingDelta": "legal_review_pending (7); renderer_unavailable (3); route_metadata (3); wait_anchor_fix (2); gate_build (2)"
+    },
+    {
+      "jurisdiction": "UT",
+      "slug": "utah",
+      "name": "Utah",
+      "profile": {
+        "path": "src/lib/rcap-engine/compiled/profiles/UT-utah.json",
+        "version": "2026-06-19-source-conversion-1",
+        "pathwayCount": 11
+      },
+      "buildManifestStatus": "state_built",
+      "reviewStatuses": {
+        "qa": "pending",
+        "visual": "pending",
+        "counsel": "pending",
+        "sourceFreshness": "pending"
+      },
+      "legacyGenerator": false,
+      "pathways": {
+        "total": 11,
+        "byCategory": {
+          "non_filing_guidance": 4,
+          "paid_packet_intended": 7
+        },
+        "paidIntended": 7,
+        "nonPacketService": 4
+      },
+      "stages": {
+        "intendedSellable": 7,
+        "publiclyReachableSellable": 1,
+        "authoritativePacketReady": 1,
+        "packetSpecComplete": 7,
+        "technicallyApprovedPacket": 1,
+        "legallyApprovedPacket": 1,
+        "successfullyRendered": 5
+      },
+      "renderedPaidPathways": 5,
+      "paymentAllowedPathways": 1,
+      "fullyClosedPaidPathways": 1,
+      "openBlockers": [
+        {
+          "id": "legal_review_pending",
+          "severity": "blocking",
+          "statement": "No current counsel ratification records this route as packet-capable and payable.",
+          "count": 6
+        },
+        {
+          "id": "gate_build",
+          "severity": "blocking",
+          "statement": "The named substantive eligibility gate is not coded and verified, so the route fails closed to review.",
+          "count": 3
+        },
+        {
+          "id": "route_metadata",
+          "severity": "blocking",
+          "statement": "The engine does not recognise this as a user-filed court/administrative route; explicit product route metadata is not set.",
+          "count": 3
+        },
+        {
+          "id": "renderer_unavailable",
+          "severity": "blocking",
+          "statement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+          "count": 2
+        }
+      ],
+      "branchWork": null,
+      "hostedAccepted": false,
+      "classification": "REMAINING_TO_BUILD",
+      "classificationBasis": "6 of 7 adopted participant-filed routes have an unmet engineering gate.",
+      "smallestRemainingDelta": "legal_review_pending (6); gate_build (3); route_metadata (3); renderer_unavailable (2)"
+    },
+    {
+      "jurisdiction": "VA",
+      "slug": "virginia",
+      "name": "Virginia",
+      "profile": {
+        "path": "src/lib/rcap-engine/compiled/profiles/VA-virginia.json",
+        "version": "2026-06-19-source-conversion-1",
+        "pathwayCount": 3
+      },
+      "buildManifestStatus": "state_built",
+      "reviewStatuses": {
+        "qa": "pending",
+        "visual": "pending",
+        "counsel": "pending",
+        "sourceFreshness": "pending"
+      },
+      "legacyGenerator": false,
+      "pathways": {
+        "total": 3,
+        "byCategory": {
+          "non_filing_guidance": 1,
+          "paid_packet_intended": 2
+        },
+        "paidIntended": 2,
+        "nonPacketService": 1
+      },
+      "stages": {
+        "intendedSellable": 2,
+        "publiclyReachableSellable": 2,
+        "authoritativePacketReady": 2,
+        "packetSpecComplete": 2,
+        "technicallyApprovedPacket": 2,
+        "legallyApprovedPacket": 2,
+        "successfullyRendered": 2
+      },
+      "renderedPaidPathways": 2,
+      "paymentAllowedPathways": 2,
+      "fullyClosedPaidPathways": 2,
+      "openBlockers": [],
+      "branchWork": null,
+      "hostedAccepted": false,
+      "classification": "BLOCKED_EXACTLY",
+      "classificationBasis": "The chain closes and no blocker is open. What is missing is hosted generation acceptance, which depends on Track A Phase 8 rather than on any work in this jurisdiction.",
+      "smallestRemainingDelta": "Execute hosted generation acceptance for this jurisdiction once the participant platform reaches controlled hosted acceptance."
+    },
+    {
+      "jurisdiction": "VT",
+      "slug": "vermont",
+      "name": "Vermont",
+      "profile": {
+        "path": "src/lib/rcap-engine/compiled/profiles/VT-vermont.json",
+        "version": "2026-06-19-source-conversion-1",
+        "pathwayCount": 8
+      },
+      "buildManifestStatus": "state_built",
+      "reviewStatuses": {
+        "qa": "pending",
+        "visual": "pending",
+        "counsel": "pending",
+        "sourceFreshness": "pending"
+      },
+      "legacyGenerator": false,
+      "pathways": {
+        "total": 8,
+        "byCategory": {
+          "paid_packet_intended": 8
+        },
+        "paidIntended": 8,
+        "nonPacketService": 0
+      },
+      "stages": {
+        "intendedSellable": 8,
+        "publiclyReachableSellable": 1,
+        "authoritativePacketReady": 1,
+        "packetSpecComplete": 8,
+        "technicallyApprovedPacket": 1,
+        "legallyApprovedPacket": 1,
+        "successfullyRendered": 7
+      },
+      "renderedPaidPathways": 7,
+      "paymentAllowedPathways": 1,
+      "fullyClosedPaidPathways": 1,
+      "openBlockers": [
+        {
+          "id": "legal_review_pending",
+          "severity": "blocking",
+          "statement": "No current counsel ratification records this route as packet-capable and payable.",
+          "count": 7
+        },
+        {
+          "id": "gate_build",
+          "severity": "blocking",
+          "statement": "The named substantive eligibility gate is not coded and verified, so the route fails closed to review.",
+          "count": 3
+        },
+        {
+          "id": "wait_anchor_fix",
+          "severity": "blocking",
+          "statement": "The route-specific waiting period / anchor is not coded, so the engine fails closed on ambiguity.",
+          "count": 3
+        },
+        {
+          "id": "renderer_unavailable",
+          "severity": "blocking",
+          "statement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+          "count": 1
+        },
+        {
+          "id": "route_metadata",
+          "severity": "blocking",
+          "statement": "The engine does not recognise this as a user-filed court/administrative route; explicit product route metadata is not set.",
+          "count": 1
+        }
+      ],
+      "branchWork": null,
+      "hostedAccepted": false,
+      "classification": "REMAINING_TO_BUILD",
+      "classificationBasis": "7 of 8 adopted participant-filed routes have an unmet engineering gate.",
+      "smallestRemainingDelta": "legal_review_pending (7); gate_build (3); wait_anchor_fix (3); renderer_unavailable (1); route_metadata (1)"
+    },
+    {
+      "jurisdiction": "WA",
+      "slug": "washington",
+      "name": "Washington",
+      "profile": {
+        "path": "src/lib/rcap-engine/compiled/profiles/WA-washington.json",
+        "version": "2026-06-19-source-conversion-1",
+        "pathwayCount": 7
+      },
+      "buildManifestStatus": "state_built",
+      "reviewStatuses": {
+        "qa": "pending",
+        "visual": "pending",
+        "counsel": "pending",
+        "sourceFreshness": "pending"
+      },
+      "legacyGenerator": false,
+      "pathways": {
+        "total": 7,
+        "byCategory": {
+          "paid_packet_intended": 7
+        },
+        "paidIntended": 7,
+        "nonPacketService": 0
+      },
+      "stages": {
+        "intendedSellable": 7,
+        "publiclyReachableSellable": 1,
+        "authoritativePacketReady": 1,
+        "packetSpecComplete": 7,
+        "technicallyApprovedPacket": 2,
+        "legallyApprovedPacket": 1,
+        "successfullyRendered": 6
+      },
+      "renderedPaidPathways": 6,
+      "paymentAllowedPathways": 1,
+      "fullyClosedPaidPathways": 1,
+      "openBlockers": [
+        {
+          "id": "legal_review_pending",
+          "severity": "blocking",
+          "statement": "No current counsel ratification records this route as packet-capable and payable.",
+          "count": 6
+        },
+        {
+          "id": "gate_build",
+          "severity": "blocking",
+          "statement": "The named substantive eligibility gate is not coded and verified, so the route fails closed to review.",
+          "count": 2
+        },
+        {
+          "id": "legal_reconfirmation",
+          "severity": "blocking",
+          "statement": "Counsel ratification of this route is not current.",
+          "count": 2
+        },
+        {
+          "id": "wait_anchor_fix",
+          "severity": "blocking",
+          "statement": "The route-specific waiting period / anchor is not coded, so the engine fails closed on ambiguity.",
+          "count": 1
+        },
+        {
+          "id": "renderer_unavailable",
+          "severity": "blocking",
+          "statement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+          "count": 1
+        },
+        {
+          "id": "intake_fix",
+          "severity": "blocking",
+          "statement": "A required screening fact is not modelable from the current public intake.",
+          "count": 1
+        }
+      ],
+      "branchWork": null,
+      "hostedAccepted": false,
+      "classification": "REMAINING_TO_BUILD",
+      "classificationBasis": "6 of 7 adopted participant-filed routes have an unmet engineering gate.",
+      "smallestRemainingDelta": "legal_review_pending (6); gate_build (2); legal_reconfirmation (2); wait_anchor_fix (1); renderer_unavailable (1); intake_fix (1)"
+    },
+    {
+      "jurisdiction": "WI",
+      "slug": "wisconsin",
+      "name": "Wisconsin",
+      "profile": {
+        "path": "src/lib/rcap-engine/compiled/profiles/WI-wisconsin.json",
+        "version": "2026-06-19-source-conversion-1",
+        "pathwayCount": 5
+      },
+      "buildManifestStatus": "state_built",
+      "reviewStatuses": {
+        "qa": "pending",
+        "visual": "pending",
+        "counsel": "pending",
+        "sourceFreshness": "pending"
+      },
+      "legacyGenerator": false,
+      "pathways": {
+        "total": 5,
+        "byCategory": {
+          "paid_packet_intended": 5
+        },
+        "paidIntended": 5,
+        "nonPacketService": 0
+      },
+      "stages": {
+        "intendedSellable": 5,
+        "publiclyReachableSellable": 1,
+        "authoritativePacketReady": 1,
+        "packetSpecComplete": 4,
+        "technicallyApprovedPacket": 0,
+        "legallyApprovedPacket": 1,
+        "successfullyRendered": 1
+      },
+      "renderedPaidPathways": 1,
+      "paymentAllowedPathways": 1,
+      "fullyClosedPaidPathways": 0,
+      "openBlockers": [
+        {
+          "id": "renderer_unavailable",
+          "severity": "blocking",
+          "statement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+          "count": 4
+        },
+        {
+          "id": "legal_review_pending",
+          "severity": "blocking",
+          "statement": "No current counsel ratification records this route as packet-capable and payable.",
+          "count": 4
+        },
+        {
+          "id": "route_metadata",
+          "severity": "blocking",
+          "statement": "The engine does not recognise this as a user-filed court/administrative route; explicit product route metadata is not set.",
+          "count": 1
+        },
+        {
+          "id": "filing_determination_missing",
+          "severity": "blocking",
+          "statement": "Route metadata types this as board_or_pardon and does not record whether the participant files something, so no product decision closes this pathway either way.",
+          "count": 1
+        },
+        {
+          "id": "not_paid_product",
+          "severity": "blocking",
+          "statement": "Route metadata records this as not a paid product, and committed treatment evidence records that the participant files their own document(s) on this route. The conflict is unresolved; under the controlling decision it is an open blocker, not a completed guidance treatment.",
+          "count": 1
+        },
+        {
+          "id": "packet_spec_incomplete",
+          "severity": "blocking",
+          "statement": "The compiled packet plan does not yet name the required inputs, source rules and source forms a packet needs.",
+          "count": 1
+        },
+        {
+          "id": "intake_fix",
+          "severity": "blocking",
+          "statement": "A required screening fact is not modelable from the current public intake.",
+          "count": 1
+        },
+        {
+          "id": "legal_reconfirmation",
+          "severity": "blocking",
+          "statement": "Counsel ratification of this route is not current.",
+          "count": 1
+        }
+      ],
+      "branchWork": null,
+      "hostedAccepted": false,
+      "classification": "REMAINING_TO_BUILD",
+      "classificationBasis": "5 of 5 adopted participant-filed routes have an unmet engineering gate.",
+      "smallestRemainingDelta": "renderer_unavailable (4); legal_review_pending (4); route_metadata (1); filing_determination_missing (1); not_paid_product (1); packet_spec_incomplete (1); intake_fix (1); legal_reconfirmation (1)"
+    },
+    {
+      "jurisdiction": "WV",
+      "slug": "west-virginia",
+      "name": "West Virginia",
+      "profile": {
+        "path": "src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json",
+        "version": "2026-06-19-source-conversion-1",
+        "pathwayCount": 7
+      },
+      "buildManifestStatus": "state_built",
+      "reviewStatuses": {
+        "qa": "pending",
+        "visual": "pending",
+        "counsel": "pending",
+        "sourceFreshness": "pending"
+      },
+      "legacyGenerator": false,
+      "pathways": {
+        "total": 7,
+        "byCategory": {
+          "paid_packet_intended": 6,
+          "non_filing_guidance": 1
+        },
+        "paidIntended": 6,
+        "nonPacketService": 1
+      },
+      "stages": {
+        "intendedSellable": 6,
+        "publiclyReachableSellable": 1,
+        "authoritativePacketReady": 1,
+        "packetSpecComplete": 6,
+        "technicallyApprovedPacket": 3,
+        "legallyApprovedPacket": 1,
+        "successfullyRendered": 3
+      },
+      "renderedPaidPathways": 3,
+      "paymentAllowedPathways": 1,
+      "fullyClosedPaidPathways": 1,
+      "openBlockers": [
+        {
+          "id": "legal_review_pending",
+          "severity": "blocking",
+          "statement": "No current counsel ratification records this route as packet-capable and payable.",
+          "count": 5
+        },
+        {
+          "id": "renderer_unavailable",
+          "severity": "blocking",
+          "statement": "No packet artifact is produced for this route today (resolver refused: routeKind=exact_supported_deferral).",
+          "count": 3
+        },
+        {
+          "id": "legal_reconfirmation",
+          "severity": "blocking",
+          "statement": "Counsel ratification of this route is not current.",
+          "count": 2
+        },
+        {
+          "id": "gate_build",
+          "severity": "blocking",
+          "statement": "The named substantive eligibility gate is not coded and verified, so the route fails closed to review.",
+          "count": 1
+        },
+        {
+          "id": "wait_anchor_fix",
+          "severity": "blocking",
+          "statement": "The route-specific waiting period / anchor is not coded, so the engine fails closed on ambiguity.",
+          "count": 1
+        },
+        {
+          "id": "intake_fix",
+          "severity": "blocking",
+          "statement": "A required screening fact is not modelable from the current public intake.",
+          "count": 1
+        }
+      ],
+      "branchWork": null,
+      "hostedAccepted": false,
+      "classification": "REMAINING_TO_BUILD",
+      "classificationBasis": "5 of 6 adopted participant-filed routes have an unmet engineering gate.",
+      "smallestRemainingDelta": "legal_review_pending (5); renderer_unavailable (3); legal_reconfirmation (2); gate_build (1); wait_anchor_fix (1); intake_fix (1)"
+    },
+    {
+      "jurisdiction": "WY",
+      "slug": "wyoming",
+      "name": "Wyoming",
+      "profile": {
+        "path": "src/lib/rcap-engine/compiled/profiles/WY-wyoming.json",
+        "version": "2026-06-19-source-conversion-1",
+        "pathwayCount": 5
+      },
+      "buildManifestStatus": "state_built",
+      "reviewStatuses": {
+        "qa": "pending",
+        "visual": "pending",
+        "counsel": "pending",
+        "sourceFreshness": "pending"
+      },
+      "legacyGenerator": false,
+      "pathways": {
+        "total": 5,
+        "byCategory": {
+          "non_filing_guidance": 2,
+          "paid_packet_intended": 3
+        },
+        "paidIntended": 3,
+        "nonPacketService": 2
+      },
+      "stages": {
+        "intendedSellable": 3,
+        "publiclyReachableSellable": 1,
+        "authoritativePacketReady": 1,
+        "packetSpecComplete": 3,
+        "technicallyApprovedPacket": 1,
+        "legallyApprovedPacket": 1,
+        "successfullyRendered": 1
+      },
+      "renderedPaidPathways": 1,
+      "paymentAllowedPathways": 1,
+      "fullyClosedPaidPathways": 1,
+      "openBlockers": [
+        {
+          "id": "route_metadata",
+          "severity": "blocking",
+          "statement": "The engine does not recognise this as a user-filed court/administrative route; explicit product route metadata is not set.",
+          "count": 2
+        },
+        {
+          "id": "legal_review_pending",
+          "severity": "blocking",
+          "statement": "No current counsel ratification records this route as packet-capable and payable.",
+          "count": 2
+        },
+        {
+          "id": "renderer_unavailable",
+          "severity": "blocking",
+          "statement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+          "count": 2
+        }
+      ],
+      "branchWork": null,
+      "hostedAccepted": false,
+      "classification": "REMAINING_TO_BUILD",
+      "classificationBasis": "2 of 3 adopted participant-filed routes have an unmet engineering gate.",
+      "smallestRemainingDelta": "route_metadata (2); legal_review_pending (2); renderer_unavailable (2)"
+    }
+  ]
+}

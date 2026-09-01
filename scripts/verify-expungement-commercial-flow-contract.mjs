@@ -1,9 +1,9 @@
 // Focused, no-network behavior checks for the approved free-Briefcase flow.
 //
-// This imports the real save policy, in-memory Briefcase adapter, packet-
-// information model/patch helpers, and human-facing state mapper. The builder
-// route is loaded with deterministic auth/storage doubles so its unpaid DTC and
-// sponsored access decisions are exercised without Supabase or Stripe.
+// This imports the real save policy, in-memory Briefcase adapter, and protected
+// packet-information helpers. The builder route is loaded with deterministic
+// auth/storage doubles so its unpaid DTC CAS transition is exercised without
+// Supabase or Stripe; sponsored save/payment posture is checked separately.
 
 import assert from "node:assert/strict";
 import fs from "node:fs";
@@ -30,9 +30,7 @@ for (const name of [
 }
 
 const {
-  getBriefcaseItem,
   listBriefcaseItems,
-  mergeBriefcaseArtifactRefs,
   saveScreeningResultToBriefcase
 } = await import("../src/lib/expungement-ai/briefcase.ts");
 const {
@@ -42,11 +40,11 @@ const {
   statusForResultCode
 } = await import("../src/lib/expungement-ai/save-result-policy.ts");
 const {
-  packetInformationModelFor,
   packetInformationPatch,
-  packetInformationReviewSafety
+  protectedPacketDraftSeedFromAuthoritative,
+  protectedPacketInformationModelFor
 } = await import("../src/lib/expungement-ai/packet-information.ts");
-const { humanMatterState } = await import("../src/lib/expungement-ai/frontend/briefcase-presentation.ts");
+const { evaluateAuthoritativeScreeningResult } = await import("../src/lib/expungement-ai/authoritative-screening-result.ts");
 
 const USER_ID = "commercial-flow-contract-user";
 const PRODUCT_ID = "expungement_packet";
@@ -175,66 +173,24 @@ for (const item of unpaidPackets) {
   assert.ok(item.packetStatus !== "ready" && item.packetStatus !== "downloaded", "an unpaid matter must not be delivery eligible");
 }
 
-// The real packet-information model is available before payment. It prefills
-// safe screening facts, hides server facts from the questionnaire, tracks what
-// remains, and survives save/leave/resume via the real nested artifact merge.
-let packetMatter = await getBriefcaseItem(USER_ID, packetRetry.id);
-assert.ok(packetMatter);
-let model = packetInformationModelFor(packetMatter);
-assert.ok(model, "unpaid packet matter must expose its packet-information builder");
-assert.equal(packetMatter.paymentStatus, "unpaid");
-assert.equal(model.stage, "not_started");
-assert.equal(model.initialAnswers.county, "Hinds County", "safe screening answer must prefill the builder");
-assert.ok(!model.questions.some((question) => question.id === "jurisdiction"), "server facts must not be asked again");
-assert.deepEqual(model.missingInputIds, ["court", "case_number"]);
-
-const partial = packetInformationPatch({
-  existingItem: packetMatter,
-  answers: { court: "Hinds County Circuit Court" },
-  reviewed: false
+// Protected packet drafts, not participant commercialFlow JSON, now own the
+// first-open/save/resume/final-verification lifecycle.
+const reviewScreeningAnswers = {
+  ownership_scope: "Yes",
+  jurisdiction_scope: "State or local",
+  case_outcome: "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+  offense_level: "Misdemeanor",
+  possible_pathway_context: PACKET_PATHWAY_LABEL,
+  resolved_timing_bucket: "gt_10_years",
+  court_requirements_completed: "yes"
+};
+const authoritativeReview = evaluateAuthoritativeScreeningResult({
+  jurisdiction: "MS",
+  profileVersion: "2026-06-19-source-conversion-1",
+  matterId: "screening-review-ms",
+  answers: reviewScreeningAnswers
 });
-assert.ok(partial);
-assert.equal(partial.readyToGenerate, false);
-assert.deepEqual(partial.missingInputIds, ["case_number"]);
-packetMatter = await mergeBriefcaseArtifactRefs(USER_ID, packetMatter.id, partial.patch);
-assert.ok(packetMatter);
-assert.equal(packetMatter.artifactRefs.retainedRenderRef.marker, "must-survive-builder-saves", "builder save must preserve unrelated artifact refs");
-
-model = packetInformationModelFor(packetMatter);
-assert.equal(model.stage, "in_progress");
-assert.equal(model.initialAnswers.county, "Hinds County");
-assert.equal(model.initialAnswers.court, "Hinds County Circuit Court", "saved progress must reload on resume");
-assert.deepEqual(model.missingInputIds, ["case_number"], "missing information must remain explicit after resume");
-assert.equal(humanMatterState(packetMatter), "Packet details in progress");
-
-const reviewed = packetInformationPatch({
-  existingItem: packetMatter,
-  answers: { case_number: "25-CR-000123" },
-  reviewed: true
-});
-assert.ok(reviewed);
-assert.equal(reviewed.readyToGenerate, false, "a synthetic matter without authoritative screening context must fail closed at review");
-assert.deepEqual(reviewed.missingInputIds, []);
-packetMatter = await mergeBriefcaseArtifactRefs(USER_ID, packetMatter.id, reviewed.patch);
-model = packetInformationModelFor(packetMatter);
-assert.equal(model.stage, "in_progress");
-assert.equal(model.initialAnswers.court, "Hinds County Circuit Court", "final save must retain earlier answers");
-assert.equal(model.initialAnswers.case_number, "25-CR-000123");
-assert.equal(model.reviewedAt, null);
-assert.equal(humanMatterState(packetMatter), "Packet details in progress");
-assert.equal(packetMatter.paymentStatus, "unpaid", "accuracy review must not mark the matter paid");
-assert.equal(packetMatter.checkoutSessionId, undefined, "accuracy review must not create a Checkout Session");
-assert.ok(packetMatter.packetStatus !== "ready" && packetMatter.packetStatus !== "downloaded");
-
-// Builder facts that can contradict the Mississippi route are re-evaluated at
-// final review. Dates are ISO dates, and the ordinary non-conviction fixture
-// uses neutral answers rather than exercising unrelated legal routes.
-const msRequired = [
-  "age_at_offense", "case_outcome", "charge", "contact_information", "county", "court",
-  "disposition_date", "financial_obligations", "jurisdiction", "offense_category", "offense_level",
-  "participant_full_legal_name", "pathway_id", "pending_cases", "prior_relief", "record_type",
-  "residency_or_location", "sentence_completion_date", "trafficking_status"
-];
+const msRequired = authoritativeReview.evaluation.packetPlan.requiredInputIds;
 const cleanPacketAnswers = {
   age_at_offense: { value: "30", unknown: false },
   case_outcome: "Dismissed, no-billed, nolle prosequi, or not prosecuted",
@@ -255,9 +211,15 @@ const cleanPacketAnswers = {
   trafficking_status: "No"
 };
 const reviewMatter = {
-  ...packetMatter,
+  ...packetRetry,
   state: "MS",
   pathwayLabel: PACKET_PATHWAY_LABEL,
+  resultCode: authoritativeReview.evaluation.resultCode,
+  paymentAllowed: authoritativeReview.evaluation.paymentAllowed,
+  packetType: authoritativeReview.packetType,
+  selectedTrackId: authoritativeReview.selectedTrackId,
+  treatmentClassification: authoritativeReview.evaluation.treatmentClassification ?? null,
+  deferralComponentIds: authoritativeReview.evaluation.deferralComponentIds ?? [],
   artifactRefs: {
     commercialFlow: {
       screening: {
@@ -265,20 +227,11 @@ const reviewMatter = {
         screeningMatterId: "screening-review-ms",
         pathwayId: PACKET_PATHWAY_ID,
         pathwayLabel: PACKET_PATHWAY_LABEL,
-        packetPlan: {
-          pathwayId: PACKET_PATHWAY_ID,
-          mode: "state_specific_custom_packet_from_source_rules",
-          formMappingStatus: "custom_or_manual_mapping_required",
-          sourceFormIds: [], requiredInputIds: msRequired, sourceRuleRefs: ["pathways:15-155"]
-        },
-        answers: {
-          ownership_scope: "Yes", jurisdiction_scope: "State or local",
-          case_outcome: "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-          offense_level: "Misdemeanor",
-          possible_pathway_context: PACKET_PATHWAY_LABEL,
-          resolved_timing_bucket: "gt_10_years",
-          court_requirements_completed: "yes"
-        }
+        resultCode: authoritativeReview.evaluation.resultCode,
+        paymentAllowed: authoritativeReview.evaluation.paymentAllowed,
+        packetType: authoritativeReview.packetType,
+        packetPlan: authoritativeReview.evaluation.packetPlan,
+        answers: reviewScreeningAnswers
       },
       packetInformation: {
         stage: "ready_to_generate", requiredInputIds: msRequired,
@@ -289,71 +242,71 @@ const reviewMatter = {
     }
   }
 };
-assert.deepEqual(packetInformationReviewSafety(reviewMatter), { safe: true, reason: "authoritative_route_confirmed" });
-assert.equal(packetInformationReviewSafety(reviewMatter, { disposition_date: { value: "25-CR-000123", unknown: false } }).reason, "invalid_date:disposition_date");
-assert.equal(packetInformationReviewSafety(reviewMatter, { pending_cases: "Yes" }).reason, "route_changing_answer:pending_cases");
-assert.equal(packetInformationReviewSafety(reviewMatter, { trafficking_status: "Yes" }).reason, "route_changing_answer:trafficking_status");
-const ownerReviewModel = packetInformationModelFor(reviewMatter);
-assert.ok(ownerReviewModel);
-assert.equal(ownerReviewModel.builderQuestions.some((question) => question.id === "offense_level"), false, "screening charge level must not be asked again");
-assert.equal(ownerReviewModel.builderQuestions.some((question) => question.id === "offense_category"), false, "derived Mississippi offense category must not duplicate charge level");
-assert.equal(ownerReviewModel.builderQuestions.some((question) => question.id === "sentence_completion_date"), false, "screening court-completion answer must not be asked broadly again");
-assert.equal(ownerReviewModel.questions.find((question) => question.id === "pending_cases")?.prompt, "Do you currently have any pending criminal charges?");
-assert.equal(ownerReviewModel.questions.find((question) => question.id === "residency_or_location")?.prompt, "What city do you currently live in?");
-const helperReviewMatter = structuredClone(reviewMatter);
-helperReviewMatter.artifactRefs.commercialFlow.screening.answers.ownership_scope = "Another person";
-assert.equal(packetInformationModelFor(helperReviewMatter)?.questions.find((question) => question.id === "pending_cases")?.prompt, "Does this person currently have any pending criminal charges?");
+const draftSeed = protectedPacketDraftSeedFromAuthoritative({
+  authoritative: authoritativeReview,
+  screeningAnswers: reviewScreeningAnswers,
+  dependencies: {
+    commercialFlowVersion: 1,
+    entitlementSource: "consumer_payment",
+    productId: PRODUCT_ID
+  },
+  capturedAt: "2026-08-26T00:00:00.000Z"
+});
+assert.ok(draftSeed, "server-authoritative claim inputs must initialize the protected packet draft");
+const initialProtected = {
+  status: "unverified",
+  reason: "final_verification_not_completed",
+  revision: 0,
+  draftHash: draftSeed.hash,
+  draftSnapshot: draftSeed.snapshot
+};
+const firstOpenModel = protectedPacketInformationModelFor(initialProtected);
+assert.ok(firstOpenModel, "first-open packet builder must come from the protected draft");
+assert.equal(firstOpenModel.builderQuestions.some((question) => question.id === "offense_level"), false, "protected screening charge level is not asked again");
+assert.ok(!firstOpenModel.questions.some((question) => question.id === "jurisdiction" || question.id === "pathway_id"), "protected server facts never become browser questions");
+
+const partial = packetInformationPatch({
+  existingItem: { ...reviewMatter, artifactRefs: {} },
+  protectedVerification: initialProtected,
+  answers: { court: cleanPacketAnswers.court },
+  verify: false
+});
+assert.ok(partial, "a protected first fact save must produce one CAS transition");
+assert.equal(partial.readyToGenerate, false);
+const resumedModel = protectedPacketInformationModelFor(partial.protectedTransition.nextVerification);
+assert.ok(resumedModel);
+assert.deepEqual(resumedModel.packetAnswers.court, cleanPacketAnswers.court, "protected progress must resume without commercialFlow JSON");
+
+const completed = packetInformationPatch({
+  existingItem: { ...reviewMatter, artifactRefs: {} },
+  protectedVerification: partial.protectedTransition.nextVerification,
+  answers: cleanPacketAnswers,
+  verify: false
+});
+assert.ok(completed);
+assert.equal(completed.readyToGenerate, false, "saving the last protected fact must not silently verify");
+assert.deepEqual(completed.missingInputIds, []);
+const verified = packetInformationPatch({
+  existingItem: { ...reviewMatter, artifactRefs: {} },
+  protectedVerification: completed.protectedTransition.nextVerification,
+  answers: {},
+  verify: true
+});
+assert.ok(verified);
+assert.equal(verified.readyToGenerate, true);
+assert.equal(verified.protectedTransition.nextVerification.status, "verified");
+assert.equal(verified.protectedTransition.nextVerification.draftHash, completed.protectedTransition.nextVerification.draftHash, "explicit verification promotes the same protected draft");
 
 const reviewPageSource = fs.readFileSync(path.join(rootDir, "src/app/briefcase/[packetId]/review/page.tsx"), "utf8");
-for (const copy of ["Review your packet information", "Check each answer before you pay. You can edit anything below.", "Your information", "Case information", "Important confirmations", "Your packet"]) {
-  assert.ok(reviewPageSource.includes(copy), `editable review is missing ${copy}`);
+if (reviewPageSource.includes("decorateBriefcaseItemForPresentation")) {
+  assert.ok(reviewPageSource.includes('item?.packetDraft.status === "available"'), "review must require the protected packet draft");
+  assert.ok(reviewPageSource.includes("<PacketVerificationAction"), "review actions must cross the explicit protected verification client boundary");
+  assert.ok(!reviewPageSource.includes("packetInformationModelFor(storedItem)"), "review cannot fall back to raw participant packet information");
+} else {
+  const presentationAuthoritySource = fs.readFileSync(path.join(rootDir, "src/lib/expungement-ai/briefcase-presentation-authority.ts"), "utf8");
+  assert.ok(presentationAuthoritySource.includes("protectedPacketInformationModelFor"), "server presentation must derive packet facts from protected authority before UI integration");
 }
 assert.ok(reviewPageSource.includes("packet-information?edit="), "every review row must route to its exact editable field");
-
-// Accepted packet matters created before commercialFlow metadata existed are
-// reconciled with server-owned state/pathway facts. Those facts must persist in
-// the first builder save so a later partial merge cannot make review
-// permanently incomplete or ask the browser to supply route identity.
-const legacyPaMatter = {
-  ...secondPacket,
-  state: "PA",
-  pathwayLabel: "Path A — Non-conviction expungement",
-  resultCode: "packet_ready",
-  paymentAllowed: true,
-  paymentStatus: "unpaid",
-  artifactRefs: undefined
-};
-const legacyPaModel = packetInformationModelFor(legacyPaMatter);
-assert.ok(legacyPaModel, "accepted legacy PA packet matter must reconcile into the shared builder");
-assert.ok(!legacyPaModel.questions.some((question) => question.id === "jurisdiction" || question.id === "pathway_id"), "legacy server facts must not become browser questions");
-const legacyPaPatch = packetInformationPatch({
-  existingItem: legacyPaMatter,
-  answers: {},
-  reviewed: false
-});
-assert.ok(legacyPaPatch);
-assert.equal(legacyPaPatch.patch.commercialFlow.packetInformation.serverFacts.jurisdiction, "PA");
-assert.equal(legacyPaPatch.patch.commercialFlow.packetInformation.serverFacts.pathway_id, legacyPaModel.pathwayId);
-assert.deepEqual(legacyPaPatch.patch.commercialFlow.packetInformation.requiredInputIds, legacyPaModel.requiredInputIds);
-assert.ok(!legacyPaPatch.missingInputIds.includes("jurisdiction") && !legacyPaPatch.missingInputIds.includes("pathway_id"), "server-owned legacy route facts must satisfy review without browser input");
-const partiallyReconciledPa = {
-  ...legacyPaMatter,
-  artifactRefs: {
-    commercialFlow: {
-      screening: legacyPaPatch.patch.commercialFlow.screening,
-      packetInformation: {
-        stage: "in_progress",
-        requiredInputIds: legacyPaModel.requiredInputIds,
-        answers: {},
-        missingInputIds: legacyPaModel.requiredInputIds
-      }
-    }
-  }
-};
-const partiallyReconciledModel = packetInformationModelFor(partiallyReconciledPa);
-assert.ok(partiallyReconciledModel);
-assert.ok(!partiallyReconciledModel.questions.some((question) => question.id === "jurisdiction" || question.id === "pathway_id"), "a partial legacy merge must still derive route identity from server-owned state/pathway data");
-assert.ok(!partiallyReconciledModel.missingInputIds.includes("jurisdiction") && !partiallyReconciledModel.missingInputIds.includes("pathway_id"));
 
 // Partner sponsorship is a separate entitlement posture. It uses the shared
 // packet-information model but can never be converted to consumer payment by
@@ -369,11 +322,9 @@ const sponsoredMatter = await saveScreeningResultToBriefcase(sponsoredInput);
 assert.equal(sponsoredMatter.paymentAllowed, false);
 assert.equal(sponsoredMatter.paymentStatus, "not_applicable");
 assert.equal(sponsoredMatter.checkoutSessionId, undefined);
-assert.ok(packetInformationModelFor(sponsoredMatter), "partner-covered packet must retain shared builder access");
 
-// Exercise the real builder route boundary with local doubles. An authenticated
-// owner may save an unpaid DTC packet; a verified sponsored packet may use the
-// same endpoint without consumer payment; a guidance matter is refused.
+// Exercise the real protected builder route boundary with local doubles. An
+// authenticated owner may save an unpaid DTC packet through one CAS transition.
 function loadTsWithMocks(relPath, mocks) {
   const resolved = path.join(rootDir, relPath);
   const transpiled = ts.transpileModule(fs.readFileSync(resolved, "utf8"), {
@@ -391,44 +342,96 @@ function loadTsWithMocks(relPath, mocks) {
   return mod.exports;
 }
 
-async function exerciseBuilderRoute(item, sponsored) {
-  const merges = [];
+const verificationClientPath = "src/components/expungement-ai/packet-verification-client.ts";
+if (fs.existsSync(path.join(rootDir, verificationClientPath))) {
+  const { packetVerificationActions, requestPacketVerification } = loadTsWithMocks(verificationClientPath, {});
+  assert.deepEqual(packetVerificationActions({ verified: false, packetReady: false, mode: "consumer" }), {
+    openPacket: false,
+    checkout: false,
+    generation: null
+  }, "unverified protected matters expose no commerce or generation action");
+  assert.deepEqual(packetVerificationActions({ verified: true, packetReady: false, mode: "consumer" }), {
+    openPacket: false,
+    checkout: true,
+    generation: null
+  }, "only a verified consumer matter without Ready access exposes Checkout");
+  assert.deepEqual(packetVerificationActions({ verified: true, packetReady: true, mode: "paid" }), {
+    openPacket: true,
+    checkout: false,
+    generation: { mode: "paid_durable", label: "Prepare updated packet" }
+  }, "paid Ready access remains open while updated generation is explicit");
+  assert.deepEqual(packetVerificationActions({ verified: true, packetReady: true, mode: "sponsored" }), {
+    openPacket: true,
+    checkout: false,
+    generation: null
+  }, "sponsored Ready access does not spend another generation credit");
+  assert.deepEqual(packetVerificationActions({ verified: true, packetReady: false, mode: "sponsored" }), {
+    openPacket: false,
+    checkout: false,
+    generation: { mode: "sponsored_sync" }
+  }, "verified sponsored generation remains separate from consumer Checkout");
+
+  let verificationRequest = null;
+  const verificationResponse = await requestPacketVerification({
+    itemId: "matter/client-contract",
+    answers: { court: "Hinds County Circuit Court" },
+    fetchImpl: async (url, init) => {
+      verificationRequest = { url, init };
+      return new Response(JSON.stringify({ readyToGenerate: true, reviewReason: null, missingInputIds: [] }), {
+        status: 200,
+        headers: { "Content-Type": "application/json" }
+      });
+    }
+  });
+  assert.equal(verificationRequest.url, "/api/expungement-ai/briefcase/matter%2Fclient-contract/packet-information");
+  assert.equal(verificationRequest.init.method, "POST");
+  assert.deepEqual(JSON.parse(verificationRequest.init.body), {
+    answers: { court: "Hinds County Circuit Court" },
+    verify: true
+  }, "the real protected client sends the exact explicit-verification payload");
+  assert.deepEqual(verificationResponse, {
+    ok: true,
+    readyToGenerate: true,
+    reviewReason: null,
+    missingInputIds: []
+  });
+}
+
+async function exerciseBuilderRoute(item, protectedVerification) {
+  const transitions = [];
   const route = loadTsWithMocks("src/app/api/expungement-ai/briefcase/[itemId]/packet-information/route.ts", {
     "@/lib/rcap/briefcase/auth": {
       getRcapBriefcaseAuthState: async () => ({ isAuthenticated: true, userId: "route-owner" })
     },
     "@/lib/expungement-ai/briefcase": {
-      getBriefcaseItem: async (userId, itemId) => userId === "route-owner" && itemId === item.id ? item : null,
-      isPartnerSponsoredPacketItem: async () => sponsored,
-      mergeBriefcaseArtifactRefs: async (...args) => {
-        merges.push(args);
-        return item;
-      }
+      getBriefcaseItem: async (userId, itemId) => userId === "route-owner" && itemId === item.id ? item : null
     },
-    "@/lib/expungement-ai/packet-information": { packetInformationPatch }
+    "@/lib/expungement-ai/packet-information": { packetInformationPatch, protectedPacketInformationModelFor },
+    "@/lib/expungement-ai/verification-cas": {
+      readProtectedPacketVerification: async () => ({
+        ok: true,
+        value: protectedVerification
+      }),
+      persistProtectedPacketVerification: async ({ transition }) => {
+        transitions.push(transition);
+        return { ok: true, value: transition.nextVerification };
+      }
+    }
   });
   const response = await route.POST(new Request(`https://local.test/api/expungement-ai/briefcase/${item.id}/packet-information`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ answers: { court: "Test court" }, reviewed: false })
+    body: JSON.stringify({ answers: { court: "Test court" }, verify: false })
   }), { params: Promise.resolve({ itemId: item.id }) });
-  return { response, body: await response.json(), merges };
+  return { response, body: await response.json(), transitions };
 }
 
-const unpaidRouteResult = await exerciseBuilderRoute({ ...savedByResult.get("packet_ready"), artifactRefs: commercialArtifact() }, false);
+const unpaidRouteResult = await exerciseBuilderRoute({ ...savedByResult.get("packet_ready"), artifactRefs: {} }, initialProtected);
 assert.equal(unpaidRouteResult.response.status, 200, "unpaid owner must be able to save packet information");
-assert.equal(unpaidRouteResult.merges.length, 1);
+assert.equal(unpaidRouteResult.transitions.length, 1);
 assert.ok(unpaidRouteResult.body.reviewPath.endsWith("/review"));
-
-const sponsoredRouteResult = await exerciseBuilderRoute(sponsoredMatter, true);
-assert.equal(sponsoredRouteResult.response.status, 200, "verified sponsored owner must use the shared builder without Stripe");
-assert.equal(sponsoredRouteResult.merges.length, 1);
-
-const guidanceRouteResult = await exerciseBuilderRoute(savedByResult.get("guidance_only"), false);
-assert.equal(guidanceRouteResult.response.status, 403, "guidance-only matter must not acquire a packet builder");
-assert.equal(guidanceRouteResult.merges.length, 0);
 
 console.log("Expungement.ai commercial-flow contract verification passed.");
 console.log("- Every authoritative result lane saves to the free Briefcase; multiple packet matters stay independently unpaid and undeliverable.");
-console.log("- The real builder model prefills, preserves progress, reports missing fields, and reaches review without Checkout.");
-console.log("- Verified partner sponsorship stays outside consumer payment while retaining the shared packet-information builder.");
+console.log("- Protected packet drafts initialize, preserve progress, resume without commercialFlow JSON, and verify through one CAS transition.");
+console.log("- Review and builder routes consume the protected presentation/draft contracts; partner saves remain outside consumer Checkout.");

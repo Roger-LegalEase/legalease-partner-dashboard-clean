@@ -20,6 +20,7 @@
 // byte-reproducible; source drift is not detected; or any mutation fails to
 // turn its check red.
 import fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
 import crypto from "node:crypto";
 import { fileURLToPath } from "node:url";
@@ -39,7 +40,75 @@ const require = createRequire(import.meta.url);
 const { PDFDocument, StandardFonts } = require("pdf-lib");
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
-const EVIDENCE_DIR = path.join(rootDir, "data/rcap-all50/overlays/canary-d0");
+// Where the canary's own artifacts go.
+//
+// They used to go straight into the tracked tree on every run. The output is
+// deterministic run to run but does not match what is committed -- the factory
+// has moved since -- so every invocation left five tracked files modified. That
+// is not a cosmetic annoyance: it caused two false regression diagnoses in one
+// session, because the next verifier to run saw a dirty tree and blamed
+// whatever change was in flight, and it puts a mutation string one `git add`
+// away from being committed by a suite that is deliberately mutating sources.
+//
+// So the run writes to a temporary directory and the tracked evidence is
+// refreshed only when someone asks for it with --write. Either way the tracked
+// directory is snapshotted before anything runs and checked byte for byte at
+// exit, and a failure to restore it is reported rather than left on disk.
+const TRACKED_EVIDENCE_DIR = path.join(rootDir, "data/rcap-all50/overlays/canary-d0");
+const REFRESH_TRACKED_EVIDENCE = process.argv.includes("--write");
+const EVIDENCE_DIR = REFRESH_TRACKED_EVIDENCE
+  ? TRACKED_EVIDENCE_DIR
+  : fs.mkdtempSync(path.join(os.tmpdir(), "d0-canary-"));
+
+/** Every tracked file under the canary directory, with the bytes it had at entry. */
+function snapshotTrackedEvidence() {
+  const snapshot = new Map();
+  if (!fs.existsSync(TRACKED_EVIDENCE_DIR)) return snapshot;
+  for (const name of fs.readdirSync(TRACKED_EVIDENCE_DIR).sort()) {
+    const file = path.join(TRACKED_EVIDENCE_DIR, name);
+    if (fs.statSync(file).isFile()) snapshot.set(name, fs.readFileSync(file));
+  }
+  return snapshot;
+}
+const TRACKED_EVIDENCE_AT_ENTRY = snapshotTrackedEvidence();
+
+/**
+ * Puts the tracked evidence back and says so if it could not.
+ *
+ * Runs on every exit path, including a failing assertion and an uncaught throw,
+ * because the run that leaves files behind is the run that failed halfway.
+ */
+function restoreTrackedEvidence() {
+  if (REFRESH_TRACKED_EVIDENCE) return [];
+  const unrestored = [];
+  for (const [name, bytes] of TRACKED_EVIDENCE_AT_ENTRY) {
+    const file = path.join(TRACKED_EVIDENCE_DIR, name);
+    try {
+      if (!fs.existsSync(file) || !fs.readFileSync(file).equals(bytes)) fs.writeFileSync(file, bytes);
+      if (!fs.readFileSync(file).equals(bytes)) unrestored.push(name);
+    } catch (error) {
+      unrestored.push(`${name} (${error.message})`);
+    }
+  }
+  // Anything the run added that was not there at entry is also a leak.
+  if (fs.existsSync(TRACKED_EVIDENCE_DIR)) {
+    for (const name of fs.readdirSync(TRACKED_EVIDENCE_DIR)) {
+      if (TRACKED_EVIDENCE_AT_ENTRY.has(name)) continue;
+      try { fs.rmSync(path.join(TRACKED_EVIDENCE_DIR, name), { recursive: true, force: true }); }
+      catch (error) { unrestored.push(`${name} (added, ${error.message})`); }
+    }
+  }
+  return unrestored;
+}
+
+process.on("exit", () => {
+  const unrestored = restoreTrackedEvidence();
+  if (unrestored.length) {
+    process.exitCode = 1;
+    console.error(`d0-canary-verify: FAILED TO RESTORE tracked canary evidence: ${unrestored.join(", ")}`);
+    console.error("  The tracked tree is not as this run found it. Restore it before committing anything.");
+  }
+});
 
 const failures = [];
 const checks = [];
@@ -487,3 +556,6 @@ if (failures.length > 0) {
 }
 console.log(`d0-canary-verify passed: ${checks.length} checks across `
   + `${Object.keys(evidence.canaries).length} canaries and ${Object.keys(evidence.mutations).length} mutations.`);
+console.log(REFRESH_TRACKED_EVIDENCE
+  ? `  --write: refreshed the tracked evidence under ${path.relative(rootDir, TRACKED_EVIDENCE_DIR)}`
+  : `  evidence written to ${EVIDENCE_DIR}; the tracked tree is untouched (--write to refresh it)`);

@@ -38,7 +38,7 @@
       "rejectedRecords": 26,
       "conflictsPublished": 10
     },
-    "entries": 225
+    "entries": 227
   },
   "e4AdjudicationSource": {
     "path": "data/rcap-ledger/crosswalk-resolution-adjudication.json",
@@ -241,24 +241,24 @@
   "e4StillBlocked": [],
   "aggregates": {
     "registryTracks": 497,
-    "compiledPathways": 325,
+    "compiledPathways": 337,
     "registryJurisdictions": 51,
     "compiledJurisdictions": 51,
-    "tracksExactPathway": 260,
-    "tracksRepresentedByVariants": 25,
-    "tracksUnresolvedAmbiguous": 0,
-    "tracksMissingFromCompiledRuntime": 211,
+    "tracksExactPathway": 259,
+    "tracksRepresentedByVariants": 26,
+    "tracksUnresolvedAmbiguous": 1,
+    "tracksMissingFromCompiledRuntime": 210,
     "tracksSupersededRuntimeText": 1,
-    "pathwaysDirect": 243,
+    "pathwaysDirect": 246,
     "pathwaysVariant": 37,
     "pathwaysComposedUnit": 2,
     "pathwaysRoutingOrSupporting": 1,
     "pathwaysRegistryGap": 33,
     "pathwaysScopedOut": 4,
-    "pathwaysAdjudicated": 254,
+    "pathwaysAdjudicated": 256,
     "pathwaysCurrencyFlagged": 1,
-    "pathwaysUnresolvedAmbiguous": 0,
-    "pathwaysUnresolvedNoCandidate": 0,
+    "pathwaysUnresolvedAmbiguous": 2,
+    "pathwaysUnresolvedNoCandidate": 7,
     "pathwaysCrosswalkTerminalClassified": 5,
     "e4AdjudicationsConsumed": 38,
     "e4CrosswalkTerminalClassifications": 6,
@@ -266,14 +266,26 @@
     "e4OfficialSourceGapAdjudications": 2,
     "e4StillBlocked": 0,
     "tracksWithRuntimeCoverage": 285,
-    "pathwaysMapped": 282,
+    "pathwaysMapped": 285,
     "pathwaysTerminal": 43,
-    "pathwaysUnresolved": 0,
-    "milestone1Item2Closed": true
+    "pathwaysUnresolved": 9,
+    "milestone1Item2Closed": false
   },
   "unresolvedIds": {
-    "compiledPathways": [],
-    "registryTracks": []
+    "compiledPathways": [
+      "MS:controlled-substance-conditional-discharge-active-case-admission",
+      "MS:human-trafficking-survivor-expungement-97-3-54-6-6",
+      "MS:human-trafficking-survivor-vacatur-97-3-54-6-5",
+      "MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+      "MS:intervention-court-statutory-result-enforcement-referral",
+      "MS:nonadjudication-99-15-26-active-case-admission",
+      "MS:nonadjudication-under-99-15-26",
+      "MS:pretrial-intervention-active-case-admission",
+      "MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59"
+    ],
+    "registryTracks": [
+      "MS:ms-nonadj"
+    ]
   },
   "registryGapBlockers": [
     {
@@ -754,10 +766,10 @@
     {
       "jurisdiction": "GA",
       "registryTracks": 15,
-      "compiledPathways": 5,
-      "delta": -10,
+      "compiledPathways": 6,
+      "delta": -9,
       "tracksMapped": 6,
-      "pathwaysMapped": 5,
+      "pathwaysMapped": 6,
       "pathwaysScopedOut": 0,
       "pathwaysTerminalOther": 0,
       "pathwaysUnresolved": 0
@@ -908,10 +920,10 @@
     {
       "jurisdiction": "MO",
       "registryTracks": 10,
-      "compiledPathways": 7,
-      "delta": -3,
-      "tracksMapped": 7,
-      "pathwaysMapped": 7,
+      "compiledPathways": 8,
+      "delta": -2,
+      "tracksMapped": 8,
+      "pathwaysMapped": 8,
       "pathwaysScopedOut": 0,
       "pathwaysTerminalOther": 0,
       "pathwaysUnresolved": 0
@@ -919,13 +931,13 @@
     {
       "jurisdiction": "MS",
       "registryTracks": 9,
-      "compiledPathways": 13,
-      "delta": 4,
-      "tracksMapped": 9,
-      "pathwaysMapped": 11,
+      "compiledPathways": 23,
+      "delta": 14,
+      "tracksMapped": 8,
+      "pathwaysMapped": 12,
       "pathwaysScopedOut": 0,
       "pathwaysTerminalOther": 2,
-      "pathwaysUnresolved": 0
+      "pathwaysUnresolved": 9
     },
     {
       "jurisdiction": "MT",
@@ -1244,7 +1256,7 @@
     },
     {
       "jurisdiction": "MS",
-      "delta": 4,
+      "delta": 14,
       "absorbedByVariantDecomposition": [
         "pretrial-intervention-or-diversion-expungement",
         "intervention-court-completion-expungement",
@@ -1263,8 +1275,18 @@
           "provisional": false
         }
       ],
-      "unexplainedSurplusCandidates": [],
-      "fullyExplained": true
+      "unexplainedSurplusCandidates": [
+        "nonadjudication-under-99-15-26",
+        "controlled-substance-conditional-discharge-active-case-admission",
+        "human-trafficking-survivor-vacatur-97-3-54-6-5",
+        "human-trafficking-survivor-expungement-97-3-54-6-6",
+        "intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+        "intervention-court-statutory-result-enforcement-referral",
+        "nonadjudication-99-15-26-active-case-admission",
+        "pretrial-intervention-active-case-admission",
+        "uncharged-misdemeanor-immediate-dismissal-branch-99-15-59"
+      ],
+      "fullyExplained": false
     },
     {
       "jurisdiction": "OK",
@@ -3654,11 +3676,12 @@
       "compositionMode": null,
       "composedUnitCount": 0,
       "mappedCompiledPathwayIds": [
-        "youthful-first-offender-restriction-route"
+        "retroactive-first-offender-treatment-under-42-8-66"
       ],
       "relationshipType": "direct_runtime_representation",
       "mappingEvidence": [
-        "adjudicated_operative_citation_in_pathway"
+        "shared_operative_statutory_citation",
+        "shared_supporting_statutory_citation"
       ],
       "compiledCoverageDisposition": "exact_current_pathway",
       "candidateCompiledPathwayIds": [],
@@ -6906,15 +6929,16 @@
       "outputStrategy": "process_guidance",
       "compositionMode": null,
       "composedUnitCount": 0,
-      "mappedCompiledPathwayIds": [],
-      "relationshipType": null,
-      "mappingEvidence": [],
-      "compiledCoverageDisposition": "missing_from_compiled_runtime",
-      "ambiguityResolvedByExhaustion": true,
-      "candidateCompiledPathwayIds": [
-        "general-arrest-charge-plea-trial-or-conviction-expungement-under-rsmo-610-140"
+      "mappedCompiledPathwayIds": [
+        "state-initiated-automatic-expungement-of-eligible-drug-offenses-under-610-141"
       ],
-      "blocker": "every candidate compiled pathway resolved to another track or a terminal class; no runtime representation remains"
+      "relationshipType": "direct_runtime_representation",
+      "mappingEvidence": [
+        "shared_operative_statutory_citation"
+      ],
+      "compiledCoverageDisposition": "exact_current_pathway",
+      "candidateCompiledPathwayIds": [],
+      "blocker": null
     },
     {
       "jurisdiction": "MO",
@@ -7128,13 +7152,15 @@
       "compositionMode": null,
       "composedUnitCount": 0,
       "mappedCompiledPathwayIds": [
-        "additional-justice-or-municipal-court-misdemeanor-relief"
+        "additional-justice-court-misdemeanor-relief-9-11-15-3",
+        "additional-justice-or-municipal-court-misdemeanor-relief",
+        "additional-municipal-court-misdemeanor-relief-21-23-7-6"
       ],
       "relationshipType": "direct_runtime_representation",
       "mappingEvidence": [
         "adjudicated_mechanism_identity"
       ],
-      "compiledCoverageDisposition": "exact_current_pathway",
+      "compiledCoverageDisposition": "represented_by_compiled_variants",
       "candidateCompiledPathwayIds": [],
       "blocker": null
     },
@@ -7150,17 +7176,17 @@
       "outputStrategy": "custom_pleading",
       "compositionMode": null,
       "composedUnitCount": 0,
-      "mappedCompiledPathwayIds": [
+      "mappedCompiledPathwayIds": [],
+      "relationshipType": null,
+      "mappingEvidence": [],
+      "compiledCoverageDisposition": "unresolved_ambiguous_candidates",
+      "candidateCompiledPathwayIds": [
+        "eligible-felony-conviction-expungement-99-19-71",
+        "first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1",
+        "nonadjudication-99-15-26-active-case-admission",
         "nonadjudication-under-99-15-26"
       ],
-      "relationshipType": "direct_runtime_representation",
-      "mappingEvidence": [
-        "shared_operative_statutory_citation",
-        "shared_supporting_statutory_citation"
-      ],
-      "compiledCoverageDisposition": "exact_current_pathway",
-      "candidateCompiledPathwayIds": [],
-      "blocker": null
+      "blocker": "candidate compiled pathways exist but no evidence identifies exactly one"
     },
     {
       "jurisdiction": "MS",
@@ -7225,7 +7251,7 @@
       ],
       "relationshipType": "direct_runtime_representation",
       "mappingEvidence": [
-        "adjudicated_operative_citation_in_pathway"
+        "adjudicated_mechanism_identity"
       ],
       "compiledCoverageDisposition": "exact_current_pathway",
       "candidateCompiledPathwayIds": [],
@@ -7257,7 +7283,7 @@
       ],
       "relationshipType": "compiled_variant_of_registry_track",
       "mappingEvidence": [
-        "adjudicated_operative_citation_in_pathway"
+        "adjudicated_mechanism_identity"
       ],
       "compiledCoverageDisposition": "represented_by_compiled_variants",
       "candidateCompiledPathwayIds": [],
@@ -7333,7 +7359,7 @@
       ],
       "relationshipType": "direct_runtime_representation",
       "mappingEvidence": [
-        "adjudicated_operative_citation_in_pathway"
+        "adjudicated_mechanism_identity"
       ],
       "compiledCoverageDisposition": "exact_current_pathway",
       "candidateCompiledPathwayIds": [],
@@ -14389,7 +14415,7 @@
       "label": "Cannabis-conviction erasure",
       "compiledProfilePath": "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json",
       "routeType": "automatic",
-      "automatic": true,
+      "automatic": false,
       "packetMode": "automatic_relief_verification_and_guidance",
       "registryRelation": "direct_runtime_representation",
       "mappedRegistryTrackIds": [
@@ -15005,7 +15031,7 @@
       "compiledPathwayId": "lawful-self-defense-expunction-943-0578",
       "label": "Lawful self-defense expunction - 943.0578",
       "compiledProfilePath": "src/lib/rcap-engine/compiled/profiles/FL-florida.json",
-      "routeType": "court_filing",
+      "routeType": "administrative",
       "automatic": false,
       "packetMode": "state_specific_custom_packet_from_source_rules",
       "registryRelation": "direct_runtime_representation",
@@ -15033,7 +15059,7 @@
       "compiledPathwayId": "juvenile-diversion-expunction-943-0582",
       "label": "Juvenile diversion expunction - 943.0582",
       "compiledProfilePath": "src/lib/rcap-engine/compiled/profiles/FL-florida.json",
-      "routeType": "juvenile",
+      "routeType": "administrative",
       "automatic": false,
       "packetMode": "state_specific_custom_packet_from_source_rules",
       "registryRelation": "direct_runtime_representation",
@@ -15087,7 +15113,7 @@
       "compiledPathwayId": "administrative-expunction-mistaken-or-unlawful-arrest",
       "label": "Administrative expunction - mistaken or unlawful arrest",
       "compiledProfilePath": "src/lib/rcap-engine/compiled/profiles/FL-florida.json",
-      "routeType": "court_filing",
+      "routeType": "administrative",
       "automatic": false,
       "packetMode": "state_specific_custom_packet_from_source_rules",
       "registryRelation": "direct_runtime_representation",
@@ -15171,7 +15197,7 @@
       "compiledPathwayId": "automatic-restriction-of-qualifying-post-july-1-2013-non-convictions",
       "label": "Automatic restriction of qualifying post-July 1, 2013 non-convictions",
       "compiledProfilePath": "src/lib/rcap-engine/compiled/profiles/GA-georgia.json",
-      "routeType": "automatic",
+      "routeType": "automatic_guidance",
       "automatic": true,
       "packetMode": "automatic_relief_verification_and_guidance",
       "registryRelation": "direct_runtime_representation",
@@ -15304,7 +15330,6 @@
       "packetMode": "state_specific_custom_packet_from_source_rules",
       "registryRelation": "direct_runtime_representation",
       "mappedRegistryTrackIds": [
-        "ga-rfo",
         "ga-seal-m"
       ],
       "mappingEvidence": [
@@ -15312,7 +15337,7 @@
       ],
       "evidenceDetail": {
         "adjudication": {
-          "by": "session-e3-final",
+          "by": "session-batch-a-product-integration",
           "evidenceRef": {
             "lanes": [
               "E2-B1"
@@ -15326,11 +15351,14 @@
         "license": {
           "kind": "operative_citation_in_pathway",
           "citationTokens": [
-            "42-8-66"
+            "35-3-37"
           ]
         }
       },
-      "coMappedPathwayIds": [],
+      "coMappedPathwayIds": [
+        "restriction-and-sealing-of-a-pardoned-felony",
+        "sb-288-misdemeanor-conviction-restriction-and-sealing"
+      ],
       "contributesToRuntimeCoverage": true,
       "contributesToRegistryDenominator": false,
       "unresolvedReason": null,
@@ -15338,11 +15366,39 @@
       "adjudicated": true
     },
     {
+      "jurisdiction": "GA",
+      "compiledPathwayId": "retroactive-first-offender-treatment-under-42-8-66",
+      "label": "Petition for retroactive First Offender treatment, exoneration and discharge",
+      "compiledProfilePath": "src/lib/rcap-engine/compiled/profiles/GA-georgia.json",
+      "routeType": "court_filing",
+      "automatic": false,
+      "packetMode": "state_specific_custom_packet_from_source_rules",
+      "registryRelation": "direct_runtime_representation",
+      "mappedRegistryTrackIds": [
+        "ga-rfo"
+      ],
+      "mappingEvidence": [
+        "shared_operative_statutory_citation",
+        "shared_supporting_statutory_citation"
+      ],
+      "evidenceDetail": {
+        "sharedStatutoryCitations": [
+          "42.8.66"
+        ],
+        "sharedOfficialForms": []
+      },
+      "coMappedPathwayIds": [],
+      "contributesToRuntimeCoverage": true,
+      "contributesToRegistryDenominator": false,
+      "unresolvedReason": null,
+      "missingEvidence": []
+    },
+    {
       "jurisdiction": "HI",
       "compiledPathwayId": "nonconviction-arrest-expungement",
       "label": "Non-conviction arrest-information expungement under HRS § 831-3.2",
       "compiledProfilePath": "src/lib/rcap-engine/compiled/profiles/HI-hawaii.json",
-      "routeType": "court_filing",
+      "routeType": "administrative",
       "automatic": false,
       "packetMode": "state_specific_custom_packet_from_source_rules",
       "registryRelation": "direct_runtime_representation",
@@ -16744,7 +16800,7 @@
       "label": "Juvenile petition to vacate and expunge under KRS 610.330",
       "compiledProfilePath": "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
       "routeType": "automatic",
-      "automatic": true,
+      "automatic": false,
       "packetMode": "automatic_relief_verification_and_guidance",
       "registryRelation": "direct_runtime_representation",
       "mappedRegistryTrackIds": [
@@ -17231,7 +17287,7 @@
         "license": {
           "kind": "registry_declared_branching",
           "pathwayTokens": [
-            "felony conviction"
+            "convicted of a felony"
           ],
           "registryTokens": [
             "felony_conviction"
@@ -17281,7 +17337,7 @@
       "compiledPathwayId": "automated-expungement-status-verification-art-985-2",
       "label": "Automated-expungement status verification (Art. 985.2)",
       "compiledProfilePath": "src/lib/rcap-engine/compiled/profiles/LA-louisiana.json",
-      "routeType": "automatic",
+      "routeType": "automatic_guidance",
       "automatic": true,
       "packetMode": "automatic_relief_verification_and_guidance",
       "registryRelation": "direct_runtime_representation",
@@ -17684,7 +17740,7 @@
       "compiledPathwayId": "police-record-expungement-when-no-charge-was-filed-under-10-103",
       "label": "Police-record expungement when no charge was filed under § 10-103",
       "compiledProfilePath": "src/lib/rcap-engine/compiled/profiles/MD-maryland.json",
-      "routeType": "court_filing",
+      "routeType": "administrative",
       "automatic": false,
       "packetMode": "state_specific_custom_packet_from_source_rules",
       "registryRelation": "direct_runtime_representation",
@@ -17966,9 +18022,9 @@
       "compiledPathwayId": "adult-non-conviction-record-relief",
       "label": "Adult non-conviction record relief",
       "compiledProfilePath": "src/lib/rcap-engine/compiled/profiles/ME-maine.json",
-      "routeType": "court_filing",
+      "routeType": "automatic_guidance",
       "automatic": false,
-      "packetMode": "official_form_overlay_or_source_form_set",
+      "packetMode": "automatic_relief_verification_and_guidance",
       "registryRelation": "direct_runtime_representation",
       "mappedRegistryTrackIds": [
         "me-nonconv"
@@ -18389,7 +18445,7 @@
         "license": {
           "kind": "registry_declared_branching",
           "pathwayTokens": [
-            "qualifying felony"
+            "certain felony convictions"
           ],
           "registryTokens": [
             "qualifying_felony"
@@ -18408,9 +18464,9 @@
       "compiledPathwayId": "cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06",
       "label": "Cannabis automatic or board-reviewed expungement under §§ 609A.055–.06",
       "compiledProfilePath": "src/lib/rcap-engine/compiled/profiles/MN-minnesota.json",
-      "routeType": "court_filing",
+      "routeType": "review",
       "automatic": false,
-      "packetMode": "state_specific_custom_packet_from_source_rules",
+      "packetMode": "automatic_relief_verification_and_guidance",
       "registryRelation": "direct_runtime_representation",
       "mappedRegistryTrackIds": [
         "mn_auto_cannabis_nonfelony"
@@ -18523,9 +18579,9 @@
       "compiledPathwayId": "closed-record-outcome-under-rsmo-610-105",
       "label": "Closed-record outcome under RSMo § 610.105",
       "compiledProfilePath": "src/lib/rcap-engine/compiled/profiles/MO-missouri.json",
-      "routeType": "court_filing",
-      "automatic": false,
-      "packetMode": "official_form_overlay_or_source_form_set",
+      "routeType": "automatic",
+      "automatic": true,
+      "packetMode": "automatic_relief_verification_and_guidance",
       "registryRelation": "direct_runtime_representation",
       "mappedRegistryTrackIds": [
         "mo-610-105-automatic-closure"
@@ -18604,9 +18660,9 @@
       "compiledPathwayId": "marijuana-expungement-under-missouri-constitution-article-xiv",
       "label": "Marijuana expungement under Missouri Constitution article XIV",
       "compiledProfilePath": "src/lib/rcap-engine/compiled/profiles/MO-missouri.json",
-      "routeType": "court_filing",
-      "automatic": false,
-      "packetMode": "state_specific_custom_packet_from_source_rules",
+      "routeType": "automatic",
+      "automatic": true,
+      "packetMode": "automatic_relief_verification_and_guidance",
       "registryRelation": "direct_runtime_representation",
       "mappedRegistryTrackIds": [
         "mo-art-xiv-marijuana"
@@ -18693,6 +18749,33 @@
       "evidenceDetail": {
         "sharedStatutoryCitations": [
           "311.326"
+        ],
+        "sharedOfficialForms": []
+      },
+      "coMappedPathwayIds": [],
+      "contributesToRuntimeCoverage": true,
+      "contributesToRegistryDenominator": false,
+      "unresolvedReason": null,
+      "missingEvidence": []
+    },
+    {
+      "jurisdiction": "MO",
+      "compiledPathwayId": "state-initiated-automatic-expungement-of-eligible-drug-offenses-under-610-141",
+      "label": "State-initiated automatic expungement of eligible drug offenses under § 610.141",
+      "compiledProfilePath": "src/lib/rcap-engine/compiled/profiles/MO-missouri.json",
+      "routeType": "automatic",
+      "automatic": true,
+      "packetMode": "automatic_relief_verification_and_guidance",
+      "registryRelation": "direct_runtime_representation",
+      "mappedRegistryTrackIds": [
+        "mo-610-141-automatic-drug"
+      ],
+      "mappingEvidence": [
+        "shared_operative_statutory_citation"
+      ],
+      "evidenceDetail": {
+        "sharedStatutoryCitations": [
+          "610.141"
         ],
         "sharedOfficialForms": []
       },
@@ -18838,9 +18921,9 @@
       "compiledPathwayId": "additional-justice-or-municipal-court-misdemeanor-relief",
       "label": "Additional justice- or municipal-court misdemeanor relief",
       "compiledProfilePath": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
-      "routeType": "court_filing",
+      "routeType": "review",
       "automatic": false,
-      "packetMode": "state_specific_custom_packet_from_source_rules",
+      "packetMode": "automatic_relief_verification_and_guidance",
       "registryRelation": "direct_runtime_representation",
       "mappedRegistryTrackIds": [
         "ms-misd-addl"
@@ -18873,7 +18956,10 @@
           ]
         }
       },
-      "coMappedPathwayIds": [],
+      "coMappedPathwayIds": [
+        "additional-justice-court-misdemeanor-relief-9-11-15-3",
+        "additional-municipal-court-misdemeanor-relief-21-23-7-6"
+      ],
       "contributesToRuntimeCoverage": true,
       "contributesToRegistryDenominator": false,
       "unresolvedReason": null,
@@ -18935,25 +19021,30 @@
       "routeType": "court_filing",
       "automatic": false,
       "packetMode": "state_specific_custom_packet_from_source_rules",
-      "registryRelation": "direct_runtime_representation",
-      "mappedRegistryTrackIds": [
-        "ms-nonadj"
-      ],
+      "registryRelation": "unresolved_ambiguous_candidates",
+      "mappedRegistryTrackIds": [],
       "mappingEvidence": [
         "shared_operative_statutory_citation",
         "shared_supporting_statutory_citation"
       ],
       "evidenceDetail": {
+        "candidateRegistryTrackIds": [
+          "ms-nonadj"
+        ],
+        "competingCompiledPathwayIds": [
+          "nonadjudication-99-15-26-active-case-admission"
+        ],
         "sharedStatutoryCitations": [
           "99.15.26"
-        ],
-        "sharedOfficialForms": []
+        ]
       },
       "coMappedPathwayIds": [],
-      "contributesToRuntimeCoverage": true,
+      "contributesToRuntimeCoverage": false,
       "contributesToRegistryDenominator": false,
-      "unresolvedReason": null,
-      "missingEvidence": []
+      "unresolvedReason": "several compiled pathways share this track's statutory section and the registry does not declare the track composed",
+      "missingEvidence": [
+        "a composition declaration on the registry track, or subsection-level authority separating these pathways"
+      ]
     },
     {
       "jurisdiction": "MS",
@@ -19054,9 +19145,9 @@
       "compiledPathwayId": "intervention-court-completion-expungement",
       "label": "Intervention-court completion expungement",
       "compiledProfilePath": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
-      "routeType": "court_filing",
-      "automatic": false,
-      "packetMode": "state_specific_custom_packet_from_source_rules",
+      "routeType": "automatic",
+      "automatic": true,
+      "packetMode": "automatic_relief_verification_and_guidance",
       "registryRelation": "composed_unit_of_registry_track",
       "mappedRegistryTrackIds": [
         "ms-diversion"
@@ -19152,9 +19243,9 @@
       "compiledPathwayId": "dui-nonadjudication",
       "label": "DUI nonadjudication",
       "compiledProfilePath": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
-      "routeType": "court_filing",
+      "routeType": "review",
       "automatic": false,
-      "packetMode": "state_specific_custom_packet_from_source_rules",
+      "packetMode": "automatic_relief_verification_and_guidance",
       "registryRelation": "compiled_variant_of_registry_track",
       "mappedRegistryTrackIds": [
         "ms-dui"
@@ -19246,9 +19337,9 @@
       "compiledPathwayId": "human-trafficking-survivor-vacatur-and-expungement",
       "label": "Human-trafficking-survivor vacatur and expungement",
       "compiledProfilePath": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
-      "routeType": "special",
+      "routeType": "review",
       "automatic": false,
-      "packetMode": "state_specific_custom_packet_from_source_rules",
+      "packetMode": "automatic_relief_verification_and_guidance",
       "registryRelation": "unregistered_relief_mechanism_registry_gap",
       "mappedRegistryTrackIds": [],
       "mappingEvidence": [
@@ -19280,6 +19371,286 @@
       "unresolvedReason": null,
       "missingEvidence": [],
       "adjudicated": true
+    },
+    {
+      "jurisdiction": "MS",
+      "compiledPathwayId": "controlled-substance-conditional-discharge-active-case-admission",
+      "label": "Controlled-substance conditional discharge — admission to deferred adjudication",
+      "compiledProfilePath": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
+      "routeType": "review",
+      "automatic": false,
+      "packetMode": "automatic_relief_verification_and_guidance",
+      "registryRelation": "unresolved_no_candidate",
+      "mappedRegistryTrackIds": [],
+      "mappingEvidence": [],
+      "evidenceDetail": {},
+      "coMappedPathwayIds": [],
+      "contributesToRuntimeCoverage": false,
+      "contributesToRegistryDenominator": false,
+      "unresolvedReason": "no statutory citation, official form or scope restriction links this pathway to any registry track in its jurisdiction",
+      "missingEvidence": [
+        "a statutory citation in the compiled pathway id or label",
+        "or an official form identifier shared with a registry track"
+      ]
+    },
+    {
+      "jurisdiction": "MS",
+      "compiledPathwayId": "human-trafficking-survivor-vacatur-97-3-54-6-5",
+      "label": "Human-trafficking survivor vacatur",
+      "compiledProfilePath": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
+      "routeType": "court_filing",
+      "automatic": false,
+      "packetMode": "automatic_relief_verification_and_guidance",
+      "registryRelation": "unresolved_no_candidate",
+      "mappedRegistryTrackIds": [],
+      "mappingEvidence": [],
+      "evidenceDetail": {},
+      "coMappedPathwayIds": [],
+      "contributesToRuntimeCoverage": false,
+      "contributesToRegistryDenominator": false,
+      "unresolvedReason": "no statutory citation, official form or scope restriction links this pathway to any registry track in its jurisdiction",
+      "missingEvidence": [
+        "a statutory citation in the compiled pathway id or label",
+        "or an official form identifier shared with a registry track"
+      ]
+    },
+    {
+      "jurisdiction": "MS",
+      "compiledPathwayId": "human-trafficking-survivor-expungement-97-3-54-6-6",
+      "label": "Human-trafficking survivor expungement",
+      "compiledProfilePath": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
+      "routeType": "court_filing",
+      "automatic": false,
+      "packetMode": "automatic_relief_verification_and_guidance",
+      "registryRelation": "unresolved_no_candidate",
+      "mappedRegistryTrackIds": [],
+      "mappingEvidence": [],
+      "evidenceDetail": {},
+      "coMappedPathwayIds": [],
+      "contributesToRuntimeCoverage": false,
+      "contributesToRegistryDenominator": false,
+      "unresolvedReason": "no statutory citation, official form or scope restriction links this pathway to any registry track in its jurisdiction",
+      "missingEvidence": [
+        "a statutory citation in the compiled pathway id or label",
+        "or an official form identifier shared with a registry track"
+      ]
+    },
+    {
+      "jurisdiction": "MS",
+      "compiledPathwayId": "intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+      "label": "Intervention-court completion — dismissal-only branch where a record remains",
+      "compiledProfilePath": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
+      "routeType": "court_filing",
+      "automatic": false,
+      "packetMode": "state_specific_custom_packet_from_source_rules",
+      "registryRelation": "unresolved_no_candidate",
+      "mappedRegistryTrackIds": [],
+      "mappingEvidence": [],
+      "evidenceDetail": {},
+      "coMappedPathwayIds": [],
+      "contributesToRuntimeCoverage": false,
+      "contributesToRegistryDenominator": false,
+      "unresolvedReason": "no statutory citation, official form or scope restriction links this pathway to any registry track in its jurisdiction",
+      "missingEvidence": [
+        "a statutory citation in the compiled pathway id or label",
+        "or an official form identifier shared with a registry track"
+      ]
+    },
+    {
+      "jurisdiction": "MS",
+      "compiledPathwayId": "intervention-court-statutory-result-enforcement-referral",
+      "label": "Intervention-court completion — enforcement of the statutory result",
+      "compiledProfilePath": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
+      "routeType": "review",
+      "automatic": false,
+      "packetMode": "automatic_relief_verification_and_guidance",
+      "registryRelation": "unresolved_no_candidate",
+      "mappedRegistryTrackIds": [],
+      "mappingEvidence": [],
+      "evidenceDetail": {},
+      "coMappedPathwayIds": [],
+      "contributesToRuntimeCoverage": false,
+      "contributesToRegistryDenominator": false,
+      "unresolvedReason": "no statutory citation, official form or scope restriction links this pathway to any registry track in its jurisdiction",
+      "missingEvidence": [
+        "a statutory citation in the compiled pathway id or label",
+        "or an official form identifier shared with a registry track"
+      ]
+    },
+    {
+      "jurisdiction": "MS",
+      "compiledPathwayId": "nonadjudication-99-15-26-active-case-admission",
+      "label": "Nonadjudication under § 99-15-26 — admission while the case is active",
+      "compiledProfilePath": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
+      "routeType": "review",
+      "automatic": false,
+      "packetMode": "automatic_relief_verification_and_guidance",
+      "registryRelation": "unresolved_ambiguous_candidates",
+      "mappedRegistryTrackIds": [],
+      "mappingEvidence": [
+        "shared_operative_statutory_citation",
+        "shared_supporting_statutory_citation"
+      ],
+      "evidenceDetail": {
+        "candidateRegistryTrackIds": [
+          "ms-nonadj"
+        ],
+        "competingCompiledPathwayIds": [
+          "nonadjudication-under-99-15-26"
+        ],
+        "sharedStatutoryCitations": [
+          "99.15.26"
+        ]
+      },
+      "coMappedPathwayIds": [],
+      "contributesToRuntimeCoverage": false,
+      "contributesToRegistryDenominator": false,
+      "unresolvedReason": "several compiled pathways share this track's statutory section and the registry does not declare the track composed",
+      "missingEvidence": [
+        "a composition declaration on the registry track, or subsection-level authority separating these pathways"
+      ]
+    },
+    {
+      "jurisdiction": "MS",
+      "compiledPathwayId": "pretrial-intervention-active-case-admission",
+      "label": "Pretrial intervention or diversion — admission while the case is active",
+      "compiledProfilePath": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
+      "routeType": "review",
+      "automatic": false,
+      "packetMode": "automatic_relief_verification_and_guidance",
+      "registryRelation": "unresolved_no_candidate",
+      "mappedRegistryTrackIds": [],
+      "mappingEvidence": [],
+      "evidenceDetail": {},
+      "coMappedPathwayIds": [],
+      "contributesToRuntimeCoverage": false,
+      "contributesToRegistryDenominator": false,
+      "unresolvedReason": "no statutory citation, official form or scope restriction links this pathway to any registry track in its jurisdiction",
+      "missingEvidence": [
+        "a statutory citation in the compiled pathway id or label",
+        "or an official form identifier shared with a registry track"
+      ]
+    },
+    {
+      "jurisdiction": "MS",
+      "compiledPathwayId": "additional-justice-court-misdemeanor-relief-9-11-15-3",
+      "label": "Additional justice-court misdemeanor relief",
+      "compiledProfilePath": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
+      "routeType": "court_filing",
+      "automatic": false,
+      "packetMode": "state_specific_custom_packet_from_source_rules",
+      "registryRelation": "direct_runtime_representation",
+      "mappedRegistryTrackIds": [
+        "ms-misd-addl"
+      ],
+      "mappingEvidence": [
+        "adjudicated_mechanism_identity"
+      ],
+      "evidenceDetail": {
+        "adjudication": {
+          "by": "session-bridge-adjudication",
+          "evidenceRef": {
+            "lanes": [
+              "BRIDGE-ADJ"
+            ],
+            "paths": [
+              "data/rcap-ledger/pathway-bridge-adjudication.json",
+              "src/lib/legal-authority/routes/mississippi.json",
+              "data/record-clearing/legal-design-intake/MS-mississippi.memo.json"
+            ],
+            "recordKey": "MS:additional-justice-court-misdemeanor-relief-9-11-15-3"
+          }
+        },
+        "license": {
+          "kind": "mechanism_identity",
+          "pathwayTokens": [
+            "9-11-15-3"
+          ],
+          "registryTokens": [
+            "9-11-15"
+          ]
+        }
+      },
+      "coMappedPathwayIds": [
+        "additional-justice-or-municipal-court-misdemeanor-relief",
+        "additional-municipal-court-misdemeanor-relief-21-23-7-6"
+      ],
+      "contributesToRuntimeCoverage": true,
+      "contributesToRegistryDenominator": false,
+      "unresolvedReason": null,
+      "missingEvidence": [],
+      "adjudicated": true
+    },
+    {
+      "jurisdiction": "MS",
+      "compiledPathwayId": "additional-municipal-court-misdemeanor-relief-21-23-7-6",
+      "label": "Additional municipal-court misdemeanor relief",
+      "compiledProfilePath": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
+      "routeType": "court_filing",
+      "automatic": false,
+      "packetMode": "state_specific_custom_packet_from_source_rules",
+      "registryRelation": "direct_runtime_representation",
+      "mappedRegistryTrackIds": [
+        "ms-misd-addl"
+      ],
+      "mappingEvidence": [
+        "adjudicated_mechanism_identity"
+      ],
+      "evidenceDetail": {
+        "adjudication": {
+          "by": "session-bridge-adjudication",
+          "evidenceRef": {
+            "lanes": [
+              "BRIDGE-ADJ"
+            ],
+            "paths": [
+              "data/rcap-ledger/pathway-bridge-adjudication.json",
+              "src/lib/legal-authority/routes/mississippi.json",
+              "data/record-clearing/legal-design-intake/MS-mississippi.memo.json"
+            ],
+            "recordKey": "MS:additional-municipal-court-misdemeanor-relief-21-23-7-6"
+          }
+        },
+        "license": {
+          "kind": "mechanism_identity",
+          "pathwayTokens": [
+            "21-23-7-6"
+          ],
+          "registryTokens": [
+            "21-23-7"
+          ]
+        }
+      },
+      "coMappedPathwayIds": [
+        "additional-justice-court-misdemeanor-relief-9-11-15-3",
+        "additional-justice-or-municipal-court-misdemeanor-relief"
+      ],
+      "contributesToRuntimeCoverage": true,
+      "contributesToRegistryDenominator": false,
+      "unresolvedReason": null,
+      "missingEvidence": [],
+      "adjudicated": true
+    },
+    {
+      "jurisdiction": "MS",
+      "compiledPathwayId": "uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+      "label": "Uncharged or unprosecuted misdemeanor — dismissal branch",
+      "compiledProfilePath": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
+      "routeType": "court_filing",
+      "automatic": false,
+      "packetMode": "state_specific_custom_packet_from_source_rules",
+      "registryRelation": "unresolved_no_candidate",
+      "mappedRegistryTrackIds": [],
+      "mappingEvidence": [],
+      "evidenceDetail": {},
+      "coMappedPathwayIds": [],
+      "contributesToRuntimeCoverage": false,
+      "contributesToRegistryDenominator": false,
+      "unresolvedReason": "no statutory citation, official form or scope restriction links this pathway to any registry track in its jurisdiction",
+      "missingEvidence": [
+        "a statutory citation in the compiled pathway id or label",
+        "or an official form identifier shared with a registry track"
+      ]
     },
     {
       "jurisdiction": "MT",
@@ -19330,15 +19701,15 @@
       "compiledPathwayId": "non-conviction-criminal-history-removal-through-criss",
       "label": "Non-conviction criminal-history removal through CRISS",
       "compiledProfilePath": "src/lib/rcap-engine/compiled/profiles/MT-montana.json",
-      "routeType": "court_filing",
-      "automatic": false,
-      "packetMode": "official_form_overlay_or_source_form_set",
+      "routeType": "automatic_guidance",
+      "automatic": true,
+      "packetMode": "automatic_relief_verification_and_guidance",
       "registryRelation": "direct_runtime_representation",
       "mappedRegistryTrackIds": [
         "mt_nonconviction_removal"
       ],
       "mappingEvidence": [
-        "adjudicated_operative_citation_in_pathway"
+        "adjudicated_mechanism_identity"
       ],
       "evidenceDetail": {
         "adjudication": {
@@ -19354,9 +19725,14 @@
           }
         },
         "license": {
-          "kind": "operative_citation_in_pathway",
-          "citationTokens": [
-            "44-5-202"
+          "kind": "mechanism_identity",
+          "pathwayTokens": [
+            "criss",
+            "non-conviction"
+          ],
+          "registryTokens": [
+            "criss",
+            "non-conviction"
           ]
         }
       },
@@ -19372,15 +19748,15 @@
       "compiledPathwayId": "deferred-sentence-dismissal-or-confidentiality-route",
       "label": "Deferred-sentence dismissal or confidentiality route",
       "compiledProfilePath": "src/lib/rcap-engine/compiled/profiles/MT-montana.json",
-      "routeType": "court_filing",
+      "routeType": "automatic_guidance",
       "automatic": false,
-      "packetMode": "official_form_overlay_or_source_form_set",
+      "packetMode": "automatic_relief_verification_and_guidance",
       "registryRelation": "direct_runtime_representation",
       "mappedRegistryTrackIds": [
         "mt_deferred_dismissal"
       ],
       "mappingEvidence": [
-        "adjudicated_operative_citation_in_pathway"
+        "adjudicated_mechanism_identity"
       ],
       "evidenceDetail": {
         "adjudication": {
@@ -19396,9 +19772,12 @@
           }
         },
         "license": {
-          "kind": "operative_citation_in_pathway",
-          "citationTokens": [
-            "46-18"
+          "kind": "mechanism_identity",
+          "pathwayTokens": [
+            "confidential criminal justice information"
+          ],
+          "registryTokens": [
+            "confidential criminal justice information"
           ]
         }
       },
@@ -19455,7 +19834,7 @@
         "mt_misdemeanor_expungement"
       ],
       "mappingEvidence": [
-        "adjudicated_operative_citation_in_pathway"
+        "adjudicated_mechanism_identity"
       ],
       "evidenceDetail": {
         "adjudication": {
@@ -19471,9 +19850,14 @@
           }
         },
         "license": {
-          "kind": "operative_citation_in_pathway",
-          "citationTokens": [
-            "46-18"
+          "kind": "mechanism_identity",
+          "pathwayTokens": [
+            "misdemeanor",
+            "expungement"
+          ],
+          "registryTokens": [
+            "misdemeanor",
+            "expungement"
           ]
         }
       },
@@ -19631,9 +20015,9 @@
       "compiledPathwayId": "non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
       "label": "Non-conviction court-record closing under N.D.C.C. § 12-60.1-05",
       "compiledProfilePath": "src/lib/rcap-engine/compiled/profiles/ND-north-dakota.json",
-      "routeType": "court_filing",
-      "automatic": false,
-      "packetMode": "official_form_overlay_or_source_form_set",
+      "routeType": "automatic",
+      "automatic": true,
+      "packetMode": "automatic_relief_verification_and_guidance",
       "registryRelation": "direct_runtime_representation",
       "mappedRegistryTrackIds": [
         "nd-nonconviction-auto-close-verify"
@@ -20452,9 +20836,9 @@
       "compiledPathwayId": "marijuana-hashish-expungement-under-n-j-s-a-2c-52-5-1-5-2-and-6-1",
       "label": "Marijuana / hashish expungement under N.J.S.A. 2C:52-5.1, -5.2, and -6.1",
       "compiledProfilePath": "src/lib/rcap-engine/compiled/profiles/NJ-new-jersey.json",
-      "routeType": "court_filing",
-      "automatic": false,
-      "packetMode": "official_form_overlay_or_source_form_set",
+      "routeType": "automatic",
+      "automatic": true,
+      "packetMode": "automatic_relief_verification_and_guidance",
       "registryRelation": "unregistered_relief_mechanism_registry_gap",
       "mappedRegistryTrackIds": [],
       "mappingEvidence": [
@@ -20687,7 +21071,7 @@
       "compiledPathwayId": "dna-sample-profile-expungement",
       "label": "DNA sample/profile expungement",
       "compiledProfilePath": "src/lib/rcap-engine/compiled/profiles/NM-new-mexico.json",
-      "routeType": "court_filing",
+      "routeType": "administrative",
       "automatic": false,
       "packetMode": "official_form_overlay_or_source_form_set",
       "registryRelation": "unregistered_relief_mechanism_registry_gap",
@@ -20973,7 +21357,7 @@
       "label": "Automatic non-conviction sealing under CPL 160.50 / 160.55",
       "compiledProfilePath": "src/lib/rcap-engine/compiled/profiles/NY-new-york.json",
       "routeType": "automatic",
-      "automatic": true,
+      "automatic": false,
       "packetMode": "automatic_relief_verification_and_guidance",
       "registryRelation": "direct_runtime_representation",
       "mappedRegistryTrackIds": [
@@ -22046,7 +22430,7 @@
       "compiledPathwayId": "clean-slate-automatic-expungement",
       "label": "Clean Slate automatic expungement",
       "compiledProfilePath": "src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json",
-      "routeType": "automatic",
+      "routeType": "automatic_guidance",
       "automatic": true,
       "packetMode": "automatic_relief_verification_and_guidance",
       "registryRelation": "direct_runtime_representation",
@@ -23072,9 +23456,9 @@
       "compiledPathwayId": "path-f-marijuana-possession-expungement",
       "label": "Path F — Marijuana-possession expungement",
       "compiledProfilePath": "src/lib/rcap-engine/compiled/profiles/RI-rhode-island.json",
-      "routeType": "court_filing",
-      "automatic": false,
-      "packetMode": "official_form_overlay_or_source_form_set",
+      "routeType": "automatic",
+      "automatic": true,
+      "packetMode": "automatic_relief_verification_and_guidance",
       "registryRelation": "direct_runtime_representation",
       "mappedRegistryTrackIds": [
         "ri_marijuana"
@@ -23114,9 +23498,9 @@
       "compiledPathwayId": "path-g-decriminalized-offense-expungement",
       "label": "Path G — Decriminalized-offense expungement",
       "compiledProfilePath": "src/lib/rcap-engine/compiled/profiles/RI-rhode-island.json",
-      "routeType": "court_filing",
+      "routeType": "review",
       "automatic": false,
-      "packetMode": "official_form_overlay_or_source_form_set",
+      "packetMode": "automatic_relief_verification_and_guidance",
       "registryRelation": "direct_runtime_representation",
       "mappedRegistryTrackIds": [
         "ri_decriminalized"
@@ -23284,9 +23668,9 @@
       "compiledPathwayId": "diversion-or-program-completion-expungement",
       "label": "Diversion or program-completion expungement",
       "compiledProfilePath": "src/lib/rcap-engine/compiled/profiles/SC-south-carolina.json",
-      "routeType": "court_filing",
+      "routeType": "automatic_guidance",
       "automatic": false,
-      "packetMode": "state_specific_custom_packet_from_source_rules",
+      "packetMode": "automatic_relief_verification_and_guidance",
       "registryRelation": "direct_runtime_representation",
       "mappedRegistryTrackIds": [
         "sc_pti_17_22_150"
@@ -23464,7 +23848,7 @@
       "compiledPathwayId": "pardon-guidance-for-otherwise-ineligible-convictions",
       "label": "Pardon guidance for otherwise ineligible convictions",
       "compiledProfilePath": "src/lib/rcap-engine/compiled/profiles/SC-south-carolina.json",
-      "routeType": "pardon",
+      "routeType": "automatic_guidance",
       "automatic": false,
       "packetMode": "automatic_relief_verification_and_guidance",
       "registryRelation": "unregistered_relief_mechanism_registry_gap",
@@ -23719,9 +24103,9 @@
       "compiledPathwayId": "pardon-based-sealing",
       "label": "Pardon-based sealing",
       "compiledProfilePath": "src/lib/rcap-engine/compiled/profiles/SD-south-dakota.json",
-      "routeType": "pardon_then_court",
-      "automatic": false,
-      "packetMode": "state_specific_custom_packet_from_source_rules",
+      "routeType": "automatic_guidance",
+      "automatic": true,
+      "packetMode": "automatic_relief_verification_and_guidance",
       "registryRelation": "direct_runtime_representation",
       "mappedRegistryTrackIds": [
         "sd_pardon_24_14_11"
@@ -24397,7 +24781,7 @@
       "label": "Path C — Clean Slate eligible convictions and plea-in-abeyance dismissals",
       "compiledProfilePath": "src/lib/rcap-engine/compiled/profiles/UT-utah.json",
       "routeType": "automatic",
-      "automatic": true,
+      "automatic": false,
       "packetMode": "automatic_relief_verification_and_guidance",
       "registryRelation": "direct_runtime_representation",
       "mappedRegistryTrackIds": [
@@ -24649,9 +25033,9 @@
       "compiledPathwayId": "path-k-pardon-based-expungement",
       "label": "Path K — Pardon-based expungement",
       "compiledProfilePath": "src/lib/rcap-engine/compiled/profiles/UT-utah.json",
-      "routeType": "pardon_then_court",
+      "routeType": "automatic_guidance",
       "automatic": false,
-      "packetMode": "official_form_overlay_or_source_form_set",
+      "packetMode": "automatic_relief_verification_and_guidance",
       "registryRelation": "unregistered_relief_mechanism_registry_gap",
       "mappedRegistryTrackIds": [],
       "mappingEvidence": [
@@ -25839,9 +26223,9 @@
       "compiledPathwayId": "pardon-based-expungement",
       "label": "Pardon-based expungement",
       "compiledProfilePath": "src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json",
-      "routeType": "pardon_then_court",
+      "routeType": "automatic_guidance",
       "automatic": false,
-      "packetMode": "state_specific_custom_packet_from_source_rules",
+      "packetMode": "automatic_relief_verification_and_guidance",
       "registryRelation": "direct_runtime_representation",
       "mappedRegistryTrackIds": [
         "wv_pardon_expungement"
@@ -26124,13 +26508,13 @@
       "data/rcap-ledger/e2-evidence/E2-B3.json": "e711ed46ec07a58ff6d1808b42052a99a99f607f4f46cb1ea0d863c8105052ab",
       "data/rcap-ledger/e2-evidence/E2-C.json": "1513f0d085dd409292b23d808115dcea8ebaefe180235e868d46f3c2cfb08e07",
       "data/rcap-ledger/e2-evidence/E2-D.json": "ad41980278b151c5b585beec2ef60ba0f1bd414ed9ed57c79d91d113b8c1d5e2",
-      "data/rcap-ledger/crosswalk-adjudications.json": "dd4ea430d4c85c740c411f094e94bce40ca8f77d70cffa621d0a3702e0506e4c",
-      "data/rcap-crosswalk-enrichment/e2-source-support-audit.json": "93e9b198752b729c72efc91e3d147b2fc352e033a89d70f602725cf8d4575ba6",
+      "data/rcap-ledger/crosswalk-adjudications.json": "e89ed705f13c6d2b9af0a4e948b8f14873d01f64e4ddfaa8bc035f8200b00ba3",
+      "data/rcap-crosswalk-enrichment/e2-source-support-audit.json": "0b4fd6e5dbdf416544a1c7da5bc372e4854a2beebc7b4b41a149c636fac0a8ef",
       "data/rcap-crosswalk-enrichment/final-official-sources/final-official-sources.json": "dd40053a37cc87ecfcda6fb00e1e00a5e66618ff6b944c66b384fb6bff900d81",
       "data/rcap-crosswalk-enrichment/final-official-sources/files/PA/PA_18_PaCS_3019_d-g_official_2026-08-11.txt": "0dc688b98962d565ab96c1ad4bbbf33a730dc0fdf51117765e733a4fe53c7dc4",
       "data/rcap-crosswalk-enrichment/final-official-sources/files/SC/SC_Code_16-3-2020_F_official_2026-08-11.txt": "b7f64d13388ca43175931e2b1aee357703bd99031b0b64879de690b7893dd630"
     }
   },
-  "evidenceHash": "d204b14fd91ca549e208ebfc8b8ebea5e04bf79300c1c902c577c911c1e861fe",
-  "contentHash": "13ed7157db3397286510caf4f1e7292470964377124fa908ef2ebc0350abcd24"
+  "evidenceHash": "06b862b2b152e97a61de3e4c8b72ac06c6e4c405d6dfc7188935c611694ca6a8",
+  "contentHash": "4ed06326d8fd235b7ebf4a1e3e6194debf4835bd5407a7e2db94f2300badf35c"
 }

@@ -14,21 +14,26 @@ import path from "node:path";
 import { spawnSync } from "node:child_process";
 import { register } from "node:module";
 
+import { prepareHostedAcceptanceEvidenceLayout } from "./rcap-hosted-acceptance-evidence-layout.mjs";
+import {
+  expectedHostedReturnOrigin,
+  hostedVercelScopedUrl,
+  resolveHostedVercelIdentity
+} from "./rcap-hosted-acceptance-vercel-identity.mjs";
+
 process.env.RCAP_EVALUATOR_TODAY = process.env.RCAP_EVALUATOR_TODAY ?? "2026-07-01";
 register("./lib/ts-esm-loader.mjs", import.meta.url);
 
 const ROOT = process.cwd();
-const EVIDENCE_DIR = path.join(ROOT, "hosted-acceptance-evidence");
+const { root: EVIDENCE_DIR } = prepareHostedAcceptanceEvidenceLayout({ rootDir: ROOT });
 const EVIDENCE_PATH = path.join(EVIDENCE_DIR, "checkout-gate.json");
-fs.mkdirSync(EVIDENCE_DIR, { recursive: true });
 
 const APPLICATION_SHA = process.env.HOSTED_APPLICATION_SHA ?? "";
 const PROJECT_REF = process.env.ACCEPTANCE_SUPABASE_PROJECT_REF ?? "";
 const DEPLOYMENT_ID = process.env.HOSTED_PREVIEW_DEPLOYMENT_ID ?? "";
+const PREVIEW_HOSTNAME = (process.env.HOSTED_PREVIEW_HOSTNAME ?? "").trim().replace(/^https?:\/\//, "").replace(/\/+$/, "");
 const WORKER_REF = process.env.HOSTED_WORKER_DIGEST_REF ?? "";
 const VERCEL_TOKEN = process.env.VERCEL_TOKEN ?? "";
-const VERCEL_ORG_ID = process.env.VERCEL_ORG_ID ?? "";
-const VERCEL_PROJECT_ID = process.env.VERCEL_PROJECT_ID ?? "";
 const SUPABASE_ACCESS_TOKEN = process.env.SUPABASE_ACCESS_TOKEN ?? "";
 const STRIPE_KEY = process.env.HOSTED_STRIPE_TEST_SECRET ?? "";
 const BYPASS = (process.env.VERCEL_AUTOMATION_BYPASS_SECRET ?? "").trim();
@@ -41,9 +46,11 @@ const SUPABASE_URL = `https://${PROJECT_REF}.supabase.co`;
 // Rebound from the superseded pair (application 264d2a24, worker
 // sha256:1d30530b) to the accepted release. The old pins are not wrong about
 // history — they are simply no longer what this gate is gating.
-const EXPECTED_APPLICATION_SHA = "f7ed0ad3a8f37a0c1446b62760b1a36fb163c926";
+const applicationShaExact = /^[0-9a-f]{40}$/.test(APPLICATION_SHA);
+const EXPECTED_RETURN_ORIGIN = applicationShaExact ? expectedHostedReturnOrigin(APPLICATION_SHA) : "";
+const EXPECTED_RETURN_HOST = EXPECTED_RETURN_ORIGIN ? new URL(EXPECTED_RETURN_ORIGIN).host : "";
 const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
-const EXPECTED_WORKER_DIGEST = "sha256:4e5b58e4492289446bcbdd100bb39dcd13dd4512916679fa2a252e4532ab9530";
+const EXPECTED_WORKER_DIGEST = "sha256:67132df2d1bee49d123d0d2918880f283d2109195b49150265d348fe1d07a69c";
 const EXPECTED_WORKER_REF = `ghcr.io/roger-legalease/rcap-render-worker@${EXPECTED_WORKER_DIGEST}`;
 const PA_PATHWAY = "Path A — Non-conviction expungement";
 const EXPECTED_EVENTS = [
@@ -103,11 +110,7 @@ function sqlText(value) {
   return String(value).split("'").join("''");
 }
 
-let vercelScopeName = null;
-function scopedVercelUrl(pathname, scopeName) {
-  const joiner = pathname.includes("?") ? "&" : "?";
-  return `https://api.vercel.com${pathname}${joiner}${scopeName}=${encodeURIComponent(VERCEL_ORG_ID)}`;
-}
+let VERCEL_IDENTITY = null;
 
 async function vercelFetch(url) {
   const response = await fetch(url, { headers: { Authorization: `Bearer ${VERCEL_TOKEN}` } });
@@ -118,17 +121,8 @@ async function vercelFetch(url) {
 }
 
 async function vercelApi(pathname) {
-  if (vercelScopeName) return vercelFetch(scopedVercelUrl(pathname, vercelScopeName));
-  const candidates = VERCEL_ORG_ID.startsWith("team_") ? ["teamId", "slug"] : ["slug", "teamId"];
-  let last = null;
-  for (const candidate of candidates) {
-    last = await vercelFetch(scopedVercelUrl(pathname, candidate));
-    if (last.status < 400) {
-      vercelScopeName = candidate;
-      return last;
-    }
-  }
-  return last;
+  if (!VERCEL_IDENTITY) throw new GateFailure("vercel_identity_resolved", "the pinned Vercel identity has not been resolved");
+  return vercelFetch(hostedVercelScopedUrl(pathname, VERCEL_IDENTITY));
 }
 
 async function managementApi(pathname, { method = "GET", body = null } = {}) {
@@ -268,26 +262,26 @@ async function main() {
     ["HOSTED_APPLICATION_SHA", APPLICATION_SHA],
     ["ACCEPTANCE_SUPABASE_PROJECT_REF", PROJECT_REF],
     ["HOSTED_PREVIEW_DEPLOYMENT_ID", DEPLOYMENT_ID],
+    ["HOSTED_PREVIEW_HOSTNAME", PREVIEW_HOSTNAME],
     ["HOSTED_WORKER_DIGEST_REF", WORKER_REF],
     ["VERCEL_TOKEN", VERCEL_TOKEN],
-    ["VERCEL_ORG_ID", VERCEL_ORG_ID],
-    ["VERCEL_PROJECT_ID", VERCEL_PROJECT_ID],
     ["SUPABASE_ACCESS_TOKEN", SUPABASE_ACCESS_TOKEN],
     ["HOSTED_STRIPE_TEST_SECRET", STRIPE_KEY],
     ["VERCEL_AUTOMATION_BYPASS_SECRET", BYPASS]
   ].filter(([, value]) => !value).map(([name]) => name);
   if (missing.length > 0) throw new GateFailure("required_inputs_present", `missing ${missing.join(", ")}`);
+  VERCEL_IDENTITY = await resolveHostedVercelIdentity({ token: VERCEL_TOKEN });
 
   // Report the MISMATCH, not just the observed values. Printing only what
   // arrived made a stale pin in this file read as though the workflow had sent
   // the wrong identities: every value on the line looked correct, because each
   // one was the accepted value being compared against a superseded expectation.
   const inputMismatches = [
-    ["application SHA", APPLICATION_SHA, EXPECTED_APPLICATION_SHA],
     ["acceptance project ref", PROJECT_REF, EXPECTED_PROJECT_REF],
     ["worker digest reference", WORKER_REF, EXPECTED_WORKER_REF]
   ].filter(([, actual, expected]) => actual !== expected)
     .map(([label, actual, expected]) => `${label}: received ${actual}, this gate pins ${expected}`);
+  if (!applicationShaExact) inputMismatches.push("application SHA is not one exact 40-character lowercase Git SHA");
   if (!STRIPE_KEY.startsWith("sk_test_")) inputMismatches.push("Stripe key is not a sk_test_ sandbox key");
   record(
     "immutable_inputs_exact",
@@ -299,39 +293,47 @@ async function main() {
 
   // Exact existing deployment only. There is intentionally no list-and-pick or
   // create fallback in this gate.
-  const projectResponse = await vercelApi(`/v9/projects/${encodeURIComponent(VERCEL_PROJECT_ID)}`);
+  const projectResponse = await vercelApi(`/v9/projects/${encodeURIComponent(VERCEL_IDENTITY.projectId)}`);
   const canonicalProjectId = projectResponse.json?.id ?? null;
   record(
     "vercel_project_identity_resolved",
     projectResponse.status === 200
       && Boolean(canonicalProjectId)
-      && (projectResponse.json?.id === VERCEL_PROJECT_ID || projectResponse.json?.name === VERCEL_PROJECT_ID),
-    `project lookup=${projectResponse.status}; canonical id present=${Boolean(canonicalProjectId)}; scope parameter=${vercelScopeName ?? "(unresolved)"}`
+      && projectResponse.json?.id === VERCEL_IDENTITY.projectId
+      && projectResponse.json?.name === VERCEL_IDENTITY.projectName,
+    `project lookup=${projectResponse.status}; canonical id present=${Boolean(canonicalProjectId)}; scope parameter=teamId`
   );
 
   const deploymentResponse = await vercelApi(`/v13/deployments/${encodeURIComponent(DEPLOYMENT_ID)}`);
   const deployment = deploymentResponse.json;
+  const aliasResponse = await vercelApi(`/v13/deployments/${encodeURIComponent(EXPECTED_RETURN_HOST)}`);
+  const aliasDeploymentId = aliasResponse.json?.id ?? aliasResponse.json?.uid ?? null;
   const resolvedDeploymentId = deployment?.id ?? deployment?.uid ?? null;
   const deploymentProjectId = deployment?.projectId ?? deployment?.project?.id ?? null;
   const deploymentOk = deploymentResponse.status === 200
     && resolvedDeploymentId === DEPLOYMENT_ID
     && (deployment?.readyState ?? deployment?.state) === "READY"
-    && (deployment?.target === null || deployment?.target === undefined || deployment?.target === "preview")
+    && (deployment?.target === null || deployment?.target === "preview")
     && deploymentProjectId === canonicalProjectId
     && deployment?.meta?.rcapApplicationSha === APPLICATION_SHA
     && deployment?.meta?.rcapAcceptanceProjectRef === PROJECT_REF
     && deployment?.meta?.rcapStripeConfigured === "true"
     && deployment?.meta?.rcapRouteState === "staging_scoped"
+    && deployment?.meta?.rcapReturnOrigin === EXPECTED_RETURN_ORIGIN
+    && PREVIEW_HOSTNAME === EXPECTED_RETURN_HOST
+    && aliasResponse.status === 200
+    && aliasDeploymentId === DEPLOYMENT_ID
     && typeof deployment?.url === "string";
   record(
     "exact_ready_preview_reused",
     deploymentOk,
-    `GET deployment=${deploymentResponse.status}; id=${resolvedDeploymentId}; project matches=${deploymentProjectId === canonicalProjectId}; ready=${deployment?.readyState ?? deployment?.state}; target=${JSON.stringify(deployment?.target ?? null)}; app=${deployment?.meta?.rcapApplicationSha ?? "(absent)"}; ref=${deployment?.meta?.rcapAcceptanceProjectRef ?? "(absent)"}; stripe=${deployment?.meta?.rcapStripeConfigured ?? "(absent)"}; route=${deployment?.meta?.rcapRouteState ?? "(absent)"}`
+    `GET deployment=${deploymentResponse.status}; id=${resolvedDeploymentId}; project matches=${deploymentProjectId === canonicalProjectId}; ready=${deployment?.readyState ?? deployment?.state}; target=${JSON.stringify(deployment?.target ?? null)}; app=${deployment?.meta?.rcapApplicationSha ?? "(absent)"}; ref=${deployment?.meta?.rcapAcceptanceProjectRef ?? "(absent)"}; stripe=${deployment?.meta?.rcapStripeConfigured ?? "(absent)"}; route=${deployment?.meta?.rcapRouteState ?? "(absent)"}; deterministic alias resolves exact deployment=${aliasDeploymentId === DEPLOYMENT_ID}`
   );
-  const previewUrl = `https://${deployment.url}`;
+  const previewUrl = EXPECTED_RETURN_ORIGIN;
   evidence.deployment = {
     id: DEPLOYMENT_ID,
-    hostname: deployment.url,
+    hostname: PREVIEW_HOSTNAME,
+    immutableHostname: deployment.url,
     target: deployment.target ?? null,
     readyState: deployment.readyState ?? deployment.state,
     applicationSha: deployment.meta.rcapApplicationSha,
@@ -527,31 +529,315 @@ async function main() {
     resultCode: consumerResultCode,
     packetType: consumerPacketType
   };
-  const routeExact = routeIdentity.routeKind === "legacy_verified"
+  const routeExact = routeIdentity.routeKind === "legacy_retired"
     && routeIdentity.routeId === `PA:${PA_PATHWAY}`
     && routeIdentity.pathwayId === PA_PATHWAY
     && routeIdentity.jurisdiction === "PA"
     && routeIdentity.rendererKind === "packet_document_v1"
     && routeIdentity.rendererVersion === "1.0.0"
     && routeIdentity.profileId === "PA"
-    && routeIdentity.profileVersion === "1.3.0"
+    && routeIdentity.profileVersion === String(compiledProfile?.profileVersion)
     && routeIdentity.sourceSha256 === null
-    && routeIdentity.sellable === true
-    && routeIdentity.creditConsumable === true;
+    && routeIdentity.sellable === false
+    && routeIdentity.creditConsumable === false;
   record("pennsylvania_path_a_resolver_exact", routeExact, JSON.stringify(routeIdentity));
   evidence.pennsylvaniaRoute = routeIdentity;
 
-  const summaryJson = sqlText(JSON.stringify({ text: "RCAP hosted Checkout gate — synthetic Pennsylvania Path A", gate: "human_checkout" }));
+  // The PA resolver proof above is a compatibility boundary, not permission to
+  // sell that route — and since ADR-0004 it is the opposite of permission: the
+  // legacy renderer is retained for historical access and migration comparison,
+  // and the identity is asserted to carry sellable false and creditConsumable
+  // false so that a regression restoring legacy commercial authority fails here
+  // rather than at a checkout. The frozen authoritative evaluator classifies PA Path A
+  // needs_review/dtc_no_payment. The transacted fixture therefore follows the
+  // full payment harness: try the registry route first, then MS/IL/PA, and use
+  // only a route the evaluator itself proves sellable.
+  const { packetInformationModelFor, packetInformationReviewSafety } =
+    await import("../src/lib/expungement-ai/packet-information.ts");
+  const { evaluateAuthoritativeScreeningResult } =
+    await import("../src/lib/expungement-ai/authoritative-screening-result.ts");
+  const { projectPublicProfile } =
+    await import("../src/lib/rcap-engine/public-profile-projection.ts");
+  // The one fulfillment authority. Since ADR-0004 an evaluator verdict of
+  // paymentAllowed is a necessary condition for a sale and never a sufficient
+  // one: it says the matter qualifies for relief, not that the product can
+  // deliver the filing. This harness transacts a real Checkout, so it selects
+  // only a route the authority itself proves.
+  const { packetFulfillmentAuthority } =
+    await import("../src/lib/expungement-ai/packet-fulfillment-authority.ts");
+  const preferredAnswers = {
+    ownership_scope: "Yes",
+    jurisdiction_scope: "State or local",
+    case_outcome: "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+    offense_level: "Misdemeanor",
+    offense_category: "Misdemeanor",
+    record_type: "Arrest or charge",
+    resolved_timing_bucket: "gt_10_years",
+    court_requirements_completed: "yes",
+    pending_cases: "No",
+    trafficking_status: "No",
+    prior_relief: "No",
+    pardon_status: "No",
+    sentence_completion_date: "Yes",
+    financial_obligations: "Yes",
+    state_exclusion_categories: ["None of these"],
+    disposition_date: "2005-01-10",
+    age_at_offense: "30",
+    charge: "Shoplifting",
+    county: "Hinds",
+    court: "Hinds County Circuit Court",
+    residency_or_location: "Jackson",
+    criminal_history: "No other cases",
+    participant_full_legal_name: "Acceptance Test Participant",
+    contact_information: "hosted-acceptance@example.test"
+  };
+  function publicQuestionIndex(profile) {
+    const index = new Map();
+    (function walk(node) {
+      if (!node || typeof node !== "object") return;
+      if (Array.isArray(node)) {
+        node.forEach(walk);
+        return;
+      }
+      if (typeof node.id === "string" && typeof node.type === "string" && (node.prompt || node.label)) {
+        if (!index.has(node.id)) index.set(node.id, node);
+      }
+      Object.values(node).forEach(walk);
+    })(projectPublicProfile(profile));
+    return index;
+  }
+  function answerForQuestion(question, id) {
+    const preferred = preferredAnswers[id];
+    const preferredAllowed = !question || question.type !== "single_choice"
+      || !question.options?.length || question.options.includes(preferred);
+    if (preferred !== undefined && preferredAllowed) return preferred;
+    if (!question) return "No";
+    if (question.type === "date_or_unknown") return "2005-01-10";
+    if (question.type === "number_or_range") return "30";
+    if (question.type === "multi_select" && question.options?.length) {
+      return [question.options.find((option) => /^none/i.test(option)) ?? question.options[0]];
+    }
+    if (question.type === "single_choice" && question.options?.length) {
+      return question.options.find((option) => /^(no\b|none)/i.test(option)) ?? question.options[0];
+    }
+    if (question.type?.startsWith("yes_no")) return "No";
+    return "None";
+  }
+  function convergeSellableScreening(state) {
+    const profile = getProfileByJurisdiction(state);
+    if (!profile) return { state, failure: "compiled profile unavailable" };
+    const questions = publicQuestionIndex(profile);
+    const answers = {
+      ownership_scope: preferredAnswers.ownership_scope,
+      jurisdiction_scope: preferredAnswers.jurisdiction_scope,
+      case_outcome: preferredAnswers.case_outcome,
+      offense_level: preferredAnswers.offense_level,
+      disposition_date: preferredAnswers.disposition_date
+    };
+    let last = null;
+    for (let round = 0; round < 16; round += 1) {
+      let evaluation;
+      try {
+        evaluation = evaluateAuthoritativeScreeningResult({
+          jurisdiction: state,
+          profileVersion: profile.profileVersion,
+          matterId: itemId,
+          answers
+        }).evaluation;
+      } catch (error) {
+        if (!error?.invalidQuestionIds?.length) {
+          return { state, failure: String(error?.message ?? error).slice(0, 180) };
+        }
+        for (const id of error.invalidQuestionIds) delete answers[id];
+        continue;
+      }
+      last = evaluation;
+      const evaluatorAdmitsPayment = (evaluation.resultCode === "packet_ready" || evaluation.resultCode === "packet_ready_with_caution")
+        && evaluation.paymentAllowed === true
+        && typeof evaluation.pathwayId === "string";
+      // Two independent conditions, deliberately not collapsed: the evaluator
+      // admits payment for the matter, AND a fulfillment record proves this
+      // exact route delivers a packet. The harness may transact only where both
+      // hold, so a route that qualifies legally but has nothing to ship is
+      // rejected here rather than at a participant's download.
+      const fulfillment = evaluatorAdmitsPayment
+        ? packetFulfillmentAuthority(state, evaluation.pathwayId, "checkout creation")
+        : { allowed: false, reason: "the evaluator does not admit payment for this matter" };
+      if (evaluatorAdmitsPayment && !fulfillment.allowed) {
+        return { state, failure: `${evaluation.pathwayId}: evaluator admits payment but no proven fulfillment — ${fulfillment.reason}` };
+      }
+      if (evaluatorAdmitsPayment && fulfillment.allowed) return { state, profile, evaluation, answers };
+      const missing = evaluation.missingQuestionIds ?? [];
+      if (!missing.length) {
+        return { state, failure: `${evaluation.resultCode} with no remaining questions` };
+      }
+      for (const id of missing) answers[id] = answerForQuestion(questions.get(id), id);
+    }
+    return { state, failure: `did not settle in 16 rounds; last ${last?.resultCode ?? "unavailable"}` };
+  }
+  function buildReviewedFlow(settled) {
+    const { state, profile, evaluation, answers } = settled;
+    const pathway = profile.packetGenerator?.pathways?.find(
+      (candidate) => candidate.pathwayId === evaluation.pathwayId
+    );
+    if (!pathway) return { failure: `${state}: packet generator does not offer ${evaluation.pathwayId}` };
+    const baseItem = {
+      id: itemId,
+      type: "result",
+      title: "RCAP hosted Checkout gate — evaluator-proven sellable packet",
+      state,
+      status: "packet_ready",
+      resultCode: evaluation.resultCode,
+      createdAt: new Date().toISOString(),
+      summary: "RCAP hosted Checkout gate — evaluator-proven sellable packet",
+      nextSteps: [],
+      paymentAllowed: true,
+      packetReady: true,
+      pathwayLabel: pathway.pathwayLabel,
+      packetType: consumerPacketType,
+      artifactRefs: {}
+    };
+    const initialModel = packetInformationModelFor(baseItem);
+    if (!initialModel) return { failure: `${state}: packet-information model unavailable for ${pathway.pathwayLabel}` };
+    const packetAnswers = { ...answers };
+    for (const question of initialModel.questions) {
+      if (!(question.id in packetAnswers)) packetAnswers[question.id] = answerForQuestion(question, question.id);
+    }
+    const reviewedAt = new Date().toISOString();
+    const commercialFlow = {
+      version: 1,
+      entitlementSource: "consumer_payment",
+      productId: "expungement_packet",
+      screening: {
+        profileVersion: profile.profileVersion,
+        pathwayId: initialModel.pathwayId,
+        pathwayLabel: initialModel.pathwayLabel,
+        resultCode: evaluation.resultCode,
+        paymentAllowed: true,
+        packetType: consumerPacketType,
+        packetPlan: initialModel.packetPlan,
+        answers
+      },
+      packetInformation: {
+        stage: "ready_to_generate",
+        requiredInputIds: initialModel.requiredInputIds,
+        serverFacts: { jurisdiction: state, pathway_id: initialModel.pathwayId },
+        prefilledAnswers: {},
+        answers: packetAnswers,
+        missingInputIds: [],
+        updatedAt: reviewedAt,
+        reviewedAt
+      }
+    };
+    const reviewedItem = { ...baseItem, artifactRefs: { commercialFlow } };
+    const model = packetInformationModelFor(reviewedItem);
+    const safety = packetInformationReviewSafety(reviewedItem);
+    const complete = model?.stage === "ready_to_generate"
+      && model.missingInputIds.length === 0
+      && Boolean(model.reviewedAt)
+      && safety.safe;
+    return complete
+      ? { state, profile, evaluation, pathway, commercialFlow, model, safety }
+      : { failure: `${state}: stage=${model?.stage ?? "unavailable"}, missing=${model?.missingInputIds.length ?? "unavailable"}, review=${safety.reason}` };
+  }
+
+  let reviewed = null;
+  const attempts = [];
+  const candidates = [routeIdentity.jurisdiction, ...["MS", "IL", "PA"].filter(
+    (code) => code !== routeIdentity.jurisdiction
+  )];
+  for (const state of candidates) {
+    const settled = convergeSellableScreening(state);
+    if (settled.failure) {
+      attempts.push(`${state}: ${settled.failure}`);
+      continue;
+    }
+    const candidate = buildReviewedFlow(settled);
+    if (candidate.failure) {
+      attempts.push(`${state}: ${candidate.failure}`);
+      continue;
+    }
+    reviewed = candidate;
+    break;
+  }
+  record(
+    "seeded_item_carries_reviewed_packet_information",
+    Boolean(reviewed),
+    reviewed
+      ? `${reviewed.state} / ${reviewed.pathway.pathwayLabel}; result=${reviewed.evaluation.resultCode}; profile=${reviewed.profile.profileVersion}; required inputs=${reviewed.model.requiredInputIds.length}; review=${reviewed.safety.reason}; prior attempts=${attempts.join(" | ") || "none"}`
+      : `no evaluator-proven sellable reviewed route — ${attempts.join(" | ")}`
+  );
+
+  const checkoutBuilt = buildRenderJobSpec({
+    packetId: crypto.randomUUID(),
+    state: reviewed.state,
+    pathway: reviewed.pathway.pathwayLabel,
+    briefcaseItemId: itemId,
+    trackId: null,
+    packetFields: reviewed.model.initialAnswers
+  });
+  const checkoutRouteIdentity = {
+    routeKind: checkoutBuilt.route?.routeKind ?? null,
+    routeId: checkoutBuilt.spec?.routeId ?? null,
+    pathwayId: checkoutBuilt.route?.pathwayId ?? null,
+    pathwayLabel: reviewed.pathway.pathwayLabel,
+    jurisdiction: checkoutBuilt.route?.jurisdiction ?? null,
+    rendererKind: checkoutBuilt.spec?.rendererKind ?? null,
+    rendererVersion: checkoutBuilt.spec?.rendererVersion ?? null,
+    profileId: checkoutBuilt.spec?.profileId ?? null,
+    profileVersion: checkoutBuilt.spec?.profileVersion ?? null,
+    sourceSha256: checkoutBuilt.spec?.sourceSha256 ?? null,
+    sellable: checkoutBuilt.route?.sellable ?? null,
+    creditConsumable: checkoutBuilt.route?.creditConsumable ?? null,
+    resultCode: reviewed.evaluation.resultCode,
+    packetType: consumerPacketType
+  };
+  const checkoutRouteExact = checkoutRouteIdentity.jurisdiction === reviewed.state
+    && checkoutRouteIdentity.pathwayLabel === reviewed.pathway.pathwayLabel
+    && checkoutRouteIdentity.profileId === reviewed.state
+    && checkoutRouteIdentity.profileVersion === String(reviewed.profile.profileVersion)
+    && typeof checkoutRouteIdentity.routeId === "string"
+    && typeof checkoutRouteIdentity.rendererKind === "string"
+    && typeof checkoutRouteIdentity.rendererVersion === "string"
+    && checkoutRouteIdentity.sellable === true
+    && checkoutRouteIdentity.creditConsumable === true
+    && isConsumerPaymentAllowed(checkoutRouteIdentity.resultCode, true) === true
+    && checkoutRouteIdentity.packetType === "custom_pleading";
+  record(
+    "checkout_fixture_route_derived_from_authorities",
+    checkoutRouteExact,
+    JSON.stringify(checkoutRouteIdentity)
+  );
+  evidence.checkoutRoute = checkoutRouteIdentity;
+  evidence.reviewedPacketInformation = {
+    state: reviewed.state,
+    profileVersion: reviewed.profile.profileVersion,
+    pathwayId: reviewed.model.pathwayId,
+    pathwayLabel: reviewed.pathway.pathwayLabel,
+    requiredInputCount: reviewed.model.requiredInputIds.length,
+    reviewSafety: reviewed.safety.reason,
+    rejectedCandidates: attempts
+  };
+
+  const summaryJson = sqlText(JSON.stringify({
+    text: `RCAP hosted Checkout gate — evaluator-proven ${checkoutRouteIdentity.jurisdiction} packet`,
+    gate: "human_checkout"
+  }));
+  const artifactRefsJson = sqlText(JSON.stringify({ commercialFlow: reviewed.commercialFlow }));
   const insert = await sql(`
     insert into public.consumer_briefcase_items
       (id, user_id, item_type, jurisdiction, pathway_label, result_code, packet_type,
-       status, summary_json, payment_status, payment_allowed)
+       status, summary_json, artifact_refs_json, payment_status, payment_allowed)
     values
-      ('${itemId}', '${A.id}', 'result', 'PA', '${sqlText(PA_PATHWAY)}', 'packet_ready',
-       'custom_pleading', 'packet_ready', '${summaryJson}'::jsonb, 'unpaid', true)
+      ('${itemId}', '${A.id}', 'result', '${checkoutRouteIdentity.jurisdiction}',
+       '${sqlText(checkoutRouteIdentity.pathwayLabel)}', '${checkoutRouteIdentity.resultCode}',
+       '${checkoutRouteIdentity.packetType}', 'packet_ready', '${summaryJson}'::jsonb,
+       '${artifactRefsJson}'::jsonb, 'unpaid', true)
     returning id, user_id, jurisdiction, pathway_label, result_code, packet_type, status,
               payment_status, payment_allowed, checkout_session_id, payment_provider,
-              amount_cents, packet_status
+              amount_cents, packet_status,
+              artifact_refs_json #>> '{commercialFlow,packetInformation,stage}' as packet_information_stage,
+              (artifact_refs_json #>> '{commercialFlow,packetInformation,reviewedAt}') is not null as packet_information_reviewed
   `);
   const inserted = Array.isArray(insert.json) ? insert.json[0] : null;
   record("briefcase_insert_returning_proves_row", insert.ok && inserted?.id === itemId, `SQL=${insert.status}; returned id=${inserted?.id ?? "(none)"}`);
@@ -560,21 +846,25 @@ async function main() {
   const reread = await sql(`
     select id, user_id, jurisdiction, pathway_label, result_code, packet_type, status,
            payment_status, payment_allowed, checkout_session_id, payment_provider,
-           amount_cents, packet_status
+           amount_cents, packet_status,
+           artifact_refs_json #>> '{commercialFlow,packetInformation,stage}' as packet_information_stage,
+           (artifact_refs_json #>> '{commercialFlow,packetInformation,reviewedAt}') is not null as packet_information_reviewed
       from public.consumer_briefcase_items
      where id = '${itemId}' and user_id = '${A.id}'
   `);
   const storedRows = Array.isArray(reread.json) ? reread.json : [];
   const stored = storedRows[0] ?? null;
   const storedExact = storedRows.length === 1
-    && stored.jurisdiction === "PA"
-    && stored.pathway_label === PA_PATHWAY
-    && stored.result_code === routeIdentity.resultCode
-    && stored.packet_type === routeIdentity.packetType
+    && stored.jurisdiction === checkoutRouteIdentity.jurisdiction
+    && stored.pathway_label === checkoutRouteIdentity.pathwayLabel
+    && stored.result_code === checkoutRouteIdentity.resultCode
+    && stored.packet_type === checkoutRouteIdentity.packetType
     && stored.status === "packet_ready"
     && stored.payment_status === "unpaid"
     && stored.payment_allowed === true
-    && stored.checkout_session_id === null;
+    && stored.checkout_session_id === null
+    && stored.packet_information_stage === "ready_to_generate"
+    && stored.packet_information_reviewed === true;
   record("stored_row_matches_authoritative_resolver", storedExact, `rows=${storedRows.length}; stored=${JSON.stringify(stored)}`);
   evidence.seededItem = { id: itemId, userId: A.id, ...stored };
 
@@ -651,10 +941,10 @@ async function main() {
     channel: "expungement_ai_consumer",
     user_id: A.id,
     briefcase_item_id: itemId,
-    result_code: "packet_ready",
-    jurisdiction: "PA",
-    packet_type: "custom_pleading",
-    pathway_label: PA_PATHWAY
+    result_code: checkoutRouteIdentity.resultCode,
+    jurisdiction: checkoutRouteIdentity.jurisdiction,
+    packet_type: checkoutRouteIdentity.packetType,
+    pathway_label: checkoutRouteIdentity.pathwayLabel
   };
   // Stripe treats an empty metadata value as an unset operation. The accepted
   // application supplies source_session_id="" for this seeded item, so Stripe
@@ -689,14 +979,14 @@ async function main() {
   const personMatterProductBound = session.metadata.user_id === A.id
     && personRow?.match_key === consumerPersonMatchKey(session.metadata.user_id)
     && matterId === consumerMatterIdForItem(session.metadata.briefcase_item_id)
-    && session.metadata.jurisdiction === routeIdentity.jurisdiction
-    && session.metadata.pathway_label === routeIdentity.pathwayId
-    && session.metadata.packet_type === routeIdentity.packetType
+    && session.metadata.jurisdiction === checkoutRouteIdentity.jurisdiction
+    && session.metadata.pathway_label === checkoutRouteIdentity.pathwayLabel
+    && session.metadata.packet_type === checkoutRouteIdentity.packetType
     && productName === "Expungement.ai self-help packet";
   record(
     "metadata_transitively_binds_user_person_item_matter_and_product",
     personMatterProductBound,
-    `user=${A.id}; person=${personRow?.id}; item=${itemId}; deterministic matter=${matterId}; product route=${routeIdentity.routeId}; Stripe product=${JSON.stringify(productName)}`
+    `user=${A.id}; person=${personRow?.id}; item=${itemId}; deterministic matter=${matterId}; product route=${checkoutRouteIdentity.routeId}; Stripe product=${JSON.stringify(productName)}`
   );
   evidence.identityBinding = {
     directMetadataKeys: Object.keys(session.metadata ?? {}).sort(),
@@ -722,11 +1012,13 @@ async function main() {
       ? "the Checkout Session returns to this exact Preview"
       : "the immutable application selected a different configured/default Expungement.ai origin; use the retained Preview Briefcase URL after Checkout"
   };
-  const returnShapeExact = successUrl.pathname === "/expungement-ai/packet-ready"
-    && successUrl.searchParams.get("briefcaseItemId") === itemId
+  const returnShapeExact = successUrl.pathname === `/briefcase/${encodeURIComponent(itemId)}`
+    && successUrl.searchParams.get("payment") === "return"
     && successUrl.searchParams.get("session_id") === "{CHECKOUT_SESSION_ID}"
-    && cancelUrl.pathname === "/expungement-ai/pay"
-    && cancelUrl.searchParams.get("briefcaseItemId") === itemId;
+    && cancelUrl.pathname === `/briefcase/${encodeURIComponent(itemId)}`
+    && cancelUrl.searchParams.get("checkout") === "canceled"
+    && successUrl.origin === previewUrl
+    && cancelUrl.origin === previewUrl;
   const afterItemResponse = await sql(`
     select id, user_id, payment_status, payment_provider, checkout_session_id,
            amount_cents, packet_status, provider_event_id
@@ -792,7 +1084,7 @@ async function main() {
       "",
       `- Preview: ${previewUrl}`,
       `- Deployment: ${DEPLOYMENT_ID}`,
-      `- Pennsylvania route: PA / ${PA_PATHWAY}`,
+      `- Evaluator-proven route: ${checkoutRouteIdentity.jurisdiction} / ${checkoutRouteIdentity.pathwayLabel}`,
       `- Briefcase item: ${itemId}`,
       `- Stripe Session: ${checkoutSessionId}`,
       `- Stripe-hosted Checkout: ${checkoutUrl}`,

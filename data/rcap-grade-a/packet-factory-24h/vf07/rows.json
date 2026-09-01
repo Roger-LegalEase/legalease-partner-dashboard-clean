@@ -1,0 +1,585 @@
+{
+ "schemaVersion": "rcap-independent-verification-rows/v1",
+ "lane": "VF07",
+ "laneKind": "independent-verification",
+ "generatedAtBase": "09b741ad00be0d630bd73a72f66640294abab397",
+ "preflight": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
+ "overlayDirectoriesModified": 0,
+ "commercialRoutesOpened": 0,
+ "productionTouched": false,
+ "grantsNothing": "An independent PASS proves a packet is complete. It approves no output and opens no commercial route. A FAIL is a verdict and a repair assignment, never an edit; this lane wrote into no overlay directory and no build script.",
+ "rows": [
+  {
+   "itemId": "ut_pet_dismissed_without_prejudice-set",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill",
+   "proofObligations": {
+    "routeIdentity": {
+     "result": "PASS",
+     "finding": "Every artifact in the family declares the same familyId, the same routeSelectionId and the same routeKeys, and the family directory is the one the route names.",
+     "evidence": {
+      "declaredFamilyIds": {
+       "receipt": {
+        "familyId": "ut_pet_dismissed_without_prejudice-set",
+        "routeSelectionId": "ut-dismissed-without-prejudice-bci-plus-court",
+        "routeKeys": null
+       },
+       "wiring": {
+        "familyId": "ut_pet_dismissed_without_prejudice-set",
+        "routeSelectionId": "ut-dismissed-without-prejudice-bci-plus-court",
+        "routeKeys": [
+         "obligation:unit:UT:ut_pet_dismissed_without_prejudice:ut_pet_dismissed_without_prejudice-bci-certificate",
+         "obligation:unit:UT:ut_pet_dismissed_without_prejudice:ut_pet_dismissed_without_prejudice-court-petition"
+        ]
+       },
+       "fieldMap": {
+        "familyId": "ut_pet_dismissed_without_prejudice-set",
+        "routeSelectionId": "ut-dismissed-without-prejudice-bci-plus-court",
+        "routeKeys": [
+         "obligation:unit:UT:ut_pet_dismissed_without_prejudice:ut_pet_dismissed_without_prejudice-bci-certificate",
+         "obligation:unit:UT:ut_pet_dismissed_without_prejudice:ut_pet_dismissed_without_prejudice-court-petition"
+        ]
+       },
+       "census": {
+        "familyId": "ut_pet_dismissed_without_prejudice-set",
+        "routeSelectionId": "ut-dismissed-without-prejudice-bci-plus-court",
+        "routeKeys": null
+       },
+       "rendered": {
+        "familyId": "ut_pet_dismissed_without_prejudice-set",
+        "routeSelectionId": null,
+        "routeKeys": null
+       },
+       "writes": {
+        "familyId": "ut_pet_dismissed_without_prejudice-set",
+        "routeSelectionId": null,
+        "routeKeys": null
+       }
+      },
+      "familyIdAgreementAcrossArtifacts": true,
+      "routeSelectionIdAgreement": true,
+      "routeKeyAgreement": true,
+      "routeSelectionId": "ut-dismissed-without-prejudice-bci-plus-court",
+      "routeKeys": [
+       "obligation:unit:UT:ut_pet_dismissed_without_prejudice:ut_pet_dismissed_without_prejudice-bci-certificate",
+       "obligation:unit:UT:ut_pet_dismissed_without_prejudice:ut_pet_dismissed_without_prejudice-court-petition"
+      ],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill"
+     }
+    },
+    "sourceIdentity": {
+     "result": "PASS",
+     "finding": "Every one of the 9 sources was rehashed from the Master Library bytes in this container; each recomputed SHA-256, byte length and committed corpus-index entry agrees with source-receipt.json.",
+     "evidence": [
+      {
+       "formNumber": "1000EX",
+       "pathInArchive": "STATES/UT/02_PACKET_FORMS/UT__FORM__1000EX__petition-to-expunge-records-with-certificate-of-eligibility__REV-2022-04-11__EN.pdf",
+       "recordedSha256": "401e0563ae4dddee7a447c4b3fa9d043477402188c98fd3b108087c84c986611",
+       "recomputedSha256": "401e0563ae4dddee7a447c4b3fa9d043477402188c98fd3b108087c84c986611",
+       "recordedByteLength": 62671,
+       "byteLengthOnDisk": 62671,
+       "committedIndexSha256": "401e0563ae4dddee7a447c4b3fa9d043477402188c98fd3b108087c84c986611",
+       "matched": true
+      },
+      {
+       "formNumber": "1020EX",
+       "pathInArchive": "STATES/UT/02_PACKET_FORMS/UT__FORM__1020EX__order-on-petition-to-expunge-records-with-certificate-of-eligibility__REV-2022-04-11__EN.pdf",
+       "recordedSha256": "cc437e7fa0abaa1001f5309e1d842c6f7649b152fcab616bd9356293e241acd2",
+       "recomputedSha256": "cc437e7fa0abaa1001f5309e1d842c6f7649b152fcab616bd9356293e241acd2",
+       "recordedByteLength": 106091,
+       "byteLengthOnDisk": 106091,
+       "committedIndexSha256": "cc437e7fa0abaa1001f5309e1d842c6f7649b152fcab616bd9356293e241acd2",
+       "matched": true
+      },
+      {
+       "formNumber": "1044XX",
+       "pathInArchive": "STATES/UT/02_PACKET_FORMS/UT__FORM__1044XX__district-court-cover-sheet-for-civil-actions__REV-2026-05-06__EN.pdf",
+       "recordedSha256": "b99586289df6304da5b34181bee95ec2b7f098806c1c949a0f112daeb0244a52",
+       "recomputedSha256": "b99586289df6304da5b34181bee95ec2b7f098806c1c949a0f112daeb0244a52",
+       "recordedByteLength": 119736,
+       "byteLengthOnDisk": 119736,
+       "committedIndexSha256": "b99586289df6304da5b34181bee95ec2b7f098806c1c949a0f112daeb0244a52",
+       "matched": true
+      },
+      {
+       "formNumber": "1146XX",
+       "pathInArchive": "STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1146XX__acceptance-of-service-expungement__REV-2019-05-01__EN.pdf",
+       "recordedSha256": "39f1205f48bd73fc7b9686a101369be74a988b419697ea964c2ff5a5c0ce63ad",
+       "recomputedSha256": "39f1205f48bd73fc7b9686a101369be74a988b419697ea964c2ff5a5c0ce63ad",
+       "recordedByteLength": 192790,
+       "byteLengthOnDisk": 192790,
+       "committedIndexSha256": "39f1205f48bd73fc7b9686a101369be74a988b419697ea964c2ff5a5c0ce63ad",
+       "matched": true
+      },
+      {
+       "formNumber": "1148XX",
+       "pathInArchive": "STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1148XX__consent-and-waiver-of-hearing-expungement__REV-2019-05-01__EN.pdf",
+       "recordedSha256": "43c6d4fd232f67453357b342794cac209da82373ce4e93c686c285b42e553288",
+       "recomputedSha256": "43c6d4fd232f67453357b342794cac209da82373ce4e93c686c285b42e553288",
+       "recordedByteLength": 191518,
+       "byteLengthOnDisk": 191518,
+       "committedIndexSha256": "43c6d4fd232f67453357b342794cac209da82373ce4e93c686c285b42e553288",
+       "matched": true
+      },
+      {
+       "formNumber": "1149XX",
+       "pathInArchive": "STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1149XX__victim-s-or-prosecutor-s-statement__REV-2019-05-01__EN.pdf",
+       "recordedSha256": "79f16112e639b74a3189dbde1a4bb725ea7e5f4f92988a476f8d1e9bd24662d3",
+       "recomputedSha256": "79f16112e639b74a3189dbde1a4bb725ea7e5f4f92988a476f8d1e9bd24662d3",
+       "recordedByteLength": 108630,
+       "byteLengthOnDisk": 108630,
+       "committedIndexSha256": "79f16112e639b74a3189dbde1a4bb725ea7e5f4f92988a476f8d1e9bd24662d3",
+       "matched": true
+      },
+      {
+       "formNumber": "1169XX",
+       "pathInArchive": "STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1169XX__reply-to-victim-s-statement-prosecutor-s-statement-or-ap-p-response__REV-2010-07-16__EN.pdf",
+       "recordedSha256": "bd5594c76fd9d3b5a8017ae25c0df7951bf2fb9381b752ddd61c2c7a2d713244",
+       "recomputedSha256": "bd5594c76fd9d3b5a8017ae25c0df7951bf2fb9381b752ddd61c2c7a2d713244",
+       "recordedByteLength": 104506,
+       "byteLengthOnDisk": 104506,
+       "committedIndexSha256": "bd5594c76fd9d3b5a8017ae25c0df7951bf2fb9381b752ddd61c2c7a2d713244",
+       "matched": true
+      },
+      {
+       "formNumber": "UT-BCI-EXP-APPLICATION",
+       "pathInArchive": "STATES/UT/04_SUPPORTING_PROCESS/UT__SUPPORT__UT-BCI-EXP-APPLICATION__bci-application-for-certificate-of-eligibility-for-expungement__REV-UNKNOWN__EN.pdf",
+       "recordedSha256": "b4eacb2b9f78c9d69da76ee6528d12c58d0d896a7d2869aeb7ba77de24a91b13",
+       "recomputedSha256": "b4eacb2b9f78c9d69da76ee6528d12c58d0d896a7d2869aeb7ba77de24a91b13",
+       "recordedByteLength": 2337718,
+       "byteLengthOnDisk": 2337718,
+       "committedIndexSha256": "b4eacb2b9f78c9d69da76ee6528d12c58d0d896a7d2869aeb7ba77de24a91b13",
+       "matched": true
+      },
+      {
+       "formNumber": "UT-BCI-THIRD-PARTY-RELEASE",
+       "pathInArchive": "STATES/UT/04_SUPPORTING_PROCESS/UT__SUPPORT__UT-BCI-THIRD-PARTY-RELEASE__bci-third-party-release-form__REV-UNKNOWN__EN.pdf",
+       "recordedSha256": "c4b59e479aeb5dcef0229fdc924905e7cfaa5ea611403d05a7cf636a50528451",
+       "recomputedSha256": "c4b59e479aeb5dcef0229fdc924905e7cfaa5ea611403d05a7cf636a50528451",
+       "recordedByteLength": 349009,
+       "byteLengthOnDisk": 349009,
+       "committedIndexSha256": "c4b59e479aeb5dcef0229fdc924905e7cfaa5ea611403d05a7cf636a50528451",
+       "matched": true
+      }
+     ]
+    },
+    "componentSet": {
+     "result": "PASS",
+     "finding": "The receipt, the field map, the field census and the rendered page manifest name the same document set, and every one of those documents appears in the rendered packet.",
+     "evidence": {
+      "receiptDocuments": [
+       "1000EX",
+       "1020EX",
+       "1044XX",
+       "1146XX",
+       "1148XX",
+       "1149XX",
+       "1169XX",
+       "UT-BCI-EXP-APPLICATION",
+       "UT-BCI-THIRD-PARTY-RELEASE"
+      ],
+      "fieldMapDocuments": [
+       "1000EX",
+       "1020EX",
+       "1044XX",
+       "1146XX",
+       "1148XX",
+       "1149XX",
+       "1169XX",
+       "UT-BCI-EXP-APPLICATION",
+       "UT-BCI-THIRD-PARTY-RELEASE"
+      ],
+      "censusDocuments": [
+       "1000EX",
+       "1020EX",
+       "1044XX",
+       "1146XX",
+       "1148XX",
+       "1149XX",
+       "1169XX",
+       "UT-BCI-EXP-APPLICATION",
+       "UT-BCI-THIRD-PARTY-RELEASE"
+      ],
+      "renderedPageManifestDocuments": [
+       "1000EX",
+       "1020EX",
+       "1044XX",
+       "1146XX",
+       "1148XX",
+       "1149XX",
+       "1169XX",
+       "UT-BCI-EXP-APPLICATION",
+       "UT-BCI-THIRD-PARTY-RELEASE"
+      ],
+      "documentsCarryingWrites": [
+       "1000EX",
+       "1020EX",
+       "1044XX",
+       "UT-BCI-EXP-APPLICATION"
+      ],
+      "missingFromRender": [],
+      "extraInRender": []
+     }
+    },
+    "knownPrefills": {
+     "result": "PASS",
+     "finding": "Every mapped write is present in the writes read back from the final PDF bytes in both fixtures ({\"canonical\":38,\"boundary\":38} proved), every one carries ink, no read-back string differs from the mapped value, and no refused field carries ink. 11 distinct known facts are written.",
+     "evidence": {
+      "perFixtureDocument": [
+       {
+        "fixture": "canonical",
+        "formNumber": null,
+        "valuesReportedByFinalizer": 39,
+        "addedGlyphsReadFromOutputBytes": 483,
+        "flattenedWidgetAppearancesReadFromOutputBytes": 0,
+        "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+        "refusedFieldsWithInk": 0,
+        "writesProvedOnOutputBytes": 39
+       },
+       {
+        "fixture": "boundary",
+        "formNumber": null,
+        "valuesReportedByFinalizer": 39,
+        "addedGlyphsReadFromOutputBytes": 1188,
+        "flattenedWidgetAppearancesReadFromOutputBytes": 0,
+        "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+        "refusedFieldsWithInk": 0,
+        "writesProvedOnOutputBytes": 39
+       }
+      ],
+      "mappedWrites": {
+       "canonical": 30,
+       "boundary": 30
+      },
+      "writesProvedOnTheOutputBytes": {
+       "canonical": 38,
+       "boundary": 38
+      },
+      "mappedWritesNotProvedOnTheOutputBytes": [],
+      "writesWithNoInkOnThePage": [],
+      "writesWhoseReadBackTextDiffersFromTheMappedValue": [],
+      "distinctFactsWritten": 11,
+      "method": "every mapped write matched by form + page + printed field against the writes read back from the final PDF bytes, then each read-back string compared to the mapped value"
+     }
+    },
+    "requiredBeforeFiling": {
+     "result": "FAIL",
+     "finding": "Of the 13 blanks the map declares REQUIRED_BEFORE_FILING, every one is named in participant-instructions.md except UT-BCI-EXP-APPLICATION p2 \"SID#R&F\" (blankId p2-y37.35-x188.34). No instruction line asks the participant to write a SID number or an R&F number. It is not merely unnamed: reading the source bytes at that position shows the blank sits inside the form's printed \"BUREAU USE ONLY\" box (heading read at page 2 y=51, x=26.93), and the family's own field census marks the same blank protectCategory \"government_identifier\". A blank the bureau completes cannot be an item the participant must supply before filing.",
+     "evidence": {
+      "declaredBlankDispositions": {
+       "NOT_APPLICABLE_ON_THIS_ROUTE": 109,
+       "REQUIRED_BEFORE_FILING": 13,
+       "PROTECTED_FIELD": 45,
+       "OPTIONAL_PARTICIPANT_CONTENT": 203,
+       "LATER_COMPLETION": 4,
+       "PARTICIPANT_ELECTION_GENUINE": 31
+      },
+      "requiredBeforeFilingCount": 13,
+      "itemsNotNamedInInstructions": [
+       {
+        "formNumber": "UT-BCI-EXP-APPLICATION",
+        "blankId": "p2-y37.35-x188.34",
+        "capturedCaption": "SID#R&F",
+        "printedRegionReadFromSourceBytes": "BUREAU USE ONLY",
+        "censusProtectCategory": "government_identifier",
+        "mapDisposition": "REQUIRED_BEFORE_FILING"
+       }
+      ],
+      "itemsNamedAndHowTheyWereMatched": [
+       {
+        "blanks": "1000EX Judicial District; 1000EX Court Address x3; 1020EX Court Address x2",
+        "namedBy": "- Judicial district and court street address for the filing venue"
+       },
+       {
+        "blanks": "1000EX \"certificate of eligibility is\"",
+        "namedBy": "- BCI certificate-of-eligibility identification number (non-traffic packets)"
+       },
+       {
+        "blanks": "1000EX \"2. Expunging my records will not harm the interests of the public because\"",
+        "namedBy": "- Participant's public-interest explanation on the petition"
+       },
+       {
+        "blanks": "UT-BCI-EXP-APPLICATION PREVIOUSLY USED NAME(S)",
+        "namedBy": "- Every previously used name, or an express statement that there are none"
+       },
+       {
+        "blanks": "UT-BCI-EXP-APPLICATION p2-y622.60-x445.83 (captured as \"MAILING ADDRESS\"; the census regionHeading and the source bytes both read \"DATE OF BIRTH ____ GENDER ____\", so this is the GENDER blank)",
+        "namedBy": "- Gender, Social Security number, and driver-license number/state required by the BCI application"
+       },
+       {
+        "blanks": "UT-BCI-EXP-APPLICATION SOCIAL SECURITY",
+        "namedBy": "- Gender, Social Security number, and driver-license number/state required by the BCI application"
+       },
+       {
+        "blanks": "UT-BCI-EXP-APPLICATION p2-y567.70-x424.55 (captured as \"ATE\"; the source row reads \"DRIVER LICENSE # AND STATE : ____\")",
+        "namedBy": "- Gender, Social Security number, and driver-license number/state required by the BCI application"
+       }
+      ],
+      "captionCaptureObservation": "Three of the thirteen captured captions do not match the printed label at the measured position (\"MAILING ADDRESS\" for the GENDER blank, \"ATE\" for the DRIVER LICENSE # AND STATE blank, \"SID#R&F\" for a BUREAU USE ONLY box). The first two resolve to items the instructions do name; the third does not."
+     }
+    },
+    "routeOptions": {
+     "result": "PASS",
+     "finding": "The map marks 9 selection control(s) as route-determined; every one is proved marked on the bytes of both fixtures. The remaining 177 control(s) are refused as participant elections the route does not determine.",
+     "evidence": {
+      "selectionControlsObserved": 186,
+      "dispositions": {
+       "selected_route_option": 9,
+       "explicit_refusal": 177
+      },
+      "routeDeterminedSelections": 9,
+      "selectionMarksProvedOnOutputBytes": 18,
+      "routeDeterminedSelectionsNotProvedMarked": [],
+      "method": "every selection control the map calls route-determined matched against the non-text marks read back from the final PDF bytes, in every fixture"
+     }
+    },
+    "repeatingRows": {
+     "result": "PASS",
+     "finding": "Writable anchors and withheld blanks were grouped into 202 baseline bands; 5 band(s) carry both ink and a blank, and in every one of those the blank carries an approved disposition. No row carries written cells beside a required cell left blank.",
+     "evidence": {
+      "bandsExamined": 202,
+      "bandsCarryingBothInkAndBlank": 5,
+      "bandsWithAnUnapprovedBlankBesideInk": 0,
+      "examples": []
+     }
+    },
+    "protectedFields": {
+     "result": "PASS",
+     "finding": "No write intersects any of the 47 declared protected rules, and no write lands on any blank the field census marks with a protectCategory. Signature, signature-date, certificate-of-service, court-only, prosecutor-only and agency-only boxes all read empty on the final bytes.",
+     "evidence": {
+      "protectedRulesDeclared": 47,
+      "byCategory": {
+       "court": 7,
+       "signature": 19,
+       "attorney": 6,
+       "prosecutor": 6,
+       "service_block": 5,
+       "agency": 2,
+       "government_identifier": 1,
+       "outside_party": 1
+      },
+      "writesIntersectingAProtectedRule": 0,
+      "violations": [],
+      "refusedFieldsCarryingInk": 0,
+      "method": "every proved write box intersected against every declared protected rule box on the same form and page",
+      "censusProtectedBlanksCarryingInk": 0,
+      "censusCrossCheck": "All 47 declared protected rules and every field-census blank carrying a protectCategory or regionProtectCategory were intersected against every write proved on the output bytes of both fixtures; 0 intersections."
+     }
+    },
+    "artifacts": {
+     "result": "PASS",
+     "finding": "Canonical and boundary artifact bytes were rehashed in this lane; both SHA-256 values and both byte lengths agree with reports/rendered-artifacts.json.",
+     "evidence": [
+      {
+       "fixture": "canonical",
+       "file": "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill/fixtures/canonical.pdf",
+       "recordedSha256": "8efb78f3f885af303bc74f461172d319f63b60bb747720329e401c1bd4d417f4",
+       "recomputedSha256": "8efb78f3f885af303bc74f461172d319f63b60bb747720329e401c1bd4d417f4",
+       "recordedByteLength": 3024971,
+       "byteLengthOnDisk": 3024971,
+       "matched": true
+      },
+      {
+       "fixture": "boundary",
+       "file": "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill/fixtures/boundary.pdf",
+       "recordedSha256": "6d9406adbba1c50f34b9349ed41f14a68295547c3838a08a141c69e2e228d142",
+       "recomputedSha256": "6d9406adbba1c50f34b9349ed41f14a68295547c3838a08a141c69e2e228d142",
+       "recordedByteLength": 3025608,
+       "byteLengthOnDisk": 3025608,
+       "matched": true
+      }
+     ]
+    },
+    "pageOrder": {
+     "result": "PASS",
+     "finding": "For each fixture the packet page numbers run 1..N with no gap, N equals the page count read from the PDF bytes and the count the record names, the document blocks appear in receipt order, source pages ascend inside each block, and one raster page exists per packet page.",
+     "evidence": [
+      {
+       "fixture": "canonical",
+       "manifestPages": 19,
+       "recordedPageCount": 19,
+       "pageCountReadFromPdfBytes": 19,
+       "packetPagesContiguousFromOne": true,
+       "documentOrderMatchesReceipt": true,
+       "sourcePagesAscendWithinEachDocument": true,
+       "manifestDocumentOrder": [
+        "1000EX",
+        "1020EX",
+        "1044XX",
+        "1146XX",
+        "1148XX",
+        "1149XX",
+        "1169XX",
+        "UT-BCI-EXP-APPLICATION",
+        "UT-BCI-THIRD-PARTY-RELEASE"
+       ],
+       "receiptDocumentOrder": [
+        "1000EX",
+        "1020EX",
+        "1044XX",
+        "1146XX",
+        "1148XX",
+        "1149XX",
+        "1169XX",
+        "UT-BCI-EXP-APPLICATION",
+        "UT-BCI-THIRD-PARTY-RELEASE"
+       ],
+       "rasterPagesOnDisk": 19,
+       "matched": true
+      },
+      {
+       "fixture": "boundary",
+       "manifestPages": 19,
+       "recordedPageCount": 19,
+       "pageCountReadFromPdfBytes": 19,
+       "packetPagesContiguousFromOne": true,
+       "documentOrderMatchesReceipt": true,
+       "sourcePagesAscendWithinEachDocument": true,
+       "manifestDocumentOrder": [
+        "1000EX",
+        "1020EX",
+        "1044XX",
+        "1146XX",
+        "1148XX",
+        "1149XX",
+        "1169XX",
+        "UT-BCI-EXP-APPLICATION",
+        "UT-BCI-THIRD-PARTY-RELEASE"
+       ],
+       "receiptDocumentOrder": [
+        "1000EX",
+        "1020EX",
+        "1044XX",
+        "1146XX",
+        "1148XX",
+        "1149XX",
+        "1169XX",
+        "UT-BCI-EXP-APPLICATION",
+        "UT-BCI-THIRD-PARTY-RELEASE"
+       ],
+       "rasterPagesOnDisk": 19,
+       "matched": true
+      }
+     ]
+    },
+    "clippingAndOverlap": {
+     "result": "PASS",
+     "finding": "No write box falls outside its census page box, no two write boxes on the same page of the same fixture overlap, and the finalizer's own out-of-box glyph count read from the output bytes is zero in every fixture.",
+     "evidence": {
+      "pageGeometryAvailable": true,
+      "writeBoxesOutsideThePageBox": 0,
+      "outside": [],
+      "overlappingWriteBoxPairsOnTheSamePage": 0,
+      "overlaps": [],
+      "strayInkReadFromOutputBytes": [
+       {
+        "fixture": "canonical",
+        "formNumber": null,
+        "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+       },
+       {
+        "fixture": "boundary",
+        "formNumber": null,
+        "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+       }
+      ],
+      "totalStrayGlyphs": 0,
+      "method": "every proved write box checked against the census page box where a census exists, then against every other write box on the same page of the same fixture, then the finalizer's own out-of-box glyph count read from the output bytes"
+     }
+    },
+    "filingDestination": {
+     "result": "FAIL",
+     "finding": "participant-instructions.md never tells the participant where to file. It lists \"Judicial district and court street address for the filing venue\" as a blank the participant must supply, which is the opposite of naming the destination, and it never mentions the Utah Bureau of Criminal Identification, which issues the certificate of eligibility the route names, or the district court that receives the petition. The packet's own caption does carry route-determined evidence of a destination — the \"In the [ ] District [ ] Justice Court of Utah\" election is marked District and the county is written — but a marked caption box is not the instructions naming a court.",
+     "evidence": {
+      "instructionsHeadings": [
+       "# Required before filing"
+      ],
+      "courtOrAgencyNamedInInstructions": null,
+      "routeDestinations": "the Utah Bureau of Criminal Identification, which issues the certificate of eligibility the route names, or the district court that receives the petition",
+      "captionEvidenceOnTheBytes": {
+       "election": "In the [ ] District [ ] Justice Court of Utah",
+       "marked": "District",
+       "countyWritten": "Example County"
+      },
+      "instructionLineTreatingTheVenueAsAParticipantBlank": "- Judicial district and court street address for the filing venue"
+     }
+    },
+    "feeAndWaiver": {
+     "result": "FAIL",
+     "finding": "The court filing fee is stated: the packet fills and selects the district-court cover sheet row \"$150 [ ] Expungement Petition - Criminal (E)\" on 1044XX page 2, proved by an X read from the output bytes at x355.98 y359.1 inside that row's bracket. No waiver route is stated anywhere in the packet or the instructions — no fee-waiver motion is included, named or referenced. The BCI certificate step carries its own fee, and the instructions name it only as a blank ('BCI payment or fee-waiver election and any payment details') without stating an amount or a waiver route.",
+     "evidence": {
+      "courtFeeStated": true,
+      "courtFeeEvidence": {
+       "form": "1044XX",
+       "sourcePage": 2,
+       "row": "$150  [ ] Expungement Petition - Criminal (E)",
+       "markReadFromOutputBytes": {
+        "x": 357.48,
+        "y": 359.1,
+        "glyph": "X"
+       }
+      },
+      "waiverRouteStated": false,
+      "waiverFormIncluded": false,
+      "bciFeeStated": false,
+      "bciInstructionLine": "- BCI payment or fee-waiver election and any payment details"
+     }
+    },
+    "service": {
+     "result": "FAIL",
+     "finding": "The instructions never state who must be served or how. The only service line, \"Service method, address, date, and certification only after service occurs\", hands the participant the method and the recipient as blanks to fill in, and the closing sentence records that service certifications are protected. Neither names a recipient or a method.",
+     "evidence": {
+      "recipientStated": false,
+      "methodStated": false,
+      "instructionLines": [
+       "- Service method, address, date, and certification only after service occurs",
+       "Signatures, signature dates, service certifications, court-only fields, agency-only fields, prosecutor-only fields, victim fields, and optional third-party authorizations remain protected."
+      ]
+     }
+    },
+    "selfHelpStop": {
+     "result": "PASS",
+     "finding": "The packet states where it stops. The instructions tell the participant to supply the listed facts from their own records and not to guess, and name the categories the platform will never fill — signatures, signature dates, service certifications, court-only, agency-only, prosecutor-only and victim fields, and optional third-party authorisations. The control plane repeats the same boundary: the family is BUILT_REVIEW_PENDING with generation and runtime selection both off, output-level legal approval and independent visual review are still required, and the wiring note records that review artifacts and maps create no authority.",
+     "evidence": {
+      "instructionBoundary": "This review fixture deliberately leaves the following facts or acts blank. Supply them from your own records or complete them when the named event occurs; do not guess.",
+      "protectedCategoriesNamed": "Signatures, signature dates, service certifications, court-only fields, agency-only fields, prosecutor-only fields, victim fields, and optional third-party authorizations remain protected.",
+      "buildStatus": "BUILT_REVIEW_PENDING",
+      "generationAllowed": false,
+      "runtimeSelectable": false,
+      "outputLegalApprovalRequired": true,
+      "independentVisualReviewRequired": true,
+      "wiringNote": "Review artifacts and maps create no authority. A route remains closed until exact output-level legal and independent visual approval exists in the separate control plane."
+     }
+    }
+   },
+   "standardApplied": {
+    "measuredHere": "Every obligation below was measured in this lane from the committed artifacts and, for source identity, from the Master Library bytes. No counter was copied from a builder report; where a builder report is cited it is cited as the thing being checked, not as the answer.",
+    "filingDestination": "Met when the participant-facing instructions name the court or agency the route names. A prefilled caption that identifies a court type is recorded as evidence but is not on its own the instructions naming a destination.",
+    "feeAndWaiver": "Met when the packet states the filing fee AND a waiver route. A fee printed on a form the packet fills and selects counts as stated; an instruction to ask someone what the fee is does not.",
+    "service": "Met when the packet states who must be served and by what method. An instruction to confirm service requirements with the court does not.",
+    "selfHelpStop": "Met when the packet states where the platform stops and the participant or a lawyer takes over — which facts it will not supply, which fields it will not sign, and that the artifact carries no approval.",
+    "contractNote": "data/rcap-grade-a/packet-factory-24h/VERMONT_REPAIR.json records that filingDestination was scored FAIL by two verifiers and PASS by a third on identical bytes, and calls that a verification-contract defect for Captain. The standard this lane applied is stated above so the difference is legible rather than silent."
+   },
+   "evidenceRead": [
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill/source-receipt.json",
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill/production-field-map.json",
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill/reports/actual-writes.json",
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill/product-wiring.json",
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill/field-census.census-v1.json",
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill/build-status.json",
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill/approval-request.json",
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill",
+    "data/rcap-all50/local-source-corpus-index.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)",
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill/fixtures/canonical.pdf",
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill/fixtures/boundary.pdf",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (Master Library bytes; git-ignored, recovered at this container from release source-corpus-2026-08-28, archive sha256 a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89)",
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/stale-artifact-block.json",
+    "data/rcap-grade-a/packet-factory-24h/claim-ledger.json"
+   ]
+  }
+ ]
+}

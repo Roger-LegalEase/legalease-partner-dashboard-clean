@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 1,
+  "generatedOn": "2026-08-28",
+  "note": "The Batch C report carried an inconsistent count: '12 unmatched pathways, OH: 6, NY: 4'. Six and four are ten. This is the reconciliation, measured rather than restated.",
+
+  "whatTheArithmeticGotWrong": {
+    "statedTotal": 12,
+    "actualTotal": 10,
+    "andTheDirectionWasInverted": "The phrase 'unmatched pathways' reads as route contracts with no compiled pathway. There are none: 144 route contracts across src/lib/legal-authority/routes/ all resolve to a compiled pathway, and `node scripts/apply-legal-authority-to-profiles.mjs --check` reports that the compiled profiles match the approved contracts. The real gap runs the other way — compiled pathways carrying no legal-authority route contract — and in Ohio and New York there are exactly ten of them.",
+    "howItWasMeasured": "Every pathway in the compiled OH and NY profiles, minus every routeKey present in src/lib/legal-authority/routes/. Ohio has 7 compiled pathways and 1 contract; New York has 5 and 1."
+  },
+
+  "classifications": {
+    "CONTRACT_REQUIRED_COMMERCIAL_AND_RATIFIED": "Counsel has ratified the route and the evaluator admits payment, and no route contract states its statute, timing, required facts or packet family. The highest-priority gap: a route that can take money and has no controlling legal statement of what it is.",
+    "CONTRACT_REQUIRED_COMMERCIAL_AND_HELD": "The evaluator admits payment but counsel holds the route on a named gate. A contract is still required; nothing opens while the gate stands.",
+    "CONTRACT_AND_RATIFICATION_REQUIRED": "The evaluator admits payment and counsel has not classified the route at all. Both a contract and a ratification decision are outstanding.",
+    "AUTOMATIC_RELIEF_CONTRACT_REQUIRED_FOR_GUIDANCE": "An automatic route that files nothing and takes no payment. It still needs a contract, because what the participant is told about automatic relief is a legal statement and currently has no controlling source."
+  },
+
+  "pathways": [
+    {
+      "route": "OH:adult-non-conviction-sealing-or-expungement-under-2953-33",
+      "label": "Adult non-conviction sealing or expungement under § 2953.33",
+      "evaluatorRatification": "ratified_deployable",
+      "paymentAllowed": true,
+      "classification": "CONTRACT_REQUIRED_COMMERCIAL_AND_RATIFIED",
+      "exactDelta": "A route contract naming Ohio Rev. Code § 2953.33, its timing anchor, its required facts and its packet family."
+    },
+    {
+      "route": "NY:conditional-treatment-sealing-under-cpl-160-58",
+      "label": "Conditional / treatment sealing under CPL 160.58",
+      "evaluatorRatification": "ratified_deployable",
+      "paymentAllowed": true,
+      "classification": "CONTRACT_REQUIRED_COMMERCIAL_AND_RATIFIED",
+      "exactDelta": "A route contract naming CPL § 160.58, the treatment-completion trigger, and its packet family."
+    },
+    {
+      "route": "NY:discretionary-conviction-sealing-by-petition-under-cpl-160-59",
+      "label": "Discretionary conviction sealing by petition under CPL 160.59",
+      "evaluatorRatification": "ratified_deployable",
+      "paymentAllowed": true,
+      "classification": "CONTRACT_REQUIRED_COMMERCIAL_AND_RATIFIED",
+      "exactDelta": "A route contract naming CPL § 160.59, its ten-year clock and anchor, the two-conviction cap and the excluded-offense list, and its packet family."
+    },
+    {
+      "route": "OH:adult-conviction-sealing-or-expungement-under-ohio-rev-code-2953-32",
+      "label": "Adult conviction sealing or expungement under Ohio Rev. Code § 2953.32",
+      "evaluatorRatification": "hard_gate_pending",
+      "paymentAllowed": true,
+      "classification": "CONTRACT_REQUIRED_COMMERCIAL_AND_HELD",
+      "exactDelta": "A route contract naming § 2953.32 and the substantive eligibility gate counsel is holding it on, so the gate has a controlling statement to be implemented against."
+    },
+    {
+      "route": "OH:human-trafficking-survivor-conviction-expungement-under-2953-36",
+      "label": "Human-trafficking-survivor conviction expungement under § 2953.36",
+      "evaluatorRatification": "unclassified",
+      "paymentAllowed": true,
+      "classification": "CONTRACT_AND_RATIFICATION_REQUIRED",
+      "exactDelta": "A route contract naming § 2953.36, and a ratification decision. The evaluator admits payment for a route counsel has not classified."
+    },
+    {
+      "route": "OH:human-trafficking-survivor-non-conviction-expungement-under-2953-521",
+      "label": "Human-trafficking-survivor non-conviction expungement under § 2953.521",
+      "evaluatorRatification": "unclassified",
+      "paymentAllowed": true,
+      "classification": "CONTRACT_AND_RATIFICATION_REQUIRED",
+      "exactDelta": "A route contract naming § 2953.521, and a ratification decision. It must be kept separate from § 2953.36: one is a conviction remedy and one is not."
+    },
+    {
+      "route": "OH:certain-firearm-carry-conviction-expungement-under-2953-35",
+      "label": "Certain firearm / carry conviction expungement under § 2953.35",
+      "evaluatorRatification": "unclassified",
+      "paymentAllowed": true,
+      "classification": "CONTRACT_AND_RATIFICATION_REQUIRED",
+      "exactDelta": "A route contract naming § 2953.35 and its offense scope, and a ratification decision."
+    },
+    {
+      "route": "OH:juvenile-sealing-and-expungement",
+      "label": "Juvenile sealing and expungement",
+      "evaluatorRatification": "unclassified",
+      "paymentAllowed": true,
+      "classification": "CONTRACT_AND_RATIFICATION_REQUIRED",
+      "exactDelta": "A route contract naming the juvenile chapter and its separate sealing and expungement stages, and a ratification decision. A juvenile route sharing an adult route's contract would be the same category error the New York combined route is."
+    },
+    {
+      "route": "NY:automatic-clean-slate-sealing-under-cpl-160-57",
+      "label": "Automatic Clean Slate sealing under CPL 160.57",
+      "evaluatorRatification": "unclassified",
+      "paymentAllowed": false,
+      "classification": "AUTOMATIC_RELIEF_CONTRACT_REQUIRED_FOR_GUIDANCE",
+      "exactDelta": "A route contract stating what Clean Slate seals, when it takes effect, what it excludes, and what a participant should and should not do while waiting. Payment is already closed; the gap is that the guidance has no controlling source."
+    },
+    {
+      "route": "NY:marijuana-record-destruction-under-the-mrta",
+      "label": "Marijuana-record destruction under the MRTA",
+      "evaluatorRatification": "unclassified",
+      "paymentAllowed": false,
+      "classification": "AUTOMATIC_RELIEF_CONTRACT_REQUIRED_FOR_GUIDANCE",
+      "exactDelta": "A route contract stating what the MRTA destroys as against what it seals, and how a participant verifies it happened. Destruction and sealing are different outcomes and must not be described interchangeably."
+    }
+  ],
+
+  "totals": {
+    "compiledPathwaysWithoutAContract": 10,
+    "ohio": 6,
+    "newYork": 4,
+    "commercialAndRatified": 3,
+    "commercialAndHeld": 1,
+    "commercialAndUnclassified": 4,
+    "automaticNoPayment": 2,
+    "routeContractsWithoutACompiledPathway": 0
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "schemaVersion": "rcap-composed-family-build-findings/v1",
+  "familyId": "rcap-oh-custom-pleading-clean-tracks",
+  "status": "artifact_evidence_built_release_stopped",
+  "tracks": [
+    {
+      "trackId": "oh_2953_32_sealing",
+      "hardStops": [
+        "Every charge from the same act and every pending proceeding must be reviewed before filing.",
+        "The applicable final-discharge waiting period and all statutory exclusions require source-backed confirmation.",
+        "The sentencing court's current local application and filing instructions must be obtained before release."
+      ],
+      "renderedFixtures": [
+        "canonical",
+        "boundary"
+      ]
+    },
+    {
+      "trackId": "oh_2953_32_expungement",
+      "hardStops": [
+        "The compound expungement clock and applicable exclusion must be confirmed; the artifact does not calculate eligibility.",
+        "Every charge from the same act and every pending proceeding must be reviewed.",
+        "Whether earlier sealing affects later expungement and the court's current local form remain release blockers."
+      ],
+      "renderedFixtures": [
+        "canonical",
+        "boundary"
+      ]
+    },
+    {
+      "trackId": "oh_2953_33_nonconviction",
+      "hardStops": [
+        "A dismissal without prejudice stops unless the limitations period has expired.",
+        "The participant must make the sealing-versus-expungement election after review of division (C); the build does not choose.",
+        "Every same-act charge, pending proceeding, and the handling court's local application must be confirmed."
+      ],
+      "renderedFixtures": [
+        "canonical",
+        "boundary"
+      ]
+    },
+    {
+      "trackId": "oh_2953_35_firearm",
+      "hardStops": [
+        "This is not a general firearm expungement; any conviction outside the specified obsolete notification-law scope stops.",
+        "The former statutory version and whether the conduct would still be a crime must be reviewed from source.",
+        "Every same-act charge and the sentencing court's current local application must be confirmed."
+      ],
+      "renderedFixtures": [
+        "canonical",
+        "boundary"
+      ]
+    }
+  ],
+  "findings": [
+    "The current custom-pleading renderer and QA produced deterministic canonical and boundary artifacts.",
+    "Signature/date lines remain blank; no certificate of service or proposed order is generated.",
+    "The exact official BCI form is copied unchanged solely as a post-order companion.",
+    "No statewide mandatory primary application was identified; local-form coverage is an explicit release blocker."
+  ],
+  "blockers": [
+    "obtain and review the current local-court application and filing instructions",
+    "resolve each track's recorded eligibility hard stops from primary authority and case records",
+    "obtain completed-output legal approval before any participant or commercial release"
+  ],
+  "noRuntimeActivationPerformed": true,
+  "commercialAuthority": false,
+  "runtimeSelectable": false
+}

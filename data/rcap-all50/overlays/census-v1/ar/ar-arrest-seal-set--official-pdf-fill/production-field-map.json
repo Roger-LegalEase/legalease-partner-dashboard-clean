@@ -1,0 +1,771 @@
+{
+  "schemaVersion": "rcap-official-form-field-map/v1-census-v1",
+  "familyId": "ar-arrest-seal-set",
+  "routeKeys": [
+    "obligation:track-pathway:AR:ar-arrest-seal:situation-a-non-convictions"
+  ],
+  "renderStrategy": "acroform_fill",
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "documents": [
+    {
+      "documentId": "AR-ACIC-PETITION-TO-SEAL-ARREST-UNDER-ACT-1460",
+      "documentRole": "PETITION",
+      "ownership": "participant_completed",
+      "captionOnly": false,
+      "explicitMappings": {
+        "First Middle and Last name": "participant.full_legal_name",
+        "and charged with the offenses of 1": "matter.charge"
+      },
+      "roleRefusals": [
+        {
+          "field": "Date",
+          "class": "participant_signature_date",
+          "why": "The date beside the defendant's signature on page 2. Dating a signature that has not been made asserts the petition was signed on a day it was not."
+        },
+        {
+          "field": "Date_2",
+          "class": "certificate_of_service_date",
+          "why": "The date on the page 3 Certificate of Service. Service has not happened; a date here certifies a mailing that has not occurred."
+        },
+        {
+          "field": "I",
+          "class": "certificate_of_service_attestation",
+          "why": "The certifying party's name in 'I, ____, do hereby certify that a true and correct copy ... has been provided'. This is a sworn statement about an act of service, not a caption; it is the filer's to make after mailing."
+        },
+        {
+          "field": "Arrest Tracking Number",
+          "class": "agency_assigned_identifier",
+          "why": "The ATN is assigned by Arkansas ACIC when an arrest is processed. It identifies the arrest through a system the platform has no knowledge of and is the agency's to state."
+        },
+        {
+          "field": "Defendant Address  Street 2",
+          "class": "address_continuation_line",
+          "why": "The second printed rule of a two-line street block. The platform holds one street address and writes it once; filling both lines prints the same address twice."
+        },
+        {
+          "field": "DAY",
+          "class": "arrest_date_component",
+          "why": "Day component of the arrest date. The platform holds no day fact. The shared binder also withholds the printed-label fallback from a date-component name, so the sentence fragment mentioning the Defendant can no longer bind participant.full_legal_name here."
+        },
+        {
+          "field": "MONTH",
+          "class": "arrest_date_component",
+          "why": "Month component of the arrest date. This is the blank that was proven to receive participant.full_legal_name through the printed-label fallback. It is now refused twice over: by the shared date-component guard, and by role because the platform holds no month fact."
+        },
+        {
+          "field": "YEAR",
+          "class": "arrest_date_component",
+          "why": "Year component of the arrest date. Refused with the other two: the trio is one fact the platform does not hold in component form. Its previous refusal depended on the harvested caption happening to be the digit '1', which was never a decision; the shared guard now refuses it by name."
+        }
+      ],
+      "writeBoxes": [
+        {
+          "field": "Case No",
+          "factId": "matter.case_number",
+          "page": 1,
+          "rect": {
+            "x": 279.96,
+            "y": 585.24,
+            "width": 109.08,
+            "height": 22.44
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "Case No"
+        },
+        {
+          "field": "First Middle and Last name",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "rect": {
+            "x": 72,
+            "y": 536.88,
+            "width": 179.16,
+            "height": 22.44
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": null
+        },
+        {
+          "field": "and charged with the offenses of 1",
+          "factId": "matter.charges[0].charge",
+          "page": 1,
+          "rect": {
+            "x": 108.96,
+            "y": 332.76,
+            "width": 413.4,
+            "height": 22.44
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "________, and charged with the offense(s) of"
+        },
+        {
+          "field": "DOB",
+          "factId": "participant.date_of_birth",
+          "page": 2,
+          "rect": {
+            "x": 110.28,
+            "y": 142.44,
+            "width": 93.36,
+            "height": 23.4
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "DOB"
+        },
+        {
+          "field": "Defendant Address  Street 1",
+          "factId": "participant.street_address",
+          "page": 3,
+          "rect": {
+            "x": 243.6,
+            "y": 182.76,
+            "width": 264.6,
+            "height": 15.72
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": null
+        },
+        {
+          "field": "City",
+          "factId": "participant.city",
+          "page": 3,
+          "rect": {
+            "x": 98.88,
+            "y": 149.16,
+            "width": 194.52,
+            "height": 15.72
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "_________________________________________________________"
+        },
+        {
+          "field": "State",
+          "factId": "participant.state",
+          "page": 3,
+          "rect": {
+            "x": 330,
+            "y": 149.16,
+            "width": 77.88,
+            "height": 15.72
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "_________________________________________________________"
+        },
+        {
+          "field": "Zip code",
+          "factId": "participant.zip",
+          "page": 3,
+          "rect": {
+            "x": 465.48,
+            "y": 149.16,
+            "width": 62.28,
+            "height": 15.72
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "_________________________________________________________"
+        },
+        {
+          "field": "COUNTY",
+          "factId": "matter.county",
+          "page": 1,
+          "rect": {
+            "x": 320.04,
+            "y": 705.96,
+            "width": 124.56,
+            "height": 22.44
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "IN THE ______________ COURT OF"
+        },
+        {
+          "field": "Defendant NAME",
+          "factId": "participant.full_legal_name",
+          "page": 2,
+          "rect": {
+            "x": 302.64,
+            "y": 464.52,
+            "width": 233.52,
+            "height": 23.4
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "WHEREFORE, the Defendant,"
+        }
+      ],
+      "refused": [
+        {
+          "field": "and charged with the offenses of 2",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "undefined_2",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "A Class",
+          "reason": "requires_explicit_mapping",
+          "category": "sensitive_fact",
+          "regionHeading": null
+        },
+        {
+          "field": "federal court and the status of thatthose charges isare as follows 1",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "federal court and the status of thatthose charges isare as follows 2",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Defendants Signature",
+          "reason": "protected_category",
+          "category": "signature",
+          "regionHeading": null
+        },
+        {
+          "field": "Date",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Race",
+          "reason": "protected_category",
+          "category": "race",
+          "regionHeading": null
+        },
+        {
+          "field": "Arrest Tracking Number",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Sex",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "FBI No if known",
+          "reason": "protected_category",
+          "category": "government_identifier",
+          "regionHeading": null
+        },
+        {
+          "field": "I",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Defendant or Defendants Attorney",
+          "reason": "protected_category",
+          "category": "attorney",
+          "regionHeading": null
+        },
+        {
+          "field": "Date_2",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Defendant Address  Street 2",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Type of",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "DIVISION",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "DAY",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "MONTH",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "YEAR",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "FELONY 001",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "MISDEMEANOR 01",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Check Box3",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Check Box4",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Check Box5",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Check Box6",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "SID",
+          "reason": "protected_category",
+          "category": "government_identifier",
+          "regionHeading": null
+        }
+      ],
+      "protectedFields": [
+        {
+          "field": "Defendants Signature",
+          "category": "signature"
+        },
+        {
+          "field": "Date",
+          "category": "role"
+        },
+        {
+          "field": "Race",
+          "category": "race"
+        },
+        {
+          "field": "Arrest Tracking Number",
+          "category": "role"
+        },
+        {
+          "field": "FBI No if known",
+          "category": "government_identifier"
+        },
+        {
+          "field": "I",
+          "category": "role"
+        },
+        {
+          "field": "Defendant or Defendants Attorney",
+          "category": "attorney"
+        },
+        {
+          "field": "Date_2",
+          "category": "role"
+        },
+        {
+          "field": "Defendant Address  Street 2",
+          "category": "role"
+        },
+        {
+          "field": "DAY",
+          "category": "role"
+        },
+        {
+          "field": "MONTH",
+          "category": "role"
+        },
+        {
+          "field": "YEAR",
+          "category": "role"
+        },
+        {
+          "field": "FELONY 001",
+          "category": "type_guard"
+        },
+        {
+          "field": "MISDEMEANOR 01",
+          "category": "type_guard"
+        },
+        {
+          "field": "Check Box3",
+          "category": "type_guard"
+        },
+        {
+          "field": "Check Box4",
+          "category": "type_guard"
+        },
+        {
+          "field": "Check Box5",
+          "category": "type_guard"
+        },
+        {
+          "field": "Check Box6",
+          "category": "type_guard"
+        },
+        {
+          "field": "SID",
+          "category": "government_identifier"
+        }
+      ]
+    },
+    {
+      "documentId": "AR-ACIC-ORDER-TO-SEAL-ARREST-UNDER-ACT-1460",
+      "documentRole": "PROPOSED_ORDER",
+      "ownership": "court_issued_order",
+      "captionOnly": true,
+      "explicitMappings": {
+        "First Middle and Last name": "participant.full_legal_name"
+      },
+      "roleRefusals": [
+        {
+          "field": "Judge",
+          "class": "court_only_signature",
+          "why": "The judge's signature line. Court-only."
+        },
+        {
+          "field": "Date",
+          "class": "court_only_signature_date",
+          "why": "The date beside the judge's signature. The court dates its own order."
+        },
+        {
+          "field": "Arrest Tracking Number",
+          "class": "agency_assigned_identifier",
+          "why": "ACIC-assigned arrest identifier; the agency's to state."
+        },
+        {
+          "field": "Day",
+          "class": "arrest_date_component",
+          "why": "Day component of the arrest date in the court's findings. Bound participant.full_legal_name through the printed-label fallback; now refused by the shared date-component guard, by role, and — incidentally — by the document title."
+        },
+        {
+          "field": "Month",
+          "class": "arrest_date_component",
+          "why": "Month component of the arrest date in the court's findings. Same binding, same refusals."
+        },
+        {
+          "field": "Year",
+          "class": "arrest_date_component",
+          "why": "Year component of the arrest date in the court's findings. The platform holds no year fact."
+        }
+      ],
+      "writeBoxes": [
+        {
+          "field": "Case No",
+          "factId": "matter.case_number",
+          "page": 1,
+          "rect": {
+            "x": 279.96,
+            "y": 585.24,
+            "width": 109.08,
+            "height": 22.44
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "Case No"
+        },
+        {
+          "field": "First Middle and Last name",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "rect": {
+            "x": 72,
+            "y": 536.88,
+            "width": 179.16,
+            "height": 22.44
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": null
+        },
+        {
+          "field": "DOB",
+          "factId": "participant.date_of_birth",
+          "page": 3,
+          "rect": {
+            "x": 110.28,
+            "y": 593.28,
+            "width": 93.36,
+            "height": 23.4
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "DOB"
+        },
+        {
+          "field": "County",
+          "factId": "matter.county",
+          "page": 1,
+          "rect": {
+            "x": 320.04,
+            "y": 705.96,
+            "width": 124.56,
+            "height": 22.44
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "IN THE ______________ COURT OF"
+        },
+        {
+          "field": "Defendant",
+          "factId": "participant.full_legal_name",
+          "page": 2,
+          "rect": {
+            "x": 149.04,
+            "y": 392.04,
+            "width": 233.52,
+            "height": 14.4
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "Defendant,"
+        }
+      ],
+      "refused": [
+        {
+          "field": "COURT OF",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "DIVISION",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "1",
+          "reason": "protected_page_region",
+          "category": "court",
+          "regionHeading": "ORDER TO SEAL ARREST UNDER ACT 1460 OF 2013;"
+        },
+        {
+          "field": "2",
+          "reason": "protected_page_region",
+          "category": "court",
+          "regionHeading": "ORDER TO SEAL ARREST UNDER ACT 1460 OF 2013;"
+        },
+        {
+          "field": "Race",
+          "reason": "protected_category",
+          "category": "race",
+          "regionHeading": null
+        },
+        {
+          "field": "Sex",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Arrest Tracking Number",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "FBI No if known",
+          "reason": "protected_category",
+          "category": "government_identifier",
+          "regionHeading": null
+        },
+        {
+          "field": "Day",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Month",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Year",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Class Letter",
+          "reason": "protected_page_region",
+          "category": "court",
+          "regionHeading": "ORDER TO SEAL ARREST UNDER ACT 1460 OF 2013;"
+        },
+        {
+          "field": "ACA Code",
+          "reason": "protected_page_region",
+          "category": "court",
+          "regionHeading": "ORDER TO SEAL ARREST UNDER ACT 1460 OF 2013;"
+        },
+        {
+          "field": "Check Box43",
+          "reason": "protected_page_region",
+          "category": "court",
+          "regionHeading": "ORDER TO SEAL ARREST UNDER ACT 1460 OF 2013;"
+        },
+        {
+          "field": "Check Box44",
+          "reason": "protected_page_region",
+          "category": "court",
+          "regionHeading": "ORDER TO SEAL ARREST UNDER ACT 1460 OF 2013;"
+        },
+        {
+          "field": "Check Box45",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Check Box46",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Charges 1",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Charges 2",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Check Box47",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Check Box48",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Judge",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Date",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "SID",
+          "reason": "protected_category",
+          "category": "government_identifier",
+          "regionHeading": null
+        }
+      ],
+      "protectedFields": [
+        {
+          "field": "1",
+          "category": "court"
+        },
+        {
+          "field": "2",
+          "category": "court"
+        },
+        {
+          "field": "Race",
+          "category": "race"
+        },
+        {
+          "field": "Arrest Tracking Number",
+          "category": "role"
+        },
+        {
+          "field": "FBI No if known",
+          "category": "government_identifier"
+        },
+        {
+          "field": "Day",
+          "category": "role"
+        },
+        {
+          "field": "Month",
+          "category": "role"
+        },
+        {
+          "field": "Year",
+          "category": "role"
+        },
+        {
+          "field": "Class Letter",
+          "category": "court"
+        },
+        {
+          "field": "ACA Code",
+          "category": "court"
+        },
+        {
+          "field": "Check Box43",
+          "category": "court"
+        },
+        {
+          "field": "Check Box44",
+          "category": "court"
+        },
+        {
+          "field": "Check Box45",
+          "category": "type_guard"
+        },
+        {
+          "field": "Check Box46",
+          "category": "type_guard"
+        },
+        {
+          "field": "Check Box47",
+          "category": "type_guard"
+        },
+        {
+          "field": "Check Box48",
+          "category": "type_guard"
+        },
+        {
+          "field": "Judge",
+          "category": "role"
+        },
+        {
+          "field": "Date",
+          "category": "role"
+        },
+        {
+          "field": "SID",
+          "category": "government_identifier"
+        }
+      ]
+    }
+  ]
+}

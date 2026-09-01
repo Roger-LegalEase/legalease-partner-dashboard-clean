@@ -1,0 +1,160 @@
+{
+  "schemaVersion": "rcap-grade-a-fulfillment-projection/v1",
+  "generatedBy": "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
+  "derivedFrom": {
+    "registry": "data/rcap-grade-a/fulfillment-authority-registry.json",
+    "observation": "data/rcap-grade-a/fulfillment-observation-snapshot.json",
+    "authorityModule": "src/lib/rcap/fulfillment/grade-a-authority.ts"
+  },
+  "rule": "This file is a projection. It is derived by the shipped authority module from the controlling registry; editing it changes nothing, because the runtime reads the registry.",
+  "counters": {
+    "routesWithARecord": 8,
+    "completePacketProven": 0,
+    "incomplete": 8,
+    "stale": 0,
+    "revoked": 0,
+    "superseded": 0,
+    "commerciallyEligible": 0
+  },
+  "routes": [
+    {
+      "routeId": "ND:deferred-imposition-dismissal-and-sealing",
+      "jurisdiction": "ND",
+      "packetFamilyId": null,
+      "serviceDisposition": "paid_packet_intended",
+      "recordVersion": 1,
+      "state": "INCOMPLETE",
+      "commercialStatus": "not_commercially_eligible",
+      "missingProof": [
+        "final_verification: state is unbound",
+        "legal_authority: status is pending, not approved_by_decision_owner",
+        "official_sources: no official source is bound to this route",
+        "output_legal_approval: state is pending",
+        "visual_review: state is pending, and Grade A requires a page-by-page pass"
+      ],
+      "stalenessReasons": []
+    },
+    {
+      "routeId": "ND:dui-record-sealing-under-the-separate-dui-statute",
+      "jurisdiction": "ND",
+      "packetFamilyId": "rcap-nd-custom-pleading",
+      "serviceDisposition": "paid_packet_intended",
+      "recordVersion": 1,
+      "state": "INCOMPLETE",
+      "commercialStatus": "not_commercially_eligible",
+      "missingProof": [
+        "final_verification: state is unbound",
+        "official_sources: no official source is bound to this route",
+        "output_legal_approval: state is pending",
+        "visual_review: state is pending, and Grade A requires a page-by-page pass"
+      ],
+      "stalenessReasons": []
+    },
+    {
+      "routeId": "ND:first-offense-possession-sealing",
+      "jurisdiction": "ND",
+      "packetFamilyId": "rcap-nd-custom-pleading",
+      "serviceDisposition": "paid_packet_intended",
+      "recordVersion": 1,
+      "state": "INCOMPLETE",
+      "commercialStatus": "not_commercially_eligible",
+      "missingProof": [
+        "final_verification: state is unbound",
+        "official_sources: no official source is bound to this route",
+        "output_legal_approval: state is pending",
+        "visual_review: state is pending, and Grade A requires a page-by-page pass"
+      ],
+      "stalenessReasons": []
+    },
+    {
+      "routeId": "ND:general-conviction-sealing-under-n-d-c-c-chapter-12-60-1",
+      "jurisdiction": "ND",
+      "packetFamilyId": null,
+      "serviceDisposition": "paid_packet_intended",
+      "recordVersion": 1,
+      "state": "INCOMPLETE",
+      "commercialStatus": "not_commercially_eligible",
+      "missingProof": [
+        "artifact_validation: state is not_run with artifact hash absent",
+        "final_verification: state is unbound",
+        "fixture: a deterministic fixture and its hash are required",
+        "legal_authority: status is pending, not approved_by_decision_owner",
+        "official_sources: no official source is bound to this route",
+        "output_legal_approval: state is pending",
+        "packet_specification: a specification hash is required",
+        "packet_specification: the specification is not complete",
+        "visual_review: state is pending, and Grade A requires a page-by-page pass"
+      ],
+      "stalenessReasons": []
+    },
+    {
+      "routeId": "ND:marijuana-specific-summary-pardon-or-sealing-relief",
+      "jurisdiction": "ND",
+      "packetFamilyId": null,
+      "serviceDisposition": "paid_packet_intended",
+      "recordVersion": 1,
+      "state": "INCOMPLETE",
+      "commercialStatus": "not_commercially_eligible",
+      "missingProof": [
+        "final_verification: state is unbound",
+        "legal_authority: status is pending, not approved_by_decision_owner",
+        "official_sources: SFN-61663 does not name the corpus release and archive its bytes were verified from",
+        "official_sources: SFN-61663 has no content hash",
+        "official_sources: SFN-61663 has no expected content hash from a packet source record",
+        "official_sources: SFN-61663 has no installed content hash from a verified corpus",
+        "official_sources: SFN-61663 has no source verification record",
+        "output_legal_approval: state is pending",
+        "visual_review: state is pending, and Grade A requires a page-by-page pass"
+      ],
+      "stalenessReasons": []
+    },
+    {
+      "routeId": "OR:marijuana-specific-set-aside-redesignation",
+      "jurisdiction": "OR",
+      "packetFamilyId": null,
+      "serviceDisposition": "paid_packet_intended",
+      "recordVersion": 1,
+      "state": "INCOMPLETE",
+      "commercialStatus": "not_commercially_eligible",
+      "missingProof": [
+        "final_verification: state is unbound",
+        "output_legal_approval: state is pending"
+      ],
+      "stalenessReasons": []
+    },
+    {
+      "routeId": "OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+      "jurisdiction": "OR",
+      "packetFamilyId": "rcap-or-official-pdf-fill",
+      "serviceDisposition": "paid_packet_intended",
+      "recordVersion": 1,
+      "state": "INCOMPLETE",
+      "commercialStatus": "not_commercially_eligible",
+      "missingProof": [
+        "final_verification: state is unbound",
+        "output_legal_approval: state is pending",
+        "packet_completeness: copyRequirements is missing",
+        "packet_completeness: feeAndWaiverInstructions is missing",
+        "packet_completeness: filingDestination is missing",
+        "packet_completeness: hearingAndObjectionStopConditions is missing",
+        "packet_completeness: postFilingSteps is missing",
+        "packet_completeness: serviceAndNotice is missing"
+      ],
+      "stalenessReasons": []
+    },
+    {
+      "routeId": "OR:set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+      "jurisdiction": "OR",
+      "packetFamilyId": null,
+      "serviceDisposition": "paid_packet_intended",
+      "recordVersion": 1,
+      "state": "INCOMPLETE",
+      "commercialStatus": "not_commercially_eligible",
+      "missingProof": [
+        "final_verification: state is unbound",
+        "output_legal_approval: state is pending"
+      ],
+      "stalenessReasons": []
+    }
+  ]
+}

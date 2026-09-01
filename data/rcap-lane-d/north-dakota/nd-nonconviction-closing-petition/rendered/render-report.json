@@ -1,0 +1,163 @@
+{
+  "schemaVersion": "rcap-lane-d-render-report/v1",
+  "lane": "D",
+  "jurisdiction": "ND",
+  "routeId": "ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
+  "specId": "nd-nonconviction-closing-petition",
+  "specVersion": "1.0.0",
+  "specHash": "2280f6038f20f26e3d7beea08be82b6d5d4e7f418e04a7b4133915b05fd8aa6b",
+  "composerVersion": "1.0.0",
+  "provider": {
+    "profileId": "ND-north-dakota",
+    "profileVersion": "2026-06-19-source-conversion-1",
+    "sourceCorpusSha256": "c205813b263764fe44648ba577d91e8fadb52b55974b7fe154495bbff1b8ede7",
+    "statePackModule": "src/lib/rcap/state-packs/north-dakota",
+    "composerModule": "src/lib/record-clearing/composers/nd-composed-packet-composer.ts",
+    "rendererModule": "src/lib/record-clearing/renderers/custom-pleading-renderer.ts",
+    "composerVersion": "1.0.0"
+  },
+  "sources": [
+    {
+      "sourceId": "nd-close-nonconviction-records-form",
+      "fileName": "Close-Nonconviction-Records.pdf",
+      "relativePath": "LegalEase North Dakota/Close-Nonconviction-Records.pdf",
+      "sha256": "21b3a790b35f35c345560d9840bf39ca6f1e46cf1b9166c0e5ae2cf8ff7e4d7f",
+      "sizeBytes": 1319263,
+      "role": "official_form_and_instructions"
+    },
+    {
+      "sourceId": "nd-wilma-sealing-reference",
+      "fileName": "North Dakota Expungement : Sealing Reference for Wilma.rtf",
+      "relativePath": "LegalEase North Dakota/North Dakota Expungement : Sealing Reference for Wilma.rtf",
+      "sha256": "68c9109532391768ba04b29801f6e7ed4dbee4e2905b9a79bb162b4cd7905a68",
+      "sizeBytes": 89056,
+      "role": "jurisdiction_reference"
+    }
+  ],
+  "fixtureId": "canonical",
+  "generatedBy": "scripts/generate-nd-composed-packet-artifacts.mjs",
+  "layout": {
+    "measureChars": 78,
+    "bodyLinesPerPage": 46,
+    "fontName": "Courier",
+    "fontSize": 10,
+    "lineHeight": 13,
+    "pageWidth": 612,
+    "pageHeight": 792,
+    "margin": 72
+  },
+  "artifact": {
+    "contentType": "application/pdf",
+    "fileName": "canonical.pdf",
+    "byteSize": 16363,
+    "sha256": "dd41f0ef635636dffdaeb24bfaed5b0c746fe82c3b1b07c5f4e0897a24b0310a",
+    "pageCount": 7
+  },
+  "pagedText": {
+    "fileName": "canonical-pages.txt",
+    "note": "Review scaffolding: the same bytes with a page rule inserted before each page. Not an artifact of the packet.",
+    "sha256": "6924460e1b0741f1fbda4db7dd31ee19cdf93ef31f735188ca576ad097ebf664"
+  },
+  "text": {
+    "fileName": "canonical.txt",
+    "byteSize": 9512,
+    "sha256": "51b776944b610c324554c7f77588e016a606f843ee52da4c51a88c18514f06ed",
+    "composedTextSha256": "4238e5f9dade3ae0e04ffc69f8b15b797f9a5897313c8826418abaabebf2389f"
+  },
+  "documentManifest": [
+    {
+      "documentId": "nd_nonconviction_filing_instructions",
+      "sequence": 1,
+      "title": "How to File This Packet — North Dakota Petition to Close Nonconviction Records",
+      "audience": "participant",
+      "requirement": "required",
+      "pageCount": 2,
+      "startPage": 1,
+      "endPage": 2,
+      "textSha256": "450467e4204807cf83436c38171872bc6b7c6547547c3a9f7c951b2dbc4637b6"
+    },
+    {
+      "documentId": "nd_petition_to_close_nonconviction_records",
+      "sequence": 2,
+      "title": "Petition to Close Nonconviction Records",
+      "audience": "court",
+      "requirement": "required",
+      "pageCount": 3,
+      "startPage": 3,
+      "endPage": 5,
+      "textSha256": "d0024734cf02f4e167639add6505c106c867347d737815f68d07314602634794"
+    },
+    {
+      "documentId": "nd_proposed_order_closing_nonconviction_records",
+      "sequence": 3,
+      "title": "[Proposed] Order Closing Nonconviction Records",
+      "audience": "court",
+      "requirement": "required",
+      "pageCount": 1,
+      "startPage": 6,
+      "endPage": 6,
+      "textSha256": "3a29ec3dbb701000b2b23f311dd158a181a5fe1788ef081b0d78b1dbb7c65cd3"
+    },
+    {
+      "documentId": "nd_proof_of_service_prosecutor",
+      "sequence": 4,
+      "title": "Proof of Service on the Prosecuting Attorney",
+      "audience": "court",
+      "requirement": "conditional",
+      "pageCount": 1,
+      "startPage": 7,
+      "endPage": 7,
+      "textSha256": "49229c8410d81e48952320d8751fa7280ca082ae7b6ce4890c28e5196eb7a03a"
+    }
+  ],
+  "totalPageCount": 7,
+  "placeholderScan": {
+    "disallowedTokens": [],
+    "bracketTokensPresent": [
+      "[PROPOSED]",
+      "[PROSECUTING ATTORNEY ADDRESS — CONFIRM WITH CLERK OF COURT]",
+      "[Proposed]"
+    ]
+  },
+  "composerWarnings": [],
+  "qa": {
+    "passed": true,
+    "failures": [],
+    "warnings": []
+  },
+  "branchOutcomes": {
+    "canonical": {
+      "status": "composed",
+      "totalPageCount": 7,
+      "fullTextSha256": "4238e5f9dade3ae0e04ffc69f8b15b797f9a5897313c8826418abaabebf2389f"
+    },
+    "multiline": {
+      "status": "composed",
+      "totalPageCount": 7,
+      "fullTextSha256": "4508dab15885da51bef5b5adf7033d267a5c40aca60099ca1faa7e9ff6658d6f"
+    },
+    "boundary": {
+      "status": "composed",
+      "totalPageCount": 7,
+      "fullTextSha256": "6269a82a32564c5f0b001bcce9e0490faf76c02d78af07d651bf95aa561c2ab7"
+    },
+    "automatic": {
+      "status": "refused",
+      "reasonCode": "route_not_composed_packet",
+      "detail": [
+        "routeStatus=no_filing_required",
+        "reasonCode=automatic_close_branch",
+        "branch=automatic_close_61_day"
+      ]
+    },
+    "negative": {
+      "status": "refused",
+      "reasonCode": "route_not_composed_packet",
+      "detail": [
+        "routeStatus=excluded",
+        "reasonCode=statutory_exclusion",
+        "branch=(none)"
+      ]
+    }
+  }
+}

@@ -10,7 +10,7 @@ unconditioned. Counsel review promotion is the separate launch gate.
 | tracksTerminal | 497 / 497 |
 | tracksWithRuntimeCoverage | 285 / 497 |
 | jobsRemainingToLaunch | 0 |
-| tracksTerminalizedThisWindow | 106 |
+| tracksTerminalizedThisWindow | 105 |
 | unknownTrackDispositions | 0 |
 | unownedBlockers | 0 |
 

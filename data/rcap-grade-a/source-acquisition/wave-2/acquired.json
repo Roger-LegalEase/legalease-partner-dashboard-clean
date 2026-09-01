@@ -1,0 +1,89 @@
+{
+  "schemaVersion": "rcap-grade-a-source-acquisition-receipt/v2",
+  "assignmentId": "R4_SOURCE_IDENTITY_AND_ACQUISITION",
+  "installedBy": "the Wave 2 closure integration",
+  "what": "The Wave 2 acquisition receipts, installed as the controlling wave-2 acquisition record.",
+  "custodyTruth": "These are receipts, not custody. Each body was retrieved and hashed by the worker and none was committed; the private inventory was not mounted, so nothing was promoted into the corpus. They are therefore NOT counted as held sources and must not be cited as corpus custody.",
+  "documentsAcquired": 4,
+  "records": [
+    {
+      "issuingAuthority": "Louisiana Legislature",
+      "officialUrl": "https://www.legis.la.gov/legis/Law.aspx?d=919681",
+      "retrievalTime": "2026-08-30T21:11:57.646Z",
+      "byteLength": 52058,
+      "sha256": "efa0a8631a1c26122dc6f6ac26777eb53e4077e188bc0b5adc54ace5cd6defe7",
+      "mediaTypeObserved": "text/html",
+      "bodyCommitted": false,
+      "promotedToCorpus": false,
+      "custodyClass": "RECEIPT_ONLY_BODY_NOT_HELD"
+    },
+    {
+      "issuingAuthority": "North Dakota Supreme Court",
+      "officialUrl": "https://www.ndcourts.gov/legal-self-help/prohibit-public-access/criminal",
+      "retrievalTime": "2026-08-30T21:12:58.210Z",
+      "byteLength": 41009,
+      "sha256": "ab72f775e1aa64beac5f567f7ec40ce929c73aa6325615a1dce1883a8e12af6e",
+      "mediaTypeObserved": "JavaScript-rendered HTML response",
+      "bodyCommitted": false,
+      "promotedToCorpus": false,
+      "custodyClass": "RECEIPT_ONLY_BODY_NOT_HELD"
+    },
+    {
+      "issuingAuthority": "Texas Office of Court Administration",
+      "officialUrl": "https://www.txcourts.gov/media/1456942/statement-of-inability-to-afford-payment-of-court-costs-or-an-appeal-bond-bilingual.pdf",
+      "retrievalTime": "2026-08-30T21:12:58.938Z",
+      "byteLength": 6667524,
+      "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
+      "mediaTypeObserved": "application/pdf",
+      "bodyCommitted": false,
+      "promotedToCorpus": false,
+      "custodyClass": "RECEIPT_ONLY_BODY_NOT_HELD"
+    },
+    {
+      "issuingAuthority": "Utah State Courts legacy official host",
+      "officialUrl": "https://legacy.utcourts.gov/howto/criminallaw/docs/1501CR_Motion_to_Remove_Link_to_Personal_Identifying_Information.pdf",
+      "retrievalTime": "2026-08-30T21:12:59.502Z",
+      "byteLength": 175626,
+      "sha256": "69c37d4da60eeccddd54b174427737f6be092cdcbf759dd27e101eb8d3b1c623",
+      "mediaTypeObserved": "application/pdf",
+      "bodyCommitted": false,
+      "promotedToCorpus": false,
+      "custodyClass": "RECEIPT_ONLY_BODY_NOT_HELD"
+    }
+  ],
+  "escalations": [
+    {
+      "issuingAuthority": "Montana Department of Justice",
+      "officialUrl": "https://dojmt.gov/wp-content/uploads/20240429-Updated-ExpungementRemovalRequestForm.docx",
+      "reason": "ESCALATED_RECORDED_REFUSAL_NOT_REPROBED",
+      "lastProbeHttpStatus": 403
+    },
+    {
+      "issuingAuthority": "Utah State Courts",
+      "officialUrl": "https://www.utcourts.gov/en/self-help/case-categories/criminal-justice/expunge.html",
+      "reason": "ESCALATED_RECORDED_REFUSAL_NOT_REPROBED",
+      "lastProbeHttpStatus": 406
+    },
+    {
+      "issuingAuthority": "Montana Supreme Court, Office of the Court Administrator",
+      "officialUrl": "https://courts.mt.gov/Forms/mmrta",
+      "reason": "ACQUISITION_TIMEOUT_AFTER_RECORDED_REACHABLE_HEAD",
+      "attempted": true,
+      "curlExitCode": 28
+    }
+  ],
+  "inventoryPromotion": {
+    "status": "STOPPED",
+    "documentsPromoted": 0,
+    "reason": "BLOCKED_LIVE_INVENTORY_NOT_MOUNTED",
+    "expectedInventoryRoot": "private/Nationwide Record Clearing/"
+  },
+  "identitiesResolved": {
+    "count": 12,
+    "finding": "Every resolved identity claimed RESOLVED_FROM_COMMITTED_RECORD and each was checked against the committed record during the Wave 2 integration; twelve of twelve resolve, so no controlling file needed changing.",
+    "verifiedIn": "data/rcap-grade-a/wave-2/integration/applied.json alreadyCorrect[] lane=R4"
+  },
+  "grantsNothing": "An acquisition receipt proves a document was retrieved and hashed. It approves no artifact, binds no source to a route and opens no commercial route.",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}
