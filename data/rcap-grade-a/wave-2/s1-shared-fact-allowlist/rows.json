@@ -1,0 +1,168 @@
+{
+  "schemaVersion": "rcap-grade-a-wave-2-shared-fact-allowlist/v1",
+  "assignmentId": "S1_SHARED_FACT_ALLOWLIST",
+  "workerBranch": "codex/s1-shared-fact-allowlist",
+  "baseSha": "c8d912d9a1dea54043f6dbc2cda464d00946c74c",
+  "assignmentReadFrom": {
+    "branch": "claude/legalease-sprint-captain-utucnw",
+    "file": "data/rcap-grade-a/launch-control/WAVE_2_ASSIGNMENTS.json",
+    "prompt": "docs/rcap/grade-a/launch-control/wave-2-prompts/S1_SHARED_FACT_ALLOWLIST.md",
+    "dispatchSha": "4d1408a40eeb77f51bdf18ba35a13db579b21129",
+    "captainBaseShaVerified": true
+  },
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "familiesRendered": 0,
+  "fleetAudit": {
+    "familiesAudited": 43,
+    "before": {
+      "passComplete": 0,
+      "byResult": {
+        "FAIL_MISSING_REQUIRED_FACTS": 32,
+        "FAIL_COMPONENT_SET": 2,
+        "FAIL_MISSING_PREFILLS": 9
+      },
+      "counterTotals": {
+        "knownRequiredFieldsMissing": 1550,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 6024,
+        "incompleteRows": 11,
+        "requiredOptionsMissing": 121,
+        "requiredComponentsMissing": 31,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      }
+    },
+    "after": {
+      "passComplete": 0,
+      "byResult": {
+        "FAIL_MISSING_REQUIRED_FACTS": 32,
+        "FAIL_COMPONENT_SET": 2,
+        "FAIL_MISSING_PREFILLS": 9
+      },
+      "counterTotals": {
+        "knownRequiredFieldsMissing": 1550,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 6024,
+        "incompleteRows": 11,
+        "requiredOptionsMissing": 121,
+        "requiredComponentsMissing": 31,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      }
+    },
+    "familiesWhoseCountersMoved": [],
+    "whyNoCountersMoved": "S1 changes only future runner policy. It rendered no family and wrote no overlay; R8 and later repair lanes own the rerenders that can change committed artifact counters."
+  },
+  "rows": [
+    {
+      "itemId": "scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs",
+      "status": "COMPLETED",
+      "runner": "runWestFamilyCli",
+      "dependentFamilies": 9,
+      "exactMappingsAdded": 14,
+      "fieldClassesNowWritten": [
+        "participant contact",
+        "participant date of birth",
+        "matter venue county",
+        "matter arrest date",
+        "matter conviction date",
+        "participant-stated citing or arresting agency"
+      ],
+      "factIdsNowAllowed": [
+        "participant.street_address",
+        "participant.city",
+        "participant.state",
+        "participant.zip",
+        "participant.phone",
+        "participant.email",
+        "participant.date_of_birth",
+        "matter.county",
+        "matter.arrest_date",
+        "matter.conviction_date",
+        "matter.citing_or_arresting_agency"
+      ],
+      "refusalReasonsRemovedOrReplaced": [
+        {
+          "previous": "Agency fields are never prefilled by this build.",
+          "replacement": "The exact AZ participant-stated agency blank maps to matter.citing_or_arresting_agency for both AZ variants."
+        },
+        {
+          "previous": "Prosecutor and agency fields are never prefilled by this build.",
+          "replacement": "REQUIRED_BEFORE_FILING: no exact prosecuting-agency fact is held; surface this blank to the participant and do not guess."
+        },
+        {
+          "previous": "No allowlisted, source-supported fact is offered to this terminal field.",
+          "replacement": "Exact CA terminal-name mappings write held facts; remaining unheld fields are classified REQUIRED_BEFORE_FILING and must be surfaced rather than guessed."
+        },
+        {
+          "previous": "No allowlisted fact is offered to this blank.",
+          "replacement": "REQUIRED_BEFORE_FILING with an explicit no-guess and participant-surfacing requirement."
+        },
+        {
+          "previous": "Signature or date field; never prefilled.",
+          "replacement": "Only an actual signature or signature-date stays participant-owned; an unheld matter date is REQUIRED_BEFORE_FILING and surfaced without guessing."
+        }
+      ],
+      "unheldFactsTreatment": "REQUIRED_BEFORE_FILING; no invented offense subparts, prosecutor identity, alternate identity, local-court address, narrative, signature, service act, or unmade election.",
+      "familiesRendered": 0
+    },
+    {
+      "itemId": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+      "status": "COMPLETED",
+      "runner": "runEastFamily",
+      "dependentFamilies": 15,
+      "sharedExactTerminalMappings": 41,
+      "additionalRouteSpecificMappings": 10,
+      "fieldClassesNowWritten": [
+        "participant identity",
+        "participant contact",
+        "participant date of birth",
+        "matter venue county",
+        "matter court identity",
+        "matter case or docket identifier",
+        "matter charge description",
+        "participant-stated citing or arresting agency",
+        "matter arrest date",
+        "matter offense date",
+        "matter conviction date",
+        "matter disposition date"
+      ],
+      "factIdsNowAllowed": [
+        "participant.full_legal_name",
+        "participant.street_address",
+        "participant.city_state_zip",
+        "participant.phone",
+        "participant.date_of_birth",
+        "matter.county",
+        "matter.court",
+        "matter.case_number",
+        "matter.charge",
+        "matter.citing_or_arresting_agency",
+        "matter.arrest_date",
+        "matter.offense_date",
+        "matter.conviction_date",
+        "matter.disposition_date"
+      ],
+      "refusalReasonsRemovedOrReplaced": [
+        {
+          "previous": "not_supported_by_exact_participant_fact_map",
+          "replacement": "An exact document-id plus terminal-name mapping when the fact is held; otherwise required_before_filing."
+        },
+        {
+          "previous": "No write is authorized for this field in this family build.",
+          "replacement": "A bounded fact write, a named protected/later-act treatment, or REQUIRED_BEFORE_FILING with participant surfacing; no build-policy-only refusal remains."
+        },
+        {
+          "previous": "signature_or_date_participant_completion",
+          "replacement": "signature_or_sworn_participant_act for actual signing/sworn acts; all other unheld dates are required_before_filing and surfaced."
+        }
+      ],
+      "exactFallback": "If the generic semantic binder rejects an exact allowlisted text field because of a source naming conflict, the runner writes the held fact into every exact measured widget, enforces readable fit, records the write, and scans the output for active content. Duplicate-widget losers remain refused.",
+      "unheldFactsTreatment": "required_before_filing; generated participant instructions enumerate every such source field and tell the participant to supply and verify it before filing.",
+      "familiesRendered": 0
+    }
+  ]
+}

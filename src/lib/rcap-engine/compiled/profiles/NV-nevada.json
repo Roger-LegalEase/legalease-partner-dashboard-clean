@@ -1,6 +1,20 @@
 {
   "schemaVersion": "2.0.0",
   "profileVersion": "2026-06-19-source-conversion-1",
+  "questionLifecycle": {
+    "routeConsumers": {},
+    "exactPacketFactIds": [
+      "criminal_history",
+      "disposition_date",
+      "arrest_date",
+      "court",
+      "charge",
+      "record_documents",
+      "county_or_filing_location",
+      "case_identifier"
+    ],
+    "completionAliasIds": []
+  },
   "jurisdiction": {
     "code": "NV",
     "name": "Nevada",
@@ -635,11 +649,12 @@
         "paymentAllowed": true
       },
       "lawrenceRatification": {
-        "status": "hard_gate_pending",
-        "packet_capable": false,
-        "payment_allowed_when_engine_confirms": false,
+        "status": "ratified_deployable",
+        "packet_capable": true,
+        "payment_allowed_when_engine_confirms": true,
         "legal_basis": "Lawrence named substantive gate required before selling",
-        "lawrence_review": "gate_required"
+        "lawrence_review": "ratified_deployable",
+        "projectedFrom": "route-ratification-registry"
       }
     },
     {
@@ -691,17 +706,8 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "The waiting period generally runs from release from actual custody, discharge from parole/probation, or release from suspended sentence, whichever applies and is later. The current NRS 179.245 waiting periods are:",
-        "Wilma status labels:likely_eligible_category_a_or_violence_10_yearslikely_eligible_b_c_d_felony_5_yearslikely_eligible_category_e_felony_2_yearslikely_eligible_gross_misdemeanor_2_yearslikely_eligible_other_misdemeanor_1_yearnot_eligible_yet_waiting_periodneeds_current_verified_chr",
-        "During the applicable waiting period, the person must not have pending charges and must not have been convicted of another offense, except minor moving or standing traffic violations. (\"https://law.justia.com/codes/nevada/chapter-179/statute-179-245/\")",
-        "Prosecution declined After statute of limitations runs, or 8 years after arrest, or by stipulation",
-        "The petition must include the current verified criminal-history record, disposition, list of agencies/custodians, date of birth, specific charges, and arrest date. If the prosecutor stipulates, the court applies the sealing presumption. If there is no stipulation or objection within 30 days and statutory findings are met, the court may seal without a hearing; if there is an objection, a hearing is required. (",
-        "If your Nevada case was dismissed or you were acquitted, you may be able to petition right away. If prosecution was declined before charges were filed, the timing depends on the statute of limitations, eight years from arrest, or whether the prosecutor stipulates.",
-        "Under NRS 176A.245, 176A.265, and 176A.295, after certain probation discharges, dismissals, conditional dismissals, or set-asides, the court must order records sealed if the defendant fulfilled the terms and conditions, unless the Division petitions for good cause and requests a hearing. For certain domestic battery or DUI-related charges under these provisions, sealing may require waiting 7 years after conditional dismissal or set-aside and filing a petition. (\"https://law.justia.com/codes/nevada/chapter-176a/statute-176a-245/\")",
-        "Four years after an eligible person completes a reentry program, the court may seal records. The person must have successfully completed a qualifying reentry program and have been convicted of a single felony offense that did not involve use or threatened use of force or violence. Multiple felony convictions may count as a single offense if they arose out of the same transaction or occurrence. Crimes against children and sexual offenses are excluded. Professional licensing boards and the Division of Insurance may still inspect records sealed under this section for licensing/discipline purposes. (\"https://law.justia.com/codes/nevada/chapter-179/statute-179-259/\")",
-        "Controlled-substance possession not for sale: NRS 453.3365 For certain convictions for possession of a controlled substance not for sale, the court may seal records three years after conviction and sentencing if the person completed court/parole/probation terms and the court is satisfied after hearing that the person is rehabilitated. If the person was discharged from probation under NRS 453.3363, the court must order sealing if terms were fulfilled, unless Parole and Probation petitions for good cause not to seal and requests a hearing. Professional licensing boards may inspect records sealed under this section. (\"https://law.justia.com/codes/nevada/chapter-453/statute-453-3365/\") Wilma status labels:possible_drug_possession_not_for_sale_453_3365possible_453_3363_discharge_sealinglicensing_board_access_warning",
-        "Conviction record sealing NRS 179.245 Most eligible adult convictions after waiting period",
-        "Pathway Main authority Best used for Conviction record sealing NRS 179.245 Most eligible adult convictions after waiting period Dismissal / declined prosecution / acquittal NRS 179.255 Arrest or case that did not end in conviction Multiple records in multiple courts NRS 179.2595 One district-court petition for records that would otherwise need multiple courts Deferred judgment / discharge dismissal NRS 176.211 Deferred judgment completed successfully Probation discharge / specialty dismissal routes NRS 176A.245, 176A.265, 176A.295 Certain probation/specialty-court dismissals or set-asides Reentry program sealing NRS 179.259 Single nonviolent felony after reentry program completion Decriminalized offense NRS 179.271 Offense later decriminalized, excluding traffic offenses Controlled substance possession not for sale NRS 453.3365 Special drug-possession sealing route Trafficking-victim…"
+        "the operative period is the deferred-judgment term set by the court; after successful completion, discharge and dismissal the sealing consequence is available without an additional generic wait",
+        "Supersedes NRS 176A.245, 176A.265 and 176A.295 timing, which must not be transplanted into NRS 176.211."
       ],
       "exclusionRules": [
         "Wilma hard-stop / legal-review labels:excluded_crime_against_childexcluded_sexual_offenseexcluded_home_invasion_deadly_weaponexcluded_felony_duiexcluded_dui_homicide_or_vehicular_homicideexcluded_felony_bui_or_boating_duilegal_review_required_unclear_offense_category",
@@ -716,6 +722,47 @@
         "exclusionOrAmbiguityResult": "likely_not_eligible",
         "matchedResult": "packet_ready_with_caution",
         "paymentAllowed": true
+      },
+      "legalAuthority": {
+        "decisionId": "LD-NV-04",
+        "ruleId": "NV-176.211-DEFERRED-EVENT-AND-179.247-TRAFFICKING-EVENT",
+        "mechanism": "Deferred-judgment dismissal and sealing",
+        "statute": "Nev. Rev. Stat. § 176.211",
+        "stage": "post_completion",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorFactId": "discharge_date",
+          "anchorText": "the operative period is the deferred-judgment term set by the court; after successful completion, discharge and dismissal the sealing consequence is available without an additional generic wait"
+        },
+        "requiredFacts": [
+          "Deferred-judgment term/order?",
+          "Completion/dismissal?",
+          "Exact offense?",
+          "Trafficking nexus?",
+          "Cessation/services/safety facts?",
+          "Prosecutor notice?",
+          "Other counts?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "court_requirements_completed",
+          "discharge_date"
+        ],
+        "exclusions": [
+          "Exact Nevada route",
+          "Valid deferred-judgment order or covered trafficking-caused offense with required nexus and diligence facts"
+        ],
+        "packetFamily": "Nevada Sealing Packet under NRS 176.211",
+        "packetComponents": [
+          "Petition to seal",
+          "Discharge and dismissal order"
+        ],
+        "supersedes": {
+          "note": "NRS 176A.245, 176A.265 and 176A.295 timing, which must not be transplanted into NRS 176.211"
+        },
+        "notes": "The court-set deferred-judgment term is not a fixed statutory waiting value and must not be stored as one."
       }
     },
     {
@@ -919,17 +966,8 @@
       "routeType": "special",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "The waiting period generally runs from release from actual custody, discharge from parole/probation, or release from suspended sentence, whichever applies and is later. The current NRS 179.245 waiting periods are:",
-        "Wilma status labels:likely_eligible_category_a_or_violence_10_yearslikely_eligible_b_c_d_felony_5_yearslikely_eligible_category_e_felony_2_yearslikely_eligible_gross_misdemeanor_2_yearslikely_eligible_other_misdemeanor_1_yearnot_eligible_yet_waiting_periodneeds_current_verified_chr",
-        "During the applicable waiting period, the person must not have pending charges and must not have been convicted of another offense, except minor moving or standing traffic violations. (\"https://law.justia.com/codes/nevada/chapter-179/statute-179-245/\")",
-        "Prosecution declined After statute of limitations runs, or 8 years after arrest, or by stipulation",
-        "The petition must include the current verified criminal-history record, disposition, list of agencies/custodians, date of birth, specific charges, and arrest date. If the prosecutor stipulates, the court applies the sealing presumption. If there is no stipulation or objection within 30 days and statutory findings are met, the court may seal without a hearing; if there is an objection, a hearing is required. (",
-        "If your Nevada case was dismissed or you were acquitted, you may be able to petition right away. If prosecution was declined before charges were filed, the timing depends on the statute of limitations, eight years from arrest, or whether the prosecutor stipulates.",
-        "Under NRS 176A.245, 176A.265, and 176A.295, after certain probation discharges, dismissals, conditional dismissals, or set-asides, the court must order records sealed if the defendant fulfilled the terms and conditions, unless the Division petitions for good cause and requests a hearing. For certain domestic battery or DUI-related charges under these provisions, sealing may require waiting 7 years after conditional dismissal or set-aside and filing a petition. (\"https://law.justia.com/codes/nevada/chapter-176a/statute-176a-245/\")",
-        "Four years after an eligible person completes a reentry program, the court may seal records. The person must have successfully completed a qualifying reentry program and have been convicted of a single felony offense that did not involve use or threatened use of force or violence. Multiple felony convictions may count as a single offense if they arose out of the same transaction or occurrence. Crimes against children and sexual offenses are excluded. Professional licensing boards and the Division of Insurance may still inspect records sealed under this section for licensing/discipline purposes. (\"https://law.justia.com/codes/nevada/chapter-179/statute-179-259/\")",
-        "Controlled-substance possession not for sale: NRS 453.3365 For certain convictions for possession of a controlled substance not for sale, the court may seal records three years after conviction and sentencing if the person completed court/parole/probation terms and the court is satisfied after hearing that the person is rehabilitated. If the person was discharged from probation under NRS 453.3363, the court must order sealing if terms were fulfilled, unless Parole and Probation petitions for good cause not to seal and requests a hearing. Professional licensing boards may inspect records sealed under this section. (\"https://law.justia.com/codes/nevada/chapter-453/statute-453-3365/\") Wilma status labels:possible_drug_possession_not_for_sale_453_3365possible_453_3363_discharge_sealinglicensing_board_access_warning",
-        "Conviction record sealing NRS 179.245 Most eligible adult convictions after waiting period",
-        "Pathway Main authority Best used for Conviction record sealing NRS 179.245 Most eligible adult convictions after waiting period Dismissal / declined prosecution / acquittal NRS 179.255 Arrest or case that did not end in conviction Multiple records in multiple courts NRS 179.2595 One district-court petition for records that would otherwise need multiple courts Deferred judgment / discharge dismissal NRS 176.211 Deferred judgment completed successfully Probation discharge / specialty dismissal routes NRS 176A.245, 176A.265, 176A.295 Certain probation/specialty-court dismissals or set-asides Reentry program sealing NRS 179.259 Single nonviolent felony after reentry program completion Decriminalized offense NRS 179.271 Offense later decriminalized, excluding traffic offenses Controlled substance possession not for sale NRS 453.3365 Special drug-possession sealing route Trafficking-victim…"
+        "no fixed elapsed waiting period; the petition follows satisfaction of the statutory victimization nexus and the due-diligence and safety requirements",
+        "Prosecutor response period — post-filing procedure, not a filing clock."
       ],
       "exclusionRules": [
         "Wilma hard-stop / legal-review labels:excluded_crime_against_childexcluded_sexual_offenseexcluded_home_invasion_deadly_weaponexcluded_felony_duiexcluded_dui_homicide_or_vehicular_homicideexcluded_felony_bui_or_boating_duilegal_review_required_unclear_offense_category",
@@ -944,6 +982,49 @@
         "exclusionOrAmbiguityResult": "needs_review",
         "matchedResult": "packet_ready_with_caution",
         "paymentAllowed": true
+      },
+      "legalAuthority": {
+        "decisionId": "LD-NV-04",
+        "ruleId": "NV-176.211-DEFERRED-EVENT-AND-179.247-TRAFFICKING-EVENT",
+        "mechanism": "Trafficking-victim vacatur and sealing",
+        "statute": "Nev. Rev. Stat. § 179.247",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "no fixed elapsed waiting period; the petition follows satisfaction of the statutory victimization nexus and the due-diligence and safety requirements"
+        },
+        "processingDeadlines": [
+          {
+            "label": "Prosecutor response period",
+            "note": "post-filing procedure, not a filing clock"
+          }
+        ],
+        "requiredFacts": [
+          "Deferred-judgment term/order?",
+          "Completion/dismissal?",
+          "Exact offense?",
+          "Trafficking nexus?",
+          "Cessation/services/safety facts?",
+          "Prosecutor notice?",
+          "Other counts?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "exclusions": [
+          "Exact Nevada route",
+          "Valid deferred-judgment order or covered trafficking-caused offense with required nexus and diligence facts"
+        ],
+        "packetFamily": "Nevada Trafficking-Victim Vacatur and Sealing Petition under NRS 179.247",
+        "packetComponents": [
+          "Petition to vacate and seal",
+          "Victimization nexus evidence",
+          "Due-diligence and safety showing"
+        ],
+        "notes": "Its own nexus and safety conditions; never inherits the deferred-judgment rule."
       }
     },
     {
@@ -1773,18 +1854,10 @@
       "when": {
         "backendPathwayId": "deferred-judgment-dismissal-and-sealing-under-nrs-176-211",
         "requiredFields": [
-          "case_outcome",
-          "offense_level",
-          "offense_category",
-          "sentence_completion_date",
-          "record_type"
+          "case_outcome"
         ],
         "fieldsReferenced": [
-          "case_outcome",
-          "offense_level",
-          "offense_category",
-          "sentence_completion_date",
-          "record_type"
+          "case_outcome"
         ],
         "caseOutcomes": [
           "dismissed",
@@ -1794,7 +1867,8 @@
           "acquitted",
           "convicted_felony"
         ],
-        "sourceConditionText": "Deferred-judgment dismissal and sealing under NRS 176.211"
+        "sourceConditionText": "the operative period is the deferred-judgment term set by the court; after successful completion, discharge and dismissal the sealing consequence is available without an additional generic wait",
+        "timingAnchorFactId": "discharge_date"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -1804,7 +1878,13 @@
       "sourceRef": "section:116-119; pathways:11-24; section:11-24; corpus-unit:8; corpus-unit:33",
       "candidatePathwayIds": [
         "deferred-judgment-dismissal-and-sealing-under-nrs-176-211"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-NV-04",
+        "ruleId": "NV-176.211-DEFERRED-EVENT-AND-179.247-TRAFFICKING-EVENT",
+        "statute": "Nev. Rev. Stat. § 176.211",
+        "mechanism": "Deferred-judgment dismissal and sealing"
+      }
     },
     {
       "id": "route-probation-or-specialty-court-dismissal-set-aside-sealing",
@@ -1887,17 +1967,11 @@
         "backendPathwayId": "trafficking-victim-vacatur-and-sealing-under-nrs-179-247",
         "requiredFields": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "sentence_completion_date",
-          "record_type"
+          "offense_level"
         ],
         "fieldsReferenced": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "sentence_completion_date",
-          "record_type"
+          "offense_level"
         ],
         "caseOutcomes": [
           "acquitted",
@@ -1908,7 +1982,7 @@
           "arrest_no_charge",
           "dismissed"
         ],
-        "sourceConditionText": "Trafficking-victim vacatur and sealing under NRS 179.247"
+        "sourceConditionText": "no fixed elapsed waiting period; the petition follows satisfaction of the statutory victimization nexus and the due-diligence and safety requirements"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -1918,7 +1992,13 @@
       "sourceRef": "section:136-145; pathways:11-24; section:11-24; corpus-unit:8; corpus-unit:52",
       "candidatePathwayIds": [
         "trafficking-victim-vacatur-and-sealing-under-nrs-179-247"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-NV-04",
+        "ruleId": "NV-176.211-DEFERRED-EVENT-AND-179.247-TRAFFICKING-EVENT",
+        "statute": "Nev. Rev. Stat. § 179.247",
+        "mechanism": "Trafficking-victim vacatur and sealing"
+      }
     },
     {
       "id": "route-controlled-substance-possession-sealing-under-nrs-453-3365",

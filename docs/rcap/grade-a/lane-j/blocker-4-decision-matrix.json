@@ -1,0 +1,251 @@
+{
+  "schemaVersion": "rcap-lane-j-terminalization-decision-matrix/v1",
+  "lane": "J",
+  "baseSha": "148382ab2a2acbe673b6d35c8967f5a908342e60",
+  "generatedBy": "Lane J. Hand-authored from the evidence cited in each record; every hash was recomputed from the file it names rather than read back from a committed record.",
+  "appliesNothing": "This file records decisions. It applies none of them. The repository at the base SHA still carries all eighteen drifted hashes.",
+  "verifier": "scripts/verify-rcap-terminalize-c1.mjs",
+  "assertion": "provenance.profileSha256 must equal sha256(provenance.profilePath)",
+  "classificationTest": {
+    "DECISION_UNCHANGED": [
+      "L1: the record's declared substantive source, registry@3b6f4c1, is unmoved.",
+      "L2: every compiled-profile domain the record declares reliance on is byte-identical between the pin commit and the base.",
+      "L3: the record's track carries no ratification decision that could have moved; all fourteen tracks are absent from route-ratification-registry.json.",
+      "L4: no substantively-changed pathway in the same profile shares operative statutory authority with the record's track."
+    ],
+    "DECISION_CHANGED": "Requires an old and a current decision, both recorded and different. No track here carries a ratification decision, so the bucket is empty.",
+    "INSUFFICIENT_AUTHORITY": "L1 to L3 hold but L4 fails: a substantively-changed pathway shares statutory authority with the track, and no committed decision says whether the change reaches it.",
+    "RECORD_RETIREMENT_REQUIRED": "The record no longer represents a live route or a live proof. Tested against track-terminalization.json and the four retirement and retention lists; no track appears in any of them."
+  },
+  "substantiveChangeDefinition": "A pathway change is substantive when lawrenceRatification.status, .packet_capable or .payment_allowed_when_engine_confirms moved, or a ratification block was newly asserted or removed, or any non-ratification pathway field changed, or the pathway's packetGenerator entry changed. Relabelling lawrence_review to equal status, and adding projectedFrom, are projection stamps and are not substantive.",
+  "profiles": [
+    { "profile": "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json", "pinnedSha256": "451fc6754e45f4b6cdffd948d5695daf6450d0b7e57e5a40b27c1fcb01ac9a09", "currentSha256": "8f857308ee82b7c9844d3828d7d87c78577f2aa297fe714ace1f953396008df7", "lastCommitWherePinHeld": "8840721b0f6b53cf9589ccfd4d1fc72a54dd4259", "substantivePathwayChanges": 0 },
+    { "profile": "src/lib/rcap-engine/compiled/profiles/IL-illinois.json", "pinnedSha256": "e491c80d8c586ba7fd23e08d8693ddf4d0b2ada0eec746cde9e27dc77c391595", "currentSha256": "7999f618fd374825e4a8fa611d141131afe06ce9f6139c5c2d608277704da914", "lastCommitWherePinHeld": "053e8db1909c3af6395199148e41d04d62d84b7f", "substantivePathwayChanges": 4 },
+    { "profile": "src/lib/rcap-engine/compiled/profiles/IN-indiana.json", "pinnedSha256": "0202d536113b16be9e02f1ea2bbd925c60d0b8a94d57cb972bf50831a0e22982", "currentSha256": "69e8fcc87b696f1f953af4a164c5c9db405a90324f0385841ef26481b00273dd", "lastCommitWherePinHeld": "3f62146e198f53cdd36073c9ad2935040c3ea03e", "substantivePathwayChanges": 3 },
+    { "profile": "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json", "pinnedSha256": "441a89c697a0443e6b429e4f3be750d26af5e1bb31afbabd61800f020394b438", "currentSha256": "4f27411ff96682aebd9e72dbe347ed2aa8059af585286b412cd14a1ffffcf672", "lastCommitWherePinHeld": "8840721b0f6b53cf9589ccfd4d1fc72a54dd4259", "substantivePathwayChanges": 2 },
+    { "profile": "src/lib/rcap-engine/compiled/profiles/TX-texas.json", "pinnedSha256": "5d86879a794303a7b38faa37533db4037a356eb017f8a3229e62c51041309dc4", "currentSha256": "8f99b36519cf35b6ead155799f81605d045e55cad19b1c7d11a931f48b3097aa", "lastCommitWherePinHeld": "053e8db1909c3af6395199148e41d04d62d84b7f", "substantivePathwayChanges": 1 },
+    { "profile": "src/lib/rcap-engine/compiled/profiles/VT-vermont.json", "pinnedSha256": "1a4267ce65b9ddc15a65e086cfba2860d088b06b4cd5ad801bda22514fecf9af", "currentSha256": "36244c88348385637b1b282a56c6c2149389006a14a5924cfe367e8f95ffb283", "lastCommitWherePinHeld": "3f62146e198f53cdd36073c9ad2935040c3ea03e", "substantivePathwayChanges": 1 },
+    { "profile": "src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json", "pinnedSha256": "ee9a8d389b770943fd4825162102e7da449a555962884a9d8f916f143b7b13de", "currentSha256": "0d5885d3ee56f516ee8bb9c6ce8d99d9aaa72a90d6670f8b6c8a52242db08b78", "lastCommitWherePinHeld": "053e8db1909c3af6395199148e41d04d62d84b7f", "substantivePathwayChanges": 4 }
+  ],
+  "byteIdenticalWitnessDomains": {
+    "note": "Identical between the pin commit and the base for all seven profiles. This is the set the eighteen records declare reliance on.",
+    "domains": ["source", "terminology", "jurisdiction", "questions", "caseOutcomeOptions", "flowStages", "copyGuardrails", "resultPresentationContract", "frontendContract", "qa", "sourceSections", "exclusionRules", "schemaVersion", "profileVersion"]
+  },
+  "totals": {
+    "recordsReviewed": 18,
+    "DECISION_UNCHANGED": 10,
+    "DECISION_CHANGED": 0,
+    "INSUFFICIENT_AUTHORITY": 8,
+    "RECORD_RETIREMENT_REQUIRED": 0,
+    "mechanicalPatches": 10,
+    "legalOwnerQuestions": 4
+  },
+  "records": [
+    {
+      "recordPath": "data/rcap-all50/pleadings/connecticut/ct-cannabis-petition/pleading-config.json",
+      "trackId": "ct-cannabis-petition",
+      "jurisdiction": "CT",
+      "verifierLabel": "T-C-CT-production-packet/ct-cannabis-petition",
+      "trackAuthority": ["C.G.S. § 54-142v", "C.G.S. § 54-142a"],
+      "classification": "DECISION_UNCHANGED",
+      "why": "Zero substantive CT pathway changes. The one CT pathway that moved relabelled lawrence_review and gained projectedFrom; status, packet_capable and payment are identical. This record's note names the whole compiled profile as a co-source, so the whole-profile comparison carries it: every witness domain is byte-identical.",
+      "patch": { "from": "451fc6754e45f4b6cdffd948d5695daf6450d0b7e57e5a40b27c1fcb01ac9a09", "to": "8f857308ee82b7c9844d3828d7d87c78577f2aa297fe714ace1f953396008df7" }
+    },
+    {
+      "recordPath": "data/rcap-all50/pleadings/connecticut/ct-decriminalized/pleading-config.json",
+      "trackId": "ct-decriminalized",
+      "jurisdiction": "CT",
+      "verifierLabel": "T-C-CT-production-packet/ct-decriminalized",
+      "trackAuthority": ["C.G.S. § 54-142d"],
+      "classification": "DECISION_UNCHANGED",
+      "why": "Zero substantive CT pathway changes, and the record states the compiled CT profile does not describe § 54-142d at all.",
+      "patch": { "from": "451fc6754e45f4b6cdffd948d5695daf6450d0b7e57e5a40b27c1fcb01ac9a09", "to": "8f857308ee82b7c9844d3828d7d87c78577f2aa297fe714ace1f953396008df7" }
+    },
+    {
+      "recordPath": "data/rcap-all50/pleadings/illinois/il-immediate-seal/pleading-config.json",
+      "trackId": "il-immediate-seal",
+      "jurisdiction": "IL",
+      "verifierLabel": "T-C-IL-production-packet/il-immediate-seal",
+      "trackAuthority": ["20 ILCS 2630/5.2(g)"],
+      "classification": "INSUFFICIENT_AUTHORITY",
+      "questionId": "Q-J-01",
+      "why": "adult-non-conviction-expungement moved from ratified_deployable to intentional_unsupported, closing packet capability and payment. The whole Illinois adult suite including this track sits under 20 ILCS 2630/5.2, and § 5.2(g) immediate sealing operates at the non-conviction moment. Whether the out-of-scope decision reaches this pleading is not recorded anywhere.",
+      "patch": null
+    },
+    {
+      "recordPath": "data/rcap-all50/pleadings/indiana/in_collateral_action/pleading-config.json",
+      "trackId": "in_collateral_action",
+      "jurisdiction": "IN",
+      "verifierLabel": "T-C-IN-production-packet/in_collateral_action",
+      "trackAuthority": ["I.C. 35-38-9-9.5", "I.C. 35-38-9-0.5"],
+      "classification": "DECISION_UNCHANGED",
+      "why": "Three IN pathways moved substantively; none shares a statute core with this track. Declared profile reliance is the caption pattern, the Petitioner label, the service convention and one phrase in the § 35-38-9-6 and -7 order forms, all inside byte-identical sourceSections.",
+      "patch": { "from": "0202d536113b16be9e02f1ea2bbd925c60d0b8a94d57cb972bf50831a0e22982", "to": "69e8fcc87b696f1f953af4a164c5c9db405a90324f0385841ef26481b00273dd" }
+    },
+    {
+      "recordPath": "data/rcap-all50/pleadings/indiana/in_supplemental_order/pleading-config.json",
+      "trackId": "in_supplemental_order",
+      "jurisdiction": "IN",
+      "verifierLabel": "T-C-IN-production-packet/in_supplemental_order",
+      "trackAuthority": ["I.C. 35-38-9-9(l)", "I.C. 35-38-9-0.6"],
+      "classification": "DECISION_UNCHANGED",
+      "why": "No statute-core overlap with any substantively-moved IN pathway. Declared profile reliance is the caption pattern, the Petitioner label and the Trial Rules service convention, all byte-identical.",
+      "patch": { "from": "0202d536113b16be9e02f1ea2bbd925c60d0b8a94d57cb972bf50831a0e22982", "to": "69e8fcc87b696f1f953af4a164c5c9db405a90324f0385841ef26481b00273dd" }
+    },
+    {
+      "recordPath": "data/rcap-all50/composed-routes/kentucky/ky_criminal_record_segregation/components/ky_criminal_record_segregation-primary-filing-1/pleading-config.json",
+      "trackId": "ky_criminal_record_segregation",
+      "jurisdiction": "KY",
+      "verifierLabel": "T-C-KY-complete-composed-route/ky_criminal_record_segregation",
+      "trackAuthority": ["KRS 17.142"],
+      "classification": "DECISION_UNCHANGED",
+      "why": "Both moved KY pathways are KRS 431.078 and KRS 431.073. This track is KRS 17.142, and the record states the compiled KY profile does not mention KRS 17.142 anywhere. The nearest live pathway, nonconviction-431076, is byte-identical.",
+      "standingBlockerNotResolvedByThisPatch": "counselConfirmationRequired is true: the fixed statements of legal effect the segregation application and agency letters may make are unratified.",
+      "patch": { "from": "441a89c697a0443e6b429e4f3be750d26af5e1bb31afbabd61800f020394b438", "to": "4f27411ff96682aebd9e72dbe347ed2aa8059af585286b412cd14a1ffffcf672" }
+    },
+    {
+      "recordPath": "data/rcap-all50/pleadings/kentucky/ky_void_seal_controlled_substance/pleading-config.json",
+      "trackId": "ky_void_seal_controlled_substance",
+      "jurisdiction": "KY",
+      "verifierLabel": "T-C-KY-production-packet/ky_void_seal_controlled_substance",
+      "trackAuthority": ["KRS 218A.275", "KRS 27A.099", "KRS 431.078(2)"],
+      "classification": "INSUFFICIENT_AUTHORITY",
+      "questionId": "Q-J-02",
+      "why": "The KRS 431.078 pathway moved to intentional_unsupported. This track cites KRS 431.078(2) in its own mechanism authorities and KRS 431.078 was the only compiled pathway ever proposed as its runtime representation. Whether the scope decision reaches the KRS 218A.275 motion is unrecorded.",
+      "patch": null
+    },
+    {
+      "recordPath": "data/rcap-all50/pleadings/kentucky/ky_void_seal_marijuana_synthetic_salvia/pleading-config.json",
+      "trackId": "ky_void_seal_marijuana_synthetic_salvia",
+      "jurisdiction": "KY",
+      "verifierLabel": "T-C-KY-production-packet/ky_void_seal_marijuana_synthetic_salvia",
+      "trackAuthority": ["KRS 218A.276", "KRS 27A.099", "KRS 431.078(2)"],
+      "classification": "INSUFFICIENT_AUTHORITY",
+      "questionId": "Q-J-03",
+      "why": "Identical to Q-J-02 for KRS 218A.276. Asked separately because .275 and .276 are different statutes with different eligible offences, and one may be in scope while the other is not.",
+      "patch": null
+    },
+    {
+      "recordPath": "data/rcap-all50/pleadings/texas/tx_exp_mistaken_identity/pleading-config.json",
+      "trackId": "tx_exp_mistaken_identity",
+      "jurisdiction": "TX",
+      "verifierLabel": "T-C-TX-production-packet/tx_exp_mistaken_identity",
+      "trackAuthority": ["Tex. Code Crim. Proc. art. 55A.006", "art. 55A.256"],
+      "classification": "DECISION_UNCHANGED",
+      "why": "The one substantively-moved TX pathway is the Chapter 55A acquittal branch, which shares no article with this track. The record already records the profile as corroborating rather than controlling and naming none of these articles.",
+      "patch": { "from": "5d86879a794303a7b38faa37533db4037a356eb017f8a3229e62c51041309dc4", "to": "8f99b36519cf35b6ead155799f81605d045e55cad19b1c7d11a931f48b3097aa" }
+    },
+    {
+      "recordPath": "data/rcap-all50/pleadings/texas/tx_exp_pardon_other/pleading-config.json",
+      "trackId": "tx_exp_pardon_other",
+      "jurisdiction": "TX",
+      "verifierLabel": "T-C-TX-production-packet/tx_exp_pardon_other",
+      "trackAuthority": ["Tex. Code Crim. Proc. art. 55A.004"],
+      "classification": "DECISION_UNCHANGED",
+      "why": "No article overlap with the acquittal branch. The nearest pathway, expunction-after-pardon-or-actual-innocence-relief, is byte-identical.",
+      "patch": { "from": "5d86879a794303a7b38faa37533db4037a356eb017f8a3229e62c51041309dc4", "to": "8f99b36519cf35b6ead155799f81605d045e55cad19b1c7d11a931f48b3097aa" }
+    },
+    {
+      "recordPath": "data/rcap-all50/pleadings/texas/tx_exp_specialty_court/pleading-config.json",
+      "trackId": "tx_exp_specialty_court",
+      "jurisdiction": "TX",
+      "verifierLabel": "T-C-TX-production-packet/tx_exp_specialty_court",
+      "trackAuthority": ["Tex. Code Crim. Proc. art. 55A.203"],
+      "classification": "DECISION_UNCHANGED",
+      "why": "No article overlap. The nearest pathway, expunction-after-qualifying-dismissal-or-quash, is byte-identical.",
+      "patch": { "from": "5d86879a794303a7b38faa37533db4037a356eb017f8a3229e62c51041309dc4", "to": "8f99b36519cf35b6ead155799f81605d045e55cad19b1c7d11a931f48b3097aa" }
+    },
+    {
+      "recordPath": "data/rcap-all50/pleadings/texas/tx_exp_unlawful_carry/pleading-config.json",
+      "trackId": "tx_exp_unlawful_carry",
+      "jurisdiction": "TX",
+      "verifierLabel": "T-C-TX-production-packet/tx_exp_unlawful_carry",
+      "trackAuthority": ["Tex. Code Crim. Proc. art. 55A.005"],
+      "classification": "DECISION_UNCHANGED",
+      "why": "No article overlap with the acquittal branch.",
+      "patch": { "from": "5d86879a794303a7b38faa37533db4037a356eb017f8a3229e62c51041309dc4", "to": "8f99b36519cf35b6ead155799f81605d045e55cad19b1c7d11a931f48b3097aa" }
+    },
+    {
+      "recordPath": "data/rcap-all50/composed-routes/vermont/vt_exp_deferred_sentence/components/vt_exp_deferred_sentence-written-request-to-court-2/pleading-config.json",
+      "trackId": "vt_exp_deferred_sentence",
+      "jurisdiction": "VT",
+      "verifierLabel": "T-C-VT-complete-composed-route/vt_exp_deferred_sentence",
+      "trackAuthority": ["13 V.S.A. § 7041(a)", "§ 7041(e)", "§ 7041(h)", "28 V.S.A. § 204", "§ 204a"],
+      "classification": "DECISION_UNCHANGED",
+      "why": "The one substantively-moved VT pathway, dui-sealing, is 13 V.S.A. § 7602(e). This track is § 7041(e), and the record states the profile contains no occurrence of 7041 or of any deferred-sentence pathway.",
+      "patch": { "from": "1a4267ce65b9ddc15a65e086cfba2860d088b06b4cd5ad801bda22514fecf9af", "to": "36244c88348385637b1b282a56c6c2149389006a14a5924cfe367e8f95ffb283" }
+    },
+    {
+      "recordPath": "data/rcap-all50/composed-routes/west-virginia/wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-primary-filing-1/pleading-config.json",
+      "trackId": "wv_dui_deferral_expungement",
+      "jurisdiction": "WV",
+      "verifierLabel": "T-C-WV-complete-composed-route/wv_dui_deferral_expungement",
+      "trackAuthority": ["W. Va. Code § 17C-5-2b(c)", "§ 17C-5-2b(g)", "§ 17C-5A-3a", "§ 61-11-25(a)"],
+      "classification": "INSUFFICIENT_AUTHORITY",
+      "questionId": "Q-J-04",
+      "why": "NATIONAL-2026-08-28-C-WV-03 rewrote the § 61-11-25 timing anchor to reach the dismissal that follows a completed diversion or deferred adjudication, and attached a gate asking counsel whether SCA-C903 may be used for a deferred-adjudication dismissal. § 17C-5-2b is a deferred adjudication. The boundary is live and was not live when the hash was pinned.",
+      "patch": null
+    },
+    {
+      "recordPath": "data/rcap-all50/composed-routes/west-virginia/wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-supporting-affidavit-2/pleading-config.json",
+      "trackId": "wv_dui_deferral_expungement",
+      "jurisdiction": "WV",
+      "verifierLabel": "T-C-WV-complete-composed-route/wv_dui_deferral_expungement",
+      "classification": "INSUFFICIENT_AUTHORITY",
+      "questionId": "Q-J-04",
+      "why": "Same composed route, same provenance block, same statutory boundary as component 1.",
+      "patch": null
+    },
+    {
+      "recordPath": "data/rcap-all50/composed-routes/west-virginia/wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-secondary-filing-3/pleading-config.json",
+      "trackId": "wv_dui_deferral_expungement",
+      "jurisdiction": "WV",
+      "verifierLabel": "T-C-WV-complete-composed-route/wv_dui_deferral_expungement",
+      "classification": "INSUFFICIENT_AUTHORITY",
+      "questionId": "Q-J-04",
+      "why": "Same composed route, same provenance block, same statutory boundary as component 1.",
+      "patch": null
+    },
+    {
+      "recordPath": "data/rcap-all50/composed-routes/west-virginia/wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-supporting-timeline-4/pleading-config.json",
+      "trackId": "wv_dui_deferral_expungement",
+      "jurisdiction": "WV",
+      "verifierLabel": "T-C-WV-complete-composed-route/wv_dui_deferral_expungement",
+      "classification": "INSUFFICIENT_AUTHORITY",
+      "questionId": "Q-J-04",
+      "why": "Same composed route, same provenance block, same statutory boundary as component 1.",
+      "patch": null
+    },
+    {
+      "recordPath": "data/rcap-all50/composed-routes/west-virginia/wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-certificate-of-service-5/pleading-config.json",
+      "trackId": "wv_dui_deferral_expungement",
+      "jurisdiction": "WV",
+      "verifierLabel": "T-C-WV-complete-composed-route/wv_dui_deferral_expungement",
+      "classification": "INSUFFICIENT_AUTHORITY",
+      "questionId": "Q-J-04",
+      "why": "Same composed route, same provenance block, same statutory boundary as component 1.",
+      "patch": null
+    }
+  ],
+  "retirementRecommendations": {
+    "recommendedNow": [],
+    "criterion": "A record is retired when it no longer represents a live route or a live proof.",
+    "evidence": "All fourteen tracks are promoted_by_f2 or promoted_by_terminalization_review in data/rcap-ledger/track-terminalization.json; every artifact is on disk and fully checked; none appears in manifest-only-retirement-handoff.json, manifest-only-retention-list.json, pdf-retirement-determination.json or artifact-dispositions.json.",
+    "conditional": [
+      { "questionId": "Q-J-01", "ifAnswerIs": "yes, § 5.2(g) is also out of scope", "thenRetire": ["il-immediate-seal"] },
+      { "questionId": "Q-J-02", "ifAnswerIs": "yes, the KRS 431.078 scope decision extends", "thenRetire": ["ky_void_seal_controlled_substance"] },
+      { "questionId": "Q-J-03", "ifAnswerIs": "yes, the KRS 431.078 scope decision extends", "thenRetire": ["ky_void_seal_marijuana_synthetic_salvia"] },
+      { "questionId": "Q-J-04", "ifAnswerIs": "B, the dismissal routes through § 61-11-25", "thenRetire": ["wv_dui_deferral_expungement (all five components)"] }
+    ]
+  },
+  "commercialEffectOfTheWholeBundle": {
+    "commerciallyEligibleBefore": 0,
+    "commerciallyEligibleAfter": 0,
+    "why": "Every track here is absent from route-ratification-registry.json and has no record in data/rcap-ledger/packet-fulfillment-records.json, which holds exactly one record: ND:first-offense-possession-sealing. assertPacketFulfillmentProven fails closed on a missing record."
+  },
+  "verifierStateAfterThePatch": {
+    "driftFailuresBefore": 18,
+    "driftFailuresAfter": 8,
+    "residual": "The eight INSUFFICIENT_AUTHORITY records. verify-rcap-terminalize-c1.mjs stays red after this patch by design and must not be reported as a passing release gate."
+  }
+}

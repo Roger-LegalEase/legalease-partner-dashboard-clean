@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireConsumerBriefcaseSession } from "@/lib/expungement-ai/auth";
-import { getBriefcaseItem, isPartnerSponsoredPacketItem } from "@/lib/expungement-ai/briefcase";
+import { getBriefcaseItem } from "@/lib/expungement-ai/briefcase";
 import {
-  recordPartnerPacketGeneration,
+  finalizeSponsoredPacketGeneration,
   resolvePartnerPacketCapDecision
 } from "@/lib/expungement-ai/rcap-slot-lifecycle";
 import {
@@ -10,8 +10,20 @@ import {
   ConsumerPacketNotAllowedError,
   ConsumerPacketNotFoundError,
   ConsumerPacketPaymentRequiredError,
+  ConsumerPacketSponsorshipAuthorityUnavailableError,
   generatePaidConsumerPacket
 } from "@/lib/expungement-ai/packet-generation";
+import { CurrentPacketVerificationRequiredError, requireCurrentPacketVerification } from "@/lib/expungement-ai/packet-information";
+import { consumerMatterIdForItem } from "@/lib/expungement-ai/consumer-identity";
+import {
+  CommercialAdmissionDeniedError,
+  artifactStorageContext,
+  commercialAdmissionRefusalBody,
+  commercialRouteIdentity,
+  entitlementContext,
+  finalVerificationSnapshotFrom,
+  fulfillmentRequestContext
+} from "@/lib/rcap/render/commercial-admission";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -25,29 +37,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "briefcaseItemId is required." }, { status: 400 });
   }
 
-  // Partner cap accounting is isolated from the DTC path: it only runs for
-  // items whose source screening session is partner-sponsored.
-  const item = await getBriefcaseItem(auth.userId, briefcaseItemId);
-  const partnerSessionId = item?.sourceSessionId ?? null;
-  const isPartnerSponsored = Boolean(item) && (await isPartnerSponsoredPacketItem(item!));
-
-  // Honor pause_at_cap: do not generate a sponsored packet once the partner is
-  // at its cap and has chosen to pause. Route the user to the consumer path.
-  if (isPartnerSponsored && partnerSessionId) {
-    const decision = await resolvePartnerPacketCapDecision(partnerSessionId);
-    if (decision.pausedAtCap) {
-      return NextResponse.json(
-        {
-          error:
-            "Sponsored packet capacity is currently unavailable for this organization. You can continue through the standard Expungement.ai experience.",
-          sponsoredPaused: true,
-          briefcaseItemId
-        },
-        { status: 409 }
-      );
-    }
-  }
-
+  let isPartnerSponsored = false;
   try {
     const packet = await generatePaidConsumerPacket({
       userId: auth.userId,
@@ -55,11 +45,92 @@ export async function POST(request: NextRequest) {
       dryRunMode: body?.dryRunMode === true
     });
 
-    // Consume exactly one partner packet credit (included or overage) on a
-    // successful sponsored generation. The RPC is idempotent, so retries and
-    // duplicate webhooks never double-count.
-    if (packet.packetStatus === "ready" && isPartnerSponsored && partnerSessionId) {
-      await recordPartnerPacketGeneration(partnerSessionId);
+    // A fresh sponsored artifact is only prepared in memory. The atomic RPC
+    // consumes credit and attaches Ready together; a refusal returns no Ready
+    // response and leaves no accessible artifact.
+    if (packet.packetStatus === "generating" && packet.protectedSponsorship && packet.artifactRefs) {
+      isPartnerSponsored = true;
+      const item = await getBriefcaseItem(auth.userId, briefcaseItemId);
+      if (!item) throw new CurrentPacketVerificationRequiredError("verification_item_missing_before_sponsored_finalization");
+      const sponsoredVerification = await requireCurrentPacketVerification(auth.userId, item);
+      const verificationHash = sponsoredVerification.hash;
+      if (verificationHash !== packet.protectedSponsorship.expectedVerificationHash) {
+        throw new CurrentPacketVerificationRequiredError("verification_changed_before_sponsored_finalization");
+      }
+
+      /**
+       * The sponsored admission, assembled from server facts only.
+       *
+       * The same shape a consumer admission uses. The sponsoring session id is
+       * the idempotency key, which is what makes a retried finalization resolve
+       * to the one credit it already consumed rather than a second one.
+       */
+      const sponsoredMatterId = consumerMatterIdForItem(item.id);
+      const sponsoredIdentity = commercialRouteIdentity({
+        jurisdiction: sponsoredVerification.snapshot.jurisdiction,
+        pathwayId: sponsoredVerification.snapshot.pathwayId
+      });
+      const sponsoredContext = fulfillmentRequestContext({
+        participantUserId: auth.userId,
+        matterId: sponsoredMatterId,
+        matterOwnerUserId: auth.userId,
+        finalVerification: finalVerificationSnapshotFrom({
+          snapshot: sponsoredVerification.snapshot,
+          verificationHash,
+          matterId: sponsoredMatterId,
+          ownerUserId: auth.userId,
+          packetFamilyId: sponsoredIdentity.packetFamilyId
+        }),
+        entitlement: entitlementContext({
+          kind: "sponsored_credit",
+          idempotencyKey: packet.protectedSponsorship.sourceSessionId,
+          alreadyConsumed: false,
+          serverVerified: true
+        }),
+        storage: artifactStorageContext({
+          privateStorage: true,
+          artifactSha256: "artifactSha256" in packet.artifactRefs && typeof packet.artifactRefs.artifactSha256 === "string"
+            ? packet.artifactRefs.artifactSha256
+            : null,
+          repeatDownload: false
+        })
+      });
+      const sponsoredAdmission = { identity: sponsoredIdentity, context: sponsoredContext };
+
+      const decision = await resolvePartnerPacketCapDecision(
+        packet.protectedSponsorship.sourceSessionId,
+        sponsoredAdmission
+      );
+      if (decision.pausedAtCap) {
+        return NextResponse.json(
+          {
+            error:
+              "Sponsored packet capacity is currently unavailable for this organization. You can continue through the standard Expungement.ai experience.",
+            sponsoredPaused: true,
+            briefcaseItemId
+          },
+          { status: 409 }
+        );
+      }
+      const finalization = await finalizeSponsoredPacketGeneration({
+        sessionId: packet.protectedSponsorship.sourceSessionId,
+        briefcaseItemId,
+        expectedVerificationHash: verificationHash,
+        artifactRefs: packet.artifactRefs,
+        admission: sponsoredAdmission
+      });
+      if (!finalization.ok) {
+        return NextResponse.json(
+          { error: "Partner packet coverage could not be finalized for this matter." },
+          { status: 409 }
+        );
+      }
+      return NextResponse.json({
+        packetStatus: "ready",
+        canDownload: true,
+        artifact: safeArtifact(packet.artifactRefs),
+        briefcaseItemId
+      });
     }
 
     return NextResponse.json({
@@ -84,8 +155,19 @@ function safeArtifact(artifact: { fileName: string; generatedAt: string; source:
 }
 
 function packetErrorResponse(error: unknown, isPartnerSponsored: boolean) {
+  // The Grade-A authority refused. One sentence and a denial code; the context
+  // denials name matter and owner ids and stay on the server.
+  if (error instanceof CommercialAdmissionDeniedError) {
+    return NextResponse.json(commercialAdmissionRefusalBody(error), { status: error.httpStatus });
+  }
+  if (error instanceof CurrentPacketVerificationRequiredError) {
+    return NextResponse.json({ error: "Current final verification is required before packet generation." }, { status: 409 });
+  }
   if (error instanceof ConsumerPacketNotFoundError) {
     return NextResponse.json({ error: "We couldn’t find this case. Return to your Briefcase and try again. Contact support if the problem continues." }, { status: 404 });
+  }
+  if (error instanceof ConsumerPacketSponsorshipAuthorityUnavailableError) {
+    return NextResponse.json({ error: "Packet sponsorship authority is temporarily unavailable." }, { status: 503 });
   }
   if (error instanceof ConsumerPacketPaymentRequiredError) {
     if (isPartnerSponsored) {

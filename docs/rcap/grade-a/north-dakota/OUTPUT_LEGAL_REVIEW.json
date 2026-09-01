@@ -1,0 +1,101 @@
+{
+  "schemaVersion": "rcap-grade-a-review/v1",
+  "lane": "D",
+  "jurisdiction": "ND",
+  "routeId": "ND:general-conviction-sealing-under-n-d-c-c-chapter-12-60-1",
+  "specId": "nd-chapter-12-60-1-conviction-sealing",
+  "specVersion": "1.0.0",
+  "specHash": "1bca63ed3706e1c009c062adaa08a5936555ce005193969ffc65cf76aa606985",
+  "artifactSha256": "913e34a6f714383878397371c8d536bc094afce3a6067cfeb4caefee04e2e270",
+  "artifactByteSize": 19792,
+  "artifactContentType": "application/pdf",
+  "totalPageCount": 8,
+  "groundReviewed": "misdemeanor_conviction",
+  "commercialPosture": "candidate_evidence_only",
+  "commercialPostureNote": "Lane D produces candidate evidence. This packet opens no checkout, no sponsorship, no packet credit and no commercial status. Only COMPLETE_PACKET_PROVEN authorizes any of those, and this route is INCOMPLETE and stays INCOMPLETE after this lane's patch request.",
+  "reviewKind": "output_level_legal",
+  "reviewer": "lane-d-north-dakota-composed-pleading (internal, pre-counsel)",
+  "reviewedAt": "2026-08-29",
+  "scope": "Every operative sentence in the composed output, traced to authority committed to this repository.",
+  "registryStateNotAsserted": "This review does not set outputLegalApproval.state. The fulfillment patch request leaves it pending, because whether a lane-internal review is the approval the Grade-A contract means is the captain's and counsel's decision.",
+  "findings": [
+    {
+      "item": "Route requires participant filing",
+      "result": "pass",
+      "note": "N.D.C.C. 12-60.1-03: the participant serves the prosecuting attorney and files a petition, a mandatory proposed order and a proof of service with the clerk of the existing criminal case. Nothing happens unless the participant files. This is the property the rejected 12-60.1-05 route lacks."
+    },
+    {
+      "item": "Relief scope",
+      "result": "pass",
+      "note": "The petition asks for sealing of court and prosecution records and for the findings 12-60.1-04(1) requires. It does not ask any agency outside the court and prosecution to act. The default agency-wide relief is asserted absent by test, and the order states what it does not reach."
+    },
+    {
+      "item": "Statutory basis",
+      "result": "pass",
+      "note": "Chapter 12-60.1 with the operative sections. The ground-specific citation is 12-60.1-02(1)(a) for the misdemeanor ground, matching the committed registry excerpt's legal name. No subsection is attributed beyond what the committed sources carry."
+    },
+    {
+      "item": "Grounds",
+      "result": "pass",
+      "note": "Three grounds, exactly the three 12-60.1-02 states. The pardon ground carries no clean period and the packet does not allege one for it. The 12-60.1-04(1)(c) and (d) findings are required on every ground, including the pardon ground, because a pardon is not a substitute for them."
+    },
+    {
+      "item": "Exclusions",
+      "result": "pass",
+      "note": "Three bars, carried verbatim from the state pack, each denying the route on every ground. The impaired-driving bar routes to 39-08-01.6 rather than merely refusing. The statutory basis of the impaired-driving bar is recorded as a source silence, because 12-60.1-02(2) as read at source does not state it."
+    },
+    {
+      "item": "Petition contents",
+      "result": "pass",
+      "note": "Every content item ndFilingInstructions[4] requires is alleged. Fidelity to ndRequiredFields is enforced at module load, so a state-pack revision that adds a field breaks the build rather than shipping a petition that no longer collects it."
+    },
+    {
+      "item": "Fee and waiver",
+      "result": "pass",
+      "note": "No fee amount is stated anywhere, and a test asserts no dollar figure appears. No committed source establishes one. The participant is told to ask the clerk both for the fee and about proceeding without payment of fees. Recorded as a source silence and a release blocker."
+    },
+    {
+      "item": "Hearing and objection stop conditions",
+      "result": "pass",
+      "note": "Five stop conditions, each traced to a committed rule and each stating what the participant does. The 45-day floor, the clear-and-convincing burden and the up-to-one-year refiling bar are stated before filing."
+    },
+    {
+      "item": "Verification",
+      "result": "pass",
+      "note": "A plain declaration with no penalty recital. No committed source ties a verification statute to this petition; the silence is carried as a counsel flag rather than filled with a general oath statute."
+    },
+    {
+      "item": "Unsupported legal language",
+      "result": "pass",
+      "note": "No sentence in the output asserts a rule not traceable to the ND state pack, the compiled ND engine profile, or the committed Chapter 12-60.1 pleading registry excerpts."
+    },
+    {
+      "item": "Vocabulary",
+      "result": "pass",
+      "note": "Sealing-first throughout. runPleadingQa blocks expungement, expunge, set aside, annulment and vacatur in the rendered pleading and passes."
+    },
+    {
+      "item": "Wrong-state fallback",
+      "result": "pass",
+      "note": "Seven other-state sovereigns, courts and agencies asserted absent; three required North Dakota terms asserted present."
+    }
+  ],
+  "outstandingLegalGates": [
+    {
+      "gate": "legal_authority.status",
+      "state": "pending",
+      "note": "No committed legal-authority route contract exists for Chapter 12-60.1 conviction sealing. src/lib/legal-authority/routes/ carries one North Dakota contract and it is the non-filing 12-60.1-05 route. Only the decision owner can approve; Lane D neither makes nor simulates that decision."
+    },
+    {
+      "gate": "official_sources.heldInRepository",
+      "state": "false",
+      "note": "The Edition 1 Master Library extract is not mounted in this environment. Both bound source hashes were confirmed from two independent committed records that agree, and both are recorded as not held."
+    },
+    {
+      "gate": "source_freshness",
+      "state": "pending",
+      "note": "The sealing research guide carries REV-UNKNOWN in its corpus identity. Freshness cannot be assessed without the bytes."
+    }
+  ],
+  "openDefects": []
+}

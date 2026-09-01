@@ -1,0 +1,22 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "ky_void_seal_controlled_substance-set",
+  "findings": [
+    {
+      "finding": "AOC-334 is the ORDER the judge signs, not the filing. It prints both KRS 218A.275 and KRS 218A.276 on its own face, which is why one form serves both families in this lane.",
+      "consequence": "The route's primary_filing is a composed motion; AOC-334 is tendered as the proposed_order and is filled in the shared field semantics' caption mode, which admits only the style of the case."
+    },
+    {
+      "finding": "Nothing this build holds establishes who must be served with a motion to void and seal under this statute, or by what method.",
+      "consequence": "The certificate of service names no recipient and states no method. Both are declared required-before-filing, disclosed by name, and the instructions say the circuit court clerk is who to ask. No recipient was guessed."
+    },
+    {
+      "finding": "The order directs named agencies to seal their records, and the platform holds no list of them.",
+      "consequence": "Both agency lines are refused by the shared semantics' agency rule and declared required-before-filing rather than hidden inside a protected class, because an agency name is a case fact the participant can obtain and not a field the court owns."
+    },
+    {
+      "finding": "The completion date appears on both the motion and the tendered order.",
+      "consequence": "It is disclosed once per document and the instructions say in terms to write the same date in both places, because two different dates for one fact invites a denial."
+    }
+  ]
+}

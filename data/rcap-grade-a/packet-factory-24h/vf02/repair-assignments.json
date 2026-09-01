@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
+  "lane": "VF02",
+  "worker": "VF-SRC-A",
+  "baseSha": "09b741ad00be0d630bd73a72f66640294abab397",
+  "assignmentCount": 1,
+  "assignments": [
+    {
+      "itemId": "oh_marijuana_expungement-set",
+      "lane": "VF02",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading",
+      "decisiveDefect": "oh_marijuana_expungement/canonical/text: recomputed 13a210a2aac2f8a80a8319f0fbb6516bd57ffadd7c57ae663d206fa10bc64073 != recorded d42df8ae9875cc6b2555184f7ca48514935254d1cb3e66bf485ab93083597e1b; oh_marijuana_expungement/boundary/text: recomputed 025dee088bf52e1fc4543eb63b17c8db91f7b70d8cb66792cf88a78434b57345 != recorded 0a5ef772c8500195b00f600ad88a0c64156ade56368bd907138cd8a1ea85b307",
+      "failedProofObligations": [
+        "ARTIFACTS"
+      ],
+      "perObligation": {
+        "ARTIFACTS": {
+          "measuredDetail": "oh_marijuana_expungement/canonical/text: recomputed 13a210a2aac2f8a80a8319f0fbb6516bd57ffadd7c57ae663d206fa10bc64073 != recorded d42df8ae9875cc6b2555184f7ca48514935254d1cb3e66bf485ab93083597e1b; oh_marijuana_expungement/boundary/text: recomputed 025dee088bf52e1fc4543eb63b17c8db91f7b70d8cb66792cf88a78434b57345 != recorded 0a5ef772c8500195b00f600ad88a0c64156ade56368bd907138cd8a1ea85b307",
+          "whatRepairMustDo": "The composed-pleading render report's text receipt was computed on the rendered text before its final newline was written, so text.sha256 and text.byteLength describe the file minus one trailing 0x0a. Every PDF receipt in the same reports binds correctly. Recompute the text receipt over the bytes as committed, or stop writing the trailing newline; do not rewrite the artifact to match the receipt without deciding which is canonical."
+        }
+      },
+      "repairMustNotDo": [
+        "do not edit any artifact merely so a receipt matches it",
+        "this verification opens no commercial route and grants no approval"
+      ]
+    }
+  ]
+}

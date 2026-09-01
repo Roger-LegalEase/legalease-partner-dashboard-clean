@@ -1,0 +1,62 @@
+{
+  "schemaVersion": "rcap-family-source-receipt/v1",
+  "familyId": "ar-misdemeanor-dwi-seal-set",
+  "worklistGroupId": "ar-misdemeanor-dwi-seal-set",
+  "implementationStrategy": "official_pdf_fill",
+  "jurisdiction": "AR",
+  "routeKeys": [
+    "obligation:unit:AR:ar-misdemeanor-dwi-seal:ar-misdemeanor-dwi-seal-stage-2"
+  ],
+  "custodyClass": "SOURCE_ALREADY_HELD",
+  "acquisitionCommissioned": false,
+  "whyNoAcquisition": "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json classifies this family SOURCE_ALREADY_HELD with commissionAcquisition false: both document sources resolve to files already in the verified corpus. Nothing was fetched from a court or agency host, and no mirror, cache, aggregator or lookalike form was consulted. The pinned Master Library was recovered through scripts/rcap-corpus/bootstrap-private-corpus.sh, which verifies the archive hash and the corpus's own governance checksums before extracting.",
+  "sourceArchive": "Expungement_AI_RCAP_Master_Library_Edition_1",
+  "bindingMethod": {
+    "how": "Each binary is hashed on disk and the digest compared with BOTH the family's pinned value and the committed corpus index entry at the same path; the byte length is compared with the index as well.",
+    "absenceAndMismatchAreDifferentFindings": {
+      "SOURCE_ABSENT_FROM_INDEX": "the committed index names no entry at this path",
+      "SOURCE_ABSENT_FROM_DISK": "the index names it but the corpus does not hold it",
+      "SOURCE_MISMATCH_AGAINST_INDEX": "the index declares a different digest from the family pin",
+      "SOURCE_MISMATCH_ON_DISK": "the bytes on disk hash to something else",
+      "SOURCE_BYTE_LENGTH_DISAGREES_WITH_INDEX": "same digest claim, different length"
+    },
+    "neitherIsAPass": true
+  },
+  "documents": [
+    {
+      "documentId": "AR-ACIC-PETITION-TO-SEAL-MISDEMEANOR-DWI-OR-BWI-CONVICTION",
+      "documentRole": "PETITION",
+      "officialTitle": "Petition to Seal a Misdemeanor Conviction for Driving or Boating While Intoxicated",
+      "revision": "REV-2021-07-27",
+      "sha256": "04d876b09fe82b76298a2d06093d122a0ef539f767f76811001030cc7805715d",
+      "byteLength": 117345,
+      "pathInArchive": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-MISDEMEANOR-DWI-OR-BWI-CONVICTION__petition-to-seal-a-misdemeanor-conviction-for-driving-or-boating-while-intoxicated__REV-2021-07-27__EN.pdf",
+      "matchedBy": "exact_pinned_sha256",
+      "corpusIndexAgrees": true,
+      "pageCount": 4,
+      "acroFieldCountInIndex": 0,
+      "acroFieldCountReadFromTheBytes": 0,
+      "structuralClassObserved": "flat_pdf"
+    },
+    {
+      "documentId": "AR-ACIC-ORDER-TO-SEAL-MISDEMEANOR-DWI-OR-BWI-CONVICTION",
+      "documentRole": "PROPOSED_ORDER",
+      "officialTitle": "Order to Seal a Misdemeanor Conviction for Driving or Boating While Intoxicated",
+      "revision": "REV-2021-07-27",
+      "sha256": "ae6b81f6882133c207f23435b00785b50b40e014c616d3c77707e8b6020d43af",
+      "byteLength": 111099,
+      "pathInArchive": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-MISDEMEANOR-DWI-OR-BWI-CONVICTION__order-to-seal-a-misdemeanor-conviction-for-driving-or-boating-while-intoxicated__REV-2021-07-27__EN.pdf",
+      "matchedBy": "exact_pinned_sha256",
+      "corpusIndexAgrees": true,
+      "pageCount": 2,
+      "acroFieldCountInIndex": 0,
+      "acroFieldCountReadFromTheBytes": 0,
+      "structuralClassObserved": "flat_pdf"
+    }
+  ],
+  "whatThisReceiptDoesNotEstablish": [
+    "that this is the current official edition of either form",
+    "that neither has been superseded since the archive was assembled",
+    "that any output is approved for participant delivery"
+  ]
+}

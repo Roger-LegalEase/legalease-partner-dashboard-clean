@@ -1,0 +1,385 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+  "assignmentId": "PF03",
+  "workerId": "PF-A",
+  "workerBranch": "claude/9h-pf-a",
+  "engine": "Claude 9h worker (isolated git worktree), executing the PF03 prompt under the Claude-worker overrides",
+  "lane": "packet-build",
+  "captainBranch": "claude/legalease-sprint-captain-utucnw",
+  "shiftBaseSha": "09b741ad00be0d630bd73a72f66640294abab397",
+  "minimumCaptainSha": "13771582866352d77e46e5d0b9bc86f1abbb6752",
+  "familiesAssigned": 2,
+  "rowsReturned": 2,
+  "familiesCompleted": [
+    "vt_exp_decriminalized-set"
+  ],
+  "familiesStopped": [
+    "or_conviction_setaside-set"
+  ],
+  "blockedSource": [],
+  "blockedLegalInput": [],
+  "overlayDirectoriesTouchedByAStoppedFamily": 0,
+  "laneGate": {
+    "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --require-rasterizer --minimum-captain-sha 13771582866352d77e46e5d0b9bc86f1abbb6752 --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
+    "result": "PACKET_BUILD_ENVIRONMENT_READY: 15/15 passed, 0 failed, 1 not applicable"
+  },
+  "focusedCheck": {
+    "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <familyId>",
+    "result": "0 famil(ies) audited",
+    "why": "The focused check enumerates only families listed BUILT in data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json, an earlier wave's record and a path PF03 may not write."
+  },
+  "laneNotes": [
+    "The Vermont family carries captions READ OUT OF THE PINNED BINARY rather than transcribed, and says so in its own field map. The trade is stated there: what a transcription adds is a second signal that the form changed, and the exact SHA-256 source binding already fails the family closed on any byte.",
+    "200-00129 prints its signature block in a different order from the sealing form 200-00130 it otherwise matches: 42 is the street address, 39 the city and ZIP, 40 the phone and 41 the email. The finalizer caught the mismatch as explicit_mapping_conflicts_with_field_name rather than writing a phone number onto an address line.",
+    "The Oregon family is STOPPED on one counter and its overlay directory does not exist. The reason is a measured anchor 34 points wide that cannot carry a telephone number at the minimum readable font; the row records exactly what would clear it.",
+    "PF03 names the Oregon family's component assembly 'Oregon Marijuana Set-Aside Motion under ORS 475C.397'. That is a different route on a different form (OR-OJD-MJ-PCR). The track's recorded authority is ORS 137.225 and the assignment's own official forms are the ORS 137.225 packet and its Oregon State Police companion. The forms and the track agree; only the component label does not."
+  ],
+  "packetsSelfVerified": 0,
+  "otherPfPromptsExecutedInThisWorktree": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "grantsNothing": "A built family is a built family. It is not verified, not approved and not sellable, and no route was opened.",
+  "rows": [
+    {
+      "itemId": "or_conviction_setaside-set",
+      "status": "STOPPED",
+      "stopClass": "COMPLETENESS_COUNTER_NOT_ZERO",
+      "nonZeroCounters": [
+        "knownRequiredFieldsMissing"
+      ],
+      "counters": {
+        "knownRequiredFieldsMissing": 1,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "jurisdiction": "OR",
+      "implementationStrategy": "official_pdf_fill",
+      "structuralClass": "flat_overlay",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/or/or-conviction-setaside-set--official-pdf-fill",
+      "overlayDirectoryTouched": false,
+      "officialForms": [
+        {
+          "formNumber": "OR-OJD-ADULT-SET-ASIDE-PACKET",
+          "sha256": "b22cc346caf6c38730e9992d74016e948180d92b379b6592ab333b06ac880071"
+        },
+        {
+          "formNumber": "OR-OSP-SET-ASIDE-CCH",
+          "sha256": "a523a9ffc3eb0cc35d89e1c81df8eafcd703cf1ffdb4237a0106b72e1e793ac6"
+        }
+      ],
+      "measurementProvenance": {
+        "overlayProfile": {
+          "file": "data/rcap-all50/overlays/lane-c-candidates/oregon/or-ojd-adult-set-aside-packet-motion-and-declaration/overlay-profile.json",
+          "sha256MeasuredAgainst": "b22cc346caf6c38730e9992d74016e948180d92b379b6592ab333b06ac880071",
+          "anchors": 9,
+          "protectedRules": 0
+        },
+        "fieldCensus": {
+          "file": "data/rcap-all50/overlays/lane-c-candidates/oregon/or-ojd-adult-set-aside-packet-motion-and-declaration/field-census.json",
+          "sha256MeasuredAgainst": "b22cc346caf6c38730e9992d74016e948180d92b379b6592ab333b06ac880071",
+          "slots": 76
+        },
+        "optionGeometry": {
+          "file": "data/rcap-all50/candidate-evidence/oregon/or-option-selection-geometry.json",
+          "sha256MeasuredAgainst": "b22cc346caf6c38730e9992d74016e948180d92b379b6592ab333b06ac880071",
+          "options": 3,
+          "declarationBoxes": 7
+        },
+        "binaryDrawnOn": "b22cc346caf6c38730e9992d74016e948180d92b379b6592ab333b06ac880071"
+      },
+      "whatStoppedIt": {
+        "counter": "knownRequiredFieldsMissing",
+        "count": 1,
+        "field": "the participant's telephone number, on the measured Phone anchor of page 5 of the motion",
+        "finalizerRefusal": "value_exceeds_widget_width_at_minimum_font",
+        "detail": "Page 5 prints one rule under three labels -- Address, City, State, ZIP and Phone -- and the lane-C overlay profile splits that rule into three measured anchors of 174, 248 and 34 points. A telephone number does not fit in 34 points at the minimum readable font, so the flat overlay refused the anchor rather than clipping the value. A clipped telephone number on a filing is a wrong number, not a shorter one.",
+        "whyNotRequiredBeforeFiling": "REQUIRED_BEFORE_FILING requires that the platform hold no value for the fact. It holds this one and writes it on other packets, so declaring it required-before-filing would be false and the contract says so in terms.",
+        "whyTheFamilyIsStoppedRatherThanShipped": "Everything else in this packet is complete: eight anchors drawn, the route's Option 1 marked inside the box the court printed, 21 facts disclosed, the other eight counters zero. Returning it as built would have shipped a motion missing a contact number the platform holds.",
+        "whatWouldClearIt": "Either a re-measurement of that rule that gives the Phone anchor the width the printed form actually leaves it, or a decision that the telephone number is not written on this document at all. Both are measurement or policy decisions, not build decisions, and neither is this lane's to make."
+      },
+      "builtButNotReturned": {
+        "note": "These are the numbers the render reached before the counters were checked. No artifact was written and the overlay directory does not exist."
+      },
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "vt_exp_decriminalized-set",
+      "status": "COMPLETED",
+      "jurisdiction": "VT",
+      "implementationStrategy": "official_pdf_fill",
+      "routeKeys": [
+        "obligation:track-pathway:VT:vt_exp_decriminalized:expungement-of-decriminalized-conduct"
+      ],
+      "routeSelectionId": "vt-exp-decriminalized-200-00129-complete-set",
+      "statute": "13 V.S.A. § 7602",
+      "legalName": "Petition to Expunge a Conviction for Conduct No Longer Prohibited by Law, 13 V.S.A. § 7602",
+      "officialForms": [
+        "200-00129",
+        "200-00132A",
+        "600-00228"
+      ],
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill",
+      "buildStatus": "state_built",
+      "reviewStatus": "qa_review_pending",
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "nineCountersZero": true,
+      "totals": {
+        "terminalFields": 169,
+        "written": 26,
+        "blank": 143
+      },
+      "componentsRequiredByRoute": [
+        "petition",
+        "stipulation_and_proposed_order",
+        "fee_waiver_application",
+        "filing_and_expectation_instructions"
+      ],
+      "componentsRendered": [
+        "petition",
+        "200-00129",
+        "stipulation_and_proposed_order",
+        "200-00132A",
+        "fee_waiver_application",
+        "600-00228",
+        "filing_and_expectation_instructions"
+      ],
+      "requiredBeforeFilingDeclaredAndDisclosed": 112,
+      "routeSelectionsMade": 0,
+      "routeSelectionNote": "This route turns on question 2(d) of 200-00129 -- whether the offence is no longer prohibited by law -- and that is a sworn assertion about the participant's own record, not an election the route determines. It is left for the participant and disclosed in the instructions.",
+      "captionBasis": "every printed caption in this map was READ OUT OF THE PINNED BINARY at build time -- the printed line nearest the widget's own baseline on the widget's own page -- and captionReadAt records the y it was read from. The source gate is the exact SHA-256 binding, which fails the family closed on any change to the form.",
+      "sources": [
+        {
+          "sourceIds": [
+            "official-form:200-00129"
+          ],
+          "formNumber": "200-00129",
+          "revision": "2025-07",
+          "sha256": "6b855b1976bb10bb1a623e4ae1741545d36108c5e320c7ce542d214481ab9be5",
+          "byteLength": 2000422
+        },
+        {
+          "sourceIds": [
+            "official-form:200-00132A"
+          ],
+          "formNumber": "200-00132A",
+          "revision": "2025-07",
+          "sha256": "9f530430fba20599eb5d838c3e0aa505647124fbe976e74d0a6a349e3ea41dec",
+          "byteLength": 1959576
+        },
+        {
+          "sourceIds": [
+            "official-form:600-00228"
+          ],
+          "formNumber": "600-00228",
+          "revision": "2026-04",
+          "sha256": "263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654",
+          "byteLength": 2871072
+        }
+      ],
+      "allSourcesExact": true,
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "f952b05860583f6c188bc44d4831ac6e8f19daf1d19906fb3630b7a377e113a0",
+          "pageCount": 8,
+          "byteLength": 847568
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "eebfffaa45c3d2d99c91d602afa72a1ede1239365d5e2a28ec32825c9b20dde3",
+          "pageCount": 8,
+          "byteLength": 848011
+        }
+      ],
+      "rasterEngine": "scripts/lib/pdf-page-raster.mjs (Chromium, calibrated)",
+      "rasterPages": 16,
+      "rasterPageHashes": [
+        {
+          "fixture": "canonical",
+          "page": 1,
+          "component": "petition",
+          "file": "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/raster/canonical/page-01/page.png",
+          "sha256": "11eff5abc6dfa651e11e590252effb38f918237c4fd64459769f13596f28548b"
+        },
+        {
+          "fixture": "canonical",
+          "page": 2,
+          "component": "petition",
+          "file": "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/raster/canonical/page-02/page.png",
+          "sha256": "f860f97b62bf74c6ffc6c0b70a760a5dcc6f633b70c3e84d9692583d8bdd4f26"
+        },
+        {
+          "fixture": "canonical",
+          "page": 3,
+          "component": "stipulation_and_proposed_order",
+          "file": "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/raster/canonical/page-03/page.png",
+          "sha256": "b665eb9b2d0095cb6bad24a18433292f4d131803bde025a57189976364fcf1c9"
+        },
+        {
+          "fixture": "canonical",
+          "page": 4,
+          "component": "stipulation_and_proposed_order",
+          "file": "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/raster/canonical/page-04/page.png",
+          "sha256": "ea6404c987f3ef4b9dfdb9253f7a563c8080885e1c96babcd136f733e1dc7a7f"
+        },
+        {
+          "fixture": "canonical",
+          "page": 5,
+          "component": "fee_waiver_application",
+          "file": "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/raster/canonical/page-05/page.png",
+          "sha256": "f49be45483809c98c4a733f9a32d9333e85f6784accfa62cea2dc34294e8fdfc"
+        },
+        {
+          "fixture": "canonical",
+          "page": 6,
+          "component": "fee_waiver_application",
+          "file": "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/raster/canonical/page-06/page.png",
+          "sha256": "6904224f09e293d357311cf1daaa4f8ef92f15b4ee44c46c600d683c97d62b70"
+        },
+        {
+          "fixture": "canonical",
+          "page": 7,
+          "component": "filing_and_expectation_instructions",
+          "file": "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/raster/canonical/page-07/page.png",
+          "sha256": "4b94d07374978365307bd1472dad3c92a115b9db9171cd373df8f7d66c953005"
+        },
+        {
+          "fixture": "canonical",
+          "page": 8,
+          "component": "filing_and_expectation_instructions",
+          "file": "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/raster/canonical/page-08/page.png",
+          "sha256": "fb1a312cd47eaa08e0d26d57b37e38c8d3bf72ff56b46d6fd91ce6cc1b4405a9"
+        },
+        {
+          "fixture": "boundary",
+          "page": 1,
+          "component": "petition",
+          "file": "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/raster/boundary/page-01/page.png",
+          "sha256": "5b4e664058f05cd4dc79710d64277a712db63c6dcf35cc451fcdfdcd8b117d8f"
+        },
+        {
+          "fixture": "boundary",
+          "page": 2,
+          "component": "petition",
+          "file": "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/raster/boundary/page-02/page.png",
+          "sha256": "a868f205a9117e8a78024c724494260ce85d530766ac9fcf39f53e8e3179cf7d"
+        },
+        {
+          "fixture": "boundary",
+          "page": 3,
+          "component": "stipulation_and_proposed_order",
+          "file": "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/raster/boundary/page-03/page.png",
+          "sha256": "163321dd30e155cd9696d7f22c401fb8afb95269ac6c974604f6e9e4e1ec486e"
+        },
+        {
+          "fixture": "boundary",
+          "page": 4,
+          "component": "stipulation_and_proposed_order",
+          "file": "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/raster/boundary/page-04/page.png",
+          "sha256": "ea6404c987f3ef4b9dfdb9253f7a563c8080885e1c96babcd136f733e1dc7a7f"
+        },
+        {
+          "fixture": "boundary",
+          "page": 5,
+          "component": "fee_waiver_application",
+          "file": "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/raster/boundary/page-05/page.png",
+          "sha256": "c5f3b463b03e7424bd524d7ddcce0f8762406c6edf70c19ed2acba8007db8ab1"
+        },
+        {
+          "fixture": "boundary",
+          "page": 6,
+          "component": "fee_waiver_application",
+          "file": "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/raster/boundary/page-06/page.png",
+          "sha256": "0326ffc28e2baf2217abaaed760d3339ff26b97e43ecb49111648d84ca9cab5f"
+        },
+        {
+          "fixture": "boundary",
+          "page": 7,
+          "component": "filing_and_expectation_instructions",
+          "file": "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/raster/boundary/page-07/page.png",
+          "sha256": "37f1df8a2b436324b043898cb6b8492ae5fbef2b83a6575ba3e36598a1f6a08e"
+        },
+        {
+          "fixture": "boundary",
+          "page": 8,
+          "component": "filing_and_expectation_instructions",
+          "file": "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/raster/boundary/page-08/page.png",
+          "sha256": "fb1a312cd47eaa08e0d26d57b37e38c8d3bf72ff56b46d6fd91ce6cc1b4405a9"
+        }
+      ],
+      "byteProof": [
+        {
+          "fixture": "canonical",
+          "formNumber": "200-00129",
+          "valuesReportedByFinalizer": 8,
+          "addedGlyphsReadFromOutputBytes": 130,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 53,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        {
+          "fixture": "canonical",
+          "formNumber": "200-00132A",
+          "valuesReportedByFinalizer": 8,
+          "addedGlyphsReadFromOutputBytes": 130,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 32,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        {
+          "fixture": "canonical",
+          "formNumber": "600-00228",
+          "valuesReportedByFinalizer": 8,
+          "addedGlyphsReadFromOutputBytes": 138,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 78,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        {
+          "fixture": "boundary",
+          "formNumber": "200-00129",
+          "valuesReportedByFinalizer": 8,
+          "addedGlyphsReadFromOutputBytes": 266,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 53,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        {
+          "fixture": "boundary",
+          "formNumber": "200-00132A",
+          "valuesReportedByFinalizer": 7,
+          "addedGlyphsReadFromOutputBytes": 208,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 32,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        {
+          "fixture": "boundary",
+          "formNumber": "600-00228",
+          "valuesReportedByFinalizer": 8,
+          "addedGlyphsReadFromOutputBytes": 295,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 78,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        }
+      ],
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    }
+  ]
+}

@@ -1,0 +1,950 @@
+{
+  "batch": "mississippi",
+  "authority": "LegalEase Mississippi Definitive Route Decisions (2026-08-24) and the Mississippi Override Register",
+  "routes": [
+    {
+      "jurisdiction": "MS",
+      "decisionId": "LD-MS-01",
+      "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+      "routeKey": "MS:dui-nonadjudication",
+      "pathwayId": "dui-nonadjudication",
+      "mechanism": "DUI nonadjudication",
+      "statute": "Miss. Code Ann. § 63-11-30(14)",
+      "stage": "active_case_admission",
+      "outcomeMode": "referral",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "no elapsed wait; admission occurs while the case is active, and the final order follows court-certified completion"
+      },
+      "requiredFacts": [
+        "Is the case active or unadjudicated?",
+        "Which DUI subsection and court is the matter under?",
+        "Does the person hold a CDL or CLP?",
+        "Any prior or pending DUI?",
+        "Any prior DUI nonadjudication or expunction?",
+        "Alcohol or drug branch?",
+        "Have all court-ordered conditions been completed?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "offense_level",
+        "pending_cases"
+      ],
+      "exclusions": [
+        "One-time relief only",
+        "No CDL or CLP holder",
+        "No prior or pending DUI",
+        "No prior DUI nonadjudication or expunction",
+        "Court justification required"
+      ],
+      "packetFamily": null,
+      "notes": "Never apply the five-year first-offense-DUI expungement rule to this route. Attorney-assisted motion/order only where supported."
+    },
+    {
+      "jurisdiction": "MS",
+      "decisionId": "LD-MS-01",
+      "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+      "routeKey": "MS:eligible-felony-conviction-expungement-99-19-71",
+      "pathwayId": "eligible-felony-conviction-expungement-99-19-71",
+      "mechanism": "Eligible felony conviction expungement",
+      "statute": "Miss. Code Ann. § 99-19-71(2), as amended by 2026 Miss. H.B. 1546",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "elapsed_eligibility_clock",
+        "value": 3,
+        "unit": "years",
+        "anchorFactId": "sentence_completion_actual_date",
+        "anchorAlternates": [
+          "discharge_date"
+        ],
+        "anchorText": "three years after court-certified successful completion of all terms, with every fine and cost paid; where records conflict, use the later reliable completion or payment date"
+      },
+      "processingDeadlines": [
+        {
+          "label": "10-day district attorney notice",
+          "note": "a service step inside the petition, not a participant eligibility wait"
+        }
+      ],
+      "requiredFacts": [
+        "Exact counts and statutes?",
+        "Do the counts arise from a common nucleus of operative facts?",
+        "Has the full sentence been completed?",
+        "Are all fines, costs and restitution paid?",
+        "Do any statutory exclusions apply?",
+        "Any prior felony expungement?",
+        "Was the person a public official and was the offense connected to that office?",
+        "What rehabilitation evidence exists?",
+        "How will the district attorney be served?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "offense_level",
+        "court_requirements_completed",
+        "financial_obligations",
+        "sentence_completion_actual_date"
+      ],
+      "exclusions": [
+        "One felony / common-nucleus rule",
+        "Statutory offense exclusions",
+        "No prior felony expungement",
+        "Public-official exclusion"
+      ],
+      "packetFamily": "Petition for Expungement of an Eligible Felony Conviction under § 99-19-71(2)",
+      "packetComponents": [
+        "Petition under § 99-19-71(2)",
+        "Proof of sentence completion and zero balance",
+        "Rehabilitation evidence",
+        "District attorney notice",
+        "Proposed order"
+      ],
+      "effectiveFrom": "2026-07-01",
+      "supersedes": {
+        "value": 5,
+        "unit": "years",
+        "note": "the stale five-year rule that governed filings before 2026-07-01"
+      },
+      "notes": "Use three years, not the stale five-year rule, for current filings on or after 2026-07-01."
+    },
+    {
+      "jurisdiction": "MS",
+      "decisionId": "LD-MS-01",
+      "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+      "routeKey": "MS:first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1",
+      "pathwayId": "first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1",
+      "mechanism": "First-offender nontraffic misdemeanor expungement",
+      "statute": "Miss. Code Ann. § 99-19-71(1), (5)",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "no numeric waiting period; relief unlocks on the final qualifying first-offender nontraffic misdemeanor conviction"
+      },
+      "requiredFacts": [
+        "Exact offense?",
+        "Which court entered the conviction?",
+        "Is the offense a traffic violation or otherwise under Title 63?",
+        "Is the conviction final?",
+        "What is the complete conviction history?",
+        "Any prior expungements?",
+        "Any public-office nexus?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "offense_level"
+      ],
+      "exclusions": [
+        "First offender only",
+        "Misdemeanor only",
+        "Nontraffic only",
+        "Official-duty exclusion"
+      ],
+      "packetFamily": "First-Offender Nontraffic Misdemeanor Petition under § 99-19-71(1)",
+      "packetComponents": [
+        "Petition under § 99-19-71(1)",
+        "Conviction record",
+        "Proposed order"
+      ],
+      "notes": "Do not use § 99-19-72 as eligibility authority."
+    },
+    {
+      "jurisdiction": "MS",
+      "decisionId": "LD-MS-01",
+      "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+      "routeKey": "MS:controlled-substance-conditional-discharge-active-case-admission",
+      "pathwayId": "controlled-substance-conditional-discharge-active-case-admission",
+      "mechanism": "Controlled-substance conditional discharge — admission to deferred adjudication",
+      "statute": "Miss. Code Ann. § 41-29-150(d)(1)",
+      "stage": "active_case_admission",
+      "outcomeMode": "referral",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "admission is active-case relief sought while the prosecution is live; no elapsed wait applies"
+      },
+      "requiredFacts": [
+        "Exact controlled-substance subsection?",
+        "Any prior drug conviction?",
+        "Any prior use of conditional discharge?",
+        "Has adjudication been deferred?",
+        "What are the probation dates?",
+        "What is the court?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "offense_level"
+      ],
+      "exclusions": [
+        "No prior drug conviction",
+        "Qualifying subsection only",
+        "Once only"
+      ],
+      "packetFamily": null,
+      "notes": "Split from the post-completion packet stage. No generic wait, and no consumer checkout while the case is active."
+    },
+    {
+      "jurisdiction": "MS",
+      "decisionId": "LD-MS-01",
+      "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+      "routeKey": "MS:first-offense-controlled-substance-conditional-discharge-relief",
+      "pathwayId": "first-offense-controlled-substance-conditional-discharge-relief",
+      "mechanism": "Controlled-substance conditional discharge — expungement after discharge and dismissal",
+      "statute": "Miss. Code Ann. § 41-29-150(d)(2)",
+      "stage": "post_completion",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorFactId": "discharge_date",
+        "anchorText": "expungement opens on the discharge-and-dismissal order date, after successful probation"
+      },
+      "requiredFacts": [
+        "Exact controlled-substance subsection?",
+        "Any prior drug conviction?",
+        "Any prior use of conditional discharge?",
+        "Was adjudication deferred?",
+        "What are the probation dates and was compliance complete?",
+        "Is there a discharge-and-dismissal order?",
+        "What is the court?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "court_requirements_completed",
+        "discharge_date"
+      ],
+      "exclusions": [
+        "No prior drug conviction",
+        "Qualifying subsection only",
+        "Successful probation required",
+        "Once only"
+      ],
+      "packetFamily": "Post-Conditional-Discharge Application under § 41-29-150(d)(2)",
+      "packetComponents": [
+        "Application under § 41-29-150(d)(2)",
+        "Discharge and dismissal order",
+        "Proposed order"
+      ],
+      "notes": "Checkout opens only after discharge and dismissal."
+    },
+    {
+      "jurisdiction": "MS",
+      "decisionId": "LD-MS-01",
+      "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+      "routeKey": "MS:human-trafficking-survivor-vacatur-and-expungement",
+      "pathwayId": "human-trafficking-survivor-vacatur-and-expungement",
+      "mechanism": "Human-trafficking survivor relief — remedy selection between vacatur and expungement",
+      "statute": "Miss. Code Ann. § 97-3-54.6(5)-(6), as amended by 2026 Miss. H.B. 1546",
+      "stage": "single_stage",
+      "outcomeMode": "referral",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "available at any time once the covered offense and the trafficking nexus are established; no elapsed clock"
+      },
+      "requiredFacts": [
+        "Exact count and statute?",
+        "Conviction or adjudication?",
+        "Is the offense a violent offense?",
+        "Is the person seeking vacatur, expungement, or both?",
+        "What are the trafficking dates, nexus and evidence?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "offense_level"
+      ],
+      "exclusions": [
+        "Covered offense required",
+        "Direct-result nexus required",
+        "Preponderance standard"
+      ],
+      "packetFamily": null,
+      "notes": "Retained as the selection route only. The two statutory remedies are separate contracts and each requires attorney review; this route never sells a packet on its own."
+    },
+    {
+      "jurisdiction": "MS",
+      "decisionId": "LD-MS-01",
+      "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+      "routeKey": "MS:human-trafficking-survivor-vacatur-97-3-54-6-5",
+      "pathwayId": "human-trafficking-survivor-vacatur-97-3-54-6-5",
+      "mechanism": "Human-trafficking survivor vacatur",
+      "statute": "Miss. Code Ann. § 97-3-54.6(5), as amended by 2026 Miss. H.B. 1546",
+      "stage": "single_stage",
+      "outcomeMode": "attorney_review_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "available at any time on the conviction or adjudication plus the trafficking nexus; no elapsed clock"
+      },
+      "requiredFacts": [
+        "Exact count and statute?",
+        "Conviction or adjudication?",
+        "What are the trafficking dates, nexus and evidence?",
+        "Can the direct-result nexus be shown by a preponderance?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "offense_level"
+      ],
+      "exclusions": [
+        "Covered offense required",
+        "Direct-result nexus required",
+        "Preponderance standard"
+      ],
+      "packetFamily": "Motion to Vacate under § 97-3-54.6(5)",
+      "packetComponents": [
+        "Motion to vacate under § 97-3-54.6(5)",
+        "Trafficking nexus evidence",
+        "Proposed order"
+      ],
+      "notes": "Mandatory attorney review before any packet is produced. Never import the ordinary felony wait."
+    },
+    {
+      "jurisdiction": "MS",
+      "decisionId": "LD-MS-01",
+      "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+      "routeKey": "MS:human-trafficking-survivor-expungement-97-3-54-6-6",
+      "pathwayId": "human-trafficking-survivor-expungement-97-3-54-6-6",
+      "mechanism": "Human-trafficking survivor expungement",
+      "statute": "Miss. Code Ann. § 97-3-54.6(6), as amended by 2026 Miss. H.B. 1546",
+      "stage": "single_stage",
+      "outcomeMode": "attorney_review_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "available at any time on the covered offense plus the trafficking nexus; no elapsed clock"
+      },
+      "requiredFacts": [
+        "Exact count and statute?",
+        "Conviction or adjudication?",
+        "Is the offense a violent offense?",
+        "What are the trafficking dates, nexus and evidence?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "offense_level"
+      ],
+      "exclusions": [
+        "Covered offense required",
+        "Direct-result nexus required",
+        "Preponderance standard",
+        "Violent-offense exclusion applies to the expungement branch"
+      ],
+      "packetFamily": "Petition or Motion to Expunge under § 97-3-54.6(6)",
+      "packetComponents": [
+        "Petition or motion to expunge under § 97-3-54.6(6)",
+        "Trafficking nexus evidence",
+        "Proposed order"
+      ],
+      "notes": "Mandatory attorney review before any packet is produced. The violent-offense exclusion applies here but not to vacatur."
+    },
+    {
+      "jurisdiction": "MS",
+      "decisionId": "LD-MS-01",
+      "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+      "routeKey": "MS:intervention-court-completion-expungement",
+      "pathwayId": "intervention-court-completion-expungement",
+      "mechanism": "Intervention-court completion — automatic statutory result for the sentenced-at-plea branch",
+      "statute": "Miss. Code Ann. § 9-23-23",
+      "stage": "automatic",
+      "outcomeMode": "automatic_relief",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "the statutory result follows court-certified successful completion of every requirement, including nonwaived obligations"
+      },
+      "requiredFacts": [
+        "Which intervention court?",
+        "What plea was entered?",
+        "Was a sentence imposed at the plea?",
+        "Was every requirement completed?",
+        "Were fees paid or waived?",
+        "Was the case dismissed?",
+        "Is implied consent involved?",
+        "Has the docket already been expunged?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "court_requirements_completed",
+        "financial_obligations"
+      ],
+      "exclusions": [
+        "Successful completion required",
+        "No implied-consent expunction"
+      ],
+      "packetFamily": null,
+      "notes": "Checkout and packet credit stay closed on this branch: the statute clears the record, and the product verifies status and guides correction."
+    },
+    {
+      "jurisdiction": "MS",
+      "decisionId": "LD-MS-01",
+      "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+      "routeKey": "MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+      "pathwayId": "intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+      "mechanism": "Intervention-court completion — dismissal-only branch where a record remains",
+      "statute": "Miss. Code Ann. § 99-19-71(4)",
+      "stage": "post_completion",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "relief opens on the dismissal following court-certified completion, where a record remains"
+      },
+      "requiredFacts": [
+        "Which intervention court?",
+        "Was a sentence imposed at the plea?",
+        "Was the case dismissed rather than sentenced?",
+        "Was every requirement completed?",
+        "Were fees paid or waived?",
+        "Does a record still remain?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "court_requirements_completed"
+      ],
+      "exclusions": [
+        "Successful completion required",
+        "No implied-consent expunction",
+        "Sentenced-at-plea matters belong on the automatic branch"
+      ],
+      "packetFamily": "Nonconviction Petition under § 99-19-71(4)",
+      "packetComponents": [
+        "Petition under § 99-19-71(4)",
+        "Dismissal order",
+        "Proposed order"
+      ],
+      "notes": "The only intervention-court branch that may sell a packet."
+    },
+    {
+      "jurisdiction": "MS",
+      "decisionId": "LD-MS-01",
+      "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+      "routeKey": "MS:intervention-court-statutory-result-enforcement-referral",
+      "pathwayId": "intervention-court-statutory-result-enforcement-referral",
+      "mechanism": "Intervention-court completion — enforcement of the statutory result",
+      "statute": "Miss. Code Ann. § 9-23-23",
+      "stage": "enforcement",
+      "outcomeMode": "referral",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "used once completion is certified but the court or agency has not carried out the statutory result"
+      },
+      "requiredFacts": [
+        "Which intervention court?",
+        "Was every requirement completed?",
+        "What does the docket currently show?",
+        "Has the docket already been expunged?",
+        "What evidence of completion exists?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "court_requirements_completed"
+      ],
+      "exclusions": [
+        "Successful completion required"
+      ],
+      "packetFamily": null,
+      "notes": "Enforcement of relief the statute already granted. Never sold as an expungement packet."
+    },
+    {
+      "jurisdiction": "MS",
+      "decisionId": "LD-MS-01",
+      "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+      "routeKey": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+      "pathwayId": "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+      "mechanism": "Nonconviction expungement for dismissal, no disposition, or acquittal",
+      "statute": "Miss. Code Ann. § 99-19-71(4)",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorFactId": "disposition_date",
+        "anchorText": "relief opens on the qualifying dismissal, dropped charge, closed no-disposition matter, or acquittal; the no-disposition branch needs reliable closure proof"
+      },
+      "requiredFacts": [
+        "Was there an arrest and release?",
+        "What was the exact outcome and its date?",
+        "Is the matter closed?",
+        "Any pending charge, appeal, or related count?",
+        "Which court and case number?",
+        "Is proof of the disposition available?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "pending_cases"
+      ],
+      "exclusions": [
+        "Arrest and release required",
+        "Qualifying favorable outcome required",
+        "No active prosecution"
+      ],
+      "packetFamily": "Nonconviction Petition under current § 99-19-71(4)",
+      "packetComponents": [
+        "Petition under § 99-19-71(4)",
+        "Disposition proof",
+        "Proposed order"
+      ],
+      "notes": "Use subsection (4). Reject the stale subsection (2)/(3) packet labels."
+    },
+    {
+      "jurisdiction": "MS",
+      "decisionId": "LD-MS-01",
+      "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+      "routeKey": "MS:nonadjudication-99-15-26-active-case-admission",
+      "pathwayId": "nonadjudication-99-15-26-active-case-admission",
+      "mechanism": "Nonadjudication under § 99-15-26 — admission while the case is active",
+      "statute": "Miss. Code Ann. § 99-15-26(1)",
+      "stage": "active_case_admission",
+      "outcomeMode": "referral",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "admission is active-case and discretionary; no elapsed wait applies at this stage"
+      },
+      "requiredFacts": [
+        "Is this the admission stage or a completed matter?",
+        "What is the offense and does an exclusion apply?",
+        "What court level?",
+        "Any prior use of nonadjudication?",
+        "Any DUI, implied consent, or trafficking element?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "offense_level"
+      ],
+      "exclusions": [
+        "Court-level exclusions",
+        "Once only",
+        "No trafficking, implied-consent, or DUI misuse",
+        "Stage-specific limits"
+      ],
+      "packetFamily": null,
+      "notes": "No checkout before completion and closure."
+    },
+    {
+      "jurisdiction": "MS",
+      "decisionId": "LD-MS-01",
+      "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+      "routeKey": "MS:nonadjudication-under-99-15-26",
+      "pathwayId": "nonadjudication-under-99-15-26",
+      "mechanism": "Nonadjudication under § 99-15-26 — expungement after completion and closure",
+      "statute": "Miss. Code Ann. § 99-15-26(5)",
+      "stage": "post_completion",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorFactId": "court_requirements_completed",
+        "anchorAlternates": [
+          "discharge_date"
+        ],
+        "anchorText": "relief opens on the later of court-certified completion and the dismissal or closure order"
+      },
+      "requiredFacts": [
+        "Is this a completed matter?",
+        "What is the offense and does an exclusion apply?",
+        "What court level?",
+        "Any prior use of nonadjudication?",
+        "Any DUI, implied consent, or trafficking element?",
+        "Was every requirement completed?",
+        "Is there a dismissal or closure order?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "court_requirements_completed",
+        "financial_obligations"
+      ],
+      "exclusions": [
+        "Court-level exclusions",
+        "Once only",
+        "No trafficking, implied-consent, or DUI misuse"
+      ],
+      "packetFamily": "Post-Nonadjudication Petition under § 99-15-26(5)",
+      "packetComponents": [
+        "Petition under § 99-15-26(5)",
+        "Completion and closure proof",
+        "Proposed order"
+      ],
+      "notes": "Separated from active admission. Checkout opens only after completion and closure."
+    },
+    {
+      "jurisdiction": "MS",
+      "decisionId": "LD-MS-01",
+      "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+      "routeKey": "MS:pretrial-intervention-active-case-admission",
+      "pathwayId": "pretrial-intervention-active-case-admission",
+      "mechanism": "Pretrial intervention or diversion — admission while the case is active",
+      "statute": "Miss. Code Ann. §§ 99-15-101, 99-15-107, 99-15-109",
+      "stage": "active_case_admission",
+      "outcomeMode": "referral",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "admission is active-case; entry depends on district attorney and program acceptance, not on any elapsed wait"
+      },
+      "requiredFacts": [
+        "Is the person 18 or older?",
+        "Has the person been indicted?",
+        "Is the person represented by counsel?",
+        "Has the district attorney or program accepted the person?",
+        "What is the charge and does an exclusion apply?",
+        "What is the prior record?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "offense_level"
+      ],
+      "exclusions": [
+        "Age, indictment, counsel and program-acceptance conditions",
+        "Statutory exclusion map"
+      ],
+      "packetFamily": null,
+      "notes": "Referral and guidance only. Checkout opens only after a qualifying disposition."
+    },
+    {
+      "jurisdiction": "MS",
+      "decisionId": "LD-MS-01",
+      "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+      "routeKey": "MS:pretrial-intervention-or-diversion-expungement",
+      "pathwayId": "pretrial-intervention-or-diversion-expungement",
+      "mechanism": "Pretrial intervention or diversion — expungement after completion and qualifying disposition",
+      "statute": "Miss. Code Ann. § 99-15-123(3)",
+      "stage": "post_completion",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorFactId": "court_requirements_completed",
+        "anchorAlternates": [
+          "disposition_date"
+        ],
+        "anchorText": "relief opens on the later of program completion and the dismissal, dropped-charge, or no-disposition event"
+      },
+      "requiredFacts": [
+        "Was the program completed?",
+        "What was the resulting disposition?",
+        "Which court and case number?",
+        "What is the charge and does an exclusion apply?",
+        "What is the prior record?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "court_requirements_completed"
+      ],
+      "exclusions": [
+        "Completion required",
+        "Qualifying noncriminal disposition required",
+        "Statutory exclusion map"
+      ],
+      "packetFamily": "Petition After Pretrial Intervention under § 99-15-123(3)",
+      "packetComponents": [
+        "Petition under § 99-15-123(3)",
+        "Program completion proof",
+        "Disposition proof",
+        "Proposed order"
+      ],
+      "notes": "Admission, completion and expungement are separate stages."
+    },
+    {
+      "jurisdiction": "MS",
+      "decisionId": "LD-MS-01",
+      "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+      "routeKey": "MS:additional-justice-or-municipal-court-misdemeanor-relief",
+      "pathwayId": "additional-justice-or-municipal-court-misdemeanor-relief",
+      "mechanism": "Additional justice- or municipal-court misdemeanor relief — court selection between the two variants",
+      "statute": "Miss. Code Ann. §§ 9-11-15(3), 21-23-7(6)",
+      "stage": "single_stage",
+      "outcomeMode": "referral",
+      "timing": {
+        "kind": "elapsed_eligibility_clock",
+        "value": 2,
+        "unit": "years",
+        "anchorFactId": "last_conviction_date",
+        "anchorText": "two years of good conduct measured from the date of the person's last conviction in any court"
+      },
+      "requiredFacts": [
+        "Was the target case in justice court or municipal court?",
+        "Which cases are being targeted?",
+        "What is the full conviction history?",
+        "What is the date of the last conviction anywhere?",
+        "Has there been any later conviction?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "offense_level",
+        "last_conviction_date"
+      ],
+      "exclusions": [
+        "Discretionary relief",
+        "Same-court target cases only",
+        "Clean conduct required",
+        "Best-interest finding required"
+      ],
+      "packetFamily": null,
+      "notes": "Retained as the selection route only; the justice-court and municipal-court variants are separate contracts under different statutes. Use the last-conviction clock, not sentence completion."
+    },
+    {
+      "jurisdiction": "MS",
+      "decisionId": "LD-MS-01",
+      "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+      "routeKey": "MS:additional-justice-court-misdemeanor-relief-9-11-15-3",
+      "pathwayId": "additional-justice-court-misdemeanor-relief-9-11-15-3",
+      "mechanism": "Additional justice-court misdemeanor relief",
+      "statute": "Miss. Code Ann. § 9-11-15(3)",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "elapsed_eligibility_clock",
+        "value": 2,
+        "unit": "years",
+        "anchorFactId": "last_conviction_date",
+        "anchorText": "two years of good conduct measured from the date of the person's last conviction in any court"
+      },
+      "requiredFacts": [
+        "Which justice-court cases are being targeted?",
+        "What is the full conviction history?",
+        "What is the date of the last conviction anywhere?",
+        "Has there been any later conviction?",
+        "What rehabilitation evidence exists?",
+        "How will the prosecutor be noticed?",
+        "What are the driving-record expectations?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "offense_level",
+        "last_conviction_date"
+      ],
+      "exclusions": [
+        "Discretionary relief",
+        "Justice-court target cases only",
+        "Clean conduct required",
+        "Best-interest finding required"
+      ],
+      "packetFamily": "Petition under § 9-11-15(3)",
+      "packetComponents": [
+        "Petition under § 9-11-15(3)",
+        "Rehabilitation evidence",
+        "Prosecutor notice",
+        "Proposed order"
+      ],
+      "notes": "Use the last-conviction clock, not sentence completion."
+    },
+    {
+      "jurisdiction": "MS",
+      "decisionId": "LD-MS-01",
+      "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+      "routeKey": "MS:additional-municipal-court-misdemeanor-relief-21-23-7-6",
+      "pathwayId": "additional-municipal-court-misdemeanor-relief-21-23-7-6",
+      "mechanism": "Additional municipal-court misdemeanor relief",
+      "statute": "Miss. Code Ann. § 21-23-7(6)",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "elapsed_eligibility_clock",
+        "value": 2,
+        "unit": "years",
+        "anchorFactId": "last_conviction_date",
+        "anchorText": "two years of good conduct measured from the date of the person's last conviction in any court"
+      },
+      "requiredFacts": [
+        "Which municipal-court cases are being targeted?",
+        "What is the full conviction history?",
+        "What is the date of the last conviction anywhere?",
+        "Has there been any later conviction?",
+        "What rehabilitation evidence exists?",
+        "How will the prosecutor be noticed?",
+        "What are the driving-record expectations?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "offense_level",
+        "last_conviction_date"
+      ],
+      "exclusions": [
+        "Discretionary relief",
+        "Municipal-court target cases only",
+        "Clean conduct required",
+        "Best-interest finding required"
+      ],
+      "packetFamily": "Petition under § 21-23-7(6)",
+      "packetComponents": [
+        "Petition under § 21-23-7(6)",
+        "Rehabilitation evidence",
+        "Prosecutor notice",
+        "Proposed order"
+      ],
+      "notes": "Use the last-conviction clock, not sentence completion."
+    },
+    {
+      "jurisdiction": "MS",
+      "decisionId": "LD-MS-01",
+      "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+      "routeKey": "MS:first-offense-dui-expungement",
+      "pathwayId": "first-offense-dui-expungement",
+      "mechanism": "First-offense DUI expungement",
+      "statute": "Miss. Code Ann. § 63-11-30(13)",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "elapsed_eligibility_clock",
+        "value": 5,
+        "unit": "years",
+        "anchorFactId": "sentence_completion_actual_date",
+        "anchorText": "five years after successful completion of every ordered condition"
+      },
+      "requiredFacts": [
+        "Which subsection and county?",
+        "Is this a first offense?",
+        "Was every condition completed?",
+        "Does the person hold a CDL or CLP?",
+        "Was there a refusal?",
+        "What was the BAC?",
+        "Any prior or pending DUI?",
+        "Any prior DUI relief?",
+        "What justification supports the petition?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "offense_level",
+        "court_requirements_completed",
+        "sentence_completion_actual_date"
+      ],
+      "exclusions": [
+        "First offense only",
+        "No CDL or CLP holder",
+        "No refusal",
+        "BAC below .16 where available",
+        "No prior or pending DUI",
+        "No prior DUI relief"
+      ],
+      "packetFamily": "Circuit Court Petition under § 63-11-30(13)",
+      "packetComponents": [
+        "Circuit court petition under § 63-11-30(13)",
+        "Completion proof",
+        "Proposed order"
+      ],
+      "notes": "Keep the five-year rule only on this route; it never applies to DUI nonadjudication."
+    },
+    {
+      "jurisdiction": "MS",
+      "decisionId": "LD-MS-01",
+      "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+      "routeKey": "MS:minor-in-possession-underage-alcohol-expungement",
+      "pathwayId": "minor-in-possession-underage-alcohol-expungement",
+      "mechanism": "Minor-in-possession / underage-alcohol expungement",
+      "statute": "Miss. Code Ann. § 67-3-70(6)",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "elapsed_eligibility_clock",
+        "value": 1,
+        "unit": "years",
+        "anchorFactId": "discharge_date",
+        "anchorAlternates": [
+          "sentence_completion_actual_date"
+        ],
+        "anchorText": "one year after the dismissal or discharge date on the dismissal branch, or one year after the later of full completion and payment of the fine on the conviction branch"
+      },
+      "requiredFacts": [
+        "What was the person's age?",
+        "Which exact subsection?",
+        "Is this the dismissal branch or the conviction branch?",
+        "What was the dismissal date?",
+        "Was the sentence completed?",
+        "Was the fine paid?",
+        "Which court?",
+        "Are there other alcohol counts?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "court_requirements_completed",
+        "financial_obligations",
+        "discharge_date"
+      ],
+      "exclusions": [
+        "Only § 67-3-70(1) or (2) conduct",
+        "Route-specific disposition branch"
+      ],
+      "packetFamily": "Petition under § 67-3-70(6)",
+      "packetComponents": [
+        "Petition under § 67-3-70(6)",
+        "Disposition proof",
+        "Fine payment proof",
+        "Proposed order"
+      ],
+      "notes": "Use the one-year route-specific rule only. The clock anchor depends on the disposition branch, which is why both anchors are named."
+    },
+    {
+      "jurisdiction": "MS",
+      "decisionId": "LD-MS-01",
+      "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+      "routeKey": "MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
+      "pathwayId": "uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
+      "mechanism": "Uncharged or unprosecuted misdemeanor — no-charge branch",
+      "statute": "Miss. Code Ann. § 99-15-59",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "elapsed_eligibility_clock",
+        "value": 12,
+        "unit": "months",
+        "anchorFactId": "arrest_date",
+        "anchorText": "twelve months after the arrest or citation date where no formal charge or prosecution has followed"
+      },
+      "requiredFacts": [
+        "Is the matter a misdemeanor?",
+        "What is the arrest or citation date?",
+        "Was a charge filed?",
+        "Has there been any prosecution activity?",
+        "Is anything pending?",
+        "What venue or agency?",
+        "Are there related counts?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "offense_level",
+        "pending_cases",
+        "arrest_date"
+      ],
+      "exclusions": [
+        "Misdemeanor only",
+        "No charge or prosecution during the twelve months",
+        "Nothing pending"
+      ],
+      "packetFamily": "Petition under § 99-15-59",
+      "packetComponents": [
+        "Petition under § 99-15-59",
+        "Arrest record",
+        "Proposed order"
+      ],
+      "notes": "The twelve-month clock applies to the no-charge branch only. Register route key alias: MS:uncharged-or-unprosecuted-misdemeanor-after-12-months."
+    },
+    {
+      "jurisdiction": "MS",
+      "decisionId": "LD-MS-01",
+      "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+      "routeKey": "MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+      "pathwayId": "uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+      "mechanism": "Uncharged or unprosecuted misdemeanor — dismissal branch",
+      "statute": "Miss. Code Ann. § 99-15-59",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorFactId": "disposition_date",
+        "anchorText": "relief opens immediately upon dismissal; no elapsed wait applies to this branch"
+      },
+      "requiredFacts": [
+        "Is the matter a misdemeanor?",
+        "Was the charge dismissed and on what date?",
+        "Is anything pending?",
+        "What venue or agency?",
+        "Are there related counts?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "offense_level",
+        "pending_cases"
+      ],
+      "exclusions": [
+        "Misdemeanor only",
+        "Nothing pending"
+      ],
+      "packetFamily": "Petition under § 99-15-59",
+      "packetComponents": [
+        "Petition under § 99-15-59",
+        "Dismissal order",
+        "Proposed order"
+      ],
+      "notes": "Dismissal is immediate. Never apply the twelve-month no-charge clock here."
+    }
+  ]
+}

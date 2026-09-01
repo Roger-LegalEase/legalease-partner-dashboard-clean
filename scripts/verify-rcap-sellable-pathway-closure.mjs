@@ -249,7 +249,26 @@ if (MUTATIONS) {
     ["the guidance-substitution list emptied", (d) => { d.ledger.guidanceSubstitution.tracks = []; }],
     ["the closure ledger restated as the 497 denominator", (d) => { d.ledger.denominator.count = 497; }],
     ["a category invented outside the five", (d) => { d.ledger.pathways[0].category = "packet_coming_soon"; }],
-    ["the payable-without-counsel list emptied", (d) => { d.ledger.paymentFollowsLegalApproval.payableWithoutRecordedLegalApproval = []; }],
+    /**
+     * Mutated in the direction that can actually fail.
+     *
+     * This used to empty payableWithoutRecordedLegalApproval, which caught the
+     * defect while thirty-nine routes were on that list. The list is empty now
+     * — not because payment ran ahead of counsel, but because the compiled
+     * profiles carried a stale ratification snapshot and every one of those
+     * thirty-nine is ratified_deployable in the ratification registry, which is
+     * counsel's own decision. Emptying an empty list changes nothing, so the
+     * mutation had stopped testing anything while still reporting "caught".
+     *
+     * A mutation that cannot fail is worse than no mutation: it is assurance
+     * with nothing behind it. So this one now creates the condition the
+     * invariant exists to catch — a route that is payable and unratified in the
+     * ledger's own rows, and absent from the list that is supposed to name it.
+     */
+    ["a payable unratified route hidden from the counsel list", (d) => {
+      const row = d.ledger.pathways.find((e) => e.category === "paid_packet_intended" && e.stages.publiclyReachableSellable === true);
+      if (row) row.stages.legallyApprovedPacket = false;
+    }],
     ["the payable-but-undeliverable list emptied", (d) => { d.ledger.doNotChargeForGuidance.payableButUndeliverable = []; }]
   ];
   let undetected = 0;

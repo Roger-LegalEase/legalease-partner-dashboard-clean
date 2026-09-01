@@ -1,0 +1,99 @@
+{
+  "schemaVersion": "rcap-continuous-integration-state/v1",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-source-conveyor.mjs",
+  "generatedAt": "2026-09-01T07:04:52.538Z",
+  "captainHead": "13771582866352d77e46e5d0b9bc86f1abbb6752",
+  "cadence": {
+    "integrateEvery": "three completed worker returns, or twenty minutes, whichever comes first",
+    "releaseIntoBuildersEvery": "five families released by PROMO, or thirty minutes, whichever comes first",
+    "nextIntegrationDeadline": "2026-09-01T07:24:52.538Z",
+    "nextSourceReleaseDeadline": "2026-09-01T07:34:52.538Z",
+    "everyCheckpointMust": [
+      "inspect the exact changed paths of each return",
+      "integrate the returns that touch only their own owned paths",
+      "regenerate the live queue",
+      "assign every newly source-ready family",
+      "send every newly completed family straight to independent verification",
+      "send every verification failure straight to repair",
+      "release the lane's ownership the moment its return is integrated"
+    ],
+    "everyCheckpointMustNot": [
+      "wait for a source lane to finish its whole assignment",
+      "wait for a wave",
+      "write a broad narrative memo"
+    ]
+  },
+  "elasticCapacity": {
+    "rule": "No executable work may remain while an eligible lane is unassigned.",
+    "thresholds": [
+      {
+        "when": "VERIFY_PENDING > 20",
+        "creates": [
+          "VF09",
+          "VF10",
+          "VF11",
+          "VF12"
+        ],
+        "measured": 18,
+        "threshold": 20,
+        "triggered": false
+      },
+      {
+        "when": "FAIL_REPAIR_REQUIRED > 20",
+        "creates": [
+          "FIX05",
+          "FIX06",
+          "FIX07",
+          "FIX08"
+        ],
+        "measured": 26,
+        "threshold": 20,
+        "triggered": true
+      },
+      {
+        "when": "SOURCE_READY > 80",
+        "creates": [
+          "PF17",
+          "PF18",
+          "PF19",
+          "PF20",
+          "PF21",
+          "PF22",
+          "PF23",
+          "PF24"
+        ],
+        "measured": 29,
+        "threshold": 80,
+        "triggered": false
+      }
+    ],
+    "builderExpansionRule": "Assign a released family to an existing builder where ownership permits. Create PF17+ only when SOURCE_READY exceeds the capacity of the existing sixteen."
+  },
+  "claimAndCollision": {
+    "oneOwnerPerFamily": "A family has one current owner. A second claim is refused, not queued.",
+    "oneWriterPerSharedHost": "A shared build host has one writer. Its importers read it and do not edit it.",
+    "verifierClaimRule": "A verifier claims only unclaimed families it neither built nor repaired.",
+    "repairerMayNotVerifyItself": "A repair worker may not independently verify its own output. The reverification goes to a third party.",
+    "ownershipReleasedOnIntegration": "A completed lane releases ownership immediately on integration, so its families are assignable in the same checkpoint."
+  },
+  "liveCounts": {
+    "liveFamilyDenominator": 346,
+    "sourceReady": 29,
+    "sourceBlocked": 256,
+    "legalBlocked": 13,
+    "verifyPending": 18,
+    "repairRequired": 26,
+    "byState": {
+      "SOURCE_BLOCKED": 256,
+      "SOURCE_READY": 29,
+      "FAIL_REPAIR_REQUIRED": 26,
+      "BUILD_IN_PROGRESS": 4,
+      "LEGAL_BLOCKED": 13,
+      "VERIFY_PENDING": 17,
+      "VERIFYING": 1
+    }
+  },
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "grantsNothing": "An integration cadence integrates. It approves no packet, promotes no route and opens nothing."
+}

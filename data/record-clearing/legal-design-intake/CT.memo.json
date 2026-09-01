@@ -1,0 +1,2995 @@
+{
+  "schemaVersion": 1,
+  "jurisdiction": "CT",
+  "memoVersion": "batch-1-amended",
+  "submittedAt": "2026-07-30",
+  "tracks": [
+    {
+      "trackId": "ct-nonconviction-auto",
+      "legalName": "Erasure of Records After Dismissal or Acquittal, C.G.S. § 54-142a(a) and (b)",
+      "publicName": "Records erased after a dismissal or a not guilty finding",
+      "controllingAuthority": {
+        "citations": [
+          "C.G.S. § 54-142a(a), cases on or after 1 October 1969",
+          "C.G.S. § 54-142a(b), cases before 1 October 1969",
+          "C.G.S. § 54-142a(g)(2), legal effect of erasure"
+        ],
+        "summary": "Connecticut says erasure, not expungement and not sealing. All police and court records and records of any state's attorney pertaining to the charge shall be erased on expiration of the time to file a writ of error or take an appeal, or on final determination of an appeal sustaining the dismissal or not guilty finding. There is no filing."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "1969-10-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "police and court records and records of any state's attorney pertaining to a dismissed or acquitted charge"
+      ],
+      "eligibleDispositions": [
+        "dismissal",
+        "not guilty finding"
+      ],
+      "exclusions": [
+        "A charge on which the defendant was found not guilty by reason of mental disease or defect, or guilty but not criminally responsible by reason of mental disease or defect. § 54-142a(a)."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Expiration of the time to file a writ of error or take an appeal, or final determination of an appeal sustaining the dismissal or not guilty finding",
+          "duration": "The appeal window, and nothing beyond it"
+        }
+      ],
+      "outputStrategy": "process_guidance",
+      "guidanceRationales": [
+        "no_participant_filing_exists"
+      ],
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "No venue. Erasure happens by operation of law without a filing."
+      },
+      "destination": {
+        "kind": "automatic",
+        "name": "Superior Court and the State Police Bureau of Identification",
+        "detail": "Records are erased by operation of law. There is no participant filing to generate on this track."
+      },
+      "components": [
+        {
+          "role": "process_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Explains that erasure is automatic after the appeal window, that the SPBI record is conviction-only and will not show a non-conviction either way, and points the participant at the Judicial Branch case look-up instead."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "dispositionType",
+          "question": "How did the charge end — dismissed, or found not guilty?",
+          "requirement": "required"
+        },
+        {
+          "key": "dispositionDate",
+          "question": "On what date did the case end?",
+          "requirement": "required"
+        },
+        {
+          "key": "mentalDiseaseFinding",
+          "question": "Was the finding not guilty by reason of mental disease or defect, or guilty but not criminally responsible?",
+          "requirement": "required",
+          "conditionDescription": "A yes takes the charge outside this track."
+        },
+        {
+          "key": "appealPending",
+          "question": "Is an appeal still open, or is the time to appeal still running?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Judicial Branch case look-up printout",
+          "obtainedFrom": "Connecticut Judicial Branch online case look-up",
+          "requirement": "required",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Look the case up on the Judicial Branch case look-up. An erased case will not appear. LegalEase does not obtain, receive or inspect it.",
+          "confirms": "dispositionType"
+        },
+        {
+          "name": "SPBI criminal history record search, form DPS-0846-C",
+          "obtainedFrom": "DESPP, Division of State Police, State Police Bureau of Identification",
+          "requirement": "conditional",
+          "conditionDescription": "Of limited value on this track. The SPBI result contains conviction history only, so it cannot confirm whether a non-conviction was erased.",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Mail form DPS-0846-C with a check or money order to DESPP-SPBI, 1111 Country Club Road, Middletown, CT 06457-2389. LegalEase cannot complete this request."
+        }
+      ],
+      "manualCompletionItems": [],
+      "officialSources": [
+        {
+          "title": "C.G.S. § 54-142a, Erasure of criminal records",
+          "url": "https://codes.findlaw.com/ct/title-54-criminal-procedure/ct-gen-st-sect-54-142a/",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Clean Slate Connecticut",
+          "url": "https://portal.ct.gov/cleanslate",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "There is no filing. Erasure follows the disposition by operation of law.",
+        "fees": "No court fee. § 54-142a(k) bars any fee on a petition under that section, and this branch needs no petition at all.",
+        "feeWaiver": "Not applicable. There is no fee.",
+        "notice": "The source review does not state a participant notice mechanism. The state does not notify people that records were erased.",
+        "service": "No service. There is no petition to serve.",
+        "participantSignature": "No participant signature. There is no participant filing on this track.",
+        "notarization": "Not applicable."
+      },
+      "selfHelpStopConditions": [
+        "The finding was not guilty by reason of mental disease or defect, or guilty but not criminally responsible.",
+        "An appeal is pending or the appeal window has not closed.",
+        "The participant has an immigration matter. § 54-142a(j) makes erasure something that can make a disposition harder to prove to federal authorities.",
+        "The record was not erased when it should have been, which is CT-13."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Pre-1 October 1969 cases are erased by operation of law and the arrested person or an heir may still file a petition for erasure. No official form was located for that petition.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+            "sourceHeading": "TRACK CT-1 / Pre-1 October 1969 cases",
+            "sourceStatement": "erased by operation of law, and the arrested person or an heir may still file a petition for erasure. § 54-142a(b). No official form located.",
+            "normalizerInferred": true
+          }
+        },
+        {
+          "question": "Whether the P.A. 25 or P.A. 26 sessions amended chapter 961a. FindLaw's text is marked current as of 1 January 2025.",
+          "impact": "release_blocker",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+            "sourceHeading": "OPEN QUESTIONS / 11",
+            "sourceStatement": "**Whether P.A. 25 or P.A. 26 session acts amended chapter 961a.** FindLaw's text is marked current as of 1 January 2025, so anything from the 2025 and 2026 sessions is outside what was read."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review and controlling addendum: process guidance only. Relief occurs by operation of law after the qualifying event and no participant packet is required.",
+        "limitations": [
+          {
+            "classification": "scope_restriction",
+            "statement": "Connecticut says erasure. Not expungement, not sealing. Participant-facing copy must use the statutory term.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+              "sourceHeading": "PART 1 / Facts that apply across every erasure track",
+              "sourceStatement": "**Terminology.** Connecticut says erasure. Not expungement, not sealing. The reference is right about this and it should survive the rewrite."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "The SPBI record is conviction-only, so it cannot confirm whether a non-conviction was erased. Point the participant at the Judicial Branch case look-up instead.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+              "sourceHeading": "PART 0 / 9",
+              "sourceStatement": "**The SPBI record is conviction-only.** Form DPS-0846-C states the result \"contains State of Connecticut criminal conviction history record information ONLY.\" It therefore cannot confirm whether a non-conviction was erased."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "A person who has been the subject of an erasure shall be deemed to have never been arrested within the meaning of the general statutes with respect to the proceedings so erased, and may so swear under oath. § 54-142a(g)(2).",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+              "sourceHeading": "PART 1 / Legal effect",
+              "sourceStatement": "§ 54-142a(g)(2): a person who has been the subject of an erasure \"shall be deemed to have never been arrested within the meaning of the general statutes with respect to the proceedings so erased and may so swear under oath.\"",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "self_help_boundary",
+            "statement": "Any participant with an immigration matter goes to counsel. § 54-142a(j) is an access mechanism, and erasure can make it harder to prove a disposition to federal authorities.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+              "sourceHeading": "PART 1 / Immigration",
+              "sourceStatement": "Erasure can make it harder to prove a disposition to federal authorities. This is a stop condition, not a footnote.",
+              "normalizerInferred": true
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "ct-nolle-auto",
+      "legalName": "Erasure After a Nolle, and Motion to Nolle a Continued Charge, C.G.S. § 54-142a(c)",
+      "publicName": "Records erased after a case was nolled",
+      "controllingAuthority": {
+        "citations": [
+          "C.G.S. § 54-142a(c), erasure thirteen months after a nolle",
+          "C.G.S. § 54-142a(c)(2), motion to nolle a charge continued at the prosecutor's request",
+          "C.G.S. § 54-142a(g)(2), legal effect of erasure"
+        ],
+        "summary": "Where a charge has been nolled, records shall be erased once thirteen months have elapsed since the nolle. Separately, where a charge was continued at the prosecutor's request and thirteen months have passed with no prosecution or other disposition, the charge shall be nolled on motion of the arrested person, and erasure then follows the nolle rules. The second is an affirmative motion the participant can make; it is the one part of this track that is not passive."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "1972-04-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "police and court records and records of any state's attorney pertaining to a nolled charge",
+        "a charge continued at the prosecutor's request with no prosecution or other disposition for thirteen months"
+      ],
+      "eligibleDispositions": [
+        "nolle prosequi",
+        "charge continued at the prosecutor's request for thirteen months without prosecution or other disposition"
+      ],
+      "exclusions": [],
+      "waitingPeriods": [
+        {
+          "condition": "From the nolle, before erasure follows",
+          "duration": "Thirteen months"
+        },
+        {
+          "condition": "From the continuance at the prosecutor's request, before the charge shall be nolled on the arrested person's motion",
+          "duration": "Thirteen months with no prosecution or other disposition"
+        }
+      ],
+      "outputStrategy": "composed",
+      "compositionMode": "alternative",
+      "units": [
+        {
+          "unitId": "ct-nolle-auto-branch-automatic-erasure",
+          "order": 1,
+          "label": "Automatic erasure thirteen months after a nolle",
+          "outputStrategy": "process_guidance",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "description": "The charge has already been nolled. Records shall be erased once thirteen months have elapsed. Explain the clock, explain that nolles entered before 1 April 1972 in the listed older courts are deemed erased by operation of law, and explain how to confirm the erasure happened. No participant filing.",
+          "available": true
+        },
+        {
+          "unitId": "ct-nolle-auto-branch-motion-to-nolle",
+          "order": 2,
+          "label": "Section 54-142a(c)(2) motion to nolle a continued charge",
+          "outputStrategyStatus": "unresolved",
+          "packetIdentity": "unresolved",
+          "description": "The charge was continued at the prosecutor's request and thirteen months have passed with no prosecution or other disposition, so it shall be nolled on the arrested person's motion. The motion is potentially a custom pleading and is not inherently guidance-only, but the filing vehicle is not settled: no form was located, and the caption, venue, service and clerk practice have not been approved.",
+          "available": false,
+          "unavailableReason": "The current filing vehicle and clerk practice must be approved before a statewide custom pleading can be enabled. The automatic-erasure branch supplies no strategy to this branch."
+        }
+      ],
+      "guidanceRationales": [
+        "no_participant_filing_exists"
+      ],
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "No venue on the automatic branch. On the motion branch the venue is unresolved along with the rest of the filing vehicle."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "Superior Court, and the State Police Bureau of Identification for the state record",
+        "detail": "The automatic branch requires no filing. The motion branch would be filed in the Superior Court, but the caption, venue, service and clerk practice have not been approved."
+      },
+      "components": [
+        {
+          "role": "process_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Explains the thirteen-month erasure clock after a nolle, and separately explains that a charge continued at the prosecutor's request for thirteen months shall be nolled on the arrested person's motion. It does not generate that motion."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "chargeStatus",
+          "question": "Was the charge nolled, or is it still being continued at the prosecutor's request?",
+          "requirement": "required",
+          "conditionDescription": "This answer selects the branch. LegalEase does not choose one for the participant."
+        },
+        {
+          "key": "nolleDate",
+          "question": "On what date was the charge nolled?",
+          "requirement": "conditional",
+          "conditionDescription": "Only on the automatic-erasure branch."
+        },
+        {
+          "key": "continuanceDate",
+          "question": "On what date was the charge continued at the prosecutor's request?",
+          "requirement": "conditional",
+          "conditionDescription": "Only on the motion branch."
+        },
+        {
+          "key": "anyProsecutionSince",
+          "question": "Has there been any prosecution or other disposition since then?",
+          "requirement": "conditional",
+          "conditionDescription": "Only on the motion branch."
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Judicial Branch case look-up printout",
+          "obtainedFrom": "Connecticut Judicial Branch online case look-up",
+          "requirement": "required",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Look the case up on the Judicial Branch case look-up to confirm the nolle date or the continuance. An erased case will not appear. LegalEase does not obtain, receive or inspect it.",
+          "confirms": "nolleDate"
+        }
+      ],
+      "manualCompletionItems": [],
+      "officialSources": [
+        {
+          "title": "C.G.S. § 54-142a, Erasure of criminal records",
+          "url": "https://codes.findlaw.com/ct/title-54-criminal-procedure/ct-gen-st-sect-54-142a/",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Clean Slate Connecticut",
+          "url": "https://portal.ct.gov/cleanslate",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "The automatic branch requires no filing. The motion branch would be a motion to nolle filed in the Superior Court, but the accepted vehicle, caption and clerk practice are unresolved.",
+        "fees": "No court fee is charged in any court with respect to any petition under § 54-142a. § 54-142a(k).",
+        "feeWaiver": "Not applicable. No fee is charged.",
+        "notice": "The source review does not state a notice rule for the § 54-142a(c)(2) motion.",
+        "service": "Unresolved on the motion branch. No service requirement was established.",
+        "participantSignature": "No participant signature on the automatic branch. Unresolved on the motion branch, pending the vehicle.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "selfHelpStopConditions": [
+        "The participant needs the § 54-142a(c)(2) motion, whose filing vehicle is not settled.",
+        "The thirteen months have not yet elapsed.",
+        "The participant has an immigration matter.",
+        "The record was not erased when it should have been, which is CT-13."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "The current filing vehicle and clerk practice for the § 54-142a(c)(2) motion, before a statewide custom pleading can be enabled. No form was located.",
+          "impact": "build_blocker",
+          "affectedElement": "output_strategy",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+            "sourceHeading": "Connecticut operational amendments / True blockers retained",
+            "sourceStatement": "**CT-2 motion branch:** current filing vehicle and clerk practice before enabling a statewide custom pleading."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "The controlling addendum keeps the automatic erasure branch as guidance and states that the § 54-142a(c)(2) motion is potentially custom_pleading and not inherently guidance-only, opening once the current caption, venue, service and clerk practice are approved. The two are represented as separate branches so that the settled one does not lend its strategy to the unsettled one.",
+        "limitations": [
+          {
+            "classification": "legal_design_blocker",
+            "statement": "The § 54-142a(c)(2) motion branch has no settled filing vehicle. The current caption, venue, service and clerk practice must be approved first.",
+            "undeterminedElement": "output_strategy",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+              "sourceHeading": "Connecticut operational amendments / Process-guidance routes reviewed",
+              "sourceStatement": "The § 54-142a(c)(2) motion is potentially `custom_pleading`, not inherently guidance-only. It may open once current caption, venue, service, and clerk practice are approved."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "Connecticut says erasure. Not expungement, not sealing.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+              "sourceHeading": "PART 1 / Facts that apply across every erasure track",
+              "sourceStatement": "**Terminology.** Connecticut says erasure. Not expungement, not sealing."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Nolles entered before 1 April 1972 in the listed older courts are deemed erased by operation of law, and the arrested person or an heir may petition, in which case the records shall be erased.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+              "sourceHeading": "TRACK CT-2 / Mechanism",
+              "sourceStatement": "Nolles entered before 1 April 1972 in the listed older courts are deemed erased by operation of law, and the arrested person or an heir may petition, in which case the records shall be erased.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "self_help_boundary",
+            "statement": "Any participant with an immigration matter goes to counsel.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+              "sourceHeading": "PART 1 / Immigration",
+              "sourceStatement": "Any participant with an immigration matter goes to counsel.",
+              "normalizerInferred": true
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "ct-diversion",
+      "legalName": "Erasure After Diversionary Program Completion, C.G.S. § 54-142a(a)",
+      "publicName": "Records erased after finishing a diversionary program",
+      "controllingAuthority": {
+        "citations": [
+          "C.G.S. § 54-142a(a), erasure following the dismissal",
+          "C.G.S. § 54-56e, Accelerated Rehabilitation",
+          "C.G.S. § 46b-38c, Family Violence Education Program",
+          "C.G.S. § 54-56g, Impaired Driver Intervention Program",
+          "C.G.S. § 54-56l, supervised diversionary program"
+        ],
+        "summary": "Successful completion of a diversionary program produces a dismissal, and the dismissal triggers automatic erasure under § 54-142a(a). The program statutes were not read in this pass, and the program list is not exhaustively verified."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "1969-10-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "records of a charge dismissed on successful completion of a diversionary program"
+      ],
+      "eligibleDispositions": [
+        "dismissal following successful program completion"
+      ],
+      "exclusions": [
+        "Programs that do not end in a dismissal. Each program must be verified before any participant-facing list is published."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Program completion and the appeal window on the resulting dismissal",
+          "duration": "None beyond program completion and the appeal window"
+        }
+      ],
+      "outputStrategy": "process_guidance",
+      "guidanceRationales": [
+        "no_participant_filing_exists"
+      ],
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "No venue. Erasure follows the dismissal by operation of law."
+      },
+      "destination": {
+        "kind": "automatic",
+        "name": "Superior Court and the State Police Bureau of Identification",
+        "detail": "There is no participant filing. The dismissal does the work and erasure follows it."
+      },
+      "components": [
+        {
+          "role": "process_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Explains that completion produces a dismissal and that the dismissal triggers erasure, and tells the participant how to confirm the dismissal was entered."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "programName",
+          "question": "Which diversionary program were you in?",
+          "requirement": "required"
+        },
+        {
+          "key": "programCompleted",
+          "question": "Did you complete the program successfully?",
+          "requirement": "required"
+        },
+        {
+          "key": "dismissalEntered",
+          "question": "Did the court enter a dismissal after you completed it?",
+          "requirement": "required",
+          "conditionDescription": "Not every program necessarily ends in dismissal, and dismissal is what triggers erasure."
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Judicial Branch case look-up printout",
+          "obtainedFrom": "Connecticut Judicial Branch online case look-up",
+          "requirement": "required",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Look the case up on the Judicial Branch case look-up to confirm the dismissal was entered. LegalEase does not obtain, receive or inspect it.",
+          "confirms": "dismissalEntered"
+        }
+      ],
+      "manualCompletionItems": [],
+      "officialSources": [
+        {
+          "title": "C.G.S. § 54-142a, Erasure of criminal records",
+          "url": "https://codes.findlaw.com/ct/title-54-criminal-procedure/ct-gen-st-sect-54-142a/",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Clean Slate Connecticut",
+          "url": "https://portal.ct.gov/cleanslate",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "There is no filing. Erasure follows the dismissal.",
+        "fees": "No court fee.",
+        "feeWaiver": "Not applicable.",
+        "notice": "The source review does not state a participant notice mechanism.",
+        "service": "No service. There is no petition to serve.",
+        "participantSignature": "No participant signature. There is no participant filing on this track.",
+        "notarization": "Not applicable."
+      },
+      "selfHelpStopConditions": [
+        "The program did not end in a dismissal.",
+        "Whether the specific program qualifies is unverified.",
+        "The participant has an immigration matter.",
+        "The record was not erased when it should have been, which is CT-13."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "The diversionary program statutes were not read, and not every program necessarily ends in dismissal. Verify each one before publishing any participant-facing list of qualifying programs.",
+          "impact": "release_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+            "sourceHeading": "OPEN QUESTIONS / 7",
+            "sourceStatement": "**Diversionary program list.** The program statutes were not read, and not every program necessarily ends in dismissal."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review and controlling addendum: process guidance only. Relief occurs by operation of law after the qualifying event and no participant packet is required.",
+        "limitations": [
+          {
+            "classification": "participant_question",
+            "statement": "Before publishing any participant-facing list of qualifying programs, verify each one and confirm that each ends in dismissal rather than some other disposition.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+              "sourceHeading": "TRACK CT-3 / Limitations",
+              "sourceStatement": "the program statutes were not read. Before publishing any participant-facing list of qualifying programs, verify each one and confirm that each ends in dismissal rather than some other disposition.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "Connecticut says erasure. Not expungement, not sealing.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+              "sourceHeading": "PART 1 / Facts that apply across every erasure track",
+              "sourceStatement": "**Terminology.** Connecticut says erasure. Not expungement, not sealing."
+            }
+          },
+          {
+            "classification": "self_help_boundary",
+            "statement": "Any participant with an immigration matter goes to counsel.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+              "sourceHeading": "PART 1 / Immigration",
+              "sourceStatement": "Any participant with an immigration matter goes to counsel.",
+              "normalizerInferred": true
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "ct-cleanslate-auto",
+      "legalName": "Clean Slate Automatic Erasure, C.G.S. § 54-142a(e)(1)(A)(i)(I) and (ii)(I)",
+      "publicName": "Clean Slate erasure for offenses from 2000 onward",
+      "controllingAuthority": {
+        "citations": [
+          "C.G.S. § 54-142a(e)(1)(A)(i)(I) and (ii)(I)",
+          "C.G.S. § 54-142t(a), the automation duty",
+          "C.G.S. § 54-142a(e)(1)(B), classification under the law in effect when the offense was committed",
+          "C.G.S. § 54-142a(e)(2), exclusions",
+          "C.G.S. § 54-142a(e)(3), completion requirements",
+          "C.G.S. § 54-142a(e)(4), cannabis carve-out from the clock",
+          "C.G.S. § 54-142a(i)(1), the multi-count and multi-defendant bar",
+          "Public Act 21-42, amended by P.A. 23-134"
+        ],
+        "summary": "Erasure by operation of law for offenses occurring on or after 1 January 2000. Seven years for a misdemeanor, unclassified misdemeanor or motor vehicle violation with a maximum of not more than one year, with § 14-227a excepted from that bucket. Ten years for a Class D or E felony, an unclassified felony with a maximum of not more than five years, a motor vehicle violation above one year and not more than five, or any violation of § 14-227a. The clock runs from the date the court entered the person's most recent judgment of conviction for any crime, not the conviction being erased."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2023-01-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "classified or unclassified misdemeanor, or motor vehicle violation with a maximum term of not more than one year, on the seven-year clock",
+        "Class D or E felony, unclassified felony with a maximum term of not more than five years, motor vehicle violation above one year and not more than five years, or any violation of § 14-227a, on the ten-year clock"
+      ],
+      "eligibleDispositions": [
+        "conviction for an offense occurring on or after 1 January 2000"
+      ],
+      "exclusions": [
+        "Any conviction on or after 1 January 2000 designated a family violence crime under § 46b-38a. § 54-142a(e)(2)(A). The exclusion is limited to convictions on or after that date; it is not a flat categorical bar.",
+        "Any nonviolent sexual offense or sexually violent offense as defined in § 54-250. § 54-142a(e)(2)(B).",
+        "The enumerated sections at § 54-142a(e)(2)(C): 29-33, 53a-60a, 53a-60b, 53a-60c, 53a-61a, 53a-64bb, 53a-64cc, 53a-72a, 53a-90a, 53a-103a, 53a-181c, 53a-191, 53a-196, 53a-196d, 53a-196f, 53a-211, 53a-212, 53a-216, 53a-217, 53a-217a, 53a-217c, 53a-322, 53a-323, 54-251, 54-252, 54-253, 54-254, and § 53a-189a(a)(1). This must be screened section by section, not by category label: it includes several firearms sections but also assault variants, sexual assault in the fourth degree, voyeurism, burglary and home invasion variants, harassment, cruelty to animals and registration offenses.",
+        "A § 14-227a conviction where the person was convicted of another § 14-227a violation within the ten years following. § 54-142a(e)(2)(D). This is the only DUI bar; DUI is otherwise eligible on the ten-year clock.",
+        "Records referencing more than one count, or a police record referencing more than one defendant, unless and until all counts and all referenced defendants are entitled to erasure. § 54-142a(i)(1)."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Classified or unclassified misdemeanor, or motor vehicle violation with a maximum term of not more than one year, excepting § 14-227a",
+          "duration": "Seven years from the date the court entered the person's most recent judgment of conviction for any crime"
+        },
+        {
+          "condition": "Class D or E felony, unclassified felony with a maximum of not more than five years, motor vehicle violation above one year and not more than five years, or any violation of § 14-227a",
+          "duration": "Ten years from the date the court entered the person's most recent judgment of conviction for any crime"
+        }
+      ],
+      "outputStrategy": "process_guidance",
+      "guidanceRationales": [
+        "no_participant_filing_exists"
+      ],
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "No venue. Erasure happens by operation of law without a filing."
+      },
+      "destination": {
+        "kind": "automatic",
+        "name": "Department of Emergency Services and Public Protection, and the Judicial Branch",
+        "detail": "Erasure runs on a rolling basis. As of 15 July 2026 the state reported the backlog cleared: roughly 170,000 people and nearly 350,000 cases. The state does not currently notify people that their records were erased."
+      },
+      "components": [
+        {
+          "role": "process_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Gives an eligibility read the state does not give the person, a clock calculation off the most recent judgment of conviction for any crime, a count-by-count erasability screen, and a check of whether the erasure actually happened, since the state does not notify."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "offenseDate",
+          "question": "On what date did the offense happen? Not the conviction date — the date of the conduct.",
+          "requirement": "required",
+          "conditionDescription": "The statute keys Clean Slate on when the offense occurred. This routes between this track and the pre-2000 petition track."
+        },
+        {
+          "key": "offenseSections",
+          "question": "Which statute sections were you convicted under? Copy them from your record.",
+          "requirement": "required"
+        },
+        {
+          "key": "mostRecentConvictionDate",
+          "question": "What is the date of your most recent judgment of conviction for any crime?",
+          "requirement": "required",
+          "conditionDescription": "This is what starts the clock, not the conviction being erased."
+        },
+        {
+          "key": "countsOnDocket",
+          "question": "How many counts are on this docket, and did every one of them end the same way?",
+          "requirement": "required",
+          "conditionDescription": "If any count on the record is not erasable, nothing on that record is erased."
+        },
+        {
+          "key": "supervisionComplete",
+          "question": "Have you completed any incarceration, parole, special parole, medical parole, compassionate parole or transitional supervision, and any probation, for this and any other offense convicted on or after 1 January 2000?",
+          "requirement": "required"
+        },
+        {
+          "key": "pendingCharges",
+          "question": "Do you have any pending state criminal charge?",
+          "requirement": "required"
+        },
+        {
+          "key": "familyViolenceDesignation",
+          "question": "Was any conviction on or after 1 January 2000 designated a family violence crime?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "SPBI criminal history record search, form DPS-0846-C",
+          "obtainedFrom": "DESPP, Division of State Police, State Police Bureau of Identification",
+          "requirement": "required",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Mail form DPS-0846-C with a check or money order payable to \"Treasurer-State of CT\" to DESPP-SPBI, 1111 Country Club Road, Middletown, CT 06457-2389. The result is conviction history only. LegalEase cannot complete this request and does not obtain, receive or inspect the record.",
+          "confirms": "mostRecentConvictionDate"
+        },
+        {
+          "name": "Judicial Branch case look-up printout",
+          "obtainedFrom": "Connecticut Judicial Branch online case look-up",
+          "requirement": "required",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Look the case up to confirm the disposition, the counts on the docket and the sentencing location. An erased case will not appear.",
+          "confirms": "countsOnDocket"
+        }
+      ],
+      "manualCompletionItems": [],
+      "officialSources": [
+        {
+          "title": "C.G.S. § 54-142a, Erasure of criminal records",
+          "url": "https://codes.findlaw.com/ct/title-54-criminal-procedure/ct-gen-st-sect-54-142a/",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "C.G.S. § 54-142t, Automated process for erasure",
+          "url": "https://codes.findlaw.com/ct/title-54-criminal-procedure/ct-gen-st-sect-54-142t/",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Clean Slate Connecticut",
+          "url": "https://portal.ct.gov/cleanslate",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "There is no filing. Erasure happens by operation of law.",
+        "fees": "No fee.",
+        "feeWaiver": "Not applicable. The real cost is the SPBI record.",
+        "notice": "The state does not currently notify people that their records were erased. DESPP is working on a notification portal, hoped for by the end of 2026.",
+        "service": "No service. There is no petition to serve.",
+        "participantSignature": "No participant signature. There is no participant filing on this track.",
+        "notarization": "Not applicable."
+      },
+      "selfHelpStopConditions": [
+        "Any count on the docket may not be erasable.",
+        "The offense class under the law in effect when the offense was committed is unclear.",
+        "A possible § 54-142a(e)(2)(C) listed offense.",
+        "A family violence designation on a conviction on or after 1 January 2000.",
+        "Any pending state charge.",
+        "The participant has an immigration matter.",
+        "The record should have erased and did not, which is CT-13."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Offense date versus conviction date. The statute says the offense occurred; the Clean Slate portal says the conviction was imposed; JD-CR-202 says both in different places. This decides who is routed to the petition track and who is told to wait, and needs a ruling before intake logic is written.",
+          "impact": "build_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+            "sourceHeading": "OPEN QUESTIONS / 1",
+            "sourceStatement": "**Offense date versus conviction date.** The statute says offence occurred; the state portal says conviction imposed; the form says both in different places. This is the top item for Lawrence."
+          }
+        },
+        {
+          "question": "The DESPP § 54-142t(b) list of erasable statute sections. The URL was not located. This should be a consumed data source, not a hand-maintained list.",
+          "impact": "build_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+            "sourceHeading": "OPEN QUESTIONS / 2",
+            "sourceStatement": "**The DESPP § 54-142t(b) list** of erasable statute sections. URL not located. This should be a consumed data source, not a hand-maintained list."
+          }
+        },
+        {
+          "question": "How erasure interacts with a pending Clean Slate clock when a later conviction is itself later erased. Whether an erased later conviction still sets the most-recent-conviction date is not answered by the text read here, other than the narrow § 21a-279(c) carve-out at (e)(4).",
+          "impact": "release_blocker",
+          "affectedElement": "waiting_period",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+            "sourceHeading": "OPEN QUESTIONS / 13",
+            "sourceStatement": "**How erasure interacts with a pending Clean Slate clock when a later conviction is itself later erased.**"
+          }
+        },
+        {
+          "question": "Whether the P.A. 25 or P.A. 26 sessions amended chapter 961a.",
+          "impact": "release_blocker",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+            "sourceHeading": "OPEN QUESTIONS / 11",
+            "sourceStatement": "**Whether P.A. 25 or P.A. 26 session acts amended chapter 961a.**"
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review and controlling addendum: process guidance only. Relief occurs by operation of law and no participant packet is required. What LegalEase adds is the eligibility read the state does not give, the clock calculation, and the check that the erasure actually happened.",
+        "limitations": [
+          {
+            "classification": "packet_instruction",
+            "statement": "The offense class and the maximum sentence that could have been imposed are determined based on the law in effect at the time the offense was committed, not current law. § 54-142a(e)(1)(B).",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+              "sourceHeading": "TRACK CT-4 / Classification rule",
+              "sourceStatement": "the offense class and the maximum sentence that could have been imposed are determined based on the law in effect **at the time the offense was committed**. § 54-142a(e)(1)(B). Not current law.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "If a case has more than one count and any count is not erasable, nothing on that record is erased. The same rule appears at § 54-142a(i)(1), § 54-142u(b) and § 54-142v(b). This is the most common practical defeat in Connecticut.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+              "sourceHeading": "PART 0 / 6",
+              "sourceStatement": "**The multi-count and multi-defendant bar.** § 54-142a(i)(1) says the erasure provisions do not apply to criminal history record information referencing more than one count, or to a police record referencing more than one defendant, while the case is pending or after disposition, unless and until all counts and all referenced defendants are entitled to erasure."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "DUI is not excluded from Clean Slate. § 14-227a is carved out of the seven-year misdemeanor bucket and placed in the ten-year bucket. The only DUI bar is a second § 14-227a conviction within the ten years following.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+              "sourceHeading": "PART 0 / 2",
+              "sourceStatement": "**DUI is eligible, on the ten-year clock.** § 54-142a(e)(1)(A)(i) carves § 14-227a out of the seven-year misdemeanor track, and (ii) puts \"any violation of section 14-227a\" into the ten-year track."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Firearms offenses are not a category exclusion. § 54-142a(e)(2)(C) is an enumerated list of statute sections and must be screened section by section, not by category label.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+              "sourceHeading": "PART 0 / 3",
+              "sourceStatement": "**Firearms offenses are not a category exclusion.** The engine must screen the enumerated list section by section, not a category label."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Erasure does not terminate the obligation to pay an unremitted fine imposed as part of the sentence, and it does not end sex offender, deadly weapon offender or felony-for-a-sexual-purpose registration obligations, or a standing criminal protective order. Nothing in the erasure provisions requires the DMV to erase criminal history information on a driving record, which matters to any CDL holder.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+              "sourceHeading": "PART 1 / Facts that apply across every erasure track",
+              "sourceStatement": "**What erasure does not end.** Sex offender, deadly weapon offender, and felony-for-a-sexual-purpose registration obligations, § 54-142a(e)(7); standing criminal protective orders under § 53a-40e, § 54-142a(e)(8).",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "Connecticut says erasure. Not expungement, not sealing.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+              "sourceHeading": "PART 1 / Facts that apply across every erasure track",
+              "sourceStatement": "**Terminology.** Connecticut says erasure. Not expungement, not sealing."
+            }
+          },
+          {
+            "classification": "self_help_boundary",
+            "statement": "Any participant with an immigration matter goes to counsel.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+              "sourceHeading": "PART 1 / Immigration",
+              "sourceStatement": "Any participant with an immigration matter goes to counsel.",
+              "normalizerInferred": true
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "ct-cleanslate-petition",
+      "legalName": "Petition for Clean Slate Erasure, Convictions Before 1/1/2000, C.G.S. § 54-142a(e)(1)(A)(i)(II) and (ii)(II)",
+      "publicName": "Petition for Clean Slate erasure",
+      "controllingAuthority": {
+        "citations": [
+          "C.G.S. § 54-142a(e)(1)(A)(i)(II) and (ii)(II)",
+          "C.G.S. § 54-142a(e)(1)(A), petition on a form prescribed by the Office of the Chief Court Administrator",
+          "C.G.S. § 54-142a(e)(1)(B), classification under the law in effect when the offense was committed",
+          "C.G.S. § 54-142a(k), no fee",
+          "P.A. 23-134 § 1",
+          "Judicial Branch form JD-CR-202, Rev. 11-23"
+        ],
+        "summary": "The petition route for pre-2000 offenses. Eligibility is identical to the automatic Clean Slate track on offense class, exclusions, waiting periods and completion; the only difference is the date trigger and the requirement to file. JD-CR-202 is the form prescribed by the Office of the Chief Court Administrator, so a custom pleading is not available."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2023-01-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "misdemeanors, Class D or E felonies, unclassified felonies with a statutory maximum of no more than five years, and motor vehicle violations with a statutory maximum of no more than five years, for offenses before 1 January 2000"
+      ],
+      "eligibleDispositions": [
+        "conviction for an offense occurring before 1 January 2000"
+      ],
+      "exclusions": [
+        "A § 14-227a violation where the person was convicted of another § 14-227a violation within ten years of the conviction.",
+        "Sexually violent crimes and nonviolent sexual crimes as defined in § 54-250.",
+        "Crimes listed in § 54-142a(e)(2)(C).",
+        "The form's own block list does not mention family violence, consistent with the statutory limitation of that exclusion to convictions on or after 1 January 2000.",
+        "Records referencing more than one count unless every count is entitled to erasure. § 54-142a(i)(1)."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Misdemeanor petition: no other conviction within seven years of the last conviction",
+          "duration": "Seven years"
+        },
+        {
+          "condition": "Felony petition: no other conviction within ten years of the last conviction",
+          "duration": "Ten years"
+        }
+      ],
+      "outputStrategy": "official_pdf_fill",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "The Superior Court G.A. location where the person was sentenced for the crime being erased, with the closed-court redirect: G.A. 6 and G.A. 8 at New Haven go to G.A. 23 at New Haven, 121 Elm Street; G.A. 13 at Enfield and G.A. 16 at West Hartford go to G.A. 14 at Hartford, 101 Lafayette Street; G.A. 17 at Bristol goes to G.A. 15 at New Britain, 20 Franklin Square; G.A. 20 at Norwalk goes to G.A. 1 at Stamford, 123 Hoyt Street."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "Superior Court, G.A. location of sentencing",
+        "detail": "One docket number per form. The form states the court cannot process a form covering more than one case. After filing, the court will either order erasure without a hearing or schedule a hearing; the order is page 2 of the form."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "JD-CR-202",
+          "officialSourceUrl": "https://portal.ct.gov/cleanslate/petition-for-clean-slate-erasure",
+          "notes": "Petition for Clean Slate Erasure, Convictions Before 1/1/2000, Rev. 11-23. Mandatory: § 54-142a(e)(1)(A) requires a form prescribed by the Office of the Chief Court Administrator, so a custom pleading is not available. The order of the court is page 2 of the same form, so no separate proposed order exists. The crimes block, item 1b eligibility class, item 1c not-blocked certification, item 2 waiting period and item 3 sentence completion require legal judgment and are never auto-completed."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "offenseDate",
+          "question": "On what date did the offense happen? Not the conviction date — the date of the conduct.",
+          "requirement": "required"
+        },
+        {
+          "key": "docketNumber",
+          "question": "What is the docket number for the case you want erased?",
+          "requirement": "required",
+          "conditionDescription": "One docket per form. Multiple dockets mean multiple petitions."
+        },
+        {
+          "key": "sentencingLocation",
+          "question": "At which court location were you sentenced?",
+          "requirement": "required",
+          "conditionDescription": "Drives venue, including the closed-court redirect."
+        },
+        {
+          "key": "offenseSections",
+          "question": "Which statute sections were you convicted under? Copy them from your record.",
+          "requirement": "required"
+        },
+        {
+          "key": "offenseClassThenCurrent",
+          "question": "What was the offense class and maximum sentence under the law in effect when the offense happened?",
+          "requirement": "required",
+          "conditionDescription": "For a pre-2000 offense this means researching repealed or superseded law. LegalEase does not classify it."
+        },
+        {
+          "key": "mostRecentConvictionDate",
+          "question": "What is the date of your most recent judgment of conviction for any crime?",
+          "requirement": "required"
+        },
+        {
+          "key": "countsOnDocket",
+          "question": "How many counts are on this docket, and is every one of them erasable?",
+          "requirement": "required"
+        },
+        {
+          "key": "supervisionComplete",
+          "question": "Have you completed all imprisonment, parole, special parole, transitional supervision and probation, both for the crimes being erased and for any other crime convicted in state court on or after 1 January 2000?",
+          "requirement": "required"
+        },
+        {
+          "key": "pendingCharges",
+          "question": "Do you have any pending state criminal charge?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "SPBI criminal history record search, form DPS-0846-C",
+          "obtainedFrom": "DESPP, Division of State Police, State Police Bureau of Identification",
+          "requirement": "required",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Mail form DPS-0846-C with a check or money order to DESPP-SPBI, 1111 Country Club Road, Middletown, CT 06457-2389. Gather it; it is not filed with the petition. LegalEase cannot complete this request and does not obtain, receive or inspect the record.",
+          "confirms": "mostRecentConvictionDate"
+        },
+        {
+          "name": "Judicial Branch case look-up printout",
+          "obtainedFrom": "Connecticut Judicial Branch online case look-up",
+          "requirement": "required",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Look the case up to confirm the docket number, the counts and the sentencing location. Gather it; it is not filed with the petition.",
+          "confirms": "docketNumber"
+        },
+        {
+          "name": "Sentencing information sufficient to establish the offense class under then-current law",
+          "obtainedFrom": "Superior Court clerk at the sentencing location",
+          "requirement": "required",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Ask the clerk for the sentencing record. For a pre-2000 offense the class must be established under the law in effect at the time, which may mean repealed or superseded versions.",
+          "confirms": "offenseClassThenCurrent"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature, sworn before a Notary Public, Commissioner of the Superior Court, Clerk or other proper officer",
+          "whereInPacket": "JD-CR-202, verification block",
+          "why": "The petition is sworn. The petitioner swears to their own allegations, and LegalEase cannot notarize."
+        },
+        {
+          "item": "The crimes the defendant asks the court to erase",
+          "whereInPacket": "JD-CR-202, crimes block",
+          "why": "Requires legal judgment about which convictions are erasable. The participant supplies them from the record."
+        },
+        {
+          "item": "Item 1b eligibility class and item 1c not-blocked certification",
+          "whereInPacket": "JD-CR-202, item 1",
+          "why": "Classifying an offense under the law in effect when it was committed, and certifying that it is not on the § 54-142a(e)(2)(C) list, are legal judgments. LegalEase does not classify offenses under repealed law."
+        },
+        {
+          "item": "Item 2 waiting period and item 3 sentence completion",
+          "whereInPacket": "JD-CR-202, items 2 and 3",
+          "why": "Sworn allegations of fact by the petitioner."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "JD-CR-202, Petition for Clean Slate Erasure, Convictions Before 1/1/2000, Rev. 11-23",
+          "url": "https://portal.ct.gov/cleanslate/petition-for-clean-slate-erasure",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "C.G.S. § 54-142a, Erasure of criminal records",
+          "url": "https://codes.findlaw.com/ct/title-54-criminal-procedure/ct-gen-st-sect-54-142a/",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Petition for Clean Slate erasure, Clean Slate Connecticut",
+          "url": "https://portal.ct.gov/cleanslate/petition-for-clean-slate-erasure",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "File the completed, sworn and notarized JD-CR-202 in the Superior Court G.A. location where you were sentenced, applying the closed-court redirect chart. One docket number per form; the court cannot process a form covering more than one case.",
+        "fees": "No fee. No fee shall be charged in any court with respect to any petition under § 54-142a. § 54-142a(k).",
+        "feeWaiver": "Not applicable. No fee is charged.",
+        "notice": "The source review does not state a notice requirement. After filing, the court will either order the convictions erased without a hearing or schedule a hearing to decide.",
+        "service": "The source review identifies no service document for this petition.",
+        "participantSignature": "The petitioner signs JD-CR-202, sworn before a Notary Public, Commissioner of the Superior Court, Clerk or other proper officer.",
+        "notarization": "Required. The form must be signed before a Notary Public, Commissioner of the Superior Court, Clerk or other proper officer. LegalEase cannot notarize."
+      },
+      "selfHelpStopConditions": [
+        "The court sets a hearing.",
+        "Any offense whose class under then-current law is unclear.",
+        "Any count on the docket that may not be erasable.",
+        "A possible § 54-142a(e)(2)(C) listed offense.",
+        "A family violence designation.",
+        "Any immigration matter, given § 54-142a(j).",
+        "Any pending charge."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Offense date versus conviction date. The statute says the offense occurred; the Clean Slate portal says the conviction was imposed; JD-CR-202 says \"Happened before January 1, 2000\" in item 1a while its title says \"CONVICTIONS BEFORE 1/1/2000\". This must be resolved before intake logic is written, because it decides who is routed to the petition and who is told to wait.",
+          "impact": "build_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+            "sourceHeading": "PART 0 / 1",
+            "sourceStatement": "**Offense date, not conviction date.** ... The statute controls, but this needs Lawrence's ruling before intake logic is written, because it decides who gets routed to the petition and who gets told to wait."
+          }
+        },
+        {
+          "question": "The offense classification and statutory maximum under the law in effect when the offense was committed, which for a pre-2000 offense means researching repealed or superseded versions.",
+          "impact": "build_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+            "sourceHeading": "Connecticut operational amendments / True blockers retained",
+            "sourceStatement": "Any unresolved pre-2000 date rule or historical offense-classification issue that changes the correct branch remains a route-selection blocker."
+          }
+        },
+        {
+          "question": "The DESPP § 54-142t(b) list of erasable statute sections. URL not located; it should be consumed rather than hand-maintained.",
+          "impact": "build_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+            "sourceHeading": "OPEN QUESTIONS / 2",
+            "sourceStatement": "**The DESPP § 54-142t(b) list** of erasable statute sections. URL not located."
+          }
+        },
+        {
+          "question": "The official JD-CR-202 PDF has not been pulled from jud.ct.gov and the current revision is unconfirmed. Rev. 11-23 was reviewed from the archive copy.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+            "sourceHeading": "OPEN QUESTIONS / 12",
+            "sourceStatement": "**The current JD-CR-202 revision.** Rev. 11-23 was reviewed. Confirm nothing newer is posted."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review: \"Approved for implementation with the limitations listed below.\" JD-CR-202 is the mandatory prescribed form, so the output vehicle is settled and a custom pleading is not available.",
+        "limitations": [
+          {
+            "classification": "legal_design_blocker",
+            "statement": "Resolve the offense-date versus conviction-date question before intake logic is written. Any unresolved pre-2000 date rule or historical offense-classification issue that changes the correct branch is a route-selection blocker.",
+            "undeterminedElement": "eligibility_branch",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+              "sourceHeading": "Connecticut operational amendments / True blockers retained",
+              "sourceStatement": "Any unresolved pre-2000 date rule or historical offense-classification issue that changes the correct branch remains a route-selection blocker."
+            }
+          },
+          {
+            "classification": "participant_question",
+            "statement": "Do not classify offenses under repealed law automatically. The participant supplies the offense class and statutory maximum under the law in effect when the offense was committed.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+              "sourceHeading": "TRACK CT-5 / Limitations",
+              "sourceStatement": "do not classify offenses under repealed law automatically",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "One docket per form, built as a hard fan-out. The form allows only one docket number and the court cannot process a form covering more than one case.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+              "sourceHeading": "TRACK CT-5 / Limitations",
+              "sourceStatement": "build the one-docket-per-form rule as a hard fan-out",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Apply the closed-court redirect chart when naming the filing location.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+              "sourceHeading": "TRACK CT-5 / Venue",
+              "sourceStatement": "The form and the portal both carry a closed-court chart",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "required_before_filing",
+            "statement": "The petition must be sworn before a Notary Public, Commissioner of the Superior Court, Clerk or other proper officer. LegalEase cannot notarize; the participant does this before filing.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+              "sourceHeading": "TRACK CT-5 / Verification",
+              "sourceStatement": "sworn. The form must be signed before a Notary Public, Commissioner of the Superior Court, Clerk, or other proper officer.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "Hand off the moment a hearing is set. The court may order erasure without a hearing or may schedule one.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+              "sourceHeading": "TRACK CT-5 / Limitations",
+              "sourceStatement": "hand off the moment a hearing is set",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "Connecticut says erasure. Not expungement, not sealing.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+              "sourceHeading": "PART 1 / Facts that apply across every erasure track",
+              "sourceStatement": "**Terminology.** Connecticut says erasure. Not expungement, not sealing."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "ct-under18-misdemeanor",
+      "legalName": "Erasure of an Adult Misdemeanor Conviction for Conduct Before Age 18, C.G.S. § 54-142a(f)",
+      "publicName": "Erase a misdemeanor from something that happened before you turned 18",
+      "controllingAuthority": {
+        "citations": [
+          "C.G.S. § 54-142a(f)(1), the automatic branch",
+          "C.G.S. § 54-142a(f)(2), the petition branch",
+          "C.G.S. § 54-142a(f)(3), the same-information limitation",
+          "C.G.S. § 54-142a(k), no fee"
+        ],
+        "summary": "This is an adult record: an adult conviction for conduct committed before the person turned 18. It is not juvenile delinquency relief. Two branches turn on when the offense occurred, and only one of them requires a participant petition."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2000-01-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "adult misdemeanor convictions for conduct committed while the person was under 18"
+      ],
+      "eligibleDispositions": [
+        "misdemeanor conviction for conduct committed while under 18"
+      ],
+      "exclusions": [
+        "On the automatic branch: a motor vehicle offense, a violation under title 14, or a violation of § 51-164r.",
+        "Where there has been a conviction for any charge for which erasure would not apply arising from the same information as the erased conviction. § 54-142a(f)(3)."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Automatic branch, offense occurring on or after 1 January 2000 and before 1 July 2012",
+          "duration": "None beyond the offense-date window"
+        },
+        {
+          "condition": "Petition branch, offense occurring before 1 January 2000",
+          "duration": "None stated"
+        }
+      ],
+      "outputStrategy": "composed",
+      "compositionMode": "alternative",
+      "units": [
+        {
+          "unitId": "ct-under18-misdemeanor-branch-automatic",
+          "order": 1,
+          "label": "Section 54-142a(f)(1) automatic erasure",
+          "outputStrategy": "process_guidance",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "description": "Misdemeanors committed while under 18 where the offense occurred on or after 1 January 2000 and before 1 July 2012 are erased, or deemed erased by operation of law for scanned and non-electronic records. Explain the window, the title 14 and § 51-164r carve-outs, and how to confirm the erasure happened. No participant filing.",
+          "available": true
+        },
+        {
+          "unitId": "ct-under18-misdemeanor-branch-petition",
+          "order": 2,
+          "label": "Section 54-142a(f)(2) pre-2000 participant petition",
+          "outputStrategyStatus": "unresolved",
+          "packetIdentity": "unresolved",
+          "description": "Misdemeanors committed while under 18 where the offense occurred before 1 January 2000. The person may file a petition with the Superior Court at the location where the conviction was effected and the court shall direct erasure. No official form was located, and JD-CR-202 on its face is a Clean Slate form rather than an (f)(2) form.",
+          "available": false,
+          "unavailableReason": "The current form or accepted custom pleading is unresolved, as is the historical offense-date and classification rule. The automatic branch's settled strategy does not carry over to this branch."
+        }
+      ],
+      "guidanceRationales": [
+        "no_participant_filing_exists"
+      ],
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "No venue on the automatic branch. On the petition branch, the Superior Court at the location where the conviction was effected, though the accepted filing vehicle is unresolved."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "Superior Court at the location where the conviction was effected",
+        "detail": "The automatic branch requires no filing. The petition branch would be filed at the location where the conviction was effected, but no form has been identified for it."
+      },
+      "components": [
+        {
+          "role": "process_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Explains the two branches and which one the participant's offense date puts them in, and explains that this is an adult record rather than juvenile delinquency relief. It does not generate the (f)(2) petition."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "offenseDate",
+          "question": "On what date did the offense happen?",
+          "requirement": "required",
+          "conditionDescription": "This answer selects the branch. LegalEase does not choose one for the participant."
+        },
+        {
+          "key": "ageAtOffense",
+          "question": "Were you under 18 when the offense happened?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenseSections",
+          "question": "Which statute sections were you convicted under? Copy them from your record.",
+          "requirement": "required",
+          "conditionDescription": "The automatic branch does not reach a motor vehicle offense, a title 14 violation or a § 51-164r violation."
+        },
+        {
+          "key": "sameInformationCharges",
+          "question": "Were there other charges on the same information, and was any of them one that could not be erased?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionLocation",
+          "question": "At which court location was the conviction effected?",
+          "requirement": "conditional",
+          "conditionDescription": "Only on the petition branch."
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Judicial Branch case look-up printout",
+          "obtainedFrom": "Connecticut Judicial Branch online case look-up",
+          "requirement": "required",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Look the case up to confirm the offense date, the charges on the information and the conviction location. LegalEase does not obtain, receive or inspect it.",
+          "confirms": "offenseDate"
+        }
+      ],
+      "manualCompletionItems": [],
+      "officialSources": [
+        {
+          "title": "C.G.S. § 54-142a, Erasure of criminal records",
+          "url": "https://codes.findlaw.com/ct/title-54-criminal-procedure/ct-gen-st-sect-54-142a/",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Clean Slate Connecticut",
+          "url": "https://portal.ct.gov/cleanslate",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "The automatic branch requires no filing. On the petition branch the person may file a petition with the Superior Court at the location where the conviction was effected, but the accepted form or pleading is unresolved.",
+        "fees": "No fee. § 54-142a(k).",
+        "feeWaiver": "Not applicable. No fee is charged.",
+        "notice": "The source review does not state a notice requirement.",
+        "service": "The source review does not state a service requirement.",
+        "participantSignature": "No participant signature on the automatic branch. Unresolved on the petition branch, pending the vehicle.",
+        "notarization": "The source review does not state a notarization requirement for the (f)(2) petition."
+      },
+      "selfHelpStopConditions": [
+        "The offense occurred before 1 January 2000, which is the petition branch, and no accepted filing vehicle has been identified.",
+        "Another charge arising from the same information could not be erased.",
+        "The offense is a motor vehicle offense, a title 14 violation or a § 51-164r violation on the automatic branch.",
+        "The participant has an immigration matter."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Whether the Judicial Branch publishes a form for a § 54-142a(f)(2) petition, and whether JD-CR-202 is used for it in practice. JD-CR-202 on its face is a Clean Slate form, not an (f)(2) form.",
+          "impact": "build_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+            "sourceHeading": "TRACK CT-6 / Required research",
+            "sourceStatement": "whether the Judicial Branch publishes a form for a § 54-142a(f)(2) petition, and whether JD-CR-202 is used for it in practice. JD-CR-202 on its face is a Clean Slate form, not an (f)(2) form."
+          }
+        },
+        {
+          "question": "The current form or accepted custom pleading for the CT-6 petition branch, and the historical offense-date and classification rule.",
+          "impact": "build_blocker",
+          "affectedElement": "output_strategy",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+            "sourceHeading": "Connecticut operational amendments / True blockers retained",
+            "sourceStatement": "**CT-6 petition branch:** current form or accepted custom pleading and the historical offense-date/classification rule."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "The two branches are alternatives, not stages: which one applies turns on when the offense occurred, and they are not steps toward each other. The (f)(1) automatic branch is settled as guidance and is available. The (f)(2) petition branch is retained as a true blocker by the addendum and carries no strategy, because a known automatic branch does not authorise guessing the petition branch.",
+        "limitations": [
+          {
+            "classification": "legal_design_blocker",
+            "statement": "The § 54-142a(f)(2) petition branch has no identified form and no approved custom pleading, and the historical offense-date and classification rule is unresolved.",
+            "undeterminedElement": "correct_form",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+              "sourceHeading": "Connecticut operational amendments / True blockers retained",
+              "sourceStatement": "**CT-6 petition branch:** current form or accepted custom pleading and the historical offense-date/classification rule."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "This is an adult record: an adult conviction for conduct committed before the person turned 18. It is not juvenile delinquency relief.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+              "sourceHeading": "TRACK CT-6",
+              "sourceStatement": "**This is an adult record**, an adult conviction for conduct committed before the person turned 18. It is not juvenile delinquency relief.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Notwithstanding the multi-count rule at subsection (i), this subsection does not apply where there has been a conviction for any charge for which erasure would not apply arising from the same information as the erased conviction. § 54-142a(f)(3).",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+              "sourceHeading": "TRACK CT-6 / Limitation (f)(3)",
+              "sourceStatement": "notwithstanding the multi-count rule at subsection (i), this subsection does not apply where there has been a conviction for any charge for which erasure would not apply arising from the same information as the erased conviction.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "Connecticut says erasure. Not expungement, not sealing.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+              "sourceHeading": "PART 1 / Facts that apply across every erasure track",
+              "sourceStatement": "**Terminology.** Connecticut says erasure. Not expungement, not sealing."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "ct-cannabis-auto",
+      "legalName": "Automatic Erasure of Certain Cannabis Possession Convictions, C.G.S. § 54-142u",
+      "publicName": "Cannabis possession records erased automatically",
+      "controllingAuthority": {
+        "citations": [
+          "C.G.S. § 54-142u",
+          "C.G.S. § 54-142u(b), the multi-count bar",
+          "C.G.S. § 54-142u(f), no partial redaction required",
+          "C.G.S. § 54-142u(g), no DMV erasure required",
+          "C.G.S. § 54-142u(h), legal effect"
+        ],
+        "summary": "A conviction for possession under § 21a-279(c) entered on or after 1 January 2000 but prior to 1 October 2015 shall be erased if electronic, or deemed erased by operation of law if not electronic, pursuant to § 54-142a. Effective January 2023. No participant filing."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2023-01-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "a conviction for possession under § 21a-279(c) entered on or after 1 January 2000 but prior to 1 October 2015"
+      ],
+      "eligibleDispositions": [
+        "conviction under § 21a-279(c) within the stated window"
+      ],
+      "exclusions": [
+        "Records referencing more than one count unless every count is entitled to erasure. § 54-142u(b).",
+        "Convictions outside the 1 January 2000 to 1 October 2015 window, which go to the cannabis erasure petition track."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Automatic erasure under § 54-142u",
+          "duration": "None"
+        }
+      ],
+      "outputStrategy": "process_guidance",
+      "guidanceRationales": [
+        "no_participant_filing_exists"
+      ],
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "No venue. Erasure happens by operation of law without a filing."
+      },
+      "destination": {
+        "kind": "automatic",
+        "name": "Judicial Branch and the State Police Bureau of Identification",
+        "detail": "There is no participant filing. Records are erased if electronic, or deemed erased by operation of law if not."
+      },
+      "components": [
+        {
+          "role": "process_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Explains the § 54-142u window, checks it before routing anyone to the petition track, and explains that the person may represent to any entity other than a criminal justice agency that they have not been arrested or convicted for that conviction."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "convictionDate",
+          "question": "On what date was the cannabis possession conviction entered?",
+          "requirement": "required",
+          "conditionDescription": "The § 54-142u window is checked first; convictions outside it go to the petition track."
+        },
+        {
+          "key": "offenseSections",
+          "question": "Which statute section were you convicted under?",
+          "requirement": "required"
+        },
+        {
+          "key": "countsOnDocket",
+          "question": "How many counts are on this docket, and is every one of them erasable?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Judicial Branch case look-up printout",
+          "obtainedFrom": "Connecticut Judicial Branch online case look-up",
+          "requirement": "required",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Look the case up to confirm the conviction date and the counts. An erased case will not appear. LegalEase does not obtain, receive or inspect it.",
+          "confirms": "convictionDate"
+        }
+      ],
+      "manualCompletionItems": [],
+      "officialSources": [
+        {
+          "title": "C.G.S. § 54-142u, Automatic erasure for certain cannabis possession convictions",
+          "url": "https://codes.findlaw.com/ct/title-54-criminal-procedure/ct-gen-st-sect-54-142u/",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Clean Slate Connecticut",
+          "url": "https://portal.ct.gov/cleanslate",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "There is no filing. Erasure happens by operation of law.",
+        "fees": "No fee.",
+        "feeWaiver": "Not applicable.",
+        "notice": "The source review does not state a participant notice mechanism.",
+        "service": "No service. There is no petition to serve.",
+        "participantSignature": "No participant signature. There is no participant filing on this track.",
+        "notarization": "Not applicable."
+      },
+      "selfHelpStopConditions": [
+        "The conviction falls outside the § 54-142u window, which routes to the cannabis erasure petition track.",
+        "Any count on the docket may not be erasable.",
+        "The participant has an immigration matter.",
+        "The record should have erased and did not, which is CT-13."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Whether the P.A. 25 or P.A. 26 sessions amended chapter 961a.",
+          "impact": "release_blocker",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+            "sourceHeading": "OPEN QUESTIONS / 11",
+            "sourceStatement": "**Whether P.A. 25 or P.A. 26 session acts amended chapter 961a.**"
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review and controlling addendum: process guidance only. Relief occurs by operation of law and no participant packet is required.",
+        "limitations": [
+          {
+            "classification": "packet_instruction",
+            "statement": "The person may represent to any entity other than a criminal justice agency that they have not been arrested or convicted for that conviction. § 54-142u(h).",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+              "sourceHeading": "TRACK CT-7 / Effect",
+              "sourceStatement": "§ 54-142u(h), the person may represent to any entity other than a criminal justice agency that they have not been arrested or convicted for that conviction.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Partial redaction of physical documents or scanned copies held internally by a criminal justice agency is not required, and DMV erasure is not required. §§ 54-142u(f) and (g).",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+              "sourceHeading": "TRACK CT-7 / Not required",
+              "sourceStatement": "partial redaction of physical documents or scanned copies held internally by a criminal justice agency, § 54-142u(f); DMV erasure, § 54-142u(g).",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "Connecticut says erasure. Not expungement, not sealing.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+              "sourceHeading": "PART 1 / Facts that apply across every erasure track",
+              "sourceStatement": "**Terminology.** Connecticut says erasure. Not expungement, not sealing."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "ct-cannabis-petition",
+      "legalName": "Petition for Erasure of Cannabis Conviction Records, C.G.S. § 54-142v",
+      "publicName": "Petition to erase an older or larger cannabis conviction",
+      "controllingAuthority": {
+        "citations": [
+          "C.G.S. § 54-142v",
+          "C.G.S. § 54-142v(a)(1), the three eligible conviction categories",
+          "C.G.S. § 54-142v(a)(2), required content: a copy of the arrest record or a supporting affidavit",
+          "C.G.S. § 54-142v(a)(3), the court shall direct erasure if the petition is in order",
+          "C.G.S. § 54-142v(a)(4), no fee",
+          "C.G.S. § 54-142v(b), the multi-count bar",
+          "C.G.S. § 54-142a, erasure mechanics"
+        ],
+        "summary": "There is no official form. The Clean Slate portal states plainly that a petition must be filed under § 54-142v or § 54-142d and that no official form exists, and the statute specifies exactly what the petition must contain. Relief is mandatory once the papers are in order."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2023-01-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "a § 21a-279 conviction for possession of a cannabis-type substance where the amount was four ounces or less, entered on or after 1 October 2015 and before 1 July 2021, or before 1 January 2000",
+        "a § 21a-267(a) conviction before 1 July 2021 for use or possession with intent to use drug paraphernalia to store, contain, conceal, ingest, inhale or otherwise introduce cannabis into the body",
+        "a § 21a-277(b) conviction before 1 July 2021 for manufacturing, distributing, selling, prescribing, compounding, transporting with intent to sell or dispense, possessing with intent to sell or dispense, offering, giving or administering a cannabis-type substance, where the amount was four ounces or less or six plants grown inside the person's own primary residence for personal use"
+      ],
+      "eligibleDispositions": [
+        "conviction falling within one of the three § 54-142v(a)(1) categories"
+      ],
+      "exclusions": [
+        "Records referencing more than one count unless every count is entitled to erasure. § 54-142v(b).",
+        "The petition does not apply while the criminal case is pending.",
+        "Convictions outside the three listed subsections."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Petition under § 54-142v",
+          "duration": "None"
+        }
+      ],
+      "outputStrategy": "custom_pleading",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "The Superior Court at the location where the conviction was effected, or at the location having custody of the records, or, if the conviction was in the Court of Common Pleas, Circuit Court, a municipal court or before a trial justice, the Superior Court where venue would currently exist for criminal prosecution."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "Superior Court, Judicial District or G.A. location",
+        "detail": "After filing, the court will either order erasure without a hearing or schedule a hearing. Because there is no statewide form, G.A. clerks may have local expectations about caption and format."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "custom_pleading",
+          "notes": "Petition for Erasure of Cannabis Conviction Records Pursuant to General Statutes § 54-142v. Caption: Superior Court, Judicial District or G.A. location; State of Connecticut v. defendant name; docket number. Cites § 54-142v, § 54-142a for the erasure mechanics, and § 54-142v(a)(4) for the fee bar. Prayer for relief: that the court direct all police and court records and records of the state's or prosecuting attorney pertaining to the offense to be erased pursuant to § 54-142a. Signature block: petitioner, self-represented, with address and contact information."
+        },
+        {
+          "role": "supporting_affidavit",
+          "requirement": "conditional",
+          "conditionDescription": "Where the arrest record does not establish the quantity or paraphernalia-use fact. The statute requires either a copy of the arrest record or an affidavit.",
+          "outputStrategy": "custom_pleading",
+          "notes": "LegalEase generates the affidavit container only. The participant supplies and swears to the quantity or paraphernalia-use fact. LegalEase never generates the quantity assertion or any characterization of what the paraphernalia was used for."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "petitionerName",
+          "question": "What is your full name and date of birth?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionDetails",
+          "question": "Which court, docket number and date of conviction?",
+          "requirement": "required"
+        },
+        {
+          "key": "statuteOfConviction",
+          "question": "Which statute were you convicted under — § 21a-279, § 21a-267(a) or § 21a-277(b)?",
+          "requirement": "required"
+        },
+        {
+          "key": "quantityFact",
+          "question": "What quantity was involved, or how many plants were grown in your own primary residence for personal use?",
+          "requirement": "required",
+          "conditionDescription": "This is the participant's own sworn fact. LegalEase records what they say and never generates or estimates it."
+        },
+        {
+          "key": "paraphernaliaUse",
+          "question": "If this was a paraphernalia conviction, what was the paraphernalia used or intended to be used for?",
+          "requirement": "conditional",
+          "conditionDescription": "Only for a § 21a-267(a) conviction. The participant's own sworn fact."
+        },
+        {
+          "key": "casePending",
+          "question": "Is the criminal case still pending?",
+          "requirement": "required"
+        },
+        {
+          "key": "countsOnDocket",
+          "question": "How many counts are on this docket, and have you confirmed from the record that every one of them is erasable?",
+          "requirement": "required",
+          "conditionDescription": "LegalEase never asserts that all counts are erasable unless the participant has confirmed the count list from the record."
+        },
+        {
+          "key": "hasArrestRecord",
+          "question": "Do you have a copy of the arrest record, or will you swear to the quantity in an affidavit?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Copy of the arrest record",
+          "obtainedFrom": "The arresting police department or the Superior Court clerk",
+          "requirement": "conditional",
+          "conditionDescription": "The statute requires either a copy of the arrest record or an affidavit. Where the arrest record does not establish the quantity, the affidavit is the vehicle.",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the arresting police department or the clerk of the court where the conviction was effected for a copy of the arrest record. LegalEase does not obtain, receive or inspect it.",
+          "confirms": "quantityFact"
+        },
+        {
+          "name": "Judicial Branch case look-up printout",
+          "obtainedFrom": "Connecticut Judicial Branch online case look-up",
+          "requirement": "required",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Look the case up to confirm the docket number, the conviction date and the full count list.",
+          "confirms": "countsOnDocket"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "The quantity or paraphernalia-use fact, sworn by the petitioner",
+          "whereInPacket": "Supporting affidavit, factual allegations",
+          "why": "This is the petitioner's sworn fact, not ours. LegalEase drafts the container and the participant supplies and swears to the fact. LegalEase never generates the quantity possessed, distributed or grown, and never characterizes what the paraphernalia was used for."
+        },
+        {
+          "item": "Signature and verification",
+          "whereInPacket": "Petition and affidavit signature blocks",
+          "why": "The petitioner signs and swears to their own petition and affidavit."
+        },
+        {
+          "item": "Confirmation that all counts on the docket are erasable",
+          "whereInPacket": "Petition, factual allegations",
+          "why": "LegalEase does not assert this unless the participant has confirmed the count list from the record."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "C.G.S. § 54-142v, Erasure for certain cannabis convictions",
+          "url": "https://codes.findlaw.com/ct/title-54-criminal-procedure/ct-gen-st-sect-54-142v/",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Petition for cannabis erasure, Clean Slate Connecticut. The authority for the no-official-form finding.",
+          "url": "https://portal.ct.gov/cleanslate/petition-for-cannabis-erasure",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "C.G.S. § 54-142a, Erasure of criminal records",
+          "url": "https://codes.findlaw.com/ct/title-54-criminal-procedure/ct-gen-st-sect-54-142a/",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "File the petition, with the arrest record or the sworn affidavit attached, in the Superior Court at the location where the conviction was effected, at the location having custody of the records, or for older courts the Superior Court where venue would currently exist for criminal prosecution. Because there is no statewide form, call the clerk before filing.",
+        "fees": "No fee. § 54-142v(a)(4).",
+        "feeWaiver": "Not applicable. No fee is charged.",
+        "notice": "The source review does not state a notice requirement. After filing, the court will either order erasure without a hearing or schedule a hearing.",
+        "service": "Unresolved. No service requirement was found in § 54-142v. Local practice must be confirmed before shipping.",
+        "participantSignature": "The petitioner signs the petition, and swears the affidavit where the affidavit route is used.",
+        "notarization": "The affidavit is sworn. The source review does not state whether a notary or another proper officer is required."
+      },
+      "selfHelpStopConditions": [
+        "The arrest record does not establish the quantity and the participant cannot swear to it from personal knowledge.",
+        "The case has other counts that may not be erasable.",
+        "The court sets a hearing.",
+        "The conviction falls outside the three listed subsections.",
+        "The criminal case is still pending.",
+        "The participant has an immigration matter."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Service and proposed order on a § 54-142v petition. Nothing was found in the statute; local practice must be confirmed. A short proposed order is recommended but no form exists and clerk acceptance is unconfirmed.",
+          "impact": "release_blocker",
+          "affectedElement": "notice_or_service",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+            "sourceHeading": "OPEN QUESTIONS / 4",
+            "sourceStatement": "**Service and proposed order on a § 54-142v petition.** Nothing found. Local practice must be confirmed."
+          }
+        },
+        {
+          "question": "Because there is no statewide form, G.A. clerks may have local expectations about caption and format. Confirm with a Connecticut practitioner what caption and format the G.A. clerks actually accept.",
+          "impact": "release_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+            "sourceHeading": "TRACK CT-8 / Limitations",
+            "sourceStatement": "Confirm with a Connecticut practitioner what caption and format the G.A. clerks actually accept, since no form exists and practice will vary."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review: \"Approved for implementation with the limitations listed below.\" The state says there is no official form, the statute specifies exactly what the petition must contain, and the relief is mandatory once the papers are in order. This is the cleanest custom-pleading case in the batch.",
+        "limitations": [
+          {
+            "classification": "manual_completion_item",
+            "statement": "The affidavit is a sworn statement of fact by the participant about quantity. LegalEase drafts the container and the participant supplies and swears to the fact. Never generate the quantity assertion.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+              "sourceHeading": "Connecticut operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "For CT-8, LegalEase may generate the petition and affidavit container; the participant supplies and swears to the quantity or other statutory facts."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "LegalEase must not generate the quantity possessed, distributed or grown; any characterization of what the paraphernalia was used for; any assertion that all counts on the docket are erasable unless the participant has confirmed the count list from the record; or any assertion that the offense has been decriminalized, which is the § 54-142d question and carries case law.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+              "sourceHeading": "PART 3 / Statements or legal conclusions LegalEase must not generate",
+              "sourceStatement": "The quantity possessed, distributed, or grown. That is the petitioner's sworn fact, not ours."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Because there is no statewide form, the packet must tell the participant to call the clerk before filing.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+              "sourceHeading": "PART 3 / Local-form warning",
+              "sourceStatement": "because there is no statewide form, G.A. clerks may have local expectations about caption and format. The packet should tell the participant to call the clerk before filing.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "A procedural hearing does not block generation. Disputed facts or a contested hearing trigger handoff.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+              "sourceHeading": "Connecticut operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "A procedural hearing does not block generation; disputed facts or a contested hearing trigger handoff."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "Connecticut says erasure. Not expungement, not sealing.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+              "sourceHeading": "PART 1 / Facts that apply across every erasure track",
+              "sourceStatement": "**Terminology.** Connecticut says erasure. Not expungement, not sealing."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "ct-decriminalized",
+      "legalName": "Petition for Physical Destruction of Records of a Decriminalized Offense, C.G.S. § 54-142d",
+      "publicName": "Ask the court to destroy records of an offense that is no longer a crime",
+      "controllingAuthority": {
+        "citations": [
+          "C.G.S. § 54-142d",
+          "State v. Menditto, 315 Conn. (2015)",
+          "State v. Dudley"
+        ],
+        "summary": "Where a person was convicted of an offense that has since been decriminalized, the person may petition the Superior Court and the court shall direct the records to be physically destroyed. The remedy is destruction rather than erasure, and the trigger is decriminalization generally rather than the specific cannabis categories. No official form was located, so the filing vehicle is a custom pleading."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2015-01-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "police and court records and records of the state's or prosecuting attorney pertaining to a conviction for an offense that has since been decriminalized"
+      ],
+      "eligibleDispositions": [
+        "conviction for an offense since decriminalized"
+      ],
+      "exclusions": [
+        "The current scope of \"decriminalized\" after State v. Menditto is unresolved, so the eligible offense set is not stated here.",
+        "State v. Dudley held that § 54-142d did not compel erasure of a violation of probation finding premised on a later-decriminalized offense. Neither case was read in full."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Petition under § 54-142d",
+          "duration": "The source review does not state a waiting period"
+        }
+      ],
+      "outputStrategy": "custom_pleading",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "The Superior Court at the location where the conviction was effected, at the location having custody of the records, or with the Judicial Department records center for older courts."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "Superior Court, or the Judicial Department records center for older courts",
+        "detail": "The court shall direct the records to be physically destroyed. This is a stronger outcome than erasure."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "custom_pleading",
+          "notes": "Petition for destruction of records under § 54-142d. No official form was located. The custom-pleading specification drafted for the cannabis petition applies provisionally, but the decriminalization allegation itself is not generated: LegalEase must not assert that an offense has been decriminalized, which is the § 54-142d question and carries case law."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "convictionDetails",
+          "question": "Which court, docket number and date of conviction?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenseSections",
+          "question": "Which statute section were you convicted under?",
+          "requirement": "required"
+        },
+        {
+          "key": "decriminalizationBasis",
+          "question": "On what basis do you say this offense has since been decriminalized?",
+          "requirement": "required",
+          "conditionDescription": "The participant's own position. LegalEase does not assert that an offense has been decriminalized; that question carries case law."
+        },
+        {
+          "key": "countsOnDocket",
+          "question": "How many counts are on this docket?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Judicial Branch case look-up printout",
+          "obtainedFrom": "Connecticut Judicial Branch online case look-up",
+          "requirement": "required",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Look the case up to confirm the docket number, the conviction date and the statute of conviction. LegalEase does not obtain, receive or inspect it.",
+          "confirms": "convictionDetails"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "The decriminalization allegation",
+          "whereInPacket": "Petition, factual and legal allegations",
+          "why": "Whether an offense has been decriminalized is a legal question that carries case law. LegalEase does not generate the assertion."
+        },
+        {
+          "item": "Signature",
+          "whereInPacket": "Petition signature block",
+          "why": "The petitioner signs their own petition."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "C.G.S. § 54-142d, Destruction of record of decriminalized offense",
+          "url": "https://codes.findlaw.com/ct/title-54-criminal-procedure/ct-gen-st-sect-54-142d/",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "State v. Menditto, Connecticut Supreme Court (2015)",
+          "url": "https://caselaw.findlaw.com/court/ct-supreme-court/1694585.html",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "File the petition in the Superior Court at the location where the conviction was effected, at the location having custody of the records, or with the Judicial Department records center for older courts.",
+        "fees": "Unresolved. § 54-142a(k) bars a fee on petitions under that section; § 54-142d is a different section and whether the bar reaches it has not been established.",
+        "feeWaiver": "Unresolved along with the fee question.",
+        "notice": "The source review does not state a notice requirement.",
+        "service": "The source review does not state a service requirement.",
+        "participantSignature": "The petitioner signs their own petition.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "selfHelpStopConditions": [
+        "Whether the offense has been decriminalized within the meaning of § 54-142d is contested or unclear.",
+        "The matter involves a violation of probation finding premised on a later-decriminalized offense, which State v. Dudley addressed.",
+        "The court sets a hearing.",
+        "The participant has an immigration matter."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "The current scope of \"decriminalized\" after State v. Menditto, which determines whether and what to file.",
+          "impact": "build_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+            "sourceHeading": "Connecticut operational amendments / True blockers retained",
+            "sourceStatement": "**CT-9:** current scope of \"decriminalized,\" fee rule, and accepted filing practice where those issues determine whether and what to file."
+          }
+        },
+        {
+          "question": "Whether the § 54-142a(k) fee bar reaches § 54-142d. It is a different section.",
+          "impact": "build_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+            "sourceHeading": "OPEN QUESTIONS / 5",
+            "sourceStatement": "**Whether the § 54-142a(k) fee bar reaches § 54-142d.** Different section."
+          }
+        },
+        {
+          "question": "The accepted filing practice for a § 54-142d petition, and whether the Judicial Branch has any form or practice note.",
+          "impact": "build_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+            "sourceHeading": "TRACK CT-9 / Required research",
+            "sourceStatement": "whether the Judicial Branch has any form or practice note"
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "The route exists and its filing vehicle is identified: § 54-142d supplies the mechanism and the original review settled the output strategy as custom_pleading because no official form was located. What remains open is the scope of \"decriminalized\", the fee rule and the accepted filing practice, and the addendum retains all three as true blockers. Those are recorded as legal-design blockers on an imported track that stays runtime_disabled rather than as grounds for deferral, because neither the route nor the filing vehicle is unknown.",
+        "limitations": [
+          {
+            "classification": "legal_design_blocker",
+            "statement": "The current scope of \"decriminalized\", the fee rule, and the accepted filing practice remain unresolved where those issues determine whether and what to file.",
+            "undeterminedElement": "eligibility_branch",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+              "sourceHeading": "Connecticut operational amendments / True blockers retained",
+              "sourceStatement": "**CT-9:** current scope of \"decriminalized,\" fee rule, and accepted filing practice where those issues determine whether and what to file."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "The remedy here is physical destruction, not erasure. It is a stronger outcome and it is separate from the cannabis erasure petition.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+              "sourceHeading": "PART 0 / 12",
+              "sourceStatement": "**§ 54-142d does something different: physical destruction.** The court \"shall direct all police and court records and records of the state's or prosecuting attorney pertaining to such case to be **physically destroyed**.\""
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "LegalEase must not assert that an offense has been decriminalized. That is the § 54-142d question and it carries case law.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+              "sourceHeading": "PART 3 / Statements or legal conclusions LegalEase must not generate",
+              "sourceStatement": "Any assertion that the offense has been decriminalized, which is the § 54-142d question and carries case law."
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "A procedural hearing does not block generation. Disputed facts or a contested hearing trigger handoff.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+              "sourceHeading": "Connecticut operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "A procedural hearing does not block generation; disputed facts or a contested hearing trigger handoff."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "ct-pardon-erasure",
+      "legalName": "Erasure After an Absolute Pardon, C.G.S. § 54-142a(d)",
+      "publicName": "Records erased after an absolute pardon",
+      "controllingAuthority": {
+        "citations": [
+          "C.G.S. § 54-142a(d)",
+          "C.G.S. § 54-142a(k), no fee"
+        ],
+        "summary": "Two branches turning on the pardon date. An absolute pardon received before 1 October 1974 requires a petition to the Superior Court, which shall direct erasure. An absolute pardon received on or after 1 October 1974 results in erasure without a petition: such records shall be erased. The original track must be split because one branch requires a participant petition and the other does not."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "1974-10-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "records of a conviction for which an absolute pardon has been received"
+      ],
+      "eligibleDispositions": [
+        "conviction followed by an absolute pardon"
+      ],
+      "exclusions": [
+        "A provisional pardon or a certificate of employability is not an absolute pardon and does not erase anything."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "After the absolute pardon is received",
+          "duration": "None"
+        }
+      ],
+      "outputStrategy": "composed",
+      "compositionMode": "alternative",
+      "units": [
+        {
+          "unitId": "ct-pardon-erasure-branch-pre-1974-petition",
+          "order": 1,
+          "label": "Absolute pardon received before 1 October 1974: participant petition",
+          "outputStrategy": "custom_pleading",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "description": "The pardon was received before 1 October 1974, so erasure requires a petition to the Superior Court, which shall direct erasure. No official form was located, so the vehicle is a custom pleading or an expressly approved petition format. This branch exists because the automatic branch does not reach a pre-1974 pardon.",
+          "available": true
+        },
+        {
+          "unitId": "ct-pardon-erasure-branch-post-1974-automatic",
+          "order": 2,
+          "label": "Absolute pardon received on or after 1 October 1974: automatic erasure",
+          "outputStrategy": "process_guidance",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "description": "The pardon was received on or after 1 October 1974, so such records shall be erased without a petition. Explain that no filing is needed and how to confirm the erasure happened. No participant filing.",
+          "available": true
+        }
+      ],
+      "guidanceRationales": [
+        "no_participant_filing_exists"
+      ],
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Superior Court on the pre-1974 petition branch. No venue on the post-1974 automatic branch."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "Superior Court, and the State Police Bureau of Identification for the state record",
+        "detail": "The pre-1974 branch is a petition to the Superior Court, which shall direct erasure. The post-1974 branch requires no filing at all."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "conditional",
+          "conditionDescription": "Only on the pre-1 October 1974 branch, where a petition is required.",
+          "outputStrategy": "custom_pleading",
+          "notes": "Petition for erasure following an absolute pardon under § 54-142a(d). No official form was located. The caption and format follow the custom-pleading specification, and the packet tells the participant to call the clerk before filing."
+        },
+        {
+          "role": "process_guidance",
+          "requirement": "conditional",
+          "conditionDescription": "Only on the on-or-after 1 October 1974 branch, where erasure happens without a petition.",
+          "outputStrategy": "process_guidance",
+          "notes": "Explains that no filing is needed and how to confirm the erasure happened."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "pardonDate",
+          "question": "On what date did you receive the absolute pardon?",
+          "requirement": "required",
+          "conditionDescription": "This answer selects the branch. LegalEase does not choose one for the participant."
+        },
+        {
+          "key": "pardonType",
+          "question": "Was it an absolute pardon, or a provisional pardon or certificate of employability?",
+          "requirement": "required",
+          "conditionDescription": "Only an absolute pardon reaches this track."
+        },
+        {
+          "key": "convictionDetails",
+          "question": "Which court, docket number and date of conviction was pardoned?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "The absolute pardon decision from the Board of Pardons and Paroles",
+          "obtainedFrom": "Connecticut Board of Pardons and Paroles",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the Board of Pardons and Paroles for a copy of the pardon decision showing the date it was granted. LegalEase does not obtain, receive or inspect it.",
+          "confirms": "pardonDate"
+        },
+        {
+          "name": "Judicial Branch case look-up printout",
+          "obtainedFrom": "Connecticut Judicial Branch online case look-up",
+          "requirement": "required",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Look the case up to confirm the docket number and conviction details. An erased case will not appear.",
+          "confirms": "convictionDetails"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature",
+          "whereInPacket": "Petition signature block, on the pre-1974 branch only",
+          "why": "The petitioner signs their own petition."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "C.G.S. § 54-142a, Erasure of criminal records",
+          "url": "https://codes.findlaw.com/ct/title-54-criminal-procedure/ct-gen-st-sect-54-142a/",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Clean Slate Connecticut",
+          "url": "https://portal.ct.gov/cleanslate",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "On the pre-1 October 1974 branch, file a petition in the Superior Court. On the on-or-after 1 October 1974 branch there is no filing; such records shall be erased.",
+        "fees": "No fee shall be charged in any court with respect to any petition under § 54-142a. § 54-142a(k).",
+        "feeWaiver": "Not applicable. No fee is charged.",
+        "notice": "The source review does not state a notice requirement.",
+        "service": "The source review does not state a service requirement.",
+        "participantSignature": "The petitioner signs the petition on the pre-1974 branch. No participant signature on the automatic branch.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "selfHelpStopConditions": [
+        "The pardon was provisional rather than absolute, which erases nothing.",
+        "The pardon date cannot be established, so the branch cannot be selected.",
+        "The court sets a hearing on the pre-1974 petition.",
+        "The participant has an immigration matter."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "No official form was located for the pre-1 October 1974 petition, so the caption and format that G.A. clerks accept must be confirmed with a Connecticut practitioner.",
+          "impact": "release_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+            "sourceHeading": "Connecticut operational amendments / Process-guidance routes reviewed",
+            "sourceStatement": "CT-10, pre-1974 absolute pardon | `custom_pleading` or approved petition format for the statutory petition branch; the post-1974 automatic branch remains guidance"
+          }
+        },
+        {
+          "question": "The Board of Pardons and Paroles governing statutes, C.G.S. §§ 54-130a to 54-130e, were not read in this pass.",
+          "impact": "release_blocker",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+            "sourceHeading": "TRACK CT-11 / Controlling authority",
+            "sourceStatement": "Board of Pardons and Paroles, C.G.S. §§ 54-130a to 54-130e. Statutes not read in this pass.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "The controlling addendum splits this track: custom_pleading or an approved petition format for the pre-1974 statutory petition branch, and guidance for the post-1974 automatic branch, because one branch requires a participant petition and the other does not. They are alternatives selected by the pardon date, and the automatic branch is not permitted to shadow the petition branch.",
+        "limitations": [
+          {
+            "classification": "scope_restriction",
+            "statement": "The original track must be split because one branch requires a participant petition and the other does not. The post-1974 automatic branch does not supply a strategy for the pre-1974 petition branch, and the pre-1974 petition branch is not suppressed because the automatic branch exists.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+              "sourceHeading": "Connecticut operational amendments / Process-guidance routes reviewed",
+              "sourceStatement": "The original track must be split because one branch requires a participant petition and the other does not."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "An absolute pardon is not a provisional pardon or a certificate of employability. Only the absolute pardon reaches erasure.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+              "sourceHeading": "TRACK CT-12 / Note",
+              "sourceStatement": "the internal reference is right to hammer this distinction and the rewrite should keep it. It is the most common Connecticut misunderstanding after the erasure terminology.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "Connecticut says erasure. Not expungement, not sealing.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+              "sourceHeading": "PART 1 / Facts that apply across every erasure track",
+              "sourceStatement": "**Terminology.** Connecticut says erasure. Not expungement, not sealing."
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "A procedural hearing does not block generation. Disputed facts or a contested hearing trigger handoff.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+              "sourceHeading": "Connecticut operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "A procedural hearing does not block generation; disputed facts or a contested hearing trigger handoff."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "ct-absolute-pardon",
+      "legalName": "Absolute Pardon Application, Board of Pardons and Paroles, C.G.S. §§ 54-130a to 54-130e",
+      "publicName": "Apply for an absolute pardon",
+      "controllingAuthority": {
+        "citations": [
+          "Connecticut Board of Pardons and Paroles",
+          "C.G.S. §§ 54-130a to 54-130e, not read in this pass"
+        ],
+        "summary": "Executive-branch clemency by online application through the Board's ePardon portal. This is the route for convictions Clean Slate cannot reach and for a person who does not want to wait out the clock. Discretionary and hearing-based."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2021-01-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "convictions for which the person seeks executive clemency"
+      ],
+      "eligibleDispositions": [
+        "conviction"
+      ],
+      "exclusions": [
+        "The eligibility rules were not verified in this pass."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Claimed by the internal reference for a misdemeanor, and not verified",
+          "duration": "Three years from disposition, unverified"
+        },
+        {
+          "condition": "Claimed by the internal reference for a felony, and not verified",
+          "duration": "Five years from disposition, unverified"
+        }
+      ],
+      "outputStrategy": "process_guidance",
+      "guidanceRationales": [
+        "another_entity_decides"
+      ],
+      "geography": {
+        "scope": "agency_specific",
+        "keys": [],
+        "venue": "No court venue. The Board of Pardons and Paroles decides, through its ePardon portal."
+      },
+      "destination": {
+        "kind": "portal",
+        "name": "Connecticut Board of Pardons and Paroles, ePardon portal",
+        "detail": "An online application through the Board's portal. No stable participant application document has been identified that LegalEase could lawfully generate and submit; an intake worksheet is not the legal filing packet."
+      },
+      "components": [
+        {
+          "role": "process_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Explains what an absolute pardon is, that it is the route for convictions Clean Slate cannot reach, that it is discretionary and hearing-based, and how to reach the ePardon portal. It does not generate the application."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "convictionDetails",
+          "question": "Which convictions do you want pardoned — court, docket number and date?",
+          "requirement": "required"
+        },
+        {
+          "key": "dispositionDate",
+          "question": "On what date was the sentence completed or the case disposed?",
+          "requirement": "required"
+        },
+        {
+          "key": "cleanSlateReach",
+          "question": "Have you already checked whether Clean Slate erasure reaches these convictions?",
+          "requirement": "required",
+          "conditionDescription": "A pardon is the route for what Clean Slate cannot reach."
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "SPBI criminal history record search, form DPS-0846-C",
+          "obtainedFrom": "DESPP, Division of State Police, State Police Bureau of Identification",
+          "requirement": "required",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Mail form DPS-0846-C with a check or money order to DESPP-SPBI, 1111 Country Club Road, Middletown, CT 06457-2389. LegalEase cannot complete this request and does not obtain, receive or inspect the record.",
+          "confirms": "convictionDetails"
+        }
+      ],
+      "manualCompletionItems": [],
+      "officialSources": [
+        {
+          "title": "Clean Slate Connecticut",
+          "url": "https://portal.ct.gov/cleanslate",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Collateral Consequences Resource Center, Connecticut Restoration of Rights and Record Relief",
+          "url": "https://ccresourcecenter.org/state-restoration-profiles/connecticut-restoration-of-rights-pardon-expungement-sealing/",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "Application is made online through the Board's ePardon portal. LegalEase does not generate or submit it.",
+        "fees": "Claimed to be none by the internal reference. Not verified.",
+        "feeWaiver": "Not applicable if no fee is charged, which is unverified.",
+        "notice": "The Board's process is hearing-based. The source review does not state the notice rules.",
+        "service": "No service. This is an executive-branch application, not a court filing.",
+        "participantSignature": "The participant signs their own application in the Board's portal.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "selfHelpStopConditions": [
+        "The Board sets a hearing, which is a lawyer's proceeding.",
+        "The participant has an immigration matter.",
+        "The waiting-period and fee figures are unverified, so no number is quoted."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Board of Pardons and Paroles waiting periods and fees. The three-year and five-year figures and the no-fee claim in the internal reference are unverified. Verify every number before it appears in participant-facing copy.",
+          "impact": "release_blocker",
+          "affectedElement": "waiting_period",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+            "sourceHeading": "OPEN QUESTIONS / 8",
+            "sourceStatement": "**Board of Pardons and Paroles waiting periods and fees.** The three-year and five-year figures and the no-fee claim in the internal reference are unverified."
+          }
+        },
+        {
+          "question": "Board of Pardons and Paroles ePardon application material and the governing statutes have not been pulled. Whether the Board exposes a stable participant application document that LegalEase could lawfully generate and submit is unresolved.",
+          "impact": "release_blocker",
+          "affectedElement": "output_strategy",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+            "sourceHeading": "Connecticut operational amendments / Process-guidance routes reviewed",
+            "sourceStatement": "CT-11 and CT-12 | Remain guidance/portal-assistance unless the Board exposes a stable participant application document that LegalEase can lawfully generate and submit. An intake worksheet is not the legal filing packet."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review and controlling addendum: process guidance and portal assistance, unless and until the Board exposes a stable participant application document that LegalEase can lawfully generate and submit. An intake worksheet is not the legal filing packet, so nothing is generated here.",
+        "limitations": [
+          {
+            "classification": "scope_restriction",
+            "statement": "This is executive-branch clemency. It remains guidance and portal assistance unless the Board exposes a stable participant application document that LegalEase can lawfully generate and submit. An intake worksheet is not the legal filing packet.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+              "sourceHeading": "Connecticut operational amendments / Process-guidance routes reviewed",
+              "sourceStatement": "CT-11 and CT-12 | Remain guidance/portal-assistance unless the Board exposes a stable participant application document that LegalEase can lawfully generate and submit. An intake worksheet is not the legal filing packet."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Verify every waiting-period and fee number before it appears in participant-facing copy. The three-year and five-year figures and the no-fee claim are unverified.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+              "sourceHeading": "TRACK CT-11 / LEGAL-DESIGN DECISION",
+              "sourceStatement": "Process guidance only, and verify every number before it appears in participant-facing copy.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "The Board's hearing is a lawyer's proceeding. Assistance ends at the explanation and the portal handoff.",
+            "provenance": {
+              "classificationBasis": "general_packet_only_rule",
+              "sourceFile": "00-Source-Packet-Only-Product-Model-Amendment.md",
+              "sourceHeading": "Required Operational Reclassification / 6. post_generation_handoff",
+              "sourceStatement": "A routine, automatically scheduled, or uncontested hearing is not by itself a packet-generation blocker."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "ct-provisional-pardon",
+      "legalName": "Provisional Pardon and Certificate of Employability, Board of Pardons and Paroles",
+      "publicName": "Relief from employment and licensing barriers, without erasure",
+      "controllingAuthority": {
+        "citations": [
+          "Connecticut Board of Pardons and Paroles"
+        ],
+        "summary": "Board of Pardons and Paroles relief from employment and licensing barriers. It does not erase anything. Keeping this distinct from an absolute pardon is the most common Connecticut misunderstanding after the erasure terminology."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2021-01-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "convictions creating employment or licensing barriers"
+      ],
+      "eligibleDispositions": [
+        "conviction"
+      ],
+      "exclusions": [
+        "The eligibility rules were not verified in this pass."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Not established in this pass",
+          "duration": "Unverified"
+        }
+      ],
+      "outputStrategy": "process_guidance",
+      "guidanceRationales": [
+        "another_entity_decides"
+      ],
+      "geography": {
+        "scope": "agency_specific",
+        "keys": [],
+        "venue": "No court venue. The Board of Pardons and Paroles decides."
+      },
+      "destination": {
+        "kind": "portal",
+        "name": "Connecticut Board of Pardons and Paroles",
+        "detail": "The Board grants the provisional pardon or certificate of employability. No stable participant application document has been identified that LegalEase could lawfully generate and submit."
+      },
+      "components": [
+        {
+          "role": "process_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Explains that a provisional pardon and a certificate of employability relieve employment and licensing barriers and do not erase anything, and keeps that distinct from an absolute pardon."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "reliefGoal",
+          "question": "Are you trying to clear the record itself, or to remove an employment or licensing barrier?",
+          "requirement": "required",
+          "conditionDescription": "A provisional pardon does not erase anything. This question routes the participant correctly."
+        },
+        {
+          "key": "convictionDetails",
+          "question": "Which convictions are creating the barrier — court, docket number and date?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "SPBI criminal history record search, form DPS-0846-C",
+          "obtainedFrom": "DESPP, Division of State Police, State Police Bureau of Identification",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant needs to establish what is on their record.",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Mail form DPS-0846-C with a check or money order to DESPP-SPBI, 1111 Country Club Road, Middletown, CT 06457-2389. LegalEase cannot complete this request.",
+          "confirms": "convictionDetails"
+        }
+      ],
+      "manualCompletionItems": [],
+      "officialSources": [
+        {
+          "title": "Clean Slate Connecticut",
+          "url": "https://portal.ct.gov/cleanslate",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Collateral Consequences Resource Center, Connecticut Restoration of Rights and Record Relief",
+          "url": "https://ccresourcecenter.org/state-restoration-profiles/connecticut-restoration-of-rights-pardon-expungement-sealing/",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "Application is made to the Board of Pardons and Paroles. LegalEase does not generate or submit it.",
+        "fees": "Not established in this pass.",
+        "feeWaiver": "Not established in this pass.",
+        "notice": "The source review does not state the Board's notice rules.",
+        "service": "No service. This is an executive-branch application, not a court filing.",
+        "participantSignature": "The participant signs their own application.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "selfHelpStopConditions": [
+        "The participant wants the record erased, which this does not do.",
+        "The Board sets a hearing.",
+        "The participant has an immigration matter."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Whether the Board exposes a stable participant application document that LegalEase could lawfully generate and submit. An intake worksheet is not the legal filing packet.",
+          "impact": "release_blocker",
+          "affectedElement": "output_strategy",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+            "sourceHeading": "Connecticut operational amendments / Process-guidance routes reviewed",
+            "sourceStatement": "CT-11 and CT-12 | Remain guidance/portal-assistance unless the Board exposes a stable participant application document that LegalEase can lawfully generate and submit. An intake worksheet is not the legal filing packet."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review and controlling addendum: process guidance and portal assistance. The distinction from an absolute pardon is the substance of the product here.",
+        "limitations": [
+          {
+            "classification": "packet_instruction",
+            "statement": "A provisional pardon and a certificate of employability relieve employment and licensing barriers. They do not erase anything. Keep this distinct from an absolute pardon.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+              "sourceHeading": "TRACK CT-12 / Mechanism",
+              "sourceStatement": "Board of Pardons and Paroles relief from employment and licensing barriers. **It does not erase anything.**",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "Remains guidance and portal assistance unless the Board exposes a stable participant application document that LegalEase can lawfully generate and submit.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+              "sourceHeading": "Connecticut operational amendments / Process-guidance routes reviewed",
+              "sourceStatement": "CT-11 and CT-12 | Remain guidance/portal-assistance unless the Board exposes a stable participant application document that LegalEase can lawfully generate and submit."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "ct-missed-erasure",
+      "legalName": "Request for Review of a Missed Automatic Erasure, C.G.S. § 54-142t(g)",
+      "publicName": "Ask the state to fix a record that should have been erased",
+      "controllingAuthority": {
+        "citations": [
+          "C.G.S. § 54-142t(g), available on and after 1 January 2024",
+          "C.G.S. § 54-142a(e), the erasure the record should have received",
+          "Uniform Administrative Procedure Act, chapter 54",
+          "DESPP form DPS-0846-C for the required criminal history record search"
+        ],
+        "summary": "The person believes their criminal history record information was required to be deemed erased by operation of law, and submits a copy of their criminal history record search demonstrating that the information has not been marked as erased, to DESPP, in a form and manner determined by the department. DESPP then, following a contested hearing, determines whether the information should be deemed erased. That determination is a final decision under the Uniform Administrative Procedure Act."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2024-01-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "criminal history record information that was required to be deemed erased by operation of law under § 54-142a(e) but has not been marked as erased"
+      ],
+      "eligibleDispositions": [
+        "a record eligible for automatic erasure that was not erased"
+      ],
+      "exclusions": [
+        "Records that were not required to be deemed erased by operation of law under § 54-142a(e)."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "The remedy became available on and after 1 January 2024",
+          "duration": "None beyond obtaining the criminal history record search"
+        }
+      ],
+      "outputStrategy": "composed",
+      "compositionMode": "sequential",
+      "units": [
+        {
+          "unitId": "ct-missed-erasure-stage-1-record-and-assessment",
+          "order": 1,
+          "label": "Obtain the SPBI record, read it, and decide whether there is a case",
+          "outputStrategy": "process_guidance",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "description": "Help the participant order the SPBI criminal history record search via form DPS-0846-C, read the result, and decide whether the record shows information that should have been marked erased under § 54-142a(e). This portion is known and is not held back by the unresolved submission vehicle downstream.",
+          "available": true
+        },
+        {
+          "unitId": "ct-missed-erasure-stage-2-despp-submission",
+          "order": 2,
+          "label": "Submission to DESPP in its determined form and manner",
+          "outputStrategyStatus": "unresolved",
+          "packetIdentity": "unresolved",
+          "description": "The statute requires the submission to be made to DESPP in a form and manner the department determines, and that form and manner is not in the statute and has not been located. No DESPP filing form is invented here.",
+          "available": false,
+          "unavailableReason": "DESPP's current form and manner for a § 54-142t(g) submission is a true output blocker. It is not in the statute and has not been located, and no submission document may be generated until it is."
+        }
+      ],
+      "guidanceRationales": [
+        "participant_obtains_record"
+      ],
+      "geography": {
+        "scope": "agency_specific",
+        "keys": [],
+        "venue": "No court venue. The destination is DESPP, not a court."
+      },
+      "destination": {
+        "kind": "agency",
+        "name": "Department of Emergency Services and Public Protection",
+        "detail": "Agency-controlled and contested, with Uniform Administrative Procedure Act appeal rights. The determination following the contested hearing is a final decision under chapter 54."
+      },
+      "components": [
+        {
+          "role": "process_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Explains how to obtain the SPBI record via DPS-0846-C, how to read it for an erasure marking, and how to judge whether the record should have been erased under § 54-142a(e). It does not generate a DESPP submission, because DESPP's form and manner is unresolved."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "recordShouldHaveErased",
+          "question": "Which conviction do you believe should have been erased automatically, and on what basis?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenseDate",
+          "question": "On what date did the offense happen?",
+          "requirement": "required"
+        },
+        {
+          "key": "mostRecentConvictionDate",
+          "question": "What is the date of your most recent judgment of conviction for any crime?",
+          "requirement": "required"
+        },
+        {
+          "key": "hasSpbiRecord",
+          "question": "Have you obtained your SPBI criminal history record search yet?",
+          "requirement": "required"
+        },
+        {
+          "key": "recordShowsErasure",
+          "question": "Does the record show the information marked as erased?",
+          "requirement": "conditional",
+          "conditionDescription": "Only where the participant has the record in hand."
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "SPBI criminal history record search, form DPS-0846-C",
+          "obtainedFrom": "DESPP, Division of State Police, State Police Bureau of Identification",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Mail form DPS-0846-C with a check or money order payable to \"Treasurer-State of CT\" to DESPP-SPBI, 1111 Country Club Road, Middletown, CT 06457-2389. The statute requires a copy of this search demonstrating that the information has not been marked as erased. LegalEase cannot complete this request and does not obtain, receive or inspect the record.",
+          "confirms": "recordShowsErasure"
+        }
+      ],
+      "manualCompletionItems": [],
+      "officialSources": [
+        {
+          "title": "C.G.S. § 54-142t, Automated process for erasure; request for review of criminal history records for erasure",
+          "url": "https://codes.findlaw.com/ct/title-54-criminal-procedure/ct-gen-st-sect-54-142t/",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "DPS-0846-C, State of Connecticut Criminal History Record Request Form, Rev. 12/01/17",
+          "url": "https://portal.ct.gov/despp",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "The submission goes to DESPP, not to a court, in a form and manner the department determines. That form and manner has not been located, so no submission document is generated.",
+        "fees": "No fee is stated for the § 54-142t(g) submission. The real cost is the SPBI record: $36 for a name and date of birth search showing only the existence of a record, $75 for a conviction history record search by name and date of birth, or $75 by fingerprint plus $15 for fingerprinting at a Connecticut State Police location, all as printed on a form dated 12/01/17 and requiring verification.",
+        "feeWaiver": "The source review does not state a fee waiver for the SPBI record.",
+        "notice": "DESPP determines the matter following a contested hearing. The determination is a final decision for purposes of chapter 54, the Uniform Administrative Procedure Act.",
+        "service": "The source review does not state a service requirement.",
+        "participantSignature": "Unresolved on the submission, pending DESPP's form and manner.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "selfHelpStopConditions": [
+        "The submission itself, because DESPP's form and manner is unresolved.",
+        "The contested administrative hearing, which is a lawyer's proceeding producing a UAPA final decision.",
+        "The participant has an immigration matter."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "DESPP's current form and manner for the missed-erasure submission. This is a true output blocker; it is not in the statute and the URL was not located.",
+          "impact": "build_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+            "sourceHeading": "Connecticut operational amendments / True blockers retained",
+            "sourceStatement": "**CT-13:** DESPP's current \"form and manner\" for the missed-erasure submission. This is a true output blocker. The contested administrative hearing remains a post-submission attorney handoff."
+          }
+        },
+        {
+          "question": "Current SPBI fees and process. DPS-0846-C is dated 12/01/17 and the form itself warns that information may change daily due to erasures, corrections, pardons or other modifications.",
+          "impact": "release_blocker",
+          "affectedElement": "participant_instructions",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+            "sourceHeading": "OPEN QUESTIONS / 10",
+            "sourceStatement": "**Current SPBI fees and process.** DPS-0846-C is dated 12/01/17."
+          }
+        },
+        {
+          "question": "The \"dated on or after January 1, 2024\" SPBI rule in the internal reference looks like a misreading. That date is when the § 54-142t(g) remedy became available. Nothing found requires the report itself to bear a post-2024 date. Treat as unresolved rather than as a rule.",
+          "impact": "release_blocker",
+          "affectedElement": "participant_instructions",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+            "sourceHeading": "PART 0 / 10",
+            "sourceStatement": "**The \"dated on or after January 1, 2024\" SPBI rule looks like a misreading.** ... Treat as unresolved rather than as a rule."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "The guidance portion is known and is kept: help the participant get the SPBI record, read it, and decide whether they have a case. It is not deferred merely because the later submission vehicle is unresolved. DESPP's form and manner is preserved as an unresolved submission unit carrying no strategy, so no DESPP filing form is invented, and the contested administrative hearing is a post-submission attorney handoff rather than a reason to withhold the guidance.",
+        "limitations": [
+          {
+            "classification": "legal_design_blocker",
+            "statement": "DESPP's current form and manner for the missed-erasure submission is a true output blocker. Do not invent a DESPP filing form.",
+            "undeterminedElement": "correct_form",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+              "sourceHeading": "Connecticut operational amendments / True blockers retained",
+              "sourceStatement": "**CT-13:** DESPP's current \"form and manner\" for the missed-erasure submission. This is a true output blocker."
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "The contested administrative hearing remains a post-submission attorney handoff. It produces a final decision under the Uniform Administrative Procedure Act.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+              "sourceHeading": "Connecticut operational amendments / True blockers retained",
+              "sourceStatement": "The contested administrative hearing remains a post-submission attorney handoff."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "The missed-erasure remedy is an agency contested hearing at DESPP, not a court filing, and it produces a final decision under the Uniform Administrative Procedure Act.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+              "sourceHeading": "PART 0 / 7",
+              "sourceStatement": "**The missed-erasure remedy is not \"request a hearing\" at court.** ... This is an agency-controlled adversarial proceeding, not a self-help filing."
+            }
+          },
+          {
+            "classification": "required_before_filing",
+            "statement": "The statute requires a copy of the participant's criminal history record search demonstrating that the information has not been marked as erased. The participant obtains it; LegalEase names it and never collects or inspects it.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+              "sourceHeading": "Connecticut operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "SPBI histories, court lookup information, sentence dates, offense dates, quantity facts, pardon dates, and historical classification facts are participant reference materials or participant answers. LegalEase does not review them."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "The state does not currently notify people that their records were erased, so \"was my record actually erased\" is the question this track answers first.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+              "sourceHeading": "OVERALL JURISDICTION DECISION / Ship order 4",
+              "sourceStatement": "The state does not notify people, so \"was my record actually erased\" is going to be a high-volume question, and the answer path is an agency contested hearing.",
+              "normalizerInferred": true
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "ct-destruction-request",
+      "legalName": "Request for Physical Destruction of Erased Records, C.G.S. § 54-142a(g)(1)",
+      "publicName": "Ask the clerk to destroy records that were already erased",
+      "controllingAuthority": {
+        "citations": [
+          "C.G.S. § 54-142a(g)(1)"
+        ],
+        "summary": "The clerk shall provide security against unauthorized access to erased records, or upon the request of the accused cause the actual physical destruction of such records, except that destruction may not occur until three years have elapsed from the date of final disposition of the case. No official form was located."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "1969-10-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "records already erased under § 54-142a"
+      ],
+      "eligibleDispositions": [
+        "a case whose records have been erased and whose final disposition was at least three years ago"
+      ],
+      "exclusions": [
+        "Records where fewer than three years have elapsed from the date of final disposition."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "From the date of final disposition of the case, before destruction may occur",
+          "duration": "Three years"
+        }
+      ],
+      "outputStrategy": "process_guidance",
+      "guidanceRationales": [
+        "another_entity_decides"
+      ],
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "The Superior Court clerk holding the erased records."
+      },
+      "destination": {
+        "kind": "clerk",
+        "name": "Superior Court clerk",
+        "detail": "The clerk acts on the request of the accused. No official form was located, and the accepted destination and format for a written request have not been confirmed."
+      },
+      "components": [
+        {
+          "role": "process_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Explains that the participant may ask the clerk to physically destroy already-erased records once three years have passed since final disposition, and how to make that ask. It does not generate a written request, because the accepted destination and format have not been confirmed."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "finalDispositionDate",
+          "question": "On what date was the case finally disposed of?",
+          "requirement": "required",
+          "conditionDescription": "Destruction may not occur until three years have elapsed from this date."
+        },
+        {
+          "key": "recordsErased",
+          "question": "Have the records already been erased?",
+          "requirement": "required",
+          "conditionDescription": "This request applies to records that have already been erased."
+        },
+        {
+          "key": "courtLocation",
+          "question": "Which court location holds the records?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Judicial Branch case look-up printout",
+          "obtainedFrom": "Connecticut Judicial Branch online case look-up",
+          "requirement": "conditional",
+          "conditionDescription": "To establish the final disposition date. An erased case will not appear, which is itself information.",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Look the case up to confirm the final disposition date and the court location. LegalEase does not obtain, receive or inspect it.",
+          "confirms": "finalDispositionDate"
+        }
+      ],
+      "manualCompletionItems": [],
+      "officialSources": [
+        {
+          "title": "C.G.S. § 54-142a, Erasure of criminal records",
+          "url": "https://codes.findlaw.com/ct/title-54-criminal-procedure/ct-gen-st-sect-54-142a/",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Clean Slate Connecticut",
+          "url": "https://portal.ct.gov/cleanslate",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "The request is made to the clerk holding the records. No official form was located and the accepted destination and format for a written request have not been confirmed.",
+        "fees": "The source review does not state a fee for this request.",
+        "feeWaiver": "Not applicable on the record reviewed.",
+        "notice": "The source review does not state a notice requirement.",
+        "service": "The source review does not state a service requirement.",
+        "participantSignature": "The accused makes the request.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "selfHelpStopConditions": [
+        "Fewer than three years have elapsed from final disposition.",
+        "The records have not in fact been erased.",
+        "The clerk requires something the source review has not established."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Whether LegalEase may generate a written request to the clerk depends on counsel confirming the accepted destination and format. The absence of a statewide form alone is not a blocker, but the confirmation has not been given.",
+          "impact": "release_blocker",
+          "affectedElement": "output_strategy",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+            "sourceHeading": "Connecticut operational amendments / Process-guidance routes reviewed",
+            "sourceStatement": "CT-14 | May support a generated written request to the clerk if counsel confirms the accepted destination and format. The absence of a statewide form alone is not a blocker."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Process guidance is retained. The controlling addendum permits a generated written request only if counsel confirms the accepted destination and format, and that confirmation has not been given. The absence of a statewide form alone is not the reason for guidance here; the unconfirmed destination and format is.",
+        "limitations": [
+          {
+            "classification": "scope_restriction",
+            "statement": "A generated written request to the clerk may be supported only once counsel confirms the accepted destination and format. Until then this stays guidance. The absence of a statewide form alone is not a blocker.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+              "sourceHeading": "Connecticut operational amendments / Process-guidance routes reviewed",
+              "sourceStatement": "CT-14 | May support a generated written request to the clerk if counsel confirms the accepted destination and format. The absence of a statewide form alone is not a blocker."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Destruction may not occur until three years have elapsed from the date of final disposition of the case.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+              "sourceHeading": "TRACK CT-14 / Mechanism",
+              "sourceStatement": "except that destruction may not occur until three years have elapsed from the date of final disposition of the case.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "Connecticut says erasure. Not expungement, not sealing. This request goes further than erasure, to physical destruction.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Connecticut-Legal-Review.md",
+              "sourceHeading": "PART 1 / Facts that apply across every erasure track",
+              "sourceStatement": "**Terminology.** Connecticut says erasure. Not expungement, not sealing."
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

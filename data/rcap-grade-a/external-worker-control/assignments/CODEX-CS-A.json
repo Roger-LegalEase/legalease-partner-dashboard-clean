@@ -1,0 +1,181 @@
+{
+  "schemaVersion": "rcap-external-assignment/v1",
+  "captainSha": "36b60710c1b3d14fbd6ff71842a3375caac1dcd4",
+  "createdAt": "2026-09-01T12:25:55Z",
+  "minimumAncestor": "f240e47687eddd47d432996823ce932affcd54cc",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "captainIsSoleAuthorityFor": [
+    "the claim ledger",
+    "the master and raster queues",
+    "central raster dispatch",
+    "integration",
+    "commercial authority",
+    "anything touching Production"
+  ],
+  "neverDo": [
+    "claim a family a live grant already holds",
+    "modify data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
+    "modify RASTER_QUEUE.json, MASTER_QUEUE.json or ACTIVE_ASSIGNMENTS.json",
+    "open a commercial route, alter checkout, entitlement or packet-credit behaviour",
+    "touch Production, Supabase RLS, Stripe live mode, or any secret",
+    "verify a packet you built or repaired"
+  ],
+  "workerId": "CODEX-CS-A",
+  "assignmentId": "CSA-PF17-V4-BATCH-001",
+  "assignmentVersion": 4,
+  "batchTag": "BATCH-001",
+  "mode": "PACKET_BUILD",
+  "role": "Primary Packet Build Factory (persistent Codespace)",
+  "lane": "PF17",
+  "laneKind": "packet-build",
+  "subjectIds": [
+    "ca-1203-4-set",
+    "ky_felony_vacatur_expungement-set",
+    "or_conviction_setaside-set",
+    "sc_17_22_950_summary-set",
+    "wi_nc_doj_challenge-set",
+    "wi_nc_doj_fingerprint_removal-set"
+  ],
+  "subjects": [
+    {
+      "familyId": "ca-1203-4-set",
+      "directory": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill",
+      "masterQueueState": "SOURCE_READY",
+      "sharesBytesWithAnotherFamily": false
+    },
+    {
+      "familyId": "ky_felony_vacatur_expungement-set",
+      "directory": "data/rcap-all50/overlays/census-v1/ky/ky-felony-vacatur-expungement-set--official-pdf-fill",
+      "masterQueueState": "SOURCE_READY",
+      "sharesBytesWithAnotherFamily": false
+    },
+    {
+      "familyId": "or_conviction_setaside-set",
+      "directory": "data/rcap-all50/overlays/census-v1/or/or-conviction-setaside-set--official-pdf-fill",
+      "masterQueueState": "SOURCE_READY",
+      "sharesBytesWithAnotherFamily": false
+    },
+    {
+      "familyId": "sc_17_22_950_summary-set",
+      "directory": "data/rcap-all50/overlays/census-v1/sc/sc-17-22-950-summary-set--official-pdf-fill",
+      "masterQueueState": "SOURCE_READY",
+      "sharesBytesWithAnotherFamily": false
+    },
+    {
+      "familyId": "wi_nc_doj_challenge-set",
+      "directory": "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-challenge-set--official-pdf-fill",
+      "masterQueueState": "SOURCE_READY",
+      "sharesBytesWithAnotherFamily": false
+    },
+    {
+      "familyId": "wi_nc_doj_fingerprint_removal-set",
+      "directory": "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-fingerprint-removal-set--official-pdf-fill",
+      "masterQueueState": "SOURCE_READY",
+      "sharesBytesWithAnotherFamily": false
+    }
+  ],
+  "claimPlan": [
+    {
+      "subjectId": "ca-1203-4-set",
+      "kind": "ALREADY_ACTIVE",
+      "holdingLane": "PF17",
+      "operation": "packet-build",
+      "captainAction": null,
+      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF17 ca-1203-4-set"
+    },
+    {
+      "subjectId": "ky_felony_vacatur_expungement-set",
+      "kind": "ALREADY_ACTIVE",
+      "holdingLane": "PF17",
+      "operation": "packet-build",
+      "captainAction": null,
+      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF17 ky_felony_vacatur_expungement-set"
+    },
+    {
+      "subjectId": "or_conviction_setaside-set",
+      "kind": "ALREADY_ACTIVE",
+      "holdingLane": "PF17",
+      "operation": "packet-build",
+      "captainAction": null,
+      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF17 or_conviction_setaside-set"
+    },
+    {
+      "subjectId": "sc_17_22_950_summary-set",
+      "kind": "ALREADY_ACTIVE",
+      "holdingLane": "PF17",
+      "operation": "packet-build",
+      "captainAction": null,
+      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF17 sc_17_22_950_summary-set"
+    },
+    {
+      "subjectId": "wi_nc_doj_challenge-set",
+      "kind": "ALREADY_ACTIVE",
+      "holdingLane": "PF17",
+      "operation": "packet-build",
+      "captainAction": null,
+      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF17 wi_nc_doj_challenge-set"
+    },
+    {
+      "subjectId": "wi_nc_doj_fingerprint_removal-set",
+      "kind": "ALREADY_ACTIVE",
+      "holdingLane": "PF17",
+      "operation": "packet-build",
+      "captainAction": null,
+      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF17 wi_nc_doj_fingerprint_removal-set"
+    }
+  ],
+  "claimAssertions": [
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF17 ca-1203-4-set",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF17 ky_felony_vacatur_expungement-set",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF17 or_conviction_setaside-set",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF17 sc_17_22_950_summary-set",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF17 wi_nc_doj_challenge-set",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF17 wi_nc_doj_fingerprint_removal-set"
+  ],
+  "claimPrerequisite": "Every one of these families already holds a RELEASED packet-build claim from an earlier PF lane, so a bare --assert is a duplicate subject+operation and the ledger refuses it. Captain transfers each grant to PF17 first; claimPlan carries the exact command per subject. Do not assert until CONTROL_STATE.json shows the transfer completed, and if an assert is refused STOP and return the refusal rather than working without a grant.",
+  "ownedPaths": [
+    "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/**",
+    "data/rcap-all50/overlays/census-v1/ky/ky-felony-vacatur-expungement-set--official-pdf-fill/**",
+    "data/rcap-all50/overlays/census-v1/or/or-conviction-setaside-set--official-pdf-fill/**",
+    "data/rcap-all50/overlays/census-v1/sc/sc-17-22-950-summary-set--official-pdf-fill/**",
+    "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-challenge-set--official-pdf-fill/**",
+    "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-fingerprint-removal-set--official-pdf-fill/**"
+  ],
+  "prohibitedPaths": [
+    "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
+    "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+    "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+    "data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
+    "data/rcap-all50/overlays/census-v1/**  (except the directories listed in ownedPaths)"
+  ],
+  "controllingEvidencePaths": [
+    "docs/PRODUCT_CONTRACT.md",
+    "data/rcap-grade-a/launch-control/GRADE_A_READINESS.json",
+    "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"
+  ],
+  "focusedTestCommands": [
+    "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud",
+    "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs",
+    "node scripts/grade-a-packet-factory-24h/verify-claim-ledger.mjs"
+  ],
+  "rasterDisposition": "BUILT_RASTER_PENDING. Do not raster locally and do not report a local raster as a gate result. Captain dispatches the central workflow.",
+  "independentVerifierSeparation": "You build. You never verify what you build; a different worker reads it.",
+  "reproducibilityRule": "Every PDF you create must carry the fixed date from scripts/rcap-official-forms/rcap-deterministic-pdf-date.mjs. A packet whose bytes move between identical builds destroys its own raster receipt.",
+  "stopConditions": [
+    "a claim assert is refused for any reason",
+    "a source does not bind by exact SHA-256",
+    "an official form is encrypted or otherwise unreadable",
+    "the family needs a legal input nobody has settled",
+    "the preflight does not return PACKET_BUILD_ENVIRONMENT_READY"
+  ],
+  "branchPrefix": "codex/cs-a/",
+  "expiresAt": null,
+  "returnPath": "data/rcap-grade-a/external-worker-control/returns/CODEX-CS-A/CSA-PF17-V4-BATCH-001",
+  "branch": "codex/cs-a/csa-pf17-v4-batch-001",
+  "branchFrom": {
+    "remote": "origin/claude/legalease-sprint-captain-utucnw",
+    "mustContain": "36b60710c1b3d14fbd6ff71842a3375caac1dcd4",
+    "why": "the activated ledger and this assignment live at that commit; branching from an earlier one gives you a ledger where your grant does not exist"
+  }
+}

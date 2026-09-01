@@ -1,0 +1,1269 @@
+{
+  "schemaVersion": 1,
+  "jurisdiction": "DE",
+  "memoVersion": "2.0.0-batch-1-amended",
+  "submittedAt": "2026-07-30T00:00:00.000Z",
+  "tracks": [
+    {
+      "trackId": "de_auto_expungement",
+      "legalName": "Automatic Mandatory Expungement, 11 Del. C. § 4373A",
+      "publicName": "Automatic Expungement",
+      "controllingAuthority": {
+        "citations": ["11 Del. C. § 4373A, added by the Clean Slate Act"],
+        "summary": "The SBI identifies eligible cases monthly and proceeds under § 4372(e)(2), notifying every court and law enforcement agency holding the records, each of which must confirm completion in writing. Any case eligible for mandatory expungement under § 4373 is eligible for automatic expungement."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2024-08-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": ["arrest", "charge", "conviction"],
+      "eligibleDispositions": ["any case eligible for mandatory expungement under § 4373"],
+      "exclusions": [],
+      "waitingPeriods": [],
+      "outputStrategy": "process_guidance",
+      "guidanceRationales": ["no_participant_filing_exists"],
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "State Bureau of Identification. Statewide, monthly batch process."
+      },
+      "destination": {
+        "kind": "automatic",
+        "name": "State Bureau of Identification",
+        "detail": "The SBI identifies eligible cases monthly. Nothing is filed by the participant and nothing is sent to the person when automatic expungement happens."
+      },
+      "components": [
+        {
+          "role": "process_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Verification guidance, not a filing. The product's job is to check whether the record actually cleared and route to the mandatory-application track if it did not."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "recordStillAppearing",
+          "question": "Does the record still appear on your Delaware criminal history?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Certified Delaware criminal history",
+          "obtainedFrom": "IdentoGo, service code 27S23V",
+          "requirement": "required",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Request the certified criminal history through IdentoGo, service code 27S23V, at about $72. Save the PDF at first opening; it can only be opened once.",
+          "confirms": "recordStillAppearing"
+        }
+      ],
+      "manualCompletionItems": [],
+      "officialSources": [
+        {
+          "title": "Delaware State Police, Expungements",
+          "url": "https://dsp.delaware.gov/expungements/",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "none. Nothing is filed by the participant.",
+        "fees": "none for the automatic process. The certified criminal history costs about $72 through IdentoGo.",
+        "feeWaiver": "none",
+        "notice": "none. Nothing is sent to the person when automatic expungement happens, so verification is the only way to know.",
+        "service": "none",
+        "participantSignature": "none",
+        "notarization": "none"
+      },
+      "selfHelpStopConditions": [
+        "The record involves a § 4201(c) felony or a Beau Biden Act offense, where the only route is a pardon.",
+        "Immigration, firearm, professional licensing, registry, or law enforcement employment consequences are in play.",
+        "The person wants to attack the underlying conviction rather than expunge it."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Current Clean Slate throughput. The reference cites roughly 805 records by November 2024, under one percent of those eligible. Get a current figure from the SBI or the Department of Safety and Homeland Security before any user-facing statement about automatic relief.",
+          "impact": "release_blocker",
+          "affectedElement": "legal_effect_or_warning",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Delaware-Legal-Review.md",
+            "sourceHeading": "PART 5 - JURISDICTION COMPLETENESS / Open questions",
+            "sourceStatement": "Current Clean Slate throughput. The reference cites roughly 805 records by November 2024, under one percent of those eligible. Get a current figure from the SBI or the Department of Safety and Homeland Security before any user-facing statement about automatic relief.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review: \"Process guidance only. Verification, not promises. Rollout has been reported as slow, so the product's job is to check whether the record actually cleared and route to track 2 if it did not.\" The amendment expressly retains this route as guidance-only: \"DE-1: automatic monthly processing; no participant filing.\"",
+        "limitations": [
+          {
+            "classification": "packet_instruction",
+            "statement": "§ 4373A(d) lets the person file for expungement of automatic-eligible records if the automatic process has not reached them.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Delaware-Legal-Review.md",
+              "sourceHeading": "TRACK 1 - AUTOMATIC MANDATORY EXPUNGEMENT",
+              "sourceStatement": "Rights preserved: § 4373A(d) lets the person file for expungement of automatic-eligible records if the automatic process has not reached them",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "§ 4373A(e) gives no cause of action for damages if the SBI fails to identify a case. Nothing is sent to the person when automatic expungement happens, so verification is the only way to know.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Delaware-Legal-Review.md",
+              "sourceHeading": "TRACK 1 - AUTOMATIC MANDATORY EXPUNGEMENT",
+              "sourceStatement": "Risk to disclose: § 4373A(e) gives no cause of action for damages if the SBI fails to identify a case",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "Nothing is filed and nothing is sent to the person. The product verifies whether the record actually cleared and routes to the mandatory-application track if it did not.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Delaware-Legal-Review.md",
+              "sourceHeading": "Delaware operational amendments / Guidance-only routes retained",
+              "sourceStatement": "**DE-1:** automatic monthly processing; no participant filing."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "de_mandatory_expungement",
+      "legalName": "Mandatory Expungement by Application to the State Bureau of Identification, 11 Del. C. § 4373",
+      "publicName": "Mandatory Expungement through the State Bureau of Identification",
+      "controllingAuthority": {
+        "citations": [
+          "11 Del. C. § 4373",
+          "11 Del. C. § 4373(d) and (e), authorizing the SBI to promulgate procedures, forms, regulations, and a fee schedule"
+        ],
+        "summary": "On an appropriate request the Bureau shall expunge. No court discretion. Tier A under § 4373(a)(1) is not barred by prior or subsequent ineligible convictions provided every other charge in the case is eligible; Tier B under § 4373(a)(2) requires no prior or subsequent convictions that bar eligibility."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2019-12-27",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": ["arrest", "charge", "conviction"],
+      "eligibleDispositions": [
+        "Tier A: the case was terminated in favor of the accused, as defined in § 4372(b)",
+        "Tier A: one or more violations in the same case and three years since conviction",
+        "Tier A: marijuana possession under 16 Del. C. § 4764 or paraphernalia under § 4771, or both in the same case",
+        "Tier A: underage possession or consumption of alcohol under 4 Del. C. § 904(e) or (f)",
+        "Tier B: one or more misdemeanors, or misdemeanors combined with violations, in the same case, five years since conviction",
+        "Tier B: drug possession under 16 Del. C. § 4756, five years since conviction",
+        "Tier B: the six listed felonies, ten years since conviction or release from incarceration, whichever is later"
+      ],
+      "exclusions": [
+        "§ 4372(f) plus the § 4373(b) list: crimes of domestic violence as defined there, offenses with a child victim, offenses with a vulnerable adult victim, any misdemeanor in subparts A, B, C, or F of subchapter VI of chapter 5, a long enumerated misdemeanor list, and a § 4373(a)(2)c. felony where the victim falls in the first three categories.",
+        "No expungement while criminal charges are pending, except that pending charges do not include an alleged violation of 4 Del. C. § 904(e) or (f), 16 Del. C. § 4764(c), or a Title 21 offense.",
+        "Five convictions may never be expunged: vehicular assault in the second degree (§ 628A), incest (§ 766), unlawful sexual contact in the third degree (§ 767), coercion (§ 791), and unlawfully dealing with a child (§ 1106).",
+        "No expungement while the person is serving incarceration, parole, or probation."
+      ],
+      "waitingPeriods": [
+        { "condition": "Tier A: one or more violations in the same case", "duration": "Three years since conviction" },
+        { "condition": "Tier B: misdemeanors, or misdemeanors combined with violations, in the same case", "duration": "Five years since conviction" },
+        { "condition": "Tier B: drug possession under 16 Del. C. § 4756", "duration": "Five years since conviction" },
+        { "condition": "Tier B: the six listed felonies", "duration": "Ten years since conviction or release from incarceration, whichever is later" }
+      ],
+      "outputStrategy": "official_pdf_fill",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "State Bureau of Identification. Statewide, single agency."
+      },
+      "destination": {
+        "kind": "agency",
+        "name": "State Bureau of Identification",
+        "detail": "Delaware describes a participant application process: obtain the certified SBI history, submit the mandatory-expungement application and fee/materials, and await SBI's determination. The SBI sends a letter stating eligibility and instructions."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION",
+          "officialSourceUrl": "https://dsp.delaware.gov/expungements/",
+          "notes": "The SBI mandatory-expungement application. The current form, fee, service code and submission requirements are not yet source-approved."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "caseOutcome",
+          "question": "How did the case end — was it terminated in your favour, or were you convicted?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenceTypeAndSection",
+          "question": "What were the exact charges and statute sections, and were they violations, misdemeanors or felonies?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionOrReleaseDate",
+          "question": "On what date were you convicted, or released from incarceration if later?",
+          "requirement": "required"
+        },
+        {
+          "key": "otherConvictions",
+          "question": "Do you have any other convictions, before or after this case?",
+          "requirement": "required"
+        },
+        {
+          "key": "pendingCharges",
+          "question": "Do you have any criminal charges pending now?",
+          "requirement": "required"
+        },
+        {
+          "key": "currentlyServing",
+          "question": "Are you currently serving incarceration, parole or probation?",
+          "requirement": "required"
+        },
+        {
+          "key": "finesPaid",
+          "question": "Have all fines, fees and restitution associated with that conviction been paid?",
+          "requirement": "required"
+        },
+        {
+          "key": "priorExpungement",
+          "question": "Has an expungement been granted to you before, and if so when?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Certified Delaware criminal history",
+          "obtainedFrom": "IdentoGo, service code 27S23V",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Request the certified criminal history through IdentoGo, service code 27S23V, at about $72. Save the PDF at first opening; it can only be opened once.",
+          "confirms": "offenceTypeAndSection"
+        },
+        {
+          "name": "SBI eligibility letter",
+          "obtainedFrom": "State Bureau of Identification",
+          "requirement": "conditional",
+          "conditionDescription": "The SBI sends a letter stating whether the person is mandatory-eligible or must file discretionary. It is the handoff to the discretionary track.",
+          "requiredBeforeFiling": false,
+          "howToObtain": "The SBI issues the letter after reviewing the certified criminal history."
+        }
+      ],
+      "manualCompletionItems": [],
+      "officialSources": [
+        {
+          "title": "Delaware State Police, Expungements — official process source",
+          "url": "https://dsp.delaware.gov/expungements/",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "Submit the mandatory-expungement application and materials to the State Bureau of Identification with the certified criminal history.",
+        "fees": "The court instructions state a $75 filing fee on the mandatory path after the SBI letter. The SBI's own current fee is not source-approved.",
+        "feeWaiver": "Under § 4372(l), if an outstanding fine or fee is unpaid for reasons other than wilful noncompliance and the person is otherwise eligible, the court may grant the expungement and waive the fines or fees or convert them to a civil judgment.",
+        "notice": "The SBI sends a letter stating eligibility and instructions.",
+        "service": "The source review does not state a service requirement for the SBI application.",
+        "participantSignature": "The applicant signs their own application.",
+        "notarization": "The source review does not state a notarization requirement for the SBI application."
+      },
+      "selfHelpStopConditions": [
+        "The person has pending criminal charges outside the three carve-outs.",
+        "The person is currently serving incarceration, parole, or probation.",
+        "A prior expungement was granted within ten years, or a felony conviction post-dates a prior felony expungement.",
+        "The offense may be a § 4373(b) crime of domestic violence or involve a child or vulnerable adult victim.",
+        "The record involves a § 4201(c) felony or a Beau Biden Act offense, where the only route is a pardon.",
+        "The case mixes Title 21 charges with expungeable charges, which is now a partial-expungement question under Cornette and Gieck.",
+        "Fines, fees, or restitution are unpaid and the person needs the § 4372(l) waiver or conversion.",
+        "Immigration, firearm, professional licensing, registry, or law enforcement employment consequences are in play.",
+        "The person wants to attack the underlying conviction rather than expunge it."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "The SBI mandatory expungement request form, its current fee, and whether the SBI now issues eligibility letters automatically alongside every certified criminal history ordered under the expungement service code.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Delaware-Legal-Review.md",
+            "sourceHeading": "Delaware operational amendments / True blockers retained",
+            "sourceStatement": "Current SBI application form, fee, service code, and submission requirements must be source-approved before DE-2 release. This is a source-release gate; the output strategy is now known."
+          }
+        },
+        {
+          "question": "Whether the SBI or the courts publish any current guidance on partial expungement after Cornette, and whether the petition form will be revised to accommodate it.",
+          "impact": "release_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Delaware-Legal-Review.md",
+            "sourceHeading": "PART 5 - JURISDICTION COMPLETENESS / Open questions",
+            "sourceStatement": "Whether the SBI or the courts publish any current guidance on partial expungement after Cornette, and whether the petition form will be revised to accommodate it.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "The amendment expressly reclassifies this route from process_guidance to a participant application packet: \"DE-2 is no longer guidance-only merely because SBI reviews the history and decides mandatory eligibility. LegalEase may generate the participant-facing application and instructions without reviewing the history itself.\" The original review's \"Approved with limitations\" decision and its eligibility research are otherwise unchanged.",
+        "limitations": [
+          {
+            "classification": "required_before_filing",
+            "statement": "Obtain the certified SBI history and submit it with the mandatory-expungement application. LegalEase does not review the history itself.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Delaware-Legal-Review.md",
+              "sourceHeading": "Delaware operational amendments / Process-guidance route reclassified",
+              "sourceStatement": "Delaware describes a participant application process: obtain the certified SBI history, submit the mandatory-expungement application and fee/materials, and await SBI's determination. Agency review does not make the participant application guidance-only."
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "Agency review does not make the participant application guidance-only. The SBI's determination happens after the participant submits.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Delaware-Legal-Review.md",
+              "sourceHeading": "Delaware operational amendments / Process-guidance route reclassified",
+              "sourceStatement": "Agency review does not make the participant application guidance-only."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Request the certified criminal history through IdentoGo, service code 27S23V, at about $72. Save the PDF at first opening; it can only be opened once.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Delaware-Legal-Review.md",
+              "sourceHeading": "TRACKS 3 and 4 / Filing and post-filing",
+              "sourceStatement": "Request the certified criminal history through IdentoGo, service code 27S23V, at about $72. Save the PDF at first opening; it can only be opened once.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "participant_question",
+            "statement": "Tier A and Tier B differ in their clean-record requirements. Under § 4373(a)(1) prior or subsequent ineligible convictions do not bar; under § 4373(a)(2) the person must have no prior or subsequent convictions that bar eligibility.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Delaware-Legal-Review.md",
+              "sourceHeading": "0.3 Corrections to the internal Delaware reference, item 4",
+              "sourceStatement": "Mandatory expungement has two tiers with different clean-record requirements. ... The reference flattens these into one bucket and will wrongly reject people with other records.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "A prior or subsequent conviction does not bar eligibility if it is underage possession or consumption of alcohol, possession of a personal-use quantity of marijuana, possession of drug paraphernalia, or any Title 21 offense, under § 4372(g) and (h).",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Delaware-Legal-Review.md",
+              "sourceHeading": "0.3 Corrections to the internal Delaware reference, item 9",
+              "sourceStatement": "Three safe harbors are missing, and they flip outcomes. Under § 4372(g) and (h), a prior or subsequent conviction does not bar eligibility if it is underage possession or consumption of alcohol, possession of a personal-use quantity of marijuana, possession of drug paraphernalia, or **any Title 21 offense**.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Under § 4372(l), all fines, fees, and restitution associated with that conviction must be paid.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Delaware-Legal-Review.md",
+              "sourceHeading": "0.3 Corrections to the internal Delaware reference, item 8",
+              "sourceStatement": "The money rule is missing. Under § 4372(l), all fines, fees, and restitution associated with **that conviction** must be paid.",
+              "normalizerInferred": true
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "de_discretionary_superior_court",
+      "legalName": "Petition for Expungement of Adult Record, Superior Court, 11 Del. C. § 4374",
+      "publicName": "Discretionary Expungement in Superior Court",
+      "controllingAuthority": {
+        "citations": ["11 Del. C. § 4374, most recently amended at 85 Del. Laws, c. 142, § 10"],
+        "summary": "Discretionary expungement on petition where the petitioner shows manifest injustice from the continued existence and possible dissemination of the record, by a preponderance. The State is a party defendant. Filed in Superior Court where any charge or conviction was disposed of outside Family Court."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2019-12-27",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": ["arrest", "charge", "conviction"],
+      "eligibleDispositions": [
+        "one or more misdemeanors not listed in § 4373(b), same case, at least 3 years since conviction or release from incarceration, whichever is later, and no prior or subsequent convictions",
+        "one or more misdemeanors listed in § 4373(b), same case, at least 7 years, and no prior or subsequent convictions",
+        "a felony, at least 7 years, and no prior or subsequent convictions, subject to the (b) exclusions",
+        "one or more violations or non-§ 4373(b) misdemeanors in more than one case, at least 5 years since the most recent conviction or release, and no other prior or subsequent convictions that would not be mandatory-eligible standing alone"
+      ],
+      "exclusions": [
+        "§ 4374(b), on top of § 4372(f): a Title 11 felony listed in § 4201(c); 16 Del. C. § 1136; 31 Del. C. § 3913; and a felony conviction involving physical or sexual assault crimes as defined in 31 Del. C. § 309, the Beau Biden Child Protection Act.",
+        "Title 21 bar under § 4374(i): no Title 21 motor vehicle offense, or a county or municipal equivalent, except driving after judgment prohibited (21 Del. C. § 2810), reckless driving (§ 4175), and operation of a motor vehicle causing death (§ 4176A). A DUI under 21 Del. C. § 4177 is not expungeable on this route.",
+        "No expungement while criminal charges are pending, except the three carve-outs.",
+        "No expungement while the person is serving incarceration, parole, or probation."
+      ],
+      "waitingPeriods": [
+        { "condition": "Misdemeanors not listed in § 4373(b), same case", "duration": "3 years since conviction or release from incarceration, whichever is later" },
+        { "condition": "Misdemeanors listed in § 4373(b), same case", "duration": "7 years" },
+        { "condition": "A felony", "duration": "7 years" },
+        { "condition": "Violations or non-§ 4373(b) misdemeanors in more than one case", "duration": "5 years since the most recent conviction or release" }
+      ],
+      "outputStrategy": "official_pdf_fill",
+      "geography": {
+        "scope": "county",
+        "keys": ["new-castle", "kent", "sussex"],
+        "venue": "Superior Court for the county where the most recent case was terminated. Venue keys to the most recent termination, not the county of each conviction."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "Superior Court of the State of Delaware, Prothonotary",
+        "detail": "File in person at the Prothonotary with the petition unsigned and identification, signing before the notary, or by mail with the petition already notarized. The expungement clerk emails a copy of the filing to the Attorney General once a case number is assigned."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CIV_EXP_02_A",
+          "notes": "Petition for Expungement of Adult Record, Superior Court, updated 6/12/2024."
+        },
+        {
+          "role": "continuation",
+          "requirement": "conditional",
+          "conditionDescription": "When charges exceed the table on the petition.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CIV_EXP_02_B",
+          "notes": "Additional charges extension sheet, updated 6/12/2024."
+        },
+        {
+          "role": "proposed_order",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CIV_EXP_04_A",
+          "notes": "Required by the court's own instructions. Which of the five published Superior Court orders the petitioner is expected to lodge is unresolved — see the open question."
+        },
+        {
+          "role": "cover_sheet",
+          "requirement": "required",
+          "outputStrategy": "custom_pleading",
+          "notes": "SBI cover letter."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "chargesAndDispositions",
+          "question": "List each charge separately with its disposition, statute section, and whether it was a violation, misdemeanor or felony.",
+          "requirement": "required"
+        },
+        {
+          "key": "mostRecentTerminationCounty",
+          "question": "In which county was your most recent case terminated?",
+          "requirement": "required"
+        },
+        {
+          "key": "anyChargeOutsideFamilyCourt",
+          "question": "Was any charge or conviction you want expunged disposed of outside Family Court?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionOrReleaseDate",
+          "question": "On what date were you convicted, or released from incarceration if later?",
+          "requirement": "required"
+        },
+        {
+          "key": "otherConvictions",
+          "question": "Do you have any other convictions, before or after this case?",
+          "requirement": "required"
+        },
+        {
+          "key": "manifestInjusticeFacts",
+          "question": "In your own words, what specific harm does the continued existence and possible dissemination of this record cause you?",
+          "requirement": "required"
+        },
+        {
+          "key": "finesPaid",
+          "question": "Have all fines, fees and restitution associated with that conviction been paid?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Certified criminal history, dated within 45 days",
+          "obtainedFrom": "IdentoGo, service code 27S23V",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Request the certified criminal history through IdentoGo, service code 27S23V, at about $72. Save the PDF at first opening; it can only be opened once. The court shall summarily reject any petition without it.",
+          "confirms": "chargesAndDispositions"
+        },
+        {
+          "name": "SBI eligibility letter",
+          "obtainedFrom": "State Bureau of Identification",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant first applied on the mandatory path and the SBI directed them to file discretionary.",
+          "requiredBeforeFiling": false,
+          "howToObtain": "The SBI issues the letter after reviewing the certified criminal history."
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Notarized signature",
+          "whereInPacket": "Petition CIV_EXP_02_A, signature and jurat",
+          "why": "The petition is sworn and subscribed before a clerk of court or notary. Filing in person means bringing the petition unsigned and signing in front of the notary at the Prothonotary's office; filing by mail means notarizing first."
+        },
+        {
+          "item": "Manifest-injustice explanation",
+          "whereInPacket": "Petition CIV_EXP_02_A, manifest-injustice section",
+          "why": "The substance of the petition and must not be templated. The form says the section must be completed for the court to consider the petition."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "CIV_EXP_02_A, Petition for Expungement of Adult Record, Superior Court of the State of Delaware, updated 6/12/2024",
+          "url": "https://courts.delaware.gov/superior/expungement.aspx",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "CIV_EXP_07_A, Expungement Instructions, Superior Court of the State of Delaware, updated 10/4/2024",
+          "url": "https://courts.delaware.gov/superior/expungement.aspx",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "Assemble the packet in the prescribed order: petition, proposed order, SBI cover letter, then the certified criminal history dated within 45 days. One original plus one copy. File in person at the Prothonotary with the petition unsigned and identification, signing before the notary, or by mail with the petition already notarized.",
+        "fees": "$75 filing fee, per CIV_EXP_07_A. Set by the courts under § 4374(j).",
+        "feeWaiver": "Under § 4372(l), if an outstanding fine or fee is unpaid for reasons other than wilful noncompliance and the person is otherwise eligible, the court may grant the expungement and waive the fines or fees or convert them to a civil judgment.",
+        "notice": "The expungement clerk emails a copy of the filing to the Attorney General once a case number is assigned. The Attorney General contacts the victim under § 9414(a) and reports the victim's position in the answer.",
+        "service": "The petitioner serves the Attorney General, who may object or answer within 120 days. The petition pre-prints the Attorney General's three county addresses, which is the service list. If the Attorney General opposes, the petitioner has 30 days to file a response.",
+        "participantSignature": "The petition is sworn and subscribed before a clerk of court or notary.",
+        "notarization": "Required. Filing in person means bringing the petition unsigned and signing in front of the notary at the Prothonotary's office. Filing by mail means notarizing first."
+      },
+      "selfHelpStopConditions": [
+        "The Attorney General files an objection or answer opposing the petition.",
+        "A victim opposes.",
+        "The court sets a hearing.",
+        "The manifest-injustice showing depends on contested facts.",
+        "The person has pending criminal charges outside the three carve-outs.",
+        "The person is currently serving incarceration, parole, or probation.",
+        "A prior expungement was granted within ten years, or a felony conviction post-dates a prior felony expungement.",
+        "The offense may be a § 4373(b) crime of domestic violence or involve a child or vulnerable adult victim.",
+        "The record involves a § 4201(c) felony or a Beau Biden Act offense, where the only route is a pardon.",
+        "The case mixes Title 21 charges with expungeable charges, which is now a partial-expungement question under Cornette and Gieck.",
+        "Venue is unclear because charges were disposed of in more than one court.",
+        "Fines, fees, or restitution are unpaid and the person needs the § 4372(l) waiver or conversion.",
+        "Immigration, firearm, professional licensing, registry, or law enforcement employment consequences are in play.",
+        "The person wants to attack the underlying conviction rather than expunge it."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Which proposed order the petitioner is expected to lodge. All five Superior Court orders are published as court forms, and the instructions simply say \"Proposed Order.\" Confirm with the Prothonotary whether CIV_EXP_04_A is the one to lodge.",
+          "impact": "release_blocker",
+          "affectedElement": "packet_components",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Delaware-Legal-Review.md",
+            "sourceHeading": "Delaware operational amendments / True blockers retained",
+            "sourceStatement": "Missing current order sets or court forms remain source/form blockers where LegalEase cannot identify the accepted packet."
+          }
+        },
+        {
+          "question": "What 85 Del. Laws, c. 142, § 10 changed in § 4374. It is the most recent amendment and was not read in this review.",
+          "impact": "release_blocker",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Delaware-Legal-Review.md",
+            "sourceHeading": "PART 5 - JURISDICTION COMPLETENESS / Open questions",
+            "sourceStatement": "What 85 Del. Laws, c. 142, § 10 changed in § 4374. It is the most recent amendment and was not read in this review.",
+            "normalizerInferred": true
+          }
+        },
+        {
+          "question": "Whether the SBI or the courts publish any current guidance on partial expungement after Cornette, and whether the petition form will be revised to accommodate it.",
+          "impact": "release_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Delaware-Legal-Review.md",
+            "sourceHeading": "PART 5 - JURISDICTION COMPLETENESS / Open questions",
+            "sourceStatement": "Whether the SBI or the courts publish any current guidance on partial expungement after Cornette, and whether the petition form will be revised to accommodate it.",
+            "normalizerInferred": true
+          }
+        },
+        {
+          "question": "Whether a petition may combine cases terminated in different counties, given that venue keys to the most recent termination.",
+          "impact": "counsel_classification_required",
+          "affectedElement": "venue",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "LegalEase-Delaware-Legal-Review.md",
+            "sourceHeading": "PART 5 - JURISDICTION COMPLETENESS / Open questions",
+            "sourceStatement": "Whether a petition may combine cases terminated in different counties, given that venue keys to the most recent termination.",
+            "counselQuestion": "Does the multi-county combining question change which packet is built for a participant with cases in more than one county, or is it a filing instruction? Neither the addendum nor the decision matrix classifies it, and the addendum's Delaware blocker list does not name it."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review: \"Approved with limitations.\" The amendment expressly changes the operational treatment of the certified SBI history and the manifest-injustice narrative but leaves the eligibility research, venue rule, packet and filing rules unchanged.",
+        "limitations": [
+          {
+            "classification": "required_before_filing",
+            "statement": "Generate the court packet without collecting or reviewing the certified SBI history. The current certified history is required before filing.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Delaware-Legal-Review.md",
+              "sourceHeading": "Delaware operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "For DE-3, DE-4, and DE-5, generate the court packet without collecting or reviewing the certified SBI history. The current certified history is `required_before_filing`; history-dependent fields may be `manual_completion_item` fields."
+            }
+          },
+          {
+            "classification": "manual_completion_item",
+            "statement": "History-dependent fields may be left as manual completion items.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Delaware-Legal-Review.md",
+              "sourceHeading": "Delaware operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "history-dependent fields may be `manual_completion_item` fields."
+            }
+          },
+          {
+            "classification": "participant_question",
+            "statement": "The participant supplies any manifest-injustice facts through approved prompts, and LegalEase does not decide whether the showing is sufficient.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Delaware-Legal-Review.md",
+              "sourceHeading": "Delaware operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "The participant supplies any manifest-injustice facts through approved prompts, and LegalEase does not decide whether the showing is sufficient."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "LegalEase must not represent that it confirmed charge-level eligibility.",
+            "provenance": {
+              "classificationBasis": "general_packet_only_rule",
+              "sourceFile": "00-Source-Packet-Only-Product-Model-Amendment.md",
+              "sourceHeading": "First-Batch Changes by Jurisdiction / Delaware / Certified SBI history",
+              "sourceStatement": "do not represent that LegalEase confirmed charge-level eligibility."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "The certified criminal history must be dated within 45 days. The court shall summarily reject any petition without it.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Delaware-Legal-Review.md",
+              "sourceHeading": "TRACKS 3 and 4 / Shared legal design",
+              "sourceStatement": "Required attachment: the petitioner's SBI criminal history. The court **shall summarily reject** any petition without it. The court instructions require it to be dated within 45 days.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "If the Attorney General opposes, the petitioner has 30 days to file a response, and the expungement clerk emails it to the Attorney General.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Delaware-Legal-Review.md",
+              "sourceHeading": "0.3 Corrections to the internal Delaware reference, item 14",
+              "sourceStatement": "The petitioner's reply window is missing. The Attorney General has 120 days. If the Attorney General opposes, the petitioner has **30 days** to file a response, and the expungement clerk emails it to the Attorney General.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "The decision is on the papers by default; there is no hearing unless the court believes one is necessary. An Attorney General objection, a victim opposition, or a hearing triggers handoff.",
+            "provenance": {
+              "classificationBasis": "general_packet_only_rule",
+              "sourceFile": "00-Source-Packet-Only-Product-Model-Amendment.md",
+              "sourceHeading": "Required Operational Reclassification / 6. post_generation_handoff",
+              "sourceStatement": "A routine, automatically scheduled, or uncontested hearing is not by itself a packet-generation blocker."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "Filed in Superior Court only where any charge or conviction was disposed of outside Family Court. Venue is the Superior Court for the county where the most recent case was terminated.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Delaware-Legal-Review.md",
+              "sourceHeading": "TRACKS 3 and 4 / Track-specific fields",
+              "sourceStatement": "When | Any charge or conviction was disposed of outside Family Court | Venue | Superior Court for the county where the most recent case was terminated",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "No Title 21 motor vehicle offense may be expunged under this subchapter except driving after judgment prohibited (21 Del. C. § 2810), reckless driving (§ 4175), and operation of a motor vehicle causing death (§ 4176A). A DUI under 21 Del. C. § 4177 is not expungeable on the § 4374 route.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Delaware-Legal-Review.md",
+              "sourceHeading": "0.3 Corrections to the internal Delaware reference, item 2",
+              "sourceStatement": "Title 21 is a near-total bar and the reference never mentions it. Under § 4372(f)(2) and § 4374(i), no Title 21 motor vehicle offense, or a county or municipal equivalent, may be expunged under this subchapter except three: driving after judgment prohibited (21 Del. C. § 2810), reckless driving (§ 4175), and operation of a motor vehicle causing death (§ 4176A).",
+              "normalizerInferred": true
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "de_discretionary_family_court",
+      "legalName": "Petition for Expungement of Adult Record, Family Court, 11 Del. C. § 4374(c)",
+      "publicName": "Discretionary Expungement in Family Court",
+      "controllingAuthority": {
+        "citations": ["11 Del. C. § 4374, most recently amended at 85 Del. Laws, c. 142, § 10", "11 Del. C. § 4374(c)"],
+        "summary": "Same statute and standard as the Superior Court track. Under § 4374(c), if all the charges and convictions sought to be expunged were disposed of in Family Court, the petition must be filed in Family Court for the county where the most recent case was terminated. Family Court Form 281 is titled \"Petition For Expungement of Adult Record\"."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2019-12-27",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": ["arrest", "charge", "conviction"],
+      "eligibleDispositions": [
+        "one or more misdemeanors not listed in § 4373(b), same case, at least 3 years since conviction or release from incarceration, whichever is later, and no prior or subsequent convictions",
+        "one or more misdemeanors listed in § 4373(b), same case, at least 7 years, and no prior or subsequent convictions",
+        "a felony, at least 7 years, and no prior or subsequent convictions, subject to the (b) exclusions",
+        "one or more violations or non-§ 4373(b) misdemeanors in more than one case, at least 5 years since the most recent conviction or release, and no other prior or subsequent convictions that would not be mandatory-eligible standing alone"
+      ],
+      "exclusions": [
+        "§ 4374(b), on top of § 4372(f): a Title 11 felony listed in § 4201(c); 16 Del. C. § 1136; 31 Del. C. § 3913; and a felony conviction involving physical or sexual assault crimes as defined in 31 Del. C. § 309.",
+        "Title 21 bar under § 4374(i), with the three enumerated exceptions.",
+        "No expungement while criminal charges are pending, except the three carve-outs.",
+        "No expungement while the person is serving incarceration, parole, or probation."
+      ],
+      "waitingPeriods": [
+        { "condition": "Misdemeanors not listed in § 4373(b), same case", "duration": "3 years since conviction or release from incarceration, whichever is later" },
+        { "condition": "Misdemeanors listed in § 4373(b), same case", "duration": "7 years" },
+        { "condition": "A felony", "duration": "7 years" },
+        { "condition": "Violations or non-§ 4373(b) misdemeanors in more than one case", "duration": "5 years since the most recent conviction or release" }
+      ],
+      "outputStrategy": "official_pdf_fill",
+      "geography": {
+        "scope": "county",
+        "keys": ["new-castle", "kent", "sussex"],
+        "venue": "Family Court for the county where the most recent case was terminated."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "Family Court of the State of Delaware",
+        "detail": "Filed in Family Court only where every charge and conviction sought was disposed of in Family Court. Family Court is not juvenile-only here: Form 281 is titled \"Petition For Expungement of Adult Record\"."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FORM-281",
+          "notes": "Petition For Expungement of Adult Record, Family Court, revised 11/26/2025."
+        },
+        {
+          "role": "continuation",
+          "requirement": "conditional",
+          "conditionDescription": "When charges exceed the table on the petition.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FORM-281E",
+          "notes": "Additional charges extension sheet, 09/21/2018."
+        },
+        {
+          "role": "cover_sheet",
+          "requirement": "required",
+          "outputStrategy": "custom_pleading",
+          "notes": "SBI cover letter."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "chargesAndDispositions",
+          "question": "List each charge separately with its disposition, statute section, and whether it was a violation, misdemeanor or felony.",
+          "requirement": "required"
+        },
+        {
+          "key": "allDisposedInFamilyCourt",
+          "question": "Were every one of the charges and convictions you want expunged disposed of in Family Court?",
+          "requirement": "required"
+        },
+        {
+          "key": "mostRecentTerminationCounty",
+          "question": "In which county was your most recent case terminated?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionOrReleaseDate",
+          "question": "On what date were you convicted, or released from incarceration if later?",
+          "requirement": "required"
+        },
+        {
+          "key": "otherConvictions",
+          "question": "Do you have any other convictions, before or after this case?",
+          "requirement": "required"
+        },
+        {
+          "key": "manifestInjusticeFacts",
+          "question": "In your own words, what specific harm does the continued existence and possible dissemination of this record cause you?",
+          "requirement": "required"
+        },
+        {
+          "key": "finesPaid",
+          "question": "Have all fines, fees and restitution associated with that conviction been paid?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Certified criminal history, dated within 45 days",
+          "obtainedFrom": "IdentoGo, service code 27S23V",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Request the certified criminal history through IdentoGo, service code 27S23V, at about $72. The court shall summarily reject any petition without it.",
+          "confirms": "chargesAndDispositions"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Notarized signature",
+          "whereInPacket": "Form 281, signature and jurat",
+          "why": "The petition is sworn and subscribed before a clerk of court or notary."
+        },
+        {
+          "item": "Manifest-injustice explanation",
+          "whereInPacket": "Form 281, manifest-injustice section",
+          "why": "The substance of the petition and must not be templated. The form says the section must be completed for the court to consider the petition."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "Form 281, Petition For Expungement of Adult Record, Family Court of the State of Delaware, revised 11/26/2025",
+          "url": "https://courts.delaware.gov/forms/",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Form 1021IP, Adult Expungement Instruction Packet, FAQ and Forms, 10/06/2023",
+          "url": "https://courts.delaware.gov/forms/",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "File in Family Court for the county where the most recent case was terminated. One original plus one copy.",
+        "fees": "Set by each court under § 4374(j). Whether Family Court adult petitions carry the same $75 fee is unresolved.",
+        "feeWaiver": "Under § 4372(l), if an outstanding fine or fee is unpaid for reasons other than wilful noncompliance and the person is otherwise eligible, the court may grant the expungement and waive the fines or fees or convert them to a civil judgment.",
+        "notice": "The expungement clerk emails a copy of the filing to the Attorney General once a case number is assigned.",
+        "service": "The petitioner serves the Attorney General, who may object or answer within 120 days. If the Attorney General opposes, the petitioner has 30 days to file a response.",
+        "participantSignature": "The petition is sworn and subscribed before a clerk of court or notary.",
+        "notarization": "Required."
+      },
+      "selfHelpStopConditions": [
+        "The Attorney General files an objection or answer opposing the petition.",
+        "A victim opposes.",
+        "The court sets a hearing.",
+        "The manifest-injustice showing depends on contested facts.",
+        "The person has pending criminal charges outside the three carve-outs.",
+        "The person is currently serving incarceration, parole, or probation.",
+        "The offense may be a § 4373(b) crime of domestic violence or involve a child or vulnerable adult victim.",
+        "Venue is unclear because charges were disposed of in more than one court.",
+        "Fines, fees, or restitution are unpaid and the person needs the § 4372(l) waiver or conversion.",
+        "Immigration, firearm, professional licensing, registry, or law enforcement employment consequences are in play."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Which proposed order the Family Court expects the petitioner to lodge. The Family Court equivalent of the Superior Court order set is unresolved.",
+          "impact": "release_blocker",
+          "affectedElement": "packet_components",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Delaware-Legal-Review.md",
+            "sourceHeading": "Delaware operational amendments / True blockers retained",
+            "sourceStatement": "Missing current order sets or court forms remain source/form blockers where LegalEase cannot identify the accepted packet."
+          }
+        },
+        {
+          "question": "Whether Family Court adult petitions carry the same $75 fee and the same packet order, since § 4374(j) lets each court set its own schedule.",
+          "impact": "release_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Delaware-Legal-Review.md",
+            "sourceHeading": "PART 5 - JURISDICTION COMPLETENESS / Open questions",
+            "sourceStatement": "Whether Family Court adult petitions carry the same $75 fee and the same packet order, since § 4374(j) lets each court set its own schedule.",
+            "normalizerInferred": true
+          }
+        },
+        {
+          "question": "What 85 Del. Laws, c. 142, § 10 changed in § 4374. It is the most recent amendment and was not read in this review.",
+          "impact": "release_blocker",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Delaware-Legal-Review.md",
+            "sourceHeading": "PART 5 - JURISDICTION COMPLETENESS / Open questions",
+            "sourceStatement": "What 85 Del. Laws, c. 142, § 10 changed in § 4374. It is the most recent amendment and was not read in this review.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review: \"Approved with limitations.\" The amendment expressly changes the operational treatment of the certified SBI history and the manifest-injustice narrative. The venue correction in section 0.3 item 1 is preserved: Family Court is the required venue where all charges were disposed of there.",
+        "limitations": [
+          {
+            "classification": "required_before_filing",
+            "statement": "Generate the court packet without collecting or reviewing the certified SBI history. The current certified history is required before filing.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Delaware-Legal-Review.md",
+              "sourceHeading": "Delaware operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "For DE-3, DE-4, and DE-5, generate the court packet without collecting or reviewing the certified SBI history. The current certified history is `required_before_filing`; history-dependent fields may be `manual_completion_item` fields."
+            }
+          },
+          {
+            "classification": "manual_completion_item",
+            "statement": "History-dependent fields may be left as manual completion items.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Delaware-Legal-Review.md",
+              "sourceHeading": "Delaware operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "history-dependent fields may be `manual_completion_item` fields."
+            }
+          },
+          {
+            "classification": "participant_question",
+            "statement": "The participant supplies any manifest-injustice facts through approved prompts, and LegalEase does not decide whether the showing is sufficient.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Delaware-Legal-Review.md",
+              "sourceHeading": "Delaware operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "The participant supplies any manifest-injustice facts through approved prompts, and LegalEase does not decide whether the showing is sufficient."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "Filed in Family Court only where every charge and conviction sought was disposed of in Family Court. Venue is the county where the most recent case was terminated, not the county of each conviction.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Delaware-Legal-Review.md",
+              "sourceHeading": "0.3 Corrections to the internal Delaware reference, item 1",
+              "sourceStatement": "Under § 4374(c), if **all** the charges and convictions sought to be expunged were disposed of in Family Court, the petition must be filed in **Family Court** for the county where the most recent case was terminated. ... Venue is the county where the **most recent case was terminated**, not the county of each conviction.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "The decision is on the papers by default; there is no hearing unless the court believes one is necessary. An Attorney General objection, a victim opposition, or a hearing triggers handoff.",
+            "provenance": {
+              "classificationBasis": "general_packet_only_rule",
+              "sourceFile": "00-Source-Packet-Only-Product-Model-Amendment.md",
+              "sourceHeading": "Required Operational Reclassification / 6. post_generation_handoff",
+              "sourceStatement": "A routine, automatically scheduled, or uncontested hearing is not by itself a packet-generation blocker."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "de_pardon_expungement",
+      "legalName": "Petition for Expungement After a Pardon, 11 Del. C. § 4375",
+      "publicName": "Expungement After a Pardon",
+      "controllingAuthority": {
+        "citations": ["11 Del. C. § 4375", "Procedure under 11 Del. C. § 4374(c) through (h) and (j)"],
+        "summary": "A person convicted of any crime other than the six excluded, who has since been unconditionally pardoned by the Governor, may petition. Per the enacting synopsis a § 4375 expungement is not restricted by the eligibility requirements or exclusions in § 4374, and crimes ineligible under § 4372(f) become eligible after an unconditional pardon. This is the only route for a § 4201(c) violent felony and for most of the permanent exclusions."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2019-12-27",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": ["conviction"],
+      "eligibleDispositions": ["a conviction for any crime other than the six excluded, followed by an unconditional pardon by the Governor"],
+      "exclusions": [
+        "§ 4375(b): manslaughter (§ 632), murder in the second degree (§ 635), murder in the first degree (§ 636), rape in the second degree (§ 772), rape in the first degree (§ 773), and sexual abuse of a child by a person in a position of trust, authority, or supervision in the first degree (§ 778(1), (2), or (3))."
+      ],
+      "waitingPeriods": [],
+      "outputStrategy": "official_pdf_fill",
+      "geography": {
+        "scope": "county",
+        "keys": ["new-castle", "kent", "sussex"],
+        "venue": "Superior or Family Court for the county where the most recent case was terminated, following the § 4374(c) venue rule."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "Superior Court or Family Court of the State of Delaware",
+        "detail": "Same venue rule, same service on the Attorney General, same 120 days, same criminal history attachment, same manifest-injustice standard, same fee schedule as the § 4374 route."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CIV_EXP_02_A",
+          "notes": "The same petition with the § 4375 basis. The form is captioned to § 4374 only, so the § 4375 basis has to be stated in the body."
+        },
+        {
+          "role": "proposed_order",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CIV_EXP_08_A",
+          "notes": "Expungement New Order Granting after Pardon, 05/30/2024, which is a separate order from the ordinary grant."
+        },
+        {
+          "role": "cover_sheet",
+          "requirement": "required",
+          "outputStrategy": "custom_pleading",
+          "notes": "SBI cover letter."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "unconditionalPardon",
+          "question": "Have you been unconditionally pardoned by the Governor for this conviction?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionOffence",
+          "question": "What was the conviction — the exact offence and statute section?",
+          "requirement": "required"
+        },
+        {
+          "key": "mostRecentTerminationCounty",
+          "question": "In which county was your most recent case terminated?",
+          "requirement": "required"
+        },
+        {
+          "key": "manifestInjusticeFacts",
+          "question": "In your own words, what specific harm does the continued existence and possible dissemination of this record cause you?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Certified criminal history, dated within 45 days",
+          "obtainedFrom": "IdentoGo, service code 27S23V",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Request the certified criminal history through IdentoGo, service code 27S23V, at about $72.",
+          "confirms": "convictionOffence"
+        },
+        {
+          "name": "Unconditional pardon from the Governor",
+          "obtainedFrom": "Board of Pardons and the Governor",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "The pardon itself is a separate process before the Board of Pardons and the Governor, and is outside this track's scope.",
+          "confirms": "unconditionalPardon"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Notarized signature",
+          "whereInPacket": "Petition CIV_EXP_02_A, signature and jurat",
+          "why": "The petition is sworn and subscribed before a clerk of court or notary."
+        },
+        {
+          "item": "Statement of the § 4375 basis in the body of the petition",
+          "whereInPacket": "Petition CIV_EXP_02_A, body",
+          "why": "The form is captioned to § 4374 only, so the § 4375 basis has to be stated in the body."
+        },
+        {
+          "item": "Manifest-injustice explanation",
+          "whereInPacket": "Petition CIV_EXP_02_A, manifest-injustice section",
+          "why": "The substance of the petition and must not be templated."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "CIV_EXP_02_A, Petition for Expungement of Adult Record, Superior Court of the State of Delaware, updated 6/12/2024",
+          "url": "https://courts.delaware.gov/superior/expungement.aspx",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "CIV_EXP_08_A, Expungement New Order Granting after Pardon, 05/30/2024",
+          "url": "https://courts.delaware.gov/superior/expungement.aspx",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "Same procedure as the § 4374 route: § 4374(c) through (h) and (j).",
+        "fees": "$75, per the § 4374(j) fee schedule.",
+        "feeWaiver": "Under § 4372(l), the court may waive fines or fees or convert them to a civil judgment where non-payment is not wilful.",
+        "notice": "The expungement clerk emails a copy of the filing to the Attorney General once a case number is assigned.",
+        "service": "The petitioner serves the Attorney General, who may object or answer within 120 days. If the Attorney General opposes, the petitioner has 30 days to file a response.",
+        "participantSignature": "The petition is sworn and subscribed before a clerk of court or notary.",
+        "notarization": "Required."
+      },
+      "selfHelpStopConditions": [
+        "The Attorney General files an objection or answer opposing the petition.",
+        "A victim opposes.",
+        "The court sets a hearing.",
+        "The manifest-injustice showing depends on contested facts.",
+        "The person has not yet obtained an unconditional pardon, since the pardon is the prerequisite and is outside scope.",
+        "Immigration, firearm, professional licensing, registry, or law enforcement employment consequences are in play.",
+        "The person wants to attack the underlying conviction rather than expunge it."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "How far § 4375 escapes § 4374's exclusions in practice, given that CIV_EXP_02_A is captioned to § 4374 and a separate after-pardon order form exists. Read Cornette and Gieck in full and get Lawrence's position.",
+          "impact": "build_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Delaware-Legal-Review.md",
+            "sourceHeading": "Delaware operational amendments / True blockers retained",
+            "sourceStatement": "**DE-5:** the scope of the pardon exception and how it interacts with the petition form's statutory caption remain dispositive."
+          }
+        },
+        {
+          "question": "What 85 Del. Laws, c. 142, § 10 changed in § 4374. It is the most recent amendment and was not read in this review.",
+          "impact": "release_blocker",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Delaware-Legal-Review.md",
+            "sourceHeading": "PART 5 - JURISDICTION COMPLETENESS / Open questions",
+            "sourceStatement": "What 85 Del. Laws, c. 142, § 10 changed in § 4374. It is the most recent amendment and was not read in this review.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review: \"Approved with limitations. Confirm with Lawrence how far the 'not restricted by § 4374' reading goes in practice, given that the petition form is captioned to § 4374.\" The amendment retains that as a dispositive blocker while confirming the packet-only treatment of the certified history and the manifest-injustice narrative.",
+        "limitations": [
+          {
+            "classification": "legal_design_blocker",
+            "statement": "The scope of the pardon exception and how it interacts with the petition form's statutory caption remain dispositive.",
+            "undeterminedElement": "eligibility_branch",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Delaware-Legal-Review.md",
+              "sourceHeading": "Delaware operational amendments / True blockers retained",
+              "sourceStatement": "**DE-5:** the scope of the pardon exception and how it interacts with the petition form's statutory caption remain dispositive."
+            }
+          },
+          {
+            "classification": "required_before_filing",
+            "statement": "Generate the court packet without collecting or reviewing the certified SBI history. The current certified history is required before filing.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Delaware-Legal-Review.md",
+              "sourceHeading": "Delaware operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "For DE-3, DE-4, and DE-5, generate the court packet without collecting or reviewing the certified SBI history. The current certified history is `required_before_filing`; history-dependent fields may be `manual_completion_item` fields."
+            }
+          },
+          {
+            "classification": "participant_question",
+            "statement": "The participant supplies any manifest-injustice facts through approved prompts, and LegalEase does not decide whether the showing is sufficient.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Delaware-Legal-Review.md",
+              "sourceHeading": "Delaware operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "The participant supplies any manifest-injustice facts through approved prompts, and LegalEase does not decide whether the showing is sufficient."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "The pardon itself, through the Board of Pardons and the Governor, is a prerequisite outside this track's scope.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Delaware-Legal-Review.md",
+              "sourceHeading": "TRACK 5 - DISCRETIONARY EXPUNGEMENT AFTER A PARDON",
+              "sourceStatement": "Prerequisite outside scope: the pardon itself, through the Board of Pardons and the Governor.",
+              "normalizerInferred": true
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "de_attorney_general_expungement",
+      "legalName": "Attorney General Expungement at Dismissal or Nolle Prosequi, 11 Del. C. § 4374(h)",
+      "publicName": "Prosecutor-Initiated Expungement at Dismissal",
+      "controllingAuthority": {
+        "citations": ["11 Del. C. § 4374(h)", "11 Del. C. § 4374(f)"],
+        "summary": "At the time of a state motion to dismiss or entry of a nolle prosequi, where the prosecutor determines that continued existence and dissemination of the arrest information may cause manifest injustice, the prosecutor may petition to expunge the arrest record. A petition filed by the Attorney General must be granted."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2019-12-27",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": ["arrest"],
+      "eligibleDispositions": ["state motion to dismiss", "entry of a nolle prosequi"],
+      "exclusions": [],
+      "waitingPeriods": [],
+      "outputStrategy": "process_guidance",
+      "guidanceRationales": ["another_entity_decides", "no_participant_filing_exists"],
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "The court where the case is pending, on the prosecutor's petition."
+      },
+      "destination": {
+        "kind": "prosecutor",
+        "name": "Attorney General, then the court",
+        "detail": "The participant does not file. The ask is made to the prosecutor, usually through defense counsel at disposition."
+      },
+      "components": [
+        {
+          "role": "process_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Instructions or a discussion checklist. LegalEase may not represent that it generated the legal filing."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "caseStillOpenOrRecentlyDismissed",
+          "question": "Is your case still open, or was it recently dismissed or nolle prossed?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [],
+      "manualCompletionItems": [],
+      "officialSources": [
+        {
+          "title": "CIV_EXP_07_A, Expungement Instructions, Superior Court of the State of Delaware, updated 10/4/2024",
+          "url": "https://courts.delaware.gov/superior/expungement.aspx",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "none by the participant. The prosecutor petitions.",
+        "fees": "none to the participant.",
+        "feeWaiver": "none",
+        "notice": "The source review does not state a notice requirement bearing on the participant.",
+        "service": "none",
+        "participantSignature": "none",
+        "notarization": "none"
+      },
+      "selfHelpStopConditions": [
+        "The prosecutor declines to petition, in which case the ordinary discretionary or mandatory routes are the remaining options.",
+        "The person wants to attack the underlying conviction rather than expunge it.",
+        "Immigration, firearm, professional licensing, registry, or law enforcement employment consequences are in play."
+      ],
+      "unresolvedQuestions": [],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review: \"Process guidance only. Worth surfacing at intake for anyone whose case is still open or recently dismissed, because it is faster and free.\" The amendment expressly retains this route as guidance-only.",
+        "limitations": [
+          {
+            "classification": "scope_restriction",
+            "statement": "The participant does not file the expungement request; the Attorney General initiates it at dismissal or nolle. LegalEase may provide instructions or a discussion checklist, not represent that it generated the legal filing.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Delaware-Legal-Review.md",
+              "sourceHeading": "Delaware operational amendments / Guidance-only routes retained",
+              "sourceStatement": "**DE-6:** the participant does not file the expungement request; the Attorney General initiates it at dismissal or nolle. LegalEase may provide instructions or a discussion checklist, not represent that it generated the legal filing."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Worth surfacing at intake for anyone whose case is still open or recently dismissed, because it is faster and free. The ask is made to the prosecutor, usually through defense counsel at disposition.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Delaware-Legal-Review.md",
+              "sourceHeading": "TRACK 6 - ATTORNEY GENERAL EXPUNGEMENT AT DISMISSAL OR NOLLE",
+              "sourceStatement": "Decision: **Process guidance only.** Worth surfacing at intake for anyone whose case is still open or recently dismissed, because it is faster and free.",
+              "normalizerInferred": true
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

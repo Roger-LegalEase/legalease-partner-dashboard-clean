@@ -1,0 +1,38 @@
+{
+ "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
+ "lane": "VF08",
+ "generatedAtBase": "09b741ad00be0d630bd73a72f66640294abab397",
+ "repairAssignments": [
+  {
+   "itemId": "ut_pet_limitations-set",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-limitations-set--official-pdf-fill",
+   "decisiveDefect": "participant-instructions.md is a list of blanks and nothing else. It never names the court or the bureau the route files with, never states a waiver route for either fee, and never states who must be served or how; and it declares one blank a participant obligation that the source form reserves to the bureau.",
+   "failedProofObligations": [
+    {
+     "obligation": "requiredBeforeFiling",
+     "finding": "Of the 13 blanks the map declares REQUIRED_BEFORE_FILING, every one is named in participant-instructions.md except UT-BCI-EXP-APPLICATION p2 \"SID#R&F\" (blankId p2-y37.35-x188.34). No instruction line asks the participant to write a SID number or an R&F number. It is not merely unnamed: reading the source bytes at that position shows the blank sits inside the form's printed \"BUREAU USE ONLY\" box (heading read at page 2 y=51, x=26.93), and the family's own field census marks the same blank protectCategory \"government_identifier\". A blank the bureau completes cannot be an item the participant must supply before filing."
+    },
+    {
+     "obligation": "filingDestination",
+     "finding": "participant-instructions.md never tells the participant where to file. It lists \"Judicial district and court street address for the filing venue\" as a blank the participant must supply, which is the opposite of naming the destination, and it never mentions the Utah Bureau of Criminal Identification, which issues the certificate of eligibility the route names, or the district court that receives the petition. The packet's own caption does carry route-determined evidence of a destination — the \"In the [ ] District [ ] Justice Court of Utah\" election is marked District and the county is written — but a marked caption box is not the instructions naming a court."
+    },
+    {
+     "obligation": "feeAndWaiver",
+     "finding": "The court filing fee is stated: the packet fills and selects the district-court cover sheet row \"$150 [ ] Expungement Petition - Criminal (E)\" on 1044XX page 2, proved by an X read from the output bytes at x355.98 y359.1 inside that row's bracket. No waiver route is stated anywhere in the packet or the instructions — no fee-waiver motion is included, named or referenced. The BCI certificate step carries its own fee, and the instructions name it only as a blank ('BCI payment or fee-waiver election and any payment details') without stating an amount or a waiver route."
+    },
+    {
+     "obligation": "service",
+     "finding": "The instructions never state who must be served or how. The only service line, \"Service method, address, date, and certification only after service occurs\", hands the participant the method and the recipient as blanks to fill in, and the closing sentence records that service certifications are protected. Neither names a recipient or a method."
+    }
+   ],
+   "repairScope": "Two separable repairs. (1) A packet-instruction repair lane rewrites participant-instructions.md to name the filing destinations the route names — the Utah Bureau of Criminal Identification for the certificate of eligibility and the district court for the petition — and to state the service recipient and method and the waiver route, from sourced facts only. The court filing fee is already stated on the cover sheet the packet fills and needs no invention; the BCI fee, both waiver routes and the service rule are not established in this repository and must reach the packet through a source lane, not through a verifier's or a builder's inference. (2) A field-map repair lane re-dispositions UT-BCI-EXP-APPLICATION blankId p2-y37.35-x188.34 from REQUIRED_BEFORE_FILING to a protected agency-only disposition, matching the field census's own government_identifier category and the form's printed BUREAU USE ONLY region. Do not repair either in a verification lane.",
+   "notForThisLaneToInfer": [
+    "the BCI application fee",
+    "any fee-waiver route",
+    "the service recipient and method"
+   ],
+   "whatThisDoesNotChange": "Eleven of the fifteen obligations pass on measurement made in this lane, including every source digest recomputed from the Master Library bytes and both artifact hashes recomputed from the PDF bytes. The packet's fill is sound; its participant-facing instructions and two blank dispositions are not."
+  }
+ ]
+}

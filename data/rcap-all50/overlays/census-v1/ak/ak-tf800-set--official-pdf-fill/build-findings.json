@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "ak-tf800-set",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "TF-800 prints the request, a sworn verification, a certificate of service and the proposed order on the same three sheets.",
+      "consequence": "Only the request is filled. The verification, the certificate and the order are refused by class, so a prepared packet cannot read as a sworn or served one."
+    },
+    {
+      "finding": "Rule 37.6 asks which records and why, and the platform holds neither answer.",
+      "consequence": "7 blanks are declared required-before-filing and every one is named in participant-instructions.md by the words printed beside it."
+    },
+    {
+      "finding": "`Group1` chooses between CONFIDENTIAL and SEALED, and Administrative Rule 37.6 is the route for both.",
+      "consequence": "The election is left to the participant and recorded as a genuine participant election, because a route-determined selection would be answering a question the rule leaves to the requester."
+    },
+    {
+      "finding": "The `confidentialBecause` box's prompt is printed at y=112 and the box's own baseline is y=52.",
+      "consequence": "The caption dictionary records the line actually printed at the widget's coordinate, and the row's label carries the prompt so the participant is told which blank it is."
+    },
+    {
+      "severity": "advisory",
+      "finding": "The boundary participant's name carries a typographic apostrophe (U+2019) and the bytes read back carry the name without it. The write is visible and correctly placed; one character of it is not drawn.",
+      "consequence": "Recorded for visual review rather than repaired here. The behaviour is in the shared finalizer's font encoding, not in this family, and it reproduces identically in vt_seal_misdemeanor-set, which is already PASS_COMPLETE — so a family-local workaround would hide a fleet-wide finding instead of fixing it. A boundary fixture that quietly swapped in a straight apostrophe would have hidden it too.",
+      "evidence": "reports/actual-writes.json, fixture tf800-boundary, field `name`: matchesExpected is false and drawnText shows the dropped character."
+    }
+  ]
+}

@@ -3,17 +3,17 @@
   "generatedBy": "scripts/generate-rcap-registry-gap-dossier.mjs",
   "canonicalGraph": {
     "path": "data/rcap-ledger/paid-pathway-legal-join.json",
-    "sha256": "25601ca0b07b0d1ea31abf607ccf95e8ea7cec83e75f0a73ba645c010124817f",
-    "pathways": 284
+    "sha256": "f2f3f06fcc5aea68f479bd6ba0546d7cf29a08dc08a5522d4e97790e56beb58f",
+    "pathways": 260
   },
   "createsNoDenominator": "Every pathway here stays in Session A's intended-paid denominator. Nothing is dropped, reclassified or invented.",
   "changesNoRuntime": true,
   "totals": {
-    "registryGapPathways": 41,
-    "withAPathwayLevelPacketSet": 41,
+    "registryGapPathways": 40,
+    "withAPathwayLevelPacketSet": 40,
     "withoutAPathwayLevelPacketSet": 0,
-    "inAJurisdictionBoundByTheAdoption": 36,
-    "carryingACounselRatification": 15,
+    "inAJurisdictionBoundByTheAdoption": 35,
+    "carryingACounselRatification": 13,
     "byJurisdiction": {
       "AK": 1,
       "CA": 1,
@@ -23,18 +23,15 @@
       "IL": 3,
       "MD": 1,
       "ME": 2,
-      "MS": 2,
+      "MS": 6,
       "ND": 1,
-      "NJ": 1,
-      "NM": 1,
       "NV": 2,
       "NY": 1,
       "OH": 1,
       "OK": 2,
-      "PA": 1,
-      "SC": 2,
+      "SC": 1,
       "SD": 3,
-      "UT": 3,
+      "UT": 2,
       "VT": 1,
       "WA": 1,
       "WI": 2,
@@ -42,9 +39,9 @@
       "WY": 2
     },
     "packetPlanModes": {
-      "state_specific_custom_packet_from_source_rules": 26,
-      "official_form_overlay_or_source_form_set": 13,
-      "automatic_relief_verification_and_guidance": 2
+      "state_specific_custom_packet_from_source_rules": 27,
+      "official_form_overlay_or_source_form_set": 10,
+      "automatic_relief_verification_and_guidance": 3
     }
   },
   "records": [
@@ -302,7 +299,8 @@
           "packet_capable": true,
           "payment_allowed_when_engine_confirms": true,
           "legal_basis": "Cal. Penal Code § 1203.49 / SB 731 framework",
-          "lawrence_review": "first_pass_ratified"
+          "lawrence_review": "ratified_deployable",
+          "projectedFrom": "route-ratification-registry"
         },
         "sourceEvidenceRefs": [
           "pathways:71-114"
@@ -603,7 +601,8 @@
           "packet_capable": true,
           "payment_allowed_when_engine_confirms": true,
           "legal_basis": "Cal. Penal Code § 1203.49 / SB 731 framework",
-          "lawrence_review": "first_pass_ratified"
+          "lawrence_review": "ratified_deployable",
+          "projectedFrom": "route-ratification-registry"
         }
       },
       "exactFutureRegistryOwnerAction": {
@@ -1014,7 +1013,14 @@
         "sourceRef": "corpus-unit:8; corpus-unit:16; corpus-unit:3",
         "routeType": "special",
         "suggestedResultCode": "packet_ready_with_caution",
-        "lawrenceRatification": null,
+        "lawrenceRatification": {
+          "status": "hold_guidance",
+          "packet_capable": false,
+          "payment_allowed_when_engine_confirms": false,
+          "legal_basis": "Projected from data/record-clearing/legal-decisions/route-ratification-registry.json. Decision authority: Lawrence (counsel), recorded through docs/RCAP_HELD_ROUTE_RATIFICATION_WORKSHEET.md and the evaluator's ratification sets.",
+          "lawrence_review": "hold_guidance",
+          "projectedFrom": "route-ratification-registry"
+        },
         "sourceEvidenceRefs": [
           "corpus-unit:8",
           "corpus-unit:16",
@@ -1066,7 +1072,14 @@
             "sourceRef": "corpus-unit:8; corpus-unit:16; corpus-unit:3"
           }
         ],
-        "counselRatification": null
+        "counselRatification": {
+          "status": "hold_guidance",
+          "packet_capable": false,
+          "payment_allowed_when_engine_confirms": false,
+          "legal_basis": "Projected from data/record-clearing/legal-decisions/route-ratification-registry.json. Decision authority: Lawrence (counsel), recorded through docs/RCAP_HELD_ROUTE_RATIFICATION_WORKSHEET.md and the evaluator's ratification sets.",
+          "lawrence_review": "hold_guidance",
+          "projectedFrom": "route-ratification-registry"
+        }
       },
       "exactFutureRegistryOwnerAction": {
         "owner": "registry owner (track-to-pathway crosswalk)",
@@ -1170,11 +1183,12 @@
         "routeType": "review",
         "suggestedResultCode": "needs_review",
         "lawrenceRatification": {
-          "status": "hold_guidance",
-          "packet_capable": false,
-          "payment_allowed_when_engine_confirms": false,
+          "status": "ratified_deployable",
+          "packet_capable": true,
+          "payment_allowed_when_engine_confirms": true,
           "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
-          "lawrence_review": "hold_guidance_only"
+          "lawrence_review": "ratified_deployable",
+          "projectedFrom": "route-ratification-registry"
         },
         "sourceEvidenceRefs": [
           "manual_source_conversion:ID",
@@ -1271,11 +1285,12 @@
           }
         ],
         "counselRatification": {
-          "status": "hold_guidance",
-          "packet_capable": false,
-          "payment_allowed_when_engine_confirms": false,
+          "status": "ratified_deployable",
+          "packet_capable": true,
+          "payment_allowed_when_engine_confirms": true,
           "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
-          "lawrence_review": "hold_guidance_only"
+          "lawrence_review": "ratified_deployable",
+          "projectedFrom": "route-ratification-registry"
         }
       },
       "exactFutureRegistryOwnerAction": {
@@ -1309,7 +1324,8 @@
           "packet_capable": true,
           "payment_allowed_when_engine_confirms": true,
           "legal_basis": "20 ILCS 2630/5.2 identity-theft/mistaken-identity relief",
-          "lawrence_review": "first_pass_ratified"
+          "lawrence_review": "ratified_deployable",
+          "projectedFrom": "route-ratification-registry"
         },
         "sourceEvidenceRefs": [
           "section:169-177",
@@ -1377,7 +1393,8 @@
           "packet_capable": true,
           "payment_allowed_when_engine_confirms": true,
           "legal_basis": "20 ILCS 2630/5.2 identity-theft/mistaken-identity relief",
-          "lawrence_review": "first_pass_ratified"
+          "lawrence_review": "ratified_deployable",
+          "projectedFrom": "route-ratification-registry"
         }
       },
       "exactFutureRegistryOwnerAction": {
@@ -1407,11 +1424,12 @@
         "routeType": "court_filing",
         "suggestedResultCode": "packet_ready_with_caution",
         "lawrenceRatification": {
-          "status": "hard_gate_pending",
+          "status": "intentional_unsupported",
           "packet_capable": false,
           "payment_allowed_when_engine_confirms": false,
           "legal_basis": "Lawrence named substantive gate required before selling",
-          "lawrence_review": "gate_required"
+          "lawrence_review": "intentional_unsupported",
+          "projectedFrom": "route-ratification-registry"
         },
         "sourceEvidenceRefs": [
           "section:157-163",
@@ -1682,11 +1700,12 @@
           }
         ],
         "counselRatification": {
-          "status": "hard_gate_pending",
+          "status": "intentional_unsupported",
           "packet_capable": false,
           "payment_allowed_when_engine_confirms": false,
           "legal_basis": "Lawrence named substantive gate required before selling",
-          "lawrence_review": "gate_required"
+          "lawrence_review": "intentional_unsupported",
+          "projectedFrom": "route-ratification-registry"
         }
       },
       "exactFutureRegistryOwnerAction": {
@@ -1716,11 +1735,12 @@
         "routeType": "juvenile",
         "suggestedResultCode": "packet_ready_with_caution",
         "lawrenceRatification": {
-          "status": "ratified_deployable",
-          "packet_capable": true,
-          "payment_allowed_when_engine_confirms": true,
+          "status": "intentional_unsupported",
+          "packet_capable": false,
+          "payment_allowed_when_engine_confirms": false,
           "legal_basis": "Illinois juvenile petition expungement branch",
-          "lawrence_review": "first_pass_ratified"
+          "lawrence_review": "intentional_unsupported",
+          "projectedFrom": "route-ratification-registry"
         },
         "sourceEvidenceRefs": [
           "section:178-184",
@@ -1964,11 +1984,12 @@
           }
         ],
         "counselRatification": {
-          "status": "ratified_deployable",
-          "packet_capable": true,
-          "payment_allowed_when_engine_confirms": true,
+          "status": "intentional_unsupported",
+          "packet_capable": false,
+          "payment_allowed_when_engine_confirms": false,
           "legal_basis": "Illinois juvenile petition expungement branch",
-          "lawrence_review": "first_pass_ratified"
+          "lawrence_review": "intentional_unsupported",
+          "projectedFrom": "route-ratification-registry"
         }
       },
       "exactFutureRegistryOwnerAction": {
@@ -1998,11 +2019,12 @@
         "routeType": "juvenile",
         "suggestedResultCode": "packet_ready_with_caution",
         "lawrenceRatification": {
-          "status": "hold_guidance",
+          "status": "intentional_unsupported",
           "packet_capable": false,
           "payment_allowed_when_engine_confirms": false,
           "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
-          "lawrence_review": "hold_guidance_only"
+          "lawrence_review": "intentional_unsupported",
+          "projectedFrom": "route-ratification-registry"
         },
         "sourceEvidenceRefs": [
           "section:171-180",
@@ -2201,11 +2223,12 @@
           }
         ],
         "counselRatification": {
-          "status": "hold_guidance",
+          "status": "intentional_unsupported",
           "packet_capable": false,
           "payment_allowed_when_engine_confirms": false,
           "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
-          "lawrence_review": "hold_guidance_only"
+          "lawrence_review": "intentional_unsupported",
+          "projectedFrom": "route-ratification-registry"
         }
       },
       "exactFutureRegistryOwnerAction": {
@@ -2239,7 +2262,8 @@
           "packet_capable": false,
           "payment_allowed_when_engine_confirms": false,
           "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
-          "lawrence_review": "hold_guidance_only"
+          "lawrence_review": "hold_guidance",
+          "projectedFrom": "route-ratification-registry"
         },
         "sourceEvidenceRefs": [
           "section:151-166",
@@ -2417,7 +2441,8 @@
           "packet_capable": false,
           "payment_allowed_when_engine_confirms": false,
           "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
-          "lawrence_review": "hold_guidance_only"
+          "lawrence_review": "hold_guidance",
+          "projectedFrom": "route-ratification-registry"
         }
       },
       "exactFutureRegistryOwnerAction": {
@@ -2451,7 +2476,8 @@
           "packet_capable": false,
           "payment_allowed_when_engine_confirms": false,
           "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
-          "lawrence_review": "hold_guidance_only"
+          "lawrence_review": "hold_guidance",
+          "projectedFrom": "route-ratification-registry"
         },
         "sourceEvidenceRefs": [
           "section:146-150",
@@ -2524,7 +2550,8 @@
           "packet_capable": false,
           "payment_allowed_when_engine_confirms": false,
           "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
-          "lawrence_review": "hold_guidance_only"
+          "lawrence_review": "hold_guidance",
+          "projectedFrom": "route-ratification-registry"
         }
       },
       "exactFutureRegistryOwnerAction": {
@@ -2540,42 +2567,33 @@
       }
     },
     {
-      "pathwayKey": "MS:human-trafficking-survivor-vacatur-and-expungement",
+      "pathwayKey": "MS:human-trafficking-survivor-expungement-97-3-54-6-6",
       "jurisdiction": "MS",
-      "pathwayId": "human-trafficking-survivor-vacatur-and-expungement",
-      "pathwayLabel": "Human-trafficking-survivor vacatur and expungement",
+      "pathwayId": "human-trafficking-survivor-expungement-97-3-54-6-6",
+      "pathwayLabel": "Human-trafficking survivor expungement",
       "sessionADisposition": "family_bridge_missing_no_track",
       "stillInIntendedPaidDenominator": true,
       "compiledPathwayPreserved": {
-        "id": "human-trafficking-survivor-vacatur-and-expungement",
-        "label": "Human-trafficking-survivor vacatur and expungement",
-        "summary": "HB 1546 creates important trafficking-survivor relief effective July 1, 2026. It allows a court to vacate certain convictions or juvenile adjudications connected to victimization, and it allows expungement of a misdemeanor or felony offense not classified as a crime of violence under 97-3-2 if the court finds by a preponderance of the evidence that the person\u0019s participation occurred during trafficking and was a direct result of being trafficked. Official documentation creates a presumption but is not required. (\"https://legiscan.com/MS/text/HB1546/2026\") Wilma should handle this gently and escalate: If the charge happened while you were…",
-        "sourceRef": "pathways:15-155; section:15-155; corpus-unit:45",
-        "routeType": "special",
-        "suggestedResultCode": "packet_ready_with_caution",
-        "lawrenceRatification": {
-          "status": "ratified_deployable",
-          "packet_capable": true,
-          "payment_allowed_when_engine_confirms": true,
-          "legal_basis": "Miss. Code expungement provisions for human trafficking survivor vacatur and expungement",
-          "lawrence_review": "first_pass_ratified"
-        },
+        "id": "human-trafficking-survivor-expungement-97-3-54-6-6",
+        "label": "Human-trafficking survivor expungement",
+        "summary": "Human-trafficking survivor expungement under Miss. Code Ann. § 97-3-54.6(6), as amended by 2026 Miss. H.B. 1546. available at any time on the covered offense plus the trafficking nexus; no elapsed clock.",
+        "sourceRef": "legal-authority:LD-MS-01",
+        "routeType": "court_filing",
+        "suggestedResultCode": "guidance_only",
+        "lawrenceRatification": null,
         "sourceEvidenceRefs": [
-          "pathways:15-155",
-          "section:15-155",
-          "corpus-unit:45"
+          "legal-authority:LD-MS-01",
+          "statute:Miss. Code Ann. § 97-3-54.6(6), as amended by 2026 Miss. H.B. 1546"
         ]
       },
       "pathwayLevelPacketSet": {
-        "source": "src/lib/rcap-engine/compiled/profiles/MS-*.json:packetGenerator.pathways[pathwayId=human-trafficking-survivor-vacatur-and-expungement]",
-        "mode": "state_specific_custom_packet_from_source_rules",
+        "source": "src/lib/rcap-engine/compiled/profiles/MS-*.json:packetGenerator.pathways[pathwayId=human-trafficking-survivor-expungement-97-3-54-6-6]",
+        "mode": "automatic_relief_verification_and_guidance",
         "formMappingStatus": "custom_or_manual_mapping_required",
         "sourceFormCandidates": [],
         "requiredInputIds": [],
         "sourceRuleRefs": [
-          "pathways:15-155",
-          "section:15-155",
-          "corpus-unit:45"
+          "legal-authority:LD-MS-01"
         ]
       },
       "legalDesignEvidence": {
@@ -2593,24 +2611,235 @@
         ],
         "compiledDecisionRules": [
           {
-            "id": "rule-24-a-person-is-not-eligible-for-general-felony-conviction-",
-            "priority": 20,
-            "sourceRef": "pathways:15-155"
-          },
+            "id": "route-human-trafficking-survivor-expungement-97-3-54-6-6",
+            "priority": 10,
+            "sourceRef": "legal-authority:LD-MS-01"
+          }
+        ],
+        "counselRatification": null
+      },
+      "exactFutureRegistryOwnerAction": {
+        "owner": "registry owner (track-to-pathway crosswalk)",
+        "action": "Create a registry track for MS human-trafficking-survivor-expungement-97-3-54-6-6 and map it to this compiled pathway id in the track-to-pathway crosswalk, then give it a packet set in data/record-clearing/legal-design-packet-set-manifests.json keyed by that track.",
+        "whyItIsNotSomethingThisLaneCanDo": "Minting a registry track is an authority decision about what the registry contains. Inventing one here would put a track in the denominator that no source inventory produced.",
+        "whatUnblocksWhenDone": [
+          "the pathway becomes bridgeable to a packet family instead of family_bridge_missing_no_track",
+          "track-level counsel adoption can reach it rather than family-level inference",
+          "a composed route or official-form package can be attached to it"
+        ],
+        "doNotDoInstead": "Do not drop the pathway from the intended-paid denominator to clear the disposition. The absence of a registry track is a registry gap, not evidence that LegalEase does not intend to sell this route."
+      }
+    },
+    {
+      "pathwayKey": "MS:human-trafficking-survivor-vacatur-97-3-54-6-5",
+      "jurisdiction": "MS",
+      "pathwayId": "human-trafficking-survivor-vacatur-97-3-54-6-5",
+      "pathwayLabel": "Human-trafficking survivor vacatur",
+      "sessionADisposition": "family_bridge_missing_no_track",
+      "stillInIntendedPaidDenominator": true,
+      "compiledPathwayPreserved": {
+        "id": "human-trafficking-survivor-vacatur-97-3-54-6-5",
+        "label": "Human-trafficking survivor vacatur",
+        "summary": "Human-trafficking survivor vacatur under Miss. Code Ann. § 97-3-54.6(5), as amended by 2026 Miss. H.B. 1546. available at any time on the conviction or adjudication plus the trafficking nexus; no elapsed clock.",
+        "sourceRef": "legal-authority:LD-MS-01",
+        "routeType": "court_filing",
+        "suggestedResultCode": "guidance_only",
+        "lawrenceRatification": null,
+        "sourceEvidenceRefs": [
+          "legal-authority:LD-MS-01",
+          "statute:Miss. Code Ann. § 97-3-54.6(5), as amended by 2026 Miss. H.B. 1546"
+        ]
+      },
+      "pathwayLevelPacketSet": {
+        "source": "src/lib/rcap-engine/compiled/profiles/MS-*.json:packetGenerator.pathways[pathwayId=human-trafficking-survivor-vacatur-97-3-54-6-5]",
+        "mode": "automatic_relief_verification_and_guidance",
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceFormCandidates": [],
+        "requiredInputIds": [],
+        "sourceRuleRefs": [
+          "legal-authority:LD-MS-01"
+        ]
+      },
+      "legalDesignEvidence": {
+        "jurisdictionBoundInAdoption": true,
+        "adoptionRecordId": "EXT-ADOPT-01-standing-external-counsel-adoption",
+        "adoptionRecordSha256": "7bea6b4c78cde50a4075bb107ea08a4804f2af3d5add75b245ebc37afaef1185",
+        "adoptedOn": "2026-08-08",
+        "boundFamiliesInJurisdiction": [
           {
-            "id": "rule-54-potential-discretionary-expungement-under-9-11-15-or-21",
-            "priority": 30,
-            "sourceRef": "decision_tree:227-287"
-          },
+            "familyJobId": "rcap-ms-custom-pleading",
+            "legalDesignMemoPath": "data/record-clearing/legal-design-intake/MS.memo.json",
+            "legalDesignMemoSha256": "6982ae0c69373c196b763c84ebd8f8ff85ce1a6954a2806953591f82ff7845f2",
+            "packetProofSha256": "6cb02b0c412788d01d7f0e6265a01bd62d9a7d7da7c0a131e1ddc2e7e1b14544"
+          }
+        ],
+        "compiledDecisionRules": [
+          {
+            "id": "route-human-trafficking-survivor-vacatur-97-3-54-6-5",
+            "priority": 10,
+            "sourceRef": "legal-authority:LD-MS-01"
+          }
+        ],
+        "counselRatification": null
+      },
+      "exactFutureRegistryOwnerAction": {
+        "owner": "registry owner (track-to-pathway crosswalk)",
+        "action": "Create a registry track for MS human-trafficking-survivor-vacatur-97-3-54-6-5 and map it to this compiled pathway id in the track-to-pathway crosswalk, then give it a packet set in data/record-clearing/legal-design-packet-set-manifests.json keyed by that track.",
+        "whyItIsNotSomethingThisLaneCanDo": "Minting a registry track is an authority decision about what the registry contains. Inventing one here would put a track in the denominator that no source inventory produced.",
+        "whatUnblocksWhenDone": [
+          "the pathway becomes bridgeable to a packet family instead of family_bridge_missing_no_track",
+          "track-level counsel adoption can reach it rather than family-level inference",
+          "a composed route or official-form package can be attached to it"
+        ],
+        "doNotDoInstead": "Do not drop the pathway from the intended-paid denominator to clear the disposition. The absence of a registry track is a registry gap, not evidence that LegalEase does not intend to sell this route."
+      }
+    },
+    {
+      "pathwayKey": "MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+      "jurisdiction": "MS",
+      "pathwayId": "intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+      "pathwayLabel": "Intervention-court completion — dismissal-only branch where a record remains",
+      "sessionADisposition": "family_bridge_missing_no_track",
+      "stillInIntendedPaidDenominator": true,
+      "compiledPathwayPreserved": {
+        "id": "intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+        "label": "Intervention-court completion — dismissal-only branch where a record remains",
+        "summary": "Intervention-court completion — dismissal-only branch where a record remains under Miss. Code Ann. § 99-19-71(4). relief opens on the dismissal following court-certified completion, where a record remains.",
+        "sourceRef": "legal-authority:LD-MS-01",
+        "routeType": "court_filing",
+        "suggestedResultCode": "packet_ready_with_caution",
+        "lawrenceRatification": null,
+        "sourceEvidenceRefs": [
+          "legal-authority:LD-MS-01",
+          "statute:Miss. Code Ann. § 99-19-71(4)"
+        ]
+      },
+      "pathwayLevelPacketSet": {
+        "source": "src/lib/rcap-engine/compiled/profiles/MS-*.json:packetGenerator.pathways[pathwayId=intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4]",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceFormCandidates": [],
+        "requiredInputIds": [],
+        "sourceRuleRefs": [
+          "legal-authority:LD-MS-01"
+        ]
+      },
+      "legalDesignEvidence": {
+        "jurisdictionBoundInAdoption": true,
+        "adoptionRecordId": "EXT-ADOPT-01-standing-external-counsel-adoption",
+        "adoptionRecordSha256": "7bea6b4c78cde50a4075bb107ea08a4804f2af3d5add75b245ebc37afaef1185",
+        "adoptedOn": "2026-08-08",
+        "boundFamiliesInJurisdiction": [
+          {
+            "familyJobId": "rcap-ms-custom-pleading",
+            "legalDesignMemoPath": "data/record-clearing/legal-design-intake/MS.memo.json",
+            "legalDesignMemoSha256": "6982ae0c69373c196b763c84ebd8f8ff85ce1a6954a2806953591f82ff7845f2",
+            "packetProofSha256": "6cb02b0c412788d01d7f0e6265a01bd62d9a7d7da7c0a131e1ddc2e7e1b14544"
+          }
+        ],
+        "compiledDecisionRules": [
+          {
+            "id": "route-intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+            "priority": 10,
+            "sourceRef": "legal-authority:LD-MS-01"
+          }
+        ],
+        "counselRatification": null
+      },
+      "exactFutureRegistryOwnerAction": {
+        "owner": "registry owner (track-to-pathway crosswalk)",
+        "action": "Create a registry track for MS intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4 and map it to this compiled pathway id in the track-to-pathway crosswalk, then give it a packet set in data/record-clearing/legal-design-packet-set-manifests.json keyed by that track.",
+        "whyItIsNotSomethingThisLaneCanDo": "Minting a registry track is an authority decision about what the registry contains. Inventing one here would put a track in the denominator that no source inventory produced.",
+        "whatUnblocksWhenDone": [
+          "the pathway becomes bridgeable to a packet family instead of family_bridge_missing_no_track",
+          "track-level counsel adoption can reach it rather than family-level inference",
+          "a composed route or official-form package can be attached to it"
+        ],
+        "doNotDoInstead": "Do not drop the pathway from the intended-paid denominator to clear the disposition. The absence of a registry track is a registry gap, not evidence that LegalEase does not intend to sell this route."
+      }
+    },
+    {
+      "pathwayKey": "MS:nonadjudication-under-99-15-26",
+      "jurisdiction": "MS",
+      "pathwayId": "nonadjudication-under-99-15-26",
+      "pathwayLabel": "Nonadjudication under § 99-15-26",
+      "sessionADisposition": "family_bridge_missing_no_track",
+      "stillInIntendedPaidDenominator": true,
+      "compiledPathwayPreserved": {
+        "id": "nonadjudication-under-99-15-26",
+        "label": "Nonadjudication under § 99-15-26",
+        "summary": "Third, fourth, or subsequent DUI Felon in possession of a firearm Failure to register as a sex offender Abuse, neglect, or exploitation of a vulnerable person Effective July 1, 2026: felony procuring prostitution",
+        "sourceRef": "pathways:15-155; section:15-155; section:227-287; corpus-unit:28; decision_tree:227-287; corpus-unit:14; corpus-unit:30; corpus-unit:51",
+        "routeType": "court_filing",
+        "suggestedResultCode": "packet_ready_with_caution",
+        "lawrenceRatification": {
+          "status": "ratified_deployable",
+          "packet_capable": true,
+          "payment_allowed_when_engine_confirms": true,
+          "legal_basis": "Miss. Code expungement provisions for nonadjudication under 99 15 26",
+          "lawrence_review": "ratified_deployable",
+          "projectedFrom": "route-ratification-registry"
+        },
+        "sourceEvidenceRefs": [
+          "pathways:15-155",
+          "section:15-155",
+          "section:227-287",
+          "corpus-unit:28",
+          "decision_tree:227-287",
+          "corpus-unit:14",
+          "corpus-unit:30",
+          "corpus-unit:51",
+          "corpus-unit:83",
+          "corpus-unit:160"
+        ]
+      },
+      "pathwayLevelPacketSet": {
+        "source": "src/lib/rcap-engine/compiled/profiles/MS-*.json:packetGenerator.pathways[pathwayId=nonadjudication-under-99-15-26]",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceFormCandidates": [],
+        "requiredInputIds": [],
+        "sourceRuleRefs": [
+          "pathways:15-155",
+          "section:15-155",
+          "section:227-287",
+          "corpus-unit:28",
+          "decision_tree:227-287",
+          "corpus-unit:14",
+          "corpus-unit:30",
+          "corpus-unit:51",
+          "corpus-unit:83",
+          "corpus-unit:160"
+        ]
+      },
+      "legalDesignEvidence": {
+        "jurisdictionBoundInAdoption": true,
+        "adoptionRecordId": "EXT-ADOPT-01-standing-external-counsel-adoption",
+        "adoptionRecordSha256": "7bea6b4c78cde50a4075bb107ea08a4804f2af3d5add75b245ebc37afaef1185",
+        "adoptedOn": "2026-08-08",
+        "boundFamiliesInJurisdiction": [
+          {
+            "familyJobId": "rcap-ms-custom-pleading",
+            "legalDesignMemoPath": "data/record-clearing/legal-design-intake/MS.memo.json",
+            "legalDesignMemoSha256": "6982ae0c69373c196b763c84ebd8f8ff85ce1a6954a2806953591f82ff7845f2",
+            "packetProofSha256": "6cb02b0c412788d01d7f0e6265a01bd62d9a7d7da7c0a131e1ddc2e7e1b14544"
+          }
+        ],
+        "compiledDecisionRules": [
           {
             "id": "rule-63-potential-survivor-relief-effective-july-1-2026-under-a",
             "priority": 30,
             "sourceRef": "decision_tree:227-287"
           },
           {
-            "id": "rule-20-mississippi-allows-expungement-of-one-felony-conviction",
+            "id": "rule-64-none-12-months-2-years-good-conduct-5-years-3-years",
+            "priority": 40,
+            "sourceRef": "waiting_periods:394-396"
+          },
+          {
+            "id": "rule-55-check-one-felony-lifetime-rule-sentence-completion-fine",
             "priority": 50,
-            "sourceRef": "pathways:15-155"
+            "sourceRef": "decision_tree:227-287"
           },
           {
             "id": "rule-77-the-felony-waiting-period-is-already-3-years-before-jul",
@@ -2623,147 +2852,12 @@
             "sourceRef": "summary:414-437"
           },
           {
-            "id": "rule-17-wilma-should-not-treat-this-as-automatic",
-            "priority": 60,
-            "sourceRef": "pathways:15-155"
-          },
-          {
-            "id": "rule-01-mississippi-expungement-removes-qualifying-records-from",
-            "priority": 70,
-            "sourceRef": "overview:9-14"
-          },
-          {
-            "id": "rule-02-mississippi-expungement-can-remove-an-eligible-arrest-c",
-            "priority": 70,
-            "sourceRef": "overview:9-14"
-          },
-          {
-            "id": "rule-03-path-a-dismissed-dropped-no-disposition-or-not-guilty",
-            "priority": 70,
-            "sourceRef": "pathways:15-155"
-          },
-          {
-            "id": "rule-04-mississippi-has-a-broad-non-conviction-pathway-upon-pet",
-            "priority": 70,
-            "sourceRef": "pathways:15-155"
-          },
-          {
-            "id": "rule-05-were-you-convicted-or-was-the-case-dismissed-dropped-no",
-            "priority": 70,
-            "sourceRef": "pathways:15-155"
-          },
-          {
-            "id": "rule-07-under-99-15-59-a-person-arrested-cited-or-held-for-a-mi",
-            "priority": 70,
-            "sourceRef": "pathways:15-155"
-          },
-          {
-            "id": "rule-09-under-99-19-71-1-a-person-convicted-of-a-misdemeanor-th",
-            "priority": 70,
-            "sourceRef": "pathways:15-155"
-          },
-          {
-            "id": "rule-10-was-this-your-first-conviction-and-was-it-a-non-traffic",
-            "priority": 70,
-            "sourceRef": "pathways:15-155"
-          },
-          {
-            "id": "rule-11-misdemeanor-conviction-must-be-misdemeanor-not-felony",
-            "priority": 70,
-            "sourceRef": "pathways:15-155"
-          },
-          {
-            "id": "rule-19-path-e-general-felony-conviction-expungement",
-            "priority": 70,
-            "sourceRef": "pathways:15-155"
-          },
-          {
-            "id": "rule-25-trafficking-in-controlled-substances",
-            "priority": 70,
-            "sourceRef": "pathways:15-155"
-          },
-          {
-            "id": "rule-26-mississippi-allows-only-one-general-felony-conviction-e",
-            "priority": 70,
-            "sourceRef": "pathways:15-155"
-          },
-          {
-            "id": "rule-27-no-public-official-is-eligible-for-expungement-under-99",
-            "priority": 70,
-            "sourceRef": "pathways:15-155"
-          },
-          {
-            "id": "rule-28-were-you-a-public-official-and-was-the-conviction-conne",
-            "priority": 70,
-            "sourceRef": "pathways:15-155"
-          },
-          {
-            "id": "rule-29-mississippi-courts-may-withhold-acceptance-of-a-guilty-",
-            "priority": 70,
-            "sourceRef": "pathways:15-155"
-          },
-          {
-            "id": "rule-30-this-may-apply-in-felony-and-misdemeanor-cases-but-ther",
-            "priority": 70,
-            "sourceRef": "pathways:15-155"
-          },
-          {
-            "id": "rule-31-was-this-a-nonadjudication-deferred-plea-or-withheld-ad",
-            "priority": 70,
-            "sourceRef": "pathways:15-155"
-          },
-          {
-            "id": "rule-37-was-this-a-first-time-controlled-substance-possession-o",
-            "priority": 70,
-            "sourceRef": "pathways:15-155"
-          },
-          {
-            "id": "rule-42-do-not-route-a-dui-through-ordinary-misdemeanor-expunge",
-            "priority": 70,
-            "sourceRef": "pathways:15-155"
-          },
-          {
-            "id": "rule-47-path-n-human-trafficking-survivor-expungement-and-vacat",
-            "priority": 70,
-            "sourceRef": "pathways:15-155"
-          },
-          {
-            "id": "rule-48-hb-1546-creates-important-trafficking-survivor-relief-e",
-            "priority": 70,
-            "sourceRef": "pathways:15-155"
-          },
-          {
-            "id": "rule-49-if-the-charge-happened-while-you-were-being-trafficked-",
-            "priority": 70,
-            "sourceRef": "pathways:15-155"
-          },
-          {
-            "id": "rule-50-if-dismissed-dropped-no-disposition-or-not-guilty",
-            "priority": 70,
-            "sourceRef": "decision_tree:227-287"
-          },
-          {
-            "id": "rule-56-if-first-offense-dui-conviction",
-            "priority": 70,
-            "sourceRef": "decision_tree:227-287"
-          },
-          {
-            "id": "rule-65-for-a-mississippi-expungement-packet-wilma-should-prepa",
+            "id": "rule-69-prior-dui-nonadjudication-expungement-history-if-dui",
             "priority": 70,
             "sourceRef": "packet_logic:342-372"
           },
           {
-            "id": "rule-71-wilma-should-recommend-attorney-or-legal-clinic-review-",
-            "priority": 70,
-            "sourceRef": "referral_triggers:288-341"
-          },
-          {
-            "id": "rule-73-human-trafficking-survivor-relief",
-            "priority": 70,
-            "sourceRef": "referral_triggers:288-341"
-          },
-          {
-            "id": "rule-74-public-official-conviction-related-to-official-duties",
+            "id": "rule-72-dui-especially-cdl-refusal-bac-16-prior-dui-pending-d",
             "priority": 70,
             "sourceRef": "referral_triggers:288-341"
           },
@@ -2773,42 +2867,92 @@
             "sourceRef": "referral_triggers:288-341"
           },
           {
-            "id": "rule-82-dismissed-dropped-no-disposition-not-guilty-petition-co",
-            "priority": 70,
-            "sourceRef": "summary:414-437"
-          },
-          {
-            "id": "rule-86-felony-conviction-one-felony-conviction-sentence-comple",
-            "priority": 70,
-            "sourceRef": "summary:414-437"
-          },
-          {
             "id": "rule-89-general-felony-exclusions-violence-first-degree-arson-d",
             "priority": 70,
             "sourceRef": "summary:414-437"
           },
           {
-            "id": "rule-90-public-official-bar-no-expungement-for-conviction-relat",
-            "priority": 70,
-            "sourceRef": "summary:414-437"
-          },
-          {
-            "id": "route-human-trafficking-survivor-vacatur-and-expungement",
-            "priority": 92,
-            "sourceRef": "pathways:15-155; section:15-155; corpus-unit:45"
+            "id": "route-nonadjudication-under-99-15-26",
+            "priority": 85,
+            "sourceRef": "pathways:15-155; section:15-155; section:227-287; corpus-unit:28; decision_tree:227-287; corpus-unit:14; corpus-unit:30; corpus-unit:51"
           }
         ],
         "counselRatification": {
           "status": "ratified_deployable",
           "packet_capable": true,
           "payment_allowed_when_engine_confirms": true,
-          "legal_basis": "Miss. Code expungement provisions for human trafficking survivor vacatur and expungement",
-          "lawrence_review": "first_pass_ratified"
+          "legal_basis": "Miss. Code expungement provisions for nonadjudication under 99 15 26",
+          "lawrence_review": "ratified_deployable",
+          "projectedFrom": "route-ratification-registry"
         }
       },
       "exactFutureRegistryOwnerAction": {
         "owner": "registry owner (track-to-pathway crosswalk)",
-        "action": "Create a registry track for MS human-trafficking-survivor-vacatur-and-expungement and map it to this compiled pathway id in the track-to-pathway crosswalk, then give it a packet set in data/record-clearing/legal-design-packet-set-manifests.json keyed by that track.",
+        "action": "Create a registry track for MS nonadjudication-under-99-15-26 and map it to this compiled pathway id in the track-to-pathway crosswalk, then give it a packet set in data/record-clearing/legal-design-packet-set-manifests.json keyed by that track.",
+        "whyItIsNotSomethingThisLaneCanDo": "Minting a registry track is an authority decision about what the registry contains. Inventing one here would put a track in the denominator that no source inventory produced.",
+        "whatUnblocksWhenDone": [
+          "the pathway becomes bridgeable to a packet family instead of family_bridge_missing_no_track",
+          "track-level counsel adoption can reach it rather than family-level inference",
+          "a composed route or official-form package can be attached to it"
+        ],
+        "doNotDoInstead": "Do not drop the pathway from the intended-paid denominator to clear the disposition. The absence of a registry track is a registry gap, not evidence that LegalEase does not intend to sell this route."
+      }
+    },
+    {
+      "pathwayKey": "MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+      "jurisdiction": "MS",
+      "pathwayId": "uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+      "pathwayLabel": "Uncharged or unprosecuted misdemeanor — dismissal branch",
+      "sessionADisposition": "family_bridge_missing_no_track",
+      "stillInIntendedPaidDenominator": true,
+      "compiledPathwayPreserved": {
+        "id": "uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+        "label": "Uncharged or unprosecuted misdemeanor — dismissal branch",
+        "summary": "Uncharged or unprosecuted misdemeanor — dismissal branch under Miss. Code Ann. § 99-15-59. relief opens immediately upon dismissal; no elapsed wait applies to this branch.",
+        "sourceRef": "legal-authority:LD-MS-01",
+        "routeType": "court_filing",
+        "suggestedResultCode": "packet_ready_with_caution",
+        "lawrenceRatification": null,
+        "sourceEvidenceRefs": [
+          "legal-authority:LD-MS-01",
+          "statute:Miss. Code Ann. § 99-15-59"
+        ]
+      },
+      "pathwayLevelPacketSet": {
+        "source": "src/lib/rcap-engine/compiled/profiles/MS-*.json:packetGenerator.pathways[pathwayId=uncharged-misdemeanor-immediate-dismissal-branch-99-15-59]",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceFormCandidates": [],
+        "requiredInputIds": [],
+        "sourceRuleRefs": [
+          "legal-authority:LD-MS-01"
+        ]
+      },
+      "legalDesignEvidence": {
+        "jurisdictionBoundInAdoption": true,
+        "adoptionRecordId": "EXT-ADOPT-01-standing-external-counsel-adoption",
+        "adoptionRecordSha256": "7bea6b4c78cde50a4075bb107ea08a4804f2af3d5add75b245ebc37afaef1185",
+        "adoptedOn": "2026-08-08",
+        "boundFamiliesInJurisdiction": [
+          {
+            "familyJobId": "rcap-ms-custom-pleading",
+            "legalDesignMemoPath": "data/record-clearing/legal-design-intake/MS.memo.json",
+            "legalDesignMemoSha256": "6982ae0c69373c196b763c84ebd8f8ff85ce1a6954a2806953591f82ff7845f2",
+            "packetProofSha256": "6cb02b0c412788d01d7f0e6265a01bd62d9a7d7da7c0a131e1ddc2e7e1b14544"
+          }
+        ],
+        "compiledDecisionRules": [
+          {
+            "id": "route-uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+            "priority": 10,
+            "sourceRef": "legal-authority:LD-MS-01"
+          }
+        ],
+        "counselRatification": null
+      },
+      "exactFutureRegistryOwnerAction": {
+        "owner": "registry owner (track-to-pathway crosswalk)",
+        "action": "Create a registry track for MS uncharged-misdemeanor-immediate-dismissal-branch-99-15-59 and map it to this compiled pathway id in the track-to-pathway crosswalk, then give it a packet set in data/record-clearing/legal-design-packet-set-manifests.json keyed by that track.",
         "whyItIsNotSomethingThisLaneCanDo": "Minting a registry track is an authority decision about what the registry contains. Inventing one here would put a track in the denominator that no source inventory produced.",
         "whatUnblocksWhenDone": [
           "the pathway becomes bridgeable to a packet family instead of family_bridge_missing_no_track",
@@ -2837,7 +2981,8 @@
           "packet_capable": true,
           "payment_allowed_when_engine_confirms": true,
           "legal_basis": "Miss. Code expungement provisions for uncharged or unprosecuted misdemeanor after 12 months 99 15 59",
-          "lawrence_review": "first_pass_ratified"
+          "lawrence_review": "ratified_deployable",
+          "projectedFrom": "route-ratification-registry"
         },
         "sourceEvidenceRefs": [
           "pathways:15-155",
@@ -3021,7 +3166,8 @@
           "packet_capable": true,
           "payment_allowed_when_engine_confirms": true,
           "legal_basis": "Miss. Code expungement provisions for uncharged or unprosecuted misdemeanor after 12 months 99 15 59",
-          "lawrence_review": "first_pass_ratified"
+          "lawrence_review": "ratified_deployable",
+          "projectedFrom": "route-ratification-registry"
         }
       },
       "exactFutureRegistryOwnerAction": {
@@ -3055,7 +3201,8 @@
           "packet_capable": true,
           "payment_allowed_when_engine_confirms": true,
           "legal_basis": "N.D.C.C. ch. 12-60.1",
-          "lawrence_review": "first_pass_ratified"
+          "lawrence_review": "ratified_deployable",
+          "projectedFrom": "route-ratification-registry"
         },
         "sourceEvidenceRefs": [
           "pathways:24-89",
@@ -3270,423 +3417,13 @@
           "packet_capable": true,
           "payment_allowed_when_engine_confirms": true,
           "legal_basis": "N.D.C.C. ch. 12-60.1",
-          "lawrence_review": "first_pass_ratified"
+          "lawrence_review": "ratified_deployable",
+          "projectedFrom": "route-ratification-registry"
         }
       },
       "exactFutureRegistryOwnerAction": {
         "owner": "registry owner (track-to-pathway crosswalk)",
         "action": "Create a registry track for ND general-conviction-sealing-under-n-d-c-c-chapter-12-60-1 and map it to this compiled pathway id in the track-to-pathway crosswalk, then give it a packet set in data/record-clearing/legal-design-packet-set-manifests.json keyed by that track.",
-        "whyItIsNotSomethingThisLaneCanDo": "Minting a registry track is an authority decision about what the registry contains. Inventing one here would put a track in the denominator that no source inventory produced.",
-        "whatUnblocksWhenDone": [
-          "the pathway becomes bridgeable to a packet family instead of family_bridge_missing_no_track",
-          "track-level counsel adoption can reach it rather than family-level inference",
-          "a composed route or official-form package can be attached to it"
-        ],
-        "doNotDoInstead": "Do not drop the pathway from the intended-paid denominator to clear the disposition. The absence of a registry track is a registry gap, not evidence that LegalEase does not intend to sell this route."
-      }
-    },
-    {
-      "pathwayKey": "NJ:marijuana-hashish-expungement-under-n-j-s-a-2c-52-5-1-5-2-and-6-1",
-      "jurisdiction": "NJ",
-      "pathwayId": "marijuana-hashish-expungement-under-n-j-s-a-2c-52-5-1-5-2-and-6-1",
-      "pathwayLabel": "Marijuana / hashish expungement under N.J.S.A. 2C:52-5.1, -5.2, and -6.1",
-      "sessionADisposition": "family_bridge_missing_no_track",
-      "stillInIntendedPaidDenominator": true,
-      "compiledPathwayPreserved": {
-        "id": "marijuana-hashish-expungement-under-n-j-s-a-2c-52-5-1-5-2-and-6-1",
-        "label": "Marijuana / hashish expungement under N.J.S.A. 2C:52-5.1, -5.2, and -6.1",
-        "summary": "No waiting period (immediate after payment/completion/release) for simple possession, failure to make lawful disposition, being under the influence, paraphernalia, and distribution/PWID of less than one ounce of marijuana or less than five grams of hashish (2C:35-5b(12)), including school-zone/public-housing variants. Three-year wait for distribution of one ounce to five pounds of marijuana, or five grams to one pound of Four main pathways, considered by disposition and the shape of the record. Regular expungement (2C:52-2 indictable / 2C:52-3 disorderly) The standard relief, keyed to how many and what kind of convictions:",
-        "sourceRef": "pathways:74-129; section:74-129; corpus-unit:31",
-        "routeType": "court_filing",
-        "suggestedResultCode": "packet_ready_with_caution",
-        "lawrenceRatification": {
-          "status": "ratified_deployable",
-          "packet_capable": true,
-          "payment_allowed_when_engine_confirms": true,
-          "legal_basis": "N.J.S.A. 2C:52-5.1, 2C:52-5.2, 2C:52-6.1",
-          "lawrence_review": "first_pass_ratified"
-        },
-        "sourceEvidenceRefs": [
-          "pathways:74-129",
-          "section:74-129",
-          "corpus-unit:31"
-        ]
-      },
-      "pathwayLevelPacketSet": {
-        "source": "src/lib/rcap-engine/compiled/profiles/NJ-*.json:packetGenerator.pathways[pathwayId=marijuana-hashish-expungement-under-n-j-s-a-2c-52-5-1-5-2-and-6-1]",
-        "mode": "official_form_overlay_or_source_form_set",
-        "formMappingStatus": "source_candidate_identified",
-        "sourceFormCandidates": [
-          {
-            "fileName": "marijuana-expungement.html",
-            "relativePath": "LegalEase New Jersey/marijuana-expungement.html",
-            "sha256": "f46d899a2167f9c9541350a5d2f9ae3fa3b128c07ee157c760562b295bfb68ad"
-          }
-        ],
-        "requiredInputIds": [],
-        "sourceRuleRefs": [
-          "pathways:74-129",
-          "section:74-129",
-          "corpus-unit:31"
-        ]
-      },
-      "legalDesignEvidence": {
-        "jurisdictionBoundInAdoption": true,
-        "adoptionRecordId": "EXT-ADOPT-01-standing-external-counsel-adoption",
-        "adoptionRecordSha256": "7bea6b4c78cde50a4075bb107ea08a4804f2af3d5add75b245ebc37afaef1185",
-        "adoptedOn": "2026-08-08",
-        "boundFamiliesInJurisdiction": [
-          {
-            "familyJobId": "rcap-nj-guidance-implementation",
-            "legalDesignMemoPath": "data/record-clearing/legal-design-intake/NJ.memo.json",
-            "legalDesignMemoSha256": "a8bd80789f88f4e81853fdbf195e5538c2cc76ea71a4838fe84bdb517c9e6d22",
-            "packetProofSha256": "2bbc4e5af52ab237e1bc60e39b8c323baec566da11d9cad8382564a45dee1d0d"
-          }
-        ],
-        "compiledDecisionRules": [
-          {
-            "id": "rule-15-no-waiting-period-immediate-after-payment-completion-re",
-            "priority": 50,
-            "sourceRef": "pathways:74-129"
-          },
-          {
-            "id": "rule-28-case-outcome-record-pathway-route-waiting-period",
-            "priority": 50,
-            "sourceRef": "case_outcomes:217-261"
-          },
-          {
-            "id": "rule-50-pathway-matter-waiting-period-measured-from",
-            "priority": 50,
-            "sourceRef": "waiting_periods:130-171"
-          },
-          {
-            "id": "rule-16-three-year-wait-for-distribution-of-one-ounce-to-five-p",
-            "priority": 60,
-            "sourceRef": "pathways:74-129"
-          },
-          {
-            "id": "rule-17-automatic-sealing-by-operation-of-law-2c-52-5-2-6-1-fo",
-            "priority": 60,
-            "sourceRef": "pathways:74-129"
-          },
-          {
-            "id": "rule-26-always-check-marijuana-separately-many-cannabis-offense",
-            "priority": 60,
-            "sourceRef": "pathways:74-129"
-          },
-          {
-            "id": "rule-35-marijuana-simple-2c-52-5-1-petition-automatic-none",
-            "priority": 60,
-            "sourceRef": "case_outcomes:217-261"
-          },
-          {
-            "id": "rule-01-path-1-regular-expungement-2c-52-2-indictable-2c-52-3-d",
-            "priority": 70,
-            "sourceRef": "pathways:74-129"
-          },
-          {
-            "id": "rule-02-the-standard-relief-keyed-to-how-many-and-what-kind-of-",
-            "priority": 70,
-            "sourceRef": "pathways:74-129"
-          },
-          {
-            "id": "rule-03-one-indictable-felony-conviction-plus-up-to-three-disor",
-            "priority": 70,
-            "sourceRef": "pathways:74-129"
-          },
-          {
-            "id": "rule-04-up-to-four-disorderly-persons-offenses-and-no-felony-ex",
-            "priority": 70,
-            "sourceRef": "pathways:74-129"
-          },
-          {
-            "id": "rule-06-third-and-fourth-degree-drug-distribution-convictions-s",
-            "priority": 70,
-            "sourceRef": "pathways:74-129"
-          },
-          {
-            "id": "rule-09-entire-record-any-number-of-crimes-and-disorderly-perso",
-            "priority": 70,
-            "sourceRef": "pathways:74-129"
-          },
-          {
-            "id": "rule-10-conviction-payment-of-any-fine-or-completion-of-probati",
-            "priority": 70,
-            "sourceRef": "pathways:74-129"
-          },
-          {
-            "id": "rule-14-path-3-marijuana-hashish-relief-2c-52-5-1-5-2-6-1",
-            "priority": 70,
-            "sourceRef": "pathways:74-129"
-          },
-          {
-            "id": "rule-24-count-first-one-felony-up-to-three-dp-or-up-to-four-dp",
-            "priority": 70,
-            "sourceRef": "pathways:74-129"
-          },
-          {
-            "id": "rule-25-beyond-that-points-to-clean-slate-10-years-whole-record",
-            "priority": 70,
-            "sourceRef": "pathways:74-129"
-          },
-          {
-            "id": "rule-27-sealed-and-shouldn-t-be-lumped-into-the-regular-waiting",
-            "priority": 70,
-            "sourceRef": "pathways:74-129"
-          },
-          {
-            "id": "rule-31-one-felony-3-dp-offenses-2c-52-2-regular-petition-5-yrs",
-            "priority": 70,
-            "sourceRef": "case_outcomes:217-261"
-          },
-          {
-            "id": "rule-34-more-crimes-than-regular-allows-2c-52-5-3-clean-slate-p",
-            "priority": 70,
-            "sourceRef": "case_outcomes:217-261"
-          },
-          {
-            "id": "rule-42-2c-52-5-4-all-eligible-convictions-are-to-be-rendered-i",
-            "priority": 70,
-            "sourceRef": "case_outcomes:217-261"
-          },
-          {
-            "id": "rule-48-expungement-without-the-waiting-period-analysis",
-            "priority": 70,
-            "sourceRef": "case_outcomes:217-261"
-          },
-          {
-            "id": "rule-49-conviction-waits-run-from-the-latest-of-completion-of-t",
-            "priority": 70,
-            "sourceRef": "waiting_periods:130-171"
-          },
-          {
-            "id": "rule-51-regular-expungement-indictable-5-years-latest-sentence-",
-            "priority": 70,
-            "sourceRef": "waiting_periods:130-171"
-          },
-          {
-            "id": "rule-56-marijuana-simple-offenses-none-payment-completion-relea",
-            "priority": 70,
-            "sourceRef": "waiting_periods:130-171"
-          },
-          {
-            "id": "rule-57-marijuana-2c-35-5-11-distribution-3-years-latest-senten",
-            "priority": 70,
-            "sourceRef": "waiting_periods:130-171"
-          },
-          {
-            "id": "rule-58-paid-second-the-eligibility-despite-failure-to-pay-rule",
-            "priority": 70,
-            "sourceRef": "waiting_periods:130-171"
-          },
-          {
-            "id": "rule-62-if-a-user-is-blocked-only-by-unpaid-court-ordered-finan",
-            "priority": 70,
-            "sourceRef": "waiting_periods:130-171"
-          },
-          {
-            "id": "rule-68-certain-drug-distribution-offenses-above-the-statutory-",
-            "priority": 70,
-            "sourceRef": "exclusions:172-216"
-          },
-          {
-            "id": "rule-71-too-many-convictions-for-regular-expungement-more-than-",
-            "priority": 70,
-            "sourceRef": "exclusions:172-216"
-          },
-          {
-            "id": "rule-73-unpaid-fines-fees-other-than-the-clean-slate-failure-to",
-            "priority": 70,
-            "sourceRef": "exclusions:172-216"
-          },
-          {
-            "id": "route-marijuana-hashish-expungement-under-n-j-s-a-2c-52-5-1-5-2-and-6-1",
-            "priority": 82,
-            "sourceRef": "pathways:74-129; section:74-129; corpus-unit:31"
-          }
-        ],
-        "counselRatification": {
-          "status": "ratified_deployable",
-          "packet_capable": true,
-          "payment_allowed_when_engine_confirms": true,
-          "legal_basis": "N.J.S.A. 2C:52-5.1, 2C:52-5.2, 2C:52-6.1",
-          "lawrence_review": "first_pass_ratified"
-        }
-      },
-      "exactFutureRegistryOwnerAction": {
-        "owner": "registry owner (track-to-pathway crosswalk)",
-        "action": "Create a registry track for NJ marijuana-hashish-expungement-under-n-j-s-a-2c-52-5-1-5-2-and-6-1 and map it to this compiled pathway id in the track-to-pathway crosswalk, then give it a packet set in data/record-clearing/legal-design-packet-set-manifests.json keyed by that track.",
-        "whyItIsNotSomethingThisLaneCanDo": "Minting a registry track is an authority decision about what the registry contains. Inventing one here would put a track in the denominator that no source inventory produced.",
-        "whatUnblocksWhenDone": [
-          "the pathway becomes bridgeable to a packet family instead of family_bridge_missing_no_track",
-          "track-level counsel adoption can reach it rather than family-level inference",
-          "a composed route or official-form package can be attached to it"
-        ],
-        "doNotDoInstead": "Do not drop the pathway from the intended-paid denominator to clear the disposition. The absence of a registry track is a registry gap, not evidence that LegalEase does not intend to sell this route."
-      }
-    },
-    {
-      "pathwayKey": "NM:dna-sample-profile-expungement",
-      "jurisdiction": "NM",
-      "pathwayId": "dna-sample-profile-expungement",
-      "pathwayLabel": "DNA sample/profile expungement",
-      "sessionADisposition": "family_bridge_missing_no_track",
-      "stillInIntendedPaidDenominator": true,
-      "compiledPathwayPreserved": {
-        "id": "dna-sample-profile-expungement",
-        "label": "DNA sample/profile expungement",
-        "summary": "DNA sample/profile expungement is separate from the ordinary court-record expungement. A person may request expungement of their DNA sample and DNA records from New Mexico\u0019s DNA identification system if the conviction that led to the sample was reversed, or if the arrest that led to the sample resulted in dismissal, nolle prosequi, successful pre-prosecution diversion, conditional discharge, misdemeanor conviction, acquittal, or did not result in a felony charge within one year.…",
-        "sourceRef": "section:151-161",
-        "routeType": "court_filing",
-        "suggestedResultCode": "packet_ready_with_caution",
-        "lawrenceRatification": {
-          "status": "hold_guidance",
-          "packet_capable": false,
-          "payment_allowed_when_engine_confirms": false,
-          "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
-          "lawrence_review": "hold_guidance_only"
-        },
-        "sourceEvidenceRefs": [
-          "section:151-161"
-        ]
-      },
-      "pathwayLevelPacketSet": {
-        "source": "src/lib/rcap-engine/compiled/profiles/NM-*.json:packetGenerator.pathways[pathwayId=dna-sample-profile-expungement]",
-        "mode": "official_form_overlay_or_source_form_set",
-        "formMappingStatus": "source_candidate_identified",
-        "sourceFormCandidates": [
-          {
-            "fileName": "4-953-Petition-to-expunge-arrest-records-and-public-records-upon-conviction.-1.pdf",
-            "relativePath": "LegalEase New Mexico/4-953-Petition-to-expunge-arrest-records-and-public-records-upon-conviction.-1.pdf",
-            "sha256": "a0f1de568c2e54e4c344391d64fa4e5c39f1956e2f14024456b939a14cb4291a"
-          },
-          {
-            "fileName": "4-952-Petition-to-expunge-arrest-records-and-public-records-upon-release-without-conviction.-1.pdf",
-            "relativePath": "LegalEase New Mexico/4-952-Petition-to-expunge-arrest-records-and-public-records-upon-release-without-conviction.-1.pdf",
-            "sha256": "63aaf07148766143935e061f11eeba95009983051fd507edca31da68a167a576"
-          }
-        ],
-        "requiredInputIds": [],
-        "sourceRuleRefs": [
-          "section:151-161"
-        ]
-      },
-      "legalDesignEvidence": {
-        "jurisdictionBoundInAdoption": true,
-        "adoptionRecordId": "EXT-ADOPT-01-standing-external-counsel-adoption",
-        "adoptionRecordSha256": "7bea6b4c78cde50a4075bb107ea08a4804f2af3d5add75b245ebc37afaef1185",
-        "adoptedOn": "2026-08-08",
-        "boundFamiliesInJurisdiction": [
-          {
-            "familyJobId": "rcap-nm-guidance-implementation",
-            "legalDesignMemoPath": "data/record-clearing/legal-design-intake/NM.memo.json",
-            "legalDesignMemoSha256": "94fe9d381be4e2b03e78397bb67a76c30c5005854d178606604689d19e002f25",
-            "packetProofSha256": "d99646a7aa48d08395f3788add059d247e1fb566d771bad108c6a6040cb4c83a"
-          }
-        ],
-        "compiledDecisionRules": [
-          {
-            "id": "rule-05-conviction-expungement-29-3a-5-eligible-municipal-ordin",
-            "priority": 50,
-            "sourceRef": "pathways:13-22"
-          },
-          {
-            "id": "rule-06-cannabis-automatic-administrative-expungement-29-3a-8-c",
-            "priority": 60,
-            "sourceRef": "pathways:13-22"
-          },
-          {
-            "id": "rule-01-new-mexico-uses-the-word-expungement-but-for-most-non-c",
-            "priority": 70,
-            "sourceRef": "overview:6-12"
-          },
-          {
-            "id": "rule-02-in-new-mexico-expungement-usually-means-the-general-pub",
-            "priority": 70,
-            "sourceRef": "overview:6-12"
-          },
-          {
-            "id": "rule-03-new-mexico-s-court-guidance-says-the-district-court-can",
-            "priority": 70,
-            "sourceRef": "overview:6-12"
-          },
-          {
-            "id": "rule-04-release-without-conviction-29-3a-4-dismissal-acquittal-",
-            "priority": 70,
-            "sourceRef": "pathways:13-22"
-          },
-          {
-            "id": "rule-08-dna-sample-profile-expungement-29-16-10-separate-reques",
-            "priority": 70,
-            "sourceRef": "pathways:13-22"
-          },
-          {
-            "id": "rule-09-a-person-wrongly-identified-in-arrest-records-or-public",
-            "priority": 70,
-            "sourceRef": "decision_tree:39-46"
-          },
-          {
-            "id": "rule-11-if-someone-used-your-identity-and-the-record-wrongly-na",
-            "priority": 70,
-            "sourceRef": "decision_tree:39-46"
-          },
-          {
-            "id": "rule-12-step-2-was-there-a-conviction",
-            "priority": 70,
-            "sourceRef": "decision_tree:39-46"
-          },
-          {
-            "id": "rule-14-1-form-4-952-petition-to-expunge-arrest-records-and-pub",
-            "priority": 70,
-            "sourceRef": "packet_logic:219-256"
-          },
-          {
-            "id": "rule-15-1-form-4-953-petition-to-expunge-arrest-records-and-pub",
-            "priority": 70,
-            "sourceRef": "packet_logic:219-256"
-          },
-          {
-            "id": "rule-16-use-the-new-mexico-courts-cannabis-expungement-applicat",
-            "priority": 70,
-            "sourceRef": "packet_logic:219-256"
-          },
-          {
-            "id": "rule-17-1-written-request-for-dna-sample-profile-expungement",
-            "priority": 70,
-            "sourceRef": "packet_logic:219-256"
-          },
-          {
-            "id": "rule-18-2-certified-copy-of-dismissal-nolle-prosequi-diversion-",
-            "priority": 70,
-            "sourceRef": "packet_logic:219-256"
-          },
-          {
-            "id": "rule-19-3-sworn-affidavit-if-no-felony-charge-was-filed-within-",
-            "priority": 70,
-            "sourceRef": "packet_logic:219-256"
-          },
-          {
-            "id": "rule-20-4-screen-for-prior-felony-conviction-or-pending-felony-",
-            "priority": 70,
-            "sourceRef": "packet_logic:219-256"
-          },
-          {
-            "id": "route-dna-sample-profile-expungement",
-            "priority": 84,
-            "sourceRef": "section:151-161"
-          }
-        ],
-        "counselRatification": {
-          "status": "hold_guidance",
-          "packet_capable": false,
-          "payment_allowed_when_engine_confirms": false,
-          "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
-          "lawrence_review": "hold_guidance_only"
-        }
-      },
-      "exactFutureRegistryOwnerAction": {
-        "owner": "registry owner (track-to-pathway crosswalk)",
-        "action": "Create a registry track for NM dna-sample-profile-expungement and map it to this compiled pathway id in the track-to-pathway crosswalk, then give it a packet set in data/record-clearing/legal-design-packet-set-manifests.json keyed by that track.",
         "whyItIsNotSomethingThisLaneCanDo": "Minting a registry track is an authority decision about what the registry contains. Inventing one here would put a track in the denominator that no source inventory produced.",
         "whatUnblocksWhenDone": [
           "the pathway becomes bridgeable to a packet family instead of family_bridge_missing_no_track",
@@ -4001,11 +3738,12 @@
         "routeType": "court_filing",
         "suggestedResultCode": "packet_ready_with_caution",
         "lawrenceRatification": {
-          "status": "corrected_awaiting_reconfirmation",
-          "packet_capable": false,
-          "payment_allowed_when_engine_confirms": false,
+          "status": "ratified_deployable",
+          "packet_capable": true,
+          "payment_allowed_when_engine_confirms": true,
           "legal_basis": "Lawrence first-pass correction; re-confirm required before selling",
-          "lawrence_review": "corrected_needs_reconfirm"
+          "lawrence_review": "ratified_deployable",
+          "projectedFrom": "route-ratification-registry"
         },
         "sourceEvidenceRefs": [
           "pathways:68-109",
@@ -4182,11 +3920,12 @@
           }
         ],
         "counselRatification": {
-          "status": "corrected_awaiting_reconfirmation",
-          "packet_capable": false,
-          "payment_allowed_when_engine_confirms": false,
+          "status": "ratified_deployable",
+          "packet_capable": true,
+          "payment_allowed_when_engine_confirms": true,
           "legal_basis": "Lawrence first-pass correction; re-confirm required before selling",
-          "lawrence_review": "corrected_needs_reconfirm"
+          "lawrence_review": "ratified_deployable",
+          "projectedFrom": "route-ratification-registry"
         }
       },
       "exactFutureRegistryOwnerAction": {
@@ -4532,275 +4271,6 @@
       }
     },
     {
-      "pathwayKey": "PA:path-k-human-trafficking-vacatur-expungement",
-      "jurisdiction": "PA",
-      "pathwayId": "path-k-human-trafficking-vacatur-expungement",
-      "pathwayLabel": "Path K — Human-trafficking vacatur / expungement",
-      "sessionADisposition": "family_bridge_missing_no_track",
-      "stillInIntendedPaidDenominator": true,
-      "compiledPathwayPreserved": {
-        "id": "path-k-human-trafficking-vacatur-expungement",
-        "label": "Path K — Human-trafficking vacatur / expungement",
-        "summary": "Pennsylvania recognizes vacatur for certain convictions connected to human trafficking. Wilma should treat any trafficking-survivor fact pattern as an attorney escalation path. Community Legal Services summarizes Pennsylvania record clearing as including vacatur, explaining that trafficking victims may be eligible to have certain convictions undone and expunged. (\"https://clsphila.org/my-clean-slate/faq/\") Were any charges connected to force, fraud, coercion, trafficking, commercial sexual exploitation, or someone controlling where you lived or worked? Do not force disclosure. Offer referral language. Non-conviction expungement Pennsylvania…",
-        "sourceRef": "pathways:15-128; section:15-128; corpus-unit:43",
-        "routeType": "special",
-        "suggestedResultCode": "packet_ready_with_caution",
-        "lawrenceRatification": {
-          "status": "hold_guidance",
-          "packet_capable": false,
-          "payment_allowed_when_engine_confirms": false,
-          "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
-          "lawrence_review": "hold_guidance_only"
-        },
-        "sourceEvidenceRefs": [
-          "pathways:15-128",
-          "section:15-128",
-          "corpus-unit:43"
-        ]
-      },
-      "pathwayLevelPacketSet": {
-        "source": "src/lib/rcap-engine/compiled/profiles/PA-*.json:packetGenerator.pathways[pathwayId=path-k-human-trafficking-vacatur-expungement]",
-        "mode": "state_specific_custom_packet_from_source_rules",
-        "formMappingStatus": "custom_or_manual_mapping_required",
-        "sourceFormCandidates": [],
-        "requiredInputIds": [],
-        "sourceRuleRefs": [
-          "pathways:15-128",
-          "section:15-128",
-          "corpus-unit:43"
-        ]
-      },
-      "legalDesignEvidence": {
-        "jurisdictionBoundInAdoption": true,
-        "adoptionRecordId": "EXT-ADOPT-01-standing-external-counsel-adoption",
-        "adoptionRecordSha256": "7bea6b4c78cde50a4075bb107ea08a4804f2af3d5add75b245ebc37afaef1185",
-        "adoptedOn": "2026-08-08",
-        "boundFamiliesInJurisdiction": [
-          {
-            "familyJobId": "rcap-pa-guidance-implementation",
-            "legalDesignMemoPath": "data/record-clearing/legal-design-intake/PA.memo.json",
-            "legalDesignMemoSha256": "3291a5ce3e083f7988b85f17735b50238ee5b873c82337349fb456c2966bf055",
-            "packetProofSha256": "b0900b22fda8f1161e3349acd3606b64dec3e10faef3c29624c37619c919c6a3"
-          }
-        ],
-        "compiledDecisionRules": [
-          {
-            "id": "rule-09-do-not-treat-this-as-automatic-acquittal-expungement-th",
-            "priority": 60,
-            "sourceRef": "pathways:15-128"
-          },
-          {
-            "id": "rule-14-important-clean-slate-may-also-automatically-seal-some-",
-            "priority": 60,
-            "sourceRef": "pathways:15-128"
-          },
-          {
-            "id": "rule-27-a-pennsylvania-pardon-is-executive-clemency-a-pardon-it",
-            "priority": 60,
-            "sourceRef": "pathways:15-128"
-          },
-          {
-            "id": "rule-40-path-j-clean-slate-automatic-limited-access",
-            "priority": 60,
-            "sourceRef": "pathways:15-128"
-          },
-          {
-            "id": "rule-41-pennsylvania-clean-slate-is-automatic-sealing-not-expun",
-            "priority": 60,
-            "sourceRef": "pathways:15-128"
-          },
-          {
-            "id": "rule-48-clean-slate-may-happen-automatically-but-it-seals-the-r",
-            "priority": 60,
-            "sourceRef": "pathways:15-128"
-          },
-          {
-            "id": "rule-63-route-to-pardon-based-expungement-under-9122-a-2-1-auto",
-            "priority": 60,
-            "sourceRef": "decision_tree:224-284"
-          },
-          {
-            "id": "rule-89-clean-slate-automatic-sealing-18-pa-c-s-9122-2",
-            "priority": 60,
-            "sourceRef": "summary:445-469"
-          },
-          {
-            "id": "rule-01-path-a-non-conviction-expungement",
-            "priority": 70,
-            "sourceRef": "pathways:15-128"
-          },
-          {
-            "id": "rule-02-pennsylvania-allows-expungement-when-the-case-did-not-r",
-            "priority": 70,
-            "sourceRef": "pathways:15-128"
-          },
-          {
-            "id": "rule-06-the-statewide-pennsylvania-courts-forms-page-lists-both",
-            "priority": 70,
-            "sourceRef": "pathways:15-128"
-          },
-          {
-            "id": "rule-13-check-whether-five-years-have-passed-since-the-summary-",
-            "priority": 70,
-            "sourceRef": "pathways:15-128"
-          },
-          {
-            "id": "rule-15-pennsylvania-s-accelerated-rehabilitative-disposition-a",
-            "priority": 70,
-            "sourceRef": "pathways:15-128"
-          },
-          {
-            "id": "rule-18-critical-ard-exclusion-pennsylvania-law-prohibits-expun",
-            "priority": 70,
-            "sourceRef": "pathways:15-128"
-          },
-          {
-            "id": "rule-29-conditional-pardon-may-trigger-clean-slate-limited-acce",
-            "priority": 70,
-            "sourceRef": "pathways:15-128"
-          },
-          {
-            "id": "rule-30-no-pardon-yet-user-may-need-board-of-pardons-route-for-",
-            "priority": 70,
-            "sourceRef": "pathways:15-128"
-          },
-          {
-            "id": "rule-32-https-www-pa-gov-agencies-bop-about-the-clemency-proces",
-            "priority": 70,
-            "sourceRef": "pathways:15-128"
-          },
-          {
-            "id": "rule-34-limited-access-is-pennsylvania-s-petition-based-sealing",
-            "priority": 70,
-            "sourceRef": "pathways:15-128"
-          },
-          {
-            "id": "rule-38-as-defined-by-pennsylvania-law-first-and-second-degree-",
-            "priority": 70,
-            "sourceRef": "pathways:15-128"
-          },
-          {
-            "id": "rule-44-non-conviction-charges-subject-to-limited-access",
-            "priority": 70,
-            "sourceRef": "pathways:15-128"
-          },
-          {
-            "id": "rule-47-aopc-transmits-eligible-records-to-the-pennsylvania-sta",
-            "priority": 70,
-            "sourceRef": "pathways:15-128"
-          },
-          {
-            "id": "rule-49-path-k-human-trafficking-vacatur-expungement",
-            "priority": 70,
-            "sourceRef": "pathways:15-128"
-          },
-          {
-            "id": "rule-50-pennsylvania-recognizes-vacatur-for-certain-convictions",
-            "priority": 70,
-            "sourceRef": "pathways:15-128"
-          },
-          {
-            "id": "rule-51-were-any-charges-connected-to-force-fraud-coercion-traf",
-            "priority": 70,
-            "sourceRef": "pathways:15-128"
-          },
-          {
-            "id": "rule-52-do-not-force-disclosure-offer-referral-language",
-            "priority": 70,
-            "sourceRef": "pathways:15-128"
-          },
-          {
-            "id": "rule-55-if-dismissed-withdrawn-nolle-prossed-no-conviction",
-            "priority": 70,
-            "sourceRef": "decision_tree:224-284"
-          },
-          {
-            "id": "rule-59-most-misdemeanor-convictions-are-not-expunged-unless-pa",
-            "priority": 70,
-            "sourceRef": "decision_tree:224-284"
-          },
-          {
-            "id": "rule-60-check-clean-slate-3-0-petition-based-limited-access-con",
-            "priority": 70,
-            "sourceRef": "decision_tree:224-284"
-          },
-          {
-            "id": "rule-64-check-clean-slate-limited-access-for-conditional-pardon",
-            "priority": 70,
-            "sourceRef": "decision_tree:224-284"
-          },
-          {
-            "id": "rule-65-possible-vacatur-and-expungement-escalate-to-attorney-o",
-            "priority": 70,
-            "sourceRef": "decision_tree:224-284"
-          },
-          {
-            "id": "rule-72-rule-791-requires-filing-in-the-judicial-district-where",
-            "priority": 70,
-            "sourceRef": "packet_logic:341-409"
-          },
-          {
-            "id": "rule-75-clean-slate-review-if-conditional-pardon",
-            "priority": 70,
-            "sourceRef": "packet_logic:341-409"
-          },
-          {
-            "id": "rule-76-wilma-should-recommend-attorney-or-legal-clinic-review-",
-            "priority": 70,
-            "sourceRef": "referral_triggers:285-340"
-          },
-          {
-            "id": "rule-78-same-case-includes-both-eligible-and-disqualifying-char",
-            "priority": 70,
-            "sourceRef": "referral_triggers:285-340"
-          },
-          {
-            "id": "rule-80-human-trafficking-coercion-commercial-sexual-exploitati",
-            "priority": 70,
-            "sourceRef": "referral_triggers:285-340"
-          },
-          {
-            "id": "rule-81-clean-slate-expunges-your-record",
-            "priority": 70,
-            "sourceRef": "referral_triggers:285-340"
-          },
-          {
-            "id": "rule-87-based-on-what-you-shared-you-may-have-a-pennsylvania-ex",
-            "priority": 70,
-            "sourceRef": "referral_triggers:285-340"
-          },
-          {
-            "id": "rule-90-exceptions-to-clean-slate-18-pa-c-s-9122-3",
-            "priority": 70,
-            "sourceRef": "summary:445-469"
-          },
-          {
-            "id": "route-path-k-human-trafficking-vacatur-expungement",
-            "priority": 90,
-            "sourceRef": "pathways:15-128; section:15-128; corpus-unit:43"
-          }
-        ],
-        "counselRatification": {
-          "status": "hold_guidance",
-          "packet_capable": false,
-          "payment_allowed_when_engine_confirms": false,
-          "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
-          "lawrence_review": "hold_guidance_only"
-        }
-      },
-      "exactFutureRegistryOwnerAction": {
-        "owner": "registry owner (track-to-pathway crosswalk)",
-        "action": "Create a registry track for PA path-k-human-trafficking-vacatur-expungement and map it to this compiled pathway id in the track-to-pathway crosswalk, then give it a packet set in data/record-clearing/legal-design-packet-set-manifests.json keyed by that track.",
-        "whyItIsNotSomethingThisLaneCanDo": "Minting a registry track is an authority decision about what the registry contains. Inventing one here would put a track in the denominator that no source inventory produced.",
-        "whatUnblocksWhenDone": [
-          "the pathway becomes bridgeable to a packet family instead of family_bridge_missing_no_track",
-          "track-level counsel adoption can reach it rather than family-level inference",
-          "a composed route or official-form package can be attached to it"
-        ],
-        "doNotDoInstead": "Do not drop the pathway from the intended-paid denominator to clear the disposition. The absence of a registry track is a registry gap, not evidence that LegalEase does not intend to sell this route."
-      }
-    },
-    {
       "pathwayKey": "SC:human-trafficking-survivor-expungement",
       "jurisdiction": "SC",
       "pathwayId": "human-trafficking-survivor-expungement",
@@ -4876,163 +4346,6 @@
       "exactFutureRegistryOwnerAction": {
         "owner": "registry owner (track-to-pathway crosswalk)",
         "action": "Create a registry track for SC human-trafficking-survivor-expungement and map it to this compiled pathway id in the track-to-pathway crosswalk, then give it a packet set in data/record-clearing/legal-design-packet-set-manifests.json keyed by that track.",
-        "whyItIsNotSomethingThisLaneCanDo": "Minting a registry track is an authority decision about what the registry contains. Inventing one here would put a track in the denominator that no source inventory produced.",
-        "whatUnblocksWhenDone": [
-          "the pathway becomes bridgeable to a packet family instead of family_bridge_missing_no_track",
-          "track-level counsel adoption can reach it rather than family-level inference",
-          "a composed route or official-form package can be attached to it"
-        ],
-        "doNotDoInstead": "Do not drop the pathway from the intended-paid denominator to clear the disposition. The absence of a registry track is a registry gap, not evidence that LegalEase does not intend to sell this route."
-      }
-    },
-    {
-      "pathwayKey": "SC:pardon-guidance-for-otherwise-ineligible-convictions",
-      "jurisdiction": "SC",
-      "pathwayId": "pardon-guidance-for-otherwise-ineligible-convictions",
-      "pathwayLabel": "Pardon guidance for otherwise ineligible convictions",
-      "sessionADisposition": "family_bridge_missing_no_track",
-      "stillInIntendedPaidDenominator": true,
-      "compiledPathwayPreserved": {
-        "id": "pardon-guidance-for-otherwise-ineligible-convictions",
-        "label": "Pardon guidance for otherwise ineligible convictions",
-        "summary": "South Carolina\u0019s Uniform Expungement Act lists the major expungement authorizations and makes clear that eligibility generally turns on the offense pled guilty to or convicted of, not necessarily the original charge. ( \"https://law.justia.com/codes/south-carolina/title-17/chapter-22/section-17-22-910/\") User\u0019s case outcome First Wilma route South Carolina treatment Summary court charge dismissed / nolle prossed / not guilty 17-22-950 summary court expungement Usually handled by magistrate or municipal court, often no cost General Sessions charge dismissed / nolle prossed / not guilty / discharged / acquitted 17-1-40 non-conviction…",
-        "sourceRef": "overview:10-31; section:10-31; corpus-unit:9",
-        "routeType": "pardon",
-        "suggestedResultCode": "guidance_only",
-        "lawrenceRatification": null,
-        "sourceEvidenceRefs": [
-          "overview:10-31",
-          "section:10-31",
-          "corpus-unit:9"
-        ]
-      },
-      "pathwayLevelPacketSet": {
-        "source": "src/lib/rcap-engine/compiled/profiles/SC-*.json:packetGenerator.pathways[pathwayId=pardon-guidance-for-otherwise-ineligible-convictions]",
-        "mode": "automatic_relief_verification_and_guidance",
-        "formMappingStatus": "not_required",
-        "sourceFormCandidates": [],
-        "requiredInputIds": [],
-        "sourceRuleRefs": [
-          "overview:10-31",
-          "section:10-31",
-          "corpus-unit:9"
-        ]
-      },
-      "legalDesignEvidence": {
-        "jurisdictionBoundInAdoption": true,
-        "adoptionRecordId": "EXT-ADOPT-01-standing-external-counsel-adoption",
-        "adoptionRecordSha256": "7bea6b4c78cde50a4075bb107ea08a4804f2af3d5add75b245ebc37afaef1185",
-        "adoptedOn": "2026-08-08",
-        "boundFamiliesInJurisdiction": [
-          {
-            "familyJobId": "rcap-sc-custom-pleading",
-            "legalDesignMemoPath": "data/record-clearing/legal-design-intake/SC.memo.json",
-            "legalDesignMemoSha256": "8bf45532868694d4f66b13e0da92f1650af1ec3c2fb5b8bd7d9f3c455561ad2f",
-            "packetProofSha256": "acf0a349b2812001d1b12ba9ef60a3838a81792d2dd4c3ecde944463ec8cca24"
-          }
-        ],
-        "compiledDecisionRules": [
-          {
-            "id": "rule-31-south-carolina-is-expungement-friendly-only-in-narrow-s",
-            "priority": 50,
-            "sourceRef": "summary:242-244"
-          },
-          {
-            "id": "rule-16-pardon-pardon-route-not-ordinary-expungement-pardon-doe",
-            "priority": 60,
-            "sourceRef": "overview:10-31"
-          },
-          {
-            "id": "rule-01-summary-court-charge-dismissed-nolle-prossed-not-guilty",
-            "priority": 70,
-            "sourceRef": "overview:10-31"
-          },
-          {
-            "id": "rule-02-general-sessions-charge-dismissed-nolle-prossed-not-gui",
-            "priority": 70,
-            "sourceRef": "overview:10-31"
-          },
-          {
-            "id": "rule-07-first-offense-misdemeanor-fraudulent-check-34-11-90-e-1",
-            "priority": 70,
-            "sourceRef": "overview:10-31"
-          },
-          {
-            "id": "rule-08-first-low-level-magistrate-municipal-type-conviction-22",
-            "priority": 70,
-            "sourceRef": "overview:10-31"
-          },
-          {
-            "id": "rule-09-third-degree-domestic-violence-22-5-910-special-timing-",
-            "priority": 70,
-            "sourceRef": "overview:10-31"
-          },
-          {
-            "id": "rule-11-first-offense-simple-possession-certain-drug-conviction",
-            "priority": 70,
-            "sourceRef": "overview:10-31"
-          },
-          {
-            "id": "rule-12-first-offense-failure-to-stop-for-blue-light-non-felony",
-            "priority": 70,
-            "sourceRef": "overview:10-31"
-          },
-          {
-            "id": "rule-13-old-unlawful-possession-of-handgun-conviction-before-co",
-            "priority": 70,
-            "sourceRef": "overview:10-31"
-          },
-          {
-            "id": "rule-14-human-trafficking-survivor-offense-trafficking-victim-e",
-            "priority": 70,
-            "sourceRef": "overview:10-31"
-          },
-          {
-            "id": "rule-17-south-carolina-s-uniform-expungement-act-lists-the-majo",
-            "priority": 70,
-            "sourceRef": "overview:10-31"
-          },
-          {
-            "id": "rule-18-general-sessions-not-guilty-dismissed-nolle-acquitted",
-            "priority": 70,
-            "sourceRef": "waiting_periods:112-128"
-          },
-          {
-            "id": "rule-19-summary-court-dismissed-nolle-not-guilty-fingerprinted",
-            "priority": 70,
-            "sourceRef": "waiting_periods:112-128"
-          },
-          {
-            "id": "rule-24-first-misdemeanor-fraudulent-check-1-year-from-convicti",
-            "priority": 70,
-            "sourceRef": "waiting_periods:112-128"
-          },
-          {
-            "id": "rule-25-first-low-level-22-5-910-conviction-3-years-from-convic",
-            "priority": 70,
-            "sourceRef": "waiting_periods:112-128"
-          },
-          {
-            "id": "rule-26-third-degree-domestic-violence-under-22-5-910-5-years-f",
-            "priority": 70,
-            "sourceRef": "waiting_periods:112-128"
-          },
-          {
-            "id": "rule-28-failure-to-stop-first-offense-non-felony-route-3-years-",
-            "priority": 70,
-            "sourceRef": "waiting_periods:112-128"
-          },
-          {
-            "id": "route-pardon-guidance-for-otherwise-ineligible-convictions",
-            "priority": 86,
-            "sourceRef": "overview:10-31; section:10-31; corpus-unit:9"
-          }
-        ],
-        "counselRatification": null
-      },
-      "exactFutureRegistryOwnerAction": {
-        "owner": "registry owner (track-to-pathway crosswalk)",
-        "action": "Create a registry track for SC pardon-guidance-for-otherwise-ineligible-convictions and map it to this compiled pathway id in the track-to-pathway crosswalk, then give it a packet set in data/record-clearing/legal-design-packet-set-manifests.json keyed by that track.",
         "whyItIsNotSomethingThisLaneCanDo": "Minting a registry track is an authority decision about what the registry contains. Inventing one here would put a track in the denominator that no source inventory produced.",
         "whatUnblocksWhenDone": [
           "the pathway becomes bridgeable to a packet family instead of family_bridge_missing_no_track",
@@ -5385,179 +4698,6 @@
       "exactFutureRegistryOwnerAction": {
         "owner": "registry owner (track-to-pathway crosswalk)",
         "action": "Create a registry track for SD juvenile-trafficking-expungement and map it to this compiled pathway id in the track-to-pathway crosswalk, then give it a packet set in data/record-clearing/legal-design-packet-set-manifests.json keyed by that track.",
-        "whyItIsNotSomethingThisLaneCanDo": "Minting a registry track is an authority decision about what the registry contains. Inventing one here would put a track in the denominator that no source inventory produced.",
-        "whatUnblocksWhenDone": [
-          "the pathway becomes bridgeable to a packet family instead of family_bridge_missing_no_track",
-          "track-level counsel adoption can reach it rather than family-level inference",
-          "a composed route or official-form package can be attached to it"
-        ],
-        "doNotDoInstead": "Do not drop the pathway from the intended-paid denominator to clear the disposition. The absence of a registry track is a registry gap, not evidence that LegalEase does not intend to sell this route."
-      }
-    },
-    {
-      "pathwayKey": "UT:path-k-pardon-based-expungement",
-      "jurisdiction": "UT",
-      "pathwayId": "path-k-pardon-based-expungement",
-      "pathwayLabel": "Path K — Pardon-based expungement",
-      "sessionADisposition": "family_bridge_missing_no_track",
-      "stillInIntendedPaidDenominator": true,
-      "compiledPathwayPreserved": {
-        "id": "path-k-pardon-based-expungement",
-        "label": "Path K — Pardon-based expungement",
-        "summary": "Automatic Clean Slate Expungement Utah\u0019s Clean Slate process applies to certain acquittals, dismissals, plea-in-abeyance dismissals, lower-level misdemeanors, infractions, and drug-possession cases. As of January 1, 2026, the court no longer uses the temporary request form that applied from October 1, 2024 through December 31, 2025; now the court identifies and clears eligible automatic-expungement cases on its own. (\"https://www.utcourts.gov/en/self-help/case-categories/criminal-justice/expunge.html\") Automatic expungement can apply to: Case Type Automatic Timing / Rule Acquittal on all charges Goal: 60 days after acquittal for qualifying…",
-        "sourceRef": "section:19-159; pathways:19-159; corpus-unit:49",
-        "routeType": "pardon_then_court",
-        "suggestedResultCode": "packet_ready_with_caution",
-        "lawrenceRatification": null,
-        "sourceEvidenceRefs": [
-          "section:19-159",
-          "pathways:19-159",
-          "corpus-unit:49"
-        ]
-      },
-      "pathwayLevelPacketSet": {
-        "source": "src/lib/rcap-engine/compiled/profiles/UT-*.json:packetGenerator.pathways[pathwayId=path-k-pardon-based-expungement]",
-        "mode": "official_form_overlay_or_source_form_set",
-        "formMappingStatus": "source_candidate_identified",
-        "sourceFormCandidates": [
-          {
-            "fileName": "expungements.html",
-            "relativePath": "LegalEase Utah/expungements.html",
-            "sha256": "37976f3be7bc8f4201da211d5b61f932a6a7ea13cc575169188d9b79723e2008"
-          }
-        ],
-        "requiredInputIds": [],
-        "sourceRuleRefs": [
-          "section:19-159",
-          "pathways:19-159",
-          "corpus-unit:49"
-        ]
-      },
-      "legalDesignEvidence": {
-        "jurisdictionBoundInAdoption": true,
-        "adoptionRecordId": "EXT-ADOPT-01-standing-external-counsel-adoption",
-        "adoptionRecordSha256": "7bea6b4c78cde50a4075bb107ea08a4804f2af3d5add75b245ebc37afaef1185",
-        "adoptedOn": "2026-08-08",
-        "boundFamiliesInJurisdiction": [
-          {
-            "familyJobId": "rcap-ut-guidance-implementation",
-            "legalDesignMemoPath": "data/record-clearing/legal-design-intake/UT.memo.json",
-            "legalDesignMemoSha256": "cda96b6a4b448f51d03e29bbc32550ec6d9b9823d62383c9ef17802ebf08c52f",
-            "packetProofSha256": "d96a34a09824134dc26a53a09e40b61dacad5acb27f691ab4a0f6949f2cff885"
-          }
-        ],
-        "compiledDecisionRules": [
-          {
-            "id": "rule-48-wilma-should-escalate-all-barred-or-near-barred-cases-t",
-            "priority": 20,
-            "sourceRef": "pathways:19-159"
-          },
-          {
-            "id": "rule-19-clean-slate-case-type-waiting-period",
-            "priority": 50,
-            "sourceRef": "pathways:19-159"
-          },
-          {
-            "id": "rule-32-if-the-person-was-arrested-or-charged-but-not-convicted",
-            "priority": 50,
-            "sourceRef": "pathways:19-159"
-          },
-          {
-            "id": "rule-03-path-a-automatic-clean-slate-expungement",
-            "priority": 60,
-            "sourceRef": "pathways:19-159"
-          },
-          {
-            "id": "rule-04-utah-s-clean-slate-process-applies-to-certain-acquittal",
-            "priority": 60,
-            "sourceRef": "pathways:19-159"
-          },
-          {
-            "id": "rule-05-automatic-expungement-can-apply-to",
-            "priority": 60,
-            "sourceRef": "pathways:19-159"
-          },
-          {
-            "id": "rule-06-case-type-automatic-timing-rule",
-            "priority": 60,
-            "sourceRef": "pathways:19-159"
-          },
-          {
-            "id": "rule-20-automatic-clean-slate-is-narrower-than-petition-based-e",
-            "priority": 60,
-            "sourceRef": "pathways:19-159"
-          },
-          {
-            "id": "rule-21-a-case-may-fail-utah-clean-slate-automatic-screening-bu",
-            "priority": 60,
-            "sourceRef": "pathways:19-159"
-          },
-          {
-            "id": "rule-73-check-automatic-expungement-for-qualifying-post-may-1-2",
-            "priority": 60,
-            "sourceRef": "decision_tree:256-311"
-          },
-          {
-            "id": "rule-84-automatic-clean-slate-review-packet",
-            "priority": 60,
-            "sourceRef": "packet_logic:373-440"
-          },
-          {
-            "id": "rule-07-acquittal-on-all-charges-goal-60-days-after-acquittal-f",
-            "priority": 70,
-            "sourceRef": "pathways:19-159"
-          },
-          {
-            "id": "rule-12-https-www-utcourts-gov-en-self-help-case-categories-cri",
-            "priority": 70,
-            "sourceRef": "pathways:19-159"
-          },
-          {
-            "id": "rule-17-path-c-clean-slate-eligible-convictions-and-plea-in-abe",
-            "priority": 70,
-            "sourceRef": "pathways:19-159"
-          },
-          {
-            "id": "rule-27-7-court-grants-or-denies-the-petition-https-www-utcourt",
-            "priority": 70,
-            "sourceRef": "pathways:19-159"
-          },
-          {
-            "id": "rule-54-5-or-more-drug-possession-convictions-from-separate-epi",
-            "priority": 70,
-            "sourceRef": "pathways:19-159"
-          },
-          {
-            "id": "rule-58-a-person-can-also-petition-for-traffic-expungement-with",
-            "priority": 70,
-            "sourceRef": "pathways:19-159"
-          },
-          {
-            "id": "rule-63-path-k-pardon-based-expungement",
-            "priority": 70,
-            "sourceRef": "pathways:19-159"
-          },
-          {
-            "id": "rule-65-if-bci-denies-a-certificate-a-pardon-or-board-of-pardon",
-            "priority": 70,
-            "sourceRef": "pathways:19-159"
-          },
-          {
-            "id": "rule-75-check-bci-certificate-or-clean-slate-pathway-if-petitio",
-            "priority": 70,
-            "sourceRef": "decision_tree:256-311"
-          },
-          {
-            "id": "route-path-k-pardon-based-expungement",
-            "priority": 88,
-            "sourceRef": "section:19-159; pathways:19-159; corpus-unit:49"
-          }
-        ],
-        "counselRatification": null
-      },
-      "exactFutureRegistryOwnerAction": {
-        "owner": "registry owner (track-to-pathway crosswalk)",
-        "action": "Create a registry track for UT path-k-pardon-based-expungement and map it to this compiled pathway id in the track-to-pathway crosswalk, then give it a packet set in data/record-clearing/legal-design-packet-set-manifests.json keyed by that track.",
         "whyItIsNotSomethingThisLaneCanDo": "Minting a registry track is an authority decision about what the registry contains. Inventing one here would put a track in the denominator that no source inventory produced.",
         "whatUnblocksWhenDone": [
           "the pathway becomes bridgeable to a packet family instead of family_bridge_missing_no_track",

@@ -1,0 +1,366 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+  "assignmentId": "PF02",
+  "workerId": "PF-A",
+  "workerBranch": "claude/9h-pf-a",
+  "engine": "Claude 9h worker (isolated git worktree), executing the PF02 prompt under the Claude-worker overrides",
+  "lane": "packet-build",
+  "captainBranch": "claude/legalease-sprint-captain-utucnw",
+  "shiftBaseSha": "09b741ad00be0d630bd73a72f66640294abab397",
+  "minimumCaptainSha": "13771582866352d77e46e5d0b9bc86f1abbb6752",
+  "familiesAssigned": 2,
+  "rowsReturned": 2,
+  "familiesCompleted": [
+    "ky_void_seal_controlled_substance-set",
+    "ky_void_seal_marijuana_synthetic_salvia-set"
+  ],
+  "familiesStopped": [],
+  "blockedSource": [],
+  "blockedLegalInput": [],
+  "overlayDirectoriesTouchedByAStoppedFamily": 0,
+  "laneGate": {
+    "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --require-rasterizer --minimum-captain-sha 13771582866352d77e46e5d0b9bc86f1abbb6752 --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
+    "result": "PACKET_BUILD_ENVIRONMENT_READY: 15/15 passed, 0 failed, 1 not applicable",
+    "note": "Same environment as PF01: the governed corpus release verified by its pinned archive SHA-256 before extraction, and a full Chromium resolved, so the browser checks pass here rather than being waived."
+  },
+  "focusedCheck": {
+    "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <familyId>",
+    "result": "0 famil(ies) audited",
+    "why": "The focused check enumerates only families listed BUILT in data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json, an earlier wave's record and a path PF02 may not write. Each family therefore carries reports/builder-completeness-counters.json computed with the shared contract's own exported classifiers."
+  },
+  "laneNotes": [
+    "AOC-334 is the order the judge signs, not the filing, and it prints both KRS 218A.275 and KRS 218A.276 on its own face. One form serves both families, and the assignment's officialFormFamily is correct for this lane.",
+    "The proposed order is filled in the shared field semantics' caption mode and in no other mode: the style of the case only. Five caption facts are written; the recitals, the completion date, the charges, the agency list, the ordering date, the judge's signature and the agency certification block are all left as the court printed them.",
+    "Nothing this build holds establishes who must be served with this motion or by what method. The certificate of service names no recipient, states no method, declares both required-before-filing and discloses them; the instructions say the circuit court clerk is who to ask. No recipient and no method was guessed, and no BLOCKED_LEGAL_INPUT row is written for it because it is a fact to collect rather than a legal question to answer.",
+    "The completion date appears on both the motion and the tendered order. It is disclosed on each and the instructions say in terms to write the same date in both places."
+  ],
+  "packetsSelfVerified": 0,
+  "otherPfPromptsExecutedInThisWorktree": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "grantsNothing": "A built family is a built family. It is not verified, not approved and not sellable, and no route was opened.",
+  "rows": [
+    {
+      "itemId": "ky_void_seal_controlled_substance-set",
+      "status": "COMPLETED",
+      "jurisdiction": "KY",
+      "implementationStrategy": "custom_pleading",
+      "routeKeys": [
+        "obligation:track-pathway:KY:ky_void_seal_controlled_substance:void-and-seal"
+      ],
+      "routeSelectionId": "ky-void-seal-controlled-substance-aoc-334-complete-set",
+      "statute": "KRS 218A.275",
+      "legalName": "Motion to Void a First Controlled-Substance Possession Conviction and Seal the Records (KRS 218A.275)",
+      "officialForm": "AOC-334",
+      "officialFormRole": "proposed_order tendered with the composed motion; filled in caption mode only",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/ky/ky-void-seal-controlled-substance-set--custom-pleading",
+      "buildStatus": "state_built",
+      "reviewStatus": "qa_review_pending",
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "nineCountersZero": true,
+      "totals": {
+        "terminalFields": 39,
+        "written": 13,
+        "blank": 26
+      },
+      "componentsRequiredByRoute": [
+        "primary_filing",
+        "proposed_order",
+        "certificate_of_service"
+      ],
+      "componentsRendered": [
+        "primary_filing",
+        "proposed_order",
+        "AOC-334",
+        "certificate_of_service"
+      ],
+      "requiredBeforeFilingDeclaredAndDisclosed": 20,
+      "routeSelectionsMade": 0,
+      "routeSelectionNote": "AOC-334 carries no election control. The statutory route is stated in the motion's own title and in the relief it asks for, which is where this family's route determination lives.",
+      "sources": [
+        {
+          "sourceIds": [
+            "official-form:AOC-334"
+          ],
+          "formNumber": "AOC-334",
+          "revision": "UNKNOWN",
+          "sha256": "7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d",
+          "byteLength": 252268
+        }
+      ],
+      "allSourcesExact": true,
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-void-seal-controlled-substance-set--custom-pleading/fixtures/canonical.pdf",
+          "sha256": "249d0e76bd19c4533de9ca4852a6aad5749a747b2aaebc15b9cdcbf7a2c32f5b",
+          "proposedOrderFile": "data/rcap-all50/overlays/census-v1/ky/ky-void-seal-controlled-substance-set--custom-pleading/fixtures/canonical--AOC-334-proposed-order.pdf",
+          "proposedOrderSha256": "9d58db17e65195913caf43e5d157b4741ef2242afd3df116a154db36c4adce2b",
+          "pageCount": 4,
+          "byteLength": 222329
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-void-seal-controlled-substance-set--custom-pleading/fixtures/boundary.pdf",
+          "sha256": "0e8c8b5793e35a753afc4807d8121a4268e960850849c13ddcbbf422ca24600d",
+          "proposedOrderFile": "data/rcap-all50/overlays/census-v1/ky/ky-void-seal-controlled-substance-set--custom-pleading/fixtures/boundary--AOC-334-proposed-order.pdf",
+          "proposedOrderSha256": "70c05aef28a37dcbb47606a5deee5f13c4131d6b849d82f3ff51501b28a4691b",
+          "pageCount": 4,
+          "byteLength": 222439
+        }
+      ],
+      "rasterEngine": "scripts/lib/pdf-page-raster.mjs (Chromium, calibrated)",
+      "rasterPages": 8,
+      "rasterPageHashes": [
+        {
+          "fixture": "canonical",
+          "page": 1,
+          "component": "primary_filing",
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-void-seal-controlled-substance-set--custom-pleading/raster/canonical/page-01/page.png",
+          "sha256": "73acb36004a47b71fe16bc7bd09c046510579d075d4f6da1b5a687a116590dca"
+        },
+        {
+          "fixture": "canonical",
+          "page": 2,
+          "component": "primary_filing",
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-void-seal-controlled-substance-set--custom-pleading/raster/canonical/page-02/page.png",
+          "sha256": "e7f33b2fd0e3dc962ff0dcbd9caaae5e67ad00c892451222f11684ca2829b09e"
+        },
+        {
+          "fixture": "canonical",
+          "page": 3,
+          "component": "proposed_order",
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-void-seal-controlled-substance-set--custom-pleading/raster/canonical/page-03/page.png",
+          "sha256": "276b1cf2f860e1d1b6c97468e0ea6200dae9ef4d1d1da0089c87eb6ccf29de36"
+        },
+        {
+          "fixture": "canonical",
+          "page": 4,
+          "component": "certificate_of_service",
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-void-seal-controlled-substance-set--custom-pleading/raster/canonical/page-04/page.png",
+          "sha256": "ef38894919c0d1fb89f5b96efc39001c34eaeacf003900f8e5203bb6a611ee64"
+        },
+        {
+          "fixture": "boundary",
+          "page": 1,
+          "component": "primary_filing",
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-void-seal-controlled-substance-set--custom-pleading/raster/boundary/page-01/page.png",
+          "sha256": "54d21acf36a6e857fa261ec412f9b54e0bb5cb4f96aa14413b2f9add39f75bad"
+        },
+        {
+          "fixture": "boundary",
+          "page": 2,
+          "component": "primary_filing",
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-void-seal-controlled-substance-set--custom-pleading/raster/boundary/page-02/page.png",
+          "sha256": "e7f33b2fd0e3dc962ff0dcbd9caaae5e67ad00c892451222f11684ca2829b09e"
+        },
+        {
+          "fixture": "boundary",
+          "page": 3,
+          "component": "proposed_order",
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-void-seal-controlled-substance-set--custom-pleading/raster/boundary/page-03/page.png",
+          "sha256": "0b12b3fa5dfe4c8632e3fe06464203ee1ac0c9e7ca6c810d2d10174a875c055b"
+        },
+        {
+          "fixture": "boundary",
+          "page": 4,
+          "component": "certificate_of_service",
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-void-seal-controlled-substance-set--custom-pleading/raster/boundary/page-04/page.png",
+          "sha256": "4ee95c39c866351d088abe96e6dbd05d6183e085d5fb8feb83b306536c8df75e"
+        }
+      ],
+      "byteProof": [
+        {
+          "fixture": "canonical",
+          "formNumber": "AOC-334",
+          "valuesReportedByFinalizer": 5,
+          "addedGlyphsReadFromOutputBytes": 55,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 18,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        {
+          "fixture": "boundary",
+          "formNumber": "AOC-334",
+          "valuesReportedByFinalizer": 5,
+          "addedGlyphsReadFromOutputBytes": 83,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 18,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        }
+      ],
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "ky_void_seal_marijuana_synthetic_salvia-set",
+      "status": "COMPLETED",
+      "jurisdiction": "KY",
+      "implementationStrategy": "custom_pleading",
+      "routeKeys": [
+        "obligation:track-pathway:KY:ky_void_seal_marijuana_synthetic_salvia:void-and-seal"
+      ],
+      "routeSelectionId": "ky-void-seal-marijuana-synthetic-salvia-aoc-334-complete-set",
+      "statute": "KRS 218A.276",
+      "legalName": "Motion to Void a First Marijuana, Synthetic Drug or Salvia Possession Conviction and Seal the Records (KRS 218A.276)",
+      "officialForm": "AOC-334",
+      "officialFormRole": "proposed_order tendered with the composed motion; filled in caption mode only",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/ky/ky-void-seal-marijuana-synthetic-salvia-set--custom-pleading",
+      "buildStatus": "state_built",
+      "reviewStatus": "qa_review_pending",
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "nineCountersZero": true,
+      "totals": {
+        "terminalFields": 39,
+        "written": 13,
+        "blank": 26
+      },
+      "componentsRequiredByRoute": [
+        "primary_filing",
+        "proposed_order",
+        "certificate_of_service"
+      ],
+      "componentsRendered": [
+        "primary_filing",
+        "proposed_order",
+        "AOC-334",
+        "certificate_of_service"
+      ],
+      "requiredBeforeFilingDeclaredAndDisclosed": 20,
+      "routeSelectionsMade": 0,
+      "routeSelectionNote": "AOC-334 carries no election control. The statutory route is stated in the motion's own title and in the relief it asks for, which is where this family's route determination lives.",
+      "sources": [
+        {
+          "sourceIds": [
+            "official-form:AOC-334"
+          ],
+          "formNumber": "AOC-334",
+          "revision": "UNKNOWN",
+          "sha256": "7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d",
+          "byteLength": 252268
+        }
+      ],
+      "allSourcesExact": true,
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-void-seal-marijuana-synthetic-salvia-set--custom-pleading/fixtures/canonical.pdf",
+          "sha256": "e70b19406a114095e500bb482d3b12f919c9fd0e738ba73b0d85ec76430a67c3",
+          "proposedOrderFile": "data/rcap-all50/overlays/census-v1/ky/ky-void-seal-marijuana-synthetic-salvia-set--custom-pleading/fixtures/canonical--AOC-334-proposed-order.pdf",
+          "proposedOrderSha256": "9d58db17e65195913caf43e5d157b4741ef2242afd3df116a154db36c4adce2b",
+          "pageCount": 4,
+          "byteLength": 222342
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-void-seal-marijuana-synthetic-salvia-set--custom-pleading/fixtures/boundary.pdf",
+          "sha256": "83ecbc8572791d944cad430936a9cf6a678a11cba3ba581917e1694ef64290f7",
+          "proposedOrderFile": "data/rcap-all50/overlays/census-v1/ky/ky-void-seal-marijuana-synthetic-salvia-set--custom-pleading/fixtures/boundary--AOC-334-proposed-order.pdf",
+          "proposedOrderSha256": "70c05aef28a37dcbb47606a5deee5f13c4131d6b849d82f3ff51501b28a4691b",
+          "pageCount": 4,
+          "byteLength": 222450
+        }
+      ],
+      "rasterEngine": "scripts/lib/pdf-page-raster.mjs (Chromium, calibrated)",
+      "rasterPages": 8,
+      "rasterPageHashes": [
+        {
+          "fixture": "canonical",
+          "page": 1,
+          "component": "primary_filing",
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-void-seal-marijuana-synthetic-salvia-set--custom-pleading/raster/canonical/page-01/page.png",
+          "sha256": "bbe628dcb3ddd451c1f4bdfc5e1b136d605f3d950f4c8ea4900c009a823f017a"
+        },
+        {
+          "fixture": "canonical",
+          "page": 2,
+          "component": "primary_filing",
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-void-seal-marijuana-synthetic-salvia-set--custom-pleading/raster/canonical/page-02/page.png",
+          "sha256": "8a8c26b3be24fcaecc4d0c70ef37c70bfa5ea86cee3b8f5e7ce7f2f0fecd37e0"
+        },
+        {
+          "fixture": "canonical",
+          "page": 3,
+          "component": "proposed_order",
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-void-seal-marijuana-synthetic-salvia-set--custom-pleading/raster/canonical/page-03/page.png",
+          "sha256": "276b1cf2f860e1d1b6c97468e0ea6200dae9ef4d1d1da0089c87eb6ccf29de36"
+        },
+        {
+          "fixture": "canonical",
+          "page": 4,
+          "component": "certificate_of_service",
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-void-seal-marijuana-synthetic-salvia-set--custom-pleading/raster/canonical/page-04/page.png",
+          "sha256": "cfdead416c71d3e4af47936935b636242486200d8965d33d7888b0e59be707b0"
+        },
+        {
+          "fixture": "boundary",
+          "page": 1,
+          "component": "primary_filing",
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-void-seal-marijuana-synthetic-salvia-set--custom-pleading/raster/boundary/page-01/page.png",
+          "sha256": "dd549e9cbd8dbc4f289fba47d89072f9b3b3110e2a8d120fcfaa3b698a1b9464"
+        },
+        {
+          "fixture": "boundary",
+          "page": 2,
+          "component": "primary_filing",
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-void-seal-marijuana-synthetic-salvia-set--custom-pleading/raster/boundary/page-02/page.png",
+          "sha256": "8a8c26b3be24fcaecc4d0c70ef37c70bfa5ea86cee3b8f5e7ce7f2f0fecd37e0"
+        },
+        {
+          "fixture": "boundary",
+          "page": 3,
+          "component": "proposed_order",
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-void-seal-marijuana-synthetic-salvia-set--custom-pleading/raster/boundary/page-03/page.png",
+          "sha256": "0b12b3fa5dfe4c8632e3fe06464203ee1ac0c9e7ca6c810d2d10174a875c055b"
+        },
+        {
+          "fixture": "boundary",
+          "page": 4,
+          "component": "certificate_of_service",
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-void-seal-marijuana-synthetic-salvia-set--custom-pleading/raster/boundary/page-04/page.png",
+          "sha256": "3a40dea52c6e07ec716d900ef192af0850186df21f52c8a4b0194f83ff375359"
+        }
+      ],
+      "byteProof": [
+        {
+          "fixture": "canonical",
+          "formNumber": "AOC-334",
+          "valuesReportedByFinalizer": 5,
+          "addedGlyphsReadFromOutputBytes": 55,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 18,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        {
+          "fixture": "boundary",
+          "formNumber": "AOC-334",
+          "valuesReportedByFinalizer": 5,
+          "addedGlyphsReadFromOutputBytes": 83,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 18,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        }
+      ],
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    }
+  ]
+}

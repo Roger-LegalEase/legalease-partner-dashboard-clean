@@ -1,0 +1,237 @@
+{
+  "schemaVersion": "rcap-external-assignment/v1",
+  "captainSha": "36b60710c1b3d14fbd6ff71842a3375caac1dcd4",
+  "createdAt": "2026-09-01T12:25:55Z",
+  "minimumAncestor": "f240e47687eddd47d432996823ce932affcd54cc",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "captainIsSoleAuthorityFor": [
+    "the claim ledger",
+    "the master and raster queues",
+    "central raster dispatch",
+    "integration",
+    "commercial authority",
+    "anything touching Production"
+  ],
+  "neverDo": [
+    "claim a family a live grant already holds",
+    "modify data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
+    "modify RASTER_QUEUE.json, MASTER_QUEUE.json or ACTIVE_ASSIGNMENTS.json",
+    "open a commercial route, alter checkout, entitlement or packet-credit behaviour",
+    "touch Production, Supabase RLS, Stripe live mode, or any secret",
+    "verify a packet you built or repaired"
+  ],
+  "workerId": "FABLE-R3",
+  "assignmentId": "FR3-FIX10-V4-BATCH-001",
+  "assignmentVersion": 4,
+  "batchTag": "BATCH-001",
+  "mode": "PACKET_REPAIR",
+  "role": "Fable director subagent (isolated worktree)",
+  "lane": "FIX10",
+  "laneKind": "repair",
+  "subjectIds": [
+    "wa_vac_cannabis-set",
+    "wa_vac_domestic_violence-set",
+    "wa_vac_felony-set",
+    "wa_vac_homicide_victim_prostitution-set",
+    "wa_vac_misdemeanor_ordinary-set",
+    "wa_vac_substance_use_disorder-set",
+    "wa_vac_survivor_felony-set",
+    "wa_vac_survivor_misdemeanor-set",
+    "wa_vac_treaty_fishing-set"
+  ],
+  "subjects": [
+    {
+      "familyId": "wa_vac_cannabis-set",
+      "directory": "data/rcap-all50/overlays/census-v1/wa/wa-vac-cannabis-set--official-pdf-fill",
+      "masterQueueState": "FAIL_REPAIR_REQUIRED",
+      "sharesBytesWithAnotherFamily": false,
+      "firstReadBy": "VF15"
+    },
+    {
+      "familyId": "wa_vac_domestic_violence-set",
+      "directory": "data/rcap-all50/overlays/census-v1/wa/wa-vac-domestic-violence-set--official-pdf-fill",
+      "masterQueueState": "FAIL_REPAIR_REQUIRED",
+      "sharesBytesWithAnotherFamily": true,
+      "firstReadBy": "VF15"
+    },
+    {
+      "familyId": "wa_vac_felony-set",
+      "directory": "data/rcap-all50/overlays/census-v1/wa/wa-vac-felony-set--official-pdf-fill",
+      "masterQueueState": "FAIL_REPAIR_REQUIRED",
+      "sharesBytesWithAnotherFamily": true,
+      "firstReadBy": "VF15"
+    },
+    {
+      "familyId": "wa_vac_homicide_victim_prostitution-set",
+      "directory": "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill",
+      "masterQueueState": "FAIL_REPAIR_REQUIRED",
+      "sharesBytesWithAnotherFamily": true,
+      "firstReadBy": "VF15"
+    },
+    {
+      "familyId": "wa_vac_misdemeanor_ordinary-set",
+      "directory": "data/rcap-all50/overlays/census-v1/wa/wa-vac-misdemeanor-ordinary-set--official-pdf-fill",
+      "masterQueueState": "FAIL_REPAIR_REQUIRED",
+      "sharesBytesWithAnotherFamily": true,
+      "firstReadBy": "VF16"
+    },
+    {
+      "familyId": "wa_vac_substance_use_disorder-set",
+      "directory": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill",
+      "masterQueueState": "FAIL_REPAIR_REQUIRED",
+      "sharesBytesWithAnotherFamily": true,
+      "firstReadBy": "VF16"
+    },
+    {
+      "familyId": "wa_vac_survivor_felony-set",
+      "directory": "data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-felony-set--official-pdf-fill",
+      "masterQueueState": "FAIL_REPAIR_REQUIRED",
+      "sharesBytesWithAnotherFamily": true,
+      "firstReadBy": "VF16"
+    },
+    {
+      "familyId": "wa_vac_survivor_misdemeanor-set",
+      "directory": "data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-misdemeanor-set--official-pdf-fill",
+      "masterQueueState": "FAIL_REPAIR_REQUIRED",
+      "sharesBytesWithAnotherFamily": true,
+      "firstReadBy": "VF16"
+    },
+    {
+      "familyId": "wa_vac_treaty_fishing-set",
+      "directory": "data/rcap-all50/overlays/census-v1/wa/wa-vac-treaty-fishing-set--official-pdf-fill",
+      "masterQueueState": "FAIL_REPAIR_REQUIRED",
+      "sharesBytesWithAnotherFamily": true,
+      "firstReadBy": "VF16"
+    }
+  ],
+  "claimPlan": [
+    {
+      "subjectId": "wa_vac_cannabis-set",
+      "kind": "ALREADY_ACTIVE",
+      "holdingLane": "FIX10",
+      "operation": "rapid-repair",
+      "captainAction": null,
+      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX10 wa_vac_cannabis-set"
+    },
+    {
+      "subjectId": "wa_vac_domestic_violence-set",
+      "kind": "ALREADY_ACTIVE",
+      "holdingLane": "FIX10",
+      "operation": "rapid-repair",
+      "captainAction": null,
+      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX10 wa_vac_domestic_violence-set"
+    },
+    {
+      "subjectId": "wa_vac_felony-set",
+      "kind": "ALREADY_ACTIVE",
+      "holdingLane": "FIX10",
+      "operation": "rapid-repair",
+      "captainAction": null,
+      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX10 wa_vac_felony-set"
+    },
+    {
+      "subjectId": "wa_vac_homicide_victim_prostitution-set",
+      "kind": "ALREADY_ACTIVE",
+      "holdingLane": "FIX10",
+      "operation": "rapid-repair",
+      "captainAction": null,
+      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX10 wa_vac_homicide_victim_prostitution-set"
+    },
+    {
+      "subjectId": "wa_vac_misdemeanor_ordinary-set",
+      "kind": "ALREADY_ACTIVE",
+      "holdingLane": "FIX10",
+      "operation": "rapid-repair",
+      "captainAction": null,
+      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX10 wa_vac_misdemeanor_ordinary-set"
+    },
+    {
+      "subjectId": "wa_vac_substance_use_disorder-set",
+      "kind": "ALREADY_ACTIVE",
+      "holdingLane": "FIX10",
+      "operation": "rapid-repair",
+      "captainAction": null,
+      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX10 wa_vac_substance_use_disorder-set"
+    },
+    {
+      "subjectId": "wa_vac_survivor_felony-set",
+      "kind": "ALREADY_ACTIVE",
+      "holdingLane": "FIX10",
+      "operation": "rapid-repair",
+      "captainAction": null,
+      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX10 wa_vac_survivor_felony-set"
+    },
+    {
+      "subjectId": "wa_vac_survivor_misdemeanor-set",
+      "kind": "ALREADY_ACTIVE",
+      "holdingLane": "FIX10",
+      "operation": "rapid-repair",
+      "captainAction": null,
+      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX10 wa_vac_survivor_misdemeanor-set"
+    },
+    {
+      "subjectId": "wa_vac_treaty_fishing-set",
+      "kind": "ALREADY_ACTIVE",
+      "holdingLane": "FIX10",
+      "operation": "rapid-repair",
+      "captainAction": null,
+      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX10 wa_vac_treaty_fishing-set"
+    }
+  ],
+  "claimAssertions": [
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX10 wa_vac_cannabis-set",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX10 wa_vac_domestic_violence-set",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX10 wa_vac_felony-set",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX10 wa_vac_homicide_victim_prostitution-set",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX10 wa_vac_misdemeanor_ordinary-set",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX10 wa_vac_substance_use_disorder-set",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX10 wa_vac_survivor_felony-set",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX10 wa_vac_survivor_misdemeanor-set",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX10 wa_vac_treaty_fishing-set"
+  ],
+  "claimPrerequisite": "claimPlan is per subject: MINT rows are minted by the director before the agent starts; TRANSFER rows are moved with claim.mjs --transfer. Assert before touching anything; a refusal is a full stop.",
+  "laneNote": "All nine share the Washington vacate host. Repair the instructions obligations (FEE_AND_WAIVER, FILING_DESTINATION, SERVICE, SELF_HELP_STOP) from sourced material without touching packet bytes, so the raster receipts survive. ROUTE_OPTIONS on the four families that fail it is the duplicate-byte route-election question: classify it from the official form's face (does the form carry a ground or election the participant must mark? South Dakota's host carries routeSelectionId and passes) — if the form does, the packet is missing a route election and that IS a byte repair, do it per the SD pattern and say the receipts die; if it is genuinely a legal question, return BLOCKED_LEGAL_INPUT naming it.",
+  "ownedPaths": [
+    "data/rcap-all50/overlays/census-v1/wa/wa-vac-cannabis-set--official-pdf-fill/**",
+    "data/rcap-all50/overlays/census-v1/wa/wa-vac-domestic-violence-set--official-pdf-fill/**",
+    "data/rcap-all50/overlays/census-v1/wa/wa-vac-felony-set--official-pdf-fill/**",
+    "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/**",
+    "data/rcap-all50/overlays/census-v1/wa/wa-vac-misdemeanor-ordinary-set--official-pdf-fill/**",
+    "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/**",
+    "data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-felony-set--official-pdf-fill/**",
+    "data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-misdemeanor-set--official-pdf-fill/**",
+    "data/rcap-all50/overlays/census-v1/wa/wa-vac-treaty-fishing-set--official-pdf-fill/**"
+  ],
+  "prohibitedPaths": [
+    "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
+    "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+    "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+    "data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json"
+  ],
+  "controllingEvidencePaths": [
+    "data/rcap-grade-a/launch-control/next-waves/REPAIR_BY_DEFECT_CLASS.json",
+    "data/rcap-grade-a/launch-control/next-waves/PARTICIPANT_INSTRUCTIONS_GAP.json",
+    "data/rcap-grade-a/fable-packet-factory/FACTORY_MEMORY.md"
+  ],
+  "focusedTestCommands": [
+    "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs",
+    "node scripts/grade-a-packet-factory-24h/verify-lane-contracts.mjs"
+  ],
+  "rasterDisposition": "Instructions-only repairs leave packet bytes untouched and the receipt survives — say so explicitly per family. Byte changes invalidate the receipt — say that too.",
+  "repairerSeparation": "You repair. A different worker verifies.",
+  "stopConditions": [
+    "a claim assert is refused",
+    "the repair would require an unsourced court, fee, waiver route or service rule",
+    "a live verification grant is open on the family"
+  ],
+  "branchPrefix": "fable/",
+  "expiresAt": null,
+  "returnPath": "data/rcap-grade-a/external-worker-control/returns/FABLE-R3/FR3-FIX10-V4-BATCH-001",
+  "branch": "fable/fr3-fix10-v4-batch-001",
+  "branchFrom": {
+    "remote": "origin/claude/legalease-sprint-captain-utucnw",
+    "mustContain": "36b60710c1b3d14fbd6ff71842a3375caac1dcd4",
+    "why": "the activated ledger and this assignment live at that commit; branching from an earlier one gives you a ledger where your grant does not exist"
+  }
+}

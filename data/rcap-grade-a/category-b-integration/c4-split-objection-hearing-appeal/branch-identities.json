@@ -1,0 +1,95 @@
+{
+  "schemaVersion": "rcap-category-b-branch-identities/v1",
+  "assignmentId": "C4_SPLIT_OBJECTION_HEARING_APPEAL",
+  "captainBaseSha": "227f095d5d1493feca56779cf60c6f177caebd61",
+  "routeCount": 1,
+  "records": [
+    {
+      "originalRouteKey": "obligation:track-pathway:CT:ct-cleanslate-auto:automatic-clean-slate-erasure-for-eligible-post-2000-convictions",
+      "jurisdiction": "CT",
+      "publicLabel": "Clean Slate erasure for offenses from 2000 onward",
+      "retainedBStage": {
+        "routeKey": "obligation:track-pathway:CT:ct-cleanslate-auto:automatic-clean-slate-erasure-for-eligible-post-2000-convictions",
+        "stageKind": "AUTOMATIC",
+        "identity": "State agencies identify and erase eligible post-2000 convictions through the Clean Slate data process.",
+        "selector": "eligible_post_2000_conviction_expected_to_erase_automatically",
+        "selectorDescription": "Select the retained stage when the conviction was entered on or after January 1, 2000, is in the automatic cohort, and needs no participant filing to initiate erasure.",
+        "outputStrategy": "non_filing_guidance",
+        "outputStrategyDescription": "Provide non-filing status, verification, and correction-escalation guidance; do not generate a participant filing.",
+        "productOutcome": "guidance_only",
+        "productOutcomeDescription": "The participant receives an explanation of the automatic stage and how to verify whether the state completed erasure.",
+        "commercialTreatment": {
+          "code": "permanently_excluded_automatic_stage",
+          "runtimePaymentAllowed": false,
+          "commerciallyOpen": false,
+          "checkoutAllowed": false,
+          "stageNeverSellable": true,
+          "description": "The automatic stage is never a participant-fileable or sellable route."
+        },
+        "participantFileable": false
+      },
+      "participantABranch": {
+        "routeKey": "obligation:track-pathway:CT:ct-cleanslate-petition:petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+        "identity": "Participant review or petition branch for a missed automatic erasure or an eligible pre-2000 conviction.",
+        "reuseDecision": "REUSE_AS_IS",
+        "selector": "missed_automatic_erasure_review_or_pre_2000_clean_slate_petition",
+        "selectorDescription": "Select the participant branch when an eligible post-2000 conviction remains unerased after it should have been erased, or when the otherwise eligible conviction predates January 1, 2000.",
+        "outputStrategy": "official_pdf_fill",
+        "outputStrategyDescription": "Reuse the existing JD-CR-202 official-PDF route and carry SPBI-supported DESPP review and hearing-request guidance with it; stop before a contested hearing or judicial review.",
+        "productOutcome": "packet_ready_with_caution",
+        "productOutcomeDescription": "The participant receives the existing JD-CR-202 filing route plus SPBI-supported DESPP review and hearing-request guidance. A contested hearing or judicial review requires professional handoff and is not delivered by this branch.",
+        "commercialTreatment": {
+          "code": "closed_pending_exact_grade_a_fulfillment",
+          "runtimePaymentAllowed": true,
+          "commerciallyOpen": false,
+          "checkoutAllowed": false,
+          "currentAuthority": "NO_GRADE_A_FULFILLMENT_RECORD",
+          "requiresExactRouteAndPacketFamilyGradeARecord": true,
+          "description": "Legacy runtime capability does not grant current commercial authority. The branch remains closed unless an exact Grade-A fulfillment record later authorizes this route and packet family."
+        },
+        "participantFileable": true,
+        "filingActor": "The person whose conviction is involved, or counsel.",
+        "instruments": [
+          {
+            "name": "Application to DESPP for review of a conviction that should have been automatically erased",
+            "formNumber": null,
+            "purpose": "Initiates agency review. If the dispute proceeds to a contested hearing or judicial review, the participant stops for professional help."
+          },
+          {
+            "name": "Petition for Clean Slate Erasure",
+            "formNumber": "JD-CR-202",
+            "purpose": "Files the qualifying pre-2000 petition and is the named official form bound to the existing Category A route."
+          }
+        ],
+        "supportingEvidence": [
+          {
+            "name": "SPBI criminal-history record check",
+            "purpose": "Documents a conviction that should have been erased and supports the missed-erasure hearing request."
+          }
+        ],
+        "destinations": [
+          "DESPP/State Police for review of a missed automatic erasure",
+          "Superior Court, G.A. location of sentencing, for JD-CR-202"
+        ],
+        "trigger": "An eligible post-2000 conviction remains unerased after the automatic process should have completed, or an otherwise eligible conviction predates January 1, 2000.",
+        "deadline": "No fixed calendar filing deadline is stated in the committed record. Missed-erasure review becomes available after the record should have been erased; agency hearing and decision timing follows Conn. Gen. Stat. § 54-142t. For JD-CR-202, the waiting period is seven years for a qualifying misdemeanor or ten years for a qualifying felony, measured from the person's most recent conviction for any crime; the entire sentence, including all supervision, must also be complete.",
+        "packetFamilyId": "rcap-ct-official-pdf-fill",
+        "packetFamilyNamedNotCreated": true,
+        "packetFamilyAlreadyInCensus": false
+      },
+      "separationAssertions": {
+        "distinctSelector": true,
+        "distinctOutputStrategy": true,
+        "distinctProductOutcome": true,
+        "distinctCommercialTreatment": true,
+        "newRouteCreated": false,
+        "commercialRouteOpened": false
+      }
+    }
+  ],
+  "packetFamiliesNamedNotCreated": [
+    "rcap-ct-official-pdf-fill"
+  ],
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}

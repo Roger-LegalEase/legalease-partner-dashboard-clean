@@ -1,0 +1,113 @@
+{
+  "schemaVersion": "rcap-charge-caption-proof/v1",
+  "familyId": "ar-misdemeanor-dwi-seal-set",
+  "question": "Does any blank whose caption or printed line names a charge, offence, count, statute or violation carry a participant name token — or any ink at all — in the rendered artifact bytes?",
+  "method": "Every glyph the finished PDF draws is read back through the shared CTM-tracking walker, every glyph the SOURCE already drew is subtracted, and what remains is located against each blank's own measured rectangle. A flat overlay draws into page content rather than into a widget appearance, so this is the artifact answering directly rather than the render report vouching for itself.",
+  "consistentWith": "scripts/rcap-official-forms/verify-full-name-charge-caption-semantics.mjs",
+  "thisFormPrintsItsOwnCharge": {
+    "observation": "Neither document draws a charge blank. Both print the offence into the sentence: 'and charged with the offense(s) of Driving or Boating While Intoxicated in violation of Ark. Code Ann. §5-65-103'.",
+    "consequence": "The stale-artifact block's defect — a participant name written into a blank holding the charge — has no blank to occur in on these two forms. The blank that PRECEDES that printed phrase is the YEAR of the arrest date, and it is refused three times over: by this family's role refusal, by the shared charge-caption rule reading its measured caption, and by matter.charge requiring an explicit mapping this family does not give.",
+    "provedFromTheBytesNotAsserted": true
+  },
+  "participantNameTokensSearchedFor": [
+    "Jordan Avery Reyes",
+    "Jordan",
+    "Avery",
+    "Reyes",
+    "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III",
+    "Alexandrina",
+    "Katharine",
+    "Montgomery",
+    "Vandenberg",
+    "Oyelaran",
+    "Fitzwilliam"
+  ],
+  "chargeVocabularyBlanksExamined": 4,
+  "chargeVocabularyBlanksCarryingAParticipantName": 0,
+  "chargeVocabularyBlanksCarryingAnyInk": 0,
+  "answer": "NO — no participant name lands in any charge-vocabulary blank in any fixture",
+  "blanks": [
+    {
+      "document": "AR-ACIC-PETITION-TO-SEAL-MISDEMEANOR-DWI-OR-BWI-CONVICTION",
+      "fixture": "canonical",
+      "blankId": "p1-y275.20-x108.02",
+      "page": 1,
+      "caption": ", and charged with the offense(s) of Driving or Boating While",
+      "printedLine": "_________, and charged with the offense(s) of Driving or Boating While",
+      "captionDescribesChargeValue": true,
+      "measured": {
+        "x0": 108.02,
+        "x1": 172.95,
+        "baselineY": 275.2,
+        "width": 64.93,
+        "underscoreGlyphs": 9,
+        "rule": null
+      },
+      "inkFound": null,
+      "participantNameTokensFound": []
+    },
+    {
+      "document": "AR-ACIC-PETITION-TO-SEAL-MISDEMEANOR-DWI-OR-BWI-CONVICTION",
+      "fixture": "boundary",
+      "blankId": "p1-y275.20-x108.02",
+      "page": 1,
+      "caption": ", and charged with the offense(s) of Driving or Boating While",
+      "printedLine": "_________, and charged with the offense(s) of Driving or Boating While",
+      "captionDescribesChargeValue": true,
+      "measured": {
+        "x0": 108.02,
+        "x1": 172.95,
+        "baselineY": 275.2,
+        "width": 64.93,
+        "underscoreGlyphs": 9,
+        "rule": null
+      },
+      "inkFound": null,
+      "participantNameTokensFound": []
+    },
+    {
+      "document": "AR-ACIC-ORDER-TO-SEAL-MISDEMEANOR-DWI-OR-BWI-CONVICTION",
+      "fixture": "canonical",
+      "blankId": "p1-y337.70-x108.02",
+      "page": 1,
+      "caption": ", and charged with the offense(s) of Driving or Boating While",
+      "printedLine": "_________, and charged with the offense(s) of Driving or Boating While",
+      "captionDescribesChargeValue": true,
+      "measured": {
+        "x0": 108.02,
+        "x1": 172.97,
+        "baselineY": 337.7,
+        "width": 64.95,
+        "underscoreGlyphs": 9,
+        "rule": null
+      },
+      "inkFound": null,
+      "participantNameTokensFound": []
+    },
+    {
+      "document": "AR-ACIC-ORDER-TO-SEAL-MISDEMEANOR-DWI-OR-BWI-CONVICTION",
+      "fixture": "boundary",
+      "blankId": "p1-y337.70-x108.02",
+      "page": 1,
+      "caption": ", and charged with the offense(s) of Driving or Boating While",
+      "printedLine": "_________, and charged with the offense(s) of Driving or Boating While",
+      "captionDescribesChargeValue": true,
+      "measured": {
+        "x0": 108.02,
+        "x1": 172.97,
+        "baselineY": 337.7,
+        "width": 64.95,
+        "underscoreGlyphs": 9,
+        "rule": null
+      },
+      "inkFound": null,
+      "participantNameTokensFound": []
+    }
+  ],
+  "guardProjection": {
+    "question": "Applying the corpus guard's own offending-row test to this family's census: does any blank bind a writable participant.full_legal_name while its caption or printed line uses the charge vocabulary?",
+    "blanksScanned": 49,
+    "offendingRows": 0,
+    "offending": []
+  }
+}

@@ -1,0 +1,968 @@
+{
+  "schemaVersion": "expai-corrections-a-closure/v2",
+  "authority": {
+    "sourceCandidateSha": "714f4d51f93461855b24c8644b6ea6ddad6d15f2",
+    "assignmentBaseSha": "07675789a80e732d2b835c1e8ba2092b39201b79",
+    "ownershipSlice": "corrections-a:1-36",
+    "sourcePath": "data/expungement-ai/flow-audit/phase4-corrections/waiting-rule-authority.json"
+  },
+  "policy": {
+    "paidPacket": "Only already-ratified, signed-off, user-filed routes with exact operative timing remain checkout eligible.",
+    "automaticOrNoFiling": "Automatic relief never enters paid checkout.",
+    "guidanceOnly": "Board, pardon, and other non-product filing routes remain guidance only.",
+    "attorneyReview": "The approved referral route evaluates its exact clock, then routes to attorney review without checkout.",
+    "intentionalUnsupported": "The prior defective proposal is withdrawn and the route is explicitly unsupported, not held or awaiting reconfirmation."
+  },
+  "sharedHandoff": {
+    "removeFromRatifiedDeployable": [
+      "AK:juvenile-record-sealing-as-47-12-300",
+      "AK:sealing-for-mistaken-identity-or-false-accusation-as-12-62-180",
+      "AL:eligible-conviction-expungement-under-the-redeemer-act",
+      "AR:situation-a-non-convictions",
+      "DC:dc_motion_seal_felony_conviction_8yr_16_806",
+      "DC:dc_motion_seal_misdemeanor_conviction_5yr_16_806",
+      "DC:dc_motion_seal_nonconviction_16_806",
+      "FL:early-juvenile-expunction-943-0515",
+      "ID:non-conviction-fingerprint-and-criminal-history-expungement-under-idaho-code-67-3004-10",
+      "IL:adult-non-conviction-expungement",
+      "IL:human-trafficking-survivor-vacatur-and-expungement",
+      "IL:juvenile-automatic-or-petition-expungement",
+      "KY:felony-conviction-431073",
+      "KY:misdemeanor-violation-traffic-conviction",
+      "LA:felony-ten-year-clean-period-expungement",
+      "LA:misdemeanor-five-year-clean-period-expungement",
+      "MA:adult-conviction-sealing-under-m-g-l-c-276-100a",
+      "MA:juvenile-record-sealing-under-100b",
+      "MA:time-based-expungement-under-100f-100j",
+      "MD:cannabis-specific-expungement",
+      "MD:juvenile-expungement",
+      "MD:second-chance-act-shielding",
+      "ME:sex-trafficking-sexual-exploitation-survivor-sealing",
+      "MO:first-intoxication-related-traffic-or-boating-expungement-under-610-130"
+    ],
+    "addToIntentionalUnsupported": [
+      "AK:juvenile-record-sealing-as-47-12-300",
+      "AK:sealing-for-mistaken-identity-or-false-accusation-as-12-62-180",
+      "AL:eligible-conviction-expungement-under-the-redeemer-act",
+      "AR:situation-a-non-convictions",
+      "DC:dc_motion_seal_felony_conviction_8yr_16_806",
+      "DC:dc_motion_seal_misdemeanor_conviction_5yr_16_806",
+      "DC:dc_motion_seal_nonconviction_16_806",
+      "FL:early-juvenile-expunction-943-0515",
+      "ID:non-conviction-fingerprint-and-criminal-history-expungement-under-idaho-code-67-3004-10",
+      "IL:adult-non-conviction-expungement",
+      "IL:human-trafficking-survivor-vacatur-and-expungement",
+      "IL:juvenile-automatic-or-petition-expungement",
+      "KY:felony-conviction-431073",
+      "KY:misdemeanor-violation-traffic-conviction",
+      "LA:felony-ten-year-clean-period-expungement",
+      "LA:misdemeanor-five-year-clean-period-expungement",
+      "MA:adult-conviction-sealing-under-m-g-l-c-276-100a",
+      "MA:juvenile-record-sealing-under-100b",
+      "MA:time-based-expungement-under-100f-100j",
+      "MD:cannabis-specific-expungement",
+      "MD:juvenile-expungement",
+      "MD:second-chance-act-shielding",
+      "ME:sex-trafficking-sexual-exploitation-survivor-sealing",
+      "MO:first-intoxication-related-traffic-or-boating-expungement-under-610-130"
+    ],
+    "routeProductMetadata": {
+      "AK:confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40": {
+        "serviceBehavior": "packet",
+        "paymentProductEligible": true,
+        "checkoutEligibility": "eligible",
+        "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES"
+      },
+      "AK:juvenile-record-sealing-as-47-12-300": {
+        "serviceBehavior": "intentional_unsupported",
+        "paymentProductEligible": false,
+        "checkoutEligibility": "not_eligible",
+        "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES"
+      },
+      "AK:sealing-for-mistaken-identity-or-false-accusation-as-12-62-180": {
+        "serviceBehavior": "intentional_unsupported",
+        "paymentProductEligible": false,
+        "checkoutEligibility": "not_eligible",
+        "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES"
+      },
+      "AL:eligible-conviction-expungement-under-the-redeemer-act": {
+        "serviceBehavior": "intentional_unsupported",
+        "paymentProductEligible": false,
+        "checkoutEligibility": "not_eligible",
+        "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES"
+      },
+      "AR:situation-a-non-convictions": {
+        "serviceBehavior": "intentional_unsupported",
+        "paymentProductEligible": false,
+        "checkoutEligibility": "not_eligible",
+        "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES"
+      },
+      "CT:absolute-pardon-resulting-in-erasure": {
+        "serviceBehavior": "guidance",
+        "paymentProductEligible": false,
+        "checkoutEligibility": "not_eligible",
+        "evaluatorTier": "STRUCTURAL_NON_PACKET"
+      },
+      "CT:automatic-clean-slate-erasure-for-eligible-post-2000-convictions": {
+        "serviceBehavior": "automatic",
+        "paymentProductEligible": false,
+        "checkoutEligibility": "not_eligible",
+        "evaluatorTier": "STRUCTURAL_NON_PACKET"
+      },
+      "DC:dc_auto_expungement_16_802": {
+        "serviceBehavior": "automatic",
+        "paymentProductEligible": false,
+        "checkoutEligibility": "not_eligible",
+        "evaluatorTier": "STRUCTURAL_NON_PACKET"
+      },
+      "DC:dc_auto_sealing_16_805": {
+        "serviceBehavior": "automatic",
+        "paymentProductEligible": false,
+        "checkoutEligibility": "not_eligible",
+        "evaluatorTier": "STRUCTURAL_NON_PACKET"
+      },
+      "DC:dc_juvenile_sealing_16_2335": {
+        "serviceBehavior": "guidance",
+        "paymentProductEligible": false,
+        "checkoutEligibility": "not_eligible",
+        "evaluatorTier": "STRUCTURAL_NON_PACKET"
+      },
+      "DC:dc_motion_seal_felony_conviction_8yr_16_806": {
+        "serviceBehavior": "intentional_unsupported",
+        "paymentProductEligible": false,
+        "checkoutEligibility": "not_eligible",
+        "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES"
+      },
+      "DC:dc_motion_seal_misdemeanor_conviction_5yr_16_806": {
+        "serviceBehavior": "intentional_unsupported",
+        "paymentProductEligible": false,
+        "checkoutEligibility": "not_eligible",
+        "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES"
+      },
+      "DC:dc_motion_seal_nonconviction_16_806": {
+        "serviceBehavior": "intentional_unsupported",
+        "paymentProductEligible": false,
+        "checkoutEligibility": "not_eligible",
+        "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES"
+      },
+      "DE:pardon-based-discretionary-expungement-under-11-del-c-4375": {
+        "serviceBehavior": "guidance",
+        "paymentProductEligible": false,
+        "checkoutEligibility": "not_eligible",
+        "evaluatorTier": "STRUCTURAL_NON_PACKET"
+      },
+      "FL:early-juvenile-expunction-943-0515": {
+        "serviceBehavior": "intentional_unsupported",
+        "paymentProductEligible": false,
+        "checkoutEligibility": "not_eligible",
+        "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES"
+      },
+      "ID:non-conviction-fingerprint-and-criminal-history-expungement-under-idaho-code-67-3004-10": {
+        "serviceBehavior": "intentional_unsupported",
+        "paymentProductEligible": false,
+        "checkoutEligibility": "not_eligible",
+        "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES"
+      },
+      "IL:adult-non-conviction-expungement": {
+        "serviceBehavior": "intentional_unsupported",
+        "paymentProductEligible": false,
+        "checkoutEligibility": "not_eligible",
+        "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES"
+      },
+      "IL:human-trafficking-survivor-vacatur-and-expungement": {
+        "serviceBehavior": "intentional_unsupported",
+        "paymentProductEligible": false,
+        "checkoutEligibility": "not_eligible",
+        "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES"
+      },
+      "IL:juvenile-automatic-or-petition-expungement": {
+        "serviceBehavior": "intentional_unsupported",
+        "paymentProductEligible": false,
+        "checkoutEligibility": "not_eligible",
+        "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES"
+      },
+      "KY:felony-conviction-431073": {
+        "serviceBehavior": "intentional_unsupported",
+        "paymentProductEligible": false,
+        "checkoutEligibility": "not_eligible",
+        "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES"
+      },
+      "KY:misdemeanor-violation-traffic-conviction": {
+        "serviceBehavior": "intentional_unsupported",
+        "paymentProductEligible": false,
+        "checkoutEligibility": "not_eligible",
+        "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES"
+      },
+      "LA:felony-ten-year-clean-period-expungement": {
+        "serviceBehavior": "intentional_unsupported",
+        "paymentProductEligible": false,
+        "checkoutEligibility": "not_eligible",
+        "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES"
+      },
+      "LA:first-offense-marijuana-expungement-after-90-days-art-998": {
+        "serviceBehavior": "packet",
+        "paymentProductEligible": true,
+        "checkoutEligibility": "eligible",
+        "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES"
+      },
+      "LA:misdemeanor-five-year-clean-period-expungement": {
+        "serviceBehavior": "intentional_unsupported",
+        "paymentProductEligible": false,
+        "checkoutEligibility": "not_eligible",
+        "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES"
+      },
+      "MA:adult-conviction-sealing-under-m-g-l-c-276-100a": {
+        "serviceBehavior": "intentional_unsupported",
+        "paymentProductEligible": false,
+        "checkoutEligibility": "not_eligible",
+        "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES"
+      },
+      "MA:juvenile-record-sealing-under-100b": {
+        "serviceBehavior": "intentional_unsupported",
+        "paymentProductEligible": false,
+        "checkoutEligibility": "not_eligible",
+        "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES"
+      },
+      "MA:time-based-expungement-under-100f-100j": {
+        "serviceBehavior": "intentional_unsupported",
+        "paymentProductEligible": false,
+        "checkoutEligibility": "not_eligible",
+        "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES"
+      },
+      "MD:automatic-expungement-under-crim-proc-10-105-1": {
+        "serviceBehavior": "automatic",
+        "paymentProductEligible": false,
+        "checkoutEligibility": "not_eligible",
+        "evaluatorTier": "STRUCTURAL_NON_PACKET"
+      },
+      "MD:cannabis-specific-expungement": {
+        "serviceBehavior": "intentional_unsupported",
+        "paymentProductEligible": false,
+        "checkoutEligibility": "not_eligible",
+        "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES"
+      },
+      "MD:juvenile-expungement": {
+        "serviceBehavior": "intentional_unsupported",
+        "paymentProductEligible": false,
+        "checkoutEligibility": "not_eligible",
+        "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES"
+      },
+      "MD:second-chance-act-shielding": {
+        "serviceBehavior": "intentional_unsupported",
+        "paymentProductEligible": false,
+        "checkoutEligibility": "not_eligible",
+        "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES"
+      },
+      "ME:sex-trafficking-sexual-exploitation-survivor-sealing": {
+        "serviceBehavior": "intentional_unsupported",
+        "paymentProductEligible": false,
+        "checkoutEligibility": "not_eligible",
+        "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES"
+      },
+      "MO:first-intoxication-related-traffic-or-boating-expungement-under-610-130": {
+        "serviceBehavior": "intentional_unsupported",
+        "paymentProductEligible": false,
+        "checkoutEligibility": "not_eligible",
+        "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES"
+      },
+      "MS:additional-justice-or-municipal-court-misdemeanor-relief": {
+        "serviceBehavior": "attorney_review",
+        "paymentProductEligible": false,
+        "checkoutEligibility": "not_eligible",
+        "evaluatorTier": "LEGAL_AUTHORITY_REFERRAL"
+      },
+      "MS:first-offense-dui-expungement": {
+        "serviceBehavior": "packet",
+        "paymentProductEligible": true,
+        "checkoutEligibility": "eligible",
+        "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES"
+      },
+      "MS:minor-in-possession-underage-alcohol-expungement": {
+        "serviceBehavior": "packet",
+        "paymentProductEligible": true,
+        "checkoutEligibility": "eligible",
+        "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES"
+      }
+    }
+  },
+  "routes": [
+    {
+      "routeKey": "AK:confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-05 (quote_states_no_duration)",
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-01 (quote_states_no_duration)",
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-08 (quote_states_no_duration)",
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-10 (quote_states_no_duration)"
+      ],
+      "serviceBehavior": "packet",
+      "closureCategory": "packet",
+      "checkoutExpected": true,
+      "timingResolution": "60 days after the qualifying acquittal or dismissal, anchored to disposition_date",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/AK-alaska.json",
+        "pathwaySourceRef": "pathways:78-118; section:78-118; corpus-unit:33; section:119-151; section:223-251; corpus-unit:1; corpus-unit:64; corpus-unit:98",
+        "sourceQuotes": [
+          "The court system may NOT publish on the public Courtview website a criminal case if 60 days have passed and the person was acquitted of all charges, all charges were dismissed (not as part of a Rule 11 plea in another case), some were acquitted and the rest dismissed, or all were dismissed after a suspended entry of judgment (AS 12.55.078)."
+        ]
+      }
+    },
+    {
+      "routeKey": "AK:juvenile-record-sealing-as-47-12-300",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-06 (quote_states_no_duration)"
+      ],
+      "serviceBehavior": "intentional_unsupported",
+      "closureCategory": "intentional_unsupported",
+      "checkoutExpected": false,
+      "timingResolution": "The prior defective proposal is withdrawn. LegalEase intentionally does not support this participant route; checkout remains closed. Prior evidence: PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-06 (quote_states_no_duration)",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/AK-alaska.json",
+        "pathwaySourceRef": "pathways:78-118; section:56-77; section:78-118; corpus-unit:26; corpus-unit:35; section:119-151; section:187-222; section:252-278",
+        "sourceQuotes": [
+          "Most juvenile records are sealed within 30 days of the 18th birthday or the court's release of jurisdiction (whichever is later); juveniles charged as adults generally seal five years after completing the sentence."
+        ]
+      }
+    },
+    {
+      "routeKey": "AK:sealing-for-mistaken-identity-or-false-accusation-as-12-62-180",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "NO_WAITING_PERIOD_PROPOSAL_CARRIES_NO_QUOTE"
+      ],
+      "serviceBehavior": "intentional_unsupported",
+      "closureCategory": "intentional_unsupported",
+      "checkoutExpected": false,
+      "timingResolution": "The prior defective proposal is withdrawn. LegalEase intentionally does not support this participant route; checkout remains closed. Prior evidence: NO_WAITING_PERIOD_PROPOSAL_CARRIES_NO_QUOTE",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/AK-alaska.json",
+        "pathwaySourceRef": "pathways:78-118; section:388-393; section:56-77; section:78-118; section:152-186; section:252-278; exclusions:152-186; corpus-unit:11",
+        "sourceQuotes": [
+          "A person may ask the agency that maintains the record to SEAL information that, beyond a reasonable doubt, resulted from mistaken identity or false accusation. This is a high bar and a narrow remedy — it is not a general path for clearing accurate records. A person whose information is sealed under this section may"
+        ]
+      }
+    },
+    {
+      "routeKey": "AL:eligible-conviction-expungement-under-the-redeemer-act",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "CONDITIONAL_PROPOSAL_NAMES_NO_BRANCHES",
+        "PROPOSAL_NAMES_NO_APPLICABLE_RESOLUTION"
+      ],
+      "serviceBehavior": "intentional_unsupported",
+      "closureCategory": "intentional_unsupported",
+      "checkoutExpected": false,
+      "timingResolution": "The prior defective proposal is withdrawn. LegalEase intentionally does not support this participant route; checkout remains closed. Prior evidence: CONDITIONAL_PROPOSAL_NAMES_NO_BRANCHES; PROPOSAL_NAMES_NO_APPLICABLE_RESOLUTION",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/AL-alabama.json",
+        "pathwaySourceRef": "pathways:77-117; section:77-117; section:158-203; corpus-unit:30; corpus-unit:5; corpus-unit:89; corpus-unit:122; section:304-329",
+        "sourceQuotes": [
+          "Nonviolent MISDEMEANOR / violation / traffic / ordinance conviction (§ 15-27-1(b)): eligible 3 years after the date of conviction, with all probation/parole, fines, costs, and restitution completed, and the offense not excluded (not violent, sex, moral-turpitude, or serious-traffic)."
+        ]
+      }
+    },
+    {
+      "routeKey": "AR:situation-a-non-convictions",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-01 (quote_states_no_duration)"
+      ],
+      "serviceBehavior": "intentional_unsupported",
+      "closureCategory": "intentional_unsupported",
+      "checkoutExpected": false,
+      "timingResolution": "The prior defective proposal is withdrawn. LegalEase intentionally does not support this participant route; checkout remains closed. Prior evidence: PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-01 (quote_states_no_duration)",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/AR-arkansas.json",
+        "pathwaySourceRef": "pathways:73-106",
+        "sourceQuotes": [
+          "These are the most accessible filings and generally carry no waiting period."
+        ]
+      }
+    },
+    {
+      "routeKey": "CT:absolute-pardon-resulting-in-erasure",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSAL_NAMES_NO_APPLICABLE_RESOLUTION"
+      ],
+      "serviceBehavior": "guidance",
+      "closureCategory": "guidance",
+      "checkoutExpected": false,
+      "timingResolution": "guidance-only route; no paid court-filing packet and checkout remains closed",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json",
+        "pathwaySourceRef": "section:359-371; source:overview; section:48-74; section:103-136; section:203-233; section:239-249; corpus-unit:29; corpus-unit:74",
+        "sourceQuotes": [
+          "Disposition / path Remedy Waiting period Dismissal / acquittal Auto erasure (§ 54-142a) Immediate Nolle (charges dropped) Auto erasure 13 months (if not re-filed) Completed diversionary program Auto erasure on completion On completion Misdemeanor conviction (post-2000) Clean Slate (automatic) 7 years from last"
+        ]
+      }
+    },
+    {
+      "routeKey": "CT:automatic-clean-slate-erasure-for-eligible-post-2000-convictions",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSAL_LEAVES_QUESTIONS_OPEN_FOR_COUNSEL",
+        "PROPOSAL_NAMES_NO_APPLICABLE_RESOLUTION"
+      ],
+      "serviceBehavior": "automatic",
+      "closureCategory": "automatic",
+      "checkoutExpected": false,
+      "timingResolution": "automatic relief or erasure; no user-filed paid packet and checkout remains closed",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json",
+        "pathwaySourceRef": "source:overview; section:239-249; section:75-102; section:353-358; section:103-136; section:163-202; pathways:75-102; corpus-unit:9",
+        "sourceQuotes": [
+          "Disposition / path Remedy Waiting period Dismissal / acquittal Auto erasure (§ 54-142a) Immediate Nolle (charges dropped) Auto erasure 13 months (if not re-filed) Completed diversionary program Auto erasure on completion On completion Misdemeanor conviction (post-2000) Clean Slate (automatic) 7 years from last"
+        ]
+      }
+    },
+    {
+      "routeKey": "DC:dc_auto_expungement_16_802",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-01 (quote_states_no_duration)"
+      ],
+      "serviceBehavior": "automatic",
+      "closureCategory": "automatic",
+      "checkoutExpected": false,
+      "timingResolution": "automatic relief or erasure; no user-filed paid packet and checkout remains closed",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/DC-district-of-columbia.json",
+        "pathwaySourceRef": "section:35-47; section:15-26; pathways:15-26; corpus-unit:26",
+        "sourceQuotes": [
+          "DC has an automatic sealing law, but the court says automatic sealing is not currently operating. You may still have a motion-based option."
+        ]
+      }
+    },
+    {
+      "routeKey": "DC:dc_auto_sealing_16_805",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSAL_NAMES_NO_APPLICABLE_RESOLUTION"
+      ],
+      "serviceBehavior": "automatic",
+      "closureCategory": "automatic",
+      "checkoutExpected": false,
+      "timingResolution": "automatic relief or erasure; no user-filed paid packet and checkout remains closed",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/DC-district-of-columbia.json",
+        "pathwaySourceRef": "section:69-82; pathways:15-26; section:15-26; corpus-unit:37",
+        "sourceQuotes": [
+          "DC has an automatic sealing law, but the court says automatic sealing is not currently operating. You may still have a motion-based option."
+        ]
+      }
+    },
+    {
+      "routeKey": "DC:dc_juvenile_sealing_16_2335",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-06 (quote_states_no_duration)"
+      ],
+      "serviceBehavior": "guidance",
+      "closureCategory": "guidance",
+      "checkoutExpected": false,
+      "timingResolution": "guidance-only route; no paid court-filing packet and checkout remains closed",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/DC-district-of-columbia.json",
+        "pathwaySourceRef": "section:148-161; corpus-unit:64",
+        "sourceQuotes": [
+          "Two years have passed since final discharge from custody/supervision, or since entry of another Division order not involving custody/supervision; and"
+        ]
+      }
+    },
+    {
+      "routeKey": "DC:dc_motion_seal_felony_conviction_8yr_16_806",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-dc-806-felony-8yr (quote_states_no_duration)",
+        "RULE_ID_NOT_IN_JURISDICTION: route-dc_motion_seal_felony_conviction_8yr_16_806"
+      ],
+      "serviceBehavior": "intentional_unsupported",
+      "closureCategory": "intentional_unsupported",
+      "checkoutExpected": false,
+      "timingResolution": "The prior defective proposal is withdrawn. LegalEase intentionally does not support this participant route; checkout remains closed. Prior evidence: PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-dc-806-felony-8yr (quote_states_no_duration); RULE_ID_NOT_IN_JURISDICTION: route-dc_motion_seal_felony_conviction_8yr_16_806",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/DC-district-of-columbia.json",
+        "pathwaySourceRef": "section:84-89; section:93-110; pathways:15-26; section:15-26; corpus-unit:41; corpus-unit:43; corpus-unit:15; corpus-unit:40",
+        "sourceQuotes": [
+          "Felony conviction motion sealing under D.C. Code § 16-806: 8 years from completion of sentence; unavailable for Offense Severity Group 1, 2, or 3."
+        ]
+      }
+    },
+    {
+      "routeKey": "DC:dc_motion_seal_misdemeanor_conviction_5yr_16_806",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-dc-806-misdemeanor-5yr (quote_states_no_duration)",
+        "RULE_ID_NOT_IN_JURISDICTION: route-dc_motion_seal_misdemeanor_conviction_5yr_16_806"
+      ],
+      "serviceBehavior": "intentional_unsupported",
+      "closureCategory": "intentional_unsupported",
+      "checkoutExpected": false,
+      "timingResolution": "The prior defective proposal is withdrawn. LegalEase intentionally does not support this participant route; checkout remains closed. Prior evidence: PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-dc-806-misdemeanor-5yr (quote_states_no_duration); RULE_ID_NOT_IN_JURISDICTION: route-dc_motion_seal_misdemeanor_conviction_5yr_16_806",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/DC-district-of-columbia.json",
+        "pathwaySourceRef": "section:84-89; section:93-110; pathways:15-26; section:15-26; corpus-unit:41; corpus-unit:43; corpus-unit:15; corpus-unit:40",
+        "sourceQuotes": [
+          "Misdemeanor conviction motion sealing under D.C. Code § 16-806: 5 years from completion of sentence."
+        ]
+      }
+    },
+    {
+      "routeKey": "DC:dc_motion_seal_nonconviction_16_806",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "NO_WAITING_PERIOD_PROPOSAL_CARRIES_NO_QUOTE"
+      ],
+      "serviceBehavior": "intentional_unsupported",
+      "closureCategory": "intentional_unsupported",
+      "checkoutExpected": false,
+      "timingResolution": "The prior defective proposal is withdrawn. LegalEase intentionally does not support this participant route; checkout remains closed. Prior evidence: NO_WAITING_PERIOD_PROPOSAL_CARRIES_NO_QUOTE",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/DC-district-of-columbia.json",
+        "pathwaySourceRef": "section:84-89; pathways:15-26; section:15-26; corpus-unit:15; corpus-unit:40",
+        "sourceQuotes": [
+          "No ordinary waiting period for the motion route; packet still requires the § 16-806 motion facts and no exclusion/review flag."
+        ]
+      }
+    },
+    {
+      "routeKey": "DE:pardon-based-discretionary-expungement-under-11-del-c-4375",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "NO_WAITING_PERIOD_PROPOSAL_CARRIES_NO_QUOTE"
+      ],
+      "serviceBehavior": "guidance",
+      "closureCategory": "guidance",
+      "checkoutExpected": false,
+      "timingResolution": "guidance-only route; no paid court-filing packet and checkout remains closed",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/DE-delaware.json",
+        "pathwaySourceRef": "section:77-104; section:361-364; pathways:77-104; corpus-unit:26; case_outcomes:165-206; corpus-unit:2; corpus-unit:8; section:105-142",
+        "sourceQuotes": [
+          "Disposition / category Tier Waiting period Terminated in favor of accused Mandatory None (acquittal/nolle/dismissal) Marijuana/paraphernalia possession; underage Mandatory None alcohol Violation(s), same case Mandatory 3 years Single misdemeanor / drug possession § 4756 Mandatory 5 years Certain eligible felonies"
+        ]
+      }
+    },
+    {
+      "routeKey": "FL:early-juvenile-expunction-943-0515",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-03 (age_threshold)"
+      ],
+      "serviceBehavior": "intentional_unsupported",
+      "closureCategory": "intentional_unsupported",
+      "checkoutExpected": false,
+      "timingResolution": "The prior defective proposal is withdrawn. LegalEase intentionally does not support this participant route; checkout remains closed. Prior evidence: PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-03 (age_threshold)",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/FL-florida.json",
+        "pathwaySourceRef": "section:170-172",
+        "sourceQuotes": [
+          "Florida juvenile records often have their own retention/expunction rules. A person age 18 or older but under 21 may apply for early juvenile expunction if they have not been charged by the State Attorney with, or found to have committed, any criminal offense during the 5 years before the application date. Only"
+        ]
+      }
+    },
+    {
+      "routeKey": "ID:non-conviction-fingerprint-and-criminal-history-expungement-under-idaho-code-67-3004-10",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-01 (quote_states_no_duration)"
+      ],
+      "serviceBehavior": "intentional_unsupported",
+      "closureCategory": "intentional_unsupported",
+      "checkoutExpected": false,
+      "timingResolution": "The prior defective proposal is withdrawn. LegalEase intentionally does not support this participant route; checkout remains closed. Prior evidence: PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-01 (quote_states_no_duration)",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/ID-idaho.json",
+        "pathwaySourceRef": "manual_source_conversion:ID; section:15-111; corpus-unit:9; corpus-unit:6; manual_source_conversion:ID:withheld-judgment-review",
+        "sourceQuotes": [
+          "A person arrested or served with a criminal summons who was not charged by indictment or information within one year may submit a written request to Idaho State Police. A person acquitted of all offenses arising from the incident, or whose all charges were dismissed, may request expungement and court-file sealing."
+        ]
+      }
+    },
+    {
+      "routeKey": "IL:adult-non-conviction-expungement",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-01 (quote_states_no_duration)",
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-02 (quote_states_no_duration)",
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-03 (quote_states_no_duration)",
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-04 (quote_states_no_duration)"
+      ],
+      "serviceBehavior": "intentional_unsupported",
+      "closureCategory": "intentional_unsupported",
+      "checkoutExpected": false,
+      "timingResolution": "The prior defective proposal is withdrawn. LegalEase intentionally does not support this participant route; checkout remains closed. Prior evidence: PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-01 (quote_states_no_duration); PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-02 (quote_states_no_duration); PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-03 (quote_states_no_duration); PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-04 (quote_states_no_duration)",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/IL-illinois.json",
+        "pathwaySourceRef": "section:55-88; section:396-442; pathways:396-442; corpus-unit:17",
+        "sourceQuotes": [
+          "Acquittal Eligible immediately unless excluded",
+          "Dismissal Eligible immediately unless excluded",
+          "Released without charging Eligible immediately unless excluded",
+          "Conviction reversed or vacated Eligible immediately unless excluded"
+        ]
+      }
+    },
+    {
+      "routeKey": "IL:human-trafficking-survivor-vacatur-and-expungement",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-21 (quote_states_no_duration)"
+      ],
+      "serviceBehavior": "intentional_unsupported",
+      "closureCategory": "intentional_unsupported",
+      "checkoutExpected": false,
+      "timingResolution": "The prior defective proposal is withdrawn. LegalEase intentionally does not support this participant route; checkout remains closed. Prior evidence: PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-21 (quote_states_no_duration)",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/IL-illinois.json",
+        "pathwaySourceRef": "section:157-163; overview:7-28; section:7-28; corpus-unit:7; corpus-unit:48",
+        "sourceQuotes": [
+          "Illinois allows a trafficking victim to petition for vacation and expungement or immediate sealing after completing the last sentence if participation in the underlying offense resulted from human trafficking or a severe form of trafficking under federal law. The petition must state that the person was a trafficking"
+        ]
+      }
+    },
+    {
+      "routeKey": "IL:juvenile-automatic-or-petition-expungement",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-22 (quote_states_no_duration)",
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-31 (quote_states_no_duration)"
+      ],
+      "serviceBehavior": "intentional_unsupported",
+      "closureCategory": "intentional_unsupported",
+      "checkoutExpected": false,
+      "timingResolution": "The prior defective proposal is withdrawn. LegalEase intentionally does not support this participant route; checkout remains closed. Prior evidence: PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-22 (quote_states_no_duration); PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-31 (quote_states_no_duration)",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/IL-illinois.json",
+        "pathwaySourceRef": "section:178-184; overview:7-28; section:7-28; corpus-unit:7; corpus-unit:3; corpus-unit:57; section:271-325; corpus-unit:58",
+        "sourceQuotes": [
+          "If a juvenile record is not automatically expunged, a person may petition at no cost. For delinquency adjudications not automatically expunged, the person may petition after 2 years have passed since all juvenile court proceedings and any Department of Juvenile Justice commitment terminated, except records based on"
+        ]
+      }
+    },
+    {
+      "routeKey": "KY:felony-conviction-431073",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSAL_LEAVES_QUESTIONS_OPEN_FOR_COUNSEL",
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-04 (quote_states_no_duration)"
+      ],
+      "serviceBehavior": "intentional_unsupported",
+      "closureCategory": "intentional_unsupported",
+      "checkoutExpected": false,
+      "timingResolution": "The prior defective proposal is withdrawn. LegalEase intentionally does not support this participant route; checkout remains closed. Prior evidence: PROPOSAL_LEAVES_QUESTIONS_OPEN_FOR_COUNSEL; PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-04 (quote_states_no_duration)",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
+        "pathwaySourceRef": "manual_source_conversion:KY",
+        "sourceQuotes": [
+          "The person must have no felony or misdemeanor conviction during the five years before filing and no pending felony or misdemeanor proceeding."
+        ]
+      }
+    },
+    {
+      "routeKey": "KY:misdemeanor-violation-traffic-conviction",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSAL_LEAVES_QUESTIONS_OPEN_FOR_COUNSEL",
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-02 (quote_states_no_duration)"
+      ],
+      "serviceBehavior": "intentional_unsupported",
+      "closureCategory": "intentional_unsupported",
+      "checkoutExpected": false,
+      "timingResolution": "The prior defective proposal is withdrawn. LegalEase intentionally does not support this participant route; checkout remains closed. Prior evidence: PROPOSAL_LEAVES_QUESTIONS_OPEN_FOR_COUNSEL; PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-02 (quote_states_no_duration)",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
+        "pathwaySourceRef": "manual_source_conversion:KY",
+        "sourceQuotes": [
+          "The petition is filed no sooner than five years after sentence completion or successful completion of probation, whichever is later, except the named voided first-possession routes."
+        ]
+      }
+    },
+    {
+      "routeKey": "LA:felony-ten-year-clean-period-expungement",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-04 (quote_states_no_duration)"
+      ],
+      "serviceBehavior": "intentional_unsupported",
+      "closureCategory": "intentional_unsupported",
+      "checkoutExpected": false,
+      "timingResolution": "The prior defective proposal is withdrawn. LegalEase intentionally does not support this participant route; checkout remains closed. Prior evidence: PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-04 (quote_states_no_duration)",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/LA-louisiana.json",
+        "pathwaySourceRef": "section:57-67",
+        "sourceQuotes": [
+          "2 More than ten years have passed since completion of sentence, deferred adjudication, probation, or parole; the person has no other criminal conviction during the ten-year period before filing; and no criminal charge is pending. A DA certification is required."
+        ]
+      }
+    },
+    {
+      "routeKey": "LA:first-offense-marijuana-expungement-after-90-days-art-998",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSAL_LEAVES_QUESTIONS_OPEN_FOR_COUNSEL",
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-03 (quote_states_no_duration)"
+      ],
+      "serviceBehavior": "packet",
+      "closureCategory": "packet",
+      "checkoutExpected": true,
+      "timingResolution": "90 days after conviction",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/LA-louisiana.json",
+        "pathwaySourceRef": "section:190-230; section:49-56; corpus-unit:84; corpus-unit:18; packet_logic:190-230; corpus-unit:30",
+        "sourceQuotes": [
+          "Special marijuana rule: A first-offense misdemeanor conviction for possession of marijuana, THC, or chemical derivatives may be filed 90 days after conviction."
+        ]
+      }
+    },
+    {
+      "routeKey": "LA:misdemeanor-five-year-clean-period-expungement",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSAL_LEAVES_QUESTIONS_OPEN_FOR_COUNSEL",
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-02 (quote_states_no_duration)"
+      ],
+      "serviceBehavior": "intentional_unsupported",
+      "closureCategory": "intentional_unsupported",
+      "checkoutExpected": false,
+      "timingResolution": "The prior defective proposal is withdrawn. LegalEase intentionally does not support this participant route; checkout remains closed. Prior evidence: PROPOSAL_LEAVES_QUESTIONS_OPEN_FOR_COUNSEL; PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-02 (quote_states_no_duration)",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/LA-louisiana.json",
+        "pathwaySourceRef": "section:49-56; section:39-48; corpus-unit:28",
+        "sourceQuotes": [
+          "2 More than five years have passed since completion of sentence, deferred adjudication, probation, or parole, and the person has had no felony conviction during that five-year period and has no pending felony charge. A DA certification is required for the five-year route. (\"https://www.legis.la.gov/legis/Law.aspx?d=919669\")"
+        ]
+      }
+    },
+    {
+      "routeKey": "MA:adult-conviction-sealing-under-m-g-l-c-276-100a",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-13 (quote_states_no_duration)",
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-14 (quote_states_no_duration)"
+      ],
+      "serviceBehavior": "intentional_unsupported",
+      "closureCategory": "intentional_unsupported",
+      "checkoutExpected": false,
+      "timingResolution": "The prior defective proposal is withdrawn. LegalEase intentionally does not support this participant route; checkout remains closed. Prior evidence: PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-13 (quote_states_no_duration); PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-14 (quote_states_no_duration)",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/MA-massachusetts.json",
+        "pathwaySourceRef": "section:43-68; overview:7-26; section:7-26; section:27-42; corpus-unit:7; corpus-unit:10; corpus-unit:27; corpus-unit:19",
+        "sourceQuotes": [
+          "Misdemeanor 3 years Court appearance/disposition, including incarceration or custody, must be at least 3 years before request",
+          "Felony 7 years Court appearance/disposition, including incarceration or custody, must be at least 7 years before request"
+        ]
+      }
+    },
+    {
+      "routeKey": "MA:juvenile-record-sealing-under-100b",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-16 (quote_states_no_duration)"
+      ],
+      "serviceBehavior": "intentional_unsupported",
+      "closureCategory": "intentional_unsupported",
+      "checkoutExpected": false,
+      "timingResolution": "The prior defective proposal is withdrawn. LegalEase intentionally does not support this participant route; checkout remains closed. Prior evidence: PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-16 (quote_states_no_duration)",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/MA-massachusetts.json",
+        "pathwaySourceRef": "section:84-96; section:7-26; overview:7-26; corpus-unit:10; corpus-unit:30; corpus-unit:31; corpus-unit:32; section:230-287",
+        "sourceQuotes": [
+          "Juvenile sealing is primarily under M.G.L. c. 276, 100B. Eligible record Delinquency court appearance record on file with Commissioner of Probation Waiting period 3 years after court appearance/disposition, including supervision, probation, commitment, or parole, terminated New Massachusetts record No adjudication"
+        ]
+      }
+    },
+    {
+      "routeKey": "MA:time-based-expungement-under-100f-100j",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-17 (quote_states_no_duration)",
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-18 (quote_states_no_duration)"
+      ],
+      "serviceBehavior": "intentional_unsupported",
+      "closureCategory": "intentional_unsupported",
+      "checkoutExpected": false,
+      "timingResolution": "The prior defective proposal is withdrawn. LegalEase intentionally does not support this participant route; checkout remains closed. Prior evidence: PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-17 (quote_states_no_duration); PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-18 (quote_states_no_duration)",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/MA-massachusetts.json",
+        "pathwaySourceRef": "section:97-137; overview:7-26; section:138-169; section:7-26; section:230-287; section:180-191; section:192-202; section:218-229",
+        "sourceQuotes": [
+          "Time-based expungement is available only in limited cases. It runs through 100F, 100G, 100H, 100I, and 100J. Record type Statute Basic route Juvenile delinquent / youthful offender adjudication 100F Petition Commissioner of Probation Adult conviction 100G Petition Commissioner of Probation Adult or juvenile record"
+        ]
+      }
+    },
+    {
+      "routeKey": "MD:automatic-expungement-under-crim-proc-10-105-1",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-09 (quote_states_no_duration)",
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-10 (quote_states_no_duration)",
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-11 (quote_states_no_duration)"
+      ],
+      "serviceBehavior": "automatic",
+      "closureCategory": "automatic",
+      "checkoutExpected": false,
+      "timingResolution": "automatic relief or erasure; no user-filed paid packet and checkout remains closed",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/MD-maryland.json",
+        "pathwaySourceRef": "section:96-99; section:9-28; overview:9-28; corpus-unit:10; corpus-unit:27",
+        "sourceQuotes": [
+          "Maryland\u0019s automatic expungement applies to certain all-favorable cases after 3 years. It covers records relating to a qualifying civil cannabis offense or non-must-appear criminal charge when no charge in the case resulted in anything other than acquittal, dismissal, not guilty, or nolle prosequi, except"
+        ]
+      }
+    },
+    {
+      "routeKey": "MD:cannabis-specific-expungement",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-15 (quote_states_no_duration)",
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-21 (quote_states_no_duration)",
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-22 (quote_states_no_duration)",
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-33 (quote_states_no_duration)"
+      ],
+      "serviceBehavior": "intentional_unsupported",
+      "closureCategory": "intentional_unsupported",
+      "checkoutExpected": false,
+      "timingResolution": "The prior defective proposal is withdrawn. LegalEase intentionally does not support this participant route; checkout remains closed. Prior evidence: PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-15 (quote_states_no_duration); PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-21 (quote_states_no_duration); PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-22 (quote_states_no_duration); PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-33 (quote_states_no_duration)",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/MD-maryland.json",
+        "pathwaySourceRef": "section:136-147; section:53-95; corpus-unit:37; corpus-unit:3; corpus-unit:21",
+        "sourceQuotes": [
+          "Possession with intent to distribute cannabis Form CC-DC-CR-072D; 3 years after sentence completion"
+        ]
+      }
+    },
+    {
+      "routeKey": "MD:juvenile-expungement",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-24 (quote_states_no_duration)"
+      ],
+      "serviceBehavior": "intentional_unsupported",
+      "closureCategory": "intentional_unsupported",
+      "checkoutExpected": false,
+      "timingResolution": "The prior defective proposal is withdrawn. LegalEase intentionally does not support this participant route; checkout remains closed. Prior evidence: PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-24 (quote_states_no_duration)",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/MD-maryland.json",
+        "pathwaySourceRef": "section:171-180; overview:9-28; section:9-28; section:39-52; section:197-208; section:308-351; summary:308-351; corpus-unit:3",
+        "sourceQuotes": [
+          "at least 2 years have passed since the last official action in the juvenile record;"
+        ]
+      }
+    },
+    {
+      "routeKey": "MD:second-chance-act-shielding",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-23 (quote_states_no_duration)",
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-27 (quote_states_no_duration)",
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-37 (quote_states_no_duration)"
+      ],
+      "serviceBehavior": "intentional_unsupported",
+      "closureCategory": "intentional_unsupported",
+      "checkoutExpected": false,
+      "timingResolution": "The prior defective proposal is withdrawn. LegalEase intentionally does not support this participant route; checkout remains closed. Prior evidence: PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-23 (quote_states_no_duration); PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-27 (quote_states_no_duration); PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-37 (quote_states_no_duration)",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/MD-maryland.json",
+        "pathwaySourceRef": "section:154-170; pathways:383-421; section:39-52; section:383-421; corpus-unit:19; corpus-unit:46",
+        "sourceQuotes": [
+          "A person may petition for shielding no earlier than 3 years after satisfying the sentence for all convictions being shielded, including parole, probation, or mandatory supervision. A person may be granted only one shielding petition in a lifetime, and pending criminal proceedings block shielding eligibility."
+        ]
+      }
+    },
+    {
+      "routeKey": "ME:sex-trafficking-sexual-exploitation-survivor-sealing",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "NO_WAITING_PERIOD_PROPOSAL_CARRIES_NO_QUOTE"
+      ],
+      "serviceBehavior": "intentional_unsupported",
+      "closureCategory": "intentional_unsupported",
+      "checkoutExpected": false,
+      "timingResolution": "The prior defective proposal is withdrawn. LegalEase intentionally does not support this participant route; checkout remains closed. Prior evidence: NO_WAITING_PERIOD_PROPOSAL_CARRIES_NO_QUOTE",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/ME-maine.json",
+        "pathwaySourceRef": "section:109-133; section:9-21; overview:9-21; corpus-unit:9; corpus-unit:42",
+        "sourceQuotes": [
+          "Sex trafficking / sexual exploitation survivor route No ordinary waiting period Motion may be filed any time after conviction"
+        ]
+      }
+    },
+    {
+      "routeKey": "MO:first-intoxication-related-traffic-or-boating-expungement-under-610-130",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-01 (quote_states_no_duration)"
+      ],
+      "serviceBehavior": "intentional_unsupported",
+      "closureCategory": "intentional_unsupported",
+      "checkoutExpected": false,
+      "timingResolution": "The prior defective proposal is withdrawn. LegalEase intentionally does not support this participant route; checkout remains closed. Prior evidence: PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-01 (quote_states_no_duration)",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/MO-missouri.json",
+        "pathwaySourceRef": "section:7-22; section:156-177; corpus-unit:9; corpus-unit:66; section:77-108; corpus-unit:67; exclusions:77-108; corpus-unit:34",
+        "sourceQuotes": [
+          "610.130 first intoxication-related traffic/boating offense A person may apply after at least 10 years to expunge a first intoxication-related traffic or boating offense if it was a misdemeanor or county/city ordinance violation, was not a commercial-motor-vehicle DUI conviction, and the person has not had another intoxication-related traffic/boating conviction since. (\"https://revisor.mo.gov/main/OneSection.aspx?section=610.130\")"
+        ]
+      }
+    },
+    {
+      "routeKey": "MS:additional-justice-or-municipal-court-misdemeanor-relief",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-12 (quote_states_no_duration)"
+      ],
+      "serviceBehavior": "attorney_review",
+      "closureCategory": "attorney_review",
+      "checkoutExpected": false,
+      "timingResolution": "undefined; after the clock is satisfied, the approved service is attorney-review referral and checkout remains closed",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
+        "pathwaySourceRef": "pathways:15-155; section:15-155; corpus-unit:20",
+        "stateLocalPath": "src/lib/rcap/state-packs/mississippi/correction-closures.ts",
+        "sourceQuotes": [
+          "Two years of good conduct must run from the person's last conviction in any court."
+        ]
+      }
+    },
+    {
+      "routeKey": "MS:first-offense-dui-expungement",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-08 (quote_states_no_duration)"
+      ],
+      "serviceBehavior": "packet",
+      "closureCategory": "packet",
+      "checkoutExpected": true,
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
+        "pathwaySourceRef": "pathways:15-155; section:15-155; corpus-unit:38",
+        "stateLocalPath": "src/lib/rcap/state-packs/mississippi/correction-closures.ts",
+        "sourceQuotes": [
+          "Five years must run after successful completion of every term and condition of the sentence."
+        ]
+      }
+    },
+    {
+      "routeKey": "MS:minor-in-possession-underage-alcohol-expungement",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-09 (quote_states_no_duration)"
+      ],
+      "serviceBehavior": "packet",
+      "closureCategory": "packet",
+      "checkoutExpected": true,
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
+        "pathwaySourceRef": "pathways:15-155; section:15-155; corpus-unit:44",
+        "stateLocalPath": "src/lib/rcap/state-packs/mississippi/correction-closures.ts",
+        "sourceQuotes": [
+          "The dismissal branch opens one year after dismissal and discharge.",
+          "The conviction branch opens one year after the latest applicable sentence-completion or fine-payment date."
+        ]
+      }
+    }
+  ]
+}

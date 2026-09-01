@@ -119,7 +119,39 @@ const jobs = ledger.jobs.filter((j) => j.lane === "C" && C1[j.jurisdiction]);
   const open = new Set(jobs.map((j) => j.jobId));
   for (const [jobId, entry] of completed) if (!open.has(jobId)) jobs.push(entry);
 }
-assert(jobs.length === 16, `expected 16 C1 jobs from the ledger, found ${jobs.length}`);
+// Sixteen jobs, less any track a legal-design decision owner has retired.
+//
+// The literal is kept rather than replaced by a derived count, because its job
+// is to catch a job that goes missing silently -- a ledger regeneration that
+// drops one, a promotion that quietly reverts. What it must not do is refuse a
+// retirement an owner actually made: retiring a route legitimately removes a
+// job, and a constant that cannot follow a decision would force the alternative,
+// which is re-pinning a retired record's hash to keep a count whole.
+//
+// So the expected count moves only for a retirement that is recorded in a
+// decision record, and the reason is read from that record rather than from a
+// list here.
+const C1_JOBS_BEFORE_RETIREMENTS = 16;
+const RETIREMENT_RECORDS = ["data/record-clearing/legal-decisions/2026-08-29-lawrence-six-decisions.json"];
+const retiredTrackIds = new Set();
+for (const rel of RETIREMENT_RECORDS) {
+  const abs = path.join(rootDir, rel);
+  if (!fs.existsSync(abs)) continue;
+  for (const decision of JSON.parse(fs.readFileSync(abs, "utf8")).decisions ?? []) {
+    if (decision.classification !== "RECORD_RETIREMENT_REQUIRED") continue;
+    for (const trackId of decision.tracks ?? []) retiredTrackIds.add(trackId);
+  }
+}
+// Only a retirement that actually removed a job from the ledger counts, so a
+// decision record cannot lower the expected count for a job that is still there.
+const retiredAndGone = [...retiredTrackIds].filter(
+  (trackId) => !(ledger.tracks ?? []).some((t) => t.trackId === trackId && String(t.candidateStatus ?? "").startsWith("promoted_by_")),
+);
+const expectedJobs = C1_JOBS_BEFORE_RETIREMENTS - retiredAndGone.length;
+assert(
+  jobs.length === expectedJobs,
+  `expected ${expectedJobs} C1 jobs from the ledger (${C1_JOBS_BEFORE_RETIREMENTS} less ${retiredAndGone.length} retired by recorded legal decision${retiredAndGone.length ? `: ${retiredAndGone.join(", ")}` : ""}), found ${jobs.length}`,
+);
 
 const RELIEF_VOCAB = {
   expungement: ["expungement", "expunge", "expunction"],

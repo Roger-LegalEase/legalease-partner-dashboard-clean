@@ -830,12 +830,17 @@ async function rasterOnePage({ bytes, pageIndex, tmpRoot, outName }) {
   fs.writeFileSync(pdf, single);
   const rendered = await rasterizePdf({ file: pdf, outDir: work, pages: [1], scale: SCALE, prefix: "p" });
   const src = rendered[0]?.file ?? rendered[0];
-  const rect = await pageRectangle(src);
+  // The rasteriser now returns the page already cropped to its paper. Running
+  // the surround-trimmer over that would find white at the corner, take it for
+  // background, and trim the page's own margins away to the ink -- so it is
+  // used only for a frame that still carries a surround.
+  const rect = rendered[0]?.croppedToPage ? null : await pageRectangle(src);
   const dest = path.join(OUT_DIR, outName);
   if (rect) await sharp(src).extract(rect).png().toFile(dest);
   else fs.copyFileSync(src, dest);
   const meta = await sharp(dest).metadata();
-  return { image: outName, sha256: sha256(fs.readFileSync(dest)), widthPx: meta.width, heightPx: meta.height, croppedToPage: Boolean(rect) };
+  return { image: outName, sha256: sha256(fs.readFileSync(dest)), widthPx: meta.width, heightPx: meta.height,
+    croppedToPage: Boolean(rect) || Boolean(rendered[0]?.croppedToPage) };
 }
 
 

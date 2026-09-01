@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "pa_summary_conviction-set",
+  "status": "artifact_evidence_built_review_required",
+  "routeKeys": [
+    "obligation:track-pathway:PA:pa_summary_conviction:path-c-summary-conviction-expungement"
+  ],
+  "notes": [
+    "Both Rule 490 and Rule 790 petition branches are review artifacts; court-status routing remains a release blocker and no branch is silently chosen."
+  ],
+  "hardRulesVerified": [
+    "exact source path, SHA-256, and byte length matched the corpus index and installed source",
+    "every field received an explicit candidate-write, route-selection, or refusal disposition",
+    "signatures, dates, unperformed service, court, prosecutor, clerk, agency, and notary fields carried no generated ink",
+    "all emitted PDF pages were rasterized and byte-inventoried"
+  ],
+  "blockers": [
+    "completed-output legal approval has not been granted",
+    "commercial release and runtime selection remain disabled",
+    "current revision/status and local court practice must be confirmed",
+    "court-status branch and conditional fee-waiver use require participant/local confirmation"
+  ],
+  "commercialAuthority": false,
+  "runtimeSelectable": false
+}
