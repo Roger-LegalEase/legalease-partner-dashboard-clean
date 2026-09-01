@@ -2,7 +2,7 @@
   "schemaVersion": "claude-9h-shift/v1",
   "startedAt": "2026-09-01T07:14:06Z",
   "endsAt": "2026-09-01T16:14:06Z",
-  "shiftBaseSha": "09b741ad00be0d630bd73a72f66640294abab397",
+  "shiftBaseSha": "c6d7ffe7cfdf45629f873e1a0e58ae4b174d45c6",
   "captainBranch": "claude/legalease-sprint-captain-utucnw",
   "workers": {
     "PF-A": {
@@ -90,5 +90,17 @@
   "integratedReturns": [],
   "newlyReleasedFamilies": [],
   "productionTouched": false,
-  "commercialRoutesOpened": 0
+  "commercialRoutesOpened": 0,
+  "shiftBaseRebasedAt": "2026-09-01T07:35:00Z",
+  "shiftBaseRebaseReason": "browser_environment_exported was still mandatory after the central raster split, so PACKET_BUILD_ENVIRONMENT_READY was unreachable for every builder. The first shift base 09b741ad00be0d630bd73a72f66640294abab397 could not pass preflight; this base does (13/13 passed, 0 failed, 3 not applicable).",
+  "previousShiftBaseSha": "09b741ad00be0d630bd73a72f66640294abab397",
+  "masterLibraryCorpus": {
+    "note": "Not a permission problem. The session token already reads the private release (HTTP 200). Each worker recovers the corpus itself; the bytes are never committed.",
+    "command": "bash scripts/rcap-corpus/bootstrap-private-corpus.sh",
+    "releaseRepo": "Roger-LegalEase/legalease-source-artifacts",
+    "releaseTag": "source-corpus-2026-08-28",
+    "archiveSha256": "a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89",
+    "verified": "51 jurisdictions / 499 files / 329 PDFs",
+    "masterLibrarySourceDirExportRequired": false
+  }
 }
