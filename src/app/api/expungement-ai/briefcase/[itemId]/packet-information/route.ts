@@ -25,6 +25,9 @@ export async function POST(
   if (!auth.isAuthenticated || !auth.userId) {
     return NextResponse.json({ ok: false, error: "auth_required" }, { status: 401 });
   }
+  if (auth.isVerified !== true) {
+    return NextResponse.json({ ok: false, error: "verified_account_required" }, { status: 403 });
+  }
 
   const { itemId } = await context.params;
   const item = await getBriefcaseItem(auth.userId, itemId);
