@@ -40,7 +40,7 @@ It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owne
 ## Claim before you read
 
 - Assert each exact source obligation before reading evidence: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert SRC01 <itemId>`
-- The committed assignment contains exactly 48 itemIds; iterate those values only. A familyId is metadata and is not a source claim key.
+- The committed assignment contains exactly 47 itemIds; iterate those values only. A familyId is metadata and is not a source claim key.
 - A non-zero exit stops that row only: record `BLOCKED_BEFORE_CLAIM`, read none of its evidence, and continue with unrelated obligations.
 - Release each completed obligation independently: `node scripts/grade-a-packet-factory-24h/claim.mjs --release SRC01 <itemId>`.
 
@@ -55,7 +55,7 @@ It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owne
 - `STALE_OR_VARIANT_ID` — 2 — the identity is missing its current suffix or its filing-mode variant. Normalize the identity first; the form is public.
 - `SOURCE_SCOPE_AND_VERSION_AMBIGUITY` — 1 — statewide versus local scope is unsettled. Settle the scope before any inquiry.
 - `FAMILY_IDENTITY_AMBIGUOUS` — 8 — several held artifacts match this identity. Which one the route requires is the question; do not pick one.
-- `CURRENTNESS_UNVERIFIED` — 58 — the corpus already HOLDS matching bytes. The open question is whether the publisher still issues that edition. This is not a missing source and it is not an acquisition.
+- `CURRENTNESS_UNVERIFIED` — 60 — the corpus already HOLDS matching bytes. The open question is whether the publisher still issues that edition. This is not a missing source and it is not an acquisition.
 - `STATUTORY_CUSTOM_PLEADING` — 6 — a statutory citation. There is no document at the other end; a packet-build lane drafts against the statute.
 - `LICENSE_PERMISSION_REVIEW` — 2 — the form is public and its publisher restricts commercial reuse. Counsel and business decide, not a clerk.
 
@@ -63,8 +63,8 @@ It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owne
 
 - `STANDALONE_ARTIFACT` — 8 — public, ordinary acquisition.
 - `PUBLIC_DOWNLOAD` — 0 — public, ordinary acquisition.
-- `MISSING_SOURCE_BINARY` — 1 — expected and absent; acquire once an exact address is settled.
-- `MISSING_CANONICAL_RELATIONSHIP_METADATA` — 145 — no publisher, address or locator is recorded. Settle identity before fetching.
+- `MISSING_SOURCE_BINARY` — 2 — expected and absent; acquire once an exact address is settled.
+- `MISSING_CANONICAL_RELATIONSHIP_METADATA` — 142 — no publisher, address or locator is recorded. Settle identity before fetching.
 
 **The previous human queue told a person to contact a clerk 101 times. Zero of the top twenty justified it. If the registry records an official source page, the answer is already known.**
 
@@ -78,7 +78,7 @@ Reconcile a named form number or pinned content hash against the private corpus 
 
 the private corpus and the committed inventory, read only — nothing is fetched here
 
-**48 obligations · 14 families this lane WOULD release if every one of them resolves · hosts: CA, ID, KS, KY, ME, NH, VA**
+**47 obligations · 13 families this lane WOULD release if every one of them resolves · hosts: CA, ID, KS, KY, ME, NH**
 
 > Prospective. Nothing below is promoted custody yet, and this number is not a count of families you can build today.
 
@@ -150,15 +150,14 @@ the private corpus and the committed inventory, read only — nothing is fetched
 | `official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b::official-form:CR-431` | `official-form:CR-431` | CA | `held-inventory-reconciliation` | `official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b::official-form:CR-432` | `official-form:CR-432` | CA | `held-inventory-reconciliation` | `official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b::official-form:CR-430-INFO` | `official-form:CR-430-INFO` | CA | `held-inventory-reconciliation` | `official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b` | named held-corpus identity or pinned SHA-256 | `PROMO` |
-| `va_exp_identity_used_by_another-set::source-sha256:6176c2f55bdb3206c53f4a26a0e6b4c14dfd8b04ee19be0ee52b7b6b3fa4e97f` | `source-sha256:6176c2f55bdb3206c53f4a26a0e6b4c14dfd8b04ee19be0ee52b7b6b3fa4e97f` | VA | `held-inventory-reconciliation` | `va_exp_identity_used_by_another-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 
-Deterministically assert exactly the 48 committed itemIds (failures are recorded per row and do not terminate the loop):
+Deterministically assert exactly the 47 committed itemIds (failures are recorded per row and do not terminate the loop):
 
 ```sh
 node - <<'NODE'
 const {spawnSync}=require('node:child_process');
 const a=require('./data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json').assignments.find(x=>x.assignmentId==='SRC01');
-if (!a || a.items.length !== 48) throw new Error('SRC01 committed item count changed');
+if (!a || a.items.length !== 47) throw new Error('SRC01 committed item count changed');
 for (const itemId of a.items) {
   const r=spawnSync(process.execPath,['scripts/grade-a-packet-factory-24h/claim.mjs','--assert','SRC01',itemId],{stdio:'inherit'});
   if (r.status !== 0) console.error('ROW_STOP', itemId);
@@ -179,7 +178,7 @@ node scripts/verify-packet-build-environment.mjs --assignment-id SRC01 --source-
 
 ### Families this lane would release
 
-`ca-diversion-seal-set`, `id_clean_slate_shield-set`, `ky_expungement_certification-set`, `ky_nonconviction_expungement-set`, `ky_protective_order_record_expungement-set`, `me-seal-gen-set`, `me-seal-survivor-set`, `nh_conviction_standard-set`, `nh_conviction_streamlined-set`, `nh_marijuana_annulment-set`, `nh_petition_nonconviction_pre2019-set`, `nh_petition_vacated-set`, `official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b`, `va_exp_identity_used_by_another-set`
+`ca-diversion-seal-set`, `id_clean_slate_shield-set`, `ky_expungement_certification-set`, `ky_nonconviction_expungement-set`, `ky_protective_order_record_expungement-set`, `me-seal-gen-set`, `me-seal-survivor-set`, `nh_conviction_standard-set`, `nh_conviction_streamlined-set`, `nh_marijuana_annulment-set`, `nh_petition_nonconviction_pre2019-set`, `nh_petition_vacated-set`, `official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b`
 
 
 ### Settle these first
@@ -199,7 +198,6 @@ node scripts/verify-packet-build-environment.mjs --assignment-id SRC01 --source-
 | CR-218 | ME | 1 |
 | CR-307 | ME | 1 |
 | NO_DOCUMENT_SOURCE_NAMED | CA | 0 |
-| NO_DOCUMENT_SOURCE_NAMED | VA | 0 |
 
 > On 2026-08-31 an acquisition batch fetched thirty documents successfully and unblocked zero families — all thirty belonged to jurisdictions already resolved, with no overlap against the 238 documents gating the 256 blocked families. Fetch capacity is not the constraint. Knowing which document to fetch is.
 

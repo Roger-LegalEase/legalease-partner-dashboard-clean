@@ -24,23 +24,23 @@
   },
   "families": {
     "total": 352,
-    "releasable": 114,
+    "releasable": 115,
     "clearedIntoWaves": 114,
     "workersStarted": 12,
-    "heldBack": 238,
+    "heldBack": 237,
     "heldBackBy": {
-      "missing_source": 238
+      "missing_source": 237
     }
   },
   "sourceCustody": {
     "reconciledAgainst": "data/rcap-all50/local-source-corpus-index.json",
     "corpusFilesHeld": 329,
-    "SOURCE_ALREADY_HELD": 57,
+    "SOURCE_ALREADY_HELD": 58,
     "SOURCE_REVISION_STALE": 0,
     "SOURCE_IDENTITY_UNRESOLVED": 166,
-    "SOURCE_GENUINELY_MISSING": 72,
-    "acquisitionCommissionedFor": 238,
-    "acquisitionNotCommissionedFor": 57,
+    "SOURCE_GENUINELY_MISSING": 71,
+    "acquisitionCommissionedFor": 237,
+    "acquisitionNotCommissionedFor": 58,
     "acquisitionCannotRunInThisEnvironment": "Outbound egress to court and agency hosts is refused by this environment's network policy. Acquisition runs in a network-enabled environment; nothing here fetches."
   },
   "sourceIdentity": {
@@ -105,7 +105,7 @@
     "rule": "No family may launch while it is still held for a missing source, form map, artifact review, output approval or legal answer.",
     "familiesNotLaunchReady": 352,
     "blockersByKind": {
-      "missing_source": 238,
+      "missing_source": 237,
       "missing_artifact_review": 352,
       "missing_output_approval": 337,
       "missing_form_map": 261
@@ -10996,12 +10996,8 @@
         "VA"
       ],
       "routeCount": 1,
-      "sourceCustody": "SOURCE_GENUINELY_MISSING",
+      "sourceCustody": "SOURCE_ALREADY_HELD",
       "holds": [
-        {
-          "kind": "missing_source",
-          "detail": "SOURCE_GENUINELY_MISSING"
-        },
         {
           "kind": "missing_artifact_review"
         },
@@ -11009,13 +11005,8 @@
           "kind": "missing_output_approval"
         }
       ],
-      "blockingHolds": [
-        {
-          "kind": "missing_source",
-          "detail": "SOURCE_GENUINELY_MISSING"
-        }
-      ],
-      "releasable": false,
+      "blockingHolds": [],
+      "releasable": true,
       "remainingWorkTypes": [
         "ARTIFACT_REVIEW_REQUIRED",
         "COMPOSED_PLEADING",

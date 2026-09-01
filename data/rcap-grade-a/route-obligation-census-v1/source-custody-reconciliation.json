@@ -13,13 +13,13 @@
   "matchingIsConservative": "Only an exact content hash or a strong form-number match within the same jurisdiction counts as held. An unresolvable label is recorded as unresolved identity rather than as missing, because absence of a match is not evidence of absence -- and calling a held source missing wastes acquisition while calling a missing source held suppresses it.",
   "acquisitionTasks": 295,
   "counts": {
-    "SOURCE_ALREADY_HELD": 57,
+    "SOURCE_ALREADY_HELD": 58,
     "SOURCE_REVISION_STALE": 0,
     "SOURCE_IDENTITY_UNRESOLVED": 166,
-    "SOURCE_GENUINELY_MISSING": 72
+    "SOURCE_GENUINELY_MISSING": 71
   },
-  "commissionAcquisitionFor": 238,
-  "doNotCommissionAcquisitionFor": 57,
+  "commissionAcquisitionFor": 237,
+  "doNotCommissionAcquisitionFor": 58,
   "rows": [
     {
       "worklistGroupId": "agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge",
@@ -10265,22 +10265,26 @@
         "VA"
       ],
       "routeCount": 1,
-      "custodyClass": "SOURCE_GENUINELY_MISSING",
+      "custodyClass": "SOURCE_ALREADY_HELD",
       "documentSourcesNamed": 1,
-      "documentSourcesResolved": 0,
+      "documentSourcesResolved": 1,
       "nonDocumentSourceIds": 3,
       "documentSources": [
         {
-          "sourceId": "source-sha256:6176c2f55bdb3206c53f4a26a0e6b4c14dfd8b04ee19be0ee52b7b6b3fa4e97f",
+          "sourceId": "source-sha256:6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
           "kind": "content_hash",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_content_hash_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_content_hash",
+          "heldAs": {
+            "path": "STATES/VA/02_PACKET_FORMS/VA__FORM__CC-1473__petition-for-expungement__REV-2026-07__EN.pdf",
+            "formNumber": "CC-1473",
+            "revision": "REV-2026-07",
+            "sha256": "6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219"
+          }
         }
       ],
-      "commissionAcquisition": true,
-      "why": "The census names a document identity -- an exact content hash, or a form number -- that the verified corpus does not carry. This is a real acquisition and the target is known."
+      "commissionAcquisition": false,
+      "why": "Every document-shaped source this family names resolves to a file already in the verified corpus. Acquisition is not commissioned."
     },
     {
       "worklistGroupId": "vt_exp_deferred_sentence-set",
