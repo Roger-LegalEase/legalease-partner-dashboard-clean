@@ -635,7 +635,25 @@ function run() {
     const dispatched = new Set(a.flatMap((x) => (x.items ?? []).map((id) => `${x.itemKind === "sourceObligation" ? "source-obligation" : "packet-family"}::${id}::${x.itemKind === "sourceObligation" ? x.operation : x.lane}`)));
     const granted = new Set((ledger.claims ?? []).map((c) => `${c.subjectType}::${c.subjectId}::${c.operation}`));
     for (const d of dispatched) if (!granted.has(d)) ledgerProblems.push(`${d} is dispatched and not granted`);
-    for (const g of granted) if (!dispatched.has(g)) ledgerProblems.push(`${g} is granted and not dispatched`);
+    /*
+     * A RELEASED grant is finished work, and finished work does not need a live
+     * dispatch row. This required a strict bijection, so the moment the
+     * generator stopped dispatching nine completed packet-build families --
+     * correctly, they were done -- F24 went red and stayed red across three
+     * Captain heads while three workers reported it. The dispatch would never
+     * have been able to shrink.
+     *
+     * An UNRELEASED grant with no dispatch is still a real leak and still
+     * caught: it means someone minted a grant without dispatching the lane that
+     * holds it, which is exactly how VF15, VF16 and VF17 came to hold eighteen
+     * live grants no assignment named.
+     */
+    const releasedGrants = new Set((ledger.claims ?? []).filter((c) => c.released === true).map(grantKey));
+    for (const g of granted) {
+      if (dispatched.has(g)) continue;
+      if (releasedGrants.has(g)) continue;
+      ledgerProblems.push(`${g} is granted, not dispatched, and not released`);
+    }
     if (ledger.generatedAtCommit !== master.minimumCaptainSha) ledgerProblems.push(`the ledger is pinned to ${ledger.generatedAtCommit} and the dispatch to ${master.minimumCaptainSha}`);
     if (!fs.existsSync(path.join(ROOT, CLAIM))) ledgerProblems.push("the claim mechanism the ledger names does not exist");
     /*
@@ -792,6 +810,16 @@ if (MUTATIONS) {
   const promptTarget = path.join(ROOT, PROMPTS, "PF01.md");
   const originalPrompt = fs.readFileSync(promptTarget);
   const firstPF = (j) => j.assignments.find((x) => x.lane === "packet-build" && x.items.length > 0);
+  /* Recompute the grant-set identity the way the ledger and claim.mjs do, so a
+   * mutation that legitimately adds or removes a grant is judged on the rule it
+   * is testing rather than on a digest it was never trying to break. */
+  const withClaimsDigest = (j) => ({
+    ...j,
+    claimsDigest: crypto.createHash("sha256")
+      .update(JSON.stringify(j.claims.map((c) => j.claimsDigestCovers.map((f) => c[f] ?? null))))
+      .digest("hex"),
+  });
+
   const cases = [
     { on: "active", id: "F1", name: "a family claimed by two builders is caught", mutate: (j) => { const b = j.assignments.filter((x) => x.lane === "packet-build" && x.items.length); b[1].items.push(b[0].items[0]); return j; } },
     { on: "active", id: "F2", name: "two lanes owning one path is caught", mutate: (j) => { const b = j.assignments.filter((x) => x.lane === "packet-build" && x.items.length); b[1].ownedPaths.push(b[0].ownedPaths[1]); return j; } },
@@ -829,6 +857,12 @@ if (MUTATIONS) {
     { on: "stale", id: "F26", name: "dropping every legal finding is caught by the master queue still holding them", mutate: (j) => { j.rows = j.rows.map((r) => (r.destination === "LEGAL" ? { ...r, destination: "SOURCE" } : r)); return j; } },
     { on: "ledger", id: "F24", name: "one family granted to two verifiers is caught", mutate: (j) => { const v = j.claims.filter((c) => c.laneKind === "independent-verification"); v[1] = { ...v[1], familyId: v[0].familyId }; j.claims = j.claims.map((c) => (c === v[1] ? v[1] : c)); j.claims.push({ ...v[0], lane: "VF99" }); return j; } },
     { on: "ledger", id: "F24", name: "a dispatched family missing from the ledger is caught", mutate: (j) => { j.claims.shift(); return j; } },
+    /* Both of these ADD a grant, which moves claimsDigest, and F24 checks the
+     * digest too. Without recomputing it the "caught" case would be caught for
+     * the wrong reason and the "stays green" case could never stay green, so
+     * neither would say anything about the dispatch rule under test. */
+    { on: "ledger", id: "F24", name: "an unreleased grant no assignment dispatches is caught", mutate: (j) => withClaimsDigest({ ...j, claims: [...j.claims, { ...j.claims[0], subjectId: "not-a-dispatched-family-set", familyId: "not-a-dispatched-family-set", lane: "VF98", released: false, releasedAt: null }] }) },
+    { on: "ledger", id: "F24", expectPass: true, name: "a released grant off the dispatch stays green", mutate: (j) => withClaimsDigest({ ...j, claims: [...j.claims, { ...j.claims[0], subjectId: "a-finished-family-set", familyId: "a-finished-family-set", lane: "VF97", released: true, releasedAt: "2026-09-01T00:00:00Z" }] }) },
     { on: "ledger", id: "F24", name: "a ledger pinned to a different commit than the dispatch is caught", mutate: (j) => { j.generatedAtCommit = "0123456789abcdef0123456789abcdef01234567"; return j; } },
     { on: "raster", id: "F25", name: "a rasterizer that hardcodes its browser path again is caught", mutateText: (t) => t.replace("export function resolveChromium", "function resolveChromiumInternal") },
     { on: "prompt", id: "F25", name: "a prompt telling a worker to use pdftoppm is caught", mutateText: (t) => `${t}\n\nRender the pages with pdftoppm -r 72 if Chromium is unavailable.\n` },
@@ -872,8 +906,26 @@ if (MUTATIONS) {
     { on: "prompt", id: "F30", name: "a builder prompt that drops the not-a-blocker rule is caught", mutateText: (t) => t.replace(/not a source blocker and it is not a legal blocker/i, "a blocker") }
   ];
   let undetected = 0;
+  let unprovable = 0;
+  /*
+   * A mutation judged against an ALREADY-FAILING check proves nothing. F24 was
+   * red at baseline for eighteen undispatched grants, and every F24 case
+   * therefore reported "detected" no matter what it mutated -- including one
+   * deliberately written to stay green, which reported OVER-CAUGHT. Seven
+   * cases were reading as evidence while testing nothing.
+   *
+   * So the baseline is measured first, and any case whose check is already red
+   * is reported UNPROVABLE rather than counted either way.
+   */
+  const baselineFailed = new Set(run().failed.map((f) => f.id));
+  if (baselineFailed.size) console.log(`  baseline: ${[...baselineFailed].sort().join(", ")} already failing — cases for those checks cannot be judged\n`);
   try {
     for (const c of cases) {
+      if (baselineFailed.has(c.id)) {
+        console.log(`  UNPROVABLE  [${c.id}] ${c.name} — this check is red before the mutation`);
+        unprovable += 1;
+        continue;
+      }
       /* A target is JSON or it is source. The harness assumed JSON for
        * everything but the prompt, so the first source-file mutation --
        * breaking the rasterizer's resolver on purpose -- died in JSON.parse
@@ -889,6 +941,17 @@ if (MUTATIONS) {
       } catch { caught = true; }
       if (c.on === "prompt") fs.writeFileSync(promptTarget, originalPrompt);
       else fs.writeFileSync(targets[c.on], originals[c.on]);
+      /*
+       * Most cases prove the check CATCHES something. A few prove it does not
+       * over-catch: when a check is narrowed -- F24 was narrowed to exempt
+       * released grants -- the exemption itself needs a subject, or the
+       * narrowing is free to widen into a hole and no case would notice.
+       */
+      if (c.expectPass) {
+        console.log(`  ${caught ? "OVER-CAUGHT" : "stayed green"} [${c.id}] ${c.name}`);
+        if (caught) undetected += 1;
+        continue;
+      }
       console.log(`  ${caught ? "detected " : "MISSED   "} [${c.id}] ${c.name}`);
       if (!caught) undetected += 1;
     }
@@ -899,7 +962,9 @@ if (MUTATIONS) {
   const restored = Object.entries(targets).every(([k, p]) => fs.readFileSync(p).equals(originals[k]))
     && fs.readFileSync(promptTarget).equals(originalPrompt);
   console.log(`\n  every mutated file restored byte-for-byte: ${restored}`);
+  if (unprovable) console.log(`  ${unprovable} case(s) unprovable: their check was already failing.`);
   if (!restored || undetected > 0) { console.error("the factory verifier proves less than it claims."); process.exit(1); }
+  if (unprovable) { console.error(`\n${unprovable} case(s) could not be judged because their check is red at baseline. Fix the baseline, then this suite means something.`); process.exit(1); }
   console.log(`\nOK factory mutations — ${cases.length} case(s), every mutation caught.`);
 }
 
