@@ -1,0 +1,91 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+  "assignmentId": "PF09",
+  "workerId": "PF-C",
+  "lane": "packet-build",
+  "engine": "Claude 9h worker (normal Git; commits and pushes to claude/9h-pf-c)",
+  "shiftBaseSha": "09b741ad00be0d630bd73a72f66640294abab397",
+  "takenAfter": "the static queue PF12-PF16, as the Captain's nextLaneByWorker assignment for PF-C",
+  "familiesAssigned": 1,
+  "preflight": {
+    "laneGate": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 2 not applicable",
+    "rowGate": "PACKET_BUILD_ENVIRONMENT_READY: 15/15 passed"
+  },
+  "selfVerification": "none. The counters below are the builder's own count using the repository's own contract functions, not a verdict.",
+  "rows": [
+    {
+      "itemId": "me-seal-prost-set",
+      "status": "COMPLETED",
+      "jurisdiction": "ME",
+      "routeKey": "track:ME:me-seal-prost",
+      "statutoryAuthority": "15 M.R.S. § 2261; Maine Judicial Branch form CR-289 (Rev. 10/24)",
+      "implementationStrategy": "official_pdf_fill",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/me/me-seal-prost-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-me-seal-prost-set.mjs",
+      "sourcesBound": [
+        {
+          "sourceId": "official-form:CR-289",
+          "pathInArchive": "STATES/ME/05_SOURCE_GATED/ME__SOURCE-GATED__CR-289__ada-notice-the-maine-judicial-branch-complies-with-the-americans-with-disabilities-act-ada__REV-2024-10__EN.pdf",
+          "sha256": "bbf89387690d1ab17984c5b799366a26196e8d71b5172bc2768f593b819a7423",
+          "byteLength": 166837
+        }
+      ],
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersBasis": "reports/completeness-counters.json — computed with scripts/rcap-packet-completeness/completeness-contract.mjs",
+      "fields": {
+        "total": 14,
+        "written": 6,
+        "requiredBeforeFiling": 2,
+        "participantElections": 3,
+        "protectedOrAttorney": 3
+      },
+      "componentsRendered": [
+        "primary_filing"
+      ],
+      "artifacts": [
+        {
+          "fixture": "cr289-canonical",
+          "file": "data/rcap-all50/overlays/census-v1/me/me-seal-prost-set--official-pdf-fill/fixtures/cr289-canonical-filled.pdf",
+          "sha256": "ce2e6bde63ac9524927ace30a128938174ff79db091ec8db26a4ad3d307daaf7",
+          "byteLength": 175252,
+          "pageCount": 1,
+          "rasterPages": 1
+        },
+        {
+          "fixture": "cr289-boundary",
+          "file": "data/rcap-all50/overlays/census-v1/me/me-seal-prost-set--official-pdf-fill/fixtures/cr289-boundary-filled.pdf",
+          "sha256": "c56d43ba1b2341526fa7b7c17115b77435a1e030f70e2dfc93c76815f9cc2695",
+          "byteLength": 175334,
+          "pageCount": 1,
+          "rasterPages": 1
+        }
+      ],
+      "notableDecisions": [
+        "The source was resolved by state plus form number rather than by assetClass. The corpus files CR-289 under 05_SOURCE_GATED with assetClass SOURCE-GATED, and under a filename naming the ADA notice printed in small type at the foot of the page rather than the motion the page is. The SHA-256 binding is unchanged and the misfiling is raised as a finding rather than worked around silently.",
+        "Three of the form's widgets are named after the wrong thing: the conviction-date box is named after the sentence that follows it, the signature widget is named `undefined`, and the two mailing-address lines are named `1` and `2`. Every caption used here is read off the printed page at the widget's own coordinate rather than from the widget name, and each mismatch is recorded in the field census.",
+        "CR-289's two substantive assertions — the one-year waiting period and the absence of a disqualifying trafficking or prostitution conviction — are printed as numbered paragraphs with no control beside either. Signing the motion asserts them, so the instructions carry both in the form's own words and nothing is ticked."
+      ],
+      "correctionsMadeToThisRow": [
+        "An earlier revision of this builder recorded that CR-289 pre-prints X marks beside paragraphs 2 and 3. It does not. The claim came from the text extraction, where the paragraph numbers come back as \"î X\" and \"ï X\"; the page raster shows plain numbered paragraphs. The builder header, the participant instructions, the route-selection note and the build finding were all corrected, and the correction is recorded here rather than dropped."
+      ],
+      "findingsRaisedForOthers": [
+        "CR-289 is filed in the corpus as SOURCE-GATED under 05_SOURCE_GATED, and its filename names the ADA notice rather than the motion. A resolver that filters on assetClass === \"FORM\" reports BLOCKED_SOURCE for a form that is present and binds exactly. The corpus index is outside this lane's owned paths and was read, never edited.",
+        "The printed text stream carries U+0092 where a reader sees an apostrophe, which any caption check against this form has to allow for.",
+        "The boundary participant's name carries a typographic apostrophe (U+2019) and the finalized bytes carry the name without it. The behaviour is in the shared finalizer's font encoding and reproduces across every family in this factory that uses the same boundary fixture."
+      ],
+      "independentVerificationStatus": "PENDING",
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    }
+  ]
+}
