@@ -1,0 +1,479 @@
+{
+ "schemaVersion": "rcap-independent-verification-rows/v1",
+ "lane": "VF11",
+ "laneKind": "independent-verification",
+ "generatedAtBase": "09b741ad00be0d630bd73a72f66640294abab397",
+ "preflight": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
+ "overlayDirectoriesModified": 0,
+ "commercialRoutesOpened": 0,
+ "productionTouched": false,
+ "grantsNothing": "An independent PASS proves a packet is complete. It approves no output and opens no commercial route. A FAIL is a verdict and a repair assignment, never an edit; this lane wrote into no overlay directory and no build script.",
+ "rows": [
+  {
+   "itemId": "vt_seal_18_to_21-set",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill",
+   "proofObligations": {
+    "routeIdentity": {
+     "result": "PASS",
+     "finding": "Every artifact in the family declares the same familyId, the same routeSelectionId and the same routeKeys, and the family directory is the one the route names.",
+     "evidence": {
+      "declaredFamilyIds": {
+       "receipt": {
+        "familyId": "vt_seal_18_to_21-set",
+        "routeSelectionId": "vt-seal-18-to-21-200-00130-complete-set",
+        "routeKeys": null
+       },
+       "wiring": null,
+       "fieldMap": {
+        "familyId": "vt_seal_18_to_21-set",
+        "routeSelectionId": "vt-seal-18-to-21-200-00130-complete-set",
+        "routeKeys": [
+         "obligation:track-pathway:VT:vt_seal_18_to_21:young-adult-sealing-for-offenses-committed-at-ages-18-21"
+        ]
+       },
+       "census": null,
+       "rendered": {
+        "familyId": "vt_seal_18_to_21-set",
+        "routeSelectionId": null,
+        "routeKeys": null
+       },
+       "writes": {
+        "familyId": "vt_seal_18_to_21-set",
+        "routeSelectionId": null,
+        "routeKeys": null
+       }
+      },
+      "familyIdAgreementAcrossArtifacts": true,
+      "routeSelectionIdAgreement": true,
+      "routeKeyAgreement": true,
+      "routeSelectionId": "vt-seal-18-to-21-200-00130-complete-set",
+      "routeKeys": [
+       "obligation:track-pathway:VT:vt_seal_18_to_21:young-adult-sealing-for-offenses-committed-at-ages-18-21"
+      ],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill"
+     }
+    },
+    "sourceIdentity": {
+     "result": "PASS",
+     "finding": "Every one of the 3 sources was rehashed from the Master Library bytes in this container; each recomputed SHA-256, byte length and committed corpus-index entry agrees with source-receipt.json.",
+     "evidence": [
+      {
+       "formNumber": "200-00130",
+       "pathInArchive": "STATES/VT/02_PACKET_FORMS/VT__FORM__200-00130__petition-to-seal-criminal-history__REV-2025-07__EN.pdf",
+       "recordedSha256": "ff914f49c2a78a8b96d48f1242b70ab12ff7cb25beeeb8b850505357fdf982ed",
+       "recomputedSha256": "ff914f49c2a78a8b96d48f1242b70ab12ff7cb25beeeb8b850505357fdf982ed",
+       "recordedByteLength": 1535506,
+       "byteLengthOnDisk": 1535506,
+       "committedIndexSha256": "ff914f49c2a78a8b96d48f1242b70ab12ff7cb25beeeb8b850505357fdf982ed",
+       "matched": true
+      },
+      {
+       "formNumber": "200-00132",
+       "pathInArchive": "STATES/VT/02_PACKET_FORMS/VT__FORM__200-00132__stipulation-to-seal-criminal-history-record-and-order__REV-2025-07__EN.pdf",
+       "recordedSha256": "088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2",
+       "recomputedSha256": "088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2",
+       "recordedByteLength": 1999317,
+       "byteLengthOnDisk": 1999317,
+       "committedIndexSha256": "088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2",
+       "matched": true
+      },
+      {
+       "formNumber": "600-00228",
+       "pathInArchive": "STATES/VT/04_SUPPORTING_PROCESS/VT__SUPPORT__600-00228__application-to-waive-filing-fees-and-service-costs__REV-2026-04__EN.pdf",
+       "recordedSha256": "263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654",
+       "recomputedSha256": "263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654",
+       "recordedByteLength": 2871072,
+       "byteLengthOnDisk": 2871072,
+       "committedIndexSha256": "263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654",
+       "matched": true
+      }
+     ]
+    },
+    "componentSet": {
+     "result": "PASS",
+     "finding": "The receipt, the field map, the field census and the rendered page manifest name the same document set, and every one of those documents appears in the rendered packet.",
+     "evidence": {
+      "receiptDocuments": [
+       "200-00130",
+       "200-00132",
+       "600-00228"
+      ],
+      "fieldMapDocuments": [
+       "200-00130",
+       "200-00132",
+       "600-00228"
+      ],
+      "censusDocuments": null,
+      "renderedPageManifestDocuments": [
+       "200-00130",
+       "200-00132",
+       "600-00228"
+      ],
+      "documentsCarryingWrites": [
+       null
+      ],
+      "missingFromRender": [],
+      "extraInRender": []
+     }
+    },
+    "knownPrefills": {
+     "result": "FAIL",
+     "finding": "One mapped known prefill is absent from the boundary artifact's bytes. participant.email is mapped to 200-00132 page 1 field \"34i\" (rect x395.69 y120.55 w174.74 h12.96) in both fixtures. The canonical artifact carries it: packet page 3 holds eight flattened widget appearances, the eighth reading \"jordan.reyes@example.org\". The boundary artifact carries only seven on the same page and the email is not among them, while the family's own report still records valuesReportedByFinalizer 8 for that document and fixture. The loss is silent — no refusal, no unfittable note, no finding. It is not a policy on long values either: the same boundary email, maria.alejandra.oshaughnessy.whitfield@longmailexample.org, is written and present on packet page 2 (200-00130) and packet page 5 (600-00228) of the same artifact.",
+     "evidence": {
+      "missingWrite": {
+       "formNumber": "200-00132",
+       "sourcePage": 1,
+       "field": "34i",
+       "factId": "participant.email",
+       "fixture": "boundary",
+       "rect": {
+        "x": 395.69,
+        "y": 120.55,
+        "width": 174.74,
+        "height": 12.96
+       }
+      },
+      "flattenedWidgetAppearancesReadFromArtifactBytes": {
+       "canonicalPage3": 8,
+       "boundaryPage3": 7,
+       "canonicalPage3Values": [
+        "123-4-21 Cncr",
+        "Jordan Avery Reyes",
+        "1991-04-17",
+        "42 Maple Street",
+        "Burlington, VT 05401",
+        "Jordan Avery Reyes",
+        "802-555-0142",
+        "jordan.reyes@example.org"
+       ],
+       "boundaryPage3Values": [
+        "1276-11-24 Frcr",
+        "Maria-Alejandra O’Shaughnessy-Whitfield",
+        "1968-12-31",
+        "1188 Upper Notch Crossing Road, Apartment 14B",
+        "South Burlington, Vermont 05403-2214",
+        "Maria-Alejandra O’Shaughnessy-Whitfield",
+        "(802) 555-0199 ext. 4417"
+       ]
+      },
+      "theSameValueSurvivesElsewhereInTheSameArtifact": [
+       {
+        "packetPage": 2,
+        "formNumber": "200-00130",
+        "value": "maria.alejandra.oshaughnessy.whitfield@longmailexample.org"
+       },
+       {
+        "packetPage": 5,
+        "formNumber": "600-00228",
+        "value": "maria.alejandra.oshaughnessy.whitfield@longmailexample.org"
+       }
+      ],
+      "familyReportStillClaimsTheWrite": {
+       "document": "200-00132",
+       "fixture": "boundary",
+       "valuesReportedByFinalizer": 8,
+       "writesActuallyPresent": 7
+      },
+      "method": "Every page of both artifacts was opened and its flattened widget appearance streams decoded byte-exactly in this lane; the counts and values above are read from the PDF bytes, not from reports/actual-writes.json.",
+      "reportTranscriptionObservation": "reports/actual-writes.json renders the boundary name as \"Maria-Alejandra OShaughnessy-Whitfield\", dropping the apostrophe. The bytes are correct: the appearance stream carries 0x92 (WinAnsi right single quotation mark) between O and S. The dropped character is a defect in the report's read-back transcription, not in the artifact, and no obligation is failed on it.",
+      "counts": {
+       "mappedWrites": {
+        "canonical": 24,
+        "boundary": 24
+       },
+       "writesProvedOnTheOutputBytes": {
+        "canonical": 24,
+        "boundary": 23
+       }
+      }
+     }
+    },
+    "requiredBeforeFiling": {
+     "result": "PASS",
+     "finding": "The field map declares no blank REQUIRED_BEFORE_FILING, so no such item needs naming. The instructions go further than the obligation asks and enumerate every blank the participant must supply, per form, per page, by the printed words beside the blank.",
+     "evidence": {
+      "declaredBlankDispositions": {},
+      "requiredBeforeFilingCount": 0,
+      "participantInstructionsBytes": 13233,
+      "instructionsEnumerateItemsPerForm": [
+       "200-00130 — Petition to Seal Criminal History",
+       "200-00132 — Stipulation",
+       "600-00228 — Application to Waive Filing Fees"
+      ]
+     }
+    },
+    "routeOptions": {
+     "result": "PASS",
+     "finding": "The map determines no election on this route: all twenty selection controls on 200-00130, 200-00132 and 600-00228 are refused as sworn assertions or legal elections only the participant may make, and none is marked on the bytes of either fixture. There is therefore no route-determined election left unselected.",
+     "evidence": {
+      "selectionControlsObserved": 20,
+      "dispositions": {
+       "explicit_refusal": 20
+      },
+      "routeDeterminedSelections": 0,
+      "selectionMarksProvedOnOutputBytes": 0,
+      "routeDeterminedSelectionsNotProvedMarked": [],
+      "method": "every selection control the map calls route-determined matched against the non-text marks read back from the final PDF bytes, in every fixture"
+     }
+    },
+    "repeatingRows": {
+     "result": "PASS",
+     "finding": "Writable anchors and withheld blanks were grouped into 3 baseline bands; 0 band(s) carry both ink and a blank, and in every one of those the blank carries an approved disposition. No row carries written cells beside a required cell left blank.",
+     "evidence": {
+      "bandsExamined": 3,
+      "bandsCarryingBothInkAndBlank": 0,
+      "bandsWithAnUnapprovedBlankBesideInk": 0,
+      "examples": []
+     }
+    },
+    "protectedFields": {
+     "result": "PASS",
+     "finding": "No signature, signature date, certificate of mailing, court-only or prosecutor-only field carries ink. Every write proved on the bytes of both artifacts binds one of seven participant facts — docket number, name, date of birth, street address, city/state/zip, phone and email. Reading the artifacts directly, the flattened widget appearances per page are 3, 5, 8 (7 in boundary), 0, 7 and 1, and every one of them is one of those participant values; the signature, date and State's Attorney blocks are flattened empty.",
+     "evidence": {
+      "protectedRulesDeclaredInTheMap": 0,
+      "note": "This family's field map declares no protectedRules array, so protection was measured from the artifacts rather than from a rule list.",
+      "factsWritten": [
+       "matter.case_number",
+       "participant.full_legal_name",
+       "participant.date_of_birth",
+       "participant.street_address",
+       "participant.city_state_zip",
+       "participant.phone",
+       "participant.email"
+      ],
+      "flattenedWidgetAppearancesPerPage": {
+       "canonical": [
+        3,
+        5,
+        8,
+        0,
+        7,
+        1
+       ],
+       "boundary": [
+        3,
+        5,
+        7,
+        0,
+        7,
+        1
+       ]
+      },
+      "signatureBlocksCarryingInk": 0,
+      "instructionCorroboration": "Sign and date each form yourself. The platform never signs for you and never dates a signature. Blank signature and date lines are deliberate."
+     }
+    },
+    "artifacts": {
+     "result": "PASS",
+     "finding": "Canonical and boundary artifact bytes were rehashed in this lane; both SHA-256 values and both byte lengths agree with reports/rendered-artifacts.json.",
+     "evidence": [
+      {
+       "fixture": "canonical",
+       "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill/fixtures/canonical.pdf",
+       "recordedSha256": "4884aef91eec3e1215e0db1b5ff9ebd69f02b8f415594a81eb824c4388af19ae",
+       "recomputedSha256": "4884aef91eec3e1215e0db1b5ff9ebd69f02b8f415594a81eb824c4388af19ae",
+       "recordedByteLength": 852609,
+       "byteLengthOnDisk": 852609,
+       "matched": true
+      },
+      {
+       "fixture": "boundary",
+       "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill/fixtures/boundary.pdf",
+       "recordedSha256": "1b8e24ec49bffc3d6967bed810bd5f18f69f9d994358a5024eff536ce7fb5502",
+       "recomputedSha256": "1b8e24ec49bffc3d6967bed810bd5f18f69f9d994358a5024eff536ce7fb5502",
+       "recordedByteLength": 853033,
+       "byteLengthOnDisk": 853033,
+       "matched": true
+      }
+     ]
+    },
+    "pageOrder": {
+     "result": "PASS",
+     "finding": "For each fixture the packet page numbers run 1..N with no gap, N equals the page count read from the PDF bytes and the count the record names, the document blocks appear in receipt order, source pages ascend inside each block, and one raster page exists per packet page.",
+     "evidence": [
+      {
+       "fixture": "canonical",
+       "manifestPages": 6,
+       "recordedPageCount": 6,
+       "pageCountReadFromPdfBytes": 6,
+       "packetPagesContiguousFromOne": true,
+       "documentOrderMatchesReceipt": true,
+       "sourcePagesAscendWithinEachDocument": true,
+       "manifestDocumentOrder": [
+        "200-00130",
+        "200-00132",
+        "600-00228"
+       ],
+       "receiptDocumentOrder": [
+        "200-00130",
+        "200-00132",
+        "600-00228"
+       ],
+       "rasterPagesOnDisk": 6,
+       "matched": true
+      },
+      {
+       "fixture": "boundary",
+       "manifestPages": 6,
+       "recordedPageCount": 6,
+       "pageCountReadFromPdfBytes": 6,
+       "packetPagesContiguousFromOne": true,
+       "documentOrderMatchesReceipt": true,
+       "sourcePagesAscendWithinEachDocument": true,
+       "manifestDocumentOrder": [
+        "200-00130",
+        "200-00132",
+        "600-00228"
+       ],
+       "receiptDocumentOrder": [
+        "200-00130",
+        "200-00132",
+        "600-00228"
+       ],
+       "rasterPagesOnDisk": 6,
+       "matched": true
+      }
+     ]
+    },
+    "clippingAndOverlap": {
+     "result": "PASS",
+     "finding": "No ink falls outside a measured write box: the out-of-box glyph count read from the output bytes is zero for every document and fixture, and no write box falls outside its page. Two write boxes on 200-00132 page 1 — fields 34e and 34f, the street line and the city/state/zip line — share 1.55pt of vertical extent over 242.16pt of width. Those are the official form's own AcroForm widget rects, read first-hand from the pinned binary, and adjacent address lines abutting by a point and a half place no ink outside either box. It is recorded here as an observation, not a failure.",
+     "evidence": {
+      "pageGeometryAvailable": false,
+      "writeBoxesOutsideThePageBox": 0,
+      "outside": [],
+      "overlappingWriteBoxPairsOnTheSamePage": 2,
+      "overlaps": [
+       {
+        "where": "canonical|200-00132|p1",
+        "a": "34e",
+        "b": "34f",
+        "xOverlap": 242.16,
+        "yOverlap": 1.55
+       },
+       {
+        "where": "boundary|200-00132|p1",
+        "a": "34e",
+        "b": "34f",
+        "xOverlap": 242.16,
+        "yOverlap": 1.55
+       }
+      ],
+      "strayInkReadFromOutputBytes": [
+       {
+        "fixture": "canonical",
+        "formNumber": "200-00130",
+        "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+       },
+       {
+        "fixture": "canonical",
+        "formNumber": "200-00132",
+        "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+       },
+       {
+        "fixture": "canonical",
+        "formNumber": "600-00228",
+        "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+       },
+       {
+        "fixture": "boundary",
+        "formNumber": "200-00130",
+        "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+       },
+       {
+        "fixture": "boundary",
+        "formNumber": "200-00132",
+        "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+       },
+       {
+        "fixture": "boundary",
+        "formNumber": "600-00228",
+        "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+       }
+      ],
+      "totalStrayGlyphs": 0,
+      "method": "every proved write box checked against the census page box where a census exists, then against every other write box on the same page of the same fixture, then the finalizer's own out-of-box glyph count read from the output bytes"
+     }
+    },
+    "filingDestination": {
+     "result": "PASS",
+     "finding": "The instructions name the destination and say how to identify the unit. \"File the completed packet with the Vermont Superior Court, Criminal Division, in the unit where your case was decided\", followed by the direction that the docket number identifies the unit and that the clerk of any Superior Court unit can name it from the docket number.",
+     "evidence": {
+      "matchedText": "File the completed packet with the **Vermont Superior Court, Criminal Division**, in the unit where your case was decided.",
+      "unitIdentificationGuidance": "If you do not know which unit decided your case, the docket number on your paperwork identifies it, and the clerk of any Superior Court unit can tell you from the docket number.",
+      "note": "VERMONT_REPAIR.json records VF01 and VF02 failing this obligation on the earlier instruction text. The 'Where you file this' section is present at this base, and this lane scores it on the text as it now stands."
+     }
+    },
+    "feeAndWaiver": {
+     "result": "FAIL",
+     "finding": "The fee is not stated and no waiver route is established. The instructions say so themselves: \"The filing fee, and whether it can be waived. Ask the clerk of the unit above what the fee is for a petition to seal under 13 V.S.A. § 7602, and whether the fee-waiver application in this packet applies. The waiver form is included; the amount it waives is not stated here.\" The waiver form 600-00228 is in the packet and filled, which is more than nothing, but the packet does not establish that it applies to this filing, and an instruction to ask the clerk is not the fee being stated.",
+     "evidence": {
+      "feeAmountStated": false,
+      "waiverRouteStated": false,
+      "waiverFormIncludedAndFilled": "600-00228",
+      "instructionText": "**The filing fee, and whether it can be waived.** Ask the clerk of the unit above what the fee is for a petition to seal under 13 V.S.A. § 7602, and whether the fee-waiver application in this packet applies. The waiver form is included; the amount it waives is not stated here.",
+      "openSourceObligations": [
+       "vt_seal_18_to_21-set::filing-fee-and-waiver-route"
+      ],
+      "dispatchedTo": "docs/rcap/grade-a/packet-factory-24h/vermont-repair/VTR02_VT_FEE_AND_SERVICE_SOURCE.md",
+      "note": "This is an open source obligation, already dispatched. The repair is to land the sourced fact, not to have a packet lane infer a fee."
+     }
+    },
+    "service": {
+     "result": "FAIL",
+     "finding": "Who must be served, and how, is not stated. The instructions say: \"Who must be served, and how. Ask the same clerk who must receive a copy of the petition and by what method. The stipulation route needs the State's Attorney's signature, which is not the same thing as service and does not substitute for it.\" The packet correctly refuses to conflate the prosecutor's signature with service, and correctly declines to invent a rule, but neither a recipient nor a method is stated.",
+     "evidence": {
+      "recipientStated": false,
+      "methodStated": false,
+      "openSourceObligations": [
+       "vt_seal_18_to_21-set::service-recipient-and-method"
+      ],
+      "instructionText": "**Who must be served, and how.** Ask the same clerk who must receive a copy of the petition and by what method. The stipulation route needs the State's Attorney's signature, which is not the same thing as service and does not substitute for it.",
+      "dispatchedTo": "docs/rcap/grade-a/packet-factory-24h/vermont-repair/VTR02_VT_FEE_AND_SERVICE_SOURCE.md",
+      "note": "This is an open source obligation, already dispatched. The repair is to land the sourced fact, not to have a packet lane infer a service rule."
+     }
+    },
+    "selfHelpStop": {
+     "result": "PASS",
+     "finding": "The packet states where it stops, in three places. It says which facts it filled and that everything else is the participant's; it says the platform never signs and never dates a signature; and it says outright that the fee and the service rule are not established here, because writing an unsourced figure into a filing instruction would be worse than leaving it out. The control plane repeats the boundary: the family is BUILT_REVIEW_PENDING with generation and runtime selection off and output-level legal approval still required.",
+     "evidence": {
+      "instructionBoundaries": [
+       "The platform filled in what it knows about you: your name, your date of birth, your address, your phone, your email and your docket number. Everything else on these forms is yours to complete.",
+       "Sign and date each form yourself. The platform never signs for you and never dates a signature. Blank signature and date lines are deliberate.",
+       "Two things this packet does not tell you, because they are not established here and writing an unsourced figure into a filing instruction would be worse than leaving it out."
+      ]
+     }
+    }
+   },
+   "standardApplied": {
+    "measuredHere": "Every obligation below was measured in this lane from the committed artifacts and, for source identity, from the Master Library bytes. No counter was copied from a builder report; where a builder report is cited it is cited as the thing being checked, not as the answer.",
+    "filingDestination": "Met when the participant-facing instructions name the court or agency the route names. A prefilled caption that identifies a court type is recorded as evidence but is not on its own the instructions naming a destination.",
+    "feeAndWaiver": "Met when the packet states the filing fee AND a waiver route. A fee printed on a form the packet fills and selects counts as stated; an instruction to ask someone what the fee is does not.",
+    "service": "Met when the packet states who must be served and by what method. An instruction to confirm service requirements with the court does not.",
+    "selfHelpStop": "Met when the packet states where the platform stops and the participant or a lawyer takes over — which facts it will not supply, which fields it will not sign, and that the artifact carries no approval.",
+    "contractNote": "data/rcap-grade-a/packet-factory-24h/VERMONT_REPAIR.json records that filingDestination was scored FAIL by two verifiers and PASS by a third on identical bytes, and calls that a verification-contract defect for Captain. The standard this lane applied is stated above so the difference is legible rather than silent."
+   },
+   "evidenceRead": [
+    "data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill/source-receipt.json",
+    "data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill/production-field-map.json",
+    "data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill/reports/actual-writes.json",
+    "data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill/build-status.json",
+    "data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill/approval-request.json",
+    "data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill",
+    "data/rcap-all50/local-source-corpus-index.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)",
+    "data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill/fixtures/canonical.pdf",
+    "data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill/fixtures/boundary.pdf",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (Master Library bytes; git-ignored, recovered at this container from release source-corpus-2026-08-28, archive sha256 a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89)",
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/stale-artifact-block.json",
+    "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
+    "data/rcap-grade-a/packet-factory-24h/VERMONT_REPAIR.json",
+    "docs/rcap/grade-a/packet-factory-24h/vermont-repair/VTR02_VT_FEE_AND_SERVICE_SOURCE.md"
+   ]
+  }
+ ]
+}
