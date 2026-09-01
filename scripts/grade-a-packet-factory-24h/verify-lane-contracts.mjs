@@ -234,6 +234,57 @@ check("L8", "no family holds a raster receipt while its builder stamps the wall 
   builders.length > 0 && unstampedWithReceipt.length === 0,
   `${builders.length} builder(s) scanned; ${unstamped.length} create a PDF with no fixed date; ${unstampedWithReceipt.length} of those hold a RASTER_PASS: ${unstampedWithReceipt.slice(0, 4).join(", ")}`);
 
+/* ---- L9. the strongest verdict requires the whole obligation set ---------- */
+/*
+ * VF15 and VF16 read nine Washington families off one host and returned
+ * opposite verdicts: four FAIL_REPAIR_REQUIRED and five
+ * PASS_COMPLETE_INDEPENDENT. The packets are materially identical and the
+ * verifiers were both careful. They disagreed because they scored DIFFERENT
+ * OBLIGATION SETS -- VF15 ran all fifteen proof obligations and failed four of
+ * them; VF16 ran the nine completeness counters, and FILING_DESTINATION,
+ * FEE_AND_WAIVER, SERVICE, SELF_HELP_STOP and ROUTE_OPTIONS appear nowhere in
+ * its return. All five of VF16's families ship no participant-instructions.md,
+ * which is exactly what failed VF15's four.
+ *
+ * Nothing was promoted -- the master queue holds all nine as
+ * FAIL_REPAIR_REQUIRED -- so this is a near miss rather than a loss. It is
+ * still the shape that promotes a family it should not: the strongest verdict
+ * in the vocabulary, awarded over a narrower reading, indistinguishable in the
+ * record from one awarded over the whole.
+ *
+ * A verifier may always score less and say so. What it may not do is call the
+ * result PASS_COMPLETE_INDEPENDENT.
+ */
+const PROOF_OBLIGATIONS = [
+  "ROUTE_IDENTITY", "SOURCE_IDENTITY", "COMPONENT_SET", "KNOWN_PREFILLS",
+  "REQUIRED_BEFORE_FILING", "ROUTE_OPTIONS", "REPEATING_ROWS", "PROTECTED_FIELDS",
+  "ARTIFACTS", "PAGE_ORDER", "CLIPPING_AND_OVERLAP", "FILING_DESTINATION",
+  "FEE_AND_WAIVER", "SERVICE", "SELF_HELP_STOP",
+];
+const verdictProblems = [];
+let passRowsSeen = 0;
+const factoryDir = path.join(ROOT, DIR);
+const laneDirs = fs.existsSync(factoryDir)
+  ? fs.readdirSync(factoryDir).filter((x) => fs.existsSync(path.join(factoryDir, x, "rows.json")))
+  : [];
+for (const lane of laneDirs) {
+  let doc;
+  try { doc = JSON.parse(fs.readFileSync(path.join(factoryDir, lane, "rows.json"), "utf8")); } catch { continue; }
+  if (doc.laneKind && doc.laneKind !== "independent-verification") continue;
+  const scored = new Set(JSON.stringify(doc).match(/[A-Z][A-Z_]{4,}/g) ?? []);
+  for (const row of doc.rows ?? []) {
+    if (row.verdict !== "PASS_COMPLETE_INDEPENDENT") continue;
+    passRowsSeen += 1;
+    const unscored = PROOF_OBLIGATIONS.filter((o) => !scored.has(o));
+    if (unscored.length) {
+      verdictProblems.push(`${lane}/${row.itemId ?? "a row"} claims PASS_COMPLETE_INDEPENDENT without scoring ${unscored.length} obligation(s): ${unscored.slice(0, 5).join(", ")}`);
+    }
+  }
+}
+check("L9", "a PASS_COMPLETE_INDEPENDENT verdict scored every proof obligation, not a subset of them",
+  verdictProblems.length === 0,
+  `${laneDirs.length} lane return(s), ${passRowsSeen} PASS row(s); ${verdictProblems.length} problem(s): ${verdictProblems.slice(0, 2).join(" | ")}`);
+
 /* ---- L6. a gate nobody can run may not be treated as one that passed ----- */
 /*
  * The raster workflow is dispatchable only from the default branch -- that is
@@ -345,6 +396,16 @@ if (MUTATIONS) {
       edit: (t) => t.replace(/^\s*stampDeterministic\([^)]*\);\s*$/m, "") },
     { name: "dropping a row's coverage declaration is caught", id: "L7", file: `${DIR}/RASTER_QUEUE.json`,
       edit: (t) => { const j = JSON.parse(t); delete j.rows[0].coverage; return `${JSON.stringify(j, null, 2)}\n`; } },
+    /* Restores the verdict Captain withdrew. Its subject is built rather than
+     * found: every PASS row in the tree now scores the full set, so a case that
+     * looked for a narrow one would have nothing to mutate. */
+    { name: "the strongest verdict awarded over a subset of the obligations is caught", id: "L9",
+      file: `${DIR}/vf16/rows.json`,
+      edit: (t) => { const j = JSON.parse(t);
+        const r = (j.rows ?? []).find((x) => x.verdictClaimedByLane === "PASS_COMPLETE_INDEPENDENT");
+        if (!r) return t;
+        r.verdict = "PASS_COMPLETE_INDEPENDENT";
+        return `${JSON.stringify(j, null, 2)}\n`; } },
     /* Makes a row partial and then has it claim completeness. Searching for an
      * existing partial row worked only while eleven existed; once every row
      * rendered its whole set there was nothing to find and the case reported
