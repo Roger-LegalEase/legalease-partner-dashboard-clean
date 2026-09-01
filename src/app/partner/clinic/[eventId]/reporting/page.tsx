@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { ClinicReportingDashboard } from "@/components/clinic-mode/ClinicReportingDashboard";
+import { ClinicReportExportButton } from "@/components/clinic-mode/ClinicReportExportButton";
 import { getClinicEventReport } from "@/lib/clinic-mode/reporting-service";
 import { ClinicServiceError, requireClinicPartnerAdmin } from "@/lib/clinic-mode/service";
 import { parseEventId } from "@/lib/clinic-mode/validation";
@@ -20,6 +21,7 @@ export default async function PartnerClinicReportingPage({ params }: { params: P
           <p className="text-xs font-black uppercase tracking-[0.2em] text-[#127256]">Authorized event summary</p>
           <h1 className="mt-3 text-4xl font-black">{report.eventName} reporting</h1>
           <p className="mt-3 max-w-3xl text-sm leading-6 text-[#5C5750]">Operational totals only. Participant and matter identities are excluded before this report is returned.</p>
+          <div className="mt-5"><ClinicReportExportButton eventId={eventId} /></div>
         </header>
         <ClinicReportingDashboard report={report} />
       </div>

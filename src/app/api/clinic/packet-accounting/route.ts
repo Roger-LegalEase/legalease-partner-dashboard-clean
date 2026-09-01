@@ -3,12 +3,14 @@ import { clinicErrorResponse } from "@/app/api/clinic/error-response";
 import { reserveClinicPacketCredit } from "@/lib/clinic-mode/reporting-service";
 import { parseEventId } from "@/lib/clinic-mode/validation";
 import { getServerAuthState } from "@/lib/supabase/auth-server";
+import { assertClinicMutationRequest } from "@/lib/clinic-mode/request-security";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function POST(request: NextRequest) {
   try {
+    assertClinicMutationRequest(request);
     const auth = await getServerAuthState();
     if (!auth.isAuthenticated) return NextResponse.json({ success: false, error: "Sign in to reserve sponsored packet generation." }, { status: 401 });
     const body = await request.json() as { renderJobId?: unknown };

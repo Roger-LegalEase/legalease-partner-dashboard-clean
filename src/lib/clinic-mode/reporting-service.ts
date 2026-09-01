@@ -24,6 +24,18 @@ export async function getClinicEventReport(eventId: string): Promise<ClinicEvent
   return normalizeReport(result.data as Record<string, unknown>);
 }
 
+export async function exportClinicEventReport(eventId: string): Promise<ClinicEventReport> {
+  const actorUserId = await authenticatedUserId();
+  const result = await requireDatabase().rpc("clinic_export_event_report", {
+    p_event_id: eventId,
+    p_actor_user_id: actorUserId
+  });
+  if (result.error || !result.data || typeof result.data !== "object") {
+    throw readError(result.error?.message, "Clinic reporting export is unavailable.");
+  }
+  return normalizeReport(result.data as Record<string, unknown>);
+}
+
 export async function listClinicFollowUps(eventId: string): Promise<ClinicFollowUp[]> {
   const actorUserId = await authenticatedUserId();
   const result = await requireDatabase().rpc("clinic_get_follow_ups", {

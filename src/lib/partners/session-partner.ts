@@ -2,7 +2,7 @@ import "server-only";
 
 import { createServerSupabaseAuthClient } from "@/lib/supabase/auth-server";
 
-export type PartnerUserRole = "partner_admin" | "partner_staff";
+export type PartnerUserRole = "partner_admin" | "partner_staff" | "partner_viewer";
 export type InternalAdminRole = "internal_admin";
 
 export type SessionPartner =
@@ -131,5 +131,5 @@ export async function requireInternalAdminSession() {
 }
 
 function isPartnerRole(role: string): role is PartnerUserRole {
-  return role === "partner_admin" || role === "partner_staff";
+  return role === "partner_admin" || role === "partner_staff" || role === "partner_viewer";
 }

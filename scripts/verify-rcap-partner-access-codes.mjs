@@ -464,5 +464,18 @@ function verifySourceWiring() {
   assert(codesErrorResponse.includes("export function accessCodeErrorResponse"), "Moved error mapper must remain directly covered.");
   assert(codesErrorResponse.includes("instanceof PartnerAccessCodeError"), "Moved error mapper must preserve typed error handling.");
   assert(toggleRoute.includes("resolveAuthorizedPartnerSlug"), "Code toggle must resolve an authorized partner slug.");
-  assert(lib.includes('.eq("partner_slug", slug) // never allow cross-partner mutation'), "Toggle must be scoped to the owning partner slug.");
+  assert(lib.includes('supabase.rpc("set_partner_access_code_lifecycle"'), "Toggle must use the tenant-bound lifecycle RPC.");
+  assert(lib.includes("p_partner_slug: slug"), "Lifecycle transition must bind the owning partner slug.");
+  assert(codesRoute.includes("requireAdministrator: true"), "Code creation must require partner administrator authority.");
+  assert(toggleRoute.includes("requireAdministrator: true"), "Code lifecycle changes must require partner administrator authority.");
+  assert(codesRoute.includes("isSameOriginPartnerMutation"), "Code creation must enforce same-origin mutation boundaries.");
+  assert(toggleRoute.includes("isSameOriginPartnerMutation"), "Code lifecycle changes must enforce same-origin mutation boundaries.");
+  assert(toggleRoute.includes('body.lifecycleStatus === "revoked"'), "Code lifecycle route must expose irreversible revocation.");
+  const launchRailsMigration = read("supabase/migrations/20260901160000_rcap_partner_team_authority.sql");
+  assert(launchRailsMigration.includes("enforce_partner_access_code_screening_scope"), "Jurisdiction scope must be enforced in the screening-session transaction.");
+  assert(launchRailsMigration.includes("new.program_id := v_code.program_id"), "Program scope must be server-derived during code redemption.");
+  assert(launchRailsMigration.includes("new.event_id := v_code.event_id"), "Event scope must be server-derived during code redemption.");
+  assert(launchRailsMigration.includes("partner_access_code_event_scope_denied"), "Cross-tenant event scope must be rejected in the database.");
+  assert(launchRailsMigration.includes("already_revoked"), "Revoked codes must not be reactivated.");
+  assert(launchRailsMigration.includes("partner_not_launch_ready"), "Access-code activation must fail before authoritative launch readiness.");
 }

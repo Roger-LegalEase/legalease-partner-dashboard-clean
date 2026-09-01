@@ -315,7 +315,7 @@ export async function importKnownPartnerData(
       .select("id, invited_email, role")
       .eq("partner_slug", context.partnerSlug)
       .eq("status", "active")
-      .in("role", ["partner_admin", "partner_staff"])
+      .in("role", ["partner_admin", "partner_staff", "partner_viewer"])
       .order("created_at", { ascending: true }),
     admin
       .from("partner_onboarding_prefill_values")

@@ -3,6 +3,7 @@ import { listClinicQueue, transitionClinicQueueCase } from "@/lib/clinic-mode/pa
 import type { ClinicQueueCase } from "@/lib/clinic-mode/types";
 import { parseEventId } from "@/lib/clinic-mode/validation";
 import { clinicErrorResponse } from "@/app/api/clinic/error-response";
+import { assertClinicMutationRequest } from "@/lib/clinic-mode/request-security";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -16,6 +17,7 @@ export async function GET(_request: NextRequest, { params }: { params: Promise<{
 
 export async function PATCH(request: NextRequest, { params }: { params: Promise<{ eventId: string }> }) {
   try {
+    assertClinicMutationRequest(request);
     const { eventId } = await params;
     const body = await request.json() as { caseId?: unknown; queueStatus?: unknown };
     if (typeof body.caseId !== "string" || typeof body.queueStatus !== "string" || !statuses.includes(body.queueStatus as ClinicQueueCase["queueStatus"])) throw new Error("invalid queue transition");

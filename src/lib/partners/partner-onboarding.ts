@@ -254,7 +254,7 @@ export async function getOnboarding(partnerSlug: string): Promise<PartnerOnboard
     supabase.from("partner_records").select("id").eq("partner_slug", slug).maybeSingle(),
     getPartnerAccessMode(slug),
     supabase.from("partner_access_codes").select("id", { count: "exact", head: true }).eq("partner_slug", slug).eq("is_active", true),
-    supabase.from("partner_users").select("id", { count: "exact", head: true }).eq("partner_slug", slug).eq("status", "active").in("role", ["partner_admin", "partner_staff"])
+    supabase.from("partner_users").select("id", { count: "exact", head: true }).eq("partner_slug", slug).eq("status", "active").in("role", ["partner_admin", "partner_staff", "partner_viewer"])
   ]);
 
   // Packet capacity comes from the canonical packet entitlement, never from the

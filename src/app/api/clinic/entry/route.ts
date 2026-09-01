@@ -1,11 +1,15 @@
 import { createHash, randomBytes } from "node:crypto";
 import { NextRequest, NextResponse } from "next/server";
+import { isSameOriginClinicMutation } from "@/lib/clinic-mode/request-security";
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function POST(request: NextRequest) {
+  if (!isSameOriginClinicMutation(request)) {
+    return NextResponse.json({ success: false, error: "Invalid request origin." }, { status: 403 });
+  }
   const body = await request.json().catch(() => null) as { eventSlug?: unknown; code?: unknown } | null;
   const eventSlug = typeof body?.eventSlug === "string" && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(body.eventSlug) ? body.eventSlug : "";
   const normalizedCode = typeof body?.code === "string" ? body.code.normalize("NFKC").trim().toUpperCase() : "";

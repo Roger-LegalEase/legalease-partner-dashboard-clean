@@ -3,7 +3,7 @@ import "server-only";
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
 import { getPartnerAppBaseUrl } from "@/lib/app-url";
 
-export const addPartnerUserRoles = ["partner_admin", "partner_staff"] as const;
+export const addPartnerUserRoles = ["partner_admin", "partner_staff", "partner_viewer"] as const;
 
 export type AddPartnerUserRole = (typeof addPartnerUserRoles)[number];
 
@@ -73,7 +73,7 @@ export function validateAddPartnerUserInput(input: AddPartnerUserInput):
   }
 
   if (!isAllowedAddPartnerUserRole(role)) {
-    return { ok: false, error: "Choose partner_admin or partner_staff." };
+    return { ok: false, error: "Choose partner_admin, partner_staff, or partner_viewer." };
   }
 
   if (name.length > maxNameLength) {

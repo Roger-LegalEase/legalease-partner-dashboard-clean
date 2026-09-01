@@ -13,6 +13,8 @@ const required = [
   "src/app/api/clinic/assistance/start/route.ts",
   "src/app/api/clinic/session/reset/route.ts",
   "src/app/api/clinic/events/[eventId]/queue/route.ts",
+  "src/lib/clinic-mode/request-security.ts",
+  "supabase/migrations/20260901161000_rcap_clinic_consent_security.sql",
   "src/app/briefcase/layout.tsx",
   "src/app/clinic/[eventSlug]/page.tsx",
   "src/app/clinic/[eventSlug]/assist/page.tsx",
@@ -27,8 +29,22 @@ for (const marker of ["clinic_redeem_event_code", "createHash", "httpOnly: true"
 assert.ok(!/cookies\.set\([^\n]*(code|hash)/iu.test(entry), "raw access code must never be stored in a cookie");
 
 const assistance = read("src/app/api/clinic/assistance/start/route.ts");
-for (const marker of ["getServerAuthState", "claimRcapPartnerScreeningSession", "clinic_start_assisted_session", "clinic_upsert_case", "participant_user_id"])
+for (const marker of ["getServerAuthState", "claimRcapPartnerScreeningSession", "clinic_start_scoped_assisted_session", "p_consent_scope", "clinic_upsert_case", "participant_user_id"])
   assert.ok(assistance.includes(marker), `assistance boundary missing ${marker}`);
+
+const requestSecurity = read("src/lib/clinic-mode/request-security.ts");
+for (const marker of ['request.headers.get("origin")', 'request.headers.get("referer")', "Invalid request origin."])
+  assert.ok(requestSecurity.includes(marker), `Clinic request security missing ${marker}`);
+for (const route of [
+  "src/app/api/clinic/entry/route.ts",
+  "src/app/api/clinic/assistance/start/route.ts",
+  "src/app/api/clinic/session/reset/route.ts",
+  "src/app/api/clinic/events/[eventId]/queue/route.ts"
+]) assert.match(read(route), /SameOriginClinicMutation|assertClinicMutationRequest/, `${route} must reject cross-origin mutations`);
+
+const consentMigration = read("supabase/migrations/20260901161000_rcap_clinic_consent_security.sql");
+for (const marker of ["consent_scope", "consent_matter_id", "consent_revoked_at", "clinic_start_scoped_assisted_session", "assistance_consent_revoked", "clinic_export_event_report", "report_exported"])
+  assert.ok(consentMigration.includes(marker), `Clinic consent migration missing ${marker}`);
 
 const resetRoute = read("src/app/api/clinic/session/reset/route.ts");
 for (const marker of ["clinic_end_assisted_session", ".auth.signOut", "clinic_session", "clinic_entry", "name.startsWith(\"sb-\")", "Clear-Site-Data", "\"cookies\"", "Cache-Control", "no-store"])

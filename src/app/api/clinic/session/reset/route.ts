@@ -1,5 +1,6 @@
 import { createHash } from "node:crypto";
 import { NextRequest, NextResponse } from "next/server";
+import { isSameOriginClinicMutation } from "@/lib/clinic-mode/request-security";
 import { createServerSupabaseAuthClient } from "@/lib/supabase/auth-server";
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
 
@@ -7,6 +8,9 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function POST(request: NextRequest) {
+  if (!isSameOriginClinicMutation(request)) {
+    return NextResponse.json({ success: false, error: "Invalid request origin." }, { status: 403 });
+  }
   const authClient = await createServerSupabaseAuthClient();
   const rawSession = request.cookies.get("clinic_session")?.value;
   const cookieNames = new Set([

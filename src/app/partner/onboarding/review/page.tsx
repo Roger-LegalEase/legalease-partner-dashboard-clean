@@ -195,7 +195,7 @@ export default async function PartnerOnboardingReviewPage() {
         sections={sections}
         canSubmit={canSubmit}
         canEdit={portal.canEdit}
-        isPartnerStaff={portal.role === "partner_staff"}
+        isPartnerStaff={portal.role !== "partner_admin"}
         pendingPrefillSections={portal.prefill.pendingSections.map(
           (key) => portal.sections.find((section) => section.key === key)?.title ?? key
         )}

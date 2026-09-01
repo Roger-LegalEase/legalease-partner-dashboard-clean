@@ -213,6 +213,7 @@ function AdminSection({ busy, onInvite, count }: { busy: boolean; onInvite: (ema
         <select value={role} onChange={(e) => setRole(e.target.value)} className="in">
           <option value="partner_admin">Partner admin</option>
           <option value="partner_staff">Partner staff</option>
+          <option value="partner_viewer">Partner viewer</option>
         </select>
         <button disabled={busy || !email} onClick={() => onInvite(email, name, role)} className="rounded-md bg-[#D85A30] px-4 py-2 text-sm font-black text-white hover:bg-[#BF4B25] disabled:opacity-50">Invite user</button>
       </div>

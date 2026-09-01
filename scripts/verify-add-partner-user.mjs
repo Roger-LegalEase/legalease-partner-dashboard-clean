@@ -69,10 +69,10 @@ const pageGateIndex = indexOfOrFail(pageSource, 'resolveInternalAdminPageAccess(
 const partnerLoadIndex = indexOfOrFail(pageSource, "getAllPartnerRecords()", "Partner select data load");
 failIf(pageGateIndex > partnerLoadIndex, "Page must run internal_admin gate before partner data access.");
 
-failIf(!serviceSource.includes('export const addPartnerUserRoles = ["partner_admin", "partner_staff"] as const'), "Allowed roles must be partner_admin and partner_staff only.");
+failIf(!serviceSource.includes('export const addPartnerUserRoles = ["partner_admin", "partner_staff", "partner_viewer"] as const'), "Allowed roles must include admin, staff, and read-only viewer.");
 failIf(serviceSource.includes('"internal_admin"') || serviceSource.includes("'internal_admin'"), "Add Partner User service must not contain internal_admin as a creatable role.");
 failIf(clientSource.includes("internal_admin"), "Client form must not include internal_admin role.");
-failIf(!clientSource.includes('value="partner_admin"') || !clientSource.includes('value="partner_staff"'), "Client form must expose only partner_admin and partner_staff role options.");
+failIf(!clientSource.includes('value="partner_admin"') || !clientSource.includes('value="partner_staff"') || !clientSource.includes('value="partner_viewer"'), "Internal client form must expose the three partner-scoped roles.");
 
 const validateIndex = indexOfOrFail(serviceSource, "validateAddPartnerUserInput(input)", "Input validation");
 const partnerExistsIndex = indexOfOrFail(serviceSource, "validatePartnerExists(supabase, validated.partnerSlug)", "Partner slug validation");
@@ -230,7 +230,7 @@ failIf(!clientSource.includes("function safelyResetForm(form: HTMLFormElement)")
 const inviteSuccessBlock = clientSource.slice(inviteSuccessIndex, inviteSuccessReturnIndex);
 failIf(inviteSuccessBlock.includes("throw ") || inviteSuccessBlock.includes('kind: "error"') || inviteSuccessBlock.includes("Unable to add the partner user right now."), "Client invite success branch must not throw or set the generic error.");
 failIf(!redirectSource.includes("safeAppRedirectPath"), "Shared safe redirect helper missing.");
-failIf(!redirectSource.includes("value.startsWith(\"/\")") || !redirectSource.includes("!value.startsWith(\"//\")") || !redirectSource.includes("hasUrlScheme"), "Redirect helper must allow only relative app paths.");
+failIf(!redirectSource.includes("value.startsWith(\"/\")") || !redirectSource.includes("!value.startsWith(\"//\")") || !redirectSource.includes("/^[a-z][a-z0-9+.-]*:/iu.test(value)"), "Redirect helper must allow only relative app paths.");
 failIf(!redirectSource.includes("fallback = defaultPartnerAuthRedirect") || !redirectSource.includes("return fallback"), "Redirect helper must reject external next URLs to /partner/dashboard fallback.");
 
 failIf(!routePath.startsWith("src/app/internal/"), "Write route must live under /internal so the production proxy token layer applies.");
@@ -255,7 +255,7 @@ for (const restricted of restrictedRoutes) {
 }
 
 for (const file of changedFiles) {
-  if (file.startsWith("supabase/")) {
+  if (file.startsWith("supabase/") && file !== "supabase/migrations/20260901160000_rcap_partner_team_authority.sql") {
     failures.push(`Supabase migration/RLS file changed unexpectedly: ${file}`);
   }
 }

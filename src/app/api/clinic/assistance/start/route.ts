@@ -1,5 +1,6 @@
 import { createHash, randomBytes } from "node:crypto";
 import { NextRequest, NextResponse } from "next/server";
+import { isSameOriginClinicMutation } from "@/lib/clinic-mode/request-security";
 import { getClinicEntryContext } from "@/lib/clinic-mode/participant-service";
 import { claimRcapPartnerScreeningSession } from "@/lib/expungement-ai/rcap-partner-intake";
 import { getServerAuthState } from "@/lib/supabase/auth-server";
@@ -8,7 +9,12 @@ import { getSupabaseAdminClient } from "@/lib/supabase/server";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
+const ASSISTANCE_SCOPE = ["screening_navigation", "screening_answers"] as const;
+
 export async function POST(request: NextRequest) {
+  if (!isSameOriginClinicMutation(request)) {
+    return NextResponse.json({ success: false, error: "Invalid request origin." }, { status: 403 });
+  }
   const auth = await getServerAuthState();
   if (!auth.isAuthenticated) return NextResponse.json({ success: false, error: "Participant sign-in is required." }, { status: 401 });
   const body = await request.json().catch(() => null) as Record<string, unknown> | null;
@@ -27,11 +33,12 @@ export async function POST(request: NextRequest) {
     if (!db) return NextResponse.json({ success: false, error: "Clinic assistance is temporarily unavailable." }, { status: 503 });
     const sessionToken = randomBytes(32).toString("base64url");
     const deviceToken = randomBytes(32).toString("base64url");
-    const sessionResult = await db.rpc("clinic_start_assisted_session", {
+    const sessionResult = await db.rpc("clinic_start_scoped_assisted_session", {
       p_event_id: entry.eventId, p_event_staff_id: eventStaffId,
       p_participant_user_id: auth.userId, p_screening_session_id: screening.sessionId,
       p_handoff_token_hash: sha(sessionToken), p_device_nonce_hash: sha(deviceToken),
-      p_consent_version: "clinic-assistance-v1", p_consented_at: new Date().toISOString(), p_ttl_minutes: 30
+      p_consent_version: "clinic-assistance-v2", p_consented_at: new Date().toISOString(),
+      p_consent_scope: [...ASSISTANCE_SCOPE], p_ttl_minutes: 30
     });
     if (sessionResult.error || typeof sessionResult.data !== "string") {
       return NextResponse.json({ success: false, error: "Assisted session could not be started." }, { status: 409 });

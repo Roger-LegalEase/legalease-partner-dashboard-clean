@@ -15,7 +15,7 @@ export default async function PartnerArtifactsPage() {
   }
 
   let board: Awaited<ReturnType<typeof getPartnerArtifactBoard>> | null = null;
-  let role: "partner_admin" | "partner_staff" = "partner_staff";
+  let role: "partner_admin" | "partner_staff" | "partner_viewer" = "partner_staff";
   try {
     const context = await requirePartnerOnboardingContext();
     role = context.role;

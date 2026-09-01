@@ -80,7 +80,7 @@ export type BuildPartnerImplementationPresentationInput = {
   nextActionOwner: OnboardingNextActionOwner;
   defaultActionHref: string;
   defaultActionLabel: string;
-  currentRole: "partner_admin" | "partner_staff";
+  currentRole: "partner_admin" | "partner_staff" | "partner_viewer";
   canEdit: boolean;
   sections: PartnerImplementationSectionInput[];
   teamMembers: PartnerImplementationTeamMemberInput[];
