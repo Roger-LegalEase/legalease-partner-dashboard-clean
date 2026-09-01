@@ -873,9 +873,16 @@ function composedBody(componentId, config, facts, form) {
   const name = facts["participant.full_legal_name"];
   const court = facts["matter.court"];
   const caseNo = facts["matter.case_number"];
-  const ack = form.formNumber === "CC-1201"
-    ? "Form CC-1201, Section E, acknowledgments 1 and 2"
-    : "Form CC-1203, acknowledgments I and II";
+  // The two acknowledgments these companion pages exist to discharge, named
+  // separately because they are separate obligations: one is the copy that goes
+  // to the Attorney for the Commonwealth, the other is the record the Central
+  // Criminal Records Exchange forwards to the court after filing.
+  const ackService = form.formNumber === "CC-1201"
+    ? "Form CC-1201, Section E, acknowledgment 1"
+    : "Form CC-1203, acknowledgment I";
+  const ackRecord = form.formNumber === "CC-1201"
+    ? "Form CC-1201, Section E, acknowledgment 2"
+    : "Form CC-1203, acknowledgment II";
   const L = [];
   L.push(COMPOSED_TITLES[componentId].toUpperCase(), "");
   L.push(`Petitioner: ${name}`);
@@ -886,7 +893,7 @@ function composedBody(componentId, config, facts, form) {
   L.push("");
   if (componentId === "commonwealth_service_and_stipulation_request") {
     L.push("To: the Attorney for the Commonwealth for the county or city named above.", "");
-    L.push(`Enclosed is a copy of the petition for sealing filed by ${name} in the ${court} Circuit Court. ${ack} states that the petitioner must provide a copy of the petition, by delivery or by first-class mail with postage prepaid, to the Attorney for the Commonwealth for the county or city where the petition is filed. This is that copy.`, "");
+    L.push(`Enclosed is a copy of the petition for sealing filed by ${name} in the ${court} Circuit Court. ${ackService} says that the petitioner must provide a copy of the petition, by delivery or by first-class mail with postage prepaid, to the Attorney for the Commonwealth for the county or city where the petition is filed. This is that copy.`, "");
     L.push("The petitioner asks the Attorney for the Commonwealth to state, in writing and to the court, whether the Commonwealth objects to the sealing sought by the enclosed petition. A statement that the Commonwealth does not object is not required for the petition to proceed, and nothing in this request asks the Attorney for the Commonwealth to agree to anything.", "");
     L.push("The petitioner is not represented by counsel. Correspondence about this petition should go to the address printed on the petition's signature page.", "");
     L.push("MAILING ADDRESS OF THE ATTORNEY FOR THE COMMONWEALTH");
@@ -898,7 +905,7 @@ function composedBody(componentId, config, facts, form) {
     L.push("This page is not a certificate of mailing and does not say that anything has been mailed. It is completed and signed by the petitioner at the time the copy actually goes out.");
   } else if (componentId === "ccre_forwarding_request") {
     L.push("To: the Central Criminal Records Exchange, Virginia Department of State Police.", "");
-    L.push(`${ack} states that after the petition is filed the petitioner must request that the Central Criminal Records Exchange electronically forward a copy of the petitioner's Virginia and national criminal history record to the circuit court where the petition is filed. This page is that request.`, "");
+    L.push(`${ackRecord} says that after the petition is filed the petitioner must request that the Central Criminal Records Exchange electronically forward a copy of the petitioner's Virginia and national criminal history record to the circuit court where the petition is filed. This page is that request.`, "");
     L.push(`Please forward the Virginia and national criminal history record of ${name} to the ${court} Circuit Court, for the sealing petition identified above.`, "");
     L.push("The form on which the Department of State Police accepts this request, the identification it requires, and any charge for it are not stated on this page, because they are not established by the petition itself. The Department of State Police publishes the current procedure; ask the circuit court clerk if you cannot find it.", "");
     L.push("PETITIONER'S DATE OF BIRTH .......................................................");
@@ -1242,16 +1249,25 @@ function builderCounters(map, actualWrites, instructionsText) {
 
 /* ---- participant instructions -------------------------------------------- */
 function requiredBeforeFilingItems(maps) {
+  /*
+   * Ordered as the participant reads the paper: page by page, and down each
+   * page. The census walks the AcroForm's field order, which on CC-1201 puts
+   * page 2's ancillary dates between two page 1 rows -- an instruction list in
+   * that order asks somebody to work a form by jumping backwards, which is how
+   * an item gets missed.
+   */
   return maps.flatMap((m) => (m.canonicalRefusals ?? [])
     .filter((r) => r.requiredBeforeFiling === true)
     .map((r) => ({
       document: m.formNumber, field: r.field, page: r.page,
+      y: r.rect?.y ?? null,
       printedContext: r.printedLabel, disclosureLabel: r.effectiveLabel,
       identity: r.identity, why: r.why, participantMustSupply: r.participantMustSupply
-    })));
+    })))
+    .sort((a, b) => (a.page - b.page) || ((b.y ?? 0) - (a.y ?? 0)));
 }
 
-function instructionsMarkdown(familyId, config, resolved, rbf) {
+function instructionsMarkdown(familyId, config, resolved, rbf, routeSelections) {
   const form = resolved[0];
   const byDoc = new Map();
   for (const item of rbf) byDoc.set(item.document, [...(byDoc.get(item.document) ?? []), item]);
@@ -1282,7 +1298,10 @@ function instructionsMarkdown(familyId, config, resolved, rbf) {
 
   out.push("## What you must do", "");
   out.push("1. **Fill in every item listed below.** Each one names the document, the page and the printed words next to the blank.");
-  out.push("2. **Read every checkbox and tick the ones that are true for you.** Each is a statement about your own record or a choice only you can make, and the platform never ticks one for you — with one exception, set out under *What the packet answered for you* below.");
+  const selectionCount = routeSelections.length;
+  out.push(selectionCount === 0
+    ? "2. **Read every checkbox and tick the ones that are true for you.** Each is a statement about your own record or a choice only you can make, and the platform ticks none of them for you on this route."
+    : `2. **Read every checkbox and tick the ones that are true for you.** Each is a statement about your own record or a choice only you can make, and the platform ticks none of them for you except ${selectionCount === 1 ? "the one box" : `the ${selectionCount} boxes`} the statutory route decides — set out under *What the packet answered for you* below.`);
   out.push("3. **Sign and date the petition yourself.** The platform never signs and never dates a signature. Those lines are blank on purpose.");
   out.push("4. **File the petition, then give or mail a copy to the Attorney for the Commonwealth**, using the page in this packet headed for that purpose.");
   out.push("5. **After filing, ask the Central Criminal Records Exchange to forward your record to the court**, using the page in this packet headed for that purpose. The petition's own acknowledgment says this is your responsibility.");
@@ -1299,14 +1318,18 @@ function instructionsMarkdown(familyId, config, resolved, rbf) {
 
   out.push("## What the packet answered for you", "");
   out.push(`This packet is built for one statutory route — ${config.statute} — so it states which route it is rather than asking you:`, "");
-  const selected = Object.entries(config.routeSelect ?? {});
-  if (selected.length === 0) {
-    out.push(`- Nothing on the face of this petition is decided by the route alone. The route establishes that the offence is a felony under ${config.statute}; which felony provision your record falls under is a fact about your record, so both felony boxes are left for you.`, "");
+  if (routeSelections.length === 0) {
+    out.push("- Nothing on the face of this petition is decided by the route alone.", "");
   } else {
-    for (const [, why] of selected) out.push(`- ${why[0].toUpperCase()}${why.slice(1)}.`);
+    for (const sel of routeSelections) {
+      out.push(`- **Page ${sel.page}, ${sel.printedLabel}.** ${sel.why[0].toUpperCase()}${sel.why.slice(1)}.`);
+    }
     out.push("");
   }
-  out.push("Check each of these against your own record before you file. If any of them is wrong for you, this is the wrong packet and you should not file it.", "");
+  if (Object.keys(config.routeSelect ?? {}).length === 0) {
+    out.push(`Nothing about the **offence level** is decided for you. The route establishes that the offence is a felony under ${config.statute}; which felony provision your own record falls under is a fact about that record, so both felony boxes on page 1 are left for you to read and tick.`, "");
+  }
+  out.push("Check each marked box against your own record before you file. If any of them is wrong for you, this is the wrong packet and you should not file it.", "");
 
   out.push("## Things the platform deliberately left blank", "");
   out.push("- **Your signature and the date you sign.** A signature is yours alone, and a date written before you sign would be false.");
@@ -1593,7 +1616,11 @@ export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
 
   const mapDoc = { maps };
   const rbf = requiredBeforeFilingItems(maps);
-  const instructions = instructionsMarkdown(familyId, config, resolved, rbf);
+  const routeSelections = (maps[0]?.selectionControls ?? [])
+    .filter((c) => c.disposition === "selected_by_route")
+    .map((c) => ({ field: c.field, page: c.page, printedLabel: c.effectiveLabel, why: c.why }))
+    .sort((a, b) => (a.page - b.page) || a.printedLabel.localeCompare(b.printedLabel));
+  const instructions = instructionsMarkdown(familyId, config, resolved, rbf, routeSelections);
   const audit = builderCounters(mapDoc, {
     artifacts: writeProofs.map((p) => ({
       fixture: p.fixture,
@@ -1628,7 +1655,7 @@ export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
     terminalFields: audit.terminalFields,
     written: audit.written,
     requiredBeforeFiling: rbf.length,
-    routeSelectionsMade: Object.keys(config.routeSelect ?? {}).length,
+    routeSelectionsMade: routeSelections.length,
     counters: audit.counters,
     nineCountersZero: allZero,
     rasterPages: rasterPages.length,

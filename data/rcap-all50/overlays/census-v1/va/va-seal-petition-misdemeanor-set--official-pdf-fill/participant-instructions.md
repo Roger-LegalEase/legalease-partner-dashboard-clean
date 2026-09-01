@@ -30,7 +30,7 @@ Two things this packet does **not** tell you, because neither is established by 
 ## What you must do
 
 1. **Fill in every item listed below.** Each one names the document, the page and the printed words next to the blank.
-2. **Read every checkbox and tick the ones that are true for you.** Each is a statement about your own record or a choice only you can make, and the platform never ticks one for you — with one exception, set out under *What the packet answered for you* below.
+2. **Read every checkbox and tick the ones that are true for you.** Each is a statement about your own record or a choice only you can make, and the platform ticks none of them for you except the 7 boxes the statutory route decides — set out under *What the packet answered for you* below.
 3. **Sign and date the petition yourself.** The platform never signs and never dates a signature. Those lines are blank on purpose.
 4. **File the petition, then give or mail a copy to the Attorney for the Commonwealth**, using the page in this packet headed for that purpose.
 5. **After filing, ask the Central Criminal Records Exchange to forward your record to the court**, using the page in this packet headed for that purpose. The petition's own acknowledgment says this is your responsibility.
@@ -41,32 +41,32 @@ Two things this packet does **not** tell you, because neither is established by 
 
 | Page | The blank on the document | What to write |
 | --- | --- | --- |
-| 1 | My social security number is | your Social Security number — the platform never stores it and never writes it for you |
 | 1 | My sex is, as it appears on the court record | your sex as it appears on the court record for this charge |
 | 1 | My race is, as it appears on the court record | your race as it appears on the court record for this charge |
+| 1 | My social security number is | your Social Security number — the platform never stores it and never writes it for you |
 | 1 | Description of the charge or conviction to be sealed | the specific charge or conviction you are asking the court to seal, worded exactly as it appears on your court record |
+| 1 | Date of final disposition or conviction for the charge to be sealed | the date of final disposition or conviction, taken from your court record |
+| 1 | Date of arrest for the charge to be sealed | the date you were arrested on this charge |
+| 1 | Name of the arresting agency for the charge to be sealed | the name of the police or sheriff's department that arrested you on this charge |
 | 1 | Document control number (DCN) for the charge to be sealed, if available | the document control number (DCN) printed on your arrest paperwork, if you have it |
 | 1 | Why the charge information above is not reasonably available | why some of the charge information above is not reasonably available — only if you ticked that box |
-| 1 | Date of final disposition or conviction for the charge to be sealed | the date of final disposition or conviction, taken from your court record |
-| 2 | Date of arrest for the ancillary matter | the date of arrest on the ancillary matter, if there was one |
-| 1 | Name of the arresting agency for the charge to be sealed | the name of the police or sheriff's department that arrested you on this charge |
-| 2 | Case number for the ancillary matter | the case number of the ancillary matter — only if you are also sealing one |
-| 2 | Date of final disposition for the ancillary matter | the date of final disposition of the ancillary matter — only if you are also sealing one |
-| 2 | Name of the arresting agency for the ancillary matter | the arresting agency on the ancillary matter, if there was one |
-| 2 | Document control number (DCN) for the ancillary matter, if available | the document control number (DCN) for the ancillary matter, if you have it |
-| 2 | Why the ancillary matter information above is not reasonably available | why some of the ancillary matter information above is not reasonably available — only if you ticked that box |
 | 1 | My full name when I was arrested on this charge | the full name you were arrested under, if it is not the name you go by now |
 | 2 | City or county of the court of final disposition for the charge | the city or county of the court that decided this charge |
 | 2 | Why the warrant, summons or indictment is not reasonably available | why the warrant, summons or indictment is not reasonably available — only if you ticked that box |
+| 2 | Case number for the ancillary matter | the case number of the ancillary matter — only if you are also sealing one |
+| 2 | Date of final disposition for the ancillary matter | the date of final disposition of the ancillary matter — only if you are also sealing one |
+| 2 | Date of arrest for the ancillary matter | the date of arrest on the ancillary matter, if there was one |
+| 2 | Name of the arresting agency for the ancillary matter | the arresting agency on the ancillary matter, if there was one |
+| 2 | Document control number (DCN) for the ancillary matter, if available | the document control number (DCN) for the ancillary matter, if you have it |
+| 2 | Why the ancillary matter information above is not reasonably available | why some of the ancillary matter information above is not reasonably available — only if you ticked that box |
+| 2 | My full name when the ancillary matter arose | the full name you used when the ancillary matter arose, if it is not the name you go by now |
 | 2 | City or county of the court of final disposition for the ancillary matter | the city or county of the court that decided the ancillary matter |
 | 2 | Why the charging document for the ancillary matter is not reasonably available | why the charging document for the ancillary matter is not reasonably available — only if you ticked that box |
 | 3 | Date the deferred charge was dismissed | the date the deferred charge was dismissed — only if that is how your case ended |
 | 3 | Date of conviction | the date you were convicted, from your judgment order or docket sheet |
 | 3 | Date released from incarceration | the date you were released from incarceration — only if you were sentenced to a term of it |
 | 3 | Date released from incarceration after the violation | the date you were released from incarceration imposed for that violation |
-| 1 | Date of arrest for the charge to be sealed | the date you were arrested on this charge |
 | 4 | How many CC-1201(A) addendum pages are attached | how many CC-1201(A) addendum pages you are attaching — only if you ticked the ADDENDUM box |
-| 2 | My full name when the ancillary matter arose | the full name you used when the ancillary matter arose, if it is not the name you go by now |
 
 ### commonwealth_service_and_stipulation_request — Copy to the Attorney for the Commonwealth, and Request for the Commonwealth's Position
 
@@ -84,9 +84,15 @@ Two things this packet does **not** tell you, because neither is established by 
 
 This packet is built for one statutory route — Va. Code § 19.2-392.12 — so it states which route it is rather than asking you:
 
-- This packet is built for the misdemeanour route of § 19.2-392.12, so the offence level the petition states is a misdemeanour.
+- **Page 1, This charge is a misdemeanor.** This packet is built for the misdemeanour route of § 19.2-392.12, so the offence level the petition states is a misdemeanour.
+- **Page 4, The address given is the Petitioner's.** The address in this block is the petitioner's, because this packet is filed without counsel.
+- **Page 4, The city, state and ZIP given is the Petitioner's.** The city, state and ZIP in this block is the petitioner's, because this packet is filed without counsel.
+- **Page 4, The email address given is the Petitioner's.** The email address in this block is the petitioner's, because this packet is filed without counsel.
+- **Page 4, The printed name given is the Petitioner's.** The name printed in this block is the petitioner's, because this packet is filed without counsel.
+- **Page 4, The signature on this petition is the Petitioner's.** This packet is prepared for the petitioner to file without counsel, so the petitioner signs it.
+- **Page 4, The telephone number given is the Petitioner's.** The telephone number in this block is the petitioner's, because this packet is filed without counsel.
 
-Check each of these against your own record before you file. If any of them is wrong for you, this is the wrong packet and you should not file it.
+Check each marked box against your own record before you file. If any of them is wrong for you, this is the wrong packet and you should not file it.
 
 ## Things the platform deliberately left blank
 
