@@ -256,10 +256,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX09",
+      "lane": "FIX04",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-01T12:41:22.373Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -301,10 +301,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX09",
+      "lane": "FIX06",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-01T12:43:16.082Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -751,10 +751,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX09",
+      "lane": "FIX03",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-01T12:33:32.766Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -796,10 +796,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX09",
+      "lane": "FIX05",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-01T12:34:38.619Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -8246,7 +8246,7 @@
       "releasedAt": null
     }
   ],
-  "claimsDigest": "f9a25cf45143a80eefc04d9d4e8ecf2a358ffe1d58df0e82aa1f358242985455",
+  "claimsDigest": "68649c13ab76b7415a5397b0156c59178e00547547be4a4b8f09285c0e8daa31",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -11893,6 +11893,50 @@
       "previouslyReleasedAt": "2026-09-01T09:38:19.438Z",
       "transferredAt": "2026-09-01T12:26:18.552Z",
       "reason": "second read with the corpus reachable: SOURCE_IDENTITY is measurable for the first time, and the CC-1203 form question is settled from the forms’ faces"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nj_indictable_conviction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX09",
+      "toLane": "FIX03",
+      "previouslyReleasedAt": "2026-09-01T12:33:32.766Z",
+      "transferredAt": "2026-09-01T15:43:03.607Z",
+      "reason": "FIX09 was the external CS-B lane; Codex is off the critical path and the release is the reverted mint's artifact, not finished work — the family still carries vf17's FAIL. Re-opened on the lane the current dispatch names."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ca-1203-42-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX09",
+      "toLane": "FIX04",
+      "previouslyReleasedAt": "2026-09-01T12:41:22.373Z",
+      "transferredAt": "2026-09-01T15:43:03.717Z",
+      "reason": "same FIX09 stand-down: vf17 FAIL unrepaired, re-opened on the dispatched lane"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ny_160_59_petition-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX09",
+      "toLane": "FIX05",
+      "previouslyReleasedAt": "2026-09-01T12:34:38.619Z",
+      "transferredAt": "2026-09-01T15:43:03.794Z",
+      "reason": "same FIX09 stand-down: vf17 FAIL unrepaired, re-opened on the dispatched lane"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ca-851-91-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX09",
+      "toLane": "FIX06",
+      "previouslyReleasedAt": "2026-09-01T12:43:16.082Z",
+      "transferredAt": "2026-09-01T15:43:03.863Z",
+      "reason": "same FIX09 stand-down: vf17 FAIL unrepaired, re-opened on the dispatched lane"
     }
   ]
 }
