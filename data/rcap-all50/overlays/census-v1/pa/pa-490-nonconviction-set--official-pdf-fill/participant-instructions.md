@@ -11,6 +11,7 @@ These files are deterministic review fixtures made from exact held official sour
 - Court, judge, prosecutor, clerk, law-enforcement, agency, notary, hearing, and post-order fields remain for their proper owners.
 - Confirm current revision, filing destination, local procedures, fees, attachments, service, and proposed-order requirements before filing.
 - The fee-waiver affidavit is retained only as conditional source evidence; no financial or sworn fact is filled.
+- The petition's offence table is left whole for the participant: its rows carry Section, Subsection, Counts, Grade and Disposition cells the platform holds no fact for, and a row is complete or it is untouched.
 
 ## The blanks you must fill in before filing
 
@@ -21,6 +22,7 @@ The platform holds no value for any of these, and this packet never guesses at o
 | Page | Form field | What the form says |
 | --- | --- | --- |
 | 1 | `AffiantAddr1` | the form prints `List name and mailing address of the affiant as shown on the` beside it — complete this only after service has actually occurred |
+| 1 | `Aliases1` | the form prints `Full Name: DOB: Social Security Number` beside it |
 | 1 | `Aliases2` | the form prints `Address: Alias(es)` beside it |
 | 1 | `Aliases3` | the measurement could reach no printed caption; read the printed page |
 | 1 | `Aliases4` | the measurement could reach no printed caption; read the printed page |
@@ -30,7 +32,6 @@ The platform holds no value for any of these, and this packet never guesses at o
 | 1 | `CountsRow3` | the measurement could reach no printed caption; read the printed page |
 | 1 | `CountsRow4` | the measurement could reach no printed caption; read the printed page |
 | 1 | `CountsRow5` | the form prints `If the sentence imposed included a fine, costs or restitutio` beside it |
-| 1 | `Defendant` | the form prints `v` beside it |
 | 1 | `DispositionRow1` | the form prints `Section Subsection Statute Description Counts Grade Disposit` beside it |
 | 1 | `DispositionRow2` | the measurement could reach no printed caption; read the printed page |
 | 1 | `DispositionRow3` | the measurement could reach no printed caption; read the printed page |
@@ -57,7 +58,8 @@ The platform holds no value for any of these, and this packet never guesses at o
 | 1 | `SectionRow3` | the measurement could reach no printed caption; read the printed page |
 | 1 | `SectionRow4` | the measurement could reach no printed caption; read the printed page |
 | 1 | `SectionRow5` | the measurement could reach no printed caption; read the printed page |
-| 1 | `Social Security Number` | the form prints `Social Security Number` beside it |
+| 1 | `Social Security Number` | the measurement could reach no printed caption; read the printed page |
+| 1 | `Statute DescriptionRow1` | the form prints `Section Subsection Statute Description Counts Grade Disposit` beside it |
 | 1 | `Statute DescriptionRow2` | the measurement could reach no printed caption; read the printed page |
 | 1 | `Statute DescriptionRow3` | the measurement could reach no printed caption; read the printed page |
 | 1 | `Statute DescriptionRow4` | the measurement could reach no printed caption; read the printed page |
@@ -72,20 +74,31 @@ The platform holds no value for any of these, and this packet never guesses at o
 
 | Page | Form field | What the form says |
 | --- | --- | --- |
-| 1 | `County` | the form prints `Commonwealth of Pennsylvania` beside it |
-| 1 | `Defendant` | the form prints `v.PENNSYLVANIA` beside it |
-| 1 | `Disposition` | the form prints `it is ORDERED that the Petition/Motion is` beside it |
-| 1 | `PresentedBy` | the form prints `_______________________________________ presented by` beside it |
 | 2 | `AgenciesServed` | the form prints `14` beside it |
 | 2 | `Alias1` | the form prints `2.Alias(es)` beside it |
 | 2 | `Alias2` | the measurement could reach no printed caption; read the printed page |
 | 2 | `Alias3` | the form prints `2.Alias(es): ________________________________________` beside it |
+| 2 | `DateAndArrestingAgency` | the form prints `justice agency that made the arrest` beside it |
+| 1 | `Disposition` | the form prints `it is ORDERED that the Petition/Motion is` beside it |
 | 2 | `MDJ#` | the measurement could reach no printed caption; read the printed page |
 | 2 | `PetitionersSSN` | the form prints `5.PetitionerÕs Social Security Number` beside it |
+| 1 | `PresentedBy` | the form prints `_______________________________________ presented by` beside it |
 
 Do not leave one of these blank because you are unsure. Ask the clerk of the court where the charges were filed.
 
 The filing fee and whether it can be waived, who must be served and by what method, and the addresses the petition is served on are not established in this repository. Ask the same clerk. An unsourced figure in a filing instruction would be worse than none.
+
+## Where self-help ends
+
+This packet prepares the Pennsylvania Rule of Criminal Procedure 490 petition and proposed order for you to review, complete, sign and file yourself. Self-help ends at any question this packet refuses to answer:
+
+- whether your charges are eligible for expungement — a legal judgment this packet does not make;
+
+- any blank listed above that you cannot complete from your own court records;
+
+- anything the prosecuting attorney objects to, and any hearing the court schedules.
+
+When you reach one of those points, stop and ask someone with the authority to answer. The clerk of the court where the charges were filed answers procedural questions — filing, fees, copies and service addresses. Only a lawyer admitted to practice in Pennsylvania may advise you on eligibility, on what to argue, or at a contested hearing; if you cannot afford one, ask that same clerk's office how to reach the county's legal aid or lawyer referral service. This packet is not legal advice, and no lawyer has reviewed your case in preparing it.
 
 ## Blanks that are not yours to fill
 
