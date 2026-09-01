@@ -1,0 +1,69 @@
+{
+ "schemaVersion": "rcap-independent-verification-rows/v1",
+ "lane": "XVF-B",
+ "laneKind": "independent-verification",
+ "assignedBy": "CAPTAIN-9H, nextLaneByWorker.VF-SRC-B in data/rcap-grade-a/launch-control/CLAUDE_9H_SHIFT.json, assignedAt 2026-09-01T08:20:52Z",
+ "generatedAtBase": "3b2efcfd6",
+ "shiftBaseSha": "c6d7ffe7cfdf45629f873e1a0e58ae4b174d45c6",
+ "preflight": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing, for both families (13/13 passed, 0 failed, 3 not applicable), with MASTER_LIBRARY_SOURCE_DIR exported as Captain's 08:42Z correction requires",
+ "counts": { "families": 2, "verified": 0, "blockedBeforeClaim": 2 },
+ "verdictSummary": "Neither family was verified. Both are BLOCKED_BEFORE_CLAIM, and no artifact of either was read.",
+ "whatWasRead": [
+  "data/rcap-grade-a/launch-control/CLAUDE_9H_SHIFT.json",
+  "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
+  "scripts/grade-a-packet-factory-24h/claim.mjs",
+  "the two family directory listings, to locate them; no file inside either directory was opened"
+ ],
+ "rows": [
+  {
+   "itemId": "ak-tf800-set",
+   "verdict": "BLOCKED_BEFORE_CLAIM",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill",
+   "exactRefusal": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert XVF-B ak-tf800-set -> exit 4, UNKNOWN_LANE: XVF-B",
+   "secondRefusalBehindTheFirst": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VFX-B ak-tf800-set -> exit 6, NOT_GRANTED: no independent-verification lane holds ak-tf800-set",
+   "artifactsRead": 0,
+   "proofObligations": null,
+   "whyNoObligationWasMeasured": "The lane contract is explicit: assert every family before reading or writing anything, and a non-zero exit is a full stop for that family — report BLOCKED_BEFORE_CLAIM naming the exact refusal, and read none of its artifacts. Two independent refusals stand, so nothing was read and no obligation was measured."
+  },
+  {
+   "itemId": "ct-cleanslate-petition-set",
+   "verdict": "BLOCKED_BEFORE_CLAIM",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill",
+   "exactRefusal": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert XVF-B ct-cleanslate-petition-set -> exit 4, UNKNOWN_LANE: XVF-B",
+   "secondRefusalBehindTheFirst": "the same NOT_GRANTED refusal stands for this family: the ledger holds no independent-verification grant for it either",
+   "artifactsRead": 0,
+   "proofObligations": null,
+   "whyNoObligationWasMeasured": "Same full stop, same contract."
+  }
+ ],
+ "diagnosis": {
+  "layerOne": {
+   "what": "The lane name is outside the claim mechanism's closed vocabulary.",
+   "where": "scripts/grade-a-packet-factory-24h/claim.mjs, LANE_KIND: /^(VF|WARV|P2V|VS)/ resolves independent-verification. XVF matches none of the four prefixes, so LANE_KIND returns \"unknown\" and locate() dies 4 UNKNOWN_LANE before it ever looks at a grant.",
+   "note": "This is the same shape as the DISC06 finding this worker returned earlier: the dispatch and the mechanism disagree, and the mechanism is right to refuse rather than guess what XVF means."
+  },
+  "layerTwo": {
+   "what": "Even under a name the regex accepts, no grant exists.",
+   "evidence": "The ledger's only claims naming either family are PF12 packet-build grants, both released — ak-tf800-set at 2026-09-01T07:46:01.388Z and ct-cleanslate-petition-set at 2026-09-01T08:03:09.811Z. Its seventeen independent-verification claims belong to VF01-VF12 and name neither family.",
+   "why it matters": "Renaming the lane alone would move the refusal from UNKNOWN_LANE to NOT_GRANTED, not clear it."
+  },
+  "whyThisWorkerDidNotFixEitherLayer": "Both fixes would be this verifier authorising its own read. Widening the LANE_KIND regex edits a shared script outside this lane's owned paths, to admit the very lane whose work it would then permit. Writing a grant into the ledger issues this worker its own claim, and the ledger exists to make ownership provable — Captain's own crossVerificationRules forbid one family having two active verification owners, and the grant is the mechanism that prevents it. Verifying without a grant would leave the ledger unable to say who owns the independent read of these two families, which is exactly what factory check F24 tests. The refusal is doing its job."
+ },
+ "whatCaptainNeedsToDo": {
+  "option A, smallest": "Issue two independent-verification grants to a VF-prefixed lane name — the ledger already understands VF, so no script changes and no vocabulary change: subjectType packet-family, subjectId ak-tf800-set and ct-cleanslate-petition-set, operation independent-verification, laneKind independent-verification, released false. Recompute claimsDigest over claimsDigestCovers exactly as verify-claim-ledger.mjs does.",
+  "option B": "Admit the XVF prefix in scripts/grade-a-packet-factory-24h/claim.mjs LANE_KIND, then issue the same two grants under XVF-B. This is the larger change because CLOSED_LANE_KINDS and the lane-contract checks read the same vocabulary.",
+  "eitherWay": "The grants are the part that matters; the lane name is cosmetic. This worker is ready to run the moment either lands: both preflights already return PACKET_BUILD_ENVIRONMENT_READY, the Master Library is mounted and rehashed here, and MASTER_LIBRARY_SOURCE_DIR is exported per the 08:42Z correction."
+ },
+ "readyToRunOnUnblock": {
+  "ceilingUnderstood": "BUILT_RASTER_PENDING for both families. No PASS_COMPLETE without a hash-bound RASTER_PASS from the central workflow.",
+  "rasterPositionUnderstood": "ak-tf800-set's page rasters were produced in PF-C's own container and declared RASTER_LOCAL_PENDING_CENTRAL. They are not gate receipts — uncalibrated runner, no canary, no negative controls, no receipt binding them to the queue's pinned hashes. Rendered pages will not be read as a visual pass.",
+  "builderVerdictPosition": "PF-C's COMPLETED is the claim under test, not evidence for it.",
+  "independence": "This worker neither built nor repaired either family and has verified neither; VF07-VF12 covered Utah and Vermont."
+ },
+ "overlayDirectoriesModified": 0,
+ "buildScriptsModified": 0,
+ "claimLedgerModified": 0,
+ "commercialRoutesOpened": 0,
+ "productionTouched": false,
+ "grantsNothing": "A blocked lane proves nothing about the packets it did not read. Neither family is passed, failed or cleared by this return."
+}
