@@ -8,7 +8,8 @@
     "RASTER_RUNNING",
     "RASTER_PASS",
     "RASTER_FAIL",
-    "RASTER_BLOCKED_ENVIRONMENT"
+    "RASTER_BLOCKED_ENVIRONMENT",
+    "RASTER_LOCAL_PENDING_CENTRAL"
   ],
   "entryPreconditions": [
     "source binding passes",
@@ -2956,5 +2957,16 @@
   "bodiesCommitted": 0,
   "commercialRoutesOpened": 0,
   "productionTouched": false,
-  "grantsNothing": "A RASTER_PASS proves the pages render as measured. It is one gate of several, it promotes nothing, and it opens no commercial route."
+  "grantsNothing": "A RASTER_PASS proves the pages render as measured. It is one gate of several, it promotes nothing, and it opens no commercial route.",
+  "rasterStateSemantics": {
+    "RASTER_LOCAL_PENDING_CENTRAL": {
+      "provesNothing": true,
+      "introducedBy": "PF-C on ak-tf800-set, 9h shift",
+      "why": "A builder container that happens to resolve a real Chromium can render pages locally. PF-C did, and refused to call the result BUILT_RASTER_PENDING because pages had in fact been rastered, or RASTER_PASS because the central workflow had not run. That distinction is correct and the state is declared here so it is not unknown vocabulary.",
+      "authorizes": "nothing",
+      "isNotAGateReceipt": "Locally produced page rasters are not the central gate.s evidence. They were made on an uncalibrated runner, under no canary and no negative controls, and no receipt binds them to the queue.s pinned hashes.",
+      "stillRequiredForPassComplete": "a hash-bound RASTER_PASS from .github/workflows/rcap-packet-raster-acceptance-batch.yml",
+      "treatAs": "RASTER_PENDING for every routing and promotion decision"
+    }
+  }
 }
