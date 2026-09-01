@@ -2354,7 +2354,14 @@ async function buildComposed(familyId) {
       for (const [check, passed] of Object.entries(protection)) assert.equal(passed, true, `${trackId}/${fixtureName}: ${check}`);
       const textFile = `${trackDir}/rendered/${fixtureName}/${fixtureName}.txt`;
       const pdfFile = `${trackDir}/rendered/${fixtureName}/${fixtureName}.pdf`;
-      writeText(textFile, renderResult.fullText);
+      // Hash the bytes that are WRITTEN, not the string they came from.
+      // writeText appends a final newline when the text lacks one, so a report
+      // hashing renderResult.fullText recorded a hash no committed file could
+      // ever match — the exact ARTIFACTS failure vf02 found on
+      // oh_marijuana_expungement-set (recorded d42df8ae…/0a5ef772… vs committed
+      // 13a210a2…/025dee08…, each one trailing-newline apart).
+      const textBytes = Buffer.from(renderResult.fullText.endsWith("\n") ? renderResult.fullText : `${renderResult.fullText}\n`);
+      writeBytes(textFile, textBytes);
       const pdfBytes = await renderPleadingPdf(renderResult.fullText, `${definition.title} — ${fixtureName} evidence fixture`);
       writeBytes(pdfFile, pdfBytes);
       const pdfProof = await pleadingPdfProof(pdfBytes, fixture.partyData.petitionerName);
@@ -2367,7 +2374,7 @@ async function buildComposed(familyId) {
         schemaVersion: "rcap-composed-pleading-render-report/v1", familyId, trackId, fixture: fixtureName,
         renderer: "src/lib/record-clearing/renderers/custom-pleading-renderer.ts",
         qa: "src/lib/record-clearing/pleading-qa.ts",
-        text: { file: textFile, sha256: sha256(Buffer.from(renderResult.fullText)), byteLength: Buffer.byteLength(renderResult.fullText) },
+        text: { file: textFile, sha256: sha256(textBytes), byteLength: textBytes.length },
         pdf: { file: pdfFile, sha256: sha256(pdfBytes), byteLength: pdfBytes.length, ...pdfProof },
         protection, audit, hardStops: definition.hardStops,
         commercialAuthority: false, runtimeSelectable: false,
