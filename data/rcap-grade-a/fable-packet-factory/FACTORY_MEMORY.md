@@ -58,3 +58,15 @@ paid for once already.
   cross-verification; ledger.transfers holds the reasons). The re-opened flags
   were deliberate. Fable verifier subagents are new identities, so the
   self-verification hazard does not arise.
+
+## Integration
+- A release travels only between claims on the SAME LANE. The ledger union
+  resolver keyed on subject+operation and re-released six transferred grants
+  (VF26 mid-read, FIX11 mid-repair) from a worker branch that predated the
+  transfers. Cross-lane releases are refused; the old lane's completion lives
+  in the transfer record.
+- NJ east-host families (nj_arrest_no_conviction, nj_indictable_conviction, and
+  6 of ny_160_59's rows): the failing KNOWN_PREFILLS rows are allowlist-bound to
+  HELD facts — not disclosure gaps. Only a rebuild with new ink repairs them,
+  and that waits on the east-host appearance-stream fix. Do not reclassify held
+  facts as required-before-filing; FIX-A refused exactly that and was right.
