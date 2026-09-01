@@ -17,12 +17,14 @@ export async function decorateConsumerBriefcaseItemForPresentation(input: {
   item: ConsumerBriefcaseItem;
 }): Promise<BriefcasePresentationItem> {
   const item = await decorateBriefcaseItemForPresentation(input);
-  if (item.paymentState !== "paid") return item;
   const paymentReceipt = await createConsumerPaymentReceiptAction({
     consumerAuthUserId: input.consumerAuthUserId,
     briefcaseItemId: input.item.id
   });
-  return paymentReceipt ? { ...item, paymentReceipt } : item;
+  // Payment history is durable authority of its own. Legal verification or an
+  // artifact read may be temporarily unavailable without erasing a verified
+  // payment from the participant's history.
+  return paymentReceipt ? { ...item, paymentState: "paid", paymentReceipt } : item;
 }
 
 export async function decorateConsumerBriefcaseItemsForPresentation(input: {

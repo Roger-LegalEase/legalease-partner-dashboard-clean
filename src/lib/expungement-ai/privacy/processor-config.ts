@@ -35,10 +35,32 @@ function endpoint(value: string | undefined): string | null {
   if (!value?.trim()) return null;
   try {
     const parsed = new URL(value.trim());
-    return parsed.protocol === "https:" || parsed.protocol === "http:" ? parsed.toString() : null;
+    if (parsed.username || parsed.password) return null;
+    if (parsed.protocol === "https:") return parsed.toString();
+    return parsed.protocol === "http:" && localOrTestProcessorHost(parsed.hostname)
+      ? parsed.toString()
+      : null;
   } catch {
     return null;
   }
+}
+
+/**
+ * Plain HTTP is limited to loopback and IANA-reserved test names. Processor
+ * bearer tokens and deletion identifiers must never cross a production network
+ * without TLS, while local PostgreSQL-backed acceptance still needs its
+ * loopback processor double.
+ */
+function localOrTestProcessorHost(hostname: string): boolean {
+  const normalized = hostname.toLowerCase();
+  if (normalized === "localhost" || normalized.endsWith(".localhost") || normalized === "[::1]") {
+    return true;
+  }
+  if (normalized === "test" || normalized.endsWith(".test")) return true;
+  const octets = normalized.split(".");
+  return octets.length === 4
+    && octets[0] === "127"
+    && octets.every((octet) => /^\d{1,3}$/.test(octet) && Number(octet) <= 255);
 }
 
 function token(value: string | undefined): string | null {

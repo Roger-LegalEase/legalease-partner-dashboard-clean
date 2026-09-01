@@ -52,7 +52,7 @@ assert(receiptRoute.includes("requireConsumerBriefcaseSession"), "Receipt route 
 assert(receiptRoute.includes("resolveConsumerPaymentReceipt"), "Receipt route must resolve current owner/payment authority.");
 assert(receiptAuthority.includes("consumerPacketPaymentAuthority"), "Receipt must reuse exact-matter payment authority.");
 assert(receiptAuthority.includes("validReceiptReference"), "Receipt links must enforce expiry and integrity.");
-assert(consumerPresentation.includes("createConsumerPaymentReceiptAction") && consumerPresentation.includes('item.paymentState !== "paid"'), "Only a paid consumer presentation may request a receipt action.");
+assert(consumerPresentation.includes("createConsumerPaymentReceiptAction") && !consumerPresentation.includes('item.paymentState !== "paid"'), "Receipt authority must be resolved independently of legal and artifact presentation.");
 assert(!payments.includes("receiptUrl"), "Payment history must never render a raw provider receipt URL.");
 assert(payments.includes("{item.paymentReceipt ? (") && payments.includes("View receipt"), "Payment history must expose an accessible receipt action.");
 assert(matter.includes("{item.paymentReceipt ? (") && matter.includes("View payment receipt"), "Matter detail must expose the same receipt action.");

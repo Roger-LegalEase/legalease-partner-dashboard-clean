@@ -962,6 +962,35 @@ let proofA = null;
         && count(`select count(*) from public.participant_privacy_requests where user_id='${USER_B}' and request_type='account_deletion'`) === requestCountBefore,
       `${response.status} ${JSON.stringify(body)}`);
   }
+
+  for (const [index, name] of [
+    "PRIVACY_EMAIL_PROCESSOR_ENDPOINT",
+    "PRIVACY_ANALYTICS_PROCESSOR_ENDPOINT"
+  ].entries()) {
+    const saved = process.env[name];
+    process.env[name] = `http://processor-${index}.example.com/erase`;
+    const config = privacyConfigReady();
+    const deployment = await participantPrivacyReadiness();
+    setSession({ isAuthenticated: true, userId: USER_B, email: "b@participant.test" });
+    const response = await accountRoute.POST(
+      req("/api/expungement-ai/privacy/account", {
+        proof: "not-consumed-while-insecure",
+        confirmation: "DELETE MY ACCOUNT",
+        idempotencyKey: `insecure-processor-${index}`
+      })
+    );
+    const body = await jsonOf(response);
+    process.env[name] = saved;
+
+    check(`G${index + 13}`, `${name} refuses insecure non-local processor transport`,
+      config.ready === false && config.missing.includes(name) && deployment.ready === false && deployment.missing.includes(name));
+    check(`G${index + 15}`, `${name} insecure transport fails before account freeze`,
+      response.status === 503
+        && body.code === "privacy_not_ready"
+        && count(`select count(*) from public.participant_account_tombstones where user_id='${USER_B}'`) === 0
+        && count(`select count(*) from public.participant_privacy_requests where user_id='${USER_B}' and request_type='account_deletion'`) === requestCountBefore,
+      `${response.status} ${JSON.stringify(body)}`);
+  }
 }
 
 // =============================================================================

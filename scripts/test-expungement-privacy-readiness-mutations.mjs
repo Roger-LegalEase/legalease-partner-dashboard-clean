@@ -49,6 +49,40 @@ if (!source.includes(requiredCheck)) {
     } else {
       console.log("Privacy readiness mutation caught: omitting one required processor check turns the behavioral verifier red.");
     }
+
+    restore();
+    const transportCheck = " && localOrTestProcessorHost(parsed.hostname)";
+    if (!source.includes(transportCheck)) {
+      console.error("Privacy readiness mutation could not find the secure processor-transport check.");
+      process.exitCode = 1;
+    } else {
+      fs.writeFileSync(
+        absoluteTarget,
+        source.replace(transportCheck, " /* mutation: external plaintext processor allowed */")
+      );
+      const transportChild = spawnSync(process.execPath, ["scripts/verify-participant-data-rights.mjs"], {
+        cwd: root,
+        encoding: "utf8",
+        timeout: 300_000,
+        maxBuffer: 100 * 1024 * 1024,
+        env: { ...process.env, GIT_TERMINAL_PROMPT: "0", GIT_OPTIONAL_LOCKS: "0" }
+      });
+      const transportOutput = `${transportChild.stdout ?? ""}${transportChild.stderr ?? ""}`;
+      const transportExpected = "refuses insecure non-local processor transport";
+      if (transportChild.error?.code === "ETIMEDOUT" || transportChild.signal) {
+        console.error("Privacy transport mutation verifier timed out.");
+        process.exitCode = 1;
+      } else if (transportChild.status === 0) {
+        console.error("Privacy transport mutation survived: external plaintext processor endpoints stayed green.");
+        process.exitCode = 1;
+      } else if (!transportOutput.includes(transportExpected)) {
+        console.error("Privacy transport mutation turned red for the wrong reason.");
+        console.error(transportOutput);
+        process.exitCode = 1;
+      } else {
+        console.log("Privacy readiness mutation caught: external plaintext processor transport turns the behavioral verifier red.");
+      }
+    }
   } finally {
     restore();
     disposeRestore();

@@ -12,6 +12,7 @@ const files = [
   "src/lib/expungement-ai/checkout-reconciliation.ts",
   "src/lib/expungement-ai/payment-adapter.ts",
   "src/lib/expungement-ai/consumer-payment-receipt.ts",
+  "src/lib/expungement-ai/briefcase-consumer-presentation.ts",
   "src/components/expungement-ai/BriefcaseViews.tsx",
   "src/components/expungement-ai/packet-verification-client.ts",
   "src/app/api/expungement-ai/packet/download/route.ts"
@@ -88,8 +89,18 @@ try {
     expected: "a different user must receive no receipt existence signal"
   });
   mutation({
+    name: "receipt lookup coupled to legal presentation",
+    file: files[3],
+    replacements: [[
+      "  const paymentReceipt = await createConsumerPaymentReceiptAction({",
+      '  if (item.paymentState !== "paid") return item;\n  const paymentReceipt = await createConsumerPaymentReceiptAction({'
+    ]],
+    verifier: "scripts/test-expungement-consumer-payment-receipt.mjs",
+    expected: "receipt authority must resolve even when legal or artifact presentation is unavailable"
+  });
+  mutation({
     name: "participant-controlled download owner",
-    file: files[5],
+    file: files[6],
     replacements: [[
       "getConsumerPacketDownload({ userId: auth.userId, briefcaseItemId })",
       'getConsumerPacketDownload({ userId: request.nextUrl.searchParams.get("userId") ?? auth.userId, briefcaseItemId })'
@@ -99,7 +110,7 @@ try {
   });
   mutation({
     name: "paid failed job has no durable retry",
-    file: files[4],
+    file: files[5],
     replacements: [[
       '      generation: { mode: "paid_durable", label: "Prepare updated packet" }',
       "      generation: null"
@@ -109,7 +120,7 @@ try {
   });
   mutation({
     name: "participant receipt action removed",
-    file: files[3],
+    file: files[4],
     replacements: [[
       "{item.paymentReceipt ? (",
       "{false && item.paymentReceipt ? ("
@@ -126,4 +137,4 @@ if (failures) {
   console.error(`Consumer verifier mutation suite failed: ${failures} mutation(s) escaped or failed incorrectly.`);
   process.exit(1);
 }
-console.log("Consumer verifier mutation suite passed: 6/6 authority and presentation defects turned red.");
+console.log("Consumer verifier mutation suite passed: 7/7 authority and presentation defects turned red.");

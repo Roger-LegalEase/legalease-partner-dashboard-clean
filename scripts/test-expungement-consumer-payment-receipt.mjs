@@ -248,6 +248,35 @@ assert.deepEqual(await providerResolved.receipt.resolveConsumerPaymentReceipt({
 }), { status: "available", receiptUrl: RECEIPT_URL }, "missing stored URL must resolve from the exact Stripe payment");
 assert.deepEqual(providerResolved.stripeRetrievals, ["cs_test_exact"]);
 
+const receiptReads = [];
+const unavailableLegalPresentation = {
+  id: ITEM,
+  paymentState: "unavailable",
+  authorityStatus: "unavailable"
+};
+const consumerPresentation = loadTs("src/lib/expungement-ai/briefcase-consumer-presentation.ts", {
+  "server-only": {},
+  "@/lib/expungement-ai/briefcase-presentation-authority": {
+    decorateBriefcaseItemForPresentation: async () => unavailableLegalPresentation
+  },
+  "@/lib/expungement-ai/consumer-payment-receipt": {
+    createConsumerPaymentReceiptAction: async (input) => {
+      receiptReads.push(input);
+      return action;
+    }
+  }
+});
+const durablePaymentPresentation = await consumerPresentation.decorateConsumerBriefcaseItemForPresentation({
+  consumerAuthUserId: USER,
+  item: { id: ITEM }
+});
+assert.deepEqual(receiptReads, [{ consumerAuthUserId: USER, briefcaseItemId: ITEM }],
+  "receipt authority must resolve even when legal or artifact presentation is unavailable");
+assert.equal(durablePaymentPresentation.paymentState, "paid",
+  "receipt authority must preserve paid history when legal or artifact presentation is unavailable");
+assert.equal(durablePaymentPresentation.paymentReceipt, action,
+  "receipt presentation must resolve independently of legal and artifact presentation");
+
 const moduleSource = fs.readFileSync(path.join(root, "src/lib/expungement-ai/consumer-payment-receipt.ts"), "utf8");
 const confirmSource = fs.readFileSync(path.join(root, "src/app/api/expungement-ai/payment/confirm/route.ts"), "utf8");
 assert.ok(!moduleSource.includes("createConsumerPacketCheckout"), "receipt access cannot create Checkout or a charge");
