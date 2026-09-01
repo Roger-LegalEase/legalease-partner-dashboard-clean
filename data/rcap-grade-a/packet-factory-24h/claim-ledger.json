@@ -181,10 +181,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF02",
+      "lane": "VF27",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-01T09:38:19.870Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -691,10 +691,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF11",
+      "lane": "VF27",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-01T09:38:20.455Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -886,10 +886,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF01",
+      "lane": "VF27",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-01T09:38:19.726Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -931,10 +931,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF02",
+      "lane": "VF27",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-01T09:38:20.010Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -1681,10 +1681,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF15",
+      "lane": "VF27",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-01T09:39:14.944Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -1711,10 +1711,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF15",
+      "lane": "VF27",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-01T09:39:15.095Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -8261,7 +8261,7 @@
       "releasedAt": null
     }
   ],
-  "claimsDigest": "b7c53ac3f2e48bfd9e0cacf6a1e06c0db7f8705830ed5ead62038a5b9cc6ef50",
+  "claimsDigest": "b83249978ff189cfabbce6cf87b8bce9744fbf2a802638dfe92dfe1986613350",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -11960,6 +11960,72 @@
       "previouslyReleasedAt": "2026-09-01T12:43:16.082Z",
       "transferredAt": "2026-09-01T15:43:03.863Z",
       "reason": "same FIX09 stand-down: vf17 FAIL unrepaired, re-opened on the dispatched lane"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "az_marijuana_expungement_arrest_no_charges-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF02",
+      "toLane": "VF27",
+      "previouslyReleasedAt": "2026-09-01T09:38:19.870Z",
+      "transferredAt": "2026-09-01T16:17:49.737Z",
+      "reason": "post-repair second read: the family was repaired after this lane's FAIL, re-rastered in run 33526896195 with a complete-coverage receipt, and the fresh independent read must come from a lane that neither built nor repaired it"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nj_arrest_no_conviction-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF11",
+      "toLane": "VF27",
+      "previouslyReleasedAt": "2026-09-01T09:38:20.455Z",
+      "transferredAt": "2026-09-01T16:17:49.809Z",
+      "reason": "post-repair second read: the family was repaired after this lane's FAIL, re-rastered in run 33526896195 with a complete-coverage receipt, and the fresh independent read must come from a lane that neither built nor repaired it"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "wa_vac_domestic_violence-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF15",
+      "toLane": "VF27",
+      "previouslyReleasedAt": "2026-09-01T09:39:14.944Z",
+      "transferredAt": "2026-09-01T16:17:49.896Z",
+      "reason": "post-repair second read: the family was repaired after this lane's FAIL, re-rastered in run 33526896195 with a complete-coverage receipt, and the fresh independent read must come from a lane that neither built nor repaired it"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "wa_vac_felony-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF15",
+      "toLane": "VF27",
+      "previouslyReleasedAt": "2026-09-01T09:39:15.095Z",
+      "transferredAt": "2026-09-01T16:17:49.972Z",
+      "reason": "post-repair second read: the family was repaired after this lane's FAIL, re-rastered in run 33526896195 with a complete-coverage receipt, and the fresh independent read must come from a lane that neither built nor repaired it"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "pa_490_nonconviction-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF01",
+      "toLane": "VF27",
+      "previouslyReleasedAt": "2026-09-01T09:38:19.726Z",
+      "transferredAt": "2026-09-01T16:17:50.055Z",
+      "reason": "post-repair second read: the family was repaired after this lane's FAIL, re-rastered in run 33526896195 with a complete-coverage receipt, and the fresh independent read must come from a lane that neither built nor repaired it"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "pa_9122_1_limited_access-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF02",
+      "toLane": "VF27",
+      "previouslyReleasedAt": "2026-09-01T09:38:20.010Z",
+      "transferredAt": "2026-09-01T16:17:50.131Z",
+      "reason": "post-repair second read: the family was repaired after this lane's FAIL, re-rastered in run 33526896195 with a complete-coverage receipt, and the fresh independent read must come from a lane that neither built nor repaired it"
     }
   ]
 }
