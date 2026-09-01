@@ -492,6 +492,27 @@ try {
   }
 } catch { /* no ledger yet */ }
 
+/*
+ * The terminal transition, derived from evidence and never stamped by hand:
+ * COMPLETE_PACKET_PROVEN = a fifteen-obligation PASS_COMPLETE_INDEPENDENT
+ * verdict + a complete-coverage RASTER_PASS receipt whose bound hashes are the
+ * row's CURRENT canonical/boundary hashes + no open legal input + a declared
+ * product wiring. Anything less stays VERIFIED_PASS and says why by absence.
+ */
+const rasterPassByFamily = new Map();
+try {
+  const rq = JSON.parse(fs.readFileSync(path.join(ROOT, `${OUT_DIR}/RASTER_QUEUE.json`), "utf8"));
+  for (const r of rq.rows ?? []) {
+    const rec = r.rasterReceipt;
+    rasterPassByFamily.set(r.familyId,
+      r.currentRasterState === "RASTER_PASS"
+      && rec?.verdict === "RASTER_PASS"
+      && r.coverage?.complete === true
+      && rec?.boundToCanonicalSha256 === r.canonicalPdfSha256
+      && rec?.boundToBoundarySha256 === r.boundaryPdfSha256);
+  }
+} catch { /* no raster queue yet: nothing can be proven */ }
+
 const families = [];
 const seen = new Set();
 for (const f of IN.scoreboard.familiesDetail) {
@@ -573,6 +594,10 @@ for (const f of IN.scoreboard.familiesDetail) {
    * would have reached Lawrence review as in-flight rather than as failed. A
    * lane that has returned is not still verifying.
    */
+  else if (independentReturn?.verdict === "PASS_COMPLETE_INDEPENDENT"
+    && rasterPassByFamily.get(familyId) === true
+    && !legalBlocked
+    && fs.existsSync(path.join(ROOT, `${directory}/product-wiring.json`))) state = "COMPLETE_PACKET_PROVEN";
   else if (independentReturn?.verdict === "PASS_COMPLETE_INDEPENDENT") state = "VERIFIED_PASS";
   else if (independentFail
     && repairReleasedFamilies.has(familyId) && !repairLiveFamilies.has(familyId)
