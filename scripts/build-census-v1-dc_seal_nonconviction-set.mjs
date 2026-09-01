@@ -1354,6 +1354,22 @@ export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
     maps, generationAllowed: false, runtimeSelectable: false, commercialRoutesOpened: 0
   });
 
+  /* A multi-variant family renders fixture pairs per route (canonical-misdemeanor_5yr,
+   * canonical-felony_8yr, ...). The central raster gate refuses to guess which pair is
+   * the family's primary, so the builder declares it: the first configured variant.
+   * Coverage still spans every variant's documents; this only names the pair whose
+   * hashes the receipt's primary binding carries. */
+  if (fam.variants.length > 1) {
+    for (const role of ["canonical", "boundary"]) {
+      const primary = pdfsDeclared.find((p) => p.fixture === `${role}-${fam.variants[0].variantId}`);
+      if (primary) pdfsDeclared.push({
+        ...primary, fixture: role, role: "raster_primary_alias",
+        aliasOf: primary.fixture,
+        declaredBecause: "the family renders one fixture pair per variant; the first configured variant is the primary raster pair"
+      });
+    }
+  }
+
   writeJson(`${OUT}/reports/rendered-artifacts.json`, {
     schemaVersion: "rcap-rendered-artifacts/v1", familyId,
     renderedFresh: true, derivedFromBytes: true,
