@@ -273,6 +273,84 @@ const SOURCE_FIELD_DISPOSITIONS = {
   }
 };
 
+// Route-determined elections, marked on the official form's own printed
+// controls (FIX10). A family appears here only when the pinned form's face
+// carries the ground its route implements and the route — not the participant's
+// case facts — determines the mark. Each mark pins the censused control id, a
+// context fragment that must appear in the control's printed line, and the
+// measured geometry, so a source revision or census drift fails loudly instead
+// of marking the wrong box. Controls whose state depends on the participant's
+// own case (for example the class B / class C timing boxes on CR 08.0900
+// sections 5 and 6) are never listed here: they remain genuine participant
+// elections with their existing blank dispositions.
+const ROUTE_ELECTION_MARKS = {
+  "wa_vac_domestic_violence-set": {
+    routeSelectionId: "wa-vac-dv-crrlj-09-0100-section-6-rcw-9-96-060-2f",
+    marks: {
+      "CRRLJ-09.0100": [{
+        controlId: "p4-selection-1",
+        mustContain: "Domestic Violence: I was convicted of an offense involving domestic violence",
+        expect: { page: 4, x0: 108, y0: 487.5 },
+        why: "Section 6 of the petition is the RCW 9.96.060(2)(f) domestic-violence ground this route implements; the route, not the participant, determines this election."
+      }]
+    }
+  },
+  "wa_vac_felony-set": {
+    routeSelectionId: "wa-vac-felony-cr-08-0900-rcw-9-94a-640",
+    marks: {
+      "CR-08.0900": [
+        {
+          controlId: "p1-selection-1",
+          mustContain: "Defendant [ ] Prosecutor asks the court",
+          expect: { page: 1, x0: 72, y0: 419.6 },
+          why: "On this self-help route the movant is the defendant; the prosecutor box is the alternative movant the route never uses (CR 08.0900 section I)."
+        },
+        {
+          controlId: "p2-selection-1",
+          mustContain: "was [ ] was not discharged under RCW 9.94A.637",
+          expect: { page: 2, x0: 114.09, y0: 568.6 },
+          why: "The ordinary RCW 9.94A.640 route requires discharge under RCW 9.94A.637 for class B and class C alike (CR 08.0930 eligibility table), so 'was discharged' is route-invariant; 'was not' belongs to the victim route."
+        },
+        {
+          controlId: "p2-selection-3",
+          mustContain: "There are no criminal charges pending against me",
+          expect: { page: 2, x0: 107.98, y0: 518.7 },
+          why: "RCW 9.94A.640(2)(a) requires no pending charges on this route; the alternative box (prostitution charge pending) exists only for the victim-of-certain-crimes route."
+        }
+      ]
+    }
+  }
+};
+
+function routeElectionFamily(familyId) {
+  return ROUTE_ELECTION_MARKS[familyId] ?? null;
+}
+
+function routeMarkIdsFor(familyId, formNumber) {
+  return new Set((ROUTE_ELECTION_MARKS[familyId]?.marks?.[formNumber] ?? []).map((spec) => spec.controlId));
+}
+
+function resolveRouteElectionMarks(familyId, document, census) {
+  const specs = ROUTE_ELECTION_MARKS[familyId]?.marks?.[document.formNumber] ?? [];
+  return specs.map((spec) => {
+    const control = census.selectionControls.find((candidate) => candidate.id === spec.controlId);
+    if (!control) fail("route-election control absent from first-hand census", `${document.formNumber} ${spec.controlId}`);
+    if (!String(control.printedContext ?? "").includes(spec.mustContain)) {
+      fail("route-election control printed context mismatch",
+        `${document.formNumber} ${spec.controlId}: ${JSON.stringify(control.printedContext)}`);
+    }
+    if (control.page !== spec.expect.page
+      || Math.abs(control.geometry.x0 - spec.expect.x0) > 0.5
+      || Math.abs(control.geometry.y0 - spec.expect.y0) > 0.5) {
+      fail("route-election control geometry drifted from its pinned expectation", `${document.formNumber} ${spec.controlId}`);
+    }
+    if (control.observedState !== "unmarked") {
+      fail("route-election control is already marked on the pinned source", `${document.formNumber} ${spec.controlId}`);
+    }
+    return { spec, control };
+  });
+}
+
 const sha256 = (bytes) => crypto.createHash("sha256").update(bytes).digest("hex");
 const round = (n) => Number(Number(n).toFixed(2));
 const readJson = (rel) => JSON.parse(fs.readFileSync(path.join(rootDir, rel), "utf8"));
@@ -727,7 +805,7 @@ function cannabisCaseNumberObservation(document, pageNumber, lines, measuredRule
   } };
 }
 
-async function censusDocument(document) {
+async function censusDocument(document, routeMarkIds = new Set()) {
   const pdf = await PDFDocument.load(document.bytes, { ignoreEncryption: true, updateMetadata: false });
   const raw = [];
   const pages = [];
@@ -746,10 +824,15 @@ async function censusDocument(document) {
     const vectorControls = vectorSelectionControls(page, decodedContent);
     const pageControls = dedupeControls([...vectorControls, ...printedControls])
       .sort((a, b) => b.geometry.y0 - a.geometry.y0 || a.geometry.x0 - b.geometry.x0)
-      .map((control, index) => ({
-        id: `p${pageNumber}-selection-${index + 1}`, page: pageNumber, ...control,
-        treatment: "explicitly_left_unmarked_legal_or_court_election"
-      }));
+      .map((control, index) => {
+        const id = `p${pageNumber}-selection-${index + 1}`;
+        return {
+          id, page: pageNumber, ...control,
+          treatment: routeMarkIds.has(id)
+            ? "route_determined_election_marked_by_build"
+            : "explicitly_left_unmarked_legal_or_court_election"
+        };
+      });
     selectionControls.push(...pageControls);
     const measuredRules = rulesOfPage(page, { maxThickness: 3, minLength: 8, minDividerLength: 8 });
     const classifiedRules = measuredRules.horizontal.map((rule) => ({ ...rule, ...classifyRule(rule, lines) }));
@@ -980,8 +1063,16 @@ function addedVectorsInsideControl(addedVectors, control) {
     && segment.y + segment.height >= box.y0 - 1 && segment.y <= box.y1 + 1);
 }
 
-function verifyAddedInk({ document, census, anchors, added, addedVectors, report, fixture }) {
+function verifyAddedInk({ document, census, anchors, added, addedVectors, report, fixture, routeMarkIds = new Set() }) {
   const findings = [];
+  const routeControls = census.selectionControls.filter((control) => routeMarkIds.has(control.id));
+  const routeVectorIndexes = new Set();
+  for (const [index, segment] of addedVectors.entries()) {
+    if (routeControls.some((control) => addedVectorsInsideControl([segment], control).length > 0)) {
+      routeVectorIndexes.add(index);
+    }
+  }
+  const unattributedVectors = addedVectors.filter((segment, index) => !routeVectorIndexes.has(index));
   const perAnchor = anchors.map((anchor) => {
     const glyphs = inkInside(added, anchor);
     return {
@@ -1001,9 +1092,9 @@ function verifyAddedInk({ document, census, anchors, added, addedVectors, report
     findings.push({ severity: "blocking", check: "added_ink_outside_every_measured_write_box",
       count: unattributed.length, sample: unattributed.slice(0, 20) });
   }
-  if (addedVectors.length) {
+  if (unattributedVectors.length) {
     findings.push({ severity: "blocking", check: "unexpected_added_vector_ink",
-      count: addedVectors.length, sample: addedVectors.slice(0, 20) });
+      count: unattributedVectors.length, sample: unattributedVectors.slice(0, 20) });
   }
   for (const write of report.written ?? []) {
     const anchor = anchors.find((candidate) => candidate.label === write.anchor);
@@ -1039,18 +1130,37 @@ function verifyAddedInk({ document, census, anchors, added, addedVectors, report
     const addedText = addedTextInsideControl(added, control);
     const addedVector = addedVectorsInsideControl(addedVectors, control);
     const markedByBuild = addedText.length > 0 || addedVector.length > 0;
-    if (markedByBuild) findings.push({ severity: "blocking", check: "selection_control_modified",
-      controlId: control.id, addedText, addedVector });
+    const routeElectionMark = routeMarkIds.has(control.id);
+    if (markedByBuild && !routeElectionMark) {
+      findings.push({ severity: "blocking", check: "selection_control_modified",
+        controlId: control.id, addedText, addedVector });
+    }
+    if (routeElectionMark && !markedByBuild) {
+      findings.push({ severity: "blocking", check: "route_election_control_not_marked",
+        controlId: control.id });
+    }
+    if (routeElectionMark && addedText.length > 0) {
+      findings.push({ severity: "blocking", check: "route_election_marked_with_text_instead_of_strokes",
+        controlId: control.id, addedText });
+    }
     return {
       controlId: control.id, page: control.page, construction: control.construction,
       printedGlyph: control.printedGlyph, sourceObservedState: control.observedState,
       geometry: control.geometry, addedTextGlyphCount: addedText.length,
-      addedVectorPathCount: addedVector.length, markedByBuild
+      addedVectorPathCount: addedVector.length, markedByBuild,
+      // The report keeps its pre-FIX10 shape for documents without a
+      // route-determined election, so stored reports of untouched families
+      // still recompute byte-identically under --check.
+      ...(routeMarkIds.size ? { routeElectionMark } : {})
     };
   });
   return {
     document: document.formNumber, fixture, glyphsAdded: added.length,
     vectorPathsAdded: addedVectors.length,
+    ...(routeMarkIds.size ? {
+      routeElectionVectorPaths: routeVectorIndexes.size,
+      routeElectionControlIds: [...routeMarkIds].sort()
+    } : {}),
     written: report.written ?? [], refused: report.refused ?? [], unfittable: report.unfittable ?? [],
     perAnchor, selectionControlProofs, findings
   };
@@ -1266,13 +1376,21 @@ async function assertCompleteRenderInventory({ familyId, documents, census, fixt
     const { anchors } = anchorsFor(document, censusDocumentRow);
     const added = await addedInkOf(document.bytes, artifactBytes);
     const addedVectors = await addedVectorInkOf(document.bytes, artifactBytes);
+    const routeMarkIds = routeMarkIdsFor(familyId, artifact.document);
     const recomputed = verifyAddedInk({ document, census: censusDocumentRow, anchors, added, addedVectors,
-      report: actual, fixture: artifact.fixture });
+      report: actual, fixture: artifact.fixture, routeMarkIds });
     if (JSON.stringify(recomputed) !== JSON.stringify(actual)) {
       fail("actual-write report is not derived from current artifact bytes", key);
     }
-    if (actual.findings.length || actual.vectorPathsAdded !== 0
-      || actual.selectionControlProofs.some((control) => control.markedByBuild)) {
+    // Every added vector must be a route-determined election stroke, every
+    // marked control must be a declared route election, and every declared
+    // route election must actually be marked. A family with no route
+    // elections keeps the original all-zero gate.
+    if (actual.findings.length
+      || actual.vectorPathsAdded !== (routeMarkIds.size ? actual.routeElectionVectorPaths : 0)
+      || (routeMarkIds.size > 0 && actual.routeElectionVectorPaths === 0)
+      || actual.selectionControlProofs.some((control) =>
+        control.markedByBuild !== routeMarkIds.has(control.controlId))) {
       fail("protected-field proof is not clean", key);
     }
     for (const write of actual.written) {
@@ -1368,9 +1486,15 @@ async function checkFamily(familyId, records, sourceRoot) {
     ["actual writes", actualWrites],
     ["protection report", protection], ["rendered artifacts", rendered],
     ["approval request", approval], ["build status", status]]) assertClosedState(label, value);
+  const routeFamily = routeElectionFamily(familyId);
+  const selectionMarkingClean = routeFamily
+    ? (protection.selectionControlsMarked === true
+      && protection.selectionControlsMarkedOutsideApprovedRouteElections === false
+      && protection.routeElections?.routeSelectionId === routeFamily.routeSelectionId)
+    : protection.selectionControlsMarked === false;
   if (status.status !== "BUILT_EVIDENCE_ONLY" || findings.status !== "NO_BLOCKING_ARTIFACT_FINDINGS"
     || findings.blocking?.length || actualWrites.blockingFindings?.length
-    || protection.selectionControlsMarked !== false) {
+    || !selectionMarkingClean) {
     fail("family evidence is not clean and fail-closed", familyId);
   }
   if ((fieldMap.explicitSafetyPolicy?.neverWritten ?? []).some((entry) => /date of birth|conviction date/i.test(entry))) {
@@ -1378,10 +1502,12 @@ async function checkFamily(familyId, records, sourceRoot) {
   }
 
   for (const document of documents) {
-    const fresh = await censusDocument(document);
+    const routeMarkIds = routeMarkIdsFor(familyId, document.formNumber);
+    const fresh = await censusDocument(document, routeMarkIds);
     if (fresh.selectionControls.some((control) => control.observedState !== "unmarked")) {
       fail("pinned source contains a pre-marked selection control", document.formNumber);
     }
+    resolveRouteElectionMarks(familyId, document, fresh);
     const stored = census.documents.find((candidate) => candidate.formNumber === document.formNumber);
     const comparableStored = stored ? { pages: stored.pages, blanks: stored.blanks,
       selectionControls: stored.selectionControls, unresolvedVisibleFields: stored.unresolvedVisibleFields } : null;
@@ -1406,11 +1532,20 @@ async function checkFamily(familyId, records, sourceRoot) {
       fail("stored field map allows a protected fact", document.formNumber);
     }
     const protectionRow = protection.documents.find((candidate) => candidate.formNumber === document.formNumber);
+    const expectedUnmarked = fresh.selectionControls.length - routeMarkIds.size;
     if (!protectionRow || protectionRow.selectionControlsObserved !== fresh.selectionControls.length
-      || protectionRow.selectionControlsLeftUnmarked !== fresh.selectionControls.length
+      || protectionRow.selectionControlsLeftUnmarked !== expectedUnmarked
       || protectionRow.fixtureProofs?.length !== 2
-      || protectionRow.fixtureProofs.some((proof) => proof.vectorPathsAdded !== 0
-        || proof.controlsMarked !== 0 || proof.controlsProvedUnmarked !== fresh.selectionControls.length)) {
+      || protectionRow.fixtureProofs.some((proof) =>
+        proof.controlsMarked !== routeMarkIds.size
+        || proof.controlsProvedUnmarked !== expectedUnmarked
+        || (routeMarkIds.size === 0
+          ? proof.vectorPathsAdded !== 0
+          : (proof.vectorPathsAdded !== proof.routeElectionVectorPaths
+            || proof.routeElectionVectorPaths === 0
+            || proof.controlsMarkedForRouteElection !== routeMarkIds.size)))
+      || (routeMarkIds.size > 0
+        && JSON.stringify(protectionRow.routeElectionControlIds ?? null) !== JSON.stringify([...routeMarkIds].sort()))) {
       fail("selection-control protection inventory mismatch", document.formNumber);
     }
   }
@@ -1430,22 +1565,41 @@ async function buildOfficialFamily(familyId, records, documents) {
   const out = outFor(familyId);
   const censused = [];
   for (const document of documents) {
-    const census = await censusDocument(document);
+    const routeMarkIds = routeMarkIdsFor(familyId, document.formNumber);
+    const census = await censusDocument(document, routeMarkIds);
     const preMarked = census.selectionControls.filter((control) => control.observedState !== "unmarked");
     if (preMarked.length) {
       fail("pinned official source contains a pre-marked selection control",
         `${document.formNumber}: ${preMarked.map((control) => control.id).join(", ")}`);
     }
+    const routeMarks = resolveRouteElectionMarks(familyId, document, census);
     const { anchors, withheld } = anchorsFor(document, census);
-    censused.push({ document, census, anchors, withheld, protectedRules: protectedRulesFor(census) });
+    censused.push({ document, census, anchors, withheld, routeMarkIds, routeMarks,
+      protectedRules: protectedRulesFor(census) });
   }
 
   const productWiringPath = `${out}/product-wiring.json`;
   const preservedProductWiring = fs.existsSync(absFor(productWiringPath))
     ? readJson(productWiringPath)
     : jsonAtRevision(P2_CONTROL_BASE, productWiringPath);
+  // participant-instructions.md is filing guidance beside the packet, not a
+  // rendered artifact; a rebuild must not delete it (FIX10).
+  const participantInstructionsPath = `${out}/participant-instructions.md`;
+  const preservedParticipantInstructions = fs.existsSync(absFor(participantInstructionsPath))
+    ? fs.readFileSync(absFor(participantInstructionsPath), "utf8")
+    : null;
+  const routeOptionsBlockPath = `${out}/route-options-block.json`;
+  const preservedRouteOptionsBlock = fs.existsSync(absFor(routeOptionsBlockPath))
+    ? readJson(routeOptionsBlockPath)
+    : null;
   fs.rmSync(assertOwnedOutput(familyId, out), { recursive: true, force: true });
   fs.mkdirSync(absFor(out), { recursive: true });
+  if (preservedParticipantInstructions !== null) {
+    fs.writeFileSync(absFor(participantInstructionsPath), preservedParticipantInstructions);
+  }
+  if (preservedRouteOptionsBlock !== null) {
+    writeJson(routeOptionsBlockPath, preservedRouteOptionsBlock);
+  }
   writeJson(`${out}/source-receipt.json`, sourceReceipt(familyId, records, documents));
   writeJson(`${out}/field-census.census-v1.json`, {
     schemaVersion: "rcap-official-form-field-census/v1-census-v1", familyId, jurisdiction: "WA",
@@ -1476,12 +1630,26 @@ async function buildOfficialFamily(familyId, records, documents) {
       possibleParticipantContactWrites:
         "Only a separately captioned participant contact blank outside declarations/signature blocks; none is inferred from layout alone.",
       neverWritten: [
-        "legal elections or checkboxes", "participant-authored narratives", "signatures",
+        routeElectionFamily(familyId)
+          ? "legal elections or checkboxes, other than the route-determined election(s) recorded under routeElections"
+          : "legal elections or checkboxes",
+        "participant-authored narratives", "signatures",
         "signature and execution dates", "service certifications", "prosecutor or attorney fields",
         "court findings or judicial reasons", "money or refund amounts"
       ],
       courtOrdersAcceptKnownCaseFactsOnly: true
     },
+    ...(routeElectionFamily(familyId) ? {
+      routeElections: {
+        routeSelectionId: routeElectionFamily(familyId).routeSelectionId,
+        basis: "Route-determined elections read first-hand from the pinned form face and marked with two diagonal "
+          + "strokes inside the printed control's measured bounds (FIX10). Case-dependent elections are never marked.",
+        marks: censused.flatMap(({ document, routeMarks }) => routeMarks.map(({ spec, control }) => ({
+          formNumber: document.formNumber, controlId: control.id, page: control.page,
+          geometry: control.geometry, printedContext: control.printedContext, why: spec.why
+        })))
+      }
+    } : {}),
     valueNormalization: {
       "matter.county":
         "For CR-08 caption blanks following the source text 'County of', strip a trailing 'County' designator "
@@ -1508,15 +1676,28 @@ async function buildOfficialFamily(familyId, records, documents) {
       if (countyIsMapped && typeof renderedFacts["matter.county"] === "string") {
         renderedFacts["matter.county"] = renderedFacts["matter.county"].replace(/\s+County\s*$/i, "").trim();
       }
+      const routeSelections = item.routeMarks.map(({ spec, control }) => ({
+        label: `${control.id} ${spec.mustContain}`,
+        page: control.page, measured: true,
+        box: {
+          x0: control.geometry.x0, y0: control.geometry.y0,
+          x1: control.geometry.x1, y1: control.geometry.y1
+        }
+      }));
       const options = {
         sourceBytes: item.document.bytes, expectedSha256: item.document.expectedSha256,
-        anchors: item.anchors, selections: [], protectedRules: item.protectedRules,
+        anchors: item.anchors, selections: routeSelections, protectedRules: item.protectedRules,
         explicitMappings: explicitMappingsFor(item.anchors), facts: renderedFacts,
         documentTextLines: item.census.documentTextLines,
         title: `WA ${item.document.formNumber}`
       };
       const first = await finalizeFlatOverlay(options);
       const second = await finalizeFlatOverlay(options);
+      if ((first.report.selectionsRefused ?? []).length
+        || (first.report.selections ?? []).length !== routeSelections.length) {
+        fail("route-determined election was refused or not drawn",
+          `${item.document.formNumber}/${fixture}: ${JSON.stringify(first.report.selectionsRefused ?? [])}`);
+      }
       const firstHash = sha256(first.bytes);
       const secondHash = sha256(second.bytes);
       if (firstHash !== secondHash) fail("fixture output is not deterministic", `${item.document.formNumber}/${fixture}`);
@@ -1527,7 +1708,7 @@ async function buildOfficialFamily(familyId, records, documents) {
       const added = await addedInkOf(item.document.bytes, first.bytes);
       const addedVectors = await addedVectorInkOf(item.document.bytes, first.bytes);
       const proof = verifyAddedInk({ document: item.document, census: item.census, anchors: item.anchors,
-        added, addedVectors, report: first.report, fixture });
+        added, addedVectors, report: first.report, fixture, routeMarkIds: item.routeMarkIds });
       findings.push(...proof.findings.map((finding) => ({ ...finding, document: item.document.formNumber, fixture })));
       actualReports.push(proof);
       artifacts.push({
@@ -1565,22 +1746,38 @@ async function buildOfficialFamily(familyId, records, documents) {
   });
   const anySelectionControlMarked = actualReports.some((report) =>
     report.selectionControlProofs.some((control) => control.markedByBuild));
+  const anyControlMarkedOutsideRouteElections = actualReports.some((report) =>
+    report.selectionControlProofs.some((control) => control.markedByBuild && control.routeElectionMark !== true));
   writeJson(`${out}/reports/protection-report.json`, {
     schemaVersion: "rcap-protected-fields-report/v1", familyId,
     signatureAndCourtFieldsWritten: false, selectionControlsMarked: anySelectionControlMarked,
+    ...(routeElectionFamily(familyId) ? {
+      selectionControlsMarkedOutsideApprovedRouteElections: anyControlMarkedOutsideRouteElections,
+      routeElections: {
+        routeSelectionId: routeElectionFamily(familyId).routeSelectionId,
+        controlIds: censused.flatMap(({ document, routeMarkIds }) =>
+          [...routeMarkIds].sort().map((id) => `${document.formNumber}/${id}`))
+      }
+    } : {}),
     chargeOrOffenseFieldsWritten: censused.some(({ anchors }) =>
       anchors.some((anchor) => /^matter\.charges\[\d+\]\./.test(anchor.factId))),
-    documents: censused.map(({ document, census, withheld }) => ({
+    documents: censused.map(({ document, census, withheld, routeMarkIds }) => ({
       formNumber: document.formNumber, withheldBlankCount: withheld.length,
       selectionControlsObserved: census.selectionControls.length,
       selectionControlsLeftUnmarked: census.selectionControls.filter((control) =>
         actualReports.filter((report) => report.document === document.formNumber)
           .every((report) => report.selectionControlProofs.find((proof) => proof.controlId === control.id)
             ?.markedByBuild === false)).length,
+      ...(routeMarkIds.size ? { routeElectionControlIds: [...routeMarkIds].sort() } : {}),
       fixtureProofs: actualReports.filter((report) => report.document === document.formNumber).map((report) => ({
         fixture: report.fixture, vectorPathsAdded: report.vectorPathsAdded,
         controlsProvedUnmarked: report.selectionControlProofs.filter((control) => !control.markedByBuild).length,
-        controlsMarked: report.selectionControlProofs.filter((control) => control.markedByBuild).length
+        controlsMarked: report.selectionControlProofs.filter((control) => control.markedByBuild).length,
+        ...(routeMarkIds.size ? {
+          routeElectionVectorPaths: report.routeElectionVectorPaths,
+          controlsMarkedForRouteElection: report.selectionControlProofs
+            .filter((control) => control.markedByBuild && control.routeElectionMark === true).length
+        } : {})
       })),
       approvedBlankDispositions: withheld
     })),
@@ -1607,7 +1804,9 @@ async function buildOfficialFamily(familyId, records, documents) {
     schemaVersion: "rcap-participant-completion-instructions/v1", familyId,
     status: "EVIDENCE_ONLY_NOT_APPROVED_FOR_DELIVERY",
     instructions: [
-      "Review the selected Washington form and choose the correct court and eligibility path; this build does not make legal elections.",
+      routeElectionFamily(familyId)
+        ? "Review the selected Washington form and confirm the court and eligibility path; this build marks only the route-determined election(s) recorded in the production field map's routeElections and makes no other legal election."
+        : "Review the selected Washington form and choose the correct court and eligibility path; this build does not make legal elections.",
       "Review every prefilled participant and case fact, including caption, conviction, offense/count, statute, and contact information, against the court record before filing.",
       "Participant-authored evidence or mitigation remains blank when the route requires the participant's own sworn narrative; the platform does not invent that content.",
       "Sign and date only after reviewing the filing; the build never signs or dates a declaration for the participant.",
@@ -1667,7 +1866,7 @@ export async function buildWaFamily(familyId, argv = process.argv.slice(2)) {
   if (argv.includes("--inspect")) {
     const inspection = [];
     for (const document of documents) {
-      const census = await censusDocument(document);
+      const census = await censusDocument(document, routeMarkIdsFor(familyId, document.formNumber));
       const { anchors, withheld } = anchorsFor(document, census);
       inspection.push({
         formNumber: document.formNumber, role: document.role,
