@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "rcap-independent-verification-collision-guard/v1",
+  "assignment": "IV-H",
+  "checkedAt": "2026-09-01T09:23:31Z",
+  "inputsReadBeforePacketEvidence": [
+    "data/rcap-grade-a/launch-control/CLAUDE_9H_SHIFT.json",
+    "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
+    "data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
+    "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+    "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+  ],
+  "packetEvidenceRead": false,
+  "families": [
+    {
+      "familyId": "wa_vac_survivor_misdemeanor-set",
+      "collision": true,
+      "activeClaudeLane": "VF16",
+      "activeClaudeWorker": "FIX-B",
+      "activeAssignmentAt": "2026-09-01T09:23:31Z",
+      "claimReleased": false,
+      "verdict": "DEFERRED_ACTIVE_CLAUDE_OWNER",
+      "basis": [
+        "data/rcap-grade-a/launch-control/CLAUDE_9H_SHIFT.json",
+        "data/rcap-grade-a/packet-factory-24h/claim-ledger.json"
+      ]
+    },
+    {
+      "familyId": "wa_vac_treaty_fishing-set",
+      "collision": true,
+      "activeClaudeLane": "VF16",
+      "activeClaudeWorker": "FIX-B",
+      "activeAssignmentAt": "2026-09-01T09:23:31Z",
+      "claimReleased": false,
+      "verdict": "DEFERRED_ACTIVE_CLAUDE_OWNER",
+      "basis": [
+        "data/rcap-grade-a/launch-control/CLAUDE_9H_SHIFT.json",
+        "data/rcap-grade-a/packet-factory-24h/claim-ledger.json"
+      ]
+    }
+  ],
+  "ruleApplied": "No packet evidence was read after the active Claude verification ownership collision was established."
+}
