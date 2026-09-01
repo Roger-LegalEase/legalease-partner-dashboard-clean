@@ -9,7 +9,11 @@ import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { authCaptchaFailureMessage, captchaOptions, isAuthCaptchaRequired } from "@/lib/auth/captcha";
 import { createBrowserSupabaseClient } from "@/lib/supabase/browser";
-import { passwordResetRedirectUrl } from "@/lib/app-url";
+import { isExpungementAiHostname, passwordResetRedirectUrl } from "@/lib/app-url";
+import {
+  consumerAuthContinuationFrom,
+  consumerAuthContinuationQuery
+} from "@/lib/expungement-ai/auth-continuation";
 
 const successMessage = "If an account exists for that email, we sent password reset instructions.";
 const invalidEmailMessage = "Enter a valid email address.";
@@ -102,7 +106,7 @@ export default function ForgotPasswordPage() {
           </form>
 
           <div className="mt-5 text-center">
-            <Link href="/sign-in?next=/partner/dashboard" className="text-sm font-semibold text-teal hover:text-navy">
+            <Link href={backToSignInHref()} className="text-sm font-semibold text-teal hover:text-navy">
               Back to sign in
             </Link>
           </div>
@@ -116,8 +120,20 @@ function passwordResetRedirectTo() {
   const params = typeof window !== "undefined" ? new URLSearchParams(window.location.search) : new URLSearchParams();
   return passwordResetRedirectUrl({
     product: params.get("product"),
-    hostname: typeof window !== "undefined" ? window.location.hostname : null
+    hostname: typeof window !== "undefined" ? window.location.hostname : null,
+    continuation: consumerAuthContinuationFrom(params)
   });
+}
+
+function backToSignInHref() {
+  if (typeof window === "undefined") return "/sign-in?next=/partner/dashboard";
+  const params = new URLSearchParams(window.location.search);
+  const consumer = params.get("product") === "expungement" || isExpungementAiHostname(window.location.hostname);
+  if (!consumer) return "/sign-in?next=/partner/dashboard";
+  return `/expungement-ai/sign-in?${consumerAuthContinuationQuery(
+    consumerAuthContinuationFrom(params),
+    { mode: "signin" }
+  )}`;
 }
 
 function isValidEmail(email: string) {

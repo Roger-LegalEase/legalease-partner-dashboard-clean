@@ -4,12 +4,12 @@ import Link from "next/link";
 import { FormEvent, useState } from "react";
 import { TurnstileWidget } from "@/components/auth/TurnstileWidget";
 import { authCaptchaFailureMessage, captchaOptions, isAuthCaptchaRequired } from "@/lib/auth/captcha";
-import { safeAppRedirectPath } from "@/lib/auth/redirect";
+import { submitClaim } from "@/lib/expungement-ai/claim/claim-handoff";
 import {
-  CLAIM_TOKEN_PARAM,
-  isWellFormedClaimTokenValue,
-  submitClaim
-} from "@/lib/expungement-ai/claim/claim-handoff";
+  consumerAuthCallbackPath,
+  consumerAuthContinuationFrom,
+  consumerForgotPasswordPath
+} from "@/lib/expungement-ai/auth-continuation";
 import { absoluteExpungementAiUrl } from "@/lib/app-url";
 import { createBrowserSupabaseClient } from "@/lib/supabase/browser";
 import { useLocalization } from "@/components/expungement-ai/LocalizationProvider";
@@ -32,8 +32,8 @@ export function ConsumerSignInForm() {
   const { claimToken } = readAuthRequestContext();
 
   // The claim token is read from the URL on every attempt and never stashed in
-  // localStorage. submitClaim strips it from the address bar once the server has
-  // seen it.
+  // localStorage. submitClaim strips it after success or a definitive denial;
+  // recoverable auth and server failures leave it available for retry.
   async function finishPendingClaim() {
     const requestContext = readAuthRequestContext();
     setIsSubmitting(true);
@@ -82,7 +82,7 @@ export function ConsumerSignInForm() {
         password,
         options: {
           ...captchaOptions(captchaToken),
-          emailRedirectTo: expungementAuthRedirectTo(requestContext.nextPath, requestContext.claimToken)
+          emailRedirectTo: expungementAuthRedirectTo(requestContext)
         }
       })
       : await supabase.auth.signInWithPassword({ email, password, options: captchaOptions(captchaToken) });
@@ -215,7 +215,7 @@ export function ConsumerSignInForm() {
             ? translate("signin.switch_to_signin", "Already have an account? Sign in")
             : translate("signin.switch_to_create", "New here? Create account")}
         </button>
-        {!createMode ? <Link href="/auth/forgot-password?product=expungement" className="text-sm font-semibold text-[#00A99D] hover:text-[#0B1320]">
+        {!createMode ? <Link href={forgotPasswordHref()} className="text-sm font-semibold text-[#00A99D] hover:text-[#0B1320]">
           {translate("signin.forgot", "Forgot your password?")}
         </Link> : null}
       </div>
@@ -223,10 +223,10 @@ export function ConsumerSignInForm() {
   );
 }
 
-function expungementAuthRedirectTo(nextPath: string, claimToken: string) {
-  const params = new URLSearchParams({ next: safeAppRedirectPath(nextPath, "/briefcase") });
-  if (isWellFormedClaimTokenValue(claimToken)) params.set(CLAIM_TOKEN_PARAM, claimToken);
-  const path = `/auth/set-password?${params.toString()}`;
+function expungementAuthRedirectTo(
+  continuation: ReturnType<typeof consumerAuthContinuationFrom>
+) {
+  const path = consumerAuthCallbackPath(continuation);
   if (typeof window !== "undefined" && isExpungementHost(window.location.hostname)) {
     return `${window.location.origin}${path}`;
   }
@@ -239,14 +239,13 @@ function isExpungementHost(hostname: string) {
 
 function readAuthRequestContext() {
   if (typeof window === "undefined") {
-    return { nextPath: "/briefcase", claimToken: "" };
+    return { nextPath: "/briefcase", claimToken: "", locale: null } as const;
   }
-  const params = new URLSearchParams(window.location.search);
-  const token = params.get(CLAIM_TOKEN_PARAM);
-  return {
-    nextPath: safeAppRedirectPath(params.get("next"), "/briefcase"),
-    claimToken: isWellFormedClaimTokenValue(token) ? token : ""
-  };
+  return consumerAuthContinuationFrom(new URLSearchParams(window.location.search));
+}
+
+function forgotPasswordHref() {
+  return consumerForgotPasswordPath(readAuthRequestContext());
 }
 
 function initialAuthMode(): AuthMode {
@@ -254,7 +253,7 @@ function initialAuthMode(): AuthMode {
   const params = new URLSearchParams(window.location.search);
   if (params.get("mode") === "create") return "create";
   if (params.get("mode") === "signin") return "signin";
-  const next = safeAppRedirectPath(params.get("next"), "");
+  const next = consumerAuthContinuationFrom(params).nextPath;
   return isConversionNextPath(next) ? "create" : "signin";
 }
 
