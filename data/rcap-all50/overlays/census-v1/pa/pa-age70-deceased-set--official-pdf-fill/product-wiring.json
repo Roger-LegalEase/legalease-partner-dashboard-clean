@@ -1,0 +1,44 @@
+{
+  "schemaVersion": "rcap-census-v1-product-wiring/v1",
+  "family": "pa_age70_deceased-set",
+  "routeKey": "obligation:track-pathway:PA:pa_age70_deceased:path-e-age-70-expungement",
+  "routeKeys": [
+    "obligation:track-pathway:PA:pa_age70_deceased:path-e-age-70-expungement",
+    "obligation:track-pathway:PA:pa_age70_deceased:path-f-deceased-person-expungement"
+  ],
+  "workType": "PRODUCT_WIRING_REQUIRED",
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+  "derivedFrom": "data/rcap-all50/overlays/census-v1/pa/pa-age70-deceased-set--official-pdf-fill/reports/rendered-artifacts.json",
+  "explicitNonGrants": [
+    "This document opens no commercial route.",
+    "It creates no fulfillment record and consumes no packet credit.",
+    "It marks no packet proven and grants no output approval.",
+    "It does not add this track to compiled runtime. src/lib/rcap-engine/compiled/** is untouched.",
+    "It does not change any live RCAP route.",
+    "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This is not that record."
+  ],
+  "currentState": {
+    "serviceDisposition": "missing_from_compiled_runtime",
+    "commercialState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP",
+    "existingArtifactIds": [],
+    "generationAllowed": false
+  },
+  "proposedRepresentation": {
+    "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
+    "packetSetId": "pa_age70_deceased-set",
+    "outputStrategy": "official_pdf_fill",
+    "components": [
+      {
+        "componentId": "pa_age70_deceased-set-component-1",
+        "role": "primary_filing",
+        "order": 1,
+        "documentId": "canonical",
+        "file": "data/rcap-all50/overlays/census-v1/pa/pa-age70-deceased-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "f4f4b3ba5263fff23c409e8b8ffda95c2ee3e1cf6fea623af5ddb09ed181639e",
+        "requirement": "required"
+      }
+    ]
+  }
+}
