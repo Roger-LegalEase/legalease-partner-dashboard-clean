@@ -87,6 +87,90 @@ const notEligible = [];
  * describes a packet nobody queued, so the row correctly returns to
  * RASTER_PENDING.
  */
+/*
+ * Which PDF in a fixtures directory IS the family's fixture.
+ *
+ * This was `pdfs.find((x) => /canonical/.test(x))` over a SORTED listing, and
+ * that picks the wrong file for every family that also emits its primary
+ * filing as a separate component: "canonical--CC-1201-primary-filing.pdf"
+ * sorts before "canonical.pdf" because '-' precedes '.'. Nine families were
+ * queued to raster one component of a multi-component packet -- four pages of
+ * an eight-page Virginia packet, one page of a four-page Kentucky one -- and a
+ * pass over that subset would have been written into the row as the FAMILY's
+ * raster receipt. It reads as a complete verdict and is not one.
+ *
+ * It also made two Kentucky families byte-identical in the queue, because the
+ * component they both pointed at is a generic proposed order with no
+ * charge-specific fill. One render would have produced two receipts.
+ *
+ * The builder already records which file is the deliverable, so ask it instead
+ * of inferring from names. Where it does not, prefer the exact name, and where
+ * the family names its packet after the form, take the sole substring match.
+ * Never guess between several: an ambiguous directory makes the family
+ * ineligible and says so.
+ */
+const fixtureBasis = new Map();
+const fixtureCoverage = new Map();
+
+/*
+ * What the row's verdict actually covers.
+ *
+ * Picking the right fixture is not the same as covering the family. Eleven
+ * families ship several canonical documents with no assembled canonical.pdf --
+ * Washington's vacate packets carry both a petition and an order, Arkansas the
+ * same -- so one row rasters one document and leaves the other unrendered.
+ * Nine of those already carry RASTER_PASS. The receipts are honest about which
+ * SHA-256 they bound to, but a row that says RASTER_PASS next to a familyId
+ * reads as a verdict on the family, and for these it is a verdict on one of
+ * its documents.
+ *
+ * So the row states its coverage and whether that coverage is complete. A
+ * partial row is not promotable no matter how green its receipt is; the gate
+ * that consumes this queue reads `coverage.complete`, not the state alone.
+ */
+const coverageOf = (pdfs, fixture, chosen) => {
+  if (pdfs.includes(`${fixture}.pdf`)) {
+    return { documents: [`${fixture}.pdf`], rastered: [chosen], complete: chosen === `${fixture}.pdf`,
+      basis: "the family ships one assembled packet, so rendering it covers the family" };
+  }
+  const docs = pdfs.filter((x) => x.includes(fixture));
+  return {
+    documents: docs, rastered: [chosen],
+    notRastered: docs.filter((x) => x !== chosen),
+    complete: docs.length === 1,
+    basis: docs.length === 1
+      ? "the family ships one canonical document and it is the one rendered"
+      : `the family ships ${docs.length} canonical documents with no assembled packet; this row renders one of them`,
+  };
+};
+
+const declaredFixture = (dir, fixture, pdfs) => {
+  const p = path.join(dir, "reports", "rendered-artifacts.json");
+  if (!fs.existsSync(p)) return null;
+  let doc;
+  try { doc = JSON.parse(fs.readFileSync(p, "utf8")); } catch { return null; }
+  const hit = (doc.artifacts ?? []).find((a) => a.fixture === fixture);
+  if (!hit?.file) return null;
+  const name = path.basename(hit.file);
+  return pdfs.includes(name) ? name : null;
+};
+
+const pickFixture = (dir, fixture, pdfs) => {
+  const declared = declaredFixture(dir, fixture, pdfs);
+  if (declared) return { name: declared, basis: `declared by the builder as the ${fixture} artifact in reports/rendered-artifacts.json`, why: null };
+
+  const exact = `${fixture}.pdf`;
+  if (pdfs.includes(exact)) return { name: exact, basis: "the assembled packet, matched by exact name", why: null };
+
+  const matches = pdfs.filter((x) => x.includes(fixture));
+  if (matches.length === 1) return { name: matches[0], basis: "the only PDF in the directory carrying this fixture name", why: null };
+  if (matches.length === 0) return { name: null, basis: null, why: `no ${fixture} PDF` };
+  return {
+    name: null, basis: null,
+    why: `${matches.length} PDFs could be the ${fixture} fixture (${matches.join(", ")}) and the builder declares none — refusing to guess which one the receipt would describe`,
+  };
+};
+
 const previous = fs.existsSync(path.join(ROOT, OUT)) ? read(OUT) : { rows: [] };
 const priorByFamily = new Map((previous.rows ?? []).map((r) => [r.familyId, r]));
 let carried = 0, invalidated = 0;
@@ -112,10 +196,13 @@ for (const f of master.families) {
   let canonical = null; let boundary = null;
   if (fixtures && fs.existsSync(fixtures)) {
     const pdfs = fs.readdirSync(fixtures).filter((x) => x.endsWith(".pdf")).sort();
-    canonical = pdfs.find((x) => /canonical/.test(x)) ?? null;
-    boundary = pdfs.find((x) => /boundary/.test(x)) ?? null;
-    if (!canonical) eligibility.push("no canonical PDF");
-    if (!boundary) eligibility.push("no boundary PDF");
+    const c = pickFixture(dir, "canonical", pdfs);
+    const b = pickFixture(dir, "boundary", pdfs);
+    canonical = c.name; boundary = b.name;
+    if (!canonical) eligibility.push(c.why);
+    if (!boundary) eligibility.push(b.why);
+    fixtureBasis.set(f.familyId, { canonical: c.basis, boundary: b.basis });
+    if (canonical) fixtureCoverage.set(f.familyId, coverageOf(pdfs, "canonical", canonical));
   }
 
   // The four preconditions, each asked of a record rather than assumed.
@@ -140,6 +227,8 @@ for (const f of master.families) {
     boundaryPdfPath: path.relative(ROOT, bPath),
     boundaryPdfSha256: sha256(bPath),
     expectedPages: await pageCount(cPath),
+    fixtureSelection: fixtureBasis.get(f.familyId) ?? null,
+    coverage: fixtureCoverage.get(f.familyId) ?? null,
     requestedScale: REQUESTED_SCALE,
     builderAssignment: builderOf.get(f.familyId) ?? null,
     currentRasterState: "RASTER_PENDING",

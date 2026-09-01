@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `d95f5612af1df4081e5178195086c415d7c2693e`
+**Minimum required ancestor:** `b98f46d5a50c15664517fef8dcd61e76d7119422`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -20,8 +20,8 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 
 ### ar-arrest-seal-set
 
-- canonical `data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/fixtures/order-canonical-filled.pdf` — `161971dca56b9292dac5a8bd9eda03e2deb910d0c1cfbecc98d017bbf17841bb`
-- boundary `data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/fixtures/order-boundary-filled.pdf` — `d633848fda999d95f9fa7e82284b82613af94d36512b1aa8b0914d36a13be194`
+- canonical `data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf` — `78ef189e981b35fec69688cc6d3181df245b309e7405c954fcabd503e426bea5`
+- boundary `data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/fixtures/petition-boundary-filled.pdf` — `fb32678b598155af6d1436eeb51098cb665fe2f1711bd826ec2b980b1c30a811`
 - expected pages 3 · requested scale 2.5
 - built by VF04
 
@@ -41,9 +41,9 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 
 ### pa_pardon_expungement-set
 
-- canonical `data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/fixtures/canonical--PA-RCRIM-P-790-ORDER.pdf` — `d2e76d06368f4f12e215b914fe41be0a9f86231cac55fd4d2367c3acd2be9fbc`
-- boundary `data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/fixtures/boundary--PA-RCRIM-P-790-ORDER.pdf` — `4ad89343b3454360298c87a8319bc7c6d252f8e26319e496a6cf3c47b5f0c270`
-- expected pages 2 · requested scale 2.5
+- canonical `data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/fixtures/canonical.pdf` — `4a7113112f29b05fdf21e6d6f6822d8ca41d3768c3ff2640cff72af6bbf308e0`
+- boundary `data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/fixtures/boundary.pdf` — `95b2026728702121ab3a551ca49e1c532a0a9a53f8035dd53855cfa06e86a61a`
+- expected pages 5 · requested scale 2.5
 - built by VF05
 
 ### ut_pet_conviction-set
@@ -62,9 +62,9 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 
 ### va_seal_petition_felony-set
 
-- canonical `data/rcap-all50/overlays/census-v1/va/va-seal-petition-felony-set--official-pdf-fill/fixtures/canonical--CC-1201-primary-filing.pdf` — `efbfba14cfc6562cc12d3279ab17a097db991e5f478cc64d12569efcbf21f7c3`
-- boundary `data/rcap-all50/overlays/census-v1/va/va-seal-petition-felony-set--official-pdf-fill/fixtures/boundary--CC-1201-primary-filing.pdf` — `2aeb03d02a46e8b0a3c49911b2f01e72af25c74fba1e4fe894576e88d090a07e`
-- expected pages 4 · requested scale 2.5
+- canonical `data/rcap-all50/overlays/census-v1/va/va-seal-petition-felony-set--official-pdf-fill/fixtures/canonical.pdf` — `c653f0a41319bbee6133a17c418666eaccb31f329abfd465d0de55b9dd4e2636`
+- boundary `data/rcap-all50/overlays/census-v1/va/va-seal-petition-felony-set--official-pdf-fill/fixtures/boundary.pdf` — `b7095073a0cb0683ff5efc7575d903e9faa9b19d82ccd6c29e2dbe5e6e35b7ab`
+- expected pages 8 · requested scale 2.5
 - built by VF05
 
 ### vt_seal_dui-set

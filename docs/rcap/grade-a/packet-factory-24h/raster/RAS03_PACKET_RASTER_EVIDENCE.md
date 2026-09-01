@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `d95f5612af1df4081e5178195086c415d7c2693e`
+**Minimum required ancestor:** `b98f46d5a50c15664517fef8dcd61e76d7119422`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -34,9 +34,9 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 
 ### ky_void_seal_marijuana_synthetic_salvia-set
 
-- canonical `data/rcap-all50/overlays/census-v1/ky/ky-void-seal-marijuana-synthetic-salvia-set--custom-pleading/fixtures/canonical--AOC-334-proposed-order.pdf` — `9d58db17e65195913caf43e5d157b4741ef2242afd3df116a154db36c4adce2b`
-- boundary `data/rcap-all50/overlays/census-v1/ky/ky-void-seal-marijuana-synthetic-salvia-set--custom-pleading/fixtures/boundary--AOC-334-proposed-order.pdf` — `70c05aef28a37dcbb47606a5deee5f13c4131d6b849d82f3ff51501b28a4691b`
-- expected pages 1 · requested scale 2.5
+- canonical `data/rcap-all50/overlays/census-v1/ky/ky-void-seal-marijuana-synthetic-salvia-set--custom-pleading/fixtures/canonical.pdf` — `e70b19406a114095e500bb482d3b12f919c9fd0e738ba73b0d85ec76430a67c3`
+- boundary `data/rcap-all50/overlays/census-v1/ky/ky-void-seal-marijuana-synthetic-salvia-set--custom-pleading/fixtures/boundary.pdf` — `83ecbc8572791d944cad430936a9cf6a678a11cba3ba581917e1694ef64290f7`
+- expected pages 4 · requested scale 2.5
 - built by VF11
 
 ### pa_age70_deceased-set
@@ -62,9 +62,9 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 
 ### va_seal_enumerated_seven_year-set
 
-- canonical `data/rcap-all50/overlays/census-v1/va/va-seal-enumerated-seven-year-set--official-pdf-fill/fixtures/canonical--CC-1203-primary-filing.pdf` — `b3f877484203a3d422f885af6f3a42710ecbfc7070e863c21cfde97973b05766`
-- boundary `data/rcap-all50/overlays/census-v1/va/va-seal-enumerated-seven-year-set--official-pdf-fill/fixtures/boundary--CC-1203-primary-filing.pdf` — `cc04105908d43d7c6164323ab3e29490c302ca4cce3c8180f8650f7b541d7ee4`
-- expected pages 6 · requested scale 2.5
+- canonical `data/rcap-all50/overlays/census-v1/va/va-seal-enumerated-seven-year-set--official-pdf-fill/fixtures/canonical.pdf` — `859656e4ae155c94ad78cef9a1f017b6411bde531a86f15cd01c749c2d452ee6`
+- boundary `data/rcap-all50/overlays/census-v1/va/va-seal-enumerated-seven-year-set--official-pdf-fill/fixtures/boundary.pdf` — `7e68919e56c3e4b789e376fdd7e4fad8cdfc27b0191ca7e5be388118c9686669`
+- expected pages 10 · requested scale 2.5
 - built by VF04
 
 ### vt_seal_18_to_21-set
@@ -76,9 +76,9 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 
 ### vt_seal_nonconviction-set
 
-- canonical `data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/fixtures/canonical--200-00130.pdf` — `651120a460f7e0883b464e8611fabfb37cc89af3ffb620edd83d9158af47a084`
-- boundary `data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/fixtures/boundary--200-00130.pdf` — `a4f23c6a5e9bbc5cafe20ecd8e2c563deef1c62482757d3fdc0b03a825732684`
-- expected pages 2 · requested scale 2.5
+- canonical `data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/fixtures/canonical.pdf` — `03715884a313d7de5d522bdd5da26a4bc947ea555d43c88eff4165def5b317f6`
+- boundary `data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/fixtures/boundary.pdf` — `5205cc895fdddef3328749c3dd4b821672023ccdcad18252f4f45712990faefd`
+- expected pages 8 · requested scale 2.5
 - built by VF12
 
 ### wa_vac_felony-set

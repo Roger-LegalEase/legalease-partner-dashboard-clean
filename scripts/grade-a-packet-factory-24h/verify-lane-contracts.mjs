@@ -119,7 +119,17 @@ if (!master) proofProblems.push("no master queue");
 if (!queue) proofProblems.push("no raster queue; there is nowhere for a RASTER_PASS to come from");
 if (!fs.existsSync(path.join(ROOT, RASTER_WORKFLOW))) proofProblems.push("the central raster workflow is absent");
 if (master && queue) {
-  const passed = new Set((queue.rows ?? []).filter((r) => r.currentRasterState === "RASTER_PASS").map((r) => r.familyId));
+  /*
+   * A RASTER_PASS proves the family only when the row that carries it covers
+   * the family. Eleven families ship several canonical documents and no
+   * assembled packet, so their row renders one document and leaves the rest
+   * unrendered; nine of those already carry RASTER_PASS. Reading the state
+   * alone would let a verdict on Washington's petition stand in for a verdict
+   * on the order it is filed with.
+   */
+  const passed = new Set((queue.rows ?? [])
+    .filter((r) => r.currentRasterState === "RASTER_PASS" && r.coverage?.complete === true)
+    .map((r) => r.familyId));
   const PROVEN = ["PASS_COMPLETE", "VERIFIED_PASS", "LEGAL_REVIEW_READY", "LEGAL_APPROVED", "PRODUCT_PATH_PENDING", "COMPLETE_PACKET_PROVEN"];
   for (const f of master.families) {
     if (PROVEN.includes(f.state) && !passed.has(f.familyId)) {
@@ -136,6 +146,36 @@ if (master && queue) {
 check("L4", "no family is proven without a hash-bound RASTER_PASS from the central workflow",
   proofProblems.length === 0,
   `${(queue?.rows ?? []).length} famil(ies) queued; ${proofProblems.length} problem(s): ${proofProblems.slice(0, 3).join(" | ")}`);
+
+/* ---- L7. a row states what its verdict covers ---------------------------- */
+/*
+ * The queue picked its canonical fixture with a substring match over a sorted
+ * listing, and "canonical--CC-1201-primary-filing.pdf" sorts before
+ * "canonical.pdf". Nine families were queued to render one component of a
+ * multi-component packet -- four pages of an eight-page Virginia packet -- and
+ * the resulting verdict would have been written into the row as the FAMILY's.
+ * Eleven more ship several canonical documents with no assembled packet, so one
+ * row can only ever cover one of them.
+ *
+ * Neither is fixed by picking a better file. The row has to say what it covers,
+ * and L4 has to read that rather than the state alone.
+ */
+const coverageProblems = [];
+for (const r of queue?.rows ?? []) {
+  if (!r.coverage) { coverageProblems.push(`${r.familyId} does not declare what its verdict covers`); continue; }
+  if (typeof r.coverage.complete !== "boolean") coverageProblems.push(`${r.familyId} declares coverage without a complete flag`);
+  const chosen = String(r.canonicalPdfPath ?? "").split("/").pop();
+  if (r.coverage.complete === true && (r.coverage.documents ?? []).length > 1) {
+    coverageProblems.push(`${r.familyId} claims complete coverage over ${r.coverage.documents.length} documents while rendering one`);
+  }
+  if (chosen && !(r.coverage.rastered ?? []).includes(chosen)) {
+    coverageProblems.push(`${r.familyId} renders ${chosen} but does not list it as covered`);
+  }
+}
+const partial = (queue?.rows ?? []).filter((r) => r.coverage && r.coverage.complete === false);
+check("L7", "every queued row states which documents its verdict covers, and a partial verdict is not a family verdict",
+  coverageProblems.length === 0 && (queue?.rows ?? []).length > 0,
+  `${(queue?.rows ?? []).length} row(s), ${partial.length} with partial coverage; ${coverageProblems.length} problem(s): ${coverageProblems.slice(0, 3).join(" | ")}`);
 
 /* ---- L6. a gate nobody can run may not be treated as one that passed ----- */
 /*
@@ -193,8 +233,26 @@ if (MUTATIONS) {
       edit: (t) => t.replace("echo \"Browser: not provisioned here", "pdftoppm -r 72 page.pdf out\necho \"Browser: not provisioned here") },
     { name: "Codex setup requiring RCAP_CHROMIUM_PATH is caught", id: "L1", file: SETUP,
       edit: (t) => t.replace("echo \"Browser: not provisioned here", "[ -n \"$RCAP_CHROMIUM_PATH\" ] || fail no browser\necho \"Browser: not provisioned here") },
+    /*
+     * Anchored to the check it means, not to the first guard in the file.
+     * This was `t.replace("if (!REQUIRE_RASTERIZER) {", ...)`, which takes the
+     * FIRST occurrence. Two more opt-in guards were added above
+     * page_rasterizer_available since -- browser_environment_exported and
+     * build_time_rasterizer_available -- so the mutation began flipping a
+     * different check, page_rasterizer_available went on reporting "not
+     * applicable", and L2 passed against a preflight that had been mutated to
+     * demand a rasterizer of every lane. The suite reported MISSED rather than
+     * a pass, which is how this was found.
+     */
     { name: "a preflight that requires a rasterizer of every lane is caught", id: "L2", file: PREFLIGHT,
-      edit: (t) => t.replace("if (!REQUIRE_RASTERIZER) {", "if (false) {") },
+      edit: (t) => {
+        const at = t.indexOf('"page_rasterizer_available"');
+        if (at < 0) return t;                       // subject gone: MISSED, never a pass
+        const guard = "if (!REQUIRE_RASTERIZER) {";
+        const g = t.indexOf(guard, at);
+        if (g < 0) return t;
+        return `${t.slice(0, g)}if (false) {${t.slice(g + guard.length)}`;
+      } },
     { name: "a source-lane prompt carrying a raster instruction is caught", id: "L3", file: `${PROMPTS}/${sourcePrompts[0] ?? "DISC01.md"}`,
       edit: (t) => `${t}\n\nRender the pages and return BUILT_RASTER_PENDING.\n` },
     { name: "a packet marked PASS_COMPLETE with no RASTER_PASS is caught", id: "L4", file: `${DIR}/MASTER_QUEUE.json`,
@@ -208,7 +266,25 @@ if (MUTATIONS) {
     { name: "a family proven while the raster gate cannot be dispatched is caught", id: "L6", file: `${DIR}/MASTER_QUEUE.json`,
       edit: (t) => { const j = JSON.parse(t); (j.families.find((x) => x.state === "VERIFY_PENDING") ?? j.families[0]).state = "COMPLETE_PACKET_PROVEN"; return `${JSON.stringify(j, null, 2)}\n`; } },
     { name: "dropping the reachability record is caught", id: "L6", file: `${DIR}/RASTER_QUEUE.json`,
-      edit: (t) => { const j = JSON.parse(t); delete j.workflowReachability; return `${JSON.stringify(j, null, 2)}\n`; } }
+      edit: (t) => { const j = JSON.parse(t); delete j.workflowReachability; return `${JSON.stringify(j, null, 2)}\n`; } },
+    { name: "dropping a row's coverage declaration is caught", id: "L7", file: `${DIR}/RASTER_QUEUE.json`,
+      edit: (t) => { const j = JSON.parse(t); delete j.rows[0].coverage; return `${JSON.stringify(j, null, 2)}\n`; } },
+    { name: "a partial row claiming to cover the whole family is caught", id: "L7", file: `${DIR}/RASTER_QUEUE.json`,
+      edit: (t) => { const j = JSON.parse(t);
+        const r = j.rows.find((x) => x.coverage && x.coverage.complete === false);
+        if (!r) return t;               // no subject: reported as MISSED, never as a pass
+        r.coverage.complete = true; return `${JSON.stringify(j, null, 2)}\n`; } },
+    /* Constructs its own subject: no family is PROVEN today, so a mutation that
+     * only flipped coverage would be a check over zero subjects. This promotes
+     * a family whose row covers one of several documents and asserts L4 refuses. */
+    { name: "promoting a family whose raster verdict covers one of several documents is caught", id: "L4", file: `${DIR}/MASTER_QUEUE.json`,
+      edit: (t) => { const j = JSON.parse(t);
+        const q = JSON.parse(fs.readFileSync(path.join(ROOT, `${DIR}/RASTER_QUEUE.json`), "utf8"));
+        const partialPass = q.rows.find((r) => r.currentRasterState === "RASTER_PASS" && r.coverage?.complete === false);
+        if (!partialPass) return t;
+        const fam = j.families.find((x) => x.familyId === partialPass.familyId);
+        if (!fam) return t;
+        fam.state = "PASS_COMPLETE"; return `${JSON.stringify(j, null, 2)}\n`; } }
   ];
   let allCaught = true;
   for (const c of cases) {

@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `d95f5612af1df4081e5178195086c415d7c2693e`
+**Minimum required ancestor:** `b98f46d5a50c15664517fef8dcd61e76d7119422`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -34,9 +34,9 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 
 ### ky_void_seal_controlled_substance-set
 
-- canonical `data/rcap-all50/overlays/census-v1/ky/ky-void-seal-controlled-substance-set--custom-pleading/fixtures/canonical--AOC-334-proposed-order.pdf` — `9d58db17e65195913caf43e5d157b4741ef2242afd3df116a154db36c4adce2b`
-- boundary `data/rcap-all50/overlays/census-v1/ky/ky-void-seal-controlled-substance-set--custom-pleading/fixtures/boundary--AOC-334-proposed-order.pdf` — `70c05aef28a37dcbb47606a5deee5f13c4131d6b849d82f3ff51501b28a4691b`
-- expected pages 1 · requested scale 2.5
+- canonical `data/rcap-all50/overlays/census-v1/ky/ky-void-seal-controlled-substance-set--custom-pleading/fixtures/canonical.pdf` — `249d0e76bd19c4533de9ca4852a6aad5749a747b2aaebc15b9cdcbf7a2c32f5b`
+- boundary `data/rcap-all50/overlays/census-v1/ky/ky-void-seal-controlled-substance-set--custom-pleading/fixtures/boundary.pdf` — `0e8c8b5793e35a753afc4807d8121a4268e960850849c13ddcbbf422ca24600d`
+- expected pages 4 · requested scale 2.5
 - built by VF10
 
 ### ne-setaside-custodial-set
@@ -62,16 +62,16 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 
 ### va_seal_ancillary_matter_only-set
 
-- canonical `data/rcap-all50/overlays/census-v1/va/va-seal-ancillary-matter-only-set--official-pdf-fill/fixtures/canonical--CC-1203-primary-filing.pdf` — `d891fd96362d9b258e1b5d7d6fb7ab08ab57d8294b018a82cac8e63693587273`
-- boundary `data/rcap-all50/overlays/census-v1/va/va-seal-ancillary-matter-only-set--official-pdf-fill/fixtures/boundary--CC-1203-primary-filing.pdf` — `5c7faa39593d14c3705ae2c24dc4bbf4be74bc946460b027614c876743eb3560`
-- expected pages 6 · requested scale 2.5
+- canonical `data/rcap-all50/overlays/census-v1/va/va-seal-ancillary-matter-only-set--official-pdf-fill/fixtures/canonical.pdf` — `0ca22f4c4720d2d5325d67fa67657746292923fbfb45580ef94094d5e94ad893`
+- boundary `data/rcap-all50/overlays/census-v1/va/va-seal-ancillary-matter-only-set--official-pdf-fill/fixtures/boundary.pdf` — `fcc5c9df64bd93e04cd5c6143cbb00f38a8895a965dd76ca00e62f3235d4c0a5`
+- expected pages 10 · requested scale 2.5
 - built by VF03
 
 ### vt_exp_decriminalized-set
 
-- canonical `data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/fixtures/canonical--200-00129.pdf` — `0f3b38755693cc4477439a1ed3d4c46eacbc31d4cd38b01afda1f39c0ffeced1`
-- boundary `data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/fixtures/boundary--200-00129.pdf` — `399a322a1dfa126cf9d68bf56492b8079966baaaaeba72333a5bfbe377a0b066`
-- expected pages 2 · requested scale 2.5
+- canonical `data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/fixtures/canonical.pdf` — `f952b05860583f6c188bc44d4831ac6e8f19daf1d19906fb3630b7a377e113a0`
+- boundary `data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/fixtures/boundary.pdf` — `eebfffaa45c3d2d99c91d602afa72a1ede1239365d5e2a28ec32825c9b20dde3`
+- expected pages 8 · requested scale 2.5
 - built by VF07
 
 ### vt_seal_misdemeanor-set

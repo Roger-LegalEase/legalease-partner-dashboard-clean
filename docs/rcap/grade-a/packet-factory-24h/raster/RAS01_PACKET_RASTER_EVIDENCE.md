@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `d95f5612af1df4081e5178195086c415d7c2693e`
+**Minimum required ancestor:** `b98f46d5a50c15664517fef8dcd61e76d7119422`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -27,9 +27,9 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 
 ### ar-misdemeanor-dwi-seal-set
 
-- canonical `data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-dwi-seal-set--official-pdf-fill/fixtures/order-canonical-filled.pdf` — `0466f3b488b5af28d236c62555c3592f48755ebc1381e52e265b2d1755ce0f52`
-- boundary `data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-dwi-seal-set--official-pdf-fill/fixtures/order-boundary-filled.pdf` — `d4a69cd9f0cd0713ed8f6cf9410dc80240c8e181662b2f87b5fd1ba3dffd22c0`
-- expected pages 2 · requested scale 2.5
+- canonical `data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-dwi-seal-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf` — `6bf0184ddc31364f316cb656745f364f8def8aa547428beb881c4c632e2f750d`
+- boundary `data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-dwi-seal-set--official-pdf-fill/fixtures/petition-boundary-filled.pdf` — `a6cef12f7344600b5f9e89aefee9785440de185d88340d051b090ec6011bdfb8`
+- expected pages 4 · requested scale 2.5
 - built by VF05
 
 ### ct-cleanslate-petition-set
@@ -69,9 +69,9 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 
 ### va_seal_petition_misdemeanor-set
 
-- canonical `data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/fixtures/canonical--CC-1201-primary-filing.pdf` — `bd4d68ef306dbd5b34089f61ce03fef25c99bc467acc294c44b7a23c3bb33543`
-- boundary `data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/fixtures/boundary--CC-1201-primary-filing.pdf` — `1f7ec0b66d176edc0c24c00647def4e3863b1ffbc881a6e1b8cffb3616143128`
-- expected pages 4 · requested scale 2.5
+- canonical `data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/fixtures/canonical.pdf` — `9cc63cbd647e477c8da08af8f67bd922953477c8ebc6d2608748724cf22b7eae`
+- boundary `data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/fixtures/boundary.pdf` — `4dc94926306cddcdcedd28897a5db55dab2539170c6097bfa79e6a3f323350aa`
+- expected pages 8 · requested scale 2.5
 - built by VF06
 
 ### vt_seal_felony-set
