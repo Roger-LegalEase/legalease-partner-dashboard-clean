@@ -37,6 +37,11 @@ const CAPTAIN_BRANCH = "claude/legalease-sprint-captain-utucnw";
 const CONTRACT = "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md";
 const PREFLIGHT = "scripts/verify-packet-build-environment.mjs";
 
+/* The commit whose tree a verifier actually reads: the generation head, which
+ * carries every integrated packet. Distinct from MINIMUM_CAPTAIN_SHA below,
+ * which is a floor and not a tree anyone reads. */
+const PACKET_COMMIT = execFileSync("git", ["rev-parse", "HEAD"], { cwd: ROOT, encoding: "utf8" }).trim();
+
 /* The minimum ancestor every lane proves it contains. */
 const MINIMUM_CAPTAIN_SHA = "13771582866352d77e46e5d0b9bc86f1abbb6752";
 
@@ -1065,7 +1070,21 @@ for (let i = 0; i < VF_LANES; i += 1) {
     launchRule: launchable
       ? `Launch now. Every seed family below is rendered at ${MINIMUM_CAPTAIN_SHA}, which your checkout must contain.`
       : "DO NOT LAUNCH YET. This lane is provisioned and holds no family. Captain launches it from a new HEAD on the first integrated checkpoint that gives it work. Started now, it would report an absent packet as a failing one.",
-    verifiesCommit: launchable ? MINIMUM_CAPTAIN_SHA : null,
+    /*
+     * The commit a verifier READS is not the wave's minimum ancestor.
+     *
+     * This was MINIMUM_CAPTAIN_SHA, which is the floor every lane proves it
+     * contains -- an old commit, from before any packet in this wave was
+     * integrated. So every launchable verification lane named a commit at
+     * which the directories it was sent to read do not exist, and a verifier
+     * checking out that commit verifies an absence. An absence reads as a
+     * defect, which is the one failure mode F20 exists to prevent, and F20 was
+     * red on it across four Captain heads.
+     *
+     * The packets exist at the generation head, so that is what a verifier is
+     * pointed at.
+     */
+    verifiesCommit: launchable ? PACKET_COMMIT : null,
     packetDirectories: seedItems.map((f) => familyIndex.get(f)?.directory).filter(Boolean),
     mayNotBeRunBy: [
       "the worker that built or last repaired any family below",

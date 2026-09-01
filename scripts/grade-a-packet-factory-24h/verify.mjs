@@ -902,7 +902,21 @@ if (MUTATIONS) {
     { on: "rasterQueue", id: "F30", name: "a queued PDF with no exact hash is caught", mutate: (j) => { j.rows[0].canonicalPdfSha256 = null; return j; } },
     { on: "rasterQueue", id: "F30", name: "an undeclared raster state is caught", mutate: (j) => { j.rows[0].currentRasterState = "RASTER_PROBABLY_FINE"; return j; } },
     { on: "rasterQueue", id: "F30", name: "one family queued to two lanes is caught", mutate: (j) => { j.rows.push({ ...j.rows[0], nextOwner: "RAS04" }); return j; } },
-    { on: "master", id: "F30", name: "a family called proven with no RASTER_PASS is caught", mutate: (j) => { const f = j.families.find((x) => x.state === "VERIFY_PENDING"); f.state = "PASS_COMPLETE"; return j; } },
+    /*
+     * Constructs its subject instead of hoping for one. This picked the first
+     * VERIFY_PENDING family, which was a family with no raster row while the
+     * queue was short -- but once every queued row reached RASTER_PASS the
+     * family it picked already HAD a pass, so promoting it was legitimate, F30
+     * rightly said nothing, and the case reported MISSED. The subject is a
+     * family the raster queue does not cover at all, chosen by reading the
+     * queue rather than by assuming which families are in it.
+     */
+    { on: "master", id: "F30", name: "a family called proven with no RASTER_PASS is caught", mutate: (j) => {
+        const q = JSON.parse(fs.readFileSync(path.join(ROOT, DIR, "RASTER_QUEUE.json"), "utf8"));
+        const passed = new Set(q.rows.filter((r) => r.currentRasterState === "RASTER_PASS").map((r) => r.familyId));
+        const f = j.families.find((x) => !passed.has(x.familyId));
+        if (!f) return j;                 // no subject: reported MISSED, never a pass
+        f.state = "PASS_COMPLETE"; return j; } },
     { on: "prompt", id: "F30", name: "a builder prompt that drops the not-a-blocker rule is caught", mutateText: (t) => t.replace(/not a source blocker and it is not a legal blocker/i, "a blocker") }
   ];
   let undetected = 0;
