@@ -102,5 +102,48 @@
     "archiveSha256": "a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89",
     "verified": "51 jurisdictions / 499 files / 329 PDFs",
     "masterLibrarySourceDirExportRequired": false
+  },
+  "captainBroadcast": {
+    "issuedAt": "2026-09-01T07:36:05Z",
+    "issuedBy": "CAPTAIN-9H",
+    "subject": "Builders were blocked by the preflight, not by corpus permissions. Both are now resolved. Reset and continue.",
+    "appliesTo": [
+      "PF-A",
+      "PF-B",
+      "PF-C",
+      "FIX-A",
+      "FIX-B",
+      "VF-SRC-A",
+      "VF-SRC-B"
+    ],
+    "whatWasActuallyWrong": [
+      "FIX-B reported PACKET_BUILD_ENVIRONMENT_NOT_READY and diagnosed it as the session token lacking read access to Roger-LegalEase/legalease-source-artifacts. That diagnosis was one step off.",
+      "The token already reads that repository. Captain verified it directly: GET /repos/Roger-LegalEase/legalease-source-artifacts/releases/tags/source-corpus-2026-08-28 answered HTTP 200.",
+      "The real failure was browser_environment_exported. The central raster split made page_rasterizer_available opt-in behind --require-rasterizer but left browser_environment_exported mandatory, so every PF, FIX, DISC, SRC, ACQ and PROMO lane failed preflight for a browser it never opens. READY was unreachable for every builder in the fleet, with or without a corpus."
+    ],
+    "doThisNow": [
+      "1. Fetch the Captain branch and reset your clean worker branch to the new shiftBaseSha in this file. The previous base could not pass preflight.",
+      "2. Recover the Master Library into your own worktree: bash scripts/rcap-corpus/bootstrap-private-corpus.sh",
+      "3. Re-run your family preflight. Expect: PACKET_BUILD_ENVIRONMENT_READY: 13/13 passed, 0 failed, 3 not applicable.",
+      "4. Resume your lane queue at the family where you stopped. Do not re-dispatch and do not wait for a token grant; neither is needed."
+    ],
+    "corpusNotes": [
+      "The bootstrap downloads ~140 MB, verifies the archive against sha256 a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89, and refuses rather than guesses on any mismatch.",
+      "It extracts 51 jurisdictions / 499 files / 329 PDFs into private/source-imports/, which is git-ignored. It never commits a byte and never prints the token.",
+      "Do NOT export MASTER_LIBRARY_SOURCE_DIR. The default install root is where the preflight already looks; setting it is how a Master Library ends up mounted at the operational path, which the preconditions refuse by name.",
+      "The Master Library is NOT the operational Nationwide tree. Do not substitute one for the other."
+    ],
+    "whatDidNotChange": [
+      "No family is PASS_COMPLETE without a hash-bound RASTER_PASS from the central raster workflow. Return BUILT_RASTER_PENDING as before.",
+      "Under --require-rasterizer both browser checks still run in full and can still refuse. Captain proved this as a positive control: with no browser exported the check still FAILed.",
+      "No legal, source, contract, claim, ownership or lane-collision rule changed. Your owned paths and prohibited paths are unchanged."
+    ],
+    "answerToFixB": "Do not stand down and do not idle-poll. Reset to the new shiftBaseSha, run the bootstrap, and resume FIX02 at the family where you stopped. The eight families are yours and are not being re-dispatched.",
+    "captainVerification": {
+      "preflightAfterFix": "PACKET_BUILD_ENVIRONMENT_READY: 13/13 passed, 0 failed, 3 not applicable (vt_seal_dui-set)",
+      "laneContracts": "LANE_CONTRACTS_HELD 6/6",
+      "runtimeContract": "CODEX_RUNTIME_CONTRACT_PROVEN 9/9",
+      "claimLedger": "CLAIM_LEDGER_OK 512 claims; DISC06 42/42"
+    }
   }
 }
