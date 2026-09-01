@@ -193,7 +193,7 @@ async function startRcapPartnerScreening(formData: FormData) {
   const partnerSlug = String(formData.get("partnerSlug") ?? "");
   const jurisdiction = String(formData.get("jurisdiction") ?? "");
   const attribution = readAttributionFromFormData(formData);
-  const result = await claimRcapPartnerScreeningSession({ partnerSlug, jurisdiction });
+  const result = await claimRcapPartnerScreeningSession({ partnerSlug, jurisdiction, analyticsAttribution: attribution });
 
   if (result.ok) {
     redirect(
@@ -221,7 +221,12 @@ async function startRcapPartnerScreeningWithCode(formData: FormData) {
 
   // The server resolves attribution from the partner's access_mode + code.
   // The browser cannot assert partner benefit.
-  const result = await claimPartnerScreeningSessionWithCode({ partnerSlug, jurisdiction, accessCode });
+  const result = await claimPartnerScreeningSessionWithCode({
+    partnerSlug,
+    jurisdiction,
+    accessCode,
+    analyticsAttribution: attribution
+  });
 
   if (result.ok) {
     redirect(

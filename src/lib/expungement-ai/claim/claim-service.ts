@@ -59,13 +59,14 @@ export type PendingResultRow = {
   campaign_name: string | null;
   access_code_id: string | null;
   consent_grant_id: string | null;
+  analytics_attribution: Record<string, string> | null;
   status: string;
 };
 
 const PENDING_COLUMNS =
   "pending_id, product, jurisdiction, screening_answers, profile_version, screening_correlation_id, "
   + "anonymous_session_id, locale, partner_slug, program_id, event_id, campaign_name, access_code_id, "
-  + "consent_grant_id, status";
+  + "consent_grant_id, analytics_attribution, status";
 
 export async function claimPendingScreeningResult(input: {
   claimToken: string;
@@ -147,7 +148,16 @@ export async function claimPendingScreeningResult(input: {
       campaignName: row.campaign_name,
       accessCodeId: row.access_code_id,
       consentGrantId: row.consent_grant_id,
-      locale: row.locale
+      locale: row.locale,
+      sponsorshipAuthority: {
+        partnerSlug: row.partner_slug,
+        programId: row.program_id,
+        eventId: row.event_id,
+        campaignName: row.campaign_name,
+        accessCodeId: row.access_code_id,
+        consentGrantId: row.consent_grant_id
+      },
+      analyticsAttribution: row.analytics_attribution ?? {}
     },
     commercialFlow: initialCommercialFlow({
       evaluation,

@@ -83,6 +83,7 @@ export async function POST(request: Request) {
     ? body.anonymousSessionId
     : null;
   const attribution = await resolveScreeningAttribution(anonymousSessionId);
+  const { sponsorshipAuthority, analyticsAttribution } = attribution;
 
   const claimToken = mintClaimToken();
 
@@ -91,7 +92,7 @@ export async function POST(request: Request) {
     .insert({
       status: "PENDING",
       claim_token_hash: claimTokenHash(claimToken),
-      product: attribution.isPartnerSession ? "rcap_partner" : "expungement_ai_dtc",
+      product: sponsorshipAuthority.isPartnerSession ? "rcap_partner" : "expungement_ai_dtc",
       jurisdiction: evaluation.jurisdiction.slice(0, 120),
       result_code: evaluation.resultCode,
       pathway_label: pathwayLabel?.slice(0, 200) ?? null,
@@ -111,12 +112,13 @@ export async function POST(request: Request) {
       packet_plan: evaluation.packetPlan ?? {},
       anonymous_session_id: anonymousSessionId,
       locale: typeof body.locale === "string" && localePattern.test(body.locale) ? body.locale : null,
-      partner_slug: attribution.partnerSlug,
-      program_id: attribution.programId,
-      event_id: attribution.eventId,
-      campaign_name: attribution.campaignName,
-      access_code_id: attribution.accessCodeId,
-      consent_grant_id: attribution.consentGrantId
+      partner_slug: sponsorshipAuthority.partnerSlug,
+      program_id: sponsorshipAuthority.programId,
+      event_id: sponsorshipAuthority.eventId,
+      campaign_name: sponsorshipAuthority.campaignName,
+      access_code_id: sponsorshipAuthority.accessCodeId,
+      consent_grant_id: sponsorshipAuthority.consentGrantId,
+      analytics_attribution: analyticsAttribution
     });
 
   if (error) {
