@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "sc_17_22_950_summary-set",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "\"Full Name (at time of arrest)\" is a different fact from the participant's current legal name: a participant whose name has changed since the arrest would be misdescribed by today's name.",
+      "consequence": "The current legal name is written on the \"Defendant\" caption line, the at-time-of-arrest line is left to the participant, and the reason has its own section in the instructions."
+    },
+    {
+      "finding": "The family carries two route units and one filed document. Unit A (fingerprinted) is automatic issuance with nothing to file; unit B (not fingerprinted) is this application.",
+      "consequence": "Unit A's deliverable is process guidance inside participant-instructions.md — the verification path and the escalation stops — recorded in the field map under processGuidanceUnit. No second document exists to render, and none is claimed."
+    },
+    {
+      "finding": "Neither the Magistrate/Municipal election nor the fingerprint question is marked, although the family's application unit exists for the not-fingerprinted case.",
+      "consequence": "Neither the court election nor the fingerprint answer is route-determined. The family's application unit exists for the not-fingerprinted case, but the form's own options include \"Do Not Know\", and a participant answers with what is true for them — the truthful answer and the court that actually heard the charge are theirs to state. The two court squares are measured stroked boxes; the three fingerprint blanks are measured underscore spans a participant marks by hand."
+    },
+    {
+      "finding": "The form draws its blanks three ways: filled thin rectangles in the caption block, underscore glyph runs in the lower half, and stroked 9.3pt squares for the court election. rulesOfPage alone missed the Sex blank (38.64pt, under its 40pt minimum length) and the checkbox squares.",
+      "consequence": "The census reads the page geometry directly: filled rules, merged underscore spans and stroked squares are each measured and pinned, and every blank on the page is accounted for in one of the three."
+    },
+    {
+      "finding": "The right-hand identification block staggers its blanks: the DOB caption prints at y=666 and its blank is the ruled line at y=648 below it, beside the SSN blank on the same line.",
+      "consequence": "The DOB write box is placed on the measured line the form actually provides, and the layout is recorded in the field census so a visual reviewer can confirm the value sits where a reader expects it."
+    },
+    {
+      "finding": "The corpus files SCCA-223E under 05_SOURCE_GATED with assetClass SOURCE-GATED and revision REV-UNKNOWN; the form itself prints \"SCCA 223E (5/16)\", and the legal review lists \"current revision of SCCA 223E\" as its own open question.",
+      "consequence": "The source binds by exact SHA-256 against the committed index, the printed revision is recorded in the source receipt, and the revision-currentness question is left where the legal review put it: with source-freshness review, which is not a build gate."
+    },
+    {
+      "severity": "advisory",
+      "finding": "The boundary participant's name carries a typographic apostrophe (U+2019) and the bytes read back differ from the fixture value.",
+      "consequence": "Recorded for visual review, as in me-seal-prost-set: the behaviour is in the shared finalizer's font encoding. The drawn text is in reports/actual-writes.json."
+    }
+  ]
+}
