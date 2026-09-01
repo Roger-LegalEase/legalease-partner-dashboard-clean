@@ -1768,6 +1768,60 @@ const claimRows = [...packetClaimRows, ...sourceClaimRows]
 const digestFields = ["subjectType", "subjectId", "itemId", "familyId", "familyIds", "sourceId", "operation", "lane", "laneKind", "released", "releasedAt"];
 const digestClaims = (rows) => crypto.createHash("sha256").update(JSON.stringify(rows.map((row) => digestFields.map((field) => row[field] ?? null)))).digest("hex");
 
+/*
+ * Carry the live state of the existing ledger onto the regenerated grant set.
+ *
+ * This generator rebuilt claimRows from scratch with releases hardcoded to [],
+ * so running it destroyed every release, every re-issue, and every grant minted
+ * outside it. I ran it once to refresh MASTER_QUEUE counters and it silently
+ * deleted 27 claims -- the 25 verification grants for VF13-VF17 that five
+ * workers were about to assert, plus 339 release records and 3 re-issues. The
+ * ledger still verified afterwards, because a smaller consistent ledger is
+ * still consistent, which is exactly why this had to be caught by counting
+ * rather than by a green check.
+ *
+ * Three things carry:
+ *   - released/releasedAt per claim, so finishing work is not undone;
+ *   - grants this generator does not produce, such as verification lanes minted
+ *     for a cross-read, which would otherwise vanish under their owners;
+ *   - the releases and reissues logs, which are the audit trail.
+ *
+ * Nothing carried can invent a grant: a preserved claim is only kept if this
+ * run did not already produce one for the same subject and operation, and the
+ * digest is recomputed over the merged set.
+ */
+const priorLedgerPath = path.join(ROOT, `${OUT_DIR}/claim-ledger.json`);
+const priorLedger = fs.existsSync(priorLedgerPath)
+  ? JSON.parse(fs.readFileSync(priorLedgerPath, "utf8"))
+  : { claims: [], releases: [], reissues: [] };
+const claimKey = (c) => `${c.subjectType}\u0000${c.subjectId}\u0000${c.operation}`;
+const priorByKey = new Map((priorLedger.claims ?? []).map((c) => [claimKey(c), c]));
+
+let carriedReleases = 0;
+for (const row of claimRows) {
+  const prior = priorByKey.get(claimKey(row));
+  if (prior?.released === true) { row.released = true; row.releasedAt = prior.releasedAt; carriedReleases++; }
+}
+/*
+ * Preserve only grants in lanes this generator does not manage.
+ *
+ * Keying on subject+operation alone was wrong in the other direction: it
+ * resurrected four source obligations the generator had deliberately withdrawn
+ * because their lanes are no longer ACTIVE, and the ledger verifier caught it
+ * as "source assignment omitted from ledger" -- 449 claims against 445
+ * expected. A withdrawn grant coming back is as bad as a live one vanishing.
+ *
+ * The generator owns every lane it emits. A lane it does not emit at all --
+ * a verification lane Captain minted by hand for a cross-read, say -- is
+ * external, and dropping it would delete a grant its owner is about to assert.
+ */
+const generatedLanes = new Set(claimRows.map((c) => c.lane));
+const generatedKeys = new Set(claimRows.map(claimKey));
+const preservedGrants = (priorLedger.claims ?? [])
+  .filter((c) => !generatedLanes.has(c.lane) && !generatedKeys.has(claimKey(c)));
+const mergedClaims = [...claimRows, ...preservedGrants]
+  .sort((x, y) => x.subjectType.localeCompare(y.subjectType) || x.subjectId.localeCompare(y.subjectId) || x.operation.localeCompare(y.operation) || x.lane.localeCompare(y.lane));
+
 const claimLedgerRecord = {
   schemaVersion: "rcap-claim-ledger/v2",
   generatedBy: "scripts/grade-a-packet-factory-24h/generate.mjs",
@@ -1781,7 +1835,7 @@ const claimLedgerRecord = {
     "a non-zero exit is a full stop: report laneStatus BLOCKED_BEFORE_CLAIM naming the exact refusal, and read nothing",
     "node scripts/grade-a-packet-factory-24h/claim.mjs --release <LANE> <familyId> when the family is finished, and leave it in the diff"
   ],
-  claims: claimRows,
+  claims: mergedClaims,
   /*
    * The identity of THIS grant set.
    *
@@ -1804,10 +1858,11 @@ const claimLedgerRecord = {
    * SHA -- and this digest is what makes a violation visible in the return
    * rather than silent.
    */
-  claimsDigest: digestClaims(claimRows),
+  claimsDigest: digestClaims(mergedClaims),
   claimsDigestCovers: digestFields,
   revocationIsVisibleHow: "the digest changes whenever a grant is added or withdrawn; generatedAtCommit is a declared floor and does not",
-  releases: []
+  releases: priorLedger.releases ?? [],
+  reissues: priorLedger.reissues ?? []
 };
 OUT.emit(`${OUT_DIR}/claim-ledger.json`, `${JSON.stringify(claimLedgerRecord, null, 2)}\n`);
 OUT.emit(`${OUT_DIR}/CLAIM_LEDGER_REPAIR.json`, `${JSON.stringify({
