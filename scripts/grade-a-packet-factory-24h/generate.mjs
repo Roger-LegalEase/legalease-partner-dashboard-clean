@@ -438,7 +438,13 @@ function sourceReadiness(familyId, worklistGroupId, custody, routes, holds, impl
     else reasons.push(`${id}: held corpus entry carries no SHA-256`);
   }
 
-  const customPleading = implementationStrategy === "custom_pleading";
+  /* Both strategies draft their deliverable from committed research rather
+   * than filling a court PDF: a custom pleading from codified text, an agency
+   * application from the agency's own published process. Neither is blocked
+   * on an official form it will never fill; named missing components still
+   * block both honestly. */
+  const customPleading = implementationStrategy === "custom_pleading"
+    || implementationStrategy === "participant_agency_application";
   if (!customPleading && named.length === 0 && bound.length === 0) {
     reasons.push("the family names no document-shaped source, so nothing binds");
   }
@@ -553,13 +559,22 @@ try {
 
 const families = [];
 const seen = new Set();
+/* The census route join keys on packetSetId, which treatment-prefixed rows
+ * (agency-application-treatment:*, composed-treatment:*, rcap-* tracks) never
+ * carry — their routes travel on the worklist row itself. Reading them there
+ * is not invention: the worklist is census-generated and committed. Without
+ * this fallback 48 rows sat "route not bound" while their routes sat in the
+ * same repository. */
+const worklistRowById = new Map((JSON.parse(fs.readFileSync(path.join(ROOT, "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json"), "utf8")).packetFamilies ?? []).map((r) => [r.worklistGroupId, r]));
 for (const f of IN.scoreboard.familiesDetail) {
   const tail = String(f.worklistGroupId ?? "").split(":").pop();
   const familyId = routesByFamily.has(tail) ? tail : f.worklistGroupId;
   if (seen.has(familyId)) continue;
   seen.add(familyId);
 
-  const routes = routesByFamily.get(familyId) ?? [];
+  const routes = (routesByFamily.get(familyId) ?? []).length > 0
+    ? routesByFamily.get(familyId)
+    : (worklistRowById.get(f.worklistGroupId)?.routes ?? []);
   const custody = custodyByGroup.get(f.worklistGroupId) ?? null;
   const comp = completenessByFamily.get(familyId) ?? null;
   const cont = continuationByFamily.get(familyId) ?? null;

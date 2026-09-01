@@ -8,8 +8,8 @@
   "liveFamilyDenominator": 346,
   "completePacketProven": 13,
   "states": {
-    "SOURCE_BLOCKED": 203,
-    "SOURCE_READY": 52,
+    "SOURCE_BLOCKED": 162,
+    "SOURCE_READY": 93,
     "LEGAL_BLOCKED": 13,
     "ASSIGNED_TO_BUILD": 0,
     "BUILD_IN_PROGRESS": 4,
@@ -25,72 +25,30 @@
     "COMPLETE_PACKET_PROVEN": 13,
     "LEGITIMATE_GUIDANCE_ONLY": 0
   },
-  "sourceReady": 52,
-  "sourceBlocked": 203,
-  "assigned": 52,
+  "sourceReady": 93,
+  "sourceBlocked": 162,
+  "assigned": 93,
   "completedSinceLastCheckpoint": 0,
   "newlySourceReady": 0,
   "returnedForRepair": 0,
   "codex": {
     "activeTasks": 0,
-    "queuedTasks": 48,
-    "lanesWithWorkAtDispatch": 42,
+    "queuedTasks": 56,
+    "lanesWithWorkAtDispatch": 50,
     "lanesProvisionedEmpty": 6,
     "idleCapacityRule": "A provisioned-empty lane is not idle capacity being wasted; it is capacity waiting on the source conveyor, which is itself fully assigned."
   },
   "blockers": [
     {
-      "family": "agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge",
-      "exactBlocker": "no census route binds this id to a packet family",
-      "owner": "DISC01",
-      "nextAction": "Captain route/family binding"
-    },
-    {
-      "family": "agency-application-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request",
-      "exactBlocker": "no census route binds this id to a packet family",
-      "owner": "DISC02",
-      "nextAction": "Captain route/family binding"
-    },
-    {
-      "family": "agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission",
-      "exactBlocker": "no census route binds this id to a packet family",
-      "owner": "DISC05",
-      "nextAction": "Captain route/family binding"
-    },
-    {
-      "family": "agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement",
-      "exactBlocker": "no census route binds this id to a packet family",
-      "owner": "DISC05",
-      "nextAction": "Captain route/family binding"
-    },
-    {
-      "family": "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
-      "exactBlocker": "no census route binds this id to a packet family",
-      "owner": "DISC05",
-      "nextAction": "Captain route/family binding"
-    },
-    {
-      "family": "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
-      "exactBlocker": "no census route binds this id to a packet family",
-      "owner": "DISC05",
-      "nextAction": "Captain route/family binding"
-    },
-    {
-      "family": "agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure",
-      "exactBlocker": "no census route binds this id to a packet family",
-      "owner": "DISC05",
-      "nextAction": "Captain route/family binding"
-    },
-    {
       "family": "agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record",
-      "exactBlocker": "no census route binds this id to a packet family",
-      "owner": "DISC06",
-      "nextAction": "Captain route/family binding"
+      "exactBlocker": "SOURCE_IDENTITY_UNRESOLVED: official-form:Request to Correct Criminal Justice Information",
+      "owner": "DISC05",
+      "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
       "family": "ak-mistaken-identity-set",
       "exactBlocker": "SOURCE_IDENTITY_UNRESOLVED: official-form:DPS-REQUEST-TO-SEAL-CRIM-INFO",
-      "owner": "DISC06",
+      "owner": "DISC05",
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
@@ -240,19 +198,19 @@
     {
       "family": "census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement",
       "exactBlocker": "SOURCE_IDENTITY_UNRESOLVED: no document-shaped source named",
-      "owner": "DISC03",
+      "owner": "DISC06",
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
       "family": "census-pending-family:UT:path-m-juvenile-expungement",
       "exactBlocker": "SOURCE_IDENTITY_UNRESOLVED: no document-shaped source named",
-      "owner": "DISC03",
+      "owner": "DISC06",
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
       "family": "census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260",
       "exactBlocker": "SOURCE_IDENTITY_UNRESOLVED: no document-shaped source named",
-      "owner": "DISC06",
+      "owner": "DISC03",
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
@@ -269,140 +227,8 @@
     },
     {
       "family": "composed-treatment:nc_146_dismissal_petition",
-      "exactBlocker": "no census route binds this id to a packet family",
+      "exactBlocker": "SOURCE_GENUINELY_MISSING: official-form:AOC-CR-287, official-form:AOC-CR-287-INSTRUCTIONS, official-form:AOC-CV-226, source-sha256:74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f, source-sha256:a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed, source-sha256:fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7",
       "owner": "SRC04",
-      "nextAction": "Captain route/family binding"
-    },
-    {
-      "family": "composed-treatment:nd-nonconviction-auto-close-verify",
-      "exactBlocker": "no census route binds this id to a packet family",
-      "owner": "DISC06",
-      "nextAction": "Captain route/family binding"
-    },
-    {
-      "family": "composed-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days",
-      "exactBlocker": "no census route binds this id to a packet family",
-      "owner": "DISC02",
-      "nextAction": "Captain route/family binding"
-    },
-    {
-      "family": "composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request",
-      "exactBlocker": "no census route binds this id to a packet family",
-      "owner": "DISC05",
-      "nextAction": "Captain route/family binding"
-    },
-    {
-      "family": "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction",
-      "exactBlocker": "no census route binds this id to a packet family",
-      "owner": "DISC04",
-      "nextAction": "Captain route/family binding"
-    },
-    {
-      "family": "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1018_discretionary_petition",
-      "exactBlocker": "no census route binds this id to a packet family",
-      "owner": "DISC04",
-      "nextAction": "Captain route/family binding"
-    },
-    {
-      "family": "composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
-      "exactBlocker": "no census route binds this id to a packet family",
-      "owner": "DISC06",
-      "nextAction": "Captain route/family binding"
-    },
-    {
-      "family": "composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route",
-      "exactBlocker": "no census route binds this id to a packet family",
-      "owner": "DISC06",
-      "nextAction": "Captain route/family binding"
-    },
-    {
-      "family": "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
-      "exactBlocker": "no census route binds this id to a packet family",
-      "owner": "DISC03",
-      "nextAction": "Captain route/family binding"
-    },
-    {
-      "family": "composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
-      "exactBlocker": "no census route binds this id to a packet family",
-      "owner": "DISC06",
-      "nextAction": "Captain route/family binding"
-    },
-    {
-      "family": "composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26",
-      "exactBlocker": "no census route binds this id to a packet family",
-      "owner": "DISC06",
-      "nextAction": "Captain route/family binding"
-    },
-    {
-      "family": "composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
-      "exactBlocker": "no census route binds this id to a packet family",
-      "owner": "DISC06",
-      "nextAction": "Captain route/family binding"
-    },
-    {
-      "family": "composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
-      "exactBlocker": "no census route binds this id to a packet family",
-      "owner": "DISC06",
-      "nextAction": "Captain route/family binding"
-    },
-    {
-      "family": "composed-treatment:obligation:runtime-only:NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247",
-      "exactBlocker": "no census route binds this id to a packet family",
-      "owner": "DISC02",
-      "nextAction": "Captain route/family binding"
-    },
-    {
-      "family": "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
-      "exactBlocker": "no census route binds this id to a packet family",
-      "owner": "DISC06",
-      "nextAction": "Captain route/family binding"
-    },
-    {
-      "family": "composed-treatment:obligation:runtime-only:OK:juvenile-record-expungement",
-      "exactBlocker": "no census route binds this id to a packet family",
-      "owner": "DISC06",
-      "nextAction": "Captain route/family binding"
-    },
-    {
-      "family": "composed-treatment:obligation:runtime-only:PA:path-k-human-trafficking-vacatur-expungement",
-      "exactBlocker": "no census route binds this id to a packet family",
-      "owner": "DISC06",
-      "nextAction": "Captain route/family binding"
-    },
-    {
-      "family": "composed-treatment:obligation:runtime-only:SD:juvenile-trafficking-expungement",
-      "exactBlocker": "no census route binds this id to a packet family",
-      "owner": "DISC03",
-      "nextAction": "Captain route/family binding"
-    },
-    {
-      "family": "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
-      "exactBlocker": "no census route binds this id to a packet family",
-      "owner": "DISC04",
-      "nextAction": "Captain route/family binding"
-    },
-    {
-      "family": "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
-      "exactBlocker": "no census route binds this id to a packet family",
-      "owner": "DISC06",
-      "nextAction": "Captain route/family binding"
-    },
-    {
-      "family": "composed-treatment:sc_17_22_950_summary",
-      "exactBlocker": "no census route binds this id to a packet family",
-      "owner": "DISC02",
-      "nextAction": "Captain route/family binding"
-    },
-    {
-      "family": "composed-treatment:sd_sis_sealing",
-      "exactBlocker": "no census route binds this id to a packet family",
-      "owner": "DISC03",
-      "nextAction": "Captain route/family binding"
-    },
-    {
-      "family": "ct-missed-erasure-set",
-      "exactBlocker": "SOURCE_IDENTITY_UNRESOLVED: no document-shaped source named",
-      "owner": "DISC05",
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
@@ -420,7 +246,7 @@
     {
       "family": "de_mandatory_expungement-set",
       "exactBlocker": "SOURCE_IDENTITY_UNRESOLVED: official-form:DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION",
-      "owner": "DISC04",
+      "owner": "DISC03",
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
@@ -546,7 +372,7 @@
     {
       "family": "id_isp_expungement-set",
       "exactBlocker": "SOURCE_IDENTITY_UNRESOLVED: official-form:ISP-BCI-EXPUNGEMENT-APPLICATION",
-      "owner": "DISC06",
+      "owner": "DISC04",
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
@@ -1031,116 +857,44 @@
     },
     {
       "family": "official-form-treatment:obligation:research-decision-route:AL:al-olr",
-      "exactBlocker": "no census route binds this id to a packet family",
+      "exactBlocker": "SOURCE_IDENTITY_UNRESOLVED: official-form:Alabama AOC Order of Limited Relief packet",
       "owner": "DISC01",
-      "nextAction": "Captain route/family binding"
+      "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
       "family": "official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b",
-      "exactBlocker": "no census route binds this id to a packet family",
+      "exactBlocker": "SOURCE_GENUINELY_MISSING: official-form:CR-430, official-form:CR-431, official-form:CR-432, official-form:CR-430-INFO, official-form:CR-106",
       "owner": "SRC01",
-      "nextAction": "Captain route/family binding"
-    },
-    {
-      "family": "rcap-ga-guidance-implementation",
-      "exactBlocker": "no census route binds this id to a packet family",
-      "owner": "DISC06",
-      "nextAction": "Captain route/family binding"
+      "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
       "family": "rcap-hi-custom-pleading",
-      "exactBlocker": "no census route binds this id to a packet family",
+      "exactBlocker": "SOURCE_GENUINELY_MISSING: official-form:HCJDC-159B",
       "owner": "SRC04",
-      "nextAction": "Captain route/family binding"
+      "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
       "family": "rcap-in-custom-pleading",
-      "exactBlocker": "no census route binds this id to a packet family",
+      "exactBlocker": "SOURCE_IDENTITY_UNRESOLVED: official-form:CCA-GF-0120-3016, official-form:CCA-XP-0120-7002 Form ACR, official-form:Confidential Information Form",
       "owner": "SRC02",
-      "nextAction": "Captain route/family binding"
-    },
-    {
-      "family": "rcap-ks-custom-pleading",
-      "exactBlocker": "no census route binds this id to a packet family",
-      "owner": "DISC02",
-      "nextAction": "Captain route/family binding"
+      "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
       "family": "rcap-mo-custom-pleading",
-      "exactBlocker": "no census route binds this id to a packet family",
-      "owner": "DISC02",
-      "nextAction": "Captain route/family binding"
-    },
-    {
-      "family": "rcap-ms-custom-pleading",
-      "exactBlocker": "no census route binds this id to a packet family",
-      "owner": "DISC06",
-      "nextAction": "Captain route/family binding"
-    },
-    {
-      "family": "rcap-nd-custom-pleading",
-      "exactBlocker": "no census route binds this id to a packet family",
-      "owner": "DISC06",
-      "nextAction": "Captain route/family binding"
-    },
-    {
-      "family": "rcap-nv-custom-pleading",
-      "exactBlocker": "no census route binds this id to a packet family",
-      "owner": "DISC02",
-      "nextAction": "Captain route/family binding"
-    },
-    {
-      "family": "rcap-ok-custom-pleading",
-      "exactBlocker": "no census route binds this id to a packet family",
-      "owner": "DISC06",
-      "nextAction": "Captain route/family binding"
-    },
-    {
-      "family": "rcap-or-official-pdf-fill",
-      "exactBlocker": "no census route binds this id to a packet family",
-      "owner": "DISC06",
-      "nextAction": "Captain route/family binding"
-    },
-    {
-      "family": "rcap-sc-custom-pleading",
-      "exactBlocker": "no census route binds this id to a packet family",
-      "owner": "SRC04",
-      "nextAction": "Captain route/family binding"
-    },
-    {
-      "family": "rcap-tn-custom-pleading",
-      "exactBlocker": "no census route binds this id to a packet family",
-      "owner": "DISC01",
-      "nextAction": "Captain route/family binding"
+      "exactBlocker": "SOURCE_NAMED_BUT_NOT_HELD: official-form:FI-05: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding: no document-shaped source named",
+      "owner": "SRC02",
+      "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
       "family": "rcap-tx-custom-pleading",
-      "exactBlocker": "no census route binds this id to a packet family",
+      "exactBlocker": "SOURCE_IDENTITY_UNRESOLVED: official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
       "owner": "DISC01",
-      "nextAction": "Captain route/family binding"
-    },
-    {
-      "family": "rcap-wa-custom-pleading-clean-tracks",
-      "exactBlocker": "no census route binds this id to a packet family",
-      "owner": "DISC06",
-      "nextAction": "Captain route/family binding"
-    },
-    {
-      "family": "rcap-wi-custom-pleading",
-      "exactBlocker": "no census route binds this id to a packet family",
-      "owner": "DISC02",
-      "nextAction": "Captain route/family binding"
-    },
-    {
-      "family": "rcap-wv-custom-pleading",
-      "exactBlocker": "no census route binds this id to a packet family",
-      "owner": "DISC04",
-      "nextAction": "Captain route/family binding"
+      "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
       "family": "ri_decriminalized-set",
       "exactBlocker": "SOURCE_GENUINELY_MISSING: official-form:DC-33, official-form:DC-33-AFFIDAVIT, official-form:DC-33-ORDER",
-      "owner": "SRC01",
+      "owner": "SRC04",
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
@@ -1236,7 +990,7 @@
     {
       "family": "ut_pet_remove_link-set",
       "exactBlocker": "SOURCE_IDENTITY_UNRESOLVED: official-form:1110GE or 1111GE, official-form:1501CR, official-form:1501CR-C, official-form:1502CR",
-      "owner": "DISC03",
+      "owner": "DISC06",
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {

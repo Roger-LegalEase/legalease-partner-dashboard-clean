@@ -230,7 +230,7 @@ function run() {
     /* A custom pleading drafts from codified text: zero bound sources is its
      * legitimate ready state (the simplification directive), and its named
      * missing components still block through reasons above. */
-    if (r.boundCount === 0) return f.implementationStrategy !== "custom_pleading";
+    if (r.boundCount === 0) return f.implementationStrategy !== "custom_pleading" && f.implementationStrategy !== "participant_agency_application";
     return r.boundSources.some((b) => !b.path || !b.sha256 || !b.tier);
   }).map((f) => f.familyId);
   const blockedWithNoReason = master.families.filter((f) => f.state === "SOURCE_BLOCKED" && (f.sourceReadiness?.reasons ?? []).length === 0).map((f) => f.familyId);

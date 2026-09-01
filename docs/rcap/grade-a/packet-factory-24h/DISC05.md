@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** source-swarm
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `25246e87fd00cc6c8b916114e031cd569988a40a` (or the newer dispatch base)
+**Minimum required ancestor:** `6868ea1a62730fc8a5b57a41f4d18633baa8ce2d` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -20,9 +20,9 @@
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --assignment-id DISC05 \
-  --source-obligation 'agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission::NO_DOCUMENT_SOURCE_NAMED' \
+  --source-obligation 'agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record::official-form:Request to Correct Criminal Justice Information' \
   --codex-cloud \
-  --minimum-captain-sha 25246e87fd00cc6c8b916114e031cd569988a40a
+  --minimum-captain-sha 6868ea1a62730fc8a5b57a41f4d18633baa8ce2d
 ```
 
 It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owned row gate must both pass.
@@ -40,7 +40,7 @@ It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owne
 ## Claim before you read
 
 - Assert each exact source obligation before reading evidence: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert DISC05 <itemId>`
-- The committed assignment contains exactly 26 itemIds; iterate those values only. A familyId is metadata and is not a source claim key.
+- The committed assignment contains exactly 21 itemIds; iterate those values only. A familyId is metadata and is not a source claim key.
 - A non-zero exit stops that row only: record `BLOCKED_BEFORE_CLAIM`, read none of its evidence, and continue with unrelated obligations.
 - Release each completed obligation independently: `node scripts/grade-a-packet-factory-24h/claim.mjs --release DISC05 <itemId>`.
 
@@ -78,7 +78,7 @@ Turn a descriptive label into a document identity: exact form number, official p
 
 the issuing court or agency that publishes the document
 
-**26 obligations · 13 families this lane WOULD release if every one of them resolves · hosts: AR, CT, MT, NM, NY**
+**21 obligations · 8 families this lane WOULD release if every one of them resolves · hosts: AK, AR, MT**
 
 > Prospective. Nothing below is promoted custody yet, and this number is not a count of families you can build today.
 
@@ -105,11 +105,8 @@ the issuing court or agency that publishes the document
 
 | Item id | Source id | Jurisdiction | Current operation | Family ownership | Required input | Handoff |
 | --- | --- | --- | --- | --- | --- | --- |
-| `agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | NY | `exact-source-identity` | `agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission` | unresolved exact identity or URL | `ACQ` |
-| `agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | NM | `exact-source-identity` | `agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement` | unresolved exact identity or URL | `ACQ` |
-| `agency-application-treatment:obligation:track-only:CT:ct-destruction-request::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | CT | `exact-source-identity` | `agency-application-treatment:obligation:track-only:CT:ct-destruction-request` | unresolved exact identity or URL | `ACQ` |
-| `agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | CT | `exact-source-identity` | `agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon` | unresolved exact identity or URL | `ACQ` |
-| `agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | CT | `exact-source-identity` | `agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure` | unresolved exact identity or URL | `ACQ` |
+| `agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record::official-form:Request to Correct Criminal Justice Information` | `official-form:Request to Correct Criminal Justice Information` | AK | `exact-source-identity` | `agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record` | unresolved exact identity or URL | `ACQ` |
+| `ak-mistaken-identity-set::official-form:DPS-REQUEST-TO-SEAL-CRIM-INFO` | `official-form:DPS-REQUEST-TO-SEAL-CRIM-INFO` | AK | `exact-source-identity` | `ak-mistaken-identity-set` | unresolved exact identity or URL | `ACQ` |
 | `ar-act346-set::official-form:ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS` | `official-form:ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS` | AR | `exact-source-identity` | `ar-act346-set` | unresolved exact identity or URL | `ACQ` |
 | `ar-cs-possession-seal-set::official-form:ACIC-ORDER-TO-SEAL-CS-POSSESSION` | `official-form:ACIC-ORDER-TO-SEAL-CS-POSSESSION` | AR | `exact-source-identity` | `ar-cs-possession-seal-set` | unresolved exact identity or URL | `ACQ` |
 | `ar-cs-possession-seal-set::official-form:ACIC-PETITION-TO-SEAL-CS-POSSESSION` | `official-form:ACIC-PETITION-TO-SEAL-CS-POSSESSION` | AR | `exact-source-identity` | `ar-cs-possession-seal-set` | unresolved exact identity or URL | `ACQ` |
@@ -123,8 +120,6 @@ the issuing court or agency that publishes the document
 | `ar-nonconviction-seal-set::official-form:ACIC-PETITION-TO-SEAL-NONCONVICTION` | `official-form:ACIC-PETITION-TO-SEAL-NONCONVICTION` | AR | `exact-source-identity` | `ar-nonconviction-seal-set` | unresolved exact identity or URL | `ACQ` |
 | `ar-veterans-court-set::official-form:ACIC-ORDER-VETERANS-COURT` | `official-form:ACIC-ORDER-VETERANS-COURT` | AR | `exact-source-identity` | `ar-veterans-court-set` | unresolved exact identity or URL | `ACQ` |
 | `ar-veterans-court-set::official-form:ACIC-PETITION-VETERANS-COURT` | `official-form:ACIC-PETITION-VETERANS-COURT` | AR | `exact-source-identity` | `ar-veterans-court-set` | unresolved exact identity or URL | `ACQ` |
-| `composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | NY | `exact-source-identity` | `composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request` | unresolved exact identity or URL | `ACQ` |
-| `ct-missed-erasure-set::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | CT | `exact-source-identity` | `ct-missed-erasure-set` | unresolved exact identity or URL | `ACQ` |
 | `mt_mmrta_completed-set::official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX` | `official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX` | MT | `exact-source-identity` | `mt_mmrta_completed-set` | unresolved exact identity or URL | `ACQ` |
 | `mt_mmrta_completed-set::official-form:MT-FORM-B` | `official-form:MT-FORM-B` | MT | `exact-source-identity` | `mt_mmrta_completed-set` | unresolved exact identity or URL | `ACQ` |
 | `mt_mmrta_completed-set::official-form:MT-OCA-MMRTA` | `official-form:MT-OCA-MMRTA` | MT | `exact-source-identity` | `mt_mmrta_completed-set` | unresolved exact identity or URL | `ACQ` |
@@ -132,13 +127,13 @@ the issuing court or agency that publishes the document
 | `mt_mmrta_serving-set::official-form:MT-FORM-A` | `official-form:MT-FORM-A` | MT | `exact-source-identity` | `mt_mmrta_serving-set` | unresolved exact identity or URL | `ACQ` |
 | `mt_mmrta_serving-set::official-form:MT-OCA-MMRTA` | `official-form:MT-OCA-MMRTA` | MT | `exact-source-identity` | `mt_mmrta_serving-set` | unresolved exact identity or URL | `ACQ` |
 
-Deterministically assert exactly the 26 committed itemIds (failures are recorded per row and do not terminate the loop):
+Deterministically assert exactly the 21 committed itemIds (failures are recorded per row and do not terminate the loop):
 
 ```sh
 node - <<'NODE'
 const {spawnSync}=require('node:child_process');
 const a=require('./data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json').assignments.find(x=>x.assignmentId==='DISC05');
-if (!a || a.items.length !== 26) throw new Error('DISC05 committed item count changed');
+if (!a || a.items.length !== 21) throw new Error('DISC05 committed item count changed');
 for (const itemId of a.items) {
   const r=spawnSync(process.execPath,['scripts/grade-a-packet-factory-24h/claim.mjs','--assert','DISC05',itemId],{stdio:'inherit'});
   if (r.status !== 0) console.error('ROW_STOP', itemId);
@@ -150,7 +145,7 @@ NODE
 Run the row gate once per listed item, after the lane gate. This exact first command demonstrates the interface; substitute each other exact item id from the table without changing the lane:
 
 ```sh
-node scripts/verify-packet-build-environment.mjs --assignment-id DISC05 --source-obligation 'agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission::NO_DOCUMENT_SOURCE_NAMED' --codex-cloud --minimum-captain-sha 25246e87fd00cc6c8b916114e031cd569988a40a
+node scripts/verify-packet-build-environment.mjs --assignment-id DISC05 --source-obligation 'agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record::official-form:Request to Correct Criminal Justice Information' --codex-cloud --minimum-captain-sha 6868ea1a62730fc8a5b57a41f4d18633baa8ce2d
 
 # A failed row is recorded STOPPED; continue with unrelated rows.
 ```
@@ -159,7 +154,7 @@ node scripts/verify-packet-build-environment.mjs --assignment-id DISC05 --source
 
 ### Families this lane would release
 
-`agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission`, `agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement`, `agency-application-treatment:obligation:track-only:CT:ct-destruction-request`, `agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon`, `agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure`, `ar-cs-possession-seal-set`, `ar-drug-court-set`, `ar-felony-seal-set`, `ar-misdemeanor-seal-set`, `ar-nonconviction-seal-set`, `ar-veterans-court-set`, `composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request`, `ct-missed-erasure-set`
+`agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record`, `ak-mistaken-identity-set`, `ar-cs-possession-seal-set`, `ar-drug-court-set`, `ar-felony-seal-set`, `ar-misdemeanor-seal-set`, `ar-nonconviction-seal-set`, `ar-veterans-court-set`
 
 
 ### Settle these first
@@ -170,16 +165,13 @@ node scripts/verify-packet-build-environment.mjs --assignment-id DISC05 --source
 | --- | --- | --- |
 | EXPUNGEMENTREMOVALREQUESTFORM.DOCX | MT | 4 |
 | ACIC-UNIFORM-ORDER-TO-SEAL | AR | 2 |
+| Request to Correct Criminal Justice Information | AK | 1 |
+| DPS-REQUEST-TO-SEAL-CRIM-INFO | AK | 1 |
 | ACIC-ORDER-DISMISS-AND-SEAL-FIRST-OFFENDERS | AR | 1 |
 | ACIC-ORDER-TO-SEAL-CS-POSSESSION | AR | 1 |
 | ACIC-ORDER-DRUG-COURT | AR | 1 |
 | ACIC-ORDER-TO-SEAL-NONCONVICTION | AR | 1 |
 | ACIC-ORDER-VETERANS-COURT | AR | 1 |
-| NO_DOCUMENT_SOURCE_NAMED | NY | 0 |
-| NO_DOCUMENT_SOURCE_NAMED | NM | 0 |
-| NO_DOCUMENT_SOURCE_NAMED | CT | 0 |
-| NO_DOCUMENT_SOURCE_NAMED | CT | 0 |
-| NO_DOCUMENT_SOURCE_NAMED | CT | 0 |
 
 > On 2026-08-31 an acquisition batch fetched thirty documents successfully and unblocked zero families — all thirty belonged to jurisdictions already resolved, with no overlap against the 238 documents gating the 256 blocked families. Fetch capacity is not the constraint. Knowing which document to fetch is.
 

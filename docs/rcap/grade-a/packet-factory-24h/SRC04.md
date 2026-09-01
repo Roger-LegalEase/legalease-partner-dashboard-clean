@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** source-swarm
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `25246e87fd00cc6c8b916114e031cd569988a40a` (or the newer dispatch base)
+**Minimum required ancestor:** `6868ea1a62730fc8a5b57a41f4d18633baa8ce2d` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -22,7 +22,7 @@ node scripts/verify-packet-build-environment.mjs \
   --assignment-id SRC04 \
   --source-obligation 'ar-act346-set::official-form:ACIC-ORDER-DISMISS-AND-SEAL-FIRST-OFFENDERS' \
   --codex-cloud \
-  --minimum-captain-sha 25246e87fd00cc6c8b916114e031cd569988a40a
+  --minimum-captain-sha 6868ea1a62730fc8a5b57a41f4d18633baa8ce2d
 ```
 
 It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owned row gate must both pass.
@@ -78,7 +78,7 @@ Reconcile a named form number or pinned content hash against the private corpus 
 
 the private corpus and the committed inventory, read only — nothing is fetched here
 
-**41 obligations · 25 families this lane WOULD release if every one of them resolves · hosts: AR, AZ, GA, HI, KY, MO, NC, ND, SC**
+**41 obligations · 24 families this lane WOULD release if every one of them resolves · hosts: AR, AZ, GA, HI, KY, MO, NC, ND, RI**
 
 > Prospective. Nothing below is promoted custody yet, and this number is not a count of families you can build today.
 
@@ -143,7 +143,7 @@ the private corpus and the committed inventory, read only — nothing is fetched
 | `nd-regular-pardon-set::official-form:SFN-14859` | `official-form:SFN-14859` | ND | `held-inventory-reconciliation` | `nd-regular-pardon-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `nd-summary-marijuana-pardon-set::official-form:SFN-61663` | `official-form:SFN-61663` | ND | `held-inventory-reconciliation` | `nd-summary-marijuana-pardon-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `rcap-hi-custom-pleading::official-form:HCJDC-159B` | `official-form:HCJDC-159B` | HI | `held-inventory-reconciliation` | `rcap-hi-custom-pleading` | named held-corpus identity or pinned SHA-256 | `PROMO` |
-| `rcap-sc-custom-pleading::source-sha256:9a5d822bc98a5c774b4de6b45d6a5d161214d178f53bef560bddd46fc2972d29` | `source-sha256:9a5d822bc98a5c774b4de6b45d6a5d161214d178f53bef560bddd46fc2972d29` | SC | `held-inventory-reconciliation` | `rcap-sc-custom-pleading` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ri_decriminalized-set::official-form:DC-33-AFFIDAVIT` | `official-form:DC-33-AFFIDAVIT` | RI | `held-inventory-reconciliation` | `ri_decriminalized-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 
 Deterministically assert exactly the 41 committed itemIds (failures are recorded per row and do not terminate the loop):
 
@@ -163,7 +163,7 @@ NODE
 Run the row gate once per listed item, after the lane gate. This exact first command demonstrates the interface; substitute each other exact item id from the table without changing the lane:
 
 ```sh
-node scripts/verify-packet-build-environment.mjs --assignment-id SRC04 --source-obligation 'ar-act346-set::official-form:ACIC-ORDER-DISMISS-AND-SEAL-FIRST-OFFENDERS' --codex-cloud --minimum-captain-sha 25246e87fd00cc6c8b916114e031cd569988a40a
+node scripts/verify-packet-build-environment.mjs --assignment-id SRC04 --source-obligation 'ar-act346-set::official-form:ACIC-ORDER-DISMISS-AND-SEAL-FIRST-OFFENDERS' --codex-cloud --minimum-captain-sha 6868ea1a62730fc8a5b57a41f4d18633baa8ce2d
 
 # A failed row is recorded STOPPED; continue with unrelated rows.
 ```
@@ -172,7 +172,7 @@ node scripts/verify-packet-build-environment.mjs --assignment-id SRC04 --source-
 
 ### Families this lane would release
 
-`ar-act531-set`, `ar-pardon-seal-set`, `az_certificate_second_chance-set`, `az_marijuana_expungement_limited_jurisdiction-set`, `az_record_sealing_conviction-set`, `az_set_aside-set`, `composed-treatment:nc_146_dismissal_petition`, `ga-nonconv-pre2013-set`, `hi_712_1200_deferred_expungement-set`, `hi_dag_danc_expungement-set`, `hi_nonconviction_expungement-set`, `ky_expungement_certification-set`, `ky_nonconviction_expungement-set`, `ky_protective_order_record_expungement-set`, `mo-art-xiv-marijuana-set`, `nc_145_5_felony-set`, `nc_145_5_misdemeanor-set`, `nc_145_8a_youthful-set`, `nc_146_acquittal_petition-set`, `nc_146_dismissal_petition-set`, `nc_auto_146_a4_agency_followup-set`, `nd-regular-pardon-set`, `nd-summary-marijuana-pardon-set`, `rcap-hi-custom-pleading`, `rcap-sc-custom-pleading`
+`ar-act531-set`, `ar-pardon-seal-set`, `az_certificate_second_chance-set`, `az_marijuana_expungement_limited_jurisdiction-set`, `az_record_sealing_conviction-set`, `az_set_aside-set`, `composed-treatment:nc_146_dismissal_petition`, `ga-nonconv-pre2013-set`, `hi_712_1200_deferred_expungement-set`, `hi_dag_danc_expungement-set`, `hi_nonconviction_expungement-set`, `ky_expungement_certification-set`, `ky_nonconviction_expungement-set`, `ky_protective_order_record_expungement-set`, `mo-art-xiv-marijuana-set`, `nc_145_5_felony-set`, `nc_145_5_misdemeanor-set`, `nc_145_8a_youthful-set`, `nc_146_acquittal_petition-set`, `nc_146_dismissal_petition-set`, `nc_auto_146_a4_agency_followup-set`, `nd-regular-pardon-set`, `nd-summary-marijuana-pardon-set`, `rcap-hi-custom-pleading`
 
 
 ### Settle these first
@@ -181,9 +181,10 @@ node scripts/verify-packet-build-environment.mjs --assignment-id SRC04 --source-
 
 | Document | Jurisdiction | Families waiting |
 | --- | --- | --- |
-| FI-05 | MO | 6 |
-| AOC-CV-226 | NC | 4 |
-| HCJDC-159B | HI | 3 |
+| FI-05 | MO | 7 |
+| AOC-CV-226 | NC | 5 |
+| HCJDC-159B | HI | 4 |
+| DC-33 | RI | 4 |
 | ACIC-ORDER-DISMISS-AND-SEAL-FIRST-OFFENDERS | AR | 1 |
 | ACIC-ORDER-SEAL-ACT-531-ACT-1460 | AR | 1 |
 | ACIC-ORDER-TO-SEAL-PARDONED-OFFENDER | AR | 1 |
@@ -192,7 +193,6 @@ node scripts/verify-packet-build-environment.mjs --assignment-id SRC04 --source-
 | AOCCRSL1F-050825 | AZ | 1 |
 | AOCCR41FORM31A-082224 | AZ | 1 |
 | GBI-GCIC-REQUEST-TO-RESTRICT-ARREST-RECORD-PRIOR-TO-07-01-2013 | GA | 1 |
-| AOC-RU-009 | KY | 1 |
 
 > On 2026-08-31 an acquisition batch fetched thirty documents successfully and unblocked zero families — all thirty belonged to jurisdictions already resolved, with no overlap against the 238 documents gating the 256 blocked families. Fetch capacity is not the constraint. Knowing which document to fetch is.
 

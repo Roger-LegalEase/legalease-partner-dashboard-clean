@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "25246e87fd00cc6c8b916114e031cd569988a40a",
+  "minimumCaptainSha": "6868ea1a62730fc8a5b57a41f4d18633baa8ce2d",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "e615283930c6a9aab3be570ca5dd74a8990deb71dc2817733a3d262e48af6816",
@@ -57,28 +57,28 @@
     "activeFamiliesExcluded": 14,
     "guidanceOnly": 0,
     "remaining": 332,
-    "sourceReady": 52,
-    "sourceBlocked": 203,
+    "sourceReady": 93,
+    "sourceBlocked": 162,
     "legalBlocked": 24,
     "verifyPending": 46,
     "repairRequired": 5,
     "sumsToDenominator": true
   },
   "byState": {
-    "SOURCE_BLOCKED": 203,
+    "SOURCE_READY": 93,
+    "SOURCE_BLOCKED": 162,
     "COMPLETE_PACKET_PROVEN": 13,
     "VERIFY_PENDING": 56,
     "BUILD_IN_PROGRESS": 4,
     "LEGAL_BLOCKED": 13,
-    "SOURCE_READY": 52,
     "FAIL_REPAIR_REQUIRED": 5
   },
   "bySourceStatus": {
-    "SOURCE_IDENTITY_UNRESOLVED": 115,
-    "SOURCE_BOUND_BY_HELD_BYTES": 90,
-    "SOURCE_GENUINELY_MISSING": 69,
+    "CUSTOM_PLEADING_FROM_CODIFIED_TEXT": 89,
+    "SOURCE_IDENTITY_UNRESOLVED": 76,
+    "SOURCE_BOUND_BY_HELD_BYTES": 93,
+    "SOURCE_GENUINELY_MISSING": 68,
     "SOURCE_IDENTITY_NOT_EXACT": 3,
-    "CUSTOM_PLEADING_FROM_CODIFIED_TEXT": 50,
     "SOURCE_NAMED_BUT_NOT_HELD: official-form:GBI-GCIC-REQUEST-TO-RESTRICT-ARREST-RECORD-PRIOR-TO-07-01-2013: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding": 1,
     "SOURCE_NAMED_BUT_NOT_HELD: official-form:KS-CRIMINAL-COVER-SHEET-10-14-2025: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding": 5,
     "SOURCE_NAMED_BUT_NOT_HELD: official-form:KSJC-ORDER-RELIEF-FROM-OFFENDER-REGISTRATION-COVER-SHEET-06-2022: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding": 1,
@@ -86,10 +86,8 @@
     "SOURCE_NAMED_BUT_NOT_HELD: official-form:CR143: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding": 1,
     "SOURCE_NAMED_BUT_NOT_HELD: official-form:CR370: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding": 2,
     "SOURCE_NAMED_BUT_NOT_HELD: official-form:CR301: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding": 1,
-    "SOURCE_NAMED_BUT_NOT_HELD: official-form:FI-05: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding": 1,
+    "SOURCE_NAMED_BUT_NOT_HELD: official-form:FI-05: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding": 2,
     "SOURCE_NAMED_BUT_NOT_HELD: official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding": 2,
-    "SOURCE_NAMED_BUT_NOT_HELD: route not bound to a packet family — route mapping open": 2,
-    "SOURCE_NAMED_BUT_NOT_HELD: the family names no document-shaped source, so nothing binds": 1,
     "SOURCE_NAMED_BUT_NOT_HELD: official-form:SCA-C907: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding": 1
   },
   "activeOwnership": {
@@ -128,12 +126,12 @@
     "rule": "Excluded from every new assignment. A collision with active ownership fails this generator rather than appearing as a note."
   },
   "theHonestShape": {
-    "buildersProvisioned": 16,
-    "sourceReadyFamilies": 52,
-    "familiesPerBuilder": 3.3,
+    "buildersProvisioned": 24,
+    "sourceReadyFamilies": 93,
+    "familiesPerBuilder": 3.9,
     "targetPerBuilder": "15 to 25",
-    "finding": "Thirty-two lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 52 do, so a full roster of 16 builders averages 3.3 families each rather than 15 to 25.",
-    "whatWouldChangeIt": "The source conveyor. 382 source obligations across 227 families stand between this dispatch and a full builder roster, and the sixteen-lane source swarm holds every one of them.",
+    "finding": "Thirty-two lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 93 do, so a full roster of 24 builders averages 3.9 families each rather than 15 to 25.",
+    "whatWouldChangeIt": "The source conveyor. 341 source obligations across 186 families stand between this dispatch and a full builder roster, and the sixteen-lane source swarm holds every one of them.",
     "whyNotFewerBuilders": "The roster is kept at sixteen because the instruction is a 24-hour rolling factory: a lane that is empty at dispatch is the lane a released family starts in an hour from now, and provisioning it later costs a cycle.",
     "noFalsePass": "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
   },
@@ -142,8 +140,10 @@
       "familyId": "agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge",
       "worklistGroupId": "agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge",
       "jurisdiction": "AL",
-      "routeKeys": [],
-      "routeCount": 0,
+      "routeKeys": [
+        "obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge"
+      ],
+      "routeCount": 1,
       "implementationStrategy": "participant_agency_application",
       "packetComponents": [],
       "instrumentKinds": [],
@@ -151,14 +151,11 @@
       "forms": [],
       "sourceIds": [],
       "sourceHashes": [],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceStatus": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "the family names no document-shaped source, so nothing binds",
-          "route not bound to a packet family — route mapping open"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [],
         "namedOfficialForms": 0,
         "boundCount": 0,
@@ -168,7 +165,7 @@
       "legalInputStatus": "SETTLED",
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
-      "routeMappingStatus": "UNBOUND_TO_A_PACKET_FAMILY",
+      "routeMappingStatus": "BOUND",
       "artifactStatus": "NOT_RENDERED",
       "completenessStatus": "NOT_BUILT",
       "allNineCountersZero": null,
@@ -178,7 +175,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge.mjs",
@@ -197,8 +194,10 @@
       "familyId": "agency-application-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request",
       "worklistGroupId": "agency-application-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request",
       "jurisdiction": "CO",
-      "routeKeys": [],
-      "routeCount": 0,
+      "routeKeys": [
+        "obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request"
+      ],
+      "routeCount": 1,
       "implementationStrategy": "participant_agency_application",
       "packetComponents": [],
       "instrumentKinds": [],
@@ -206,14 +205,11 @@
       "forms": [],
       "sourceIds": [],
       "sourceHashes": [],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceStatus": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "the family names no document-shaped source, so nothing binds",
-          "route not bound to a packet family — route mapping open"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [],
         "namedOfficialForms": 0,
         "boundCount": 0,
@@ -223,7 +219,7 @@
       "legalInputStatus": "SETTLED",
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
-      "routeMappingStatus": "UNBOUND_TO_A_PACKET_FAMILY",
+      "routeMappingStatus": "BOUND",
       "artifactStatus": "NOT_RENDERED",
       "completenessStatus": "NOT_BUILT",
       "allNineCountersZero": null,
@@ -233,7 +229,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-agency-application-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request.mjs",
@@ -252,8 +248,10 @@
       "familyId": "agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission",
       "worklistGroupId": "agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission",
       "jurisdiction": "NY",
-      "routeKeys": [],
-      "routeCount": 0,
+      "routeKeys": [
+        "obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission"
+      ],
+      "routeCount": 1,
       "implementationStrategy": "participant_agency_application",
       "packetComponents": [],
       "instrumentKinds": [],
@@ -261,14 +259,11 @@
       "forms": [],
       "sourceIds": [],
       "sourceHashes": [],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceStatus": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "the family names no document-shaped source, so nothing binds",
-          "route not bound to a packet family — route mapping open"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [],
         "namedOfficialForms": 0,
         "boundCount": 0,
@@ -278,7 +273,7 @@
       "legalInputStatus": "SETTLED",
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
-      "routeMappingStatus": "UNBOUND_TO_A_PACKET_FAMILY",
+      "routeMappingStatus": "BOUND",
       "artifactStatus": "NOT_RENDERED",
       "completenessStatus": "NOT_BUILT",
       "allNineCountersZero": null,
@@ -288,7 +283,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission.mjs",
@@ -307,8 +302,10 @@
       "familyId": "agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement",
       "worklistGroupId": "agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement",
       "jurisdiction": "NM",
-      "routeKeys": [],
-      "routeCount": 0,
+      "routeKeys": [
+        "obligation:runtime-only:NM:dna-sample-profile-expungement"
+      ],
+      "routeCount": 1,
       "implementationStrategy": "participant_agency_application",
       "packetComponents": [],
       "instrumentKinds": [],
@@ -316,14 +313,11 @@
       "forms": [],
       "sourceIds": [],
       "sourceHashes": [],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceStatus": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "the family names no document-shaped source, so nothing binds",
-          "route not bound to a packet family — route mapping open"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [],
         "namedOfficialForms": 0,
         "boundCount": 0,
@@ -333,7 +327,7 @@
       "legalInputStatus": "SETTLED",
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
-      "routeMappingStatus": "UNBOUND_TO_A_PACKET_FAMILY",
+      "routeMappingStatus": "BOUND",
       "artifactStatus": "NOT_RENDERED",
       "completenessStatus": "NOT_BUILT",
       "allNineCountersZero": null,
@@ -343,7 +337,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement.mjs",
@@ -362,8 +356,10 @@
       "familyId": "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
       "worklistGroupId": "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
       "jurisdiction": "CT",
-      "routeKeys": [],
-      "routeCount": 0,
+      "routeKeys": [
+        "obligation:track-only:CT:ct-destruction-request"
+      ],
+      "routeCount": 1,
       "implementationStrategy": "participant_agency_application",
       "packetComponents": [],
       "instrumentKinds": [],
@@ -371,14 +367,11 @@
       "forms": [],
       "sourceIds": [],
       "sourceHashes": [],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceStatus": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "the family names no document-shaped source, so nothing binds",
-          "route not bound to a packet family — route mapping open"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [],
         "namedOfficialForms": 0,
         "boundCount": 0,
@@ -388,7 +381,7 @@
       "legalInputStatus": "SETTLED",
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
-      "routeMappingStatus": "UNBOUND_TO_A_PACKET_FAMILY",
+      "routeMappingStatus": "BOUND",
       "artifactStatus": "NOT_RENDERED",
       "completenessStatus": "NOT_BUILT",
       "allNineCountersZero": null,
@@ -398,7 +391,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-agency-application-treatment:obligation:track-only:CT:ct-destruction-request.mjs",
@@ -417,8 +410,10 @@
       "familyId": "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
       "worklistGroupId": "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
       "jurisdiction": "CT",
-      "routeKeys": [],
-      "routeCount": 0,
+      "routeKeys": [
+        "obligation:track-only:CT:ct-provisional-pardon"
+      ],
+      "routeCount": 1,
       "implementationStrategy": "participant_agency_application",
       "packetComponents": [],
       "instrumentKinds": [],
@@ -426,14 +421,11 @@
       "forms": [],
       "sourceIds": [],
       "sourceHashes": [],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceStatus": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "the family names no document-shaped source, so nothing binds",
-          "route not bound to a packet family — route mapping open"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [],
         "namedOfficialForms": 0,
         "boundCount": 0,
@@ -443,7 +435,7 @@
       "legalInputStatus": "SETTLED",
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
-      "routeMappingStatus": "UNBOUND_TO_A_PACKET_FAMILY",
+      "routeMappingStatus": "BOUND",
       "artifactStatus": "NOT_RENDERED",
       "completenessStatus": "NOT_BUILT",
       "allNineCountersZero": null,
@@ -453,7 +445,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon.mjs",
@@ -472,8 +464,10 @@
       "familyId": "agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure",
       "worklistGroupId": "agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure",
       "jurisdiction": "CT",
-      "routeKeys": [],
-      "routeCount": 0,
+      "routeKeys": [
+        "obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure"
+      ],
+      "routeCount": 1,
       "implementationStrategy": "participant_agency_application",
       "packetComponents": [],
       "instrumentKinds": [],
@@ -481,14 +475,11 @@
       "forms": [],
       "sourceIds": [],
       "sourceHashes": [],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceStatus": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "the family names no document-shaped source, so nothing binds",
-          "route not bound to a packet family — route mapping open"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [],
         "namedOfficialForms": 0,
         "boundCount": 0,
@@ -498,7 +489,7 @@
       "legalInputStatus": "SETTLED",
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
-      "routeMappingStatus": "UNBOUND_TO_A_PACKET_FAMILY",
+      "routeMappingStatus": "BOUND",
       "artifactStatus": "NOT_RENDERED",
       "completenessStatus": "NOT_BUILT",
       "allNineCountersZero": null,
@@ -508,7 +499,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure.mjs",
@@ -527,13 +518,17 @@
       "familyId": "agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record",
       "worklistGroupId": "agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record",
       "jurisdiction": "AK",
-      "routeKeys": [],
-      "routeCount": 0,
+      "routeKeys": [
+        "obligation:unattached-decision-route:AK:ak-correct-record"
+      ],
+      "routeCount": 1,
       "implementationStrategy": "participant_agency_application",
       "packetComponents": [],
       "instrumentKinds": [],
-      "officialFormFamily": "NONE",
-      "forms": [],
+      "officialFormFamily": "Request to Correct Criminal Justice Information",
+      "forms": [
+        "Request to Correct Criminal Justice Information"
+      ],
       "sourceIds": [
         "official-form:Request to Correct Criminal Justice Information"
       ],
@@ -543,11 +538,10 @@
       "sourceReadiness": {
         "ready": false,
         "reasons": [
-          "the family names no document-shaped source, so nothing binds",
-          "route not bound to a packet family — route mapping open"
+          "official-form:Request to Correct Criminal Justice Information: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
         ],
         "boundSources": [],
-        "namedOfficialForms": 0,
+        "namedOfficialForms": 1,
         "boundCount": 0,
         "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
         "directAttachment": true
@@ -555,7 +549,7 @@
       "legalInputStatus": "SETTLED",
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
-      "routeMappingStatus": "UNBOUND_TO_A_PACKET_FAMILY",
+      "routeMappingStatus": "BOUND",
       "artifactStatus": "NOT_RENDERED",
       "completenessStatus": "NOT_BUILT",
       "allNineCountersZero": null,
@@ -5328,13 +5322,23 @@
       "familyId": "composed-treatment:nc_146_dismissal_petition",
       "worklistGroupId": "composed-treatment:nc_146_dismissal_petition",
       "jurisdiction": "NC",
-      "routeKeys": [],
-      "routeCount": 0,
+      "routeKeys": [
+        "obligation:track-branch:NC:nc_146_dismissal_petition:dna-expunction-application-15a-146-b1"
+      ],
+      "routeCount": 1,
       "implementationStrategy": "custom_pleading",
-      "packetComponents": [],
+      "packetComponents": [
+        "component:nc_146_dismissal_petition-fee-waiver-3",
+        "component:nc_146_dismissal_petition-instructions-2",
+        "component:nc_146_dismissal_petition-primary-filing-1"
+      ],
       "instrumentKinds": [],
-      "officialFormFamily": "NONE",
-      "forms": [],
+      "officialFormFamily": "AOC-CR-287+AOC-CR-287-INSTRUCTIONS+AOC-CV-226",
+      "forms": [
+        "AOC-CR-287",
+        "AOC-CR-287-INSTRUCTIONS",
+        "AOC-CV-226"
+      ],
       "sourceIds": [
         "official-form:AOC-CR-287",
         "official-form:AOC-CR-287-INSTRUCTIONS",
@@ -5380,7 +5384,7 @@
       "sourceReadiness": {
         "ready": false,
         "reasons": [
-          "route not bound to a packet family — route mapping open"
+          "official-form:AOC-CR-287-INSTRUCTIONS: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
         ],
         "boundSources": [
           {
@@ -5419,7 +5423,7 @@
             "resolvedBy": "custody_reconciliation"
           }
         ],
-        "namedOfficialForms": 0,
+        "namedOfficialForms": 3,
         "boundCount": 5,
         "custodyClass": "SOURCE_GENUINELY_MISSING",
         "directAttachment": true
@@ -5427,7 +5431,7 @@
       "legalInputStatus": "SETTLED",
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
-      "routeMappingStatus": "UNBOUND_TO_A_PACKET_FAMILY",
+      "routeMappingStatus": "BOUND",
       "artifactStatus": "NOT_RENDERED",
       "completenessStatus": "NOT_BUILT",
       "allNineCountersZero": null,
@@ -5456,8 +5460,11 @@
       "familyId": "composed-treatment:nd-nonconviction-auto-close-verify",
       "worklistGroupId": "composed-treatment:nd-nonconviction-auto-close-verify",
       "jurisdiction": "ND",
-      "routeKeys": [],
-      "routeCount": 0,
+      "routeKeys": [
+        "obligation:failure-disposition:ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05:nd_still_public_day_62:original_case_enforcement_motion",
+        "obligation:failure-disposition:ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05:nd_still_public_day_62:written_clerk_correction_request"
+      ],
+      "routeCount": 2,
       "implementationStrategy": "custom_pleading",
       "packetComponents": [],
       "instrumentKinds": [],
@@ -5465,13 +5472,11 @@
       "forms": [],
       "sourceIds": [],
       "sourceHashes": [],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceStatus": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "route not bound to a packet family — route mapping open"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [],
         "namedOfficialForms": 0,
         "boundCount": 0,
@@ -5481,7 +5486,7 @@
       "legalInputStatus": "SETTLED",
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
-      "routeMappingStatus": "UNBOUND_TO_A_PACKET_FAMILY",
+      "routeMappingStatus": "BOUND",
       "artifactStatus": "NOT_RENDERED",
       "completenessStatus": "NOT_BUILT",
       "allNineCountersZero": null,
@@ -5491,7 +5496,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:nd-nonconviction-auto-close-verify.mjs",
@@ -5510,8 +5515,10 @@
       "familyId": "composed-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days",
       "worklistGroupId": "composed-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days",
       "jurisdiction": "CO",
-      "routeKeys": [],
-      "routeCount": 0,
+      "routeKeys": [
+        "obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days"
+      ],
+      "routeCount": 1,
       "implementationStrategy": "custom_pleading",
       "packetComponents": [],
       "instrumentKinds": [],
@@ -5519,13 +5526,11 @@
       "forms": [],
       "sourceIds": [],
       "sourceHashes": [],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceStatus": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "route not bound to a packet family — route mapping open"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [],
         "namedOfficialForms": 0,
         "boundCount": 0,
@@ -5535,7 +5540,7 @@
       "legalInputStatus": "SETTLED",
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
-      "routeMappingStatus": "UNBOUND_TO_A_PACKET_FAMILY",
+      "routeMappingStatus": "BOUND",
       "artifactStatus": "NOT_RENDERED",
       "completenessStatus": "NOT_BUILT",
       "allNineCountersZero": null,
@@ -5545,7 +5550,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days.mjs",
@@ -5564,8 +5569,10 @@
       "familyId": "composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request",
       "worklistGroupId": "composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request",
       "jurisdiction": "NY",
-      "routeKeys": [],
-      "routeCount": 0,
+      "routeKeys": [
+        "obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request"
+      ],
+      "routeCount": 1,
       "implementationStrategy": "custom_pleading",
       "packetComponents": [],
       "instrumentKinds": [],
@@ -5573,13 +5580,11 @@
       "forms": [],
       "sourceIds": [],
       "sourceHashes": [],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceStatus": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "route not bound to a packet family — route mapping open"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [],
         "namedOfficialForms": 0,
         "boundCount": 0,
@@ -5589,7 +5594,7 @@
       "legalInputStatus": "SETTLED",
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
-      "routeMappingStatus": "UNBOUND_TO_A_PACKET_FAMILY",
+      "routeMappingStatus": "BOUND",
       "artifactStatus": "NOT_RENDERED",
       "completenessStatus": "NOT_BUILT",
       "allNineCountersZero": null,
@@ -5599,7 +5604,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request.mjs",
@@ -5618,8 +5623,10 @@
       "familyId": "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction",
       "worklistGroupId": "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction",
       "jurisdiction": "DE",
-      "routeKeys": [],
-      "routeCount": 0,
+      "routeKeys": [
+        "obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction"
+      ],
+      "routeCount": 1,
       "implementationStrategy": "custom_pleading",
       "packetComponents": [],
       "instrumentKinds": [],
@@ -5627,13 +5634,11 @@
       "forms": [],
       "sourceIds": [],
       "sourceHashes": [],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceStatus": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "route not bound to a packet family — route mapping open"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [],
         "namedOfficialForms": 0,
         "boundCount": 0,
@@ -5643,7 +5648,7 @@
       "legalInputStatus": "SETTLED",
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
-      "routeMappingStatus": "UNBOUND_TO_A_PACKET_FAMILY",
+      "routeMappingStatus": "BOUND",
       "artifactStatus": "NOT_RENDERED",
       "completenessStatus": "NOT_BUILT",
       "allNineCountersZero": null,
@@ -5653,7 +5658,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction.mjs",
@@ -5672,8 +5677,10 @@
       "familyId": "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1018_discretionary_petition",
       "worklistGroupId": "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1018_discretionary_petition",
       "jurisdiction": "DE",
-      "routeKeys": [],
-      "routeCount": 0,
+      "routeKeys": [
+        "obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1018_discretionary_petition"
+      ],
+      "routeCount": 1,
       "implementationStrategy": "custom_pleading",
       "packetComponents": [],
       "instrumentKinds": [],
@@ -5681,13 +5688,11 @@
       "forms": [],
       "sourceIds": [],
       "sourceHashes": [],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceStatus": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "route not bound to a packet family — route mapping open"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [],
         "namedOfficialForms": 0,
         "boundCount": 0,
@@ -5697,7 +5702,7 @@
       "legalInputStatus": "SETTLED",
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
-      "routeMappingStatus": "UNBOUND_TO_A_PACKET_FAMILY",
+      "routeMappingStatus": "BOUND",
       "artifactStatus": "NOT_RENDERED",
       "completenessStatus": "NOT_BUILT",
       "allNineCountersZero": null,
@@ -5707,7 +5712,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1018_discretionary_petition.mjs",
@@ -5726,8 +5731,10 @@
       "familyId": "composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
       "worklistGroupId": "composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
       "jurisdiction": "AK",
-      "routeKeys": [],
-      "routeCount": 0,
+      "routeKeys": [
+        "obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085"
+      ],
+      "routeCount": 1,
       "implementationStrategy": "custom_pleading",
       "packetComponents": [],
       "instrumentKinds": [],
@@ -5735,13 +5742,11 @@
       "forms": [],
       "sourceIds": [],
       "sourceHashes": [],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceStatus": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "route not bound to a packet family — route mapping open"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [],
         "namedOfficialForms": 0,
         "boundCount": 0,
@@ -5751,7 +5756,7 @@
       "legalInputStatus": "SETTLED",
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
-      "routeMappingStatus": "UNBOUND_TO_A_PACKET_FAMILY",
+      "routeMappingStatus": "BOUND",
       "artifactStatus": "NOT_RENDERED",
       "completenessStatus": "NOT_BUILT",
       "allNineCountersZero": null,
@@ -5761,7 +5766,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085.mjs",
@@ -5780,8 +5785,10 @@
       "familyId": "composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route",
       "worklistGroupId": "composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route",
       "jurisdiction": "GA",
-      "routeKeys": [],
-      "routeCount": 0,
+      "routeKeys": [
+        "obligation:runtime-only:GA:youthful-first-offender-restriction-route"
+      ],
+      "routeCount": 1,
       "implementationStrategy": "custom_pleading",
       "packetComponents": [],
       "instrumentKinds": [],
@@ -5789,13 +5796,11 @@
       "forms": [],
       "sourceIds": [],
       "sourceHashes": [],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceStatus": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "route not bound to a packet family — route mapping open"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [],
         "namedOfficialForms": 0,
         "boundCount": 0,
@@ -5805,7 +5810,7 @@
       "legalInputStatus": "SETTLED",
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
-      "routeMappingStatus": "UNBOUND_TO_A_PACKET_FAMILY",
+      "routeMappingStatus": "BOUND",
       "artifactStatus": "NOT_RENDERED",
       "completenessStatus": "NOT_BUILT",
       "allNineCountersZero": null,
@@ -5815,7 +5820,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route.mjs",
@@ -5834,8 +5839,10 @@
       "familyId": "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
       "worklistGroupId": "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
       "jurisdiction": "IL",
-      "routeKeys": [],
-      "routeCount": 0,
+      "routeKeys": [
+        "obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief"
+      ],
+      "routeCount": 1,
       "implementationStrategy": "custom_pleading",
       "packetComponents": [],
       "instrumentKinds": [],
@@ -5843,13 +5850,11 @@
       "forms": [],
       "sourceIds": [],
       "sourceHashes": [],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceStatus": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "route not bound to a packet family — route mapping open"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [],
         "namedOfficialForms": 0,
         "boundCount": 0,
@@ -5859,7 +5864,7 @@
       "legalInputStatus": "SETTLED",
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
-      "routeMappingStatus": "UNBOUND_TO_A_PACKET_FAMILY",
+      "routeMappingStatus": "BOUND",
       "artifactStatus": "NOT_RENDERED",
       "completenessStatus": "NOT_BUILT",
       "allNineCountersZero": null,
@@ -5869,7 +5874,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief.mjs",
@@ -5888,8 +5893,10 @@
       "familyId": "composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
       "worklistGroupId": "composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
       "jurisdiction": "MS",
-      "routeKeys": [],
-      "routeCount": 0,
+      "routeKeys": [
+        "obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4"
+      ],
+      "routeCount": 1,
       "implementationStrategy": "custom_pleading",
       "packetComponents": [],
       "instrumentKinds": [],
@@ -5897,13 +5904,11 @@
       "forms": [],
       "sourceIds": [],
       "sourceHashes": [],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceStatus": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "route not bound to a packet family — route mapping open"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [],
         "namedOfficialForms": 0,
         "boundCount": 0,
@@ -5913,7 +5918,7 @@
       "legalInputStatus": "SETTLED",
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
-      "routeMappingStatus": "UNBOUND_TO_A_PACKET_FAMILY",
+      "routeMappingStatus": "BOUND",
       "artifactStatus": "NOT_RENDERED",
       "completenessStatus": "NOT_BUILT",
       "allNineCountersZero": null,
@@ -5923,7 +5928,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4.mjs",
@@ -5942,8 +5947,10 @@
       "familyId": "composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26",
       "worklistGroupId": "composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26",
       "jurisdiction": "MS",
-      "routeKeys": [],
-      "routeCount": 0,
+      "routeKeys": [
+        "obligation:runtime-only:MS:nonadjudication-under-99-15-26"
+      ],
+      "routeCount": 1,
       "implementationStrategy": "custom_pleading",
       "packetComponents": [],
       "instrumentKinds": [],
@@ -5951,13 +5958,11 @@
       "forms": [],
       "sourceIds": [],
       "sourceHashes": [],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceStatus": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "route not bound to a packet family — route mapping open"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [],
         "namedOfficialForms": 0,
         "boundCount": 0,
@@ -5967,7 +5972,7 @@
       "legalInputStatus": "SETTLED",
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
-      "routeMappingStatus": "UNBOUND_TO_A_PACKET_FAMILY",
+      "routeMappingStatus": "BOUND",
       "artifactStatus": "NOT_RENDERED",
       "completenessStatus": "NOT_BUILT",
       "allNineCountersZero": null,
@@ -5977,7 +5982,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26.mjs",
@@ -5996,8 +6001,10 @@
       "familyId": "composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
       "worklistGroupId": "composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
       "jurisdiction": "MS",
-      "routeKeys": [],
-      "routeCount": 0,
+      "routeKeys": [
+        "obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59"
+      ],
+      "routeCount": 1,
       "implementationStrategy": "custom_pleading",
       "packetComponents": [],
       "instrumentKinds": [],
@@ -6005,13 +6012,11 @@
       "forms": [],
       "sourceIds": [],
       "sourceHashes": [],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceStatus": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "route not bound to a packet family — route mapping open"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [],
         "namedOfficialForms": 0,
         "boundCount": 0,
@@ -6021,7 +6026,7 @@
       "legalInputStatus": "SETTLED",
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
-      "routeMappingStatus": "UNBOUND_TO_A_PACKET_FAMILY",
+      "routeMappingStatus": "BOUND",
       "artifactStatus": "NOT_RENDERED",
       "completenessStatus": "NOT_BUILT",
       "allNineCountersZero": null,
@@ -6031,7 +6036,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59.mjs",
@@ -6050,8 +6055,10 @@
       "familyId": "composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
       "worklistGroupId": "composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
       "jurisdiction": "MS",
-      "routeKeys": [],
-      "routeCount": 0,
+      "routeKeys": [
+        "obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59"
+      ],
+      "routeCount": 1,
       "implementationStrategy": "custom_pleading",
       "packetComponents": [],
       "instrumentKinds": [],
@@ -6059,13 +6066,11 @@
       "forms": [],
       "sourceIds": [],
       "sourceHashes": [],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceStatus": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "route not bound to a packet family — route mapping open"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [],
         "namedOfficialForms": 0,
         "boundCount": 0,
@@ -6075,7 +6080,7 @@
       "legalInputStatus": "SETTLED",
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
-      "routeMappingStatus": "UNBOUND_TO_A_PACKET_FAMILY",
+      "routeMappingStatus": "BOUND",
       "artifactStatus": "NOT_RENDERED",
       "completenessStatus": "NOT_BUILT",
       "allNineCountersZero": null,
@@ -6085,7 +6090,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59.mjs",
@@ -6104,8 +6109,10 @@
       "familyId": "composed-treatment:obligation:runtime-only:NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247",
       "worklistGroupId": "composed-treatment:obligation:runtime-only:NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247",
       "jurisdiction": "NV",
-      "routeKeys": [],
-      "routeCount": 0,
+      "routeKeys": [
+        "obligation:runtime-only:NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247"
+      ],
+      "routeCount": 1,
       "implementationStrategy": "custom_pleading",
       "packetComponents": [],
       "instrumentKinds": [],
@@ -6113,13 +6120,11 @@
       "forms": [],
       "sourceIds": [],
       "sourceHashes": [],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceStatus": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "route not bound to a packet family — route mapping open"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [],
         "namedOfficialForms": 0,
         "boundCount": 0,
@@ -6129,7 +6134,7 @@
       "legalInputStatus": "SETTLED",
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
-      "routeMappingStatus": "UNBOUND_TO_A_PACKET_FAMILY",
+      "routeMappingStatus": "BOUND",
       "artifactStatus": "NOT_RENDERED",
       "completenessStatus": "NOT_BUILT",
       "allNineCountersZero": null,
@@ -6139,7 +6144,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:obligation:runtime-only:NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247.mjs",
@@ -6158,8 +6163,10 @@
       "familyId": "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
       "worklistGroupId": "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
       "jurisdiction": "OK",
-      "routeKeys": [],
-      "routeCount": 0,
+      "routeKeys": [
+        "obligation:runtime-only:OK:human-trafficking-survivor-relief"
+      ],
+      "routeCount": 1,
       "implementationStrategy": "custom_pleading",
       "packetComponents": [],
       "instrumentKinds": [],
@@ -6167,13 +6174,11 @@
       "forms": [],
       "sourceIds": [],
       "sourceHashes": [],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceStatus": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "route not bound to a packet family — route mapping open"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [],
         "namedOfficialForms": 0,
         "boundCount": 0,
@@ -6183,7 +6188,7 @@
       "legalInputStatus": "SETTLED",
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
-      "routeMappingStatus": "UNBOUND_TO_A_PACKET_FAMILY",
+      "routeMappingStatus": "BOUND",
       "artifactStatus": "NOT_RENDERED",
       "completenessStatus": "NOT_BUILT",
       "allNineCountersZero": null,
@@ -6193,7 +6198,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief.mjs",
@@ -6212,8 +6217,10 @@
       "familyId": "composed-treatment:obligation:runtime-only:OK:juvenile-record-expungement",
       "worklistGroupId": "composed-treatment:obligation:runtime-only:OK:juvenile-record-expungement",
       "jurisdiction": "OK",
-      "routeKeys": [],
-      "routeCount": 0,
+      "routeKeys": [
+        "obligation:runtime-only:OK:juvenile-record-expungement"
+      ],
+      "routeCount": 1,
       "implementationStrategy": "custom_pleading",
       "packetComponents": [],
       "instrumentKinds": [],
@@ -6221,13 +6228,11 @@
       "forms": [],
       "sourceIds": [],
       "sourceHashes": [],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceStatus": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "route not bound to a packet family — route mapping open"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [],
         "namedOfficialForms": 0,
         "boundCount": 0,
@@ -6237,7 +6242,7 @@
       "legalInputStatus": "SETTLED",
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
-      "routeMappingStatus": "UNBOUND_TO_A_PACKET_FAMILY",
+      "routeMappingStatus": "BOUND",
       "artifactStatus": "NOT_RENDERED",
       "completenessStatus": "NOT_BUILT",
       "allNineCountersZero": null,
@@ -6247,7 +6252,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:obligation:runtime-only:OK:juvenile-record-expungement.mjs",
@@ -6266,8 +6271,10 @@
       "familyId": "composed-treatment:obligation:runtime-only:PA:path-k-human-trafficking-vacatur-expungement",
       "worklistGroupId": "composed-treatment:obligation:runtime-only:PA:path-k-human-trafficking-vacatur-expungement",
       "jurisdiction": "PA",
-      "routeKeys": [],
-      "routeCount": 0,
+      "routeKeys": [
+        "obligation:runtime-only:PA:path-k-human-trafficking-vacatur-expungement"
+      ],
+      "routeCount": 1,
       "implementationStrategy": "custom_pleading",
       "packetComponents": [],
       "instrumentKinds": [],
@@ -6275,13 +6282,11 @@
       "forms": [],
       "sourceIds": [],
       "sourceHashes": [],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceStatus": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "route not bound to a packet family — route mapping open"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [],
         "namedOfficialForms": 0,
         "boundCount": 0,
@@ -6291,7 +6296,7 @@
       "legalInputStatus": "SETTLED",
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
-      "routeMappingStatus": "UNBOUND_TO_A_PACKET_FAMILY",
+      "routeMappingStatus": "BOUND",
       "artifactStatus": "NOT_RENDERED",
       "completenessStatus": "NOT_BUILT",
       "allNineCountersZero": null,
@@ -6301,7 +6306,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:obligation:runtime-only:PA:path-k-human-trafficking-vacatur-expungement.mjs",
@@ -6320,8 +6325,10 @@
       "familyId": "composed-treatment:obligation:runtime-only:SD:juvenile-trafficking-expungement",
       "worklistGroupId": "composed-treatment:obligation:runtime-only:SD:juvenile-trafficking-expungement",
       "jurisdiction": "SD",
-      "routeKeys": [],
-      "routeCount": 0,
+      "routeKeys": [
+        "obligation:runtime-only:SD:juvenile-trafficking-expungement"
+      ],
+      "routeCount": 1,
       "implementationStrategy": "custom_pleading",
       "packetComponents": [],
       "instrumentKinds": [],
@@ -6329,13 +6336,11 @@
       "forms": [],
       "sourceIds": [],
       "sourceHashes": [],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceStatus": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "route not bound to a packet family — route mapping open"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [],
         "namedOfficialForms": 0,
         "boundCount": 0,
@@ -6345,7 +6350,7 @@
       "legalInputStatus": "SETTLED",
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
-      "routeMappingStatus": "UNBOUND_TO_A_PACKET_FAMILY",
+      "routeMappingStatus": "BOUND",
       "artifactStatus": "NOT_RENDERED",
       "completenessStatus": "NOT_BUILT",
       "allNineCountersZero": null,
@@ -6355,7 +6360,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:obligation:runtime-only:SD:juvenile-trafficking-expungement.mjs",
@@ -6374,8 +6379,10 @@
       "familyId": "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
       "worklistGroupId": "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
       "jurisdiction": "WV",
-      "routeKeys": [],
-      "routeCount": 0,
+      "routeKeys": [
+        "obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement"
+      ],
+      "routeCount": 1,
       "implementationStrategy": "custom_pleading",
       "packetComponents": [],
       "instrumentKinds": [],
@@ -6383,13 +6390,11 @@
       "forms": [],
       "sourceIds": [],
       "sourceHashes": [],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceStatus": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "route not bound to a packet family — route mapping open"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [],
         "namedOfficialForms": 0,
         "boundCount": 0,
@@ -6399,7 +6404,7 @@
       "legalInputStatus": "SETTLED",
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
-      "routeMappingStatus": "UNBOUND_TO_A_PACKET_FAMILY",
+      "routeMappingStatus": "BOUND",
       "artifactStatus": "NOT_RENDERED",
       "completenessStatus": "NOT_BUILT",
       "allNineCountersZero": null,
@@ -6409,7 +6414,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement.mjs",
@@ -6428,8 +6433,10 @@
       "familyId": "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
       "worklistGroupId": "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
       "jurisdiction": "WY",
-      "routeKeys": [],
-      "routeCount": 0,
+      "routeKeys": [
+        "obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708"
+      ],
+      "routeCount": 1,
       "implementationStrategy": "custom_pleading",
       "packetComponents": [],
       "instrumentKinds": [],
@@ -6437,13 +6444,11 @@
       "forms": [],
       "sourceIds": [],
       "sourceHashes": [],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceStatus": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "route not bound to a packet family — route mapping open"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [],
         "namedOfficialForms": 0,
         "boundCount": 0,
@@ -6453,7 +6458,7 @@
       "legalInputStatus": "SETTLED",
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
-      "routeMappingStatus": "UNBOUND_TO_A_PACKET_FAMILY",
+      "routeMappingStatus": "BOUND",
       "artifactStatus": "NOT_RENDERED",
       "completenessStatus": "NOT_BUILT",
       "allNineCountersZero": null,
@@ -6463,7 +6468,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708.mjs",
@@ -6482,8 +6487,11 @@
       "familyId": "composed-treatment:sc_17_22_950_summary",
       "worklistGroupId": "composed-treatment:sc_17_22_950_summary",
       "jurisdiction": "SC",
-      "routeKeys": [],
-      "routeCount": 0,
+      "routeKeys": [
+        "obligation:decision-branch:SC:sc_17_22_950_summary:original_case_enforcement_motion",
+        "obligation:decision-branch:SC:sc_17_22_950_summary:written_implementation_request"
+      ],
+      "routeCount": 2,
       "implementationStrategy": "custom_pleading",
       "packetComponents": [],
       "instrumentKinds": [],
@@ -6491,13 +6499,11 @@
       "forms": [],
       "sourceIds": [],
       "sourceHashes": [],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceStatus": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "route not bound to a packet family — route mapping open"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [],
         "namedOfficialForms": 0,
         "boundCount": 0,
@@ -6507,7 +6513,7 @@
       "legalInputStatus": "SETTLED",
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
-      "routeMappingStatus": "UNBOUND_TO_A_PACKET_FAMILY",
+      "routeMappingStatus": "BOUND",
       "artifactStatus": "NOT_RENDERED",
       "completenessStatus": "NOT_BUILT",
       "allNineCountersZero": null,
@@ -6517,7 +6523,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:sc_17_22_950_summary.mjs",
@@ -6536,8 +6542,11 @@
       "familyId": "composed-treatment:sd_sis_sealing",
       "worklistGroupId": "composed-treatment:sd_sis_sealing",
       "jurisdiction": "SD",
-      "routeKeys": [],
-      "routeCount": 0,
+      "routeKeys": [
+        "obligation:decision-branch:SD:sd_sis_sealing:original_case_enforcement_motion",
+        "obligation:decision-branch:SD:sd_sis_sealing:written_implementation_request"
+      ],
+      "routeCount": 2,
       "implementationStrategy": "custom_pleading",
       "packetComponents": [],
       "instrumentKinds": [],
@@ -6545,13 +6554,11 @@
       "forms": [],
       "sourceIds": [],
       "sourceHashes": [],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceStatus": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "route not bound to a packet family — route mapping open"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [],
         "namedOfficialForms": 0,
         "boundCount": 0,
@@ -6561,7 +6568,7 @@
       "legalInputStatus": "SETTLED",
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
-      "routeMappingStatus": "UNBOUND_TO_A_PACKET_FAMILY",
+      "routeMappingStatus": "BOUND",
       "artifactStatus": "NOT_RENDERED",
       "completenessStatus": "NOT_BUILT",
       "allNineCountersZero": null,
@@ -6571,7 +6578,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:sd_sis_sealing.mjs",
@@ -6805,13 +6812,11 @@
       "forms": [],
       "sourceIds": [],
       "sourceHashes": [],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceStatus": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "the family names no document-shaped source, so nothing binds"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [],
         "namedOfficialForms": 0,
         "boundCount": 0,
@@ -6831,7 +6836,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ct-missed-erasure-set.mjs",
@@ -20079,13 +20084,17 @@
       "familyId": "official-form-treatment:obligation:research-decision-route:AL:al-olr",
       "worklistGroupId": "official-form-treatment:obligation:research-decision-route:AL:al-olr",
       "jurisdiction": "AL",
-      "routeKeys": [],
-      "routeCount": 0,
+      "routeKeys": [
+        "obligation:research-decision-route:AL:al-olr"
+      ],
+      "routeCount": 1,
       "implementationStrategy": "official_pdf_fill",
       "packetComponents": [],
       "instrumentKinds": [],
-      "officialFormFamily": "NONE",
-      "forms": [],
+      "officialFormFamily": "Alabama AOC Order of Limited Relief packet",
+      "forms": [
+        "Alabama AOC Order of Limited Relief packet"
+      ],
       "sourceIds": [
         "official-form:Alabama AOC Order of Limited Relief packet"
       ],
@@ -20095,11 +20104,10 @@
       "sourceReadiness": {
         "ready": false,
         "reasons": [
-          "the family names no document-shaped source, so nothing binds",
-          "route not bound to a packet family — route mapping open"
+          "official-form:Alabama AOC Order of Limited Relief packet: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
         ],
         "boundSources": [],
-        "namedOfficialForms": 0,
+        "namedOfficialForms": 1,
         "boundCount": 0,
         "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
         "directAttachment": true
@@ -20107,7 +20115,7 @@
       "legalInputStatus": "SETTLED",
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
-      "routeMappingStatus": "UNBOUND_TO_A_PACKET_FAMILY",
+      "routeMappingStatus": "BOUND",
       "artifactStatus": "NOT_RENDERED",
       "completenessStatus": "NOT_BUILT",
       "allNineCountersZero": null,
@@ -20136,13 +20144,21 @@
       "familyId": "official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b",
       "worklistGroupId": "official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b",
       "jurisdiction": "CA",
-      "routeKeys": [],
-      "routeCount": 0,
+      "routeKeys": [
+        "obligation:research-decision-route:CA:ca-1203-4b"
+      ],
+      "routeCount": 1,
       "implementationStrategy": "official_pdf_fill",
       "packetComponents": [],
       "instrumentKinds": [],
-      "officialFormFamily": "NONE",
-      "forms": [],
+      "officialFormFamily": "CR-106+CR-430+CR-430-INFO+CR-431+CR-432",
+      "forms": [
+        "CR-106",
+        "CR-430",
+        "CR-430-INFO",
+        "CR-431",
+        "CR-432"
+      ],
       "sourceIds": [
         "official-form:CR-430",
         "official-form:CR-431",
@@ -20163,7 +20179,10 @@
       "sourceReadiness": {
         "ready": false,
         "reasons": [
-          "route not bound to a packet family — route mapping open"
+          "official-form:CR-430: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
+          "official-form:CR-431: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
+          "official-form:CR-432: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
+          "official-form:CR-430-INFO: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
         ],
         "boundSources": [
           {
@@ -20171,10 +20190,10 @@
             "path": "STATES/CA/02_PACKET_FORMS/CA__FORM__CR-106__proof-of-service-criminal-record-clearing__REV-2020-01-01__EN.pdf",
             "sha256": "f8a37a9a8c30a016b432bb39fd67407717c3dee7be74bc3e3d471127bf190c5a",
             "tier": "exact_form_number",
-            "resolvedBy": "custody_reconciliation"
+            "resolvedBy": "census_form_number_against_committed_index"
           }
         ],
-        "namedOfficialForms": 0,
+        "namedOfficialForms": 5,
         "boundCount": 1,
         "custodyClass": "SOURCE_GENUINELY_MISSING",
         "directAttachment": true
@@ -20182,7 +20201,7 @@
       "legalInputStatus": "SETTLED",
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
-      "routeMappingStatus": "UNBOUND_TO_A_PACKET_FAMILY",
+      "routeMappingStatus": "BOUND",
       "artifactStatus": "NOT_RENDERED",
       "completenessStatus": "NOT_BUILT",
       "allNineCountersZero": null,
@@ -21381,8 +21400,10 @@
       "familyId": "rcap-ga-guidance-implementation",
       "worklistGroupId": "rcap-ga-guidance-implementation",
       "jurisdiction": "GA",
-      "routeKeys": [],
-      "routeCount": 0,
+      "routeKeys": [
+        "obligation:track-pathway:GA:ga-rfo:retroactive-first-offender-treatment-under-42-8-66"
+      ],
+      "routeCount": 1,
       "implementationStrategy": "custom_pleading",
       "packetComponents": [],
       "instrumentKinds": [],
@@ -21390,13 +21411,11 @@
       "forms": [],
       "sourceIds": [],
       "sourceHashes": [],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceStatus": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "route not bound to a packet family — route mapping open"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [],
         "namedOfficialForms": 0,
         "boundCount": 0,
@@ -21406,7 +21425,7 @@
       "legalInputStatus": "SETTLED",
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
-      "routeMappingStatus": "UNBOUND_TO_A_PACKET_FAMILY",
+      "routeMappingStatus": "BOUND",
       "artifactStatus": "NOT_RENDERED",
       "completenessStatus": "NOT_BUILT",
       "allNineCountersZero": null,
@@ -21416,7 +21435,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-rcap-ga-guidance-implementation.mjs",
@@ -21435,13 +21454,27 @@
       "familyId": "rcap-hi-custom-pleading",
       "worklistGroupId": "rcap-hi-custom-pleading",
       "jurisdiction": "HI",
-      "routeKeys": [],
-      "routeCount": 0,
+      "routeKeys": [
+        "obligation:track-only:HI:hi_first_time_property_offender_expungement",
+        "obligation:track-only:HI:hi_marijuana_three_grams_expungement",
+        "obligation:track-pathway:HI:hi_first_time_drug_offender_expungement:first-time-drug-conviction",
+        "obligation:track-pathway:HI:hi_pre_2004_drug_offender_expungement:first-time-drug-conviction",
+        "obligation:track-pathway:HI:hi_under_21_dui_expungement:dui-under-21-conviction"
+      ],
+      "routeCount": 5,
       "implementationStrategy": "custom_pleading",
-      "packetComponents": [],
+      "packetComponents": [
+        "component:hi_first_time_drug_offender_expungement-primary-filing-3",
+        "component:hi_first_time_property_offender_expungement-primary-filing-3",
+        "component:hi_marijuana_three_grams_expungement-primary-filing-3",
+        "component:hi_pre_2004_drug_offender_expungement-primary-filing-3",
+        "component:hi_under_21_dui_expungement-primary-filing-3"
+      ],
       "instrumentKinds": [],
-      "officialFormFamily": "NONE",
-      "forms": [],
+      "officialFormFamily": "HCJDC-159B",
+      "forms": [
+        "HCJDC-159B"
+      ],
       "sourceIds": [
         "official-form:HCJDC-159B"
       ],
@@ -21451,10 +21484,10 @@
       "sourceReadiness": {
         "ready": false,
         "reasons": [
-          "route not bound to a packet family — route mapping open"
+          "official-form:HCJDC-159B: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
         ],
         "boundSources": [],
-        "namedOfficialForms": 0,
+        "namedOfficialForms": 1,
         "boundCount": 0,
         "custodyClass": "SOURCE_GENUINELY_MISSING",
         "directAttachment": true
@@ -21462,7 +21495,7 @@
       "legalInputStatus": "SETTLED",
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
-      "routeMappingStatus": "UNBOUND_TO_A_PACKET_FAMILY",
+      "routeMappingStatus": "BOUND",
       "artifactStatus": "NOT_RENDERED",
       "completenessStatus": "NOT_BUILT",
       "allNineCountersZero": null,
@@ -21491,13 +21524,25 @@
       "familyId": "rcap-in-custom-pleading",
       "worklistGroupId": "rcap-in-custom-pleading",
       "jurisdiction": "IN",
-      "routeKeys": [],
-      "routeCount": 0,
+      "routeKeys": [
+        "obligation:track-only:IN:in_collateral_action",
+        "obligation:track-only:IN:in_supplemental_order",
+        "obligation:track-pathway:IN:in_conviction_serious_felony:conviction-expungement-with-records-marked-expunged"
+      ],
+      "routeCount": 3,
       "implementationStrategy": "custom_pleading",
-      "packetComponents": [],
+      "packetComponents": [
+        "component:in_conviction_serious_felony-attachment-4",
+        "component:in_conviction_serious_felony-attachment-5",
+        "component:in_conviction_serious_felony-attachment-6"
+      ],
       "instrumentKinds": [],
-      "officialFormFamily": "NONE",
-      "forms": [],
+      "officialFormFamily": "CCA-GF-0120-3016+CCA-XP-0120-7002 Form ACR+Confidential Information Form",
+      "forms": [
+        "CCA-GF-0120-3016",
+        "CCA-XP-0120-7002 Form ACR",
+        "Confidential Information Form"
+      ],
       "sourceIds": [
         "official-form:CCA-GF-0120-3016",
         "official-form:CCA-XP-0120-7002 Form ACR",
@@ -21509,10 +21554,12 @@
       "sourceReadiness": {
         "ready": false,
         "reasons": [
-          "route not bound to a packet family — route mapping open"
+          "official-form:CCA-GF-0120-3016: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
+          "official-form:CCA-XP-0120-7002 Form ACR: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
+          "official-form:Confidential Information Form: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
         ],
         "boundSources": [],
-        "namedOfficialForms": 0,
+        "namedOfficialForms": 3,
         "boundCount": 0,
         "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
         "directAttachment": true
@@ -21520,7 +21567,7 @@
       "legalInputStatus": "SETTLED",
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
-      "routeMappingStatus": "UNBOUND_TO_A_PACKET_FAMILY",
+      "routeMappingStatus": "BOUND",
       "artifactStatus": "NOT_RENDERED",
       "completenessStatus": "NOT_BUILT",
       "allNineCountersZero": null,
@@ -21549,8 +21596,11 @@
       "familyId": "rcap-ks-custom-pleading",
       "worklistGroupId": "rcap-ks-custom-pleading",
       "jurisdiction": "KS",
-      "routeKeys": [],
-      "routeCount": 0,
+      "routeKeys": [
+        "obligation:track-only:KS:ks-12-4516-municipal",
+        "obligation:track-only:KS:ks-12-4516a-municipal-arrest"
+      ],
+      "routeCount": 2,
       "implementationStrategy": "custom_pleading",
       "packetComponents": [],
       "instrumentKinds": [],
@@ -21558,13 +21608,11 @@
       "forms": [],
       "sourceIds": [],
       "sourceHashes": [],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceStatus": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "route not bound to a packet family — route mapping open"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [],
         "namedOfficialForms": 0,
         "boundCount": 0,
@@ -21574,7 +21622,7 @@
       "legalInputStatus": "SETTLED",
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
-      "routeMappingStatus": "UNBOUND_TO_A_PACKET_FAMILY",
+      "routeMappingStatus": "BOUND",
       "artifactStatus": "NOT_RENDERED",
       "completenessStatus": "NOT_BUILT",
       "allNineCountersZero": null,
@@ -21584,7 +21632,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-rcap-ks-custom-pleading.mjs",
@@ -21603,24 +21651,36 @@
       "familyId": "rcap-mo-custom-pleading",
       "worklistGroupId": "rcap-mo-custom-pleading",
       "jurisdiction": "MO",
-      "routeKeys": [],
-      "routeCount": 0,
+      "routeKeys": [
+        "obligation:service-branch:MO:first-minor-in-possession-alcohol-expungement-under-311-326:state_311_325_conviction",
+        "obligation:track-pathway:MO:mo-610-130-first-intoxication:first-intoxication-related-traffic-or-boating-expungement-under-610-130"
+      ],
+      "routeCount": 2,
       "implementationStrategy": "custom_pleading",
-      "packetComponents": [],
+      "packetComponents": [
+        "component:mo-311-326-minor-in-possession-cover-sheet-3",
+        "component:mo-311-326-minor-in-possession-fee-waiver-4",
+        "component:mo-610-130-first-intoxication-cover-sheet-3",
+        "component:mo-610-130-first-intoxication-fee-waiver-4"
+      ],
       "instrumentKinds": [],
-      "officialFormFamily": "NONE",
-      "forms": [],
+      "officialFormFamily": "FI-05+GN10",
+      "forms": [
+        "FI-05",
+        "GN10"
+      ],
       "sourceIds": [],
       "sourceHashes": [],
-      "sourceStatus": "SOURCE_NAMED_BUT_NOT_HELD: route not bound to a packet family — route mapping open",
+      "sourceStatus": "SOURCE_NAMED_BUT_NOT_HELD: official-form:FI-05: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
       "sourceBound": false,
       "sourceReadiness": {
         "ready": false,
         "reasons": [
-          "route not bound to a packet family — route mapping open"
+          "official-form:FI-05: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
+          "official-form:GN10: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
         ],
         "boundSources": [],
-        "namedOfficialForms": 0,
+        "namedOfficialForms": 2,
         "boundCount": 0,
         "custodyClass": "NO_ACQUISITION_TASK_NAMED",
         "directAttachment": true
@@ -21628,7 +21688,7 @@
       "legalInputStatus": "SETTLED",
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
-      "routeMappingStatus": "UNBOUND_TO_A_PACKET_FAMILY",
+      "routeMappingStatus": "BOUND",
       "artifactStatus": "NOT_RENDERED",
       "completenessStatus": "NOT_BUILT",
       "allNineCountersZero": null,
@@ -21657,8 +21717,12 @@
       "familyId": "rcap-ms-custom-pleading",
       "worklistGroupId": "rcap-ms-custom-pleading",
       "jurisdiction": "MS",
-      "routeKeys": [],
-      "routeCount": 0,
+      "routeKeys": [
+        "obligation:track-pathway:MS:ms-drug-cd:first-offense-controlled-substance-conditional-discharge-relief",
+        "obligation:track-pathway:MS:ms-dui:first-offense-dui-expungement",
+        "obligation:track-pathway:MS:ms-mip:minor-in-possession-underage-alcohol-expungement"
+      ],
+      "routeCount": 3,
       "implementationStrategy": "custom_pleading",
       "packetComponents": [],
       "instrumentKinds": [],
@@ -21666,13 +21730,11 @@
       "forms": [],
       "sourceIds": [],
       "sourceHashes": [],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceStatus": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "route not bound to a packet family — route mapping open"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [],
         "namedOfficialForms": 0,
         "boundCount": 0,
@@ -21682,7 +21744,7 @@
       "legalInputStatus": "SETTLED",
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
-      "routeMappingStatus": "UNBOUND_TO_A_PACKET_FAMILY",
+      "routeMappingStatus": "BOUND",
       "artifactStatus": "NOT_RENDERED",
       "completenessStatus": "NOT_BUILT",
       "allNineCountersZero": null,
@@ -21692,7 +21754,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-rcap-ms-custom-pleading.mjs",
@@ -21711,8 +21773,14 @@
       "familyId": "rcap-nd-custom-pleading",
       "worklistGroupId": "rcap-nd-custom-pleading",
       "jurisdiction": "ND",
-      "routeKeys": [],
-      "routeCount": 0,
+      "routeKeys": [
+        "obligation:track-only:ND:nd-seal-felony-conviction",
+        "obligation:track-only:ND:nd-seal-misdemeanor-conviction",
+        "obligation:track-only:ND:nd-seal-pardoned-conviction",
+        "obligation:track-pathway:ND:nd-dui-record-seal:dui-record-sealing-under-the-separate-dui-statute",
+        "obligation:track-pathway:ND:nd-marijuana-first-offense-seal:first-offense-possession-sealing"
+      ],
+      "routeCount": 5,
       "implementationStrategy": "custom_pleading",
       "packetComponents": [],
       "instrumentKinds": [],
@@ -21720,13 +21788,11 @@
       "forms": [],
       "sourceIds": [],
       "sourceHashes": [],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceStatus": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "route not bound to a packet family — route mapping open"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [],
         "namedOfficialForms": 0,
         "boundCount": 0,
@@ -21736,7 +21802,7 @@
       "legalInputStatus": "SETTLED",
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
-      "routeMappingStatus": "UNBOUND_TO_A_PACKET_FAMILY",
+      "routeMappingStatus": "BOUND",
       "artifactStatus": "NOT_RENDERED",
       "completenessStatus": "NOT_BUILT",
       "allNineCountersZero": null,
@@ -21746,7 +21812,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-rcap-nd-custom-pleading.mjs",
@@ -21765,8 +21831,15 @@
       "familyId": "rcap-nv-custom-pleading",
       "worklistGroupId": "rcap-nv-custom-pleading",
       "jurisdiction": "NV",
-      "routeKeys": [],
-      "routeCount": 0,
+      "routeKeys": [
+        "obligation:track-only:NV:nv_seal_decrim",
+        "obligation:track-only:NV:nv_seal_multi",
+        "obligation:track-only:NV:nv_seal_pardon",
+        "obligation:track-pathway:NV:nv_seal_conviction:general-conviction-record-sealing-under-nrs-179-245",
+        "obligation:track-pathway:NV:nv_seal_nonconviction:non-conviction-record-sealing",
+        "obligation:track-pathway:NV:nv_seal_reentry:reentry-program-sealing-under-nrs-179-259"
+      ],
+      "routeCount": 6,
       "implementationStrategy": "custom_pleading",
       "packetComponents": [],
       "instrumentKinds": [],
@@ -21774,13 +21847,11 @@
       "forms": [],
       "sourceIds": [],
       "sourceHashes": [],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceStatus": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "route not bound to a packet family — route mapping open"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [],
         "namedOfficialForms": 0,
         "boundCount": 0,
@@ -21790,7 +21861,7 @@
       "legalInputStatus": "SETTLED",
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
-      "routeMappingStatus": "UNBOUND_TO_A_PACKET_FAMILY",
+      "routeMappingStatus": "BOUND",
       "artifactStatus": "NOT_RENDERED",
       "completenessStatus": "NOT_BUILT",
       "allNineCountersZero": null,
@@ -21800,7 +21871,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-rcap-nv-custom-pleading.mjs",
@@ -21819,13 +21890,25 @@
       "familyId": "rcap-oh-custom-pleading-clean-tracks",
       "worklistGroupId": "rcap-oh-custom-pleading-clean-tracks",
       "jurisdiction": "OH",
-      "routeKeys": [],
-      "routeCount": 0,
+      "routeKeys": [
+        "obligation:track-only:OH:oh_2953_32_sealing",
+        "obligation:track-pathway:OH:oh_2953_32_expungement:adult-conviction-sealing-or-expungement-under-ohio-rev-code-2953-32",
+        "obligation:track-pathway:OH:oh_2953_33_nonconviction:adult-non-conviction-sealing-or-expungement-under-2953-33",
+        "obligation:track-pathway:OH:oh_2953_35_firearm:certain-firearm-carry-conviction-expungement-under-2953-35"
+      ],
+      "routeCount": 4,
       "implementationStrategy": "custom_pleading",
-      "packetComponents": [],
+      "packetComponents": [
+        "component:oh_2953_32_expungement-bci-transmission-5",
+        "component:oh_2953_32_sealing-bci-transmission-5",
+        "component:oh_2953_33_nonconviction-bci-transmission-5",
+        "component:oh_2953_35_firearm-bci-transmission-5"
+      ],
       "instrumentKinds": [],
-      "officialFormFamily": "NONE",
-      "forms": [],
+      "officialFormFamily": "OH-BCI-SEALING-EXPUNGEMENT-REQUEST",
+      "forms": [
+        "OH-BCI-SEALING-EXPUNGEMENT-REQUEST"
+      ],
       "sourceIds": [
         "official-form:OH-BCI-SEALING-EXPUNGEMENT-REQUEST"
       ],
@@ -21837,23 +21920,21 @@
           "tier": "exact_form_number"
         }
       ],
-      "sourceStatus": "SOURCE_NAMED_BUT_NOT_HELD: route not bound to a packet family — route mapping open",
-      "sourceBound": false,
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "route not bound to a packet family — route mapping open"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [
           {
             "sourceId": "official-form:OH-BCI-SEALING-EXPUNGEMENT-REQUEST",
             "path": "STATES/OH/04_SUPPORTING_PROCESS/OH__SUPPORT__OH-BCI-SEALING-EXPUNGEMENT-REQUEST__re-sealing-and-or-expungements__REV-UNKNOWN__EN.pdf",
             "sha256": "9234ec763403b1ccfbed796dfcf86f29bf7887390d1770460d0bcc9da31fc8cb",
             "tier": "exact_form_number",
-            "resolvedBy": "custody_reconciliation"
+            "resolvedBy": "census_form_number_against_committed_index"
           }
         ],
-        "namedOfficialForms": 0,
+        "namedOfficialForms": 1,
         "boundCount": 1,
         "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
@@ -21861,7 +21942,7 @@
       "legalInputStatus": "OPEN_LEGAL_INPUT",
       "legalInputBasis": "LEGAL_APPROVAL_VERDICT",
       "laneReturnLegalHold": null,
-      "routeMappingStatus": "UNBOUND_TO_A_PACKET_FAMILY",
+      "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
       "completenessStatus": "FAIL_COMPONENT_SET",
       "allNineCountersZero": true,
@@ -21900,8 +21981,25 @@
       "familyId": "rcap-ok-custom-pleading",
       "worklistGroupId": "rcap-ok-custom-pleading",
       "jurisdiction": "OK",
-      "routeKeys": [],
-      "routeCount": 0,
+      "routeKeys": [
+        "obligation:track-only:OK:ok_identity_theft",
+        "obligation:track-pathway:OK:ok_18_19_deferred_dismissal:misdemeanor-deferred-dismissal-expungement",
+        "obligation:track-pathway:OK:ok_18_19_deferred_dismissal:nonviolent-felony-deferred-dismissal-expungement",
+        "obligation:track-pathway:OK:ok_18_19_deferred_dismissal:up-to-two-felony-deferred-dismissal-expungement",
+        "obligation:track-pathway:OK:ok_18_19_felony_conviction:felony-reclassified-as-a-misdemeanor",
+        "obligation:track-pathway:OK:ok_18_19_felony_conviction:not-more-than-two-eligible-felony-convictions-expungement",
+        "obligation:track-pathway:OK:ok_18_19_felony_conviction:one-eligible-nonviolent-felony-conviction-expungement",
+        "obligation:track-pathway:OK:ok_18_19_misdemeanor_conviction:fine-only-misdemeanor-conviction-expungement",
+        "obligation:track-pathway:OK:ok_18_19_misdemeanor_conviction:other-eligible-misdemeanor-conviction-expungement",
+        "obligation:track-pathway:OK:ok_18_19_nonconviction:acquittal-dismissal-or-other-no-conviction-expungement",
+        "obligation:track-pathway:OK:ok_18_19_nonconviction:arrest-with-no-charges-filed",
+        "obligation:track-pathway:OK:ok_18_19_nonconviction:conviction-reversed-and-case-dismissed",
+        "obligation:track-pathway:OK:ok_18_19_nonconviction:dna-factual-innocence-expungement",
+        "obligation:track-pathway:OK:ok_18_19_pardon:pardon-based-expungement",
+        "obligation:track-pathway:OK:ok_991c_deferred:deferred-sentence-court-record-expungement-under-991-c",
+        "obligation:track-pathway:OK:ok_vpo_60_18:victim-protective-order-record-relief"
+      ],
+      "routeCount": 16,
       "implementationStrategy": "custom_pleading",
       "packetComponents": [],
       "instrumentKinds": [],
@@ -21909,13 +22007,11 @@
       "forms": [],
       "sourceIds": [],
       "sourceHashes": [],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceStatus": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "route not bound to a packet family — route mapping open"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [],
         "namedOfficialForms": 0,
         "boundCount": 0,
@@ -21925,7 +22021,7 @@
       "legalInputStatus": "SETTLED",
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
-      "routeMappingStatus": "UNBOUND_TO_A_PACKET_FAMILY",
+      "routeMappingStatus": "BOUND",
       "artifactStatus": "NOT_RENDERED",
       "completenessStatus": "NOT_BUILT",
       "allNineCountersZero": null,
@@ -21935,7 +22031,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-rcap-ok-custom-pleading.mjs",
@@ -21954,33 +22050,58 @@
       "familyId": "rcap-or-official-pdf-fill",
       "worklistGroupId": "rcap-or-official-pdf-fill",
       "jurisdiction": "OR",
-      "routeKeys": [],
-      "routeCount": 0,
+      "routeKeys": [
+        "obligation:track-only:OR:or_arrest_no_charges",
+        "obligation:track-only:OR:or_dismissed_charge"
+      ],
+      "routeCount": 2,
       "implementationStrategy": "official_pdf_fill",
-      "packetComponents": [],
+      "packetComponents": [
+        "component:or_arrest_no_charges-primary-filing-1",
+        "component:or_arrest_no_charges-proposed-order-2",
+        "component:or_arrest_no_charges-record-gathering-instructions-5",
+        "component:or_dismissed_charge-primary-filing-1",
+        "component:or_dismissed_charge-proposed-order-2",
+        "component:or_dismissed_charge-record-gathering-instructions-5"
+      ],
       "instrumentKinds": [],
-      "officialFormFamily": "NONE",
-      "forms": [],
+      "officialFormFamily": "OR-OJD-ADULT-SET-ASIDE-PACKET+OR-OSP-SET-ASIDE-CCH",
+      "forms": [
+        "OR-OJD-ADULT-SET-ASIDE-PACKET",
+        "OR-OSP-SET-ASIDE-CCH"
+      ],
       "sourceIds": [],
       "sourceHashes": [],
-      "sourceStatus": "SOURCE_NAMED_BUT_NOT_HELD: the family names no document-shaped source, so nothing binds",
-      "sourceBound": false,
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "the family names no document-shaped source, so nothing binds",
-          "route not bound to a packet family — route mapping open"
+        "ready": true,
+        "reasons": [],
+        "boundSources": [
+          {
+            "sourceId": "official-form:OR-OJD-ADULT-SET-ASIDE-PACKET",
+            "path": "STATES/OR/02_PACKET_FORMS/OR__FORM__OR-OJD-ADULT-SET-ASIDE-PACKET__ojd-criminal-set-aside-adult-packet__REV-2026-01__EN.pdf",
+            "sha256": "b22cc346caf6c38730e9992d74016e948180d92b379b6592ab333b06ac880071",
+            "tier": "exact_form_number",
+            "resolvedBy": "census_form_number_against_committed_index"
+          },
+          {
+            "sourceId": "official-form:OR-OSP-SET-ASIDE-CCH",
+            "path": "STATES/OR/04_SUPPORTING_PROCESS/OR__SUPPORT__OR-OSP-SET-ASIDE-CCH__oregon-state-police-set-aside-criminal-history-request-and-instructions__REV-2022-01__EN.pdf",
+            "sha256": "a523a9ffc3eb0cc35d89e1c81df8eafcd703cf1ffdb4237a0106b72e1e793ac6",
+            "tier": "exact_form_number",
+            "resolvedBy": "census_form_number_against_committed_index"
+          }
         ],
-        "boundSources": [],
-        "namedOfficialForms": 0,
-        "boundCount": 0,
+        "namedOfficialForms": 2,
+        "boundCount": 2,
         "custodyClass": "NO_ACQUISITION_TASK_NAMED",
         "directAttachment": true
       },
       "legalInputStatus": "SETTLED",
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
-      "routeMappingStatus": "UNBOUND_TO_A_PACKET_FAMILY",
+      "routeMappingStatus": "BOUND",
       "artifactStatus": "NOT_RENDERED",
       "completenessStatus": "NOT_BUILT",
       "allNineCountersZero": null,
@@ -21990,7 +22111,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-rcap-or-official-pdf-fill.mjs",
@@ -22009,8 +22130,19 @@
       "familyId": "rcap-sc-custom-pleading",
       "worklistGroupId": "rcap-sc-custom-pleading",
       "jurisdiction": "SC",
-      "routeKeys": [],
-      "routeCount": 0,
+      "routeKeys": [
+        "obligation:track-only:SC:sc_aep",
+        "obligation:track-only:SC:sc_conditional_discharge_44_53_450",
+        "obligation:track-only:SC:sc_tep",
+        "obligation:track-pathway:SC:sc_17_1_40_general_sessions:general-sessions-non-conviction-expungement",
+        "obligation:track-pathway:SC:sc_17_1_65_handgun:eligible-conviction-expungement",
+        "obligation:track-pathway:SC:sc_22_5_910:eligible-conviction-expungement",
+        "obligation:track-pathway:SC:sc_22_5_920_yoa:eligible-conviction-expungement",
+        "obligation:track-pathway:SC:sc_22_5_930_drug:eligible-conviction-expungement",
+        "obligation:track-pathway:SC:sc_34_11_90e_check:eligible-conviction-expungement",
+        "obligation:track-pathway:SC:sc_56_5_750f:eligible-conviction-expungement"
+      ],
+      "routeCount": 10,
       "implementationStrategy": "custom_pleading",
       "packetComponents": [],
       "instrumentKinds": [],
@@ -22028,13 +22160,11 @@
           "tier": "exact_content_hash"
         }
       ],
-      "sourceStatus": "SOURCE_GENUINELY_MISSING",
-      "sourceBound": false,
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "route not bound to a packet family — route mapping open"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [
           {
             "sourceId": "source-sha256:3c3daacf4c246fe5f33f09b971948c489e1343076b5d0ddc47babf9a12cf15b7",
@@ -22052,7 +22182,7 @@
       "legalInputStatus": "SETTLED",
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
-      "routeMappingStatus": "UNBOUND_TO_A_PACKET_FAMILY",
+      "routeMappingStatus": "BOUND",
       "artifactStatus": "NOT_RENDERED",
       "completenessStatus": "NOT_BUILT",
       "allNineCountersZero": null,
@@ -22062,7 +22192,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-rcap-sc-custom-pleading.mjs",
@@ -22081,8 +22211,20 @@
       "familyId": "rcap-tn-custom-pleading",
       "worklistGroupId": "rcap-tn-custom-pleading",
       "jurisdiction": "TN",
-      "routeKeys": [],
-      "routeCount": 0,
+      "routeKeys": [
+        "obligation:track-only:TN:tn_arrest_no_court_record",
+        "obligation:track-only:TN:tn_illegal_voting",
+        "obligation:track-only:TN:tn_mistaken_identity",
+        "obligation:track-only:TN:tn_nonconviction_petition",
+        "obligation:track-only:TN:tn_post_pardon",
+        "obligation:track-only:TN:tn_pretrial_diversion",
+        "obligation:track-only:TN:tn_recovery_court",
+        "obligation:track-only:TN:tn_redaction",
+        "obligation:track-pathway:TN:tn_eligible_conviction:pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107",
+        "obligation:track-pathway:TN:tn_judicial_diversion:pathway-2-diversion-expunction-under-40-15-105-40-35-313",
+        "obligation:track-pathway:TN:tn_two_offense:pathway-4-two-offense-expunction-under-40-32-101-k"
+      ],
+      "routeCount": 11,
       "implementationStrategy": "custom_pleading",
       "packetComponents": [],
       "instrumentKinds": [],
@@ -22090,13 +22232,11 @@
       "forms": [],
       "sourceIds": [],
       "sourceHashes": [],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceStatus": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "route not bound to a packet family — route mapping open"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [],
         "namedOfficialForms": 0,
         "boundCount": 0,
@@ -22106,7 +22246,7 @@
       "legalInputStatus": "SETTLED",
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
-      "routeMappingStatus": "UNBOUND_TO_A_PACKET_FAMILY",
+      "routeMappingStatus": "BOUND",
       "artifactStatus": "NOT_RENDERED",
       "completenessStatus": "NOT_BUILT",
       "allNineCountersZero": null,
@@ -22116,7 +22256,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-rcap-tn-custom-pleading.mjs",
@@ -22135,13 +22275,34 @@
       "familyId": "rcap-tx-custom-pleading",
       "worklistGroupId": "rcap-tx-custom-pleading",
       "jurisdiction": "TX",
-      "routeKeys": [],
-      "routeCount": 0,
+      "routeKeys": [
+        "obligation:track-only:TX:tx_exp_mistaken_identity",
+        "obligation:track-only:TX:tx_exp_pardon_other",
+        "obligation:track-only:TX:tx_exp_specialty_court",
+        "obligation:track-only:TX:tx_exp_unlawful_carry",
+        "obligation:track-pathway:TX:tx_exp_dismissed:expunction-after-qualifying-class-c-deferred-disposition",
+        "obligation:track-pathway:TX:tx_exp_dismissed:expunction-after-qualifying-dismissal-or-quash",
+        "obligation:track-pathway:TX:tx_exp_limitations:expunction-for-arrest-with-no-charge-filed-after-the-limitations-period",
+        "obligation:track-pathway:TX:tx_exp_no_charge:expunction-for-arrest-with-no-charge-filed-after-the-limitations-period",
+        "obligation:track-pathway:TX:tx_exp_pardon_innocence:expunction-after-pardon-or-actual-innocence-relief"
+      ],
+      "routeCount": 9,
       "implementationStrategy": "custom_pleading",
-      "packetComponents": [],
+      "packetComponents": [
+        "component:tx_exp_dismissed-fee-waiver-statement-4",
+        "component:tx_exp_limitations-fee-waiver-statement-3",
+        "component:tx_exp_mistaken_identity-fee-waiver-statement-4",
+        "component:tx_exp_no_charge-fee-waiver-statement-3",
+        "component:tx_exp_pardon_innocence-fee-waiver-statement-4",
+        "component:tx_exp_pardon_other-fee-waiver-statement-3",
+        "component:tx_exp_specialty_court-fee-waiver-statement-5",
+        "component:tx_exp_unlawful_carry-fee-waiver-statement-3"
+      ],
       "instrumentKinds": [],
-      "officialFormFamily": "NONE",
-      "forms": [],
+      "officialFormFamily": "Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
+      "forms": [
+        "Statement of Inability to Afford Payment of Court Costs or an Appeal Bond"
+      ],
       "sourceIds": [
         "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond"
       ],
@@ -22151,10 +22312,10 @@
       "sourceReadiness": {
         "ready": false,
         "reasons": [
-          "route not bound to a packet family — route mapping open"
+          "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
         ],
         "boundSources": [],
-        "namedOfficialForms": 0,
+        "namedOfficialForms": 1,
         "boundCount": 0,
         "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
         "directAttachment": true
@@ -22162,7 +22323,7 @@
       "legalInputStatus": "SETTLED",
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
-      "routeMappingStatus": "UNBOUND_TO_A_PACKET_FAMILY",
+      "routeMappingStatus": "BOUND",
       "artifactStatus": "NOT_RENDERED",
       "completenessStatus": "NOT_BUILT",
       "allNineCountersZero": null,
@@ -22191,8 +22352,11 @@
       "familyId": "rcap-wa-custom-pleading-clean-tracks",
       "worklistGroupId": "rcap-wa-custom-pleading-clean-tracks",
       "jurisdiction": "WA",
-      "routeKeys": [],
-      "routeCount": 0,
+      "routeKeys": [
+        "obligation:track-only:WA:wa_vac_post_probation_9_95_240",
+        "obligation:track-pathway:WA:wa_del_nonconviction:non-conviction-record-deletion-under-rcw-10-97-060"
+      ],
+      "routeCount": 2,
       "implementationStrategy": "custom_pleading",
       "packetComponents": [],
       "instrumentKinds": [],
@@ -22200,13 +22364,11 @@
       "forms": [],
       "sourceIds": [],
       "sourceHashes": [],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceStatus": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "route not bound to a packet family — route mapping open"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [],
         "namedOfficialForms": 0,
         "boundCount": 0,
@@ -22216,7 +22378,7 @@
       "legalInputStatus": "SETTLED",
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
-      "routeMappingStatus": "UNBOUND_TO_A_PACKET_FAMILY",
+      "routeMappingStatus": "BOUND",
       "artifactStatus": "NOT_RENDERED",
       "completenessStatus": "NOT_BUILT",
       "allNineCountersZero": null,
@@ -22226,7 +22388,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-rcap-wa-custom-pleading-clean-tracks.mjs",
@@ -22245,8 +22407,10 @@
       "familyId": "rcap-wi-custom-pleading",
       "worklistGroupId": "rcap-wi-custom-pleading",
       "jurisdiction": "WI",
-      "routeKeys": [],
-      "routeCount": 0,
+      "routeKeys": [
+        "obligation:track-only:WI:wi_exp_certificate_of_discharge_followup"
+      ],
+      "routeCount": 1,
       "implementationStrategy": "custom_pleading",
       "packetComponents": [],
       "instrumentKinds": [],
@@ -22254,13 +22418,11 @@
       "forms": [],
       "sourceIds": [],
       "sourceHashes": [],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceStatus": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "route not bound to a packet family — route mapping open"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [],
         "namedOfficialForms": 0,
         "boundCount": 0,
@@ -22270,7 +22432,7 @@
       "legalInputStatus": "SETTLED",
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
-      "routeMappingStatus": "UNBOUND_TO_A_PACKET_FAMILY",
+      "routeMappingStatus": "BOUND",
       "artifactStatus": "NOT_RENDERED",
       "completenessStatus": "NOT_BUILT",
       "allNineCountersZero": null,
@@ -22280,7 +22442,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-rcap-wi-custom-pleading.mjs",
@@ -22299,8 +22461,10 @@
       "familyId": "rcap-wv-custom-pleading",
       "worklistGroupId": "rcap-wv-custom-pleading",
       "jurisdiction": "WV",
-      "routeKeys": [],
-      "routeCount": 0,
+      "routeKeys": [
+        "obligation:track-pathway:WV:wv_drug_conditional_discharge:first-offense-drug-possession-conditional-discharge-relief"
+      ],
+      "routeCount": 1,
       "implementationStrategy": "custom_pleading",
       "packetComponents": [],
       "instrumentKinds": [],
@@ -22308,13 +22472,11 @@
       "forms": [],
       "sourceIds": [],
       "sourceHashes": [],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceStatus": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "route not bound to a packet family — route mapping open"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [],
         "namedOfficialForms": 0,
         "boundCount": 0,
@@ -22324,7 +22486,7 @@
       "legalInputStatus": "SETTLED",
       "legalInputBasis": null,
       "laneReturnLegalHold": null,
-      "routeMappingStatus": "UNBOUND_TO_A_PACKET_FAMILY",
+      "routeMappingStatus": "BOUND",
       "artifactStatus": "NOT_RENDERED",
       "completenessStatus": "NOT_BUILT",
       "allNineCountersZero": null,
@@ -22334,7 +22496,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-rcap-wv-custom-pleading.mjs",
@@ -30091,18 +30253,18 @@
     }
   ],
   "totals": {
-    "lanes": 48,
-    "builders": 16,
+    "lanes": 56,
+    "builders": 24,
     "verifiers": 12,
     "sourceLanes": 16,
     "repairLanes": 4,
-    "familiesAssignedToBuilders": 52,
-    "sourceObligationsAssigned": 382,
-    "actualPromotedAndReleased": 52,
+    "familiesAssignedToBuilders": 93,
+    "sourceObligationsAssigned": 341,
+    "actualPromotedAndReleased": 93,
     "actualPromotedAndReleasedMeaning": "families whose every source is held, indexed and hash-matched now — buildable today",
     "currentlyPromotionReady": 0,
     "currentlyPromotionReadyMeaning": "families whose only remaining obligations are promotions — the bytes exist and the custody record does not",
-    "prospectiveReleasesAcrossSourceLanes": 204,
+    "prospectiveReleasesAcrossSourceLanes": 162,
     "prospectiveReleasesMeaning": "families the conveyor would release if every obligation in it resolved. A forecast, not an achievement.",
     "commercialRoutesOpened": 0,
     "productionTouched": false
