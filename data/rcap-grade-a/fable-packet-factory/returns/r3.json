@@ -1,0 +1,107 @@
+{
+  "schemaVersion": "rcap-fable-repairer-return/v1",
+  "worker": "FABLE-R3",
+  "assignmentId": "FR3-FIX10-V4-BATCH-001",
+  "lane": "FIX10",
+  "branch": "fable/r3",
+  "familiesRepaired": [
+    {
+      "familyId": "wa_vac_misdemeanor_ordinary-set",
+      "obligationsRepaired": ["FILING_DESTINATION", "FEE_AND_WAIVER", "SERVICE", "SELF_HELP_STOP"],
+      "packetBytesChanged": false,
+      "rasterReceiptInvalidated": false
+    },
+    {
+      "familyId": "wa_vac_substance_use_disorder-set",
+      "obligationsRepaired": ["FILING_DESTINATION", "FEE_AND_WAIVER", "SERVICE", "SELF_HELP_STOP"],
+      "packetBytesChanged": false,
+      "rasterReceiptInvalidated": false
+    },
+    {
+      "familyId": "wa_vac_survivor_misdemeanor-set",
+      "obligationsRepaired": ["FILING_DESTINATION", "FEE_AND_WAIVER", "SERVICE", "SELF_HELP_STOP"],
+      "packetBytesChanged": false,
+      "rasterReceiptInvalidated": false
+    },
+    {
+      "familyId": "wa_vac_treaty_fishing-set",
+      "obligationsRepaired": ["FILING_DESTINATION", "FEE_AND_WAIVER", "SERVICE", "SELF_HELP_STOP"],
+      "packetBytesChanged": false,
+      "rasterReceiptInvalidated": false
+    },
+    {
+      "familyId": "wa_vac_survivor_felony-set",
+      "obligationsRepaired": ["FILING_DESTINATION", "FEE_AND_WAIVER", "SERVICE", "SELF_HELP_STOP"],
+      "packetBytesChanged": false,
+      "rasterReceiptInvalidated": false
+    },
+    {
+      "familyId": "wa_vac_cannabis-set",
+      "obligationsRepaired": ["FILING_DESTINATION", "FEE_AND_WAIVER", "SERVICE", "ROUTE_OPTIONS"],
+      "packetBytesChanged": false,
+      "rasterReceiptInvalidated": false,
+      "routeOptionsTreatment": "No election exists on the CrRLJ 09.0800 face to mark; the dedicated single-ground form is itself the route election. routeSelectionId wa-vac-cannabis-crrlj-09-0800-rcw-9-96-060-5 recorded in product-wiring.json with first-hand basis; stated in participant-instructions.md."
+    },
+    {
+      "familyId": "wa_vac_homicide_victim_prostitution-set",
+      "obligationsRepaired": ["FILING_DESTINATION", "FEE_AND_WAIVER", "SERVICE"],
+      "obligationsBlocked": [{
+        "obligation": "ROUTE_OPTIONS",
+        "status": "BLOCKED_LEGAL_INPUT",
+        "record": "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/route-options-block.json",
+        "question": "For the RCW 9.96.060(7) application by a family member to vacate a deceased homicide victim's prostitution conviction: which election on CrRLJ 09.0100 (rev. 11/2024), if any, states that ground? May a family-member applicant use section 3's first-person victim declaration on behalf of the deceased victim, or does this route require a different or modified pleading? The form face carries no checkbox and no blank naming RCW 9.96.060(7)."
+      }],
+      "packetBytesChanged": false,
+      "rasterReceiptInvalidated": false
+    },
+    {
+      "familyId": "wa_vac_domestic_violence-set",
+      "obligationsRepaired": ["FILING_DESTINATION", "FEE_AND_WAIVER", "SERVICE", "ROUTE_OPTIONS"],
+      "packetBytesChanged": true,
+      "rasterReceiptInvalidated": true,
+      "byteChange": "CRRLJ-09.0100 fixtures: canonical 846360e7 -> 42e4e344, boundary 75fac347 -> fd2d21f7 (section 6 domestic-violence ground marked, control p4-selection-1). CRRLJ-09.0200 fixtures rebuilt byte-identical (3abc2475, 4d844aec). Rebuilt twice, run hashes identical."
+    },
+    {
+      "familyId": "wa_vac_felony-set",
+      "obligationsRepaired": ["FILING_DESTINATION", "FEE_AND_WAIVER", "SERVICE", "ROUTE_OPTIONS"],
+      "packetBytesChanged": true,
+      "rasterReceiptInvalidated": true,
+      "byteChange": "CR-08.0900 fixtures: canonical 3c405682 -> 5cf52336, boundary 2da76cc7 -> 15697280 (marks: p1-selection-1 Defendant movant, p2-selection-1 was-discharged, p2-selection-3 no-charges-pending). CR-08.0920 fixtures rebuilt byte-identical (1c715d2b, e5014e2e). Rebuilt twice, run hashes identical. The felony/survivor-felony byte-twin is broken."
+    }
+  ],
+  "routeElectionAnswer": {
+    "classification": "SPLIT_BY_FORM_FACE",
+    "basis": "Answered per official form, read first-hand from the exact SHA-256-pinned bytes. (1) CrRLJ 09.0100 rev. 11/2024 (wa_vac_domestic_violence): the face carries the route's ground - section 6 '[ ] Domestic Violence', RCW 9.96.060(2)(f) - so the byte-identical packet was missing a route election; repaired as bytes per the SD pattern, marking exactly that control. (2) CR 08.0900 rev. 07/2025 (wa_vac_felony): the face carries route-determined elections (section I movant Defendant; section 3 was-discharged, required for class B and C alike per CR 08.0930; section 4 no-charges-pending, RCW 9.94A.640(2)(a)); repaired as bytes, marking exactly those three; the class B/C timing boxes are case facts, never marked, disclosed to the participant. (3) CrRLJ 09.0800 rev. 07/2022 (wa_vac_cannabis): the face carries NO ground election at all; the dedicated single-ground form is itself the election, recorded as routeSelectionId without byte change. (4) CrRLJ 09.0100 for wa_vac_homicide_victim_prostitution: the face carries elections but NONE naming RCW 9.96.060(7) and no provision for a family-member application on behalf of a deceased victim; marking any printed ground would misstate the route -> BLOCKED_LEGAL_INPUT with the exact question recorded in the family's route-options-block.json. The shared WA host now carries ROUTE_ELECTION_MARKS with pinned control ids, context fragments and geometry; the SD routeSelectionId convention is adopted in the repaired families' product-wiring.json.",
+    "perFamily": {
+      "wa_vac_domestic_violence-set": "PACKET_MISSING_ROUTE_ELECTION -> byte repair (1 mark)",
+      "wa_vac_felony-set": "PACKET_MISSING_ROUTE_ELECTION -> byte repair (3 marks)",
+      "wa_vac_cannabis-set": "NO_ELECTION_ON_FORM_FACE -> form choice is the election; routeSelectionId recorded, no byte change",
+      "wa_vac_homicide_victim_prostitution-set": "BLOCKED_LEGAL_INPUT -> exact question recorded"
+    }
+  },
+  "familiesStopped": [],
+  "commits": [
+    "a6e5c15f0 FIX10 wa_vac_misdemeanor_ordinary-set",
+    "1eaef65f2 FIX10 wa_vac_substance_use_disorder-set",
+    "9011d1c63 FIX10 wa_vac_survivor_misdemeanor-set",
+    "5ae981fc0 FIX10 wa_vac_treaty_fishing-set",
+    "7c8970c44 FIX10 wa_vac_survivor_felony-set",
+    "0b5b01065 FIX10 wa_vac_cannabis-set",
+    "638846582 FIX10 wa_vac_homicide_victim_prostitution-set",
+    "5261c28bb FIX10 wa_vac_domestic_violence-set (includes shared WA host route-election support)",
+    "baec4ee05 FIX10 wa_vac_felony-set"
+  ],
+  "hostChanges": {
+    "file": "scripts/build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs",
+    "what": "ROUTE_ELECTION_MARKS table (pinned control id + printed-context fragment + measured geometry per mark); route marks drawn via the finalizer's existing markSelections; verifyAddedInk, protection report and --check gates prove marked controls equal the declared set and nothing else is marked; reports keep their pre-FIX10 shape for documents without route elections so untouched families still --check clean (verified on misdemeanor_ordinary, cannabis, survivor_felony); participant-instructions.md and route-options-block.json are preserved across rebuilds."
+  },
+  "verification": {
+    "completeness": "All nine families PASS_COMPLETE with all nine counters zero after repair.",
+    "laneContracts": "verify-lane-contracts.mjs: 9/9 checks passed, LANE_CONTRACTS_HELD.",
+    "sourceHashes": "Every instructions fact sourced from PDFs re-read from the verified corpus with SHA-256 re-verified against MASTER_QUEUE boundSources / the committed corpus index: CrRLJ 09.0100 (1f72e901), 09.0200 (b53035dd), 09.0300 (42ac9ccb), 09.0800 (260367f6), 09.0870 (a69335fb), CR 08.0900 (ec8b175e), 08.0920 (e5ccd2e0), 08.0930 (17e2fdfc).",
+    "fixtureHashDiscipline": "sha256sum before/after per family: seven families byte-identical (receipts survive); DV and felony changed as recorded above (receipts invalidated)."
+  },
+  "ledger": "All nine FIX10 grants asserted before work and released via claim.mjs; 0 live grants remain on FIX10.",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}

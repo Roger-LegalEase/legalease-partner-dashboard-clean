@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "rcap-repair-obligation-block/v1",
+  "familyId": "wa_vac_homicide_victim_prostitution-set",
+  "obligation": "ROUTE_OPTIONS",
+  "status": "BLOCKED_LEGAL_INPUT",
+  "recordedBy": "FIX10",
+  "assignmentId": "FR3-FIX10-V4-BATCH-001",
+  "recordedAt": "2026-09-01",
+  "route": {
+    "routeKey": "obligation:track-only:WA:wa_vac_homicide_victim_prostitution",
+    "legalName": "Family Member Application to Vacate a Homicide Victim's Prostitution Conviction, RCW 9.96.060(7)"
+  },
+  "whatWasReadFirstHand": {
+    "form": "CrRLJ 09.0100, Petition and Declaration for Order Vacating Conviction, rev. 11/2024",
+    "sha256": "1f72e901e93d576cf6c7ecad910d253da65b6af1a89ca75304c9739fa159909b",
+    "verification": "re-read from the verified corpus for this repair; hash matches source-receipt.json and the committed corpus index",
+    "electionsTheFormFaceCarries": [
+      "section 3 checkbox: Conviction as Victim (first-person declaration: 'I was convicted ... as a result of being a victim of sex trafficking, prostitution, or commercial sexual abuse of a minor; sexual assault; or domestic violence')",
+      "section 5 checkbox: Prior Offense (RCW 46.61.5055 prior offense)",
+      "section 6 checkbox: Domestic Violence (RCW 9.96.060(2)(f))",
+      "section 7 checkbox: Offenses not otherwise specified"
+    ],
+    "finding": "The form's face carries ground elections, but none of them names RCW 9.96.060(7), and no section provides for an application by a FAMILY MEMBER of a deceased homicide victim. Every printed ground is a first-person declaration by the convicted person ('I was convicted', 'I completed all of the terms of my sentence'), which a family-member applicant cannot truthfully sign on the deceased victim's behalf."
+  },
+  "theExactQuestion": "For the RCW 9.96.060(7) application by a family member to vacate a deceased homicide victim's prostitution conviction: which election on CrRLJ 09.0100 (rev. 11/2024), if any, states that ground? May a family-member applicant use section 3's first-person victim declaration on behalf of the deceased victim, or does this route require a different or modified pleading (and if so, which)? The form face carries no checkbox and no blank naming RCW 9.96.060(7), so the packet cannot state this route on the form's face without an answer.",
+  "whyNotRepairedAsBytes": "The route-election byte repair marks an election the official form carries and the packet leaves unmarked. This form carries no election for this route's ground; marking any of the four printed grounds would misstate the route, which is worse than leaving the packet unmarked. Classification per the FIX10 lane note: the routes sharing these bytes differ in eligibility law, and the missing item for this family is a legal input, not a mark.",
+  "corroboratingRepoEvidence": "data/rcap-crosswalk-enrichment/e2-source-support-audit.json records that '9.96.060(7)', '9A.88.030' and 'homicide' appear zero times in the compiled Washington profile; no pathway or rule implements a family-member application for a deceased victim's prostitution conviction.",
+  "packetBytesChanged": false,
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "commercialRoutesOpened": 0
+}
