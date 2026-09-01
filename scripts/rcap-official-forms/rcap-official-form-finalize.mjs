@@ -458,6 +458,11 @@ export async function finalizeOfficialForm({
   documentTextLines = [],
   maxFontSize,
   minFontSize = MIN_READABLE_FONT_SIZE,
+  // Passed straight through to the fitter. See its own comment: the descending
+  // ladder can step past the declared minimum without ever trying it, and a
+  // value that fits there is refused. Opt-in, because the families sharing this
+  // finalizer are rebuilt by different workers at different times.
+  evaluateDeclaredMinimumSize = false,
   title = null,
   // Field name -> appearance disposition, for the family being rendered. The
   // caller resolves it from the shared semantic registry; an empty map leaves
@@ -586,7 +591,8 @@ export async function finalizeOfficialForm({
       rect,
       multiline: field.multiline === true,
       maxFontSize,
-      minFontSize
+      minFontSize,
+      evaluateDeclaredMinimumSize
     });
 
     if (fit.outcome === "refused") {

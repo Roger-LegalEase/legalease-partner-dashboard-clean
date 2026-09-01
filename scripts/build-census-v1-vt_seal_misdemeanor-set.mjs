@@ -57,11 +57,23 @@ const CORPUS_INDEX = "data/rcap-all50/local-source-corpus-index.json";
 const OVERLAY_ROOT = "data/rcap-all50/overlays/census-v1/vt";
 const FIXED_DATE = "2026-01-01";
 
+/*
+ * Where the Master Library is mounted, as an ABSOLUTE path.
+ *
+ * MASTER_LIBRARY_SOURCE_DIR is exported absolute by the packet-build preflight,
+ * and this used to return it unresolved to callers that then did
+ * `path.join(ROOT, root, rel)`. Joining an absolute path onto ROOT produces
+ * ROOT + the absolute path, which exists nowhere, so every source "did not bind
+ * by exact SHA-256" and the whole family reported BLOCKED_SOURCE with three
+ * files that were sitting right there. Resolving here makes both spellings --
+ * the absolute export and the relative default -- land on the same directory.
+ */
 function corpusRoot() {
   const configured = process.env.MASTER_LIBRARY_SOURCE_DIR
     ?? "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1";
-  assert.ok(fs.existsSync(configured), `the Master Library is not mounted at ${configured}`);
-  return configured;
+  const resolved = path.resolve(ROOT, configured);
+  assert.ok(fs.existsSync(resolved), `the Master Library is not mounted at ${resolved}`);
+  return resolved;
 }
 
 /* ------------------------------------------------------------------ *
@@ -272,6 +284,39 @@ const FORM_FIELDS = {
   }
 };
 
+/*
+ * The publication the filing instructions quote for the fee and for service.
+ *
+ * It is NOT a packet component -- it is never rendered into the artifact and it
+ * is not in ROUTE_DOCUMENTS. It is the authority behind two sentences, and it
+ * is re-hashed against the committed corpus index on every build so a superseded
+ * revision refuses the build rather than shipping a stale fee a participant
+ * would pay.
+ */
+const VT_FILING_INSTRUCTIONS = Object.freeze({
+  formNumber: "200-00130A",
+  title: "Filing a Petition to Expunge or Seal a Criminal Record",
+  revision: "07/2025",
+  issuer: "Vermont Judiciary",
+  pathInArchive: "STATES/VT/03_INSTRUCTIONS/VT__INSTRUCTIONS__200-00130A__filing-a-petition-to-expunge-or-seal-a-criminal-record__REV-UNKNOWN__EN.pdf",
+  supports: ["filing-fee-and-waiver-route", "service-recipient-and-method"]
+});
+
+function resolveFilingInstructions() {
+  const index = JSON.parse(fs.readFileSync(path.join(ROOT, CORPUS_INDEX), "utf8"));
+  const raw = index.entries ?? index.files ?? index;
+  const entries = Array.isArray(raw) ? raw : Object.values(raw);
+  const entry = entries.find((e) => (e.path ?? e.relativePath) === VT_FILING_INSTRUCTIONS.pathInArchive);
+  assert.ok(entry, `${VT_FILING_INSTRUCTIONS.formNumber}: not in the committed corpus index`);
+  const bytes = fs.readFileSync(path.join(corpusRoot(), VT_FILING_INSTRUCTIONS.pathInArchive));
+  const digest = crypto.createHash("sha256").update(bytes).digest("hex");
+  const indexed = String(entry.sha256 ?? entry.sha ?? "");
+  assert.equal(digest, indexed,
+    `${VT_FILING_INSTRUCTIONS.formNumber}: SHA-256 drift; the index records ${indexed} and the held bytes hash to ${digest}`);
+  return { ...VT_FILING_INSTRUCTIONS, sha256: digest, byteLength: bytes.length,
+    verifiedBy: "re-hashed on this build against the committed corpus index" };
+}
+
 /* The five families. Same three documents; different statutory route. */
 const ROUTE_DOCUMENTS = ["200-00130", "200-00132", "600-00228"];
 export const FAMILY_CONFIGS = Object.freeze({
@@ -347,7 +392,7 @@ function resolveSources(familyId) {
       .find((e) => String(e.path ?? e.relativePath ?? "").includes(`__${formNumber}__`) && String(e.path ?? e.relativePath ?? "").startsWith("STATES/VT/"));
     if (!entry) { failures.push({ formNumber, why: "no entry for this form number in the committed corpus index" }); continue; }
     const rel = entry.path ?? entry.relativePath;
-    const abs = path.join(ROOT, root, rel);
+    const abs = path.join(root, rel);
     if (!fs.existsSync(abs)) { failures.push({ formNumber, why: `the indexed path does not exist on disk: ${rel}` }); continue; }
     const bytes = fs.readFileSync(abs);
     const sha256 = crypto.createHash("sha256").update(bytes).digest("hex");
@@ -449,7 +494,25 @@ async function renderDocument(source, census, fixtureName) {
     explicitMappings,
     unwritableFields,
     documentTextLines: census.pageText.flatMap((p) => p.lines.map((l) => l.text)),
-    title: FORM_FIELDS[source.formNumber].title
+    title: FORM_FIELDS[source.formNumber].title,
+    /*
+     * Try the declared minimum font size before refusing a value.
+     *
+     * VF11 and VF12 read the boundary artifact's bytes and found one mapped
+     * known prefill missing: participant.email at 200-00132 field 34i, whose
+     * flattened appearance is present and empty while the canonical fixture
+     * carries the address. The cause is in the shared fitter, not here: its
+     * ladder starts at 10.96 on this 12.96pt-high widget and steps by 0.5, so
+     * the last rung is 6.46 and the declared minimum of 6.0 is never tried. The
+     * boundary email needs 165.6pt at 6.0 in a 170.7pt box -- it fits, with five
+     * points to spare, and was refused anyway.
+     *
+     * The write is the repair. The email is a held fact, mapped in both fixtures
+     * and written on 200-00130 and 600-00228 in the same artifact; carrying it
+     * to the participant as something to supply would be reclassifying a fact
+     * the platform holds, which is the opposite of the fix.
+     */
+    evaluateDeclaredMinimumSize: true
   });
   if (process.env.VT_DEBUG_RENDER) {
     console.log(`-- ${source.formNumber} ${fixtureName}: written=${report.written.length} refused=${report.refused.length}`);
@@ -479,8 +542,41 @@ async function byteProof(source, census, artifactBytes, report, fixtureName) {
       expected: FIXTURES[fixtureName][r.fact] ?? null
     });
   }
+  /*
+   * Every fact the map says to write and the finalizer did not.
+   *
+   * This is the part VF11 and VF12 had to reconstruct from the bytes because the
+   * family did not report it. The finalizer refused the boundary email and said
+   * so in ITS report, but nothing carried that refusal into the family's own
+   * record, so reports/actual-writes.json showed eight values for a document
+   * carrying seven and the loss was invisible to every reader downstream.
+   *
+   * A write the map promised and the artifact does not carry is now stated here
+   * by name, with the finalizer's reason. An empty list is the claim that
+   * nothing was lost; a non-empty one is the defect, visible without opening a
+   * PDF.
+   */
+  const refusedByField = new Map((report.refused ?? []).map((r) => [r.field, r]));
+  const unfittableByField = new Map((report.unfittable ?? []).map((r) => [r.field, r]));
+  const mappedWritesNotInTheBytes = [];
+  for (const r of census.rows) {
+    if (r.policy !== "write") continue;
+    if (written.has(r.name)) continue;
+    const refusal = refusedByField.get(r.name) ?? null;
+    const unfittable = unfittableByField.get(r.name) ?? null;
+    mappedWritesNotInTheBytes.push({
+      field: r.name, factId: r.fact, page: r.page, rect: r.rect,
+      printedCaption: r.caption,
+      value: FIXTURES[fixtureName][r.fact] ?? null,
+      reason: refusal?.reason ?? "the finalizer reported no value for this field and gave no reason",
+      category: refusal?.category ?? null,
+      requiredWidthAtMin: unfittable?.requiredWidthAtMin ?? null,
+      requiredHeightAtMin: unfittable?.requiredHeightAtMin ?? null
+    });
+  }
+
   const appearances = widgets.length;
-  return { actualWrites, appearances };
+  return { actualWrites, appearances, mappedWritesNotInTheBytes };
 }
 
 /* ---- the one exported entry point ---------------------------------------- */
@@ -503,6 +599,10 @@ export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
       why: "a source did not bind by exact SHA-256, so nothing may be rendered from it"
     };
   }
+
+  // The authority behind the fee and service sentences, re-hashed before either
+  // is written. A drifted revision refuses the build.
+  const filingInstructions = resolveFilingInstructions();
 
   const outDir = `${OVERLAY_ROOT}/${familyId.replace(/_/g, "-")}--official-pdf-fill`;
   const censuses = [];
@@ -546,8 +646,18 @@ export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
         flattenedWidgetAppearancesReadFromOutputBytes: proof.appearances,
         addedGlyphsReadFromOutputBytes: proof.actualWrites.reduce((n, w) => n + w.drawnText.join("").length, 0),
         nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: 0,
+        mappedWritesNotInTheBytes: proof.mappedWritesNotInTheBytes,
         actualWrites: proof.actualWrites
       });
+
+      /*
+       * A mapped write that never reached the paper is a build failure, not a
+       * note. The previous build shipped one and reported success, so the
+       * assertion is here rather than in a reader: the family refuses to write
+       * artifacts it knows are missing a fact its own map promised.
+       */
+      assert.equal(proof.mappedWritesNotInTheBytes.length, 0,
+        `${source.formNumber} ${fixtureName}: the map promises writes the artifact does not carry: ${JSON.stringify(proof.mappedWritesNotInTheBytes)}`);
 
       const doc = await PDFDocument.load(bytes, { ignoreEncryption: true });
       const copied = await packet.copyPages(doc, doc.getPageIndices());
@@ -597,7 +707,7 @@ export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
     }
   }
 
-  writeArtifacts({ familyId, config, outDir, resolved, maps, artifacts, writeProofs, rasterPages });
+  writeArtifacts({ familyId, config, outDir, resolved, maps, artifacts, writeProofs, rasterPages, filingInstructions });
   return {
     familyId, status: "COMPLETED", directory: outDir,
     documents: resolved.map((r) => r.formNumber),
@@ -674,7 +784,7 @@ function fieldMapFor(source, census, report, config) {
   };
 }
 
-function writeArtifacts({ familyId, config, outDir, resolved, maps, artifacts, writeProofs, rasterPages }) {
+function writeArtifacts({ familyId, config, outDir, resolved, maps, artifacts, writeProofs, rasterPages, filingInstructions }) {
   const rbf = maps.flatMap((m) => m.canonicalRefusals.filter((r) => r.requiredBeforeFiling)
     .map((r) => ({ document: m.formNumber, field: r.field, page: r.page, printedContext: r.printedLabel, disclosureLabel: `${r.regionHeading} ${r.field}`, identity: r.identity, why: r.why, participantMustSupply: r.participantMustSupply })));
 
@@ -751,7 +861,7 @@ function writeArtifacts({ familyId, config, outDir, resolved, maps, artifacts, w
     ]
   }, null, 2)}\n`);
 
-  fs.writeFileSync(path.join(ROOT, outDir, "participant-instructions.md"), instructionsMarkdown(familyId, config, resolved, rbf));
+  fs.writeFileSync(path.join(ROOT, outDir, "participant-instructions.md"), instructionsMarkdown(familyId, config, resolved, rbf, filingInstructions));
 
   fs.writeFileSync(path.join(ROOT, outDir, "approval-request.json"), `${JSON.stringify({
     schemaVersion: "rcap-family-approval-request/v1", familyId,
@@ -760,7 +870,7 @@ function writeArtifacts({ familyId, config, outDir, resolved, maps, artifacts, w
   }, null, 2)}\n`);
 }
 
-function instructionsMarkdown(familyId, config, resolved, rbf) {
+function instructionsMarkdown(familyId, config, resolved, rbf, filingInstructions) {
   const byDoc = new Map();
   for (const item of rbf) byDoc.set(item.document, [...(byDoc.get(item.document) ?? []), item]);
   const out = [];
@@ -781,9 +891,31 @@ function instructionsMarkdown(familyId, config, resolved, rbf) {
   out.push("## Where you file this", "");
   out.push("File the completed packet with the **Vermont Superior Court, Criminal Division**, in the unit where your case was decided.", "");
   out.push("Both the petition (200-00130) and the stipulation (200-00132) print `SUPERIOR COURT CRIMINAL DIVISION` across the top of page 1, and the `Unit` box beside it is where that unit goes. If you do not know which unit decided your case, the docket number on your paperwork identifies it, and the clerk of any Superior Court unit can tell you from the docket number.", "");
-  out.push("Two things this packet does **not** tell you, because they are not established here and writing an unsourced figure into a filing instruction would be worse than leaving it out:", "");
-  out.push("- **The filing fee, and whether it can be waived.** Ask the clerk of the unit above what the fee is for a petition to seal under 13 V.S.A. § 7602, and whether the fee-waiver application in this packet applies. The waiver form is included; the amount it waives is not stated here.");
-  out.push("- **Who must be served, and how.** Ask the same clerk who must receive a copy of the petition and by what method. The stipulation route needs the State\u2019s Attorney\u2019s signature, which is not the same thing as service and does not substitute for it.", "");
+  /*
+   * The filing fee and the service rule.
+   *
+   * Both were open source obligations -- vt_seal_*::filing-fee-and-waiver-route
+   * and ::service-recipient-and-method -- and VF11 and VF12 were right that a
+   * packet lane may not infer either. It does not have to. The Vermont Judiciary
+   * publishes both in its own filing instructions, form 200-00130A, "Filing a
+   * Petition to Expunge or Seal a Criminal Record" (07/2025), which is held in
+   * this repository and is re-hashed against the committed corpus index on
+   * every build. The quotations below are read from that publication's bytes.
+   *
+   * The fee sentence states the rule the judiciary states. It does NOT decide
+   * whether the participant's own conviction falls under it: that is a fact
+   * about their docket, and the clerk reads it off the docket.
+   */
+  out.push("## What it costs, and how to ask for a waiver", "");
+  out.push(`The Vermont Judiciary's own filing instructions (form ${VT_FILING_INSTRUCTIONS.formNumber}, *${VT_FILING_INSTRUCTIONS.title}*, ${VT_FILING_INSTRUCTIONS.revision}) state the fee rule:`, "");
+  out.push("> There are no fees to file a petition to seal or expunge except for a $90 filing fee to seal convictions of violations of 23 V.S.A. Sec. 1201(a). If you are unable to pay this fee, you may complete and file an Application to Waive Filing fees.", "");
+  out.push("So: **filing this petition is free unless you are sealing a conviction under 23 V.S.A. § 1201(a), in which case the fee is $90.** That section is Vermont's driving-under-the-influence offence. Whether your own conviction is one is a fact about your docket rather than about this packet, and the clerk of the unit above will tell you from the docket number.", "");
+  out.push("**The waiver is a form already in this packet.** 600-00228, the *Application to Waive Filing Fees and Service Costs*, is the \"Application to Waive Filing fees\" those instructions name. It is included here and filled with what the platform knows about you; the financial figures it asks for are listed below and are yours to supply.", "");
+  out.push("## Who must receive a copy, and how", "");
+  out.push("**You do not serve the petition yourself. The court does.** The same judiciary instructions state:", "");
+  out.push("> Once you file your petition, the court will provide a copy to the prosecutor who brough the criminal case. If your petition is already stipulated (or agreed to) by the prosecutor then the court will skip this step.", "");
+  out.push("So the recipient is **the prosecutor who brought the criminal case**, and the method is **the court providing them a copy once you have filed**. The prosecutor is then entitled to file a response. If they agree with your request your petition may be granted without a hearing; if they oppose it the court will schedule one, and you must attend any hearing scheduled in your case, because failing to attend could result in your petition being dismissed.", "");
+  out.push("The State\u2019s Attorney\u2019s signature on the stipulation (200-00132) is not service and does not substitute for it. It is the prosecutor agreeing to the sealing in advance, which is what lets the court skip the step above.", "");
   out.push("## What you must do before you file", "");
   out.push("1. **Fill in every item listed below.** Each one names the form, the page and the printed words next to the blank.");
   out.push("2. **Sign and date each form yourself.** The platform never signs for you and never dates a signature. Blank signature and date lines are deliberate.");
@@ -806,6 +938,9 @@ function instructionsMarkdown(familyId, config, resolved, rbf) {
   out.push("");
   out.push("## What this packet is not", "");
   out.push("This is a prepared set of official Vermont forms. It is not legal advice, it is not filed for you, and it does not decide whether the court will grant sealing.");
+  out.push("");
+  out.push("## Where the fee and service directions come from", "");
+  out.push(`Both are quoted from **${filingInstructions.formNumber}**, *${filingInstructions.title}* (${filingInstructions.revision}), published by the ${filingInstructions.issuer} and held in this repository; SHA-256 \`${filingInstructions.sha256}\`, ${filingInstructions.verifiedBy}. Nothing about the fee or about service is inferred here.`);
   out.push("");
   out.push(`_Route: ${config.routeKey}_`);
   return `${out.join("\n")}\n`;
