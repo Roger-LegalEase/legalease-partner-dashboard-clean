@@ -17,6 +17,7 @@
   "www.lexisnexis.com/hottopics/gacode"
  ],
  "scopeLimit": "SOURCE_IDENTITY_FINDINGS SIF-4: private/Nationwide Record Clearing/ is absent from this worktree. Four Massachusetts identities are recorded held there and could be neither confirmed nor denied. This lane does not report discovery exhausted.",
+ "claimDiscipline": "All 42 obligations were asserted before any evidence was read, and none was released. Releasing them is what the lane prompt asks for and it is wrong here: scripts/grade-a-packet-factory-24h/verify-claim-ledger.mjs uses DISC06's 42 live claims as its fixture — it re-asserts every one of them and fails the whole repository check the moment one is released. This lane released all 42, watched CLAIM_LEDGER_OK turn into 'DISC06 assertion refused', and restored the ledger. The claim record for DISC06 therefore stays live in the diff, and the conflict between the lane prompt's release rule and the ledger verifier's fixture is Captain's to settle rather than a worker's to paper over.",
  "familiesActuallyReleasedNow": [],
  "releaseNote": "Empty. Of the 38 families this lane would release, not one has every remaining source bound.",
  "identitiesGuessed": 0,
