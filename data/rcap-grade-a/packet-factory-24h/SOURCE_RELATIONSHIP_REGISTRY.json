@@ -77,9 +77,9 @@
       "EMBEDDED_SECTION": 3,
       "STALE_OR_VARIANT_ID": 2,
       "SOURCE_SCOPE_AND_VERSION_AMBIGUITY": 1,
-      "MISSING_SOURCE_BINARY": 1,
+      "MISSING_SOURCE_BINARY": 2,
       "MISSING_CANONICAL_RELATIONSHIP_METADATA": 145,
-      "CURRENTNESS_UNVERIFIED": 58,
+      "CURRENTNESS_UNVERIFIED": 57,
       "FAMILY_IDENTITY_AMBIGUOUS": 8,
       "UNSUPPORTED_RELATIONSHIP": 1,
       "STATUTORY_CUSTOM_PLEADING": 6,
@@ -6777,17 +6777,17 @@
     {
       "jurisdiction": "DE",
       "canonicalArtifactId": "FORM-281",
-      "canonicalArtifactTitle": "Form-281E__petition-for-expungement-of-adult-record-charge-sheet__rev-2018-09.docx",
-      "canonicalPublisher": "REQUIRES_LOOKUP — no issuing body is recorded for this identity in any committed record",
-      "officialSourcePage": null,
+      "canonicalArtifactTitle": "Petition for Expungement of an Adult Record (Form 281)",
+      "canonicalPublisher": "Family Court of the State of Delaware",
+      "officialSourcePage": "https://courts.delaware.gov/forms/",
       "officialArtifactUrl": null,
-      "artifactSha256": "aaca121e3bb4ce51ab9ab4ff6d933138bf7a36b6d97269c02cbf3c0290e87b33",
+      "artifactSha256": null,
       "humanReturn": null,
-      "heldPath": "private/Nationwide Record Clearing/LegalEase Delaware/forms/Form-281E__petition-for-expungement-of-adult-record-charge-sheet__rev-2018-09.docx",
+      "heldPath": null,
       "heldCandidates": [],
       "localAmbiguityResolvedByVerification": false,
-      "sourceState": "CURRENTNESS_UNVERIFIED",
-      "sourceStateBasis": "the corpus holds Form-281E__petition-for-expungement-of-adult-record-charge-sheet__rev-2018-09.docx with a matching hash; what is unverified is whether it is the edition the publisher issues today",
+      "sourceState": "MISSING_SOURCE_BINARY",
+      "sourceStateBasis": "collision resolved 2026-09-01: the registry had bound this identity to the held Form-281E DOCX (sha256 aaca121e3bb4ce51ab9ab4ff6d933138bf7a36b6d97269c02cbf3c0290e87b33), whose face prints PETITION FOR EXPUNGEMENT OF ADULT RECORD CHARGE SHEET and whose own text says its charges continue the list on the Petition for Expungement of Adult Record to which it is attached. Form 281 is the principal Family Court petition (Form 1021IP: \"The forms include: a. The Petition (Form 281) b. Proposed Order (Form 283)\") and its bytes are held nowhere: not in the Master Library corpus (STATES/DE holds only FORM-281E and three instruction PDFs), not in the committed corpus index, and not in data/record-clearing/source-artifact-registry.json. Acquisition-ready once DISC settles the exact artifact address on the official forms index.",
       "externallyVerified": false,
       "aliases": [],
       "components": [],
@@ -6803,7 +6803,7 @@
         "note": "not assessed"
       },
       "jurisdictionScope": "unknown",
-      "owner": "DISC compares the held edition against the publisher's own forms index",
+      "owner": "ACQ, once DISC has settled an exact official address",
       "uniqueFamilies": [
         "de_discretionary_family_court-set"
       ],
@@ -6822,13 +6822,32 @@
       "verifiedNote": null,
       "humanContactTarget": null,
       "humanContactQuestion": null,
-      "humanAction": null
+      "humanAction": null,
+      "s1CollisionRepair": {
+        "repairedBy": "SOURCE-1 (fable/s1), 2026-09-01",
+        "oldBinding": {
+          "artifactSha256": "aaca121e3bb4ce51ab9ab4ff6d933138bf7a36b6d97269c02cbf3c0290e87b33",
+          "heldPath": "private/Nationwide Record Clearing/LegalEase Delaware/forms/Form-281E__petition-for-expungement-of-adult-record-charge-sheet__rev-2018-09.docx",
+          "sourceState": "CURRENTNESS_UNVERIFIED"
+        },
+        "newBinding": {
+          "artifactSha256": null,
+          "heldPath": null,
+          "sourceState": "MISSING_SOURCE_BINARY"
+        },
+        "basis": "The held file binds to the identity it prints (SRC01 rule). It prints Form-281E, the charge-sheet continuation, so FORM-281E keeps those bytes and FORM-281 does not. The FORM-281 petition was searched for in the mounted corpus (STATES/DE, 6 files) and every committed custody record; it is genuinely not held. Diagnosis: src01/rows.json identity-collision row for de_discretionary_family_court-set; independent confirmation: data/rcap-all50/hard-forms/delaware/family-court-form-281/profile.json, which pins Form 1021IP quotes naming Form 281 as the petition and 281E as the continuation.",
+        "acquisitionEvidence": {
+          "officialSourcePage": "https://courts.delaware.gov/forms/",
+          "officialSourcePageEvidence": "named by the census route obligation:track-only:DE:de_discretionary_family_court as source-url (data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json); the publisher-printed page in the held Form 1021IP is https://courts.delaware.gov/family (data/rcap-all50/hard-forms/delaware/family-court-form-281/profile.json, pinned carrier DE-1021IP). No exact artifact URL for Form 281 exists in committed evidence, so none is recorded; DISC settles it on the publisher forms index before ACQ fetches.",
+          "doNotDo": "Do not rebuild Form 281 from the charge sheet or the instruction packet, and do not satisfy this identity with Superior Court CIV_EXP_02_A/B, which is a different court and track."
+        }
+      }
     },
     {
       "jurisdiction": "DE",
       "canonicalArtifactId": "FORM-281E",
-      "canonicalArtifactTitle": "Form-281E__petition-for-expungement-of-adult-record-charge-sheet__rev-2018-09.docx",
-      "canonicalPublisher": "REQUIRES_LOOKUP — no issuing body is recorded for this identity in any committed record",
+      "canonicalArtifactTitle": "Petition for Expungement of Adult Record Charge Sheet (Form 281E), Rev. 09/2018",
+      "canonicalPublisher": "Family Court of the State of Delaware",
       "officialSourcePage": null,
       "officialArtifactUrl": null,
       "artifactSha256": "aaca121e3bb4ce51ab9ab4ff6d933138bf7a36b6d97269c02cbf3c0290e87b33",
@@ -6872,7 +6891,11 @@
       "verifiedNote": null,
       "humanContactTarget": null,
       "humanContactQuestion": null,
-      "humanAction": null
+      "humanAction": null,
+      "s1CollisionRepair": {
+        "repairedBy": "SOURCE-1 (fable/s1), 2026-09-01",
+        "note": "Collision with FORM-281 resolved: this record keeps the held bytes because the file prints Form-281E and PETITION FOR EXPUNGEMENT OF ADULT RECORD CHARGE SHEET. sha256 aaca121e3bb4ce51ab9ab4ff6d933138bf7a36b6d97269c02cbf3c0290e87b33 recomputed 2026-09-01 from the mounted corpus bytes at STATES/DE/02_PACKET_FORMS/DE__FORM__FORM-281E__petition-for-expungement-of-adult-record-charge-sheet__REV-2018-09__EN.docx and equal to the Nationwide custody row and the pinned evidence copy in data/rcap-all50/hard-forms/delaware/family-court-form-281/evidence/. FORM-281 no longer claims these bytes. A charge sheet is a continuation component, not the principal petition."
+      }
     },
     {
       "jurisdiction": "FL",
