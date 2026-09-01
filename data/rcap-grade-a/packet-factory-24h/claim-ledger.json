@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "37f129f76b6ecb5393c2acc0300051c507a289cf",
+  "generatedAtCommit": "640f8b96c76fb519f95a523cbec2ca1723b48cd3",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -1005,11 +1005,41 @@
         "dc_correct_misattributed_arrest-set"
       ],
       "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF10",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "dc_correct_misattributed_arrest-set",
+      "familyId": "dc_correct_misattributed_arrest-set",
+      "itemId": null,
+      "familyIds": [
+        "dc_correct_misattributed_arrest-set"
+      ],
+      "sourceId": null,
       "operation": "packet-build",
       "lane": "PF01",
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-01T19:14:20.362Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "dc_innocence_expungement-set",
+      "familyId": "dc_innocence_expungement-set",
+      "itemId": null,
+      "familyIds": [
+        "dc_innocence_expungement-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF11",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -1035,6 +1065,21 @@
         "dc_seal_conviction-set"
       ],
       "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF12",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "dc_seal_conviction-set",
+      "familyId": "dc_seal_conviction-set",
+      "itemId": null,
+      "familyIds": [
+        "dc_seal_conviction-set"
+      ],
+      "sourceId": null,
       "operation": "packet-build",
       "lane": "PF01",
       "laneKind": "packet-build",
@@ -1050,11 +1095,41 @@
         "dc_seal_fugitive-set"
       ],
       "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "dc_seal_fugitive-set",
+      "familyId": "dc_seal_fugitive-set",
+      "itemId": null,
+      "familyIds": [
+        "dc_seal_fugitive-set"
+      ],
+      "sourceId": null,
       "operation": "packet-build",
       "lane": "PF01",
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-01T19:14:20.228Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "dc_seal_nonconviction-set",
+      "familyId": "dc_seal_nonconviction-set",
+      "itemId": null,
+      "familyIds": [
+        "dc_seal_nonconviction-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF02",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -2236,7 +2311,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF03",
+      "lane": "VF08",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-01T07:31:08.147Z"
@@ -2386,7 +2461,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF08",
+      "lane": "VF01",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-01T10:25:10.665Z"
@@ -2416,7 +2491,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF09",
+      "lane": "VF02",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-01T10:25:10.806Z"
@@ -2551,7 +2626,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF11",
+      "lane": "VF04",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-01T07:31:08.344Z"
@@ -2701,7 +2776,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF01",
+      "lane": "VF06",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-01T09:38:19.583Z"
@@ -2836,7 +2911,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF03",
+      "lane": "VF08",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-01T07:43:39.394Z"
@@ -2866,7 +2941,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF04",
+      "lane": "VF09",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-01T07:43:39.487Z"
@@ -2896,7 +2971,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF05",
+      "lane": "VF10",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-01T07:43:39.587Z"
@@ -2926,7 +3001,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF06",
+      "lane": "VF11",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-01T07:43:39.682Z"
@@ -3211,7 +3286,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF11",
+      "lane": "VF04",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-01T07:43:39.785Z"
@@ -3241,7 +3316,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF12",
+      "lane": "VF05",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-01T07:43:39.883Z"
@@ -3271,7 +3346,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF01",
+      "lane": "VF06",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-01T07:31:08.031Z"
@@ -3286,7 +3361,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF02",
+      "lane": "VF07",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-01T07:31:08.246Z"
@@ -3331,7 +3406,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF04",
+      "lane": "VF09",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-01T07:31:08.439Z"
@@ -9331,7 +9406,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "33c984a518ef63e62f88b332d06e6a43657970d83b544e9ca2863a42fa065b17",
+  "claimsDigest": "cfcd707d9e092417c73d90d9d965c5ee345749b25320f21588c34b6386b793de",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
