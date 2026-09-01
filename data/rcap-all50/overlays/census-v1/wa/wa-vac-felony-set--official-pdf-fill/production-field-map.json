@@ -11,7 +11,7 @@
     ],
     "possibleParticipantContactWrites": "Only a separately captioned participant contact blank outside declarations/signature blocks; none is inferred from layout alone.",
     "neverWritten": [
-      "legal elections or checkboxes",
+      "legal elections or checkboxes, other than the route-determined election(s) recorded under routeElections",
       "participant-authored narratives",
       "signatures",
       "signature and execution dates",
@@ -21,6 +21,57 @@
       "money or refund amounts"
     ],
     "courtOrdersAcceptKnownCaseFactsOnly": true
+  },
+  "routeElections": {
+    "routeSelectionId": "wa-vac-felony-cr-08-0900-rcw-9-94a-640",
+    "basis": "Route-determined elections read first-hand from the pinned form face and marked with two diagonal strokes inside the printed control's measured bounds (FIX10). Case-dependent elections are never marked.",
+    "marks": [
+      {
+        "formNumber": "CR-08.0900",
+        "controlId": "p1-selection-1",
+        "page": 1,
+        "geometry": {
+          "x0": 72,
+          "y0": 419.6,
+          "x1": 85.45,
+          "y1": 431.58,
+          "width": 13.45,
+          "height": 11.98
+        },
+        "printedContext": "[ ] Defendant [ ] Prosecutor asks the court for an order vacating the record of the",
+        "why": "On this self-help route the movant is the defendant; the prosecutor box is the alternative movant the route never uses (CR 08.0900 section I)."
+      },
+      {
+        "formNumber": "CR-08.0900",
+        "controlId": "p2-selection-1",
+        "page": 2,
+        "geometry": {
+          "x0": 114.09,
+          "y0": 568.6,
+          "x1": 126.34,
+          "y1": 580.58,
+          "width": 12.25,
+          "height": 11.98
+        },
+        "printedContext": "3. I [ ] was [ ] was not discharged under RCW 9.94A.637, for the offenses listed in",
+        "why": "The ordinary RCW 9.94A.640 route requires discharge under RCW 9.94A.637 for class B and class C alike (CR 08.0930 eligibility table), so 'was discharged' is route-invariant; 'was not' belongs to the victim route."
+      },
+      {
+        "formNumber": "CR-08.0900",
+        "controlId": "p2-selection-3",
+        "page": 2,
+        "geometry": {
+          "x0": 107.98,
+          "y0": 518.7,
+          "x1": 120.23,
+          "y1": 530.68,
+          "width": 12.25,
+          "height": 11.98
+        },
+        "printedContext": "[ ] There are no criminal charges pending against me in any state court or federal court",
+        "why": "RCW 9.94A.640(2)(a) requires no pending charges on this route; the alternative box (prostitution charge pending) exists only for the victim-of-certain-crimes route."
+      }
+    ]
   },
   "valueNormalization": {
     "matter.county": "For CR-08 caption blanks following the source text 'County of', strip a trailing 'County' designator from the fact before rendering so 'King County' prints as 'County of King', not 'County of King County'."
