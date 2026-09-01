@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "rcap-independent-verification-repair-payload/v1",
+  "assignment": "IV-F",
+  "repairs": [
+    {
+      "families": ["wa_vac_domestic_violence-set", "wa_vac_felony-set", "wa_vac_homicide_victim_prostitution-set"],
+      "failedObligation": ["filing instructions", "fee and waiver treatment", "service and notice", "deadline/timing"],
+      "exactEvidencePaths": [
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-domestic-violence-set--official-pdf-fill/participant-completion-instructions.json",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-felony-set--official-pdf-fill/participant-completion-instructions.json",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/participant-completion-instructions.json"
+      ],
+      "affectedFieldOrComponent": "instructions[5] and attachmentAndContinuationPages",
+      "scope": "family-specific outputs generated from a shared Washington instruction pattern",
+      "allImporters": ["wa_vac_domestic_violence-set", "wa_vac_felony-set", "wa_vac_homicide_victim_prostitution-set"],
+      "allowedWriter": "separately assigned Washington packet-repair lane with authority over each named family builder and overlay directory",
+      "prohibitedPaths": ["data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json", "data/rcap-grade-a/packet-factory-24h/claim-ledger.json", "data/record-clearing/legal-decisions/**", "data/rcap-grade-a/launch-control/**", "Production/**"],
+      "smallestExactFix": "Using already-approved source/legal inputs, replace the generic clerk-confirmation sentence with route-specific filing instructions that state fee treatment and any waiver path, service/notice recipient and method, and applicable timing. If those inputs are not approved, return BLOCKED_LEGAL_INPUT rather than infer them.",
+      "requiredRerender": true,
+      "requiredIndependentReverifier": "a verifier other than IV-F and the repair writer"
+    }
+  ]
+}
