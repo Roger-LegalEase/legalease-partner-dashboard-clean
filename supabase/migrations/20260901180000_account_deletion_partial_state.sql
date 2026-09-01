@@ -168,7 +168,9 @@ begin
 
   update public.participant_privacy_requests
   set status = case
-        when p_status = 'failed' and v_has_completed_step then 'partially_completed'
+        when p_status = 'failed'
+          and request_type = 'account_deletion'
+          and v_has_completed_step then 'partially_completed'
         when p_status = 'failed' then 'failed'
         when status in ('pending', 'failed', 'partially_completed') then 'in_progress'
         else status

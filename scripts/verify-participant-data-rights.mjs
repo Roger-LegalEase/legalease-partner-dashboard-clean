@@ -668,6 +668,33 @@ async function mintProof(userId, purpose, password = gotrue.password) {
     /permission denied/i.test(db.sqlExpectError(
       `set role authenticated; select public.participant_account_deletion_contract_version()`
     )));
+
+  const matterFailureRequest = fixtureUuid("matter-failure-status-scope");
+  db.sql(
+    `insert into public.participant_privacy_requests
+       (id, user_id, subject_pseudonym, request_type, idempotency_key, status,
+        recent_auth_verified_at, recent_auth_method, recent_auth_proof_hash,
+        target_matter_item_id)
+     values
+       ('${matterFailureRequest}', '${USER_B}', '${"a".repeat(64)}',
+        'matter_deletion', 'matter-failure-status-scope', 'pending', now(),
+        'password_reauthentication', '${"b".repeat(64)}', '${B.itemId}');
+     insert into public.participant_privacy_request_steps
+       (request_id, step_key, step_order)
+     values
+       ('${matterFailureRequest}', 'verify_matter_ownership', 1),
+       ('${matterFailureRequest}', 'pseudonymize_retained_records', 2);
+     select public.record_participant_privacy_step(
+       '${matterFailureRequest}', 'verify_matter_ownership', 'completed', '{}'::jsonb, null
+     );
+     select public.record_participant_privacy_step(
+       '${matterFailureRequest}', 'pseudonymize_retained_records', 'failed', '{}'::jsonb, 'fixture failure'
+     )`
+  );
+  check("V8", "partial-state transitions remain account-deletion-only",
+    scalar(`select status from public.participant_privacy_requests where id='${matterFailureRequest}'`) === "failed"
+      && scalar(`select failure_code from public.participant_privacy_requests where id='${matterFailureRequest}'`) === "pseudonymize_retained_records");
+  db.sql(`delete from public.participant_privacy_requests where id='${matterFailureRequest}'`);
 }
 
 console.log("\nParticipant data rights\n");

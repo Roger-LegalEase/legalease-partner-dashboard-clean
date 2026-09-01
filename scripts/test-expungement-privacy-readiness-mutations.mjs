@@ -9,11 +9,17 @@ import { registerTrackedMutation } from "./lib/tracked-mutation-guard.mjs";
 
 const root = process.cwd();
 const target = "src/lib/expungement-ai/privacy/processor-config.ts";
+const migrationTarget = "supabase/migrations/20260901180000_account_deletion_partial_state.sql";
 const absoluteTarget = path.join(root, target);
+const absoluteMigrationTarget = path.join(root, migrationTarget);
 const original = fs.readFileSync(absoluteTarget);
+const migrationOriginal = fs.readFileSync(absoluteMigrationTarget);
 
-registerTrackedMutation("test-expungement-privacy-readiness-mutations.mjs", [target]);
-const restore = () => fs.writeFileSync(absoluteTarget, original);
+registerTrackedMutation("test-expungement-privacy-readiness-mutations.mjs", [target, migrationTarget]);
+const restore = () => {
+  fs.writeFileSync(absoluteTarget, original);
+  fs.writeFileSync(absoluteMigrationTarget, migrationOriginal);
+};
 const disposeRestore = registerMutationRestore(restore);
 
 const requiredCheck = '  if (!analyticsToken) missing.push("PRIVACY_ANALYTICS_PROCESSOR_TOKEN");';
@@ -81,6 +87,41 @@ if (!source.includes(requiredCheck)) {
         process.exitCode = 1;
       } else {
         console.log("Privacy readiness mutation caught: external plaintext processor transport turns the behavioral verifier red.");
+      }
+    }
+
+    restore();
+    const requestTypeGate = "          and request_type = 'account_deletion'\n";
+    const migrationSource = migrationOriginal.toString("utf8");
+    if (!migrationSource.includes(requestTypeGate)) {
+      console.error("Privacy readiness mutation could not find the account-deletion partial-state gate.");
+      process.exitCode = 1;
+    } else {
+      fs.writeFileSync(
+        absoluteMigrationTarget,
+        migrationSource.replace(requestTypeGate, "          -- mutation: partial state broadened to every privacy request\n")
+      );
+      const partialStateChild = spawnSync(process.execPath, ["scripts/verify-participant-data-rights.mjs"], {
+        cwd: root,
+        encoding: "utf8",
+        timeout: 300_000,
+        maxBuffer: 100 * 1024 * 1024,
+        env: { ...process.env, GIT_TERMINAL_PROMPT: "0", GIT_OPTIONAL_LOCKS: "0" }
+      });
+      const partialStateOutput = `${partialStateChild.stdout ?? ""}${partialStateChild.stderr ?? ""}`;
+      const partialStateExpected = "partial-state transitions remain account-deletion-only";
+      if (partialStateChild.error?.code === "ETIMEDOUT" || partialStateChild.signal) {
+        console.error("Privacy partial-state mutation verifier timed out.");
+        process.exitCode = 1;
+      } else if (partialStateChild.status === 0) {
+        console.error("Privacy partial-state mutation survived: matter deletion was accepted as resumable partial work.");
+        process.exitCode = 1;
+      } else if (!partialStateOutput.includes(partialStateExpected)) {
+        console.error("Privacy partial-state mutation turned red for the wrong reason.");
+        console.error(partialStateOutput);
+        process.exitCode = 1;
+      } else {
+        console.log("Privacy readiness mutation caught: broadening partial state beyond account deletion turns the verifier red.");
       }
     }
   } finally {
