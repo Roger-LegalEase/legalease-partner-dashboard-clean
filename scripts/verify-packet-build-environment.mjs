@@ -549,8 +549,21 @@ check(
 check(
   "browser_environment_exported",
   "the governed browser cache and exact executable are exported",
-  "A browser found only by accident in one shell is not a worker runtime. Setup must persist both values and every worker must source them before preflight.",
+  "A browser found only by accident in one shell is not a worker runtime. Setup must persist both values and every worker must source them before preflight. Like its sibling below, this is NOT APPLICABLE unless the caller says it is about to render: the central raster split moved the render off the builders, and a builder that opens no PDF needs no browser exported. Requiring it here was the other half of the same contradiction -- page_rasterizer_available became opt-in while the check demanding that exact executable be exported and persisted stayed mandatory, so every PF, FIX, DISC, SRC, ACQ and PROMO lane still failed preflight for a browser it never opens. A skipped check is never counted as a pass, and PASS_COMPLETE still requires a hash-bound RASTER_PASS, so this cannot inflate a verdict.",
   (env) => {
+    /*
+     * --require-rasterizer is how a caller says a browser is about to be used.
+     * Only the central raster workflow passes it, and there this check runs in
+     * full: a runner that is about to render must have the governed cache and
+     * the exact executable exported and persisted, or the receipt would name a
+     * browser nobody can identify again.
+     */
+    if (!REQUIRE_RASTERIZER) {
+      return {
+        ok: true, skipped: true,
+        detail: "not applicable: this invocation renders nothing, so it needs no browser exported. Rendering is central (.github/workflows/rcap-packet-raster-acceptance-batch.yml); pass --require-rasterizer where a browser is actually about to be used."
+      };
+    }
     const required = ["PLAYWRIGHT_BROWSERS_PATH", "RCAP_CHROMIUM_PATH"];
     const missing = required.filter((name) => !process.env[name]);
     const executable = process.env.RCAP_CHROMIUM_PATH;
