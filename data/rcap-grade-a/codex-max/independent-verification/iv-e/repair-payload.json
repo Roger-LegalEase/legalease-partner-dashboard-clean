@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "iv-e-repair-payload/v1",
+  "assignment": "IV-E",
+  "repairs": [
+    {
+      "familyId": "vt_seal_pardon-set",
+      "failedObligation": "participant filing instructions must state filing destination and fee/waiver and service/notice treatment, using explicit self-help stops where the governed input is unknown",
+      "evidencePath": "data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill/participant-instructions.md",
+      "affectedFieldOrComponent": "participant-instructions.md — filing destination, fee/waiver, and service/notice sections",
+      "scope": "family-specific",
+      "allImporters": [],
+      "allowedWriter": "assigned packet repair lane for vt_seal_pardon-set",
+      "prohibitedPaths": [
+        "packet PDF bytes",
+        "overlays/builders",
+        "source receipts",
+        "legal decisions",
+        "claims",
+        "RASTER_QUEUE.json",
+        "launch authority",
+        "Production files"
+      ],
+      "requiredRerender": false,
+      "requiredIndependentReverifier": "an independent verifier who did not build or repair vt_seal_pardon-set"
+    }
+  ]
+}
