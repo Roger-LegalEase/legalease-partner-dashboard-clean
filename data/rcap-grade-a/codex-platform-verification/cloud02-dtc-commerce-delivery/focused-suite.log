@@ -1,0 +1,368 @@
+
+===== node scripts/verify-expungement-consumer-checkout.mjs =====
+Expungement.ai consumer checkout verification failed:
+- Payment confirmation must not mark packets ready before artifact generation.
+- Checkout metadata must include pathway_label.
+- npm run expungement:verify-consumer-persistence failed:
+
+> legalease-partner-dashboard-clean@0.1.0 expungement:verify-consumer-persistence
+> node scripts/verify-expungement-consumer-persistence.mjs
+
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+Expungement.ai consumer persistence verification failed:
+- npm run rcap:verify-all51-launch-enabled failed:
+
+> legalease-partner-dashboard-clean@0.1.0 rcap:verify-all51-launch-enabled
+> node scripts/verify-all51-launch-enabled.mjs
+
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+RCAP all-51 launch-enabled verification failed:
+- Could not resolve origin/main or main for restricted-file comparison.
+- npm run rcap:verify-all51-final-approval failed:
+
+> legalease-partner-dashboard-clean@0.1.0 rcap:verify-all51-final-approval
+> node scripts/verify-all51-final-approval.mjs
+
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+RCAP all-51 final approval verification failed:
+- Could not resolve origin/main or main for restricted-file comparison.
+- npm run rcap:verify-encrypted-pdf-rescue failed:
+
+> legalease-partner-dashboard-clean@0.1.0 rcap:verify-encrypted-pdf-rescue
+> node scripts/verify-encrypted-pdf-rescue.mjs
+
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+RCAP encrypted PDF rescue verification failed:
+- Could not resolve origin/main or main for restricted-file comparison.
+- npm run expungement:verify-consumer-adapter failed:
+
+> legalease-partner-dashboard-clean@0.1.0 expungement:verify-consumer-adapter
+> node scripts/verify-expungement-consumer-adapter.mjs
+
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+Expungement.ai consumer adapter verifier failed:
+- ScreeningFlow must derive the full profile question sequence before evaluating.
+- Could not resolve a merge base against the default branch, so committed changes cannot be scoped. Refusing to report an empty change set: an empty set reads as 'nothing to check'.
+- npm run expungement:verify-consumer-adapter failed:
+
+> legalease-partner-dashboard-clean@0.1.0 expungement:verify-consumer-adapter
+> node scripts/verify-expungement-consumer-adapter.mjs
+
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+Expungement.ai consumer adapter verifier failed:
+- ScreeningFlow must derive the full profile question sequence before evaluating.
+- Could not resolve a merge base against the default branch, so committed changes cannot be scoped. Refusing to report an empty change set: an empty set reads as 'nothing to check'.
+EXIT: 1
+
+===== node scripts/test-expungement-checkout-guards.mjs =====
+node:internal/modules/cjs/loader:1207
+  const err = new Error(message);
+              ^
+
+Error: Cannot find module '@/lib/expungement-ai/packet-fulfillment-authority'
+Require stack:
+- /workspace/legalease-partner-dashboard-clean/scripts/test-expungement-checkout-guards.mjs
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1207:15)
+    at Module._load (node:internal/modules/cjs/loader:1038:27)
+    at Module.require (node:internal/modules/cjs/loader:1289:19)
+    at require (node:internal/modules/helpers:182:18)
+    at mod.require (file:///workspace/legalease-partner-dashboard-clean/scripts/test-expungement-checkout-guards.mjs:30:73)
+    at require (node:internal/modules/helpers:182:18)
+    at Object.<anonymous> (/workspace/legalease-partner-dashboard-clean/src/lib/expungement-ai/payment-adapter.ts.cjs:18:40)
+    at Module._compile (node:internal/modules/cjs/loader:1521:14)
+    at loadTsWithMocks (file:///workspace/legalease-partner-dashboard-clean/scripts/test-expungement-checkout-guards.mjs:31:7)
+    at buildPaymentAdapter (file:///workspace/legalease-partner-dashboard-clean/scripts/test-expungement-checkout-guards.mjs:233:19) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    '/workspace/legalease-partner-dashboard-clean/scripts/test-expungement-checkout-guards.mjs'
+  ]
+}
+
+Node.js v20.20.2
+EXIT: 1
+
+===== node scripts/verify-rcap-phase55-matter-payment-binding.mjs =====
+Phase 55 matter-level payment binding verification passed.
+- Exact user/item/product/person/matter/Session/5000/USD authority is enforced.
+- The security-definer payment writer rejects sponsored and non-sellable items.
+- Duplicate, retry, correction, second-matter and refund-after-delivery cases converge safely.
+- Migration reruns and partner-only schemas remain supported.
+EXIT: 0
+
+===== node scripts/verify-expungement-dtc-stripe-gate.mjs =====
+Expungement.ai DTC Stripe boundary verifier passed.
+DTC saves to the free Briefcase, completes protected packet facts and explicit verification, then starts one matter-bound $50 Checkout.
+Partner-covered matters remain outside consumer Checkout; negative controls detect premature payment and a removed review gate.
+EXIT: 0
+
+===== node scripts/verify-rcap-phase51-consumer-payment-security.mjs =====
+verify-rcap-phase51-consumer-payment-security: PostgreSQL 16 is not available.
+EXIT: 1
+
+===== node scripts/verify-rcap-phase52-consumer-payment-authority.mjs =====
+verify-rcap-phase52-consumer-payment-authority SKIPPED: no ephemeral PostgreSQL available
+EXIT: 0
+
+===== node scripts/test-rcap-phase52-mutations.mjs =====
+  SURVIVED G1 reopens: payment columns become grantable again
+  SURVIVED G1 reopens: the server-evidence constraint is dropped
+  SURVIVED G1 reopens: the authority probe stops requiring server evidence
+  SURVIVED G12 reopens: the owner clause is removed from the probe
+  SURVIVED G11 reopens: the consumption unit goes back to hashing the job id
+  SURVIVED G11 reopens: the matter conflict is treated as a pass
+  SURVIVED the item uniqueness key is dropped
+  SURVIVED the provider receipt uniqueness key is dropped
+  SURVIVED the payment RPC becomes reachable by authenticated
+  SURVIVED the RPC stops enforcing amount and currency
+  SURVIVED the consumer binding becomes mutable
+  SURVIVED a refunded payment stops blocking finalization
+
+test-rcap-phase52-mutations FAILED: 12 mutation(s) left the verifier green.
+  - G1 reopens: payment columns become grantable again
+  - G1 reopens: the server-evidence constraint is dropped
+  - G1 reopens: the authority probe stops requiring server evidence
+  - G12 reopens: the owner clause is removed from the probe
+  - G11 reopens: the consumption unit goes back to hashing the job id
+  - G11 reopens: the matter conflict is treated as a pass
+  - the item uniqueness key is dropped
+  - the provider receipt uniqueness key is dropped
+  - the payment RPC becomes reachable by authenticated
+  - the RPC stops enforcing amount and currency
+  - the consumer binding becomes mutable
+  - a refunded payment stops blocking finalization
+EXIT: 1
+
+===== node scripts/verify-rcap-phase53-consumer-job-binding.mjs =====
+verify-rcap-phase53-consumer-job-binding SKIPPED: no ephemeral PostgreSQL available
+EXIT: 0
+
+===== node scripts/test-rcap-phase53-mutations.mjs =====
+  SURVIVED Phase 53 is omitted entirely
+  SURVIVED the consumer fields are removed from the enqueue INSERT
+  SURVIVED the item ownership comparison is removed
+  SURVIVED the caller-supplied user id is stored without comparison
+  SURVIVED the old unbound 13-argument signature is restored
+  SURVIVED the binding is written after insert rather than during it
+  SURVIVED sponsored mode validation is weakened
+  SURVIVED consumer mode validation is weakened
+
+test-rcap-phase53-mutations FAILED: 8 mutation(s) left the suite green.
+  - Phase 53 is omitted entirely
+  - the consumer fields are removed from the enqueue INSERT
+  - the item ownership comparison is removed
+  - the caller-supplied user id is stored without comparison
+  - the old unbound 13-argument signature is restored
+  - the binding is written after insert rather than during it
+  - sponsored mode validation is weakened
+  - consumer mode validation is weakened
+EXIT: 1
+
+===== node scripts/verify-expungement-consumer-payment-http.mjs =====
+verify-expungement-consumer-payment-http requires a local PostgreSQL toolchain.
+EXIT: 1
+
+===== node scripts/test-rcap-consumer-payment-http-mutations.mjs =====
+  caught   the webhook stops checking the charged amount
+  caught   the webhook stops checking the currency
+  caught   the webhook stops checking the current verification hash
+  caught   the payment writer stops requiring a server authority
+  caught   the delivery control defaults to enabled when unset
+  caught   the staging scope admits callers outside it
+  caught   the enqueue route stops requiring a recorded payment
+  caught   the matter stops being derived from the item
+
+test-rcap-consumer-payment-http-mutations passed: 8/8 mutations red, sources restored.
+EXIT: 0
+
+===== node scripts/verify-rcap-money-gate-delivery-binding.mjs =====
+money gate / delivery gate binding: 755 assertion(s) over 51 jurisdictions; 1 route(s) can deliver and still sell, 126 route(s) cannot deliver and are refused, 15 of them were payment-eligible before this binding.
+No route can take money for a packet it cannot produce. Since ADR-0004 no route sells at all until a Grade-A fulfillment record proves it delivers, so the second half of this binding is currently vacuous by design rather than by accident.
+EXIT: 0
+
+===== node scripts/verify-rcap-money-gate-delivery-binding.mjs --mutations =====
+mutation: AK passes every other checkout condition and is stopped only by the delivery guard.
+money gate / delivery gate binding: 756 assertion(s) over 51 jurisdictions; 1 route(s) can deliver and still sell, 126 route(s) cannot deliver and are refused, 15 of them were payment-eligible before this binding.
+No route can take money for a packet it cannot produce. Since ADR-0004 no route sells at all until a Grade-A fulfillment record proves it delivers, so the second half of this binding is currently vacuous by design rather than by accident.
+EXIT: 0
+
+===== node scripts/verify-rcap-packet-delivery-db.mjs =====
+verify-rcap-packet-delivery-db: PostgreSQL 16 is not available in this environment.
+EXIT: 1
+
+===== node scripts/verify-rcap-render-worker-delivery.mjs =====
+verify-rcap-render-worker-delivery: PostgreSQL 16 is not available in this environment.
+EXIT: 1
+
+===== node scripts/verify-rcap-packet-delivery-e2e.mjs =====
+verify-rcap-packet-delivery-e2e: PostgreSQL 16 is not available in this environment.
+EXIT: 1
+
+===== node scripts/verify-expungement-post-payment-packet-generation.mjs =====
+Expungement.ai post-payment packet generation verification failed:
+- Packet generation must require paid status or explicit dry-run mode.
+- guidance_only fallback must be blocked.
+- Matter detail must claim packet readiness only when a stored packet artifact resolves.
+- Matter detail must offer the durable paid-packet retry after a recoverable generation failure.
+- Briefcase packet cards must show download/payment/packet metadata.
+- Briefcase surfaces must keep matter lookup owner-scoped and expose the receipt in the payments view.
+- npm run rcap:verify-all51-launch-enabled failed:
+
+> legalease-partner-dashboard-clean@0.1.0 rcap:verify-all51-launch-enabled
+> node scripts/verify-all51-launch-enabled.mjs
+
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+RCAP all-51 launch-enabled verification failed:
+- Could not resolve origin/main or main for restricted-file comparison.
+- npm run rcap:verify-all51-final-approval failed:
+
+> legalease-partner-dashboard-clean@0.1.0 rcap:verify-all51-final-approval
+> node scripts/verify-all51-final-approval.mjs
+
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+RCAP all-51 final approval verification failed:
+- Could not resolve origin/main or main for restricted-file comparison.
+- npm run expungement:verify-consumer-adapter failed:
+
+> legalease-partner-dashboard-clean@0.1.0 expungement:verify-consumer-adapter
+> node scripts/verify-expungement-consumer-adapter.mjs
+
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+Expungement.ai consumer adapter verifier failed:
+- ScreeningFlow must derive the full profile question sequence before evaluating.
+- Could not resolve a merge base against the default branch, so committed changes cannot be scoped. Refusing to report an empty change set: an empty set reads as 'nothing to check'.
+- npm run expungement:verify-consumer-persistence failed:
+
+> legalease-partner-dashboard-clean@0.1.0 expungement:verify-consumer-persistence
+> node scripts/verify-expungement-consumer-persistence.mjs
+
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+Expungement.ai consumer persistence verification failed:
+- npm run rcap:verify-all51-launch-enabled failed:
+
+> legalease-partner-dashboard-clean@0.1.0 rcap:verify-all51-launch-enabled
+> node scripts/verify-all51-launch-enabled.mjs
+
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+RCAP all-51 launch-enabled verification failed:
+- Could not resolve origin/main or main for restricted-file comparison.
+- npm run rcap:verify-all51-final-approval failed:
+
+> legalease-partner-dashboard-clean@0.1.0 rcap:verify-all51-final-approval
+> node scripts/verify-all51-final-approval.mjs
+
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+RCAP all-51 final approval verification failed:
+- Could not resolve origin/main or main for restricted-file comparison.
+- npm run rcap:verify-encrypted-pdf-rescue failed:
+
+> legalease-partner-dashboard-clean@0.1.0 rcap:verify-encrypted-pdf-rescue
+> node scripts/verify-encrypted-pdf-rescue.mjs
+
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+RCAP encrypted PDF rescue verification failed:
+- Could not resolve origin/main or main for restricted-file comparison.
+- npm run expungement:verify-consumer-adapter failed:
+
+> legalease-partner-dashboard-clean@0.1.0 expungement:verify-consumer-adapter
+> node scripts/verify-expungement-consumer-adapter.mjs
+
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+Expungement.ai consumer adapter verifier failed:
+- ScreeningFlow must derive the full profile question sequence before evaluating.
+- Could not resolve a merge base against the default branch, so committed changes cannot be scoped. Refusing to report an empty change set: an empty set reads as 'nothing to check'.
+- npm run expungement:verify-consumer-checkout failed:
+
+> legalease-partner-dashboard-clean@0.1.0 expungement:verify-consumer-checkout
+> node scripts/verify-expungement-consumer-checkout.mjs
+
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+Expungement.ai consumer checkout verification failed:
+- Payment confirmation must not mark packets ready before artifact generation.
+- Checkout metadata must include pathway_label.
+- npm run expungement:verify-consumer-persistence failed:
+
+> legalease-partner-dashboard-clean@0.1.0 expungement:verify-consumer-persistence
+> node scripts/verify-expungement-consumer-persistence.mjs
+
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+Expungement.ai consumer persistence verification failed:
+- npm run rcap:verify-all51-launch-enabled failed:
+
+> legalease-partner-dashboard-clean@0.1.0 rcap:verify-all51-launch-enabled
+> node scripts/verify-all51-launch-enabled.mjs
+
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+RCAP all-51 launch-enabled verification failed:
+- Could not resolve origin/main or main for restricted-file comparison.
+- npm run rcap:verify-all51-final-approval failed:
+
+> legalease-partner-dashboard-clean@0.1.0 rcap:verify-all51-final-approval
+> node scripts/verify-all51-final-approval.mjs
+
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+RCAP all-51 final approval verification failed:
+- Could not resolve origin/main or main for restricted-file comparison.
+- npm run rcap:verify-encrypted-pdf-rescue failed:
+
+> legalease-partner-dashboard-clean@0.1.0 rcap:verify-encrypted-pdf-rescue
+> node scripts/verify-encrypted-pdf-rescue.mjs
+
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+RCAP encrypted PDF rescue verification failed:
+- Could not resolve origin/main or main for restricted-file comparison.
+- npm run expungement:verify-consumer-adapter failed:
+
+> legalease-partner-dashboard-clean@0.1.0 expungement:verify-consumer-adapter
+> node scripts/verify-expungement-consumer-adapter.mjs
+
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+Expungement.ai consumer adapter verifier failed:
+- ScreeningFlow must derive the full profile question sequence before evaluating.
+- Could not resolve a merge base against the default branch, so committed changes cannot be scoped. Refusing to report an empty change set: an empty set reads as 'nothing to check'.
+- npm run expungement:verify-consumer-adapter failed:
+
+> legalease-partner-dashboard-clean@0.1.0 expungement:verify-consumer-adapter
+> node scripts/verify-expungement-consumer-adapter.mjs
+
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+Expungement.ai consumer adapter verifier failed:
+- ScreeningFlow must derive the full profile question sequence before evaluating.
+- Could not resolve a merge base against the default branch, so committed changes cannot be scoped. Refusing to report an empty change set: an empty set reads as 'nothing to check'.
+EXIT: 1
+
+===== node scripts/verify-expungement-dtc-auth-payment-briefcase-flow.mjs =====
+Expungement.ai DTC auth/free-Briefcase flow verifier passed.
+Pending results survive account creation, land on the exact free matter, and reach Checkout only after packet information and explicit final verification.
+Negative controls detect stale pre-evaluation persistence, partial protected UI, pre-verification Checkout, and loss of exact-matter routing.
+EXIT: 0
+
+===== node scripts/verify-expungement-dtc-flow-unchanged.mjs =====
+Expungement.ai DTC approved-flow verifier passed.
+DTC remains screening-first, saves every authoritative result to the free Briefcase, and creates matter-bound Checkout only after protected packet facts and explicit verification.
+Negative controls detected premature payment, loss of the protected verified-consumer Checkout action, and loss of exact-matter routing.
+EXIT: 0
+
+===== node scripts/verify-rcap-consumer-lifecycle-boundaries.mjs =====
+verify-rcap-consumer-lifecycle-boundaries SKIPPED: no ephemeral PostgreSQL available
+EXIT: 0
