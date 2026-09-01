@@ -17,7 +17,7 @@ import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { PDFDocument, rgb } from "pdf-lib";
 import sharp from "sharp";
-import { resolveChromium, rasterizePageCalibrated } from "./lib/pdf-page-raster.mjs";
+import { resolveChromium, rasterizePageCalibrated } from "./raster/pdf-page-raster.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const flag = (n) => { const i = process.argv.indexOf(n); return i < 0 ? null : process.argv[i + 1]; };
@@ -80,7 +80,7 @@ const runControls = async () => {
    * MISSED while the synthetic render passed.
    */
   const probe = (env) => spawnSync(process.execPath, ["--input-type=module", "-e",
-    'import{resolveChromium}from"./scripts/lib/pdf-page-raster.mjs";const r=resolveChromium();process.exit(r.executablePath?0:1)'],
+    'import{resolveChromium}from"./scripts/raster/pdf-page-raster.mjs";const r=resolveChromium();process.exit(r.executablePath?0:1)'],
     { cwd: ROOT, encoding: "utf8", env: { ...process.env, RCAP_BROWSER_RESOLVER_TEST_ONLY: "1", ...env } });
   record("no_browser_refused",
     probe({ RCAP_CHROMIUM_PATH: "", PLAYWRIGHT_BROWSERS_PATH: empty, PATH: "/nonexistent-for-this-control" }).status !== 0,
@@ -141,7 +141,7 @@ const runControls = async () => {
       { exercised: false });
   } else {
     const r = spawnSync(process.execPath, ["--input-type=module", "-e",
-      'import{probeRasterizer}from"./scripts/lib/pdf-page-raster.mjs";const r=await probeRasterizer();process.exit(r.ok?0:1)'],
+      'import{probeRasterizer}from"./scripts/raster/pdf-page-raster.mjs";const r=await probeRasterizer();process.exit(r.ok?0:1)'],
       { cwd: ROOT, encoding: "utf8", env: { ...process.env, RCAP_CHROMIUM_PATH: shell, PLAYWRIGHT_BROWSERS_PATH: empty, PATH: "/nonexistent-for-this-control" } });
     record("headless_shell_render_refused", r.status !== 0, "headless_shell launches and has no PDF viewer");
   }

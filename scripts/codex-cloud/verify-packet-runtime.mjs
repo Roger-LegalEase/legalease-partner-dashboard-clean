@@ -15,7 +15,7 @@
  *   1. resolves a Chromium and requires it to be an executable file;
  *   2. builds a one-page PDF with pdf-lib -- the same library the packet
  *      builders use, so a broken pdf-lib fails here rather than in a lane;
- *   3. rasterizes it through scripts/lib/pdf-page-raster.mjs, the same path the
+ *   3. rasterizes it through scripts/raster/pdf-page-raster.mjs, the same path the
  *      lanes use, launching with --no-sandbox as the container requires;
  *   4. proves the PNG exists on disk with real bytes;
  *   5. proves paper bounds were found;
@@ -61,8 +61,8 @@ const emit = () => {
 
 const main = async () => {
   let raster;
-  try { raster = await import(path.join(ROOT, "scripts/lib/pdf-page-raster.mjs")); }
-  catch (e) { record("rasterizer_importable", "", false, `scripts/lib/pdf-page-raster.mjs will not load: ${e.message}`); refuse("the rasterizer will not load"); }
+  try { raster = await import(path.join(ROOT, "scripts/raster/pdf-page-raster.mjs")); }
+  catch (e) { record("rasterizer_importable", "", false, `scripts/raster/pdf-page-raster.mjs will not load: ${e.message}`); refuse("the rasterizer will not load"); }
 
   const resolved = raster.resolveChromium();
   if (!record("chromium_resolves", "", Boolean(resolved.executablePath),

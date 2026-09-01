@@ -607,8 +607,8 @@ check(
         detail: "not applicable: this invocation renders nothing. Rendering is central (.github/workflows/rcap-packet-raster-acceptance-batch.yml); pass --require-rasterizer where a browser is actually about to be used."
       };
     }
-    const lib = path.join(env, "scripts/lib/pdf-page-raster.mjs");
-    if (!fs.existsSync(lib)) return { ok: false, detail: "scripts/lib/pdf-page-raster.mjs is absent" };
+    const lib = path.join(env, "scripts/raster/pdf-page-raster.mjs");
+    if (!fs.existsSync(lib)) return { ok: false, detail: "scripts/raster/pdf-page-raster.mjs is absent" };
     /*
      * This launches the browser and rasterizes a one-page PDF. It used to call
      * resolveChromium() and pass if a path came back -- and resolveChromium only

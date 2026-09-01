@@ -35,7 +35,7 @@
  * coordinates and re-checked on every build: TF-800 names its widgets `name`,
  * `Check Box3`, `needText1`, so no caption can be inferred from a field name.
  *
- * Rasterization goes through scripts/lib/pdf-page-raster.mjs. Never Poppler.
+ * Rasterization goes through scripts/raster/pdf-page-raster.mjs. Never Poppler.
  */
 import assert from "node:assert/strict";
 import crypto from "node:crypto";
@@ -47,7 +47,7 @@ import { fileURLToPath } from "node:url";
 import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
 import { finalizeOfficialForm } from "./rcap-official-forms/rcap-official-form-finalize.mjs";
 import { flattenedWidgets, drawnAt } from "./rcap-official-forms/pdf-flattened-widgets.mjs";
-import { rasterizePageCalibrated } from "./lib/pdf-page-raster.mjs";
+import { rasterizePageCalibrated } from "./raster/pdf-page-raster.mjs";
 import { BLANK_DISPOSITIONS, PASS_COUNTERS, classifyField, classifyBlank, rowKeyOf }
   from "./rcap-packet-completeness/completeness-contract.mjs";
 
@@ -320,7 +320,7 @@ const FIXTURES = {
   }
 };
 
-const RASTER_ENGINE = "scripts/lib/pdf-page-raster.mjs (Chromium, calibrated)";
+const RASTER_ENGINE = "scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)";
 
 /* ---- source binding ------------------------------------------------------ */
 function resolveSource() {

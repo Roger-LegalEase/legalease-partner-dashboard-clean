@@ -253,7 +253,7 @@ if (!/verify-lane-contracts\.mjs/.test(wf)) wfProblems.push("the source-conveyor
 if (!new RegExp(`node ${PREFLIGHT.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`).test(wf)) wfProblems.push("it never runs the packet-build preflight — only node --check on it, which proves the file parses");
 /*
  * Does a change to this path trigger the workflow -- not, is this exact string
- * spelled out. `scripts/lib/**` covers scripts/lib/pdf-page-raster.mjs, and a
+ * spelled out. `scripts/lib/**` covers scripts/raster/pdf-page-raster.mjs, and a
  * control that demanded the literal reported a covered path as uncovered. A
  * check that is wrong about what it is checking teaches the reader to skip it.
  */
@@ -268,7 +268,7 @@ const covers = (glob, file) => {
 };
 for (const file of [
   "scripts/codex-cloud/setup-packet-factory.sh",
-  "scripts/lib/pdf-page-raster.mjs",
+  "scripts/raster/pdf-page-raster.mjs",
   "package.json",
   "package-lock.json",
   "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md"

@@ -27,7 +27,7 @@ import crypto from "node:crypto";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 import { rasterizePdf } from "./rcap-official-forms/rcap-pdf-rasterize.mjs";
-import { rasterizePageCalibrated, inspectRect } from "./lib/pdf-page-raster.mjs";
+import { rasterizePageCalibrated, inspectRect } from "./raster/pdf-page-raster.mjs";
 
 const require = createRequire(import.meta.url);
 const sharp = require("sharp");

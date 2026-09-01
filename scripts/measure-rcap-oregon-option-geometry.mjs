@@ -232,7 +232,7 @@ const doc_ = {
 // that it is empty. Both matter: a measurement that matched a box drawn in white
 // on white, or one already marked, would pass every numeric check.
 //
-// The crop goes through scripts/lib/pdf-page-raster.mjs, which measures where
+// The crop goes through scripts/raster/pdf-page-raster.mjs, which measures where
 // the page landed in the image rather than assuming it. The first attempt at
 // this assumed `x * scale`, got a uniformly dark window back for all three
 // options, and would have reported "no visible border" about boxes that are
@@ -240,7 +240,7 @@ const doc_ = {
 // exactly like a finding, so it is verified against stamped calibration marks
 // before anything is cropped through it.
 {
-  const { rasterizePageCalibrated, inspectRect } = await import("./lib/pdf-page-raster.mjs");
+  const { rasterizePageCalibrated, inspectRect } = await import("./raster/pdf-page-raster.mjs");
   const byPage = new Map();
   try {
     for (const o of options) {

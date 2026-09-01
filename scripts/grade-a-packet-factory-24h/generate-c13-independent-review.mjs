@@ -51,7 +51,7 @@ const UNDER_REVIEW = [
   "scripts/grade-a-packet-factory-24h/verify-acq-promo-handoff.mjs",
   "scripts/grade-a-packet-factory-24h/claim.mjs",
   "scripts/grade-a-packet-factory-24h/preflight-denominator.mjs",
-  "scripts/lib/pdf-page-raster.mjs",
+  "scripts/raster/pdf-page-raster.mjs",
   "scripts/verify-packet-build-environment.mjs"
 ];
 const missing = UNDER_REVIEW.filter((f) => !fs.existsSync(path.join(ROOT, f)));

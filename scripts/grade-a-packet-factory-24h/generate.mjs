@@ -858,7 +858,7 @@ const RASTER_RULE = [
   "Finish every nonvisual obligation. Record the exact SHA-256 of the canonical and boundary PDFs you produced. Return the family `BUILT_RASTER_PENDING`.",
   "`BUILT_RASTER_PENDING` is a factory workflow state and not a launch verdict. It zeroes nothing and waives nothing: visualDefects stays whatever it is, because it records that nobody has looked, not that there is nothing to see. **No packet becomes PASS_COMPLETE without RASTER_PASS.**",
   "The render happens in `.github/workflows/rcap-packet-raster-acceptance-batch.yml` on a browser-equipped runner, against the exact bytes your hashes pin. RASTER_PASS sends the family to independent verification; RASTER_FAIL sends it to FIX.",
-  "Page rasters go through `scripts/lib/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.",
+  "Page rasters go through `scripts/raster/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.",
   "NEVER `pdftoppm`. NEVER `apt-get`. NEVER `playwright install`. The environment refuses package installation and a Poppler fallback is not a fallback, it is a different measurement.",
   "The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after."
 ];
@@ -932,7 +932,7 @@ const BUILDER_OBLIGATIONS = [
   "complete every repeating case and offence row, because a partly-filled row reads as finished and is not",
   "leave every protected field blank — participant signature, signature date, certificate of mailing before mailing, court-only and prosecutor-only",
   "generate participant instructions and filing instructions",
-  "render all page rasters through scripts/lib/pdf-page-raster.mjs, which discovers its own browser",
+  "render all page rasters through scripts/raster/pdf-page-raster.mjs, which discovers its own browser",
   "verify the actual visible writes from the final PDF bytes, not from the finalizer's own report",
   "return all nine completeness counters equal to zero, or return the family as STOPPED with the counter that is not"
 ];

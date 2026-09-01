@@ -63,7 +63,7 @@ const COLLISIONS = `${DIR}/COLLISIONS.json`;
 const CHECKPOINT = `${DIR}/CHECKPOINT.json`;
 const LEDGER = `${DIR}/claim-ledger.json`;
 const STALE = `${DIR}/STALE_LANE_RETURNS.json`;
-const RASTER = "scripts/lib/pdf-page-raster.mjs";
+const RASTER = "scripts/raster/pdf-page-raster.mjs";
 const CLAIM = "scripts/grade-a-packet-factory-24h/claim.mjs";
 const WASHINGTON = `${DIR}/WASHINGTON_REPAIR.json`;
 

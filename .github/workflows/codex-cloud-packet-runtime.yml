@@ -5,7 +5,7 @@ on:
     branches: [claude/legalease-sprint-captain-utucnw]
     paths: &runtime_paths
       - scripts/codex-cloud/**
-      - scripts/lib/pdf-page-raster.mjs
+      - scripts/raster/pdf-page-raster.mjs
       - scripts/test-codex-cloud-packet-runtime.mjs
       - scripts/verify-packet-build-environment.mjs
       - package.json
@@ -36,7 +36,7 @@ jobs:
         run: |
           set -euo pipefail
           export PLAYWRIGHT_BROWSERS_PATH="${RUNNER_TEMP}/ms-playwright"
-          RCAP_CHROMIUM_PATH=$(node --input-type=module -e 'import {resolveChromium} from "./scripts/lib/pdf-page-raster.mjs"; const r=resolveChromium(); if (!r.executablePath) process.exit(1); process.stdout.write(r.executablePath)')
+          RCAP_CHROMIUM_PATH=$(node --input-type=module -e 'import {resolveChromium} from "./scripts/raster/pdf-page-raster.mjs"; const r=resolveChromium(); if (!r.executablePath) process.exit(1); process.stdout.write(r.executablePath)')
           mkdir -p private
           printf 'export PLAYWRIGHT_BROWSERS_PATH=%q\nexport RCAP_CHROMIUM_PATH=%q\n' "$PLAYWRIGHT_BROWSERS_PATH" "$RCAP_CHROMIUM_PATH" | tee private/source-corpus-environment.txt "$HOME/.legalease-corpus-env"
           printf 'PLAYWRIGHT_BROWSERS_PATH=%s\nRCAP_CHROMIUM_PATH=%s\n' "$PLAYWRIGHT_BROWSERS_PATH" "$RCAP_CHROMIUM_PATH" >> "$GITHUB_ENV"

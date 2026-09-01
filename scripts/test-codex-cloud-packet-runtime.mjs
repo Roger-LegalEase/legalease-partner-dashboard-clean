@@ -5,12 +5,12 @@ import os from "node:os";
 import path from "node:path";
 import { execFileSync, spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
-import { probeRasterizer } from "./lib/pdf-page-raster.mjs";
+import { probeRasterizer } from "./raster/pdf-page-raster.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const read = (relative) => fs.readFileSync(path.join(ROOT, relative), "utf8");
 const runResolver = (env) => spawnSync(process.execPath, ["--input-type=module", "-e",
-  'import {resolveChromium} from "./scripts/lib/pdf-page-raster.mjs"; const r=resolveChromium(); console.log(JSON.stringify(r)); process.exit(r.executablePath?0:1)'
+  'import {resolveChromium} from "./scripts/raster/pdf-page-raster.mjs"; const r=resolveChromium(); console.log(JSON.stringify(r)); process.exit(r.executablePath?0:1)'
 ], { cwd: ROOT, encoding: "utf8", env: { ...process.env, ...env, RCAP_BROWSER_RESOLVER_TEST_ONLY: "1" } });
 
 const runtime = await probeRasterizer();
@@ -30,12 +30,12 @@ try {
 } finally { fs.rmSync(empty, { recursive: true, force: true }); }
 
 const launchFailure = spawnSync(process.execPath, ["--input-type=module", "-e",
-  'import {probeRasterizer} from "./scripts/lib/pdf-page-raster.mjs"; const r=await probeRasterizer(); console.log(JSON.stringify(r)); process.exit(r.ok?0:1)'
+  'import {probeRasterizer} from "./scripts/raster/pdf-page-raster.mjs"; const r=await probeRasterizer(); console.log(JSON.stringify(r)); process.exit(r.ok?0:1)'
 ], { cwd: ROOT, encoding: "utf8", env: { ...process.env, RCAP_CHROMIUM_PATH: "/bin/false", PLAYWRIGHT_BROWSERS_PATH: "/does-not-exist", RCAP_BROWSER_RESOLVER_TEST_ONLY: "1" } });
 assert.notEqual(launchFailure.status, 0, "Chromium launch failure must fail acceptance");
 
 const rasterFailure = spawnSync(process.execPath, ["--input-type=module", "-e",
-  'import {probeRasterizer} from "./scripts/lib/pdf-page-raster.mjs"; const r=await probeRasterizer(); console.log(JSON.stringify(r)); process.exit(r.ok?0:1)'
+  'import {probeRasterizer} from "./scripts/raster/pdf-page-raster.mjs"; const r=await probeRasterizer(); console.log(JSON.stringify(r)); process.exit(r.ok?0:1)'
 ], { cwd: ROOT, encoding: "utf8", env: { ...process.env, RCAP_RASTER_TEST_FORCE_FAILURE: "1" }, timeout: 120000 });
 assert.notEqual(rasterFailure.status, 0, "post-launch PDF raster failure must fail acceptance");
 
@@ -54,7 +54,7 @@ assert.doesNotMatch(setup, /^\s*(?:sudo\s+)?(?:apt-get|pdftoppm)\b/m, "setup mus
 for (const file of promptFiles) assert.doesNotMatch(read(file), /^\s*(?:sudo\s+)?(?:apt-get|pdftoppm)\b/m, `${file} attempts a forbidden worker command`);
 
 const workflow = read(".github/workflows/codex-cloud-packet-runtime.yml");
-for (const trigger of ["scripts/codex-cloud/**", "scripts/lib/pdf-page-raster.mjs", "scripts/verify-packet-build-environment.mjs", "package.json", "package-lock.json", "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md"]) assert.ok(workflow.includes(trigger), `workflow omits ${trigger}`);
+for (const trigger of ["scripts/codex-cloud/**", "scripts/raster/pdf-page-raster.mjs", "scripts/verify-packet-build-environment.mjs", "package.json", "package-lock.json", "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md"]) assert.ok(workflow.includes(trigger), `workflow omits ${trigger}`);
 assert.match(workflow, /test-codex-cloud-packet-runtime\.mjs/, "workflow omits runtime acceptance");
 
 console.log(`CODEX_CLOUD_PACKET_RUNTIME_ACCEPTED chromium=${runtime.executablePath} paper=${runtime.paper.width}x${runtime.paper.height} residual=${runtime.calibrationResidualPx}px`);

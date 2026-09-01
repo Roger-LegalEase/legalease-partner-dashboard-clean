@@ -30,7 +30,7 @@
  * family blocked. A missing financial figure is not a legal question and this
  * family raises none.
  *
- * Rasterization uses scripts/lib/pdf-page-raster.mjs (Chromium, calibrated),
+ * Rasterization uses scripts/raster/pdf-page-raster.mjs (Chromium, calibrated),
  * not Poppler: this environment's builders may not shell out to pdftoppm.
  */
 import assert from "node:assert/strict";
@@ -43,7 +43,7 @@ import { fileURLToPath } from "node:url";
 import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
 import { finalizeOfficialForm } from "./rcap-official-forms/rcap-official-form-finalize.mjs";
 import { flattenedWidgets, drawnAt } from "./rcap-official-forms/pdf-flattened-widgets.mjs";
-import { rasterizePageCalibrated } from "./lib/pdf-page-raster.mjs";
+import { rasterizePageCalibrated } from "./raster/pdf-page-raster.mjs";
 import { classifyField } from "./rcap-packet-completeness/completeness-contract.mjs";
 
 const thisFile = fileURLToPath(import.meta.url);
@@ -705,7 +705,7 @@ function writeArtifacts({ familyId, config, outDir, resolved, maps, artifacts, w
     schemaVersion: "rcap-rendered-artifacts/v1", familyId, renderedFresh: true,
     artifacts,
     packets: artifacts.map((a) => ({ fixture: a.fixture, documents: a.documents })),
-    rasterEngine: "scripts/lib/pdf-page-raster.mjs (Chromium, calibrated)",
+    rasterEngine: "scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)",
     rasterPages
   }, null, 2)}\n`);
 
