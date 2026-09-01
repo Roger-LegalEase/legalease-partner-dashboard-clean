@@ -1,0 +1,198 @@
+{
+  "schemaVersion": "cb00-integration-order/v1",
+  "baseSha": "110c028aaeccad30d5d673d46110d5fc3859db4e",
+  "order": [
+    {
+      "order": 1,
+      "jobId": "CB00",
+      "prerequisite": null,
+      "changedPathAcceptance": [
+        "data/rcap-grade-a/codex-5h/cb00-captain-b/**",
+        "docs/rcap/grade-a/codex-5h/CODEX_5H_SHIFT.md"
+      ],
+      "rejectIf": [
+        "any changed path is outside changedPathAcceptance",
+        "claim-ledger or active-assignment mutation",
+        "production/commercial authority mutation",
+        "JSON output fails parse"
+      ],
+      "requiredChecks": [
+        "JSON parse for JSON outputs",
+        "git diff --check"
+      ],
+      "integrationAction": "accept CB00 control artifacts"
+    },
+    {
+      "order": 2,
+      "jobId": "CB01",
+      "prerequisite": "CB00 accepted",
+      "changedPathAcceptance": [
+        "data/rcap-grade-a/codex-5h/cb01-reserved/**"
+      ],
+      "rejectIf": [
+        "any changed path is outside changedPathAcceptance",
+        "claim-ledger or active-assignment mutation",
+        "production/commercial authority mutation",
+        "JSON output fails parse"
+      ],
+      "requiredChecks": [
+        "JSON parse for JSON outputs",
+        "git diff --check"
+      ],
+      "integrationAction": "reserved; integrate only after explicit dispatch and prior acceptance"
+    },
+    {
+      "order": 3,
+      "jobId": "CB02",
+      "prerequisite": "CB01 accepted",
+      "changedPathAcceptance": [
+        "data/rcap-grade-a/codex-5h/cb02-reserved/**"
+      ],
+      "rejectIf": [
+        "any changed path is outside changedPathAcceptance",
+        "claim-ledger or active-assignment mutation",
+        "production/commercial authority mutation",
+        "JSON output fails parse"
+      ],
+      "requiredChecks": [
+        "JSON parse for JSON outputs",
+        "git diff --check"
+      ],
+      "integrationAction": "reserved; integrate only after explicit dispatch and prior acceptance"
+    },
+    {
+      "order": 4,
+      "jobId": "CB03",
+      "prerequisite": "CB02 accepted",
+      "changedPathAcceptance": [
+        "data/rcap-grade-a/codex-5h/cb03-reserved/**"
+      ],
+      "rejectIf": [
+        "any changed path is outside changedPathAcceptance",
+        "claim-ledger or active-assignment mutation",
+        "production/commercial authority mutation",
+        "JSON output fails parse"
+      ],
+      "requiredChecks": [
+        "JSON parse for JSON outputs",
+        "git diff --check"
+      ],
+      "integrationAction": "reserved; integrate only after explicit dispatch and prior acceptance"
+    },
+    {
+      "order": 5,
+      "jobId": "CB04",
+      "prerequisite": "CB03 accepted",
+      "changedPathAcceptance": [
+        "data/rcap-grade-a/codex-5h/cb04-reserved/**"
+      ],
+      "rejectIf": [
+        "any changed path is outside changedPathAcceptance",
+        "claim-ledger or active-assignment mutation",
+        "production/commercial authority mutation",
+        "JSON output fails parse"
+      ],
+      "requiredChecks": [
+        "JSON parse for JSON outputs",
+        "git diff --check"
+      ],
+      "integrationAction": "reserved; integrate only after explicit dispatch and prior acceptance"
+    },
+    {
+      "order": 6,
+      "jobId": "CB05",
+      "prerequisite": "CB04 accepted",
+      "changedPathAcceptance": [
+        "data/rcap-grade-a/codex-5h/cb05-reserved/**"
+      ],
+      "rejectIf": [
+        "any changed path is outside changedPathAcceptance",
+        "claim-ledger or active-assignment mutation",
+        "production/commercial authority mutation",
+        "JSON output fails parse"
+      ],
+      "requiredChecks": [
+        "JSON parse for JSON outputs",
+        "git diff --check"
+      ],
+      "integrationAction": "reserved; integrate only after explicit dispatch and prior acceptance"
+    },
+    {
+      "order": 7,
+      "jobId": "CB06",
+      "prerequisite": "CB05 accepted",
+      "changedPathAcceptance": [
+        "data/rcap-grade-a/codex-5h/cb06-reserved/**"
+      ],
+      "rejectIf": [
+        "any changed path is outside changedPathAcceptance",
+        "claim-ledger or active-assignment mutation",
+        "production/commercial authority mutation",
+        "JSON output fails parse"
+      ],
+      "requiredChecks": [
+        "JSON parse for JSON outputs",
+        "git diff --check"
+      ],
+      "integrationAction": "reserved; integrate only after explicit dispatch and prior acceptance"
+    },
+    {
+      "order": 8,
+      "jobId": "CB07",
+      "prerequisite": "CB06 accepted",
+      "changedPathAcceptance": [
+        "data/rcap-grade-a/codex-5h/cb07-reserved/**"
+      ],
+      "rejectIf": [
+        "any changed path is outside changedPathAcceptance",
+        "claim-ledger or active-assignment mutation",
+        "production/commercial authority mutation",
+        "JSON output fails parse"
+      ],
+      "requiredChecks": [
+        "JSON parse for JSON outputs",
+        "git diff --check"
+      ],
+      "integrationAction": "reserved; integrate only after explicit dispatch and prior acceptance"
+    },
+    {
+      "order": 9,
+      "jobId": "CB08",
+      "prerequisite": "CB07 accepted",
+      "changedPathAcceptance": [
+        "data/rcap-grade-a/codex-5h/cb08-reserved/**"
+      ],
+      "rejectIf": [
+        "any changed path is outside changedPathAcceptance",
+        "claim-ledger or active-assignment mutation",
+        "production/commercial authority mutation",
+        "JSON output fails parse"
+      ],
+      "requiredChecks": [
+        "JSON parse for JSON outputs",
+        "git diff --check"
+      ],
+      "integrationAction": "reserved; integrate only after explicit dispatch and prior acceptance"
+    },
+    {
+      "order": 10,
+      "jobId": "CB09",
+      "prerequisite": "CB08 accepted",
+      "changedPathAcceptance": [
+        "data/rcap-grade-a/codex-5h/cb09-reserved/**"
+      ],
+      "rejectIf": [
+        "any changed path is outside changedPathAcceptance",
+        "claim-ledger or active-assignment mutation",
+        "production/commercial authority mutation",
+        "JSON output fails parse"
+      ],
+      "requiredChecks": [
+        "JSON parse for JSON outputs",
+        "git diff --check"
+      ],
+      "integrationAction": "reserved; integrate only after explicit dispatch and prior acceptance"
+    }
+  ],
+  "zeroParallelPathOverlap": true
+}
