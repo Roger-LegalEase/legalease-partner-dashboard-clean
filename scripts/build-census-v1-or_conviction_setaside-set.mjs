@@ -62,6 +62,7 @@ import { fileURLToPath } from "node:url";
 
 import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
 import { finalizeFlatOverlay } from "./rcap-official-forms/rcap-official-form-finalize.mjs";
+import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
 import { rasterizePageCalibrated } from "./raster/pdf-page-raster.mjs";
 import { classifyField, classifyBlank, rowKeyOf, PASS_COUNTERS, BLANK_DISPOSITIONS } from "./rcap-packet-completeness/completeness-contract.mjs";
 
@@ -185,10 +186,21 @@ const MOTION_POLICY = {
    * -- and the overlay profile splits it into three measured anchors. Each is a
    * row here, because a single row could not record that two of them were drawn
    * and one was refused.
+   *
+   * The Phone column is the court's own 34 points. The measured sub-region runs
+   * from the printed "Phone" label at x 504 to the rule's end at x 538, and no
+   * phone number fits that at the minimum readable machine font -- the fitter
+   * rightly refuses rather than shrinking below legibility. So the phone is not
+   * a write: it is carried as a disclosed required-before-filing item the
+   * participant hands in, the way a person filling the paper form squeezes it
+   * in by hand, and the anchor is never offered to the renderer at all.
    */
   "p5.r303.2.x72.rule": { policy: "write", fact: "participant.street_address", label: "Address", splitInto: [
     { key: "p5.r303.2.x72.rule#city", fact: "participant.city_state_zip", label: "City, State, ZIP" },
-    { key: "p5.r303.2.x72.rule#phone", fact: "participant.phone", label: "Phone" }
+    {
+      key: "p5.r303.2.x72.rule#phone", label: "Phone", policy: "supply", factId: "participant.phone",
+      what: "your phone number, written by hand in the Phone column at the right end of the address line -- the court's printed column is 34 points wide and no phone number fits it at the minimum readable machine font, so this packet leaves it to your pen"
+    }
   ] },
   "p5.r229.8.x186.rule": { ...PROTECT(SIGNATURE), label: "Date of mailing on the certificate of mailing" },
   "p5.r211.1.x432.rule": { ...SUPPLY("the mailing address of the prosecuting attorney for the county where the charges were or could have been filed — the OJD instruction page in this packet gives where to look it up"), label: "Address of the prosecuting attorney on the certificate of mailing" },
@@ -286,7 +298,8 @@ function motionRows(census, profile, geometry, documentId) {
       rows.push({
         key: extra.key, page: f.page, rect, document: documentId,
         label: extra.label, caption: f.effectiveLabel ?? null,
-        policy: "write", fact: extra.fact
+        policy: extra.policy ?? "write", fact: extra.fact ?? extra.factId ?? null,
+        what: extra.what ?? null
       });
     }
   }
@@ -317,12 +330,21 @@ async function renderMotion(source, profile, geometry, fixtureName) {
   const selections = (geometry.options ?? [])
     .filter((o) => o.boxIsMeasured && o.box && OPTION_POLICY[o.option]?.policy === "select")
     .map((o) => ({ label: o.option, page: o.page, box: o.box, measured: true, inset: o.markPlan?.inset ?? 2 }));
+  /*
+   * The measured Phone sub-region (x 504 to 538, the court's own column) fits
+   * no phone number at the minimum readable font -- offered, it is refused as
+   * value_exceeds_widget_width_at_minimum_font on every fixture. The field map
+   * carries that slot as a disclosed required-before-filing item instead, so
+   * the anchor is not offered to the renderer at all: a write the map does not
+   * claim is not attempted, rather than attempted and refused on every run.
+   */
+  const anchors = (profile.anchors ?? []).filter((a) => a.label !== "Phone");
   const { bytes, report } = await finalizeFlatOverlay({
     sourceBytes: source.bytes, expectedSha256: source.sha256,
-    anchors: profile.anchors ?? [],
+    anchors,
     selections,
     protectedRules: profile.protectedRules ?? [],
-    explicitMappings: Object.fromEntries((profile.anchors ?? []).filter((a) => a.factId).map((a) => [a.label, a.factId])),
+    explicitMappings: Object.fromEntries(anchors.filter((a) => a.factId).map((a) => [a.label, a.factId])),
     facts,
     documentTextLines: [],
     title: "Motion to Set Aside and Seal, and Declaration of Eligibility"
@@ -481,7 +503,10 @@ function motionFieldMap(documentId, rows, report, config) {
       ...base, reason: `the participant supplies this before filing: ${r.what}`,
       category: null, completenessClass: null, class: null,
       disposition: "REQUIRED_BEFORE_FILING", requiredBeforeFiling: true, routeDetermined: false,
-      identity: `${documentId} slot ${r.key}`, factId: null, document: documentId,
+      // The fact id is recorded where one names the fact honestly (the phone
+      // column carries participant.phone); availability is still measured, and
+      // a fact this packet actually wrote anywhere would fail the declaration.
+      identity: `${documentId} slot ${r.key}`, factId: r.fact ?? null, document: documentId,
       why: `the platform holds no value for this and the participant supplies it before filing: ${r.what}`,
       participantMustSupply: r.what
     });
@@ -641,6 +666,8 @@ function instructionsMarkdown(config, resolved, rbf, routeSelections) {
   out.push("## What the packet deliberately did not answer", "");
   out.push("The **seven declaration boxes on page 5** are your sworn statements about your own case, and nothing marks them for you. Read each one and tick the ones that are true. The first four apply to everybody; the last three apply only on the option this packet marked.", "");
   out.push("The motion prints **No Filing Fee** on its own face. The Oregon State Police background check fee is a different charge and this packet states no amount for it: ask the Oregon State Police.", "");
+  out.push("## Deadlines, honestly stated", "");
+  out.push("There is **no deadline to file** this motion. What must already be true is the waiting rule: the first declaration box on page 5 is your sworn statement that **you have waited the required period under law** to file, and the Oregon Judicial Department's own instruction pages — pages 1 to 3 of this packet — are the place to check what that period is for your conviction under ORS 137.225. If you cannot truthfully tick that box, do not file yet.", "");
   out.push("## The items you must supply", "");
   for (const [doc, items] of byDoc) {
     out.push(`### ${doc}`, "");
@@ -734,7 +761,8 @@ function writeArtifacts(ctx) {
       { finding: "PF03 names this family's component assembly 'Oregon Marijuana Set-Aside Motion under ORS 475C.397'.", consequence: "That is a different route on a different form. The track's recorded authority is ORS 137.225 and the assigned official forms are the ORS 137.225 packet and its Oregon State Police companion; the label is reported and the family is built on its own forms." },
       { finding: "Page 4 says to check one option only, and this track is a motion to set aside a CONVICTION.", consequence: "Option 1 is marked as the route's own determination and Options 2 and 3 are refused as branches this route does not take. The mark is two diagonals inside the box the court printed, at the measured inset." },
       { finding: "The seven declaration boxes on page 5 are the participant's sworn attestations, and the measurement that found them says no configuration marks them.", consequence: "They are carried as participant elections, left unmarked, and disclosed in the participant instructions in terms." },
-      { finding: "Pages 1 to 3 of the binary are the court's printed instruction sheet.", consequence: "Every rule the measurement found on them is a typographic underline in prose and is classified as never a filing fact, rather than being left unclassified or read as a blank." }
+      { finding: "Pages 1 to 3 of the binary are the court's printed instruction sheet.", consequence: "Every rule the measurement found on them is a typographic underline in prose and is classified as never a filing fact, rather than being left unclassified or read as a blank." },
+      { finding: "The Phone column on the page-5 contact line is the court's own 34 points — the measured sub-region runs from the printed 'Phone' label at x 504 to the rule's end at x 538 — and no phone number fits that at the minimum readable machine font; offered, the anchor is refused as value_exceeds_widget_width_at_minimum_font on every fixture.", consequence: "The phone is carried as a disclosed required-before-filing item the participant writes by hand, the anchor is never offered to the renderer, and the field-map row records participant.phone as the fact it names so the declaration fails if any future revision of this packet starts writing the phone elsewhere." }
     ]
   }, null, 2)}\n`);
   W("participant-instructions.md", instructions);
@@ -814,7 +842,9 @@ export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
     assert.equal((report.selections ?? []).length, selections.length,
       "every route selection this packet claims must have been marked on the paper");
 
-    const packet = await PDFDocument.create();
+    // Stamped, or two identical builds differ: pdf-lib writes the wall clock
+    // into a created document and the raster receipt dies on rebuild.
+    const packet = stampDeterministic(await PDFDocument.create());
     const pageManifest = []; const documents = [];
     const m = await PDFDocument.load(motionBytes, { ignoreEncryption: true });
     for (const [i, p] of (await packet.copyPages(m, m.getPageIndices())).entries()) {
