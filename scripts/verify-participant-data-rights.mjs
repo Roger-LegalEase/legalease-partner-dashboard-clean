@@ -981,7 +981,13 @@ let proofA = null;
     process.env[name] = saved;
 
     check(`G${index + 5}`, `${name} is required by the shared processor-readiness contract`,
-      config.ready === false && config.missing.includes(name) && deployment.ready === false && deployment.missing.includes(name));
+      config.ready === false
+        && config.missing.includes(name)
+        && deployment.ready === false
+        && deployment.accountDeletionReady === false
+        && deployment.baseReady === true
+        && deployment.missing.includes(name)
+        && !deployment.baseMissing.includes(name));
     check(`G${index + 9}`, `${name} fails the deletion API before account freeze`,
       response.status === 503
         && body.code === "privacy_not_ready"
@@ -1018,6 +1024,26 @@ let proofA = null;
         && count(`select count(*) from public.participant_privacy_requests where user_id='${USER_B}' and request_type='account_deletion'`) === requestCountBefore,
       `${response.status} ${JSON.stringify(body)}`);
   }
+
+  const legacyProcessorConfig = {
+    PARTICIPANT_PRIVACY_EMAIL_SUPPRESSION_URL: process.env.PRIVACY_EMAIL_PROCESSOR_ENDPOINT,
+    PARTICIPANT_PRIVACY_EMAIL_SUPPRESSION_TOKEN: process.env.PRIVACY_EMAIL_PROCESSOR_TOKEN,
+    PARTICIPANT_PRIVACY_ANALYTICS_ERASURE_URL: process.env.PRIVACY_ANALYTICS_PROCESSOR_ENDPOINT,
+    PARTICIPANT_PRIVACY_ANALYTICS_ERASURE_TOKEN: process.env.PRIVACY_ANALYTICS_PROCESSOR_TOKEN
+  };
+  for (const name of requiredProcessorConfig) delete process.env[name];
+  Object.assign(process.env, legacyProcessorConfig);
+  const compatibleConfig = privacyConfigReady();
+  const compatibleDeployment = await participantPrivacyReadiness();
+  check("G17", "legacy processor environment remains supported during migration",
+    compatibleConfig.ready === true
+      && compatibleDeployment.accountDeletionReady === true
+      && compatibleDeployment.ready === true);
+  for (const name of Object.keys(legacyProcessorConfig)) delete process.env[name];
+  process.env.PRIVACY_EMAIL_PROCESSOR_ENDPOINT = legacyProcessorConfig.PARTICIPANT_PRIVACY_EMAIL_SUPPRESSION_URL;
+  process.env.PRIVACY_EMAIL_PROCESSOR_TOKEN = legacyProcessorConfig.PARTICIPANT_PRIVACY_EMAIL_SUPPRESSION_TOKEN;
+  process.env.PRIVACY_ANALYTICS_PROCESSOR_ENDPOINT = legacyProcessorConfig.PARTICIPANT_PRIVACY_ANALYTICS_ERASURE_URL;
+  process.env.PRIVACY_ANALYTICS_PROCESSOR_TOKEN = legacyProcessorConfig.PARTICIPANT_PRIVACY_ANALYTICS_ERASURE_TOKEN;
 }
 
 // =============================================================================

@@ -15,9 +15,10 @@ export default async function BriefcaseSettingsPage() {
     consumerAuthUserId: auth.userId,
     items: storedItems.filter((item) => item.type !== "wilma_conversation")
   });
-  // The link appears only where the deployment can actually honour it.
-  const { ready: privacyDeploymentReady } = await participantPrivacyReadiness();
-  const privacyReady = privacyDeploymentReady && (await participantPrivacyActorEligible(auth.userId));
+  // Keep export and single-matter controls available when only the stricter
+  // account-deletion processor contract is unavailable.
+  const { baseReady: privacyBaseReady } = await participantPrivacyReadiness();
+  const privacyReady = privacyBaseReady && (await participantPrivacyActorEligible(auth.userId));
 
   return (
     <BriefcaseShell userEmail={auth.userEmail} activeNav="settings" breadcrumb={<b className="text-[#1A1D26]">Settings</b>}>

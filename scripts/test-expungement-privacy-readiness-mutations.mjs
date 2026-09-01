@@ -124,6 +124,40 @@ if (!source.includes(requiredCheck)) {
         console.log("Privacy readiness mutation caught: broadening partial state beyond account deletion turns the verifier red.");
       }
     }
+
+    restore();
+    const compatibilityFallback = "  return env[LEGACY_PRIVACY_PROCESSOR_CONFIG_NAMES[name]];";
+    if (!source.includes(compatibilityFallback)) {
+      console.error("Privacy readiness mutation could not find the legacy processor-config fallback.");
+      process.exitCode = 1;
+    } else {
+      fs.writeFileSync(
+        absoluteTarget,
+        source.replace(compatibilityFallback, "  return undefined; // mutation: legacy deployment config ignored")
+      );
+      const compatibilityChild = spawnSync(process.execPath, ["scripts/verify-participant-data-rights.mjs"], {
+        cwd: root,
+        encoding: "utf8",
+        timeout: 300_000,
+        maxBuffer: 100 * 1024 * 1024,
+        env: { ...process.env, GIT_TERMINAL_PROMPT: "0", GIT_OPTIONAL_LOCKS: "0" }
+      });
+      const compatibilityOutput = `${compatibilityChild.stdout ?? ""}${compatibilityChild.stderr ?? ""}`;
+      const compatibilityExpected = "legacy processor environment remains supported during migration";
+      if (compatibilityChild.error?.code === "ETIMEDOUT" || compatibilityChild.signal) {
+        console.error("Privacy processor compatibility mutation verifier timed out.");
+        process.exitCode = 1;
+      } else if (compatibilityChild.status === 0) {
+        console.error("Privacy processor compatibility mutation survived: established deployment variables were ignored.");
+        process.exitCode = 1;
+      } else if (!compatibilityOutput.includes(compatibilityExpected)) {
+        console.error("Privacy processor compatibility mutation turned red for the wrong reason.");
+        console.error(compatibilityOutput);
+        process.exitCode = 1;
+      } else {
+        console.log("Privacy readiness mutation caught: dropping established processor variables turns the verifier red.");
+      }
+    }
   } finally {
     restore();
     disposeRestore();

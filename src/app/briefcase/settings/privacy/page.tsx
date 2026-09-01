@@ -12,11 +12,11 @@ export const dynamic = "force-dynamic";
 export default async function BriefcasePrivacyPage() {
   const auth = await requireConsumerBriefcaseSession("/briefcase/settings/privacy");
   if (!(await participantPrivacyActorEligible(auth.userId))) notFound();
-  // A control that cannot do what it says is worse than an absent one. If the
-  // migration or either secret is missing in THIS deployment, the page is not
-  // served at all rather than offering a deletion that would fail partway.
+  // Export and single-matter deletion use the base privacy contract. Account
+  // deletion has stricter processor and resumable-ledger requirements and is
+  // disabled independently below when that superset is unavailable.
   const readiness = await participantPrivacyReadiness();
-  if (!readiness.ready) notFound();
+  if (!readiness.baseReady) notFound();
   const items = await listBriefcaseItems(auth.userId);
   const requests = await listParticipantPrivacyRequestSummaries(auth.userId);
 
@@ -26,7 +26,11 @@ export default async function BriefcasePrivacyPage() {
       activeNav="settings"
       breadcrumb={<b className="text-[#1A1D26]">Privacy and data</b>}
     >
-      <PrivacyDataView items={items} requests={requests} />
+      <PrivacyDataView
+        accountDeletionReady={readiness.accountDeletionReady}
+        items={items}
+        requests={requests}
+      />
     </BriefcaseShell>
   );
 }

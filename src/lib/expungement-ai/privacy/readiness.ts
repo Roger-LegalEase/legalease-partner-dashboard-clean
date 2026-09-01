@@ -23,8 +23,12 @@ export const PARTICIPANT_ACCOUNT_DELETION_CONTRACT_VERSION =
  * what the repository contains.
  */
 export type PrivacyReadiness = {
+  /** Account deletion is the strict superset and remains the legacy alias. */
   ready: boolean;
+  baseReady: boolean;
+  accountDeletionReady: boolean;
   missing: string[];
+  baseMissing: string[];
   checked: {
     migrationPresent: boolean;
     partialStateContractPresent: boolean;
@@ -50,16 +54,15 @@ function secretPresent(name: string): boolean {
  * not that a file exists in the repository.
  */
 export async function participantPrivacyReadiness(): Promise<PrivacyReadiness> {
-  const missing: string[] = [];
+  const baseMissing: string[] = [];
 
   const proofSecretPresent = secretPresent("PARTICIPANT_PRIVACY_PROOF_SECRET");
-  if (!proofSecretPresent) missing.push("PARTICIPANT_PRIVACY_PROOF_SECRET");
+  if (!proofSecretPresent) baseMissing.push("PARTICIPANT_PRIVACY_PROOF_SECRET");
 
   const pseudonymSecretPresent = secretPresent("PARTICIPANT_PRIVACY_PSEUDONYM_SECRET");
-  if (!pseudonymSecretPresent) missing.push("PARTICIPANT_PRIVACY_PSEUDONYM_SECRET");
+  if (!pseudonymSecretPresent) baseMissing.push("PARTICIPANT_PRIVACY_PSEUDONYM_SECRET");
 
   const processorConfig = privacyConfigReady();
-  missing.push(...processorConfig.missing);
 
   let migrationPresent = false;
   let partialStateContractPresent = false;
@@ -67,7 +70,7 @@ export async function participantPrivacyReadiness(): Promise<PrivacyReadiness> {
 
   const supabase = getSupabaseAdminClient();
   if (!supabase) {
-    missing.push("supabase_admin_client");
+    baseMissing.push("supabase_admin_client");
   } else {
     // The workflow table the whole feature writes to. A head-count read is
     // enough: it fails when the relation does not exist, which is exactly the
@@ -77,7 +80,7 @@ export async function participantPrivacyReadiness(): Promise<PrivacyReadiness> {
       .select("id", { head: true, count: "exact" })
       .limit(1);
     migrationPresent = !tableError;
-    if (tableError) missing.push("participant_privacy_requests");
+    if (tableError) baseMissing.push("participant_privacy_requests");
 
     // The table and generic step recorder both existed before resumable partial
     // deletion. Only this exact service-role RPC proves that the matching
@@ -87,10 +90,6 @@ export async function participantPrivacyReadiness(): Promise<PrivacyReadiness> {
     );
     partialStateContractPresent =
       !contractError && contractVersion === PARTICIPANT_ACCOUNT_DELETION_CONTRACT_VERSION;
-    if (!partialStateContractPresent) {
-      missing.push(`participant_account_deletion_contract:${PARTICIPANT_ACCOUNT_DELETION_CONTRACT_VERSION}`);
-    }
-
     // The artifact authority the deletion proof depends on. Called with a nil
     // uuid, which returns the absent state rather than anything about a real
     // participant; a missing function returns an error instead.
@@ -99,12 +98,25 @@ export async function participantPrivacyReadiness(): Promise<PrivacyReadiness> {
       p_briefcase_item_id: "00000000-0000-0000-0000-000000000000"
     });
     artifactAuthorityPresent = !rpcError;
-    if (rpcError) missing.push("get_consumer_packet_artifact_authority");
+    if (rpcError) baseMissing.push("get_consumer_packet_artifact_authority");
   }
 
+  const missing = [...baseMissing];
+  // Account deletion alone needs the partial-state/resume contract. Export and
+  // single-matter deletion keep using the base privacy ledger.
+  if (!partialStateContractPresent) {
+    missing.push(`participant_account_deletion_contract:${PARTICIPANT_ACCOUNT_DELETION_CONTRACT_VERSION}`);
+  }
+  missing.push(...processorConfig.missing);
+  const baseReady = baseMissing.length === 0;
+  const accountDeletionReady = missing.length === 0;
+
   return {
-    ready: missing.length === 0,
+    ready: accountDeletionReady,
+    baseReady,
+    accountDeletionReady,
     missing,
+    baseMissing,
     checked: {
       migrationPresent,
       partialStateContractPresent,

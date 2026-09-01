@@ -7,6 +7,13 @@ export const PRIVACY_PROCESSOR_CONFIG_NAMES = [
   "PRIVACY_ANALYTICS_PROCESSOR_TOKEN"
 ] as const;
 
+const LEGACY_PRIVACY_PROCESSOR_CONFIG_NAMES = {
+  PRIVACY_EMAIL_PROCESSOR_ENDPOINT: "PARTICIPANT_PRIVACY_EMAIL_SUPPRESSION_URL",
+  PRIVACY_EMAIL_PROCESSOR_TOKEN: "PARTICIPANT_PRIVACY_EMAIL_SUPPRESSION_TOKEN",
+  PRIVACY_ANALYTICS_PROCESSOR_ENDPOINT: "PARTICIPANT_PRIVACY_ANALYTICS_ERASURE_URL",
+  PRIVACY_ANALYTICS_PROCESSOR_TOKEN: "PARTICIPANT_PRIVACY_ANALYTICS_ERASURE_TOKEN"
+} as const;
+
 export type PrivacyProcessorConfigName = (typeof PRIVACY_PROCESSOR_CONFIG_NAMES)[number];
 export type RequiredPrivacyProcessorKey = "email_delivery" | "product_analytics";
 
@@ -68,6 +75,17 @@ function token(value: string | undefined): string | null {
   return trimmed.length >= 16 ? trimmed : null;
 }
 
+function compatibleConfigValue(
+  env: NodeJS.ProcessEnv,
+  name: PrivacyProcessorConfigName
+): string | undefined {
+  const current = env[name];
+  // A present current value is authoritative, including a malformed value: an
+  // old fallback must not conceal a broken replacement during a rollout.
+  if (current?.trim()) return current;
+  return env[LEGACY_PRIVACY_PROCESSOR_CONFIG_NAMES[name]];
+}
+
 /**
  * The single processor-readiness contract used by the page, API and worker.
  * Keeping the four checks explicit is deliberate: a mutation verifier removes
@@ -76,10 +94,10 @@ function token(value: string | undefined): string | null {
 export function privacyConfigReady(
   env: NodeJS.ProcessEnv = process.env
 ): PrivacyProcessorConfigReadiness {
-  const emailEndpoint = endpoint(env.PRIVACY_EMAIL_PROCESSOR_ENDPOINT);
-  const emailToken = token(env.PRIVACY_EMAIL_PROCESSOR_TOKEN);
-  const analyticsEndpoint = endpoint(env.PRIVACY_ANALYTICS_PROCESSOR_ENDPOINT);
-  const analyticsToken = token(env.PRIVACY_ANALYTICS_PROCESSOR_TOKEN);
+  const emailEndpoint = endpoint(compatibleConfigValue(env, "PRIVACY_EMAIL_PROCESSOR_ENDPOINT"));
+  const emailToken = token(compatibleConfigValue(env, "PRIVACY_EMAIL_PROCESSOR_TOKEN"));
+  const analyticsEndpoint = endpoint(compatibleConfigValue(env, "PRIVACY_ANALYTICS_PROCESSOR_ENDPOINT"));
+  const analyticsToken = token(compatibleConfigValue(env, "PRIVACY_ANALYTICS_PROCESSOR_TOKEN"));
   const missing: PrivacyProcessorConfigName[] = [];
 
   if (!emailEndpoint) missing.push("PRIVACY_EMAIL_PROCESSOR_ENDPOINT");
