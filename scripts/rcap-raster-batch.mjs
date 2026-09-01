@@ -17,6 +17,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { PDFDocument } from "pdf-lib";
 import sharp from "sharp";
 import { resolveChromium, rasterizePageCalibrated } from "./lib/pdf-page-raster.mjs";
 
@@ -69,7 +70,21 @@ const inkFraction = async (png, paper) => {
   return dark / (info.width * info.height);
 };
 
-const pageCount = (p) => (fs.readFileSync(p).toString("latin1").match(/\/Type\s*\/Page[^s]/g) ?? []).length || 0;
+/*
+ * Page count from the parser, not from a byte scan.
+ *
+ * The scan matched /Type /Page in the raw bytes, which is only visible when the
+ * page dictionaries sit in the file uncompressed. A PDF that stores them in a
+ * compressed object stream (/ObjStm) has pages and no raw matches, so the scan
+ * returned zero and the family was emitted RASTER_FAIL "reports zero pages"
+ * without a single page being rendered -- a refusal caused by the reader.
+ *
+ * Measured over the 25 queued families at 09b741ad0: none of the 50 PDFs use
+ * /ObjStm today and the scan agreed with the parser on all 50, so this was
+ * latent rather than live. It is still the reader's job to read the format, and
+ * pdf-lib is already loaded here to render.
+ */
+const pageCount = async (p) => (await PDFDocument.load(fs.readFileSync(p), { ignoreEncryption: true, updateMetadata: false })).getPageCount();
 
 fs.mkdirSync(OUT, { recursive: true });
 const artifacts = [];
@@ -87,7 +102,7 @@ for (const kind of ["canonical", "boundary"]) {
     problems.push(`${kind}: ${rel} hashes ${observed} and the queue pinned ${expected}`);
     continue;
   }
-  const pages = pageCount(abs);
+  const pages = await pageCount(abs);
   if (kind === "canonical" && row.expectedPages && pages !== row.expectedPages) {
     problems.push(`canonical: ${pages} page(s) where the queue expected ${row.expectedPages}`);
   }
