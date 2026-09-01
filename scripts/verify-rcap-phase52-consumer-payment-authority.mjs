@@ -22,9 +22,16 @@ const MIGRATIONS = [
   "supabase/phase-52-rcap-consumer-payment-authority.sql",
 ];
 
-if (!ephemeralPgAvailable()) {
-  console.log("verify-rcap-phase52-consumer-payment-authority SKIPPED: no ephemeral PostgreSQL available");
-  process.exit(0);
+let postgresAvailable = false;
+try {
+  postgresAvailable = ephemeralPgAvailable();
+} catch (error) {
+  console.error(JSON.stringify({ status: "UNAVAILABLE", verifier: "phase52", reason: error.message }));
+  process.exit(2);
+}
+if (!postgresAvailable) {
+  console.error('{"status":"UNAVAILABLE","verifier":"phase52","reason":"postgresql unavailable"}');
+  process.exit(2);
 }
 
 const results = [];
