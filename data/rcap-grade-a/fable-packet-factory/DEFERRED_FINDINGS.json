@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "rcap-deferred-findings/v1",
+  "whatThisIsFor": "One list for findings that are real but are not this blitz's work. The controlling instruction is to build, verify, repair, bind and close families; a finding that does not block one of those five actions is recorded here and left alone. Nothing here is a Roger escalation: an escalation names one family blocked by a missing document, an unresolved form identity, an unresolved legal decision, an issuer-controlled source, or an action only Roger can take.",
+  "recordingRule": "A finding is deferred only after its blast radius is measured. A defect that actually opens payment, authorization, private storage or cross-user access is never deferred — it is fixed in the run that found it.",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "findings": [
+    {
+      "id": "DF-001",
+      "title": "The Oregon (1)(c) route is closed at the resolver but still shaped as a court filing in its compiled profile",
+      "surfacedBy": "node scripts/verify-legal-authority-routing.mjs — 3 problems, all on OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+      "assertionsFailing": [
+        "filingRequired must be false",
+        "a closed route must use the verification-and-guidance packet plan",
+        "a closed route must be marked no-filing or automatic so the evaluator refuses payment structurally"
+      ],
+      "whyTheRouteIsClosed": "LWD-2026-08-29-OR-SUBSECTION found this route legally overbroad: ORS 137.225(1)(c) reaches only matters where no accusatory instrument was filed, while acquittals and ordinary dismissals fall under (1)(d). Counsel directed that the broad route be retired, narrowed, or replaced by three disposition-bound configurations (never-charged, acquittal, ordinary dismissal).",
+      "isThisAnOpenPaymentHole": false,
+      "howThatWasEstablished": "The same verifier's layer-1 assertions on this route PASS: resolvePacketRoute returns sellable === false and creditConsumable === false for it, and launch-graph.json reports 0 operationally sellable routes across all 260 intended-paid rows. The availability derivation independently places this route in LEGAL_HOLD because its closed contract outranks its v2 record. Payment is refused today at the resolver; what is missing is the second, structural refusal at the evaluator/profile layer.",
+      "classification": "defense-in-depth gap, not an active boundary failure",
+      "notCausedByThisWork": "src/lib/rcap-engine/compiled/profiles/OR-oregon.json and the legal-authority contracts are the only inputs to the three failing assertions, and neither was modified by the availability wiring merged alongside this record (verified by diffing the merge's file list against the assertions' inputs).",
+      "whyItIsNotFixedHere": "The compiled profile is not written by any generator in scripts/ — it carries profileVersion 2026-06-19-source-conversion-1 and is maintained as a converted source artifact. Reshaping it is a legal-design change (which of the three disposition-bound configurations replaces the overbroad route, and what the retired route presents in the meantime), not a mechanical flag flip. Flipping filingRequired to false to make a check pass would assert a legal treatment nobody decided.",
+      "whatWouldCloseIt": "Apply LWD-2026-08-29-OR-SUBSECTION: retire the overbroad pathway and stand up the three disposition-bound OR configurations, each with its own route contract, packet configuration, required-fact contract, specification and fixture, per LWD-2026-08-29-OR-PACKET-SCOPE. The specifications already exist at data/record-clearing/packet-specifications/OR-set-aside-without-conviction.v1.json and OR-disposition-configurations.v1.json.",
+      "blocksNoFamily": true
+    },
+    {
+      "id": "DF-002",
+      "title": "test-expungement-checkout-guards.mjs cannot resolve @/lib/expungement-ai/packet-fulfillment-authority",
+      "surfacedBy": "npm test chain, on the merged base",
+      "isThisAnOpenPaymentHole": false,
+      "howThatWasEstablished": "The failure is a module-resolution error at import time, so the guard suite does not run at all — it does not report a passing checkout guard. The checkout boundary itself is covered by the lane-F commercial-admission gate (52/52, ten admission points each governed exactly once) and by verify-route-resolution (215 checks plus 28 availability mutations), both green.",
+      "classification": "missing module from another lane's in-flight work",
+      "whyItIsNotFixedHere": "The module belongs to a consumer-launch lane that is explicitly out of scope for the packet blitz; writing a stub would fake a guard rather than restore one.",
+      "blocksNoFamily": true
+    }
+  ]
+}
