@@ -49,6 +49,10 @@ const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 process.chdir(rootDir);
 register("./lib/ts-esm-loader.mjs", import.meta.url);
 
+// The governed reader for launch_graph_commercial_status. Imported after the
+// TypeScript loader is registered, because it is a .ts module.
+const { isOperationallySellable } = await import("../src/lib/rcap/render/commercial-admission.ts");
+
 const CHECK = process.argv.includes("--check");
 const JSON_OUT = "data/rcap-ledger/launch-graph.json";
 const MD_OUT = "docs/record-clearing/LAUNCH_GRAPH.md";
@@ -349,7 +353,18 @@ for (const pathway of intended) {
 
     operationalGates: gates,
     unmetOperationalGates: unmetGates,
-    operationallySellable: unmetGates.length === 0
+    // The commercial decision is read from the one Grade-A authority, not
+    // recomputed here. The nine operational gates above stay exactly as they
+    // were and keep being reported, but they are diagnostics now rather than a
+    // second commercial rule: two computations of the same fact are two places
+    // to get it wrong, and the second one is the one that gets it wrong later.
+    //
+    // The gates and the authority are also reported side by side, so a
+    // divergence between "every operational gate is met" and "the authority
+    // admits this route" is visible as data instead of being silently resolved
+    // in favour of whichever computation ran last.
+    operationallySellable: isOperationallySellable(pathway.pathwayKey ?? key),
+    allOperationalGatesMet: unmetGates.length === 0
   });
 }
 

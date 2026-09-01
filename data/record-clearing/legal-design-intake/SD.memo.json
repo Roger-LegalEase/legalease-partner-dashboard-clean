@@ -1,0 +1,1969 @@
+{
+  "_controllingReview": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md, materialized from Expungement_AI_RCAP_Master_Library_Edition_1_2.zip (sha256 7edd0a0e8308b58e12f59494a326342cc83dd362bb58f787e43d6fb475ef43bd). Edition 1.2 is the controlling review source.",
+  "_sourceSlotAccounting": "Seven review source slots, each accounted for exactly once, 1:1, with no splits, merges, replacements, supporting-action nodes, routing nodes or local variants: sd_arrest_expungement (Track 1), sd_diversion (Track 2), sd_23a_3_34_auto (Track 3), sd_sis_sealing (Track 4), sd_23a_27_53_drug (Track 5, deferred), sd_pardon_24_14_11 (Track 6), sd_23_6_8_1_destruction (Track 7, deferred). Five import; two are deferred under legal_research_required exactly as counsel decided. The 'Provisions common to the South Dakota tracks' section is shared procedure, not a source slot, and is distributed into each track. The juvenile and trafficking matters listed separately are outside ordinary adult scope and are carried as stop conditions.",
+  "_officialAuthorityConfirmation": "Every cited section was read at source against the official South Dakota Legislature statute publication (sdlegislature.gov, retrieved 2026-08-05), which the review had not done — its Part 2.2 lists the statutory texts as build blockers. Three of counsel's release blockers are answered by that text and the corrections are recorded on the affected tracks with provenance rather than silently applied: (1) SDCL 23A-3-34 says 'after five years', confirming counsel's five-year reading against the ten-year outlier; (2) SDCL 23A-27-17 says a court 'shall order' sealing upon discharge and dismissal, so SIS sealing is automatic and no participant motion exists, which removes the official_pdf_fill fallback counsel had left unresolved; (3) SDCL 23-6-8.1 says the director 'may authorize' destruction, so it is discretionary and bureau-initiated with nothing for a participant to file. Session-law provenance was also corrected: 23A-3-34 is SL 2016 ch 134 as amended by SL 2021 ch 106, not the 'SB174 (2021)' / June 2016 attribution in the review. effectiveFrom records the date each section's current operative text took effect; where the session law states no effective date the South Dakota default of July 1 following passage is applied, which is recorded as a nonblocking question on each affected track.",
+  "schemaVersion": 1,
+  "jurisdiction": "SD",
+  "memoVersion": "1.0.0",
+  "submittedAt": "2026-08-05T00:00:00.000Z",
+  "tracks": [
+    {
+      "trackId": "sd_arrest_expungement",
+      "nodeType": "relief_track",
+      "legalName": "Motion for Expungement of Arrest Record (SDCL §§ 23A-3-26 to 23A-3-32)",
+      "publicName": "Expunge a South Dakota arrest record",
+      "controllingAuthority": {
+        "citations": [
+          "SDCL § 23A-3-26",
+          "SDCL § 23A-3-27",
+          "SDCL § 23A-3-28",
+          "SDCL § 23A-3-29",
+          "SDCL § 23A-3-30",
+          "SDCL § 23A-3-31",
+          "SDCL § 23A-3-32"
+        ],
+        "summary": "An arrested person may apply to the court that would have jurisdiction over the crime for which the person was arrested for an order expunging the record of the arrest: after one year from the arrest where no accusatory instrument was filed; after one year from the date the prosecuting attorney formally dismisses the entire criminal case on the record; at any time after an acquittal; or within one year of a formal dismissal of the entire case on a showing of compelling necessity. The motion starts a new civil action, may be made only on a record of arrest, and more than one arrest record requires a separate case for each. The court may enter the order only after finding by clear and convincing evidence that the ends of justice and the best interests of the public and the defendant or arrested person will be served. Expungement in South Dakota means sealing, not destruction, and a nonpublic disposition record is retained by the Division of Criminal Investigation."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2022-03-15",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-08-01"
+      },
+      "eligibleRecordTypes": [
+        "arrest",
+        "charge"
+      ],
+      "eligibleDispositions": [
+        "no_accusatory_instrument_filed",
+        "entire_case_formally_dismissed",
+        "acquitted"
+      ],
+      "exclusions": [
+        "Partial dismissals. Both the statute and the review turn on the ENTIRE criminal case being formally dismissed on the record; where some counts were dismissed and others resolved otherwise, this track is unavailable.",
+        "Convictions of any kind, which this track does not reach; South Dakota is not a broad adult conviction-expungement state.",
+        "Federal, tribal, military and out-of-state records, which South Dakota relief does not reach.",
+        "More than one arrest record in a single filing; each arrest record requires its own civil action and its own fee."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Arrest occurred but no accusatory instrument was filed",
+          "duration": "1 year from the date of arrest"
+        },
+        {
+          "condition": "Prosecuting attorney formally dismissed the entire criminal case on the record",
+          "duration": "1 year from the date of formal dismissal"
+        },
+        {
+          "condition": "Acquittal",
+          "duration": "none; may be filed at any time after acquittal"
+        },
+        {
+          "condition": "Entire case formally dismissed and compelling necessity shown",
+          "duration": "within 1 year from the date of dismissal"
+        }
+      ],
+      "outputStrategy": "composed",
+      "outputStrategyStatus": "resolved",
+      "packetIdentity": "identified",
+      "compositionMode": "sequential",
+      "units": [
+        {
+          "unitId": "sd-arrest-stage-1-record-gathering",
+          "order": 1,
+          "label": "Disposition classification, timing analysis and arrest-record count",
+          "outputStrategy": "process_guidance",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "description": "The judgment stage, and the one that decides whether anything can be filed at all. Establish the correct court and county; establish whether the entire criminal case was formally dismissed on the record rather than partially; establish which of the four § 23A-3-27 timing branches applies and whether its clock has run; and count how many separate arrest records are involved, because each one requires its own civil action and its own $72 fee. The participant is directed to obtain the dismissal order, the acquittal judgment or proof that no accusatory instrument was filed, plus the court docket and a DCI criminal history. Nothing is filed at this stage and LegalEase does not receive, inspect or authenticate any of those records.",
+          "available": true
+        },
+        {
+          "unitId": "sd-arrest-stage-2-ujs-motion-packet",
+          "order": 2,
+          "label": "UJS motion packet: UJS-232, UJS-391 and the proposed UJS-394 order",
+          "outputStrategy": "official_pdf_fill",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "description": "The document stage. The South Dakota Unified Judicial System publishes a complete statewide form set, so the document work is form-fill and no custom pleading is advisable. LegalEase completes UJS-232 Case Filing Statement, UJS-391 Motion for Expungement and Statement of Mailing, and the proposed UJS-394 Order for Expungement which the judge signs. UJS-392 Waiver of Hearing is prepared conditionally, only where the arrested person, the prosecutor and any victim will all waive. UJS-393 Notice of Hearing is prepared conditionally where a hearing is required. The forms are identified by number and use but were not supplied in the archive; acquiring the current revisions is carried as a legal-design blocker on this track.",
+          "available": true
+        },
+        {
+          "unitId": "sd-arrest-stage-3-filing-service-and-notice-of-entry",
+          "order": 3,
+          "label": "Filing, fee or indigency request, service on the State's Attorney, hearing or waiver, and UJS-395",
+          "outputStrategy": "process_guidance",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "description": "The procedural stage, which runs after the packet exists and continues after the judge signs. File the new civil action with the clerk and pay the $72 civil filing fee or request indigency relief; mail or serve the State's Attorney, who may contest; serve any notice of hearing at least fourteen days before the hearing; coordinate the three-party waiver where all of the person, the prosecutor and any victim agree; and after the order is signed prepare and file UJS-395 Notice of Entry of Order and mail it with the order to the State's Attorney. This stage is guidance because its substance is timing, service and coordination with parties the participant does not control, not document production.",
+          "available": true
+        }
+      ],
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "The court that would have jurisdiction over the crime for which the person was arrested. South Dakota is a unified judicial system with one statewide form set and no county variation."
+      },
+      "destination": {
+        "kind": "clerk",
+        "name": "Clerk of Courts for the court with jurisdiction over the arrest or underlying case",
+        "detail": "The motion starts a new civil action filed with the clerk in the county of the arrest or underlying case. Pay the $72 civil filing fee or request an indigency waiver. Serve the State's Attorney, who may contest. More than one arrest record means more than one civil action."
+      },
+      "components": [
+        {
+          "role": "case_filing_statement",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "UJS-232",
+          "officialSourceUrl": "https://ujs.sd.gov/Forms/",
+          "notes": "Case Filing Statement, required because the motion opens a new civil action."
+        },
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "UJS-391",
+          "officialSourceUrl": "https://ujs.sd.gov/Forms/",
+          "notes": "Motion for Expungement and Statement of Mailing."
+        },
+        {
+          "role": "proposed_order",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "UJS-394",
+          "officialSourceUrl": "https://ujs.sd.gov/Forms/",
+          "notes": "Order for Expungement, left unsigned and undated for the judge."
+        },
+        {
+          "role": "hearing_waiver",
+          "requirement": "conditional",
+          "conditionDescription": "Prepared only where the arrested person or defendant, the prosecutor and any victim will all waive the hearing. All three must waive.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "UJS-392",
+          "officialSourceUrl": "https://ujs.sd.gov/Forms/",
+          "notes": "Waiver of Hearing on Motion for Expungement. Two of the three signatures are outside the participant's control."
+        },
+        {
+          "role": "notice_of_hearing",
+          "requirement": "conditional",
+          "conditionDescription": "Prepared where a hearing is required because the three-party waiver is not obtained.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "UJS-393",
+          "officialSourceUrl": "https://ujs.sd.gov/Forms/",
+          "notes": "Notice of Hearing on Motion for Expungement, served at least 14 days before the hearing."
+        },
+        {
+          "role": "notice_of_entry",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "UJS-395",
+          "officialSourceUrl": "https://ujs.sd.gov/Forms/",
+          "notes": "Notice of Entry of Order, prepared and filed after the judge signs, then mailed with the order to the State's Attorney."
+        },
+        {
+          "role": "filing_instructions",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Instructions covering the entire-dismissal test, the arrest-record count and its fee consequence, the $72 fee and indigency request, service on the State's Attorney, the 14-day hearing notice, the three-party waiver, the clear-and-convincing standard, and the retained DCI nonpublic record."
+        }
+      ],
+      "_participantInputsNote": "What LegalEase asks. The entire-dismissal question and the arrest-record count are asked because they decide eligibility and how many filings are needed; neither is decided by LegalEase.",
+      "participantInputs": [
+        {
+          "key": "fullLegalNameAndAliases",
+          "question": "What is your full legal name, and any other names you have used?",
+          "requirement": "required"
+        },
+        {
+          "key": "dateOfBirth",
+          "question": "What is your date of birth?",
+          "requirement": "required"
+        },
+        {
+          "key": "arrestDate",
+          "question": "On what date were you arrested?",
+          "requirement": "required"
+        },
+        {
+          "key": "arrestCounty",
+          "question": "In which South Dakota county were you arrested?",
+          "requirement": "required"
+        },
+        {
+          "key": "arrestingAgency",
+          "question": "Which law enforcement agency arrested you?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the case number, if a case was opened?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked where an accusatory instrument was filed."
+        },
+        {
+          "key": "accusatoryInstrumentFiled",
+          "question": "Was any charging document ever filed against you as a result of this arrest?",
+          "requirement": "required"
+        },
+        {
+          "key": "outcomeBranch",
+          "question": "How did the matter end — no charging document was ever filed, the prosecutor formally dismissed the case, or you were acquitted?",
+          "requirement": "required"
+        },
+        {
+          "key": "entireCaseDismissed",
+          "question": "Were ALL of the charges in the case dismissed, or only some of them?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked where the matter ended in dismissal. A partial dismissal defeats this track."
+        },
+        {
+          "key": "dismissalDate",
+          "question": "On what date did the prosecutor formally dismiss the case on the record?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked where the matter ended in dismissal, because the one-year clock runs from it."
+        },
+        {
+          "key": "acquittalDate",
+          "question": "On what date were you acquitted?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked where the matter ended in acquittal."
+        },
+        {
+          "key": "arrestRecordCount",
+          "question": "How many separate arrests are you trying to clear?",
+          "requirement": "required"
+        },
+        {
+          "key": "victimInvolved",
+          "question": "Was there a victim in this case?",
+          "requirement": "required"
+        },
+        {
+          "key": "indigencyRequested",
+          "question": "Do you want to ask the court to waive the filing fee because you cannot afford it?",
+          "requirement": "required"
+        },
+        {
+          "key": "tribalOrFederalRecord",
+          "question": "Was this arrest made by a tribal, federal or military authority, or did it happen outside South Dakota?",
+          "requirement": "required"
+        }
+      ],
+      "_supportingDocumentsNote": "Records the participant obtains and attaches. None of them delays generation; LegalEase never receives, inspects or authenticates them.",
+      "supportingDocuments": [
+        {
+          "name": "Order of dismissal, judgment of acquittal, or proof that no accusatory instrument was filed",
+          "obtainedFrom": "Clerk of Courts for the court with jurisdiction over the arrest",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the Clerk of Courts for a copy of the dismissal order or the judgment of acquittal. Where no charging document was ever filed, ask the clerk to confirm in writing that no case exists.",
+          "confirms": "outcomeBranch"
+        },
+        {
+          "name": "Court docket for the underlying case",
+          "obtainedFrom": "Clerk of Courts",
+          "requirement": "conditional",
+          "conditionDescription": "Applies where a case was opened.",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Ask the Clerk of Courts for the case docket, which shows whether every charge was dismissed or only some.",
+          "confirms": "entireCaseDismissed"
+        },
+        {
+          "name": "South Dakota criminal history record",
+          "obtainedFrom": "South Dakota Division of Criminal Investigation",
+          "requirement": "conditional",
+          "conditionDescription": "Recommended where the participant is unsure how many separate arrest records exist.",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Request a criminal history record from the DCI. LegalEase cannot make this request for you.",
+          "confirms": "arrestRecordCount"
+        }
+      ],
+      "_manualCompletionNote": "What the generated packet deliberately leaves blank.",
+      "manualCompletionItems": [
+        {
+          "item": "Participant's signature and date",
+          "whereInPacket": "UJS-391 Motion for Expungement, signature block",
+          "why": "The participant signs their own motion."
+        },
+        {
+          "item": "Prosecutor's and any victim's signatures",
+          "whereInPacket": "UJS-392 Waiver of Hearing",
+          "why": "The waiver requires the prosecutor and any victim to sign. Neither is under the participant's control and LegalEase cannot supply either."
+        },
+        {
+          "item": "Hearing date and time",
+          "whereInPacket": "UJS-393 Notice of Hearing, first line",
+          "why": "The court assigns the hearing date."
+        },
+        {
+          "item": "Judge's signature and date of entry",
+          "whereInPacket": "UJS-394 Order for Expungement, signature block",
+          "why": "The order is proposed. Only the judge signs it, and only after finding by clear and convincing evidence that the ends of justice and the best interests of the public and the person are served."
+        },
+        {
+          "item": "Date of mailing to the State's Attorney",
+          "whereInPacket": "UJS-391 Statement of Mailing, and UJS-395",
+          "why": "The participant completes it when mailing is actually done."
+        },
+        {
+          "item": "Any statement that the ends of justice and the best interests of the public will be served, or that compelling necessity exists",
+          "whereInPacket": "UJS-391 Motion, grounds section",
+          "why": "Those are the court's findings on clear and convincing evidence and an argument respectively. LegalEase must not assert either."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "SDCL § 23A-3-27 — Motion for expungement of arrest record (official statute text, Source: SL 2010 ch 126 § 2; SL 2012 ch 131 § 1; SL 2015 ch 140 § 1; SL 2022 ch 71 § 1, eff. Mar. 15, 2022)",
+          "url": "https://sdlegislature.gov/Statutes/23A-3-27",
+          "retrievedOn": "2026-08-05"
+        },
+        {
+          "title": "Expungement self-help page and UJS form set",
+          "url": "https://ujs.sd.gov/self-help/civil-law-help/expungement/",
+          "retrievedOn": "2026-07-31"
+        },
+        {
+          "title": "UJS-390 Instructions for Expungement and the Expungement Print All Packet",
+          "url": "https://ujs.sd.gov/Forms/",
+          "retrievedOn": "2026-07-31"
+        }
+      ],
+      "rules": {
+        "filing": "The motion starts a NEW CIVIL ACTION filed with the Clerk of Courts in the court that would have jurisdiction over the crime for which the person was arrested. File UJS-232 and UJS-391 with the proposed UJS-394 order. More than one arrest record requires a separate civil action for each.",
+        "fees": "$72 civil filing fee per petition, per the current UJS instructions. The statute frames it as the same as the civil filing fee.",
+        "feeWaiver": "Available on a finding of indigency. The participant requests it from the court.",
+        "notice": "The State's Attorney is served and may contest. A hearing may be set unless waived by the arrested person or defendant, the prosecutor AND any victim — all three must waive. Any notice of hearing is served at least 14 days before the hearing. The court may require affidavits, testimony or other evidence, and may enter the order only after finding by clear and convincing evidence that the ends of justice and the best interests of the public and the person will be served.",
+        "service": "Serve or mail the motion to the prosecuting attorney and complete the Statement of Mailing on UJS-391. After the order is signed, file UJS-395 Notice of Entry of Order and mail it with the order to the State's Attorney.",
+        "participantSignature": "The participant signs UJS-391. The prosecutor and any victim sign UJS-392 where the hearing is waived.",
+        "notarization": "none"
+      },
+      "selfHelpStopConditions": [
+        "Only some charges in the case were dismissed. A partial dismissal defeats this track; the statute requires the ENTIRE criminal case to have been formally dismissed on the record.",
+        "A compelling-necessity filing inside the one-year window, which is an argument rather than a fact.",
+        "Any victim who may object or whose waiver is needed.",
+        "Prosecutor opposition, or any contested hearing.",
+        "More than one arrest record, which means more than one civil action and more than one fee.",
+        "Arrests in more than one county.",
+        "Federal, tribal, military or out-of-state records. Tribal records are a live South Dakota issue given the number of reservations and concurrent-jurisdiction questions, and are an explicit escalation rather than a footnote.",
+        "Immigration exposure.",
+        "Any adult conviction that is not clearly SIS-based, pardon-based, diversion-based or minor-case automatic removal.",
+        "Any felony, DUI, domestic violence, sex offence, child-victim offence, violence, firearm or protection-order issue."
+      ],
+      "_unresolvedQuestionsNote": "Preserved from the controlling review with impact and affected element. Where reading the statute at source answered a question, the answer is recorded here rather than the question silently dropped.",
+      "unresolvedQuestions": [
+        {
+          "question": "The current UJS form set (UJS-232, 390, 391, 392, 393, 394, 395 and the Expungement Print All Packet) was not supplied in the archive and the current revisions are unconfirmed. The forms are identified by number and use but not acquired.",
+          "impact": "build_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "PART 2.2 Official documents identified and needed for the form library",
+            "sourceStatement": "UJS-390, 232, 391, 392, 393, 394, 395 and the Print All Packet | SD Unified Judicial System | Build blocker"
+          }
+        },
+        {
+          "question": "Is the $72 filing fee current?",
+          "impact": "release_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 1 / OPEN QUESTIONS / 2",
+            "sourceStatement": "Whether the $72 fee is current. Release blocker."
+          }
+        },
+        {
+          "question": "What does the UJS Guide and File expungement interview already generate for free? This is a build dependency and a pricing input: the state publishes the full packet, instructions, a document generator and a Self-Help Center at no cost, and LegalEase should not charge as though it were producing documents the state already produces for nothing.",
+          "impact": "build_blocker",
+          "affectedElement": "packet_components",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "LIMITATIONS, CLASSIFIED",
+            "sourceStatement": "Determine what UJS Guide and File already does for free | Legal-design blocker, and a pricing input"
+          }
+        },
+        {
+          "question": "Has 'compelling necessity' under SDCL § 23A-3-27(4) been construed by any South Dakota court?",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 1 / OPEN QUESTIONS / 4",
+            "sourceStatement": "Whether \"compelling necessity\" has been construed. Nonblocking."
+          }
+        },
+        {
+          "question": "Counsel recorded that the full text of §§ 23A-3-26 to 23A-3-32 had not been read at source, as a build blocker. Section 23A-3-27 has now been read at the official South Dakota Legislature publication and matches the review's timing table exactly, including the 'entire criminal case' requirement in branches (2) and (4). The remaining sections of the range have not been read subsection by subsection.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 1 / OPEN QUESTIONS / 1",
+            "sourceStatement": "Full text of §§ 23A-3-26 to 23A-3-32 not read at source. Build blocker.",
+            "counselQuestion": "Section 23A-3-27 now reads at source as the review states it. Does counsel accept the remaining sections of the 23A-3-26 to 23A-3-32 range as read for design purposes, or should the build blocker stand until each is read subsection by subsection?"
+          }
+        },
+        {
+          "question": "effectiveFrom records 2022-03-15, the express effective date of SL 2022 ch 71 § 1, the most recent amendment to § 23A-3-27. The section originates in SL 2010 ch 126 § 2 with amendments in 2012 and 2015.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 1 / PRIMARY SOURCES",
+            "sourceStatement": "SDCL Chapter 23A-3 | South Dakota Legislature | sdlegislature.gov | Current | 07/31/2026",
+            "counselQuestion": "Should effectiveFrom carry the original enactment date (2010) or the date the current operative text took effect (2022-03-15)?"
+          }
+        }
+      ],
+      "_limitationsNote": "Every limitation is classified. Only legal_design_blocker withholds a track and must name the undetermined element.",
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "The primary South Dakota track and the only one of the seven that produces a real packet. The UJS publishes a complete statewide form set with instructions, so the document work is form-fill and a custom pleading is not advisable. The judgment work — whether the entire case was dismissed, whether compelling necessity can be argued, how many arrest records are involved, and whether the three-party hearing waiver is obtainable — is what LegalEase actually adds. The form set has not been acquired, which is carried as a legal-design blocker on the correct-form element.",
+        "limitations": [
+          {
+            "classification": "legal_design_blocker",
+            "undeterminedElement": "correct_form",
+            "statement": "Acquire the full UJS form set. No South Dakota forms were supplied in the archive, though the complete set is identified by number and use.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "Acquire the full UJS form set | Legal-design blocker"
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "One civil action per arrest record. More than one arrest record means more than one filing and more than one fee, and the participant must be told so before paying.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "One civil action per arrest record | Packet instruction"
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Service on the State's Attorney at least 14 days before any hearing.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "Service on the State's Attorney at least 14 days before hearing | Packet instruction"
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "The hearing waiver requires the arrested person or defendant, the prosecutor AND any victim. All three must waive.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "Hearing waiver requires the person, the prosecutor AND any victim | Packet instruction"
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Prepare and file UJS-395 Notice of Entry after the order is signed, and mail it with the order to the State's Attorney.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "UJS-395 notice of entry after the order is signed | Packet instruction"
+            }
+          },
+          {
+            "classification": "manual_completion_item",
+            "statement": "Emphasise that this track requires the ENTIRE case to have been formally dismissed. Partial dispositions defeat it.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "Emphasise that both the arrest and diversion tracks require the ENTIRE case or record | Manual completion item"
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "Expungement in South Dakota is sealing, not destruction, and the statute expressly says it does not imply physical destruction of records.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "Expungement is sealing, not destruction | Scope restriction"
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "A nonpublic disposition record survives with the Division of Criminal Investigation for use by law enforcement, prosecutors and courts, including for sentencing on later offences, future SIS eligibility and habitual-offender determinations. This is the single most important disclosure in South Dakota.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "DCI nonpublic record survives on nearly every track | Scope restriction"
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "South Dakota is not a broad adult conviction-expungement state and must never be described as one.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "South Dakota is not a broad adult conviction-expungement state | Scope restriction"
+            }
+          },
+          {
+            "classification": "self_help_boundary",
+            "statement": "Compelling necessity and the clear-and-convincing findings are outside self-help. LegalEase must not state that the ends of justice and the best interests of the public will be served, or that compelling necessity exists.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "Compelling necessity and the clear-and-convincing findings | Self-help boundary"
+            }
+          },
+          {
+            "classification": "self_help_boundary",
+            "statement": "Tribal records are their own escalation in South Dakota given the number of reservations and the frequency of concurrent-jurisdiction questions, not a line inside a general out-of-state bullet.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "Tribal records | Self-help boundary"
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "Pricing honesty. The UJS publishes the full packet, detailed instructions, a Guide and File document generator and a Self-Help Center with staff contact options, all free. LegalEase adds value through eligibility screening, the entire-dismissal analysis, arrest-record counting and expectation-setting, and should not charge as though it were producing documents the state already produces for nothing.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "CAN LEGALEASE GENERATE A PARTICIPANT-FACING FORM OR PACKET / Second, pricing honesty",
+              "sourceStatement": "LegalEase can add real value here through eligibility screening, the entire-dismissal analysis, arrest-record counting and expectation-setting about the DCI record. It should not charge as though it were producing documents the state already produces for nothing."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "sd_diversion",
+      "nodeType": "relief_track",
+      "legalName": "Expungement of Record on Completion of a Diversion Program (SDCL §§ 23A-3-35 to 23A-3-37)",
+      "publicName": "Clear a record after completing a diversion program",
+      "controllingAuthority": {
+        "citations": [
+          "SDCL § 23A-3-35",
+          "SDCL § 23A-3-36",
+          "SDCL § 23A-3-37"
+        ],
+        "summary": "A person placed in a diversion program is eligible for expungement of the entire criminal record related to that arrest if they successfully completed all the terms of the program and have not been charged with any new crimes, except petty offences or minor traffic citations, within one year and thirty days from the date of successful completion. Where those requirements are met the State's Attorney shall file a dismissal of all charges related to the arrest and a notice of completion of the diversion program, and upon that filing the court shall grant the expungement without the filing of a motion or any further action by the court."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2018-07-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-08-01"
+      },
+      "eligibleRecordTypes": [
+        "arrest",
+        "charge"
+      ],
+      "eligibleDispositions": [
+        "diversion_successfully_completed"
+      ],
+      "exclusions": [
+        "Any new crime charged within one year and thirty days from successful completion, other than petty offences or minor traffic citations.",
+        "Incomplete diversion, or any term of the diversion programme not satisfied.",
+        "Anything short of the ENTIRE criminal record related to that arrest; the statute is framed around the entire record.",
+        "Federal, tribal, military and out-of-state records."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Successful completion of the diversion program, with no new charges other than petty offences or minor traffic citations",
+          "duration": "1 year and 30 days from the date of successful completion"
+        }
+      ],
+      "outputStrategy": "process_guidance",
+      "outputStrategyStatus": "resolved",
+      "packetIdentity": "identified",
+      "guidanceRationales": [
+        "no_participant_filing_exists",
+        "another_entity_decides"
+      ],
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "The court in which the diverted charges were filed."
+      },
+      "destination": {
+        "kind": "prosecutor",
+        "name": "The State's Attorney who administered the diversion program",
+        "detail": "The statute places the filing obligation on the State's Attorney, who files the dismissal of all charges related to the arrest and the notice of completion. The court then grants the expungement without a motion or any further action. The participant files nothing."
+      },
+      "components": [
+        {
+          "role": "eligibility_and_timing_analysis",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Calculate the one year and thirty days from the date of successful completion, confirm no disqualifying new charge in that window, and confirm the diversion terms were all satisfied."
+        },
+        {
+          "role": "status_verification_instructions",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Instructions for checking with the Clerk of Courts whether the State's Attorney has filed the dismissal and notice of completion, and whether the court has granted the expungement."
+        },
+        {
+          "role": "escalation_instructions",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "What to do where the State's Attorney has not filed. This is the only realistic failure mode on this track and the remedy is unresolved; escalate rather than generate a motion."
+        }
+      ],
+      "_participantInputsNote": "What LegalEase asks in order to run the timing analysis and the status check. No document is generated for filing.",
+      "participantInputs": [
+        {
+          "key": "diversionCompletionDate",
+          "question": "On what date did you successfully complete the diversion program?",
+          "requirement": "required"
+        },
+        {
+          "key": "diversionTermsCompleted",
+          "question": "Did you complete every term of the diversion program?",
+          "requirement": "required"
+        },
+        {
+          "key": "newChargesSinceCompletion",
+          "question": "Have you been charged with any new crime since completing diversion, other than a petty offence or a minor traffic citation?",
+          "requirement": "required"
+        },
+        {
+          "key": "diversionCounty",
+          "question": "In which South Dakota county was the diversion program administered?",
+          "requirement": "required"
+        },
+        {
+          "key": "diversionCaseNumber",
+          "question": "What is the case number for the diverted charges?",
+          "requirement": "required"
+        },
+        {
+          "key": "stateAttorneyFiled",
+          "question": "Do you know whether the State's Attorney has filed the dismissal and the notice that you completed diversion?",
+          "requirement": "required"
+        }
+      ],
+      "_supportingDocumentsNote": "Records the participant obtains. None of them delays generation of the guidance.",
+      "supportingDocuments": [
+        {
+          "name": "Diversion agreement and proof of successful completion",
+          "obtainedFrom": "The State's Attorney's office that administered the diversion program",
+          "requirement": "required",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Ask the State's Attorney's office for the diversion agreement and written confirmation that you completed the program, including the completion date.",
+          "confirms": "diversionCompletionDate"
+        },
+        {
+          "name": "Court docket for the diverted charges",
+          "obtainedFrom": "Clerk of Courts",
+          "requirement": "conditional",
+          "conditionDescription": "Used to check whether the dismissal and notice have been filed and whether the expungement has been granted.",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Ask the Clerk of Courts for the case docket and look for the dismissal, the notice of completion and any expungement order.",
+          "confirms": "stateAttorneyFiled"
+        }
+      ],
+      "_manualCompletionNote": "Nothing is generated for signature on this track, because nothing is filed by the participant.",
+      "manualCompletionItems": [
+        {
+          "item": "The State's Attorney's dismissal of all charges and notice of completion",
+          "whereInPacket": "Not in the packet; named in the status-verification instructions",
+          "why": "The statute places this filing on the State's Attorney. The participant does not file it and LegalEase does not generate it."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "SDCL § 23A-3-35 — Eligibility of person placed in diversion program for expungement of record (official statute text)",
+          "url": "https://sdlegislature.gov/Statutes/23A-3-35",
+          "retrievedOn": "2026-08-05"
+        },
+        {
+          "title": "SDCL § 23A-3-36 — Dismissal of charges and notice of completion of diversion (Source: SL 2018 ch 143 § 2)",
+          "url": "https://sdlegislature.gov/Statutes/23A-3-36",
+          "retrievedOn": "2026-08-05"
+        },
+        {
+          "title": "SDCL § 23A-3-37 — Expungement of record on filing of dismissal and notice (Source: SL 2018 ch 143 § 3)",
+          "url": "https://sdlegislature.gov/Statutes/23A-3-37",
+          "retrievedOn": "2026-08-05"
+        }
+      ],
+      "rules": {
+        "filing": "The participant files nothing. The State's Attorney files the dismissal of all charges related to the arrest and the notice of completion of the diversion program; upon that filing the court grants the expungement without a motion or any further action.",
+        "fees": "none",
+        "feeWaiver": "none",
+        "notice": "No notice is served by the participant. Whether the person receives notice when the court grants the expungement is unresolved.",
+        "service": "none",
+        "participantSignature": "none",
+        "notarization": "none"
+      },
+      "selfHelpStopConditions": [
+        "Any new charge, other than a petty offence or minor traffic citation, within one year and thirty days of successful completion.",
+        "Incomplete diversion, or any unsatisfied term of the program.",
+        "A State's Attorney who has not made the required filing after the window has run. Escalate; do not generate a motion.",
+        "Federal, tribal, military or out-of-state records.",
+        "Immigration exposure."
+      ],
+      "_unresolvedQuestionsNote": "Preserved from the controlling review with impact and affected element.",
+      "unresolvedQuestions": [
+        {
+          "question": "What does a participant do where the State's Attorney has not filed the dismissal and notice of completion? This is the only realistic failure mode on the track and no statutory remedy is identified.",
+          "impact": "release_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 2 / Open questions / 1",
+            "sourceStatement": "What a participant does where the State's Attorney has not filed the dismissal and notice. Release blocker, and it is the only realistic failure mode on this track."
+          }
+        },
+        {
+          "question": "Does the person receive notice when the court grants the expungement under § 23A-3-37?",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "participant_instructions",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 2 / Open questions / 2",
+            "sourceStatement": "Whether the person receives notice when the court grants. Unresolved."
+          }
+        },
+        {
+          "question": "effectiveFrom records 2018-07-01, the South Dakota default effective date for SL 2018 ch 143, which created §§ 23A-3-35 to 23A-3-37. The session law states no express effective date.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 2 / Controlling statutes",
+            "sourceStatement": "Controlling statutes: SDCL §§ 23A-3-35 to 23A-3-37.",
+            "counselQuestion": "Is the South Dakota July 1 default effective date the right value for effectiveFrom where the session law states none?"
+          }
+        }
+      ],
+      "_limitationsNote": "Every limitation is classified. Only legal_design_blocker withholds a track.",
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Process guidance only, and deliberately so. The statute routes around the participant entirely: the State's Attorney files the dismissal and the notice of completion, and the court then grants the expungement without a motion or any further action. There is no participant filing vehicle to build, so this is not a guidance classification made for want of a form — it is guidance because no participant submission exists. Never generate a motion here. The deliverable is the timing calculation, confirmation that the State's Attorney has filed, and escalation where they have not.",
+        "limitations": [
+          {
+            "classification": "packet_instruction",
+            "statement": "Emphasise that this track covers the ENTIRE criminal record related to the arrest. Partial dispositions defeat it.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "Emphasise that both the arrest and diversion tracks require the ENTIRE case or record | Manual completion item"
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "Never generate a motion on this track. The statute puts the filing on the State's Attorney and the grant on the court.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "TRACK 2 / Legal-design decision",
+              "sourceStatement": "Process guidance only. Never generate a motion here. The statute routes around the participant entirely."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "A nonpublic disposition record survives with the Division of Criminal Investigation.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "DCI nonpublic record survives on nearly every track | Scope restriction"
+            }
+          },
+          {
+            "classification": "self_help_boundary",
+            "statement": "Where the State's Attorney has not filed after the window has run, escalate to a lawyer. There is no participant filing to substitute.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "TRACK 2 / Self-help limits",
+              "sourceStatement": "any new charge inside the one year and thirty days; incomplete diversion; a State's Attorney who has not filed."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "sd_23a_3_34_auto",
+      "nodeType": "relief_track",
+      "legalName": "Automatic Removal of Non-Felony Charges or Convictions from the Public Record (SDCL § 23A-3-34)",
+      "publicName": "Automatic removal of a minor case from your public record",
+      "controllingAuthority": {
+        "citations": [
+          "SDCL § 23A-3-34"
+        ],
+        "summary": "Any charge or conviction resulting from a case where a petty offense, municipal ordinance violation or a Class 2 misdemeanor was the highest charged offense shall be automatically removed from a defendant's public record after five years if all court-ordered conditions on the case have been satisfied and the defendant has not been convicted of any further offenses within those five years. The case record remains available to court personnel or as authorized by order of the court and may be used as an enhancement in the prosecution of subsequent offenses as provided by law."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2021-07-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-08-01"
+      },
+      "eligibleRecordTypes": [
+        "charge",
+        "conviction"
+      ],
+      "eligibleDispositions": [
+        "convicted",
+        "charged_not_convicted"
+      ],
+      "exclusions": [
+        "Any case where the highest charged offense exceeded a Class 2 misdemeanor.",
+        "Any case with court-ordered conditions that have not been satisfied.",
+        "Any defendant convicted of a further offense within the five-year period.",
+        "Removal from the public record does not remove the record from court personnel, from access by order of the court, or from use as an enhancement in a later prosecution."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Highest charged offense was a petty offense, municipal ordinance violation or Class 2 misdemeanor, all court-ordered conditions satisfied, and no further convictions in the period",
+          "duration": "5 years"
+        }
+      ],
+      "outputStrategy": "process_guidance",
+      "outputStrategyStatus": "resolved",
+      "packetIdentity": "identified",
+      "guidanceRationales": [
+        "no_participant_filing_exists"
+      ],
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "The court in which the case was filed. Nothing is filed by the participant; removal occurs by operation of the statute."
+      },
+      "destination": {
+        "kind": "automatic",
+        "name": "Operation of SDCL § 23A-3-34",
+        "detail": "Removal from the public record happens automatically once the five-year period runs and the conditions are met. There is no application, no motion and no fee. The participant's task is to verify that removal has occurred and to understand what survives it."
+      },
+      "components": [
+        {
+          "role": "eligibility_and_timing_analysis",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Establish the highest charged offense in the case, whether all court-ordered conditions were satisfied, whether any further conviction occurred in the five years, and when the five-year period ran."
+        },
+        {
+          "role": "status_verification_instructions",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Instructions for checking whether the case still appears on the public record, and what to do where it still shows after five years."
+        },
+        {
+          "role": "legal_effect_explanation",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Explains that the case record remains available to court personnel or by order of the court and may be used as an enhancement in a later prosecution. This carve-out belongs in every participant-facing description of the track."
+        }
+      ],
+      "_participantInputsNote": "What LegalEase asks in order to run the eligibility and timing analysis. Nothing is generated for filing.",
+      "participantInputs": [
+        {
+          "key": "highestChargedOffense",
+          "question": "What was the most serious offence charged in the case — a petty offence, a municipal ordinance violation, a Class 2 misdemeanor, or something more serious?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseDispositionDate",
+          "question": "On what date did the case end?",
+          "requirement": "required"
+        },
+        {
+          "key": "conditionsSatisfied",
+          "question": "Have all the conditions the court ordered in that case — fines, costs, classes, community service, probation — been satisfied?",
+          "requirement": "required"
+        },
+        {
+          "key": "furtherConvictions",
+          "question": "Have you been convicted of any further offence in the five years since that case ended?",
+          "requirement": "required"
+        },
+        {
+          "key": "stillShowingOnRecord",
+          "question": "Does the case still show up on your public record now?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseCounty",
+          "question": "In which South Dakota county was the case filed?",
+          "requirement": "required"
+        }
+      ],
+      "_supportingDocumentsNote": "Records the participant obtains. None of them delays generation of the guidance.",
+      "supportingDocuments": [
+        {
+          "name": "Court docket showing the charges and the satisfaction of court-ordered conditions",
+          "obtainedFrom": "Clerk of Courts",
+          "requirement": "conditional",
+          "conditionDescription": "Recommended where the participant is unsure of the highest charged offence or whether conditions were satisfied.",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Ask the Clerk of Courts for the case docket, which shows every charge and whether fines, costs and other conditions were satisfied.",
+          "confirms": "conditionsSatisfied"
+        }
+      ],
+      "_manualCompletionNote": "Nothing is generated for signature, because nothing is filed.",
+      "manualCompletionItems": [
+        {
+          "item": "No participant document is produced on this track",
+          "whereInPacket": "Not applicable; the packet is guidance only",
+          "why": "Removal is automatic by operation of § 23A-3-34. There is no application, motion or form for the participant to sign."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "SDCL § 23A-3-34 — Defendant's public record, automatic removal of non-felony charges or convictions (official statute text, Source: SL 2016 ch 134 § 1; SL 2021 ch 106 § 1)",
+          "url": "https://sdlegislature.gov/Statutes/23A-3-34",
+          "retrievedOn": "2026-08-05"
+        }
+      ],
+      "rules": {
+        "filing": "none",
+        "fees": "none",
+        "feeWaiver": "none",
+        "notice": "none",
+        "service": "none",
+        "participantSignature": "none",
+        "notarization": "none"
+      },
+      "selfHelpStopConditions": [
+        "Court-ordered conditions on the case remain unsatisfied.",
+        "Any conviction within the five-year period.",
+        "A case where the highest charge exceeded a Class 2 misdemeanor.",
+        "A record still showing on the public record after five years, which needs escalation rather than a filing.",
+        "Federal, tribal, military or out-of-state records."
+      ],
+      "_unresolvedQuestionsNote": "Preserved from the controlling review with impact and affected element. Counsel's five-versus-ten-year release blocker is answered by the statute and the answer is recorded rather than the question dropped.",
+      "unresolvedQuestions": [
+        {
+          "question": "Counsel flagged a conflict between the five-year period stated in the CCRC and National Reentry Resource Center profiles and a commercial source stating ten years, and directed that it be confirmed against the statute before release. SDCL § 23A-3-34 has now been read at the official South Dakota Legislature publication and states 'shall be automatically removed from a defendant's public record after five years'. The five-year figure is confirmed and the ten-year source is wrong. Recorded here rather than silently applied.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "waiting_period",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 3 / Waiting period conflict",
+            "sourceStatement": "Use five, flag the conflict, and confirm against the statute before release.",
+            "counselQuestion": "The statute reads 'after five years' at source. Does counsel accept that as closing the five-versus-ten-year release blocker?"
+          }
+        },
+        {
+          "question": "The review attributes the 2021 amendments to 'SB174 (2021)' and dates enactment to June 2016. The official source line for § 23A-3-34 reads 'SL 2016, ch 134, § 1; SL 2021, ch 106, § 1'. The chapter numbers in the review do not match the official source line, and the bill number was not verified against the session law.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "HEADLINE FINDINGS / 3",
+            "sourceStatement": "SB174 (2021) added the no-convictions-during-the-waiting-period proviso and the enhancement-use proviso. The section itself was enacted in June 2016.",
+            "counselQuestion": "Should the attribution be corrected to SL 2016 ch 134 and SL 2021 ch 106, and should the bill number be re-verified?"
+          }
+        },
+        {
+          "question": "effectiveFrom records 2021-07-01, the South Dakota default effective date for SL 2021 ch 106, the amendment that produced the current operative text. The section originates in SL 2016 ch 134.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 3 / Controlling statute",
+            "sourceStatement": "SDCL § 23A-3-34, enacted June 2016 and amended by SB174 (2021).",
+            "counselQuestion": "Should effectiveFrom carry the 2016 original enactment or the 2021 amendment date?"
+          }
+        }
+      ],
+      "_limitationsNote": "Every limitation is classified. Only legal_design_blocker withholds a track.",
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Process guidance only. Nothing is filed and there is no participant submission of any kind: removal from the public record happens by operation of the statute once the five-year period runs and the conditions are met. The deliverable is the eligibility and timing analysis, a status check, and an honest explanation of the enhancement carve-out. The five-year period is confirmed at the statute.",
+        "limitations": [
+          {
+            "classification": "scope_restriction",
+            "statement": "Records removed under § 23A-3-34 remain available to court personnel or by order of the court and may be used as an enhancement in the prosecution of subsequent offences. Never say that automatic removal of a Class 2 misdemeanor means the record can never be used again.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "§ 23A-3-34 records remain usable for enhancement | Scope restriction"
+            }
+          },
+          {
+            "classification": "participant_question",
+            "statement": "Ask what the highest charged offence in the case was. The test is the highest charge in the case, not the charge the participant remembers or the one they were convicted of.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "PART 4 / Participant information to gather",
+              "sourceStatement": "original charge and highest charge in the case"
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "Before § 23A-3-34 was enacted in 2016, executive pardon was the only mechanism to seal a conviction record from public view in South Dakota. That history explains why the state's conviction relief is so thin and is useful in participant conversations.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "TRACK 3 / Historical context worth carrying",
+              "sourceStatement": "before § 23A-3-34 was enacted in 2016, the only mechanism to seal a conviction record from public view in South Dakota was an executive pardon."
+            }
+          },
+          {
+            "classification": "self_help_boundary",
+            "statement": "Where the record still shows after five years, escalate. There is no motion to file under this section.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "TRACK 3 / Self-help limits",
+              "sourceStatement": "unsatisfied court-ordered conditions; any conviction in the five years; a case where the highest charge exceeded Class 2 misdemeanor; a record still showing after five years."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "sd_sis_sealing",
+      "nodeType": "relief_track",
+      "legalName": "Sealing of Records on Discharge and Dismissal after a Suspended Imposition of Sentence (SDCL §§ 23A-27-13 to 23A-27-17)",
+      "publicName": "Seal a record after a suspended imposition of sentence",
+      "controllingAuthority": {
+        "citations": [
+          "SDCL § 23A-27-13",
+          "SDCL § 23A-27-14",
+          "SDCL § 23A-27-17"
+        ],
+        "summary": "For certain offenses a court may suspend imposition of sentence where the person has never before been convicted of a felony. After the person completes all court conditions the defendant is discharged and the case is dismissed without adjudication of guilt, and the discharge and dismissal are not deemed a conviction for disqualifications or disabilities imposed by law. Upon the discharge and dismissal a court SHALL order that all official records, other than the nonpublic records retained by the Division of Criminal Investigation, be sealed along with all records relating to the arrest, indictment or information, trial, finding of guilt, and dismissal and discharge. The order restores the person to the status occupied before arrest, indictment or information, and the person is not guilty of perjury or of giving a false statement for failing to recite or acknowledge the matter."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "1978-07-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-08-01"
+      },
+      "eligibleRecordTypes": [
+        "arrest",
+        "charge",
+        "conviction"
+      ],
+      "eligibleDispositions": [
+        "suspended_imposition_of_sentence_discharged_and_dismissed"
+      ],
+      "exclusions": [
+        "Any person previously convicted of a felony, who is not eligible for a felony suspended imposition of sentence in the first place.",
+        "A second felony suspended imposition of sentence; the statute permits one felony SIS and one misdemeanor SIS per person.",
+        "Any case where the court conditions have not been completed and the discharge and dismissal have not issued.",
+        "The nonpublic records retained by the Division of Criminal Investigation, which are expressly excluded from the sealing order.",
+        "Federal, tribal, military and out-of-state records."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Completion of all court-ordered conditions, followed by discharge and dismissal",
+          "duration": "none beyond completion; the sealing order follows the discharge and dismissal"
+        }
+      ],
+      "outputStrategy": "process_guidance",
+      "outputStrategyStatus": "resolved",
+      "packetIdentity": "identified",
+      "guidanceRationales": [
+        "no_participant_filing_exists",
+        "another_entity_decides"
+      ],
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "The court that granted the suspended imposition of sentence and entered the discharge and dismissal."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "The court that entered the discharge and dismissal",
+        "detail": "Section 23A-27-17 directs that upon the discharge and dismissal the court shall order the records sealed. The participant files nothing. The task is to confirm that the discharge and dismissal issued and that the sealing order followed, and to escalate where it did not."
+      },
+      "components": [
+        {
+          "role": "status_verification_instructions",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Confirm with the Clerk of Courts that the discharge and dismissal order issued, and that the § 23A-27-17 sealing order followed it. This is the correct first move, not a filing."
+        },
+        {
+          "role": "legal_effect_explanation",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Explains the restoration of pre-arrest status and the perjury and false-statement protection, and — equally — that a nonpublic disposition is retained by DCI for law enforcement, prosecutors and courts for future sentencing, future SIS eligibility and habitual-offender determinations."
+        },
+        {
+          "role": "escalation_instructions",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "What to do where the discharge and dismissal issued but the records were not sealed. The statute makes sealing the court's obligation, so the remedy is to ask the court rather than to file a new application, and the participant is escalated rather than given a document."
+        },
+        {
+          "role": "teacher_licensing_warning",
+          "requirement": "conditional",
+          "conditionDescription": "Applies where the underlying conviction was under a specified subdivision of § 22-22-1 or under § 22-22-7 and the participant holds or seeks a certified teaching licence.",
+          "outputStrategy": "process_guidance",
+          "notes": "Notwithstanding §§ 23A-27-14 and 23A-27-17, a person who received a § 23A-27-13 order for such a conviction who is licensed or seeks licensure as a certified teacher may have the application refused or the licence revoked. Sealed does not mean invisible to the teaching licensure authority for those offences."
+        }
+      ],
+      "_participantInputsNote": "What LegalEase asks in order to run the status check and select the right warnings. Nothing is generated for filing.",
+      "participantInputs": [
+        {
+          "key": "sisGranted",
+          "question": "Did the court grant you a suspended imposition of sentence in this case?",
+          "requirement": "required"
+        },
+        {
+          "key": "sisOffenceLevel",
+          "question": "Was the suspended imposition of sentence for a felony or a misdemeanor?",
+          "requirement": "required"
+        },
+        {
+          "key": "conditionsCompleted",
+          "question": "Did you complete all of the conditions the court ordered?",
+          "requirement": "required"
+        },
+        {
+          "key": "dischargeAndDismissalIssued",
+          "question": "Did the court enter an order discharging you and dismissing the case?",
+          "requirement": "required"
+        },
+        {
+          "key": "recordsAppearSealed",
+          "question": "Does the case still appear on a public record search now?",
+          "requirement": "required"
+        },
+        {
+          "key": "priorFelonyConviction",
+          "question": "Had you ever been convicted of a felony before this case?",
+          "requirement": "required"
+        },
+        {
+          "key": "priorSis",
+          "question": "Have you ever had a suspended imposition of sentence in any other case?",
+          "requirement": "required"
+        },
+        {
+          "key": "teachingLicence",
+          "question": "Do you hold, or are you seeking, a South Dakota certified teaching licence?",
+          "requirement": "required"
+        },
+        {
+          "key": "sexOffenceStatutes",
+          "question": "Was the underlying charge under SDCL § 22-22-1 or § 22-22-7?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseCounty",
+          "question": "In which South Dakota county was the case?",
+          "requirement": "required"
+        }
+      ],
+      "_supportingDocumentsNote": "Records the participant obtains. None of them delays generation of the guidance.",
+      "supportingDocuments": [
+        {
+          "name": "Suspended imposition of sentence order, and the discharge and dismissal order",
+          "obtainedFrom": "Clerk of Courts",
+          "requirement": "required",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Ask the Clerk of Courts for the SIS order and the order of discharge and dismissal. These establish that the sealing obligation under § 23A-27-17 was triggered.",
+          "confirms": "dischargeAndDismissalIssued"
+        },
+        {
+          "name": "South Dakota criminal history record",
+          "obtainedFrom": "South Dakota Division of Criminal Investigation",
+          "requirement": "conditional",
+          "conditionDescription": "Recommended where the participant needs to see what remains visible after sealing.",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Request a criminal history record from the DCI.",
+          "confirms": "recordsAppearSealed"
+        }
+      ],
+      "_manualCompletionNote": "Nothing is generated for signature, because the sealing order is the court's to make.",
+      "manualCompletionItems": [
+        {
+          "item": "The § 23A-27-17 sealing order",
+          "whereInPacket": "Not in the packet; named in the status-verification instructions",
+          "why": "The statute directs the court to order the sealing upon discharge and dismissal. The participant does not apply for it and LegalEase does not draft it."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "SDCL § 23A-27-17 — Sealing of records on discharge of probationer, effect of order (official statute text, Source: SL 1975 ch 257 § 2; SL 1976 ch 158 § 43-4; SL 1978 ch 178 § 346)",
+          "url": "https://sdlegislature.gov/Statutes/23A-27-17",
+          "retrievedOn": "2026-08-05"
+        }
+      ],
+      "rules": {
+        "filing": "none",
+        "fees": "none",
+        "feeWaiver": "none",
+        "notice": "none",
+        "service": "none",
+        "participantSignature": "none",
+        "notarization": "none"
+      },
+      "selfHelpStopConditions": [
+        "Any felony matter.",
+        "Incomplete court conditions, or a discharge and dismissal that has not issued.",
+        "Unclear discharge status.",
+        "A conviction under a specified subdivision of § 22-22-1 or under § 22-22-7 where teaching licensure is in play.",
+        "Any participant who assumes a suspended imposition of sentence means the record is gone.",
+        "Records that appear unsealed after the discharge and dismissal, which needs escalation to the court rather than a filing.",
+        "Federal, tribal, military or out-of-state records."
+      ],
+      "_unresolvedQuestionsNote": "Preserved from the controlling review with impact and affected element. Counsel's release blocker on whether sealing is automatic is answered by the statute and the answer is recorded rather than the question dropped.",
+      "unresolvedQuestions": [
+        {
+          "question": "Counsel flagged as a release blocker whether sealing under § 23A-27-17 is automatic on discharge or requires a motion, and left an official_pdf_fill fallback unresolved against the possibility that a motion is needed. The section has now been read at the official South Dakota Legislature publication: 'Upon the discharge and dismissal of a person pursuant to § 23A-27-14, a court shall order that all official records ... be sealed'. Sealing is the court's obligation on discharge and dismissal; no participant motion exists. The unresolved fallback unit is therefore not carried, and the track is modelled as process_guidance. What remains open is the remedy where a court did not do what the statute directs.",
+          "impact": "release_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 4 / Open questions / 1",
+            "sourceStatement": "Whether sealing under § 23A-27-17 is automatic on discharge or requires a motion. Release blocker.",
+            "counselQuestion": "The statute says the court shall order sealing upon discharge and dismissal, so no participant motion exists and the official_pdf_fill fallback has been dropped. Does counsel accept that, and what is the remedy where the discharge issued but the records were not in fact sealed?"
+          }
+        },
+        {
+          "question": "Counsel recorded that the full text of §§ 23A-27-13 to 23A-27-17 had not been read at source, as a build blocker. Section 23A-27-17 has now been read at the official publication. Sections 23A-27-13 and 23A-27-14, including the once-only felony and misdemeanor limits and the teacher-licensing carve-out, have not been read subsection by subsection.",
+          "impact": "build_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 4 / Open questions / 2",
+            "sourceStatement": "Full text of §§ 23A-27-13 to 23A-27-17. Build blocker."
+          }
+        },
+        {
+          "question": "effectiveFrom records 1978-07-01, the South Dakota default effective date for SL 1978 ch 178 § 346, the most recent amendment in the official source line for § 23A-27-17. The section originates in SL 1975 ch 257 § 2.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 4 / Controlling statutes",
+            "sourceStatement": "Controlling statutes: SDCL §§ 23A-27-13 to 23A-27-17.",
+            "counselQuestion": "Is the South Dakota July 1 default the right effectiveFrom where the session law states no express effective date?"
+          }
+        }
+      ],
+      "_limitationsNote": "Every limitation is classified. Only legal_design_blocker withholds a track.",
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Approved for implementation with limitations, as process guidance. Counsel selected process_guidance with an official_pdf_fill fallback because it was unresolved whether sealing follows discharge automatically or needs a motion. Reading § 23A-27-17 at the official source answers that: the court shall order the sealing upon the discharge and dismissal. There is no participant application, so the fallback unit is not carried and this is guidance because no participant filing vehicle exists — not because a form is missing. The correct first move remains to confirm the discharge issued and the sealing occurred, and to escalate where it did not.",
+        "limitations": [
+          {
+            "classification": "manual_completion_item",
+            "statement": "Add the teacher-licensing carve-out to the SIS copy. Notwithstanding §§ 23A-27-14 and 23A-27-17, a person who received a § 23A-27-13 order for a conviction under specified subdivisions of § 22-22-1 or under § 22-22-7 who is licensed or seeks licensure as a certified teacher may have the application refused or the licence revoked.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "Add the teacher-licensing carve-out to SIS copy | Manual completion item"
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "A nonpublic disposition is retained by the Division of Criminal Investigation for law enforcement, prosecutors and courts, including for sentencing on later offences, future SIS eligibility and habitual-offender determinations. Never say SIS sealing removes every government record for every purpose.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "TRACK 4 / DCI retention",
+              "sourceStatement": "the discharge and dismissal are reported to DCI, and a nonpublic disposition is retained for law enforcement, prosecutors and courts for future sentencing, future SIS eligibility and habitual-offender determinations."
+            }
+          },
+          {
+            "classification": "participant_question",
+            "statement": "Ask whether the participant has ever had another suspended imposition of sentence. The statute permits one felony SIS and one misdemeanor SIS per person, and a person who already had a felony SIS may not receive a second.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "TRACK 4 / Once-only limits",
+              "sourceStatement": "one felony SIS and one misdemeanor SIS per person. A person who already had a felony SIS may not receive a second."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Explain the restoration of pre-arrest status and the express protection against perjury or false-statement liability for failing to recite or acknowledge the arrest, indictment, information or trial. That protection is unusually explicit in South Dakota and is worth stating to participants.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "Provisions common to the South Dakota tracks / Restoration of status",
+              "sourceStatement": "on expungement the person is restored to the status occupied before the arrest, indictment or information, and is not guilty of perjury or making a false statement for failing to disclose the arrest, indictment, information or trial."
+            }
+          },
+          {
+            "classification": "self_help_boundary",
+            "statement": "Any participant who assumes SIS means the record is gone needs the DCI disclosure before anything else, and any felony matter or § 22-22-1 or § 22-22-7 licensure question is outside self-help.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "TRACK 4 / Self-help limits",
+              "sourceStatement": "any felony; incomplete conditions; unclear discharge status; the specified § 22-22-1 and § 22-22-7 offenses where teaching licensure is in play; any participant who assumes SIS means the record is gone."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "sd_pardon_24_14_11",
+      "nodeType": "relief_track",
+      "legalName": "Sealing of Records on the Grant of a Chapter 24-14 Pardon (SDCL § 24-14-11)",
+      "publicName": "Records sealed after a governor's pardon",
+      "controllingAuthority": {
+        "citations": [
+          "SDCL § 24-14-11",
+          "SDCL ch. 24-14"
+        ],
+        "summary": "A person granted a pardon under the provisions of chapter 24-14 is released from all disabilities consequent on the conviction. Upon the granting of such a pardon the Governor shall order that all official records relating to the pardoned person's arrest, indictment or information, trial, finding of guilt, application for a pardon, and the proceedings of the Board of Pardons and Paroles be sealed. The Governor files a public document with the secretary of state certifying the pardon; that document remains public for five years and is then sealed. A pardon granted without following the provisions of the chapter may not be sealed. The pardon restores the person to their pre-arrest status and protects against perjury or false-statement liability for failing to acknowledge the matter, but the conviction may still be considered for sentencing on subsequent offences and habitual-offender determinations."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2003-07-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-08-01"
+      },
+      "eligibleRecordTypes": [
+        "arrest",
+        "charge",
+        "conviction"
+      ],
+      "eligibleDispositions": [
+        "pardoned_under_chapter_24_14"
+      ],
+      "exclusions": [
+        "Any pardon granted without following the provisions of chapter 24-14, which expressly may not be sealed.",
+        "The pardon application itself, which is a Board of Pardons and Paroles process requiring advocacy and is outside LegalEase self-help scope.",
+        "Federal, tribal, military and out-of-state records."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Sealing on the grant of a chapter 24-14 pardon",
+          "duration": "none; the sealing order follows the grant"
+        },
+        {
+          "condition": "The public certifying document filed with the secretary of state",
+          "duration": "remains a public document for 5 years, then is sealed"
+        }
+      ],
+      "outputStrategy": "process_guidance",
+      "outputStrategyStatus": "resolved",
+      "packetIdentity": "identified",
+      "guidanceRationales": [
+        "individualized_advocacy",
+        "no_participant_filing_exists",
+        "another_entity_decides"
+      ],
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "The Board of Pardons and Paroles and the Governor. No court filing is involved in the sealing."
+      },
+      "destination": {
+        "kind": "agency",
+        "name": "South Dakota Board of Pardons and Paroles, and the Office of the Governor",
+        "detail": "The pardon application is a Board process requiring advocacy and is referred out. The sealing follows automatically once a chapter 24-14 pardon is granted: the Governor orders the records sealed. There is no packet to build for the sealing."
+      },
+      "components": [
+        {
+          "role": "route_detection_and_explanation",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Detect that the pardon route is the realistic answer and explain the chapter 24-14 requirement: South Dakota law does not allow sealing unless the pardon goes through the chapter 24-14 Board process. Because South Dakota's conviction relief is otherwise so narrow, this route should be surfaced early rather than treated as an exotic fallback."
+        },
+        {
+          "role": "referral_instructions",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Refer the participant to counsel or a clemency programme for the Board application itself. LegalEase does not prepare pardon applications."
+        },
+        {
+          "role": "legal_effect_explanation",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Explains that a pardon may still count as a prior conviction for later sentencing, habitual-offender proceedings and later DUI sentencing, that DCI retains a nonpublic record, and that the certifying document filed with the secretary of state stays public for five years before it is sealed."
+        }
+      ],
+      "_participantInputsNote": "What LegalEase asks in order to detect the route and select the right explanation. No document is generated.",
+      "participantInputs": [
+        {
+          "key": "pardonGranted",
+          "question": "Have you already been granted a pardon by the Governor of South Dakota?",
+          "requirement": "required"
+        },
+        {
+          "key": "pardonUnderChapter2414",
+          "question": "Was the pardon granted after an application to the South Dakota Board of Pardons and Paroles?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked where a pardon has been granted, because only a chapter 24-14 pardon carries sealing."
+        },
+        {
+          "key": "pardonDate",
+          "question": "On what date was the pardon granted?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked where a pardon has been granted, because the certifying document stays public for five years from filing."
+        },
+        {
+          "key": "convictionDetails",
+          "question": "What was the conviction — the offence, the county, the case number and the year?",
+          "requirement": "required"
+        },
+        {
+          "key": "recordsAppearSealed",
+          "question": "Do the records still appear on a public record search?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked where a chapter 24-14 pardon has been granted."
+        }
+      ],
+      "_supportingDocumentsNote": "Records the participant obtains. None of them delays generation of the guidance.",
+      "supportingDocuments": [
+        {
+          "name": "The pardon document and any Board of Pardons and Paroles decision",
+          "obtainedFrom": "South Dakota Board of Pardons and Paroles, or the Office of the Governor",
+          "requirement": "conditional",
+          "conditionDescription": "Applies where a pardon has been granted.",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Ask the Board of Pardons and Paroles for a copy of the pardon and the Board's decision. These establish whether the pardon went through the chapter 24-14 process, which is what determines whether sealing follows.",
+          "confirms": "pardonUnderChapter2414"
+        }
+      ],
+      "_manualCompletionNote": "Nothing is generated for signature, because the sealing order is the Governor's and the application is referred out.",
+      "manualCompletionItems": [
+        {
+          "item": "The pardon application to the Board of Pardons and Paroles",
+          "whereInPacket": "Not in the packet; named in the referral instructions",
+          "why": "The application is a Board process requiring individualized advocacy and is outside LegalEase self-help scope."
+        },
+        {
+          "item": "The Governor's sealing order",
+          "whereInPacket": "Not in the packet",
+          "why": "The statute directs the Governor to order the sealing upon granting a chapter 24-14 pardon. There is nothing for the participant to file."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "SDCL § 24-14-11 — Effects of pardon, disabilities removed, records sealed (official statute text, Source: SL 1983 ch 199 § 3; SL 2003 ch 140 § 1)",
+          "url": "https://sdlegislature.gov/Statutes/24-14-11",
+          "retrievedOn": "2026-08-05"
+        }
+      ],
+      "rules": {
+        "filing": "none",
+        "fees": "none",
+        "feeWaiver": "none",
+        "notice": "none",
+        "service": "none",
+        "participantSignature": "none",
+        "notarization": "none"
+      },
+      "selfHelpStopConditions": [
+        "The pardon application itself, which is a Board of Pardons and Paroles process requiring advocacy.",
+        "Any pardon granted outside the chapter 24-14 process, which carries no sealing.",
+        "Any participant who believes a pardon means the conviction never counts again.",
+        "Federal, tribal, military or out-of-state records.",
+        "Immigration exposure."
+      ],
+      "_unresolvedQuestionsNote": "Preserved from the controlling review with impact and affected element.",
+      "unresolvedQuestions": [
+        {
+          "question": "Counsel recorded the full text of § 24-14-11 as a build blocker. The section has now been read at the official South Dakota Legislature publication and matches the review, including the chapter 24-14 requirement, the sealing scope, the five-year public certifying document and the continued use as a prior conviction for subsequent sentencing and habitual-offender determinations.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "PART 2.2 Official documents identified and needed for the form library",
+            "sourceStatement": "SDCL §§ 23-6-8.1 and 24-14-11 | SD Legislature | Build blocker",
+            "counselQuestion": "Section 24-14-11 now reads at source as the review states it. Does counsel accept the build blocker as closed for this section?"
+          }
+        },
+        {
+          "question": "effectiveFrom records 2003-07-01, the South Dakota default effective date for SL 2003 ch 140 § 1, the most recent amendment in the official source line. The section originates in SL 1983 ch 199 § 3.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 6 / Controlling statute",
+            "sourceStatement": "Controlling statute: SDCL § 24-14-11, within the Chapter 24-14 pardon process.",
+            "counselQuestion": "Is the South Dakota July 1 default the right effectiveFrom where the session law states no express effective date?"
+          }
+        }
+      ],
+      "_limitationsNote": "Every limitation is classified. Only legal_design_blocker withholds a track.",
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "The pardon application is outside the current LegalEase self-help scope: it is a Board of Pardons and Paroles process requiring individualized advocacy. The sealing follows automatically once a chapter 24-14 pardon is granted, so there is no packet to build for the sealing either. The track is retained as guidance to detect the route, explain the chapter 24-14 requirement and refer — and it is retained deliberately, because South Dakota's conviction relief is otherwise so narrow that the pardon route is the realistic answer for a much larger share of participants here than in most states and should be surfaced early rather than treated as an exotic fallback.",
+        "limitations": [
+          {
+            "classification": "scope_restriction",
+            "statement": "The pardon application itself is outside LegalEase self-help scope. Detect, explain the chapter 24-14 requirement, and refer.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "TRACK 6 / Legal-design decision",
+              "sourceStatement": "Outside the current LegalEase self-help scope for the pardon application itself, which is a Board process requiring advocacy. The sealing follows automatically once a Chapter 24-14 pardon is granted, so there is no packet to build. Detect, explain the Chapter 24-14 requirement, and refer."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "South Dakota law does not allow sealing unless the pardon goes through the chapter 24-14 Board process. A pardon granted outside that process does not carry sealing.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "TRACK 6 / The limit that matters",
+              "sourceStatement": "the Department of Corrections states that South Dakota law does not allow sealing unless the pardon goes through the Chapter 24-14 Board process. A pardon granted outside that process does not carry sealing."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Surface the pardon route early in South Dakota rather than as an exotic fallback, because the state's conviction relief is otherwise so narrow that it is the realistic answer for a much larger share of participants than elsewhere.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "TRACK 6 / Note for intake",
+              "sourceStatement": "because South Dakota's conviction relief is otherwise so narrow, the pardon route is the realistic answer for a much larger share of participants here than in most states. It should be surfaced early rather than treated as an exotic fallback."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "A pardon may still count as a prior conviction for later sentencing, habitual-offender proceedings and later DUI sentencing, and DCI retains a nonpublic record. Never say a pardon means the conviction never counts again.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "TRACK 6 / What survives",
+              "sourceStatement": "a pardon may still count as a prior conviction for later sentencing, habitual-offender proceedings and later DUI sentencing. DCI retains a nonpublic record."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "sd_23a_27_53_drug",
+      "nodeType": "relief_track",
+      "legalName": "Deferred Imposition of Sentence and Dismissal for Certain Controlled-Substance Offences (SDCL § 23A-27-53)",
+      "publicName": "Drug-offence deferred sentencing and dismissal",
+      "controllingAuthority": {
+        "citations": [
+          "SDCL § 23A-27-53",
+          "SDCL § 22-42-5",
+          "SDCL § 22-42-5.1",
+          "SDCL § 22-42-15",
+          "SDCL § 22-42-15.1",
+          "SDCL § 22-6-11"
+        ],
+        "summary": "After receiving a plea of guilty for a violation of § 22-42-5 or § 22-42-5.1 a court may, without entering a judgment of guilt and with the consent of the defendant, defer imposition of sentence and place the defendant on probation on terms that must include a drug and alcohol evaluation and any recommended course of treatment. If after one year the defendant has completed treatment and complied with all conditions, the court shall dismiss the § 22-42-5 or § 22-42-5.1 charge upon the defendant pleading guilty to ingestion under § 22-42-15 or possession under § 22-42-15.1. No person previously granted a deferred imposition of sentence is eligible for a second. A defendant is ineligible where aggravating circumstances exist as defined by § 22-6-11, or where the defendant is serving a sentence under the supervision of the executive branch."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2019-07-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-08-01"
+      },
+      "eligibleRecordTypes": [
+        "charge",
+        "conviction"
+      ],
+      "eligibleDispositions": [
+        "deferred_imposition_of_sentence",
+        "charge_dismissed_on_plea_to_lesser_offence"
+      ],
+      "exclusions": [
+        "Any person previously granted a deferred imposition of sentence, who is ineligible for a second.",
+        "Cases where aggravating circumstances exist as defined by SDCL § 22-6-11.",
+        "A defendant serving a sentence under the supervision of the executive branch.",
+        "Any charge other than SDCL § 22-42-5 or § 22-42-5.1.",
+        "Federal, tribal, military and out-of-state records."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Successful completion of the course of treatment and compliance with all conditions of probation",
+          "duration": "1 year"
+        }
+      ],
+      "outputStrategyStatus": "unresolved",
+      "packetIdentity": "unresolved",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "The court that has jurisdiction of the defendant on the underlying controlled-substance charge."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "The court with jurisdiction of the defendant on the § 22-42-5 or § 22-42-5.1 charge",
+        "detail": "The mechanism operates inside a pending criminal case: the court defers imposition of sentence and, after a year of compliance, dismisses the original charge on a plea to the lesser offence. Whether it produces any sealable record, and how it interacts with the arrest and SIS tracks, is not established."
+      },
+      "components": [],
+      "_participantInputsNote": "Recorded so counsel's structure is preserved. Nothing is generated while the track is deferred.",
+      "participantInputs": [
+        {
+          "key": "underlyingCharge",
+          "question": "Was the charge a violation of SDCL § 22-42-5 or § 22-42-5.1?",
+          "requirement": "required"
+        },
+        {
+          "key": "deferredImpositionGranted",
+          "question": "Did the court defer imposition of sentence and place you on probation without entering a judgment of guilt?",
+          "requirement": "required"
+        },
+        {
+          "key": "treatmentCompleted",
+          "question": "Did you complete the drug and alcohol evaluation and any recommended course of treatment, and comply with all conditions of probation?",
+          "requirement": "required"
+        },
+        {
+          "key": "pleadToLesserOffence",
+          "question": "Did you plead guilty to ingestion under § 22-42-15 or possession under § 22-42-15.1 as part of the dismissal?",
+          "requirement": "required"
+        },
+        {
+          "key": "priorDeferredImposition",
+          "question": "Have you ever been granted a deferred imposition of sentence before?",
+          "requirement": "required"
+        }
+      ],
+      "_supportingDocumentsNote": "Recorded so counsel's structure is preserved. Nothing is generated while the track is deferred.",
+      "supportingDocuments": [
+        {
+          "name": "Order deferring imposition of sentence, and the order dismissing the original charge",
+          "obtainedFrom": "Clerk of Courts",
+          "requirement": "required",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Ask the Clerk of Courts for the order deferring imposition of sentence and the order dismissing the § 22-42-5 or § 22-42-5.1 charge.",
+          "confirms": "deferredImpositionGranted"
+        }
+      ],
+      "_manualCompletionNote": "Nothing is generated while the track is deferred.",
+      "manualCompletionItems": [
+        {
+          "item": "No participant document is produced while this track is deferred",
+          "whereInPacket": "Not applicable",
+          "why": "The track is held under legal_research_required. No output strategy is asserted and no packet is offered."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "SDCL § 23A-27-53 — Probation for violation of § 22-42-5 or 22-42-5.1, treatment, revocation (official statute text, Source: SL 2017 ch 92 § 2; SL 2019 ch 116 § 1)",
+          "url": "https://sdlegislature.gov/Statutes/23A-27-53",
+          "retrievedOn": "2026-08-05"
+        }
+      ],
+      "rules": {
+        "filing": "Unresolved while the track is deferred. The mechanism operates inside a pending criminal case rather than as a record-clearing application.",
+        "fees": "Unresolved while the track is deferred.",
+        "feeWaiver": "none",
+        "notice": "Unresolved while the track is deferred.",
+        "service": "Unresolved while the track is deferred.",
+        "participantSignature": "none",
+        "notarization": "none"
+      },
+      "selfHelpStopConditions": [
+        "The whole track. It is deferred under legal_research_required and is absent from runtime resolution and unreachable.",
+        "Any plea negotiation, which is criminal defence rather than record clearing.",
+        "Aggravating circumstances as defined by § 22-6-11.",
+        "A defendant serving a sentence under executive-branch supervision.",
+        "Any prior deferred imposition of sentence."
+      ],
+      "_unresolvedQuestionsNote": "Preserved from the controlling review with impact and affected element. Reading the section at source narrowed but did not close the questions counsel raised.",
+      "unresolvedQuestions": [
+        {
+          "question": "What record remains after dismissal of the original charge, given that the dismissal is conditioned on the defendant pleading guilty to ingestion under § 22-42-15 or possession under § 22-42-15.1? The mechanism trades a greater charge for a conviction on a lesser one, which is a plea-bargaining structure rather than a record-clearing one, and whether it produces a sealable record is not established.",
+          "impact": "release_blocker",
+          "affectedElement": "legal_effect_or_warning",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 5 / Open questions / 2",
+            "sourceStatement": "What record remains after dismissal of the original charge, given the guilty plea to the lesser offense. Release blocker."
+          }
+        },
+        {
+          "question": "How does § 23A-27-53 interact with the arrest-expungement track and the suspended-imposition-of-sentence track? Counsel recorded that this is not established.",
+          "impact": "build_blocker",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 5 / Why this needs work",
+            "sourceStatement": "Whether it produces a sealable record, and how it interacts with Tracks 1 and 4, is not established."
+          }
+        },
+        {
+          "question": "What do 'aggravating circumstances' mean here? The section defines them by reference to SDCL § 22-6-11, which was not read at source in this pass.",
+          "impact": "build_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 5 / Open questions / 3",
+            "sourceStatement": "What \"aggravating circumstances\" means here. Unresolved."
+          }
+        },
+        {
+          "question": "Counsel recorded the full text of § 23A-27-53 as a build blocker. The section has now been read at the official South Dakota Legislature publication and matches the review, and it additionally supplies two facts the review did not carry: the aggravating-circumstances exclusion is defined by SDCL § 22-6-11, and no person previously granted a deferred imposition of sentence is eligible for a second.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 5 / Open questions / 1",
+            "sourceStatement": "Full text of § 23A-27-53. Build blocker.",
+            "counselQuestion": "The section now reads at source. Does the once-only deferred-imposition limit and the § 22-6-11 cross-reference change counsel's view of the track's shape?"
+          }
+        }
+      ],
+      "_limitationsNote": "Every limitation is classified. This track is deferred, so no output strategy is asserted.",
+      "legalDesignDecision": {
+        "status": "legal_research_required",
+        "rationale": "Additional research required, as counsel decided. Reading § 23A-27-53 at the official source confirmed the mechanism and added two eligibility facts, but it did not answer the question that matters for record clearing: what record remains once the original charge is dismissed and the defendant stands convicted of the lesser ingestion or possession offence. The mechanism is a plea-bargaining structure rather than a record-clearing one, and its interaction with the arrest and SIS tracks is not established. The track is deferred, absent from runtime resolution and unreachable, with counsel's structure preserved.",
+        "limitations": [
+          {
+            "classification": "legal_design_blocker",
+            "undeterminedElement": "output_strategy",
+            "statement": "The output strategy is undetermined. No concrete strategy may stand in for it while the track is deferred.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "TRACK 5 / Output strategy",
+              "sourceStatement": "Output strategy: undetermined."
+            }
+          },
+          {
+            "classification": "legal_design_blocker",
+            "undeterminedElement": "governing_mechanism",
+            "statement": "Whether § 23A-27-53 produces a sealable record at all, and how it interacts with the arrest-expungement and SIS tracks, is not established.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "TRACK 5 / Why this needs work",
+              "sourceStatement": "the mechanism involves a plea to a lesser offense as the price of dismissal of the greater, which is a plea-bargaining structure rather than a record-clearing one. Whether it produces a sealable record, and how it interacts with Tracks 1 and 4, is not established."
+            }
+          },
+          {
+            "classification": "self_help_boundary",
+            "statement": "Plea negotiation is criminal defence, not record clearing, and is outside LegalEase scope entirely.",
+            "provenance": {
+              "classificationBasis": "general_packet_only_rule",
+              "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "TRACK 5 / Why this needs work",
+              "sourceStatement": "the mechanism involves a plea to a lesser offense as the price of dismissal of the greater, which is a plea-bargaining structure rather than a record-clearing one."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "sd_23_6_8_1_destruction",
+      "nodeType": "relief_track",
+      "legalName": "Destruction of Records by the Bureau of Criminal Statistics (SDCL § 23-6-8.1)",
+      "publicName": "Destruction of old misdemeanor records by the state bureau",
+      "controllingAuthority": {
+        "citations": [
+          "SDCL § 23-6-8.1"
+        ],
+        "summary": "The director of the Bureau of Criminal Statistics may authorize the destruction of information and records of: persons who are dead; persons seventy-five years of age or older unless a violation has occurred within the last ten years; incidents that are no longer considered crimes under the laws of South Dakota; and misdemeanor offenses whose final date of disposition occurred at least ten years prior to the authorized destruction date. Information and records received by the bureau may not be destroyed except as provided by this section. This is the only true destruction provision identified in South Dakota and it sits entirely outside the expungement chapter."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "1984-07-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-08-01"
+      },
+      "eligibleRecordTypes": [
+        "conviction",
+        "charge",
+        "arrest"
+      ],
+      "eligibleDispositions": [
+        "misdemeanor_disposed_at_least_ten_years_ago",
+        "conduct_no_longer_criminal",
+        "person_deceased",
+        "person_seventy_five_or_older"
+      ],
+      "exclusions": [
+        "Felony records, which the misdemeanor branch of the section does not reach.",
+        "Persons seventy-five or older where a violation has occurred within the last ten years.",
+        "Any destruction not provided for by the section; records received by the bureau may not otherwise be destroyed.",
+        "Federal, tribal, military and out-of-state records."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Misdemeanor offenses, measured from the final date of disposition to the authorized destruction date",
+          "duration": "at least 10 years"
+        },
+        {
+          "condition": "Persons seventy-five years of age or older, with no violation in the preceding ten years",
+          "duration": "10 years without a violation"
+        }
+      ],
+      "outputStrategyStatus": "unresolved",
+      "packetIdentity": "unresolved",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "The Bureau of Criminal Statistics. No court is involved."
+      },
+      "destination": {
+        "kind": "agency",
+        "name": "Director of the South Dakota Bureau of Criminal Statistics",
+        "detail": "The statute vests the destruction authority in the bureau's director, who MAY authorize destruction. No participant application, petition or request is described by the section."
+      },
+      "components": [],
+      "_participantInputsNote": "Recorded so counsel's structure is preserved. Nothing is generated while the track is deferred.",
+      "participantInputs": [
+        {
+          "key": "offenceLevel",
+          "question": "Was the offence a misdemeanor?",
+          "requirement": "required"
+        },
+        {
+          "key": "finalDispositionDate",
+          "question": "On what date did the case reach its final disposition?",
+          "requirement": "required"
+        },
+        {
+          "key": "conductStillCriminal",
+          "question": "Is the conduct still a crime under South Dakota law today?",
+          "requirement": "required"
+        },
+        {
+          "key": "ageSeventyFiveOrOlder",
+          "question": "Are you seventy-five years of age or older, and have you had any violation in the last ten years?",
+          "requirement": "required"
+        }
+      ],
+      "_supportingDocumentsNote": "Recorded so counsel's structure is preserved. Nothing is generated while the track is deferred.",
+      "supportingDocuments": [
+        {
+          "name": "South Dakota criminal history record",
+          "obtainedFrom": "South Dakota Division of Criminal Investigation",
+          "requirement": "conditional",
+          "conditionDescription": "Would establish what the state still holds.",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Request a criminal history record from the DCI.",
+          "confirms": "finalDispositionDate"
+        }
+      ],
+      "_manualCompletionNote": "Nothing is generated while the track is deferred.",
+      "manualCompletionItems": [
+        {
+          "item": "No participant document is produced while this track is deferred",
+          "whereInPacket": "Not applicable",
+          "why": "The track is held under legal_research_required, and the statute in any event describes no participant application."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "SDCL § 23-6-8.1 — Destruction of records of certain persons, incidents, and offenses (official statute text, Source: SL 1979 ch 158 § 7; SL 1984 ch 176)",
+          "url": "https://sdlegislature.gov/Statutes/23-6-8.1",
+          "retrievedOn": "2026-08-05"
+        }
+      ],
+      "rules": {
+        "filing": "No participant filing is described by the section. Whether a participant can prompt the bureau at all is unresolved.",
+        "fees": "none identified",
+        "feeWaiver": "none",
+        "notice": "none identified",
+        "service": "none identified",
+        "participantSignature": "none",
+        "notarization": "none"
+      },
+      "selfHelpStopConditions": [
+        "The whole track. It is deferred under legal_research_required and is absent from runtime resolution and unreachable.",
+        "Any expectation that destruction can be demanded; the statute makes it discretionary with the bureau's director.",
+        "Any assumption that destruction by the bureau reaches court records or the DCI nonpublic record.",
+        "Federal, tribal, military or out-of-state records."
+      ],
+      "_unresolvedQuestionsNote": "Preserved from the controlling review with impact and affected element. Reading the section at source answered counsel's second question and is recorded rather than silently applied.",
+      "unresolvedQuestions": [
+        {
+          "question": "Counsel flagged as a release blocker whether § 23-6-8.1 destruction is automatic, discretionary or on request, because it determines whether there is anything for a participant to do. The section has now been read at the official South Dakota Legislature publication: the director of the Bureau of Criminal Statistics 'may authorize' the destruction. It is discretionary and bureau-initiated, and the section describes no participant application, petition or request. The section also covers three categories the review did not carry: deceased persons, persons seventy-five or older absent a violation in the last ten years, and incidents no longer considered crimes.",
+          "impact": "release_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 7 / Open questions / 2",
+            "sourceStatement": "Whether destruction is automatic, discretionary, or on request. Release blocker, because it determines whether there is anything for a participant to do.",
+            "counselQuestion": "The section reads 'may authorize' and describes no participant application. Does counsel accept that this is a discretionary bureau-initiated function with nothing for a participant to submit, and should the track therefore be retained as guidance or dropped from the participant-facing set entirely?"
+          }
+        },
+        {
+          "question": "How does § 23-6-8.1 destruction interact with the DCI nonpublic record that is expressly retained on the expungement and SIS tracks?",
+          "impact": "build_blocker",
+          "affectedElement": "legal_effect_or_warning",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 7 / Open questions / 3",
+            "sourceStatement": "How it interacts with the DCI nonpublic record retained on the expungement tracks. Unresolved."
+          }
+        },
+        {
+          "question": "effectiveFrom records 1984-07-01, the South Dakota default effective date for SL 1984 ch 176, the most recent amendment in the official source line. The section originates in SL 1979 ch 158 § 7.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 7 / Controlling statute",
+            "sourceStatement": "Controlling statute: SDCL § 23-6-8.1.",
+            "counselQuestion": "Is the South Dakota July 1 default the right effectiveFrom where the session law states no express effective date?"
+          }
+        }
+      ],
+      "_limitationsNote": "Every limitation is classified. This track is deferred, so no output strategy is asserted.",
+      "legalDesignDecision": {
+        "status": "legal_research_required",
+        "rationale": "Additional research required, as counsel decided. Reading § 23-6-8.1 at the official source answers counsel's question about whether destruction is automatic, discretionary or on request — the director 'may authorize' it, so it is discretionary and bureau-initiated with no participant application described — and it widens the section beyond the misdemeanor branch the review carried. What remains open is how bureau destruction interacts with the DCI nonpublic record expressly retained on the expungement and SIS tracks, and whether there is any participant-facing action at all. The track is deferred, absent from runtime resolution and unreachable, with counsel's structure preserved and the statutory correction recorded.",
+        "limitations": [
+          {
+            "classification": "legal_design_blocker",
+            "undeterminedElement": "output_strategy",
+            "statement": "The output strategy is undetermined pending resolution of whether there is any participant-facing action on this track at all.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "TRACK 7 / Output strategy",
+              "sourceStatement": "Output strategy: process_guidance, pending the text."
+            }
+          },
+          {
+            "classification": "manual_completion_item",
+            "statement": "Add § 23-6-8.1 to the mechanism list. It is the only true destruction provision identified in South Dakota, it sits outside the expungement chapter, and it is absent from the internal reference.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "Add § 23-6-8.1 to the mechanism list | Manual completion item"
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "Destruction under this section is discretionary with the director of the Bureau of Criminal Statistics. Never describe it to a participant as something they can demand or apply for.",
+            "provenance": {
+              "classificationBasis": "counsel_confirmation_required",
+              "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "TRACK 7 / Mechanism",
+              "sourceStatement": "the director of the Bureau of Criminal Statistics is authorised to destroy information and records of misdemeanor offenses whose final date of disposition occurred at least ten years before the authorised destruction date.",
+              "counselQuestion": "Confirm that 'may authorize' in the official text supports classifying this as a discretionary bureau function with no participant-facing request."
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

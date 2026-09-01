@@ -1,0 +1,184 @@
+{
+  "schemaVersion": "rcap-external-assignment/v1",
+  "captainSha": "26aa64d00e7eb0406e5c7939febed85b50d0cf60",
+  "createdAt": "2026-09-01T12:22:08Z",
+  "minimumAncestor": "f240e47687eddd47d432996823ce932affcd54cc",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "captainIsSoleAuthorityFor": [
+    "the claim ledger",
+    "the master and raster queues",
+    "central raster dispatch",
+    "integration",
+    "commercial authority",
+    "anything touching Production"
+  ],
+  "neverDo": [
+    "claim a family a live grant already holds",
+    "modify data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
+    "modify RASTER_QUEUE.json, MASTER_QUEUE.json or ACTIVE_ASSIGNMENTS.json",
+    "open a commercial route, alter checkout, entitlement or packet-credit behaviour",
+    "touch Production, Supabase RLS, Stripe live mode, or any secret",
+    "verify a packet you built or repaired"
+  ],
+  "workerId": "CODEX-CS-B",
+  "assignmentId": "CSB-FIX09-V4-BATCH-001",
+  "assignmentVersion": 4,
+  "batchTag": "BATCH-001",
+  "mode": "PACKET_REPAIR",
+  "role": "Repair and Promotion Factory (persistent Codespace)",
+  "lane": "FIX09",
+  "laneKind": "repair",
+  "subjectIds": [
+    "az_marijuana_expungement_arrest_no_charges-set",
+    "ca-1203-42-set",
+    "ca-851-91-set",
+    "nj_arrest_no_conviction-set",
+    "nj_indictable_conviction-set",
+    "ny_160_59_petition-set"
+  ],
+  "subjects": [
+    {
+      "familyId": "az_marijuana_expungement_arrest_no_charges-set",
+      "directory": "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-arrest-no-charges-set--official-pdf-fill",
+      "masterQueueState": "FAIL_REPAIR_REQUIRED",
+      "sharesBytesWithAnotherFamily": false,
+      "firstReadBy": "VF17"
+    },
+    {
+      "familyId": "ca-1203-42-set",
+      "directory": "data/rcap-all50/overlays/census-v1/ca/ca-1203-42-set--official-pdf-fill",
+      "masterQueueState": "FAIL_REPAIR_REQUIRED",
+      "sharesBytesWithAnotherFamily": false,
+      "firstReadBy": "VF17"
+    },
+    {
+      "familyId": "ca-851-91-set",
+      "directory": "data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill",
+      "masterQueueState": "FAIL_REPAIR_REQUIRED",
+      "sharesBytesWithAnotherFamily": false,
+      "firstReadBy": "VF17"
+    },
+    {
+      "familyId": "nj_arrest_no_conviction-set",
+      "directory": "data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill",
+      "masterQueueState": "FAIL_REPAIR_REQUIRED",
+      "sharesBytesWithAnotherFamily": false,
+      "firstReadBy": "VF17"
+    },
+    {
+      "familyId": "nj_indictable_conviction-set",
+      "directory": "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill",
+      "masterQueueState": "FAIL_REPAIR_REQUIRED",
+      "sharesBytesWithAnotherFamily": false,
+      "firstReadBy": "VF17"
+    },
+    {
+      "familyId": "ny_160_59_petition-set",
+      "directory": "data/rcap-all50/overlays/census-v1/ny/ny-160-59-petition-set--official-pdf-fill",
+      "masterQueueState": "FAIL_REPAIR_REQUIRED",
+      "sharesBytesWithAnotherFamily": false,
+      "firstReadBy": "VF17"
+    }
+  ],
+  "claimPlan": [
+    {
+      "subjectId": "az_marijuana_expungement_arrest_no_charges-set",
+      "kind": "ALREADY_ACTIVE",
+      "holdingLane": "FIX09",
+      "operation": "rapid-repair",
+      "captainAction": null,
+      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 az_marijuana_expungement_arrest_no_charges-set"
+    },
+    {
+      "subjectId": "ca-1203-42-set",
+      "kind": "ALREADY_ACTIVE",
+      "holdingLane": "FIX09",
+      "operation": "rapid-repair",
+      "captainAction": null,
+      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 ca-1203-42-set"
+    },
+    {
+      "subjectId": "ca-851-91-set",
+      "kind": "ALREADY_ACTIVE",
+      "holdingLane": "FIX09",
+      "operation": "rapid-repair",
+      "captainAction": null,
+      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 ca-851-91-set"
+    },
+    {
+      "subjectId": "nj_arrest_no_conviction-set",
+      "kind": "ALREADY_ACTIVE",
+      "holdingLane": "FIX09",
+      "operation": "rapid-repair",
+      "captainAction": null,
+      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 nj_arrest_no_conviction-set"
+    },
+    {
+      "subjectId": "nj_indictable_conviction-set",
+      "kind": "ALREADY_ACTIVE",
+      "holdingLane": "FIX09",
+      "operation": "rapid-repair",
+      "captainAction": null,
+      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 nj_indictable_conviction-set"
+    },
+    {
+      "subjectId": "ny_160_59_petition-set",
+      "kind": "ALREADY_ACTIVE",
+      "holdingLane": "FIX09",
+      "operation": "rapid-repair",
+      "captainAction": null,
+      "workerCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 ny_160_59_petition-set"
+    }
+  ],
+  "claimAssertions": [
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 az_marijuana_expungement_arrest_no_charges-set",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 ca-1203-42-set",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 ca-851-91-set",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 nj_arrest_no_conviction-set",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 nj_indictable_conviction-set",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX09 ny_160_59_petition-set"
+  ],
+  "claimPrerequisite": "Every one of these families already holds a RELEASED repair claim from FIX01-FIX08, so a bare --assert is refused as a duplicate. Captain transfers each grant to FIX09 first; claimPlan carries the exact command per subject.",
+  "ownedPaths": [
+    "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-arrest-no-charges-set--official-pdf-fill/**",
+    "data/rcap-all50/overlays/census-v1/ca/ca-1203-42-set--official-pdf-fill/**",
+    "data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill/**",
+    "data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill/**",
+    "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/**",
+    "data/rcap-all50/overlays/census-v1/ny/ny-160-59-petition-set--official-pdf-fill/**"
+  ],
+  "prohibitedPaths": [
+    "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
+    "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+    "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+    "data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json"
+  ],
+  "controllingEvidencePaths": [
+    "data/rcap-grade-a/launch-control/next-waves/REPAIR_BY_DEFECT_CLASS.json",
+    "data/rcap-grade-a/launch-control/next-waves/PARTICIPANT_INSTRUCTIONS_GAP.json"
+  ],
+  "focusedTestCommands": [
+    "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs",
+    "node scripts/grade-a-packet-factory-24h/verify-lane-contracts.mjs"
+  ],
+  "rasterDisposition": "A repair that moves packet bytes INVALIDATES that family's raster receipt. That is expected, not a regression: say so in the return and Captain re-rasters centrally.",
+  "repairerSeparation": "You repair. You never verify your own repair — a different worker reads it, and Captain moves the grant with claim.mjs --transfer.",
+  "repairOnlyTheNamedObligations": "REPAIR_BY_DEFECT_CLASS.json names the failing obligation per family. Repair those. Widening the change costs the receipt for no gain.",
+  "theTrapInThisQueue": "12 families across 3 groups pin byte-identical documents, which is what a missing route election looks like from outside. PF-B holds that classification. Do not repair ROUTE_OPTIONS on a family flagged sharesBytesWithAnotherFamily until PF-B returns.",
+  "stopConditions": [
+    "a claim assert is refused",
+    "the repair would require writing an unsourced court, fee, waiver route or service rule",
+    "the defect turns out to be in the evidence record rather than the packet (say which)",
+    "a live verification grant is open on the family"
+  ],
+  "branchPrefix": "codex/cs-b/",
+  "expiresAt": null,
+  "returnPath": "data/rcap-grade-a/external-worker-control/returns/CODEX-CS-B/CSB-FIX09-V4-BATCH-001",
+  "branch": "codex/cs-b/csb-fix09-v4-batch-001",
+  "branchFrom": {
+    "remote": "origin/claude/legalease-sprint-captain-utucnw",
+    "mustContain": "26aa64d00e7eb0406e5c7939febed85b50d0cf60",
+    "why": "the activated ledger and this assignment live at that commit; branching from an earlier one gives you a ledger where your grant does not exist"
+  }
+}

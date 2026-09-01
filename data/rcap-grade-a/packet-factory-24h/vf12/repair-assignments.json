@@ -1,0 +1,34 @@
+{
+ "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
+ "lane": "VF12",
+ "generatedAtBase": "09b741ad00be0d630bd73a72f66640294abab397",
+ "repairAssignments": [
+  {
+   "itemId": "vt_seal_dui-set",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-dui-set--official-pdf-fill",
+   "decisiveDefect": "A mapped known prefill is silently missing from the boundary artifact: participant.email is absent from 200-00132 page 1 on the boundary bytes while the same value is written on two other documents of the same artifact and the family's own report still counts it.",
+   "failedProofObligations": [
+    {
+     "obligation": "knownPrefills",
+     "finding": "One mapped known prefill is absent from the boundary artifact's bytes. participant.email is mapped to 200-00132 page 1 field \"34i\" (rect x395.69 y120.55 w174.74 h12.96) in both fixtures. The canonical artifact carries it: packet page 3 holds eight flattened widget appearances, the eighth reading \"jordan.reyes@example.org\". The boundary artifact carries only seven on the same page and the email is not among them, while the family's own report still records valuesReportedByFinalizer 8 for that document and fixture. The loss is silent — no refusal, no unfittable note, no finding. It is not a policy on long values either: the same boundary email, maria.alejandra.oshaughnessy.whitfield@longmailexample.org, is written and present on packet page 2 (200-00130) and packet page 5 (600-00228) of the same artifact."
+    },
+    {
+     "obligation": "feeAndWaiver",
+     "finding": "The fee is not stated and no waiver route is established. The instructions say so themselves: \"The filing fee, and whether it can be waived. Ask the clerk of the unit above what the fee is for a petition to seal under 13 V.S.A. § 7602, and whether the fee-waiver application in this packet applies. The waiver form is included; the amount it waives is not stated here.\" The waiver form 600-00228 is in the packet and filled, which is more than nothing, but the packet does not establish that it applies to this filing, and an instruction to ask the clerk is not the fee being stated."
+    },
+    {
+     "obligation": "service",
+     "finding": "Who must be served, and how, is not stated. The instructions say: \"Who must be served, and how. Ask the same clerk who must receive a copy of the petition and by what method. The stipulation route needs the State's Attorney's signature, which is not the same thing as service and does not substitute for it.\" The packet correctly refuses to conflate the prosecutor's signature with service, and correctly declines to invent a rule, but neither a recipient nor a method is stated."
+    }
+   ],
+   "repairScope": "Two separable repairs, neither of them this lane's. (1) A packet repair lane on the shared Vermont host scripts/build-census-v1-vt_seal_misdemeanor-set.mjs finds why the 200-00132 field 34i write is dropped for the boundary participant and not for the canonical one, fixes it, and re-renders. The write is dropped without a refusal or an unfittable note, so the finalizer's own accounting is wrong as well as the artifact: valuesReportedByFinalizer stays 8 while seven writes reach the bytes. All five families that resolve to that host should be re-checked, not only these two. (2) feeAndWaiver and service are not a packet defect: the underlying facts are open source obligations already dispatched as vt_seal_18_to_21-set::filing-fee-and-waiver-route, vt_seal_18_to_21-set::service-recipient-and-method, vt_seal_dui-set::filing-fee-and-waiver-route and vt_seal_dui-set::service-recipient-and-method through VTR02_VT_FEE_AND_SERVICE_SOURCE. No packet lane should write a fee or a service rule the source lane has not returned.",
+   "notForThisLaneToInfer": [
+    "the Vermont filing fee for a petition to seal under 13 V.S.A. § 7602",
+    "the waiver route",
+    "the service recipient and method"
+   ],
+   "whatThisDoesNotChange": "Thirteen of the fifteen obligations pass on measurement made in this lane, including all three source digests recomputed from the Master Library bytes and both artifact hashes recomputed from the PDF bytes. filingDestination, which VF01 and VF02 failed on the earlier instruction text, passes on the text at this base."
+  }
+ ]
+}

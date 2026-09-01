@@ -1,6 +1,21 @@
 {
   "schemaVersion": "2.0.0",
   "profileVersion": "2026-06-19-source-conversion-1",
+  "questionLifecycle": {
+    "routeConsumers": {},
+    "exactPacketFactIds": [
+      "criminal_history",
+      "disposition_date",
+      "court",
+      "charge",
+      "record_documents",
+      "county_or_filing_location",
+      "case_identifier"
+    ],
+    "completionAliasIds": [
+      "financial_obligations"
+    ]
+  },
   "jurisdiction": {
     "code": "AZ",
     "name": "Arizona",
@@ -442,7 +457,15 @@
       },
       "sourceEvidenceRefs": [
         "pathways:76-118"
-      ]
+      ],
+      "lawrenceRatification": {
+        "status": "ratified_deployable",
+        "packet_capable": true,
+        "payment_allowed_when_engine_confirms": true,
+        "legal_basis": "Projected from data/record-clearing/legal-decisions/route-ratification-registry.json. Decision authority: Lawrence (counsel), recorded through docs/RCAP_HELD_ROUTE_RATIFICATION_WORKSHEET.md and the evaluator's ratification sets.",
+        "lawrence_review": "ratified_deployable",
+        "projectedFrom": "route-ratification-registry"
+      }
     },
     {
       "id": "remedy-2-set-aside-of-a-conviction",

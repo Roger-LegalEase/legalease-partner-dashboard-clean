@@ -124,7 +124,7 @@
       "F": 0
     },
     "jobsRemainingToLaunch": 0,
-    "tracksTerminalizedThisWindow": 106,
+    "tracksTerminalizedThisWindow": 105,
     "candidateTreatmentsPendingReview": 0,
     "candidateTreatmentBreakdown": {
       "complete_guidance": 67,
@@ -2285,7 +2285,7 @@
       "declaredStrategy": "process_guidance",
       "coverageDisposition": "exact_current_pathway",
       "mappedCompiledPathwayIds": [
-        "youthful-first-offender-restriction-route"
+        "retroactive-first-offender-treatment-under-42-8-66"
       ],
       "terminal": true,
       "holds": [],
@@ -2858,7 +2858,20 @@
       "requiredTreatment": null,
       "candidateTreatment": "production_packet",
       "candidateEvidence": "data/rcap-all50/pleadings/illinois/il-immediate-seal",
-      "candidateStatus": "promoted_by_f2",
+      "candidateStatus": "retired_by_legal_decision",
+      "legalRetirement": {
+        "decisionId": "LWD-2026-08-29-IL-5-2-G",
+        "decisionOwner": "Lawrence (counsel)",
+        "decisionDate": "2026-08-29",
+        "answer": "YES — RETIRE IT.",
+        "scope": "the participant-facing prepared pleading only",
+        "pathwayRemainsInServiceModel": true,
+        "retainedAs": [
+          "same-hearing attorney action",
+          "attorney/legal-aid referral",
+          "no participant-facing prepared immediate-sealing pleading"
+        ]
+      },
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -4649,12 +4662,12 @@
       "jurisdiction": "MO",
       "trackId": "mo-610-141-automatic-drug",
       "declaredStrategy": "process_guidance",
-      "coverageDisposition": "missing_from_compiled_runtime",
-      "mappedCompiledPathwayIds": [],
-      "terminal": true,
-      "holds": [
-        "missing_from_compiled_runtime"
+      "coverageDisposition": "exact_current_pathway",
+      "mappedCompiledPathwayIds": [
+        "state-initiated-automatic-expungement-of-eligible-drug-offenses-under-610-141"
       ],
+      "terminal": true,
+      "holds": [],
       "requiredTreatment": null,
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/mo.json",
@@ -4798,9 +4811,11 @@
       "jurisdiction": "MS",
       "trackId": "ms-misd-addl",
       "declaredStrategy": "custom_pleading",
-      "coverageDisposition": "exact_current_pathway",
+      "coverageDisposition": "represented_by_compiled_variants",
       "mappedCompiledPathwayIds": [
-        "additional-justice-or-municipal-court-misdemeanor-relief"
+        "additional-justice-court-misdemeanor-relief-9-11-15-3",
+        "additional-justice-or-municipal-court-misdemeanor-relief",
+        "additional-municipal-court-misdemeanor-relief-21-23-7-6"
       ],
       "terminal": true,
       "holds": [],
@@ -4814,13 +4829,28 @@
       "jurisdiction": "MS",
       "trackId": "ms-nonadj",
       "declaredStrategy": "custom_pleading",
-      "coverageDisposition": "exact_current_pathway",
+      "coverageDisposition": "represented_by_approved_stage_split",
       "mappedCompiledPathwayIds": [
+        "nonadjudication-99-15-26-active-case-admission",
         "nonadjudication-under-99-15-26"
       ],
       "terminal": true,
       "holds": [],
       "requiredTreatment": null,
+      "promotionStatus": "promoted_by_legal_authority",
+      "promotionEvidence": {
+        "decisionId": "LD-MS-01",
+        "routeKeys": [
+          "MS:nonadjudication-99-15-26-active-case-admission",
+          "MS:nonadjudication-under-99-15-26"
+        ],
+        "pathwayIds": [
+          "nonadjudication-99-15-26-active-case-admission",
+          "nonadjudication-under-99-15-26"
+        ],
+        "activeRuntimeKind": "guidance_only",
+        "completedRuntimeKind": "legacy_retired"
+      },
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,

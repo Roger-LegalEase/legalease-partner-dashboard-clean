@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "cb09-mutation-plan/v1",
+  "mode": "proposal_only",
+  "canonicalFilesModified": 0,
+  "proposals": [
+    {
+      "id": "CB09-PATCH-001",
+      "targetPaths": [
+        "scripts/verify-rcap-grade-a-fulfillment-hardening.mjs"
+      ],
+      "minimalPatch": [
+        "Add filingFormatArtifact.producedBy to completenessProof with a named synthetic renderer, matchesRecordProvider=true, reconciliation=null, and deterministicRenderVerified=true.",
+        "Add independent mutations for absent producer, unnamed producer, mismatched unreconciled producer, and unverified deterministic render."
+      ],
+      "acceptance": [
+        "The non-mutated hardening baseline admits all declared points.",
+        "All existing and new mutations are caught."
+      ]
+    },
+    {
+      "id": "CB09-PATCH-002",
+      "targetPaths": [
+        "scripts/verify-expungement-consumer-checkout.mjs",
+        "src/lib/expungement-ai/payment-adapter.ts"
+      ],
+      "minimalPatch": [
+        "Replace the stale source-string packet-status assertion with a semantic assertion that finalizePaidCheckoutSession writes pending only after a queued durable render.",
+        "Decide whether pathway_label remains required canonical metadata; if required, populate it from server-resolved item/pathway data, otherwise remove only the obsolete verifier expectation after contract review.",
+        "Preserve webhook-only payment writing, amount/currency/hash binding, ownership lookup, and sponsored-session refusals."
+      ],
+      "acceptance": [
+        "Focused checkout verifier passes without weakening any denial.",
+        "HTTP mutation suite remains 8/8 red."
+      ]
+    },
+    {
+      "id": "CB09-PATCH-003",
+      "targetPaths": [
+        "scripts/verify-expungement-briefcase-delivery.mjs"
+      ],
+      "minimalPatch": [
+        "Update the static route fixture/assertion so MA follows current payment authority rather than an obsolete paid-route expectation.",
+        "Keep the DB-backed portion fail-closed when required Supabase variables are absent."
+      ],
+      "acceptance": [
+        "Static delivery assertions agree with canonical route authority.",
+        "No route becomes deliverable or paid as a result."
+      ]
+    }
+  ]
+}

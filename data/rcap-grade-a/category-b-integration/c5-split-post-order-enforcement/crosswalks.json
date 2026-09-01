@@ -1,0 +1,281 @@
+{
+  "schemaVersion": "rcap-category-b-integration-crosswalks/v1",
+  "assignmentId": "C5_SPLIT_POST_ORDER_ENFORCEMENT",
+  "baseSha": "227f095d5d1493feca56779cf60c6f177caebd61",
+  "rule": "A form-token match is evidence for the matched component only. A crosswalk is confirmed only when committed Category A identities cover every participant-filed component or when explicit scenario selectors route each component to an existing identity.",
+  "counts": {
+    "reuseAsIsRoutes": 7,
+    "crosswalkRecords": 7,
+    "confirmed": 2,
+    "stoppedPartial": 5,
+    "noExistingWorkRoutesReviewed": 3,
+    "commercialRoutesOpened": 0
+  },
+  "crosswalks": [
+    {
+      "bStageRouteKey": "obligation:track-only:KY:ky_diversion_disposition_routing",
+      "status": "STOPPED_PARTIAL",
+      "aBranchRouteKeys": [
+        "obligation:track-pathway:KY:ky_nonconviction_expungement:nonconviction-431076"
+      ],
+      "matchedForms": [
+        "AOC-497.2"
+      ],
+      "basis": "The existing Category A route is A_MUST_FULFILL and requires AOC-497.2, but the composite participant instrument begins with a corrective motion or request that the existing route does not identify.",
+      "coveredInstrumentParts": [
+        "Participant-filed AOC-497.2 nonconviction-expungement petition."
+      ],
+      "uncoveredInstrumentParts": [
+        "Motion or written request to enforce or correct the successful diversion dismissal."
+      ],
+      "correctionsToGeneratedProposal": [
+        "AOC-497.3 is generated through the court case-management system and signed by the judge; the committed census says the defendant takes no action on that form."
+      ],
+      "noDuplicateRouteCreated": true,
+      "evidencePointers": [
+        "data/rcap-grade-a/launch-control/CATEGORY_B_STAGE_BRANCH_CROSSWALK.json#pairs[bStageRouteKey=obligation:track-only:KY:ky_diversion_disposition_routing]",
+        "data/rcap-grade-a/launch-control/CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json#rows[originalRouteKey=obligation:track-only:KY:ky_diversion_disposition_routing]",
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json#routes[routeKey=obligation:track-only:KY:ky_automatic_nonconviction_expungement_verification]",
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json#routes[routeKey=obligation:track-pathway:KY:ky_nonconviction_expungement:nonconviction-431076]"
+      ]
+    },
+    {
+      "bStageRouteKey": "obligation:track-only:MD:md_10104_pre_service",
+      "status": "CONFIRMED_SCENARIO_SPLIT",
+      "aBranchRouteKeys": [
+        "obligation:track-pathway:MD:md_10105_favorable:adult-non-conviction-expungement-under-crim-proc-10-105",
+        "obligation:track-pathway:MD:md_10105_early:adult-non-conviction-expungement-under-crim-proc-10-105"
+      ],
+      "matchedForms": [
+        "CC-DC-CR-072A",
+        "CC-DC-CR-072C",
+        "CC-DC-CR-078"
+      ],
+      "basis": "The frozen census separates ordinary favorable-disposition filing from filing before the three-year period. The first existing Category A route requires CC-DC-CR-072A; the second requires CC-DC-CR-072C and CC-DC-CR-078. Timing selectors cover both committed instrument scenarios without attributing the waiver to the 072A route.",
+      "scenarioBindings": [
+        {
+          "when": "The ordinary favorable-disposition petition timing applies.",
+          "aBranchRouteKey": "obligation:track-pathway:MD:md_10105_favorable:adult-non-conviction-expungement-under-crim-proc-10-105",
+          "instrument": "CC-DC-CR-072A Petition for Expungement."
+        },
+        {
+          "when": "The person seeks early filing instead of waiting three years and the General Waiver and Release path applies.",
+          "aBranchRouteKey": "obligation:track-pathway:MD:md_10105_early:adult-non-conviction-expungement-under-crim-proc-10-105",
+          "instrument": "CC-DC-CR-072C with CC-DC-CR-078 General Waiver and Release."
+        }
+      ],
+      "coveredInstrumentParts": [
+        "CC-DC-CR-072A Petition for Expungement under the ordinary favorable-disposition timing route.",
+        "CC-DC-CR-072C and CC-DC-CR-078 under the distinct early-filing route."
+      ],
+      "uncoveredInstrumentParts": [],
+      "noDuplicateRouteCreated": true,
+      "evidencePointers": [
+        "data/rcap-grade-a/launch-control/CATEGORY_B_STAGE_BRANCH_CROSSWALK.json#pairs[bStageRouteKey=obligation:track-only:MD:md_10104_pre_service]",
+        "data/rcap-grade-a/launch-control/CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json#rows[originalRouteKey=obligation:track-only:MD:md_10104_pre_service]",
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json#routes[routeKey=obligation:track-pathway:MD:md_10105_favorable:adult-non-conviction-expungement-under-crim-proc-10-105]",
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json#routes[routeKey=obligation:track-pathway:MD:md_10105_early:adult-non-conviction-expungement-under-crim-proc-10-105]"
+      ]
+    },
+    {
+      "bStageRouteKey": "obligation:track-only:MI:mi_auto_misd92",
+      "status": "STOPPED_PARTIAL",
+      "aBranchRouteKeys": [
+        "obligation:track-pathway:MI:mi_setaside_application:set-aside-by-application-under-mcl-780-621"
+      ],
+      "matchedForms": [
+        "MC 227"
+      ],
+      "basis": "The general set-aside route is the universal MC 227 binding, but it does not cover the separate Michigan State Police missing-record or correction request.",
+      "coveredInstrumentParts": [
+        "MC 227 application when the conviction is independently eligible."
+      ],
+      "uncoveredInstrumentParts": [
+        "Michigan State Police missing-record or correction request."
+      ],
+      "candidateResolution": {
+        "selectedUniversalRouteKey": "obligation:track-pathway:MI:mi_setaside_application:set-aside-by-application-under-mcl-780-621",
+        "nonUniversalTokenMatches": [
+          {
+            "routeKey": "obligation:track-pathway:MI:mi_setaside_first_owi:first-offense-owi-set-aside-by-application",
+            "reason": "MC 227 item 2.c is limited to the first-OWI route."
+          },
+          {
+            "routeKey": "obligation:track-pathway:MI:mi_setaside_marihuana:misdemeanor-marijuana-set-aside-under-mcl-780-621e",
+            "reason": "The canonical source is MC 227a, not generic MC 227."
+          },
+          {
+            "routeKey": "obligation:track-pathway:MI:mi_setaside_trafficking:human-trafficking-related-set-aside-application",
+            "reason": "The canonical source is MC 227b, not generic MC 227."
+          }
+        ]
+      },
+      "noDuplicateRouteCreated": true,
+      "evidencePointers": [
+        "data/rcap-grade-a/launch-control/CATEGORY_B_STAGE_BRANCH_CROSSWALK.json#pairs[bStageRouteKey=obligation:track-only:MI:mi_auto_misd92]",
+        "data/rcap-grade-a/launch-control/CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json#rows[originalRouteKey=obligation:track-only:MI:mi_auto_misd92]",
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json#routes[routeKey=obligation:track-pathway:MI:mi_setaside_application:set-aside-by-application-under-mcl-780-621]",
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json#routes[routeKey=obligation:track-pathway:MI:mi_setaside_first_owi:first-offense-owi-set-aside-by-application]",
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json#routes[routeKey=obligation:track-pathway:MI:mi_setaside_marihuana:misdemeanor-marijuana-set-aside-under-mcl-780-621e]",
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json#routes[routeKey=obligation:track-pathway:MI:mi_setaside_trafficking:human-trafficking-related-set-aside-application]"
+      ]
+    },
+    {
+      "bStageRouteKey": "obligation:track-only:MI:mi_auto_misd93",
+      "status": "STOPPED_PARTIAL",
+      "aBranchRouteKeys": [
+        "obligation:track-pathway:MI:mi_setaside_application:set-aside-by-application-under-mcl-780-621"
+      ],
+      "matchedForms": [
+        "MC 227"
+      ],
+      "basis": "The general set-aside route is the universal MC 227 binding, but it does not cover the separate Michigan State Police correction or missing-case request.",
+      "coveredInstrumentParts": [
+        "MC 227 application when the conviction is independently eligible."
+      ],
+      "uncoveredInstrumentParts": [
+        "Michigan State Police correction or missing-case request."
+      ],
+      "candidateResolution": {
+        "selectedUniversalRouteKey": "obligation:track-pathway:MI:mi_setaside_application:set-aside-by-application-under-mcl-780-621",
+        "specializedCandidatesAreNotUniversal": true
+      },
+      "noDuplicateRouteCreated": true,
+      "evidencePointers": [
+        "data/rcap-grade-a/launch-control/CATEGORY_B_STAGE_BRANCH_CROSSWALK.json#pairs[bStageRouteKey=obligation:track-only:MI:mi_auto_misd93]",
+        "data/rcap-grade-a/launch-control/CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json#rows[originalRouteKey=obligation:track-only:MI:mi_auto_misd93]",
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json#routes[routeKey=obligation:track-pathway:MI:mi_setaside_application:set-aside-by-application-under-mcl-780-621]",
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json#routes[routeKey=obligation:track-pathway:MI:mi_setaside_first_owi:first-offense-owi-set-aside-by-application]",
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json#routes[routeKey=obligation:track-pathway:MI:mi_setaside_marihuana:misdemeanor-marijuana-set-aside-under-mcl-780-621e]",
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json#routes[routeKey=obligation:track-pathway:MI:mi_setaside_trafficking:human-trafficking-related-set-aside-application]"
+      ]
+    },
+    {
+      "bStageRouteKey": "obligation:track-only:MI:mi_deferral_status",
+      "status": "STOPPED_PARTIAL",
+      "aBranchRouteKeys": [
+        "obligation:track-pathway:MI:mi_setaside_application:set-aside-by-application-under-mcl-780-621"
+      ],
+      "matchedForms": [
+        "MC 227"
+      ],
+      "basis": "The general set-aside route covers MC 227 only when a remaining conviction is independently eligible; it does not cover the court corrective motion or the administrative criminal-history correction request.",
+      "coveredInstrumentParts": [
+        "MC 227 application for an independently eligible remaining conviction."
+      ],
+      "uncoveredInstrumentParts": [
+        "Motion to enforce or correct the promised deferral disposition.",
+        "Administrative criminal-history correction request."
+      ],
+      "candidateResolution": {
+        "selectedUniversalRouteKey": "obligation:track-pathway:MI:mi_setaside_application:set-aside-by-application-under-mcl-780-621",
+        "specializedCandidatesAreNotUniversal": true
+      },
+      "noDuplicateRouteCreated": true,
+      "evidencePointers": [
+        "data/rcap-grade-a/launch-control/CATEGORY_B_STAGE_BRANCH_CROSSWALK.json#pairs[bStageRouteKey=obligation:track-only:MI:mi_deferral_status]",
+        "data/rcap-grade-a/launch-control/category-b-revalidation/results.json#rows[routeKey=obligation:track-only:MI:mi_deferral_status]",
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json#routes[routeKey=obligation:track-pathway:MI:mi_setaside_application:set-aside-by-application-under-mcl-780-621]",
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json#routes[routeKey=obligation:track-pathway:MI:mi_setaside_first_owi:first-offense-owi-set-aside-by-application]",
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json#routes[routeKey=obligation:track-pathway:MI:mi_setaside_marihuana:misdemeanor-marijuana-set-aside-under-mcl-780-621e]",
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json#routes[routeKey=obligation:track-pathway:MI:mi_setaside_trafficking:human-trafficking-related-set-aside-application]"
+      ]
+    },
+    {
+      "bStageRouteKey": "obligation:track-pathway:MI:mi_auto_felony:automatic-clean-slate-set-aside-under-mcl-780-621g",
+      "status": "STOPPED_PARTIAL",
+      "aBranchRouteKeys": [
+        "obligation:track-pathway:MI:mi_setaside_application:set-aside-by-application-under-mcl-780-621"
+      ],
+      "matchedForms": [
+        "MC 227"
+      ],
+      "basis": "The general set-aside route is the universal MC 227 binding, but it does not cover the separate Michigan State Police correction or missing-case submission.",
+      "coveredInstrumentParts": [
+        "MC 227 application when the conviction is independently eligible."
+      ],
+      "uncoveredInstrumentParts": [
+        "Michigan State Police correction or missing-case submission."
+      ],
+      "candidateResolution": {
+        "selectedUniversalRouteKey": "obligation:track-pathway:MI:mi_setaside_application:set-aside-by-application-under-mcl-780-621",
+        "specializedCandidatesAreNotUniversal": true
+      },
+      "noDuplicateRouteCreated": true,
+      "evidencePointers": [
+        "data/rcap-grade-a/launch-control/CATEGORY_B_STAGE_BRANCH_CROSSWALK.json#pairs[bStageRouteKey=obligation:track-pathway:MI:mi_auto_felony:automatic-clean-slate-set-aside-under-mcl-780-621g]",
+        "data/rcap-grade-a/launch-control/CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json#rows[originalRouteKey=obligation:track-pathway:MI:mi_auto_felony:automatic-clean-slate-set-aside-under-mcl-780-621g]",
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json#routes[routeKey=obligation:track-pathway:MI:mi_setaside_application:set-aside-by-application-under-mcl-780-621]",
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json#routes[routeKey=obligation:track-pathway:MI:mi_setaside_first_owi:first-offense-owi-set-aside-by-application]",
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json#routes[routeKey=obligation:track-pathway:MI:mi_setaside_marihuana:misdemeanor-marijuana-set-aside-under-mcl-780-621e]",
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json#routes[routeKey=obligation:track-pathway:MI:mi_setaside_trafficking:human-trafficking-related-set-aside-application]"
+      ]
+    },
+    {
+      "bStageRouteKey": "obligation:track-only:WI:wi_exp_certificate_of_discharge",
+      "status": "CONFIRMED_SCENARIO_SPLIT",
+      "aBranchRouteKeys": [
+        "obligation:track-only:WI:wi_exp_certificate_of_discharge_followup",
+        "obligation:track-only:WI:wi_exp_cr266"
+      ],
+      "matchedForms": [
+        "CR-266",
+        "CR-267"
+      ],
+      "basis": "The frozen census explicitly sends a supervised-case missing certificate to the existing follow-up A route and reserves CR-266 with CR-267 for the distinct no-probation and no-incarceration scenario. Together, scenario selectors cover the composite participant instrument without creating a duplicate route.",
+      "scenarioBindings": [
+        {
+          "when": "Probation, incarceration, or another supervised sentence ended and the certificate was never issued or forwarded.",
+          "aBranchRouteKey": "obligation:track-only:WI:wi_exp_certificate_of_discharge_followup",
+          "outputStrategy": "custom_pleading",
+          "instrument": "Written request to the supervising or detaining authority to issue and forward the certificate of discharge."
+        },
+        {
+          "when": "The person was not placed on probation and was not sentenced to incarceration.",
+          "aBranchRouteKey": "obligation:track-only:WI:wi_exp_cr266",
+          "outputStrategy": "official_pdf_fill",
+          "instrument": "CR-266 petition with proposed CR-267 order."
+        }
+      ],
+      "coveredInstrumentParts": [
+        "Written missing-certificate follow-up for supervised cases.",
+        "CR-266 and CR-267 filing for the no-probation and no-incarceration scenario."
+      ],
+      "uncoveredInstrumentParts": [],
+      "correctionsToGeneratedProposal": [
+        "The generated stage crosswalk names only wi_exp_cr266; that route cannot cover a supervised-case missing certificate."
+      ],
+      "noDuplicateRouteCreated": true,
+      "evidencePointers": [
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json#routes[routeKey=obligation:track-only:WI:wi_exp_certificate_of_discharge]",
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json#routes[routeKey=obligation:track-only:WI:wi_exp_certificate_of_discharge_followup]",
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json#routes[routeKey=obligation:track-only:WI:wi_exp_cr266]"
+      ]
+    }
+  ],
+  "noExistingWorkReview": [
+    {
+      "bStageRouteKey": "obligation:track-only:ME:me-deferred",
+      "status": "NEW_IDENTITY_CREATED",
+      "participantABranchRouteKey": "obligation:track-only:ME:me-deferred::participant-branch",
+      "basis": "The committed revalidation record identifies a § 1902 motion or application, and no official form number is asserted, so the safe participant output remains custom_pleading. Final-hearing participation is not characterized as a filing.",
+      "selfHelpStops": [
+        "Contested § 1903 violation or final hearing.",
+        "Plea-withdrawal issue or adverse sentencing.",
+        "Section 1904 appeal."
+      ]
+    },
+    {
+      "bStageRouteKey": "obligation:track-only:VA:va_auto_seal_without_order",
+      "status": "STOPPED_EXISTING_ROUTE_OVERLAP",
+      "participantABranchRouteKey": "obligation:track-only:VA:va_auto_seal_without_order::participant-branch",
+      "basis": "The correction request is new identity work, but the same composite instrument also invokes petition statutes already represented by Category A CC-1201 routes. The selector split must be resolved before creation."
+    },
+    {
+      "bStageRouteKey": "obligation:track-only:VT:vt_diversion_post_charge",
+      "status": "STOPPED_EXISTING_ROUTE_OVERLAP",
+      "participantABranchRouteKey": "obligation:track-only:VT:vt_diversion_post_charge::participant-branch",
+      "basis": "The § 164 application and correction request may be new, but the same composite instrument also invokes § 7603 petition routes already represented by Category A identities and official forms. The selector split must be resolved before creation."
+    }
+  ]
+}

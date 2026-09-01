@@ -1,0 +1,234 @@
+{
+  "schemaVersion": "rcap-oregon-answer-dependent-alternatives/v1",
+  "generatedBy": "scripts/verify-rcap-oregon-decision-alternatives.mjs",
+  "status": "ANSWERED_AND_IMPLEMENTED",
+  "posture": "Both questions are answered. This file is now the record of which branch was taken and what the other would have cost, kept because a decision with its alternatives deleted reads as inevitable, and this one was not. The branches below are historical; the answers and the implemented configurations are current.",
+  "answers": {
+    "decisionRecord": "data/record-clearing/legal-decisions/2026-08-29-lawrence-six-decisions.json",
+    "decisionOwner": "Lawrence (counsel)",
+    "decisionDate": "2026-08-29",
+    "subsection": {
+      "decisionId": "LWD-2026-08-29-OR-SUBSECTION",
+      "answer": "ORS 137.225(1)(c)."
+    },
+    "packetScope": {
+      "decisionId": "LWD-2026-08-29-OR-PACKET-SCOPE",
+      "answer": "SEPARATE PACKET SETS ARE REQUIRED."
+    },
+    "implementedBy": "data/record-clearing/packet-specifications/OR-disposition-configurations.v1.json",
+    "configurations": [
+      {
+        "label": "NEVER CHARGED",
+        "routeKey": "OR:set-aside-of-a-citation-or-arrest-with-no-accusatory-instrument-under-ors-137-225-1-c",
+        "authority": "ORS 137.225(1)(c)",
+        "formOption": "Option 3",
+        "specificationSha256": "454463c1aecfc39d6a87cea50ddaa80cd833049d692c1adf0ced67fa7ae870f3"
+      },
+      {
+        "label": "ACQUITTAL",
+        "routeKey": "OR:set-aside-of-an-acquittal-under-ors-137-225-1-d",
+        "authority": "ORS 137.225(1)(d)",
+        "formOption": "Option 2",
+        "specificationSha256": "edc630b6d66724aa98b325464b2113be0d0388c8168bc0e6b301053c5dffa855"
+      },
+      {
+        "label": "ORDINARY DISMISSAL",
+        "routeKey": "OR:set-aside-of-an-ordinary-dismissal-under-ors-137-225-1-d",
+        "authority": "ORS 137.225(1)(d)",
+        "formOption": "Option 2",
+        "specificationSha256": "321a7dd4c4d0be28d85a38044c6f15e5f8eb9658b6b58ff87a1fb426849cf2d2"
+      }
+    ],
+    "supersededRoute": "OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c"
+  },
+  "decisionOwner": "Lawrence (counsel)",
+  "selectedRoute": "OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+  "selectedRouteStatus": "SUPERSEDED — retired and replaced by three disposition-bound configurations",
+  "selectedRouteCommercialStatus": "not_commercially_eligible",
+  "selectedRouteAuthorityState": "INCOMPLETE",
+  "questions": [
+    {
+      "questionId": "OR-Q1-SUBSECTION",
+      "question": "Is the controlling subsection for this route ORS 137.225(1)(c) or ORS 137.225(1)(d)?",
+      "whyItIsOpen": "The route id names (1)(c). The legal-design track registry files or_acquittal, the track this route binds, under (1)(d). Oregon's committed legal review flags the same area as unsettled in headline finding 5. Two committed records disagree and a build lane does not get to pick one.",
+      "alternatives": [
+        {
+          "alternativeId": "OR-SUBSECTION-C",
+          "answer": "ORS 137.225(1)(c) controls",
+          "routeIdAfter": "OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+          "routeIdChanges": false,
+          "whatChanges": [
+            "Nothing in the route id, the launch graph, the packet set binding or the Grade-A record.",
+            "The legal-design track registry entry for or_acquittal is corrected to cite (1)(c), so the two committed records stop disagreeing."
+          ],
+          "whatDoesNotChange": [
+            "The packet set, its seven components and both bound official forms.",
+            "The specification content hash, because no component, form, role or action moves.",
+            "Commercial status: the route stays closed."
+          ],
+          "riskIfWrong": "A packet that cites the wrong subsection to a court. The citation appears in participant-facing text, so this is not an internal identifier question.",
+          "mechanical": true
+        },
+        {
+          "alternativeId": "OR-SUBSECTION-D",
+          "answer": "ORS 137.225(1)(d) controls",
+          "routeIdAfter": "OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-d",
+          "routeIdChanges": true,
+          "whatChanges": [
+            "The route id becomes OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-d.",
+            "Every record keyed to the route id follows it: the launch graph row, the factory-v2 registry entry, the Grade-A fulfillment record and its recordId, the observation snapshot, the projection, the packet specification's routeKey, and the four Lane I evidence records.",
+            "The registered specification's routeKey moves, so resolvePacketFamilyId resolves under the new id and the record's family cross-check must be re-derived rather than carried."
+          ],
+          "whatDoesNotChange": [
+            "The packet set and its components: the documents a participant files are the same documents.",
+            "Both official source digests and the two finalized artifact digests.",
+            "The independent visual review, which is bound to artifact hashes rather than to a route id.",
+            "Commercial status: the route stays closed."
+          ],
+          "riskIfWrong": "The same as the other branch, in the other direction.",
+          "mechanical": false,
+          "whyNotMechanical": "A route id is a key. Renaming it touches every generated record that carries it, and each of those has a --check generator that must be re-run and re-verified as a fixed point. It is a captain change of a dozen files, not a one-line edit, which is why it is prepared as a plan rather than as a patch.",
+          "recordsCarryingTheRouteId": [
+            "data/rcap-ledger/launch-graph.json",
+            "data/rcap-grade-a/fulfillment-authority-registry.json",
+            "data/record-clearing/packet-specifications/OR-set-aside-without-conviction.v1.json",
+            "data/rcap-grade-a/fulfillment-observation-snapshot.json",
+            "data/rcap-grade-a/fulfillment-authority-projection.json",
+            "data/rcap-lane-c/oregon/lane-i-route-selection.json",
+            "data/rcap-lane-c/oregon/lane-i-proof-closure.json",
+            "data/rcap-lane-c/oregon/lane-i-product-path.json",
+            "data/rcap-lane-c/oregon/lane-i-envelope.json",
+            "data/rcap-lane-c/oregon/independent-visual-review.json",
+            "data/rcap-lane-c/oregon/durable-render-evidence.json",
+            "docs/rcap/grade-a/oregon/OUTPUT_LEGAL_REVIEW.json"
+          ]
+        }
+      ]
+    },
+    {
+      "questionId": "OR-Q2-PACKET-SCOPE",
+      "question": "May this route deliver only the acquittal packet, or must dismissed-charge and never-charged matters bind to their own packet sets?",
+      "whyItIsOpen": "The route is labelled for arrests or charges without conviction and delivers the acquittal track. or_arrest_no_charges and or_dismissed_charge exist as complete seven-component sets that no launch-graph route reaches, so a participant whose charge was dismissed or who was never charged falls inside the route's name and outside its packet.",
+      "alternatives": [
+        {
+          "alternativeId": "OR-SCOPE-ONE-PACKET",
+          "answer": "One route delivering the acquittal packet is correct for all three situations",
+          "whatChanges": [
+            "Nothing structural. The route keeps or_acquittal-set.",
+            "The route's participant-facing label is corrected so it does not promise coverage the packet does not deliver, and the screening path is checked to confirm a dismissed-charge or never-charged participant is not routed here.",
+            "or_arrest_no_charges-set and or_dismissed_charge-set are dispositioned explicitly -- retired, or held with a reason -- rather than left as complete sets no route reaches."
+          ],
+          "whatDoesNotChange": [
+            "The specification hash, the bound forms and the artifacts.",
+            "Commercial status: the route stays closed."
+          ],
+          "riskIfWrong": "A participant whose charge was dismissed files the acquittal packet. The two situations are different filings under Oregon practice, and a clerk rejection is the best case.",
+          "mechanical": false,
+          "packetSetFacts": [
+            {
+              "packetSetId": "or_acquittal-set",
+              "exists": true,
+              "trackId": "or_acquittal",
+              "components": 7,
+              "participantActions": 16,
+              "officialForms": [
+                "OR-OJD-ADULT-SET-ASIDE-PACKET",
+                "OR-OSP-SET-ASIDE-CCH"
+              ],
+              "reachedByRoutes": [
+                "OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c"
+              ]
+            },
+            {
+              "packetSetId": "or_arrest_no_charges-set",
+              "exists": true,
+              "trackId": "or_arrest_no_charges",
+              "components": 7,
+              "participantActions": 16,
+              "officialForms": [
+                "OR-OJD-ADULT-SET-ASIDE-PACKET",
+                "OR-OSP-SET-ASIDE-CCH"
+              ],
+              "reachedByRoutes": []
+            },
+            {
+              "packetSetId": "or_dismissed_charge-set",
+              "exists": true,
+              "trackId": "or_dismissed_charge",
+              "components": 7,
+              "participantActions": 16,
+              "officialForms": [
+                "OR-OJD-ADULT-SET-ASIDE-PACKET",
+                "OR-OSP-SET-ASIDE-CCH"
+              ],
+              "reachedByRoutes": []
+            }
+          ]
+        },
+        {
+          "alternativeId": "OR-SCOPE-THREE-ROUTES",
+          "answer": "Acquittal, dismissed-charge and never-charged bind to their own routes and packet sets",
+          "whatChanges": [
+            "Two new launch-graph routes are created for or_arrest_no_charges and or_dismissed_charge, each binding its own existing seven-component set.",
+            "The selected route narrows to acquittal only, and its label follows.",
+            "Each new route needs its own Grade-A record, its own specification, and its own artifacts before it could be proven -- none of which exists today.",
+            "The Lane I selection is re-run, because the ranking that chose this route ranked it against two candidates that would now be three."
+          ],
+          "whatDoesNotChange": [
+            "The three packet sets themselves: they already exist, complete, and are not edited by this.",
+            "Commercial status: all three routes would be closed, and the two new ones would start with no record at all."
+          ],
+          "riskIfWrong": "Three routes where one would do, and two of them with no artifacts, no visual review and no fileability proof. The cost is work, not a wrong document in a participant's hands.",
+          "mechanical": false,
+          "alreadyAvailable": "Both sets exist at full component parity with the acquittal set -- seven components, sixteen participant actions, the same two official forms -- so this branch adds routes, not packet design.",
+          "packetSetFacts": [
+            {
+              "packetSetId": "or_acquittal-set",
+              "exists": true,
+              "trackId": "or_acquittal",
+              "components": 7,
+              "participantActions": 16,
+              "officialForms": [
+                "OR-OJD-ADULT-SET-ASIDE-PACKET",
+                "OR-OSP-SET-ASIDE-CCH"
+              ],
+              "reachedByRoutes": [
+                "OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c"
+              ]
+            },
+            {
+              "packetSetId": "or_arrest_no_charges-set",
+              "exists": true,
+              "trackId": "or_arrest_no_charges",
+              "components": 7,
+              "participantActions": 16,
+              "officialForms": [
+                "OR-OJD-ADULT-SET-ASIDE-PACKET",
+                "OR-OSP-SET-ASIDE-CCH"
+              ],
+              "reachedByRoutes": []
+            },
+            {
+              "packetSetId": "or_dismissed_charge-set",
+              "exists": true,
+              "trackId": "or_dismissed_charge",
+              "components": 7,
+              "participantActions": 16,
+              "officialForms": [
+                "OR-OJD-ADULT-SET-ASIDE-PACKET",
+                "OR-OSP-SET-ASIDE-CCH"
+              ],
+              "reachedByRoutes": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "interaction": "The two questions are independent. The subsection answer does not decide the scope answer, and neither changes the documents a participant files: all three packet sets bind the same two official forms.",
+  "whatIsHeldUntilBothAreAnswered": [
+    "The final Oregon output-review package. It asks a named reviewer to approve one artifact for one route, and both the route's identity and its scope are in question.",
+    "Output-level legal approval, which is not a lane's to grant and not a captain's.",
+    "Any change of the route's commercial status, which stays closed under every branch."
+  ]
+}

@@ -1,0 +1,940 @@
+{
+  "schemaVersion": "rcap-c10-source-identity-resolution/v1",
+  "assignmentId": "C10_SOURCE_IDENTITY_ACQUISITION",
+  "workerBranch": "codex/c10-source-identity-acquisition",
+  "baseSha": "227f095d5d1493feca56779cf60c6f177caebd61",
+  "recordedAt": "2026-08-30T15:27:13.251Z",
+  "evidencePolicy": "Committed records only. No form number or URL is inferred.",
+  "sourceOfTruth": [
+    "data/rcap-grade-a/route-obligation-census-v1/source-queue-reconciliation.json",
+    "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-1/resolved.json",
+    "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json",
+    "data/rcap-grade-a/launch-control/GRADE_A_LAUNCH_CONTROL.json"
+  ],
+  "requiredInputsMissingFromMandatedBase": [
+    "data/rcap-grade-a/launch-control/GRADE_A_LAUNCH_STATUS.md",
+    "data/rcap-grade-a/launch-control/ACTIVE_CODEX_ASSIGNMENTS.json"
+  ],
+  "summary": {
+    "allocatedObligations": 30,
+    "identitiesResolved": 11,
+    "identitiesUnresolved": 19,
+    "queueResolvedIdentities": 11,
+    "queueUnresolvedIdentities": 19,
+    "queueResolvedWithExactIssuerName": 6,
+    "queueResolvedWithCommittedInferredCaption": 5,
+    "officialUrlsResolved": 0,
+    "officialUrlsStillOpen": 30
+  },
+  "records": [
+    {
+      "ordinal": 1,
+      "obligationKey": "ar-act346-set::The ACIC petition counterpart to the Act 346 order to dismiss and seal.",
+      "worklistGroupId": "ar-act346-set",
+      "obligation": "The ACIC petition counterpart to the Act 346 order to dismiss and seal.",
+      "status": "UNRESOLVED_IDENTITY",
+      "identityResolved": false,
+      "identityResolutionBasis": "CONTROLLING_SOURCE_QUEUE_UNRESOLVED_IDENTITY",
+      "exactDocumentName": null,
+      "committedIdentityCaption": null,
+      "nameFidelity": "NO_COMMITTED_CAPTION",
+      "exactIssuerNameResolved": false,
+      "whatWouldSettleExactIssuerName": [],
+      "issuingAuthority": "Arkansas Crime Information Center, Arkansas Department of Public Safety",
+      "formNumber": null,
+      "officialUrl": null,
+      "officialUrlResolved": false,
+      "sourceQueueDisposition": "UNRESOLVED_IDENTITY",
+      "sourceQueueBasis": "UNRESOLVED",
+      "censusSourceId": "official-form:ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS",
+      "role": "primary_filing",
+      "evidence": [
+        "data/rcap-grade-a/route-obligation-census-v1/source-queue-reconciliation.json#rows[worklistGroupId=ar-act346-set][obligation=The ACIC petition counterpart to the Act 346 order to dismiss and seal.]",
+        "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-1/resolved.json"
+      ],
+      "whatWouldSettle": [
+        "The ACIC criminal-history forms index the memo already names, read for whether an Act 346 petition is published; or a legal-design determination that the Act 346 route files no separate petition."
+      ]
+    },
+    {
+      "ordinal": 2,
+      "obligationKey": "ar-misdemeanor-seal-set::The ACIC petition for the misdemeanour branch, A.C.A. 16-90-1405.",
+      "worklistGroupId": "ar-misdemeanor-seal-set",
+      "obligation": "The ACIC petition for the misdemeanour branch, A.C.A. 16-90-1405.",
+      "status": "TARGET_IDENTITY_RESOLVED_EXACT_ISSUER_NAME_AND_URL_UNRESOLVED",
+      "identityResolved": true,
+      "identityResolutionBasis": "CONTROLLING_SOURCE_QUEUE_RESOLVED_NOT_HELD",
+      "exactDocumentName": null,
+      "committedIdentityCaption": "Petition to Seal Misdemeanors Under Act 1460 of 2013",
+      "nameFidelity": "COMMITTED_INFERRED_CAPTION",
+      "exactIssuerNameResolved": false,
+      "whatWouldSettleExactIssuerName": [
+        "An issuing-authority forms page or direct file that supplies the exact issuer caption without inference."
+      ],
+      "issuingAuthority": "Arkansas Crime Information Center, Arkansas Department of Public Safety",
+      "formNumber": null,
+      "officialUrl": null,
+      "officialUrlResolved": false,
+      "sourceQueueDisposition": "RESOLVE_OFFICIAL_URL",
+      "sourceQueueBasis": "RESOLVED_NOT_HELD",
+      "censusSourceId": "official-form:ACIC-UNIFORM-PETITION-TO-SEAL",
+      "role": "primary_filing",
+      "evidence": [
+        "data/rcap-grade-a/route-obligation-census-v1/source-queue-reconciliation.json#rows[worklistGroupId=ar-misdemeanor-seal-set][obligation=The ACIC petition for the misdemeanour branch, A.C.A. 16-90-1405.]",
+        "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-1/resolved.json"
+      ],
+      "whatWouldSettle": [
+        "An issuing-authority forms page or direct file that supplies the exact issuer caption without inference."
+      ]
+    },
+    {
+      "ordinal": 3,
+      "obligationKey": "ar-veterans-court-set::The ACIC order counterpart for the veterans treatment court route.",
+      "worklistGroupId": "ar-veterans-court-set",
+      "obligation": "The ACIC order counterpart for the veterans treatment court route.",
+      "status": "TARGET_IDENTITY_RESOLVED_EXACT_ISSUER_NAME_AND_URL_UNRESOLVED",
+      "identityResolved": true,
+      "identityResolutionBasis": "CONTROLLING_SOURCE_QUEUE_RESOLVED_NOT_HELD",
+      "exactDocumentName": null,
+      "committedIdentityCaption": "Order to Dismiss and Seal Offense in Veterans Treatment Specialty Court Proceeding",
+      "nameFidelity": "COMMITTED_INFERRED_CAPTION",
+      "exactIssuerNameResolved": false,
+      "whatWouldSettleExactIssuerName": [
+        "An issuing-authority forms page or direct file that supplies the exact issuer caption without inference."
+      ],
+      "issuingAuthority": "Arkansas Crime Information Center, Arkansas Department of Public Safety",
+      "formNumber": null,
+      "officialUrl": null,
+      "officialUrlResolved": false,
+      "sourceQueueDisposition": "RESOLVE_OFFICIAL_URL",
+      "sourceQueueBasis": "RESOLVED_NOT_HELD",
+      "censusSourceId": "official-form:ACIC-ORDER-VETERANS-COURT",
+      "role": "proposed_order",
+      "evidence": [
+        "data/rcap-grade-a/route-obligation-census-v1/source-queue-reconciliation.json#rows[worklistGroupId=ar-veterans-court-set][obligation=The ACIC order counterpart for the veterans treatment court route.]",
+        "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-1/resolved.json"
+      ],
+      "whatWouldSettle": [
+        "An issuing-authority forms page or direct file that supplies the exact issuer caption without inference."
+      ]
+    },
+    {
+      "ordinal": 4,
+      "obligationKey": "de_mandatory_expungement-set::The application for mandatory expungement to the State Bureau of Identification under 11 Del. C. 4373.",
+      "worklistGroupId": "de_mandatory_expungement-set",
+      "obligation": "The application for mandatory expungement to the State Bureau of Identification under 11 Del. C. 4373.",
+      "status": "TARGET_IDENTITY_RESOLVED_EXACT_ISSUER_NAME_AND_URL_UNRESOLVED",
+      "identityResolved": true,
+      "identityResolutionBasis": "CONTROLLING_SOURCE_QUEUE_RESOLVED_NOT_HELD",
+      "exactDocumentName": null,
+      "committedIdentityCaption": "The State Bureau of Identification mandatory expungement application, published on the Delaware State Police expungements page.",
+      "nameFidelity": "COMMITTED_INFERRED_CAPTION",
+      "exactIssuerNameResolved": false,
+      "whatWouldSettleExactIssuerName": [
+        "The Delaware State Police expungements page, which the assignment already names, would supply the number and revision at acquisition time."
+      ],
+      "issuingAuthority": "Delaware State Police, State Bureau of Identification",
+      "formNumber": null,
+      "officialUrl": null,
+      "officialUrlResolved": false,
+      "sourceQueueDisposition": "RESOLVE_OFFICIAL_URL",
+      "sourceQueueBasis": "RESOLVED_NOT_HELD",
+      "censusSourceId": "official-form:DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION",
+      "role": "primary_filing",
+      "evidence": [
+        "data/rcap-grade-a/route-obligation-census-v1/source-queue-reconciliation.json#rows[worklistGroupId=de_mandatory_expungement-set][obligation=The application for mandatory expungement to the State Bureau of Identification under 11 Del. C. 4373.]",
+        "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-1/resolved.json"
+      ],
+      "whatWouldSettle": [
+        "The Delaware State Police expungements page, which the assignment already names, would supply the number and revision at acquisition time."
+      ]
+    },
+    {
+      "ordinal": 5,
+      "obligationKey": "fl-administrative-set::The FDLE application for administrative expunction under section 943.0581, Fla. Stat.",
+      "worklistGroupId": "fl-administrative-set",
+      "obligation": "The FDLE application for administrative expunction under section 943.0581, Fla. Stat.",
+      "status": "TARGET_IDENTITY_RESOLVED_EXACT_ISSUER_NAME_AND_URL_UNRESOLVED",
+      "identityResolved": true,
+      "identityResolutionBasis": "CONTROLLING_SOURCE_QUEUE_RESOLVED_NOT_HELD",
+      "exactDocumentName": null,
+      "committedIdentityCaption": "The FDLE administrative expunction application, published on the FDLE seal-and-expunge process pages.",
+      "nameFidelity": "COMMITTED_INFERRED_CAPTION",
+      "exactIssuerNameResolved": false,
+      "whatWouldSettleExactIssuerName": [
+        "The FDLE seal-and-expunge forms listing, which the route already carries as a source URL, would supply the number and revision at acquisition time."
+      ],
+      "issuingAuthority": "Florida Department of Law Enforcement",
+      "formNumber": null,
+      "officialUrl": null,
+      "officialUrlResolved": false,
+      "sourceQueueDisposition": "RESOLVE_OFFICIAL_URL",
+      "sourceQueueBasis": "RESOLVED_NOT_HELD",
+      "censusSourceId": "official-form:FDLE-ADMINISTRATIVE-EXPUNCTION-APPLICATION",
+      "role": "primary_filing",
+      "evidence": [
+        "data/rcap-grade-a/route-obligation-census-v1/source-queue-reconciliation.json#rows[worklistGroupId=fl-administrative-set][obligation=The FDLE application for administrative expunction under section 943.0581, Fla. Stat.]",
+        "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-1/resolved.json"
+      ],
+      "whatWouldSettle": [
+        "The FDLE seal-and-expunge forms listing, which the route already carries as a source URL, would supply the number and revision at acquisition time."
+      ]
+    },
+    {
+      "ordinal": 6,
+      "obligationKey": "ia-12346-set::The certification of service filed with an Iowa Rule 2.86 expungement application.",
+      "worklistGroupId": "ia-12346-set",
+      "obligation": "The certification of service filed with an Iowa Rule 2.86 expungement application.",
+      "status": "UNRESOLVED_IDENTITY",
+      "identityResolved": false,
+      "identityResolutionBasis": "CONTROLLING_SOURCE_QUEUE_UNRESOLVED_IDENTITY",
+      "exactDocumentName": null,
+      "committedIdentityCaption": null,
+      "nameFidelity": "NO_COMMITTED_CAPTION",
+      "exactIssuerNameResolved": false,
+      "whatWouldSettleExactIssuerName": [],
+      "issuingAuthority": "Iowa Judicial Branch",
+      "formNumber": null,
+      "officialUrl": null,
+      "officialUrlResolved": false,
+      "sourceQueueDisposition": "UNRESOLVED_IDENTITY",
+      "sourceQueueBasis": "UNRESOLVED",
+      "censusSourceId": "official-form:Certification of Service by Mailing or Delivery",
+      "role": "certificate_of_service",
+      "evidence": [
+        "data/rcap-grade-a/route-obligation-census-v1/source-queue-reconciliation.json#rows[worklistGroupId=ia-12346-set][obligation=The certification of service filed with an Iowa Rule 2.86 expungement application.]",
+        "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-1/resolved.json"
+      ],
+      "whatWouldSettle": [
+        "Reading the held Rule 2.86 Form 4 or Form 5 binary to see whether the certification is a section of the application, or the Iowa Judicial Branch forms index checked for a form of this title."
+      ]
+    },
+    {
+      "ordinal": 7,
+      "obligationKey": "ia-12347-set::The certification of service filed with an Iowa Rule 2.86 expungement application.",
+      "worklistGroupId": "ia-12347-set",
+      "obligation": "The certification of service filed with an Iowa Rule 2.86 expungement application.",
+      "status": "UNRESOLVED_IDENTITY",
+      "identityResolved": false,
+      "identityResolutionBasis": "CONTROLLING_SOURCE_QUEUE_UNRESOLVED_IDENTITY",
+      "exactDocumentName": null,
+      "committedIdentityCaption": null,
+      "nameFidelity": "NO_COMMITTED_CAPTION",
+      "exactIssuerNameResolved": false,
+      "whatWouldSettleExactIssuerName": [],
+      "issuingAuthority": "Iowa Judicial Branch",
+      "formNumber": null,
+      "officialUrl": null,
+      "officialUrlResolved": false,
+      "sourceQueueDisposition": "UNRESOLVED_IDENTITY",
+      "sourceQueueBasis": "UNRESOLVED",
+      "censusSourceId": "official-form:Certification of Service by Mailing or Delivery",
+      "role": "certificate_of_service",
+      "evidence": [
+        "data/rcap-grade-a/route-obligation-census-v1/source-queue-reconciliation.json#rows[worklistGroupId=ia-12347-set][obligation=The certification of service filed with an Iowa Rule 2.86 expungement application.]",
+        "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-1/resolved.json"
+      ],
+      "whatWouldSettle": [
+        "Reading the held Rule 2.86 Form 4 or Form 5 binary to see whether the certification is a section of the application, or the Iowa Judicial Branch forms index checked for a form of this title."
+      ]
+    },
+    {
+      "ordinal": 8,
+      "obligationKey": "ia-7251-set::The certification of service filed with an Iowa Rule 2.86 expungement application.",
+      "worklistGroupId": "ia-7251-set",
+      "obligation": "The certification of service filed with an Iowa Rule 2.86 expungement application.",
+      "status": "UNRESOLVED_IDENTITY",
+      "identityResolved": false,
+      "identityResolutionBasis": "CONTROLLING_SOURCE_QUEUE_UNRESOLVED_IDENTITY",
+      "exactDocumentName": null,
+      "committedIdentityCaption": null,
+      "nameFidelity": "NO_COMMITTED_CAPTION",
+      "exactIssuerNameResolved": false,
+      "whatWouldSettleExactIssuerName": [],
+      "issuingAuthority": "Iowa Judicial Branch",
+      "formNumber": null,
+      "officialUrl": null,
+      "officialUrlResolved": false,
+      "sourceQueueDisposition": "UNRESOLVED_IDENTITY",
+      "sourceQueueBasis": "UNRESOLVED",
+      "censusSourceId": "official-form:Certification of Service by Mailing or Delivery",
+      "role": "certificate_of_service",
+      "evidence": [
+        "data/rcap-grade-a/route-obligation-census-v1/source-queue-reconciliation.json#rows[worklistGroupId=ia-7251-set][obligation=The certification of service filed with an Iowa Rule 2.86 expungement application.]",
+        "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-1/resolved.json"
+      ],
+      "whatWouldSettle": [
+        "Reading the held Rule 2.86 Form 4 or Form 5 binary to see whether the certification is a section of the application, or the Iowa Judicial Branch forms index checked for a form of this title."
+      ]
+    },
+    {
+      "ordinal": 9,
+      "obligationKey": "ia-901c2-set::The certification of service filed with an Iowa Rule 2.86 expungement application.",
+      "worklistGroupId": "ia-901c2-set",
+      "obligation": "The certification of service filed with an Iowa Rule 2.86 expungement application.",
+      "status": "UNRESOLVED_IDENTITY",
+      "identityResolved": false,
+      "identityResolutionBasis": "CONTROLLING_SOURCE_QUEUE_UNRESOLVED_IDENTITY",
+      "exactDocumentName": null,
+      "committedIdentityCaption": null,
+      "nameFidelity": "NO_COMMITTED_CAPTION",
+      "exactIssuerNameResolved": false,
+      "whatWouldSettleExactIssuerName": [],
+      "issuingAuthority": "Iowa Judicial Branch",
+      "formNumber": null,
+      "officialUrl": null,
+      "officialUrlResolved": false,
+      "sourceQueueDisposition": "UNRESOLVED_IDENTITY",
+      "sourceQueueBasis": "UNRESOLVED",
+      "censusSourceId": "official-form:Certification of Service by Mailing or Delivery",
+      "role": "certificate_of_service",
+      "evidence": [
+        "data/rcap-grade-a/route-obligation-census-v1/source-queue-reconciliation.json#rows[worklistGroupId=ia-901c2-set][obligation=The certification of service filed with an Iowa Rule 2.86 expungement application.]",
+        "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-1/resolved.json"
+      ],
+      "whatWouldSettle": [
+        "Reading the held Rule 2.86 Form 4 or Form 5 binary to see whether the certification is a section of the application, or the Iowa Judicial Branch forms index checked for a form of this title."
+      ]
+    },
+    {
+      "ordinal": 10,
+      "obligationKey": "ia-901c3-set::The Iowa expungement application prescribed as Iowa R. Crim. P. 2.86 Form 2.",
+      "worklistGroupId": "ia-901c3-set",
+      "obligation": "The Iowa expungement application prescribed as Iowa R. Crim. P. 2.86 Form 2.",
+      "status": "TARGET_IDENTITY_RESOLVED_EXACT_ISSUER_NAME_AND_URL_UNRESOLVED",
+      "identityResolved": true,
+      "identityResolutionBasis": "CONTROLLING_SOURCE_QUEUE_RESOLVED_NOT_HELD",
+      "exactDocumentName": null,
+      "committedIdentityCaption": "Application to Expunge Misdemeanor Court Records under Iowa Code section 901C.3",
+      "nameFidelity": "COMMITTED_INFERRED_CAPTION",
+      "exactIssuerNameResolved": false,
+      "whatWouldSettleExactIssuerName": [
+        "An issuing-authority forms page or direct file that supplies the exact issuer caption without inference."
+      ],
+      "issuingAuthority": "Iowa Judicial Branch",
+      "formNumber": "Iowa R. Crim. P. 2.86 Form 2",
+      "officialUrl": null,
+      "officialUrlResolved": false,
+      "sourceQueueDisposition": "RESOLVE_OFFICIAL_URL",
+      "sourceQueueBasis": "RESOLVED_NOT_HELD",
+      "censusSourceId": "official-form:Rule 2.86 Form 2",
+      "role": "primary_filing",
+      "evidence": [
+        "data/rcap-grade-a/route-obligation-census-v1/source-queue-reconciliation.json#rows[worklistGroupId=ia-901c3-set][obligation=The Iowa expungement application prescribed as Iowa R. Crim. P. 2.86 Form 2.]",
+        "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-1/resolved.json"
+      ],
+      "whatWouldSettle": [
+        "An issuing-authority forms page or direct file that supplies the exact issuer caption without inference."
+      ]
+    },
+    {
+      "ordinal": 11,
+      "obligationKey": "ia-901c3-set::The certification of service filed with an Iowa Rule 2.86 expungement application.",
+      "worklistGroupId": "ia-901c3-set",
+      "obligation": "The certification of service filed with an Iowa Rule 2.86 expungement application.",
+      "status": "UNRESOLVED_IDENTITY",
+      "identityResolved": false,
+      "identityResolutionBasis": "CONTROLLING_SOURCE_QUEUE_UNRESOLVED_IDENTITY",
+      "exactDocumentName": null,
+      "committedIdentityCaption": null,
+      "nameFidelity": "NO_COMMITTED_CAPTION",
+      "exactIssuerNameResolved": false,
+      "whatWouldSettleExactIssuerName": [],
+      "issuingAuthority": "Iowa Judicial Branch",
+      "formNumber": null,
+      "officialUrl": null,
+      "officialUrlResolved": false,
+      "sourceQueueDisposition": "UNRESOLVED_IDENTITY",
+      "sourceQueueBasis": "UNRESOLVED",
+      "censusSourceId": "official-form:Certification of Service by Mailing or Delivery",
+      "role": "certificate_of_service",
+      "evidence": [
+        "data/rcap-grade-a/route-obligation-census-v1/source-queue-reconciliation.json#rows[worklistGroupId=ia-901c3-set][obligation=The certification of service filed with an Iowa Rule 2.86 expungement application.]",
+        "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-1/resolved.json"
+      ],
+      "whatWouldSettle": [
+        "Reading the held Rule 2.86 Form 4 or Form 5 binary to see whether the certification is a section of the application, or the Iowa Judicial Branch forms index checked for a form of this title."
+      ]
+    },
+    {
+      "ordinal": 12,
+      "obligationKey": "in_arrest_no_charges-set::CCA-GF-0120-3016",
+      "worklistGroupId": "in_arrest_no_charges-set",
+      "obligation": "CCA-GF-0120-3016",
+      "status": "UNRESOLVED_IDENTITY",
+      "identityResolved": false,
+      "identityResolutionBasis": "CONTROLLING_SOURCE_QUEUE_UNRESOLVED_IDENTITY",
+      "exactDocumentName": "Appearance by Unrepresented Person in Expungement Matter",
+      "committedIdentityCaption": "Appearance by Unrepresented Person in Expungement Matter",
+      "nameFidelity": "COMMITTED_EXACT_ISSUER_CAPTION",
+      "exactIssuerNameResolved": false,
+      "whatWouldSettleExactIssuerName": [],
+      "issuingAuthority": "Indiana Coalition for Court Access",
+      "formNumber": "CCA-GF-0120-3016",
+      "officialUrl": null,
+      "officialUrlResolved": false,
+      "sourceQueueDisposition": "UNRESOLVED_IDENTITY",
+      "sourceQueueBasis": "IDENTITY_DESCRIBED_BUT_NOT_LOCATED",
+      "censusSourceId": "official-form:CCA-GF-0120-3016",
+      "role": "attachment",
+      "evidence": [
+        "data/rcap-grade-a/route-obligation-census-v1/source-queue-reconciliation.json#rows[worklistGroupId=in_arrest_no_charges-set][obligation=CCA-GF-0120-3016]",
+        "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json"
+      ],
+      "whatWouldSettle": [
+        "an officialSourceUrl on the CCA-GF-0120-3016 component, or a titled entry for it in officialSources, in data/record-clearing/legal-design-intake/IN.memo.json",
+        "an entry for CCA-GF-0120-3016 in data/record-clearing/source-artifact-registry.json under jurisdiction IN",
+        "the binary itself in data/rcap-all50/local-source-corpus-index.json"
+      ]
+    },
+    {
+      "ordinal": 13,
+      "obligationKey": "in_arrest_no_charges-set::CCA-XP-0120-7002 Form ACR",
+      "worklistGroupId": "in_arrest_no_charges-set",
+      "obligation": "CCA-XP-0120-7002 Form ACR",
+      "status": "IDENTITY_RESOLVED_OFFICIAL_URL_UNRESOLVED",
+      "identityResolved": true,
+      "identityResolutionBasis": "CONTROLLING_SOURCE_QUEUE_RESOLVED_NOT_HELD",
+      "exactDocumentName": "Form ACR — Notice of Exclusion of Confidential Information from Public Access",
+      "committedIdentityCaption": "Form ACR — Notice of Exclusion of Confidential Information from Public Access",
+      "nameFidelity": "COMMITTED_EXACT_ISSUER_CAPTION",
+      "exactIssuerNameResolved": true,
+      "whatWouldSettleExactIssuerName": [],
+      "issuingAuthority": "Indiana Coalition for Court Access",
+      "formNumber": null,
+      "officialUrl": null,
+      "officialUrlResolved": false,
+      "sourceQueueDisposition": "RESOLVE_OFFICIAL_URL",
+      "sourceQueueBasis": "PUBLISHED_AS_A_WORD_DOCUMENT_AND_THE_CORPUS_INDEXES_PDFS_ONLY",
+      "censusSourceId": "official-form:CCA-XP-0120-7002 Form ACR",
+      "role": "attachment",
+      "evidence": [
+        "data/rcap-grade-a/route-obligation-census-v1/source-queue-reconciliation.json#rows[worklistGroupId=in_arrest_no_charges-set][obligation=CCA-XP-0120-7002 Form ACR]",
+        "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json"
+      ],
+      "whatWouldSettle": [
+        "A committed issuing-authority page or direct-file URL that identifies this exact titled document without inferring a form number."
+      ]
+    },
+    {
+      "ordinal": 14,
+      "obligationKey": "in_arrest_no_charges-set::Confidential Information Form",
+      "worklistGroupId": "in_arrest_no_charges-set",
+      "obligation": "Confidential Information Form",
+      "status": "UNRESOLVED_IDENTITY",
+      "identityResolved": false,
+      "identityResolutionBasis": "CONTROLLING_SOURCE_QUEUE_UNRESOLVED_IDENTITY",
+      "exactDocumentName": "Confidential Information Form",
+      "committedIdentityCaption": "Confidential Information Form",
+      "nameFidelity": "COMMITTED_EXACT_ISSUER_CAPTION",
+      "exactIssuerNameResolved": false,
+      "whatWouldSettleExactIssuerName": [],
+      "issuingAuthority": null,
+      "formNumber": null,
+      "officialUrl": null,
+      "officialUrlResolved": false,
+      "sourceQueueDisposition": "UNRESOLVED_IDENTITY",
+      "sourceQueueBasis": "IDENTITY_DESCRIBED_BUT_NOT_LOCATED",
+      "censusSourceId": "official-form:Confidential Information Form",
+      "role": "attachment",
+      "evidence": [
+        "data/rcap-grade-a/route-obligation-census-v1/source-queue-reconciliation.json#rows[worklistGroupId=in_arrest_no_charges-set][obligation=Confidential Information Form]",
+        "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json"
+      ],
+      "whatWouldSettle": [
+        "an officialSourceUrl on the Confidential Information Form component, or a titled entry for it in officialSources, in data/record-clearing/legal-design-intake/IN.memo.json",
+        "an entry for Confidential Information Form in data/record-clearing/source-artifact-registry.json under jurisdiction IN",
+        "the binary itself in data/rcap-all50/local-source-corpus-index.json"
+      ]
+    },
+    {
+      "ordinal": 15,
+      "obligationKey": "in_conviction_d6-set::CCA-GF-0120-3016",
+      "worklistGroupId": "in_conviction_d6-set",
+      "obligation": "CCA-GF-0120-3016",
+      "status": "UNRESOLVED_IDENTITY",
+      "identityResolved": false,
+      "identityResolutionBasis": "CONTROLLING_SOURCE_QUEUE_UNRESOLVED_IDENTITY",
+      "exactDocumentName": "Appearance by Unrepresented Person in Expungement Matter",
+      "committedIdentityCaption": "Appearance by Unrepresented Person in Expungement Matter",
+      "nameFidelity": "COMMITTED_EXACT_ISSUER_CAPTION",
+      "exactIssuerNameResolved": false,
+      "whatWouldSettleExactIssuerName": [],
+      "issuingAuthority": "Indiana Coalition for Court Access",
+      "formNumber": "CCA-GF-0120-3016",
+      "officialUrl": null,
+      "officialUrlResolved": false,
+      "sourceQueueDisposition": "UNRESOLVED_IDENTITY",
+      "sourceQueueBasis": "IDENTITY_DESCRIBED_BUT_NOT_LOCATED",
+      "censusSourceId": "official-form:CCA-GF-0120-3016",
+      "role": "attachment",
+      "evidence": [
+        "data/rcap-grade-a/route-obligation-census-v1/source-queue-reconciliation.json#rows[worklistGroupId=in_conviction_d6-set][obligation=CCA-GF-0120-3016]",
+        "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json"
+      ],
+      "whatWouldSettle": [
+        "an officialSourceUrl on the CCA-GF-0120-3016 component, or a titled entry for it in officialSources, in data/record-clearing/legal-design-intake/IN.memo.json",
+        "an entry for CCA-GF-0120-3016 in data/record-clearing/source-artifact-registry.json under jurisdiction IN",
+        "the binary itself in data/rcap-all50/local-source-corpus-index.json"
+      ]
+    },
+    {
+      "ordinal": 16,
+      "obligationKey": "in_conviction_d6-set::CCA-XP-0120-7002 Form ACR",
+      "worklistGroupId": "in_conviction_d6-set",
+      "obligation": "CCA-XP-0120-7002 Form ACR",
+      "status": "IDENTITY_RESOLVED_OFFICIAL_URL_UNRESOLVED",
+      "identityResolved": true,
+      "identityResolutionBasis": "CONTROLLING_SOURCE_QUEUE_RESOLVED_NOT_HELD",
+      "exactDocumentName": "Form ACR — Notice of Exclusion of Confidential Information from Public Access",
+      "committedIdentityCaption": "Form ACR — Notice of Exclusion of Confidential Information from Public Access",
+      "nameFidelity": "COMMITTED_EXACT_ISSUER_CAPTION",
+      "exactIssuerNameResolved": true,
+      "whatWouldSettleExactIssuerName": [],
+      "issuingAuthority": "Indiana Coalition for Court Access",
+      "formNumber": null,
+      "officialUrl": null,
+      "officialUrlResolved": false,
+      "sourceQueueDisposition": "RESOLVE_OFFICIAL_URL",
+      "sourceQueueBasis": "PUBLISHED_AS_A_WORD_DOCUMENT_AND_THE_CORPUS_INDEXES_PDFS_ONLY",
+      "censusSourceId": "official-form:CCA-XP-0120-7002 Form ACR",
+      "role": "attachment",
+      "evidence": [
+        "data/rcap-grade-a/route-obligation-census-v1/source-queue-reconciliation.json#rows[worklistGroupId=in_conviction_d6-set][obligation=CCA-XP-0120-7002 Form ACR]",
+        "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json"
+      ],
+      "whatWouldSettle": [
+        "A committed issuing-authority page or direct-file URL that identifies this exact titled document without inferring a form number."
+      ]
+    },
+    {
+      "ordinal": 17,
+      "obligationKey": "in_conviction_d6-set::Confidential Information Form",
+      "worklistGroupId": "in_conviction_d6-set",
+      "obligation": "Confidential Information Form",
+      "status": "UNRESOLVED_IDENTITY",
+      "identityResolved": false,
+      "identityResolutionBasis": "CONTROLLING_SOURCE_QUEUE_UNRESOLVED_IDENTITY",
+      "exactDocumentName": "Confidential Information Form",
+      "committedIdentityCaption": "Confidential Information Form",
+      "nameFidelity": "COMMITTED_EXACT_ISSUER_CAPTION",
+      "exactIssuerNameResolved": false,
+      "whatWouldSettleExactIssuerName": [],
+      "issuingAuthority": null,
+      "formNumber": null,
+      "officialUrl": null,
+      "officialUrlResolved": false,
+      "sourceQueueDisposition": "UNRESOLVED_IDENTITY",
+      "sourceQueueBasis": "IDENTITY_DESCRIBED_BUT_NOT_LOCATED",
+      "censusSourceId": "official-form:Confidential Information Form",
+      "role": "attachment",
+      "evidence": [
+        "data/rcap-grade-a/route-obligation-census-v1/source-queue-reconciliation.json#rows[worklistGroupId=in_conviction_d6-set][obligation=Confidential Information Form]",
+        "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json"
+      ],
+      "whatWouldSettle": [
+        "an officialSourceUrl on the Confidential Information Form component, or a titled entry for it in officialSources, in data/record-clearing/legal-design-intake/IN.memo.json",
+        "an entry for Confidential Information Form in data/record-clearing/source-artifact-registry.json under jurisdiction IN",
+        "the binary itself in data/rcap-all50/local-source-corpus-index.json"
+      ]
+    },
+    {
+      "ordinal": 18,
+      "obligationKey": "in_conviction_felony-set::CCA-GF-0120-3016",
+      "worklistGroupId": "in_conviction_felony-set",
+      "obligation": "CCA-GF-0120-3016",
+      "status": "UNRESOLVED_IDENTITY",
+      "identityResolved": false,
+      "identityResolutionBasis": "CONTROLLING_SOURCE_QUEUE_UNRESOLVED_IDENTITY",
+      "exactDocumentName": "Appearance by Unrepresented Person in Expungement Matter",
+      "committedIdentityCaption": "Appearance by Unrepresented Person in Expungement Matter",
+      "nameFidelity": "COMMITTED_EXACT_ISSUER_CAPTION",
+      "exactIssuerNameResolved": false,
+      "whatWouldSettleExactIssuerName": [],
+      "issuingAuthority": "Indiana Coalition for Court Access",
+      "formNumber": "CCA-GF-0120-3016",
+      "officialUrl": null,
+      "officialUrlResolved": false,
+      "sourceQueueDisposition": "UNRESOLVED_IDENTITY",
+      "sourceQueueBasis": "IDENTITY_DESCRIBED_BUT_NOT_LOCATED",
+      "censusSourceId": "official-form:CCA-GF-0120-3016",
+      "role": "attachment",
+      "evidence": [
+        "data/rcap-grade-a/route-obligation-census-v1/source-queue-reconciliation.json#rows[worklistGroupId=in_conviction_felony-set][obligation=CCA-GF-0120-3016]",
+        "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json"
+      ],
+      "whatWouldSettle": [
+        "an officialSourceUrl on the CCA-GF-0120-3016 component, or a titled entry for it in officialSources, in data/record-clearing/legal-design-intake/IN.memo.json",
+        "an entry for CCA-GF-0120-3016 in data/record-clearing/source-artifact-registry.json under jurisdiction IN",
+        "the binary itself in data/rcap-all50/local-source-corpus-index.json"
+      ]
+    },
+    {
+      "ordinal": 19,
+      "obligationKey": "in_conviction_felony-set::CCA-XP-0120-7002 Form ACR",
+      "worklistGroupId": "in_conviction_felony-set",
+      "obligation": "CCA-XP-0120-7002 Form ACR",
+      "status": "IDENTITY_RESOLVED_OFFICIAL_URL_UNRESOLVED",
+      "identityResolved": true,
+      "identityResolutionBasis": "CONTROLLING_SOURCE_QUEUE_RESOLVED_NOT_HELD",
+      "exactDocumentName": "Form ACR — Notice of Exclusion of Confidential Information from Public Access",
+      "committedIdentityCaption": "Form ACR — Notice of Exclusion of Confidential Information from Public Access",
+      "nameFidelity": "COMMITTED_EXACT_ISSUER_CAPTION",
+      "exactIssuerNameResolved": true,
+      "whatWouldSettleExactIssuerName": [],
+      "issuingAuthority": "Indiana Coalition for Court Access",
+      "formNumber": null,
+      "officialUrl": null,
+      "officialUrlResolved": false,
+      "sourceQueueDisposition": "RESOLVE_OFFICIAL_URL",
+      "sourceQueueBasis": "PUBLISHED_AS_A_WORD_DOCUMENT_AND_THE_CORPUS_INDEXES_PDFS_ONLY",
+      "censusSourceId": "official-form:CCA-XP-0120-7002 Form ACR",
+      "role": "attachment",
+      "evidence": [
+        "data/rcap-grade-a/route-obligation-census-v1/source-queue-reconciliation.json#rows[worklistGroupId=in_conviction_felony-set][obligation=CCA-XP-0120-7002 Form ACR]",
+        "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json"
+      ],
+      "whatWouldSettle": [
+        "A committed issuing-authority page or direct-file URL that identifies this exact titled document without inferring a form number."
+      ]
+    },
+    {
+      "ordinal": 20,
+      "obligationKey": "in_conviction_felony-set::Confidential Information Form",
+      "worklistGroupId": "in_conviction_felony-set",
+      "obligation": "Confidential Information Form",
+      "status": "UNRESOLVED_IDENTITY",
+      "identityResolved": false,
+      "identityResolutionBasis": "CONTROLLING_SOURCE_QUEUE_UNRESOLVED_IDENTITY",
+      "exactDocumentName": "Confidential Information Form",
+      "committedIdentityCaption": "Confidential Information Form",
+      "nameFidelity": "COMMITTED_EXACT_ISSUER_CAPTION",
+      "exactIssuerNameResolved": false,
+      "whatWouldSettleExactIssuerName": [],
+      "issuingAuthority": null,
+      "formNumber": null,
+      "officialUrl": null,
+      "officialUrlResolved": false,
+      "sourceQueueDisposition": "UNRESOLVED_IDENTITY",
+      "sourceQueueBasis": "IDENTITY_DESCRIBED_BUT_NOT_LOCATED",
+      "censusSourceId": "official-form:Confidential Information Form",
+      "role": "attachment",
+      "evidence": [
+        "data/rcap-grade-a/route-obligation-census-v1/source-queue-reconciliation.json#rows[worklistGroupId=in_conviction_felony-set][obligation=Confidential Information Form]",
+        "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json"
+      ],
+      "whatWouldSettle": [
+        "an officialSourceUrl on the Confidential Information Form component, or a titled entry for it in officialSources, in data/record-clearing/legal-design-intake/IN.memo.json",
+        "an entry for Confidential Information Form in data/record-clearing/source-artifact-registry.json under jurisdiction IN",
+        "the binary itself in data/rcap-all50/local-source-corpus-index.json"
+      ]
+    },
+    {
+      "ordinal": 21,
+      "obligationKey": "in_conviction_misd-set::CCA-GF-0120-3016",
+      "worklistGroupId": "in_conviction_misd-set",
+      "obligation": "CCA-GF-0120-3016",
+      "status": "UNRESOLVED_IDENTITY",
+      "identityResolved": false,
+      "identityResolutionBasis": "CONTROLLING_SOURCE_QUEUE_UNRESOLVED_IDENTITY",
+      "exactDocumentName": "Appearance by Unrepresented Person in Expungement Matter",
+      "committedIdentityCaption": "Appearance by Unrepresented Person in Expungement Matter",
+      "nameFidelity": "COMMITTED_EXACT_ISSUER_CAPTION",
+      "exactIssuerNameResolved": false,
+      "whatWouldSettleExactIssuerName": [],
+      "issuingAuthority": "Indiana Coalition for Court Access",
+      "formNumber": "CCA-GF-0120-3016",
+      "officialUrl": null,
+      "officialUrlResolved": false,
+      "sourceQueueDisposition": "UNRESOLVED_IDENTITY",
+      "sourceQueueBasis": "IDENTITY_DESCRIBED_BUT_NOT_LOCATED",
+      "censusSourceId": "official-form:CCA-GF-0120-3016",
+      "role": "attachment",
+      "evidence": [
+        "data/rcap-grade-a/route-obligation-census-v1/source-queue-reconciliation.json#rows[worklistGroupId=in_conviction_misd-set][obligation=CCA-GF-0120-3016]",
+        "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json"
+      ],
+      "whatWouldSettle": [
+        "an officialSourceUrl on the CCA-GF-0120-3016 component, or a titled entry for it in officialSources, in data/record-clearing/legal-design-intake/IN.memo.json",
+        "an entry for CCA-GF-0120-3016 in data/record-clearing/source-artifact-registry.json under jurisdiction IN",
+        "the binary itself in data/rcap-all50/local-source-corpus-index.json"
+      ]
+    },
+    {
+      "ordinal": 22,
+      "obligationKey": "in_conviction_misd-set::CCA-XP-0120-7002 Form ACR",
+      "worklistGroupId": "in_conviction_misd-set",
+      "obligation": "CCA-XP-0120-7002 Form ACR",
+      "status": "IDENTITY_RESOLVED_OFFICIAL_URL_UNRESOLVED",
+      "identityResolved": true,
+      "identityResolutionBasis": "CONTROLLING_SOURCE_QUEUE_RESOLVED_NOT_HELD",
+      "exactDocumentName": "Form ACR — Notice of Exclusion of Confidential Information from Public Access",
+      "committedIdentityCaption": "Form ACR — Notice of Exclusion of Confidential Information from Public Access",
+      "nameFidelity": "COMMITTED_EXACT_ISSUER_CAPTION",
+      "exactIssuerNameResolved": true,
+      "whatWouldSettleExactIssuerName": [],
+      "issuingAuthority": "Indiana Coalition for Court Access",
+      "formNumber": null,
+      "officialUrl": null,
+      "officialUrlResolved": false,
+      "sourceQueueDisposition": "RESOLVE_OFFICIAL_URL",
+      "sourceQueueBasis": "PUBLISHED_AS_A_WORD_DOCUMENT_AND_THE_CORPUS_INDEXES_PDFS_ONLY",
+      "censusSourceId": "official-form:CCA-XP-0120-7002 Form ACR",
+      "role": "attachment",
+      "evidence": [
+        "data/rcap-grade-a/route-obligation-census-v1/source-queue-reconciliation.json#rows[worklistGroupId=in_conviction_misd-set][obligation=CCA-XP-0120-7002 Form ACR]",
+        "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json"
+      ],
+      "whatWouldSettle": [
+        "A committed issuing-authority page or direct-file URL that identifies this exact titled document without inferring a form number."
+      ]
+    },
+    {
+      "ordinal": 23,
+      "obligationKey": "in_conviction_misd-set::Confidential Information Form",
+      "worklistGroupId": "in_conviction_misd-set",
+      "obligation": "Confidential Information Form",
+      "status": "UNRESOLVED_IDENTITY",
+      "identityResolved": false,
+      "identityResolutionBasis": "CONTROLLING_SOURCE_QUEUE_UNRESOLVED_IDENTITY",
+      "exactDocumentName": "Confidential Information Form",
+      "committedIdentityCaption": "Confidential Information Form",
+      "nameFidelity": "COMMITTED_EXACT_ISSUER_CAPTION",
+      "exactIssuerNameResolved": false,
+      "whatWouldSettleExactIssuerName": [],
+      "issuingAuthority": null,
+      "formNumber": null,
+      "officialUrl": null,
+      "officialUrlResolved": false,
+      "sourceQueueDisposition": "UNRESOLVED_IDENTITY",
+      "sourceQueueBasis": "IDENTITY_DESCRIBED_BUT_NOT_LOCATED",
+      "censusSourceId": "official-form:Confidential Information Form",
+      "role": "attachment",
+      "evidence": [
+        "data/rcap-grade-a/route-obligation-census-v1/source-queue-reconciliation.json#rows[worklistGroupId=in_conviction_misd-set][obligation=Confidential Information Form]",
+        "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json"
+      ],
+      "whatWouldSettle": [
+        "an officialSourceUrl on the Confidential Information Form component, or a titled entry for it in officialSources, in data/record-clearing/legal-design-intake/IN.memo.json",
+        "an entry for Confidential Information Form in data/record-clearing/source-artifact-registry.json under jurisdiction IN",
+        "the binary itself in data/rcap-all50/local-source-corpus-index.json"
+      ]
+    },
+    {
+      "ordinal": 24,
+      "obligationKey": "in_section1_petition-set::CCA-GF-0120-3016",
+      "worklistGroupId": "in_section1_petition-set",
+      "obligation": "CCA-GF-0120-3016",
+      "status": "UNRESOLVED_IDENTITY",
+      "identityResolved": false,
+      "identityResolutionBasis": "CONTROLLING_SOURCE_QUEUE_UNRESOLVED_IDENTITY",
+      "exactDocumentName": "Appearance by Unrepresented Person in Expungement Matter",
+      "committedIdentityCaption": "Appearance by Unrepresented Person in Expungement Matter",
+      "nameFidelity": "COMMITTED_EXACT_ISSUER_CAPTION",
+      "exactIssuerNameResolved": false,
+      "whatWouldSettleExactIssuerName": [],
+      "issuingAuthority": "Indiana Coalition for Court Access",
+      "formNumber": "CCA-GF-0120-3016",
+      "officialUrl": null,
+      "officialUrlResolved": false,
+      "sourceQueueDisposition": "UNRESOLVED_IDENTITY",
+      "sourceQueueBasis": "IDENTITY_DESCRIBED_BUT_NOT_LOCATED",
+      "censusSourceId": "official-form:CCA-GF-0120-3016",
+      "role": "attachment",
+      "evidence": [
+        "data/rcap-grade-a/route-obligation-census-v1/source-queue-reconciliation.json#rows[worklistGroupId=in_section1_petition-set][obligation=CCA-GF-0120-3016]",
+        "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json"
+      ],
+      "whatWouldSettle": [
+        "an officialSourceUrl on the CCA-GF-0120-3016 component, or a titled entry for it in officialSources, in data/record-clearing/legal-design-intake/IN.memo.json",
+        "an entry for CCA-GF-0120-3016 in data/record-clearing/source-artifact-registry.json under jurisdiction IN",
+        "the binary itself in data/rcap-all50/local-source-corpus-index.json"
+      ]
+    },
+    {
+      "ordinal": 25,
+      "obligationKey": "in_section1_petition-set::CCA-XP-0120-7002 Form ACR",
+      "worklistGroupId": "in_section1_petition-set",
+      "obligation": "CCA-XP-0120-7002 Form ACR",
+      "status": "IDENTITY_RESOLVED_OFFICIAL_URL_UNRESOLVED",
+      "identityResolved": true,
+      "identityResolutionBasis": "CONTROLLING_SOURCE_QUEUE_RESOLVED_NOT_HELD",
+      "exactDocumentName": "Form ACR — Notice of Exclusion of Confidential Information from Public Access",
+      "committedIdentityCaption": "Form ACR — Notice of Exclusion of Confidential Information from Public Access",
+      "nameFidelity": "COMMITTED_EXACT_ISSUER_CAPTION",
+      "exactIssuerNameResolved": true,
+      "whatWouldSettleExactIssuerName": [],
+      "issuingAuthority": "Indiana Coalition for Court Access",
+      "formNumber": null,
+      "officialUrl": null,
+      "officialUrlResolved": false,
+      "sourceQueueDisposition": "RESOLVE_OFFICIAL_URL",
+      "sourceQueueBasis": "PUBLISHED_AS_A_WORD_DOCUMENT_AND_THE_CORPUS_INDEXES_PDFS_ONLY",
+      "censusSourceId": "official-form:CCA-XP-0120-7002 Form ACR",
+      "role": "attachment",
+      "evidence": [
+        "data/rcap-grade-a/route-obligation-census-v1/source-queue-reconciliation.json#rows[worklistGroupId=in_section1_petition-set][obligation=CCA-XP-0120-7002 Form ACR]",
+        "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json"
+      ],
+      "whatWouldSettle": [
+        "A committed issuing-authority page or direct-file URL that identifies this exact titled document without inferring a form number."
+      ]
+    },
+    {
+      "ordinal": 26,
+      "obligationKey": "in_section1_petition-set::Confidential Information Form",
+      "worklistGroupId": "in_section1_petition-set",
+      "obligation": "Confidential Information Form",
+      "status": "UNRESOLVED_IDENTITY",
+      "identityResolved": false,
+      "identityResolutionBasis": "CONTROLLING_SOURCE_QUEUE_UNRESOLVED_IDENTITY",
+      "exactDocumentName": "Confidential Information Form",
+      "committedIdentityCaption": "Confidential Information Form",
+      "nameFidelity": "COMMITTED_EXACT_ISSUER_CAPTION",
+      "exactIssuerNameResolved": false,
+      "whatWouldSettleExactIssuerName": [],
+      "issuingAuthority": null,
+      "formNumber": null,
+      "officialUrl": null,
+      "officialUrlResolved": false,
+      "sourceQueueDisposition": "UNRESOLVED_IDENTITY",
+      "sourceQueueBasis": "IDENTITY_DESCRIBED_BUT_NOT_LOCATED",
+      "censusSourceId": "official-form:Confidential Information Form",
+      "role": "attachment",
+      "evidence": [
+        "data/rcap-grade-a/route-obligation-census-v1/source-queue-reconciliation.json#rows[worklistGroupId=in_section1_petition-set][obligation=Confidential Information Form]",
+        "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json"
+      ],
+      "whatWouldSettle": [
+        "an officialSourceUrl on the Confidential Information Form component, or a titled entry for it in officialSources, in data/record-clearing/legal-design-intake/IN.memo.json",
+        "an entry for Confidential Information Form in data/record-clearing/source-artifact-registry.json under jurisdiction IN",
+        "the binary itself in data/rcap-all50/local-source-corpus-index.json"
+      ]
+    },
+    {
+      "ordinal": 27,
+      "obligationKey": "mi_setaside_trafficking-set::Proof of Service",
+      "worklistGroupId": "mi_setaside_trafficking-set",
+      "obligation": "Proof of Service",
+      "status": "UNRESOLVED_IDENTITY",
+      "identityResolved": false,
+      "identityResolutionBasis": "CONTROLLING_SOURCE_QUEUE_UNRESOLVED_IDENTITY",
+      "exactDocumentName": "Proof of Service",
+      "committedIdentityCaption": "Proof of Service",
+      "nameFidelity": "COMMITTED_EXACT_ISSUER_CAPTION",
+      "exactIssuerNameResolved": false,
+      "whatWouldSettleExactIssuerName": [],
+      "issuingAuthority": "Michigan State Court Administrative Office (SCAO)",
+      "formNumber": null,
+      "officialUrl": null,
+      "officialUrlResolved": false,
+      "sourceQueueDisposition": "UNRESOLVED_IDENTITY",
+      "sourceQueueBasis": "IDENTITY_DESCRIBED_BUT_NOT_LOCATED",
+      "censusSourceId": "official-form:Proof of Service",
+      "role": "certificate_of_service",
+      "evidence": [
+        "data/rcap-grade-a/route-obligation-census-v1/source-queue-reconciliation.json#rows[worklistGroupId=mi_setaside_trafficking-set][obligation=Proof of Service]",
+        "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json"
+      ],
+      "whatWouldSettle": [
+        "a statement in data/record-clearing/legal-design-intake/MI.memo.json of which form Proof of Service is a page of; the component carries no source of its own and the design record does not say whether it travels with the primary filing",
+        "an officialSourceUrl on the Proof of Service component, or a titled entry for it in officialSources, in data/record-clearing/legal-design-intake/MI.memo.json",
+        "an entry for Proof of Service in data/record-clearing/source-artifact-registry.json under jurisdiction MI",
+        "the binary itself in data/rcap-all50/local-source-corpus-index.json"
+      ]
+    },
+    {
+      "ordinal": 28,
+      "obligationKey": "rcap-in-custom-pleading::CCA-GF-0120-3016",
+      "worklistGroupId": "rcap-in-custom-pleading",
+      "obligation": "CCA-GF-0120-3016",
+      "status": "UNRESOLVED_IDENTITY",
+      "identityResolved": false,
+      "identityResolutionBasis": "CONTROLLING_SOURCE_QUEUE_UNRESOLVED_IDENTITY",
+      "exactDocumentName": "Appearance by Unrepresented Person in Expungement Matter",
+      "committedIdentityCaption": "Appearance by Unrepresented Person in Expungement Matter",
+      "nameFidelity": "COMMITTED_EXACT_ISSUER_CAPTION",
+      "exactIssuerNameResolved": false,
+      "whatWouldSettleExactIssuerName": [],
+      "issuingAuthority": "Indiana Coalition for Court Access",
+      "formNumber": "CCA-GF-0120-3016",
+      "officialUrl": null,
+      "officialUrlResolved": false,
+      "sourceQueueDisposition": "UNRESOLVED_IDENTITY",
+      "sourceQueueBasis": "IDENTITY_DESCRIBED_BUT_NOT_LOCATED",
+      "censusSourceId": "official-form:CCA-GF-0120-3016",
+      "role": "attachment",
+      "evidence": [
+        "data/rcap-grade-a/route-obligation-census-v1/source-queue-reconciliation.json#rows[worklistGroupId=rcap-in-custom-pleading][obligation=CCA-GF-0120-3016]",
+        "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json"
+      ],
+      "whatWouldSettle": [
+        "an officialSourceUrl on the CCA-GF-0120-3016 component, or a titled entry for it in officialSources, in data/record-clearing/legal-design-intake/IN.memo.json",
+        "an entry for CCA-GF-0120-3016 in data/record-clearing/source-artifact-registry.json under jurisdiction IN",
+        "the binary itself in data/rcap-all50/local-source-corpus-index.json"
+      ]
+    },
+    {
+      "ordinal": 29,
+      "obligationKey": "rcap-in-custom-pleading::CCA-XP-0120-7002 Form ACR",
+      "worklistGroupId": "rcap-in-custom-pleading",
+      "obligation": "CCA-XP-0120-7002 Form ACR",
+      "status": "IDENTITY_RESOLVED_OFFICIAL_URL_UNRESOLVED",
+      "identityResolved": true,
+      "identityResolutionBasis": "CONTROLLING_SOURCE_QUEUE_RESOLVED_NOT_HELD",
+      "exactDocumentName": "Form ACR — Notice of Exclusion of Confidential Information from Public Access",
+      "committedIdentityCaption": "Form ACR — Notice of Exclusion of Confidential Information from Public Access",
+      "nameFidelity": "COMMITTED_EXACT_ISSUER_CAPTION",
+      "exactIssuerNameResolved": true,
+      "whatWouldSettleExactIssuerName": [],
+      "issuingAuthority": "Indiana Coalition for Court Access",
+      "formNumber": null,
+      "officialUrl": null,
+      "officialUrlResolved": false,
+      "sourceQueueDisposition": "RESOLVE_OFFICIAL_URL",
+      "sourceQueueBasis": "PUBLISHED_AS_A_WORD_DOCUMENT_AND_THE_CORPUS_INDEXES_PDFS_ONLY",
+      "censusSourceId": "official-form:CCA-XP-0120-7002 Form ACR",
+      "role": "attachment",
+      "evidence": [
+        "data/rcap-grade-a/route-obligation-census-v1/source-queue-reconciliation.json#rows[worklistGroupId=rcap-in-custom-pleading][obligation=CCA-XP-0120-7002 Form ACR]",
+        "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json"
+      ],
+      "whatWouldSettle": [
+        "A committed issuing-authority page or direct-file URL that identifies this exact titled document without inferring a form number."
+      ]
+    },
+    {
+      "ordinal": 30,
+      "obligationKey": "rcap-in-custom-pleading::Confidential Information Form",
+      "worklistGroupId": "rcap-in-custom-pleading",
+      "obligation": "Confidential Information Form",
+      "status": "UNRESOLVED_IDENTITY",
+      "identityResolved": false,
+      "identityResolutionBasis": "CONTROLLING_SOURCE_QUEUE_UNRESOLVED_IDENTITY",
+      "exactDocumentName": "Confidential Information Form",
+      "committedIdentityCaption": "Confidential Information Form",
+      "nameFidelity": "COMMITTED_EXACT_ISSUER_CAPTION",
+      "exactIssuerNameResolved": false,
+      "whatWouldSettleExactIssuerName": [],
+      "issuingAuthority": null,
+      "formNumber": null,
+      "officialUrl": null,
+      "officialUrlResolved": false,
+      "sourceQueueDisposition": "UNRESOLVED_IDENTITY",
+      "sourceQueueBasis": "IDENTITY_DESCRIBED_BUT_NOT_LOCATED",
+      "censusSourceId": "official-form:Confidential Information Form",
+      "role": "attachment",
+      "evidence": [
+        "data/rcap-grade-a/route-obligation-census-v1/source-queue-reconciliation.json#rows[worklistGroupId=rcap-in-custom-pleading][obligation=Confidential Information Form]",
+        "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json"
+      ],
+      "whatWouldSettle": [
+        "an officialSourceUrl on the Confidential Information Form component, or a titled entry for it in officialSources, in data/record-clearing/legal-design-intake/IN.memo.json",
+        "an entry for Confidential Information Form in data/record-clearing/source-artifact-registry.json under jurisdiction IN",
+        "the binary itself in data/rcap-all50/local-source-corpus-index.json"
+      ]
+    }
+  ],
+  "grantsNothing": "This receipt opens no commercial route, proves no packet, and approves no output.",
+  "productionTouched": false
+}

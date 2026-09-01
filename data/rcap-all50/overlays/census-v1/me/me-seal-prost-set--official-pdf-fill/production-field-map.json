@@ -1,0 +1,808 @@
+{
+  "schemaVersion": "rcap-official-form-field-map/v1-census-v1",
+  "familyId": "me-seal-prost-set",
+  "routeKeys": [
+    "track:ME:me-seal-prost"
+  ],
+  "routeSelectionId": "me-seal-prost-set-cr-289-primary-filing",
+  "renderStrategy": "acroform_fill",
+  "captionBasis": "every printed caption in this map was read from the official form's own content stream at the widget's coordinates; captionReadAt records where, and the build refuses if a caption is no longer there",
+  "dispositionVocabulary": [
+    "signature_or_date_participant_completion",
+    "court_prosecutor_clerk_or_agency_owned",
+    "participant_sworn_narrative_or_legal_election"
+  ],
+  "routeDeterminedSelections": [],
+  "routeSelectionNote": "15 M.R.S.A. § 2262-A is the route and CR-289 is its form. The only election on it is which court the case is in — Superior Court, District Court or the Unified Criminal Docket — which is a fact about the case rather than a consequence of the route. The form's two substantive assertions are printed in the body of the motion and carry no control at all; signing it asserts them.",
+  "requiredBeforeFilingCount": 2,
+  "requiredBeforeFiling": [
+    {
+      "document": "CR-289",
+      "field": "This crime is eligible for sealing under 15 MRSA  22616 and 2262A",
+      "page": 1,
+      "printedContext": ". This crime is eligible for sealing under 15 M.R.S.A. § 2261(6) and §2262-A.",
+      "disclosureLabel": "Date of the conviction for Engaging in Prostitution (mm/dd/yyyy)",
+      "identity": "CR-289 field This crime is eligible for sealing under 15 MRSA  22616 and 2262A",
+      "why": "the platform holds no value for this and the participant supplies it before filing: the date you were convicted of Engaging in Prostitution, from your court paperwork. The sentence this blank sits in is the one that makes the motion: it states the conviction and that it is eligible for sealing under 15 M.R.S.A. § 2261(6) and § 2262-A",
+      "participantMustSupply": "the date you were convicted of Engaging in Prostitution, from your court paperwork. The sentence this blank sits in is the one that makes the motion: it states the conviction and that it is eligible for sealing under 15 M.R.S.A. § 2261(6) and § 2262-A"
+    },
+    {
+      "document": "CR-289",
+      "field": "2",
+      "page": 1,
+      "printedContext": "Defendant’s Mailing Addr ess",
+      "disclosureLabel": "Defendant's Mailing Address — second line",
+      "identity": "CR-289 field 2",
+      "why": "the platform holds no value for this and the participant supplies it before filing: the rest of your mailing address — the town, state and ZIP code — on this second line",
+      "participantMustSupply": "the rest of your mailing address — the town, state and ZIP code — on this second line"
+    }
+  ],
+  "maps": [
+    {
+      "formNumber": "CR-289",
+      "documentId": "CR-289",
+      "documentRole": "primary_filing",
+      "documentPolicy": {
+        "mode": "participant",
+        "captionOnly": false,
+        "documentAcceptsFill": true,
+        "routeKey": "track:ME:me-seal-prost"
+      },
+      "structuralClass": "acroform",
+      "explicitMappings": {
+        "1": "participant.street_address",
+        "Defendant": "participant.full_legal_name",
+        "County": "matter.county",
+        "Location Town": "participant.city",
+        "Defendants DOB mmddyyyy": "participant.date_of_birth",
+        "Docket No": "matter.case_number"
+      },
+      "roleRefusals": [],
+      "selectionControls": [
+        {
+          "field": "Superior Court",
+          "acroFieldName": "Superior Court",
+          "page": 1,
+          "rect": {
+            "x": 355.68,
+            "y": 717.48,
+            "width": 13.08,
+            "height": 13.08
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Superior Court District Court",
+          "printedLine": "Superior Court District Court",
+          "regionHeading": "Court for filing — Superior Court (selection)",
+          "sectionHeading": null,
+          "effectiveLabel": "Court for filing — Superior Court (selection)",
+          "captionReadAt": {
+            "page": 1,
+            "y": 720
+          },
+          "selectionId": "Superior Court",
+          "kind": "selection_control",
+          "type": "checkbox",
+          "document": "CR-289",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 355.68,
+                "y": 717.48,
+                "width": 13.08,
+                "height": 13.08
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "disposition": "explicit_refusal",
+          "reason": "tick the court the case is in; the form asks you to mark one of the three",
+          "category": "participant_sworn_narrative_or_legal_election",
+          "completenessClass": "participant_sworn_narrative_or_legal_election",
+          "class": "participant_sworn_narrative_or_legal_election",
+          "requiredBeforeFiling": false,
+          "routeDetermined": false
+        },
+        {
+          "field": "Unified Criminal Docket",
+          "acroFieldName": "Unified Criminal Docket",
+          "page": 1,
+          "rect": {
+            "x": 355.68,
+            "y": 702.84,
+            "width": 13.08,
+            "height": 13.08
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "V. Unified Criminal Docket",
+          "printedLine": "V. Unified Criminal Docket",
+          "regionHeading": "Court for filing — Unified Criminal Docket (selection)",
+          "sectionHeading": null,
+          "effectiveLabel": "Court for filing — Unified Criminal Docket (selection)",
+          "captionReadAt": {
+            "page": 1,
+            "y": 705
+          },
+          "selectionId": "Unified Criminal Docket",
+          "kind": "selection_control",
+          "type": "checkbox",
+          "document": "CR-289",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 355.68,
+                "y": 702.84,
+                "width": 13.08,
+                "height": 13.08
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "disposition": "explicit_refusal",
+          "reason": "tick the court the case is in; the form asks you to mark one of the three",
+          "category": "participant_sworn_narrative_or_legal_election",
+          "completenessClass": "participant_sworn_narrative_or_legal_election",
+          "class": "participant_sworn_narrative_or_legal_election",
+          "requiredBeforeFiling": false,
+          "routeDetermined": false
+        },
+        {
+          "field": "District Court",
+          "acroFieldName": "District Court",
+          "page": 1,
+          "rect": {
+            "x": 447.24,
+            "y": 717.48,
+            "width": 13.08,
+            "height": 13.08
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Superior Court District Court",
+          "printedLine": "Superior Court District Court",
+          "regionHeading": "Court for filing — District Court (selection)",
+          "sectionHeading": null,
+          "effectiveLabel": "Court for filing — District Court (selection)",
+          "captionReadAt": {
+            "page": 1,
+            "y": 720
+          },
+          "selectionId": "District Court",
+          "kind": "selection_control",
+          "type": "checkbox",
+          "document": "CR-289",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 447.24,
+                "y": 717.48,
+                "width": 13.08,
+                "height": 13.08
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "disposition": "explicit_refusal",
+          "reason": "tick the court the case is in; the form asks you to mark one of the three",
+          "category": "participant_sworn_narrative_or_legal_election",
+          "completenessClass": "participant_sworn_narrative_or_legal_election",
+          "class": "participant_sworn_narrative_or_legal_election",
+          "requiredBeforeFiling": false,
+          "routeDetermined": false
+        }
+      ],
+      "canonicalWrites": [
+        {
+          "field": "Defendant",
+          "acroFieldName": "Defendant",
+          "page": 1,
+          "rect": {
+            "x": 33.33,
+            "y": 672.24,
+            "width": 201.67,
+            "height": 14.64
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Defendant Location (Town):",
+          "printedLine": "Defendant Location (Town):",
+          "regionHeading": "Defendant",
+          "sectionHeading": null,
+          "effectiveLabel": "Defendant",
+          "captionReadAt": {
+            "page": 1,
+            "y": 676
+          },
+          "factId": "participant.full_legal_name",
+          "kind": "text",
+          "document": "CR-289"
+        },
+        {
+          "field": "County",
+          "acroFieldName": "County",
+          "page": 1,
+          "rect": {
+            "x": 400.56,
+            "y": 687.36,
+            "width": 180.48,
+            "height": 14.64
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "County:",
+          "printedLine": "County:",
+          "regionHeading": "County",
+          "sectionHeading": null,
+          "effectiveLabel": "County",
+          "captionReadAt": {
+            "page": 1,
+            "y": 691
+          },
+          "factId": "matter.county",
+          "kind": "text",
+          "document": "CR-289"
+        },
+        {
+          "field": "Location Town",
+          "acroFieldName": "Location Town",
+          "page": 1,
+          "rect": {
+            "x": 445.56,
+            "y": 671.24,
+            "width": 135.48,
+            "height": 14.4
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Defendant Location (Town):",
+          "printedLine": "Defendant Location (Town):",
+          "regionHeading": "Defendant Location (Town)",
+          "sectionHeading": null,
+          "effectiveLabel": "Defendant Location (Town)",
+          "captionReadAt": {
+            "page": 1,
+            "y": 676
+          },
+          "factId": "participant.city",
+          "kind": "text",
+          "document": "CR-289"
+        },
+        {
+          "field": "Defendants DOB mmddyyyy",
+          "acroFieldName": "Defendants DOB mmddyyyy",
+          "page": 1,
+          "rect": {
+            "x": 202.56,
+            "y": 640.88,
+            "width": 121.56,
+            "height": 14.64
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Defendant’s DOB (mm/dd/yyyy):",
+          "printedLine": "Defendant’s DOB (mm/dd/yyyy):",
+          "regionHeading": "Defendant's DOB (mm/dd/yyyy)",
+          "sectionHeading": null,
+          "effectiveLabel": "Defendant's DOB (mm/dd/yyyy)",
+          "captionReadAt": {
+            "page": 1,
+            "y": 645
+          },
+          "factId": "participant.date_of_birth",
+          "kind": "text",
+          "document": "CR-289"
+        },
+        {
+          "field": "Docket No",
+          "acroFieldName": "Docket No",
+          "page": 1,
+          "rect": {
+            "x": 420.71,
+            "y": 656.35,
+            "width": 161.64,
+            "height": 14.64
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Docket No.:",
+          "printedLine": "Docket No.:",
+          "regionHeading": "Docket No.",
+          "sectionHeading": null,
+          "effectiveLabel": "Docket No.",
+          "captionReadAt": {
+            "page": 1,
+            "y": 660
+          },
+          "factId": "matter.case_number",
+          "kind": "text",
+          "document": "CR-289"
+        },
+        {
+          "field": "1",
+          "acroFieldName": "1",
+          "page": 1,
+          "rect": {
+            "x": 324,
+            "y": 255.12,
+            "width": 256.68,
+            "height": 14.64
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Defendant’s Mailing Addr ess",
+          "printedLine": "Defendant’s Mailing Addr ess",
+          "regionHeading": "Defendant's Mailing Address — first line",
+          "sectionHeading": null,
+          "effectiveLabel": "Defendant's Mailing Address — first line",
+          "captionReadAt": {
+            "page": 1,
+            "y": 226
+          },
+          "captionNote": "Two mailing-address lines are named `1` and `2`. The caption is the printed \"Defendants Mailing Address\" heading above them.",
+          "factId": "participant.street_address",
+          "kind": "text",
+          "document": "CR-289"
+        }
+      ],
+      "canonicalRefusals": [
+        {
+          "field": "This crime is eligible for sealing under 15 MRSA  22616 and 2262A",
+          "acroFieldName": "This crime is eligible for sealing under 15 MRSA  22616 and 2262A",
+          "page": 1,
+          "rect": {
+            "x": 81,
+            "y": 495.8,
+            "width": 129,
+            "height": 13.56
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": ". This crime is eligible for sealing under 15 M.R.S.A. § 2261(6) and §2262-A.",
+          "printedLine": ". This crime is eligible for sealing under 15 M.R.S.A. § 2261(6) and §2262-A.",
+          "regionHeading": "Date of the conviction for Engaging in Prostitution (mm/dd/yyyy)",
+          "sectionHeading": null,
+          "effectiveLabel": "Date of the conviction for Engaging in Prostitution (mm/dd/yyyy)",
+          "captionReadAt": {
+            "page": 1,
+            "y": 498
+          },
+          "captionNote": "Acrobat named this widget after the sentence that FOLLOWS it. The blank is the date of the conviction, printed at the end of \"1. Defendant was convicted of the Class E crime of Engaging in Prostitution on (mm/dd/yyyy)\", and the words in the field name are the next clause. The caption is read at the widget's own coordinate instead.",
+          "document": "CR-289",
+          "reason": "the participant supplies this before filing: the date you were convicted of Engaging in Prostitution, from your court paperwork. The sentence this blank sits in is the one that makes the motion: it states the conviction and that it is eligible for sealing under 15 M.R.S.A. § 2261(6) and § 2262-A",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "CR-289 field This crime is eligible for sealing under 15 MRSA  22616 and 2262A",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: the date you were convicted of Engaging in Prostitution, from your court paperwork. The sentence this blank sits in is the one that makes the motion: it states the conviction and that it is eligible for sealing under 15 M.R.S.A. § 2261(6) and § 2262-A",
+          "participantMustSupply": "the date you were convicted of Engaging in Prostitution, from your court paperwork. The sentence this blank sits in is the one that makes the motion: it states the conviction and that it is eligible for sealing under 15 M.R.S.A. § 2261(6) and § 2262-A"
+        },
+        {
+          "field": "Date mmddyyyy",
+          "acroFieldName": "Date mmddyyyy",
+          "page": 1,
+          "rect": {
+            "x": 139.56,
+            "y": 304.4,
+            "width": 112.56,
+            "height": 14.64
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Date (mm/dd/yyyy): y",
+          "printedLine": "Date (mm/dd/yyyy): y",
+          "regionHeading": "Date of signature (mm/dd/yyyy)",
+          "sectionHeading": null,
+          "effectiveLabel": "Date of signature (mm/dd/yyyy)",
+          "captionReadAt": {
+            "page": 1,
+            "y": 309
+          },
+          "document": "CR-289",
+          "reason": "you date it when you sign it; a date written in advance would be false",
+          "category": "signature_or_date_participant_completion",
+          "completenessClass": "signature_or_date_participant_completion",
+          "class": "signature_or_date_participant_completion",
+          "requiredBeforeFiling": false,
+          "why": "you date it when you sign it; a date written in advance would be false"
+        },
+        {
+          "field": "undefined",
+          "acroFieldName": "undefined",
+          "page": 1,
+          "rect": {
+            "x": 324,
+            "y": 304.4,
+            "width": 256.68,
+            "height": 14.64
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Date (mm/dd/yyyy): y",
+          "printedLine": "Date (mm/dd/yyyy): y",
+          "regionHeading": "Defendant's Signature",
+          "sectionHeading": null,
+          "effectiveLabel": "Defendant's Signature",
+          "captionReadAt": {
+            "page": 1,
+            "y": 309
+          },
+          "captionNote": "The signature widget is literally named `undefined`. Its caption is read at its coordinate: it sits on the Defendant's Signature line, beside the date.",
+          "document": "CR-289",
+          "reason": "you sign the motion yourself",
+          "category": "signature_or_date_participant_completion",
+          "completenessClass": "signature_or_date_participant_completion",
+          "class": "signature_or_date_participant_completion",
+          "requiredBeforeFiling": false,
+          "why": "you sign the motion yourself"
+        },
+        {
+          "field": "2",
+          "acroFieldName": "2",
+          "page": 1,
+          "rect": {
+            "x": 324,
+            "y": 237.62,
+            "width": 256.68,
+            "height": 14.64
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Defendant’s Mailing Addr ess",
+          "printedLine": "Defendant’s Mailing Addr ess",
+          "regionHeading": "Defendant's Mailing Address — second line",
+          "sectionHeading": null,
+          "effectiveLabel": "Defendant's Mailing Address — second line",
+          "captionReadAt": {
+            "page": 1,
+            "y": 226
+          },
+          "captionNote": "As `1`: the second line of the same printed mailing-address block.",
+          "document": "CR-289",
+          "reason": "the participant supplies this before filing: the rest of your mailing address — the town, state and ZIP code — on this second line",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "CR-289 field 2",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: the rest of your mailing address — the town, state and ZIP code — on this second line",
+          "participantMustSupply": "the rest of your mailing address — the town, state and ZIP code — on this second line"
+        },
+        {
+          "field": "Defendants Attorney and Maine Bar No if",
+          "acroFieldName": "Defendants Attorney and Maine Bar No if",
+          "page": 1,
+          "rect": {
+            "x": 324,
+            "y": 187.68,
+            "width": 256.68,
+            "height": 14.64
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Defendant’s Attorney and Maine Bar (i Nfo .",
+          "printedLine": "Defendant’s Attorney and Maine Bar (i Nfo .",
+          "regionHeading": "Defendant's Attorney and Maine Bar No. (if applicable)",
+          "sectionHeading": null,
+          "effectiveLabel": "Defendant's Attorney and Maine Bar No. (if applicable)",
+          "captionReadAt": {
+            "page": 1,
+            "y": 176
+          },
+          "document": "CR-289",
+          "reason": "attorney-only; no attorney-representation fact is held for this participant, and the form marks the block 'if applicable'",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "requiredBeforeFiling": false,
+          "why": "attorney-only; no attorney-representation fact is held for this participant, and the form marks the block 'if applicable'"
+        }
+      ],
+      "boundaryWrites": [
+        {
+          "field": "Defendant",
+          "acroFieldName": "Defendant",
+          "page": 1,
+          "rect": {
+            "x": 33.33,
+            "y": 672.24,
+            "width": 201.67,
+            "height": 14.64
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Defendant Location (Town):",
+          "printedLine": "Defendant Location (Town):",
+          "regionHeading": "Defendant",
+          "sectionHeading": null,
+          "effectiveLabel": "Defendant",
+          "captionReadAt": {
+            "page": 1,
+            "y": 676
+          },
+          "factId": "participant.full_legal_name",
+          "kind": "text",
+          "document": "CR-289"
+        },
+        {
+          "field": "County",
+          "acroFieldName": "County",
+          "page": 1,
+          "rect": {
+            "x": 400.56,
+            "y": 687.36,
+            "width": 180.48,
+            "height": 14.64
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "County:",
+          "printedLine": "County:",
+          "regionHeading": "County",
+          "sectionHeading": null,
+          "effectiveLabel": "County",
+          "captionReadAt": {
+            "page": 1,
+            "y": 691
+          },
+          "factId": "matter.county",
+          "kind": "text",
+          "document": "CR-289"
+        },
+        {
+          "field": "Location Town",
+          "acroFieldName": "Location Town",
+          "page": 1,
+          "rect": {
+            "x": 445.56,
+            "y": 671.24,
+            "width": 135.48,
+            "height": 14.4
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Defendant Location (Town):",
+          "printedLine": "Defendant Location (Town):",
+          "regionHeading": "Defendant Location (Town)",
+          "sectionHeading": null,
+          "effectiveLabel": "Defendant Location (Town)",
+          "captionReadAt": {
+            "page": 1,
+            "y": 676
+          },
+          "factId": "participant.city",
+          "kind": "text",
+          "document": "CR-289"
+        },
+        {
+          "field": "Defendants DOB mmddyyyy",
+          "acroFieldName": "Defendants DOB mmddyyyy",
+          "page": 1,
+          "rect": {
+            "x": 202.56,
+            "y": 640.88,
+            "width": 121.56,
+            "height": 14.64
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Defendant’s DOB (mm/dd/yyyy):",
+          "printedLine": "Defendant’s DOB (mm/dd/yyyy):",
+          "regionHeading": "Defendant's DOB (mm/dd/yyyy)",
+          "sectionHeading": null,
+          "effectiveLabel": "Defendant's DOB (mm/dd/yyyy)",
+          "captionReadAt": {
+            "page": 1,
+            "y": 645
+          },
+          "factId": "participant.date_of_birth",
+          "kind": "text",
+          "document": "CR-289"
+        },
+        {
+          "field": "Docket No",
+          "acroFieldName": "Docket No",
+          "page": 1,
+          "rect": {
+            "x": 420.71,
+            "y": 656.35,
+            "width": 161.64,
+            "height": 14.64
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Docket No.:",
+          "printedLine": "Docket No.:",
+          "regionHeading": "Docket No.",
+          "sectionHeading": null,
+          "effectiveLabel": "Docket No.",
+          "captionReadAt": {
+            "page": 1,
+            "y": 660
+          },
+          "factId": "matter.case_number",
+          "kind": "text",
+          "document": "CR-289"
+        },
+        {
+          "field": "1",
+          "acroFieldName": "1",
+          "page": 1,
+          "rect": {
+            "x": 324,
+            "y": 255.12,
+            "width": 256.68,
+            "height": 14.64
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Defendant’s Mailing Addr ess",
+          "printedLine": "Defendant’s Mailing Addr ess",
+          "regionHeading": "Defendant's Mailing Address — first line",
+          "sectionHeading": null,
+          "effectiveLabel": "Defendant's Mailing Address — first line",
+          "captionReadAt": {
+            "page": 1,
+            "y": 226
+          },
+          "captionNote": "Two mailing-address lines are named `1` and `2`. The caption is the printed \"Defendants Mailing Address\" heading above them.",
+          "factId": "participant.street_address",
+          "kind": "text",
+          "document": "CR-289"
+        }
+      ],
+      "boundaryRefusals": [
+        {
+          "field": "This crime is eligible for sealing under 15 MRSA  22616 and 2262A",
+          "acroFieldName": "This crime is eligible for sealing under 15 MRSA  22616 and 2262A",
+          "page": 1,
+          "rect": {
+            "x": 81,
+            "y": 495.8,
+            "width": 129,
+            "height": 13.56
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": ". This crime is eligible for sealing under 15 M.R.S.A. § 2261(6) and §2262-A.",
+          "printedLine": ". This crime is eligible for sealing under 15 M.R.S.A. § 2261(6) and §2262-A.",
+          "regionHeading": "Date of the conviction for Engaging in Prostitution (mm/dd/yyyy)",
+          "sectionHeading": null,
+          "effectiveLabel": "Date of the conviction for Engaging in Prostitution (mm/dd/yyyy)",
+          "captionReadAt": {
+            "page": 1,
+            "y": 498
+          },
+          "captionNote": "Acrobat named this widget after the sentence that FOLLOWS it. The blank is the date of the conviction, printed at the end of \"1. Defendant was convicted of the Class E crime of Engaging in Prostitution on (mm/dd/yyyy)\", and the words in the field name are the next clause. The caption is read at the widget's own coordinate instead.",
+          "document": "CR-289",
+          "reason": "the participant supplies this before filing: the date you were convicted of Engaging in Prostitution, from your court paperwork. The sentence this blank sits in is the one that makes the motion: it states the conviction and that it is eligible for sealing under 15 M.R.S.A. § 2261(6) and § 2262-A",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "CR-289 field This crime is eligible for sealing under 15 MRSA  22616 and 2262A",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: the date you were convicted of Engaging in Prostitution, from your court paperwork. The sentence this blank sits in is the one that makes the motion: it states the conviction and that it is eligible for sealing under 15 M.R.S.A. § 2261(6) and § 2262-A",
+          "participantMustSupply": "the date you were convicted of Engaging in Prostitution, from your court paperwork. The sentence this blank sits in is the one that makes the motion: it states the conviction and that it is eligible for sealing under 15 M.R.S.A. § 2261(6) and § 2262-A"
+        },
+        {
+          "field": "Date mmddyyyy",
+          "acroFieldName": "Date mmddyyyy",
+          "page": 1,
+          "rect": {
+            "x": 139.56,
+            "y": 304.4,
+            "width": 112.56,
+            "height": 14.64
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Date (mm/dd/yyyy): y",
+          "printedLine": "Date (mm/dd/yyyy): y",
+          "regionHeading": "Date of signature (mm/dd/yyyy)",
+          "sectionHeading": null,
+          "effectiveLabel": "Date of signature (mm/dd/yyyy)",
+          "captionReadAt": {
+            "page": 1,
+            "y": 309
+          },
+          "document": "CR-289",
+          "reason": "you date it when you sign it; a date written in advance would be false",
+          "category": "signature_or_date_participant_completion",
+          "completenessClass": "signature_or_date_participant_completion",
+          "class": "signature_or_date_participant_completion",
+          "requiredBeforeFiling": false,
+          "why": "you date it when you sign it; a date written in advance would be false"
+        },
+        {
+          "field": "undefined",
+          "acroFieldName": "undefined",
+          "page": 1,
+          "rect": {
+            "x": 324,
+            "y": 304.4,
+            "width": 256.68,
+            "height": 14.64
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Date (mm/dd/yyyy): y",
+          "printedLine": "Date (mm/dd/yyyy): y",
+          "regionHeading": "Defendant's Signature",
+          "sectionHeading": null,
+          "effectiveLabel": "Defendant's Signature",
+          "captionReadAt": {
+            "page": 1,
+            "y": 309
+          },
+          "captionNote": "The signature widget is literally named `undefined`. Its caption is read at its coordinate: it sits on the Defendant's Signature line, beside the date.",
+          "document": "CR-289",
+          "reason": "you sign the motion yourself",
+          "category": "signature_or_date_participant_completion",
+          "completenessClass": "signature_or_date_participant_completion",
+          "class": "signature_or_date_participant_completion",
+          "requiredBeforeFiling": false,
+          "why": "you sign the motion yourself"
+        },
+        {
+          "field": "2",
+          "acroFieldName": "2",
+          "page": 1,
+          "rect": {
+            "x": 324,
+            "y": 237.62,
+            "width": 256.68,
+            "height": 14.64
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Defendant’s Mailing Addr ess",
+          "printedLine": "Defendant’s Mailing Addr ess",
+          "regionHeading": "Defendant's Mailing Address — second line",
+          "sectionHeading": null,
+          "effectiveLabel": "Defendant's Mailing Address — second line",
+          "captionReadAt": {
+            "page": 1,
+            "y": 226
+          },
+          "captionNote": "As `1`: the second line of the same printed mailing-address block.",
+          "document": "CR-289",
+          "reason": "the participant supplies this before filing: the rest of your mailing address — the town, state and ZIP code — on this second line",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "CR-289 field 2",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: the rest of your mailing address — the town, state and ZIP code — on this second line",
+          "participantMustSupply": "the rest of your mailing address — the town, state and ZIP code — on this second line"
+        },
+        {
+          "field": "Defendants Attorney and Maine Bar No if",
+          "acroFieldName": "Defendants Attorney and Maine Bar No if",
+          "page": 1,
+          "rect": {
+            "x": 324,
+            "y": 187.68,
+            "width": 256.68,
+            "height": 14.64
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Defendant’s Attorney and Maine Bar (i Nfo .",
+          "printedLine": "Defendant’s Attorney and Maine Bar (i Nfo .",
+          "regionHeading": "Defendant's Attorney and Maine Bar No. (if applicable)",
+          "sectionHeading": null,
+          "effectiveLabel": "Defendant's Attorney and Maine Bar No. (if applicable)",
+          "captionReadAt": {
+            "page": 1,
+            "y": 176
+          },
+          "document": "CR-289",
+          "reason": "attorney-only; no attorney-representation fact is held for this participant, and the form marks the block 'if applicable'",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "requiredBeforeFiling": false,
+          "why": "attorney-only; no attorney-representation fact is held for this participant, and the form marks the block 'if applicable'"
+        }
+      ]
+    }
+  ],
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "commercialRoutesOpened": 0
+}

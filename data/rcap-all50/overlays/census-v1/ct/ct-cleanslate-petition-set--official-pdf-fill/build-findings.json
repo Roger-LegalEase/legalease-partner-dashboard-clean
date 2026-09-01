@@ -1,0 +1,176 @@
+{
+  "schemaVersion": "rcap-build-findings/v1",
+  "familyId": "ct-cleanslate-petition-set",
+  "blocking": [],
+  "advisory": [
+    {
+      "severity": "advisory",
+      "fixture": "petition-canonical",
+      "field": "form1[0].#pageSet[0].Page1[0].ResetButton1[0]",
+      "check": "flattening_materialised_the_forms_own_widget_caption",
+      "drawnText": "Reset Form",
+      "documentAuthoredCaption": "Reset Form",
+      "page": 1,
+      "rect": {
+        "x": 414,
+        "y": 12,
+        "width": 68.4,
+        "height": 12
+      },
+      "note": "Not a value this build wrote. Flattening bakes the source form's own pushbutton caption into the page, so a filed copy carries the words at the foot of the sheet. Recorded for visual review."
+    },
+    {
+      "severity": "advisory",
+      "fixture": "petition-canonical",
+      "field": "form1[0].#pageSet[0].Page1[0].PrintButton1[0]",
+      "check": "flattening_materialised_the_forms_own_widget_caption",
+      "drawnText": "Print Form",
+      "documentAuthoredCaption": "Print Form",
+      "page": 1,
+      "rect": {
+        "x": 126,
+        "y": 12,
+        "width": 68.4,
+        "height": 12
+      },
+      "note": "Not a value this build wrote. Flattening bakes the source form's own pushbutton caption into the page, so a filed copy carries the words at the foot of the sheet. Recorded for visual review."
+    },
+    {
+      "severity": "advisory",
+      "fixture": "petition-canonical",
+      "field": "form1[0].#pageSet[0].Page1[1].ResetButton1[0]",
+      "check": "flattening_materialised_the_forms_own_widget_caption",
+      "drawnText": "Reset Form",
+      "documentAuthoredCaption": "Reset Form",
+      "page": 2,
+      "rect": {
+        "x": 414,
+        "y": 12,
+        "width": 68.4,
+        "height": 12
+      },
+      "note": "Not a value this build wrote. Flattening bakes the source form's own pushbutton caption into the page, so a filed copy carries the words at the foot of the sheet. Recorded for visual review."
+    },
+    {
+      "severity": "advisory",
+      "fixture": "petition-canonical",
+      "field": "form1[0].#pageSet[0].Page1[1].PrintButton1[0]",
+      "check": "flattening_materialised_the_forms_own_widget_caption",
+      "drawnText": "Print Form",
+      "documentAuthoredCaption": "Print Form",
+      "page": 2,
+      "rect": {
+        "x": 126,
+        "y": 12,
+        "width": 68.4,
+        "height": 12
+      },
+      "note": "Not a value this build wrote. Flattening bakes the source form's own pushbutton caption into the page, so a filed copy carries the words at the foot of the sheet. Recorded for visual review."
+    },
+    {
+      "severity": "advisory",
+      "fixture": "petition-boundary",
+      "field": "form1[0].#pageSet[0].Page1[0].ResetButton1[0]",
+      "check": "flattening_materialised_the_forms_own_widget_caption",
+      "drawnText": "Reset Form",
+      "documentAuthoredCaption": "Reset Form",
+      "page": 1,
+      "rect": {
+        "x": 414,
+        "y": 12,
+        "width": 68.4,
+        "height": 12
+      },
+      "note": "Not a value this build wrote. Flattening bakes the source form's own pushbutton caption into the page, so a filed copy carries the words at the foot of the sheet. Recorded for visual review."
+    },
+    {
+      "severity": "advisory",
+      "fixture": "petition-boundary",
+      "field": "form1[0].#pageSet[0].Page1[0].PrintButton1[0]",
+      "check": "flattening_materialised_the_forms_own_widget_caption",
+      "drawnText": "Print Form",
+      "documentAuthoredCaption": "Print Form",
+      "page": 1,
+      "rect": {
+        "x": 126,
+        "y": 12,
+        "width": 68.4,
+        "height": 12
+      },
+      "note": "Not a value this build wrote. Flattening bakes the source form's own pushbutton caption into the page, so a filed copy carries the words at the foot of the sheet. Recorded for visual review."
+    },
+    {
+      "severity": "advisory",
+      "fixture": "petition-boundary",
+      "field": "form1[0].#pageSet[0].Page1[1].ResetButton1[0]",
+      "check": "flattening_materialised_the_forms_own_widget_caption",
+      "drawnText": "Reset Form",
+      "documentAuthoredCaption": "Reset Form",
+      "page": 2,
+      "rect": {
+        "x": 414,
+        "y": 12,
+        "width": 68.4,
+        "height": 12
+      },
+      "note": "Not a value this build wrote. Flattening bakes the source form's own pushbutton caption into the page, so a filed copy carries the words at the foot of the sheet. Recorded for visual review."
+    },
+    {
+      "severity": "advisory",
+      "fixture": "petition-boundary",
+      "field": "form1[0].#pageSet[0].Page1[1].PrintButton1[0]",
+      "check": "flattening_materialised_the_forms_own_widget_caption",
+      "drawnText": "Print Form",
+      "documentAuthoredCaption": "Print Form",
+      "page": 2,
+      "rect": {
+        "x": 126,
+        "y": 12,
+        "width": 68.4,
+        "height": 12
+      },
+      "note": "Not a value this build wrote. Flattening bakes the source form's own pushbutton caption into the page, so a filed copy carries the words at the foot of the sheet. Recorded for visual review."
+    },
+    {
+      "severity": "advisory",
+      "fixture": "canonical",
+      "field": "form1[0].PAGE1[0].DEFADDRESS[0]",
+      "check": "a_single_full_width_address_line_receives_only_the_street",
+      "note": "The form gives the defendant's address one full-width line captioned 'Address'. The platform holds the address in parts and binds participant.street_address, so the line carries \"118 Maple Street\" and not the city, state or ZIP. The value written is correct as far as it goes and nothing false is stated, but the line is left incomplete and the participant completes it. Widening this would mean binding a composite fact, which is a shared descriptor decision and not this family's to make.",
+      "rect": {
+        "x": 28.8,
+        "y": 558,
+        "width": 555.84,
+        "height": 15.12
+      }
+    },
+    {
+      "severity": "advisory",
+      "fixture": "canonical",
+      "field": "form1[0].PAGE1[0].DOB[0]",
+      "check": "dates_are_written_in_iso_form",
+      "note": "The date of birth is written as \"1971-04-17\". valueMatchesType requires YYYY-MM-DD and the factory writes the value it is given, so every family renders ISO dates. A Connecticut Judicial Branch form is conventionally completed MM/DD/YYYY. This is unambiguous rather than wrong, it is consistent across the corpus, and the formatting decision belongs to the shared factory. Raised for the reviewer, not fixed here."
+    }
+  ],
+  "findingCount": 0,
+  "standingFindings": [
+    {
+      "severity": "finding",
+      "finding": "JD-CR-202 prints its column headings as one run-on line roughly eighteen points ABOVE the input row, and captureWidgetContext's 'printed directly above' branch takes the whole line rather than the cell over the widget. Six fields were misbound by it and four are protected by it only incidentally.",
+      "whatChangedHere": "The captions are now measured rather than harvested: MEASURED_CAPTIONS records the header line, its baseline, the column heading and the x-range of that column, and the build re-reads all four from the pinned binary and refuses on drift. Three of the participant's own facts -- name, e-mail and phone -- that the previous build left blank are now written, and the six fields the caption defect protected only incidentally are still refused, by ROLE and by this family's own POLICY rather than by the defect.",
+      "whatIsStillOwedElsewhere": "scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs still harvests the whole header line on any form laid out this way. That module is outside this family's owned path and was read, never edited."
+    },
+    {
+      "severity": "finding",
+      "finding": "rowKeyOf in the shared completeness contract reads a trailing `[n]` in a field name as a repeating-table row index. On an Adobe LiveCycle form every leaf is `NAME[0]`, so all twenty-two of this form's fields group into one row called `table::[0]`, which then reports incomplete because some cells are written and others are blanks the participant fills.",
+      "whatChangedHere": "The contract-readable map carries a `fieldName` alias with the LiveCycle index dropped, used only for row grouping; `field` and the audit's own row id remain the exact AcroForm name, and `acroFieldName` records it again beside the alias. JD-CR-202 has no repeating row at all -- one docket box, one crimes box, one of everything -- so nothing real is hidden.",
+      "whatIsStillOwedElsewhere": "The heuristic will misread every LiveCycle form in the fleet the same way. The fix belongs in scripts/rcap-packet-completeness/completeness-contract.mjs, which this family reads and never edits.",
+      "alsoWorthSaying": "Even with the row grouping corrected, the row check consults only classifyField and never a blank's declared disposition, so a correctly declared and disclosed REQUIRED_BEFORE_FILING blank sitting in a row beside any written cell will always trip it. That is a second, separate gap in the same function."
+    },
+    {
+      "severity": "finding",
+      "finding": "The printed name on the DEFENDANT's own signature row is left blank, and this build does not follow the fleet's usual practice of writing it.",
+      "why": "JD-CR-202 is sworn, not merely signed: printed instruction 2 requires it be signed before a Notary Public, Commissioner of the Superior Court, Clerk or other proper officer. The attestation row is completed at the swearing, by the person swearing, in the officer's presence, and prefilling any part of it presents a sworn block as further along than it is. vt_seal_misdemeanor-set writes the equivalent field on a form that is not sworn. The difference is deliberate and is flagged for counsel rather than settled here."
+    }
+  ]
+}

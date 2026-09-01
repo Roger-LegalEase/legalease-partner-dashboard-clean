@@ -4,8 +4,8 @@ import { BriefcaseShell } from "@/components/expungement-ai/BriefcaseShell";
 import { MatterStatusBadge } from "@/components/expungement-ai/BriefcaseViews";
 import { PacketInformationBuilder } from "@/components/expungement-ai/PacketInformationBuilder";
 import { requireConsumerBriefcaseSession } from "@/lib/expungement-ai/auth";
-import { getBriefcaseItem, isPartnerSponsoredPacketItem } from "@/lib/expungement-ai/briefcase";
-import { packetInformationModelFor } from "@/lib/expungement-ai/packet-information";
+import { getBriefcaseItem } from "@/lib/expungement-ai/briefcase";
+import { decorateBriefcaseItemForPresentation } from "@/lib/expungement-ai/briefcase-presentation-authority";
 
 export const dynamic = "force-dynamic";
 
@@ -18,11 +18,16 @@ export default async function PacketInformationPage({
 }) {
   const { packetId } = await params;
   const auth = await requireConsumerBriefcaseSession(`/briefcase/${packetId}/packet-information`);
-  const item = await getBriefcaseItem(auth.userId, packetId);
-  const sponsored = item ? await isPartnerSponsoredPacketItem(item) : false;
-  const packetResult = item?.resultCode === "packet_ready" || item?.resultCode === "packet_ready_with_caution";
-  const model = item && packetResult && (item.paymentAllowed || sponsored)
-    ? packetInformationModelFor(item)
+  const storedItem = await getBriefcaseItem(auth.userId, packetId);
+  const item = storedItem ? await decorateBriefcaseItemForPresentation({
+    consumerAuthUserId: auth.userId,
+    item: storedItem
+  }) : null;
+  const sponsored = item?.paymentState === "sponsored";
+  const packetResult = item?.authorityStatus !== "unavailable"
+    && (item?.resultCode === "packet_ready" || item?.resultCode === "packet_ready_with_caution");
+  const model = packetResult && item?.paymentState !== "unavailable" && item?.packetDraft.status === "available"
+    ? item.packetDraft
     : null;
   const editId = (await searchParams).edit?.trim();
   const displayedQuestions = model
@@ -32,18 +37,18 @@ export default async function PacketInformationPage({
   return (
     <BriefcaseShell
       userEmail={auth.userEmail}
-      caseState={item?.state}
+      caseState={item?.jurisdiction ?? undefined}
       briefcaseItemId={item?.id}
       activeNav="matters"
       breadcrumb={item ? <><Link href="/briefcase/matters">My matters</Link> / <Link href={`/briefcase/${item.id}`}>{item.title}</Link> / <b>Packet information</b></> : <b>Packet information</b>}
     >
-      {item && model ? (
+      {item && item.jurisdiction && model ? (
         <section>
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.08em] text-[#00A99D]">{model.stateName}</p>
+              <p className="text-xs font-bold uppercase tracking-[0.08em] text-[#00A99D]">{item.jurisdiction}</p>
               <h1 className="mt-2 text-[26px] font-extrabold tracking-[-0.02em] text-[#0B1320]">Complete packet information</h1>
-              <p className="mt-2 text-sm font-semibold text-[#475A6E]">{model.pathwayLabel}</p>
+              {item.pathwayLabel ? <p className="mt-2 text-sm font-semibold text-[#475A6E]">{item.pathwayLabel}</p> : null}
             </div>
             <MatterStatusBadge item={item} />
           </div>
@@ -59,7 +64,7 @@ export default async function PacketInformationPage({
 
           <PacketInformationBuilder
             itemId={item.id}
-            stateCode={model.stateCode}
+            stateCode={item.jurisdiction}
             questions={displayedQuestions}
             initialAnswers={model.initialAnswers}
             initiallyMissing={model.missingInputIds}
@@ -67,7 +72,7 @@ export default async function PacketInformationPage({
           />
         </section>
       ) : (
-        <section className="rounded-[16px] border border-[#ECEFF4] bg-white p-6">
+        <section className="rounded-[16px] border border-[#ECEFF4] bg-white p-6" role="status" aria-live="polite">
           <h1 className="text-2xl font-extrabold text-[#0B1320]">Packet information is not available for this matter.</h1>
           <p className="mt-3 text-sm leading-6 text-[#5A6275]">Open the saved matter to review its result and next steps.</p>
           <Link className="mt-5 inline-flex min-h-11 items-center rounded-[10px] bg-[#0B1320] px-5 text-sm font-bold text-white" href={item ? `/briefcase/${item.id}` : "/briefcase"}>Open matter</Link>

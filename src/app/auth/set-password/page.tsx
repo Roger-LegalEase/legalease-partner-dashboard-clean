@@ -8,6 +8,11 @@ import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { PartnerRecoveryState } from "@/components/partners/PartnerRecoveryState";
 import { safeAppRedirectPath } from "@/lib/auth/redirect";
+import {
+  CLAIM_TOKEN_PARAM,
+  isWellFormedClaimTokenValue,
+  submitClaim
+} from "@/lib/expungement-ai/claim/claim-handoff";
 import { createBrowserSupabaseClient } from "@/lib/supabase/browser";
 
 type InviteState = "checking" | "ready" | "invalid" | "saving" | "saved";
@@ -453,11 +458,14 @@ function defaultNextPath() {
   return safeAppRedirectPath(new URLSearchParams(window.location.search).get("next"));
 }
 
+// Strips the Supabase auth fragment and query while preserving the claim token,
+// which is still needed one call further on. submitClaim removes the token
+// itself the moment the server has seen it.
 function scrubAuthUrl(nextPath: string) {
   const search = new URLSearchParams(window.location.search);
   const cleanParams = new URLSearchParams({ next: safeAppRedirectPath(nextPath) });
-  const pending = search.get("pending");
-  if (pending && /^[0-9a-f-]{36}$/i.test(pending)) cleanParams.set("pending", pending);
+  const claimToken = search.get(CLAIM_TOKEN_PARAM);
+  if (isWellFormedClaimTokenValue(claimToken)) cleanParams.set(CLAIM_TOKEN_PARAM, claimToken);
   window.history.replaceState({}, document.title, `${window.location.pathname}?${cleanParams.toString()}`);
 }
 
@@ -465,19 +473,13 @@ function isExpungementNext(nextPath: string) {
   return nextPath.startsWith("/expungement-ai") || nextPath.startsWith("/briefcase");
 }
 
+// Email verification and password reset both land here. If the participant
+// arrived carrying a claim token, the interrupted continuation finishes now and
+// they land on the exact matter rather than a generic Briefcase.
 async function claimExpungementPending(nextPath: string) {
   const params = new URLSearchParams(window.location.search);
-  const pendingId = params.get("pending");
-  if (!pendingId || !/^[0-9a-f-]{36}$/i.test(pendingId)) return safeAppRedirectPath(nextPath, "/briefcase");
-  try {
-    const response = await fetch("/api/expungement-ai/screening/pending/claim", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ pendingId, next: nextPath })
-    });
-    const payload = await response.json().catch(() => null) as { redirectTo?: string } | null;
-    return safeAppRedirectPath(payload?.redirectTo, safeAppRedirectPath(nextPath, "/briefcase"));
-  } catch {
-    return safeAppRedirectPath(nextPath, "/briefcase");
-  }
+  const claimToken = params.get(CLAIM_TOKEN_PARAM);
+  if (!isWellFormedClaimTokenValue(claimToken)) return safeAppRedirectPath(nextPath, "/briefcase");
+  const claimed = await submitClaim(claimToken);
+  return claimed.ok ? claimed.redirectTo : safeAppRedirectPath(nextPath, "/briefcase");
 }

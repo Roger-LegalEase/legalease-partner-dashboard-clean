@@ -1,0 +1,87 @@
+{
+  "schemaVersion": "codex-sidecar-results/v1",
+  "recordedBy": "CAPTAIN-9H",
+  "recordedAt": "2026-09-01T08:27:44Z",
+  "measurementSnapshot": "110c028aaeccad30d5d673d46110d5fc3859db4e",
+  "snapshotRule": "Every count below is as of that snapshot. None is restated as a current-head count, and none is evidence about the current head.",
+  "whatSidecarEvidenceIs": "audit and planning evidence. Integrating it added no canonical packet, opened no route, and granted no promotion, commercial or PASS_COMPLETE authority.",
+  "results": {
+    "CB01": {
+      "implemented": "zero canonical mappings",
+      "produced": "three crosswalks",
+      "status": "apply-ready evidence, not applied",
+      "overstatementGuard": "a crosswalk is a proposal; nothing was mapped"
+    },
+    "CB02": {
+      "built": "three candidate custom pleadings",
+      "status": "PENDING PUBLICATION",
+      "pending": [
+        "publication",
+        "raster",
+        "independent verification"
+      ],
+      "overstatementGuard": "no PR exists; the bytes have not been seen here and no candidate is canonical, commercial or PASS_COMPLETE"
+    },
+    "CB03": {
+      "built": "zero official-PDF candidates under its exact-SHA gate",
+      "status": "the gate admitted nothing",
+      "overstatementGuard": "zero is the result, not a pending count"
+    },
+    "CB04": {
+      "classified": {
+        "liveControls": 6,
+        "frozenGenerators": 26,
+        "brokenGenerators": 1
+      },
+      "overstatementGuard": "classification, not repair"
+    },
+    "CB05": {
+      "produced": "candidate counts",
+      "status": "planning classifications",
+      "overstatementGuard": "explicitly NOT packet readiness"
+    },
+    "CB06": {
+      "found": {
+        "relationshipGaps": 200,
+        "ambiguousHeldMatches": 67,
+        "reviewedObligations": 82,
+        "concretelyMisroutedToSrcOrAcq": 53
+      },
+      "overstatementGuard": "gaps found, none closed"
+    },
+    "CB07": {
+      "found": {
+        "validHashBoundRows": 15,
+        "rowsMissingBuilderAssignment": 10,
+        "missingQueueFamilies": 9,
+        "missingArtifactReferences": 18,
+        "staleQueueEntries": 0,
+        "falseRasterPassRows": 0
+      },
+      "overstatementGuard": "15 valid rows is not 15 rastered families; no RASTER_PASS was produced"
+    },
+    "CB08": {
+      "status": "ENVIRONMENT_BLOCKED",
+      "overstatementGuard": "environment-blocked, explicitly NOT full-chain green"
+    },
+    "CB09": {
+      "found": {
+        "authorityViolations": 0,
+        "auditGateDefects": 3
+      },
+      "overstatementGuard": "zero violations is not a clean audit: three audit-gate defects mean the audit itself is not yet trustworthy"
+    }
+  },
+  "captainDeterminations": {
+    "disc03ClaimLifecycle": {
+      "raisedBy": "VF-SRC-A",
+      "what": "DISC03's 43 claims were asserted under a refused gate, released to redo the lane cleanly, and could not be re-asserted: the ledger is one-shot per subject, so re-assert returned ALREADY_RELEASED for all 43. DISC03 holds no live claim while its rows stand.",
+      "determination": "DISC03 does NOT need re-dispatch. Released is the correct end state for a completed lane, and the rows were recomputed under a passing gate on a clean tree and are byte-identical. The ledger still verifies at 512 claims and was not hand-edited to restore them.",
+      "why": "the same principle the DISC06 fix settles: a released claim is a finished claim, not a missing one. Treating release as damage would mean a lane can never be allowed to finish."
+    }
+  },
+  "workersInterrupted": 0,
+  "canonicalPacketsAdded": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}

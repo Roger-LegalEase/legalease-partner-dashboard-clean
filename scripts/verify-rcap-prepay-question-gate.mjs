@@ -8,6 +8,7 @@ register("./lib/ts-esm-loader.mjs", import.meta.url);
 const { getAllJurisdictionProfiles } = await import("../src/lib/rcap-engine/profile-registry.ts");
 const { projectPublicProfile } = await import("../src/lib/rcap-engine/public-profile-projection.ts");
 const { evaluateScreening } = await import("../src/lib/rcap-engine/evaluator.ts");
+const { selectScreeningQuestionIds } = await import("../src/lib/rcap-engine/screening-question-selection.ts");
 
 const ROOT = path.resolve(".");
 const REPORT_PATH = path.join(ROOT, "data/expungement-ai/reports/prepay-question-load.json");
@@ -20,10 +21,6 @@ function assert(condition, message) {
 
 function normalized(value) {
   return String(value ?? "").toLowerCase();
-}
-
-function isPrepay(question) {
-  return String(question.lifecyclePhase ?? "").startsWith("prepay_");
 }
 
 function isPostpay(question) {
@@ -71,6 +68,22 @@ function allCompletionGroups(publicProfile) {
   ];
 }
 
+function screeningContexts(profile) {
+  return [
+    { contextId: "empty", pathwayId: null, answers: {} },
+    ...profile.pathways.map((pathway) => ({
+      contextId: pathway.id,
+      pathwayId: pathway.id,
+      answers: { possible_pathway_context: pathway.label }
+    }))
+  ];
+}
+
+function isCourtOrCaseIdentifier(question) {
+  const text = `${question.id} ${question.prompt ?? ""} ${question.helperText ?? ""}`.toLowerCase();
+  return /docket|case[ _-]?(?:identifier|number)|cause number|arrest number/.test(text);
+}
+
 const profiles = getAllJurisdictionProfiles();
 const report = fs.existsSync(REPORT_PATH) ? JSON.parse(fs.readFileSync(REPORT_PATH, "utf8")) : null;
 const routeMetadata = fs.existsSync(METADATA_PATH) ? JSON.parse(fs.readFileSync(METADATA_PATH, "utf8")).routes ?? {} : {};
@@ -81,6 +94,11 @@ let externalPrepay = 0;
 let officialFormPrepay = 0;
 let narrativePrepay = 0;
 let docketPrepay = 0;
+let exactDatePrepay = 0;
+let exactPacketFactPrepay = 0;
+let crossRoutePrepay = 0;
+let duplicateSelectedIds = 0;
+let selectorContextsAudited = 0;
 let hardDisqualifiers = 0;
 let timingGates = 0;
 let postpayQuestions = 0;
@@ -88,13 +106,54 @@ let postpayQuestions = 0;
 for (const profile of profiles) {
   const publicProfile = projectPublicProfile(profile);
   const questions = publicProfile.questions;
-  const prepay = questions.filter(isPrepay);
   const postpay = questions.filter(isPostpay);
   const code = profile.jurisdiction.code;
+  const questionsById = new Map(questions.map((question) => [question.id, question]));
+  const selectedAcrossContexts = new Set();
+  const selectedExactDates = new Set();
+  const selectedExactPacketFacts = new Set();
+  const selectedCrossRouteQuestions = new Set();
+  const contexts = screeningContexts(profile);
+  const selectedContextQuestionCounts = [];
+
+  for (const context of contexts) {
+    selectorContextsAudited += 1;
+    const selectedIds = selectScreeningQuestionIds(profile, publicProfile, context.answers);
+    selectedContextQuestionCounts.push(selectedIds.length);
+    const uniqueIds = new Set(selectedIds);
+    duplicateSelectedIds += selectedIds.length - uniqueIds.size;
+    assert(uniqueIds.size === selectedIds.length, `${code}/${context.contextId}: duplicate selected screening question ids.`);
+    if (selectedIds.length > 15 && code !== "NY") {
+      failures.push(`${code}/${context.contextId}: selected prepay count ${selectedIds.length} exceeds hard cap without allowlist reason.`);
+    }
+    for (const questionId of selectedIds) {
+      selectedAcrossContexts.add(questionId);
+      const question = questionsById.get(questionId);
+      assert(Boolean(question), `${code}/${context.contextId}: selected question ${questionId} is missing from the public profile.`);
+      if (!question) continue;
+      const isExactDate = question.type === "date_or_unknown";
+      if (isExactDate) selectedExactDates.add(questionId);
+      assert(!isExactDate, `${code}/${context.contextId}: exact-date question ${questionId} remains in free screening.`);
+      assert(!isCourtOrCaseIdentifier(question), `${code}/${context.contextId}: court/case identifier ${questionId} remains in free screening.`);
+      const isExactPacketFact = profile.questionLifecycle?.exactPacketFactIds.includes(questionId) === true;
+      if (isExactPacketFact) selectedExactPacketFacts.add(questionId);
+      assert(!isExactPacketFact, `${code}/${context.contextId}: exact packet fact ${questionId} remains in free screening.`);
+      const routeConsumers = profile.questionLifecycle?.routeConsumers[questionId] ?? [];
+      const leaksAcrossRoute = routeConsumers.length > 0 && !Boolean(context.pathwayId && routeConsumers.includes(context.pathwayId));
+      if (leaksAcrossRoute) selectedCrossRouteQuestions.add(questionId);
+      assert(!leaksAcrossRoute, `${code}/${context.contextId}: ${questionId} leaks outside its route consumers.`);
+    }
+  }
+
+  const prepay = [...selectedAcrossContexts].map((questionId) => questionsById.get(questionId)).filter(Boolean);
+  const maximumSelectedQuestionCount = Math.max(0, ...selectedContextQuestionCounts);
+  exactDatePrepay += selectedExactDates.size;
+  exactPacketFactPrepay += selectedExactPacketFacts.size;
+  crossRoutePrepay += selectedCrossRouteQuestions.size;
 
   if (code === "PA") {
     paBefore = report?.byState?.PA?.estimatedPrepaymentQuestionsBeforeProjectionFix ?? 37;
-    paAfter = prepay.length;
+    paAfter = maximumSelectedQuestionCount;
   }
 
   const prepayText = prepay.map((question) => `${question.id} ${question.prompt ?? ""} ${question.helperText ?? ""}`.toLowerCase());
@@ -105,10 +164,6 @@ for (const profile of profiles) {
   hardDisqualifiers += prepay.filter((question) => question.lifecyclePhase === "prepay_hard_disqualifier").length;
   timingGates += prepay.filter((question) => question.lifecyclePhase === "prepay_timing_gate").length;
   postpayQuestions += postpay.length;
-
-  if (prepay.length > 15 && code !== "NY") {
-    failures.push(`${code}: prepay count ${prepay.length} exceeds hard cap without allowlist reason.`);
-  }
 
   const completionIds = new Set(allCompletionGroups(publicProfile).map((question) => question.id));
   for (const question of postpay) {
@@ -138,6 +193,10 @@ assert(externalPrepay === 0, `${externalPrepay} external-document questions rema
 assert(officialFormPrepay === 0, `${officialFormPrepay} official-form fields remain before checkout.`);
 assert(narrativePrepay === 0, `${narrativePrepay} narrative fields remain before checkout.`);
 assert(docketPrepay === 0, `${docketPrepay} docket/case-number fields remain before checkout.`);
+assert(exactDatePrepay === 0, `${exactDatePrepay} exact-date fields remain before checkout.`);
+assert(exactPacketFactPrepay === 0, `${exactPacketFactPrepay} exact packet facts remain before checkout.`);
+assert(crossRoutePrepay === 0, `${crossRoutePrepay} cross-route questions remain before checkout.`);
+assert(duplicateSelectedIds === 0, `${duplicateSelectedIds} duplicate selected question ids remain before checkout.`);
 assert(hardDisqualifiers > 0, "No hard disqualifier questions remain before checkout.");
 assert(timingGates > 0, "No timing gate questions remain before checkout.");
 assert(postpayQuestions > 0, "No moved post-payment questions are available.");
@@ -169,6 +228,11 @@ console.log(`External-document prepay questions: ${externalPrepay}`);
 console.log(`Official-form prepay fields: ${officialFormPrepay}`);
 console.log(`Narrative prepay fields: ${narrativePrepay}`);
 console.log(`Docket/case-number prepay fields: ${docketPrepay}`);
+console.log(`Exact-date prepay fields: ${exactDatePrepay}`);
+console.log(`Exact packet facts in prepay: ${exactPacketFactPrepay}`);
+console.log(`Cross-route prepay questions: ${crossRoutePrepay}`);
+console.log(`Duplicate selected question IDs: ${duplicateSelectedIds}`);
+console.log(`Selector contexts audited: ${selectorContextsAudited}`);
 console.log(`Hard disqualifier prepay questions: ${hardDisqualifiers}`);
 console.log(`Timing gate prepay questions: ${timingGates}`);
 console.log(`Post-payment completion questions available: ${postpayQuestions}`);

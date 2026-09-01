@@ -17,7 +17,8 @@ import { scheduleConsumerCheckoutCompleted } from "@/lib/expungement-ai/checkout
 import { consumerMatterIdForItem, resolveConsumerPersonId } from "@/lib/expungement-ai/consumer-identity";
 import { requestConsumerPacketRenderForWebhook } from "@/lib/expungement-ai/consumer-render-request";
 import { consumerPacketPriceCents, type ConsumerCheckoutStatus } from "@/lib/expungement-ai/payment-adapter";
-import { reviewedPacketInputHash } from "@/lib/expungement-ai/packet-information";
+import { requireCurrentPacketVerification } from "@/lib/expungement-ai/packet-information";
+import { readProtectedPacketArtifact } from "@/lib/expungement-ai/verification-cas";
 import type { ConsumerBriefcaseItem } from "@/lib/expungement-ai/types";
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
 
@@ -86,6 +87,22 @@ export async function reconcileExpungementAiCheckoutEvent(
   }
 
   await assertConsumerItemIsNotSponsored(item);
+  const protectedArtifact = await readProtectedPacketArtifact({
+    consumerAuthUserId: userId,
+    briefcaseItemId: item.id
+  });
+  if (!protectedArtifact.ok) {
+    throw new ConsumerCheckoutEvidenceError(`protected artifact authority is unavailable: ${protectedArtifact.reason}`);
+  }
+  if (item.paymentStatus === "paid" && protectedArtifact.value.status === "ready") {
+    return "duplicate";
+  }
+  let verification;
+  try {
+    verification = await requireCurrentPacketVerification(userId, item);
+  } catch {
+    throw new ConsumerCheckoutEvidenceError("current final verification is required");
+  }
 
   const person = await resolveConsumerPersonId(userId);
   if (!person.ok) {
@@ -97,8 +114,8 @@ export async function reconcileExpungementAiCheckoutEvent(
     || session.metadata.matter_id !== matterId) {
     throw new ConsumerCheckoutEvidenceError("product, person or matter metadata does not match the canonical Briefcase binding");
   }
-  if (!session.metadata.reviewed_input_hash || session.metadata.reviewed_input_hash !== reviewedPacketInputHash(item)) {
-    throw new ConsumerCheckoutEvidenceError("reviewed packet answers changed after Checkout creation");
+  if (!session.metadata.verification_hash || session.metadata.verification_hash !== verification.hash) {
+    throw new ConsumerCheckoutEvidenceError("final verification changed after Checkout creation");
   }
 
   if (item.checkoutSessionId !== session.id) {
@@ -114,12 +131,11 @@ export async function reconcileExpungementAiCheckoutEvent(
     // idempotent: the payment writer converges on already_paid and the Phase 53
     // queue converges on the same packet/input job, so no duplicate entitlement
     // or duplicate artifact can result.
-    if (item.packetStatus === "ready") return "duplicate";
-    await finalizePaidCheckoutSession(userId, item, session, event.id, person.personId, matterId);
+    await finalizePaidCheckoutSession(userId, item, session, event.id, person.personId, matterId, verification.hash);
     return "recovered";
   }
 
-  await finalizePaidCheckoutSession(userId, item, session, event.id, person.personId, matterId);
+  await finalizePaidCheckoutSession(userId, item, session, event.id, person.personId, matterId, verification.hash);
   return "processed";
 }
 
@@ -129,7 +145,8 @@ async function finalizePaidCheckoutSession(
   session: Stripe.Checkout.Session,
   providerEventId: string,
   personId: string,
-  matterId: string
+  matterId: string,
+  expectedVerificationHash: string
 ): Promise<void> {
   // The payment fact goes through the server-only writer, never through a
   // column update. Phase 52 revoked the application's privilege to set these
@@ -150,6 +167,7 @@ async function finalizePaidCheckoutSession(
     productId: CONSUMER_PACKET_PRODUCT_ID,
     personId,
     matterId,
+    expectedVerificationHash,
     authority: "server_webhook",
     recordedBy: "expungement_ai_stripe_webhook"
   });
@@ -177,7 +195,7 @@ async function finalizePaidCheckoutSession(
   const statusUpdated = await updateBriefcasePacketStatusForWebhook(
     userId,
     item.id,
-    item.packetStatus === "ready" ? "ready" : "pending"
+    "pending"
   );
   if (!statusUpdated) throw new Error("Unable to record the queued packet status.");
 

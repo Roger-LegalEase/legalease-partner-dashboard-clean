@@ -9,17 +9,17 @@ The registry and the compiled profiles share no identifier space, and no committ
 | Figure | Count |
 | --- | ---: |
 | Registry tracks | 497 |
-| Compiled pathways | 325 |
-| Registry tracks with an exact compiled pathway | 260 |
-| Registry tracks represented by compiled variants | 25 |
+| Compiled pathways | 337 |
+| Registry tracks with an exact compiled pathway | 259 |
+| Registry tracks represented by compiled variants | 26 |
 | Registry tracks represented only by superseded runtime text | 1 |
-| Registry tracks with no compiled pathway | 211 |
-| Registry tracks unresolved (ambiguous candidates) | 0 |
-| Compiled pathways mapped to a registry track | 282 |
+| Registry tracks with no compiled pathway | 210 |
+| Registry tracks unresolved (ambiguous candidates) | 1 |
+| Compiled pathways mapped to a registry track | 285 |
 | Compiled pathways terminally classified (scoped-out, routing, registry gap) | 43 |
-| Compiled pathways unresolved | 0 |
+| Compiled pathways unresolved | 9 |
 
-**Milestone 1 item 2: closed.** Every track and every pathway carries a supported relationship or a terminal classification.
+**Milestone 1 item 2: blocked.** 9 compiled pathways and 1 registry tracks remain unresolved. The exact set is enumerated in `unresolvedIds` in the JSON and cannot be closed without the missing evidence named on each row.
 
 ## Relationship vocabulary
 
@@ -40,7 +40,7 @@ The registry and the compiled profiles share no identifier space, and no committ
 
 ## Adjudicated relationships
 
-254 rows were resolved by adjudication (round: lane E3-final @ `?`, 225 entries in `data/rcap-ledger/crosswalk-adjudications.json`). Every adjudication carries a machine-verifiable license — tokens that must still exist in the pathway's committed text and in the pinned registry projection — re-checked on every generator run, and may only land on a row automatic matching left unresolved.
+256 rows were resolved by adjudication (round: lane E3-final @ `?`, 227 entries in `data/rcap-ledger/crosswalk-adjudications.json`). Every adjudication carries a machine-verifiable license — tokens that must still exist in the pathway's committed text and in the pinned registry projection — re-checked on every generator run, and may only land on a row automatic matching left unresolved.
 
 ## Registry-gap blockers
 
@@ -90,7 +90,7 @@ Jurisdictions where the runtime compiles more pathways than the registry lists. 
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | --- |
 | ID | +1 | 0 | 0 | 1 | 2 | 0 | yes |
 | LA | +2 | 6 | 0 | 0 | 0 | 0 | yes |
-| MS | +4 | 4 | 0 | 0 | 2 | 0 | yes |
+| MS | +14 | 4 | 0 | 0 | 2 | 9 | no |
 | OK | +8 | 12 | 0 | 0 | 2 | 0 | yes |
 | PA | +1 | 2 | 0 | 0 | 1 | 0 | yes |
 | SD | +3 | 0 | 0 | 0 | 3 | 0 | yes |
@@ -110,7 +110,7 @@ Jurisdictions where the runtime compiles more pathways than the registry lists. 
 | DC | 8 | 7 | -1 | 5 | 6 | 0 | 0 |
 | DE | 6 | 4 | -2 | 4 | 3 | 0 | 0 |
 | FL | 9 | 8 | -1 | 8 | 8 | 0 | 0 |
-| GA | 15 | 5 | -10 | 6 | 5 | 0 | 0 |
+| GA | 15 | 6 | -9 | 6 | 6 | 0 | 0 |
 | HI | 9 | 5 | -4 | 6 | 5 | 0 | 0 |
 | IA | 7 | 5 | -2 | 5 | 5 | 0 | 0 |
 | ID | 4 | 5 | +1 | 2 | 2 | 0 | 0 |
@@ -124,8 +124,8 @@ Jurisdictions where the runtime compiles more pathways than the registry lists. 
 | ME | 6 | 5 | -1 | 3 | 3 | 0 | 0 |
 | MI | 11 | 5 | -6 | 5 | 5 | 0 | 0 |
 | MN | 12 | 6 | -6 | 6 | 6 | 0 | 0 |
-| MO | 10 | 7 | -3 | 7 | 7 | 0 | 0 |
-| MS | 9 | 13 | +4 | 9 | 11 | 0 | 0 |
+| MO | 10 | 8 | -2 | 8 | 8 | 0 | 0 |
+| MS | 9 | 23 | +14 | 8 | 12 | 0 | 9 |
 | MT | 6 | 5 | -1 | 4 | 5 | 0 | 0 |
 | NC | 7 | 3 | -4 | 3 | 3 | 0 | 0 |
 | ND | 15 | 6 | -9 | 5 | 5 | 1 | 0 |
@@ -151,7 +151,7 @@ Jurisdictions where the runtime compiles more pathways than the registry lists. 
 | WI | 8 | 5 | -3 | 3 | 3 | 0 | 0 |
 | WV | 12 | 7 | -5 | 9 | 5 | 0 | 0 |
 | WY | 3 | 5 | +2 | 3 | 3 | 2 | 0 |
-| **Total** | **497** | **325** | **-172** | **285** | **282** | **4** | **0** |
+| **Total** | **497** | **337** | **-160** | **285** | **285** | **4** | **9** |
 
 ## What this does not claim
 

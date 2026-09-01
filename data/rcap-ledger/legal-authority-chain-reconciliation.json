@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "generatedBy": "scripts/generate-legal-authority-chain-reconciliation.mjs",
+  "createsApproval": false,
+  "question": "The legal-question register reports zero open legal-research tracks. The All-51 authority reconciliation reports nine LEGAL_RECONFIRMATION_REQUIRED rows and one legal-team assignment. Which is current?",
+  "answer": "Both. They count different populations and neither says so, which is what makes the two nines look like one claim contradicting itself.",
+  "populations": {
+    "legalResearchTracks": {
+      "question": "Does the law support this route at all?",
+      "openNow": 0,
+      "answeredByTheReport": 9,
+      "trackIds": [
+        "ak-set-aside",
+        "ak-cannabis-seal",
+        "ak-correct-record",
+        "al-olr",
+        "al-uncharged-arrest",
+        "ca-1203-4b",
+        "co_mistaken_identity_expungement",
+        "ny_160_55_violation",
+        "oh-ls-5"
+      ],
+      "register": "data/record-clearing/all51-current-legal-questions.json"
+    },
+    "ratificationCurrency": {
+      "question": "The legal design is adopted and the completed output approved. Is counsel's ratification of this route current?",
+      "open": 8,
+      "pathwayKeys": [
+        "IN:conviction-expungement-with-records-marked-expunged",
+        "MO:first-minor-in-possession-alcohol-expungement-under-311-326",
+        "NH:annulment-of-a-vacated-conviction",
+        "NV:deferred-judgment-dismissal-and-sealing-under-nrs-176-211",
+        "RI:path-e-filed-complaint-relief-under-12-10-12",
+        "SD:diversion-expungement",
+        "TN:pathway-2-diversion-expunction-under-40-15-105-40-35-313",
+        "WV:first-offense-drug-possession-conditional-discharge-relief"
+      ],
+      "register": "data/rcap-ledger/all51-legal-authority-reconciliation.json"
+    }
+  },
+  "disjoint": true,
+  "overlap": [],
+  "answeredByControllingDecisionsSince": [
+    "MO:first-minor-in-possession-alcohol-expungement-under-311-326"
+  ],
+  "finding": "1 ratification row(s) name a route the 2026-08-28 controlling decisions answered. The legal question is settled for them and the recorded blocker is stale. Clearing it opens nothing on its own: each still carries its own operational gates.",
+  "doesNotAuthorize": [
+    "clearing a blocker",
+    "promoting a route",
+    "any change to a legal conclusion"
+  ]
+}

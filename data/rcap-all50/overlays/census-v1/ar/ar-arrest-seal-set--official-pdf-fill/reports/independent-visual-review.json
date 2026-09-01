@@ -1,0 +1,126 @@
+{
+  "schemaVersion": "rcap-independent-visual-review/v1",
+  "familyId": "ar-arrest-seal-set",
+  "reviewer": "census-v1 packet-family build worker (automated agent)",
+  "reviewerIsIndependentOfTheRenderer": true,
+  "whatIndependenceMeansHere": "The pages were rasterised from the finished artifact bytes and looked at as images. This review is independent of the render report and of the field map: it can see a value clipped by its widget, a value in the wrong column, a caption overwritten, or a blank that should be empty carrying ink. It is NOT a substitute for the human independent visual review the production holds require, and it grants no approval.",
+  "pagesReviewed": 12,
+  "allPagesRastered": true,
+  "scale": 1.6,
+  "findings": [],
+  "verdict": "No page shows a participant value in a blank that does not belong to it, no clipped value, and no signature, signature date, certificate-of-service or court-only rule carrying ink.",
+  "stillRequired": [
+    "Human independent visual review (f_independent_visual_review_required).",
+    "Output-level legal approval; this build only requests it."
+  ],
+  "pages": [
+    {
+      "document": "petition",
+      "fixture": "canonical",
+      "page": 1,
+      "file": "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/raster/petition-canonical/page-01.png",
+      "sha256": "01b21af5198d1e05290978230d667597bd83f349fcf12c73e656e4e1d30ac24e",
+      "observation": "Caption county 'Example County' and case number '24-CR-001234' on their printed rules. The DEFENDANT caption rule is EMPTY (see the recorded mapping conflict). The arrest-date trio '___ day of ____, ____' is EMPTY \u2014 the earlier build wrote the participant's name into the month blank and this page is the proof it no longer does. The offence line carries 'Possession of a controlled substance' and nothing else. Second offence line, class letter, both class checkboxes and the A.C.A. statute line are empty.",
+      "verdict": "pass"
+    },
+    {
+      "document": "petition",
+      "fixture": "canonical",
+      "page": 2,
+      "file": "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/raster/petition-canonical/page-02.png",
+      "sha256": "8d9f6b245b2344bfb45015960b45c7cbe2e51144f34c43e8094769fad73b580e",
+      "observation": "Pending-felony-charges narrative lines EMPTY \u2014 this is the blank the blocked sibling family filled with the participant's name. 'WHEREFORE, the Defendant, Jordan Avery Reyes' is correct and is a name blank. Defendant's Signature and Date rules EMPTY. Race, Sex, Arrest Tracking Number, SID No. and FBI No. all EMPTY; DOB carries 1991-04-17.",
+      "verdict": "pass"
+    },
+    {
+      "document": "petition",
+      "fixture": "canonical",
+      "page": 3,
+      "file": "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/raster/petition-canonical/page-03.png",
+      "sha256": "023cdfdf0395937bb798dce8372c92fa765c5af76b1cb9efa106ecea79069bac",
+      "observation": "Certificate of Service: the 'I, ______' certifying-name rule is EMPTY, the signature rule is EMPTY and the certificate Date is EMPTY \u2014 nothing certifies a mailing that has not happened. Address block carries '118 Maple Street' on the street line only; the continuation rule is EMPTY rather than a second copy. City/State/Zip correct.",
+      "verdict": "pass"
+    },
+    {
+      "document": "petition",
+      "fixture": "boundary",
+      "page": 1,
+      "file": "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/raster/petition-boundary/page-01.png",
+      "sha256": "3b5ddf617cb045b37b4dae883e032d30197cef7bf60dae42755f1aabf9d5fed7",
+      "observation": "Case No. and county rules EMPTY: both values were REFUSED as unfittable rather than clipped, which is the intended behaviour. The 70-character offence string is drawn fully inside its rule at reduced size \u2014 no clipping, no overrun past the right edge. Arrest-date trio still EMPTY under the long-value fixture.",
+      "verdict": "pass"
+    },
+    {
+      "document": "petition",
+      "fixture": "boundary",
+      "page": 2,
+      "file": "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/raster/petition-boundary/page-02.png",
+      "sha256": "260fbc332ede8eed13a8ad8b45d64fc529397c97483e48957cb2411cd2720dbd",
+      "observation": "The 70-character name is drawn in full in the WHEREFORE blank, inside the rule, not clipped. All signature, date and identifier rules EMPTY. DOB present.",
+      "verdict": "pass"
+    },
+    {
+      "document": "petition",
+      "fixture": "boundary",
+      "page": 3,
+      "file": "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/raster/petition-boundary/page-03.png",
+      "sha256": "aa8aa57bd5cc0b5920b466534a5f22199d59440dbc96330641dfe7e7695c5639",
+      "observation": "Certificate of Service entirely EMPTY. The long street address and the long city name are drawn at reduced size fully inside their rules; State and Zip correct; continuation rule EMPTY.",
+      "verdict": "pass"
+    },
+    {
+      "document": "order",
+      "fixture": "canonical",
+      "page": 1,
+      "file": "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/raster/order-canonical/page-01.png",
+      "sha256": "715f3593dc8b4f484f25d3d84978294b04a72e72c000401de331ca2dafd7c5db",
+      "observation": "Caption county and case number present. The court's own findings \u2014 arrest-date trio, both offence lines, class letter, class checkboxes and statute line \u2014 are ALL EMPTY, which is what a proposed order handed to a judge should look like.",
+      "verdict": "pass"
+    },
+    {
+      "document": "order",
+      "fixture": "canonical",
+      "page": 2,
+      "file": "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/raster/order-canonical/page-02.png",
+      "sha256": "591039624909a78f3a9d160d4092fdfded05ef4199c992db108f1a5523d9002d",
+      "observation": "Pending-charges narrative lines EMPTY. The decretal blank reads 'the Petition of the Defendant, Jordan Avery Reyes' \u2014 correct and allowlisted. Judge signature rule and Date rule EMPTY: the court signs and dates its own order.",
+      "verdict": "pass"
+    },
+    {
+      "document": "order",
+      "fixture": "canonical",
+      "page": 3,
+      "file": "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/raster/order-canonical/page-03.png",
+      "sha256": "ee4c042e6dfb1a226b13a3a6720b049e426eb252fb28441cc752dadd08d01fd6",
+      "observation": "Identification block: Race, Sex, Arrest Tracking Number, SID No. and FBI No. EMPTY; DOB 1991-04-17 present.",
+      "verdict": "pass"
+    },
+    {
+      "document": "order",
+      "fixture": "boundary",
+      "page": 1,
+      "file": "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/raster/order-boundary/page-01.png",
+      "sha256": "f706b8f80669085d109a213dbcd3df80a3ff0d8d8456cde39b325ef905ea174a",
+      "observation": "Case No. and county REFUSED as unfittable and left empty; findings block entirely EMPTY.",
+      "verdict": "pass"
+    },
+    {
+      "document": "order",
+      "fixture": "boundary",
+      "page": 2,
+      "file": "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/raster/order-boundary/page-02.png",
+      "sha256": "e36cbe2f2d0cf729134b68448d9c979cea48862608c67fe5dfb2f18c17773a04",
+      "observation": "The 70-character name drawn in full in the decretal blank, inside the rule. Judge and Date EMPTY.",
+      "verdict": "pass"
+    },
+    {
+      "document": "order",
+      "fixture": "boundary",
+      "page": 3,
+      "file": "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/raster/order-boundary/page-03.png",
+      "sha256": "ee4c042e6dfb1a226b13a3a6720b049e426eb252fb28441cc752dadd08d01fd6",
+      "observation": "Identification block as canonical; DOB present, every other identifier EMPTY.",
+      "verdict": "pass"
+    }
+  ]
+}

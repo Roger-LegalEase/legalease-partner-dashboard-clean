@@ -1,0 +1,2688 @@
+{
+  "schemaVersion": "rcap-caption-evidence/v1",
+  "familyId": "md_second_chance_shielding-set",
+  "finding": "Both CC-DC-CR-148 and MDJ-008 extract clean, readable text, and Maryland authored its AcroForm field names as the printed captions themselves — \"Court Address\", \"Petitioner Printed Name\", \"Disorderly conduct under 10-201(c)(2) of the Criminal Law Article\". Each caption is therefore checked against the paper rather than asserted.",
+  "method": "The whole printed page is extracted, lowercased and flattened to alphanumeric words; the field name is flattened the same way; `printedCaptionFound` is true when the flattened name occurs in the flattened page. Flattening is what lets \"§ 10-201(c)(2)\" on the paper match \"10-201(c)(2)\" in the name; it is not a fuzzy match, because every word and its order still have to be present.",
+  "whereItIsFalse": "Maryland abbreviates some captions on the paper. \"Case Number\" prints as \"Case No.\"; \"Court Telephone Number\" prints as \"Telephone\"; the signature-block lines print once as a shared column heading over two columns. Those are recorded as false rather than explained away, and the printed line read at each widget's own coordinate is recorded beside them for the visual reviewer.",
+  "perDocument": [
+    {
+      "document": "CC-DC-CR-148",
+      "fields": 56,
+      "captionsFoundInPrintedText": 23,
+      "captionsNotFound": [
+        "Reset Form",
+        "Court Telephone Number",
+        "Case Number",
+        "Petitioner's Name",
+        "Attorney Printed Name",
+        "Attorney Street Address",
+        "Attorney City, State, Zip",
+        "Attorney E-mail",
+        "Attorney Cell Phone Number",
+        "Attorney Telephone Number",
+        "Petitioner Printed Name",
+        "Petitioner Street Address",
+        "Petitioner City, State, Zip",
+        "Petitioner Telephone Number",
+        "Petitioner E-mail",
+        "Petitioner Cell Phone Number",
+        "Case Number(s) for Disorderly conduct under 10-201(c)(2) of the Criminal Law Article",
+        "Case Number(s) for Disorderly conduct under 10-201(c)(2) of the Criminal Law Article continued",
+        "Case Number(s) for Disturbing the peace under 10-201(c)(4) of the Criminal Law Article",
+        "Case Number(s) for Disturbing the peace under 10-201(c)(4) of the Criminal Law Article continued",
+        "Case Number(s) for Failure to obey a reasonable and lawful order under 10-201(c)(3) of the Criminal Law Article",
+        "Case Number(s) for Malicious destruction of property in the lesser degree under 6-301 of the Criminal Law Article",
+        "Case Number(s) for Trespass on posted property under 6-402 of the Criminal Law Article",
+        "Case Number(s) for Trespass on posted property under 6-402 of the Criminal Law Article continued",
+        "Case Number(s) for Possessing or administering a controlled dangerous substance under 5-601 of the Criminal Law Article",
+        "Case Number(s) for Possessing or Administering a noncontrolled substance under 5-618(a) of the Criminal Law Article",
+        "Case Number(s) for Use of or possession with intent to use drug paraphernalia under 5-619(c)(1) of the Criminal Law Article",
+        "Case Number(s) for Driving without a license under 16-101 of the Transportation Article",
+        "Case Number(s) for Driving without a license under 16-101 of the Transportation Article continued",
+        "Case Number(s) for Driving while privilege is canceled, suspended, refused, or revoked under 16-303 of the Transportation Article",
+        "Case Number(s) for Prostitution (not assignation) under 11-303 (formerly 11-306(a)(1)) of the Criminal Law Article",
+        "Case Number(s) for Driving while uninsured under 17-107 of the Transportation Article",
+        "Case Number(s) for Driving while uninsured under 17-107 of the Transportation Article continued"
+      ]
+    },
+    {
+      "document": "MDJ-008",
+      "fields": 57,
+      "captionsFoundInPrintedText": 47,
+      "captionsNotFound": [
+        "Reset Form",
+        "Court Telephone Number",
+        "Case Number",
+        "Plaintiff/Petitioner's Name",
+        "Defendant/Respondent's Name",
+        "List other restricted document",
+        "Other Case Type",
+        "List other case type",
+        "Date of Court Order",
+        "Fax"
+      ]
+    }
+  ],
+  "perField": [
+    {
+      "document": "CC-DC-CR-148",
+      "field": "Reset Form",
+      "page": 1,
+      "rect": {
+        "x": 277.08,
+        "y": 15.59,
+        "width": 72,
+        "height": 18
+      },
+      "labelThisBuildUses": "Reset this form (viewer control)",
+      "section": "Viewer controls",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 25,
+          "extracted": "CC-DC-CR-148 (Rev. 07/2026)PSHCA (DC) PSHNF (CC)"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-148",
+      "field": "Circuit Court",
+      "page": 1,
+      "rect": {
+        "x": 109.51,
+        "y": 722.19,
+        "width": 9,
+        "height": 9
+      },
+      "labelThisBuildUses": "Circuit Court (selection)",
+      "section": "Court",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 722,
+          "extracted": "\u0007\u0006CIRCUIT COURT \u0005 DISTRICT COURT OF MARYLAND FOR"
+        },
+        {
+          "y": 715,
+          "extracted": "City/County"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-148",
+      "field": "District Court",
+      "page": 1,
+      "rect": {
+        "x": 216.46,
+        "y": 722.03,
+        "width": 9,
+        "height": 9
+      },
+      "labelThisBuildUses": "District Court of Maryland (selection)",
+      "section": "Court",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 722,
+          "extracted": "\u0007\u0006CIRCUIT COURT \u0005 DISTRICT COURT OF MARYLAND FOR"
+        },
+        {
+          "y": 715,
+          "extracted": "City/County"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-148",
+      "field": "City/County",
+      "page": 1,
+      "rect": {
+        "x": 438.82,
+        "y": 722.54,
+        "width": 100.69,
+        "height": 12.24
+      },
+      "labelThisBuildUses": "City/County (selection)",
+      "section": "Court",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 722,
+          "extracted": "\u0007\u0006CIRCUIT COURT \u0005 DISTRICT COURT OF MARYLAND FOR"
+        },
+        {
+          "y": 715,
+          "extracted": "City/County"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-148",
+      "field": "Court Address",
+      "page": 1,
+      "rect": {
+        "x": 155.99,
+        "y": 699.07,
+        "width": 233.87,
+        "height": 12.24
+      },
+      "labelThisBuildUses": "Court Address",
+      "section": "Court",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 701,
+          "extracted": "Located at Telephone"
+        },
+        {
+          "y": 691,
+          "extracted": "Court Address"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-148",
+      "field": "Court Telephone Number",
+      "page": 1,
+      "rect": {
+        "x": 439.06,
+        "y": 699.29,
+        "width": 100.39,
+        "height": 12.24
+      },
+      "labelThisBuildUses": "Court Telephone",
+      "section": "Court",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 701,
+          "extracted": "Located at Telephone"
+        },
+        {
+          "y": 691,
+          "extracted": "Court Address"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-148",
+      "field": "Case Number",
+      "page": 1,
+      "rect": {
+        "x": 432.83,
+        "y": 681.49,
+        "width": 106.6,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Case No. (1st Case Listed)",
+      "section": "Court",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 682,
+          "extracted": "Case No."
+        },
+        {
+          "y": 673,
+          "extracted": "1st Case Listed"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-148",
+      "field": "Petitioner's Name",
+      "page": 1,
+      "rect": {
+        "x": 321.87,
+        "y": 659.2,
+        "width": 217.87,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Petitioner",
+      "section": "Caption",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 652,
+          "extracted": "Petitioner"
+        },
+        {
+          "y": 673,
+          "extracted": "1st Case Listed"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-148",
+      "field": "Name",
+      "page": 1,
+      "rect": {
+        "x": 78.41,
+        "y": 591.43,
+        "width": 220.49,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Name",
+      "section": "Petition",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 593,
+          "extracted": "I, , petition under Md. Rule"
+        },
+        {
+          "y": 585,
+          "extracted": "Name Date of Birth"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-148",
+      "field": "Date of Birth",
+      "page": 1,
+      "rect": {
+        "x": 305.31,
+        "y": 591.47,
+        "width": 124.81,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Date of Birth",
+      "section": "Petition",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 593,
+          "extracted": "I, , petition under Md. Rule"
+        },
+        {
+          "y": 585,
+          "extracted": "Name Date of Birth"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-148",
+      "field": "Signature of Attorney",
+      "page": 1,
+      "rect": {
+        "x": 71.92,
+        "y": 168.14,
+        "width": 103.11,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Signature of Attorney",
+      "section": "Signature",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 162,
+          "extracted": "Signature of Attorney Attorney Number Date Signature of Petitioner Date"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-148",
+      "field": "Attorney Number",
+      "page": 1,
+      "rect": {
+        "x": 175.04,
+        "y": 168.13,
+        "width": 75.07,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Attorney Number",
+      "section": "Signature",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 162,
+          "extracted": "Signature of Attorney Attorney Number Date Signature of Petitioner Date"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-148",
+      "field": "Signature of Petitioner",
+      "page": 1,
+      "rect": {
+        "x": 319.59,
+        "y": 168,
+        "width": 140.87,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Signature of Petitioner",
+      "section": "Signature",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 162,
+          "extracted": "Signature of Attorney Attorney Number Date Signature of Petitioner Date"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-148",
+      "field": "date",
+      "page": 1,
+      "rect": {
+        "x": 460.44,
+        "y": 167.99,
+        "width": 79.56,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Date of petitioner signature",
+      "section": "Signature",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 162,
+          "extracted": "Signature of Attorney Attorney Number Date Signature of Petitioner Date"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-148",
+      "field": "Date",
+      "page": 1,
+      "rect": {
+        "x": 250.09,
+        "y": 168.13,
+        "width": 45.18,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Date of attorney signature",
+      "section": "Signature",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 162,
+          "extracted": "Signature of Attorney Attorney Number Date Signature of Petitioner Date"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-148",
+      "field": "Attorney Printed Name",
+      "page": 1,
+      "rect": {
+        "x": 71.92,
+        "y": 145.28,
+        "width": 223.36,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Attorney Printed Name",
+      "section": "Signature",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 139,
+          "extracted": "Printed Name Printed Name"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-148",
+      "field": "Attorney Street Address",
+      "page": 1,
+      "rect": {
+        "x": 71.97,
+        "y": 124.39,
+        "width": 223.44,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Attorney Street Address",
+      "section": "Signature",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 118,
+          "extracted": "Street Address Street Address"
+        },
+        {
+          "y": 139,
+          "extracted": "Printed Name Printed Name"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-148",
+      "field": "Attorney City, State, Zip",
+      "page": 1,
+      "rect": {
+        "x": 71.92,
+        "y": 104.86,
+        "width": 152.75,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Attorney City, State, Zip",
+      "section": "Signature",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 98,
+          "extracted": "City, State, Zip Telephone Number City, State, Zip Telephone Number"
+        },
+        {
+          "y": 118,
+          "extracted": "Street Address Street Address"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-148",
+      "field": "Attorney E-mail",
+      "page": 1,
+      "rect": {
+        "x": 71.89,
+        "y": 84.84,
+        "width": 152.53,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Attorney E-mail",
+      "section": "Signature",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 79,
+          "extracted": "E-mail Cell Phone Number E-mail Cell Phone Number"
+        },
+        {
+          "y": 98,
+          "extracted": "City, State, Zip Telephone Number City, State, Zip Telephone Number"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-148",
+      "field": "Attorney Cell Phone Number",
+      "page": 1,
+      "rect": {
+        "x": 224.43,
+        "y": 84.85,
+        "width": 70.82,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Attorney Cell Phone Number",
+      "section": "Signature",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 79,
+          "extracted": "E-mail Cell Phone Number E-mail Cell Phone Number"
+        },
+        {
+          "y": 98,
+          "extracted": "City, State, Zip Telephone Number City, State, Zip Telephone Number"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-148",
+      "field": "Attorney Telephone Number",
+      "page": 1,
+      "rect": {
+        "x": 224.63,
+        "y": 104.82,
+        "width": 70.55,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Attorney Telephone Number",
+      "section": "Signature",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 98,
+          "extracted": "City, State, Zip Telephone Number City, State, Zip Telephone Number"
+        },
+        {
+          "y": 118,
+          "extracted": "Street Address Street Address"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-148",
+      "field": "Petitioner Printed Name",
+      "page": 1,
+      "rect": {
+        "x": 319.06,
+        "y": 145.34,
+        "width": 220.78,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Petitioner Printed Name",
+      "section": "Signature",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 139,
+          "extracted": "Printed Name Printed Name"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-148",
+      "field": "Petitioner Street Address",
+      "page": 1,
+      "rect": {
+        "x": 318.75,
+        "y": 124.4,
+        "width": 220.82,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Petitioner Street Address",
+      "section": "Signature",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 118,
+          "extracted": "Street Address Street Address"
+        },
+        {
+          "y": 139,
+          "extracted": "Printed Name Printed Name"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-148",
+      "field": "Petitioner City, State, Zip",
+      "page": 1,
+      "rect": {
+        "x": 319.02,
+        "y": 104.75,
+        "width": 152.75,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Petitioner City, State, Zip",
+      "section": "Signature",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 98,
+          "extracted": "City, State, Zip Telephone Number City, State, Zip Telephone Number"
+        },
+        {
+          "y": 118,
+          "extracted": "Street Address Street Address"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-148",
+      "field": "Petitioner Telephone Number",
+      "page": 1,
+      "rect": {
+        "x": 471.74,
+        "y": 104.23,
+        "width": 67.98,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Petitioner Telephone Number",
+      "section": "Signature",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 98,
+          "extracted": "City, State, Zip Telephone Number City, State, Zip Telephone Number"
+        },
+        {
+          "y": 118,
+          "extracted": "Street Address Street Address"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-148",
+      "field": "Petitioner E-mail",
+      "page": 1,
+      "rect": {
+        "x": 319.28,
+        "y": 84.9,
+        "width": 152.53,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Petitioner E-mail",
+      "section": "Signature",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 79,
+          "extracted": "E-mail Cell Phone Number E-mail Cell Phone Number"
+        },
+        {
+          "y": 98,
+          "extracted": "City, State, Zip Telephone Number City, State, Zip Telephone Number"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-148",
+      "field": "Petitioner Cell Phone Number",
+      "page": 1,
+      "rect": {
+        "x": 471.81,
+        "y": 84.87,
+        "width": 67.93,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Petitioner Cell Phone Number",
+      "section": "Signature",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 79,
+          "extracted": "E-mail Cell Phone Number E-mail Cell Phone Number"
+        },
+        {
+          "y": 98,
+          "extracted": "City, State, Zip Telephone Number City, State, Zip Telephone Number"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-148",
+      "field": "Disorderly conduct under 10-201(c)(2) of the Criminal Law Article",
+      "page": 1,
+      "rect": {
+        "x": 86.45,
+        "y": 551.4,
+        "width": 9,
+        "height": 9
+      },
+      "labelThisBuildUses": "Disorderly conduct — Crim. Law § 10-201(c)(2) (selection)",
+      "section": "1. Offences convicted of",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 552,
+          "extracted": "\u0007\u0006Disorderly conduct under § 10-201(c)(2) of the Criminal Law Article, Case No(s):"
+        },
+        {
+          "y": 564,
+          "extracted": "1.Petitioner was convicted of the following offense(s) in the following cases:"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-148",
+      "field": "Disturbing the peace under 10-201(c)(4) of the Criminal Law Article",
+      "page": 1,
+      "rect": {
+        "x": 86.29,
+        "y": 526.47,
+        "width": 9,
+        "height": 9
+      },
+      "labelThisBuildUses": "Disturbing the peace — Crim. Law § 10-201(c)(4) (selection)",
+      "section": "1. Offences convicted of",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 527,
+          "extracted": "\u0007\u0006Disturbing the peace under § 10-201(c)(4) of the Criminal Law Article, Case No(s):"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-148",
+      "field": "Failure to obey a reasonable and lawful order under 10-201(c)(3) of the Criminal Law Article",
+      "page": 1,
+      "rect": {
+        "x": 85.91,
+        "y": 502.36,
+        "width": 9,
+        "height": 9
+      },
+      "labelThisBuildUses": "Failure to obey a reasonable and lawful order — Crim. Law § 10-201(c)(3) (selection)",
+      "section": "1. Offences convicted of",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 503,
+          "extracted": "\u0007\u0006Failure to obey a reasonable and lawful order under § 10-201(c)(3) of the Criminal Law Article, Case No(s):"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-148",
+      "field": "Malicious destruction of property in the lesser degree under 6-301 of the Criminal Law Article",
+      "page": 1,
+      "rect": {
+        "x": 86.02,
+        "y": 478.53,
+        "width": 8.67,
+        "height": 9
+      },
+      "labelThisBuildUses": "Malicious destruction of property in the lesser degree — Crim. Law § 6-301 (selection)",
+      "section": "1. Offences convicted of",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 479,
+          "extracted": "\u0007\u0006Malicious destruction of property in the lesser degree under § 6-301 of the Criminal Law Article, Case No(s):"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-148",
+      "field": "Trespass on posted property under 6-402 of the Criminal Law Article",
+      "page": 1,
+      "rect": {
+        "x": 86.02,
+        "y": 453.33,
+        "width": 9,
+        "height": 9
+      },
+      "labelThisBuildUses": "Trespass on posted property — Crim. Law § 6-402 (selection)",
+      "section": "1. Offences convicted of",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 454,
+          "extracted": "\u0007\u0006Trespass on posted property under § 6-402 of the Criminal Law Article, Case No(s):"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-148",
+      "field": "Possessing or administering a controlled dangerous substance under 5-601 of the Criminal Law Article",
+      "page": 1,
+      "rect": {
+        "x": 85.91,
+        "y": 429.38,
+        "width": 9,
+        "height": 9
+      },
+      "labelThisBuildUses": "Possessing or administering a controlled dangerous substance — Crim. Law § 5-601 (selection)",
+      "section": "1. Offences convicted of",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 430,
+          "extracted": "\u0007\u0006Possessing or administering a controlled dangerous substance under § 5-601 of the Criminal Law Article,"
+        },
+        {
+          "y": 419,
+          "extracted": "Case No(s):"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-148",
+      "field": "Possessing or Administering a noncontrolled substance under 5-618(a) of the Criminal Law Article",
+      "page": 1,
+      "rect": {
+        "x": 86.07,
+        "y": 406.25,
+        "width": 9,
+        "height": 9
+      },
+      "labelThisBuildUses": "Possessing or administering a noncontrolled substance — Crim. Law § 5-618(a) (selection)",
+      "section": "1. Offences convicted of",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 407,
+          "extracted": "\u0007\u0006Possessing or administering a noncontrolled substance under § 5-618(a) of the Criminal Law Article, Case"
+        },
+        {
+          "y": 396,
+          "extracted": "No(s):"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-148",
+      "field": "Use of or possession with intent to use drug paraphernalia under 5-619(c)(1) of the Criminal Law Article",
+      "page": 1,
+      "rect": {
+        "x": 86.07,
+        "y": 383.29,
+        "width": 9,
+        "height": 9
+      },
+      "labelThisBuildUses": "Use of, or possession with intent to use, drug paraphernalia — Crim. Law § 5-619(c)(1) (selection)",
+      "section": "1. Offences convicted of",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 384,
+          "extracted": "\u0007\u0006Use of or possession with intent to use drug paraphernalia under § 5-619(c)(1) of the Criminal Law Article,"
+        },
+        {
+          "y": 373,
+          "extracted": "Case No(s):"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-148",
+      "field": "Driving without a license under 16-101 of the Transportation Article",
+      "page": 1,
+      "rect": {
+        "x": 86.29,
+        "y": 359.51,
+        "width": 9,
+        "height": 9
+      },
+      "labelThisBuildUses": "Driving without a licence — Transp. § 16-101 (selection)",
+      "section": "1. Offences convicted of",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 361,
+          "extracted": "\u0007\u0006Driving without a license under § 16-101 of the Transportation Article, Case No(s):"
+        },
+        {
+          "y": 373,
+          "extracted": "Case No(s):"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-148",
+      "field": "Driving while privilege is canceled, suspended, refused, or revoked under 16-303 of the Transportation Article",
+      "page": 1,
+      "rect": {
+        "x": 86.24,
+        "y": 335.4,
+        "width": 9,
+        "height": 9
+      },
+      "labelThisBuildUses": "Driving while the privilege is cancelled, suspended, refused or revoked — Transp. § 16-303 (selection)",
+      "section": "1. Offences convicted of",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 336,
+          "extracted": "\u0007\u0006Driving while privilege is canceled, suspended, refused, or revoked under § 16-303 of the Transportation"
+        },
+        {
+          "y": 325,
+          "extracted": "Article, Case No(s):"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-148",
+      "field": "Driving while uninsured under 17-107 of the Transportation Article",
+      "page": 1,
+      "rect": {
+        "x": 86.24,
+        "y": 311.67,
+        "width": 9,
+        "height": 9
+      },
+      "labelThisBuildUses": "Driving while uninsured — Transp. § 17-107 (selection)",
+      "section": "1. Offences convicted of",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 313,
+          "extracted": "\u0007\u0006Driving while uninsured under § 17-107 of the Transportation Article, Case No(s):"
+        },
+        {
+          "y": 325,
+          "extracted": "Article, Case No(s):"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-148",
+      "field": "Prostitution (not assignation) under 11-303 (formerly 11-306(a)(1)) of the Criminal Law Article",
+      "page": 1,
+      "rect": {
+        "x": 85.96,
+        "y": 287.35,
+        "width": 9,
+        "height": 9
+      },
+      "labelThisBuildUses": "Prostitution (not assignation) — Crim. Law § 11-303, formerly § 11-306(a)(1) (selection)",
+      "section": "1. Offences convicted of",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 288,
+          "extracted": "\u0007\u0006Prostitution (not assignation) under § 11-303 (formerly § 11-306(a)(1)) of the Criminal Law Article, Case"
+        },
+        {
+          "y": 277,
+          "extracted": "No(s):"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-148",
+      "field": "Case Number(s) for Disorderly conduct under 10-201(c)(2) of the Criminal Law Article",
+      "page": 1,
+      "rect": {
+        "x": 428.75,
+        "y": 552.4,
+        "width": 110.66,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Disorderly conduct — case number(s)",
+      "section": "1. Offences convicted of",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 552,
+          "extracted": "\u0007\u0006Disorderly conduct under § 10-201(c)(2) of the Criminal Law Article, Case No(s):"
+        },
+        {
+          "y": 564,
+          "extracted": "1.Petitioner was convicted of the following offense(s) in the following cases:"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-148",
+      "field": "Case Number(s) for Disorderly conduct under 10-201(c)(2) of the Criminal Law Article continued",
+      "page": 1,
+      "rect": {
+        "x": 100.33,
+        "y": 538.62,
+        "width": 439.55,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Disorderly conduct — case number(s), continued",
+      "section": "1. Offences convicted of",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 527,
+          "extracted": "\u0007\u0006Disturbing the peace under § 10-201(c)(4) of the Criminal Law Article, Case No(s):"
+        },
+        {
+          "y": 552,
+          "extracted": "\u0007\u0006Disorderly conduct under § 10-201(c)(2) of the Criminal Law Article, Case No(s):"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-148",
+      "field": "Case Number(s) for Disturbing the peace under 10-201(c)(4) of the Criminal Law Article",
+      "page": 1,
+      "rect": {
+        "x": 434.25,
+        "y": 524.83,
+        "width": 105.51,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Disturbing the peace — case number(s)",
+      "section": "1. Offences convicted of",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 527,
+          "extracted": "\u0007\u0006Disturbing the peace under § 10-201(c)(4) of the Criminal Law Article, Case No(s):"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-148",
+      "field": "Case Number(s) for Disturbing the peace under 10-201(c)(4) of the Criminal Law Article continued",
+      "page": 1,
+      "rect": {
+        "x": 100.31,
+        "y": 511.13,
+        "width": 439.55,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Disturbing the peace — case number(s), continued",
+      "section": "1. Offences convicted of",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 503,
+          "extracted": "\u0007\u0006Failure to obey a reasonable and lawful order under § 10-201(c)(3) of the Criminal Law Article, Case No(s):"
+        },
+        {
+          "y": 527,
+          "extracted": "\u0007\u0006Disturbing the peace under § 10-201(c)(4) of the Criminal Law Article, Case No(s):"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-148",
+      "field": "Case Number(s) for Failure to obey a reasonable and lawful order under 10-201(c)(3) of the Criminal Law Article",
+      "page": 1,
+      "rect": {
+        "x": 100.31,
+        "y": 489.94,
+        "width": 439.55,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Failure to obey a reasonable and lawful order — case number(s)",
+      "section": "1. Offences convicted of",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 479,
+          "extracted": "\u0007\u0006Malicious destruction of property in the lesser degree under § 6-301 of the Criminal Law Article, Case No(s):"
+        },
+        {
+          "y": 503,
+          "extracted": "\u0007\u0006Failure to obey a reasonable and lawful order under § 10-201(c)(3) of the Criminal Law Article, Case No(s):"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-148",
+      "field": "Case Number(s) for Malicious destruction of property in the lesser degree under 6-301 of the Criminal Law Article",
+      "page": 1,
+      "rect": {
+        "x": 100.31,
+        "y": 465.68,
+        "width": 439.4,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Malicious destruction of property in the lesser degree — case number(s)",
+      "section": "1. Offences convicted of",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 454,
+          "extracted": "\u0007\u0006Trespass on posted property under § 6-402 of the Criminal Law Article, Case No(s):"
+        },
+        {
+          "y": 479,
+          "extracted": "\u0007\u0006Malicious destruction of property in the lesser degree under § 6-301 of the Criminal Law Article, Case No(s):"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-148",
+      "field": "Case Number(s) for Trespass on posted property under 6-402 of the Criminal Law Article",
+      "page": 1,
+      "rect": {
+        "x": 435.85,
+        "y": 451.6,
+        "width": 103.87,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Trespass on posted property — case number(s)",
+      "section": "1. Offences convicted of",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 454,
+          "extracted": "\u0007\u0006Trespass on posted property under § 6-402 of the Criminal Law Article, Case No(s):"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-148",
+      "field": "Case Number(s) for Trespass on posted property under 6-402 of the Criminal Law Article continued",
+      "page": 1,
+      "rect": {
+        "x": 100.27,
+        "y": 437.94,
+        "width": 439.47,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Trespass on posted property — case number(s), continued",
+      "section": "1. Offences convicted of",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 430,
+          "extracted": "\u0007\u0006Possessing or administering a controlled dangerous substance under § 5-601 of the Criminal Law Article,"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-148",
+      "field": "Case Number(s) for Possessing or administering a controlled dangerous substance under 5-601 of the Criminal Law Article",
+      "page": 1,
+      "rect": {
+        "x": 146.56,
+        "y": 416.48,
+        "width": 392.86,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Possessing or administering a controlled dangerous substance — case number(s)",
+      "section": "1. Offences convicted of",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 419,
+          "extracted": "Case No(s):"
+        },
+        {
+          "y": 407,
+          "extracted": "\u0007\u0006Possessing or administering a noncontrolled substance under § 5-618(a) of the Criminal Law Article, Case"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-148",
+      "field": "Case Number(s) for Possessing or Administering a noncontrolled substance under 5-618(a) of the Criminal Law Article",
+      "page": 1,
+      "rect": {
+        "x": 125.05,
+        "y": 394,
+        "width": 414.73,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Possessing or administering a noncontrolled substance — case number(s)",
+      "section": "1. Offences convicted of",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 396,
+          "extracted": "No(s):"
+        },
+        {
+          "y": 384,
+          "extracted": "\u0007\u0006Use of or possession with intent to use drug paraphernalia under § 5-619(c)(1) of the Criminal Law Article,"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-148",
+      "field": "Case Number(s) for Use of or possession with intent to use drug paraphernalia under 5-619(c)(1) of the Criminal Law Article",
+      "page": 1,
+      "rect": {
+        "x": 146.58,
+        "y": 370.69,
+        "width": 393.18,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Use of, or possession with intent to use, drug paraphernalia — case number(s)",
+      "section": "1. Offences convicted of",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 373,
+          "extracted": "Case No(s):"
+        },
+        {
+          "y": 361,
+          "extracted": "\u0007\u0006Driving without a license under § 16-101 of the Transportation Article, Case No(s):"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-148",
+      "field": "Case Number(s) for Driving without a license under 16-101 of the Transportation Article",
+      "page": 1,
+      "rect": {
+        "x": 432.65,
+        "y": 356.98,
+        "width": 106.85,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Driving without a licence — case number(s)",
+      "section": "1. Offences convicted of",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 361,
+          "extracted": "\u0007\u0006Driving without a license under § 16-101 of the Transportation Article, Case No(s):"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-148",
+      "field": "Case Number(s) for Driving without a license under 16-101 of the Transportation Article continued",
+      "page": 1,
+      "rect": {
+        "x": 100.19,
+        "y": 343.6,
+        "width": 439.55,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Driving without a licence — case number(s), continued",
+      "section": "1. Offences convicted of",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 336,
+          "extracted": "\u0007\u0006Driving while privilege is canceled, suspended, refused, or revoked under § 16-303 of the Transportation"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-148",
+      "field": "Case Number(s) for Driving while privilege is canceled, suspended, refused, or revoked under 16-303 of the Transportation Article",
+      "page": 1,
+      "rect": {
+        "x": 179.63,
+        "y": 322.74,
+        "width": 359.8,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Driving while the privilege is cancelled, suspended, refused or revoked — case number(s)",
+      "section": "1. Offences convicted of",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 325,
+          "extracted": "Article, Case No(s):"
+        },
+        {
+          "y": 313,
+          "extracted": "\u0007\u0006Driving while uninsured under § 17-107 of the Transportation Article, Case No(s):"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-148",
+      "field": "Case Number(s) for Prostitution (not assignation) under 11-303 (formerly 11-306(a)(1)) of the Criminal Law Article",
+      "page": 1,
+      "rect": {
+        "x": 124.96,
+        "y": 274.99,
+        "width": 414.81,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Prostitution (not assignation) — case number(s)",
+      "section": "1. Offences convicted of",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 277,
+          "extracted": "No(s):"
+        },
+        {
+          "y": 266,
+          "extracted": "2.Petitioner was not convicted of an offense arising from the same incident, transaction, and/or set of facts that is"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-148",
+      "field": "Case Number(s) for Driving while uninsured under 17-107 of the Transportation Article",
+      "page": 1,
+      "rect": {
+        "x": 429.55,
+        "y": 308.86,
+        "width": 110.2,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Driving while uninsured — case number(s)",
+      "section": "1. Offences convicted of",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 313,
+          "extracted": "\u0007\u0006Driving while uninsured under § 17-107 of the Transportation Article, Case No(s):"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-148",
+      "field": "Case Number(s) for Driving while uninsured under 17-107 of the Transportation Article continued",
+      "page": 1,
+      "rect": {
+        "x": 100.31,
+        "y": 295.28,
+        "width": 439.44,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Driving while uninsured — case number(s), continued",
+      "section": "1. Offences convicted of",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 288,
+          "extracted": "\u0007\u0006Prostitution (not assignation) under § 11-303 (formerly § 11-306(a)(1)) of the Criminal Law Article, Case"
+        }
+      ]
+    },
+    {
+      "document": "MDJ-008",
+      "field": "Reset Form",
+      "page": 1,
+      "rect": {
+        "x": 266.4,
+        "y": 19.04,
+        "width": 72,
+        "height": 18
+      },
+      "labelThisBuildUses": "Reset this form (viewer control)",
+      "section": "Viewer controls",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 25,
+          "extracted": "MDJ-008 (Rev. 07/2026)"
+        }
+      ]
+    },
+    {
+      "document": "MDJ-008",
+      "field": "Circuit Court",
+      "page": 1,
+      "rect": {
+        "x": 75.28,
+        "y": 728.87,
+        "width": 9,
+        "height": 9
+      },
+      "labelThisBuildUses": "Circuit Court (selection)",
+      "section": "Court",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 729,
+          "extracted": "\u0007\u0006CIRCUIT COURT \u0007\u0006 DISTRICT COURT OF MARYLAND FOR"
+        },
+        {
+          "y": 721,
+          "extracted": "City/County"
+        }
+      ]
+    },
+    {
+      "document": "MDJ-008",
+      "field": "District Court",
+      "page": 1,
+      "rect": {
+        "x": 183.09,
+        "y": 728.95,
+        "width": 9,
+        "height": 9
+      },
+      "labelThisBuildUses": "District Court of Maryland (selection)",
+      "section": "Court",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 729,
+          "extracted": "\u0007\u0006CIRCUIT COURT \u0007\u0006 DISTRICT COURT OF MARYLAND FOR"
+        },
+        {
+          "y": 721,
+          "extracted": "City/County"
+        }
+      ]
+    },
+    {
+      "document": "MDJ-008",
+      "field": "Court Address",
+      "page": 1,
+      "rect": {
+        "x": 121.45,
+        "y": 707.17,
+        "width": 452.37,
+        "height": 12.24
+      },
+      "labelThisBuildUses": "Court Address",
+      "section": "Court",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 709,
+          "extracted": "Located at"
+        },
+        {
+          "y": 699,
+          "extracted": "Court Address"
+        }
+      ]
+    },
+    {
+      "document": "MDJ-008",
+      "field": "Court Telephone Number",
+      "page": 1,
+      "rect": {
+        "x": 437.3,
+        "y": 690.72,
+        "width": 137.09,
+        "height": 12.24
+      },
+      "labelThisBuildUses": "Court Telephone",
+      "section": "Court",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 691,
+          "extracted": "STATE OF MARYLAND Telephone"
+        },
+        {
+          "y": 699,
+          "extracted": "Court Address"
+        }
+      ]
+    },
+    {
+      "document": "MDJ-008",
+      "field": "City/County",
+      "page": 1,
+      "rect": {
+        "x": 405.71,
+        "y": 728.07,
+        "width": 168.77,
+        "height": 12.24
+      },
+      "labelThisBuildUses": "City/County (selection)",
+      "section": "Court",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 729,
+          "extracted": "\u0007\u0006CIRCUIT COURT \u0007\u0006 DISTRICT COURT OF MARYLAND FOR"
+        },
+        {
+          "y": 721,
+          "extracted": "City/County"
+        }
+      ]
+    },
+    {
+      "document": "MDJ-008",
+      "field": "Supreme Court",
+      "page": 1,
+      "rect": {
+        "x": 75.33,
+        "y": 744.35,
+        "width": 9,
+        "height": 9
+      },
+      "labelThisBuildUses": "Supreme Court of Maryland (selection)",
+      "section": "Court",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 745,
+          "extracted": "\u0007\u0006SUPREME COURT OF MARYLAND\u0007\u0006APPELLATE COURT OF MARYLAND"
+        },
+        {
+          "y": 729,
+          "extracted": "\u0007\u0006CIRCUIT COURT \u0007\u0006 DISTRICT COURT OF MARYLAND FOR"
+        }
+      ]
+    },
+    {
+      "document": "MDJ-008",
+      "field": "Appellate Court",
+      "page": 1,
+      "rect": {
+        "x": 275.05,
+        "y": 744.44,
+        "width": 9,
+        "height": 9
+      },
+      "labelThisBuildUses": "Appellate Court of Maryland (selection)",
+      "section": "Court",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 745,
+          "extracted": "\u0007\u0006SUPREME COURT OF MARYLAND\u0007\u0006APPELLATE COURT OF MARYLAND"
+        },
+        {
+          "y": 729,
+          "extracted": "\u0007\u0006CIRCUIT COURT \u0007\u0006 DISTRICT COURT OF MARYLAND FOR"
+        }
+      ]
+    },
+    {
+      "document": "MDJ-008",
+      "field": "Case Number",
+      "page": 1,
+      "rect": {
+        "x": 437.56,
+        "y": 674.15,
+        "width": 136.79,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Case No.",
+      "section": "Court",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 676,
+          "extracted": "OR Case No."
+        },
+        {
+          "y": 664,
+          "extracted": "vs."
+        }
+      ]
+    },
+    {
+      "document": "MDJ-008",
+      "field": "Plaintiff/Petitioner's Name",
+      "page": 1,
+      "rect": {
+        "x": 28.85,
+        "y": 657.54,
+        "width": 237.76,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Plaintiff/Petitioner",
+      "section": "Caption",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 664,
+          "extracted": "vs."
+        },
+        {
+          "y": 650,
+          "extracted": "Plaintiff/Petitioner Defendant/Respondent"
+        }
+      ]
+    },
+    {
+      "document": "MDJ-008",
+      "field": "Defendant/Respondent's Name",
+      "page": 1,
+      "rect": {
+        "x": 336.6,
+        "y": 657.91,
+        "width": 237.72,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Defendant/Respondent",
+      "section": "Caption",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 664,
+          "extracted": "vs."
+        },
+        {
+          "y": 650,
+          "extracted": "Plaintiff/Petitioner Defendant/Respondent"
+        }
+      ]
+    },
+    {
+      "document": "MDJ-008",
+      "field": "Title of Confidential Submission",
+      "page": 1,
+      "rect": {
+        "x": 166.69,
+        "y": 588.54,
+        "width": 406.87,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Title of confidential submission",
+      "section": "Submission",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 591,
+          "extracted": "Title of confidential submission:"
+        },
+        {
+          "y": 576,
+          "extracted": "\u0007\u00061. RESTRICTED DOCUMENT - The entire document is not subject to inspection."
+        }
+      ]
+    },
+    {
+      "document": "MDJ-008",
+      "field": "Restricted Document - The entire document is not subject to inspection",
+      "page": 1,
+      "rect": {
+        "x": 29.84,
+        "y": 575.73,
+        "width": 9,
+        "height": 9
+      },
+      "labelThisBuildUses": "1. RESTRICTED DOCUMENT — the entire document is not subject to inspection (selection)",
+      "section": "1. Restricted Document",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 576,
+          "extracted": "\u0007\u00061. RESTRICTED DOCUMENT - The entire document is not subject to inspection."
+        },
+        {
+          "y": 564,
+          "extracted": "\u0007\u0006Child Abuse/Neglect: record created by an agency concerning child abuse or neglect required by statute to be kept confidential."
+        }
+      ]
+    },
+    {
+      "document": "MDJ-008",
+      "field": "Child Abuse/Neglect",
+      "page": 1,
+      "rect": {
+        "x": 38.43,
+        "y": 563.26,
+        "width": 9,
+        "height": 9
+      },
+      "labelThisBuildUses": "Restricted document category — Child Abuse/Neglect (selection)",
+      "section": "1. Restricted Document",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 564,
+          "extracted": "\u0007\u0006Child Abuse/Neglect: record created by an agency concerning child abuse or neglect required by statute to be kept confidential."
+        },
+        {
+          "y": 552,
+          "extracted": "Rule 16-914(d); Family Law Article, § 5-707; Human Services, § 1-202 and § 1-203"
+        }
+      ]
+    },
+    {
+      "document": "MDJ-008",
+      "field": "Disability",
+      "page": 1,
+      "rect": {
+        "x": 38.45,
+        "y": 539.29,
+        "width": 9,
+        "height": 9
+      },
+      "labelThisBuildUses": "Restricted document category — Disability (selection)",
+      "section": "1. Restricted Document",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 540,
+          "extracted": "\u0007\u0006Disability: Personal information about an individual with or perceived to have a disability. General Provisions Article § 4-329"
+        },
+        {
+          "y": 528,
+          "extracted": "\u0007\u0006Failure to Pay Rent Actions: case records shielded pursuant to Code, Real Property Article, § 8-503. Rule 16-914(s)"
+        }
+      ]
+    },
+    {
+      "document": "MDJ-008",
+      "field": "Failure to Pay Rent Actions",
+      "page": 1,
+      "rect": {
+        "x": 38.35,
+        "y": 527.07,
+        "width": 9,
+        "height": 9
+      },
+      "labelThisBuildUses": "Restricted document category — Failure to Pay Rent Actions (selection)",
+      "section": "1. Restricted Document",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 528,
+          "extracted": "\u0007\u0006Failure to Pay Rent Actions: case records shielded pursuant to Code, Real Property Article, § 8-503. Rule 16-914(s)"
+        },
+        {
+          "y": 515,
+          "extracted": "\u0007\u0006Financial Information: information about the finances of an individual, including assets, income, liabilities, net worth, bank"
+        }
+      ]
+    },
+    {
+      "document": "MDJ-008",
+      "field": "Financial Information",
+      "page": 1,
+      "rect": {
+        "x": 38.35,
+        "y": 514.25,
+        "width": 9,
+        "height": 9
+      },
+      "labelThisBuildUses": "Restricted document category — Financial Information (selection)",
+      "section": "1. Restricted Document",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 515,
+          "extracted": "\u0007\u0006Financial Information: information about the finances of an individual, including assets, income, liabilities, net worth, bank"
+        },
+        {
+          "y": 503,
+          "extracted": "balances, financial history or activities, or creditworthiness. General Provisions Article, § 4-336"
+        }
+      ]
+    },
+    {
+      "document": "MDJ-008",
+      "field": "Financial Statement",
+      "page": 1,
+      "rect": {
+        "x": 38.45,
+        "y": 488.24,
+        "width": 9,
+        "height": 9
+      },
+      "labelThisBuildUses": "Restricted document category — Financial Statement (selection)",
+      "section": "1. Restricted Document",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 489,
+          "extracted": "\u0007\u0006Financial Statement: filed pursuant to Rule 9-202, a Child Support Guidelines Worksheet filed pursuant to Rule 9-206, or a"
+        },
+        {
+          "y": 477,
+          "extracted": "Joint Statement of Marital and Non-Marital Property filed pursuant to Rule 9-207. Rule 16-914(l)"
+        }
+      ]
+    },
+    {
+      "document": "MDJ-008",
+      "field": "Hearing Closed to the Public",
+      "page": 1,
+      "rect": {
+        "x": 38.56,
+        "y": 461.73,
+        "width": 9,
+        "height": 9
+      },
+      "labelThisBuildUses": "Restricted document category — Hearing Closed to the Public (selection)",
+      "section": "1. Restricted Document",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 462,
+          "extracted": "\u0007\u0006Hearing Closed to the Public: recording/transcript of hearing closed to the public. Rule 16-914(g)"
+        },
+        {
+          "y": 448,
+          "extracted": "\u0007\u0006Marital Property: Joint Statement of Marital and Non-Marital Property. Rule 16-914(l)"
+        }
+      ]
+    },
+    {
+      "document": "MDJ-008",
+      "field": "Marital Property",
+      "page": 1,
+      "rect": {
+        "x": 38.73,
+        "y": 447.27,
+        "width": 9,
+        "height": 9
+      },
+      "labelThisBuildUses": "Restricted document category — Marital Property (selection)",
+      "section": "1. Restricted Document",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 448,
+          "extracted": "\u0007\u0006Marital Property: Joint Statement of Marital and Non-Marital Property. Rule 16-914(l)"
+        },
+        {
+          "y": 434,
+          "extracted": "\u0007\u0006Marriage License Application: until the effective date of the license. Rule 16-912(c)"
+        }
+      ]
+    },
+    {
+      "document": "MDJ-008",
+      "field": "Marriage License Application",
+      "page": 1,
+      "rect": {
+        "x": 38.67,
+        "y": 433.14,
+        "width": 9,
+        "height": 9
+      },
+      "labelThisBuildUses": "Restricted document category — Marriage License Application (selection)",
+      "section": "1. Restricted Document",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 434,
+          "extracted": "\u0007\u0006Marriage License Application: until the effective date of the license. Rule 16-912(c)"
+        },
+        {
+          "y": 419,
+          "extracted": "\u0007\u0006Medical Report: or other correspondence from a doctor or health care professional. Rule 16-914(i)"
+        }
+      ]
+    },
+    {
+      "document": "MDJ-008",
+      "field": "Medical Report",
+      "page": 1,
+      "rect": {
+        "x": 38.56,
+        "y": 418.91,
+        "width": 9,
+        "height": 9
+      },
+      "labelThisBuildUses": "Restricted document category — Medical Report (selection)",
+      "section": "1. Restricted Document",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 419,
+          "extracted": "\u0007\u0006Medical Report: or other correspondence from a doctor or health care professional. Rule 16-914(i)"
+        },
+        {
+          "y": 405,
+          "extracted": "\u0007\u0006Parenting Plan/Joint Statement: prepared and filed under Rules 9-204.1 and 9-204.2. Rule 16-914(o)"
+        }
+      ]
+    },
+    {
+      "document": "MDJ-008",
+      "field": "Parenting Plan/Joint Statement",
+      "page": 1,
+      "rect": {
+        "x": 38.73,
+        "y": 404.56,
+        "width": 9,
+        "height": 9
+      },
+      "labelThisBuildUses": "Restricted document category — Parenting Plan/Joint Statement (selection)",
+      "section": "1. Restricted Document",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 405,
+          "extracted": "\u0007\u0006Parenting Plan/Joint Statement: prepared and filed under Rules 9-204.1 and 9-204.2. Rule 16-914(o)"
+        },
+        {
+          "y": 391,
+          "extracted": "\u0007\u0006Peace Order Denied/Dismissed/Consented - Shielded: case records shielded under Courts Article § 3-1510(b). Rule 16-914(c)"
+        }
+      ]
+    },
+    {
+      "document": "MDJ-008",
+      "field": "Peace Order Denied/Dismissed/Consented - Shielded",
+      "page": 1,
+      "rect": {
+        "x": 38.62,
+        "y": 390.33,
+        "width": 9,
+        "height": 9
+      },
+      "labelThisBuildUses": "Restricted document category — Peace Order Denied/Dismissed/Consented - Shielded (selection)",
+      "section": "1. Restricted Document",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 391,
+          "extracted": "\u0007\u0006Peace Order Denied/Dismissed/Consented - Shielded: case records shielded under Courts Article § 3-1510(b). Rule 16-914(c)"
+        },
+        {
+          "y": 377,
+          "extracted": "\u0007\u0006Pregnancy - Marriage License Application: certification of pregnancy of a person under 18 from doctor or nurse practitioner"
+        }
+      ]
+    },
+    {
+      "document": "MDJ-008",
+      "field": "Pregnancy - Marriage License Application",
+      "page": 1,
+      "rect": {
+        "x": 38.67,
+        "y": 376.04,
+        "width": 9,
+        "height": 9
+      },
+      "labelThisBuildUses": "Restricted document category — Pregnancy - Marriage License Application (selection)",
+      "section": "1. Restricted Document",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 377,
+          "extracted": "\u0007\u0006Pregnancy - Marriage License Application: certification of pregnancy of a person under 18 from doctor or nurse practitioner"
+        },
+        {
+          "y": 364,
+          "extracted": "in an application for a marriage license. Rule 16-912(c)"
+        }
+      ]
+    },
+    {
+      "document": "MDJ-008",
+      "field": "Presentence Investigation Report",
+      "page": 1,
+      "rect": {
+        "x": 38.67,
+        "y": 349.69,
+        "width": 9,
+        "height": 9
+      },
+      "labelThisBuildUses": "Restricted document category — Presentence Investigation Report (selection)",
+      "section": "1. Restricted Document",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 350,
+          "extracted": "\u0007\u0006Presentence Investigation Report: (confidential until entered into evidence) Rule 16-914(f)(6)"
+        },
+        {
+          "y": 336,
+          "extracted": "\u0007\u0006Protective Order Denied/Dismissed/Consented - Shielded: case records shielded under FL Article § 4-512(b)(2). Rule 16-914(c)"
+        }
+      ]
+    },
+    {
+      "document": "MDJ-008",
+      "field": "Protective Order Denied/Dismissed/Consented - Shielded",
+      "page": 1,
+      "rect": {
+        "x": 38.67,
+        "y": 335.67,
+        "width": 9,
+        "height": 9
+      },
+      "labelThisBuildUses": "Restricted document category — Protective Order Denied/Dismissed/Consented - Shielded (selection)",
+      "section": "1. Restricted Document",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 336,
+          "extracted": "\u0007\u0006Protective Order Denied/Dismissed/Consented - Shielded: case records shielded under FL Article § 4-512(b)(2). Rule 16-914(c)"
+        },
+        {
+          "y": 322,
+          "extracted": "\u0007\u0006Record of an Administrative Agency Proceeding: case records shielded when the Administrative Agency Restricted Information"
+        }
+      ]
+    },
+    {
+      "document": "MDJ-008",
+      "field": "Record of an Administrative Agency Proceeding",
+      "page": 1,
+      "rect": {
+        "x": 38.84,
+        "y": 321.22,
+        "width": 9,
+        "height": 9
+      },
+      "labelThisBuildUses": "Restricted document category — Record of an Administrative Agency Proceeding (selection)",
+      "section": "1. Restricted Document",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 322,
+          "extracted": "\u0007\u0006Record of an Administrative Agency Proceeding: case records shielded when the Administrative Agency Restricted Information"
+        },
+        {
+          "y": 309,
+          "extracted": "Statement indicates the record contains restricted information under Rule 20-101(r). Rule 16-914(r)"
+        }
+      ]
+    },
+    {
+      "document": "MDJ-008",
+      "field": "Refusal to Testify",
+      "page": 1,
+      "rect": {
+        "x": 38.51,
+        "y": 296.45,
+        "width": 9,
+        "height": 9
+      },
+      "labelThisBuildUses": "Restricted document category — Refusal to Testify (selection)",
+      "section": "1. Restricted Document",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 297,
+          "extracted": "\u0007\u0006Refusal to Testify: case record maintained under Code, Courts Article, § 9-106 of the refusal of an individual to testify in a"
+        },
+        {
+          "y": 285,
+          "extracted": "criminal action against the individual’s spouse. Rule 16-914(f)(5)"
+        }
+      ]
+    },
+    {
+      "document": "MDJ-008",
+      "field": "Sealed or Shielded",
+      "page": 1,
+      "rect": {
+        "x": 38.67,
+        "y": 270.82,
+        "width": 9,
+        "height": 9
+      },
+      "labelThisBuildUses": "Restricted document category — Sealed or Shielded (selection)",
+      "section": "1. Restricted Document",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 271,
+          "extracted": "\u0007\u0006Sealed or Shielded: (entire document) by court order. Rule 16-941 & 16-914(k)(1)"
+        },
+        {
+          "y": 257,
+          "extracted": "\u0007\u0006Sealing or Shielding Motion: while pending, but not to exceed five (5) business days. Rule 16-941 & 16-914(k)(2)"
+        }
+      ]
+    },
+    {
+      "document": "MDJ-008",
+      "field": "Sealing or Shielding Motion",
+      "page": 1,
+      "rect": {
+        "x": 38.67,
+        "y": 256.47,
+        "width": 9,
+        "height": 9
+      },
+      "labelThisBuildUses": "Restricted document category — Sealing or Shielding Motion (selection)",
+      "section": "1. Restricted Document",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 257,
+          "extracted": "\u0007\u0006Sealing or Shielding Motion: while pending, but not to exceed five (5) business days. Rule 16-941 & 16-914(k)(2)"
+        },
+        {
+          "y": 243,
+          "extracted": "\u0007\u0006Tax Returns: state and federal tax returns. Rule 16-914(j)"
+        }
+      ]
+    },
+    {
+      "document": "MDJ-008",
+      "field": "Tax Returns",
+      "page": 1,
+      "rect": {
+        "x": 38.51,
+        "y": 242.34,
+        "width": 9,
+        "height": 9
+      },
+      "labelThisBuildUses": "Restricted document category — Tax Returns (selection)",
+      "section": "1. Restricted Document",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 243,
+          "extracted": "\u0007\u0006Tax Returns: state and federal tax returns. Rule 16-914(j)"
+        },
+        {
+          "y": 229,
+          "extracted": "\u0007\u0006Other:Rule or Statute:"
+        }
+      ]
+    },
+    {
+      "document": "MDJ-008",
+      "field": "Other",
+      "page": 1,
+      "rect": {
+        "x": 38.67,
+        "y": 228.11,
+        "width": 9,
+        "height": 9
+      },
+      "labelThisBuildUses": "Restricted document category — Other (selection)",
+      "section": "1. Restricted Document",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 229,
+          "extracted": "\u0007\u0006Other:Rule or Statute:"
+        },
+        {
+          "y": 216,
+          "extracted": "\u0007\u0006DOCUMENT FROM A CONFIDENTIAL CASE TYPE FILED INTO A NON-CONFIDENTIAL CASE TYPE."
+        }
+      ]
+    },
+    {
+      "document": "MDJ-008",
+      "field": "List other restricted document",
+      "page": 1,
+      "rect": {
+        "x": 82.02,
+        "y": 226.89,
+        "width": 241.52,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Other restricted category — named",
+      "section": "1. Restricted Document",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 229,
+          "extracted": "\u0007\u0006Other:Rule or Statute:"
+        },
+        {
+          "y": 216,
+          "extracted": "\u0007\u0006DOCUMENT FROM A CONFIDENTIAL CASE TYPE FILED INTO A NON-CONFIDENTIAL CASE TYPE."
+        }
+      ]
+    },
+    {
+      "document": "MDJ-008",
+      "field": "Rule or Statute",
+      "page": 1,
+      "rect": {
+        "x": 394.04,
+        "y": 227.01,
+        "width": 179.75,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Other restricted category — rule or statute",
+      "section": "1. Restricted Document",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 229,
+          "extracted": "\u0007\u0006Other:Rule or Statute:"
+        },
+        {
+          "y": 216,
+          "extracted": "\u0007\u0006DOCUMENT FROM A CONFIDENTIAL CASE TYPE FILED INTO A NON-CONFIDENTIAL CASE TYPE."
+        }
+      ]
+    },
+    {
+      "document": "MDJ-008",
+      "field": "Document from a confidential case type filed into a non-confidential case type",
+      "page": 1,
+      "rect": {
+        "x": 38.73,
+        "y": 215.4,
+        "width": 9,
+        "height": 9
+      },
+      "labelThisBuildUses": "Document from a confidential case type filed into a non-confidential case type (selection)",
+      "section": "Document from a confidential case type",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 216,
+          "extracted": "\u0007\u0006DOCUMENT FROM A CONFIDENTIAL CASE TYPE FILED INTO A NON-CONFIDENTIAL CASE TYPE."
+        },
+        {
+          "y": 204,
+          "extracted": "Confidential Case type: \u0007\u0006 Child Adoption \u0007\u0006Emergency Evaluation \u0007\u0006 ERPO \u0007\u0006 Guardianship of a Child"
+        }
+      ]
+    },
+    {
+      "document": "MDJ-008",
+      "field": "Child Adoption",
+      "page": 1,
+      "rect": {
+        "x": 160.58,
+        "y": 203.37,
+        "width": 9,
+        "height": 9
+      },
+      "labelThisBuildUses": "Confidential case type — Child Adoption (selection)",
+      "section": "Document from a confidential case type",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 204,
+          "extracted": "Confidential Case type: \u0007\u0006 Child Adoption \u0007\u0006Emergency Evaluation \u0007\u0006 ERPO \u0007\u0006 Guardianship of a Child"
+        },
+        {
+          "y": 192,
+          "extracted": "\u0007\u0006Juvenile Court case record \u0007\u0006 Gender Declaration\u0007\u0006 Other: (explain)"
+        }
+      ]
+    },
+    {
+      "document": "MDJ-008",
+      "field": "Emergency Evaluation",
+      "page": 1,
+      "rect": {
+        "x": 246.79,
+        "y": 203.37,
+        "width": 9,
+        "height": 9
+      },
+      "labelThisBuildUses": "Confidential case type — Emergency Evaluation (selection)",
+      "section": "Document from a confidential case type",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 204,
+          "extracted": "Confidential Case type: \u0007\u0006 Child Adoption \u0007\u0006Emergency Evaluation \u0007\u0006 ERPO \u0007\u0006 Guardianship of a Child"
+        },
+        {
+          "y": 192,
+          "extracted": "\u0007\u0006Juvenile Court case record \u0007\u0006 Gender Declaration\u0007\u0006 Other: (explain)"
+        }
+      ]
+    },
+    {
+      "document": "MDJ-008",
+      "field": "ERPO",
+      "page": 1,
+      "rect": {
+        "x": 368.35,
+        "y": 203.48,
+        "width": 9,
+        "height": 9
+      },
+      "labelThisBuildUses": "Confidential case type — ERPO (selection)",
+      "section": "Document from a confidential case type",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 204,
+          "extracted": "Confidential Case type: \u0007\u0006 Child Adoption \u0007\u0006Emergency Evaluation \u0007\u0006 ERPO \u0007\u0006 Guardianship of a Child"
+        },
+        {
+          "y": 192,
+          "extracted": "\u0007\u0006Juvenile Court case record \u0007\u0006 Gender Declaration\u0007\u0006 Other: (explain)"
+        }
+      ]
+    },
+    {
+      "document": "MDJ-008",
+      "field": "Guardianship of a Child",
+      "page": 1,
+      "rect": {
+        "x": 414.11,
+        "y": 203.37,
+        "width": 9,
+        "height": 9
+      },
+      "labelThisBuildUses": "Confidential case type — Guardianship of a Child (selection)",
+      "section": "Document from a confidential case type",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 204,
+          "extracted": "Confidential Case type: \u0007\u0006 Child Adoption \u0007\u0006Emergency Evaluation \u0007\u0006 ERPO \u0007\u0006 Guardianship of a Child"
+        },
+        {
+          "y": 192,
+          "extracted": "\u0007\u0006Juvenile Court case record \u0007\u0006 Gender Declaration\u0007\u0006 Other: (explain)"
+        }
+      ]
+    },
+    {
+      "document": "MDJ-008",
+      "field": "Juvenile Court case record",
+      "page": 1,
+      "rect": {
+        "x": 52.2,
+        "y": 191.4,
+        "width": 9,
+        "height": 9
+      },
+      "labelThisBuildUses": "Confidential case type — Juvenile Court case record (selection)",
+      "section": "Document from a confidential case type",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 192,
+          "extracted": "\u0007\u0006Juvenile Court case record \u0007\u0006 Gender Declaration\u0007\u0006 Other: (explain)"
+        },
+        {
+          "y": 204,
+          "extracted": "Confidential Case type: \u0007\u0006 Child Adoption \u0007\u0006Emergency Evaluation \u0007\u0006 ERPO \u0007\u0006 Guardianship of a Child"
+        }
+      ]
+    },
+    {
+      "document": "MDJ-008",
+      "field": "Gender declaration",
+      "page": 1,
+      "rect": {
+        "x": 191.92,
+        "y": 191.37,
+        "width": 9,
+        "height": 9
+      },
+      "labelThisBuildUses": "Confidential case type — Gender declaration (selection)",
+      "section": "Document from a confidential case type",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 192,
+          "extracted": "\u0007\u0006Juvenile Court case record \u0007\u0006 Gender Declaration\u0007\u0006 Other: (explain)"
+        },
+        {
+          "y": 204,
+          "extracted": "Confidential Case type: \u0007\u0006 Child Adoption \u0007\u0006Emergency Evaluation \u0007\u0006 ERPO \u0007\u0006 Guardianship of a Child"
+        }
+      ]
+    },
+    {
+      "document": "MDJ-008",
+      "field": "Other Case Type",
+      "page": 1,
+      "rect": {
+        "x": 300.03,
+        "y": 191.41,
+        "width": 9,
+        "height": 9
+      },
+      "labelThisBuildUses": "Confidential case type — Other Case Type (selection)",
+      "section": "Document from a confidential case type",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 192,
+          "extracted": "\u0007\u0006Juvenile Court case record \u0007\u0006 Gender Declaration\u0007\u0006 Other: (explain)"
+        },
+        {
+          "y": 204,
+          "extracted": "Confidential Case type: \u0007\u0006 Child Adoption \u0007\u0006Emergency Evaluation \u0007\u0006 ERPO \u0007\u0006 Guardianship of a Child"
+        }
+      ]
+    },
+    {
+      "document": "MDJ-008",
+      "field": "List other case type",
+      "page": 1,
+      "rect": {
+        "x": 388.31,
+        "y": 188.44,
+        "width": 185.47,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Other confidential case type — named",
+      "section": "Document from a confidential case type",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 192,
+          "extracted": "\u0007\u0006Juvenile Court case record \u0007\u0006 Gender Declaration\u0007\u0006 Other: (explain)"
+        },
+        {
+          "y": 178,
+          "extracted": "\u0007\u00062. CONFIDENTIAL INFORMATION - The document itself is subject to public inspection but contains"
+        }
+      ]
+    },
+    {
+      "document": "MDJ-008",
+      "field": "Confidential Information - The document itself is subject to public inspection but contains confidential information that is not open to public inspection",
+      "page": 1,
+      "rect": {
+        "x": 28.96,
+        "y": 177.85,
+        "width": 9,
+        "height": 9
+      },
+      "labelThisBuildUses": "2. CONFIDENTIAL INFORMATION — the document is open to inspection but contains information that is not (selection)",
+      "section": "2. Confidential Information",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 178,
+          "extracted": "\u0007\u00062. CONFIDENTIAL INFORMATION - The document itself is subject to public inspection but contains"
+        },
+        {
+          "y": 165,
+          "extracted": "confidential information that is not open to public inspection."
+        }
+      ]
+    },
+    {
+      "document": "MDJ-008",
+      "field": "Description of the information",
+      "page": 1,
+      "rect": {
+        "x": 150.3,
+        "y": 148.96,
+        "width": 420.95,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Description of the confidential information",
+      "section": "2. Confidential Information",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 151,
+          "extracted": "That information consists of ."
+        },
+        {
+          "y": 142,
+          "extracted": "(Give a description of the information and not the actual restricted information.)"
+        }
+      ]
+    },
+    {
+      "document": "MDJ-008",
+      "field": "Rule(s)",
+      "page": 1,
+      "rect": {
+        "x": 232.04,
+        "y": 128.5,
+        "width": 115.77,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Rule(s) that make that information confidential",
+      "section": "2. Confidential Information",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 132,
+          "extracted": "The information is made confidential by Rule(s) or by court order dated ."
+        },
+        {
+          "y": 118,
+          "extracted": "Pursuant to Rules 20-201.1 and 1-322.1, accompanying the document is a redacted version that does not contain the confidential information."
+        }
+      ]
+    },
+    {
+      "document": "MDJ-008",
+      "field": "Date of Court Order",
+      "page": 1,
+      "rect": {
+        "x": 445.47,
+        "y": 128.53,
+        "width": 126.97,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Date of the court order making it confidential",
+      "section": "2. Confidential Information",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 132,
+          "extracted": "The information is made confidential by Rule(s) or by court order dated ."
+        },
+        {
+          "y": 118,
+          "extracted": "Pursuant to Rules 20-201.1 and 1-322.1, accompanying the document is a redacted version that does not contain the confidential information."
+        }
+      ]
+    },
+    {
+      "document": "MDJ-008",
+      "field": "Date",
+      "page": 1,
+      "rect": {
+        "x": 28.77,
+        "y": 100.6,
+        "width": 251.67,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Date of signature",
+      "section": "Signature",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 94,
+          "extracted": "Date Signature Attorney Number"
+        }
+      ]
+    },
+    {
+      "document": "MDJ-008",
+      "field": "Telephone Number",
+      "page": 1,
+      "rect": {
+        "x": 28.8,
+        "y": 81.21,
+        "width": 251.66,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Telephone Number",
+      "section": "Signature",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 75,
+          "extracted": "Telephone Number Printed Name"
+        },
+        {
+          "y": 94,
+          "extracted": "Date Signature Attorney Number"
+        }
+      ]
+    },
+    {
+      "document": "MDJ-008",
+      "field": "E-mail",
+      "page": 1,
+      "rect": {
+        "x": 28.8,
+        "y": 62.91,
+        "width": 251.66,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "E-mail",
+      "section": "Signature",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 56,
+          "extracted": "Street Address"
+        },
+        {
+          "y": 54,
+          "extracted": "E-mail"
+        }
+      ]
+    },
+    {
+      "document": "MDJ-008",
+      "field": "Fax",
+      "page": 1,
+      "rect": {
+        "x": 28.75,
+        "y": 42.62,
+        "width": 251.67,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Fax",
+      "section": "Signature",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 36,
+          "extracted": "Fax City, State, Zip"
+        },
+        {
+          "y": 54,
+          "extracted": "E-mail"
+        }
+      ]
+    },
+    {
+      "document": "MDJ-008",
+      "field": "Signature",
+      "page": 1,
+      "rect": {
+        "x": 327.76,
+        "y": 100.55,
+        "width": 159.92,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Signature",
+      "section": "Signature",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 94,
+          "extracted": "Date Signature Attorney Number"
+        }
+      ]
+    },
+    {
+      "document": "MDJ-008",
+      "field": "Attorney Number",
+      "page": 1,
+      "rect": {
+        "x": 490.34,
+        "y": 100.63,
+        "width": 83.91,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Attorney Number",
+      "section": "Signature",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 94,
+          "extracted": "Date Signature Attorney Number"
+        }
+      ]
+    },
+    {
+      "document": "MDJ-008",
+      "field": "Printed Name",
+      "page": 1,
+      "rect": {
+        "x": 328.34,
+        "y": 81.09,
+        "width": 245.94,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Printed Name",
+      "section": "Signature",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 75,
+          "extracted": "Telephone Number Printed Name"
+        },
+        {
+          "y": 94,
+          "extracted": "Date Signature Attorney Number"
+        }
+      ]
+    },
+    {
+      "document": "MDJ-008",
+      "field": "Street Address",
+      "page": 1,
+      "rect": {
+        "x": 328.38,
+        "y": 63.13,
+        "width": 246.05,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Street Address",
+      "section": "Signature",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 56,
+          "extracted": "Street Address"
+        },
+        {
+          "y": 54,
+          "extracted": "E-mail"
+        }
+      ]
+    },
+    {
+      "document": "MDJ-008",
+      "field": "City, State, Zip",
+      "page": 1,
+      "rect": {
+        "x": 328.64,
+        "y": 42.59,
+        "width": 245.83,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "City, State, Zip",
+      "section": "Signature",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 36,
+          "extracted": "Fax City, State, Zip"
+        },
+        {
+          "y": 54,
+          "extracted": "E-mail"
+        }
+      ]
+    }
+  ]
+}

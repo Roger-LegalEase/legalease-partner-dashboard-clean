@@ -1,0 +1,2722 @@
+{
+  "schemaVersion": "rcap-official-form-field-map/v1-census-v1",
+  "familyId": "wv_conv_single_misdemeanor-set",
+  "routeKeys": [
+    "obligation:track-pathway:WV:wv_conv_single_misdemeanor:eligible-conviction-expungement-under-w-va-code-61-11-26"
+  ],
+  "routeSelectionId": "wv-sca-c906-single-misdemeanor",
+  "maps": [
+    {
+      "formNumber": "SCA-C906",
+      "documentPolicy": {
+        "mode": "participant",
+        "captionOnly": false,
+        "documentAcceptsFill": true
+      },
+      "structuralClass": "acroform",
+      "explicitMappings": {
+        "CircuitCaseNo": "matter.case_number",
+        "ConvictionDate": "matter.conviction_date",
+        "PetAdd1": "participant.street_address",
+        "PetAdd2": "participant.city_state_zip",
+        "PetDOBDay": "participant.birth_month",
+        "PetDOBMonth": "participant.birth_day",
+        "PetDOBYear": "participant.birth_year",
+        "PetPhoneNum": "participant.phone",
+        "PetArrestDate": "matter.arrest_date",
+        "County": "matter.county",
+        "PetitionerName1": "participant.full_legal_name",
+        "PetitionerName2": "participant.full_legal_name",
+        "PetitionersCurrentName1": "participant.full_legal_name",
+        "PetitionersOffenseAddress1": "participant.current_address",
+        "Charge1": "matter.charges[0].charge",
+        "CaseNo1": "matter.charges[0].case_number",
+        "Charges1": "matter.charges",
+        "SingleFelonyCB": "route.selection",
+        "ExpungementCB2": "screening.prior_relief"
+      },
+      "roleRefusals": [],
+      "selectionControls": [
+        {
+          "selectionId": "SingleFelonyCB",
+          "kind": "selection_control",
+          "field": "SingleFelonyCB",
+          "type": "checkbox",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 91.68,
+                "y": 324.91,
+                "width": 11.52,
+                "height": 11.52
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "sourceSelection": false,
+          "disposition": "selected_route_or_known_fact",
+          "reason": "Route-determined selection: single-misdemeanor standard waiting-period route."
+        },
+        {
+          "selectionId": "MultipleFelonyCB",
+          "kind": "selection_control",
+          "field": "MultipleFelonyCB",
+          "type": "checkbox",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 91.68,
+                "y": 275.53,
+                "width": 11.52,
+                "height": 11.52
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "sourceSelection": false,
+          "disposition": "explicit_refusal",
+          "reason": "Never a filing fact on this route: single-misdemeanor standard waiting-period route selects SingleFelonyCB, not this alternate eligibility branch.",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route"
+        },
+        {
+          "selectionId": "SingleSatisfiedCB",
+          "kind": "selection_control",
+          "field": "SingleSatisfiedCB",
+          "type": "checkbox",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 91.68,
+                "y": 213.31,
+                "width": 11.52,
+                "height": 11.52
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "sourceSelection": false,
+          "disposition": "explicit_refusal",
+          "reason": "Never a filing fact on this route: single-misdemeanor standard waiting-period route selects SingleFelonyCB, not this alternate eligibility branch.",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route"
+        },
+        {
+          "selectionId": "MultilpleSatisfiedCB",
+          "kind": "selection_control",
+          "field": "MultilpleSatisfiedCB",
+          "type": "checkbox",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 91.68,
+                "y": 126.83,
+                "width": 11.52,
+                "height": 11.52
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "sourceSelection": false,
+          "disposition": "explicit_refusal",
+          "reason": "Never a filing fact on this route: single-misdemeanor standard waiting-period route selects SingleFelonyCB, not this alternate eligibility branch.",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route"
+        },
+        {
+          "selectionId": "FirstClassMailCB",
+          "kind": "selection_control",
+          "field": "FirstClassMailCB",
+          "type": "checkbox",
+          "widgets": [
+            {
+              "page": 4,
+              "rect": {
+                "x": 113.09,
+                "y": 153.91,
+                "width": 11.52,
+                "height": 11.52
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "sourceSelection": false,
+          "disposition": "explicit_refusal",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event.",
+          "blankDisposition": "PROTECTED_FIELD",
+          "category": "protected_field"
+        },
+        {
+          "selectionId": "HandDeliveryCB",
+          "kind": "selection_control",
+          "field": "HandDeliveryCB",
+          "type": "checkbox",
+          "widgets": [
+            {
+              "page": 4,
+              "rect": {
+                "x": 113.09,
+                "y": 130.72,
+                "width": 11.52,
+                "height": 11.52
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "sourceSelection": false,
+          "disposition": "explicit_refusal",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event.",
+          "blankDisposition": "PROTECTED_FIELD",
+          "category": "protected_field"
+        },
+        {
+          "selectionId": "CertifiedMailCB",
+          "kind": "selection_control",
+          "field": "CertifiedMailCB",
+          "type": "checkbox",
+          "widgets": [
+            {
+              "page": 4,
+              "rect": {
+                "x": 113.09,
+                "y": 104.7,
+                "width": 11.52,
+                "height": 11.52
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "sourceSelection": false,
+          "disposition": "explicit_refusal",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event.",
+          "blankDisposition": "PROTECTED_FIELD",
+          "category": "protected_field"
+        },
+        {
+          "selectionId": "CoDrop",
+          "kind": "selection_control",
+          "field": "CoDrop",
+          "type": "dropdown",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 47.52,
+                "y": 769.14,
+                "width": 87.84,
+                "height": 17.28
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "sourceSelection": [
+            "Select County"
+          ],
+          "disposition": "explicit_refusal",
+          "reason": "Viewer UI control; never a filing fact.",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "viewer_control"
+        },
+        {
+          "selectionId": "CurrentOrderCB1",
+          "kind": "selection_control",
+          "field": "CurrentOrderCB1",
+          "type": "checkbox",
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 147.92,
+                "y": 412.34,
+                "width": 11.52,
+                "height": 11.52
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "sourceSelection": false,
+          "disposition": "explicit_refusal",
+          "reason": "Required before filing and surfaced in participant instructions (current-protective-order); the platform does not invent it.",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "category": "required_before_filing",
+          "participantInstructionId": "current-protective-order"
+        },
+        {
+          "selectionId": "CurrentOrderCB2",
+          "kind": "selection_control",
+          "field": "CurrentOrderCB2",
+          "type": "checkbox",
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 147.92,
+                "y": 393.38,
+                "width": 11.52,
+                "height": 11.52
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "sourceSelection": false,
+          "disposition": "explicit_refusal",
+          "reason": "Required before filing and surfaced in participant instructions (current-protective-order); the platform does not invent it.",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "category": "required_before_filing",
+          "participantInstructionId": "current-protective-order"
+        },
+        {
+          "selectionId": "PriorOrderCB1",
+          "kind": "selection_control",
+          "field": "PriorOrderCB1",
+          "type": "checkbox",
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 147.92,
+                "y": 342.34,
+                "width": 11.52,
+                "height": 11.52
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "sourceSelection": false,
+          "disposition": "explicit_refusal",
+          "reason": "Required before filing and surfaced in participant instructions (prior-protective-order); the platform does not invent it.",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "category": "required_before_filing",
+          "participantInstructionId": "prior-protective-order"
+        },
+        {
+          "selectionId": "PriorOrderCB2",
+          "kind": "selection_control",
+          "field": "PriorOrderCB2",
+          "type": "checkbox",
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 147.92,
+                "y": 322.52,
+                "width": 11.52,
+                "height": 11.52
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "sourceSelection": false,
+          "disposition": "explicit_refusal",
+          "reason": "Required before filing and surfaced in participant instructions (prior-protective-order); the platform does not invent it.",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "category": "required_before_filing",
+          "participantInstructionId": "prior-protective-order"
+        },
+        {
+          "selectionId": "ExpungementCB1",
+          "kind": "selection_control",
+          "field": "ExpungementCB1",
+          "type": "checkbox",
+          "widgets": [
+            {
+              "page": 3,
+              "rect": {
+                "x": 148.67,
+                "y": 682.72,
+                "width": 11.52,
+                "height": 11.52
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "sourceSelection": false,
+          "disposition": "explicit_refusal",
+          "reason": "Never a filing fact on this fixture: the known prior-relief answer is No, so ExpungementCB2 is selected instead.",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route"
+        },
+        {
+          "selectionId": "ExpungementCB2",
+          "kind": "selection_control",
+          "field": "ExpungementCB2",
+          "type": "checkbox",
+          "widgets": [
+            {
+              "page": 3,
+              "rect": {
+                "x": 148.67,
+                "y": 662.99,
+                "width": 11.52,
+                "height": 11.52
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "sourceSelection": false,
+          "disposition": "selected_route_or_known_fact",
+          "reason": "Selected from a known case fact held by the fixture."
+        }
+      ],
+      "offeredAnchors": null,
+      "protectedRules": null,
+      "canonicalWrites": [
+        {
+          "field": "CircuitCaseNo",
+          "factId": "matter.case_number",
+          "kind": "overlay_text",
+          "value": "24-CR-001234",
+          "rect": {
+            "x": 424.4,
+            "y": 690.94,
+            "width": 142.56,
+            "height": 17.28
+          },
+          "fontSize": 10,
+          "outcome": "fit",
+          "lines": 1
+        },
+        {
+          "field": "ConvictionDate",
+          "factId": "matter.conviction_date",
+          "kind": "overlay_text",
+          "value": "2019-11-02",
+          "rect": {
+            "x": 424.34,
+            "y": 651.98,
+            "width": 142.68,
+            "height": 17.28
+          },
+          "fontSize": 10,
+          "outcome": "fit",
+          "lines": 1
+        },
+        {
+          "field": "PetAdd1",
+          "factId": "participant.street_address",
+          "kind": "overlay_text",
+          "value": "118 Maple Street",
+          "rect": {
+            "x": 103.88,
+            "y": 603.18,
+            "width": 191.04,
+            "height": 17.28
+          },
+          "fontSize": 10,
+          "outcome": "fit",
+          "lines": 1
+        },
+        {
+          "field": "PetAdd2",
+          "factId": "participant.city_state_zip",
+          "kind": "overlay_text",
+          "value": "Charleston, WV 25301",
+          "rect": {
+            "x": 103.88,
+            "y": 584.87,
+            "width": 191.04,
+            "height": 17.28
+          },
+          "fontSize": 10,
+          "outcome": "fit",
+          "lines": 1
+        },
+        {
+          "field": "PetDOBDay",
+          "factId": "participant.birth_month",
+          "kind": "overlay_text",
+          "value": "04",
+          "rect": {
+            "x": 330.49,
+            "y": 602.75,
+            "width": 26.02,
+            "height": 17.28
+          },
+          "fontSize": 10,
+          "outcome": "fit",
+          "lines": 1
+        },
+        {
+          "field": "PetDOBMonth",
+          "factId": "participant.birth_day",
+          "kind": "overlay_text",
+          "value": "17",
+          "rect": {
+            "x": 362.45,
+            "y": 602.75,
+            "width": 26.02,
+            "height": 17.28
+          },
+          "fontSize": 10,
+          "outcome": "fit",
+          "lines": 1
+        },
+        {
+          "field": "PetDOBYear",
+          "factId": "participant.birth_year",
+          "kind": "overlay_text",
+          "value": "1991",
+          "rect": {
+            "x": 394.77,
+            "y": 602.75,
+            "width": 29.16,
+            "height": 17.28
+          },
+          "fontSize": 10,
+          "outcome": "fit",
+          "lines": 1
+        },
+        {
+          "field": "PetPhoneNum",
+          "factId": "participant.phone",
+          "kind": "overlay_text",
+          "value": "304-555-0142",
+          "rect": {
+            "x": 475.48,
+            "y": 604.79,
+            "width": 92.64,
+            "height": 17.28
+          },
+          "fontSize": 10,
+          "outcome": "fit",
+          "lines": 1
+        },
+        {
+          "field": "PetArrestDate",
+          "factId": "matter.arrest_date",
+          "kind": "overlay_text",
+          "value": "2019-03-08",
+          "rect": {
+            "x": 161.16,
+            "y": 592.52,
+            "width": 395.22,
+            "height": 16.08
+          },
+          "fontSize": 10,
+          "outcome": "fit",
+          "lines": 1
+        },
+        {
+          "field": "County",
+          "factId": "matter.county",
+          "kind": "overlay_text",
+          "value": "Kanawha",
+          "rect": {
+            "x": 214.86,
+            "y": 714.95,
+            "width": 193.31,
+            "height": 17.28
+          },
+          "fontSize": 10,
+          "outcome": "fit",
+          "lines": 1
+        },
+        {
+          "field": "PetitionerName1",
+          "factId": "participant.full_legal_name",
+          "kind": "overlay_text",
+          "value": "Jordan Avery Reyes",
+          "rect": {
+            "x": 47.52,
+            "y": 640.27,
+            "width": 233.52,
+            "height": 17.28
+          },
+          "fontSize": 10,
+          "outcome": "fit",
+          "lines": 1
+        },
+        {
+          "field": "PetitionerName2",
+          "factId": "participant.full_legal_name",
+          "kind": "overlay_text",
+          "value": "Jordan Avery Reyes",
+          "rect": {
+            "x": 93.67,
+            "y": 365.18,
+            "width": 165.45,
+            "height": 17.28
+          },
+          "fontSize": 10,
+          "outcome": "fit",
+          "lines": 1
+        },
+        {
+          "field": "PetitionersCurrentName1",
+          "factId": "participant.full_legal_name",
+          "kind": "overlay_text",
+          "value": "Jordan Avery Reyes",
+          "rect": {
+            "x": 92.16,
+            "y": 717.17,
+            "width": 466.2,
+            "height": -16.08
+          },
+          "fontSize": 10,
+          "outcome": "fit",
+          "lines": 1
+        },
+        {
+          "field": "PetitionersOffenseAddress1",
+          "factId": "participant.current_address",
+          "kind": "overlay_text",
+          "value": "118 Maple Street; Charleston, WV 25301",
+          "rect": {
+            "x": 92.16,
+            "y": 642.11,
+            "width": 466.2,
+            "height": 16.08
+          },
+          "fontSize": 10,
+          "outcome": "fit",
+          "lines": 1
+        },
+        {
+          "field": "Charge1",
+          "factId": "matter.charges[0].charge",
+          "kind": "overlay_text",
+          "value": "Eligible West Virginia misdemeanor conviction",
+          "rect": {
+            "x": 129.96,
+            "y": 478.26,
+            "width": 175.08,
+            "height": 17.28
+          },
+          "fontSize": 8,
+          "outcome": "shrunk",
+          "lines": 1
+        },
+        {
+          "field": "CaseNo1",
+          "factId": "matter.charges[0].case_number",
+          "kind": "overlay_text",
+          "value": "24-CR-001234",
+          "rect": {
+            "x": 378.36,
+            "y": 477.43,
+            "width": 163.08,
+            "height": 17.28
+          },
+          "fontSize": 10,
+          "outcome": "fit",
+          "lines": 1
+        },
+        {
+          "field": "Charges1",
+          "factId": "matter.charges",
+          "kind": "overlay_text",
+          "value": "Eligible West Virginia misdemeanor conviction — case 24-CR-001234",
+          "rect": {
+            "x": 92.16,
+            "y": 543.24,
+            "width": 466.2,
+            "height": 16.08
+          },
+          "fontSize": 10,
+          "outcome": "fit",
+          "lines": 1
+        },
+        {
+          "field": "SingleFelonyCB",
+          "factId": "route.selection",
+          "kind": "selection_mark",
+          "value": "single-misdemeanor standard waiting-period route",
+          "rect": {
+            "x": 91.68,
+            "y": 324.91,
+            "width": 11.52,
+            "height": 11.52
+          },
+          "outcome": "two_diagonal_strokes_inside_measured_source_control",
+          "drewANewBox": false
+        },
+        {
+          "field": "ExpungementCB2",
+          "factId": "screening.prior_relief",
+          "kind": "selection_mark",
+          "value": "No",
+          "rect": {
+            "x": 148.67,
+            "y": 662.99,
+            "width": 11.52,
+            "height": 11.52
+          },
+          "outcome": "two_diagonal_strokes_inside_measured_source_control",
+          "drewANewBox": false
+        }
+      ],
+      "canonicalRefusals": [
+        {
+          "field": "PrintForm",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "viewer_control",
+          "reason": "Viewer UI control; never a filing fact."
+        },
+        {
+          "field": "ResetButton",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "viewer_control",
+          "reason": "Viewer UI control; never a filing fact."
+        },
+        {
+          "field": "MagCaseNo",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "category": "required_before_filing",
+          "participantInstructionId": "lower-court-case-number",
+          "reason": "Required before filing and surfaced in participant instructions (lower-court-case-number); the platform does not invent it."
+        },
+        {
+          "field": "PetSocSecno",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "category": "required_before_filing",
+          "participantInstructionId": "ssn-last-four",
+          "reason": "Required before filing and surfaced in participant instructions (ssn-last-four); the platform does not invent it."
+        },
+        {
+          "field": "Charge2",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: the fixture contains 1 complete offense row(s), so offense row 2 is unused."
+        },
+        {
+          "field": "CaseNo2",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: the fixture contains 1 complete offense row(s), so offense row 2 is unused."
+        },
+        {
+          "field": "Charge3",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: the fixture contains 1 complete offense row(s), so offense row 3 is unused."
+        },
+        {
+          "field": "CaseNo3",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: the fixture contains 1 complete offense row(s), so offense row 3 is unused."
+        },
+        {
+          "field": "Charge4",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: the fixture contains 1 complete offense row(s), so offense row 4 is unused."
+        },
+        {
+          "field": "CaseNo4",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: the fixture contains 1 complete offense row(s), so offense row 4 is unused."
+        },
+        {
+          "field": "SingleFelonyCompletionDate",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "category": "required_before_filing",
+          "participantInstructionId": "eligibility-date",
+          "reason": "Required before filing and surfaced in participant instructions (eligibility-date); the platform does not invent it."
+        },
+        {
+          "field": "MultipleFelonyCB",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: single-misdemeanor standard waiting-period route selects SingleFelonyCB, not this alternate eligibility branch."
+        },
+        {
+          "field": "MultipleFelonyCompletionDate",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: single-misdemeanor standard waiting-period route selects SingleFelonyCB, not this alternate eligibility branch."
+        },
+        {
+          "field": "SingleSatisfiedCB",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: single-misdemeanor standard waiting-period route selects SingleFelonyCB, not this alternate eligibility branch."
+        },
+        {
+          "field": "SingleFelonySatisfiesDate",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: single-misdemeanor standard waiting-period route selects SingleFelonyCB, not this alternate eligibility branch."
+        },
+        {
+          "field": "MultilpleSatisfiedCB",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: single-misdemeanor standard waiting-period route selects SingleFelonyCB, not this alternate eligibility branch."
+        },
+        {
+          "field": "MulitipleFelonlySatisfiesDate",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: single-misdemeanor standard waiting-period route selects SingleFelonyCB, not this alternate eligibility branch."
+        },
+        {
+          "field": "CertifyName",
+          "blankDisposition": "PROTECTED_FIELD",
+          "category": "protected_field",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event."
+        },
+        {
+          "field": "CertifyDay",
+          "blankDisposition": "PROTECTED_FIELD",
+          "category": "protected_field",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event."
+        },
+        {
+          "field": "CertifyMonth",
+          "blankDisposition": "PROTECTED_FIELD",
+          "category": "protected_field",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event."
+        },
+        {
+          "field": "CertifyYear",
+          "blankDisposition": "PROTECTED_FIELD",
+          "category": "protected_field",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event."
+        },
+        {
+          "field": "ProsecutingAttCounty",
+          "blankDisposition": "PROTECTED_FIELD",
+          "category": "protected_field",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event."
+        },
+        {
+          "field": "ProsecutingAttAdd",
+          "blankDisposition": "PROTECTED_FIELD",
+          "category": "protected_field",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event."
+        },
+        {
+          "field": "MagDisposedCharges",
+          "blankDisposition": "PROTECTED_FIELD",
+          "category": "protected_field",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event."
+        },
+        {
+          "field": "MunicipalDisposedCharges",
+          "blankDisposition": "PROTECTED_FIELD",
+          "category": "protected_field",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event."
+        },
+        {
+          "field": "FirstClassMailCB",
+          "blankDisposition": "PROTECTED_FIELD",
+          "category": "protected_field",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event."
+        },
+        {
+          "field": "HandDeliveryCB",
+          "blankDisposition": "PROTECTED_FIELD",
+          "category": "protected_field",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event."
+        },
+        {
+          "field": "CertifiedMailCB",
+          "blankDisposition": "PROTECTED_FIELD",
+          "category": "protected_field",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event."
+        },
+        {
+          "field": "SignDate",
+          "blankDisposition": "PROTECTED_FIELD",
+          "category": "protected_field",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event."
+        },
+        {
+          "field": "CoDrop",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "viewer_control",
+          "reason": "Viewer UI control; never a filing fact."
+        },
+        {
+          "field": "PetitionersCurrentName2",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "category": "required_before_filing",
+          "participantInstructionId": "prior-names-and-aliases",
+          "reason": "Required before filing and surfaced in participant instructions (prior-names-and-aliases); the platform does not invent it."
+        },
+        {
+          "field": "Charges2",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: the complete single-offense description fits the first charge line, so this continuation line is unused."
+        },
+        {
+          "field": "VictimsNames1",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "category": "required_before_filing",
+          "participantInstructionId": "victim-information",
+          "reason": "Required before filing and surfaced in participant instructions (victim-information); the platform does not invent it."
+        },
+        {
+          "field": "VictimsNames2",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "category": "required_before_filing",
+          "participantInstructionId": "victim-information",
+          "reason": "Required before filing and surfaced in participant instructions (victim-information); the platform does not invent it."
+        },
+        {
+          "field": "Verdict1",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "category": "required_before_filing",
+          "participantInstructionId": "verdict-and-punishment",
+          "reason": "Required before filing and surfaced in participant instructions (verdict-and-punishment); the platform does not invent it."
+        },
+        {
+          "field": "Verdict2",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "category": "required_before_filing",
+          "participantInstructionId": "verdict-and-punishment",
+          "reason": "Required before filing and surfaced in participant instructions (verdict-and-punishment); the platform does not invent it."
+        },
+        {
+          "field": "GroundsForExpungement1",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "category": "required_before_filing",
+          "participantInstructionId": "grounds-for-expungement",
+          "reason": "Required before filing and surfaced in participant instructions (grounds-for-expungement); the platform does not invent it."
+        },
+        {
+          "field": "GroundsForExpungement2",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "category": "required_before_filing",
+          "participantInstructionId": "grounds-for-expungement",
+          "reason": "Required before filing and surfaced in participant instructions (grounds-for-expungement); the platform does not invent it."
+        },
+        {
+          "field": "RehabilitationSteps1",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "category": "required_before_filing",
+          "participantInstructionId": "rehabilitation-history",
+          "reason": "Required before filing and surfaced in participant instructions (rehabilitation-history); the platform does not invent it."
+        },
+        {
+          "field": "RehabilitationSteps2",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "category": "required_before_filing",
+          "participantInstructionId": "rehabilitation-history",
+          "reason": "Required before filing and surfaced in participant instructions (rehabilitation-history); the platform does not invent it."
+        },
+        {
+          "field": "RehabilitationSteps3",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "category": "required_before_filing",
+          "participantInstructionId": "rehabilitation-history",
+          "reason": "Required before filing and surfaced in participant instructions (rehabilitation-history); the platform does not invent it."
+        },
+        {
+          "field": "RehabilitationSteps4",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "category": "required_before_filing",
+          "participantInstructionId": "rehabilitation-history",
+          "reason": "Required before filing and surfaced in participant instructions (rehabilitation-history); the platform does not invent it."
+        },
+        {
+          "field": "RehabilitationSteps5",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "category": "required_before_filing",
+          "participantInstructionId": "rehabilitation-history",
+          "reason": "Required before filing and surfaced in participant instructions (rehabilitation-history); the platform does not invent it."
+        },
+        {
+          "field": "StatePoliceSuperintendent1",
+          "blankDisposition": "PROTECTED_FIELD",
+          "category": "protected_field",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event."
+        },
+        {
+          "field": "OffensesCommittedAt1",
+          "blankDisposition": "PROTECTED_FIELD",
+          "category": "protected_field",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event."
+        },
+        {
+          "field": "OffensesCommittedAt2",
+          "blankDisposition": "PROTECTED_FIELD",
+          "category": "protected_field",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event."
+        },
+        {
+          "field": "ChiefLEO1",
+          "blankDisposition": "PROTECTED_FIELD",
+          "category": "protected_field",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event."
+        },
+        {
+          "field": "ChiefLEO2",
+          "blankDisposition": "PROTECTED_FIELD",
+          "category": "protected_field",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event."
+        },
+        {
+          "field": "ConfinedInstitution1",
+          "blankDisposition": "PROTECTED_FIELD",
+          "category": "protected_field",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event."
+        },
+        {
+          "field": "ConfinedInstitution2",
+          "blankDisposition": "PROTECTED_FIELD",
+          "category": "protected_field",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event."
+        },
+        {
+          "field": "CircuitDisposedCharges",
+          "blankDisposition": "PROTECTED_FIELD",
+          "category": "protected_field",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event."
+        },
+        {
+          "field": "CurrentOrderCB1",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "category": "required_before_filing",
+          "participantInstructionId": "current-protective-order",
+          "reason": "Required before filing and surfaced in participant instructions (current-protective-order); the platform does not invent it."
+        },
+        {
+          "field": "CurrentOrderCB2",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "category": "required_before_filing",
+          "participantInstructionId": "current-protective-order",
+          "reason": "Required before filing and surfaced in participant instructions (current-protective-order); the platform does not invent it."
+        },
+        {
+          "field": "PriorOrderCB1",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "category": "required_before_filing",
+          "participantInstructionId": "prior-protective-order",
+          "reason": "Required before filing and surfaced in participant instructions (prior-protective-order); the platform does not invent it."
+        },
+        {
+          "field": "PriorOrderCB2",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "category": "required_before_filing",
+          "participantInstructionId": "prior-protective-order",
+          "reason": "Required before filing and surfaced in participant instructions (prior-protective-order); the platform does not invent it."
+        },
+        {
+          "field": "ExpungementCB1",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this fixture: the known prior-relief answer is No, so ExpungementCB2 is selected instead."
+        }
+      ],
+      "boundaryWrites": [
+        {
+          "field": "CircuitCaseNo",
+          "factId": "matter.case_number",
+          "kind": "overlay_text",
+          "value": "2026-CR-900123-EXTENDED",
+          "rect": {
+            "x": 424.4,
+            "y": 690.94,
+            "width": 142.56,
+            "height": 17.28
+          },
+          "fontSize": 10,
+          "outcome": "fit",
+          "lines": 1
+        },
+        {
+          "field": "ConvictionDate",
+          "factId": "matter.conviction_date",
+          "kind": "overlay_text",
+          "value": "2019-11-02",
+          "rect": {
+            "x": 424.34,
+            "y": 651.98,
+            "width": 142.68,
+            "height": 17.28
+          },
+          "fontSize": 10,
+          "outcome": "fit",
+          "lines": 1
+        },
+        {
+          "field": "PetAdd1",
+          "factId": "participant.street_address",
+          "kind": "overlay_text",
+          "value": "12345 Southwest Grandview Boulevard Northeast Apt 4321-B",
+          "rect": {
+            "x": 103.88,
+            "y": 603.18,
+            "width": 191.04,
+            "height": 17.28
+          },
+          "fontSize": 6.5,
+          "outcome": "shrunk",
+          "lines": 1
+        },
+        {
+          "field": "PetAdd2",
+          "factId": "participant.city_state_zip",
+          "kind": "overlay_text",
+          "value": "Long Hollow Crossing, WV 25301-9999",
+          "rect": {
+            "x": 103.88,
+            "y": 584.87,
+            "width": 191.04,
+            "height": 17.28
+          },
+          "fontSize": 10,
+          "outcome": "fit",
+          "lines": 1
+        },
+        {
+          "field": "PetDOBDay",
+          "factId": "participant.birth_month",
+          "kind": "overlay_text",
+          "value": "04",
+          "rect": {
+            "x": 330.49,
+            "y": 602.75,
+            "width": 26.02,
+            "height": 17.28
+          },
+          "fontSize": 10,
+          "outcome": "fit",
+          "lines": 1
+        },
+        {
+          "field": "PetDOBMonth",
+          "factId": "participant.birth_day",
+          "kind": "overlay_text",
+          "value": "17",
+          "rect": {
+            "x": 362.45,
+            "y": 602.75,
+            "width": 26.02,
+            "height": 17.28
+          },
+          "fontSize": 10,
+          "outcome": "fit",
+          "lines": 1
+        },
+        {
+          "field": "PetDOBYear",
+          "factId": "participant.birth_year",
+          "kind": "overlay_text",
+          "value": "1991",
+          "rect": {
+            "x": 394.77,
+            "y": 602.75,
+            "width": 29.16,
+            "height": 17.28
+          },
+          "fontSize": 10,
+          "outcome": "fit",
+          "lines": 1
+        },
+        {
+          "field": "PetPhoneNum",
+          "factId": "participant.phone",
+          "kind": "overlay_text",
+          "value": "304-555-0142 x44821",
+          "rect": {
+            "x": 475.48,
+            "y": 604.79,
+            "width": 92.64,
+            "height": 17.28
+          },
+          "fontSize": 8.5,
+          "outcome": "shrunk",
+          "lines": 1
+        },
+        {
+          "field": "PetArrestDate",
+          "factId": "matter.arrest_date",
+          "kind": "overlay_text",
+          "value": "2019-03-08",
+          "rect": {
+            "x": 161.16,
+            "y": 592.52,
+            "width": 395.22,
+            "height": 16.08
+          },
+          "fontSize": 10,
+          "outcome": "fit",
+          "lines": 1
+        },
+        {
+          "field": "County",
+          "factId": "matter.county",
+          "kind": "overlay_text",
+          "value": "Kanawha",
+          "rect": {
+            "x": 214.86,
+            "y": 714.95,
+            "width": 193.31,
+            "height": 17.28
+          },
+          "fontSize": 10,
+          "outcome": "fit",
+          "lines": 1
+        },
+        {
+          "field": "PetitionerName1",
+          "factId": "participant.full_legal_name",
+          "kind": "overlay_text",
+          "value": "Alexandrina Montgomery-Vandenberg Fitzwilliam",
+          "rect": {
+            "x": 47.52,
+            "y": 640.27,
+            "width": 233.52,
+            "height": 17.28
+          },
+          "fontSize": 10,
+          "outcome": "fit",
+          "lines": 1
+        },
+        {
+          "field": "PetitionerName2",
+          "factId": "participant.full_legal_name",
+          "kind": "overlay_text",
+          "value": "Alexandrina Montgomery-Vandenberg Fitzwilliam",
+          "rect": {
+            "x": 93.67,
+            "y": 365.18,
+            "width": 165.45,
+            "height": 17.28
+          },
+          "fontSize": 7,
+          "outcome": "shrunk",
+          "lines": 1
+        },
+        {
+          "field": "PetitionersCurrentName1",
+          "factId": "participant.full_legal_name",
+          "kind": "overlay_text",
+          "value": "Alexandrina Montgomery-Vandenberg Fitzwilliam",
+          "rect": {
+            "x": 92.16,
+            "y": 717.17,
+            "width": 466.2,
+            "height": -16.08
+          },
+          "fontSize": 10,
+          "outcome": "fit",
+          "lines": 1
+        },
+        {
+          "field": "PetitionersOffenseAddress1",
+          "factId": "participant.current_address",
+          "kind": "overlay_text",
+          "value": "12345 Southwest Grandview Boulevard Northeast Apt 4321-B; Long Hollow Crossing, WV 25301-9999",
+          "rect": {
+            "x": 92.16,
+            "y": 642.11,
+            "width": 466.2,
+            "height": 16.08
+          },
+          "fontSize": 10,
+          "outcome": "fit",
+          "lines": 1
+        },
+        {
+          "field": "Charge1",
+          "factId": "matter.charges[0].charge",
+          "kind": "overlay_text",
+          "value": "Eligible WV misdemeanor conviction — extended count",
+          "rect": {
+            "x": 129.96,
+            "y": 478.26,
+            "width": 175.08,
+            "height": 17.28
+          },
+          "fontSize": 6.5,
+          "outcome": "shrunk",
+          "lines": 1
+        },
+        {
+          "field": "CaseNo1",
+          "factId": "matter.charges[0].case_number",
+          "kind": "overlay_text",
+          "value": "2026-CR-900123-EXTENDED",
+          "rect": {
+            "x": 378.36,
+            "y": 477.43,
+            "width": 163.08,
+            "height": 17.28
+          },
+          "fontSize": 10,
+          "outcome": "fit",
+          "lines": 1
+        },
+        {
+          "field": "Charges1",
+          "factId": "matter.charges",
+          "kind": "overlay_text",
+          "value": "Eligible WV misdemeanor conviction — extended count — case 2026-CR-900123-EXTENDED",
+          "rect": {
+            "x": 92.16,
+            "y": 543.24,
+            "width": 466.2,
+            "height": 16.08
+          },
+          "fontSize": 10,
+          "outcome": "fit",
+          "lines": 1
+        },
+        {
+          "field": "SingleFelonyCB",
+          "factId": "route.selection",
+          "kind": "selection_mark",
+          "value": "single-misdemeanor standard waiting-period route",
+          "rect": {
+            "x": 91.68,
+            "y": 324.91,
+            "width": 11.52,
+            "height": 11.52
+          },
+          "outcome": "two_diagonal_strokes_inside_measured_source_control",
+          "drewANewBox": false
+        },
+        {
+          "field": "ExpungementCB2",
+          "factId": "screening.prior_relief",
+          "kind": "selection_mark",
+          "value": "No",
+          "rect": {
+            "x": 148.67,
+            "y": 662.99,
+            "width": 11.52,
+            "height": 11.52
+          },
+          "outcome": "two_diagonal_strokes_inside_measured_source_control",
+          "drewANewBox": false
+        }
+      ],
+      "boundaryRefusals": [
+        {
+          "field": "PrintForm",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "viewer_control",
+          "reason": "Viewer UI control; never a filing fact."
+        },
+        {
+          "field": "ResetButton",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "viewer_control",
+          "reason": "Viewer UI control; never a filing fact."
+        },
+        {
+          "field": "MagCaseNo",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "category": "required_before_filing",
+          "participantInstructionId": "lower-court-case-number",
+          "reason": "Required before filing and surfaced in participant instructions (lower-court-case-number); the platform does not invent it."
+        },
+        {
+          "field": "PetSocSecno",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "category": "required_before_filing",
+          "participantInstructionId": "ssn-last-four",
+          "reason": "Required before filing and surfaced in participant instructions (ssn-last-four); the platform does not invent it."
+        },
+        {
+          "field": "Charge2",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: the fixture contains 1 complete offense row(s), so offense row 2 is unused."
+        },
+        {
+          "field": "CaseNo2",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: the fixture contains 1 complete offense row(s), so offense row 2 is unused."
+        },
+        {
+          "field": "Charge3",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: the fixture contains 1 complete offense row(s), so offense row 3 is unused."
+        },
+        {
+          "field": "CaseNo3",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: the fixture contains 1 complete offense row(s), so offense row 3 is unused."
+        },
+        {
+          "field": "Charge4",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: the fixture contains 1 complete offense row(s), so offense row 4 is unused."
+        },
+        {
+          "field": "CaseNo4",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: the fixture contains 1 complete offense row(s), so offense row 4 is unused."
+        },
+        {
+          "field": "SingleFelonyCompletionDate",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "category": "required_before_filing",
+          "participantInstructionId": "eligibility-date",
+          "reason": "Required before filing and surfaced in participant instructions (eligibility-date); the platform does not invent it."
+        },
+        {
+          "field": "MultipleFelonyCB",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: single-misdemeanor standard waiting-period route selects SingleFelonyCB, not this alternate eligibility branch."
+        },
+        {
+          "field": "MultipleFelonyCompletionDate",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: single-misdemeanor standard waiting-period route selects SingleFelonyCB, not this alternate eligibility branch."
+        },
+        {
+          "field": "SingleSatisfiedCB",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: single-misdemeanor standard waiting-period route selects SingleFelonyCB, not this alternate eligibility branch."
+        },
+        {
+          "field": "SingleFelonySatisfiesDate",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: single-misdemeanor standard waiting-period route selects SingleFelonyCB, not this alternate eligibility branch."
+        },
+        {
+          "field": "MultilpleSatisfiedCB",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: single-misdemeanor standard waiting-period route selects SingleFelonyCB, not this alternate eligibility branch."
+        },
+        {
+          "field": "MulitipleFelonlySatisfiesDate",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: single-misdemeanor standard waiting-period route selects SingleFelonyCB, not this alternate eligibility branch."
+        },
+        {
+          "field": "CertifyName",
+          "blankDisposition": "PROTECTED_FIELD",
+          "category": "protected_field",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event."
+        },
+        {
+          "field": "CertifyDay",
+          "blankDisposition": "PROTECTED_FIELD",
+          "category": "protected_field",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event."
+        },
+        {
+          "field": "CertifyMonth",
+          "blankDisposition": "PROTECTED_FIELD",
+          "category": "protected_field",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event."
+        },
+        {
+          "field": "CertifyYear",
+          "blankDisposition": "PROTECTED_FIELD",
+          "category": "protected_field",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event."
+        },
+        {
+          "field": "ProsecutingAttCounty",
+          "blankDisposition": "PROTECTED_FIELD",
+          "category": "protected_field",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event."
+        },
+        {
+          "field": "ProsecutingAttAdd",
+          "blankDisposition": "PROTECTED_FIELD",
+          "category": "protected_field",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event."
+        },
+        {
+          "field": "MagDisposedCharges",
+          "blankDisposition": "PROTECTED_FIELD",
+          "category": "protected_field",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event."
+        },
+        {
+          "field": "MunicipalDisposedCharges",
+          "blankDisposition": "PROTECTED_FIELD",
+          "category": "protected_field",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event."
+        },
+        {
+          "field": "FirstClassMailCB",
+          "blankDisposition": "PROTECTED_FIELD",
+          "category": "protected_field",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event."
+        },
+        {
+          "field": "HandDeliveryCB",
+          "blankDisposition": "PROTECTED_FIELD",
+          "category": "protected_field",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event."
+        },
+        {
+          "field": "CertifiedMailCB",
+          "blankDisposition": "PROTECTED_FIELD",
+          "category": "protected_field",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event."
+        },
+        {
+          "field": "SignDate",
+          "blankDisposition": "PROTECTED_FIELD",
+          "category": "protected_field",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event."
+        },
+        {
+          "field": "CoDrop",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "viewer_control",
+          "reason": "Viewer UI control; never a filing fact."
+        },
+        {
+          "field": "PetitionersCurrentName2",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "category": "required_before_filing",
+          "participantInstructionId": "prior-names-and-aliases",
+          "reason": "Required before filing and surfaced in participant instructions (prior-names-and-aliases); the platform does not invent it."
+        },
+        {
+          "field": "Charges2",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: the complete single-offense description fits the first charge line, so this continuation line is unused."
+        },
+        {
+          "field": "VictimsNames1",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "category": "required_before_filing",
+          "participantInstructionId": "victim-information",
+          "reason": "Required before filing and surfaced in participant instructions (victim-information); the platform does not invent it."
+        },
+        {
+          "field": "VictimsNames2",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "category": "required_before_filing",
+          "participantInstructionId": "victim-information",
+          "reason": "Required before filing and surfaced in participant instructions (victim-information); the platform does not invent it."
+        },
+        {
+          "field": "Verdict1",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "category": "required_before_filing",
+          "participantInstructionId": "verdict-and-punishment",
+          "reason": "Required before filing and surfaced in participant instructions (verdict-and-punishment); the platform does not invent it."
+        },
+        {
+          "field": "Verdict2",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "category": "required_before_filing",
+          "participantInstructionId": "verdict-and-punishment",
+          "reason": "Required before filing and surfaced in participant instructions (verdict-and-punishment); the platform does not invent it."
+        },
+        {
+          "field": "GroundsForExpungement1",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "category": "required_before_filing",
+          "participantInstructionId": "grounds-for-expungement",
+          "reason": "Required before filing and surfaced in participant instructions (grounds-for-expungement); the platform does not invent it."
+        },
+        {
+          "field": "GroundsForExpungement2",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "category": "required_before_filing",
+          "participantInstructionId": "grounds-for-expungement",
+          "reason": "Required before filing and surfaced in participant instructions (grounds-for-expungement); the platform does not invent it."
+        },
+        {
+          "field": "RehabilitationSteps1",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "category": "required_before_filing",
+          "participantInstructionId": "rehabilitation-history",
+          "reason": "Required before filing and surfaced in participant instructions (rehabilitation-history); the platform does not invent it."
+        },
+        {
+          "field": "RehabilitationSteps2",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "category": "required_before_filing",
+          "participantInstructionId": "rehabilitation-history",
+          "reason": "Required before filing and surfaced in participant instructions (rehabilitation-history); the platform does not invent it."
+        },
+        {
+          "field": "RehabilitationSteps3",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "category": "required_before_filing",
+          "participantInstructionId": "rehabilitation-history",
+          "reason": "Required before filing and surfaced in participant instructions (rehabilitation-history); the platform does not invent it."
+        },
+        {
+          "field": "RehabilitationSteps4",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "category": "required_before_filing",
+          "participantInstructionId": "rehabilitation-history",
+          "reason": "Required before filing and surfaced in participant instructions (rehabilitation-history); the platform does not invent it."
+        },
+        {
+          "field": "RehabilitationSteps5",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "category": "required_before_filing",
+          "participantInstructionId": "rehabilitation-history",
+          "reason": "Required before filing and surfaced in participant instructions (rehabilitation-history); the platform does not invent it."
+        },
+        {
+          "field": "StatePoliceSuperintendent1",
+          "blankDisposition": "PROTECTED_FIELD",
+          "category": "protected_field",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event."
+        },
+        {
+          "field": "OffensesCommittedAt1",
+          "blankDisposition": "PROTECTED_FIELD",
+          "category": "protected_field",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event."
+        },
+        {
+          "field": "OffensesCommittedAt2",
+          "blankDisposition": "PROTECTED_FIELD",
+          "category": "protected_field",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event."
+        },
+        {
+          "field": "ChiefLEO1",
+          "blankDisposition": "PROTECTED_FIELD",
+          "category": "protected_field",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event."
+        },
+        {
+          "field": "ChiefLEO2",
+          "blankDisposition": "PROTECTED_FIELD",
+          "category": "protected_field",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event."
+        },
+        {
+          "field": "ConfinedInstitution1",
+          "blankDisposition": "PROTECTED_FIELD",
+          "category": "protected_field",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event."
+        },
+        {
+          "field": "ConfinedInstitution2",
+          "blankDisposition": "PROTECTED_FIELD",
+          "category": "protected_field",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event."
+        },
+        {
+          "field": "CircuitDisposedCharges",
+          "blankDisposition": "PROTECTED_FIELD",
+          "category": "protected_field",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event."
+        },
+        {
+          "field": "CurrentOrderCB1",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "category": "required_before_filing",
+          "participantInstructionId": "current-protective-order",
+          "reason": "Required before filing and surfaced in participant instructions (current-protective-order); the platform does not invent it."
+        },
+        {
+          "field": "CurrentOrderCB2",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "category": "required_before_filing",
+          "participantInstructionId": "current-protective-order",
+          "reason": "Required before filing and surfaced in participant instructions (current-protective-order); the platform does not invent it."
+        },
+        {
+          "field": "PriorOrderCB1",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "category": "required_before_filing",
+          "participantInstructionId": "prior-protective-order",
+          "reason": "Required before filing and surfaced in participant instructions (prior-protective-order); the platform does not invent it."
+        },
+        {
+          "field": "PriorOrderCB2",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "category": "required_before_filing",
+          "participantInstructionId": "prior-protective-order",
+          "reason": "Required before filing and surfaced in participant instructions (prior-protective-order); the platform does not invent it."
+        },
+        {
+          "field": "ExpungementCB1",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this fixture: the known prior-relief answer is No, so ExpungementCB2 is selected instead."
+        }
+      ]
+    },
+    {
+      "formNumber": "SCA-C900",
+      "documentPolicy": {
+        "mode": "reference_only_no_fill",
+        "reason": "SCA-C900 is the instructions/reference component; its embedded petition is materially out of date and SCA-C906 is operative.",
+        "captionOnly": false,
+        "documentAcceptsFill": false
+      },
+      "structuralClass": "acroform",
+      "explicitMappings": {},
+      "roleRefusals": [],
+      "selectionControls": [
+        {
+          "selectionId": "CoDrop",
+          "kind": "selection_control",
+          "field": "CoDrop",
+          "type": "dropdown",
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 31.55,
+                "y": 767.08,
+                "width": 87.84,
+                "height": 17.28
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "sourceSelection": [
+            "Select County"
+          ],
+          "disposition": "explicit_refusal",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route"
+        },
+        {
+          "selectionId": "RestitutionCB1",
+          "kind": "selection_control",
+          "field": "RestitutionCB1",
+          "type": "checkbox",
+          "widgets": [
+            {
+              "page": 3,
+              "rect": {
+                "x": 111.1,
+                "y": 68.67,
+                "width": 11.52,
+                "height": 11.52
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "sourceSelection": false,
+          "disposition": "explicit_refusal",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route"
+        },
+        {
+          "selectionId": "RestitutionCB2",
+          "kind": "selection_control",
+          "field": "RestitutionCB2",
+          "type": "checkbox",
+          "widgets": [
+            {
+              "page": 3,
+              "rect": {
+                "x": 111.1,
+                "y": 52.65,
+                "width": 11.52,
+                "height": 11.52
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "sourceSelection": false,
+          "disposition": "explicit_refusal",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route"
+        },
+        {
+          "selectionId": "PriorRestitutionCB1",
+          "kind": "selection_control",
+          "field": "PriorRestitutionCB1",
+          "type": "checkbox",
+          "widgets": [
+            {
+              "page": 4,
+              "rect": {
+                "x": 111.73,
+                "y": 711.92,
+                "width": 11.52,
+                "height": 11.52
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "sourceSelection": false,
+          "disposition": "explicit_refusal",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route"
+        },
+        {
+          "selectionId": "PriorRestitutionCB2",
+          "kind": "selection_control",
+          "field": "PriorRestitutionCB2",
+          "type": "checkbox",
+          "widgets": [
+            {
+              "page": 4,
+              "rect": {
+                "x": 111.79,
+                "y": 694.76,
+                "width": 11.52,
+                "height": 11.52
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "sourceSelection": false,
+          "disposition": "explicit_refusal",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route"
+        },
+        {
+          "selectionId": "GrantedCB1",
+          "kind": "selection_control",
+          "field": "GrantedCB1",
+          "type": "checkbox",
+          "widgets": [
+            {
+              "page": 4,
+              "rect": {
+                "x": 101.27,
+                "y": 369.72,
+                "width": 11.52,
+                "height": 11.52
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "sourceSelection": false,
+          "disposition": "explicit_refusal",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route"
+        },
+        {
+          "selectionId": "GrantedCB2",
+          "kind": "selection_control",
+          "field": "GrantedCB2",
+          "type": "checkbox",
+          "widgets": [
+            {
+              "page": 4,
+              "rect": {
+                "x": 101.27,
+                "y": 354.23,
+                "width": 11.52,
+                "height": 11.52
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "sourceSelection": false,
+          "disposition": "explicit_refusal",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route"
+        },
+        {
+          "selectionId": "DeliveryCB1",
+          "kind": "selection_control",
+          "field": "DeliveryCB1",
+          "type": "checkbox",
+          "widgets": [
+            {
+              "page": 5,
+              "rect": {
+                "x": 92.37,
+                "y": 138.68,
+                "width": 11.52,
+                "height": 11.52
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "sourceSelection": false,
+          "disposition": "explicit_refusal",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route"
+        },
+        {
+          "selectionId": "DeliveryCB2",
+          "kind": "selection_control",
+          "field": "DeliveryCB2",
+          "type": "checkbox",
+          "widgets": [
+            {
+              "page": 5,
+              "rect": {
+                "x": 92.37,
+                "y": 120.49,
+                "width": 11.52,
+                "height": 11.52
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "sourceSelection": false,
+          "disposition": "explicit_refusal",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route"
+        },
+        {
+          "selectionId": "DeliveryCB3",
+          "kind": "selection_control",
+          "field": "DeliveryCB3",
+          "type": "checkbox",
+          "widgets": [
+            {
+              "page": 5,
+              "rect": {
+                "x": 92.37,
+                "y": 102.17,
+                "width": 11.52,
+                "height": 11.52
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "sourceSelection": false,
+          "disposition": "explicit_refusal",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route"
+        }
+      ],
+      "offeredAnchors": null,
+      "protectedRules": null,
+      "canonicalWrites": [],
+      "canonicalRefusals": [
+        {
+          "field": "ResetButton",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "PrintForm",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "CoDrop",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "CircuitCaseNo1",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "Petitioner1",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "Petitioner2",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "Offense1",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "Offense2",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "CaseNo",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "OffenseDate",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "Petitioner3",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "DOB",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "Petitioner4",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "Petitioner5",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "PetitionerNames1",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "PetitionerNames2",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "PetitionerAddress1",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "PetitionerAddress2",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "PetitionerDOB",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "PetitionerSSN",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "DateOfArrest",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "Jurisdiction",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "ComplaintNumber",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "Statute1",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "Statute2",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "Statute3",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "VictimName1",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "VictimName2",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "VictimName3",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "ApplicableDate",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "RestitutionCB1",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "RestitutionCB2",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "PriorRestitutionCB1",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "PriorRestitutionCB2",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "Disposition1",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "Disposition2",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "Disposition3",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "Reason1",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "Reason2",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "Reason3",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "Steps1",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "Steps2",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "GrantedCB1",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "County",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "LowerCaseNo1",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "CircuitCaseNo2",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "LowerCaseNo2",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "Petitioner6",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "Steps3",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "StatePolice1",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "County2",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "PACounty2",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "StatePolice2",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "PAAddress1",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "PAAddress2",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "MunicipalAdd2",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "MunicipalAdd1",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "InstitutionAdd1",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "InstitutionAdd2",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "MagCourtAdd1",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "MagCourtAdd2",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "OtherAgencyAdd1",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "OtherAgencyAdd2",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "GrantedCB2",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "DeliveryCB1",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "DeliveryCB2",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "DeliveryCB3",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        }
+      ],
+      "boundaryWrites": [],
+      "boundaryRefusals": [
+        {
+          "field": "ResetButton",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "PrintForm",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "CoDrop",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "CircuitCaseNo1",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "Petitioner1",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "Petitioner2",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "Offense1",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "Offense2",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "CaseNo",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "OffenseDate",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "Petitioner3",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "DOB",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "Petitioner4",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "Petitioner5",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "PetitionerNames1",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "PetitionerNames2",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "PetitionerAddress1",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "PetitionerAddress2",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "PetitionerDOB",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "PetitionerSSN",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "DateOfArrest",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "Jurisdiction",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "ComplaintNumber",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "Statute1",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "Statute2",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "Statute3",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "VictimName1",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "VictimName2",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "VictimName3",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "ApplicableDate",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "RestitutionCB1",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "RestitutionCB2",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "PriorRestitutionCB1",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "PriorRestitutionCB2",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "Disposition1",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "Disposition2",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "Disposition3",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "Reason1",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "Reason2",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "Reason3",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "Steps1",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "Steps2",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "GrantedCB1",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "County",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "LowerCaseNo1",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "CircuitCaseNo2",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "LowerCaseNo2",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "Petitioner6",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "Steps3",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "StatePolice1",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "County2",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "PACounty2",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "StatePolice2",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "PAAddress1",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "PAAddress2",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "MunicipalAdd2",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "MunicipalAdd1",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "InstitutionAdd1",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "InstitutionAdd2",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "MagCourtAdd1",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "MagCourtAdd2",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "OtherAgencyAdd1",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "OtherAgencyAdd2",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "GrantedCB2",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "DeliveryCB1",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "DeliveryCB2",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        },
+        {
+          "field": "DeliveryCB3",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "category": "not_applicable_on_this_route",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition."
+        }
+      ]
+    }
+  ],
+  "completenessRepair": {
+    "assignmentId": "P3_WV_CONVICTION_COMPLETENESS",
+    "controlBaseSha": "33dfea59fe85b9dc86469d12e04fd65c51b480fa",
+    "dispatchCommit": "4d1408a40eeb77f51bdf18ba35a13db579b21129",
+    "operativePetition": "SCA-C906",
+    "referenceOnlyComponent": "SCA-C900",
+    "participantInstructions": "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/participant-instructions.md"
+  },
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "commercialRoutesOpened": 0
+}

@@ -1,0 +1,476 @@
+{
+  "schemaVersion": "1.0.0",
+  "assignment": {
+    "id": "C3_SPLIT_AGENCY_PROSECUTOR_APPLICATION",
+    "workerBranch": "codex/c3-split-agency-prosecutor-application",
+    "baseSha": "227f095d5d1493feca56779cf60c6f177caebd61",
+    "recordedAt": "2026-08-30",
+    "classificationOnly": true
+  },
+  "guardrails": {
+    "commercialRoutesOpened": 0,
+    "productionTouched": false,
+    "packetFamiliesNamedNotCreated": [
+      "rcap-ak-participant-agency-application",
+      "rcap-md-official-pdf-fill",
+      "rcap-mi-official-pdf-fill",
+      "rcap-ny-official-pdf-fill"
+    ],
+    "launchState": "HOLD",
+    "rule": "A controlled B stage never becomes sellable. A participant A branch remains closed unless an exact Grade-A fulfilment record later authorizes its own route and packet family."
+  },
+  "summary": {
+    "assignedRouteCount": 4,
+    "completedRouteCount": 2,
+    "newBranchIdentitiesCreated": 2,
+    "reuseCrosswalksConfirmed": 0,
+    "stoppedAndReportedCount": 2
+  },
+  "records": [
+    {
+      "jurisdiction": "AK",
+      "publicLabel": "Agency Confidentiality Of Non-Conviction Records",
+      "originalRouteKey": "obligation:track-only:AK:ak-nonconviction-confidential",
+      "assignmentReuseDecision": "NO_EXISTING_WORK",
+      "completionStatus": "COMPLETE_NEW_IDENTITY_RECORDED_WITH_ROUTE_BOUNDARIES",
+      "retainedBStage": {
+        "routeKey": "obligation:track-only:AK:ak-nonconviction-confidential",
+        "stageKind": "The confidentiality restriction follows the qualifying disposition and is implemented by DPS and other criminal-justice custodians without a petition.",
+        "participantFiles": "Nothing. This is the agency-controlled confidentiality stage.",
+        "selector": {
+          "id": "obligation:track-only:AK:ak-nonconviction-confidential::controlled-stage",
+          "match": "A qualifying non-conviction disposition under AS 12.62.160(b)(8), without a claimed record defect or participant backstop request."
+        },
+        "outputStrategy": {
+          "id": "process_guidance",
+          "mode": "non_filing"
+        },
+        "productOutcome": {
+          "id": "guidance_only",
+          "description": "Explain the confidentiality rule and how to verify the record; do not produce a participant filing."
+        },
+        "commercialTreatment": {
+          "id": "never_sellable_controlled_stage",
+          "currentState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP"
+        }
+      },
+      "participantABranch": {
+        "routeKey": "obligation:track-only:AK:ak-nonconviction-confidential::participant-branch",
+        "identityStatus": "NEW_IDENTITY_RECORDED",
+        "packetFamily": {
+          "id": "rcap-ak-participant-agency-application",
+          "status": "NAMED_NOT_CREATED"
+        },
+        "selector": {
+          "id": "obligation:track-only:AK:ak-nonconviction-confidential::participant-branch::record-defect",
+          "match": "The qualifying record remains inaccurate, incomplete, publicly disseminated, or lacks the disposition that makes it confidential.",
+          "exclude": "Mistaken-identity and false-accusation sealing must use the existing AS 12.62.180 route; a final adverse agency decision requires the separate review handoff."
+        },
+        "outputStrategy": {
+          "id": "participant_agency_application",
+          "mode": "proposed_correction_and_agency_review_only"
+        },
+        "productOutcome": {
+          "id": "packet_ready_with_caution",
+          "mode": "agency_application",
+          "status": "NOT_FULFILLED"
+        },
+        "commercialTreatment": {
+          "id": "fail_closed_until_exact_grade_a_fulfilment_record",
+          "currentState": "NO_APPROVED_TRACK_RUNTIME_OR_GRADE_A_FULFILLMENT_RECORD"
+        },
+        "filingActor": "The record subject.",
+        "instrument": "DPS-CRI-103 Request to Correct Criminal Justice Information and a Request for Final Administrative Decision after denial.",
+        "documentIdentities": [
+          {
+            "id": "DPS-CRI-103",
+            "title": "Request to Correct Criminal Justice Information in Alaska Public Safety Information Network",
+            "status": "HELD_VERIFIED_IN_COMMITTED_SOURCE_RECORD"
+          }
+        ],
+        "relatedParticipantMechanisms": [
+          {
+            "routeKey": "obligation:track-pathway:AK:ak-mistaken-identity:sealing-for-mistaken-identity-or-false-accusation-as-12-62-180",
+            "documentId": "DPS-SEAL-REQ-2-04",
+            "documentTitle": "Request to Seal Criminal Justice Information",
+            "outputStrategy": "official_pdf_fill",
+            "routing": "Use this existing route for mistaken identity or false accusation; do not send it through the new correction identity."
+          }
+        ],
+        "destination": "Alaska Department of Public Safety, Criminal Records and Identification Bureau/Quality Assurance Unit; DPS may forward the request to the contributing agency.",
+        "trigger": "A non-conviction entry is inaccurate, incomplete, lacks the disposition that makes it confidential, or remains publicly disseminated.",
+        "deadline": "No deadline for the initial correction request. A request for the commissioner's final administrative decision is due within 30 days after the repository's written denial.",
+        "requiredComponents": "Identity and contact information; each disputed record item; requested correction; case or arrest identifiers; signed attestation; supporting disposition; and proof of identity.",
+        "serviceOrNotice": "No adversarial service. DPS decides or forwards the request and must give written notice of denial and review rights.",
+        "feeOrWaiver": "No correction filing fee is stated. A separate record-copy fee may apply.",
+        "selfHelpStop": "Stop after a final administrative denial, when identity or false-accusation facts are disputed, or when judicial review or damages are sought."
+      },
+      "separationProof": {
+        "selector": {
+          "distinct": true,
+          "b": "qualifying disposition without a participant defect claim",
+          "a": "record defect plus participant correction request"
+        },
+        "outputStrategy": {
+          "distinct": true,
+          "b": "process_guidance",
+          "a": "participant_agency_application"
+        },
+        "productOutcome": {
+          "distinct": true,
+          "b": "guidance_only",
+          "a": "packet_ready_with_caution"
+        },
+        "commercialTreatment": {
+          "distinct": true,
+          "b": "never_sellable_controlled_stage",
+          "a": "fail_closed_until_exact_grade_a_fulfilment_record"
+        }
+      },
+      "scopeNotes": [
+        "The assignment's NO_EXISTING_WORK result means no form-level match was attempted; it is not a claim that no related route exists.",
+        "The new identity is bounded to a non-conviction confidentiality defect and the DPS correction or agency-review process.",
+        "Mistaken-identity or false-accusation sealing continues to use obligation:track-pathway:AK:ak-mistaken-identity:sealing-for-mistaken-identity-or-false-accusation-as-12-62-180 and DPS-SEAL-REQ-2-04.",
+        "The committed decision-only ak-correct-record route is related evidence, not an approved track/runtime identity. Future integration must reconcile it without collapsing the selectors or output strategies.",
+        "A final adverse agency decision hands off to judicial review; it is not part of this agency-application output."
+      ],
+      "evidence": [
+        "data/rcap-grade-a/launch-control/CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json#rows[0]",
+        "data/rcap-grade-a/launch-control/CATEGORY_B_STAGE_BRANCH_CROSSWALK.json#pairs[0]",
+        "data/rcap-grade-a/launch-control/category-b-revalidation/results.json#rows[0]",
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json#obligation:unattached-decision-route:AK:ak-correct-record",
+        "data/rcap-grade-a/route-obligation-census-v1/source-queue-reconciliation.json#DPS-CRI-103"
+      ]
+    },
+    {
+      "jurisdiction": "MD",
+      "publicLabel": "Checking whether the one-time cannabis clearing already covered your case",
+      "originalRouteKey": "obligation:track-only:MD:md_10112_dpscs_cannabis",
+      "assignmentReuseDecision": "REUSE_AS_IS",
+      "completionStatus": "STOPPED_UNRESOLVED_CROSSWALK",
+      "retainedBStage": {
+        "routeKey": "obligation:track-only:MD:md_10112_dpscs_cannabis",
+        "stageKind": "DPSCS was required to purge qualifying cannabis-possession-only cases by July 1, 2024.",
+        "participantFiles": "Nothing. This is the one-time DPSCS purge stage.",
+        "selector": {
+          "id": "obligation:track-only:MD:md_10112_dpscs_cannabis::controlled-stage",
+          "match": "A qualifying cannabis-possession-only record being checked for the one-time section 10-112 purge."
+        },
+        "outputStrategy": {
+          "id": "process_guidance",
+          "mode": "non_filing"
+        },
+        "productOutcome": {
+          "id": "guidance_only",
+          "description": "Explain purge status and escalation paths without producing a participant filing."
+        },
+        "commercialTreatment": {
+          "id": "never_sellable_controlled_stage",
+          "currentState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP"
+        }
+      },
+      "participantABranch": {
+        "routeKey": "obligation:track-pathway:MD:md_10105_favorable:adult-non-conviction-expungement-under-crim-proc-10-105",
+        "identityStatus": "EXISTING_IDENTITY_REUSE_STOPPED",
+        "packetFamily": {
+          "id": "rcap-md-official-pdf-fill",
+          "status": "NAMED_NOT_CREATED"
+        },
+        "existingPacketSetId": "md_10105_favorable-set",
+        "selector": {
+          "id": "obligation:track-pathway:MD:md_10105_favorable:adult-non-conviction-expungement-under-crim-proc-10-105::participant-filing",
+          "match": "A participant-filed section 10-105 matter within the md_10105_favorable track and adult-non-conviction pathway.",
+          "scopeWarning": "This selector does not cover every cannabis conviction and does not identify the DPSCS correction submission."
+        },
+        "outputStrategy": {
+          "id": "official_pdf_fill",
+          "mode": "existing_route_identity_only"
+        },
+        "productOutcome": {
+          "id": "packet_ready_with_caution",
+          "serviceDisposition": "paid_packet_intended",
+          "status": "NOT_FULFILLED"
+        },
+        "commercialTreatment": {
+          "id": "fail_closed_until_exact_grade_a_fulfilment_record",
+          "currentState": "LAUNCH_GRAPH_CLOSED"
+        },
+        "filingActor": "The person charged or convicted.",
+        "instrument": "CC-DC-CR-072A Petition for Expungement under section 10-105; DPSCS/CJIS record-correction request for a missed section 10-112 purge.",
+        "documentIdentities": [
+          {
+            "id": "CC-DC-CR-072A",
+            "title": "Petition for Expungement of Records",
+            "status": "IDENTIFIED_IN_COMMITTED_COMPILED_PROFILE_SOURCE_NOT_HELD"
+          }
+        ],
+        "destination": "The court of disposition for the petition; DPSCS CJIS/Central Repository for correction.",
+        "trigger": "The cannabis-possession-only case was not removed by the July 1, 2024 purge, is independently eligible under section 10-105, or remains on the state record.",
+        "deadline": "The agency purge was due July 1, 2024. A section 10-105 petition follows its disposition-specific waiting rules; the committed worklist records no separate filing deadline. Correction is requested after discovery.",
+        "requiredComponents": "Case number, charge and disposition, identity information, CC-DC-CR-072A and any waiver or release, plus a copy of the record showing the uncorrected entry.",
+        "serviceOrNotice": "The clerk gives statutory notice to the State's Attorney and agencies. Administrative correction is directed to DPSCS.",
+        "feeOrWaiver": "No court filing fee for the expungement petition; a record-copy fee may apply.",
+        "selfHelpStop": "Stop for mixed charges, disputed eligibility, State objection, or DPSCS refusal requiring court action."
+      },
+      "separationProof": {
+        "selector": {
+          "distinct": true,
+          "b": "one-time agency purge check",
+          "a": "participant-filed section 10-105 route"
+        },
+        "outputStrategy": {
+          "distinct": true,
+          "b": "process_guidance",
+          "a": "official_pdf_fill"
+        },
+        "productOutcome": {
+          "distinct": true,
+          "b": "guidance_only",
+          "a": "packet_ready_with_caution"
+        },
+        "commercialTreatment": {
+          "distinct": true,
+          "b": "never_sellable_controlled_stage",
+          "a": "fail_closed_until_exact_grade_a_fulfilment_record"
+        }
+      },
+      "stopReport": {
+        "reason": "The generated match confirms CC-DC-CR-072A only. It does not bind the DPSCS correction request, and the committed cannabis-specific route uses CC-DC-CR-072D for cannabis charges or convictions. The full REUSE_AS_IS crosswalk is therefore not confirmed.",
+        "conflictingRouteKey": "obligation:track-pathway:MD:md_cannabis_petition:cannabis-specific-expungement",
+        "requiredResolution": "Define the eligible case scope, identify the DPSCS correction instrument, and resolve the 072A versus 072D route boundary."
+      },
+      "evidence": [
+        "data/rcap-grade-a/launch-control/CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json#rows[18]",
+        "data/rcap-grade-a/launch-control/CATEGORY_B_STAGE_BRANCH_CROSSWALK.json#pairs[18]",
+        "data/rcap-grade-a/launch-control/category-b-revalidation/results.json#rows[18]",
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json#obligation:track-pathway:MD:md_10105_favorable:adult-non-conviction-expungement-under-crim-proc-10-105",
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json#obligation:track-pathway:MD:md_cannabis_petition:cannabis-specific-expungement"
+      ]
+    },
+    {
+      "jurisdiction": "MI",
+      "publicLabel": "Clearing fingerprints and an arrest card when you were never charged",
+      "originalRouteKey": "obligation:track-only:MI:mi_arrest_no_charge",
+      "assignmentReuseDecision": "NO_EXISTING_WORK",
+      "completionStatus": "COMPLETE_NEW_IDENTITY_RECORDED",
+      "retainedBStage": {
+        "routeKey": "obligation:track-only:MI:mi_arrest_no_charge",
+        "stageKind": "The arresting or reporting agency and MSP perform the statutory destruction or correction.",
+        "participantFiles": "Nothing when the statutory ministerial destruction occurs as required.",
+        "selector": {
+          "id": "obligation:track-only:MI:mi_arrest_no_charge::controlled-stage",
+          "match": "The person was arrested and released without charge, and no residual-record or reporting defect is asserted."
+        },
+        "outputStrategy": {
+          "id": "process_guidance",
+          "mode": "non_filing"
+        },
+        "productOutcome": {
+          "id": "guidance_only",
+          "description": "Explain the ministerial destruction rule and verification steps."
+        },
+        "commercialTreatment": {
+          "id": "never_sellable_controlled_stage",
+          "currentState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP"
+        }
+      },
+      "participantABranch": {
+        "routeKey": "obligation:track-only:MI:mi_arrest_no_charge::participant-branch",
+        "identityStatus": "NEW_IDENTITY_RECORDED",
+        "packetFamily": {
+          "id": "rcap-mi-official-pdf-fill",
+          "status": "NAMED_NOT_CREATED"
+        },
+        "selector": {
+          "id": "obligation:track-only:MI:mi_arrest_no_charge::participant-branch::residual-record",
+          "match": "No charge was filed or prosecution was declined, and arrest data remains or is reported inaccurately.",
+          "exclude": "Acquittal or dismissal after charge belongs to the separate mi_arrest_acquittal_dismissal selector even if both routes use MC 235."
+        },
+        "outputStrategy": {
+          "id": "official_pdf_fill",
+          "mode": "participant_correction_or_enforcement"
+        },
+        "productOutcome": {
+          "id": "packet_ready_with_caution",
+          "status": "NOT_FULFILLED"
+        },
+        "commercialTreatment": {
+          "id": "fail_closed_until_exact_grade_a_fulfilment_record",
+          "currentState": "NO_APPROVED_ROUTE_ARTIFACT_OR_GRADE_A_FULFILLMENT_RECORD"
+        },
+        "filingActor": "The person whose arrest record remains.",
+        "instrument": "Written correction or deletion request to the reporting agency and MSP; MC 235 or other judicial enforcement filing when a court order is required.",
+        "documentIdentities": [
+          {
+            "id": "MC-235",
+            "title": "Michigan Court form MC 235",
+            "officialUrl": "https://www.courts.michigan.gov/4a7f97/siteassets/forms/scao-approved/mc235.pdf",
+            "status": "IDENTIFIED_BY_COMMITTED_OFFICIAL_PROCESS_RECORD_SOURCE_NOT_HELD"
+          }
+        ],
+        "destination": "The arresting or reporting agency and MSP; the appropriate trial or circuit court for judicial enforcement.",
+        "trigger": "No charge was filed or prosecution was declined, but arrest data remains or is reported inaccurately.",
+        "deadline": "No short administrative deadline is recorded. Submit after no-charge status is established or the stale entry is discovered.",
+        "requiredComponents": "Identity and contact information; arrest date and agency; incident or tracking number; proof no charge was filed; copy of the challenged record; and fingerprints if needed.",
+        "serviceOrNotice": "Submit to the contributor and MSP. A court filing must serve the responsible custodian or prosecutor as required.",
+        "feeOrWaiver": "No fee for a correction request. Record, fingerprint, or civil-action costs may apply; court fee waivers are available.",
+        "selfHelpStop": "Stop if no-charge status or identity is disputed, the agency refuses correction, or civil enforcement becomes contested."
+      },
+      "separationProof": {
+        "selector": {
+          "distinct": true,
+          "b": "never charged with no asserted residual record",
+          "a": "never charged plus residual or inaccurate arrest data"
+        },
+        "outputStrategy": {
+          "distinct": true,
+          "b": "process_guidance",
+          "a": "official_pdf_fill"
+        },
+        "productOutcome": {
+          "distinct": true,
+          "b": "guidance_only",
+          "a": "packet_ready_with_caution"
+        },
+        "commercialTreatment": {
+          "distinct": true,
+          "b": "never_sellable_controlled_stage",
+          "a": "fail_closed_until_exact_grade_a_fulfilment_record"
+        }
+      },
+      "scopeNotes": [
+        "The runtime needs a reviewed no-charge fact; a conviction answer must not be used as a proxy.",
+        "MC 235 and the named packet family may be shared with the separate acquittal or dismissal route, but the route selectors must remain distinct.",
+        "This record identifies the branch. It does not create a packet, acquire the MC 235 source, map fields, or authorize launch."
+      ],
+      "evidence": [
+        "data/rcap-grade-a/launch-control/CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json#rows[22]",
+        "data/rcap-grade-a/launch-control/CATEGORY_B_STAGE_BRANCH_CROSSWALK.json#pairs[22]",
+        "data/rcap-grade-a/launch-control/category-b-revalidation/results.json#rows[22]",
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json#obligation:track-only:MI:mi_arrest_no_charge"
+      ]
+    },
+    {
+      "jurisdiction": "NY",
+      "publicLabel": "New York Clean Slate",
+      "originalRouteKey": "obligation:track-pathway:NY:ny_clean_slate_convictions:automatic-clean-slate-sealing-under-cpl-160-57",
+      "assignmentReuseDecision": "REUSE_AS_IS",
+      "completionStatus": "STOPPED_UNRESOLVED_CROSSWALK",
+      "retainedBStage": {
+        "routeKey": "obligation:track-pathway:NY:ny_clean_slate_convictions:automatic-clean-slate-sealing-under-cpl-160-57",
+        "stageKind": "UCS and DCJS must automatically seal eligible convictions on a phased basis within the implementation window.",
+        "participantFiles": "Nothing for ordinary automatic sealing under CPL 160.57.",
+        "selector": {
+          "id": "obligation:track-pathway:NY:ny_clean_slate_convictions:automatic-clean-slate-sealing-under-cpl-160-57::controlled-stage",
+          "match": "The ny_clean_slate_convictions track and automatic-clean-slate-sealing-under-cpl-160-57 pathway, before a missed-record review or separately eligible court petition is asserted."
+        },
+        "outputStrategy": {
+          "id": "process_guidance",
+          "mode": "automatic_relief_verification_and_guidance"
+        },
+        "productOutcome": {
+          "id": "guidance_only",
+          "serviceDisposition": "non_filing_guidance"
+        },
+        "commercialTreatment": {
+          "id": "never_sellable_controlled_stage",
+          "currentState": "NO_GRADE_A_FULFILLMENT_RECORD"
+        }
+      },
+      "participantABranch": {
+        "routeKey": "obligation:track-pathway:NY:ny_160_59_petition:discretionary-conviction-sealing-by-petition-under-cpl-160-59",
+        "identityStatus": "EXISTING_IDENTITY_REUSE_STOPPED",
+        "bindingScope": "The generated match reaches only the separately eligible CPL 160.59 court-filing component. It does not bind the full assigned participant instrument.",
+        "packetFamily": {
+          "id": "rcap-ny-official-pdf-fill",
+          "status": "NAMED_NOT_CREATED"
+        },
+        "existingPacketSetId": "ny_160_59_petition-set",
+        "selector": {
+          "id": "obligation:track-pathway:NY:ny_160_59_petition:discretionary-conviction-sealing-by-petition-under-cpl-160-59::participant-filing",
+          "match": "The person independently satisfies the CPL 160.59 ten-year and eligibility rules and elects discretionary sealing by petition.",
+          "exclude": "A record that merely remains unsealed during the CPL 160.57 implementation window; UCS manual review and DCJS data correction require separate process treatment."
+        },
+        "outputStrategy": {
+          "id": "official_pdf_fill",
+          "mode": "existing_cpl_160_59_packet_set"
+        },
+        "productOutcome": {
+          "id": "packet_ready_with_caution",
+          "serviceDisposition": "paid_packet_intended",
+          "status": "NOT_FULFILLED"
+        },
+        "commercialTreatment": {
+          "id": "fail_closed_until_exact_grade_a_fulfilment_record",
+          "currentState": "LAUNCH_GRAPH_CLOSED"
+        },
+        "filingActor": "The person convicted, or counsel.",
+        "instrument": "For the crosswalked scope, the existing CPL 160.59 sealing application and its committed companion forms.",
+        "documentIdentities": [
+          {
+            "id": "CPL-160.59-APPLICATION",
+            "title": "CPL 160.59 Notice of Motion and Affidavit in Support of Sealing",
+            "status": "HELD_IN_COMMITTED_SOURCE_REGISTRY"
+          },
+          {
+            "id": "CPL-160.59-PRO-SE-PACKET",
+            "status": "HELD_IN_COMMITTED_SOURCE_REGISTRY"
+          },
+          {
+            "id": "CPL-160.59-COD-REQUEST",
+            "status": "HELD_IN_COMMITTED_SOURCE_REGISTRY"
+          },
+          {
+            "id": "CPL-160.59-SEAL-VERIFICATION",
+            "status": "HELD_IN_COMMITTED_SOURCE_REGISTRY"
+          }
+        ],
+        "destination": "The superior criminal court for the CPL 160.59 application; file in the court of conviction and serve the county district attorney.",
+        "trigger": "The person independently qualifies for discretionary conviction sealing under CPL 160.59.",
+        "deadline": "No separate filing deadline is recorded. The statutory waiting rule is at least ten years from sentencing or release, whichever is later, subject to extensions for later incarceration.",
+        "requiredComponents": "CPL-160.59-APPLICATION; a Certificate of Disposition for each case; the pro se packet; sworn prior-application statement; rehabilitation material; service proof; and post-order verification.",
+        "serviceOrNotice": "Serve the county district attorney with proof. The district attorney may oppose, and the court may hold a hearing.",
+        "feeOrWaiver": "Court filing charges and waivers follow UCS rules.",
+        "selfHelpStop": "Stop for disputed time calculations, pending-charge tolling, registry or offense exclusions, prosecutor opposition, or appeal."
+      },
+      "separationProof": {
+        "selector": {
+          "distinct": true,
+          "b": "automatic CPL 160.57 route",
+          "a": "independently eligible CPL 160.59 petition"
+        },
+        "outputStrategy": {
+          "distinct": true,
+          "b": "process_guidance",
+          "a": "official_pdf_fill"
+        },
+        "productOutcome": {
+          "distinct": true,
+          "b": "guidance_only",
+          "a": "packet_ready_with_caution"
+        },
+        "commercialTreatment": {
+          "distinct": true,
+          "b": "never_sellable_controlled_stage",
+          "a": "fail_closed_until_exact_grade_a_fulfilment_record"
+        }
+      },
+      "scopeNotes": [
+        "No committed CPL 160.57 manual-review form ID or specific DCJS challenge form was found.",
+        "The proposed crosswalk must not claim that the CPL 160.59 court packet performs UCS manual review or DCJS correction.",
+        "REUSE_AS_IS reuses the canonical route identity, not a completed packet implementation."
+      ],
+      "stopReport": {
+        "reason": "The CPL 160.59 form match covers only the discretionary court petition. The assigned participant instrument also includes CPL 160.57(e) manual review and a DCJS record challenge, and neither action is bound to the existing A route.",
+        "requiredResolution": "Identify and route the manual-review and DCJS challenge processes, then confirm whether they require separate participant_agency_application identities before approving any reuse crosswalk."
+      },
+      "evidence": [
+        "data/rcap-grade-a/launch-control/CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json#rows[40]",
+        "data/rcap-grade-a/launch-control/CATEGORY_B_STAGE_BRANCH_CROSSWALK.json#pairs[37]",
+        "data/rcap-grade-a/launch-control/category-b-revalidation/results.json#rows[40]",
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json#obligation:track-pathway:NY:ny_160_59_petition:discretionary-conviction-sealing-by-petition-under-cpl-160-59",
+        "data/rcap-grade-a/official-source-registry.json#CPL-160.59-APPLICATION"
+      ]
+    }
+  ]
+}

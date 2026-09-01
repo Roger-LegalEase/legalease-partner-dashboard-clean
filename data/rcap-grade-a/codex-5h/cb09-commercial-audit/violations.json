@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "cb09-commercial-violations/v1",
+  "familyCountAudited": 77,
+  "familyAuthorityViolations": [],
+  "counts": {
+    "commercialAuthorityViolations": 0,
+    "sponsorshipAuthorityViolations": 0,
+    "passCompleteWithoutRasterPass": 0,
+    "stalePacketAuthority": 0,
+    "participantWritablePaymentBypasses": 0,
+    "auditGateDefects": 3
+  },
+  "auditGateDefects": [
+    {
+      "id": "CB09-GATE-001",
+      "severity": "high",
+      "scope": "scripts/verify-rcap-grade-a-fulfillment-hardening.mjs",
+      "finding": "The focused hardening mutation gate is red because its synthetic complete artifact omits the now-required producedBy provenance and deterministic-render proof. The baseline is denied, so its downstream denial matrix is not currently probative.",
+      "runtimeAuthorityOpened": false,
+      "proposalId": "CB09-PATCH-001"
+    },
+    {
+      "id": "CB09-GATE-002",
+      "severity": "medium",
+      "scope": "scripts/verify-expungement-consumer-checkout.mjs",
+      "finding": "The checkout verifier contains stale source-text expectations: it expects the old packetStatus ternary although the webhook explicitly writes pending after queue admission, and requires pathway_label metadata that the current adapter does not emit. The verifier is red; manual inspection did not establish a participant-writable payment bypass.",
+      "runtimeAuthorityOpened": false,
+      "proposalId": "CB09-PATCH-002"
+    },
+    {
+      "id": "CB09-GATE-003",
+      "severity": "medium",
+      "scope": "scripts/verify-expungement-briefcase-delivery.mjs",
+      "finding": "The delivery verifier reports MA as not a paid route and cannot complete its DB-backed check without Supabase environment variables. This is a fail-closed finding, not evidence of opened delivery, but leaves the focused delivery gate red.",
+      "runtimeAuthorityOpened": false,
+      "proposalId": "CB09-PATCH-003"
+    }
+  ],
+  "negativeEvidence": {
+    "commerciallyEligibleRegistryRecords": 0,
+    "launchGraphOperationallySellable": 0,
+    "checkpointCompletePacketProven": 0,
+    "checkpointCommercialRoutesOpened": 0,
+    "checkpointProductionTouched": false
+  }
+}

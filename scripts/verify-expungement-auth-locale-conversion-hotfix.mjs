@@ -51,7 +51,7 @@ assert(!landingLocaleController.includes("removeItem(EXPUNGEMENT_LOCALE_STORAGE_
 
 // Landing dictionaries must contain the actual visible Spanish and English hero copy that Roger saw.
 includes(homepageCopy, "The law is complicated. Your next step should not be.", "approved homepage English hero copy");
-includes(homepageCopy, 'hero_cta1: "Start free"', "approved homepage English CTA copy");
+includes(homepageCopy, 'hero_cta1: "Check my options"', "approved homepage English CTA copy");
 
 // Account gate: conversion intent defaults to create-account; header sign-in remains sign-in.
 includes(consumerSignInForm, 'type AuthMode = "create" | "signin"', "account gate two-state mode");
