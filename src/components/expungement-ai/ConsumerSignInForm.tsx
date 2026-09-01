@@ -54,40 +54,6 @@ export function ConsumerSignInForm({
   ));
   const { claimToken } = requestContext;
 
-  // The server passes only the validated handoff kind, so password fields are
-  // never painted for an authenticated post-reset retry. On mount, read the
-  // opaque claim from the URL, consume the flags before starting any async
-  // work, and let the module-level one-shot guard absorb Strict Mode replays.
-  useEffect(() => {
-    const search = new URLSearchParams(window.location.search);
-    const continuation = consumerAuthContinuationFrom(search);
-    const recoveryHandoff = consumerClaimRecoveryHandoffFrom(search);
-    setRequestContext(continuation);
-    if (continuation.locale) setLocale(continuation.locale);
-
-    if (recoveryHandoff !== "none") {
-      const cleanPath = consumerSignInAfterRecoveryPath(continuation, recoveryHandoff);
-      window.history.replaceState(window.history.state, "", cleanPath);
-    }
-
-    if (recoveryHandoff === "definitive_error") {
-      setRequestContext({ ...continuation, claimToken: "" });
-      setClaimRecoveryState("definitive_error");
-      setErrorMessage("");
-    } else if (recoveryHandoff === "retry") {
-      setClaimRecoveryState("saving");
-      setIsSubmitting(true);
-      void runConsumerClaimRecoveryOnce(continuation.claimToken, submitClaim).then((attempt) => {
-        if (attempt.kind === "duplicate") return;
-        applyClaimAttempt(attempt.result);
-      });
-    }
-
-    const syncRequestContext = () => setRequestContext(readAuthRequestContext());
-    window.addEventListener("popstate", syncRequestContext);
-    return () => window.removeEventListener("popstate", syncRequestContext);
-  }, [setLocale]);
-
   function applyClaimAttempt(claimed: Awaited<ReturnType<typeof submitClaim>>) {
     if (claimed.ok) {
       window.location.assign(claimed.redirectTo);
@@ -108,6 +74,49 @@ export function ConsumerSignInForm({
     setClaimRecoveryState("definitive_error");
     setErrorMessage("");
   }
+
+  // The server passes only the validated handoff kind, so password fields are
+  // never painted for an authenticated post-reset retry. On mount, read the
+  // opaque claim from the URL, consume the flags before starting any async
+  // work, and let the module-level one-shot guard absorb Strict Mode replays.
+  useEffect(() => {
+    const search = new URLSearchParams(window.location.search);
+    const continuation = consumerAuthContinuationFrom(search);
+    const recoveryHandoff = consumerClaimRecoveryHandoffFrom(search);
+
+    if (recoveryHandoff !== "none") {
+      const cleanPath = consumerSignInAfterRecoveryPath(continuation, recoveryHandoff);
+      window.history.replaceState(window.history.state, "", cleanPath);
+    }
+
+    let active = true;
+    queueMicrotask(() => {
+      if (!active) return;
+      setRequestContext(recoveryHandoff === "definitive_error"
+        ? { ...continuation, claimToken: "" }
+        : continuation);
+      if (continuation.locale) setLocale(continuation.locale);
+
+      if (recoveryHandoff === "definitive_error") {
+        setClaimRecoveryState("definitive_error");
+        setErrorMessage("");
+      } else if (recoveryHandoff === "retry") {
+        setClaimRecoveryState("saving");
+        setIsSubmitting(true);
+        void runConsumerClaimRecoveryOnce(continuation.claimToken, submitClaim).then((attempt) => {
+          if (attempt.kind === "duplicate") return;
+          applyClaimAttempt(attempt.result);
+        });
+      }
+    });
+
+    const syncRequestContext = () => setRequestContext(readAuthRequestContext());
+    window.addEventListener("popstate", syncRequestContext);
+    return () => {
+      active = false;
+      window.removeEventListener("popstate", syncRequestContext);
+    };
+  }, [setLocale]);
 
   // The claim token is read from the URL on every attempt and never stashed in
   // localStorage. submitClaim strips it after success or a definitive denial;
