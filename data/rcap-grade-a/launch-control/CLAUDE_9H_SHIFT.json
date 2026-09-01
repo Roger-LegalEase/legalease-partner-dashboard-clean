@@ -134,6 +134,39 @@
       "returned": "FIX01, FIX03, FIX05, FIX07 -- 9 families, 880 defects down to 46; ri_nonconviction_sealing-set to zero on all nine counters. Fleet knownRequiredFieldsMissing 1198->725, unclassifiedBlanks 779->455.",
       "awaitingCrossVerification": true,
       "note": "Every family returned BUILT_RASTER_PENDING and visualDefects reads zero only because nobody has looked. Not PASS_COMPLETE."
+    },
+    "VF-SRC-A": {
+      "assignedAt": "2026-09-01T08:20:52Z",
+      "lane": "XVF-A",
+      "kind": "independent-verification",
+      "families": [
+        "va_seal_petition_misdemeanor-set",
+        "va_seal_petition_felony-set",
+        "va_seal_enumerated_seven_year-set",
+        "va_seal_ancillary_matter_only-set"
+      ],
+      "builtBy": "PF-A",
+      "whyThisIsIndependent": "VF-SRC-A neither built nor repaired any Virginia family, and has not previously verified one. Its phase-1 lanes VF01-VF06 covered different families entirely.",
+      "verify": "exact canonical and boundary hashes recomputed from disk, component sets, field evidence, blank classifications, protected fields, and nonvisual completeness. Modify no packet and no overlay.",
+      "rasterRule": "There is no central RASTER_PASS for these yet, so the correct verdict ceiling is BUILT_RASTER_PENDING. Do not return PASS_COMPLETE for any family, however clean the nonvisual evidence is.",
+      "returnVocabulary": "only the prompt's closed verdict set"
+    },
+    "VF-SRC-B": {
+      "assignedAt": "2026-09-01T08:20:52Z",
+      "lane": "XVF-B",
+      "kind": "independent-verification",
+      "families": [
+        "ak-tf800-set",
+        "ct-cleanslate-petition-set"
+      ],
+      "builtBy": "PF-C",
+      "whyThisIsIndependent": "VF-SRC-B neither built nor repaired either family, and its phase-1 lanes VF07-VF12 covered Utah and Vermont, not Alaska or Connecticut.",
+      "verify": "same contract as XVF-A.",
+      "specialAttention": {
+        "rasterLocalPendingCentral": "ak-tf800-set carries page rasters PF-C produced in its own container. They are NOT gate receipts: uncalibrated runner, no canary, no negative controls, and no receipt binding them to the queue's pinned hashes. The declared state RASTER_LOCAL_PENDING_CENTRAL proves nothing and authorizes nothing. Treat it as RASTER_PENDING and do not let the presence of PNGs read as a visual pass.",
+        "doNotInheritTheBuildersVerdict": "PF-C returned COMPLETED on its own nonvisual measurements. That is the claim under test, not evidence for it."
+      },
+      "rasterRule": "same as XVF-A: BUILT_RASTER_PENDING is the ceiling until the central workflow issues a hash-bound RASTER_PASS."
     }
   },
   "integratedReturns": [],
@@ -253,5 +286,42 @@
       }
     }
   },
-  "reDispatchNote": "Re-dispatch is by lane, not by claim. No claim was released and no family is owned by two workers: PF-B and FIX-B wrote nothing to any family, so there is no partial state to reconcile."
+  "reDispatchNote": "Re-dispatch is by lane, not by claim. No claim was released and no family is owned by two workers: PF-B and FIX-B wrote nothing to any family, so there is no partial state to reconcile.",
+  "crossVerificationLedger": [
+    {
+      "lane": "XVF-A",
+      "verifier": "VF-SRC-A",
+      "subjectBuiltBy": "PF-A",
+      "selfVerification": false
+    },
+    {
+      "lane": "XVF-B",
+      "verifier": "VF-SRC-B",
+      "subjectBuiltBy": "PF-C",
+      "selfVerification": false
+    }
+  ],
+  "crossVerificationRules": {
+    "neverAllowed": [
+      "builder verifies own packet",
+      "repairer verifies own repair",
+      "a prior verifier repeating the same packet as the supposed independent read",
+      "one family with two active verification owners"
+    ],
+    "pendingIndependentRead": {
+      "note": "FIX-A's nine repaired families still need an independent read by a worker that did not repair them. Not assigned yet: VF-SRC-A and VF-SRC-B are both occupied above, and assigning a third lane to either would create two active verification owners on the same worker's queue.",
+      "families": [
+        "ri_nonconviction_sealing-set",
+        "pa_490_nonconviction-set",
+        "az_marijuana_expungement_arrest_no_charges-set",
+        "pa_9122_1_limited_access-set",
+        "ny_160_59_petition-set",
+        "ca-851-91-set",
+        "nj_arrest_no_conviction-set",
+        "nj_indictable_conviction-set",
+        "ca-1203-42-set"
+      ],
+      "routeWhen": "whichever of VF-SRC-A or VF-SRC-B returns first"
+    }
+  }
 }
