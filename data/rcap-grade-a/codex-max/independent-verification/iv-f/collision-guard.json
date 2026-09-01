@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "rcap-independent-verification-collision-guard/v1",
+  "assignment": "IV-F",
+  "recordedAt": "2026-09-01T10:00:00Z",
+  "controlsReadBeforePacketEvidence": [
+    "data/rcap-grade-a/launch-control/CLAUDE_9H_SHIFT.json",
+    "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
+    "data/rcap-grade-a/packet-factory-24h/CLAIM_LEDGER_REPAIR.json",
+    "data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
+    "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+    "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+  ],
+  "families": [
+    {
+      "familyId": "wa_vac_domestic_violence-set",
+      "activeClaudeVerificationOwnerAcquiredAfterDispatch": false,
+      "packetBytesActivelyRewritten": false,
+      "decision": "PROCEED_READ_ONLY",
+      "existingClaim": { "lane": "VF15", "operation": "independent-verification", "released": false },
+      "rationale": "The committed claim ledger contains a pre-existing VF15 verification claim, but the current Claude shift and active-assignment controls do not identify an active Claude owner or an active packet-byte rewrite."
+    },
+    {
+      "familyId": "wa_vac_felony-set",
+      "activeClaudeVerificationOwnerAcquiredAfterDispatch": false,
+      "packetBytesActivelyRewritten": false,
+      "decision": "PROCEED_READ_ONLY",
+      "existingClaim": { "lane": "VF15", "operation": "independent-verification", "released": false },
+      "rationale": "The committed claim ledger contains a pre-existing VF15 verification claim, but the current Claude shift and active-assignment controls do not identify an active Claude owner or an active packet-byte rewrite."
+    },
+    {
+      "familyId": "wa_vac_homicide_victim_prostitution-set",
+      "activeClaudeVerificationOwnerAcquiredAfterDispatch": false,
+      "packetBytesActivelyRewritten": false,
+      "decision": "PROCEED_READ_ONLY",
+      "existingClaim": { "lane": "VF15", "operation": "independent-verification", "released": false },
+      "rationale": "The committed claim ledger contains a pre-existing VF15 verification claim, but the current Claude shift and active-assignment controls do not identify an active Claude owner or an active packet-byte rewrite."
+    }
+  ]
+}
