@@ -1,6 +1,10 @@
 import "server-only";
 
 import { APPROVED_PROCESSORS, type ApprovedProcessorKey } from "@/lib/expungement-ai/privacy/contract";
+import {
+  PrivacyProcessorConfigError,
+  requireProcessorConfig
+} from "@/lib/expungement-ai/privacy/processor-config";
 
 /**
  * What a processor actually did about an erasure, as opposed to what we hoped.
@@ -88,11 +92,6 @@ export function processorOutcomeIsSettled(
   return false;
 }
 
-function configured(name: string): string | null {
-  const value = process.env[name];
-  return typeof value === "string" && value.trim().length > 0 ? value.trim() : null;
-}
-
 /**
  * The four approved processors, each either implemented or explicitly classified.
  *
@@ -125,9 +124,11 @@ export function defaultProcessorAdapters(): ProcessorErasureAdapter[] {
       required: true,
       acknowledgementOffered: true,
       async erase(request) {
-        const endpoint = configured("PARTICIPANT_PRIVACY_EMAIL_SUPPRESSION_URL");
-        const token = configured("PARTICIPANT_PRIVACY_EMAIL_SUPPRESSION_TOKEN");
-        if (!endpoint || !token) {
+        let config;
+        try {
+          config = requireProcessorConfig("email_delivery") as { endpoint: string; token: string };
+        } catch (error) {
+          if (!(error instanceof PrivacyProcessorConfigError)) throw error;
           return {
             status: "pending",
             reference: null,
@@ -138,7 +139,7 @@ export function defaultProcessorAdapters(): ProcessorErasureAdapter[] {
             }
           };
         }
-        return transmit(endpoint, token, request, "suppress");
+        return transmit(config.endpoint, config.token, request, "suppress");
       }
     },
     {
@@ -164,9 +165,11 @@ export function defaultProcessorAdapters(): ProcessorErasureAdapter[] {
       required: true,
       acknowledgementOffered: true,
       async erase(request) {
-        const endpoint = configured("PARTICIPANT_PRIVACY_ANALYTICS_ERASURE_URL");
-        const token = configured("PARTICIPANT_PRIVACY_ANALYTICS_ERASURE_TOKEN");
-        if (!endpoint || !token) {
+        let config;
+        try {
+          config = requireProcessorConfig("product_analytics") as { endpoint: string; token: string };
+        } catch (error) {
+          if (!(error instanceof PrivacyProcessorConfigError)) throw error;
           return {
             status: "pending",
             reference: null,
@@ -177,7 +180,7 @@ export function defaultProcessorAdapters(): ProcessorErasureAdapter[] {
             }
           };
         }
-        return transmit(endpoint, token, request, "erase");
+        return transmit(config.endpoint, config.token, request, "erase");
       }
     },
     {

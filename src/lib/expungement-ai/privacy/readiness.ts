@@ -1,6 +1,10 @@
 import "server-only";
 
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
+import {
+  privacyConfigReady,
+  type PrivacyProcessorConfigName
+} from "@/lib/expungement-ai/privacy/processor-config";
 
 /**
  * Is this deployment actually able to honour a data-rights request?
@@ -23,6 +27,8 @@ export type PrivacyReadiness = {
     artifactAuthorityPresent: boolean;
     proofSecretPresent: boolean;
     pseudonymSecretPresent: boolean;
+    processorConfigPresent: boolean;
+    processorConfig: Record<PrivacyProcessorConfigName, boolean>;
   };
 };
 
@@ -47,6 +53,9 @@ export async function participantPrivacyReadiness(): Promise<PrivacyReadiness> {
 
   const pseudonymSecretPresent = secretPresent("PARTICIPANT_PRIVACY_PSEUDONYM_SECRET");
   if (!pseudonymSecretPresent) missing.push("PARTICIPANT_PRIVACY_PSEUDONYM_SECRET");
+
+  const processorConfig = privacyConfigReady();
+  missing.push(...processorConfig.missing);
 
   let migrationPresent = false;
   let artifactAuthorityPresent = false;
@@ -79,6 +88,13 @@ export async function participantPrivacyReadiness(): Promise<PrivacyReadiness> {
   return {
     ready: missing.length === 0,
     missing,
-    checked: { migrationPresent, artifactAuthorityPresent, proofSecretPresent, pseudonymSecretPresent }
+    checked: {
+      migrationPresent,
+      artifactAuthorityPresent,
+      proofSecretPresent,
+      pseudonymSecretPresent,
+      processorConfigPresent: processorConfig.ready,
+      processorConfig: processorConfig.checked
+    }
   };
 }

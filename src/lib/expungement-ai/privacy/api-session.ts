@@ -5,10 +5,24 @@ import type { NextResponse } from "next/server";
 import { getRcapBriefcaseAuthState } from "@/lib/rcap/briefcase/auth";
 import { isParticipantAccountBlocked } from "@/lib/expungement-ai/privacy/account-status";
 import { privacyJson } from "@/lib/expungement-ai/privacy/request-security";
+import { getSupabaseAdminClient } from "@/lib/supabase/server";
 
 export type PrivacyApiSession =
   | { ok: true; userId: string; userEmail?: string }
   | { ok: false; response: NextResponse };
+
+/** Workforce and partner identities use governed offboarding, not consumer deletion. */
+export async function participantPrivacyActorEligible(userId: string): Promise<boolean> {
+  const supabase = getSupabaseAdminClient();
+  if (!supabase) return false;
+  const { data, error } = await supabase
+    .from("partner_users")
+    .select("role")
+    .eq("auth_user_id", userId)
+    .maybeSingle<{ role: string }>();
+  if (error) return false;
+  return !data || !["partner_admin", "partner_staff", "internal_admin"].includes(data.role);
+}
 
 /**
  * The API-route counterpart to requireConsumerBriefcaseSession.
@@ -34,6 +48,18 @@ export async function requireConsumerBriefcaseApiSession(
   const auth = await getRcapBriefcaseAuthState();
   if (!auth.isAuthenticated || !auth.userId) {
     return { ok: false, response: privacyJson({ error: "Sign in to continue.", code: "not_authenticated" }, 401) };
+  }
+  if (!(await participantPrivacyActorEligible(auth.userId))) {
+    return {
+      ok: false,
+      response: privacyJson(
+        {
+          error: "This account uses a governed offboarding process.",
+          code: "consumer_privacy_role_required"
+        },
+        403
+      )
+    };
   }
   if (!allowFrozen && (await isParticipantAccountBlocked(auth.userId))) {
     return { ok: false, response: privacyJson({ error: "This account has been deleted.", code: "account_deleted" }, 403) };

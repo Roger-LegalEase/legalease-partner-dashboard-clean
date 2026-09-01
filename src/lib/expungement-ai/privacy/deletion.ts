@@ -18,6 +18,7 @@ import {
   PROCESSOR_ERASURE_POLICY,
   type ProcessorErasureAdapter
 } from "@/lib/expungement-ai/privacy/processor-erasure";
+import { requireProcessorConfig } from "@/lib/expungement-ai/privacy/processor-config";
 import { participantPseudonymUserId, participantSubjectPseudonym } from "@/lib/expungement-ai/privacy/pseudonym";
 import {
   completePrivacyRequest,
@@ -185,7 +186,7 @@ export function defaultDeletionDependencies(supabase: SupabaseClient): DeletionD
   };
 }
 export type DeletionOutcome = {
-  status: "completed" | "blocked_legal_hold" | "failed";
+  status: "completed" | "blocked_legal_hold" | "failed" | "partially_completed";
   receiptCode: string | null;
   receipt: Record<string, unknown> | null;
   failedStep?: string;
@@ -503,6 +504,12 @@ export async function runAccountDeletion(input: {
   const deps = input.deps ?? defaultDeletionDependencies(supabase);
   const userId = request.user_id;
   const subjectPseudonym = request.subject_pseudonym ?? participantSubjectPseudonym(userId);
+
+  // This is a second boundary behind the page/API readiness check. Direct
+  // worker callers and a configuration change between request validation and
+  // execution must still stop before freeze_account or any other destructive
+  // step. The same contract supplies the processor adapters later in the run.
+  requireProcessorConfig();
 
   const holds = await checkLegalHolds(supabase, userId);
   await recordLegalHoldCheck({
@@ -845,7 +852,15 @@ export async function runAccountDeletion(input: {
     }
   } catch (error) {
     if (error instanceof StepFailure) {
-      return { status: "failed", receiptCode: null, receipt: null, failedStep: error.stepKey, error: error.message };
+      const stepIndex = ACCOUNT_DELETION_STEPS.indexOf(error.stepKey as (typeof ACCOUNT_DELETION_STEPS)[number]);
+      const partial = completed.size > 0 || stepIndex > 0;
+      return {
+        status: partial ? "partially_completed" : "failed",
+        receiptCode: null,
+        receipt: null,
+        failedStep: error.stepKey,
+        error: error.message
+      };
     }
     throw error;
   }
@@ -853,9 +868,8 @@ export async function runAccountDeletion(input: {
   const receipt = {
     receiptCode,
     requestType: "account_deletion",
+    status: "completed",
     completedAt: deps.now().toISOString(),
-    subjectPseudonym,
-    steps: results,
     whatWasDeleted: [
       "Your profile and sign-in.",
       "Every matter, screening and answer you saved.",
@@ -863,7 +877,6 @@ export async function runAccountDeletion(input: {
       "Your reminders, and any partner or clinic access to your work."
     ],
     whatWasKept: RETENTION_EXPLANATION.filter((entry) => entry.treatment !== "deleted"),
-    heldMatters: Array.from(heldMatterIds),
     signInStatus: "This account can no longer sign in, and it cannot be recreated from a backup."
   };
   await completePrivacyRequest({

@@ -4,12 +4,14 @@ import { requireConsumerBriefcaseSession } from "@/lib/expungement-ai/auth";
 import { listBriefcaseItems } from "@/lib/expungement-ai/briefcase";
 import { listParticipantPrivacyRequestSummaries } from "@/lib/expungement-ai/privacy/summaries";
 import { participantPrivacyReadiness } from "@/lib/expungement-ai/privacy/readiness";
+import { participantPrivacyActorEligible } from "@/lib/expungement-ai/privacy/api-session";
 import { notFound } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
 export default async function BriefcasePrivacyPage() {
   const auth = await requireConsumerBriefcaseSession("/briefcase/settings/privacy");
+  if (!(await participantPrivacyActorEligible(auth.userId))) notFound();
   // A control that cannot do what it says is worse than an absent one. If the
   // migration or either secret is missing in THIS deployment, the page is not
   // served at all rather than offering a deletion that would fail partway.

@@ -134,10 +134,10 @@ const processorServer = http.createServer((req, res) => {
 });
 await new Promise((resolve) => processorServer.listen(0, "127.0.0.1", resolve));
 const processorUrl = `http://127.0.0.1:${processorServer.address().port}`;
-process.env.PARTICIPANT_PRIVACY_EMAIL_SUPPRESSION_URL = `${processorUrl}/email`;
-process.env.PARTICIPANT_PRIVACY_EMAIL_SUPPRESSION_TOKEN = "email-suppression-test-token";
-process.env.PARTICIPANT_PRIVACY_ANALYTICS_ERASURE_URL = `${processorUrl}/analytics`;
-process.env.PARTICIPANT_PRIVACY_ANALYTICS_ERASURE_TOKEN = "analytics-erasure-test-token";
+process.env.PRIVACY_EMAIL_PROCESSOR_ENDPOINT = `${processorUrl}/email`;
+process.env.PRIVACY_EMAIL_PROCESSOR_TOKEN = "email-suppression-test-token";
+process.env.PRIVACY_ANALYTICS_PROCESSOR_ENDPOINT = `${processorUrl}/analytics`;
+process.env.PRIVACY_ANALYTICS_PROCESSOR_TOKEN = "analytics-erasure-test-token";
 delete process.env.VERCEL_ENV;
 process.env.NODE_ENV = "test";
 
@@ -167,7 +167,8 @@ const SEQUENCE = [
   "supabase/phase-54-rcap-person-namespace-hardening.sql",
   "supabase/phase-55-expungement-matter-payment-binding.sql",
   "supabase/phase-24-request-rate-limit-buckets.sql",
-  "supabase/migrations/20260830120000_participant_data_rights.sql"
+  "supabase/migrations/20260830120000_participant_data_rights.sql",
+  "supabase/migrations/20260901180000_account_deletion_partial_state.sql"
 ];
 
 const USER_A = fixtureUuid("participant-a");
@@ -845,6 +846,48 @@ let proofA = null;
 }
 
 // =============================================================================
+// PROCESSOR READINESS — NOTHING DESTRUCTIVE MAY START
+// =============================================================================
+
+{
+  const requiredProcessorConfig = [
+    "PRIVACY_EMAIL_PROCESSOR_ENDPOINT",
+    "PRIVACY_EMAIL_PROCESSOR_TOKEN",
+    "PRIVACY_ANALYTICS_PROCESSOR_ENDPOINT",
+    "PRIVACY_ANALYTICS_PROCESSOR_TOKEN"
+  ];
+  const { participantPrivacyReadiness } = await import("../src/lib/expungement-ai/privacy/readiness.ts");
+  const { privacyConfigReady } = await import("../src/lib/expungement-ai/privacy/processor-config.ts");
+  const requestCountBefore = count(`select count(*) from public.participant_privacy_requests where user_id='${USER_B}' and request_type='account_deletion'`);
+
+  for (const [index, name] of requiredProcessorConfig.entries()) {
+    const saved = process.env[name];
+    delete process.env[name];
+    const config = privacyConfigReady();
+    const deployment = await participantPrivacyReadiness();
+    setSession({ isAuthenticated: true, userId: USER_B, email: "b@participant.test" });
+    const response = await accountRoute.POST(
+      req("/api/expungement-ai/privacy/account", {
+        proof: "not-consumed-while-unready",
+        confirmation: "DELETE MY ACCOUNT",
+        idempotencyKey: `missing-processor-${index}`
+      })
+    );
+    const body = await jsonOf(response);
+    process.env[name] = saved;
+
+    check(`G${index + 5}`, `${name} is required by the shared processor-readiness contract`,
+      config.ready === false && config.missing.includes(name) && deployment.ready === false && deployment.missing.includes(name));
+    check(`G${index + 9}`, `${name} fails the deletion API before account freeze`,
+      response.status === 503
+        && body.code === "privacy_not_ready"
+        && count(`select count(*) from public.participant_account_tombstones where user_id='${USER_B}'`) === 0
+        && count(`select count(*) from public.participant_privacy_requests where user_id='${USER_B}' and request_type='account_deletion'`) === requestCountBefore,
+      `${response.status} ${JSON.stringify(body)}`);
+  }
+}
+
+// =============================================================================
 // RATE LIMITING
 // =============================================================================
 
@@ -885,19 +928,19 @@ let proofA = null;
 // =============================================================================
 
 {
-  // Partner staff are signed in, hold an internal_admin partner_users row, and
-  // present a valid proof for their OWN account. The route has no parameter
-  // that names a subject, so the only account they can reach is their own.
+  // Workforce and partner identities use their governed offboarding path. The
+  // participant endpoint must not run even against the staff member's own id.
   const proof = (await mintProof(PARTNER_STAFF, "account_deletion")).body.proof;
   setSession({ isAuthenticated: true, userId: PARTNER_STAFF, email: "staff@partner.test" });
   const response = await accountRoute.POST(
     req("/api/expungement-ai/privacy/account", { proof, confirmation: "DELETE MY ACCOUNT", idempotencyKey: "staff-self-0001" })
   );
   const body = await jsonOf(response);
-  check("P1", "a partner-staff deletion completes only against their own account", response.status === 200 && body.status === "completed", `${response.status} ${JSON.stringify(body).slice(0, 200)}`);
+  check("P1", "a partner or staff identity cannot invoke consumer account deletion", response.status === 403 && body.code === "consumer_privacy_role_required", `${response.status} ${JSON.stringify(body).slice(0, 200)}`);
   check("P2", "no participant matter was deleted by partner staff", count(`select count(*) from public.consumer_briefcase_items where user_id in ('${USER_A}','${USER_B}')`) === 3);
   check("P3", "both participants can still sign in", count(`select count(*) from auth.users where id in ('${USER_A}','${USER_B}')`) === 2);
   check("P4", "no participant tombstone was written", count(`select count(*) from public.participant_account_tombstones where user_id in ('${USER_A}','${USER_B}')`) === 0);
+  check("P5", "the denied staff account remains active and has no deletion request", count(`select count(*) from auth.users where id='${PARTNER_STAFF}'`) === 1 && count(`select count(*) from public.participant_privacy_requests where user_id='${PARTNER_STAFF}' and request_type='account_deletion'`) === 0);
 }
 
 // =============================================================================
@@ -981,7 +1024,7 @@ let accountReceipt = null;
     req("/api/expungement-ai/privacy/account", { proof, confirmation: "DELETE MY ACCOUNT", idempotencyKey: "account-a-0001" })
   );
   const failedBody = await jsonOf(failed);
-  check("N1", "a mid-pipeline failure is reported, not swallowed", failed.status === 500 && failedBody.failedStep === "revoke_sessions" && failedBody.resumable === true, `${failed.status} ${JSON.stringify(failedBody).slice(0, 250)}`);
+  check("N1", "a mid-pipeline failure is reported as partial and resumable", failed.status === 500 && failedBody.status === "partially_completed" && failedBody.resumable === true && failedBody.code === "deletion_incomplete", `${failed.status} ${JSON.stringify(failedBody).slice(0, 250)}`);
   check("N2", "the account is already frozen at the point of failure", count(`select count(*) from public.participant_account_tombstones where user_id='${USER_A}' and restoration_barrier and deleted_at is null`) === 1);
   check("N3", "a frozen account is refused new participant writes", /frozen or erased/.test(db.sqlExpectError(`insert into public.consumer_briefcase_items (user_id, item_type, jurisdiction, status, payment_allowed) values ('${USER_A}','packet','MS','packet_ready',true)`)));
   check("N4", "the step ledger records freeze completed and revoke failed", count(`select count(*) from public.participant_privacy_request_steps s join public.participant_privacy_requests r on r.id = s.request_id where r.user_id='${USER_A}' and s.step_key='freeze_account' and s.status='completed'`) === 1 && count(`select count(*) from public.participant_privacy_request_steps s join public.participant_privacy_requests r on r.id = s.request_id where r.user_id='${USER_A}' and s.step_key='revoke_sessions' and s.status='failed'`) === 1);
@@ -990,18 +1033,33 @@ let accountReceipt = null;
 
   const freezeAttemptsBefore = count(`select s.attempt_count from public.participant_privacy_request_steps s join public.participant_privacy_requests r on r.id = s.request_id where r.user_id='${USER_A}' and s.step_key='freeze_account'`);
 
-  // Fix the cause and resume with the SAME idempotency key.
+  // Fix session revocation, then make a configured processor unavailable. The
+  // local destructive steps complete, but the request must remain partial and
+  // resumable rather than claiming success.
   gotrue.logoutStatus = 200;
+  processorMode = "retryable";
   const resumeProof = (await mintProof(USER_A, "account_deletion")).body.proof;
   setSession({ isAuthenticated: true, userId: USER_A, email: "a@participant.test" });
   const resumed = await accountRoute.POST(
     req("/api/expungement-ai/privacy/account", { proof: resumeProof, confirmation: "DELETE MY ACCOUNT", idempotencyKey: "account-a-0001" })
   );
-  accountReceipt = await jsonOf(resumed);
-  check("N7", "the resumed run completes the deletion", resumed.status === 200 && accountReceipt.status === "completed", `${resumed.status} ${JSON.stringify(accountReceipt).slice(0, 300)}`);
-  check("N8", "resuming did not re-run an already completed step", count(`select s.attempt_count from public.participant_privacy_request_steps s join public.participant_privacy_requests r on r.id = s.request_id where r.user_id='${USER_A}' and s.step_key='freeze_account'`) === freezeAttemptsBefore, "freeze_account was executed twice");
-  check("N9", "the resumed run is the same request, not a second one", count(`select count(*) from public.participant_privacy_requests where user_id='${USER_A}' and request_type='account_deletion' and idempotency_key='account-a-0001'`) === 1);
-  check("N10", "every ordered step is recorded completed, in order", ACCOUNT_DELETION_STEPS.every((step, index) => count(`select count(*) from public.participant_privacy_request_steps s join public.participant_privacy_requests r on r.id = s.request_id where r.user_id='${USER_A}' and s.step_key='${step}' and s.step_order=${index + 1} and s.status='completed'`) === 1), "a step is missing, out of order, or not completed");
+  const processorFailure = await jsonOf(resumed);
+  check("N7", "a processor outage after local deletion remains truthfully partial", resumed.status === 500 && processorFailure.status === "partially_completed" && processorFailure.resumable === true, `${resumed.status} ${JSON.stringify(processorFailure).slice(0, 300)}`);
+  check("N8", "the durable request and processor ledger name incomplete work without completing", count(`select count(*) from public.participant_privacy_requests where user_id='${USER_A}' and status='partially_completed' and completed_at is null and failure_code='propagate_to_processors'`) === 1 && count(`select count(*) from public.participant_processor_propagations p join public.participant_privacy_requests r on r.id=p.request_id where r.user_id='${USER_A}' and p.status in ('pending','failed')`) >= 2);
+  check("N9", "Auth deletion does not run while a required processor is outstanding", count(`select count(*) from auth.users where id='${USER_A}'`) === 1 && count(`select count(*) from public.participant_privacy_request_steps s join public.participant_privacy_requests r on r.id=s.request_id where r.user_id='${USER_A}' and s.step_key='delete_auth_user' and s.status <> 'pending'`) === 0);
+
+  // Restore the processor and resume the SAME durable request a second time.
+  processorMode = "success";
+  const finalProof = (await mintProof(USER_A, "account_deletion")).body.proof;
+  setSession({ isAuthenticated: true, userId: USER_A, email: "a@participant.test" });
+  const completedResponse = await accountRoute.POST(
+    req("/api/expungement-ai/privacy/account", { proof: finalProof, confirmation: "DELETE MY ACCOUNT", idempotencyKey: "account-a-0001" })
+  );
+  accountReceipt = await jsonOf(completedResponse);
+  check("N10", "the resumed processor step completes the deletion", completedResponse.status === 200 && accountReceipt.status === "completed", `${completedResponse.status} ${JSON.stringify(accountReceipt).slice(0, 300)}`);
+  check("N11", "resuming did not re-run an already completed destructive step", count(`select s.attempt_count from public.participant_privacy_request_steps s join public.participant_privacy_requests r on r.id = s.request_id where r.user_id='${USER_A}' and s.step_key='freeze_account'`) === freezeAttemptsBefore, "freeze_account was executed twice");
+  check("N12", "every retry used the same request rather than duplicating work", count(`select count(*) from public.participant_privacy_requests where user_id='${USER_A}' and request_type='account_deletion' and idempotency_key='account-a-0001'`) === 1);
+  check("N13", "every ordered step is recorded completed, in order", ACCOUNT_DELETION_STEPS.every((step, index) => count(`select count(*) from public.participant_privacy_request_steps s join public.participant_privacy_requests r on r.id = s.request_id where r.user_id='${USER_A}' and s.step_key='${step}' and s.step_order=${index + 1} and s.status='completed'`) === 1), "a step is missing, out of order, or not completed");
 }
 
 // =============================================================================
@@ -1023,9 +1081,10 @@ let accountReceipt = null;
   check("D12", "delivery audit evidence is retained and pseudonymized", count(`select count(*) from public.packet_delivery_events`) === deliveryBefore && count(`select count(*) from public.packet_delivery_events where actor_user_id='${USER_A}'`) === 0 && count(`select count(*) from public.packet_delivery_events where actor_user_id='${participantPseudonymUserId(USER_A)}'`) === 1);
   check("D13", "render jobs are retained and pseudonymized", count(`select count(*) from public.packet_render_jobs where consumer_auth_user_id='${USER_A}'`) === 0 && count(`select count(*) from public.packet_render_jobs where consumer_auth_user_id='${participantPseudonymUserId(USER_A)}'`) === 2);
   check("D14", "analytics events are de-identified, not deleted", count(`select count(*) from public.web_analytics_events where user_id='${USER_A}'`) === 0 && count(`select count(*) from public.web_analytics_events`) >= 1);
-  check("D15", "reminders were cleared before the matters were removed", JSON.stringify(accountReceipt.receipt?.steps?.stop_email_reminders ?? {}).includes("remindersCleared"), JSON.stringify(accountReceipt.receipt?.steps?.stop_email_reminders));
+  check("D15", "reminders were cleared before the matters were removed", scalar(`select s.detail::text from public.participant_privacy_request_steps s join public.participant_privacy_requests r on r.id=s.request_id where r.user_id='${USER_A}' and s.step_key='stop_email_reminders'`).includes("remindersCleared"));
   check("D16", "every approved processor has a recorded outcome", count(`select count(*) from public.participant_processor_propagations p join public.participant_privacy_requests r on r.id = p.request_id where r.user_id='${USER_A}'`) === 4);
-  check("D17", "the receipt survives the account and names the pseudonym", count(`select count(*) from public.participant_privacy_requests where user_id='${USER_A}' and request_type='account_deletion' and status='completed' and receipt_code is not null`) === 1 && accountReceipt.receipt?.subjectPseudonym === participantSubjectPseudonym(USER_A));
+  const safeReceipt = JSON.stringify(accountReceipt.receipt ?? {});
+  check("D17", "the safe completion receipt survives without participant or internal workflow identifiers", count(`select count(*) from public.participant_privacy_requests where user_id='${USER_A}' and request_type='account_deletion' and status='completed' and receipt_code is not null`) === 1 && accountReceipt.receipt?.status === "completed" && !safeReceipt.includes(USER_A) && !safeReceipt.includes(A.itemId) && !safeReceipt.includes("freeze_account"), safeReceipt.slice(0, 300));
 }
 
 // =============================================================================
@@ -1136,12 +1195,12 @@ let accountReceipt = null;
 
   // An unconfigured provider must never read as sent. This is the exact shape
   // of the original defect, so it is asserted directly.
-  const savedUrl = process.env.PARTICIPANT_PRIVACY_EMAIL_SUPPRESSION_URL;
-  delete process.env.PARTICIPANT_PRIVACY_EMAIL_SUPPRESSION_URL;
+  const savedUrl = process.env.PRIVACY_EMAIL_PROCESSOR_ENDPOINT;
+  delete process.env.PRIVACY_EMAIL_PROCESSOR_ENDPOINT;
   const unconfigured = await defaultProcessorAdapters()
     .find((adapter) => adapter.key === "email_delivery")
     .erase({ ...request, processorKey: "email_delivery" });
-  process.env.PARTICIPANT_PRIVACY_EMAIL_SUPPRESSION_URL = savedUrl;
+  process.env.PRIVACY_EMAIL_PROCESSOR_ENDPOINT = savedUrl;
   check(
     "PR7",
     "an unconfigured provider is pending, never sent or acknowledged",
@@ -1275,10 +1334,10 @@ let accountReceipt = null;
 {
   const { participantPrivacyReadiness } = await import("../src/lib/expungement-ai/privacy/readiness.ts");
   const ready = await participantPrivacyReadiness();
-  check("G1", "readiness passes when the migration, the RPC and both secrets are present",
+  check("G1", "readiness passes when the migration, RPC, secrets and every required processor are present",
     ready.ready === true && ready.missing.length === 0, JSON.stringify(ready.missing));
-  check("G2", "readiness names the artifact authority and the workflow table as checked",
-    ready.checked.migrationPresent === true && ready.checked.artifactAuthorityPresent === true);
+  check("G2", "readiness names artifact, workflow and processor authority as checked",
+    ready.checked.migrationPresent === true && ready.checked.artifactAuthorityPresent === true && ready.checked.processorConfigPresent === true && Object.values(ready.checked.processorConfig).every(Boolean));
 
   const savedProof = process.env.PARTICIPANT_PRIVACY_PROOF_SECRET;
   delete process.env.PARTICIPANT_PRIVACY_PROOF_SECRET;
