@@ -7094,6 +7094,7 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
+          "blankTreatment": null,
           "reason": "Attorney-only field; never populated with participant data."
         },
         {
@@ -7126,6 +7127,7 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
+          "blankTreatment": null,
           "reason": "Attorney-only field; never populated with participant data."
         },
         {
@@ -7158,6 +7160,7 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
+          "blankTreatment": null,
           "reason": "Attorney-only field; never populated with participant data."
         },
         {
@@ -7190,6 +7193,7 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
+          "blankTreatment": null,
           "reason": "Attorney-only field; never populated with participant data."
         },
         {
@@ -7222,6 +7226,7 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
+          "blankTreatment": null,
           "reason": "Attorney-only field; never populated with participant data."
         },
         {
@@ -7252,6 +7257,7 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
+          "blankTreatment": null,
           "reason": "Attorney-only field; never populated with participant data."
         },
         {
@@ -7284,6 +7290,7 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
+          "blankTreatment": null,
           "reason": "Attorney-only field; never populated with participant data."
         },
         {
@@ -7316,6 +7323,7 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
+          "blankTreatment": null,
           "reason": "Attorney-only field; never populated with participant data."
         },
         {
@@ -7348,6 +7356,7 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
+          "blankTreatment": null,
           "reason": "Attorney-only field; never populated with participant data."
         },
         {
@@ -7380,6 +7389,7 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
+          "blankTreatment": null,
           "reason": "Attorney-only field; never populated with participant data."
         },
         {
@@ -7412,6 +7422,7 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
+          "blankTreatment": null,
           "reason": "Attorney-only field; never populated with participant data."
         },
         {
@@ -7442,9 +7453,15 @@
               "hidden": false
             }
           ],
-          "disposition": "REFUSE",
-          "factId": null,
-          "reason": "Court, clerk, prosecutor, agency, or hearing field; never prefilled."
+          "disposition": "WRITE",
+          "factId": "matter.county",
+          "appliesToVariants": [
+            "hs-11361-8-completed-sentence-application",
+            "hs-11361-8-currently-serving-petition"
+          ],
+          "variantValues": null,
+          "routeSpecific": false,
+          "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
         },
         {
           "formNumber": "CR-400",
@@ -7476,6 +7493,7 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
+          "blankTreatment": null,
           "reason": "Court, clerk, prosecutor, agency, or hearing field; never prefilled."
         },
         {
@@ -7508,6 +7526,7 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
+          "blankTreatment": null,
           "reason": "Court, clerk, prosecutor, agency, or hearing field; never prefilled."
         },
         {
@@ -7540,6 +7559,7 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
+          "blankTreatment": null,
           "reason": "Court, clerk, prosecutor, agency, or hearing field; never prefilled."
         },
         {
@@ -7578,7 +7598,7 @@
           ],
           "variantValues": null,
           "routeSpecific": false,
-          "reason": "Exact primary-form terminal field explicitly mapped to a safe participant identity or verified case-caption fact."
+          "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
         },
         {
           "formNumber": "CR-400",
@@ -7616,7 +7636,7 @@
           ],
           "variantValues": null,
           "routeSpecific": false,
-          "reason": "Exact primary-form terminal field explicitly mapped to a safe participant identity or verified case-caption fact."
+          "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
         },
         {
           "formNumber": "CR-400",
@@ -7648,7 +7668,8 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "Signature or date field; never prefilled."
+          "blankTreatment": null,
+          "reason": "Court, clerk, prosecutor, agency, or hearing field; never prefilled."
         },
         {
           "formNumber": "CR-400",
@@ -7680,7 +7701,8 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "No allowlisted, source-supported fact is offered to this terminal field."
+          "blankTreatment": null,
+          "reason": "Court, clerk, prosecutor, agency, or hearing field; never prefilled."
         },
         {
           "formNumber": "CR-400",
@@ -7814,6 +7836,7 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
+          "blankTreatment": null,
           "reason": "Court, clerk, prosecutor, agency, or hearing field; never prefilled."
         },
         {
@@ -7856,7 +7879,10 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "Legal election or conditional choice not established by this evidence variant; it remains blank rather than being inferred."
+          "blankTreatment": null,
+          "reason": "A control the participant marks. The platform never marks an election on a sworn filing; the participant instructions name it and the participant marks it before signing.",
+          "refusalClass": "participant_sworn_narrative_or_legal_election",
+          "isSelectionControl": true
         },
         {
           "formNumber": "CR-400",
@@ -7898,7 +7924,10 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "Legal election or conditional choice not established by this evidence variant; it remains blank rather than being inferred."
+          "blankTreatment": null,
+          "reason": "A control the participant marks. The platform never marks an election on a sworn filing; the participant instructions name it and the participant marks it before signing.",
+          "refusalClass": "participant_sworn_narrative_or_legal_election",
+          "isSelectionControl": true
         },
         {
           "formNumber": "CR-400",
@@ -7940,7 +7969,10 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "Legal election or conditional choice not established by this evidence variant; it remains blank rather than being inferred."
+          "blankTreatment": null,
+          "reason": "A control the participant marks. The platform never marks an election on a sworn filing; the participant instructions name it and the participant marks it before signing.",
+          "refusalClass": "participant_sworn_narrative_or_legal_election",
+          "isSelectionControl": true
         },
         {
           "formNumber": "CR-400",
@@ -7982,7 +8014,10 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "Legal election or conditional choice not established by this evidence variant; it remains blank rather than being inferred."
+          "blankTreatment": null,
+          "reason": "A control the participant marks. The platform never marks an election on a sworn filing; the participant instructions name it and the participant marks it before signing.",
+          "refusalClass": "participant_sworn_narrative_or_legal_election",
+          "isSelectionControl": true
         },
         {
           "formNumber": "CR-400",
@@ -8024,7 +8059,10 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "Legal election or conditional choice not established by this evidence variant; it remains blank rather than being inferred."
+          "blankTreatment": null,
+          "reason": "A control the participant marks. The platform never marks an election on a sworn filing; the participant instructions name it and the participant marks it before signing.",
+          "refusalClass": "participant_sworn_narrative_or_legal_election",
+          "isSelectionControl": true
         },
         {
           "formNumber": "CR-400",
@@ -8168,7 +8206,10 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "Legal election or conditional choice not established by this evidence variant; it remains blank rather than being inferred."
+          "blankTreatment": null,
+          "reason": "A control the participant marks. The platform never marks an election on a sworn filing; the participant instructions name it and the participant marks it before signing.",
+          "refusalClass": "participant_sworn_narrative_or_legal_election",
+          "isSelectionControl": true
         },
         {
           "formNumber": "CR-400",
@@ -8210,7 +8251,10 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "Legal election or conditional choice not established by this evidence variant; it remains blank rather than being inferred."
+          "blankTreatment": null,
+          "reason": "A control the participant marks. The platform never marks an election on a sworn filing; the participant instructions name it and the participant marks it before signing.",
+          "refusalClass": "participant_sworn_narrative_or_legal_election",
+          "isSelectionControl": true
         },
         {
           "formNumber": "CR-400",
@@ -8242,7 +8286,9 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "Signature or date field; never prefilled."
+          "blankTreatment": null,
+          "reason": "Signature or signature-date field; never prefilled before the participant signs.",
+          "refusalClass": "signature_or_date_participant_completion"
         },
         {
           "formNumber": "CR-400",
@@ -8274,7 +8320,9 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "Signature or date field; never prefilled."
+          "blankTreatment": null,
+          "reason": "Signature or signature-date field; never prefilled before the participant signs.",
+          "refusalClass": "signature_or_date_participant_completion"
         },
         {
           "formNumber": "CR-400",
@@ -8314,6 +8362,7 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
+          "blankTreatment": null,
           "reason": "Viewer UI control; never a filing fact."
         },
         {
@@ -8355,6 +8404,7 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
+          "blankTreatment": null,
           "reason": "Viewer UI control; never a filing fact."
         },
         {
@@ -8396,6 +8446,7 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
+          "blankTreatment": null,
           "reason": "Viewer UI control; never a filing fact."
         },
         {
@@ -8437,6 +8488,7 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
+          "blankTreatment": null,
           "reason": "Viewer UI control; never a filing fact."
         },
         {
@@ -8478,6 +8530,7 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
+          "blankTreatment": null,
           "reason": "Viewer UI control; never a filing fact."
         }
       ]
@@ -10006,7 +10059,8 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them."
+          "blankTreatment": null,
+          "reason": "Attorney-only field; never populated with participant data."
         },
         {
           "formNumber": "CR-401",
@@ -10038,7 +10092,11 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them."
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "CR-401[0].Page1[0].Caption[0].AttyPartyInfo[0].Name[0]"
         },
         {
           "formNumber": "CR-401",
@@ -10070,7 +10128,8 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them."
+          "blankTreatment": null,
+          "reason": "Attorney-only field; never populated with participant data."
         },
         {
           "formNumber": "CR-401",
@@ -10102,7 +10161,11 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them."
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "CR-401[0].Page1[0].Caption[0].AttyPartyInfo[0].Street[0]"
         },
         {
           "formNumber": "CR-401",
@@ -10134,7 +10197,11 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them."
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "CR-401[0].Page1[0].Caption[0].AttyPartyInfo[0].City[0]"
         },
         {
           "formNumber": "CR-401",
@@ -10164,7 +10231,11 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them."
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "CR-401[0].Page1[0].Caption[0].AttyPartyInfo[0].State[0]"
         },
         {
           "formNumber": "CR-401",
@@ -10196,7 +10267,11 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them."
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "CR-401[0].Page1[0].Caption[0].AttyPartyInfo[0].Zip[0]"
         },
         {
           "formNumber": "CR-401",
@@ -10228,7 +10303,11 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them."
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "CR-401[0].Page1[0].Caption[0].AttyPartyInfo[0].Phone[0]"
         },
         {
           "formNumber": "CR-401",
@@ -10260,7 +10339,11 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them."
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "CR-401[0].Page1[0].Caption[0].AttyPartyInfo[0].Fax[0]"
         },
         {
           "formNumber": "CR-401",
@@ -10292,7 +10375,11 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them."
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "CR-401[0].Page1[0].Caption[0].AttyPartyInfo[0].Email[0]"
         },
         {
           "formNumber": "CR-401",
@@ -10324,7 +10411,8 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them."
+          "blankTreatment": null,
+          "reason": "Attorney-only field; never populated with participant data."
         },
         {
           "formNumber": "CR-401",
@@ -10356,7 +10444,11 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them."
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "CR-401[0].Page1[0].Caption[0].CourtInfo[0].CrtCounty[0]"
         },
         {
           "formNumber": "CR-401",
@@ -10388,7 +10480,11 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them."
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "CR-401[0].Page1[0].Caption[0].CourtInfo[0].CrtStreet[0]"
         },
         {
           "formNumber": "CR-401",
@@ -10420,7 +10516,11 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them."
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "CR-401[0].Page1[0].Caption[0].CourtInfo[0].CrtMailingAdd[0]"
         },
         {
           "formNumber": "CR-401",
@@ -10452,7 +10552,11 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them."
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "CR-401[0].Page1[0].Caption[0].CourtInfo[0].CrtCityZip[0]"
         },
         {
           "formNumber": "CR-401",
@@ -10484,7 +10588,11 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them."
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "CR-401[0].Page1[0].Caption[0].HeaderSub[0].CaseNumber[0].CaseNumber[0]"
         },
         {
           "formNumber": "CR-401",
@@ -10516,7 +10624,11 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them."
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "CR-401[0].Page1[0].Caption[0].TitlePartyName[0].Party2[0]"
         },
         {
           "formNumber": "CR-401",
@@ -10548,7 +10660,11 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them."
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "CR-401[0].Page1[0].Caption[0].HeaderSub[0].CrtUse[0].TextField[0]"
         },
         {
           "formNumber": "CR-401",
@@ -10580,6 +10696,7 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
+          "blankTreatment": null,
           "reason": "Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them."
         },
         {
@@ -10612,7 +10729,11 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them."
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "CR-401[0].Page1[0].Caption[0].HeaderSub[0].CrtUse[0].TextField[2]"
         },
         {
           "formNumber": "CR-401",
@@ -10654,7 +10775,10 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them."
+          "blankTreatment": null,
+          "reason": "A control the participant marks. The platform never marks an election on a sworn filing; the participant instructions name it and the participant marks it before signing.",
+          "refusalClass": "participant_sworn_narrative_or_legal_election",
+          "isSelectionControl": true
         },
         {
           "formNumber": "CR-401",
@@ -10696,7 +10820,10 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them."
+          "blankTreatment": null,
+          "reason": "A control the participant marks. The platform never marks an election on a sworn filing; the participant instructions name it and the participant marks it before signing.",
+          "refusalClass": "participant_sworn_narrative_or_legal_election",
+          "isSelectionControl": true
         },
         {
           "formNumber": "CR-401",
@@ -10728,7 +10855,11 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them."
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "CR-401[0].Page1[0].LI1[0].li1a[0].ServingName[0]"
         },
         {
           "formNumber": "CR-401",
@@ -10760,7 +10891,11 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them."
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "CR-401[0].Page1[0].LI1[0].li1b[0].ServingAdd[0]"
         },
         {
           "formNumber": "CR-401",
@@ -10792,7 +10927,11 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them."
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "CR-401[0].Page1[0].LI1[0].li1c[0].ServingTel[0]"
         },
         {
           "formNumber": "CR-401",
@@ -10824,7 +10963,11 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them."
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "CR-401[0].Page1[0].LI2[0].li2a[0].PersonServed[0]"
         },
         {
           "formNumber": "CR-401",
@@ -10856,7 +10999,11 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them."
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "CR-401[0].Page1[0].LI2[0].li2b[0].AddServed[0]"
         },
         {
           "formNumber": "CR-401",
@@ -10888,7 +11035,11 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them."
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "CR-401[0].Page1[0].LI2[0].li2c[0].DateServed[0]"
         },
         {
           "formNumber": "CR-401",
@@ -10920,6 +11071,7 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
+          "blankTreatment": null,
           "reason": "Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them."
         },
         {
@@ -10962,7 +11114,10 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them."
+          "blankTreatment": null,
+          "reason": "A control the participant marks. The platform never marks an election on a sworn filing; the participant instructions name it and the participant marks it before signing.",
+          "refusalClass": "participant_sworn_narrative_or_legal_election",
+          "isSelectionControl": true
         },
         {
           "formNumber": "CR-401",
@@ -11004,7 +11159,10 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them."
+          "blankTreatment": null,
+          "reason": "A control the participant marks. The platform never marks an election on a sworn filing; the participant instructions name it and the participant marks it before signing.",
+          "refusalClass": "participant_sworn_narrative_or_legal_election",
+          "isSelectionControl": true
         },
         {
           "formNumber": "CR-401",
@@ -11046,7 +11204,10 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them."
+          "blankTreatment": null,
+          "reason": "A control the participant marks. The platform never marks an election on a sworn filing; the participant instructions name it and the participant marks it before signing.",
+          "refusalClass": "participant_sworn_narrative_or_legal_election",
+          "isSelectionControl": true
         },
         {
           "formNumber": "CR-401",
@@ -11088,7 +11249,10 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them."
+          "blankTreatment": null,
+          "reason": "A control the participant marks. The platform never marks an election on a sworn filing; the participant instructions name it and the participant marks it before signing.",
+          "refusalClass": "participant_sworn_narrative_or_legal_election",
+          "isSelectionControl": true
         },
         {
           "formNumber": "CR-401",
@@ -11130,7 +11294,10 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them."
+          "blankTreatment": null,
+          "reason": "A control the participant marks. The platform never marks an election on a sworn filing; the participant instructions name it and the participant marks it before signing.",
+          "refusalClass": "participant_sworn_narrative_or_legal_election",
+          "isSelectionControl": true
         },
         {
           "formNumber": "CR-401",
@@ -11172,7 +11339,10 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them."
+          "blankTreatment": null,
+          "reason": "A control the participant marks. The platform never marks an election on a sworn filing; the participant instructions name it and the participant marks it before signing.",
+          "refusalClass": "participant_sworn_narrative_or_legal_election",
+          "isSelectionControl": true
         },
         {
           "formNumber": "CR-401",
@@ -11202,7 +11372,11 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them."
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "CR-401[0].Page1[0].LI3[0].li3b[0].T121[0]"
         },
         {
           "formNumber": "CR-401",
@@ -11234,7 +11408,11 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them."
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "CR-401[0].Page1[0].POPsig[0].ExecutedDate[0]"
         },
         {
           "formNumber": "CR-401",
@@ -11266,7 +11444,11 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them."
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "reason": "REQUIRED_BEFORE_FILING: Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them. The participant completes it, and the platform does not guess.",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "CR-401[0].Page1[0].POPsig[0].AttyName_ft[0]"
         },
         {
           "formNumber": "CR-401",
@@ -11307,7 +11489,8 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them."
+          "blankTreatment": null,
+          "reason": "Viewer UI control; never a filing fact."
         },
         {
           "formNumber": "CR-401",
@@ -11348,7 +11531,8 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them."
+          "blankTreatment": null,
+          "reason": "Viewer UI control; never a filing fact."
         },
         {
           "formNumber": "CR-401",
@@ -11389,7 +11573,8 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them."
+          "blankTreatment": null,
+          "reason": "Viewer UI control; never a filing fact."
         },
         {
           "formNumber": "CR-401",
@@ -11430,7 +11615,8 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "Proof-of-service and mailing-certificate fields describe service that has not occurred; the packet builder never completes them."
+          "blankTreatment": null,
+          "reason": "Viewer UI control; never a filing fact."
         }
       ]
     },
@@ -14197,7 +14383,9 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
         },
         {
           "formNumber": "CR-403",
@@ -14229,7 +14417,9 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
         },
         {
           "formNumber": "CR-403",
@@ -14261,7 +14451,9 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
         },
         {
           "formNumber": "CR-403",
@@ -14293,7 +14485,9 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
         },
         {
           "formNumber": "CR-403",
@@ -14325,7 +14519,9 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
         },
         {
           "formNumber": "CR-403",
@@ -14355,7 +14551,9 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
         },
         {
           "formNumber": "CR-403",
@@ -14387,7 +14585,9 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
         },
         {
           "formNumber": "CR-403",
@@ -14419,7 +14619,9 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
         },
         {
           "formNumber": "CR-403",
@@ -14451,7 +14653,9 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
         },
         {
           "formNumber": "CR-403",
@@ -14483,7 +14687,9 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
         },
         {
           "formNumber": "CR-403",
@@ -14515,7 +14721,9 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
         },
         {
           "formNumber": "CR-403",
@@ -14547,7 +14755,9 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
         },
         {
           "formNumber": "CR-403",
@@ -14579,7 +14789,9 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
         },
         {
           "formNumber": "CR-403",
@@ -14611,7 +14823,9 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
         },
         {
           "formNumber": "CR-403",
@@ -14643,7 +14857,9 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
         },
         {
           "formNumber": "CR-403",
@@ -14675,7 +14891,9 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
         },
         {
           "formNumber": "CR-403",
@@ -14707,7 +14925,9 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
         },
         {
           "formNumber": "CR-403",
@@ -14739,7 +14959,9 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
         },
         {
           "formNumber": "CR-403",
@@ -14771,7 +14993,9 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
         },
         {
           "formNumber": "CR-403",
@@ -14813,7 +15037,10 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+          "isSelectionControl": true
         },
         {
           "formNumber": "CR-403",
@@ -14855,7 +15082,10 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+          "isSelectionControl": true
         },
         {
           "formNumber": "CR-403",
@@ -14887,7 +15117,9 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
         },
         {
           "formNumber": "CR-403",
@@ -14929,7 +15161,10 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+          "isSelectionControl": true
         },
         {
           "formNumber": "CR-403",
@@ -14971,7 +15206,10 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+          "isSelectionControl": true
         },
         {
           "formNumber": "CR-403",
@@ -15013,7 +15251,10 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+          "isSelectionControl": true
         },
         {
           "formNumber": "CR-403",
@@ -15055,7 +15296,10 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+          "isSelectionControl": true
         },
         {
           "formNumber": "CR-403",
@@ -15087,7 +15331,9 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
         },
         {
           "formNumber": "CR-403",
@@ -15129,7 +15375,10 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+          "isSelectionControl": true
         },
         {
           "formNumber": "CR-403",
@@ -15161,7 +15410,9 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
         },
         {
           "formNumber": "CR-403",
@@ -15203,7 +15454,10 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+          "isSelectionControl": true
         },
         {
           "formNumber": "CR-403",
@@ -15235,7 +15489,9 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
         },
         {
           "formNumber": "CR-403",
@@ -15267,7 +15523,9 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
         },
         {
           "formNumber": "CR-403",
@@ -15309,7 +15567,10 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+          "isSelectionControl": true
         },
         {
           "formNumber": "CR-403",
@@ -15351,7 +15612,10 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+          "isSelectionControl": true
         },
         {
           "formNumber": "CR-403",
@@ -15393,7 +15657,10 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+          "isSelectionControl": true
         },
         {
           "formNumber": "CR-403",
@@ -15435,7 +15702,10 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+          "isSelectionControl": true
         },
         {
           "formNumber": "CR-403",
@@ -15477,7 +15747,10 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+          "isSelectionControl": true
         },
         {
           "formNumber": "CR-403",
@@ -15519,7 +15792,10 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+          "isSelectionControl": true
         },
         {
           "formNumber": "CR-403",
@@ -15561,7 +15837,10 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+          "isSelectionControl": true
         },
         {
           "formNumber": "CR-403",
@@ -15603,7 +15882,10 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+          "isSelectionControl": true
         },
         {
           "formNumber": "CR-403",
@@ -15645,7 +15927,10 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+          "isSelectionControl": true
         },
         {
           "formNumber": "CR-403",
@@ -15687,7 +15972,10 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+          "isSelectionControl": true
         },
         {
           "formNumber": "CR-403",
@@ -15719,7 +16007,9 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
         },
         {
           "formNumber": "CR-403",
@@ -15751,7 +16041,9 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
         },
         {
           "formNumber": "CR-403",
@@ -15793,7 +16085,10 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+          "isSelectionControl": true
         },
         {
           "formNumber": "CR-403",
@@ -15835,7 +16130,10 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+          "isSelectionControl": true
         },
         {
           "formNumber": "CR-403",
@@ -15877,7 +16175,10 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+          "isSelectionControl": true
         },
         {
           "formNumber": "CR-403",
@@ -15919,7 +16220,10 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+          "isSelectionControl": true
         },
         {
           "formNumber": "CR-403",
@@ -15961,7 +16265,10 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+          "isSelectionControl": true
         },
         {
           "formNumber": "CR-403",
@@ -15993,7 +16300,9 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
         },
         {
           "formNumber": "CR-403",
@@ -16035,7 +16344,10 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+          "isSelectionControl": true
         },
         {
           "formNumber": "CR-403",
@@ -16067,7 +16379,9 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
         },
         {
           "formNumber": "CR-403",
@@ -16099,7 +16413,9 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
         },
         {
           "formNumber": "CR-403",
@@ -16141,7 +16457,10 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+          "isSelectionControl": true
         },
         {
           "formNumber": "CR-403",
@@ -16173,7 +16492,9 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
         },
         {
           "formNumber": "CR-403",
@@ -16205,7 +16526,9 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
         },
         {
           "formNumber": "CR-403",
@@ -16247,7 +16570,10 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+          "isSelectionControl": true
         },
         {
           "formNumber": "CR-403",
@@ -16279,7 +16605,9 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
         },
         {
           "formNumber": "CR-403",
@@ -16321,7 +16649,10 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+          "isSelectionControl": true
         },
         {
           "formNumber": "CR-403",
@@ -16363,7 +16694,10 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+          "isSelectionControl": true
         },
         {
           "formNumber": "CR-403",
@@ -16405,7 +16739,10 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+          "isSelectionControl": true
         },
         {
           "formNumber": "CR-403",
@@ -16447,7 +16784,10 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+          "isSelectionControl": true
         },
         {
           "formNumber": "CR-403",
@@ -16489,7 +16829,10 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+          "isSelectionControl": true
         },
         {
           "formNumber": "CR-403",
@@ -16521,7 +16864,9 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
         },
         {
           "formNumber": "CR-403",
@@ -16563,7 +16908,10 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+          "isSelectionControl": true
         },
         {
           "formNumber": "CR-403",
@@ -16605,7 +16953,10 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+          "isSelectionControl": true
         },
         {
           "formNumber": "CR-403",
@@ -16647,7 +16998,10 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+          "isSelectionControl": true
         },
         {
           "formNumber": "CR-403",
@@ -16679,7 +17033,9 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "The proposed order is court-owned; every order field is left for the court.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
         },
         {
           "formNumber": "CR-403",
@@ -16720,7 +17076,8 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "Viewer UI control; never a filing fact."
         },
         {
           "formNumber": "CR-403",
@@ -16761,7 +17118,8 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "Viewer UI control; never a filing fact."
         },
         {
           "formNumber": "CR-403",
@@ -16802,7 +17160,8 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "Viewer UI control; never a filing fact."
         },
         {
           "formNumber": "CR-403",
@@ -16843,7 +17202,8 @@
           ],
           "disposition": "REFUSE",
           "factId": null,
-          "reason": "The proposed order is court-owned; every order field is left for the court."
+          "blankTreatment": null,
+          "reason": "Viewer UI control; never a filing fact."
         }
       ]
     }
