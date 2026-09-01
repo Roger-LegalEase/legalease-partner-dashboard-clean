@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "wv_dui_deferral_expungement-set",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "The MASTER_QUEUE row binds zero sources and the legal-design record establishes, from the Court Forms index read at source on 2026-08-06, that no West Virginia Judiciary form exists for either § 17C-5-2b unit: the index publishes exactly five expungement forms and none is a § 17C-5-2b filing.",
+      "consequence": "Both units are composed pleadings, exactly as the packet-set manifest and the MASTER_QUEUE row direct (implementationStrategy custom_pleading, officialFormFamily NONE). No form was substituted and none was invented; whether an unpublished local form exists in some courts travels as a counsel question."
+    },
+    {
+      "finding": "Section 17C-5-2b creates two separate participant-facing submissions with different required contents, different objection windows and different legal effects, and the second — the § 17C-5-2b(g) application — cannot be filed until a year has run from the EXPIRATION OF PROBATION, not from the dismissal, and is barred outright to anyone previously convicted of a felony.",
+      "consequence": "The packet renders both units with the sequence and both 30-day windows stated, the supporting timeline computes the one-year period from the probation expiry, the felony bar is printed on the application's own face beside the signature instruction, and a separate certificate of service is completed for each unit."
+    },
+    {
+      "finding": "No Division of Motor Vehicles record may be expunged by virtue of an order entered pursuant to § 17C-5-2b (W. Va. Code § 61-11-25(a)), a hard limit the legal-design record requires to be disclosed.",
+      "consequence": "The application states expressly that no DMV record is sought or reached, and the filing instructions state that the criminal record can be cleared while the driving record cannot, with a stop condition for participants whose chief concern is the driving record."
+    },
+    {
+      "finding": "Every case fact on this route lives on a court record, a DMV certification or a probation office confirmation the platform has not seen.",
+      "consequence": "The platform writes only the participant's own identity and contact facts. Every case fact is a labelled dotted blank declared REQUIRED_BEFORE_FILING, disclosed by its printed label, with the issuing office named as the checkable authority in the records checklist."
+    },
+    {
+      "finding": "Three questions the legal-design record marks unresolved: whether the § 17C-5-2b(c) motion is still the right vehicle for a stale file where no dismissal order was ever entered; whether relief under § 17C-5-2b counts against the § 61-11-26(o) once-per-lifetime limit; and whether any unpublished local form exists.",
+      "consequence": "None is answered by this build. The stale-file condition is a printed stop condition, the once-per-lifetime question travels to counsel in approval-request.json, and the packet asserts nothing about either."
+    }
+  ]
+}

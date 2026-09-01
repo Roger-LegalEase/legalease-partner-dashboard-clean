@@ -1,0 +1,56 @@
+{
+  "schemaVersion": "rcap-family-source-receipt/v1",
+  "familyId": "me-screening-set",
+  "worklistGroupId": "me-screening-set",
+  "jurisdiction": "ME",
+  "implementationStrategy": "custom_pleading",
+  "custodyClass": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+  "acquisitionCommissioned": false,
+  "bindingMethod": "no source bytes are bound: the MASTER_QUEUE row for this family binds zero sources (sourceStatus CUSTOM_PLEADING_FROM_CODIFIED_TEXT, boundCount 0, officialFormFamily NONE, forms []). Every composed page is grounded on the committed legal-design records named in groundingRecords, and nothing else.",
+  "routeKeys": [
+    "obligation:track-only:ME:me-screening"
+  ],
+  "routeSelectionId": "me-screening-composed-set",
+  "statutoryAuthority": "10 M.R.S. § 1500-CC",
+  "legalName": "Business Screening Service Dispute for Correction or Deletion of Criminal History Record Information (10 M.R.S. c. 239, § 1500-CC)",
+  "allSourcesExact": true,
+  "allSourcesExactNote": "true vacuously: this family binds zero source binaries, so there is no source that is not bound by exact SHA-256. No official form exists for this route per the legal-design record, and none was invented.",
+  "documents": [],
+  "groundingRecords": [
+    {
+      "record": "data/record-clearing/legal-design-intake/ME.memo.json",
+      "track": "me-screening",
+      "reviewedAsOf": "2026-08-03"
+    },
+    {
+      "record": "data/record-clearing/legal-design-packet-set-manifests.json",
+      "packetSetId": "me-screening-set"
+    }
+  ],
+  "officialSourcesRecordedInIntake": [
+    {
+      "title": "Public Law 2025, c. 513, § 1 — enacting 10 M.R.S. c. 239, §§ 1500-AA to 1500-EE",
+      "url": "https://legislature.maine.gov/legis/bills/getPDF.asp?paper=SP0741&item=3&snum=132",
+      "retrievedOn": "2026-08-03"
+    },
+    {
+      "title": "Maine Criminal History Record and Juvenile Crime Information Request — Maine State Police, State Bureau of Identification",
+      "url": "https://www.maine.gov/dps/msp/investigations/state-bureau-identification",
+      "retrievedOn": "2026-08-03"
+    }
+  ],
+  "formIdentityNote": "No official form exists for a § 1500-CC dispute and none could: the duty runs against a private business screening service, not an agency or a court. The primary component is a controlled dispute LETTER — correspondence to a private company, described that way in terms on its own face, and never characterised as a court pleading. The MASTER_QUEUE row agrees: officialFormFamily NONE, implementationStrategy custom_pleading, forms [], boundCount 0. The Revisor has not yet published 10 M.R.S. c. 239 in the online codified statutes; the controlling text is the chaptered law PDF of PL 2025, c. 513, and every § 1500 citation is re-verified against the codified text once published.",
+  "composedComponentsAuthoredByThisBuild": [
+    "primary_filing",
+    "attachment",
+    "instructions"
+  ],
+  "sourceBinaryCommitted": false,
+  "commercialRoutesOpened": 0,
+  "whatThisReceiptDoesNotEstablish": [
+    "that the codified text of 10 M.R.S. c. 239, once the Revisor publishes it, matches the chaptered law the intake record read",
+    "that any output is approved for participant delivery",
+    "that any particular entity is a business screening service within § 1500-AA",
+    "any deletion timeline beyond the statute's own thirty-day results notice"
+  ]
+}
