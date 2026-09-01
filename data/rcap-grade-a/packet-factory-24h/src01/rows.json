@@ -42,11 +42,18 @@
       "registrySourceState": "CURRENTNESS_UNVERIFIED",
       "identityGuessed": false,
       "status": "STOPPED",
-      "reason": "no file in the committed corpus index for DE reconciles with \"FORM-281\"; the form is not among the held inventory this lane can read",
-      "heldCandidatesConsidered": [],
-      "nearMisses": [],
+      "reason": "identity collision: the registry points \"FORM-281\" and 1 other identity(ies) (FORM-281E) at the same held file, and that file prints \"Form-281E\", not \"FORM-281\". Binding here would state as held a document whose bytes are a different form. The held file binds to the identity it prints; this obligation does not bind until its own bytes are held.",
+      "heldFileClaimedByTheRegistry": {
+        "path": "private/Nationwide Record Clearing/LegalEase Delaware/forms/Form-281E__petition-for-expungement-of-adult-record-charge-sheet__rev-2018-09.docx",
+        "sha256": "aaca121e3bb4ce51ab9ab4ff6d933138bf7a36b6d97269c02cbf3c0290e87b33",
+        "printedIdentity": "Form-281E"
+      },
+      "identitiesSharingThoseBytes": [
+        "FORM-281",
+        "FORM-281E"
+      ],
       "hostThatOwnsTheNextStep": "the issuing court or agency in DE",
-      "nextOperationThatOwnsIt": "ACQ, once DISC has settled an exact official address"
+      "nextOperationThatOwnsIt": "DISC settles the distinct identity and address, then ACQ obtains the bytes this obligation actually names"
     },
     {
       "itemId": "de_discretionary_family_court-set::official-form:FORM-281E",
@@ -57,12 +64,18 @@
       ],
       "registrySourceState": "CURRENTNESS_UNVERIFIED",
       "identityGuessed": false,
-      "status": "STOPPED",
-      "reason": "no file in the committed corpus index for DE reconciles with \"FORM-281E\"; the form is not among the held inventory this lane can read",
-      "heldCandidatesConsidered": [],
-      "nearMisses": [],
-      "hostThatOwnsTheNextStep": "the issuing court or agency in DE",
-      "nextOperationThatOwnsIt": "ACQ, once DISC has settled an exact official address"
+      "status": "COMPLETED",
+      "boundBy": "held-bytes-recorded-in-the-source-relationship-registry",
+      "resolvedIdentity": {
+        "formNumber": "FORM-281E",
+        "sha256": "aaca121e3bb4ce51ab9ab4ff6d933138bf7a36b6d97269c02cbf3c0290e87b33",
+        "revision": null
+      },
+      "matchBasis": "the registry records the bytes held at private/Nationwide Record Clearing/LegalEase Delaware/forms/Form-281E__petition-for-expungement-of-adult-record-charge-sheet__rev-2018-09.docx, and the committed corpus index does not index that file",
+      "familiesThisReleases": [],
+      "handoffOperation": "PROMO",
+      "openQuestionThisBindDoesNotClose": "CURRENTNESS_UNVERIFIED: the corpus carries these bytes, so no acquisition is needed, but whether the publisher still issues this edition is a separate DISC question settled against the publisher's own forms index. This bind settles that the form is held; it does not settle that it is current.",
+      "note": "the corpus already carries this form, so no acquisition is needed. This binds identity to held bytes; it is not custody, and PROMO must recompute the hash from the bytes before any promotion."
     },
     {
       "itemId": "de_discretionary_superior_court-set::official-form:CIV_EXP_02_A",
