@@ -10,16 +10,19 @@ import { registerTrackedMutation } from "./lib/tracked-mutation-guard.mjs";
 const root = process.cwd();
 const target = "src/lib/expungement-ai/privacy/processor-config.ts";
 const accountRouteTarget = "src/app/api/expungement-ai/privacy/account/route.ts";
+const deletionTarget = "src/lib/expungement-ai/privacy/deletion.ts";
 const erasureTarget = "src/lib/expungement-ai/privacy/processor-erasure.ts";
 const storeTarget = "src/lib/expungement-ai/privacy/store.ts";
 const migrationTarget = "supabase/migrations/20260901180000_account_deletion_partial_state.sql";
 const absoluteTarget = path.join(root, target);
 const absoluteAccountRouteTarget = path.join(root, accountRouteTarget);
+const absoluteDeletionTarget = path.join(root, deletionTarget);
 const absoluteErasureTarget = path.join(root, erasureTarget);
 const absoluteStoreTarget = path.join(root, storeTarget);
 const absoluteMigrationTarget = path.join(root, migrationTarget);
 const original = fs.readFileSync(absoluteTarget);
 const accountRouteOriginal = fs.readFileSync(absoluteAccountRouteTarget);
+const deletionOriginal = fs.readFileSync(absoluteDeletionTarget);
 const erasureOriginal = fs.readFileSync(absoluteErasureTarget);
 const storeOriginal = fs.readFileSync(absoluteStoreTarget);
 const migrationOriginal = fs.readFileSync(absoluteMigrationTarget);
@@ -27,6 +30,7 @@ const migrationOriginal = fs.readFileSync(absoluteMigrationTarget);
 registerTrackedMutation("test-expungement-privacy-readiness-mutations.mjs", [
   target,
   accountRouteTarget,
+  deletionTarget,
   erasureTarget,
   storeTarget,
   migrationTarget
@@ -34,6 +38,7 @@ registerTrackedMutation("test-expungement-privacy-readiness-mutations.mjs", [
 const restore = () => {
   fs.writeFileSync(absoluteTarget, original);
   fs.writeFileSync(absoluteAccountRouteTarget, accountRouteOriginal);
+  fs.writeFileSync(absoluteDeletionTarget, deletionOriginal);
   fs.writeFileSync(absoluteErasureTarget, erasureOriginal);
   fs.writeFileSync(absoluteStoreTarget, storeOriginal);
   fs.writeFileSync(absoluteMigrationTarget, migrationOriginal);
@@ -323,6 +328,44 @@ if (!source.includes(requiredCheck)) {
         process.exitCode = 1;
       } else {
         console.log("Privacy readiness mutation caught: lease cleanup cannot replace a completed deletion response.");
+      }
+    }
+
+    restore();
+    const asyncResumeBinding = `                const providerReference = prior?.reference
+                  && (prior.status === "sent" || prior.detail?.asynchronous === true)
+                  ? prior.reference
+                  : null;`;
+    const deletionSource = deletionOriginal.toString("utf8");
+    if (!deletionSource.includes(asyncResumeBinding)) {
+      console.error("Privacy readiness mutation could not find the asynchronous provider-reference resume binding.");
+      process.exitCode = 1;
+    } else {
+      fs.writeFileSync(
+        absoluteDeletionTarget,
+        deletionSource.replace(asyncResumeBinding, "                const providerReference = null;")
+      );
+      const resumeChild = spawnSync(process.execPath, ["scripts/verify-participant-data-rights.mjs"], {
+        cwd: root,
+        encoding: "utf8",
+        timeout: 300_000,
+        maxBuffer: 100 * 1024 * 1024,
+        env: { ...process.env, GIT_TERMINAL_PROMPT: "0", GIT_OPTIONAL_LOCKS: "0" }
+      });
+      const resumeOutput = `${resumeChild.stdout ?? ""}${resumeChild.stderr ?? ""}`;
+      const resumeExpected = "the leased processor retry completes the same deletion exactly once";
+      if (resumeChild.error?.code === "ETIMEDOUT" || resumeChild.signal) {
+        console.error("Privacy asynchronous-resume mutation verifier timed out.");
+        process.exitCode = 1;
+      } else if (resumeChild.status === 0) {
+        console.error("Privacy asynchronous-resume mutation survived: accepted provider references were never polled.");
+        process.exitCode = 1;
+      } else if (!resumeOutput.includes(resumeExpected)) {
+        console.error("Privacy asynchronous-resume mutation turned red for the wrong reason.");
+        console.error(resumeOutput);
+        process.exitCode = 1;
+      } else {
+        console.log("Privacy readiness mutation caught: accepted provider references require a status-resume path.");
       }
     }
   } finally {

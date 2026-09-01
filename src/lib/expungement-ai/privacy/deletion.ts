@@ -23,6 +23,7 @@ import { participantPseudonymUserId, participantSubjectPseudonym } from "@/lib/e
 import {
   acquireAccountDeletionRunLease,
   completePrivacyRequest,
+  readProcessorPropagations,
   readPrivacySteps,
   recordLegalHoldCheck,
   recordPrivacyStep,
@@ -771,16 +772,23 @@ export async function runAccountDeletion(input: {
               assertAdapterCoverage(adapters);
               // Read now, while the Auth user still exists. Never persisted.
               const subjectEmail = await deps.readAccountEmail(userId);
+              const priorPropagations = await readProcessorPropagations(supabase, request.id);
               const propagated: Array<Record<string, unknown>> = [];
               const outstanding: string[] = [];
               for (const processor of APPROVED_PROCESSORS) {
                 const adapter = adapters.find((candidate) => candidate.key === processor.key) as ProcessorErasureAdapter;
+                const prior = priorPropagations.find((candidate) => candidate.processor_key === processor.key);
+                const providerReference = prior?.reference
+                  && (prior.status === "sent" || prior.detail?.asynchronous === true)
+                  ? prior.reference
+                  : null;
                 let outcome = await adapter.erase({
                   processorKey: processor.key,
                   requestId: request.id,
                   userId,
                   subjectPseudonym,
-                  email: subjectEmail
+                  email: subjectEmail,
+                  providerReference
                 });
                 let attempts = 1;
                 // Retry only what the policy calls retryable, and only within
@@ -796,7 +804,8 @@ export async function runAccountDeletion(input: {
                     requestId: request.id,
                     userId,
                     subjectPseudonym,
-                    email: subjectEmail
+                    email: subjectEmail,
+                    providerReference
                   });
                   attempts += 1;
                 }

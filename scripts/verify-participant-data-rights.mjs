@@ -120,6 +120,7 @@ const processorServer = http.createServer((req, res) => {
   let body = "";
   req.on("data", (chunk) => { body += chunk; });
   req.on("end", async () => {
+    const requestBody = JSON.parse(body || "{}");
     processorRequests.push({ url: req.url, body, mode: processorMode });
     if (processorMode === "pause_once") {
       processorMode = "success";
@@ -137,11 +138,17 @@ const processorServer = http.createServer((req, res) => {
       return;
     }
     if (processorMode === "accepted") {
-      res.writeHead(202, { "content-type": "application/json", "x-request-id": `provider-ref-${processorRequests.length}` });
+      res.writeHead(202, {
+        "content-type": "application/json",
+        "x-request-id": requestBody.providerReference ?? `provider-ref-${processorRequests.length}`
+      });
       res.end(JSON.stringify({ accepted: true }));
       return;
     }
-    res.writeHead(200, { "content-type": "application/json", "x-request-id": `provider-ref-${processorRequests.length}` });
+    res.writeHead(200, {
+      "content-type": "application/json",
+      "x-request-id": requestBody.providerReference ?? `provider-ref-${processorRequests.length}`
+    });
     res.end(JSON.stringify({ ok: true }));
   });
 });
@@ -1222,19 +1229,19 @@ let accountReceipt = null;
 
   const freezeAttemptsBefore = count(`select s.attempt_count from public.participant_privacy_request_steps s join public.participant_privacy_requests r on r.id = s.request_id where r.user_id='${USER_A}' and s.step_key='freeze_account'`);
 
-  // Fix session revocation, then make a configured processor unavailable. The
-  // local destructive steps complete, but the request must remain partial and
-  // resumable rather than claiming success.
+  // Fix session revocation, then make both configured processors accept work
+  // asynchronously. Local destructive steps complete, but the request remains
+  // partial until a later status check confirms each provider reference.
   gotrue.logoutStatus = 200;
-  processorMode = "retryable";
+  processorMode = "accepted";
   const resumeProof = (await mintProof(USER_A, "account_deletion")).body.proof;
   setSession({ isAuthenticated: true, userId: USER_A, email: "a@participant.test" });
   const resumed = await accountRoute.POST(
     req("/api/expungement-ai/privacy/account", { proof: resumeProof, confirmation: "DELETE MY ACCOUNT", idempotencyKey: "account-a-processor-retry" })
   );
   const processorFailure = await jsonOf(resumed);
-  check("N7", "a processor outage after local deletion remains truthfully partial", resumed.status === 500 && processorFailure.status === "partially_completed" && processorFailure.resumable === true, `${resumed.status} ${JSON.stringify(processorFailure).slice(0, 300)}`);
-  check("N8", "the durable request and processor ledger name incomplete work without completing", count(`select count(*) from public.participant_privacy_requests where user_id='${USER_A}' and status='partially_completed' and completed_at is null and failure_code='propagate_to_processors'`) === 1 && count(`select count(*) from public.participant_processor_propagations p join public.participant_privacy_requests r on r.id=p.request_id where r.user_id='${USER_A}' and p.status in ('pending','failed')`) >= 2);
+  check("N7", "asynchronously accepted erasures remain truthfully partial and resumable", resumed.status === 500 && processorFailure.status === "partially_completed" && processorFailure.resumable === true, `${resumed.status} ${JSON.stringify(processorFailure).slice(0, 300)}`);
+  check("N8", "the durable request and processor ledger retain each outstanding provider reference", count(`select count(*) from public.participant_privacy_requests where user_id='${USER_A}' and status='partially_completed' and completed_at is null and failure_code='propagate_to_processors'`) === 1 && count(`select count(*) from public.participant_processor_propagations p join public.participant_privacy_requests r on r.id=p.request_id where r.user_id='${USER_A}' and p.status='sent' and p.reference is not null`) >= 2);
   check("N9", "Auth deletion does not run while a required processor is outstanding", count(`select count(*) from auth.users where id='${USER_A}'`) === 1 && count(`select count(*) from public.participant_privacy_request_steps s join public.participant_privacy_requests r on r.id=s.request_id where r.user_id='${USER_A}' and s.step_key='delete_auth_user' and s.status <> 'pending'`) === 0);
   check("N10", "a new proof and idempotency key resume the same partial request",
     processorFailure.requestId === accountRequestId
@@ -1314,7 +1321,11 @@ let accountReceipt = null;
     completedResponse.status === 200
       && accountReceipt.status === "completed"
       && accountReceipt.requestId === accountRequestId
-      && processorRequests.length === processorRequestsBeforeConcurrentRun + 2,
+      && processorRequests.length === processorRequestsBeforeConcurrentRun + 2
+      && processorRequests.slice(processorRequestsBeforeConcurrentRun).every((entry) => {
+        const payload = JSON.parse(entry.body);
+        return payload.action === "status" && typeof payload.providerReference === "string";
+      }),
     `${completedResponse.status} ${JSON.stringify(accountReceipt).slice(0, 300)}`);
   check("N13a", "a transient lease-release failure cannot hide the durable completion receipt",
     completedResponse.status === 200
@@ -1453,6 +1464,22 @@ let accountReceipt = null;
       && accepted.detail.httpStatus === 202
       && processorOutcomeIsSettled(byKey("email_delivery"), accepted) === false,
     JSON.stringify(accepted)
+  );
+  processorMode = "success";
+  const completedAccepted = await byKey("email_delivery").erase({
+    ...request,
+    processorKey: "email_delivery",
+    providerReference: accepted.reference
+  });
+  const statusRequest = JSON.parse(processorRequests.at(-1).body);
+  check(
+    "PR1b",
+    "an asynchronous provider reference reaches verified completion through the status protocol",
+    completedAccepted.status === "acknowledged"
+      && processorOutcomeIsSettled(byKey("email_delivery"), completedAccepted) === true
+      && statusRequest.action === "status"
+      && statusRequest.providerReference === accepted.reference,
+    `${JSON.stringify(completedAccepted)} / ${JSON.stringify(statusRequest)}`
   );
 
   processorMode = "retryable";

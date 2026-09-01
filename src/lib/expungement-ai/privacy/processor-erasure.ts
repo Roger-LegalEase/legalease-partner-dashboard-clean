@@ -60,6 +60,8 @@ export type ProcessorErasureRequest = {
   userId: string;
   subjectPseudonym: string;
   email: string | null;
+  /** A durable provider reference from an earlier asynchronous acceptance. */
+  providerReference?: string | null;
 };
 
 export type ProcessorErasureOutcome = {
@@ -210,26 +212,56 @@ async function transmit(
   request: ProcessorErasureRequest,
   action: "suppress" | "erase"
 ): Promise<ProcessorErasureOutcome> {
+  const checkingAsynchronousRequest = Boolean(request.providerReference);
   try {
     const response = await fetch(endpoint, {
       method: "POST",
       headers: { "content-type": "application/json", authorization: `Bearer ${token}` },
       signal: AbortSignal.timeout(20_000),
       body: JSON.stringify({
-        action,
+        action: checkingAsynchronousRequest ? "status" : action,
+        requestedAction: action,
+        providerReference: request.providerReference ?? null,
         subject: request.subjectPseudonym,
         email: request.email,
         requestId: request.requestId
       })
     });
-    const reference = response.headers.get("x-request-id");
+    const responseReference = response.headers.get("x-request-id");
+    const reference = checkingAsynchronousRequest ? request.providerReference! : responseReference;
     if (response.ok) {
       // 202 means the provider accepted work for later processing. Its request
       // reference proves submission, not erasure, so acknowledgement-enabled
       // adapters must keep the deletion outstanding until a later retry gets
       // a synchronous completion response.
       if (response.status === 202) {
-        return { status: "sent", reference, detail: { httpStatus: response.status, action, asynchronous: true } };
+        return reference
+          ? {
+            status: "sent",
+            reference,
+            detail: { httpStatus: response.status, action, asynchronous: true, statusCheck: checkingAsynchronousRequest }
+          }
+          : {
+            status: "pending",
+            reference: null,
+            detail: { httpStatus: response.status, action, asynchronous: true, retryable: true, reason: "missing_provider_reference" }
+          };
+      }
+      if (checkingAsynchronousRequest) {
+        // The same configured endpoint is the status protocol: a retry sends
+        // action=status with the durable reference, and only a 2xx response
+        // echoing that exact reference proves completion.
+        return responseReference === request.providerReference
+          ? {
+            status: "acknowledged",
+            reference,
+            detail: { httpStatus: response.status, action, asynchronous: true, statusCheck: true }
+          }
+          : {
+            status: "sent",
+            reference,
+            detail: { httpStatus: response.status, action, asynchronous: true, statusCheck: true, reason: "reference_not_confirmed" }
+          };
       }
       // Acknowledged only when the provider hands back its own reference.
       // Without one there is nothing to show a participant or an auditor, so
@@ -243,7 +275,7 @@ async function transmit(
     return {
       status: retryable ? "pending" : "failed",
       reference,
-      detail: { httpStatus: response.status, action, retryable }
+      detail: { httpStatus: response.status, action, retryable, asynchronous: checkingAsynchronousRequest, statusCheck: checkingAsynchronousRequest }
     };
   } catch (error) {
     return {
@@ -251,6 +283,8 @@ async function transmit(
       reference: null,
       detail: {
         action,
+        asynchronous: checkingAsynchronousRequest,
+        statusCheck: checkingAsynchronousRequest,
         transportError: error instanceof Error ? error.message : String(error),
         retryable: true
       }

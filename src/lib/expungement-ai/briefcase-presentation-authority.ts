@@ -93,7 +93,7 @@ export type BriefcasePresentationItem = {
       reviewSafety: { safe: boolean; reason: string };
     }
     | { status: "unavailable" };
-  paymentState: "paid" | "unpaid" | "sponsored" | "unavailable";
+  paymentState: "paid" | "refunded" | "unpaid" | "sponsored" | "unavailable";
   paymentReceipt?: ConsumerPaymentReceiptAction;
   artifact: BriefcasePresentationArtifact;
 };
@@ -171,7 +171,7 @@ export function assembleBriefcasePresentationItem(input: {
     packetProgress: input.legalAuthority.packetProgress,
     packetDraft: input.legalAuthority.packetDraft,
     paymentState: input.paymentState,
-    ...(input.paymentState === "paid" && input.paymentReceipt
+    ...((input.paymentState === "paid" || input.paymentState === "refunded") && input.paymentReceipt
       ? { paymentReceipt: input.paymentReceipt }
       : {}),
     artifact

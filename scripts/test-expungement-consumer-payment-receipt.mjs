@@ -166,6 +166,7 @@ assert.ok(action, "a server-recorded exact-matter Stripe payment must expose a r
 assert.equal(action.amountCents, 5000);
 assert.equal(action.currency, "USD");
 assert.equal(action.provider, "Stripe");
+assert.equal(action.status, "paid");
 assert.ok(action.actionPath.startsWith("/api/expungement-ai/payment/receipt?"));
 assert.ok(!action.actionPath.includes("pay.stripe.com"), "the provider receipt URL must never enter presentation data");
 assert.ok(!action.actionPath.includes("evt_test_exact"), "provider event identity must remain server-side");
@@ -216,6 +217,7 @@ const refundedAction = await h.receipt.createConsumerPaymentReceiptAction({
   now: NOW
 });
 assert.ok(refundedAction, "a refund must preserve the owner-scoped payment-history receipt action");
+assert.equal(refundedAction.status, "refunded", "receipt presentation must retain the truthful refunded status");
 assert.deepEqual(await h.receipt.resolveConsumerPaymentReceipt({
   consumerAuthUserId: USER,
   briefcaseItemId: ITEM,
@@ -272,6 +274,7 @@ assert.deepEqual(await providerResolved.receipt.resolveConsumerPaymentReceipt({
 assert.deepEqual(providerResolved.stripeRetrievals, ["cs_test_exact"]);
 
 const receiptReads = [];
+let presentedReceipt = action;
 const unavailableLegalPresentation = {
   id: ITEM,
   paymentState: "unavailable",
@@ -285,7 +288,7 @@ const consumerPresentation = loadTs("src/lib/expungement-ai/briefcase-consumer-p
   "@/lib/expungement-ai/consumer-payment-receipt": {
     createConsumerPaymentReceiptAction: async (input) => {
       receiptReads.push(input);
-      return action;
+      return presentedReceipt;
     }
   }
 });
@@ -300,9 +303,23 @@ assert.equal(durablePaymentPresentation.paymentState, "paid",
 assert.equal(durablePaymentPresentation.paymentReceipt, action,
   "receipt presentation must resolve independently of legal and artifact presentation");
 
+presentedReceipt = refundedAction;
+const refundedPaymentPresentation = await consumerPresentation.decorateConsumerBriefcaseItemForPresentation({
+  consumerAuthUserId: USER,
+  item: { id: ITEM }
+});
+assert.equal(refundedPaymentPresentation.paymentState, "refunded",
+  "payment history must present a refund as refunded rather than paid");
+assert.equal(refundedPaymentPresentation.paymentReceipt, refundedAction,
+  "refunded payment history must keep its receipt action");
+
 const moduleSource = fs.readFileSync(path.join(root, "src/lib/expungement-ai/consumer-payment-receipt.ts"), "utf8");
 const confirmSource = fs.readFileSync(path.join(root, "src/app/api/expungement-ai/payment/confirm/route.ts"), "utf8");
+const paymentsViewSource = fs.readFileSync(path.join(root, "src/components/expungement-ai/BriefcaseViews.tsx"), "utf8");
 assert.ok(!moduleSource.includes("createConsumerPacketCheckout"), "receipt access cannot create Checkout or a charge");
 assert.ok(!confirmSource.includes("receiptUrl: status.receiptUrl"), "browser polling must not receive a raw provider receipt URL");
+assert.ok(paymentsViewSource.includes('item.paymentState === "refunded"')
+  && paymentsViewSource.includes('k="payment.refunded"'),
+"payment history must render an explicit localized refunded label");
 
 console.log("Expungement.ai consumer payment receipt tests passed: owner/matter/provider binding, refund history, repeat access, expiry, revocation, sponsorship, and cross-user denial.");

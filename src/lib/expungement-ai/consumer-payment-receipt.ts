@@ -41,6 +41,7 @@ export type ConsumerPaymentReceiptAction = {
   amountCents: typeof CONSUMER_PACKET_PRICE_CENTS;
   currency: "USD";
   provider: "Stripe";
+  status: "paid" | "refunded";
   expiresAt: string;
 };
 
@@ -78,6 +79,7 @@ export async function createConsumerPaymentReceiptAction(input: {
     amountCents: CONSUMER_PACKET_PRICE_CENTS,
     currency: "USD",
     provider: "Stripe",
+    status: row.payment_status as "paid" | "refunded",
     expiresAt: new Date(expires * 1000).toISOString()
   };
 }

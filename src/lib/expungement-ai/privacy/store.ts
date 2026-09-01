@@ -192,6 +192,24 @@ export async function readPrivacySteps(
   return (data as PrivacyStepRow[] | null) ?? [];
 }
 
+export type PrivacyProcessorPropagationRow = {
+  processor_key: string;
+  status: "pending" | "sent" | "acknowledged" | "not_applicable" | "failed";
+  reference: string | null;
+  detail: Record<string, unknown> | null;
+};
+
+export async function readProcessorPropagations(
+  supabase: SupabaseClient,
+  requestId: string
+): Promise<PrivacyProcessorPropagationRow[]> {
+  const { data } = await supabase
+    .from("participant_processor_propagations")
+    .select("processor_key, status, reference, detail")
+    .eq("request_id", requestId);
+  return (data as PrivacyProcessorPropagationRow[] | null) ?? [];
+}
+
 export async function recordPrivacyStep(input: {
   supabase: SupabaseClient;
   requestId: string;

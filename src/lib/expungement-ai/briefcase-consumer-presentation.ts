@@ -24,7 +24,7 @@ export async function decorateConsumerBriefcaseItemForPresentation(input: {
   // Payment history is durable authority of its own. Legal verification or an
   // artifact read may be temporarily unavailable without erasing a verified
   // payment from the participant's history.
-  return paymentReceipt ? { ...item, paymentState: "paid", paymentReceipt } : item;
+  return paymentReceipt ? { ...item, paymentState: paymentReceipt.status, paymentReceipt } : item;
 }
 
 export async function decorateConsumerBriefcaseItemsForPresentation(input: {

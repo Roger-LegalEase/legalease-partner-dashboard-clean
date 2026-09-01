@@ -180,6 +180,8 @@ export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
     es: "Los $50 cubren la generación del paquete de Expungement.ai. Las cuotas del tribunal, de agencias o de informes de antecedentes son aparte."
   },
   "payment.one_time": { en: "one-time", es: "pago único" },
+  "payment.paid": { en: "paid", es: "pagado" },
+  "payment.refunded": { en: "refunded", es: "reembolsado" },
   "payment.fee_note": {
     en: "You are paying for self-help packet preparation and filing instructions. Court approval is not promised. Expungement.ai is not a law firm and does not provide legal advice.",
     es: "Usted paga por la preparación de un paquete de autoayuda y por instrucciones de presentación. No se promete la aprobación del tribunal. Expungement.ai no es un bufete de abogados y no brinda asesoría legal."

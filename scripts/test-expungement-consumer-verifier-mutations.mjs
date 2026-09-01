@@ -109,6 +109,26 @@ try {
     expected: "a refund must preserve the owner-scoped payment-history receipt action"
   });
   mutation({
+    name: "refunded payment history mislabeled as paid",
+    file: files[3],
+    replacements: [[
+      "paymentState: paymentReceipt.status",
+      'paymentState: "paid"'
+    ]],
+    verifier: "scripts/test-expungement-consumer-payment-receipt.mjs",
+    expected: "payment history must present a refund as refunded rather than paid"
+  });
+  mutation({
+    name: "localized refunded label removed",
+    file: files[4],
+    replacements: [[
+      'k="payment.refunded"',
+      'k="payment.paid"'
+    ]],
+    verifier: "scripts/test-expungement-consumer-payment-receipt.mjs",
+    expected: "payment history must render an explicit localized refunded label"
+  });
+  mutation({
     name: "participant-controlled download owner",
     file: files[6],
     replacements: [[
@@ -147,4 +167,4 @@ if (failures) {
   console.error(`Consumer verifier mutation suite failed: ${failures} mutation(s) escaped or failed incorrectly.`);
   process.exit(1);
 }
-console.log("Consumer verifier mutation suite passed: 8/8 authority and presentation defects turned red.");
+console.log("Consumer verifier mutation suite passed: 10/10 authority and presentation defects turned red.");
