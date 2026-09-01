@@ -128,3 +128,22 @@ paid for once already.
   subjects RELEASED on PF17), CLOUD08 complete (vf25 FAIL recorded), CLOUD04/05
   on hold with their idle VF21/VF22 grants released — a verification slot whose
   family fell into repair reads post-repair bytes or it reads garbage.
+
+## R6 follow-ups (2026-09-01, from the UT/VT repair return)
+
+- **Fitter off-by-one-rung** (shared module, ~48 builders): ladder never
+  evaluates its declared 6.0pt minimum. Fix is landed but OPT-IN, default
+  unchanged; proved over 7,380 combinations (option off = byte-identical
+  everywhere). Flipping the default wants one coordinated rebuild + re-raster
+  wave, not drive-by adoption.
+- **Sibling defects to schedule**: ut_pet_acquittal / ut_pet_conviction /
+  ut_pet_dismissed_with_prejudice carry the same agency-use-box defect
+  (rebuild byte-neutral, receipts survive); vt_seal_felony /
+  vt_seal_misdemeanor / vt_seal_nonconviction / vt_exp_decriminalized carry
+  the VT defects (rebuild changes bytes -> re-raster). vt_seal_pardon stays
+  excluded (counsel question on the limitation clock).
+- **Any VT fixture predating fc1478301 carries a wall clock** and cannot be
+  reproduced from its own builder — reproducibility sweep warranted.
+- **VT corpusRoot() defect class**: an env-var path joined onto ROOT made
+  on-disk sources report BLOCKED_SOURCE. When a lane reports BLOCKED_SOURCE
+  on bytes that exist, check path resolution before believing it.
