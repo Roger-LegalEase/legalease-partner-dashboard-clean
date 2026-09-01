@@ -78,8 +78,8 @@
       "STALE_OR_VARIANT_ID": 2,
       "SOURCE_SCOPE_AND_VERSION_AMBIGUITY": 1,
       "MISSING_SOURCE_BINARY": 2,
-      "MISSING_CANONICAL_RELATIONSHIP_METADATA": 145,
-      "CURRENTNESS_UNVERIFIED": 57,
+      "MISSING_CANONICAL_RELATIONSHIP_METADATA": 142,
+      "CURRENTNESS_UNVERIFIED": 60,
       "FAMILY_IDENTITY_AMBIGUOUS": 8,
       "UNSUPPORTED_RELATIONSHIP": 1,
       "STATUTORY_CUSTOM_PLEADING": 6,
@@ -1577,7 +1577,12 @@
       "verifiedNote": "Public source, but posted terms restrict commercial sale/republication/transfer for value without express permission.",
       "humanContactTarget": null,
       "humanContactQuestion": null,
-      "humanAction": null
+      "humanAction": null,
+      "s1DigestRepair": {
+        "repairedBy": "SOURCE-1 (fable/s1), 2026-09-01",
+        "decision": "LEFT_UNBOUND",
+        "reason": "The mounted Master Library corpus (STATES/KS, three binaries) holds no file whose printed identity matches this record. A Nationwide custody row of matching title exists - Criminal Cover Sheet 102025.pdf (measuredSha256 6384f934dc431601..., private/Nationwide Record Clearing/LegalEase Kansas/Criminal Cover Sheet 102025.pdf, data/record-clearing/source-artifact-registry.json) - but those bytes are not present in this container, so the digest cannot be recomputed from bytes and the printed face cannot be read. Filling a digest from an unverifiable claim would state a guess as a measurement; a lane with the Nationwide corpus mounted can bind this record in minutes by opening that file, verifying the printed identity and recomputing the hash."
+      }
     },
     {
       "jurisdiction": "KS",
@@ -1653,7 +1658,12 @@
       "verifiedNote": "Source acquisition is not the blocker. Product reuse treatment needs a bounded permission/legal decision.",
       "humanContactTarget": null,
       "humanContactQuestion": null,
-      "humanAction": null
+      "humanAction": null,
+      "s1DigestRepair": {
+        "repairedBy": "SOURCE-1 (fable/s1), 2026-09-01",
+        "decision": "LEFT_UNBOUND",
+        "reason": "The mounted Master Library corpus (STATES/KS, three binaries) holds no file whose printed identity matches this record. The only 08/2022 KSJC document in the mounted corpus is the Order for Expungement, and an order is not a petition, so nothing here can satisfy this identity. A Nationwide custody row of matching title exists - Petition for Expungement of Conviction or Diversion 82022.pdf (measuredSha256 1113f7b64a57d7ca..., private/Nationwide Record Clearing/LegalEase Kansas/Petition for Expungement of Conviction or Diversion 82022.pdf, data/record-clearing/source-artifact-registry.json) - but those bytes are not present in this container, so the digest cannot be recomputed from bytes and the printed face cannot be read. Filling a digest from an unverifiable claim would state a guess as a measurement; a lane with the Nationwide corpus mounted can bind this record in minutes by opening that file, verifying the printed identity and recomputing the hash."
+      }
     },
     {
       "jurisdiction": "LA",
@@ -2146,17 +2156,17 @@
     {
       "jurisdiction": "KS",
       "canonicalArtifactId": "KSJC-NOTICE-OF-HEARING-12-2016",
-      "canonicalArtifactTitle": "REQUIRES_LOOKUP — no printed title is recorded",
-      "canonicalPublisher": "REQUIRES_LOOKUP — no issuing body is recorded for this identity in any committed record",
+      "canonicalArtifactTitle": "Notice of Hearing on Petition for Expungement of Conviction or Diversion (KSJC 12/2016)",
+      "canonicalPublisher": "Kansas Judicial Council",
       "officialSourcePage": null,
       "officialArtifactUrl": null,
-      "artifactSha256": null,
+      "artifactSha256": "a960c857ec505a3013e725526718580ad2047aa9b3dd85191a70b8375cc83ffd",
       "humanReturn": null,
-      "heldPath": null,
+      "heldPath": "private/Nationwide Record Clearing/LegalEase Kansas/Notice of Hearing on Petition for Expungement of Conviction or Diversion 122016.pdf",
       "heldCandidates": [],
       "localAmbiguityResolvedByVerification": false,
-      "sourceState": "MISSING_CANONICAL_RELATIONSHIP_METADATA",
-      "sourceStateBasis": "no canonical publisher, address or component locator is recorded for this identity",
+      "sourceState": "CURRENTNESS_UNVERIFIED",
+      "sourceStateBasis": "held bytes bound by printed identity on 2026-09-01: the face prints NOTICE OF HEARING ON PETITION FOR EXPUNGEMENT OF CONVICTION OR DIVERSION with the revision marker KSJC 12/2016 (1 page, AcroForm, 29 fields). What remains open is whether this is the edition the publisher issues today, which DISC settles against the Kansas Judicial Council forms index.",
       "externallyVerified": false,
       "aliases": [],
       "components": [],
@@ -2187,7 +2197,7 @@
         "note": "not assessed"
       },
       "jurisdictionScope": "unknown",
-      "owner": "DISC settles source identity and the route or family relationship",
+      "owner": "DISC compares the held edition against the publisher's own forms index",
       "uniqueFamilies": [
         "ks-21-6614-conviction-set",
         "ks-21-6614-diversion-set",
@@ -2208,7 +2218,13 @@
       "verifiedNote": null,
       "humanContactTarget": null,
       "humanContactQuestion": null,
-      "humanAction": null
+      "humanAction": null,
+      "s1DigestRepair": {
+        "repairedBy": "SOURCE-1 (fable/s1), 2026-09-01",
+        "oldValue": null,
+        "newValue": "a960c857ec505a3013e725526718580ad2047aa9b3dd85191a70b8375cc83ffd",
+        "basis": "SIF-2 null-digest repair. The digest was recomputed with sha256sum from the mounted Master Library corpus bytes at STATES/KS/05_SOURCE_GATED/KS__SOURCE-GATED__KS-NOTICE-OF-HEARING-ON-PETITION-FOR-EXPUNGEM__notice-of-hearing-on-petition-for-expungement__REV-2016-12__EN.pdf and equals the committed corpus index entry (data/rcap-all50/local-source-corpus-index.json) and the measuredSha256 of the identical Nationwide custody row in data/record-clearing/source-artifact-registry.json at private/Nationwide Record Clearing/LegalEase Kansas/Notice of Hearing on Petition for Expungement of Conviction or Diversion 122016.pdf. Printed identity was verified from the opened bytes before binding: the face prints NOTICE OF HEARING ON PETITION FOR EXPUNGEMENT OF CONVICTION OR DIVERSION with the revision marker KSJC 12/2016 (1 page, AcroForm, 29 fields)."
+      }
     },
     {
       "jurisdiction": "KS",
@@ -2275,22 +2291,27 @@
       "verifiedNote": null,
       "humanContactTarget": null,
       "humanContactQuestion": null,
-      "humanAction": null
+      "humanAction": null,
+      "s1DigestRepair": {
+        "repairedBy": "SOURCE-1 (fable/s1), 2026-09-01",
+        "decision": "LEFT_UNBOUND",
+        "reason": "The mounted Master Library corpus (STATES/KS, three binaries) holds no file whose printed identity matches this record. The held 12/2016 file whose slug says order is, on its printed face, the KBI cover sheet, and a cover sheet cannot satisfy an order identity. A Nationwide custody row of matching title exists - Order Denying Expungement of Conviction or Diversion 122016.pdf (measuredSha256 b29254fb58433d49..., private/Nationwide Record Clearing/LegalEase Kansas/Order Denying Expungement of Conviction or Diversion 122016.pdf, data/record-clearing/source-artifact-registry.json) - but those bytes are not present in this container, so the digest cannot be recomputed from bytes and the printed face cannot be read. Filling a digest from an unverifiable claim would state a guess as a measurement; a lane with the Nationwide corpus mounted can bind this record in minutes by opening that file, verifying the printed identity and recomputing the hash."
+      }
     },
     {
       "jurisdiction": "KS",
       "canonicalArtifactId": "KSJC-ORDER-EXPUNGEMENT-COVER-SHEET-12-2016",
-      "canonicalArtifactTitle": "REQUIRES_LOOKUP — no printed title is recorded",
-      "canonicalPublisher": "REQUIRES_LOOKUP — no issuing body is recorded for this identity in any committed record",
+      "canonicalArtifactTitle": "Order of Expungement of Conviction or Diversion Cover Sheet, for submission to the Kansas Bureau of Investigation (KSJC 12/2016)",
+      "canonicalPublisher": "Kansas Judicial Council",
       "officialSourcePage": null,
       "officialArtifactUrl": null,
-      "artifactSha256": null,
+      "artifactSha256": "d4171396d12f55a50d6c4e0d5a3b694ad982325e7377d74deaa5839d3bfad537",
       "humanReturn": null,
-      "heldPath": null,
+      "heldPath": "private/Nationwide Record Clearing/LegalEase Kansas/Order of Expungement of Conviction or Diversion Cover Sheet 122016.pdf",
       "heldCandidates": [],
       "localAmbiguityResolvedByVerification": false,
-      "sourceState": "MISSING_CANONICAL_RELATIONSHIP_METADATA",
-      "sourceStateBasis": "no canonical publisher, address or component locator is recorded for this identity",
+      "sourceState": "CURRENTNESS_UNVERIFIED",
+      "sourceStateBasis": "held bytes bound by printed identity on 2026-09-01: the face prints ORDER OF EXPUNGEMENT OF CONVICTION OR DIVERSION COVER SHEET (for submission to the Kansas Bureau of Investigation) with the revision marker KSJC 12/2016 (1 page, AcroForm, 21 fields). This supersedes the disc05 refusal that left the file unbound as \"the order, not a cover sheet\": that lane could not open bytes and read the corpus index slug, which drops the words Cover Sheet. The opened bytes, the original Nationwide filename (Order of Expungement of Conviction or Diversion Cover Sheet 122016.pdf) and the KS STATE_MANIFEST source_filename all say the file IS the cover sheet, so it binds to the cover-sheet identity - and it still cannot satisfy any plain order-of-expungement identity, because an order is not a cover sheet.. What remains open is whether this is the edition the publisher issues today, which DISC settles against the Kansas Judicial Council forms index.",
       "externallyVerified": false,
       "aliases": [],
       "components": [],
@@ -2321,7 +2342,7 @@
         "note": "not assessed"
       },
       "jurisdictionScope": "unknown",
-      "owner": "DISC settles source identity and the route or family relationship",
+      "owner": "DISC compares the held edition against the publisher's own forms index",
       "uniqueFamilies": [
         "ks-21-6614-conviction-set",
         "ks-21-6614-diversion-set",
@@ -2342,22 +2363,28 @@
       "verifiedNote": null,
       "humanContactTarget": null,
       "humanContactQuestion": null,
-      "humanAction": null
+      "humanAction": null,
+      "s1DigestRepair": {
+        "repairedBy": "SOURCE-1 (fable/s1), 2026-09-01",
+        "oldValue": null,
+        "newValue": "d4171396d12f55a50d6c4e0d5a3b694ad982325e7377d74deaa5839d3bfad537",
+        "basis": "SIF-2 null-digest repair. The digest was recomputed with sha256sum from the mounted Master Library corpus bytes at STATES/KS/05_SOURCE_GATED/KS__SOURCE-GATED__KS-ORDER-OF-EXPUNGEMENT-OF-CONVICTION-OR-DIVE__order-of-expungement-of-conviction-or-diversion__REV-2016-12__EN.pdf and equals the committed corpus index entry (data/rcap-all50/local-source-corpus-index.json) and the measuredSha256 of the identical Nationwide custody row in data/record-clearing/source-artifact-registry.json at private/Nationwide Record Clearing/LegalEase Kansas/Order of Expungement of Conviction or Diversion Cover Sheet 122016.pdf. Printed identity was verified from the opened bytes before binding: the face prints ORDER OF EXPUNGEMENT OF CONVICTION OR DIVERSION COVER SHEET (for submission to the Kansas Bureau of Investigation) with the revision marker KSJC 12/2016 (1 page, AcroForm, 21 fields). This supersedes the disc05 refusal that left the file unbound as \"the order, not a cover sheet\": that lane could not open bytes and read the corpus index slug, which drops the words Cover Sheet. The opened bytes, the original Nationwide filename (Order of Expungement of Conviction or Diversion Cover Sheet 122016.pdf) and the KS STATE_MANIFEST source_filename all say the file IS the cover sheet, so it binds to the cover-sheet identity - and it still cannot satisfy any plain order-of-expungement identity, because an order is not a cover sheet.."
+      }
     },
     {
       "jurisdiction": "KS",
       "canonicalArtifactId": "KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022",
-      "canonicalArtifactTitle": "REQUIRES_LOOKUP — no printed title is recorded",
-      "canonicalPublisher": "REQUIRES_LOOKUP — no issuing body is recorded for this identity in any committed record",
+      "canonicalArtifactTitle": "Order for Expungement, Pursuant to K.S.A. 21-6614 (Rev. KSJC 08/2022)",
+      "canonicalPublisher": "Kansas Judicial Council",
       "officialSourcePage": null,
       "officialArtifactUrl": null,
-      "artifactSha256": null,
+      "artifactSha256": "104c40187f530d4a55306550f262ba9eefdec8ba732e2adbb1790dfd9378e683",
       "humanReturn": null,
-      "heldPath": null,
+      "heldPath": "private/Nationwide Record Clearing/LegalEase Kansas/source-gated/KSJC__order-for-expungement-of-conviction-or-diversion__rev-2022-08.pdf",
       "heldCandidates": [],
       "localAmbiguityResolvedByVerification": false,
-      "sourceState": "MISSING_CANONICAL_RELATIONSHIP_METADATA",
-      "sourceStateBasis": "no canonical publisher, address or component locator is recorded for this identity",
+      "sourceState": "CURRENTNESS_UNVERIFIED",
+      "sourceStateBasis": "held bytes bound by printed identity on 2026-09-01: the face prints ORDER FOR EXPUNGEMENT, Pursuant to K.S.A. 21-6614, with the revision marker Rev. KSJC 08/2022 on all five pages (5 pages, AcroForm, 55 fields); it is the order only, no petition is embedded. What remains open is whether this is the edition the publisher issues today, which DISC settles against the Kansas Judicial Council forms index.",
       "externallyVerified": false,
       "aliases": [],
       "components": [],
@@ -2388,7 +2415,7 @@
         "note": "not assessed"
       },
       "jurisdictionScope": "unknown",
-      "owner": "DISC settles source identity and the route or family relationship",
+      "owner": "DISC compares the held edition against the publisher's own forms index",
       "uniqueFamilies": [
         "ks-21-6614-conviction-set",
         "ks-21-6614-diversion-set",
@@ -2409,7 +2436,13 @@
       "verifiedNote": null,
       "humanContactTarget": null,
       "humanContactQuestion": null,
-      "humanAction": null
+      "humanAction": null,
+      "s1DigestRepair": {
+        "repairedBy": "SOURCE-1 (fable/s1), 2026-09-01",
+        "oldValue": null,
+        "newValue": "104c40187f530d4a55306550f262ba9eefdec8ba732e2adbb1790dfd9378e683",
+        "basis": "SIF-2 null-digest repair. The digest was recomputed with sha256sum from the mounted Master Library corpus bytes at STATES/KS/05_SOURCE_GATED/KS__SOURCE-GATED__KSJC__order-for-expungement-of-conviction-or-diversion__REV-2022-08__EN.pdf and equals the committed corpus index entry (data/rcap-all50/local-source-corpus-index.json) and the measuredSha256 of the identical Nationwide custody row in data/record-clearing/source-artifact-registry.json at private/Nationwide Record Clearing/LegalEase Kansas/source-gated/KSJC__order-for-expungement-of-conviction-or-diversion__rev-2022-08.pdf. Printed identity was verified from the opened bytes before binding: the face prints ORDER FOR EXPUNGEMENT, Pursuant to K.S.A. 21-6614, with the revision marker Rev. KSJC 08/2022 on all five pages (5 pages, AcroForm, 55 fields); it is the order only, no petition is embedded."
+      }
     },
     {
       "jurisdiction": "LA",
@@ -8509,7 +8542,12 @@
       "verifiedNote": null,
       "humanContactTarget": null,
       "humanContactQuestion": null,
-      "humanAction": null
+      "humanAction": null,
+      "s1DigestRepair": {
+        "repairedBy": "SOURCE-1 (fable/s1), 2026-09-01",
+        "decision": "LEFT_UNBOUND",
+        "reason": "The mounted Master Library corpus (STATES/KS, three binaries) holds no file whose printed identity matches this record. A Nationwide custody row of matching title exists - KSJC__order-of-expungement-of-arrest-record-cover-sheet__rev-2016-12.pdf (measuredSha256 d13bc7b7b2a9c536..., private/Nationwide Record Clearing/LegalEase Kansas/source-gated/KSJC__order-of-expungement-of-arrest-record-cover-sheet__rev-2016-12.pdf, data/record-clearing/source-artifact-registry.json) - but those bytes are not present in this container, so the digest cannot be recomputed from bytes and the printed face cannot be read. Filling a digest from an unverifiable claim would state a guess as a measurement; a lane with the Nationwide corpus mounted can bind this record in minutes by opening that file, verifying the printed identity and recomputing the hash."
+      }
     },
     {
       "jurisdiction": "KS",
@@ -8555,7 +8593,12 @@
       "verifiedNote": null,
       "humanContactTarget": null,
       "humanContactQuestion": null,
-      "humanAction": null
+      "humanAction": null,
+      "s1DigestRepair": {
+        "repairedBy": "SOURCE-1 (fable/s1), 2026-09-01",
+        "decision": "LEFT_UNBOUND",
+        "reason": "The mounted Master Library corpus (STATES/KS, three binaries) holds no file whose printed identity matches this record. A Nationwide custody row of matching title exists - KSJC__order-of-relief-from-offender-registration-cover-sheet__rev-2022-06.pdf (measuredSha256 0c9c5a751086eee0..., private/Nationwide Record Clearing/LegalEase Kansas/source-gated/KSJC__order-of-relief-from-offender-registration-cover-sheet__rev-2022-06.pdf, data/record-clearing/source-artifact-registry.json) - but those bytes are not present in this container, so the digest cannot be recomputed from bytes and the printed face cannot be read. Filling a digest from an unverifiable claim would state a guess as a measurement; a lane with the Nationwide corpus mounted can bind this record in minutes by opening that file, verifying the printed identity and recomputing the hash."
+      }
     },
     {
       "jurisdiction": "KS",
@@ -8601,7 +8644,12 @@
       "verifiedNote": null,
       "humanContactTarget": null,
       "humanContactQuestion": null,
-      "humanAction": null
+      "humanAction": null,
+      "s1DigestRepair": {
+        "repairedBy": "SOURCE-1 (fable/s1), 2026-09-01",
+        "decision": "LEFT_UNBOUND",
+        "reason": "The mounted Master Library corpus (STATES/KS, three binaries) holds no file whose printed identity matches this record. A Nationwide custody row of matching title exists - KSJC__petition-for-expungement-of-arrest-record__rev-2013-02.pdf (measuredSha256 bf4b2309f831aa31..., private/Nationwide Record Clearing/LegalEase Kansas/source-gated/KSJC__petition-for-expungement-of-arrest-record__rev-2013-02.pdf, data/record-clearing/source-artifact-registry.json) - but those bytes are not present in this container, so the digest cannot be recomputed from bytes and the printed face cannot be read. Filling a digest from an unverifiable claim would state a guess as a measurement; a lane with the Nationwide corpus mounted can bind this record in minutes by opening that file, verifying the printed identity and recomputing the hash."
+      }
     },
     {
       "jurisdiction": "KS",
@@ -8647,7 +8695,12 @@
       "verifiedNote": null,
       "humanContactTarget": null,
       "humanContactQuestion": null,
-      "humanAction": null
+      "humanAction": null,
+      "s1DigestRepair": {
+        "repairedBy": "SOURCE-1 (fable/s1), 2026-09-01",
+        "decision": "LEFT_UNBOUND",
+        "reason": "The mounted Master Library corpus (STATES/KS, three binaries) holds no file whose printed identity matches this record. A Nationwide custody row of matching title exists - KSJC__petition-for-relief-from-offender-registration__rev-2022-06.pdf (measuredSha256 9264dc51531cd8ee..., private/Nationwide Record Clearing/LegalEase Kansas/source-gated/KSJC__petition-for-relief-from-offender-registration__rev-2022-06.pdf, data/record-clearing/source-artifact-registry.json) - but those bytes are not present in this container, so the digest cannot be recomputed from bytes and the printed face cannot be read. Filling a digest from an unverifiable claim would state a guess as a measurement; a lane with the Nationwide corpus mounted can bind this record in minutes by opening that file, verifying the printed identity and recomputing the hash."
+      }
     },
     {
       "jurisdiction": "KY",
