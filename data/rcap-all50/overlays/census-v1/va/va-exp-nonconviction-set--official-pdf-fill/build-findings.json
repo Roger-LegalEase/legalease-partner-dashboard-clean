@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "va_exp_nonconviction-set",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "The assignment names CC-1473 and CC-1473 prints this route's own authority — VA. CODE § 19.2-392.2(A) — across its caption, agreeing with the track's recorded authority in data/rcap-ledger/track-pathway-crosswalk.json.",
+      "consequence": "The packet is built on the assigned form with no substitution. The CC-1201/CC-1203 discrepancy the sealing builders returned does not arise on this family."
+    },
+    {
+      "finding": "The widget names lie about the blanks, as they did on CC-1201: User.Title is the NAME OF PETITIONER line, User.Officer is the STREET ADDRESS OF COURT line, and User.PetitionerName is the full name AT THE TIME OF ARREST.",
+      "consequence": "Every caption was read off the page at recorded coordinates and the build refuses on drift; the name-at-arrest line is left to the participant because the arrest record's wording controls, not the name the platform holds."
+    },
+    {
+      "finding": "User.City is the CITY OR COUNTY line of the circuit court caption — the filing venue — but the shared field-semantics name channel binds a field named 'City' to participant.city, and an explicit mapping that conflicts with the name channel is refused by design (explicit_mapping_conflicts_with_field_name).",
+      "consequence": "The venue line is declared required-before-filing with the reason stated, no matter.* fact is held in this family's fixtures — a packet must not claim to hold a value it can put nowhere — and the composed pages print a dotted line for the participant to copy the court from the petition's caption. This is a field-semantics fidelity note for whoever owns the descriptor list: a venue-line descriptor (e.g. matter.court binding a CITY OR COUNTY caption) would let this family write the venue."
+    },
+    {
+      "finding": "User.Check0 and User.Check5 each carry one name and two boxes asking two different questions — acquitted / nolle-or-dismissed, and warrant-attached / warrant-not-available.",
+      "consequence": "Those rows are keyed by widget name plus measured coordinate (the CC-1201 lesson), and neither pair is route-determined: the route covers both ways a charge ends without a conviction, so the basis boxes stay the participant's own election, disclosed with the form's own CHECK ONE instruction."
+    },
+    {
+      "finding": "CC-1473 prints one ADDRESS line for the petitioner, not separate street and city-state-zip boxes.",
+      "consequence": "participant.street_address carries the whole mailing address in this family's fixtures (the mi_setaside_marihuana-set precedent for a one-line address box), so the value written matches the box the court printed."
+    },
+    {
+      "finding": "The clerk's certification block at the foot of page 1 — the certification checkbox, the hearing date and time, and its DATE line — is the clerk's, and the form's checklist requires service on the Commonwealth's Attorney without stating the manner of service.",
+      "consequence": "All three clerk fields are protected as court-owned; no hearing date and no court date is ever written; and the service page delegates the manner of service to the circuit court clerk by name rather than inventing mechanics the form does not establish."
+    }
+  ]
+}
