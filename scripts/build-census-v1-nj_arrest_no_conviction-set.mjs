@@ -543,8 +543,27 @@ Object.assign(FAMILY, {
   },
   "pa_790_nonconviction-set": {
     jurisdiction: "PA", routeKeys: ["obligation:track-pathway:PA:pa_790_nonconviction:path-a-non-conviction-expungement"],
-    documents: [cloneDoc(PA_790_PETITION, { allow: PA_PETITION_ALLOW }), cloneDoc(PA_790_ORDER, { allow: PA_ORDER_ALLOW }), PA_IFP_CCP],
-    notes: ["The fee-waiver motion is retained only as conditional source evidence; no financial or sworn fact is filled."],
+    documents: [cloneDoc(PA_790_PETITION, { allow: PA_PETITION_ALLOW_TABLE_UNTOUCHED }), cloneDoc(PA_790_ORDER, { allow: PA_ORDER_ALLOW }), PA_IFP_CCP],
+    notes: ["The fee-waiver motion is retained only as conditional source evidence; no financial or sworn fact is filled.",
+      "The petition's offence table is left whole for the participant: its rows carry Section, Subsection, Counts, Grade and Disposition cells the platform holds no fact for, and a row is complete or it is untouched."],
+    guidance: {
+      afterTheTable: [
+        "Do not leave one of these blank because you are unsure. Ask the clerk of the court where the charges were filed.",
+        "The filing fee and whether it can be waived, who must be served and by what method, and the addresses the petition is served on are not established in this repository. Ask the same clerk. An unsourced figure in a filing instruction would be worse than none.",
+      ],
+      selfHelpEnds: [
+        "This packet prepares the Pennsylvania Rule of Criminal Procedure 790 petition and proposed order for you to review, complete, sign and file yourself. Self-help ends at any question this packet refuses to answer:",
+        "- whether your charges are eligible for expungement — a legal judgment this packet does not make;",
+        "- any blank listed above that you cannot complete from your own court records;",
+        "- anything the prosecuting attorney objects to, and any hearing the court schedules.",
+        "When you reach one of those points, stop and ask someone with the authority to answer. The clerk of the court where the charges were filed answers procedural questions — filing, fees, copies and service addresses. Only a lawyer admitted to practice in Pennsylvania may advise you on eligibility, on what to argue, or at a contested hearing; if you cannot afford one, ask that same clerk's office how to reach the county's legal aid or lawyer referral service. This packet is not legal advice, and no lawyer has reviewed your case in preparing it.",
+      ],
+      notYours: [
+        "**The fee-waiver motion (PA-IFP-CCP)** is held as exact source evidence only. It is not generated into your packet and nothing on it is a blank on this filing. If you need a fee waiver, ask the clerk for the current form.",
+        "**The proposed order** carries the court's blocks; submit them blank.",
+        "**Every signature and signature date** is yours to complete after you have read the finished packet.",
+      ],
+    },
   },
   "pa_9122_1_limited_access-set": {
     jurisdiction: "PA", routeKeys: ["obligation:track-pathway:PA:pa_9122_1_limited_access:path-i-petition-for-limited-access"],

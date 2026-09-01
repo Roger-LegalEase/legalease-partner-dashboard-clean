@@ -6,8 +6,8 @@
       "documentId": "PA-RCRIM-P-790-PETITION",
       "fixture": "canonical",
       "file": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/fixtures/rule-790-petition-canonical.pdf",
-      "sha256": "71064fcce2ff176e8acce369a6baca8f955e26bfc4238e05103be4d7a50ecc08",
-      "byteLength": 119433,
+      "sha256": "fbdd5610da403add33e1d65db44f7d2fea1bec6c8d758f53dfd7223ecb048594",
+      "byteLength": 121134,
       "written": [
         {
           "field": "Full Name",
@@ -26,10 +26,10 @@
           "lines": 1
         },
         {
-          "field": "Statute DescriptionRow1",
-          "factId": "matter.charges[0].charge",
+          "field": "DOB",
+          "factId": "participant.date_of_birth",
           "kind": "text",
-          "fontSize": 9.88,
+          "fontSize": 9.16,
           "outcome": "fit",
           "lines": 1
         },
@@ -80,14 +80,93 @@
           "fontSize": 9.703,
           "outcome": "fit",
           "lines": 1
+        },
+        {
+          "field": "Name of Arresting Agency",
+          "factId": "matter.citing_or_arresting_agency",
+          "kind": "exact_measured_fact_overlay",
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 1,
+              "rect": {
+                "x": 77.877,
+                "y": 431.922,
+                "width": 220.714,
+                "height": 12.684
+              },
+              "fontSize": 9,
+              "outcome": "fit",
+              "renderedAs": "form_xobject_appearance",
+              "xObject": "/ExactFactOverlay-7098480789"
+            }
+          ]
+        },
+        {
+          "field": "Date of Arrest",
+          "factId": "matter.arrest_date",
+          "kind": "exact_measured_fact_overlay",
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 1,
+              "rect": {
+                "x": 329.891,
+                "y": 432.833,
+                "width": 90.71,
+                "height": 10.398
+              },
+              "fontSize": 8.398,
+              "outcome": "fit",
+              "renderedAs": "form_xobject_appearance",
+              "xObject": "/ExactFactOverlay-9742682568"
+            }
+          ]
+        },
+        {
+          "field": "Date on Complaint",
+          "factId": "matter.offense_date",
+          "kind": "exact_measured_fact_overlay",
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 1,
+              "rect": {
+                "x": 464.181,
+                "y": 432.462,
+                "width": 93.647,
+                "height": 10.026
+              },
+              "fontSize": 8.026,
+              "outcome": "fit",
+              "renderedAs": "form_xobject_appearance",
+              "xObject": "/ExactFactOverlay-2000805986"
+            }
+          ]
+        },
+        {
+          "field": "Addr2",
+          "factId": "participant.address_line_2",
+          "kind": "exact_measured_fact_overlay",
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 1,
+              "rect": {
+                "x": 93.385,
+                "y": 562.936,
+                "width": 166.2,
+                "height": 11.2
+              },
+              "fontSize": 9,
+              "outcome": "fit",
+              "renderedAs": "form_xobject_appearance",
+              "xObject": "/ExactFactOverlay-9750469207"
+            }
+          ]
         }
       ],
       "refused": [
-        {
-          "field": "DOB",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
-        },
         {
           "field": "Social Security Number",
           "reason": "classified_unwritable_by_role",
@@ -100,21 +179,6 @@
         },
         {
           "field": "Offense Tracking Number OTN",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
-        },
-        {
-          "field": "Name of Arresting Agency",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
-        },
-        {
-          "field": "Date of Arrest",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
-        },
-        {
-          "field": "Date on Complaint",
           "reason": "classified_unwritable_by_role",
           "category": "role"
         },
@@ -135,6 +199,11 @@
         },
         {
           "field": "SubsectionRow1",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Statute DescriptionRow1",
           "reason": "classified_unwritable_by_role",
           "category": "role"
         },
@@ -294,12 +363,6 @@
           "category": "role"
         },
         {
-          "field": "Addr2",
-          "reason": "explicit_mapping_conflicts_with_field_name",
-          "category": "mapping_conflict",
-          "regionHeading": null
-        },
-        {
           "field": "Aliases2",
           "reason": "classified_unwritable_by_role",
           "category": "role"
@@ -439,9 +502,9 @@
         "rule": "remove /V and /DV; force button widgets to /AS /Off; never infer a participant or court answer"
       },
       "proof": {
-        "artifactSha256": "71064fcce2ff176e8acce369a6baca8f955e26bfc4238e05103be4d7a50ecc08",
-        "artifactByteLength": 119433,
-        "appearanceCount": 79,
+        "artifactSha256": "fbdd5610da403add33e1d65db44f7d2fea1bec6c8d758f53dfd7223ecb048594",
+        "artifactByteLength": 121134,
+        "appearanceCount": 83,
         "writtenProof": [
           {
             "field": "Full Name",
@@ -464,11 +527,11 @@
             "derivedFrom": "flattened artifact appearance streams at every measured widget"
           },
           {
-            "field": "Statute DescriptionRow1",
-            "factId": "matter.charges[0].charge",
-            "expectedValue": "Possession of a controlled substance",
+            "field": "DOB",
+            "factId": "participant.date_of_birth",
+            "expectedValue": "1991-04-17",
             "drawnText": [
-              "Possession of a controlled substance"
+              "1991-04-17"
             ],
             "exactValueObserved": true,
             "derivedFrom": "flattened artifact appearance streams at every measured widget"
@@ -532,6 +595,46 @@
             ],
             "exactValueObserved": true,
             "derivedFrom": "flattened artifact appearance streams at every measured widget"
+          },
+          {
+            "field": "Name of Arresting Agency",
+            "factId": "matter.citing_or_arresting_agency",
+            "expectedValue": "Example Police Department",
+            "drawnText": [
+              "Example Police Department"
+            ],
+            "exactValueObserved": true,
+            "derivedFrom": "page text items read from the artifact content stream at every overlay rectangle"
+          },
+          {
+            "field": "Date of Arrest",
+            "factId": "matter.arrest_date",
+            "expectedValue": "2019-03-08",
+            "drawnText": [
+              "2019-03-08"
+            ],
+            "exactValueObserved": true,
+            "derivedFrom": "page text items read from the artifact content stream at every overlay rectangle"
+          },
+          {
+            "field": "Date on Complaint",
+            "factId": "matter.offense_date",
+            "expectedValue": "2019-03-08",
+            "drawnText": [
+              "2019-03-08"
+            ],
+            "exactValueObserved": true,
+            "derivedFrom": "page text items read from the artifact content stream at every overlay rectangle"
+          },
+          {
+            "field": "Addr2",
+            "factId": "participant.address_line_2",
+            "expectedValue": "Apartment 4B",
+            "drawnText": [
+              "Apartment 4B"
+            ],
+            "exactValueObserved": true,
+            "derivedFrom": "page text items read from the artifact content stream at every overlay rectangle"
           }
         ],
         "missingWrittenInk": [],
@@ -545,9 +648,17 @@
       "documentId": "PA-RCRIM-P-790-PETITION",
       "fixture": "boundary",
       "file": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/fixtures/rule-790-petition-boundary.pdf",
-      "sha256": "7e65fe66a64e7d6c354c068cce5de338dfcb765f501d51e27362a106e5996b8a",
-      "byteLength": 118529,
+      "sha256": "20eb93f44c0adbfdd63091caf129099346f0f75cd96b84818dd18b083ba3c253",
+      "byteLength": 120457,
       "written": [
+        {
+          "field": "DOB",
+          "factId": "participant.date_of_birth",
+          "kind": "text",
+          "fontSize": 9.16,
+          "outcome": "fit",
+          "lines": 1
+        },
         {
           "field": "AddrState",
           "factId": "participant.state",
@@ -563,14 +674,93 @@
           "fontSize": 8.203,
           "outcome": "shrunk",
           "lines": 1
+        },
+        {
+          "field": "Name of Arresting Agency",
+          "factId": "matter.citing_or_arresting_agency",
+          "kind": "exact_measured_fact_overlay",
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 1,
+              "rect": {
+                "x": 77.877,
+                "y": 431.922,
+                "width": 220.714,
+                "height": 12.684
+              },
+              "fontSize": 9,
+              "outcome": "fit",
+              "renderedAs": "form_xobject_appearance",
+              "xObject": "/ExactFactOverlay-7098480789"
+            }
+          ]
+        },
+        {
+          "field": "Date of Arrest",
+          "factId": "matter.arrest_date",
+          "kind": "exact_measured_fact_overlay",
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 1,
+              "rect": {
+                "x": 329.891,
+                "y": 432.833,
+                "width": 90.71,
+                "height": 10.398
+              },
+              "fontSize": 8.398,
+              "outcome": "fit",
+              "renderedAs": "form_xobject_appearance",
+              "xObject": "/ExactFactOverlay-9742682568"
+            }
+          ]
+        },
+        {
+          "field": "Date on Complaint",
+          "factId": "matter.offense_date",
+          "kind": "exact_measured_fact_overlay",
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 1,
+              "rect": {
+                "x": 464.181,
+                "y": 432.462,
+                "width": 93.647,
+                "height": 10.026
+              },
+              "fontSize": 8.026,
+              "outcome": "fit",
+              "renderedAs": "form_xobject_appearance",
+              "xObject": "/ExactFactOverlay-2000805986"
+            }
+          ]
+        },
+        {
+          "field": "Addr2",
+          "factId": "participant.address_line_2",
+          "kind": "exact_measured_fact_overlay",
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 1,
+              "rect": {
+                "x": 93.385,
+                "y": 562.936,
+                "width": 166.2,
+                "height": 11.2
+              },
+              "fontSize": 9,
+              "outcome": "fit",
+              "renderedAs": "form_xobject_appearance",
+              "xObject": "/ExactFactOverlay-9750469207"
+            }
+          ]
         }
       ],
       "refused": [
-        {
-          "field": "DOB",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
-        },
         {
           "field": "Social Security Number",
           "reason": "classified_unwritable_by_role",
@@ -583,21 +773,6 @@
         },
         {
           "field": "Offense Tracking Number OTN",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
-        },
-        {
-          "field": "Name of Arresting Agency",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
-        },
-        {
-          "field": "Date of Arrest",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
-        },
-        {
-          "field": "Date on Complaint",
           "reason": "classified_unwritable_by_role",
           "category": "role"
         },
@@ -618,6 +793,11 @@
         },
         {
           "field": "SubsectionRow1",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Statute DescriptionRow1",
           "reason": "classified_unwritable_by_role",
           "category": "role"
         },
@@ -777,12 +957,6 @@
           "category": "role"
         },
         {
-          "field": "Addr2",
-          "reason": "explicit_mapping_conflicts_with_field_name",
-          "category": "mapping_conflict",
-          "regionHeading": null
-        },
-        {
           "field": "Aliases2",
           "reason": "classified_unwritable_by_role",
           "category": "role"
@@ -913,11 +1087,6 @@
           "category": "unfittable"
         },
         {
-          "field": "Statute DescriptionRow1",
-          "reason": "value_exceeds_widget_width_at_minimum_font",
-          "category": "unfittable"
-        },
-        {
           "field": "CountyOf",
           "reason": "value_exceeds_widget_width_at_minimum_font",
           "category": "unfittable"
@@ -957,10 +1126,20 @@
         "rule": "remove /V and /DV; force button widgets to /AS /Off; never infer a participant or court answer"
       },
       "proof": {
-        "artifactSha256": "7e65fe66a64e7d6c354c068cce5de338dfcb765f501d51e27362a106e5996b8a",
-        "artifactByteLength": 118529,
-        "appearanceCount": 79,
+        "artifactSha256": "20eb93f44c0adbfdd63091caf129099346f0f75cd96b84818dd18b083ba3c253",
+        "artifactByteLength": 120457,
+        "appearanceCount": 83,
         "writtenProof": [
+          {
+            "field": "DOB",
+            "factId": "participant.date_of_birth",
+            "expectedValue": "1991-04-17",
+            "drawnText": [
+              "1991-04-17"
+            ],
+            "exactValueObserved": true,
+            "derivedFrom": "flattened artifact appearance streams at every measured widget"
+          },
           {
             "field": "AddrState",
             "factId": "participant.state",
@@ -980,6 +1159,46 @@
             ],
             "exactValueObserved": true,
             "derivedFrom": "flattened artifact appearance streams at every measured widget"
+          },
+          {
+            "field": "Name of Arresting Agency",
+            "factId": "matter.citing_or_arresting_agency",
+            "expectedValue": "Example Police Department",
+            "drawnText": [
+              "Example Police Department"
+            ],
+            "exactValueObserved": true,
+            "derivedFrom": "page text items read from the artifact content stream at every overlay rectangle"
+          },
+          {
+            "field": "Date of Arrest",
+            "factId": "matter.arrest_date",
+            "expectedValue": "2019-03-08",
+            "drawnText": [
+              "2019-03-08"
+            ],
+            "exactValueObserved": true,
+            "derivedFrom": "page text items read from the artifact content stream at every overlay rectangle"
+          },
+          {
+            "field": "Date on Complaint",
+            "factId": "matter.offense_date",
+            "expectedValue": "2019-03-08",
+            "drawnText": [
+              "2019-03-08"
+            ],
+            "exactValueObserved": true,
+            "derivedFrom": "page text items read from the artifact content stream at every overlay rectangle"
+          },
+          {
+            "field": "Addr2",
+            "factId": "participant.address_line_2",
+            "expectedValue": "Apartment 4321-B",
+            "drawnText": [
+              "Apartment 4321-B"
+            ],
+            "exactValueObserved": true,
+            "derivedFrom": "page text items read from the artifact content stream at every overlay rectangle"
           }
         ],
         "missingWrittenInk": [],
@@ -993,8 +1212,8 @@
       "documentId": "PA-RCRIM-P-790-ORDER",
       "fixture": "canonical",
       "file": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/fixtures/rule-790-order-canonical.pdf",
-      "sha256": "b6bdabec46be852e13fdabbb713fb8bc2f9addb6ba3688accb73f397f569b9c3",
-      "byteLength": 195313,
+      "sha256": "99747048f360cd1fc60f40fbe571dc9f9c0c7769f1a272005b51f3721a2d7e73",
+      "byteLength": 195332,
       "written": [
         {
           "field": "County",
@@ -1017,6 +1236,14 @@
           "factId": "participant.street_address",
           "kind": "text",
           "fontSize": 11,
+          "outcome": "fit",
+          "lines": 1
+        },
+        {
+          "field": "PetitionersDOB",
+          "factId": "participant.date_of_birth",
+          "kind": "text",
+          "fontSize": 10.351,
           "outcome": "fit",
           "lines": 1
         },
@@ -1132,11 +1359,6 @@
           "category": "role"
         },
         {
-          "field": "PetitionersDOB",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
-        },
-        {
           "field": "PetitionersSSN",
           "reason": "classified_unwritable_by_role",
           "category": "role"
@@ -1186,8 +1408,8 @@
         "rule": "remove /V and /DV; force button widgets to /AS /Off; never infer a participant or court answer"
       },
       "proof": {
-        "artifactSha256": "b6bdabec46be852e13fdabbb713fb8bc2f9addb6ba3688accb73f397f569b9c3",
-        "artifactByteLength": 195313,
+        "artifactSha256": "99747048f360cd1fc60f40fbe571dc9f9c0c7769f1a272005b51f3721a2d7e73",
+        "artifactByteLength": 195332,
         "appearanceCount": 29,
         "writtenProof": [
           {
@@ -1216,6 +1438,16 @@
             "expectedValue": "118 Maple Street",
             "drawnText": [
               "118 Maple Street"
+            ],
+            "exactValueObserved": true,
+            "derivedFrom": "flattened artifact appearance streams at every measured widget"
+          },
+          {
+            "field": "PetitionersDOB",
+            "factId": "participant.date_of_birth",
+            "expectedValue": "1991-04-17",
+            "drawnText": [
+              "1991-04-17"
             ],
             "exactValueObserved": true,
             "derivedFrom": "flattened artifact appearance streams at every measured widget"
@@ -1262,8 +1494,8 @@
       "documentId": "PA-RCRIM-P-790-ORDER",
       "fixture": "boundary",
       "file": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/fixtures/rule-790-order-boundary.pdf",
-      "sha256": "36c8bfa235c2e66a70a3307f58f8b2e0bd4a4f52521f6a29b9a2b423d62aad5d",
-      "byteLength": 195095,
+      "sha256": "b5ae6b193db4680c89e2046067a41a9f4c9b5680cea3b68b34608a06a62c6e15",
+      "byteLength": 195114,
       "written": [
         {
           "field": "PetitionerName",
@@ -1278,6 +1510,14 @@
           "factId": "participant.street_address",
           "kind": "text",
           "fontSize": 11,
+          "outcome": "fit",
+          "lines": 1
+        },
+        {
+          "field": "PetitionersDOB",
+          "factId": "participant.date_of_birth",
+          "kind": "text",
+          "fontSize": 10.351,
           "outcome": "fit",
           "lines": 1
         },
@@ -1385,11 +1625,6 @@
           "category": "role"
         },
         {
-          "field": "PetitionersDOB",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
-        },
-        {
           "field": "PetitionersSSN",
           "reason": "classified_unwritable_by_role",
           "category": "role"
@@ -1449,8 +1684,8 @@
         "rule": "remove /V and /DV; force button widgets to /AS /Off; never infer a participant or court answer"
       },
       "proof": {
-        "artifactSha256": "36c8bfa235c2e66a70a3307f58f8b2e0bd4a4f52521f6a29b9a2b423d62aad5d",
-        "artifactByteLength": 195095,
+        "artifactSha256": "b5ae6b193db4680c89e2046067a41a9f4c9b5680cea3b68b34608a06a62c6e15",
+        "artifactByteLength": 195114,
         "appearanceCount": 29,
         "writtenProof": [
           {
@@ -1469,6 +1704,16 @@
             "expectedValue": "12345 Southwest Grandview Boulevard Northeast, Building 7",
             "drawnText": [
               "12345 Southwest Grandview Boulevard Northeast, Building 7"
+            ],
+            "exactValueObserved": true,
+            "derivedFrom": "flattened artifact appearance streams at every measured widget"
+          },
+          {
+            "field": "PetitionersDOB",
+            "factId": "participant.date_of_birth",
+            "expectedValue": "1991-04-17",
+            "drawnText": [
+              "1991-04-17"
             ],
             "exactValueObserved": true,
             "derivedFrom": "flattened artifact appearance streams at every measured widget"

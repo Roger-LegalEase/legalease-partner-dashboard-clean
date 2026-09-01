@@ -13,7 +13,7 @@
           "field": "Full Name",
           "decision": "candidate_write",
           "factId": "participant.full_legal_name",
-          "decisionBasis": "family explicit participant-fact allowlist; shared semantic finalizer still controls",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -30,10 +30,9 @@
         },
         {
           "field": "DOB",
-          "decision": "refuse",
-          "factId": null,
-          "refusalClass": "signature_or_date_participant_completion",
-          "reason": "No write is authorized for this field in this family build.",
+          "decision": "candidate_write",
+          "factId": "participant.date_of_birth",
+          "decisionBasis": "shared exact terminal-name fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -52,8 +51,13 @@
           "field": "Social Security Number",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-RCRIM-P-790-PETITION field Social Security Number",
+          "effectiveLabel": "Social Security",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -92,8 +96,13 @@
           "field": "Offense Tracking Number OTN",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-RCRIM-P-790-PETITION field Offense Tracking Number OTN",
+          "effectiveLabel": "Philadelphia Municipal Court or Court of Common Pleas Offens",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -110,10 +119,9 @@
         },
         {
           "field": "Name of Arresting Agency",
-          "decision": "refuse",
-          "factId": null,
-          "refusalClass": "signature_or_date_participant_completion",
-          "reason": "No write is authorized for this field in this family build.",
+          "decision": "candidate_write",
+          "factId": "matter.citing_or_arresting_agency",
+          "decisionBasis": "shared exact terminal-name fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -130,10 +138,9 @@
         },
         {
           "field": "Date of Arrest",
-          "decision": "refuse",
-          "factId": null,
-          "refusalClass": "signature_or_date_participant_completion",
-          "reason": "No write is authorized for this field in this family build.",
+          "decision": "candidate_write",
+          "factId": "matter.arrest_date",
+          "decisionBasis": "shared exact terminal-name fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -150,10 +157,9 @@
         },
         {
           "field": "Date on Complaint",
-          "decision": "refuse",
-          "factId": null,
-          "refusalClass": "signature_or_date_participant_completion",
-          "reason": "No write is authorized for this field in this family build.",
+          "decision": "candidate_write",
+          "factId": "matter.offense_date",
+          "decisionBasis": "shared exact terminal-name fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -192,8 +198,13 @@
           "field": "PA Statute TitleRow1",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-RCRIM-P-790-PETITION field PA Statute TitleRow1",
+          "effectiveLabel": "(Title)",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -212,8 +223,13 @@
           "field": "SectionRow1",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-RCRIM-P-790-PETITION field SectionRow1",
+          "effectiveLabel": "(Title)",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -232,8 +248,13 @@
           "field": "SubsectionRow1",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-RCRIM-P-790-PETITION field SubsectionRow1",
+          "effectiveLabel": "(Title)",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -250,9 +271,15 @@
         },
         {
           "field": "Statute DescriptionRow1",
-          "decision": "candidate_write",
-          "factId": "matter.charge",
-          "decisionBasis": "family explicit participant-fact allowlist; shared semantic finalizer still controls",
+          "decision": "refuse",
+          "factId": null,
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-RCRIM-P-790-PETITION field Statute DescriptionRow1",
+          "effectiveLabel": "Section Subsection Statute Description Counts Grade Disposit",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -271,8 +298,13 @@
           "field": "CountsRow1",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-RCRIM-P-790-PETITION field CountsRow1",
+          "effectiveLabel": "Section Subsection Statute Description Counts Grade Disposit",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -291,8 +323,13 @@
           "field": "GradeRow1",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-RCRIM-P-790-PETITION field GradeRow1",
+          "effectiveLabel": "Section Subsection Statute Description Counts Grade Disposit",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -311,8 +348,13 @@
           "field": "DispositionRow1",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-RCRIM-P-790-PETITION field DispositionRow1",
+          "effectiveLabel": "Section Subsection Statute Description Counts Grade Disposit",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -331,8 +373,13 @@
           "field": "PA Statute TitleRow2",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-RCRIM-P-790-PETITION field PA Statute TitleRow2",
+          "effectiveLabel": "PA Statute TitleRow2",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -351,8 +398,13 @@
           "field": "SectionRow2",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-RCRIM-P-790-PETITION field SectionRow2",
+          "effectiveLabel": "SectionRow2",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -371,8 +423,13 @@
           "field": "SubsectionRow2",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-RCRIM-P-790-PETITION field SubsectionRow2",
+          "effectiveLabel": "SubsectionRow2",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -391,8 +448,13 @@
           "field": "Statute DescriptionRow2",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-RCRIM-P-790-PETITION field Statute DescriptionRow2",
+          "effectiveLabel": "Statute DescriptionRow2",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -411,8 +473,13 @@
           "field": "CountsRow2",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-RCRIM-P-790-PETITION field CountsRow2",
+          "effectiveLabel": "CountsRow2",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -431,8 +498,13 @@
           "field": "GradeRow2",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-RCRIM-P-790-PETITION field GradeRow2",
+          "effectiveLabel": "GradeRow2",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -451,8 +523,13 @@
           "field": "DispositionRow2",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-RCRIM-P-790-PETITION field DispositionRow2",
+          "effectiveLabel": "DispositionRow2",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -471,8 +548,13 @@
           "field": "PA Statute TitleRow3",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-RCRIM-P-790-PETITION field PA Statute TitleRow3",
+          "effectiveLabel": "PA Statute TitleRow3",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -491,8 +573,13 @@
           "field": "SectionRow3",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-RCRIM-P-790-PETITION field SectionRow3",
+          "effectiveLabel": "SectionRow3",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -511,8 +598,13 @@
           "field": "SubsectionRow3",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-RCRIM-P-790-PETITION field SubsectionRow3",
+          "effectiveLabel": "SubsectionRow3",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -531,8 +623,13 @@
           "field": "Statute DescriptionRow3",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-RCRIM-P-790-PETITION field Statute DescriptionRow3",
+          "effectiveLabel": "Statute DescriptionRow3",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -551,8 +648,13 @@
           "field": "CountsRow3",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-RCRIM-P-790-PETITION field CountsRow3",
+          "effectiveLabel": "CountsRow3",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -571,8 +673,13 @@
           "field": "GradeRow3",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-RCRIM-P-790-PETITION field GradeRow3",
+          "effectiveLabel": "GradeRow3",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -591,8 +698,13 @@
           "field": "DispositionRow3",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-RCRIM-P-790-PETITION field DispositionRow3",
+          "effectiveLabel": "DispositionRow3",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -611,8 +723,13 @@
           "field": "PA Statute TitleRow4",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-RCRIM-P-790-PETITION field PA Statute TitleRow4",
+          "effectiveLabel": "PA Statute TitleRow4",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -631,8 +748,13 @@
           "field": "SectionRow4",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-RCRIM-P-790-PETITION field SectionRow4",
+          "effectiveLabel": "SectionRow4",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -651,8 +773,13 @@
           "field": "SubsectionRow4",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-RCRIM-P-790-PETITION field SubsectionRow4",
+          "effectiveLabel": "SubsectionRow4",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -671,8 +798,13 @@
           "field": "Statute DescriptionRow4",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-RCRIM-P-790-PETITION field Statute DescriptionRow4",
+          "effectiveLabel": "Statute DescriptionRow4",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -691,8 +823,13 @@
           "field": "CountsRow4",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-RCRIM-P-790-PETITION field CountsRow4",
+          "effectiveLabel": "CountsRow4",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -711,8 +848,13 @@
           "field": "GradeRow4",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-RCRIM-P-790-PETITION field GradeRow4",
+          "effectiveLabel": "GradeRow4",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -731,8 +873,13 @@
           "field": "DispositionRow4",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-RCRIM-P-790-PETITION field DispositionRow4",
+          "effectiveLabel": "DispositionRow4",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -751,8 +898,13 @@
           "field": "PA Statute TitleRow5",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-RCRIM-P-790-PETITION field PA Statute TitleRow5",
+          "effectiveLabel": "PA Statute TitleRow5",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -771,8 +923,13 @@
           "field": "SectionRow5",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-RCRIM-P-790-PETITION field SectionRow5",
+          "effectiveLabel": "SectionRow5",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -791,8 +948,13 @@
           "field": "SubsectionRow5",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-RCRIM-P-790-PETITION field SubsectionRow5",
+          "effectiveLabel": "If the sentence impose",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -811,8 +973,13 @@
           "field": "Statute DescriptionRow5",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-RCRIM-P-790-PETITION field Statute DescriptionRow5",
+          "effectiveLabel": "If the sentence imposed inclu",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -831,8 +998,13 @@
           "field": "CountsRow5",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-RCRIM-P-790-PETITION field CountsRow5",
+          "effectiveLabel": "If the sentence imposed included a fine, costs or restitutio",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -851,8 +1023,13 @@
           "field": "GradeRow5",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-RCRIM-P-790-PETITION field GradeRow5",
+          "effectiveLabel": "If the sentence imposed included a fine, costs or restitutio",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -871,8 +1048,13 @@
           "field": "DispositionRow5",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-RCRIM-P-790-PETITION field DispositionRow5",
+          "effectiveLabel": "If the sentence imposed included a fine, costs or restitutio",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -891,7 +1073,7 @@
           "field": "Defendant",
           "decision": "candidate_write",
           "factId": "participant.full_legal_name",
-          "decisionBasis": "family explicit participant-fact allowlist; shared semantic finalizer still controls",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -910,7 +1092,7 @@
           "field": "CountyOf",
           "decision": "candidate_write",
           "factId": "matter.county",
-          "decisionBasis": "family explicit participant-fact allowlist; shared semantic finalizer still controls",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -929,7 +1111,7 @@
           "field": "Addr1",
           "decision": "candidate_write",
           "factId": "participant.street_address",
-          "decisionBasis": "family explicit participant-fact allowlist; shared semantic finalizer still controls",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -948,7 +1130,7 @@
           "field": "Addr2",
           "decision": "candidate_write",
           "factId": "participant.address_line_2",
-          "decisionBasis": "family explicit participant-fact allowlist; shared semantic finalizer still controls",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -967,7 +1149,7 @@
           "field": "AddrCity",
           "decision": "candidate_write",
           "factId": "participant.city",
-          "decisionBasis": "family explicit participant-fact allowlist; shared semantic finalizer still controls",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -986,8 +1168,13 @@
           "field": "Aliases2",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-RCRIM-P-790-PETITION field Aliases2",
+          "effectiveLabel": "Address: Alias(es)",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1006,8 +1193,13 @@
           "field": "Aliases3",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-RCRIM-P-790-PETITION field Aliases3",
+          "effectiveLabel": "Aliases3",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1026,8 +1218,13 @@
           "field": "Aliases4",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-RCRIM-P-790-PETITION field Aliases4",
+          "effectiveLabel": "Aliases4",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1046,8 +1243,13 @@
           "field": "Aliases5",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-RCRIM-P-790-PETITION field Aliases5",
+          "effectiveLabel": "Aliases5",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1086,7 +1288,7 @@
           "field": "AddrState",
           "decision": "candidate_write",
           "factId": "participant.state",
-          "decisionBasis": "family explicit participant-fact allowlist; shared semantic finalizer still controls",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1105,7 +1307,7 @@
           "field": "AddrZip",
           "decision": "candidate_write",
           "factId": "participant.zip",
-          "decisionBasis": "family explicit participant-fact allowlist; shared semantic finalizer still controls",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1224,8 +1426,13 @@
           "field": "AffiantAddr1",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "unmailed_or_unperformed_service",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-RCRIM-P-790-PETITION field AffiantAddr1",
+          "effectiveLabel": "List name and mailing address of the affiant as shown on the",
+          "reason": "REQUIRED_BEFORE_FILING: service has not occurred, so the platform holds no fact for this field; the participant completes it after service and does not guess.",
+          "completesAfterService": true,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1426,7 +1633,7 @@
           "field": "CPDocketNumber",
           "decision": "candidate_write",
           "factId": "matter.case_number",
-          "decisionBasis": "family explicit participant-fact allowlist; shared semantic finalizer still controls",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1445,8 +1652,13 @@
           "field": "District#",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-RCRIM-P-790-PETITION field District#",
+          "effectiveLabel": "County of ______________________",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1465,8 +1677,13 @@
           "field": "DocketSeg1",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-RCRIM-P-790-PETITION field DocketSeg1",
+          "effectiveLabel": "Docket No",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1485,8 +1702,13 @@
           "field": "DocketSeg2",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-RCRIM-P-790-PETITION field DocketSeg2",
+          "effectiveLabel": "Docket No: CP-",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1505,8 +1727,13 @@
           "field": "DocketSeg3",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-RCRIM-P-790-PETITION field DocketSeg3",
+          "effectiveLabel": "Docket No: CP-  -",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1525,8 +1752,13 @@
           "field": "DocketSeg4",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-RCRIM-P-790-PETITION field DocketSeg4",
+          "effectiveLabel": "-20",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1552,7 +1784,7 @@
           "field": "County",
           "decision": "candidate_write",
           "factId": "matter.county",
-          "decisionBasis": "family explicit participant-fact allowlist; shared semantic finalizer still controls",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1631,8 +1863,13 @@
           "field": "PresentedBy",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-RCRIM-P-790-ORDER field PresentedBy",
+          "effectiveLabel": "_______________________________________ presented by",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1651,8 +1888,13 @@
           "field": "Disposition",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-RCRIM-P-790-ORDER field Disposition",
+          "effectiveLabel": "it is ORDERED that the Petition/Motion is",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1791,8 +2033,13 @@
           "field": "AddressOfAffiant",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "unmailed_or_unperformed_service",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-RCRIM-P-790-ORDER field AddressOfAffiant",
+          "effectiveLabel": "7.Name and mailing address of the affiant as shown on the co",
+          "reason": "REQUIRED_BEFORE_FILING: service has not occurred, so the platform holds no fact for this field; the participant completes it after service and does not guess.",
+          "completesAfterService": true,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1831,8 +2078,13 @@
           "field": "AgenciesServed",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-RCRIM-P-790-ORDER field AgenciesServed",
+          "effectiveLabel": "AOPC Rev",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1851,7 +2103,7 @@
           "field": "PetitionerName",
           "decision": "candidate_write",
           "factId": "participant.full_legal_name",
-          "decisionBasis": "family explicit participant-fact allowlist; shared semantic finalizer still controls",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1870,8 +2122,13 @@
           "field": "Alias1",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-RCRIM-P-790-ORDER field Alias1",
+          "effectiveLabel": "2.Alias(es)",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1890,8 +2147,13 @@
           "field": "Alias2",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-RCRIM-P-790-ORDER field Alias2",
+          "effectiveLabel": "Alias2",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1910,8 +2172,13 @@
           "field": "Alias3",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-RCRIM-P-790-ORDER field Alias3",
+          "effectiveLabel": "2.Alias(es): ________________________________________",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1930,7 +2197,7 @@
           "field": "PetitionersAddress",
           "decision": "candidate_write",
           "factId": "participant.street_address",
-          "decisionBasis": "family explicit participant-fact allowlist; shared semantic finalizer still controls",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1947,10 +2214,9 @@
         },
         {
           "field": "PetitionersDOB",
-          "decision": "refuse",
-          "factId": null,
-          "refusalClass": "signature_or_date_participant_completion",
-          "reason": "No write is authorized for this field in this family build.",
+          "decision": "candidate_write",
+          "factId": "participant.date_of_birth",
+          "decisionBasis": "shared exact terminal-name fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1969,8 +2235,13 @@
           "field": "PetitionersSSN",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-RCRIM-P-790-ORDER field PetitionersSSN",
+          "effectiveLabel": "5.PetitionerÕs Social Security Number",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1989,7 +2260,7 @@
           "field": "Docket#",
           "decision": "candidate_write",
           "factId": "matter.case_number",
-          "decisionBasis": "family explicit participant-fact allowlist; shared semantic finalizer still controls",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2008,8 +2279,13 @@
           "field": "OTN",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-RCRIM-P-790-ORDER field OTN",
+          "effectiveLabel": "9.Offense Tracking Number (OTN)",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2048,8 +2324,13 @@
           "field": "Text15",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "not_supported_by_exact_participant_fact_map",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-RCRIM-P-790-ORDER field Text15",
+          "effectiveLabel": "applicable dispositions (attach additional sheets if needed)",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2088,7 +2369,7 @@
           "field": "Defendant",
           "decision": "candidate_write",
           "factId": "participant.full_legal_name",
-          "decisionBasis": "family explicit participant-fact allowlist; shared semantic finalizer still controls",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2107,7 +2388,7 @@
           "field": "DocketNumber",
           "decision": "candidate_write",
           "factId": "matter.case_number",
-          "decisionBasis": "family explicit participant-fact allowlist; shared semantic finalizer still controls",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2134,7 +2415,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "CertificationofCompliance",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2154,7 +2437,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "of ________________",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2174,7 +2459,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "If you are presently employed, state employer",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2194,7 +2481,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "Salary or Wages per Month",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2214,7 +2503,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "Type of Work",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2234,7 +2525,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "Salary or Wages per Month",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2254,7 +2547,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "The date of my last employment was",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2274,7 +2569,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "Salary or Wages per Month",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2294,7 +2591,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "Type of Work",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2314,7 +2613,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "Spouse's name",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2334,7 +2635,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "If spouse is presently employed, state employer",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2354,7 +2657,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "Salary or Wages per Month",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2374,7 +2679,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "Salary or Wages per Month",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2394,7 +2701,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "Type of Work",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2414,7 +2723,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "The date of spouse's last employment was",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2434,7 +2745,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "Salary or Wages per Month",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2454,7 +2767,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "Type of Work",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2474,7 +2789,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "Contributions from Children",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2494,7 +2811,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "Contributions from Children",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2514,7 +2833,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "Contributions from Parents",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2534,7 +2855,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "Checking Account",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2554,7 +2877,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "Certificates of Deposit",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2574,7 +2899,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "Certificates of Deposit",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2594,7 +2921,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "Checking Account",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2614,7 +2943,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "Stocks and Bonds",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2634,7 +2965,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "Assessed Value",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2654,7 +2987,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "Assessed Value",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2674,7 +3009,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "Model",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2694,7 +3031,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "Cost",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2714,7 +3053,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "Amount Owed",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2734,7 +3075,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "Cost",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2754,7 +3097,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "Mortgages",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2774,7 +3119,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "Loans",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2794,7 +3141,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "Mortgages",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2814,7 +3163,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "Loans",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2834,7 +3185,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "Ages of Minor Children, if any",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2854,7 +3207,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "Relationship",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2874,7 +3229,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "Name",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2894,7 +3251,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "Relationship",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2914,7 +3273,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "Signature of PetitionerDate",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2934,7 +3295,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "Ages of Minor Children, if any",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2954,7 +3317,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "Ages of Minor Children, if any",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2974,7 +3339,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "AgesofDependentChildren3",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2994,7 +3361,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "AgesofDependentChildren4",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3014,7 +3383,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "AgesofDependentChildren5",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3034,7 +3405,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "AgesofDependentChildren6",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3054,7 +3427,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "AgesofDependentChildren7",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3074,7 +3449,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "AgesofDependentChildren8",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3094,7 +3471,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "AgesofDependentChildren9",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3114,7 +3493,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "AgesofDependentChildren10",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3134,7 +3515,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "AgesofDependentChildren11",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3154,7 +3537,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "AgesofDependentChildren12",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3174,7 +3559,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "Checking Account",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3194,7 +3581,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "Name",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3214,7 +3603,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "Docket No",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3245,7 +3636,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "Signature of PetitionerDate",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3265,7 +3658,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "of",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3296,7 +3691,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "County Clerk of Courts",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3316,7 +3713,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "Address",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3336,7 +3735,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "Amount Owed",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3356,7 +3757,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "Amount Owed",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3376,7 +3779,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "Address3",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3396,7 +3801,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "CountyCourtCity",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3416,7 +3823,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "Telephone",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3436,7 +3845,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "CountyCourtZip",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3456,7 +3867,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "CountyCourtPhoneNumber",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3476,7 +3889,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "DefendantName",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3540,7 +3955,9 @@
           "decision": "refuse",
           "factId": null,
           "refusalClass": "source_only_not_generated",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact.",
+          "blankTreatment": null,
+          "effectiveLabel": "DefendantAddress",
+          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
           "widgets": [
             {
               "widgetIndex": 0,
