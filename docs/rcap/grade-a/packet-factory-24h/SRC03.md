@@ -39,9 +39,10 @@ It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owne
 
 ## Claim before you read
 
-- Assert every family before reading or writing anything: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert SRC03 <familyId>`
-- A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
-- Release each family when it is finished: `node scripts/grade-a-packet-factory-24h/claim.mjs --release SRC03 <familyId>`, and leave that in your diff.
+- Assert each exact source obligation before reading evidence: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert SRC03 <itemId>`
+- The committed assignment contains exactly 48 itemIds; iterate those values only. A familyId is metadata and is not a source claim key.
+- A non-zero exit stops that row only: record `BLOCKED_BEFORE_CLAIM`, read none of its evidence, and continue with unrelated obligations.
+- Release each completed obligation independently: `node scripts/grade-a-packet-factory-24h/claim.mjs --release SRC03 <itemId>`.
 
 ## Read the source relationship registry first
 
@@ -54,13 +55,13 @@ It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owne
 - `STALE_OR_VARIANT_ID` — 2 — the identity is missing its current suffix or its filing-mode variant. Normalize the identity first; the form is public.
 - `SOURCE_SCOPE_AND_VERSION_AMBIGUITY` — 1 — statewide versus local scope is unsettled. Settle the scope before any inquiry.
 - `FAMILY_IDENTITY_AMBIGUOUS` — 8 — several held artifacts match this identity. Which one the route requires is the question; do not pick one.
-- `CURRENTNESS_UNVERIFIED` — 59 — the corpus already HOLDS matching bytes. The open question is whether the publisher still issues that edition. This is not a missing source and it is not an acquisition.
+- `CURRENTNESS_UNVERIFIED` — 58 — the corpus already HOLDS matching bytes. The open question is whether the publisher still issues that edition. This is not a missing source and it is not an acquisition.
 - `STATUTORY_CUSTOM_PLEADING` — 6 — a statutory citation. There is no document at the other end; a packet-build lane drafts against the statute.
 - `LICENSE_PERMISSION_REVIEW` — 2 — the form is public and its publisher restricts commercial reuse. Counsel and business decide, not a clerk.
 
 **These are:**
 
-- `STANDALONE_ARTIFACT` — 7 — public, ordinary acquisition.
+- `STANDALONE_ARTIFACT` — 8 — public, ordinary acquisition.
 - `PUBLIC_DOWNLOAD` — 0 — public, ordinary acquisition.
 - `MISSING_SOURCE_BINARY` — 1 — expected and absent; acquire once an exact address is settled.
 - `MISSING_CANONICAL_RELATIONSHIP_METADATA` — 145 — no publisher, address or locator is recorded. Settle identity before fetching.
@@ -150,6 +151,21 @@ the private corpus and the committed inventory, read only — nothing is fetched
 | `wv_acc_treatment_job_readiness-set::official-form:SCA-C907` | `official-form:SCA-C907` | WV | `held-inventory-reconciliation` | `wv_acc_treatment_job_readiness-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `wv_acc_treatment_job_readiness-set::source-sha256:2a72314146636c4120d87bdfb83f8609e35e9e904eed2f8169bc2375fba30222` | `source-sha256:2a72314146636c4120d87bdfb83f8609e35e9e904eed2f8169bc2375fba30222` | WV | `held-inventory-reconciliation` | `wv_acc_treatment_job_readiness-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `wv_conv_nonviolent_felony-set::official-form:SCA-C907` | `official-form:SCA-C907` | WV | `held-inventory-reconciliation` | `wv_conv_nonviolent_felony-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+
+Deterministically assert exactly the 48 committed itemIds (failures are recorded per row and do not terminate the loop):
+
+```sh
+node - <<'NODE'
+const {spawnSync}=require('node:child_process');
+const a=require('./data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json').assignments.find(x=>x.assignmentId==='SRC03');
+if (!a || a.items.length !== 48) throw new Error('SRC03 committed item count changed');
+for (const itemId of a.items) {
+  const r=spawnSync(process.execPath,['scripts/grade-a-packet-factory-24h/claim.mjs','--assert','SRC03',itemId],{stdio:'inherit'});
+  if (r.status !== 0) console.error('ROW_STOP', itemId);
+}
+NODE
+```
+
 
 Run the row gate once per listed item, after the lane gate. This exact first command demonstrates the interface; substitute each other exact item id from the table without changing the lane:
 

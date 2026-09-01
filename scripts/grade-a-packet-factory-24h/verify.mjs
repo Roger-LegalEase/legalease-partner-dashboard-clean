@@ -625,16 +625,15 @@ function run() {
   const ledger = fs.existsSync(path.join(ROOT, LEDGER)) ? read(LEDGER) : null;
   if (!ledger) ledgerProblems.push("no claim ledger; a verifier told to claim from one would stop before reading anything, as VF12 did");
   else {
-    const grantKey = (c) => `${c.laneKind}::${c.familyId}`;
+    const grantKey = (c) => `${c.subjectType}::${c.subjectId}::${c.operation}`;
     const seenGrant = new Map();
     for (const c of ledger.claims ?? []) {
-      if (seenGrant.has(grantKey(c))) ledgerProblems.push(`${c.familyId} granted to ${seenGrant.get(grantKey(c))} and ${c.lane} for the same kind of work`);
+      if (seenGrant.has(grantKey(c))) ledgerProblems.push(`${c.subjectId} granted to ${seenGrant.get(grantKey(c))} and ${c.lane} for the same operation`);
       else seenGrant.set(grantKey(c), c.lane);
     }
     // Every claimable item in the dispatch must be in the ledger, and nothing else.
-    const dispatched = new Set(a.filter((x) => x.itemKind === "packetFamily" || x.itemKind === "streamingClaim")
-      .flatMap((x) => (x.items ?? []).map((f) => `${x.lane}::${f}`)));
-    const granted = new Set((ledger.claims ?? []).map((c) => `${c.laneKind}::${c.familyId}`));
+    const dispatched = new Set(a.flatMap((x) => (x.items ?? []).map((id) => `${x.itemKind === "sourceObligation" ? "source-obligation" : "packet-family"}::${id}::${x.itemKind === "sourceObligation" ? x.operation : x.lane}`)));
+    const granted = new Set((ledger.claims ?? []).map((c) => `${c.subjectType}::${c.subjectId}::${c.operation}`));
     for (const d of dispatched) if (!granted.has(d)) ledgerProblems.push(`${d} is dispatched and not granted`);
     for (const g of granted) if (!dispatched.has(g)) ledgerProblems.push(`${g} is granted and not dispatched`);
     if (ledger.generatedAtCommit !== master.minimumCaptainSha) ledgerProblems.push(`the ledger is pinned to ${ledger.generatedAtCommit} and the dispatch to ${master.minimumCaptainSha}`);
@@ -649,7 +648,7 @@ function run() {
      * and claim.mjs prints it in every CLAIM_OK for exactly that reason.
      */
     const digest = crypto.createHash("sha256")
-      .update(JSON.stringify((ledger.claims ?? []).map((c) => [c.familyId, c.lane, c.laneKind])))
+      .update(JSON.stringify((ledger.claims ?? []).map((c) => ledger.claimsDigestCovers.map((field) => c[field] ?? null))))
       .digest("hex");
     if (!ledger.claimsDigest) ledgerProblems.push("the ledger carries no grant-set identity, so a revoked grant is indistinguishable from a current one");
     else if (ledger.claimsDigest !== digest) ledgerProblems.push(`the ledger declares grant set ${ledger.claimsDigest} and its grants hash to ${digest}`);
@@ -906,3 +905,4 @@ if (MUTATIONS) {
 
 const final = run();
 if (final.failed.length > 0) { console.error(`\n${final.failed.length} factory check(s) FAILED.`); process.exit(1); }
+execFileSync(process.execPath, ["scripts/grade-a-packet-factory-24h/verify-claim-ledger.mjs"], { cwd: ROOT, stdio: "inherit" });

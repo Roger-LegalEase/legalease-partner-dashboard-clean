@@ -13,6 +13,7 @@
  */
 import fs from "node:fs";
 import path from "node:path";
+import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { hostAllowed } from "../lib/official-host-policy.mjs";
 
@@ -606,3 +607,4 @@ if (MUTATIONS) {
 }
 
 if (first.failed.length) { console.error(`\n${first.failed.length} conveyor check(s) FAILED.`); process.exit(1); }
+execFileSync(process.execPath, ["scripts/grade-a-packet-factory-24h/verify-claim-ledger.mjs"], { cwd: ROOT, stdio: "inherit" });

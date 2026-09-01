@@ -209,7 +209,25 @@ const registry = [...records.values()].map((rec) => {
 
   let sourceState;
   let basis;
-  if (humanReturn) {
+  if (humanReturn?.currentnessEstablished) {
+    /*
+     * Currentness is settled, and the absence of a "Rev." line does not unsettle
+     * it. The official Texas host served exactly these bytes at exactly this
+     * address on 2026-08-31 -- that is what current means for a published form.
+     * The form prints no revision field at all; what it prints is the Supreme
+     * Court docket that adopted it, which is the publisher's own versioning.
+     * Holding the record open for a label the publisher does not use would be
+     * demanding evidence of a different kind than the evidence that exists.
+     *
+     * So it is a settled public artifact in hand, and the remaining work is
+     * PROMO's: verify the receipt, compare the hash, create the custody record.
+     * No revision date is derived from the docket number, the PDF timestamps or
+     * the filename.
+     */
+    sourceState = "STANDALONE_ARTIFACT";
+    basis = `a person returned the bytes and the chain is witnessed end to end: ${humanReturn.currentnessBasis}. The form publishes no revision line; its printed approval marker is "${humanReturn.printedApprovalMarker}". Remaining work is PROMO custody.`;
+  }
+  else if (humanReturn) {
     sourceState = "CURRENTNESS_UNVERIFIED";
     basis = `a person returned the bytes (${humanReturn.observedByteLength} bytes, ${humanReturn.observedPageCount} pages, ${humanReturn.observedStructuralClass}, sha ${humanReturn.sha256.slice(0, 12)}). ${humanReturn.provenanceNotSupplied?.length ? `Not witnessed: ${humanReturn.provenanceNotSupplied.join("; ")}. Until the download date and the printed revision are stated, nothing establishes that this is the current edition.` : "The chain is witnessed end to end."}`;
   }
@@ -249,7 +267,13 @@ const registry = [...records.values()].map((rec) => {
       ? { returnedBy: humanReturn.returnedBy, sha256: humanReturn.sha256, storedAt: humanReturn.storedAt,
           pages: humanReturn.observedPageCount, technology: humanReturn.observedStructuralClass,
           fieldCount: humanReturn.observedFieldCount, filenameMatchesExpectedUrl: humanReturn.filenameMatchesExpectedUrl,
-          provenanceNotSupplied: humanReturn.provenanceNotSupplied ?? [], bodyCommitted: false }
+          provenanceNotSupplied: humanReturn.provenanceNotSupplied ?? [], bodyCommitted: false,
+          statedUrl: humanReturn.statedUrl ?? null, statedDownloadDate: humanReturn.statedDownloadDate ?? null,
+          printedRevision: humanReturn.printedRevision ?? null,
+          printedRevisionAbsentOnTheForm: humanReturn.printedRevisionAbsentOnTheForm ?? false,
+          printedApprovalMarker: humanReturn.printedApprovalMarker ?? null,
+          currentnessEstablished: Boolean(humanReturn.currentnessEstablished),
+          currentnessBasis: humanReturn.currentnessBasis ?? null }
       : null,
     heldPath: held?.sourcePath ?? null,
     // Named rather than counted: an ambiguity is only actionable if you can see

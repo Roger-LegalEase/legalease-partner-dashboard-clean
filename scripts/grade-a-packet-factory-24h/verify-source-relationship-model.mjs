@@ -174,6 +174,28 @@ console.log(`\n${results.filter((r) => r.ok).length}/${results.length} source-mo
 if (MUTATIONS) {
   console.log("\nmutations:");
   const rerun = () => { const o = spawnSync(process.execPath, [import.meta.filename], { cwd: ROOT, encoding: "utf8" }); return `${o.stdout ?? ""}${o.stderr ?? ""}`; };
+  /*
+   * A synthetic human task, because there are no longer any real ones.
+   *
+   * Four of these mutations edited tasks[0]. Residual human-action count is now
+   * 0 -- which is the goal state -- so tasks[0] is undefined and they crashed
+   * instead of testing anything. A negative test whose subject cannot exist
+   * proves nothing, and one that crashes is worse: it looks like a broken
+   * verifier rather than an absent subject. Each case that needs a human task
+   * now builds one from a real registry record.
+   */
+  const syntheticTask = () => {
+    const r = (reg.records ?? []).find((x) => (x.uniqueFamilies ?? []).length) ?? (reg.records ?? [])[0];
+    return {
+      jurisdiction: r.jurisdiction, canonicalArtifactId: r.canonicalArtifactId,
+      sourceState: "PUBLIC_DOWNLOAD_BOT_BLOCKED",
+      officialSourcePage: r.officialSourcePage ?? "https://example.gov/forms",
+      officialArtifactUrl: r.officialArtifactUrl ?? "https://example.gov/forms/a.pdf",
+      uniqueFamiliesUnlocked: r.uniqueFamilies ?? [], uniqueFamilyCount: (r.uniqueFamilies ?? []).length,
+      preciseAction: "Open the official PDF in a normal browser and save it."
+    };
+  };
+
   const cases = [
     { id: "S1", name: "dropping an externally verified disposition is caught", file: REGISTRY,
       edit: (j) => { const r = j.records.find((x) => x.externallyVerified); r.externallyVerified = false; return j; } },
@@ -184,17 +206,17 @@ if (MUTATIONS) {
     { id: "S3", name: "a repository path inside an official URL is caught", file: REGISTRY,
       edit: (j) => { j.records[0].officialSourcePage = "https://x.gov/private/source-imports/a.pdf"; return j; } },
     { id: "S4", name: "a browser-download task with no artifact URL is caught", file: UNBLOCK,
-      edit: (j) => { j.tasks[0].officialArtifactUrl = null; return j; } },
+      edit: (j) => { j.tasks = [{ ...syntheticTask(), officialArtifactUrl: null }]; return j; } },
     { id: "S4", name: "a clerk-contact instruction is caught", file: UNBLOCK,
-      edit: (j) => { j.tasks[0].preciseAction = "Ask the county clerk which form the court accepts."; return j; } },
+      edit: (j) => { j.tasks = [{ ...syntheticTask(), preciseAction: "Ask the county clerk which form the court accepts." }]; return j; } },
     { id: "S4", name: "a contact task with no verified target or question is caught", file: UNBLOCK,
-      edit: (j) => { j.tasks.push({ ...j.tasks[0], sourceState: "HUMAN_CONTACT_REQUIRED", humanContactTarget: null, humanContactQuestion: null }); return j; } },
+      edit: (j) => { j.tasks = [{ ...syntheticTask(), sourceState: "HUMAN_CONTACT_REQUIRED", humanContactTarget: null, humanContactQuestion: null }]; return j; } },
     { id: "S5", name: "a bundle component emitted as a human errand is caught", file: UNBLOCK,
-      edit: (j) => { j.tasks.push({ ...j.tasks[0], sourceState: "BUNDLE_COMPONENT" }); return j; } },
+      edit: (j) => { j.tasks = [{ ...syntheticTask(), sourceState: "BUNDLE_COMPONENT" }]; return j; } },
     { id: "S5", name: "a statutory citation emitted as a fetch task is caught", file: UNBLOCK,
-      edit: (j) => { j.tasks.push({ ...j.tasks[0], sourceState: "STATUTORY_CUSTOM_PLEADING" }); return j; } },
+      edit: (j) => { j.tasks = [{ ...syntheticTask(), sourceState: "STATUTORY_CUSTOM_PLEADING" }]; return j; } },
     { id: "S5", name: "a reuse restriction sent to a person instead of counsel is caught", file: UNBLOCK,
-      edit: (j) => { j.tasks.push({ ...j.tasks[0], sourceState: "LICENSE_PERMISSION_REVIEW" }); return j; } },
+      edit: (j) => { j.tasks = [{ ...syntheticTask(), sourceState: "LICENSE_PERMISSION_REVIEW" }]; return j; } },
     { id: "S6", name: "held hash-matching bytes relabelled a missing source is caught", file: REGISTRY,
       edit: (j) => { const r = j.records.find((x) => x.artifactSha256); r.sourceState = "MISSING_SOURCE_BINARY"; return j; } },
     { id: "S7", name: "a family counted twice through a duplicated identity is caught", file: REGISTRY,
