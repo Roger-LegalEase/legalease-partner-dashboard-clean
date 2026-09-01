@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "rcap-route-holds/v1",
+  "whatThisIs": "The single route-scoped hold carrier. The repository already carries two hold mechanisms and neither is route-scoped: ConsumerDeliveryRouteState (src/lib/rcap/render/consumer-delivery-control.ts) is a path-wide kill switch that can only disable the whole consumer delivery path, and the deploymentReadiness block in data/rcap-codex/release-readiness.json records configuration completeness for a deployment, not for a route. Neither can hold ONE route while its siblings keep operating. This record exists precisely to fill that gap: it is the single route-scoped hold carrier, consumed by the availability derivation in packet-route-resolver.",
+  "whatThisIsNot": "Not a kill switch (that is ConsumerDeliveryRouteState), not a deployment-readiness record (that is release-readiness.json deploymentReadiness), and not a route-state mutator: a hold row makes a route unavailable at the availability derivation; it approves nothing, invalidates nothing, and never edits launch-graph, fulfillment-authority, or registry records.",
+  "authoredBy": "Captain or owner, by hand, in a reviewed commit. No generator writes this file and no workflow commits to it. The nightly source monitor CREATES REVIEW TASKS that may lead a person to add a hold here; it never adds one itself.",
+  "consumedBy": "The runtime availability layer (RM-1 / packet-route-resolver) reads this file read-tolerantly: a malformed file is treated as 'hold everything it cannot parse', never as 'no holds'. Verified by scripts/verify-rcap-route-holds.mjs (schema + release discipline + --mutations), wired into npm test.",
+  "rowShape": {
+    "routeId": "EXACT launch-graph pathwayKey, e.g. 'VT:expungement-of-criminal-history-record-13-vsa-7602'. Holds name exact routeIds only. A jurisdiction code ('VT'), a wildcard ('VT:*', '*', 'ALL'), or any other path-wide or jurisdiction-wide expression is refused by the verifier — jurisdiction-scoped permission is a documented anti-pattern in this repository, and jurisdiction-scoped holds would be the same defect inverted.",
+    "holdType": "MAINTENANCE_HOLD | LEGAL_HOLD",
+    "reason": "Why the hold exists, in prose a reviewer can act on.",
+    "evidence": "String or array of strings: review-task paths, issue URLs, monitor report references, decision-record paths.",
+    "placedBy": "Who placed it (person, not agent id).",
+    "placedAt": "RFC3339 timestamp.",
+    "releasedAt": "null while the hold is active; RFC3339 timestamp once released. Present on every row.",
+    "reacceptance": "null while active. A released row MUST carry { \"reference\": <repo path or record id of the reacceptance evidence — the fresh acceptance/verification record that justified release>, \"note\": <optional prose> }. A release without a reacceptance reference fails verification: routes come back through re-verified evidence, never through deletion of the hold."
+  },
+  "rules": [
+    "Holds are appended, released in place, and preserved: do not delete a released row — the row is the history of the outage.",
+    "One route may carry a MAINTENANCE_HOLD and a LEGAL_HOLD at the same time; two active holds of the same type on the same route are a duplicate and fail verification.",
+    "Placing or releasing a hold changes no other record. Availability is derived; route state, authority and registry records are untouched.",
+    "The response procedure for source changes is docs/rcap/EVERGREEN_ROUTE_MAINTENANCE.md."
+  ],
+  "holds": []
+}
