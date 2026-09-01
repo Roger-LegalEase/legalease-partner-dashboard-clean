@@ -19,7 +19,7 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family ca-1203-41-set \
+  --family ca-1203-42-set \
   --codex-cloud \
   --minimum-captain-sha 13771582866352d77e46e5d0b9bc86f1abbb6752
 ```
@@ -58,8 +58,8 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 
 ## The 2 families
 
-- `ca-1203-41-set` — failing: knownRequiredFieldsMissing, unclassifiedBlanks, incompleteRows, requiredOptionsMissing, requiredComponentsMissing
-- `nj_indictable_conviction-set` — failing: knownRequiredFieldsMissing
+- `ca-1203-42-set` — failing: incompleteRows, requiredOptionsMissing
+- `nj_ordinance-set` — failing: knownRequiredFieldsMissing
 
 ## What you receive
 
@@ -72,10 +72,10 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/fix02/**`
-- `data/rcap-all50/overlays/census-v1/ca/ca-1203-41-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/**`
-- `scripts/build-census-v1-ca-1203-41-set.mjs`
-- `scripts/build-census-v1-nj_indictable_conviction-set.mjs`
+- `data/rcap-all50/overlays/census-v1/ca/ca-1203-42-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/nj/nj-ordinance-set--official-pdf-fill/**`
+- `scripts/build-census-v1-ca-1203-42-set.mjs`
+- `scripts/build-census-v1-nj_ordinance-set.mjs`
 
 ## Never write here
 

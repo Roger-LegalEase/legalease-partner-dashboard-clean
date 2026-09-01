@@ -19,7 +19,7 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family ca-851-91-set \
+  --family ca-prop64-set \
   --codex-cloud \
   --minimum-captain-sha 13771582866352d77e46e5d0b9bc86f1abbb6752
 ```
@@ -58,8 +58,8 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 
 ## The 2 families
 
-- `ca-851-91-set` — failing: knownRequiredFieldsMissing, incompleteRows
-- `ny_mrta_marijuana-set` — failing: knownRequiredFieldsMissing
+- `ca-prop64-set` — failing: knownRequiredFieldsMissing, unclassifiedBlanks, incompleteRows, requiredOptionsMissing, requiredComponentsMissing
+- `pa_490_nonconviction-set` — failing: incompleteRows
 
 ## What you receive
 
@@ -72,10 +72,10 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/fix05/**`
-- `data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/**`
-- `scripts/build-census-v1-ca-851-91-set.mjs`
-- `scripts/build-census-v1-ny_mrta_marijuana-set.mjs`
+- `data/rcap-all50/overlays/census-v1/ca/ca-prop64-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/pa/pa-490-nonconviction-set--official-pdf-fill/**`
+- `scripts/build-census-v1-ca-prop64-set.mjs`
+- `scripts/build-census-v1-pa_490_nonconviction-set.mjs`
 
 ## Never write here
 

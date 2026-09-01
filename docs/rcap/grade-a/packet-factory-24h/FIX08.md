@@ -19,7 +19,7 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family nj_arrest_no_conviction-set \
+  --family nj_clean_slate-set \
   --codex-cloud \
   --minimum-captain-sha 13771582866352d77e46e5d0b9bc86f1abbb6752
 ```
@@ -58,8 +58,8 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 
 ## The 2 families
 
-- `nj_arrest_no_conviction-set` — failing: knownRequiredFieldsMissing
-- `pa_9122_1_limited_access-set` — failing: knownRequiredFieldsMissing, incompleteRows
+- `nj_clean_slate-set` — failing: knownRequiredFieldsMissing
+- `pa_summary_conviction-set` — failing: knownRequiredFieldsMissing, unclassifiedBlanks, incompleteRows
 
 ## What you receive
 
@@ -72,9 +72,10 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/fix08/**`
-- `data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/pa/pa-9122-1-limited-access-set--official-pdf-fill/**`
-- `scripts/build-census-v1-pa_9122_1_limited_access-set.mjs`
+- `data/rcap-all50/overlays/census-v1/nj/nj-clean-slate-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/pa/pa-summary-conviction-set--official-pdf-fill/**`
+- `scripts/build-census-v1-nj_clean_slate-set.mjs`
+- `scripts/build-census-v1-pa_summary_conviction-set.mjs`
 
 ## Never write here
 

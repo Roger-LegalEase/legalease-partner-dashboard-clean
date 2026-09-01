@@ -1747,6 +1747,18 @@ const promptFor = (a) => {
 };
 
 const OUT = makeEmitter({ root: ROOT, check: CHECK, label: "packet factory 24h" });
+
+/* Queue writes; flush after the destruction guard. See the guard below. */
+const PENDING_EMITS = [];
+{
+  const immediateEmit = OUT.emit.bind(OUT);
+  OUT.emit = (rel, content) => PENDING_EMITS.push([rel, content]);
+  /* Flushing also restores immediate writes: emits after the guard (the claim
+   * ledger, the repair record, every prompt) must land on disk, not in a queue
+   * nothing drains. The first flush-only version dropped all of them silently
+   * while printing "Wrote 52 prompts". */
+  OUT.flushPendingEmits = () => { for (const [r, c] of PENDING_EMITS) immediateEmit(r, c); PENDING_EMITS.length = 0; OUT.emit = immediateEmit; };
+}
 OUT.emit(`${OUT_DIR}/MASTER_QUEUE.json`, `${JSON.stringify(masterQueue, null, 2)}\n`);
 OUT.emit(`${OUT_DIR}/ACTIVE_ASSIGNMENTS.json`, `${JSON.stringify(activeAssignmentsRecord, null, 2)}\n`);
 OUT.emit(`${OUT_DIR}/IMPORT_GRAPH.json`, `${JSON.stringify(importGraphRecord, null, 2)}\n`);
@@ -1881,12 +1893,21 @@ const generatedKeys = new Set(claimRows.map(claimKey));
  * asserting them. Identity preservation without lane comparison is how it got
  * past the destruction guard.
  */
-const priorExternal = new Map((priorLedger.claims ?? [])
-  .filter((c) => externalLanes.has(c.lane))
+/*
+ * A LIVE prior claim beats the freshly generated row for the same identity,
+ * whatever lane it sits on. The first version protected only external lanes,
+ * and the next regeneration tried to re-pack seventeen live GENERATOR-lane
+ * grants (FIX02 -> FIX01, VF07 -> VF08, ...) because its inputs had moved --
+ * which is precisely the churn that stranded workers on emptied lanes earlier
+ * in this shift. A live grant is owned; only released history may be
+ * re-packed.
+ */
+const priorPinned = new Map((priorLedger.claims ?? [])
+  .filter((c) => c.released !== true || externalLanes.has(c.lane))
   .map((c) => [claimKey(c), c]));
-const claimRowsRespectingExternal = claimRows.filter((c) => !priorExternal.has(claimKey(c)));
+const claimRowsRespectingExternal = claimRows.filter((c) => !priorPinned.has(claimKey(c)));
 const preservedGrants = (priorLedger.claims ?? [])
-  .filter((c) => externalLanes.has(c.lane)
+  .filter((c) => priorPinned.has(claimKey(c))
     ? true
     : !generatedKeys.has(claimKey(c)) );
 const mergedClaims = [...claimRowsRespectingExternal, ...preservedGrants]
@@ -1989,6 +2010,9 @@ if (lostIdentities.length || lostReleaseFlags.length || shrank.length || movedLi
   console.error("  Nothing was written. Fix the generator, not the data.");
   process.exit(1);
 }
+
+/* Guard satisfied: everything the run produced lands atomically-ish now. */
+OUT.flushPendingEmits();
 OUT.emit(`${OUT_DIR}/claim-ledger.json`, `${JSON.stringify(claimLedgerRecord, null, 2)}\n`);
 OUT.emit(`${OUT_DIR}/CLAIM_LEDGER_REPAIR.json`, `${JSON.stringify({
   schemaVersion: "rcap-claim-ledger-repair/v1",

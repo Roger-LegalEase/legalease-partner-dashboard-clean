@@ -40,7 +40,7 @@
   "grantsNothing": "A RASTER_PASS proves the pages render as measured. It is one gate of several, it promotes nothing, and it opens no commercial route.",
   "schemaVersion": "rcap-raster-queue/v1",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate-raster-queue.mjs",
-  "packetCommitSha": "54197f3501979675e6b997d969207d60742bc3cb",
+  "packetCommitSha": "134db91a9c5d1955d565759754da360808621a46",
   "whyThisExists": "The Codex container cannot resolve or fetch a Chromium (ENV-RAS01: Playwright CDN answers HTTP 403), so the visual gate is unreachable from where packets are built. The render moves to a browser-equipped GitHub runner. Nothing about PASS_COMPLETE is weakened.",
   "rasterStateVocabulary": [
     "RASTER_PENDING",
@@ -87,79 +87,91 @@
     "RAS04"
   ],
   "counts": {
-    "queued": 47,
+    "queued": 55,
     "byLane": {
-      "RAS01": 12,
-      "RAS02": 12,
-      "RAS03": 12,
-      "RAS04": 11
+      "RAS01": 14,
+      "RAS02": 14,
+      "RAS03": 14,
+      "RAS04": 13
     },
     "byState": {
-      "RASTER_PASS": 47
+      "RASTER_PENDING": 8,
+      "RASTER_RUNNING": 0,
+      "RASTER_PASS": 47,
+      "RASTER_FAIL": 0,
+      "RASTER_BLOCKED_ENVIRONMENT": 0
     },
-    "notEligible": 299
+    "notEligible": 291
   },
   "byLane": {
     "RAS01": [
       "ak-courtview-set",
       "ar-misdemeanor-dwi-seal-set",
-      "ct-cleanslate-petition-set",
-      "mi_setaside_marihuana-set",
-      "ri_nonconviction_sealing-set",
-      "ut_pet_dismissed_with_prejudice-set",
-      "ut_pet_traffic-set",
-      "va_seal_petition_misdemeanor-set",
-      "vt_seal_felony-set",
-      "wa_vac_cannabis-set",
-      "wa_vac_misdemeanor_ordinary-set",
-      "wa_vac_treaty_fishing-set"
-    ],
-    "RAS02": [
-      "ak-tf800-set",
-      "co_motion_seal_nonconviction-set",
-      "ky_void_seal_controlled_substance-set",
-      "ne-setaside-custodial-set",
-      "sd_arrest_expungement-set",
-      "ut_pet_dismissed_without_prejudice-set",
-      "va_seal_ancillary_matter_only-set",
-      "vt_exp_decriminalized-set",
-      "vt_seal_misdemeanor-set",
-      "wa_vac_domestic_violence-set",
-      "wa_vac_substance_use_disorder-set",
-      "wv_conv_multiple_misdemeanors-set"
-    ],
-    "RAS03": [
-      "ak-tf805-set",
-      "co_multiple_conviction_seal-set",
+      "co_pardoned_conviction_seal-set",
       "ky_void_seal_marijuana_synthetic_salvia-set",
-      "pa_age70_deceased-set",
-      "ut_pet_acquittal-set",
-      "ut_pet_limitations-set",
+      "ne-setaside-custodial-set",
+      "ri_nonconviction_sealing-set",
+      "ut_pet_conviction-set",
+      "ut_pet_no_charges-set",
       "va_seal_enumerated_seven_year-set",
       "vt_seal_18_to_21-set",
       "vt_seal_nonconviction-set",
       "wa_vac_felony-set",
       "wa_vac_survivor_felony-set",
-      "wv_conv_single_misdemeanor-set"
+      "wi_nc_doj_fingerprint_removal-set"
     ],
-    "RAS04": [
-      "ar-arrest-seal-set",
-      "co_pardoned_conviction_seal-set",
-      "me-seal-prost-set",
-      "pa_pardon_expungement-set",
-      "ut_pet_conviction-set",
-      "ut_pet_no_charges-set",
+    "RAS02": [
+      "ak-tf800-set",
+      "az_marijuana_expungement_arrest_no_charges-set",
+      "ct-cleanslate-petition-set",
+      "ma-expunge-mj-set",
+      "or_conviction_setaside-set",
+      "sc_17_22_950_summary-set",
+      "ut_pet_dismissed_with_prejudice-set",
+      "ut_pet_traffic-set",
       "va_seal_petition_felony-set",
       "vt_seal_dui-set",
       "vt_seal_pardon-set",
       "wa_vac_homicide_victim_prostitution-set",
-      "wa_vac_survivor_misdemeanor-set"
+      "wa_vac_survivor_misdemeanor-set",
+      "wv_conv_multiple_misdemeanors-set"
+    ],
+    "RAS03": [
+      "ak-tf805-set",
+      "co_motion_seal_nonconviction-set",
+      "ky_felony_vacatur_expungement-set",
+      "me-seal-prost-set",
+      "pa_age70_deceased-set",
+      "sd_arrest_expungement-set",
+      "ut_pet_dismissed_without_prejudice-set",
+      "va_exp_nonconviction-set",
+      "va_seal_petition_misdemeanor-set",
+      "vt_seal_felony-set",
+      "wa_vac_cannabis-set",
+      "wa_vac_misdemeanor_ordinary-set",
+      "wa_vac_treaty_fishing-set",
+      "wv_conv_single_misdemeanor-set"
+    ],
+    "RAS04": [
+      "ar-arrest-seal-set",
+      "co_multiple_conviction_seal-set",
+      "ky_void_seal_controlled_substance-set",
+      "mi_setaside_marihuana-set",
+      "pa_pardon_expungement-set",
+      "ut_pet_acquittal-set",
+      "ut_pet_limitations-set",
+      "va_seal_ancillary_matter_only-set",
+      "vt_exp_decriminalized-set",
+      "vt_seal_misdemeanor-set",
+      "wa_vac_domestic_violence-set",
+      "wa_vac_substance_use_disorder-set",
+      "wi_nc_doj_challenge-set"
     ]
   },
   "rows": [
     {
       "familyId": "ak-courtview-set",
-      "packetCommitSha": "54197f3501979675e6b997d969207d60742bc3cb",
+      "packetCommitSha": "134db91a9c5d1955d565759754da360808621a46",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill/fixtures/tf810-canonical-filled.pdf",
       "canonicalPdfSha256": "ac2111fa8215881775b35f198d5098aab766703ad55cf24a74a1e5aba843df83",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill/fixtures/tf810-boundary-filled.pdf",
@@ -226,7 +238,7 @@
     },
     {
       "familyId": "ak-tf800-set",
-      "packetCommitSha": "54197f3501979675e6b997d969207d60742bc3cb",
+      "packetCommitSha": "134db91a9c5d1955d565759754da360808621a46",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill/fixtures/tf800-canonical-filled.pdf",
       "canonicalPdfSha256": "66d0c390198984a8c42a550d0077ef63dae98af3900f51630490ec8fcb0c54d6",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill/fixtures/tf800-boundary-filled.pdf",
@@ -293,7 +305,7 @@
     },
     {
       "familyId": "ak-tf805-set",
-      "packetCommitSha": "54197f3501979675e6b997d969207d60742bc3cb",
+      "packetCommitSha": "134db91a9c5d1955d565759754da360808621a46",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ak/ak-tf805-set--official-pdf-fill/fixtures/tf805-canonical-filled.pdf",
       "canonicalPdfSha256": "bffda336fac95d0980e0a9130913c9189077e1fdc3f05b5a1d55065e5f5c9703",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ak/ak-tf805-set--official-pdf-fill/fixtures/tf805-boundary-filled.pdf",
@@ -360,7 +372,7 @@
     },
     {
       "familyId": "ar-arrest-seal-set",
-      "packetCommitSha": "54197f3501979675e6b997d969207d60742bc3cb",
+      "packetCommitSha": "134db91a9c5d1955d565759754da360808621a46",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf",
       "canonicalPdfSha256": "78ef189e981b35fec69688cc6d3181df245b309e7405c954fcabd503e426bea5",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/fixtures/petition-boundary-filled.pdf",
@@ -417,35 +429,7 @@
       "requestedScale": 2.5,
       "builderAssignment": "VF04",
       "currentRasterState": "RASTER_PASS",
-      "nextOwner": "independent-verification",
-      "supersededReceipts": [
-        {
-          "verdict": "RASTER_PASS",
-          "workflowRunId": "33495068504",
-          "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
-          "renderedCommitSha": "5f144ec10d2bf7404faf0811e98418e0b13f06ba",
-          "jobId": "99815920306",
-          "jobConclusion": "success",
-          "boundToCanonicalSha256": "78ef189e981b35fec69688cc6d3181df245b309e7405c954fcabd503e426bea5",
-          "boundToBoundarySha256": "fb32678b598155af6d1436eeb51098cb665fe2f1711bd826ec2b980b1c30a811",
-          "documentsCovered": [
-            "petition-canonical-filled.pdf"
-          ],
-          "documentsNotCovered": [
-            "order-canonical-filled.pdf"
-          ],
-          "coversTheWholeFamily": false,
-          "receiptArtifact": {
-            "id": "9795516977",
-            "name": "rcap-raster-ar-arrest-seal-set-33495068504",
-            "zipSha256": "sha256:edbf58b841fab1fd0021d1eb19e37cedf8969c4b2830f411512e88ea9d82e3a4",
-            "expiresAt": "2026-09-15T10:04:03Z"
-          },
-          "canaryPrecondition": "the canary job and its live negative controls passed in the same run; the family matrix depends on that job, so no family verdict exists without it",
-          "supersededBecause": "the row now renders a different set of documents",
-          "supersededAt": "2026-09-01T10:27:12Z"
-        }
-      ],
+      "nextOwner": "RAS04",
       "rasterReceipt": {
         "verdict": "RASTER_PASS",
         "workflowRunId": "33497786539",
@@ -472,7 +456,7 @@
     },
     {
       "familyId": "ar-misdemeanor-dwi-seal-set",
-      "packetCommitSha": "54197f3501979675e6b997d969207d60742bc3cb",
+      "packetCommitSha": "134db91a9c5d1955d565759754da360808621a46",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-dwi-seal-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf",
       "canonicalPdfSha256": "6bf0184ddc31364f316cb656745f364f8def8aa547428beb881c4c632e2f750d",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-dwi-seal-set--official-pdf-fill/fixtures/petition-boundary-filled.pdf",
@@ -529,35 +513,7 @@
       "requestedScale": 2.5,
       "builderAssignment": "VF05",
       "currentRasterState": "RASTER_PASS",
-      "nextOwner": "independent-verification",
-      "supersededReceipts": [
-        {
-          "verdict": "RASTER_PASS",
-          "workflowRunId": "33495068504",
-          "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
-          "renderedCommitSha": "5f144ec10d2bf7404faf0811e98418e0b13f06ba",
-          "jobId": "99815920077",
-          "jobConclusion": "success",
-          "boundToCanonicalSha256": "6bf0184ddc31364f316cb656745f364f8def8aa547428beb881c4c632e2f750d",
-          "boundToBoundarySha256": "a6cef12f7344600b5f9e89aefee9785440de185d88340d051b090ec6011bdfb8",
-          "documentsCovered": [
-            "petition-canonical-filled.pdf"
-          ],
-          "documentsNotCovered": [
-            "order-canonical-filled.pdf"
-          ],
-          "coversTheWholeFamily": false,
-          "receiptArtifact": {
-            "id": "9795540684",
-            "name": "rcap-raster-ar-misdemeanor-dwi-seal-set-33495068504",
-            "zipSha256": "sha256:85460a7cf898a9379e0d351e71b37e6f8a78f3fac8436a9e6b58c4c058d46f49",
-            "expiresAt": "2026-09-15T10:04:44Z"
-          },
-          "canaryPrecondition": "the canary job and its live negative controls passed in the same run; the family matrix depends on that job, so no family verdict exists without it",
-          "supersededBecause": "the row now renders a different set of documents",
-          "supersededAt": "2026-09-01T10:27:12Z"
-        }
-      ],
+      "nextOwner": "RAS01",
       "rasterReceipt": {
         "verdict": "RASTER_PASS",
         "workflowRunId": "33497786539",
@@ -583,8 +539,53 @@
       }
     },
     {
+      "familyId": "az_marijuana_expungement_arrest_no_charges-set",
+      "packetCommitSha": "134db91a9c5d1955d565759754da360808621a46",
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-arrest-no-charges-set--official-pdf-fill/fixtures/aoc-crem3f-canonical-filled.pdf",
+      "canonicalPdfSha256": "6dad189b1cdb575dfc7ef7e0647c077440cd4e331a7e2bf389a522773099c5d3",
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-arrest-no-charges-set--official-pdf-fill/fixtures/aoc-crem3f-boundary-filled.pdf",
+      "boundaryPdfSha256": "8f041f1d4fd898a176746d1dd5aed7b5967c20b51b14609b7529b6056f9646a5",
+      "expectedPages": 3,
+      "fixtureSelection": {
+        "canonical": "declared by the builder as the canonical artifact in reports/rendered-artifacts.json",
+        "boundary": "declared by the builder as the boundary artifact in reports/rendered-artifacts.json"
+      },
+      "documents": [
+        {
+          "role": "canonical",
+          "name": "aoc-crem3f-canonical-filled.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-arrest-no-charges-set--official-pdf-fill/fixtures/aoc-crem3f-canonical-filled.pdf",
+          "sha256": "6dad189b1cdb575dfc7ef7e0647c077440cd4e331a7e2bf389a522773099c5d3",
+          "pageCount": 3
+        },
+        {
+          "role": "boundary",
+          "name": "aoc-crem3f-boundary-filled.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-arrest-no-charges-set--official-pdf-fill/fixtures/aoc-crem3f-boundary-filled.pdf",
+          "sha256": "8f041f1d4fd898a176746d1dd5aed7b5967c20b51b14609b7529b6056f9646a5",
+          "pageCount": 3
+        }
+      ],
+      "documentsDigest": "60ae93a91e5b3178845eca555b9089864c6abc8153613b0b7f3694aa7d4d6e1e",
+      "coverage": {
+        "documents": [
+          "aoc-crem3f-canonical-filled.pdf"
+        ],
+        "rastered": [
+          "aoc-crem3f-canonical-filled.pdf"
+        ],
+        "notRastered": [],
+        "complete": true,
+        "basis": "the family ships 1 canonical document(s) with no assembled packet, and the row renders all of them"
+      },
+      "requestedScale": 2.5,
+      "builderAssignment": "VF06",
+      "currentRasterState": "RASTER_PENDING",
+      "nextOwner": "RAS02"
+    },
+    {
       "familyId": "co_motion_seal_nonconviction-set",
-      "packetCommitSha": "54197f3501979675e6b997d969207d60742bc3cb",
+      "packetCommitSha": "134db91a9c5d1955d565759754da360808621a46",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill/fixtures/canonical.pdf",
       "canonicalPdfSha256": "6c3d8f4482dc4de44cb817f486cc2ad982aaf79b3d6f79cc75696d22facb07d7",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill/fixtures/boundary.pdf",
@@ -623,9 +624,9 @@
         "basis": "the family ships one assembled packet, so rendering it covers the family"
       },
       "requestedScale": 2.5,
-      "builderAssignment": "VF06",
+      "builderAssignment": "VF07",
       "currentRasterState": "RASTER_PASS",
-      "nextOwner": "RAS02",
+      "nextOwner": "RAS03",
       "rasterReceipt": {
         "verdict": "RASTER_PASS",
         "workflowRunId": "33495068504",
@@ -651,7 +652,7 @@
     },
     {
       "familyId": "co_multiple_conviction_seal-set",
-      "packetCommitSha": "54197f3501979675e6b997d969207d60742bc3cb",
+      "packetCommitSha": "134db91a9c5d1955d565759754da360808621a46",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/co/co-multiple-conviction-seal-set--official-pdf-fill/fixtures/canonical.pdf",
       "canonicalPdfSha256": "3cb52dc501311af75b69ef7c8e339849b0fbb2d632bd16e0f6b3a4483e89a0cd",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/co/co-multiple-conviction-seal-set--official-pdf-fill/fixtures/boundary.pdf",
@@ -690,9 +691,9 @@
         "basis": "the family ships one assembled packet, so rendering it covers the family"
       },
       "requestedScale": 2.5,
-      "builderAssignment": "VF07",
+      "builderAssignment": "VF08",
       "currentRasterState": "RASTER_PASS",
-      "nextOwner": "RAS03",
+      "nextOwner": "RAS04",
       "rasterReceipt": {
         "verdict": "RASTER_PASS",
         "workflowRunId": "33495068504",
@@ -718,7 +719,7 @@
     },
     {
       "familyId": "co_pardoned_conviction_seal-set",
-      "packetCommitSha": "54197f3501979675e6b997d969207d60742bc3cb",
+      "packetCommitSha": "134db91a9c5d1955d565759754da360808621a46",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/co/co-pardoned-conviction-seal-set--official-pdf-fill/fixtures/canonical.pdf",
       "canonicalPdfSha256": "d285a03f788cb5e5b3a8d1f17babd379b199cd24c34d2e98b52363cd2c436bf7",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/co/co-pardoned-conviction-seal-set--official-pdf-fill/fixtures/boundary.pdf",
@@ -757,9 +758,9 @@
         "basis": "the family ships one assembled packet, so rendering it covers the family"
       },
       "requestedScale": 2.5,
-      "builderAssignment": "VF08",
+      "builderAssignment": "VF09",
       "currentRasterState": "RASTER_PASS",
-      "nextOwner": "RAS04",
+      "nextOwner": "RAS01",
       "rasterReceipt": {
         "verdict": "RASTER_PASS",
         "workflowRunId": "33495068504",
@@ -785,7 +786,7 @@
     },
     {
       "familyId": "ct-cleanslate-petition-set",
-      "packetCommitSha": "54197f3501979675e6b997d969207d60742bc3cb",
+      "packetCommitSha": "134db91a9c5d1955d565759754da360808621a46",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf",
       "canonicalPdfSha256": "d44ace77326e51a697450d18a033eadccf308b32d5d426ce5c73ffc989546e06",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/fixtures/petition-boundary-filled.pdf",
@@ -824,9 +825,9 @@
         "basis": "the family ships 1 canonical document(s) with no assembled packet, and the row renders all of them"
       },
       "requestedScale": 2.5,
-      "builderAssignment": "VF09",
+      "builderAssignment": "VF10",
       "currentRasterState": "RASTER_PASS",
-      "nextOwner": "RAS01",
+      "nextOwner": "RAS02",
       "rasterReceipt": {
         "verdict": "RASTER_PASS",
         "workflowRunId": "33495068504",
@@ -851,8 +852,53 @@
       }
     },
     {
+      "familyId": "ky_felony_vacatur_expungement-set",
+      "packetCommitSha": "134db91a9c5d1955d565759754da360808621a46",
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ky/ky-felony-vacatur-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+      "canonicalPdfSha256": "581dee480d77d2f226b907b017c4209de89d4f4346f654256ed11ba24d32e54e",
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ky/ky-felony-vacatur-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
+      "boundaryPdfSha256": "3847941126c39f4c5963e2fa06bbccbaf5936a39551118fc6df429ff21bca91b",
+      "expectedPages": 7,
+      "fixtureSelection": {
+        "canonical": "declared by the builder as the canonical artifact in reports/rendered-artifacts.json",
+        "boundary": "declared by the builder as the boundary artifact in reports/rendered-artifacts.json"
+      },
+      "documents": [
+        {
+          "role": "canonical",
+          "name": "canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/ky/ky-felony-vacatur-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "581dee480d77d2f226b907b017c4209de89d4f4346f654256ed11ba24d32e54e",
+          "pageCount": 7
+        },
+        {
+          "role": "boundary",
+          "name": "boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/ky/ky-felony-vacatur-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "3847941126c39f4c5963e2fa06bbccbaf5936a39551118fc6df429ff21bca91b",
+          "pageCount": 7
+        }
+      ],
+      "documentsDigest": "bacee6270f616b8da3adc1d8f3d3b33b0043190d97dacffd9f9f0ee68d772f58",
+      "coverage": {
+        "documents": [
+          "canonical.pdf"
+        ],
+        "rastered": [
+          "canonical.pdf"
+        ],
+        "notRastered": [],
+        "complete": true,
+        "basis": "the family ships one assembled packet, so rendering it covers the family"
+      },
+      "requestedScale": 2.5,
+      "builderAssignment": "VF11",
+      "currentRasterState": "RASTER_PENDING",
+      "nextOwner": "RAS03"
+    },
+    {
       "familyId": "ky_void_seal_controlled_substance-set",
-      "packetCommitSha": "54197f3501979675e6b997d969207d60742bc3cb",
+      "packetCommitSha": "134db91a9c5d1955d565759754da360808621a46",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ky/ky-void-seal-controlled-substance-set--custom-pleading/fixtures/canonical.pdf",
       "canonicalPdfSha256": "249d0e76bd19c4533de9ca4852a6aad5749a747b2aaebc15b9cdcbf7a2c32f5b",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ky/ky-void-seal-controlled-substance-set--custom-pleading/fixtures/boundary.pdf",
@@ -891,9 +937,9 @@
         "basis": "the family ships one assembled packet, so rendering it covers the family"
       },
       "requestedScale": 2.5,
-      "builderAssignment": "VF10",
+      "builderAssignment": "VF12",
       "currentRasterState": "RASTER_PASS",
-      "nextOwner": "RAS02",
+      "nextOwner": "RAS04",
       "rasterReceipt": {
         "verdict": "RASTER_PASS",
         "workflowRunId": "33495068504",
@@ -919,7 +965,7 @@
     },
     {
       "familyId": "ky_void_seal_marijuana_synthetic_salvia-set",
-      "packetCommitSha": "54197f3501979675e6b997d969207d60742bc3cb",
+      "packetCommitSha": "134db91a9c5d1955d565759754da360808621a46",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ky/ky-void-seal-marijuana-synthetic-salvia-set--custom-pleading/fixtures/canonical.pdf",
       "canonicalPdfSha256": "e70b19406a114095e500bb482d3b12f919c9fd0e738ba73b0d85ec76430a67c3",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ky/ky-void-seal-marijuana-synthetic-salvia-set--custom-pleading/fixtures/boundary.pdf",
@@ -958,9 +1004,9 @@
         "basis": "the family ships one assembled packet, so rendering it covers the family"
       },
       "requestedScale": 2.5,
-      "builderAssignment": "VF11",
+      "builderAssignment": "VF01",
       "currentRasterState": "RASTER_PASS",
-      "nextOwner": "RAS03",
+      "nextOwner": "RAS01",
       "rasterReceipt": {
         "verdict": "RASTER_PASS",
         "workflowRunId": "33495068504",
@@ -985,8 +1031,53 @@
       }
     },
     {
+      "familyId": "ma-expunge-mj-set",
+      "packetCommitSha": "134db91a9c5d1955d565759754da360808621a46",
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-mj-set--official-pdf-fill/fixtures/canonical.pdf",
+      "canonicalPdfSha256": "ceab4012296b4e132466a11ebc5239fd72ae553fd5a5554f7ddfc110fcb8f565",
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-mj-set--official-pdf-fill/fixtures/boundary.pdf",
+      "boundaryPdfSha256": "ceab4012296b4e132466a11ebc5239fd72ae553fd5a5554f7ddfc110fcb8f565",
+      "expectedPages": 2,
+      "fixtureSelection": {
+        "canonical": "declared by the builder as the canonical artifact in reports/rendered-artifacts.json",
+        "boundary": "declared by the builder as the boundary artifact in reports/rendered-artifacts.json"
+      },
+      "documents": [
+        {
+          "role": "canonical",
+          "name": "canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-mj-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "ceab4012296b4e132466a11ebc5239fd72ae553fd5a5554f7ddfc110fcb8f565",
+          "pageCount": 2
+        },
+        {
+          "role": "boundary",
+          "name": "boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-mj-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "ceab4012296b4e132466a11ebc5239fd72ae553fd5a5554f7ddfc110fcb8f565",
+          "pageCount": 2
+        }
+      ],
+      "documentsDigest": "57f35d9d32d762d2933327eb2030a901be92083d5fbd80b778cab5b4eaf082b8",
+      "coverage": {
+        "documents": [
+          "canonical.pdf"
+        ],
+        "rastered": [
+          "canonical.pdf"
+        ],
+        "notRastered": [],
+        "complete": true,
+        "basis": "the family ships one assembled packet, so rendering it covers the family"
+      },
+      "requestedScale": 2.5,
+      "builderAssignment": "VF02",
+      "currentRasterState": "RASTER_PENDING",
+      "nextOwner": "RAS02"
+    },
+    {
       "familyId": "me-seal-prost-set",
-      "packetCommitSha": "54197f3501979675e6b997d969207d60742bc3cb",
+      "packetCommitSha": "134db91a9c5d1955d565759754da360808621a46",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/me/me-seal-prost-set--official-pdf-fill/fixtures/cr289-canonical-filled.pdf",
       "canonicalPdfSha256": "ce2e6bde63ac9524927ace30a128938174ff79db091ec8db26a4ad3d307daaf7",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/me/me-seal-prost-set--official-pdf-fill/fixtures/cr289-boundary-filled.pdf",
@@ -1025,9 +1116,9 @@
         "basis": "the family ships 1 canonical document(s) with no assembled packet, and the row renders all of them"
       },
       "requestedScale": 2.5,
-      "builderAssignment": "VF12",
+      "builderAssignment": "VF03",
       "currentRasterState": "RASTER_PASS",
-      "nextOwner": "RAS04",
+      "nextOwner": "RAS03",
       "rasterReceipt": {
         "verdict": "RASTER_PASS",
         "workflowRunId": "33495068504",
@@ -1053,7 +1144,7 @@
     },
     {
       "familyId": "mi_setaside_marihuana-set",
-      "packetCommitSha": "54197f3501979675e6b997d969207d60742bc3cb",
+      "packetCommitSha": "134db91a9c5d1955d565759754da360808621a46",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/fixtures/canonical.pdf",
       "canonicalPdfSha256": "c1506f35f448464374ad7d080c9b71cde24a4902d90a15259248b3962995737b",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/fixtures/boundary.pdf",
@@ -1092,9 +1183,9 @@
         "basis": "the family ships one assembled packet, so rendering it covers the family"
       },
       "requestedScale": 2.5,
-      "builderAssignment": "VF01",
+      "builderAssignment": "VF04",
       "currentRasterState": "RASTER_PASS",
-      "nextOwner": "RAS01",
+      "nextOwner": "RAS04",
       "rasterReceipt": {
         "verdict": "RASTER_PASS",
         "workflowRunId": "33495068504",
@@ -1120,7 +1211,7 @@
     },
     {
       "familyId": "ne-setaside-custodial-set",
-      "packetCommitSha": "54197f3501979675e6b997d969207d60742bc3cb",
+      "packetCommitSha": "134db91a9c5d1955d565759754da360808621a46",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/fixtures/canonical.pdf",
       "canonicalPdfSha256": "a099c0a10c739d9876c8cf0653cedffecdde2e8df20c759b24fcd354fc7e65f7",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/fixtures/boundary.pdf",
@@ -1159,9 +1250,9 @@
         "basis": "the family ships one assembled packet, so rendering it covers the family"
       },
       "requestedScale": 2.5,
-      "builderAssignment": "VF02",
+      "builderAssignment": "VF05",
       "currentRasterState": "RASTER_PASS",
-      "nextOwner": "RAS02",
+      "nextOwner": "RAS01",
       "rasterReceipt": {
         "verdict": "RASTER_PASS",
         "workflowRunId": "33488713831",
@@ -1181,8 +1272,53 @@
       }
     },
     {
+      "familyId": "or_conviction_setaside-set",
+      "packetCommitSha": "134db91a9c5d1955d565759754da360808621a46",
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/or/or-conviction-setaside-set--official-pdf-fill/fixtures/canonical.pdf",
+      "canonicalPdfSha256": "a2d72e3f54c58a7590a681a93b015a82660056790077dd508b97d6d3e50c5b0b",
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/or/or-conviction-setaside-set--official-pdf-fill/fixtures/boundary.pdf",
+      "boundaryPdfSha256": "2375b62449222756817f4338188fef6475f0f6323c237ba3f63a47c99396b360",
+      "expectedPages": 9,
+      "fixtureSelection": {
+        "canonical": "declared by the builder as the canonical artifact in reports/rendered-artifacts.json",
+        "boundary": "declared by the builder as the boundary artifact in reports/rendered-artifacts.json"
+      },
+      "documents": [
+        {
+          "role": "canonical",
+          "name": "canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/or/or-conviction-setaside-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "a2d72e3f54c58a7590a681a93b015a82660056790077dd508b97d6d3e50c5b0b",
+          "pageCount": 9
+        },
+        {
+          "role": "boundary",
+          "name": "boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/or/or-conviction-setaside-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "2375b62449222756817f4338188fef6475f0f6323c237ba3f63a47c99396b360",
+          "pageCount": 9
+        }
+      ],
+      "documentsDigest": "9d1b9037c22d840b7518013b00e374fd5c32a7db05f3c30417f5c8d716070470",
+      "coverage": {
+        "documents": [
+          "canonical.pdf"
+        ],
+        "rastered": [
+          "canonical.pdf"
+        ],
+        "notRastered": [],
+        "complete": true,
+        "basis": "the family ships one assembled packet, so rendering it covers the family"
+      },
+      "requestedScale": 2.5,
+      "builderAssignment": "VF07",
+      "currentRasterState": "RASTER_PENDING",
+      "nextOwner": "RAS02"
+    },
+    {
       "familyId": "pa_age70_deceased-set",
-      "packetCommitSha": "54197f3501979675e6b997d969207d60742bc3cb",
+      "packetCommitSha": "134db91a9c5d1955d565759754da360808621a46",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/pa/pa-age70-deceased-set--official-pdf-fill/fixtures/canonical.pdf",
       "canonicalPdfSha256": "f4f4b3ba5263fff23c409e8b8ffda95c2ee3e1cf6fea623af5ddb09ed181639e",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/pa/pa-age70-deceased-set--official-pdf-fill/fixtures/boundary.pdf",
@@ -1221,7 +1357,7 @@
         "basis": "the family ships one assembled packet, so rendering it covers the family"
       },
       "requestedScale": 2.5,
-      "builderAssignment": "VF04",
+      "builderAssignment": "VF08",
       "currentRasterState": "RASTER_PASS",
       "nextOwner": "RAS03",
       "rasterReceipt": {
@@ -1249,7 +1385,7 @@
     },
     {
       "familyId": "pa_pardon_expungement-set",
-      "packetCommitSha": "54197f3501979675e6b997d969207d60742bc3cb",
+      "packetCommitSha": "134db91a9c5d1955d565759754da360808621a46",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
       "canonicalPdfSha256": "4a7113112f29b05fdf21e6d6f6822d8ca41d3768c3ff2640cff72af6bbf308e0",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
@@ -1288,7 +1424,7 @@
         "basis": "the family ships one assembled packet, so rendering it covers the family"
       },
       "requestedScale": 2.5,
-      "builderAssignment": "VF05",
+      "builderAssignment": "VF09",
       "currentRasterState": "RASTER_PASS",
       "nextOwner": "RAS04",
       "rasterReceipt": {
@@ -1316,7 +1452,7 @@
     },
     {
       "familyId": "ri_nonconviction_sealing-set",
-      "packetCommitSha": "54197f3501979675e6b997d969207d60742bc3cb",
+      "packetCommitSha": "134db91a9c5d1955d565759754da360808621a46",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/fixtures/dc-33-canonical.pdf",
       "canonicalPdfSha256": "e8ba4ef7f10b867113072a9f2febfaeb0a2d3f31b26a5d639636402b095633f2",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/fixtures/dc-33-boundary.pdf",
@@ -1355,7 +1491,7 @@
         "basis": "the family ships 1 canonical document(s) with no assembled packet, and the row renders all of them"
       },
       "requestedScale": 2.5,
-      "builderAssignment": "VF07",
+      "builderAssignment": "VF11",
       "currentRasterState": "RASTER_PASS",
       "nextOwner": "RAS01",
       "rasterReceipt": {
@@ -1382,8 +1518,53 @@
       }
     },
     {
+      "familyId": "sc_17_22_950_summary-set",
+      "packetCommitSha": "134db91a9c5d1955d565759754da360808621a46",
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/sc/sc-17-22-950-summary-set--official-pdf-fill/fixtures/canonical.pdf",
+      "canonicalPdfSha256": "f373d91a18f015ebc7f3c7a9e7d71c1e47a469e830977555c937f4241cc8c5a1",
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/sc/sc-17-22-950-summary-set--official-pdf-fill/fixtures/boundary.pdf",
+      "boundaryPdfSha256": "42e3e5e2b24e0f2b8064fef187ab2331c5914710c43899d2abd99c0a7bbfeaf9",
+      "expectedPages": 1,
+      "fixtureSelection": {
+        "canonical": "declared by the builder as the canonical artifact in reports/rendered-artifacts.json",
+        "boundary": "declared by the builder as the boundary artifact in reports/rendered-artifacts.json"
+      },
+      "documents": [
+        {
+          "role": "canonical",
+          "name": "canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/sc/sc-17-22-950-summary-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "f373d91a18f015ebc7f3c7a9e7d71c1e47a469e830977555c937f4241cc8c5a1",
+          "pageCount": 1
+        },
+        {
+          "role": "boundary",
+          "name": "boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/sc/sc-17-22-950-summary-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "42e3e5e2b24e0f2b8064fef187ab2331c5914710c43899d2abd99c0a7bbfeaf9",
+          "pageCount": 1
+        }
+      ],
+      "documentsDigest": "9138225f3fd713ba3743dfee9687cc170215f06be76c07f2658e8c8d144cbea6",
+      "coverage": {
+        "documents": [
+          "canonical.pdf"
+        ],
+        "rastered": [
+          "canonical.pdf"
+        ],
+        "notRastered": [],
+        "complete": true,
+        "basis": "the family ships one assembled packet, so rendering it covers the family"
+      },
+      "requestedScale": 2.5,
+      "builderAssignment": "VF12",
+      "currentRasterState": "RASTER_PENDING",
+      "nextOwner": "RAS02"
+    },
+    {
       "familyId": "sd_arrest_expungement-set",
-      "packetCommitSha": "54197f3501979675e6b997d969207d60742bc3cb",
+      "packetCommitSha": "134db91a9c5d1955d565759754da360808621a46",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
       "canonicalPdfSha256": "627e6502e0340f5d6d75ae855314cad53160d92acab710a1d43add2341dbe47d",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
@@ -1424,7 +1605,7 @@
       "requestedScale": 2.5,
       "builderAssignment": null,
       "currentRasterState": "RASTER_PASS",
-      "nextOwner": "RAS02",
+      "nextOwner": "RAS03",
       "rasterReceipt": {
         "verdict": "RASTER_PASS",
         "workflowRunId": "33488713831",
@@ -1445,7 +1626,7 @@
     },
     {
       "familyId": "ut_pet_acquittal-set",
-      "packetCommitSha": "54197f3501979675e6b997d969207d60742bc3cb",
+      "packetCommitSha": "134db91a9c5d1955d565759754da360808621a46",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/fixtures/canonical.pdf",
       "canonicalPdfSha256": "ad594f0a40750195b67e36916f3628df5b96d337e4955c9063b415747d6e36d6",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/fixtures/boundary.pdf",
@@ -1484,9 +1665,9 @@
         "basis": "the family ships one assembled packet, so rendering it covers the family"
       },
       "requestedScale": 2.5,
-      "builderAssignment": "VF08",
+      "builderAssignment": "VF01",
       "currentRasterState": "RASTER_PASS",
-      "nextOwner": "RAS03",
+      "nextOwner": "RAS04",
       "rasterReceipt": {
         "verdict": "RASTER_PASS",
         "workflowRunId": "33488713831",
@@ -1507,7 +1688,7 @@
     },
     {
       "familyId": "ut_pet_conviction-set",
-      "packetCommitSha": "54197f3501979675e6b997d969207d60742bc3cb",
+      "packetCommitSha": "134db91a9c5d1955d565759754da360808621a46",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill/fixtures/canonical.pdf",
       "canonicalPdfSha256": "ad594f0a40750195b67e36916f3628df5b96d337e4955c9063b415747d6e36d6",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill/fixtures/boundary.pdf",
@@ -1546,9 +1727,9 @@
         "basis": "the family ships one assembled packet, so rendering it covers the family"
       },
       "requestedScale": 2.5,
-      "builderAssignment": "VF09",
+      "builderAssignment": "VF02",
       "currentRasterState": "RASTER_PASS",
-      "nextOwner": "RAS04",
+      "nextOwner": "RAS01",
       "rasterReceipt": {
         "verdict": "RASTER_PASS",
         "workflowRunId": "33488713831",
@@ -1569,7 +1750,7 @@
     },
     {
       "familyId": "ut_pet_dismissed_with_prejudice-set",
-      "packetCommitSha": "54197f3501979675e6b997d969207d60742bc3cb",
+      "packetCommitSha": "134db91a9c5d1955d565759754da360808621a46",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill/fixtures/canonical.pdf",
       "canonicalPdfSha256": "ad594f0a40750195b67e36916f3628df5b96d337e4955c9063b415747d6e36d6",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill/fixtures/boundary.pdf",
@@ -1608,9 +1789,9 @@
         "basis": "the family ships one assembled packet, so rendering it covers the family"
       },
       "requestedScale": 2.5,
-      "builderAssignment": "VF10",
+      "builderAssignment": "VF03",
       "currentRasterState": "RASTER_PASS",
-      "nextOwner": "RAS01",
+      "nextOwner": "RAS02",
       "rasterReceipt": {
         "verdict": "RASTER_PASS",
         "workflowRunId": "33488713831",
@@ -1631,7 +1812,7 @@
     },
     {
       "familyId": "ut_pet_dismissed_without_prejudice-set",
-      "packetCommitSha": "54197f3501979675e6b997d969207d60742bc3cb",
+      "packetCommitSha": "134db91a9c5d1955d565759754da360808621a46",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill/fixtures/canonical.pdf",
       "canonicalPdfSha256": "8efb78f3f885af303bc74f461172d319f63b60bb747720329e401c1bd4d417f4",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill/fixtures/boundary.pdf",
@@ -1670,9 +1851,9 @@
         "basis": "the family ships one assembled packet, so rendering it covers the family"
       },
       "requestedScale": 2.5,
-      "builderAssignment": "VF11",
+      "builderAssignment": "VF04",
       "currentRasterState": "RASTER_PASS",
-      "nextOwner": "RAS02",
+      "nextOwner": "RAS03",
       "rasterReceipt": {
         "verdict": "RASTER_PASS",
         "workflowRunId": "33488713831",
@@ -1693,7 +1874,7 @@
     },
     {
       "familyId": "ut_pet_limitations-set",
-      "packetCommitSha": "54197f3501979675e6b997d969207d60742bc3cb",
+      "packetCommitSha": "134db91a9c5d1955d565759754da360808621a46",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ut/ut-pet-limitations-set--official-pdf-fill/fixtures/canonical.pdf",
       "canonicalPdfSha256": "ad594f0a40750195b67e36916f3628df5b96d337e4955c9063b415747d6e36d6",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ut/ut-pet-limitations-set--official-pdf-fill/fixtures/boundary.pdf",
@@ -1732,9 +1913,9 @@
         "basis": "the family ships one assembled packet, so rendering it covers the family"
       },
       "requestedScale": 2.5,
-      "builderAssignment": "VF12",
+      "builderAssignment": "VF05",
       "currentRasterState": "RASTER_PASS",
-      "nextOwner": "RAS03",
+      "nextOwner": "RAS04",
       "rasterReceipt": {
         "verdict": "RASTER_PASS",
         "workflowRunId": "33488713831",
@@ -1755,7 +1936,7 @@
     },
     {
       "familyId": "ut_pet_no_charges-set",
-      "packetCommitSha": "54197f3501979675e6b997d969207d60742bc3cb",
+      "packetCommitSha": "134db91a9c5d1955d565759754da360808621a46",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/fixtures/canonical.pdf",
       "canonicalPdfSha256": "86290244b6882ee9bb403b2b3fff4035d136abf33352b9c8fcb064eb125c3c0f",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/fixtures/boundary.pdf",
@@ -1794,9 +1975,9 @@
         "basis": "the family ships one assembled packet, so rendering it covers the family"
       },
       "requestedScale": 2.5,
-      "builderAssignment": "VF01",
+      "builderAssignment": "VF06",
       "currentRasterState": "RASTER_PASS",
-      "nextOwner": "RAS04",
+      "nextOwner": "RAS01",
       "rasterReceipt": {
         "verdict": "RASTER_PASS",
         "workflowRunId": "33488713831",
@@ -1817,7 +1998,7 @@
     },
     {
       "familyId": "ut_pet_traffic-set",
-      "packetCommitSha": "54197f3501979675e6b997d969207d60742bc3cb",
+      "packetCommitSha": "134db91a9c5d1955d565759754da360808621a46",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ut/ut-pet-traffic-set--official-pdf-fill/fixtures/canonical.pdf",
       "canonicalPdfSha256": "b5fcdd1601c823f3ebc6b18f74f5b639789220ec9e8363202c6e1492f9d90909",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ut/ut-pet-traffic-set--official-pdf-fill/fixtures/boundary.pdf",
@@ -1856,9 +2037,9 @@
         "basis": "the family ships one assembled packet, so rendering it covers the family"
       },
       "requestedScale": 2.5,
-      "builderAssignment": "VF02",
+      "builderAssignment": "VF07",
       "currentRasterState": "RASTER_PASS",
-      "nextOwner": "RAS01",
+      "nextOwner": "RAS02",
       "rasterReceipt": {
         "verdict": "RASTER_PASS",
         "workflowRunId": "33488713831",
@@ -1878,8 +2059,53 @@
       }
     },
     {
+      "familyId": "va_exp_nonconviction-set",
+      "packetCommitSha": "134db91a9c5d1955d565759754da360808621a46",
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill/fixtures/canonical.pdf",
+      "canonicalPdfSha256": "bb6747c8e639fc5310e718e9165352bd1a9204a92e82b5a10703c75590b65f6c",
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill/fixtures/boundary.pdf",
+      "boundaryPdfSha256": "dddcc00729d7adcb5803ae64f8cbaa33fa32e050a0afb13e0f12001dd83db885",
+      "expectedPages": 7,
+      "fixtureSelection": {
+        "canonical": "declared by the builder as the canonical artifact in reports/rendered-artifacts.json",
+        "boundary": "declared by the builder as the boundary artifact in reports/rendered-artifacts.json"
+      },
+      "documents": [
+        {
+          "role": "canonical",
+          "name": "canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "bb6747c8e639fc5310e718e9165352bd1a9204a92e82b5a10703c75590b65f6c",
+          "pageCount": 7
+        },
+        {
+          "role": "boundary",
+          "name": "boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "dddcc00729d7adcb5803ae64f8cbaa33fa32e050a0afb13e0f12001dd83db885",
+          "pageCount": 7
+        }
+      ],
+      "documentsDigest": "6bf2a58b305d9ec90f61d3f72b62b089518051882ab30b9e33a268773a2b10fc",
+      "coverage": {
+        "documents": [
+          "canonical.pdf"
+        ],
+        "rastered": [
+          "canonical.pdf"
+        ],
+        "notRastered": [],
+        "complete": true,
+        "basis": "the family ships one assembled packet, so rendering it covers the family"
+      },
+      "requestedScale": 2.5,
+      "builderAssignment": "VF08",
+      "currentRasterState": "RASTER_PENDING",
+      "nextOwner": "RAS03"
+    },
+    {
       "familyId": "va_seal_ancillary_matter_only-set",
-      "packetCommitSha": "54197f3501979675e6b997d969207d60742bc3cb",
+      "packetCommitSha": "134db91a9c5d1955d565759754da360808621a46",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/va/va-seal-ancillary-matter-only-set--official-pdf-fill/fixtures/canonical.pdf",
       "canonicalPdfSha256": "0ca22f4c4720d2d5325d67fa67657746292923fbfb45580ef94094d5e94ad893",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/va/va-seal-ancillary-matter-only-set--official-pdf-fill/fixtures/boundary.pdf",
@@ -1918,9 +2144,9 @@
         "basis": "the family ships one assembled packet, so rendering it covers the family"
       },
       "requestedScale": 2.5,
-      "builderAssignment": "VF03",
+      "builderAssignment": "VF09",
       "currentRasterState": "RASTER_PASS",
-      "nextOwner": "RAS02",
+      "nextOwner": "RAS04",
       "rasterReceipt": {
         "verdict": "RASTER_PASS",
         "workflowRunId": "33495068504",
@@ -1946,7 +2172,7 @@
     },
     {
       "familyId": "va_seal_enumerated_seven_year-set",
-      "packetCommitSha": "54197f3501979675e6b997d969207d60742bc3cb",
+      "packetCommitSha": "134db91a9c5d1955d565759754da360808621a46",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/va/va-seal-enumerated-seven-year-set--official-pdf-fill/fixtures/canonical.pdf",
       "canonicalPdfSha256": "859656e4ae155c94ad78cef9a1f017b6411bde531a86f15cd01c749c2d452ee6",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/va/va-seal-enumerated-seven-year-set--official-pdf-fill/fixtures/boundary.pdf",
@@ -1985,9 +2211,9 @@
         "basis": "the family ships one assembled packet, so rendering it covers the family"
       },
       "requestedScale": 2.5,
-      "builderAssignment": "VF04",
+      "builderAssignment": "VF10",
       "currentRasterState": "RASTER_PASS",
-      "nextOwner": "RAS03",
+      "nextOwner": "RAS01",
       "rasterReceipt": {
         "verdict": "RASTER_PASS",
         "workflowRunId": "33495068504",
@@ -2013,7 +2239,7 @@
     },
     {
       "familyId": "va_seal_petition_felony-set",
-      "packetCommitSha": "54197f3501979675e6b997d969207d60742bc3cb",
+      "packetCommitSha": "134db91a9c5d1955d565759754da360808621a46",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-felony-set--official-pdf-fill/fixtures/canonical.pdf",
       "canonicalPdfSha256": "c653f0a41319bbee6133a17c418666eaccb31f329abfd465d0de55b9dd4e2636",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-felony-set--official-pdf-fill/fixtures/boundary.pdf",
@@ -2052,9 +2278,9 @@
         "basis": "the family ships one assembled packet, so rendering it covers the family"
       },
       "requestedScale": 2.5,
-      "builderAssignment": "VF05",
+      "builderAssignment": "VF11",
       "currentRasterState": "RASTER_PASS",
-      "nextOwner": "RAS04",
+      "nextOwner": "RAS02",
       "rasterReceipt": {
         "verdict": "RASTER_PASS",
         "workflowRunId": "33495068504",
@@ -2080,7 +2306,7 @@
     },
     {
       "familyId": "va_seal_petition_misdemeanor-set",
-      "packetCommitSha": "54197f3501979675e6b997d969207d60742bc3cb",
+      "packetCommitSha": "134db91a9c5d1955d565759754da360808621a46",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/fixtures/canonical.pdf",
       "canonicalPdfSha256": "9cc63cbd647e477c8da08af8f67bd922953477c8ebc6d2608748724cf22b7eae",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/fixtures/boundary.pdf",
@@ -2119,9 +2345,9 @@
         "basis": "the family ships one assembled packet, so rendering it covers the family"
       },
       "requestedScale": 2.5,
-      "builderAssignment": "VF06",
+      "builderAssignment": "VF12",
       "currentRasterState": "RASTER_PASS",
-      "nextOwner": "RAS01",
+      "nextOwner": "RAS03",
       "rasterReceipt": {
         "verdict": "RASTER_PASS",
         "workflowRunId": "33495068504",
@@ -2147,7 +2373,7 @@
     },
     {
       "familyId": "vt_exp_decriminalized-set",
-      "packetCommitSha": "54197f3501979675e6b997d969207d60742bc3cb",
+      "packetCommitSha": "134db91a9c5d1955d565759754da360808621a46",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/fixtures/canonical.pdf",
       "canonicalPdfSha256": "f952b05860583f6c188bc44d4831ac6e8f19daf1d19906fb3630b7a377e113a0",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/fixtures/boundary.pdf",
@@ -2186,9 +2412,9 @@
         "basis": "the family ships one assembled packet, so rendering it covers the family"
       },
       "requestedScale": 2.5,
-      "builderAssignment": "VF07",
+      "builderAssignment": "VF01",
       "currentRasterState": "RASTER_PASS",
-      "nextOwner": "RAS02",
+      "nextOwner": "RAS04",
       "rasterReceipt": {
         "verdict": "RASTER_PASS",
         "workflowRunId": "33495068504",
@@ -2214,7 +2440,7 @@
     },
     {
       "familyId": "vt_seal_18_to_21-set",
-      "packetCommitSha": "54197f3501979675e6b997d969207d60742bc3cb",
+      "packetCommitSha": "134db91a9c5d1955d565759754da360808621a46",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill/fixtures/canonical.pdf",
       "canonicalPdfSha256": "4884aef91eec3e1215e0db1b5ff9ebd69f02b8f415594a81eb824c4388af19ae",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill/fixtures/boundary.pdf",
@@ -2253,9 +2479,9 @@
         "basis": "the family ships one assembled packet, so rendering it covers the family"
       },
       "requestedScale": 2.5,
-      "builderAssignment": "VF08",
+      "builderAssignment": "VF02",
       "currentRasterState": "RASTER_PASS",
-      "nextOwner": "RAS03",
+      "nextOwner": "RAS01",
       "rasterReceipt": {
         "verdict": "RASTER_PASS",
         "workflowRunId": "33488713831",
@@ -2276,7 +2502,7 @@
     },
     {
       "familyId": "vt_seal_dui-set",
-      "packetCommitSha": "54197f3501979675e6b997d969207d60742bc3cb",
+      "packetCommitSha": "134db91a9c5d1955d565759754da360808621a46",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/vt/vt-seal-dui-set--official-pdf-fill/fixtures/canonical.pdf",
       "canonicalPdfSha256": "e69f731e1e15799bd8e02afa0d328338bc71333e595b08b056a072b5b89112d7",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/vt/vt-seal-dui-set--official-pdf-fill/fixtures/boundary.pdf",
@@ -2315,9 +2541,9 @@
         "basis": "the family ships one assembled packet, so rendering it covers the family"
       },
       "requestedScale": 2.5,
-      "builderAssignment": "VF09",
+      "builderAssignment": "VF03",
       "currentRasterState": "RASTER_PASS",
-      "nextOwner": "RAS04",
+      "nextOwner": "RAS02",
       "rasterReceipt": {
         "verdict": "RASTER_PASS",
         "workflowRunId": "33488713831",
@@ -2338,7 +2564,7 @@
     },
     {
       "familyId": "vt_seal_felony-set",
-      "packetCommitSha": "54197f3501979675e6b997d969207d60742bc3cb",
+      "packetCommitSha": "134db91a9c5d1955d565759754da360808621a46",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/vt/vt-seal-felony-set--official-pdf-fill/fixtures/canonical.pdf",
       "canonicalPdfSha256": "508426628a59c40f069d71e1ac7c8f47fe8338f19dd5c0e9972d041c1e5120f6",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/vt/vt-seal-felony-set--official-pdf-fill/fixtures/boundary.pdf",
@@ -2377,9 +2603,9 @@
         "basis": "the family ships one assembled packet, so rendering it covers the family"
       },
       "requestedScale": 2.5,
-      "builderAssignment": "VF10",
+      "builderAssignment": "VF04",
       "currentRasterState": "RASTER_PASS",
-      "nextOwner": "RAS01",
+      "nextOwner": "RAS03",
       "rasterReceipt": {
         "verdict": "RASTER_PASS",
         "workflowRunId": "33488713831",
@@ -2400,7 +2626,7 @@
     },
     {
       "familyId": "vt_seal_misdemeanor-set",
-      "packetCommitSha": "54197f3501979675e6b997d969207d60742bc3cb",
+      "packetCommitSha": "134db91a9c5d1955d565759754da360808621a46",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/vt/vt-seal-misdemeanor-set--official-pdf-fill/fixtures/canonical.pdf",
       "canonicalPdfSha256": "c37d27bad040121f3e677e81911745c6ea41f12fa1b8d7e986b74b9585d98a87",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/vt/vt-seal-misdemeanor-set--official-pdf-fill/fixtures/boundary.pdf",
@@ -2439,9 +2665,9 @@
         "basis": "the family ships one assembled packet, so rendering it covers the family"
       },
       "requestedScale": 2.5,
-      "builderAssignment": "VF11",
+      "builderAssignment": "VF05",
       "currentRasterState": "RASTER_PASS",
-      "nextOwner": "RAS02",
+      "nextOwner": "RAS04",
       "rasterReceipt": {
         "verdict": "RASTER_PASS",
         "workflowRunId": "33488713831",
@@ -2462,7 +2688,7 @@
     },
     {
       "familyId": "vt_seal_nonconviction-set",
-      "packetCommitSha": "54197f3501979675e6b997d969207d60742bc3cb",
+      "packetCommitSha": "134db91a9c5d1955d565759754da360808621a46",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/fixtures/canonical.pdf",
       "canonicalPdfSha256": "03715884a313d7de5d522bdd5da26a4bc947ea555d43c88eff4165def5b317f6",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/fixtures/boundary.pdf",
@@ -2501,9 +2727,9 @@
         "basis": "the family ships one assembled packet, so rendering it covers the family"
       },
       "requestedScale": 2.5,
-      "builderAssignment": "VF12",
+      "builderAssignment": "VF06",
       "currentRasterState": "RASTER_PASS",
-      "nextOwner": "RAS03",
+      "nextOwner": "RAS01",
       "rasterReceipt": {
         "verdict": "RASTER_PASS",
         "workflowRunId": "33495068504",
@@ -2529,7 +2755,7 @@
     },
     {
       "familyId": "vt_seal_pardon-set",
-      "packetCommitSha": "54197f3501979675e6b997d969207d60742bc3cb",
+      "packetCommitSha": "134db91a9c5d1955d565759754da360808621a46",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill/fixtures/canonical.pdf",
       "canonicalPdfSha256": "39d9ac94bb59f196f4e236ca2a11f30507b7680a103ef95b6cbe060e5c1684f8",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill/fixtures/boundary.pdf",
@@ -2568,9 +2794,9 @@
         "basis": "the family ships one assembled packet, so rendering it covers the family"
       },
       "requestedScale": 2.5,
-      "builderAssignment": "VF01",
+      "builderAssignment": "VF07",
       "currentRasterState": "RASTER_PASS",
-      "nextOwner": "RAS04",
+      "nextOwner": "RAS02",
       "rasterReceipt": {
         "verdict": "RASTER_PASS",
         "workflowRunId": "33488713831",
@@ -2591,7 +2817,7 @@
     },
     {
       "familyId": "wa_vac_cannabis-set",
-      "packetCommitSha": "54197f3501979675e6b997d969207d60742bc3cb",
+      "packetCommitSha": "134db91a9c5d1955d565759754da360808621a46",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/wa/wa-vac-cannabis-set--official-pdf-fill/fixtures/crrlj-09-0800-canonical-filled.pdf",
       "canonicalPdfSha256": "9ccebef430b4a7de3614df3a9796d57524385147e01e82a4e7c186b1cc7088ad",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/wa/wa-vac-cannabis-set--official-pdf-fill/fixtures/crrlj-09-0800-boundary-filled.pdf",
@@ -2648,28 +2874,7 @@
       "requestedScale": 2.5,
       "builderAssignment": null,
       "currentRasterState": "RASTER_PASS",
-      "nextOwner": "independent-verification",
-      "supersededReceipts": [
-        {
-          "verdict": "RASTER_PASS",
-          "workflowRunId": "33488713831",
-          "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
-          "renderedCommitSha": "71894f3f2dde0f5af34818a2fa8dc8bce84e0d24",
-          "jobId": "99795498276",
-          "jobConclusion": "success",
-          "boundToCanonicalSha256": "9ccebef430b4a7de3614df3a9796d57524385147e01e82a4e7c186b1cc7088ad",
-          "boundToBoundarySha256": "22c9ec04f47a5ae0222cc4d84e859cf402c7585379fa7337d0243d57c41c8942",
-          "receiptArtifact": {
-            "id": "9792972638",
-            "name": "rcap-raster-wa_vac_cannabis-set-33488713831",
-            "zipSha256": "sha256:64e87db71ef049073152278f1964f300a0ac198026ff31bd86bf4d30ad847bc6",
-            "expiresAt": "2026-09-15T08:49:55Z"
-          },
-          "canaryPrecondition": "the canary job and its live negative controls passed in the same run; the family matrix depends on that job, so no family verdict exists without it",
-          "supersededBecause": "the row now renders a different set of documents",
-          "supersededAt": "2026-09-01T10:27:12Z"
-        }
-      ],
+      "nextOwner": "RAS03",
       "rasterReceipt": {
         "verdict": "RASTER_PASS",
         "workflowRunId": "33497786539",
@@ -2696,7 +2901,7 @@
     },
     {
       "familyId": "wa_vac_domestic_violence-set",
-      "packetCommitSha": "54197f3501979675e6b997d969207d60742bc3cb",
+      "packetCommitSha": "134db91a9c5d1955d565759754da360808621a46",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/wa/wa-vac-domestic-violence-set--official-pdf-fill/fixtures/crrlj-09-0100-canonical-filled.pdf",
       "canonicalPdfSha256": "846360e75578ce6233dba77b03b25545a529b50cd553ad31f88d3008b429a6ad",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/wa/wa-vac-domestic-violence-set--official-pdf-fill/fixtures/crrlj-09-0100-boundary-filled.pdf",
@@ -2753,28 +2958,7 @@
       "requestedScale": 2.5,
       "builderAssignment": null,
       "currentRasterState": "RASTER_PASS",
-      "nextOwner": "independent-verification",
-      "supersededReceipts": [
-        {
-          "verdict": "RASTER_PASS",
-          "workflowRunId": "33488713831",
-          "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
-          "renderedCommitSha": "71894f3f2dde0f5af34818a2fa8dc8bce84e0d24",
-          "jobId": "99795498424",
-          "jobConclusion": "success",
-          "boundToCanonicalSha256": "846360e75578ce6233dba77b03b25545a529b50cd553ad31f88d3008b429a6ad",
-          "boundToBoundarySha256": "75fac347051d6b710015ef5bbcc10b43df0a1de59078195ede75a744f4c42b77",
-          "receiptArtifact": {
-            "id": "9793026818",
-            "name": "rcap-raster-wa_vac_domestic_violence-set-33488713831",
-            "zipSha256": "sha256:02d7524a530b28a07c78798eb174fa1ea62f47169f0e4de29a26765e6d69a985",
-            "expiresAt": "2026-09-15T08:51:31Z"
-          },
-          "canaryPrecondition": "the canary job and its live negative controls passed in the same run; the family matrix depends on that job, so no family verdict exists without it",
-          "supersededBecause": "the row now renders a different set of documents",
-          "supersededAt": "2026-09-01T10:27:12Z"
-        }
-      ],
+      "nextOwner": "RAS04",
       "rasterReceipt": {
         "verdict": "RASTER_PASS",
         "workflowRunId": "33497786539",
@@ -2801,7 +2985,7 @@
     },
     {
       "familyId": "wa_vac_felony-set",
-      "packetCommitSha": "54197f3501979675e6b997d969207d60742bc3cb",
+      "packetCommitSha": "134db91a9c5d1955d565759754da360808621a46",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/wa/wa-vac-felony-set--official-pdf-fill/fixtures/cr-08-0900-canonical-filled.pdf",
       "canonicalPdfSha256": "3c40568209578ca04893ce46b64539a44af355dc11bd75b7daee75d215eda37f",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/wa/wa-vac-felony-set--official-pdf-fill/fixtures/cr-08-0900-boundary-filled.pdf",
@@ -2858,28 +3042,7 @@
       "requestedScale": 2.5,
       "builderAssignment": null,
       "currentRasterState": "RASTER_PASS",
-      "nextOwner": "independent-verification",
-      "supersededReceipts": [
-        {
-          "verdict": "RASTER_PASS",
-          "workflowRunId": "33488713831",
-          "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
-          "renderedCommitSha": "71894f3f2dde0f5af34818a2fa8dc8bce84e0d24",
-          "jobId": "99795498129",
-          "jobConclusion": "success",
-          "boundToCanonicalSha256": "3c40568209578ca04893ce46b64539a44af355dc11bd75b7daee75d215eda37f",
-          "boundToBoundarySha256": "2da76cc75f1ccd72cc12fdefef71edb90f477199877714e3263d9b46a4fccc8d",
-          "receiptArtifact": {
-            "id": "9792998659",
-            "name": "rcap-raster-wa_vac_felony-set-33488713831",
-            "zipSha256": "sha256:8b1124c491ef01433cea1a38293b70871d7d5c3eb8c1f872b78fb34ebff5a6f3",
-            "expiresAt": "2026-09-15T08:50:40Z"
-          },
-          "canaryPrecondition": "the canary job and its live negative controls passed in the same run; the family matrix depends on that job, so no family verdict exists without it",
-          "supersededBecause": "the row now renders a different set of documents",
-          "supersededAt": "2026-09-01T10:27:12Z"
-        }
-      ],
+      "nextOwner": "RAS01",
       "rasterReceipt": {
         "verdict": "RASTER_PASS",
         "workflowRunId": "33497786539",
@@ -2906,7 +3069,7 @@
     },
     {
       "familyId": "wa_vac_homicide_victim_prostitution-set",
-      "packetCommitSha": "54197f3501979675e6b997d969207d60742bc3cb",
+      "packetCommitSha": "134db91a9c5d1955d565759754da360808621a46",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/fixtures/crrlj-09-0100-canonical-filled.pdf",
       "canonicalPdfSha256": "846360e75578ce6233dba77b03b25545a529b50cd553ad31f88d3008b429a6ad",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/fixtures/crrlj-09-0100-boundary-filled.pdf",
@@ -2963,28 +3126,7 @@
       "requestedScale": 2.5,
       "builderAssignment": null,
       "currentRasterState": "RASTER_PASS",
-      "nextOwner": "independent-verification",
-      "supersededReceipts": [
-        {
-          "verdict": "RASTER_PASS",
-          "workflowRunId": "33488713831",
-          "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
-          "renderedCommitSha": "71894f3f2dde0f5af34818a2fa8dc8bce84e0d24",
-          "jobId": "99795498262",
-          "jobConclusion": "success",
-          "boundToCanonicalSha256": "846360e75578ce6233dba77b03b25545a529b50cd553ad31f88d3008b429a6ad",
-          "boundToBoundarySha256": "75fac347051d6b710015ef5bbcc10b43df0a1de59078195ede75a744f4c42b77",
-          "receiptArtifact": {
-            "id": "9793023393",
-            "name": "rcap-raster-wa_vac_homicide_victim_prostitution-set-33488713831",
-            "zipSha256": "sha256:e4d8de9a594aac40f7380fa7a54755d87296e0a002de8c90441bdc7c87481307",
-            "expiresAt": "2026-09-15T08:51:25Z"
-          },
-          "canaryPrecondition": "the canary job and its live negative controls passed in the same run; the family matrix depends on that job, so no family verdict exists without it",
-          "supersededBecause": "the row now renders a different set of documents",
-          "supersededAt": "2026-09-01T10:27:12Z"
-        }
-      ],
+      "nextOwner": "RAS02",
       "rasterReceipt": {
         "verdict": "RASTER_PASS",
         "workflowRunId": "33497786539",
@@ -3011,7 +3153,7 @@
     },
     {
       "familyId": "wa_vac_misdemeanor_ordinary-set",
-      "packetCommitSha": "54197f3501979675e6b997d969207d60742bc3cb",
+      "packetCommitSha": "134db91a9c5d1955d565759754da360808621a46",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/wa/wa-vac-misdemeanor-ordinary-set--official-pdf-fill/fixtures/crrlj-09-0100-canonical-filled.pdf",
       "canonicalPdfSha256": "846360e75578ce6233dba77b03b25545a529b50cd553ad31f88d3008b429a6ad",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/wa/wa-vac-misdemeanor-ordinary-set--official-pdf-fill/fixtures/crrlj-09-0100-boundary-filled.pdf",
@@ -3068,28 +3210,7 @@
       "requestedScale": 2.5,
       "builderAssignment": null,
       "currentRasterState": "RASTER_PASS",
-      "nextOwner": "independent-verification",
-      "supersededReceipts": [
-        {
-          "verdict": "RASTER_PASS",
-          "workflowRunId": "33488713831",
-          "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
-          "renderedCommitSha": "71894f3f2dde0f5af34818a2fa8dc8bce84e0d24",
-          "jobId": "99795498126",
-          "jobConclusion": "success",
-          "boundToCanonicalSha256": "846360e75578ce6233dba77b03b25545a529b50cd553ad31f88d3008b429a6ad",
-          "boundToBoundarySha256": "75fac347051d6b710015ef5bbcc10b43df0a1de59078195ede75a744f4c42b77",
-          "receiptArtifact": {
-            "id": "9793020798",
-            "name": "rcap-raster-wa_vac_misdemeanor_ordinary-set-33488713831",
-            "zipSha256": "sha256:8b1318ff7c5e6cf2b7291c587c9c323301ef7e90c5fb28322bf847540a2f5f75",
-            "expiresAt": "2026-09-15T08:51:21Z"
-          },
-          "canaryPrecondition": "the canary job and its live negative controls passed in the same run; the family matrix depends on that job, so no family verdict exists without it",
-          "supersededBecause": "the row now renders a different set of documents",
-          "supersededAt": "2026-09-01T10:27:12Z"
-        }
-      ],
+      "nextOwner": "RAS03",
       "rasterReceipt": {
         "verdict": "RASTER_PASS",
         "workflowRunId": "33497786539",
@@ -3116,7 +3237,7 @@
     },
     {
       "familyId": "wa_vac_substance_use_disorder-set",
-      "packetCommitSha": "54197f3501979675e6b997d969207d60742bc3cb",
+      "packetCommitSha": "134db91a9c5d1955d565759754da360808621a46",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/fixtures/crrlj-09-0100-canonical-filled.pdf",
       "canonicalPdfSha256": "846360e75578ce6233dba77b03b25545a529b50cd553ad31f88d3008b429a6ad",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/fixtures/crrlj-09-0100-boundary-filled.pdf",
@@ -3173,28 +3294,7 @@
       "requestedScale": 2.5,
       "builderAssignment": null,
       "currentRasterState": "RASTER_PASS",
-      "nextOwner": "independent-verification",
-      "supersededReceipts": [
-        {
-          "verdict": "RASTER_PASS",
-          "workflowRunId": "33488713831",
-          "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
-          "renderedCommitSha": "71894f3f2dde0f5af34818a2fa8dc8bce84e0d24",
-          "jobId": "99795498209",
-          "jobConclusion": "success",
-          "boundToCanonicalSha256": "846360e75578ce6233dba77b03b25545a529b50cd553ad31f88d3008b429a6ad",
-          "boundToBoundarySha256": "75fac347051d6b710015ef5bbcc10b43df0a1de59078195ede75a744f4c42b77",
-          "receiptArtifact": {
-            "id": "9793021111",
-            "name": "rcap-raster-wa_vac_substance_use_disorder-set-33488713831",
-            "zipSha256": "sha256:29313fe778b2c16a41b0a6f6e52bb19a4180e5d41c2098e6bfce9f3047448a63",
-            "expiresAt": "2026-09-15T08:51:21Z"
-          },
-          "canaryPrecondition": "the canary job and its live negative controls passed in the same run; the family matrix depends on that job, so no family verdict exists without it",
-          "supersededBecause": "the row now renders a different set of documents",
-          "supersededAt": "2026-09-01T10:27:12Z"
-        }
-      ],
+      "nextOwner": "RAS04",
       "rasterReceipt": {
         "verdict": "RASTER_PASS",
         "workflowRunId": "33497786539",
@@ -3221,7 +3321,7 @@
     },
     {
       "familyId": "wa_vac_survivor_felony-set",
-      "packetCommitSha": "54197f3501979675e6b997d969207d60742bc3cb",
+      "packetCommitSha": "134db91a9c5d1955d565759754da360808621a46",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-felony-set--official-pdf-fill/fixtures/cr-08-0900-canonical-filled.pdf",
       "canonicalPdfSha256": "3c40568209578ca04893ce46b64539a44af355dc11bd75b7daee75d215eda37f",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-felony-set--official-pdf-fill/fixtures/cr-08-0900-boundary-filled.pdf",
@@ -3278,28 +3378,7 @@
       "requestedScale": 2.5,
       "builderAssignment": null,
       "currentRasterState": "RASTER_PASS",
-      "nextOwner": "independent-verification",
-      "supersededReceipts": [
-        {
-          "verdict": "RASTER_PASS",
-          "workflowRunId": "33488713831",
-          "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
-          "renderedCommitSha": "71894f3f2dde0f5af34818a2fa8dc8bce84e0d24",
-          "jobId": "99795498534",
-          "jobConclusion": "success",
-          "boundToCanonicalSha256": "3c40568209578ca04893ce46b64539a44af355dc11bd75b7daee75d215eda37f",
-          "boundToBoundarySha256": "2da76cc75f1ccd72cc12fdefef71edb90f477199877714e3263d9b46a4fccc8d",
-          "receiptArtifact": {
-            "id": "9793055181",
-            "name": "rcap-raster-wa_vac_survivor_felony-set-33488713831",
-            "zipSha256": "sha256:dc292816867420aedfb24831398b1a42e896b670ea6d26b5c32299cf993dc502",
-            "expiresAt": "2026-09-15T08:52:23Z"
-          },
-          "canaryPrecondition": "the canary job and its live negative controls passed in the same run; the family matrix depends on that job, so no family verdict exists without it",
-          "supersededBecause": "the row now renders a different set of documents",
-          "supersededAt": "2026-09-01T10:27:12Z"
-        }
-      ],
+      "nextOwner": "RAS01",
       "rasterReceipt": {
         "verdict": "RASTER_PASS",
         "workflowRunId": "33497786539",
@@ -3326,7 +3405,7 @@
     },
     {
       "familyId": "wa_vac_survivor_misdemeanor-set",
-      "packetCommitSha": "54197f3501979675e6b997d969207d60742bc3cb",
+      "packetCommitSha": "134db91a9c5d1955d565759754da360808621a46",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-misdemeanor-set--official-pdf-fill/fixtures/crrlj-09-0100-canonical-filled.pdf",
       "canonicalPdfSha256": "846360e75578ce6233dba77b03b25545a529b50cd553ad31f88d3008b429a6ad",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-misdemeanor-set--official-pdf-fill/fixtures/crrlj-09-0100-boundary-filled.pdf",
@@ -3383,28 +3462,7 @@
       "requestedScale": 2.5,
       "builderAssignment": null,
       "currentRasterState": "RASTER_PASS",
-      "nextOwner": "independent-verification",
-      "supersededReceipts": [
-        {
-          "verdict": "RASTER_PASS",
-          "workflowRunId": "33488713831",
-          "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
-          "renderedCommitSha": "71894f3f2dde0f5af34818a2fa8dc8bce84e0d24",
-          "jobId": "99795498312",
-          "jobConclusion": "success",
-          "boundToCanonicalSha256": "846360e75578ce6233dba77b03b25545a529b50cd553ad31f88d3008b429a6ad",
-          "boundToBoundarySha256": "75fac347051d6b710015ef5bbcc10b43df0a1de59078195ede75a744f4c42b77",
-          "receiptArtifact": {
-            "id": "9793113460",
-            "name": "rcap-raster-wa_vac_survivor_misdemeanor-set-33488713831",
-            "zipSha256": "sha256:6f03fe157ac9162697313c9e71cf0aa7089890491a2c869ce522c38a55aea887",
-            "expiresAt": "2026-09-15T08:54:08Z"
-          },
-          "canaryPrecondition": "the canary job and its live negative controls passed in the same run; the family matrix depends on that job, so no family verdict exists without it",
-          "supersededBecause": "the row now renders a different set of documents",
-          "supersededAt": "2026-09-01T10:27:12Z"
-        }
-      ],
+      "nextOwner": "RAS02",
       "rasterReceipt": {
         "verdict": "RASTER_PASS",
         "workflowRunId": "33497786539",
@@ -3431,7 +3489,7 @@
     },
     {
       "familyId": "wa_vac_treaty_fishing-set",
-      "packetCommitSha": "54197f3501979675e6b997d969207d60742bc3cb",
+      "packetCommitSha": "134db91a9c5d1955d565759754da360808621a46",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/wa/wa-vac-treaty-fishing-set--official-pdf-fill/fixtures/crrlj-09-0100-canonical-filled.pdf",
       "canonicalPdfSha256": "846360e75578ce6233dba77b03b25545a529b50cd553ad31f88d3008b429a6ad",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/wa/wa-vac-treaty-fishing-set--official-pdf-fill/fixtures/crrlj-09-0100-boundary-filled.pdf",
@@ -3488,28 +3546,7 @@
       "requestedScale": 2.5,
       "builderAssignment": null,
       "currentRasterState": "RASTER_PASS",
-      "nextOwner": "independent-verification",
-      "supersededReceipts": [
-        {
-          "verdict": "RASTER_PASS",
-          "workflowRunId": "33488713831",
-          "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
-          "renderedCommitSha": "71894f3f2dde0f5af34818a2fa8dc8bce84e0d24",
-          "jobId": "99795497959",
-          "jobConclusion": "success",
-          "boundToCanonicalSha256": "846360e75578ce6233dba77b03b25545a529b50cd553ad31f88d3008b429a6ad",
-          "boundToBoundarySha256": "75fac347051d6b710015ef5bbcc10b43df0a1de59078195ede75a744f4c42b77",
-          "receiptArtifact": {
-            "id": "9793125029",
-            "name": "rcap-raster-wa_vac_treaty_fishing-set-33488713831",
-            "zipSha256": "sha256:4ecdfc8ace5b999ccf84ae8016d8e20164c9c1bd75a17aaef6e5649215e10aed",
-            "expiresAt": "2026-09-15T08:54:30Z"
-          },
-          "canaryPrecondition": "the canary job and its live negative controls passed in the same run; the family matrix depends on that job, so no family verdict exists without it",
-          "supersededBecause": "the row now renders a different set of documents",
-          "supersededAt": "2026-09-01T10:27:12Z"
-        }
-      ],
+      "nextOwner": "RAS03",
       "rasterReceipt": {
         "verdict": "RASTER_PASS",
         "workflowRunId": "33497786539",
@@ -3535,8 +3572,98 @@
       }
     },
     {
+      "familyId": "wi_nc_doj_challenge-set",
+      "packetCommitSha": "134db91a9c5d1955d565759754da360808621a46",
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-challenge-set--official-pdf-fill/fixtures/canonical.pdf",
+      "canonicalPdfSha256": "edb7338200e12436a22390b6857b54bb0b44d074abc745b5c02c158f85457b4f",
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-challenge-set--official-pdf-fill/fixtures/boundary.pdf",
+      "boundaryPdfSha256": "365d25ebf98bc23dba12805e97f985d6f39fc2403cec591b9646a6be8f35596e",
+      "expectedPages": 2,
+      "fixtureSelection": {
+        "canonical": "declared by the builder as the canonical artifact in reports/rendered-artifacts.json",
+        "boundary": "declared by the builder as the boundary artifact in reports/rendered-artifacts.json"
+      },
+      "documents": [
+        {
+          "role": "canonical",
+          "name": "canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-challenge-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "edb7338200e12436a22390b6857b54bb0b44d074abc745b5c02c158f85457b4f",
+          "pageCount": 2
+        },
+        {
+          "role": "boundary",
+          "name": "boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-challenge-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "365d25ebf98bc23dba12805e97f985d6f39fc2403cec591b9646a6be8f35596e",
+          "pageCount": 2
+        }
+      ],
+      "documentsDigest": "b1a8d88cbefe09dcaa9f71c1fe06d500dea5cff7e3d65204d69ce652a42e226a",
+      "coverage": {
+        "documents": [
+          "canonical.pdf"
+        ],
+        "rastered": [
+          "canonical.pdf"
+        ],
+        "notRastered": [],
+        "complete": true,
+        "basis": "the family ships one assembled packet, so rendering it covers the family"
+      },
+      "requestedScale": 2.5,
+      "builderAssignment": "VF08",
+      "currentRasterState": "RASTER_PENDING",
+      "nextOwner": "RAS04"
+    },
+    {
+      "familyId": "wi_nc_doj_fingerprint_removal-set",
+      "packetCommitSha": "134db91a9c5d1955d565759754da360808621a46",
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-fingerprint-removal-set--official-pdf-fill/fixtures/canonical.pdf",
+      "canonicalPdfSha256": "5b475b11c17c35f8edc37bada78716e8b14471b1951966604b7a678412fc6cc6",
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-fingerprint-removal-set--official-pdf-fill/fixtures/boundary.pdf",
+      "boundaryPdfSha256": "3fd596ff112fd2f6ef55ca9a14c2fe0702eb107af9f715554b45503e3d7861f3",
+      "expectedPages": 2,
+      "fixtureSelection": {
+        "canonical": "declared by the builder as the canonical artifact in reports/rendered-artifacts.json",
+        "boundary": "declared by the builder as the boundary artifact in reports/rendered-artifacts.json"
+      },
+      "documents": [
+        {
+          "role": "canonical",
+          "name": "canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-fingerprint-removal-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "5b475b11c17c35f8edc37bada78716e8b14471b1951966604b7a678412fc6cc6",
+          "pageCount": 2
+        },
+        {
+          "role": "boundary",
+          "name": "boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-fingerprint-removal-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "3fd596ff112fd2f6ef55ca9a14c2fe0702eb107af9f715554b45503e3d7861f3",
+          "pageCount": 2
+        }
+      ],
+      "documentsDigest": "737c6945ac05bd027a828ebee335705de6a366023a2741bd328ea39d90bfdc7f",
+      "coverage": {
+        "documents": [
+          "canonical.pdf"
+        ],
+        "rastered": [
+          "canonical.pdf"
+        ],
+        "notRastered": [],
+        "complete": true,
+        "basis": "the family ships one assembled packet, so rendering it covers the family"
+      },
+      "requestedScale": 2.5,
+      "builderAssignment": "VF09",
+      "currentRasterState": "RASTER_PENDING",
+      "nextOwner": "RAS01"
+    },
+    {
       "familyId": "wv_conv_multiple_misdemeanors-set",
-      "packetCommitSha": "54197f3501979675e6b997d969207d60742bc3cb",
+      "packetCommitSha": "134db91a9c5d1955d565759754da360808621a46",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/fixtures/canonical.pdf",
       "canonicalPdfSha256": "d477bc4a7f18aaac153c56760fc11dca69a317dc49b2eff7362b1d41ba27b4e4",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/fixtures/boundary.pdf",
@@ -3575,7 +3702,7 @@
         "basis": "the family ships one assembled packet, so rendering it covers the family"
       },
       "requestedScale": 2.5,
-      "builderAssignment": "VF02",
+      "builderAssignment": "VF10",
       "currentRasterState": "RASTER_PASS",
       "nextOwner": "RAS02",
       "rasterReceipt": {
@@ -3598,7 +3725,7 @@
     },
     {
       "familyId": "wv_conv_single_misdemeanor-set",
-      "packetCommitSha": "54197f3501979675e6b997d969207d60742bc3cb",
+      "packetCommitSha": "134db91a9c5d1955d565759754da360808621a46",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/fixtures/canonical.pdf",
       "canonicalPdfSha256": "dc8ec89cc5760e1a02d789216885c91bf477a264a000bd58f1c3608fdc0c0d21",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/fixtures/boundary.pdf",
@@ -3637,7 +3764,7 @@
         "basis": "the family ships one assembled packet, so rendering it covers the family"
       },
       "requestedScale": 2.5,
-      "builderAssignment": "VF03",
+      "builderAssignment": "VF11",
       "currentRasterState": "RASTER_PASS",
       "nextOwner": "RAS03",
       "rasterReceipt": {
@@ -3882,12 +4009,6 @@
         "no overlay directory",
         "sources do not bind",
         "no completeness audit"
-      ]
-    },
-    {
-      "familyId": "az_marijuana_expungement_arrest_no_charges-set",
-      "why": [
-        "nonvisual completeness counters not zero: knownRequiredFieldsMissing"
       ]
     },
     {
@@ -4864,13 +4985,6 @@
       ]
     },
     {
-      "familyId": "ky_felony_vacatur_expungement-set",
-      "why": [
-        "no overlay directory",
-        "no completeness audit"
-      ]
-    },
-    {
       "familyId": "ky_misdemeanor_expungement-set",
       "why": [
         "no overlay directory",
@@ -4963,13 +5077,6 @@
       "why": [
         "no overlay directory",
         "sources do not bind",
-        "no completeness audit"
-      ]
-    },
-    {
-      "familyId": "ma-expunge-mj-set",
-      "why": [
-        "no overlay directory",
         "no completeness audit"
       ]
     },
@@ -5558,13 +5665,6 @@
       ]
     },
     {
-      "familyId": "or_conviction_setaside-set",
-      "why": [
-        "no overlay directory",
-        "no completeness audit"
-      ]
-    },
-    {
       "familyId": "pa_490_nonconviction-set",
       "why": [
         "2 PDFs could be the canonical fixture (rule-490-order-canonical.pdf, rule-490-petition-canonical.pdf) and the builder declares none — refusing to guess which one the receipt would describe",
@@ -5787,13 +5887,6 @@
       ]
     },
     {
-      "familyId": "sc_17_22_950_summary-set",
-      "why": [
-        "no overlay directory",
-        "no completeness audit"
-      ]
-    },
-    {
       "familyId": "tx_exp_acquittal-set",
       "why": [
         "no overlay directory",
@@ -5909,14 +6002,6 @@
       "familyId": "va_exp_identity_used_by_another-set",
       "why": [
         "no overlay directory",
-        "sources do not bind",
-        "no completeness audit"
-      ]
-    },
-    {
-      "familyId": "va_exp_nonconviction-set",
-      "why": [
-        "no overlay directory",
         "no completeness audit"
       ]
     },
@@ -5957,18 +6042,6 @@
       "why": [
         "no overlay directory",
         "an open legal input",
-        "no completeness audit"
-      ]
-    },
-    {
-      "familyId": "wi_nc_doj_challenge-set",
-      "why": [
-        "no completeness audit"
-      ]
-    },
-    {
-      "familyId": "wi_nc_doj_fingerprint_removal-set",
-      "why": [
         "no completeness audit"
       ]
     },
