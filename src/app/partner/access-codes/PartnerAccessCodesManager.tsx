@@ -375,7 +375,7 @@ function CreateCodeForm({ busy, onCreate }: { busy: boolean; onCreate: (fields: 
           <input
             value={eventId}
             onChange={(e) => setEventId(e.target.value)}
-            placeholder="Event UUID"
+            placeholder="Clinic event reference"
             className="w-full rounded-md border border-[#D7DEE8] px-3 py-2 text-sm"
           />
         </Field>

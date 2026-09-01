@@ -84,7 +84,10 @@ try {
   await page.fill('input[name="administratorName"]', "Journey Administrator");
   await page.fill('input[name="administratorEmail"]', adminEmail);
   await page.fill('textarea[name="clearanceReason"]', "Local browser acceptance for the reviewed provisioning path.");
-  await page.click('button[type="submit"]');
+  await page
+    .locator('[data-provisioning-state="details"]')
+    .getByRole("button", { name: "Review what will be created", exact: true })
+    .click();
   await page.waitForSelector('[data-provisioning-state="review"]');
   const reviewText = await page.textContent('[data-provisioning-state="review"]');
   for (const phrase of [

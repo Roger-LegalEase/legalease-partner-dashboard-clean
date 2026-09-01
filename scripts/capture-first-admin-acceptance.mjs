@@ -295,7 +295,10 @@ async function runOnboardingEnabledPhase() {
   observe(revokedPage, "revoked-link");
   await revokedPage.goto(secondSetupLink, { timeout: 90_000 });
   await revokedPage
-    .getByText("This invite link is no longer active.")
+    .getByRole("heading", {
+      name: "This account setup link cannot be used",
+      exact: true
+    })
     .waitFor({ timeout: 90_000 });
   assert.equal(
     await revokedPage.getByLabel("New password", { exact: true }).count(),
@@ -558,7 +561,7 @@ async function accessibleName(session, selector) {
 // the tenant-specific success content and the absence of the failure copy.
 async function assertOnboardingLanding(page, organizationLabel) {
   await page
-    .getByRole("heading", { name: "Program setup", exact: true })
+    .getByText("RCAP implementation center", { exact: true })
     .waitFor({ timeout: 90_000 });
   await page.getByText(organizationLabel, { exact: false }).first().waitFor();
   await assertAbsent(page, [
