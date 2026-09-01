@@ -1,0 +1,81 @@
+{
+  "schemaVersion": "fable-packet-factory-builder-return/v1",
+  "builder": "FABLE-B4",
+  "lane": "PF06",
+  "branch": "fable/b4",
+  "familyId": "va_exp_identity_used_by_another-set",
+  "status": "BUILT",
+  "claimResult": {
+    "assert": "CLAIM_OK PF06 va_exp_identity_used_by_another-set (packet-build, grant set 68649c13ab76b741)",
+    "release": "RELEASED PF06 va_exp_identity_used_by_another-set"
+  },
+  "boundSources": [
+    {
+      "sourceId": "source-sha256:6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
+      "formNumber": "CC-1473",
+      "pathInArchive": "STATES/VA/02_PACKET_FORMS/VA__FORM__CC-1473__petition-for-expungement__REV-2026-07__EN.pdf",
+      "sha256": "6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
+      "byteLength": 120875,
+      "verified": "byte-exact against the committed corpus index, the MASTER_QUEUE pin, and the mounted Master Library bytes; printed face read from the pinned bytes on every build (nine anchors, refuse-on-drift)",
+      "faceReading": "CC-1473 prints VA. CODE § 19.2-392.2(A) — ACQUITTAL/DISMISSAL — as its sole authority, and its Part 1 basis is one a § 19.2-392.2(B) petitioner cannot truthfully swear. The family's own legal-design record (data/record-clearing/legal-design-intake/VA.memo.json) states 'CC-1473 is captioned to subsection (A) alone and is not it' and resolves the strategy to custom_pleading. CC-1473 is therefore bound as the REFERENCE instrument for the shared § 19.2-392.2 petition procedure and is never included in the rendered packet. The DETERMINATION_CC1203_SUBSTITUTION record was read first: it governs the two sealing families (CC-1201/CC-1203, § 19.2-392.12 / § 19.2-392.12:1) and does not name this expungement family; no substitution question arises and no form was substituted."
+  }
+  ],
+  "whatWasWritten": {
+    "note": "Only facts the platform holds about the participant: 12 writes across five composed components.",
+    "facts": [
+      "participant.full_legal_name (petition caption, motion caption, and every process page)",
+      "participant.date_of_birth (petition statement of facts)",
+      "participant.street_address, participant.phone, participant.email (contact blocks of the petition and the motion)"
+    ]
+  },
+  "whatWasCarriedToParticipant": {
+    "requiredBeforeFiling": 13,
+    "items": [
+      "primary_filing: disposing court (caption), name shown on the record, specific charge, case number, arrest date, arresting agency, disposition and date, the participant's own statement of facts",
+      "misidentification_motion (conditional, § 19.2-392.2(H)): dismissing court, dismissed case number, dismissed charge, dismissal date",
+      "commonwealth_service: name and mailing address of the attorney for the Commonwealth"
+    ],
+    "checkableAuthorities": "every case-fact blank names the clerk of the circuit court of the disposing locality for the case papers; service mechanics and any local cover-sheet question are delegated to that clerk by name; fingerprints route per § 19.2-392.2(E) through any law-enforcement agency to the CCRE; no fee arises (§ 19.2-392.2(B) charges none, from the record)",
+    "protectedNeverWritten": "signature, signature dates, date of service, the petition's own case number (clerk-assigned); no judicial, clerk, notary or court-date field exists on the composed pages and none was written"
+  },
+  "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+  },
+  "independentFocusedCheck": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_exp_identity_used_by_another-set → PASS_COMPLETE, 12/32 written, all nine counters zero (a builder-run focused check, not a verification verdict)",
+  "rebuildByteIdentical": true,
+  "rebuildProof": "two full builds; sha256 over every emitted file in the family directory identical between runs (stampDeterministic on every created document; useObjectStreams:false, updateMetadata:false)",
+  "artifacts": [
+    { "fixture": "canonical", "packetSha256": "e01f67987b25265e945bf774750a5af8a10f2360cad8790ca6bbbd116fc099b4", "pages": 8 },
+    { "fixture": "boundary", "packetSha256": "eb054b41c4548fd97bd5ab8fcf368b4cdc9d3ac3d43e98b6e6c271b362376f66", "pages": 8 }
+  ],
+  "rasterState": "BUILT_RASTER_PENDING",
+  "renderedArtifactsShape": "rcap-rendered-artifacts/v1 with a pdfs[] row per fixture (file, documentId, fixture, sha256, byteLength, pageCount) so the raster queue can bind receipts",
+  "components": [
+    "primary_filing",
+    "law_enforcement_fingerprint_instructions",
+    "misidentification_motion (conditional: § 19.2-392.2(H), condition printed on its own face)",
+    "commonwealth_service",
+    "filing_instructions"
+  ],
+  "counselQuestionsRaised": [
+    "sufficiency of the composed (B) instrument where no official form exists",
+    "the § 19.2-392.2(F) presumption and the three-year voidability rule are named by the legal-design record but their substance is recorded nowhere held, so the packet omits them",
+    "the December 1, 2026 version of § 19.2-392.2 (recorded release blocker) and the cutover plan",
+    "the two-instrument conditional presentation of the (H) motion"
+  ],
+  "commits": [
+    "997e807cb factory(PF06/fable-b4): build va_exp_identity_used_by_another-set to state_built"
+  ],
+  "familyEndsAt": "state_built",
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}
