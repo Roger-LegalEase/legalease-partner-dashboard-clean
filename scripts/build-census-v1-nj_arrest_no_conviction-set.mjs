@@ -314,6 +314,17 @@ const PA_ORDER_ALLOW = {
   SpecificCharges: "matter.charge", ChargesDisposition: "matter.charge",
 };
 
+/*
+ * FIX11 (REPEATING_ROWS): the PA petitions carry a five-row offence table whose
+ * cells -- Title, Section, Subsection, Statute Description, Counts, Grade,
+ * Disposition -- form rows that must be complete or untouched. Writing
+ * matter.charge into `Statute DescriptionRow1` alone left row 1 half-written:
+ * a finished-looking row whose other required cells the platform holds no fact
+ * for and must not guess. The whole table is left to the participant, listed
+ * with the other required-before-filing blanks.
+ */
+const { "Statute DescriptionRow1": _paRow1ChargeCell, ...PA_PETITION_ALLOW_TABLE_UNTOUCHED } = PA_PETITION_ALLOW;
+
 // Exact terminal-name mappings shared by every family that uses the same
 // pinned document. This is deliberately a table, not a label heuristic: one
 // source field name opens one known fact and no unknown field can match it.
@@ -507,8 +518,27 @@ Object.assign(FAMILY, {
   },
   "pa_490_nonconviction-set": {
     jurisdiction: "PA", routeKeys: ["obligation:track-pathway:PA:pa_490_nonconviction:path-a-non-conviction-expungement"],
-    documents: [cloneDoc(PA_490_PETITION, { allow: PA_PETITION_ALLOW }), cloneDoc(PA_490_ORDER, { allow: PA_ORDER_ALLOW }), PA_IFP_MDJ],
-    notes: ["The fee-waiver affidavit is retained only as conditional source evidence; no financial or sworn fact is filled."],
+    documents: [cloneDoc(PA_490_PETITION, { allow: PA_PETITION_ALLOW_TABLE_UNTOUCHED }), cloneDoc(PA_490_ORDER, { allow: PA_ORDER_ALLOW }), PA_IFP_MDJ],
+    notes: ["The fee-waiver affidavit is retained only as conditional source evidence; no financial or sworn fact is filled.",
+      "The petition's offence table is left whole for the participant: its rows carry Section, Subsection, Counts, Grade and Disposition cells the platform holds no fact for, and a row is complete or it is untouched."],
+    guidance: {
+      afterTheTable: [
+        "Do not leave one of these blank because you are unsure. Ask the clerk of the court where the charges were filed.",
+        "The filing fee and whether it can be waived, who must be served and by what method, and the addresses the petition is served on are not established in this repository. Ask the same clerk. An unsourced figure in a filing instruction would be worse than none.",
+      ],
+      selfHelpEnds: [
+        "This packet prepares the Pennsylvania Rule of Criminal Procedure 490 petition and proposed order for you to review, complete, sign and file yourself. Self-help ends at any question this packet refuses to answer:",
+        "- whether your charges are eligible for expungement — a legal judgment this packet does not make;",
+        "- any blank listed above that you cannot complete from your own court records;",
+        "- anything the prosecuting attorney objects to, and any hearing the court schedules.",
+        "When you reach one of those points, stop and ask someone with the authority to answer. The clerk of the court where the charges were filed answers procedural questions — filing, fees, copies and service addresses. Only a lawyer admitted to practice in Pennsylvania may advise you on eligibility, on what to argue, or at a contested hearing; if you cannot afford one, ask that same clerk's office how to reach the county's legal aid or lawyer referral service. This packet is not legal advice, and no lawyer has reviewed your case in preparing it.",
+      ],
+      notYours: [
+        "**The fee-waiver affidavit (PA-IFP-MDJ)** is held as exact source evidence only. It is not generated into your packet and nothing on it is a blank on this filing. If you need a fee waiver, ask the clerk for the current form.",
+        "**The proposed order** carries the court's blocks; submit them blank.",
+        "**Every signature and signature date** is yours to complete after you have read the finished packet.",
+      ],
+    },
   },
   "pa_790_nonconviction-set": {
     jurisdiction: "PA", routeKeys: ["obligation:track-pathway:PA:pa_790_nonconviction:path-a-non-conviction-expungement"],
@@ -517,8 +547,27 @@ Object.assign(FAMILY, {
   },
   "pa_9122_1_limited_access-set": {
     jurisdiction: "PA", routeKeys: ["obligation:track-pathway:PA:pa_9122_1_limited_access:path-i-petition-for-limited-access"],
-    documents: [cloneDoc(PA_791_PETITION, { allow: PA_PETITION_ALLOW }), cloneDoc(PA_791_ORDER, { allow: PA_ORDER_ALLOW }), PA_IFP_CCP],
-    notes: ["Reasons, signature/date, criminal-history election, costs-paid election, court disposition, and agency-service fields remain blank."],
+    documents: [cloneDoc(PA_791_PETITION, { allow: PA_PETITION_ALLOW_TABLE_UNTOUCHED }), cloneDoc(PA_791_ORDER, { allow: PA_ORDER_ALLOW }), PA_IFP_CCP],
+    notes: ["Reasons, signature/date, criminal-history election, costs-paid election, court disposition, and agency-service fields remain blank.",
+      "The petition's offence table is left whole for the participant: its rows carry Section, Subsection, Counts, Grade and Disposition cells the platform holds no fact for, and a row is complete or it is untouched."],
+    guidance: {
+      afterTheTable: [
+        "Do not leave one of these blank because you are unsure. Ask the clerk of the court where the conviction was entered.",
+        "The filing fee and whether it can be waived, who must be served and by what method, and the addresses the petition is served on are not established in this repository. Ask the same clerk. An unsourced figure in a filing instruction would be worse than none.",
+      ],
+      selfHelpEnds: [
+        "This packet prepares the Pennsylvania Rule of Criminal Procedure 791 petition for an order for limited access and its proposed order for you to review, complete, sign and file yourself. Self-help ends at any question this packet refuses to answer:",
+        "- whether your conviction qualifies for limited access under 18 Pa.C.S. § 9122.1 — a legal judgment this packet does not make;",
+        "- any blank listed above that you cannot complete from your own court records;",
+        "- anything the district attorney objects to, and any hearing the court schedules.",
+        "When you reach one of those points, stop and ask someone with the authority to answer. The clerk of the court where the conviction was entered answers procedural questions — filing, fees, copies and service addresses. Only a lawyer admitted to practice in Pennsylvania may advise you on eligibility, on what to argue, or at a contested hearing; if you cannot afford one, ask that same clerk's office how to reach the county's legal aid or lawyer referral service. This packet is not legal advice, and no lawyer has reviewed your case in preparing it.",
+      ],
+      notYours: [
+        "**The fee-waiver motion (PA-IFP-CCP)** is held as exact source evidence only. It is not generated into your packet and nothing on it is a blank on this filing. If you need a fee waiver, ask the clerk for the current form.",
+        "**The proposed order** carries the court's blocks; submit them blank.",
+        "**Every signature and signature date** is yours to complete after you have read the finished packet.",
+      ],
+    },
   },
   "pa_summary_conviction-set": {
     jurisdiction: "PA", routeKeys: ["obligation:track-pathway:PA:pa_summary_conviction:path-c-summary-conviction-expungement"],
@@ -560,7 +609,19 @@ function classifyRefusal(name, label = "") {
   const subject = `${name} ${label}`;
   if (/form(?:safe)?clear|reset|print(?:_form)?|save(?:_form)?|viewer\s+ui/i.test(subject)) return "not_a_filing_fact";
   if (/\bservice\b|\bserved\b|\bmail(?:ed|ing)?\b|certificate\s*of\s*service/i.test(subject)) return "unmailed_or_unperformed_service";
-  if (/signature|signed|notary|sworn|affirmation/i.test(subject)) return "signature_or_sworn_participant_act";
+  // A proposed order's own date line -- "AND NOW, this ___ day of ___, 20___"
+  // and the bare Day/Month/Year components -- is completed at signing, never
+  // by the participant, and never listed as a blank the participant must fill.
+  if (/^\s*(day|month|year)\s*\d*\s*$/i.test(name) || /\bAND\s+NOW\b[,\s]*this\b/i.test(label)) return "signature_or_date_participant_completion";
+  // The completeness contract's closed vocabulary names this class
+  // signature_or_date_participant_completion; emitting any other spelling makes
+  // every signature blank unclassifiable to the auditor that decides PASS.
+  if (/signature|signed|notary|sworn|affirmation/i.test(subject)) return "signature_or_date_participant_completion";
+  // An arresting or citing AGENCY NAME is a case fact the participant already
+  // has from the record they screened with; the completeness contract refuses
+  // the court-owned class for agency-fact fields, so they are carried to the
+  // participant instead of hiding behind the clerk and the judge.
+  if (/(arresting|citing|prosecuting)\s*agency|agency\s*that\s*made\s*the\s*arrest/i.test(subject)) return "required_before_filing";
   if (/judge|court\s*signature|clerk|prosecut|district\s*attorney|\bDA\b|agency|affiant|police|sheriff|warden|superintendent|attorney\s*general/i.test(subject)) return "court_prosecutor_clerk_or_agency_owned";
   if (/reason|eligib|history|conditions|restitution|costs\s*paid|checkbox|check\s*box|intend|filed\s*another|acquit|dismiss|guilty|sealed|expunged|proper_id/i.test(subject)) return "participant_sworn_narrative_or_legal_election";
   return "required_before_filing";
@@ -917,8 +978,11 @@ function fieldMapFor(doc, census) {
   return census.fields.map((field) => {
     const factId = factMappings[field.name] ?? null;
     if (factId) {
+      // No effectiveLabel on a write row: the census label is captured from
+      // neighboring page text and is fallible for wide fields; carrying it on
+      // an allowlisted write lets one caption shadow a differently-named blank
+      // and read as "this fact is written beside it".
       return { field: field.name, decision: "candidate_write", factId,
-        effectiveLabel: field.effectiveLabel ?? field.name,
         decisionBasis: Object.hasOwn(sharedMappings, field.name)
           ? "shared exact terminal-name fact allowlist; shared semantic finalizer still controls"
           : "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
@@ -935,11 +999,32 @@ function fieldMapFor(doc, census) {
     const refusalClass = doc.render === false
       ? "source_only_not_generated"
       : classifyRefusal(field.name, field.effectiveLabel ?? "");
+    /*
+     * A required-before-filing blank travels on the declared channel the
+     * completeness contract reads -- requiredBeforeFiling as a boolean, an
+     * identity, no refusal class -- because "required_before_filing" is not in
+     * the contract's closed refusal vocabulary and a prose-only declaration
+     * reads as a policy-shaped excuse. A service field is the same declaration
+     * with its own true reason: the fact does not exist until service occurs.
+     */
+    if (refusalClass === "required_before_filing" || refusalClass === "unmailed_or_unperformed_service") {
+      const afterService = refusalClass === "unmailed_or_unperformed_service";
+      return { field: field.name, decision: "refuse", factId: null,
+        blankTreatment: "REQUIRED_BEFORE_FILING",
+        requiredBeforeFiling: true, routeDetermined: false,
+        identity: `${doc.documentId} field ${field.name}`,
+        effectiveLabel: field.effectiveLabel ?? field.name,
+        reason: afterService
+          ? "REQUIRED_BEFORE_FILING: service has not occurred, so the platform holds no fact for this field; the participant completes it after service and does not guess."
+          : "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+        completesAfterService: afterService,
+        widgets: field.widgets };
+    }
     return { field: field.name, decision: "refuse", factId: null, refusalClass,
-      blankTreatment: refusalClass === "required_before_filing" ? "REQUIRED_BEFORE_FILING" : null,
+      blankTreatment: null,
       effectiveLabel: field.effectiveLabel ?? field.name,
       reason: refusalClass === "source_only_not_generated"
-        ? "This companion is held as exact source evidence and is not a generated participant artifact."
+        ? "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it."
         : refusalReason(refusalClass),
       widgets: field.widgets };
   });
@@ -1170,11 +1255,15 @@ function protectedCensusField(field, mapEntry) {
     : fullSubject;
   const protectedByRefusal = [
     "signature_or_sworn_participant_act",
+    "signature_or_date_participant_completion",
     "unmailed_or_unperformed_service",
     "court_prosecutor_clerk_or_agency_owned",
     "required_before_filing",
     "not_a_filing_fact",
-  ].includes(refusalClass);
+  ].includes(refusalClass)
+    // Required-before-filing rows now travel on the declared channel with no
+    // refusal class; they are exactly as untouchable as they were.
+    || (mapEntry?.decision === "refuse" && mapEntry?.requiredBeforeFiling === true);
   // "mail" is not itself evidence that service occurred: this source labels
   // the applicant's ordinary contact line "My mailing Address", and "Email"
   // contains the same substring. Performed mailing remains protected by the
@@ -1243,6 +1332,34 @@ async function proofFromArtifact(file, census, fieldMap, report, facts, label,
   { sourceBytes = null, preSelectionBytes = null } = {}) {
   const artifactBytes = fs.readFileSync(file);
   const appearances = await flattenedWidgets(file);
+  /*
+   * Overlay-stage writes are PAGE TEXT, not widget appearances: the exact-fact
+   * overlay draws with page.drawText into the content stream, so the widget-
+   * appearance reader above cannot see their ink and would report every one of
+   * them missing. Their proof comes from the same first-hand text walk the
+   * census uses, read out of the artifact bytes at the measured rectangles.
+   */
+  const overlayKinds = new Set(["exact_measured_fact_overlay"]);
+  let pageTextItems = null;
+  let sourceTextKeys = null;
+  if ((report.written ?? []).some((w) => overlayKinds.has(w.kind))) {
+    const artifactDoc = await PDFDocument.load(artifactBytes, { ignoreEncryption: true, updateMetadata: false });
+    pageTextItems = artifactDoc.getPages().map((page) => extractTextItems(page));
+    // A widget rectangle often sits on the form's own printed rule or caption.
+    // Only ink this build ADDED proves a write, so anything the source page
+    // already draws at the same point is excluded from the comparison.
+    if (sourceBytes) {
+      const sourceDoc = await PDFDocument.load(sourceBytes, { ignoreEncryption: true, updateMetadata: false });
+      sourceTextKeys = sourceDoc.getPages().map((page) => new Set(
+        extractTextItems(page).map((item) => `${Math.round(item.x)}|${Math.round(item.y)}|${String(item.text ?? "").trim()}`)));
+    }
+  }
+  const overlayTextAt = (page, rect) => (pageTextItems?.[page - 1] ?? [])
+    .filter((item) => item.x >= rect.x - 1 && item.x <= rect.x + rect.width + 1
+      && item.y >= rect.y - 1 && item.y <= rect.y + rect.height + 1)
+    .filter((item) => !sourceTextKeys?.[page - 1]?.has(
+      `${Math.round(item.x)}|${Math.round(item.y)}|${String(item.text ?? "").trim()}`))
+    .map((item) => String(item.text ?? "").trim()).filter(Boolean);
   const writtenProof = [];
   const missingWrittenInk = [];
   const wrongWrittenValues = [];
@@ -1254,15 +1371,20 @@ async function proofFromArtifact(file, census, fieldMap, report, facts, label,
         return match ? facts["matter.charges"]?.[Number(match[1])]?.[match[2]] : null;
       })()
       : facts[write.factId];
-    const byWidget = (field?.widgets ?? []).map((widget) => drawnAt(appearances, {
-      page: widget.page, rect: widget.rect, tolerance: 3,
-    }).map((entry) => String(entry.text ?? "").trim()).filter(Boolean));
+    const overlayWrite = overlayKinds.has(write.kind);
+    const byWidget = overlayWrite
+      ? (write.widgets ?? []).map((w) => overlayTextAt(w.page, w.rect))
+      : (field?.widgets ?? []).map((widget) => drawnAt(appearances, {
+        page: widget.page, rect: widget.rect, tolerance: 3,
+      }).map((entry) => String(entry.text ?? "").trim()).filter(Boolean));
     const drawn = byWidget.flat();
     const exactValueObserved = byWidget.length > 0
       && byWidget.every((chunks) => appearanceMatchesExpected(chunks, expected));
     const row = { field: write.field, factId: write.factId, expectedValue: expected ?? null,
       drawnText: drawn, exactValueObserved,
-      derivedFrom: "flattened artifact appearance streams at every measured widget" };
+      derivedFrom: overlayWrite
+        ? "page text items read from the artifact content stream at every overlay rectangle"
+        : "flattened artifact appearance streams at every measured widget" };
     writtenProof.push(row);
     if (!drawn.length) missingWrittenInk.push(row);
     else if (!exactValueObserved) wrongWrittenValues.push(row);
@@ -1342,6 +1464,7 @@ function sourceReceipt(familyId, config, rows) {
 }
 
 function participantInstructions(config, fieldMaps) {
+  if (config.guidance) return guidedParticipantInstructions(config, fieldMaps);
   const routeLines = config.routeKeys.map((route) => `- Route scope: \`${route}\``).join("\n");
   const notes = (config.notes ?? []).map((note) => `- ${note}`).join("\n");
   const requiredBeforeFiling = [...new Map(fieldMaps.flatMap((document) => document.fields)
@@ -1360,6 +1483,61 @@ function participantInstructions(config, fieldMaps) {
       ? `\n## Exact facts still required before filing\n\nThe platform does not hold the facts below. Supply and verify each applicable item before filing; the build does not guess them.\n\n${requiredBeforeFiling}\n`
       : "")
     + `${notes}\n`;
+}
+
+/*
+ * The filing-guidance house standard: the destination, the fee-and-waiver
+ * answer, the service answer, and where self-help ends each get a real
+ * statement or a named checkable authority -- a catch-all line that lists
+ * "fees" among other items answers nothing. Families opt in by declaring a
+ * `guidance` block; a family without one keeps the legacy template and no
+ * other family's committed instructions are touched by this function existing.
+ *
+ * The blanks table is derived from the same field map the auditors read, so a
+ * required-before-filing blank can never exist that the participant was not
+ * told about.
+ */
+function guidedParticipantInstructions(config, fieldMaps) {
+  const g = config.guidance;
+  const routeLines = config.routeKeys.map((route) => `- Route scope: \`${route}\``).join("\n");
+  const notes = (config.notes ?? []).map((note) => `- ${note}`).join("\n");
+  const tables = fieldMaps
+    .filter((document) => document.generatedParticipantArtifact)
+    .map((document) => {
+      const rows = document.fields
+        .filter((field) => field.requiredBeforeFiling === true)
+        .sort((a, b) => a.field.localeCompare(b.field))
+        .map((field) => {
+          const label = field.effectiveLabel ?? field.field;
+          const caption = label === field.field
+            ? "the measurement could reach no printed caption; read the printed page"
+            : `the form prints \`${label}\` beside it`;
+          const serviceNote = field.completesAfterService === true
+            ? " — complete this only after service has actually occurred" : "";
+          const page = field.widgets?.[0]?.page ?? "?";
+          return `| ${page} | \`${field.field}\` | ${caption}${serviceNote} |`;
+        });
+      if (rows.length === 0) return "";
+      return `### ${document.documentId}\n\n| Page | Form field | What the form says |\n| --- | --- | --- |\n${rows.join("\n")}\n`;
+    })
+    .filter(Boolean)
+    .join("\n");
+  return `# Participant and reviewer instructions\n\n`
+    + `These files are deterministic review fixtures made from exact held official sources. They are not approved filing packets.\n\n`
+    + `${routeLines}\n\n## Required participant/local completion\n\n`
+    + `- Review every page, choose only legally applicable elections, and complete every required signature and date yourself.\n`
+    + `- Complete service certificates only after service actually occurs.\n`
+    + `- Court, judge, prosecutor, clerk, law-enforcement, agency, notary, hearing, and post-order fields remain for their proper owners.\n`
+    + `- Confirm current revision, filing destination, local procedures, fees, attachments, service, and proposed-order requirements before filing.\n`
+    + (notes ? `${notes}\n` : "")
+    + `\n## The blanks you must fill in before filing\n\n`
+    + `The platform holds no value for any of these, and this packet never guesses at one. Each row names the page of the component, the form field as the source PDF names it, and the words the measurement read next to the blank. Where the measurement could reach no printed caption, read the printed page to see what the blank asks for.\n\n`
+    + `${tables}\n`
+    + `${g.afterTheTable.map((p) => `${p}\n`).join("\n")}\n`
+    + `## Where self-help ends\n\n`
+    + `${g.selfHelpEnds.map((p) => `${p}\n`).join("\n")}\n`
+    + `## Blanks that are not yours to fill\n\n`
+    + `${g.notYours.map((p) => `- ${p}`).join("\n")}\n`;
 }
 
 async function buildOfficial(familyId, config) {
@@ -1384,7 +1562,8 @@ async function buildOfficial(familyId, config) {
     for (const [fixture, facts] of [["canonical", factsForJurisdiction(config.jurisdiction)],
       ["boundary", factsForJurisdiction(config.jurisdiction, true)]]) {
       const unwritableFields = map.filter((row) => row.decision !== "candidate_write")
-        .map((row) => ({ field: row.field, class: row.refusalClass ?? "route_selection_or_role" }));
+        .map((row) => ({ field: row.field,
+          class: row.refusalClass ?? (row.requiredBeforeFiling === true ? "required_before_filing" : "route_selection_or_role") }));
       const finalized = await finalizeEastOfficialForm({
         sourceBytes: sourceRow.bytes, expectedSha256: doc.sha256,
         census: census.fields, facts, explicitMappings: factMappingsForDocument(doc),
@@ -1482,6 +1661,14 @@ async function buildOfficial(familyId, config) {
     pdfs: artifactReports.map((row) => ({ file: row.file, documentId: row.documentId,
       fixture: row.fixture, sha256: row.sha256, byteLength: row.byteLength, pageCount: row.pageCount })),
     rasters: rasterReports,
+    // A source-only companion is deliberately not rendered; the record says so
+    // by name, so its absence from the fixtures reads as the decision it is
+    // rather than as a missing component.
+    componentsNotGenerated: config.documents.filter((doc) => doc.render === false).map((doc) => ({
+      documentId: doc.documentId, documentRole: doc.documentRole,
+      generatedParticipantArtifact: false,
+      why: "This companion is held as exact source evidence and is not a generated participant artifact, so no fixture is rendered for it.",
+    })),
   });
   writeJson(`${out}/build-findings.json`, {
     schemaVersion: "rcap-family-build-findings/v1", familyId,
