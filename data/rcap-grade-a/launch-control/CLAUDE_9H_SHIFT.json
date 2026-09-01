@@ -129,10 +129,11 @@
     },
     "FIX-A": {
       "lanes": [],
-      "state": "PARTIALLY_BLOCKED",
-      "why": "family_sources_bind is failing in this session too: FIX01 returned 1 completed and 2 stopped, FIX03 both stopped. Continue any family that binds; hold the rest.",
-      "resumeWhen": "same owner action as PF-B and FIX-B.",
-      "doNotSelfVerify": true
+      "state": "STATIC_QUEUE_COMPLETE",
+      "supersedes": "the earlier PARTIALLY_BLOCKED entry, which is out of date: FIX-A obtained add_repo approval, installed the corpus (51 jurisdictions / 499 files / 329 PDFs, archive SHA-256 verified) and reads PACKET_BUILD_ENVIRONMENT_READY 13/13.",
+      "returned": "FIX01, FIX03, FIX05, FIX07 -- 9 families, 880 defects down to 46; ri_nonconviction_sealing-set to zero on all nine counters. Fleet knownRequiredFieldsMissing 1198->725, unclassifiedBlanks 779->455.",
+      "awaitingCrossVerification": true,
+      "note": "Every family returned BUILT_RASTER_PENDING and visualDefects reads zero only because nobody has looked. Not PASS_COMPLETE."
     }
   },
   "integratedReturns": [],
@@ -220,6 +221,35 @@
         "exactlyOne": "Grant Roger-LegalEase/legalease-source-artifacts to this workspace allowed repository set at https://claude.ai/admin-settings/claude-tag",
         "why": "It fixes all three sessions at once and every worker started later. Per-session add_repo approval also works but must be repeated for each session.",
         "doesNotBlockTheShift": "Captain is re-dispatching the affected families to corpus-equipped workers meanwhile."
+      }
+    },
+    "correction2": {
+      "issuedAt": "2026-09-01T08:17:54Z",
+      "subject": "MASTER_LIBRARY_SOURCE_DIR: the earlier instruction was wrong for builders. Export it.",
+      "whatIGotWrong": "Both earlier broadcasts said: do NOT export MASTER_LIBRARY_SOURCE_DIR, the default install root is where the preflight already looks. The first half is true and the second half does not follow. verify-packet-build-environment.mjs falls back to the default install root when the variable is unset, so preflight reads 13/13 without it. The BUILD HOSTS do not fall back. They refuse outright.",
+      "measured": "With the corpus fully installed and preflight at 13/13, the west host still failed: 'Error: MASTER_LIBRARY_SOURCE_DIR must be set explicitly to the extracted Master Library' at corpusRoot (line 986). With the variable exported to the same path the preflight was already using, the same build returned BUILD_OK.",
+      "why": "bootstrap-private-corpus.sh writes RCAP_BUNDLE_EXTRACT. The builders read MASTER_LIBRARY_SOURCE_DIR. Nothing bridges the two names, so a worker can hold a byte-perfect corpus, pass every preflight check, and still be unable to build.",
+      "doThis": "export MASTER_LIBRARY_SOURCE_DIR=\"$PWD/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1\"   (or \"$RCAP_BUNDLE_EXTRACT\" after sourcing private/source-corpus-environment.txt)",
+      "whatTheOldWarningActuallyMeant": "The 'mounted at the operational path' hazard is about OFFICIAL_FORMS_SOURCE_DIR, which points at the operational Nationwide tree and is a DIFFERENT corpus. Do not point that one at the Master Library; operational-corpus-precondition.mjs refuses it by name. I conflated the two variables. That warning does not apply to MASTER_LIBRARY_SOURCE_DIR."
+    },
+    "buildHostDefects": {
+      "issuedAt": "2026-09-01T08:17:54Z",
+      "foundBy": "FIX-A, while working its repair queue. Both hosts are shared, so the repairs are Captain's.",
+      "whyItMatters": "These are why nothing in the fleet had been rebuilt since 9a484a6, and PF-A and PF-C are dispatched lanes on both hosts.",
+      "westHost": {
+        "file": "scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs",
+        "defect": "writeText was called at lines 2101 (buildAz) and 2876 (buildCa) and never defined, so every AZ and CA family died on ReferenceError at the instruction step.",
+        "status": "FIXED by Captain. Proven by building: BUILD_OK az_marijuana_expungement_arrest_no_charges-set artifacts=2 rasters=6.",
+        "secondaryHazard": "buildAz crashed after rewriting the field map and before rendering, so an unrestored run left a half-rebuilt overlay. Defining the writer removes the trigger; restore any overlay from an aborted run before rerunning.",
+        "remainingGap": "The CA path imports python pikepdf, which is absent in this container (ImportError) and unchecked by the preflight. A CA family will still fail there. Not yet fixed."
+      },
+      "eastHost": {
+        "defect": "finalizer reported writes that have no artifact appearance. actual-writes.json shows the finalizer refusing all 12 terminal names S1 bound, as classified_unwritable_by_role. The allowlist promotes the field; the semantic finalizer refuses it by role; the build asserts.",
+        "status": "NOT a mechanical repair. Captain is not fixing this by changing either side.",
+        "whyItIsNotMechanical": "Exactly one of two things is true and they have opposite remedies. If the finalizer is right that these fields are not writable by the platform's role, then declaring them REQUIRED_BEFORE_FILING and naming them for the participant is already the correct final answer, and the repair is to withdraw those allowlist entries. If the allowlist is right, the finalizer's role classification must change and those fields must be written.",
+        "theQuestion": "Whether the defendant's own name on the NJ petition is the platform's to write, or the participant's. That is a legal-input question about role and authorship, not a build defect.",
+        "routedTo": "counsel queue. A repair lane does not decide it, and neither does the Captain.",
+        "doNotDoMeanwhile": "Do not widen the allowlist to get a build green. Do not relax the finalizer's role classification. Either would resolve a legal question by making a build pass."
       }
     }
   },

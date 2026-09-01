@@ -32,10 +32,40 @@ expect(expectedSources.length === actualSources.length && expectedSources.every(
 const disc06 = ledger.claims.filter((c) => c.lane === "DISC06");
 expect(activeSourceLanes.has("DISC06"), "DISC06 not ACTIVE");
 expect(disc06.length === 42, `DISC06 has ${disc06.length} claims`);
-for (const c of disc06) expect(run(["--assert", "DISC06", c.itemId]).status === 0, `DISC06 assertion refused: ${c.itemId}`);
+/*
+ * DISC06 is the ledger's live fixture: all 42 claims are exercised through the
+ * real claim tool, not inspected as data.
+ *
+ * This used to demand status 0 from every one of them, which made the check
+ * unsatisfiable the moment the lane did its job. claim.mjs --assert exits 9
+ * ALREADY_RELEASED against a released claim, so releasing DISC06 -- exactly what
+ * its prompt asks -- turned CLAIM_LEDGER_OK into "DISC06 assertion refused".
+ * The gate punished finishing the work. VF-SRC-B hit it, restored the ledger
+ * rather than papering over it, and handed it back.
+ *
+ * Both outcomes are correct behaviour; which one is correct depends on the
+ * claim's state. An unreleased claim must assert (0). A released claim must
+ * refuse, and must refuse for that exact reason (9 ALREADY_RELEASED) rather
+ * than by being absent, unreadable or unowned. Anything else is a real failure,
+ * so the fixture still exercises all 42 and can still fail.
+ */
+let disc06Asserted = 0;
+let disc06Released = 0;
+for (const c of disc06) {
+  const r = run(["--assert", "DISC06", c.itemId]);
+  if (c.released === true) {
+    expect(r.status === 9, `DISC06 released claim did not refuse as ALREADY_RELEASED (status ${r.status}): ${c.itemId}`);
+    expect(/ALREADY_RELEASED/.test(`${r.stdout ?? ""}${r.stderr ?? ""}`), `DISC06 released claim refused for the wrong reason: ${c.itemId}`);
+    disc06Released += 1;
+  } else {
+    expect(r.status === 0, `DISC06 assertion refused: ${c.itemId}`);
+    disc06Asserted += 1;
+  }
+}
+expect(disc06Asserted + disc06Released === 42, `DISC06 exercised ${disc06Asserted + disc06Released} of 42`);
 
 if (!process.argv.includes("--mutations")) {
-  console.log(`CLAIM_LEDGER_OK ${ledger.claims.length} claims; DISC06 42/42`);
+  console.log(`CLAIM_LEDGER_OK ${ledger.claims.length} claims; DISC06 ${disc06Asserted + disc06Released}/42 exercised (${disc06Asserted} assertable, ${disc06Released} already released)`);
   process.exit(0);
 }
 const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clm01-"));
