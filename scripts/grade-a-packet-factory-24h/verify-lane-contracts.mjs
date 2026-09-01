@@ -177,6 +177,46 @@ check("L7", "every queued row states which documents its verdict covers, and a p
   coverageProblems.length === 0 && (queue?.rows ?? []).length > 0,
   `${(queue?.rows ?? []).length} row(s), ${partial.length} with partial coverage; ${coverageProblems.length} problem(s): ${coverageProblems.slice(0, 3).join(" | ")}`);
 
+/* ---- L8. a packet whose bytes are not reproducible cannot hold a receipt --- */
+/*
+ * PF-C found this and it is worse than a nuisance: pdf-lib stamps the wall
+ * clock into a document it creates, so two builds of the SAME family from the
+ * SAME inputs differ. Measured here on two empty documents 1.1s apart: 257 of
+ * 583 bytes differ, because the date string shifts every following byte offset
+ * and the xref table cascades. PF-C reported six bytes; it is six bytes of date
+ * and everything they move.
+ *
+ * A RASTER_PASS is bound to a SHA-256. If a rebuild that changed nothing
+ * changes the hash, the receipt silently stops describing the family, and the
+ * queue's carry-forward -- which compares exactly those hashes -- throws the
+ * verdict away. The gate would keep working and keep losing its own evidence.
+ *
+ * Proving reproducibility means building twice, which needs the corpus and
+ * minutes per family. This asserts the precondition instead, which is exact and
+ * free: a builder that creates a PDF must stamp a fixed date into it. The two
+ * shared assemblers already do (ND_PACKET_PDF_DATE); the census-v1 builders
+ * each roll their own assembly and eight of them do not.
+ */
+const buildersDir = path.join(ROOT, "scripts");
+const builders = fs.existsSync(buildersDir)
+  ? fs.readdirSync(buildersDir).filter((f) => /^build-census-v1-.*\.mjs$/.test(f))
+  : [];
+const unstamped = [];
+for (const f of builders) {
+  const t = read(`scripts/${f}`);
+  if (!/PDFDocument\.create\(\)/.test(t)) continue;
+  /* Stamped inline, or delegated to the shared stamper. Matching only the
+   * inline call reported all eight as unstamped the moment they were fixed. */
+  if (/setCreationDate\s*\(/.test(t)) continue;
+  if (/stampDeterministic\s*\(/.test(t) && /rcap-deterministic-pdf-date\.mjs/.test(t)) continue;
+  unstamped.push(f.replace(/^build-census-v1-|\.mjs$/g, ""));
+}
+const passed = new Set((queue?.rows ?? []).filter((r) => r.currentRasterState === "RASTER_PASS").map((r) => r.familyId));
+const unstampedWithReceipt = unstamped.filter((f) => passed.has(f));
+check("L8", "no family holds a raster receipt while its builder stamps the wall clock into the packet",
+  builders.length > 0 && unstampedWithReceipt.length === 0,
+  `${builders.length} builder(s) scanned; ${unstamped.length} create a PDF with no fixed date; ${unstampedWithReceipt.length} of those hold a RASTER_PASS: ${unstampedWithReceipt.slice(0, 4).join(", ")}`);
+
 /* ---- L6. a gate nobody can run may not be treated as one that passed ----- */
 /*
  * The raster workflow is dispatchable only from the default branch -- that is
@@ -255,8 +295,17 @@ if (MUTATIONS) {
       } },
     { name: "a source-lane prompt carrying a raster instruction is caught", id: "L3", file: `${PROMPTS}/${sourcePrompts[0] ?? "DISC01.md"}`,
       edit: (t) => `${t}\n\nRender the pages and return BUILT_RASTER_PENDING.\n` },
+    /* Reads the queue to pick a family with NO passing row. This took the first
+     * VERIFY_PENDING family, which stopped being a subject once every queued
+     * row reached RASTER_PASS: the family it picked already had one, promoting
+     * it was legitimate, and the case reported MISSED. */
     { name: "a packet marked PASS_COMPLETE with no RASTER_PASS is caught", id: "L4", file: `${DIR}/MASTER_QUEUE.json`,
-      edit: (t) => { const j = JSON.parse(t); const f = j.families.find((x) => x.state === "VERIFY_PENDING") ?? j.families[0]; f.state = "PASS_COMPLETE"; return `${JSON.stringify(j, null, 2)}\n`; } },
+      edit: (t) => { const j = JSON.parse(t);
+        const q = JSON.parse(fs.readFileSync(path.join(ROOT, `${DIR}/RASTER_QUEUE.json`), "utf8"));
+        const passed = new Set(q.rows.filter((r) => r.currentRasterState === "RASTER_PASS").map((r) => r.familyId));
+        const f = j.families.find((x) => !passed.has(x.familyId));
+        if (!f) return t;
+        f.state = "PASS_COMPLETE"; return `${JSON.stringify(j, null, 2)}\n`; } },
     { name: "dropping BUILT_RASTER_PENDING from the vocabulary is caught", id: "L4", file: `${DIR}/MASTER_QUEUE.json`,
       edit: (t) => { const j = JSON.parse(t); j.stateVocabulary = j.stateVocabulary.filter((x) => x !== "BUILT_RASTER_PENDING"); return `${JSON.stringify(j, null, 2)}\n`; } },
     { name: "a queued PDF with no exact hash is caught", id: "L4", file: `${DIR}/RASTER_QUEUE.json`,
@@ -267,6 +316,16 @@ if (MUTATIONS) {
       edit: (t) => { const j = JSON.parse(t); (j.families.find((x) => x.state === "VERIFY_PENDING") ?? j.families[0]).state = "COMPLETE_PACKET_PROVEN"; return `${JSON.stringify(j, null, 2)}\n`; } },
     { name: "dropping the reachability record is caught", id: "L6", file: `${DIR}/RASTER_QUEUE.json`,
       edit: (t) => { const j = JSON.parse(t); delete j.workflowReachability; return `${JSON.stringify(j, null, 2)}\n`; } },
+    /*
+     * Removes the stamp from a builder that HOLDS a receipt, rather than
+     * looking for an unstamped one. Searching was right only while eight
+     * builders were unstamped; the moment they were fixed the search found
+     * nothing and the case reported "its subject does not exist" -- which is
+     * the harness refusing to call an empty mutation a pass.
+     */
+    { name: "a receipt on a family whose builder is not reproducible is caught", id: "L8",
+      file: "scripts/build-census-v1-co_motion_seal_nonconviction-set.mjs",
+      edit: (t) => t.replace(/^\s*stampDeterministic\([^)]*\);\s*$/m, "") },
     { name: "dropping a row's coverage declaration is caught", id: "L7", file: `${DIR}/RASTER_QUEUE.json`,
       edit: (t) => { const j = JSON.parse(t); delete j.rows[0].coverage; return `${JSON.stringify(j, null, 2)}\n`; } },
     { name: "a partial row claiming to cover the whole family is caught", id: "L7", file: `${DIR}/RASTER_QUEUE.json`,

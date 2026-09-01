@@ -63,7 +63,7 @@
  * is marked in any event: which of the six a participant is claiming is the
  * substance of the challenge and the platform does not hold it.
  *
- * Rasterization goes through scripts/lib/pdf-page-raster.mjs. Never Poppler.
+ * Rasterization goes through scripts/raster/pdf-page-raster.mjs. Never Poppler.
  */
 import assert from "node:assert/strict";
 import crypto from "node:crypto";
@@ -90,14 +90,7 @@ import { BLANK_DISPOSITIONS, PASS_COUNTERS, classifyField, classifyBlank, rowKey
  * failed dependency inside the module still throws, because a rasterizer that
  * silently resolves to a stale copy is worse than one that refuses.
  */
-const { rasterizePageCalibrated } = await (async () => {
-  try {
-    return await import("./raster/pdf-page-raster.mjs");
-  } catch (error) {
-    if (error?.code !== "ERR_MODULE_NOT_FOUND") throw error;
-    return import("./lib/pdf-page-raster.mjs");
-  }
-})();
+const { rasterizePageCalibrated } = await import("./raster/pdf-page-raster.mjs");
 
 const thisFile = fileURLToPath(import.meta.url);
 const ROOT = path.resolve(path.dirname(thisFile), "..");
@@ -332,7 +325,7 @@ const FIXTURES = {
   }
 };
 
-const RASTER_ENGINE = "scripts/lib/pdf-page-raster.mjs (Chromium, calibrated)";
+const RASTER_ENGINE = "scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)";
 /* ---- source binding ------------------------------------------------------ */
 function resolveSources() {
   const index = JSON.parse(fs.readFileSync(path.join(ROOT, CORPUS_INDEX), "utf8"));

@@ -37,7 +37,7 @@
  * Captions are read out of the pinned binary at build time and the exact
  * SHA-256 source binding is what fails the family closed if a form changes.
  *
- * Rasterization goes through scripts/lib/pdf-page-raster.mjs. Never Poppler.
+ * Rasterization goes through scripts/raster/pdf-page-raster.mjs. Never Poppler.
  */
 import assert from "node:assert/strict";
 import crypto from "node:crypto";
@@ -50,7 +50,7 @@ import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf
 import { finalizeOfficialForm, PARTICIPANT_INK, SELECTION_INSET, SELECTION_LINE_WIDTH } from "./rcap-official-forms/rcap-official-form-finalize.mjs";
 import { extractPageGeometry } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
 import { flattenedWidgets, drawnAt } from "./rcap-official-forms/pdf-flattened-widgets.mjs";
-import { rasterizePageCalibrated } from "./lib/pdf-page-raster.mjs";
+import { rasterizePageCalibrated } from "./raster/pdf-page-raster.mjs";
 import { classifyField, classifyBlank, rowKeyOf, PASS_COUNTERS, BLANK_DISPOSITIONS } from "./rcap-packet-completeness/completeness-contract.mjs";
 
 const thisFile = fileURLToPath(import.meta.url);
@@ -806,7 +806,7 @@ function writeArtifacts(ctx) {
     schemaVersion: "rcap-rendered-artifacts/v1", familyId, renderedFresh: true,
     componentSet: COMPONENTS, artifacts,
     packets: artifacts.map((a) => ({ fixture: a.fixture, documents: a.documents })),
-    rasterEngine: rasterSkipped ? null : "scripts/lib/pdf-page-raster.mjs (Chromium, calibrated)",
+    rasterEngine: rasterSkipped ? null : "scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)",
     rasterSkipped, rasterPages
   }, null, 2)}\n`);
   W("reports/actual-writes.json", `${JSON.stringify({

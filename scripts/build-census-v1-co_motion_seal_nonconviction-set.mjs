@@ -41,7 +41,7 @@
  * The build asserts the widget set matches the dictionary exactly, in both
  * directions, and refuses on any drift.
  *
- * Rasterization goes through scripts/lib/pdf-page-raster.mjs. Never Poppler.
+ * Rasterization goes through scripts/raster/pdf-page-raster.mjs. Never Poppler.
  */
 import assert from "node:assert/strict";
 import crypto from "node:crypto";
@@ -53,6 +53,7 @@ import { fileURLToPath } from "node:url";
 import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
 import { finalizeOfficialForm } from "./rcap-official-forms/rcap-official-form-finalize.mjs";
 import { flattenedWidgets, drawnAt } from "./rcap-official-forms/pdf-flattened-widgets.mjs";
+import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
 import { BLANK_DISPOSITIONS, PASS_COUNTERS, classifyField, classifyBlank, rowKeyOf }
   from "./rcap-packet-completeness/completeness-contract.mjs";
 
@@ -67,14 +68,7 @@ import { BLANK_DISPOSITIONS, PASS_COUNTERS, classifyField, classifyBlank, rowKey
  * failed dependency inside the module still throws, because a rasterizer that
  * silently resolves to a stale copy is worse than one that refuses.
  */
-const { rasterizePageCalibrated } = await (async () => {
-  try {
-    return await import("./raster/pdf-page-raster.mjs");
-  } catch (error) {
-    if (error?.code !== "ERR_MODULE_NOT_FOUND") throw error;
-    return import("./lib/pdf-page-raster.mjs");
-  }
-})();
+const { rasterizePageCalibrated } = await import("./raster/pdf-page-raster.mjs");
 
 const thisFile = fileURLToPath(import.meta.url);
 const ROOT = path.resolve(path.dirname(thisFile), "..");
@@ -294,7 +288,7 @@ const FIXTURES = {
   }
 };
 
-const RASTER_ENGINE = "scripts/lib/pdf-page-raster.mjs (Chromium, calibrated)";
+const RASTER_ENGINE = "scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)";
 
 /* ---- source binding ------------------------------------------------------ */
 function resolveSources() {
@@ -794,6 +788,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
 
   for (const fixtureName of ["canonical", "boundary"]) {
     const packet = await PDFDocument.create();
+    stampDeterministic(packet);
     const pageManifest = [];
     for (const { source, census } of censuses) {
       const { bytes, report } = await renderDocument(source, census, fixtureName);

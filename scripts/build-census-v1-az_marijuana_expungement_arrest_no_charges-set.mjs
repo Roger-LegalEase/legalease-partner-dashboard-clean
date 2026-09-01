@@ -24,6 +24,7 @@ import { rulesOfPage } from "./rcap-official-forms/rcap-pdf-rule-lines.mjs";
 import { resolveFact } from "./rcap-official-forms/rcap-field-semantics.mjs";
 import { fitTextToWidget } from "./rcap-official-forms/rcap-text-fitting.mjs";
 import { scanBytesForActiveContent } from "./rcap-official-forms/rcap-active-content.mjs";
+import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
 import { strokedRectangles } from "./lib/pdf-stroked-boxes.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -1600,6 +1601,7 @@ async function addedInkOf(sourceBytes, outputBytes) {
   const source = await PDFDocument.load(sourceBytes, { ignoreEncryption: true, updateMetadata: false });
   const output = await PDFDocument.load(outputBytes, { ignoreEncryption: true, updateMetadata: false });
   const metricsDocument = await PDFDocument.create();
+  stampDeterministic(metricsDocument);
   const overlayFont = await metricsDocument.embedFont(StandardFonts.Helvetica);
   const key = (page, character, y) => `${page}|${Number(character.x).toFixed(1)}|${Number(y).toFixed(1)}|${character.c}`;
   const original = new Set();
@@ -3569,6 +3571,7 @@ async function selfTest(requestedFamily = FIRST_FAMILY) {
     widgets: [{ pageIndex: 0, rect: [20, 40, 140, 56] }],
   }] };
   const routeTextSource = await PDFDocument.create();
+  stampDeterministic(routeTextSource);
   routeTextSource.addPage([200, 200]);
   const routeTextSourceBytes = Buffer.from(await routeTextSource.save({
     useObjectStreams: false, updateMetadata: false,
@@ -3585,6 +3588,7 @@ async function selfTest(requestedFamily = FIRST_FAMILY) {
   assert.equal(routeTextProof.controls[0].textReadFromOutputBytes, "yes");
   const exactDateField = "CR-180[0].Page1[0].LI1[0].li1[0].ConvictionDate[0]";
   const exactFactSource = await PDFDocument.create();
+  stampDeterministic(exactFactSource);
   exactFactSource.addPage([200, 200]);
   const exactFactSourceBytes = Buffer.from(await exactFactSource.save({
     useObjectStreams: false, updateMetadata: false,

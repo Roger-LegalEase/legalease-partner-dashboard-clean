@@ -27,6 +27,7 @@ import {
 } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
 import { rulesOfPage } from "./rcap-official-forms/rcap-pdf-rule-lines.mjs";
 import { finalizeFlatOverlay } from "./rcap-official-forms/rcap-official-form-finalize.mjs";
+import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
 import { protectCategoryOf, regionProtectCategoryOf, resolveFact }
   from "./rcap-official-forms/rcap-field-semantics.mjs";
 import { checkboxCandidates, strokedRectangles } from "./lib/pdf-stroked-boxes.mjs";
@@ -1822,6 +1823,8 @@ async function selfTest() {
   const contractFailures = [];
 
   const synthetic = await PDFDocument.create();
+
+  stampDeterministic(synthetic);
   const syntheticPage = synthetic.addPage([612, 792]);
   syntheticPage.drawRectangle({ x: 72, y: 700, width: 10, height: 10, borderWidth: 1 });
   const compressed = await synthetic.save({ useObjectStreams: false, addDefaultPage: false });
@@ -1862,6 +1865,7 @@ async function selfTest() {
 
   try {
     const vectorSource = await PDFDocument.create();
+    stampDeterministic(vectorSource);
     vectorSource.addPage([612, 792]);
     const vectorSourceBytes = await vectorSource.save({ useObjectStreams: false, addDefaultPage: false });
     const vectorOutput = await PDFDocument.load(vectorSourceBytes, { updateMetadata: false });

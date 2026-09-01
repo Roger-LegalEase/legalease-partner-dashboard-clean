@@ -43,6 +43,7 @@ import { fileURLToPath } from "node:url";
 import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
 import { finalizeOfficialForm } from "./rcap-official-forms/rcap-official-form-finalize.mjs";
 import { flattenedWidgets, drawnAt } from "./rcap-official-forms/pdf-flattened-widgets.mjs";
+import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
 import { rasterizePageCalibrated } from "./raster/pdf-page-raster.mjs";
 import { classifyField } from "./rcap-packet-completeness/completeness-contract.mjs";
 
@@ -533,6 +534,7 @@ export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
 
   for (const fixtureName of ["canonical", "boundary"]) {
     const packet = await PDFDocument.create();
+    stampDeterministic(packet);
     const pageManifest = [];
     for (const { source, census } of censuses) {
       const { bytes, report } = await renderDocument(source, census, fixtureName);

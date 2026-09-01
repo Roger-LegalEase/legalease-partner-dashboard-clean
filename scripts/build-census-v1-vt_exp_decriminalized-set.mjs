@@ -38,7 +38,7 @@
  * binaries and their own coordinates rather than shared across a lane boundary.
  * 600-00228 is the same form in both packets and its policy is unchanged.
  *
- * Rasterization goes through scripts/lib/pdf-page-raster.mjs (Chromium,
+ * Rasterization goes through scripts/raster/pdf-page-raster.mjs (Chromium,
  * calibrated). Never Poppler.
  */
 import assert from "node:assert/strict";
@@ -51,7 +51,7 @@ import { fileURLToPath } from "node:url";
 import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
 import { finalizeOfficialForm } from "./rcap-official-forms/rcap-official-form-finalize.mjs";
 import { flattenedWidgets, drawnAt } from "./rcap-official-forms/pdf-flattened-widgets.mjs";
-import { rasterizePageCalibrated } from "./lib/pdf-page-raster.mjs";
+import { rasterizePageCalibrated } from "./raster/pdf-page-raster.mjs";
 import { classifyField, classifyBlank, rowKeyOf, PASS_COUNTERS, BLANK_DISPOSITIONS } from "./rcap-packet-completeness/completeness-contract.mjs";
 
 const thisFile = fileURLToPath(import.meta.url);
@@ -760,7 +760,7 @@ function writeArtifacts(ctx) {
     schemaVersion: "rcap-rendered-artifacts/v1", familyId, renderedFresh: true,
     componentSet: COMPONENTS, artifacts,
     packets: artifacts.map((a) => ({ fixture: a.fixture, documents: a.documents })),
-    rasterEngine: rasterSkipped ? null : "scripts/lib/pdf-page-raster.mjs (Chromium, calibrated)",
+    rasterEngine: rasterSkipped ? null : "scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)",
     rasterSkipped, rasterPages
   }, null, 2)}\n`);
   W("reports/actual-writes.json", `${JSON.stringify({

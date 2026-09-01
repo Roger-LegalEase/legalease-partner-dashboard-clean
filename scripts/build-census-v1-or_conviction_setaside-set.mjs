@@ -51,7 +51,7 @@
  * its Oregon State Police companion, and the two agree; the component label does
  * not. The label is reported and the family is built on its own forms.
  *
- * Rasterization goes through scripts/lib/pdf-page-raster.mjs. Never Poppler.
+ * Rasterization goes through scripts/raster/pdf-page-raster.mjs. Never Poppler.
  */
 import assert from "node:assert/strict";
 import crypto from "node:crypto";
@@ -62,7 +62,7 @@ import { fileURLToPath } from "node:url";
 
 import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
 import { finalizeFlatOverlay } from "./rcap-official-forms/rcap-official-form-finalize.mjs";
-import { rasterizePageCalibrated } from "./lib/pdf-page-raster.mjs";
+import { rasterizePageCalibrated } from "./raster/pdf-page-raster.mjs";
 import { classifyField, classifyBlank, rowKeyOf, PASS_COUNTERS, BLANK_DISPOSITIONS } from "./rcap-packet-completeness/completeness-contract.mjs";
 
 const thisFile = fileURLToPath(import.meta.url);
@@ -696,7 +696,7 @@ function writeArtifacts(ctx) {
     schemaVersion: "rcap-rendered-artifacts/v1", familyId, renderedFresh: true,
     componentSet: COMPONENTS, artifacts,
     packets: artifacts.map((a) => ({ fixture: a.fixture, documents: a.documents })),
-    rasterEngine: rasterSkipped ? null : "scripts/lib/pdf-page-raster.mjs (Chromium, calibrated)",
+    rasterEngine: rasterSkipped ? null : "scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)",
     rasterSkipped, rasterPages
   }, null, 2)}\n`);
   W("reports/actual-writes.json", `${JSON.stringify({
