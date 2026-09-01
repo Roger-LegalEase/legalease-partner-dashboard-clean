@@ -1,0 +1,59 @@
+{
+  "schemaVersion": "rcap-blanks-left-for-the-participant/v1",
+  "familyId": "ct-under18-misdemeanor-set",
+  "requiredBeforeFiling": [
+    {
+      "document": "process_guidance",
+      "field": "process_guidance.age_at_offense",
+      "page": 1,
+      "printedContext": "Whether the participant was under 18 when the offense happened",
+      "disclosureLabel": "Whether the participant was under 18 when the offense happened",
+      "identity": "process_guidance field age_at_offense",
+      "why": "the participant's age at the offense is a case fact the platform does not hold",
+      "participantMustSupply": "whether you were under 18 when the offense happened - this route exists only if you were"
+    },
+    {
+      "document": "process_guidance",
+      "field": "process_guidance.conviction_location",
+      "page": 1,
+      "printedContext": "Court location where the conviction was effected, needed only on the petition branch",
+      "disclosureLabel": "Court location where the conviction was effected, needed only on the petition branch",
+      "identity": "process_guidance field conviction_location",
+      "why": "the conviction location is a case fact, and on the petition branch it fixes the court whose accepted filings a lawyer would need to determine",
+      "participantMustSupply": "the Superior Court location where the conviction was effected - needed only on the petition branch, and the clerk's office there can confirm it"
+    },
+    {
+      "document": "process_guidance",
+      "field": "process_guidance.offense_date",
+      "page": 1,
+      "printedContext": "Date the offense happened, confirmed against the case look-up",
+      "disclosureLabel": "Date the offense happened, confirmed against the case look-up",
+      "identity": "process_guidance field offense_date",
+      "why": "the offense date decides which branch applies and lives on the participant's own record",
+      "participantMustSupply": "the date the offense happened, confirmed against the Connecticut Judicial Branch online case look-up - this answer selects the branch, and nothing selects it for you"
+    },
+    {
+      "document": "process_guidance",
+      "field": "process_guidance.same_information_charges",
+      "page": 1,
+      "printedContext": "Other charges on the same information, and whether any could not be erased",
+      "disclosureLabel": "Other charges on the same information, and whether any could not be erased",
+      "identity": "process_guidance field same_information_charges",
+      "why": "the same-information limitation turns on charges the platform has not seen",
+      "participantMustSupply": "the other charges on the same information, from the case look-up, and whether any of them was one that could not be erased - Sec. 54-142a(f)(3) turns on it"
+    },
+    {
+      "document": "process_guidance",
+      "field": "process_guidance.statute_sections",
+      "page": 1,
+      "printedContext": "Statute sections of the conviction, copied from the record",
+      "disclosureLabel": "Statute sections of the conviction, copied from the record",
+      "identity": "process_guidance field statute_sections",
+      "why": "the sections decide the automatic branch's carve-outs and live on the record",
+      "participantMustSupply": "the statute sections you were convicted under, copied from your record - the automatic branch does not reach a motor vehicle offense, a title 14 violation or a Sec. 51-164r violation"
+    }
+  ],
+  "protectedBlanks": [],
+  "everyRequiredBeforeFilingItemIsDisclosed": true,
+  "disclosedIn": "data/rcap-all50/overlays/census-v1/ct/ct-under18-misdemeanor-set--custom-pleading/participant-instructions.md"
+}
