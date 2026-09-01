@@ -48,7 +48,7 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 - Finish every nonvisual obligation. Record the exact SHA-256 of the canonical and boundary PDFs you produced. Return the family `BUILT_RASTER_PENDING`.
 - `BUILT_RASTER_PENDING` is a factory workflow state and not a launch verdict. It zeroes nothing and waives nothing: visualDefects stays whatever it is, because it records that nobody has looked, not that there is nothing to see. **No packet becomes PASS_COMPLETE without RASTER_PASS.**
 - The render happens in `.github/workflows/rcap-packet-raster-acceptance-batch.yml` on a browser-equipped runner, against the exact bytes your hashes pin. RASTER_PASS sends the family to independent verification; RASTER_FAIL sends it to FIX.
-- Page rasters go through `scripts/lib/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.
+- Page rasters go through `scripts/raster/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.
 - NEVER `pdftoppm`. NEVER `apt-get`. NEVER `playwright install`. The environment refuses package installation and a Poppler fallback is not a fallback, it is a different measurement.
 - The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after.
 
@@ -58,9 +58,9 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 
 ## The 3 families
 
-- `az_marijuana_expungement_arrest_no_charges-set` — failing: knownRequiredFieldsMissing, unclassifiedBlanks, requiredOptionsMissing, requiredComponentsMissing
-- `nj_indictable_conviction-set` — failing: knownRequiredFieldsMissing
-- `ri_nonconviction_sealing-set` — failing: knownRequiredFieldsMissing, unclassifiedBlanks
+- `az_marijuana_expungement_arrest_no_charges-set` — failing: knownRequiredFieldsMissing
+- `nj_clean_slate-set` — failing: knownRequiredFieldsMissing
+- `pa_summary_conviction-set` — failing: knownRequiredFieldsMissing, unclassifiedBlanks, incompleteRows
 
 ## What you receive
 
@@ -74,10 +74,10 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 
 - `data/rcap-grade-a/packet-factory-24h/fix01/**`
 - `data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-arrest-no-charges-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/**`
-- `scripts/build-census-v1-nj_indictable_conviction-set.mjs`
-- `scripts/build-census-v1-ri_nonconviction_sealing-set.mjs`
+- `data/rcap-all50/overlays/census-v1/nj/nj-clean-slate-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/pa/pa-summary-conviction-set--official-pdf-fill/**`
+- `scripts/build-census-v1-nj_clean_slate-set.mjs`
+- `scripts/build-census-v1-pa_summary_conviction-set.mjs`
 
 ## Never write here
 

@@ -2,7 +2,7 @@
   "schemaVersion": "rcap-packet-factory-24h-import-graph/v1",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "Which build scripts are shared, and may a lane own the script its family uses?",
-  "scriptsScanned": 57,
+  "scriptsScanned": 76,
   "rule": "A family worker may own a family-specific script only when no unassigned family imports it. One shared host has one owner.",
   "edges": [
     {
@@ -97,6 +97,24 @@
       ],
       "transitiveImports": [
         "build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-ky_void_seal_controlled_substance-set.mjs",
+      "imports": [],
+      "transitiveImports": [],
+      "importedBy": [
+        "build-census-v1-ky_void_seal_marijuana_synthetic_salvia-set.mjs"
+      ]
+    },
+    {
+      "script": "build-census-v1-ky_void_seal_marijuana_synthetic_salvia-set.mjs",
+      "imports": [
+        "build-census-v1-ky_void_seal_controlled_substance-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-ky_void_seal_controlled_substance-set.mjs"
       ],
       "importedBy": []
     },
@@ -377,6 +395,46 @@
       "importedBy": []
     },
     {
+      "script": "build-census-v1-va_seal_ancillary_matter_only-set.mjs",
+      "imports": [
+        "build-census-v1-va_seal_petition_misdemeanor-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-va_seal_petition_misdemeanor-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-va_seal_enumerated_seven_year-set.mjs",
+      "imports": [
+        "build-census-v1-va_seal_petition_misdemeanor-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-va_seal_petition_misdemeanor-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-va_seal_petition_felony-set.mjs",
+      "imports": [
+        "build-census-v1-va_seal_petition_misdemeanor-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-va_seal_petition_misdemeanor-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-va_seal_petition_misdemeanor-set.mjs",
+      "imports": [],
+      "transitiveImports": [],
+      "importedBy": [
+        "build-census-v1-va_seal_ancillary_matter_only-set.mjs",
+        "build-census-v1-va_seal_enumerated_seven_year-set.mjs",
+        "build-census-v1-va_seal_petition_felony-set.mjs"
+      ]
+    },
+    {
       "script": "build-census-v1-vt_seal_18_to_21-set.mjs",
       "imports": [
         "build-census-v1-vt_seal_misdemeanor-set.mjs"
@@ -612,6 +670,15 @@
         "ut_pet_limitations-set",
         "ut_pet_no_charges-set",
         "ut_pet_traffic-set"
+      ],
+      "owner": "UNOWNED_IN_THIS_WAVE"
+    },
+    {
+      "script": "build-census-v1-va_seal_petition_misdemeanor-set.mjs",
+      "importers": [
+        "va_seal_ancillary_matter_only-set",
+        "va_seal_enumerated_seven_year-set",
+        "va_seal_petition_felony-set"
       ],
       "owner": "UNOWNED_IN_THIS_WAVE"
     },

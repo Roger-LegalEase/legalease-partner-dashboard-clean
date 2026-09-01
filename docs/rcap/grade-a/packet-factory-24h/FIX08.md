@@ -19,7 +19,7 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family nj_clean_slate-set \
+  --family nj_arrest_no_conviction-set \
   --codex-cloud \
   --minimum-captain-sha 13771582866352d77e46e5d0b9bc86f1abbb6752
 ```
@@ -48,7 +48,7 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 - Finish every nonvisual obligation. Record the exact SHA-256 of the canonical and boundary PDFs you produced. Return the family `BUILT_RASTER_PENDING`.
 - `BUILT_RASTER_PENDING` is a factory workflow state and not a launch verdict. It zeroes nothing and waives nothing: visualDefects stays whatever it is, because it records that nobody has looked, not that there is nothing to see. **No packet becomes PASS_COMPLETE without RASTER_PASS.**
 - The render happens in `.github/workflows/rcap-packet-raster-acceptance-batch.yml` on a browser-equipped runner, against the exact bytes your hashes pin. RASTER_PASS sends the family to independent verification; RASTER_FAIL sends it to FIX.
-- Page rasters go through `scripts/lib/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.
+- Page rasters go through `scripts/raster/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.
 - NEVER `pdftoppm`. NEVER `apt-get`. NEVER `playwright install`. The environment refuses package installation and a Poppler fallback is not a fallback, it is a different measurement.
 - The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after.
 
@@ -58,8 +58,8 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 
 ## The 2 families
 
-- `nj_clean_slate-set` — failing: knownRequiredFieldsMissing
-- `pa_summary_conviction-set` — failing: knownRequiredFieldsMissing, unclassifiedBlanks, incompleteRows
+- `nj_arrest_no_conviction-set` — failing: knownRequiredFieldsMissing
+- `pa_9122_1_limited_access-set` — failing: knownRequiredFieldsMissing, incompleteRows
 
 ## What you receive
 
@@ -72,10 +72,9 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/fix08/**`
-- `data/rcap-all50/overlays/census-v1/nj/nj-clean-slate-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/pa/pa-summary-conviction-set--official-pdf-fill/**`
-- `scripts/build-census-v1-nj_clean_slate-set.mjs`
-- `scripts/build-census-v1-pa_summary_conviction-set.mjs`
+- `data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/pa/pa-9122-1-limited-access-set--official-pdf-fill/**`
+- `scripts/build-census-v1-pa_9122_1_limited_access-set.mjs`
 
 ## Never write here
 

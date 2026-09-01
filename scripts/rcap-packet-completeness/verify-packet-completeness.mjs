@@ -410,9 +410,48 @@ for (const state of fs.readdirSync(path.join(ROOT, OVERLAYS))) {
   }
 }
 
+/*
+ * What counts as built, and why this is no longer only C11's answer.
+ *
+ * This audited exactly the families C11_RETURN_REVIEW.json classified BUILT.
+ * That file is a frozen snapshot from an earlier wave, so every family built
+ * after it was written was invisible here forever -- and that broke the whole
+ * closed loop downstream: no audit means no counters in MASTER_QUEUE, no
+ * counters means the raster queue rejects the family as "no completeness
+ * audit", and a family that can never enter the raster queue can never earn a
+ * RASTER_PASS or become PASS_COMPLETE. Nine families built in this shift sat in
+ * exactly that state while the queue reported 321 not eligible.
+ *
+ * The snapshot is kept, not discarded: C11's classifications still admit every
+ * family they always did. A family is ALSO audited when the tree itself shows
+ * it is built -- an approval request, a production field map and at least one
+ * fixture PDF. That is evidence about the family rather than a record of who
+ * looked at it once, and it cannot go stale.
+ */
 const c11 = readIf("data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json");
 const built = new Set((c11?.families ?? []).filter((f) => f.classification === "BUILT").map((f) => f.familyId));
-const targets = families.filter((f) => built.has(f.familyId) && (!ONLY || f.familyId === ONLY));
+const looksBuilt = (dir) => {
+  const fixtures = path.join(ROOT, dir, "fixtures");
+  if (!fs.existsSync(path.join(ROOT, dir, "production-field-map.json"))) return false;
+  if (!fs.existsSync(fixtures)) return false;
+  return fs.readdirSync(fixtures, { recursive: true }).some((f) => String(f).endsWith(".pdf"));
+};
+const auditable = families.filter((f) => built.has(f.familyId) || looksBuilt(f.dir));
+const targets = auditable.filter((f) => !ONLY || f.familyId === ONLY);
+
+/*
+ * A named family that matches nothing is a refusal, not a pass. --family with a
+ * typo used to print "0 famil(ies) audited" with every counter zero and exit 0,
+ * which reads exactly like a clean audit of a real family.
+ */
+if (ONLY && targets.length === 0) {
+  console.error(`REFUSED: --family ${ONLY} matches no auditable family. ${auditable.length} are auditable at this head.`);
+  process.exit(2);
+}
+if (targets.length === 0) {
+  console.error("REFUSED: no auditable family found; an audit over an empty set proves nothing");
+  process.exit(2);
+}
 
 const results = targets.map((t) => auditFamily(t.dir, t.familyId))
   .sort((a, b) => a.familyId.localeCompare(b.familyId));
