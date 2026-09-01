@@ -164,12 +164,29 @@ const coverageProblems = [];
 for (const r of queue?.rows ?? []) {
   if (!r.coverage) { coverageProblems.push(`${r.familyId} does not declare what its verdict covers`); continue; }
   if (typeof r.coverage.complete !== "boolean") coverageProblems.push(`${r.familyId} declares coverage without a complete flag`);
-  const chosen = String(r.canonicalPdfPath ?? "").split("/").pop();
-  if (r.coverage.complete === true && (r.coverage.documents ?? []).length > 1) {
-    coverageProblems.push(`${r.familyId} claims complete coverage over ${r.coverage.documents.length} documents while rendering one`);
+  /*
+   * Complete means every canonical document is rendered -- not that there is
+   * only one. This read `documents.length > 1` implies incomplete, which held
+   * while a row rendered a single document and became false the moment rows
+   * began rendering their whole set: eleven correctly-complete rows were
+   * reported as lying about their coverage.
+   */
+  const documents = r.coverage.documents ?? [];
+  const rastered = r.coverage.rastered ?? [];
+  const uncovered = documents.filter((x) => !rastered.includes(x));
+  if (r.coverage.complete === true && uncovered.length > 0) {
+    coverageProblems.push(`${r.familyId} claims complete coverage while ${uncovered.length} of its ${documents.length} document(s) go unrendered: ${uncovered.join(", ")}`);
   }
-  if (chosen && !(r.coverage.rastered ?? []).includes(chosen)) {
+  if (r.coverage.complete === false && uncovered.length === 0) {
+    coverageProblems.push(`${r.familyId} renders every document it names and still declares partial coverage`);
+  }
+  const chosen = String(r.canonicalPdfPath ?? "").split("/").pop();
+  if (chosen && !rastered.includes(chosen)) {
     coverageProblems.push(`${r.familyId} renders ${chosen} but does not list it as covered`);
+  }
+  const named = (r.documents ?? []).filter((x) => x.role === "canonical").map((x) => x.name);
+  if (r.documents && named.length && documents.length && named.some((x) => !documents.includes(x))) {
+    coverageProblems.push(`${r.familyId} renders a canonical document its coverage does not list`);
   }
 }
 const partial = (queue?.rows ?? []).filter((r) => r.coverage && r.coverage.complete === false);
@@ -328,20 +345,30 @@ if (MUTATIONS) {
       edit: (t) => t.replace(/^\s*stampDeterministic\([^)]*\);\s*$/m, "") },
     { name: "dropping a row's coverage declaration is caught", id: "L7", file: `${DIR}/RASTER_QUEUE.json`,
       edit: (t) => { const j = JSON.parse(t); delete j.rows[0].coverage; return `${JSON.stringify(j, null, 2)}\n`; } },
+    /* Makes a row partial and then has it claim completeness. Searching for an
+     * existing partial row worked only while eleven existed; once every row
+     * rendered its whole set there was nothing to find and the case reported
+     * that its subject does not exist. */
     { name: "a partial row claiming to cover the whole family is caught", id: "L7", file: `${DIR}/RASTER_QUEUE.json`,
       edit: (t) => { const j = JSON.parse(t);
-        const r = j.rows.find((x) => x.coverage && x.coverage.complete === false);
-        if (!r) return t;               // no subject: reported as MISSED, never as a pass
-        r.coverage.complete = true; return `${JSON.stringify(j, null, 2)}\n`; } },
+        const r = j.rows.find((x) => x.coverage);
+        if (!r) return t;
+        r.coverage.documents = [...(r.coverage.documents ?? []), "an-unrendered-second-document.pdf"];
+        r.coverage.complete = true;
+        return `${JSON.stringify(j, null, 2)}\n`; } },
     /* Constructs its own subject: no family is PROVEN today, so a mutation that
      * only flipped coverage would be a check over zero subjects. This promotes
      * a family whose row covers one of several documents and asserts L4 refuses. */
     { name: "promoting a family whose raster verdict covers one of several documents is caught", id: "L4", file: `${DIR}/MASTER_QUEUE.json`,
       edit: (t) => { const j = JSON.parse(t);
         const q = JSON.parse(fs.readFileSync(path.join(ROOT, `${DIR}/RASTER_QUEUE.json`), "utf8"));
-        const partialPass = q.rows.find((r) => r.currentRasterState === "RASTER_PASS" && r.coverage?.complete === false);
-        if (!partialPass) return t;
-        const fam = j.families.find((x) => x.familyId === partialPass.familyId);
+        /* Falls back to a family with no passing row once no partial row
+         * exists, so the case keeps a subject instead of quietly mutating
+         * nothing. */
+        const provable = q.rows.find((r) => r.currentRasterState === "RASTER_PASS" && r.coverage?.complete === false)
+          ?? q.rows.find((r) => r.currentRasterState !== "RASTER_PASS");
+        if (!provable) return t;
+        const fam = j.families.find((x) => x.familyId === provable.familyId);
         if (!fam) return t;
         fam.state = "PASS_COMPLETE"; return `${JSON.stringify(j, null, 2)}\n`; } }
   ];

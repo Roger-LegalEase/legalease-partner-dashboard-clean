@@ -128,21 +128,54 @@ const fixtureCoverage = new Map();
  * partial row is not promotable no matter how green its receipt is; the gate
  * that consumes this queue reads `coverage.complete`, not the state alone.
  */
-const coverageOf = (pdfs, fixture, chosen) => {
+const coverageOf = (pdfs, fixture, rendered) => {
   if (pdfs.includes(`${fixture}.pdf`)) {
-    return { documents: [`${fixture}.pdf`], rastered: [chosen], complete: chosen === `${fixture}.pdf`,
+    return { documents: [`${fixture}.pdf`], rastered: rendered, notRastered: [],
+      complete: rendered.includes(`${fixture}.pdf`),
       basis: "the family ships one assembled packet, so rendering it covers the family" };
   }
   const docs = pdfs.filter((x) => x.includes(fixture));
+  const missed = docs.filter((x) => !rendered.includes(x));
   return {
-    documents: docs, rastered: [chosen],
-    notRastered: docs.filter((x) => x !== chosen),
-    complete: docs.length === 1,
-    basis: docs.length === 1
-      ? "the family ships one canonical document and it is the one rendered"
-      : `the family ships ${docs.length} canonical documents with no assembled packet; this row renders one of them`,
+    documents: docs, rastered: rendered, notRastered: missed,
+    complete: missed.length === 0,
+    basis: missed.length === 0
+      ? `the family ships ${docs.length} canonical document(s) with no assembled packet, and the row renders all of them`
+      : `the family ships ${docs.length} canonical documents and this row renders ${rendered.length}`,
   };
 };
+
+/*
+ * Every document the row must render, not one pair of them.
+ *
+ * A row used to name one canonical and one boundary PDF, which is right for a
+ * family that ships an assembled packet and wrong for the eleven that ship a
+ * petition and an order with no assembly: those rendered the petition, and the
+ * order -- the document a court signs -- had never been through the visual gate.
+ * Nine of them were carrying RASTER_PASS.
+ *
+ * The job is still one per family and the artifact is still one per family, so
+ * this changes what a job renders and touches neither the workflow matrix nor
+ * the receipt naming.
+ */
+const documentSet = async (fixtures, pdfs) => {
+  const rows = [];
+  for (const role of ["canonical", "boundary"]) {
+    const named = pdfs.includes(`${role}.pdf`) ? [`${role}.pdf`] : pdfs.filter((x) => x.includes(role));
+    for (const name of named) {
+      const abs = path.join(fixtures, name);
+      rows.push({ role, name, path: path.relative(ROOT, abs), sha256: sha256(abs), pageCount: await pageCount(abs) });
+    }
+  }
+  return rows;
+};
+
+/* The identity of the REQUESTED document set. A receipt describes the set that
+ * was rendered, so when the set changes the receipt stops describing the row
+ * and must not be carried forward -- exactly as a changed hash must not be. */
+const documentsDigestOf = (docs) => crypto.createHash("sha256")
+  .update(JSON.stringify(docs.map((d) => [d.role, d.path, d.sha256])))
+  .digest("hex");
 
 const declaredFixture = (dir, fixture, pdfs) => {
   const p = path.join(dir, "reports", "rendered-artifacts.json");
@@ -177,9 +210,47 @@ let carried = 0, invalidated = 0;
 const carryVerdict = (row) => {
   const prior = priorByFamily.get(row.familyId);
   if (!prior?.rasterReceipt) return row;
+  /* A receipt describes the document set that was rendered. If the row now asks
+   * for a different set -- which is exactly what happens when a family that was
+   * rendering one of its two canonical documents starts rendering both -- the
+   * old receipt no longer describes this row and carrying it forward would
+   * launder a partial verdict into a complete one. */
+  /*
+   * A row written before the document set existed carries no documentsDigest.
+   * Comparing null against the new digest invalidated all 47 receipts on the
+   * first run, including the 36 whose set is exactly the pair they already
+   * rendered -- the receipts were preserved, but 36 families would have been
+   * re-rendered to prove what was already proven. So an absent prior digest is
+   * answered by asking whether the new set IS that legacy pair.
+   */
+  const legacyPairUnchanged = () => {
+    const docs = row.documents ?? [];
+    if (docs.length !== 2) return false;
+    const c = docs.find((d) => d.role === "canonical");
+    const b = docs.find((d) => d.role === "boundary");
+    return Boolean(c && b)
+      && c.path === prior.canonicalPdfPath && c.sha256 === prior.canonicalPdfSha256
+      && b.path === prior.boundaryPdfPath && b.sha256 === prior.boundaryPdfSha256;
+  };
+  const setUnchanged = prior.documentsDigest
+    ? prior.documentsDigest === row.documentsDigest
+    : legacyPairUnchanged();
   const same = prior.canonicalPdfSha256 === row.canonicalPdfSha256
-    && prior.boundaryPdfSha256 === row.boundaryPdfSha256;
-  if (!same) { invalidated++; return row; }
+    && prior.boundaryPdfSha256 === row.boundaryPdfSha256
+    && setUnchanged;
+  if (!same) {
+    invalidated++;
+    /* Keep the superseded verdict. It was true of the bytes it named and the
+     * set it covered, and discarding it destroys the record of what the gate
+     * had already established. */
+    return { ...row, supersededReceipts: [...(prior.supersededReceipts ?? []), {
+      ...prior.rasterReceipt,
+      supersededBecause: (prior.documentsDigest ?? null) !== row.documentsDigest
+        ? "the row now renders a different set of documents"
+        : "the pinned bytes changed",
+      supersededAt: new Date().toISOString().replace(/\.\d{3}Z$/, "Z"),
+    }] };
+  }
   carried++;
   return { ...row, currentRasterState: prior.currentRasterState, nextOwner: prior.nextOwner, rasterReceipt: prior.rasterReceipt };
 };
@@ -202,7 +273,6 @@ for (const f of master.families) {
     if (!canonical) eligibility.push(c.why);
     if (!boundary) eligibility.push(b.why);
     fixtureBasis.set(f.familyId, { canonical: c.basis, boundary: b.basis });
-    if (canonical) fixtureCoverage.set(f.familyId, coverageOf(pdfs, "canonical", canonical));
   }
 
   // The four preconditions, each asked of a record rather than assumed.
@@ -219,6 +289,9 @@ for (const f of master.families) {
 
   const cPath = path.join(fixtures, canonical);
   const bPath = path.join(fixtures, boundary);
+  const pdfsHere = fs.readdirSync(fixtures).filter((x) => x.endsWith(".pdf")).sort();
+  const documents = await documentSet(fixtures, pdfsHere);
+  const coverage = coverageOf(pdfsHere, "canonical", documents.filter((x) => x.role === "canonical").map((x) => x.name));
   rows.push({
     familyId: f.familyId,
     packetCommitSha: packetCommit,
@@ -228,7 +301,12 @@ for (const f of master.families) {
     boundaryPdfSha256: sha256(bPath),
     expectedPages: await pageCount(cPath),
     fixtureSelection: fixtureBasis.get(f.familyId) ?? null,
-    coverage: fixtureCoverage.get(f.familyId) ?? null,
+    /* Every document this row renders. canonicalPdfPath/boundaryPdfPath above
+     * remain the primary pair -- other checks read them -- but they are no
+     * longer the whole job. */
+    documents,
+    documentsDigest: documentsDigestOf(documents),
+    coverage,
     requestedScale: REQUESTED_SCALE,
     builderAssignment: builderOf.get(f.familyId) ?? null,
     currentRasterState: "RASTER_PENDING",
