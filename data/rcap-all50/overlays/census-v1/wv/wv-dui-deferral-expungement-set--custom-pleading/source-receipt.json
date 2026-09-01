@@ -1,0 +1,70 @@
+{
+  "schemaVersion": "rcap-family-source-receipt/v1",
+  "familyId": "wv_dui_deferral_expungement-set",
+  "worklistGroupId": "wv_dui_deferral_expungement-set",
+  "jurisdiction": "WV",
+  "implementationStrategy": "custom_pleading",
+  "custodyClass": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+  "acquisitionCommissioned": false,
+  "bindingMethod": "no source bytes are bound: the MASTER_QUEUE row for this family binds zero sources (sourceStatus CUSTOM_PLEADING_FROM_CODIFIED_TEXT, boundCount 0, officialFormFamily NONE, forms []). Every composed page is grounded on the committed legal-design records named in groundingRecords, and nothing else.",
+  "routeKeys": [
+    "obligation:unit:WV:wv_dui_deferral_expungement:wv-dui-deferral-unit-1-motion-to-dismiss",
+    "obligation:unit:WV:wv_dui_deferral_expungement:wv-dui-deferral-unit-2-application-to-expunge"
+  ],
+  "routeSelectionId": "wv-dui-deferral-expungement-composed-set",
+  "statutoryAuthority": "W. Va. Code § 17C-5-2b",
+  "legalName": "Motion to Dismiss the Charges and Application to Expunge After a First-Offence DUI Deferral, W. Va. Code § 17C-5-2b(c) and (g)",
+  "allSourcesExact": true,
+  "allSourcesExactNote": "true vacuously: this family binds zero source binaries, so there is no source that is not bound by exact SHA-256. No official form exists for this route per the legal-design record, and none was invented.",
+  "documents": [],
+  "groundingRecords": [
+    {
+      "record": "data/record-clearing/legal-design-intake/WV.memo.json",
+      "track": "wv_dui_deferral_expungement",
+      "readAtSource": "2026-08-06"
+    },
+    {
+      "record": "data/record-clearing/legal-design-packet-set-manifests.json",
+      "packetSetId": "wv_dui_deferral_expungement-set"
+    }
+  ],
+  "officialSourcesRecordedInIntake": [
+    {
+      "title": "W. Va. Code § 17C-5-2b",
+      "url": "https://code.wvlegislature.gov/17C-5-2b/",
+      "retrievedOn": "2026-08-06"
+    },
+    {
+      "title": "W. Va. Code § 17C-5-2",
+      "url": "https://code.wvlegislature.gov/17C-5-2/",
+      "retrievedOn": "2026-08-06"
+    },
+    {
+      "title": "W. Va. Code § 61-11-25",
+      "url": "https://code.wvlegislature.gov/61-11-25/",
+      "retrievedOn": "2026-08-06"
+    },
+    {
+      "title": "West Virginia Judiciary — Court Forms index",
+      "url": "https://www.courtswv.gov/public-resources/court-forms",
+      "retrievedOn": "2026-08-06"
+    }
+  ],
+  "formIdentityNote": "No West Virginia Judiciary form exists for either the § 17C-5-2b(c) motion to dismiss or the § 17C-5-2b(g) application to expunge. The legal-design record reads the Court Forms index at source on 2026-08-06: it publishes exactly five expungement forms (SCA-C900, SCA-C903, SCA-C906, SCA-C907, SCA-C912), none a § 17C-5-2b filing. Both units are therefore composed pleadings, and the MASTER_QUEUE row agrees: officialFormFamily NONE, implementationStrategy custom_pleading, forms [], boundCount 0. Whether an unpublished local form is used in some courts was not tested and travels as a counsel question.",
+  "composedComponentsAuthoredByThisBuild": [
+    "primary_filing",
+    "supporting_affidavit",
+    "secondary_filing",
+    "supporting_timeline",
+    "certificate_of_service",
+    "records_checklist",
+    "filing_instructions"
+  ],
+  "sourceBinaryCommitted": false,
+  "commercialRoutesOpened": 0,
+  "whatThisReceiptDoesNotEstablish": [
+    "that no unpublished local form is used in any West Virginia court for a § 17C-5-2b filing",
+    "that any output is approved for participant delivery",
+    "that any record is eligible for relief under W. Va. Code § 17C-5-2b"
+  ]
+}
