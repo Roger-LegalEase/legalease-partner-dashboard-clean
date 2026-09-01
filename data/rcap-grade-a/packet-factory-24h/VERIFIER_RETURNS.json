@@ -1,0 +1,551 @@
+{
+  "schemaVersion": "rcap-verifier-returns/v1",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/extract-verifier-returns.mjs",
+  "whatThisIsFor": "A returned verdict outranks an active-owner claim. A lane that has returned is not still verifying, and a family its verifier failed is not awaiting a verdict.",
+  "verdictVocabulary": [
+    "PASS_COMPLETE_INDEPENDENT",
+    "PASS",
+    "FAIL_REPAIR_REQUIRED",
+    "BLOCKED_SOURCE",
+    "BLOCKED_LEGAL_INPUT",
+    "BLOCKED_BEFORE_CLAIM",
+    "STOPPED",
+    "COMPLETED"
+  ],
+  "obligationResultVocabulary": [
+    "\"PASS\"",
+    "\"FAIL\"",
+    "true",
+    "false"
+  ],
+  "obligationVocabularyNote": "The P2V rows record thirteen obligations as strings and two as booleans. Both are read; a third spelling refuses, because reading only the strings turned two passing obligations into failures and doubled the defect count.",
+  "counts": {
+    "returnDirectories": 7,
+    "rows": 28,
+    "independentVerdicts": 19,
+    "failRepairRequired": 9,
+    "passIndependent": 10
+  },
+  "failRepairRequiredFamilies": [
+    "wa_vac_cannabis-set",
+    "wa_vac_domestic_violence-set",
+    "wa_vac_felony-set",
+    "wa_vac_homicide_victim_prostitution-set",
+    "wa_vac_misdemeanor_ordinary-set",
+    "wa_vac_substance_use_disorder-set",
+    "wa_vac_survivor_felony-set",
+    "wa_vac_survivor_misdemeanor-set",
+    "wa_vac_treaty_fishing-set"
+  ],
+  "rows": [
+    {
+      "familyId": "addressed mailed to",
+      "verdict": null,
+      "lane": "sd-arrest-expungement-disclosure-repair",
+      "isIndependentVerification": false,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "evidencePath": "data/rcap-grade-a/codex-cloud/sd-arrest-expungement-disclosure-repair/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family addressed mailed to"
+    },
+    {
+      "familyId": "city mailed to",
+      "verdict": null,
+      "lane": "sd-arrest-expungement-disclosure-repair",
+      "isIndependentVerification": false,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "evidencePath": "data/rcap-grade-a/codex-cloud/sd-arrest-expungement-disclosure-repair/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family city mailed to"
+    },
+    {
+      "familyId": "City State Zip Code-som",
+      "verdict": null,
+      "lane": "sd-arrest-expungement-disclosure-repair",
+      "isIndependentVerification": false,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "evidencePath": "data/rcap-grade-a/codex-cloud/sd-arrest-expungement-disclosure-repair/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family City State Zip Code-som"
+    },
+    {
+      "familyId": "city, state, and zip code",
+      "verdict": null,
+      "lane": "sd-arrest-expungement-disclosure-repair",
+      "isIndependentVerification": false,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "evidencePath": "data/rcap-grade-a/codex-cloud/sd-arrest-expungement-disclosure-repair/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family city, state, and zip code"
+    },
+    {
+      "familyId": "name mailed to",
+      "verdict": null,
+      "lane": "sd-arrest-expungement-disclosure-repair",
+      "isIndependentVerification": false,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "evidencePath": "data/rcap-grade-a/codex-cloud/sd-arrest-expungement-disclosure-repair/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family name mailed to"
+    },
+    {
+      "familyId": "ne-setaside-custodial-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "s2-continuation-verify-01",
+      "isIndependentVerification": true,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "evidencePath": "data/rcap-grade-a/codex-cloud/s2-continuation-verify-01/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ne-setaside-custodial-set"
+    },
+    {
+      "familyId": "state Code mailed to",
+      "verdict": null,
+      "lane": "sd-arrest-expungement-disclosure-repair",
+      "isIndependentVerification": false,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "evidencePath": "data/rcap-grade-a/codex-cloud/sd-arrest-expungement-disclosure-repair/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family state Code mailed to"
+    },
+    {
+      "familyId": "street address",
+      "verdict": null,
+      "lane": "sd-arrest-expungement-disclosure-repair",
+      "isIndependentVerification": false,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "evidencePath": "data/rcap-grade-a/codex-cloud/sd-arrest-expungement-disclosure-repair/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family street address"
+    },
+    {
+      "familyId": "ut_pet_acquittal-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "s2-continuation-verify-01",
+      "isIndependentVerification": true,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "evidencePath": "data/rcap-grade-a/codex-cloud/s2-continuation-verify-01/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_acquittal-set"
+    },
+    {
+      "familyId": "ut_pet_conviction-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "s2-continuation-verify-01",
+      "isIndependentVerification": true,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "evidencePath": "data/rcap-grade-a/codex-cloud/s2-continuation-verify-01/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_conviction-set"
+    },
+    {
+      "familyId": "ut_pet_dismissed_with_prejudice-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "s2-continuation-verify-01",
+      "isIndependentVerification": true,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "evidencePath": "data/rcap-grade-a/codex-cloud/s2-continuation-verify-01/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_dismissed_with_prejudice-set"
+    },
+    {
+      "familyId": "ut_pet_dismissed_without_prejudice-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "s2-continuation-verify-02",
+      "isIndependentVerification": true,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "evidencePath": "data/rcap-grade-a/codex-cloud/s2-continuation-verify-02/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_dismissed_without_prejudice-set"
+    },
+    {
+      "familyId": "ut_pet_limitations-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "s2-continuation-verify-02",
+      "isIndependentVerification": true,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "evidencePath": "data/rcap-grade-a/codex-cloud/s2-continuation-verify-02/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_limitations-set"
+    },
+    {
+      "familyId": "ut_pet_no_charges-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "s2-continuation-verify-02",
+      "isIndependentVerification": true,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "evidencePath": "data/rcap-grade-a/codex-cloud/s2-continuation-verify-02/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_no_charges-set"
+    },
+    {
+      "familyId": "ut_pet_traffic-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "s2-continuation-verify-02",
+      "isIndependentVerification": true,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "evidencePath": "data/rcap-grade-a/codex-cloud/s2-continuation-verify-02/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_traffic-set"
+    },
+    {
+      "familyId": "wa_vac_cannabis-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "p2v01-washington-independent-verification",
+      "isIndependentVerification": true,
+      "failedObligations": [
+        {
+          "obligation": "feeAndWaiver",
+          "finding": "Instructions say only to confirm local fee requirements; they state neither the fee nor an available waiver route.",
+          "evidence": {
+            "instructionTextMatched": "Confirm local filing, notice, service, fee, and hearing requirements with the sentencing court before filing.",
+            "feeAmountStated": false,
+            "waiverRouteStated": false
+          }
+        },
+        {
+          "obligation": "service",
+          "finding": "Instructions say only to confirm local service requirements; they do not identify who must be served or how service must be made.",
+          "evidence": {
+            "instructionTextMatched": "Confirm local filing, notice, service, fee, and hearing requirements with the sentencing court before filing.",
+            "recipientStated": false,
+            "methodStated": false
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "feeAndWaiver",
+        "service"
+      ],
+      "evidencePath": "data/rcap-grade-a/codex-cloud/p2v01-washington-independent-verification/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/codex-cloud/p2v01-washington-independent-verification/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_cannabis-set"
+    },
+    {
+      "familyId": "wa_vac_domestic_violence-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "p2v01-washington-independent-verification",
+      "isIndependentVerification": true,
+      "failedObligations": [
+        {
+          "obligation": "feeAndWaiver",
+          "finding": "Instructions say only to confirm local fee requirements; they state neither the fee nor an available waiver route.",
+          "evidence": {
+            "instructionTextMatched": "Confirm local filing, notice, service, fee, and hearing requirements with the sentencing court before filing.",
+            "feeAmountStated": false,
+            "waiverRouteStated": false
+          }
+        },
+        {
+          "obligation": "service",
+          "finding": "Instructions say only to confirm local service requirements; they do not identify who must be served or how service must be made.",
+          "evidence": {
+            "instructionTextMatched": "Confirm local filing, notice, service, fee, and hearing requirements with the sentencing court before filing.",
+            "recipientStated": false,
+            "methodStated": false
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "feeAndWaiver",
+        "service"
+      ],
+      "evidencePath": "data/rcap-grade-a/codex-cloud/p2v01-washington-independent-verification/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/codex-cloud/p2v01-washington-independent-verification/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_domestic_violence-set"
+    },
+    {
+      "familyId": "wa_vac_felony-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "p2v01-washington-independent-verification",
+      "isIndependentVerification": true,
+      "failedObligations": [
+        {
+          "obligation": "feeAndWaiver",
+          "finding": "Instructions say only to confirm local fee requirements; they state neither the fee nor an available waiver route.",
+          "evidence": {
+            "instructionTextMatched": "Confirm local filing, notice, service, fee, and hearing requirements with the sentencing court before filing.",
+            "feeAmountStated": false,
+            "waiverRouteStated": false
+          }
+        },
+        {
+          "obligation": "service",
+          "finding": "Instructions say only to confirm local service requirements; they do not identify who must be served or how service must be made.",
+          "evidence": {
+            "instructionTextMatched": "Confirm local filing, notice, service, fee, and hearing requirements with the sentencing court before filing.",
+            "recipientStated": false,
+            "methodStated": false
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "feeAndWaiver",
+        "service"
+      ],
+      "evidencePath": "data/rcap-grade-a/codex-cloud/p2v01-washington-independent-verification/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/codex-cloud/p2v01-washington-independent-verification/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_felony-set"
+    },
+    {
+      "familyId": "wa_vac_homicide_victim_prostitution-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "p2v02-washington-independent-verification",
+      "isIndependentVerification": true,
+      "failedObligations": [
+        {
+          "obligation": "feeAndWaiver",
+          "finding": "Instructions say only to confirm local fee requirements; they state neither the fee nor an available waiver route.",
+          "evidence": {
+            "instructionTextMatched": "Confirm local filing, notice, service, fee, and hearing requirements with the sentencing court before filing.",
+            "feeAmountStated": false,
+            "waiverRouteStated": false
+          }
+        },
+        {
+          "obligation": "service",
+          "finding": "Instructions say only to confirm local service requirements; they do not identify who must be served or how service must be made.",
+          "evidence": {
+            "instructionTextMatched": "Confirm local filing, notice, service, fee, and hearing requirements with the sentencing court before filing.",
+            "recipientStated": false,
+            "methodStated": false
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "feeAndWaiver",
+        "service"
+      ],
+      "evidencePath": "data/rcap-grade-a/codex-cloud/p2v02-washington-independent-verification/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/codex-cloud/p2v02-washington-independent-verification/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_homicide_victim_prostitution-set"
+    },
+    {
+      "familyId": "wa_vac_misdemeanor_ordinary-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "p2v02-washington-independent-verification",
+      "isIndependentVerification": true,
+      "failedObligations": [
+        {
+          "obligation": "feeAndWaiver",
+          "finding": "Instructions say only to confirm local fee requirements; they state neither the fee nor an available waiver route.",
+          "evidence": {
+            "instructionTextMatched": "Confirm local filing, notice, service, fee, and hearing requirements with the sentencing court before filing.",
+            "feeAmountStated": false,
+            "waiverRouteStated": false
+          }
+        },
+        {
+          "obligation": "service",
+          "finding": "Instructions say only to confirm local service requirements; they do not identify who must be served or how service must be made.",
+          "evidence": {
+            "instructionTextMatched": "Confirm local filing, notice, service, fee, and hearing requirements with the sentencing court before filing.",
+            "recipientStated": false,
+            "methodStated": false
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "feeAndWaiver",
+        "service"
+      ],
+      "evidencePath": "data/rcap-grade-a/codex-cloud/p2v02-washington-independent-verification/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/codex-cloud/p2v02-washington-independent-verification/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_misdemeanor_ordinary-set"
+    },
+    {
+      "familyId": "wa_vac_substance_use_disorder-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "p2v02-washington-independent-verification",
+      "isIndependentVerification": true,
+      "failedObligations": [
+        {
+          "obligation": "feeAndWaiver",
+          "finding": "Instructions say only to confirm local fee requirements; they state neither the fee nor an available waiver route.",
+          "evidence": {
+            "instructionTextMatched": "Confirm local filing, notice, service, fee, and hearing requirements with the sentencing court before filing.",
+            "feeAmountStated": false,
+            "waiverRouteStated": false
+          }
+        },
+        {
+          "obligation": "service",
+          "finding": "Instructions say only to confirm local service requirements; they do not identify who must be served or how service must be made.",
+          "evidence": {
+            "instructionTextMatched": "Confirm local filing, notice, service, fee, and hearing requirements with the sentencing court before filing.",
+            "recipientStated": false,
+            "methodStated": false
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "feeAndWaiver",
+        "service"
+      ],
+      "evidencePath": "data/rcap-grade-a/codex-cloud/p2v02-washington-independent-verification/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/codex-cloud/p2v02-washington-independent-verification/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_substance_use_disorder-set"
+    },
+    {
+      "familyId": "wa_vac_survivor_felony-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "p2v03-washington-independent-verification",
+      "isIndependentVerification": true,
+      "failedObligations": [
+        {
+          "obligation": "feeAndWaiver",
+          "finding": "Instructions say only to confirm local fee requirements; they state neither the fee nor an available waiver route.",
+          "evidence": {
+            "instructionTextMatched": "Confirm local filing, notice, service, fee, and hearing requirements with the sentencing court before filing.",
+            "feeAmountStated": false,
+            "waiverRouteStated": false
+          }
+        },
+        {
+          "obligation": "service",
+          "finding": "Instructions say only to confirm local service requirements; they do not identify who must be served or how service must be made.",
+          "evidence": {
+            "instructionTextMatched": "Confirm local filing, notice, service, fee, and hearing requirements with the sentencing court before filing.",
+            "recipientStated": false,
+            "methodStated": false
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "feeAndWaiver",
+        "service"
+      ],
+      "evidencePath": "data/rcap-grade-a/codex-cloud/p2v03-washington-independent-verification/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/codex-cloud/p2v03-washington-independent-verification/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_survivor_felony-set"
+    },
+    {
+      "familyId": "wa_vac_survivor_misdemeanor-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "p2v03-washington-independent-verification",
+      "isIndependentVerification": true,
+      "failedObligations": [
+        {
+          "obligation": "feeAndWaiver",
+          "finding": "Instructions say only to confirm local fee requirements; they state neither the fee nor an available waiver route.",
+          "evidence": {
+            "instructionTextMatched": "Confirm local filing, notice, service, fee, and hearing requirements with the sentencing court before filing.",
+            "feeAmountStated": false,
+            "waiverRouteStated": false
+          }
+        },
+        {
+          "obligation": "service",
+          "finding": "Instructions say only to confirm local service requirements; they do not identify who must be served or how service must be made.",
+          "evidence": {
+            "instructionTextMatched": "Confirm local filing, notice, service, fee, and hearing requirements with the sentencing court before filing.",
+            "recipientStated": false,
+            "methodStated": false
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "feeAndWaiver",
+        "service"
+      ],
+      "evidencePath": "data/rcap-grade-a/codex-cloud/p2v03-washington-independent-verification/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/codex-cloud/p2v03-washington-independent-verification/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_survivor_misdemeanor-set"
+    },
+    {
+      "familyId": "wa_vac_treaty_fishing-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "p2v03-washington-independent-verification",
+      "isIndependentVerification": true,
+      "failedObligations": [
+        {
+          "obligation": "feeAndWaiver",
+          "finding": "Instructions say only to confirm local fee requirements; they state neither the fee nor an available waiver route.",
+          "evidence": {
+            "instructionTextMatched": "Confirm local filing, notice, service, fee, and hearing requirements with the sentencing court before filing.",
+            "feeAmountStated": false,
+            "waiverRouteStated": false
+          }
+        },
+        {
+          "obligation": "service",
+          "finding": "Instructions say only to confirm local service requirements; they do not identify who must be served or how service must be made.",
+          "evidence": {
+            "instructionTextMatched": "Confirm local filing, notice, service, fee, and hearing requirements with the sentencing court before filing.",
+            "recipientStated": false,
+            "methodStated": false
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "feeAndWaiver",
+        "service"
+      ],
+      "evidencePath": "data/rcap-grade-a/codex-cloud/p2v03-washington-independent-verification/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/codex-cloud/p2v03-washington-independent-verification/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_treaty_fishing-set"
+    },
+    {
+      "familyId": "who mailed to",
+      "verdict": null,
+      "lane": "sd-arrest-expungement-disclosure-repair",
+      "isIndependentVerification": false,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "evidencePath": "data/rcap-grade-a/codex-cloud/sd-arrest-expungement-disclosure-repair/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family who mailed to"
+    },
+    {
+      "familyId": "wv_conv_multiple_misdemeanors-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "s2-continuation-verify-03",
+      "isIndependentVerification": true,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "evidencePath": "data/rcap-grade-a/codex-cloud/s2-continuation-verify-03/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wv_conv_multiple_misdemeanors-set"
+    },
+    {
+      "familyId": "wv_conv_single_misdemeanor-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "s2-continuation-verify-03",
+      "isIndependentVerification": true,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "evidencePath": "data/rcap-grade-a/codex-cloud/s2-continuation-verify-03/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wv_conv_single_misdemeanor-set"
+    },
+    {
+      "familyId": "zip code mailed to",
+      "verdict": null,
+      "lane": "sd-arrest-expungement-disclosure-repair",
+      "isIndependentVerification": false,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "evidencePath": "data/rcap-grade-a/codex-cloud/sd-arrest-expungement-disclosure-repair/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family zip code mailed to"
+    }
+  ],
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "grantsNothing": "A verdict moves a family in the queue. It promotes nothing, opens no route, and prepares no review package."
+}

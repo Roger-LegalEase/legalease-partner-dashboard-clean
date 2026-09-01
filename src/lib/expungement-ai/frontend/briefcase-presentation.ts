@@ -14,7 +14,7 @@
  *   - packet_ready    -> a packet can be generated
  *   - saved           -> a plain saved check
  */
-import type { ConsumerBriefcaseItem } from "@/lib/expungement-ai/types";
+import type { BriefcasePresentationItem } from "@/lib/expungement-ai/briefcase-presentation-authority";
 
 export type MatterCareState =
   | "packet_ready"
@@ -23,22 +23,25 @@ export type MatterCareState =
   | "needs_attention"
   | "denied"
   | "completed"
+  | "unavailable"
   | "saved";
 
 export type HumanMatterState =
-  | "Record check saved"
+  | "Matter saved"
   | "Next steps saved"
   | "We need a little more information"
   | "You may need to wait before taking the next step"
   | "A self-help packet may be available"
   | "Packet details in progress"
+  | "Packet facts complete"
   | "Ready to generate"
   | "Payment confirmed"
   | "Preparing packet"
   | "Packet ready"
   | "Filed"
   | "Waiting on the court"
-  | "Decision received";
+  | "Decision received"
+  | "Matter details unavailable";
 
 export type MatterTone = "positive" | "info" | "wait" | "attention" | "care" | "neutral";
 
@@ -53,55 +56,51 @@ export type MatterCarePresentation = {
   showCallout: boolean;
 };
 
-export function matterCareState(item: ConsumerBriefcaseItem): MatterCareState {
+export function matterCareState(item: BriefcasePresentationItem): MatterCareState {
   const rc = item.resultCode;
 
-  if (item.packetStatus === "downloaded") return "completed";
+  if (item.authorityStatus === "unavailable") return "unavailable";
+  if (item.artifact.status === "ready") return "completed";
+  if ((rc === "packet_ready" || rc === "packet_ready_with_caution") && item.packetDraft.status === "unavailable") {
+    return "unavailable";
+  }
 
-  if (rc === "guidance_only" || item.packetType === "guidance_packet" || (item.status === "guidance_saved" && rc !== "not_covered_yet")) {
+  if (rc === "guidance_only" || item.packetType === "guidance_packet") {
     return "guidance_only";
   }
-  if (item.status === "packet_ready" || rc === "packet_ready" || rc === "packet_ready_with_caution" || item.packetReady) {
+  if (rc === "packet_ready" || rc === "packet_ready_with_caution") {
     return "packet_ready";
   }
-  if (item.status === "waiting" || rc === "not_yet") return "waiting";
-  if (item.status === "not_eligible" || item.status === "hard_stop" || rc === "likely_not_eligible" || rc === "hard_stop") {
+  if (rc === "not_yet") return "waiting";
+  if (rc === "likely_not_eligible" || rc === "hard_stop") {
     return "denied";
   }
-  if (item.status === "needs_info" || item.status === "needs_review" || rc === "needs_more_info" || rc === "needs_review" || rc === "not_covered_yet") {
+  if (rc === "needs_more_info" || rc === "needs_review" || rc === "not_covered_yet") {
     return "needs_attention";
   }
   return "saved";
 }
 
 /** Consumer vocabulary derived from persisted matter milestones. */
-export function humanMatterState(item: ConsumerBriefcaseItem): HumanMatterState {
-  const refs = item.artifactRefs;
-  const commercialFlow = isRecord(refs?.commercialFlow) ? refs.commercialFlow : {};
-  const caseProgress = isRecord(commercialFlow.caseProgress) ? commercialFlow.caseProgress : {};
-  if (caseProgress.milestone === "decision_received") return "Decision received";
-  if (caseProgress.milestone === "waiting_on_court") return "Waiting on the court";
-  if (caseProgress.milestone === "filed") return "Filed";
-
-  if (item.packetStatus === "ready" || item.packetStatus === "downloaded") return "Packet ready";
-  if (item.packetStatus === "pending" || item.packetStatus === "generating") return "Preparing packet";
-  if (item.paymentStatus === "paid") {
-    return "Payment confirmed";
-  }
+export function humanMatterState(item: BriefcasePresentationItem): HumanMatterState {
+  if (item.authorityStatus === "unavailable") return "Matter details unavailable";
+  if (item.artifact.status === "ready") return "Packet ready";
+  if ((item.resultCode === "packet_ready" || item.resultCode === "packet_ready_with_caution")
+    && item.packetDraft.status === "unavailable") return "Matter details unavailable";
 
   if (item.resultCode === "guidance_only" || item.resultCode === "not_covered_yet" || item.packetType === "guidance_packet") {
     return "Next steps saved";
   }
   if (item.resultCode === "needs_more_info" || item.resultCode === "needs_review") return "We need a little more information";
-  if (item.resultCode === "not_yet" || item.status === "waiting") return "You may need to wait before taking the next step";
+  if (item.resultCode === "not_yet") return "You may need to wait before taking the next step";
 
-  if (item.resultCode === "packet_ready" || item.resultCode === "packet_ready_with_caution" || item.status === "packet_ready") {
-    const packetInformation = isRecord(commercialFlow.packetInformation) ? commercialFlow.packetInformation : {};
-    if (packetInformation.stage === "ready_to_generate") return "Ready to generate";
-    if (packetInformation.stage === "in_progress") return "Packet details in progress";
+  if (item.resultCode === "packet_ready" || item.resultCode === "packet_ready_with_caution") {
+    if (item.packetProgress === "verified") return item.paymentState === "paid" ? "Payment confirmed" : "Ready to generate";
+    if (item.packetProgress === "facts_complete") return "Packet facts complete";
+    if (item.packetProgress === "in_progress") return "Packet details in progress";
     return "A self-help packet may be available";
   }
-  return "Record check saved";
+  return "Matter saved";
 }
 
 const PRESENTATION: Record<MatterCareState, Omit<MatterCarePresentation, "careState">> = {
@@ -142,6 +141,12 @@ const PRESENTATION: Record<MatterCareState, Omit<MatterCarePresentation, "careSt
     blurb: "You have downloaded your packet. The next step is filing it yourself with the court.",
     showCallout: true
   },
+  unavailable: {
+    badge: "Details unavailable",
+    tone: "neutral",
+    blurb: "We could not verify this matter's saved details right now.",
+    showCallout: true
+  },
   saved: {
     badge: "Saved",
     tone: "neutral",
@@ -150,11 +155,7 @@ const PRESENTATION: Record<MatterCareState, Omit<MatterCarePresentation, "careSt
   }
 };
 
-export function matterCarePresentation(item: ConsumerBriefcaseItem): MatterCarePresentation {
+export function matterCarePresentation(item: BriefcasePresentationItem): MatterCarePresentation {
   const careState = matterCareState(item);
   return { careState, ...PRESENTATION[careState] };
-}
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return Boolean(value && typeof value === "object" && !Array.isArray(value));
 }

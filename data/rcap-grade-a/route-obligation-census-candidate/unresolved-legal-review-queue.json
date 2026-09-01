@@ -1,0 +1,1414 @@
+{
+  "metadata": {
+    "schemaVersion": "rcap-national-route-obligation-census/v1",
+    "generatedBy": "scripts/grade-a-route-obligation-census/generate-national-route-obligation-census.mjs",
+    "sourceFingerprint": "sha256:3fe4e0fd1828e2ddeef1f5b013c45112cf918c18143c9ac4ab46b9db682b8455",
+    "asOf": "2026-08-29",
+    "createsApproval": false,
+    "changesRuntime": false,
+    "productionTouched": false,
+    "sourceInventoryAvailability": {
+      "expectedPath": "private/Nationwide Record Clearing/",
+      "presentInWorktree": false,
+      "ingestionStatus": "ABSENT_FROM_THIS_WORKTREE_REGISTRIES_USED_AS_CURRENT_REPOSITORY_EVIDENCE"
+    }
+  },
+  "count": 86,
+  "routes": [
+    {
+      "routeKey": "obligation:failure-disposition:ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05:nd_agency_history_error",
+      "jurisdiction": "ND",
+      "publicLabel": "Automatic non-conviction court-record closing, with verification and correction — the BCI or originating-agency criminal history still shows the matter after the court record is closed",
+      "legalReviewQuestion": "Is the nd_agency_history_error agency_correction disposition a participant self-help correction request, or only a handoff instruction?",
+      "classificationConfidence": "medium",
+      "currentImplementationEvidence": [
+        "effective-route-contract:ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05:NATIONAL-2026-08-28-LA-IMM-03",
+        "failure-disposition:nd_agency_history_error:agency_correction",
+        "runtime-authority-decision:NATIONAL-2026-08-28-LA-IMM-03:route=ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05:association=EXACT_AUTHORITY_ROUTE_KEY_ASSOCIATION:output-mode=AUTOMATIC CLOSURE GUIDANCE + CLERK AND ORIGINAL-CASE CORRECTION:effective-note=The amendment governs dispositions entered on or after 2025-08-01. A disposition before that date takes the official petition and proposed order instead, which is a service branch on this route and is not built."
+      ]
+    },
+    {
+      "routeKey": "obligation:research-decision-route:AL:al-uncharged-arrest:de_novo_court_review_after_final_denial",
+      "jurisdiction": "AL",
+      "publicLabel": "Alabama de novo circuit-court review after final agency denial",
+      "legalReviewQuestion": "Does the post-denial de novo circuit-court branch support a bounded self-help custom appeal, or does the current contested-appeal handoff require counsel from filing?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "approved-registry-track=false",
+        "compiled-runtime-pathway=false",
+        "current-decision-branch:al-uncharged-arrest:de_novo_court_review_after_final_denial",
+        "current-decision-product-disposition-sha256:07645e793f0783fc64669d868b88998fe71ab9a97039c8d586648644ac9a21fb",
+        "exact-output-treatment:custom_pleading:custom notice or petition for de novo review after final agency denial",
+        "national-legal-decision:data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json#al-uncharged-arrest"
+      ]
+    },
+    {
+      "routeKey": "obligation:research-decision-route:NY:ny_160_55_violation:pre_1991_legacy_motion",
+      "jurisdiction": "NY",
+      "publicLabel": "Possible pre-November 1, 1991 legacy motion",
+      "legalReviewQuestion": "Which exact motion, eligibility rule, and filing procedure governs the pre-November 1, 1991 § 160.55 legacy branch?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "approved-registry-track=false",
+        "compiled-runtime-pathway=false",
+        "current-decision-branch:ny_160_55_violation:pre_1991_legacy_motion",
+        "current-decision-product-disposition-sha256:6cde4de2614c82d14e8d32cf56034e8b5af9c44255ed83d65d2bfdd0272cebe3",
+        "effective-route-contract:NY:automatic-non-conviction-sealing-under-cpl-160-50-160-55:NATIONAL-2026-08-28-C-NY-01",
+        "exact-output-treatment:not-recorded:not recorded",
+        "failure-disposition:ny_160_55_pre_1991_disposition:retained_counsel",
+        "national-legal-decision:data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json#ny_160_55_violation"
+      ]
+    },
+    {
+      "routeKey": "obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017_favorable_termination_mandatory",
+      "jurisdiction": "DE",
+      "publicLabel": "Delaware § 1017 favorable-termination mandatory juvenile expungement",
+      "legalReviewQuestion": "Does the mandatory § 1017 favorable-termination cohort require a participant petition, a court-initiated order, or another no-filing implementation stage?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/DE-delaware.json#juvenile-expungement-under-10-del-c-1017-1019-1017a",
+        "crosswalk:unregistered_relief_mechanism_registry_gap",
+        "exact-runtime-contract-cohort-source-notes:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:§ 1017 favorable-termination matters are mandatory with no elapsed wait; § 1017A eligible records run through the automatic program with a petition or correction path only where the automatic process did not occur. The three-year value here is the lowest discretionary § 1018 branch; the five- and seven-year branches turn on the offense category, which the intake must collect.",
+        "exact-runtime-contract-cohort:section_1017_favorable_termination_mandatory:contract-notes:§ 1017 favorable-termination matters are mandatory with no elapsed wait",
+        "launch-graph:operationallySellable=false",
+        "route-contract-packet-family-label:Delaware Juvenile Expungement Petition under 10 Del. C. §§ 1017 / 1018",
+        "route-contract:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:LD-DE-01:participant_packet",
+        "route-kind-adjudication:pending:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:LD-DE-01",
+        "route-kind-contract-evidence:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:outcomeMode participant_packet, packetFamily \"Delaware Juvenile Expungement Petition under 10 Del. C. §§ 1017 / 1018\", statute 10 Del. C. § 1018",
+        "route-kind-evaluator-evidence:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:not a user-filed court petition:prior=needs_more_info:conclusive=false",
+        "runtime-authority-decision:LD-DE-01:route=DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:association=EXACT_AUTHORITY_ROUTE_KEY_ASSOCIATION:output-mode=AUTOMATIC STATUS/CORRECTION GUIDANCE OR JUVENILE COURT PETITION PACKET:effective-note=The 120-day Attorney General response period must be modeled only as post-filing procedure.",
+        "runtime-service-disposition:paid_packet_intended"
+      ]
+    },
+    {
+      "routeKey": "obligation:runtime-contract-cohort:UT:path-m-juvenile-expungement:favorable_outcome_branch",
+      "jurisdiction": "UT",
+      "publicLabel": "Utah juvenile-expungement favorable-outcome branch",
+      "legalReviewQuestion": "Which favorable juvenile outcomes receive no-filing relief, and which require a participant instrument under the current Utah statute?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "census-pending-family-identity:census-pending-family:UT:path-m-juvenile-expungement:packet-mode=official_form_overlay_or_source_form_set:contract-label=Utah Juvenile Expungement Petition:no-shared-authority",
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/UT-utah.json#path-m-juvenile-expungement",
+        "crosswalk:unregistered_relief_mechanism_registry_gap",
+        "exact-runtime-contract-cohort-source-notes:UT:path-m-juvenile-expungement:Separate automatic and favourable-outcome branches exist and are not subject to this age-and-time rule.",
+        "exact-runtime-contract-cohort:favorable_outcome_branch:contract-notes:Separate ... favourable-outcome branches exist and are not subject to this age-and-time rule",
+        "launch-graph:operationallySellable=false",
+        "route-contract-packet-family-label:Utah Juvenile Expungement Petition",
+        "route-contract:UT:path-m-juvenile-expungement:LD-UT-07:participant_packet",
+        "route-kind-adjudication:pending:UT:path-m-juvenile-expungement:LD-UT-07",
+        "route-kind-contract-evidence:UT:path-m-juvenile-expungement:outcomeMode participant_packet, packetFamily \"Utah Juvenile Expungement Petition\", statute Utah juvenile expungement statutes",
+        "route-kind-evaluator-evidence:UT:path-m-juvenile-expungement:not a user-filed court petition:prior=guidance_only:conclusive=true",
+        "runtime-authority-decision:LD-UT-07:route=UT:path-m-juvenile-expungement:association=EXACT_AUTHORITY_ROUTE_KEY_ASSOCIATION:output-mode=SPECIAL COURT PETITION, PARDON STATUS GUIDANCE, OR JUVENILE PETITION:effective-note=Remove the current contradictory guidance-only treatment from any special route that expressly authorizes a participant-filed petition.",
+        "runtime-service-disposition:paid_packet_intended"
+      ]
+    },
+    {
+      "routeKey": "obligation:runtime-only:CA:tool-3-petition-based-felony-sealing",
+      "jurisdiction": "CA",
+      "publicLabel": "Tool 3 — Petition-based felony sealing (SB 731 / PC 1203.49 framework)",
+      "legalReviewQuestion": "Which current legal-design decision, if any, authorizes runtime-only pathway tool-3-petition-based-felony-sealing and its stated filing treatment?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/CA-california.json#tool-3-petition-based-felony-sealing",
+        "crosswalk:registry_scoped_out_named_authority",
+        "launch-graph:operationallySellable=false",
+        "runtime-service-disposition:paid_packet_intended"
+      ]
+    },
+    {
+      "routeKey": "obligation:runtime-only:CO:juvenile-expungement-19-1-306",
+      "jurisdiction": "CO",
+      "publicLabel": "Juvenile expungement (§ 19-1-306)",
+      "legalReviewQuestion": "Which current legal-design decision, if any, authorizes runtime-only pathway juvenile-expungement-19-1-306 and its stated filing treatment?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/CO-colorado.json#juvenile-expungement-19-1-306",
+        "crosswalk:unregistered_relief_mechanism_registry_gap",
+        "launch-graph:operationallySellable=false",
+        "runtime-service-disposition:paid_packet_intended"
+      ]
+    },
+    {
+      "routeKey": "obligation:runtime-only:DC:dc_juvenile_sealing_16_2335",
+      "jurisdiction": "DC",
+      "publicLabel": "Juvenile sealing under D.C. Code § 16-2335",
+      "legalReviewQuestion": "Which current legal-design decision, if any, authorizes runtime-only pathway dc_juvenile_sealing_16_2335 and its stated filing treatment?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/DC-district-of-columbia.json#dc_juvenile_sealing_16_2335",
+        "crosswalk:unregistered_relief_mechanism_registry_gap",
+        "runtime-service-disposition:non_filing_guidance"
+      ]
+    },
+    {
+      "routeKey": "obligation:runtime-only:ID:human-trafficking-survivor-vacatur-and-expungement",
+      "jurisdiction": "ID",
+      "publicLabel": "Human-trafficking-survivor vacatur and expungement",
+      "legalReviewQuestion": "Which current legal-design decision, if any, authorizes runtime-only pathway human-trafficking-survivor-vacatur-and-expungement and its stated filing treatment?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/ID-idaho.json#human-trafficking-survivor-vacatur-and-expungement",
+        "crosswalk:unregistered_relief_mechanism_registry_gap",
+        "launch-graph:operationallySellable=false",
+        "runtime-service-disposition:paid_packet_intended"
+      ]
+    },
+    {
+      "routeKey": "obligation:runtime-only:ID:juvenile-expungement",
+      "jurisdiction": "ID",
+      "publicLabel": "Juvenile expungement",
+      "legalReviewQuestion": "Which current legal-design decision, if any, authorizes runtime-only pathway juvenile-expungement and its stated filing treatment?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/ID-idaho.json#juvenile-expungement",
+        "crosswalk:unregistered_relief_mechanism_registry_gap",
+        "launch-graph:operationallySellable=false",
+        "runtime-service-disposition:paid_packet_intended"
+      ]
+    },
+    {
+      "routeKey": "obligation:runtime-only:ID:withheld-judgment-idaho-code-19-2604-review-branch",
+      "jurisdiction": "ID",
+      "publicLabel": "Withheld-judgment / Idaho Code § 19-2604 review branch",
+      "legalReviewQuestion": "Which current legal-design decision, if any, authorizes runtime-only pathway withheld-judgment-idaho-code-19-2604-review-branch and its stated filing treatment?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/ID-idaho.json#withheld-judgment-idaho-code-19-2604-review-branch",
+        "crosswalk:routing_or_supporting_path",
+        "launch-graph:operationallySellable=false",
+        "runtime-service-disposition:paid_packet_intended"
+      ]
+    },
+    {
+      "routeKey": "obligation:runtime-only:IL:human-trafficking-survivor-vacatur-and-expungement",
+      "jurisdiction": "IL",
+      "publicLabel": "Human-trafficking-survivor vacatur and expungement",
+      "legalReviewQuestion": "Which current legal-design decision, if any, authorizes runtime-only pathway human-trafficking-survivor-vacatur-and-expungement and its stated filing treatment?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/IL-illinois.json#human-trafficking-survivor-vacatur-and-expungement",
+        "crosswalk:crosswalk_terminal_classified",
+        "launch-graph:operationallySellable=false",
+        "runtime-service-disposition:paid_packet_intended"
+      ]
+    },
+    {
+      "routeKey": "obligation:runtime-only:IL:juvenile-automatic-or-petition-expungement",
+      "jurisdiction": "IL",
+      "publicLabel": "Juvenile automatic or petition expungement",
+      "legalReviewQuestion": "Which current legal-design decision, if any, authorizes runtime-only pathway juvenile-automatic-or-petition-expungement and its stated filing treatment?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/IL-illinois.json#juvenile-automatic-or-petition-expungement",
+        "crosswalk:unregistered_relief_mechanism_registry_gap",
+        "launch-graph:operationallySellable=false",
+        "runtime-service-disposition:paid_packet_intended"
+      ]
+    },
+    {
+      "routeKey": "obligation:runtime-only:MD:juvenile-expungement",
+      "jurisdiction": "MD",
+      "publicLabel": "Juvenile expungement",
+      "legalReviewQuestion": "Which current legal-design decision, if any, authorizes runtime-only pathway juvenile-expungement and its stated filing treatment?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/MD-maryland.json#juvenile-expungement",
+        "crosswalk:crosswalk_terminal_classified",
+        "launch-graph:operationallySellable=false",
+        "runtime-service-disposition:paid_packet_intended"
+      ]
+    },
+    {
+      "routeKey": "obligation:runtime-only:ME:pardon-route",
+      "jurisdiction": "ME",
+      "publicLabel": "Pardon route",
+      "legalReviewQuestion": "Which current legal-design decision, if any, authorizes runtime-only pathway pardon-route and its stated filing treatment?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/ME-maine.json#pardon-route",
+        "crosswalk:unregistered_relief_mechanism_registry_gap",
+        "launch-graph:operationallySellable=false",
+        "runtime-service-disposition:paid_packet_intended"
+      ]
+    },
+    {
+      "routeKey": "obligation:runtime-only:ND:general-conviction-sealing-under-n-d-c-c-chapter-12-60-1",
+      "jurisdiction": "ND",
+      "publicLabel": "General conviction sealing under N.D.C.C. chapter 12-60.1",
+      "legalReviewQuestion": "Which current legal-design decision, if any, authorizes runtime-only pathway general-conviction-sealing-under-n-d-c-c-chapter-12-60-1 and its stated filing treatment?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/ND-north-dakota.json#general-conviction-sealing-under-n-d-c-c-chapter-12-60-1",
+        "crosswalk:registry_scoped_out_named_authority",
+        "grade-a-commercial-disposition:grade-a-nd-general-conviction-sealing-under-n-d-c-c-chapter-12-60-1-v1:paid_packet_intended",
+        "grade-a-projection:INCOMPLETE:not_commercially_eligible",
+        "launch-graph:operationallySellable=false",
+        "runtime-service-disposition:paid_packet_intended"
+      ]
+    },
+    {
+      "routeKey": "obligation:runtime-only:NH:out-of-state-federal-or-military-record-guidance",
+      "jurisdiction": "NH",
+      "publicLabel": "Out-of-state, federal, or military record guidance",
+      "legalReviewQuestion": "Which current legal-design decision, if any, authorizes runtime-only pathway out-of-state-federal-or-military-record-guidance and its stated filing treatment?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/NH-new-hampshire.json#out-of-state-federal-or-military-record-guidance",
+        "crosswalk:crosswalk_terminal_classified",
+        "runtime-service-disposition:product_scope_exclusion"
+      ]
+    },
+    {
+      "routeKey": "obligation:runtime-only:NV:controlled-substance-possession-sealing-under-nrs-453-3365",
+      "jurisdiction": "NV",
+      "publicLabel": "Controlled-substance possession sealing under NRS 453.3365",
+      "legalReviewQuestion": "Which current legal-design decision, if any, authorizes runtime-only pathway controlled-substance-possession-sealing-under-nrs-453-3365 and its stated filing treatment?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/NV-nevada.json#controlled-substance-possession-sealing-under-nrs-453-3365",
+        "crosswalk:unregistered_relief_mechanism_registry_gap",
+        "launch-graph:operationallySellable=false",
+        "runtime-service-disposition:paid_packet_intended"
+      ]
+    },
+    {
+      "routeKey": "obligation:runtime-only:NY:conditional-treatment-sealing-under-cpl-160-58",
+      "jurisdiction": "NY",
+      "publicLabel": "Conditional / treatment sealing under CPL 160.58",
+      "legalReviewQuestion": "Which current legal-design decision, if any, authorizes runtime-only pathway conditional-treatment-sealing-under-cpl-160-58 and its stated filing treatment?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/NY-new-york.json#conditional-treatment-sealing-under-cpl-160-58",
+        "crosswalk:unregistered_relief_mechanism_registry_gap",
+        "launch-graph:operationallySellable=false",
+        "runtime-service-disposition:paid_packet_intended"
+      ]
+    },
+    {
+      "routeKey": "obligation:runtime-only:OH:juvenile-sealing-and-expungement",
+      "jurisdiction": "OH",
+      "publicLabel": "Juvenile sealing and expungement",
+      "legalReviewQuestion": "Which current legal-design decision, if any, authorizes runtime-only pathway juvenile-sealing-and-expungement and its stated filing treatment?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/OH-ohio.json#juvenile-sealing-and-expungement",
+        "crosswalk:unregistered_relief_mechanism_registry_gap",
+        "launch-graph:operationallySellable=false",
+        "runtime-service-disposition:paid_packet_intended"
+      ]
+    },
+    {
+      "routeKey": "obligation:runtime-only:SC:human-trafficking-survivor-expungement",
+      "jurisdiction": "SC",
+      "publicLabel": "Human-trafficking-survivor expungement",
+      "legalReviewQuestion": "Which current legal-design decision, if any, authorizes runtime-only pathway human-trafficking-survivor-expungement and its stated filing treatment?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/SC-south-carolina.json#human-trafficking-survivor-expungement",
+        "crosswalk:unregistered_relief_mechanism_registry_gap",
+        "launch-graph:operationallySellable=false",
+        "runtime-service-disposition:paid_packet_intended"
+      ]
+    },
+    {
+      "routeKey": "obligation:runtime-only:SC:juvenile-expungement",
+      "jurisdiction": "SC",
+      "publicLabel": "Juvenile expungement",
+      "legalReviewQuestion": "Which exact current legal-design track and statutory authority governs runtime pathway juvenile-expungement, whose only crosswalk evidence is a shared form with no shared statutory citation?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "adult-summary-court-destination-and-packet-evidence-rejected",
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/SC-south-carolina.json#juvenile-expungement",
+        "crosswalk:direct_runtime_representation",
+        "launch-graph:operationallySellable=false",
+        "rejected-crosswalk-edge:shared_official_form:no_shared_statutory_citation",
+        "route-contract-packet-family-label:South Carolina Juvenile Expungement Application under § 63-19-2050",
+        "route-contract:SC:juvenile-expungement:LD-SC-01:participant_packet",
+        "runtime-authority-decision:LD-SC-01:route=SC:juvenile-expungement:association=EXACT_AUTHORITY_ROUTE_KEY_ASSOCIATION:output-mode=OFFENSE-SPECIFIC PACKET, NONCONVICTION/JUVENILE PACKET, OR PARDON GUIDANCE ONLY:effective-note=Results copy must affirmatively disclose that a pardon does not erase or seal the South Carolina conviction.",
+        "runtime-service-disposition:paid_packet_intended"
+      ]
+    },
+    {
+      "routeKey": "obligation:runtime-only:SC:pardon-guidance-for-otherwise-ineligible-convictions",
+      "jurisdiction": "SC",
+      "publicLabel": "Pardon guidance for otherwise ineligible convictions",
+      "legalReviewQuestion": "Which current legal-design decision, if any, authorizes runtime-only pathway pardon-guidance-for-otherwise-ineligible-convictions and its stated filing treatment?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/SC-south-carolina.json#pardon-guidance-for-otherwise-ineligible-convictions",
+        "crosswalk:unregistered_relief_mechanism_registry_gap",
+        "route-contract:SC:pardon-guidance-for-otherwise-ineligible-convictions:LD-SC-01:guidance_status",
+        "runtime-authority-decision:LD-SC-01:route=SC:pardon-guidance-for-otherwise-ineligible-convictions:association=EXACT_AUTHORITY_ROUTE_KEY_ASSOCIATION:output-mode=OFFENSE-SPECIFIC PACKET, NONCONVICTION/JUVENILE PACKET, OR PARDON GUIDANCE ONLY:effective-note=Results copy must affirmatively disclose that a pardon does not erase or seal the South Carolina conviction.",
+        "runtime-service-disposition:non_filing_guidance"
+      ]
+    },
+    {
+      "routeKey": "obligation:runtime-only:SD:controlled-substance-deferred-disposition-route",
+      "jurisdiction": "SD",
+      "publicLabel": "Controlled-substance deferred-disposition route",
+      "legalReviewQuestion": "Which current legal-design decision, if any, authorizes runtime-only pathway controlled-substance-deferred-disposition-route and its stated filing treatment?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/SD-south-dakota.json#controlled-substance-deferred-disposition-route",
+        "crosswalk:unregistered_relief_mechanism_registry_gap",
+        "launch-graph:operationallySellable=false",
+        "runtime-service-disposition:paid_packet_intended"
+      ]
+    },
+    {
+      "routeKey": "obligation:runtime-only:SD:juvenile-delinquency-sealing",
+      "jurisdiction": "SD",
+      "publicLabel": "Juvenile-delinquency sealing",
+      "legalReviewQuestion": "Which current legal-design decision, if any, authorizes runtime-only pathway juvenile-delinquency-sealing and its stated filing treatment?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/SD-south-dakota.json#juvenile-delinquency-sealing",
+        "crosswalk:unregistered_relief_mechanism_registry_gap",
+        "launch-graph:operationallySellable=false",
+        "runtime-service-disposition:paid_packet_intended"
+      ]
+    },
+    {
+      "routeKey": "obligation:runtime-only:VT:juvenile-sealing",
+      "jurisdiction": "VT",
+      "publicLabel": "Juvenile sealing",
+      "legalReviewQuestion": "Which current legal-design decision, if any, authorizes runtime-only pathway juvenile-sealing and its stated filing treatment?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/VT-vermont.json#juvenile-sealing",
+        "crosswalk:crosswalk_terminal_classified",
+        "launch-graph:operationallySellable=false",
+        "runtime-service-disposition:paid_packet_intended"
+      ]
+    },
+    {
+      "routeKey": "obligation:runtime-only:WI:executive-pardon-guidance",
+      "jurisdiction": "WI",
+      "publicLabel": "Executive-pardon guidance",
+      "legalReviewQuestion": "Which current legal-design decision, if any, authorizes runtime-only pathway executive-pardon-guidance and its stated filing treatment?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/WI-wisconsin.json#executive-pardon-guidance",
+        "crosswalk:unregistered_relief_mechanism_registry_gap",
+        "launch-graph:operationallySellable=false",
+        "runtime-service-disposition:paid_packet_intended"
+      ]
+    },
+    {
+      "routeKey": "obligation:runtime-only:WI:juvenile-adjudication-expungement-under-wis-stat-938-355-4m",
+      "jurisdiction": "WI",
+      "publicLabel": "Juvenile-adjudication expungement under Wis. Stat. § 938.355(4m)",
+      "legalReviewQuestion": "Which current legal-design decision, if any, authorizes runtime-only pathway juvenile-adjudication-expungement-under-wis-stat-938-355-4m and its stated filing treatment?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/WI-wisconsin.json#juvenile-adjudication-expungement-under-wis-stat-938-355-4m",
+        "crosswalk:unregistered_relief_mechanism_registry_gap",
+        "launch-graph:operationallySellable=false",
+        "runtime-service-disposition:paid_packet_intended"
+      ]
+    },
+    {
+      "routeKey": "obligation:runtime-only:WV:juvenile-record-relief",
+      "jurisdiction": "WV",
+      "publicLabel": "Juvenile-record relief",
+      "legalReviewQuestion": "Which current legal-design decision, if any, authorizes runtime-only pathway juvenile-record-relief and its stated filing treatment?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json#juvenile-record-relief",
+        "crosswalk:unregistered_relief_mechanism_registry_gap",
+        "launch-graph:operationallySellable=false",
+        "runtime-service-disposition:paid_packet_intended"
+      ]
+    },
+    {
+      "routeKey": "obligation:runtime-only:WY:juvenile-minor-expungement-w-s-14-6-241",
+      "jurisdiction": "WY",
+      "publicLabel": "Juvenile / minor expungement - W.S. 14-6-241",
+      "legalReviewQuestion": "Which current legal-design decision, if any, authorizes runtime-only pathway juvenile-minor-expungement-w-s-14-6-241 and its stated filing treatment?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/WY-wyoming.json#juvenile-minor-expungement-w-s-14-6-241",
+        "crosswalk:registry_scoped_out_named_authority",
+        "launch-graph:operationallySellable=false",
+        "runtime-service-disposition:paid_packet_intended"
+      ]
+    },
+    {
+      "routeKey": "obligation:track-only:AK:ak-sej",
+      "jurisdiction": "AK",
+      "publicLabel": "Suspended Entry Of Judgment",
+      "legalReviewQuestion": "Does ak-sej contain a participant-initiated self-help filing, or only guidance for a process controlled by court?",
+      "classificationConfidence": "low",
+      "currentImplementationEvidence": [
+        "authority-ledger:source_pinning:source_pinning",
+        "completed-output-counsel-family:rcap-ak-guidance-implementation:approved_by_decision_owner",
+        "legal-design:legal_design_approved_with_limitations",
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding."
+      ]
+    },
+    {
+      "routeKey": "obligation:track-only:AR:ar-preadjudication-probation",
+      "jurisdiction": "AR",
+      "publicLabel": "Pre-Adjudication Probation",
+      "legalReviewQuestion": "Does ar-preadjudication-probation contain a participant-initiated self-help filing, or only guidance for a process controlled by court?",
+      "classificationConfidence": "low",
+      "currentImplementationEvidence": [
+        "authority-ledger:visual_proof:visual_proof",
+        "completed-output-counsel-family:rcap-ar-guidance-implementation:approved_by_decision_owner",
+        "legal-design:legal_design_approved_with_limitations",
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding."
+      ]
+    },
+    {
+      "routeKey": "obligation:track-only:DE:de_attorney_general_expungement",
+      "jurisdiction": "DE",
+      "publicLabel": "Prosecutor-Initiated Expungement at Dismissal",
+      "legalReviewQuestion": "Does de_attorney_general_expungement contain a participant-initiated self-help filing, or only guidance for a process controlled by prosecutor?",
+      "classificationConfidence": "low",
+      "currentImplementationEvidence": [
+        "authority-ledger:implementation:implementation",
+        "completed-output-counsel-family:rcap-de-guidance-implementation:approved_by_decision_owner",
+        "legal-design:legal_design_approved_with_limitations",
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding."
+      ]
+    },
+    {
+      "routeKey": "obligation:track-only:GA:ga-fo-sentencing-post2026",
+      "jurisdiction": "GA",
+      "publicLabel": "First Offender records restricted and sealed when you are sentenced",
+      "legalReviewQuestion": "Does ga-fo-sentencing-post2026 contain a participant-initiated self-help filing, or only guidance for a process controlled by court?",
+      "classificationConfidence": "low",
+      "currentImplementationEvidence": [
+        "authority-ledger:implementation:implementation",
+        "completed-output-counsel-family:rcap-ga-guidance-implementation:approved_by_decision_owner",
+        "legal-design:legal_design_approved_with_limitations",
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding."
+      ]
+    },
+    {
+      "routeKey": "obligation:track-only:GA:ga-time-expired",
+      "jurisdiction": "GA",
+      "publicLabel": "Arrests where charges were never filed",
+      "legalReviewQuestion": "Does ga-time-expired contain a participant-initiated self-help filing, or only guidance for a process controlled by prosecutor?",
+      "classificationConfidence": "low",
+      "currentImplementationEvidence": [
+        "authority-ledger:implementation:implementation",
+        "completed-output-counsel-family:rcap-ga-guidance-implementation:approved_by_decision_owner",
+        "legal-design:legal_design_approved_with_limitations",
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding."
+      ]
+    },
+    {
+      "routeKey": "obligation:track-only:LA:la-999-expedited-expungement",
+      "jurisdiction": "LA",
+      "publicLabel": "Free expedited clearing of an arrest from when you were seventeen",
+      "legalReviewQuestion": "Does la-999-expedited-expungement contain a participant-initiated self-help filing, or only guidance for a process controlled by court?",
+      "classificationConfidence": "low",
+      "currentImplementationEvidence": [
+        "authority-ledger:source_pinning:source_pinning",
+        "completed-output-counsel-family:rcap-la-guidance-implementation:approved_by_decision_owner",
+        "legal-design:legal_design_approved_with_limitations",
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding."
+      ]
+    },
+    {
+      "routeKey": "obligation:track-only:ND:nd-juvenile-records-routing",
+      "jurisdiction": "ND",
+      "publicLabel": "Where to go about a North Dakota juvenile record",
+      "legalReviewQuestion": "Must North Dakota juvenile early destruction be represented as a separate official-form participant branch instead of the current adult-scope process-guidance node?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "authority-ledger:visual_proof:visual_proof",
+        "completed-output-counsel-family:rcap-nd-guidance-implementation:approved_by_decision_owner",
+        "filing-scope-conflict:official-juvenile-early-destruction-packet-exists-but-current-track-routes-only",
+        "legal-design:legal_design_approved_with_limitations",
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding."
+      ]
+    },
+    {
+      "routeKey": "obligation:track-only:NE:ne-pardon-routing",
+      "jurisdiction": "NE",
+      "publicLabel": "Where to go about a Nebraska pardon",
+      "legalReviewQuestion": "Must the Nebraska Board of Pardons application be implemented as a participant agency-application branch, and must the Lincoln and Omaha mayoral-pardon variants be split before classification?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "authority-ledger:visual_proof:visual_proof",
+        "completed-output-counsel-family:rcap-ne-guidance-implementation:approved_by_decision_owner",
+        "filing-scope-conflict:participant-pardon-application-exists-but-current-track-routes-only",
+        "legal-design:legal_design_approved_with_limitations",
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding."
+      ]
+    },
+    {
+      "routeKey": "obligation:track-only:NE:ne-postconviction-routing",
+      "jurisdiction": "NE",
+      "publicLabel": "Where to go if you want your Nebraska conviction overturned",
+      "legalReviewQuestion": "Does the Nebraska postconviction professional handoff control every case, or must the participant-facing verified motion be represented as a separate composed-pleading branch?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "authority-ledger:visual_proof:visual_proof",
+        "completed-output-counsel-family:rcap-ne-guidance-implementation:approved_by_decision_owner",
+        "filing-scope-conflict:participant-verified-motion-exists-but-current-track-routes-only",
+        "legal-design:legal_design_approved_with_limitations",
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding."
+      ]
+    },
+    {
+      "routeKey": "obligation:track-only:UT:ut_adj_reduction_402",
+      "jurisdiction": "UT",
+      "publicLabel": "Not eligible yet? Reducing the conviction level may open a route",
+      "legalReviewQuestion": "Must Utah's § 76-3-402 reduction motion be represented as a separate participant filing, or does an express professional-only handoff control the adjacent-mechanism branch?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "authority-ledger:visual_proof:visual_proof",
+        "completed-output-counsel-family:rcap-ut-guidance-implementation:approved_by_decision_owner",
+        "filing-scope-conflict:participant-reduction-motion-exists-but-current-track-routes-only",
+        "legal-design:legal_design_approved",
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding."
+      ]
+    },
+    {
+      "routeKey": "obligation:track-only:WI:wi_def_961_47",
+      "jurisdiction": "WI",
+      "publicLabel": "Drug possession first-offence conditional discharge",
+      "legalReviewQuestion": "Does wi_def_961_47 contain a participant-initiated self-help filing, or only guidance for a process controlled by court?",
+      "classificationConfidence": "low",
+      "currentImplementationEvidence": [
+        "authority-ledger:authority_clearance:authority_clearance",
+        "completed-output-counsel-family:rcap-wi-guidance-implementation:approved_by_decision_owner",
+        "legal-design:legal_design_approved_with_limitations",
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding."
+      ]
+    },
+    {
+      "routeKey": "obligation:track-pathway:AK:ak-juvenile:juvenile-record-sealing-as-47-12-300",
+      "jurisdiction": "AK",
+      "publicLabel": "Juvenile Records",
+      "legalReviewQuestion": "Does ak-juvenile contain a participant-initiated self-help filing, or only guidance for a process controlled by court?",
+      "classificationConfidence": "low",
+      "currentImplementationEvidence": [
+        "authority-ledger:implementation:implementation",
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/AK-alaska.json#juvenile-record-sealing-as-47-12-300",
+        "completed-output-counsel-family:rcap-ak-guidance-implementation:approved_by_decision_owner",
+        "crosswalk:direct_runtime_representation",
+        "launch-graph:operationallySellable=false",
+        "legal-design:legal_design_approved_with_limitations",
+        "runtime-service-disposition:paid_packet_intended",
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding."
+      ]
+    },
+    {
+      "routeKey": "obligation:track-pathway:AK:ak-pardon:executive-pardon-backstop",
+      "jurisdiction": "AK",
+      "publicLabel": "Governor's Pardon",
+      "legalReviewQuestion": "Does ak-pardon contain a participant-initiated self-help filing, or only guidance for a process controlled by agency?",
+      "classificationConfidence": "low",
+      "currentImplementationEvidence": [
+        "authority-ledger:source_pinning:source_pinning",
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/AK-alaska.json#executive-pardon-backstop",
+        "completed-output-counsel-family:rcap-ak-guidance-implementation:approved_by_decision_owner",
+        "crosswalk:direct_runtime_representation",
+        "launch-graph:operationallySellable=false",
+        "legal-design:legal_design_approved_with_limitations",
+        "runtime-service-disposition:paid_packet_intended",
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding."
+      ]
+    },
+    {
+      "routeKey": "obligation:track-pathway:CA:ca-851-8:tool-4-arrest-record-sealing",
+      "jurisdiction": "CA",
+      "publicLabel": "Ask the court to find you factually innocent and destroy the arrest record",
+      "legalReviewQuestion": "Does ca-851-8 contain a participant-initiated self-help filing, or only guidance for a process controlled by court?",
+      "classificationConfidence": "low",
+      "currentImplementationEvidence": [
+        "authority-ledger:implementation:implementation",
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/CA-california.json#tool-4-arrest-record-sealing",
+        "completed-output-counsel-family:rcap-ca-guidance-implementation:approved_by_decision_owner",
+        "crosswalk:direct_runtime_representation",
+        "launch-graph:operationallySellable=false",
+        "legal-design:legal_design_approved_with_limitations",
+        "runtime-service-disposition:paid_packet_intended",
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding."
+      ]
+    },
+    {
+      "routeKey": "obligation:track-pathway:CA:ca-prop64:tool-5-proposition-64-marijuana-relief",
+      "jurisdiction": "CA",
+      "publicLabel": "Reduce, dismiss or seal an old cannabis conviction",
+      "legalReviewQuestion": "Which current authority controls the filing-status conflict between legal track ca-prop64 and runtime pathway tool-5-proposition-64-marijuana-relief?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "authority-ledger:authority_clearance:authority_clearance",
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/CA-california.json#tool-5-proposition-64-marijuana-relief",
+        "crosswalk:compiled_variant_of_registry_track",
+        "legal-design:legal_design_approved_with_limitations",
+        "runtime-service-disposition:product_scope_exclusion",
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+        "source-relationship:ca-prop64-primary-filing-1:unchecked",
+        "source-relationship:ca-prop64-proof-of-service-2:unchecked",
+        "source-relationship:ca-prop64-proposed-order-3:unchecked"
+      ]
+    },
+    {
+      "routeKey": "obligation:track-pathway:CO:co_clean_slate:automatic-clean-slate-sealing-13-3-117",
+      "jurisdiction": "CO",
+      "publicLabel": "Clean Slate Automatic Sealing",
+      "legalReviewQuestion": "Which current authority controls the filing-status conflict between legal track co_clean_slate and runtime pathway automatic-clean-slate-sealing-13-3-117?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "authority-ledger:authority_clearance:authority_clearance",
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/CO-colorado.json#automatic-clean-slate-sealing-13-3-117",
+        "crosswalk:direct_runtime_representation",
+        "legal-design:legal_design_approved_with_limitations",
+        "runtime-service-disposition:non_filing_guidance",
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+        "source-relationship:co_clean_slate-primary-filing-2:unchecked"
+      ]
+    },
+    {
+      "routeKey": "obligation:track-pathway:CT:ct-cannabis-auto:cannabis-conviction-erasure",
+      "jurisdiction": "CT",
+      "publicLabel": "Cannabis possession records erased automatically",
+      "legalReviewQuestion": "Which exact official-form or composed-pleading output treatment governs participant packet pathway cannabis-conviction-erasure?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "authority-ledger:source_pinning:source_pinning",
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/CT-connecticut.json#cannabis-conviction-erasure",
+        "completed-output-counsel-family:rcap-ct-guidance-implementation:approved_by_decision_owner",
+        "crosswalk:direct_runtime_representation",
+        "legal-design:legal_design_approved_with_limitations",
+        "route-contract-packet-family-label:Connecticut Cannabis Erasure Petition",
+        "route-contract:CT:cannabis-conviction-erasure:LD-CT-02:participant_packet",
+        "route-kind-adjudication:pending:CT:cannabis-conviction-erasure:LD-CT-02",
+        "route-kind-contract-evidence:CT:cannabis-conviction-erasure:outcomeMode participant_packet, packetFamily \"Connecticut Cannabis Erasure Petition\", statute Conn. Gen. Stat. §§ 21a-279, 21a-267(a), 21a-277(b)",
+        "route-kind-evaluator-evidence:CT:cannabis-conviction-erasure:not a user-filed court petition:prior=needs_more_info:conclusive=false",
+        "runtime-authority-decision:LD-CT-02:route=CT:cannabis-conviction-erasure:association=EXACT_AUTHORITY_ROUTE_KEY_ASSOCIATION:output-mode=AUTOMATIC STATUS/CORRECTION GUIDANCE OR COURT PETITION PACKET:effective-note=Automatic and petition categories must never share a checkout path.",
+        "runtime-service-disposition:non_filing_guidance",
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding."
+      ]
+    },
+    {
+      "routeKey": "obligation:track-pathway:KY:ky_juvenile_record_expungement:juvenile-automatic-dismissal",
+      "jurisdiction": "KY",
+      "publicLabel": "Clear a Kentucky juvenile record",
+      "legalReviewQuestion": "Does the mapped juvenile-automatic-dismissal runtime represent only the no-filing KRS 610.330(7) branch, leaving the AOC-JV-30 participant petition as a separate terminal obligation, or must the current track/runtime mapping be replaced by explicit branch identities?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "authority-ledger:authority_clearance:authority_clearance",
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/KY-kentucky.json#juvenile-automatic-dismissal",
+        "crosswalk:direct_runtime_representation",
+        "legal-design:legal_design_approved_with_limitations",
+        "mixed-stage-conflict:participant-aoc-jv-30-petition-and-automatic-dismissal-require-exact-branch-identities",
+        "route-contract:KY:juvenile-automatic-dismissal:LD-KY-02:automatic_relief",
+        "runtime-authority-decision:LD-KY-02:route=KY:juvenile-automatic-dismissal:association=EXACT_AUTHORITY_ROUTE_KEY_ASSOCIATION:output-mode=AUTOMATIC STATUS/CORRECTION GUIDANCE OR JUVENILE COURT PETITION PACKET:effective-note=Do not present the two-year period to a user in the automatic dismissal/not-delinquent branch.",
+        "runtime-service-disposition:non_filing_guidance",
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+        "source-relationship:ky_juvenile_record_expungement-primary-filing-1:unchecked"
+      ]
+    },
+    {
+      "routeKey": "obligation:track-pathway:KY:ky_juvenile_record_expungement:juvenile-petition-610330",
+      "jurisdiction": "KY",
+      "publicLabel": "Clear a Kentucky juvenile record",
+      "legalReviewQuestion": "Which exact official-form or composed-pleading output treatment governs participant packet pathway juvenile-petition-610330?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "authority-ledger:authority_clearance:authority_clearance",
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/KY-kentucky.json#juvenile-petition-610330",
+        "crosswalk:direct_runtime_representation",
+        "legal-design:legal_design_approved_with_limitations",
+        "route-contract-packet-family-label:Kentucky Juvenile Expungement Petition under KRS § 610.330",
+        "route-contract:KY:juvenile-petition-610330:LD-KY-02:participant_packet",
+        "route-kind-adjudication:pending:KY:juvenile-petition-610330:LD-KY-02",
+        "route-kind-contract-evidence:KY:juvenile-petition-610330:outcomeMode participant_packet, packetFamily \"Kentucky Juvenile Expungement Petition under KRS § 610.330\", statute KRS § 610.330",
+        "route-kind-evaluator-evidence:KY:juvenile-petition-610330:not a user-filed court petition:prior=needs_more_info:conclusive=false",
+        "runtime-authority-decision:LD-KY-02:route=KY:juvenile-petition-610330:association=EXACT_AUTHORITY_ROUTE_KEY_ASSOCIATION:output-mode=AUTOMATIC STATUS/CORRECTION GUIDANCE OR JUVENILE COURT PETITION PACKET:effective-note=Do not present the two-year period to a user in the automatic dismissal/not-delinquent branch.",
+        "runtime-service-disposition:non_filing_guidance",
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+        "source-relationship:ky_juvenile_record_expungement-primary-filing-1:unchecked"
+      ]
+    },
+    {
+      "routeKey": "obligation:track-pathway:LA:la-985-3-immediate-expungement:immediate-expungement-after-successful-court-program-completion-art-985-3",
+      "jurisdiction": "LA",
+      "publicLabel": "Immediate clearing by the court after you finish probation or a program",
+      "legalReviewQuestion": "Does exact legal-design track la-985-3-immediate-expungement control as a no-filing or unavailable-current-stage treatment, or does effective contract LA:immediate-expungement-after-successful-court-program-completion-art-985-3 establish a distinct participant-filed cohort that must be represented separately?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "authority-ledger:source_pinning:source_pinning",
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/LA-louisiana.json#immediate-expungement-after-successful-court-program-completion-art-985-3",
+        "completed-output-counsel-family:rcap-la-guidance-implementation:approved_by_decision_owner",
+        "crosswalk:direct_runtime_representation",
+        "exact-mechanism-conflict:track=la-985-3-immediate-expungement:track-treatment=process_guidance:contract=LA:immediate-expungement-after-successful-court-program-completion-art-985-3:contract-outcome=participant_packet",
+        "launch-graph:operationallySellable=false",
+        "legal-design:legal_design_approved_with_limitations",
+        "route-contract-packet-family-label:Louisiana Article 985.3 Immediate Expungement Packet",
+        "route-contract:LA:immediate-expungement-after-successful-court-program-completion-art-985-3:NATIONAL-2026-08-28-B-LA-03:participant_packet",
+        "route-kind-adjudication:pending:LA:immediate-expungement-after-successful-court-program-completion-art-985-3:NATIONAL-2026-08-28-B-LA-03",
+        "route-kind-contract-evidence:LA:immediate-expungement-after-successful-court-program-completion-art-985-3:outcomeMode participant_packet, packetFamily \"Louisiana Article 985.3 Immediate Expungement Packet\", statute La. C.Cr.P. art. 985.3",
+        "route-kind-evaluator-evidence:LA:immediate-expungement-after-successful-court-program-completion-art-985-3:not a user-filed court petition:prior=needs_more_info:conclusive=false",
+        "runtime-authority-decision:NATIONAL-2026-08-28-B-LA-03:route=LA:immediate-expungement-after-successful-court-program-completion-art-985-3:association=EXACT_AUTHORITY_ROUTE_KEY_ASSOCIATION:output-mode=PARTICIPANT PACKET, CONTESTED TIMING TO COUNSEL:effective-note=Report disposition RELEASE — PACKET; contested timing to counsel. Article 985.3 displaces the Article 977(A)(2) five-year and Article 978(A)(2) ten-year waits for a person otherwise eligible who successfully completed a court-ordered programme. A contested displacement leaves the route for individualized advocacy.",
+        "runtime-service-disposition:paid_packet_intended",
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding."
+      ]
+    },
+    {
+      "routeKey": "obligation:track-pathway:MD:md_10103_legacy_police:police-record-expungement-when-no-charge-was-filed-under-10-103",
+      "jurisdiction": "MD",
+      "publicLabel": "Clearing police records from an arrest before October 2007",
+      "legalReviewQuestion": "Does exact legal-design track md_10103_legacy_police control as a no-filing or unavailable-current-stage treatment, or does effective contract MD:police-record-expungement-when-no-charge-was-filed-under-10-103 establish a distinct participant-filed cohort that must be represented separately?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "authority-ledger:implementation:implementation",
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/MD-maryland.json#police-record-expungement-when-no-charge-was-filed-under-10-103",
+        "completed-output-counsel-family:rcap-md-guidance-implementation:approved_by_decision_owner",
+        "crosswalk:direct_runtime_representation",
+        "exact-mechanism-conflict:track=md_10103_legacy_police:track-treatment=process_guidance:contract=MD:police-record-expungement-when-no-charge-was-filed-under-10-103:contract-outcome=agency_application",
+        "launch-graph:operationallySellable=false",
+        "legal-design:legal_design_approved_with_limitations",
+        "route-contract-packet-family-label:Maryland § 10-103 Written Request to the Police Agency",
+        "route-contract:MD:police-record-expungement-when-no-charge-was-filed-under-10-103:LD-MD-03:agency_application",
+        "runtime-authority-decision:LD-MD-03:route=MD:police-record-expungement-when-no-charge-was-filed-under-10-103:association=EXACT_AUTHORITY_ROUTE_KEY_ASSOCIATION:output-mode=AGENCY REQUEST OR AUTOMATIC STATUS/CORRECTION GUIDANCE:effective-note=Do not display the 60-day agency processing period as a participant wait.",
+        "runtime-service-disposition:paid_packet_intended",
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding."
+      ]
+    },
+    {
+      "routeKey": "obligation:track-pathway:MN:mn_299c11_arrest_demand:arrest-identification-data-destruction-when-no-charges-were-filed-minn-stat-299c-11",
+      "jurisdiction": "MN",
+      "publicLabel": "Arrest record destruction request (no court case)",
+      "legalReviewQuestion": "Does approved custom-pleading track mn_299c11_arrest_demand control, or does effective agency-application contract MN:arrest-identification-data-destruction-when-no-charges-were-filed-minn-stat-299c-11 represent a distinct treatment that requires its own exact family and branch identity?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "authority-ledger:source_pinning:source_pinning",
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/MN-minnesota.json#arrest-identification-data-destruction-when-no-charges-were-filed-minn-stat-299c-11",
+        "completed-output-counsel-family:rcap-mn-custom-pleading:approved_by_decision_owner",
+        "crosswalk:direct_runtime_representation",
+        "exact-output-treatment-conflict:track=mn_299c11_arrest_demand:track-treatment=custom_pleading:contract=MN:arrest-identification-data-destruction-when-no-charges-were-filed-minn-stat-299c-11:contract-treatment=participant_agency_application",
+        "legal-design:legal_design_approved_with_limitations",
+        "route-contract-packet-family-label:Minnesota § 299C.11 Demand to the Agency",
+        "route-contract:MN:arrest-identification-data-destruction-when-no-charges-were-filed-minn-stat-299c-11:LD-MN-01:agency_application",
+        "runtime-authority-decision:LD-MN-01:route=MN:arrest-identification-data-destruction-when-no-charges-were-filed-minn-stat-299c-11:association=EXACT_AUTHORITY_ROUTE_KEY_ASSOCIATION:output-mode=MIXED - AGENCY DEMAND, AUTOMATIC STATUS GUIDANCE, BOARD REVIEW, AGREED-SEALING, OR COURT PETITION:effective-note=Explicitly label the ten-year § 299C.11 condition as a prior-conviction lookback, not a clock from arrest.",
+        "runtime-service-disposition:non_filing_guidance",
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding."
+      ]
+    },
+    {
+      "routeKey": "obligation:track-pathway:MN:mn_auto_cannabis_nonfelony:cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06",
+      "jurisdiction": "MN",
+      "publicLabel": "Cannabis records that clear automatically",
+      "legalReviewQuestion": "Must MN:cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06 be split into its automatic and Board-review mechanisms before service classification, and what participant action, if any, initiates the Board-review branch?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "authority-ledger:implementation:implementation",
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/MN-minnesota.json#cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06",
+        "completed-output-counsel-family:rcap-mn-guidance-implementation:approved_by_decision_owner",
+        "crosswalk:direct_runtime_representation",
+        "launch-graph:operationallySellable=false",
+        "legal-design:legal_design_approved_with_limitations",
+        "route-contract:MN:cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06:LD-MN-01:referral",
+        "runtime-authority-decision:LD-MN-01:route=MN:cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06:association=EXACT_AUTHORITY_ROUTE_KEY_ASSOCIATION:output-mode=MIXED - AGENCY DEMAND, AUTOMATIC STATUS GUIDANCE, BOARD REVIEW, AGREED-SEALING, OR COURT PETITION:effective-note=Explicitly label the ten-year § 299C.11 condition as a prior-conviction lookback, not a clock from arrest.",
+        "runtime-service-disposition:paid_packet_intended",
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+        "unadopted-closure-contradiction:MN:cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06:proposal-authority=null:decidedOn=null"
+      ]
+    },
+    {
+      "routeKey": "obligation:track-pathway:MT:mt_nonconviction_removal:non-conviction-criminal-history-removal-through-criss",
+      "jurisdiction": "MT",
+      "publicLabel": "Non-conviction record removal",
+      "legalReviewQuestion": "Must Montana's automatic post-July 1, 2017 CRISS removal and the participant-filed CRISS correction/removal request be represented as separate terminal branches, and which dispositions select each branch?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "authority-ledger:authority_clearance:authority_clearance",
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/MT-montana.json#non-conviction-criminal-history-removal-through-criss",
+        "crosswalk:direct_runtime_representation",
+        "legal-design:legal_design_approved_with_limitations",
+        "mixed-stage-conflict:automatic-criss-removal-and-participant-correction-request-require-exact-branch-identities",
+        "route-contract:MT:non-conviction-criminal-history-removal-through-criss:LD-MT-03:guidance_status",
+        "runtime-authority-decision:LD-MT-03:route=MT:non-conviction-criminal-history-removal-through-criss:association=EXACT_AUTHORITY_ROUTE_KEY_ASSOCIATION:output-mode=AUTOMATIC STATUS/CORRECTION GUIDANCE OR AGENCY REQUEST:effective-note=The statutory court-to-CRISS reporting period is processing, not an applicant wait.",
+        "runtime-service-disposition:non_filing_guidance",
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+        "source-relationship:mt_nonconviction_removal-primary-filing-1:unchecked"
+      ]
+    },
+    {
+      "routeKey": "obligation:track-pathway:NE:ne-juvenile-sealing-routing:juvenile-petition-backstop",
+      "jurisdiction": "NE",
+      "publicLabel": "Where to go about a Nebraska juvenile record",
+      "legalReviewQuestion": "Which current authority controls the filing-status conflict between legal track ne-juvenile-sealing-routing and runtime pathway juvenile-petition-backstop?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "authority-ledger:visual_proof:visual_proof",
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/NE-nebraska.json#juvenile-petition-backstop",
+        "completed-output-counsel-family:rcap-ne-guidance-implementation:approved_by_decision_owner",
+        "crosswalk:compiled_variant_of_registry_track",
+        "launch-graph:operationallySellable=false",
+        "legal-design:legal_design_approved_with_limitations",
+        "runtime-service-disposition:paid_packet_intended",
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding."
+      ]
+    },
+    {
+      "routeKey": "obligation:track-pathway:NH:nh_auto_nonconviction:annulment-after-dismissal-acquittal-or-nonprosecution",
+      "jurisdiction": "NH",
+      "publicLabel": "Your dismissed or not-guilty New Hampshire case should clear itself",
+      "legalReviewQuestion": "Which current authority controls the filing-status conflict between legal track nh_auto_nonconviction and runtime pathway annulment-after-dismissal-acquittal-or-nonprosecution?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "authority-ledger:source_pinning:source_pinning",
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/NH-new-hampshire.json#annulment-after-dismissal-acquittal-or-nonprosecution",
+        "completed-output-counsel-family:rcap-nh-guidance-implementation:approved_by_decision_owner",
+        "crosswalk:direct_runtime_representation",
+        "launch-graph:operationallySellable=false",
+        "legal-design:legal_design_approved_with_limitations",
+        "runtime-service-disposition:paid_packet_intended",
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding."
+      ]
+    },
+    {
+      "routeKey": "obligation:track-pathway:NM:nm_cannabis:cannabis-expungement",
+      "jurisdiction": "NM",
+      "publicLabel": "New Mexico cannabis record clearing",
+      "legalReviewQuestion": "Must New Mexico cannabis relief be split into an automatic verification branch and a participant AOC application branch for expedited or mixed-charge requests?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "authority-ledger:source_pinning:source_pinning",
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/NM-new-mexico.json#cannabis-expungement",
+        "completed-output-counsel-family:rcap-nm-guidance-implementation:approved_by_decision_owner",
+        "crosswalk:direct_runtime_representation",
+        "legal-design:legal_design_approved_with_limitations",
+        "mixed-stage-conflict:automatic-cannabis-expungement-and-participant-aoc-application-require-exact-branch-identities",
+        "runtime-service-disposition:non_filing_guidance",
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding."
+      ]
+    },
+    {
+      "routeKey": "obligation:track-pathway:NV:nv_seal_deferred:deferred-judgment-dismissal-and-sealing-under-nrs-176-211",
+      "jurisdiction": "NV",
+      "publicLabel": "Clearing a Nevada case that was dismissed after a deferred judgment",
+      "legalReviewQuestion": "Does exact legal-design track nv_seal_deferred control as a no-filing or unavailable-current-stage treatment, or does effective contract NV:deferred-judgment-dismissal-and-sealing-under-nrs-176-211 establish a distinct participant-filed cohort that must be represented separately?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "authority-ledger:visual_proof:visual_proof",
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/NV-nevada.json#deferred-judgment-dismissal-and-sealing-under-nrs-176-211",
+        "completed-output-counsel-family:rcap-nv-guidance-implementation:approved_by_decision_owner",
+        "crosswalk:direct_runtime_representation",
+        "exact-mechanism-conflict:track=nv_seal_deferred:track-treatment=process_guidance:contract=NV:deferred-judgment-dismissal-and-sealing-under-nrs-176-211:contract-outcome=participant_packet",
+        "launch-graph:operationallySellable=false",
+        "legal-design:legal_design_approved_with_limitations",
+        "route-contract-packet-family-label:Nevada Sealing Packet under NRS 176.211",
+        "route-contract:NV:deferred-judgment-dismissal-and-sealing-under-nrs-176-211:LD-NV-04:participant_packet",
+        "runtime-authority-decision:LD-NV-04:route=NV:deferred-judgment-dismissal-and-sealing-under-nrs-176-211:association=EXACT_AUTHORITY_ROUTE_KEY_ASSOCIATION:output-mode=COURT SEALING PACKET OR TRAFFICKING VACATUR/SEALING PACKET:effective-note=Do not transplant NRS 176A.245/.265/.295 timing into NRS 176.211.",
+        "runtime-service-disposition:paid_packet_intended",
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding."
+      ]
+    },
+    {
+      "routeKey": "obligation:track-pathway:OR:or_acquittal:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+      "jurisdiction": "OR",
+      "publicLabel": "Set aside an Oregon charge you were acquitted of",
+      "legalReviewQuestion": "Which exact route and packet-configuration identities replace the overbroad ORS 137.225(1)(c) runtime treatment so never-charged matters use Option 3 and acquittal or ordinary-dismissal matters use separate ORS 137.225(1)(d) Option 2 treatments?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "authority-ledger:authority_clearance:authority_clearance",
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/OR-oregon.json#set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+        "crosswalk:direct_runtime_representation",
+        "current-grade-a-artifacts-do-not-resolve-the-new-disposition-scope-conflict",
+        "grade-a-commercial-disposition:grade-a-or-set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c-v1:paid_packet_intended",
+        "grade-a-projection:INCOMPLETE:not_commercially_eligible",
+        "launch-graph:operationallySellable=false",
+        "lawrence-decision-source:data/record-clearing/legal-decisions/2026-08-29-lawrence-six-decisions.json:sha256:adade2b0f82f39a406c59ef863148edbb090973e3397a0e5e1694df5ca0fb987",
+        "lawrence-decision:LWD-2026-08-29-OR-PACKET-SCOPE:separate-option-2-and-option-3-configurations",
+        "lawrence-decision:LWD-2026-08-29-OR-SUBSECTION:1(c)-only-never-charged",
+        "legal-design:legal_design_approved_with_limitations",
+        "packet-specification:data/record-clearing/packet-specifications/OR-disposition-configurations.v1.json#or-acquittal-137-225-1-d:historical=false",
+        "packet-specification:data/record-clearing/packet-specifications/OR-set-aside-without-conviction.v1.json#or-set-aside-without-conviction:historical=true",
+        "route-contract:OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c:LD-OR-01:unsupported",
+        "runtime-authority-decision:LD-OR-01:route=OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c:association=EXACT_AUTHORITY_ROUTE_KEY_ASSOCIATION:output-mode=COURT SET-ASIDE PACKET:effective-note=The prior dismissed-branch hold is resolved by the current text: ordinary dismissal is any time after dismissal; the 60-day branch is limited to no accusatory instrument.",
+        "runtime-service-disposition:paid_packet_intended",
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+        "source-relationship:or_acquittal-primary-filing-1:unchecked",
+        "source-relationship:or_acquittal-proposed-order-2:unchecked",
+        "source-relationship:or_acquittal-record-gathering-instructions-5:unchecked"
+      ]
+    },
+    {
+      "routeKey": "obligation:track-pathway:PA:pa_acquittal_auto:path-b-complete-acquittal-not-guilty-expungement",
+      "jurisdiction": "PA",
+      "publicLabel": "Check that a full acquittal cleared your record automatically",
+      "legalReviewQuestion": "Which current authority controls the filing-status conflict between legal track pa_acquittal_auto and runtime pathway path-b-complete-acquittal-not-guilty-expungement?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "authority-ledger:source_pinning:source_pinning",
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/PA-pennsylvania.json#path-b-complete-acquittal-not-guilty-expungement",
+        "completed-output-counsel-family:rcap-pa-guidance-implementation:approved_by_decision_owner",
+        "crosswalk:direct_runtime_representation",
+        "legal-design:legal_design_approved_with_limitations",
+        "runtime-service-disposition:product_scope_exclusion",
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding."
+      ]
+    },
+    {
+      "routeKey": "obligation:track-pathway:PA:pa_ard_expungement:path-d-ard-expungement",
+      "jurisdiction": "PA",
+      "publicLabel": "Check that finishing ARD cleared your arrest record",
+      "legalReviewQuestion": "Does exact legal-design track pa_ard_expungement control as a no-filing or unavailable-current-stage treatment, or does effective contract PA:path-d-ard-expungement establish a distinct participant-filed cohort that must be represented separately?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "authority-ledger:source_pinning:source_pinning",
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/PA-pennsylvania.json#path-d-ard-expungement",
+        "completed-output-counsel-family:rcap-pa-guidance-implementation:approved_by_decision_owner",
+        "crosswalk:direct_runtime_representation",
+        "exact-mechanism-conflict:track=pa_ard_expungement:track-treatment=process_guidance:contract=PA:path-d-ard-expungement:contract-outcome=participant_packet",
+        "legal-design:legal_design_approved_with_limitations",
+        "route-contract-packet-family-label:Pennsylvania ARD Expungement Petition under Pa.R.Crim.P. 320",
+        "route-contract:PA:path-d-ard-expungement:LD-PA-03:participant_packet",
+        "route-kind-adjudication:pending:PA:path-d-ard-expungement:LD-PA-03",
+        "route-kind-contract-evidence:PA:path-d-ard-expungement:outcomeMode participant_packet, packetFamily \"Pennsylvania ARD Expungement Petition under Pa.R.Crim.P. 320\", statute Pa.R.Crim.P. 320",
+        "route-kind-evaluator-evidence:PA:path-d-ard-expungement:not a user-filed court petition:prior=guidance_only:conclusive=true",
+        "runtime-authority-decision:LD-PA-03:route=PA:path-d-ard-expungement:association=EXACT_AUTHORITY_ROUTE_KEY_ASSOCIATION:output-mode=ROUTE-SPECIFIC COURT EXPUNGEMENT OR VACATUR PACKET:effective-note=ARD completion and dismissal are distinct facts and should both be captured.",
+        "runtime-service-disposition:product_scope_exclusion",
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding."
+      ]
+    },
+    {
+      "routeKey": "obligation:track-pathway:RI:ri_filed_complaints:path-e-filed-complaint-relief-under-12-10-12",
+      "jurisdiction": "RI",
+      "publicLabel": "A complaint that was placed on file",
+      "legalReviewQuestion": "Does exact legal-design track ri_filed_complaints control as a no-filing or unavailable-current-stage treatment, or does effective contract RI:path-e-filed-complaint-relief-under-12-10-12 establish a distinct participant-filed cohort that must be represented separately?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "authority-ledger:visual_proof:visual_proof",
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/RI-rhode-island.json#path-e-filed-complaint-relief-under-12-10-12",
+        "completed-output-counsel-family:rcap-ri-guidance-implementation:approved_by_decision_owner",
+        "crosswalk:direct_runtime_representation",
+        "exact-mechanism-conflict:track=ri_filed_complaints:track-treatment=process_guidance:contract=RI:path-e-filed-complaint-relief-under-12-10-12:contract-outcome=participant_packet",
+        "launch-graph:operationallySellable=false",
+        "legal-design:legal_design_approved_with_limitations",
+        "route-contract-packet-family-label:Rhode Island Filed-Complaint Expungement Packet under § 12-10-12",
+        "route-contract:RI:path-e-filed-complaint-relief-under-12-10-12:LD-RI-06:participant_packet",
+        "runtime-authority-decision:LD-RI-06:route=RI:path-e-filed-complaint-relief-under-12-10-12:association=EXACT_AUTHORITY_ROUTE_KEY_ASSOCIATION:output-mode=STATUS/CORRECTION GUIDANCE OR LIMITED COURT APPLICATION:effective-note=Do not convert the court-set filing term into a generic fixed waitingPeriodRule.",
+        "runtime-service-disposition:paid_packet_intended",
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding."
+      ]
+    },
+    {
+      "routeKey": "obligation:track-pathway:SC:sc_pti_17_22_150:diversion-or-program-completion-expungement",
+      "jurisdiction": "SC",
+      "publicLabel": "Clear a South Carolina charge after you completed Pretrial Intervention",
+      "legalReviewQuestion": "Does South Carolina PTI expungement require a Category A participant agency-application treatment using the circuit solicitor's current form and intake, or is there exact authority for a prosecutor-controlled no-filing branch?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "authority-ledger:authority_clearance:authority_clearance",
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/SC-south-carolina.json#diversion-or-program-completion-expungement",
+        "completed-output-counsel-family:rcap-sc-custom-pleading:approved_by_decision_owner",
+        "crosswalk:direct_runtime_representation",
+        "filing-scope-conflict:participant-signed-solicitor-application-exists-but-effective-contract-retires-the-pleading-and-records-guidance-status",
+        "legal-design:legal_design_approved_with_limitations",
+        "route-contract:SC:diversion-or-program-completion-expungement:NATIONAL-2026-08-28-LA-IMM-04:guidance_status",
+        "runtime-authority-decision:NATIONAL-2026-08-28-LA-IMM-04:route=SC:diversion-or-program-completion-expungement:association=EXACT_AUTHORITY_ROUTE_KEY_ASSOCIATION:output-mode=SOLICITOR-ADMINISTERED PROCESS GUIDANCE + RETAINED-COUNSEL HANDOFF ON DENIAL:effective-note=No operational delay. The rescinded $150 administrative figure must not appear; the controlling figure is $250. The fee schedule belongs to this route alone and must not be copied onto the other seven South Carolina routes.",
+        "runtime-service-disposition:non_filing_guidance",
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding."
+      ]
+    },
+    {
+      "routeKey": "obligation:track-pathway:SD:sd_23a_3_34_auto:automatic-public-record-removal-for-petty-municipal-and-class-2-misdemeanor-cases",
+      "jurisdiction": "SD",
+      "publicLabel": "Automatic removal of a minor case from your public record",
+      "legalReviewQuestion": "Does sd_23a_3_34_auto contain a participant-initiated self-help filing, or only guidance for a process controlled by court?",
+      "classificationConfidence": "low",
+      "currentImplementationEvidence": [
+        "authority-ledger:visual_proof:visual_proof",
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/SD-south-dakota.json#automatic-public-record-removal-for-petty-municipal-and-class-2-misdemeanor-cases",
+        "completed-output-counsel-family:rcap-sd-guidance-implementation:approved_by_decision_owner",
+        "crosswalk:direct_runtime_representation",
+        "legal-design:legal_design_approved_with_limitations",
+        "runtime-service-disposition:non_filing_guidance",
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding."
+      ]
+    },
+    {
+      "routeKey": "obligation:track-pathway:SD:sd_diversion:diversion-expungement",
+      "jurisdiction": "SD",
+      "publicLabel": "Clear a record after completing a diversion program",
+      "legalReviewQuestion": "Which current authority controls the filing-status conflict between legal track sd_diversion and runtime pathway diversion-expungement?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "authority-ledger:source_pinning:source_pinning",
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/SD-south-dakota.json#diversion-expungement",
+        "completed-output-counsel-family:rcap-sd-guidance-implementation:approved_by_decision_owner",
+        "crosswalk:direct_runtime_representation",
+        "launch-graph:operationallySellable=false",
+        "legal-design:legal_design_approved_with_limitations",
+        "runtime-service-disposition:paid_packet_intended",
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding."
+      ]
+    },
+    {
+      "routeKey": "obligation:track-pathway:TN:tn_acquittal_immediate:pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106",
+      "jurisdiction": "TN",
+      "publicLabel": "The judge should clear your record the day you are found not guilty",
+      "legalReviewQuestion": "Which current authority controls the filing-status conflict between legal track tn_acquittal_immediate and runtime pathway pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "authority-ledger:source_pinning:source_pinning",
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/TN-tennessee.json#pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106",
+        "completed-output-counsel-family:rcap-tn-guidance-implementation:approved_by_decision_owner",
+        "crosswalk:direct_runtime_representation",
+        "launch-graph:operationallySellable=false",
+        "legal-design:legal_design_approved",
+        "runtime-service-disposition:paid_packet_intended",
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding."
+      ]
+    },
+    {
+      "routeKey": "obligation:track-pathway:UT:ut_auto_clean_slate:path-c-clean-slate-eligible-convictions-and-plea-in-abeyance-dismissals",
+      "jurisdiction": "UT",
+      "publicLabel": "Utah's Clean Slate: some convictions clear themselves",
+      "legalReviewQuestion": "Which exact official-form or composed-pleading output treatment governs participant packet pathway path-c-clean-slate-eligible-convictions-and-plea-in-abeyance-dismissals?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "authority-ledger:source_pinning:source_pinning",
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/UT-utah.json#path-c-clean-slate-eligible-convictions-and-plea-in-abeyance-dismissals",
+        "completed-output-counsel-family:rcap-ut-guidance-implementation:approved_by_decision_owner",
+        "crosswalk:direct_runtime_representation",
+        "legal-design:legal_design_approved_with_limitations",
+        "route-contract-packet-family-label:Utah Expungement Petition under § 77-40a-301 et seq.",
+        "route-contract:UT:path-c-clean-slate-eligible-convictions-and-plea-in-abeyance-dismissals:LD-UT-02:participant_packet",
+        "route-kind-adjudication:pending:UT:path-c-clean-slate-eligible-convictions-and-plea-in-abeyance-dismissals:LD-UT-02",
+        "route-kind-contract-evidence:UT:path-c-clean-slate-eligible-convictions-and-plea-in-abeyance-dismissals:outcomeMode participant_packet, packetFamily \"Utah Expungement Petition under § 77-40a-301 et seq.\", statute Utah Code § 77-40a-301 et seq.",
+        "route-kind-evaluator-evidence:UT:path-c-clean-slate-eligible-convictions-and-plea-in-abeyance-dismissals:not a user-filed court petition:prior=guidance_only:conclusive=true",
+        "runtime-authority-decision:LD-UT-02:route=UT:path-c-clean-slate-eligible-convictions-and-plea-in-abeyance-dismissals:association=EXACT_AUTHORITY_ROUTE_KEY_ASSOCIATION:output-mode=AUTOMATIC STATUS/CORRECTION GUIDANCE OR PETITION PACKET:effective-note=Generic offense_level is insufficient; the flow must collect Utah Class A/B/C/infraction and the precise statutory category.",
+        "runtime-service-disposition:non_filing_guidance",
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding."
+      ]
+    },
+    {
+      "routeKey": "obligation:track-pathway:WI:wi_exp_942_08_mandatory:adult-conviction-expungement-under-wis-stat-973-015",
+      "jurisdiction": "WI",
+      "publicLabel": "Mandatory expungement for an under-18 invasion of privacy offence",
+      "legalReviewQuestion": "Which current authority controls the filing-status conflict between legal track wi_exp_942_08_mandatory and runtime pathway adult-conviction-expungement-under-wis-stat-973-015?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "authority-ledger:source_pinning:source_pinning",
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/WI-wisconsin.json#adult-conviction-expungement-under-wis-stat-973-015",
+        "completed-output-counsel-family:rcap-wi-guidance-implementation:approved_by_decision_owner",
+        "crosswalk:direct_runtime_representation",
+        "launch-graph:operationallySellable=false",
+        "legal-design:legal_design_approved_with_limitations",
+        "runtime-service-disposition:paid_packet_intended",
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding."
+      ]
+    },
+    {
+      "routeKey": "obligation:track-pathway:WY:wy_misd_1501:misdemeanor-conviction-expungement-w-s-7-13-1501",
+      "jurisdiction": "WY",
+      "publicLabel": "Clear a misdemeanor conviction",
+      "legalReviewQuestion": "Which current authority controls the filing-status conflict between legal track wy_misd_1501 and runtime pathway misdemeanor-conviction-expungement-w-s-7-13-1501?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "authority-ledger:authority_clearance:authority_clearance",
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/WY-wyoming.json#misdemeanor-conviction-expungement-w-s-7-13-1501",
+        "crosswalk:direct_runtime_representation",
+        "legal-design:legal_design_approved_with_limitations",
+        "runtime-service-disposition:non_filing_guidance",
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding."
+      ]
+    },
+    {
+      "routeKey": "obligation:track-pathway:WY:wy_nc_1401:adult-non-conviction-expungement-w-s-7-13-1401",
+      "jurisdiction": "WY",
+      "publicLabel": "Clear an arrest or dismissed charge",
+      "legalReviewQuestion": "Which current authority controls the filing-status conflict between legal track wy_nc_1401 and runtime pathway adult-non-conviction-expungement-w-s-7-13-1401?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "authority-ledger:authority_clearance:authority_clearance",
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/WY-wyoming.json#adult-non-conviction-expungement-w-s-7-13-1401",
+        "crosswalk:direct_runtime_representation",
+        "legal-design:legal_design_approved",
+        "runtime-service-disposition:non_filing_guidance",
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding."
+      ]
+    },
+    {
+      "routeKey": "obligation:unit:AR:ar-act346:ar-act346-stage-1",
+      "jurisdiction": "AR",
+      "publicLabel": "Plea-stage placement under Act 346",
+      "legalReviewQuestion": "Does unit ar-act346/ar-act346-stage-1 require a participant-facing filing, and if so which exact instrument governs it?",
+      "classificationConfidence": "medium",
+      "currentImplementationEvidence": [
+        "authority-ledger:authority_clearance:authority_clearance",
+        "legal-design:legal_design_approved_with_limitations",
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+        "source-relationship:ar-act346-primary-filing-2:unchecked",
+        "source-relationship:ar-act346-proposed-order-3:unchecked",
+        "unit-packet-identity-status:not recorded",
+        "unit:ar-act346-stage-1:available=true"
+      ]
+    },
+    {
+      "routeKey": "obligation:unit:AR:ar-drug-court:ar-drug-court-stage-1",
+      "jurisdiction": "AR",
+      "publicLabel": "Program admission and completion",
+      "legalReviewQuestion": "Does unit ar-drug-court/ar-drug-court-stage-1 require a participant-facing filing, and if so which exact instrument governs it?",
+      "classificationConfidence": "medium",
+      "currentImplementationEvidence": [
+        "authority-ledger:authority_clearance:authority_clearance",
+        "legal-design:legal_design_approved_with_limitations",
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+        "source-relationship:ar-drug-court-primary-filing-2:unchecked",
+        "source-relationship:ar-drug-court-proposed-order-3:unchecked",
+        "unit-packet-identity-status:not recorded",
+        "unit:ar-drug-court-stage-1:available=true"
+      ]
+    },
+    {
+      "routeKey": "obligation:unit:AR:ar-misdemeanor-dwi-seal:ar-misdemeanor-dwi-seal-stage-1",
+      "jurisdiction": "AR",
+      "publicLabel": "Explain the two live waiting-period readings",
+      "legalReviewQuestion": "Does unit ar-misdemeanor-dwi-seal/ar-misdemeanor-dwi-seal-stage-1 require a participant-facing filing, and if so which exact instrument governs it?",
+      "classificationConfidence": "medium",
+      "currentImplementationEvidence": [
+        "authority-ledger:authority_clearance:authority_clearance",
+        "legal-design:legal_design_approved_with_limitations",
+        "runtime-service-disposition:paid_packet_intended",
+        "runtime-to-unit-parent-expansion:situation-b-misdemeanor-convictions:parent_expansion_without_unit_assignment",
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+        "source-relationship:ar-misdemeanor-dwi-seal-primary-filing-2:unchecked",
+        "source-relationship:ar-misdemeanor-dwi-seal-proposed-order-3:unchecked",
+        "unit-packet-identity-status:not recorded",
+        "unit:ar-misdemeanor-dwi-seal-stage-1:available=true"
+      ]
+    },
+    {
+      "routeKey": "obligation:unit:AR:ar-pardon-seal:ar-pardon-seal-stage-1",
+      "jurisdiction": "AR",
+      "publicLabel": "Obtaining the pardon",
+      "legalReviewQuestion": "Does unit ar-pardon-seal/ar-pardon-seal-stage-1 require a participant-facing filing, and if so which exact instrument governs it?",
+      "classificationConfidence": "medium",
+      "currentImplementationEvidence": [
+        "authority-ledger:authority_clearance:authority_clearance",
+        "legal-design:legal_design_approved_with_limitations",
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+        "source-relationship:ar-pardon-seal-primary-filing-2:unchecked",
+        "source-relationship:ar-pardon-seal-proposed-order-3:unchecked",
+        "unit-packet-identity-status:not recorded",
+        "unit:ar-pardon-seal-stage-1:available=true"
+      ]
+    },
+    {
+      "routeKey": "obligation:unit:AR:ar-veterans-court:ar-veterans-court-stage-1",
+      "jurisdiction": "AR",
+      "publicLabel": "Program participation and completion",
+      "legalReviewQuestion": "Does unit ar-veterans-court/ar-veterans-court-stage-1 require a participant-facing filing, and if so which exact instrument governs it?",
+      "classificationConfidence": "medium",
+      "currentImplementationEvidence": [
+        "authority-ledger:authority_clearance:authority_clearance",
+        "legal-design:legal_design_approved_with_limitations",
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+        "source-relationship:ar-veterans-court-primary-filing-2:unchecked",
+        "source-relationship:ar-veterans-court-proposed-order-3:unchecked",
+        "unit-packet-identity-status:not recorded",
+        "unit:ar-veterans-court-stage-1:available=true"
+      ]
+    },
+    {
+      "routeKey": "obligation:unit:IA:ia-9079:ia-9079-pre-2013-application",
+      "jurisdiction": "IA",
+      "publicLabel": "Application for a discharge predating July 1, 2013",
+      "legalReviewQuestion": "Does unit ia-9079/ia-9079-pre-2013-application require a participant-facing filing, and if so which exact instrument governs it?",
+      "classificationConfidence": "medium",
+      "currentImplementationEvidence": [
+        "authority-ledger:authority_clearance:authority_clearance",
+        "legal-design:legal_design_approved_with_limitations",
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+        "unit-packet-identity-status:not recorded",
+        "unit:ia-9079-pre-2013-application:available=false"
+      ]
+    },
+    {
+      "routeKey": "obligation:unit:IL:il-prb-cert:il-prb-cert-nonmilitary-expungement-branch",
+      "jurisdiction": "IL",
+      "publicLabel": "Non-military certificate of eligibility for expungement, § 5.2(e-6)",
+      "legalReviewQuestion": "Does unit il-prb-cert/il-prb-cert-nonmilitary-expungement-branch require a participant-facing filing, and if so which exact instrument governs it?",
+      "classificationConfidence": "medium",
+      "currentImplementationEvidence": [
+        "authority-ledger:authority_clearance:authority_clearance",
+        "legal-design:legal_design_approved_with_limitations",
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+        "source-relationship:il-prb-cert-attachment-2:unchecked",
+        "source-relationship:il-prb-cert-attachment-4:unchecked",
+        "source-relationship:il-prb-cert-primary-filing-1:unchecked",
+        "source-relationship:il-prb-cert-primary-filing-3:unchecked",
+        "source-relationship:il-prb-cert-primary-filing-5:unchecked",
+        "unit-packet-identity-status:not recorded",
+        "unit:il-prb-cert-nonmilitary-expungement-branch:available=false"
+      ]
+    },
+    {
+      "routeKey": "obligation:unit:IN:in_infraction_nondisclosure:in_infraction_nondisclosure-stage-1",
+      "jurisdiction": "IN",
+      "publicLabel": "Check whether the court already ordered non-disclosure",
+      "legalReviewQuestion": "Does unit in_infraction_nondisclosure/in_infraction_nondisclosure-stage-1 require a participant-facing filing, and if so which exact instrument governs it?",
+      "classificationConfidence": "medium",
+      "currentImplementationEvidence": [
+        "authority-ledger:source_pinning:source_pinning",
+        "legal-design:legal_design_approved_with_limitations",
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+        "unit-packet-identity-status:not recorded",
+        "unit:in_infraction_nondisclosure-stage-1:available=true"
+      ]
+    },
+    {
+      "routeKey": "obligation:unit:MA:ma-expunge-time:ma-expunge-time-court-determination",
+      "jurisdiction": "MA",
+      "publicLabel": "District attorney notice and court determination",
+      "legalReviewQuestion": "Does unit ma-expunge-time/ma-expunge-time-court-determination require a participant-facing filing, and if so which exact instrument governs it?",
+      "classificationConfidence": "medium",
+      "currentImplementationEvidence": [
+        "authority-ledger:authority_clearance:authority_clearance",
+        "legal-design:legal_design_approved_with_limitations",
+        "runtime-service-disposition:paid_packet_intended",
+        "runtime-to-unit-parent-expansion:time-based-expungement-under-100f-100j:parent_expansion_without_unit_assignment",
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+        "source-relationship:ma-expunge-time-primary-filing-1:unchecked",
+        "unit-packet-identity-status:not recorded",
+        "unit:ma-expunge-time-court-determination:available=true"
+      ]
+    },
+    {
+      "routeKey": "obligation:unit:MN:mn_prosecutor_agreed:mn_prosecutor_agreed-court-sealing",
+      "jurisdiction": "MN",
+      "publicLabel": "Court sealing on prosecutor agreement",
+      "legalReviewQuestion": "Does unit mn_prosecutor_agreed/mn_prosecutor_agreed-court-sealing require a participant-facing filing, and if so which exact instrument governs it?",
+      "classificationConfidence": "medium",
+      "currentImplementationEvidence": [
+        "authority-ledger:source_pinning:source_pinning",
+        "legal-design:legal_design_approved_with_limitations",
+        "route-kind-adjudication:pending:MN:prosecutor-agreed-sealing-without-a-full-petition-under-609a-025:LD-MN-01",
+        "route-kind-contract-evidence:MN:prosecutor-agreed-sealing-without-a-full-petition-under-609a-025:outcomeMode participant_packet, packetFamily \"Minnesota Prosecutor-Agreed Sealing Packet under § 609A.025\", statute Minn. Stat. § 609A.025",
+        "route-kind-evaluator-evidence:MN:prosecutor-agreed-sealing-without-a-full-petition-under-609a-025:not a user-filed court petition:prior=needs_more_info:conclusive=false",
+        "runtime-service-disposition:paid_packet_intended",
+        "runtime-to-unit-parent-expansion:prosecutor-agreed-sealing-without-a-full-petition-under-609a-025:parent_expansion_without_unit_assignment",
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+        "unit-packet-identity-status:not recorded",
+        "unit:mn_prosecutor_agreed-court-sealing:available=true"
+      ]
+    },
+    {
+      "routeKey": "obligation:unit:MN:mn_prosecutor_agreed:mn_prosecutor_agreed-portal-county",
+      "jurisdiction": "MN",
+      "publicLabel": "County portal application",
+      "legalReviewQuestion": "Does unit mn_prosecutor_agreed/mn_prosecutor_agreed-portal-county require a participant-facing filing, and if so which exact instrument governs it?",
+      "classificationConfidence": "medium",
+      "currentImplementationEvidence": [
+        "authority-ledger:source_pinning:source_pinning",
+        "legal-design:legal_design_approved_with_limitations",
+        "route-kind-adjudication:pending:MN:prosecutor-agreed-sealing-without-a-full-petition-under-609a-025:LD-MN-01",
+        "route-kind-contract-evidence:MN:prosecutor-agreed-sealing-without-a-full-petition-under-609a-025:outcomeMode participant_packet, packetFamily \"Minnesota Prosecutor-Agreed Sealing Packet under § 609A.025\", statute Minn. Stat. § 609A.025",
+        "route-kind-evaluator-evidence:MN:prosecutor-agreed-sealing-without-a-full-petition-under-609a-025:not a user-filed court petition:prior=needs_more_info:conclusive=false",
+        "runtime-service-disposition:paid_packet_intended",
+        "runtime-to-unit-parent-expansion:prosecutor-agreed-sealing-without-a-full-petition-under-609a-025:parent_expansion_without_unit_assignment",
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+        "unit-packet-identity-status:not recorded",
+        "unit:mn_prosecutor_agreed-portal-county:available=true"
+      ]
+    },
+    {
+      "routeKey": "obligation:unit:RI:ri_deferred_sentence:ri-deferred-sentence-stage-3-notice-hearing-and-certified-copies",
+      "jurisdiction": "RI",
+      "publicLabel": "Notice to the Attorney General and charging police department, the hearing, and delivery of certified orders",
+      "legalReviewQuestion": "Must Rhode Island deferred-sentence stage 3 remain a separate participant procedural branch, or should its filing, sworn affidavit, hearing, and certified-order delivery duties be merged into the Category A stage-2 packet obligation?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "authority-ledger:authority_clearance:authority_clearance",
+        "legal-design:legal_design_approved_with_limitations",
+        "mixed-stage-conflict:deferred-sentence-stage-3-carries-explicit-participant-filing-and-post-order-delivery-duties",
+        "runtime-service-disposition:paid_packet_intended",
+        "runtime-to-unit-parent-expansion:path-c-deferred-sentence-expungement:parent_expansion_without_unit_assignment",
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+        "source-relationship:ri_deferred_sentence-primary-filing-1:unchecked",
+        "source-relationship:ri_deferred_sentence-proposed-order-2:unchecked",
+        "unit-packet-identity-status:identified",
+        "unit:ri-deferred-sentence-stage-3-notice-hearing-and-certified-copies:available=true"
+      ]
+    },
+    {
+      "routeKey": "obligation:unit:RI:ri_first_offender_felony:ri-first-offender-felony-stage-3-notice-hearing-and-certified-copies",
+      "jurisdiction": "RI",
+      "publicLabel": "Notice to the Attorney General and charging police department, the hearing, and delivery of certified orders",
+      "legalReviewQuestion": "Does unit ri_first_offender_felony/ri-first-offender-felony-stage-3-notice-hearing-and-certified-copies require a participant-facing filing, and if so which exact instrument governs it?",
+      "classificationConfidence": "medium",
+      "currentImplementationEvidence": [
+        "authority-ledger:authority_clearance:authority_clearance",
+        "legal-design:legal_design_approved_with_limitations",
+        "runtime-service-disposition:paid_packet_intended",
+        "runtime-to-unit-parent-expansion:path-a-first-offender-conviction-expungement:parent_expansion_without_unit_assignment",
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+        "source-relationship:ri_first_offender_felony-primary-filing-1:unchecked",
+        "source-relationship:ri_first_offender_felony-proposed-order-2:unchecked",
+        "unit-packet-identity-status:identified",
+        "unit:ri-first-offender-felony-stage-3-notice-hearing-and-certified-copies:available=true"
+      ]
+    },
+    {
+      "routeKey": "obligation:unit:RI:ri_first_offender_misdemeanor:ri-first-offender-misdemeanor-stage-3-notice-hearing-and-certified-copies",
+      "jurisdiction": "RI",
+      "publicLabel": "Notice to the Attorney General and charging police department, the hearing, and delivery of certified orders",
+      "legalReviewQuestion": "Does unit ri_first_offender_misdemeanor/ri-first-offender-misdemeanor-stage-3-notice-hearing-and-certified-copies require a participant-facing filing, and if so which exact instrument governs it?",
+      "classificationConfidence": "medium",
+      "currentImplementationEvidence": [
+        "authority-ledger:authority_clearance:authority_clearance",
+        "legal-design:legal_design_approved_with_limitations",
+        "runtime-service-disposition:paid_packet_intended",
+        "runtime-to-unit-parent-expansion:path-a-first-offender-conviction-expungement:parent_expansion_without_unit_assignment",
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+        "source-relationship:ri_first_offender_misdemeanor-primary-filing-1:unchecked",
+        "source-relationship:ri_first_offender_misdemeanor-proposed-order-2:unchecked",
+        "unit-packet-identity-status:identified",
+        "unit:ri-first-offender-misdemeanor-stage-3-notice-hearing-and-certified-copies:available=true"
+      ]
+    },
+    {
+      "routeKey": "obligation:unit:RI:ri_multiple_misdemeanors:ri-multiple-misdemeanors-stage-3-notice-hearing-and-certified-copies",
+      "jurisdiction": "RI",
+      "publicLabel": "Notice to the Attorney General and charging police department, the hearing, and delivery of certified orders",
+      "legalReviewQuestion": "Does unit ri_multiple_misdemeanors/ri-multiple-misdemeanors-stage-3-notice-hearing-and-certified-copies require a participant-facing filing, and if so which exact instrument governs it?",
+      "classificationConfidence": "medium",
+      "currentImplementationEvidence": [
+        "authority-ledger:authority_clearance:authority_clearance",
+        "legal-design:legal_design_approved_with_limitations",
+        "runtime-service-disposition:paid_packet_intended",
+        "runtime-to-unit-parent-expansion:path-b-multiple-misdemeanor-expungement:parent_expansion_without_unit_assignment",
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+        "source-relationship:ri_multiple_misdemeanors-primary-filing-1:unchecked",
+        "source-relationship:ri_multiple_misdemeanors-proposed-order-2:unchecked",
+        "unit-packet-identity-status:identified",
+        "unit:ri-multiple-misdemeanors-stage-3-notice-hearing-and-certified-copies:available=true"
+      ]
+    },
+    {
+      "routeKey": "obligation:unit:SD:sd_arrest_expungement:sd-arrest-stage-3-filing-service-and-notice-of-entry",
+      "jurisdiction": "SD",
+      "publicLabel": "Filing, fee or indigency request, service on the State's Attorney, hearing or waiver, and UJS-395",
+      "legalReviewQuestion": "Does unit sd_arrest_expungement/sd-arrest-stage-3-filing-service-and-notice-of-entry require a participant-facing filing, and if so which exact instrument governs it?",
+      "classificationConfidence": "medium",
+      "currentImplementationEvidence": [
+        "authority-ledger:authority_clearance:authority_clearance",
+        "legal-design:legal_design_approved_with_limitations",
+        "runtime-service-disposition:paid_packet_intended",
+        "runtime-to-unit-parent-expansion:adult-arrest-record-expungement-under-sdcl-23a-3-27:parent_expansion_without_unit_assignment",
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+        "source-relationship:sd_arrest_expungement-case-filing-statement-1:unchecked",
+        "source-relationship:sd_arrest_expungement-hearing-waiver-4:unchecked",
+        "source-relationship:sd_arrest_expungement-notice-of-entry-6:unchecked",
+        "source-relationship:sd_arrest_expungement-notice-of-hearing-5:unchecked",
+        "source-relationship:sd_arrest_expungement-primary-filing-2:unchecked",
+        "source-relationship:sd_arrest_expungement-proposed-order-3:unchecked",
+        "unit-packet-identity-status:identified",
+        "unit:sd-arrest-stage-3-filing-service-and-notice-of-entry:available=true"
+      ]
+    }
+  ]
+}

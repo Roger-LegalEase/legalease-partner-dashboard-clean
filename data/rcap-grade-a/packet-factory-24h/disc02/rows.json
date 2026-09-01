@@ -1,0 +1,729 @@
+{
+  "schemaVersion": "rcap-source-discovery-rows/v1",
+  "lane": "DISC02",
+  "laneKind": "source-discovery",
+  "worker": "VF-SRC-A",
+  "baseSha": "09b741ad00be0d630bd73a72f66640294abab397",
+  "operation": "exact-source-identity",
+  "nothingWasFetched": true,
+  "identitiesGuessed": 0,
+  "sourceBodiesCommitted": 0,
+  "familiesActuallyReleasedNow": [],
+  "whyNoFamilyIsReleasedNow": "Release requires every remaining source of a family to bind. Identity settled here is not custody.",
+  "rows": [
+    {
+      "itemId": "composed-treatment:sc_17_22_950_summary::NO_DOCUMENT_SOURCE_NAMED",
+      "sourceId": "NO_DOCUMENT_SOURCE_NAMED",
+      "jurisdiction": null,
+      "familyIds": [
+        "composed-treatment:sc_17_22_950_summary"
+      ],
+      "registrySourceState": null,
+      "status": "STOPPED",
+      "identityGuessed": false,
+      "reason": "NO_DOCUMENT_SOURCE_NAMED: the family names no document-shaped source, so there is no identity to settle and nothing for ACQ to fetch.",
+      "hostThatOwnsTheNextStep": "unknown",
+      "nextOperationThatOwnsIt": "legal design must name a document for this route, or record NO_OFFICIAL_DOCUMENT_REQUIRED"
+    },
+    {
+      "itemId": "id_felony_reduction-set::NO_DOCUMENT_SOURCE_NAMED",
+      "sourceId": "NO_DOCUMENT_SOURCE_NAMED",
+      "jurisdiction": "ID",
+      "familyIds": [
+        "id_felony_reduction-set"
+      ],
+      "registrySourceState": null,
+      "status": "STOPPED",
+      "identityGuessed": false,
+      "reason": "NO_DOCUMENT_SOURCE_NAMED: the family names no document-shaped source, so there is no identity to settle and nothing for ACQ to fetch.",
+      "hostThatOwnsTheNextStep": "the issuing court or agency in ID",
+      "nextOperationThatOwnsIt": "legal design must name a document for this route, or record NO_OFFICIAL_DOCUMENT_REQUIRED"
+    },
+    {
+      "itemId": "id_isp_expungement-set::official-form:ISP-BCI-EXPUNGEMENT-APPLICATION",
+      "sourceId": "official-form:ISP-BCI-EXPUNGEMENT-APPLICATION",
+      "jurisdiction": "ID",
+      "familyIds": [
+        "id_isp_expungement-set"
+      ],
+      "registrySourceState": "MISSING_CANONICAL_RELATIONSHIP_METADATA",
+      "status": "STOPPED",
+      "identityGuessed": false,
+      "reason": "MISSING_CANONICAL_RELATIONSHIP_METADATA: no committed binding names an official address for this artifact under id_isp_expungement-set, so there is nothing for ACQ to fetch yet",
+      "hostThatOwnsTheNextStep": "the issuing court or agency in ID",
+      "nextOperationThatOwnsIt": "DISC settles source identity and the route or family relationship"
+    },
+    {
+      "itemId": "id_set_aside_dismissal-set::NO_DOCUMENT_SOURCE_NAMED",
+      "sourceId": "NO_DOCUMENT_SOURCE_NAMED",
+      "jurisdiction": "ID",
+      "familyIds": [
+        "id_set_aside_dismissal-set"
+      ],
+      "registrySourceState": null,
+      "status": "STOPPED",
+      "identityGuessed": false,
+      "reason": "NO_DOCUMENT_SOURCE_NAMED: the family names no document-shaped source, so there is no identity to settle and nothing for ACQ to fetch.",
+      "hostThatOwnsTheNextStep": "the issuing court or agency in ID",
+      "nextOperationThatOwnsIt": "legal design must name a document for this route, or record NO_OFFICIAL_DOCUMENT_REQUIRED"
+    },
+    {
+      "itemId": "in_arrest_no_charges-set::official-form:CCA Section 1 expungement order",
+      "sourceId": "official-form:CCA Section 1 expungement order",
+      "jurisdiction": "IN",
+      "familyIds": [
+        "in_arrest_no_charges-set"
+      ],
+      "registrySourceState": "MISSING_CANONICAL_RELATIONSHIP_METADATA",
+      "status": "STOPPED",
+      "identityGuessed": false,
+      "reason": "MISSING_CANONICAL_RELATIONSHIP_METADATA: no committed binding names an official address for this artifact under in_arrest_no_charges-set, so there is nothing for ACQ to fetch yet",
+      "hostThatOwnsTheNextStep": "the issuing court or agency in IN",
+      "nextOperationThatOwnsIt": "DISC settles source identity and the route or family relationship"
+    },
+    {
+      "itemId": "in_arrest_no_charges-set::official-form:CCA Section 1 non-conviction expungement petition",
+      "sourceId": "official-form:CCA Section 1 non-conviction expungement petition",
+      "jurisdiction": "IN",
+      "familyIds": [
+        "in_arrest_no_charges-set"
+      ],
+      "registrySourceState": "CURRENTNESS_UNVERIFIED",
+      "status": "STOPPED",
+      "identityGuessed": false,
+      "reason": "CURRENTNESS_UNVERIFIED: the corpus already holds matching bytes (CCA__section-1-nonconviction-expungement-petition-and-order-bundle__source-2021.pdf, sha b04f2941c91f). What is unverified is whether the publisher still issues that edition, which is settled only against the publisher's own forms index. This environment refuses outbound egress to court and agency hosts, so the comparison cannot run here. This is not a missing source and not an acquisition.",
+      "heldEdition": {
+        "path": "private/Nationwide Record Clearing/LegalEase Indiana/forms/CCA__section-1-nonconviction-expungement-petition-and-order-bundle__source-2021.pdf",
+        "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5"
+      },
+      "publisherFormsIndex": "no official source page is recorded; DISC must settle the publisher's index address first",
+      "hostThatOwnsTheNextStep": "the issuing court or agency in IN",
+      "nextOperationThatOwnsIt": "DISC must first settle the publisher's forms index address; no comparison is possible without it"
+    },
+    {
+      "itemId": "in_arrest_no_charges-set::official-form:CCA-XP-0120-7002 Form ACR",
+      "sourceId": "official-form:CCA-XP-0120-7002 Form ACR",
+      "jurisdiction": "IN",
+      "familyIds": [
+        "in_arrest_no_charges-set"
+      ],
+      "registrySourceState": "BUNDLE_COMPONENT",
+      "status": "COMPLETED",
+      "identityGuessed": false,
+      "resolvedIdentity": {
+        "formNumber": "CCA-XP-0120-7002 Form ACR",
+        "officialUrl": "https://indianalegalhelp.org/wp-content/uploads/2023/08/NonConvictionPetitionOrderFILLABLE2021.pdf",
+        "sha256": null,
+        "revision": null
+      },
+      "familiesThisReleases": [],
+      "handoffOperation": "ACQ",
+      "note": "BUNDLE_COMPONENT: this is not a separate binary. The component locator and alias are recorded here and ACQ acquires the CONTAINER once, never the page. Do not create a separate acquisition obligation for this component."
+    },
+    {
+      "itemId": "in_arrest_no_charges-set::official-form:Confidential Information Form",
+      "sourceId": "official-form:Confidential Information Form",
+      "jurisdiction": "IN",
+      "familyIds": [
+        "in_arrest_no_charges-set"
+      ],
+      "registrySourceState": "BUNDLE_COMPONENT",
+      "status": "COMPLETED",
+      "identityGuessed": false,
+      "resolvedIdentity": {
+        "formNumber": "Confidential Information Form",
+        "officialUrl": "https://indianalegalhelp.org/wp-content/uploads/2023/08/NonConvictionPetitionOrderFILLABLE2021.pdf",
+        "sha256": null,
+        "revision": null
+      },
+      "familiesThisReleases": [],
+      "handoffOperation": "ACQ",
+      "note": "BUNDLE_COMPONENT: this is not a separate binary. The component locator and alias are recorded here and ACQ acquires the CONTAINER once, never the page. Do not create a separate acquisition obligation for this component."
+    },
+    {
+      "itemId": "in_conviction_d6-set::official-form:CCA conviction expungement order",
+      "sourceId": "official-form:CCA conviction expungement order",
+      "jurisdiction": "IN",
+      "familyIds": [
+        "in_conviction_d6-set"
+      ],
+      "registrySourceState": "MISSING_CANONICAL_RELATIONSHIP_METADATA",
+      "status": "STOPPED",
+      "identityGuessed": false,
+      "reason": "MISSING_CANONICAL_RELATIONSHIP_METADATA: no committed binding names an official address for this artifact under in_conviction_d6-set, so there is nothing for ACQ to fetch yet",
+      "hostThatOwnsTheNextStep": "the issuing court or agency in IN",
+      "nextOperationThatOwnsIt": "DISC settles source identity and the route or family relationship"
+    },
+    {
+      "itemId": "in_conviction_d6-set::official-form:CCA conviction expungement petition",
+      "sourceId": "official-form:CCA conviction expungement petition",
+      "jurisdiction": "IN",
+      "familyIds": [
+        "in_conviction_d6-set"
+      ],
+      "registrySourceState": "MISSING_CANONICAL_RELATIONSHIP_METADATA",
+      "status": "STOPPED",
+      "identityGuessed": false,
+      "reason": "MISSING_CANONICAL_RELATIONSHIP_METADATA: no committed binding names an official address for this artifact under in_conviction_d6-set, so there is nothing for ACQ to fetch yet",
+      "hostThatOwnsTheNextStep": "the issuing court or agency in IN",
+      "nextOperationThatOwnsIt": "DISC settles source identity and the route or family relationship"
+    },
+    {
+      "itemId": "in_conviction_d6-set::official-form:CCA-XP-0120-7002 Form ACR",
+      "sourceId": "official-form:CCA-XP-0120-7002 Form ACR",
+      "jurisdiction": "IN",
+      "familyIds": [
+        "in_conviction_d6-set"
+      ],
+      "registrySourceState": "BUNDLE_COMPONENT",
+      "status": "COMPLETED",
+      "identityGuessed": false,
+      "resolvedIdentity": {
+        "formNumber": "CCA-XP-0120-7002 Form ACR",
+        "officialUrl": "https://indianalegalhelp.org/wp-content/uploads/2023/08/NonConvictionPetitionOrderFILLABLE2021.pdf",
+        "sha256": null,
+        "revision": null
+      },
+      "familiesThisReleases": [],
+      "handoffOperation": "ACQ",
+      "note": "BUNDLE_COMPONENT: this is not a separate binary. The component locator and alias are recorded here and ACQ acquires the CONTAINER once, never the page. Do not create a separate acquisition obligation for this component."
+    },
+    {
+      "itemId": "in_conviction_d6-set::official-form:Confidential Information Form",
+      "sourceId": "official-form:Confidential Information Form",
+      "jurisdiction": "IN",
+      "familyIds": [
+        "in_conviction_d6-set"
+      ],
+      "registrySourceState": "BUNDLE_COMPONENT",
+      "status": "COMPLETED",
+      "identityGuessed": false,
+      "resolvedIdentity": {
+        "formNumber": "Confidential Information Form",
+        "officialUrl": "https://indianalegalhelp.org/wp-content/uploads/2023/08/NonConvictionPetitionOrderFILLABLE2021.pdf",
+        "sha256": null,
+        "revision": null
+      },
+      "familiesThisReleases": [],
+      "handoffOperation": "ACQ",
+      "note": "BUNDLE_COMPONENT: this is not a separate binary. The component locator and alias are recorded here and ACQ acquires the CONTAINER once, never the page. Do not create a separate acquisition obligation for this component."
+    },
+    {
+      "itemId": "in_conviction_felony-set::official-form:CCA conviction expungement order",
+      "sourceId": "official-form:CCA conviction expungement order",
+      "jurisdiction": "IN",
+      "familyIds": [
+        "in_conviction_felony-set"
+      ],
+      "registrySourceState": "MISSING_CANONICAL_RELATIONSHIP_METADATA",
+      "status": "STOPPED",
+      "identityGuessed": false,
+      "reason": "MISSING_CANONICAL_RELATIONSHIP_METADATA: no committed binding names an official address for this artifact under in_conviction_felony-set, so there is nothing for ACQ to fetch yet",
+      "hostThatOwnsTheNextStep": "the issuing court or agency in IN",
+      "nextOperationThatOwnsIt": "DISC settles source identity and the route or family relationship"
+    },
+    {
+      "itemId": "in_conviction_felony-set::official-form:CCA conviction expungement petition",
+      "sourceId": "official-form:CCA conviction expungement petition",
+      "jurisdiction": "IN",
+      "familyIds": [
+        "in_conviction_felony-set"
+      ],
+      "registrySourceState": "MISSING_CANONICAL_RELATIONSHIP_METADATA",
+      "status": "STOPPED",
+      "identityGuessed": false,
+      "reason": "MISSING_CANONICAL_RELATIONSHIP_METADATA: no committed binding names an official address for this artifact under in_conviction_felony-set, so there is nothing for ACQ to fetch yet",
+      "hostThatOwnsTheNextStep": "the issuing court or agency in IN",
+      "nextOperationThatOwnsIt": "DISC settles source identity and the route or family relationship"
+    },
+    {
+      "itemId": "in_conviction_felony-set::official-form:CCA-XP-0120-7002 Form ACR",
+      "sourceId": "official-form:CCA-XP-0120-7002 Form ACR",
+      "jurisdiction": "IN",
+      "familyIds": [
+        "in_conviction_felony-set"
+      ],
+      "registrySourceState": "BUNDLE_COMPONENT",
+      "status": "COMPLETED",
+      "identityGuessed": false,
+      "resolvedIdentity": {
+        "formNumber": "CCA-XP-0120-7002 Form ACR",
+        "officialUrl": "https://indianalegalhelp.org/wp-content/uploads/2023/08/NonConvictionPetitionOrderFILLABLE2021.pdf",
+        "sha256": null,
+        "revision": null
+      },
+      "familiesThisReleases": [],
+      "handoffOperation": "ACQ",
+      "note": "BUNDLE_COMPONENT: this is not a separate binary. The component locator and alias are recorded here and ACQ acquires the CONTAINER once, never the page. Do not create a separate acquisition obligation for this component."
+    },
+    {
+      "itemId": "in_conviction_felony-set::official-form:Confidential Information Form",
+      "sourceId": "official-form:Confidential Information Form",
+      "jurisdiction": "IN",
+      "familyIds": [
+        "in_conviction_felony-set"
+      ],
+      "registrySourceState": "BUNDLE_COMPONENT",
+      "status": "COMPLETED",
+      "identityGuessed": false,
+      "resolvedIdentity": {
+        "formNumber": "Confidential Information Form",
+        "officialUrl": "https://indianalegalhelp.org/wp-content/uploads/2023/08/NonConvictionPetitionOrderFILLABLE2021.pdf",
+        "sha256": null,
+        "revision": null
+      },
+      "familiesThisReleases": [],
+      "handoffOperation": "ACQ",
+      "note": "BUNDLE_COMPONENT: this is not a separate binary. The component locator and alias are recorded here and ACQ acquires the CONTAINER once, never the page. Do not create a separate acquisition obligation for this component."
+    },
+    {
+      "itemId": "in_conviction_misd-set::official-form:CCA conviction expungement order",
+      "sourceId": "official-form:CCA conviction expungement order",
+      "jurisdiction": "IN",
+      "familyIds": [
+        "in_conviction_misd-set"
+      ],
+      "registrySourceState": "MISSING_CANONICAL_RELATIONSHIP_METADATA",
+      "status": "STOPPED",
+      "identityGuessed": false,
+      "reason": "MISSING_CANONICAL_RELATIONSHIP_METADATA: no committed binding names an official address for this artifact under in_conviction_misd-set, so there is nothing for ACQ to fetch yet",
+      "hostThatOwnsTheNextStep": "the issuing court or agency in IN",
+      "nextOperationThatOwnsIt": "DISC settles source identity and the route or family relationship"
+    },
+    {
+      "itemId": "in_conviction_misd-set::official-form:CCA conviction expungement petition",
+      "sourceId": "official-form:CCA conviction expungement petition",
+      "jurisdiction": "IN",
+      "familyIds": [
+        "in_conviction_misd-set"
+      ],
+      "registrySourceState": "MISSING_CANONICAL_RELATIONSHIP_METADATA",
+      "status": "STOPPED",
+      "identityGuessed": false,
+      "reason": "MISSING_CANONICAL_RELATIONSHIP_METADATA: no committed binding names an official address for this artifact under in_conviction_misd-set, so there is nothing for ACQ to fetch yet",
+      "hostThatOwnsTheNextStep": "the issuing court or agency in IN",
+      "nextOperationThatOwnsIt": "DISC settles source identity and the route or family relationship"
+    },
+    {
+      "itemId": "in_conviction_misd-set::official-form:CCA-XP-0120-7002 Form ACR",
+      "sourceId": "official-form:CCA-XP-0120-7002 Form ACR",
+      "jurisdiction": "IN",
+      "familyIds": [
+        "in_conviction_misd-set"
+      ],
+      "registrySourceState": "BUNDLE_COMPONENT",
+      "status": "COMPLETED",
+      "identityGuessed": false,
+      "resolvedIdentity": {
+        "formNumber": "CCA-XP-0120-7002 Form ACR",
+        "officialUrl": "https://indianalegalhelp.org/wp-content/uploads/2023/08/NonConvictionPetitionOrderFILLABLE2021.pdf",
+        "sha256": null,
+        "revision": null
+      },
+      "familiesThisReleases": [],
+      "handoffOperation": "ACQ",
+      "note": "BUNDLE_COMPONENT: this is not a separate binary. The component locator and alias are recorded here and ACQ acquires the CONTAINER once, never the page. Do not create a separate acquisition obligation for this component."
+    },
+    {
+      "itemId": "in_conviction_misd-set::official-form:Confidential Information Form",
+      "sourceId": "official-form:Confidential Information Form",
+      "jurisdiction": "IN",
+      "familyIds": [
+        "in_conviction_misd-set"
+      ],
+      "registrySourceState": "BUNDLE_COMPONENT",
+      "status": "COMPLETED",
+      "identityGuessed": false,
+      "resolvedIdentity": {
+        "formNumber": "Confidential Information Form",
+        "officialUrl": "https://indianalegalhelp.org/wp-content/uploads/2023/08/NonConvictionPetitionOrderFILLABLE2021.pdf",
+        "sha256": null,
+        "revision": null
+      },
+      "familiesThisReleases": [],
+      "handoffOperation": "ACQ",
+      "note": "BUNDLE_COMPONENT: this is not a separate binary. The component locator and alias are recorded here and ACQ acquires the CONTAINER once, never the page. Do not create a separate acquisition obligation for this component."
+    },
+    {
+      "itemId": "in_infraction_nondisclosure-set::NO_DOCUMENT_SOURCE_NAMED",
+      "sourceId": "NO_DOCUMENT_SOURCE_NAMED",
+      "jurisdiction": "IN",
+      "familyIds": [
+        "in_infraction_nondisclosure-set"
+      ],
+      "registrySourceState": null,
+      "status": "STOPPED",
+      "identityGuessed": false,
+      "reason": "NO_DOCUMENT_SOURCE_NAMED: the family names no document-shaped source, so there is no identity to settle and nothing for ACQ to fetch.",
+      "hostThatOwnsTheNextStep": "the issuing court or agency in IN",
+      "nextOperationThatOwnsIt": "legal design must name a document for this route, or record NO_OFFICIAL_DOCUMENT_REQUIRED"
+    },
+    {
+      "itemId": "in_section1_petition-set::official-form:CCA Section 1 expungement order",
+      "sourceId": "official-form:CCA Section 1 expungement order",
+      "jurisdiction": "IN",
+      "familyIds": [
+        "in_section1_petition-set"
+      ],
+      "registrySourceState": "MISSING_CANONICAL_RELATIONSHIP_METADATA",
+      "status": "STOPPED",
+      "identityGuessed": false,
+      "reason": "MISSING_CANONICAL_RELATIONSHIP_METADATA: no committed binding names an official address for this artifact under in_section1_petition-set, so there is nothing for ACQ to fetch yet",
+      "hostThatOwnsTheNextStep": "the issuing court or agency in IN",
+      "nextOperationThatOwnsIt": "DISC settles source identity and the route or family relationship"
+    },
+    {
+      "itemId": "in_section1_petition-set::official-form:CCA Section 1 non-conviction expungement petition",
+      "sourceId": "official-form:CCA Section 1 non-conviction expungement petition",
+      "jurisdiction": "IN",
+      "familyIds": [
+        "in_section1_petition-set"
+      ],
+      "registrySourceState": "CURRENTNESS_UNVERIFIED",
+      "status": "STOPPED",
+      "identityGuessed": false,
+      "reason": "CURRENTNESS_UNVERIFIED: the corpus already holds matching bytes (CCA__section-1-nonconviction-expungement-petition-and-order-bundle__source-2021.pdf, sha b04f2941c91f). What is unverified is whether the publisher still issues that edition, which is settled only against the publisher's own forms index. This environment refuses outbound egress to court and agency hosts, so the comparison cannot run here. This is not a missing source and not an acquisition.",
+      "heldEdition": {
+        "path": "private/Nationwide Record Clearing/LegalEase Indiana/forms/CCA__section-1-nonconviction-expungement-petition-and-order-bundle__source-2021.pdf",
+        "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5"
+      },
+      "publisherFormsIndex": "no official source page is recorded; DISC must settle the publisher's index address first",
+      "hostThatOwnsTheNextStep": "the issuing court or agency in IN",
+      "nextOperationThatOwnsIt": "DISC must first settle the publisher's forms index address; no comparison is possible without it"
+    },
+    {
+      "itemId": "in_section1_petition-set::official-form:CCA-XP-0120-7002 Form ACR",
+      "sourceId": "official-form:CCA-XP-0120-7002 Form ACR",
+      "jurisdiction": "IN",
+      "familyIds": [
+        "in_section1_petition-set"
+      ],
+      "registrySourceState": "BUNDLE_COMPONENT",
+      "status": "COMPLETED",
+      "identityGuessed": false,
+      "resolvedIdentity": {
+        "formNumber": "CCA-XP-0120-7002 Form ACR",
+        "officialUrl": "https://indianalegalhelp.org/wp-content/uploads/2023/08/NonConvictionPetitionOrderFILLABLE2021.pdf",
+        "sha256": null,
+        "revision": null
+      },
+      "familiesThisReleases": [],
+      "handoffOperation": "ACQ",
+      "note": "BUNDLE_COMPONENT: this is not a separate binary. The component locator and alias are recorded here and ACQ acquires the CONTAINER once, never the page. Do not create a separate acquisition obligation for this component."
+    },
+    {
+      "itemId": "in_section1_petition-set::official-form:Confidential Information Form",
+      "sourceId": "official-form:Confidential Information Form",
+      "jurisdiction": "IN",
+      "familyIds": [
+        "in_section1_petition-set"
+      ],
+      "registrySourceState": "BUNDLE_COMPONENT",
+      "status": "COMPLETED",
+      "identityGuessed": false,
+      "resolvedIdentity": {
+        "formNumber": "Confidential Information Form",
+        "officialUrl": "https://indianalegalhelp.org/wp-content/uploads/2023/08/NonConvictionPetitionOrderFILLABLE2021.pdf",
+        "sha256": null,
+        "revision": null
+      },
+      "familiesThisReleases": [],
+      "handoffOperation": "ACQ",
+      "note": "BUNDLE_COMPONENT: this is not a separate binary. The component locator and alias are recorded here and ACQ acquires the CONTAINER once, never the page. Do not create a separate acquisition obligation for this component."
+    },
+    {
+      "itemId": "mi_setaside_application-set::official-form:MC 227",
+      "sourceId": "official-form:MC 227",
+      "jurisdiction": "MI",
+      "familyIds": [
+        "mi_setaside_application-set"
+      ],
+      "registrySourceState": "FAMILY_IDENTITY_AMBIGUOUS",
+      "status": "COMPLETED",
+      "identityGuessed": false,
+      "resolvedIdentity": {
+        "formNumber": "MC 227",
+        "officialUrl": null,
+        "sha256": "9fec389975f06640aff057fbace9375866f64761c33e30c86e9798609f93b8a7",
+        "revision": null
+      },
+      "familiesThisReleases": [],
+      "handoffOperation": "PROMO",
+      "note": "the ambiguity is settled by this family's own committed worklist entry, which names exactly one of the 3 held candidates (mc227.pdf). No candidate was chosen by order."
+    },
+    {
+      "itemId": "mi_setaside_application-set::official-form:MC 227 page 3 Proof of Service",
+      "sourceId": "official-form:MC 227 page 3 Proof of Service",
+      "jurisdiction": "MI",
+      "familyIds": [
+        "mi_setaside_application-set"
+      ],
+      "registrySourceState": "MISSING_CANONICAL_RELATIONSHIP_METADATA",
+      "status": "STOPPED",
+      "identityGuessed": false,
+      "reason": "MISSING_CANONICAL_RELATIONSHIP_METADATA: no committed binding names an official address for this artifact under mi_setaside_application-set, so there is nothing for ACQ to fetch yet",
+      "hostThatOwnsTheNextStep": "the issuing court or agency in MI",
+      "nextOperationThatOwnsIt": "DISC settles source identity and the route or family relationship"
+    },
+    {
+      "itemId": "mi_setaside_first_owi-set::official-form:MC 227 item 2.c",
+      "sourceId": "official-form:MC 227 item 2.c",
+      "jurisdiction": "MI",
+      "familyIds": [
+        "mi_setaside_first_owi-set"
+      ],
+      "registrySourceState": "MISSING_CANONICAL_RELATIONSHIP_METADATA",
+      "status": "STOPPED",
+      "identityGuessed": false,
+      "reason": "MISSING_CANONICAL_RELATIONSHIP_METADATA: no committed binding names an official address for this artifact under mi_setaside_first_owi-set, so there is nothing for ACQ to fetch yet",
+      "hostThatOwnsTheNextStep": "the issuing court or agency in MI",
+      "nextOperationThatOwnsIt": "DISC settles source identity and the route or family relationship"
+    },
+    {
+      "itemId": "mi_setaside_first_owi-set::official-form:MC 227 page 3 Proof of Service",
+      "sourceId": "official-form:MC 227 page 3 Proof of Service",
+      "jurisdiction": "MI",
+      "familyIds": [
+        "mi_setaside_first_owi-set"
+      ],
+      "registrySourceState": "MISSING_CANONICAL_RELATIONSHIP_METADATA",
+      "status": "STOPPED",
+      "identityGuessed": false,
+      "reason": "MISSING_CANONICAL_RELATIONSHIP_METADATA: no committed binding names an official address for this artifact under mi_setaside_first_owi-set, so there is nothing for ACQ to fetch yet",
+      "hostThatOwnsTheNextStep": "the issuing court or agency in MI",
+      "nextOperationThatOwnsIt": "DISC settles source identity and the route or family relationship"
+    },
+    {
+      "itemId": "mi_setaside_trafficking-set::official-form:Proof of Service",
+      "sourceId": "official-form:Proof of Service",
+      "jurisdiction": "MI",
+      "familyIds": [
+        "mi_setaside_trafficking-set"
+      ],
+      "registrySourceState": "MISSING_CANONICAL_RELATIONSHIP_METADATA",
+      "status": "STOPPED",
+      "identityGuessed": false,
+      "reason": "MISSING_CANONICAL_RELATIONSHIP_METADATA: no committed binding names an official address for this artifact under mi_setaside_trafficking-set, so there is nothing for ACQ to fetch yet",
+      "hostThatOwnsTheNextStep": "the issuing court or agency in MI",
+      "nextOperationThatOwnsIt": "DISC settles source identity and the route or family relationship"
+    },
+    {
+      "itemId": "mo-610-145-mistaken-identity-set::NO_DOCUMENT_SOURCE_NAMED",
+      "sourceId": "NO_DOCUMENT_SOURCE_NAMED",
+      "jurisdiction": "MO",
+      "familyIds": [
+        "mo-610-145-mistaken-identity-set"
+      ],
+      "registrySourceState": null,
+      "status": "STOPPED",
+      "identityGuessed": false,
+      "reason": "NO_DOCUMENT_SOURCE_NAMED: the family names no document-shaped source, so there is no identity to settle and nothing for ACQ to fetch.",
+      "hostThatOwnsTheNextStep": "the issuing court or agency in MO",
+      "nextOperationThatOwnsIt": "legal design must name a document for this route, or record NO_OFFICIAL_DOCUMENT_REQUIRED"
+    },
+    {
+      "itemId": "mt_deferred_dismissal-set::NO_DOCUMENT_SOURCE_NAMED",
+      "sourceId": "NO_DOCUMENT_SOURCE_NAMED",
+      "jurisdiction": "MT",
+      "familyIds": [
+        "mt_deferred_dismissal-set"
+      ],
+      "registrySourceState": null,
+      "status": "STOPPED",
+      "identityGuessed": false,
+      "reason": "NO_DOCUMENT_SOURCE_NAMED: the family names no document-shaped source, so there is no identity to settle and nothing for ACQ to fetch.",
+      "hostThatOwnsTheNextStep": "the issuing court or agency in MT",
+      "nextOperationThatOwnsIt": "legal design must name a document for this route, or record NO_OFFICIAL_DOCUMENT_REQUIRED"
+    },
+    {
+      "itemId": "mt_misdemeanor_expungement-set::NO_DOCUMENT_SOURCE_NAMED",
+      "sourceId": "NO_DOCUMENT_SOURCE_NAMED",
+      "jurisdiction": "MT",
+      "familyIds": [
+        "mt_misdemeanor_expungement-set"
+      ],
+      "registrySourceState": null,
+      "status": "STOPPED",
+      "identityGuessed": false,
+      "reason": "NO_DOCUMENT_SOURCE_NAMED: the family names no document-shaped source, so there is no identity to settle and nothing for ACQ to fetch.",
+      "hostThatOwnsTheNextStep": "the issuing court or agency in MT",
+      "nextOperationThatOwnsIt": "legal design must name a document for this route, or record NO_OFFICIAL_DOCUMENT_REQUIRED"
+    },
+    {
+      "itemId": "mt_mmrta_completed-set::official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+      "sourceId": "official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+      "jurisdiction": "MT",
+      "familyIds": [
+        "mt_mmrta_completed-set"
+      ],
+      "registrySourceState": "UNSUPPORTED_RELATIONSHIP",
+      "status": "STOPPED",
+      "identityGuessed": false,
+      "reason": "UNSUPPORTED_RELATIONSHIP: Issuer is Montana DOJ/CRISS, not the judiciary. Official guidance says no form is required for post-July 1, 2017 automatic removals, so one form cannot map blindly to all four families.. Which families the artifact genuinely serves is a legal decision, not a discovery result.",
+      "hostThatOwnsTheNextStep": "dojmt.gov",
+      "nextOperationThatOwnsIt": "DISC and legal decide which families this artifact genuinely serves"
+    },
+    {
+      "itemId": "mt_mmrta_completed-set::official-form:MT-FORM-B",
+      "sourceId": "official-form:MT-FORM-B",
+      "jurisdiction": "MT",
+      "familyIds": [
+        "mt_mmrta_completed-set"
+      ],
+      "registrySourceState": "MISSING_CANONICAL_RELATIONSHIP_METADATA",
+      "status": "STOPPED",
+      "identityGuessed": false,
+      "reason": "MISSING_CANONICAL_RELATIONSHIP_METADATA: no committed binding names an official address for this artifact under mt_mmrta_completed-set, so there is nothing for ACQ to fetch yet",
+      "hostThatOwnsTheNextStep": "the issuing court or agency in MT",
+      "nextOperationThatOwnsIt": "DISC settles source identity and the route or family relationship"
+    },
+    {
+      "itemId": "mt_mmrta_completed-set::official-form:MT-OCA-MMRTA",
+      "sourceId": "official-form:MT-OCA-MMRTA",
+      "jurisdiction": "MT",
+      "familyIds": [
+        "mt_mmrta_completed-set"
+      ],
+      "registrySourceState": "FAMILY_IDENTITY_AMBIGUOUS",
+      "status": "STOPPED",
+      "identityGuessed": false,
+      "reason": "FAMILY_IDENTITY_AMBIGUOUS: 2 held artifacts match this identity and 2 of them. Which one the route requires is the open question; choosing by array order would state a guess as a measurement, so this lane picks none.",
+      "heldCandidates": [
+        {
+          "artifactId": "mt-oca-mmrta-certificate-of-service-source-2022-03",
+          "fileName": "MT-OCA-MMRTA__certificate-of-service__source-2022-03.docx",
+          "sha256": "d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9"
+        },
+        {
+          "artifactId": "mt-oca-mmrta-proposed-order-granting-expungement-resentencing-or-redesignation-source-2022",
+          "fileName": "MT-OCA-MMRTA__proposed-order-granting-expungement-resentencing-or-redesignation__source-2022-02.docx",
+          "sha256": "2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e"
+        }
+      ],
+      "hostThatOwnsTheNextStep": "the issuing court or agency in MT",
+      "nextOperationThatOwnsIt": "DISC and Captain must settle which held artifact the route requires"
+    },
+    {
+      "itemId": "mt_mmrta_serving-set::official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+      "sourceId": "official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+      "jurisdiction": "MT",
+      "familyIds": [
+        "mt_mmrta_serving-set"
+      ],
+      "registrySourceState": "UNSUPPORTED_RELATIONSHIP",
+      "status": "STOPPED",
+      "identityGuessed": false,
+      "reason": "UNSUPPORTED_RELATIONSHIP: Issuer is Montana DOJ/CRISS, not the judiciary. Official guidance says no form is required for post-July 1, 2017 automatic removals, so one form cannot map blindly to all four families.. Which families the artifact genuinely serves is a legal decision, not a discovery result.",
+      "hostThatOwnsTheNextStep": "dojmt.gov",
+      "nextOperationThatOwnsIt": "DISC and legal decide which families this artifact genuinely serves"
+    },
+    {
+      "itemId": "mt_mmrta_serving-set::official-form:MT-FORM-A",
+      "sourceId": "official-form:MT-FORM-A",
+      "jurisdiction": "MT",
+      "familyIds": [
+        "mt_mmrta_serving-set"
+      ],
+      "registrySourceState": "MISSING_CANONICAL_RELATIONSHIP_METADATA",
+      "status": "STOPPED",
+      "identityGuessed": false,
+      "reason": "MISSING_CANONICAL_RELATIONSHIP_METADATA: no committed binding names an official address for this artifact under mt_mmrta_serving-set, so there is nothing for ACQ to fetch yet",
+      "hostThatOwnsTheNextStep": "the issuing court or agency in MT",
+      "nextOperationThatOwnsIt": "DISC settles source identity and the route or family relationship"
+    },
+    {
+      "itemId": "mt_mmrta_serving-set::official-form:MT-OCA-MMRTA",
+      "sourceId": "official-form:MT-OCA-MMRTA",
+      "jurisdiction": "MT",
+      "familyIds": [
+        "mt_mmrta_serving-set"
+      ],
+      "registrySourceState": "FAMILY_IDENTITY_AMBIGUOUS",
+      "status": "STOPPED",
+      "identityGuessed": false,
+      "reason": "FAMILY_IDENTITY_AMBIGUOUS: 2 held artifacts match this identity and 2 of them. Which one the route requires is the open question; choosing by array order would state a guess as a measurement, so this lane picks none.",
+      "heldCandidates": [
+        {
+          "artifactId": "mt-oca-mmrta-certificate-of-service-source-2022-03",
+          "fileName": "MT-OCA-MMRTA__certificate-of-service__source-2022-03.docx",
+          "sha256": "d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9"
+        },
+        {
+          "artifactId": "mt-oca-mmrta-proposed-order-granting-expungement-resentencing-or-redesignation-source-2022",
+          "fileName": "MT-OCA-MMRTA__proposed-order-granting-expungement-resentencing-or-redesignation__source-2022-02.docx",
+          "sha256": "2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e"
+        }
+      ],
+      "hostThatOwnsTheNextStep": "the issuing court or agency in MT",
+      "nextOperationThatOwnsIt": "DISC and Captain must settle which held artifact the route requires"
+    },
+    {
+      "itemId": "rcap-in-custom-pleading::official-form:CCA-XP-0120-7002 Form ACR",
+      "sourceId": "official-form:CCA-XP-0120-7002 Form ACR",
+      "jurisdiction": "IN",
+      "familyIds": [
+        "rcap-in-custom-pleading"
+      ],
+      "registrySourceState": "BUNDLE_COMPONENT",
+      "status": "COMPLETED",
+      "identityGuessed": false,
+      "resolvedIdentity": {
+        "formNumber": "CCA-XP-0120-7002 Form ACR",
+        "officialUrl": "https://indianalegalhelp.org/wp-content/uploads/2023/08/NonConvictionPetitionOrderFILLABLE2021.pdf",
+        "sha256": null,
+        "revision": null
+      },
+      "familiesThisReleases": [],
+      "handoffOperation": "ACQ",
+      "note": "BUNDLE_COMPONENT: this is not a separate binary. The component locator and alias are recorded here and ACQ acquires the CONTAINER once, never the page. Do not create a separate acquisition obligation for this component."
+    },
+    {
+      "itemId": "rcap-in-custom-pleading::official-form:Confidential Information Form",
+      "sourceId": "official-form:Confidential Information Form",
+      "jurisdiction": "IN",
+      "familyIds": [
+        "rcap-in-custom-pleading"
+      ],
+      "registrySourceState": "BUNDLE_COMPONENT",
+      "status": "COMPLETED",
+      "identityGuessed": false,
+      "resolvedIdentity": {
+        "formNumber": "Confidential Information Form",
+        "officialUrl": "https://indianalegalhelp.org/wp-content/uploads/2023/08/NonConvictionPetitionOrderFILLABLE2021.pdf",
+        "sha256": null,
+        "revision": null
+      },
+      "familiesThisReleases": [],
+      "handoffOperation": "ACQ",
+      "note": "BUNDLE_COMPONENT: this is not a separate binary. The component locator and alias are recorded here and ACQ acquires the CONTAINER once, never the page. Do not create a separate acquisition obligation for this component."
+    },
+    {
+      "itemId": "rcap-mo-custom-pleading::NO_DOCUMENT_SOURCE_NAMED",
+      "sourceId": "NO_DOCUMENT_SOURCE_NAMED",
+      "jurisdiction": null,
+      "familyIds": [
+        "rcap-mo-custom-pleading"
+      ],
+      "registrySourceState": null,
+      "status": "STOPPED",
+      "identityGuessed": false,
+      "reason": "NO_DOCUMENT_SOURCE_NAMED: the family names no document-shaped source, so there is no identity to settle and nothing for ACQ to fetch.",
+      "hostThatOwnsTheNextStep": "unknown",
+      "nextOperationThatOwnsIt": "legal design must name a document for this route, or record NO_OFFICIAL_DOCUMENT_REQUIRED"
+    },
+    {
+      "itemId": "rcap-wi-custom-pleading::NO_DOCUMENT_SOURCE_NAMED",
+      "sourceId": "NO_DOCUMENT_SOURCE_NAMED",
+      "jurisdiction": null,
+      "familyIds": [
+        "rcap-wi-custom-pleading"
+      ],
+      "registrySourceState": null,
+      "status": "STOPPED",
+      "identityGuessed": false,
+      "reason": "NO_DOCUMENT_SOURCE_NAMED: the family names no document-shaped source, so there is no identity to settle and nothing for ACQ to fetch.",
+      "hostThatOwnsTheNextStep": "unknown",
+      "nextOperationThatOwnsIt": "legal design must name a document for this route, or record NO_OFFICIAL_DOCUMENT_REQUIRED"
+    }
+  ]
+}

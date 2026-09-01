@@ -1,8 +1,8 @@
 import Link from "next/link";
+import { DocumentPacketRenderer } from "@/components/rcap/documents/DocumentPacketRenderer";
 import { ArrowLeft, FileText, ShieldCheck } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
-import { MississippiPetitionPacketPreview } from "@/components/rcap/documents/mississippi/MississippiPetitionPacketPreview";
 import { getPartnerRecordBySlug } from "@/lib/partners/partner-repository";
 import { partnerPublicPage } from "@/lib/partners/routes";
 import { getRcapIntakeSession } from "@/lib/rcap-intake/repository";
@@ -95,7 +95,7 @@ export default async function RcapDocumentsPage({
 
         {packet ? (
           <div className="mt-6">
-            <MississippiPetitionPacketPreview packet={packet} />
+            <DocumentPacketRenderer packet={packet} />
           </div>
         ) : null}
       </div>

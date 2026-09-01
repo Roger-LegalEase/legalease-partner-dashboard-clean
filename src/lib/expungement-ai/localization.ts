@@ -119,6 +119,12 @@ export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
   "result.edit_answers": { en: "Edit my answers", es: "Editar mis respuestas" },
   "result.add_details": { en: "Add these details", es: "Agregar estos detalles" },
   "result.save_briefcase": { en: "Save this result to Briefcase", es: "Guardar este resultado en el Maletín" },
+  // Pre-authentication copy never names a matter or a Briefcase: the preliminary
+  // result becomes either only after the claim transaction wins.
+  "result.save_matter_continue": { en: "Save my result and continue", es: "Guardar mi resultado y continuar" },
+  "result.save_guidance": { en: "Save this guidance", es: "Guardar esta orientación" },
+  "result.save_briefcase_continue": { en: "Save to my Briefcase and continue", es: "Guardar en mi Maletín y continuar" },
+  "claim.matter_saved": { en: "Your matter has been saved to your Briefcase.", es: "Su asunto se ha guardado en su Maletín." },
   "result.lane_packet_builder": { en: "Continue to packet builder", es: "Continuar al generador de paquetes" },
   "result.lane_more_info": { en: "Continue to my Briefcase", es: "Continuar a mi Maletín" },
   "result.lane_next_steps": { en: "View my next steps", es: "Ver mis próximos pasos" },
@@ -141,7 +147,7 @@ export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
     es: "Esto fue un problema de conexión, no una decisión sobre su antecedente. Intente de nuevo en un momento."
   },
   "result.back_to_answers": { en: "Back to my answers", es: "Volver a mis respuestas" },
-  "result.partner_no_pay": { en: "This screening started through a partner program. You will not be asked to pay here.", es: "Esta revisión comenzó por medio de un programa asociado. No se le pedirá pagar aquí." },
+  "result.partner_covered": { en: "Your packet is covered by your partner program.", es: "Su paquete está cubierto por su programa asociado." },
   "result.upl_disclaimer": {
     en: "Expungement.ai is not a law firm and this is not legal advice. We prepare self-help materials and information; the court or agency makes the final decision. Review everything before filing.",
     es: "Expungement.ai no es un bufete de abogados y esto no es asesoría legal. Preparamos materiales e información de autoayuda; el tribunal o la agencia toma la decisión final. Revise todo antes de presentar."
@@ -192,7 +198,7 @@ export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
   "briefcase.account": { en: "Account", es: "Cuenta" },
   "briefcase.profile": { en: "Profile", es: "Perfil" },
   "briefcase.settings": { en: "Settings", es: "Configuración" },
-  "briefcase.new_check": { en: "New guided check", es: "Nueva revisión guiada" },
+  "briefcase.new_check": { en: "New screening", es: "Nueva evaluación" },
   "briefcase.guidance_saved": { en: "Next steps saved", es: "Próximos pasos guardados" },
   "briefcase.ready_to_file": { en: "Ready to file", es: "Listo para presentar" },
   "briefcase.needs_attention": { en: "Needs your attention", es: "Necesita su atención" },
@@ -202,7 +208,7 @@ export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
   "briefcase.reviewing_eligibility": { en: "Reviewing your answers", es: "Revisando sus respuestas" },
   "briefcase.with_court": { en: "With the court", es: "Con el tribunal" },
   "briefcase.closer_look": { en: "Needs a closer look", es: "Necesita una revisión más cuidadosa" },
-  "briefcase.stage.free_screening": { en: "Free guided check", es: "Revisión guiada gratis" },
+  "briefcase.stage.free_screening": { en: "Free screening", es: "Evaluación gratuita" },
   "briefcase.stage.account_created": { en: "Account created", es: "Cuenta creada" },
   "briefcase.stage.payment": { en: "Payment", es: "Pago" },
   "briefcase.stage.packet_information": { en: "Packet information", es: "Información del paquete" },
@@ -214,12 +220,12 @@ export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
     en: "Sign in to see the cases, results, available packets, reminders, payments, and Wilma conversations you chose to save in your Briefcase.",
     es: "Inicie sesión para ver los casos, resultados, paquetes disponibles, recordatorios, pagos y conversaciones con Wilma que decidió guardar en su Maletín."
   },
-  "briefcase.empty_title": { en: "Start a free guided check", es: "Comenzar una revisión guiada gratis" },
+  "briefcase.empty_title": { en: "Start a free screening", es: "Comenzar una evaluación gratuita" },
   "briefcase.empty_body": {
     en: "Answer a few plain questions about your record. It's free, and you'll see possible next steps before paying anything.",
     es: "Responda unas preguntas sencillas sobre sus antecedentes. Es gratis y verá posibles próximos pasos antes de pagar algo."
   },
-  "briefcase.empty_cta": { en: "Start free", es: "Comenzar gratis" },
+  "briefcase.empty_cta": { en: "Check my options", es: "Ver mis opciones" },
   "briefcase.welcome_back": { en: "Welcome back", es: "Bienvenido de nuevo" },
   "briefcase.progress_body": {
     en: "You have {count} {recordWord} in progress. Here's where things stand.",
@@ -290,8 +296,8 @@ export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
   "nav.pricing": { en: "Price", es: "Precio" },
   "nav.trust_privacy": { en: "Trust & privacy", es: "Confianza y privacidad" },
   "nav.questions": { en: "Questions", es: "Preguntas" },
-  "nav.start_free": { en: "Start free", es: "Comenzar gratis" },
-  "start.eyebrow": { en: "Free guided check", es: "Revisión guiada gratis" },
+  "nav.start_free": { en: "Check my options", es: "Ver mis opciones" },
+  "start.eyebrow": { en: "Free screening", es: "Evaluación gratuita" },
   "start.heading": {
     en: "Start with what happened. See what may be available.",
     es: "Comience con lo que pasó. Vea qué opciones podrían estar disponibles."
@@ -305,7 +311,7 @@ export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
     en: "No account to begin. No payment to start. Self-help information, not legal advice.",
     es: "Sin cuenta para comenzar. Sin pago para empezar. Información de autoayuda, no asesoría legal."
   },
-  "start.card_check_title": { en: "Free guided check", es: "Revisión guiada gratis" },
+  "start.card_check_title": { en: "Free screening", es: "Evaluación gratuita" },
   "start.card_check_body": {
     en: "Answer questions that reflect the record-clearing rules in the state you choose.",
     es: "Responda preguntas que reflejan las reglas de limpieza de antecedentes del estado que elija."
@@ -356,11 +362,11 @@ export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
   "signin.show_password": { en: "Show password", es: "Mostrar contraseña" },
   "signin.hide_password": { en: "Hide password", es: "Ocultar contraseña" },
 
-  "wilma.transport_fallback": { en: "I couldn't respond just now. Try again in a moment. The free guided check and your Briefcase are still available.", es: "No pude responder en este momento. Inténtelo de nuevo en un momento. La revisión guiada gratis y su Maletín siguen disponibles." },
+  "wilma.transport_fallback": { en: "I couldn't respond just now. Try again in a moment. The free screening and your Briefcase are still available.", es: "No pude responder en este momento. Inténtelo de nuevo en un momento. La evaluación gratuita y su Maletín siguen disponibles." },
   "wilma.challenge_pending": { en: "One sec - just finishing a quick security check, then send that again.", es: "Un segundo. Estamos terminando una revisión rápida de seguridad; luego envíe eso otra vez." },
-  "wilma.rate_limit": { en: "I'm getting a lot of questions right now. Wait a few seconds and try again. The free guided check is still available.", es: "Estoy recibiendo muchas preguntas en este momento. Espere unos segundos e inténtelo de nuevo. La revisión guiada gratis sigue disponible." },
-  "wilma.bot": { en: "I couldn't verify this request. Refresh the page and try again, or start the free guided check.", es: "No pude verificar esta solicitud. Actualice la página e inténtelo de nuevo, o comience la revisión guiada gratis." },
-  "wilma.turns": { en: "We've covered a lot. This is a good time to start the free guided check, which uses your answers and your state's rules to show what may be available.", es: "Ya cubrimos bastante. Este es un buen momento para comenzar la revisión guiada gratis, que usa sus respuestas y las reglas de su estado para mostrar qué opciones podrían estar disponibles." },
+  "wilma.rate_limit": { en: "I'm getting a lot of questions right now. Wait a few seconds and try again. The free screening is still available.", es: "Estoy recibiendo muchas preguntas en este momento. Espere unos segundos e inténtelo de nuevo. La evaluación gratuita sigue disponible." },
+  "wilma.bot": { en: "I couldn't verify this request. Refresh the page and try again, or start the free screening.", es: "No pude verificar esta solicitud. Actualice la página e inténtelo de nuevo, o comience la evaluación gratuita." },
+  "wilma.turns": { en: "We've covered a lot. This is a good time to start the free screening, which uses your answers and your state's rules to show what may be available.", es: "Ya cubrimos bastante. Este es un buen momento para comenzar la evaluación gratuita, que usa sus respuestas y las reglas de su estado para mostrar qué opciones podrían estar disponibles." },
   "wilma.message_required": { en: "Enter a question for Wilma.", es: "Escriba una pregunta para Wilma." },
   "wilma.too_long": { en: "Keep your question under {count} characters and try again.", es: "Escriba una pregunta de menos de {count} caracteres e inténtelo de nuevo." },
   "wilma.guide": { en: "Guide", es: "Guía" },
@@ -378,10 +384,10 @@ export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
   "wilma.send": { en: "Send message", es: "Enviar mensaje" },
   "wilma.not_advice": { en: "Wilma is a guide, not legal advice.", es: "Wilma es una guía, no asesoría legal." },
   "wilma.resting": { en: "Wilma is resting", es: "Wilma está descansando" },
-  "wilma.resting_body": { en: "Wilma is taking a quick break. The free guided check and your Briefcase are still available.", es: "Wilma está tomando una pausa breve. La revisión guiada gratis y su Maletín siguen disponibles." },
+  "wilma.resting_body": { en: "Wilma is taking a quick break. The free screening and your Briefcase are still available.", es: "Wilma está tomando una pausa breve. La evaluación gratuita y su Maletín siguen disponibles." },
   "wilma.prompt.landing": { en: "Want me to explain how this works?", es: "¿Quiere que explique cómo funciona?" },
   "wilma.prompt.pricing": { en: "Want to know what is included?", es: "¿Quiere saber qué está incluido?" },
-  "wilma.prompt.start": { en: "Want me to explain the free guided check?", es: "¿Quiere que explique la revisión guiada gratis?" },
+  "wilma.prompt.start": { en: "Want me to explain the free screening?", es: "¿Quiere que explique la evaluación gratuita?" },
   "wilma.prompt.check": { en: "Want me to explain these questions?", es: "¿Quiere que explique estas preguntas?" },
   "wilma.prompt.results": { en: "Want me to explain this result?", es: "¿Quiere que explique este resultado?" },
   "wilma.prompt.pay": { en: "Want to know what's included?", es: "¿Quiere saber qué está incluido?" },

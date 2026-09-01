@@ -1,0 +1,1163 @@
+{
+  "schemaVersion": 1,
+  "sprintId": "legalease-68h-grade-a-2026-08-29",
+  "purpose": "The captain-issued dispatch manifest. One envelope per lane. A lane that is not described here has no assignment, and a worker may not widen its own envelope by inference.",
+  "generatedBy": "scripts/verify-active-lane-envelopes.mjs is the checker; this file is captain-authored and captain-owned.",
+  "captainOnlyPaths": [
+    "package.json",
+    "package-lock.json",
+    "data/rcap-verifier-dispositions.json",
+    "data/rcap-ledger/",
+    "data/rcap-grade-a/",
+    "supabase/migrations/",
+    "docs/rcap/grade-a/captain/"
+  ],
+  "concurrency": {
+    "maxActiveSessions": 8,
+    "note": "Captain A plus lanes G-CO-SOURCE, G-CO-BUILD, I and J. Lanes B through H are integrated and hold no slot."
+  },
+  "lanes": [
+    {
+      "sprintId": "legalease-68h-grade-a-2026-08-29",
+      "repository": "Roger-LegalEase/legalease-partner-dashboard-clean",
+      "controllingBranch": "claude/new-session-7rsiqq",
+      "baseSha": "0cad61625a74665db23ac64988c301e48909cf81",
+      "remoteBaseSha": "0cad61625a74665db23ac64988c301e48909cf81",
+      "worktreeRule": "One dedicated worktree per lane, created with git worktree add from the baseSha above, never shared with another lane and never the captain worktree at /home/user/legalease-partner-dashboard-clean.",
+      "requiredReturnFormat": "Return the full 40-character commit SHA on the lane branch, the exact commands run, and their pass or fail result. Return the SHA only; the captain reviews and integrates it. Do not open a pull request and do not request a branch merge.",
+      "lane": "B",
+      "model": "Claude Opus 5",
+      "status": "integrated",
+      "laneBranch": "claude/legalease-sprint-captain-utucnw",
+      "shardId": "S-B1",
+      "routeIds": [
+        "ND:deferred-imposition-dismissal-and-sealing",
+        "ND:dui-record-sealing-under-the-separate-dui-statute",
+        "ND:first-offense-possession-sealing",
+        "ND:general-conviction-sealing-under-n-d-c-c-chapter-12-60-1",
+        "ND:marijuana-specific-summary-pardon-or-sealing-relief",
+        "OR:marijuana-specific-set-aside-redesignation",
+        "OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+        "OR:set-aside-of-eligible-convictions-under-ors-137-225-1-a"
+      ],
+      "packetFamilyIds": [
+        "grade-a-fulfillment-authority"
+      ],
+      "jurisdictions": [
+        "ND",
+        "OR"
+      ],
+      "sourceIdentities": [
+        "no official source document is consumed by this lane; its records derive from committed evidence ledgers"
+      ],
+      "sourceHashes": [
+        "not applicable: this lane consumes no official source bytes"
+      ],
+      "ownedPaths": [
+        "src/lib/rcap/fulfillment/",
+        "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
+        "scripts/verify-rcap-grade-a-fulfillment-authority.mjs"
+      ],
+      "prohibitedSharedPaths": [
+        "package.json",
+        "package-lock.json",
+        "data/rcap-verifier-dispositions.json",
+        "data/rcap-ledger/",
+        "data/rcap-grade-a/",
+        "supabase/migrations/",
+        "docs/rcap/grade-a/captain/",
+        "src/lib/record-clearing/",
+        "data/rcap-all50/overlays/lane-c-candidates/"
+      ],
+      "requiredDeliverables": [
+        "One versioned fulfillment record per candidate route binding it to the identity and hash of every Grade-A input.",
+        "An admission facade taking exactly (admissionPoint, routeIdentity) and reading no request, header, cookie or environment.",
+        "A generator and a verifier, with the verifier carrying in-memory mutations."
+      ],
+      "requiredTests": [
+        "node scripts/generate-rcap-grade-a-fulfillment-authority.mjs --check",
+        "node scripts/verify-rcap-grade-a-fulfillment-authority.mjs",
+        "node scripts/verify-rcap-grade-a-fulfillment-authority.mjs --mutations",
+        "npm run typecheck"
+      ],
+      "requiredReturnCommit": "a25eec4cdc1f2193a591ba9c2991c3c6dd8a03ef",
+      "dependencies": [
+        "none: this lane is the authority every other commercial lane consumes"
+      ],
+      "salvageBranches": [
+        "claude/grade-a-fulfillment-core-jni395"
+      ],
+      "salvageCommits": [
+        "b52a94cef85c9abd4f7a89d3e28b081d3514ff6c",
+        "0efc404b6fe72efe8557046e2bbc335d85448d3c",
+        "0d36ac25b09f18d5fd445c03eb49dbf9984873ed"
+      ],
+      "stopConditions": [
+        "The identity gate does not print 0cad61625a74665db23ac64988c301e48909cf81 for origin/claude/new-session-7rsiqq: return ENVIRONMENT MISROUTED without editing a file.",
+        "A change is required inside a captain-only path: stop and return a patch request; do not claim the path.",
+        "A required official source hash cannot be recomputed from the mounted corpus: stop rather than reading the hash back from a committed record.",
+        "Any Production deployment, migration, environment change, secret change, Stripe live-mode call, participant creation, sponsored-credit consumption or domain activation would be needed: stop and return the blocker."
+      ],
+      "captainIntegrationCommit": "a25eec4cdc1f2193a591ba9c2991c3c6dd8a03ef"
+    },
+    {
+      "sprintId": "legalease-68h-grade-a-2026-08-29",
+      "repository": "Roger-LegalEase/legalease-partner-dashboard-clean",
+      "controllingBranch": "claude/new-session-7rsiqq",
+      "baseSha": "0cad61625a74665db23ac64988c301e48909cf81",
+      "remoteBaseSha": "0cad61625a74665db23ac64988c301e48909cf81",
+      "worktreeRule": "One dedicated worktree per lane, created with git worktree add from the baseSha above, never shared with another lane and never the captain worktree at /home/user/legalease-partner-dashboard-clean.",
+      "requiredReturnFormat": "Return the full 40-character commit SHA on the lane branch, the exact commands run, and their pass or fail result. Return the SHA only; the captain reviews and integrates it. Do not open a pull request and do not request a branch merge.",
+      "lane": "C",
+      "model": "Claude Opus 5",
+      "status": "integrated",
+      "laneBranch": "claude/legalease-sprint-captain-utucnw",
+      "shardId": "S-C1",
+      "routeIds": [
+        "OR:marijuana-specific-set-aside-redesignation",
+        "OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+        "OR:set-aside-of-eligible-convictions-under-ors-137-225-1-a"
+      ],
+      "packetFamilyIds": [
+        "oregon"
+      ],
+      "jurisdictions": [
+        "OR"
+      ],
+      "sourceIdentities": [
+        "OR__LEGAL-REVIEW__STATEWIDE__oregon-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+        "OR__FORM__OR-OJD-ADULT-SET-ASIDE-PACKET__ojd-criminal-set-aside-adult-packet__REV-2026-01__EN.pdf",
+        "OR__FORM__OR-OJD-MJ-PCR__motion-and-declaration-to-modify-or-set-aside-marijuana-conviction__REV-2023-07__EN.pdf",
+        "OR__SUPPORT__OR-OJD-CLA-SET-ASIDE-CHECK__ojd-request-for-set-aside-criminal-record-check__REV-2022-01__EN.pdf",
+        "OR__SUPPORT__OR-OSP-SET-ASIDE-CCH__oregon-state-police-set-aside-criminal-history-request-and-instructions__REV-2022-01__EN.pdf",
+        "STATE_MANIFEST.csv",
+        "STATE_README.md"
+      ],
+      "sourceHashes": [
+        "61e87f6a222449865225aefb01439b3f433072628dae59a002477bfd605517b8",
+        "b22cc346caf6c38730e9992d74016e948180d92b379b6592ab333b06ac880071",
+        "6e7a2cde0c963159ad3b467a85985d8034f33f8bfa44d380bbaab774c55bcbd6",
+        "7f8ed25e959d8c942c0c4573c5cc235a1a1e61c31eeeaaf14d98cb7183fa6267",
+        "a523a9ffc3eb0cc35d89e1c81df8eafcd703cf1ffdb4237a0106b72e1e793ac6",
+        "63318d0a76b8d0b5891a2329e95468a739c46fa8c0910f237ff374ccbd5284c8",
+        "c6291b855020efd886d8c61e91d8db7181eec8e04bed55a37577423610c7287f"
+      ],
+      "ownedPaths": [
+        "data/rcap-all50/overlays/lane-c-candidates/oregon/",
+        "docs/RCAP_OREGON_OFFICIAL_PDF_GRADE_A_LANE_C.md",
+        "scripts/verify-rcap-oregon-official-pdf-grade-a.mjs"
+      ],
+      "prohibitedSharedPaths": [
+        "package.json",
+        "package-lock.json",
+        "data/rcap-verifier-dispositions.json",
+        "data/rcap-ledger/",
+        "data/rcap-grade-a/",
+        "supabase/migrations/",
+        "docs/rcap/grade-a/captain/",
+        "src/lib/rcap/fulfillment/",
+        "data/rcap-all50/overlays/production/",
+        "src/lib/record-clearing/"
+      ],
+      "requiredDeliverables": [
+        "Official-PDF overlay packages for the Oregon set, proven from the official bytes.",
+        "Field census, classification, protected-field scan and contact-sheet proof per package.",
+        "Oregon held outside production overlays and outside commercial admission."
+      ],
+      "requiredTests": [
+        "node scripts/verify-rcap-oregon-official-pdf-grade-a.mjs",
+        "node scripts/verify-rcap-official-forms-d1.mjs",
+        "node scripts/verify-rcap-shared-pdf-contract.mjs",
+        "node scripts/verify-rcap-shared-pdf-contract.mjs --mutations"
+      ],
+      "requiredReturnCommit": "92c6e2b92f11bdcbb27c503c2d3a0de009f4ce9d",
+      "dependencies": [
+        "B: Oregon's candidate records live in the fulfillment registry B owns"
+      ],
+      "salvageBranches": [
+        "claude/oregon-official-pdf-grade-a-3rtuq7"
+      ],
+      "salvageCommits": [
+        "bb26ac7822470f4b2d0a1cb0bcafe89e44abe2b4",
+        "0a4e30171a3b3f87a7dbd7a87a09f47f76b03355"
+      ],
+      "stopConditions": [
+        "The identity gate does not print 0cad61625a74665db23ac64988c301e48909cf81 for origin/claude/new-session-7rsiqq: return ENVIRONMENT MISROUTED without editing a file.",
+        "A change is required inside a captain-only path: stop and return a patch request; do not claim the path.",
+        "A required official source hash cannot be recomputed from the mounted corpus: stop rather than reading the hash back from a committed record.",
+        "Any Production deployment, migration, environment change, secret change, Stripe live-mode call, participant creation, sponsored-credit consumption or domain activation would be needed: stop and return the blocker."
+      ],
+      "captainIntegrationCommit": "92c6e2b92f11bdcbb27c503c2d3a0de009f4ce9d"
+    },
+    {
+      "sprintId": "legalease-68h-grade-a-2026-08-29",
+      "repository": "Roger-LegalEase/legalease-partner-dashboard-clean",
+      "controllingBranch": "claude/new-session-7rsiqq",
+      "baseSha": "0cad61625a74665db23ac64988c301e48909cf81",
+      "remoteBaseSha": "0cad61625a74665db23ac64988c301e48909cf81",
+      "worktreeRule": "One dedicated worktree per lane, created with git worktree add from the baseSha above, never shared with another lane and never the captain worktree at /home/user/legalease-partner-dashboard-clean.",
+      "requiredReturnFormat": "Return the full 40-character commit SHA on the lane branch, the exact commands run, and their pass or fail result. Return the SHA only; the captain reviews and integrates it. Do not open a pull request and do not request a branch merge.",
+      "lane": "D",
+      "model": "Claude Opus 5",
+      "status": "integrated",
+      "laneBranch": "claude/legalease-sprint-captain-utucnw",
+      "shardId": "S-D1",
+      "routeIds": [
+        "ND:deferred-imposition-dismissal-and-sealing",
+        "ND:dui-record-sealing-under-the-separate-dui-statute",
+        "ND:first-offense-possession-sealing",
+        "ND:general-conviction-sealing-under-n-d-c-c-chapter-12-60-1",
+        "ND:marijuana-specific-summary-pardon-or-sealing-relief"
+      ],
+      "packetFamilyIds": [
+        "north-dakota"
+      ],
+      "jurisdictions": [
+        "ND"
+      ],
+      "sourceIdentities": [
+        "ND__LEGAL-REVIEW__STATEWIDE__north-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+        "ND__FORM__EXPERTISE__instructions-for-petition-to-close-nonconviction-records__REV-2025-08-01__EN.pdf",
+        "ND__SUPPORT__ND-NORTH-DAKOTA-PARDON-ADVISORY-BOARD-APPLICA__north-dakota-pardon-advisory-board-application-to-pardon-eligible__REV-2020-02__EN.pdf",
+        "ND__SUPPORT__SEALING-CRIMINAL-RECORDS-RESEARCH-GUIDE__sealing-criminal-records-or-closing-nonconviction__REV-UNKNOWN__EN.pdf",
+        "STATE_MANIFEST.csv",
+        "STATE_README.md"
+      ],
+      "sourceHashes": [
+        "633c2959f0c7bec0272bbab17cba958dd6864c5f7c34ccfe1f9ff4ce09868d50",
+        "21b3a790b35f35c345560d9840bf39ca6f1e46cf1b9166c0e5ae2cf8ff7e4d7f",
+        "c59cd5b8c9938e78f951f3aea1d397fe896be253d8d35a14455d684ac56c697f",
+        "b39a0c1532bff3381382544a3888478835edb2109af597a2468a34e2a5f19a3c",
+        "246de7525f301b40cb8156b03d6607ced86dabf0500d020f2f6068bb243153fe",
+        "37c772e5dce5b8f602e031323b53732c75a28d0958469469357f613838bcfc9a"
+      ],
+      "ownedPaths": [
+        "data/rcap-lane-d/",
+        "docs/rcap/lane-d/",
+        "src/lib/record-clearing/north-dakota-nonconviction-spec.ts",
+        "src/lib/record-clearing/north-dakota-nonconviction-config.ts",
+        "src/lib/record-clearing/composers/nd-composed-packet-composer.ts",
+        "src/lib/record-clearing/renderers/custom-pleading-renderer.ts",
+        "scripts/generate-nd-composed-packet-artifacts.mjs",
+        "scripts/lib/nd-composed-packet-pdf.mjs",
+        "scripts/verify-nd-composed-packet.mjs",
+        "scripts/verify-nd-grade-a-product-path.mjs"
+      ],
+      "prohibitedSharedPaths": [
+        "package.json",
+        "package-lock.json",
+        "data/rcap-verifier-dispositions.json",
+        "data/rcap-ledger/",
+        "data/rcap-grade-a/",
+        "supabase/migrations/",
+        "docs/rcap/grade-a/captain/",
+        "src/lib/rcap/fulfillment/",
+        "data/rcap-all50/overlays/lane-c-candidates/"
+      ],
+      "requiredDeliverables": [
+        "A versioned North Dakota specification with its own SHA-256 and a composer that fails closed on an unresolved branch.",
+        "A composed filing packet with proposed order, service, filing destination, fee and post-filing steps.",
+        "North Dakota held at IMPLEMENTATION_COMPLETE and COMMERCIAL_HOLD."
+      ],
+      "requiredTests": [
+        "node scripts/generate-nd-composed-packet-artifacts.mjs --check",
+        "node scripts/verify-nd-composed-packet.mjs",
+        "node scripts/verify-nd-grade-a-product-path.mjs",
+        "npm run typecheck"
+      ],
+      "requiredReturnCommit": "14ebc93ce531e7e753ffc1290191b1f4a66979fc",
+      "dependencies": [
+        "B: North Dakota's candidate records live in the fulfillment registry B owns"
+      ],
+      "salvageBranches": [
+        "claude/north-dakota-grade-a-packet-wiludq"
+      ],
+      "salvageCommits": [
+        "2c65883ca2ed47504953420ceeb099c228ec390e",
+        "46e42eed3d3aa8177145b39c322e524524349fb4",
+        "4cc77558c64cf16903723594bf369398093cffee",
+        "33cfc21f08bf8b876d6b68ebef357e589b054b4d",
+        "f9bd937e1936fef2e98074c0666b2476542c31cd"
+      ],
+      "stopConditions": [
+        "The identity gate does not print 0cad61625a74665db23ac64988c301e48909cf81 for origin/claude/new-session-7rsiqq: return ENVIRONMENT MISROUTED without editing a file.",
+        "A change is required inside a captain-only path: stop and return a patch request; do not claim the path.",
+        "A required official source hash cannot be recomputed from the mounted corpus: stop rather than reading the hash back from a committed record.",
+        "Any Production deployment, migration, environment change, secret change, Stripe live-mode call, participant creation, sponsored-credit consumption or domain activation would be needed: stop and return the blocker."
+      ],
+      "captainIntegrationCommit": "14ebc93ce531e7e753ffc1290191b1f4a66979fc"
+    },
+    {
+      "sprintId": "legalease-68h-grade-a-2026-08-29",
+      "repository": "Roger-LegalEase/legalease-partner-dashboard-clean",
+      "controllingBranch": "claude/legalease-sprint-captain-utucnw",
+      "baseSha": "be673158bae0f3ffdb8b4c4408f989bcf69720e4",
+      "remoteBaseSha": "be673158bae0f3ffdb8b4c4408f989bcf69720e4",
+      "worktreeRule": "One dedicated worktree per lane, created with git worktree add from the baseSha above, never shared with another lane and never the captain worktree at /home/user/legalease-partner-dashboard-clean.",
+      "requiredReturnFormat": "Return the full 40-character commit SHA on the lane branch, the exact commands run, and their pass or fail result. Return the SHA only; the captain reviews and integrates it. Do not open a pull request and do not request a branch merge.",
+      "lane": "E",
+      "model": "Claude Opus 5",
+      "status": "integrated",
+      "laneBranch": "claude/grade-a-68h-lane-e",
+      "shardId": "S-E1",
+      "routeIds": [
+        "applies to every route id in data/rcap-ledger/launch-graph.json; the claim boundary is route-independent and is asserted once for all 256"
+      ],
+      "packetFamilyIds": [
+        "no packet family: this lane renders no packet"
+      ],
+      "jurisdictions": [
+        "applies to all 51 jurisdictions; the claim boundary is jurisdiction-independent"
+      ],
+      "sourceIdentities": [
+        "no official source document is consumed by this lane"
+      ],
+      "sourceHashes": [
+        "not applicable: this lane consumes no official source bytes"
+      ],
+      "ownedPaths": [
+        "src/lib/rcap/briefcase/",
+        "src/lib/expungement-ai/claim/",
+        "src/lib/expungement-ai/briefcase.ts",
+        "src/lib/expungement-ai/briefcase-presentation-authority.ts",
+        "src/lib/expungement-ai/verification-cas.ts",
+        "scripts/verify-shared-claim-boundary-app.mjs",
+        "scripts/verify-shared-claim-boundary-db.mjs",
+        "scripts/test-briefcase-presentation-authority.mjs"
+      ],
+      "prohibitedSharedPaths": [
+        "package.json",
+        "package-lock.json",
+        "data/rcap-verifier-dispositions.json",
+        "data/rcap-ledger/",
+        "data/rcap-grade-a/",
+        "supabase/migrations/",
+        "docs/rcap/grade-a/captain/",
+        "src/lib/rcap/fulfillment/",
+        "src/lib/record-clearing/",
+        "src/lib/expungement-ai/payment-adapter.ts",
+        "src/lib/expungement-ai/consumer-payment-authority.ts",
+        "src/lib/rcap/render/",
+        "data/rcap-all50/overlays/lane-c-candidates/"
+      ],
+      "requiredDeliverables": [
+        "An atomic, exactly-once claim: one winner under concurrency, no stranded slot on rollback.",
+        "A matter and Briefcase that are never anonymous, with user_id NOT NULL enforced in the database rather than only in the application.",
+        "Review and Edit that is deterministic and reversible and that changes the render input hash.",
+        "Verification invalidation: a stale specification refuses to render.",
+        "Denials proven for anonymous access, wrong user and wrong matter."
+      ],
+      "requiredTests": [
+        "node scripts/verify-shared-claim-boundary-db.mjs",
+        "node scripts/verify-shared-claim-boundary-app.mjs",
+        "node scripts/verify-rcap-briefcase-result-persistence.mjs",
+        "node scripts/test-briefcase-presentation-authority.mjs",
+        "npm run typecheck",
+        "npm test"
+      ],
+      "requiredReturnCommit": "d3bd3e241b8712b9954e50323c3121ad62753f85",
+      "dependencies": [
+        "none for implementation; lane F consumes this lane's ownership boundary"
+      ],
+      "salvageBranches": [
+        "no salvage branch exists for this lane; it starts fresh from the controlling base"
+      ],
+      "salvageCommits": [
+        "no salvage commits: this lane has no prior pushed work to recover"
+      ],
+      "stopConditions": [
+        "The identity gate does not print be673158bae0f3ffdb8b4c4408f989bcf69720e4 for origin/claude/legalease-sprint-captain-utucnw: return ENVIRONMENT MISROUTED without editing a file.",
+        "A change is required inside a captain-only path: stop and return a patch request; do not claim the path.",
+        "A required official source hash cannot be recomputed from the mounted corpus: stop rather than reading the hash back from a committed record.",
+        "Any Production deployment, migration, environment change, secret change, Stripe live-mode call, participant creation, sponsored-credit consumption or domain activation would be needed: stop and return the blocker.",
+        "A change to payment, sponsorship, rendering or delivery would be needed: that is lane F; return a patch request instead."
+      ],
+      "captainIntegrationCommit": "c9646cd5146b7f61667fd2968b715e79b10c19b2",
+      "integrationNote": "Replayed commit by commit onto the captain head; the branch was not merged. No migration was required. Its two new verifiers are registered wired and are in the chain."
+    },
+    {
+      "sprintId": "legalease-68h-grade-a-2026-08-29",
+      "repository": "Roger-LegalEase/legalease-partner-dashboard-clean",
+      "controllingBranch": "claude/legalease-sprint-captain-utucnw",
+      "baseSha": "61ee6cc359bc19d32c6c071194e62a553446ca08",
+      "remoteBaseSha": "61ee6cc359bc19d32c6c071194e62a553446ca08",
+      "worktreeRule": "One dedicated worktree per lane, created with git worktree add from the baseSha above, never shared with another lane and never the captain worktree at /home/user/legalease-partner-dashboard-clean.",
+      "requiredReturnFormat": "Return the full 40-character commit SHA on the lane branch, the exact commands run, and their pass or fail result. Return the SHA only; the captain reviews and integrates it. Do not open a pull request and do not request a branch merge.",
+      "lane": "F",
+      "model": "Claude Opus 5",
+      "status": "integrated",
+      "laneBranch": "claude/grade-a-v5-lane-f",
+      "shardId": "S-F1",
+      "routeIds": [
+        "applies to every route id in data/rcap-ledger/launch-graph.json; every route is gated through admitCommercial and today every route is denied"
+      ],
+      "packetFamilyIds": [
+        "no packet family of its own: this lane fulfills whatever the authority admits"
+      ],
+      "jurisdictions": [
+        "applies to all 51 jurisdictions; commercial admission is jurisdiction-independent"
+      ],
+      "sourceIdentities": [
+        "no official source document is consumed by this lane"
+      ],
+      "sourceHashes": [
+        "not applicable: this lane consumes no official source bytes"
+      ],
+      "ownedPaths": [
+        "src/lib/rcap/render/",
+        "src/lib/expungement-ai/payment-adapter.ts",
+        "src/lib/expungement-ai/consumer-payment-authority.ts",
+        "src/lib/expungement-ai/checkout-reconciliation.ts",
+        "src/lib/expungement-ai/consumer-render-request.ts",
+        "src/lib/expungement-ai/packet-generation.ts",
+        "src/app/api/expungement-ai/checkout/",
+        "src/app/api/expungement-ai/packet/"
+      ],
+      "prohibitedSharedPaths": [
+        "package.json",
+        "package-lock.json",
+        "data/rcap-verifier-dispositions.json",
+        "data/rcap-ledger/",
+        "data/rcap-grade-a/",
+        "supabase/migrations/",
+        "docs/rcap/grade-a/captain/",
+        "src/lib/rcap/fulfillment/",
+        "src/lib/rcap/briefcase/",
+        "src/lib/expungement-ai/claim/",
+        "src/lib/record-clearing/",
+        "data/rcap-all50/overlays/lane-c-candidates/"
+      ],
+      "requiredDeliverables": [
+        "Every value exported by COMMERCIAL_ADMISSION_POINTS gated through admitCommercial(point, identity), each with exactly one governed call-site treatment and no second commercial rule anywhere.",
+        "Consumer and sponsored paths admitted by the same function, not by parallel code paths.",
+        "Payment and sponsorship idempotency: a receipt is single-use and a repeat consumes nothing.",
+        "Durable render, artifact validation, private delivery, download and repeat download.",
+        "An acceptance verifier that imports COMMERCIAL_ADMISSION_POINTS from the authority rather than restating it, and fails if any exported point has no governed call site or more than one."
+      ],
+      "requiredTests": [
+        "node scripts/verify-active-lane-envelopes.mjs",
+        "node scripts/verify-rcap-phase52-consumer-payment-authority.mjs",
+        "node scripts/test-rcap-phase52-mutations.mjs",
+        "node scripts/verify-rcap-phase51-consumer-payment-security.mjs",
+        "node scripts/verify-rcap-packet-delivery-e2e.mjs",
+        "node scripts/verify-stripe-runtime-key-policy.mjs",
+        "npm run typecheck",
+        "npm test"
+      ],
+      "requiredReturnCommit": "3ba7c5d9d96da0a7481acd252eb4c8a366c35e18",
+      "dependencies": [
+        "B: this lane consumes the Grade-A fulfillment authority and must not restate its rule",
+        "E: this lane relies on the participant ownership boundary"
+      ],
+      "salvageBranches": [
+        "no salvage branch exists for this lane; it starts fresh from the controlling base"
+      ],
+      "salvageCommits": [
+        "no salvage commits: this lane has no prior pushed work to recover"
+      ],
+      "stopConditions": [
+        "The identity gate does not print 61ee6cc359bc19d32c6c071194e62a553446ca08 for origin/claude/legalease-sprint-captain-utucnw: return ENVIRONMENT MISROUTED without editing a file.",
+        "A change is required inside a captain-only path: stop and return a patch request; do not claim the path.",
+        "A required official source hash cannot be recomputed from the mounted corpus: stop rather than reading the hash back from a committed record.",
+        "Any Production deployment, migration, environment change, secret change, Stripe live-mode call, participant creation, sponsored-credit consumption or domain activation would be needed: stop and return the blocker.",
+        "A route appears to need commercial enabling: it does not. admitCommercial denies every route today because commercially eligible is zero. Do not add an override, a bypass or a second rule.",
+        "Stripe live mode, a real charge, a real participant or a sponsored-credit consumption would be needed: stop. Test mode and synthetic evidence only."
+      ],
+      "requiredAdmissionPoints": [
+        "consumer_checkout",
+        "sponsored_entitlement",
+        "packet_credit_admission",
+        "generation_admission",
+        "provider_dispatch",
+        "artifact_commercial_attachment",
+        "briefcase_ready",
+        "private_download",
+        "repeat_download",
+        "launch_graph_commercial_status"
+      ],
+      "requiredAdmissionPointsNote": "Exactly the set exported as COMMERCIAL_ADMISSION_POINTS by src/lib/rcap/fulfillment/grade-a-authority.ts. A count is the wrong invariant: it broke the moment the authority gained repeat_download. The acceptance verifier imports the constant and proves every exported point has exactly one governed call-site treatment, so an added point fails until it is gated and a removed point fails until this list agrees.",
+      "captainIntegrationCommit": "026525324a2246615b7e68320d709c019863e33c",
+      "integrationNote": "Replayed six commits onto the E-integrated head; branch not merged. Launch graph now reads the one authority. The RCAP job-id download is gated through one shared treatment with the consumer download; no migration was needed because the render-job row already persisted the binding columns."
+    },
+    {
+      "sprintId": "legalease-68h-grade-a-2026-08-29",
+      "repository": "Roger-LegalEase/legalease-partner-dashboard-clean",
+      "controllingBranch": "claude/legalease-sprint-captain-utucnw",
+      "baseSha": "61ee6cc359bc19d32c6c071194e62a553446ca08",
+      "remoteBaseSha": "61ee6cc359bc19d32c6c071194e62a553446ca08",
+      "worktreeRule": "One dedicated worktree per lane, created with git worktree add from the baseSha above, never shared with another lane and never the captain worktree at /home/user/legalease-partner-dashboard-clean.",
+      "requiredReturnFormat": "Return the full 40-character commit SHA on the lane branch, the exact commands run, and their pass or fail result. Return the SHA only; the captain reviews and integrates it. Do not open a pull request and do not request a branch merge.",
+      "lane": "G",
+      "model": "Claude Opus 5",
+      "status": "integrated",
+      "laneBranch": "claude/grade-a-v5-lane-g-family-1",
+      "shardId": "S-G-CO",
+      "routeIds": [
+        "CO:juvenile-expungement-19-1-306",
+        "CO:petition-based-conviction-sealing-jdf-612-24-72-706",
+        "CO:petition-based-non-conviction-sealing-jdf-417-24-72-704"
+      ],
+      "packetFamilyIds": [
+        "colorado"
+      ],
+      "jurisdictions": [
+        "CO"
+      ],
+      "sourceIdentities": [
+        "CO__FORM__JDF-2363__request-for-a-hearing-automatic-conviction-sealing__REV-2024-02-01__EN.pdf",
+        "CO__FORM__JDF-2371__motion-to-seal-conviction-records-conduct-no-longer-prohibited__REV-2025-07-01__EN.pdf",
+        "CO__FORM__JDF-2374__order-to-seal-conviction-records-conduct-no-longer-prohibited__REV-2025-07-01__EN.pdf",
+        "CO__FORM__JDF-417__petition-to-seal-arrest-records-no-charges-filed__REV-2025-07-01__EN.pdf",
+        "CO__FORM__JDF-418__order-to-seal-arrest-and-criminal-records__REV-2024-03-20__EN.pdf",
+        "CO__FORM__JDF-477__motion-to-seal-non-conviction-records__REV-2024-08-07__EN.pdf",
+        "CO__FORM__JDF-478__order-to-seal-non-conviction-records__REV-2024-08-07__EN.pdf",
+        "CO__FORM__JDF-612__motion-to-seal-conviction-records-district-or-county-court-conviction__REV-2024-08-07__EN.pdf",
+        "CO__FORM__JDF-615__order-to-seal-conviction-records__REV-2024-08-07__EN.pdf",
+        "CO__FORM__JDF-641__motion-to-seal-multiple-conviction-records__REV-2025-07-01__EN.pdf",
+        "CO__FORM__JDF-642__order-to-seal-multiple-conviction-records__REV-2025-07-01__EN.pdf",
+        "CO__FORM__JDF-680__motion-to-seal-conviction-records-pardoned__REV-2022-08-10__EN.pdf",
+        "CO__FORM__JDF-681__order-to-seal-pardoned-conviction-records__REV-2024-03-20__EN.pdf",
+        "CO__FORM__JDF-683__petition-to-seal-municipal-conviction-records__REV-2023-02-08__EN.pdf",
+        "CO__FORM__JDF-686__order-to-seal-municipal-conviction-records__REV-2023-02-08__EN.pdf",
+        "CO__INSTRUCTIONS__JDF-2370__guide-to-sealing-conviction-records-conduct-no-longer-prohibited__REV-2025-07-01__EN.pdf",
+        "CO__INSTRUCTIONS__JDF-416__guide-to-sealing-arrest-records-no-charges-filed__REV-2025-07-01__EN.pdf",
+        "CO__INSTRUCTIONS__JDF-491__guide-to-sealing-non-conviction-records__REV-2024-08-07__EN.pdf",
+        "CO__INSTRUCTIONS__JDF-611__guide-to-sealing-conviction-records-single-case__REV-2024-08-07__EN.pdf",
+        "CO__INSTRUCTIONS__JDF-640__how-to-seal-multiple-conviction-records__REV-2022-09-06__EN.pdf",
+        "CO__INSTRUCTIONS__JDF-682__how-to-seal-municipal-conviction-records__REV-2024-08-07__EN.pdf",
+        "STATE_MANIFEST.csv",
+        "STATE_README.md"
+      ],
+      "sourceHashes": [
+        "abec6d716d028670a3b1e26c2a1b512ce320421253e6b85ec40e636d05577e33",
+        "642558b85e3f3df8c15808369685bbe56398523c7794b6a949d20fd7b4f8b6d6",
+        "36a7ad4767ac8333183cd26775265697d1c6574029f7f722462f09d382990a72",
+        "e0e1aefac85269087ca0f69252c501b14020a301d2cf6e5fbcc26aa5338f6dd4",
+        "b027be364d93a1f5b879916c144260e7aeeaadc46309bf69c9478d6ad70c7993",
+        "b9cbad7f3a66a1a952e10ad15e59d77afb9b68714465fe0e88333cf2c3159643",
+        "8208caab3019164f8f0671aea1f0dbcf460805d61455346887cfd1d133c0e159",
+        "8600b4b9a4b27fe821e843cf6bfc21f45325f0791bb9d1e62a0326d7261f927e",
+        "106cbd5edad2272f3f6f1378450b007507da879e6a917437d2cc3bb062d87647",
+        "6ad1d7c43b454b3b50c9c77313528b9660ada8a730d9ed5c384479809173ab02",
+        "584708616e982657f341b17bd58166a73ca05529a73bae715ce5f38168f0c52c",
+        "ae3d5f1c345394dcc104fd5cc0ac72b636068e52985cb38edf4592688d8ac0ae",
+        "cf20dc0fdcbd71b49c2a43a6a11b1c952fd65943a5d0755f50299a10447a799d",
+        "6b451ae32c01ef1e637a460df627d246e1b4a61d4ac4f166005a7349fa87202e",
+        "abf997d8e701df0c74b1eb7833b35f30c006b50bf71b019abf7754d898433200",
+        "cc0b5737ef0598f9e667e50b00aecbd95f53fdb9aa2bc546f8aaa910da480149",
+        "26b07edc2300b2fd9dc8a5114fa3738fb4b377a7aa1ea089cecf6861b96235af",
+        "79dca4e720161b68ae74a8973392bbe22c05f565f704c609ec7cc7da0fcd3685",
+        "b628ee77cfdbb1e02208a74b04f6a03083e2843505f4bb4a7c3e0f2b3503843e",
+        "1e47a0aa5ed8de4c36eff44d8fd88c4cfb62e77a44c136930165abe633efa07f",
+        "5a05097b1c2b0a22beb3c44fca7b15fc0bf40911c6590bcd6c46546e1006f0fb",
+        "5f5416eac888cacb0ecd838f9633d8ed9923ac2c9666a7615205abb8d00be1ae",
+        "20e27486419abaa7c998aa0064ce8f08cb99784ac023e62cf07adce5e6a0c63b"
+      ],
+      "ownedPaths": [
+        "data/rcap-all50/overlays/production/colorado/",
+        "src/lib/rcap/state-packs/colorado/"
+      ],
+      "prohibitedSharedPaths": [
+        "package.json",
+        "package-lock.json",
+        "data/rcap-verifier-dispositions.json",
+        "data/rcap-ledger/",
+        "data/rcap-grade-a/",
+        "supabase/migrations/",
+        "docs/rcap/grade-a/captain/",
+        "src/lib/rcap/fulfillment/",
+        "src/lib/rcap/briefcase/",
+        "src/lib/record-clearing/",
+        "data/rcap-all50/overlays/lane-c-candidates/",
+        "data/rcap-lane-d/"
+      ],
+      "requiredDeliverables": [
+        "Run the committed corpus bootstrap first: bash scripts/rcap-corpus/bootstrap-private-corpus.sh",
+        "Recompute every Colorado official source hash from the mounted corpus at start; stop rather than reading a hash back from a record.",
+        "A field census, field classification and protected-field scan per official Colorado form.",
+        "A deterministic fixture and a rendered artifact with its SHA-256 for each packet in the family.",
+        "A truthful route disposition for every Colorado route id listed in this envelope."
+      ],
+      "requiredTests": [
+        "bash scripts/rcap-corpus/bootstrap-private-corpus.sh",
+        "node scripts/verify-rcap-hard-form-dispositions.mjs",
+        "node scripts/verify-rcap-hard-form-outputs.mjs",
+        "node scripts/generate-packet-family-build-status.mjs --check",
+        "npm run typecheck",
+        "npm test"
+      ],
+      "requiredReturnCommit": "eb91deb06bc2c9d711860669fa60622f96aa7a29",
+      "dependencies": [
+        "B: any Colorado route this lane advances is admitted only through the Grade-A fulfillment authority, which denies every route today"
+      ],
+      "salvageBranches": [
+        "no salvage branch exists for this lane; it starts fresh from the active base"
+      ],
+      "salvageCommits": [
+        "no salvage commits: this lane has no prior pushed work to recover"
+      ],
+      "stopConditions": [
+        "The identity gate does not print 61ee6cc359bc19d32c6c071194e62a553446ca08 for origin/claude/legalease-sprint-captain-utucnw: return ENVIRONMENT MISROUTED without editing a file.",
+        "A change is required inside a captain-only path: stop and return a patch request; do not claim the path.",
+        "A required official source hash cannot be recomputed from the mounted corpus: stop rather than reading the hash back from a committed record.",
+        "Any Production deployment, migration, environment change, secret change, Stripe live-mode call, participant creation, sponsored-credit consumption or domain activation would be needed: stop and return the blocker.",
+        "A family outside this shard's packetFamilyIds would need editing: stop. Another shard owns it.",
+        "An official form is absent for an assigned route: produce a guidance fallback and record the disposition honestly. Never disguise unfinished packet work as guidance."
+      ],
+      "dispositionDetail": "integrated_audit",
+      "captainIntegrationCommit": "148382ab2a2acbe673b6d35c8967f5a908342e60",
+      "integrationNote": "Audit integrated. Packet family INCOMPLETE, 0 Grade-A candidate routes, service disposition SOURCE_OR_CONFIGURATION_GATE, commercial status HOLD. Seven official artifacts missing: JDF-419, JDF-435, JDF-205, JDF-206, JDF-302, the JDF-611 notice and the JDF-611 second order. Renderer reproducibility open. Successors: G-CO-SOURCE and G-CO-BUILD."
+    },
+    {
+      "sprintId": "legalease-68h-grade-a-2026-08-29",
+      "repository": "Roger-LegalEase/legalease-partner-dashboard-clean",
+      "controllingBranch": "claude/legalease-sprint-captain-utucnw",
+      "baseSha": "be673158bae0f3ffdb8b4c4408f989bcf69720e4",
+      "remoteBaseSha": "be673158bae0f3ffdb8b4c4408f989bcf69720e4",
+      "worktreeRule": "One dedicated worktree per lane, created with git worktree add from the baseSha above, never shared with another lane and never the captain worktree at /home/user/legalease-partner-dashboard-clean.",
+      "requiredReturnFormat": "Return the full 40-character commit SHA on the lane branch, the exact commands run, and their pass or fail result. Return the SHA only; the captain reviews and integrates it. Do not open a pull request and do not request a branch merge.",
+      "lane": "H",
+      "model": "Claude Opus 5",
+      "status": "integrated",
+      "laneBranch": "claude/grade-a-68h-lane-h",
+      "shardId": "S-H1",
+      "routeIds": [
+        "the hosted acceptance journeys enumerated in data/rcap-all50/hosted-acceptance-journeys.json"
+      ],
+      "packetFamilyIds": [
+        "no packet family: this lane proves surfaces and builds no packet"
+      ],
+      "jurisdictions": [
+        "applies to all 51 jurisdictions through the hosted acceptance journeys"
+      ],
+      "sourceIdentities": [
+        "no official source document is consumed by this lane"
+      ],
+      "sourceHashes": [
+        "not applicable: this lane consumes no official source bytes"
+      ],
+      "ownedPaths": [
+        "scripts/security/",
+        "scripts/verify-internal-admin-security-tools.mjs",
+        "scripts/test-internal-admin-rls-hardening.mjs",
+        "src/lib/clinic-mode/",
+        "tsconfig.clinic-mode.json"
+      ],
+      "prohibitedSharedPaths": [
+        "package.json",
+        "package-lock.json",
+        "data/rcap-verifier-dispositions.json",
+        "data/rcap-ledger/",
+        "data/rcap-grade-a/",
+        "supabase/migrations/",
+        "docs/rcap/grade-a/captain/",
+        "src/lib/rcap/fulfillment/",
+        "src/lib/rcap/render/",
+        "src/lib/expungement-ai/claim/",
+        "src/lib/record-clearing/",
+        "data/rcap-all50/overlays/lane-c-candidates/"
+      ],
+      "requiredDeliverables": [
+        "Security denial proof: anonymous, wrong-user, wrong-matter and cross-tenant access all denied.",
+        "Clinic acceptance including shared-device reset clearing participant state.",
+        "Mobile and accessibility evidence.",
+        "Local harness work started immediately; this lane does not idle waiting for a Preview."
+      ],
+      "requiredTests": [
+        "node scripts/security/test-auth-redirect-security.mjs",
+        "node scripts/security/test-sign-out-origin.mjs",
+        "node scripts/security/test-internal-admin-remediation.mjs",
+        "node scripts/verify-internal-admin-security-tools.mjs",
+        "node scripts/test-internal-admin-rls-hardening.mjs",
+        "npm test"
+      ],
+      "requiredReturnCommit": "d45078bf3f701d17541a5d75c1bffca1bff59205",
+      "dependencies": [
+        "E: security denials are asserted against the ownership boundary E establishes"
+      ],
+      "salvageBranches": [
+        "no salvage branch exists for this lane; it starts fresh from the controlling base"
+      ],
+      "salvageCommits": [
+        "no salvage commits: this lane has no prior pushed work to recover"
+      ],
+      "stopConditions": [
+        "The identity gate does not print be673158bae0f3ffdb8b4c4408f989bcf69720e4 for origin/claude/legalease-sprint-captain-utucnw: return ENVIRONMENT MISROUTED without editing a file.",
+        "A change is required inside a captain-only path: stop and return a patch request; do not claim the path.",
+        "A required official source hash cannot be recomputed from the mounted corpus: stop rather than reading the hash back from a committed record.",
+        "Any Production deployment, migration, environment change, secret change, Stripe live-mode call, participant creation, sponsored-credit consumption or domain activation would be needed: stop and return the blocker.",
+        "The Production-facing verifiers (verify-rcap-production-activation, -canary, -smoke, -clinic-migrate and their mutation harnesses) are recorded keep_available and are not in the test chain. Do not wire them in and do not run them.",
+        "A browser-dependent check fails on a missing Chromium revision: bridge it in the environment. Never change a repository file, and never skip, disable or quarantine a security check to get green."
+      ],
+      "captainIntegrationCommit": "ce684e604ffc597cf5d87c0804869bdff62ddeb2",
+      "hostedAcceptanceStatus": "pending_inputs",
+      "hostedAcceptanceInputsRequired": [
+        "an exact frozen candidate SHA (blocked: a freeze needs a green chain, and BLOCKER-1 and BLOCKER-4 stand)",
+        "an exact pinned nonproduction Preview URL",
+        "an exact synthetic tenant slug and an exact synthetic event slug",
+        "at least two exact synthetic participant identities in the reserved test domains"
+      ],
+      "pathException": "Approved for this integration only: 15 Clinic page, component and type paths outside the declared owned set, inspected and found purely presentational (39 insertions, 25 deletions; contrast tokens, role, focus and aria attributes only). Ownership is not widened for future work."
+    },
+    {
+      "sprintId": "legalease-68h-grade-a-2026-08-29",
+      "repository": "Roger-LegalEase/legalease-partner-dashboard-clean",
+      "controllingBranch": "claude/legalease-sprint-captain-utucnw",
+      "baseSha": "148382ab2a2acbe673b6d35c8967f5a908342e60",
+      "remoteBaseSha": "148382ab2a2acbe673b6d35c8967f5a908342e60",
+      "model": "Claude Opus 5",
+      "status": "integrated",
+      "worktreeRule": "One dedicated worktree per lane, created with git worktree add from the baseSha above, never shared with another lane and never the captain worktree at /home/user/legalease-partner-dashboard-clean.",
+      "requiredReturnFormat": "Return the full 40-character commit SHA on the lane branch, the exact commands run, and their pass or fail result. The captain reviews and integrates the exact commit; do not open a pull request and do not request a branch merge.",
+      "lane": "G-CO-SOURCE",
+      "laneBranch": "claude/grade-a-v6-co-source",
+      "shardId": "S-GCO-SRC",
+      "routeIds": [
+        "CO:juvenile-expungement-19-1-306",
+        "CO:petition-based-conviction-sealing-jdf-612-24-72-706",
+        "CO:petition-based-non-conviction-sealing-jdf-417-24-72-704"
+      ],
+      "packetFamilyIds": [
+        "colorado"
+      ],
+      "jurisdictions": [
+        "CO"
+      ],
+      "sourceIdentities": [
+        "CO__FORM__JDF-2363__request-for-a-hearing-automatic-conviction-sealing__REV-2024-02-01__EN.pdf",
+        "CO__FORM__JDF-2371__motion-to-seal-conviction-records-conduct-no-longer-prohibited__REV-2025-07-01__EN.pdf",
+        "CO__FORM__JDF-2374__order-to-seal-conviction-records-conduct-no-longer-prohibited__REV-2025-07-01__EN.pdf",
+        "CO__FORM__JDF-417__petition-to-seal-arrest-records-no-charges-filed__REV-2025-07-01__EN.pdf",
+        "CO__FORM__JDF-418__order-to-seal-arrest-and-criminal-records__REV-2024-03-20__EN.pdf",
+        "CO__FORM__JDF-477__motion-to-seal-non-conviction-records__REV-2024-08-07__EN.pdf",
+        "CO__FORM__JDF-478__order-to-seal-non-conviction-records__REV-2024-08-07__EN.pdf",
+        "CO__FORM__JDF-612__motion-to-seal-conviction-records-district-or-county-court-conviction__REV-2024-08-07__EN.pdf",
+        "CO__FORM__JDF-615__order-to-seal-conviction-records__REV-2024-08-07__EN.pdf",
+        "CO__FORM__JDF-641__motion-to-seal-multiple-conviction-records__REV-2025-07-01__EN.pdf",
+        "CO__FORM__JDF-642__order-to-seal-multiple-conviction-records__REV-2025-07-01__EN.pdf",
+        "CO__FORM__JDF-680__motion-to-seal-conviction-records-pardoned__REV-2022-08-10__EN.pdf",
+        "CO__FORM__JDF-681__order-to-seal-pardoned-conviction-records__REV-2024-03-20__EN.pdf",
+        "CO__FORM__JDF-683__petition-to-seal-municipal-conviction-records__REV-2023-02-08__EN.pdf",
+        "CO__FORM__JDF-686__order-to-seal-municipal-conviction-records__REV-2023-02-08__EN.pdf",
+        "CO__INSTRUCTIONS__JDF-2370__guide-to-sealing-conviction-records-conduct-no-longer-prohibited__REV-2025-07-01__EN.pdf",
+        "CO__INSTRUCTIONS__JDF-416__guide-to-sealing-arrest-records-no-charges-filed__REV-2025-07-01__EN.pdf",
+        "CO__INSTRUCTIONS__JDF-491__guide-to-sealing-non-conviction-records__REV-2024-08-07__EN.pdf",
+        "CO__INSTRUCTIONS__JDF-611__guide-to-sealing-conviction-records-single-case__REV-2024-08-07__EN.pdf",
+        "CO__INSTRUCTIONS__JDF-640__how-to-seal-multiple-conviction-records__REV-2022-09-06__EN.pdf",
+        "CO__INSTRUCTIONS__JDF-682__how-to-seal-municipal-conviction-records__REV-2024-08-07__EN.pdf",
+        "STATE_MANIFEST.csv",
+        "STATE_README.md"
+      ],
+      "sourceHashes": [
+        "abec6d716d028670a3b1e26c2a1b512ce320421253e6b85ec40e636d05577e33",
+        "642558b85e3f3df8c15808369685bbe56398523c7794b6a949d20fd7b4f8b6d6",
+        "36a7ad4767ac8333183cd26775265697d1c6574029f7f722462f09d382990a72",
+        "e0e1aefac85269087ca0f69252c501b14020a301d2cf6e5fbcc26aa5338f6dd4",
+        "b027be364d93a1f5b879916c144260e7aeeaadc46309bf69c9478d6ad70c7993",
+        "b9cbad7f3a66a1a952e10ad15e59d77afb9b68714465fe0e88333cf2c3159643",
+        "8208caab3019164f8f0671aea1f0dbcf460805d61455346887cfd1d133c0e159",
+        "8600b4b9a4b27fe821e843cf6bfc21f45325f0791bb9d1e62a0326d7261f927e",
+        "106cbd5edad2272f3f6f1378450b007507da879e6a917437d2cc3bb062d87647",
+        "6ad1d7c43b454b3b50c9c77313528b9660ada8a730d9ed5c384479809173ab02",
+        "584708616e982657f341b17bd58166a73ca05529a73bae715ce5f38168f0c52c",
+        "ae3d5f1c345394dcc104fd5cc0ac72b636068e52985cb38edf4592688d8ac0ae",
+        "cf20dc0fdcbd71b49c2a43a6a11b1c952fd65943a5d0755f50299a10447a799d",
+        "6b451ae32c01ef1e637a460df627d246e1b4a61d4ac4f166005a7349fa87202e",
+        "abf997d8e701df0c74b1eb7833b35f30c006b50bf71b019abf7754d898433200",
+        "cc0b5737ef0598f9e667e50b00aecbd95f53fdb9aa2bc546f8aaa910da480149",
+        "26b07edc2300b2fd9dc8a5114fa3738fb4b377a7aa1ea089cecf6861b96235af",
+        "79dca4e720161b68ae74a8973392bbe22c05f565f704c609ec7cc7da0fcd3685",
+        "b628ee77cfdbb1e02208a74b04f6a03083e2843505f4bb4a7c3e0f2b3503843e",
+        "1e47a0aa5ed8de4c36eff44d8fd88c4cfb62e77a44c136930165abe633efa07f",
+        "5a05097b1c2b0a22beb3c44fca7b15fc0bf40911c6590bcd6c46546e1006f0fb",
+        "5f5416eac888cacb0ecd838f9633d8ed9923ac2c9666a7615205abb8d00be1ae",
+        "20e27486419abaa7c998aa0064ce8f08cb99784ac023e62cf07adce5e6a0c63b"
+      ],
+      "ownedPaths": [
+        "data/rcap-all50/candidate-evidence/colorado/",
+        "scripts/rcap-corpus/"
+      ],
+      "prohibitedSharedPaths": [
+        "package.json",
+        "package-lock.json",
+        "data/rcap-verifier-dispositions.json",
+        "data/rcap-ledger/",
+        "data/rcap-grade-a/",
+        "supabase/migrations/",
+        "docs/rcap/grade-a/captain/",
+        "src/lib/rcap/fulfillment/",
+        "src/lib/rcap/render/",
+        "src/lib/rcap/state-packs/colorado/",
+        "data/rcap-all50/overlays/production/"
+      ],
+      "requiredDeliverables": [
+        "Identify the two JDF-611 filings by page-image inspection of the current official guide, or another current official Colorado Judicial Branch source. Do not infer or guess a form number.",
+        "Acquire JDF-419, JDF-435, JDF-205, JDF-206, JDF-302, the JDF-611 notice and the JDF-611 second order from current official sources.",
+        "For each: official URL or source location, official title, form number, role in the filing set, revision date, page count, content type, byte size, SHA-256, route usage, retrieval date and source-verification evidence.",
+        "Produce either a new immutable private corpus release with a new tag, archive SHA-256 and counts, or an immutable governed Colorado supplement with its own tag, archive SHA-256, source index and bootstrap contract.",
+        "Update only governed metadata, hashes, bootstrap support and provenance in the product repository."
+      ],
+      "requiredTests": [
+        "bash scripts/rcap-corpus/bootstrap-private-corpus.sh",
+        "node scripts/generate-rcap-official-source-registry.mjs --check",
+        "node scripts/verify-rcap-grade-a-fulfillment-authority.mjs",
+        "npm run typecheck"
+      ],
+      "requiredReturnCommit": "37f3bf8beea88fdfad9ad701bd3c61ac0fab350b",
+      "dependencies": [
+        "none for acquisition; Lane G-CO-BUILD consumes what this lane verifies"
+      ],
+      "salvageBranches": [
+        "no salvage branch exists for this lane; it starts fresh from the post-audit base"
+      ],
+      "salvageCommits": [
+        "no salvage commits: this lane has no prior pushed work to recover"
+      ],
+      "stopConditions": [
+        "Before any file is edited, the identity gate must establish all six of the following; if any one of them fails, return ENVIRONMENT MISROUTED without editing a file. (1) 148382ab2a2acbe673b6d35c8967f5a908342e60 exists as a commit in this clone. (2) `git merge-base --is-ancestor 148382ab2a2acbe673b6d35c8967f5a908342e60 origin/claude/legalease-sprint-captain-utucnw` exits zero, so the captain branch still contains this base. The captain tip may already be well ahead of it — every lane integrated after dispatch moves it — and the gate deliberately does not compare the two. (3) `git merge-base --is-ancestor 148382ab2a2acbe673b6d35c8967f5a908342e60 origin/claude/grade-a-v6-co-source` exits zero, so this lane branch contains the base as an ancestor. (4) At worker start, nothing but this lane's own commits sits between 148382ab2a2acbe673b6d35c8967f5a908342e60 and the tip of origin/claude/grade-a-v6-co-source. (5) `git status --porcelain` prints nothing, so the worker begins from a clean worktree. (6) `git remote get-url origin` names Roger-LegalEase/legalease-partner-dashboard-clean.",
+        "A change is required inside a captain-only path: stop and return a patch request; do not claim the path.",
+        "A required official source hash cannot be recomputed from the mounted corpus: stop rather than reading the hash back from a committed record.",
+        "Any Production deployment, migration, environment change, secret change, Stripe live-mode call, participant creation, sponsored-credit consumption or domain activation would be needed: stop and return the blocker.",
+        "A route appears to need commercial enabling: it does not. Commercially eligible is zero and every route is denied. Do not add an override, a bypass or a second commercial rule.",
+        "Overwriting or republishing source-corpus-2026-08-28 under the same tag or archive identity would be needed: stop. That release is pinned and immutable; produce a new one.",
+        "A source PDF would be committed into the product repository: stop. Bytes stay in the git-ignored private corpus."
+      ],
+      "packetFamilyRole": "source_acquisition_and_provenance",
+      "laneResult": "identification_complete_acquisition_blocked",
+      "captainIntegrationCommit": "d416af5201ff61c6b36d0b0131656c1aeec15984"
+    },
+    {
+      "sprintId": "legalease-68h-grade-a-2026-08-29",
+      "repository": "Roger-LegalEase/legalease-partner-dashboard-clean",
+      "controllingBranch": "claude/legalease-sprint-captain-utucnw",
+      "baseSha": "148382ab2a2acbe673b6d35c8967f5a908342e60",
+      "remoteBaseSha": "148382ab2a2acbe673b6d35c8967f5a908342e60",
+      "model": "Claude Opus 5",
+      "status": "integrated",
+      "worktreeRule": "One dedicated worktree per lane, created with git worktree add from the baseSha above, never shared with another lane and never the captain worktree at /home/user/legalease-partner-dashboard-clean.",
+      "requiredReturnFormat": "Return the full 40-character commit SHA on the lane branch, the exact commands run, and their pass or fail result. The captain reviews and integrates the exact commit; do not open a pull request and do not request a branch merge.",
+      "lane": "G-CO-BUILD",
+      "laneBranch": "claude/grade-a-v6-co-build",
+      "shardId": "S-GCO-BLD",
+      "routeIds": [
+        "CO:juvenile-expungement-19-1-306",
+        "CO:petition-based-conviction-sealing-jdf-612-24-72-706",
+        "CO:petition-based-non-conviction-sealing-jdf-417-24-72-704"
+      ],
+      "packetFamilyIds": [
+        "colorado"
+      ],
+      "jurisdictions": [
+        "CO"
+      ],
+      "sourceIdentities": [
+        "CO__FORM__JDF-2363__request-for-a-hearing-automatic-conviction-sealing__REV-2024-02-01__EN.pdf",
+        "CO__FORM__JDF-2371__motion-to-seal-conviction-records-conduct-no-longer-prohibited__REV-2025-07-01__EN.pdf",
+        "CO__FORM__JDF-2374__order-to-seal-conviction-records-conduct-no-longer-prohibited__REV-2025-07-01__EN.pdf",
+        "CO__FORM__JDF-417__petition-to-seal-arrest-records-no-charges-filed__REV-2025-07-01__EN.pdf",
+        "CO__FORM__JDF-418__order-to-seal-arrest-and-criminal-records__REV-2024-03-20__EN.pdf",
+        "CO__FORM__JDF-477__motion-to-seal-non-conviction-records__REV-2024-08-07__EN.pdf",
+        "CO__FORM__JDF-478__order-to-seal-non-conviction-records__REV-2024-08-07__EN.pdf",
+        "CO__FORM__JDF-612__motion-to-seal-conviction-records-district-or-county-court-conviction__REV-2024-08-07__EN.pdf",
+        "CO__FORM__JDF-615__order-to-seal-conviction-records__REV-2024-08-07__EN.pdf",
+        "CO__FORM__JDF-641__motion-to-seal-multiple-conviction-records__REV-2025-07-01__EN.pdf",
+        "CO__FORM__JDF-642__order-to-seal-multiple-conviction-records__REV-2025-07-01__EN.pdf",
+        "CO__FORM__JDF-680__motion-to-seal-conviction-records-pardoned__REV-2022-08-10__EN.pdf",
+        "CO__FORM__JDF-681__order-to-seal-pardoned-conviction-records__REV-2024-03-20__EN.pdf",
+        "CO__FORM__JDF-683__petition-to-seal-municipal-conviction-records__REV-2023-02-08__EN.pdf",
+        "CO__FORM__JDF-686__order-to-seal-municipal-conviction-records__REV-2023-02-08__EN.pdf",
+        "CO__INSTRUCTIONS__JDF-2370__guide-to-sealing-conviction-records-conduct-no-longer-prohibited__REV-2025-07-01__EN.pdf",
+        "CO__INSTRUCTIONS__JDF-416__guide-to-sealing-arrest-records-no-charges-filed__REV-2025-07-01__EN.pdf",
+        "CO__INSTRUCTIONS__JDF-491__guide-to-sealing-non-conviction-records__REV-2024-08-07__EN.pdf",
+        "CO__INSTRUCTIONS__JDF-611__guide-to-sealing-conviction-records-single-case__REV-2024-08-07__EN.pdf",
+        "CO__INSTRUCTIONS__JDF-640__how-to-seal-multiple-conviction-records__REV-2022-09-06__EN.pdf",
+        "CO__INSTRUCTIONS__JDF-682__how-to-seal-municipal-conviction-records__REV-2024-08-07__EN.pdf",
+        "STATE_MANIFEST.csv",
+        "STATE_README.md"
+      ],
+      "sourceHashes": [
+        "abec6d716d028670a3b1e26c2a1b512ce320421253e6b85ec40e636d05577e33",
+        "642558b85e3f3df8c15808369685bbe56398523c7794b6a949d20fd7b4f8b6d6",
+        "36a7ad4767ac8333183cd26775265697d1c6574029f7f722462f09d382990a72",
+        "e0e1aefac85269087ca0f69252c501b14020a301d2cf6e5fbcc26aa5338f6dd4",
+        "b027be364d93a1f5b879916c144260e7aeeaadc46309bf69c9478d6ad70c7993",
+        "b9cbad7f3a66a1a952e10ad15e59d77afb9b68714465fe0e88333cf2c3159643",
+        "8208caab3019164f8f0671aea1f0dbcf460805d61455346887cfd1d133c0e159",
+        "8600b4b9a4b27fe821e843cf6bfc21f45325f0791bb9d1e62a0326d7261f927e",
+        "106cbd5edad2272f3f6f1378450b007507da879e6a917437d2cc3bb062d87647",
+        "6ad1d7c43b454b3b50c9c77313528b9660ada8a730d9ed5c384479809173ab02",
+        "584708616e982657f341b17bd58166a73ca05529a73bae715ce5f38168f0c52c",
+        "ae3d5f1c345394dcc104fd5cc0ac72b636068e52985cb38edf4592688d8ac0ae",
+        "cf20dc0fdcbd71b49c2a43a6a11b1c952fd65943a5d0755f50299a10447a799d",
+        "6b451ae32c01ef1e637a460df627d246e1b4a61d4ac4f166005a7349fa87202e",
+        "abf997d8e701df0c74b1eb7833b35f30c006b50bf71b019abf7754d898433200",
+        "cc0b5737ef0598f9e667e50b00aecbd95f53fdb9aa2bc546f8aaa910da480149",
+        "26b07edc2300b2fd9dc8a5114fa3738fb4b377a7aa1ea089cecf6861b96235af",
+        "79dca4e720161b68ae74a8973392bbe22c05f565f704c609ec7cc7da0fcd3685",
+        "b628ee77cfdbb1e02208a74b04f6a03083e2843505f4bb4a7c3e0f2b3503843e",
+        "1e47a0aa5ed8de4c36eff44d8fd88c4cfb62e77a44c136930165abe633efa07f",
+        "5a05097b1c2b0a22beb3c44fca7b15fc0bf40911c6590bcd6c46546e1006f0fb",
+        "5f5416eac888cacb0ecd838f9633d8ed9923ac2c9666a7615205abb8d00be1ae",
+        "20e27486419abaa7c998aa0064ce8f08cb99784ac023e62cf07adce5e6a0c63b"
+      ],
+      "ownedPaths": [
+        "data/rcap-all50/overlays/production/colorado/",
+        "src/lib/rcap/state-packs/colorado/"
+      ],
+      "prohibitedSharedPaths": [
+        "package.json",
+        "package-lock.json",
+        "data/rcap-verifier-dispositions.json",
+        "data/rcap-ledger/",
+        "data/rcap-grade-a/",
+        "supabase/migrations/",
+        "docs/rcap/grade-a/captain/",
+        "src/lib/rcap/fulfillment/",
+        "src/lib/rcap/render/",
+        "data/rcap-all50/candidate-evidence/colorado/",
+        "scripts/rcap-corpus/"
+      ],
+      "requiredDeliverables": [
+        "Restore deterministic reproducibility first. Seven Colorado manifests name scripts/rcap-official-forms/lanes/d3a-regenerate.mjs, which is absent. Its blob is retrievable at 101307 bytes from commit a967fc118c4d0d864b1b8a7007635500d78758d7, but that commit is NOT an ancestor of the captain branch, so restoring it imports unaccepted work rather than accepted history. Either establish that renderer as accepted, or repoint every manifest to the renderer that actually owns the artifacts. Require byte-identical regeneration of every retained reviewed artifact either way.",
+        "Expand JDF-417 (4 of 62 fields bound) and JDF-612 (6 of 63) to every participant-writable or safely derived filing field: agency name/address rows, eligibility and qualification elections, certificate of service, service recipients, filing destination, fee and waiver treatment, copy requirements, hearing and objection stop conditions.",
+        "Never write judicial, clerk, prosecutor, court-use-only, agency-only fields, or a signature a person must execute. Protected-field refusal is preserved.",
+        "Produce a current field census, field classification, specification and hash, canonical and boundary fixtures, a deterministic artifact and its SHA-256, actual-write verification, page-by-page visual review, output implementation review and drift protection.",
+        "Return captain registry and fulfillment patch requests rather than editing those records."
+      ],
+      "requiredTests": [
+        "node scripts/verify-rcap-hard-form-dispositions.mjs",
+        "node scripts/verify-rcap-hard-form-outputs.mjs",
+        "node scripts/generate-packet-family-build-status.mjs --check",
+        "node scripts/verify-rcap-shared-pdf-contract.mjs",
+        "npm run typecheck"
+      ],
+      "requiredReturnCommit": "02f0bdd4630cdcb424504e3f8c3d134fd22816c3",
+      "dependencies": [
+        "G-CO-SOURCE: the seven missing artifacts are integrated when that lane returns; everything not depending on them proceeds now"
+      ],
+      "salvageBranches": [
+        "no salvage branch exists for this lane; it starts fresh from the post-audit base"
+      ],
+      "salvageCommits": [
+        "no salvage commits: this lane has no prior pushed work to recover"
+      ],
+      "stopConditions": [
+        "Before any file is edited, the identity gate must establish all six of the following; if any one of them fails, return ENVIRONMENT MISROUTED without editing a file. (1) 148382ab2a2acbe673b6d35c8967f5a908342e60 exists as a commit in this clone. (2) `git merge-base --is-ancestor 148382ab2a2acbe673b6d35c8967f5a908342e60 origin/claude/legalease-sprint-captain-utucnw` exits zero, so the captain branch still contains this base. The captain tip may already be well ahead of it — every lane integrated after dispatch moves it — and the gate deliberately does not compare the two. (3) `git merge-base --is-ancestor 148382ab2a2acbe673b6d35c8967f5a908342e60 origin/claude/grade-a-v6-co-build` exits zero, so this lane branch contains the base as an ancestor. (4) At worker start, nothing but this lane's own commits sits between 148382ab2a2acbe673b6d35c8967f5a908342e60 and the tip of origin/claude/grade-a-v6-co-build. (5) `git status --porcelain` prints nothing, so the worker begins from a clean worktree. (6) `git remote get-url origin` names Roger-LegalEase/legalease-partner-dashboard-clean.",
+        "A change is required inside a captain-only path: stop and return a patch request; do not claim the path.",
+        "A required official source hash cannot be recomputed from the mounted corpus: stop rather than reading the hash back from a committed record.",
+        "Any Production deployment, migration, environment change, secret change, Stripe live-mode call, participant creation, sponsored-credit consumption or domain activation would be needed: stop and return the blocker.",
+        "A route appears to need commercial enabling: it does not. Commercially eligible is zero and every route is denied. Do not add an override, a bypass or a second commercial rule.",
+        "A Colorado route looks ready to open commercially: it is not. All three are SOURCE_OR_CONFIGURATION_GATE and denied at all ten admission points. Keep every route closed.",
+        "A missing form number would have to be guessed to proceed: stop. The two JDF-611 identities are unresolved and belong to G-CO-SOURCE."
+      ],
+      "packetFamilyRole": "packet_implementation_and_rendering",
+      "laneResult": "specification_complete_artifact_generation_blocked",
+      "actualWorkerBranch": "claude/colorado-packet-deterministic-n4zdlz",
+      "actualWorkerBranchNote": "The harness pushed this lane to its own alias rather than to the designated claude/grade-a-v6-co-build, which still points at the base. The commit's parent is exactly the post-audit base, so the work is valid and was taken by exact SHA. The branch was not merged and the worker commit was not rewritten.",
+      "captainIntegrationCommit": "b99f09fb513e152fee9715bd665a0e2e62ae0720"
+    },
+    {
+      "sprintId": "legalease-68h-grade-a-2026-08-29",
+      "repository": "Roger-LegalEase/legalease-partner-dashboard-clean",
+      "controllingBranch": "claude/legalease-sprint-captain-utucnw",
+      "baseSha": "148382ab2a2acbe673b6d35c8967f5a908342e60",
+      "remoteBaseSha": "148382ab2a2acbe673b6d35c8967f5a908342e60",
+      "model": "Claude Opus 5",
+      "status": "integrated",
+      "worktreeRule": "One dedicated worktree per lane, created with git worktree add from the baseSha above, never shared with another lane and never the captain worktree at /home/user/legalease-partner-dashboard-clean.",
+      "requiredReturnFormat": "Return the full 40-character commit SHA on the lane branch, the exact commands run, and their pass or fail result. The captain reviews and integrates the exact commit; do not open a pull request and do not request a branch merge.",
+      "lane": "I",
+      "laneBranch": "claude/grade-a-v6-first-packet-oregon",
+      "shardId": "S-I-OR",
+      "routeIds": [
+        "OR:marijuana-specific-set-aside-redesignation",
+        "OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+        "OR:set-aside-of-eligible-convictions-under-ors-137-225-1-a"
+      ],
+      "packetFamilyIds": [
+        "oregon"
+      ],
+      "jurisdictions": [
+        "OR"
+      ],
+      "sourceIdentities": [
+        "OR__LEGAL-REVIEW__STATEWIDE__oregon-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+        "OR__FORM__OR-OJD-ADULT-SET-ASIDE-PACKET__ojd-criminal-set-aside-adult-packet__REV-2026-01__EN.pdf",
+        "OR__FORM__OR-OJD-MJ-PCR__motion-and-declaration-to-modify-or-set-aside-marijuana-conviction__REV-2023-07__EN.pdf",
+        "OR__SUPPORT__OR-OJD-CLA-SET-ASIDE-CHECK__ojd-request-for-set-aside-criminal-record-check__REV-2022-01__EN.pdf",
+        "OR__SUPPORT__OR-OSP-SET-ASIDE-CCH__oregon-state-police-set-aside-criminal-history-request-and-instructions__REV-2022-01__EN.pdf",
+        "STATE_MANIFEST.csv",
+        "STATE_README.md"
+      ],
+      "sourceHashes": [
+        "61e87f6a222449865225aefb01439b3f433072628dae59a002477bfd605517b8",
+        "b22cc346caf6c38730e9992d74016e948180d92b379b6592ab333b06ac880071",
+        "6e7a2cde0c963159ad3b467a85985d8034f33f8bfa44d380bbaab774c55bcbd6",
+        "7f8ed25e959d8c942c0c4573c5cc235a1a1e61c31eeeaaf14d98cb7183fa6267",
+        "a523a9ffc3eb0cc35d89e1c81df8eafcd703cf1ffdb4237a0106b72e1e793ac6",
+        "63318d0a76b8d0b5891a2329e95468a739c46fa8c0910f237ff374ccbd5284c8",
+        "c6291b855020efd886d8c61e91d8db7181eec8e04bed55a37577423610c7287f"
+      ],
+      "ownedPaths": [
+        "data/rcap-all50/overlays/lane-c-candidates/oregon/",
+        "docs/rcap/grade-a/oregon/",
+        "data/rcap-lane-c/oregon/"
+      ],
+      "prohibitedSharedPaths": [
+        "package.json",
+        "package-lock.json",
+        "data/rcap-verifier-dispositions.json",
+        "data/rcap-ledger/",
+        "data/rcap-grade-a/",
+        "supabase/migrations/",
+        "docs/rcap/grade-a/captain/",
+        "src/lib/rcap/fulfillment/",
+        "src/lib/rcap/render/",
+        "src/lib/rcap/state-packs/colorado/",
+        "data/rcap-all50/overlays/production/"
+      ],
+      "requiredDeliverables": [
+        "Select the highest-readiness route from the three integrated Oregon candidates and record the exact choice and why. Do not rebuild the Oregon overlay.",
+        "Close or precisely classify each of: packet-specification binding, source-provenance binding, provider and renderer identity, artifact-producing environment, final-verification contract, exact participant/matter binding, synthetic consumer payment, synthetic sponsored entitlement, one-credit generation, durable render, artifact validation, private Briefcase attachment, first download, repeat download, wrong-user denial, wrong-matter denial and substituted-artifact denial.",
+        "Prepare one exact approval packet for the authorized legal/output reviewer bound to route, specification hash, source hashes, artifact hash, candidate commit, page-by-page review and an exact requested approval statement.",
+        "Return the exact remaining owner decision rather than broad legal research."
+      ],
+      "requiredTests": [
+        "node scripts/verify-rcap-oregon-official-pdf-grade-a.mjs",
+        "node scripts/verify-rcap-oregon-grade-a-lane-c.mjs",
+        "node scripts/verify-rcap-grade-a-fulfillment-authority.mjs",
+        "node scripts/verify-rcap-lane-f-commercial-admission.mjs",
+        "npm run typecheck"
+      ],
+      "requiredReturnCommit": "5e7a7e9b601d3c8d15a9d54691321afef243bba6",
+      "dependencies": [
+        "B: the Grade-A authority",
+        "C: the integrated Oregon candidate evidence",
+        "E: the participant ownership boundary",
+        "F: payment, render and delivery",
+        "H: security and the hosted runner"
+      ],
+      "salvageBranches": [
+        "no salvage branch exists for this lane; it starts fresh from the post-audit base"
+      ],
+      "salvageCommits": [
+        "no salvage commits: this lane has no prior pushed work to recover"
+      ],
+      "stopConditions": [
+        "Before any file is edited, the identity gate must establish all six of the following; if any one of them fails, return ENVIRONMENT MISROUTED without editing a file. (1) 148382ab2a2acbe673b6d35c8967f5a908342e60 exists as a commit in this clone. (2) `git merge-base --is-ancestor 148382ab2a2acbe673b6d35c8967f5a908342e60 origin/claude/legalease-sprint-captain-utucnw` exits zero, so the captain branch still contains this base. The captain tip may already be well ahead of it — every lane integrated after dispatch moves it — and the gate deliberately does not compare the two. (3) `git merge-base --is-ancestor 148382ab2a2acbe673b6d35c8967f5a908342e60 origin/claude/grade-a-v6-first-packet-oregon` exits zero, so this lane branch contains the base as an ancestor. (4) At worker start, nothing but this lane's own commits sits between 148382ab2a2acbe673b6d35c8967f5a908342e60 and the tip of origin/claude/grade-a-v6-first-packet-oregon. (5) `git status --porcelain` prints nothing, so the worker begins from a clean worktree. (6) `git remote get-url origin` names Roger-LegalEase/legalease-partner-dashboard-clean.",
+        "A change is required inside a captain-only path: stop and return a patch request; do not claim the path.",
+        "A required official source hash cannot be recomputed from the mounted corpus: stop rather than reading the hash back from a committed record.",
+        "Any Production deployment, migration, environment change, secret change, Stripe live-mode call, participant creation, sponsored-credit consumption or domain activation would be needed: stop and return the blocker.",
+        "A route appears to need commercial enabling: it does not. Commercially eligible is zero and every route is denied. Do not add an override, a bypass or a second commercial rule.",
+        "Output-level legal approval would have to be granted: stop. It is not a lane's to grant and not a captain's. Prepare the approval packet and return the exact owner decision.",
+        "Oregon would move out of the candidate area or into a production overlay: stop. It stays candidate-only until every gate passes."
+      ],
+      "laneResult": "engineering_closeout_integrated_owner_decisions_pending",
+      "captainIntegrationCommit": "a8446890aa772ac093a4585c9b6a281107f8bf57"
+    },
+    {
+      "sprintId": "legalease-68h-grade-a-2026-08-29",
+      "repository": "Roger-LegalEase/legalease-partner-dashboard-clean",
+      "controllingBranch": "claude/legalease-sprint-captain-utucnw",
+      "baseSha": "148382ab2a2acbe673b6d35c8967f5a908342e60",
+      "remoteBaseSha": "148382ab2a2acbe673b6d35c8967f5a908342e60",
+      "model": "Claude Opus 5",
+      "status": "integrated",
+      "worktreeRule": "One dedicated worktree per lane, created with git worktree add from the baseSha above, never shared with another lane and never the captain worktree at /home/user/legalease-partner-dashboard-clean.",
+      "requiredReturnFormat": "Return the full 40-character commit SHA on the lane branch, the exact commands run, and their pass or fail result. The captain reviews and integrates the exact commit; do not open a pull request and do not request a branch merge.",
+      "lane": "J",
+      "laneBranch": "claude/grade-a-v6-release-blockers",
+      "shardId": "S-J-BLK",
+      "routeIds": [
+        "applies to no single route: this lane resolves repository-wide release blockers"
+      ],
+      "packetFamilyIds": [
+        "no packet family: this lane builds no packet"
+      ],
+      "jurisdictions": [
+        "applies to all 51 through the terminalization provenance records"
+      ],
+      "sourceIdentities": [
+        "no official source document is consumed by this lane"
+      ],
+      "sourceHashes": [
+        "not applicable: this lane consumes no official source bytes"
+      ],
+      "ownedPaths": [
+        "docs/rcap/grade-a/lane-j/"
+      ],
+      "prohibitedSharedPaths": [
+        "package.json",
+        "package-lock.json",
+        "data/rcap-verifier-dispositions.json",
+        "data/rcap-ledger/",
+        "data/rcap-grade-a/",
+        "supabase/migrations/",
+        "docs/rcap/grade-a/captain/",
+        "src/lib/rcap/fulfillment/",
+        "src/lib/rcap/render/",
+        "src/lib/rcap/state-packs/colorado/",
+        "data/expungement-ai/screening-parity-approved-deltas.json",
+        "scripts/lib/screening-parity-deltas.mjs",
+        "scripts/verify-screening-verification-finetune.mjs"
+      ],
+      "requiredDeliverables": [
+        "BLOCKER-4: classify all 18 drifted terminalization records against the compiled profile, the prior pinned profile, current legal-decision records, current route contracts and current service disposition, as DECISION UNCHANGED, DECISION CHANGED, INSUFFICIENT AUTHORITY or RECORD RETIREMENT REQUIRED.",
+        "BLOCKER-4: an exact mechanical patch for each unchanged decision, and one narrow legal-owner decision request for each changed or unresolved one. Do not move a hash merely to make a verifier green.",
+        "BLOCKER-5: the exact proposed authorization revision for the pinned Mississippi proof -- current approved expectation, why it is no longer truthful, proposed replacement, assertions removed, assertions added, whether a synthetic local v2 record or a route-separated verification proof is safer, the exact new proof hash after authorization, and every approval record requiring update.",
+        "BLOCKER-1: exact candidate source SHA requirement, worker image build command, expected image tag, expected digest evidence, workflow and rollback steps, a read-only preflight, and the exact authorization required before publishing."
+      ],
+      "requiredTests": [
+        "node scripts/verify-rcap-terminalize-c1.mjs",
+        "node scripts/verify-expungement-plain-language-values.mjs",
+        "node scripts/test-expungement-parity-delta-mutations.mjs",
+        "npm run typecheck"
+      ],
+      "requiredReturnCommit": "7b37de68679941c1efdf74e889ef5b9014bdef6b",
+      "dependencies": [
+        "none: this lane produces decisions and patches, and applies none of them"
+      ],
+      "salvageBranches": [
+        "no salvage branch exists for this lane; it starts fresh from the post-audit base"
+      ],
+      "salvageCommits": [
+        "no salvage commits: this lane has no prior pushed work to recover"
+      ],
+      "stopConditions": [
+        "Before any file is edited, the identity gate must establish all six of the following; if any one of them fails, return ENVIRONMENT MISROUTED without editing a file. (1) 148382ab2a2acbe673b6d35c8967f5a908342e60 exists as a commit in this clone. (2) `git merge-base --is-ancestor 148382ab2a2acbe673b6d35c8967f5a908342e60 origin/claude/legalease-sprint-captain-utucnw` exits zero, so the captain branch still contains this base. The captain tip may already be well ahead of it — every lane integrated after dispatch moves it — and the gate deliberately does not compare the two. (3) `git merge-base --is-ancestor 148382ab2a2acbe673b6d35c8967f5a908342e60 origin/claude/grade-a-v6-release-blockers` exits zero, so this lane branch contains the base as an ancestor. (4) At worker start, nothing but this lane's own commits sits between 148382ab2a2acbe673b6d35c8967f5a908342e60 and the tip of origin/claude/grade-a-v6-release-blockers. (5) `git status --porcelain` prints nothing, so the worker begins from a clean worktree. (6) `git remote get-url origin` names Roger-LegalEase/legalease-partner-dashboard-clean.",
+        "A change is required inside a captain-only path: stop and return a patch request; do not claim the path.",
+        "A required official source hash cannot be recomputed from the mounted corpus: stop rather than reading the hash back from a committed record.",
+        "Any Production deployment, migration, environment change, secret change, Stripe live-mode call, participant creation, sponsored-credit consumption or domain activation would be needed: stop and return the blocker.",
+        "A route appears to need commercial enabling: it does not. Commercially eligible is zero and every route is denied. Do not add an override, a bypass or a second commercial rule.",
+        "The pinned Mississippi proof or its approval record would be edited: stop. That needs a new authorization; prepare the packet and return it.",
+        "A terminalization hash would be re-pinned to make a verifier green: stop. A hash moves only with a recorded decision that it still holds.",
+        "A worker image would be published or deployed: stop. Prepare the runbook and return the exact authorization required."
+      ],
+      "laneResult": "decision_packets_integrated",
+      "captainIntegrationCommit": "6eab68fcffff0e59a55f6aaf26236110991217ac"
+    }
+  ],
+  "activeDispatch": {
+    "base": "all-claude-2026-08-29",
+    "controllingBranch": "claude/legalease-sprint-captain-utucnw",
+    "note": "Codex is removed from this sprint. Every lane in this manifest is integrated: B, C and D by salvage replay, E, F, G and H in the v5 waves, and G-CO-SOURCE, G-CO-BUILD, I and J in the post-audit closeout. No lane is running. Commercial eligibility is 0 and COMPLETE_PACKET_PROVEN is 0.",
+    "freshAllClaudeBase": "61ee6cc359bc19d32c6c071194e62a553446ca08",
+    "corpusBootstrap": "bash scripts/rcap-corpus/bootstrap-private-corpus.sh",
+    "activeBases": [
+      {
+        "sha": "be673158bae0f3ffdb8b4c4408f989bcf69720e4",
+        "reason": "Lanes E and H were dispatched from this base and are already running. Their branches begin here and must not be reset; their exact commits are transplanted onto the captain head when they return."
+      },
+      {
+        "sha": "61ee6cc359bc19d32c6c071194e62a553446ca08",
+        "reason": "The consolidated Lane B, C and D base. Lanes F and G are dispatched fresh from it because both depend on the corrected Grade-A source-proof model and the v2 admission contract, which do not exist at the earlier base."
+      },
+      {
+        "sha": "148382ab2a2acbe673b6d35c8967f5a908342e60",
+        "reason": "The post-Colorado-audit base. The four closeout lanes are dispatched from it because each depends on work that does not exist earlier: the corrected Colorado registry, the integrated E ownership boundary, the F commercial admission treatment, and the H security and hosted runner."
+      }
+    ]
+  },
+  "historicalSprintBaseSha": "0cad61625a74665db23ac64988c301e48909cf81",
+  "historicalSprintBaseShaNote": "HISTORICAL ONLY. This is the base the sprint opened on and the base lanes B, C and D were integrated against. It is not an active worker base and no identity gate reads it. activeDispatch.activeBases is the sole authority for where an active lane starts."
+}

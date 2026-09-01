@@ -1,0 +1,133 @@
+{
+  "schemaVersion": "rcap-or-disposition-canonical-fixture/v1",
+  "configurationId": "or-never-charged-137-225-1-c",
+  "facts": {
+    "participant.full_legal_name": "Jordan A. Reyes",
+    "participant.date_of_birth": "1991-04-17",
+    "participant.street_address": "418 Larch Street Apt 12",
+    "participant.city_state_zip": "Springfield, OR 97477",
+    "participant.phone": "541-555-0134",
+    "participant.email": "jordan.reyes@example.org",
+    "matter.county": "Lane",
+    "matter.citing_or_arresting_agency": "Springfield Police Department",
+    "matter.arrest_date": "2019-06-14",
+    "matter.charge": "Criminal Trespass in the Second Degree, ORS 164.245"
+  },
+  "written": [
+    {
+      "anchor": "FOR THE COUNTY OF",
+      "factId": "matter.county",
+      "fontSize": 10.5,
+      "outcome": "fit"
+    },
+    {
+      "anchor": "Defendant",
+      "factId": "participant.full_legal_name",
+      "fontSize": 10.5,
+      "outcome": "fit"
+    },
+    {
+      "anchor": "DOB:",
+      "factId": "participant.date_of_birth",
+      "fontSize": 10.5,
+      "outcome": "fit"
+    },
+    {
+      "anchor": "Name (typed or printed)",
+      "factId": "participant.full_legal_name",
+      "fontSize": 10.5,
+      "outcome": "fit"
+    },
+    {
+      "anchor": "Email",
+      "factId": "participant.email",
+      "fontSize": 10.5,
+      "outcome": "fit"
+    },
+    {
+      "anchor": "Address",
+      "factId": "participant.street_address",
+      "fontSize": 10.5,
+      "outcome": "fit"
+    },
+    {
+      "anchor": "City, State, ZIP",
+      "factId": "participant.city_state_zip",
+      "fontSize": 10.5,
+      "outcome": "fit"
+    },
+    {
+      "anchor": "Citing/arresting law enforcement agency:",
+      "factId": "matter.citing_or_arresting_agency",
+      "fontSize": 10.5,
+      "outcome": "fit"
+    },
+    {
+      "anchor": "Arrest Date:",
+      "factId": "matter.arrest_date",
+      "fontSize": 10.5,
+      "outcome": "fit"
+    },
+    {
+      "anchor": "Citation/Arrest Offense",
+      "factId": "matter.charge",
+      "fontSize": 10.5,
+      "outcome": "fit"
+    }
+  ],
+  "refused": [
+    {
+      "anchor": "Phone",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "category": "unfittable"
+    }
+  ],
+  "unfittable": [
+    {
+      "anchor": "Phone",
+      "factId": "participant.phone",
+      "outcome": "refused",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "value": "541-555-0134",
+      "rect": {
+        "x": 504,
+        "y": 305.44,
+        "width": 34,
+        "height": 12.5
+      },
+      "minFontSize": 6,
+      "requiredWidthAtMin": 37.4
+    }
+  ],
+  "selections": [
+    {
+      "control": "Option 3",
+      "page": 4,
+      "box": {
+        "x0": 128.52,
+        "y0": 151.92,
+        "x1": 138.72,
+        "y1": 162.12
+      },
+      "inset": 2,
+      "lineWidth": 1.2,
+      "mark": "two_diagonal_strokes_inset",
+      "drewANewBox": false,
+      "redrewTheCourtsBox": false
+    }
+  ],
+  "expectedValues": [
+    "Lane",
+    "Jordan A. Reyes",
+    "1991-04-17",
+    "Jordan A. Reyes",
+    "jordan.reyes@example.org",
+    "418 Larch Street Apt 12",
+    "Springfield, OR 97477",
+    "Springfield Police Department",
+    "2019-06-14",
+    "Criminal Trespass in the Second Degree, ORS 164.245"
+  ],
+  "artifact": "fixtures/canonical-filled.pdf",
+  "outputSha256": "ee56b0e24f92c617efe86d30a459d06b4ea6f15c924bd21e87f5813e5008df9b"
+}

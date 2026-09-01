@@ -106,7 +106,23 @@ for (const pathway of graph.pathways) {
   const buildInputs = {
     authoritativeProfile: Boolean(profile && String(profile.profileVersion ?? "").trim() !== ""),
     authoritativePathway: Boolean(compiledPathway),
-    exactPacketSet: sets.length > 0 && sets.length === trackIds.length,
+    // "Exact" has to mean complete, not merely present. This used to ask only
+    // whether a set existed for each track, so a set declaring two of the four
+    // filings an official guide requires reported exact. Colorado's JDF-417
+    // route did exactly that: a complete-looking packet set that could not
+    // produce a filing, with no unmet build input to say so.
+    //
+    // A set is exact when one exists per track AND none of them is recorded
+    // incomplete AND no component is missing its source or its official
+    // identity. The completeness record lives on the packet-set manifest, which
+    // is where a human writes down what the official filing guide requires.
+    exactPacketSet: sets.length > 0
+      && sets.length === trackIds.length
+      && sets.every((set) => (set.packetSetCompleteness?.state ?? "complete") === "complete")
+      && sets.every((set) => (set.components ?? []).every((component) => {
+        const status = String(component.sourceStatus ?? "present");
+        return status !== "absent_from_verified_corpus" && status !== "identity_unresolved";
+      })),
     packetSpecification: sets.length > 0 && sets.every((set) => (set.components ?? []).length > 0
       && (set.components ?? []).every((component) => component.role && component.requirement && component.outputStrategy)),
     requiredParticipantFields: Boolean(plan && (plan.requiredInputIds ?? []).length > 0),

@@ -51,6 +51,13 @@ tmp/review-inbox/*
 
 # Local official PDF forms - do not commit
 private/
+private/source-acquisition-handoff/
+# Where scripts/rcap-acquire-official-source.mjs writes fetched bytes. The
+# batch workflow's own comment asserted this was ignored and it was not: the
+# directory holds real official PDFs, nothing in the chain runs `git add`, and
+# the invariant held only because no one had run the script locally and then
+# committed. An assertion in a comment is not an ignore rule.
+acquired-source/
 *.zip
 data/record-clearing/pdf-inspection/latest-report.json
 data/record-clearing/pdf-inspection/latest-report.md
@@ -62,3 +69,14 @@ tmp/record-clearing-shadow/
 .screenshots/
 scratch-files17/
 .rcap-mutation/
+
+# agent skills installed via `npx skills add` (third-party, not vendored)
+/.agents/
+/.claude/skills/
+/skills-lock.json
+raster-out/
+
+# Live subagent worktrees (Claude Code Agent tool, isolation: worktree).
+# These are other agents' ACTIVE working copies of this repository — gigabytes
+# of repo-inside-repo that must never be committed or pushed.
+.claude/

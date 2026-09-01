@@ -1,6 +1,20 @@
 {
   "schemaVersion": "2.0.0",
   "profileVersion": "2026-06-19-source-conversion-1",
+  "questionLifecycle": {
+    "routeConsumers": {},
+    "exactPacketFactIds": [
+      "disposition_date",
+      "court",
+      "charge",
+      "record_documents",
+      "county_or_filing_location",
+      "case_identifier"
+    ],
+    "completionAliasIds": [
+      "sentence_completion_date"
+    ]
+  },
   "jurisdiction": {
     "code": "IL",
     "name": "Illinois",
@@ -886,11 +900,12 @@
         "paymentAllowed": true
       },
       "lawrenceRatification": {
-        "status": "ratified_deployable",
-        "packet_capable": true,
-        "payment_allowed_when_engine_confirms": true,
+        "status": "intentional_unsupported",
+        "packet_capable": false,
+        "payment_allowed_when_engine_confirms": false,
         "legal_basis": "20 ILCS 2630/5.2",
-        "lawrence_review": "first_pass_ratified"
+        "lawrence_review": "intentional_unsupported",
+        "projectedFrom": "route-ratification-registry"
       }
     },
     {
@@ -1019,7 +1034,8 @@
         "packet_capable": true,
         "payment_allowed_when_engine_confirms": true,
         "legal_basis": "20 ILCS 2630/5.2",
-        "lawrence_review": "first_pass_ratified"
+        "lawrence_review": "ratified_deployable",
+        "projectedFrom": "route-ratification-registry"
       }
     },
     {
@@ -1142,7 +1158,8 @@
         "packet_capable": true,
         "payment_allowed_when_engine_confirms": true,
         "legal_basis": "20 ILCS 2630/5.2",
-        "lawrence_review": "first_pass_ratified"
+        "lawrence_review": "ratified_deployable",
+        "projectedFrom": "route-ratification-registry"
       }
     },
     {
@@ -1210,24 +1227,7 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "Conviction reversed or vacated Eligible immediately unless excluded",
-        "Successful supervision Eligible after waiting period",
-        "Successful qualified probation Eligible after waiting period",
-        "Most successful supervision 2 years after satisfactory termination",
-        "Supervision for listed offenses, including certain Vehicle Code and specified criminal-code offenses 5 years after satisfactory termination",
-        "Successfully completed supervision Seal after waiting period",
-        "Conviction, including municipal ordinance conviction Seal after waiting period unless excluded",
-        "First-offender probation under listed drug/cannabis/meth/second-chance routes Seal after waiting period unless excluded",
-        "Felony conviction Seal after waiting period unless excluded",
-        "Successful supervision / qualified probation / conditional discharge / probation completed without revocation 2 years after completing the sentence",
-        "Misdemeanor convictions and municipal ordinance violations 2 years after completing the sentence",
-        "Felony convictions not in the 2-year group 3 years after completing the last felony sentence",
-        "Certain 3-year-wait cases where education/career credential was earned during sentence/MSR Waiting period may be waived only for the 3-year category, not the 2-year category",
-        "Illinois allows a trafficking victim to petition for vacation and expungement or immediate sealing after completing the last sentence if participation in the underlying offense resulted from human trafficking or a severe form of trafficking under federal law. The petition must state that the person was a trafficking victim at the time of the offense and that their participation resulted from trafficking; eligibility is shown by a preponderance of the evidence. (\"https://www.ilga.gov/documents/legislation/ilcs/documents/002026300K5.2.htm\")",
-        "If a juvenile record is not automatically expunged, a person may petition at no cost. For delinquency adjudications not automatically expunged, the person may petition after 2 years have passed since all juvenile court proceedings and any Department of Juvenile Justice commitment terminated, except records based on first-degree murder or Article 11 offenses requiring sex-offender registration at the time of petition. (\"https://www.ilga.gov/legislation/ilcs/fulltext?DocName=070504050K5-915&utm_source=chatgpt.com\")",
-        "Automatic sealing will generally cover records already eligible for sealing once the system begins, including non-convictions, completed supervision/probation, most misdemeanors, and most nonviolent felonies, but the person must have completed the sentence, have no pending criminal charges, and satisfy the waiting period. (\"https://www.illinoislegalaid.org/legal-information/what-you-need-know-about-clean-slate-act\")",
-        "Order of supervision successfully completed Expungement or sealing Expungement wait usually 2 years, sometimes 5 years or age 25",
-        "Qualified probation successfully completed Expungement or sealing Expungement wait usually 5 years after successful termination"
+        "event-specific petition eligibility under the cannabis subsection; not a general sealing wait"
       ],
       "exclusionRules": [
         "These offenses are excluded from sealing under 20 ILCS 2630/5.2(c), whether the disposition was court",
@@ -1262,7 +1262,44 @@
         "packet_capable": true,
         "payment_allowed_when_engine_confirms": true,
         "legal_basis": "20 ILCS 2630/5.2 cannabis petition branch",
-        "lawrence_review": "first_pass_ratified"
+        "lawrence_review": "ratified_deployable",
+        "projectedFrom": "route-ratification-registry"
+      },
+      "legalAuthority": {
+        "decisionId": "LD-IL-02",
+        "ruleId": "IL-20-ILCS-2630-5.2-CANNABIS-AUTOMATIC-PARDON-PETITION-SPLIT",
+        "mechanism": "Cannabis expungement — petition branch for a qualifying pending or petition-eligible matter",
+        "statute": "20 ILCS 2630/5.2, cannabis-expungement provisions",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "event-specific petition eligibility under the cannabis subsection; not a general sealing wait"
+        },
+        "requiredFacts": [
+          "Cannabis statute?",
+          "Amount?",
+          "Arrest and disposition dates?",
+          "Supervision/qualified probation?",
+          "Conviction status?",
+          "Pardon?",
+          "Automatic-expungement status?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "exclusions": [
+          "Minor-cannabis offense within statutory quantity/date limits and the correct nonconviction, supervision, conviction, or pending-case category"
+        ],
+        "packetFamily": "Illinois Cannabis Expungement Petition under 20 ILCS 2630/5.2",
+        "packetComponents": [
+          "Petition under the cannabis provisions",
+          "Disposition record",
+          "Amount or conduct evidence"
+        ],
+        "notes": "The automatic cohort (minor-cannabis nonconviction, supervision and qualified-probation records, including the one-year-from-arrest trigger where the statute uses it) receives status and correction guidance, not a paid petition. Conviction records follow the executive-clemency pardon-to-expungement process and must be labelled as a clemency application, not a routine court packet. Do not borrow Illinois's general supervision, misdemeanor, felony, or first-offender sealing periods."
       }
     },
     {
@@ -1376,11 +1413,12 @@
         "paymentAllowed": true
       },
       "lawrenceRatification": {
-        "status": "hard_gate_pending",
+        "status": "intentional_unsupported",
         "packet_capable": false,
         "payment_allowed_when_engine_confirms": false,
         "legal_basis": "Lawrence named substantive gate required before selling",
-        "lawrence_review": "gate_required"
+        "lawrence_review": "intentional_unsupported",
+        "projectedFrom": "route-ratification-registry"
       }
     },
     {
@@ -1462,24 +1500,7 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "Acquittal Eligible immediately unless excluded",
-        "Dismissal Eligible immediately unless excluded",
-        "Released without charging Eligible immediately unless excluded",
-        "Conviction reversed or vacated Eligible immediately unless excluded",
-        "Successful supervision Eligible after waiting period",
-        "Successful qualified probation Eligible after waiting period",
-        "Most successful supervision 2 years after satisfactory termination",
-        "Supervision for listed offenses, including certain Vehicle Code and specified criminal-code offenses 5 years after satisfactory termination",
-        "Successfully completed supervision Seal after waiting period",
-        "Conviction, including municipal ordinance conviction Seal after waiting period unless excluded",
-        "First-offender probation under listed drug/cannabis/meth/second-chance routes Seal after waiting period unless excluded",
-        "Felony conviction Seal after waiting period unless excluded",
-        "Successful supervision / qualified probation / conditional discharge / probation completed without revocation 2 years after completing the sentence",
-        "Misdemeanor convictions and municipal ordinance violations 2 years after completing the sentence",
-        "Felony convictions not in the 2-year group 3 years after completing the last felony sentence",
-        "Certain 3-year-wait cases where education/career credential was earned during sentence/MSR Waiting period may be waived only for the 3-year category, not the 2-year category",
-        "Illinois allows a trafficking victim to petition for vacation and expungement or immediate sealing after completing the last sentence if participation in the underlying offense resulted from human trafficking or a severe form of trafficking under federal law. The petition must state that the person was a trafficking victim at the time of the offense and that their participation resulted from trafficking; eligibility is shown by a preponderance of the evidence. (\"https://www.ilga.gov/documents/legislation/ilcs/documents/002026300K5.2.htm\")",
-        "If a juvenile record is not automatically expunged, a person may petition at no cost. For delinquency adjudications not automatically expunged, the person may petition after 2 years have passed since all juvenile court proceedings and any Department of Juvenile Justice commitment terminated, except records based on first-degree murder or Article 11 offenses requiring sex-offender registration at the time of petition. (\"https://www.ilga.gov/legislation/ilcs/fulltext?DocName=070504050K5-915&utm_source=chatgpt.com\")"
+        "no extra period after completion of the sentence and the statutory conditions"
       ],
       "exclusionRules": [
         "These offenses are excluded from sealing under 20 ILCS 2630/5.2(c), whether the disposition was court",
@@ -1510,11 +1531,49 @@
         "paymentAllowed": true
       },
       "lawrenceRatification": {
-        "status": "hold_guidance",
-        "packet_capable": false,
-        "payment_allowed_when_engine_confirms": false,
+        "status": "ratified_deployable",
+        "packet_capable": true,
+        "payment_allowed_when_engine_confirms": true,
         "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
-        "lawrence_review": "hold_guidance_only"
+        "lawrence_review": "ratified_deployable",
+        "projectedFrom": "route-ratification-registry"
+      },
+      "legalAuthority": {
+        "decisionId": "LD-IL-04",
+        "ruleId": "IL-MISTAKEN-IDENTITY-AND-PROSTITUTION-TWO-ROUTE-MAP",
+        "mechanism": "Felony prostitution vacatur and expungement",
+        "statute": "20 ILCS 2630/5.2, prostitution-relief provisions",
+        "stage": "post_completion",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorFactId": "court_requirements_completed",
+          "anchorText": "no extra period after completion of the sentence and the statutory conditions"
+        },
+        "requiredFacts": [
+          "Identity theft report and mismatched identifiers?",
+          "Arrest circuit?",
+          "Exact prostitution statute/class?",
+          "Sentence completion?",
+          "Trafficking/victimization facts?",
+          "Automatic-seal status?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level",
+          "court_requirements_completed"
+        ],
+        "exclusions": [
+          "Verified stolen/mistaken identity or qualifying Class 4 prostitution record under the specific statutory relief provisions"
+        ],
+        "packetFamily": "Illinois Prostitution Vacatur and Expungement Petition under 20 ILCS 2630/5.2",
+        "packetComponents": [
+          "Petition to vacate and expunge",
+          "Sentence completion proof",
+          "Victimization evidence"
+        ],
+        "notes": "Limited to a qualifying Class 4 prostitution conviction. No separate generic felony waiting period. Qualifying prostitution records are also automatically sealed on the statutory implementation schedule; check that status first."
       }
     },
     {
@@ -1544,15 +1603,7 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "Certain 3-year-wait cases where education/career credential was earned during sentence/MSR Waiting period may be waived only for the 3-year category, not the 2-year category",
-        "Illinois allows a trafficking victim to petition for vacation and expungement or immediate sealing after completing the last sentence if participation in the underlying offense resulted from human trafficking or a severe form of trafficking under federal law. The petition must state that the person was a trafficking victim at the time of the offense and that their participation resulted from trafficking; eligibility is shown by a preponderance of the evidence. (\"https://www.ilga.gov/documents/legislation/ilcs/documents/002026300K5.2.htm\")",
-        "If a juvenile record is not automatically expunged, a person may petition at no cost. For delinquency adjudications not automatically expunged, the person may petition after 2 years have passed since all juvenile court proceedings and any Department of Juvenile Justice commitment terminated, except records based on first-degree murder or Article 11 offenses requiring sex-offender registration at the time of petition. (\"https://www.ilga.gov/legislation/ilcs/fulltext?DocName=070504050K5-915&utm_source=chatgpt.com\")",
-        "Automatic sealing will generally cover records already eligible for sealing once the system begins, including non-convictions, completed supervision/probation, most misdemeanors, and most nonviolent felonies, but the person must have completed the sentence, have no pending criminal charges, and satisfy the waiting period. (\"https://www.illinoislegalaid.org/legal-information/what-you-need-know-about-clean-slate-act\")",
-        "Route Wait Released without charging No wait for expungement Dismissal / acquittal No wait for expungement Conviction reversed/vacated No wait for expungement Most successful supervision 2 years after satisfactory termination for expungement Certain listed supervision offenses 5 years after satisfactory termination for expungement Misdemeanor reckless driving supervision before age 25 Petitioner must reach 25 and have no DUI/reckless-driving conviction Successful qualified probation 5 years after satisfactory termination for expungement Non-conviction sealing Any time Successful supervision / qualified probation / conditional discharge / completed probation 2 years after completing sentence for sealing Misdemeanor conviction / municipal ordinance violation 2 years after completing sentence for sealing Felony conviction 3 years after completing last felony sentence for sealing Automatic sealing Expected to begin in stages starting 2029; older records phased later Juvenile petition for adjudications not automatically expunged 2 years after juvenile proceedings and DJJ commitment terminate Class 4 felony prostitution vacatur/expungement After completing sentence or condition 17.",
-        "Wilma do not say eligible unless& rules Wilma should not say you are eligible unless these are confirmed: For adult expungement disposition is confirmed; exclusions checked; supervision/qualified probation was successfully completed if applicable; waiting period passed; exact offense and statute known; all county/court records identified.",
-        "Start with adult vs juvenile, then disposition.Non-convictions generally expunge immediately unless excluded.Supervision can expunge after 2 years, 5 years, or age 25 depending on offense.Qualified probation can expunge after 5 years if successfully completed.Most convictions route to sealing, not expungement.Clean Slate automatic sealing is not immediate; users still file petitions if they want relief sooner.Cannabis, trafficking, felony prostitution, identity theft, pardons, and certificates of innocence have special routes.Do not promise relief until Wilma has the ISP RAP sheet, court dispositions, exact statutes, final disposition, sentence/supervision completion date, pending-charge status, and county/court information.",
-        "Most provisions take effect June 1 / June 30, 2026; the shortened sealing waiting period (3 to 2 years for certain records) and removal of the drug-test requirement take effect June 30, 2026; and AUTOMATIC sealing does not begin until January 1, 2029, phasing in through 2034. Until automatic sealing is live, the petition-based process remains the only route for most records. The agent must not tell a user their record will be sealed automatically before 2029, and must verify which effective date applies to any given rule.",
-        "For Illinois, train Wilma with this core logic: Start with adult vs juvenile, then disposition.Non-convictions generally expunge immediately unless excluded.Supervision can expunge after 2 years, 5 years, or age 25 depending on offense.Qualified probation can expunge after 5 years if successfully completed.Most convictions route to sealing, not expungement.Clean Slate automatic sealing is not immediate; users still file petitions if they want relief sooner.Cannabis, trafficking, felony prostitution, identity theft, pardons, and certificates of innocence have special routes.Do not promise relief until Wilma has the ISP RAP sheet, court dispositions, exact statutes, final disposition, sentence/supervision completion date, pending-charge status, and county/court information. ===== SOURCE FILE: Illinois-Expungement-Sealing-Agent-Reference.pdf ===== Illinois Expungement & Sealing Agent Training Reference A complete operational knowledge base for record-clearing eligibility, the expungement/sealing distinction, waiting periods, exclusions, forms, and filing under Illinois law."
+        "no elapsed waiting period; the verified petition may be filed upon learning of the record"
       ],
       "exclusionRules": [
         "These are statutory categories, not labels. Map the user's actual charge to its Criminal Code",
@@ -1571,7 +1622,42 @@
         "packet_capable": true,
         "payment_allowed_when_engine_confirms": true,
         "legal_basis": "20 ILCS 2630/5.2 identity-theft/mistaken-identity relief",
-        "lawrence_review": "first_pass_ratified"
+        "lawrence_review": "ratified_deployable",
+        "projectedFrom": "route-ratification-registry"
+      },
+      "legalAuthority": {
+        "decisionId": "LD-IL-04",
+        "ruleId": "IL-MISTAKEN-IDENTITY-AND-PROSTITUTION-TWO-ROUTE-MAP",
+        "mechanism": "Mistaken-identity correction and sealing",
+        "statute": "20 ILCS 2630/5.2, mistaken-identity provisions",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "no elapsed waiting period; the verified petition may be filed upon learning of the record"
+        },
+        "requiredFacts": [
+          "Identity theft report and mismatched identifiers?",
+          "Arrest circuit?",
+          "Exact prostitution statute/class?",
+          "Sentence completion?",
+          "Trafficking/victimization facts?",
+          "Automatic-seal status?"
+        ],
+        "screeningFactIds": [
+          "case_outcome"
+        ],
+        "exclusions": [
+          "Verified stolen/mistaken identity or qualifying Class 4 prostitution record under the specific statutory relief provisions"
+        ],
+        "packetFamily": "Illinois Verified Mistaken-Identity Petition under 20 ILCS 2630/5.2",
+        "packetComponents": [
+          "Verified petition",
+          "Identity-theft report",
+          "Mismatched identifier evidence"
+        ],
+        "notes": "A nunc pro tunc correction, removal and sealing mechanism, not an ordinary conviction-expungement clock. Do not route it through the ordinary expungement eligibility engine."
       }
     },
     {
@@ -1692,11 +1778,12 @@
         "paymentAllowed": true
       },
       "lawrenceRatification": {
-        "status": "ratified_deployable",
-        "packet_capable": true,
-        "payment_allowed_when_engine_confirms": true,
+        "status": "intentional_unsupported",
+        "packet_capable": false,
+        "payment_allowed_when_engine_confirms": false,
         "legal_basis": "Illinois juvenile petition expungement branch",
-        "lawrence_review": "first_pass_ratified"
+        "lawrence_review": "intentional_unsupported",
+        "projectedFrom": "route-ratification-registry"
       }
     },
     {
@@ -4100,21 +4187,11 @@
         "backendPathwayId": "cannabis-specific-automatic-or-petition-expungement",
         "requiredFields": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "pardon_status",
-          "record_type",
-          "disposition_date",
-          "sentence_completion_date"
+          "offense_level"
         ],
         "fieldsReferenced": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "pardon_status",
-          "record_type",
-          "disposition_date",
-          "sentence_completion_date"
+          "offense_level"
         ],
         "caseOutcomes": [
           "convicted_misdemeanor",
@@ -4126,7 +4203,7 @@
           "acquitted",
           "diversion_or_deferred"
         ],
-        "sourceConditionText": "Cannabis-specific automatic or petition expungement"
+        "sourceConditionText": "event-specific petition eligibility under the cannabis subsection; not a general sealing wait"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -4136,7 +4213,13 @@
       "sourceRef": "section:139-156; pathways:396-442; section:396-442; corpus-unit:34",
       "candidatePathwayIds": [
         "cannabis-specific-automatic-or-petition-expungement"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-IL-02",
+        "ruleId": "IL-20-ILCS-2630-5.2-CANNABIS-AUTOMATIC-PARDON-PETITION-SPLIT",
+        "statute": "20 ILCS 2630/5.2, cannabis-expungement provisions",
+        "mechanism": "Cannabis expungement — petition branch for a qualifying pending or petition-eligible matter"
+      }
     },
     {
       "id": "route-human-trafficking-survivor-vacatur-and-expungement",
@@ -4194,29 +4277,11 @@
         "backendPathwayId": "felony-prostitution-relief",
         "requiredFields": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "sentence_completion_date",
-          "case_number",
-          "age_at_offense",
-          "trafficking_status",
-          "pardon_status",
-          "record_type",
-          "residency_or_location"
+          "offense_level"
         ],
         "fieldsReferenced": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "sentence_completion_date",
-          "case_number",
-          "age_at_offense",
-          "trafficking_status",
-          "pardon_status",
-          "record_type",
-          "residency_or_location"
+          "offense_level"
         ],
         "caseOutcomes": [
           "convicted_felony",
@@ -4226,7 +4291,8 @@
           "convicted_misdemeanor",
           "juvenile"
         ],
-        "sourceConditionText": "Felony-prostitution relief"
+        "sourceConditionText": "no extra period after completion of the sentence and the statutory conditions",
+        "timingAnchorFactId": "court_requirements_completed"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -4236,7 +4302,13 @@
       "sourceRef": "overview:7-28; section:7-28; section:224-270; section:271-325; section:326-364; waiting_periods:271-325; corpus-unit:3; corpus-unit:7",
       "candidatePathwayIds": [
         "felony-prostitution-relief"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-IL-04",
+        "ruleId": "IL-MISTAKEN-IDENTITY-AND-PROSTITUTION-TWO-ROUTE-MAP",
+        "statute": "20 ILCS 2630/5.2, prostitution-relief provisions",
+        "mechanism": "Felony prostitution vacatur and expungement"
+      }
     },
     {
       "id": "route-criminal-identity-theft-mistaken-identity-relief",
@@ -4245,19 +4317,15 @@
       "when": {
         "backendPathwayId": "criminal-identity-theft-mistaken-identity-relief",
         "requiredFields": [
-          "case_outcome",
-          "offense_category",
-          "identity_error"
+          "case_outcome"
         ],
         "fieldsReferenced": [
-          "case_outcome",
-          "offense_category",
-          "identity_error"
+          "case_outcome"
         ],
         "caseOutcomes": [
           "convicted_other"
         ],
-        "sourceConditionText": "Criminal identity-theft / mistaken-identity relief"
+        "sourceConditionText": "no elapsed waiting period; the verified petition may be filed upon learning of the record"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -4267,7 +4335,13 @@
       "sourceRef": "section:169-177; corpus-unit:56",
       "candidatePathwayIds": [
         "criminal-identity-theft-mistaken-identity-relief"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-IL-04",
+        "ruleId": "IL-MISTAKEN-IDENTITY-AND-PROSTITUTION-TWO-ROUTE-MAP",
+        "statute": "20 ILCS 2630/5.2, mistaken-identity provisions",
+        "mechanism": "Mistaken-identity correction and sealing"
+      }
     },
     {
       "id": "route-juvenile-automatic-or-petition-expungement",

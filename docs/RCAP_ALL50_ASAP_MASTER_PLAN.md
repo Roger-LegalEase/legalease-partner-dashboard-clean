@@ -134,3 +134,15 @@ A state is build-complete for this sprint when it has:
 - review statuses tracked separately
 
 `state_built` is not approval for live use.
+
+## Company controls cross-reference
+
+The all-state build may continue in non-production. Company controls are tracked
+in `docs/LegalEase-Master-Build-Plan-v4.md` §11-§13 and
+`docs/security/soc2/COMPANY_CONTROLS_OPERATING_PLAN.md`, not here.
+
+Applicable company-control gates must pass before `approved_for_live`, `live`,
+new production routing, or any compliance claim. Legal, visual, source-freshness
+and packet-verification gates remain independent: a SOC 2 control being complete
+does not satisfy any of them, and does not authorize promoting an unverified
+route.

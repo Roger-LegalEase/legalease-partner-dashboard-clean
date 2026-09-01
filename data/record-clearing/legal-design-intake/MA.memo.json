@@ -1,0 +1,1941 @@
+{
+  "schemaVersion": 1,
+  "jurisdiction": "MA",
+  "memoVersion": "1.0.0",
+  "submittedAt": "2026-08-02T00:00:00.000Z",
+  "tracks": [
+    {
+      "nodeType": "relief_track",
+      "outputStrategy": "official_pdf_fill",
+      "effectiveDates": {
+        "effectiveFrom": "2018-10-13",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "_participantInputsNote": "Questions LegalEase asks. Generation runs on the participant's answers; no record is collected or inspected as a condition of generating.",
+      "_supportingDocumentsNote": "Records the participant obtains. LegalEase never collects, inspects or authenticates them.",
+      "_manualCompletionNote": "Fields the generated packet deliberately leaves blank.",
+      "officialSources": [
+        {
+          "title": "G.L. c. 276, §§ 100A through 100N",
+          "url": "https://malegislature.gov/Laws/GeneralLaws/PartIV/TitleII/Chapter276",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Massachusetts Trial Court sealing and expungement forms",
+          "url": "https://www.mass.gov/lists/sealing-and-expunging-criminal-records-forms",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Commonwealth v. Pon, 469 Mass. 296 (2014); Commonwealth v. J.F., 491 Mass. 824 (2023)",
+          "url": "https://www.mass.gov/handbook/massachusetts-court-system",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Boston Municipal Court Department Amended Standing Order No. 1-09",
+          "url": "https://www.mass.gov/boston-municipal-court-rules",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "_unresolvedQuestionsNote": "Each open question carries an impact and the element it affects.",
+      "_limitationsNote": "Every limitation is classified. Only legal_design_blocker withholds a track.",
+      "_provenanceNote": "Classifications carry classificationBasis, sourceFile, sourceHeading and the sourceStatement quoted from the controlling Massachusetts review or the adopted Batch 2 resolution memorandum.",
+      "trackId": "ma-seal-admin",
+      "legalName": "Petition to Seal under G.L. c. 276, § 100A",
+      "publicName": "Sealing your record through Probation",
+      "controllingAuthority": {
+        "citations": [
+          "G.L. c. 276, § 100A",
+          "G.L. c. 276, § 100B",
+          "G.L. c. 276, § 100C ¶3",
+          "G.L. c. 276, § 100D"
+        ],
+        "summary": "On a form furnished by the Commissioner of Probation and signed under the penalties of perjury, the Commissioner shall seal a record once the statutory period has run. Relief is mandatory and ministerial: no judge is involved, the Commissioner has no discretion to refuse, and no reasons are given. The 2018 Criminal Justice Reform Act cut the waits from five and ten years to three and seven."
+      },
+      "eligibleRecordTypes": [
+        "court_appearance_and_disposition_record",
+        "cori_record"
+      ],
+      "eligibleDispositions": [
+        "conviction",
+        "cwof_dismissed_after_probation",
+        "dismissal",
+        "nolle_prosequi",
+        "other_recorded_disposition"
+      ],
+      "exclusions": [
+        "Convictions under G.L. c. 140, §§ 121 to 131H (firearms), except as part of a delinquency record.",
+        "Convictions under G.L. c. 268 or c. 268A, except resisting arrest, which may be sealed.",
+        "A person who has at any time been classified as a level 2 or level 3 sex offender under G.L. c. 6, § 178K may not seal sex offences at all.",
+        "A guilty finding in Massachusetts within the applicable lookback, or a conviction or imprisonment in another state, a United States possession or a federal court in that window, excepting motor vehicle offences punishable by a fine of not more than $50."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Misdemeanour, from the court appearance and disposition including any incarceration or custody",
+          "duration": "3 years"
+        },
+        {
+          "condition": "Felony",
+          "duration": "7 years"
+        },
+        {
+          "condition": "Sex offence under c. 6 § 178C",
+          "duration": "15 years, or for as long as the person is under a duty to register in Massachusetts or any other state where they reside or would be if residing here, whichever is longer"
+        },
+        {
+          "condition": "Violation of G.L. c. 209A § 7 or c. 258E § 9",
+          "duration": "Treated as a felony, so 7 years"
+        },
+        {
+          "condition": "Offence that cannot be ascertained to have been a felony when committed",
+          "duration": "Treated as a misdemeanour, so 3 years"
+        }
+      ],
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Not applicable. One filing to the Office of the Commissioner of Probation covers the statewide record. No court and no caption."
+      },
+      "destination": {
+        "kind": "agency",
+        "name": "Office of the Commissioner of Probation",
+        "detail": "A single agency filing covering the whole Massachusetts record. Relief is mandatory and ministerial once the criteria are met."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "Petition to Seal (Office of the Commissioner of Probation)",
+          "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase massachusetts/fillable-jud-mps-Petition-to-Seal.pdf",
+          "notes": "The statutory vehicle. Section 100A requires the request on a form furnished by the Commissioner, signed under the penalties of perjury. The Part A box selection plus the corresponding numbered affidavit is the entire filing."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "allDispositions",
+          "question": "List every Massachusetts court appearance and disposition on your record, including dismissals and continuances without a finding.",
+          "requirement": "required"
+        },
+        {
+          "key": "mostRecentDispositionDate",
+          "question": "What is the date of your most recent disposition, including any release from jail or prison?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenceLevels",
+          "question": "For each entry, was the offence a misdemeanour or a felony when it was committed?",
+          "requirement": "required"
+        },
+        {
+          "key": "excludedOffenceCategories",
+          "question": "Do any entries involve firearms under c. 140 §§ 121 to 131H, or offences under c. 268 or c. 268A other than resisting arrest?",
+          "requirement": "required"
+        },
+        {
+          "key": "sexOffenceOrRegistration",
+          "question": "Do any entries involve a sex offence under c. 6 § 178C, and are you under a duty to register anywhere?",
+          "requirement": "required"
+        },
+        {
+          "key": "everClassifiedLevel2Or3",
+          "question": "Have you at any time been classified as a level 2 or level 3 sex offender?",
+          "requirement": "required"
+        },
+        {
+          "key": "outOfStateConvictions",
+          "question": "Have you been convicted or imprisoned in another state, a United States possession, or a federal court within the lookback period?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Your own CORI from the Department of Criminal Justice Information Services",
+          "obtainedFrom": "Massachusetts Department of Criminal Justice Information Services",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Request your personal CORI from DCJIS. It shows every court appearance and disposition and is how the controlling most-recent disposition is identified.",
+          "confirms": "allDispositions"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature under the penalties of perjury",
+          "whereInPacket": "Petition to Seal, signature block",
+          "why": "Section 100A requires the form to be signed under the penalties of perjury. The participant signs their own petition."
+        },
+        {
+          "item": "Felony or misdemeanour characterisation where it cannot be ascertained",
+          "whereInPacket": "Part A box selection",
+          "why": "Section 100A(4) treats an unascertainable offence as a misdemeanour, which the review bars the product from applying without checking."
+        }
+      ],
+      "rules": {
+        "filing": "Submit the Petition to Seal to the Office of the Commissioner of Probation. There is no court, no caption and no pleading.",
+        "fees": "None identified in the review.",
+        "feeWaiver": "Not applicable.",
+        "notice": "None. No judge is involved and no reasons are given.",
+        "service": "No service. This is an agency filing, not a pleading.",
+        "participantSignature": "Required, under the penalties of perjury.",
+        "notarization": "none"
+      },
+      "selfHelpStopConditions": [
+        "Whether an offence was a felony or a misdemeanour when committed cannot be established.",
+        "An entry may fall under c. 140 §§ 121 to 131H, c. 268 or c. 268A.",
+        "The participant may have been classified level 2 or level 3 at any time.",
+        "Which entry is the controlling most-recent disposition is unclear."
+      ],
+      "unresolvedQuestions": [],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Mandatory and ministerial relief on the statutory form. Section 100A requires the request on a form furnished by the Commissioner, so the form is the vehicle and no custom pleading may be used. Agency control of the decision is not a reason to withhold the packet; the Commissioner has no discretion to refuse once the criteria are met.",
+        "limitations": [
+          {
+            "classification": "packet_instruction",
+            "statement": "Never use sealing and expungement interchangeably in Massachusetts copy. Sealing does not destroy the record; expungement does.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "Massachusetts-LegalEase-Record-Clearing-Legal-Review.md",
+              "sourceHeading": "TRACK 1",
+              "sourceStatement": "Sealing. Massachusetts sealing does not destroy the record. Expungement does. Never use the two interchangeably in Massachusetts copy."
+            }
+          },
+          {
+            "classification": "participant_question",
+            "statement": "Ask about every entry on the record, not only the one the participant wants cleared. The clock runs on the most recent disposition, so one recent entry can block the whole record.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "Massachusetts-LegalEase-Record-Clearing-Legal-Review.md",
+              "sourceHeading": "TRACK 1",
+              "sourceStatement": "because the clock runs on the most recent disposition, one recent entry can block the whole record."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "A later not guilty, dismissed for want of prosecution, dismissed at request of complainant, nol prossed or no bill entry does not interrupt the period under § 100A. Participants and practitioners get this backwards.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "Massachusetts-LegalEase-Record-Clearing-Legal-Review.md",
+              "sourceHeading": "TRACK 1",
+              "sourceStatement": "Under § 100A it does not, and participants and even practitioners get this backwards."
+            }
+          },
+          {
+            "classification": "required_before_filing",
+            "statement": "The participant obtains their own CORI from DCJIS to identify the controlling most-recent disposition. LegalEase never collects or inspects it.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "Massachusetts-LegalEase-Record-Clearing-Legal-Review.md",
+              "sourceHeading": "TRACK 1",
+              "sourceStatement": "Which entry on the CORI is the controlling most-recent disposition."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "This is a whole-record request rather than a per-case petition, so it cannot be offered for a single case in isolation.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "Massachusetts-LegalEase-Record-Clearing-Legal-Review.md",
+              "sourceHeading": "TRACK 1",
+              "sourceStatement": "This is a whole-record request, not a per-case petition."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "nodeType": "relief_track",
+      "outputStrategy": "official_pdf_fill",
+      "effectiveDates": {
+        "effectiveFrom": "2018-10-13",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "_participantInputsNote": "Questions LegalEase asks. Generation runs on the participant's answers; no record is collected or inspected as a condition of generating.",
+      "_supportingDocumentsNote": "Records the participant obtains. LegalEase never collects, inspects or authenticates them.",
+      "_manualCompletionNote": "Fields the generated packet deliberately leaves blank.",
+      "officialSources": [
+        {
+          "title": "G.L. c. 276, §§ 100A through 100N",
+          "url": "https://malegislature.gov/Laws/GeneralLaws/PartIV/TitleII/Chapter276",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Massachusetts Trial Court sealing and expungement forms",
+          "url": "https://www.mass.gov/lists/sealing-and-expunging-criminal-records-forms",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Commonwealth v. Pon, 469 Mass. 296 (2014); Commonwealth v. J.F., 491 Mass. 824 (2023)",
+          "url": "https://www.mass.gov/handbook/massachusetts-court-system",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Boston Municipal Court Department Amended Standing Order No. 1-09",
+          "url": "https://www.mass.gov/boston-municipal-court-rules",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "_unresolvedQuestionsNote": "Each open question carries an impact and the element it affects.",
+      "_limitationsNote": "Every limitation is classified. Only legal_design_blocker withholds a track.",
+      "_provenanceNote": "Classifications carry classificationBasis, sourceFile, sourceHeading and the sourceStatement quoted from the controlling Massachusetts review or the adopted Batch 2 resolution memorandum.",
+      "trackId": "ma-seal-decrim",
+      "legalName": "Petition to Seal an Offence That Is No Longer a Crime under G.L. c. 276, § 100A",
+      "publicName": "Sealing a record for something that is not a crime anymore",
+      "controllingAuthority": {
+        "citations": [
+          "G.L. c. 276, § 100A"
+        ],
+        "summary": "Box 4 of the Petition to Seal reaches a recorded offence which is no longer a crime, except where the elements of the offence continue to be a crime under a different designation. Mandatory and ministerial, with no waiting period. Box 4 has no corresponding affidavit, consistent with there being no clean-record condition."
+      },
+      "eligibleRecordTypes": [
+        "court_appearance_and_disposition_record"
+      ],
+      "eligibleDispositions": [
+        "any_recorded_disposition"
+      ],
+      "exclusions": [
+        "Cases where the elements of the offence continue to be a crime under a different designation."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "A recorded offence that is no longer a crime",
+          "duration": "None. This is the only administrative sealing route with no waiting period."
+        }
+      ],
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Not applicable. Office of the Commissioner of Probation."
+      },
+      "destination": {
+        "kind": "agency",
+        "name": "Office of the Commissioner of Probation",
+        "detail": "Same agency filing as the ordinary § 100A route, using Part A box 4."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "Petition to Seal (Office of the Commissioner of Probation), Part A box 4",
+          "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase massachusetts/fillable-jud-mps-Petition-to-Seal.pdf",
+          "notes": "Box 4: recorded offence which is no longer a crime, except where the elements continue to be a crime under a different designation. No corresponding affidavit."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "offenceCharged",
+          "question": "What exactly were you charged with, and under which statute?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenceDate",
+          "question": "When did the offence happen?",
+          "requirement": "required"
+        },
+        {
+          "key": "believesNoLongerCrime",
+          "question": "Do you believe the conduct is no longer a crime in Massachusetts?",
+          "requirement": "required"
+        },
+        {
+          "key": "marijuanaOffence",
+          "question": "Was the charge a marijuana offence?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Your own CORI from the Department of Criminal Justice Information Services",
+          "obtainedFrom": "Massachusetts Department of Criminal Justice Information Services",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Request your personal CORI from DCJIS. It shows every court appearance and disposition and is how the controlling most-recent disposition is identified.",
+          "confirms": "offenceCharged"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature under the penalties of perjury",
+          "whereInPacket": "Petition to Seal, signature block",
+          "why": "The participant signs their own petition."
+        },
+        {
+          "item": "The no-longer-a-crime determination and the different-designation analysis",
+          "whereInPacket": "Part A box 4",
+          "why": "Whether the conduct is no longer a crime, and whether its elements continue to be a crime under a different designation, is a statutory comparison across time and an element-by-element analysis."
+        }
+      ],
+      "rules": {
+        "filing": "Submit to the Office of the Commissioner of Probation on the Petition to Seal, box 4.",
+        "fees": "None identified.",
+        "feeWaiver": "Not applicable.",
+        "notice": "None.",
+        "service": "No service.",
+        "participantSignature": "Required, under the penalties of perjury.",
+        "notarization": "none"
+      },
+      "selfHelpStopConditions": [
+        "Whether the elements continue to be a crime under a different designation is unclear.",
+        "The participant may qualify for marijuana expungement or § 100K expungement, which are stronger remedies."
+      ],
+      "unresolvedQuestions": [],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Same statutory vehicle as the ordinary § 100A route but separated because the eligibility rule, the waiting period, the affidavit requirement and the correct intake questions all differ, and because it competes with two expungement routes that produce stronger relief.",
+        "limitations": [
+          {
+            "classification": "packet_instruction",
+            "statement": "Never use sealing and expungement interchangeably in Massachusetts copy. Sealing does not destroy the record; expungement does.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "Massachusetts-LegalEase-Record-Clearing-Legal-Review.md",
+              "sourceHeading": "TRACK 1",
+              "sourceStatement": "Sealing. Massachusetts sealing does not destroy the record. Expungement does. Never use the two interchangeably in Massachusetts copy."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "Route to marijuana expungement under § 100K¼ or expungement under § 100K first where the facts fit. Both produce expungement rather than sealing for the same fact pattern, and sealing is weaker. A participant routed here who qualified for § 100K¼ has been under-served.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "Massachusetts-LegalEase-Record-Clearing-Legal-Review.md",
+              "sourceHeading": "TRACK 2",
+              "sourceStatement": "Whether the better route is § 100K¼ (marijuana, Track 7) or § 100K (Track 6), both of which produce expungement rather than sealing for the same fact pattern. Sealing is weaker. A participant routed here who qualified for § 100K¼ has been under-served."
+            }
+          },
+          {
+            "classification": "participant_question",
+            "statement": "Ask exactly what the participant was charged with and under which statute. Whether the conduct is in fact no longer a crime is the whole track.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "Massachusetts-LegalEase-Record-Clearing-Legal-Review.md",
+              "sourceHeading": "TRACK 2",
+              "sourceStatement": "Whether the conduct is in fact no longer a crime. This is a statutory comparison across time and it is the whole track."
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "The different-designation exception requires an element-by-element analysis and swallows most claims. Hand off where it is genuinely in issue.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "Massachusetts-LegalEase-Record-Clearing-Legal-Review.md",
+              "sourceHeading": "TRACK 2",
+              "sourceStatement": "Whether the elements continue to be a crime under a different designation. This is the exception that swallows most claims and it requires an element-by-element analysis."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "nodeType": "relief_track",
+      "outputStrategy": "process_guidance",
+      "effectiveDates": {
+        "effectiveFrom": "2018-10-13",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "_participantInputsNote": "Questions LegalEase asks. Generation runs on the participant's answers; no record is collected or inspected as a condition of generating.",
+      "_supportingDocumentsNote": "Records the participant obtains. LegalEase never collects, inspects or authenticates them.",
+      "_manualCompletionNote": "Fields the generated packet deliberately leaves blank.",
+      "officialSources": [
+        {
+          "title": "G.L. c. 276, §§ 100A through 100N",
+          "url": "https://malegislature.gov/Laws/GeneralLaws/PartIV/TitleII/Chapter276",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Massachusetts Trial Court sealing and expungement forms",
+          "url": "https://www.mass.gov/lists/sealing-and-expunging-criminal-records-forms",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Commonwealth v. Pon, 469 Mass. 296 (2014); Commonwealth v. J.F., 491 Mass. 824 (2023)",
+          "url": "https://www.mass.gov/handbook/massachusetts-court-system",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Boston Municipal Court Department Amended Standing Order No. 1-09",
+          "url": "https://www.mass.gov/boston-municipal-court-rules",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "_unresolvedQuestionsNote": "Each open question carries an impact and the element it affects.",
+      "_limitationsNote": "Every limitation is classified. Only legal_design_blocker withholds a track.",
+      "_provenanceNote": "Classifications carry classificationBasis, sourceFile, sourceHeading and the sourceStatement quoted from the controlling Massachusetts review or the adopted Batch 2 resolution memorandum.",
+      "trackId": "ma-autoseal",
+      "guidanceRationales": [
+        "no_participant_filing_exists"
+      ],
+      "legalName": "Automatic Sealing of Not Guilty, No Bill and No Probable Cause under G.L. c. 276, § 100C ¶1",
+      "publicName": "Records that seal on their own",
+      "controllingAuthority": {
+        "citations": [
+          "G.L. c. 276, § 100C ¶1",
+          "Commonwealth v. J.F., 491 Mass. 824 (2023)",
+          "Commonwealth v. Pon, 469 Mass. 296 (2014)"
+        ],
+        "summary": "The Commissioner shall seal records of a not guilty finding, a no bill returned by the grand jury, or a finding of no probable cause. Sealing is mandatory and immediate; J.F. confirms it. Operational implementation covers records entered on or after March 11, 2024. The only document in the workflow is Form OCPS004, a Request Not to Seal, which exists solely to decline the relief."
+      },
+      "eligibleRecordTypes": [
+        "court_appearance_and_disposition_record",
+        "clerk_record",
+        "probation_record"
+      ],
+      "eligibleDispositions": [
+        "not_guilty",
+        "no_bill",
+        "no_probable_cause"
+      ],
+      "exclusions": [
+        "The defendant's own written request not to seal.",
+        "A dismissal is not one of the three dispositions and routes to the judicial sealing track instead."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Entry of the qualifying disposition",
+          "duration": "None. Sealing is immediate."
+        }
+      ],
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "No venue. There is no participant filing on this track."
+      },
+      "destination": {
+        "kind": "automatic",
+        "name": "Office of the Commissioner of Probation",
+        "detail": "The Commissioner seals by operation of law. For records entered on or after March 11, 2024 the sealing happens automatically; for older records the correct action is a request to OCP that the statutory duty be carried out."
+      },
+      "components": [
+        {
+          "role": "process_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Confirms the disposition is one of the three, explains that sealing is automatic and immediate for records entered on or after March 11, 2024, explains that for older records the correct action is correspondence to OCP rather than a petition, and warns against sending the opt-out form."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "disposition",
+          "question": "Did the case end in a not guilty finding, a no bill from the grand jury, or a finding of no probable cause?",
+          "requirement": "required"
+        },
+        {
+          "key": "dispositionDate",
+          "question": "On what date was that entered?",
+          "requirement": "required"
+        },
+        {
+          "key": "mixedCase",
+          "question": "Did some counts end differently, for example in a dismissal, nolle prosequi or conviction?",
+          "requirement": "required"
+        },
+        {
+          "key": "recordStillAppears",
+          "question": "Does the record still appear on your CORI?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Your own CORI from the Department of Criminal Justice Information Services",
+          "obtainedFrom": "Massachusetts Department of Criminal Justice Information Services",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Request your personal CORI from DCJIS. It shows every court appearance and disposition and is how the controlling most-recent disposition is identified.",
+          "confirms": "recordStillAppears"
+        }
+      ],
+      "manualCompletionItems": [],
+      "rules": {
+        "filing": "There is no participant filing on this track.",
+        "fees": "None.",
+        "feeWaiver": "Not applicable.",
+        "notice": "None.",
+        "service": "No service.",
+        "participantSignature": "No participant signature. There is no participant filing on this track.",
+        "notarization": "none"
+      },
+      "selfHelpStopConditions": [
+        "The record was entered before March 11, 2024 and still appears, where the correct action is a request to OCP rather than a petition.",
+        "The case is mixed, with some counts reachable here and others not."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "When the Office of the Commissioner of Probation will complete sealing of older cases that ended in a not guilty finding. OCP has stated it is working through them and no completion date is published.",
+          "impact": "release_blocker",
+          "affectedElement": "participant_instructions",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "Massachusetts-LegalEase-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 3",
+            "sourceStatement": "OCP has stated it is working through older cases that ended in a not guilty finding. No completion date is published."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Retained as process_guidance because § 100C ¶1 seals by operation of law and there is genuinely nothing for the participant to submit. The only document in the workflow, Form OCPS004, exists solely to decline the relief and should almost never be sent. This is not a guidance classification because an agency is involved; it is guidance because the sole participant-facing form is an opt-out.",
+        "limitations": [
+          {
+            "classification": "packet_instruction",
+            "statement": "Never use sealing and expungement interchangeably in Massachusetts copy. Sealing does not destroy the record; expungement does.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "Massachusetts-LegalEase-Record-Clearing-Legal-Review.md",
+              "sourceHeading": "TRACK 1",
+              "sourceStatement": "Sealing. Massachusetts sealing does not destroy the record. Expungement does. Never use the two interchangeably in Massachusetts copy."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "No participant filing exists. The only form in the workflow is Form OCPS004, Request Not to Seal, which exists to decline relief and which the participant should almost never send.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "Massachusetts-LegalEase-Record-Clearing-Legal-Review.md",
+              "sourceHeading": "TRACK 3 / OUTPUT STRATEGY",
+              "sourceStatement": "the only document in the workflow is an opt-out form the participant should almost never send."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Never generate a § 100C ¶2 court petition for a not guilty finding. That wastes a filing and a hearing on relief the participant already has.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "Massachusetts-LegalEase-Record-Clearing-Legal-Review.md",
+              "sourceHeading": "TRACK 3 / OUTPUT STRATEGY",
+              "sourceStatement": "Generating a § 100C ¶2 court petition for a not guilty finding, which the internal reference's routing table would do, wastes a filing and a hearing on relief the participant already has."
+            }
+          },
+          {
+            "classification": "participant_question",
+            "statement": "Ask precisely which of the three dispositions applies. A dismissal is not one of them and routes to the judicial sealing track; participants routinely describe a dismissal as being found not guilty.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "Massachusetts-LegalEase-Record-Clearing-Legal-Review.md",
+              "sourceHeading": "TRACK 3",
+              "sourceStatement": "A dismissal is not one of them and goes to Track 4. Participants routinely describe a dismissal as \"found not guilty.\""
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Where the record was entered before March 11, 2024 and still appears, the correct action is a written request to OCP that the statutory duty be carried out, which is correspondence rather than a pleading.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "Massachusetts-LegalEase-Record-Clearing-Legal-Review.md",
+              "sourceHeading": "TRACK 3 / OUTPUT STRATEGY",
+              "sourceStatement": "For older records, the correct action is a request to OCP that the statutory duty be carried out, not a petition."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "nodeType": "relief_track",
+      "outputStrategy": "official_pdf_fill",
+      "effectiveDates": {
+        "effectiveFrom": "2018-10-13",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "_participantInputsNote": "Questions LegalEase asks. Generation runs on the participant's answers.",
+      "_supportingDocumentsNote": "Records the participant obtains. LegalEase never collects, inspects or authenticates them.",
+      "_manualCompletionNote": "Fields the generated packet deliberately leaves blank.",
+      "officialSources": [
+        {
+          "title": "G.L. c. 276, §§ 100A through 100N",
+          "url": "https://malegislature.gov/Laws/GeneralLaws/PartIV/TitleII/Chapter276",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Massachusetts Trial Court sealing and expungement forms",
+          "url": "https://www.mass.gov/lists/sealing-and-expunging-criminal-records-forms",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Commonwealth v. Pon, 469 Mass. 296 (2014); Commonwealth v. J.F., 491 Mass. 824 (2023)",
+          "url": "https://www.mass.gov/handbook/massachusetts-court-system",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Boston Municipal Court Department Amended Standing Order No. 1-09",
+          "url": "https://www.mass.gov/boston-municipal-court-rules",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "_unresolvedQuestionsNote": "Each open question carries an impact and the element it affects.",
+      "_limitationsNote": "Every limitation is classified. Only legal_design_blocker withholds a track.",
+      "_provenanceNote": "Classifications carry classificationBasis, sourceFile, sourceHeading and the sourceStatement quoted from the controlling Massachusetts review or the adopted Batch 2 resolution memorandum.",
+      "trackId": "ma-seal-court",
+      "legalName": "Petition to Seal Criminal Records for Nolle Prosequi or Dismissal under G.L. c. 276, § 100C ¶2",
+      "publicName": "Asking a judge to seal a dismissed case",
+      "controllingAuthority": {
+        "citations": [
+          "G.L. c. 276, § 100C ¶2",
+          "Commonwealth v. Pon, 469 Mass. 296 (2014)"
+        ],
+        "summary": "A nolle prosequi entered by the prosecutor, or a dismissal entered by the court, may be sealed on petition where the court finds that substantial justice would best be served, which Pon construes as good cause against six factors. There is no waiting period; passage of time is instead one of the Pon factors. Form TC0057 is standardised across the Boston Municipal, District, Juvenile and Superior Court departments."
+      },
+      "eligibleRecordTypes": [
+        "court_record",
+        "clerk_record",
+        "probation_record"
+      ],
+      "eligibleDispositions": [
+        "nolle_prosequi",
+        "dismissal",
+        "cwof_dismissed_after_probation",
+        "dismissal_after_pretrial_probation"
+      ],
+      "exclusions": [
+        "None by offence. This route is not offence-limited, which makes it the fallback for records the administrative sealing route excludes.",
+        "An open case is not sealable; for a CWOF the probationary term must be complete and the case actually dismissed."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Nolle prosequi or dismissal",
+          "duration": "None. Passage of time is a Pon factor rather than a threshold, so a recent case is harder but not ineligible."
+        }
+      ],
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Statewide form, court-specific filing. District Court cases are filed at the clerk's office where the case started. Boston Municipal Court cases are filed in the BMC division where the person lives, or, if they no longer live in BMC territory, the BMC division where the most recent eligible record is from. That residence-based venue rule is unique in the state."
+      },
+      "destination": {
+        "kind": "clerk",
+        "name": "Clerk's office of the court identified by the venue rule",
+        "detail": "Boston Municipal, District, Juvenile or Superior Court, per the form's department checkboxes. Prosecutor and victim notice follow; the petition is posted on a public bulletin board pending hearing."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "TC0057",
+          "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase massachusetts/jud-tc-Petition-to-Seal-Criminal-Records-for-Nolle-Prosequi-or-Dismissal.pdf",
+          "notes": "Petition to Seal Criminal Records for Nolle Prosequi or Dismissal, standardised across four court departments. Page 2 carries nine narrative questions that map onto the six Pon factors. Use a separate form for each case."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "courtDepartment",
+          "question": "Which court department heard the case: Boston Municipal, District, Juvenile or Superior?",
+          "requirement": "required"
+        },
+        {
+          "key": "courtDivision",
+          "question": "Which division or court location?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the docket number?",
+          "requirement": "required"
+        },
+        {
+          "key": "charges",
+          "question": "List every charge connected to the case.",
+          "requirement": "required"
+        },
+        {
+          "key": "disposition",
+          "question": "How did the case end?",
+          "requirement": "required"
+        },
+        {
+          "key": "dispositionDate",
+          "question": "On what date did it end?",
+          "requirement": "required"
+        },
+        {
+          "key": "disadvantagesFromRecord",
+          "question": "In your own words, what specific problems has this record caused you?",
+          "requirement": "required"
+        },
+        {
+          "key": "rehabilitationEvidence",
+          "question": "In your own words, what have you done since the case ended?",
+          "requirement": "required"
+        },
+        {
+          "key": "circumstancesAtOffence",
+          "question": "In your own words, what were the circumstances at the time?",
+          "requirement": "required"
+        },
+        {
+          "key": "reasonsForDisposition",
+          "question": "As far as you know, why was the case dismissed or nolle prossed?",
+          "requirement": "required"
+        },
+        {
+          "key": "nearlyEligibleForAdminSealing",
+          "question": "Is your case nearly old enough for the ministerial Probation sealing route instead?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Your own CORI from the Department of Criminal Justice Information Services",
+          "obtainedFrom": "Massachusetts Department of Criminal Justice Information Services",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Request your personal CORI from DCJIS. LegalEase never collects, inspects or authenticates it.",
+          "confirms": "caseNumber"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Petitioner signature",
+          "whereInPacket": "TC0057 signature block",
+          "why": "The participant signs their own petition."
+        },
+        {
+          "item": "The nine narrative answers",
+          "whereInPacket": "TC0057 page 2",
+          "why": "Participant-authored through structured prompts. LegalEase formats the participant's own facts and does not compose the good-cause showing."
+        }
+      ],
+      "rules": {
+        "filing": "File TC0057 at the clerk's office of the court identified by the venue rule. Use a separate form for each case.",
+        "fees": "None identified in the review.",
+        "feeWaiver": "None identified.",
+        "notice": "Prosecutor and victim notice. The petition is posted on a public bulletin board pending hearing.",
+        "service": "Per the court's practice on the form.",
+        "participantSignature": "Required.",
+        "notarization": "none"
+      },
+      "selfHelpStopConditions": [
+        "The prosecutor opposes.",
+        "A hearing is set and the participant must attend.",
+        "The case is nearly old enough for the ministerial route, where waiting may be better advice.",
+        "The disposition may be one of the three automatic-sealing dispositions rather than a dismissal."
+      ],
+      "unresolvedQuestions": [],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Re-reviewed under the packet-only model and classified as a single official_pdf_fill rather than a composed route. The review describes three stages, but stage 2 is the participant's own narrative, which the product model expressly permits through structured prompts, and stage 3 is filing and hearing attendance, which is a post-generation handoff rather than a legally distinct unit. TC0057 is a standardised statewide Trial Court form and the whole filing is generated from it. Judicial discretion under Pon does not withhold the packet.",
+        "limitations": [
+          {
+            "classification": "packet_instruction",
+            "statement": "Never use sealing and expungement interchangeably in Massachusetts copy. Sealing does not destroy the record; expungement does.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "Massachusetts-LegalEase-Record-Clearing-Legal-Review.md",
+              "sourceHeading": "TRACK 1",
+              "sourceStatement": "Massachusetts sealing does not destroy the record. Expungement does. Never use the two interchangeably in Massachusetts copy."
+            }
+          },
+          {
+            "classification": "participant_question",
+            "statement": "The narrative answers are participant-authored through structured prompts. LegalEase formats the participant's own facts and never composes the showing or judges whether it is persuasive.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "Massachusetts-LegalEase-Record-Clearing-Legal-Review.md",
+              "sourceHeading": "TRACK 4 / OUTPUT STRATEGY",
+              "sourceStatement": "The form is safe to generate. The showing is not."
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "Filing, public posting and hearing attendance follow generation. Hand off when a hearing is actually set or the prosecutor opposes.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "Massachusetts-LegalEase-Record-Clearing-Legal-Review.md",
+              "sourceHeading": "TRACK 4 / OUTPUT STRATEGY",
+              "sourceStatement": "delivered at a hearing the participant must attend, with the petition posted on a public bulletin board in the meantime."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "The Boston Municipal Court venue rule is residence-based and unique in the state: file in the BMC division where the person lives, or, if they no longer live in BMC territory, the division where the most recent eligible record is from.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "Massachusetts-LegalEase-Record-Clearing-Legal-Review.md",
+              "sourceHeading": "TRACK 4 / GEOGRAPHY AND VENUE",
+              "sourceStatement": "Boston Municipal Court cases are filed in the BMC division where the person lives, or, if they no longer live in BMC territory, the BMC division where the most recent eligible record is from. That is a residence-based venue rule and it is unique in the state."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Tell a participant whose case is nearly old enough that the ministerial Probation route is free of judicial discretion and not public, and that waiting may be the better course.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "Massachusetts-LegalEase-Record-Clearing-Legal-Review.md",
+              "sourceHeading": "TRACK 4",
+              "sourceStatement": "Track 1 is ministerial and free of judicial discretion. Track 4 is discretionary and public. For a participant whose case is nearly old enough, waiting may be the better advice."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Use a separate form for each case, except where the Boston Municipal Court consolidated procedure applies.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "Massachusetts-LegalEase-Record-Clearing-Legal-Review.md",
+              "sourceHeading": "TRACK 4",
+              "sourceStatement": "The form says to use a separate form for each case. See Track 8 for the BMC exception."
+            }
+          },
+          {
+            "classification": "required_before_filing",
+            "statement": "For a CWOF the probationary term must be complete and the case actually dismissed. The CORI shows an open CWOF until dismissal, and an open case is not sealable.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "Massachusetts-LegalEase-Record-Clearing-Legal-Review.md",
+              "sourceHeading": "TRACK 4",
+              "sourceStatement": "The CORI shows an open CWOF until dismissal, and an open case is not sealable."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "nodeType": "relief_track",
+      "outputStrategy": "composed",
+      "effectiveDates": {
+        "effectiveFrom": "2018-10-13",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "_participantInputsNote": "Questions LegalEase asks. Generation runs on the participant's answers.",
+      "_supportingDocumentsNote": "Records the participant obtains. LegalEase never collects, inspects or authenticates them.",
+      "_manualCompletionNote": "Fields the generated packet deliberately leaves blank.",
+      "officialSources": [
+        {
+          "title": "G.L. c. 276, §§ 100A through 100N",
+          "url": "https://malegislature.gov/Laws/GeneralLaws/PartIV/TitleII/Chapter276",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Massachusetts Trial Court sealing and expungement forms",
+          "url": "https://www.mass.gov/lists/sealing-and-expunging-criminal-records-forms",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Commonwealth v. Pon, 469 Mass. 296 (2014); Commonwealth v. J.F., 491 Mass. 824 (2023)",
+          "url": "https://www.mass.gov/handbook/massachusetts-court-system",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Boston Municipal Court Department Amended Standing Order No. 1-09",
+          "url": "https://www.mass.gov/boston-municipal-court-rules",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "_unresolvedQuestionsNote": "Each open question carries an impact and the element it affects.",
+      "_limitationsNote": "Every limitation is classified. Only legal_design_blocker withholds a track.",
+      "_provenanceNote": "Classifications carry classificationBasis, sourceFile, sourceHeading and the sourceStatement quoted from the controlling Massachusetts review or the adopted Batch 2 resolution memorandum.",
+      "trackId": "ma-expunge-time",
+      "compositionMode": "sequential",
+      "legalName": "Petition to Expunge under G.L. c. 276, §§ 100F, 100G and 100H",
+      "publicName": "Expunging a record from before you turned 21",
+      "controllingAuthority": {
+        "citations": [
+          "G.L. c. 276, § 100F",
+          "G.L. c. 276, § 100G",
+          "G.L. c. 276, § 100H",
+          "G.L. c. 276, § 100I",
+          "G.L. c. 276, § 100J",
+          "G.L. c. 276, § 100L",
+          "G.L. c. 276, § 100N"
+        ],
+        "summary": "Time-based expungement requires all offences to have occurred before the person's 21st birthday, a record of not more than two convictions or two non-conviction records, and three years for a misdemeanour-only record or seven where any felony is involved. The architecture is genuinely staged: the Commissioner of Probation certifies eligibility under §§ 100I and 100J, and only then does the matter reach a judge with the district attorney on notice."
+      },
+      "eligibleRecordTypes": [
+        "court_record",
+        "probation_record",
+        "juvenile_record"
+      ],
+      "eligibleDispositions": [
+        "conviction",
+        "delinquency_adjudication",
+        "youthful_offender_adjudication",
+        "record_without_conviction_or_adjudication"
+      ],
+      "exclusions": [
+        "The § 100J list: offences resulting in death or serious bodily injury; offences committed with intent to cause death or serious bodily injury; offences involving a dangerous weapon; offences against an elderly or disabled person; sex offences, child sex offences and sexually violent offences; operating under the influence under c. 90 § 24; firearms offences under c. 140 §§ 121 to 131Q; violations of abuse prevention and harassment prevention orders; and domestic assault and battery under c. 265 § 13M.",
+        "Any offence occurring on or after the person's 21st birthday. All offences must have occurred before it.",
+        "More than two records. Multiple offences arising from the same incident count as one.",
+        "Any other Massachusetts criminal or juvenile appearance or disposition, and any out-of-state, United States possession or federal appearance or disposition, excepting minor motor vehicle offences and the records being expunged.",
+        "Being the subject of an active criminal investigation."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "A record consisting only of misdemeanours, measured to include any incarceration, custody or probation",
+          "duration": "3 years"
+        },
+        {
+          "condition": "Any felony involved",
+          "duration": "7 years"
+        }
+      ],
+      "units": [
+        {
+          "unitId": "ma-expunge-time-commissioner-certification",
+          "order": 1,
+          "label": "Petition to Expunge to the Commissioner of Probation",
+          "outputStrategy": "official_pdf_fill",
+          "outputStrategyStatus": "resolved",
+          "description": "Generate the Massachusetts Probation Service Petition to Expunge from the participant's answers. The Commissioner is the statutory gatekeeper and certifies eligibility under §§ 100I and 100J before the matter reaches a court. Agency-controlled, but the participant files the form.",
+          "available": true
+        },
+        {
+          "unitId": "ma-expunge-time-court-determination",
+          "order": 2,
+          "label": "District attorney notice and court determination",
+          "outputStrategy": "process_guidance",
+          "outputStrategyStatus": "resolved",
+          "description": "After certification the district attorney receives notice and may object, and the court grants or denies on the best interests of justice. The review identifies no separate participant-facing filing at this stage, so the output is instruction on the objection window, the hearing and what to expect, not a second packet.",
+          "available": true
+        }
+      ],
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Statewide. The petition goes to the Commissioner of Probation; the court determination follows in the court connected to the record."
+      },
+      "destination": {
+        "kind": "agency",
+        "name": "Commissioner of Probation, then the court",
+        "detail": "Certificate-dependent at stage 1, prosecutor-noticed and court-controlled at stage 2."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "Massachusetts Probation Service Petition to Expunge",
+          "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase massachusetts/source-gated/MA-Probation-Service__petition-to-expunge-under-GL-c-276-sections-100F-100G-100H__rev-2018-10-11.pdf",
+          "notes": "The directed form for the §§ 100F, 100G and 100H routes. Held source-gated pending confirmation that the 2018 revision is current."
+        },
+        {
+          "role": "process_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Stage 2 instruction: district attorney notice, the objection window, and the court's best-interests determination."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "courtDepartment",
+          "question": "Which court department heard the case: Boston Municipal, District, Juvenile or Superior?",
+          "requirement": "required"
+        },
+        {
+          "key": "courtDivision",
+          "question": "Which division or court location?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the docket number?",
+          "requirement": "required"
+        },
+        {
+          "key": "charges",
+          "question": "List every charge connected to the case.",
+          "requirement": "required"
+        },
+        {
+          "key": "disposition",
+          "question": "How did the case end?",
+          "requirement": "required"
+        },
+        {
+          "key": "dispositionDate",
+          "question": "On what date did it end?",
+          "requirement": "required"
+        },
+        {
+          "key": "allOffencesBefore21",
+          "question": "Did every offence on your whole record happen before your 21st birthday?",
+          "requirement": "required"
+        },
+        {
+          "key": "totalRecordCount",
+          "question": "How many separate records do you have, counting offences from one incident as one?",
+          "requirement": "required"
+        },
+        {
+          "key": "anyFelony",
+          "question": "Does any record involve a felony?",
+          "requirement": "required"
+        },
+        {
+          "key": "custodyCompletionDate",
+          "question": "When did you complete any incarceration, custody or probation?",
+          "requirement": "required"
+        },
+        {
+          "key": "section100JCategories",
+          "question": "Did any offence involve death or serious bodily injury, intent to cause it, a dangerous weapon, an elderly or disabled person, a sex offence, OUI, firearms, an abuse or harassment prevention order violation, or domestic assault and battery?",
+          "requirement": "required"
+        },
+        {
+          "key": "activeInvestigation",
+          "question": "Are you currently the subject of an active criminal investigation?",
+          "requirement": "required"
+        },
+        {
+          "key": "otherJurisdictionRecords",
+          "question": "Do you have any out-of-state, United States possession or federal appearances or dispositions?",
+          "requirement": "required"
+        },
+        {
+          "key": "bestInterestsFacts",
+          "question": "In your own words, why would expungement be in the best interests of justice?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Your own CORI from the Department of Criminal Justice Information Services",
+          "obtainedFrom": "Massachusetts Department of Criminal Justice Information Services",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Request your personal CORI from DCJIS. LegalEase never collects, inspects or authenticates it.",
+          "confirms": "caseNumber"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Petitioner signature and certification",
+          "whereInPacket": "Petition to Expunge signature block",
+          "why": "The participant certifies they are not the subject of an active criminal investigation and signs their own petition."
+        },
+        {
+          "item": "Best-interests narrative",
+          "whereInPacket": "Petition narrative",
+          "why": "Participant-authored through structured prompts."
+        },
+        {
+          "item": "Commissioner's eligibility certification",
+          "whereInPacket": "Agency section",
+          "why": "Agency-completed. The Commissioner certifies eligibility under §§ 100I and 100J; LegalEase leaves it blank."
+        }
+      ],
+      "rules": {
+        "filing": "Submit the Petition to Expunge to the Commissioner of Probation. The court determination follows certification.",
+        "fees": "None identified in the review.",
+        "feeWaiver": "None identified.",
+        "notice": "The district attorney receives notice and may object. Petition materials are confidential under § 100N.",
+        "service": "Per the statute and the form.",
+        "participantSignature": "Required, with certification as to active investigation.",
+        "notarization": "none"
+      },
+      "selfHelpStopConditions": [
+        "Any offence may fall on the § 100J list, several entries of which turn on facts rather than charge titles.",
+        "Whether every offence occurred before the 21st birthday is unclear.",
+        "Whether offences arose from a single incident for counting purposes is unclear.",
+        "The district attorney objects.",
+        "The court sets a hearing on the best interests of justice."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Whether the Massachusetts Probation Service Petition to Expunge held in the corpus, revised 2018-10-11, is the current revision. It is held source-gated pending confirmation.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "Massachusetts-LegalEase-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 5",
+            "sourceStatement": "Massachusetts Probation Service Petition to Expunge Form."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "The only genuinely composed Massachusetts route. The statutory architecture is staged in law rather than in workflow: the Commissioner of Probation is a gatekeeper who certifies eligibility under §§ 100I and 100J, and only then does the matter reach a judge with the district attorney on notice. Treating it as a single form fill would misrepresent a multi-month, multi-party process. Stage 1 is packet-capable; stage 2 has no separate participant filing and is instruction.",
+        "limitations": [
+          {
+            "classification": "packet_instruction",
+            "statement": "Never use sealing and expungement interchangeably in Massachusetts copy. Sealing does not destroy the record; expungement does.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "Massachusetts-LegalEase-Record-Clearing-Legal-Review.md",
+              "sourceHeading": "TRACK 1",
+              "sourceStatement": "Massachusetts sealing does not destroy the record. Expungement does. Never use the two interchangeably in Massachusetts copy."
+            }
+          },
+          {
+            "classification": "participant_question",
+            "statement": "Ask the under-21 question early. All offences must have occurred before the person's 21st birthday, and this is the gate that disqualifies most adult participants.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "Massachusetts-LegalEase-Record-Clearing-Legal-Review.md",
+              "sourceHeading": "TRACK 5 / Age limitation",
+              "sourceStatement": "All offences must have occurred before the person's 21st birthday. This is the gate that disqualifies most adult participants and intake should ask it early."
+            }
+          },
+          {
+            "classification": "participant_question",
+            "statement": "Ask whether the participant is the subject of an active criminal investigation. They must certify it and may not know.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "Massachusetts-LegalEase-Record-Clearing-Legal-Review.md",
+              "sourceHeading": "TRACK 5",
+              "sourceStatement": "Whether the participant is the subject of an active criminal investigation, which they may not know."
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "The district attorney's objection and the court's best-interests determination follow certification. Hand off when an objection is actually filed.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "Massachusetts-LegalEase-Record-Clearing-Legal-Review.md",
+              "sourceHeading": "TRACK 5",
+              "sourceStatement": "the district attorney receives notice and may object, and the court grants or denies on the best interests of justice."
+            }
+          },
+          {
+            "classification": "manual_completion_item",
+            "statement": "The Commissioner's eligibility certification is agency-completed and is left blank.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "Massachusetts-LegalEase-Record-Clearing-Legal-Review.md",
+              "sourceHeading": "TRACK 5 / OUTPUT STRATEGY",
+              "sourceStatement": "the Commissioner is a gatekeeper who certifies eligibility, and only then does the matter reach a judge with the district attorney on notice."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "nodeType": "relief_track",
+      "outputStrategy": "official_pdf_fill",
+      "effectiveDates": {
+        "effectiveFrom": "2018-10-13",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "_participantInputsNote": "Questions LegalEase asks. Generation runs on the participant's answers.",
+      "_supportingDocumentsNote": "Records the participant obtains. LegalEase never collects, inspects or authenticates them.",
+      "_manualCompletionNote": "Fields the generated packet deliberately leaves blank.",
+      "officialSources": [
+        {
+          "title": "G.L. c. 276, §§ 100A through 100N",
+          "url": "https://malegislature.gov/Laws/GeneralLaws/PartIV/TitleII/Chapter276",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Massachusetts Trial Court sealing and expungement forms",
+          "url": "https://www.mass.gov/lists/sealing-and-expunging-criminal-records-forms",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Commonwealth v. Pon, 469 Mass. 296 (2014); Commonwealth v. J.F., 491 Mass. 824 (2023)",
+          "url": "https://www.mass.gov/handbook/massachusetts-court-system",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Boston Municipal Court Department Amended Standing Order No. 1-09",
+          "url": "https://www.mass.gov/boston-municipal-court-rules",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "_unresolvedQuestionsNote": "Each open question carries an impact and the element it affects.",
+      "_limitationsNote": "Every limitation is classified. Only legal_design_blocker withholds a track.",
+      "_provenanceNote": "Classifications carry classificationBasis, sourceFile, sourceHeading and the sourceStatement quoted from the controlling Massachusetts review or the adopted Batch 2 resolution memorandum.",
+      "trackId": "ma-expunge-k",
+      "legalName": "Petition for Expungement under G.L. c. 276, § 100K",
+      "publicName": "Expunging a record created by mistake, fraud, or identity theft",
+      "controllingAuthority": {
+        "citations": [
+          "G.L. c. 276, § 100K"
+        ],
+        "summary": "Section 100K reaches a record created by false identification or identity theft, an offence that is no longer a crime, demonstrable errors by law enforcement, by civilian or expert witnesses, or by court employees, or demonstrable fraud on the court. It operates notwithstanding §§ 100I and 100J, so the under-21 rule, the two-record cap and the § 100J exclusion list do not apply. The court must find on clear and convincing evidence that the record was created on one of the grounds, then exercises discretion on the best interests of justice."
+      },
+      "eligibleRecordTypes": [
+        "court_record",
+        "juvenile_record",
+        "disposition_record"
+      ],
+      "eligibleDispositions": [
+        "any_disposition"
+      ],
+      "exclusions": [
+        "None. Section 100K operates notwithstanding §§ 100I and 100J, so the under-21 rule, the two-record cap and the § 100J exclusion list do not apply. This is the most important structural fact about the track and the internal reference does not state it."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "A record created on one of the eight statutory grounds",
+          "duration": "None"
+        }
+      ],
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Statewide form, court-specific filing. File in the clerk's office in the court where the case was heard."
+      },
+      "destination": {
+        "kind": "clerk",
+        "name": "Clerk's office of the court where the case was heard",
+        "detail": "Boston Municipal, District, Juvenile or Superior Court, per the form's department checkboxes. The district attorney is served."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "Petition for Expungement, G.L. c. 276, § 100K",
+          "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase massachusetts/jud-Petition-for-Expungement.pdf",
+          "notes": "Trial Court of Massachusetts, Rev. 12.20.18, with instructions on the reverse. Eight ground checkboxes. Include all charges connected to the case; file separate petitions for different cases."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "courtDepartment",
+          "question": "Which court department heard the case: Boston Municipal, District, Juvenile or Superior?",
+          "requirement": "required"
+        },
+        {
+          "key": "courtDivision",
+          "question": "Which division or court location?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the docket number?",
+          "requirement": "required"
+        },
+        {
+          "key": "charges",
+          "question": "List every charge connected to the case.",
+          "requirement": "required"
+        },
+        {
+          "key": "disposition",
+          "question": "How did the case end?",
+          "requirement": "required"
+        },
+        {
+          "key": "dispositionDate",
+          "question": "On what date did it end?",
+          "requirement": "required"
+        },
+        {
+          "key": "groundSelected",
+          "question": "Which applies: false identification or identity theft; the offence is no longer a crime; a demonstrable error by law enforcement; by a civilian or expert witness; by a court employee; or fraud on the court?",
+          "requirement": "required"
+        },
+        {
+          "key": "howRecordCameToExist",
+          "question": "In your own words, describe specifically how this record came to exist.",
+          "requirement": "required"
+        },
+        {
+          "key": "requestsHearing",
+          "question": "Do you want to request a hearing?",
+          "requirement": "required"
+        },
+        {
+          "key": "marijuanaOffence",
+          "question": "Was the charge a marijuana offence?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Your own CORI from the Department of Criminal Justice Information Services",
+          "obtainedFrom": "Massachusetts Department of Criminal Justice Information Services",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Request your personal CORI from DCJIS. LegalEase never collects, inspects or authenticates it.",
+          "confirms": "caseNumber"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Petitioner signature",
+          "whereInPacket": "Petition signature block",
+          "why": "The participant signs their own petition."
+        },
+        {
+          "item": "The 'Specifically' narrative",
+          "whereInPacket": "Petition narrative section",
+          "why": "Participant-authored through structured prompts. The clear and convincing showing about how the record came to exist is the participant's own account."
+        }
+      ],
+      "rules": {
+        "filing": "File in the clerk's office in the court where the case was heard. Include all charges connected to the case and file separate petitions for different cases.",
+        "fees": "None identified in the review.",
+        "feeWaiver": "None identified.",
+        "notice": "The district attorney is served.",
+        "service": "Per the form's service block.",
+        "participantSignature": "Required.",
+        "notarization": "none"
+      },
+      "selfHelpStopConditions": [
+        "Whether the facts meet a listed ground is unclear.",
+        "What 'demonstrable' requires for a law enforcement, witness or fraud ground is in issue.",
+        "The district attorney opposes.",
+        "A hearing is set."
+      ],
+      "unresolvedQuestions": [],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Re-reviewed under the packet-only model and classified as a single official_pdf_fill rather than a composed route. The review's stage 2 is the participant's own narrative, permitted through structured prompts, and stage 3 is filing, service and hearing, which is a post-generation handoff rather than a legally distinct unit. The form is a standard statewide Trial Court form and the whole filing is generated from it. The clear and convincing standard is a burden at the hearing, not a generation blocker.",
+        "limitations": [
+          {
+            "classification": "packet_instruction",
+            "statement": "Never use sealing and expungement interchangeably in Massachusetts copy. Sealing does not destroy the record; expungement does.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "Massachusetts-LegalEase-Record-Clearing-Legal-Review.md",
+              "sourceHeading": "TRACK 1",
+              "sourceStatement": "Massachusetts sealing does not destroy the record. Expungement does. Never use the two interchangeably in Massachusetts copy."
+            }
+          },
+          {
+            "classification": "participant_question",
+            "statement": "The narrative answers are participant-authored through structured prompts. LegalEase formats the participant's own facts and never composes the showing or judges whether it is persuasive.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "Massachusetts-LegalEase-Record-Clearing-Legal-Review.md",
+              "sourceHeading": "TRACK 4 / OUTPUT STRATEGY",
+              "sourceStatement": "The form is safe to generate. The showing is not."
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "Filing, service on the district attorney and any hearing follow generation. Hand off when the district attorney opposes or a hearing is set.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "Massachusetts-LegalEase-Record-Clearing-Legal-Review.md",
+              "sourceHeading": "TRACK 6 / OUTPUT STRATEGY",
+              "sourceStatement": "Stage 3: filing, service on the district attorney, and hearing (process_guidance)."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Section 100K operates notwithstanding §§ 100I and 100J, so the under-21 rule, the two-record cap and the § 100J exclusion list do not apply. Surface this: it is the most important structural fact about the track and the internal reference omits it.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "Massachusetts-LegalEase-Record-Clearing-Legal-Review.md",
+              "sourceHeading": "TRACK 6 / Excluded offenses or circumstances",
+              "sourceStatement": "§ 100K operates \"notwithstanding the requirements of section 100I and section 100J.\" The under-21 rule, the two-record cap, and the § 100J exclusion list do not apply. This is the most important structural fact about the track and the internal reference does not state it."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "Route a marijuana fact pattern to the § 100K¼ marijuana route first: it is mandatory and faster. The § 100A box 4 route is ministerial but produces only sealing.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "Massachusetts-LegalEase-Record-Clearing-Legal-Review.md",
+              "sourceHeading": "TRACK 6",
+              "sourceStatement": "Whether the participant should instead use § 100K¼ (Track 7) or § 100A box 4 (Track 2) on the \"no longer a crime\" ground. § 100K¼ is mandatory and faster."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Expungement in circumstances outside § 100K requires a different petition submitted to the Office of the Commissioner of Probation, which is the time-based route.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "Massachusetts-LegalEase-Record-Clearing-Legal-Review.md",
+              "sourceHeading": "TRACK 6 / OUTPUT STRATEGY",
+              "sourceStatement": "the form's instructions expressly say that expungement in other circumstances requires a different petition submitted to the Office of the Commissioner of Probation"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "nodeType": "relief_track",
+      "outputStrategy": "official_pdf_fill",
+      "effectiveDates": {
+        "effectiveFrom": "2022-11-09",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "_participantInputsNote": "Questions LegalEase asks. Generation runs on the participant's answers.",
+      "_supportingDocumentsNote": "Records the participant obtains. LegalEase never collects, inspects or authenticates them.",
+      "_manualCompletionNote": "Fields the generated packet deliberately leaves blank.",
+      "officialSources": [
+        {
+          "title": "G.L. c. 276, §§ 100A through 100N",
+          "url": "https://malegislature.gov/Laws/GeneralLaws/PartIV/TitleII/Chapter276",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Massachusetts Trial Court sealing and expungement forms",
+          "url": "https://www.mass.gov/lists/sealing-and-expunging-criminal-records-forms",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Commonwealth v. Pon, 469 Mass. 296 (2014); Commonwealth v. J.F., 491 Mass. 824 (2023)",
+          "url": "https://www.mass.gov/handbook/massachusetts-court-system",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Boston Municipal Court Department Amended Standing Order No. 1-09",
+          "url": "https://www.mass.gov/boston-municipal-court-rules",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "_unresolvedQuestionsNote": "Each open question carries an impact and the element it affects.",
+      "_limitationsNote": "Every limitation is classified. Only legal_design_blocker withholds a track.",
+      "_provenanceNote": "Classifications carry classificationBasis, sourceFile, sourceHeading and the sourceStatement quoted from the controlling Massachusetts review or the adopted Batch 2 resolution memorandum.",
+      "trackId": "ma-expunge-mj",
+      "legalName": "Petition for Expungement of Marijuana Offences under G.L. c. 276, § 100K¼",
+      "publicName": "Expunging an old marijuana charge",
+      "controllingAuthority": {
+        "citations": [
+          "G.L. c. 276, § 100K¼"
+        ],
+        "summary": "Added by St. 2022, c. 180, § 23, effective November 9, 2022. Reaches possession or cultivation of an amount decriminalised by c. 387 of the Acts of 2008, c. 334 of the Acts of 2016 or c. 55 of the Acts of 2017, and possession with intent to distribute or distribution based on such an amount. It operates notwithstanding §§ 100I and 100J. Relief is mandatory: the court shall order expungement within 30 days of the petition being filed."
+      },
+      "eligibleRecordTypes": [
+        "court_record",
+        "juvenile_record",
+        "disposition_record"
+      ],
+      "eligibleDispositions": [
+        "any_disposition"
+      ],
+      "exclusions": [
+        "None from within the section. It operates notwithstanding §§ 100I and 100J, so the under-21 rule, the two-record cap, the clean-record conditions and the entire § 100J exclusion list do not apply.",
+        "Non-marijuana charges in the same case are not reachable here."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "A qualifying marijuana offence",
+          "duration": "None"
+        }
+      ],
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Statewide form, court-specific filing. File in the court connected to the record."
+      },
+      "destination": {
+        "kind": "clerk",
+        "name": "Clerk's office of the court connected to the record",
+        "detail": "The court shall order expungement within 30 days of filing. This is the only hard deadline on a Massachusetts court in the chapter."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "TC0021",
+          "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase massachusetts/source-gated/TC0021__petition-for-expungement-of-marijuana-offenses__rev-2022-11.pdf",
+          "notes": "Petition for Expungement of Marijuana Offenses, Rev. 11/2022. Held source-gated pending confirmation that it is the current revision."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "courtDepartment",
+          "question": "Which court department heard the case: Boston Municipal, District, Juvenile or Superior?",
+          "requirement": "required"
+        },
+        {
+          "key": "courtDivision",
+          "question": "Which division or court location?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the docket number?",
+          "requirement": "required"
+        },
+        {
+          "key": "charges",
+          "question": "List every charge connected to the case.",
+          "requirement": "required"
+        },
+        {
+          "key": "disposition",
+          "question": "How did the case end?",
+          "requirement": "required"
+        },
+        {
+          "key": "dispositionDate",
+          "question": "On what date did it end?",
+          "requirement": "required"
+        },
+        {
+          "key": "marijuanaOffenceCategory",
+          "question": "Was the charge possession or cultivation, possession with intent to distribute, or distribution?",
+          "requirement": "required"
+        },
+        {
+          "key": "chargedAmount",
+          "question": "What amount was charged, as stated on the complaint?",
+          "requirement": "required"
+        },
+        {
+          "key": "nonMarijuanaCharges",
+          "question": "Did the case include any charges that were not marijuana charges?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Your own CORI from the Department of Criminal Justice Information Services",
+          "obtainedFrom": "Massachusetts Department of Criminal Justice Information Services",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Request your personal CORI from DCJIS. LegalEase never collects, inspects or authenticates it.",
+          "confirms": "caseNumber"
+        },
+        {
+          "name": "The complaint or charging document showing the charged amount",
+          "obtainedFrom": "Clerk's office of the court connected to the record",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the clerk for a copy of the complaint. The eligibility question turns on the charged amount, which the CORI does not show.",
+          "confirms": "chargedAmount"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Petitioner signature",
+          "whereInPacket": "TC0021 signature block",
+          "why": "The participant signs their own petition."
+        }
+      ],
+      "rules": {
+        "filing": "File TC0021 in the court connected to the record.",
+        "fees": "None identified in the review.",
+        "feeWaiver": "None identified.",
+        "notice": "Per the form.",
+        "service": "Per the form.",
+        "participantSignature": "Required.",
+        "notarization": "none"
+      },
+      "selfHelpStopConditions": [
+        "Whether the charged amount falls within an amount decriminalised by one of the three named acts is unclear.",
+        "The case included non-marijuana charges."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Whether TC0021 held in the corpus, revised 11/2022, is the current revision. It is held source-gated pending confirmation.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "Massachusetts-LegalEase-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 7",
+            "sourceStatement": "Petition for Expungement of Marijuana Offenses Form, Mass.gov."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "The strongest automation target in Massachusetts: a dedicated official form, mandatory relief on a 30-day court deadline, no discretionary showing, no waiting period, no eligibility certification and no narrative. Once the amount question is answered the filing is mechanical.",
+        "limitations": [
+          {
+            "classification": "packet_instruction",
+            "statement": "Never use sealing and expungement interchangeably in Massachusetts copy. Sealing does not destroy the record; expungement does.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "Massachusetts-LegalEase-Record-Clearing-Legal-Review.md",
+              "sourceHeading": "TRACK 1",
+              "sourceStatement": "Massachusetts sealing does not destroy the record. Expungement does. Never use the two interchangeably in Massachusetts copy."
+            }
+          },
+          {
+            "classification": "required_before_filing",
+            "statement": "The eligibility question turns on the charged amount, which requires reading the complaint rather than the CORI. The participant obtains the complaint from the clerk.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "Massachusetts-LegalEase-Record-Clearing-Legal-Review.md",
+              "sourceHeading": "TRACK 7",
+              "sourceStatement": "Whether the charged amount falls within an amount decriminalized by one of the three named acts. This is the entire eligibility question and it requires reading the complaint, not the CORI."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Tell the participant that the court shall order expungement within 30 days of filing. This is the only hard deadline on a Massachusetts court in the chapter.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "Massachusetts-LegalEase-Record-Clearing-Legal-Review.md",
+              "sourceHeading": "TRACK 7",
+              "sourceStatement": "The court \"shall, within 30 days of a petition being filed, order the expungement.\" This is the only hard deadline on a Massachusetts court in this entire chapter."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Section 100K¼ operates notwithstanding §§ 100I and 100J, so a person with a long record and a qualifying marijuana charge is eligible.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "Massachusetts-LegalEase-Record-Clearing-Legal-Review.md",
+              "sourceHeading": "TRACK 7 / Excluded offenses or circumstances",
+              "sourceStatement": "A 55-year-old with a long record and a qualifying marijuana charge is eligible."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "Non-marijuana charges in the same case are not reachable on this route.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "Massachusetts-LegalEase-Record-Clearing-Legal-Review.md",
+              "sourceHeading": "TRACK 7",
+              "sourceStatement": "Whether the case included non-marijuana charges, which are not reachable here."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "nodeType": "local_variant",
+      "outputStrategy": "custom_pleading",
+      "effectiveDates": {
+        "effectiveFrom": "2014-01-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "_participantInputsNote": "Questions LegalEase asks. Generation runs on the participant's answers.",
+      "_supportingDocumentsNote": "Records the participant obtains. LegalEase never collects, inspects or authenticates them.",
+      "_manualCompletionNote": "Fields the generated packet deliberately leaves blank.",
+      "officialSources": [
+        {
+          "title": "G.L. c. 276, §§ 100A through 100N",
+          "url": "https://malegislature.gov/Laws/GeneralLaws/PartIV/TitleII/Chapter276",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Massachusetts Trial Court sealing and expungement forms",
+          "url": "https://www.mass.gov/lists/sealing-and-expunging-criminal-records-forms",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Commonwealth v. Pon, 469 Mass. 296 (2014); Commonwealth v. J.F., 491 Mass. 824 (2023)",
+          "url": "https://www.mass.gov/handbook/massachusetts-court-system",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Boston Municipal Court Department Amended Standing Order No. 1-09",
+          "url": "https://www.mass.gov/boston-municipal-court-rules",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "_unresolvedQuestionsNote": "Each open question carries an impact and the element it affects.",
+      "_limitationsNote": "Every limitation is classified. Only legal_design_blocker withholds a track.",
+      "_provenanceNote": "Classifications carry classificationBasis, sourceFile, sourceHeading and the sourceStatement quoted from the controlling Massachusetts review or the adopted Batch 2 resolution memorandum.",
+      "trackId": "ma-bmc-multi",
+      "localFormOverride": true,
+      "legalName": "Consolidated Multi-Record Sealing Petition in the Boston Municipal Court Department",
+      "publicName": "Sealing several dismissed cases at once in Boston",
+      "controllingAuthority": {
+        "citations": [
+          "G.L. c. 276, § 100C",
+          "Boston Municipal Court Department Amended Standing Order No. 1-09",
+          "Commonwealth v. Pon, 469 Mass. 296 (2014)"
+        ],
+        "summary": "The Boston Municipal Court Department permits a single consolidated petition to seal three or more criminal records from two or more BMC divisions, under a Standing Order revised after Pon to conform to the new legal standard. It is a local implementation of the ordinary § 100C judicial-sealing remedy, not a separate statewide remedy. Below the threshold, the ordinary route applies with one form per case."
+      },
+      "eligibleRecordTypes": [
+        "court_record"
+      ],
+      "eligibleDispositions": [
+        "dismissal",
+        "nolle_prosequi",
+        "no_probable_cause",
+        "not_guilty"
+      ],
+      "exclusions": [
+        "Records outside the Boston Municipal Court Department. This does not reach District Court, Juvenile Court or Superior Court records.",
+        "Fewer than three criminal records, or records from fewer than two BMC divisions. Below that threshold the ordinary judicial sealing route applies with one form per case."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Dismissal, nolle prosequi, no probable cause or not guilty",
+          "duration": "None, the same as the ordinary judicial sealing route."
+        }
+      ],
+      "geography": {
+        "scope": "court_specific",
+        "keys": [
+          "boston-municipal-court"
+        ],
+        "venue": "Boston Municipal Court Department only, keyed by the Standing Order to the division in whose territorial jurisdiction the person resides, read with the general BMC rule that a person no longer residing in BMC territory files in the division where the most recent eligible record is from."
+      },
+      "destination": {
+        "kind": "clerk",
+        "name": "Boston Municipal Court division identified by the Standing Order",
+        "detail": "A consolidated petition supplements rather than replaces the statewide form. The judge may request additional information or documents about the listed cases from the Clerk-Magistrate or the Probation Department."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "custom_pleading",
+          "notes": "Consolidated petition to seal multiple criminal records, drafted against the required contents and procedure of BMC Amended Standing Order No. 1-09 and the Pon standard, listing every qualifying BMC record across divisions."
+        },
+        {
+          "role": "instructions",
+          "requirement": "required",
+          "outputStrategy": "custom_pleading",
+          "notes": "Threshold and venue instruction: three or more records from two or more BMC divisions, filed in the division where the person resides or, if they no longer live in BMC territory, where the most recent eligible record is from. Preliminary hearing, public notice and final hearing follow."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "bmcRecords",
+          "question": "List every Boston Municipal Court case you want sealed, with the division and docket number for each.",
+          "requirement": "required"
+        },
+        {
+          "key": "bmcDivisionCount",
+          "question": "How many different BMC divisions do those cases come from?",
+          "requirement": "required"
+        },
+        {
+          "key": "currentResidence",
+          "question": "Do you currently live in Boston Municipal Court territory, and in which division?",
+          "requirement": "required"
+        },
+        {
+          "key": "mostRecentEligibleRecordDivision",
+          "question": "If you no longer live in BMC territory, which division is your most recent eligible record from?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked only where the participant has moved out of BMC territory, because it sets the venue."
+        },
+        {
+          "key": "dispositions",
+          "question": "How did each of those cases end?",
+          "requirement": "required"
+        },
+        {
+          "key": "disadvantagesFromRecord",
+          "question": "In your own words, what specific problems have these records caused you?",
+          "requirement": "required"
+        },
+        {
+          "key": "rehabilitationEvidence",
+          "question": "In your own words, what have you done since the cases ended?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Your own CORI from the Department of Criminal Justice Information Services",
+          "obtainedFrom": "Massachusetts Department of Criminal Justice Information Services",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Request your personal CORI from DCJIS. LegalEase never collects, inspects or authenticates it.",
+          "confirms": "bmcRecords"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Petitioner signature",
+          "whereInPacket": "Consolidated petition signature block",
+          "why": "The participant signs their own petition."
+        },
+        {
+          "item": "The good-cause narrative across all listed records",
+          "whereInPacket": "Consolidated petition narrative",
+          "why": "Participant-authored through structured prompts against the Pon factors."
+        }
+      ],
+      "rules": {
+        "filing": "File the consolidated petition in the BMC division identified by the Standing Order's residence-based venue rule.",
+        "fees": "None identified in the review.",
+        "feeWaiver": "None identified.",
+        "notice": "Preliminary hearing, public notice and final hearing per the Standing Order.",
+        "service": "Per the Standing Order.",
+        "participantSignature": "Required.",
+        "notarization": "none"
+      },
+      "selfHelpStopConditions": [
+        "The threshold of three or more records from two or more BMC divisions is not met, in which case the ordinary route applies with one form per case.",
+        "Records fall outside the Boston Municipal Court Department.",
+        "The judge requests additional information about the listed cases.",
+        "A hearing is set."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Whether the Boston Municipal Court publishes a dedicated form for the consolidated multi-record petition. The Standing Order prescribes contents and procedure but no published form was established, so a controlled custom pleading is used against those required contents.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "Massachusetts-LegalEase-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 8 / OUTPUT STRATEGY",
+            "sourceStatement": "Is an official form mandatory? Unresolved. The Standing Order prescribes contents and procedure; whether BMC publishes a form was not established."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Classified as a local_variant non-relief node under the adopted memorandum: the BMC multi-record procedure implements the ordinary § 100C judicial-sealing track locally and is not a separate statewide remedy, so the underlying relief is not double-counted. Re-reviewed under the packet-only model and classified as a single custom_pleading rather than a composed route: the review's stage 1 is threshold and venue routing rather than a legal unit, and stage 3 is hearings, which are post-generation handoffs. No published BMC form was established, and the Standing Order supplies the required contents and procedure, so a controlled consolidated pleading is generated with a local-form override.",
+        "limitations": [
+          {
+            "classification": "packet_instruction",
+            "statement": "Never use sealing and expungement interchangeably in Massachusetts copy. Sealing does not destroy the record; expungement does.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "Massachusetts-LegalEase-Record-Clearing-Legal-Review.md",
+              "sourceHeading": "TRACK 1",
+              "sourceStatement": "Massachusetts sealing does not destroy the record. Expungement does. Never use the two interchangeably in Massachusetts copy."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "This is a local implementation of the ordinary § 100C judicial-sealing remedy, not a separate statewide remedy. Do not double-count the underlying relief mechanism.",
+            "provenance": {
+              "classificationBasis": "batch_decision_matrix",
+              "sourceFile": "LegalEase_Batch_2_Legal_Research_Resolution_Memo_ADOPTED.md",
+              "sourceHeading": "Additional issues resolved / Massachusetts BMC consolidated filing",
+              "sourceStatement": "Treat the BMC multi-record procedure under Amended Standing Order 1-09 as a local packet variant of the ordinary G.L. c. 276, § 100C judicial-sealing track, not a separate statewide remedy."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "A counsel-approved custom consolidated petition may be used only for qualifying BMC records. Otherwise use the statewide form per case.",
+            "provenance": {
+              "classificationBasis": "batch_decision_matrix",
+              "sourceFile": "LegalEase_Batch_2_Legal_Research_Resolution_Memo_ADOPTED.md",
+              "sourceHeading": "Additional issues resolved / Massachusetts BMC consolidated filing",
+              "sourceStatement": "If no current BMC form is published, a counsel-approved custom consolidated petition may be used only for qualifying BMC records; otherwise use TC0057 per case."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "Offer this route only where the participant has three or more criminal records from two or more BMC divisions. Below that threshold, use the ordinary judicial sealing route with one form per case.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "Massachusetts-LegalEase-Record-Clearing-Legal-Review.md",
+              "sourceHeading": "TRACK 8 / Threshold",
+              "sourceStatement": "Three or more criminal records from two or more court divisions within the BMC Department. Below that threshold, use Track 4 with one form per case."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "The consolidated petition supplements rather than replaces the statewide form in BMC.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "Massachusetts-LegalEase-Record-Clearing-Legal-Review.md",
+              "sourceHeading": "TRACK 8",
+              "sourceStatement": "In BMC, a consolidated petition supplements rather than replaces TC0057."
+            }
+          },
+          {
+            "classification": "participant_question",
+            "statement": "The good-cause narrative across all listed records is participant-authored through structured prompts against the Pon factors.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "Massachusetts-LegalEase-Record-Clearing-Legal-Review.md",
+              "sourceHeading": "TRACK 8",
+              "sourceStatement": "All of the Track 4 judgment questions, plus whether the participant's records meet the three-record and two-division threshold, and which BMC division is the correct venue."
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "A preliminary hearing, public notice and a final hearing follow filing, and the judge may request additional information or documents about the listed cases from the Clerk-Magistrate or the Probation Department.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "Massachusetts-LegalEase-Record-Clearing-Legal-Review.md",
+              "sourceHeading": "TRACK 8 / PACKET OR PROCESS COMPONENTS",
+              "sourceStatement": "The Standing Order allows the judge to request additional information or documents about the listed cases from the Clerk-Magistrate or the Probation Department."
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,362 @@
+{
+  "schemaVersion": "rcap-actual-writes-byte-proof/v1",
+  "familyId": "ct-cleanslate-petition-set",
+  "derivedFromArtifactBytes": true,
+  "note": "Read back from the finalized PDF bytes at every measured widget rectangle, not from the finalizer's own report. The form's own Print Form and Reset Form pushbutton captions are recorded under flattenedFormOwnButtonCaptions: flattening materialises them, and counting them as ink on a refused field would report a protected write that never happened.",
+  "documents": [
+    {
+      "fixture": "petition-canonical",
+      "formNumber": "JD-CR-202",
+      "sourceSha256": "b5a917c2cd07727172a50534a4884a63e8ae08704b631c62a199c3454623062c",
+      "proofMethod": "flattened widget appearances read back at every measured /Rect of the finalized bytes",
+      "valuesReportedByFinalizer": 6,
+      "flattenedWidgetAppearancesReadFromOutputBytes": 23,
+      "addedGlyphsReadFromOutputBytes": 42,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+      "refusedFieldsWithInk": [],
+      "flattenedFormOwnButtonCaptions": [
+        {
+          "field": "form1[0].#pageSet[0].Page1[0].ResetButton1[0]",
+          "page": 1,
+          "rect": {
+            "x": 414,
+            "y": 12,
+            "width": 68.4,
+            "height": 12
+          },
+          "drawnText": [
+            "Reset Form"
+          ]
+        },
+        {
+          "field": "form1[0].#pageSet[0].Page1[0].PrintButton1[0]",
+          "page": 1,
+          "rect": {
+            "x": 126,
+            "y": 12,
+            "width": 68.4,
+            "height": 12
+          },
+          "drawnText": [
+            "Print Form"
+          ]
+        },
+        {
+          "field": "form1[0].#pageSet[0].Page1[1].ResetButton1[0]",
+          "page": 2,
+          "rect": {
+            "x": 414,
+            "y": 12,
+            "width": 68.4,
+            "height": 12
+          },
+          "drawnText": [
+            "Reset Form"
+          ]
+        },
+        {
+          "field": "form1[0].#pageSet[0].Page1[1].PrintButton1[0]",
+          "page": 2,
+          "rect": {
+            "x": 126,
+            "y": 12,
+            "width": 68.4,
+            "height": 12
+          },
+          "drawnText": [
+            "Print Form"
+          ]
+        }
+      ],
+      "unfittable": [],
+      "actualWrites": [
+        {
+          "field": "form1[0].PAGE1[0].DEFEMAIL[0]",
+          "factId": "participant.email",
+          "page": 1,
+          "rect": {
+            "x": 194.4,
+            "y": 582,
+            "width": 167.04,
+            "height": 15.12
+          },
+          "printedCaption": "Name of defendantE-mail addressPhone numberDate of birth",
+          "columnHeading": "E-mail address",
+          "expected": "jordan.reyes@example.com",
+          "drawnText": [
+            "jordan.reyes@example.com"
+          ],
+          "readBackFromBytes": true
+        },
+        {
+          "field": "form1[0].PAGE1[0].DOCKETNO[0]",
+          "factId": "matter.case_number",
+          "page": 1,
+          "rect": {
+            "x": 424.8,
+            "y": 606,
+            "width": 159.84,
+            "height": 15.12
+          },
+          "printedCaption": "JD/GA numberAddress of courtDocket number (only one allowed)",
+          "columnHeading": "Docket number (only one allowed)",
+          "expected": "N23N-CR98-0123456-S",
+          "drawnText": [],
+          "readBackFromBytes": true
+        },
+        {
+          "field": "form1[0].PAGE1[0].DOB[0]",
+          "factId": "participant.date_of_birth",
+          "page": 1,
+          "rect": {
+            "x": 496.8,
+            "y": 582,
+            "width": 87.84,
+            "height": 15.12
+          },
+          "printedCaption": "Name of defendantE-mail addressPhone numberDate of birth",
+          "columnHeading": "Date of birth",
+          "expected": "1971-04-17",
+          "drawnText": [],
+          "readBackFromBytes": true
+        },
+        {
+          "field": "form1[0].PAGE1[0].DEFNAME[0]",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "rect": {
+            "x": 28.8,
+            "y": 582,
+            "width": 159.84,
+            "height": 15.12
+          },
+          "printedCaption": "Name of defendantE-mail addressPhone numberDate of birth",
+          "columnHeading": "Name of defendant",
+          "expected": "Jordan Avery Reyes",
+          "drawnText": [
+            "Jordan Avery Reyes"
+          ],
+          "readBackFromBytes": true
+        },
+        {
+          "field": "form1[0].PAGE1[0].DEFADDRESS[0]",
+          "factId": "participant.street_address",
+          "page": 1,
+          "rect": {
+            "x": 28.8,
+            "y": 558,
+            "width": 555.84,
+            "height": 15.12
+          },
+          "printedCaption": "Address",
+          "columnHeading": "Address",
+          "expected": "118 Maple Street",
+          "drawnText": [],
+          "readBackFromBytes": true
+        },
+        {
+          "field": "form1[0].PAGE1[0].DEFPHONE[0]",
+          "factId": "participant.phone",
+          "page": 1,
+          "rect": {
+            "x": 367.2,
+            "y": 582,
+            "width": 123.84,
+            "height": 15.12
+          },
+          "printedCaption": "Name of defendantE-mail addressPhone numberDate of birth",
+          "columnHeading": "Phone number",
+          "expected": "203-555-0142",
+          "drawnText": [],
+          "readBackFromBytes": true
+        }
+      ]
+    },
+    {
+      "fixture": "petition-boundary",
+      "formNumber": "JD-CR-202",
+      "sourceSha256": "b5a917c2cd07727172a50534a4884a63e8ae08704b631c62a199c3454623062c",
+      "proofMethod": "flattened widget appearances read back at every measured /Rect of the finalized bytes",
+      "valuesReportedByFinalizer": 4,
+      "flattenedWidgetAppearancesReadFromOutputBytes": 23,
+      "addedGlyphsReadFromOutputBytes": 24,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+      "refusedFieldsWithInk": [],
+      "flattenedFormOwnButtonCaptions": [
+        {
+          "field": "form1[0].#pageSet[0].Page1[0].ResetButton1[0]",
+          "page": 1,
+          "rect": {
+            "x": 414,
+            "y": 12,
+            "width": 68.4,
+            "height": 12
+          },
+          "drawnText": [
+            "Reset Form"
+          ]
+        },
+        {
+          "field": "form1[0].#pageSet[0].Page1[0].PrintButton1[0]",
+          "page": 1,
+          "rect": {
+            "x": 126,
+            "y": 12,
+            "width": 68.4,
+            "height": 12
+          },
+          "drawnText": [
+            "Print Form"
+          ]
+        },
+        {
+          "field": "form1[0].#pageSet[0].Page1[1].ResetButton1[0]",
+          "page": 2,
+          "rect": {
+            "x": 414,
+            "y": 12,
+            "width": 68.4,
+            "height": 12
+          },
+          "drawnText": [
+            "Reset Form"
+          ]
+        },
+        {
+          "field": "form1[0].#pageSet[0].Page1[1].PrintButton1[0]",
+          "page": 2,
+          "rect": {
+            "x": 126,
+            "y": 12,
+            "width": 68.4,
+            "height": 12
+          },
+          "drawnText": [
+            "Print Form"
+          ]
+        }
+      ],
+      "unfittable": [
+        {
+          "field": "form1[0].PAGE1[0].DOCKETNO[0]",
+          "factId": "matter.case_number",
+          "outcome": "refused",
+          "reason": "value_exceeds_widget_width_at_minimum_font",
+          "value": "N23N-CR99-0123456-S/AB-CDE-0123456789-SUPPLEMENTAL",
+          "rect": {
+            "x": 424.8,
+            "y": 606,
+            "width": 159.84,
+            "height": 15.12
+          },
+          "minFontSize": 6,
+          "requiredWidthAtMin": 173
+        },
+        {
+          "field": "form1[0].PAGE1[0].DEFNAME[0]",
+          "factId": "participant.full_legal_name",
+          "outcome": "refused",
+          "reason": "value_exceeds_widget_width_at_minimum_font",
+          "value": "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III",
+          "rect": {
+            "x": 28.8,
+            "y": 582,
+            "width": 159.84,
+            "height": 15.12
+          },
+          "minFontSize": 6,
+          "requiredWidthAtMin": 195.6
+        }
+      ],
+      "actualWrites": [
+        {
+          "field": "form1[0].PAGE1[0].DEFEMAIL[0]",
+          "factId": "participant.email",
+          "page": 1,
+          "rect": {
+            "x": 194.4,
+            "y": 582,
+            "width": 167.04,
+            "height": 15.12
+          },
+          "printedCaption": "Name of defendantE-mail addressPhone numberDate of birth",
+          "columnHeading": "E-mail address",
+          "expected": "jordan.reyes@example.com",
+          "drawnText": [
+            "jordan.reyes@example.com"
+          ],
+          "readBackFromBytes": true
+        },
+        {
+          "field": "form1[0].PAGE1[0].DOB[0]",
+          "factId": "participant.date_of_birth",
+          "page": 1,
+          "rect": {
+            "x": 496.8,
+            "y": 582,
+            "width": 87.84,
+            "height": 15.12
+          },
+          "printedCaption": "Name of defendantE-mail addressPhone numberDate of birth",
+          "columnHeading": "Date of birth",
+          "expected": "1971-04-17",
+          "drawnText": [],
+          "readBackFromBytes": true
+        },
+        {
+          "field": "form1[0].PAGE1[0].DEFADDRESS[0]",
+          "factId": "participant.street_address",
+          "page": 1,
+          "rect": {
+            "x": 28.8,
+            "y": 558,
+            "width": 555.84,
+            "height": 15.12
+          },
+          "printedCaption": "Address",
+          "columnHeading": "Address",
+          "expected": "12345 Southwest Grandview Boulevard Northeast, Building 7, Apartment 4321-B",
+          "drawnText": [],
+          "readBackFromBytes": true
+        },
+        {
+          "field": "form1[0].PAGE1[0].DEFPHONE[0]",
+          "factId": "participant.phone",
+          "page": 1,
+          "rect": {
+            "x": 367.2,
+            "y": 582,
+            "width": 123.84,
+            "height": 15.12
+          },
+          "printedCaption": "Name of defendantE-mail addressPhone numberDate of birth",
+          "columnHeading": "Phone number",
+          "expected": "203-555-0142 ext. 44821",
+          "drawnText": [],
+          "readBackFromBytes": true
+        }
+      ]
+    }
+  ],
+  "artifacts": [
+    {
+      "fixture": "petition-canonical",
+      "formNumber": "JD-CR-202",
+      "valuesReportedByFinalizer": 6,
+      "addedGlyphsReadFromOutputBytes": 42,
+      "flattenedWidgetAppearancesReadFromOutputBytes": 23,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+      "refusedFieldsWithInk": []
+    },
+    {
+      "fixture": "petition-boundary",
+      "formNumber": "JD-CR-202",
+      "valuesReportedByFinalizer": 4,
+      "addedGlyphsReadFromOutputBytes": 24,
+      "flattenedWidgetAppearancesReadFromOutputBytes": 23,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+      "refusedFieldsWithInk": []
+    }
+  ],
+  "blockingFindings": []
+}

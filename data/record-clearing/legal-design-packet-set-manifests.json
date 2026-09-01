@@ -4996,6 +4996,45 @@
           "officialFormId": "JDF-417-ORDER",
           "officialSourceUrl": null,
           "order": 2
+        },
+        {
+          "componentId": "co_petition_seal_arrest-jdf-419-3",
+          "role": "required_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": null,
+          "requiredOfficialFormId": "JDF-419",
+          "sourceStatus": "absent_from_verified_corpus",
+          "sourceStatusBasis": "The official JDF-416 filing guide lists JDF-419 among the documents that must be filed. The verified corpus contains JDF-417 and JDF-418 only.",
+          "officialSourceUrl": null,
+          "order": 3
+        },
+        {
+          "componentId": "co_petition_seal_arrest-jdf-435-4",
+          "role": "required_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": null,
+          "requiredOfficialFormId": "JDF-435",
+          "sourceStatus": "absent_from_verified_corpus",
+          "sourceStatusBasis": "The official JDF-416 filing guide lists JDF-435 among the documents that must be filed. The verified corpus contains JDF-417 and JDF-418 only.",
+          "officialSourceUrl": null,
+          "order": 4
+        },
+        {
+          "componentId": "co_petition_seal_arrest-jdf-205-206-fee-waiver-5",
+          "role": "conditional_filing",
+          "requirement": "conditional",
+          "conditionDescription": "Filed only where the participant seeks a filing-fee waiver.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": null,
+          "requiredOfficialFormId": "JDF-205/JDF-206",
+          "sourceStatus": "absent_from_verified_corpus",
+          "sourceStatusBasis": "The JDF-416 guide names the conditional JDF-205/JDF-206 fee-waiver process. Neither form is in the verified corpus.",
+          "officialSourceUrl": null,
+          "order": 5
         }
       ],
       "participantActionRequired": [
@@ -5066,7 +5105,13 @@
         "The source review does not state a notarization requirement.",
         "The filing fee for this petition remains unresolved.",
         "The source review does not address a fee waiver for this petition."
-      ]
+      ],
+      "packetSetCompleteness": {
+        "state": "incomplete",
+        "basis": "The official JDF-416 filing guide requires JDF-417, JDF-418, JDF-419 and JDF-435, plus the conditional JDF-205/JDF-206 fee-waiver process. The verified corpus holds JDF-417 and JDF-418. Two required filings and the conditional fee-waiver pair have no source, so this set cannot produce a complete filing.",
+        "recordedBy": "Captain A, integrating the Lane G Colorado audit",
+        "recordedOn": "2026-08-29"
+      }
     },
     {
       "jurisdiction": "CO",
@@ -5347,6 +5392,32 @@
           "officialFormId": "JDF-615",
           "officialSourceUrl": null,
           "order": 2
+        },
+        {
+          "componentId": "co_motion_seal_conviction-notice-3",
+          "role": "required_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": null,
+          "requiredOfficialFormId": null,
+          "sourceStatus": "identity_unresolved",
+          "sourceStatusBasis": "The official JDF-611 guide requires a notice. Its exact form number is NOT established: the guide renders those digits as vector glyphs, and guessing a JDF number would be fabricating an official identity. Resolving it requires inspecting the guide as page images or obtaining a current official source that names it.",
+          "officialSourceUrl": null,
+          "order": 3
+        },
+        {
+          "componentId": "co_motion_seal_conviction-second-order-4",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": null,
+          "requiredOfficialFormId": null,
+          "sourceStatus": "identity_unresolved",
+          "sourceStatusBasis": "The official JDF-611 guide requires a second order. Its exact form number is NOT established, for the same reason as the notice above, and is not inferred.",
+          "officialSourceUrl": null,
+          "order": 4
         }
       ],
       "participantActionRequired": [
@@ -5434,7 +5505,13 @@
         "The source review does not state a notarization requirement.",
         "The source review does not state a filing fee for this motion.",
         "The source review does not address a fee waiver."
-      ]
+      ],
+      "packetSetCompleteness": {
+        "state": "incomplete",
+        "basis": "The official JDF-611 guide requires a motion, an order, a notice and a second order. The verified corpus holds JDF-612 and JDF-615. The notice and the second order are absent AND their official form numbers are unresolved, so neither the documents nor their identities are established.",
+        "recordedBy": "Captain A, integrating the Lane G Colorado audit",
+        "recordedOn": "2026-08-29"
+      }
     },
     {
       "jurisdiction": "CO",

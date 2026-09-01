@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "va_seal_enumerated_seven_year-set",
+  "findings": [
+    {
+      "finding": "The official form for this family is CC-1203, and the PF01 assignment table named CC-1201.",
+      "consequence": "PF01 assigned CC-1201. CC-1201 prints 'PURSUANT TO VA. CODE § 19.2-392.12' on its own face and carries none of the nine enumerated statutes this route is filed under; CC-1203 Section A, Part 1 is that route's own section and prints all nine. The track's recorded authority in data/rcap-ledger/track-pathway-crosswalk.json is § 19.2-392.12:1(A). The family is built on CC-1203 and this discrepancy is the lane's principal finding."
+    },
+    {
+      "finding": "CC-1201 gives one widget name to as many as four different boxes, and four of its widgets carry a reversed /Rect.",
+      "consequence": "Every row in this map is keyed by widget name plus the measured coordinate, and every rectangle is normalized before a caption is checked against it."
+    },
+    {
+      "finding": "The widget names on both forms do not describe the blanks. `User.DateOfArrest` is the ancillary matter's arrest date on CC-1201, and `User.CityOrCounty` is the deciding court's city while the shared field semantics binds that name to participant.city.",
+      "consequence": "Every caption was read off the page at the widget's own coordinates, and every name-channel binding that would have written the wrong fact is refused by role."
+    },
+    {
+      "finding": "The petitioner's city, state and ZIP is one printed box, and the field-semantics descriptor the widget name binds to is participant.city.",
+      "consequence": "The fixture carries the whole city, state and ZIP line under participant.city. This is a field-semantics fidelity note, recorded rather than worked around: the value written matches the box the court printed."
+    },
+    {
+      "finding": "23 blanks across this packet are facts the platform does not hold.",
+      "consequence": "Every one is declared REQUIRED_BEFORE_FILING and named in participant-instructions.md by the words printed beside it."
+    },
+    {
+      "finding": "The finalizer refuses a checkbox by type, which is right for a fact map and wrong for a route election.",
+      "consequence": "Route elections are marked after flattening, with two diagonals struck inside the box the court already printed, and each mark is read back out of the output bytes as a painted path inside its own measured box."
+    }
+  ]
+}

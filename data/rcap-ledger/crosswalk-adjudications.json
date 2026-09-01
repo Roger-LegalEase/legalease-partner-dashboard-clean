@@ -929,7 +929,7 @@
     {
       "jurisdiction": "GA",
       "compiledPathwayId": "youthful-first-offender-restriction-route",
-      "adjudicatedBy": "session-e3-final",
+      "adjudicatedBy": "session-batch-a-product-integration",
       "evidenceRef": {
         "lanes": [
           "E2-B1"
@@ -941,15 +941,15 @@
       },
       "relation": "direct_runtime_representation",
       "mappedRegistryTrackIds": [
-        "ga-rfo",
         "ga-seal-m"
       ],
       "license": {
         "kind": "operative_citation_in_pathway",
         "citationTokens": [
-          "42-8-66"
+          "35-3-37"
         ]
-      }
+      },
+      "note": "ga-rfo removed from this pathway and moved to GA:retroactive-first-offender-treatment-under-42-8-66, which is the route that names O.C.G.A. § 42-8-66. This adjudication was originally licensed on the token '42-8-66' — the legacy pathway's own text does cite that statute — so both routes reached ga-rfo and one track carried two statutory authorities. What remains proven for this pathway is ga-seal-m, licensed on § 35-3-37(m), which its text also cites. OPEN ROUTE-IDENTITY DEFECT, recorded rather than guessed: the LD-GA-01 contract asserts O.C.G.A. § 42-8-62.1 on this pathway, and no Georgia pathway's own text cites § 42-8-62.1 or § 42-8-62.2 anywhere — the only appearance is what apply-legal-authority-to-profiles writes from that contract. The three § 42-8-62 memo tracks (ga-fo-sentencing-post2026, ga-fo-active-pre2026, ga-fo-discharged-pre2026) reach no compiled pathway at all. Whether this pathway is a § 42-8-62.1 route mis-texted or a § 42-8-66 route mis-contracted is a decision for the owner; it is not resolved here and no mapping is invented for it."
     },
     {
       "jurisdiction": "HI",
@@ -1758,7 +1758,7 @@
       "license": {
         "kind": "registry_declared_branching",
         "pathwayTokens": [
-          "felony conviction"
+          "convicted of a felony"
         ],
         "registryTokens": [
           "felony_conviction"
@@ -2361,7 +2361,7 @@
       "license": {
         "kind": "registry_declared_branching",
         "pathwayTokens": [
-          "qualifying felony"
+          "certain felony convictions"
         ],
         "registryTokens": [
           "qualifying_felony"
@@ -2743,6 +2743,66 @@
       }
     },
     {
+      "jurisdiction": "MS",
+      "compiledPathwayId": "additional-justice-court-misdemeanor-relief-9-11-15-3",
+      "adjudicatedBy": "session-bridge-adjudication",
+      "evidenceRef": {
+        "lanes": [
+          "BRIDGE-ADJ"
+        ],
+        "paths": [
+          "data/rcap-ledger/pathway-bridge-adjudication.json",
+          "src/lib/legal-authority/routes/mississippi.json",
+          "data/record-clearing/legal-design-intake/MS-mississippi.memo.json"
+        ],
+        "recordKey": "MS:additional-justice-court-misdemeanor-relief-9-11-15-3"
+      },
+      "relation": "direct_runtime_representation",
+      "mappedRegistryTrackIds": [
+        "ms-misd-addl"
+      ],
+      "license": {
+        "kind": "mechanism_identity",
+        "pathwayTokens": [
+          "9-11-15-3"
+        ],
+        "registryTokens": [
+          "9-11-15"
+        ]
+      },
+      "note": "ms-misd-addl models Miss. Code Ann. § 9-11-15(3) and § 21-23-7(6) as one node with two venue branches, and the parent selection route MS:additional-justice-or-municipal-court-misdemeanor-relief was already adjudicated to it. That parent is recorded in the legal-authority route layer as outcomeMode=referral with packetFamily=null and is retained as the court-selection route only, so it never renders. This justice-court branch is the terminal route that does, and it carries the 9.11.15.3 half of the track's authority."
+    },
+    {
+      "jurisdiction": "MS",
+      "compiledPathwayId": "additional-municipal-court-misdemeanor-relief-21-23-7-6",
+      "adjudicatedBy": "session-bridge-adjudication",
+      "evidenceRef": {
+        "lanes": [
+          "BRIDGE-ADJ"
+        ],
+        "paths": [
+          "data/rcap-ledger/pathway-bridge-adjudication.json",
+          "src/lib/legal-authority/routes/mississippi.json",
+          "data/record-clearing/legal-design-intake/MS-mississippi.memo.json"
+        ],
+        "recordKey": "MS:additional-municipal-court-misdemeanor-relief-21-23-7-6"
+      },
+      "relation": "direct_runtime_representation",
+      "mappedRegistryTrackIds": [
+        "ms-misd-addl"
+      ],
+      "license": {
+        "kind": "mechanism_identity",
+        "pathwayTokens": [
+          "21-23-7-6"
+        ],
+        "registryTokens": [
+          "21-23-7"
+        ]
+      },
+      "note": "ms-misd-addl models Miss. Code Ann. § 9-11-15(3) and § 21-23-7(6) as one node with two venue branches, and the parent selection route MS:additional-justice-or-municipal-court-misdemeanor-relief was already adjudicated to it. That parent is recorded in the legal-authority route layer as outcomeMode=referral with packetFamily=null and is retained as the court-selection route only, so it never renders. This municipal-court branch is the terminal route that does, and it carries the 21.23.7.6 half of the track's authority."
+    },
+    {
       "jurisdiction": "MT",
       "compiledPathwayId": "deferred-sentence-dismissal-or-confidentiality-route",
       "adjudicatedBy": "session-e3-final",
@@ -2760,9 +2820,12 @@
         "mt_deferred_dismissal"
       ],
       "license": {
-        "kind": "operative_citation_in_pathway",
-        "citationTokens": [
-          "46-18"
+        "kind": "mechanism_identity",
+        "pathwayTokens": [
+          "confidential criminal justice information"
+        ],
+        "registryTokens": [
+          "confidential criminal justice information"
         ]
       }
     },
@@ -2784,9 +2847,14 @@
         "mt_misdemeanor_expungement"
       ],
       "license": {
-        "kind": "operative_citation_in_pathway",
-        "citationTokens": [
-          "46-18"
+        "kind": "mechanism_identity",
+        "pathwayTokens": [
+          "misdemeanor",
+          "expungement"
+        ],
+        "registryTokens": [
+          "misdemeanor",
+          "expungement"
         ]
       }
     },
@@ -2832,9 +2900,14 @@
         "mt_nonconviction_removal"
       ],
       "license": {
-        "kind": "operative_citation_in_pathway",
-        "citationTokens": [
-          "44-5-202"
+        "kind": "mechanism_identity",
+        "pathwayTokens": [
+          "criss",
+          "non-conviction"
+        ],
+        "registryTokens": [
+          "criss",
+          "non-conviction"
         ]
       }
     },

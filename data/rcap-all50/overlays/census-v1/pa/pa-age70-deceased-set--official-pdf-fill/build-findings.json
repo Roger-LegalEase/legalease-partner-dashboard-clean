@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "pa_age70_deceased-set",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "The petition's five-row, seven-column charge table asks for values \"as they appear on the charging document\", and the order's Rule 790 page asks for the same charges again.",
+      "consequence": "No cell of the table is written. The platform does not hold the charging document, and the fleet's existing pa_790_nonconviction-set shows what half-filling it costs: it writes Statute DescriptionRow1 from matter.charge and refuses the other six cells of that row, which is the finished-looking incomplete row the completeness contract exists to catch. All thirty-five cells are declared and disclosed instead."
+    },
+    {
+      "finding": "Both forms ask for the petitioner's Social Security number.",
+      "consequence": "It is declared required-before-filing on both. The platform does not hold it and does not ask for it, and a number written into a court filing by anyone but the petitioner is a number nobody can vouch for."
+    },
+    {
+      "finding": "The petition's docket number is split into four boxes (CP- county code, court type, sequence, year) while the platform holds the docket as one string.",
+      "consequence": "The four segments are declared required-before-filing rather than derived by splitting the string. The full docket number IS written where the form takes it whole: the petition's Docket Number field, the order's caption, and item 8 of the Rule 790 page."
+    },
+    {
+      "finding": "18 Pa.C.S. § 9122(b) has two branches and neither form asks which one by a tick; the branch is stated in the petitioner's own reason for expungement.",
+      "consequence": "No route-determined selection exists on either form, and the reason box is the participant's to write. The instructions state both branches and their conditions so the participant knows what the box is asking."
+    },
+    {
+      "severity": "advisory",
+      "finding": "The boundary participant's name carries a typographic apostrophe (U+2019) and the finalized bytes carry the name without it.",
+      "consequence": "Recorded for visual review. The behaviour is in the shared finalizer's font encoding and reproduces in vt_seal_misdemeanor-set, which is already PASS_COMPLETE."
+    }
+  ]
+}

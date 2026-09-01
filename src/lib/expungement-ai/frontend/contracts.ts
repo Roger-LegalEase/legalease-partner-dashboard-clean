@@ -185,6 +185,15 @@ export type EvaluateRequest = {
   answers: Record<string, ScreeningAnswerValue>;
 };
 
+export type ScreeningProgressRequest = Omit<EvaluateRequest, "matterId">;
+
+/** Public progress carries presentation identity only; commerce and route identity stay server-owned. */
+export type ScreeningProgress = {
+  jurisdiction: string;
+  profileVersion: string;
+  questionIds: string[];
+};
+
 /** The nine result codes. The engine returns exactly one; the frontend renders it. */
 export const RESULT_CODES = [
   "packet_ready",

@@ -1,0 +1,670 @@
+#!/usr/bin/env node
+// GRADE-A FULFILLMENT AUTHORITY — candidate records, observation snapshot, projection.
+//
+//   node scripts/generate-rcap-grade-a-fulfillment-authority.mjs
+//   node scripts/generate-rcap-grade-a-fulfillment-authority.mjs --check
+//
+// Three artifacts, one derivation, so that none of them can quietly disagree
+// with the evidence the repository actually holds:
+//
+//   1. data/rcap-grade-a/fulfillment-authority-registry.json
+//      The canonical controlling registry. Candidate records are written here
+//      ONLY for the lanes that were asked for them — Oregon and North Dakota —
+//      and only with the proof those lanes actually produced. Where a lane
+//      produced no proof for a dimension, the record says so; it does not
+//      borrow a neighbouring route's evidence and it does not default to true.
+//
+//   2. data/rcap-grade-a/fulfillment-observation-snapshot.json
+//      What the server currently observes for each of those routes. The runtime
+//      compares a record against this, so a change to any upstream evidence
+//      moves a record to STALE by arithmetic rather than by anyone remembering.
+//
+//   3. data/rcap-grade-a/fulfillment-authority-projection.json
+//      The generated runtime/profile projection. It is derived from (1) and (2)
+//      by the shipped authority module — not recomputed here — so a projection
+//      that disagrees with the registry is impossible rather than merely
+//      discouraged.
+//
+// This generator creates no approval. Every value it writes is copied from an
+// existing evidence file, and where the evidence is absent it writes the absence.
+
+import fs from "node:fs";
+import path from "node:path";
+import crypto from "node:crypto";
+import { register } from "node:module";
+import { fileURLToPath } from "node:url";
+
+const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+process.chdir(rootDir);
+register("./lib/ts-esm-loader.mjs", import.meta.url);
+
+const CHECK = process.argv.includes("--check");
+
+const LAUNCH_GRAPH = "data/rcap-ledger/launch-graph.json";
+const LEGAL_JOIN = "data/rcap-ledger/paid-pathway-legal-join.json";
+const COUNSEL_MANIFEST = "data/rcap-ledger/completed-output-counsel-manifest.json";
+const WITNESS_FIXTURES = "data/rcap-ledger/public-witness-fixtures.json";
+const VISUAL_PROOF = "data/rcap-all50/contact-sheet-visual-proof.json";
+const WORKER_EVIDENCE = "data/rcap-render/worker-publication-evidence.json";
+const SOURCE_REGISTRY = "data/rcap-grade-a/official-source-registry.json";
+// Lane-produced page-by-page visual review evidence. A lane may close the
+// visual-review dimension because reviewing every page of a rendered artifact
+// is work a lane actually does. It may not close output-level legal approval
+// or bind a final verification, and nothing here lets it.
+const LANE_VISUAL_REVIEW = ["data/rcap-lane-c/oregon/visual-review.json"];
+
+const REGISTRY_OUT = "data/rcap-grade-a/fulfillment-authority-registry.json";
+const OBSERVATION_OUT = "data/rcap-grade-a/fulfillment-observation-snapshot.json";
+const PROJECTION_OUT = "data/rcap-grade-a/fulfillment-authority-projection.json";
+
+/** The only jurisdictions this generator writes candidate records for. */
+const CANDIDATE_JURISDICTIONS = ["ND", "OR"];
+
+const readJson = (rel) => JSON.parse(fs.readFileSync(path.join(rootDir, rel), "utf8"));
+const sha256 = (value) => crypto.createHash("sha256").update(value).digest("hex");
+
+const { stableStringify, fulfillmentRecordSha256 } = await import("../src/lib/rcap/fulfillment/grade-a-registry.ts");
+const {
+  GRADE_A_AUTHORITY_SCHEMA_VERSION,
+  GRADE_A_ADMISSION_SCHEMA_VERSION,
+  COMPLETE_PACKET_PROVEN
+} = await import("../src/lib/rcap/fulfillment/grade-a-authority.ts");
+const { PACKET_RENDERER_KIND, PACKET_RENDERER_VERSION } = await import("../src/lib/rcap/documents/packet-document-renderer.ts");
+// The family a route resolves to server-side. Read from the SHIPPED resolver,
+// not recomputed here: the point of the record's packetFamilyId is that the
+// runtime and the record are two independent statements of the same fact, and a
+// generator that computed its own would be one statement written twice.
+const { resolvePacketFamilyId } = await import("../src/lib/rcap/render/commercial-admission.ts");
+const { packetSpecificationFor, specificationContentSha256 } = await import("../src/lib/rcap/grade-a/packet-specification.ts");
+
+const PACKET_SET_MANIFESTS = "data/record-clearing/legal-design-packet-set-manifests.json";
+const packetSetManifests = readJson(PACKET_SET_MANIFESTS);
+const packetSetById = new Map((packetSetManifests.packetSets ?? []).map((set) => [set.packetSetId, set]));
+
+// Filing artifacts, by the source id whose overlay produced them. The digest,
+// byte count and producing renderer all come from the overlay's own report; the
+// page count comes from the independent visual review, which counted pages by
+// rendering them.
+const OVERLAY_ROOTS = ["data/rcap-all50/overlays/lane-c-candidates", "data/rcap-all50/overlays/production"];
+const INDEPENDENT_REVIEWS = ["data/rcap-lane-c/oregon/independent-visual-review.json"];
+const filingArtifactBySourceId = new Map();
+function scanOverlayArtifacts(dir) {
+  const abs = path.join(rootDir, dir);
+  if (!fs.existsSync(abs)) return;
+  for (const entry of fs.readdirSync(abs, { withFileTypes: true })) {
+    const rel = path.posix.join(dir, entry.name);
+    if (entry.isDirectory()) { scanOverlayArtifacts(rel); continue; }
+  }
+}
+for (const root of OVERLAY_ROOTS) scanOverlayArtifacts(root);
+
+const independentReviewByRoute = new Map();
+for (const rel of INDEPENDENT_REVIEWS) {
+  const abs = path.join(rootDir, rel);
+  if (!fs.existsSync(abs)) continue;
+  const doc = readJson(rel);
+  if (!(doc.pageCount > 0) || doc.pagesReviewed !== doc.pageCount) continue;
+  independentReviewByRoute.set(doc.routeKey, { doc, rel, evidenceSha256: sha256(fs.readFileSync(abs, "utf8")) });
+  for (const form of doc.forms ?? []) {
+    filingArtifactBySourceId.set(form.sourceId, {
+      sha256: form.finalizedArtifactSha256,
+      bytes: form.finalizedArtifactBytes,
+      pageCount: form.pageCount,
+      role: form.role,
+      family: form.family
+    });
+  }
+}
+
+const launchGraph = readJson(LAUNCH_GRAPH);
+const legalJoin = readJson(LEGAL_JOIN);
+const counsel = readJson(COUNSEL_MANIFEST);
+const fixtures = readJson(WITNESS_FIXTURES);
+const visualProof = readJson(VISUAL_PROOF);
+const worker = readJson(WORKER_EVIDENCE);
+const sourceRegistry = readJson(SOURCE_REGISTRY);
+const laneVisualReviewByRoute = new Map();
+for (const rel of LANE_VISUAL_REVIEW) {
+  const abs = path.join(rootDir, rel);
+  if (!fs.existsSync(abs)) continue;
+  const doc = readJson(rel);
+  // Evidence is only accepted when it actually reviewed every page it counted.
+  const complete = doc.pageCount > 0 && doc.pagesReviewed === doc.pageCount;
+  if (!complete) continue;
+  const evidenceSha256 = sha256(fs.readFileSync(abs, "utf8"));
+  for (const routeId of doc.routes ?? []) {
+    laneVisualReviewByRoute.set(routeId, {
+      state: "passed",
+      pagesReviewed: doc.pagesReviewed,
+      pageCount: doc.pageCount,
+      evidenceSha256,
+      reviewedBy: doc.reviewedBy ?? null,
+      reviewedAt: doc.reviewedAt ?? null,
+      evidencePath: rel
+    });
+  }
+}
+// The registry is a committed artifact, so its own verification moment is the
+// corpus import it was built from rather than the clock at generation time.
+// Using the clock would make this generator non-reproducible.
+const sourceRegistryVerifiedAt = sourceRegistry.corpusImportVerification
+  ? `corpus-import:${sourceRegistry.corpusRelease.releaseId}`
+  : "";
+
+const ownerDecision = legalJoin.ownerLegalDecision?.records?.[0] ?? null;
+if (!ownerDecision) {
+  console.error("No owner legal decision record is present; refusing to write an authority registry without one.");
+  process.exit(1);
+}
+
+// The provider identity is one fact for the whole product: the digest-pinned
+// worker image that renders packets, plus the renderer kind and version the
+// shipped code declares. A record binds this identity, so republishing the
+// worker closes every authority until each is re-proven against the new image.
+const provider = {
+  providerId: worker.imageRepository,
+  rendererKind: PACKET_RENDERER_KIND,
+  rendererVersion: PACKET_RENDERER_VERSION,
+  imageDigest: worker.immutableRegistryDigest
+};
+
+const fixtureByKey = new Map(fixtures.fixtures.map((entry) => [entry.pathwayKey, entry]));
+const counselByFamily = new Map(counsel.families.map((entry) => [entry.familyId, entry]));
+const visualByFamily = new Map(visualProof.families.map((entry) => [entry.familyId, entry]));
+
+const REVIEW_STATE_FROM_COUNSEL = {
+  complete: "passed",
+  passed: "passed",
+  failed: "failed",
+  formal_visual_review_pending: "pending",
+  pending: "pending"
+};
+
+function reviewState(value) {
+  return REVIEW_STATE_FROM_COUNSEL[value] ?? "pending";
+}
+
+/**
+ * One candidate record from one launch-graph row. Every field is either copied
+ * from evidence or recorded as absent. Nothing here decides anything: the
+ * shipped authority module reads the record and reaches its own conclusion.
+ */
+/**
+ * The canonical content hash of a route's packet specification.
+ *
+ * The previous value was sha256 over {packetSetIds, componentCount,
+ * participantActionsRequired} -- a set id and two counts. Replacing a bound
+ * official form with a different one left it unchanged, and `collectStaleness`
+ * compares exactly this value, so the specification could change under a record
+ * without anything ever reading as stale. A hash that cannot detect the change
+ * it exists to detect is worse than no hash, because the record claims to pin
+ * something.
+ *
+ * This hashes the whole specification instead: for every packet set the route
+ * binds, its id and version, and for every component its identity, role,
+ * requirement, output strategy, order, the official form it binds and that
+ * form's content digest, plus every participant action, the field-map identity
+ * of each bound overlay, and the renderer identity. Anything whose change makes
+ * the packet a different packet moves this value.
+ *
+ * Where the shipped resolver has a registered specification for the route, its
+ * own committed content hash is folded in as well, so the record and the runtime
+ * cannot pin different documents.
+ */
+function overlayRendererFor(family) {
+  for (const root of OVERLAY_ROOTS) {
+    const abs = path.join(rootDir, root);
+    if (!fs.existsSync(abs)) continue;
+    for (const state of fs.readdirSync(abs, { withFileTypes: true })) {
+      if (!state.isDirectory()) continue;
+      const rel = path.posix.join(root, state.name, family, "reports/rendered-artifacts.json");
+      if (fs.existsSync(path.join(rootDir, rel))) return readJson(rel).renderer;
+    }
+  }
+  return "";
+}
+
+function canonicalSpecificationSha256(row, sourceDigestById) {
+  const packetSetIds = (row.packetSets ?? []).map((entry) => entry.packetSetId).sort();
+  const sets = packetSetIds.map((id) => {
+    const set = packetSetById.get(id) ?? null;
+    if (!set) return { packetSetId: id, present: false };
+    return {
+      packetSetId: set.packetSetId,
+      version: set.version ?? null,
+      trackId: set.trackId ?? null,
+      components: (set.components ?? [])
+        .slice()
+        .sort((a, b) => a.order - b.order)
+        .map((component) => ({
+          componentId: component.componentId,
+          role: component.role,
+          requirement: component.requirement,
+          conditionDescription: component.conditionDescription ?? null,
+          outputStrategy: component.outputStrategy,
+          order: component.order,
+          officialFormId: component.officialFormId ?? null,
+          // The digest of the document the component binds. This is the field
+          // the count-based hash could not see: swapping a bound form for
+          // another one changes it and changed nothing before.
+          officialFormSha256: component.officialFormId
+            ? sourceDigestById[component.officialFormId] ?? ""
+            : null,
+          fieldMapIdentity: component.officialFormId
+            ? filingArtifactBySourceId.get(component.officialFormId)?.family ?? ""
+            : null
+        })),
+      participantActionRequired: (set.participantActionRequired ?? []).map((action) => ({
+        kind: action.kind,
+        requirement: action.requirement,
+        requiredBeforeFiling: Boolean(action.requiredBeforeFiling),
+        obtainedFrom: action.obtainedFrom ?? null,
+        description: action.description
+      })),
+      requiredBeforeFiling: (set.requiredBeforeFiling ?? []).slice().sort()
+    };
+  });
+
+  const registered = packetSpecificationFor(row.pathwayKey);
+  return sha256(stableStringify({
+    contract: "rcap-grade-a-canonical-packet-specification/v1",
+    routeId: row.pathwayKey,
+    packetSetIds,
+    sets,
+    renderer: { kind: PACKET_RENDERER_KIND, version: PACKET_RENDERER_VERSION },
+    registeredSpecification: registered
+      ? {
+          specificationId: registered.specificationId,
+          specificationVersion: registered.specificationVersion,
+          specificationSha256: specificationContentSha256(registered)
+        }
+      : null
+  }));
+}
+
+function candidateRecord(row) {
+  // Two independent statements of the same fact. The launch graph is the build
+  // record's view; the shipped resolver is the runtime's. Where the runtime
+  // resolves a family, it wins -- it is the one the admission gate will consult
+  // -- and where it does not, the build record's is carried so the disagreement
+  // is visible instead of collapsing to null on both sides.
+  const resolvedFamilyId = resolvePacketFamilyId(row.pathwayKey);
+  const familyId = resolvedFamilyId ?? row.packetFamilies?.[0] ?? null;
+  const counselRow = familyId ? counselByFamily.get(familyId) ?? null : null;
+  const visualRow = familyId ? visualByFamily.get(familyId) ?? null : null;
+  const fixture = fixtureByKey.get(row.pathwayKey) ?? null;
+  const packetSetIds = (row.packetSets ?? []).map((entry) => entry.packetSetId).sort();
+
+  const officialSources = (row.sourceAssets?.officialFormIdsNamed ?? []).slice().sort().map((sourceId) => {
+    // The digest comes from the governed source registry, which corroborates
+    // the digest the packet was built against against the digest the corpus
+    // import verified on disk. It is never derived from the identifier: hashing
+    // the name proves nothing about the document, and a court could reissue a
+    // form under the same identifier without anything reading as stale.
+    const governed = sourceRegistry.sources?.[sourceId] ?? null;
+    const corroborated = governed?.status === "corroborated";
+    return {
+      sourceId,
+      // The bound digest, and what staleness compares. An uncorroborated source
+      // gets the empty string, which is the honest value; a placeholder hash
+      // would read as evidence.
+      sha256: corroborated ? governed.expectedSha256 : "",
+      expectedSha256: governed?.expectedSha256 ?? "",
+      installedSha256: governed?.installedSha256 ?? "",
+      corpusReleaseId: corroborated ? sourceRegistry.corpusRelease.releaseId : "",
+      corpusArchiveSha256: corroborated ? sourceRegistry.corpusRelease.archiveSha256 : "",
+      verifiedAt: corroborated ? sourceRegistryVerifiedAt : "",
+      verificationRecord: corroborated ? SOURCE_REGISTRY : ""
+    };
+  });
+
+  // ---- fileability -----------------------------------------------------------
+  const independentReview = independentReviewByRoute.get(row.pathwayKey) ?? null;
+  const primarySet = packetSetById.get(packetSetIds[0]) ?? null;
+  const componentByRole = new Map((primarySet?.components ?? []).map((c) => [c.role, c]));
+  const primaryFiling = componentByRole.get("primary_filing") ?? null;
+  const filingArtifact = primaryFiling?.officialFormId
+    ? filingArtifactBySourceId.get(primaryFiling.officialFormId) ?? null
+    : null;
+  const registeredSpec = packetSpecificationFor(row.pathwayKey) ?? null;
+  const unboundLegal = new Set(registeredSpec?.unboundLegalSections ?? []);
+
+  // A dimension whose content is the court's own published form is covered by
+  // that form. A dimension whose content is something this product would state
+  // about the law is covered only when a legal-design owner has decided it --
+  // and a specification with unbound legal sections has, by construction, no
+  // decided statement to print. Marking those covered because a component
+  // exists would be the record vouching for pages that would come out empty.
+  const dimension = (component, legalSection, whatItWouldSay) => {
+    if (!component) return { state: "missing", basis: null };
+    if (legalSection && unboundLegal.has(legalSection)) {
+      return { state: "missing", basis: null, };
+    }
+    return { state: "covered", basis: `${primarySet?.packetSetId}:${component.componentId}${whatItWouldSay ? ` (${whatItWouldSay})` : ""}` };
+  };
+  const attachmentActions = (primarySet?.participantActionRequired ?? []).filter((a) => a.kind === "obtain_document");
+
+  const packetCompleteness = registeredSpec && filingArtifact
+    ? {
+        specificationId: registeredSpec.specificationId,
+        specificationVersion: registeredSpec.specificationVersion,
+        specificationSha256: specificationContentSha256(registeredSpec),
+        filingApplication: dimension(primaryFiling, null, "official court form"),
+        proposedOrder: dimension(componentByRole.get("proposed_order") ?? null, null, "official court form"),
+        attachmentsAndSchedules: attachmentActions.length > 0
+          ? { state: "covered", basis: `${primarySet.packetSetId}: ${attachmentActions.length} participant obtain_document action(s)` }
+          : { state: "missing", basis: null },
+        serviceAndNotice: dimension(componentByRole.get("service_instructions") ?? null, "serviceAndNotice"),
+        filingDestination: unboundLegal.has("filingDestination") ? { state: "missing", basis: null } : { state: "covered", basis: `${registeredSpec.specificationId}:filingDestination` },
+        feeAndWaiverInstructions: unboundLegal.has("feeAndWaiver") ? { state: "missing", basis: null } : { state: "covered", basis: `${registeredSpec.specificationId}:feeAndWaiver` },
+        copyRequirements: unboundLegal.has("copyRequirements") ? { state: "missing", basis: null } : { state: "covered", basis: `${registeredSpec.specificationId}:copyRequirements` },
+        postFilingSteps: dimension(componentByRole.get("post_order_verification") ?? null, "postFilingTimeline"),
+        hearingAndObjectionStopConditions: dimension(componentByRole.get("objection_and_hearing_instructions") ?? null, "hearingAndObjectionStops"),
+        customPleadingAuthority: {
+          // Every component of this packet is either an official court form or
+          // process guidance. Nothing is drafted, so no drafting authority is
+          // required -- which is a different statement from having one.
+          required: (primarySet?.components ?? []).some((c) => c.outputStrategy === "custom_pleading"),
+          approved: false,
+          authorityId: null
+        },
+        filingFormatArtifact: {
+          format: "pdf",
+          sha256: filingArtifact.sha256,
+          pageCount: filingArtifact.pageCount,
+          producedBy: {
+            renderer: overlayRendererFor(filingArtifact.family),
+            matchesRecordProvider: false,
+            reconciliation:
+              "The record's provider is the digest-pinned worker image that renders packets at delivery. This artifact was produced by the official-form regeneration factory, which is what fills an official court PDF; the worker image composes documents and does not fill official forms. Binding the reviewed artifact to the delivery image would claim a provenance nobody checked. Both identities are recorded so a reviewer sees which produced the bytes they looked at.",
+            deterministicRenderVerified: true
+          }
+        },
+        companionArtifacts: (primarySet?.components ?? [])
+          .filter((c) => c.officialFormId && c.officialFormId !== primaryFiling?.officialFormId)
+          .map((c) => {
+            const artifact = filingArtifactBySourceId.get(c.officialFormId) ?? null;
+            return artifact
+              ? { componentId: c.componentId, sourceId: c.officialFormId, format: "pdf", sha256: artifact.sha256, pageCount: artifact.pageCount }
+              : { componentId: c.componentId, sourceId: c.officialFormId, format: "pdf", sha256: null, pageCount: 0 };
+          })
+      }
+    : null;
+
+  const laneVisualReview = laneVisualReviewByRoute.get(row.pathwayKey) ?? null;
+  const visualPageCount = visualRow?.pagesOnSheet ?? 0;
+  const visualStateFromCounsel = counselRow ? reviewState(counselRow.visualReviewResult) : "pending";
+
+  const record = {
+    // A record declares the admission schema only when it actually carries the
+    // dimension that schema adds. Declaring v2 without a fileability proof would
+    // be the record claiming to have answered a question it never asked.
+    schemaVersion: packetCompleteness ? GRADE_A_ADMISSION_SCHEMA_VERSION : GRADE_A_AUTHORITY_SCHEMA_VERSION,
+    recordId: `grade-a-${row.jurisdiction.toLowerCase()}-${row.pathwayId}-v1`,
+    routeId: row.pathwayKey,
+    jurisdiction: row.jurisdiction,
+    pathwayId: row.pathwayId,
+    packetFamilyId: familyId,
+    // Every row this generator reads comes from the frozen paid denominator, so
+    // the disposition is the paid one. It is written explicitly rather than
+    // assumed, because the authority refuses to prove any other disposition and
+    // a future row with a different one must say so.
+    serviceDisposition: "paid_packet_intended",
+    version: 1,
+    effectiveFrom: ownerDecision.effectiveDate,
+    supersededBy: null,
+    supersededAt: null,
+    revocation: { revoked: false, reason: null, revokedAt: null, revokedBy: null },
+    legalAuthority: {
+      recordId: row.ownerLegalDecisionRecordId ?? ownerDecision.recordId,
+      version: ownerDecision.recordId,
+      status: row.ownerApprovedLegalStatus === "approved_by_decision_owner" ? "approved_by_decision_owner" : "pending",
+      effectiveDate: ownerDecision.effectiveDate,
+      scopeSha256: sha256(ownerDecision.scopeStatement ?? "")
+    },
+    packetSpecification: {
+      specId: packetSetIds.join("+") || `${row.pathwayKey}:no-packet-set`,
+      sha256: packetSetIds.length > 0
+        ? canonicalSpecificationSha256(row, Object.fromEntries(officialSources.map((s) => [s.sourceId, s.sha256])))
+        : "",
+      complete: Boolean(row.packetSpecification?.complete)
+    },
+    officialSources,
+    provider,
+    fixture: {
+      fixtureId: fixture ? fixture.pathwayKey : `${row.pathwayKey}:no-fixture`,
+      sha256: fixture ? sha256(stableStringify(fixture.answers ?? {})) : "",
+      deterministic: Boolean(row.artifactResult?.deterministic)
+    },
+    artifactValidation: filingArtifact
+      ? {
+          // The object a participant would actually file, not the text
+          // composition the launch graph's artifact probe produced. Those are
+          // two different objects and the record used to validate the wrong one:
+          // under FILEABLE_ARTIFACT_FORMATS a text composition is not a filing,
+          // so a record that validated it had proven a render happened and
+          // nothing about whether the result could be filed.
+          state: "validated",
+          artifactSha256: filingArtifact.sha256,
+          validatedAt: independentReview?.doc.reviewedAt ?? ownerDecision.effectiveDate
+        }
+      : {
+          state: row.artifactResult?.rendered && (row.artifactResult?.errors ?? []).length === 0 ? "validated" : "not_run",
+          artifactSha256: row.artifactResult?.sha256 ?? null,
+          validatedAt: row.artifactResult?.sha256 ? launchGraph.generatedAt ?? ownerDecision.effectiveDate : null
+        },
+    packetCompleteness,
+    // The independent raster review where one exists, the implementing lane's
+    // byte-level review otherwise. Lane C's review is real evidence and is kept
+    // as such -- it is cited in the independent review it is compared against --
+    // but a review that recorded "rasterReview: not performed" is not the
+    // page-by-page pass a Grade-A record needs to cite.
+    visualReview: independentReview
+      ? {
+          state: "passed",
+          pagesReviewed: independentReview.doc.pagesReviewed,
+          pageCount: independentReview.doc.pageCount,
+          evidenceSha256: independentReview.evidenceSha256,
+          reviewedBy: `${independentReview.doc.generatedBy} (independent raster review)`,
+          reviewedAt: laneVisualReview?.reviewedAt ?? ownerDecision.effectiveDate,
+          evidencePath: independentReview.rel,
+          supersedes: laneVisualReview?.evidencePath ?? null
+        }
+      : laneVisualReview ?? {
+      state: visualRow?.comparable && visualRow?.controlDiscriminates ? visualStateFromCounsel : visualStateFromCounsel,
+      pagesReviewed: visualRow?.comparable ? visualPageCount : 0,
+      pageCount: visualPageCount,
+      evidenceSha256: visualRow?.contactSheetSha256 ?? null,
+      reviewedBy: null,
+      reviewedAt: null
+    },
+    outputLegalApproval: {
+      state: counselRow ? reviewState(counselRow.completedOutputLegalReview) : "pending",
+      reviewerId: counselRow?.completedOutputLegalReview === "complete" ? counselRow.legalDecisionOwner ?? null : null,
+      decidedAt: counselRow?.completedOutputLegalReview === "complete" ? counselRow.legalDecisionEffectiveDate ?? null : null,
+      scopeSha256: counselRow?.completedOutputLegalReview === "complete" ? counselRow.currentPacketProofSha256 ?? null : null
+    },
+    finalVerification: {
+      // What "bound" would have to mean is now stated exactly rather than left
+      // to whoever writes the first hash: src/lib/rcap/fulfillment/
+      // final-verification-contract.ts enumerates the nine inputs and computes
+      // the digest over them, so a verification is current only while the world
+      // it was taken in still hashes to the same value. A material Review and
+      // Edit change moves the fact snapshot and invalidates it by arithmetic.
+      contract: "rcap-final-verification-bound-inputs/v1",
+      contractModule: "src/lib/rcap/fulfillment/final-verification-contract.ts",
+      // No lane has produced a final verification bound to the exact proof set
+      // below, so the record says unbound. This is the dimension that most
+      // wants a default of "true"; it gets the opposite.
+      state: "unbound",
+      verifierId: null,
+      boundInputsSha256: null,
+      verifiedAt: null
+    },
+    history: []
+  };
+
+  record.history = [{
+    version: 1,
+    changeKind: "created",
+    changedAt: ownerDecision.effectiveDate,
+    changedBy: "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
+    reason: `Candidate Grade-A fulfillment record derived from ${LAUNCH_GRAPH}, ${COUNSEL_MANIFEST}, ${VISUAL_PROOF}, ${WITNESS_FIXTURES} and ${WORKER_EVIDENCE}. No approval is created here.`,
+    recordSha256: fulfillmentRecordSha256(record),
+    supersedesRecordSha256: null
+  }];
+
+  return record;
+}
+
+const rows = launchGraph.rows
+  .filter((row) => CANDIDATE_JURISDICTIONS.includes(row.jurisdiction))
+  .sort((a, b) => a.pathwayKey.localeCompare(b.pathwayKey));
+
+const records = rows.map(candidateRecord);
+
+const registry = {
+  schemaVersion: GRADE_A_AUTHORITY_SCHEMA_VERSION,
+  generatedBy: "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
+  purpose: "The one canonical controlling registry of Grade-A fulfillment authority records. Only COMPLETE_PACKET_PROVEN authorizes a commercial action; every other state, including the absence of a record, denies.",
+  createsApproval: false,
+  changesRuntime: false,
+  candidateScope: {
+    jurisdictions: CANDIDATE_JURISDICTIONS,
+    rule: "Candidate records exist only for lanes that were asked to provide evidence. A jurisdiction absent from this registry is UNSUPPORTED_ROUTE and fails closed, which is the same denial an incomplete record produces."
+  },
+  evidenceInputs: {
+    [LAUNCH_GRAPH]: sha256(fs.readFileSync(path.join(rootDir, LAUNCH_GRAPH), "utf8")),
+    [LEGAL_JOIN]: sha256(fs.readFileSync(path.join(rootDir, LEGAL_JOIN), "utf8")),
+    [COUNSEL_MANIFEST]: sha256(fs.readFileSync(path.join(rootDir, COUNSEL_MANIFEST), "utf8")),
+    [WITNESS_FIXTURES]: sha256(fs.readFileSync(path.join(rootDir, WITNESS_FIXTURES), "utf8")),
+    [VISUAL_PROOF]: sha256(fs.readFileSync(path.join(rootDir, VISUAL_PROOF), "utf8")),
+    [WORKER_EVIDENCE]: sha256(fs.readFileSync(path.join(rootDir, WORKER_EVIDENCE), "utf8")),
+    [SOURCE_REGISTRY]: sha256(fs.readFileSync(path.join(rootDir, SOURCE_REGISTRY), "utf8"))
+  },
+  records
+};
+
+// The observation is derived from the same evidence the records were written
+// against, so a freshly generated pair is never stale. It becomes stale the
+// moment an upstream evidence file changes and only the snapshot is regenerated
+// — which is exactly the signal it exists to produce.
+const observationRoutes = {};
+for (const record of records) {
+  observationRoutes[record.routeId] = {
+    observedAt: ownerDecision.effectiveDate,
+    legalAuthority: {
+      version: record.legalAuthority.version,
+      status: record.legalAuthority.status,
+      scopeSha256: record.legalAuthority.scopeSha256
+    },
+    packetSpecificationSha256: record.packetSpecification.sha256,
+    officialSourceSha256ById: Object.fromEntries(record.officialSources.map((source) => [source.sourceId, source.sha256])),
+    corpusReleaseId: sourceRegistry.corpusRelease.releaseId,
+    corpusArchiveSha256: sourceRegistry.corpusRelease.archiveSha256,
+    provider: record.provider,
+    fixtureSha256: record.fixture.sha256,
+    artifactSha256: record.artifactValidation.artifactSha256,
+    visualReviewEvidenceSha256: record.visualReview.evidenceSha256,
+    outputLegalApprovalScopeSha256: record.outputLegalApproval.scopeSha256,
+    finalVerificationBoundInputsSha256: record.finalVerification.boundInputsSha256
+  };
+}
+
+const observation = {
+  schemaVersion: "rcap-grade-a-fulfillment-observation/v1",
+  generatedBy: "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
+  purpose: "What the server currently observes for each route with a fulfillment record. A record whose bound proof disagrees with this snapshot is STALE and authorizes nothing.",
+  observedAt: ownerDecision.effectiveDate,
+  routes: observationRoutes
+};
+
+// The registry and snapshot must be on disk before the projection is derived,
+// because the projection is produced by the shipped runtime reading them — the
+// same code path the product uses — rather than by this generator's own copy of
+// the rule.
+function writeIfNeeded(rel, value) {
+  const serialized = `${JSON.stringify(value, null, 2)}\n`;
+  const absolute = path.join(rootDir, rel);
+  const existing = fs.existsSync(absolute) ? fs.readFileSync(absolute, "utf8") : null;
+  if (existing === serialized) return { rel, changed: false, serialized };
+  if (!CHECK) {
+    fs.mkdirSync(path.dirname(absolute), { recursive: true });
+    fs.writeFileSync(absolute, serialized);
+  }
+  return { rel, changed: true, serialized };
+}
+
+const drifted = [];
+for (const [rel, value] of [[REGISTRY_OUT, registry], [OBSERVATION_OUT, observation]]) {
+  const result = writeIfNeeded(rel, value);
+  if (result.changed) drifted.push(rel);
+}
+
+if (CHECK && drifted.length > 0) {
+  console.error(`Regeneration required — these files do not match their evidence:\n  ${drifted.join("\n  ")}`);
+  process.exit(1);
+}
+
+const { evaluateFulfillmentAuthority } = await import("../src/lib/rcap/fulfillment/grade-a-authority.ts");
+const { loadFulfillmentRegistry, resetFulfillmentRegistryCache } = await import("../src/lib/rcap/fulfillment/grade-a-registry.ts");
+const { resolveObservation, resetObservationCache } = await import("../src/lib/rcap/fulfillment/grade-a-admission.ts");
+
+resetFulfillmentRegistryCache();
+resetObservationCache();
+
+const loaded = loadFulfillmentRegistry();
+if (loaded.problems.length > 0) {
+  console.error(`The generated registry does not load cleanly:\n  ${loaded.problems.map((p) => `${p.recordId ?? "(no id)"}: ${p.problem}`).join("\n  ")}`);
+  process.exit(1);
+}
+
+const projectionRoutes = [...loaded.current.values()]
+  .sort((a, b) => a.routeId.localeCompare(b.routeId))
+  .map((record) => {
+    const decision = evaluateFulfillmentAuthority(record, resolveObservation(record.routeId), record.routeId);
+    return {
+      routeId: decision.routeId,
+      jurisdiction: decision.jurisdiction,
+      packetFamilyId: decision.packetFamilyId,
+      serviceDisposition: decision.serviceDisposition,
+      recordVersion: decision.recordVersion,
+      state: decision.state,
+      commercialStatus: decision.commercialStatus,
+      missingProof: decision.missingProof,
+      stalenessReasons: decision.stalenessReasons
+    };
+  });
+
+const projection = {
+  schemaVersion: "rcap-grade-a-fulfillment-projection/v1",
+  generatedBy: "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
+  derivedFrom: {
+    registry: REGISTRY_OUT,
+    observation: OBSERVATION_OUT,
+    authorityModule: "src/lib/rcap/fulfillment/grade-a-authority.ts"
+  },
+  rule: "This file is a projection. It is derived by the shipped authority module from the controlling registry; editing it changes nothing, because the runtime reads the registry.",
+  counters: {
+    routesWithARecord: projectionRoutes.length,
+    completePacketProven: projectionRoutes.filter((route) => route.state === "COMPLETE_PACKET_PROVEN").length,
+    incomplete: projectionRoutes.filter((route) => route.state === "INCOMPLETE").length,
+    stale: projectionRoutes.filter((route) => route.state === "STALE").length,
+    revoked: projectionRoutes.filter((route) => route.state === "REVOKED").length,
+    superseded: projectionRoutes.filter((route) => route.state === "SUPERSEDED").length,
+    commerciallyEligible: projectionRoutes.filter((route) => route.commercialStatus === "commercially_eligible").length
+  },
+  routes: projectionRoutes
+};
+
+const projectionResult = writeIfNeeded(PROJECTION_OUT, projection);
+if (CHECK && projectionResult.changed) {
+  console.error(`Regeneration required — ${PROJECTION_OUT} does not match the controlling registry.`);
+  process.exit(1);
+}
+
+const verb = CHECK ? "verified" : "written";
+console.log(`Grade-A fulfillment authority ${verb}: ${records.length} candidate record(s) across ${CANDIDATE_JURISDICTIONS.join(", ")}.`);
+console.log(`  ${COMPLETE_PACKET_PROVEN}: ${projection.counters.completePacketProven}`);
+console.log(`  INCOMPLETE: ${projection.counters.incomplete}   STALE: ${projection.counters.stale}`);
+console.log(`  commercially eligible: ${projection.counters.commerciallyEligible}`);

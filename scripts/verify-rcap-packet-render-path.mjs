@@ -99,10 +99,17 @@ const awkwardBytes = await renderRcapPacketPdf(awkward, "full");
 assert(awkwardBytes.subarray(0, 5).toString("latin1") === "%PDF-", "Non-WinAnsi input broke the renderer.");
 
 // 3) The resolver fails closed and has no wrong-state fallback.
+//
+// Mississippi is the retirement's clearest case: the renderer still exists and
+// still runs, and the route still sells nothing. Before ADR-0004 this file
+// asserted the opposite implication — "a renderable route should be sellable"
+// — which is the inference the retirement removes. Renderability is a fact
+// about a renderer. Sellability is a fact about a proven fulfillment record.
 const ms = resolvePacketRoute({ state: "MS", pathway: "misdemeanor_conviction" });
-assert(ms.routeKind === "legacy_verified", `Mississippi should resolve legacy_verified, got ${ms.routeKind}.`);
-assert(packetRouteCanRender(ms), "Mississippi should be renderable.");
-assert(ms.sellable && ms.creditConsumable, "A renderable route should be sellable and credit-consumable.");
+assert(ms.routeKind === "legacy_retired", `Mississippi should resolve legacy_retired, got ${ms.routeKind}.`);
+assert(packetRouteCanRender(ms), "Mississippi's renderer is retained for historical access and must still render.");
+assert(!ms.sellable && !ms.creditConsumable,
+  "A retired legacy route must not be sellable or credit-consumable, however well it renders.");
 
 const unknown = resolvePacketRoute({ state: "ZZ", pathway: "anything" });
 assert(unknown.routeKind === "disabled", `An unknown jurisdiction must resolve disabled, got ${unknown.routeKind}.`);
@@ -115,7 +122,7 @@ assert(empty.jurisdiction === "", "A packet with no jurisdiction must not be giv
 
 for (const code of ["CA", "NY", "WY", "MA"]) {
   const resolution = resolvePacketRoute({ state: code, pathway: "" });
-  assert(resolution.routeKind !== "legacy_verified", `${code} must not claim a legacy packet route.`);
+  assert(resolution.routeKind !== "legacy_retired", `${code} must not claim a legacy packet route.`);
   assert(!packetRouteCanRender(resolution), `${code} has no certified renderer and must not render.`);
   assert(!resolution.sellable, `${code} must not be sellable.`);
   assert(!resolution.creditConsumable, `${code} must not consume a credit.`);
