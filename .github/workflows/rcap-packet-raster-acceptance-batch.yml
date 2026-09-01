@@ -58,6 +58,24 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ inputs.commit_sha }}
+      - name: Refuse a movable ref and prove the checkout is the pinned commit
+        run: |
+          set -euo pipefail
+          # actions/checkout accepts a branch or tag here despite the input
+          # description. Three jobs resolve this ref independently, so a branch
+          # that moves mid-run would have them inspect different commits while
+          # every receipt recorded the literal branch name as the pin. An
+          # immutable 40-hex commit, verified against the checked-out HEAD, is
+          # the only input that makes a receipt findable again.
+          REF='${{ inputs.commit_sha }}'
+          case "$REF" in
+            *[!0-9a-f]* | "") echo "REFUSED: commit_sha must be a full 40-character commit hash, got '$REF'"; exit 1;;
+          esac
+          [ "${#REF}" -eq 40 ] || { echo "REFUSED: commit_sha must be 40 hex characters, got ${#REF}"; exit 1; }
+          HEAD_SHA="$(git rev-parse HEAD)"
+          [ "$HEAD_SHA" = "$REF" ] || { echo "REFUSED: checked out $HEAD_SHA but the pin says $REF"; exit 1; }
+          echo "pinned commit confirmed: $HEAD_SHA"
+
       - uses: actions/setup-node@v4
         with: { node-version: 22 }
       - run: npm ci --cache /tmp/npm-cache
@@ -136,6 +154,24 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ inputs.commit_sha }}
+      - name: Refuse a movable ref and prove the checkout is the pinned commit
+        run: |
+          set -euo pipefail
+          # actions/checkout accepts a branch or tag here despite the input
+          # description. Three jobs resolve this ref independently, so a branch
+          # that moves mid-run would have them inspect different commits while
+          # every receipt recorded the literal branch name as the pin. An
+          # immutable 40-hex commit, verified against the checked-out HEAD, is
+          # the only input that makes a receipt findable again.
+          REF='${{ inputs.commit_sha }}'
+          case "$REF" in
+            *[!0-9a-f]* | "") echo "REFUSED: commit_sha must be a full 40-character commit hash, got '$REF'"; exit 1;;
+          esac
+          [ "${#REF}" -eq 40 ] || { echo "REFUSED: commit_sha must be 40 hex characters, got ${#REF}"; exit 1; }
+          HEAD_SHA="$(git rev-parse HEAD)"
+          [ "$HEAD_SHA" = "$REF" ] || { echo "REFUSED: checked out $HEAD_SHA but the pin says $REF"; exit 1; }
+          echo "pinned commit confirmed: $HEAD_SHA"
+
       - uses: actions/setup-node@v4
         with: { node-version: 22 }
       - id: plan
@@ -160,6 +196,24 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ inputs.commit_sha }}
+      - name: Refuse a movable ref and prove the checkout is the pinned commit
+        run: |
+          set -euo pipefail
+          # actions/checkout accepts a branch or tag here despite the input
+          # description. Three jobs resolve this ref independently, so a branch
+          # that moves mid-run would have them inspect different commits while
+          # every receipt recorded the literal branch name as the pin. An
+          # immutable 40-hex commit, verified against the checked-out HEAD, is
+          # the only input that makes a receipt findable again.
+          REF='${{ inputs.commit_sha }}'
+          case "$REF" in
+            *[!0-9a-f]* | "") echo "REFUSED: commit_sha must be a full 40-character commit hash, got '$REF'"; exit 1;;
+          esac
+          [ "${#REF}" -eq 40 ] || { echo "REFUSED: commit_sha must be 40 hex characters, got ${#REF}"; exit 1; }
+          HEAD_SHA="$(git rev-parse HEAD)"
+          [ "$HEAD_SHA" = "$REF" ] || { echo "REFUSED: checked out $HEAD_SHA but the pin says $REF"; exit 1; }
+          echo "pinned commit confirmed: $HEAD_SHA"
+
       - uses: actions/setup-node@v4
         with: { node-version: 22 }
       - run: npm ci --cache /tmp/npm-cache
