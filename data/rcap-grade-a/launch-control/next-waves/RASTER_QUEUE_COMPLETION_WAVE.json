@@ -4,7 +4,7 @@
   "createdAt": "2026-09-01T08:27:06Z",
   "measurementSnapshot": "110c028aaeccad30d5d673d46110d5fc3859db4e",
   "snapshotWarning": "Every count here is as of the sidecar snapshot, not the current Captain head. Re-measure before executing; do not restate these as current-head numbers.",
-  "executionState": "CREATED_NOT_EXECUTED",
+  "executionState": "CLOSED",
   "authorizes": "nothing. Creating a wave grants no packet, route, promotion, commercial or PASS_COMPLETE authority.",
   "derivedFrom": [
     "CB07 queue-audit.json",
@@ -346,5 +346,9 @@
       "required": "add the family to the raster queue with its exact packet commit and both canonical and boundary SHA-256, or record why it is not raster-eligible",
       "independentVerification": "recompute both digests from disk at the named commit before the row is accepted"
     }
-  ]
+  ],
+  "closedAt": "2026-09-01T11:14:47Z",
+  "closedBecause": "The raster queue is complete: all 47 rows carry a hash-bound RASTER_PASS over their family's whole document set, across runs 33488713831, 33495068504 and 33497786539. This wave's 28 rows are covered by that.",
+  "doNotWorkThis": "Superseded. The open work is REPAIR_BY_DEFECT_CLASS.json and PARTICIPANT_INSTRUCTIONS_GAP.json.",
+  "whatCompletionDoesNotMean": "47 receipts is not 47 proven families. Zero families are PASS_COMPLETE — every independent read so far returned a defect. GRADE_A_READINESS.json carries the measurement."
 }
