@@ -60,14 +60,45 @@ for (const a of active.assignments ?? []) for (const f of a.items ?? []) if (typ
 
 // pdf-lib is what the builders use; the page count is read from the bytes, not
 // from anyone's report about the bytes.
-const pageCount = (p) => {
-  const t = fs.readFileSync(p).toString("latin1");
-  return (t.match(/\/Type\s*\/Page[^s]/g) ?? []).length || null;
+// Parsed, not scanned. The byte scan for /Type /Page sees nothing when the page
+// dictionaries live in a compressed object stream, so a valid PDF would report
+// no pages. Same defect already repaired in rcap-raster-batch.mjs; it was here
+// too.
+const pageCount = async (p) => {
+  const { PDFDocument } = await import("pdf-lib");
+  return (await PDFDocument.load(fs.readFileSync(p), { ignoreEncryption: true, updateMetadata: false })).getPageCount();
 };
 
 const packetCommit = git(["rev-parse", "HEAD"]);
 const rows = [];
 const notEligible = [];
+
+/*
+ * Carry forward verdicts that a central raster run already earned.
+ *
+ * This generator rebuilt every row as RASTER_PENDING, so regenerating it after
+ * a batch silently destroyed 25 hash-bound RASTER_PASS receipts from run
+ * 33488713831 -- evidence that cost a full workflow run and cannot be
+ * reconstructed from the tree. Captain hit it while refreshing the queue for
+ * newly built families and restored from a copy taken seconds earlier.
+ *
+ * A verdict is carried forward ONLY if the row's pinned bytes are unchanged.
+ * If either hash moved, the packet is different bytes and the old receipt
+ * describes a packet nobody queued, so the row correctly returns to
+ * RASTER_PENDING.
+ */
+const previous = fs.existsSync(path.join(ROOT, OUT)) ? read(OUT) : { rows: [] };
+const priorByFamily = new Map((previous.rows ?? []).map((r) => [r.familyId, r]));
+let carried = 0, invalidated = 0;
+const carryVerdict = (row) => {
+  const prior = priorByFamily.get(row.familyId);
+  if (!prior?.rasterReceipt) return row;
+  const same = prior.canonicalPdfSha256 === row.canonicalPdfSha256
+    && prior.boundaryPdfSha256 === row.boundaryPdfSha256;
+  if (!same) { invalidated++; return row; }
+  carried++;
+  return { ...row, currentRasterState: prior.currentRasterState, nextOwner: prior.nextOwner, rasterReceipt: prior.rasterReceipt };
+};
 
 for (const f of master.families) {
   const dir = f.directory ? path.join(ROOT, f.directory) : null;
@@ -108,7 +139,7 @@ for (const f of master.families) {
     canonicalPdfSha256: sha256(cPath),
     boundaryPdfPath: path.relative(ROOT, bPath),
     boundaryPdfSha256: sha256(bPath),
-    expectedPages: pageCount(cPath),
+    expectedPages: await pageCount(cPath),
     requestedScale: REQUESTED_SCALE,
     builderAssignment: builderOf.get(f.familyId) ?? null,
     currentRasterState: "RASTER_PENDING",
@@ -116,6 +147,27 @@ for (const f of master.families) {
   });
 }
 
+/*
+ * Captain-recorded facts survive regeneration too, not only the row verdicts.
+ *
+ * The first carry-forward saved the 25 receipts and still lost everything
+ * around them: the RASTER_LOCAL_PENDING_CENTRAL vocabulary entry and its
+ * semantics, the workflowReachability record of how the gate reached the
+ * default branch, and the lastBatch history of run 33488713831. None of that
+ * is derivable from the tree, and under the no-idle rule this generator runs
+ * every integration cycle, so losing it once means losing it repeatedly.
+ *
+ * Only additive keys are carried. Anything the generator computes -- rows,
+ * counts, byLane, the pinned commit -- is left to the generator, so a carried
+ * key can never mask a stale measurement.
+ */
+const CARRIED_KEYS = [
+  "rasterStateSemantics", "workflowReachability", "lastBatch",
+  "whatRasterPassDoesNotMean", "grantsNothing",
+];
+const carriedRows = rows.map(carryVerdict);
+rows.length = 0;
+rows.push(...carriedRows);
 rows.sort((a, b) => a.familyId.localeCompare(b.familyId));
 // Nonoverlapping batches, round-robin so a slow family does not concentrate in
 // one lane. One family, one lane: a second claim would be two readers writing
@@ -126,12 +178,22 @@ const byLane = Object.fromEntries(LANES.map((l) => [l, rows.filter((r) => r.next
 const duplicated = rows.map((r) => r.familyId).filter((x, i, a) => a.indexOf(x) !== i);
 if (duplicated.length) { console.error(`REFUSED: ${duplicated.length} famil(ies) queued twice: ${duplicated.slice(0, 5).join(", ")}`); process.exit(1); }
 
+// Additive Captain facts, restored onto the freshly computed document. Spread
+// FIRST so nothing carried can shadow a value this run measured.
+const carriedMeta = Object.fromEntries(
+  CARRIED_KEYS.filter((k) => previous[k] !== undefined).map((k) => [k, previous[k]])
+);
+// The vocabulary is a union: the generator's closed list plus any state a
+// Captain declared, so a declared state is never silently un-declared.
+const carriedVocabulary = [...new Set([...(previous.rasterStateVocabulary ?? []), ...RASTER_STATES])];
+
 const doc = {
+  ...carriedMeta,
   schemaVersion: "rcap-raster-queue/v1",
   generatedBy: "scripts/grade-a-packet-factory-24h/generate-raster-queue.mjs",
   packetCommitSha: packetCommit,
   whyThisExists: "The Codex container cannot resolve or fetch a Chromium (ENV-RAS01: Playwright CDN answers HTTP 403), so the visual gate is unreachable from where packets are built. The render moves to a browser-equipped GitHub runner. Nothing about PASS_COMPLETE is weakened.",
-  rasterStateVocabulary: RASTER_STATES,
+  rasterStateVocabulary: carriedVocabulary,
   entryPreconditions: [
     "source binding passes",
     "packet components exist",
