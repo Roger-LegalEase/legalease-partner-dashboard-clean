@@ -1,0 +1,133 @@
+{
+  "schemaVersion": "rcap-grade-a-packet-factory-24h-repair-return/v1",
+  "assignmentId": "FIX06",
+  "worker": "FIX-B",
+  "baseSha": "be1824b366bdbc45bd8503bd5aa9e38e0621f6d2",
+  "shiftBaseSha": "09b741ad00be0d630bd73a72f66640294abab397",
+  "minimumRequiredAncestor": "1d88410129d4f2240bb6dbd242e63884fe01e7e2",
+  "laneKind": "repair",
+  "familiesRepaired": 0,
+  "familiesStopped": 2,
+  "nineCountersZeroOn": [],
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "preflight": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 8/14 passed, 6 failed, 2 not applicable",
+  "laneSummary": "Every family this lane was handed reproduces its assigned obligations exactly, so the diagnosis needed no re-derivation. None could be repaired: repair means re-rendering against the pinned source bytes, and the Master Library is not mountable in this environment. Nothing was written to any family, no counter was zeroed, and no artifact hash was recorded for bytes that were never produced.",
+  "rows": [
+    {
+      "itemId": "ca-prop64-set",
+      "status": "STOPPED",
+      "obligationsAssigned": [
+        "knownRequiredFieldsMissing",
+        "unclassifiedBlanks",
+        "incompleteRows",
+        "requiredOptionsMissing",
+        "requiredComponentsMissing"
+      ],
+      "obligationRepaired": null,
+      "obligationsReproduced": true,
+      "reproductionNote": "Every obligation this lane was handed is reproduced by the focused verifier at this base without re-deriving the family: FAIL_MISSING_REQUIRED_FACTS at 2/148 terminal fields written.",
+      "stoppedBecause": "BLOCKED_SOURCE_CORPUS_NOT_MOUNTED",
+      "whatIsMissing": {
+        "summary": "The pinned Master Library source bytes are not mountable in this environment, so the family cannot be re-rendered and no repaired production-field-map.json, canonical.pdf or boundary.pdf can be produced.",
+        "preflight": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 8/14 passed, 6 failed, 2 not applicable",
+        "familySourcesBind": "FAIL family_sources_bind 3 of 3 source(s) do not bind",
+        "failedPreflightChecks": [
+          "FAIL clone_is_complete the clone is shallow",
+          "FAIL browser_environment_exported RCAP_CHROMIUM_PATH is not exported; /home/user/legalease-partner-dashboard-clean/private/source-corpus-environment.txt is missing; /root/.legalease-corpus-env is missing",
+          "FAIL master_library_mounted absent at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 — run: bash scripts/rcap-corpus/bootstrap-private-corpus.sh",
+          "FAIL master_library_complete the corpus root cannot be walked (absent is not empty)",
+          "FAIL corpus_matches_committed_index the corpus root cannot be walked; nothing to compare the index against",
+          "FAIL family_sources_bind 3 of 3 source(s) do not bind"
+        ],
+        "recoveryAttempted": [
+          "bash scripts/rcap-corpus/bootstrap-private-corpus.sh — refused: GitHub returned HTTP 403 resolving Expungement_AI_RCAP_Master_Library_Edition_1.zip from Roger-LegalEase/legalease-source-artifacts@source-corpus-2026-08-28.",
+          "GitHub API reachability control — the session token returns 200 for Roger-LegalEase/legalease-partner-dashboard-clean and 403 for Roger-LegalEase/legalease-source-artifacts, so the refusal is token scope on the artifacts repository, not proxy egress.",
+          "Attaching Roger-LegalEase/legalease-source-artifacts to this session — refused by the environment's repository-access policy.",
+          "Direct retrieval of the pinned official PDFs from their publisher — refused: outbound egress to publisher domains is denied by organization network policy (CONNECT tunnel 403).",
+          "Search of the worktree for a mounted corpus or committed derived-sources — private/ is absent and no derived-source binary is committed."
+        ],
+        "whyThisIsNotASourceDefect": "The sources are pinned, hashed and present in data/rcap-all50/local-source-corpus-index.json. Nothing about these packets is unknown or unresolved. This is an environment mount failure, exactly as ENV-RAS01 was an environment fact about the container rather than a fact about the packet, and it is not recorded as BLOCKED_SOURCE.",
+        "unblockRequires": "Grant this worker's token read access to Roger-LegalEase/legalease-source-artifacts, or dispatch these families to a worker with MASTER_LIBRARY_SOURCE_DIR already bound. No legal, source or contract change is needed."
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 35,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 62,
+        "incompleteRows": 1,
+        "requiredOptionsMissing": 6,
+        "requiredComponentsMissing": 3,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfterAreUnchanged": true,
+      "countersNote": "These are the counters measured by the focused verifier at this base. This lane wrote nothing to the family, so they are the counters before and after alike. No counter was zeroed and no obligation was waived.",
+      "completenessResult": "FAIL_MISSING_REQUIRED_FACTS",
+      "canonicalPdfSha256": null,
+      "boundaryPdfSha256": null,
+      "artifactHashesNote": "No canonical or boundary PDF was produced, so no hash is recorded. A hash is never written for bytes this lane did not create.",
+      "rasterState": "NOT_APPLICABLE_NO_BUILD_OCCURRED",
+      "rasterNote": "BUILT_RASTER_PENDING would assert that every nonvisual obligation was finished and only the render is outstanding. That is not true here, so it is not claimed.",
+      "claimReleased": false,
+      "claimNote": "The FIX06 claim on this family is left asserted. The family is not repaired, and Captain routes the reassignment."
+    },
+    {
+      "itemId": "pa_790_nonconviction-set",
+      "status": "STOPPED",
+      "obligationsAssigned": [
+        "knownRequiredFieldsMissing",
+        "unclassifiedBlanks",
+        "incompleteRows",
+        "requiredComponentsMissing"
+      ],
+      "obligationRepaired": null,
+      "obligationsReproduced": true,
+      "reproductionNote": "Every obligation this lane was handed is reproduced by the focused verifier at this base without re-deriving the family: FAIL_MISSING_REQUIRED_FACTS at 16/173 terminal fields written.",
+      "stoppedBecause": "BLOCKED_SOURCE_CORPUS_NOT_MOUNTED",
+      "whatIsMissing": {
+        "summary": "The pinned Master Library source bytes are not mountable in this environment, so the family cannot be re-rendered and no repaired production-field-map.json, canonical.pdf or boundary.pdf can be produced.",
+        "preflight": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 8/14 passed, 6 failed, 2 not applicable",
+        "familySourcesBind": "FAIL family_sources_bind 5 of 5 source(s) do not bind",
+        "failedPreflightChecks": [
+          "FAIL clone_is_complete the clone is shallow",
+          "FAIL browser_environment_exported RCAP_CHROMIUM_PATH is not exported; /home/user/legalease-partner-dashboard-clean/private/source-corpus-environment.txt is missing; /root/.legalease-corpus-env is missing",
+          "FAIL master_library_mounted absent at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 — run: bash scripts/rcap-corpus/bootstrap-private-corpus.sh",
+          "FAIL master_library_complete the corpus root cannot be walked (absent is not empty)",
+          "FAIL corpus_matches_committed_index the corpus root cannot be walked; nothing to compare the index against",
+          "FAIL family_sources_bind 5 of 5 source(s) do not bind"
+        ],
+        "recoveryAttempted": [
+          "bash scripts/rcap-corpus/bootstrap-private-corpus.sh — refused: GitHub returned HTTP 403 resolving Expungement_AI_RCAP_Master_Library_Edition_1.zip from Roger-LegalEase/legalease-source-artifacts@source-corpus-2026-08-28.",
+          "GitHub API reachability control — the session token returns 200 for Roger-LegalEase/legalease-partner-dashboard-clean and 403 for Roger-LegalEase/legalease-source-artifacts, so the refusal is token scope on the artifacts repository, not proxy egress.",
+          "Attaching Roger-LegalEase/legalease-source-artifacts to this session — refused by the environment's repository-access policy.",
+          "Direct retrieval of the pinned official PDFs from their publisher — refused: outbound egress to publisher domains is denied by organization network policy (CONNECT tunnel 403).",
+          "Search of the worktree for a mounted corpus or committed derived-sources — private/ is absent and no derived-source binary is committed."
+        ],
+        "whyThisIsNotASourceDefect": "The sources are pinned, hashed and present in data/rcap-all50/local-source-corpus-index.json. Nothing about these packets is unknown or unresolved. This is an environment mount failure, exactly as ENV-RAS01 was an environment fact about the container rather than a fact about the packet, and it is not recorded as BLOCKED_SOURCE.",
+        "unblockRequires": "Grant this worker's token read access to Roger-LegalEase/legalease-source-artifacts, or dispatch these families to a worker with MASTER_LIBRARY_SOURCE_DIR already bound. No legal, source or contract change is needed."
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 54,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 70,
+        "incompleteRows": 1,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 1,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfterAreUnchanged": true,
+      "countersNote": "These are the counters measured by the focused verifier at this base. This lane wrote nothing to the family, so they are the counters before and after alike. No counter was zeroed and no obligation was waived.",
+      "completenessResult": "FAIL_MISSING_REQUIRED_FACTS",
+      "canonicalPdfSha256": null,
+      "boundaryPdfSha256": null,
+      "artifactHashesNote": "No canonical or boundary PDF was produced, so no hash is recorded. A hash is never written for bytes this lane did not create.",
+      "rasterState": "NOT_APPLICABLE_NO_BUILD_OCCURRED",
+      "rasterNote": "BUILT_RASTER_PENDING would assert that every nonvisual obligation was finished and only the render is outstanding. That is not true here, so it is not claimed.",
+      "claimReleased": false,
+      "claimNote": "The FIX06 claim on this family is left asserted. The family is not repaired, and Captain routes the reassignment."
+    }
+  ]
+}
