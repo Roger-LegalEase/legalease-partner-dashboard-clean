@@ -144,6 +144,35 @@
       "laneContracts": "LANE_CONTRACTS_HELD 6/6",
       "runtimeContract": "CODEX_RUNTIME_CONTRACT_PROVEN 9/9",
       "claimLedger": "CLAIM_LEDGER_OK 512 claims; DISC06 42/42"
+    },
+    "correction": {
+      "issuedAt": "2026-09-01T08:00:35Z",
+      "correcting": "The previous broadcast asserted, as a fleet-wide fact, that the corpus is fetchable, because the Captain session got HTTP 200 from the release endpoint.",
+      "whatWasWrong": "Repository scope is PER SESSION. The Captain 200 and the worker 403 are consistent, and a 200 in one session proves nothing about another. PF-B and FIX-B each read the 403 response body, which the Captain had not. It reads: GitHub access to this repository is not enabled for this session. Use add_repo to request access. That is the session access layer, not GitHub, and not the token.",
+      "bothWorkersWereRight": "PF-B and FIX-B independently reached this against primary sources, and both refused to record BLOCKED_SOURCE for what is an environment mount failure. BLOCKED_SOURCE names a source that failed to bind while the corpus was present; the corpus was never present. Neither fabricated a hash, zeroed a counter, claimed BUILT_RASTER_PENDING, or wrote an overlay byte.",
+      "whatWasRight": "The preflight repair. Both workers verified independently that browser_environment_exported and page_rasterizer_available are now correctly not applicable where nothing renders. That blocker was real, fleet-wide, and is gone.",
+      "measuredBlastRadius": {
+        "corpusPresent": [
+          "CAPTAIN: 51 jurisdictions, 329 PDFs on disk",
+          "PF-C: reached PACKET_BUILD_ENVIRONMENT_READY and built ak-tf800-set",
+          "PF-A: attached legalease-source-artifacts as a second source"
+        ],
+        "corpusAbsent": [
+          "PF-B: 403, add_repo classifier-denied",
+          "FIX-B: 403, add_repo classifier-denied",
+          "FIX-A: family_sources_bind failing; FIX01 1 completed and 2 stopped, FIX03 both stopped"
+        ],
+        "notApplicable": [
+          "VF-SRC-A",
+          "VF-SRC-B"
+        ],
+        "note": "Not uniform across the fleet, which is itself the evidence for per-session scope rather than a token or proxy fault."
+      },
+      "ownerAction": {
+        "exactlyOne": "Grant Roger-LegalEase/legalease-source-artifacts to this workspace allowed repository set at https://claude.ai/admin-settings/claude-tag",
+        "why": "It fixes all three sessions at once and every worker started later. Per-session add_repo approval also works but must be repeated for each session.",
+        "doesNotBlockTheShift": "Captain is re-dispatching the affected families to corpus-equipped workers meanwhile."
+      }
     }
   }
 }
