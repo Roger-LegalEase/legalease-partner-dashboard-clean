@@ -51,6 +51,24 @@ const RECEIPT_SOURCES = [
   "data/rcap-grade-a/source-acquisition/wave-1/acquired.json",
   "data/rcap-grade-a/source-acquisition/wave-2/acquired.json"
 ];
+/*
+ * DISC-settled acquisition candidates handed to the ACQ lanes. Each candidate
+ * carries an exact official URL a DISC or SRC lane settled from committed
+ * records — never a guessed address — and the conveyor's own contract says the
+ * hand-off to ACQ happens the moment the URL is known. Reading only the two
+ * receipt files meant every one of these settled URLs (eighteen txcourts.gov
+ * nondisclosure forms among them) sat outside the manifest indefinitely.
+ *
+ * Admission is corroboration-gated: a candidate URL enters only when at least
+ * CORROBORATION_THRESHOLD distinct non-candidate committed files also carry it,
+ * because the handoff files themselves match the candidate marker and never
+ * count toward their own admission.
+ */
+const HANDOFF_CANDIDATE_SOURCES = [
+  "data/rcap-grade-a/source-acquisition/packet-factory-24h/acq01/handoff-candidates.json",
+  "data/rcap-grade-a/source-acquisition/packet-factory-24h/acq02/handoff-candidates.json",
+  "data/rcap-grade-a/source-acquisition/packet-factory-24h/acq03/handoff-candidates.json"
+];
 
 const read = (rel) => JSON.parse(fs.readFileSync(path.join(ROOT, rel), "utf8"));
 const git = (args) => { try { return execFileSync("git", args, { cwd: ROOT, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }).trim(); } catch { return null; } };
@@ -245,12 +263,79 @@ function corroboratedUrls() {
 const evidenceUrls = corroboratedUrls();
 const CORROBORATION_THRESHOLD = 2;
 
+/* ---- DISC-settled candidates, admitted under the corroboration gate -------- */
+const evidenceByUrl = new Map(evidenceUrls.map((u) => [u.url, u]));
+const slugPart = (s) => String(s ?? "").toLowerCase().replace(/[^a-z0-9._-]+/g, "-").replace(/^-+|-+$/g, "");
+const candidateRowsByUrl = new Map();
+for (const rel of HANDOFF_CANDIDATE_SOURCES) {
+  if (!fs.existsSync(path.join(ROOT, rel))) continue;
+  const doc = read(rel);
+  for (const c of doc.candidates ?? []) {
+    if (!c.officialUrl) continue;
+    if (!candidateRowsByUrl.has(c.officialUrl)) candidateRowsByUrl.set(c.officialUrl, { rows: [], recordedIn: new Set() });
+    const g = candidateRowsByUrl.get(c.officialUrl);
+    g.rows.push(c);
+    g.recordedIn.add(rel);
+  }
+}
+/*
+ * A held-edition hash that two DIFFERENT URLs both claim is a set-level pin —
+ * the hash of the held bundle, not of either document behind either address.
+ * Pinning it onto a URL manufactures a guaranteed mismatch (the Florida landing
+ * pages already demonstrated what a wrong pin does to a batch). Only a hash
+ * unique to exactly one URL is carried as that URL's expected hash; the rest
+ * enter unpinned and the acquired bytes' own hash is authoritative.
+ */
+const candidateShaClaims = new Map();
+for (const [url, g] of candidateRowsByUrl) {
+  for (const sha of new Set(g.rows.map((r) => r.expectedSha256).filter((s) => /^[0-9a-f]{64}$/.test(String(s ?? ""))))) {
+    if (!candidateShaClaims.has(sha)) candidateShaClaims.set(sha, new Set());
+    candidateShaClaims.get(sha).add(url);
+  }
+}
+const CANDIDATE_URL_KIND = {
+  official_artifact_url: "DIRECT_OFFICIAL_BINARY",
+  containing_bundle_url: "CONTAINING_BUNDLE_URL",
+  official_landing_page: "OFFICIAL_LANDING_PAGE"
+};
+const seenReceiptUrls = new Set(urlRecords.map((r) => r.officialUrl));
+for (const [url, g] of [...candidateRowsByUrl.entries()].sort(([a], [b]) => a.localeCompare(b))) {
+  if (seenReceiptUrls.has(url)) continue; // already carried by an acquisition receipt; the receipt record wins
+  const first = g.rows[0];
+  const evidence = evidenceByUrl.get(url);
+  const corroboration = evidence?.corroboration ?? 0;
+  const distinctShas = [...new Set(g.rows.map((r) => r.expectedSha256).filter((s) => /^[0-9a-f]{64}$/.test(String(s ?? ""))))];
+  const pin = distinctShas.length === 1 && (candidateShaClaims.get(distinctShas[0])?.size ?? 0) === 1 ? distinctShas[0] : null;
+  let stem = "";
+  try { stem = path.basename(new URL(url).pathname).replace(/\.[a-z0-9]+$/i, ""); } catch { /* refused below as unparsable */ }
+  urlRecords.push({
+    officialUrl: url,
+    jurisdiction: first.jurisdiction ?? null,
+    sourceId: `${slugPart(first.formNumber)}-${slugPart(decodeURIComponent(stem))}`.slice(0, 70).replace(/-+$/, ""),
+    formNumber: first.formNumber ?? null,
+    officialTitle: String(first.sourceId ?? "").replace(/^official-form:/, "") || null,
+    issuingAuthority: first.issuingAuthority ?? null,
+    urlKind: CANDIDATE_URL_KIND[first.urlKind] ?? "UNSTATED",
+    expectedSha256: pin,
+    expectedSha256Note: pin ? null : (distinctShas.length > 0
+      ? `held-edition hash(es) ${distinctShas.map((s) => s.slice(0, 12)).join(", ")} are set-level pins claimed by more than one URL; unpinned here, the acquired bytes' own hash is authoritative and PROMO recomputes`
+      : null),
+    obligationKeys: [...new Set(g.rows.map((r) => r.itemId).filter(Boolean))].sort(),
+    recordedIn: [...g.recordedIn].sort().join(", "),
+    corroboration: { nonCandidateFiles: corroboration, examples: (evidence?.corroboratingFiles ?? []).slice(0, 3) },
+    corroborationFailure: corroboration < CORROBORATION_THRESHOLD
+      ? `corroborated by ${corroboration} distinct non-candidate committed file(s); the threshold is ${CORROBORATION_THRESHOLD} and a candidate file never counts toward its own admission`
+      : null
+  });
+}
+
 const manifestEntries = [];
 const manifestRefused = [];
 const seenUrl = new Set();
 const seenSourceId = new Set();
 for (const r of urlRecords) {
   const refuse = (reason) => manifestRefused.push({ officialUrl: r.officialUrl, sourceId: r.sourceId, reason, recordedIn: r.recordedIn });
+  if (r.corroborationFailure) { refuse(r.corroborationFailure); continue; }
   let parsed = null;
   try { parsed = new URL(r.officialUrl); } catch { refuse("not a parsable URL"); continue; }
   if (parsed.protocol !== "https:") { refuse("not HTTPS"); continue; }
@@ -280,7 +365,9 @@ for (const r of urlRecords) {
     host,
     commitBody: false,
     obligationKeys: r.obligationKeys,
-    recordedIn: r.recordedIn
+    recordedIn: r.recordedIn,
+    ...(r.expectedSha256Note ? { expectedSha256Note: r.expectedSha256Note } : {}),
+    ...(r.corroboration ? { corroboration: r.corroboration } : {})
   });
 }
 manifestEntries.sort((a, b) => a.sourceId.localeCompare(b.sourceId));
@@ -330,7 +417,30 @@ const manifest = {
     obligationsNeedingDiscoveryFirst: totalObligations - obligationsWithRecordedUrl
   },
   entries: manifestEntries,
-  refused: manifestRefused
+  refused: manifestRefused,
+  /*
+   * Obligations swept for and NOT found: no committed evidence carries an exact
+   * official artifact URL, so they go to the DISC lane — never to a guessed
+   * address here, and never straight to a human while DISC has not run.
+   */
+  discPending: [
+    {
+      jurisdiction: "DE",
+      formNumber: "Form 281",
+      obligation: "the Delaware Form 281 expungement petition's exact official artifact URL",
+      sweepFinding: "committed evidence carries only landing pages — courts.delaware.gov/forms/ (9 files), courts.delaware.gov/superior/expungement.aspx (15 files), courts.delaware.gov/forms/list.aspx?ag=Superior%20Court&cat=Expungement (2 files) — and no URL containing '281' on any Delaware host. FACTORY_MEMORY warns the held 'FORM-281' bytes actually print Form 281E (the charge-sheet continuation); the identity itself needs DISC before any address is trusted.",
+      nextLane: "DISC",
+      whyNotHere: "no corroborated exact URL exists in committed evidence, and a plausible address is worse than an absent one because ACQ will fetch it"
+    },
+    {
+      jurisdiction: "MO",
+      formNumber: "FI-05",
+      obligation: "the Missouri Confidential Case Filing Information Sheet (FI-05) exact official artifact URL — SRR-001, a one-row family release gating six MO families",
+      sweepFinding: "SOURCE_RELATIONSHIP_REGISTRY records officialArtifactUrl null with sourceState SOURCE_SCOPE_AND_VERSION_AMBIGUITY: St. Louis County publishes FI-05 while the 7th Circuit names the analogous form FI-50, and the recorded source page stlcountycourts.com is not an allowlisted official government host. Committed MO evidence otherwise carries only courts.mo.gov landing pages (page.jsp?id=191585, 242 files) and revisor.mo.gov statutes — no exact FI-05 artifact URL on an allowlisted host.",
+      nextLane: "DISC",
+      whyNotHere: "no corroborated exact URL exists, the only recorded publisher host is off-allowlist, and statewide-versus-local scope is unsettled (SRR-001); DISC and Captain settle scope and alias before any acquisition"
+    }
+  ]
 };
 
 /* ---- the integration clock ------------------------------------------------ */
