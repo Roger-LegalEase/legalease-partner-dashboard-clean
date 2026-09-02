@@ -2,7 +2,7 @@
  "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
  "lane": "VF03",
  "worker": "VF-SRC-A",
- "assignmentCount": 9,
+ "assignmentCount": 10,
  "assignments": [
   {
    "itemId": "ar-cs-possession-seal-set",
@@ -272,6 +272,45 @@
     "sourceFormDobFieldNaming": "The official form names its first DOB widget PetDOBDay and its second PetDOBMonth while they print in month-then-day order. The build mapped by geometry and rendered 04 / 17 / 1991 correctly. Not a defect."
    },
    "grantsNothing": "Repairing this defect proves the packet complete against the record. It approves no output and opens no commercial route."
+  },
+  {
+   "itemId": "sd_arrest_expungement-set",
+   "wave": "VF03-W3",
+   "lane": "VF03",
+   "verifiedAtBase": "247b790b6decf4ab14924914b10ad16a6ab57400",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill",
+   "decisiveDefect": "Four separate failures, all of them in what reaches the participant rather than in the forms. (1) Six of the ten registry self-help stop conditions are absent from participant-instructions.md and from the packet text, including 'Immigration exposure.' entirely — immigration returns 0 hits in the file — and the whole felony / DUI / domestic violence / sex offence / child-victim / violence / firearm / protection-order condition, and the federal-tribal-military-out-of-state condition the registry marks as an explicit escalation rather than a footnote. (2) The fee-waiver statement contradicts the record: the packet says 'The forms state no fee-waiver route' while the registry's rules.feeWaiver reads 'Available on a finding of indigency. The participant requests it from the court.' and its destination detail says 'Pay the $72 civil filing fee or request an indigency waiver.' (3) Three of the thirteen required-before-filing items never reach the participant as actions: obtaining the dismissal order, judgment of acquittal or proof no accusatory instrument was filed; checking the all-charges-or-some answer against the court docket; and checking the number of separate arrests against the South Dakota criminal history record. (4) The packet ticks the first statutory basis on UJS-391A on the participant's behalf while participant-instructions.md tells them 'this packet does not choose it'.",
+   "failedProofObligations": [
+    "SELF_HELP_STOP",
+    "FEE_AND_WAIVER",
+    "REQUIRED_BEFORE_FILING",
+    "ROUTE_OPTIONS"
+   ],
+   "perObligation": {
+    "SELF_HELP_STOP": {
+     "measuredDetail": "Registry track sd_arrest_expungement, selfHelpStopConditions holds 10. participant-instructions.md's 'Where self-help ends' section carries 4 bullets. Case-insensitive grep of the file returns 0 hits for opposition, contested, 'more than one arrest', 'more than one county', counties, tribal, federal, military, out-of-state, immigration, conviction, felony, DUI, domestic, 'sex offence' and firearm. The same terms return 0 in the text extracted from canonical.pdf, except 'protection' and 'compelling necessity', each once, inside the official forms' own printed text rather than as a stop.",
+     "whatRepairMustDo": "Carry all ten conditions into the 'Where self-help ends' section in the packet's voice, keeping the four already there. The immigration condition should be stated as a hard stop the way the other families in this wave state it, and the tribal-records condition should carry the registry's own reason — the number of reservations and the concurrent-jurisdiction questions — rather than being folded into a general out-of-state line."
+    },
+    "FEE_AND_WAIVER": {
+     "measuredDetail": "registry rules.feeWaiver: 'Available on a finding of indigency. The participant requests it from the court.' It is also item 13 of packetSet.requiredBeforeFiling and appears in destination.detail as 'Pay the $72 civil filing fee or request an indigency waiver.' participant-instructions.md says 'The forms state no fee-waiver route' and sends the reader to ask the clerk whether anything is available. 'indigen' returns 0 hits in the file.",
+     "whatRepairMustDo": "State the waiver the record states: it is available on a finding of indigency and the participant requests it from the court. Keep the $72 figure and the sensible note that the clerk's current figure governs. The sentence that the forms state no waiver route may stay if it is true of the forms, but it must not stand as the packet's answer to whether a waiver exists, because the record answers that."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measuredDetail": "13 declared; 5 carried as actions, all of them caption or service details. Absent: item 1 (obtain the dismissal order, judgment of acquittal or proof no accusatory instrument was filed, asking the Clerk of Courts for a copy) — dismissal, acquittal and accusatory each appear once and only inside a stop-condition bullet; item 3 (check ALL-or-some against the court docket) — docket 0 hits; item 4 (check the number of separate arrests against the South Dakota criminal history record) — 'criminal history' 0 hits; item 13, the indigency waiver, covered above.",
+     "whatRepairMustDo": "Add the three missing verifications to 'Required before filing or service' as actions with their source, in the way the file already handles the caption items. Item 3 in particular guards the registry's first stop condition, that a partial dismissal defeats this track because the statute requires the entire criminal case to have been dismissed; and item 4 guards a cost, since each additional arrest record is a separate civil action with its own fee."
+    },
+    "ROUTE_OPTIONS": {
+     "measuredDetail": "Packet page 3, UJS-391A: the first basis checkbox is ticked and visible on the committed raster; reports/actual-writes.json records it as a selection with factId route.expungement_ground; production-field-map.json carries it with disposition 'selected_route_option' and, on the same row, reason 'selection_requires_participant_or_authorized_official_choice', selectedBy SD_ARREST_EXPUNGEMENT_DISCLOSURE_REPAIR. participant-instructions.md tells the reader the basis 'is a statement of law about your own case, and this packet does not choose it'.",
+     "whatRepairMustDo": "Make the record and the page agree, either way. Either leave the basis unmarked and tell the participant to choose it, which is what the field map's own reason says the row requires; or keep the mark and say so plainly — name which basis has been marked, why the route marked it, and tell the participant to confirm it is truthfully theirs before they sign, since the motion is signed under SDCL § 23A-3-27. What must not survive is a packet that marks a sworn statutory basis and tells the participant it has not.",
+     "whyThisMatters": "The repair that made this selection is named SD_ARREST_EXPUNGEMENT_DISCLOSURE_REPAIR. A disclosure repair that made an undisclosed election is worth the Captain's attention beyond this family."
+    }
+   },
+   "everythingElseMeasuredClean": "Eleven obligations pass on measurement made in this container and all nine completeness counters are zero. All six official binaries rehash byte-exact from the Master Library; both fixtures hash to what every record naming them says; the RASTER_PASS receipt binds to those exact hashes and 28 committed raster pages read clean; the page order follows the registry's component order; the proposed order's Granted and Denied boxes, judge signature and clerk attest are blank; the Statement of Mailing swears to nothing, with its date, recipient and signature all empty; and the service instructions are unusually good, five steps taken from the forms' own instruction sheets with the 14-day notice deadline and the three-party waiver both stated.",
+   "notPartOfThisRepair": {
+    "bothConditionalsRendered": "UJS-392 and UJS-393 are mutually exclusive conditionals and both are in the packet, which is reasonable branch coverage for a review fixture. The instructions introduce the waiver conditionally but state the Notice of Hearing step unconditionally, where the registry conditions it on the waiver not being obtained. An observation for the Captain, not assigned.",
+    "openLegalQuestions": "The registry carries two nonblocking research notes for this track — whether 'compelling necessity' under SDCL § 23A-3-27(4) has been construed, and whether counsel accepts the rest of the §§ 23A-3-26 to 23A-3-32 range as read now that § 23A-3-27 has been read at source and matches. Both are marked nonblocking and neither is a build defect."
+   },
+   "grantsNothing": "Repairing these defects proves the packet complete against the record. It approves no output and opens no commercial route."
   }
  ],
  "supersededLaneMembership": {

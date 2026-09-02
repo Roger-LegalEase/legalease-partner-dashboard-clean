@@ -25,10 +25,10 @@
   "nothingIsWithdrawn": "The earlier reading stands on its own evidence and is preserved verbatim under supersededLaneMembership. It is kept because those verdicts are real work, not because this lane still owns those families."
  },
  "summary": {
-  "families": 34,
+  "families": 35,
   "PASS_COMPLETE_INDEPENDENT": 15,
   "PASS": 0,
-  "FAIL_REPAIR_REQUIRED": 15,
+  "FAIL_REPAIR_REQUIRED": 16,
   "BLOCKED_SOURCE": 1,
   "BLOCKED_LEGAL_INPUT": 1,
   "STOPPED": 1,
@@ -7580,6 +7580,291 @@
     "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json (the rcap-ok-custom-pleading row)"
    ],
    "grantsNothing": "A blocked row approves no output and opens no commercial route, and it is not a finding that the packet is good enough to sell once the block lifts — that is a fresh read's question."
+  },
+  {
+   "itemId": "sd_arrest_expungement-set",
+   "lane": "VF03",
+   "wave": "VF03-W3",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "verifiedAtBase": "247b790b6decf4ab14924914b10ad16a6ab57400",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill",
+   "rasterState": "RASTER_PASS receipt in RASTER_QUEUE.json bound to both fixture hashes; 28 raster pages committed and read as pixels here",
+   "independentOfBuilder": "VF03 holds no packet-build, repair or shared-host-repair claim on this family, wrote no byte inside its overlay directory, and produced none of the reports it reads. Every hash, counter, page count, word box, rendered mark and grep count below was recomputed or read first-hand in this container.",
+   "summaryOfTheDefect": "The pages are well made and the six official forms bind exactly. What fails is what reaches the participant beside them: six of the ten self-help stop conditions the registry holds for this track are absent from participant-instructions.md and from the packet text, including 'Immigration exposure.' and the whole felony/DUI/domestic-violence/sex-offence/firearm/protection-order condition; the fee-waiver position contradicts the record; three required-before-filing verifications are missing; and the packet marks a sworn statutory basis on the participant's behalf while telling them it has not.",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "howMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family sd_arrest_expungement-set, run in this container: PASS_COMPLETE, 67/222 written",
+    "whyZeroCountersAreNotAPass": "Every counter here is about ink on the forms, and the ink is right. None of them reads participant-instructions.md against the registry's stop conditions, its fee-waiver rule or its required-before-filing list, which is where all four failures below live."
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "familyId sd_arrest_expungement-set agrees across source-receipt.json, build-status.json, reports/rendered-artifacts.json, reports/actual-writes.json, product-wiring.json and the RASTER_QUEUE.json row, and the registry track sd_arrest_expungement carries packetSetId sd_arrest_expungement-set. The packet is the arrest-expungement route and its captions and forms are that route's.",
+     "evidence": {
+      "recordsAgreeing": 6
+     }
+    },
+    "SOURCE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "All six bound official forms were rehashed from the Master Library bytes in this container and every one equals the receipt to the byte, with page counts matching too. This is a first-hand recomputation from the official binaries.",
+     "evidence": {
+      "recomputedHere": [
+       {
+        "formNumber": "UJS-232",
+        "sha256": "308ed5e4386a9e223d510a1dfa6f49cb15b1c349a27db63e32dcf0164d6d7737",
+        "byteLength": 166791,
+        "pages": 1,
+        "matchesReceipt": true
+       },
+       {
+        "formNumber": "UJS-391",
+        "sha256": "ec51457f51583006c76af9bcfe6db03eaf92fdd15e7cfff184b5b4805f18e6a8",
+        "byteLength": 361152,
+        "pages": 4,
+        "matchesReceipt": true
+       },
+       {
+        "formNumber": "UJS-392",
+        "sha256": "08e44e091b60917fc4bb99ba1cf65a62eca4482d8517d43f6cbfd95aae9a2928",
+        "byteLength": 202256,
+        "pages": 2,
+        "matchesReceipt": true
+       },
+       {
+        "formNumber": "UJS-393",
+        "sha256": "933c600b4516628b60ca20545633cc3c225279bb87b90008780ff406d9e19310",
+        "byteLength": 256929,
+        "pages": 3,
+        "matchesReceipt": true
+       },
+       {
+        "formNumber": "UJS-394",
+        "sha256": "d6f2dab3ca32ca7fedd348635871d036dc90170c240ac416b4c9b770a7c7de3f",
+        "byteLength": 92135,
+        "pages": 1,
+        "matchesReceipt": true
+       },
+       {
+        "formNumber": "UJS-395",
+        "sha256": "4ff12868beb1f4904856ba2751d9d31e99973a18e5e6b38164286c7341dd8e20",
+        "byteLength": 295853,
+        "pages": 3,
+        "matchesReceipt": true
+       }
+      ],
+      "sourcesMismatching": 0
+     }
+    },
+    "COMPONENT_SET": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Every component the route names is rendered. The registry names seven: case_filing_statement UJS-232, primary_filing UJS-391, proposed_order UJS-394 and notice_of_entry UJS-395 all required; hearing_waiver UJS-392 and notice_of_hearing UJS-393 both conditional; and filing_instructions as process_guidance. All six official forms are in the packet at pages 1, 2-5, 6-7, 8-10, 11 and 12-14, and the process_guidance component is participant-instructions.md.",
+     "evidence": {
+      "componentsNamedByTheRoute": 7,
+      "officialFormComponentsRendered": 6,
+      "requiredComponentsMissing": 0,
+      "bothMutuallyExclusiveConditionalsAreRendered": "UJS-392 is conditioned 'only where the arrested person or defendant, the prosecutor and any victim will all waive the hearing' and UJS-393 'where a hearing is required because the three-party waiver is not obtained' — the two are alternatives and both are in the packet. For a review fixture that is reasonable branch coverage, and participant-instructions.md does introduce the waiver with 'If you seek to waive the hearing (UJS-392)'. It states the Notice of Hearing step unconditionally though, where the registry makes it conditional on the waiver not being obtained. Recorded as an observation for the Captain, not scored and not part of the repair."
+     }
+    },
+    "KNOWN_PREFILLS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Every known fact is written and visible on the page it belongs to, read from the committed raster pages as pixels. 65 writes on the canonical fixture across six forms: the UJS-232 case filing statement carries the participant's name, address, city, state, zip, phone and date of birth; the UJS-391 motion carries the date of birth, arrest date, charge, county in three captions, applicant name, case number and the petitioner contact block; UJS-392, UJS-393, UJS-394 and UJS-395 each carry their caption and, where the form has one, the petitioner contact block. Nothing is written that the participant must swear to beyond the basis dealt with under ROUTE_OPTIONS.",
+     "evidence": {
+      "writesOnCanonical": 65,
+      "formsCarryingWrites": 6,
+      "knownFactsMissingFromTheRenderedPage": 0
+     }
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "FAIL",
+     "finding": "The registry declares 13 items in packetSet.requiredBeforeFiling for this track. participant-instructions.md's 'Required before filing or service' section lists five, all of them caption and service details — Judicial Circuit number, State's Attorney name and mailing address, notice recipient name and mailing address. Three substantive verifications never reach the participant at all. Item 1, obtain the order of dismissal, the judgment of acquittal or proof that no accusatory instrument was filed and ask the Clerk of Courts for a copy, is the documentary proof the whole motion rests on; the words dismissal, acquittal and accusatory each appear exactly once in the file and all three are inside a single stop-condition bullet listing the three statutory bases, not an instruction to obtain anything. Item 3, check the answer to whether ALL charges were dismissed or only some against the court docket, is absent: 'docket' returns 0 hits. Item 4, check the answer to how many separate arrests are being cleared against the South Dakota criminal history record, is absent: 'criminal history' returns 0 hits. Item 13, the indigency fee waiver, is dealt with under FEE_AND_WAIVER below and is also absent.",
+     "evidence": {
+      "declaredItems": 13,
+      "itemsNamedAsActions": 5,
+      "itemsAbsentOrIncidental": 4,
+      "grepCountsInParticipantInstructions": {
+       "docket": 0,
+       "criminal history": 0,
+       "indigen": 0,
+       "dismissal": 1,
+       "acquittal": 1,
+       "accusatory": 1
+      },
+      "whyItMatters": "Item 3 guards the exact trap the registry's first stop condition names — a partial dismissal defeats this track because the statute requires the ENTIRE criminal case to have been dismissed — and item 4 guards a money consequence, since more than one arrest record means more than one civil action and more than one $72 fee."
+     }
+    },
+    "ROUTE_OPTIONS": {
+     "measured": true,
+     "result": "FAIL",
+     "finding": "The election is made, it is the right one for the route, and the packet tells the participant it has not been made. On packet page 3 the first of the three statutory bases on UJS-391A is ticked — 'It has been one year from the date of the arrest and no accusatory instrument has been filed' — visible on the committed raster and recorded in reports/actual-writes.json as a selection with factId route.expungement_ground. The row in production-field-map.json that carries it says both things at once: disposition 'selected_route_option' and reason 'selection_requires_participant_or_authorized_official_choice', selectedBy SD_ARREST_EXPUNGEMENT_DISCLOSURE_REPAIR. And participant-instructions.md, in the self-help stop list, tells the reader that the basis 'is a statement of law about your own case, and this packet does not choose it'. It did choose it. A participant who cannot tell which basis is truthfully theirs is told nothing has been asserted yet, and the form in their hands already asserts one, above a signature line they are being asked to sign.",
+     "evidence": {
+      "electionsDeterminedByTheRoute": 1,
+      "electionsSelected": 1,
+      "requiredOptionsMissing": 0,
+      "otherBasesLeftUnmarked": 2,
+      "fieldMapReasonOnTheSelectedRow": "selection_requires_participant_or_authorized_official_choice",
+      "fieldMapDispositionOnTheSameRow": "selected_route_option",
+      "selectedBy": "SD_ARREST_EXPUNGEMENT_DISCLOSURE_REPAIR",
+      "participantInstructionsSay": "the basis is a statement of law about your own case, and this packet does not choose it",
+      "whyThisIsScoredHere": "This is the packet's only election and the obligation is the election obligation. An election that the packet denies making is not a disclosed election, and the field map's own reason for the row says the choice belongs to the participant or an authorized official."
+     }
+    },
+    "REPEATING_ROWS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "None of the six forms carries a repeating row structure: no offence table, no charge grid, no multi-count schedule. The UJS-232 case filing statement is a single-party block. incompleteRows measured 0 here.",
+     "evidence": {
+      "repeatingRowStructures": 0,
+      "incompleteRows": 0
+     }
+    },
+    "PROTECTED_FIELDS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "No protected field carries ink, read from the committed raster pages. The UJS-394 Order on Motion for Expungement is the strongest case: its caption is filled, and its Granted and Denied boxes, its hearing date, its 'Dated this ___ day of ___, 20__' line, its Circuit Court Judge signature rule and its Clerk of Court and Deputy Clerk attest lines are all empty. The UJS-391C Statement of Mailing carries only the caption and the petitioner's own contact block: the mailing date, the State's Attorney name and address, the 'mailing ... from' line, the perjury declaration's date, month, year and place, and the Petitioner Signature rule are all blank, so nothing swears to a mailing that has not happened. Participant signature and signature-date rules are blank on every form that has one.",
+     "evidence": {
+      "proposedOrderDecisionBoxes": "Granted and Denied both empty",
+      "judgeSignature": "blank",
+      "clerkAttest": "blank",
+      "statementOfMailingDateAndSignature": "blank",
+      "participantSignatureRules": "blank on every form",
+      "protectedFieldsCarryingInk": 0
+     }
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both fixtures hash to what every record naming them says. Recomputed here with sha256sum and pdfinfo: canonical.pdf = 627e6502e0340f5d6d75ae855314cad53160d92acab710a1d43add2341dbe47d (572296 bytes, 14 pages), boundary.pdf = 79b2e9ac4ca0cfadba32a9896f39fe82ae7d0dc543d3a7a42d2a338bf318a8ed (573828 bytes, 14 pages). Every claimed hash across rendered-artifacts.json, actual-writes.json, product-wiring.json and the RASTER_QUEUE.json receipt agrees, and every 64-hex digest in product-wiring.json resolves to a fixture or one of the six bound sources.",
+     "evidence": {
+      "canonicalSha256": "627e6502e0340f5d6d75ae855314cad53160d92acab710a1d43add2341dbe47d",
+      "boundarySha256": "79b2e9ac4ca0cfadba32a9896f39fe82ae7d0dc543d3a7a42d2a338bf318a8ed",
+      "claimedHashMismatches": 0,
+      "wiringDigestsNotMatchingAFixtureOrSource": 0
+     }
+    },
+    "PAGE_ORDER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both fixtures declare a 14-entry pageManifest numbered 1..14 with no gap and pdfinfo reads exactly 14 pages from each. The order follows the registry's own component order: UJS-232 case filing statement, UJS-391 motion with its admission of service and statement of mailing, UJS-392 waiver, UJS-393 notice of hearing, UJS-394 proposed order, UJS-395 notice of entry, and source pages run sequentially within each form.",
+     "evidence": {
+      "manifestPages": 14,
+      "measuredPages": 14,
+      "sequential": true,
+      "matchesRegistryComponentOrder": true
+     }
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The central raster gate has run and its receipt binds to the exact bytes this container hashed: RASTER_QUEUE.json holds verdict RASTER_PASS from workflow run 33488713831 at pinned commit 71894f3f2dde0f5af34818a2fa8dc8bce84e0d24, jobConclusion success, boundToCanonicalSha256 and boundToBoundarySha256 equal to the two hashes recomputed above. Independently, word geometry over both fixtures returns 0 words outside the page box and 18 text-on-text collisions, and the collisions were differenced against the six pristine official sources, which carry 17 between them (15 on UJS-394 and 2 on UJS-392) at the same places. The single collision not inherited is on packet page 4, where the written case number 24-CR-001234 at y 249.9-259.1 sits inside the printed rule '____________________________,' at y 246.1-260.7 — a value seated on its own rule, which is where it belongs, and which the instrument counts only because that rule token carries a trailing comma. Overlay-introduced overlap is nil. The 28 committed raster pages were also read as images here.",
+     "evidence": {
+      "rasterVerdict": "RASTER_PASS",
+      "rasterBindsToTheBytesHashedHere": true,
+      "wordsOutsidePageBoxCanonical": 0,
+      "wordsOutsidePageBoxBoundary": 0,
+      "textOnTextCollisionsCanonical": 18,
+      "collisionsInherentToThePristineSources": 17,
+      "theEighteenth": "a written value correctly seated on its printed rule, not an overlap",
+      "rasterPagesReadAsPixelsHere": 28
+     }
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The instructions name the court the route names, and they do it from the form's own words. The registry's destination is 'Clerk of Courts for the court with jurisdiction over the arrest or underlying case' and its venue is the court that would have jurisdiction over the crime for which the person was arrested. participant-instructions.md says to file with the Clerk of Court of the circuit court for the county where the arrest record or case is filed, quotes UJS-391's own instruction sheet saying the county 'will be the same county where the arrest record or case is filed in', tells the participant to enter that county and its Judicial Circuit number in each caption, and — usefully — says the case number will be provided by the Clerk of Court at filing under UJS-391 instruction 1(b), so do not invent one.",
+     "evidence": {
+      "registryDestination": "Clerk of Courts for the court with jurisdiction over the arrest or underlying case",
+      "printedDestination": "Clerk of Court of the circuit court for the county where the arrest record or case is filed",
+      "caseNumberCorrectlyNotInvented": true,
+      "oneConsequenceNotCarried": "The registry's filing rule adds that more than one arrest record requires a separate civil action for each. That is absent from the instructions and is scored under SELF_HELP_STOP, where the registry also carries it as a stop condition."
+     }
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "FAIL",
+     "finding": "The fee is stated correctly and the waiver is stated as unavailable when the record says it is available. participant-instructions.md gives the $72 figure from UJS-391's own instruction sheet, adds sensibly that if the clerk quotes a different current amount the clerk's figure governs, and then says: 'The forms state no fee-waiver route. If you cannot afford the fee, ask the Clerk of Court whether any waiver or reduction is available — this packet does not decide that'. The committed registry does decide it. rules.feeWaiver reads 'Available on a finding of indigency. The participant requests it from the court.', it is item 13 of that track's requiredBeforeFiling list, and the registry's destination detail says in terms 'Pay the $72 civil filing fee or request an indigency waiver.' The word 'indigen' returns 0 hits in participant-instructions.md. A participant who cannot afford $72 is told the forms name no waiver and sent to ask an open question, when the record establishes a waiver available on a finding of indigency that they request from the court.",
+     "evidence": {
+      "feeStated": "$72, from UJS-391's instruction sheet, with the clerk's current figure governing",
+      "registryFeeWaiver": "Available on a finding of indigency. The participant requests it from the court.",
+      "registryDestinationDetail": "Pay the $72 civil filing fee or request an indigency waiver.",
+      "packetSays": "The forms state no fee-waiver route.",
+      "indigencyMentionsInParticipantInstructions": 0,
+      "whyThisIsAFailureAndNotABlock": "Nothing here is unresolved. The record states the waiver; the packet states the opposite of the record, and a repairer can fix it from the record already in hand."
+     }
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Who must be served, and how, is stated in unusual and correct detail, step by step from the forms' own instruction sheets. The instructions say to serve the State's Attorney who handled the criminal case by mailing the motion, the partially completed Admission of Service UJS-391B and a self-addressed stamped envelope; that the State's Attorney signs and returns the admission and the participant files it; that the Statement of Mailing UJS-391C is sworn under penalty of perjury and completed only after the mailing has actually occurred; that a copy of the Notice of Hearing must be mailed to the State's Attorney at least 14 days before the hearing; that a waiver under UJS-392 must be agreed by the State's Attorney and any victim, each signing their own; and that after the judge rules the Notice of Entry UJS-395 and the order are mailed to the State's Attorney and filed with a statement of mailing. The method is stated as United States mail, postage prepaid, which is what the sworn statements themselves say. All of that matches the registry's rules.notice and rules.service.",
+     "evidence": {
+      "serviceStepsStated": 5,
+      "fourteenDayNoticeStated": true,
+      "threePartyWaiverStated": true,
+      "statementOfMailingTimingStated": true,
+      "matchesRegistryRules": true
+     }
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "FAIL",
+     "finding": "Six of the ten self-help stop conditions the registry holds for this track never reach the participant. participant-instructions.md carries four bullets under 'Where self-help ends', covering roughly the basis question, the waiver-signature question, records outside a South Dakota circuit court and being asked to argue eligibility at a hearing. Absent entirely, by direct case-insensitive grep of the file: 'Prosecutor opposition, or any contested hearing' — opposition 0 hits, contested 0 hits; 'More than one arrest record, which means more than one civil action and more than one fee' — 'more than one arrest' 0 hits; 'Arrests in more than one county' — 'more than one county' 0 hits, 'counties' 0 hits; 'Federal, tribal, military or out-of-state records', which the registry marks as an explicit escalation rather than a footnote given the number of reservations and concurrent-jurisdiction questions — tribal 0, federal 0, military 0, out-of-state 0; 'Immigration exposure.' — immigration 0 hits; 'Any adult conviction that is not clearly SIS-based, pardon-based, diversion-based or minor-case automatic removal' — conviction 0 hits; and 'Any felony, DUI, domestic violence, sex offence, child-victim offence, violence, firearm or protection-order issue' — felony 0, DUI 0, domestic 0, sex offence 0, firearm 0. The same words return 0 in the extracted packet text as well, so they are absent from the delivered pages too.",
+     "evidence": {
+      "conditionsInRegistry": 10,
+      "conditionsCarried": 4,
+      "conditionsAbsent": 6,
+      "grepCountsInParticipantInstructions": {
+       "opposition": 0,
+       "contested": 0,
+       "more than one arrest": 0,
+       "more than one county": 0,
+       "counties": 0,
+       "tribal": 0,
+       "federal": 0,
+       "military": 0,
+       "out-of-state": 0,
+       "immigration": 0,
+       "conviction": 0,
+       "felony": 0,
+       "DUI": 0,
+       "domestic": 0,
+       "sex offence": 0,
+       "firearm": 0
+      },
+      "sameWordsInTheDeliveredPacketText": "all 0 except 'protection' 1 and 'compelling necessity' 1, both inside the official forms' own printed text rather than as a stop",
+      "whyItMatters": "Immigration is the condition every other family in this wave restates as a hard stop, and it is missing here entirely. The tribal-records condition is one the registry itself flags as an escalation rather than a footnote, in South Dakota. And the missing arrest-count and county conditions each carry a direct cost consequence, since each additional arrest record is a separate civil action with its own $72 fee."
+     }
+    }
+   },
+   "evidenceRead": [
+    "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+    "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
+    "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/raster/canonical/page-01.png through page-14.png",
+    "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/raster/boundary/page-01.png through page-14.png",
+    "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/production-field-map.json",
+    "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/source-receipt.json",
+    "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/build-status.json",
+    "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/reports/actual-writes.json",
+    "MASTER_LIBRARY_SOURCE_DIR/STATES/SD/02_PACKET_FORMS/ (UJS-232, UJS-391, UJS-392, UJS-393, UJS-394, UJS-395)",
+    "data/record-clearing/legal-design-track-registry.json (track sd_arrest_expungement: packetSet, rules, destination, selfHelpStopConditions, openLegalQuestions)",
+    "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json (the sd_arrest_expungement-set row and its receipt)"
+   ],
+   "grantsNothing": "This verdict approves no output and opens no commercial route."
   }
  ],
  "supersededLaneMembership": {
@@ -8251,7 +8536,8 @@
    "dc_yra_set_aside-set",
    "ny_mrta_marijuana-set",
    "wv_conv_single_misdemeanor-set",
-   "rcap-ok-custom-pleading"
+   "rcap-ok-custom-pleading",
+   "sd_arrest_expungement-set"
   ]
  }
 }
