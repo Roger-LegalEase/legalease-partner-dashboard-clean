@@ -909,6 +909,22 @@ This packet prepares official forms; it does not decide anything. Stop and get a
 - your case ended in a conviction. This packet is for an arrest, criminal charge or juvenile delinquency allegation that did **not** result in a conviction, and the proposed order says so on its face;
 - you want appellate records sealed. The petition and the order both have a place for appellate cause numbers and this packet writes neither, because an appellate cause number is issued by a different court and the platform holds none.
 
+The committed track registry for this route — \`data/record-clearing/legal-design-track-registry.json\`, track \`in_section1_petition\`, \`selfHelpStopConditions\` — holds thirteen conditions of its own. They are reproduced here word for word, and each of them is a point at which this packet stops being enough:
+
+- The prosecutor objects or files a notice in opposition.
+- A victim submits a statement in opposition.
+- The court sets a hearing.
+- The person has convictions in more than one county and the 365-day window is already partly consumed.
+- A conviction is not yet eligible and the person wants to file now, which is the Chastain trap.
+- The person has already filed a Sections 2 through 5 petition.
+- Classification between Sections 2, 3, 4 and 5 is unclear, or turns on whether an offence caused serious bodily injury.
+- The person is a sex or violent offender or subject to registration.
+- Fines, fees, costs or restitution are unpaid or disputed.
+- Charges are pending anywhere, or the person is in a pretrial diversion programme.
+- The record involves a commercial driver's licence and 49 C.F.R. 384.226.
+- Immigration, firearm, licensing or CDL consequences are in play.
+- The person wants to attack the underlying conviction rather than expunge it.
+
 ## What this packet is not
 
 This is a prepared copy of the Coalition for Court Access's own approved bundle, missing three sets of insert pages that the bundle itself directs you to add. It is not legal advice, it is not filed for you, and it does not decide whether your records can be expunged under I.C. § 35-38-9-1.
@@ -938,10 +954,33 @@ async function main() {
       for (const o of overflows) {
         console.log(`  ${label}: ${o.field} refused — /MaxLen ${o.maxLength} < ${o.valueLength} characters of ${o.factId}`);
       }
+      /*
+       * FIX01/RT-1, CLIPPING_AND_OVERLAP.
+       *
+       * The finalizer fits a value to `widgets[0]` and then writes it through
+       * the FIELD's default appearance, which every one of that field's widget
+       * kids renders at. On this bundle cap-PetitionerFullName has fourteen
+       * kids across ten pages, from 161.12pt wide to 342.16pt, so a size fitted
+       * to the page-1 box overran three narrower kids -- and each appearance
+       * stream carries an explicit clip, so the participant's own name was
+       * truncated mid-word inside the sworn petition and inside the order's
+       * "Petitioner, ____," line rather than printed over its neighbours.
+       *
+       * A value written into every kid has to fit the SMALLEST kid, so the
+       * census handed to the finalizer presents each field's narrowest widget
+       * first. Nothing else changes: census.fields keeps the document's own
+       * widget order for the field map and for the byte proof, and a value that
+       * cannot fit the narrowest box at the 6pt readable floor is refused and
+       * left blank, which is the Lane C rule working rather than a regression.
+       */
+      const censusFittedToTheNarrowestWidget = census.fields.map((f) => ({
+        ...f,
+        widgets: [...(f.widgets ?? [])].sort((a, b) => (a.rect?.width ?? 0) - (b.rect?.width ?? 0))
+      }));
       const result = await finalizeOfficialForm({
         sourceBytes: bytes,
         expectedSha256: doc.sha256,
-        census: census.fields,
+        census: censusFittedToTheNarrowestWidget,
         facts,
         explicitMappings: doc.explicitMappings,
         unwritableFields: [
