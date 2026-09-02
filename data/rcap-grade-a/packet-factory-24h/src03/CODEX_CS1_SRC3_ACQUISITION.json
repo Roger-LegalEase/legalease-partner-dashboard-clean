@@ -1,0 +1,664 @@
+{
+  "schemaVersion": "rcap-source-acquisition-return/v1",
+  "workerId": "CODEX-CS1-SRC3",
+  "lane": "SRC03",
+  "laneKind": "source-reconciliation",
+  "pinnedBaseSha": "47272aa1c6f013b8e73621767a5bf5dcfeaf9178",
+  "branch": "codex/cs1-src3",
+  "assignedReturnPath": "data/rcap-grade-a/packet-factory-24h/src03/CODEX_CS1_SRC3_ACQUISITION.json",
+  "generatedAt": "2026-09-02T16:47:31Z",
+  "scope": {
+    "assignedSourceIdentities": 17,
+    "assignedFamilies": 13,
+    "liveClaimSubjects": 19,
+    "jurisdictions": [
+      "AZ",
+      "MD",
+      "DE",
+      "CO"
+    ],
+    "note": "Two source identities are shared by two families each: CC-DC-CR-072B and CIV_EXP_02_A. The ledger therefore carries 19 claim subjects for 17 source identities."
+  },
+  "claimAssertions": {
+    "requiredCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert SRC03 \"<itemId>\"",
+    "grantSetDigestPrefix": "32f903df3e90e8e7",
+    "successfulCount": 19,
+    "successfulItemIds": [
+      "az_certificate_second_chance-set::official-form:AOCCRSA3F-010122",
+      "az_certificate_second_chance-set::official-form:AOCCRSA4F-010122",
+      "az_marijuana_expungement_limited_jurisdiction-set::official-form:AOC-CREM2F-071221-CONT",
+      "az_record_sealing_conviction-set::official-form:AOCCRSL1F-050825-CONT",
+      "az_set_aside-set::official-form:AOCCR41FORM31A-082224",
+      "az_set_aside-set::official-form:AOCCR41FORM31A-082224-CONT",
+      "az_set_aside-set::official-form:AOCCR41FORM31B-082224",
+      "co_municipal_conviction_seal-set::official-form:JDF-684",
+      "de_discretionary_family_court-set::official-form:FORM-281",
+      "de_discretionary_superior_court-set::official-form:CIV_EXP_02_A",
+      "de_discretionary_superior_court-set::official-form:CIV_EXP_02_B",
+      "de_discretionary_superior_court-set::official-form:CIV_EXP_04_A",
+      "de_pardon_expungement-set::official-form:CIV_EXP_02_A",
+      "de_pardon_expungement-set::official-form:CIV_EXP_08_A",
+      "md_10105_early-set::official-form:CC-DC-CR-072C",
+      "md_10105_favorable-set::official-form:CC-DC-CR-072A",
+      "md_10110_conviction-set::official-form:CC-DC-CR-072B",
+      "md_cannabis_petition-set::official-form:CC-DC-CR-072D",
+      "md_pardon_expungement-set::official-form:CC-DC-CR-072B"
+    ],
+    "literalLabelAttemptsBeforeLedgerSubjectResolution": {
+      "count": 17,
+      "outcome": "REFUSED",
+      "explanation": "The assignment listed form identities, but the claim ledger subject IDs are family-qualified. Each literal form-label attempt was refused before any source work. The 19 family-qualified claims above were then resolved through the claim mechanism and asserted successfully before source work began.",
+      "refusals": [
+        "NOT_GRANTED: no source-reconciliation lane holds AOCCRSA3F-010122",
+        "NOT_GRANTED: no source-reconciliation lane holds AOCCRSA4F-010122",
+        "NOT_GRANTED: no source-reconciliation lane holds AOC-CREM2F-071221-CONT",
+        "NOT_GRANTED: no source-reconciliation lane holds AOCCRSL1F-050825-CONT",
+        "NOT_GRANTED: no source-reconciliation lane holds AOCCR41FORM31A-082224",
+        "NOT_GRANTED: no source-reconciliation lane holds AOCCR41FORM31A-082224-CONT",
+        "NOT_GRANTED: no source-reconciliation lane holds AOCCR41FORM31B-082224",
+        "NOT_GRANTED: no source-reconciliation lane holds CC-DC-CR-072B",
+        "NOT_GRANTED: no source-reconciliation lane holds CC-DC-CR-072C",
+        "NOT_GRANTED: no source-reconciliation lane holds CC-DC-CR-072D",
+        "NOT_GRANTED: no source-reconciliation lane holds CC-DC-CR-072A",
+        "NOT_GRANTED: no source-reconciliation lane holds FORM-281",
+        "NOT_GRANTED: no source-reconciliation lane holds CIV_EXP_02_A",
+        "NOT_GRANTED: no source-reconciliation lane holds CIV_EXP_02_B",
+        "NOT_GRANTED: no source-reconciliation lane holds CIV_EXP_04_A",
+        "NOT_GRANTED: no source-reconciliation lane holds CIV_EXP_08_A",
+        "NOT_GRANTED: no source-reconciliation lane holds JDF-684"
+      ]
+    },
+    "claimReleasesPerformed": 0
+  },
+  "countsByResult": {
+    "PRIVATE_UPLOAD_BLOCKED_AFTER_ACQUISITION": 4,
+    "OFFICIAL_SOURCE_SUPERSEDED": 4,
+    "IDENTITY_REQUIRES_CAPTAIN_DECISION": 3,
+    "EGRESS_BLOCKED": 6,
+    "ACQUIRED_CURRENT_OFFICIAL_BINARY": 0,
+    "total": 17
+  },
+  "privateArtifactUpload": {
+    "available": false,
+    "receiptsIssued": 0,
+    "exactFailure": "GOVERNED_PRIVATE_ARTIFACT_UPLOAD_UNAVAILABLE: no governed private-artifact uploader command, configured MCP server, destination endpoint, or applicable credential is present in this Codespace runtime. `codex mcp list` reported `No MCP servers configured yet.` No ungoverned substitute destination was used.",
+    "preservationRuleApplied": true,
+    "persistentStagingRoot": "/workspaces/.legalease-source-staging/CODEX-CS1-SRC3"
+  },
+  "acquiredFiles": [
+    {
+      "purpose": "current controlling Arizona Form 31(a)/31(b) specification and supersession evidence",
+      "persistentStagingPath": "/workspaces/.legalease-source-staging/CODEX-CS1-SRC3/AZ/R260001_FinalRulesOrder.PDF",
+      "filename": "R260001_FinalRulesOrder.PDF",
+      "byteLength": 273116,
+      "sha256": "f41e4780c14ae413386d451d8bb7d089e4a7f270cd574bb65d91a1283c58de20",
+      "mime": "application/pdf",
+      "pageCount": 9,
+      "officialSourceUrl": "https://www.azcourts.gov/Portals/0/20/2026%20Rules/R260001%20FinalRulesOrder.PDF?ver=110ZLwboJvlcd_aKGFKLuw%3D%3D",
+      "finalResolvedUrl": "https://www.azcourts.gov/Portals/0/20/2026%20Rules/R260001%20FinalRulesOrder.PDF?ver=110ZLwboJvlcd_aKGFKLuw%3D%3D",
+      "issuingAuthority": "Supreme Court of Arizona",
+      "printedTitle": "ORDER AMENDING RULE 41, FORMS 31(a) AND 31(b), OF THE RULES OF CRIMINAL PROCEDURE",
+      "printedFormNumber": "Arizona Supreme Court No. R-26-0001; Forms 31(a) and 31(b)",
+      "revisionOrEffectiveDate": "FILED 08/27/2026; effective upon filing",
+      "privateReceipt": null,
+      "exactUploadFailure": "GOVERNED_PRIVATE_ARTIFACT_UPLOAD_UNAVAILABLE: no governed private-artifact uploader command, configured MCP server, destination endpoint, or applicable credential is present in this Codespace runtime."
+    },
+    {
+      "purpose": "official parent/container evidence for AOC-CREM2F-071221-CONT",
+      "persistentStagingPath": "/workspaces/.legalease-source-staging/CODEX-CS1-SRC3/AZ/AOCCREM2F-071221.pdf",
+      "filename": "AOCCREM2F-071221.pdf",
+      "byteLength": 72602,
+      "sha256": "4875e08bc1518ca9b449b3f52fca1264bdbd3bd207887420f6f88c76d0409482",
+      "mime": "application/pdf",
+      "pageCount": 3,
+      "officialSourceUrl": "https://www.azcourts.gov/Portals/0/0/Prop%20207/AOCCREM2F-071221.pdf?ver=2021-06-23-145238-857",
+      "finalResolvedUrl": "https://www.azcourts.gov/Portals/0/0/Prop%20207/AOCCREM2F-071221.pdf?ver=2021-06-23-145238-857",
+      "issuingAuthority": "Arizona Supreme Court / Administrative Office of the Courts",
+      "printedTitle": "Petition to Expunge Records: Municipal/Justice Court",
+      "printedFormNumber": "AOC CREM2F-071221",
+      "revisionOrEffectiveDate": "07/12/2021",
+      "privateReceipt": null,
+      "exactUploadFailure": "GOVERNED_PRIVATE_ARTIFACT_UPLOAD_UNAVAILABLE: no governed private-artifact uploader command, configured MCP server, destination endpoint, or applicable credential is present in this Codespace runtime."
+    },
+    {
+      "purpose": "official parent/adoption evidence for AOCCRSL1F-050825-CONT",
+      "persistentStagingPath": "/workspaces/.legalease-source-staging/CODEX-CS1-SRC3/AZ/Administrative_Directive_2025-07.pdf",
+      "filename": "Administrative_Directive_2025-07.pdf",
+      "byteLength": 1403829,
+      "sha256": "a34615d9a1aea14fb4331c72a6405cf514747aa20e5a32ffce2396ca35a6fb94",
+      "mime": "application/pdf",
+      "pageCount": 15,
+      "officialSourceUrl": "https://www.azcourts.gov/Portals/0/22/admindir/pdfs/2025/2025-07.pdf?ver=izhUHDK_AM4r1iGrPBnE8A%3D%3D",
+      "finalResolvedUrl": "https://www.azcourts.gov/Portals/0/22/admindir/pdfs/2025/2025-07.pdf?ver=izhUHDK_AM4r1iGrPBnE8A%3D%3D",
+      "issuingAuthority": "Arizona Supreme Court, Administrative Office of the Courts",
+      "printedTitle": "MODIFICATION OF FORMS FOR USE IN SEALING CRIMINAL CASE RECORDS",
+      "printedFormNumber": "Administrative Directive No. 2025-07; Appendix A prints AOCCRSL1F-050625",
+      "revisionOrEffectiveDate": "Signed 05/08/2025",
+      "privateReceipt": null,
+      "exactUploadFailure": "GOVERNED_PRIVATE_ARTIFACT_UPLOAD_UNAVAILABLE: no governed private-artifact uploader command, configured MCP server, destination endpoint, or applicable credential is present in this Codespace runtime."
+    },
+    {
+      "purpose": "current official obligation source",
+      "persistentStagingPath": "/workspaces/.legalease-source-staging/CODEX-CS1-SRC3/MD/CC-DC-CR-072A.pdf",
+      "filename": "CC-DC-CR-072A.pdf",
+      "byteLength": 195791,
+      "sha256": "8dcb7b177cfb8900edc03158b064a57121170761e6f34e2456f08fdc68f82db2",
+      "mime": "application/pdf",
+      "pageCount": 1,
+      "officialSourceUrl": "https://www.courts.state.md.us/sites/default/files/court-forms/courtforms/joint/ccdccr072A.pdf/ccdccr072A.pdf",
+      "finalResolvedUrl": "https://www.courts.state.md.us/sites/default/files/court-forms/courtforms/joint/ccdccr072A.pdf/ccdccr072A.pdf",
+      "issuingAuthority": "Maryland Judiciary, Circuit Court and District Court of Maryland",
+      "printedTitle": "PETITION FOR EXPUNGEMENT OF RECORDS (ACQUITTAL, DISMISSAL, PROBATION BEFORE JUDGMENT, NOLLE PROSEQUI, STET, NOT CRIMINALLY RESPONSIBLE, OR TRANSFER TO JUVENILE DISPOSITION)",
+      "printedFormNumber": "CC-DC-CR-072A",
+      "revisionOrEffectiveDate": "Rev. 09/2025 (the index also lists a 10/2026 edition as not effective until 10/01/2026)",
+      "privateReceipt": null,
+      "exactUploadFailure": "GOVERNED_PRIVATE_ARTIFACT_UPLOAD_UNAVAILABLE: no governed private-artifact uploader command, configured MCP server, destination endpoint, or applicable credential is present in this Codespace runtime."
+    },
+    {
+      "purpose": "current official obligation source shared by md_10110_conviction-set and md_pardon_expungement-set",
+      "persistentStagingPath": "/workspaces/.legalease-source-staging/CODEX-CS1-SRC3/MD/CC-DC-CR-072B.pdf",
+      "filename": "CC-DC-CR-072B.pdf",
+      "byteLength": 764936,
+      "sha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+      "mime": "application/pdf",
+      "pageCount": 1,
+      "officialSourceUrl": "https://www.courts.state.md.us/sites/default/files/court-forms/courtforms/joint/ccdccr072B.pdf/ccdccr072B.pdf",
+      "finalResolvedUrl": "https://www.courts.state.md.us/sites/default/files/court-forms/courtforms/joint/ccdccr072B.pdf/ccdccr072B.pdf",
+      "issuingAuthority": "Maryland Judiciary, Circuit Court and District Court of Maryland",
+      "printedTitle": "PETITION FOR EXPUNGEMENT OF RECORDS (NON-MARIJUANA/CANNABIS RELATED OFFENSES) (GUILTY DISPOSITION)",
+      "printedFormNumber": "CC-DC-CR-072B",
+      "revisionOrEffectiveDate": "Rev. 10/01/2025-2",
+      "privateReceipt": null,
+      "exactUploadFailure": "GOVERNED_PRIVATE_ARTIFACT_UPLOAD_UNAVAILABLE: no governed private-artifact uploader command, configured MCP server, destination endpoint, or applicable credential is present in this Codespace runtime."
+    },
+    {
+      "purpose": "current official obligation source",
+      "persistentStagingPath": "/workspaces/.legalease-source-staging/CODEX-CS1-SRC3/MD/CC-DC-CR-072C.pdf",
+      "filename": "CC-DC-CR-072C.pdf",
+      "byteLength": 888008,
+      "sha256": "9faa52511adfce4c33a63fbc983f5999d288af2579c63f4425dd39714607c5ac",
+      "mime": "application/pdf",
+      "pageCount": 1,
+      "officialSourceUrl": "https://www.courts.state.md.us/sites/default/files/court-forms/ccdccr072c.pdf",
+      "finalResolvedUrl": "https://www.courts.state.md.us/sites/default/files/court-forms/ccdccr072c.pdf",
+      "issuingAuthority": "Maryland Judiciary, Circuit Court and District Court of Maryland",
+      "printedTitle": "PETITION FOR EXPUNGEMENT OF RECORDS — Acquittal, Dismissal, Not Guilty, or Nolle Prosequi (LESS THAN 3 YEARS HAS PASSED SINCE DISPOSITION)",
+      "printedFormNumber": "CC-DC-CR-072C",
+      "revisionOrEffectiveDate": "Rev. 01/2025",
+      "privateReceipt": null,
+      "exactUploadFailure": "GOVERNED_PRIVATE_ARTIFACT_UPLOAD_UNAVAILABLE: no governed private-artifact uploader command, configured MCP server, destination endpoint, or applicable credential is present in this Codespace runtime."
+    },
+    {
+      "purpose": "current official obligation source",
+      "persistentStagingPath": "/workspaces/.legalease-source-staging/CODEX-CS1-SRC3/MD/CC-DC-CR-072D.pdf",
+      "filename": "CC-DC-CR-072D.pdf",
+      "byteLength": 166429,
+      "sha256": "6a5337a5d142c8ae1cc41845bd4c5efb5598e7a64acbda17c9ab70134773f147",
+      "mime": "application/pdf",
+      "pageCount": 1,
+      "officialSourceUrl": "https://www.courts.state.md.us/sites/default/files/court-forms/ccdccr072d.pdf",
+      "finalResolvedUrl": "https://www.courts.state.md.us/sites/default/files/court-forms/ccdccr072d.pdf",
+      "issuingAuthority": "Maryland Judiciary, Circuit Court and District Court of Maryland",
+      "printedTitle": "PETITION FOR EXPUNGEMENT OF RECORDS (MARIJUANA/CANNABIS RELATED OFFENSES)",
+      "printedFormNumber": "CC-DC-CR-072D",
+      "revisionOrEffectiveDate": "Rev. 10/2025",
+      "privateReceipt": null,
+      "exactUploadFailure": "GOVERNED_PRIVATE_ARTIFACT_UPLOAD_UNAVAILABLE: no governed private-artifact uploader command, configured MCP server, destination endpoint, or applicable credential is present in this Codespace runtime."
+    }
+  ],
+  "arizonaContinuationIdentityFindings": [
+    {
+      "assignedIdentity": "AOC-CREM2F-071221-CONT",
+      "standalonePublishedDocument": false,
+      "publisherDisposition": "PAGES_OF_PARENT",
+      "parentIdentity": "AOCCREM2F-071221",
+      "parentLocation": "The official three-page parent PDF contains the additional-case material on page 2 and continued form content on page 3; the AOC landing does not publish a separate -CONT binary.",
+      "result": "IDENTITY_REQUIRES_CAPTAIN_DECISION"
+    },
+    {
+      "assignedIdentity": "AOCCRSL1F-050825-CONT",
+      "standalonePublishedDocument": false,
+      "publisherDisposition": "PAGES_OF_PARENT",
+      "parentIdentity": "AOCCRSL1F-050825",
+      "parentLocation": "The parent form is five pages and page 3 is headed `3. ADDITIONAL CASE RECORD INFORMATION`; the AOC landing publishes only the parent link and no separate -CONT binary.",
+      "identityCaveat": "The landing link resolves first to a SharePoint target named AOCCRSL1F-050825.docx, but Administrative Directive 2025-07, signed 05/08/2025, prints AOCCRSL1F-050625 in Appendix A. That suffix discrepancy must not be silently normalized.",
+      "result": "IDENTITY_REQUIRES_CAPTAIN_DECISION"
+    },
+    {
+      "assignedIdentity": "AOCCR41FORM31A-082224-CONT",
+      "standalonePublishedDocument": false,
+      "publisherDisposition": "PAGES_OF_PARENT_NO_DISTINCT_CONTINUATION_ID",
+      "parentIdentity": "Form 31(a), currently controlled by R-26-0001",
+      "parentLocation": "The official forms index publishes only one Form 31(a) link. The R-26-0001 attachment carries the multi-page parent form and says additional counts continue on a separate page, but neither the index nor the controlling order identifies a separate -CONT form or binary.",
+      "result": "IDENTITY_REQUIRES_CAPTAIN_DECISION"
+    }
+  ],
+  "rows": [
+    {
+      "sourceIdentity": "AOCCRSA3F-010122",
+      "claimItemIds": [
+        "az_certificate_second_chance-set::official-form:AOCCRSA3F-010122"
+      ],
+      "familyIds": [
+        "az_certificate_second_chance-set"
+      ],
+      "jurisdiction": "AZ",
+      "result": "OFFICIAL_SOURCE_SUPERSEDED",
+      "officialLandingUrl": "https://www.azcourts.gov/selfservicecenter/Criminal-Law/Criminal-Law-Forms",
+      "publisherSourceUrl": "https://azcourts.sharepoint.com/:w:/s/CourtForms/EdNPc7e15_xLsdGo9LxEslQBNO3dJZqvzExBBF1Fcc3fQA?e=B8Q2iB",
+      "firstResolvedTarget": "https://azcourts.sharepoint.com/sites/CourtForms/Shared%20Documents/AOCCRSA3F-103023.docx?ga=1",
+      "issuingAuthority": "Arizona Supreme Court / Administrative Office of the Courts",
+      "printedTitle": "Application for Certificate of Second Chance",
+      "assignedPrintedFormNumber": "AOCCRSA3F-010122",
+      "currentPublisherIdentity": "AOCCRSA3F-103023",
+      "assignedRevision": "01/01/2022",
+      "currentRevision": "10/30/2023",
+      "finding": "The current official forms index link resolves to a newer 10/30/2023 DOCX identity. The assigned 01/01/2022 identity is not current and was not certified merely because an older filename may exist.",
+      "currentBinaryAcquired": false,
+      "accessOutcome": "The issuer-linked SharePoint target redirected to Microsoft authentication rather than returning DOCX bytes."
+    },
+    {
+      "sourceIdentity": "AOCCRSA4F-010122",
+      "claimItemIds": [
+        "az_certificate_second_chance-set::official-form:AOCCRSA4F-010122"
+      ],
+      "familyIds": [
+        "az_certificate_second_chance-set"
+      ],
+      "jurisdiction": "AZ",
+      "result": "OFFICIAL_SOURCE_SUPERSEDED",
+      "officialLandingUrl": "https://www.azcourts.gov/selfservicecenter/Criminal-Law/Criminal-Law-Forms",
+      "publisherSourceUrl": "https://azcourts.sharepoint.com/:w:/s/CourtForms/EfQb0s0I8CpIiSlg65dlLyIBQXtdoarQxRs5qkAeZpG35A?e=3NRMe8",
+      "firstResolvedTarget": "https://azcourts.sharepoint.com/sites/CourtForms/Shared%20Documents/AOCCRSA4F-103023.docx?ga=1",
+      "issuingAuthority": "Arizona Supreme Court / Administrative Office of the Courts",
+      "printedTitle": "Order Regarding Application for Certificate of Second Chance",
+      "assignedPrintedFormNumber": "AOCCRSA4F-010122",
+      "currentPublisherIdentity": "AOCCRSA4F-103023",
+      "assignedRevision": "01/01/2022",
+      "currentRevision": "10/30/2023",
+      "finding": "The current official forms index link resolves to a newer 10/30/2023 DOCX identity. The assigned 01/01/2022 identity is not current and was not certified merely because an older filename may exist.",
+      "currentBinaryAcquired": false,
+      "accessOutcome": "The issuer-linked SharePoint target redirected to Microsoft authentication rather than returning DOCX bytes."
+    },
+    {
+      "sourceIdentity": "AOC-CREM2F-071221-CONT",
+      "claimItemIds": [
+        "az_marijuana_expungement_limited_jurisdiction-set::official-form:AOC-CREM2F-071221-CONT"
+      ],
+      "familyIds": [
+        "az_marijuana_expungement_limited_jurisdiction-set"
+      ],
+      "jurisdiction": "AZ",
+      "result": "IDENTITY_REQUIRES_CAPTAIN_DECISION",
+      "officialLandingUrl": "https://www.azcourts.gov/prop207/",
+      "officialParentSourceUrl": "https://www.azcourts.gov/Portals/0/0/Prop%20207/AOCCREM2F-071221.pdf?ver=2021-06-23-145238-857",
+      "issuingAuthority": "Arizona Supreme Court / Administrative Office of the Courts",
+      "printedTitle": "Petition to Expunge Records: Municipal/Justice Court",
+      "printedFormNumber": "AOC CREM2F-071221",
+      "revisionOrEffectiveDate": "07/12/2021",
+      "standalonePublishedDocument": false,
+      "finding": "The -CONT identity is pages of the parent, not a standalone published document. Treating the parent binary as a separate continuation source would be a substitution forbidden by the assignment."
+    },
+    {
+      "sourceIdentity": "AOCCRSL1F-050825-CONT",
+      "claimItemIds": [
+        "az_record_sealing_conviction-set::official-form:AOCCRSL1F-050825-CONT"
+      ],
+      "familyIds": [
+        "az_record_sealing_conviction-set"
+      ],
+      "jurisdiction": "AZ",
+      "result": "IDENTITY_REQUIRES_CAPTAIN_DECISION",
+      "officialLandingUrl": "https://www.azcourts.gov/selfservicecenter/Criminal-Law/Sealing-records",
+      "publisherParentUrl": "https://azcourts.sharepoint.com/:w:/s/CourtForms/Ea98U8sO30RLrZ9DcEK8t8MBuUI2lu0heP2bNSZcf8cMHQ?e=26qXTQ",
+      "publisherParentFirstResolvedTarget": "https://azcourts.sharepoint.com/sites/CourtForms/Shared%20Documents/AOCCRSL1F-050825.docx?ga=1",
+      "officialAdoptionSourceUrl": "https://www.azcourts.gov/Portals/0/22/admindir/pdfs/2025/2025-07.pdf?ver=izhUHDK_AM4r1iGrPBnE8A%3D%3D",
+      "issuingAuthority": "Arizona Supreme Court, Administrative Office of the Courts",
+      "printedTitle": "Petition to Seal Criminal Case Records",
+      "assignedPrintedFormNumber": "AOCCRSL1F-050825-CONT",
+      "parentPublisherIdentity": "AOCCRSL1F-050825",
+      "adoptionAppendixPrintedIdentity": "AOCCRSL1F-050625",
+      "revisionOrEffectiveDate": "Administrative Directive 2025-07 signed 05/08/2025",
+      "standalonePublishedDocument": false,
+      "finding": "The continuation is page 3 of the five-page parent, not a standalone published document. In addition, the linked parent filename suffix (050825) and the adoption appendix's printed suffix (050625) conflict and require explicit reconciliation."
+    },
+    {
+      "sourceIdentity": "AOCCR41FORM31A-082224",
+      "claimItemIds": [
+        "az_set_aside-set::official-form:AOCCR41FORM31A-082224"
+      ],
+      "familyIds": [
+        "az_set_aside-set"
+      ],
+      "jurisdiction": "AZ",
+      "result": "OFFICIAL_SOURCE_SUPERSEDED",
+      "officialLandingUrl": "https://www.azcourts.gov/selfservicecenter/Criminal-Law/Criminal-Law-Forms",
+      "supersededStandaloneUrl": "https://azcourts.sharepoint.com/:w:/s/CourtForms/EZKFOFGqhHhHlHPsJCVABpQBow16DOMUj3QzB8biJckSRw?e=UnmPY6",
+      "supersededStandaloneFirstResolvedTarget": "https://azcourts.sharepoint.com/sites/CourtForms/Shared%20Documents/AOCCR41FORM31A-010126.docx?ga=1",
+      "currentAuthorityUrl": "https://www.azcourts.gov/Portals/0/20/2026%20Rules/R260001%20FinalRulesOrder.PDF?ver=110ZLwboJvlcd_aKGFKLuw%3D%3D",
+      "issuingAuthority": "Supreme Court of Arizona",
+      "printedTitle": "Form 31(a). Application to Set Aside Conviction",
+      "assignedPrintedFormNumber": "AOCCR41FORM31A-082224",
+      "currentControllingIdentity": "R-26-0001, Form 31(a)",
+      "assignedRevision": "08/22/2024",
+      "currentRevisionOrEffectiveDate": "FILED 08/27/2026; effective upon filing",
+      "finding": "The official landing still links a standalone target named AOCCR41FORM31A-010126.docx, but R-26-0001 amended Form 31(a) effective upon filing on 08/27/2026. Neither the assigned 2024 identity nor the intervening 01/01/2026 standalone is the controlling edition."
+    },
+    {
+      "sourceIdentity": "AOCCR41FORM31A-082224-CONT",
+      "claimItemIds": [
+        "az_set_aside-set::official-form:AOCCR41FORM31A-082224-CONT"
+      ],
+      "familyIds": [
+        "az_set_aside-set"
+      ],
+      "jurisdiction": "AZ",
+      "result": "IDENTITY_REQUIRES_CAPTAIN_DECISION",
+      "officialLandingUrl": "https://www.azcourts.gov/selfservicecenter/Criminal-Law/Criminal-Law-Forms",
+      "parentStandaloneUrl": "https://azcourts.sharepoint.com/:w:/s/CourtForms/EZKFOFGqhHhHlHPsJCVABpQBow16DOMUj3QzB8biJckSRw?e=UnmPY6",
+      "currentAuthorityUrl": "https://www.azcourts.gov/Portals/0/20/2026%20Rules/R260001%20FinalRulesOrder.PDF?ver=110ZLwboJvlcd_aKGFKLuw%3D%3D",
+      "issuingAuthority": "Supreme Court of Arizona",
+      "printedTitle": "Form 31(a). Application to Set Aside Conviction",
+      "assignedPrintedFormNumber": "AOCCR41FORM31A-082224-CONT",
+      "currentControllingIdentity": "R-26-0001, Form 31(a)",
+      "currentRevisionOrEffectiveDate": "FILED 08/27/2026; effective upon filing",
+      "standalonePublishedDocument": false,
+      "finding": "The publisher exposes no standalone -CONT document. The controlling Form 31(a) is multi-page and says additional counts continue on a separate page, but neither the official index nor R-26-0001 assigns a form identity or binary to that separate page. Captain must decide whether to delete this obligation, model it as a component/blank attachment, or establish a new exact source identity."
+    },
+    {
+      "sourceIdentity": "AOCCR41FORM31B-082224",
+      "claimItemIds": [
+        "az_set_aside-set::official-form:AOCCR41FORM31B-082224"
+      ],
+      "familyIds": [
+        "az_set_aside-set"
+      ],
+      "jurisdiction": "AZ",
+      "result": "OFFICIAL_SOURCE_SUPERSEDED",
+      "officialLandingUrl": "https://www.azcourts.gov/selfservicecenter/Criminal-Law/Criminal-Law-Forms",
+      "supersededStandaloneUrl": "https://azcourts.sharepoint.com/:w:/s/CourtForms/EbLLsGTXhgdLl9ZzuQYlMSwB-xONbTmSdWRPg4_tMRccYA?e=Ej5Zj2",
+      "supersededStandaloneFirstResolvedTarget": "https://azcourts.sharepoint.com/sites/CourtForms/Shared%20Documents/AOCCR41FORM31B-010126.docx?ga=1",
+      "currentAuthorityUrl": "https://www.azcourts.gov/Portals/0/20/2026%20Rules/R260001%20FinalRulesOrder.PDF?ver=110ZLwboJvlcd_aKGFKLuw%3D%3D",
+      "issuingAuthority": "Supreme Court of Arizona",
+      "printedTitle": "Form 31(b). Order Regarding Application to Set Aside Conviction and Restoration of Firearm Rights",
+      "assignedPrintedFormNumber": "AOCCR41FORM31B-082224",
+      "currentControllingIdentity": "R-26-0001, Form 31(b)",
+      "assignedRevision": "08/22/2024",
+      "currentRevisionOrEffectiveDate": "FILED 08/27/2026; effective upon filing",
+      "finding": "The official landing still links a standalone target named AOCCR41FORM31B-010126.docx, but R-26-0001 amended Form 31(b) effective upon filing on 08/27/2026. Neither the assigned 2024 identity nor the intervening 01/01/2026 standalone is the controlling edition."
+    },
+    {
+      "sourceIdentity": "CC-DC-CR-072B",
+      "claimItemIds": [
+        "md_10110_conviction-set::official-form:CC-DC-CR-072B",
+        "md_pardon_expungement-set::official-form:CC-DC-CR-072B"
+      ],
+      "familyIds": [
+        "md_10110_conviction-set",
+        "md_pardon_expungement-set"
+      ],
+      "jurisdiction": "MD",
+      "result": "PRIVATE_UPLOAD_BLOCKED_AFTER_ACQUISITION",
+      "assignedUrl": "https://www.courts.state.md.us/sites/default/files/court-forms/courtforms/joint/ccdccr072B.pdf/ccdccr072B.pdf",
+      "officialSourceUrl": "https://www.courts.state.md.us/sites/default/files/court-forms/courtforms/joint/ccdccr072B.pdf/ccdccr072B.pdf",
+      "finalResolvedUrl": "https://www.courts.state.md.us/sites/default/files/court-forms/courtforms/joint/ccdccr072B.pdf/ccdccr072B.pdf",
+      "issuingAuthority": "Maryland Judiciary, Circuit Court and District Court of Maryland",
+      "printedTitle": "PETITION FOR EXPUNGEMENT OF RECORDS (NON-MARIJUANA/CANNABIS RELATED OFFENSES) (GUILTY DISPOSITION)",
+      "printedFormNumber": "CC-DC-CR-072B",
+      "revisionOrEffectiveDate": "Rev. 10/01/2025-2",
+      "persistentStagingPath": "/workspaces/.legalease-source-staging/CODEX-CS1-SRC3/MD/CC-DC-CR-072B.pdf",
+      "filename": "CC-DC-CR-072B.pdf",
+      "byteLength": 764936,
+      "sha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+      "privateReceipt": null,
+      "exactUploadFailure": "GOVERNED_PRIVATE_ARTIFACT_UPLOAD_UNAVAILABLE: no governed private-artifact uploader command, configured MCP server, destination endpoint, or applicable credential is present in this Codespace runtime."
+    },
+    {
+      "sourceIdentity": "CC-DC-CR-072C",
+      "claimItemIds": [
+        "md_10105_early-set::official-form:CC-DC-CR-072C"
+      ],
+      "familyIds": [
+        "md_10105_early-set"
+      ],
+      "jurisdiction": "MD",
+      "result": "PRIVATE_UPLOAD_BLOCKED_AFTER_ACQUISITION",
+      "assignedUrl": "https://www.courts.state.md.us/sites/default/files/court-forms/ccdccr072c.pdf",
+      "officialSourceUrl": "https://www.courts.state.md.us/sites/default/files/court-forms/ccdccr072c.pdf",
+      "finalResolvedUrl": "https://www.courts.state.md.us/sites/default/files/court-forms/ccdccr072c.pdf",
+      "issuingAuthority": "Maryland Judiciary, Circuit Court and District Court of Maryland",
+      "printedTitle": "PETITION FOR EXPUNGEMENT OF RECORDS — Acquittal, Dismissal, Not Guilty, or Nolle Prosequi (LESS THAN 3 YEARS HAS PASSED SINCE DISPOSITION)",
+      "printedFormNumber": "CC-DC-CR-072C",
+      "revisionOrEffectiveDate": "Rev. 01/2025",
+      "persistentStagingPath": "/workspaces/.legalease-source-staging/CODEX-CS1-SRC3/MD/CC-DC-CR-072C.pdf",
+      "filename": "CC-DC-CR-072C.pdf",
+      "byteLength": 888008,
+      "sha256": "9faa52511adfce4c33a63fbc983f5999d288af2579c63f4425dd39714607c5ac",
+      "privateReceipt": null,
+      "exactUploadFailure": "GOVERNED_PRIVATE_ARTIFACT_UPLOAD_UNAVAILABLE: no governed private-artifact uploader command, configured MCP server, destination endpoint, or applicable credential is present in this Codespace runtime."
+    },
+    {
+      "sourceIdentity": "CC-DC-CR-072D",
+      "claimItemIds": [
+        "md_cannabis_petition-set::official-form:CC-DC-CR-072D"
+      ],
+      "familyIds": [
+        "md_cannabis_petition-set"
+      ],
+      "jurisdiction": "MD",
+      "result": "PRIVATE_UPLOAD_BLOCKED_AFTER_ACQUISITION",
+      "assignedUrl": "https://www.courts.state.md.us/sites/default/files/court-forms/ccdccr072d.pdf",
+      "officialSourceUrl": "https://www.courts.state.md.us/sites/default/files/court-forms/ccdccr072d.pdf",
+      "finalResolvedUrl": "https://www.courts.state.md.us/sites/default/files/court-forms/ccdccr072d.pdf",
+      "issuingAuthority": "Maryland Judiciary, Circuit Court and District Court of Maryland",
+      "printedTitle": "PETITION FOR EXPUNGEMENT OF RECORDS (MARIJUANA/CANNABIS RELATED OFFENSES)",
+      "printedFormNumber": "CC-DC-CR-072D",
+      "revisionOrEffectiveDate": "Rev. 10/2025",
+      "persistentStagingPath": "/workspaces/.legalease-source-staging/CODEX-CS1-SRC3/MD/CC-DC-CR-072D.pdf",
+      "filename": "CC-DC-CR-072D.pdf",
+      "byteLength": 166429,
+      "sha256": "6a5337a5d142c8ae1cc41845bd4c5efb5598e7a64acbda17c9ab70134773f147",
+      "privateReceipt": null,
+      "exactUploadFailure": "GOVERNED_PRIVATE_ARTIFACT_UPLOAD_UNAVAILABLE: no governed private-artifact uploader command, configured MCP server, destination endpoint, or applicable credential is present in this Codespace runtime."
+    },
+    {
+      "sourceIdentity": "CC-DC-CR-072A",
+      "claimItemIds": [
+        "md_10105_favorable-set::official-form:CC-DC-CR-072A"
+      ],
+      "familyIds": [
+        "md_10105_favorable-set"
+      ],
+      "jurisdiction": "MD",
+      "result": "PRIVATE_UPLOAD_BLOCKED_AFTER_ACQUISITION",
+      "assignedUrl": null,
+      "resolvedFromOfficialIndex": "https://www.courts.state.md.us/district/forms?district_forms%5B0%5D=district",
+      "officialSourceUrl": "https://www.courts.state.md.us/sites/default/files/court-forms/courtforms/joint/ccdccr072A.pdf/ccdccr072A.pdf",
+      "finalResolvedUrl": "https://www.courts.state.md.us/sites/default/files/court-forms/courtforms/joint/ccdccr072A.pdf/ccdccr072A.pdf",
+      "issuingAuthority": "Maryland Judiciary, Circuit Court and District Court of Maryland",
+      "printedTitle": "PETITION FOR EXPUNGEMENT OF RECORDS (ACQUITTAL, DISMISSAL, PROBATION BEFORE JUDGMENT, NOLLE PROSEQUI, STET, NOT CRIMINALLY RESPONSIBLE, OR TRANSFER TO JUVENILE DISPOSITION)",
+      "printedFormNumber": "CC-DC-CR-072A",
+      "revisionOrEffectiveDate": "Rev. 09/2025; current on 2026-09-02 because the separately listed 10/2026 edition is marked not effective until 10/01/2026",
+      "persistentStagingPath": "/workspaces/.legalease-source-staging/CODEX-CS1-SRC3/MD/CC-DC-CR-072A.pdf",
+      "filename": "CC-DC-CR-072A.pdf",
+      "byteLength": 195791,
+      "sha256": "8dcb7b177cfb8900edc03158b064a57121170761e6f34e2456f08fdc68f82db2",
+      "privateReceipt": null,
+      "exactUploadFailure": "GOVERNED_PRIVATE_ARTIFACT_UPLOAD_UNAVAILABLE: no governed private-artifact uploader command, configured MCP server, destination endpoint, or applicable credential is present in this Codespace runtime."
+    },
+    {
+      "sourceIdentity": "FORM-281",
+      "claimItemIds": [
+        "de_discretionary_family_court-set::official-form:FORM-281"
+      ],
+      "familyIds": [
+        "de_discretionary_family_court-set"
+      ],
+      "jurisdiction": "DE",
+      "result": "EGRESS_BLOCKED",
+      "officialLandingUrl": "https://courts.delaware.gov/forms/list.aspx?sec=Forms&sub=Expungement+of+Criminal+Records",
+      "officialSourceUrl": "https://courts.delaware.gov/forms/download.aspx?id=386",
+      "finalResolvedUrl": "https://courts.delaware.gov/forms/download.aspx?id=386",
+      "issuingAuthority": "Delaware Judiciary, Family Court",
+      "printedTitle": "Petition For Expungement of Adult Record",
+      "publisherFormNumber": "281",
+      "assignedIdentity": "FORM-281",
+      "revisionOrEffectiveDate": "11/26/2025 per the current official forms index",
+      "exactFailure": "The official download endpoint returned HTTP 200 text/html containing `Request Rejected. The requested URL was rejected.` instead of the application/msword body; support ID 7698601508552467646. No form bytes were acquired.",
+      "sourceBodyAcquired": false
+    },
+    {
+      "sourceIdentity": "CIV_EXP_02_A",
+      "claimItemIds": [
+        "de_discretionary_superior_court-set::official-form:CIV_EXP_02_A",
+        "de_pardon_expungement-set::official-form:CIV_EXP_02_A"
+      ],
+      "familyIds": [
+        "de_discretionary_superior_court-set",
+        "de_pardon_expungement-set"
+      ],
+      "jurisdiction": "DE",
+      "result": "EGRESS_BLOCKED",
+      "officialLandingUrl": "https://courts.delaware.gov/forms/list.aspx?sec=Forms&sub=Expungement+of+Criminal+Records",
+      "officialSourceUrl": "https://courts.delaware.gov/forms/download.aspx?id=118538",
+      "finalResolvedUrl": "https://courts.delaware.gov/forms/download.aspx?id=118538",
+      "issuingAuthority": "Delaware Judiciary, Superior Court",
+      "printedTitle": "Petition for Expungement of Adult Record",
+      "printedFormNumber": "CIV_EXP_02_A",
+      "revisionOrEffectiveDate": "Updated 06/12/2024",
+      "exactFailure": "The official download endpoint returned HTTP 200 text/html containing `Request Rejected. The requested URL was rejected.` instead of the PDF body; support ID 7698601508552466998. No form bytes were acquired.",
+      "sourceBodyAcquired": false
+    },
+    {
+      "sourceIdentity": "CIV_EXP_02_B",
+      "claimItemIds": [
+        "de_discretionary_superior_court-set::official-form:CIV_EXP_02_B"
+      ],
+      "familyIds": [
+        "de_discretionary_superior_court-set"
+      ],
+      "jurisdiction": "DE",
+      "result": "EGRESS_BLOCKED",
+      "officialLandingUrl": "https://courts.delaware.gov/forms/list.aspx?sec=Forms&sub=Expungement+of+Criminal+Records",
+      "officialSourceUrl": "https://courts.delaware.gov/forms/download.aspx?id=164808",
+      "finalResolvedUrl": "https://courts.delaware.gov/forms/download.aspx?id=164808",
+      "issuingAuthority": "Delaware Judiciary, Superior Court",
+      "printedTitle": "PETITION FOR EXPUNGEMENT OF CRIMINAL RECORD — additional charges continuation",
+      "printedFormNumber": "CIV_EXP_02_B",
+      "revisionOrEffectiveDate": "Updated 06/12/2024",
+      "exactFailure": "The official download endpoint returned HTTP 200 text/html containing `Request Rejected. The requested URL was rejected.` instead of the PDF body; support ID 7698601509775261193. No form bytes were acquired.",
+      "sourceBodyAcquired": false
+    },
+    {
+      "sourceIdentity": "CIV_EXP_04_A",
+      "claimItemIds": [
+        "de_discretionary_superior_court-set::official-form:CIV_EXP_04_A"
+      ],
+      "familyIds": [
+        "de_discretionary_superior_court-set"
+      ],
+      "jurisdiction": "DE",
+      "result": "EGRESS_BLOCKED",
+      "officialLandingUrl": "https://courts.delaware.gov/forms/list.aspx?sec=Forms&sub=Expungement+of+Criminal+Records",
+      "officialSourceUrl": "https://courts.delaware.gov/forms/download.aspx?id=118518",
+      "finalResolvedUrl": "https://courts.delaware.gov/forms/download.aspx?id=118518",
+      "issuingAuthority": "Delaware Judiciary, Superior Court",
+      "printedTitle": "EXPUNGEMENT ORDER GRANTED",
+      "printedFormNumber": "CIV_EXP_04_A",
+      "revisionOrEffectiveDate": "Updated 05/29/2024",
+      "exactFailure": "The official download endpoint returned HTTP 200 text/html containing `Request Rejected. The requested URL was rejected.` instead of the PDF body; support ID 7698601509542013231. No form bytes were acquired.",
+      "sourceBodyAcquired": false
+    },
+    {
+      "sourceIdentity": "CIV_EXP_08_A",
+      "claimItemIds": [
+        "de_pardon_expungement-set::official-form:CIV_EXP_08_A"
+      ],
+      "familyIds": [
+        "de_pardon_expungement-set"
+      ],
+      "jurisdiction": "DE",
+      "result": "EGRESS_BLOCKED",
+      "officialLandingUrl": "https://courts.delaware.gov/forms/list.aspx?sec=Forms&sub=Expungement+of+Criminal+Records",
+      "officialSourceUrl": "https://courts.delaware.gov/forms/download.aspx?id=119268",
+      "finalResolvedUrl": "https://courts.delaware.gov/forms/download.aspx?id=119268",
+      "issuingAuthority": "Delaware Judiciary, Superior Court",
+      "printedTitle": "EXPUNGEMENT AFTER PARDON — ORDER GRANTED",
+      "printedFormNumber": "CIV_EXP_08_A",
+      "revisionOrEffectiveDate": "Updated 05/30/2024",
+      "exactFailure": "The official download endpoint returned HTTP 200 text/html containing `Request Rejected. The requested URL was rejected.` instead of the PDF body; support ID 7698601508302327168. No form bytes were acquired.",
+      "sourceBodyAcquired": false
+    },
+    {
+      "sourceIdentity": "JDF-684",
+      "claimItemIds": [
+        "co_municipal_conviction_seal-set::official-form:JDF-684"
+      ],
+      "familyIds": [
+        "co_municipal_conviction_seal-set"
+      ],
+      "jurisdiction": "CO",
+      "result": "EGRESS_BLOCKED",
+      "officialLandingUrl": "https://www.coloradojudicial.gov/self-help-and-forms/self-help-forms/order-denying-seal-criminal-conviction-municipal-records",
+      "officialSourceUrl": "https://www.coloradojudicial.gov/sites/default/files/2023-07/JDF%20684%20Order%20Denying%20Petition%20to%20Seal%20Criminal%20Conviction%20Municipal%20Records.pdf",
+      "finalResolvedUrl": "https://www.coloradojudicial.gov/sites/default/files/2023-07/JDF%20684%20Order%20Denying%20Petition%20to%20Seal%20Criminal%20Conviction%20Municipal%20Records.pdf",
+      "issuingAuthority": "Colorado Judicial Branch",
+      "printedTitle": "ORDER DENYING PETITION TO SEAL CRIMINAL CONVICTION MUNICIPAL RECORDS",
+      "printedFormNumber": "JDF 684",
+      "revisionOrEffectiveDate": "R8/19",
+      "exactFailure": "The official PDF endpoint returned HTTP 403 Forbidden from server `volt-adc` with text/html instead of the linked 48 KB PDF. No source bytes were acquired.",
+      "sourceBodyAcquired": false
+    }
+  ],
+  "supersededOrAmbiguousIdentities": [
+    {
+      "identity": "AOCCRSA3F-010122",
+      "classification": "SUPERSEDED",
+      "fullFinding": "Assigned AOC form AOCCRSA3F-010122, revision 01/01/2022, is superseded. The current Arizona AOC forms index link resolves first to AOCCRSA3F-103023.docx, revision 10/30/2023, before redirecting to Microsoft authentication."
+    },
+    {
+      "identity": "AOCCRSA4F-010122",
+      "classification": "SUPERSEDED",
+      "fullFinding": "Assigned AOC form AOCCRSA4F-010122, revision 01/01/2022, is superseded. The current Arizona AOC forms index link resolves first to AOCCRSA4F-103023.docx, revision 10/30/2023, before redirecting to Microsoft authentication."
+    },
+    {
+      "identity": "AOC-CREM2F-071221-CONT",
+      "classification": "AMBIGUOUS_COMPONENT_IDENTITY",
+      "fullFinding": "The publisher prints the parent as AOC CREM2F-071221 (without the assignment's hyphen after AOC) and publishes one three-page parent PDF. Pages 2-3 contain the continuation material; there is no separately published -CONT document."
+    },
+    {
+      "identity": "AOCCRSL1F-050825-CONT",
+      "classification": "AMBIGUOUS_COMPONENT_AND_SUFFIX_IDENTITY",
+      "fullFinding": "The continuation is page 3 of the five-page AOCCRSL1F parent and is not standalone. The AOC landing's SharePoint target is named AOCCRSL1F-050825.docx, while Administrative Directive 2025-07, signed 05/08/2025, attaches a form printed AOCCRSL1F-050625. Both the component status and the 050825/050625 suffix conflict require a Captain decision."
+    },
+    {
+      "identity": "AOCCR41FORM31A-082224",
+      "classification": "SUPERSEDED",
+      "fullFinding": "The assigned 08/22/2024 Form 31(a) is not current. The official landing still resolves to an intervening AOCCR41FORM31A-010126.docx standalone, but Arizona Supreme Court matter R-26-0001 amended Form 31(a) effective upon filing on 08/27/2026. The adopted Form 31(a) specification in R-26-0001 controls."
+    },
+    {
+      "identity": "AOCCR41FORM31A-082224-CONT",
+      "classification": "AMBIGUOUS_COMPONENT_IDENTITY",
+      "fullFinding": "No standalone -CONT document is published. The controlling R-26-0001 Form 31(a) is multi-page and tells filers that additional counts continue on a separate page, but it supplies no separately numbered continuation sheet or binary. The 2024 parent identity is also superseded by R-26-0001."
+    },
+    {
+      "identity": "AOCCR41FORM31B-082224",
+      "classification": "SUPERSEDED",
+      "fullFinding": "The assigned 08/22/2024 Form 31(b) is not current. The official landing still resolves to an intervening AOCCR41FORM31B-010126.docx standalone, but Arizona Supreme Court matter R-26-0001 amended Form 31(b) effective upon filing on 08/27/2026. The adopted Form 31(b) specification in R-26-0001 controls."
+    },
+    {
+      "identity": "FORM-281",
+      "classification": "IDENTIFIER_NORMALIZATION_REQUIRED_IF_ACQUIRED",
+      "fullFinding": "The assignment calls the Family Court source FORM-281. The current Delaware Judiciary index publishes it as form number 281, title Petition For Expungement of Adult Record, revision 11/26/2025. The binary could not be acquired because the download endpoint returned WAF rejection HTML."
+    }
+  ],
+  "controls": {
+    "onlyAssignedReturnDirectoryModified": true,
+    "sourceBodiesCommittedToApplicationRepository": 0,
+    "claimLedgerModified": false,
+    "claimReleasesPerformed": 0,
+    "productionTouched": false,
+    "deploymentPerformed": false,
+    "pullRebaseMergeOrBranchSwitchPerformed": false
+  }
+}
