@@ -43,6 +43,10 @@
     }
   },
   "statutorySelectionsByVariant": {
+    "pc-851-91-matter-of-right": [],
+    "pc-851-91-interests-of-justice": []
+  },
+  "participantElectionsByVariant": {
     "pc-851-91-matter-of-right": [
       {
         "fieldName": "CR-409[0].Page2[0].LI3-2[0].li3h[0].DismissSection[0]",
@@ -597,110 +601,7 @@
       "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
     }
   ],
-  "selections": [
-    {
-      "formNumber": "CR-409",
-      "documentId": "CA-CR-409-PETITION-TO-SEAL-ARREST-AND-RELATED-RECORDS",
-      "documentRole": "primary_filing",
-      "fieldName": "CR-409[0].Page2[0].LI3-2[0].li3h[0].DismissSection[0]",
-      "fieldType": "/Btn",
-      "effectiveLabel": "I am entitled to have this arrest (the arrest described in 3 of this petition) sealed as a matter of right because the arrest did not result in a conviction, and I satisfy the requirements of Penal Code section 851.91. ",
-      "flags": [],
-      "maxLen": null,
-      "widgets": [
-        {
-          "pageIndex": 1,
-          "rect": [
-            84.5,
-            409.44,
-            93.5,
-            418.44
-          ],
-          "width": 9,
-          "height": 9,
-          "onStates": [
-            "1"
-          ],
-          "appearanceStates": [
-            "1"
-          ],
-          "markRegion": {
-            "rect": [
-              85.5,
-              410.44,
-              92.5,
-              417.44
-            ],
-            "basis": "appearance clip"
-          },
-          "hidden": false
-        }
-      ],
-      "disposition": "SELECT",
-      "factId": "route.statutory_control",
-      "routeSpecific": true,
-      "variantSelections": [
-        {
-          "variantId": "pc-851-91-matter-of-right",
-          "routeKey": "obligation:track-only:CA:ca-851-91",
-          "onState": "1",
-          "tooltipIncludes": "sealed as a matter of right"
-        }
-      ],
-      "reason": "The named evidence variant marks this exact, first-hand widget rectangle; its recorded AP/N on-state proves the official control identity."
-    },
-    {
-      "formNumber": "CR-409",
-      "documentId": "CA-CR-409-PETITION-TO-SEAL-ARREST-AND-RELATED-RECORDS",
-      "documentRole": "primary_filing",
-      "fieldName": "CR-409[0].Page2[0].LI3-2[0].li3h[0].DismissSection[1]",
-      "fieldType": "/Btn",
-      "effectiveLabel": "I am requesting to have the arrest sealed in the interests of justice. (Relief is unavailable as a matter of right if the arrest was for domestic violence, child abuse, or elder abuse, and petitioner’s record shows a “pattern” of arrests and/or convictions for the same type of offense.) (Pen. Code, § 851.91(c)(2)(A).) ",
-      "flags": [],
-      "maxLen": null,
-      "widgets": [
-        {
-          "pageIndex": 1,
-          "rect": [
-            84.5,
-            362.85,
-            93.5,
-            371.85
-          ],
-          "width": 9,
-          "height": 9,
-          "onStates": [
-            "2"
-          ],
-          "appearanceStates": [
-            "2"
-          ],
-          "markRegion": {
-            "rect": [
-              85.5,
-              363.85,
-              92.5,
-              370.85
-            ],
-            "basis": "appearance clip"
-          },
-          "hidden": false
-        }
-      ],
-      "disposition": "SELECT",
-      "factId": "route.statutory_control",
-      "routeSpecific": true,
-      "variantSelections": [
-        {
-          "variantId": "pc-851-91-interests-of-justice",
-          "routeKey": "obligation:track-only:CA:ca-851-91",
-          "onState": "2",
-          "tooltipIncludes": "interests of justice"
-        }
-      ],
-      "reason": "The named evidence variant marks this exact, first-hand widget rectangle; its recorded AP/N on-state proves the official control identity."
-    }
-  ],
+  "selections": [],
   "refusals": [
     {
       "formNumber": "CR-409",
@@ -1227,6 +1128,118 @@
       "requiredBeforeFiling": true,
       "routeDetermined": false,
       "identity": "CR-409[0].Page2[0].LI3-2[0].li3g[0].T66[0]"
+    },
+    {
+      "formNumber": "CR-409",
+      "documentId": "CA-CR-409-PETITION-TO-SEAL-ARREST-AND-RELATED-RECORDS",
+      "documentRole": "primary_filing",
+      "fieldName": "CR-409[0].Page2[0].LI3-2[0].li3h[0].DismissSection[0]",
+      "fieldType": "/Btn",
+      "effectiveLabel": "I am entitled to have this arrest (the arrest described in 3 of this petition) sealed as a matter of right because the arrest did not result in a conviction, and I satisfy the requirements of Penal Code section 851.91. ",
+      "flags": [],
+      "maxLen": null,
+      "widgets": [
+        {
+          "pageIndex": 1,
+          "rect": [
+            84.5,
+            409.44,
+            93.5,
+            418.44
+          ],
+          "width": 9,
+          "height": 9,
+          "onStates": [
+            "1"
+          ],
+          "appearanceStates": [
+            "1"
+          ],
+          "markRegion": {
+            "rect": [
+              85.5,
+              410.44,
+              92.5,
+              417.44
+            ],
+            "basis": "appearance clip"
+          },
+          "hidden": false
+        }
+      ],
+      "disposition": "REFUSE",
+      "factId": null,
+      "isSelectionControl": true,
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "requiredBeforeFiling": true,
+      "routeDetermined": false,
+      "routeSpecific": true,
+      "participantElectionVariants": [
+        {
+          "variantId": "pc-851-91-matter-of-right",
+          "routeKey": "obligation:track-only:CA:ca-851-91",
+          "onState": "1",
+          "tooltipIncludes": "sealed as a matter of right"
+        }
+      ],
+      "reason": "A statutory election on a petition the participant verifies under penalty of perjury. The route does not determine it -- both variants carry the same route key -- and the committed packet-set manifest assigns it to the participant as a required-before-filing act, so the platform marks nothing here and the participant page names the box."
+    },
+    {
+      "formNumber": "CR-409",
+      "documentId": "CA-CR-409-PETITION-TO-SEAL-ARREST-AND-RELATED-RECORDS",
+      "documentRole": "primary_filing",
+      "fieldName": "CR-409[0].Page2[0].LI3-2[0].li3h[0].DismissSection[1]",
+      "fieldType": "/Btn",
+      "effectiveLabel": "I am requesting to have the arrest sealed in the interests of justice. (Relief is unavailable as a matter of right if the arrest was for domestic violence, child abuse, or elder abuse, and petitioner’s record shows a “pattern” of arrests and/or convictions for the same type of offense.) (Pen. Code, § 851.91(c)(2)(A).) ",
+      "flags": [],
+      "maxLen": null,
+      "widgets": [
+        {
+          "pageIndex": 1,
+          "rect": [
+            84.5,
+            362.85,
+            93.5,
+            371.85
+          ],
+          "width": 9,
+          "height": 9,
+          "onStates": [
+            "2"
+          ],
+          "appearanceStates": [
+            "2"
+          ],
+          "markRegion": {
+            "rect": [
+              85.5,
+              363.85,
+              92.5,
+              370.85
+            ],
+            "basis": "appearance clip"
+          },
+          "hidden": false
+        }
+      ],
+      "disposition": "REFUSE",
+      "factId": null,
+      "isSelectionControl": true,
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "requiredBeforeFiling": true,
+      "routeDetermined": false,
+      "routeSpecific": true,
+      "participantElectionVariants": [
+        {
+          "variantId": "pc-851-91-interests-of-justice",
+          "routeKey": "obligation:track-only:CA:ca-851-91",
+          "onState": "2",
+          "tooltipIncludes": "interests of justice"
+        }
+      ],
+      "reason": "A statutory election on a petition the participant verifies under penalty of perjury. The route does not determine it -- both variants carry the same route key -- and the committed packet-set manifest assigns it to the participant as a required-before-filing act, so the platform marks nothing here and the participant page names the box."
     },
     {
       "formNumber": "CR-409",
@@ -5039,10 +5052,10 @@
   "coverage": {
     "terminalFields": 131,
     "writes": 14,
-    "selections": 2,
-    "refusals": 115,
+    "selections": 0,
+    "refusals": 117,
     "unmapped": 0
   },
   "dispositionVocabulary": "rcap-packet-completeness/closed-blank-dispositions",
-  "requiredBeforeFilingCount": 46
+  "requiredBeforeFilingCount": 48
 }

@@ -14,6 +14,34 @@ The platform filled in only identity and record facts it verifiably holds — na
 3. **Sign and date each form yourself**, and complete the proof of service only after service has actually occurred.
 4. **Leave CR-410 entirely blank** except the report numbers listed below. The order to seal is the court's form.
 
+## What you must obtain, check and swear before you file
+
+These are the committed packet-set manifest's own words for this packet, not a summary of them. Each one is something the filing needs, the platform does not hold, and this packet therefore does not fill in.
+
+- Obtain Arrest report or arresting agency record showing the report number. Ask the arresting agency for the report number and arrest record. The petition requires the arresting agency and report number, which most participants will not have to hand. LegalEase does not obtain, receive or inspect it. It comes from: The arresting law enforcement agency.
+- Check your answer to "What is the police report number?" against Arrest report or arresting agency record showing the report number, and correct the packet if they disagree.
+- Obtain Court docket showing the disposition. Ask the clerk of the court where the pleading was filed for the docket showing how the charges ended. It comes from: The court where the accusatory pleading was filed. This one is conditional: Where a case was filed.
+- Check your answer to "How did the matter end — no charges filed, dismissed, acquitted, or a conviction vacated on appeal?" against Court docket showing the disposition, and correct the packet if they disagree. This one is conditional: Where a case was filed.
+- Obtain California DOJ state summary criminal history. Request your own record through the DOJ 'Criminal Records, Request Your Own' process. LegalEase does not obtain, receive or inspect it. It comes from: California Department of Justice. This one is conditional: Optional. Useful where the participant cannot identify the arrest details.
+- Verification and signature under penalty of perjury — CR-409, petitioner signature block.
+- Matter-of-right versus interests-of-justice election — CR-409 item 3h.
+- Notice of Court Hearing block — CR-409 item 2.
+- The petitioner verifies and signs CR-409 under penalty of perjury.
+- The source review does not state a notarization requirement; the petition is verified rather than notarized.
+
+## When to stop and take this to a lawyer
+
+The committed track registry records these as the points where self-help ends on this route, in its own words. If any of them describes your case, stop here and take the papers to a lawyer or a legal-aid office rather than filing them:
+
+- Any pattern offense: domestic violence, child abuse or elder abuse. Route to an attorney.
+- The prosecutor opposes.
+- Any contested hearing.
+- A charge with no statute of limitations.
+- Any evasion allegation, whether by absconding or by identity fraud.
+- A conviction that was vacated on appeal, which is a posture that needs a lawyer.
+
+The first of these also decides which election at item 3h is open to you at all, which is one reason this packet marks neither box for you: the form prints that same bar in its own words beside the item.
+
 ## Where you file this, and by when
 
 File the verified CR-409 with the proposed CR-410 at least 15 days before the hearing, in the court where the accusatory pleading was filed, or where no pleading was filed in a court with criminal jurisdiction in the city or county where the arrest occurred. One arrest per petition.
@@ -49,6 +77,8 @@ The platform holds no value for any of these, and this packet never guesses at o
 | 1 | `Page1[0].LI3[0].li3d[0].TextField[0]` | the form prints `What is the arrest report number or police report number, if available?` beside it |
 | 2 | `Page2[0].LI3-2[0].li3e[0].T66[0]` | the form prints `What were the offenses for which you were arrested (for example, Penal Code section 242 for battery)?` beside it |
 | 2 | `Page2[0].LI3-2[0].li3g[0].T66[0]` | the form prints `If you would like to explain the information provided, please do so below, or complete and attach Attached Declaration (form MC-031) or submit other relevant documents.` beside it |
+| 2 | `Page2[0].LI3-2[0].li3h[0].DismissSection[0]` | the form prints `I am entitled to have this arrest (the arrest described in 3 of this petition) sealed as a matter of right because the arrest did not result in a conviction, and I satisfy the requirements of Penal Code section 851.91.` beside it |
+| 2 | `Page2[0].LI3-2[0].li3h[0].DismissSection[1]` | the form prints `I am requesting to have the arrest sealed in the interests of justice. (Relief is unavailable as a matter of right if the arrest was for domestic violence, child abuse, or elder abuse, and petitioner’s record shows a “pattern” of arrests and/or convictions for the same type of offense.) (Pen. Code, § 851.91(c)(2)(A).)` beside it |
 
 ### CA-CR-410-ORDER-TO-SEAL-ARREST-AND-RELATED-RECORDS
 

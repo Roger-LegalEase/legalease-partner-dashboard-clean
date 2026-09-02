@@ -207,6 +207,32 @@ const FAMILIES = Object.freeze({
     // The one CR-409 pushbutton whose caption is the court's own text and not
     // chrome is classified here, because nothing structural separates them.
     appearanceSemanticsKey: "CA:ca-851-91-set:cr-409",
+    /*
+     * FIX04, KNOWN_PREFILLS on all four delivered CR-409s.
+     *
+     * The build was marking the item 3h statutory election -- two 1.2pt
+     * diagonal strokes inset 2pt inside the DismissSection widget -- on a
+     * petition the participant verifies under penalty of perjury. Two held
+     * records forbid it. This packet's own participant page says "The platform
+     * never marks a box on a sworn filing", which was false while the mark was
+     * drawn; and the committed packet-set manifest assigns item 3h to the
+     * participant as `complete_field`, requirement required, requiredBeforeFiling
+     * true. A committed packet-set manifest is a held source under
+     * DET-FEE-AND-WAIVER-001 A2, and A4 forbids a packet telling a participant
+     * it does not state something it does state.
+     *
+     * The election is not route-determined and never was: both variants carry
+     * the SAME route key, obligation:track-only:CA:ca-851-91, and which of the
+     * two is open turns on the section 851.91(c)(2)(A) pattern-offence bar --
+     * a fact about the participant's record that the platform does not hold.
+     * So the control becomes a declared participant election in the field map
+     * and a disclosed row on the participant page, and no ink is added.
+     *
+     * Set on THIS FAMILY ONLY. ca-prop64-set is the other family on this host
+     * whose variants turn on marked boxes, it is another lane's to hold, and
+     * flipping the default here would rewrite its bytes without a claim on it.
+     */
+    participantMarksStatutoryElections: true,
   },
   "ca-prop64-set": {
     jurisdiction: "ca", outcome: "build_ca", primaryForm: "CR-400",
@@ -967,9 +993,37 @@ function outputDir(familyId) {
     ?? `data/rcap-all50/overlays/census-v1/${family.jurisdiction}/${familyId}--official-pdf-fill`;
 }
 
+/*
+ * The declared variants with every statutory selection withdrawn, for a family
+ * that leaves its elections to the participant. Memoised so that repeated calls
+ * return the same frozen objects and every deepEqual across the build sees one
+ * value rather than two equal ones.
+ */
+const PARTICIPANT_ELECTION_VARIANTS = new Map();
+function participantElectionVariants(familyId) {
+  if (!PARTICIPANT_ELECTION_VARIANTS.has(familyId)) {
+    PARTICIPANT_ELECTION_VARIANTS.set(familyId, Object.freeze(CA_ROUTE_VARIANTS[familyId]
+      .map((variant) => Object.freeze({ ...variant, selections: Object.freeze([]) }))));
+  }
+  return PARTICIPANT_ELECTION_VARIANTS.get(familyId);
+}
+
+/*
+ * The statutory controls a participant-election family hands to the participant,
+ * flattened out of the declared variants. Returns [] for every family that does
+ * not set the flag, so nothing changes for them.
+ */
+function participantElectionsForFamily(familyId) {
+  if (!FAMILIES[familyId]?.participantMarksStatutoryElections) return [];
+  return CA_ROUTE_VARIANTS[familyId].flatMap((variant) => variant.selections
+    .map((selection) => ({ ...selection, variantId: variant.variantId, routeKey: variant.routeKey })));
+}
+
 function routeControlForFamily(familyId, variantId = null) {
-  const variants = CA_ROUTE_VARIANTS[familyId];
-  assert.ok(variants?.length, `${familyId}: no source-grounded statutory control variants`);
+  const declared = CA_ROUTE_VARIANTS[familyId];
+  assert.ok(declared?.length, `${familyId}: no source-grounded statutory control variants`);
+  const variants = FAMILIES[familyId]?.participantMarksStatutoryElections
+    ? participantElectionVariants(familyId) : declared;
   if (variantId === null) return variants;
   const variant = variants.find((candidate) => candidate.variantId === variantId);
   assert.ok(variant, `${familyId}: unknown statutory control variant ${variantId}`);
@@ -1372,6 +1426,15 @@ function caMapAndCensus(familyId, config, bridge) {
       selectionControls.set(selection.fieldName, row);
     }
   }
+  // Empty for every family that does not set participantMarksStatutoryElections.
+  const participantElectionControls = new Map();
+  for (const election of participantElectionsForFamily(familyId)) {
+    const row = participantElectionControls.get(election.fieldName)
+      ?? { fieldName: election.fieldName, variants: [] };
+    row.variants.push({ variantId: election.variantId, routeKey: election.routeKey,
+      onState: election.onState, tooltipIncludes: election.tooltipIncludes });
+    participantElectionControls.set(election.fieldName, row);
+  }
 
   for (const formNumber of config.formNumbers) {
     const source = CA_FORMS[formNumber];
@@ -1382,6 +1445,8 @@ function caMapAndCensus(familyId, config, bridge) {
       const baseFactId = formNumber === config.primaryForm ? primaryMappings[field.name] ?? null : null;
       const textControl = formNumber === config.primaryForm ? textControls.get(field.name) ?? null : null;
       const selectionControl = formNumber === config.primaryForm ? selectionControls.get(field.name) ?? null : null;
+      const participantElection = formNumber === config.primaryForm
+        ? participantElectionControls.get(field.name) ?? null : null;
       const base = {
         formNumber, documentId: source.documentId, documentRole: source.role,
         fieldName: field.name, fieldType: field.fieldType,
@@ -1418,6 +1483,28 @@ function caMapAndCensus(familyId, config, bridge) {
         selections.push(row);
         return row;
       }
+      if (participantElection) {
+        mappedNames.add(field.name);
+        assert.equal(field.fieldType, "/Btn", `${field.name}: statutory election is not a button`);
+        assert.equal(field.flags?.includes("pushButton"), false, `${field.name}: statutory election is a push button`);
+        for (const variant of participantElection.variants) {
+          assert.ok(String(field.tooltip ?? "").includes(variant.tooltipIncludes),
+            `${field.name}: statutory tooltip no longer identifies ${variant.tooltipIncludes}`);
+          assert.ok(field.widgets.some((widget) => widget.onStates?.includes(variant.onState)),
+            `${field.name}: exact AP/N on-state ${variant.onState} is absent`);
+        }
+        const row = { ...base, disposition: "REFUSE", factId: null,
+          isSelectionControl: true,
+          refusalClass: "participant_sworn_narrative_or_legal_election",
+          blankTreatment: "REQUIRED_BEFORE_FILING",
+          requiredBeforeFiling: true,
+          routeDetermined: false,
+          routeSpecific: true,
+          participantElectionVariants: participantElection.variants,
+          reason: "A statutory election on a petition the participant verifies under penalty of perjury. The route does not determine it -- both variants carry the same route key -- and the committed packet-set manifest assigns it to the participant as a required-before-filing act, so the platform marks nothing here and the participant page names the box." };
+        refusals.push(row);
+        return row;
+      }
       const disposition = caRefusalDisposition(source, field);
       const row = { ...base, disposition: "REFUSE", factId: null,
         blankTreatment: disposition.blankTreatment ?? null,
@@ -1428,6 +1515,7 @@ function caMapAndCensus(familyId, config, bridge) {
     if (formNumber === config.primaryForm) {
       assert.deepEqual([...mappedNames].sort(), [...new Set([
         ...Object.keys(primaryMappings), ...textControls.keys(), ...selectionControls.keys(),
+        ...participantElectionControls.keys(),
       ])].sort(),
         `${formNumber}: one or more bounded mapping names drifted`);
     }
@@ -1456,6 +1544,13 @@ function caMapAndCensus(familyId, config, bridge) {
       }])),
       statutorySelectionsByVariant: Object.fromEntries(variants.map((variant) => [variant.variantId,
         variant.selections.map((selection) => ({ ...selection }))])),
+      // Present only for a family that withdraws its marks: which control each
+      // variant corresponds to, recorded so the election is still identifiable
+      // per route without any ink being added to the sworn filing.
+      ...(config.participantMarksStatutoryElections
+        ? { participantElectionsByVariant: Object.fromEntries(CA_ROUTE_VARIANTS[familyId]
+          .map((variant) => [variant.variantId, variant.selections.map((selection) => ({ ...selection }))])) }
+        : {}),
       ...GATES, writes, selections, refusals,
       coverage: {
         terminalFields: total, writes: writes.length, selections: selections.length,
@@ -1733,6 +1828,25 @@ const CA_PARTICIPANT_GUIDANCE = Object.freeze({
     // See statesHeldParticipantActions below. Opted in because this family's
     // repair is claimed.
     statesHeldParticipantActions: true,
+    /*
+     * FIX04, REQUIRED_BEFORE_FILING. Four of this manifest's ten
+     * required-before-filing items were absent from the packet in any form,
+     * including both of the two that send the participant out to obtain a
+     * record they will not otherwise have and the verification under penalty of
+     * perjury that section 851.91 turns on. The manifest is a held source under
+     * A2 and A4's onTheWiderQuestion reaches an omission of what the repository
+     * establishes, so the acts are printed in the manifest's own words.
+     */
+    statesManifestPreFilingActs: true,
+    /*
+     * FIX04, SELF_HELP_STOP. Five of the six conditions the committed track
+     * registry holds for trackId ca-851-91 were absent from the packet, the
+     * missing one that matters most being the section 851.91(c)(2)(A)
+     * pattern-offence bar that decides which of this family's two item 3h
+     * elections is open at all.
+     */
+    statesRegistryStopConditions: "ca-851-91",
+    electionItem: "item 3h",
   }),
   "ca-prop64-set": Object.freeze({
     title: "Health and Safety Code section 11361.8 (Proposition 64) relief",
@@ -1757,6 +1871,7 @@ const CA_PARTICIPANT_GUIDANCE = Object.freeze({
 });
 
 const PACKET_SET_MANIFESTS = "data/record-clearing/legal-design-packet-set-manifests.json";
+const TRACK_REGISTRY = "data/record-clearing/legal-design-track-registry.json";
 const CA_COMPILED_PROFILE = "src/lib/rcap-engine/compiled/profiles/CA-california.json";
 
 /*
@@ -1955,6 +2070,79 @@ function caHeldGuidanceSections(familyId, config, guidance) {
   return out.join("\n");
 }
 
+/*
+ * The manifest kinds that describe an act before filing, as distinct from the
+ * filing, service, fee and waiver questions, which have their own sections and
+ * their own determination. Nothing here restates a fee or a destination.
+ */
+const PRE_FILING_ACT_KINDS = Object.freeze([
+  "obtain_document", "confirm_answer", "complete_field", "sign", "notarize",
+]);
+
+/*
+ * The acts the committed packet-set manifest holds for this packet, printed in
+ * its own words. Verbatim rather than paraphrased for the same reason the
+ * filing and service sentences are: the manifest is the held source, and a
+ * summary of it is this build's sentence rather than the repository's.
+ *
+ * Every requiredBeforeFiling act is carried. The conditional obtain_document
+ * entries are carried with them and labelled conditional, because the manifest
+ * requires the participant to CHECK an answer against a document it separately
+ * records how to obtain, and telling someone to check a docket without telling
+ * them where a docket comes from leaves them unable to act.
+ */
+function caManifestPreFilingActs(familyId, guidance) {
+  if (!guidance.statesManifestPreFilingActs) return "";
+  const manifest = readJson(PACKET_SET_MANIFESTS);
+  const set = (manifest.packetSets ?? []).find((row) => row.packetSetId === familyId);
+  assert.ok(set, `${familyId}: no packet-set manifest entry to read pre-filing acts from`);
+  const acts = (set.participantActionRequired ?? []).filter((row) =>
+    PRE_FILING_ACT_KINDS.includes(row.kind)
+    && (row.requiredBeforeFiling === true || row.kind === "obtain_document"));
+  assert.ok(acts.length,
+    `${familyId}: statesManifestPreFilingActs is set but its manifest holds no pre-filing act`);
+  const lines = acts.map((row) => {
+    const description = String(row.description ?? "").trim();
+    assert.ok(description, `${familyId}: a manifest pre-filing act carries no description`);
+    const tail = [];
+    if (row.obtainedFrom) tail.push(`It comes from: ${String(row.obtainedFrom).replace(/\s*\.?$/, "")}.`);
+    if (row.requirement === "conditional" && row.conditionDescription) {
+      tail.push(`This one is conditional: ${String(row.conditionDescription).replace(/\s*$/, "")}`);
+    }
+    return `- ${description}${tail.length ? ` ${tail.join(" ")}` : ""}`;
+  });
+  return `## What you must obtain, check and swear before you file\n\n`
+    + `These are the committed packet-set manifest's own words for this packet, not a summary of them. Each one is something the filing needs, the platform does not hold, and this packet therefore does not fill in.\n\n`
+    + `${lines.join("\n")}\n\n`;
+}
+
+/*
+ * The committed track registry's own self-help stop conditions for this route.
+ *
+ * Printed verbatim and as a list the participant meets before the tables, not
+ * folded into a disclaimer: a disclaimer says the packet is not legal advice,
+ * which is a statement about the packet, while a stop condition is a statement
+ * about the participant's own case and is the only one of the two that can tell
+ * them to put the papers down.
+ */
+function caRegistryStopConditionSection(config, guidance) {
+  const trackId = guidance.statesRegistryStopConditions;
+  if (!trackId) return "";
+  const registry = readJson(TRACK_REGISTRY);
+  const track = (registry.tracks ?? []).find((row) => row.trackId === trackId);
+  assert.ok(track, `${trackId}: no committed track registry entry to read stop conditions from`);
+  const conditions = (track.selfHelpStopConditions ?? [])
+    .map((condition) => String(condition).trim()).filter(Boolean);
+  assert.ok(conditions.length, `${trackId}: the track registry holds no self-help stop condition`);
+  const meetsTheElection = config.participantMarksStatutoryElections && guidance.electionItem
+    ? `\n\nThe first of these also decides which election at ${guidance.electionItem} is open to you at all, which is one reason this packet marks neither box for you: the form prints that same bar in its own words beside the item.`
+    : "";
+  return `## When to stop and take this to a lawyer\n\n`
+    + `The committed track registry records these as the points where self-help ends on this route, in its own words. If any of them describes your case, stop here and take the papers to a lawyer or a legal-aid office rather than filing them:\n\n`
+    + conditions.map((condition) => `- ${condition}`).join("\n")
+    + `${meetsTheElection}\n\n`;
+}
+
 function caParticipantInstructions(familyId, config, fieldMap) {
   const guidance = CA_PARTICIPANT_GUIDANCE[familyId];
   assert.ok(guidance, `${familyId}: no participant guidance is configured`);
@@ -1998,6 +2186,8 @@ function caParticipantInstructions(familyId, config, fieldMap) {
     + `3. **Sign and date each form yourself**, and complete the proof of service only after service has actually occurred.\n`
     + `4. **Leave ${guidance.orderForm} entirely blank**${required.some((row) => row.documentRole === "proposed_order")
       ? " except the report numbers listed below" : ""}. The ${guidance.orderName} is the court's form.\n\n`
+    + caManifestPreFilingActs(familyId, guidance)
+    + caRegistryStopConditionSection(config, guidance)
     + (guidance.statesHeldParticipantActions
       ? caHeldGuidanceSections(familyId, config, guidance) + `\n`
       : `## What this packet does not tell you\n\n`
@@ -3861,8 +4051,16 @@ async function checkCa(familyId, config, { quiet = false, requireCompletionClaim
     assert.equal(protectedSubject.test(subject), false,
       `${write.fieldName}: protected field is writable`);
   }
-  assert.ok(fieldMap.selections.length >= 1 || familyId === "ca-17b-reduction-set",
-    `${familyId}: statutory button selection is missing`);
+  if (config.participantMarksStatutoryElections) {
+    assert.deepEqual(fieldMap.selections, [],
+      `${familyId}: the platform marked a statutory election it declares is the participant's`);
+    assert.ok(Object.values(fieldMap.participantElectionsByVariant ?? {})
+      .every((rows) => rows.length >= 1),
+    `${familyId}: a variant declares no participant election control`);
+  } else {
+    assert.ok(fieldMap.selections.length >= 1 || familyId === "ca-17b-reduction-set",
+      `${familyId}: statutory button selection is missing`);
+  }
 
   const fidelity = readJson(`${out}/reports/source-fidelity.json`);
   assert.deepEqual(fidelity.derivedRepairs, receipt.derivedRepairs);
@@ -3950,8 +4148,17 @@ async function checkCa(familyId, config, { quiet = false, requireCompletionClaim
   for (const fixture of ["canonical", "boundary"]) {
     const primary = rendered.artifacts.filter((artifact) => artifact.fixture === fixture
       && artifact.evidenceMode === "finalized_source_derived_primary");
-    assert.equal(new Set(primary.map((artifact) => artifact.sha256)).size, primary.length,
-      `${familyId}/${fixture}: distinct statutory variants emitted byte-identical primary PDFs`);
+    if (config.participantMarksStatutoryElections) {
+      // The inverse proof, and the stronger one for this family. The only thing
+      // that ever differed between its two variants' primary filings was the
+      // election ink; with the election withdrawn they must be byte-identical,
+      // and a difference would mean a mark survived somewhere.
+      assert.equal(new Set(primary.map((artifact) => artifact.sha256)).size, 1,
+        `${familyId}/${fixture}: variants differ although every statutory election is the participant's`);
+    } else {
+      assert.equal(new Set(primary.map((artifact) => artifact.sha256)).size, primary.length,
+        `${familyId}/${fixture}: distinct statutory variants emitted byte-identical primary PDFs`);
+    }
   }
   assertDistinctRouteArtifactsWhenAvailable();
 

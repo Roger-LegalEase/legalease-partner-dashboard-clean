@@ -218,7 +218,34 @@ const CONFIGS = Object.freeze({
     chargeLabel: "Arrest with no charges filed",
     statesBciApplicationFee: true, statesManifestPreFilingItems: true,
     certificateIssuanceFeeHeldExempt: "a declination",
-    declarationNameBoxClearsPrePrintedI: true
+    declarationNameBoxClearsPrePrintedI: true,
+    /*
+     * FIX04, PAGE_ORDER. The assembled packet ran 1000EX > 1020EX > 1044XX >
+     * 1146XX > 1148XX > 1149XX > 1169XX > BCI application > BCI third-party
+     * release, which against this family's committed packet-set manifest is
+     * component order 4, 5, 3, 6, 7, 8, 9, 1, 2. The two Bureau of Criminal
+     * Identification components the manifest orders FIRST sat on pages 17-19,
+     * behind every court document -- and this route's law is a two-stage
+     * sequence in which BCI decides eligibility and issues the certificate
+     * whose identification number paragraph 1 of the petition then asks for.
+     * A participant handed this packet cannot complete page 1 until they have
+     * done the pages at the back. The packet is now assembled in the manifest's
+     * declared component order, which is the order the route is performed in.
+     *
+     * Set on THIS FAMILY ONLY. The same inversion is in every sibling on this
+     * host and the fix is the same word; this lane holds a grant on this family
+     * alone and reordering unconditionally would rewrite six unclaimed
+     * families' delivered bytes.
+     */
+    deliversInManifestComponentOrder: true,
+    /*
+     * FIX04, SELF_HELP_STOP. The committed track registry holds eight self-help
+     * stop conditions for trackId ut_pet_no_charges and the packet carried none
+     * of them, with no stop section of any kind -- and on the one condition it
+     * did reach it said the opposite of what the registry holds, telling the
+     * participant that if the court schedules a hearing they should attend it.
+     */
+    statesRegistryStopConditions: "ut_pet_no_charges"
   },
   "ut_pet_traffic-set": {
     slug: "ut-pet-traffic-set", traffic: true, routeKind: "case",
@@ -258,6 +285,8 @@ const REQUIRED_BEFORE_FILING = Object.freeze([
 ]);
 
 const CORPUS_INDEX = "data/rcap-all50/local-source-corpus-index.json";
+const PACKET_SET_MANIFESTS = "data/record-clearing/legal-design-packet-set-manifests.json";
+const TRACK_REGISTRY = "data/record-clearing/legal-design-track-registry.json";
 
 /**
  * The compiled Utah state profile, cited as a held record in its own right.
@@ -1028,7 +1057,39 @@ function repairFieldMap(config, original, census, canonicalPlans, boundaryPlans,
   };
 }
 
-async function sourcePacket(receipt) {
+/*
+ * The delivered order of a packet's components, read from the committed
+ * packet-set manifest rather than from the order the source receipt happens to
+ * list its documents in.
+ *
+ * Returns the receipt's own order untouched for every family that does not set
+ * deliversInManifestComponentOrder, so no unflagged family's bytes move. Where
+ * it IS set the manifest is authoritative and the build refuses rather than
+ * guessing: a delivered form the manifest does not place, or a form placed
+ * twice, stops the build instead of producing a packet in an order nothing
+ * declares.
+ */
+function manifestOrderedDocuments(receipt, config) {
+  if (!config?.deliversInManifestComponentOrder) return receipt.documents;
+  const manifest = readJson(PACKET_SET_MANIFESTS);
+  const set = (manifest.packetSets ?? []).find((row) => row.packetSetId === receipt.familyId);
+  assert.ok(set, `${receipt.familyId}: no committed packet-set manifest to order the packet by`);
+  const order = new Map();
+  for (const component of set.components ?? []) {
+    if (!component.officialFormId) continue;
+    assert.equal(order.has(component.officialFormId), false,
+      `${component.officialFormId}: placed twice in the committed component order`);
+    order.set(component.officialFormId, component.order);
+  }
+  for (const document of receipt.documents) {
+    assert.ok(order.has(document.formNumber),
+      `${document.formNumber}: delivered but not placed by the committed component order`);
+  }
+  return [...receipt.documents]
+    .sort((left, right) => order.get(left.formNumber) - order.get(right.formNumber));
+}
+
+async function sourcePacket(receipt, config) {
   const master = sourceRoot();
   const packet = await PDFDocument.create();
   packet.setCreationDate(FIXED_DATE);
@@ -1036,7 +1097,7 @@ async function sourcePacket(receipt) {
   packet.setTitle(`Official-form review fixture: ${receipt.familyId}`);
   const pageManifest = [];
   let packetPage = 1;
-  for (const document of receipt.documents) {
+  for (const document of manifestOrderedDocuments(receipt, config)) {
     const sourcePath = path.join(master, document.pathInArchive);
     const bytes = fs.readFileSync(sourcePath);
     assert.equal(sha256(bytes), document.sha256, `${document.formNumber}: source SHA-256 drift`);
@@ -1543,14 +1604,23 @@ function participantInstructions(config, authorities) {
   } else {
     out.push("**The prosecutor must receive a copy of what you file, by mail or by email.** BCI's Expungement Applicant Instructions state the step plainly: after filing with the court, \"Mail or email the prosecutor copies of what you file.\" This packet includes form 1146XX, *Acceptance of Service – Expungement (Prosecutor)*, for the prosecutor to acknowledge receipt.", "");
     /*
-     * On a route whose own committed record makes an objection or a scheduled
-     * hearing a STOP condition, "attend it" directs self-representation at the
-     * exact point the record says self-help ends. Where this route holds those
-     * conditions the sentence is replaced by the stop; where it does not, the
-     * existing sentence stands unchanged and those families' bytes do not move.
+     * TWO REPAIR LANES REACHED THIS SENTENCE INDEPENDENTLY, AND BOTH WERE RIGHT.
+     *
+     * "If the court schedules a hearing, attend it" directs self-representation
+     * at the exact point this route's own committed record says self-help ends.
+     * FIX03 found it on ut_pet_conviction and FIX04 on ut_pet_no_charges, in
+     * the same week, in the same shared host, each behind its own per-family
+     * flag. Neither flag is redundant: `selfHelpStopConditions` carries the
+     * conditions in the family's config, `statesRegistryStopConditions` names a
+     * track and reads them from the registry at build time. Resolving the merge
+     * by keeping one would have silently reverted the other family's repair, so
+     * both stand and a family sets whichever its own repair used. A family that
+     * sets neither keeps the original sentence and its bytes do not move.
      */
     if (config.selfHelpStopConditions) {
       out.push("The prosecutor or a victim in your case may object, and the court may schedule a hearing. **This route's own committed record treats that as the point where self-help ends, not as a next step you take on your own** — it is the second condition under *Where self-help ends* below. This packet does not prepare you for a contested hearing, does not answer an objection for you, and does not argue anything for you. Look for a lawyer licensed in Utah as soon as an objection reaches you or a hearing is set, rather than afterwards. The Utah State Courts Self-Help Center answers procedural questions about this on **888-583-0009**.", "");
+    } else if (config.statesRegistryStopConditions) {
+      out.push("The prosecutor or a victim in your case may object, and the court may schedule a hearing. **The committed track registry records both of those as the point where this packet's self-help ends** — get a lawyer or a legal-aid office rather than arguing it yourself. A hearing date does not wait while you look, so start looking the day you learn of one. The Utah State Courts Self-Help Center answers procedural questions on **888-583-0009**, and it is not a substitute for a lawyer at a contested hearing.", "");
     } else {
       out.push("The prosecutor or a victim in your case may object; if the court schedules a hearing, attend it. The Utah State Courts Self-Help Center answers questions about this on **888-583-0009**.", "");
     }
@@ -1620,6 +1690,30 @@ function participantInstructions(config, authorities) {
     out.push("**The second condition is the one that happens after you file, and it ends self-help where it starts.** If the prosecutor or a victim objects, or the court sets your petition for hearing instead of granting it, the matter is contested from that point. This packet does not prepare you for a contested hearing and does not answer an objection for you, and the reply and hearing windows run on the court's clock rather than yours — so look for a lawyer as soon as an objection reaches you, not afterwards.", "");
     out.push("**Two of these conditions are about the explanation this packet leaves blank for you to write.** The public-interest showing is yours to supply, and the record stops self-help at the point where it has to be argued rather than simply stated. If you cannot state your reasons plainly and expect them to stand on their own, that is the condition, and it is reached before you file rather than after.", "");
     out.push(`The same track's \`selfHelpBoundaries\` field restates these thirteen and adds no condition the list above does not already carry.`, "");
+  }
+
+  /* The second lane's form of the same repair, on its own family's flag. See
+   * the note above the objection sentence: both flags stand because each is a
+   * different family's repair, and neither family sets the other's. */
+  if (config.statesRegistryStopConditions) {
+    /*
+     * The committed track registry's own self-help stop conditions for this
+     * route, verbatim and as a section the participant meets before the closing
+     * disclaimer. "This is not legal advice" is a statement about the packet;
+     * a stop condition is a statement about the participant's own case, and it
+     * is the only one of the two that can tell them to put the papers down.
+     */
+    const registry = readJson(TRACK_REGISTRY);
+    const track = (registry.tracks ?? []).find((row) => row.trackId === config.statesRegistryStopConditions);
+    assert.ok(track, `${config.statesRegistryStopConditions}: no committed track registry entry to read stop conditions from`);
+    const conditions = (track.selfHelpStopConditions ?? [])
+      .map((condition) => String(condition).trim()).filter(Boolean);
+    assert.ok(conditions.length,
+      `${config.statesRegistryStopConditions}: the track registry holds no self-help stop condition`);
+    out.push("## When to stop and get a lawyer", "");
+    out.push("The committed track registry records these as the points where self-help ends on this route, in its own words. If any of them describes your case, stop here and take it to a lawyer or a legal-aid office rather than filing:", "");
+    out.push(...conditions.map((condition) => `- ${condition}`), "");
+    out.push("The last of these is this route's own question. This packet is built for an arrest the prosecutor decided not to charge; if what you actually have is a case that has simply not been charged yet, this is not the petition for it.", "");
   }
 
   out.push("## What this packet is not", "");
@@ -1702,7 +1796,7 @@ export async function runUtahCompletenessRepair(familyId, argv = process.argv.sl
   // against the committed corpus index, so a drifted source refuses the build.
   const citedAuthorities = resolveCitedAuthorities(config);
 
-  const base = await sourcePacket(receipt);
+  const base = await sourcePacket(receipt, config);
   const canonicalPlans = [...textPlansFor(config, census, "canonical"), ...selectionPlansFor(config, originalMap)];
   const boundaryPlans = [...textPlansFor(config, census, "boundary"), ...selectionPlansFor(config, originalMap)];
   const repaired = repairFieldMap(config, originalMap, census, canonicalPlans, boundaryPlans, citedAuthorities);
