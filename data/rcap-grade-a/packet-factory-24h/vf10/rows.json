@@ -5520,6 +5520,604 @@
       "commercialRoutesOpened": 0,
       "productionTouched": false,
       "grantsNothing": "A verdict on one route artifact. It promotes no build status, approves no output and opens no commercial route."
+    },
+    {
+      "itemId": "ut_pet_conviction-set",
+      "lane": "VF10",
+      "assignmentId": "VF10",
+      "laneKind": "independent-verification",
+      "worker": "VT-C (Claude Opus 5) — independent verification team",
+      "verifier": "VT-C (Claude Opus 5) — independent verification team",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill",
+      "claimHeld": true,
+      "claimEvidence": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF10 ut_pet_conviction-set returned CLAIM_OK (independent-verification, grant set ea6b56d34a1ad782). Asserted before any artifact in this family was opened.",
+      "whyThisReaderIsIndependent": "VT-C built none of these families, repaired none of them, rendered none of their fixtures and produced none of their reports. Every grant was asserted at data/rcap-grade-a/packet-factory-24h/claim-ledger.json BEFORE any artifact in the family was opened, and every number below was recomputed in this container from the delivered bytes and the mounted Master Library. Where a prior lane's conclusion is confirmed it is confirmed by re-measurement, never by agreement.",
+      "obligationsScored": 15,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "familyPromoted": false,
+      "packetBytesModified": 0,
+      "overlayDirectoriesModified": 0,
+      "buildScriptsModified": 0,
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "how": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_conviction-set (no --write), run in this container at a0d49e1ad49ad4397eac4b009225baf0b94bf03e; returned PASS_COMPLETE with all nine counters zero."
+      },
+      "artifactHashes": [
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill/fixtures/boundary.pdf",
+          "recomputedSha256": "b3ba83a65754f96fe58083de62a3ce879654d6362170e11bae2f043e4c39a765",
+          "recomputedByteLength": 3025560,
+          "parsedPageCount": 19,
+          "recomputedHashAppearsInRenderedArtifactsRecord": true
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill/fixtures/canonical.pdf",
+          "recomputedSha256": "ad594f0a40750195b67e36916f3628df5b96d337e4955c9063b415747d6e36d6",
+          "recomputedByteLength": 3024920,
+          "parsedPageCount": 19,
+          "recomputedHashAppearsInRenderedArtifactsRecord": true
+        }
+      ],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "Two routes, both declared and both present. product-wiring.json and production-field-map.json declare obligation:unit:UT:ut_pet_conviction:ut_pet_conviction-bci-certificate and obligation:unit:UT:ut_pet_conviction:ut_pet_conviction-court-petition, with routeSelectionId ut-conviction-bci-plus-court; both keys are present at this base in the census candidate, the canonical route universe, the duplicate-and-alias report and category-a-implementation-waves. No other Utah petition route's key appears in the family directory, which matters on a host that also builds ut_pet_acquittal, ut_pet_no_charges, ut_pet_limitations, ut_pet_traffic and both dismissed variants.",
+          "evidence": {}
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "9/9 receipt documents exact, and then six more. Every one of the nine bound Utah binaries - 1000EX, 1020EX, 1044XX, 1146XX, 1148XX, 1149XX, 1169XX and the two BCI supporting-process forms - recomputes to the pinned SHA-256 at the pinned byte length in the mounted Master Library. participant-instructions.md additionally asserts six authorities by SHA-256 that are NOT in the receipt's documents array, and an authority quoted by hash is a pin like any other, so I recomputed all six: UT-BCI-EXP-INSTRUCTIONS 9e03980f..., UT-BCI-INDIGENT-INSTRUCTIONS 862e058f..., 1044XX b9958628..., 1305GE c184a242..., 1146XX 39f1205f... and the compiled Utah profile 73dd7ea9... Every one matches on disk. Both declared routeKeys are present in the current census. Nothing here pins a byte state its source no longer has.",
+          "evidence": {
+            "recomputedHere": [
+              {
+                "record": "1000EX",
+                "path": "STATES/UT/02_PACKET_FORMS/UT__FORM__1000EX__petition-to-expunge-records-with-certificate-of-eligibility__REV-2022-04-11__EN.pdf",
+                "resolvedIn": "corpus",
+                "pinned": "401e0563ae4dddee7a447c4b3fa9d043477402188c98fd3b108087c84c986611",
+                "recomputed": "401e0563ae4dddee7a447c4b3fa9d043477402188c98fd3b108087c84c986611",
+                "shaExact": true,
+                "byteLengthExact": true
+              },
+              {
+                "record": "1020EX",
+                "path": "STATES/UT/02_PACKET_FORMS/UT__FORM__1020EX__order-on-petition-to-expunge-records-with-certificate-of-eligibility__REV-2022-04-11__EN.pdf",
+                "resolvedIn": "corpus",
+                "pinned": "cc437e7fa0abaa1001f5309e1d842c6f7649b152fcab616bd9356293e241acd2",
+                "recomputed": "cc437e7fa0abaa1001f5309e1d842c6f7649b152fcab616bd9356293e241acd2",
+                "shaExact": true,
+                "byteLengthExact": true
+              },
+              {
+                "record": "1044XX",
+                "path": "STATES/UT/02_PACKET_FORMS/UT__FORM__1044XX__district-court-cover-sheet-for-civil-actions__REV-2026-05-06__EN.pdf",
+                "resolvedIn": "corpus",
+                "pinned": "b99586289df6304da5b34181bee95ec2b7f098806c1c949a0f112daeb0244a52",
+                "recomputed": "b99586289df6304da5b34181bee95ec2b7f098806c1c949a0f112daeb0244a52",
+                "shaExact": true,
+                "byteLengthExact": true
+              },
+              {
+                "record": "1146XX",
+                "path": "STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1146XX__acceptance-of-service-expungement__REV-2019-05-01__EN.pdf",
+                "resolvedIn": "corpus",
+                "pinned": "39f1205f48bd73fc7b9686a101369be74a988b419697ea964c2ff5a5c0ce63ad",
+                "recomputed": "39f1205f48bd73fc7b9686a101369be74a988b419697ea964c2ff5a5c0ce63ad",
+                "shaExact": true,
+                "byteLengthExact": true
+              },
+              {
+                "record": "1148XX",
+                "path": "STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1148XX__consent-and-waiver-of-hearing-expungement__REV-2019-05-01__EN.pdf",
+                "resolvedIn": "corpus",
+                "pinned": "43c6d4fd232f67453357b342794cac209da82373ce4e93c686c285b42e553288",
+                "recomputed": "43c6d4fd232f67453357b342794cac209da82373ce4e93c686c285b42e553288",
+                "shaExact": true,
+                "byteLengthExact": true
+              },
+              {
+                "record": "1149XX",
+                "path": "STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1149XX__victim-s-or-prosecutor-s-statement__REV-2019-05-01__EN.pdf",
+                "resolvedIn": "corpus",
+                "pinned": "79f16112e639b74a3189dbde1a4bb725ea7e5f4f92988a476f8d1e9bd24662d3",
+                "recomputed": "79f16112e639b74a3189dbde1a4bb725ea7e5f4f92988a476f8d1e9bd24662d3",
+                "shaExact": true,
+                "byteLengthExact": true
+              },
+              {
+                "record": "1169XX",
+                "path": "STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1169XX__reply-to-victim-s-statement-prosecutor-s-statement-or-ap-p-response__REV-2010-07-16__EN.pdf",
+                "resolvedIn": "corpus",
+                "pinned": "bd5594c76fd9d3b5a8017ae25c0df7951bf2fb9381b752ddd61c2c7a2d713244",
+                "recomputed": "bd5594c76fd9d3b5a8017ae25c0df7951bf2fb9381b752ddd61c2c7a2d713244",
+                "shaExact": true,
+                "byteLengthExact": true
+              },
+              {
+                "record": "UT-BCI-EXP-APPLICATION",
+                "path": "STATES/UT/04_SUPPORTING_PROCESS/UT__SUPPORT__UT-BCI-EXP-APPLICATION__bci-application-for-certificate-of-eligibility-for-expungement__REV-UNKNOWN__EN.pdf",
+                "resolvedIn": "corpus",
+                "pinned": "b4eacb2b9f78c9d69da76ee6528d12c58d0d896a7d2869aeb7ba77de24a91b13",
+                "recomputed": "b4eacb2b9f78c9d69da76ee6528d12c58d0d896a7d2869aeb7ba77de24a91b13",
+                "shaExact": true,
+                "byteLengthExact": true
+              },
+              {
+                "record": "UT-BCI-THIRD-PARTY-RELEASE",
+                "path": "STATES/UT/04_SUPPORTING_PROCESS/UT__SUPPORT__UT-BCI-THIRD-PARTY-RELEASE__bci-third-party-release-form__REV-UNKNOWN__EN.pdf",
+                "resolvedIn": "corpus",
+                "pinned": "c4b59e479aeb5dcef0229fdc924905e7cfaa5ea611403d05a7cf636a50528451",
+                "recomputed": "c4b59e479aeb5dcef0229fdc924905e7cfaa5ea611403d05a7cf636a50528451",
+                "shaExact": true,
+                "byteLengthExact": true
+              }
+            ],
+            "instructionAuthoritiesAlsoRecomputed": 6,
+            "instructionAuthoritiesExact": 6,
+            "routeKeyPresence": [
+              {
+                "routeKey": "obligation:unit:UT:ut_pet_conviction:ut_pet_conviction-bci-certificate",
+                "presentInBoundRecords": false,
+                "where": [],
+                "declaredInReceipt": false,
+                "declaredInWiring": true,
+                "declaredInFieldMap": true
+              },
+              {
+                "routeKey": "obligation:unit:UT:ut_pet_conviction:ut_pet_conviction-court-petition",
+                "presentInBoundRecords": false,
+                "where": [],
+                "declaredInReceipt": false,
+                "declaredInWiring": true,
+                "declaredInFieldMap": true
+              }
+            ]
+          }
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "Nine documents declared, nineteen pages delivered, every page attributable, nothing foreign. reports/rendered-artifacts.json carries a pageManifest naming a source form and source page for all 19 pages, and the nine forms it names are exactly the nine the receipt binds. No form belonging to another Utah route - no acquittal-specific or traffic-specific instrument - appears.",
+          "evidence": {}
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "38 of 444 census cells written and every declared write produced ink; declared-write-minus-actually-written is 0. Recovered from the bytes: the participant name 7 times, the case number 4 times, the street address 4 times and the date of birth once, at the caption, In-Re and BCI-application positions the map assigns. I also read raster/boundary/page-01.png and confirmed the long boundary values are shrunk to sit inside their rules rather than being written past them.",
+          "evidence": {
+            "declaredWritesNotWritten": 0
+          }
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "Disclosed under 'The facts you must supply before filing', including the two that decide the case: the BCI certificate identification number, and proof that fines, fees, interest and restitution are paid in full - which the packet states will defeat both the petition and the certificate if unpaid, and tells the participant to check against their own answer and correct the packet if they disagree. requiredFactsNotCollected 0.",
+          "evidence": {}
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "Eight route options selected and I read them in pixels, not in the manifest: on the cover sheet, '[X] No monetary damages are requested' and '$150 [X] Expungement Petition - Criminal (E)'; on the petition, '[x] Petitioner' and '[x] District' court. Each is drawn inside an existing measured bracket pair rather than invented. requiredOptionsMissing 0.",
+          "evidence": {
+            "selectedRouteOptions": 8,
+            "confirmedInPixels": "raster/boundary/page-01.png"
+          }
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "No half-filled row across 444 cells; incompleteRows 0.",
+          "evidence": {}
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "178 of 186 map rows are explicit refusals, 88 of them signature, date, judge, clerk, notarial, prosecutor or victim blocks, and none is written. No participant name appears on any line containing a signature or notarial keyword in either fixture. protectedWrites 0.",
+          "evidence": {
+            "explicitRefusals": 178,
+            "protectedWrites": 0
+          }
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "Hashed by me: canonical ad594f0a40750195b67e36916f3628df5b96d337e4955c9063b415747d6e36d6 (3,024,920 B, 19 pages), boundary b3ba83a65754f96f... (3,025,560 B, 19 pages). Both recomputed digests are the digests reports/rendered-artifacts.json records; both page counts agree across two parsers and against the 19-entry pageManifest.",
+          "evidence": {}
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "Verified page by page against the sources rather than counted. Using the pageManifest, I extracted all 19 packet pages and the 19 named source pages from the mounted corpus and matched their distinctive text: 19/19 match in both fixtures, 0 mismatched, 0 sources unresolvable. Order runs 1000EX (2) then 1020EX (3) then the cover sheet then the source-gated service, consent, victim-statement and reply forms then the two BCI forms - petition first, order next, process last.",
+          "evidence": {
+            "pagesMatched": 19,
+            "pagesMismatched": 0
+          }
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "Zero words outside the page box in either fixture across 19 pages, measured from word rectangles against each page's own MediaBox. The boundary fixture, whose values are deliberately extreme, stays inside the page everywhere - I confirmed page 1 in pixels and the long name, address and county values are shrunk to fit their rules rather than run past them.",
+          "evidence": {
+            "wordsOutsidePageBox": [
+              {
+                "file": "data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill/fixtures/boundary.pdf",
+                "wordsOutsidePageBox": 0
+              },
+              {
+                "file": "data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill/fixtures/canonical.pdf",
+                "wordsOutsidePageBox": 0
+              }
+            ]
+          }
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "Stated for both halves of a two-office route, which is the thing this family could most easily get wrong: BCI issues the certificate the petition depends on and takes its own application, and the district court takes the petition. The packet keeps them apart and says which paper goes where.",
+          "evidence": {}
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "This is the trap family and it is on the right side of it. Every figure it states is quoted from a document it encloses or from a held record, and I verified each in the delivered bytes rather than in the prose. The $150 court fee is read off the enclosed district court cover sheet 1044XX at page 2 of the packet, where the delivered page prints '$150 [X] Expungement Petition - Criminal (E)' with the row already selected - the packet quotes the form it encloses, which is the correct pattern. The $65.00 BCI application fee is printed twice on the enclosed BCI application ('The application fee is $65.00 and non-refundable' and 'Application fee is $65.00'), and the indigency route is quoted from that same form's own instruction that an applicant checking the indigent box MUST complete the fee waiver form before submitting. The $65-per-case certificate charge is quoted from the compiled Utah profile at SHA-256 73dd7ea9..., which I recomputed, and the packet does the A3 work explicitly: it takes the half of the profile sentence about eligible convictions, states that the exempting half about dismissals, acquittals and declinations is not about this route, and refuses to read it across. The court waiver route is named as form 1305GE under Utah Code 78A-2-302 and CJA Rule 4-508, whose hash I also recomputed. Nothing is asserted without a current primary authority, and nothing held is denied - the packet expressly declines to call the certificate charge unknowable because the per-case figure is held.",
+          "evidence": {
+            "figuresAndWhereIReadThem": {
+              "$150": "delivered packet page 2, cover sheet 1044XX, row selected",
+              "$65.00 application": "delivered BCI application, printed twice",
+              "$65 per case": "src/lib/rcap-engine/compiled/profiles/UT-utah.json, hash recomputed",
+              "1305GE waiver": "corpus 04_SUPPORTING_PROCESS, hash recomputed"
+            },
+            "unsourcedFeeAssertions": 0
+          }
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "'Who must receive a copy, and how' is present, and the packet encloses the instruments service runs on - the Acceptance of Service (1146XX), the Consent and Waiver of Hearing (1148XX) and the victim/prosecutor statement and reply forms - rather than describing them in the abstract. 1146XX is one of the six authorities the instructions pin by hash, and it recomputes.",
+          "evidence": {}
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "'Where self-help ends' is present and route-scoped, and the packet draws the one distinction a Utah participant most needs: the court and BCI are two different offices with two different waivers, and the court's $150 waiver must not be assumed to cover either BCI amount.",
+          "evidence": {}
+        }
+      },
+      "alsoObservedNotScoredAsAFailure": [
+        "1305GE is held in the mounted corpus - I recomputed its hash - but is not enclosed in the 19-page fixture; the packet names it and tells the participant where to get it. Stating beats enclosing for this obligation and I scored it PASS, but a family that holds the waiver form for its own route and ships everything except it is worth a builder's second look.",
+        "The Utah field map keys selection controls by their printed caption, and two distinct controls on cover-sheet page 2 share one caption string ('Sch [ ] Property Right s$150 [ ] Expungement Petition - Criminal (E)') - one refused at x=103.98 and one selected at x=355.98. selectionId disambiguates them and the correct one is marked, so nothing is wrong in the artifact; but any tool that keys on the field name alone will read this family as writing into a refused control. Mine did on the first pass, and I checked the geometry rather than reporting it."
+      ]
+    },
+    {
+      "itemId": "nj_arrest_no_conviction-set",
+      "lane": "VF10",
+      "assignmentId": "VF10",
+      "laneKind": "independent-verification",
+      "worker": "VT-C (Claude Opus 5) — independent verification team",
+      "verifier": "VT-C (Claude Opus 5) — independent verification team",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill",
+      "claimHeld": true,
+      "claimEvidence": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF10 nj_arrest_no_conviction-set returned CLAIM_OK (independent-verification, grant set ea6b56d34a1ad782). Asserted before any artifact in this family was opened.",
+      "whyThisReaderIsIndependent": "VT-C built none of these families, repaired none of them, rendered none of their fixtures and produced none of their reports. Every grant was asserted at data/rcap-grade-a/packet-factory-24h/claim-ledger.json BEFORE any artifact in the family was opened, and every number below was recomputed in this container from the delivered bytes and the mounted Master Library. Where a prior lane's conclusion is confirmed it is confirmed by re-measurement, never by agreement.",
+      "obligationsScored": 15,
+      "failedObligations": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "REPEATING_ROWS",
+        "CLIPPING_AND_OVERLAP",
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SERVICE",
+        "SELF_HELP_STOP"
+      ],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "REPEATING_ROWS",
+        "CLIPPING_AND_OVERLAP",
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SERVICE",
+        "SELF_HELP_STOP"
+      ],
+      "unmeasuredObligations": [],
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "familyPromoted": false,
+      "packetBytesModified": 0,
+      "overlayDirectoriesModified": 0,
+      "buildScriptsModified": 0,
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "how": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_arrest_no_conviction-set returned PASS_COMPLETE with all nine zero in this container.",
+        "whyThatIsNotTheAnswer": "The counters are zero and unearned on this family, and I say so rather than resting on them. For this field-map shape readFieldRows() sorts a row into writes[] whenever decision !== 'refuse', so a candidate_write row is counted as WRITTEN on the strength of the map's declaration, never against the artifact bytes. The map's own decisionBasis concedes the point - 'shared exact terminal-name fact allowlist; shared semantic finalizer still controls' - so a candidate_write is a candidacy, not a fact. One row on this family is exactly that case and the verifier cannot see it. The nine counters are therefore not all-zero-as-measured-here in the sense a PASS requires."
+      },
+      "artifactHashes": [
+        {
+          "file": "data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill/fixtures/cn-10557-boundary.pdf",
+          "recomputedSha256": "ac3e45fb78f2ca63a2c35e271bcbdd22d4fbbee7722d6251accaf941f35569ad",
+          "recomputedByteLength": 577985,
+          "parsedPageCount": 43,
+          "recomputedHashAppearsInRenderedArtifactsRecord": true
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill/fixtures/cn-10557-canonical.pdf",
+          "recomputedSha256": "18463feda4cfdbf5766c3c98ea7214eb4368a95de28df48732ddddcebda5ff28",
+          "recomputedByteLength": 575394,
+          "parsedPageCount": 43,
+          "recomputedHashAppearsInRenderedArtifactsRecord": true
+        }
+      ],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "One route: obligation:track-pathway:NJ:nj_arrest_no_conviction:arrest-dismissal-and-other-non-conviction-expungement-under-n-j-s-a-2c-52-6, declared identically by source-receipt.json and product-wiring.json and present at this base in the census candidate, the canonical route universe, the build worklist and category-a-implementation-waves. The route election in the bytes agrees: page 18 marks 'a. ... the charge(s) of ... was/were dismissed by the ...' and leaves 'b. ... I was acquitted of' unmarked, which is the dismissal branch this route names. No sibling NJ route key (clean_slate, disorderly_persons, indictable_conviction, ordinance) appears in the family directory.",
+          "evidence": {
+            "routeElectionConfirmedInPixels": "raster/cn-10557-canonical/page-18.png"
+          }
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "1/1 exact. NJ-CN-10557 recomputes to c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7 at 1,924,831 bytes in the mounted Master Library, which is what source-receipt.json pins and also what the build script's own inline pin carries; three places agree. The declared routeKey is present in the current census. This family is not one of the thirty-two stale pins.",
+          "evidence": {
+            "recomputedHere": [
+              {
+                "record": "NJ-CN-10557",
+                "path": "STATES/NJ/02_PACKET_FORMS/NJ__FORM__CN-10557__cn-10557-new-jersey-expungement-kit__REV-2020-06__EN.pdf",
+                "resolvedIn": "corpus",
+                "pinned": "c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7",
+                "recomputed": "c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7",
+                "shaExact": true,
+                "byteLengthExact": true
+              }
+            ],
+            "routeKeyPresence": [
+              {
+                "routeKey": "obligation:track-pathway:NJ:nj_arrest_no_conviction:arrest-dismissal-and-other-non-conviction-expungement-under-n-j-s-a-2c-52-6",
+                "presentInBoundRecords": false,
+                "where": [],
+                "declaredInReceipt": true,
+                "declaredInWiring": true,
+                "declaredInFieldMap": false
+              }
+            ]
+          }
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "One declared document, one delivered, at full extent, nothing foreign. The 43-page CN-10557 kit is delivered whole - 43 pages in the artifact, 43 in the source - and no other New Jersey instrument is present.",
+          "evidence": {}
+        },
+        "KNOWN_PREFILLS": {
+          "result": "FAIL",
+          "measuredHere": true,
+          "finding": "Declared writes produced no ink at all - one on the canonical fixture and three on the boundary - and nothing in the packet says so. production-field-map.json declares 18 fields with decision 'candidate_write'. reports/actual-writes.json, which is derived from the artifact bytes, names 17 written identities on the canonical and 15 on the boundary. The differences are exact: ExpungeCntyName (factId matter.county, four widgets, pages 18, 27, 30 and 40) is absent from BOTH; dismissOff1 (matter.charge, page 18) and arrest1CaseNum (matter.case_number, page 31) are additionally absent from the boundary. I checked each against the delivered bytes rather than the report. The county value this build holds for New Jersey - 'Essex County' canonical, 'Saint Bartholomew and the Northern Reaches Essex County' boundary - occurs zero times in either PDF, and raster/cn-10557-canonical/page-18.png shows the caption reading 'County ______ (where you are filing)' empty. On the boundary, page 18 item a reads 'the charge(s) of (name of offense(s))' followed by nothing, and page 31 item (1) reads '(date) 2019-03-08 arrest/custody on the charge of violating N.J.S.A. (statute) ____ under (original indictment ... docket number)' with the docket cell empty. Every value that vanished is a long one - a 79-character charge, a 37-character case number, a 49-character county - and every one is present and written on the canonical or held by the build. I do not assert the mechanism; I measured that the map declares writes the artifact does not carry, that the drop is value-length-correlated, and that no report, refusal or instruction discloses any of it.",
+          "evidence": {
+            "declaredCandidateWrites": 18,
+            "writtenCanonical": 17,
+            "writtenBoundary": 15,
+            "notWrittenCanonical": [
+              "ExpungeCntyName"
+            ],
+            "notWrittenBoundary": [
+              "dismissOff1",
+              "ExpungeCntyName",
+              "arrest1CaseNum"
+            ],
+            "valuesHeldButAbsentFromBytes": {
+              "matter.county (canonical)": "Essex County — 0 occurrences",
+              "matter.county (boundary)": "Saint Bartholomew and the Northern Reaches Essex County — 0 occurrences",
+              "matter.charge (boundary)": "Possession of a controlled substance with an unusually long statutory description — 0 occurrences on the dismissal election line"
+            },
+            "confirmedInPixels": "raster/cn-10557-canonical/page-18.png",
+            "whyTheVerifierMissedIt": "readFieldRows() puts every decision !== 'refuse' row into writes[], so a candidate_write is believed rather than checked against the artifact. The map's own decisionBasis concedes it: 'shared exact terminal-name fact allowlist; shared semantic finalizer still controls'.",
+            "whatIAmNotDeciding": "Whether the finalizer was RIGHT to withhold the county. The caption asks for the county the participant FILES in, and matter.county here is derived from the residence fixture, so writing it could be wrong. That is a builder's determination. What is measurable is that the map declares writes that did not happen, and that nothing tells the participant."
+          }
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "FAIL",
+          "measuredHere": true,
+          "finding": "The blank ExpungeCntyName leaves is disclosed nowhere. participant-instructions.md carries an 'Exact facts still required before filing' list of 70 bullets; ExpungeCntyName is not among them, and no entry in it names the caption county. So the filing county is absent from four documents - the Petition, the Order for Hearing, the Expungement Order and the Final Order - and the participant is never asked for it. A New Jersey expungement petition whose caption names no county is not a filable petition, and the packet neither fills it nor requests it. Whichever way the KNOWN_PREFILLS question is resolved, this one fails: a fact the platform writes must be written, and a fact it does not write must be disclosed. Neither happened.",
+          "evidence": {
+            "disclosedItems": 70,
+            "expungeCntyNameAmongThem": false,
+            "documentsAffected": [
+              "Petition for Expungement (Form A), p.18",
+              "Order for Hearing, p.27",
+              "Expungement Order, p.30",
+              "Final Order, p.40"
+            ]
+          }
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "The dismissal election is the measured existing control on page 18 and it is marked; no box is invented and the acquittal branch is left unmarked. Read in pixels.",
+          "evidence": {}
+        },
+        "REPEATING_ROWS": {
+          "result": "FAIL",
+          "measuredHere": true,
+          "finding": "A half-filled row in the delivered boundary filing, on the proposed Expungement Order. Row (1) on page 31 reads '(date) 2019-03-08 arrest/custody on the charge of violating N.J.S.A. (statute) ____ under (original indictment/accusation/summons/warrant/ complaint/FJ or FO docket number) ____' - the arrest date cell is written and the docket-number cell on the same row is empty, because arrest1Dt produced ink and arrest1CaseNum did not. The canonical fixture writes both cells, so this is not the row's design; it is the row losing a cell on long values. A row that names a date and no docket number tells the court to expunge an arrest it cannot identify. Rows (2) to (4) are wholly empty, which is correct. The completeness verifier scored incompleteRows 0 because it reads arrest1CaseNum as written from the map's declaration.",
+          "evidence": {
+            "document": "Expungement Order (Form C), delivered page 31",
+            "fixture": "boundary",
+            "rowIndex": 1,
+            "cellWritten": "arrest date 2019-03-08",
+            "cellEmpty": "original indictment/docket number (arrest1CaseNum)",
+            "sameRowOnCanonical": "both cells written",
+            "whollyEmptyRowsBelow": 3
+          }
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "160 of 179 map rows are refusals, 14 of them signature, notarial, judge, clerk, prosecutor or agency blocks, and the refused-and-written intersection is empty. No participant name appears on any signature or jurat line in either fixture. protectedWrites 0.",
+          "evidence": {}
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "Hashed by me: canonical 18463feda4cfdbf5766c3c98ea7214eb4368a95de28df48732ddddcebda5ff28 (575,394 B, 43 pages), boundary ac3e45fb78f2ca63a2c35e271bcbdd22d4fbbee7722d6251accaf941f35569ad (577,985 B, 43 pages). Both recomputed digests are the digests reports/actual-writes.json and reports/rendered-artifacts.json record, and both page counts agree across two parsers and with the 43-page source.",
+          "evidence": {}
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "43 pages delivered against a 43-page source, in source order; the kit is filled in place rather than assembled, so no page can be transposed.",
+          "evidence": {}
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "FAIL",
+          "measuredHere": true,
+          "finding": "Participant text runs off the right edge of the page and is cut mid-word on four pages of the delivered boundary filing, and the build's own report calls the same writes 'fit' and 'shrunk'. Measured from pdftotext -bbox-layout word rectangles against each page's own 612x792 MediaBox: the official CN-10557 has 0 words outside the page box, the canonical fixture has 0, and the boundary fixture has 7 - 'Montgomery-Vanden' ending at x=618.97 on page 23, 'Fitzwilliam' at x=619.69 and 'Montgomery-Vandenberg-' at x=615.29 and 'Northeas' at x=618.07 on page 35, 'Montgomery-Vandenberg-Oye' at x=616.15 and 'Bu' at x=618.59 on page 38, and 'Fitzwillia' at x=614.51 on page 43. Every one of them is the participant's own name or street address. The text also overruns its own widget rectangle long before it leaves the page: DefName's page-23 widget ends at x=553.1 and its page-43 widget at x=545.4, and 41 widget/value pairs in the boundary fixture carry text past the declared rectangle against 30 in the canonical. I confirmed it in pixels at raster/cn-10557-boundary/page-35.png, which is the Cover Letter to Court: the Re: line ends '...Montgomery-Vandenberg-Oyelaran' with the rest of the name gone, the signature block reads 'Alexandrina-Katharine Montgomery-V' and the address reads '12345 Southwest Grandview Bouleva'. reports/actual-writes.json records DefName on the boundary as outcome 'shrunk', fontSize 6.5, lines 1, and DefAddrStr as 'shrunk' at 7.5 - the shrink is computed once per field and stamped into widgets of differing widths, so the narrow ones still overflow. A cover letter to a court carrying a truncated name and a truncated address is not a filable paper.",
+          "evidence": {
+            "sourceWordsOutsidePageBox": 0,
+            "canonicalWordsOutsidePageBox": 0,
+            "boundaryWordsOutsidePageBox": 7,
+            "offPageWords": [
+              {
+                "page": 23,
+                "text": "Montgomery-Vanden",
+                "xMax": 618.965
+              },
+              {
+                "page": 35,
+                "text": "Fitzwilliam",
+                "xMax": 619.694
+              },
+              {
+                "page": 35,
+                "text": "Montgomery-Vandenberg-",
+                "xMax": 615.292
+              },
+              {
+                "page": 35,
+                "text": "Northeas",
+                "xMax": 618.072
+              },
+              {
+                "page": 38,
+                "text": "Montgomery-Vandenberg-Oye",
+                "xMax": 616.152
+              },
+              {
+                "page": 38,
+                "text": "Bu",
+                "xMax": 618.591
+              },
+              {
+                "page": 43,
+                "text": "Fitzwillia",
+                "xMax": 614.505
+              }
+            ],
+            "pageBox": [
+              612,
+              792
+            ],
+            "widgetOverruns": {
+              "canonical": 30,
+              "boundary": 41,
+              "offPage": 7
+            },
+            "buildReportSaysFit": "actual-writes.json boundary: DefName outcome 'shrunk' fontSize 6.5 lines 1; DefAddrStr 'shrunk' 7.5; DefAddr3 'fit' 9 on all seven widgets",
+            "confirmedInPixels": "raster/cn-10557-boundary/page-35.png"
+          }
+        },
+        "FILING_DESTINATION": {
+          "result": "FAIL",
+          "measuredHere": true,
+          "finding": "The packet answers it nowhere and sends the participant away to establish a fact both its own enclosure and the committed record already state. participant-instructions.md contains no filing-destination section; the only sentence that touches it is the catch-all 'Confirm current revision, filing destination, local procedures, fees, attachments, service, and proposed-order requirements before filing.' Meanwhile the committed track registry entry for track nj_arrest_no_conviction carries destination.name 'Superior Court, Criminal Division, of the vicinage' with rules.filing naming the eCourts Expungement System or the Judiciary kit forms; and the enclosed kit itself states it at page 9 - 'Mail this package to the Criminal Case Management Office in the county where you were arrested/taken into custody and/or where the prosecution/adjudication occurred', with a list of those offices and their telephone numbers at the end of the guide. The build host this family runs on has a filingDestinationSection() that exists precisely to state this, and its own source comment names this exact sentence as the defect ('which lists four questions and answers none'); its NY sibling on the same host opted in and this family did not.",
+          "evidence": {
+            "heldRecord": "data/record-clearing/legal-design-track-registry.json, track nj_arrest_no_conviction, destination + rules.filing",
+            "alsoStatedByTheEnclosedKit": "CN-10557 page 9",
+            "packetSectionsPresent": [
+              "Required participant/local completion",
+              "Exact facts still required before filing"
+            ],
+            "hostSupportsIt": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs filingDestinationSection(), opted into by ny_mrta_marijuana-set and ny_160_59_petition-set"
+          }
+        },
+        "FEE_AND_WAIVER": {
+          "result": "FAIL",
+          "measuredHere": true,
+          "finding": "This is the holding, breached exactly. The packet tells the participant to go and confirm 'fees' before filing, and it is enclosing, in its own delivered bytes, the publisher's statement that there is no fee. The running footer of the delivered kit reads 'Kit updated 06/2020 to remove the filing fee, CN 10557' on four pages of both fixtures. The committed track registry for this route says the same thing twice over: rules.fees is 'No court filing fee for any expungement petition. New Jersey Courts states \"It's free\", and the Judiciary kit was updated in June 2020 specifically to remove the fee', and rules.feeWaiver is 'not applicable to the court filing. There is no filing fee to waive.' So the answer is held, the answer is enclosed, and the packet asks the participant to establish it elsewhere. Under DET-FEE-AND-WAIVER-001 A1 as widened by A2 - the standard this family's own build host cites for its New York siblings - a packet states what the repository establishes and delegates only what it does not. It also states no separate SBI record-check cost and no financial-assessment condition, both of which the same record holds. Nothing is asserted that is unsourced; what fails is the denial.",
+          "evidence": {
+            "heldRecordFees": "legal-design-track-registry.json, track nj_arrest_no_conviction, rules.fees",
+            "heldRecordWaiver": "rules.feeWaiver: 'not applicable to the court filing. There is no filing fee to waive.'",
+            "statedByTheDeliveredBytes": "'Kit updated 06/2020 to remove the filing fee, CN 10557' — footer, 4 occurrences in each fixture",
+            "whatThePacketSaysInstead": "'Confirm current revision, filing destination, local procedures, fees, attachments, service, and proposed-order requirements before filing.'",
+            "standard": "DET-FEE-AND-WAIVER-001 A1 as widened by A2"
+          }
+        },
+        "SERVICE": {
+          "result": "FAIL",
+          "measuredHere": true,
+          "finding": "Same sentence, same failure, and the enclosed kit is even more explicit here. The packet states no recipient, no method and no timing; the catch-all sentence lists 'service' among the things the participant must confirm elsewhere. The delivered kit states all of it at pages 9-10: immediately after the filed copies come back, make at least seven copies and mail one of each, by certified mail return receipt requested, to the Attorney General of New Jersey, the Superintendent of State Police Expungement Unit, the County Prosecutor, the administrator of any municipal court that heard the matter, the Chief of Police where the offence was committed or the arrest made, the chief law-enforcement officer of any other participating State agency, the warden or superintendent of any institution of incarceration, and the County Probation Division in the diversion and financial cases it lists. The committed track registry carries rules.notice and rules.service for this route as well. The host's serviceSection() exists and was not opted into.",
+          "evidence": {
+            "heldRecord": "legal-design-track-registry.json rules.notice and rules.service",
+            "statedByTheDeliveredBytes": "CN-10557 pages 9-10, eight recipients with method and timing",
+            "hostSupportsIt": "serviceSection() in the shared build host"
+          }
+        },
+        "SELF_HELP_STOP": {
+          "result": "FAIL",
+          "measuredHere": true,
+          "finding": "The packet names no stop condition at all, and the committed record holds thirteen for this exact track. data/record-clearing/legal-design-track-registry.json, track nj_arrest_no_conviction, selfHelpStopConditions carries: dismissal after PTI, conditional discharge or another diversion programme; any count still open; prosecutor objection; any conviction that might sit on the N.J.S.A. 2C:52-2(b) or (c) non-expungeable list; any classification or out-of-state equivalency question; any same-day or closely-related bundling argument; prior expungement, which N.J.S.A. 2C:52-14(e) bars except on Clean Slate; pending charges; unpaid financial assessments and the willfulness question; the participant cannot assemble complete case identifiers; federal, out-of-state or tribal records; immigration exposure, with the statement that New Jersey expungement has no federal immigration effect; and any Title 39 motor vehicle matter including DWI, which N.J.S.A. 2C:52-28 puts outside the chapter entirely. participant-instructions.md returns zero case-insensitive hits for 'immigrat', 'stop', 'lawyer' and 'legal aid'. Seven of the eight families in this dispatch carry a stop section; this one has none.",
+          "evidence": {
+            "heldConditions": 13,
+            "conditionsCarriedByThePacket": 0,
+            "searchesRun": {
+              "immigrat": 0,
+              "stop": 0,
+              "lawyer": 0,
+              "legal aid": 0
+            }
+          }
+        }
+      },
+      "whatWouldClearThisFamily": [
+        "Clip flattened participant text to its widget rectangle, and compute shrink-to-fit per widget rather than once per field, so a value cannot leave the widget or the page. Re-measure that zero words fall outside the page box in the boundary fixture.",
+        "Resolve ExpungeCntyName one way or the other: either write the filing county, or change its map decision away from candidate_write and disclose the caption-county blank in participant-instructions.md.",
+        "Opt this family into the host's filingDestinationSection(), feeAndWaiverSection(), serviceSection() and self-help-stop section, from the committed track registry entry for nj_arrest_no_conviction and from nowhere else, and let each opted-in section remove its own item from the catch-all sentence, as the host is already built to do."
+      ],
+      "alsoObservedNotScoredAsAFailure": [
+        "Four sibling families share this build host, this field-map shape and this catch-all sentence: nj_clean_slate-set, nj_disorderly_persons-set, nj_indictable_conviction-set and nj_ordinance-set. Each declares 18 candidate writes and each carries the same instructions skeleton. I hold no grant on any of them and make no finding about them, but a repair scoped to this family alone will leave the host defect in place.",
+        "The completeness verifier believing a candidate_write is a general property of readFieldRows(), not of this family. Any family on a documents-and-decisions field map can carry an unwritten declared write and still score nine zeros. That is a verifier question for the Captain, not a defect of this packet."
+      ]
     }
   ],
   "supersessionNote": "The prior VF10 FAIL row for ut_pet_traffic-set is not carried here: that family was re-verified under this verifier's VF11 lane after repair commit 1c8007435, and its current verdict lives in vf11/rows.json. Git history preserves the prior row.",
@@ -5746,5 +6344,22 @@
     ],
     "rowsReplacedInThisFile": [],
     "rowsPreserved": 26
+  },
+  "vtcRead": {
+    "worker": "VT-C (Claude Opus 5)",
+    "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+    "familiesAppended": [
+      "ut_pet_conviction-set",
+      "nj_arrest_no_conviction-set"
+    ],
+    "rowsBeforeThisPass": 37,
+    "rowsAfterThisPass": 39,
+    "fileIsSharedBySuccessivePasses": "VT-C appended its rows and re-serialised nothing. Every row from an earlier pass is byte-identical to what it found, including rows on families VT-C also read; where VT-C's finding differs from an earlier pass, the difference is recorded in VT-C's own row under `supersedes` rather than by editing anyone else's.",
+    "claimsAsserted": "Every family below returned CLAIM_OK from claim.mjs --assert before any artifact in it was opened, and was released after the row was written.",
+    "overlayDirectoriesModified": 0,
+    "packetBytesModified": 0,
+    "buildScriptsModified": 0,
+    "commercialRoutesOpened": 0,
+    "productionTouched": false
   }
 }

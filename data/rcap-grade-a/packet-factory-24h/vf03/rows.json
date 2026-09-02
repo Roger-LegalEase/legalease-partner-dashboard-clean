@@ -4287,6 +4287,1398 @@
           "evidence": "registry selfHelpStopConditions and units[0].description for trackId pa_pardon_expungement; guidance page text extracted from fixtures/canonical.pdf and fixtures/boundary.pdf; participant-instructions.md step 4; grep for pardon, board, quarter, referral across the family's participant-facing surfaces"
         }
       }
+    },
+    {
+      "itemId": "ar-nonconviction-seal-set",
+      "lane": "VF03",
+      "assignmentId": "VF03",
+      "laneKind": "independent-verification",
+      "worker": "VT-C (Claude Opus 5) — independent verification team",
+      "verifier": "VT-C (Claude Opus 5) — independent verification team",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-nonconviction-seal-set--official-pdf-fill",
+      "claimHeld": true,
+      "claimEvidence": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF03 ar-nonconviction-seal-set returned CLAIM_OK (independent-verification, grant set ea6b56d34a1ad782). Asserted before any artifact in this family was opened.",
+      "whyThisReaderIsIndependent": "VT-C built none of these families, repaired none of them, rendered none of their fixtures and produced none of their reports. Every grant was asserted at data/rcap-grade-a/packet-factory-24h/claim-ledger.json BEFORE any artifact in the family was opened, and every number below was recomputed in this container from the delivered bytes and the mounted Master Library. Where a prior lane's conclusion is confirmed it is confirmed by re-measurement, never by agreement.",
+      "obligationsScored": 15,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "familyPromoted": false,
+      "packetBytesModified": 0,
+      "overlayDirectoriesModified": 0,
+      "buildScriptsModified": 0,
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "how": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-nonconviction-seal-set (no --write), run in this container at a0d49e1ad49ad4397eac4b009225baf0b94bf03e; returned PASS_COMPLETE with all nine counters zero."
+      },
+      "artifactHashes": [
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ar/ar-nonconviction-seal-set--official-pdf-fill/fixtures/boundary.pdf",
+          "recomputedSha256": "8737d13ab5c420759139c2f880bb4785013753d356729464350cfe6fe4f3d871",
+          "recomputedByteLength": 819462,
+          "parsedPageCount": 7,
+          "recomputedHashAppearsInRenderedArtifactsRecord": true
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ar/ar-nonconviction-seal-set--official-pdf-fill/fixtures/canonical.pdf",
+          "recomputedSha256": "28436bb896bcf2e8ca414f6a0635af19df9cf2b07317dbd5fe4a2614a7d591e5",
+          "recomputedByteLength": 819258,
+          "parsedPageCount": 7,
+          "recomputedHashAppearsInRenderedArtifactsRecord": true
+        }
+      ],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "One route and only one. source-receipt.json, product-wiring.json and production-field-map.json all declare exactly obligation:track-only:AR:ar-nonconviction-seal and nothing else, and that key is present at this base in data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json, canonical-route-universe.json, packet-family-build-worklist.json and route-obligation-census-v1/category-a-implementation-waves.json. No foreign route key appears anywhere in the family directory.",
+          "evidence": {
+            "routeKeys": [
+              "obligation:track-only:AR:ar-nonconviction-seal"
+            ],
+            "presentInCensusAtThisBase": true
+          }
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "4/4 exact, recomputed here rather than read back. Both committed records (data/record-clearing/legal-design-packet-set-manifests.json, src/lib/rcap-engine/compiled/profiles/AR-arkansas.json) and both official binaries (the ACIC petition and the ACIC order in STATES/AR/05_SOURCE_GATED) recompute to exactly the SHA-256 and byte length the receipt pins, against the mounted Master Library. allSourcesExact:true is earned. The declared routeKey is PRESENT in the current census, so this is not one of the thirty-two stale pins.",
+          "evidence": {
+            "recomputedHere": [
+              {
+                "record": "packet-set-manifest:ar-nonconviction-seal-set",
+                "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+                "resolvedIn": "worktree",
+                "pinned": "563147bf8431e5d3bcfc2b75e07307ae706b2d086d4f302e66fee9300b89588d",
+                "recomputed": "563147bf8431e5d3bcfc2b75e07307ae706b2d086d4f302e66fee9300b89588d",
+                "shaExact": true,
+                "byteLengthExact": true
+              },
+              {
+                "record": "compiled-profile:AR-arkansas",
+                "path": "src/lib/rcap-engine/compiled/profiles/AR-arkansas.json",
+                "resolvedIn": "worktree",
+                "pinned": "640152c67534efe30d7bd935ad86c54e2266d8483e97e320ff1d76f05fb67470",
+                "recomputed": "640152c67534efe30d7bd935ad86c54e2266d8483e97e320ff1d76f05fb67470",
+                "shaExact": true,
+                "byteLengthExact": true
+              },
+              {
+                "record": "AR-ACIC-PETITION-TO-SEAL-NONCONVICTION",
+                "path": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-NOLLE-PROSEQUI-DISMISSAL-ACQUITTAL-OR-NO__petition-to-seal-records-of-nolle-prosequi-dismissals-j__REV-2020-04-22__EN.pdf",
+                "resolvedIn": "corpus",
+                "pinned": "09f323174881934239734e3a418eb4fec0b4bd0f7e199e8698c3af95a659fa61",
+                "recomputed": "09f323174881934239734e3a418eb4fec0b4bd0f7e199e8698c3af95a659fa61",
+                "shaExact": true,
+                "byteLengthExact": true
+              },
+              {
+                "record": "AR-ACIC-ORDER-TO-SEAL-NONCONVICTION",
+                "path": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-NOLLE-PROSEQUI-DISMISSAL-ACQUITTAL-OR-NO-CHA__order-to-seal-records-of-nolle-prosequi-dismissals-judg__REV-2023-10-25__EN.pdf",
+                "resolvedIn": "corpus",
+                "pinned": "4ca0a57a56f7662dd6590e9bfbbe7b96fcf2d39df8ca84253c53e9bd0f07605a",
+                "recomputed": "4ca0a57a56f7662dd6590e9bfbbe7b96fcf2d39df8ca84253c53e9bd0f07605a",
+                "shaExact": true,
+                "byteLengthExact": true
+              }
+            ],
+            "routeKeyPresence": [
+              {
+                "routeKey": "obligation:track-only:AR:ar-nonconviction-seal",
+                "presentInBoundRecords": false,
+                "where": [],
+                "declaredInReceipt": true,
+                "declaredInWiring": true,
+                "declaredInFieldMap": true
+              }
+            ]
+          }
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "Both declared components present, no foreign component. reports/rendered-artifacts.json declares componentSet [petition, order] and boundOfficialDocuments for AR-ACIC-PETITION-TO-SEAL-NONCONVICTION and AR-ACIC-ORDER-TO-SEAL-NONCONVICTION at the same two SHA-256s the receipt pins. Read from the bytes: the assembled 7-page fixture opens the petition at page 1 ('IN THE ______________ COURT OF ________________, ARKANSAS') and the order at page 5 on the same caption, and the two page runs are contiguous and exhaustive. No third instrument and no other Arkansas route's component appears.",
+          "evidence": {}
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "Every declared write produced ink. The field map declares no write row this artifact does not carry; reports/actual-writes.json names 10 written field identities and all of them decode from the delivered bytes. Recovered from pdftotext over the canonical fixture: 'Jordan Avery Reyes' appears 4 times and '1991-04-17' twice, at the caption and verification blocks the map assigns them to. Declared-write-minus-actually-written for this family is 0.",
+          "evidence": {
+            "declaredWritesNotWritten": 0
+          }
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "Disclosed, and disclosed where a participant will meet it. reports/blanks-left-for-the-participant.json carries everyRequiredBeforeFilingItemIsDisclosed, and participant-instructions.md sections 'The items you must supply', 'Things the platform deliberately left blank' and 'What this packet does not tell you, and who does' name them in the packet's own voice, including the caption's COURT, COUNTY and DIVISION blanks the build deliberately leaves open. The completeness verifier scored requiredFactsNotCollected 0 here.",
+          "evidence": {}
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "The paragraph-2 disposition election belongs to the participant and the packet says so rather than choosing for them; the verifier scored requiredOptionsMissing 0 against this family's own rows.",
+          "evidence": {}
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "No half-filled row. incompleteRows 0, measured here over this family's rows alone.",
+          "evidence": {}
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "No protected write. No signature line, notarial jurat, judge or clerk block in either fixture carries participant text: a case-insensitive search of the extracted text for the participant name within any line containing 'signature', 'notary', 'sworn' or '/s/' returns nothing, and the verifier scored protectedWrites 0.",
+          "evidence": {}
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "Hashed by me, not read back. canonical.pdf recomputes to 28436bb896bcf2e8ca414f6a0635af19df9cf2b07317dbd5fe4a2614a7d591e5 (819,258 B, 7 pages) and boundary.pdf to 8737d13ab5c420759139c2f880bb4785013753d356729464350cfe6fe4f3d871 (819,462 B, 7 pages); both recomputed digests are the digests reports/rendered-artifacts.json carries, and both page counts agree between pdf-lib and pdfinfo.",
+          "evidence": {}
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "Petition pages 1-4, order pages 5-7, which is the declared component order and exactly the two sources' own page counts (4 and 3) as read from the mounted binaries. Nothing is dropped, duplicated or transposed.",
+          "evidence": {}
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "Zero words fall outside the page box in either fixture, measured from pdftotext -bbox-layout word rectangles against each page's own MediaBox. The only new word-box intersections against the official baseline are written values sitting on the form's own printed rule, which is what a filled rule looks like; no value collides with printed caption text.",
+          "evidence": {
+            "wordsOutsidePageBox": [
+              {
+                "file": "data/rcap-all50/overlays/census-v1/ar/ar-nonconviction-seal-set--official-pdf-fill/fixtures/boundary.pdf",
+                "wordsOutsidePageBox": 0
+              },
+              {
+                "file": "data/rcap-all50/overlays/census-v1/ar/ar-nonconviction-seal-set--official-pdf-fill/fixtures/canonical.pdf",
+                "wordsOutsidePageBox": 0
+              }
+            ]
+          }
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "Stated for the two dispositions the record answers and honestly refused for the two it does not. 'Where this goes' states A.C.A. section 16-90-1410(b) venue for a nolle prosequi or a dismissal, and for an acquittal or a never-filed charge states that no held record answers it and names the circuit clerk's office of the county of arrest to ask. That refusal is A1-correct: it names a checkable office rather than guessing venue.",
+          "evidence": {}
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "States what the repository holds, and holds what it states. The packet asserts a $0 filing fee, and I located all three of its cited statements in src/lib/rcap-engine/compiled/profiles/AR-arkansas.json at this base: 'Act 1460 eliminated sealing filing fees', the $0 sealing-petition line, and the filing rule 'File in the circuit or district court that handled the case. Act 1460 eliminated filing fees for sealing.' It is keyed to Act 1460, which both delivered forms print in their own titles, so it survives A3. The packet states no other money figure anywhere - $0 is the only dollar token in the instructions and in both fixtures - and it explains why no waiver form ships (there is no fee to waive) instead of denying a held fact. The records costs it does name (ACIC fee, clerk copy fee, notary) are named without inventing amounts.",
+          "evidence": {
+            "onlyDollarTokenInFamily": "$0"
+          }
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "'Who else has to be told' states the recipients, and the order's own distribution paragraph carries the certified-copy list; the delivered petition carries a Certificate of Service page (page 4) left blank for completion after service actually occurs.",
+          "evidence": {}
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "'When to stop and get help' carries the stop conditions in the packet's own voice, and 'What this packet is not' separates what the clerk may answer from what only an Arkansas-licensed lawyer may.",
+          "evidence": {}
+        }
+      },
+      "alsoObservedNotScoredAsAFailure": [
+        "This family ships no raster/ directory, unlike five of the other seven families in this dispatch. RASTER_QUEUE eligibility is not mine to determine and CLIPPING_AND_OVERLAP was measured from the PDF word geometry instead, which is the stronger measurement; but a reviewer expecting pixels will not find them here."
+      ]
+    },
+    {
+      "itemId": "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
+      "lane": "VF03",
+      "assignmentId": "VF03",
+      "laneKind": "independent-verification",
+      "worker": "VT-C (Claude Opus 5) — independent verification team",
+      "verifier": "VT-C (Claude Opus 5) — independent verification team",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ok/composed-treatment:obligation:runtime-only:ok:human-trafficking-survivor-relief--custom-pleading",
+      "claimHeld": true,
+      "claimEvidence": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF03 composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief returned CLAIM_OK (independent-verification, grant set ea6b56d34a1ad782). Asserted before any artifact in this family was opened.",
+      "whyThisReaderIsIndependent": "VT-C built none of these families, repaired none of them, rendered none of their fixtures and produced none of their reports. Every grant was asserted at data/rcap-grade-a/packet-factory-24h/claim-ledger.json BEFORE any artifact in the family was opened, and every number below was recomputed in this container from the delivered bytes and the mounted Master Library. Where a prior lane's conclusion is confirmed it is confirmed by re-measurement, never by agreement.",
+      "obligationsScored": 15,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "familyPromoted": false,
+      "packetBytesModified": 0,
+      "overlayDirectoriesModified": 0,
+      "buildScriptsModified": 0,
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "how": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief (no --write), run in this container at a0d49e1ad49ad4397eac4b009225baf0b94bf03e; returned PASS_COMPLETE with all nine counters zero."
+      },
+      "artifactHashes": [
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ok/composed-treatment:obligation:runtime-only:ok:human-trafficking-survivor-relief--custom-pleading/fixtures/boundary.pdf",
+          "recomputedSha256": "8b91a6ab9335e30b73fda34c0ab767692137ad58711860e3a96f7b47803c5f17",
+          "recomputedByteLength": 13181,
+          "parsedPageCount": 5,
+          "recomputedHashAppearsInRenderedArtifactsRecord": true
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ok/composed-treatment:obligation:runtime-only:ok:human-trafficking-survivor-relief--custom-pleading/fixtures/canonical.pdf",
+          "recomputedSha256": "e9b1fc1415fd36617490519b7e3b10200d2d0486fc6f13bce37518ebf1ebe101",
+          "recomputedByteLength": 13001,
+          "parsedPageCount": 5,
+          "recomputedHashAppearsInRenderedArtifactsRecord": true
+        }
+      ],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "One route, stamped in the bytes and nowhere contradicted. Receipt, wiring and field map all declare obligation:runtime-only:OK:human-trafficking-survivor-relief. I recovered route stamps from the delivered pages themselves: the string occurs twice in the canonical fixture's extracted text and no other obligation: key occurs at all. The key is present at this base in the committed route-obligation census the family binds.",
+          "evidence": {
+            "routeStampsInBytes": 2,
+            "foreignRouteStamps": 0
+          }
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "3/3 exact, recomputed here. All three committed records - src/lib/legal-authority/routes/route-splits.json, src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json and data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json - recompute to the pinned SHA-256 at the pinned byte length. This is the one family in my set whose declared routeKey I could test for PRESENCE inside a bound record rather than only in the census, because its bound records are JSON: the key is literally present in route-obligation-candidate.json. No stale pin.",
+          "evidence": {
+            "recomputedHere": [
+              {
+                "record": "route-contract:OK:human-trafficking-survivor-relief",
+                "path": "src/lib/legal-authority/routes/route-splits.json",
+                "resolvedIn": "worktree",
+                "pinned": "c573d65a64d3922bcffdd402810efa142f44bc8d9389d4e7e8a223ee4105f7df",
+                "recomputed": "c573d65a64d3922bcffdd402810efa142f44bc8d9389d4e7e8a223ee4105f7df",
+                "shaExact": true,
+                "byteLengthExact": true
+              },
+              {
+                "record": "compiled-profile:OK-oklahoma#human-trafficking-survivor-relief",
+                "path": "src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json",
+                "resolvedIn": "worktree",
+                "pinned": "741344600678fb394a60c90ec168d8fbe1d5b2642bc987658f5eac2d56261db1",
+                "recomputed": "741344600678fb394a60c90ec168d8fbe1d5b2642bc987658f5eac2d56261db1",
+                "shaExact": true,
+                "byteLengthExact": true
+              },
+              {
+                "record": "route-obligation-census:obligation:runtime-only:OK:human-trafficking-survivor-relief",
+                "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+                "resolvedIn": "worktree",
+                "pinned": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
+                "recomputed": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
+                "shaExact": true,
+                "byteLengthExact": true
+              }
+            ],
+            "routeKeyPresence": [
+              {
+                "routeKey": "obligation:runtime-only:OK:human-trafficking-survivor-relief",
+                "presentInBoundRecords": true,
+                "where": [
+                  "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json"
+                ],
+                "declaredInReceipt": true,
+                "declaredInWiring": true,
+                "declaredInFieldMap": true
+              }
+            ]
+          }
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "Both declared components present, neither foreign. The field map declares ok-trafficking-survivor-19c-primary-filing-1 and ok-trafficking-survivor-19c-filing-instructions-2; the 5-page fixture opens the petition at page 1 and the filing-instructions component at the page carrying 'WHO MUST BE SERVED, AND WHO IS NOTIFIED'. No component id belonging to any other Oklahoma route appears in the bytes.",
+          "evidence": {}
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "Prefills present in the bytes: the participant name appears 4 times and the date of birth once in the canonical fixture, at the caption and signature-block positions the field map assigns. Declared-write-minus-actually-written is 0.",
+          "evidence": {
+            "declaredWritesNotWritten": 0
+          }
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "Disclosed. reports/blanks-left-for-the-participant.json carries the disclosure and participant-instructions.md names each item under 'The items you must supply' and 'Things the platform deliberately left blank' (signing lines and every date beside one; every case number in every caption, because the pages are filed before a number exists). requiredFactsNotCollected 0.",
+          "evidence": {}
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "This route composes rather than elects; no selection control is owed and requiredOptionsMissing is 0.",
+          "evidence": {}
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "No repeating table on this instrument; incompleteRows 0.",
+          "evidence": {}
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "No signature and no date beside one is written; the packet says so and the bytes agree. protectedWrites 0.",
+          "evidence": {}
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "Hashed by me. canonical.pdf recomputes to e9b1fc1415fd3661... (13,001 B, 5 pages) and boundary.pdf to 8b91a6ab9335e30b... (13,181 B, 5 pages); both recomputed digests appear in reports/rendered-artifacts.json and both page counts agree across two parsers.",
+          "evidence": {}
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "Five pages, petition first and filing instructions last, matching the declared component order; the 'WHERE THIS IS FILED, WHAT IT COSTS, AND WHO MUST BE SERVED' block is a single contiguous run.",
+          "evidence": {}
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "The cleanest artifact in my set: zero words outside the page box and zero substantive word-box intersections of any kind in either fixture.",
+          "evidence": {
+            "wordsOutsidePageBox": [
+              {
+                "file": "data/rcap-all50/overlays/census-v1/ok/composed-treatment:obligation:runtime-only:ok:human-trafficking-survivor-relief--custom-pleading/fixtures/boundary.pdf",
+                "wordsOutsidePageBox": 0
+              },
+              {
+                "file": "data/rcap-all50/overlays/census-v1/ok/composed-treatment:obligation:runtime-only:ok:human-trafficking-survivor-relief--custom-pleading/fixtures/canonical.pdf",
+                "wordsOutsidePageBox": 0
+              }
+            ],
+            "substantiveOverlapPairs": 0
+          }
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "Honestly refused with a checkable office. The packet states that the committed census records this route's destination as not recorded and that the compiled profile records only that relief may be by motion or petition, then names the office of the court clerk of the Oklahoma district court for the county in which the case was filed as the office that answers it. I checked the compiled Oklahoma profile at this base and it does not name a court for this route, so the refusal is true.",
+          "evidence": {}
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "No held record states a fee for this route, and I verified that rather than accepting it. I searched src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json at this base for filing-fee, fee-waiver, court-cost, indigency and deposit language and found none keyed to this route - the only fee-shaped strings in the profile are eligibility thresholds ('a fine greater than $500', 'fine of less than $501') on entirely different pathways, which under A3 price nothing here. The packet states no amount, names the clerk's office, and states no fee anywhere else in the family, so there is no sentence denying something it states.",
+          "evidence": {
+            "feeStatementsHeldForThisRoute": 0
+          }
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "Refused honestly and consistently. The packet states that no committed record it binds states who must be served or how, and names the same clerk's office. I confirmed the packet composes no certificate of service and names no recipient anywhere in the delivered bytes, so it is not denying a service rule it silently states.",
+          "evidence": {
+            "certificateOfServiceComposed": false
+          }
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "Five stop conditions, the first quoted verbatim from the compiled profile ('That should be routed to legal aid or an attorney because the petition needs sensitive facts and supporting proof'), and the rest route-appropriate: the survivor's account is theirs alone, personal safety once a filing becomes public, other counts or cases, and any immigration question. This is the correct treatment of a Wilma legal_aid_handoff route.",
+          "evidence": {}
+        }
+      },
+      "alsoObservedNotScoredAsAFailure": [
+        "The compiled Oklahoma profile records this route's Wilma status as legal_aid_handoff_human_trafficking_survivor. The packet carries that handoff into its stop conditions, which is right, but a route whose own held record says it should go to legal aid is a candidate for counsel to decide whether it should ever be self-help at all. That is a determination for Roger and counsel, not for this lane."
+      ]
+    },
+    {
+      "itemId": "tx_exp_acquittal-set",
+      "lane": "VF03",
+      "assignmentId": "VF03",
+      "laneKind": "independent-verification",
+      "worker": "VT-C (Claude Opus 5) — independent verification team",
+      "verifier": "VT-C (Claude Opus 5) — independent verification team",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-exp-acquittal-set--custom-pleading",
+      "claimHeld": true,
+      "claimEvidence": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF03 tx_exp_acquittal-set returned CLAIM_OK (independent-verification, grant set ea6b56d34a1ad782). Asserted before any artifact in this family was opened.",
+      "whyThisReaderIsIndependent": "VT-C built none of these families, repaired none of them, rendered none of their fixtures and produced none of their reports. Every grant was asserted at data/rcap-grade-a/packet-factory-24h/claim-ledger.json BEFORE any artifact in the family was opened, and every number below was recomputed in this container from the delivered bytes and the mounted Master Library. Where a prior lane's conclusion is confirmed it is confirmed by re-measurement, never by agreement.",
+      "obligationsScored": 15,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "familyPromoted": false,
+      "packetBytesModified": 0,
+      "overlayDirectoriesModified": 0,
+      "buildScriptsModified": 0,
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "how": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family tx_exp_acquittal-set (no --write), run in this container at a0d49e1ad49ad4397eac4b009225baf0b94bf03e; returned PASS_COMPLETE with all nine counters zero."
+      },
+      "artifactHashes": [
+        {
+          "file": "data/rcap-all50/overlays/census-v1/tx/tx-exp-acquittal-set--custom-pleading/fixtures/boundary.pdf",
+          "recomputedSha256": "0c72f34ff2ce096c529a5a85237ecf35175ab220f4734ab458d17e2764574b15",
+          "recomputedByteLength": 977529,
+          "parsedPageCount": 23,
+          "recomputedHashAppearsInRenderedArtifactsRecord": true
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/tx/tx-exp-acquittal-set--custom-pleading/fixtures/canonical.pdf",
+          "recomputedSha256": "d9fb4fcc682df7c530609115e75165566e0c368f0337f0be0e395933803efcbd",
+          "recomputedByteLength": 976888,
+          "parsedPageCount": 23,
+          "recomputedHashAppearsInRenderedArtifactsRecord": true
+        }
+      ],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "Two routes, both declared and both stamped. Receipt, wiring and field map all declare exactly obligation:unit:TX:tx_exp_acquittal:tx-acquittal-in-window-request and obligation:unit:TX:tx_exp_acquittal:tx-acquittal-out-of-window-petition. Recovered from the delivered pages: each key occurs 5 times in the canonical fixture's extracted text and no third obligation: key occurs anywhere. Both are present at this base in the canonical route universe and the census candidate.",
+          "evidence": {
+            "routeStampCounts": {
+              "inWindow": 5,
+              "outOfWindow": 5
+            },
+            "foreignRouteStamps": 0
+          }
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "1/1 exact, and the one that was hardest to reach. This family's only bound document lives in the human_source_returns custody, not the Master Library: private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf. I resolved it and recomputed SHA-256 bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d at 6,667,524 bytes, which is exactly what source-receipt.json pins. Both declared routeKeys are PRESENT in the current census, so allSourcesExact:true is earned rather than asserted.",
+          "evidence": {
+            "recomputedHere": [
+              {
+                "record": "tx_exp_acquittal-fee-waiver-statement-5",
+                "path": "private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf",
+                "resolvedIn": "mainRepo",
+                "pinned": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
+                "recomputed": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
+                "shaExact": true,
+                "byteLengthExact": true
+              }
+            ],
+            "routeKeyPresence": [
+              {
+                "routeKey": "obligation:unit:TX:tx_exp_acquittal:tx-acquittal-in-window-request",
+                "presentInBoundRecords": false,
+                "where": [],
+                "declaredInReceipt": true,
+                "declaredInWiring": true,
+                "declaredInFieldMap": true
+              },
+              {
+                "routeKey": "obligation:unit:TX:tx_exp_acquittal:tx-acquittal-out-of-window-petition",
+                "presentInBoundRecords": false,
+                "where": [],
+                "declaredInReceipt": true,
+                "declaredInWiring": true,
+                "declaredInFieldMap": true
+              }
+            ],
+            "custodyNote": "Bound out of human_source_returns; a verifier resolving only against MASTER_LIBRARY_SOURCE_DIR would report this source missing when it is present."
+          }
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "Six declared, six delivered, in order, none foreign. The field map declares components 1..6; reading the assembled 23-page fixture page by page: request-to-trial-court pp.1-2, information-package pp.3-4, petition pp.5-6, proposed-order p.7, the statewide fee-waiver Statement pp.8-19, filing-and-expectation-instructions pp.20-23. Every run is contiguous and the six exhaust the packet. No component belonging to rcap-tx-custom-pleading, tx_nd_conviction_no_supervision-set or tx_nd_dwi_probation-set appears.",
+          "evidence": {}
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "Prefills decode from the bytes: the participant name appears 13 times across the composed components at the caption, verification and instruction positions the map assigns. Declared-write-minus-actually-written is 0.",
+          "evidence": {
+            "declaredWritesNotWritten": 0
+          }
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "Disclosed item by item, and the disclosure names the reason. 'Things the platform deliberately left blank' names the signature and its dates, the court's findings and the judge's signature, the notarial jurat, sex and race (not collected and not guessed), the SSN and licence number, the agency and entity list, and the art. 55A.151 criminal-episode statement. requiredFactsNotCollected 0.",
+          "evidence": {}
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "The in-window / out-of-window branch is the participant's to determine from the date of acquittal, and the packet says so on the face of the components themselves ('USE THIS PAGE IF THE 30-DAY WINDOW HAS...'), with componentConditions declaring which component belongs to which branch. requiredOptionsMissing 0.",
+          "evidence": {}
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "The agency-and-entity table is deliberately empty rather than half-filled, and the reason is stated: art. 55A.253(c) makes the district clerk the publisher of that list. incompleteRows 0.",
+          "evidence": {}
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "No signature, no jurat and no judicial finding is written. protectedWrites 0, and no participant name appears on any line containing a signature or notarial keyword.",
+          "evidence": {}
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "Hashed by me. canonical.pdf recomputes to d9fb4fcc682df7c530609115e75165566e0c368f0337f0be0e395933803efcbd (976,888 B, 23 pages) and boundary.pdf to 0c72f34ff2ce096c529a5a85237ecf35175ab220f4734ab458d17e2764574b15 (977,529 B, 23 pages); both are the digests reports/rendered-artifacts.json records and both page counts agree across parsers.",
+          "evidence": {}
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "Verified page by page over all 23 pages, as set out under COMPONENT_SET. The order is the declared order.",
+          "evidence": {}
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "Zero words outside the page box in either fixture. The word-box intersections that exist are values on printed rules inside the enclosed bilingual Statement, which is a 132-field AcroForm full of rules; none is a value colliding with caption text.",
+          "evidence": {
+            "wordsOutsidePageBox": [
+              {
+                "file": "data/rcap-all50/overlays/census-v1/tx/tx-exp-acquittal-set--custom-pleading/fixtures/boundary.pdf",
+                "wordsOutsidePageBox": 0
+              },
+              {
+                "file": "data/rcap-all50/overlays/census-v1/tx/tx-exp-acquittal-set--custom-pleading/fixtures/canonical.pdf",
+                "wordsOutsidePageBox": 0
+              }
+            ]
+          }
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "Stated, and stated per branch, which is what this route needs: the in-window request goes to the trial court that acquitted, and the packet says in terms that the out-of-window verified ex parte petition 'is filed with the DISTRICT CLERK OF THE COUNTY OF ARREST, or of the alleged offence. That may not be the court that acquitted you.'",
+          "evidence": {}
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "Every figure it asserts is held, and nothing held is denied. I traced each: the mandatory in-window waiver under art. 102.0061(c), the district court's ordinary county civil ex parte fee (explicitly not a flat amount), the flat $100 in justice or municipal court of record under (b), the art. 102.0061(d) waiver, and the $25-per-paper-only-entity charge under art. 55A.254(f) - all of them are carried in data/record-clearing/legal-design-intake/TX.memo.json, a grounding record this family's receipt names, in the same words. The Statement of Inability is not merely named, it is enclosed at pages 8-19 of the packet. Nothing here asserts a fee with no current primary authority.",
+          "evidence": {
+            "figuresTracedToTXMemo": [
+              "mandatory waiver 102.0061(c)",
+              "ordinary county civil ex parte fee, not flat",
+              "flat $100 in justice/municipal court of record",
+              "102.0061(d) waiver",
+              "$25 per paper-only entity, twice"
+            ]
+          }
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "Stated as a negative, which is the correct answer here and the harder one to state: 'YOU DO NOT SERVE ANYONE. THE CLERK DOES', with the clerk's methods, the rule that a state or local agency with a listed e-mail address must accept electronic service, and the one exception where local practice requires direct service on the prosecutor.",
+          "evidence": {}
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "Twelve conditions carried word for word from this route's own committed track record's selfHelpStopConditions, with two singled out and explained - the mixed-outcome analysis under State v. T.S.N. and Ex parte R.P.G.P., which the record says is not automated, and absconding under art. 55A.154, which the record makes a stop precisely because a participant may not self-identify it. It then separates what the district clerk, the trial court clerk and DPS may each answer from what only a Texas-licensed lawyer may.",
+          "evidence": {}
+        }
+      },
+      "alsoObservedNotScoredAsAFailure": [
+        "One sentence contradicts itself in the participant's favour rather than against it, and I am flagging it rather than failing it. Both participant-instructions.md and the delivered filing-instructions component say the repealed $250-to-$500 range 'is not reproduced here' / 'THIS PACKET WILL NOT REPEAT IT' in the same sentence that prints it. No held fee is denied and no unsourced fee is asserted, so the FEE_AND_WAIVER holding is not breached; but a participant skimming the page can take $250-$500 as the fee, and the disclaimer is weakened by being untrue on its face. A repair that names the repealed statute without reprinting its numbers would be strictly better. Captain's call, not mine."
+      ]
+    },
+    {
+      "itemId": "wa_vac_survivor_misdemeanor-set",
+      "lane": "VF03",
+      "assignmentId": "VF03",
+      "laneKind": "independent-verification",
+      "worker": "VT-C (Claude Opus 5) — independent verification team",
+      "verifier": "VT-C (Claude Opus 5) — independent verification team",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-misdemeanor-set--official-pdf-fill",
+      "claimHeld": true,
+      "claimEvidence": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF03 wa_vac_survivor_misdemeanor-set returned CLAIM_OK (independent-verification, grant set ea6b56d34a1ad782). Asserted before any artifact in this family was opened.",
+      "whyThisReaderIsIndependent": "VT-C built none of these families, repaired none of them, rendered none of their fixtures and produced none of their reports. Every grant was asserted at data/rcap-grade-a/packet-factory-24h/claim-ledger.json BEFORE any artifact in the family was opened, and every number below was recomputed in this container from the delivered bytes and the mounted Master Library. Where a prior lane's conclusion is confirmed it is confirmed by re-measurement, never by agreement.",
+      "obligationsScored": 15,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "familyPromoted": false,
+      "packetBytesModified": 0,
+      "overlayDirectoriesModified": 0,
+      "buildScriptsModified": 0,
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "how": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_survivor_misdemeanor-set (no --write), run in this container at a0d49e1ad49ad4397eac4b009225baf0b94bf03e; returned PASS_COMPLETE with all nine counters zero."
+      },
+      "artifactHashes": [
+        {
+          "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-misdemeanor-set--official-pdf-fill/fixtures/crrlj-09-0100-boundary-filled.pdf",
+          "recomputedSha256": "75fac347051d6b710015ef5bbcc10b43df0a1de59078195ede75a744f4c42b77",
+          "recomputedByteLength": 158615,
+          "parsedPageCount": 5,
+          "recomputedHashAppearsInRenderedArtifactsRecord": true
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-misdemeanor-set--official-pdf-fill/fixtures/crrlj-09-0100-canonical-filled.pdf",
+          "recomputedSha256": "846360e75578ce6233dba77b03b25545a529b50cd553ad31f88d3008b429a6ad",
+          "recomputedByteLength": 158439,
+          "parsedPageCount": 5,
+          "recomputedHashAppearsInRenderedArtifactsRecord": true
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-misdemeanor-set--official-pdf-fill/fixtures/crrlj-09-0200-boundary-filled.pdf",
+          "recomputedSha256": "4d844aece78a8ae1c1e97407edd305f45dbdaa2c509f8e55ef51fef03bcb3a55",
+          "recomputedByteLength": 157759,
+          "parsedPageCount": 6,
+          "recomputedHashAppearsInRenderedArtifactsRecord": true
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-misdemeanor-set--official-pdf-fill/fixtures/crrlj-09-0200-canonical-filled.pdf",
+          "recomputedSha256": "3abc2475b78da8cff2445a99a78fa7aa18641d4c27f17d0c5eea3d6f07e40ce7",
+          "recomputedByteLength": 157661,
+          "parsedPageCount": 6,
+          "recomputedHashAppearsInRenderedArtifactsRecord": true
+        }
+      ],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "One route: obligation:track-pathway:WA:wa_vac_survivor_misdemeanor:victim-survivor-conviction-vacation-route, declared identically by the receipt and product-wiring.json and present at this base in the census candidate, the canonical route universe, the build worklist and category-a-implementation-waves. No other WA vacatur route's key appears in the family directory.",
+          "evidence": {}
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "2/2 exact. CrRLJ 09.0100 and CrRLJ 09.0200 both recompute to the pinned SHA-256 at the pinned byte length against the mounted Master Library. filing-obligations.json additionally binds the official instruction sheet CrRLJ 09.0300 at 42ac9ccb16474172ee3b4076b416e9d949c2dfdbb43edc0cdc734eca299f4176; I recomputed that file in the corpus and it agrees, which matters because that sheet is the sole authority for this family's SERVICE answer.",
+          "evidence": {
+            "recomputedHere": [
+              {
+                "record": "CRRLJ-09.0100",
+                "path": "STATES/WA/02_PACKET_FORMS/WA__FORM__CRRLJ-09.0100__crrlj-09-0100-crrlj-09-0100-petition-to-vacate-conviction-f-u__REV-2024-11__EN.pdf",
+                "resolvedIn": "corpus",
+                "pinned": "1f72e901e93d576cf6c7ecad910d253da65b6af1a89ca75304c9739fa159909b",
+                "recomputed": "1f72e901e93d576cf6c7ecad910d253da65b6af1a89ca75304c9739fa159909b",
+                "shaExact": true,
+                "byteLengthExact": true
+              },
+              {
+                "record": "CRRLJ-09.0200",
+                "path": "STATES/WA/02_PACKET_FORMS/WA__FORM__CRRLJ-09.0200__crrlj-09-0200-crrlj-09-0200-ord-pet-vacate-conviction-f-u__REV-2024-11__EN.pdf",
+                "resolvedIn": "corpus",
+                "pinned": "b53035ddc5ea31aa9bd6816d5f157a58c8c8201db8e4a2cbb15f9874b4c851f2",
+                "recomputed": "b53035ddc5ea31aa9bd6816d5f157a58c8c8201db8e4a2cbb15f9874b4c851f2",
+                "shaExact": true,
+                "byteLengthExact": true
+              }
+            ],
+            "instructionSheetRehashed": true,
+            "routeKeyPresence": [
+              {
+                "routeKey": "obligation:track-pathway:WA:wa_vac_survivor_misdemeanor:victim-survivor-conviction-vacation-route",
+                "presentInBoundRecords": false,
+                "where": [],
+                "declaredInReceipt": true,
+                "declaredInWiring": true,
+                "declaredInFieldMap": false
+              }
+            ]
+          }
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "Two forms, four fixtures, nothing foreign. fixtures/ carries exactly crrlj-09-0100 and crrlj-09-0200 in canonical and boundary, plus fixture-manifest.json. No CrRLJ 09.0300 page and no other WA route's form is delivered inside the packet - 09.0300 is bound as authority and cited, not shipped as a filing, which is correct.",
+          "evidence": {}
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "28 of 71 census cells written and every one of them decodes from the bytes. The participant name appears 4 times on the petition and twice on the order at the positions the writableAnchors assign.",
+          "evidence": {}
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "Disclosed. participant-completion-instructions.json plus participant-instructions.md 'Required attachments' and the section-3 narrative disclosure name every blank the participant must close, including the sworn victim-status narrative. requiredFactsNotCollected 0.",
+          "evidence": {}
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "Deliberately unmarked with the reason given. Section 3's eligibility checkbox and its inner attachment checkbox are sworn eligibility declarations; the packet marks neither and says why ('mark them only after confirming every statement under them is exactly true for you'). reports/protection-report.json records selectionControlsMarked false and the verifier scored requiredOptionsMissing 0, so the unmarked box is a disclosed refusal, not a missing option.",
+          "evidence": {}
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "The offence rows on 09.0100 page 1 are complete where written - each carries both the count number and the offence - and empty rows are wholly empty. incompleteRows 0.",
+          "evidence": {}
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "Measured on the one page where it could go wrong. Page 6 of the order carries two 'Print Name' lines side by side; the participant's name is on the left (Defendant/Attorney for Defendant) and the right (Deputy Prosecuting Attorney) is blank, as are the Judge/Commissioner and Dated lines. reports/protection-report.json records signatureAndCourtFieldsWritten false and I confirmed it from the rendered text rather than from the report.",
+          "evidence": {
+            "judgeAndProsecutorBlocksBlank": true
+          }
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "Four fixtures hashed by me: crrlj-09-0100-canonical 846360e75578ce62 (158,439 B, 5 pages), 09-0100-boundary 75fac347051d6b71 (158,615 B, 5 pages), 09-0200-canonical 3abc2475b78da8cf (157,661 B, 6 pages), 09-0200-boundary 4d844aece78a8ae1 (157,759 B, 6 pages). Every recomputed digest appears in reports/rendered-artifacts.json; page counts agree across two parsers.",
+          "evidence": {}
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "Each fixture is a single official form at its source page count and in source page order, 5 pages for 09.0100 and 6 for 09.0200; nothing is assembled, so nothing can be transposed.",
+          "evidence": {}
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "Zero words outside the page box in all four fixtures, and zero substantive word-box intersections that are not already in the official source: measured against CrRLJ 09.0100 and 09.0200 as mounted, the artifact adds no substantive overlap shape at all. The intersections my raw pass counted are written values sitting on the form's own underscore rules.",
+          "evidence": {
+            "wordsOutsidePageBox": [
+              {
+                "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-misdemeanor-set--official-pdf-fill/fixtures/crrlj-09-0100-boundary-filled.pdf",
+                "wordsOutsidePageBox": 0
+              },
+              {
+                "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-misdemeanor-set--official-pdf-fill/fixtures/crrlj-09-0100-canonical-filled.pdf",
+                "wordsOutsidePageBox": 0
+              },
+              {
+                "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-misdemeanor-set--official-pdf-fill/fixtures/crrlj-09-0200-boundary-filled.pdf",
+                "wordsOutsidePageBox": 0
+              },
+              {
+                "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-misdemeanor-set--official-pdf-fill/fixtures/crrlj-09-0200-canonical-filled.pdf",
+                "wordsOutsidePageBox": 0
+              }
+            ],
+            "newSubstantiveOverlapsAgainstOfficialSource": 0
+          }
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "Established and stated: the clerk of the sentencing district or municipal court, taken from the committed route census and corroborated by CrRLJ 09.0300 ('File the original petition and declaration, and the original notice document with the clerk of the court'), with a test the participant can apply - it is the court named in the caption of the judgment and on the docket.",
+          "evidence": {}
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "The refusal is correct and, unusually, it is proved. filing-obligations.json records established:false and lists six records searched - both bound forms, the official instruction sheet, the compiled WA profile, the coded state pack's fee-notes, and the committed worklist - with a per-record reason why each fails to answer THIS question. The one that could have been mistaken for an answer is handled exactly as A3 requires: the compiled profile's three fee statements are Washington State Patrol charges for a person's own criminal-history record ($11 / $32 / $58 / +$15 / +$12), and pricing a records request does not price a court filing. The packet states no amount anywhere, so it denies nothing it states, and it names a reachable office - the clerk of the sentencing court, the same office CrRLJ 09.0300 sends the participant to for the hearing date.",
+          "evidence": {
+            "recordsSearchedAndWhyEachFails": 6,
+            "amountsStatedByThePacket": 0
+          }
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "Established, and better than the worklist. Recipient comes from the committed worklist (the prosecuting attorney for the sentencing court); method and timing come from CrRLJ 09.0300's own words - same-day service of a copy of each document on the prosecuting attorney's office, at least two copies made - which the worklist records as not_recorded. Under A1 the packet states what the route's own official instruction sheet holds instead of delegating it, and it is right to.",
+          "evidence": {}
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "'Where self-help ends' is present and route-scoped, and the packet also carries the instruction sheet's own note that the participant may request assistance from the prosecuting authority in preparing or filing the petition, which on a survivor route is a material and easily-omitted fact.",
+          "evidence": {}
+        }
+      },
+      "alsoObservedNotScoredAsAFailure": [
+        "docs/rcap/grade-a/packet-factory-24h/washington-repair/WAR02_WA_FEE_AND_SERVICE_SOURCE.md is marked RETIRED and states that seven WA families still fail FEE_AND_WAIVER, FILING_DESTINATION, SERVICE and SELF_HELP_STOP. That is no longer true of THIS family at this base: filing-obligations.json, participant-completion-instructions.json and the rewritten participant-instructions.md close all four, and I measured them closed. The retired dispatch's standing claim should not be read across to wa_vac_survivor_misdemeanor-set; I make no finding about the other eight WA vacatur families, which are not mine."
+      ]
+    },
+    {
+      "itemId": "ca-851-91-set",
+      "lane": "VF03",
+      "assignmentId": "VF03",
+      "laneKind": "independent-verification",
+      "worker": "VT-C (Claude Opus 5) — independent verification team",
+      "verifier": "VT-C (Claude Opus 5) — independent verification team",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill",
+      "claimHeld": true,
+      "claimEvidence": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF03 ca-851-91-set returned CLAIM_OK (independent-verification, grant set ea6b56d34a1ad782). Asserted before any artifact in this family was opened.",
+      "whyThisReaderIsIndependent": "VT-C built none of these families, repaired none of them, rendered none of their fixtures and produced none of their reports. Every grant was asserted at data/rcap-grade-a/packet-factory-24h/claim-ledger.json BEFORE any artifact in the family was opened, and every number below was recomputed in this container from the delivered bytes and the mounted Master Library. Where a prior lane's conclusion is confirmed it is confirmed by re-measurement, never by agreement.",
+      "obligationsScored": 15,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "familyPromoted": false,
+      "packetBytesModified": 0,
+      "overlayDirectoriesModified": 0,
+      "buildScriptsModified": 0,
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "how": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ca-851-91-set (no --write), run in this container at a0d49e1ad49ad4397eac4b009225baf0b94bf03e; returned PASS_COMPLETE with all nine counters zero."
+      },
+      "artifactHashes": [
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill/fixtures/pc-851-91-interests-of-justice-boundary/cr-106-unchanged-official.pdf",
+          "recomputedSha256": "f8a37a9a8c30a016b432bb39fd67407717c3dee7be74bc3e3d471127bf190c5a",
+          "recomputedByteLength": 104278,
+          "parsedPageCount": 2,
+          "recomputedHashAppearsInRenderedArtifactsRecord": true
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill/fixtures/pc-851-91-interests-of-justice-boundary/cr-409-filled.pdf",
+          "recomputedSha256": "89d6a489f5ba01bdaa34a3968e7f7d7aec83590580343eee80782b08e43bfa6c",
+          "recomputedByteLength": 47917,
+          "parsedPageCount": 2,
+          "recomputedHashAppearsInRenderedArtifactsRecord": true
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill/fixtures/pc-851-91-interests-of-justice-boundary/cr-410-unchanged-official.pdf",
+          "recomputedSha256": "d94bd94bad3da9d05d71b1b154a440db1864b9441e2972c84b7854e1538604f9",
+          "recomputedByteLength": 52034,
+          "parsedPageCount": 1,
+          "recomputedHashAppearsInRenderedArtifactsRecord": true
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill/fixtures/pc-851-91-interests-of-justice-boundary/mc-031-unchanged-official.pdf",
+          "recomputedSha256": "defc9108f6baa4c2ca444c1571d737d841af78289bef337f874f51e595191075",
+          "recomputedByteLength": 109506,
+          "parsedPageCount": 1,
+          "recomputedHashAppearsInRenderedArtifactsRecord": true
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill/fixtures/pc-851-91-interests-of-justice-canonical/cr-106-unchanged-official.pdf",
+          "recomputedSha256": "f8a37a9a8c30a016b432bb39fd67407717c3dee7be74bc3e3d471127bf190c5a",
+          "recomputedByteLength": 104278,
+          "parsedPageCount": 2,
+          "recomputedHashAppearsInRenderedArtifactsRecord": true
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill/fixtures/pc-851-91-interests-of-justice-canonical/cr-409-filled.pdf",
+          "recomputedSha256": "371d8890ba43c6b6036d725ab2ef6cfa418bb7b3b78847b943804211662c7502",
+          "recomputedByteLength": 47707,
+          "parsedPageCount": 2,
+          "recomputedHashAppearsInRenderedArtifactsRecord": true
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill/fixtures/pc-851-91-interests-of-justice-canonical/cr-410-unchanged-official.pdf",
+          "recomputedSha256": "d94bd94bad3da9d05d71b1b154a440db1864b9441e2972c84b7854e1538604f9",
+          "recomputedByteLength": 52034,
+          "parsedPageCount": 1,
+          "recomputedHashAppearsInRenderedArtifactsRecord": true
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill/fixtures/pc-851-91-interests-of-justice-canonical/mc-031-unchanged-official.pdf",
+          "recomputedSha256": "defc9108f6baa4c2ca444c1571d737d841af78289bef337f874f51e595191075",
+          "recomputedByteLength": 109506,
+          "parsedPageCount": 1,
+          "recomputedHashAppearsInRenderedArtifactsRecord": true
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill/fixtures/pc-851-91-matter-of-right-boundary/cr-106-unchanged-official.pdf",
+          "recomputedSha256": "f8a37a9a8c30a016b432bb39fd67407717c3dee7be74bc3e3d471127bf190c5a",
+          "recomputedByteLength": 104278,
+          "parsedPageCount": 2,
+          "recomputedHashAppearsInRenderedArtifactsRecord": true
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill/fixtures/pc-851-91-matter-of-right-boundary/cr-409-filled.pdf",
+          "recomputedSha256": "89d6a489f5ba01bdaa34a3968e7f7d7aec83590580343eee80782b08e43bfa6c",
+          "recomputedByteLength": 47917,
+          "parsedPageCount": 2,
+          "recomputedHashAppearsInRenderedArtifactsRecord": true
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill/fixtures/pc-851-91-matter-of-right-boundary/cr-410-unchanged-official.pdf",
+          "recomputedSha256": "d94bd94bad3da9d05d71b1b154a440db1864b9441e2972c84b7854e1538604f9",
+          "recomputedByteLength": 52034,
+          "parsedPageCount": 1,
+          "recomputedHashAppearsInRenderedArtifactsRecord": true
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill/fixtures/pc-851-91-matter-of-right-boundary/mc-031-unchanged-official.pdf",
+          "recomputedSha256": "defc9108f6baa4c2ca444c1571d737d841af78289bef337f874f51e595191075",
+          "recomputedByteLength": 109506,
+          "parsedPageCount": 1,
+          "recomputedHashAppearsInRenderedArtifactsRecord": true
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill/fixtures/pc-851-91-matter-of-right-canonical/cr-106-unchanged-official.pdf",
+          "recomputedSha256": "f8a37a9a8c30a016b432bb39fd67407717c3dee7be74bc3e3d471127bf190c5a",
+          "recomputedByteLength": 104278,
+          "parsedPageCount": 2,
+          "recomputedHashAppearsInRenderedArtifactsRecord": true
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill/fixtures/pc-851-91-matter-of-right-canonical/cr-409-filled.pdf",
+          "recomputedSha256": "371d8890ba43c6b6036d725ab2ef6cfa418bb7b3b78847b943804211662c7502",
+          "recomputedByteLength": 47707,
+          "parsedPageCount": 2,
+          "recomputedHashAppearsInRenderedArtifactsRecord": true
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill/fixtures/pc-851-91-matter-of-right-canonical/cr-410-unchanged-official.pdf",
+          "recomputedSha256": "d94bd94bad3da9d05d71b1b154a440db1864b9441e2972c84b7854e1538604f9",
+          "recomputedByteLength": 52034,
+          "parsedPageCount": 1,
+          "recomputedHashAppearsInRenderedArtifactsRecord": true
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill/fixtures/pc-851-91-matter-of-right-canonical/mc-031-unchanged-official.pdf",
+          "recomputedSha256": "defc9108f6baa4c2ca444c1571d737d841af78289bef337f874f51e595191075",
+          "recomputedByteLength": 109506,
+          "parsedPageCount": 1,
+          "recomputedHashAppearsInRenderedArtifactsRecord": true
+        }
+      ],
+      "supersedes": {
+        "priorRow": "VF03 row for ca-851-91-set by FABLE-VA at base ee5bdb5b56d69c00750663087e5e8c5a6d144acf, verdict FAIL_REPAIR_REQUIRED on CLIPPING_AND_OVERLAP",
+        "whatChangedBetweenThoseBases": "Two commits landed on this family after that read: c3412b4d9 'The suppression was called on CR-409's footer buttons and never reached them' and 37b4b20f2 'FIX04: the platform stops marking CR-409 item 3h, and says what it withheld'.",
+        "whatIDidAboutIt": "I re-measured the defect from scratch rather than accepting either the failure or the repair. It is gone: see CLIPPING_AND_OVERLAP."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "One route: obligation:track-only:CA:ca-851-91, declared by product-wiring.json, production-field-map.json, field-census.census-v1.json and reports/packet-evidence.json, and present at this base in the census candidate and the canonical route universe. It is NOT carried in source-receipt.json, whose schema (rcap-ca-family-source-receipt shape) has no routeKeys field; that is a schema difference, not a disagreement, and no document declares a different key. Critically for this jurisdiction: the string '1203.4' appears nowhere in the family directory and in none of the 16 delivered PDFs, so no section-1203.4 material has leaked into a section-851.91 route.",
+          "evidence": {
+            "foreignStatuteStrings": 0
+          }
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "4/4 official sources exact plus the derivative, all recomputed here. CR-409, CR-410, CR-106 and MC-031 each recompute to the pinned SHA-256 at the pinned byte length in the mounted Master Library. The disclosed pikepdf derivative was checked in both directions: the official CR-409 still recomputes to 59fa8a041633feb8351715938d7b66fda0d879e502f1fb5dd3764939efcc1088 (sourceUnchanged is true), and derived-sources/cr-409-pikepdf-unlocked.pdf recomputes to c881d5786340a51bbd778b2bfa6dfe0d2289e0270b096587f8e069729b0a4f1f at 99,587 bytes, exactly as recorded. The derivative is a decrypted re-save whose XFA digest and enhanced terminal semantics the receipt shows identical to the official; nothing was substituted for the official bytes.",
+          "evidence": {
+            "recomputedHere": [
+              {
+                "record": "CA-CR-409-PETITION-TO-SEAL-ARREST-AND-RELATED-RECORDS",
+                "path": "STATES/CA/02_PACKET_FORMS/CA__FORM__CR-409__petition-to-seal-arrest-and-related-records__REV-2024-01-01__EN.pdf",
+                "resolvedIn": "corpus",
+                "pinned": "59fa8a041633feb8351715938d7b66fda0d879e502f1fb5dd3764939efcc1088",
+                "recomputed": "59fa8a041633feb8351715938d7b66fda0d879e502f1fb5dd3764939efcc1088",
+                "shaExact": true,
+                "byteLengthExact": true
+              },
+              {
+                "record": "CA-CR-410-ORDER-TO-SEAL-ARREST-AND-RELATED-RECORDS",
+                "path": "STATES/CA/02_PACKET_FORMS/CA__FORM__CR-410__order-to-seal-arrest-and-related-records__REV-2019-01-01__EN.pdf",
+                "resolvedIn": "corpus",
+                "pinned": "d94bd94bad3da9d05d71b1b154a440db1864b9441e2972c84b7854e1538604f9",
+                "recomputed": "d94bd94bad3da9d05d71b1b154a440db1864b9441e2972c84b7854e1538604f9",
+                "shaExact": true,
+                "byteLengthExact": true
+              },
+              {
+                "record": "CA-CR-106-PROOF-OF-SERVICE-CRIMINAL-RECORD-CLEARING",
+                "path": "STATES/CA/02_PACKET_FORMS/CA__FORM__CR-106__proof-of-service-criminal-record-clearing__REV-2020-01-01__EN.pdf",
+                "resolvedIn": "corpus",
+                "pinned": "f8a37a9a8c30a016b432bb39fd67407717c3dee7be74bc3e3d471127bf190c5a",
+                "recomputed": "f8a37a9a8c30a016b432bb39fd67407717c3dee7be74bc3e3d471127bf190c5a",
+                "shaExact": true,
+                "byteLengthExact": true
+              },
+              {
+                "record": "CA-MC-031-ATTACHED-DECLARATION",
+                "path": "STATES/CA/02_PACKET_FORMS/CA__FORM__MC-031__attached-declaration__REV-2005-07-01__EN.pdf",
+                "resolvedIn": "corpus",
+                "pinned": "defc9108f6baa4c2ca444c1571d737d841af78289bef337f874f51e595191075",
+                "recomputed": "defc9108f6baa4c2ca444c1571d737d841af78289bef337f874f51e595191075",
+                "shaExact": true,
+                "byteLengthExact": true
+              },
+              {
+                "record": "CR-409",
+                "path": "STATES/CA/02_PACKET_FORMS/CA__FORM__CR-409__petition-to-seal-arrest-and-related-records__REV-2024-01-01__EN.pdf",
+                "resolvedIn": "corpus",
+                "pinned": "59fa8a041633feb8351715938d7b66fda0d879e502f1fb5dd3764939efcc1088",
+                "recomputed": "59fa8a041633feb8351715938d7b66fda0d879e502f1fb5dd3764939efcc1088",
+                "shaExact": true,
+                "byteLengthExact": null
+              },
+              {
+                "record": "CR-409",
+                "path": "data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill/derived-sources/cr-409-pikepdf-unlocked.pdf",
+                "resolvedIn": "worktree",
+                "pinned": "c881d5786340a51bbd778b2bfa6dfe0d2289e0270b096587f8e069729b0a4f1f",
+                "recomputed": "c881d5786340a51bbd778b2bfa6dfe0d2289e0270b096587f8e069729b0a4f1f",
+                "shaExact": true,
+                "byteLengthExact": true
+              }
+            ],
+            "derivativeVerifiedBothWays": true,
+            "routeKeyPresence": [
+              {
+                "routeKey": "obligation:track-only:CA:ca-851-91",
+                "presentInBoundRecords": false,
+                "where": [],
+                "declaredInReceipt": false,
+                "declaredInWiring": true,
+                "declaredInFieldMap": true
+              }
+            ]
+          }
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "Four declared forms, four delivered, in the declared order, in every one of the four packets, and nothing foreign. field-census formOrder is [CR-409, CR-410, CR-106, MC-031]; each of the four fixture directories carries exactly those four PDFs. No CRM-307 and no other California route's component is present, which matters because DET-DT-CA-CRM307-001 forbids a section-851.90 instrument reaching this section-851.91 family.",
+          "evidence": {
+            "crm307Present": false
+          }
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "14 declared writes, 14 written. Declared-write-minus-actually-written is 0, and the values decode from the delivered CR-409: 'Jordan Avery Reyes', '1991-04-17', '24-CR-001234', '118 Maple Street', 'Superior Court of California, County of Example County'. The three companion forms are unchanged official copies and carry no writes, which is what their evidenceMode declares.",
+          "evidence": {
+            "declaredWritesNotWritten": 0
+          }
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "Disclosed per form. 'The blanks you must fill in' is broken out under each of the four documents by name, and 'Blanks that are not yours to fill' separates them from the court's and the attorney's. requiredFactsNotCollected 0.",
+          "evidence": {}
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "Neither item-3h box is marked, and the packet says so and says why, quoting the form's own printed text beside each box: matter-of-right under section 851.91 versus interests-of-justice, with the domestic-violence / child-abuse / elder-abuse pattern bar that decides which election is open at all. statutorySelectionsByVariant is empty for both variants and requiredOptionsMissing is 0, so this is a disclosed refusal of a sworn legal election, not a missing selection.",
+          "evidence": {}
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "The offence lines on CR-409 item 3e and 3f are wholly blank rather than partly filled; incompleteRows 0.",
+          "evidence": {}
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "117 of 131 census fields are refused, 42 of them attorney-only, signature, date, notarial, hearing or clerk fields, and not one of them is written: the intersection of the refused set and the written set is empty, computed here. protectedWrites 0.",
+          "evidence": {
+            "refusedFields": 117,
+            "refusedAndWritten": 0
+          }
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "All 16 delivered PDFs hashed by me and every recomputed digest appears in reports/rendered-artifacts.json. The filled CR-409 recomputes to 371d8890ba43c6b6... canonical (47,707 B) and 89d6a489f5ba01bd... boundary (47,917 B); CR-106, CR-410 and MC-031 recompute byte-identically across all four packets, which is what 'unchanged official companion' should mean.",
+          "evidence": {
+            "pdfsHashed": 16,
+            "digestsAgreeingWithRecord": 16
+          }
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "Per-document delivery rather than an assembled packet, so page order is each form's own: CR-409 2 pages, CR-410 1, CR-106 2, MC-031 1, each equal to the official source's page count. reports/packet-evidence.json additionally pins per-page mediaBox, cropBox, rotate and content-stream SHA-256, and the page counts I parsed agree.",
+          "evidence": {}
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "The prior lane's failure is repaired, and I confirmed that by measurement and then in pixels rather than by reading the repair commit. Across all 16 fixtures: zero words outside the page box. On the filled CR-409, the artifact carries exactly one word-box intersection - 'MC-031' against ')' on page 2 - and that same intersection is present in the unlocked source, so the artifact introduces none. The footer caption that previously lost eight words off the left page edge is gone from the delivered bytes: a search of the delivered CR-409 text for 'protection', 'privacy', 'Clear' or 'Save' returns nothing but the word 'print' inside the form's own printed instruction. I then read raster/pc-851-91-matter-of-right-canonical/cr-409/page-02.png at this base and the truncated sentence and the three coloured buttons FABLE-VA described are not there.",
+          "evidence": {
+            "wordsOutsidePageBoxAcrossAll16": 0,
+            "newOverlapPairsAgainstUnlockedSource": 0,
+            "confirmedInPixels": "raster/pc-851-91-matter-of-right-canonical/cr-409/page-02.png"
+          }
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "Stated with the deadline attached, from the committed packet-set manifest rather than from local-practice guesswork: file the verified CR-409 with the proposed CR-410 at least 15 days before the hearing, in the court where the accusatory pleading was filed, or where none was filed in a court with criminal jurisdiction in the city or county of the arrest; one arrest per petition.",
+          "evidence": {}
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "No amount is held for this route and none is published, and I verified the packet is silent rather than trusting that it is. There is not one dollar token anywhere in participant-instructions.md nor in the extracted text of any of the 16 delivered PDFs. The manifest's pay_fee entry for this route reads 'Unresolved and county-specific. Do not publish a figure.' The sibling that could have been read across - the compiled CA profile's '1203.4 dismissal petition ~$60-$150 per case' - is absent from this family in every form, which is the A3 refusal actually holding. The packet names FW-001 by name and says exactly how far the repository goes, then names the clerk of the Superior Court of the county of the arrest.",
+          "evidence": {
+            "dollarTokensAnywhereInFamily": 0
+          }
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "Stated with recipients, deadline and direction of travel: the prosecuting attorney of the city or county of the arrest and the arresting agency, at least 15 days before the hearing, and the reason CR-106 ships at all - serve first, then complete the proof, never the other way round, counting backwards from the hearing rather than from the filing.",
+          "evidence": {}
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "Six stop conditions carried in the committed track registry's own words, and the packet then does something better than list them: it connects the first (a domestic-violence, child-abuse or elder-abuse pattern) to the item-3h election it refuses to make, so the participant sees why the refusal exists.",
+          "evidence": {}
+        }
+      },
+      "alsoObservedNotScoredAsAFailure": [
+        "The two evidence variants are byte-identical. pc-851-91-matter-of-right and pc-851-91-interests-of-justice produce the same four SHA-256s per fixture, because after FIX04 neither item-3h box is marked and nothing else distinguishes them. That is the correct refusal, but it leaves four packet directories where two would do, under names that promise an election the bytes do not make. Not a completeness failure and not mine to change; worth a reviewer knowing before anyone reads variant names as delivered elections.",
+        "source-receipt.json for this family carries no routeKeys field at all, unlike six of the other seven families in this dispatch. The route binding is carried by product-wiring.json and packet-evidence.json instead. Nothing disagrees, so I scored ROUTE_IDENTITY on what is declared; but a receipt that does not name its own route is one document short of self-describing."
+      ]
+    },
+    {
+      "itemId": "wv_conv_multiple_misdemeanors-set",
+      "lane": "VF03",
+      "assignmentId": "VF03",
+      "laneKind": "independent-verification",
+      "worker": "VT-C (Claude Opus 5) — independent verification team",
+      "verifier": "VT-C (Claude Opus 5) — independent verification team",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill",
+      "claimHeld": true,
+      "claimEvidence": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF03 wv_conv_multiple_misdemeanors-set returned CLAIM_OK (independent-verification, grant set ea6b56d34a1ad782). Asserted before any artifact in this family was opened.",
+      "whyThisReaderIsIndependent": "VT-C built none of these families, repaired none of them, rendered none of their fixtures and produced none of their reports. Every grant was asserted at data/rcap-grade-a/packet-factory-24h/claim-ledger.json BEFORE any artifact in the family was opened, and every number below was recomputed in this container from the delivered bytes and the mounted Master Library. Where a prior lane's conclusion is confirmed it is confirmed by re-measurement, never by agreement.",
+      "obligationsScored": 15,
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "familyPromoted": false,
+      "packetBytesModified": 0,
+      "overlayDirectoriesModified": 0,
+      "buildScriptsModified": 0,
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "how": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wv_conv_multiple_misdemeanors-set (no --write), run in this container at a0d49e1ad49ad4397eac4b009225baf0b94bf03e; returned PASS_COMPLETE with all nine counters zero."
+      },
+      "artifactHashes": [
+        {
+          "file": "data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/fixtures/boundary.pdf",
+          "recomputedSha256": "2a0b701a523d3f7c71f6327c6bd4384cbf438689d0be42d30b869f218f6e1dbe",
+          "recomputedByteLength": 173742,
+          "parsedPageCount": 4,
+          "recomputedHashAppearsInRenderedArtifactsRecord": true
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/fixtures/canonical.pdf",
+          "recomputedSha256": "31a49f2d2216fd2c7a1327aa7f95f3214b8a760e9d46c05517d764d7bd60f90d",
+          "recomputedByteLength": 173531,
+          "parsedPageCount": 4,
+          "recomputedHashAppearsInRenderedArtifactsRecord": true
+        }
+      ],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "One route: obligation:track-pathway:WV:wv_conv_multiple_misdemeanors:eligible-conviction-expungement-under-w-va-code-61-11-26, declared by product-wiring.json and production-field-map.json and present at this base in the census candidate, the canonical route universe, the build worklist and category-a-implementation-waves. No wv_conv_single_misdemeanor, wv_dui_deferral_expungement or 61-11-26a route key appears in the family directory - which matters, because 61-11-26a is the sibling whose waiver could have been misread across.",
+          "evidence": {}
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "1/1 exact. SCA-C906 recomputes to 43b5606c9faf6fcf4d6f73c1d97cf1bd87798158dee1b6f3381c8a0472b4b64c at 176,072 bytes against the mounted Master Library, exactly as source-receipt.json pins, and the same digest is what reports/rendered-artifacts.json binds page by page. The declared routeKey is present in the current census.",
+          "evidence": {
+            "recomputedHere": [
+              {
+                "record": "SCA-C906",
+                "path": "STATES/WV/02_PACKET_FORMS/WV__FORM__SCA-C906__sca-c906-petition-for-expungement-of-misdemeanor-violations-and-traffic-citations__REV-2019-06-04__EN.pdf",
+                "resolvedIn": "corpus",
+                "pinned": "43b5606c9faf6fcf4d6f73c1d97cf1bd87798158dee1b6f3381c8a0472b4b64c",
+                "recomputed": "43b5606c9faf6fcf4d6f73c1d97cf1bd87798158dee1b6f3381c8a0472b4b64c",
+                "shaExact": true,
+                "byteLengthExact": true
+              }
+            ],
+            "routeKeyPresence": [
+              {
+                "routeKey": "obligation:track-pathway:WV:wv_conv_multiple_misdemeanors:eligible-conviction-expungement-under-w-va-code-61-11-26",
+                "presentInBoundRecords": false,
+                "where": [],
+                "declaredInReceipt": false,
+                "declaredInWiring": true,
+                "declaredInFieldMap": true
+              }
+            ]
+          }
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "Six declared components, all accounted for, none foreign. The committed manifest declares primary-filing-1, supplemental-pleading-2 (conditional, multi-county only), verification-3, certificate-of-service-4, service-package-5 and filing-instructions-6. Components 1, 3 and 4 are all discharged by the one official form and I confirmed that from the bytes: VERIFICATION with its notarial block is on page 3 and CERTIFICATE OF SERVICE on page 4. Components 5 and 6 are process_guidance and are discharged by participant-instructions.md's 'Who must receive a copy' and 'Where you file this'. Component 2's condition is not met on a single-county fixture. Nothing belonging to another WV route is present.",
+          "evidence": {}
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "26 of 89 cells written and every one decodes from the bytes: county Kanawha in the caption, case number 24-CR-001234, conviction date 2019-11-02, name, address, DOB and phone, at the positions the map assigns. Declared-write-minus-actually-written is 0.",
+          "evidence": {
+            "declaredWritesNotWritten": 0
+          }
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "Disclosed under 'What you must supply before filing', including the eligibility-date blank the participant alone can close. requiredFactsNotCollected 0.",
+          "evidence": {}
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "The four eligibility alternatives in item c are unmarked because which one applies is a legal election on the participant's own dates; the packet says so and requiredOptionsMissing is 0.",
+          "evidence": {}
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "This is the family where repeating rows matter most, and it is right. Three charge rows are complete - each carries both the CHARGE and the CASE NO. cell (24-CR-001234, -001235, -001236) - and the fourth row is wholly empty rather than half-filled. Item g then names the same three charges in prose and points back to page 1 for the case numbers rather than restating them wrongly. incompleteRows 0.",
+          "evidence": {
+            "completeRows": 3,
+            "partialRows": 0
+          }
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "12 of 14 map rows are refusals, 3 of them signature, notarial or court blocks, and the refused-and-written intersection is empty. The notarial jurat on page 3 and the service block on page 4 are blank in both fixtures. protectedWrites 0.",
+          "evidence": {}
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "Hashed by me: canonical 31a49f2d2216fd2c7a1327aa7f95f3214b8a760e9d46c05517d764d7bd60f90d (173,531 B, 4 pages), boundary 2a0b701a523d3f7c... (173,742 B, 4 pages). Both recomputed digests are the digests reports/rendered-artifacts.json records.",
+          "evidence": {}
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "Verified page by page against the source, not merely counted. reports/rendered-artifacts.json carries a pageManifest binding each packet page to a source form and source page; I extracted every packet page and every named source page from the mounted corpus and matched their distinctive text. 4/4 pages match in both fixtures, 0 mismatched, 0 sources unresolvable.",
+          "evidence": {
+            "pagesMatched": 4,
+            "pagesMismatched": 0
+          }
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "Zero words outside the page box, and zero new substantive word-box intersections against the official SCA-C906 as mounted - the artifact's 53 substantive intersection shapes are a superset of the source's 44 only by written values landing on printed rules. Nothing is cut and nothing collides with caption text.",
+          "evidence": {
+            "wordsOutsidePageBox": [
+              {
+                "file": "data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/fixtures/boundary.pdf",
+                "wordsOutsidePageBox": 0
+              },
+              {
+                "file": "data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/fixtures/canonical.pdf",
+                "wordsOutsidePageBox": 0
+              }
+            ],
+            "newSubstantiveOverlapsAgainstOfficialSource": 0
+          }
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "Stated: the clerk of the circuit court of the county of conviction, with the multi-county grouping rule attached, and with an order-of-operations the participant can follow - do not file until the page-3 verification is sworn and the page-4 certificate completed.",
+          "evidence": {}
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "Both figures held, correctly scoped, and the absent waiver honestly named as absent. I found the $200 and the $100 verbatim in the committed track registry's pay_fee entry for this track and in the route census entry for this exact routeKey: the circuit clerk charges the section 59-1-11(a)(1) civil-action fee, which the official text sets at $200, and a person obtaining an order pays a further $100 to the State Police records division under section 61-11-26(n), on grant rather than on filing. The A3 trap here is the sibling: the $100 waiver exists only on a section 61-11-26a accelerated treatment/job-readiness petition, which is a different route, and the packet refuses to read it across in terms. It states no form for relief from the $200 fee and does not tell the participant they qualify, naming the circuit clerk instead. Nothing is denied that the packet states, and no figure is asserted without a held record.",
+          "evidence": {
+            "figuresTracedTo": [
+              "legal-design-track-registry.json pay_fee / apply_fee_waiver for wv_conv_multiple_misdemeanors",
+              "route-obligation-candidate.json destination.detail for this exact routeKey"
+            ]
+          }
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "Five statutory recipients enumerated from W. Va. Code section 61-11-26(e), plus the thing most packets get wrong: identified victims are served by the prosecuting attorney under section 61-11-26(f), not by the participant, and the packet says 'Do not serve a victim yourself.' It also explains why the page-4 certificate ships blank - a certificate dated before service is a false statement.",
+          "evidence": {}
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "measuredHere": true,
+          "finding": "'Where self-help ends' is present and route-scoped, and 'Where these directions come from' names the committed track registry and the route census entry by path and route key, so every statement above is traceable rather than asserted.",
+          "evidence": {}
+        }
+      },
+      "alsoObservedNotScoredAsAFailure": [
+        "The committed track registry records as an open question whether the $200 circuit clerk fee is in practice charged in full on an expungement petition in every circuit, and whether any circuit applies an indigency waiver. The packet's fee section is consistent with that, but a reviewer should know the practice question is live even though the statutory amount is settled."
+      ]
     }
   ],
   "supersededLaneMembership": {
@@ -4920,5 +6312,26 @@
     "grantsNothing": "An independent PASS proves a packet is complete. It approves no output, promotes no family and opens no commercial route. Nothing in this file changes any live RCAP route.",
     "priorRowsPreserved": true,
     "priorRowsAreNotMine": "The eleven rows above and every top-level block above this one were written by earlier workers on this lane. FABLE-VA3 neither confirms nor disturbs them."
+  },
+  "vtcRead": {
+    "worker": "VT-C (Claude Opus 5)",
+    "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+    "familiesAppended": [
+      "ar-nonconviction-seal-set",
+      "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
+      "tx_exp_acquittal-set",
+      "wa_vac_survivor_misdemeanor-set",
+      "ca-851-91-set",
+      "wv_conv_multiple_misdemeanors-set"
+    ],
+    "rowsBeforeThisPass": 20,
+    "rowsAfterThisPass": 26,
+    "fileIsSharedBySuccessivePasses": "VT-C appended its rows and re-serialised nothing. Every row from an earlier pass is byte-identical to what it found, including rows on families VT-C also read; where VT-C's finding differs from an earlier pass, the difference is recorded in VT-C's own row under `supersedes` rather than by editing anyone else's.",
+    "claimsAsserted": "Every family below returned CLAIM_OK from claim.mjs --assert before any artifact in it was opened, and was released after the row was written.",
+    "overlayDirectoriesModified": 0,
+    "packetBytesModified": 0,
+    "buildScriptsModified": 0,
+    "commercialRoutesOpened": 0,
+    "productionTouched": false
   }
 }
