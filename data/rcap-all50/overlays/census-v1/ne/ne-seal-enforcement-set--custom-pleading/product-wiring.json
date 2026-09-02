@@ -39,5 +39,47 @@
         "requirement": "required"
       }
     ]
+  },
+  "binding": {
+    "family": "ne-seal-enforcement-set",
+    "jurisdiction": "NE",
+    "routeKeys": [
+      "obligation:track-only:NE:ne-seal-enforcement"
+    ],
+    "deliveryType": "custom_pleading",
+    "instrumentKinds": [
+      "attorney_review_recommendation",
+      "informal_demand_letter",
+      "primary_filing",
+      "venue_election_guidance"
+    ],
+    "packetComponents": [],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/ne/ne-seal-enforcement-set--custom-pleading/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/ne/ne-seal-enforcement-set--custom-pleading/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/ne/ne-seal-enforcement-set--custom-pleading/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/ne/ne-seal-enforcement-set--custom-pleading/source-receipt.json",
+    "sourceVersion": [],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "33574304514",
+      "jobId": "100075268104",
+      "artifactId": "9826181388",
+      "boundToCanonicalSha256": "611825ac4bd05fb2a1332f7a5c575bbab767c40c605c9320237d511dfc8ef9f2",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf08",
+      "verifiedAtBase": "ebc44031ec7eab29058bfc79a7bc5e1cff089414"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-ne-seal-enforcement-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
   }
 }

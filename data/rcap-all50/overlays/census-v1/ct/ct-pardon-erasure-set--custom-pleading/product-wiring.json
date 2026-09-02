@@ -40,5 +40,46 @@
         "requirement": "required"
       }
     ]
+  },
+  "binding": {
+    "family": "ct-pardon-erasure-set",
+    "jurisdiction": "CT",
+    "routeKeys": [
+      "obligation:unit:CT:ct-pardon-erasure:ct-pardon-erasure-branch-post-1974-automatic",
+      "obligation:unit:CT:ct-pardon-erasure:ct-pardon-erasure-branch-pre-1974-petition"
+    ],
+    "deliveryType": "custom_pleading",
+    "instrumentKinds": [
+      "Absolute pardon received before 1 October 1974",
+      "no filing — process guidance"
+    ],
+    "packetComponents": [],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/ct/ct-pardon-erasure-set--custom-pleading/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/ct/ct-pardon-erasure-set--custom-pleading/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/ct/ct-pardon-erasure-set--custom-pleading/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/ct/ct-pardon-erasure-set--custom-pleading/source-receipt.json",
+    "sourceVersion": [],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "33549186956",
+      "jobId": "99994820945",
+      "artifactId": "9816884005",
+      "boundToCanonicalSha256": "fb22c04456ff31e1526fcc6127330c67618fdd5378da60fd512b4be51b7c410b",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf08",
+      "verifiedAtBase": "f1cb31429"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-ct-pardon-erasure-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
   }
 }

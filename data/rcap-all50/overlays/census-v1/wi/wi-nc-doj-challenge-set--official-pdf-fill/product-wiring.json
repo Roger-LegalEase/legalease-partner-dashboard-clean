@@ -39,5 +39,54 @@
         "requirement": "required"
       }
     ]
+  },
+  "binding": {
+    "family": "wi_nc_doj_challenge-set",
+    "jurisdiction": "WI",
+    "routeKeys": [
+      "obligation:track-only:WI:wi_nc_doj_challenge"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "filing_instructions",
+      "primary_filing",
+      "record_discrepancy_analysis"
+    ],
+    "packetComponents": [
+      "component:wi_nc_doj_challenge-primary-filing-1"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-challenge-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-challenge-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-challenge-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-challenge-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:DJ-LE-247",
+        "sha256": "ada016d389ef1f0b343432b187aec8c8c93bd7711c85d4ccce847f75572ae6f7",
+        "tier": "exact_form_number"
+      }
+    ],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "33526896195",
+      "jobId": "99922353280",
+      "artifactId": "9808424363",
+      "boundToCanonicalSha256": "edb7338200e12436a22390b6857b54bb0b44d074abc745b5c02c158f85457b4f",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf08",
+      "verifiedAtBase": "f1cb31429"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-wi_nc_doj_challenge-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
   }
 }

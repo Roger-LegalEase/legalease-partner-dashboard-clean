@@ -39,5 +39,46 @@
         "requirement": "required"
       }
     ]
+  },
+  "binding": {
+    "family": "vt_seal_under_25-set",
+    "jurisdiction": "VT",
+    "routeKeys": [
+      "obligation:track-pathway:VT:vt_seal_under_25:offense-before-age-25-sealing-under-33-v-s-a-5119-g"
+    ],
+    "deliveryType": "custom_pleading",
+    "instrumentKinds": [
+      "application_for_sealing",
+      "hearing_and_notice_instructions",
+      "rehabilitation_statement_prompts"
+    ],
+    "packetComponents": [],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/vt/vt-seal-under-25-set--custom-pleading/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/vt/vt-seal-under-25-set--custom-pleading/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/vt/vt-seal-under-25-set--custom-pleading/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/vt/vt-seal-under-25-set--custom-pleading/source-receipt.json",
+    "sourceVersion": [],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "33547709781",
+      "jobId": "99990088711",
+      "artifactId": "9816349206",
+      "boundToCanonicalSha256": "cd71dce93a3404558c3d2fc33e55a3838867868781c801c7487ebad8ea049a07",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf11",
+      "verifiedAtBase": null
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-vt_seal_under_25-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
   }
 }

@@ -39,5 +39,52 @@
         "requirement": "required"
       }
     ]
+  },
+  "binding": {
+    "family": "ma-expunge-mj-set",
+    "jurisdiction": "MA",
+    "routeKeys": [
+      "obligation:track-pathway:MA:ma-expunge-mj:marijuana-only-expungement"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "Massachusetts Marijuana Expungement Petition under §§ 100K / 100K¼"
+    ],
+    "packetComponents": [
+      "component:ma-expunge-mj-primary-filing-1"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-mj-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-mj-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-mj-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-mj-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:TC0021",
+        "sha256": "a9d80fab51668c59a15b559aa0f5021e8b4bf661fa83429ef22b31157cbf565c",
+        "tier": "exact_form_number"
+      }
+    ],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "33526896195",
+      "jobId": "99922353258",
+      "artifactId": "9808426689",
+      "boundToCanonicalSha256": "ceab4012296b4e132466a11ebc5239fd72ae553fd5a5554f7ddfc110fcb8f565",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf02",
+      "verifiedAtBase": null
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-ma-expunge-mj-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
   }
 }

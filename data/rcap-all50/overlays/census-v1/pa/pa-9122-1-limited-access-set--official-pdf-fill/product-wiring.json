@@ -15,5 +15,77 @@
   "integrationStatus": "INSTALLED_BY_CAPTAIN",
   "note": "Integration-ready repair payload only. This record grants no runtime, commercial, fulfillment, eligibility, branch-selection, or approval authority.",
   "installedFrom": "data/rcap-grade-a/wave-2/r7-packet-repair/product-wiring/pa_9122_1_limited_access-set/product-wiring.json",
-  "installedBy": "WAVE_2_INTEGRATION_CHECKPOINT"
+  "installedBy": "WAVE_2_INTEGRATION_CHECKPOINT",
+  "binding": {
+    "family": "pa_9122_1_limited_access-set",
+    "jurisdiction": "PA",
+    "routeKeys": [
+      "obligation:track-pathway:PA:pa_9122_1_limited_access:path-i-petition-for-limited-access"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "certificate_of_service",
+      "fee_waiver",
+      "primary_filing",
+      "proposed_order"
+    ],
+    "packetComponents": [
+      "component:pa_9122_1_limited_access-fee-waiver-4",
+      "component:pa_9122_1_limited_access-primary-filing-1",
+      "component:pa_9122_1_limited_access-proposed-order-2"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/pa/pa-9122-1-limited-access-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/pa/pa-9122-1-limited-access-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/pa/pa-9122-1-limited-access-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/pa/pa-9122-1-limited-access-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:PA-IFP-CCP",
+        "sha256": "b1255ef0503f9c9ff0565e884083e37fe4072e4e9999bec159712d467d420fca",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:PA-RCRIM-P-791-ORDER",
+        "sha256": "99a7704e7d68c0478ef0be1d6c08a79f552a9f439d9468d6476c10e8a5c377cf",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:PA-RCRIM-P-791-PETITION",
+        "sha256": "945a630595c8f6fcbbfaf4f5532fc54ab7267ac585d2cb523bf0f5975d21c2ab",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "source-sha256:945a630595c8f6fcbbfaf4f5532fc54ab7267ac585d2cb523bf0f5975d21c2ab",
+        "sha256": "945a630595c8f6fcbbfaf4f5532fc54ab7267ac585d2cb523bf0f5975d21c2ab",
+        "tier": "exact_content_hash"
+      },
+      {
+        "sourceId": "source-sha256:99a7704e7d68c0478ef0be1d6c08a79f552a9f439d9468d6476c10e8a5c377cf",
+        "sha256": "99a7704e7d68c0478ef0be1d6c08a79f552a9f439d9468d6476c10e8a5c377cf",
+        "tier": "exact_content_hash"
+      }
+    ],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "33526896195",
+      "jobId": "99922353545",
+      "artifactId": "9808446975",
+      "boundToCanonicalSha256": "8996b09209eb45a12c7985155e579dc4ae2bbc6368ffdc7fba67506f137e163c",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf27",
+      "verifiedAtBase": null
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-pa_9122_1_limited_access-set.mjs",
+      "sharedBuildHost": "build-census-v1-nj_arrest_no_conviction-set.mjs",
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  }
 }

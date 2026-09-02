@@ -39,5 +39,67 @@
         "requirement": "required"
       }
     ]
+  },
+  "binding": {
+    "family": "vt_seal_misdemeanor-set",
+    "jurisdiction": "VT",
+    "routeKeys": [
+      "obligation:track-pathway:VT:vt_seal_misdemeanor:adult-misdemeanor-conviction-sealing"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "fee_waiver_application",
+      "filing_and_expectation_instructions",
+      "petition",
+      "stipulation_and_proposed_order"
+    ],
+    "packetComponents": [
+      "component:vt_seal_misdemeanor-fee-waiver-application-3",
+      "component:vt_seal_misdemeanor-petition-1",
+      "component:vt_seal_misdemeanor-stipulation-and-proposed-order-2"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/vt/vt-seal-misdemeanor-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/vt/vt-seal-misdemeanor-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/vt/vt-seal-misdemeanor-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/vt/vt-seal-misdemeanor-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:200-00130",
+        "sha256": "ff914f49c2a78a8b96d48f1242b70ab12ff7cb25beeeb8b850505357fdf982ed",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:200-00132",
+        "sha256": "088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:600-00228",
+        "sha256": "263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654",
+        "tier": "exact_form_number"
+      }
+    ],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "33488713831",
+      "jobId": "99795497995",
+      "artifactId": "9793033094",
+      "boundToCanonicalSha256": "c37d27bad040121f3e677e81911745c6ea41f12fa1b8d7e986b74b9585d98a87",
+      "coversTheWholeFamily": false
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf07",
+      "verifiedAtBase": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-vt_seal_misdemeanor-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
   }
 }

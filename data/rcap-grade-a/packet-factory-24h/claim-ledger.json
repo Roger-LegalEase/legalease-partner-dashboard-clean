@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "f34e391ecded9aafec9c51fc3d2af0862439cba0",
+  "generatedAtCommit": "d401900ef6727d2ca60730d0adc7d8525c1a2de5",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -3248,6 +3248,21 @@
     },
     {
       "subjectType": "packet-family",
+      "subjectId": "rcap-or-official-pdf-fill",
+      "familyId": "rcap-or-official-pdf-fill",
+      "itemId": null,
+      "familyIds": [
+        "rcap-or-official-pdf-fill"
+      ],
+      "sourceId": null,
+      "operation": "packet-build",
+      "lane": "PF03",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
       "subjectId": "rcap-sc-custom-pleading",
       "familyId": "rcap-sc-custom-pleading",
       "itemId": null,
@@ -5327,62 +5342,6 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:52:20.554Z"
-    },
-    {
-      "subjectType": "source-obligation",
-      "subjectId": "co_decriminalized_conduct_seal-set::official-form:JDF-2371",
-      "itemId": "co_decriminalized_conduct_seal-set::official-form:JDF-2371",
-      "familyIds": [
-        "co_decriminalized_conduct_seal-set"
-      ],
-      "sourceId": "official-form:JDF-2371",
-      "operation": "held-inventory-reconciliation",
-      "lane": "SRC03",
-      "laneKind": "source-reconciliation",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "source-obligation",
-      "subjectId": "co_decriminalized_conduct_seal-set::official-form:JDF-2374",
-      "itemId": "co_decriminalized_conduct_seal-set::official-form:JDF-2374",
-      "familyIds": [
-        "co_decriminalized_conduct_seal-set"
-      ],
-      "sourceId": "official-form:JDF-2374",
-      "operation": "held-inventory-reconciliation",
-      "lane": "SRC03",
-      "laneKind": "source-reconciliation",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "source-obligation",
-      "subjectId": "co_motion_seal_conviction-set::official-form:JDF-612",
-      "itemId": "co_motion_seal_conviction-set::official-form:JDF-612",
-      "familyIds": [
-        "co_motion_seal_conviction-set"
-      ],
-      "sourceId": "official-form:JDF-612",
-      "operation": "held-inventory-reconciliation",
-      "lane": "SRC03",
-      "laneKind": "source-reconciliation",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "source-obligation",
-      "subjectId": "co_motion_seal_conviction-set::official-form:JDF-615",
-      "itemId": "co_motion_seal_conviction-set::official-form:JDF-615",
-      "familyIds": [
-        "co_motion_seal_conviction-set"
-      ],
-      "sourceId": "official-form:JDF-615",
-      "operation": "held-inventory-reconciliation",
-      "lane": "SRC03",
-      "laneKind": "source-reconciliation",
-      "released": false,
-      "releasedAt": null
     },
     {
       "subjectType": "source-obligation",
@@ -7500,48 +7459,6 @@
     },
     {
       "subjectType": "source-obligation",
-      "subjectId": "ky_felony_expungement_after_pardon-set::official-form:AOC-496.3",
-      "itemId": "ky_felony_expungement_after_pardon-set::official-form:AOC-496.3",
-      "familyIds": [
-        "ky_felony_expungement_after_pardon-set"
-      ],
-      "sourceId": "official-form:AOC-496.3",
-      "operation": "held-inventory-reconciliation",
-      "lane": "SRC01",
-      "laneKind": "source-reconciliation",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "source-obligation",
-      "subjectId": "ky_misdemeanor_expungement-set::official-form:AOC-496",
-      "itemId": "ky_misdemeanor_expungement-set::official-form:AOC-496",
-      "familyIds": [
-        "ky_misdemeanor_expungement-set"
-      ],
-      "sourceId": "official-form:AOC-496",
-      "operation": "held-inventory-reconciliation",
-      "lane": "SRC01",
-      "laneKind": "source-reconciliation",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "source-obligation",
-      "subjectId": "ky_misdemeanor_expungement-set::official-form:AOC-496.2",
-      "itemId": "ky_misdemeanor_expungement-set::official-form:AOC-496.2",
-      "familyIds": [
-        "ky_misdemeanor_expungement-set"
-      ],
-      "sourceId": "official-form:AOC-496.2",
-      "operation": "held-inventory-reconciliation",
-      "lane": "SRC01",
-      "laneKind": "source-reconciliation",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "source-obligation",
       "subjectId": "ky_nonconviction_expungement-set::official-form:AOC-497.2",
       "itemId": "ky_nonconviction_expungement-set::official-form:AOC-497.2",
       "familyIds": [
@@ -8256,20 +8173,6 @@
     },
     {
       "subjectType": "source-obligation",
-      "subjectId": "mo-575-120-identity-theft-correction-set::official-form:CR300",
-      "itemId": "mo-575-120-identity-theft-correction-set::official-form:CR300",
-      "familyIds": [
-        "mo-575-120-identity-theft-correction-set"
-      ],
-      "sourceId": "official-form:CR300",
-      "operation": "held-inventory-reconciliation",
-      "lane": "SRC01",
-      "laneKind": "source-reconciliation",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "source-obligation",
       "subjectId": "mo-575-120-identity-theft-correction-set::official-form:CR310",
       "itemId": "mo-575-120-identity-theft-correction-set::official-form:CR310",
       "familyIds": [
@@ -8326,20 +8229,6 @@
     },
     {
       "subjectType": "source-obligation",
-      "subjectId": "mo-610-122-arrest-expungement-set::official-form:CR145",
-      "itemId": "mo-610-122-arrest-expungement-set::official-form:CR145",
-      "familyIds": [
-        "mo-610-122-arrest-expungement-set"
-      ],
-      "sourceId": "official-form:CR145",
-      "operation": "held-inventory-reconciliation",
-      "lane": "SRC01",
-      "laneKind": "source-reconciliation",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "source-obligation",
       "subjectId": "mo-610-122-arrest-expungement-set::official-form:FI-05",
       "itemId": "mo-610-122-arrest-expungement-set::official-form:FI-05",
       "familyIds": [
@@ -8365,20 +8254,6 @@
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T07:46:51.945Z"
-    },
-    {
-      "subjectType": "source-obligation",
-      "subjectId": "mo-610-140-arrest-set::official-form:CR360",
-      "itemId": "mo-610-140-arrest-set::official-form:CR360",
-      "familyIds": [
-        "mo-610-140-arrest-set"
-      ],
-      "sourceId": "official-form:CR360",
-      "operation": "held-inventory-reconciliation",
-      "lane": "SRC01",
-      "laneKind": "source-reconciliation",
-      "released": false,
-      "releasedAt": null
     },
     {
       "subjectType": "source-obligation",
@@ -8421,20 +8296,6 @@
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T07:46:52.131Z"
-    },
-    {
-      "subjectType": "source-obligation",
-      "subjectId": "mo-610-140-conviction-set::official-form:CR360",
-      "itemId": "mo-610-140-conviction-set::official-form:CR360",
-      "familyIds": [
-        "mo-610-140-conviction-set"
-      ],
-      "sourceId": "official-form:CR360",
-      "operation": "held-inventory-reconciliation",
-      "lane": "SRC01",
-      "laneKind": "source-reconciliation",
-      "released": false,
-      "releasedAt": null
     },
     {
       "subjectType": "source-obligation",
@@ -8519,20 +8380,6 @@
       "laneKind": "source-reconciliation",
       "released": true,
       "releasedAt": "2026-09-01T07:46:52.430Z"
-    },
-    {
-      "subjectType": "source-obligation",
-      "subjectId": "mo-art-xiv-marijuana-set::official-form:CR375",
-      "itemId": "mo-art-xiv-marijuana-set::official-form:CR375",
-      "familyIds": [
-        "mo-art-xiv-marijuana-set"
-      ],
-      "sourceId": "official-form:CR375",
-      "operation": "held-inventory-reconciliation",
-      "lane": "SRC01",
-      "laneKind": "source-reconciliation",
-      "released": false,
-      "releasedAt": null
     },
     {
       "subjectType": "source-obligation",
@@ -9418,34 +9265,6 @@
     },
     {
       "subjectType": "source-obligation",
-      "subjectId": "or_contempt_setaside-set::official-form:OR-OJD-ADULT-SET-ASIDE-PACKET",
-      "itemId": "or_contempt_setaside-set::official-form:OR-OJD-ADULT-SET-ASIDE-PACKET",
-      "familyIds": [
-        "or_contempt_setaside-set"
-      ],
-      "sourceId": "official-form:OR-OJD-ADULT-SET-ASIDE-PACKET",
-      "operation": "held-inventory-reconciliation",
-      "lane": "SRC02",
-      "laneKind": "source-reconciliation",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "source-obligation",
-      "subjectId": "or_contempt_setaside-set::official-form:OR-OSP-SET-ASIDE-CCH",
-      "itemId": "or_contempt_setaside-set::official-form:OR-OSP-SET-ASIDE-CCH",
-      "familyIds": [
-        "or_contempt_setaside-set"
-      ],
-      "sourceId": "official-form:OR-OSP-SET-ASIDE-CCH",
-      "operation": "held-inventory-reconciliation",
-      "lane": "SRC02",
-      "laneKind": "source-reconciliation",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "source-obligation",
       "subjectId": "rcap-hi-custom-pleading::official-form:HCJDC-159B",
       "itemId": "rcap-hi-custom-pleading::official-form:HCJDC-159B",
       "familyIds": [
@@ -9569,34 +9388,6 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:52:24.064Z"
-    },
-    {
-      "subjectType": "source-obligation",
-      "subjectId": "rcap-or-official-pdf-fill::official-form:OR-OJD-ADULT-SET-ASIDE-PACKET",
-      "itemId": "rcap-or-official-pdf-fill::official-form:OR-OJD-ADULT-SET-ASIDE-PACKET",
-      "familyIds": [
-        "rcap-or-official-pdf-fill"
-      ],
-      "sourceId": "official-form:OR-OJD-ADULT-SET-ASIDE-PACKET",
-      "operation": "held-inventory-reconciliation",
-      "lane": "SRC02",
-      "laneKind": "source-reconciliation",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "source-obligation",
-      "subjectId": "rcap-or-official-pdf-fill::official-form:OR-OSP-SET-ASIDE-CCH",
-      "itemId": "rcap-or-official-pdf-fill::official-form:OR-OSP-SET-ASIDE-CCH",
-      "familyIds": [
-        "rcap-or-official-pdf-fill"
-      ],
-      "sourceId": "official-form:OR-OSP-SET-ASIDE-CCH",
-      "operation": "held-inventory-reconciliation",
-      "lane": "SRC02",
-      "laneKind": "source-reconciliation",
-      "released": false,
-      "releasedAt": null
     },
     {
       "subjectType": "source-obligation",
@@ -10328,34 +10119,6 @@
     },
     {
       "subjectType": "source-obligation",
-      "subjectId": "wi_exp_cr266-set::official-form:CR-266",
-      "itemId": "wi_exp_cr266-set::official-form:CR-266",
-      "familyIds": [
-        "wi_exp_cr266-set"
-      ],
-      "sourceId": "official-form:CR-266",
-      "operation": "held-inventory-reconciliation",
-      "lane": "SRC04",
-      "laneKind": "source-reconciliation",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "source-obligation",
-      "subjectId": "wi_exp_cr266-set::official-form:CR-267",
-      "itemId": "wi_exp_cr266-set::official-form:CR-267",
-      "familyIds": [
-        "wi_exp_cr266-set"
-      ],
-      "sourceId": "official-form:CR-267",
-      "operation": "held-inventory-reconciliation",
-      "lane": "SRC04",
-      "laneKind": "source-reconciliation",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "source-obligation",
       "subjectId": "wv_acc_treatment_job_readiness-set::official-form:SCA-C907",
       "itemId": "wv_acc_treatment_job_readiness-set::official-form:SCA-C907",
       "familyIds": [
@@ -10425,7 +10188,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "7fa1a744970f23b2e24bef88b4b7f58b189d53ae5b8e1c6e0aa7c357e6bfa40f",
+  "claimsDigest": "1752a322abca35b8ee5ff6328fa678f556c48d8592f36954137d3ddba002e007",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -19202,6 +18965,150 @@
       "operation": "packet-build",
       "lane": "PF16",
       "withdrawnAt": "2026-09-02T06:15:11Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "source-obligation",
+      "subjectId": "co_decriminalized_conduct_seal-set::official-form:JDF-2371",
+      "operation": "held-inventory-reconciliation",
+      "lane": "SRC03",
+      "withdrawnAt": "2026-09-02T06:33:22Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "source-obligation",
+      "subjectId": "co_decriminalized_conduct_seal-set::official-form:JDF-2374",
+      "operation": "held-inventory-reconciliation",
+      "lane": "SRC03",
+      "withdrawnAt": "2026-09-02T06:33:22Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "source-obligation",
+      "subjectId": "co_motion_seal_conviction-set::official-form:JDF-612",
+      "operation": "held-inventory-reconciliation",
+      "lane": "SRC03",
+      "withdrawnAt": "2026-09-02T06:33:22Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "source-obligation",
+      "subjectId": "co_motion_seal_conviction-set::official-form:JDF-615",
+      "operation": "held-inventory-reconciliation",
+      "lane": "SRC03",
+      "withdrawnAt": "2026-09-02T06:33:22Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "source-obligation",
+      "subjectId": "ky_felony_expungement_after_pardon-set::official-form:AOC-496.3",
+      "operation": "held-inventory-reconciliation",
+      "lane": "SRC01",
+      "withdrawnAt": "2026-09-02T06:33:22Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "source-obligation",
+      "subjectId": "ky_misdemeanor_expungement-set::official-form:AOC-496",
+      "operation": "held-inventory-reconciliation",
+      "lane": "SRC01",
+      "withdrawnAt": "2026-09-02T06:33:22Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "source-obligation",
+      "subjectId": "ky_misdemeanor_expungement-set::official-form:AOC-496.2",
+      "operation": "held-inventory-reconciliation",
+      "lane": "SRC01",
+      "withdrawnAt": "2026-09-02T06:33:22Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "source-obligation",
+      "subjectId": "mo-575-120-identity-theft-correction-set::official-form:CR300",
+      "operation": "held-inventory-reconciliation",
+      "lane": "SRC01",
+      "withdrawnAt": "2026-09-02T06:33:22Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "source-obligation",
+      "subjectId": "mo-610-122-arrest-expungement-set::official-form:CR145",
+      "operation": "held-inventory-reconciliation",
+      "lane": "SRC01",
+      "withdrawnAt": "2026-09-02T06:33:22Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "source-obligation",
+      "subjectId": "mo-610-140-arrest-set::official-form:CR360",
+      "operation": "held-inventory-reconciliation",
+      "lane": "SRC01",
+      "withdrawnAt": "2026-09-02T06:33:22Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "source-obligation",
+      "subjectId": "mo-610-140-conviction-set::official-form:CR360",
+      "operation": "held-inventory-reconciliation",
+      "lane": "SRC01",
+      "withdrawnAt": "2026-09-02T06:33:22Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "source-obligation",
+      "subjectId": "mo-art-xiv-marijuana-set::official-form:CR375",
+      "operation": "held-inventory-reconciliation",
+      "lane": "SRC01",
+      "withdrawnAt": "2026-09-02T06:33:22Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "source-obligation",
+      "subjectId": "or_contempt_setaside-set::official-form:OR-OJD-ADULT-SET-ASIDE-PACKET",
+      "operation": "held-inventory-reconciliation",
+      "lane": "SRC02",
+      "withdrawnAt": "2026-09-02T06:33:22Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "source-obligation",
+      "subjectId": "or_contempt_setaside-set::official-form:OR-OSP-SET-ASIDE-CCH",
+      "operation": "held-inventory-reconciliation",
+      "lane": "SRC02",
+      "withdrawnAt": "2026-09-02T06:33:22Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "source-obligation",
+      "subjectId": "rcap-or-official-pdf-fill::official-form:OR-OJD-ADULT-SET-ASIDE-PACKET",
+      "operation": "held-inventory-reconciliation",
+      "lane": "SRC02",
+      "withdrawnAt": "2026-09-02T06:33:22Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "source-obligation",
+      "subjectId": "rcap-or-official-pdf-fill::official-form:OR-OSP-SET-ASIDE-CCH",
+      "operation": "held-inventory-reconciliation",
+      "lane": "SRC02",
+      "withdrawnAt": "2026-09-02T06:33:22Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "source-obligation",
+      "subjectId": "wi_exp_cr266-set::official-form:CR-266",
+      "operation": "held-inventory-reconciliation",
+      "lane": "SRC04",
+      "withdrawnAt": "2026-09-02T06:33:22Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "source-obligation",
+      "subjectId": "wi_exp_cr266-set::official-form:CR-267",
+      "operation": "held-inventory-reconciliation",
+      "lane": "SRC04",
+      "withdrawnAt": "2026-09-02T06:33:22Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]

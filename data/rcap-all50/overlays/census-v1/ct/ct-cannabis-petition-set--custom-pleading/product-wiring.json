@@ -39,5 +39,45 @@
         "requirement": "required"
       }
     ]
+  },
+  "binding": {
+    "family": "ct-cannabis-petition-set",
+    "jurisdiction": "CT",
+    "routeKeys": [
+      "obligation:track-only:CT:ct-cannabis-petition"
+    ],
+    "deliveryType": "custom_pleading",
+    "instrumentKinds": [
+      "primary_filing",
+      "supporting_affidavit"
+    ],
+    "packetComponents": [],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/ct/ct-cannabis-petition-set--custom-pleading/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/ct/ct-cannabis-petition-set--custom-pleading/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/ct/ct-cannabis-petition-set--custom-pleading/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/ct/ct-cannabis-petition-set--custom-pleading/source-receipt.json",
+    "sourceVersion": [],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "33574304514",
+      "jobId": "100075268077",
+      "artifactId": "9826163504",
+      "boundToCanonicalSha256": "73f32cf14f330bb162ad0792eecd8b6351e51905d31c6d9c40b0e9bd933a97a3",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf07",
+      "verifiedAtBase": "ebc44031ec7eab29058bfc79a7bc5e1cff089414"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-ct-cannabis-petition-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
   }
 }

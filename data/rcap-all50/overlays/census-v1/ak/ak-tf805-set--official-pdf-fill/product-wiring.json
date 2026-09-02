@@ -81,5 +81,56 @@
   ],
   "blockedBy": null,
   "previouslyBlockedBy": "source_binary_absent -- discharged; the source is verified and the family is built",
-  "whyStillNotInstalled": "Installing is a separate act from building, and nothing here authorizes it. The two install preconditions that remained after this build are both human: an independent visual review by someone other than the agent that rendered the pages, and output-level legal approval. This lane can request both and grant neither."
+  "whyStillNotInstalled": "Installing is a separate act from building, and nothing here authorizes it. The two install preconditions that remained after this build are both human: an independent visual review by someone other than the agent that rendered the pages, and output-level legal approval. This lane can request both and grant neither.",
+  "binding": {
+    "family": "ak-tf805-set",
+    "jurisdiction": "AK",
+    "routeKeys": [
+      "obligation:track-only:AK:ak-tf805"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "certificate_of_service",
+      "primary_filing",
+      "proposed_order"
+    ],
+    "packetComponents": [
+      "component:ak-tf805-certificate-of-service-2",
+      "component:ak-tf805-primary-filing-1",
+      "component:ak-tf805-proposed-order-3"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/ak/ak-tf805-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/ak/ak-tf805-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/ak/ak-tf805-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/ak/ak-tf805-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:TF-805",
+        "sha256": "96306d64eda397e25094f92c3d67a642372b82cba12f97c6666e5500136e8f54",
+        "tier": "exact_form_number"
+      }
+    ],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "33495068504",
+      "jobId": "99815920039",
+      "artifactId": "9795508498",
+      "boundToCanonicalSha256": "bffda336fac95d0980e0a9130913c9189077e1fdc3f05b5a1d55065e5f5c9703",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf20",
+      "verifiedAtBase": null
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-ak-tf805-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  }
 }

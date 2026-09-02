@@ -40,5 +40,53 @@
         "requirement": "required"
       }
     ]
+  },
+  "binding": {
+    "family": "pa_pardon_expungement-set",
+    "jurisdiction": "PA",
+    "routeKeys": [
+      "obligation:unit:PA:pa_pardon_expungement:pa_pardon_automatic_route",
+      "obligation:unit:PA:pa_pardon_expungement:pa_pardon_fallback_petition"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "Rule 790 petition where the automatic route has not cleared the record (official_pdf_fill)",
+      "no filing — process guidance"
+    ],
+    "packetComponents": [
+      "component:pa_pardon_expungement-primary-filing-2",
+      "component:pa_pardon_expungement-proposed-order-3"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:PA-RCRIM-P-790-ORDER",
+        "sha256": "4d312ebde4aed7c1941e1ae9d734c90ba7183db273778839b15a84be8e611c95",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:PA-RCRIM-P-790-PETITION",
+        "sha256": "fc06486e75773d4f6d81c263706827ab7f9facfb6dde9907cbee120c063289de",
+        "tier": "exact_form_number"
+      }
+    ],
+    "acceptanceReceipt": null,
+    "lastIndependentVerification": {
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf03",
+      "verifiedAtBase": "7fcfb7d40aafe7bd7350fc735ea09d16524cb757"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-pa_pardon_expungement-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
   }
 }

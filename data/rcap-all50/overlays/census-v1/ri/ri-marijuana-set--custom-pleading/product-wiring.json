@@ -40,5 +40,46 @@
         "requirement": "required"
       }
     ]
+  },
+  "binding": {
+    "family": "ri_marijuana-set",
+    "jurisdiction": "RI",
+    "routeKeys": [
+      "obligation:unit:RI:ri_marijuana:ri-marijuana-automatic-verification",
+      "obligation:unit:RI:ri_marijuana:ri-marijuana-expedited-written-request"
+    ],
+    "deliveryType": "custom_pleading",
+    "instrumentKinds": [
+      "Participant-signed expedited written request where the record has not cleared (custom_pleading)",
+      "no filing — process guidance"
+    ],
+    "packetComponents": [],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/ri/ri-marijuana-set--custom-pleading/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/ri/ri-marijuana-set--custom-pleading/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/ri/ri-marijuana-set--custom-pleading/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/ri/ri-marijuana-set--custom-pleading/source-receipt.json",
+    "sourceVersion": [],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "33549186956",
+      "jobId": "99994820927",
+      "artifactId": "9816918757",
+      "boundToCanonicalSha256": "79bcf52eb9014313303adc20c37ec9d20d127de1dd28e5b738f2c823f0eba8f0",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf12",
+      "verifiedAtBase": null
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-ri_marijuana-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
   }
 }

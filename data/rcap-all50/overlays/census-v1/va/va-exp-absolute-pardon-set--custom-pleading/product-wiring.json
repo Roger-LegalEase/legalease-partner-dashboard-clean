@@ -39,5 +39,46 @@
         "requirement": "required"
       }
     ]
+  },
+  "binding": {
+    "family": "va_exp_absolute_pardon-set",
+    "jurisdiction": "VA",
+    "routeKeys": [
+      "obligation:track-pathway:VA:va_exp_absolute_pardon:regime-1-expungement-available-now"
+    ],
+    "deliveryType": "custom_pleading",
+    "instrumentKinds": [
+      "filing_instructions",
+      "primary_filing",
+      "records_checklist"
+    ],
+    "packetComponents": [],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/va/va-exp-absolute-pardon-set--custom-pleading/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/va/va-exp-absolute-pardon-set--custom-pleading/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/va/va-exp-absolute-pardon-set--custom-pleading/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/va/va-exp-absolute-pardon-set--custom-pleading/source-receipt.json",
+    "sourceVersion": [],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "33574304514",
+      "jobId": "100075268196",
+      "artifactId": "9826171095",
+      "boundToCanonicalSha256": "b56af08c1b796b78a26ebac56a3580299e5e06022976941ba0b7fd68cf810188",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf12",
+      "verifiedAtBase": "ebc44031ec7eab29058bfc79a7bc5e1cff089414"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-va_exp_absolute_pardon-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
   }
 }

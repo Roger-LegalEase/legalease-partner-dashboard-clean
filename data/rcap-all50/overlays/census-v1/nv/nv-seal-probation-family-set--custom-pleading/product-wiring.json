@@ -39,5 +39,51 @@
         "requirement": "required"
       }
     ]
+  },
+  "binding": {
+    "family": "nv_seal_probation_family-set",
+    "jurisdiction": "NV",
+    "routeKeys": [
+      "obligation:track-pathway:NV:nv_seal_probation_family:probation-or-specialty-court-dismissal-set-aside-sealing"
+    ],
+    "deliveryType": "custom_pleading",
+    "instrumentKinds": [
+      "branch_screen",
+      "declaration_and_verification",
+      "detection_and_routing",
+      "discharge_type_screen",
+      "filing_and_service_instructions",
+      "primary_filing",
+      "proposed_order",
+      "referral_instructions"
+    ],
+    "packetComponents": [],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/nv/nv-seal-probation-family-set--custom-pleading/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/nv/nv-seal-probation-family-set--custom-pleading/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/nv/nv-seal-probation-family-set--custom-pleading/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/nv/nv-seal-probation-family-set--custom-pleading/source-receipt.json",
+    "sourceVersion": [],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "33574304514",
+      "jobId": "100075268130",
+      "artifactId": "9826229362",
+      "boundToCanonicalSha256": "533cf8ec8ac3447f89374639d0d8fbf33b5c453c1248bf33b263da56d99b88a7",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf10",
+      "verifiedAtBase": "ebc44031ec7eab29058bfc79a7bc5e1cff089414"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-nv_seal_probation_family-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
   }
 }

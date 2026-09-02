@@ -15,5 +15,55 @@
   "integrationStatus": "INSTALLED_BY_CAPTAIN",
   "note": "Integration-ready repair payload only. This record grants no runtime, commercial, fulfillment, eligibility, branch-selection, or approval authority.",
   "installedFrom": "data/rcap-grade-a/wave-2/r7-packet-repair/product-wiring/nj_clean_slate-set/product-wiring.json",
-  "installedBy": "WAVE_2_INTEGRATION_CHECKPOINT"
+  "installedBy": "WAVE_2_INTEGRATION_CHECKPOINT",
+  "binding": {
+    "family": "nj_clean_slate-set",
+    "jurisdiction": "NJ",
+    "routeKeys": [
+      "obligation:track-pathway:NJ:nj_clean_slate:clean-slate-petition-under-n-j-s-a-2c-52-5-3"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "New Jersey Clean Slate Petition under 2C"
+    ],
+    "packetComponents": [
+      "component:nj_clean_slate-order-for-hearing-3",
+      "component:nj_clean_slate-primary-filing-1",
+      "component:nj_clean_slate-proposed-order-4",
+      "component:nj_clean_slate-statements-accompanying-petition-2"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/nj/nj-clean-slate-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/nj/nj-clean-slate-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/nj/nj-clean-slate-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/nj/nj-clean-slate-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:CN-10557",
+        "sha256": "c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7",
+        "tier": "exact_form_number"
+      }
+    ],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "33531491985",
+      "jobId": "99936307329",
+      "artifactId": "9810669120",
+      "boundToCanonicalSha256": "343407a30f38beffccde4c51b8060065bd6eed27356a999d8e321e01a1baca33",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf04",
+      "verifiedAtBase": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-nj_clean_slate-set.mjs",
+      "sharedBuildHost": "build-census-v1-nj_arrest_no_conviction-set.mjs",
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  }
 }

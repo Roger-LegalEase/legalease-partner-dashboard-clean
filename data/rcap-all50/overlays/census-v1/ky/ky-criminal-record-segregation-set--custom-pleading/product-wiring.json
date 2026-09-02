@@ -40,5 +40,46 @@
         "requirement": "required"
       }
     ]
+  },
+  "binding": {
+    "family": "ky_criminal_record_segregation-set",
+    "jurisdiction": "KY",
+    "routeKeys": [
+      "obligation:unit:KY:ky_criminal_record_segregation:ky_seg_agency_written_request",
+      "obligation:unit:KY:ky_criminal_record_segregation:ky_seg_court_application"
+    ],
+    "deliveryType": "custom_pleading",
+    "instrumentKinds": [
+      "Apply to the court for an order of segregation (custom_pleading)",
+      "Send a written request to each agency holding the records (custom_pleading)"
+    ],
+    "packetComponents": [],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/ky/ky-criminal-record-segregation-set--custom-pleading/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/ky/ky-criminal-record-segregation-set--custom-pleading/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/ky/ky-criminal-record-segregation-set--custom-pleading/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/ky/ky-criminal-record-segregation-set--custom-pleading/source-receipt.json",
+    "sourceVersion": [],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "33549186956",
+      "jobId": "99994820923",
+      "artifactId": "9816908335",
+      "boundToCanonicalSha256": "688787fb65152b5bb91ee9677012709e808db28da9dccb7599f85a631ac97970",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf08",
+      "verifiedAtBase": "f1cb31429"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-ky_criminal_record_segregation-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
   }
 }

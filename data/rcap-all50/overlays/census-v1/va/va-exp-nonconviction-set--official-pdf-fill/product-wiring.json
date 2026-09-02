@@ -39,5 +39,56 @@
         "requirement": "required"
       }
     ]
+  },
+  "binding": {
+    "family": "va_exp_nonconviction-set",
+    "jurisdiction": "VA",
+    "routeKeys": [
+      "obligation:track-only:VA:va_exp_nonconviction"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "ccre_forwarding_request",
+      "commonwealth_service_and_stipulation_request",
+      "filing_instructions",
+      "primary_filing",
+      "records_checklist"
+    ],
+    "packetComponents": [
+      "component:va_exp_nonconviction-primary-filing-1"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:CC-1473",
+        "sha256": "6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
+        "tier": "exact_form_number"
+      }
+    ],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "33526896195",
+      "jobId": "99922353277",
+      "artifactId": "9808505628",
+      "boundToCanonicalSha256": "bb6747c8e639fc5310e718e9165352bd1a9204a92e82b5a10703c75590b65f6c",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf08",
+      "verifiedAtBase": "f1cb31429"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-va_exp_nonconviction-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
   }
 }

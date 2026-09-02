@@ -40,5 +40,46 @@
         "requirement": "required"
       }
     ]
+  },
+  "binding": {
+    "family": "ct-under18-misdemeanor-set",
+    "jurisdiction": "CT",
+    "routeKeys": [
+      "obligation:unit:CT:ct-under18-misdemeanor:ct-under18-misdemeanor-branch-automatic",
+      "obligation:unit:CT:ct-under18-misdemeanor:ct-under18-misdemeanor-branch-petition"
+    ],
+    "deliveryType": "custom_pleading",
+    "instrumentKinds": [
+      "Section 54-142a(f)(2) pre-2000 participant petition (custom_pleading)",
+      "no filing — process guidance"
+    ],
+    "packetComponents": [],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/ct/ct-under18-misdemeanor-set--custom-pleading/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/ct/ct-under18-misdemeanor-set--custom-pleading/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/ct/ct-under18-misdemeanor-set--custom-pleading/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/ct/ct-under18-misdemeanor-set--custom-pleading/source-receipt.json",
+    "sourceVersion": [],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "33547709781",
+      "jobId": "99990088628",
+      "artifactId": "9816310655",
+      "boundToCanonicalSha256": "590845d99eebe8690b046e6e165e2774307f008eb81def64b009603b70b556ae",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf08",
+      "verifiedAtBase": "f1cb31429"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-ct-under18-misdemeanor-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
   }
 }

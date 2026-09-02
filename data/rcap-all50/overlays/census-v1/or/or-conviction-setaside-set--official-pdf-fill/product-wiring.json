@@ -39,5 +39,59 @@
         "requirement": "required"
       }
     ]
+  },
+  "binding": {
+    "family": "or_conviction_setaside-set",
+    "jurisdiction": "OR",
+    "routeKeys": [
+      "obligation:track-pathway:OR:or_conviction_setaside:marijuana-specific-set-aside-redesignation"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "Oregon Marijuana Set-Aside Motion under ORS 475C.397"
+    ],
+    "packetComponents": [
+      "component:or_conviction_setaside-primary-filing-1",
+      "component:or_conviction_setaside-proposed-order-2",
+      "component:or_conviction_setaside-record-gathering-instructions-5"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/or/or-conviction-setaside-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/or/or-conviction-setaside-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/or/or-conviction-setaside-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/or/or-conviction-setaside-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:OR-OJD-ADULT-SET-ASIDE-PACKET",
+        "sha256": "b22cc346caf6c38730e9992d74016e948180d92b379b6592ab333b06ac880071",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:OR-OSP-SET-ASIDE-CCH",
+        "sha256": "a523a9ffc3eb0cc35d89e1c81df8eafcd703cf1ffdb4237a0106b72e1e793ac6",
+        "tier": "exact_form_number"
+      }
+    ],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "33526896195",
+      "jobId": "99922353401",
+      "artifactId": "9808531004",
+      "boundToCanonicalSha256": "a2d72e3f54c58a7590a681a93b015a82660056790077dd508b97d6d3e50c5b0b",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf07",
+      "verifiedAtBase": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-or_conviction_setaside-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
   }
 }

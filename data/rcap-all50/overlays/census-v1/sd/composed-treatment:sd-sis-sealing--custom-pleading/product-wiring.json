@@ -40,5 +40,43 @@
         "requirement": "required"
       }
     ]
+  },
+  "binding": {
+    "family": "composed-treatment:sd_sis_sealing",
+    "jurisdiction": "SD",
+    "routeKeys": [
+      "obligation:decision-branch:SD:sd_sis_sealing:original_case_enforcement_motion",
+      "obligation:decision-branch:SD:sd_sis_sealing:written_implementation_request"
+    ],
+    "deliveryType": "custom_pleading",
+    "instrumentKinds": [],
+    "packetComponents": [],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/sd/composed-treatment:sd-sis-sealing--custom-pleading/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/sd/composed-treatment:sd-sis-sealing--custom-pleading/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/sd/composed-treatment:sd-sis-sealing--custom-pleading/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/sd/composed-treatment:sd-sis-sealing--custom-pleading/source-receipt.json",
+    "sourceVersion": [],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "33579500812",
+      "jobId": "100091041690",
+      "artifactId": "9827991942",
+      "boundToCanonicalSha256": "d74ec3c175844dbe6a4e842ee0ad816be1b72445e88aa6755d582f00d4a8ab32",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf11",
+      "verifiedAtBase": "ebc44031ec7eab29058bfc79a7bc5e1cff089414"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-composed-treatment:sd_sis_sealing.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
   }
 }

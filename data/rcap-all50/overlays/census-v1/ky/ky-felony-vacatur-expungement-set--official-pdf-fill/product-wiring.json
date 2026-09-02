@@ -39,5 +39,61 @@
         "requirement": "required"
       }
     ]
+  },
+  "binding": {
+    "family": "ky_felony_vacatur_expungement-set",
+    "jurisdiction": "KY",
+    "routeKeys": [
+      "obligation:track-pathway:KY:ky_felony_vacatur_expungement:felony-conviction-431073"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "certification_attachment",
+      "fee_and_instalment_instructions",
+      "primary_filing",
+      "proposed_order"
+    ],
+    "packetComponents": [
+      "component:ky_felony_vacatur_expungement-primary-filing-1",
+      "component:ky_felony_vacatur_expungement-proposed-order-2"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/ky/ky-felony-vacatur-expungement-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/ky/ky-felony-vacatur-expungement-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/ky/ky-felony-vacatur-expungement-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/ky/ky-felony-vacatur-expungement-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:AOC-496.3",
+        "sha256": "3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:AOC-496.4",
+        "sha256": "70f9540b2a6ce517024c9b53815e964141e3641dd1a2b62a97af257146508182",
+        "tier": "exact_form_number"
+      }
+    ],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "33526896195",
+      "jobId": "99922353428",
+      "artifactId": "9808503797",
+      "boundToCanonicalSha256": "581dee480d77d2f226b907b017c4209de89d4f4346f654256ed11ba24d32e54e",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf11",
+      "verifiedAtBase": "efda1c0aa5e8e5c6b2b519dca84b0adaee66c595"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-ky_felony_vacatur_expungement-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
   }
 }

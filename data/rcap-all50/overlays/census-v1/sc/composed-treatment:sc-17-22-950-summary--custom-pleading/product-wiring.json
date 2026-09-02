@@ -40,5 +40,43 @@
         "requirement": "required"
       }
     ]
+  },
+  "binding": {
+    "family": "composed-treatment:sc_17_22_950_summary",
+    "jurisdiction": "SC",
+    "routeKeys": [
+      "obligation:decision-branch:SC:sc_17_22_950_summary:original_case_enforcement_motion",
+      "obligation:decision-branch:SC:sc_17_22_950_summary:written_implementation_request"
+    ],
+    "deliveryType": "custom_pleading",
+    "instrumentKinds": [],
+    "packetComponents": [],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/sc/composed-treatment:sc-17-22-950-summary--custom-pleading/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/sc/composed-treatment:sc-17-22-950-summary--custom-pleading/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/sc/composed-treatment:sc-17-22-950-summary--custom-pleading/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/sc/composed-treatment:sc-17-22-950-summary--custom-pleading/source-receipt.json",
+    "sourceVersion": [],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "33579500812",
+      "jobId": "100091041662",
+      "artifactId": "9827997223",
+      "boundToCanonicalSha256": "9742b771437d6bf34a3701e1a9838f35f49548f92e450011edf8622a31ce4c63",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf10",
+      "verifiedAtBase": "ebc44031ec7eab29058bfc79a7bc5e1cff089414"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-composed-treatment:sc_17_22_950_summary.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
   }
 }

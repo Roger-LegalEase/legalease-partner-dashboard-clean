@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** source-swarm
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `f34e391ecded9aafec9c51fc3d2af0862439cba0` (or the newer dispatch base)
+**Minimum required ancestor:** `d401900ef6727d2ca60730d0adc7d8525c1a2de5` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -22,7 +22,7 @@ node scripts/verify-packet-build-environment.mjs \
   --assignment-id SRC02 \
   --source-obligation 'al-diversion-set::official-form:CR-65' \
   --codex-cloud \
-  --minimum-captain-sha f34e391ecded9aafec9c51fc3d2af0862439cba0
+  --minimum-captain-sha d401900ef6727d2ca60730d0adc7d8525c1a2de5
 ```
 
 It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owned row gate must both pass.
@@ -40,7 +40,7 @@ It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owne
 ## Claim before you read
 
 - Assert each exact source obligation before reading evidence: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert SRC02 <itemId>`
-- The committed assignment contains exactly 50 itemIds; iterate those values only. A familyId is metadata and is not a source claim key.
+- The committed assignment contains exactly 46 itemIds; iterate those values only. A familyId is metadata and is not a source claim key.
 - A non-zero exit stops that row only: record `BLOCKED_BEFORE_CLAIM`, read none of its evidence, and continue with unrelated obligations.
 - Release each completed obligation independently: `node scripts/grade-a-packet-factory-24h/claim.mjs --release SRC02 <itemId>`.
 
@@ -78,7 +78,7 @@ Reconcile a named form number or pinned content hash against the private corpus 
 
 the private corpus and the committed inventory, read only — nothing is fetched here
 
-**50 obligations · 28 families this lane WOULD release if every one of them resolves · hosts: AL, DE, FL, GA, MD, MO, NH, OR, RI**
+**46 obligations · 26 families this lane WOULD release if every one of them resolves · hosts: AL, DE, FL, GA, MD, MO, NH, RI**
 
 > Prospective. Nothing below is promoted custody yet, and this number is not a count of families you can build today.
 
@@ -144,23 +144,19 @@ the private corpus and the committed inventory, read only — nothing is fetched
 | `nh_petition_vacated-set::official-form:NHJB-2317-DSe` | `official-form:NHJB-2317-DSe` | NH | `held-inventory-reconciliation` | `nh_petition_vacated-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `rcap-mo-custom-pleading::official-form:FI-05` | `official-form:FI-05` | MO | `held-inventory-reconciliation` | `rcap-mo-custom-pleading` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `rcap-mo-custom-pleading::official-form:GN10` | `official-form:GN10` | MO | `held-inventory-reconciliation` | `rcap-mo-custom-pleading` | named held-corpus identity or pinned SHA-256 | `PROMO` |
-| `rcap-or-official-pdf-fill::official-form:OR-OJD-ADULT-SET-ASIDE-PACKET` | `official-form:OR-OJD-ADULT-SET-ASIDE-PACKET` | OR | `held-inventory-reconciliation` | `rcap-or-official-pdf-fill` | named held-corpus identity or pinned SHA-256 | `PROMO` |
-| `rcap-or-official-pdf-fill::official-form:OR-OSP-SET-ASIDE-CCH` | `official-form:OR-OSP-SET-ASIDE-CCH` | OR | `held-inventory-reconciliation` | `rcap-or-official-pdf-fill` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `ri_decriminalized-set::official-form:DC-33-ORDER` | `official-form:DC-33-ORDER` | RI | `held-inventory-reconciliation` | `ri_decriminalized-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `ri_deferred_sentence-set::official-form:DC-33-ORDER` | `official-form:DC-33-ORDER` | RI | `held-inventory-reconciliation` | `ri_deferred_sentence-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `ri_first_offender_felony-set::official-form:Superior-55-ORDER` | `official-form:Superior-55-ORDER` | RI | `held-inventory-reconciliation` | `ri_first_offender_felony-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `ri_first_offender_misdemeanor-set::official-form:DC-33-ORDER` | `official-form:DC-33-ORDER` | RI | `held-inventory-reconciliation` | `ri_first_offender_misdemeanor-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `ri_multiple_misdemeanors-set::official-form:DC-33-ORDER` | `official-form:DC-33-ORDER` | RI | `held-inventory-reconciliation` | `ri_multiple_misdemeanors-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
-| `or_contempt_setaside-set::official-form:OR-OJD-ADULT-SET-ASIDE-PACKET` | `official-form:OR-OJD-ADULT-SET-ASIDE-PACKET` | OR | `held-inventory-reconciliation` | `or_contempt_setaside-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
-| `or_contempt_setaside-set::official-form:OR-OSP-SET-ASIDE-CCH` | `official-form:OR-OSP-SET-ASIDE-CCH` | OR | `held-inventory-reconciliation` | `or_contempt_setaside-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 
-Deterministically assert exactly the 50 committed itemIds (failures are recorded per row and do not terminate the loop):
+Deterministically assert exactly the 46 committed itemIds (failures are recorded per row and do not terminate the loop):
 
 ```sh
 node - <<'NODE'
 const {spawnSync}=require('node:child_process');
 const a=require('./data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json').assignments.find(x=>x.assignmentId==='SRC02');
-if (!a || a.items.length !== 50) throw new Error('SRC02 committed item count changed');
+if (!a || a.items.length !== 46) throw new Error('SRC02 committed item count changed');
 for (const itemId of a.items) {
   const r=spawnSync(process.execPath,['scripts/grade-a-packet-factory-24h/claim.mjs','--assert','SRC02',itemId],{stdio:'inherit'});
   if (r.status !== 0) console.error('ROW_STOP', itemId);
@@ -172,7 +168,7 @@ NODE
 Run the row gate once per listed item, after the lane gate. This exact first command demonstrates the interface; substitute each other exact item id from the table without changing the lane:
 
 ```sh
-node scripts/verify-packet-build-environment.mjs --assignment-id SRC02 --source-obligation 'al-diversion-set::official-form:CR-65' --codex-cloud --minimum-captain-sha f34e391ecded9aafec9c51fc3d2af0862439cba0
+node scripts/verify-packet-build-environment.mjs --assignment-id SRC02 --source-obligation 'al-diversion-set::official-form:CR-65' --codex-cloud --minimum-captain-sha d401900ef6727d2ca60730d0adc7d8525c1a2de5
 
 # A failed row is recorded STOPPED; continue with unrelated rows.
 ```
@@ -181,7 +177,7 @@ node scripts/verify-packet-build-environment.mjs --assignment-id SRC02 --source-
 
 ### Families this lane would release
 
-`al-diversion-set`, `al-felony-dwop-set`, `al-felony-nonconviction-90-set`, `al-misd-conviction-set`, `al-misd-dwop-set`, `al-misd-nonconviction-90-set`, `al-pardon-set`, `al-pardoned-felony-set`, `al-trafficking-set`, `fl-trafficking-set`, `ga-nonconv-pre2013-set`, `md_10105_early-set`, `md_10105_favorable-set`, `md_10110_conviction-set`, `md_cannabis_petition-set`, `md_pardon_expungement-set`, `nh_conviction_standard-set`, `nh_conviction_streamlined-set`, `nh_marijuana_annulment-set`, `nh_petition_nonconviction_pre2019-set`, `nh_petition_vacated-set`, `or_contempt_setaside-set`, `rcap-mo-custom-pleading`, `rcap-or-official-pdf-fill`, `ri_deferred_sentence-set`, `ri_first_offender_felony-set`, `ri_first_offender_misdemeanor-set`, `ri_multiple_misdemeanors-set`
+`al-diversion-set`, `al-felony-dwop-set`, `al-felony-nonconviction-90-set`, `al-misd-conviction-set`, `al-misd-dwop-set`, `al-misd-nonconviction-90-set`, `al-pardon-set`, `al-pardoned-felony-set`, `al-trafficking-set`, `fl-trafficking-set`, `ga-nonconv-pre2013-set`, `md_10105_early-set`, `md_10105_favorable-set`, `md_10110_conviction-set`, `md_cannabis_petition-set`, `md_pardon_expungement-set`, `nh_conviction_standard-set`, `nh_conviction_streamlined-set`, `nh_marijuana_annulment-set`, `nh_petition_nonconviction_pre2019-set`, `nh_petition_vacated-set`, `rcap-mo-custom-pleading`, `ri_deferred_sentence-set`, `ri_first_offender_felony-set`, `ri_first_offender_misdemeanor-set`, `ri_multiple_misdemeanors-set`
 
 
 ### Settle these first
@@ -201,7 +197,7 @@ node scripts/verify-packet-build-environment.mjs --assignment-id SRC02 --source-
 | GBI-GCIC-REQUEST-TO-RESTRICT-ARREST-RECORD-PRIOR-TO-07-01-2013 | GA | 1 |
 | CC-DC-CR-072C | MD | 1 |
 | CC-DC-CR-072A | MD | 1 |
-| OR-OJD-ADULT-SET-ASIDE-PACKET | OR | 1 |
+| Superior-55 | RI | 1 |
 
 > On 2026-08-31 an acquisition batch fetched thirty documents successfully and unblocked zero families — all thirty belonged to jurisdictions already resolved, with no overlap against the 238 documents gating the 256 blocked families. Fetch capacity is not the constraint. Knowing which document to fetch is.
 

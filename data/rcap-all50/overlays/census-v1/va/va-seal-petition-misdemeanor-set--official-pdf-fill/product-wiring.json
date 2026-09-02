@@ -39,5 +39,56 @@
         "requirement": "required"
       }
     ]
+  },
+  "binding": {
+    "family": "va_seal_petition_misdemeanor-set",
+    "jurisdiction": "VA",
+    "routeKeys": [
+      "obligation:track-only:VA:va_seal_petition_misdemeanor"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "ccre_forwarding_request",
+      "commonwealth_service_and_stipulation_request",
+      "filing_instructions",
+      "primary_filing",
+      "records_checklist"
+    ],
+    "packetComponents": [
+      "component:va_seal_petition_misdemeanor-primary-filing-1"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:CC-1201",
+        "sha256": "7b56d8e167f610739da1578ec96e8bc7925ae029141857e7350bd7482c8e7e78",
+        "tier": "exact_form_number"
+      }
+    ],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "33585751332",
+      "jobId": "100109948270",
+      "artifactId": "9830148264",
+      "boundToCanonicalSha256": "adacb67024a0348404f830d3dc34a32b7be55c36df8c7672d9de5c6ce1c40101",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf26",
+      "verifiedAtBase": null
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-va_seal_petition_misdemeanor-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
   }
 }

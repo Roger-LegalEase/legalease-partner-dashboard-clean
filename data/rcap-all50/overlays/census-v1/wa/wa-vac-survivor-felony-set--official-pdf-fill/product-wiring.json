@@ -15,5 +15,62 @@
   "integrationStatus": "INSTALLED_BY_CAPTAIN",
   "note": "Integration-ready repair payload only. This record grants no runtime, commercial, fulfillment, eligibility, branch-selection, or approval authority.",
   "installedFrom": "data/rcap-grade-a/wave-2/r7-packet-repair/product-wiring/wa_vac_survivor_felony-set/product-wiring.json",
-  "installedBy": "WAVE_2_INTEGRATION_CHECKPOINT"
+  "installedBy": "WAVE_2_INTEGRATION_CHECKPOINT",
+  "binding": {
+    "family": "wa_vac_survivor_felony-set",
+    "jurisdiction": "WA",
+    "routeKeys": [
+      "obligation:track-pathway:WA:wa_vac_survivor_felony:victim-survivor-conviction-vacation-route"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "filing_instructions",
+      "primary_filing",
+      "proposed_order",
+      "prosecutor_request_letter",
+      "records_checklist"
+    ],
+    "packetComponents": [
+      "component:wa_vac_survivor_felony-primary-filing-1",
+      "component:wa_vac_survivor_felony-proposed-order-2"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-felony-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-felony-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-felony-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-felony-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:CR-08.0900",
+        "sha256": "ec8b175e3a2ccfdf247328822b7ed8ac570dacd27c8b728d09a10eca05c6559e",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:CR-08.0920",
+        "sha256": "e5ccd2e0847fc9b0c2b54ef4ff75fd8d500b7b2af5a9eed963dd3855bb0226db",
+        "tier": "exact_form_number"
+      }
+    ],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "33497786539",
+      "jobId": "99824472641",
+      "artifactId": "9796614079",
+      "boundToCanonicalSha256": "3c40568209578ca04893ce46b64539a44af355dc11bd75b7daee75d215eda37f",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf16",
+      "verifiedAtBase": null
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-wa_vac_survivor_felony-set.mjs",
+      "sharedBuildHost": "build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs",
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  }
 }

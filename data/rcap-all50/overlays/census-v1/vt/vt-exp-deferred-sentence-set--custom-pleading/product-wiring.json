@@ -40,5 +40,46 @@
         "requirement": "required"
       }
     ]
+  },
+  "binding": {
+    "family": "vt_exp_deferred_sentence-set",
+    "jurisdiction": "VT",
+    "routeKeys": [
+      "obligation:unit:VT:vt_exp_deferred_sentence:vt-deferred-automatic-and-verification",
+      "obligation:unit:VT:vt_exp_deferred_sentence:vt-deferred-written-request"
+    ],
+    "deliveryType": "custom_pleading",
+    "instrumentKinds": [
+      "Written request to the court where the expungement order did not issue (custom_pleading)",
+      "no filing — process guidance"
+    ],
+    "packetComponents": [],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/vt/vt-exp-deferred-sentence-set--custom-pleading/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/vt/vt-exp-deferred-sentence-set--custom-pleading/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/vt/vt-exp-deferred-sentence-set--custom-pleading/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/vt/vt-exp-deferred-sentence-set--custom-pleading/source-receipt.json",
+    "sourceVersion": [],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "33549186956",
+      "jobId": "99994820959",
+      "artifactId": "9816899125",
+      "boundToCanonicalSha256": "b4e5975feb1e5727502cf876d0265157e65b94b56769a3cf5a1ae9abd284f96d",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf10",
+      "verifiedAtBase": null
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-vt_exp_deferred_sentence-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
   }
 }

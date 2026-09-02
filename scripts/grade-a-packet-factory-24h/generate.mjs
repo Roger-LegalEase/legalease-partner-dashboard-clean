@@ -381,6 +381,31 @@ function sourceReadiness(familyId, worklistGroupId, custody, routes, holds, impl
     let matches = indexByForm.get(formNumber) ?? [];
     let tier = "exact_form_number";
     let resolvedBy = "census_form_number_against_committed_index";
+    /*
+     * ONE DOCUMENT AT TWO PATHS IS ONE IDENTITY.
+     *
+     * The corpus index now carries more than one custody, and the same
+     * official binary legitimately sits in two of them: the Master Library
+     * holds Alaska's TF-810 at REV-2025-05, and so does the D source pack, at
+     * the identical SHA-256. Requiring a single index entry read that as an
+     * ambiguity and unbound the form -- twenty-three families that had been
+     * proven for days went from a bound source to UNRESOLVED_FORM_IDENTITY on
+     * the strength of a second copy of the bytes they were already using.
+     *
+     * The reconciler already states the rule for its own Texas branch, and it
+     * is the right rule everywhere: identical hashes are one identity, and the
+     * lexically first path is the deterministic pick. Differing bytes under
+     * one form number remain a genuine ambiguity and still refuse -- sixteen
+     * form numbers across the index are in that state, and they are the ones
+     * this must not decide.
+     */
+    if (matches.length > 1) {
+      const distinct = new Set(matches.map((m) => m.sha256));
+      if (distinct.size === 1) {
+        matches = [matches.slice().sort((a, b) => a.path.localeCompare(b.path))[0]];
+        resolvedBy = "census_form_number_against_committed_index_one_identity_at_several_paths";
+      }
+    }
     /* The census sometimes names a document by its printed title while the
      * index keys the same bytes by short form ID — Texas: "OCA Model Order of
      * Nondisclosure under Section 411.0735" vs "TX-GC-411.0725-411.073-411.0735".

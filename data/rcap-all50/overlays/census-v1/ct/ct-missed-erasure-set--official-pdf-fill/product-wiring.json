@@ -40,5 +40,46 @@
         "requirement": "required"
       }
     ]
+  },
+  "binding": {
+    "family": "ct-missed-erasure-set",
+    "jurisdiction": "CT",
+    "routeKeys": [
+      "obligation:unit:CT:ct-missed-erasure:ct-missed-erasure-stage-1-record-and-assessment",
+      "obligation:unit:CT:ct-missed-erasure:ct-missed-erasure-stage-2-despp-submission"
+    ],
+    "deliveryType": "participant_agency_application",
+    "instrumentKinds": [
+      "Submission to DESPP in its determined form and manner (participant_agency_application)",
+      "no filing — process guidance"
+    ],
+    "packetComponents": [],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/ct/ct-missed-erasure-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/ct/ct-missed-erasure-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/ct/ct-missed-erasure-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/ct/ct-missed-erasure-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "33596784162",
+      "jobId": "100142453418",
+      "artifactId": "9833793511",
+      "boundToCanonicalSha256": "0872021341ca0755e2df874ebea40d601e3ffacbb4be6f5436b642548ffdcb82",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf09",
+      "verifiedAtBase": "ebc44031ec7eab29058bfc79a7bc5e1cff089414"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-ct-missed-erasure-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
   }
 }

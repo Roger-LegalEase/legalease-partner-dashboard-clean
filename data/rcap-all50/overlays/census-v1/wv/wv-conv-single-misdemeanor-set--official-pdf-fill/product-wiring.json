@@ -13,5 +13,68 @@
   "opensCommercialRoute": false,
   "assignmentOwnedPath": "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill",
   "evidenceOutputPath": "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill",
-  "note": "Review artifacts and maps create no authority. A route remains closed until exact output-level legal and independent visual approval exists in the separate control plane."
+  "note": "Review artifacts and maps create no authority. A route remains closed until exact output-level legal and independent visual approval exists in the separate control plane.",
+  "binding": {
+    "family": "wv_conv_single_misdemeanor-set",
+    "jurisdiction": "WV",
+    "routeKeys": [
+      "obligation:track-pathway:WV:wv_conv_single_misdemeanor:eligible-conviction-expungement-under-w-va-code-61-11-26"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "certificate_of_service",
+      "filing_instructions",
+      "primary_filing",
+      "service_package",
+      "verification"
+    ],
+    "packetComponents": [
+      "component:wv_conv_single_misdemeanor-certificate-of-service-3",
+      "component:wv_conv_single_misdemeanor-primary-filing-1",
+      "component:wv_conv_single_misdemeanor-verification-2"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:SCA-C906",
+        "sha256": "43b5606c9faf6fcf4d6f73c1d97cf1bd87798158dee1b6f3381c8a0472b4b64c",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "source-sha256:43b5606c9faf6fcf4d6f73c1d97cf1bd87798158dee1b6f3381c8a0472b4b64c",
+        "sha256": "43b5606c9faf6fcf4d6f73c1d97cf1bd87798158dee1b6f3381c8a0472b4b64c",
+        "tier": "exact_content_hash"
+      },
+      {
+        "sourceId": "source-sha256:89ff7d2d911406465bd39da947737a3ee262edbcbc98db9a3cedda952598864e",
+        "sha256": "89ff7d2d911406465bd39da947737a3ee262edbcbc98db9a3cedda952598864e",
+        "tier": "exact_content_hash"
+      }
+    ],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "33488713831",
+      "jobId": "99795497869",
+      "artifactId": "9793184350",
+      "boundToCanonicalSha256": "dc8ec89cc5760e1a02d789216885c91bf477a264a000bd58f1c3608fdc0c0d21",
+      "coversTheWholeFamily": false
+    },
+    "lastIndependentVerification": {
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf07",
+      "verifiedAtBase": "7fcfb7d40aafe7bd7350fc735ea09d16524cb757"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-wv_conv_single_misdemeanor-set.mjs",
+      "sharedBuildHost": "build-census-v1-ne-setaside-custodial-set.mjs",
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  }
 }

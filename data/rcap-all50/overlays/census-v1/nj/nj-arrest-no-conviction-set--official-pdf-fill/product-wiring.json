@@ -15,5 +15,55 @@
   "integrationStatus": "INSTALLED_BY_CAPTAIN",
   "note": "Integration-ready repair payload only. This record grants no runtime, commercial, fulfillment, eligibility, branch-selection, or approval authority.",
   "installedFrom": "data/rcap-grade-a/wave-2/r7-packet-repair/product-wiring/nj_arrest_no_conviction-set/product-wiring.json",
-  "installedBy": "WAVE_2_INTEGRATION_CHECKPOINT"
+  "installedBy": "WAVE_2_INTEGRATION_CHECKPOINT",
+  "binding": {
+    "family": "nj_arrest_no_conviction-set",
+    "jurisdiction": "NJ",
+    "routeKeys": [
+      "obligation:track-pathway:NJ:nj_arrest_no_conviction:arrest-dismissal-and-other-non-conviction-expungement-under-n-j-s-a-2c-52-6"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "New Jersey Nonconviction Expungement Petition under 2C"
+    ],
+    "packetComponents": [
+      "component:nj_arrest_no_conviction-order-for-hearing-3",
+      "component:nj_arrest_no_conviction-primary-filing-1",
+      "component:nj_arrest_no_conviction-proposed-order-4",
+      "component:nj_arrest_no_conviction-statements-accompanying-petition-2"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:CN-10557",
+        "sha256": "c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7",
+        "tier": "exact_form_number"
+      }
+    ],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "33526896195",
+      "jobId": "99922353366",
+      "artifactId": "9809065181",
+      "boundToCanonicalSha256": "18463feda4cfdbf5766c3c98ea7214eb4368a95de28df48732ddddcebda5ff28",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf27",
+      "verifiedAtBase": null
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  }
 }
