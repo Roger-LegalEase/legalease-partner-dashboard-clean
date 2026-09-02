@@ -26,10 +26,10 @@
   "nothingIsWithdrawn": "The earlier reading stands on its own evidence and is preserved verbatim under supersededLaneMembership. It is kept because those verdicts are real work, not because this lane still owns those families."
  },
  "summary": {
-  "families": 31,
-  "rows": 35,
+  "families": 32,
+  "rows": 36,
   "PASS_COMPLETE_INDEPENDENT": 24,
-  "FAIL_REPAIR_REQUIRED": 9,
+  "FAIL_REPAIR_REQUIRED": 10,
   "BLOCKED_SOURCE": 0,
   "BLOCKED_LEGAL_INPUT": 0,
   "PASS": 1,
@@ -7453,6 +7453,148 @@
     "data/rcap-all50/overlays/census-v1/az/az-wrongful-arrest-clearance-set--custom-pleading/fixtures/boundary.pdf",
     "data/record-clearing/legal-design-track-registry.json",
     "data/record-clearing/legal-design-specifications.json",
+    "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+    "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+    "data/rcap-grade-a/stale-artifact-block.json"
+   ]
+  },
+  {
+   "itemId": "oh_marijuana_expungement-set",
+   "lane": "VF01",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading",
+   "readAtBase": "247b790b6",
+   "rasterState": "RASTER_PASS",
+   "rasterWorkflowRunId": "33598433649",
+   "verdictCeilingApplied": null,
+   "decisiveDefect": "A deliverable this family declares four separate ways is not in the tree. companion/OH-BCI-SEALING-EXPUNGEMENT-REQUEST--official-source.pdf, 235789 bytes at SHA-256 9234ec763403b1ccfbed796dfcf86f29bf7887390d1770460d0bcc9da31fc8cb, does not exist; the companion directory holds only companion-guidance.md. The packet ships a page raster and a contact sheet rendered from those bytes, both of which hash correctly, so the evidence of the file outlived the file.",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family oh_marijuana_expungement-set, run in this worktree: PASS_COMPLETE, 6/14 written",
+    "whyTheCountersDoNotCatchThis": "requiredComponentsMissing is computed from the family's own declaration of what it renders, not from the disk. It reads zero here while a declared PDF is absent, which is why this verdict is a FAIL on an obligation and not on a counter."
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "one route key, obligation:track-pathway:OH:oh_marijuana_expungement:marijuana-hashish-possession-expungement-under-2953-321, identical in the MASTER_QUEUE row, source-receipt.json, product-wiring.json and its binding. The delivered pleading states Ohio Rev. Code Sec. 2953.321 as its statutory authority in its own title and body, with the Sec. 2953.61 same-act limitation named beside it.",
+     "evidence": "MASTER_QUEUE.json; source-receipt.json; product-wiring.json; tracks/oh_marijuana_expungement/rendered/canonical/canonical.txt"
+    },
+    "SOURCE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "the one bound source resolves and rehashes: STATES/OH/04_SUPPORTING_PROCESS/OH__SUPPORT__OH-BCI-SEALING-EXPUNGEMENT-REQUEST__re-sealing-and-or-expungements__REV-UNKNOWN__EN.pdf under MASTER_LIBRARY_SOURCE_DIR is 9234ec763403b1ccfbed796dfcf86f29bf7887390d1770460d0bcc9da31fc8cb at 235789 bytes, equal to source-receipt.json, MASTER_QUEUE sourceHashes and product-wiring sourceVersion. The source is held; it is the copy inside the packet that is missing, so this obligation passes and COMPONENT_SET and ARTIFACTS carry the defect.",
+     "evidence": "SHA-256 recomputed over the pinned corpus binary; preflight family_sources_bind 1/1 by exact SHA-256"
+    },
+    "COMPONENT_SET": {
+     "measured": true,
+     "result": "FAIL",
+     "finding": "the route names one packet component, component:oh_marijuana_expungement-bci-transmission-5, and the file that component is is not present. An existence check on data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/companion/OH-BCI-SEALING-EXPUNGEMENT-REQUEST--official-source.pdf returns absent; the companion directory contains exactly one file, companion-guidance.md, which itself states that the BCI request is copied unchanged at SHA-256 9234ec76.... source-receipt.json names it as documents[0].companionArtifact with copiedWithoutModification true, and participant-instructions.md tells the reader 'It is included unchanged and is not prefilled'. Three declarations and a participant-facing sentence describe a file the packet does not contain. The composed pleading itself is present and renders three pages in both fixtures.",
+     "evidence": "existence check of the declared companion path; companion/companion-guidance.md; source-receipt.json documents[0].companionArtifact; product-wiring.json binding.packetComponents; participant-instructions.md line 36; reports/rendered-artifacts.json pdfs[0]"
+    },
+    "KNOWN_PREFILLS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "six fields are declared candidate_write and all six values appear in the delivered pleading text of both fixtures: applicant name and mailing address in the caption, the parties paragraph and beside the signature rule, docket number in the caption and case history, charge description and disposition in the case history, and the eligibility basis in the allegations. knownRequiredFieldsMissing and invisibleWrites are zero, measured here.",
+     "evidence": "production-field-map.json; tracks/oh_marijuana_expungement/rendered/{canonical,boundary}/*.txt and the PDFs they were extracted from; the completeness verifier run here"
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "six fields carry blankTreatment REQUIRED_BEFORE_FILING and all six are named in participant-instructions.md by their own effective label - local court caption, date of arrest, date of disposition, arresting agency, date of birth and Social Security Number, and the Sec. 2953.61 same-act charge schedule. Each is printed on the pleading as a visible placeholder rather than a silent blank: 'LOCAL CAPTION MUST BE CONFIRMED', '[ARREST DATE TO BE CONFIRMED]', '[DISPOSITION DATE TO BE CONFIRMED]', '[ARRESTING AGENCY MUST BE CONFIRMED]'. Nothing is guessed into any of them.",
+     "evidence": "production-field-map.json; participant-instructions.md; the delivered pleading text of both fixtures"
+    },
+    "ROUTE_OPTIONS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "the composed pleading carries no election control - no checkbox, no option field - and the field map declares none, so there is no route-determined election left unselected. requiredOptionsMissing is zero, measured here.",
+     "evidence": "production-field-map.json; the delivered pleading text of both fixtures; the completeness verifier run here"
+    },
+    "REPEATING_ROWS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "the packet declares and renders no repeating row group; the same-act charge schedule the pleading promises at paragraph 9 is an attachment the participant assembles, not a table of cells this build fills. incompleteRows is zero, measured here.",
+     "evidence": "production-field-map.json; the delivered pleading text; the completeness verifier run here"
+    },
+    "PROTECTED_FIELDS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "two fields are refused as signature_or_date_participant_completion and both are blank in the delivered bytes: the verification signature rule and the date rule under section VI carry an empty underscore rule and nothing else, on both fixtures. The proposed order's judicial signature block is likewise unsigned, and no certificate of service is generated. The absent companion is the official BCI request, which the guidance and the instructions both state must not be prefilled - and since it is not present, nothing was prefilled into it either.",
+     "evidence": "tracks/oh_marijuana_expungement/rendered/{canonical,boundary}/*.txt; tracks/.../render-report.json protection block, cross-read against the extracted text; the completeness verifier run here"
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "FAIL",
+     "finding": "reports/rendered-artifacts.json names 13 files. I rehashed every one: 12 exist and every one of the 12 matches its declared SHA-256 and byte length exactly, and the 13th, the companion PDF, is absent. Two of the 12 that verify are renders of the missing file - raster/oh-bci-official-source/page-01.png at 02db2acc... and reports/contact-sheets/oh-bci-official-source.png at 6f8ed825... - so the packet ships a picture of a document it does not ship. The two pleading fixtures hash correctly (canonical ddf3d484... at 8279 bytes, boundary 330138cf... at 8999 bytes) and the central raster gate's RASTER_PASS is bound to that canonical hash.",
+     "evidence": "SHA-256 recomputed over all 13 files named in reports/rendered-artifacts.json; RASTER_QUEUE.json; data/rcap-grade-a/stale-artifact-block.json (neither pleading hash is blocked)"
+    },
+    "PAGE_ORDER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "both pleading fixtures read three pages from the bytes, equal to the declared pageCount and to the three rasters inventoried for each, numbered 1 to 3 with no gap. The delivered order is application, then verification, then proposed order, which is the order the render report's page runs describe. Page order cannot be checked for the companion, because the companion is not there - that is recorded under COMPONENT_SET and ARTIFACTS rather than counted twice here.",
+     "evidence": "page counts read from tracks/oh_marijuana_expungement/rendered/{canonical,boundary}/*.pdf; reports/rendered-artifacts.json raster inventory"
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "no word box leaves its page on either pleading fixture: measured from pdftotext -bbox word rectangles against each page's own MediaBox, canonical 0 of 615 words and boundary 0 of 658. visualDefects is zero, measured here, and the central raster gate holds RASTER_PASS for the canonical bytes.",
+     "evidence": "pdftotext -bbox word rectangles of both pleading fixtures against their MediaBoxes; the completeness verifier run here; RASTER_QUEUE.json"
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "the packet states it as far as the record allows and no further: filing is in the Ohio court that handled the case, and because no held source names a statewide Ohio filing office or a statewide application, the sentencing court's own clerk is named as the office that supplies the caption, the form and the filing counter. That matches source-receipt.json sourceSilences, which record that no statewide mandatory Ohio primary application was identified. The pleading itself prints 'LOCAL CAPTION MUST BE CONFIRMED' rather than guessing a court.",
+     "evidence": "participant-instructions.md 'Where this is filed'; source-receipt.json sourceSilences; the delivered pleading text"
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "the packet states that no held source in it states a filing fee, states that filing is free, or states a fee-waiver procedure, names the clerk of the Ohio court that handled the case as the office to ask, names the affidavit of indigency as the thing to ask about, and says explicitly that it states no amount because it holds no source for one. That is a stated fee posture rather than a silent delegation.",
+     "evidence": "participant-instructions.md 'What this costs'; source-receipt.json sourceSilences"
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "the packet states that no held source in it states who must be served or how, names the same clerk as the office that answers it, and adds the rule that matters at the point of risk: these drafts generate no certificate of service and one must not be completed before service has actually happened. I confirmed from the extracted text that no certificate of service is rendered on either fixture.",
+     "evidence": "participant-instructions.md 'Who is served'; the delivered pleading text of both fixtures"
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "the packet states where self-help ends, twice over. The instructions say this is not legal advice, is not a lawyer, does not decide eligibility, guarantees no outcome, and that eligibility, the Sec. 2953.61 same-act limitation, waiting periods and every statutory exclusion require review against the primary authority before filing, ending with a direction to stop and ask a lawyer or an Ohio legal-aid office. The pleading itself carries the same limit on its face: 'Applicant may be eligible; this document does not guarantee eligibility or a court outcome.'",
+     "evidence": "participant-instructions.md 'What this packet is not'; the delivered pleading text"
+    }
+   },
+   "failedProofObligations": [
+    "COMPONENT_SET",
+    "ARTIFACTS"
+   ],
+   "notMeasurableHere": [],
+   "repairIsAvailableHere": "the missing bytes are still held: the Master Library copy at STATES/OH/04_SUPPORTING_PROCESS/OH__SUPPORT__OH-BCI-SEALING-EXPUNGEMENT-REQUEST__re-sealing-and-or-expungements__REV-UNKNOWN__EN.pdf recomputes to the exact declared hash and length here, so the restoration is byte-identical and changes no other declaration.",
+   "whatThisFailDoesNotSay": "nothing here says the pleading is wrong. Thirteen of the fifteen obligations are measured clear, and the defect is a single absent file that four records and one participant-facing sentence say is present.",
+   "evidenceRead": [
+    "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/source-receipt.json",
+    "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/product-wiring.json",
+    "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/production-field-map.json",
+    "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/build-findings.json",
+    "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/companion/companion-guidance.md",
+    "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/reports/rendered-artifacts.json",
+    "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/tracks/oh_marijuana_expungement/rendered/canonical",
+    "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/tracks/oh_marijuana_expungement/rendered/boundary",
+    "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/raster",
+    "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/reports/contact-sheets",
+    "MASTER_LIBRARY_SOURCE_DIR/STATES/OH/04_SUPPORTING_PROCESS/OH__SUPPORT__OH-BCI-SEALING-EXPUNGEMENT-REQUEST__re-sealing-and-or-expungements__REV-UNKNOWN__EN.pdf",
     "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
     "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
     "data/rcap-grade-a/stale-artifact-block.json"
