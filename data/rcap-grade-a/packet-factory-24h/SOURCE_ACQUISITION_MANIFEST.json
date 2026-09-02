@@ -96,12 +96,12 @@
     "whyThisExists": "The Texas statement of inability gates ten families, has an exact txcourts.gov address in dozens of committed records, and was never queued because the manifest read only the two acquisition-receipt files."
   },
   "counts": {
-    "entries": 45,
+    "entries": 54,
     "refused": 7,
-    "urlRecordsRead": 52,
+    "urlRecordsRead": 61,
     "sourceObligationsTotal": 240,
-    "obligationsCoveredByARecordedUrl": 57,
-    "obligationsNeedingDiscoveryFirst": 183
+    "obligationsCoveredByARecordedUrl": 73,
+    "obligationsNeedingDiscoveryFirst": 167
   },
   "entries": [
     {
@@ -446,20 +446,236 @@
       "recordedIn": "data/rcap-grade-a/source-acquisition/wave-1/acquired.json"
     },
     {
-      "sourceId": "mc227",
+      "sourceId": "md-cc-dc-cr-072b-petition-for-expungement-conviction-or-pardon",
+      "jurisdiction": "MD",
+      "formNumber": "CC-DC-CR-072B",
+      "officialTitle": "Petition for Expungement of Records (conviction or pardon)",
+      "issuingAuthority": "Maryland Judiciary, District Court and Circuit Court (joint form)",
+      "officialUrl": "https://www.courts.state.md.us/sites/default/files/court-forms/courtforms/joint/ccdccr072B.pdf/ccdccr072B.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": null,
+      "host": "www.courts.state.md.us",
+      "commitBody": false,
+      "obligationKeys": [
+        "md_10110_conviction-set::official-form:CC-DC-CR-072B",
+        "md_pardon_expungement-set::official-form:CC-DC-CR-072B"
+      ],
+      "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_ACQ_SOURCE_ADDRESSES.json",
+      "edition": "revised 10/01/2025 per the index; the families name no edition",
+      "pathShape": "The publisher's own path repeats the filename segment (.../ccdccr072B.pdf/ccdccr072B.pdf). That is how it is published and it is recorded verbatim; ACQ separately noted that a shortened variant is unconfirmed for this form number, so the short path is NOT guessed here.",
+      "exactBinaryUrlEstablished": true,
+      "verification": {
+        "urlExercisedByThisLane": false,
+        "whyNot": "ACQ is a no-egress lane by design (generate.mjs: 'GitHub Actions performs acquisition; this no-egress agent does not dispatch or claim a workflow run'). In this container the egress proxy answers 403 to CONNECT for every state judiciary host tried -- www.courts.ri.gov, www.mdcourts.gov, www.courts.michigan.gov -- through curl and through the fetch tool alike. No URL below was exercised here, and none is claimed as exercised.",
+        "whatWasEstablishedInstead": "A public search index returned this exact URL and returned, from the document body at it, the form number and the revision printed on the document. That settles the identity question DISC exists to settle -- whether this URL is that form -- without settling reachability, which the hosted fetcher settles when it acquires and records the SHA-256.",
+        "whatRemainsForTheRunner": "HTTP reachability, content type, and the exact SHA-256. A 404 there is a cheap self-correcting failure; the expensive failure, binding a real PDF to a form number it does not carry, is what the identity confirmation above is against."
+      }
+    },
+    {
+      "sourceId": "md-cc-dc-cr-072c-petition-for-expungement-early",
+      "jurisdiction": "MD",
+      "formNumber": "CC-DC-CR-072C",
+      "officialTitle": "Petition for Expungement of Records (early, on good cause)",
+      "issuingAuthority": "Maryland Judiciary, District Court and Circuit Court (joint form)",
+      "officialUrl": "https://www.courts.state.md.us/sites/default/files/court-forms/ccdccr072c.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": null,
+      "host": "www.courts.state.md.us",
+      "commitBody": false,
+      "obligationKeys": [
+        "md_10105_early-set::official-form:CC-DC-CR-072C"
+      ],
+      "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_ACQ_SOURCE_ADDRESSES.json",
+      "edition": "not printed in anything the index returned; not asserted",
+      "exactBinaryUrlEstablished": true,
+      "verification": {
+        "urlExercisedByThisLane": false,
+        "whyNot": "ACQ is a no-egress lane by design (generate.mjs: 'GitHub Actions performs acquisition; this no-egress agent does not dispatch or claim a workflow run'). In this container the egress proxy answers 403 to CONNECT for every state judiciary host tried -- www.courts.ri.gov, www.mdcourts.gov, www.courts.michigan.gov -- through curl and through the fetch tool alike. No URL below was exercised here, and none is claimed as exercised.",
+        "whatWasEstablishedInstead": "A public search index returned this exact URL and returned, from the document body at it, the form number and the revision printed on the document. That settles the identity question DISC exists to settle -- whether this URL is that form -- without settling reachability, which the hosted fetcher settles when it acquires and records the SHA-256.",
+        "whatRemainsForTheRunner": "HTTP reachability, content type, and the exact SHA-256. A 404 there is a cheap self-correcting failure; the expensive failure, binding a real PDF to a form number it does not carry, is what the identity confirmation above is against."
+      }
+    },
+    {
+      "sourceId": "md-cc-dc-cr-072d-petition-for-expungement-cannabis",
+      "jurisdiction": "MD",
+      "formNumber": "CC-DC-CR-072D",
+      "officialTitle": "Petition for Expungement of Records (cannabis)",
+      "issuingAuthority": "Maryland Judiciary, District Court and Circuit Court (joint form)",
+      "officialUrl": "https://www.courts.state.md.us/sites/default/files/court-forms/ccdccr072d.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": null,
+      "host": "www.courts.state.md.us",
+      "commitBody": false,
+      "obligationKeys": [
+        "md_cannabis_petition-set::official-form:CC-DC-CR-072D"
+      ],
+      "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_ACQ_SOURCE_ADDRESSES.json",
+      "edition": "not printed in anything the index returned; not asserted",
+      "exactBinaryUrlEstablished": true,
+      "verification": {
+        "urlExercisedByThisLane": false,
+        "whyNot": "ACQ is a no-egress lane by design (generate.mjs: 'GitHub Actions performs acquisition; this no-egress agent does not dispatch or claim a workflow run'). In this container the egress proxy answers 403 to CONNECT for every state judiciary host tried -- www.courts.ri.gov, www.mdcourts.gov, www.courts.michigan.gov -- through curl and through the fetch tool alike. No URL below was exercised here, and none is claimed as exercised.",
+        "whatWasEstablishedInstead": "A public search index returned this exact URL and returned, from the document body at it, the form number and the revision printed on the document. That settles the identity question DISC exists to settle -- whether this URL is that form -- without settling reachability, which the hosted fetcher settles when it acquires and records the SHA-256.",
+        "whatRemainsForTheRunner": "HTTP reachability, content type, and the exact SHA-256. A 404 there is a cheap self-correcting failure; the expensive failure, binding a real PDF to a form number it does not carry, is what the identity confirmation above is against."
+      }
+    },
+    {
+      "sourceId": "me-cr-308-order-on-motion-to-seal-trafficking-victim",
+      "jurisdiction": "ME",
+      "formNumber": "CR-308",
+      "officialTitle": "Order on Motion to Seal Conviction of Criminal History for Victims of Sex Trafficking or Sexual Exploitation",
+      "issuingAuthority": "Maine Judicial Branch",
+      "officialUrl": "https://mjbportal.courts.maine.gov/CourtForms/FormsLists/DownloadForm?strFormNumber=CR-308",
+      "urlKind": "OFFICIAL_DOWNLOAD_ENDPOINT",
+      "expectedSha256": null,
+      "host": "mjbportal.courts.maine.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "me-seal-survivor-set::official-form:CR-308"
+      ],
+      "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_ACQ_SOURCE_ADDRESSES.json",
+      "edition": "effective 07/29/2026 per the publisher; the family names none",
+      "addressShape": "A query-parameter endpoint keyed by form number, not a static filename. It returns the binary, but its address carries no extension and no edition, so the acquired bytes are the only edition evidence.",
+      "theRealFinding": "CR-308 is the ORDER the court signs. A participant who must FILE something needs the motion, which is a different number; committed evidence already carries the sibling endpoint at .../DownloadForm?strFormNumber=CR-307. Acquiring CR-308 does not by itself complete this family.",
+      "exactBinaryUrlEstablished": true,
+      "verification": {
+        "urlExercisedByThisLane": false,
+        "whyNot": "ACQ is a no-egress lane by design (generate.mjs: 'GitHub Actions performs acquisition; this no-egress agent does not dispatch or claim a workflow run'). In this container the egress proxy answers 403 to CONNECT for every state judiciary host tried -- www.courts.ri.gov, www.mdcourts.gov, www.courts.michigan.gov -- through curl and through the fetch tool alike. No URL below was exercised here, and none is claimed as exercised.",
+        "whatWasEstablishedInstead": "A public search index returned this exact URL and returned, from the document body at it, the form number and the revision printed on the document. That settles the identity question DISC exists to settle -- whether this URL is that form -- without settling reachability, which the hosted fetcher settles when it acquires and records the SHA-256.",
+        "whatRemainsForTheRunner": "HTTP reachability, content type, and the exact SHA-256. A 404 there is a cheap self-correcting failure; the expensive failure, binding a real PDF to a form number it does not carry, is what the identity confirmation above is against."
+      }
+    },
+    {
+      "sourceId": "mi-mc227-application-to-set-aside-convictions",
       "jurisdiction": "MI",
-      "formNumber": "Application to Set Aside Conviction(s)",
+      "formNumber": "MC 227",
       "officialTitle": "Application to Set Aside Conviction(s)",
       "issuingAuthority": "Michigan State Court Administrative Office (SCAO)",
-      "officialUrl": "https://www.courts.michigan.gov/administration/court-programs/state-court-administrative-office/scao-forms/",
-      "urlKind": "OFFICIAL_LANDING_PAGE",
-      "expectedSha256": "9fec389975f06640aff057fbace9375866f64761c33e30c86e9798609f93b8a7",
+      "officialUrl": "https://www.courts.michigan.gov/4a4951/siteassets/forms/scao-approved/mc227.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": null,
       "host": "www.courts.michigan.gov",
       "commitBody": false,
       "obligationKeys": [
-        "mi_setaside_application-set::MC 227"
+        "mi_setaside_application-set::MC 227",
+        "mi_setaside_application-set::official-form:MC 227"
       ],
-      "recordedIn": "data/rcap-grade-a/source-acquisition/wave-1/acquired.json"
+      "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_ACQ_SOURCE_ADDRESSES.json",
+      "supersedesSourceId": "mc227",
+      "whyItSupersedes": "The queued entry `mc227` addressed the SCAO forms index page, not the form, and the hosted fetch failed there. This is the direct binary. It replaces that entry rather than joining it: a second entry would leave the broken address live and would trip the one-source-id-once rule.",
+      "editionAmbiguity": "Three editions circulate — (1/22) on a municipal copy, (3/25) on an ICLE copy. Neither host is allowlisted and neither edition is asserted. SCAO publishes an Explanation of Changes for MC 227 at https://www.courts.michigan.gov/4931c3/siteassets/forms/scao-approved/recent-revisions/eoc_mc227.pdf, which is where the current revision can be read once the binary is in hand.",
+      "exactBinaryUrlEstablished": true,
+      "verification": {
+        "urlExercisedByThisLane": false,
+        "whyNot": "ACQ is a no-egress lane by design (generate.mjs: 'GitHub Actions performs acquisition; this no-egress agent does not dispatch or claim a workflow run'). In this container the egress proxy answers 403 to CONNECT for every state judiciary host tried -- www.courts.ri.gov, www.mdcourts.gov, www.courts.michigan.gov -- through curl and through the fetch tool alike. No URL below was exercised here, and none is claimed as exercised.",
+        "whatWasEstablishedInstead": "A public search index returned this exact URL and returned, from the document body at it, the form number and the revision printed on the document. That settles the identity question DISC exists to settle -- whether this URL is that form -- without settling reachability, which the hosted fetcher settles when it acquires and records the SHA-256.",
+        "whatRemainsForTheRunner": "HTTP reachability, content type, and the exact SHA-256. A 404 there is a cheap self-correcting failure; the expensive failure, binding a real PDF to a form number it does not carry, is what the identity confirmation above is against."
+      }
+    },
+    {
+      "sourceId": "mt-af-22-0129-order-adopting-the-mmrta-temporary-rules",
+      "jurisdiction": "MT",
+      "formNumber": "MT-OCA-MMRTA",
+      "officialTitle": "Montana Supreme Court order AF 22-0129 adopting the Temporary Rules for Expungement, Resentencing, or Redesignation of a Conviction under the MMRTA",
+      "issuingAuthority": "Montana Supreme Court",
+      "officialUrl": "https://courts.mt.gov/external/forms/mmrta/af22-0129order.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": null,
+      "host": "courts.mt.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "mt_mmrta_serving-set::official-form:MT-OCA-MMRTA",
+        "mt_mmrta_completed-set::official-form:MT-OCA-MMRTA"
+      ],
+      "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_ACQ_SOURCE_ADDRESSES.json",
+      "edition": "dated 2022-03-15",
+      "thisLabelIsNotAForm": "MT-OCA-MMRTA is the authority that prescribes the two MMRTA forms, not a form itself. An overlay cannot be built on rule text; this is the source a composed pleading cites, and acquiring it settles what that pleading must say.",
+      "exactBinaryUrlEstablished": true,
+      "verification": {
+        "urlExercisedByThisLane": false,
+        "whyNot": "ACQ is a no-egress lane by design (generate.mjs: 'GitHub Actions performs acquisition; this no-egress agent does not dispatch or claim a workflow run'). In this container the egress proxy answers 403 to CONNECT for every state judiciary host tried -- www.courts.ri.gov, www.mdcourts.gov, www.courts.michigan.gov -- through curl and through the fetch tool alike. No URL below was exercised here, and none is claimed as exercised.",
+        "whatWasEstablishedInstead": "A public search index returned this exact URL and returned, from the document body at it, the form number and the revision printed on the document. That settles the identity question DISC exists to settle -- whether this URL is that form -- without settling reachability, which the hosted fetcher settles when it acquires and records the SHA-256.",
+        "whatRemainsForTheRunner": "HTTP reachability, content type, and the exact SHA-256. A 404 there is a cheap self-correcting failure; the expensive failure, binding a real PDF to a form number it does not carry, is what the identity confirmation above is against."
+      }
+    },
+    {
+      "sourceId": "mt-doj-dci-expungement-removal-request-form-2023-updated",
+      "jurisdiction": "MT",
+      "formNumber": "EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+      "officialTitle": "Expungement/Removal Request Form (2023 Updated)",
+      "issuingAuthority": "Montana Department of Justice, Division of Criminal Investigation",
+      "officialUrl": "https://dojmt.gov/wp-content/uploads/2023-Updated-ExpungementRemovalRequestForm.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": null,
+      "host": "dojmt.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "mt_deferred_dismissal-set::official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+        "mt_misdemeanor_expungement-set::official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+        "mt_mmrta_serving-set::official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+        "mt_mmrta_completed-set::official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX"
+      ],
+      "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_ACQ_SOURCE_ADDRESSES.json",
+      "editionFound": "2023 Updated, published as a PDF",
+      "editionTheFamiliesName": "an unversioned .DOCX",
+      "bothRecordedNeitherSubstituted": "The families name a .DOCX from the judiciary. The issuing authority is not the judiciary at all — it is the Department of Justice — and the current edition it publishes is a PDF. Both facts are recorded; neither is substituted for the other, and the acquired bytes settle which document this is.",
+      "whatThisDocumentActuallyIs": "A post-order agency filing: the participant sends it to DOJ together with a copy of the signed court order. It is not the court petition. A family blocked on this label and needing a petition is blocked on the wrong document, and acquiring this will show that rather than hide it.",
+      "exactBinaryUrlEstablished": true,
+      "verification": {
+        "urlExercisedByThisLane": false,
+        "whyNot": "ACQ is a no-egress lane by design (generate.mjs: 'GitHub Actions performs acquisition; this no-egress agent does not dispatch or claim a workflow run'). In this container the egress proxy answers 403 to CONNECT for every state judiciary host tried -- www.courts.ri.gov, www.mdcourts.gov, www.courts.michigan.gov -- through curl and through the fetch tool alike. No URL below was exercised here, and none is claimed as exercised.",
+        "whatWasEstablishedInstead": "A public search index returned this exact URL and returned, from the document body at it, the form number and the revision printed on the document. That settles the identity question DISC exists to settle -- whether this URL is that form -- without settling reachability, which the hosted fetcher settles when it acquires and records the SHA-256.",
+        "whatRemainsForTheRunner": "HTTP reachability, content type, and the exact SHA-256. A 404 there is a cheap self-correcting failure; the expensive failure, binding a real PDF to a form number it does not carry, is what the identity confirmation above is against."
+      }
+    },
+    {
+      "sourceId": "mt-mmrta-form-a-petition-currently-serving",
+      "jurisdiction": "MT",
+      "formNumber": "MT-FORM-A",
+      "officialTitle": "MMRTA Form A — Petition for Expungement, Resentencing or Redesignation (currently serving a sentence)",
+      "issuingAuthority": "Montana Office of the Court Administrator",
+      "officialUrl": "https://courts.mt.gov/external/forms/mmrta/form-a.docx",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": null,
+      "host": "courts.mt.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "mt_mmrta_serving-set::official-form:MT-FORM-A"
+      ],
+      "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_ACQ_SOURCE_ADDRESSES.json",
+      "format": "DOCX, not PDF. The acquisition script reads the magic bytes rather than the header, writes a non-PDF as .bin and records observedStructuralClass not_a_pdf, so this acquires honestly. It is a COMPOSE_FROM_AUTHORITY input and never an official_pdf_fill target.",
+      "edition": "Rev. 12/21 appears on an off-allowlist county copy; not confirmed on the official host and not asserted",
+      "exactBinaryUrlEstablished": true,
+      "verification": {
+        "urlExercisedByThisLane": false,
+        "whyNot": "ACQ is a no-egress lane by design (generate.mjs: 'GitHub Actions performs acquisition; this no-egress agent does not dispatch or claim a workflow run'). In this container the egress proxy answers 403 to CONNECT for every state judiciary host tried -- www.courts.ri.gov, www.mdcourts.gov, www.courts.michigan.gov -- through curl and through the fetch tool alike. No URL below was exercised here, and none is claimed as exercised.",
+        "whatWasEstablishedInstead": "A public search index returned this exact URL and returned, from the document body at it, the form number and the revision printed on the document. That settles the identity question DISC exists to settle -- whether this URL is that form -- without settling reachability, which the hosted fetcher settles when it acquires and records the SHA-256.",
+        "whatRemainsForTheRunner": "HTTP reachability, content type, and the exact SHA-256. A 404 there is a cheap self-correcting failure; the expensive failure, binding a real PDF to a form number it does not carry, is what the identity confirmation above is against."
+      }
+    },
+    {
+      "sourceId": "mt-mmrta-form-b-petition-sentence-completed",
+      "jurisdiction": "MT",
+      "formNumber": "MT-FORM-B",
+      "officialTitle": "MMRTA Form B — Petition for Expungement, Resentencing or Redesignation (sentence completed)",
+      "issuingAuthority": "Montana Office of the Court Administrator",
+      "officialUrl": "https://courts.mt.gov/external/forms/mmrta/form-b.docx",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": null,
+      "host": "courts.mt.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "mt_mmrta_completed-set::official-form:MT-FORM-B"
+      ],
+      "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_ACQ_SOURCE_ADDRESSES.json",
+      "format": "DOCX, not PDF — same treatment as Form A.",
+      "exactBinaryUrlEstablished": true,
+      "verification": {
+        "urlExercisedByThisLane": false,
+        "whyNot": "ACQ is a no-egress lane by design (generate.mjs: 'GitHub Actions performs acquisition; this no-egress agent does not dispatch or claim a workflow run'). In this container the egress proxy answers 403 to CONNECT for every state judiciary host tried -- www.courts.ri.gov, www.mdcourts.gov, www.courts.michigan.gov -- through curl and through the fetch tool alike. No URL below was exercised here, and none is claimed as exercised.",
+        "whatWasEstablishedInstead": "A public search index returned this exact URL and returned, from the document body at it, the form number and the revision printed on the document. That settles the identity question DISC exists to settle -- whether this URL is that form -- without settling reachability, which the hosted fetcher settles when it acquires and records the SHA-256.",
+        "whatRemainsForTheRunner": "HTTP reachability, content type, and the exact SHA-256. A 404 there is a cheap self-correcting failure; the expensive failure, binding a real PDF to a form number it does not carry, is what the identity confirmation above is against."
+      }
     },
     {
       "sourceId": "prb-certificate-of-expungement-for-military-acknowledgement-eligibility-acknowledgement-so",
@@ -1063,6 +1279,33 @@
       "commitBody": false,
       "obligationKeys": [],
       "recordedIn": "data/rcap-grade-a/source-acquisition/wave-2/acquired.json"
+    },
+    {
+      "sourceId": "wv-sca-c907-petition-for-expungement-of-felony-violations-2026-04",
+      "jurisdiction": "WV",
+      "formNumber": "SCA-C907",
+      "officialTitle": "Petition for Expungement of Felony Violations",
+      "issuingAuthority": "Supreme Court of Appeals of West Virginia",
+      "officialUrl": "https://www.courtswv.gov/sites/default/pubfilesmnt/2026-04/SCA-C907.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": null,
+      "host": "www.courtswv.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "wv_acc_treatment_job_readiness-set::official-form:SCA-C907",
+        "wv_conv_nonviolent_felony-set::official-form:SCA-C907"
+      ],
+      "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_ACQ_SOURCE_ADDRESSES.json",
+      "statute": "W. Va. Code 61-11-26a",
+      "edition": "the publisher's own path dates this posting 2026-04",
+      "theOtherEdition": "A 2023-06 posting of the same number exists at https://www.courtswv.gov/sites/default/pubfilesmnt/2023-06/SCA-C907-PetitionforExpungmentFelony.pdf. Both are recorded and neither is substituted; 2026-04 is the later by the publisher's path and is queued first. If it 404s, 2023-06 is the fallback and is not a different document decision.",
+      "exactBinaryUrlEstablished": true,
+      "verification": {
+        "urlExercisedByThisLane": false,
+        "whyNot": "ACQ is a no-egress lane by design (generate.mjs: 'GitHub Actions performs acquisition; this no-egress agent does not dispatch or claim a workflow run'). In this container the egress proxy answers 403 to CONNECT for every state judiciary host tried -- www.courts.ri.gov, www.mdcourts.gov, www.courts.michigan.gov -- through curl and through the fetch tool alike. No URL below was exercised here, and none is claimed as exercised.",
+        "whatWasEstablishedInstead": "A public search index returned this exact URL and returned, from the document body at it, the form number and the revision printed on the document. That settles the identity question DISC exists to settle -- whether this URL is that form -- without settling reachability, which the hosted fetcher settles when it acquires and records the SHA-256.",
+        "whatRemainsForTheRunner": "HTTP reachability, content type, and the exact SHA-256. A 404 there is a cheap self-correcting failure; the expensive failure, binding a real PDF to a form number it does not carry, is what the identity confirmation above is against."
+      }
     }
   ],
   "refused": [
@@ -1107,6 +1350,14 @@
       "sourceId": "cca-xp-0120-7002-form-acr-nonconvictionpetitionorderfillable2021",
       "reason": "indianalegalhelp.org is not an allowlisted official government host",
       "recordedIn": "data/rcap-grade-a/source-acquisition/packet-factory-24h/acq01/handoff-candidates.json, data/rcap-grade-a/source-acquisition/packet-factory-24h/acq02/handoff-candidates.json"
+    }
+  ],
+  "supersededByALaterAddress": [
+    {
+      "sourceId": "mc227",
+      "officialUrl": "https://www.courts.michigan.gov/administration/court-programs/state-court-administrative-office/scao-forms/",
+      "replacedBy": "https://www.courts.michigan.gov/4a4951/siteassets/forms/scao-approved/mc227.pdf",
+      "recordedIn": "data/rcap-grade-a/source-acquisition/wave-1/acquired.json"
     }
   ],
   "discPending": [

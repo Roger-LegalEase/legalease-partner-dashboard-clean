@@ -219,6 +219,7 @@ for (const rel of RECEIPT_SOURCES) {
 
 /* ---- addresses a lane established by reading the document ----------------- */
 const laneEstablished = new Map();
+const supersededSourceIds = new Map();
 for (const rel of LANE_ESTABLISHED_ENTRY_RETURNS) {
   if (!fs.existsSync(path.join(ROOT, rel))) continue;
   const doc = read(rel);
@@ -227,6 +228,17 @@ for (const rel of LANE_ESTABLISHED_ENTRY_RETURNS) {
     if (!e.sourceId || !e.officialUrl) continue;
     if (!(e.obligationKeys ?? []).length) continue;
     laneEstablished.set(e.officialUrl, { ...e, recordedIn: e.recordedIn ?? rel });
+    /*
+     * Repointing, not adding. An acquisition receipt can record a landing page
+     * that never yielded the binary -- Michigan's MC 227 is queued at the SCAO
+     * forms index, and the hosted fetch failed there. A lane that later finds
+     * the direct binary must REPLACE that entry: adding a second one leaves the
+     * broken address live and trips the duplicate-source-id refusal, and
+     * editing the receipt file would falsify a record of what was fetched. So
+     * the entry declares what it supersedes and the receipt-derived record is
+     * dropped here, with the supersession carried onto the surviving entry.
+     */
+    if (e.supersedesSourceId) supersededSourceIds.set(e.supersedesSourceId, e.officialUrl);
     urlRecords.push({
       officialUrl: e.officialUrl,
       jurisdiction: e.jurisdiction ?? null,
@@ -382,6 +394,15 @@ for (const [url, g] of [...candidateRowsByUrl.entries()].sort(([a], [b]) => a.lo
   });
 }
 
+/* A record a lane-established entry supersedes never reaches the manifest. */
+const supersededRecords = [];
+for (let i = urlRecords.length - 1; i >= 0; i--) {
+  const replacedBy = supersededSourceIds.get(urlRecords[i].sourceId);
+  if (!replacedBy || urlRecords[i].officialUrl === replacedBy) continue;
+  supersededRecords.push({ sourceId: urlRecords[i].sourceId, officialUrl: urlRecords[i].officialUrl, replacedBy, recordedIn: urlRecords[i].recordedIn });
+  urlRecords.splice(i, 1);
+}
+
 const manifestEntries = [];
 const manifestRefused = [];
 const seenUrl = new Set();
@@ -483,6 +504,7 @@ const manifest = {
   },
   entries: manifestEntries,
   refused: manifestRefused,
+  supersededByALaterAddress: supersededRecords.sort((a, b) => a.sourceId.localeCompare(b.sourceId)),
   /*
    * Obligations swept for and NOT found: no committed evidence carries an exact
    * official artifact URL, so they go to the DISC lane — never to a guessed
