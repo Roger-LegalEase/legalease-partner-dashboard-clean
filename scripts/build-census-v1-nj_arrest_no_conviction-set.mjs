@@ -280,13 +280,15 @@ function factsForJurisdiction(jurisdiction, boundary = false) {
 }
 
 function source({ key, id, role, title, revision, pathInArchive, hash, bytes, render = true,
-  allow = {}, selections = [], captions = null, alignWidgetFontSizeToFit = false }) {
+  allow = {}, deny = [], selections = [], captions = null, alignWidgetFontSizeToFit = false,
+  fitTextPerWidget = false }) {
   return { key, documentId: id, documentRole: role, officialTitle: title, revision,
-    pathInArchive, sha256: hash, byteLength: bytes, render, allow, selections,
-    captions, alignWidgetFontSizeToFit };
+    pathInArchive, sha256: hash, byteLength: bytes, render, allow, deny, selections,
+    captions, alignWidgetFontSizeToFit, fitTextPerWidget };
 }
 function cloneDoc(base, additions = {}) {
   return { ...base, ...additions, allow: { ...(base.allow ?? {}), ...(additions.allow ?? {}) },
+    deny: [...(base.deny ?? []), ...(additions.deny ?? [])],
     selections: additions.selections ?? base.selections ?? [] };
 }
 
@@ -406,13 +408,49 @@ const SHARED_EXACT_FACT_ALLOWLIST = Object.freeze({
   }),
 });
 
+/*
+ * FIX01/RP-2, KNOWN_PREFILLS: `deny`, and why a shared allowlist needed one.
+ *
+ * SHARED_EXACT_FACT_ALLOWLIST is keyed by DOCUMENT, so its NJ-CN-10557 entry is
+ * every New Jersey family's at once. `ExpungeCntyName: "matter.county"` in it
+ * declared a write that could never happen: ExpungeCntyName is a PDFDropdown
+ * whose option list is the twenty-one New Jersey counties as bare names --
+ * "Essex", not "Essex County" -- and the finalizer refused it on every fixture
+ * with reason `explicit_mapping_conflicts_with_field_name`. The map went on
+ * declaring `candidate_write` for it, so four widgets on the Petition, the
+ * Order for Hearing, the Expungement Order and the Final Order read
+ * "County ______" empty while the packet's own manifest said they were filled,
+ * and the county appeared in none of the seventy required-before-filing
+ * bullets. A fact the platform writes must be written; a fact it does not write
+ * must be disclosed. Neither happened.
+ *
+ * `deny` removes ONE document's mapping for ONE family without touching the
+ * shared table, so the other four New Jersey families on this host render
+ * byte-for-byte as they did. The denied field falls through to the ordinary
+ * refusal path, is classified required_before_filing, and reaches the
+ * participant in the list of blanks they must complete.
+ *
+ * This is not a decision that the county is unknowable. It is the narrower and
+ * true statement that `matter.county` -- which this build derives from the
+ * participant's RESIDENCE fixture -- is not the fact this blank asks for. The
+ * kit asks for the county where the petition is FILED, which page 9 defines as
+ * the county of arrest, custody, prosecution or adjudication, and no held fact
+ * on this route answers that.
+ */
 function factMappingsForDocument(doc) {
   const shared = SHARED_EXACT_FACT_ALLOWLIST[doc.documentId] ?? {};
   for (const [field, factId] of Object.entries(doc.allow ?? {})) {
     assert.ok(!shared[field] || shared[field] === factId,
       `${doc.documentId}/${field}: shared and family fact mappings conflict`);
   }
-  return { ...shared, ...(doc.allow ?? {}) };
+  const denied = new Set(doc.deny ?? []);
+  for (const field of denied) {
+    assert.ok(Object.hasOwn(shared, field) || Object.hasOwn(doc.allow ?? {}, field),
+      `${doc.documentId}/${field}: denied a fact mapping that no allowlist declares`);
+  }
+  const merged = { ...shared, ...(doc.allow ?? {}) };
+  for (const field of denied) delete merged[field];
+  return merged;
 }
 
 /*
@@ -481,10 +519,12 @@ const NJ_CONTACT_ALLOW = {
   DefPhone: "participant.phone", DefAddrStr2: "participant.street_address",
   DefAddrCity: "participant.city", DefAddrSt: "participant.state", DefAddrZip: "participant.zip",
 };
-function njFamily(routeKey, selectionNames, allow, note) {
+function njFamily(routeKey, selectionNames, allow, note, documentAdditions = {}) {
   return {
     jurisdiction: "NJ", routeKeys: [routeKey],
-    documents: [cloneDoc(NJ_SOURCE, { allow: { ...NJ_CONTACT_ALLOW, ...allow }, selections: selectionNames })],
+    documents: [cloneDoc(NJ_SOURCE, {
+      allow: { ...NJ_CONTACT_ALLOW, ...allow }, selections: selectionNames, ...documentAdditions,
+    })],
     notes: [note, "The shared 43-page kit's signature, date, notary, service, court, prosecutor, clerk, agency, and post-order fields are expressly refused."],
   };
 }
@@ -495,7 +535,38 @@ Object.assign(FAMILY, {
     ["dismiss"], { origCaseNums: "matter.case_number",
       dismissDt: "matter.disposition_date", dismissOff1: "matter.charge",
       dismissCrt: "matter.court" },
-    "The route election is the measured existing dismissed control on page 18; no box is invented."
+    "The route election is the measured existing dismissed control on page 18; no box is invented.",
+    {
+      /*
+       * FIX01/RP-2, CLIPPING_AND_OVERLAP.
+       *
+       * `DefName` carries TWENTY widgets on this kit, from 208.2 to 366.2
+       * points wide, and the shared finalizer measured the fit on widgets[0]
+       * alone and stamped that one size into all twenty. The boundary name
+       * fitted widgets[0] at 6.5pt; at 6.5pt it needs 219.5pt, which four of
+       * the twenty cannot hold. Seven words then left the 612-point page
+       * altogether and were cut mid-word -- the participant's own name and
+       * street address, on the Cover Letter to Court among others -- while
+       * actual-writes.json recorded the same writes as "fit" and "shrunk".
+       *
+       * fitTextPerWidget measures every widget on its own rectangle and writes
+       * each widget's own size into its own /DA, taking the field's stored
+       * value from the most constraining one. Measured before turning it on:
+       * every multi-widget field on this kit fits every one of its widgets at
+       * six points or better with the boundary persona, so nothing that is
+       * written today becomes a refusal. dismissOff1 and arrest1CaseNum refuse
+       * on widget 0 either way; they are handled below.
+       *
+       * Opt-in per FAMILY, not on NJ_SOURCE, because NJ_SOURCE is shared by
+       * five New Jersey families and a repair lane does not decide what the
+       * other four produce on their next rebuild.
+       */
+      fitTextPerWidget: true,
+      // See factMappingsForDocument: a dropdown of bare county names is not a
+      // free-text county blank, and matter.county is the residence county
+      // rather than the filing county the kit asks for.
+      deny: ["ExpungeCntyName"],
+    }
   ),
   "nj_clean_slate-set": njFamily(
     "obligation:track-pathway:NJ:nj_clean_slate:clean-slate-petition-under-n-j-s-a-2c-52-5-3",
@@ -2508,6 +2579,7 @@ async function buildOfficial(familyId, config) {
         exactFieldMap: map,
         unwritableFields, documentTextLines: census.documentTextLines,
         alignWidgetFontSizeToFit: doc.alignWidgetFontSizeToFit === true,
+        fitTextPerWidget: doc.fitTextPerWidget === true,
         title: `${config.jurisdiction} ${doc.documentId} ${fixture} review artifact`,
       });
       const preSelectionBytes = finalized.bytes;

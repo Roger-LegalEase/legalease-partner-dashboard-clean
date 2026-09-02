@@ -2341,9 +2341,15 @@
         },
         {
           "field": "ExpungeCntyName",
-          "decision": "candidate_write",
-          "factId": "matter.county",
-          "decisionBasis": "shared exact terminal-name fact allowlist; shared semantic finalizer still controls",
+          "decision": "refuse",
+          "factId": null,
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field ExpungeCntyName",
+          "effectiveLabel": "Law Div",
+          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
