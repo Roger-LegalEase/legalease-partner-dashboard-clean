@@ -90,8 +90,8 @@ const SPEC = {
       "description": "the composed petition, on this route's own statutory ground",
       "condition": null,
       "body": [
-        "IN THE ............................................................ COURT",
-        "(the court with jurisdiction over the matter)",
+        "IN THE {{DOTS:60}} COURT",
+        "(Write the name of the court with jurisdiction over the matter on the line above. This packet does not hold it and has left it blank.)",
         "",
         "IN RE: {{participant.full_legal_name}},",
         "PETITIONER.",
@@ -217,6 +217,13 @@ const SPEC = {
           "why": "the committed route contract records this as a required fact of the participant's own matter, and the platform holds no value for it"
         },
         {
+          "kind": "rbf",
+          "id": "caption_court_name",
+          "label": "Caption of the petition - the court with jurisdiction over the matter",
+          "supply": "The name of the court with jurisdiction over the matter, written on the caption rule at the head of the petition",
+          "why": "the committed route contract makes the venue or agency a required fact of the participant's own matter, and the platform holds no value for it; a pleading whose caption does not name a court is not filable"
+        },
+        {
           "kind": "court",
           "id": "case_number",
           "label": "Case number of this filing, if the court assigns one at filing",
@@ -244,8 +251,8 @@ const SPEC = {
       "description": "the proposed order the court may sign; every decision line is the court's and is left blank",
       "condition": "Travels with the petition only; nothing on it is decided, signed or dated by the participant.",
       "body": [
-        "IN THE ............................................................ COURT",
-        "(the court with jurisdiction over the matter)",
+        "IN THE {{DOTS:60}} COURT",
+        "(Write the name of the court with jurisdiction over the matter on the line above. This packet does not hold it and has left it blank.)",
         "",
         "IN RE: {{participant.full_legal_name}},",
         "PETITIONER.",
@@ -274,6 +281,13 @@ const SPEC = {
         }
       ],
       "blanks": [
+        {
+          "kind": "rbf",
+          "id": "order_caption_court_name",
+          "label": "Caption of the proposed order - the same court named on the petition",
+          "supply": "The name of the court with jurisdiction over the matter, written on the caption rule at the head of the proposed order, matching the petition",
+          "why": "the proposed order travels with the petition and carries the same caption; the platform holds no court fact for this matter"
+        },
         {
           "kind": "court",
           "id": "order_case_number",
@@ -389,7 +403,7 @@ const SPEC = {
   "obligationTable": [
     [
       "FILING_DESTINATION",
-      "**The repository establishes this one.** The compiled Mississippi profile records that under § 99-15-59 a person \"may apply to the court with jurisdiction for expungement\", and that line names § 99-15-59 and reaches the dismissed-charge branch expressly. The census records the route's own destination field as not recorded; the compiled profile answers it for this section. Which court has jurisdiction over a particular matter is a fact of that matter, and the committed contract makes 'What venue or agency?' a required fact, so the court's identity is a labelled blank on the petition."
+      "**The repository establishes this one.** The compiled Mississippi profile records that under § 99-15-59 a person \"may apply to the court with jurisdiction for expungement\", and that line names § 99-15-59 and reaches the dismissed-charge branch expressly. The census records the route's own destination field as not recorded; the compiled profile answers it for this section. Which court has jurisdiction over a particular matter is a fact of that matter, and the committed contract makes 'What venue or agency?' a required fact, so the court's identity is left blank for you. It is the caption rule at the head of the petition and the identical rule at the head of the proposed order, each printed above the line \"(Write the name of the court with jurisdiction over the matter on the line above. This packet does not hold it and has left it blank.)\", and each listed among the items you must supply below."
     ],
     [
       "FEE_AND_WAIVER",

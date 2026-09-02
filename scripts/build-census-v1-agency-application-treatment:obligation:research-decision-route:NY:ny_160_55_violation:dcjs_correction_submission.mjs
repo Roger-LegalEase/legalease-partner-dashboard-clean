@@ -109,6 +109,32 @@ const SPEC = {
   officialCells: {},
 
   components: ["court_transmission_correction_request", "dcjs_correction_submission", "agency_route_sheet"],
+
+  /*
+   * FIX01/RT-1, ROUTE_IDENTITY.
+   *
+   * In this factory the page footer is a per-document route claim, not a
+   * family label. Pages 1-2 render the sentencing-court transmission/correction
+   * letter -- step two of the three-step correction workflow the controlling
+   * decision records, and the primary instrument of a separately declared
+   * route -- and they were footer-stamped with this family's own DCJS route.
+   * A page that names a route it does not serve is a false claim about the
+   * page, and the route it named belongs to a live sibling family.
+   *
+   * The footer and the field map's documentPolicy now name the route each page
+   * actually serves. This declares WHAT THE PAGE IS. It grants nothing, opens
+   * no route, and does not resolve the duplication recorded below in
+   * buildFindings -- that is Captain's to order, because the sibling family is
+   * a separate live subject in the claim ledger.
+   */
+  componentRoutes: {
+    court_transmission_correction_request:
+      "obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request",
+    dcjs_correction_submission:
+      "obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission",
+    agency_route_sheet:
+      "obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission"
+  },
   componentTitles: {
     court_transmission_correction_request: "Request to the Sentencing Court to Transmit or Correct the Sealing Notice",
     dcjs_correction_submission: "Correction Submission to the Division of Criminal Justice Services",
@@ -285,6 +311,28 @@ const SPEC = {
   buildFindings: [
     {
       finding:
+        "ROUTE_IDENTITY, and the boundary this repair did NOT decide. The controlling decision records a "
+        + "three-step correction workflow - obtain certificate of disposition, ask the sentencing court to "
+        + "transmit or correct the sealing notice, send the certified disposition to DCJS - and this family "
+        + "implements it step for step, so pages 1-2 carry the sentencing-court letter. That letter is also the "
+        + "primary instrument of a separately declared route, "
+        + "obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request, "
+        + "which a live sibling family (composed-treatment:...:sentencing_court_transmission_correction_request) "
+        + "holds and renders in a materially different wording. Two live families therefore ship two different "
+        + "letters asking the same office for the same act under the same statute, and no record in this "
+        + "repository reconciles them.",
+      consequence:
+        "What this repair fixed is the false per-document claim: pages 1-2 are footer-stamped and their "
+        + "documentPolicy keyed with the route they actually serve, instead of this family's DCJS route. What "
+        + "this repair deliberately did NOT do is decide the boundary. Deciding it means either retiring or "
+        + "subordinating the sibling family and adding its route key to this family's declared routeKeys, or "
+        + "taking pages 1-2 out of this packet and sending the participant to the sibling for step two. Both "
+        + "act on a family this lane holds no grant over, so the choice is escalated to Captain rather than "
+        + "taken. Until it is taken, a reader will see this family stamping a route its MASTER_QUEUE routeKeys "
+        + "do not list - which is the honest shape of an undecided boundary, and is visible on purpose."
+    },
+    {
+      finding:
         "MASTER_QUEUE classifies this family participant_agency_application and binds no document source. That is "
         + "the recorded design: the controlling decision records that on this route the participant ordinarily "
         + "files nothing, and neither OCA nor DCJS publishes a Sec. 160.55 correction form.",
@@ -455,7 +503,7 @@ const SPEC = {
       L.push("WHAT THIS PACKET IS NOT", "");
       L.push("Two letters to two record-holding offices, authored from one recorded branch of CPL Sec. 160.55. Not an OCA or DCJS form - neither publishes one for this - not a motion, petition or application, not filed anywhere, not legal advice, not sent for you, and not a promise that either office will correct anything.");
     }
-    L.push("", `Route: ${this.routes[0].routeKey}`);
+    L.push("", `Route: ${this.componentRoutes?.[componentId] ?? this.routes[0].routeKey}`);
     return L.join("\n");
   },
 

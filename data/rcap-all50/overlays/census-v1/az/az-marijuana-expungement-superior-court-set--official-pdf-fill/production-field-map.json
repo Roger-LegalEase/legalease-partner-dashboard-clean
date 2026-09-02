@@ -18,6 +18,7 @@
     "Case Number": "matter.case_number",
     "Defendant name": "participant.full_legal_name",
     "Date of Birth": "participant.date_of_birth",
+    "Citing/arresting law enforcement agency": "matter.citing_or_arresting_agency",
     "Superior court case number": "matter.case_number",
     "Arrest date": "matter.arrest_date",
     "Petitioner's Mailing Address": "participant.street_address",
@@ -254,6 +255,31 @@
       "reason": "Participant or matter fact explicitly mapped for this route."
     },
     {
+      "fieldId": "citing-or-arresting-agency",
+      "page": 1,
+      "sourceLabel": "Name of citing or arresting law enforcement agency",
+      "semanticLabel": "Citing/arresting law enforcement agency",
+      "role": "participant_stated_agency_fact",
+      "measured": {
+        "construction": "underscore_leader_run",
+        "x0": 326.39,
+        "x1": 536.79,
+        "baselineY": 153.6,
+        "width": 210.4,
+        "glyphCount": 38,
+        "printedFontSize": 11.2,
+        "metricsExact": true,
+        "pathOperator": null,
+        "paintedBy": null,
+        "geometrySource": "underscore glyph run from scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs"
+      },
+      "printedLine": "2. Name of citing or arresting law enforcement agency: ______________________________________.",
+      "disposition": "WRITE",
+      "factId": "matter.citing_or_arresting_agency",
+      "routeSpecific": false,
+      "reason": "Participant or matter fact explicitly mapped for this route."
+    },
+    {
       "fieldId": "superior-court-case-number",
       "page": 1,
       "sourceLabel": "Superior court case number",
@@ -403,6 +429,7 @@
       "disposition": "REFUSE",
       "factId": null,
       "routeSpecific": false,
+      "blankTreatment": null,
       "reason": "Attorney/LDP-only identifier; the participant is not named as their own attorney."
     },
     {
@@ -428,32 +455,8 @@
       "disposition": "REFUSE",
       "factId": null,
       "routeSpecific": false,
+      "blankTreatment": null,
       "reason": "Attorney/LDP representation block; no representation fact is held."
-    },
-    {
-      "fieldId": "citing-or-arresting-agency",
-      "page": 1,
-      "sourceLabel": "Name of citing or arresting law enforcement agency",
-      "semanticLabel": null,
-      "role": "agency_field",
-      "measured": {
-        "construction": "underscore_leader_run",
-        "x0": 326.39,
-        "x1": 536.79,
-        "baselineY": 153.6,
-        "width": 210.4,
-        "glyphCount": 38,
-        "printedFontSize": 11.2,
-        "metricsExact": true,
-        "pathOperator": null,
-        "paintedBy": null,
-        "geometrySource": "underscore glyph run from scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs"
-      },
-      "printedLine": "2. Name of citing or arresting law enforcement agency: ______________________________________.",
-      "disposition": "REFUSE",
-      "factId": null,
-      "routeSpecific": false,
-      "reason": "Agency fields are never prefilled by this build."
     },
     {
       "fieldId": "name-at-arrest-if-different",
@@ -478,6 +481,7 @@
       "disposition": "REFUSE",
       "factId": null,
       "routeSpecific": false,
+      "blankTreatment": null,
       "reason": "The platform holds the current legal name, not a separately verified name-at-arrest value; the form says to complete this only if different."
     },
     {
@@ -503,7 +507,11 @@
       "disposition": "REFUSE",
       "factId": null,
       "routeSpecific": false,
-      "reason": "Conditional on an unanswered Yes/No election and asks for a court identity; never prefilled."
+      "reason": "The platform holds no value for this and the participant supplies it before filing: the name of the Justice Court, if you answered Yes to question 2 - leave blank if you answered No.",
+      "completenessDisposition": "REQUIRED_BEFORE_FILING",
+      "requiredBeforeFiling": true,
+      "routeDetermined": false,
+      "participantMustSupply": "the name of the Justice Court, if you answered Yes to question 2 - leave blank if you answered No"
     },
     {
       "fieldId": "justice-court-case-number",
@@ -528,7 +536,11 @@
       "disposition": "REFUSE",
       "factId": null,
       "routeSpecific": false,
-      "reason": "Conditional on an unanswered Yes/No election; no verified Justice Court case-number fact is held."
+      "reason": "The platform holds no value for this and the participant supplies it before filing: the Justice Court case number, if you answered Yes to question 2 - leave blank if you answered No.",
+      "completenessDisposition": "REQUIRED_BEFORE_FILING",
+      "requiredBeforeFiling": true,
+      "routeDetermined": false,
+      "participantMustSupply": "the Justice Court case number, if you answered Yes to question 2 - leave blank if you answered No"
     },
     {
       "fieldId": "prosecuting-agency",
@@ -553,7 +565,11 @@
       "disposition": "REFUSE",
       "factId": null,
       "routeSpecific": false,
-      "reason": "Prosecutor and agency fields are never prefilled by this build."
+      "reason": "The platform holds no value for this and the participant supplies it before filing: the name of the prosecuting agency, as it appears on your paperwork.",
+      "completenessDisposition": "REQUIRED_BEFORE_FILING",
+      "requiredBeforeFiling": true,
+      "routeDetermined": false,
+      "participantMustSupply": "the name of the prosecuting agency, as it appears on your paperwork"
     },
     {
       "fieldId": "conditional-conviction-date",
@@ -578,7 +594,11 @@
       "disposition": "REFUSE",
       "factId": null,
       "routeSpecific": false,
-      "reason": "Conditional on the participant's unanswered conviction election; never inferred or prefilled."
+      "reason": "The platform holds no value for this and the participant supplies it before filing: the date you were convicted, if you answered Yes to question 4 - leave blank if you answered No.",
+      "completenessDisposition": "REQUIRED_BEFORE_FILING",
+      "requiredBeforeFiling": true,
+      "routeDetermined": false,
+      "participantMustSupply": "the date you were convicted, if you answered Yes to question 4 - leave blank if you answered No"
     },
     {
       "fieldId": "conditional-dismissal-date",
@@ -603,7 +623,11 @@
       "disposition": "REFUSE",
       "factId": null,
       "routeSpecific": false,
-      "reason": "Conditional on the participant's unanswered dismissal election; never inferred or prefilled."
+      "reason": "The platform holds no value for this and the participant supplies it before filing: the date your case was dismissed, if you answered Yes to question 7 - leave blank if you answered No.",
+      "completenessDisposition": "REQUIRED_BEFORE_FILING",
+      "requiredBeforeFiling": true,
+      "routeDetermined": false,
+      "participantMustSupply": "the date your case was dismissed, if you answered Yes to question 7 - leave blank if you answered No"
     },
     {
       "fieldId": "supporting-documentation-line-1",
@@ -628,6 +652,7 @@
       "disposition": "REFUSE",
       "factId": null,
       "routeSpecific": false,
+      "blankTreatment": null,
       "reason": "Optional participant-authored description of attachments; the platform does not invent it."
     },
     {
@@ -653,6 +678,7 @@
       "disposition": "REFUSE",
       "factId": null,
       "routeSpecific": false,
+      "blankTreatment": null,
       "reason": "Optional participant-authored description of attachments; the platform does not invent it."
     },
     {
@@ -678,6 +704,7 @@
       "disposition": "REFUSE",
       "factId": null,
       "routeSpecific": false,
+      "blankTreatment": null,
       "reason": "Signature and signature date are completed by the participant after review; never prefilled."
     },
     {
@@ -703,6 +730,7 @@
       "disposition": "REFUSE",
       "factId": null,
       "routeSpecific": false,
+      "blankTreatment": null,
       "reason": "Attorney-only field; never prefilled."
     },
     {
@@ -728,6 +756,7 @@
       "disposition": "REFUSE",
       "factId": null,
       "routeSpecific": false,
+      "blankTreatment": null,
       "reason": "Attorney signature; never prefilled."
     },
     {
@@ -753,6 +782,7 @@
       "disposition": "REFUSE",
       "factId": null,
       "routeSpecific": false,
+      "blankTreatment": null,
       "reason": "Attorney-only identifier; never prefilled."
     },
     {
@@ -778,6 +808,7 @@
       "disposition": "REFUSE",
       "factId": null,
       "routeSpecific": false,
+      "blankTreatment": null,
       "reason": "Attorney-only contact field; never prefilled with participant data."
     },
     {
@@ -803,6 +834,7 @@
       "disposition": "REFUSE",
       "factId": null,
       "routeSpecific": false,
+      "blankTreatment": null,
       "reason": "Attorney-only contact field; never prefilled with participant data."
     },
     {
@@ -818,7 +850,11 @@
       "printedLine": "[ ] Possessing, consuming, or transporting two and one-half ounces or less of marijuana, of which not more",
       "disposition": "REFUSED",
       "role": "participant_legal_election_or_conditional_fact",
-      "reason": "The shared semantics never writes a checkbox/radio election, and this flat form carries no widget. The participant makes the election after reviewing the form."
+      "reason": "A sworn election on the petitioner's own record. The route this packet is built for does not determine it, and the platform never marks a box the petitioner swears to; the participant instructions name this election and the petitioner marks it before signing.",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "completenessDisposition": "PARTICIPANT_ELECTION_GENUINE",
+      "routeDetermined": false,
+      "isSelectionControl": true
     },
     {
       "controlId": "eligible-charge-six-plants-selection",
@@ -833,7 +869,11 @@
       "printedLine": "[ ] Possessing, transporting, cultivating, or processing not more than six marijuana plants at my primary",
       "disposition": "REFUSED",
       "role": "participant_legal_election_or_conditional_fact",
-      "reason": "The shared semantics never writes a checkbox/radio election, and this flat form carries no widget. The participant makes the election after reviewing the form."
+      "reason": "A sworn election on the petitioner's own record. The route this packet is built for does not determine it, and the platform never marks a box the petitioner swears to; the participant instructions name this election and the petitioner marks it before signing.",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "completenessDisposition": "PARTICIPANT_ELECTION_GENUINE",
+      "routeDetermined": false,
+      "isSelectionControl": true
     },
     {
       "controlId": "eligible-charge-paraphernalia-selection",
@@ -848,7 +888,11 @@
       "printedLine": "[ ] Possessing, using, or transporting paraphernalia related to the cultivation, manufacture, processing, or",
       "disposition": "REFUSED",
       "role": "participant_legal_election_or_conditional_fact",
-      "reason": "The shared semantics never writes a checkbox/radio election, and this flat form carries no widget. The participant makes the election after reviewing the form."
+      "reason": "A sworn election on the petitioner's own record. The route this packet is built for does not determine it, and the platform never marks a box the petitioner swears to; the participant instructions name this election and the petitioner marks it before signing.",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "completenessDisposition": "PARTICIPANT_ELECTION_GENUINE",
+      "routeDetermined": false,
+      "isSelectionControl": true
     },
     {
       "controlId": "justice-court-yes",
@@ -863,7 +907,11 @@
       "printedLine": "2. My court case began in a Justice Court [ ] Yes [ ] No. If Yes, insert name of Justice Court here:",
       "disposition": "REFUSED",
       "role": "participant_legal_election_or_conditional_fact",
-      "reason": "The shared semantics never writes a checkbox/radio election, and this flat form carries no widget. The participant makes the election after reviewing the form."
+      "reason": "A sworn election on the petitioner's own record. The route this packet is built for does not determine it, and the platform never marks a box the petitioner swears to; the participant instructions name this election and the petitioner marks it before signing.",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "completenessDisposition": "PARTICIPANT_ELECTION_GENUINE",
+      "routeDetermined": false,
+      "isSelectionControl": true
     },
     {
       "controlId": "justice-court-no",
@@ -878,7 +926,11 @@
       "printedLine": "2. My court case began in a Justice Court [ ] Yes [ ] No. If Yes, insert name of Justice Court here:",
       "disposition": "REFUSED",
       "role": "participant_legal_election_or_conditional_fact",
-      "reason": "The shared semantics never writes a checkbox/radio election, and this flat form carries no widget. The participant makes the election after reviewing the form."
+      "reason": "A sworn election on the petitioner's own record. The route this packet is built for does not determine it, and the platform never marks a box the petitioner swears to; the participant instructions name this election and the petitioner marks it before signing.",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "completenessDisposition": "PARTICIPANT_ELECTION_GENUINE",
+      "routeDetermined": false,
+      "isSelectionControl": true
     },
     {
       "controlId": "convicted-yes",
@@ -893,7 +945,11 @@
       "printedLine": "4. I was convicted of the offense [ ] Yes [ ] No If Yes, insert date of conviction here: ___________________.",
       "disposition": "REFUSED",
       "role": "participant_legal_election_or_conditional_fact",
-      "reason": "The shared semantics never writes a checkbox/radio election, and this flat form carries no widget. The participant makes the election after reviewing the form."
+      "reason": "A sworn election on the petitioner's own record. The route this packet is built for does not determine it, and the platform never marks a box the petitioner swears to; the participant instructions name this election and the petitioner marks it before signing.",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "completenessDisposition": "PARTICIPANT_ELECTION_GENUINE",
+      "routeDetermined": false,
+      "isSelectionControl": true
     },
     {
       "controlId": "convicted-no",
@@ -908,7 +964,11 @@
       "printedLine": "4. I was convicted of the offense [ ] Yes [ ] No If Yes, insert date of conviction here: ___________________.",
       "disposition": "REFUSED",
       "role": "participant_legal_election_or_conditional_fact",
-      "reason": "The shared semantics never writes a checkbox/radio election, and this flat form carries no widget. The participant makes the election after reviewing the form."
+      "reason": "A sworn election on the petitioner's own record. The route this packet is built for does not determine it, and the platform never marks a box the petitioner swears to; the participant instructions name this election and the petitioner marks it before signing.",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "completenessDisposition": "PARTICIPANT_ELECTION_GENUINE",
+      "routeDetermined": false,
+      "isSelectionControl": true
     },
     {
       "controlId": "non-eligible-charges-filed-yes",
@@ -923,7 +983,11 @@
       "printedLine": "5. One or more non-eligible charges were filed against me in this same case [ ] Yes [ ] No.",
       "disposition": "REFUSED",
       "role": "participant_legal_election_or_conditional_fact",
-      "reason": "The shared semantics never writes a checkbox/radio election, and this flat form carries no widget. The participant makes the election after reviewing the form."
+      "reason": "A sworn election on the petitioner's own record. The route this packet is built for does not determine it, and the platform never marks a box the petitioner swears to; the participant instructions name this election and the petitioner marks it before signing.",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "completenessDisposition": "PARTICIPANT_ELECTION_GENUINE",
+      "routeDetermined": false,
+      "isSelectionControl": true
     },
     {
       "controlId": "non-eligible-charges-filed-no",
@@ -938,7 +1002,11 @@
       "printedLine": "5. One or more non-eligible charges were filed against me in this same case [ ] Yes [ ] No.",
       "disposition": "REFUSED",
       "role": "participant_legal_election_or_conditional_fact",
-      "reason": "The shared semantics never writes a checkbox/radio election, and this flat form carries no widget. The participant makes the election after reviewing the form."
+      "reason": "A sworn election on the petitioner's own record. The route this packet is built for does not determine it, and the platform never marks a box the petitioner swears to; the participant instructions name this election and the petitioner marks it before signing.",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "completenessDisposition": "PARTICIPANT_ELECTION_GENUINE",
+      "routeDetermined": false,
+      "isSelectionControl": true
     },
     {
       "controlId": "probation-yes",
@@ -953,7 +1021,11 @@
       "printedLine": "6. My sentence included a term of probation [ ] Yes [ ] No.",
       "disposition": "REFUSED",
       "role": "participant_legal_election_or_conditional_fact",
-      "reason": "The shared semantics never writes a checkbox/radio election, and this flat form carries no widget. The participant makes the election after reviewing the form."
+      "reason": "A sworn election on the petitioner's own record. The route this packet is built for does not determine it, and the platform never marks a box the petitioner swears to; the participant instructions name this election and the petitioner marks it before signing.",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "completenessDisposition": "PARTICIPANT_ELECTION_GENUINE",
+      "routeDetermined": false,
+      "isSelectionControl": true
     },
     {
       "controlId": "probation-no",
@@ -968,7 +1040,11 @@
       "printedLine": "6. My sentence included a term of probation [ ] Yes [ ] No.",
       "disposition": "REFUSED",
       "role": "participant_legal_election_or_conditional_fact",
-      "reason": "The shared semantics never writes a checkbox/radio election, and this flat form carries no widget. The participant makes the election after reviewing the form."
+      "reason": "A sworn election on the petitioner's own record. The route this packet is built for does not determine it, and the platform never marks a box the petitioner swears to; the participant instructions name this election and the petitioner marks it before signing.",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "completenessDisposition": "PARTICIPANT_ELECTION_GENUINE",
+      "routeDetermined": false,
+      "isSelectionControl": true
     },
     {
       "controlId": "dismissed-yes",
@@ -983,7 +1059,11 @@
       "printedLine": "7. My case was dismissed [ ] Yes [ ] No. If Yes, insert date of dismissal here: ______________.",
       "disposition": "REFUSED",
       "role": "participant_legal_election_or_conditional_fact",
-      "reason": "The shared semantics never writes a checkbox/radio election, and this flat form carries no widget. The participant makes the election after reviewing the form."
+      "reason": "A sworn election on the petitioner's own record. The route this packet is built for does not determine it, and the platform never marks a box the petitioner swears to; the participant instructions name this election and the petitioner marks it before signing.",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "completenessDisposition": "PARTICIPANT_ELECTION_GENUINE",
+      "routeDetermined": false,
+      "isSelectionControl": true
     },
     {
       "controlId": "dismissed-no",
@@ -998,7 +1078,11 @@
       "printedLine": "7. My case was dismissed [ ] Yes [ ] No. If Yes, insert date of dismissal here: ______________.",
       "disposition": "REFUSED",
       "role": "participant_legal_election_or_conditional_fact",
-      "reason": "The shared semantics never writes a checkbox/radio election, and this flat form carries no widget. The participant makes the election after reviewing the form."
+      "reason": "A sworn election on the petitioner's own record. The route this packet is built for does not determine it, and the platform never marks a box the petitioner swears to; the participant instructions name this election and the petitioner marks it before signing.",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "completenessDisposition": "PARTICIPANT_ELECTION_GENUINE",
+      "routeDetermined": false,
+      "isSelectionControl": true
     },
     {
       "controlId": "outstanding-warrant-yes",
@@ -1013,7 +1097,11 @@
       "printedLine": "8. There is an outstanding arrest warrant in this case [ ] Yes [ ] No.",
       "disposition": "REFUSED",
       "role": "participant_legal_election_or_conditional_fact",
-      "reason": "The shared semantics never writes a checkbox/radio election, and this flat form carries no widget. The participant makes the election after reviewing the form."
+      "reason": "A sworn election on the petitioner's own record. The route this packet is built for does not determine it, and the platform never marks a box the petitioner swears to; the participant instructions name this election and the petitioner marks it before signing.",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "completenessDisposition": "PARTICIPANT_ELECTION_GENUINE",
+      "routeDetermined": false,
+      "isSelectionControl": true
     },
     {
       "controlId": "outstanding-warrant-no",
@@ -1028,7 +1116,11 @@
       "printedLine": "8. There is an outstanding arrest warrant in this case [ ] Yes [ ] No.",
       "disposition": "REFUSED",
       "role": "participant_legal_election_or_conditional_fact",
-      "reason": "The shared semantics never writes a checkbox/radio election, and this flat form carries no widget. The participant makes the election after reviewing the form."
+      "reason": "A sworn election on the petitioner's own record. The route this packet is built for does not determine it, and the platform never marks a box the petitioner swears to; the participant instructions name this election and the petitioner marks it before signing.",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "completenessDisposition": "PARTICIPANT_ELECTION_GENUINE",
+      "routeDetermined": false,
+      "isSelectionControl": true
     },
     {
       "controlId": "active-payment-plan-yes",
@@ -1043,7 +1135,11 @@
       "printedLine": "9. There is an active payment plan on my case [ ] Yes [ ] No.",
       "disposition": "REFUSED",
       "role": "participant_legal_election_or_conditional_fact",
-      "reason": "The shared semantics never writes a checkbox/radio election, and this flat form carries no widget. The participant makes the election after reviewing the form."
+      "reason": "A sworn election on the petitioner's own record. The route this packet is built for does not determine it, and the platform never marks a box the petitioner swears to; the participant instructions name this election and the petitioner marks it before signing.",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "completenessDisposition": "PARTICIPANT_ELECTION_GENUINE",
+      "routeDetermined": false,
+      "isSelectionControl": true
     },
     {
       "controlId": "active-payment-plan-no",
@@ -1058,7 +1154,11 @@
       "printedLine": "9. There is an active payment plan on my case [ ] Yes [ ] No.",
       "disposition": "REFUSED",
       "role": "participant_legal_election_or_conditional_fact",
-      "reason": "The shared semantics never writes a checkbox/radio election, and this flat form carries no widget. The participant makes the election after reviewing the form."
+      "reason": "A sworn election on the petitioner's own record. The route this packet is built for does not determine it, and the platform never marks a box the petitioner swears to; the participant instructions name this election and the petitioner marks it before signing.",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "completenessDisposition": "PARTICIPANT_ELECTION_GENUINE",
+      "routeDetermined": false,
+      "isSelectionControl": true
     },
     {
       "controlId": "hearing-request-yes",
@@ -1073,7 +1173,11 @@
       "printedLine": "hereby request a hearing [ ] Yes [ ] No.",
       "disposition": "REFUSED",
       "role": "participant_legal_election_or_conditional_fact",
-      "reason": "The shared semantics never writes a checkbox/radio election, and this flat form carries no widget. The participant makes the election after reviewing the form."
+      "reason": "A sworn election on the petitioner's own record. The route this packet is built for does not determine it, and the platform never marks a box the petitioner swears to; the participant instructions name this election and the petitioner marks it before signing.",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "completenessDisposition": "PARTICIPANT_ELECTION_GENUINE",
+      "routeDetermined": false,
+      "isSelectionControl": true
     },
     {
       "controlId": "hearing-request-no",
@@ -1088,14 +1192,51 @@
       "printedLine": "hereby request a hearing [ ] Yes [ ] No.",
       "disposition": "REFUSED",
       "role": "participant_legal_election_or_conditional_fact",
-      "reason": "The shared semantics never writes a checkbox/radio election, and this flat form carries no widget. The participant makes the election after reviewing the form."
+      "reason": "A sworn election on the petitioner's own record. The route this packet is built for does not determine it, and the platform never marks a box the petitioner swears to; the participant instructions name this election and the petitioner marks it before signing.",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "completenessDisposition": "PARTICIPANT_ELECTION_GENUINE",
+      "routeDetermined": false,
+      "isSelectionControl": true
     }
   ],
   "coverage": {
     "measuredBlanks": 31,
     "measuredPrintedControls": 19,
-    "writes": 14,
-    "refusals": 36,
+    "writes": 15,
+    "refusals": 35,
     "unmapped": 0
-  }
+  },
+  "requiredBeforeFilingCount": 5,
+  "requiredBeforeFiling": [
+    {
+      "fieldId": "justice-court-name",
+      "label": "If Yes, insert name of Justice Court here",
+      "page": 2,
+      "participantMustSupply": "the name of the Justice Court, if you answered Yes to question 2 - leave blank if you answered No"
+    },
+    {
+      "fieldId": "justice-court-case-number",
+      "label": "Justice Court case number here",
+      "page": 2,
+      "participantMustSupply": "the Justice Court case number, if you answered Yes to question 2 - leave blank if you answered No"
+    },
+    {
+      "fieldId": "prosecuting-agency",
+      "label": "Name of prosecuting agency",
+      "page": 2,
+      "participantMustSupply": "the name of the prosecuting agency, as it appears on your paperwork"
+    },
+    {
+      "fieldId": "conditional-conviction-date",
+      "label": "If Yes, insert date of conviction here",
+      "page": 2,
+      "participantMustSupply": "the date you were convicted, if you answered Yes to question 4 - leave blank if you answered No"
+    },
+    {
+      "fieldId": "conditional-dismissal-date",
+      "label": "If Yes, insert date of dismissal here",
+      "page": 2,
+      "participantMustSupply": "the date your case was dismissed, if you answered Yes to question 7 - leave blank if you answered No"
+    }
+  ]
 }

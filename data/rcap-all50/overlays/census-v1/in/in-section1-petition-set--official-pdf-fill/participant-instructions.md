@@ -115,6 +115,22 @@ This packet prepares official forms; it does not decide anything. Stop and get a
 - your case ended in a conviction. This packet is for an arrest, criminal charge or juvenile delinquency allegation that did **not** result in a conviction, and the proposed order says so on its face;
 - you want appellate records sealed. The petition and the order both have a place for appellate cause numbers and this packet writes neither, because an appellate cause number is issued by a different court and the platform holds none.
 
+The committed track registry for this route — `data/record-clearing/legal-design-track-registry.json`, track `in_section1_petition`, `selfHelpStopConditions` — holds thirteen conditions of its own. They are reproduced here word for word, and each of them is a point at which this packet stops being enough:
+
+- The prosecutor objects or files a notice in opposition.
+- A victim submits a statement in opposition.
+- The court sets a hearing.
+- The person has convictions in more than one county and the 365-day window is already partly consumed.
+- A conviction is not yet eligible and the person wants to file now, which is the Chastain trap.
+- The person has already filed a Sections 2 through 5 petition.
+- Classification between Sections 2, 3, 4 and 5 is unclear, or turns on whether an offence caused serious bodily injury.
+- The person is a sex or violent offender or subject to registration.
+- Fines, fees, costs or restitution are unpaid or disputed.
+- Charges are pending anywhere, or the person is in a pretrial diversion programme.
+- The record involves a commercial driver's licence and 49 C.F.R. 384.226.
+- Immigration, firearm, licensing or CDL consequences are in play.
+- The person wants to attack the underlying conviction rather than expunge it.
+
 ## What this packet is not
 
 This is a prepared copy of the Coalition for Court Access's own approved bundle, missing three sets of insert pages that the bundle itself directs you to add. It is not legal advice, it is not filed for you, and it does not decide whether your records can be expunged under I.C. § 35-38-9-1.

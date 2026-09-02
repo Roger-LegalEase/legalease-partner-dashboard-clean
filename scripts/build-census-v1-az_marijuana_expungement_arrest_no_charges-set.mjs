@@ -321,20 +321,20 @@ const AZ_FIELD_SPECS = Object.freeze([
     factId: "matter.arrest_date", writeFor: BOTH_AZ_VARIANTS },
   { id: "justice-court-name", page: 2, construction: "underscore_leader_run", x0: 90.4, x1: 274.4, baselineY: 640,
     sourceLabel: "If Yes, insert name of Justice Court here", semanticLabel: null, role: "conditional_court_field",
-    refusal: "Conditional on an unanswered Yes/No election and asks for a court identity; never prefilled." },
+    participantMustSupply: "the name of the Justice Court, if you answered Yes to question 2 - leave blank if you answered No" },
   { id: "justice-court-case-number", page: 2, construction: "underscore_leader_run", x0: 90.4, x1: 268.8, baselineY: 627.2,
     sourceLabel: "Justice Court case number here", semanticLabel: null, role: "conditional_matter_identifier",
-    refusal: "Conditional on an unanswered Yes/No election; no verified Justice Court case-number fact is held." },
+    participantMustSupply: "the Justice Court case number, if you answered Yes to question 2 - leave blank if you answered No" },
   { id: "prosecuting-agency", page: 2, construction: "underscore_leader_run", x0: 222.4, x1: 511.2, baselineY: 612,
     sourceLabel: "Name of prosecuting agency", semanticLabel: null, role: "prosecutor_agency_field",
     blankTreatment: "REQUIRED_BEFORE_FILING",
-    refusal: "REQUIRED_BEFORE_FILING: no exact prosecuting-agency fact is held; surface this blank to the participant and do not guess." },
+    participantMustSupply: "the name of the prosecuting agency, as it appears on your paperwork" },
   { id: "conditional-conviction-date", page: 2, construction: "underscore_leader_run", x0: 466.38, x1: 571.98, baselineY: 596,
     sourceLabel: "If Yes, insert date of conviction here", semanticLabel: null, role: "conditional_disposition",
-    refusal: "Conditional on the participant's unanswered conviction election; never inferred or prefilled." },
+    participantMustSupply: "the date you were convicted, if you answered Yes to question 4 - leave blank if you answered No" },
   { id: "conditional-dismissal-date", page: 2, construction: "underscore_leader_run", x0: 430.39, x1: 508.79, baselineY: 548.8,
     sourceLabel: "If Yes, insert date of dismissal here", semanticLabel: null, role: "conditional_disposition",
-    refusal: "Conditional on the participant's unanswered dismissal election; never inferred or prefilled." },
+    participantMustSupply: "the date your case was dismissed, if you answered Yes to question 7 - leave blank if you answered No" },
   { id: "supporting-documentation-line-1", page: 2, construction: "underscore_leader_run", x0: 72, x1: 542.4, baselineY: 413.6,
     sourceLabel: "Supporting documentation (optional), line 1", semanticLabel: null, role: "participant_narrative",
     refusal: "Optional participant-authored description of attachments; the platform does not invent it." },
@@ -1702,7 +1702,24 @@ async function measureAzDocument(bytes) {
             construction: "printed_bracket_glyph_pair", measured: pair,
             printedLine: normalizeHarvestedText(line.text), disposition: "REFUSED",
             role: "participant_legal_election_or_conditional_fact",
-            reason: "The shared semantics never writes a checkbox/radio election, and this flat form carries no widget. The participant makes the election after reviewing the form.",
+            /*
+             * FIX01/RT-1. This used to give the reason as a statement of build
+             * policy -- "the shared semantics never writes a checkbox/radio
+             * election" -- which is a fact about this builder and not a reason
+             * a blank on a sworn petition is allowed to be blank, so the
+             * completeness contract read all nineteen as
+             * ROUTE_OPTION_NOT_SELECTED. They are not route options. Each is a
+             * statement about the petitioner's own conduct, sworn by the
+             * petitioner, and neither AZ route determines which of them is
+             * true. The row now declares that.
+             */
+            reason: "A sworn election on the petitioner's own record. The route this packet is built for does not "
+              + "determine it, and the platform never marks a box the petitioner swears to; the participant "
+              + "instructions name this election and the petitioner marks it before signing.",
+            refusalClass: "participant_sworn_narrative_or_legal_election",
+            completenessDisposition: "PARTICIPANT_ELECTION_GENUINE",
+            routeDetermined: false,
+            isSelectionControl: true,
           });
         });
       }
@@ -1782,6 +1799,24 @@ function azDisposition(config, field) {
       reason: "Participant or matter fact explicitly mapped for this route.",
     };
   }
+  /*
+   * FIX01/RT-1. A blank the participant must fill has to DECLARE it: the
+   * completeness contract reads requiredBeforeFiling, an identity and a printed
+   * label, and never reads prose. These rows carried prose only -- and prose
+   * shaped like build policy at that -- so five of them were counted as known
+   * facts the packet failed to write. `participantMustSupply` on the spec is
+   * the declaration, and it also supplies the words the participant reads.
+   */
+  if (spec.participantMustSupply) {
+    return {
+      disposition: "REFUSE", factId: null, routeSpecific: Boolean(spec.writeFor),
+      reason: `The platform holds no value for this and the participant supplies it before filing: ${spec.participantMustSupply}.`,
+      completenessDisposition: "REQUIRED_BEFORE_FILING",
+      requiredBeforeFiling: true,
+      routeDetermined: false,
+      participantMustSupply: spec.participantMustSupply,
+    };
+  }
   return {
     disposition: "REFUSE", factId: null, routeSpecific: Boolean(spec.writeFor),
     blankTreatment: spec.blankTreatment ?? null,
@@ -1792,7 +1827,7 @@ function azDisposition(config, field) {
 
 function westParticipantInstructions(familyId, fieldMap) {
   const required = [...new Map((fieldMap.refusals ?? [])
-    .filter((field) => field.blankTreatment === "REQUIRED_BEFORE_FILING")
+    .filter((field) => field.requiredBeforeFiling === true || field.blankTreatment === "REQUIRED_BEFORE_FILING")
     .map((field) => {
       const id = field.fieldId ?? field.fieldName;
       const label = field.sourceLabel ?? field.effectiveLabel ?? id;
@@ -2397,6 +2432,12 @@ function azMapAndAnchors(familyId, config, census) {
         refusals: fields.filter((field) => field.disposition === "REFUSE").length + census.controls.length,
         unmapped: 0,
       },
+      /* The blanks the participant must fill, named so the packet can ask for them. */
+      requiredBeforeFilingCount: fields.filter((field) => field.requiredBeforeFiling === true).length,
+      requiredBeforeFiling: fields.filter((field) => field.requiredBeforeFiling === true).map((field) => ({
+        fieldId: field.fieldId, label: field.sourceLabel, page: field.page,
+        participantMustSupply: field.participantMustSupply,
+      })),
     },
   };
 }
@@ -2932,8 +2973,16 @@ async function buildAz(familyId, config) {
       sourceBytes: bytes, outputFile: file, outputBytes: result.bytes,
       anchors, fields, controls: census.controls, report: result.report, fixture,
     });
+    /*
+     * FIX01/RT-1, requiredComponentsMissing. The artifact rows named no
+     * document, so the component the source receipt and the field map declare
+     * -- AZ-AOC-CREM3F-PETITION-TO-EXPUNGE-MARIJUANA-RECORDS-SUPERIOR-COURT --
+     * matched no rendered artifact and was counted missing, on a packet that
+     * renders it twice.
+     */
     artifacts.push({ fixture, file, sha256: proof.sha256, byteLength: proof.byteLength,
       pageCount: AZ_SOURCE.pageCount,
+      documentId: AZ_SOURCE.documentId, formNumber: AZ_SOURCE.formNumber,
       valuesWrittenFromOutputBytes: proof.writes.filter((row) => row.textReadFromOutputBytes).length,
       finalizerRefusals: proof.finalizerRefused.length });
     actualReports.push(proof);
@@ -2953,13 +3002,34 @@ async function buildAz(familyId, config) {
     everyPageRastered: raster.pages.length === artifacts.length * AZ_SOURCE.pageCount,
     rasters: raster.pages,
   });
-  writeJson(`${out}/product-wiring.json`, {
+  /*
+   * FIX01/RT-1. This builder writes product-wiring.json fresh, and the route
+   * `binding` block is written by
+   * scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs afterwards.
+   * A rebuild therefore silently deleted the binding every terminalized family
+   * was given, on every family on this host. It is preserved and its
+   * instructions pointer refreshed, rather than dropped and regenerated later
+   * by a lane that may not run.
+   */
+  const azWiringPath = `${out}/product-wiring.json`;
+  const azPreservedBinding = fs.existsSync(abs(azWiringPath))
+    ? readJson(azWiringPath).binding ?? null
+    : null;
+  writeJson(azWiringPath, {
     schemaVersion: "rcap-family-product-wiring/v1", familyId,
     routeKeys: [...config.routeKeys], implementationStrategy: "official_pdf_fill",
     renderStrategy: "flat_pdf_measured_overlay",
     fieldMap: `${out}/production-field-map.json`, ...GATES,
     createsFulfillmentRecord: false, opensCommercialRoute: false,
     note: "This record names build artifacts only. It grants no runtime, commercial, fulfillment, eligibility, or approval authority.",
+    ...(azPreservedBinding ? {
+      binding: {
+        ...azPreservedBinding,
+        instructions: fs.existsSync(abs(`${out}/participant-instructions.md`))
+          ? `${out}/participant-instructions.md`
+          : azPreservedBinding.instructions ?? null,
+      },
+    } : {}),
   });
   await azCompletionEvidenceReady(familyId, config);
   writeJson(`${out}/approval-request.json`, {

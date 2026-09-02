@@ -16,7 +16,7 @@ The platform filled in the three facts it holds about you in the shape this form
 
 | Component | What it is |
 | --- | --- |
-| `ma-expunge-time-primary-filing-1` | the Massachusetts Probation Service Petition to Expunge itself, Rev. 10/11/2018, with your name, date of birth, mailing address and phone written in and every other blank left for you |
+| `ma-expunge-time-primary-filing-1` | the Massachusetts Probation Service Petition to Expunge itself, Rev. 10/11/2018, with your name, date of birth and phone written in and every other blank left for you |
 | `ma-expunge-time-process-guidance-2` | what happens after you send it, what is known about cost, and where self-help stops |
 
 ## Documents you must obtain first
@@ -79,6 +79,7 @@ These are not facts the platform could have looked up and did not. They are deci
 
 - any offence was committed **on or after your 21st birthday** — the whole route depends on every offence being before it;
 - your record shows **more than two convictions, or more than two non-conviction records** — the section limits it to two;
+- **whether offences arose from a single incident for counting purposes is unclear.** The committed record for this route holds that as a point where self-help ends, in those words, and holds the counting rule with it: **"More than two records. Multiple offences arising from the same incident count as one."** Three charges from one arrest may therefore be one record rather than three. If you cannot tell whether yours arose from a single incident, that is the moment to ask, not the moment to give up the route;
 - you have **any additional offence other than minor motor vehicle violations**, in Massachusetts or any other jurisdiction — one of the statements you sign says you do not;
 - you are **currently the subject of an active criminal investigation** — another of the statements says you are not, and the signature certifies it;
 - the offence is one the form's own list excludes: it resulted in or was intended to cause death or serious bodily injury; it was committed while armed with or carrying a dangerous weapon; it was against an elderly or disabled person; it is a sex offence, a sex offence involving a child, or a sexually violent offence; it is Operating Under the Influence; it is a firearms violation or illegal sale of a firearm; it is a violation of a restraining or harassment prevention order; it is an assault or assault and battery on a household member; or it is a felony violation of General Laws Chapter 265;
@@ -89,7 +90,7 @@ Where self-help stops, the office that answers is the **Office of the Commission
 
 ## What this packet is not
 
-This is the official Massachusetts Probation Service Petition to Expunge with the four facts the platform holds written into it, and a page explaining what happens next. It is not legal advice, it is not sent for you, and it does not decide whether you are eligible — the Commissioner of Probation certifies that under §§ 100I and 100J.
+This is the official Massachusetts Probation Service Petition to Expunge with the three facts the platform writes into it, and a page explaining what happens next. It is not legal advice, it is not sent for you, and it does not decide whether you are eligible — the Commissioner of Probation certifies that under §§ 100I and 100J.
 
 **Expungement here means permanent destruction, and that cuts both ways.** An order requires the clerk of the court where the record was created to destroy or permanently erase the trial court records, and requires criminal justice agencies to erase the record from publicly available police logs and to answer inquiries by saying that no record exists. The form warns that once the record is destroyed you cannot get a copy from the court — so if you want copies of anything you filed, or of the petition itself, **make them before the court orders expungement**.
 
