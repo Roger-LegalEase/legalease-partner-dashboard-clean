@@ -146,13 +146,13 @@
   "whatAnAmbiguousFormNumberCosts": "The label is refused at tier 1, so any obligation naming it stays unresolved. Where the family also names the same documents by source-sha256 -- as Montana's two MMRTA families do -- nothing it holds changes; only the false claim that one label identified one of two required documents.",
   "acquisitionTasks": 295,
   "counts": {
-    "SOURCE_ALREADY_HELD": 104,
+    "SOURCE_ALREADY_HELD": 107,
     "SOURCE_REVISION_STALE": 0,
     "SOURCE_IDENTITY_UNRESOLVED": 140,
-    "SOURCE_GENUINELY_MISSING": 51
+    "SOURCE_GENUINELY_MISSING": 48
   },
-  "commissionAcquisitionFor": 191,
-  "doNotCommissionAcquisitionFor": 104,
+  "commissionAcquisitionFor": 188,
+  "doNotCommissionAcquisitionFor": 107,
   "rows": [
     {
       "worklistGroupId": "agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge",
@@ -6052,34 +6052,49 @@
         "MN"
       ],
       "routeCount": 1,
-      "custodyClass": "SOURCE_GENUINELY_MISSING",
+      "custodyClass": "SOURCE_ALREADY_HELD",
       "documentSourcesNamed": 4,
-      "documentSourcesResolved": 1,
+      "documentSourcesResolved": 4,
       "nonDocumentSourceIds": 12,
       "documentSources": [
         {
           "sourceId": "official-form:EXP102",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "External return src01: printed title \"Notice of Hearing and Petition for Expungement\", issuing authority \"Minnesota Judicial Branch\", revision \"Rev. 7/24\", resolved from https://mncourts.gov/_media/migration/courtforms/criminal-expungement/exp102_current.pdf. Captain recomputed the held bytes independently and they match.",
+          "heldAs": {
+            "path": "LegalEase Minnesota/EXP102_Current-2.pdf",
+            "formNumber": null,
+            "revision": null,
+            "sha256": "c98430f1a9c7a6d399b7d01de1ef2eee0df5f0a1a07e89a703b307977d7bf541"
+          }
         },
         {
           "sourceId": "official-form:EXP104",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "External return src01: printed title \"Proof of Service - Criminal Expungement\", issuing authority \"Minnesota Judicial Branch\", revision \"Rev. 1/25\", resolved from https://mncourts.gov/_media/migration/courtforms/criminal-expungement/exp104_current.pdf. Captain recomputed the held bytes independently and they match.",
+          "heldAs": {
+            "path": "LegalEase Minnesota/EXP104_Current.pdf",
+            "formNumber": null,
+            "revision": null,
+            "sha256": "0e776a93b61f28f38fc6b318a9f59b78de4e0cbec102236364cf59ab061b423c"
+          }
         },
         {
           "sourceId": "official-form:EXP106",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "External return src01: printed title \"Order Concerning Sealing/Expunging of Records (Minn. Stat. § 609A.02, subd. 1 or 2)\", issuing authority \"Minnesota Judicial Branch\", revision \"Rev. 1/24\", resolved from https://mncourts.gov/_media/migration/courtforms/criminal-expungement/exp106_current.pdf. Captain recomputed the held bytes independently and they match.",
+          "heldAs": {
+            "path": "LegalEase Minnesota/EXP106_Current.pdf",
+            "formNumber": null,
+            "revision": null,
+            "sha256": "da7080f9c0b0135a79b537545e5448da438b63ae0de5d69c25e2513f1170bd85"
+          }
         },
         {
           "sourceId": "official-form:FEE102",
@@ -6094,8 +6109,8 @@
           }
         }
       ],
-      "commissionAcquisition": true,
-      "why": "The census names a document identity -- an exact content hash, or a form number -- that the verified corpus does not carry. This is a real acquisition and the target is known."
+      "commissionAcquisition": false,
+      "why": "Every document-shaped source this family names resolves to a file already in the verified corpus. Acquisition is not commissioned."
     },
     {
       "worklistGroupId": "mn_petition_609a02_subd3-set",
@@ -6104,42 +6119,62 @@
         "MN"
       ],
       "routeCount": 1,
-      "custodyClass": "SOURCE_GENUINELY_MISSING",
+      "custodyClass": "SOURCE_ALREADY_HELD",
       "documentSourcesNamed": 5,
-      "documentSourcesResolved": 1,
+      "documentSourcesResolved": 5,
       "nonDocumentSourceIds": 17,
       "documentSources": [
         {
           "sourceId": "official-form:EXP101",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "External return src01: printed title \"Petitioner’s Instructions for Expungement (Sealing) of Criminal Records\", issuing authority \"Minnesota Judicial Branch\", revision \"Rev. 7/24\", resolved from https://mncourts.gov/_media/migration/courtforms/criminal-expungement/exp101.pdf. Captain recomputed the held bytes independently and they match.",
+          "heldAs": {
+            "path": "LegalEase Minnesota/EXP101.pdf",
+            "formNumber": null,
+            "revision": null,
+            "sha256": "0ccdc99ec3cbb86300b00f5d93bf724d795541d426709f4e97708119d1b1c5de"
+          }
         },
         {
           "sourceId": "official-form:EXP102",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "External return src01: printed title \"Notice of Hearing and Petition for Expungement\", issuing authority \"Minnesota Judicial Branch\", revision \"Rev. 7/24\", resolved from https://mncourts.gov/_media/migration/courtforms/criminal-expungement/exp102_current.pdf. Captain recomputed the held bytes independently and they match.",
+          "heldAs": {
+            "path": "LegalEase Minnesota/EXP102_Current-2.pdf",
+            "formNumber": null,
+            "revision": null,
+            "sha256": "c98430f1a9c7a6d399b7d01de1ef2eee0df5f0a1a07e89a703b307977d7bf541"
+          }
         },
         {
           "sourceId": "official-form:EXP104",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "External return src01: printed title \"Proof of Service - Criminal Expungement\", issuing authority \"Minnesota Judicial Branch\", revision \"Rev. 1/25\", resolved from https://mncourts.gov/_media/migration/courtforms/criminal-expungement/exp104_current.pdf. Captain recomputed the held bytes independently and they match.",
+          "heldAs": {
+            "path": "LegalEase Minnesota/EXP104_Current.pdf",
+            "formNumber": null,
+            "revision": null,
+            "sha256": "0e776a93b61f28f38fc6b318a9f59b78de4e0cbec102236364cf59ab061b423c"
+          }
         },
         {
           "sourceId": "official-form:EXP105",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "External return src01: printed title \"Order Concerning Sealing/Expunging of Records (Minn. Stat. § 609A.02, subd. 3)\", issuing authority \"Minnesota Judicial Branch\", revision \"Rev. 7/24\", resolved from https://mncourts.gov/_media/migration/courtforms/criminal-expungement/exp105_current.pdf. Captain recomputed the held bytes independently and they match.",
+          "heldAs": {
+            "path": "LegalEase Minnesota/EXP105_Current.pdf",
+            "formNumber": null,
+            "revision": null,
+            "sha256": "754cd7a55b07409fe8752906d38dcccc45ab6a13cda5a3d7d061a689b837b4a0"
+          }
         },
         {
           "sourceId": "official-form:FEE102",
@@ -6154,8 +6189,8 @@
           }
         }
       ],
-      "commissionAcquisition": true,
-      "why": "The census names a document identity -- an exact content hash, or a form number -- that the verified corpus does not carry. This is a real acquisition and the target is known."
+      "commissionAcquisition": false,
+      "why": "Every document-shaped source this family names resolves to a file already in the verified corpus. Acquisition is not commissioned."
     },
     {
       "worklistGroupId": "mn_petition_juvenile_as_adult-set",
@@ -6164,34 +6199,49 @@
         "MN"
       ],
       "routeCount": 1,
-      "custodyClass": "SOURCE_GENUINELY_MISSING",
+      "custodyClass": "SOURCE_ALREADY_HELD",
       "documentSourcesNamed": 4,
-      "documentSourcesResolved": 1,
+      "documentSourcesResolved": 4,
       "nonDocumentSourceIds": 12,
       "documentSources": [
         {
           "sourceId": "official-form:EXP102",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "External return src01: printed title \"Notice of Hearing and Petition for Expungement\", issuing authority \"Minnesota Judicial Branch\", revision \"Rev. 7/24\", resolved from https://mncourts.gov/_media/migration/courtforms/criminal-expungement/exp102_current.pdf. Captain recomputed the held bytes independently and they match.",
+          "heldAs": {
+            "path": "LegalEase Minnesota/EXP102_Current-2.pdf",
+            "formNumber": null,
+            "revision": null,
+            "sha256": "c98430f1a9c7a6d399b7d01de1ef2eee0df5f0a1a07e89a703b307977d7bf541"
+          }
         },
         {
           "sourceId": "official-form:EXP104",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "External return src01: printed title \"Proof of Service - Criminal Expungement\", issuing authority \"Minnesota Judicial Branch\", revision \"Rev. 1/25\", resolved from https://mncourts.gov/_media/migration/courtforms/criminal-expungement/exp104_current.pdf. Captain recomputed the held bytes independently and they match.",
+          "heldAs": {
+            "path": "LegalEase Minnesota/EXP104_Current.pdf",
+            "formNumber": null,
+            "revision": null,
+            "sha256": "0e776a93b61f28f38fc6b318a9f59b78de4e0cbec102236364cf59ab061b423c"
+          }
         },
         {
           "sourceId": "official-form:EXP106",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "External return src01: printed title \"Order Concerning Sealing/Expunging of Records (Minn. Stat. § 609A.02, subd. 1 or 2)\", issuing authority \"Minnesota Judicial Branch\", revision \"Rev. 1/24\", resolved from https://mncourts.gov/_media/migration/courtforms/criminal-expungement/exp106_current.pdf. Captain recomputed the held bytes independently and they match.",
+          "heldAs": {
+            "path": "LegalEase Minnesota/EXP106_Current.pdf",
+            "formNumber": null,
+            "revision": null,
+            "sha256": "da7080f9c0b0135a79b537545e5448da438b63ae0de5d69c25e2513f1170bd85"
+          }
         },
         {
           "sourceId": "official-form:FEE102",
@@ -6206,8 +6256,8 @@
           }
         }
       ],
-      "commissionAcquisition": true,
-      "why": "The census names a document identity -- an exact content hash, or a form number -- that the verified corpus does not carry. This is a real acquisition and the target is known."
+      "commissionAcquisition": false,
+      "why": "Every document-shaped source this family names resolves to a file already in the verified corpus. Acquisition is not commissioned."
     },
     {
       "worklistGroupId": "mn_prosecutor_agreed-set",
