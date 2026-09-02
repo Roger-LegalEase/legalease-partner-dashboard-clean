@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "c3833600a9f9f4ee8cd4b811e8a2be657092bd07",
+  "generatedAtCommit": "552327fe9954e345d87506556efa5683f265ac1c",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -4552,8 +4552,8 @@
       "operation": "independent-verification",
       "lane": "VF02",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-02T16:09:04.991Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -4582,8 +4582,8 @@
       "operation": "rapid-repair",
       "lane": "FIX03",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-02T18:07:14.184Z"
     },
     {
       "subjectType": "packet-family",
@@ -11888,7 +11888,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "9750f57630969316d954e02989b07bc63052144159ac5a1dcd59861ab959e4f3",
+  "claimsDigest": "7f2b72f7eb04e1a51d3d6965a42ca6501213f04709b6cd28ab103d225e1ddaf3",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -20176,6 +20176,14 @@
       "operation": "independent-verification",
       "laneKind": "independent-verification",
       "releasedAt": "2026-09-02T17:57:15.178Z"
+    },
+    {
+      "lane": "FIX03",
+      "subjectType": "packet-family",
+      "subjectId": "rcap-ks-custom-pleading",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-02T18:07:14.184Z"
     }
   ],
   "reissues": [
@@ -23648,6 +23656,16 @@
       "previouslyReleasedAt": "2026-09-02T06:02:27.366Z",
       "reissuedAt": "2026-09-02T17:51:41.508Z",
       "reason": "A truth-check measured an unsafe deliverable this family ships: either a declared participant write absent from the delivered page, or instructions telling the participant to attend a hearing the track registry records as the end of self-help."
+    },
+    {
+      "lane": "VF02",
+      "subjectType": "packet-family",
+      "subjectId": "rcap-ks-custom-pleading",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-09-02T16:09:04.991Z",
+      "reissuedAt": "2026-09-02T18:07:14.258Z",
+      "reason": "The standing verdict is FAIL_REPAIR_REQUIRED read at base a0d49e1a and released 16:09:04Z; the Kansas repair commits land at 17:56 and 17:58, so that verdict describes bytes that no longer exist. VF02 neither built nor repaired this family, so it remains independent for a fresh read at the current head."
     }
   ],
   "transfers": [

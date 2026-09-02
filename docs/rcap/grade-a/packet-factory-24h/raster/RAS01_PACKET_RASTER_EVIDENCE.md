@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `c3833600a9f9f4ee8cd4b811e8a2be657092bd07`
+**Minimum required ancestor:** `552327fe9954e345d87506556efa5683f265ac1c`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -265,8 +265,8 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 
 ### vt_exp_decriminalized-set
 
-- canonical `data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/fixtures/canonical.pdf` — `0fd661c67436b1731b64a57742c7c5078fad3dbc9db8ab8105b25bd282702045`
-- boundary `data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/fixtures/boundary.pdf` — `4293eb7aff9a87bb535eda6cd9c443a9e8a23e9cb33877a19a7954fee2692973`
+- canonical `data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/fixtures/canonical.pdf` — `3bd92e3418501450ff38c2167236eec074dfd5d8d617f2317a424a043f9dbffd`
+- boundary `data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/fixtures/boundary.pdf` — `9166048a156dbaee595d006cef918934ae64312c7ed05b7be6841fd45a93b99f`
 - expected pages 8 · requested scale 2.5
 - built by FIX01
 
