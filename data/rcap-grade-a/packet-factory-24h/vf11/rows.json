@@ -3272,6 +3272,150 @@
         "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
         "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json"
       ]
+    },
+    {
+      "itemId": "composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+      "lane": "VF11",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ak/composed-treatment:obligation:runtime-only:ak:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085--custom-pleading",
+      "verifier": "FABLE-VT16 (independent — built, repaired and rastered none of these families; this is a second read at a base that carries the central raster receipt, not a copy-forward of the ceilinged first read)",
+      "verifiedAtBase": "7fcfb7d40aafe7bd7350fc735ea09d16524cb757",
+      "buildStatus": "state_built",
+      "rasterState": "RASTER_PASS",
+      "rasterReceiptConfirmedIndependently": {
+        "howIChecked": "Recomputed both fixture SHA-256s on disk at this base, compared to the receipt's boundTo values and to RASTER_QUEUE's pins, then compared git blob ids between the receipt's renderedCommitSha and this base.",
+        "canonicalPdfSha256Recomputed": "9f00da8f072069098dce0b465bbc242d5713730f5472a6f9d6a104699bd1428a",
+        "boundaryPdfSha256Recomputed": "e898a0768afd9882932f581da66b04b99e2cc9494d9e218fff7e758f7b677e42",
+        "matchesRasterQueuePins": true,
+        "matchesReceiptBoundToValues": true,
+        "blobIdentityAcrossCommits": "canonical blob b96dcec271e79670c691f2d8d8774c2af3dafe96 and boundary blob 95234c8803dd2d0c0899db0bdeba08a267e11c35 are identical at renderedCommitSha 58290e76623ff0b351d0b15fbf97af3665fee6b3 and at this base.",
+        "workflowRunId": "33579500812",
+        "jobId": "100091041685",
+        "renderedCommitSha": "58290e76623ff0b351d0b15fbf97af3665fee6b3",
+        "verdictOfReceipt": "RASTER_PASS",
+        "note": "The receipt is sound and the raster ceiling is genuinely lifted here. The verdict is not a raster verdict — it falls on a content obligation the raster gate does not and cannot measure."
+      },
+      "supersedes": {
+        "row": "VF11 lane row for this family at base ebc44031ec7eab29058bfc79a7bc5e1cff089414, verdict PASS with all fifteen obligations PASS",
+        "why": "That lane's raster ceiling is lifted at this base, but the re-read did not merely confirm it forward.",
+        "obligationsWhereIDiffer": "FILING_DESTINATION. The earlier lane scored it PASS; I score it FAIL. The difference is not a matter of judgement about the same evidence — it is a difference in what was read. Applying A2's repository scope sends the reader to the compiled AK profile, which the route obligation census names as a requiredSourceId for this exact route, and that profile establishes a post-order destination the packet never states. A2 was decided on 2026-09-02 at 02:30Z; the earlier row was written at an earlier base and could not have applied it."
+      },
+      "obligationsScored": 15,
+      "failedObligationNames": [
+        "FILING_DESTINATION"
+      ],
+      "notMeasurableHere": [],
+      "corpusMounted": "Mounted here via scripts/rcap-corpus/bootstrap-private-corpus.sh — archive SHA-256 a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89, governance checksums verified, 51 jurisdictions / 499 files / 329 PDFs. SOURCE_IDENTITY was therefore scored against held bytes rather than recorded NOT_MEASURABLE_HERE.",
+      "standardApplied": "DETERMINATION_FEE_AND_WAIVER_STANDARD.json (DET-FEE-AND-WAIVER-001) read in full including amendment A1 and amendment2 A2. A2's repository scope was applied: for each family I searched the family's own bound records PLUS the compiled state profile for its jurisdiction, the committed relief-track registry, the packet-set manifest, and every record the route obligation census names as a requiredSourceId for the route — not the family's bound records alone.",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "denominatorObserved": "10/32 written — a populated field inventory, so the zeros are findings",
+        "measuredBy": "Measured here by me, not inherited: node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <familyId>, run in this container at the base commit. All-zero means NOTHING WAS MISSING, not that nothing was measured: the run reported a populated denominator for each family (fields written / fields enumerated, quoted per family below), and the verifier derives invisibleWrites, protectedWrites and visualDefects by reading glyphs and flattened widget appearances out of the saved packet bytes, with mutation self-tests that prove each counter can still fire."
+      },
+      "whyNotAPass": "Fourteen of fifteen obligations pass and the packet is careful, well-sourced and raster-clean. It fails on one: the repository establishes where the granted set-aside certificate must go and the packet is silent about it, while affirmatively telling the participant that no committed record states the downstream effect. Under A2 that statement is false, because the record that states it is a record the census names as required for this route.",
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "The single route key is byte-identical across source-receipt.json, production-field-map.json, product-wiring.json, the MASTER_QUEUE row (routeCount 1) and the route obligation census, and is printed on all eight packet pages. Statutes AS 12.55.085(e) and (f) match the bound route contract's statute field and its ruleId AK-12-55-085-E-BELATED-SET-ASIDE-MOTION, and the legalName names the belated-determination branch specifically."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "Corpus mounted, so measured against held bytes. Two bound records, both rehashed by me: src/lib/legal-authority/routes/national-report-batch-b.json = 883d5bb82f9190dae66d78250e1dc9f1ee3055f580e43e6336ba36c1e30b4522 at 25265 bytes, and data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json = 0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef at 184365 bytes. Both exact, byte length included. officialFormFamily NONE, forms [], boundCount 0, sourceBinaryCommitted false, and the route contract independently corroborates the absence of an official form with its own recorded 'pending: no Alaska Court System form specific to a post-discharge request was located'. The census names three requiredSourceIds for this route: the route contract, a compiled-source-ref, and compiled-profile:src/lib/rcap-engine/compiled/profiles/AK-alaska.json — the last of which the family does not bind but which A2 places inside the repository. I read it; that reading is what produces the FILING_DESTINATION finding below. The binding itself is honest and complete, so this obligation passes."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "requiredComponentsMissing 0 on my own run. The bound route contract lists eight packetComponents and I checked all eight: the Motion for Belated Determination, the subsection (f) exclusions statement, the compliance-and-rehabilitation-at-discharge component, prosecutor service, the proposed order and the instruction that a set-aside does not physically erase the historical court file are the six composed components, present as distinct page ranges; the discharge order with probation-completion record and the judgment with sentencing documents are correctly carried as 'Documents you must obtain before filing' rather than as pages the packet can compose. The erasure instruction appears in the bytes on the filing-instructions page under 'WHAT A SET-ASIDE IS, AND IS NOT'."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "10 values reported by the finalizer and 10 read back out of the saved packet bytes on both fixtures, foundInOutputBytes true for every one. Identity facts only — name, date of birth, address, phone, email on the motion, and the defendant name repeated onto each of the other five components so the pages stay associated. Every case fact is a blank: discharge date, offense wording, case number, sentencing court and SIS order date."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "requiredBeforeFilingCount is 11 and I counted the instructions tables independently: 5 motion + 1 exclusions statement + 2 compliance statement + 1 prosecutor service + 2 proposed order = 11, an exact match. knownRequiredFieldsMissing 0, requiredFactsNotCollected 0, unclassifiedBlanks 0. Both participant statements are correctly participant-authored blanks — the packet prints labelled lines and asserts nothing about compliance, rehabilitation or whether the offense falls within the subsection (f) exclusions."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "routeSelectionsMade [] and requiredOptionsMissing 0. One route, one instrument set; every component belongs to the single AS 12.55.085(e) belated set-aside route and the motion states its statutory basis in its own title and body. I found no election control in the extracted text of any of the eight pages."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "incompleteRows 0, measured. The one list-shaped item — the list of evidence attached to the compliance-at-discharge statement — is rendered as a single labelled free-text blank rather than a row grid, and no other repeating structure appears in the field map or the extracted page text. Genuine measurement over an empty structure set; the verifier's mutation self-tests prove the counter still fires on a real incomplete row."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "protectedWrites 0 and refusedFieldsWithInk [] on both fixtures. The proposed order's ORDERS clause, DATED line and judicial signature line are blank and the page states every decision on it is the court's. Worth recording as a positive: the prosecutor_service page leaves DATE OF SERVICE blank and states in the bytes 'This page is not proof of service and does not say that anything has been served', so the packet declines to date a service that has not happened — the same discipline it applies to signatures."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "Both declared fixtures exist and hash-match: canonical 9f00da8f072069098dce0b465bbc242d5713730f5472a6f9d6a104699bd1428a at 8 pages and boundary e898a0768afd9882932f581da66b04b99e2cc9494d9e218fff7e758f7b677e42 at 8 pages. Raster coverage complete and counted by me: 8 canonical and 8 boundary page PNGs on disk, matching RASTER_QUEUE's expectedPages 8. Central acceptance RASTER_PASS from run 33579500812, job 100091041685, hash-bound as recorded above."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "Manifests identical across both fixtures and in a sound filing order: p1-2 primary_filing, p3 subsection_f_exclusions_statement, p4 compliance_at_discharge_statement, p5 prosecutor_service, p6 proposed_order, p7-8 filing_instructions. The two statements follow the motion they attach to, the service page follows the papers being served, and the proposed order precedes the instructions. Confirmed against the extracted page text as well as the manifest."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes = 0 on BOTH fixtures, derived from output bytes, and visualDefects 0 on my run. The boundary fixture carries 387 added glyphs against the canonical's 174 — the long-value stress case, which here includes long participant-authored statements — and still places no ink outside a measured write box."
+        },
+        "FILING_DESTINATION": {
+          "result": "FAIL",
+          "measured": true,
+          "detail": "The forward destination is right and stated well: file in the ORIGINAL sentencing criminal case, never as a new civil case, which matches the route contract's note ('producing it as a new civil petition would file it in the wrong proceeding') and the AK profile's 'Filed in the existing criminal case'. The failure is the destination the repository establishes for the resulting certificate, which the packet never states. The route obligation census names compiled-profile:src/lib/rcap-engine/compiled/profiles/AK-alaska.json as a requiredSourceId for this exact route, so under A2 it is the repository. That profile states the post-order destination in FOUR separate structured fields — packetGenerator.sourceFormStatements[15], packetGenerator.attachments[4] and [12], packetGenerator.filingDestinationRules[7] and packetGenerator.postFilingRules[3]: 'For a conviction resolved through an SIS, the set-aside is sought by motion in the underlying criminal case once probation is complete; the court issues a certificate that the person can provide to the Department of Public Safety and the clerk', and 'obtain the court's certificate and provide copies to the Department of Public Safety and the clerk'. Both statements name AS 12.55.085(e) and the SIS set-aside by section, and the profile's pathway 0 is this family's own pathwayId set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085, so this is the family's route and not a sibling — A2's bar on sibling inference does not rescue it. Measured against the packet: I extracted the text of all eight pages and the filing instructions stop at STEP SIX (serve the prosecutor). There is no certificate step, and the strings 'certificate', 'Public Safety' and 'DPS' appear nowhere in the packet bytes. The packet additionally states 'What further effect a set-aside has on any particular background check is not stated here, because no committed record this packet is built from states it' — a claim about the repository that A2 makes false, since the census-named profile states precisely the mechanic by which the set-aside reaches the DPS criminal history that background checks draw on. Consequence for the participant: someone who follows this packet exactly obtains the order and never learns that a certificate exists or that the agency holding their criminal history needs a copy — which is the practical point of the relief."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "Scored under DET-FEE-AND-WAIVER-001 with A2's scope. The packet says 'This packet states no filing fee because no committed record it is built from states one; ask the office of the sentencing court whether one applies.' I read the census-named AK profile, whose feeRules carry a line for this route's own instrument: 'SIS set-aside motion | Court motion fees may apply | Filed in the existing criminal case'. That does NOT establish the answer — it names no amount and makes no no-fee statement, and 'fees may apply' is verbatim the determination's own notMet example of a gesture. So the repository leaves the fee open, a named checkable authority may stand in, and the packet names the office of the sentencing court in the same sentence as the refusal. Third limb of `met`. Recorded observation for the repairer, raised rather than assumed: the packet's phrase 'no committed record it is built from' is scoped to the family's own bound records, which is narrower than A2's repository. Here the narrow and the broad claim happen to agree, so the obligation passes — but that exact wording is what produced the A2 failures on ar-arrest-seal-set, wi_nc_doj_fingerprint_removal-set and ny_160_59_petition-set, and it should be tightened in the same pass as the FILING_DESTINATION repair."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "Stronger than a bare deferral, and correct on both limbs. WHO is served is established by the repository and the packet states it: the bound route contract lists 'Prosecutor service' among its packetComponents and its delivery gate names 'prosecutor service instructions', the 2026-08-28 decision resolves the output to a custom original-case motion with prosecutor service, and the packet carries a dedicated prosecutor_service page plus STEP SIX 'Serve the prosecuting attorney's office with a copy, using the service page.' The MANNER of delivery is established by nothing held: the AK profile's serviceAndNoticeRules concern AS 12.62.180(b) written requests to an agency head and the TF-form routes, which A2 bars me from importing onto this motion. For that open part the packet names a checkable authority in the same breath: 'ask the office of the court that sentenced you how service on the prosecuting attorney's office must be made, and use that method', and the service page itself repeats it with the reasoning that 'a guessed mechanic in a filing instruction is worse than none'. States what the record holds; names an authority for what it does not."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "Six stop conditions are printed on the packet's own face under 'Stop, and take this packet to a lawyer, if any of these is true'. The first three map one-to-one onto the bound route contract's failureDisposition entries, each with disposition retained_counsel: the State alleges probation violations, the court previously denied set-aside relief, and the discharge status is disputed. The remaining three cover a possible AS 12.55.085(f) exclusion, litigating constitutional or collateral consequences beyond the statutory set-aside, and any immigration question. The exclusions statement page independently tells the participant to stop and get legal help if the offense may fall within subsection (f)."
+        }
+      },
+      "smallestExactRepair": {
+        "scope": "One filing-instruction addition plus one sentence correction. No overlay, fixture, field map or build-script logic change is implied by this finding beyond the instruction text the build composes.",
+        "do": [
+          "Add a post-order step to the filing_instructions component, after the current STEP SIX: once the court grants the motion, obtain the court's certificate of set-aside, and provide copies to the Alaska Department of Public Safety and to the clerk — sourced to the compiled AK profile, which the route obligation census names as a requiredSourceId for this route.",
+          "Correct the sentence 'What further effect a set-aside has on any particular background check is not stated here, because no committed record this packet is built from states it.' The repository does state the mechanic: the certificate goes to the Department of Public Safety, which holds the criminal history. Restate it as what the record holds rather than as repository silence.",
+          "While in the same text, tighten the fee sentence's scope from 'no committed record it is built from' to the repository as A2 defines it. The fee verdict does not change — 'Court motion fees may apply' establishes no answer — but the wording is the A2 error pattern.",
+          "Mirror the same post-order step into participant-instructions.md so the two do not diverge."
+        ],
+        "doNot": [
+          "Do not state a fee. Nothing in the repository establishes one, and 'Court motion fees may apply' is a gesture the standard explicitly refuses.",
+          "Do not import the AK profile's AS 12.62.180(b) or TF-form service rules onto this motion; they belong to sibling routes and A2 bars the inference.",
+          "Do not promise any effect on a background check beyond what the profile states."
+        ],
+        "afterRepair": "Re-render, re-raster centrally, and re-verify. The other fourteen obligations were measured clean at this base and should be expected to hold."
+      },
+      "grantsNothing": "A FAIL_REPAIR_REQUIRED here is a defect record for a repairer. It promotes nothing, opens no commercial route, and withdraws no prior approval — there is none to withdraw, since this family is DECLARED_NOT_INSTALLED with generationAllowed false and commercialRoutesOpened 0."
     }
   ],
   "determination": {

@@ -2713,6 +2713,131 @@
       "unmeasuredObligations": [],
       "repairAssignment": "One exact fix, entirely inside this family's build. Reclassify proposed_order.order_case_number to match primary_filing.case_number — refusalClass court_prosecutor_clerk_or_agency_owned, reason 'if a number is assigned, the court assigns it at filing' — so it leaves the seven requiredBeforeFiling items and stops appearing in the 'items you must supply' table at participant-instructions.md line 42, and instead joins the 'Things the platform deliberately left blank' list beside the petition's own case number at line 58. The blank itself stays on the delivered proposed order exactly as it is; only its classification and its disclosure are wrong. Optionally, and separately, carry the bound compiled profile's 'file in the court where the case originated' phrasing into the venue guidance.",
       "grantsNothing": "This FAIL is a verdict and a repair assignment. No packet, overlay, field map, fixture or build script was edited by this lane, no route was opened and no family was promoted. The raster ceiling is untouched: this family still needs a hash-bound RASTER_PASS before any PASS_COMPLETE verdict is available to it."
+    },
+    {
+      "itemId": "composed-treatment:nd-nonconviction-auto-close-verify",
+      "lane": "VF09",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nd/composed-treatment:nd-nonconviction-auto-close-verify--custom-pleading",
+      "verifier": "FABLE-VT16 (independent — built, repaired and rastered none of these families; this is a second read at a base that carries the central raster receipt, not a copy-forward of the ceilinged first read)",
+      "verifiedAtBase": "7fcfb7d40aafe7bd7350fc735ea09d16524cb757",
+      "buildStatus": "state_built",
+      "rasterState": "RASTER_PASS",
+      "rasterReceiptConfirmedIndependently": {
+        "howIChecked": "I did not take the receipt on trust. I recomputed the SHA-256 of the fixture bytes on disk at this base with sha256sum, compared them to what the receipt says it rendered AND to what RASTER_QUEUE.json pins, then compared the git blob ids of both fixtures between the receipt's renderedCommitSha and this base to prove the bytes did not move between them.",
+        "canonicalPdfSha256Recomputed": "61bedadea4d79733ae2903993d4525835e08df8f28d191bdb2b3b66fe2e78c96",
+        "boundaryPdfSha256Recomputed": "6088a70b8bd9b67f92862393562c3a0dd9feadee39a4f445a7e56c740d7790b7",
+        "matchesRasterQueuePins": true,
+        "matchesReceiptBoundToValues": true,
+        "blobIdentityAcrossCommits": "canonical blob 34a01e68188d1fd4bfaae23cc640fd08bd52b90b and boundary blob dbe9239b9b91551c7cda0ccff805a63a0ff558a3 are identical at renderedCommitSha 58290e76623ff0b351d0b15fbf97af3665fee6b3 and at this base, so the receipt binds the bytes I actually scored.",
+        "workflowRunId": "33579500812",
+        "jobId": "100091041747",
+        "renderedCommitSha": "58290e76623ff0b351d0b15fbf97af3665fee6b3",
+        "verdictOfReceipt": "RASTER_PASS"
+      },
+      "supersedes": {
+        "row": "VF09 lane row for this family at base ebc44031ec7eab29058bfc79a7bc5e1cff089414, verdict PASS",
+        "why": "That lane scored all fifteen obligations PASS and was correct to hold the ceiling: at its base the family's central raster receipt did not exist, so BUILT_RASTER_PENDING capped it. This row is read at a base that carries the receipt, and I confirmed the receipt binds these exact bytes myself.",
+        "obligationsWhereIDiffer": "none — I reached PASS on all fifteen independently, and say so having re-measured each rather than inheriting it."
+      },
+      "obligationsScored": 15,
+      "failedObligationNames": [],
+      "notMeasurableHere": [],
+      "corpusMounted": "Mounted here via scripts/rcap-corpus/bootstrap-private-corpus.sh — archive SHA-256 a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89, governance checksums verified, 51 jurisdictions / 499 files / 329 PDFs. SOURCE_IDENTITY was therefore scored against held bytes rather than recorded NOT_MEASURABLE_HERE.",
+      "standardApplied": "DETERMINATION_FEE_AND_WAIVER_STANDARD.json (DET-FEE-AND-WAIVER-001) read in full including amendment A1 and amendment2 A2. A2's repository scope was applied: for each family I searched the family's own bound records PLUS the compiled state profile for its jurisdiction, the committed relief-track registry, the packet-set manifest, and every record the route obligation census names as a requiredSourceId for the route — not the family's bound records alone.",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "denominatorObserved": "10/30 written — a populated field inventory, so the zeros are findings",
+        "measuredBy": "Measured here by me, not inherited: node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <familyId>, run in this container at the base commit. All-zero means NOTHING WAS MISSING, not that nothing was measured: the run reported a populated denominator for each family (fields written / fields enumerated, quoted per family below), and the verifier derives invisibleWrites, protectedWrites and visualDefects by reading glyphs and flattened widget appearances out of the saved packet bytes, with mutation self-tests that prove each counter can still fire."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "Both route keys are byte-identical across source-receipt.json, product-wiring.json, production-field-map.json, the MASTER_QUEUE row (routeCount 2) and the route obligation census, which carries both with the same pair of requiredSourceIds. Both are printed on the delivered packet's own pages — the written_clerk_correction_request key on the request and instruction pages, the original_case_enforcement_motion key on the motion and proposed-order pages. Statutory authority N.D.C.C. § 12-60.1-05 matches the bound route contract's pathway id."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "Corpus mounted, so this was measured against held bytes. The family is CUSTOM_PLEADING_FROM_CODIFIED_TEXT with officialFormFamily NONE, forms [], boundCount 0, and the receipt claims no committed binary — consistent with the queue. I rehashed both bound records myself: src/lib/legal-authority/routes/national-report-2026-08-28.json = 918bc6616e23de07014825cd8cbd9b81dc282613a0f5f2214130ac2af30e4b7b at 37333 bytes, and data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json = 0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef at 184365 bytes. Both match the receipt exactly, byte length included. The census names precisely these two records as the route's requiredSourceIds, so the family's binding and the census agree with nothing left over. The receipt's claim that no dedicated statewide enforcement form exists is the LA-IMM-03 decision's own recorded finding, which I read in the bytes. No source was invented and none was substituted."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "requiredComponentsMissing 0 on my own verifier run. Four components — clerk_correction_request, enforcement_motion, proposed_order, filing_instructions — are declared in the field map, declared in reports/rendered-artifacts.json and present as distinct page ranges in both fixtures. Each traces to LA-IMM-03, which names the written Request to Implement Mandatory Closure and Correct Public-Access Status as the first generated document and the Motion to Enforce with a proposed order as the second. The decision's listed contents for the request — case, disposition date, calculated deadline, statutory basis, evidence of continuing public access — all appear on the request page."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "10 values reported by the finalizer and 10 read back out of the saved packet bytes on both fixtures: foundInOutputBytes is true for every one, proved by reading each value from the extracted text of its own component's pages rather than from builder intent. Only participant identity facts are written — full legal name, street address, phone and email, on the request and on the motion. Not one case fact is prefilled: disposition, dates, case number and court are all blanks."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "requiredBeforeFilingCount is 13 and I counted the participant-instructions tables independently rather than trusting the count: 6 for the clerk_correction_request, 5 for the enforcement_motion, 2 for the proposed_order = 13, an exact match with no item present in one place and absent from the other. Every entry carries printedContext, disclosureLabel, why and participantMustSupply. knownRequiredFieldsMissing 0, requiredFactsNotCollected 0 and unclassifiedBlanks 0 on my run."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "routeSelectionsMade is [] and requiredOptionsMissing is 0. Two routes ship in one packet, but no election is left open to the participant: the recorded sequence is the written request FIRST and the motion only if that office does not correct the record, and the motion's own first page prints 'USE THIS PAGE ONLY AFTER THE WRITTEN REQUEST' with the condition spelled out. I checked the extracted page text for an election control — a checkbox, an either/or instruction or a choose-one prompt — and found none on any composed page."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "incompleteRows 0, measured. I checked both the field map and the extracted text of all seven pages: this instrument set contains no repeating structure at all — no charge table, no count grid, no multi-row custodian or case list. The zero is a real measurement over an empty structure set rather than an unmeasured default; the completeness verifier carries mutation self-tests proving the counter still fires when a row is left incomplete."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "protectedWrites 0 and refusedFieldsWithInk [] on BOTH fixtures. Read from the bytes: the proposed-order page carries 'EVERY DECISION ON THIS PAGE IS THE COURT'S ... nothing on it is completed, decided, signed or dated by the defendant or by this packet', and its ORDERS clause, DATED line and judicial signature line are all blank. Every participant signature line and the date beside it is blank on the request, the motion and the order."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "Both declared fixtures exist and hash-match their declarations: canonical 61bedadea4d79733ae2903993d4525835e08df8f28d191bdb2b3b66fe2e78c96 at 15435 bytes / 7 pages, boundary 6088a70b8bd9b67f92862393562c3a0dd9feadee39a4f445a7e56c740d7790b7 at 15784 bytes / 7 pages. Raster coverage is complete and I counted the files: 7 canonical page PNGs and 7 boundary page PNGs on disk, matching build-status.json's rasterPages 14 and RASTER_QUEUE's expectedPages 7. Central acceptance is RASTER_PASS from run 33579500812, job 100091041747, hash-bound as recorded above."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "Page manifests are identical across both fixtures and follow the recorded legal sequence: p1-2 clerk_correction_request, p3-4 enforcement_motion, p5 proposed_order, p6-7 filing_instructions. The request precedes the motion, matching LA-IMM-03's ordered correction workflow, and the proposed order sits immediately after the motion it travels with. I confirmed the order against the extracted page text, not only the manifest."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes = 0 on BOTH fixtures, derived from the output bytes, and visualDefects 0 on my own run. The boundary fixture is the long-value stress case — 450 added glyphs against the canonical's 208 — and still places no ink outside a measured write box, which is the case that would expose clipping or overlap if either existed."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "Stated on the packet's face, not deferred, and it agrees with what the repository holds. The request is addressed 'To: the office of the ... court for ...' with the participant naming the court in the original criminal case; the motion is captioned and filed in that same original criminal case; STEP THREE and STEP FOUR of the filing instructions say both in terms. Against the repository: the ND compiled profile's packetGenerator.filingDestinationRules establish 'File in the existing criminal case', and LA-IMM-03 says the request goes to the clerk of the original court and the motion is filed in the original criminal case. Packet and repository agree, so nothing the record answers is left to a question."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "Scored under DET-FEE-AND-WAIVER-001 as amended by A1 and A2, with A2's repository scope applied rather than the family's own bound records alone. The census names exactly the two records the family binds; I additionally searched the ND compiled profile, the committed relief-track registry and the packet-set manifest. Finding: the profile's packetGenerator.feeRules is EMPTY, and every 'no filing fee' string anywhere in the ND profile is tied by its own words to the PRE-August-1-2025 Petition to Close Nonconviction Records — sourceSections.6 states it outright ('Use the Petition to Close Nonconviction Records if the case was fully dismissed or fully acquitted before August 1, 2025 ... there is no filing fee'), and then says that for a disposition entered on or after August 1, 2025 the participant generally need file nothing. That is the sibling branch this packet expressly does not carry, and A2's whatDoesNotCount bars importing a rule inferred from a sibling route. LA-IMM-03 states no fee either. So the repository does not establish the fee for the enforcement motion, a NAMED checkable authority may stand in, and the packet names one on its own filing-instructions page: 'Ask the office of that court whether a filing fee applies - no committed record this packet is built from states one.' Third limb of the standard's `met` list, and the authority sits in the same sentence as the refusal, which is the proximity A2's answersVT13B1 asks builders to prefer."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "Same standard, same scope. The repository establishes no manner of delivery for these two correction instruments: the ND profile's serviceAndNoticeRules are all about 'the petition and proposed order ... served on the prosecuting official', and sourceSections.6 attaches 'the judge may require service on the prosecutor' to the pre-2025 petition — the sibling branch again. LA-IMM-03's 'Service workflow' heading is, on reading it, a sequence of correction STEPS rather than a manner of service, and states no delivery method. With nothing establishing it, the packet states the gap and names the authority in the same step: STEP THREE reads 'complete and send the WRITTEN REQUEST to the office of the court in the original criminal case. Ask that office how it accepts delivery, and use that method.' Third limb of `met`."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "measured": true,
+          "detail": "Four stop conditions are printed on the packet's own filing-instructions page under 'WHEN TO STOP AND GET HELP INSTEAD OF FILING', and each traces to LA-IMM-03: contested eligibility (the decision routes contested eligibility to counsel), a disposition entered before August 1 2025 (the decision keeps those on the official petition route), an agency or BCI history still showing the matter after the court record closes (the decision routes that to the separate agency challenge process), and any immigration question. The page also carries 'Take it to a lawyer' and 'it is not legal advice, it is not filed for you'."
+        }
+      },
+      "grantsNothing": "A PASS_COMPLETE_INDEPENDENT here says this packet is complete and independently measured at a base carrying its raster receipt. It approves no output for participant delivery, promotes no family, opens no commercial route and grants no fulfillment authority."
     }
   ],
   "obligationSet": [
