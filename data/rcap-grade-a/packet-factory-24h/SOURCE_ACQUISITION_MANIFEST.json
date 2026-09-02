@@ -96,7 +96,7 @@
     "whyThisExists": "The Texas statement of inability gates ten families, has an exact txcourts.gov address in dozens of committed records, and was never queued because the manifest read only the two acquisition-receipt files."
   },
   "counts": {
-    "entries": 40,
+    "entries": 45,
     "refused": 7,
     "urlRecordsRead": 47,
     "sourceObligationsTotal": 240,
@@ -327,7 +327,7 @@
       "sourceId": "ia-rule-2-86-form-1-application-to-expunge-court-record-901c-2-rev-2022-01",
       "jurisdiction": "IA",
       "formNumber": "Iowa R. Crim. P. 2.86 Form 1",
-      "officialTitle": "Application to Expunge Court Record (Iowa Code § 901C.2) — Iowa R. Crim. P. 2.86 Form 1",
+      "officialTitle": "Application to Expunge Court Record (Iowa Code \u00a7 901C.2) \u2014 Iowa R. Crim. P. 2.86 Form 1",
       "issuingAuthority": "Iowa Judicial Branch",
       "officialUrl": "https://www.iowacourts.gov/collections/738/files/1569/embedDocument",
       "urlKind": "DIRECT_OFFICIAL_BINARY",
@@ -343,7 +343,7 @@
       "sourceId": "ia-rule-2-86-form-3-application-to-expunge-public-intoxication-records-123-46-rev-2022-01",
       "jurisdiction": "IA",
       "formNumber": "Iowa R. Crim. P. 2.86 Form 3",
-      "officialTitle": "Application to Expunge Public Intoxication Records (Iowa Code § 123.46) — Iowa R. Crim. P. 2.86 Form 3",
+      "officialTitle": "Application to Expunge Public Intoxication Records (Iowa Code \u00a7 123.46) \u2014 Iowa R. Crim. P. 2.86 Form 3",
       "issuingAuthority": "Iowa Judicial Branch",
       "officialUrl": "https://www.iowacourts.gov/collections/721/files/1504/embedDocument",
       "urlKind": "DIRECT_OFFICIAL_BINARY",
@@ -906,6 +906,163 @@
       "commitBody": false,
       "obligationKeys": [],
       "recordedIn": "data/rcap-grade-a/source-acquisition/wave-2/acquired.json"
+    },
+    {
+      "sourceId": "ri-dc-33-motion-to-expunge-or-seal-and-affidavit-rev-2025-02",
+      "jurisdiction": "RI",
+      "formNumber": "DC-33",
+      "officialTitle": "Motion to Expunge or Seal Record and Affidavit in Support (District Court)",
+      "issuingAuthority": "Rhode Island Judiciary, District Court",
+      "officialUrl": "https://www.courts.ri.gov/Courts/districtcourt/Documents/Motion%20to%20Expunge%20or%20Seal%20and%20Affidavit.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": null,
+      "host": "www.courts.ri.gov",
+      "commitBody": false,
+      "edition": "revised February 2025, printed on the document and returned by the index",
+      "editionTheFamilyNames": "the family names no edition; it names the label DC-33-ORDER",
+      "oneBinaryTwoLabels": "The census carries DC-33-ORDER and DC-33-AFFIDAVIT as two obligations. The publisher issues ONE document: filing instructions, the motion, the affidavit in support (Parts One to Three) and the order, under the single number DC-33. Both labels resolve here. Only the four DC-33-ORDER obligations are listed below, because DC-33-AFFIDAVIT is granted to a lane that has already released it.",
+      "statute": "R.I. Gen. Laws 12-1.3 (expungement) and 12-1-12 (sealing of records of non-conviction)",
+      "obligationKeys": [
+        "ri_decriminalized-set::official-form:DC-33-ORDER",
+        "ri_deferred_sentence-set::official-form:DC-33-ORDER",
+        "ri_first_offender_misdemeanor-set::official-form:DC-33-ORDER",
+        "ri_multiple_misdemeanors-set::official-form:DC-33-ORDER"
+      ],
+      "corroboration": {
+        "committedFiles": 1,
+        "indexConfirmedFormNumberAtThisUrl": "DC-33 (revised February 2025) District Court",
+        "note": "One committed file carries this URL, which is below the 2-file evidence-sweep bar on its own. The index confirmation of the printed form number at this exact address is what carries it, not the file count."
+      },
+      "exactBinaryUrlEstablished": true,
+      "verification": {
+        "urlExercisedByThisLane": false,
+        "whyNot": "ACQ is a no-egress lane by design (generate.mjs: 'GitHub Actions performs acquisition; this no-egress agent does not dispatch or claim a workflow run'). In this container the egress proxy answers 403 to CONNECT for every state judiciary host tried -- www.courts.ri.gov, www.mdcourts.gov, www.courts.michigan.gov -- through curl and through the fetch tool alike. No URL below was exercised here, and none is claimed as exercised.",
+        "whatWasEstablishedInstead": "A public search index returned this exact URL and returned, from the document body at it, the form number and the revision printed on the document. That settles the identity question DISC exists to settle -- whether this URL is that form -- without settling reachability, which the hosted fetcher settles when it acquires and records the SHA-256.",
+        "whatRemainsForTheRunner": "HTTP reachability, content type, and the exact SHA-256. A 404 there is a cheap self-correcting failure; the expensive failure, binding a real PDF to a form number it does not carry, is what the identity confirmation above is against."
+      },
+      "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_ACQ_SOURCE_ADDRESSES.json"
+    },
+    {
+      "sourceId": "ri-superior-55-motion-and-affidavit-to-expunge-or-seal-record-felony-rev-2025-02",
+      "jurisdiction": "RI",
+      "formNumber": "Superior-55",
+      "officialTitle": "Motion and Affidavit to Expunge or Seal Record - Felony (Superior Court)",
+      "issuingAuthority": "Rhode Island Judiciary, Superior Court",
+      "officialUrl": "https://www.courts.ri.gov/Forms/Motion%20and%20Affidavit%20to%20Expunge%20or%20Seal%20Record%20-%20Felony.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": null,
+      "host": "www.courts.ri.gov",
+      "commitBody": false,
+      "edition": "revised February 2025, printed on the document and returned by the index",
+      "editionTheFamilyNames": "the family names no edition; it names the label Superior-55-ORDER",
+      "oneBinaryTwoLabels": "As with DC-33, the Superior Court issues one document carrying instructions, motion, affidavit (Parts One to Four) and order under the single number Superior-55. The family's Superior-55-ORDER label resolves here.",
+      "statute": "R.I. Gen. Laws 12-1.3-2 (first offender felony expungement)",
+      "obligationKeys": [
+        "ri_first_offender_felony-set::official-form:Superior-55-ORDER"
+      ],
+      "corroboration": {
+        "committedFiles": 1,
+        "indexConfirmedFormNumberAtThisUrl": "Superior-55 (revised February 2025) Superior Court",
+        "note": "Same basis as DC-33."
+      },
+      "exactBinaryUrlEstablished": true,
+      "verification": {
+        "urlExercisedByThisLane": false,
+        "whyNot": "ACQ is a no-egress lane by design (generate.mjs: 'GitHub Actions performs acquisition; this no-egress agent does not dispatch or claim a workflow run'). In this container the egress proxy answers 403 to CONNECT for every state judiciary host tried -- www.courts.ri.gov, www.mdcourts.gov, www.courts.michigan.gov -- through curl and through the fetch tool alike. No URL below was exercised here, and none is claimed as exercised.",
+        "whatWasEstablishedInstead": "A public search index returned this exact URL and returned, from the document body at it, the form number and the revision printed on the document. That settles the identity question DISC exists to settle -- whether this URL is that form -- without settling reachability, which the hosted fetcher settles when it acquires and records the SHA-256.",
+        "whatRemainsForTheRunner": "HTTP reachability, content type, and the exact SHA-256. A 404 there is a cheap self-correcting failure; the expensive failure, binding a real PDF to a form number it does not carry, is what the identity confirmation above is against."
+      },
+      "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_ACQ_SOURCE_ADDRESSES.json"
+    },
+    {
+      "sourceId": "ca-cr-430-petition-for-dismissal-incarcerated-individual-hand-crew-2024-11",
+      "jurisdiction": "CA",
+      "formNumber": "CR-430",
+      "officialTitle": "Petition for Dismissal - Incarcerated Individual Hand Crew or Institutional Firehouse Participant",
+      "issuingAuthority": "Judicial Council of California",
+      "officialUrl": "https://courts.ca.gov/sites/default/files/courts/default/2024-11/cr430.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": null,
+      "host": "courts.ca.gov",
+      "commitBody": false,
+      "edition": "the publisher's path segment dates the posting 2024-11; the revision printed on the face of the form was not returned by the index and is not asserted here",
+      "statute": "Cal. Penal Code 1203.4b",
+      "obligationKeys": [
+        "official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b::official-form:CR-430"
+      ],
+      "corroboration": {
+        "committedFiles": 0,
+        "indexConfirmedFormNumberAtThisUrl": "CR-430 Petition for Dismissal-Incarcerated Individual Hand Crew",
+        "note": "No committed file carries this URL. The index returned the form number and title from the document at this exact address."
+      },
+      "exactBinaryUrlEstablished": true,
+      "verification": {
+        "urlExercisedByThisLane": false,
+        "whyNot": "ACQ is a no-egress lane by design (generate.mjs: 'GitHub Actions performs acquisition; this no-egress agent does not dispatch or claim a workflow run'). In this container the egress proxy answers 403 to CONNECT for every state judiciary host tried -- www.courts.ri.gov, www.mdcourts.gov, www.courts.michigan.gov -- through curl and through the fetch tool alike. No URL below was exercised here, and none is claimed as exercised.",
+        "whatWasEstablishedInstead": "A public search index returned this exact URL and returned, from the document body at it, the form number and the revision printed on the document. That settles the identity question DISC exists to settle -- whether this URL is that form -- without settling reachability, which the hosted fetcher settles when it acquires and records the SHA-256.",
+        "whatRemainsForTheRunner": "HTTP reachability, content type, and the exact SHA-256. A 404 there is a cheap self-correcting failure; the expensive failure, binding a real PDF to a form number it does not carry, is what the identity confirmation above is against."
+      },
+      "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_ACQ_SOURCE_ADDRESSES.json"
+    },
+    {
+      "sourceId": "ca-cr-430-info-information-on-filing-a-petition-to-dismiss-2024-11",
+      "jurisdiction": "CA",
+      "formNumber": "CR-430-INFO",
+      "officialTitle": "Information on Filing a Petition for Dismissal - Incarcerated Individual Hand Crew or Institutional Firehouse Participant",
+      "issuingAuthority": "Judicial Council of California",
+      "officialUrl": "https://courts.ca.gov/sites/default/files/courts/default/2024-11/cr430info.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": null,
+      "host": "courts.ca.gov",
+      "commitBody": false,
+      "edition": "posting path 2024-11; face revision not returned by the index and not asserted",
+      "statute": "Cal. Penal Code 1203.4b",
+      "obligationKeys": [
+        "official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b::official-form:CR-430-INFO"
+      ],
+      "corroboration": {
+        "committedFiles": 0,
+        "indexConfirmedFormNumberAtThisUrl": "CR-430-INFO Information on Filing a Petition to Dismiss",
+        "note": "This is an instruction sheet, not a fillable petition. It is named by the family and is acquired as itself, never as a substitute for CR-430."
+      },
+      "exactBinaryUrlEstablished": true,
+      "verification": {
+        "urlExercisedByThisLane": false,
+        "whyNot": "ACQ is a no-egress lane by design (generate.mjs: 'GitHub Actions performs acquisition; this no-egress agent does not dispatch or claim a workflow run'). In this container the egress proxy answers 403 to CONNECT for every state judiciary host tried -- www.courts.ri.gov, www.mdcourts.gov, www.courts.michigan.gov -- through curl and through the fetch tool alike. No URL below was exercised here, and none is claimed as exercised.",
+        "whatWasEstablishedInstead": "A public search index returned this exact URL and returned, from the document body at it, the form number and the revision printed on the document. That settles the identity question DISC exists to settle -- whether this URL is that form -- without settling reachability, which the hosted fetcher settles when it acquires and records the SHA-256.",
+        "whatRemainsForTheRunner": "HTTP reachability, content type, and the exact SHA-256. A 404 there is a cheap self-correcting failure; the expensive failure, binding a real PDF to a form number it does not carry, is what the identity confirmation above is against."
+      },
+      "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_ACQ_SOURCE_ADDRESSES.json"
+    },
+    {
+      "sourceId": "ca-cr-431-court-cover-letter-and-agency-certification-2024-11",
+      "jurisdiction": "CA",
+      "formNumber": "CR-431",
+      "officialTitle": "Court Cover Letter and Agency Certification - Incarcerated Individual Hand Crew or Institutional Firehouse Participant",
+      "issuingAuthority": "Judicial Council of California",
+      "officialUrl": "https://courts.ca.gov/sites/default/files/courts/default/2024-11/cr431.pdf",
+      "urlKind": "DIRECT_OFFICIAL_BINARY",
+      "expectedSha256": null,
+      "host": "courts.ca.gov",
+      "commitBody": false,
+      "edition": "posting path 2024-11; the index separately describes CR-431 as last updated January 1, 2024. The two do not agree and neither is asserted as the face revision.",
+      "statute": "Cal. Penal Code 1203.4b",
+      "obligationKeys": [
+        "official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b::official-form:CR-431"
+      ],
+      "corroboration": {
+        "committedFiles": 0,
+        "indexConfirmedFormNumberAtThisUrl": "CR-431 - California Courts",
+        "note": "A copy of this form is also published by www.formsworkflow.com, which the host policy explicitly refuses. That copy is named here so a reviewer sees it was considered and refused, and it is not the address recorded."
+      },
+      "exactBinaryUrlEstablished": true,
+      "verification": {
+        "urlExercisedByThisLane": false,
+        "whyNot": "ACQ is a no-egress lane by design (generate.mjs: 'GitHub Actions performs acquisition; this no-egress agent does not dispatch or claim a workflow run'). In this container the egress proxy answers 403 to CONNECT for every state judiciary host tried -- www.courts.ri.gov, www.mdcourts.gov, www.courts.michigan.gov -- through curl and through the fetch tool alike. No URL below was exercised here, and none is claimed as exercised.",
+        "whatWasEstablishedInstead": "A public search index returned this exact URL and returned, from the document body at it, the form number and the revision printed on the document. That settles the identity question DISC exists to settle -- whether this URL is that form -- without settling reachability, which the hosted fetcher settles when it acquires and records the SHA-256.",
+        "whatRemainsForTheRunner": "HTTP reachability, content type, and the exact SHA-256. A 404 there is a cheap self-correcting failure; the expensive failure, binding a real PDF to a form number it does not carry, is what the identity confirmation above is against."
+      },
+      "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_ACQ_SOURCE_ADDRESSES.json"
     }
   ],
   "refused": [
@@ -957,15 +1114,15 @@
       "jurisdiction": "DE",
       "formNumber": "Form 281",
       "obligation": "the Delaware Form 281 expungement petition's exact official artifact URL",
-      "sweepFinding": "committed evidence carries only landing pages — courts.delaware.gov/forms/ (9 files), courts.delaware.gov/superior/expungement.aspx (15 files), courts.delaware.gov/forms/list.aspx?ag=Superior%20Court&cat=Expungement (2 files) — and no URL containing '281' on any Delaware host. FACTORY_MEMORY warns the held 'FORM-281' bytes actually print Form 281E (the charge-sheet continuation); the identity itself needs DISC before any address is trusted.",
+      "sweepFinding": "committed evidence carries only landing pages \u2014 courts.delaware.gov/forms/ (9 files), courts.delaware.gov/superior/expungement.aspx (15 files), courts.delaware.gov/forms/list.aspx?ag=Superior%20Court&cat=Expungement (2 files) \u2014 and no URL containing '281' on any Delaware host. FACTORY_MEMORY warns the held 'FORM-281' bytes actually print Form 281E (the charge-sheet continuation); the identity itself needs DISC before any address is trusted.",
       "nextLane": "DISC",
       "whyNotHere": "no corroborated exact URL exists in committed evidence, and a plausible address is worse than an absent one because ACQ will fetch it"
     },
     {
       "jurisdiction": "MO",
       "formNumber": "FI-05",
-      "obligation": "the Missouri Confidential Case Filing Information Sheet (FI-05) exact official artifact URL — SRR-001, a one-row family release gating six MO families",
-      "sweepFinding": "SOURCE_RELATIONSHIP_REGISTRY records officialArtifactUrl null with sourceState SOURCE_SCOPE_AND_VERSION_AMBIGUITY: St. Louis County publishes FI-05 while the 7th Circuit names the analogous form FI-50, and the recorded source page stlcountycourts.com is not an allowlisted official government host. Committed MO evidence otherwise carries only courts.mo.gov landing pages (page.jsp?id=191585, 242 files) and revisor.mo.gov statutes — no exact FI-05 artifact URL on an allowlisted host.",
+      "obligation": "the Missouri Confidential Case Filing Information Sheet (FI-05) exact official artifact URL \u2014 SRR-001, a one-row family release gating six MO families",
+      "sweepFinding": "SOURCE_RELATIONSHIP_REGISTRY records officialArtifactUrl null with sourceState SOURCE_SCOPE_AND_VERSION_AMBIGUITY: St. Louis County publishes FI-05 while the 7th Circuit names the analogous form FI-50, and the recorded source page stlcountycourts.com is not an allowlisted official government host. Committed MO evidence otherwise carries only courts.mo.gov landing pages (page.jsp?id=191585, 242 files) and revisor.mo.gov statutes \u2014 no exact FI-05 artifact URL on an allowlisted host.",
       "nextLane": "DISC",
       "whyNotHere": "no corroborated exact URL exists, the only recorded publisher host is off-allowlist, and statewide-versus-local scope is unsettled (SRR-001); DISC and Captain settle scope and alias before any acquisition"
     }
