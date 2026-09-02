@@ -81,6 +81,11 @@ const WAVE_ROWS = "data/rcap-grade-a/wave-2/p1-ut-petition-expunge-completeness/
  *   - ut_pet_no_charges-set IS the declination case -- its own committed
  *     manifest describes the evidence as "Any written declination or no-file
  *     letter from the prosecutor". Held.
+ *   - ut_pet_acquittal-set IS an acquittal, and the exempting limb names
+ *     "acquittals" in the same breath as dismissals. Held. It was set later
+ *     than the other two, when the owner determination that made this family
+ *     automatic-first arrived carrying its own one-route branch saying the same
+ *     thing; the flag says it once, for every route the sentence reaches.
  *   - ut_pet_limitations-set is a charge ended by the limitations period. It is
  *     not a conviction, a plea in abeyance or a special certificate, and it is
  *     not a dismissal, an acquittal or a declination either. NEITHER limb of
@@ -106,7 +111,21 @@ const WAVE_ROWS = "data/rcap-grade-a/wave-2/p1-ut-petition-expunge-completeness/
 const CONFIGS = Object.freeze({
   "ut_pet_acquittal-set": {
     slug: "ut-pet-acquittal-set", traffic: false, routeKind: "case",
-    chargeLabel: "Acquitted charge", statesBciApplicationFee: true
+    chargeLabel: "Acquitted charge", statesBciApplicationFee: true,
+    // Owner determination DET-DT-UT-ACQUITTAL-001. An acquittal on all charges
+    // is inside Utah's current automatic expungement, so this family's primary
+    // treatment is AUTOMATIC_OR_AGENCY_PROCESS and the petition it delivers is
+    // a fallback for a documented automatic-process failure. The flag is set on
+    // this family alone: every sibling on this host stays a petition family and
+    // its bytes must not move.
+    acquittalAutomaticFirst: true,
+    // DET-DT-UT-ACQUITTAL-001 arrived carrying its own acquittal-only branch for
+    // the certificate fee, saying exactly what the general treatment below says.
+    // The general treatment is the one that survives: the exempting limb of the
+    // BCI FAQ sentence names "dismissals, acquittals, or declinations", and an
+    // acquittal is named in it as plainly as a dismissal is. Under A3 that is a
+    // per-route holding on THIS route, not a read-across from a sibling.
+    certificateIssuanceFeeHeldExempt: "an acquittal"
   },
   "ut_pet_conviction-set": {
     slug: "ut-pet-conviction-set", traffic: false, routeKind: "case",
@@ -170,6 +189,7 @@ const REQUIRED_BEFORE_FILING = Object.freeze([
   "BCI payment or fee-waiver election and any payment details",
   "Government-issued identification and fingerprints for the BCI application",
   "Signing city/country, participant signatures, and signing dates",
+  "Whether this case has already been automatically expunged, and whether the 60-day acquittal goal and the 120-day automatic-processing window have run (acquittal route only)",
   "Law-enforcement incident file number and agency name for a no-charges order",
   "Any optional recipient, victim, prosecutor, reply, or third-party-release content only if that component becomes applicable",
   "Service method, address, date, and certification only after service occurs"
@@ -252,6 +272,31 @@ const CITED_AUTHORITIES = Object.freeze([
     pathInArchive: "STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1146XX__acceptance-of-service-expungement__REV-2019-05-01__EN.pdf",
     supports: ["service"],
     trafficRoute: true
+  },
+  /*
+   * The compiled Utah state profile, cited as a committed repository record
+   * rather than as a corpus binary.
+   *
+   * DET-FEE-AND-WAIVER-001 amendment A2 names the compiled state profile as a
+   * held source, and A3 bounds that to the route the record actually addresses.
+   * Every line the acquittal instructions quote from it is keyed to an
+   * acquittal on all charges -- the automatic path, its 60-day goal, its 120-day
+   * processing window, the retirement of the temporary request form, the court's
+   * notice to the prosecuting office, and BCI's certificate-issuance position on
+   * acquittals. None is read across from a sibling disposition.
+   *
+   * It is hashed from the committed file on every build, the same discipline the
+   * corpus authorities get, so an instruction quoting a profile that has since
+   * moved cannot ship quietly. It is not in the corpus index and must not be
+   * looked up there.
+   */
+  {
+    id: "UT-COMPILED-PROFILE",
+    title: "Compiled Utah state profile (src/lib/rcap-engine/compiled/profiles/UT-utah.json)",
+    repoPath: "src/lib/rcap-engine/compiled/profiles/UT-utah.json",
+    supports: ["automaticExpungement", "filingDestination", "feeAndWaiver", "service"],
+    trafficRoute: false,
+    onlyWhenConfigFlag: "acquittalAutomaticFirst"
   }
 ]);
 
@@ -270,6 +315,21 @@ function resolveCitedAuthorities(config) {
   const resolved = [];
   for (const authority of CITED_AUTHORITIES) {
     if (config.traffic && authority.trafficRoute !== true) continue;
+    if (authority.onlyWhenConfigFlag && config[authority.onlyWhenConfigFlag] !== true) continue;
+    if (authority.repoPath) {
+      // A committed repository record. There is no corpus index row to compare
+      // against because it is not a corpus binary; the repository IS the record,
+      // and the hash written into the instructions is taken from it on this
+      // build so a later reader can tell which profile the text was quoted from.
+      const bytes = fs.readFileSync(path.join(rootDir, authority.repoPath));
+      resolved.push({
+        id: authority.id, title: authority.title, repoPath: authority.repoPath,
+        sha256: sha256(bytes), byteLength: bytes.length,
+        supports: authority.supports,
+        verifiedBy: "hashed on this build from the committed repository file"
+      });
+      continue;
+    }
     const entry = entries.find((row) => (row.path ?? row.relativePath) === authority.pathInArchive);
     assert.ok(entry, `${authority.id}: not in the committed corpus index at ${authority.pathInArchive}`);
     const bytes = fs.readFileSync(path.join(master, authority.pathInArchive));
@@ -1150,8 +1210,18 @@ function participantInstructions(config, authorities) {
   const items = REQUIRED_BEFORE_FILING.filter((item) => {
     if (config.traffic && /BCI certificate|previously used name|Gender|BCI payment|Government-issued/i.test(item)) return false;
     if (config.routeKind !== "incident" && /Law-enforcement incident/i.test(item)) return false;
+    // The automatic-expungement check is the first thing an acquittal
+    // participant must establish and is meaningless on the other routes, so it
+    // is carried only where the route's own disposition puts it in issue.
+    if (!config.acquittalAutomaticFirst && /already been automatically expunged/i.test(item)) return false;
     return true;
   });
+  // On the acquittal route this one check decides whether the rest of the list
+  // is needed at all, so it is read first rather than eighth.
+  if (config.acquittalAutomaticFirst) {
+    items.sort((a, b) => Number(/already been automatically expunged/i.test(b))
+      - Number(/already been automatically expunged/i.test(a)));
+  }
   const petition = config.traffic ? "1002EX" : "1000EX";
   const order = config.traffic ? "1022EX" : "1020EX";
   const out = [];
@@ -1159,19 +1229,57 @@ function participantInstructions(config, authorities) {
   out.push("# Filing instructions and what you must supply", "");
   out.push("This is a review fixture built from exact held official Utah forms. The platform filled in what it holds about you and about your case. Everything below is either a direction taken from Utah's own published instructions, or a fact you supply yourself.", "");
 
-  out.push("## Where you file this", "");
+  if (config.acquittalAutomaticFirst) {
+    /*
+     * The automatic route comes first because it is the route.
+     *
+     * Every quotation below is verbatim from the compiled Utah state profile,
+     * and every one of them is keyed to an acquittal on all charges rather than
+     * read across from a sibling disposition. The packet used to say none of
+     * this: it opened on a two-destination filing instruction and two fees, for
+     * a disposition the state clears on its own motion.
+     *
+     * Nothing here tells the participant to file the retired request form, to
+     * serve BCI, or to serve the prosecutor for the automatic route, because
+     * none of those is a step the automatic route has.
+     */
+    out.push("## Start here: Utah clears a qualifying acquittal on its own", "");
+    out.push("**An acquittal on all charges is inside Utah's automatic expungement, and the automatic route costs nothing.** The compiled Utah profile this platform is built on records the state's own guidance: \"A Utah case may be automatically expunged if it resulted in an acquittal on all charges or was dismissed with prejudice.\" For qualifying post-May 1, 2020 cases the profile records the timing as \"Acquittal on all charges Goal: 60 days after acquittal for qualifying post-May 1, 2020 cases\".", "");
+    out.push("**There is nothing for you to file to start it, and there is no request form to send.** The profile records that \"the court no longer uses the temporary request form that applied from October 1, 2024 through December 31, 2025; now the court identifies and clears eligible automatic-expungement cases on its own\", as of January 1, 2026. **Do not fill in or send that former request form.** The court and the Administrative Office of the Courts run the automatic case, and the court supplies the expungement order to the Bureau of Criminal Identification.", "");
+    out.push("**It can take longer than the 60-day goal.** The profile records that \"The Utah Courts public guidance says the automatic process can take up to 120 days, because the court system runs automatic expungement checks periodically and must allow prosecutor response time.\"", "");
+    out.push("**Two things to establish before you do anything else.** They are the two checks Utah's own screening treats as required for this disposition:", "");
+    out.push("1. **\"Has the case already been automatically expunged?\"** If it has, there is nothing to file and nothing to pay. Ask the clerk of the court that heard the case, or the Utah State Courts Self-Help Center on **888-583-0009**.");
+    out.push("2. **\"Check automatic expungement. For qualifying post-May 1, 2020 cases, the statutory goal is 60 days after acquittal.\"** Count from your acquittal date, and allow the 120 days the courts' own guidance describes before treating the automatic process as having failed.", "");
+    out.push("**For the automatic route you do not apply to BCI, you do not buy a certificate, you do not pay the $150 court filing fee, and you do not serve anyone.** None of the forms in this packet is required to obtain automatic expungement.", "");
+    out.push("**Not every case clears automatically.** The profile records what the state tells people directly: \"Some Utah cases may clear automatically, but not every dismissed or misdemeanor case qualifies. If the case has not cleared automatically, a petition may still be available.\" The rest of this packet is that petition, and it is a fallback for a case you have established did **not** clear.", "");
+    out.push("## The fallback petition, and when it applies", "");
+    out.push("Everything from here down applies **only** if you have checked and found that the automatic process has not expunged this case — a documented automatic-process failure. If the automatic route is still running, or has already finished, stop here: filing this petition would pay two offices for a result the state gives you for free.", "");
+  }
+
+  out.push(config.acquittalAutomaticFirst ? "## Where the fallback petition is filed" : "## Where you file this", "");
   if (config.traffic) {
     out.push(`File the cover sheet (1044XX), the petition (${petition}) and the proposed order (${order}) with the **Utah district court for the county where the case was heard**. That court is the one printed on your own case paperwork, and its case number is on the caption of every page of this packet.`, "");
     out.push("This route needs no certificate of eligibility. Form 1002EX says so on its own face: paragraph 1 reads \"Certificate of eligibility is not required\". You do not apply to the Bureau of Criminal Identification for this petition.", "");
   } else {
     out.push("Filing this packet has **two destinations, in this order**.", "");
-    out.push("1. **The Utah Bureau of Criminal Identification (BCI)** issues the certificate of eligibility this petition depends on. BCI's own Expungement Applicant Instructions direct you to apply to BCI, and BCI then sends a letter naming which incidents are eligible and what each certificate costs. Paragraph 1 of the petition (1000EX) is where that certificate's identification number goes.");
+    out.push(config.acquittalAutomaticFirst
+      // The generic line promises a letter naming "what each certificate
+      // costs". For an acquittal the repository holds that no certificate
+      // issuance fee is charged, so the generic promise would contradict the
+      // fee section three paragraphs later.
+      ? "1. **The Utah Bureau of Criminal Identification (BCI)** issues the certificate of eligibility this petition depends on. BCI's own Expungement Applicant Instructions direct you to apply to BCI, and BCI then sends a letter naming which incidents are eligible. Paragraph 1 of the petition (1000EX) is where that certificate's identification number goes. What that certificate costs on an acquittal is answered in the cost section below."
+      : "1. **The Utah Bureau of Criminal Identification (BCI)** issues the certificate of eligibility this petition depends on. BCI's own Expungement Applicant Instructions direct you to apply to BCI, and BCI then sends a letter naming which incidents are eligible and what each certificate costs. Paragraph 1 of the petition (1000EX) is where that certificate's identification number goes.");
     out.push(`2. **The Utah district court for the county where the case was heard.** BCI's instructions direct you to "File a Cover Sheet, Petition to Expunge and Order on Petition to Expunge with the appropriate court" — in this packet, 1044XX, ${petition} and ${order} — and to take the certificate list "to the court that is listed for that case".`, "");
     out.push("BCI's instructions also set a deadline between the two steps: you have **180 days, including weekends and holidays, from the date on the BCI letter** to petition the court. After that the certificates expire and you must reapply.", "");
   }
   out.push("The caption on the petition and the order is already marked **District Court**, and the county is written from your case. The judicial district number and the court's street address are still blank and are yours to write; the clerk of that court will confirm both.", "");
 
-  out.push("## What it costs, and how to ask for a waiver", "");
+  out.push(config.acquittalAutomaticFirst
+    ? "## What the fallback petition costs, and how to ask for a waiver"
+    : "## What it costs, and how to ask for a waiver", "");
+  if (config.acquittalAutomaticFirst) {
+    out.push("**None of these amounts is charged on the automatic route.** They apply only to the fallback petition described above.", "");
+  }
   out.push("**The court filing fee is $150.** The district court cover sheet in this packet (1044XX, page 2) prints the row `$150 [ ] Expungement Petition - Criminal (E)`, and this packet has already selected that row for you.", "");
   out.push("**If you cannot pay it, Utah has a waiver route for exactly this filing.** It is the *Motion to Waive Fees for Expungement – Criminal*, Utah court form **1305GE**, brought under Utah Code 78A-2-302 and Code of Judicial Administration Rule 4-508. That form is not included in this review fixture; ask the clerk of the court named above for it, or get it from the Utah State Courts self-help forms for expungement. It asks you to name the filing fee amount from the cover sheet and to say why you qualify.", "");
   if (!config.traffic && config.statesBciApplicationFee) {
@@ -1213,19 +1321,53 @@ function participantInstructions(config, authorities) {
     out.push("**Before you pay any of this, know that there is a free route to the same result.** A case dismissed with prejudice is separately eligible for **automatic expungement 180 days after the dismissal** under Utah Code 77-40a-206, where no appeal was filed. That route costs nothing and needs no petition, no BCI certificate and no filing fee. This petition is the *faster* paid route to the same result, not the only one. If you are not in a hurry, waiting out the 180 days is free.", "");
   }
 
-  out.push("## Who must receive a copy, and how", "");
-  if (config.traffic) {
+  out.push(config.acquittalAutomaticFirst ? "## Who gives notice, and to whom" : "## Who must receive a copy, and how", "");
+  if (config.acquittalAutomaticFirst) {
+    /*
+     * The notice sequence for this route, and the generic copy-delivery
+     * language it supersedes.
+     *
+     * The BCI Expungement Applicant Instructions this packet delivers were
+     * updated 08/20/2024. Their Step 2 tells the applicant to "Mail or email the
+     * prosecutor copies of what you file", and their Step 4 adds a NOTE that the
+     * applicant may also send copies of the order to the agencies. Neither is
+     * this route's requirement: the compiled profile records that the COURT
+     * gives the prosecutor notice, and that the court sends BCI the order and
+     * BCI notifies the agencies. A packet that left both texts standing side by
+     * side would have the participant serve offices that are already served, and
+     * for the automatic route it would have them serve offices on a case they
+     * have not filed anything in at all.
+     *
+     * So the sequence is stated, and the superseded lines are named as
+     * superseded rather than quietly dropped -- the participant is holding the
+     * BCI sheet and will read them.
+     */
+    out.push("**On the automatic route you serve no one.** You do not deliver a copy to the prosecutor and you do not deliver a copy to the Bureau of Criminal Identification. There is no filing to serve.", "");
+    out.push("**If you file the fallback petition, the court gives the notices — not you.** The compiled Utah profile records what happens after the petition is filed: \"The court gives notice to the prosecuting office.\" The BCI *Expungement Applicant Instructions* included in this packet record what happens after the order: \"Once the court has expunged your case, the court will send BCI an electronic Order to Expunge. BCI will inform all available agencies listed in the case of the expungement.\" The profile records the same step and adds the federal one — after the court issues an order, \"BCI notifies affected agencies and forwards a copy to the FBI\". In order: you file with the court, the court notifies the prosecutor, the court sends the order to BCI, and BCI notifies the affected agencies.", "");
+    out.push("**Two lines on the enclosed BCI sheet do not govern this route.** The *Expungement Applicant Instructions* included in this packet were updated 08/20/2024. Its Step 2 line \"Mail or email the prosecutor copies of what you file\" and its Step 4 note that you \"are still able to send a copy of the Order to Expunge to the agencies listed as well\" are **superseded for this route** by the court-notice sequence above. Read them as history, not as a step you owe. If you want that confirmed for your own case, the Utah State Courts Self-Help Center answers it on **888-583-0009**.", "");
+    out.push("This packet still includes form 1146XX, *Acceptance of Service – Expungement (Prosecutor)*. It exists for a prosecutor who chooses to acknowledge receipt; it is not a step this route requires you to perform, and the packet leaves it blank.", "");
+    out.push("The prosecutor or a victim in your case may object to a filed petition; if the court schedules a hearing, attend it.", "");
+  } else if (config.traffic) {
     out.push("**The prosecutor must receive a copy of what you file.** This packet includes form 1146XX, *Acceptance of Service – Expungement (Prosecutor)*, whose printed text is the prosecutor acknowledging \"receipt of a copy of the Petition for Expungement\" — the form exists because the prosecutor gets a copy.", "");
     out.push("For an expungement petition Utah's published applicant instructions direct you to **mail or email the prosecutor copies of what you file**. Because this is the traffic route rather than the BCI route, confirm the method and the prosecutor's current address with the clerk of the district court where you file, or with the Utah State Courts Self-Help Center on **888-583-0009**, before you serve.", "");
   } else {
     out.push("**The prosecutor must receive a copy of what you file, by mail or by email.** BCI's Expungement Applicant Instructions state the step plainly: after filing with the court, \"Mail or email the prosecutor copies of what you file.\" This packet includes form 1146XX, *Acceptance of Service – Expungement (Prosecutor)*, for the prosecutor to acknowledge receipt.", "");
     out.push("The prosecutor or a victim in your case may object; if the court schedules a hearing, attend it. The Utah State Courts Self-Help Center answers questions about this on **888-583-0009**.", "");
   }
-  out.push("Fill in the service method, the address you used and the date **only after service has actually happened**. A certificate of service dated before service is a false statement, so this packet leaves it blank.", "");
+  out.push(config.acquittalAutomaticFirst
+    ? "The certificate-of-service blocks on these forms are left blank, and on this route they stay blank: no service step belongs to you. If some other delivery is ever made, its method, address and date go in only after it has actually happened — a certificate of service dated before service is a false statement."
+    : "Fill in the service method, the address you used and the date **only after service has actually happened**. A certificate of service dated before service is a false statement, so this packet leaves it blank.", "");
 
   out.push("## The facts you must supply before filing", "");
-  out.push("This review fixture deliberately leaves the following facts or acts blank. Supply them from your own records or complete them when the named event occurs; do not guess.", "");
-  out.push(...items.map((item) => `- ${item}`), "");
+  out.push(config.acquittalAutomaticFirst
+    ? "The first item below decides whether any of the rest applies. Everything after it belongs to the fallback petition only. This review fixture deliberately leaves the following facts or acts blank. Supply them from your own records or complete them when the named event occurs; do not guess."
+    : "This review fixture deliberately leaves the following facts or acts blank. Supply them from your own records or complete them when the named event occurs; do not guess.", "");
+  out.push(...items.map((item) => (config.acquittalAutomaticFirst && /^Service method/.test(item)
+    // No service step belongs to the participant on this route, so the generic
+    // "after service occurs" line would imply one the packet has just said
+    // there is not.
+    ? "- Service method, address, date, and certification only if some delivery is ever made and only after it happens; the court gives the notices this route requires"
+    : `- ${item}`)), "");
 
   if (config.statesManifestPreFilingItems) {
     // The list above is scoped to blanks on paper. The committed packet-set
@@ -1257,6 +1399,9 @@ function participantInstructions(config, authorities) {
 
   out.push("## What this packet is not", "");
   out.push("This is a prepared set of official Utah forms built for review. It is not legal advice, it is not filed for you, and it does not decide whether the court will grant expungement.", "");
+  if (config.acquittalAutomaticFirst) {
+    out.push("It is also not the automatic route. The automatic route needs no packet, and nothing in this one starts it, speeds it up or is required by it.", "");
+  }
 
   out.push("## Where these directions come from", "");
   out.push("Every direction above is quoted from a publication held in this repository and re-hashed on the build that produced this packet:", "");
@@ -1422,6 +1567,14 @@ export async function runUtahCompletenessRepair(familyId, argv = process.argv.sl
       ...(config.statesManifestPreFilingItems && (config.dismissedWithoutPrejudice || config.routeKind === "incident")
         ? ["This route's own manifest items beyond the two shared ones - the documentary proof the route turns on, and the answer-check the manifest pairs with it - are stated in participant-instructions.md and quoted from this family's manifest entry."] : []),
       ...(config.dismissedWithPrejudice ? ["The free alternative the committed track registry says must be disclosed before payment - automatic expungement 180 days after the dismissal under Utah Code 77-40a-206 - is stated in participant-instructions.md ahead of every amount the packet asks the participant to pay."] : []),
+      ...(config.acquittalAutomaticFirst ? [
+        "Owner determination DET-DT-UT-ACQUITTAL-001: an acquittal on all charges is inside Utah's current automatic expungement, so this family's primary treatment is AUTOMATIC_OR_AGENCY_PROCESS and the delivered petition is a fallback for a documented automatic-process failure. participant-instructions.md now opens on the automatic route, before any amount and before any filing step.",
+        "The automatic route is stated with its 60-day acquittal goal, its 120-day processing window, and the January 1 2026 retirement of the temporary request form, each quoted verbatim from the compiled Utah state profile and each keyed to an acquittal on all charges rather than read across from a sibling disposition (DET-FEE-AND-WAIVER-001 amendments A2 and A3). The packet does not direct the participant to the retired request form.",
+        "The two checks Utah's own screening marks required for this disposition - whether the case has already been automatically expunged, and the 60-day acquittal check - are stated in participant-instructions.md and lead the required-before-filing list.",
+        "SERVICE: the packet directs no service on the automatic route and no service by the participant on the fallback petition. The sequence stated is participant files with the court, court gives notice to the prosecuting office, court sends BCI the order, BCI notifies the affected agencies and the FBI. The BCI applicant sheet's Step 2 prosecutor-service line and its Step 4 agency copy-delivery note are named in the instructions as superseded for this route rather than dropped, because the participant is holding that sheet.",
+        "FEE_AND_WAIVER: the automatic route is stated to cost nothing before any amount appears, and the certificate paragraph now states the held acquittal-specific fact - no certificate issuance fee is required for acquittals - instead of refusing a figure the repository holds.",
+        "This family stays payment-disabled: generationAllowed false, runtimeSelectable false, createsFulfillmentRecord false, commercialRoutesOpened 0. A truthful guidance treatment opens no route."
+      ] : []),
       "Blanks printed inside the form's own agency-use-only box are protected for the issuing agency rather than asked of the participant.",
       "Independent completeness and visual verification remain pending."
     ]
@@ -1430,6 +1583,15 @@ export async function runUtahCompletenessRepair(familyId, argv = process.argv.sl
     schemaVersion: "rcap-family-build-status/v1-completeness-repair",
     familyId,
     status: "BUILT_REVIEW_PENDING",
+    // The treatment word, not a route state. It says what this family primarily
+    // IS; availability still comes from the launch graph and stays fail-closed.
+    ...(config.acquittalAutomaticFirst ? {
+      primaryTreatment: "AUTOMATIC_OR_AGENCY_PROCESS",
+      guidanceTreatment: "GUIDANCE_READY",
+      petitionRole: "FALLBACK_ON_DOCUMENTED_AUTOMATIC_PROCESS_FAILURE",
+      paymentEnabled: false,
+      determination: "DET-DT-UT-ACQUITTAL-001"
+    } : {}),
     completenessPreparedStatus: "PASS_COMPLETE",
     independentVerificationStatus: "PENDING",
     builtDocuments: receipt.documents.length,

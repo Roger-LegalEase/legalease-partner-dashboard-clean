@@ -5584,8 +5584,8 @@
       "operation": "held-inventory-reconciliation",
       "lane": "SRC01",
       "laneKind": "source-reconciliation",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-02T06:58:59.733Z"
     },
     {
       "subjectType": "source-obligation",
@@ -10348,7 +10348,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "d8baae61774957805c464d9c7f5f156186e48e36f129341f86631f295c32ba9d",
+  "claimsDigest": "f31dc5fdfbedacfb40ef8c49c95ea626071e6d8a6ea98d24bc9151d949cc7876",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -16203,6 +16203,22 @@
       "operation": "independent-verification",
       "laneKind": "independent-verification",
       "releasedAt": "2026-09-02T06:49:27.422Z"
+    },
+    {
+      "lane": "FIX01",
+      "subjectType": "packet-family",
+      "subjectId": "ut_pet_acquittal-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-02T06:58:59.649Z"
+    },
+    {
+      "lane": "SRC01",
+      "subjectType": "source-obligation",
+      "subjectId": "ca-diversion-seal-set::official-form:SDSC-CRM-307",
+      "operation": "held-inventory-reconciliation",
+      "laneKind": "source-reconciliation",
+      "releasedAt": "2026-09-02T06:58:59.733Z"
     }
   ],
   "reissues": [
@@ -17245,6 +17261,16 @@
       "previouslyReleasedAt": "2026-09-02T01:56:00.825Z",
       "reissuedAt": "2026-09-02T06:41:13.051Z",
       "reason": "second read at repaired bytes: the verification grant was released BEFORE the repair landed, so the family carries a pre-repair FAIL and no lane can assert it; reissued on the lane the dispatch names"
+    },
+    {
+      "lane": "FIX01",
+      "subjectType": "packet-family",
+      "subjectId": "ut_pet_acquittal-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "previouslyReleasedAt": "2026-09-02T02:27:25.780Z",
+      "reissuedAt": "2026-09-02T06:58:53.093Z",
+      "reason": "FABLE-DT executes owner determination DET-DT-UT-ACQUITTAL-001 on this family; VF03 was told to release and stand down and FIX01's build-side grant was the one already released on return, so it is re-opened in place rather than transferred or minted"
     }
   ],
   "transfers": [
