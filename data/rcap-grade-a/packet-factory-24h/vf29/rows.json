@@ -1,0 +1,590 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "VF29",
+  "laneKind": "independent-verification",
+  "worker": "CODEX-CS2-VF29",
+  "baseSha": "d64ea255018e0ffb0f4daaee51b5cfcf279d94af",
+  "requiredAncestor": "84218d2dae40d561591a65ae382adbe658c53fb0",
+  "grantSet": "4cc1802649c11619",
+  "independence": "CODEX-CS2-VF29 built and repaired none of these families. Every family passed the claim assertion before any family artifact was read. This return changes no overlay, packet, source, route, queue, assignment, or ledger.",
+  "measuredBy": "For each claimed family: one focused completeness-verifier invocation; SHA-256 and byte-length recomputation for every declared fixture and committed source record; PDF page counts from parsed PDF bytes; decoded PDF content-stream text and geometry for every canonical and boundary page; comparison of actual writes, protected fields, component manifests, route bindings, and participant-facing obligations; and direct pixel inspection only where current hash-recorded rasters actually exist. Missing rasters are failures, not inferred visual passes.",
+  "obligationNames": [
+    "ROUTE_IDENTITY",
+    "SOURCE_IDENTITY",
+    "COMPONENT_SET",
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "PROTECTED_FIELDS",
+    "ARTIFACTS",
+    "PAGE_ORDER",
+    "CLIPPING_AND_OVERLAP",
+    "FILING_DESTINATION",
+    "FEE_AND_WAIVER",
+    "SERVICE",
+    "SELF_HELP_STOP"
+  ],
+  "verdictSummary": {
+    "PASS_COMPLETE_INDEPENDENT": 1,
+    "FAIL_REPAIR_REQUIRED": 6,
+    "BLOCKED_SOURCE": 0,
+    "BLOCKED_LEGAL_INPUT": 0,
+    "BLOCKED_BEFORE_CLAIM": 0
+  },
+  "focusedCompletenessVerifierRuns": 7,
+  "overlayDirectoriesModified": 0,
+  "packetsBuiltOrRepairedHere": 0,
+  "commercialRoutesOpened": 0,
+  "claimsReleased": 0,
+  "productionTouched": false,
+  "rows": [
+    {
+      "itemId": "composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+      "lane": "VF29",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4--custom-pleading",
+      "queueStateAtRead": "VERIFY_PENDING",
+      "legalInputStatusAtRead": "SETTLED",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "verifierExit": 0,
+        "verifierResult": "PASS_COMPLETE",
+        "writtenFields": "7/20",
+        "invocationsForThisFamily": 1
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The one route key agrees across MASTER_QUEUE.json, source-receipt.json, product-wiring.json, production-field-map.json, and the route footer decoded from both fixture PDFs. The packet consistently identifies the dismissal-only intervention-court branch under Miss. Code Ann. § 99-19-71(4)."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All three committed source records were rehashed from their current bytes and match their receipt pins in both SHA-256 and byte length.",
+          "evidence": [
+            { "path": "src/lib/legal-authority/routes/mississippi.json", "sha256": "1d533e72b993ce40bda1b7aa565a62d0585259280483ffccd9192395eeb00026", "byteLength": 37570 },
+            { "path": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json", "sha256": "d30c78bcdbcd4378d1d6e656dd65f8ebde3b6d231e7020add220e55d865ea689", "byteLength": 416327 },
+            { "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json", "sha256": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f", "byteLength": 2599752 }
+          ]
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The receipt, field map, and rendered-artifacts record agree on three composed components. Both fixtures contain the petition on pages 1-2, proposed order on page 3, and filing instructions on pages 4-5; requiredComponentsMissing is zero."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All 7 reported canonical values and all 7 reported boundary values were independently found in decoded text from the saved PDFs; no expected value is absent and invisibleWrites is zero."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All 6 required-before-filing fields are present in the field map, blanks record, participant instructions, and rendered labelled blanks; requiredFactsNotCollected and unclassifiedBlanks are zero."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "This is one route and one instrument set. The packet states the dismissal-only branch and directs a sentenced-at-plea matter away from it; no participant election is silently made or omitted."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The field map and both PDF contents contain no repeating table group, and incompleteRows is zero."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All 7 protected blanks remain unfilled. The order decision, court signature/date, participant signature/date, and caption-owned fields carry no prohibited write; protectedWrites is zero and the actual-writes report has no refused field with ink."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both declared fixture files exist and their hashes and lengths recomputed exactly.",
+          "evidence": [
+            { "fixture": "canonical", "sha256": "112fb452f4d57f904972db5da930a0753bad25056c1c3d1fd3f16b2ac539f85d", "byteLength": 13798, "pageCount": 5 },
+            { "fixture": "boundary", "sha256": "9b6cfca69239cc5a94eb9c77e82b15cf5e0512e543fa617e44459d8a6271cc9d", "byteLength": 14002, "pageCount": 5 }
+          ]
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Each PDF parser count is 5, each five-entry page manifest agrees, and decoded page content follows the declared petition/order/instructions order."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "The PDF geometry is clean—130 canonical and 131 boundary text draws produced zero off-page runs and zero overlapping run pairs—but no current raster exists to measure non-text clipping or visual overlap. reports/rendered-artifacts.json says everyPageRastered=false, rasterSkipped=true, rasterEngine=null, rasterPages=[], the family has no raster directory, and RASTER_QUEUE.json says RASTER_PENDING with no receipt. A visual pass is not inferred from text geometry.",
+          "evidence": { "currentRasterState": "RASTER_PENDING", "nextOwner": "RAS02", "rasterDirectoryExists": false, "rasterPageRecords": 0, "rasterReceipt": null }
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The packet names the intervention court whose completion certification and dismissal the petition follows, and names that court's clerk as the office that confirms the identity and filing practice."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The packet names §§ 99-19-72 and 99-19-71(4), explains why the held derived record does not settle the present amount or waiver for this nonconviction route, makes no unsupported dollar assertion, and names the intervention-court clerk as the authority to ask."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The packet states that no bound record establishes a recipient or method for this route and names the intervention-court clerk as the authority that answers the service question; it does not turn source silence into a no-service rule."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The delivered instructions carry the route's stops for a sentence imposed at plea, implied-consent matters, uncertified or incomplete intervention-court requirements, unpaid or unwaived fees, and immigration questions."
+        }
+      },
+      "failedProofObligations": ["CLIPPING_AND_OVERLAP"],
+      "notMeasurableHere": [],
+      "obligationsMeasured": 15,
+      "evidenceRead": [
+        "source-receipt.json",
+        "production-field-map.json",
+        "product-wiring.json",
+        "participant-instructions.md",
+        "reports/rendered-artifacts.json",
+        "reports/actual-writes.json",
+        "reports/blanks-left-for-the-participant.json",
+        "fixtures/canonical.pdf",
+        "fixtures/boundary.pdf",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+        "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json"
+      ]
+    },
+    {
+      "itemId": "composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26",
+      "lane": "VF29",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:nonadjudication-under-99-15-26--custom-pleading",
+      "queueStateAtRead": "VERIFY_PENDING",
+      "legalInputStatusAtRead": "SETTLED",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "verifierExit": 0,
+        "verifierResult": "PASS_COMPLETE",
+        "writtenFields": "7/21",
+        "invocationsForThisFamily": 1
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": { "measured": true, "result": "PASS", "finding": "The sole § 99-15-26(5) post-nonadjudication route agrees across the queue, receipt, wiring, field map, and decoded PDF footers. The packet consistently requires dismissal or closure after completion rather than admission into nonadjudication." },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All three committed source records match their receipt pins after independent SHA-256 and length recomputation.",
+          "evidence": [
+            { "path": "src/lib/legal-authority/routes/mississippi.json", "sha256": "1d533e72b993ce40bda1b7aa565a62d0585259280483ffccd9192395eeb00026", "byteLength": 37570 },
+            { "path": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json", "sha256": "d30c78bcdbcd4378d1d6e656dd65f8ebde3b6d231e7020add220e55d865ea689", "byteLength": 416327 },
+            { "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json", "sha256": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f", "byteLength": 2599752 }
+          ]
+        },
+        "COMPONENT_SET": { "measured": true, "result": "PASS", "finding": "Three declared components are present: petition pages 1-2, proposed order page 3, and filing instructions pages 4-5 in both fixtures. The completion/closure proof is expressly a record the participant obtains rather than a pleading the packet invents." },
+        "KNOWN_PREFILLS": { "measured": true, "result": "PASS", "finding": "All 7 canonical and all 7 boundary expected writes were found directly in decoded fixture text; no write is missing or invisible." },
+        "REQUIRED_BEFORE_FILING": { "measured": true, "result": "PASS", "finding": "All 7 declared participant-supplied items are disclosed and rendered as labelled blanks, including the court identity and route-specific record facts; both relevant counters are zero." },
+        "ROUTE_OPTIONS": { "measured": true, "result": "PASS", "finding": "The packet states one post-completion route and fences out still-pending nonadjudication, prior use, DUI/implied-consent/trafficking, and excluded court-level matters; requiredOptionsMissing is zero." },
+        "REPEATING_ROWS": { "measured": true, "result": "PASS", "finding": "No repeating row group is declared or rendered; incompleteRows is zero." },
+        "PROTECTED_FIELDS": { "measured": true, "result": "PASS", "finding": "All 7 protected caption, signature, date, and judicial decision blanks remain unfilled in both fixtures; protectedWrites is zero and no refused field has ink." },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both fixture hashes, lengths, and parsed page counts match the rendered-artifacts record.",
+          "evidence": [
+            { "fixture": "canonical", "sha256": "b6c18f619f45fbd2cf9a80e805b7a8c6d428427cf88c77c2f05083c758e396b2", "byteLength": 13425, "pageCount": 5 },
+            { "fixture": "boundary", "sha256": "c31fa42374b4b6c83b8388d76e6ff556d6e62f7b2f2f2c617ec2bceba3e20e90", "byteLength": 13627, "pageCount": 5 }
+          ]
+        },
+        "PAGE_ORDER": { "measured": true, "result": "PASS", "finding": "The parsed five-page order and both five-entry manifests agree: petition, proposed order, then filing instructions." },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "Decoded PDF geometry found zero off-page or overlapping text runs across 129 canonical and 130 boundary draws. That cannot prove the pixels: there is no raster directory, the rendered-artifacts report records rasterSkipped=true and zero raster pages, and the queue is RASTER_PENDING with no receipt. Visual approval is therefore refused.",
+          "evidence": { "currentRasterState": "RASTER_PENDING", "nextOwner": "RAS03", "rasterDirectoryExists": false, "rasterPageRecords": 0, "rasterReceipt": null }
+        },
+        "FILING_DESTINATION": { "measured": true, "result": "PASS", "finding": "The destination is the Mississippi court that granted nonadjudication and entered the dismissal or closure order, with that court's clerk named for confirmation." },
+        "FEE_AND_WAIVER": { "measured": true, "result": "PASS", "finding": "The packet names the $150 § 99-19-72 levy and its express § 99-19-71 limit, states that this petition is under § 99-15-26(5), refuses to infer reach in either direction, states that no held waiver answer exists, and names the correct clerk to ask." },
+        "SERVICE": { "measured": true, "result": "PASS", "finding": "No bound record provides a service rule; the packet says so and identifies the clerk of the court that granted nonadjudication as the office that answers it, without asserting that service is unnecessary." },
+        "SELF_HELP_STOP": { "measured": true, "result": "PASS", "finding": "The packet carries stops for incomplete nonadjudication or no closure order, prior nonadjudication use, DUI/implied consent/trafficking, excluded court level, and immigration exposure." }
+      },
+      "failedProofObligations": ["CLIPPING_AND_OVERLAP"],
+      "notMeasurableHere": [],
+      "obligationsMeasured": 15
+    },
+    {
+      "itemId": "composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+      "lane": "VF29",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59--custom-pleading",
+      "queueStateAtRead": "VERIFY_PENDING",
+      "legalInputStatusAtRead": "SETTLED",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "verifierExit": 0,
+        "verifierResult": "PASS_COMPLETE",
+        "writtenFields": "7/21",
+        "invocationsForThisFamily": 1
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": { "measured": true, "result": "PASS", "finding": "The § 99-15-59 dismissed-charge route key agrees in the queue, receipt, wiring, field map, and decoded PDF footers. The packet distinguishes this route from the never-charged twelve-month branch." },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All three committed records exactly match their pinned hashes and lengths.",
+          "evidence": [
+            { "path": "src/lib/legal-authority/routes/mississippi.json", "sha256": "1d533e72b993ce40bda1b7aa565a62d0585259280483ffccd9192395eeb00026", "byteLength": 37570 },
+            { "path": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json", "sha256": "d30c78bcdbcd4378d1d6e656dd65f8ebde3b6d231e7020add220e55d865ea689", "byteLength": 416327 },
+            { "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json", "sha256": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f", "byteLength": 2599752 }
+          ]
+        },
+        "COMPONENT_SET": { "measured": true, "result": "PASS", "finding": "The three declared components occupy all five pages of both manifests: petition 1-2, proposed order 3, and instructions 4-5. The participant-obtained dismissal order is expressly accounted for as a record rather than silently omitted." },
+        "KNOWN_PREFILLS": { "measured": true, "result": "PASS", "finding": "Every one of 7 canonical and 7 boundary expected writes is present in the decoded saved PDF bytes; invisibleWrites is zero." },
+        "REQUIRED_BEFORE_FILING": { "measured": true, "result": "PASS", "finding": "The repaired caption treatment is present: both court-caption lines are classified, labelled, and disclosed among 7 required-before-filing items; no blank is unclassified." },
+        "ROUTE_OPTIONS": { "measured": true, "result": "PASS", "finding": "The packet fixes the dismissed-charge branch and tells never-charged participants to use the separate twelve-month route; no route-determined option is omitted." },
+        "REPEATING_ROWS": { "measured": true, "result": "PASS", "finding": "No repeating row group exists in the map or rendered packet; incompleteRows is zero." },
+        "PROTECTED_FIELDS": { "measured": true, "result": "PASS", "finding": "The 7 protected signature, date, court, case-number, and judicial-decision blanks remain free of prohibited writes in both PDFs." },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both current fixture files bind exactly to their report.",
+          "evidence": [
+            { "fixture": "canonical", "sha256": "606e3c9d5e6b83da8422a9bb01138b5937db3e5726b64975674ffda137c448ac", "byteLength": 12066, "pageCount": 5 },
+            { "fixture": "boundary", "sha256": "ed06c2dcd41ee0c4a8692ae32aee8e0afabd2ae0a5c8fd3f6e178434b42e8c8e", "byteLength": 12273, "pageCount": 5 }
+          ]
+        },
+        "PAGE_ORDER": { "measured": true, "result": "PASS", "finding": "Both parser page counts and both five-entry manifests agree with the decoded petition/order/instructions sequence." },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "The decoded geometry of 112 canonical and 113 boundary text draws has no off-page or overlapping run, but no current raster exists. The report explicitly says rasterSkipped=true with no raster engine or page records, the directory is absent, and the central queue is RASTER_PENDING without a receipt. Text geometry is not substituted for pixel review.",
+          "evidence": { "currentRasterState": "RASTER_PENDING", "nextOwner": "RAS04", "rasterDirectoryExists": false, "rasterPageRecords": 0, "rasterReceipt": null }
+        },
+        "FILING_DESTINATION": { "measured": true, "result": "PASS", "finding": "The packet states the court with jurisdiction over the dismissed charge and labels the participant-supplied court identity consistently on petition and proposed order." },
+        "FEE_AND_WAIVER": { "measured": true, "result": "PASS", "finding": "No bound record gives a fee or waiver for this § 99-15-59 route. The packet makes no sibling-route inference from § 99-19-72 and names the jurisdictional court clerk as the authority to ask." },
+        "SERVICE": { "measured": true, "result": "PASS", "finding": "The packet states the absence of a held recipient/method and names the jurisdictional court clerk to answer, without equating absence of a source rule with no service." },
+        "SELF_HELP_STOP": { "measured": true, "result": "PASS", "finding": "Stops cover no-charge matters, nonmisdemeanors, pending matters, uncertain related counts, and immigration exposure." }
+      },
+      "failedProofObligations": ["CLIPPING_AND_OVERLAP"],
+      "notMeasurableHere": [],
+      "obligationsMeasured": 15
+    },
+    {
+      "itemId": "composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
+      "lane": "VF29",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59--custom-pleading",
+      "queueStateAtRead": "VERIFY_PENDING",
+      "legalInputStatusAtRead": "SETTLED",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "verifierExit": 0,
+        "verifierResult": "PASS_COMPLETE",
+        "writtenFields": "7/20",
+        "invocationsForThisFamily": 1
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": { "measured": true, "result": "PASS", "finding": "The one § 99-15-59 never-charged twelve-month route is identical across the queue, receipt, wiring, field map, both PDF footers, and the route contract. The rendered instructions fence the dismissed-charge branch out." },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both committed source records were rehashed and match their receipt pins exactly.",
+          "evidence": [
+            { "path": "src/lib/legal-authority/routes/mississippi.json", "sha256": "1d533e72b993ce40bda1b7aa565a62d0585259280483ffccd9192395eeb00026", "byteLength": 37570 },
+            { "path": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json", "sha256": "d30c78bcdbcd4378d1d6e656dd65f8ebde3b6d231e7020add220e55d865ea689", "byteLength": 416327 }
+          ]
+        },
+        "COMPONENT_SET": { "measured": true, "result": "PASS", "finding": "All three declared components appear in both five-page fixtures: petition pages 1-2, proposed order page 3, and instructions pages 4-5. The arrest record is expressly identified as a participant-obtained attachment filed with them." },
+        "KNOWN_PREFILLS": { "measured": true, "result": "PASS", "finding": "All 7 expected canonical and all 7 expected boundary writes were found in decoded PDF text. Long boundary name, address, phone, and email values remain present; no write is invisible." },
+        "REQUIRED_BEFORE_FILING": { "measured": true, "result": "PASS", "finding": "All 6 required-before-filing blanks are disclosed and appear in the field map and participant instructions; no required fact or blank is unclassified." },
+        "ROUTE_OPTIONS": { "measured": true, "result": "PASS", "finding": "The packet repeatedly states the never-charged, twelve-month branch and sends a filed-then-dismissed charge to the separate dismissal instrument; requiredOptionsMissing is zero." },
+        "REPEATING_ROWS": { "measured": true, "result": "PASS", "finding": "There is no repeating row group and incompleteRows is zero." },
+        "PROTECTED_FIELDS": { "measured": true, "result": "PASS", "finding": "All 7 court-owned or execution-time blanks remain empty in both fixtures, including both case-number captions, the order decision/date/signature, and participant signature/date." },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both PDFs exist and their recomputed hashes, lengths, and parser page counts equal the record.",
+          "evidence": [
+            { "fixture": "canonical", "sha256": "90c4f8a029287843bc3de09f327c6dc27b99438d15d083fe5abd58efd7deb485", "byteLength": 12023, "pageCount": 5 },
+            { "fixture": "boundary", "sha256": "a6bcbd2ab9f34da7a08c1a5b1d5f4391bca586f08a20dbd7488959baf89b8b22", "byteLength": 12215, "pageCount": 5 }
+          ]
+        },
+        "PAGE_ORDER": { "measured": true, "result": "PASS", "finding": "Both PDF parser counts and page manifests are 5 and agree page-for-page with the decoded petition/order/instructions content." },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All 10 current calibrated Chromium rasters—five canonical and five boundary—were opened and inspected. Their recorded PNG hashes were independently recomputed and all match. Each raster is 2448x3168 with a 2040x2640 paper box, zero calibration residual, and zero dark pixels in the 18-point inner edge band. No text or rule is clipped or visibly overlapping, including the long boundary identity values. Independently decoded PDF geometry found zero off-page and zero overlapping text runs across 104 canonical and 105 boundary draws.",
+          "evidence": {
+            "rasterEngine": "scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)",
+            "currentRasterPagesInspected": 10,
+            "rasterHashesMatched": 10,
+            "edgeDarkPixels": 0,
+            "calibrationResidualPx": 0,
+            "visualDefectsObserved": 0,
+            "centralQueueStateStillPending": true
+          }
+        },
+        "FILING_DESTINATION": { "measured": true, "result": "PASS", "finding": "The packet identifies the court with jurisdiction over the matter, states that its office confirms the court and filing practice, and leaves the fact-specific caption for the participant to supply." },
+        "FEE_AND_WAIVER": { "measured": true, "result": "PASS", "finding": "No bound record establishes a fee or waiver for this § 99-15-59 branch. The packet says that, avoids importing § 99-19-72 from a different route, and names the jurisdictional court office to ask before filing." },
+        "SERVICE": { "measured": true, "result": "PASS", "finding": "The repaired instructions state that no held source establishes a service rule, expressly warn that this is not a finding that service is unnecessary, distinguish the § 99-19-71 notice rule, and name the jurisdictional court office to ask who receives a copy and how." },
+        "SELF_HELP_STOP": { "measured": true, "result": "PASS", "finding": "The packet carries the route's stops for a nonmisdemeanor, a charge or prosecution inside twelve months, a filed-then-dismissed charge, a pending matter, uncertain related counts, and immigration exposure." }
+      },
+      "failedProofObligations": [],
+      "notMeasurableHere": [],
+      "obligationsMeasured": 15,
+      "rasterProof": {
+        "currentRasterStateInCentralQueue": "RASTER_PENDING",
+        "nextOwner": "RAS01",
+        "builderRasterSetExists": true,
+        "everyPageRastered": true,
+        "rasterPages": 10,
+        "allRasterHashesRecomputedAndMatched": true,
+        "allPagesDirectlyInspected": true,
+        "note": "This independent finding does not replace the central raster workflow receipt or promote the family."
+      }
+    },
+    {
+      "itemId": "rcap-ms-custom-pleading",
+      "lane": "VF29",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ms/rcap-ms-custom-pleading--custom-pleading",
+      "queueStateAtRead": "VERIFY_PENDING",
+      "legalInputStatusAtRead": "SETTLED",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "verifierExit": 0,
+        "verifierResult": "PASS_COMPLETE",
+        "writtenFields": "33/122",
+        "invocationsForThisFamily": 1
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": { "measured": true, "result": "PASS", "finding": "All three MS route keys—conditional-discharge drug possession, first DUI, and underage alcohol—agree across queue, receipt, wiring, field map, route selections, and decoded per-route PDF footers. The packet's route index tells the participant to use only the pages for the applicable route." },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The registry, specifications, and census files were rehashed from current bytes and match the source receipt exactly; every named track and route anchor remains present.",
+          "evidence": [
+            { "path": "data/record-clearing/legal-design-track-registry.json", "sha256": "0a92a1a27ef43fe719d00f121896923036a7d2b90ffa5228b972e4873ffb80e6", "byteLength": 16555956 },
+            { "path": "data/record-clearing/legal-design-specifications.json", "sha256": "cc0c79598a8406e08d606901fafb01972bb75ac1e7d0eca8df59209c0773f9c5", "byteLength": 16829383 },
+            { "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json", "sha256": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f", "byteLength": 2599752 }
+          ]
+        },
+        "COMPONENT_SET": { "measured": true, "result": "PASS", "finding": "The receipt, field map, and rendered report agree on 12 rendered components—four per track—and the 26-page manifests account for every page. Participant-obtained record attachments are explicitly named rather than impersonated as generated pleadings." },
+        "KNOWN_PREFILLS": { "measured": true, "result": "PASS", "finding": "All 33 canonical and all 33 boundary expected writes are present in decoded output bytes across the 26 pages; no expected write is missing or invisible." },
+        "REQUIRED_BEFORE_FILING": { "measured": true, "result": "PASS", "finding": "All 59 required-before-filing items are present in the field map and blanks record and disclosed per track in participant-instructions.md; both completeness counters are zero." },
+        "ROUTE_OPTIONS": { "measured": true, "result": "PASS", "finding": "Each page is route-labelled and the participant is instructed not to guess when more than one track could fit. No route-controlled election is left unresolved." },
+        "REPEATING_ROWS": { "measured": true, "result": "PASS", "finding": "No incomplete repeating row exists; incompleteRows is zero across all three tracks." },
+        "PROTECTED_FIELDS": { "measured": true, "result": "PASS", "finding": "All 30 protected judicial, prosecutor, signature, date, and certificate-execution blanks remain unfilled; protectedWrites is zero and no refused field has ink." },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The two 26-page fixtures bind exactly to the declared hashes and lengths.",
+          "evidence": [
+            { "fixture": "canonical", "sha256": "2d343efa1c4c6387171aa6b73f041be3885bef4f9d0e39f2be8ffe771a5521d0", "byteLength": 69082, "pageCount": 26 },
+            { "fixture": "boundary", "sha256": "09b2f2be1a2419c6e7876ec28ef60a3b7b9ddc607aa761bf35195c314d95477f", "byteLength": 70320, "pageCount": 26 }
+          ]
+        },
+        "PAGE_ORDER": { "measured": true, "result": "PASS", "finding": "Both parser counts and 26-entry manifests agree; decoded route sections appear in the declared component order with no missing or foreign page." },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "Decoded content-stream geometry found zero off-page or overlapping text runs across 689 canonical and 698 boundary draws, including every long boundary value. No current raster exists: everyPageRastered=false, rasterSkipped=true, rasterPages=[], no raster directory, and central state RASTER_PENDING without a receipt. Pixel-level approval is not inferred.",
+          "evidence": { "currentRasterState": "RASTER_PENDING", "nextOwner": "RAS04", "rasterDirectoryExists": false, "rasterPageRecords": 0, "rasterReceipt": null }
+        },
+        "FILING_DESTINATION": { "measured": true, "result": "PASS", "finding": "The packet states a route-specific destination for each of the three tracks: the conditional-discharge court clerk; the circuit clerk of the county of DUI conviction, including the municipal/justice-court trap; and the clerk of the court that disposed of the underage-alcohol charge." },
+        "FEE_AND_WAIVER": { "measured": true, "result": "PASS", "finding": "Each track states that no amount or waiver is established, explains why § 99-19-72's § 99-19-71 levy is not read across to §§ 41-29-150, 63-11-30, or 67-3-70, and identifies the route-specific clerk for confirmation." },
+        "SERVICE": { "measured": true, "result": "PASS", "finding": "Each track states United States mail or hand delivery and identifies the prosecuting authority—or district attorney on the DUI track—as recipient, with a certificate of service completed only after delivery." },
+        "SELF_HELP_STOP": { "measured": true, "result": "PASS", "finding": "All route-specific stop conditions from the registry are carried, including once-only/prior-disposition limits, missing records, trafficking/distribution, DUI-specific eligibility and mandatory attorney review, venue uncertainty, prosecutor-approval negotiation, citizenship/immigration, and cross-route uncertainty." }
+      },
+      "failedProofObligations": ["CLIPPING_AND_OVERLAP"],
+      "notMeasurableHere": [],
+      "obligationsMeasured": 15
+    },
+    {
+      "itemId": "rcap-nv-custom-pleading",
+      "lane": "VF29",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nv/rcap-nv-custom-pleading--custom-pleading",
+      "queueStateAtRead": "VERIFY_PENDING",
+      "legalInputStatusAtRead": "SETTLED",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "verifierExit": 0,
+        "verifierResult": "PASS_COMPLETE",
+        "writtenFields": "78/268",
+        "invocationsForThisFamily": 1
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": { "measured": true, "result": "PASS", "finding": "All six Nevada route keys agree across the queue, receipt, wiring, field map, route-selection rows, and decoded per-route footers: decriminalized conduct, multiple records, pardon, conviction, nonconviction, and reentry." },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All three committed-record pins match current bytes and every named Nevada track and route anchor remains present.",
+          "evidence": [
+            { "path": "data/record-clearing/legal-design-track-registry.json", "sha256": "0a92a1a27ef43fe719d00f121896923036a7d2b90ffa5228b972e4873ffb80e6", "byteLength": 16555956 },
+            { "path": "data/record-clearing/legal-design-specifications.json", "sha256": "cc0c79598a8406e08d606901fafb01972bb75ac1e7d0eca8df59209c0773f9c5", "byteLength": 16829383 },
+            { "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json", "sha256": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f", "byteLength": 2599752 }
+          ]
+        },
+        "COMPONENT_SET": { "measured": true, "result": "PASS", "finding": "The receipt, field map, and rendered report agree on 30 composed components, all represented in both 50-page manifests. Each of the six routes has its repository-record step, pleading/order/declaration/stipulation, and prosecutor/filing instructions accounted for." },
+        "KNOWN_PREFILLS": { "measured": true, "result": "PASS", "finding": "All 78 canonical and all 78 boundary expected values are present in decoded output bytes; no silent loss or invisible write was found." },
+        "REQUIRED_BEFORE_FILING": { "measured": true, "result": "PASS", "finding": "All 94 required-before-filing items are disclosed and mapped. The repaired caption treatment places the court identity on each applicable petition and proposed order rather than leaving an unclassified caption rule." },
+        "ROUTE_OPTIONS": { "measured": true, "result": "PASS", "finding": "The packet separates all six routes and preserves participant elections and prosecutor-first conditions without silently choosing among courts, counties, offence categories, or automatic/petition paths." },
+        "REPEATING_ROWS": { "measured": true, "result": "PASS", "finding": "No partial repeating row was found and incompleteRows is zero." },
+        "PROTECTED_FIELDS": { "measured": true, "result": "PASS", "finding": "All 96 protected court, prosecutor, declaration-execution, signature, and date blanks remain unfilled; no refused field has ink." },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both 50-page fixture hashes, byte lengths, and parser counts match their report.",
+          "evidence": [
+            { "fixture": "canonical", "sha256": "0f054975494d0bb97d66418cc4ba84f6ca3da146e48b3182072bbda3d35e944e", "byteLength": 139080, "pageCount": 50 },
+            { "fixture": "boundary", "sha256": "6dc6ddc9242f0818237154075c5b0a2074ec60081d43f38eb259c5b4c7775048", "byteLength": 141433, "pageCount": 50 }
+          ]
+        },
+        "PAGE_ORDER": { "measured": true, "result": "PASS", "finding": "Each PDF has 50 parsed pages and each 50-entry manifest matches the decoded route and component sequence." },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "Content-stream geometry found no off-page or overlapping text runs among 1,405 canonical and 1,418 boundary draws. There are nevertheless no current rasters: the report records rasterSkipped=true and zero raster pages, no raster directory exists, and the queue is RASTER_PENDING with no receipt. The geometry result is not promoted to a visual approval.",
+          "evidence": { "currentRasterState": "RASTER_PENDING", "nextOwner": "RAS02", "rasterDirectoryExists": false, "rasterPageRecords": 0, "rasterReceipt": null }
+        },
+        "FILING_DESTINATION": { "measured": true, "result": "PASS", "finding": "Every route states prosecutor-first submission followed by the appropriate court clerk, and carries route-specific venue, consolidation, township, municipal-court, and automatic-sealing distinctions from the bound record." },
+        "FEE_AND_WAIVER": { "measured": true, "result": "PASS", "finding": "The five ordinary routes state county-dependent and repository/copy costs plus the NRS 179.245(9) trafficking waiver. The repaired pardon route separately states that the NRS 179.273 petition carries no fee, does not import the ordinary petition fee, and preserves separate repository/copy charges and their statutory waiver." },
+        "SERVICE": { "measured": true, "result": "PASS", "finding": "All routes state prefiling prosecutor submission and service of the signed order on every named agency and the Central Repository under NRS 179.275, with the nonconviction route's arresting/prosecuting-agency notice stated separately." },
+        "SELF_HELP_STOP": { "measured": true, "result": "PASS", "finding": "The packet carries the registry's route-specific stops for legal classification, waiting periods, pending charges, prosecutor refusal, multicounty/multicourt practice, federal/tribal/military/out-of-state records, firearms, immigration, and automatic-first pardon treatment." }
+      },
+      "failedProofObligations": ["CLIPPING_AND_OVERLAP"],
+      "notMeasurableHere": [],
+      "obligationsMeasured": 15
+    },
+    {
+      "itemId": "rcap-ok-custom-pleading",
+      "lane": "VF29",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading",
+      "queueStateAtRead": "VERIFY_PENDING",
+      "legalInputStatusAtRead": "SETTLED",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "verifierExit": 0,
+        "verifierResult": "PASS_COMPLETE",
+        "writtenFields": "85/254",
+        "invocationsForThisFamily": 1
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": { "measured": true, "result": "PASS", "finding": "All 16 Oklahoma route keys agree across queue, receipt, wiring, field map, route selections, and decoded footers. They resolve to eight distinct composed tracks: identity theft; four § 18/19 groupings; pardon; § 991c; and protective-order relief." },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The three current committed sources exactly match their pinned hashes and lengths; all eight track IDs and all 16 census routes remain present.",
+          "evidence": [
+            { "path": "data/record-clearing/legal-design-track-registry.json", "sha256": "0a92a1a27ef43fe719d00f121896923036a7d2b90ffa5228b972e4873ffb80e6", "byteLength": 16555956 },
+            { "path": "data/record-clearing/legal-design-specifications.json", "sha256": "cc0c79598a8406e08d606901fafb01972bb75ac1e7d0eca8df59209c0773f9c5", "byteLength": 16829383 },
+            { "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json", "sha256": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f", "byteLength": 2599752 }
+          ]
+        },
+        "COMPONENT_SET": { "measured": true, "result": "PASS", "finding": "The repaired packet declares and renders 53 components across all eight tracks, and both 80-page manifests account for every component and page; requiredComponentsMissing is zero." },
+        "KNOWN_PREFILLS": { "measured": true, "result": "PASS", "finding": "All 85 canonical and all 85 boundary expected writes were independently found in decoded saved-PDF text, with no invisible or silently dropped value." },
+        "REQUIRED_BEFORE_FILING": { "measured": true, "result": "PASS", "finding": "All 113 required-before-filing items are mapped and disclosed, including repaired caption court identities and the free-route, tribal-record, arrest-record, and route-specific eligibility questions." },
+        "ROUTE_OPTIONS": { "measured": true, "result": "PASS", "finding": "The packet represents all 16 route keys and fences route-sensitive choices, including free sealing without petition, § 991c court-record-only relief, arrest-record scope, category uncertainty, and separate-county filing." },
+        "REPEATING_ROWS": { "measured": true, "result": "PASS", "finding": "No incomplete repeating row was found; incompleteRows is zero across all eight tracks." },
+        "PROTECTED_FIELDS": { "measured": true, "result": "PASS", "finding": "All 56 court-, agency-, signature-, date-, and decision-owned blanks remain unfilled; protectedWrites is zero and no refused field has ink." },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both 80-page fixture files match their recorded hashes, lengths, and page counts.",
+          "evidence": [
+            { "fixture": "canonical", "sha256": "833444e3e39b2232b4e8c10cdd37cf948f2dd148a31edcc64aa86516fb953f60", "byteLength": 205937, "pageCount": 80 },
+            { "fixture": "boundary", "sha256": "5cdd5a6ae9461f42cda28c64fc93e5d4c5d2fc9df9415c8033be29f396bb2bcb", "byteLength": 208554, "pageCount": 80 }
+          ]
+        },
+        "PAGE_ORDER": { "measured": true, "result": "PASS", "finding": "Both parser page counts are 80 and both 80-entry manifests match the decoded eight-track component sequence with no omitted component." },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "Decoded geometry found no off-page or overlapping text run among 2,056 canonical and 2,064 boundary draws. Actual pixel evidence is absent: rendered-artifacts says rasterSkipped=true with no raster page records, no raster directory exists, and RASTER_QUEUE says RASTER_PENDING with no receipt. The clean text geometry is not treated as a raster review.",
+          "evidence": { "currentRasterState": "RASTER_PENDING", "nextOwner": "RAS04", "rasterDirectoryExists": false, "rasterPageRecords": 0, "rasterReceipt": null }
+        },
+        "FILING_DESTINATION": { "measured": true, "result": "PASS", "finding": "Seven tracks state the Oklahoma district court for the county where arrest information is located, including same-county consolidation and separate-county filing; § 991c separately names the sentencing district court." },
+        "FEE_AND_WAIVER": { "measured": true, "result": "PASS", "finding": "Each track separates the OSBI arrest-record processing fee and local-agency charges from the unestablished district-court filing fee. § 991c separately states that the court record is free while a separate arrest-record expungement carries the OSBI fee; no waiver is invented." },
+        "SERVICE": { "measured": true, "result": "PASS", "finding": "The § 18/19 routes state court notice to the prosecuting agency, arresting agency, OSBI, and other record holders and require the proposed order to name agencies. The § 991c route accurately states that service and notice are not established rather than inventing them." },
+        "SELF_HELP_STOP": { "measured": true, "result": "PASS", "finding": "All eight tracks carry route-specific stops, including unread/amended category questions, free-route screening, prosecutor objection, multicounty records, tribal/federal/military/out-of-state scope, immigration, pardon acquisition, arrest-record goals, and unresolved protective-order conditions." }
+      },
+      "failedProofObligations": ["CLIPPING_AND_OVERLAP"],
+      "notMeasurableHere": [],
+      "obligationsMeasured": 15
+    }
+  ]
+}
