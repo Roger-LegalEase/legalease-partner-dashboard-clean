@@ -2,7 +2,7 @@
   "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
   "lane": "VF03",
   "worker": "VF-SRC-A",
-  "assignmentCount": 2,
+  "assignmentCount": 3,
   "assignments": [
     {
       "itemId": "ar-cs-possession-seal-set",
@@ -51,6 +51,45 @@
         "do not edit any artifact merely so a receipt matches it",
         "this verification opens no commercial route and grants no approval"
       ]
+    },
+    {
+      "assignedBy": "VA17",
+      "verifiedAtBase": "d609b1140b62204038f4161a01611d56ed35bd62",
+      "readIsASecondReadOfARepair": true,
+      "whyThisReaderIsIndependent": "VA17 neither built nor repaired this family; the repair lanes were FIX01 (oh) and FIX04 (pa).",
+      "notARepair": "This is a verdict and a repair assignment. VA17 modified no packet, no overlay directory, no fixture, no build script, no queue, no route, no price and no production surface.",
+      "reRasterRequiredAfterRepair": "Any change to fixture bytes invalidates the family's RASTER_PASS acceptance receipt, which binds exact hashes. Re-raster before the family is read again.",
+      "reVerificationRequired": "A third independent read is required after this repair, by a lane that is neither the repairer nor VA17.",
+      "supersedesEarlierAssignmentsForThisFamily": "Every earlier assignment on this family predates the repair lane's work. This one is measured from the artifacts on disk at the base above and does not carry any earlier finding forward.",
+      "itemId": "pa_pardon_expungement-set",
+      "familyId": "pa_pardon_expungement-set",
+      "lane": "VF03",
+      "jurisdiction": "PA",
+      "deliveryType": "official_pdf_fill",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "failedProofObligations": [
+        "COMPONENT_SET",
+        "KNOWN_PREFILLS",
+        "SELF_HELP_STOP"
+      ],
+      "decisiveDefect": "The registry holds three selfHelpStopConditions for trackId pa_pardon_expungement and the packet carries none of them as a stop - most seriously the first, that a participant who has not yet obtained a pardon is out of scope and is a referral, which appears nowhere on any participant-facing surface in the family. Compounding it, the rendered process-guidance page - the only artifact serving the automatic route - tells the participant 'This page states no timetable and no criterion for that, because neither is established by the two forms this packet is built from', when the registry's own description of that component says 'The guidance explains the quarterly cycle and how to verify the record cleared' and the packet's own participant-instructions.md states the quarterly Board of Pardons to AOPC cycle two files away. A1 and A2 scope the question to the repository, not to the two official forms, and A4 forbids a packet telling a participant it does not state something it does state.",
+      "perObligation": {
+        "SELF_HELP_STOP": {
+          "measuredDetail": "3 conditions held in data/record-clearing/legal-design-track-registry.json at trackId pa_pardon_expungement; 0 carried as stops. (1) 'The participant has not yet obtained a pardon; the pardon application itself is out of scope and is a referral' - absent from participant-instructions.md and from the rendered guidance pages of both fixtures. (2) 'Whether the pardon is conditional or unconditional cannot be determined from the document' - the distinction is mentioned but the stop is not stated. (3) 'The record still appears after the quarterly cycle and the fallback route's availability is unclear' - the guidance page says the opposite, 'If the record is already clear, stop; if it is not, file the petition', and then declines the criterion the stop is keyed to.",
+          "repair": "Carry the three stop conditions onto the participant-facing surface, and let the guidance page state the quarterly Board of Pardons to AOPC cycle it is chartered to state, sourced to the registry rather than to the two forms."
+        },
+        "KNOWN_PREFILLS": {
+          "measuredDetail": "The seventeen writes are themselves sound - all 28 write records across both fixtures have drawnText exactly equal to expected, read back from the finalized bytes. The failure is the packet's description of them. participant-instructions.md opens 'The platform filled in what it holds about you: your name, your date of birth, your address, your telephone number, your email and your docket number.' No telephone or email was written and none could be: of the 109 terminal field entries across both official forms and the composed guidance document, none is a telephone or email field, and no write carries a phone or email factId. The sentence is shared boilerplate carried by seven census-v1 families.",
+          "repair": "Make the sentence name only what this family writes: name, date of birth, street address, city, state, ZIP, county and docket number. Check the other six families carrying the same boilerplate against their own forms."
+        },
+        "COMPONENT_SET": {
+          "measuredDetail": "The registry declares pa_pardon_expungement-process-guidance-1 with requirement 'required' and -primary-filing-2 and -proposed-order-3 with requirement 'conditional'. product-wiring.json binding.packetComponents names the two conditional components and omits the required one - exactly inverted. It matters here because the guidance page is the only artifact serving obligation:unit:PA:pa_pardon_expungement:pa_pardon_automatic_route, so a binding without it represents a two-route family as a one-route one and drops the route on which nothing is filed at all. Second, the rendered guidance page does not carry the quarterly cycle the registry's unit description assigns to that component.",
+          "repair": "Add component:pa_pardon_expungement-process-guidance-1 to binding.packetComponents, and put the quarterly cycle into the guidance page. production-field-map.json componentSet and reports/rendered-artifacts.json componentSet already list all three correctly and need no change."
+        }
+      },
+      "whatPassed": "ROUTE_IDENTITY, SOURCE_IDENTITY, REQUIRED_BEFORE_FILING, ROUTE_OPTIONS, REPEATING_ROWS, PROTECTED_FIELDS, ARTIFACTS, PAGE_ORDER, CLIPPING_AND_OVERLAP, FILING_DESTINATION and SERVICE all pass on measurement at this base. FEE_AND_WAIVER passes too and was checked hard: the packet states the county-varies fee fact and the in-forma-pauperis waiver the registry holds, and its $132-to-$215 range is sourced to PA.memo.json rather than invented - VA17 confirmed the same $132 appearing elsewhere as New Mexico's district-court fee is not what this packet is quoting. The byte-level write proof in reports/actual-writes.json is the strongest evidence in either family read this session: zero glyphs outside any measured write box across all four rendered documents, with the boundary fixture's long values fitted rather than clipped.",
+      "observationNotCharged": "The registry numbers process_guidance as component order 1 while the packet renders it last, so the page telling a participant whether they need to file at all sits behind the petition. Not failed - the instructions make it step 4 and point at it, and official-forms-first is a defensible assembly choice - but a repair lane already in this file may want to lead with it."
     }
   ],
   "supersededLaneMembership": {

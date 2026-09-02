@@ -185,6 +185,60 @@
         "do not touch FEE_AND_WAIVER or SERVICE: both are sourced verbatim from form 200-00130A, both are correct, and the fee treatment is the strongest of the six families in this lane's roster"
       ]
     }
+  ,
+    {
+      "itemId": "wv_conv_multiple_misdemeanors-set",
+      "lane": "VF06",
+      "wave": "packet-factory-24h/VF06/VA15 independent second read of a repair (2026-09-02)",
+      "raisedBy": "VA15",
+      "raisedAtBase": "7314d48f70865e60531332f253b3c396d244540d",
+      "priorRepairLane": "FIX02",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill",
+      "decisiveDefect": "The delivered SCA-C906 is not a faithful fill of the official form. Every checkbox control the source form prints has been removed from its true position - 1,222 px of the form's own ink erased across the four pages - and stray empty boxes with opaque interiors have been drawn at wrong coordinates elsewhere, 475 px in 9 clusters, each erasing the printed text it lands on. The worst lands inside the very eligibility sentence this packet has elected, so the operative branch reads 'convictions or tr[ ]ic citation(s)' with the letters 'aff' blanked out. On page 2 all four Yes/No boxes for the protective-order questions are gone, leaving bare 'Yes' and 'No' labels with nothing to tick - and those are exactly the CurrentOrderCB1/CB2 and PriorOrderCB1/CB2 blanks the packet's own instructions direct the participant to answer.",
+      "failedProofObligations": [
+        "ARTIFACTS",
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "perObligation": {
+        "ARTIFACTS": {
+          "result": "FAIL",
+          "whatIsWrong": "The bookkeeping is sound - both fixtures re-hash to their declared values, all 8 raster PNGs re-hash correctly with no orphans or blank pages, and the canonical fixture still matches the acceptance receipt - but the artifact content is wrong. Rendering the pristine SCA-C906 at 72dpi and diffing against the packet raster shows source ink destroyed on every page: 803 px on page 1, 166 px on page 2, 82 px on page 3, 171 px on page 4. All four eligibility-branch checkboxes vanish from the page-1 left margin; all four protective-order Yes/No boxes vanish from page 2; further boxes vanish on pages 3 and 4. A participant cannot complete the form as delivered, and a clerk comparing it to the official SCA-C906 would not see the same instrument.",
+          "whereToFix": "The flattening or widget-appearance step of scripts/build-census-v1-wv_conv_multiple_misdemeanors-set.mjs and its shared build host build-census-v1-ne-setaside-custodial-set.mjs.",
+          "evidence": "72dpi pixel diff of all 4 pages against the pristine Master Library render; side-by-side crops of the page-1 eligibility block and the page-2 protective-order block"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "FAIL",
+          "whatIsWrong": "475 px of added ink falls outside every declared write box, in 9 clusters, each a stray empty checkbox at wrong coordinates whose opaque white interior erases the printed text beneath it. Page 1: over the document title between 'PETITION FOR EXPUNGEMENT OF MISDEMEANOR' and 'AND TRAFFIC CITATIONS' at y229-240 x183-194; on the Petitioner name line beside the participant's name at y131-132 x183-194; on the unused CHARGE row 4 line at y356-364 x183-194; and on the word 'traffic' inside the elected eligibility sentence at y527-537 x183-194. Page 2: one box clipped by the top page edge with only its lower rows rendering at y0-4 x296-306, and another at y96-106 x296-306. Page 4: three boxes over the certificate-of-service lines obscuring letters in 'disposed' and 'of the', at y473-483, y519-530 and y571-582, x226-237. The x-coordinates cluster tightly per page, which points at a single coordinate-space error in how widget appearance streams are placed rather than nine unrelated faults.",
+          "whereToFix": "Same build host. Note that the family's own reports/actual-writes.json sets nonWhitespaceGlyphsOutsideMeasuredWriteBoxes to null with the note that no fleet-wide glyph-subtraction claim is made, so this obligation had never been measured for this family before this read; whatever fix lands should also make that field a real measurement rather than a null.",
+          "evidence": "72dpi pixel diff with per-cluster bounding boxes and a containment check against production-field-map.json rects at 2pt tolerance; side-by-side crops of the title block, the eligibility paragraph, the CHARGE rows and the page-4 service lines"
+        }
+      },
+      "obligationsThatPassed": [
+        "ROUTE_IDENTITY",
+        "SOURCE_IDENTITY",
+        "COMPONENT_SET",
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "REPEATING_ROWS",
+        "PROTECTED_FIELDS",
+        "PAGE_ORDER",
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SERVICE",
+        "SELF_HELP_STOP"
+      ],
+      "alsoNoted": [
+        "The map writes participant.birth_month into the field named PetDOBDay and participant.birth_day into PetDOBMonth. This looks like a swap and is not: the rendered page prints 'DOB: 04 / 17 / 1991' for a 1991-04-17 date of birth, so the crossing correctly compensates for the West Virginia Supreme Court's own transposed internal field names. Do not 'fix' it.",
+        "The FIX02 instruction repair itself is sound and measured good. The fee-and-waiver treatment satisfies DET-FEE-AND-WAIVER-001 A1-A4 per fact and per route, and the self-help section reproduces all ten committed selfHelpStopConditions word for word. Nothing in the instructions needs to change."
+      ],
+      "repairMustNotDo": [
+        "Do not weaken the instructions. Every instruction obligation passed; the defect is in the render.",
+        "Do not resolve the missing checkboxes by deleting the instruction lines that point at them. The controls belong on the form.",
+        "Do not open a commercial route, set generationAllowed or runtimeSelectable, or create a fulfillment record. This family remains BUILT_REVIEW_PENDING.",
+        "A re-render is required here because the fix changes fixture bytes, so the acceptance receipt must be re-earned afterwards. That is a consequence of this repair, not a claim that the current receipt is stale."
+      ]
+    }
   ],
   "supersededLaneMembership": {
     "schemaVersion": "rcap-independent-verification-repair-assignments/v1",

@@ -4265,6 +4265,324 @@
       "packetBytesModified": 0,
       "commercialRoutesOpened": 0,
       "productionTouched": false
+    },
+    {
+      "itemId": "oh_marijuana_expungement-set",
+      "lane": "VF02",
+      "wave": "packet-factory-24h — VA14",
+      "verdict": "BLOCKED_BEFORE_CLAIM",
+      "verifiedAtBase": "7314d48f70865e60531332f253b3c396d244540d",
+      "verifier": "VA14 (independent-verification team; built, repaired and rendered none of these packets)",
+      "readIsASecondReadOfARepair": true,
+      "whyThisReaderIsIndependent": "VA14 neither built nor repaired this family; the repair lanes were FIX01 (oh) and FIX04 (pa).",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading",
+      "familyDirectoryRead": false,
+      "artifactsOpened": 0,
+      "routesServed": [],
+      "routesServedNote": "Not enumerable: routes are read from the family's own records, and the claim gate stopped this lane before any artifact of the family was opened.",
+      "artifactHashes": {},
+      "artifactHashesNote": "Empty because no artifact was opened or hashed. This lane recomputed no SHA-256 over this family's bytes.",
+      "claim": {
+        "asserted": true,
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF02 oh_marijuana_expungement-set",
+        "exitCode": 9,
+        "refusal": "ALREADY_RELEASED: oh_marijuana_expungement-set at 2026-09-02T10:21:25.123Z",
+        "grantHeldBy": "VF02",
+        "grantAlreadyReleasedBy": "VF06",
+        "grantAlreadyReleasedAt": "2026-09-02T10:21:25.123Z",
+        "escalationNotTaken": "claim.mjs exposes --reissue and --transfer, either of which would have re-opened this grant and let the read proceed. VA14 did not use them. This dispatch authorized --assert and --release only, and the script's own contract states that re-opening a claim \"must be a deliberate act with an author and a stated cause, never a retry that quietly succeeds.\" A verifier re-opening its own refused claim is exactly that prohibited retry, and re-opening a grant is how two workers end up writing one family. Captain owns the roster and must dispatch the grant.",
+        "whatWouldUnblockThis": "Captain re-opens the independent-verification grant for oh_marijuana_expungement-set on a lane that neither built nor repaired it (--reissue for VF02, or --transfer to the reading lane), with a stated reason. VA14 can then read and score all fifteen obligations at a stated base."
+      },
+      "obligationsScored": 0,
+      "scoredFromZero": false,
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "ROUTE_IDENTITY",
+        "SOURCE_IDENTITY",
+        "COMPONENT_SET",
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "REPEATING_ROWS",
+        "PROTECTED_FIELDS",
+        "ARTIFACTS",
+        "PAGE_ORDER",
+        "CLIPPING_AND_OVERLAP",
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SERVICE",
+        "SELF_HELP_STOP"
+      ],
+      "decisiveDefect": null,
+      "nineCounters": {
+        "measuredHere": false,
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null,
+        "allZero": null,
+        "howMeasured": "NOT MEASURED. scripts/rcap-packet-completeness/verify-packet-completeness.mjs was deliberately NOT run for this family: the claim assert refused with exit 9 before any read, and the lane contract forbids reading the artifacts of a family whose claim was refused. No counter value in this row was copied from a builder report, a prior verifier row, or any other lane's record."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "The claim gate refused this family before any artifact was opened: ALREADY_RELEASED: oh_marijuana_expungement-set at 2026-09-02T10:21:25.123Z (exit 9). The lane contract makes a non-zero --assert a full stop for that family — record BLOCKED_BEFORE_CLAIM and read none of its artifacts — so nothing in data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading was opened, no bytes were hashed, and this obligation was not measured. It is recorded NOT_MEASURABLE_HERE because this lane never held a live grant, NOT because the artifact or its source was unreachable.",
+          "evidence": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF02 oh_marijuana_expungement-set -> stderr \"ALREADY_RELEASED: oh_marijuana_expungement-set at 2026-09-02T10:21:25.123Z\", exit code 9. The only file read for this row was the claim ledger data/rcap-grade-a/packet-factory-24h/claim-ledger.json."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "The claim gate refused this family before any artifact was opened: ALREADY_RELEASED: oh_marijuana_expungement-set at 2026-09-02T10:21:25.123Z (exit 9). The lane contract makes a non-zero --assert a full stop for that family — record BLOCKED_BEFORE_CLAIM and read none of its artifacts — so nothing in data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading was opened, no bytes were hashed, and this obligation was not measured. It is recorded NOT_MEASURABLE_HERE because this lane never held a live grant, NOT because the artifact or its source was unreachable.",
+          "evidence": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF02 oh_marijuana_expungement-set -> stderr \"ALREADY_RELEASED: oh_marijuana_expungement-set at 2026-09-02T10:21:25.123Z\", exit code 9. The only file read for this row was the claim ledger data/rcap-grade-a/packet-factory-24h/claim-ledger.json."
+        },
+        "COMPONENT_SET": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "The claim gate refused this family before any artifact was opened: ALREADY_RELEASED: oh_marijuana_expungement-set at 2026-09-02T10:21:25.123Z (exit 9). The lane contract makes a non-zero --assert a full stop for that family — record BLOCKED_BEFORE_CLAIM and read none of its artifacts — so nothing in data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading was opened, no bytes were hashed, and this obligation was not measured. It is recorded NOT_MEASURABLE_HERE because this lane never held a live grant, NOT because the artifact or its source was unreachable.",
+          "evidence": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF02 oh_marijuana_expungement-set -> stderr \"ALREADY_RELEASED: oh_marijuana_expungement-set at 2026-09-02T10:21:25.123Z\", exit code 9. The only file read for this row was the claim ledger data/rcap-grade-a/packet-factory-24h/claim-ledger.json."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "The claim gate refused this family before any artifact was opened: ALREADY_RELEASED: oh_marijuana_expungement-set at 2026-09-02T10:21:25.123Z (exit 9). The lane contract makes a non-zero --assert a full stop for that family — record BLOCKED_BEFORE_CLAIM and read none of its artifacts — so nothing in data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading was opened, no bytes were hashed, and this obligation was not measured. It is recorded NOT_MEASURABLE_HERE because this lane never held a live grant, NOT because the artifact or its source was unreachable.",
+          "evidence": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF02 oh_marijuana_expungement-set -> stderr \"ALREADY_RELEASED: oh_marijuana_expungement-set at 2026-09-02T10:21:25.123Z\", exit code 9. The only file read for this row was the claim ledger data/rcap-grade-a/packet-factory-24h/claim-ledger.json."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "The claim gate refused this family before any artifact was opened: ALREADY_RELEASED: oh_marijuana_expungement-set at 2026-09-02T10:21:25.123Z (exit 9). The lane contract makes a non-zero --assert a full stop for that family — record BLOCKED_BEFORE_CLAIM and read none of its artifacts — so nothing in data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading was opened, no bytes were hashed, and this obligation was not measured. It is recorded NOT_MEASURABLE_HERE because this lane never held a live grant, NOT because the artifact or its source was unreachable.",
+          "evidence": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF02 oh_marijuana_expungement-set -> stderr \"ALREADY_RELEASED: oh_marijuana_expungement-set at 2026-09-02T10:21:25.123Z\", exit code 9. The only file read for this row was the claim ledger data/rcap-grade-a/packet-factory-24h/claim-ledger.json."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "The claim gate refused this family before any artifact was opened: ALREADY_RELEASED: oh_marijuana_expungement-set at 2026-09-02T10:21:25.123Z (exit 9). The lane contract makes a non-zero --assert a full stop for that family — record BLOCKED_BEFORE_CLAIM and read none of its artifacts — so nothing in data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading was opened, no bytes were hashed, and this obligation was not measured. It is recorded NOT_MEASURABLE_HERE because this lane never held a live grant, NOT because the artifact or its source was unreachable.",
+          "evidence": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF02 oh_marijuana_expungement-set -> stderr \"ALREADY_RELEASED: oh_marijuana_expungement-set at 2026-09-02T10:21:25.123Z\", exit code 9. The only file read for this row was the claim ledger data/rcap-grade-a/packet-factory-24h/claim-ledger.json."
+        },
+        "REPEATING_ROWS": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "The claim gate refused this family before any artifact was opened: ALREADY_RELEASED: oh_marijuana_expungement-set at 2026-09-02T10:21:25.123Z (exit 9). The lane contract makes a non-zero --assert a full stop for that family — record BLOCKED_BEFORE_CLAIM and read none of its artifacts — so nothing in data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading was opened, no bytes were hashed, and this obligation was not measured. It is recorded NOT_MEASURABLE_HERE because this lane never held a live grant, NOT because the artifact or its source was unreachable.",
+          "evidence": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF02 oh_marijuana_expungement-set -> stderr \"ALREADY_RELEASED: oh_marijuana_expungement-set at 2026-09-02T10:21:25.123Z\", exit code 9. The only file read for this row was the claim ledger data/rcap-grade-a/packet-factory-24h/claim-ledger.json."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "The claim gate refused this family before any artifact was opened: ALREADY_RELEASED: oh_marijuana_expungement-set at 2026-09-02T10:21:25.123Z (exit 9). The lane contract makes a non-zero --assert a full stop for that family — record BLOCKED_BEFORE_CLAIM and read none of its artifacts — so nothing in data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading was opened, no bytes were hashed, and this obligation was not measured. It is recorded NOT_MEASURABLE_HERE because this lane never held a live grant, NOT because the artifact or its source was unreachable.",
+          "evidence": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF02 oh_marijuana_expungement-set -> stderr \"ALREADY_RELEASED: oh_marijuana_expungement-set at 2026-09-02T10:21:25.123Z\", exit code 9. The only file read for this row was the claim ledger data/rcap-grade-a/packet-factory-24h/claim-ledger.json."
+        },
+        "ARTIFACTS": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "The claim gate refused this family before any artifact was opened: ALREADY_RELEASED: oh_marijuana_expungement-set at 2026-09-02T10:21:25.123Z (exit 9). The lane contract makes a non-zero --assert a full stop for that family — record BLOCKED_BEFORE_CLAIM and read none of its artifacts — so nothing in data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading was opened, no bytes were hashed, and this obligation was not measured. It is recorded NOT_MEASURABLE_HERE because this lane never held a live grant, NOT because the artifact or its source was unreachable.",
+          "evidence": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF02 oh_marijuana_expungement-set -> stderr \"ALREADY_RELEASED: oh_marijuana_expungement-set at 2026-09-02T10:21:25.123Z\", exit code 9. The only file read for this row was the claim ledger data/rcap-grade-a/packet-factory-24h/claim-ledger.json."
+        },
+        "PAGE_ORDER": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "The claim gate refused this family before any artifact was opened: ALREADY_RELEASED: oh_marijuana_expungement-set at 2026-09-02T10:21:25.123Z (exit 9). The lane contract makes a non-zero --assert a full stop for that family — record BLOCKED_BEFORE_CLAIM and read none of its artifacts — so nothing in data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading was opened, no bytes were hashed, and this obligation was not measured. It is recorded NOT_MEASURABLE_HERE because this lane never held a live grant, NOT because the artifact or its source was unreachable.",
+          "evidence": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF02 oh_marijuana_expungement-set -> stderr \"ALREADY_RELEASED: oh_marijuana_expungement-set at 2026-09-02T10:21:25.123Z\", exit code 9. The only file read for this row was the claim ledger data/rcap-grade-a/packet-factory-24h/claim-ledger.json."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "The claim gate refused this family before any artifact was opened: ALREADY_RELEASED: oh_marijuana_expungement-set at 2026-09-02T10:21:25.123Z (exit 9). The lane contract makes a non-zero --assert a full stop for that family — record BLOCKED_BEFORE_CLAIM and read none of its artifacts — so nothing in data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading was opened, no bytes were hashed, and this obligation was not measured. It is recorded NOT_MEASURABLE_HERE because this lane never held a live grant, NOT because the artifact or its source was unreachable.",
+          "evidence": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF02 oh_marijuana_expungement-set -> stderr \"ALREADY_RELEASED: oh_marijuana_expungement-set at 2026-09-02T10:21:25.123Z\", exit code 9. The only file read for this row was the claim ledger data/rcap-grade-a/packet-factory-24h/claim-ledger.json."
+        },
+        "FILING_DESTINATION": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "The claim gate refused this family before any artifact was opened: ALREADY_RELEASED: oh_marijuana_expungement-set at 2026-09-02T10:21:25.123Z (exit 9). The lane contract makes a non-zero --assert a full stop for that family — record BLOCKED_BEFORE_CLAIM and read none of its artifacts — so nothing in data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading was opened, no bytes were hashed, and this obligation was not measured. It is recorded NOT_MEASURABLE_HERE because this lane never held a live grant, NOT because the artifact or its source was unreachable.",
+          "evidence": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF02 oh_marijuana_expungement-set -> stderr \"ALREADY_RELEASED: oh_marijuana_expungement-set at 2026-09-02T10:21:25.123Z\", exit code 9. The only file read for this row was the claim ledger data/rcap-grade-a/packet-factory-24h/claim-ledger.json."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "The claim gate refused this family before any artifact was opened: ALREADY_RELEASED: oh_marijuana_expungement-set at 2026-09-02T10:21:25.123Z (exit 9). The lane contract makes a non-zero --assert a full stop for that family — record BLOCKED_BEFORE_CLAIM and read none of its artifacts — so nothing in data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading was opened, no bytes were hashed, and this obligation was not measured. It is recorded NOT_MEASURABLE_HERE because this lane never held a live grant, NOT because the artifact or its source was unreachable.",
+          "evidence": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF02 oh_marijuana_expungement-set -> stderr \"ALREADY_RELEASED: oh_marijuana_expungement-set at 2026-09-02T10:21:25.123Z\", exit code 9. The only file read for this row was the claim ledger data/rcap-grade-a/packet-factory-24h/claim-ledger.json."
+        },
+        "SERVICE": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "The claim gate refused this family before any artifact was opened: ALREADY_RELEASED: oh_marijuana_expungement-set at 2026-09-02T10:21:25.123Z (exit 9). The lane contract makes a non-zero --assert a full stop for that family — record BLOCKED_BEFORE_CLAIM and read none of its artifacts — so nothing in data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading was opened, no bytes were hashed, and this obligation was not measured. It is recorded NOT_MEASURABLE_HERE because this lane never held a live grant, NOT because the artifact or its source was unreachable.",
+          "evidence": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF02 oh_marijuana_expungement-set -> stderr \"ALREADY_RELEASED: oh_marijuana_expungement-set at 2026-09-02T10:21:25.123Z\", exit code 9. The only file read for this row was the claim ledger data/rcap-grade-a/packet-factory-24h/claim-ledger.json."
+        },
+        "SELF_HELP_STOP": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "The claim gate refused this family before any artifact was opened: ALREADY_RELEASED: oh_marijuana_expungement-set at 2026-09-02T10:21:25.123Z (exit 9). The lane contract makes a non-zero --assert a full stop for that family — record BLOCKED_BEFORE_CLAIM and read none of its artifacts — so nothing in data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading was opened, no bytes were hashed, and this obligation was not measured. It is recorded NOT_MEASURABLE_HERE because this lane never held a live grant, NOT because the artifact or its source was unreachable.",
+          "evidence": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF02 oh_marijuana_expungement-set -> stderr \"ALREADY_RELEASED: oh_marijuana_expungement-set at 2026-09-02T10:21:25.123Z\", exit code 9. The only file read for this row was the claim ledger data/rcap-grade-a/packet-factory-24h/claim-ledger.json."
+        }
+      },
+      "staleRowsNotCopied": "This lane's earlier FAIL rows for oh_marijuana_expungement-set, and every other lane's, were left untouched and were NOT used as findings. Because the claim was refused, VA14 measured nothing of its own and this row asserts no verdict about the repair by FIX01. The prior FAIL rows remain stale and unrefreshed; this row does not resolve them.",
+      "notes": "No verdict about packet quality is expressed or implied here. BLOCKED_BEFORE_CLAIM is a statement about the claim ledger, not about the packet. The repair by FIX01 remains unverified by a second independent read.",
+      "overlayDirectoriesModified": 0,
+      "packetsModified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "This row authorizes no route promotion and no commercial status."
+    },
+    {
+      "itemId": "oh_marijuana_expungement-set",
+      "lane": "VF02",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "d609b1140b62204038f4161a01611d56ed35bd62",
+      "readIsASecondReadOfARepair": true,
+      "whyThisReaderIsIndependent": "VA17 neither built nor repaired this family; the repair lanes were FIX01 (oh) and FIX04 (pa).",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading",
+      "routesServed": [
+        "obligation:track-pathway:OH:oh_marijuana_expungement:marijuana-hashish-possession-expungement-under-2953-321"
+      ],
+      "deliveryType": "custom_pleading",
+      "readBy": "VA17",
+      "claimAsserted": "claim.mjs --assert VF02 oh_marijuana_expungement-set returned CLAIM_OK (grant set 866dfd9e477e0db3) at this base",
+      "focusedCheckRun": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family oh_marijuana_expungement-set -> PASS_COMPLETE, 6/14 written, all nine contract counters zero. The focused check measures field-map blank dispositions and rendered-document presence; it does not compare the packet against the committed track registry, which is where this read found the defects.",
+      "supersedesStaleRowsInThisFile": [
+        {
+          "verdict": "BLOCKED_BEFORE_CLAIM",
+          "verifiedAtBase": "7314d48f70865e60531332f253b3c396d244540d",
+          "note": "An earlier team was refused at the claim gate and recorded a block. Captain reissued the grant; this row is the completed read at a later base. VA17 did not delete that row because the dispatch forbids overwriting rows VA17 did not write."
+        },
+        {
+          "verdict": "FAIL_REPAIR_REQUIRED",
+          "verifiedAtBase": null,
+          "note": "Pre-repair read that predates FIX01; superseded by this one."
+        }
+      ],
+      "artifactHashes": {
+        "raster/oh-bci-official-source/page-01.png": "02db2acc4d7c3119aeb26942e7bd0c77d02d0e88d509f293de4a09716b1d2245",
+        "raster/oh_marijuana_expungement-boundary/page-01.png": "e86c5f0a53ef597e1740afcd08037a3bbe14114fa0799d6e75686c98f6a5da31",
+        "raster/oh_marijuana_expungement-boundary/page-02.png": "1f50751893b8d8187ab15fa0d605c5f500774f660d660606a4128191b326fc3a",
+        "raster/oh_marijuana_expungement-boundary/page-03.png": "038ada0f27e4beb9e5031db54bb0173dae41e406fabc2683960adcc66e04ddb4",
+        "raster/oh_marijuana_expungement-canonical/page-01.png": "30d50699a55b94643511124ba75f889176cde2c65fb9d3eb658e9b394a809f3c",
+        "raster/oh_marijuana_expungement-canonical/page-02.png": "5c5f75833092cc10237a16266eca028578420987d3b9b3ddb6ce9c6e3798d5e0",
+        "raster/oh_marijuana_expungement-canonical/page-03.png": "e4cb1fd34a81664b5882e18db2b54ecdf3a99f1496ce8b3d59074ed7a545e1c0",
+        "reports/contact-sheets/oh-bci-official-source.png": "6f8ed825416ae886788ed1b682cb53515fdb232d47e039cb2397cd20670a1a20",
+        "reports/contact-sheets/oh_marijuana_expungement-boundary.png": "94d3af20660286e363c6897e0c88ba7dc7e9182bf4830bd8f912633c1485b43f",
+        "reports/contact-sheets/oh_marijuana_expungement-canonical.png": "e6ccfaf066e22fe2035034eda533ed5d26f90861610fe87fc22adb8fbefa5cc3",
+        "tracks/oh_marijuana_expungement/rendered/boundary/boundary.pdf": "330138cf065ddac35a13d93d49ad1f2636479f71c02e63f4a60a5f9ac7b846a8",
+        "tracks/oh_marijuana_expungement/rendered/canonical/canonical.pdf": "ddf3d4840f5ef8fa46d0f80992c927c8ce9bbb24194604c317f97188908d027a"
+      },
+      "artifactHashNote": "Every hash recomputed from the bytes on disk at this base and compared against reports/rendered-artifacts.json; all 12 present artifacts match their declared sha256 and byteLength exactly.",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "measuredHere": true
+      },
+      "overlayDirectoriesModified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "failedProofObligations": [
+        "COMPONENT_SET",
+        "FEE_AND_WAIVER",
+        "SERVICE",
+        "SELF_HELP_STOP"
+      ],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "One route, stated identically in four independent places. source-receipt.json routeKeys, product-wiring.json routeKeys and binding.routeKeys all carry obligation:track-pathway:OH:oh_marijuana_expungement:marijuana-hashish-possession-expungement-under-2953-321. The census wave record names the same single route key for this family and gives ownedPaths as exactly this directory. The committed track registry carries trackId oh_marijuana_expungement with packetSetId oh_marijuana_expungement-set.",
+          "evidence": "source-receipt.json; product-wiring.json; data/rcap-grade-a/route-obligation-census-v1/category-a-implementation-waves.json wave census-v1-wave-OH-01; data/record-clearing/legal-design-track-registry.json"
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Measurable here and measured. The one bound binary is the Ohio BCI Sealings and Expungements Request. Recomputed sha256 from MASTER_LIBRARY_SOURCE_DIR/STATES/OH/04_SUPPORTING_PROCESS/OH__SUPPORT__OH-BCI-SEALING-EXPUNGEMENT-REQUEST__re-sealing-and-or-expungements__REV-UNKNOWN__EN.pdf is 9234ec763403b1ccfbed796dfcf86f29bf7887390d1770460d0bcc9da31fc8cb at 235789 bytes, identical to the value declared in source-receipt.json, in product-wiring binding.sourceVersion, in companion/companion-guidance.md and in the census custody record, which classes the family SOURCE_ALREADY_HELD at tier exact_form_number. This is a custom pleading composed from codified text, so the primary filing binds statutes by citation rather than by byte: R.C. 2953.321, 2953.321(G), 2925.11, 2953.61 and Sub. S.B. 56 are the registry's authority list and the rendered pleading cites 2953.321 and 2953.61 in its STATUTORY AUTHORITY block. The registry records those official sources by URL with sha256 null, so no byte binding is owed for them and none is missing.",
+          "evidence": "sha256sum of the Master Library file; source-receipt.json; data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json"
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "The committed track registry declares five components for packetSet oh_marijuana_expungement-set, every one requirement 'required': -primary-filing-1 (custom_pleading), -local-form-instructions-2, -record-gathering-instructions-3, -hearing-and-objection-instructions-4 (all process_guidance) and -bci-transmission-5 (official_pdf_fill, OH-BCI-SEALING-EXPUNGEMENT-REQUEST). product-wiring.json binding.packetComponents names exactly one of the five: component:oh_marijuana_expungement-bci-transmission-5, the post-order companion. It omits -primary-filing-1, which is the artifact this family actually renders as canonical.pdf and boundary.pdf, so the binding describes the packet as consisting solely of a form that is not filed with the court and is not sent until after a signed order exists. I checked the convention across all census-v1 product-wiring files: every other custom-pleading family names its own primary-filing component. Separately, the hearing-and-objection material reaches a participant only in tracks/oh_marijuana_expungement/participant-instructions.md and never in the family-level participant-instructions.md that product-wiring binding.instructions points at.",
+          "evidence": "product-wiring.json binding.packetComponents; registry packetSet.components for trackId oh_marijuana_expungement; survey of binding.packetComponents across data/rcap-all50/overlays/census-v1/*/*/product-wiring.json"
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Six candidate writes in production-field-map.json, each carrying a factId and a decisionBasis naming the fixture field it is taken from: applicantName, applicantMailingAddress, docketNumber, chargeDescription, disposition and eligibilityBasisStatement. I read all six back out of tracks/oh_marijuana_expungement/rendered/canonical/canonical.txt on disk: the caption and signature block carry Jordan Avery Reyes, the parties paragraph carries 118 Maple Street, Columbus, Ohio 43215, and paragraphs 5 to 8 carry the docket number, charge, disposition and eligibility-basis sentence. No fact the platform holds is left blank. knownRequiredFieldsMissing measured 0.",
+          "evidence": "production-field-map.json documents[0].fields; canonical.txt and boundary.txt read from disk"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Six rows declare requiredBeforeFiling true: localCourtCaption, arrestDate, dispositionDate, arrestingAgency, dateOfBirthAndSocialSecurityNumber and sameActChargeSchedule. Each carries an explicit declaration rather than prose, an effectiveLabel, routeDetermined false, and a visible in-document placeholder that I confirmed in canonical.txt (LOCAL CAPTION MUST BE CONFIRMED, [ARREST DATE TO BE CONFIRMED], [DISPOSITION DATE TO BE CONFIRMED], [ARRESTING AGENCY MUST BE CONFIRMED], the identifiers note, and the ATTACHMENTS entry for the 2953.61 schedule). I matched every one of the six effectiveLabels against participant-instructions.md programmatically: zero undisclosed. Recorded but charged once, under FEE_AND_WAIVER rather than twice: the registry's own packetSet.requiredBeforeFiling array additionally carries 'Payment of the fifty dollar filing fee, or the indigency showing - Presented to the clerk at filing', which the family instructions do not carry.",
+          "evidence": "production-field-map.json; participant-instructions.md; canonical.txt"
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "A composed pleading with no elective control on it: there is no checkbox, no Yes/No pair and no branch selector anywhere in the field map or in the rendered text. No field carries routeDetermined true, so no election the route determines has been left to the participant. The pleading states its own route on its face, in the caption title and in the STATUTORY AUTHORITY block naming R.C. 2953.321. requiredOptionsMissing measured 0.",
+          "evidence": "production-field-map.json documents[0].fields; canonical.txt"
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The pleading carries no repeating row grid, so there is no row to leave half-filled. The one list-shaped obligation the route imposes, the R.C. 2953.61 schedule of every charge arising from the same act, is not partially populated: it is declared REQUIRED_BEFORE_FILING, disclosed in participant-instructions.md, and named in the rendered ATTACHMENTS block as a document the participant assembles. incompleteRows measured 0.",
+          "evidence": "production-field-map.json field sameActChargeSchedule; canonical.txt ATTACHMENTS block"
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "applicantSignature and signatureDate are refused with refusalClass signature_or_date_participant_completion and no blankTreatment, which is correct: they are not required-before-filing items, they are not the participant's to be prompted for as data. I confirmed in canonical.txt that the signature rule and date rule are blank rules, that the proposed order carries 'AND NOW, this ______ day of ____________, 20____' and an unsigned 'BY THE COURT: ________ J.' line, and that no certificate of service is generated. The render report's protection block independently records signatureRuleRemainsBlank, dateRuleRemainsBlank, certificateOfServiceAbsent, proposedOrderJudicialDateRemainsBlank, proposedOrderJudicialSignatureRemainsBlank and unsignedOrderCannotOperate all true. protectedWrites measured 0.",
+          "evidence": "canonical.txt; tracks/oh_marijuana_expungement/rendered/canonical/render-report.json protection block"
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Twelve binaries on disk. I recomputed sha256 for every one and all twelve match reports/rendered-artifacts.json exactly, including canonical.pdf ddf3d4840f5ef8fa46d0f80992c927c8ce9bbb24194604c317f97188908d027a, which is also the hash the acceptance receipt binds, and boundary.pdf 330138cf065ddac35a13d93d49ad1f2636479f71c02e63f4a60a5f9ac7b846a8. The two rendered .txt files also match their declared hashes. A thirteenth file is declared and is not on disk: companion/OH-BCI-SEALING-EXPUNGEMENT-REQUEST--official-source.pdf. That absence is deliberate policy, not a defect, and I record it so no repair lane chases it: it is one of the 59 private-corpus binaries excluded at integration commit c01b87d1584bbb0b902b398b45c376f8fea22050, and launch-control states 'The 59 excluded corpus binaries are not in git by design; bind them through the corpus bootstrap.' It is not gitignored and it was never committed. I bound it instead from MASTER_LIBRARY_SOURCE_DIR and it matches its declared hash and byte length exactly, which is the binding method the policy prescribes.",
+          "evidence": "sha256sum over the family directory; reports/rendered-artifacts.json; git log c01b87d15; data/rcap-grade-a/launch-control/WAVE_2_ASSIGNMENTS.json"
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "canonical.pdf and boundary.pdf are three pages each, as declared, and I confirmed the page count from the bytes. The render report records textRuns on all three pages with everyPageHasText true and participantNameObservedInPdfBytes true. Reading canonical.txt straight through, the order is caption and title, then jurisdiction and venue, parties, facts and case history, eligibility allegations, requested relief, verification and signature block, then the PROPOSED ORDER as a separate instrument with its own caption, then ATTACHMENTS - the order a filed application and its tendered order take. The companion raster is a separate one-page directory and is not interleaved into the pleading.",
+          "evidence": "canonical.pdf and boundary.pdf page counts; render-report.json pageRuns; canonical.txt read end to end"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The pleading is renderer-composed rather than overlaid onto a fixed form, so there is no measured widget box for a value to spill out of. I read both rendered text files end to end and found no truncated token, no run-together words at a line break and no dropped paragraph; the boundary fixture renders the same nine numbered paragraphs as the canonical one with longer values and stays at three pages. The renderer's own QA recorded qaResult passed with zero failures and zero warnings. All seven page rasters plus the companion page are 612x792 at 72 dpi with croppedToPage true and looksBlank false, and every raster hash matches its declaration. visualDefects measured 0.",
+          "evidence": "canonical.txt and boundary.txt; render-report.json qaResult; reports/rendered-artifacts.json raster page records"
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The repository answers this one and the packet states it. The committed registry gives destination kind court, name 'The Ohio sentencing court', detail 'Filed with the clerk of the sentencing court', and venue 'The sentencing court.' participant-instructions.md says the packet is filed 'In the Ohio court that handled the case' and names the sentencing court's own clerk as the office that supplies the caption, the form and the filing counter. The packet's added statement that no held source names a statewide Ohio filing office is accurate: the registry names a court class, not a single statewide office, and records that whether courts have published a dedicated application for a section effective March 2026 is an open question.",
+          "evidence": "registry destination and venue for trackId oh_marijuana_expungement; participant-instructions.md 'Where this is filed'"
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "This is the decisive defect and it fails DET-FEE-AND-WAIVER-001 A1, A2 and A4 together. participant-instructions.md tells the participant, under 'What this costs': 'No held source in this packet states a filing fee, states that filing is free, or states a fee-waiver procedure' and 'This packet does not state an amount because it holds no source for one.' Both sentences are false, and the records that falsify them are the family's own. The committed track registry, which this family binds through trackId oh_marijuana_expungement, carries rules.fees 'Fifty dollars unless indigent. ORC 2953.321(G) directs thirty dollars of the fee to the state treasury, half of that credited to the Attorney General Reimbursement Fund, and twenty dollars to the county general revenue fund' and rules.feeWaiver 'Indigency excuses the fee under ORC 2953.321(G).' It also lists the fee payment and the indigency showing as required-before-filing items. Under A2 that registry is part of the repository this packet had to ask first, and under A1 a named authority to ask - here 'ask the clerk' - stands in only where the record is empty, which it is not. Worse for A4, which forbids a packet telling a participant it does not state something it does state: this packet does state it, three times inside its own directory. tracks/oh_marijuana_expungement/participant-instructions.md reads 'The recorded $50 filing fee or an indigency exception ... must be confirmed against current court practice' and 'The frozen design records $50, subject to a confirmed indigency exception and current local practice'; build-findings.json carries the same sentence as a hard stop; and the canonical render report repeats it as a counsel flag. The participant-facing file denies what three sibling files in the same packet assert. The repair is to state the $50 fee and the R.C. 2953.321(G) indigency exception, keeping the confirm-with-the-clerk instruction as a currency check rather than as a substitute for the answer.",
+          "evidence": "participant-instructions.md 'What this costs'; registry rules.fees and rules.feeWaiver; tracks/oh_marijuana_expungement/participant-instructions.md; build-findings.json hardStops; tracks/oh_marijuana_expungement/rendered/canonical/render-report.json counselFlags"
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "The same A4 failure on a second fact. participant-instructions.md says 'No held source in this packet states who must be served or how. Ask the same clerk.' The registry answers the notice fact for this route: rules.notice reads 'The court notifies the prosecutor of the hearing, and the prosecutor may object by filing an objection with the court prior to the date set for the hearing. ORC 2953.321 sets no sixty-day notice period and no thirty-day objection deadline; those figures come from ORC 2953.32 and do not govern this route.' rules.service records that the section states no separate participant service duty because the court sets the hearing and the prosecutor objects to the court - which is itself an answer, and a reassuring one, not an absence. The packet withholds all of it. It never tells the participant that the court, not they, notifies the prosecutor, nor that the prosecutor may object before the hearing date. The word 'objection' appears nowhere in any participant-facing file in this family, and the track-level file again states the fact the family-level file denies, listing 'prosecutor notice' among what must be confirmed. Note for scoring: the registry's warning that the 60-day and 30-day figures belong to ORC 2953.32 and not to this route is exactly the A3 cross-reading this packet must not do, and it does not do it - the failure is omission, not substitution.",
+          "evidence": "participant-instructions.md 'Who is served'; registry rules.notice and rules.service; grep for 'objection' across the family's participant-facing files returned nothing"
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "The committed registry holds nine selfHelpStopConditions for trackId oh_marijuana_expungement. The packet carries five hard stops, and four of the registry's nine are absent from every participant-facing file in the family: pending criminal proceedings or open warrants; prosecutor objection and any victim objection where applicable; choosing between sealing and expungement, which the registry calls a legal judgment with different waits and different exclusions; and immigration exposure. I grepped the family's .md and .txt files for 'warrant', 'victim', 'objection', 'sealing' and 'immigration' and none of the five terms appears in any participant-facing file. The sealing-versus-expungement omission is compounded by a second one: the registry's mechanism text names as 'the single most important disclosure in Ohio record-clearing copy' that on an expungement the Bureau of Criminal Identification and Investigation keeps a limited record for law-enforcement employment qualification while other entities must destroy, delete and erase - so neither remedy may be described as completely gone from everywhere. No file in this family carries that disclosure. Scoring note offered honestly rather than hidden: DET-FEE-AND-WAIVER-001 A4 names REQUIRED_BEFORE_FILING, FILING_DESTINATION, SERVICE and FEE_AND_WAIVER and does not name SELF_HELP_STOP. I read the ask-the-repository-first test as reaching it, because a registry's selfHelpStopConditions are the repository's own statement of where a track's self-help ends. If Captain reads A4's list as exhaustive, this finding should be re-scored onto another obligation rather than waived - four omitted stop conditions and a missing BCI-retention disclosure are participant-safety omissions on any reading.",
+          "evidence": "registry selfHelpStopConditions and mechanism text for trackId oh_marijuana_expungement; build-findings.json hardStops; participant-instructions.md; tracks/oh_marijuana_expungement/participant-instructions.md; term grep across the family"
+        }
+      }
     }
   ],
   "vt1Read": {

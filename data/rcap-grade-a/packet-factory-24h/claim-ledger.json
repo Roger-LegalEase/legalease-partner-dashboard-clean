@@ -4155,7 +4155,7 @@
       "lane": "VF02",
       "laneKind": "independent-verification",
       "released": true,
-      "releasedAt": "2026-09-02T10:21:25.123Z"
+      "releasedAt": "2026-09-02T11:46:46.737Z"
     },
     {
       "subjectType": "packet-family",
@@ -4335,7 +4335,7 @@
       "lane": "VF03",
       "laneKind": "independent-verification",
       "released": true,
-      "releasedAt": "2026-09-02T10:58:41.509Z"
+      "releasedAt": "2026-09-02T11:46:46.818Z"
     },
     {
       "subjectType": "packet-family",
@@ -5185,8 +5185,8 @@
       "operation": "independent-verification",
       "lane": "VF04",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-02T11:44:09.052Z"
     },
     {
       "subjectType": "packet-family",
@@ -6127,8 +6127,8 @@
       "operation": "independent-verification",
       "lane": "VF06",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-02T11:44:09.129Z"
     },
     {
       "subjectType": "packet-family",
@@ -6157,8 +6157,8 @@
       "operation": "independent-verification",
       "lane": "VF07",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-02T11:38:30.291Z"
     },
     {
       "subjectType": "packet-family",
@@ -11612,7 +11612,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "17480dfb196d525e10494a3891ce34cd1bed73095defe07ad5a97a956739b81e",
+  "claimsDigest": "980f9a245c617d27df800bd6ffc8369713c2b2a27577993760f28f02d5df49a6",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -18740,6 +18740,46 @@
       "operation": "rapid-repair",
       "laneKind": "repair",
       "releasedAt": "2026-09-02T11:27:24.055Z"
+    },
+    {
+      "lane": "VF07",
+      "subjectType": "packet-family",
+      "subjectId": "wv_conv_single_misdemeanor-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-02T11:38:30.291Z"
+    },
+    {
+      "lane": "VF04",
+      "subjectType": "packet-family",
+      "subjectId": "ut_pet_conviction-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-02T11:44:09.052Z"
+    },
+    {
+      "lane": "VF06",
+      "subjectType": "packet-family",
+      "subjectId": "wv_conv_multiple_misdemeanors-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-02T11:44:09.129Z"
+    },
+    {
+      "lane": "VF02",
+      "subjectType": "packet-family",
+      "subjectId": "oh_marijuana_expungement-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-02T11:46:46.737Z"
+    },
+    {
+      "lane": "VF03",
+      "subjectType": "packet-family",
+      "subjectId": "pa_pardon_expungement-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-02T11:46:46.818Z"
     }
   ],
   "reissues": [
@@ -20562,6 +20602,26 @@
       "previouslyReleasedAt": "2026-09-02T05:32:09.827Z",
       "reissuedAt": "2026-09-02T10:58:26.227Z",
       "reason": "FABLE-FIXUT repair lane: VF10 returned FAIL_REPAIR_REQUIRED (FEE_AND_WAIVER, REQUIRED_BEFORE_FILING) after FIX08 released; no external lane holds this subject per EXTERNAL_ASSIGNMENTS.json. Re-opening the repair grant so the failed obligations can be repaired."
+    },
+    {
+      "lane": "VF02",
+      "subjectType": "packet-family",
+      "subjectId": "oh_marijuana_expungement-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-09-02T10:21:25.123Z",
+      "reissuedAt": "2026-09-02T11:31:59.058Z",
+      "reason": "Restoring the Step 3 second-read grant: it was reissued at 12:0x and then lost when Captain stashed the ledger to resolve the FABLE-FIXAR merge. FIX01 repaired this family and declined to approve its own work; every prior independent read predates that repair."
+    },
+    {
+      "lane": "VF03",
+      "subjectType": "packet-family",
+      "subjectId": "pa_pardon_expungement-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-09-02T10:58:41.509Z",
+      "reissuedAt": "2026-09-02T11:31:59.136Z",
+      "reason": "Restoring the Step 3 second-read grant: it was reissued at 12:0x and then lost when Captain stashed the ledger to resolve the FABLE-FIXAR merge. FIX04 repaired this family and declined to approve its own work; every prior independent read predates that repair."
     }
   ],
   "transfers": [

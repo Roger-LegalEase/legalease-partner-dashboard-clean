@@ -139,6 +139,55 @@
         "this verification opens no commercial route and grants no approval"
       ]
     }
+  ,
+    {
+      "itemId": "ut_pet_conviction-set",
+      "lane": "VF04",
+      "wave": "packet-factory-24h/VF04/VA15 independent second read of a repair (2026-09-02)",
+      "raisedBy": "VA15",
+      "raisedAtBase": "7314d48f70865e60531332f253b3c396d244540d",
+      "priorRepairLane": "FIX08",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill",
+      "decisiveDefect": "participant-instructions.md carries none of this route's 13 committed selfHelpStopConditions, and it affirmatively contradicts one of them. The registry's first condition is an express hard stop for non-citizens - the Utah Courts self-help page itself tells non-citizens to consult an immigration lawyer before expunging, because the FBI may retain records of an expunged case - and the packet never mentions immigration, citizenship, a lawyer, an attorney or counsel anywhere in the file. The registry's second condition is that self-help ends when the prosecutor or a victim objects or the court schedules a hearing; the packet instead tells the participant 'The prosecutor or a victim in your case may object; if the court schedules a hearing, attend it', directing self-representation at the exact point the route's own record says to stop.",
+      "failedProofObligations": [
+        "SELF_HELP_STOP"
+      ],
+      "perObligation": {
+        "SELF_HELP_STOP": {
+          "result": "FAIL",
+          "whatIsWrong": "Zero of 13 selfHelpStopConditions and zero of 16 selfHelpBoundaries from data/record-clearing/legal-design-track-registry.json track ut_pet_conviction appear in participant-instructions.md. A keyword scan of the whole file returns 0 occurrences of 'lawyer', 'attorney', 'immigration', 'citizen' and 'counsel'. Missing in particular: the non-citizen hard stop; the objection-or-hearing stop, which is contradicted rather than merely omitted; the 77-40a-303(4) and (5) conviction-count limits that run on total criminal history across all states including previously expunged cases; the 77-40a-303(6) mixed-episode counting rule; whether an offence is a violent felony under 76-3-203.5(1)(c)(i); which of case closure, release or termination of supervision starts the waiting period; BCI offering a special certificate instead of a certificate of eligibility, which moves the eligibility decision to the court; an active protective order or stalking injunction; expunging appellate records; and the public-interest showing that has to be argued rather than simply stated - which matters here because the packet already leaves that explanation blank for the participant to write.",
+          "whereToFix": "data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill/participant-instructions.md, and the builder that emits it.",
+          "whatGoodLooksLike": "The sibling packet in this same wave, wv_conv_multiple_misdemeanors-set, does this correctly: it carries a 'Where self-help ends' section reproducing all ten of its route's selfHelpStopConditions word for word, cites the exact file, track and field so a reader can check it, escalates the immigration item to an express hard stop, and separates the two post-filing stops with the instruction to look for a lawyer as soon as an opposition is served. The input is available and the pattern is established; this is an omission, not a blocked legal input.",
+          "evidence": "legal-design-track-registry.json track ut_pet_conviction selfHelpStopConditions (13) and selfHelpBoundaries (16); participant-instructions.md line 40 and full-file keyword scan"
+        }
+      },
+      "obligationsThatPassed": [
+        "ROUTE_IDENTITY",
+        "SOURCE_IDENTITY",
+        "COMPONENT_SET",
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "REPEATING_ROWS",
+        "PROTECTED_FIELDS",
+        "ARTIFACTS",
+        "PAGE_ORDER",
+        "CLIPPING_AND_OVERLAP",
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SERVICE"
+      ],
+      "alsoNotedNotScoredAsFailure": [
+        "SERVICE discrepancy: the coded track registry's destination.detail says 'The court sends the filing to the prosecuting attorney; the petitioner does not serve', which contradicts the held BCI Expungement Applicant Instructions the packet follows ('Mail or email the prosecutor copies of what you file'). Under the source hierarchy the held official publication wins and the registry note is a state-pack fidelity issue. Flagged for counsel, not failed.",
+        "The committed packet-set manifest's requiredBeforeFiling still carries a stale sentence saying the packet does not quote a court filing fee because the Utah Courts page defers to the cover sheet. The packet now correctly states $150 from the cover sheet it delivers, so the manifest note is behind the packet. Not participant-facing and not a FEE_AND_WAIVER failure, but worth reconciling."
+      ],
+      "repairMustNotDo": [
+        "Do not touch any fixture or raster byte. This repair is instruction-only, the acceptance receipt is still bound to the canonical bytes on disk, and no re-render is required or wanted.",
+        "Do not weaken or remove anything the FIX08 repair added. The fee-and-waiver treatment, the filing-destination sequencing and the required-before-filing additions were all measured and all pass.",
+        "Do not import another Utah route's self-help stop conditions. Use track ut_pet_conviction's own selfHelpStopConditions, per fact and per route.",
+        "Do not open a commercial route, set generationAllowed or runtimeSelectable, or create a fulfillment record. This family remains BUILT_REVIEW_PENDING."
+      ]
+    }
   ],
   "supersededLaneMembership": {
     "schemaVersion": "rcap-independent-verification-repair-assignments/v1",

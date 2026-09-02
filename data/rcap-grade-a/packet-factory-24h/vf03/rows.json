@@ -3965,6 +3965,328 @@
         }
       },
       "staleRecordFound": "product-wiring.json still carries binding.lastIndependentVerification = {verdict FAIL_REPAIR_REQUIRED, lane vf11, verifiedAtBase ab82f102a44ea5e8bc0698b35d49164c9334f6fe}. All three obligations vf11 failed are repaired at this base and I overturn them by re-measurement; the block is stale on its face. Reported for Captain; this lane may not edit it."
+    },
+    {
+      "itemId": "pa_pardon_expungement-set",
+      "lane": "VF03",
+      "wave": "packet-factory-24h — VA14",
+      "verdict": "BLOCKED_BEFORE_CLAIM",
+      "verifiedAtBase": "7314d48f70865e60531332f253b3c396d244540d",
+      "verifier": "VA14 (independent-verification team; built, repaired and rendered none of these packets)",
+      "readIsASecondReadOfARepair": true,
+      "whyThisReaderIsIndependent": "VA14 neither built nor repaired this family; the repair lanes were FIX01 (oh) and FIX04 (pa).",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill",
+      "familyDirectoryRead": false,
+      "artifactsOpened": 0,
+      "routesServed": [],
+      "routesServedNote": "Not enumerable: routes are read from the family's own records, and the claim gate stopped this lane before any artifact of the family was opened.",
+      "artifactHashes": {},
+      "artifactHashesNote": "Empty because no artifact was opened or hashed. This lane recomputed no SHA-256 over this family's bytes.",
+      "claim": {
+        "asserted": true,
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF03 pa_pardon_expungement-set",
+        "exitCode": 9,
+        "refusal": "ALREADY_RELEASED: pa_pardon_expungement-set at 2026-09-02T10:58:41.509Z",
+        "grantHeldBy": "VF03",
+        "grantAlreadyReleasedBy": "VF07",
+        "grantAlreadyReleasedAt": "2026-09-02T10:58:41.509Z",
+        "escalationNotTaken": "claim.mjs exposes --reissue and --transfer, either of which would have re-opened this grant and let the read proceed. VA14 did not use them. This dispatch authorized --assert and --release only, and the script's own contract states that re-opening a claim \"must be a deliberate act with an author and a stated cause, never a retry that quietly succeeds.\" A verifier re-opening its own refused claim is exactly that prohibited retry, and re-opening a grant is how two workers end up writing one family. Captain owns the roster and must dispatch the grant.",
+        "whatWouldUnblockThis": "Captain re-opens the independent-verification grant for pa_pardon_expungement-set on a lane that neither built nor repaired it (--reissue for VF03, or --transfer to the reading lane), with a stated reason. VA14 can then read and score all fifteen obligations at a stated base."
+      },
+      "obligationsScored": 0,
+      "scoredFromZero": false,
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "ROUTE_IDENTITY",
+        "SOURCE_IDENTITY",
+        "COMPONENT_SET",
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "REPEATING_ROWS",
+        "PROTECTED_FIELDS",
+        "ARTIFACTS",
+        "PAGE_ORDER",
+        "CLIPPING_AND_OVERLAP",
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SERVICE",
+        "SELF_HELP_STOP"
+      ],
+      "decisiveDefect": null,
+      "nineCounters": {
+        "measuredHere": false,
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null,
+        "allZero": null,
+        "howMeasured": "NOT MEASURED. scripts/rcap-packet-completeness/verify-packet-completeness.mjs was deliberately NOT run for this family: the claim assert refused with exit 9 before any read, and the lane contract forbids reading the artifacts of a family whose claim was refused. No counter value in this row was copied from a builder report, a prior verifier row, or any other lane's record."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "The claim gate refused this family before any artifact was opened: ALREADY_RELEASED: pa_pardon_expungement-set at 2026-09-02T10:58:41.509Z (exit 9). The lane contract makes a non-zero --assert a full stop for that family — record BLOCKED_BEFORE_CLAIM and read none of its artifacts — so nothing in data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill was opened, no bytes were hashed, and this obligation was not measured. It is recorded NOT_MEASURABLE_HERE because this lane never held a live grant, NOT because the artifact or its source was unreachable.",
+          "evidence": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF03 pa_pardon_expungement-set -> stderr \"ALREADY_RELEASED: pa_pardon_expungement-set at 2026-09-02T10:58:41.509Z\", exit code 9. The only file read for this row was the claim ledger data/rcap-grade-a/packet-factory-24h/claim-ledger.json."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "The claim gate refused this family before any artifact was opened: ALREADY_RELEASED: pa_pardon_expungement-set at 2026-09-02T10:58:41.509Z (exit 9). The lane contract makes a non-zero --assert a full stop for that family — record BLOCKED_BEFORE_CLAIM and read none of its artifacts — so nothing in data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill was opened, no bytes were hashed, and this obligation was not measured. It is recorded NOT_MEASURABLE_HERE because this lane never held a live grant, NOT because the artifact or its source was unreachable.",
+          "evidence": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF03 pa_pardon_expungement-set -> stderr \"ALREADY_RELEASED: pa_pardon_expungement-set at 2026-09-02T10:58:41.509Z\", exit code 9. The only file read for this row was the claim ledger data/rcap-grade-a/packet-factory-24h/claim-ledger.json."
+        },
+        "COMPONENT_SET": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "The claim gate refused this family before any artifact was opened: ALREADY_RELEASED: pa_pardon_expungement-set at 2026-09-02T10:58:41.509Z (exit 9). The lane contract makes a non-zero --assert a full stop for that family — record BLOCKED_BEFORE_CLAIM and read none of its artifacts — so nothing in data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill was opened, no bytes were hashed, and this obligation was not measured. It is recorded NOT_MEASURABLE_HERE because this lane never held a live grant, NOT because the artifact or its source was unreachable.",
+          "evidence": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF03 pa_pardon_expungement-set -> stderr \"ALREADY_RELEASED: pa_pardon_expungement-set at 2026-09-02T10:58:41.509Z\", exit code 9. The only file read for this row was the claim ledger data/rcap-grade-a/packet-factory-24h/claim-ledger.json."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "The claim gate refused this family before any artifact was opened: ALREADY_RELEASED: pa_pardon_expungement-set at 2026-09-02T10:58:41.509Z (exit 9). The lane contract makes a non-zero --assert a full stop for that family — record BLOCKED_BEFORE_CLAIM and read none of its artifacts — so nothing in data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill was opened, no bytes were hashed, and this obligation was not measured. It is recorded NOT_MEASURABLE_HERE because this lane never held a live grant, NOT because the artifact or its source was unreachable.",
+          "evidence": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF03 pa_pardon_expungement-set -> stderr \"ALREADY_RELEASED: pa_pardon_expungement-set at 2026-09-02T10:58:41.509Z\", exit code 9. The only file read for this row was the claim ledger data/rcap-grade-a/packet-factory-24h/claim-ledger.json."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "The claim gate refused this family before any artifact was opened: ALREADY_RELEASED: pa_pardon_expungement-set at 2026-09-02T10:58:41.509Z (exit 9). The lane contract makes a non-zero --assert a full stop for that family — record BLOCKED_BEFORE_CLAIM and read none of its artifacts — so nothing in data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill was opened, no bytes were hashed, and this obligation was not measured. It is recorded NOT_MEASURABLE_HERE because this lane never held a live grant, NOT because the artifact or its source was unreachable.",
+          "evidence": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF03 pa_pardon_expungement-set -> stderr \"ALREADY_RELEASED: pa_pardon_expungement-set at 2026-09-02T10:58:41.509Z\", exit code 9. The only file read for this row was the claim ledger data/rcap-grade-a/packet-factory-24h/claim-ledger.json."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "The claim gate refused this family before any artifact was opened: ALREADY_RELEASED: pa_pardon_expungement-set at 2026-09-02T10:58:41.509Z (exit 9). The lane contract makes a non-zero --assert a full stop for that family — record BLOCKED_BEFORE_CLAIM and read none of its artifacts — so nothing in data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill was opened, no bytes were hashed, and this obligation was not measured. It is recorded NOT_MEASURABLE_HERE because this lane never held a live grant, NOT because the artifact or its source was unreachable.",
+          "evidence": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF03 pa_pardon_expungement-set -> stderr \"ALREADY_RELEASED: pa_pardon_expungement-set at 2026-09-02T10:58:41.509Z\", exit code 9. The only file read for this row was the claim ledger data/rcap-grade-a/packet-factory-24h/claim-ledger.json."
+        },
+        "REPEATING_ROWS": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "The claim gate refused this family before any artifact was opened: ALREADY_RELEASED: pa_pardon_expungement-set at 2026-09-02T10:58:41.509Z (exit 9). The lane contract makes a non-zero --assert a full stop for that family — record BLOCKED_BEFORE_CLAIM and read none of its artifacts — so nothing in data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill was opened, no bytes were hashed, and this obligation was not measured. It is recorded NOT_MEASURABLE_HERE because this lane never held a live grant, NOT because the artifact or its source was unreachable.",
+          "evidence": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF03 pa_pardon_expungement-set -> stderr \"ALREADY_RELEASED: pa_pardon_expungement-set at 2026-09-02T10:58:41.509Z\", exit code 9. The only file read for this row was the claim ledger data/rcap-grade-a/packet-factory-24h/claim-ledger.json."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "The claim gate refused this family before any artifact was opened: ALREADY_RELEASED: pa_pardon_expungement-set at 2026-09-02T10:58:41.509Z (exit 9). The lane contract makes a non-zero --assert a full stop for that family — record BLOCKED_BEFORE_CLAIM and read none of its artifacts — so nothing in data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill was opened, no bytes were hashed, and this obligation was not measured. It is recorded NOT_MEASURABLE_HERE because this lane never held a live grant, NOT because the artifact or its source was unreachable.",
+          "evidence": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF03 pa_pardon_expungement-set -> stderr \"ALREADY_RELEASED: pa_pardon_expungement-set at 2026-09-02T10:58:41.509Z\", exit code 9. The only file read for this row was the claim ledger data/rcap-grade-a/packet-factory-24h/claim-ledger.json."
+        },
+        "ARTIFACTS": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "The claim gate refused this family before any artifact was opened: ALREADY_RELEASED: pa_pardon_expungement-set at 2026-09-02T10:58:41.509Z (exit 9). The lane contract makes a non-zero --assert a full stop for that family — record BLOCKED_BEFORE_CLAIM and read none of its artifacts — so nothing in data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill was opened, no bytes were hashed, and this obligation was not measured. It is recorded NOT_MEASURABLE_HERE because this lane never held a live grant, NOT because the artifact or its source was unreachable.",
+          "evidence": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF03 pa_pardon_expungement-set -> stderr \"ALREADY_RELEASED: pa_pardon_expungement-set at 2026-09-02T10:58:41.509Z\", exit code 9. The only file read for this row was the claim ledger data/rcap-grade-a/packet-factory-24h/claim-ledger.json."
+        },
+        "PAGE_ORDER": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "The claim gate refused this family before any artifact was opened: ALREADY_RELEASED: pa_pardon_expungement-set at 2026-09-02T10:58:41.509Z (exit 9). The lane contract makes a non-zero --assert a full stop for that family — record BLOCKED_BEFORE_CLAIM and read none of its artifacts — so nothing in data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill was opened, no bytes were hashed, and this obligation was not measured. It is recorded NOT_MEASURABLE_HERE because this lane never held a live grant, NOT because the artifact or its source was unreachable.",
+          "evidence": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF03 pa_pardon_expungement-set -> stderr \"ALREADY_RELEASED: pa_pardon_expungement-set at 2026-09-02T10:58:41.509Z\", exit code 9. The only file read for this row was the claim ledger data/rcap-grade-a/packet-factory-24h/claim-ledger.json."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "The claim gate refused this family before any artifact was opened: ALREADY_RELEASED: pa_pardon_expungement-set at 2026-09-02T10:58:41.509Z (exit 9). The lane contract makes a non-zero --assert a full stop for that family — record BLOCKED_BEFORE_CLAIM and read none of its artifacts — so nothing in data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill was opened, no bytes were hashed, and this obligation was not measured. It is recorded NOT_MEASURABLE_HERE because this lane never held a live grant, NOT because the artifact or its source was unreachable.",
+          "evidence": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF03 pa_pardon_expungement-set -> stderr \"ALREADY_RELEASED: pa_pardon_expungement-set at 2026-09-02T10:58:41.509Z\", exit code 9. The only file read for this row was the claim ledger data/rcap-grade-a/packet-factory-24h/claim-ledger.json."
+        },
+        "FILING_DESTINATION": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "The claim gate refused this family before any artifact was opened: ALREADY_RELEASED: pa_pardon_expungement-set at 2026-09-02T10:58:41.509Z (exit 9). The lane contract makes a non-zero --assert a full stop for that family — record BLOCKED_BEFORE_CLAIM and read none of its artifacts — so nothing in data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill was opened, no bytes were hashed, and this obligation was not measured. It is recorded NOT_MEASURABLE_HERE because this lane never held a live grant, NOT because the artifact or its source was unreachable.",
+          "evidence": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF03 pa_pardon_expungement-set -> stderr \"ALREADY_RELEASED: pa_pardon_expungement-set at 2026-09-02T10:58:41.509Z\", exit code 9. The only file read for this row was the claim ledger data/rcap-grade-a/packet-factory-24h/claim-ledger.json."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "The claim gate refused this family before any artifact was opened: ALREADY_RELEASED: pa_pardon_expungement-set at 2026-09-02T10:58:41.509Z (exit 9). The lane contract makes a non-zero --assert a full stop for that family — record BLOCKED_BEFORE_CLAIM and read none of its artifacts — so nothing in data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill was opened, no bytes were hashed, and this obligation was not measured. It is recorded NOT_MEASURABLE_HERE because this lane never held a live grant, NOT because the artifact or its source was unreachable.",
+          "evidence": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF03 pa_pardon_expungement-set -> stderr \"ALREADY_RELEASED: pa_pardon_expungement-set at 2026-09-02T10:58:41.509Z\", exit code 9. The only file read for this row was the claim ledger data/rcap-grade-a/packet-factory-24h/claim-ledger.json."
+        },
+        "SERVICE": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "The claim gate refused this family before any artifact was opened: ALREADY_RELEASED: pa_pardon_expungement-set at 2026-09-02T10:58:41.509Z (exit 9). The lane contract makes a non-zero --assert a full stop for that family — record BLOCKED_BEFORE_CLAIM and read none of its artifacts — so nothing in data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill was opened, no bytes were hashed, and this obligation was not measured. It is recorded NOT_MEASURABLE_HERE because this lane never held a live grant, NOT because the artifact or its source was unreachable.",
+          "evidence": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF03 pa_pardon_expungement-set -> stderr \"ALREADY_RELEASED: pa_pardon_expungement-set at 2026-09-02T10:58:41.509Z\", exit code 9. The only file read for this row was the claim ledger data/rcap-grade-a/packet-factory-24h/claim-ledger.json."
+        },
+        "SELF_HELP_STOP": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "detail": "The claim gate refused this family before any artifact was opened: ALREADY_RELEASED: pa_pardon_expungement-set at 2026-09-02T10:58:41.509Z (exit 9). The lane contract makes a non-zero --assert a full stop for that family — record BLOCKED_BEFORE_CLAIM and read none of its artifacts — so nothing in data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill was opened, no bytes were hashed, and this obligation was not measured. It is recorded NOT_MEASURABLE_HERE because this lane never held a live grant, NOT because the artifact or its source was unreachable.",
+          "evidence": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF03 pa_pardon_expungement-set -> stderr \"ALREADY_RELEASED: pa_pardon_expungement-set at 2026-09-02T10:58:41.509Z\", exit code 9. The only file read for this row was the claim ledger data/rcap-grade-a/packet-factory-24h/claim-ledger.json."
+        }
+      },
+      "staleRowsNotCopied": "This lane's earlier FAIL rows for pa_pardon_expungement-set, and every other lane's, were left untouched and were NOT used as findings. Because the claim was refused, VA14 measured nothing of its own and this row asserts no verdict about the repair by FIX04. The prior FAIL rows remain stale and unrefreshed; this row does not resolve them.",
+      "notes": "No verdict about packet quality is expressed or implied here. BLOCKED_BEFORE_CLAIM is a statement about the claim ledger, not about the packet. The repair by FIX04 remains unverified by a second independent read.",
+      "overlayDirectoriesModified": 0,
+      "packetsModified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "This row authorizes no route promotion and no commercial status."
+    },
+    {
+      "itemId": "pa_pardon_expungement-set",
+      "lane": "VF03",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "d609b1140b62204038f4161a01611d56ed35bd62",
+      "readIsASecondReadOfARepair": true,
+      "whyThisReaderIsIndependent": "VA17 neither built nor repaired this family; the repair lanes were FIX01 (oh) and FIX04 (pa).",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill",
+      "routesServed": [
+        "obligation:unit:PA:pa_pardon_expungement:pa_pardon_automatic_route",
+        "obligation:unit:PA:pa_pardon_expungement:pa_pardon_fallback_petition"
+      ],
+      "deliveryType": "official_pdf_fill",
+      "readBy": "VA17",
+      "claimAsserted": "claim.mjs --assert VF03 pa_pardon_expungement-set returned CLAIM_OK (grant set 866dfd9e477e0db3) at this base",
+      "focusedCheckRun": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_pardon_expungement-set -> PASS_COMPLETE, 17/109 written, all nine contract counters zero. I reproduced the counters from the artifacts rather than reading reports/builder-completeness-counters.json, which is the builder's own record and says of itself that a builder verdict is not a verdict.",
+      "supersedesStaleRowsInThisFile": [
+        {
+          "verdict": "BLOCKED_BEFORE_CLAIM",
+          "verifiedAtBase": "7314d48f70865e60531332f253b3c396d244540d",
+          "note": "An earlier team was refused at the claim gate and recorded a block. Captain reissued the grant; this row is the completed read at a later base. VA17 did not delete that row because the dispatch forbids overwriting rows VA17 did not write."
+        },
+        {
+          "verdict": "FAIL_REPAIR_REQUIRED",
+          "verifiedAtBase": "7fcfb7d40aafe7bd7350fc735ea09d16524cb757",
+          "note": "Pre-repair read that predates FIX04; superseded by this one."
+        }
+      ],
+      "artifactHashes": {
+        "fixtures/boundary--PA-RCRIM-P-790-ORDER.pdf": "4ad89343b3454360298c87a8319bc7c6d252f8e26319e496a6cf3c47b5f0c270",
+        "fixtures/boundary--PA-RCRIM-P-790-PETITION.pdf": "2bd7c82a74549352d2fa06daef448a34405b33fbbf2236f2250e7b0f62c73148",
+        "fixtures/boundary.pdf": "bdc27af98952ba01e1e0ce67ae528b63aad7b73111e7780071cdd5b30e84c5f2",
+        "fixtures/canonical--PA-RCRIM-P-790-ORDER.pdf": "d2e76d06368f4f12e215b914fe41be0a9f86231cac55fd4d2367c3acd2be9fbc",
+        "fixtures/canonical--PA-RCRIM-P-790-PETITION.pdf": "8f33808244acef558c2489e47ddccf1804f02c0d9cb50d258697306b2b7e0ca2",
+        "fixtures/canonical.pdf": "888d476669d2dcfa9db325c08eef46bb749c825f1fd745afc863c59e6dd64f74",
+        "raster/boundary/page-01/page.png": "2b405b41f1fb1c186509278c9715d1cebf46cf36b1eccae6618681452341b285",
+        "raster/boundary/page-02/page.png": "324f7cd7ac3916159f33d60e337ab02ed00f2fd9a29e20c66c3438b26895526e",
+        "raster/boundary/page-03/page.png": "2802f1ca612178aa4b72fe352ba75b14cf509059ca6a4f8c65a5f935fae7ab95",
+        "raster/boundary/page-04/page.png": "d671f0c15a9059864b1fc32d8b7400b9959d38e6fbe1d180c24047ba159d2f2a",
+        "raster/boundary/page-05/page.png": "e66fea3589e4656478b79ba0d8d4634c512af28420e204194606c34b7028103a",
+        "raster/canonical/page-01/page.png": "68280c079639f9675dc2f78a7e9acca31ff6531f72ca35278e8f9a1ea5716295",
+        "raster/canonical/page-02/page.png": "2c71fc0094591a1cfa5b0d154bd0f5ae70371ceb5e0bc6a18142f22a1e933b80",
+        "raster/canonical/page-03/page.png": "1b81a7224ed89f13d1f6c00ab8836109bb65478d1110279d1afd72be4ad076c2",
+        "raster/canonical/page-04/page.png": "ae0b159005ec91f4be07858db79982956d1351fe1409f922cc7a42e745202341",
+        "raster/canonical/page-05/page.png": "e66fea3589e4656478b79ba0d8d4634c512af28420e204194606c34b7028103a"
+      },
+      "artifactHashNote": "Every hash recomputed from the bytes on disk at this base. canonical.pdf and boundary.pdf and all ten raster pages match reports/rendered-artifacts.json exactly; canonical.pdf also matches the acceptance receipt's boundToCanonicalSha256. The four per-document fixtures carry no declared hash anywhere in the family, so their recomputed hashes are recorded here as new evidence rather than as a comparison.",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "measuredHere": true
+      },
+      "overlayDirectoriesModified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "failedProofObligations": [
+        "COMPONENT_SET",
+        "KNOWN_PREFILLS",
+        "SELF_HELP_STOP"
+      ],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Two routes and the packet keeps them straight throughout. product-wiring.json carries both obligation:unit:PA:pa_pardon_expungement:pa_pardon_automatic_route and :pa_pardon_fallback_petition at top level and again in binding.routeKeys; the committed registry holds both as units of trackId pa_pardon_expungement with compositionMode 'alternative'. production-field-map.json assigns each document a routeKey in its documentPolicy: the petition and the order to the fallback route, the composed guidance page to the automatic route. participant-instructions.md closes by naming which route each artifact carries, and the rendered guidance page repeats both keys on its face. No route is claimed that the registry does not hold.",
+          "evidence": "product-wiring.json; production-field-map.json maps[].documentPolicy.routeKey; registry units for trackId pa_pardon_expungement; participant-instructions.md closing lines; guidance page text extracted from fixtures/canonical.pdf"
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Measurable here and measured, for both bound binaries. Recomputed from MASTER_LIBRARY_SOURCE_DIR: PA__FORM__PA-RCRIM-P-790-PETITION__pa-r-crim-p-790-petition__REV-2009-03__EN.pdf is fc06486e75773d4f6d81c263706827ab7f9facfb6dde9907cbee120c063289de at 87647 bytes and PA__FORM__PA-RCRIM-P-790-ORDER__pa-r-crim-p-790-blank-expungement-order__REV-2021-07__EN.pdf is 4d312ebde4aed7c1941e1ae9d734c90ba7183db273778839b15a84be8e611c95 at 151853 bytes. Both match source-receipt.json byte for byte and both match product-wiring binding.sourceVersion at tier exact_form_number. The binding is also carried down to the page: rendered-artifacts.json records a sourceSha256 on each of the three official pages of both fixtures, and each one is the correct hash for the document that page came from. The field map records that every printed caption was read first-hand out of the pinned binary at build time, with captionReadAt recording the y it was read from.",
+          "evidence": "sha256sum of both Master Library files; source-receipt.json; product-wiring.json binding.sourceVersion; reports/rendered-artifacts.json pageManifest"
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "Two related failures, one in the binding and one in what the guidance component actually contains. The committed registry declares three components for this packetSet: pa_pardon_expungement-process-guidance-1, requirement 'required'; -primary-filing-2, requirement 'conditional'; and -proposed-order-3, requirement 'conditional'. product-wiring.json binding.packetComponents names the two conditional ones and omits the required one. That is exactly inverted, and it matters here more than it would elsewhere: the guidance page is the only artifact in the packet that serves pa_pardon_automatic_route, so a binding without it represents a two-route family as a one-route one and drops the route on which nothing is filed at all. Second, the registry's own description of what that component is for reads 'The guidance explains the quarterly cycle and how to verify the record cleared.' I extracted the rendered guidance page from fixtures/canonical.pdf: it explains how to verify, by asking the Clerk of Courts what the docket now shows, but it never mentions the Board of Pardons, the AOPC or the quarterly cycle, and it says in terms 'This page states no timetable and no criterion for that.' The component is present and rendered but under-delivers the one thing the registry assigns it. Note that the delivered set is otherwise complete and correctly declared: production-field-map.json componentSet and rendered-artifacts.json componentSet both list all three.",
+          "evidence": "product-wiring.json binding.packetComponents; registry packetSet.components and units for trackId pa_pardon_expungement; guidance page text extracted from fixtures/canonical.pdf pages 4-5; production-field-map.json componentSet"
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "The seventeen writes themselves are sound - I read every one of them back out of the finalized bytes and all twenty-eight write records across both fixtures have drawnText exactly equal to expected, each bound to a factId and to a widget rect read from the pinned binary. The failure is that participant-instructions.md misdescribes them to the participant. Its opening sentence reads: 'The platform filled in what it holds about you: your name, your date of birth, your address, your telephone number, your email and your docket number.' It did not fill in a telephone number or an email, and could not have: I enumerated all 109 terminal field entries across both official forms and the composed guidance document and none of them is a telephone or email field, and none of the seventeen writes carries a phone or email factId. The sentence tells a participant that two categories of their data were placed on these forms when no such blank exists on either form. It is the mirror image of what DET-FEE-AND-WAIVER-001 A4 forbids - a packet asserting about itself something that is not so - and the same integrity rule reaches it. The sentence is shared boilerplate: seven census-v1 families carry it, so the repair here is to make this family's sentence name only what this family writes, which is name, date of birth, street address, city, state, ZIP, county and docket number.",
+          "evidence": "participant-instructions.md line 5; production-field-map.json - 109 field entries enumerated, 0 matching /phone|telephone|e-?mail/i; reports/actual-writes.json - 28 write records, 0 mismatches, no phone or email factId"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Seventy-eight rows are declared REQUIRED_BEFORE_FILING - sixty-five on the petition and thirteen on the order - and requiredBeforeFilingCount records 78, which I confirmed by counting. Every one is an explicit declaration on the row rather than prose. I matched all seventy-eight effectiveLabels against participant-instructions.md programmatically and zero are undisclosed; the instructions list each by form, page and the words printed beside the blank, which is what the DISCLOSED and IDENTIFIED conditions ask for. I also ran the check in the other direction: no field classed court_prosecutor_clerk_or_agency_owned appears in the participant's list, so nothing protected has been handed to the participant as theirs to fill. requiredFactsNotCollected measured 0.",
+          "evidence": "production-field-map.json canonicalRefusals across all three maps; participant-instructions.md item tables; programmatic label match, 78/78 disclosed, 0 protected fields leaked"
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Seven selection controls, and none of them is an election this route determines. On the petition there are four: 'I have attached a copy of my Pennsylvania State Police Criminal History which I have obtained within 60 days before filing this', its negative counterpart, and the Yes/No pair for whether a fine, costs or restitution imposed with the sentence has been paid. Each is a sworn assertion about the participant's own act or record, correctly classed participant_sworn_narrative_or_legal_election and correctly left to them. On the order there are three ordering paragraphs the court selects, correctly classed court-owned. routeSelectionsMade is empty, and routeSelectionNote gives the reason honestly: nothing on either form elects between the two routes, because they are told apart by whether the AOPC transmission has already produced an order, which neither form asks - so the family marks nothing rather than inventing an election to satisfy a counter. reports/actual-writes.json confirms it at the byte level with routeSelectionMarks empty and strayRouteSelectionStrokes 0 on all four rendered documents. requiredOptionsMissing measured 0.",
+          "evidence": "production-field-map.json selectionControls and routeSelectionNote; reports/actual-writes.json routeSelectionMarks and strayRouteSelectionStrokes"
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The petition carries a five-row charge grid. I grouped the field map by row ordinal and each of the five rows has the same seven cells - PA Statute Title, Section, Subsection, Statute Description, Counts, Grade and Disposition - and all thirty-five carry disposition REQUIRED_BEFORE_FILING. Not one cell is written, so no row is partially populated, which is the failure incompleteRows exists to catch. All thirty-five are disclosed individually in participant-instructions.md by ordinal, each told to be copied exactly as it appears on the charging document. incompleteRows measured 0.",
+          "evidence": "production-field-map.json PA-RCRIM-P-790-PETITION canonicalRefusals grouped by row ordinal; participant-instructions.md charge-row entries"
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Seven fields on the order are classed court_prosecutor_clerk_or_agency_owned - the three ordering-paragraph checkboxes the judge selects and the AND NOW day, month and year and the judicial signature - and every one is blank in the finalized bytes. reports/actual-writes.json reads flattened widget appearances back at every measured rect and records no mark on any checkbox on either form in either fixture. participant-instructions.md is explicit with the participant about the same thing, under 'Things the platform deliberately left blank': the signature and date, the whole of the proposed order which the platform has written only the style of the case into, and every checkbox. protectedWrites measured 0. One inaccuracy recorded and not charged: the reason string on the three ordering-paragraph checkboxes and on the order's date fields reads 'signature or date field; never prefilled by this build', which mis-describes a checkbox and is build-policy prose rather than a justification. The category and completenessClass on those same rows are court_prosecutor_clerk_or_agency_owned, which is correct, and the treatment is correct, so the fields are protected in fact; the string is cosmetic and worth tidying alongside a repair rather than on its own.",
+          "evidence": "production-field-map.json PA-RCRIM-P-790-ORDER selectionControls and canonicalRefusals; reports/actual-writes.json; participant-instructions.md"
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Sixteen binaries on disk and I recomputed all sixteen. canonical.pdf is 888d476669d2dcfa9db325c08eef46bb749c825f1fd745afc863c59e6dd64f74 and boundary.pdf is bdc27af98952ba01e1e0ce67ae528b63aad7b73111e7780071cdd5b30e84c5f2, both matching reports/rendered-artifacts.json; the canonical hash also matches the acceptance receipt's boundToCanonicalSha256, so the receipt still binds the bytes that are actually there. All ten raster page hashes match their declarations. One thing worth stating because it looks like a duplicate and is not: raster/canonical/page-05/page.png and raster/boundary/page-05/page.png are byte-identical at e66fea3589e4656478b79ba0d8d4634c512af28420e204194606c34b7028103a. That is correct - page 5 is the second guidance page, which carries no participant value, so the two fixtures cannot differ on it; pages 1 through 4 do differ. The four per-document fixture PDFs carry no declared hash anywhere in the family, so I recorded their recomputed hashes as new evidence.",
+          "evidence": "sha256sum over the family directory; reports/rendered-artifacts.json; product-wiring.json binding.acceptanceReceipt"
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Both fixtures are five pages and both carry an explicit pageManifest that assigns every page a component, a document and, for the three official pages, the sourceSha256 of the binary it came from: page 1 the petition, pages 2 and 3 the order, pages 4 and 5 the guidance. I confirmed the page count from the bytes and confirmed the raster records agree with the manifest page for page on component. The order matches the packet's own declared componentSet in both production-field-map.json and rendered-artifacts.json. Recorded as an observation and not a failure: the registry numbers process_guidance as component order 1 while the packet renders it last, so the page that tells a participant whether they need to file at all sits behind the petition. The instructions compensate by making it step 4 of 'What you must do' and pointing at it from the fee and route discussion, and putting official forms first is a defensible assembly choice, so I did not fail it - but a repair lane touching this family may want to lead with it.",
+          "evidence": "reports/rendered-artifacts.json pageManifest and rasterPages; page counts read from fixtures/canonical.pdf and fixtures/boundary.pdf; registry packetSet.components order"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "This is the best-evidenced obligation in the family. reports/actual-writes.json states its proof method as reading flattened widget appearances back at every measured rect of the finalized bytes, and records nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 on all four rendered documents - so nothing was drawn outside a measured box. I then checked the other direction, that nothing was clipped inside one: all twenty-eight write records have drawnText exactly equal to expected, including the boundary fixture's deliberately hostile values - the 39-character name Maria-Alejandra O'Shaughnessy-Whitfield in a 166.69-point box and again in a 148.49-point box, and the 45-character address 1188 Upper Notch Crossing Road, Apartment 14B in a 166.2-point box. My own fixed-width estimate would have overflowed those three, and the byte-level readback shows they did not, which means the renderer fitted them rather than spilling or truncating them. Rasters are Chromium-calibrated at 3.3333 pixels per point with calibrationResidualPx 0 and identical paperBounds on every page of both fixtures. visualDefects measured 0.",
+          "evidence": "reports/actual-writes.json - proofMethod, nonWhitespaceGlyphsOutsideMeasuredWriteBoxes, 28 drawnText-versus-expected comparisons; reports/rendered-artifacts.json rasterPages calibration records"
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The repository answers it and the packet states it, for both routes. The registry gives venue 'The court of common pleas of the judicial district in which the charges were disposed' and destination detail 'On the automatic route the Board of Pardons and the AOPC deliver the record to the court and nothing is filed. On the fallback route the participant files the Rule 790 petition with the clerk of courts and serves the attorney for the Commonwealth.' participant-instructions.md says to file with the Clerk of Courts of the judicial district where the charges were disposed, that a judge of the Court of Common Pleas of that district decides it, and - a real addition rather than a restatement - that it is decided there even if a magisterial district judge or a Philadelphia Municipal Court judge disposed of the case. It also tells a participant who does not know their district that the docket number identifies it and the Clerk of Courts can tell them from it, which is a checkable office rather than a shrug. The guidance page repeats the destination for the fallback route and states that nothing is filed on the automatic one.",
+          "evidence": "registry venue and destination for trackId pa_pardon_expungement; participant-instructions.md 'Where you file this'; guidance page text"
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Scored against A1 to A4 and it holds. The registry answers both facts for this route: rules.fees 'No fee on the automatic route. County filing fees apply to the fallback petition and vary' and rules.feeWaiver 'In forma pauperis relief is available for the fallback petition.' The packet states both. On the fee it says Pennsylvania fees are set county by county and no held source states the fee for the participant's county - which is what the record says, not a denial of a held answer - and then does better than a shrug by giving the range the repository actually holds. I checked that range against its source rather than accepting it: data/record-clearing/legal-design-intake/PA.memo.json carries 'County filing fees vary and are not established by statute. The legal review reports a range of roughly $132 to $215 across counties, with expungement petitions generally costing more than limited access petitions. No confirmed statewide schedule exists', and the packet reproduces it with the same hedge and tells the participant to treat it as a range to expect rather than as their county's figure, and to ask the Clerk of Courts. On the waiver it states that in forma pauperis relief exists, that Pennsylvania publishes statewide IFP forms for the Court of Common Pleas, that this packet does not include one, and which office can tell them how to file that way - a disclosed absence, not a concealed one. A3 check performed deliberately because the figure invited it: the same $132 appears elsewhere in the repository as New Mexico's district-court filing fee in NM.memo.json, so I confirmed the PA range has its own Pennsylvania source and is not a sibling jurisdiction's answer read across. It is not. Only gap, recorded and not failed: the registry's 'No fee on the automatic route' is not stated in those words, though the packet twice tells the participant there is nothing to file on that route.",
+          "evidence": "registry rules.fees and rules.feeWaiver; participant-instructions.md 'What filing costs'; data/record-clearing/legal-design-intake/PA.memo.json fees and openQuestions; NM.memo.json checked to rule out a cross-jurisdiction read"
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The repository answers it and the packet states it in more detail than the record required. Registry rules.service: 'None on the automatic route; service on the attorney for the Commonwealth on the fallback route.' rules.notice adds the 60-day response window under Rule 790. participant-instructions.md tells the participant that after filing the petition is served on the Commonwealth - the District Attorney, as the attorney for the Commonwealth - that the Commonwealth then has 60 days from service to consent, object or do nothing, that after that window the judge grants, denies or schedules a hearing, that an order granted without the Commonwealth's consent is stayed for 30 days while an appeal may be taken, and to keep proof of service with the packet copy. The order's own field asking which criminal justice agencies are to be served with the order is carried through to the participant as an item to supply. Nothing here is read across from a sibling route: the automatic route is separately described as involving no participant filing and no service.",
+          "evidence": "registry rules.service and rules.notice; participant-instructions.md 'After you file' paragraph; production-field-map.json order field 'Criminal justice agencies to be served with the order'"
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "The registry holds three selfHelpStopConditions for trackId pa_pardon_expungement and the packet carries none of them as a stop. First: 'The participant has not yet obtained a pardon; the pardon application itself is out of scope and is a referral.' I grepped every participant-facing surface in this family - participant-instructions.md and the rendered guidance pages of both fixtures - and nothing anywhere tells a reader who does not yet hold a pardon that this packet is not for them and that applying for one is out of scope and a referral. The packet presupposes the pardon throughout and never says what to do if the premise fails. Second: 'Whether the pardon is conditional or unconditional cannot be determined from the document.' The instructions mention the distinction and say a conditional pardon may lead to Clean Slate limited access rather than expungement, but they never state the stop - that where the document does not settle which kind it is, self-help ends. Third: 'The record still appears after the quarterly cycle and the fallback route's availability is unclear.' The guidance page states the opposite of a stop: 'If the record is already clear, stop; if it is not, file the petition.' It then declines the criterion the stop is keyed to, saying 'This page states no timetable and no criterion for that, because neither is established by the two forms this packet is built from.' That reasoning scopes the question to the two official forms, but A1 and A2 scope it to the repository, and the repository answers it: the registry's own unit description records the quarterly Board of Pardons to AOPC transmission and says of this very component that 'The guidance explains the quarterly cycle and how to verify the record cleared.' The packet's own participant-instructions.md states the quarterly cycle in terms. So the guidance page tells a participant it states no timetable while the packet states one two files away - the sentence A4 forbids. The repair is to carry the three stop conditions onto the participant-facing surface and to let the guidance page state the quarterly cycle it is chartered to state.",
+          "evidence": "registry selfHelpStopConditions and units[0].description for trackId pa_pardon_expungement; guidance page text extracted from fixtures/canonical.pdf and fixtures/boundary.pdf; participant-instructions.md step 4; grep for pardon, board, quarter, referral across the family's participant-facing surfaces"
+        }
+      }
     }
   ],
   "supersededLaneMembership": {

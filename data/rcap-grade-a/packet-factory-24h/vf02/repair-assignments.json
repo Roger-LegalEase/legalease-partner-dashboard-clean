@@ -3,7 +3,7 @@
   "lane": "VF02",
   "worker": "VF-SRC-A",
   "baseSha": "09b741ad00be0d630bd73a72f66640294abab397",
-  "assignmentCount": 6,
+  "assignmentCount": 7,
   "assignments": [
     {
       "itemId": "oh_marijuana_expungement-set",
@@ -179,6 +179,51 @@
       ],
       "whatIsNotWrong": "Eleven of fifteen obligations pass and the quality of what IS built is high — this repair should not disturb it. All 52 selfHelpStopConditions across the eight tracks appear verbatim in BOTH participant-instructions.md and the rendered bytes, zero dropped. Fee, waiver, service and filing destination are answered per route from the registry with no cross-reading, including ok_991c_deferred's correctly distinct destination and fee text. 49 pages in correct contiguous order, 0 same-baseline overlapping pairs over 14,081 words, and 56 protected fields across eight proposed orders all left empty.",
       "measuredEvidence": "canonical fa2557d25d6b462561014851bc9701847e25d0b6e129032a28fff77b4fea8356 (140407 bytes, 49 pages) recomputed from disk and equal to the RASTER_PASS receipt's boundToCanonicalSha256; 24 route footers extracted from the rendered bytes resolving to 8 distinct routes; 53 registry components differenced against 24 rendered components."
+    },
+    {
+      "assignedBy": "VA17",
+      "verifiedAtBase": "d609b1140b62204038f4161a01611d56ed35bd62",
+      "readIsASecondReadOfARepair": true,
+      "whyThisReaderIsIndependent": "VA17 neither built nor repaired this family; the repair lanes were FIX01 (oh) and FIX04 (pa).",
+      "notARepair": "This is a verdict and a repair assignment. VA17 modified no packet, no overlay directory, no fixture, no build script, no queue, no route, no price and no production surface.",
+      "reRasterRequiredAfterRepair": "Any change to fixture bytes invalidates the family's RASTER_PASS acceptance receipt, which binds exact hashes. Re-raster before the family is read again.",
+      "reVerificationRequired": "A third independent read is required after this repair, by a lane that is neither the repairer nor VA17.",
+      "supersedesEarlierAssignmentsForThisFamily": "Every earlier assignment on this family predates the repair lane's work. This one is measured from the artifacts on disk at the base above and does not carry any earlier finding forward.",
+      "itemId": "oh_marijuana_expungement-set",
+      "familyId": "oh_marijuana_expungement-set",
+      "lane": "VF02",
+      "jurisdiction": "OH",
+      "deliveryType": "custom_pleading",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "failedProofObligations": [
+        "COMPONENT_SET",
+        "FEE_AND_WAIVER",
+        "SERVICE",
+        "SELF_HELP_STOP"
+      ],
+      "decisiveDefect": "participant-instructions.md tells the participant 'No held source in this packet states a filing fee, states that filing is free, or states a fee-waiver procedure' and 'This packet does not state an amount because it holds no source for one.' Both sentences are false against the family's own records. The committed track registry this family binds, at trackId oh_marijuana_expungement, holds rules.fees 'Fifty dollars unless indigent. ORC 2953.321(G)...' and rules.feeWaiver 'Indigency excuses the fee under ORC 2953.321(G)', and lists the fee payment and the indigency showing among its required-before-filing items. The packet itself states the same fact in three sibling files inside its own directory - tracks/oh_marijuana_expungement/participant-instructions.md ('The recorded $50 filing fee or an indigency exception'; 'The frozen design records $50, subject to a confirmed indigency exception'), build-findings.json hardStops, and tracks/oh_marijuana_expungement/rendered/canonical/render-report.json counselFlags. Under DET-FEE-AND-WAIVER-001 A1, A2 and A4 the packet had to ask the repository first, and a packet may never tell a participant it does not state something it does state.",
+      "perObligation": {
+        "FEE_AND_WAIVER": {
+          "measuredDetail": "Registry answers both facts for this route and the packet denies both to the participant while asserting them in three sibling files in the same directory.",
+          "repair": "State the $50 filing fee and the R.C. 2953.321(G) indigency exception in participant-instructions.md 'What this costs'. Keep the instruction to confirm the current figure with the clerk of the sentencing court, but as a currency check on a stated answer, not as a substitute for one. Delete the two sentences that deny a held source exists."
+        },
+        "SERVICE": {
+          "measuredDetail": "participant-instructions.md says 'No held source in this packet states who must be served or how.' The registry's rules.notice states 'The court notifies the prosecutor of the hearing, and the prosecutor may object by filing an objection with the court prior to the date set for the hearing', and rules.service records that the section imposes no separate participant service duty because the court sets the hearing and the prosecutor objects to the court. The word 'objection' appears in no participant-facing file in this family.",
+          "repair": "Tell the participant that the court, not they, notifies the prosecutor of the hearing, and that the prosecutor may object by filing with the court before the hearing date. Do not import the 60-day notice or 30-day objection figures: the registry records those as belonging to ORC 2953.32 and expressly not governing this route, and reading them across would be the A3 error."
+        },
+        "SELF_HELP_STOP": {
+          "measuredDetail": "The registry holds nine selfHelpStopConditions for trackId oh_marijuana_expungement; the packet carries five hard stops and omits four: pending criminal proceedings or open warrants; prosecutor objection and any victim objection where applicable; choosing between sealing and expungement, which the registry calls a legal judgment with different waits and different exclusions; and immigration exposure. The terms 'warrant', 'victim', 'objection', 'sealing' and 'immigration' appear in no participant-facing file in this family. Separately absent is what the registry's mechanism text calls 'the single most important disclosure in Ohio record-clearing copy' - that on an expungement the Bureau of Criminal Identification and Investigation keeps a limited record for law-enforcement employment qualification while other entities must destroy, delete and erase, so neither remedy may be described as completely gone from everywhere.",
+          "repair": "Carry all nine registry stop conditions onto the participant-facing surface, and add the BCI limited-retention disclosure.",
+          "scopeNote": "DET-FEE-AND-WAIVER-001 A4 names REQUIRED_BEFORE_FILING, FILING_DESTINATION, SERVICE and FEE_AND_WAIVER and does not name SELF_HELP_STOP. VA17 read the ask-the-repository-first test as reaching it, because a registry's selfHelpStopConditions are the repository's own statement of where a track's self-help ends. If Captain reads A4's list as exhaustive, re-score this onto another obligation rather than waiving it."
+        },
+        "COMPONENT_SET": {
+          "measuredDetail": "The registry declares five components for packetSet oh_marijuana_expungement-set, all requirement 'required'. product-wiring.json binding.packetComponents names exactly one, component:oh_marijuana_expungement-bci-transmission-5, and omits component:oh_marijuana_expungement-primary-filing-1 - the artifact this family actually renders as canonical.pdf and boundary.pdf - along with -local-form-instructions-2, -record-gathering-instructions-3 and -hearing-and-objection-instructions-4. Surveyed across all census-v1 product-wiring files, every other custom-pleading family names its own primary-filing component. Hearing-and-objection material also reaches a participant only in the track-level instructions, never in the family-level participant-instructions.md that binding.instructions points at.",
+          "repair": "Name all five registry components in binding.packetComponents, and surface the hearing-and-objection guidance in the family-level participant-instructions.md."
+        }
+      },
+      "whatPassed": "ROUTE_IDENTITY, SOURCE_IDENTITY, KNOWN_PREFILLS, REQUIRED_BEFORE_FILING, ROUTE_OPTIONS, REPEATING_ROWS, PROTECTED_FIELDS, ARTIFACTS, PAGE_ORDER, CLIPPING_AND_OVERLAP and FILING_DESTINATION all pass on measurement at this base. The bytes, the writes, the refusal classifications and the protection of signature, date and judicial fields are sound; the failures are all in what the packet tells the participant.",
+      "doNotChase": "companion/OH-BCI-SEALING-EXPUNGEMENT-REQUEST--official-source.pdf is declared in source-receipt.json and reports/rendered-artifacts.json and is absent from the working tree on purpose. It is one of the 59 private-corpus binaries excluded at integration commit c01b87d1584bbb0b902b398b45c376f8fea22050; launch-control records that those 'are not in git by design; bind them through the corpus bootstrap'. VA17 bound it from MASTER_LIBRARY_SOURCE_DIR and it matches its declared sha256 9234ec763403b1ccfbed796dfcf86f29bf7887390d1770460d0bcc9da31fc8cb and 235789 bytes exactly. Do not re-commit it."
     }
   ],
   "va6Assignments": {
