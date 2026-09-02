@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "52710a9c1685b511ae0ea04e54e3f4d40c037f6d",
+  "generatedAtCommit": "c4d772c59645b42635648e9f87ae6e48eff7d8eb",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -3430,36 +3430,6 @@
       "sourceId": null,
       "operation": "packet-build",
       "lane": "PF16",
-      "laneKind": "packet-build",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "mt_mmrta_completed-set",
-      "familyId": "mt_mmrta_completed-set",
-      "itemId": null,
-      "familyIds": [
-        "mt_mmrta_completed-set"
-      ],
-      "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF04",
-      "laneKind": "packet-build",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "mt_mmrta_serving-set",
-      "familyId": "mt_mmrta_serving-set",
-      "itemId": null,
-      "familyIds": [
-        "mt_mmrta_serving-set"
-      ],
-      "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF08",
       "laneKind": "packet-build",
       "released": false,
       "releasedAt": null
@@ -7086,7 +7056,7 @@
       ],
       "sourceId": "NO_DOCUMENT_SOURCE_NAMED",
       "operation": "exact-source-identity",
-      "lane": "DISC06",
+      "lane": "DISC04",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-02T09:28:04.703Z"
@@ -7422,7 +7392,7 @@
       ],
       "sourceId": "official-form:DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION",
       "operation": "exact-source-identity",
-      "lane": "DISC04",
+      "lane": "DISC05",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-02T09:28:04.790Z"
@@ -11286,7 +11256,7 @@
       ],
       "sourceId": "official-form:OCA Model Order of Nondisclosure under Section 411.0736",
       "operation": "exact-source-identity",
-      "lane": "DISC05",
+      "lane": "DISC03",
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-02T09:28:05.355Z"
@@ -11782,7 +11752,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "6f50390379a3dde2d58bfda54b4dc860c40765b87623f45e77920a9ecb7438e4",
+  "claimsDigest": "ff92e4b1398ddc9e9db20e8f5c3da3beabff6f9b267718bb45a8ebe3272a868d",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -23772,6 +23742,22 @@
       "operation": "packet-build",
       "lane": "PF05",
       "withdrawnAt": "2026-09-02T11:14:18Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "mt_mmrta_completed-set",
+      "operation": "packet-build",
+      "lane": "PF04",
+      "withdrawnAt": "2026-09-02T13:30:32Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "mt_mmrta_serving-set",
+      "operation": "packet-build",
+      "lane": "PF08",
+      "withdrawnAt": "2026-09-02T13:30:32Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]

@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** source-swarm
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `52710a9c1685b511ae0ea04e54e3f4d40c037f6d` (or the newer dispatch base)
+**Minimum required ancestor:** `c4d772c59645b42635648e9f87ae6e48eff7d8eb` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -20,9 +20,9 @@
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --assignment-id DISC04 \
-  --source-obligation 'de_mandatory_expungement-set::official-form:DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION' \
+  --source-obligation 'census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260::NO_DOCUMENT_SOURCE_NAMED' \
   --codex-cloud \
-  --minimum-captain-sha 52710a9c1685b511ae0ea04e54e3f4d40c037f6d
+  --minimum-captain-sha c4d772c59645b42635648e9f87ae6e48eff7d8eb
 ```
 
 It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owned row gate must both pass.
@@ -78,7 +78,7 @@ Turn a descriptive label into a document identity: exact form number, official p
 
 the issuing court or agency that publishes the document
 
-**5 obligations · 3 families this lane WOULD release if every one of them resolves · hosts: DE, MI**
+**5 obligations · 3 families this lane WOULD release if every one of them resolves · hosts: MI, WA**
 
 > Prospective. Nothing below is promoted custody yet, and this number is not a count of families you can build today.
 
@@ -105,7 +105,7 @@ the issuing court or agency that publishes the document
 
 | Item id | Source id | Jurisdiction | Current operation | Family ownership | Required input | Handoff |
 | --- | --- | --- | --- | --- | --- | --- |
-| `de_mandatory_expungement-set::official-form:DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION` | `official-form:DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION` | DE | `exact-source-identity` | `de_mandatory_expungement-set` | unresolved exact identity or URL | `ACQ` |
+| `census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | WA | `exact-source-identity` | `census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260` | unresolved exact identity or URL | `ACQ` |
 | `mi_setaside_application-set::official-form:MC 227` | `official-form:MC 227` | MI | `exact-source-identity` | `mi_setaside_application-set` | unresolved exact identity or URL | `ACQ` |
 | `mi_setaside_application-set::official-form:MC 227 page 3 Proof of Service` | `official-form:MC 227 page 3 Proof of Service` | MI | `exact-source-identity` | `mi_setaside_application-set` | unresolved exact identity or URL | `ACQ` |
 | `mi_setaside_first_owi-set::official-form:MC 227 item 2.c` | `official-form:MC 227 item 2.c` | MI | `exact-source-identity` | `mi_setaside_first_owi-set` | unresolved exact identity or URL | `ACQ` |
@@ -129,7 +129,7 @@ NODE
 Run the row gate once per listed item, after the lane gate. This exact first command demonstrates the interface; substitute each other exact item id from the table without changing the lane:
 
 ```sh
-node scripts/verify-packet-build-environment.mjs --assignment-id DISC04 --source-obligation 'de_mandatory_expungement-set::official-form:DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION' --codex-cloud --minimum-captain-sha 52710a9c1685b511ae0ea04e54e3f4d40c037f6d
+node scripts/verify-packet-build-environment.mjs --assignment-id DISC04 --source-obligation 'census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260::NO_DOCUMENT_SOURCE_NAMED' --codex-cloud --minimum-captain-sha c4d772c59645b42635648e9f87ae6e48eff7d8eb
 
 # A failed row is recorded STOPPED; continue with unrelated rows.
 ```
@@ -138,7 +138,7 @@ node scripts/verify-packet-build-environment.mjs --assignment-id DISC04 --source
 
 ### Families this lane would release
 
-`de_mandatory_expungement-set`, `mi_setaside_application-set`, `mi_setaside_first_owi-set`
+`census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260`, `mi_setaside_application-set`, `mi_setaside_first_owi-set`
 
 
 ### Settle these first
@@ -148,7 +148,7 @@ node scripts/verify-packet-build-environment.mjs --assignment-id DISC04 --source
 | Document | Jurisdiction | Families waiting |
 | --- | --- | --- |
 | MC 227 page 3 Proof of Service | MI | 2 |
-| DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION | DE | 1 |
+| NO_DOCUMENT_SOURCE_NAMED | WA | 0 |
 
 > On 2026-08-31 an acquisition batch fetched thirty documents successfully and unblocked zero families — all thirty belonged to jurisdictions already resolved, with no overlap against the 238 documents gating the 256 blocked families. Fetch capacity is not the constraint. Knowing which document to fetch is.
 
