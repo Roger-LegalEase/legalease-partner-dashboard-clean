@@ -1381,38 +1381,53 @@ function caRefusalDisposition(source, field) {
     };
   }
   if (/eligible for reduction/i.test(field.tooltip ?? "")) {
-    // The CR-180 conviction table's 17(b)/17(d)(2) yes-or-no cells. Only the
-    // ca-17b-reduction routes determine them; on every other route the
-    // election is honestly declared route-determined and unmade, which the
-    // completeness contract counts as requiredOptionsMissing until a
-    // captain-level field-classification determination (or a per-election
-    // evidence-variant design) resolves who answers these cells on dismissal
-    // routes. Declaring them participant-completable instead would be the
-    // exact self-excuse channel the contract closed.
-    //
-    // RT-3 tested that rather than repeating it. On ca-1203-41-set the ten
-    // cells were re-declared requiredBeforeFiling:true, routeDetermined:false,
-    // blankTreatment REQUIRED_BEFORE_FILING with an identity, and the counter
-    // did not move: requiredOptionsMissing stayed 10. The reason is structural
-    // and not a property of this declaration. classifyField matches the
-    // printed caption "Eligible for reduction ... under Penal Code, § 17(b)
-    // (yes or no)" to FIELD_CLASSES.ROUTE_ELECTION, whose requirement is
-    // ROUTE_DETERMINED, and classifyBlank then returns ROUTE_OPTION_NOT_SELECTED
-    // from the required-before-filing gate itself, before any declared
-    // disposition is read. NOT_APPLICABLE_ON_THIS_ROUTE, whose stated meaning
-    // ("the field belongs to a branch of the form this route does not use")
-    // fits these cells exactly, is reachable from no declaration at all.
-    //
-    // So the five CR-180 families cannot zero this counter without WRITING a
-    // yes or no into the cells, and no record establishes one: whether a listed
-    // offence is a § 17(b) wobbler is a legal characterisation of that code
-    // section, the packet holds no fact for it, and writing an inferred legal
-    // conclusion onto a petition sworn under penalty of perjury is worse than
-    // the blank. This remains the captain-level determination named above; a
-    // repair lane may not resolve it by editing the contract, and RT-3 did not.
+    /*
+     * The CR-180 conviction table's per-offence § 17(b) and § 17(d)(2)
+     * yes-or-no cells, and NOTHING else on this host.
+     *
+     * These were declared routeDetermined and counted as
+     * requiredOptionsMissing on all five CR-180 families. RT-3 tested the
+     * alternative rather than assuming it: re-declaring the ten cells
+     * requiredBeforeFiling with an identity left the counter at exactly 10,
+     * because classifyField matches the printed caption to
+     * FIELD_CLASSES.ROUTE_ELECTION and classifyBlank returned
+     * ROUTE_OPTION_NOT_SELECTED from inside the required-before-filing gate,
+     * ahead of any declaration. The only remaining way to zero it was to WRITE
+     * a yes or no that no held record establishes, onto a petition sworn under
+     * penalty of perjury, so the lane stopped instead.
+     *
+     * The contract now carries the narrow exception that answers it, pinned in
+     * both directions by verify-case-determined-exception.mjs: a family may say
+     * a route-election-shaped field is determined by the CASE, and must say why
+     * the route cannot determine it. This is the declaration, and the reason is
+     * the substance of it.
+     *
+     * WHY THE ROUTE CANNOT DECIDE IT. The cell asks, of one listed conviction,
+     * whether THAT OFFENCE is reducible under § 17(b) or § 17(d)(2). That turns
+     * on how the Penal Code punishes the section the participant was convicted
+     * under -- the wobbler question -- and on nothing about the relief these
+     * papers ask for. A § 1203.4, 1203.41, 1203.42, 1203.43 or 1203.4a petition
+     * is word for word the same petition whichever way the answer falls, so
+     * there is no route answer to state. On ca-17b-reduction-set the route does
+     * reach the FIRST row and the build writes both of its cells from
+     * route.pc17b.*; this branch is never taken for them. What it is taken for
+     * there are rows two through five, which list further offences the § 17(b)
+     * route does not reach either.
+     *
+     * SCOPE. The guard is the printed caption "eligible for reduction", which
+     * exists on the CR-180 conviction table and on no other field of any
+     * family on this host. Ten cells each on ca-1203-41-set, ca-1203-42-set,
+     * ca-1203-43-set and ca-1203-4a-set; eight on ca-17b-reduction-set, whose
+     * first row is written. No other field declares the exception, and none
+     * should acquire it by widening this test.
+     */
     return {
-      reason: "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it.",
-      routeDetermined: true,
+      reason: "REQUIRED_BEFORE_FILING: whether this listed offence is reducible under Penal Code section 17(b) or 17(d)(2) is a characterisation of that offence, not of the relief this petition asks for. The platform holds no such fact and never infers one. The participant completes it, and the platform does not guess.",
+      blankTreatment: "REQUIRED_BEFORE_FILING",
+      requiredBeforeFiling: true,
+      identity: field.name,
+      determinedByTheCaseNotTheRoute: true,
+      whyTheRouteCannotDetermineIt: "The cell asks whether the offence listed on this row is reducible under Penal Code section 17(b) or 17(d)(2), which turns on how the Penal Code punishes the section of conviction and not on the relief sought. This petition reads identically whichever way that resolves, so the route has no answer to state; the participant answers it from their own record of conviction.",
     };
   }
   if (/signature|sig(?:name|date)?/i.test(subject)) {
@@ -2329,6 +2344,38 @@ function caParticipantInstructions(familyId, config, fieldMap) {
   const routeDeterminedNote = (fieldMap.refusals ?? []).some((row) => row.routeDetermined === true)
     ? "\n- **The 17(b)/17(d)(2) yes-or-no cells in the conviction table** — a route-level election this packet family does not determine; it is recorded as unmade rather than guessed.\n"
     : "\n";
+  /*
+   * The cells this family declares case-determined, told to the participant as
+   * theirs rather than left to be inferred from a table row.
+   *
+   * They already appear in the blanks table below, because they are declared
+   * required-before-filing; what the table cannot carry is WHY a cell whose
+   * caption reads like an election is the participant's to answer. That reason
+   * is printed here in the field map's own words, so the page says the same
+   * thing the declaration says. Derived from the field map, so it appears on
+   * exactly the families that opted in and on no other.
+   */
+  const caseDetermined = (fieldMap.refusals ?? [])
+    .filter((row) => row.determinedByTheCaseNotTheRoute === true);
+  let caseDeterminedNote = "";
+  if (caseDetermined.length > 0) {
+    const reasons = [...new Set(caseDetermined
+      .map((row) => String(row.whyTheRouteCannotDetermineIt ?? "").trim())
+      .filter(Boolean))];
+    assert.ok(reasons.length > 0,
+      `${familyId}: a refusal declares determinedByTheCaseNotTheRoute with no stated reason`);
+    assert.equal(caseDetermined.filter((row) =>
+      String(row.whyTheRouteCannotDetermineIt ?? "").trim().length === 0).length, 0,
+      `${familyId}: every case-determined refusal must carry its own stated reason`);
+    const captions = [...new Set(caseDetermined
+      .map((row) => String(row.effectiveLabel ?? "").replace(/\s+/g, " ").trim())
+      .filter(Boolean))];
+    caseDeterminedNote = `### ${caseDetermined.length} of those blanks are yours even though they read like an election\n\n`
+      + `${captions.map((caption) => `**${caption}**`).join(" and ")}. `
+      + `They are listed in the table above with their page and the words the form prints beside them, and they are yours for the reason this packet records against each one:\n\n`
+      + reasons.map((reason) => `> ${reason}`).join("\n>\n")
+      + `\n\nAnswer them only for the offences you actually list, from your own record of conviction. If you do not know whether an offence is reducible, that is a question for a lawyer or a legal-aid office and not one to guess at, because you sign this petition under penalty of perjury. Leave any row you do not use entirely empty: a row with some cells filled and others blank is worse than an empty one.\n\n`;
+  }
   return `# Participant and reviewer instructions — ${guidance.title}\n\n`
     + `These files are deterministic review fixtures made from exact held official sources. They are not approved filing packets.\n\n`
     + config.routeKeys.map((route) => `- Route scope: \`${route}\``).join("\n") + "\n"
@@ -2350,6 +2397,7 @@ function caParticipantInstructions(familyId, config, fieldMap) {
     + `## The blanks you must fill in\n\n`
     + `The platform holds no value for any of these, and this packet never guesses at one.\n\n`
     + tables
+    + caseDeterminedNote
     + `\n## Blanks that are not yours to fill\n\n`
     + `- **${guidance.orderForm}, the ${guidance.orderName}** — the court completes and signs it.\n`
     + `- **The attorney block on the primary form** — leave it blank unless a lawyer is filing for you.\n`

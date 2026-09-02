@@ -79,6 +79,27 @@ const normalizeRow = (row, document = null) => ({
     disposition: row.completenessDisposition ?? null,
     ...(Object.hasOwn(row, "requiredBeforeFiling") ? { requiredBeforeFiling: row.requiredBeforeFiling === true } : {}),
     routeDetermined: row.routeDetermined === true,
+    /*
+     * The case-determined exception, forwarded to the contract that decides it.
+     *
+     * `classifyBlank` grew this exception and it is pinned in both directions by
+     * verify-case-determined-exception.mjs, but this reader built `declared`
+     * from a fixed list of keys and these two were not on it. The declaration
+     * was therefore dropped between the field map and the contract: a family
+     * that declared both keys measured EXACTLY as before -- ten
+     * requiredOptionsMissing on ca-1203-41-set, tested here before this line was
+     * written -- so the exception was reachable from the unit test and from no
+     * packet at all.
+     *
+     * Nothing is decided here. Both values are passed through verbatim and
+     * every gate stays in the contract: the reason must be non-empty, an
+     * explicit routeDetermined still refuses, and a fact the packet holds is
+     * still KNOWN_FACT_NOT_WRITTEN. A row that declares neither key is
+     * unchanged, which is why the corpus counters do not move until a family
+     * opts in.
+     */
+    determinedByTheCaseNotTheRoute: row.determinedByTheCaseNotTheRoute === true,
+    whyTheRouteCannotDetermineIt: row.whyTheRouteCannotDetermineIt ?? null,
     factId: row.factId ?? row.fact ?? null,
     identity: row.field ?? row.blankId ?? row.fieldId ?? row.fieldName ?? null
   }
