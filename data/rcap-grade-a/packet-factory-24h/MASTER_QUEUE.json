@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "ebc44031ec7eab29058bfc79a7bc5e1cff089414",
+  "minimumCaptainSha": "7c3b33d51bda93f3c0d34792ae3d88621891e055",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "e615283930c6a9aab3be570ca5dd74a8990deb71dc2817733a3d262e48af6816",
@@ -60,19 +60,19 @@
     "sourceReady": 45,
     "sourceBlocked": 162,
     "legalBlocked": 24,
-    "verifyPending": 33,
-    "repairRequired": 14,
+    "verifyPending": 16,
+    "repairRequired": 13,
     "sumsToDenominator": true
   },
   "byState": {
     "SOURCE_READY": 45,
     "SOURCE_BLOCKED": 162,
-    "COMPLETE_PACKET_PROVEN": 61,
-    "VERIFY_PENDING": 41,
+    "COMPLETE_PACKET_PROVEN": 79,
+    "VERIFY_PENDING": 24,
     "VERIFIED_PASS": 6,
     "BUILD_IN_PROGRESS": 4,
     "LEGAL_BLOCKED": 13,
-    "FAIL_REPAIR_REQUIRED": 14
+    "FAIL_REPAIR_REQUIRED": 13
   },
   "bySourceStatus": {
     "CUSTOM_PLEADING_FROM_CODIFIED_TEXT": 89,
@@ -1842,37 +1842,27 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "FEE_AND_WAIVER",
-        "FILING_DESTINATION",
-        "REQUIRED_BEFORE_FILING",
-        "SELF_HELP_STOP",
-        "SERVICE"
+        "FEE_AND_WAIVER"
       ],
       "failedObligations": [
         {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": null,
-          "evidence": null
-        },
-        {
-          "obligation": "FILING_DESTINATION",
-          "finding": null,
-          "evidence": null
-        },
-        {
           "obligation": "FEE_AND_WAIVER",
-          "finding": null,
-          "evidence": null
-        },
-        {
-          "obligation": "SERVICE",
-          "finding": null,
-          "evidence": null
-        },
-        {
-          "obligation": "SELF_HELP_STOP",
-          "finding": null,
-          "evidence": null
+          "finding": "The packet asserts a silence the repository does not have. Its \"The filing fee\" section reads the petition's paragraph 3 correctly — a sworn statement that fees \"mandated by A.C.A § 16-90-1419\" have been paid — and correctly reports that no amount is printed on the form, which this lane confirmed by extracting the source PDF's text (paragraph 3 names the fee statute and no figure appears anywhere on the face). But it then tells the participant that \"no source this packet holds establishes it\" and sends them to ask the clerk what the § 16-90-1419 fee is. The repository establishes it. The compiled Arkansas profile — cited as a requiredSourceId for this exact route in the national route census — states it three separate ways: packetGenerator.feeRules[1] \"Sealing petition filing fee $0 — Filing fees eliminated by the 2019 amendments\", feeRules[0] \"Act 1460 eliminated sealing filing fees; the real costs are records and any counsel\", and filingDestinationRules[1] \"File in the circuit or district court that handled the case. Act 1460 eliminated filing fees for sealing.\" The profile's sourceFormStatements[7] ties this to the very form in this packet: \"Petition and Order to Seal Arrest (Act 1460) — Arrest records under § 16-90-1409.\" Amendment A1 settles the ordering: ask first whether the repository establishes the answer; if it does, the packet states it, and a named checkable authority may stand in only where no held source establishes it. Here one does, so the stand-in is unavailable and the packet substitutes a question for an answer the repository holds. The consequence is not cosmetic: paragraph 3 is sworn, and a participant told to go and pay an unknown fee before signing is being sent to resolve something the repository says was abolished in 2019. The repair is for a repairer with the legal record in front of them, not for this lane: state what the profile holds and reconcile it with the form's paragraph 3, which still recites the fee statute. Whether the correct sentence is \"$0, fees eliminated by the 2019 amendments\" or a reconciliation of the two is a drafting and counsel question; asserting repository silence is not an available answer.",
+          "evidence": {
+            "standard": "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json",
+            "standardClauseFailed": "amendment.theTest — ask first whether the repository establishes the answer",
+            "packetClaim": "no source this packet holds establishes it",
+            "repositoryHolds": [
+              "packetGenerator.feeRules[1]: Sealing petition filing fee $0 Filing fees eliminated by the 2019 amendments",
+              "packetGenerator.feeRules[0]: Act 1460 eliminated sealing filing fees; the real costs are records and any counsel",
+              "packetGenerator.filingDestinationRules[1]: Act 1460 eliminated filing fees for sealing",
+              "packetGenerator.sourceFormStatements[7]: Petition and Order to Seal Arrest (Act 1460) Arrest records under § 16-90-1409"
+            ],
+            "heldIn": "src/lib/rcap-engine/compiled/profiles/AR-arkansas.json",
+            "citedAsRequiredSourceForThisRoute": "compiled-profile:src/lib/rcap-engine/compiled/profiles/AR-arkansas.json",
+            "formFaceConfirmedSilentOnAmount": "petition paragraph 3 names A.C.A. §16-90-1419 and prints no figure; extracted from the source PDF in this lane",
+            "waiverAlsoNotStated": true
+          }
         }
       ],
       "continuationResult": null,
@@ -2175,37 +2165,44 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "FEE_AND_WAIVER",
-        "FILING_DESTINATION",
-        "REQUIRED_BEFORE_FILING",
-        "SELF_HELP_STOP",
+        "COMPONENT_SET",
         "SERVICE"
       ],
       "failedObligations": [
         {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": null,
-          "evidence": null
-        },
-        {
-          "obligation": "FILING_DESTINATION",
-          "finding": null,
-          "evidence": null
-        },
-        {
-          "obligation": "FEE_AND_WAIVER",
-          "finding": null,
-          "evidence": null
+          "obligation": "COMPONENT_SET",
+          "finding": "The canonical completeness gate refuses this family outright. Run here, verify-packet-completeness.mjs returns FAIL_COMPONENT_SET at 0/0 written with auditable:false and the finding 'the field map uses a schema this verifier does not read; it is refused rather than read as empty'. The cause is exact and reproducible: readFieldRows() accepts four shapes — top-level writes/refusals, top-level maps, documents[].fields[].decision, and documents[].writableAnchors + documents[].withheld — and this family's production-field-map.json uses none of them. Its documents carry writeBoxes, withheldBeforeTheFactory, roleRefusals, refusedByTheFactory and protectedRulesHandedToTheFactory instead, so `shape` stays null and the verifier early-returns before counting anything. By direct read the three component roles the packet-set manifest declares are all present — process_guidance as participant-instructions.md, primary_filing as the ACIC petition, proposed_order as the ACIC order — so no component is missing and the repair is the field-map schema, not the packet. Recorded as FAIL and not as an environment limitation because the contract's own words are that an unreadable field map is refused rather than read as empty, and because a family the completeness gate cannot audit cannot be shown complete.",
+          "evidence": {
+            "verifierRun": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-misdemeanor-dwi-seal-set",
+            "verifierResult": "FAIL_COMPONENT_SET, 0/0 written, auditable:false",
+            "refusalSite": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs:179-186 (schema === null early return)",
+            "schemasTheVerifierReads": [
+              "writes-and-refusals",
+              "maps-with-canonical-and-boundary",
+              "documents-and-decisions",
+              "anchors-and-withheld"
+            ],
+            "schemaThisFamilyEmits": "documents[] with writeBoxes / withheldBeforeTheFactory / roleRefusals / refusedByTheFactory / protectedRulesHandedToTheFactory",
+            "declaredComponentsPresentByDirectRead": [
+              "process_guidance",
+              "primary_filing (ACIC petition)",
+              "proposed_order (ACIC order)"
+            ],
+            "whatARepairerMustDo": "Either emit this family's dispositions in one of the four schemas the completeness contract already reads — the documents-and-decisions shape is the closest fit and is what the Ohio host adopted for the same refusal in commit 3b44dcbec — or extend readFieldRows() to read the writeBoxes/withheldBeforeTheFactory shape. The second touches every family that shares the shape and is a shared-contract change, not this family's owned path. Neither is a verifier's to make."
+          }
         },
         {
           "obligation": "SERVICE",
-          "finding": null,
-          "evidence": null
-        },
-        {
-          "obligation": "SELF_HELP_STOP",
-          "finding": null,
-          "evidence": null
+          "finding": "The packet gets the parties and the method right and the timing wrong, and the timing is the half the repository holds. What is right: it quotes the petition's own page-4 Certificate of Service and names both recipients — the Prosecuting Attorney for the county of filing or the City Attorney, whichever office prosecuted, and the arresting agency — and both methods, United States mail postage prepaid or hand delivery, and it correctly refuses to complete the certificate before service has happened. What is wrong: the committed packet-set manifest for this exact packetSetId records serve_party as 'Serve the prosecuting attorney within three days of filing. The prosecuting attorney has 30 days to object.' Neither the three-day service deadline nor the 30-day objection window appears anywhere in the family directory, and the instructions state the opposite conclusion in terms — 'The form sets no separate service deadline: the certificate is part of the petition you file, so service belongs with filing.' That sentence is true about the form and false about the repository. Under DET-FEE-AND-WAIVER-001 as amended, the first question is whether the repository establishes the answer, and where it does the packet states it; a participant who serves on day five has missed a deadline this repository knew about and the packet told them did not exist. Scored FAIL on the timing only — the recipients and the method need no repair.",
+          "evidence": {
+            "repositoryRule": "Serve the prosecuting attorney within three days of filing. The prosecuting attorney has 30 days to object.",
+            "heldIn": "data/record-clearing/legal-design-packet-set-manifests.json, packetSetId ar-misdemeanor-dwi-seal-set, participantActionRequired[kind=serve_party]",
+            "packetSays": "'The form sets no separate service deadline: the certificate is part of the petition you file, so service belongs with filing.'",
+            "searchedFor": "'three days', 'thirty days', '30 days', 'object' across the whole family directory — no match",
+            "whatIsCorrectAlready": "recipients (prosecuting or city attorney, and the arresting agency) and methods (US mail postage prepaid, or hand delivery), both quoted from the petition's own Certificate of Service",
+            "whatARepairerMustDo": "State the three-day post-filing service deadline and the prosecutor's 30-day objection window in participant-instructions.md, sourced to the packet-set manifest, and delete or requalify the sentence that says the form sets no separate service deadline. This is an instruction-text repair inside the family's owned path; no artifact byte needs to move and the RASTER_PASS receipt is unaffected.",
+            "standard": "DET-FEE-AND-WAIVER-001 amendment A1 theTest — ask first whether the repository establishes the answer"
+          }
         }
       ],
       "continuationResult": null,
@@ -4237,19 +4234,45 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "KNOWN_PREFILLS",
-        "REPEATING_ROWS"
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "SERVICE"
       ],
       "failedObligations": [
         {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": null,
-          "evidence": null
+          "obligation": "FILING_DESTINATION",
+          "finding": "The packet says the address of the court is 'not established in this repository' and sends the participant to the clerk. The repository establishes the filing rule in full, for this exact packetSetId: 'File the verified CR-409 with the proposed CR-410 at least 15 days before the hearing, in the court where the accusatory pleading was filed, or where no pleading was filed in a court with criminal jurisdiction in the city or county where the arrest occurred. One arrest per petition.' That is a two-branch venue rule, a filing deadline, and a one-arrest-per-petition limit — three answers the participant needs and the packet has. Amendment A1 decided this precise question against exactly this move: the fee standard rests on the repository not holding the figure, that fact is absent here, and 'ask the clerk where to file' substitutes a question for an answer we have. Nothing in the family directory names either venue branch, the 15-day deadline or the one-arrest limit. A participant with an uncharged arrest cannot tell from this packet which court has criminal jurisdiction over it, and a participant with two arrests is not told they need two petitions.",
+          "evidence": {
+            "repositoryRule": "File the verified CR-409 with the proposed CR-410 at least 15 days before the hearing, in the court where the accusatory pleading was filed, or where no pleading was filed in a court with criminal jurisdiction in the city or county where the arrest occurred. One arrest per petition.",
+            "heldIn": "data/record-clearing/legal-design-packet-set-manifests.json, packetSetId ca-851-91-set, participantActionRequired[kind=file]",
+            "packetSays": "'…and the address of the court are not established in this repository. Ask the clerk of the Superior Court in the county of the arrest.'",
+            "searchedFor": "'15 days', 'accusatory pleading', 'criminal jurisdiction', 'one arrest' across the whole family directory — no match",
+            "standard": "DET-FEE-AND-WAIVER-001-A1 — the amendment refuses this substitution by name"
+          }
         },
         {
-          "obligation": "REPEATING_ROWS",
-          "finding": null,
-          "evidence": null
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "The fee half is right and the waiver half is wrong, and the obligation is scored as one. The amount is genuinely open — the manifest records pay_fee as 'Unresolved and county-specific. Do not publish a figure' — so the packet is correct to publish none, correct to say why ('An unsourced figure in a filing instruction would be worse than none'), and correct to name the clerk of the Superior Court in the county of the arrest as the authority who answers it. But the packet also says 'whether it can be waived … not established in this repository', and the repository answers that: the manifest's apply_fee_waiver entry names FW-001 as the general California fee waiver form, conditional on the participant being unable to pay. That is the waiver procedure, held and named, and the packet neither states it nor points at it — the string 'FW-001' does not appear anywhere in the family directory. Under DET-FEE-AND-WAIVER-001 the first question is whether the repository establishes the answer, and here it establishes half of it; a named authority may stand in only for what the record does not contain. The repair is narrow: keep the fee sentence, name FW-001.",
+          "evidence": {
+            "feeAmount": "correctly open — 'Unresolved and county-specific. Do not publish a figure.'",
+            "waiverHeldBy": "data/record-clearing/legal-design-packet-set-manifests.json, packetSetId ca-851-91-set, participantActionRequired[kind=apply_fee_waiver]",
+            "waiverAnswer": "FW-001 is the general California fee waiver form",
+            "packetSays": "'The filing fee and whether it can be waived … are not established in this repository.'",
+            "searchedFor": "'FW-001' and 'fee waiver' across the whole family directory — no match",
+            "standard": "DET-FEE-AND-WAIVER-001 theTest, as stated in amendment A1"
+          }
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": "This is the most consequential of the three. The packet says 'who must be served and by what method … are not established in this repository' and sends the participant to the clerk. The repository establishes the whole rule: 'Serve the prosecuting attorney of the city or county where the arrest occurred, and the arresting agency, at least 15 days before the hearing.' Two named recipients and a deadline. The packet ships CR-106, the Judicial Council's own Proof of Service for criminal record clearing, and maps all 33 of its blanks — so it hands the participant the instrument for proving service while telling them the repository does not know who to serve. It is worse than a gap: the participant has the proof-of-service form, has been told the parties are unknown, and has a 15-day deadline nobody mentioned. The method half is arguably covered by CR-106's own face, which sets out service by mail and by personal delivery and points at POS-050 for electronic service; the parties and the deadline are not covered anywhere. Under DET-FEE-AND-WAIVER-001's extension to SERVICE, a named authority stands in only where no held source establishes the rule, and one does.",
+          "evidence": {
+            "repositoryRule": "Serve the prosecuting attorney of the city or county where the arrest occurred, and the arresting agency, at least 15 days before the hearing.",
+            "heldIn": "data/record-clearing/legal-design-packet-set-manifests.json, packetSetId ca-851-91-set, participantActionRequired[kind=serve_party]",
+            "packetSays": "'…who must be served and by what method … are not established in this repository. Ask the clerk of the Superior Court in the county of the arrest.'",
+            "searchedFor": "'prosecuting attorney', '15 days' across the whole family directory — no match",
+            "aggravatingFact": "the packet ships and fully maps CR-106, the proof-of-service form, while declaring the service rule unknown",
+            "standard": "DET-FEE-AND-WAIVER-001 appliesTo, read with amendment A1's theTest"
+          }
         }
       ],
       "continuationResult": null,
@@ -4439,8 +4462,22 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP",
+        "SERVICE"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": null,
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "VERIFY_PENDING",
@@ -6099,11 +6136,29 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "The counters are 0 and the obligation fails on the defect class the counters cannot see: the same fact is classified two contradictory ways across two pages of one packet, and one of those classifications puts a court-owned value into the participant's must-supply list. The case number the court assigns at filing is treated as court-owned on the petition — primary_filing.case_number carries refusalClass court_prosecutor_clerk_or_agency_owned with the reason 'if a number is assigned, the court assigns it at filing' — and as a participant obligation on the proposed order, where proposed_order.order_case_number carries completenessClass null and is listed among the seven requiredBeforeFiling items with participantMustSupply 'the case number, if the court assigned one at filing'. That instruction is self-defeating on its face: a number the court assigns AT filing cannot be supplied BEFORE filing, and the proposed order is filed together with the petition, before any number exists. The contradiction reaches the participant. participant-instructions.md line 42 lists 'Case number in the caption of the proposed order, if one was assigned' under 'The items you must supply', while line 58 of the same file, under 'Things the platform deliberately left blank', states 'The case number of the petition itself. If the court assigns one, it does so at filing.' One document tells the participant the case number is theirs to supply and the court's to assign, sixteen lines apart. This is the same class the lane already failed on ny_mrta_marijuana-set — a court-owned field surfaced as a participant obligation, with the file contradicting itself — and I record plainly that it is a materially milder instance: one field rather than three, the label is hedged with 'if one was assigned', there is no mojibake, and a participant is unlikely to be blocked by it. I score it a FAIL for consistency with that precedent and because the repair is small and exact, and I flag the severity difference so a Captain can right-size it.",
+          "evidence": {
+            "contradiction": {
+              "petition": "primary_filing.case_number — refusalClass court_prosecutor_clerk_or_agency_owned, 'the court assigns it at filing'",
+              "proposedOrder": "proposed_order.order_case_number — completenessClass null, listed requiredBeforeFiling, 'the case number, if the court assigned one at filing'"
+            },
+            "participantFacingLines": {
+              "participant-instructions.md:42": "listed under 'The items you must supply'",
+              "participant-instructions.md:58": "listed under 'Things the platform deliberately left blank'"
+            },
+            "severityRelativeToPrecedent": "milder than ny_mrta_marijuana-set: one field, hedged label, no mojibake, no court-use-only block violated"
+          }
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59.mjs",
@@ -6546,7 +6601,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:sc_17_22_950_summary.mjs",
@@ -6611,7 +6666,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:sd_sis_sealing.mjs",
@@ -6678,7 +6733,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ct-cannabis-petition-set.mjs",
@@ -6905,11 +6960,26 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "The counters are 0 and the obligation still fails, on a participant-facing assertion the repository's own holdings contradict. The delivered guidance carries a paragraph headed 'ONE RUMOUR TO IGNORE' telling the participant that the rule requiring the SPBI report to be 'dated on or after January 1, 2024' appears in older internal material, 'looks like a misreading', and that 'nothing found requires the report to bear a post-2024 date'. The mounted corpus holds DESPP-0847-C, the DESPP form for a clean-slate erasure hearing, whose printed instruction 2 states the opposite in mandatory terms: 'You must submit a copy of your current criminal history record, which must be dated on or after 01/01/2024, demonstrating that such conviction has not been marked as erased. If the criminal history record is not submitted along with this form, your submission will be deemed incomplete and your request for a review and/or hearing will be denied.' The packet therefore tells the participant to disregard a documented requirement whose breach the source says causes denial. This finding does NOT depend on mapping the gated form to the track — it needs only that the packet asserted an unqualified negative about what the record contains, and that assertion is false against the repository at this base. The correct treatment is to state that a DESPP form in the library imposes the ≥01/01/2024 record date and that the participant should obtain a current report and confirm with DESPP, rather than to instruct them to ignore it.",
+          "evidence": {
+            "inTheDeliveredBytes": "nothing found requires the report to bear a post-2024 date",
+            "inTheHeldSource": "must be dated on or after 01/01/2024 ... your submission will be deemed incomplete and your request for a review and/or hearing will be denied",
+            "heldSource": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/CT/05_SOURCE_GATED/CT__SOURCE-GATED__DESPP-0847-C__hearing-for-clean-slate-erasure-convictions-after-1-1-2000__REV-2001-01__EN.pdf",
+            "heldSourceSha256": "08658dc45d7d41c20a26dcab54fff8756302e85bef7f4d519d9c0a3d4e4fbcfc",
+            "corpusOriginFilename": "DESPP-0847-C__hearing-for-clean-slate-erasure-convictions-after-1-1-2000__new-2024-01-01.pdf — the origin name records the form as new at 2024-01-01, when the § 54-142t(g) remedy became available; the manifest's REV-2001-01 is a mis-parse of the title's 1/1/2000 and the manifest itself notes 'Form identity is now clear'.",
+            "whyTheMemoMissedIt": "CT.memo.json was reviewed as of 2026-07-30; the corpus edition's checked_date is 2026-08-02. The memo's reviewer had not seen this form, which is why unresolvedQuestions records the date rule as a likely misreading."
+          }
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ct-missed-erasure-set.mjs",
@@ -6977,7 +7047,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ct-nolle-auto-set.mjs",
@@ -8759,7 +8829,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ga-jail-k2-set.mjs",
@@ -8896,7 +8966,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ga-nonconv-post2013-set.mjs",
@@ -10896,7 +10966,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-il-prostitution-j-vacate-set.mjs",
@@ -13001,7 +13071,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ky_void_seal_controlled_substance-set.mjs",
@@ -13114,7 +13184,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ky_void_seal_marijuana_synthetic_salvia-set.mjs",
@@ -13918,7 +13988,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ma-bmc-multi-set.mjs",
@@ -14948,7 +15018,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-me-screening-set.mjs",
@@ -15845,7 +15915,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-mn_prosecutor_agreed-set.mjs",
@@ -16622,7 +16692,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ms-nonadj-set.mjs",
@@ -18201,7 +18271,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ne-seal-enforcement-set.mjs",
@@ -20294,7 +20364,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nv_repository_removal-set.mjs",
@@ -20367,7 +20437,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nv_seal_probation_family-set.mjs",
@@ -20507,21 +20577,118 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "FEE_AND_WAIVER"
+        "CLIPPING_AND_OVERLAP",
+        "FEE_AND_WAIVER",
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP"
       ],
       "failedObligations": [
         {
-          "obligation": "FEE_AND_WAIVER",
-          "finding": "no fee position is stated anywhere for the CPL 160.59 sealing application itself, and no checkable authority is named for it. The rendered pro-se packet's steps 1-9 never mention a fee (searched the extracted text of all six fixtures in this lane: the only fee statements are the COD request component's own $5/$10 certificate fee); participant-instructions.md carries only the catch-all 'Confirm current revision, filing destination, local procedures, fees, attachments, service, and proposed-order requirements before filing', which names no one to ask — the exact shape the house standard fails ('delegation to a named checkable authority passes; a catch-all naming fees does not'). The builder's own build-findings.json concedes it: 'form currency, local service practice, fees, and the proposed-order branch remain release blockers.' This diverges from the vf17 read, whose one-line PASS ('the fee and a waiver route are stated') is contradicted by the committed bytes; the divergence is recorded openly here.",
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "The list exists and is long — 66 field-map rows declare requiredBeforeFiling true — but a systematic off-by-one in the labels makes part of it actively misleading, and the defect flows straight into the participant-facing document. On the certificate-of-disposition request, the field census's effectiveLabel for a vertical stack of identifier fields on page 2 is the label of the row above, not the row it is attached to, while labelBasis still claims printed_to_the_left_in_the_same_cell. Measured in this lane, descending the stack by y: IDVNumber is labelled \"Docket, Indictment, or SCI Number\" (a duplicate of the field above it), ArrestNumber is labelled \"IDV Number\", OrderofProtectionNumber is labelled \"Arrest Number\", CertificateofDispositionNumber is labelled \"Order of Protection Number\", CriminalJusticeTrackingNumber(CJTN) is labelled \"Certificate of Disposition Number\", TicketNumber is labelled \"Complaint Number\", NYSIDNumber is labelled \"Ticket Number\", PartialDocketNumber is labelled \"NYSID Number\", and ArrestDate is labelled \"Incident Date\". Two anchors are correct and each is followed by a run of shifted labels, which is the signature of a label-picking rule that mis-resolves in a dense stack. The consequence for the participant is direct: participant-instructions.md reproduces these pairings verbatim, so it tells them to write their IDV number into the field named ArrestNumber and their arrest number into OrderofProtectionNumber, on the form used to obtain the certificate of disposition that every 160.59 application requires. The application and pro se packet carry milder versions of the same defect — the application collapses \"Number(s) Weight Date Date Section\" onto four distinct fields and labels both NYSID and Motorist_ID \"¼Motorist ID #\", and the instruction list shows the damage as entries like \"Weight (source field: Conviction_Date)\" and \"IDV Number (source field: ArrestNumber)\". The nine counters do not catch this: a mislabelled field is still a classified field, so knownRequiredFieldsMissing stays zero while the list misdirects.",
           "evidence": {
-            "searchedFixtures": [
-              "pro-se-packet-canonical.pdf",
-              "application-canonical.pdf",
-              "cod-request-canonical.pdf",
-              "and the three boundary twins"
+            "requiredBeforeFilingRows": 66,
+            "misalignedStackDocument": "NY-CPL-160.59-COD-REQUEST, page 2",
+            "misalignedPairsMeasuredHere": {
+              "IDVNumber": "Docket, Indictment, or SCI Number",
+              "ArrestNumber": "IDV Number",
+              "OrderofProtectionNumber": "Arrest Number",
+              "CertificateofDispositionNumber": "Order of Protection Number",
+              "CriminalJusticeTrackingNumber(CJTN)": "Certificate of Disposition Number",
+              "TicketNumber": "Complaint Number",
+              "NYSIDNumber": "Ticket Number",
+              "PartialDocketNumber": "NYSID Number",
+              "ArrestDate": "Incident Date"
+            },
+            "labelBasisClaimed": "printed_to_the_left_in_the_same_cell",
+            "duplicateLabelCounts": {
+              "NY-CPL-160.59-COD-REQUEST": 7,
+              "NY-CPL-160.59-APPLICATION": 2,
+              "NY-CPL-160.59-PRO-SE-PACKET": 3
+            },
+            "comparison": "DJ-LE-250B in the Wisconsin family read in the same lane has zero duplicate labels; Arkansas's two ACIC forms have two each and both are benign and explained in prose",
+            "flowsIntoParticipantDocument": "participant-instructions.md 'Exact facts still required before filing' reproduces the mislabelled pairings",
+            "countersDoNotCatchIt": "a mislabelled field is still classified, so knownRequiredFieldsMissing remains 0"
+          }
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "A clipped write, introduced by this build, sitting in a fixture no visual gate has looked at. A word-geometry read of every delivered fixture with pdftotext -bbox finds five text runs in pro-se-packet-boundary.pdf that extend past the right edge of the 612-point page: on page 9 and again on page 11, and worst at 5.21 points of overhang. It is participant text, not the form's: the pristine NY-CPL-160.59-PRO-SE-PACKET from the mounted corpus reads zero words outside the page box, and so do all five other fixtures in this family and all eight fixtures across the other four families read in this lane. Measured against the widget rectangles the field census records, the overflow is much larger than the page overhang suggests — the Email widget on page 11 is x=308.768 width=263.544, so its right edge is 572.312, and the drawn email runs to 617.21: 44.89 points past its own widget box and 5.21 past the page. City State Zip runs to 614.61 (42.30 past the widget) and Applicant Name to 613.99 (41.68 past). The build believes these fit: reports/actual-writes.json records all three as outcome \"shrunk\" at font sizes 8, 7 and 7.5, and its proof block records exactValueObserved true — which is true and is the point, because the value is drawn in full and drawn outside the box. The fit calculation is measuring something other than the widget's own rectangle. Contrast the Arkansas family in this same lane, whose boundary fixture refuses three over-long values with value_exceeds_widget_width_at_minimum_font rather than drawing them past the rule. The visual gate's stated proof list includes \"no clipped write\", and this family's raster is PENDING, so nobody has looked — this is exactly the defect the gate exists to catch, found by reading the bytes instead.",
+          "evidence": {
+            "visualDefectsCounterSays": 0,
+            "counterDoesNotMeasureContainment": "the nine counters read zero while three fields are drawn outside their widget boxes and past the page edge; the counter does not measure page- or widget-box containment from the delivered bytes",
+            "wordsOutsidePageBox": {
+              "pro-se-packet-boundary.pdf": 5,
+              "all other fixtures in this family": 0,
+              "pristine source pro-se packet": 0
+            },
+            "overflowMeasured": {
+              "Email": {
+                "widgetRight": 572.312,
+                "drawnTo": 617.21,
+                "pastWidgetPt": 44.89,
+                "pastPagePt": 5.21,
+                "page": 11
+              },
+              "CityStateZip": {
+                "widgetRight": 572.312,
+                "drawnTo": 614.61,
+                "pastWidgetPt": 42.3,
+                "pastPagePt": 2.61,
+                "page": 11
+              },
+              "ApplicantName": {
+                "widgetRight": 572.312,
+                "drawnTo": 613.99,
+                "pastWidgetPt": 41.68,
+                "pastPagePt": 1.99,
+                "page": 11
+              }
+            },
+            "pageWidth": 612,
+            "buildBelievesTheyFit": "actual-writes records outcome 'shrunk' at fontSize 8 / 7 / 7.5 with exactValueObserved true",
+            "contrast": "ar-arrest-seal-set's boundary fixture refuses three over-long values with value_exceeds_widget_width_at_minimum_font",
+            "rasterState": "RASTER_PENDING — the gate that proves 'no clipped write' has not run on this family"
+          }
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "The repair added a well-drafted section that names a checkable authority, and it still fails, because it asserts a silence the repository does not have. The section states: \"No held source establishes what it costs to file a CPL 160.59 sealing application\", that neither application source states a filing fee, states that filing is free, or describes a fee waiver, and that the packet \"does not supply a figure it does not hold\" — then names the clerk's office of the court of conviction and sentencing as the office to ask. The claim about the two forms is correct and this lane confirmed it independently: extracting the text of both the application and the pro se packet from the mounted corpus finds no fee, cost or dollar figure anywhere on either face. But the claim about the repository is false. The compiled New York profile, cited as a requiredSourceId for this exact route, answers it directly: packetGenerator.feeRules[2] reads \"CPL 160.59 sealing application — No separate filing fee — Court motion; notarization needed\", and the profile's narrative repeats it — \"the 160.59 motion itself carries no separate filing fee\" — and its agent guidance says to note that the motion has no separate filing fee. Amendment A1 settles the ordering: ask first whether the repository establishes the answer, and a named checkable authority may stand in only where none does. One does here, so the stand-in is unavailable and the packet sends the participant to ask a question the repository already answers. The packet's third paragraph shows it can do this correctly — it states the certificate-of-disposition fee, $5 outside New York City and $10 in the five boroughs, sourced to the form's own face, and the compiled profile's feeRules[0] and [1] hold exactly those figures. The repair is to state the no-separate-filing-fee answer the profile holds alongside the certificate fee it already states, and to carry across the waiver-adjacent facts the profile also holds — that legal-aid organisations and county district attorney sealing units assist pro se applicants at no cost.",
+          "evidence": {
+            "standard": "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json",
+            "standardClauseFailed": "amendment.theTest — ask first whether the repository establishes the answer",
+            "packetClaim": "No held source establishes what it costs to file a CPL 160.59 sealing application",
+            "repositoryHolds": [
+              "packetGenerator.feeRules[2]: CPL 160.59 sealing application — No separate filing fee — Court motion; notarization needed",
+              "narrative: the 160.59 motion itself carries no separate filing fee",
+              "AGENT GUIDANCE: note the 160.59 motion has no separate filing fee",
+              "feeRules[17]: legal-aid organizations and county DA sealing units assist pro se applicants at no cost"
             ],
-            "onlyFeeText": "COD request: $5 outside NYC / $10 in NYC, 'Contact the court to ask what payment methods are accepted'",
-            "builderAdmission": "build-findings.json: 'fees ... remain release blockers'"
+            "heldIn": "src/lib/rcap-engine/compiled/profiles/NY-new-york.json",
+            "formFacesConfirmedSilent": "text extracted here from NY-CPL-160.59-APPLICATION and NY-CPL-160.59-PRO-SE-PACKET in the mounted corpus: no fee, cost or dollar figure on either face; the packet's claim about the forms is correct",
+            "packetGetsTheOtherFeeRight": "certificate of disposition $5 outside NYC / $10 in the five boroughs, matching the profile's feeRules[0] and [1]",
+            "partOfTheSamePatternAs": [
+              "ar-arrest-seal-set",
+              "wi_nc_doj_fingerprint_removal-set"
+            ]
+          }
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "Absent. This is the only one of the five families read in this lane whose participant document contains no self-help boundary at all: searching participant-instructions.md finds no \"not legal advice\", no referral to a lawyer or to legal aid, no \"when to stop\" section, and no statement that the packet does not decide whether the conviction can be sealed. The nearest thing is the opening line, \"These files are deterministic review fixtures made from exact held official sources. They are not approved filing packets\" — but that is a build-status disclaimer addressed to a reviewer, not a statement to a participant of where self-help ends, and the closing line is likewise about release blockers rather than about the participant's limits. The gap is conspicuous because the repository holds the material to close it: the compiled New York profile records that legal-aid organisations and county district attorney sealing units assist pro se applicants at no cost, and CPL 160.59 relief is discretionary — the court may grant or refuse — which is exactly the kind of limit the other four packets in this lane state plainly. The document reads as a machine-generated field list with a hand-written fee section added to it, and the sections its siblings carry as a matter of course were never written.",
+          "evidence": {
+            "searchedFor": [
+              "not legal advice",
+              "lawyer",
+              "attorney",
+              "stop and get",
+              "self-help",
+              "does not decide"
+            ],
+            "matchesFound": 0,
+            "comparison": "ar-arrest-seal-set has 'Where self-help ends' naming an Arkansas-licensed lawyer; il-prostitution-j-vacate-set and ms-nonadj-set each have 'When to stop and get help instead'; wi_nc_doj_fingerprint_removal-set states it does not decide and directs the participant to read the conditions on page 1",
+            "nearestThing": "an opening build-status disclaimer addressed to reviewers, not a participant self-help boundary",
+            "materialAvailableToCloseIt": "compiled NY profile records legal-aid organisations and county DA sealing units assisting pro se applicants at no cost; the relief is discretionary"
           }
         }
       ],
@@ -20621,64 +20788,23 @@
       "failedObligations": [
         {
           "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "The counter is 0 and the obligation still fails, which is precisely the gap the counter cannot see: it checks that a blank's label appears in the instructions text, not that the label is the right one or that the field is the participant's at all. Three separate defects, all participant-facing. (1) MIS-MAPPED LABELS: the field map gives Town_Court_Specify the label 'Village Court, Village o' — the town-court blank carrying the village-court caption — and gives CJTN_Unknown the label 'NYSID/New York State Identification N', the wrong tracking number entirely. Docket_Case_Number_Unknown carries '______________________________', which is not a label. (2) A MOJIBAKE LABEL: File_Copy's effectiveLabel is undecoded subsetted-font bytes with embedded control characters, and it is printed verbatim into the participant's instructions as '4. SAo]Destru]}vction S...'. I counted 22 control characters in the delivered participant-instructions.md. (3) COURT-ONLY FIELDS SURFACED AS PARTICIPANT OBLIGATIONS: Application_Complete, File_Copy and Copies_Sent are items 1, 4 and 5 of the block the form prints under '***FOR COURT USE ONLY - DO NOT WRITE BELOW THIS LINE***'. All three are marked requiredBeforeFiling true and listed to the participant under 'Exact facts still required before filing' — while line 32 of the same file states that every control below the COURT USE ONLY line remains blank. The file contradicts itself and, read at face value, directs the participant to write where the form forbids it. Sibling checklist controls (Proper_ID, Charge_Sealed, Comment_Entered) are refused without that flag, so the treatment is not even internally consistent.",
-          "evidence": {
-            "mislabelled": [
-              {
-                "field": "Town_Court_Specify",
-                "label": "Village Court, Village o",
-                "shouldBe": "Town Court, Town of"
-              },
-              {
-                "field": "CJTN_Unknown",
-                "label": "NYSID/New York State Identification N",
-                "shouldBe": "the CJTN unknown election"
-              },
-              {
-                "field": "Docket_Case_Number_Unknown",
-                "label": "______________________________"
-              }
-            ],
-            "mojibake": {
-              "field": "File_Copy",
-              "controlCharsInDeliveredInstructions": 22
-            },
-            "courtOnlyFieldsSurfacedToParticipant": [
-              "Application_Complete",
-              "File_Copy",
-              "Copies_Sent"
-            ],
-            "selfContradiction": "instructions line 32 says every control below the COURT USE ONLY line stays blank"
-          }
+          "finding": null,
+          "evidence": null
         },
         {
           "obligation": "FILING_DESTINATION",
-          "finding": "The held source states the destination on its own printed face and the packet tells the participant to go find it out. Printed instruction 1 of the delivered form reads: 'Submit your application to the Court where you were convicted.' participant-instructions.md line 12 instead reads: 'Confirm current revision, filing destination, local procedures, fees, attachments, service, and proposed-order requirements before filing.' Amendment A1 is exactly on point — ask first whether the repository establishes the answer, and if it does, the packet states it. Substituting a question for an answer already printed on the paper in the packet is the defect the amendment names.",
-          "evidence": {
-            "onTheDeliveredFormsFace": "Submit your application to the Court where you were convicted.",
-            "inTheInstructions": "Confirm ... filing destination ... before filing",
-            "instructionsLine": 12
-          }
+          "finding": null,
+          "evidence": null
         },
         {
           "obligation": "FEE_AND_WAIVER",
-          "finding": "Same defect, and this one has been carried as a legal blocker for the whole sprint. The delivered form's printed instruction 1 states, in a parenthesis on its own face: '(NOTE: There is no application fee.)' The packet does not say so anywhere; line 12 tells the participant to confirm fees before filing. WAVE_2_LEGAL_INPUT_ASSIGNMENTS.json records this family's decisive obligation as 'fee and waiver treatment' with the blocker 'The review instructions require current local fees to be confirmed' — that is, the blocker is manufactured by the packet's own catch-all sentence, not by any unanswered question, and the assignment's four evidence paths are all this family's own records. MASTER_QUEUE carries legalInputStatus OPEN_LEGAL_INPUT on that basis and the prior lane returned BLOCKED_LEGAL_INPUT on it. The fee question for this route is answered by the held source. This is a packet-content defect, not an open legal input, and the correct verdict is a repair rather than a block. I record the disagreement with MASTER_QUEUE rather than editing it; that file is not this lane's to touch.",
-          "evidence": {
-            "onTheDeliveredFormsFace": "(NOTE: There is no application fee.)",
-            "inTheInstructions": "Confirm ... fees ... before filing",
-            "masterQueueLegalInputStatus": "OPEN_LEGAL_INPUT",
-            "whyThatStatusIsWrong": "the held source establishes the fee on its face; the recorded blocker quotes the packet's own catch-all sentence back as the obstacle"
-          }
+          "finding": null,
+          "evidence": null
         },
         {
           "obligation": "SERVICE",
-          "finding": "Silence dressed as a checklist item. The delivered form allocates service to the court: item 6 of its processing checklist reads 'Copies of application sent to prosecutor, law enforcement agencies and DCJS as applicable for further processing', and the form carries no certificate of service and no participant service block among its 33 fields. The packet states none of that. It offers instead two generic template lines — 'Complete service certificates only after service actually occurs', for certificates this form does not have, and 'Confirm ... service ... before filing'. Under DET-FEE-AND-WAIVER-001 as extended to SERVICE, gesturing without naming who answers is the not-met case, and here the repository answers it anyway.",
-          "evidence": {
-            "onTheDeliveredFormsFace": "checklist item 6 — the court sends copies to prosecutor, law enforcement and DCJS",
-            "certificateOfServiceOnForm": false,
-            "inTheInstructions": "Confirm ... service ... before filing",
-            "authorityNamed": null
-          }
+          "finding": null,
+          "evidence": null
         }
       ],
       "continuationResult": null,
@@ -20913,24 +21039,25 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "completenessAudit"
+        "COMPONENT_SET",
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING"
       ],
       "failedObligations": [
         {
-          "obligation": "completenessAudit",
-          "finding": "The registered completeness verifier returns FAIL_COMPONENT_SET (0/0 written): the family publishes no production-field-map.json at the family root, so nothing in the schema the completeness contract reads states what the packet was supposed to write, and the verifier refuses rather than reading it as empty. The family also carries no reports/actual-writes.json, reports/completeness-counters.json or reports/blanks-left-for-the-participant.json. Every other custom-pleading family in this lane (CT x2, GA, KY, NE, VA-identity) publishes that contract and passes; this family's tracks/ layout predates it. MASTER_QUEUE's own completenessStatus for the family is FAIL_COMPONENT_SET.",
-          "evidence": {
-            "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family oh_marijuana_expungement-set",
-            "result": "FAIL_COMPONENT_SET",
-            "verifierReason": "the family has no production-field-map.json, so nothing states what it was supposed to write",
-            "missingContractFiles": [
-              "production-field-map.json",
-              "reports/actual-writes.json",
-              "reports/completeness-counters.json",
-              "reports/blanks-left-for-the-participant.json"
-            ],
-            "queueCompletenessStatus": "FAIL_COMPONENT_SET"
-          }
+          "obligation": "COMPONENT_SET",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": null,
+          "evidence": null
         }
       ],
       "continuationResult": null,
@@ -21927,7 +22054,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-pa_pardon_expungement-set.mjs",
@@ -22639,22 +22766,8 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "ARTIFACTS",
-        "COMPONENT_SET"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "COMPONENT_SET",
-          "finding": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-oh-custom-pleading-clean-tracks returns FAIL_COMPONENT_SET, 0/0 written: the family has no production-field-map.json, so nothing states what it was supposed to write and the family is unauditable for completeness. The four tracks each render canonical and boundary fixtures, but no field map makes them measurable",
-          "evidence": "verifier run in this container, read directly"
-        },
-        {
-          "obligation": "ARTIFACTS",
-          "finding": "the exact defect vf03 failed is unrepaired: every one of the eight per-track render-report text hashes still disagrees with the committed .txt bytes. Recomputed here: oh_2953_32_expungement canonical recorded b4c8e7418bce… recomputed df03928dc247…, boundary recorded e92f6d72549f… recomputed d517101c6cfa…; oh_2953_32_sealing canonical 58b45ebe8409…→fe64611c4210…, boundary c19d58b60270…→ce9db7c52099…; oh_2953_33_nonconviction canonical 991fba47c74c…→2f32cdb52861…, boundary fe2b0f375782…→7e45041c15d5…; oh_2953_35_firearm canonical 25882b6fed76…→b4a0c0c824a0…, boundary a66624492479…→d3a3c97b0d09…. My recomputed value for the expungement canonical equals vf03's recomputation exactly, so two independent containers agree the committed bytes are stable and the records are stale. The eight PDF hashes in render-report.json and all 8 fixture PDF hashes in reports/rendered-artifacts.json DO match. The family directory has not changed since the Wave 2 integration commit — no repair ever landed on it",
-          "evidence": "sha256 recomputation in this container vs tracks/*/rendered/*/render-report.json; git log of the family directory"
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "VERIFY_PENDING",
@@ -26957,7 +27070,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-va_exp_absolute_pardon-set.mjs",
@@ -27918,31 +28031,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "FEE_AND_WAIVER",
-        "KNOWN_PREFILLS",
-        "SERVICE"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "the shared-fitter defect FIX03/FIX04 repaired in the sibling families is still in this family's bytes, because its fixtures were never re-rendered: in fixtures/boundary.pdf the long fixture email appears on the petition page and the fee-waiver page but is MISSING beside 'Email Address' on the 200-00132 stipulation page (extracted text shows the bare caption where the DUI boundary, rebuilt by FIX04, shows the email). That is the same mapped-write-that-never-reached-the-paper vf11/vf12 proved from bytes — an off-by-one-rung in the text-fitting ladder refusing the declared 6.0pt minimum — and this family renders through the same shared host (build-census-v1-vt_seal_misdemeanor-set.mjs). knownRequiredFieldsMissing reads 0 because the counter measures the committed reports, which predate the fix",
-          "evidence": "pdftotext of fixtures/boundary.pdf vs the DUI family's, both read here; git log: no re-render of this family after FIX03/FIX04"
-        },
-        {
-          "obligation": "FEE_AND_WAIVER",
-          "finding": "the VF01 defect stands: the instructions still say 'The filing fee, and whether it can be waived. Ask the clerk of the unit above what the fee is … the amount it waives is not stated here', under a heading that claims these things 'are not established here'. That claim is false in the repository's own terms: the held Vermont Judiciary instructions 200-00130A (corpus hash 8a44b91c…, recomputed here) state the fee rule — no fee except $90 for 23 V.S.A. § 1201(a) convictions — and the FIX03/FIX04 siblings quote it verbatim from the same source. The fix exists in the shared host's sibling output and was never applied to this family",
-          "evidence": "this family's instructions vs the DUI/18-21 instructions and the corpus 200-00130A hash, all read here"
-        },
-        {
-          "obligation": "SERVICE",
-          "finding": "the VF01 defect stands: the instructions still say 'Who must be served, and how. Ask the same clerk…', while held 200-00130A states the service rule the siblings quote — the court provides a copy to the prosecutor once the petition is filed, skipping it on a stipulated petition",
-          "evidence": "this family's instructions vs the sibling instructions and the held source"
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-vt_seal_felony-set.mjs",
@@ -28549,7 +28642,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-wa_crop_certificate_of_restoration-set.mjs",
@@ -29804,18 +29897,22 @@
       "failedObligations": [
         {
           "obligation": "FEE_AND_WAIVER",
-          "finding": "The packet never addresses what this costs. participant-instructions.md contains no fee, cost, charge or payment statement anywhere — I searched the whole file including its tables — and it does not say there is no fee, does not name an amount, and does not tell the participant whom to ask. Every other family in this lane set answers the question one of those three ways. I also decoded the shifted page-1 font myself and found no fee statement on the form face, so the likely truth is that no fee applies; but the packet nowhere says so, and a participant cannot tell the difference between 'no fee' and 'not mentioned'. REPAIR: state in participant-instructions.md what the form does and does not say about cost — that the Bureau's form names no fee, and that the participant should confirm with the Crime Information Bureau before sending — in the same honest form the CO, VT, AK and GA families already use.",
+          "finding": "The verdict is unchanged from the prior lane's, but the reason recorded there no longer describes this packet, and the difference matters for the repair. The determination's notReExamined entry says this family carries \"no amount, no no-fee statement and no office to ask\". That was true when the determination was written at 2026-09-02T00:45:00Z. Ninety-four seconds later, commit 077f685 (FIX04) added a \"What this costs\" section that does name an office to ask — the Crime Information Bureau of the Wisconsin Department of Justice, Criminal History Unit, pointing to the mailing address the form prints in instruction 1 — so the true-silence finding is spent. Re-measured honestly against the standard as it now stands, this still fails, on the other limb. The packet says \"no source held in this repository states a fee for a fingerprint record removal request, states that there is none, or describes a waiver.\" That statement is false. The compiled Wisconsin profile, cited as a requiredSourceId for this exact route, answers the question directly in four places: packetGenerator.feeRules[1] \"DOJ-CIB fingerprint arrest removal — Wisconsin DOJ says no fee is required\", with feeRules[2] drawing the distinction that matters, \"DOJ-CIB criminal background check — Fee-based through WORCS\"; and pathways[0].ruleClauses[24], pathways[1].ruleClauses[5] and sourceSections[4] each state that Wisconsin DOJ says the request uses DJ-LE-250B, requires fingerprints, and has no fee. The route census repeats it in this family's own destination detail: \"There is no fee for the removal request; the background check that precedes it is fee-based.\" Amendment A1 settles the ordering — ask first whether the repository establishes the answer, and a named authority may stand in only where none does. One does here, so the stand-in is unavailable. The packet is right that the form's two pages are silent, and this lane confirmed that independently; it is wrong that the repository is. The repair is to state the no-fee answer the profile holds and to carry across the distinction the profile draws between the free removal request and the fee-based WORCS background check that precedes it.",
           "evidence": {
-            "searchedFile": "participant-instructions.md, whole file including tables",
-            "matchesFor": "fee|cost|charge|pay|$|free|money|price",
-            "nonTableMatches": 0,
-            "feeStatementOnFormFace": "none found after decoding the -29 glyph shift on page 1",
-            "comparableFamilies": {
-              "co": "ask the clerk what fee applies",
-              "vt": "ask the clerk; waiver form included",
-              "ak": "ask the clerk of the court above",
-              "ga": "unresolved and county-specific, ask the clerk"
-            }
+            "standard": "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json",
+            "standardClauseFailed": "amendment.theTest — ask first whether the repository establishes the answer",
+            "determinationPremiseNowStale": "notReExamined.wi_nc_doj_fingerprint_removal-set describes a packet with 'no office to ask'; commit 077f685 added one at 2026-09-02T00:46:34Z, 94 seconds after the determination was decided at 00:45:00Z",
+            "packetClaim": "no source held in this repository states a fee ... states that there is none, or describes a waiver",
+            "repositoryHolds": [
+              "packetGenerator.feeRules[1]: DOJ-CIB fingerprint arrest removal — Wisconsin DOJ says no fee is required",
+              "packetGenerator.feeRules[2]: DOJ-CIB criminal background check — Fee-based through WORCS",
+              "pathways[0].ruleClauses[24] and pathways[1].ruleClauses[5]: the request uses DJ-LE-250B, requires fingerprints, and has no fee",
+              "sourceSections[4].text: same statement in the Wisconsin source narrative"
+            ],
+            "heldIn": "src/lib/rcap-engine/compiled/profiles/WI-wisconsin.json",
+            "alsoInRouteCensus": "destination.detail — There is no fee for the removal request; the background check that precedes it is fee-based",
+            "formFaceConfirmedSilent": "both pages of DJ-LE-250B carry no fee, cost or payment text; the packet's claim about the form is correct",
+            "officeNamedByThePacket": "Crime Information Bureau of the Wisconsin Department of Justice, Criminal History Unit"
           }
         }
       ],
@@ -30360,7 +30457,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-wv_dui_deferral_expungement-set.mjs",
