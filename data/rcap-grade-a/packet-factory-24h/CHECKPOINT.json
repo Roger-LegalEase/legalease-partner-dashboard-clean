@@ -34,8 +34,8 @@
   "codex": {
     "activeTasks": 0,
     "queuedTasks": 48,
-    "lanesWithWorkAtDispatch": 39,
-    "lanesProvisionedEmpty": 9,
+    "lanesWithWorkAtDispatch": 38,
+    "lanesProvisionedEmpty": 10,
     "idleCapacityRule": "A provisioned-empty lane is not idle capacity being wasted; it is capacity waiting on the source conveyor, which is itself fully assigned."
   },
   "blockers": [
@@ -102,7 +102,7 @@
     {
       "family": "ar-act346-set",
       "exactBlocker": "SOURCE_IDENTITY_UNRESOLVED: official-form:ACIC-ORDER-DISMISS-AND-SEAL-FIRST-OFFENDERS, official-form:ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS",
-      "owner": "SRC03",
+      "owner": "DISC04",
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
@@ -121,12 +121,6 @@
       "family": "ar-misdemeanor-seal-set",
       "exactBlocker": "SOURCE_IDENTITY_UNRESOLVED: official-form:ACIC-UNIFORM-ORDER-TO-SEAL, official-form:ACIC-UNIFORM-PETITION-TO-SEAL",
       "owner": "DISC04",
-      "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
-    },
-    {
-      "family": "ar-pardon-seal-set",
-      "exactBlocker": "SOURCE_IDENTITY_NOT_EXACT: official-form:ACIC-ORDER-TO-SEAL-PARDONED-OFFENDER, official-form:ACIC-PETITION-TO-SEAL-PARDONED-OFFENDER",
-      "owner": "SRC03",
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
@@ -282,7 +276,7 @@
     {
       "family": "ga-nonconv-pre2013-set",
       "exactBlocker": "SOURCE_NAMED_BUT_NOT_HELD: official-form:GBI-GCIC-REQUEST-TO-RESTRICT-ARREST-RECORD-PRIOR-TO-07-01-2013: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding: no document-shaped source named",
-      "owner": "SRC01",
+      "owner": "SRC02",
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
@@ -462,19 +456,19 @@
     {
       "family": "ky_expungement_certification-set",
       "exactBlocker": "SOURCE_GENUINELY_MISSING: official-form:AOC-RU-009",
-      "owner": "SRC01",
+      "owner": "SRC03",
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
       "family": "ky_nonconviction_expungement-set",
       "exactBlocker": "SOURCE_GENUINELY_MISSING: official-form:AOC-497, official-form:AOC-497.2",
-      "owner": "SRC01",
+      "owner": "SRC03",
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
       "family": "ky_protective_order_record_expungement-set",
       "exactBlocker": "SOURCE_GENUINELY_MISSING: official-form:AOC-275.18",
-      "owner": "SRC01",
+      "owner": "SRC03",
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
@@ -534,7 +528,7 @@
     {
       "family": "ma-seal-court-set",
       "exactBlocker": "SOURCE_GENUINELY_MISSING: official-form:TC0057",
-      "owner": "SRC02",
+      "owner": "SRC03",
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
@@ -576,13 +570,13 @@
     {
       "family": "me-seal-gen-set",
       "exactBlocker": "SOURCE_GENUINELY_MISSING: official-form:CR-218",
-      "owner": "SRC02",
+      "owner": "SRC04",
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
       "family": "me-seal-survivor-set",
       "exactBlocker": "SOURCE_GENUINELY_MISSING: official-form:CR-307, official-form:CR-308, source-sha256:c72e74f191a1bddb48453e3094e8a657baabf552299f353acd8bf0d8a418fed1",
-      "owner": "SRC02",
+      "owner": "SRC04",
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
@@ -623,8 +617,8 @@
     },
     {
       "family": "mo-575-120-identity-theft-correction-set",
-      "exactBlocker": "SOURCE_NAMED_BUT_NOT_HELD: official-form:CR310: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding: no document-shaped source named",
-      "owner": "SRC02",
+      "exactBlocker": "SOURCE_NAMED_BUT_NOT_HELD: official-form:CR300: UNRESOLVED_FORM_IDENTITY — 2 corpus entries share this form number and no custody entry disambiguates: no document-shaped source named",
+      "owner": "SRC01",
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
@@ -635,14 +629,14 @@
     },
     {
       "family": "mo-610-140-arrest-set",
-      "exactBlocker": "SOURCE_NAMED_BUT_NOT_HELD: official-form:CR370: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding: no document-shaped source named",
-      "owner": "SRC02",
+      "exactBlocker": "SOURCE_NAMED_BUT_NOT_HELD: official-form:CR360: UNRESOLVED_FORM_IDENTITY — 2 corpus entries share this form number and no custody entry disambiguates: no document-shaped source named",
+      "owner": "SRC01",
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
       "family": "mo-610-140-conviction-set",
-      "exactBlocker": "SOURCE_NAMED_BUT_NOT_HELD: official-form:CR370: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding: no document-shaped source named",
-      "owner": "SRC02",
+      "exactBlocker": "SOURCE_NAMED_BUT_NOT_HELD: official-form:CR360: UNRESOLVED_FORM_IDENTITY — 2 corpus entries share this form number and no custody entry disambiguates: no document-shaped source named",
+      "owner": "SRC01",
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
@@ -653,8 +647,8 @@
     },
     {
       "family": "mo-art-xiv-marijuana-set",
-      "exactBlocker": "SOURCE_NAMED_BUT_NOT_HELD: official-form:FI-05: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding: no document-shaped source named",
-      "owner": "SRC04",
+      "exactBlocker": "SOURCE_NAMED_BUT_NOT_HELD: official-form:CR375: UNRESOLVED_FORM_IDENTITY — 2 corpus entries share this form number and no custody entry disambiguates: no document-shaped source named",
+      "owner": "SRC01",
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
@@ -814,9 +808,15 @@
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
+      "family": "rcap-or-official-pdf-fill",
+      "exactBlocker": "SOURCE_NAMED_BUT_NOT_HELD: official-form:OR-OJD-ADULT-SET-ASIDE-PACKET: UNRESOLVED_FORM_IDENTITY — 2 corpus entries share this form number and no custody entry disambiguates: no document-shaped source named",
+      "owner": "SRC02",
+      "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
+    },
+    {
       "family": "ri_decriminalized-set",
       "exactBlocker": "SOURCE_GENUINELY_MISSING: official-form:DC-33, official-form:DC-33-AFFIDAVIT, official-form:DC-33-ORDER",
-      "owner": "SRC03",
+      "owner": "SRC04",
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
@@ -870,13 +870,13 @@
     {
       "family": "wv_acc_treatment_job_readiness-set",
       "exactBlocker": "SOURCE_GENUINELY_MISSING: official-form:SCA-C906, official-form:SCA-C907, source-sha256:2a72314146636c4120d87bdfb83f8609e35e9e904eed2f8169bc2375fba30222, source-sha256:43b5606c9faf6fcf4d6f73c1d97cf1bd87798158dee1b6f3381c8a0472b4b64c",
-      "owner": "SRC04",
+      "owner": "SRC01",
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
       "family": "wv_conv_nonviolent_felony-set",
       "exactBlocker": "SOURCE_NAMED_BUT_NOT_HELD: official-form:SCA-C907: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding: no document-shaped source named",
-      "owner": "SRC04",
+      "owner": "SRC01",
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {

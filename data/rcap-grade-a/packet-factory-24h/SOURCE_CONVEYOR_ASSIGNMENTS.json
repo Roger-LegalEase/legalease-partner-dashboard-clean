@@ -2,8 +2,8 @@
   "schemaVersion": "rcap-source-conveyor/v1",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate-source-conveyor.mjs",
   "question": "What actually stands between 47 buildable families and 346?",
-  "answer": "Source identity. 276 obligations across 140 families, and 227 of them do not yet have an official URL to fetch.",
-  "captainHead": "48e9e01b03ac297306b85ff6cfd8aedf9b8a011d",
+  "answer": "Source identity. 291 obligations across 140 families, and 242 of them do not yet have an official URL to fetch.",
+  "captainHead": "1b40b32e0f59a6b70c7ca8779617a337ab184b22",
   "preservedFactoryLanes": {
     "rule": "The thirty-two packet lanes are preserved. Nothing here rewrites PF01-PF16, FIX01-FIX04 or VF01-VF08, and SRC01-SRC04 keep their identifiers and take the reconciliation operation.",
     "packetBuild": [
@@ -348,8 +348,8 @@
       "operation": "exact-source-identity",
       "status": "ACTIVE",
       "obligations": 10,
-      "familiesReleasedByThisLane": 6,
-      "familiesAdvancedButNotReleasedHere": 1,
+      "familiesReleasedByThisLane": 7,
+      "familiesAdvancedButNotReleasedHere": 0,
       "issuingHosts": [
         "AK",
         "AR",
@@ -598,16 +598,17 @@
       "assignmentId": "SRC01",
       "operation": "held-inventory-reconciliation",
       "status": "ACTIVE",
-      "obligations": 56,
+      "obligations": 63,
       "familiesReleasedByThisLane": 13,
-      "familiesAdvancedButNotReleasedHere": 5,
+      "familiesAdvancedButNotReleasedHere": 10,
       "issuingHosts": [
         "CA",
-        "GA",
         "KS",
         "KY",
+        "MO",
         "NM",
-        "UT"
+        "UT",
+        "WV"
       ],
       "mustRecord": [
         "custody path",
@@ -682,17 +683,18 @@
       "assignmentId": "SRC02",
       "operation": "held-inventory-reconciliation",
       "status": "ACTIVE",
-      "obligations": 47,
+      "obligations": 50,
       "familiesReleasedByThisLane": 28,
-      "familiesAdvancedButNotReleasedHere": 9,
+      "familiesAdvancedButNotReleasedHere": 10,
       "issuingHosts": [
         "AL",
+        "DE",
         "FL",
-        "MA",
+        "GA",
         "MD",
-        "ME",
         "MO",
         "NH",
+        "OR",
         "RI"
       ],
       "mustRecord": [
@@ -768,17 +770,17 @@
       "assignmentId": "SRC03",
       "operation": "held-inventory-reconciliation",
       "status": "ACTIVE",
-      "obligations": 35,
-      "familiesReleasedByThisLane": 13,
-      "familiesAdvancedButNotReleasedHere": 4,
+      "obligations": 38,
+      "familiesReleasedByThisLane": 17,
+      "familiesAdvancedButNotReleasedHere": 3,
       "issuingHosts": [
-        "AR",
         "CO",
         "DE",
+        "KY",
+        "MA",
         "MN",
         "MT",
-        "NE",
-        "RI"
+        "NE"
       ],
       "mustRecord": [
         "custody path",
@@ -853,17 +855,19 @@
       "assignmentId": "SRC04",
       "operation": "held-inventory-reconciliation",
       "status": "ACTIVE",
-      "obligations": 38,
+      "obligations": 40,
       "familiesReleasedByThisLane": 20,
-      "familiesAdvancedButNotReleasedHere": 9,
+      "familiesAdvancedButNotReleasedHere": 11,
       "issuingHosts": [
         "AZ",
         "HI",
         "KS",
+        "ME",
         "MO",
         "NC",
         "ND",
-        "WV"
+        "RI",
+        "WI"
       ],
       "mustRecord": [
         "custody path",
@@ -1406,8 +1410,8 @@
     "src": 4,
     "acq": 3,
     "promo": 3,
-    "obligations": 276,
-    "familiesReleased": 123,
+    "obligations": 291,
+    "familiesReleased": 128,
     "manifestEntries": 40
   },
   "batchWorkflow": ".github/workflows/rcap-official-source-acquisition-batch.yml",

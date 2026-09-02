@@ -147,6 +147,62 @@ if [ -f "$INSTALL_ROOT/00_GOVERNANCE/CHECKSUMS.sha256" ]; then
     || fail "the corpus does not verify against its own 00_GOVERNANCE/CHECKSUMS.sha256"
 fi
 
+# ---- the D source packs: a second custody, installed alongside ---------------
+#
+# Three packs from a DIFFERENT release, in a different repository, holding
+# twenty-seven states of mostly source-gated official forms. They are indexed
+# as their own custody by
+# scripts/generate-rcap-local-source-corpus-index.mjs.
+#
+# They are not the Master Library and they are NOT the operational Nationwide
+# tree: their top level is STATES/, and
+# scripts/rcap-official-forms/operational-corpus-precondition.mjs refuses a
+# STATES/-shaped corpus at the operational path by name. Installing them there
+# would be exactly the substitution that check exists to catch, so they get
+# their own root and the operational path stays empty until the real tree
+# arrives.
+#
+# Each archive's SHA-256 is verified against the release's own recorded digest
+# before anything is extracted. This step is best-effort: the packs are a
+# supplement, and a session that cannot reach that release still gets a working
+# Master Library rather than a failed bootstrap.
+D_RELEASE_REPO="Roger-LegalEase/legalease-partner-dashboard-clean"
+D_RELEASE_TAG="rcap-d-source-packs-2026-08-12"
+D_INSTALL_ROOT="private/source-imports/rcap-d-source-packs-2026-08-12"
+D_PACKS="D1 01ab34d2eee2ae5621e18fa74e4c03f24df667965eb27a4e3bf7f80c3216acaa
+D2 8f7ef41b7077105dc0bc23e7e3963cff88104004db0745012bf76e6b47c14557
+D3 70c9a6f759a744bc95f6f969ecd0a5fe7cbdfbfff08062dd2d968597a447753b"
+
+install_d_packs() {
+  local stage="$WORK/dpacks"
+  mkdir -p "$stage" "$D_INSTALL_ROOT"
+  local base="https://github.com/$D_RELEASE_REPO/releases/download/$D_RELEASE_TAG"
+  while read -r pack want; do
+    [ -n "$pack" ] || continue
+    local zip="$stage/RCAP_D_${pack}_SOURCE_PACK.zip"
+    curl -sSL --fail-with-body --max-time 900 -o "$zip" \
+      "$base/RCAP_D_${pack}_SOURCE_PACK.zip" || { echo "  D packs: could not download $pack" >&2; return 1; }
+    local got; got=$(sha256sum "$zip" | cut -d' ' -f1)
+    [ "$got" = "$want" ] || { echo "  D packs: $pack archive digest mismatch" >&2; return 1; }
+    rm -rf "${D_INSTALL_ROOT:?}/$pack"
+    unzip -q -o "$zip" -d "$D_INSTALL_ROOT/$pack"
+    echo "  D packs: $pack verified and installed"
+  done <<< "$D_PACKS"
+  find "$D_INSTALL_ROOT" -name '.DS_Store' -delete 2>/dev/null || true
+  local tracked; tracked=$(git ls-files -- "$D_INSTALL_ROOT" | wc -l | tr -d ' ')
+  [ "$tracked" = "0" ] || fail "Git tracks $tracked file(s) under $D_INSTALL_ROOT; source packs must never be committed"
+  return 0
+}
+
+D_PACKS_INSTALLED=no
+if install_d_packs; then
+  D_PACKS_INSTALLED=yes
+  echo "D source packs installed to $D_INSTALL_ROOT"
+else
+  rm -rf "${D_INSTALL_ROOT:?}"
+  echo "D source packs NOT installed; the Master Library is unaffected." >&2
+fi
+
 # ---- write the environment record (git-ignored, no secrets) -----------------
 cat > private/source-corpus-environment.txt <<ENVEOF
 # LegalEase source corpus environment
@@ -161,6 +217,12 @@ cat > private/source-corpus-environment.txt <<ENVEOF
 #   archive   $ARCHIVE_SHA256  (VERIFIED)
 #   verified  $JURISDICTIONS jurisdictions / $FILES files / $PDFS PDFs
 export RCAP_BUNDLE_EXTRACT="\$PWD/$INSTALL_ROOT"
+
+# --- D source packs: a second custody of official binaries (27 states)
+#   release   $D_RELEASE_TAG in $D_RELEASE_REPO
+#   installed $D_PACKS_INSTALLED
+#   Not the Master Library and not the operational tree. Indexed as custody
+#   d_source_packs by scripts/generate-rcap-local-source-corpus-index.mjs.
 
 # --- Operational Nationwide tree: what the platform builds packets from
 # A DIFFERENT corpus, not carried by this release. Do not substitute the Master

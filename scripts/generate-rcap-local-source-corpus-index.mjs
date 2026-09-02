@@ -92,6 +92,18 @@ function identityFromReturnTree(relativePath) {
 }
 
 /*
+ * The D source packs follow the Master Library's six-field naming standard --
+ * STATE__CLASS__DOCID__slug__REV-x__LANG.pdf -- because they were cut from the
+ * same production line. So their identity parses the same way. What differs is
+ * where the paths sit: these are repository-relative, because the packs are a
+ * THIRD custody and not the library, and a STATES/-shaped path relative to a
+ * custody root would collide with the library's own.
+ */
+function identityFromDSourcePack(relativePath) {
+  return identityFromMasterLibraryName(relativePath);
+}
+
+/*
  * THE CUSTODY TABLE
  *
  * `pathsRelativeTo` decides how an entry's `path` is written, and the two
@@ -145,6 +157,34 @@ const CUSTODIES = [
     pathsRelativeTo: "repositoryRoot",
     identity: identityFromReturnTree,
     describes: "Documents returned by a person with provenance, each with a receipt under data/rcap-grade-a/source-verification/human-source-returns/. Held outside the Master Library and not carried by any release."
+  },
+  {
+    id: "d_source_packs",
+    root: "private/source-imports/rcap-d-source-packs-2026-08-12",
+    pathsRelativeTo: "repositoryRoot",
+    identity: identityFromDSourcePack,
+    /*
+     * The D1/D2/D3 packs from release rcap-d-source-packs-2026-08-12, whose
+     * three archive digests were verified against the release's own record
+     * before extraction. Twenty-seven states across the three packs.
+     *
+     * They are a THIRD custody, and the distinction is load-bearing twice
+     * over. They are not the Master Library: they carry their own
+     * RCAP_SOURCE_HANDOFF_MANIFEST and a different, mostly source-gated,
+     * member set. And they are emphatically not the operational Nationwide
+     * tree -- scripts/rcap-official-forms/operational-corpus-precondition.mjs
+     * recognises that tree by its LegalEase <State>/ top level and refuses a
+     * STATES/-shaped corpus at the operational path by name, so installing
+     * these there would be exactly the substitution it exists to catch.
+     *
+     * Only two of the twenty-seven source hashes the attach cohort recorded
+     * from the Nationwide inventory are present here by exact hash. That is
+     * not a defect in the packs: they hold a great many official forms these
+     * families name, at different bytes and different revisions, and the way
+     * those reach a family is the reconciler's read-identity tier, not a hash
+     * the Nationwide inventory recorded from a corpus nobody can mount.
+     */
+    describes: "The D1/D2/D3 source packs from private release rcap-d-source-packs-2026-08-12, archive digests verified before extraction. Not the Master Library and not the operational Nationwide tree."
   }
 ];
 

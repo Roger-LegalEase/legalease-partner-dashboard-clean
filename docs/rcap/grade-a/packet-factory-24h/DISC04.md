@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** source-swarm
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `48e9e01b03ac297306b85ff6cfd8aedf9b8a011d` (or the newer dispatch base)
+**Minimum required ancestor:** `1b40b32e0f59a6b70c7ca8779617a337ab184b22` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -22,7 +22,7 @@ node scripts/verify-packet-build-environment.mjs \
   --assignment-id DISC04 \
   --source-obligation 'agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record::official-form:Request to Correct Criminal Justice Information' \
   --codex-cloud \
-  --minimum-captain-sha 48e9e01b03ac297306b85ff6cfd8aedf9b8a011d
+  --minimum-captain-sha 1b40b32e0f59a6b70c7ca8779617a337ab184b22
 ```
 
 It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owned row gate must both pass.
@@ -78,7 +78,7 @@ Turn a descriptive label into a document identity: exact form number, official p
 
 the issuing court or agency that publishes the document
 
-**10 obligations · 6 families this lane WOULD release if every one of them resolves · hosts: AK, AR, WA**
+**10 obligations · 7 families this lane WOULD release if every one of them resolves · hosts: AK, AR, WA**
 
 > Prospective. Nothing below is promoted custody yet, and this number is not a count of families you can build today.
 
@@ -134,7 +134,7 @@ NODE
 Run the row gate once per listed item, after the lane gate. This exact first command demonstrates the interface; substitute each other exact item id from the table without changing the lane:
 
 ```sh
-node scripts/verify-packet-build-environment.mjs --assignment-id DISC04 --source-obligation 'agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record::official-form:Request to Correct Criminal Justice Information' --codex-cloud --minimum-captain-sha 48e9e01b03ac297306b85ff6cfd8aedf9b8a011d
+node scripts/verify-packet-build-environment.mjs --assignment-id DISC04 --source-obligation 'agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record::official-form:Request to Correct Criminal Justice Information' --codex-cloud --minimum-captain-sha 1b40b32e0f59a6b70c7ca8779617a337ab184b22
 
 # A failed row is recorded STOPPED; continue with unrelated rows.
 ```
@@ -143,7 +143,7 @@ node scripts/verify-packet-build-environment.mjs --assignment-id DISC04 --source
 
 ### Families this lane would release
 
-`agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record`, `ar-drug-court-set`, `ar-felony-seal-set`, `ar-misdemeanor-seal-set`, `ar-veterans-court-set`, `census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260`
+`agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record`, `ar-act346-set`, `ar-drug-court-set`, `ar-felony-seal-set`, `ar-misdemeanor-seal-set`, `ar-veterans-court-set`, `census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260`
 
 
 ### Settle these first
