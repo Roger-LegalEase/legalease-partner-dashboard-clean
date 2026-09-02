@@ -17,13 +17,23 @@ import { spawnSync } from "node:child_process";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 
-import { runFamilyById } from "./build-census-v1-ne-setaside-custodial-set.mjs";
-import { extractTextItems } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
-import { scanBytesForActiveContent } from "./rcap-official-forms/rcap-active-content.mjs";
-
 const require = createRequire(import.meta.url);
-const { PDFDocument, StandardFonts, rgb } = require("pdf-lib");
-const sharp = require("sharp");
+const cliArgs = process.argv.slice(2);
+const fix13LightweightRun = cliArgs.includes("--instruction-repair-only") || cliArgs.includes("--assert-fix13");
+let runFamilyById;
+let extractTextItems;
+let scanBytesForActiveContent;
+let PDFDocument;
+let StandardFonts;
+let rgb;
+let sharp;
+if (!fix13LightweightRun) {
+  ({ runFamilyById } = await import("./build-census-v1-ne-setaside-custodial-set.mjs"));
+  ({ extractTextItems } = await import("./rcap-official-forms/rcap-pdf-anchor-capture.mjs"));
+  ({ scanBytesForActiveContent } = await import("./rcap-official-forms/rcap-active-content.mjs"));
+  ({ PDFDocument, StandardFonts, rgb } = require("pdf-lib"));
+  sharp = require("sharp");
+}
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 process.chdir(rootDir);
@@ -205,8 +215,25 @@ const REQUIRED_BEFORE_FILING = Object.freeze({
     { factId: "service.states_attorney_address", label: "State's Attorney mailing address", forms: ["UJS-391"], when: "before service" },
     { factId: "service.notice_recipient_name", label: "Notice recipient name", forms: ["UJS-393", "UJS-395"], when: "before mailing the notice" },
     { factId: "service.notice_recipient_address", label: "Notice recipient mailing address", forms: ["UJS-393", "UJS-395"], when: "before mailing the notice" },
+    { factId: "filing.route_outcome_proof", label: "Order of dismissal, judgment of acquittal, or written proof that no accusatory instrument was filed", forms: ["UJS-391A"], when: "obtain it from the Clerk of Courts before filing; where no charging document was filed, ask the clerk to confirm in writing that no case exists" },
+    { factId: "filing.route_outcome_confirmation", label: "Route outcome checked against that proof", forms: ["UJS-391A"], when: "compare the selected no-accusatory-instrument basis with the clerk's proof and correct the packet if they disagree" },
+    { factId: "filing.entire_case_confirmation", label: "Entire-case result checked against the court docket", forms: ["UJS-391A"], when: "if a case was opened, obtain its docket and confirm that every charge—not only some charges—was dismissed" },
+    { factId: "filing.arrest_count_confirmation", label: "Number of separate arrests checked against South Dakota criminal history", forms: ["UJS-391A"], when: "if the participant is unsure, request a DCI criminal-history record and correct the packet if the arrest count disagrees" },
   ],
 });
+
+const SD_SELF_HELP_STOP_CONDITIONS = Object.freeze([
+  "Only some charges in the case were dismissed. A partial dismissal defeats this track; the statute requires the ENTIRE criminal case to have been formally dismissed on the record.",
+  "A compelling-necessity filing inside the one-year window, which is an argument rather than a fact.",
+  "Any victim who may object or whose waiver is needed.",
+  "Prosecutor opposition, or any contested hearing.",
+  "More than one arrest record, which means more than one civil action and more than one fee.",
+  "Arrests in more than one county.",
+  "Federal, tribal, military or out-of-state records. Tribal records are a live South Dakota issue given the number of reservations and concurrent-jurisdiction questions, and are an explicit escalation rather than a footnote.",
+  "Immigration exposure.",
+  "Any adult conviction that is not clearly SIS-based, pardon-based, diversion-based or minor-case automatic removal.",
+  "Any felony, DUI, domestic violence, sex offence, child-victim offence, violence, firearm or protection-order issue.",
+]);
 
 const RBF_FIELD_NAMES = new Set([
   "JUDICIAL CIRCUIT Number", "JUDICIAL CIRCUIT number", "judicial circuit",
@@ -691,22 +718,20 @@ function participantInstructions(familyId) {
     "",
   ];
   if (familyId !== "sd_arrest_expungement-set") return shared.join("\n");
-  // The four statements the packet owes the participant beyond the item lists:
-  // where it is filed, what it costs, how service is made and proved, and where
-  // self-help ends. Every fact below is read from the UJS forms' own printed
-  // instruction sheets (UJS-391 rev. 07/2026, UJS-392 rev. 07/2026, UJS-393
-  // rev. 07/2026, UJS-395 rev. 07/2026), which are pinned by SHA-256 in
-  // source-receipt.json; nothing is invented, and the two authorities named for
-  // open questions — an attorney and the UJS Legal Form Helpline — are the ones
-  // the forms themselves name.
+  // The statements below bind the held UJS instruction sheets and the committed
+  // sd_arrest_expungement track record. The route record supplies the indigency
+  // waiver, prerequisite-record checks, selected-basis disclosure, and ten exact
+  // self-help stops that the forms alone do not state.
   return shared.concat([
+    "**Selected route in these review fixtures:** packet page 3 marks the UJS-391A basis that one year has passed since the arrest and no accusatory instrument was filed. The basis is not unchosen. Use this packet only if the clerk's written proof confirms that selected route; if it does not, correct the route before signing or filing.",
+    "",
     "## Where you file this",
     "",
     "File with the **Clerk of Court of the circuit court for the county where the arrest record or case is filed** — UJS-391's own instruction sheet says the county you file in \"will be the same county where the arrest record or case is filed in\", and every caption in this packet reads \"STATE OF SOUTH DAKOTA, IN CIRCUIT COURT\". Enter that county and its Judicial Circuit number in each caption (the circuit number is the item listed above; the Clerk of Court can tell you the number for your county). **The case number will be provided to you by the Clerk of Court at the time of filing** — UJS-391 instruction 1(b) — so do not invent one. File the Motion for Expungement UJS-391A with the Clerk of Court **along with the Case Filing Statement UJS-232**.",
     "",
     "## The filing fee",
     "",
-    "UJS-391's instruction sheet states the fee: sign, date, and file the motion with the Clerk of Court along with the Case Filing Statement UJS-232 **and pay the $72 filing fee**. That figure is the form's own (UJS-391, rev. 07/2026); if the clerk quotes a different current amount, the clerk's figure governs. The forms state no fee-waiver route. **If you cannot afford the fee, ask the Clerk of Court whether any waiver or reduction is available** — this packet does not decide that, and the court staff cannot give legal advice, so a waiver question that turns on your circumstances belongs to an attorney or the Legal Form Helpline named below.",
+    "UJS-391's instruction sheet and the committed route record state the fee: sign, date, and file the motion with the Clerk of Court along with the Case Filing Statement UJS-232 **and pay the $72 civil filing fee for each petition**. The committed route record also states that an **indigency waiver is available on a finding of indigency, requested from the court**. If you cannot afford the fee, ask the Clerk of Court for the current waiver request and filing procedure before filing. This packet does not decide indigency or complete the request for you.",
     "",
     "## Who you serve, and how",
     "",
@@ -724,12 +749,46 @@ function participantInstructions(familyId) {
     "",
     "This packet prepares official UJS forms; it decides nothing. The forms' own instruction sheets state the boundary, and it is repeated here: **if you have any legal questions, it is highly recommended that you consult with an attorney. Court staff are unable to provide you with legal advice or assist you in completing these forms.** For questions about the forms themselves, the forms name the checkable authority: **the UJS Legal Form Helpline at 1-855-784-0004, or ujssrlhelp@ujs.state.sd.us**. Stop and take the question to an attorney — or the helpline, for form questions — before filing, if any of these is true:",
     "",
-    "- you cannot say which basis on UJS-391A is truthfully yours — one year since arrest with no accusatory instrument filed, a formal dismissal of the entire case on the record (with its own one-year-or-compelling-necessity branch), or acquittal of all charges at trial — the basis is a statement of law about your own case, and this packet does not choose it;",
-    "- the State's Attorney or the victim will not sign a Waiver of Hearing UJS-392, or you cannot identify the office that handled the case;",
-    "- anything in the record was in a court other than a South Dakota circuit court, or you are not sure where the arrest record or case is filed;",
-    "- you are asked at the hearing to argue eligibility under SDCL § 23A-3-27 — the statute the motion itself cites — beyond the facts already on your forms.",
+    "The ten conditions below are carried word for word from `data/record-clearing/legal-design-track-registry.json`, track `sd_arrest_expungement`, `selfHelpStopConditions`:",
+    "",
+    ...SD_SELF_HELP_STOP_CONDITIONS.map((condition) => `- ${condition}`),
     "",
   ]).join("\n");
+}
+
+function assertFix13InstructionRepair(familyId) {
+  assert.equal(familyId, "sd_arrest_expungement-set", "FIX13 owns only the South Dakota arrest-expungement family");
+  const dir = FAMILY_DIRS[familyId];
+  const instructions = fs.readFileSync(path.join(rootDir, `${dir}/participant-instructions.md`), "utf8");
+  for (const condition of SD_SELF_HELP_STOP_CONDITIONS) {
+    assert.ok(instructions.includes(condition), `held self-help stop is absent: ${condition}`);
+  }
+  const selfHelp = instructions.slice(instructions.indexOf("## Where self-help ends"));
+  assert.equal(selfHelp.split("\n").filter((line) => line.startsWith("- ")).length, 10,
+    "the self-help section must carry exactly ten held entries");
+  for (const phrase of [
+    "Order of dismissal, judgment of acquittal, or written proof that no accusatory instrument was filed",
+    "Entire-case result checked against the court docket",
+    "Number of separate arrests checked against South Dakota criminal history",
+    "packet page 3 marks the UJS-391A basis",
+    "$72 civil filing fee for each petition",
+    "indigency waiver is available on a finding of indigency, requested from the court",
+  ]) {
+    assert.ok(instructions.includes(phrase), `required FIX13 instruction is absent: ${phrase}`);
+  }
+  assert.ok(!instructions.includes("this packet does not choose it"), "instructions still deny the selected route basis");
+
+  const rendered = readJson(`${dir}/reports/rendered-artifacts.json`);
+  for (const artifact of rendered.artifacts) {
+    const pdfBytes = fs.readFileSync(path.join(rootDir, artifact.file));
+    assert.equal(sha256(pdfBytes), artifact.sha256, `${artifact.file}: PDF hash differs from its artifact record`);
+    assert.equal(pdfBytes.length, artifact.byteLength, `${artifact.file}: PDF length differs from its artifact record`);
+    for (const page of artifact.rasterPages) {
+      const rasterBytes = fs.readFileSync(path.join(rootDir, page.file));
+      assert.equal(sha256(rasterBytes), page.sha256, `${page.file}: raster hash differs from its receipt`);
+      assert.equal(rasterBytes.length, page.byteLength, `${page.file}: raster length differs from its receipt`);
+    }
+  }
 }
 
 function allBlankDispositions(fieldMap) {
@@ -874,13 +933,23 @@ async function repairFamily(familyId) {
   console.log(`${familyId}: completeness repair rendered ${rendered.artifacts.length} fixtures and ${buildStatus.rasterPages} page rasters`);
 }
 
-const args = process.argv.slice(2);
-let families;
-if (args.includes("--repair-all")) families = Object.keys(FAMILY_DIRS);
-else if (args.includes("--family")) families = [args[args.indexOf("--family") + 1]];
-else families = ["sd_arrest_expungement-set"];
-for (const familyId of families) {
-  assert.ok(FAMILY_DIRS[familyId], `P4 does not own ${familyId}`);
-  await runFamilyById(familyId, []);
-  await repairFamily(familyId);
+const args = cliArgs;
+if (args.includes("--instruction-repair-only")) {
+  const target = "sd_arrest_expungement-set";
+  fs.writeFileSync(path.join(rootDir, `${FAMILY_DIRS[target]}/participant-instructions.md`), participantInstructions(target));
+  assertFix13InstructionRepair(target);
+  console.log(`${target}: FIX13 participant-instruction repair built; PDF and raster receipts preserved; independent verification pending`);
+} else if (args.includes("--assert-fix13")) {
+  assertFix13InstructionRepair("sd_arrest_expungement-set");
+  console.log("sd_arrest_expungement-set: FIX13 focused assertions complete; independent verification pending");
+} else {
+  let families;
+  if (args.includes("--repair-all")) families = Object.keys(FAMILY_DIRS);
+  else if (args.includes("--family")) families = [args[args.indexOf("--family") + 1]];
+  else families = ["sd_arrest_expungement-set"];
+  for (const target of families) {
+    assert.ok(FAMILY_DIRS[target], `P4 does not own ${target}`);
+    await runFamilyById(target, []);
+    await repairFamily(target);
+  }
 }

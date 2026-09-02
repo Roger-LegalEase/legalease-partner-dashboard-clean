@@ -2370,9 +2370,15 @@
         },
         {
           "field": "ExpungeCntyName",
-          "decision": "candidate_write",
-          "factId": "matter.county",
-          "decisionBasis": "shared exact terminal-name fact allowlist; shared semantic finalizer still controls",
+          "decision": "refuse",
+          "factId": null,
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field ExpungeCntyName",
+          "effectiveLabel": "County (where you are filing)",
+          "reason": "REQUIRED_BEFORE_FILING: confirm the filing county and write it in all four caption widgets; the held residence-county value is not substituted for this filing-venue fact.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3363,8 +3369,13 @@
           "field": "arrest3Statute",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "signature_or_date_participant_completion",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field arrest3Statute",
+          "effectiveLabel": "(statute) — arrest/custody row 3",
+          "reason": "REQUIRED_BEFORE_FILING: this is a participant arrest-table statute cell, not a signature or date field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3433,8 +3444,13 @@
           "field": "arrest4Statute",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "signature_or_date_participant_completion",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field arrest4Statute",
+          "effectiveLabel": "(statute) — arrest/custody row 4",
+          "reason": "REQUIRED_BEFORE_FILING: this is a participant arrest-table statute cell, not a signature or date field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3503,8 +3519,13 @@
           "field": "arrest5Statute",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "signature_or_date_participant_completion",
-          "reason": "No write is authorized for this field in this family build.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "NJ-CN-10557 field arrest5Statute",
+          "effectiveLabel": "(statute) — arrest/custody row 5",
+          "reason": "REQUIRED_BEFORE_FILING: this is a participant arrest-table statute cell, not a signature or date field; surface it to the participant and do not guess.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,

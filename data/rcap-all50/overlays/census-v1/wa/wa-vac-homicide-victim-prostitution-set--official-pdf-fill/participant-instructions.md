@@ -109,14 +109,14 @@ be filed by any particular date.
 
 ## Where self-help ends
 
-On this route, self-help ends **before filing**: the open question recorded
-above means a lawyer or the clerk of the sentencing court must confirm the
-correct pleading before this packet is used at all. Also stop and get help if:
+On this route, self-help ends **before filing**: the open pleading question recorded above means a lawyer or the clerk of the sentencing court must confirm the correct pleading before this packet is used at all.
 
-- you are unsure whether you qualify as a family member under RCW 9.96.060(7),
-  or whether the conviction qualifies;
-- the prosecuting attorney objects; or
-- anything in the court record does not match what this packet shows.
+The committed track record at `data/record-clearing/legal-design-track-registry.json`, track `wa_vac_homicide_victim_prostitution`, records these four exact stop conditions. If any applies, stop using the packet and follow the direction in the condition:
+
+- The applicant is not a family member of the person who died.
+- The conviction may not be a RCW 9A.88.030 prostitution conviction.
+- The person whose record is at issue is living, in which case the survivor routes apply.
+- The applicant is distressed and needs a person rather than a packet. Ask only what is needed to route.
 
 This packet is prepared evidence, not legal advice. It does not decide
 eligibility, it never signs or dates a declaration, it makes no legal election
