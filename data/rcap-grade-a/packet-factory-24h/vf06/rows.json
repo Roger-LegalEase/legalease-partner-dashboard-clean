@@ -3794,6 +3794,365 @@
    "notes": "The nine completeness counters are all zero and the verifier returns PASS_COMPLETE for this family — the missing companion is invisible to it, because it checks the fields of what is rendered rather than whether every declared artifact is on disk. That gap is the reason this read exists. SELF_HELP_STOP is scored here against the route's own committed record rather than against the presence of any disclaimer. It PASSES where the packet states where self-help ends; it FAILS where data/record-clearing/legal-design-track-registry.json records selfHelpStopConditions for the track that the packet omits, so a participant could pass a point the record marks as a stop. The registry conditions were counted per track and each was searched for in participant-instructions.md by its own subject vocabulary in this lane.",
    "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
    "verifiedBy": "FABLE-VT-E (independent; built none of these packets; claimed every family before reading it)"
+  },
+  {
+   "itemId": "ca-prop64-set",
+   "lane": "VF06",
+   "wave": "packet-factory-24h/VF04-VF06/wave-4 (FABLE-RVB2, 2026-09-02)",
+   "worker": "FABLE-RVB2 (independent; built, repaired and rendered none of these packets)",
+   "verifiedAtBase": "726a49dfe0bdadc5f841bd4dadc871c6256418de",
+   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ca/ca-prop64-set--official-pdf-fill",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "howMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ca-prop64-set (no --write), run in this container at base 726a49dfe0bdadc5f841bd4dadc871c6256418de: PASS_COMPLETE, 3/148 written. All nine counters read from that run, not from any builder report."
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "result": "PASS",
+     "detail": "familyId 'ca-prop64-set' agrees across all eight records. Both routeKeys — 'obligation:track-pathway:CA:ca-prop64:prop-64-completed-sentence-application-11361-8' and '…:prop-64-currently-serving-petition-11361-8' — are declared identically by production-field-map, product-wiring and approval-request, equal the MASTER_QUEUE row, and are both PRESENT in the committed route-obligation census, checked here. Two routes, two evidence variants, one instrument family."
+    },
+    "SOURCE_IDENTITY": {
+     "result": "PASS",
+     "detail": "THE PIN HOLDS, RECOMPUTED HERE. Every sources[] entry in source-receipt.json was re-hashed from the mounted Master Library at MASTER_LIBRARY_SOURCE_DIR, ignoring the receipt's own allSourcesExact flag; every SHA-256 and every byte length equals the pin. Three sources (CR-400, CR-401, CR-403), all SHA-256 and byte-length exact. CR-401 was additionally re-hashed as shipped: the enclosed cr-401-unchanged-official.pdf is byte-identical to its source at 394421959966e27833ddd481cc39b969abd788b4119b47a3670de2d2ddb05d01. No committedRecords declared."
+    },
+    "COMPONENT_SET": {
+     "result": "PASS",
+     "detail": "12 artifacts over 4 fixtures (2 routes × canonical/boundary); CR-400 modified, CR-401 and CR-403 byte-identical to their SHA-bound official sources, verified here."
+    },
+    "KNOWN_PREFILLS": {
+     "result": "PASS",
+     "detail": "Only 3 writes on a 148-field surface, and all three proved from the bytes rather than the declaration. This lane's reader recovered 'Jordan Avery Reyes' and '24-CR-001234' from cr-400-filled.pdf in BOTH canonical variants; neither boundary fixture carries a canonical value. A 150dpi ink diff of page 1 against the pristine CR-400 places the added text at x401-459 y567-573 (case number), x229-279 y639-645 (county) and x97-162 y555-567 (party name) — three writes, three clusters, nothing else. A low write count is the right answer here: CR-400's substance is elections and offence facts the platform does not hold."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "result": "PASS",
+     "detail": "25 REQUIRED_BEFORE_FILING blanks, every one carrying a distinct printed caption — 0 rows where the caption echoes the field name, checked mechanically across the whole refusals array. This family does not enclose MC-031 and does not carry the NoticeHeader1/NoticeFooter1 defect three of its California siblings do."
+    },
+    "ROUTE_OPTIONS": {
+     "result": "PASS",
+     "detail": "THE TWO DELIBERATE MARKS ARE THE RIGHT TWO, AND I PROVED IT FROM THE RENDERED PIXELS RATHER THAN THE DECLARATION — WHICH MATTERED, BECAUSE THE MARKS APPEAR IN NO finalizerWritten RECORD AT ALL. Rendering canonical and pristine at 150dpi and diffing: the completed-sentence-application variant adds exactly two dense marks, at x213.1-219.8 y507.8-516.0 (declared rect [211.28,507.06,220.28,516.06] = FormTitle #area[1].Checkbox[1], 'REDESIGNATION OR DISMISSAL/SEALING (Health & Safety Code section 11361.8(f))') and x70.6-79.2 y276.5-284.6 (declared rect [70.64,275.86,79.64,284.86] = li2b, 'APPLICATION: Applicant has completed the sentence … and now requests that the court redesignate or dismiss and seal the conviction'). The currently-serving-petition variant adds exactly two, at x45.6-50.9 y509.3-514.6 ([43.89,507.07,52.89,516.07] = FormTitle #area[0].Checkbox[0], '11361.8(b) RESENTENCING OR DISMISSAL') and x70.6-79.2 y304.3-312.0 ([70.64,303.47,79.64,312.47] = li2a, 'PETITION: Petitioner is currently serving a sentence … and now requests that the court recall and resentence or dismiss'). So each route marks its title-block subdivision AND the matching relief line, correctly paired — (f) with the completed-sentence application, (b) with the currently-serving petition — and each leaves the other pair unmarked. These two carry the whole route distinction; unmarking them would ship a CR-400 that does not say which relief it asks for. I also chased the one cluster that a pixel count would have read as a third mark: x70.6-79.2 y378.2-386.9 is CR-400[0].Page1[0].LI1[0].li1c[0].Checkbox[0], tooltip '11359 - Possession of Marijuana for Sale' — the offence-of-conviction box. Rendered at 300dpi it is EMPTY; the 53 pixels are the two vertical borders the flattener adds, not an X. The packet does not elect the participant's offence."
+    },
+    "REPEATING_ROWS": {
+     "result": "PASS",
+     "detail": "incompleteRows 0 measured here."
+    },
+    "PROTECTED_FIELDS": {
+     "result": "PASS",
+     "detail": "protectedWrites 0 measured here. Confirmed in the pixels: across the whole of page 1 the only dense added clusters are the three text writes and the two route marks. CR-403 (the court's order after petition) is byte-identical to source, so nothing was written into it. Every one of the five offence-of-conviction boxes on CR-400 is unmarked."
+    },
+    "ARTIFACTS": {
+     "result": "PASS",
+     "detail": "12 artifacts; every declared sha256 and byteLength recomputed from disk here and every one matches. renderedFresh true, everyPageRastered true, 72dpi, poppler_pdftoppm."
+    },
+    "PAGE_ORDER": {
+     "result": "PASS",
+     "detail": "Declared page counts equal those read here; petition/application → proof of service → order."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "result": "PASS",
+     "detail": "All three writes fit in both canonical and boundary; visualDefects 0 measured here. The ink diff shows every added glyph inside its own declared widget rect."
+    },
+    "FILING_DESTINATION": {
+     "result": "PASS",
+     "detail": "Registry destination 'Superior Court of the county of conviction' is named VERBATIM in participant-instructions.md — the only one of the five California families in my set that matches the registry string exactly."
+    },
+    "FEE_AND_WAIVER": {
+     "result": "PASS",
+     "detail": "Measured for this route. The packet states $0 for this filing and carries the fee-waiver treatment; Prop 64 relief under § 11361.8 is fee-free, and $0 is a figure with authority rather than an omission. The prosecuting-agency response mechanism at CR-402 is separately recorded."
+    },
+    "SERVICE": {
+     "result": "PASS",
+     "detail": "CR-401 (proof of service) enclosed byte-identical to source with every blank left to the participant; service certification is not pre-dated."
+    },
+    "SELF_HELP_STOP": {
+     "result": "PASS",
+     "detail": "Diffed against the registry for track ca-prop64: all 3 selfHelpStopConditions present verbatim — 'The prosecuting agency files a response at CR-402 contesting the petition.'; 'The court sets a contested hearing.'; 'Whether the offense qualifies under § 11361.8 is unclear.' The packet also carries the registry's boundary caveat under an explicit 'In its own words' attribution: 'A routine hearing does not block the initial packet. A prosecuting-agency response at CR-402 or a contested hearing triggers handoff.' Quoting the registry as the authority instead of paraphrasing it in the packet's own voice is the pattern the three failing CR-180 families should be repaired to."
+    }
+   },
+   "caseDeterminedExceptionAudit": {
+    "what": "The per-field `determinedByTheCaseNotTheRoute` exception, verified from the bytes and the field maps rather than taken on trust.",
+    "whereItIsDeclared": "Enumerated mechanically over the whole corpus at this base by walking every JSON object under data/rcap-all50/overlays/census-v1 for determinedByTheCaseNotTheRoute===true.",
+    "theAuditsClaimIsWrongOnScope": "An audit reported 40 fields across 4 families and nothing else anywhere in the corpus. Measured here the true figure is 48 fields across 5 families: ca-1203-41-set 10, ca-1203-42-set 10, ca-1203-43-set 10, ca-1203-4a-set 10 and ca-17b-reduction-set 8. The declarations appear identically in both field-census.census-v1.json and production-field-map.json in each of the five. The audit's 40/4 is the four families it did not hold; the fifth, ca-17b-reduction-set, is the held family, and it declares 8 more. Outside those five nothing declares it: the only other mention in the repository is scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs, which is the shared West-family builder that emits and validates the flag, and no Arizona overlay declares it.",
+    "theCaptionClaimIsCorrect": "The audit's claim that every declaring field carries the printed caption 'eligible for reduction' is TRUE, and it survives the trap that the field NAMES do not say so. Half the declaring fields are named Offense1..Offense5, which reads like an offence-description column. Measured from CR-180's own printed words with pdftotext -bbox against each widget rect: the header at x333-446 reads 'Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no)' and the widgets under it are Reduce1..Reduce5 at x331.63-447.3; the header at x454-570 reads 'Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no)' and the widgets under it are Offense1..Offense5 at x453.6-569.27. The OffenseN name is a Judicial Council misnomer and the printed caption governs. No field declaring the exception is route-determined; both columns ask a characterisation of the listed offence under Penal Code § 17, and the petition reads identically whichever way each resolves.",
+    "eachDeclaredCellIsNamed": "For each of ca-1203-42-set, ca-1203-43-set and ca-1203-4a-set, all 10 declared cells appear in participant-instructions.md with their page and the printed caption, and a dedicated section headed '10 of those blanks are yours even though they read like an election' quotes the recorded reason and adds the instruction that matters: answer only for offences actually listed, from the participant's own record of conviction, and 'if you do not know whether an offence is reducible, that is a question for a lawyer or a legal-aid office and not one to guess at, because you sign this petition under penalty of perjury.' The blanks did not merely move; they were named.",
+    "thePacketDoesNotAnswerTheQuestion": "Verified in the bytes, not the declaration. A 150dpi ink diff of every CR-180 page in ca-1203-42-set against derived-sources/cr-180-pikepdf-unlocked.pdf finds no added ink anywhere in the ConvTable region, on any of the five rows, in either column. Every checkbox-sized added cluster on pages 1-3 was rendered individually at 300dpi and is an empty flattened border. The packet text contains no yes/no answer to the § 17(b) or § 17(d)(2) question.",
+    "theHeldFamilyIsHeldForTheRightReason": "ca-17b-reduction-set is not mine and I did not verify it, but it is the control that makes the exception legible and it was measured in the same pass. Its ConvTable Row1 carries Reduce1=WRITE and Offense1=WRITE while Rows 2-5 carry {Code, Section, TypeOff, Reduce, Offense} all blank. That is the packet answering the § 17 question for row 1 on a petition sworn under penalty of perjury, and matching one row's writes to four rows' blanks. It is also why it declares 8 rather than 10. It is the one family in the corpus that fails the test the exception exists to pass, and it is the one that is held.",
+    "contractBehaviour": "node scripts/rcap-packet-completeness/verify-case-determined-exception.mjs run in this container at this base: 'Case-determined exception holds: 8 cases, both directions.' exit 0. The contract refuses the exception without a stated reason, refuses it when routeDetermined is also declared, refuses an empty reason, still returns KNOWN_FACT_NOT_WRITTEN when the fact is held, and its reader-forwarding check confirms every declaration key the contract reads is forwarded by normalizeRow.",
+    "myJudgement": "CORRECTLY AND NARROWLY APPLIED on the four families that declare it and are not held, and I would not widen it. It is confined to one form, one table, two columns and five rows; every declaring field carries a printed caption that asks a characterisation of an offence rather than a property of the route; every declared cell is named to the participant with page and caption and with the reason recorded against it; and no packet answers the question itself. The one thing that is not right is the audit's own scope statement, which undercounts by 8 fields and one family and asserts there is nothing else in the corpus. That is a reporting defect in the audit, not in the exception."
+   },
+   "measuredBy": "The fifteen proof obligations scored by name. The nine counters come from running scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id> in this container at this base, never with --write and never from a builder report. Every source and artifact SHA-256 and byte length was recomputed here from the bytes against the mounted Master Library at MASTER_LIBRARY_SOURCE_DIR. Written values were read back out of the artifact PDFs by a content-stream walker written for this lane that walks page streams AND Form XObjects and decodes Tj/TJ through each font's ToUnicode CMap and /Differences, so a value in an XObject with an unmappable font is still seen. Selection marks and blank cells were measured by rendering packet and pristine source at 150dpi and diffing ink pixel by pixel, then rendering individual widget rects at 300dpi to tell a mark from a flattened border. Self-help stops were measured by diffing the packet against data/record-clearing/legal-design-track-registry.json per bound track, in the registry's own words. No overlay directory, packet, build script, MASTER_QUEUE.json or VERIFIER_RETURNS.json was modified.",
+   "repairedNothing": true
+  },
+  {
+   "itemId": "composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route",
+   "lane": "VF06",
+   "wave": "packet-factory-24h/VF04-VF06/wave-4 (FABLE-RVB2, 2026-09-02)",
+   "worker": "FABLE-RVB2 (independent; built, repaired and rendered none of these packets)",
+   "verifiedAtBase": "726a49dfe0bdadc5f841bd4dadc871c6256418de",
+   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ga/composed-treatment:obligation:runtime-only:ga:youthful-first-offender-restriction-route--custom-pleading",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "howMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route (no --write), run in this container at base 726a49dfe0bdadc5f841bd4dadc871c6256418de: PASS_COMPLETE, 6/15 written. All nine counters read from that run, not from any builder report."
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "result": "PASS",
+     "detail": "familyId agrees across seven records. routeKey 'obligation:runtime-only:GA:youthful-first-offender-restriction-route' declared identically by production-field-map and product-wiring, equals the MASTER_QUEUE row, and is PRESENT in the committed route-obligation census, checked here. The other two bound records carry the route under its own naming, and both anchors were confirmed present in their files here: 'youthful-first-offender-restriction-route' resolves in src/lib/legal-authority/routes/p0.json and in the compiled GA profile."
+    },
+    "SOURCE_IDENTITY": {
+     "result": "PASS",
+     "detail": "ALL THREE committedRecords RECOMPUTED FROM DISK HERE: src/lib/legal-authority/routes/p0.json 6b4188167447a575… (14385 B); src/lib/rcap-engine/compiled/profiles/GA-georgia.json 3992bda9c4961d0e… (201162 B); route-obligation-candidate.json 0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f (2599752 B). Every SHA-256 and every byte length equals the pin."
+    },
+    "COMPONENT_SET": {
+     "result": "PASS",
+     "detail": "requiredComponentsMissing 0 measured here; 2 artifacts rendered fresh."
+    },
+    "KNOWN_PREFILLS": {
+     "result": "PASS",
+     "detail": "Proved from the bytes with this lane's own reader against fixtures/canonical.pdf and fixtures/boundary.pdf; 6 writes reported and 6 found, with the boundary fixture carrying none of the canonical values."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "result": "PASS",
+     "detail": "requiredFactsNotCollected 0 and unclassifiedBlanks 0 measured here."
+    },
+    "ROUTE_OPTIONS": {
+     "result": "PASS",
+     "detail": "requiredOptionsMissing 0 measured here. A composed pleading built for one runtime route, which it states rather than asking."
+    },
+    "REPEATING_ROWS": {
+     "result": "PASS",
+     "detail": "incompleteRows 0 measured here."
+    },
+    "PROTECTED_FIELDS": {
+     "result": "PASS",
+     "detail": "protectedWrites 0 measured here."
+    },
+    "ARTIFACTS": {
+     "result": "PASS",
+     "detail": "2 artifacts; declared sha256 and byteLength recomputed from disk here and both match."
+    },
+    "PAGE_ORDER": {
+     "result": "PASS",
+     "detail": "Declared page counts equal those read here."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "result": "PASS",
+     "detail": "visualDefects 0 measured here."
+    },
+    "FILING_DESTINATION": {
+     "result": "PASS",
+     "detail": "Destination taken from the bound route contract rather than a state default."
+    },
+    "FEE_AND_WAIVER": {
+     "result": "PASS",
+     "detail": "Measured for this route. No dollar figure is asserted; the packet carries a fee and fee-waiver treatment that names the office to ask rather than publishing an unsourced amount."
+    },
+    "SERVICE": {
+     "result": "PASS",
+     "detail": "Service addressed for this route; no certification is pre-dated."
+    },
+    "SELF_HELP_STOP": {
+     "result": "NOT_MEASURABLE_HERE",
+     "detail": "Measured by diffing against data/record-clearing/legal-design-track-registry.json per track. Searched all 497 tracks at this base: ZERO carry 'youthful-first-offender-restriction-route'. This is a runtime-only route obligation rather than a registry track, so the diff this obligation names has no left-hand side. The compiled GA profile carries no selfHelpBoundary field for this pathway either. Recorded as a genuine measurement gap; I did not substitute a weaker test and score it PASS, and it is not a defect of the family."
+    }
+   },
+   "measuredBy": "The fifteen proof obligations scored by name. The nine counters come from running scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id> in this container at this base, never with --write and never from a builder report. Every source and artifact SHA-256 and byte length was recomputed here from the bytes against the mounted Master Library at MASTER_LIBRARY_SOURCE_DIR. Written values were read back out of the artifact PDFs by a content-stream walker written for this lane that walks page streams AND Form XObjects and decodes Tj/TJ through each font's ToUnicode CMap and /Differences, so a value in an XObject with an unmappable font is still seen. Selection marks and blank cells were measured by rendering packet and pristine source at 150dpi and diffing ink pixel by pixel, then rendering individual widget rects at 300dpi to tell a mark from a flattened border. Self-help stops were measured by diffing the packet against data/record-clearing/legal-design-track-registry.json per bound track, in the registry's own words. No overlay directory, packet, build script, MASTER_QUEUE.json or VERIFIER_RETURNS.json was modified.",
+   "repairedNothing": true
+  },
+  {
+   "itemId": "composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
+   "lane": "VF06",
+   "wave": "packet-factory-24h/VF04-VF06/wave-4 (FABLE-RVB2, 2026-09-02)",
+   "worker": "FABLE-RVB2 (independent; built, repaired and rendered none of these packets)",
+   "verifiedAtBase": "726a49dfe0bdadc5f841bd4dadc871c6256418de",
+   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59--custom-pleading",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "howMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59 (no --write), run in this container at base 726a49dfe0bdadc5f841bd4dadc871c6256418de: PASS_COMPLETE, 7/20 written. All nine counters read from that run, not from any builder report."
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "result": "PASS",
+     "detail": "familyId agrees across seven records. routeKey 'obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59' declared identically by production-field-map and product-wiring, equals the MASTER_QUEUE row, and is PRESENT in the committed route-obligation census, checked here. Note it is a distinct route from its near neighbour 'ms:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59', which has its own family directory; the two were not conflated."
+    },
+    "SOURCE_IDENTITY": {
+     "result": "PASS",
+     "detail": "BOTH committedRecords RECOMPUTED FROM DISK HERE: src/lib/legal-authority/routes/mississippi.json 1d533e72b993ce40bda1b7aa565a62d0585259280483ffccd9192395eeb00026 (37570 B); src/lib/rcap-engine/compiled/profiles/MS-mississippi.json d30c78bcdbcd4378d1d6e656dd65f8ebde3b6d231e7020add220e55d865ea689 (416327 B). Both SHA-256 and both byte lengths equal the pin. This family binds two records where its MS sibling binds three; the census is not among them, so anchor presence was checked directly: 'uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59' is PRESENT in the route contract, in the compiled profile (whose recordId label 'compiled-profile:MS-mississippi' is a file label rather than a key) and in the committed census."
+    },
+    "COMPONENT_SET": {
+     "result": "PASS",
+     "detail": "requiredComponentsMissing 0 measured here; 2 artifacts rendered fresh, everyPageRastered true via scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)."
+    },
+    "KNOWN_PREFILLS": {
+     "result": "PASS",
+     "detail": "Proved from the bytes with this lane's own reader; 7 writes reported and 7 found, canonical and boundary fixtures carrying disjoint values."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "result": "PASS",
+     "detail": "requiredFactsNotCollected 0 and unclassifiedBlanks 0 measured here."
+    },
+    "ROUTE_OPTIONS": {
+     "result": "PASS",
+     "detail": "requiredOptionsMissing 0 measured here. The 12-month branch is stated on the face of the pleading rather than offered to the participant as an election against the immediate-dismissal branch."
+    },
+    "REPEATING_ROWS": {
+     "result": "PASS",
+     "detail": "incompleteRows 0 measured here."
+    },
+    "PROTECTED_FIELDS": {
+     "result": "PASS",
+     "detail": "protectedWrites 0 measured here."
+    },
+    "ARTIFACTS": {
+     "result": "PASS",
+     "detail": "2 artifacts; declared sha256 and byteLength recomputed from disk here and both match."
+    },
+    "PAGE_ORDER": {
+     "result": "PASS",
+     "detail": "Declared page counts equal those read here."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "result": "PASS",
+     "detail": "visualDefects 0 measured here."
+    },
+    "FILING_DESTINATION": {
+     "result": "PASS",
+     "detail": "Destination taken from the bound route contract for this branch rather than from the sibling branch."
+    },
+    "FEE_AND_WAIVER": {
+     "result": "PASS",
+     "detail": "MEASURED PER FACT AND PER ROUTE, AND NOTABLY THE SIBLING WAS NOT READ ACROSS. This packet publishes NO dollar figure at all — the § 99-19-72 $150 that its MS sibling discusses at length does not appear anywhere in this family directory — and instead carries a fee treatment that names the office to ask. That is the correct answer for a route whose fee no bound record establishes, and it is the strongest evidence in my set that these two Mississippi families were scored per route rather than as a state."
+    },
+    "SERVICE": {
+     "result": "PASS",
+     "detail": "Service addressed for this route; no certification is pre-dated."
+    },
+    "SELF_HELP_STOP": {
+     "result": "NOT_MEASURABLE_HERE",
+     "detail": "Measured by diffing against data/record-clearing/legal-design-track-registry.json per track. Searched all 497 tracks at this base: ZERO carry 'uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59'. Runtime-only route obligation, not a registry track, so the diff has no left-hand side; the compiled MS profile carries no selfHelpBoundary field for this pathway. Recorded as a genuine measurement gap rather than as either verdict."
+    }
+   },
+   "measuredBy": "The fifteen proof obligations scored by name. The nine counters come from running scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id> in this container at this base, never with --write and never from a builder report. Every source and artifact SHA-256 and byte length was recomputed here from the bytes against the mounted Master Library at MASTER_LIBRARY_SOURCE_DIR. Written values were read back out of the artifact PDFs by a content-stream walker written for this lane that walks page streams AND Form XObjects and decodes Tj/TJ through each font's ToUnicode CMap and /Differences, so a value in an XObject with an unmappable font is still seen. Selection marks and blank cells were measured by rendering packet and pristine source at 150dpi and diffing ink pixel by pixel, then rendering individual widget rects at 300dpi to tell a mark from a flattened border. Self-help stops were measured by diffing the packet against data/record-clearing/legal-design-track-registry.json per bound track, in the registry's own words. No overlay directory, packet, build script, MASTER_QUEUE.json or VERIFIER_RETURNS.json was modified.",
+   "repairedNothing": true
+  },
+  {
+   "itemId": "wv_conv_single_misdemeanor-set",
+   "lane": "VF06",
+   "wave": "packet-factory-24h/VF04-VF06/wave-4 (FABLE-RVB2, 2026-09-02)",
+   "worker": "FABLE-RVB2 (independent; built, repaired and rendered none of these packets)",
+   "verifiedAtBase": "726a49dfe0bdadc5f841bd4dadc871c6256418de",
+   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "howMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wv_conv_single_misdemeanor-set (no --write), run in this container at base 726a49dfe0bdadc5f841bd4dadc871c6256418de: PASS_COMPLETE, 21/166 written. All nine counters read from that run, not from any builder report."
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "result": "PASS",
+     "detail": "familyId agrees across seven records. routeKey 'obligation:track-pathway:WV:wv_conv_single_misdemeanor:eligible-conviction-expungement-under-w-va-code-61-11-26' declared identically by production-field-map, product-wiring and approval-request, equals the MASTER_QUEUE row, and is PRESENT in the committed route-obligation census, checked here. routeSelectionId 'wv-sca-c906-single-misdemeanor' distinguishes it from the multiple-misdemeanor family that shares the same form."
+    },
+    "SOURCE_IDENTITY": {
+     "result": "PASS",
+     "detail": "Both bound documents re-hashed from the mounted Master Library here: SCA-C906 43b5606c9faf6fcf4d6f73c1d97cf1bd87798158dee1b6f3381c8a0472b4b64c (176072 B, 4 pages, 75 AcroForm fields) and the SCA-C900 instruction sheet 89ff7d2d911406465bd39da947737a3ee262edbcbc98db9a3cedda952598864e; both equal their pins and their corpus-index values. No committedRecords declared."
+    },
+    "COMPONENT_SET": {
+     "result": "PASS",
+     "detail": "SCA-C906 filled and SCA-C900 carried at documentPolicy mode 'reference_only_no_fill' — an instruction sheet the packet encloses but never writes on, which is the right treatment. requiredComponentsMissing 0 measured here."
+    },
+    "KNOWN_PREFILLS": {
+     "result": "PASS",
+     "detail": "PROVED FROM THE BYTES INCLUDING THE ONE THAT LOOKS LIKE A TRANSPOSITION AND IS NOT. This lane's reader recovered 'Jordan Avery Reyes', '24-CR-001234', '2019-11-02', '2019-03-08', '1991', '118 Maple Street', 'Charleston, WV 25301', '304-555-0142', 'Kanawha' and 'Eligible West Virginia misdemeanor conviction' from fixtures/canonical.pdf. The map's PetDOBDay → participant.birth_month and PetDOBMonth → participant.birth_day reads as a swap; measured first-hand from the pinned SCA-C906 AcroForm the widgets run left to right PetDOBDay x330.5-356.5, PetDOBMonth x362.4-388.5, PetDOBYear x394.8-423.9, so the form's field names run day-month-year while its printed slots run month-day-year. In the rendered output, measured with pdftotext -bbox, the canonical DOB 1991-04-17 prints 'DOB: 04 / 17 / 1991' at x331-343 / x363-375 / x396-418 — correct. The builder compensated for the form's own misnaming; following the field names would have printed 17/04/1991 on a sworn petition."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "result": "PASS",
+     "detail": "requiredFactsNotCollected 0 and unclassifiedBlanks 0 measured here; blanks named with page and printed caption, no row echoing a field name as a caption."
+    },
+    "ROUTE_OPTIONS": {
+     "result": "PASS",
+     "detail": "requiredOptionsMissing 0 measured here. SingleFelonyCB is mapped to route.selection and ExpungementCB2 to screening.prior_relief — the route states which limb of W. Va. Code 61-11-26 it is, and the prior-relief control is bound to a held screening fact rather than left as an unexplained mark."
+    },
+    "REPEATING_ROWS": {
+     "result": "PASS",
+     "detail": "incompleteRows 0 measured here; the charge rows are not partially written."
+    },
+    "PROTECTED_FIELDS": {
+     "result": "PASS",
+     "detail": "protectedWrites 0 measured here. The family's own record reports nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 and addedInkPixelsOutsideMeasuredWidgetRects 0 per page, derived from a pixel diff against the pristine source; the sourceInkPixelsRemoved figures are entirely inside suppressed control rects (sourceInkPixelsRemovedOutsideSuppressedControlRects 0 on every page of both forms)."
+    },
+    "ARTIFACTS": {
+     "result": "PASS",
+     "detail": "2 artifacts; declared sha256 and byteLength recomputed from disk here and both match. renderedFresh true, everyPageRastered true."
+    },
+    "PAGE_ORDER": {
+     "result": "PASS",
+     "detail": "SCA-C906 is 4 pages in the pinned source and 4 pages in the fixtures; the instruction sheet follows the petition."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "result": "PASS",
+     "detail": "visualDefects 0 measured here; the boundary fixture renders without clipping."
+    },
+    "FILING_DESTINATION": {
+     "result": "PASS",
+     "detail": "Registry destination 'Clerk of the circuit court of the county of conviction' and the registry venue string are BOTH named verbatim in participant-instructions.md — the only family in my set that matches the registry on both."
+    },
+    "FEE_AND_WAIVER": {
+     "result": "PASS",
+     "detail": "Measured for this route. The West Virginia figures the packet carries are sourced to West Virginia authority and a waiver route is named; no sibling state's figure is read across."
+    },
+    "SERVICE": {
+     "result": "PASS",
+     "detail": "Service addressed for this route; certification left blank until service occurs."
+    },
+    "SELF_HELP_STOP": {
+     "result": "PASS",
+     "detail": "Diffed against the registry for track wv_conv_single_misdemeanor: all 10 selfHelpStopConditions present verbatim, 0 missing."
+    }
+   },
+   "measuredBy": "The fifteen proof obligations scored by name. The nine counters come from running scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id> in this container at this base, never with --write and never from a builder report. Every source and artifact SHA-256 and byte length was recomputed here from the bytes against the mounted Master Library at MASTER_LIBRARY_SOURCE_DIR. Written values were read back out of the artifact PDFs by a content-stream walker written for this lane that walks page streams AND Form XObjects and decodes Tj/TJ through each font's ToUnicode CMap and /Differences, so a value in an XObject with an unmappable font is still seen. Selection marks and blank cells were measured by rendering packet and pristine source at 150dpi and diffing ink pixel by pixel, then rendering individual widget rects at 300dpi to tell a mark from a flattened border. Self-help stops were measured by diffing the packet against data/record-clearing/legal-design-track-registry.json per bound track, in the registry's own words. No overlay directory, packet, build script, MASTER_QUEUE.json or VERIFIER_RETURNS.json was modified.",
+   "repairedNothing": true
   }
  ],
  "supersededLaneMembership": {
@@ -4376,5 +4735,23 @@
    "BLOCKED_SOURCE": 0,
    "BLOCKED_LEGAL_INPUT": 1
   }
+ },
+ "waveFour": {
+  "wave": "packet-factory-24h/VF04-VF06/wave-4 (FABLE-RVB2, 2026-09-02)",
+  "whatThisMarkerIs": "A fourth reading was appended to this return directory. Every row already here was written by earlier workers on this lane and is preserved byte for byte above; nothing in them is edited, withdrawn or restated. The rows carrying \"wave\": \"packet-factory-24h/VF04-VF06/wave-4 (FABLE-RVB2, 2026-09-02)\" are this reading's, and only those.",
+  "worker": "FABLE-RVB2 (independent; built, repaired and rendered none of these packets)",
+  "baseSha": "726a49dfe0bdadc5f841bd4dadc871c6256418de",
+  "roster": "The families this reading verified are the VF06 entries of ACTIVE_ASSIGNMENTS.json filtered to VERIFY_PENDING in MASTER_QUEUE.json at this base, and each was asserted through scripts/grade-a-packet-factory-24h/claim.mjs --assert before it was read.",
+  "verdictsHere": {
+   "PASS_COMPLETE_INDEPENDENT": 4
+  },
+  "overlayDirectoriesModified": 0,
+  "packetsModified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "laneMembershipChanged": false,
+  "buildScriptsModified": 0,
+  "masterQueueModified": false,
+  "verifierReturnsModified": false
  }
 }
