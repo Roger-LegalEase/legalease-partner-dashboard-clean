@@ -15,9 +15,27 @@ The platform filled in only identity and record facts it verifiably holds — na
 3. **Sign and date each form yourself**, and complete the proof of service only after service has actually occurred.
 4. **Leave CR-403 entirely blank**. The order after petition is the court's form.
 
-## What this packet does not tell you
+## Where you file this, and by when
 
-The filing fee and whether it can be waived, who must be served and by what method, and the address of the court are not established in this repository. Ask the clerk of the Superior Court in the county of the conviction. An unsourced figure in a filing instruction would be worse than none. This is where this packet's self-help ends: fee, waiver, service, and local filing practice come from the clerk of that court, not from this packet.
+File CR-400 in the Superior Court of the county of conviction, with CR-401 proof of service and the proposed CR-403 order.
+
+That rule is the committed packet-set manifest for this packet, not a guess at local practice. Read it against your own case before you rely on it: it tells you which court and what goes in together. It sets no filing deadline for this route, and none is invented here.
+
+## Who you must serve, and by when
+
+Serve the prosecuting agency and file CR-401 proof of service.
+
+This is why CR-401 ships with this packet: it is the proof that you served those parties. Serve first, then complete the proof of service — never the other way round. What the repository does not establish for this route is by what method service must be made and by when it must be made, so no rule for either is printed here — **ask the clerk of the Superior Court in the county of the conviction** before you serve, and do not read this packet's silence as permission to choose freely.
+
+## What this costs
+
+**This filing costs $0.** The compiled California profile states it for this route in terms — "Prop 64 marijuana relief $0 Largely automatic" — keyed to Proposition 64 marijuana relief, Health and Safety Code section 11361.8, and that is the line this packet relies on. It is not read across from any other California remedy: the same table prices the petition-based dismissals separately, and those figures answer a different statute's question, not this one. **Ask the clerk of the Superior Court in the county of the conviction what payment methods that court accepts** and whether it charges anything for certified copies, which is a separate cost from the filing itself.
+
+**A fee waiver is a separate question, and on this route it should not arise.** No filing fee is stated for this route, so there should be nothing to waive when you file. FW-001 is the general California fee waiver form. It is a separate form: it is not part of this packet, is not filled in for you, and is available from the California Courts self-help forms site along with the forms in this packet. Whether a waiver is needed or available for anything else on this filing is not established for this route, so **if the court asks you for money at the counter, ask the clerk of the Superior Court in the county of the conviction what the charge is for and whether form FW-001 covers it** before you pay.
+
+## Where this packet's self-help ends
+
+This packet states what the repository holds for this route and nothing beyond it. The payment methods that court accepts, and any local intake rule — a cover sheet, a filing window, an e-filing requirement — come from the clerk of the Superior Court in the county of the conviction, not from this packet. It does not decide whether your conviction qualifies for Proposition 64 relief, it does not appear for you, and it is not legal advice. If your case does not match the route named at the top of this page, or if anyone opposes the petition, that is the point to get a lawyer or a legal-aid office rather than to press on with these papers.
 
 ## The blanks you must fill in
 

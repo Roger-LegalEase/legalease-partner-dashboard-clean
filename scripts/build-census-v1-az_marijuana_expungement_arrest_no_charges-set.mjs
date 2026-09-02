@@ -1703,18 +1703,99 @@ const CA_PARTICIPANT_GUIDANCE = Object.freeze({
     title: "Penal Code section 851.91 petition to seal an arrest record",
     countyOf: "arrest", orderForm: "CR-410", orderName: "order to seal",
     primaryName: "CR-409 (Petition to Seal Arrest and Related Records)",
-    // See statesHeldParticipantActions below. Opted in for this family only,
-    // because this family is the only one on this host whose repair is claimed.
+    reliefQuestion: "whether your arrest qualifies to be sealed",
+    // See statesHeldParticipantActions below. Opted in because this family's
+    // repair is claimed.
     statesHeldParticipantActions: true,
   }),
   "ca-prop64-set": Object.freeze({
     title: "Health and Safety Code section 11361.8 (Proposition 64) relief",
     countyOf: "conviction", orderForm: "CR-403", orderName: "order after petition",
     primaryName: "CR-400 (Petition/Application under Health and Safety Code section 11361.8)",
+    reliefQuestion: "whether your conviction qualifies for Proposition 64 relief",
+    // Opted in for this family because its repair is claimed. Its manifest
+    // holds the filing destination and the service recipient, and the packet
+    // was denying both.
+    statesHeldParticipantActions: true,
+    // A3. The manifest's pay_fee entry for this family records only that the
+    // source review does not state a fee for the CR-400 series -- a statement
+    // of NON-establishment, which A1 forbids publishing as the answer. The
+    // answer is in the compiled California profile, and it is keyed to this
+    // route by name. See caHeldRouteFee.
+    heldRouteFee: Object.freeze({
+      routeToken: "Prop 64",
+      amount: "$0",
+      keyedTo: "Proposition 64 marijuana relief, Health and Safety Code section 11361.8",
+    }),
   }),
 });
 
 const PACKET_SET_MANIFESTS = "data/record-clearing/legal-design-packet-set-manifests.json";
+const CA_COMPILED_PROFILE = "src/lib/rcap-engine/compiled/profiles/CA-california.json";
+
+/*
+ * The route tokens California's one fee table keys its lines to.
+ *
+ * The table covers several remedies at once, so a line is evidence about the
+ * remedy it names and about no other. This list is what "another route" means
+ * to caHeldRouteFee: any line carrying a token that is not the asking family's
+ * own is discarded before an amount is read out of it, however plainly the
+ * amount is printed there.
+ */
+const CA_FEE_TABLE_ROUTE_TOKENS = Object.freeze([
+  "1203.4", "1203.425", "851.91", "851.93", "Prop 64", "17(b)", "17(d)",
+]);
+
+/*
+ * The filing fee this route's own record establishes, or null.
+ *
+ * A3 of DETERMINATION_FEE_AND_WAIVER_STANDARD.json: holding is per FACT, not
+ * per document. A2 made the compiled state profile a held source without
+ * qualification, and California's profile carries ONE fee table spanning
+ * several statutes -- "Prop 64 marijuana relief $0" three columns from "1203.4
+ * dismissal petition ~$60-$150 per case". Read per document, the profile would
+ * license publishing the 1203.4 figure as the fee for 1203.41, 1203.42,
+ * 1203.43, 1203.4a or 17(b), which is the sibling-route inference A2's own
+ * whatDoesNotCount forbids.
+ *
+ * So a family does not get "the profile". It declares the token its own route
+ * is named by, and this reader will only ever return a line that carries that
+ * token and carries no other route's token. A family that declares nothing
+ * gets nothing: heldRouteFee absent returns null and the caller falls back to
+ * naming a checkable authority, which A3 records as the honest outcome for the
+ * 1203.4x siblings rather than a defect to repair away.
+ *
+ * The guards are the point, so they are assertions rather than filters that
+ * fail quietly:
+ *   - at least one line names this route, carries no other route's token, and
+ *     states the declared amount;
+ *   - no line naming only this route states any other money figure, so the
+ *     record cannot be answering two ways at once.
+ */
+function caHeldRouteFee(guidance) {
+  const rule = guidance.heldRouteFee;
+  if (!rule) return null;
+  const profile = readJson(CA_COMPILED_PROFILE);
+  const feeRules = profile.packetGenerator?.feeRules ?? [];
+  assert.ok(feeRules.length, "the compiled California profile states no fee rules");
+  const foreign = CA_FEE_TABLE_ROUTE_TOKENS.filter((token) => token !== rule.routeToken);
+  assert.ok(foreign.length < CA_FEE_TABLE_ROUTE_TOKENS.length,
+    `${rule.routeToken}: a family's route token must be one the fee table keys its lines to`);
+  const onPoint = feeRules.filter((line) =>
+    line.includes(rule.routeToken) && !foreign.some((token) => line.includes(token)));
+  assert.ok(onPoint.length,
+    `${rule.routeToken}: no fee line names this route without also naming another`);
+  const otherMoney = onPoint
+    .flatMap((line) => line.match(/\$[\d][\d,.]*/g) ?? [])
+    .filter((figure) => figure !== rule.amount);
+  assert.deepEqual(otherMoney, [],
+    `${rule.routeToken}: this route's own fee lines state a figure other than ${rule.amount}`);
+  const stating = onPoint.filter((line) => line.includes(rule.amount));
+  assert.ok(stating.length,
+    `${rule.routeToken}: no on-point fee line states ${rule.amount}`);
+  return { amount: rule.amount, keyedTo: rule.keyedTo, quoted: stating[0], onPointLines: onPoint.length };
+}
+
 
 /*
  * The held filing, service and fee-waiver answers for one packet set, read from
@@ -1748,26 +1829,76 @@ function caHeldParticipantActions(familyId) {
   };
 }
 
-function caHeldGuidanceSections(familyId, guidance) {
+function caHeldGuidanceSections(familyId, config, guidance) {
   const held = caHeldParticipantActions(familyId);
+  const routeFee = caHeldRouteFee(guidance);
   const stated = [held.file, held.serveParty, held.applyFeeWaiver].filter(Boolean);
   assert.ok(stated.length,
     `${familyId}: statesHeldParticipantActions is set but its manifest holds no file, serve_party or apply_fee_waiver entry`);
 
   const clerk = `the clerk of the Superior Court in the county of the ${guidance.countyOf}`;
+  // The packet's own proof of service, read off the family's form list rather
+  // than named here: CR-106 for the 851.91 and 1203.4x families, CR-401 for
+  // the Proposition 64 route, and nothing at all for a family that ships none.
+  const proofOfService = config.formNumbers
+    .find((formNumber) => CA_FORMS[formNumber]?.role === "proof_of_service") ?? null;
   const out = [];
 
   if (held.file) {
-    out.push(`## Where you file this, and by when\n\n${held.file}\n\nThat rule is the committed packet-set manifest for this packet, not a guess at local practice. Read it against your own case before you rely on it: it tells you which court, what goes in together, and the deadline that governs both.\n`);
+    // A4's narrower rule, applied to the sentence describing the rule rather
+    // than to the rule: the packet may not tell a participant that the held
+    // sentence carries a deadline when it does not. 851.91's does -- "at least
+    // 15 days before the hearing" -- and Proposition 64's does not.
+    const filingDeadlineHeld = /\bbefore\b|\bwithin\b|\bdays\b|\bdeadline\b/i.test(held.file);
+    const readIt = filingDeadlineHeld
+      ? "Read it against your own case before you rely on it: it tells you which court, what goes in together, and the deadline that governs both."
+      : "Read it against your own case before you rely on it: it tells you which court and what goes in together. It sets no filing deadline for this route, and none is invented here.";
+    out.push(`## Where you file this, and by when\n\n${held.file}\n\nThat rule is the committed packet-set manifest for this packet, not a guess at local practice. ${readIt}\n`);
   }
   if (held.serveParty) {
-    out.push(`## Who you must serve, and by when\n\n${held.serveParty}\n\nThis is why ${CA_FORMS["CR-106"]?.officialTitle ?? "CR-106"} ships with this packet: it is the proof that you served those parties. Serve first, then complete the proof of service — never the other way round. The deadline runs backwards from the hearing, so count from the hearing date, not from the day you file.\n`);
+    // What the held sentence itself settles decides what else is said. A
+    // sentence that anchors its deadline to the hearing gets the rule about
+    // counting backwards from it; one that states neither a method nor a
+    // deadline gets an authority named for those two questions and for those
+    // two only. Nothing here is asserted about a route whose own sentence is
+    // silent, and nothing is added to a route whose sentence already answers.
+    const anchoredToHearing = /before the hearing/i.test(held.serveParty);
+    const statesMethod = /\bmail\b|\bhand\b|personal(?:ly)?|process server/i.test(held.serveParty);
+    const statesTiming = /\bwithin\b|\bbefore\b|\bdays\b|\bdeadline\b/i.test(held.serveParty);
+    // Both, not either. A sentence that answers one of the two has been read
+    // and found to say what it says; adding an authority beside it would tell
+    // a participant to go and ask about something the packet has just told
+    // them. Only a sentence silent on both leaves a participant unable to act.
+    const missing = statesMethod || statesTiming
+      ? []
+      : ["by what method service must be made", "by when it must be made"];
+    const sentences = [];
+    if (proofOfService) {
+      sentences.push(`This is why ${CA_FORMS[proofOfService]?.officialTitle ?? proofOfService} ships with this packet: it is the proof that you served those parties.`);
+    }
+    sentences.push("Serve first, then complete the proof of service — never the other way round.");
+    if (anchoredToHearing) {
+      sentences.push("The deadline runs backwards from the hearing, so count from the hearing date, not from the day you file.");
+    }
+    if (missing.length) {
+      sentences.push(`What the repository does not establish for this route is ${missing.join(" and ")}, so no rule for either is printed here — **ask ${clerk}** before you serve, and do not read this packet's silence as permission to choose freely.`);
+    }
+    out.push(`## Who you must serve, and by when\n\n${held.serveParty}\n\n${sentences.join(" ")}\n`);
   }
 
   const money = [];
-  money.push(held.payFee
-    ? `**The filing fee itself is the one question this packet cannot answer.** The committed packet-set manifest records the fee for this route as "${held.payFee.replace(/\s*$/, "")}" — it varies from county to county and the repository does not hold the figure for yours, so none is printed here. Publishing an amount this packet does not hold would be worse than publishing none. **Ask ${clerk} what the filing fee is for this petition**, and ask at the same time what payment methods that court accepts.`
-    : `**Ask ${clerk} what the filing fee is for this petition**, and what payment methods that court accepts.`);
+  if (routeFee) {
+    // A1 in the order A1 states it: the repository establishes this route's
+    // fee, so the packet states it. The manifest's pay_fee entry for such a
+    // family records only that its own source review did not reach the
+    // question, and printing that as the answer would tell a participant the
+    // packet cannot say what it can.
+    money.push(`**This filing costs ${routeFee.amount}.** The compiled California profile states it for this route in terms — "${routeFee.quoted}" — keyed to ${routeFee.keyedTo}, and that is the line this packet relies on. It is not read across from any other California remedy: the same table prices the petition-based dismissals separately, and those figures answer a different statute's question, not this one. **Ask ${clerk} what payment methods that court accepts** and whether it charges anything for certified copies, which is a separate cost from the filing itself.`);
+  } else {
+    money.push(held.payFee
+      ? `**The filing fee itself is the one question this packet cannot answer.** The committed packet-set manifest records the fee for this route as "${held.payFee.replace(/\s*$/, "")}" — it varies from county to county and the repository does not hold the figure for yours, so none is printed here. Publishing an amount this packet does not hold would be worse than publishing none. **Ask ${clerk} what the filing fee is for this petition**, and ask at the same time what payment methods that court accepts.`
+      : `**Ask ${clerk} what the filing fee is for this petition**, and what payment methods that court accepts.`);
+  }
   if (held.applyFeeWaiver) {
     // Only what the manifest says, and no more. The wave-2 verification ledger
     // records the precise limit of this fact: FW-001 is California's general
@@ -1776,12 +1907,24 @@ function caHeldGuidanceSections(familyId, guidance) {
     // the packet was failing to do -- while whether a waiver is available on
     // this petition stays with the clerk. FW-001's official title is not held
     // in this repository and is therefore not printed here.
-    money.push(`**If you cannot pay it, ask about a fee waiver by name.** ${held.applyFeeWaiver.replace(/\s*$/, "")} It is a separate form: it is not part of this packet, is not filled in for you, and is available from the California Courts self-help forms site along with the forms in this packet. Naming it is as far as the repository goes — whether a waiver is available on this particular petition, and what it requires of you, is decided on your own financial circumstances and on that court's practice, so **ask ${clerk} for form FW-001 and whether a waiver applies to this filing**.`);
+    // A packet that has just stated a nil fee cannot open the next paragraph
+    // with "if you cannot pay it". The waiver form is still named, because the
+    // manifest holds it and naming a held form is never wrong; what changes is
+    // the claim made around it, and neither branch asserts that a waiver is
+    // available on this route, which no held record establishes either way.
+    money.push(routeFee && routeFee.amount === "$0"
+      ? `**A fee waiver is a separate question, and on this route it should not arise.** No filing fee is stated for this route, so there should be nothing to waive when you file. ${held.applyFeeWaiver.replace(/\s*$/, "")} It is a separate form: it is not part of this packet, is not filled in for you, and is available from the California Courts self-help forms site along with the forms in this packet. Whether a waiver is needed or available for anything else on this filing is not established for this route, so **if the court asks you for money at the counter, ask ${clerk} what the charge is for and whether form FW-001 covers it** before you pay.`
+      : `**If you cannot pay it, ask about a fee waiver by name.** ${held.applyFeeWaiver.replace(/\s*$/, "")} It is a separate form: it is not part of this packet, is not filled in for you, and is available from the California Courts self-help forms site along with the forms in this packet. Naming it is as far as the repository goes — whether a waiver is available on this particular petition, and what it requires of you, is decided on your own financial circumstances and on that court's practice, so **ask ${clerk} for form FW-001 and whether a waiver applies to this filing**.`);
   }
   out.push(`## What this costs\n\n${money.join("\n\n")}\n`);
 
+  assert.ok(guidance.reliefQuestion,
+    `${familyId}: statesHeldParticipantActions is set but no relief question is configured`);
+  const fromTheClerk = routeFee
+    ? "The payment methods that court accepts, and any local intake rule"
+    : "The filing fee, the payment methods that court accepts, and any local intake rule";
   out.push(`## Where this packet's self-help ends\n\n`
-    + `This packet states what the repository holds for this route and nothing beyond it. The filing fee, the payment methods that court accepts, and any local intake rule — a cover sheet, a filing window, an e-filing requirement — come from ${clerk}, not from this packet. It does not decide whether your arrest qualifies to be sealed, it does not appear for you, and it is not legal advice. If your case does not match the route named at the top of this page, or if anyone opposes the petition, that is the point to get a lawyer or a legal-aid office rather than to press on with these papers.\n`);
+    + `This packet states what the repository holds for this route and nothing beyond it. ${fromTheClerk} — a cover sheet, a filing window, an e-filing requirement — come from ${clerk}, not from this packet. It does not decide ${guidance.reliefQuestion}, it does not appear for you, and it is not legal advice. If your case does not match the route named at the top of this page, or if anyone opposes the petition, that is the point to get a lawyer or a legal-aid office rather than to press on with these papers.\n`);
 
   return out.join("\n");
 }
@@ -1830,7 +1973,7 @@ function caParticipantInstructions(familyId, config, fieldMap) {
     + `4. **Leave ${guidance.orderForm} entirely blank**${required.some((row) => row.documentRole === "proposed_order")
       ? " except the report numbers listed below" : ""}. The ${guidance.orderName} is the court's form.\n\n`
     + (guidance.statesHeldParticipantActions
-      ? caHeldGuidanceSections(familyId, guidance) + `\n`
+      ? caHeldGuidanceSections(familyId, config, guidance) + `\n`
       : `## What this packet does not tell you\n\n`
         + `The filing fee and whether it can be waived, who must be served and by what method, and the address of the court are not established in this repository. Ask the clerk of the Superior Court in the county of the ${guidance.countyOf}. An unsourced figure in a filing instruction would be worse than none. This is where this packet's self-help ends: fee, waiver, service, and local filing practice come from the clerk of that court, not from this packet.\n\n`)
     + `## The blanks you must fill in\n\n`
