@@ -1,395 +1,403 @@
 {
- "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
- "lane": "VF02",
- "worker": "VF-SRC-A",
- "baseSha": "09b741ad00be0d630bd73a72f66640294abab397",
- "assignmentCount": 12,
- "assignments": [
-  {
-   "itemId": "oh_marijuana_expungement-set",
-   "lane": "VF02",
-   "familyDirectory": "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading",
-   "decisiveDefect": "oh_marijuana_expungement/canonical/text: recomputed 13a210a2aac2f8a80a8319f0fbb6516bd57ffadd7c57ae663d206fa10bc64073 != recorded d42df8ae9875cc6b2555184f7ca48514935254d1cb3e66bf485ab93083597e1b; oh_marijuana_expungement/boundary/text: recomputed 025dee088bf52e1fc4543eb63b17c8db91f7b70d8cb66792cf88a78434b57345 != recorded 0a5ef772c8500195b00f600ad88a0c64156ade56368bd907138cd8a1ea85b307",
-   "failedProofObligations": [
-    "ARTIFACTS"
-   ],
-   "perObligation": {
-    "ARTIFACTS": {
-     "measuredDetail": "oh_marijuana_expungement/canonical/text: recomputed 13a210a2aac2f8a80a8319f0fbb6516bd57ffadd7c57ae663d206fa10bc64073 != recorded d42df8ae9875cc6b2555184f7ca48514935254d1cb3e66bf485ab93083597e1b; oh_marijuana_expungement/boundary/text: recomputed 025dee088bf52e1fc4543eb63b17c8db91f7b70d8cb66792cf88a78434b57345 != recorded 0a5ef772c8500195b00f600ad88a0c64156ade56368bd907138cd8a1ea85b307",
-     "whatRepairMustDo": "The composed-pleading render report's text receipt was computed on the rendered text before its final newline was written, so text.sha256 and text.byteLength describe the file minus one trailing 0x0a. Every PDF receipt in the same reports binds correctly. Recompute the text receipt over the bytes as committed, or stop writing the trailing newline; do not rewrite the artifact to match the receipt without deciding which is canonical."
-    }
-   },
-   "repairMustNotDo": [
-    "do not edit any artifact merely so a receipt matches it",
-    "this verification opens no commercial route and grants no approval"
-   ]
-  },
-  {
-   "lane": "VF02",
-   "assignedBy": "FABLE-VA6",
-   "verifiedAtBase": "cd48fc14e",
-   "notARepair": "This is a verdict and a repair assignment. FABLE-VA6 modified no packet PDF, no fixture, no overlay directory, no queue, no route, no price and no production surface.",
-   "reRasterRequiredAfterRepair": "Any change to fixture bytes invalidates the family's RASTER_PASS receipt, which binds exact hashes. Re-raster before the family is read again.",
-   "reVerificationRequired": "A second independent read is required after repair, by a lane that is not the repairer.",
-   "itemId": "agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission",
-   "familyId": "agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission",
-   "jurisdiction": "NY",
-   "familyDirectory": "data/rcap-all50/overlays/census-v1/ny/agency-application-treatment:obligation:research-decision-route:ny:ny-160-55-violation:dcjs-correction-submission--official-pdf-fill",
-   "verdict": "FAIL_REPAIR_REQUIRED",
-   "failedProofObligations": [
-    "ROUTE_IDENTITY"
-   ],
-   "decisiveDefect": "The family declares exactly one route, obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission, and devotes pages 1-2 of 6 to court_transmission_correction_request, which is the primary instrument of a different declared route, obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request. Those two pages are footer-stamped 'Route: ...:dcjs_correction_submission'. In this factory's own convention the footer is a per-document route claim — rcap-ok-custom-pleading stamps eight different route footers across its 24 components — so the sentencing-court letter is wearing a route key that is not its own and that a separate live family holds a separate grant over.",
-   "theDuplicationFinding": "The sibling family composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request is live in MASTER_QUEUE.json at VERIFY_PENDING with its own build script and directory, and renders a 4-page packet whose pages 1-2 are the same instrument. The two letters are NOT byte-identical and not textually identical: this family's opens 'THIS IS A LETTER TO A COURT'S RECORDS OFFICE. IT IS NOT A MOTION, A PETITION OR AN APPLICATION, AND IT IS NOT FILED.' and structures the ask as numbered paragraphs 1-4 over five certificate-of-disposition blanks; the sibling's structures it as lettered sections A-C with items C1-C4. They also print different personas — this family localises to '42 Larkspur Street, Brooklyn, NY 11201', the sibling prints '42 Magnolia Street, Springfield 62704', a non-New-York placeholder, inside a New York letter. Two live families therefore ship two materially different letters asking the same office for the same act under the same statute, and no record in the repository reconciles them or says which governs.",
-   "whatIsNotWrong": "Nothing measured on these six pages is legally or factually wrong, and the other fourteen obligations pass. The bound records verify byte-exact, every fee statement is verbatim from the compiled NY profile, every dotted rule is accounted for in the field map, and all six self-help stop conditions are carried. This is a boundary repair, not a rewrite.",
-   "repairOptions": [
-    "Decide the boundary and record the decision. Either the DCJS family legitimately ships both steps of the recorded correction workflow — in which case its declared routeKeys must include sentencing_court_transmission_correction_request, the sibling family must be retired or explicitly subordinated, and the footers on pages 1-2 must name the route those pages actually serve — or it ships only the DCJS letter, in which case pages 1-2 come out and the participant is directed to the sibling family for step three.",
-    "Whichever is chosen, the per-document route footer on pages 1-2 must stop naming dcjs_correction_submission while rendering the sentencing-court instrument.",
-    "The two letters must not both survive in different wordings. If both families persist, one text is authoritative and the other cites it."
-   ],
-   "doNotDoThis": "Do not resolve this by deleting the sibling family's grant or by editing the sibling's worktree. The sibling is a separate live subject in the claim ledger and its disposition is Captain's to order.",
-   "measuredEvidence": "canonical fa/addce736a67209bd19baa69fb0fda0c4db116f02f73c725c668e1dead9df5a40 (14075 bytes, 6 pages) recomputed from disk; pageManifest components court_transmission_correction_request#1,#2 / dcjs_correction_submission#1,#2 / agency_route_sheet#1,#2; all three rendered footers extracted from the bytes read dcjs_correction_submission."
-  },
-  {
-   "lane": "VF02",
-   "assignedBy": "FABLE-VA6",
-   "verifiedAtBase": "cd48fc14e",
-   "notARepair": "This is a verdict and a repair assignment. FABLE-VA6 modified no packet PDF, no fixture, no overlay directory, no queue, no route, no price and no production surface.",
-   "reRasterRequiredAfterRepair": "Any change to fixture bytes invalidates the family's RASTER_PASS receipt, which binds exact hashes. Re-raster before the family is read again.",
-   "reVerificationRequired": "A second independent read is required after repair, by a lane that is not the repairer.",
-   "itemId": "composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
-   "familyId": "composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
-   "jurisdiction": "MS",
-   "familyDirectory": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59--custom-pleading",
-   "verdict": "FAIL_REPAIR_REQUIRED",
-   "failedProofObligations": [
-    "REQUIRED_BEFORE_FILING"
-   ],
-   "decisiveDefect": "Two unclassified participant blanks in the rendered bytes. The caption rule 'IN THE ............................................................ COURT' is printed on page 1 of ms-99-15-59-dismissal-branch-primary-filing-1 and again on page 3 of ms-99-15-59-dismissal-branch-proposed-order-2. Neither appears in production-field-map.json (7 canonicalWrites, 12 canonicalRefusals, no court field), in reports/blanks-left-for-the-participant.json, or in the 'items you must supply' table of participant-instructions.md. reports/completeness-counters.json reports unclassifiedBlanks 0; the correct count is 2. participant-instructions.md compounds it by asserting 'the court's identity is a labelled blank on the petition' — the caption blank carries no label, and item C4 'What venue or agency?' is a different blank in a different section.",
-   "rootCause": "Shared with id_felony_reduction-set and rcap-ok-custom-pleading. The caption is pushed into the component body as a hard-coded literal string containing the dot run, while every blank the map does account for is emitted through the {{DOTS}} token; and the blank ledger is built only from the field map's refusals ('for (const r of m.canonicalRefusals ?? []) blanks.push(row(r));', scripts/build-census-v1-composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59.mjs line 723). A literal dot run can therefore never be counted, classified or disclosed, and unclassifiedBlanks is structurally incapable of detecting it. The build script holds exactly 2 such literals against 13 {{DOTS}} tokens, matching the 2 caption rules in the bytes.",
-   "whyItMatters": "A pleading whose caption does not name a court is not filable. This is an item the participant must supply before filing that the packet never tells them to supply.",
-   "repairOptions": [
-    "Emit the caption court name through the same registered-blank mechanism as every other blank, so it acquires a field id, a disposition (REQUIRED_BEFORE_FILING), a printed label, an entry in the blanks report and a row in the 'items you must supply' table.",
-    "Correct the FILING_DESTINATION sentence in participant-instructions.md, which currently tells the participant the court's identity is a labelled blank when the caption blank is not labelled.",
-    "Consider fixing the counter as well as the packet: unclassifiedBlanks cannot see a literal dot run, so the same defect will pass unnoticed on every family built to this shape."
-   ],
-   "whatIsNotWrong": "Fourteen of fifteen obligations pass and one is a positive finding worth preserving: the compiled Mississippi profile carries a $150 filing fee scoped to Sec. 99-19-71 by Sec. 99-19-72, and this Sec. 99-15-59 packet correctly declines to read it across, which is DET-FEE-AND-WAIVER-001 A3 applied exactly right. All three bound committed records verify byte-exact. Do not 'fix' the fee statement by importing the $150.",
-   "measuredEvidence": "canonical 363c87d1654b8e3619e4491d8a12ed9b480bf1fa2fb85655b8fdd195bbb831eb (11858 bytes, 5 pages) recomputed from disk; 19 dotted-rule runs enumerated in the rendered text against 19 accounted field-map entries, leaving the 2 caption rules unaccounted; 0 same-baseline overlapping word pairs over 941 canonical words."
-  },
-  {
-   "lane": "VF02",
-   "assignedBy": "FABLE-VA6",
-   "verifiedAtBase": "cd48fc14e",
-   "notARepair": "This is a verdict and a repair assignment. FABLE-VA6 modified no packet PDF, no fixture, no overlay directory, no queue, no route, no price and no production surface.",
-   "reRasterRequiredAfterRepair": "Any change to fixture bytes invalidates the family's RASTER_PASS receipt, which binds exact hashes. Re-raster before the family is read again.",
-   "reVerificationRequired": "A second independent read is required after repair, by a lane that is not the repairer.",
-   "itemId": "ct-missed-erasure-set",
-   "familyId": "ct-missed-erasure-set",
-   "jurisdiction": "CT",
-   "familyDirectory": "data/rcap-all50/overlays/census-v1/ct/ct-missed-erasure-set--official-pdf-fill",
-   "verdict": "FAIL_REPAIR_REQUIRED",
-   "failedProofObligations": [
-    "SOURCE_IDENTITY"
-   ],
-   "decisiveDefect": "The packet converts a sentence printed on a source-gated library form into a participant-facing requirement with denial as the stated consequence, while the family's own source-receipt.json neither names that form nor binds it by SHA-256 and still records the opposite position. The rendered page states: 'a DESPP form does impose the date, and the stated consequence of breaching it is denial. So get a criminal history record dated on or after 01/01/2024'. source-receipt.json, in the same directory at the same commit, records under whatThisReceiptDoesNotEstablish 'whether the SPBI report must bear any particular date - recorded as unresolved, not as a rule', lists only the statute and DPS-0846-C under officialSourcesRecordedInIntake, and contains no occurrence of the string 0847.",
-   "thePacketsClaimIsTrue": "This is important to the repair. FABLE-VA6 read the source: private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/CT/05_SOURCE_GATED/CT__SOURCE-GATED__DESPP-0847-C__hearing-for-clean-slate-erasure-convictions-after-1-1-2000__REV-2001-01__EN.pdf, SHA-256 08658dc45d7d41c20a26dcab54fff8756302e85bef7f4d519d9c0a3d4e4fbcfc, equal to the sha256 column of its CT STATE_MANIFEST.csv row. Its printed instruction 2 reads verbatim: 'You must submit a copy of your current criminal history record, which must be dated on or after 01/01/2024, demonstrating that such conviction has not been marked as erased. If the criminal history record is not submitted along with this form, your submission will be deemed incomplete and your request for a review and/or hearing will be denied.' The packet's quotation is accurate. The failure is the binding, not the fact.",
-   "aggravatingRecords": [
-    "The CT STATE_MANIFEST.csv classes DESPP-0847-C as source_gated / disabled_pending_release_gates / source_or_currentness_gate_open, so the packet reproduces gated bytes into participant-facing text and elevates them to an instruction.",
-    "data/record-clearing/legal-design-track-registry.json, track ct-missed-erasure, still carries the withdrawn reading as a live releaseBlocker: 'The \"dated on or after January 1, 2024\" SPBI rule in the internal reference looks like a misreading ... Treat as unresolved rather than as a rule.'",
-    "build-findings.json and approval-request.json in the same directory DO discuss 0847-C and even flag that it is 'titled for convictions after 1/1/2000' and may not be this route's instrument, which shows the reliance was deliberate and makes the receipt's silence an omission rather than an oversight of fact."
-   ],
-   "repairOptions": [
-    "Bind it. Name DESPP-0847-C in source-receipt.json with its SHA-256 08658dc45d7d41c20a26dcab54fff8756302e85bef7f4d519d9c0a3d4e4fbcfc, record that it is source-gated and that only its printed face is relied on, delete the receipt's contrary whatThisReceiptDoesNotEstablish entry, and retire the corresponding releaseBlocker in the track registry — so the packet's claim rests on hashed bytes that staleness detection can reach.",
-    "Or withdraw it. Take the requirement back to the registry's recorded 'unresolved rather than a rule' position and remove the instruction from the packet.",
-    "Do not leave it as it stands, where a participant-facing requirement carrying a denial consequence rests on unbound, unhashed, gated bytes that the family's own source record says do not establish it."
-   ],
-   "whatIsNotWrong": "Fourteen of fifteen obligations pass and several are the best in this lane. The component set matches its registry contract exactly, one component to one component, with no additions. Every recorded SPBI fee figure is stated. The DESPP submission form the registry forbids inventing was not invented. The packet carries zero dotted-rule blanks and all three registry self-help stop conditions. This is a records repair; the packet bytes may not need to move at all.",
-   "measuredEvidence": "canonical 0872021341ca0755e2df874ebea40d601e3ffacbb4be6f5436b642548ffdcb82 (8673 bytes, 2 pages) recomputed from disk; all 4 committed raster PNG hashes recomputed and matched; DPS-0846-C recomputed to 8db6e31c03131d94f6ed8383f403b1daf45e9c4d12336cbf0abcebb4e65b588e, matching its manifest row."
-  },
-  {
-   "lane": "VF02",
-   "assignedBy": "FABLE-VA6",
-   "verifiedAtBase": "cd48fc14e",
-   "notARepair": "This is a verdict and a repair assignment. FABLE-VA6 modified no packet PDF, no fixture, no overlay directory, no queue, no route, no price and no production surface.",
-   "reRasterRequiredAfterRepair": "Any change to fixture bytes invalidates the family's RASTER_PASS receipt, which binds exact hashes. Re-raster before the family is read again.",
-   "reVerificationRequired": "A second independent read is required after repair, by a lane that is not the repairer.",
-   "itemId": "id_felony_reduction-set",
-   "familyId": "id_felony_reduction-set",
-   "jurisdiction": "ID",
-   "familyDirectory": "data/rcap-all50/overlays/census-v1/id/id-felony-reduction-set--custom-pleading",
-   "verdict": "FAIL_REPAIR_REQUIRED",
-   "failedProofObligations": [
-    "REQUIRED_BEFORE_FILING"
-   ],
-   "decisiveDefect": "One unclassified participant blank in the rendered bytes: the caption rule 'IN THE ............................................................ COURT' on page 1 of id_felony_reduction-primary-filing-1. It is in neither array of the 12-entry production-field-map.json, in neither array of reports/blanks-left-for-the-participant.json, and not in the 'items you must supply' table of participant-instructions.md, which lists only C1, C2 and C3. reports/completeness-counters.json reports unclassifiedBlanks 0; the correct count is 1.",
-   "whyThisFamilyIsTheWorstCase": "No other page in this packet ever names a court. The filing-instructions page says only 'Sentencing court' and 'The application is made to the court that entered the judgment of conviction', so the caption blank is the single place the court's identity is ever recorded — and unlike rcap-ok-custom-pleading, which at least discloses a county rule a participant could apply, this packet gives the participant nothing to write there and never tells them something belongs there.",
-   "rootCause": "Shared with the MS and OK families. The caption is a hard-coded literal dot run rather than a {{DOTS}} token, and the blank ledger is built only from the field map's refusals (scripts/build-census-v1-id_felony_reduction-set.mjs line 623), so a literal rule can never be counted, classified or disclosed. The script holds exactly 1 such literal against 8 {{DOTS}} tokens, matching the bytes.",
-   "repairOptions": [
-    "Emit the caption court name as a registered blank so it acquires a field id, a REQUIRED_BEFORE_FILING disposition, a printed label, a blanks-report entry and a row in the 'items you must supply' table.",
-    "Fix the counter as well as the packet, since unclassifiedBlanks cannot see a literal dot run on any family built to this shape."
-   ],
-   "whatIsNotWrong": "Fourteen of fifteen obligations pass and the self-help treatment is verbatim-perfect: all four registry selfHelpStopConditions for trackId id_felony_reduction appear word for word in both the rendered filing-instructions page and participant-instructions.md, including the immigration condition with its licensing, peace-officer and firearm limbs intact. All three bound committed records verify byte-exact. A readability observation, not an obligation failure: the formula 'the clerk's office of Sentencing court (the venue the registry records for this route: The sentencing court.)' is repeated five times across the two artifacts and reads poorly.",
-   "measuredEvidence": "canonical d246f76059f94a3f78286381d3ff6289cae01f5593b11c3625a50d223e33afd1 (8807 bytes, 4 pages) recomputed from disk; 10 dotted-rule runs enumerated against 11 accounted field-map entries, leaving the caption rule unaccounted; 0 same-baseline overlapping word pairs over 699 canonical words."
-  },
-  {
-   "lane": "VF02",
-   "assignedBy": "FABLE-VA6",
-   "verifiedAtBase": "cd48fc14e",
-   "notARepair": "This is a verdict and a repair assignment. FABLE-VA6 modified no packet PDF, no fixture, no overlay directory, no queue, no route, no price and no production surface.",
-   "reRasterRequiredAfterRepair": "Any change to fixture bytes invalidates the family's RASTER_PASS receipt, which binds exact hashes. Re-raster before the family is read again.",
-   "reVerificationRequired": "A second independent read is required after repair, by a lane that is not the repairer.",
-   "itemId": "rcap-ok-custom-pleading",
-   "familyId": "rcap-ok-custom-pleading",
-   "jurisdiction": "OK",
-   "familyDirectory": "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading",
-   "verdict": "FAIL_REPAIR_REQUIRED",
-   "failedProofObligations": [
-    "ROUTE_IDENTITY",
-    "COMPONENT_SET",
-    "REQUIRED_BEFORE_FILING",
-    "ROUTE_OPTIONS"
-   ],
-   "decisiveDefect": "The family declares sixteen routes and serves eight, and delivers 16 of the 53 components its own bound track registry requires — and says neither. MASTER_QUEUE.json gives routeCount 16 and participant-instructions.md closes by naming all sixteen route keys, but the 24 route footers extracted from the rendered 49-page canonical resolve to exactly eight distinct routes, and production-field-map.json's componentRoutes binds every component to one of those same eight.",
-   "componentShortfall": {
-    "registryRequires": 53,
-    "rendered": 16,
-    "missing": 37,
-    "detail": "packetSet.components in data/record-clearing/legal-design-track-registry.json declares seven required components for each of ok_identity_theft, ok_18_19_deferred_dismissal, ok_18_19_felony_conviction, ok_18_19_misdemeanor_conviction, ok_18_19_nonconviction, ok_18_19_pardon and ok_vpo_60_18 (free_route_screen-1, primary_filing-2, proposed_order-3, record_gathering_instructions-4, fee_disclosure-5, hearing_instructions-6, effect_disclosure-7) and four for ok_991c_deferred (arrest_record_screen-1, primary_filing-2, proposed_order-3, effect_disclosure-4). Only primary_filing and proposed_order render for each track. Every free_route_screen, every record_gathering_instructions, every fee_disclosure, every hearing_instructions and every effect_disclosure is absent.",
-    "ordinalCollision": "The eight components rendered beyond the sixteen are '<track>-filing-instructions-4', an id the registry does not contain; for seven of the eight tracks the registry assigns ordinal 4 to record_gathering_instructions, so a component the registry does not know occupies the slot of a required component that is missing.",
-    "theBuilderHadTheList": "production-field-map.json's routeSelectionsMade spells out all seven instruments by id for each route. Three of seven were built.",
-    "worstOmission": "free_route_screen is required on seven of the eight tracks and is the page that would tell an Oklahoma participant whether a free sealing-without-petition route reaches them before they file anything."
-   },
-   "unservedRoutes": [
-    "obligation:track-pathway:OK:ok_18_19_deferred_dismissal:nonviolent-felony-deferred-dismissal-expungement",
-    "obligation:track-pathway:OK:ok_18_19_deferred_dismissal:up-to-two-felony-deferred-dismissal-expungement",
-    "obligation:track-pathway:OK:ok_18_19_felony_conviction:not-more-than-two-eligible-felony-convictions-expungement",
-    "obligation:track-pathway:OK:ok_18_19_felony_conviction:one-eligible-nonviolent-felony-conviction-expungement",
-    "obligation:track-pathway:OK:ok_18_19_misdemeanor_conviction:other-eligible-misdemeanor-conviction-expungement",
-    "obligation:track-pathway:OK:ok_18_19_nonconviction:arrest-with-no-charges-filed",
-    "obligation:track-pathway:OK:ok_18_19_nonconviction:conviction-reversed-and-case-dismissed",
-    "obligation:track-pathway:OK:ok_18_19_nonconviction:dna-factual-innocence-expungement"
-   ],
-   "participantHarm": "The 'Which pages in this packet are yours' table offers eight rows against sixteen declared routes, and at least one row is broader than the pages behind it: 'Clear an Oklahoma arrest that did not end in a conviction' is offered for records 'where the person was not charged, was acquitted, was factually innocent, or where the charge was dismissed', spanning four registry pathways, while the single composed petition behind that row is footer-stamped to acquittal-dismissal-or-other-no-conviction-expungement alone. A participant on arrest-with-no-charges-filed or dna-factual-innocence is told this packet is theirs and handed a petition naming a different route. The packet's instruction 'Use only the pages for the route that matches your own record' cannot be followed by a participant whose route has no pages.",
-   "captionBlanks": "Separately, 16 unclassified caption blanks — 'IN THE ............ COURT' on each of the eight primary_filing pages and each of the eight proposed_order pages. No field id containing 'court' exists anywhere in the 209-entry field map. unclassifiedBlanks is reported 0 and is 16. Same root cause as the MS and ID families: 16 literal dot runs against 211 {{DOTS}} tokens in scripts/build-census-v1-rcap-ok-custom-pleading.mjs, and a blank ledger built only from field-map refusals at line 3790.",
-   "repairOptions": [
-    "Build the 37 missing registry components, or amend the registry if the seven-component contract is no longer the design — but the packet and the record it binds must agree, and requiredComponentsMissing must stop reporting 0.",
-    "Either serve the eight unserved pathways or state plainly, in participant-instructions.md and in the 'Which pages in this packet are yours' table, that they are declared but not served and where the participant should go instead. Narrow the nonconviction row so it does not offer four pathways behind one petition.",
-    "Reconcile the family's declared routeCount 16 with what it delivers, either by splitting the unserved pathways into their own families or by reducing the declared route set.",
-    "Register the 16 caption blanks as fields with REQUIRED_BEFORE_FILING dispositions and printed labels."
-   ],
-   "whatIsNotWrong": "Eleven of fifteen obligations pass and the quality of what IS built is high — this repair should not disturb it. All 52 selfHelpStopConditions across the eight tracks appear verbatim in BOTH participant-instructions.md and the rendered bytes, zero dropped. Fee, waiver, service and filing destination are answered per route from the registry with no cross-reading, including ok_991c_deferred's correctly distinct destination and fee text. 49 pages in correct contiguous order, 0 same-baseline overlapping pairs over 14,081 words, and 56 protected fields across eight proposed orders all left empty.",
-   "measuredEvidence": "canonical fa2557d25d6b462561014851bc9701847e25d0b6e129032a28fff77b4fea8356 (140407 bytes, 49 pages) recomputed from disk and equal to the RASTER_PASS receipt's boundToCanonicalSha256; 24 route footers extracted from the rendered bytes resolving to 8 distinct routes; 53 registry components differenced against 24 rendered components."
-  },
-  {
-   "assignedBy": "VA17",
-   "verifiedAtBase": "d609b1140b62204038f4161a01611d56ed35bd62",
-   "readIsASecondReadOfARepair": true,
-   "whyThisReaderIsIndependent": "VA17 neither built nor repaired this family; the repair lanes were FIX01 (oh) and FIX04 (pa).",
-   "notARepair": "This is a verdict and a repair assignment. VA17 modified no packet, no overlay directory, no fixture, no build script, no queue, no route, no price and no production surface.",
-   "reRasterRequiredAfterRepair": "Any change to fixture bytes invalidates the family's RASTER_PASS acceptance receipt, which binds exact hashes. Re-raster before the family is read again.",
-   "reVerificationRequired": "A third independent read is required after this repair, by a lane that is neither the repairer nor VA17.",
-   "supersedesEarlierAssignmentsForThisFamily": "Every earlier assignment on this family predates the repair lane's work. This one is measured from the artifacts on disk at the base above and does not carry any earlier finding forward.",
-   "itemId": "oh_marijuana_expungement-set",
-   "familyId": "oh_marijuana_expungement-set",
-   "lane": "VF02",
-   "jurisdiction": "OH",
-   "deliveryType": "custom_pleading",
-   "familyDirectory": "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading",
-   "verdict": "FAIL_REPAIR_REQUIRED",
-   "failedProofObligations": [
-    "COMPONENT_SET",
-    "FEE_AND_WAIVER",
-    "SERVICE",
-    "SELF_HELP_STOP"
-   ],
-   "decisiveDefect": "participant-instructions.md tells the participant 'No held source in this packet states a filing fee, states that filing is free, or states a fee-waiver procedure' and 'This packet does not state an amount because it holds no source for one.' Both sentences are false against the family's own records. The committed track registry this family binds, at trackId oh_marijuana_expungement, holds rules.fees 'Fifty dollars unless indigent. ORC 2953.321(G)...' and rules.feeWaiver 'Indigency excuses the fee under ORC 2953.321(G)', and lists the fee payment and the indigency showing among its required-before-filing items. The packet itself states the same fact in three sibling files inside its own directory - tracks/oh_marijuana_expungement/participant-instructions.md ('The recorded $50 filing fee or an indigency exception'; 'The frozen design records $50, subject to a confirmed indigency exception'), build-findings.json hardStops, and tracks/oh_marijuana_expungement/rendered/canonical/render-report.json counselFlags. Under DET-FEE-AND-WAIVER-001 A1, A2 and A4 the packet had to ask the repository first, and a packet may never tell a participant it does not state something it does state.",
-   "perObligation": {
-    "FEE_AND_WAIVER": {
-     "measuredDetail": "Registry answers both facts for this route and the packet denies both to the participant while asserting them in three sibling files in the same directory.",
-     "repair": "State the $50 filing fee and the R.C. 2953.321(G) indigency exception in participant-instructions.md 'What this costs'. Keep the instruction to confirm the current figure with the clerk of the sentencing court, but as a currency check on a stated answer, not as a substitute for one. Delete the two sentences that deny a held source exists."
-    },
-    "SERVICE": {
-     "measuredDetail": "participant-instructions.md says 'No held source in this packet states who must be served or how.' The registry's rules.notice states 'The court notifies the prosecutor of the hearing, and the prosecutor may object by filing an objection with the court prior to the date set for the hearing', and rules.service records that the section imposes no separate participant service duty because the court sets the hearing and the prosecutor objects to the court. The word 'objection' appears in no participant-facing file in this family.",
-     "repair": "Tell the participant that the court, not they, notifies the prosecutor of the hearing, and that the prosecutor may object by filing with the court before the hearing date. Do not import the 60-day notice or 30-day objection figures: the registry records those as belonging to ORC 2953.32 and expressly not governing this route, and reading them across would be the A3 error."
-    },
-    "SELF_HELP_STOP": {
-     "measuredDetail": "The registry holds nine selfHelpStopConditions for trackId oh_marijuana_expungement; the packet carries five hard stops and omits four: pending criminal proceedings or open warrants; prosecutor objection and any victim objection where applicable; choosing between sealing and expungement, which the registry calls a legal judgment with different waits and different exclusions; and immigration exposure. The terms 'warrant', 'victim', 'objection', 'sealing' and 'immigration' appear in no participant-facing file in this family. Separately absent is what the registry's mechanism text calls 'the single most important disclosure in Ohio record-clearing copy' - that on an expungement the Bureau of Criminal Identification and Investigation keeps a limited record for law-enforcement employment qualification while other entities must destroy, delete and erase, so neither remedy may be described as completely gone from everywhere.",
-     "repair": "Carry all nine registry stop conditions onto the participant-facing surface, and add the BCI limited-retention disclosure.",
-     "scopeNote": "DET-FEE-AND-WAIVER-001 A4 names REQUIRED_BEFORE_FILING, FILING_DESTINATION, SERVICE and FEE_AND_WAIVER and does not name SELF_HELP_STOP. VA17 read the ask-the-repository-first test as reaching it, because a registry's selfHelpStopConditions are the repository's own statement of where a track's self-help ends. If Captain reads A4's list as exhaustive, re-score this onto another obligation rather than waiving it."
-    },
-    "COMPONENT_SET": {
-     "measuredDetail": "The registry declares five components for packetSet oh_marijuana_expungement-set, all requirement 'required'. product-wiring.json binding.packetComponents names exactly one, component:oh_marijuana_expungement-bci-transmission-5, and omits component:oh_marijuana_expungement-primary-filing-1 - the artifact this family actually renders as canonical.pdf and boundary.pdf - along with -local-form-instructions-2, -record-gathering-instructions-3 and -hearing-and-objection-instructions-4. Surveyed across all census-v1 product-wiring files, every other custom-pleading family names its own primary-filing component. Hearing-and-objection material also reaches a participant only in the track-level instructions, never in the family-level participant-instructions.md that binding.instructions points at.",
-     "repair": "Name all five registry components in binding.packetComponents, and surface the hearing-and-objection guidance in the family-level participant-instructions.md."
-    }
-   },
-   "whatPassed": "ROUTE_IDENTITY, SOURCE_IDENTITY, KNOWN_PREFILLS, REQUIRED_BEFORE_FILING, ROUTE_OPTIONS, REPEATING_ROWS, PROTECTED_FIELDS, ARTIFACTS, PAGE_ORDER, CLIPPING_AND_OVERLAP and FILING_DESTINATION all pass on measurement at this base. The bytes, the writes, the refusal classifications and the protection of signature, date and judicial fields are sound; the failures are all in what the packet tells the participant.",
-   "doNotChase": "companion/OH-BCI-SEALING-EXPUNGEMENT-REQUEST--official-source.pdf is declared in source-receipt.json and reports/rendered-artifacts.json and is absent from the working tree on purpose. It is one of the 59 private-corpus binaries excluded at integration commit c01b87d1584bbb0b902b398b45c376f8fea22050; launch-control records that those 'are not in git by design; bind them through the corpus bootstrap'. VA17 bound it from MASTER_LIBRARY_SOURCE_DIR and it matches its declared sha256 9234ec763403b1ccfbed796dfcf86f29bf7887390d1770460d0bcc9da31fc8cb and 235789 bytes exactly. Do not re-commit it."
-  },
-  {
-   "repairAssignmentId": "VTB-REPAIR-KS-PRODUCT-WIRING",
-   "itemId": "rcap-ks-custom-pleading",
-   "lane": "VF02",
-   "verdict": "FAIL_REPAIR_REQUIRED",
-   "familyDirectory": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading",
-   "raisedBy": "VT-B",
-   "raisedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
-   "decisiveDefect": "The packet is sound and the FIXKS re-pointing holds; the defect is in one generated record. data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/product-wiring.json still describes the pre-repair family in two independent ways. Its top-level routeKey and routeKeys name obligation:track-only:KS:ks-12-4516-municipal and obligation:track-only:KS:ks-12-4516a-municipal-arrest, each of which occurs zero times in the committed route-obligation census, while binding.routeKeys in the same file names the two current five-segment keys. And binding.acceptanceReceipt claims RASTER_PASS coversTheWholeFamily true bound to canonical 6a4ce684338f15386c42d19f53e56ed828ca51dcb748c64e5943ef01e483bfc8, which is the pre-repair hash; the canonical on disk hashes aca94f8f2ec3ae058e1a52b3d17cda4ffbabec5e6f8b087e5d58147f81a3f04f, and proposedRepresentation.components[0].sha256 repeats the dead hash.",
-   "failedProofObligations": [
-    "ROUTE_IDENTITY",
-    "ARTIFACTS"
-   ],
-   "perObligation": {
-    "ROUTE_IDENTITY": {
-     "measuredDetail": "grep of each key against data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json: obligation:track-only:KS:ks-12-4516-municipal 0 occurrences, obligation:track-only:KS:ks-12-4516a-municipal-arrest 0 occurrences, both current track-pathway keys 1 occurrence each. Comparing product-wiring top-level routeKeys against binding.routeKeys across all 182 census-v1 families, only 6 disagree and Kansas is one of them, so this is not the house style.",
-     "whatRepairMustDo": "Regenerate this family's product-wiring.json through scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs so its top-level routeKey and routeKeys carry the two keys the census carries. Do not hand-edit the overlay file and do not change the builder, which is already correct. The other five disagreeing families (ri-nonconviction-sealing-set, ca-prop64-set, sd-arrest-expungement-set, ny-mrta-marijuana-set, ar-misdemeanor-dwi-seal-set) should be checked in the same pass."
-    },
-    "ARTIFACTS": {
-     "measuredDetail": "All six Kansas artifact hashes recomputed here match reports/rendered-artifacts.json exactly. None of the six appears in RASTER_QUEUE.json. The five route-artifact acceptance records under data/rcap-grade-a/route-artifact-acceptance/ still carry only pre-repair Kansas hashes and the superseded keys: ROUTE_ARTIFACT_ACCEPTANCE 14 pre-repair hash lines and 0 post-repair, ROUTE_ARTIFACT_COMPLETENESS 4 and 0, ROUTE_ARTIFACT_DETERMINISM 9 and 0, ROUTE_ARTIFACT_RASTER_QUEUE 4 and 0, CENTRAL_RASTER_RUN 2 and 0.",
-     "whatRepairMustDo": "Withdraw the stale acceptance rather than restate it. Clear binding.acceptanceReceipt and proposedRepresentation.components[].sha256 for this family until the current six artifacts have actually been rastered centrally, then re-pin from that run. Re-queue the six current hashes for central raster. Kansas remains BUILT_RASTER_PENDING and no acceptance may be carried forward across a rebuild that moved every hash."
-    }
-   },
-   "whatRepairMustNotDo": [
-    "rebuild the packet: the six artifacts are correct and deterministic, and rebuilding would move nothing but would discard evidence",
-    "hand-edit hashes in product-wiring.json to match the bytes: an acceptance receipt records a raster run that happened, and no run has yet rastered these bytes",
-    "open a route, set a price, or change checkout"
-   ],
-   "grantsNothing": "This assignment grants nothing. It opens no route, sets no price, changes no checkout, and marks no packet proven. VT-B measured and may not repair; the lane that repairs may not verify its own repair."
-  },
-  {
-   "repairAssignmentId": "VTB-REPAIR-VTNC-ROUTE-KEY-AND-STOP",
-   "itemId": "vt_seal_nonconviction-set",
-   "lane": "VF02",
-   "verdict": "FAIL_REPAIR_REQUIRED",
-   "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill",
-   "raisedBy": "VT-B",
-   "raisedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
-   "decisiveDefect": "Two defects, both in the builder. First, the family prints a route key on its participant-facing pages that no census carries: 'obligation:track-pathway:VT:vt_seal_nonconviction:non-conviction-sealing' appears in the instructions footer, in the process-guidance page inside fixtures/canonical.pdf and in production-field-map.json, and its only occurrences anywhere in the repository are scripts/build-census-v1-vt_seal_nonconviction-set.mjs and those two family files. The census and product-wiring.json instead carry three obligation:unit:VT:vt_seal_nonconviction:* keys. This is the same defect class as the Kansas repair, on a family nobody has repaired. Second, the packet nowhere states where self-help ends, although the committed track registry records six selfHelpStopConditions for this track.",
-   "failedProofObligations": [
-    "ROUTE_IDENTITY",
-    "SELF_HELP_STOP"
-   ],
-   "perObligation": {
-    "ROUTE_IDENTITY": {
-     "measuredDetail": "grep of obligation:track-pathway:VT:vt_seal_nonconviction:non-conviction-sealing across data, src and scripts returns three files, all inside this family and its builder, and zero occurrences in data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json or in src/lib/rcap-engine/compiled. The three obligation:unit:VT:vt_seal_nonconviction:* keys the census carries are each present there once. The constructed key looks like trackId plus the runtimePathwayId that the census records only inside currentServiceDisposition, 'unit_parent_represented_by_runtime:non-conviction-sealing'.",
-     "whatRepairMustDo": "Re-point scripts/build-census-v1-vt_seal_nonconviction-set.mjs to the keys the census actually carries, in the way FIXKS did for Kansas: read the anchors from the committed census bytes and fail the build if a key is absent, rather than composing a key from parts. Then rebuild, re-pin the receipt, and re-queue for raster, because every artifact hash will move."
-    },
-    "SELF_HELP_STOP": {
-     "measuredDetail": "participant-instructions.md has no stop section, and neither does the process-guidance page on pages 7 and 8 of the canonical fixture. The only related sentence is the boilerplate 'It is not legal advice, it is not filed for you'. Comparing data/record-clearing/legal-design-track-registry.json selfHelpStopConditions for vt_seal_nonconviction term by term against the packet, at most two of six are covered. Omitted: that any pending charge anywhere blocks the court under 13 V.S.A. Sec. 7604; that the disposition may not be clearly one of the three Sec. 7603(a)(1) triggers; that Act 60 repealed the no-conviction expungement, so a participant expecting expungement gets sealing; and immigration consequences.",
-     "whatRepairMustDo": "Carry the registry's six stop conditions into the packet the way the sister family vt_seal_pardon does, which transcribes all ten of its own verbatim under 'When to stop and get a lawyer'. Both families are built from the same three Vermont forms, so the pattern already exists in the repository and needs no new legal input."
-    }
-   },
-   "whatRepairMustNotDo": [
-    "invent a route key: read it from the census bytes",
-    "author new stop conditions: the registry already holds six for this track",
-    "open a route, set a price, or change checkout"
-   ],
-   "grantsNothing": "This assignment grants nothing. It opens no route, sets no price, changes no checkout, and marks no packet proven. VT-B measured and may not repair; the lane that repairs may not verify its own repair."
-  },
-  {
-   "repairAssignmentId": "VTB-REPAIR-AZ-SELF-HELP-STOP",
-   "itemId": "az_marijuana_expungement_arrest_no_charges-set",
-   "lane": "VF02",
-   "verdict": "FAIL_REPAIR_REQUIRED",
-   "familyDirectory": "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-arrest-no-charges-set--official-pdf-fill",
-   "raisedBy": "VT-B",
-   "raisedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
-   "decisiveDefect": "The packet nowhere states where self-help ends. participant-instructions.md has no stop section; its only two references to a lawyer both tell the participant to leave the attorney block blank. The committed track registry records six selfHelpStopConditions for az_marijuana_expungement_arrest_no_charges and the packet carries at most two of them.",
-   "failedProofObligations": [
-    "SELF_HELP_STOP"
-   ],
-   "perObligation": {
-    "SELF_HELP_STOP": {
-     "measuredDetail": "Registry selfHelpStopConditions for this track compared term by term against participant-instructions.md and the extracted text of both fixtures. Omitted: that the prosecuting agency may file a response opposing eligibility; that a conduct date on or after 12 July 2021 changes the position; that a petitioner who wants to challenge the underlying conviction rather than expunge it is on the wrong route; and immigration consequences. The words immigration and lawyer-advice do not appear in any stop sense anywhere in the family.",
-     "whatRepairMustDo": "Add the registry's stop conditions to participant-instructions.md. The input exists in data/record-clearing/legal-design-track-registry.json, so this needs no new legal input and no new source. Note for the same pass: this family's fee and waiver position and its service position are correctly recorded as unestablished, and those two remain open legal inputs that this repair does not close."
-    }
-   },
-   "whatRepairMustNotDo": [
-    "write a fee figure or a service rule: no committed record establishes either for this track, and the packet is right to refuse",
-    "open a route, set a price, or change checkout"
-   ],
-   "grantsNothing": "This assignment grants nothing. It opens no route, sets no price, changes no checkout, and marks no packet proven. VT-B measured and may not repair; the lane that repairs may not verify its own repair."
-  },
-  {
-   "itemId": "ar-cs-possession-seal-set",
-   "lane": "VF02",
-   "verifiedAtBase": "726a49dfe0bdadc5f841bd4dadc871c6256418de",
-   "familyDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-cs-possession-seal-set--official-pdf-fill",
-   "decisiveDefect": "One of the four self-help stop conditions the track registry records for ar-cs-possession-seal is missing from the packet.",
-   "failedProofObligations": [
-    "SELF_HELP_STOP"
-   ],
-   "perObligation": [
+  "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
+  "lane": "VF02",
+  "worker": "VF-SRC-A",
+  "baseSha": "09b741ad00be0d630bd73a72f66640294abab397",
+  "assignmentCount": 12,
+  "assignments": [
     {
-     "obligation": "SELF_HELP_STOP",
-     "whatIsWrong": "participant-instructions.md contains no stop condition for an unclear pre-sentencing predicate.",
-     "whatTheRecordSays": "data/record-clearing/legal-design-track-registry.json, track ar-cs-possession-seal: selfHelpStopConditions and selfHelpBoundaries both carry 'Any pre-sentencing predicate is unclear; route to the ordinary felony track or to an attorney'; scopeRestrictions carries 'If any predicate is unclear, route to the ordinary felony track or to an attorney'.",
-     "howToRepair": "Add that condition to the 'Where self-help ends' list in the registry's own words, including the routing to the ordinary felony track. Change nothing else in that list.",
-     "howToProveTheRepair": "The words appear in participant-instructions.md, and the other three registry conditions are still present unchanged."
-    }
-   ],
-   "repairMustNotDo": [
-    "do not re-render either fixture — both PDFs hash to their records and every write is proven from the bytes",
-    "do not touch the field maps, the source pins or the census",
-    "do not add stop conditions the registry does not hold",
-    "do not open a route, set a price or change checkout"
-   ]
-  },
-  {
-   "itemId": "az_marijuana_expungement_arrest_no_charges-set",
-   "lane": "VF02",
-   "verifiedAtBase": "726a49dfe0bdadc5f841bd4dadc871c6256418de",
-   "familyDirectory": "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-arrest-no-charges-set--official-pdf-fill",
-   "decisiveDefect": "The packet has no self-help stop section; none of the registry's stop conditions for this track reaches the participant.",
-   "failedProofObligations": [
-    "SELF_HELP_STOP"
-   ],
-   "blockedOnLegalInput": [
-    "COMPONENT_SET"
-   ],
-   "perObligation": [
+      "itemId": "oh_marijuana_expungement-set",
+      "lane": "VF02",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading",
+      "decisiveDefect": "oh_marijuana_expungement/canonical/text: recomputed 13a210a2aac2f8a80a8319f0fbb6516bd57ffadd7c57ae663d206fa10bc64073 != recorded d42df8ae9875cc6b2555184f7ca48514935254d1cb3e66bf485ab93083597e1b; oh_marijuana_expungement/boundary/text: recomputed 025dee088bf52e1fc4543eb63b17c8db91f7b70d8cb66792cf88a78434b57345 != recorded 0a5ef772c8500195b00f600ad88a0c64156ade56368bd907138cd8a1ea85b307",
+      "failedProofObligations": [
+        "ARTIFACTS"
+      ],
+      "perObligation": {
+        "ARTIFACTS": {
+          "measuredDetail": "oh_marijuana_expungement/canonical/text: recomputed 13a210a2aac2f8a80a8319f0fbb6516bd57ffadd7c57ae663d206fa10bc64073 != recorded d42df8ae9875cc6b2555184f7ca48514935254d1cb3e66bf485ab93083597e1b; oh_marijuana_expungement/boundary/text: recomputed 025dee088bf52e1fc4543eb63b17c8db91f7b70d8cb66792cf88a78434b57345 != recorded 0a5ef772c8500195b00f600ad88a0c64156ade56368bd907138cd8a1ea85b307",
+          "whatRepairMustDo": "The composed-pleading render report's text receipt was computed on the rendered text before its final newline was written, so text.sha256 and text.byteLength describe the file minus one trailing 0x0a. Every PDF receipt in the same reports binds correctly. Recompute the text receipt over the bytes as committed, or stop writing the trailing newline; do not rewrite the artifact to match the receipt without deciding which is canonical."
+        }
+      },
+      "repairMustNotDo": [
+        "do not edit any artifact merely so a receipt matches it",
+        "this verification opens no commercial route and grants no approval"
+      ]
+    },
     {
-     "obligation": "SELF_HELP_STOP",
-     "whatIsWrong": "participant-instructions.md ends at 'Blanks that are deliberately left empty'. There is no section telling the participant when to stop and get a lawyer.",
-     "whatTheRecordSays": "data/record-clearing/legal-design-track-registry.json, track az_marijuana_expungement_arrest_no_charges, holds the stop conditions, including 'Prosecuting agency files a response opposing eligibility', 'Court sets a hearing', 'Immigration consequences are in play', 'Conduct date is on or after July 12, 2021' and 'The record does not establish quantity, plant count, or paraphernalia character and the prosecutor disputes it'. It also records that 'A routine hearing contemplated by statute does not prevent packet generation. Opposition, disputed evidence, or a contested hearing is a post_generation_handoff.'",
-     "howToRepair": "Add a stop section carrying the registry's conditions in the registry's own words. Keep the registry's own distinction between a routine statutory hearing and a contested one; do not tell the participant that any hearing is a stop, and do not tell them to attend a contested one.",
-     "howToProveTheRepair": "Each registry stop condition is found in participant-instructions.md, and no added condition is absent from the registry."
+      "lane": "VF02",
+      "assignedBy": "FABLE-VA6",
+      "verifiedAtBase": "cd48fc14e",
+      "notARepair": "This is a verdict and a repair assignment. FABLE-VA6 modified no packet PDF, no fixture, no overlay directory, no queue, no route, no price and no production surface.",
+      "reRasterRequiredAfterRepair": "Any change to fixture bytes invalidates the family's RASTER_PASS receipt, which binds exact hashes. Re-raster before the family is read again.",
+      "reVerificationRequired": "A second independent read is required after repair, by a lane that is not the repairer.",
+      "itemId": "agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission",
+      "familyId": "agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission",
+      "jurisdiction": "NY",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ny/agency-application-treatment:obligation:research-decision-route:ny:ny-160-55-violation:dcjs-correction-submission--official-pdf-fill",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "failedProofObligations": [
+        "ROUTE_IDENTITY"
+      ],
+      "decisiveDefect": "The family declares exactly one route, obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission, and devotes pages 1-2 of 6 to court_transmission_correction_request, which is the primary instrument of a different declared route, obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request. Those two pages are footer-stamped 'Route: ...:dcjs_correction_submission'. In this factory's own convention the footer is a per-document route claim — rcap-ok-custom-pleading stamps eight different route footers across its 24 components — so the sentencing-court letter is wearing a route key that is not its own and that a separate live family holds a separate grant over.",
+      "theDuplicationFinding": "The sibling family composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request is live in MASTER_QUEUE.json at VERIFY_PENDING with its own build script and directory, and renders a 4-page packet whose pages 1-2 are the same instrument. The two letters are NOT byte-identical and not textually identical: this family's opens 'THIS IS A LETTER TO A COURT'S RECORDS OFFICE. IT IS NOT A MOTION, A PETITION OR AN APPLICATION, AND IT IS NOT FILED.' and structures the ask as numbered paragraphs 1-4 over five certificate-of-disposition blanks; the sibling's structures it as lettered sections A-C with items C1-C4. They also print different personas — this family localises to '42 Larkspur Street, Brooklyn, NY 11201', the sibling prints '42 Magnolia Street, Springfield 62704', a non-New-York placeholder, inside a New York letter. Two live families therefore ship two materially different letters asking the same office for the same act under the same statute, and no record in the repository reconciles them or says which governs.",
+      "whatIsNotWrong": "Nothing measured on these six pages is legally or factually wrong, and the other fourteen obligations pass. The bound records verify byte-exact, every fee statement is verbatim from the compiled NY profile, every dotted rule is accounted for in the field map, and all six self-help stop conditions are carried. This is a boundary repair, not a rewrite.",
+      "repairOptions": [
+        "Decide the boundary and record the decision. Either the DCJS family legitimately ships both steps of the recorded correction workflow — in which case its declared routeKeys must include sentencing_court_transmission_correction_request, the sibling family must be retired or explicitly subordinated, and the footers on pages 1-2 must name the route those pages actually serve — or it ships only the DCJS letter, in which case pages 1-2 come out and the participant is directed to the sibling family for step three.",
+        "Whichever is chosen, the per-document route footer on pages 1-2 must stop naming dcjs_correction_submission while rendering the sentencing-court instrument.",
+        "The two letters must not both survive in different wordings. If both families persist, one text is authoritative and the other cites it."
+      ],
+      "doNotDoThis": "Do not resolve this by deleting the sibling family's grant or by editing the sibling's worktree. The sibling is a separate live subject in the claim ledger and its disposition is Captain's to order.",
+      "measuredEvidence": "canonical fa/addce736a67209bd19baa69fb0fda0c4db116f02f73c725c668e1dead9df5a40 (14075 bytes, 6 pages) recomputed from disk; pageManifest components court_transmission_correction_request#1,#2 / dcjs_correction_submission#1,#2 / agency_route_sheet#1,#2; all three rendered footers extracted from the bytes read dcjs_correction_submission."
+    },
+    {
+      "lane": "VF02",
+      "assignedBy": "FABLE-VA6",
+      "verifiedAtBase": "cd48fc14e",
+      "notARepair": "This is a verdict and a repair assignment. FABLE-VA6 modified no packet PDF, no fixture, no overlay directory, no queue, no route, no price and no production surface.",
+      "reRasterRequiredAfterRepair": "Any change to fixture bytes invalidates the family's RASTER_PASS receipt, which binds exact hashes. Re-raster before the family is read again.",
+      "reVerificationRequired": "A second independent read is required after repair, by a lane that is not the repairer.",
+      "itemId": "composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+      "familyId": "composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+      "jurisdiction": "MS",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59--custom-pleading",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "failedProofObligations": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "decisiveDefect": "Two unclassified participant blanks in the rendered bytes. The caption rule 'IN THE ............................................................ COURT' is printed on page 1 of ms-99-15-59-dismissal-branch-primary-filing-1 and again on page 3 of ms-99-15-59-dismissal-branch-proposed-order-2. Neither appears in production-field-map.json (7 canonicalWrites, 12 canonicalRefusals, no court field), in reports/blanks-left-for-the-participant.json, or in the 'items you must supply' table of participant-instructions.md. reports/completeness-counters.json reports unclassifiedBlanks 0; the correct count is 2. participant-instructions.md compounds it by asserting 'the court's identity is a labelled blank on the petition' — the caption blank carries no label, and item C4 'What venue or agency?' is a different blank in a different section.",
+      "rootCause": "Shared with id_felony_reduction-set and rcap-ok-custom-pleading. The caption is pushed into the component body as a hard-coded literal string containing the dot run, while every blank the map does account for is emitted through the {{DOTS}} token; and the blank ledger is built only from the field map's refusals ('for (const r of m.canonicalRefusals ?? []) blanks.push(row(r));', scripts/build-census-v1-composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59.mjs line 723). A literal dot run can therefore never be counted, classified or disclosed, and unclassifiedBlanks is structurally incapable of detecting it. The build script holds exactly 2 such literals against 13 {{DOTS}} tokens, matching the 2 caption rules in the bytes.",
+      "whyItMatters": "A pleading whose caption does not name a court is not filable. This is an item the participant must supply before filing that the packet never tells them to supply.",
+      "repairOptions": [
+        "Emit the caption court name through the same registered-blank mechanism as every other blank, so it acquires a field id, a disposition (REQUIRED_BEFORE_FILING), a printed label, an entry in the blanks report and a row in the 'items you must supply' table.",
+        "Correct the FILING_DESTINATION sentence in participant-instructions.md, which currently tells the participant the court's identity is a labelled blank when the caption blank is not labelled.",
+        "Consider fixing the counter as well as the packet: unclassifiedBlanks cannot see a literal dot run, so the same defect will pass unnoticed on every family built to this shape."
+      ],
+      "whatIsNotWrong": "Fourteen of fifteen obligations pass and one is a positive finding worth preserving: the compiled Mississippi profile carries a $150 filing fee scoped to Sec. 99-19-71 by Sec. 99-19-72, and this Sec. 99-15-59 packet correctly declines to read it across, which is DET-FEE-AND-WAIVER-001 A3 applied exactly right. All three bound committed records verify byte-exact. Do not 'fix' the fee statement by importing the $150.",
+      "measuredEvidence": "canonical 363c87d1654b8e3619e4491d8a12ed9b480bf1fa2fb85655b8fdd195bbb831eb (11858 bytes, 5 pages) recomputed from disk; 19 dotted-rule runs enumerated in the rendered text against 19 accounted field-map entries, leaving the 2 caption rules unaccounted; 0 same-baseline overlapping word pairs over 941 canonical words."
+    },
+    {
+      "lane": "VF02",
+      "assignedBy": "FABLE-VA6",
+      "verifiedAtBase": "cd48fc14e",
+      "notARepair": "This is a verdict and a repair assignment. FABLE-VA6 modified no packet PDF, no fixture, no overlay directory, no queue, no route, no price and no production surface.",
+      "reRasterRequiredAfterRepair": "Any change to fixture bytes invalidates the family's RASTER_PASS receipt, which binds exact hashes. Re-raster before the family is read again.",
+      "reVerificationRequired": "A second independent read is required after repair, by a lane that is not the repairer.",
+      "itemId": "ct-missed-erasure-set",
+      "familyId": "ct-missed-erasure-set",
+      "jurisdiction": "CT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ct/ct-missed-erasure-set--official-pdf-fill",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "failedProofObligations": [
+        "SOURCE_IDENTITY"
+      ],
+      "decisiveDefect": "The packet converts a sentence printed on a source-gated library form into a participant-facing requirement with denial as the stated consequence, while the family's own source-receipt.json neither names that form nor binds it by SHA-256 and still records the opposite position. The rendered page states: 'a DESPP form does impose the date, and the stated consequence of breaching it is denial. So get a criminal history record dated on or after 01/01/2024'. source-receipt.json, in the same directory at the same commit, records under whatThisReceiptDoesNotEstablish 'whether the SPBI report must bear any particular date - recorded as unresolved, not as a rule', lists only the statute and DPS-0846-C under officialSourcesRecordedInIntake, and contains no occurrence of the string 0847.",
+      "thePacketsClaimIsTrue": "This is important to the repair. FABLE-VA6 read the source: private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/CT/05_SOURCE_GATED/CT__SOURCE-GATED__DESPP-0847-C__hearing-for-clean-slate-erasure-convictions-after-1-1-2000__REV-2001-01__EN.pdf, SHA-256 08658dc45d7d41c20a26dcab54fff8756302e85bef7f4d519d9c0a3d4e4fbcfc, equal to the sha256 column of its CT STATE_MANIFEST.csv row. Its printed instruction 2 reads verbatim: 'You must submit a copy of your current criminal history record, which must be dated on or after 01/01/2024, demonstrating that such conviction has not been marked as erased. If the criminal history record is not submitted along with this form, your submission will be deemed incomplete and your request for a review and/or hearing will be denied.' The packet's quotation is accurate. The failure is the binding, not the fact.",
+      "aggravatingRecords": [
+        "The CT STATE_MANIFEST.csv classes DESPP-0847-C as source_gated / disabled_pending_release_gates / source_or_currentness_gate_open, so the packet reproduces gated bytes into participant-facing text and elevates them to an instruction.",
+        "data/record-clearing/legal-design-track-registry.json, track ct-missed-erasure, still carries the withdrawn reading as a live releaseBlocker: 'The \"dated on or after January 1, 2024\" SPBI rule in the internal reference looks like a misreading ... Treat as unresolved rather than as a rule.'",
+        "build-findings.json and approval-request.json in the same directory DO discuss 0847-C and even flag that it is 'titled for convictions after 1/1/2000' and may not be this route's instrument, which shows the reliance was deliberate and makes the receipt's silence an omission rather than an oversight of fact."
+      ],
+      "repairOptions": [
+        "Bind it. Name DESPP-0847-C in source-receipt.json with its SHA-256 08658dc45d7d41c20a26dcab54fff8756302e85bef7f4d519d9c0a3d4e4fbcfc, record that it is source-gated and that only its printed face is relied on, delete the receipt's contrary whatThisReceiptDoesNotEstablish entry, and retire the corresponding releaseBlocker in the track registry — so the packet's claim rests on hashed bytes that staleness detection can reach.",
+        "Or withdraw it. Take the requirement back to the registry's recorded 'unresolved rather than a rule' position and remove the instruction from the packet.",
+        "Do not leave it as it stands, where a participant-facing requirement carrying a denial consequence rests on unbound, unhashed, gated bytes that the family's own source record says do not establish it."
+      ],
+      "whatIsNotWrong": "Fourteen of fifteen obligations pass and several are the best in this lane. The component set matches its registry contract exactly, one component to one component, with no additions. Every recorded SPBI fee figure is stated. The DESPP submission form the registry forbids inventing was not invented. The packet carries zero dotted-rule blanks and all three registry self-help stop conditions. This is a records repair; the packet bytes may not need to move at all.",
+      "measuredEvidence": "canonical 0872021341ca0755e2df874ebea40d601e3ffacbb4be6f5436b642548ffdcb82 (8673 bytes, 2 pages) recomputed from disk; all 4 committed raster PNG hashes recomputed and matched; DPS-0846-C recomputed to 8db6e31c03131d94f6ed8383f403b1daf45e9c4d12336cbf0abcebb4e65b588e, matching its manifest row."
+    },
+    {
+      "lane": "VF02",
+      "assignedBy": "FABLE-VA6",
+      "verifiedAtBase": "cd48fc14e",
+      "notARepair": "This is a verdict and a repair assignment. FABLE-VA6 modified no packet PDF, no fixture, no overlay directory, no queue, no route, no price and no production surface.",
+      "reRasterRequiredAfterRepair": "Any change to fixture bytes invalidates the family's RASTER_PASS receipt, which binds exact hashes. Re-raster before the family is read again.",
+      "reVerificationRequired": "A second independent read is required after repair, by a lane that is not the repairer.",
+      "itemId": "id_felony_reduction-set",
+      "familyId": "id_felony_reduction-set",
+      "jurisdiction": "ID",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/id/id-felony-reduction-set--custom-pleading",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "failedProofObligations": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "decisiveDefect": "One unclassified participant blank in the rendered bytes: the caption rule 'IN THE ............................................................ COURT' on page 1 of id_felony_reduction-primary-filing-1. It is in neither array of the 12-entry production-field-map.json, in neither array of reports/blanks-left-for-the-participant.json, and not in the 'items you must supply' table of participant-instructions.md, which lists only C1, C2 and C3. reports/completeness-counters.json reports unclassifiedBlanks 0; the correct count is 1.",
+      "whyThisFamilyIsTheWorstCase": "No other page in this packet ever names a court. The filing-instructions page says only 'Sentencing court' and 'The application is made to the court that entered the judgment of conviction', so the caption blank is the single place the court's identity is ever recorded — and unlike rcap-ok-custom-pleading, which at least discloses a county rule a participant could apply, this packet gives the participant nothing to write there and never tells them something belongs there.",
+      "rootCause": "Shared with the MS and OK families. The caption is a hard-coded literal dot run rather than a {{DOTS}} token, and the blank ledger is built only from the field map's refusals (scripts/build-census-v1-id_felony_reduction-set.mjs line 623), so a literal rule can never be counted, classified or disclosed. The script holds exactly 1 such literal against 8 {{DOTS}} tokens, matching the bytes.",
+      "repairOptions": [
+        "Emit the caption court name as a registered blank so it acquires a field id, a REQUIRED_BEFORE_FILING disposition, a printed label, a blanks-report entry and a row in the 'items you must supply' table.",
+        "Fix the counter as well as the packet, since unclassifiedBlanks cannot see a literal dot run on any family built to this shape."
+      ],
+      "whatIsNotWrong": "Fourteen of fifteen obligations pass and the self-help treatment is verbatim-perfect: all four registry selfHelpStopConditions for trackId id_felony_reduction appear word for word in both the rendered filing-instructions page and participant-instructions.md, including the immigration condition with its licensing, peace-officer and firearm limbs intact. All three bound committed records verify byte-exact. A readability observation, not an obligation failure: the formula 'the clerk's office of Sentencing court (the venue the registry records for this route: The sentencing court.)' is repeated five times across the two artifacts and reads poorly.",
+      "measuredEvidence": "canonical d246f76059f94a3f78286381d3ff6289cae01f5593b11c3625a50d223e33afd1 (8807 bytes, 4 pages) recomputed from disk; 10 dotted-rule runs enumerated against 11 accounted field-map entries, leaving the caption rule unaccounted; 0 same-baseline overlapping word pairs over 699 canonical words."
+    },
+    {
+      "lane": "VF02",
+      "assignedBy": "FABLE-VA6",
+      "verifiedAtBase": "cd48fc14e",
+      "notARepair": "This is a verdict and a repair assignment. FABLE-VA6 modified no packet PDF, no fixture, no overlay directory, no queue, no route, no price and no production surface.",
+      "reRasterRequiredAfterRepair": "Any change to fixture bytes invalidates the family's RASTER_PASS receipt, which binds exact hashes. Re-raster before the family is read again.",
+      "reVerificationRequired": "A second independent read is required after repair, by a lane that is not the repairer.",
+      "itemId": "rcap-ok-custom-pleading",
+      "familyId": "rcap-ok-custom-pleading",
+      "jurisdiction": "OK",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "failedProofObligations": [
+        "ROUTE_IDENTITY",
+        "COMPONENT_SET",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS"
+      ],
+      "decisiveDefect": "The family declares sixteen routes and serves eight, and delivers 16 of the 53 components its own bound track registry requires — and says neither. MASTER_QUEUE.json gives routeCount 16 and participant-instructions.md closes by naming all sixteen route keys, but the 24 route footers extracted from the rendered 49-page canonical resolve to exactly eight distinct routes, and production-field-map.json's componentRoutes binds every component to one of those same eight.",
+      "componentShortfall": {
+        "registryRequires": 53,
+        "rendered": 16,
+        "missing": 37,
+        "detail": "packetSet.components in data/record-clearing/legal-design-track-registry.json declares seven required components for each of ok_identity_theft, ok_18_19_deferred_dismissal, ok_18_19_felony_conviction, ok_18_19_misdemeanor_conviction, ok_18_19_nonconviction, ok_18_19_pardon and ok_vpo_60_18 (free_route_screen-1, primary_filing-2, proposed_order-3, record_gathering_instructions-4, fee_disclosure-5, hearing_instructions-6, effect_disclosure-7) and four for ok_991c_deferred (arrest_record_screen-1, primary_filing-2, proposed_order-3, effect_disclosure-4). Only primary_filing and proposed_order render for each track. Every free_route_screen, every record_gathering_instructions, every fee_disclosure, every hearing_instructions and every effect_disclosure is absent.",
+        "ordinalCollision": "The eight components rendered beyond the sixteen are '<track>-filing-instructions-4', an id the registry does not contain; for seven of the eight tracks the registry assigns ordinal 4 to record_gathering_instructions, so a component the registry does not know occupies the slot of a required component that is missing.",
+        "theBuilderHadTheList": "production-field-map.json's routeSelectionsMade spells out all seven instruments by id for each route. Three of seven were built.",
+        "worstOmission": "free_route_screen is required on seven of the eight tracks and is the page that would tell an Oklahoma participant whether a free sealing-without-petition route reaches them before they file anything."
+      },
+      "unservedRoutes": [
+        "obligation:track-pathway:OK:ok_18_19_deferred_dismissal:nonviolent-felony-deferred-dismissal-expungement",
+        "obligation:track-pathway:OK:ok_18_19_deferred_dismissal:up-to-two-felony-deferred-dismissal-expungement",
+        "obligation:track-pathway:OK:ok_18_19_felony_conviction:not-more-than-two-eligible-felony-convictions-expungement",
+        "obligation:track-pathway:OK:ok_18_19_felony_conviction:one-eligible-nonviolent-felony-conviction-expungement",
+        "obligation:track-pathway:OK:ok_18_19_misdemeanor_conviction:other-eligible-misdemeanor-conviction-expungement",
+        "obligation:track-pathway:OK:ok_18_19_nonconviction:arrest-with-no-charges-filed",
+        "obligation:track-pathway:OK:ok_18_19_nonconviction:conviction-reversed-and-case-dismissed",
+        "obligation:track-pathway:OK:ok_18_19_nonconviction:dna-factual-innocence-expungement"
+      ],
+      "participantHarm": "The 'Which pages in this packet are yours' table offers eight rows against sixteen declared routes, and at least one row is broader than the pages behind it: 'Clear an Oklahoma arrest that did not end in a conviction' is offered for records 'where the person was not charged, was acquitted, was factually innocent, or where the charge was dismissed', spanning four registry pathways, while the single composed petition behind that row is footer-stamped to acquittal-dismissal-or-other-no-conviction-expungement alone. A participant on arrest-with-no-charges-filed or dna-factual-innocence is told this packet is theirs and handed a petition naming a different route. The packet's instruction 'Use only the pages for the route that matches your own record' cannot be followed by a participant whose route has no pages.",
+      "captionBlanks": "Separately, 16 unclassified caption blanks — 'IN THE ............ COURT' on each of the eight primary_filing pages and each of the eight proposed_order pages. No field id containing 'court' exists anywhere in the 209-entry field map. unclassifiedBlanks is reported 0 and is 16. Same root cause as the MS and ID families: 16 literal dot runs against 211 {{DOTS}} tokens in scripts/build-census-v1-rcap-ok-custom-pleading.mjs, and a blank ledger built only from field-map refusals at line 3790.",
+      "repairOptions": [
+        "Build the 37 missing registry components, or amend the registry if the seven-component contract is no longer the design — but the packet and the record it binds must agree, and requiredComponentsMissing must stop reporting 0.",
+        "Either serve the eight unserved pathways or state plainly, in participant-instructions.md and in the 'Which pages in this packet are yours' table, that they are declared but not served and where the participant should go instead. Narrow the nonconviction row so it does not offer four pathways behind one petition.",
+        "Reconcile the family's declared routeCount 16 with what it delivers, either by splitting the unserved pathways into their own families or by reducing the declared route set.",
+        "Register the 16 caption blanks as fields with REQUIRED_BEFORE_FILING dispositions and printed labels."
+      ],
+      "whatIsNotWrong": "Eleven of fifteen obligations pass and the quality of what IS built is high — this repair should not disturb it. All 52 selfHelpStopConditions across the eight tracks appear verbatim in BOTH participant-instructions.md and the rendered bytes, zero dropped. Fee, waiver, service and filing destination are answered per route from the registry with no cross-reading, including ok_991c_deferred's correctly distinct destination and fee text. 49 pages in correct contiguous order, 0 same-baseline overlapping pairs over 14,081 words, and 56 protected fields across eight proposed orders all left empty.",
+      "measuredEvidence": "canonical fa2557d25d6b462561014851bc9701847e25d0b6e129032a28fff77b4fea8356 (140407 bytes, 49 pages) recomputed from disk and equal to the RASTER_PASS receipt's boundToCanonicalSha256; 24 route footers extracted from the rendered bytes resolving to 8 distinct routes; 53 registry components differenced against 24 rendered components."
+    },
+    {
+      "assignedBy": "VA17",
+      "verifiedAtBase": "d609b1140b62204038f4161a01611d56ed35bd62",
+      "readIsASecondReadOfARepair": true,
+      "whyThisReaderIsIndependent": "VA17 neither built nor repaired this family; the repair lanes were FIX01 (oh) and FIX04 (pa).",
+      "notARepair": "This is a verdict and a repair assignment. VA17 modified no packet, no overlay directory, no fixture, no build script, no queue, no route, no price and no production surface.",
+      "reRasterRequiredAfterRepair": "Any change to fixture bytes invalidates the family's RASTER_PASS acceptance receipt, which binds exact hashes. Re-raster before the family is read again.",
+      "reVerificationRequired": "A third independent read is required after this repair, by a lane that is neither the repairer nor VA17.",
+      "supersedesEarlierAssignmentsForThisFamily": "Every earlier assignment on this family predates the repair lane's work. This one is measured from the artifacts on disk at the base above and does not carry any earlier finding forward.",
+      "itemId": "oh_marijuana_expungement-set",
+      "familyId": "oh_marijuana_expungement-set",
+      "lane": "VF02",
+      "jurisdiction": "OH",
+      "deliveryType": "custom_pleading",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "failedProofObligations": [
+        "COMPONENT_SET",
+        "FEE_AND_WAIVER",
+        "SERVICE",
+        "SELF_HELP_STOP"
+      ],
+      "decisiveDefect": "participant-instructions.md tells the participant 'No held source in this packet states a filing fee, states that filing is free, or states a fee-waiver procedure' and 'This packet does not state an amount because it holds no source for one.' Both sentences are false against the family's own records. The committed track registry this family binds, at trackId oh_marijuana_expungement, holds rules.fees 'Fifty dollars unless indigent. ORC 2953.321(G)...' and rules.feeWaiver 'Indigency excuses the fee under ORC 2953.321(G)', and lists the fee payment and the indigency showing among its required-before-filing items. The packet itself states the same fact in three sibling files inside its own directory - tracks/oh_marijuana_expungement/participant-instructions.md ('The recorded $50 filing fee or an indigency exception'; 'The frozen design records $50, subject to a confirmed indigency exception'), build-findings.json hardStops, and tracks/oh_marijuana_expungement/rendered/canonical/render-report.json counselFlags. Under DET-FEE-AND-WAIVER-001 A1, A2 and A4 the packet had to ask the repository first, and a packet may never tell a participant it does not state something it does state.",
+      "perObligation": {
+        "FEE_AND_WAIVER": {
+          "measuredDetail": "Registry answers both facts for this route and the packet denies both to the participant while asserting them in three sibling files in the same directory.",
+          "repair": "State the $50 filing fee and the R.C. 2953.321(G) indigency exception in participant-instructions.md 'What this costs'. Keep the instruction to confirm the current figure with the clerk of the sentencing court, but as a currency check on a stated answer, not as a substitute for one. Delete the two sentences that deny a held source exists."
+        },
+        "SERVICE": {
+          "measuredDetail": "participant-instructions.md says 'No held source in this packet states who must be served or how.' The registry's rules.notice states 'The court notifies the prosecutor of the hearing, and the prosecutor may object by filing an objection with the court prior to the date set for the hearing', and rules.service records that the section imposes no separate participant service duty because the court sets the hearing and the prosecutor objects to the court. The word 'objection' appears in no participant-facing file in this family.",
+          "repair": "Tell the participant that the court, not they, notifies the prosecutor of the hearing, and that the prosecutor may object by filing with the court before the hearing date. Do not import the 60-day notice or 30-day objection figures: the registry records those as belonging to ORC 2953.32 and expressly not governing this route, and reading them across would be the A3 error."
+        },
+        "SELF_HELP_STOP": {
+          "measuredDetail": "The registry holds nine selfHelpStopConditions for trackId oh_marijuana_expungement; the packet carries five hard stops and omits four: pending criminal proceedings or open warrants; prosecutor objection and any victim objection where applicable; choosing between sealing and expungement, which the registry calls a legal judgment with different waits and different exclusions; and immigration exposure. The terms 'warrant', 'victim', 'objection', 'sealing' and 'immigration' appear in no participant-facing file in this family. Separately absent is what the registry's mechanism text calls 'the single most important disclosure in Ohio record-clearing copy' - that on an expungement the Bureau of Criminal Identification and Investigation keeps a limited record for law-enforcement employment qualification while other entities must destroy, delete and erase, so neither remedy may be described as completely gone from everywhere.",
+          "repair": "Carry all nine registry stop conditions onto the participant-facing surface, and add the BCI limited-retention disclosure.",
+          "scopeNote": "DET-FEE-AND-WAIVER-001 A4 names REQUIRED_BEFORE_FILING, FILING_DESTINATION, SERVICE and FEE_AND_WAIVER and does not name SELF_HELP_STOP. VA17 read the ask-the-repository-first test as reaching it, because a registry's selfHelpStopConditions are the repository's own statement of where a track's self-help ends. If Captain reads A4's list as exhaustive, re-score this onto another obligation rather than waiving it."
+        },
+        "COMPONENT_SET": {
+          "measuredDetail": "The registry declares five components for packetSet oh_marijuana_expungement-set, all requirement 'required'. product-wiring.json binding.packetComponents names exactly one, component:oh_marijuana_expungement-bci-transmission-5, and omits component:oh_marijuana_expungement-primary-filing-1 - the artifact this family actually renders as canonical.pdf and boundary.pdf - along with -local-form-instructions-2, -record-gathering-instructions-3 and -hearing-and-objection-instructions-4. Surveyed across all census-v1 product-wiring files, every other custom-pleading family names its own primary-filing component. Hearing-and-objection material also reaches a participant only in the track-level instructions, never in the family-level participant-instructions.md that binding.instructions points at.",
+          "repair": "Name all five registry components in binding.packetComponents, and surface the hearing-and-objection guidance in the family-level participant-instructions.md."
+        }
+      },
+      "whatPassed": "ROUTE_IDENTITY, SOURCE_IDENTITY, KNOWN_PREFILLS, REQUIRED_BEFORE_FILING, ROUTE_OPTIONS, REPEATING_ROWS, PROTECTED_FIELDS, ARTIFACTS, PAGE_ORDER, CLIPPING_AND_OVERLAP and FILING_DESTINATION all pass on measurement at this base. The bytes, the writes, the refusal classifications and the protection of signature, date and judicial fields are sound; the failures are all in what the packet tells the participant.",
+      "doNotChase": "companion/OH-BCI-SEALING-EXPUNGEMENT-REQUEST--official-source.pdf is declared in source-receipt.json and reports/rendered-artifacts.json and is absent from the working tree on purpose. It is one of the 59 private-corpus binaries excluded at integration commit c01b87d1584bbb0b902b398b45c376f8fea22050; launch-control records that those 'are not in git by design; bind them through the corpus bootstrap'. VA17 bound it from MASTER_LIBRARY_SOURCE_DIR and it matches its declared sha256 9234ec763403b1ccfbed796dfcf86f29bf7887390d1770460d0bcc9da31fc8cb and 235789 bytes exactly. Do not re-commit it."
+    },
+    {
+      "repairAssignmentId": "VTB-REPAIR-KS-PRODUCT-WIRING",
+      "itemId": "rcap-ks-custom-pleading",
+      "lane": "VF02",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading",
+      "raisedBy": "VT-B",
+      "raisedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+      "decisiveDefect": "The packet is sound and the FIXKS re-pointing holds; the defect is in one generated record. data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/product-wiring.json still describes the pre-repair family in two independent ways. Its top-level routeKey and routeKeys name obligation:track-only:KS:ks-12-4516-municipal and obligation:track-only:KS:ks-12-4516a-municipal-arrest, each of which occurs zero times in the committed route-obligation census, while binding.routeKeys in the same file names the two current five-segment keys. And binding.acceptanceReceipt claims RASTER_PASS coversTheWholeFamily true bound to canonical 6a4ce684338f15386c42d19f53e56ed828ca51dcb748c64e5943ef01e483bfc8, which is the pre-repair hash; the canonical on disk hashes aca94f8f2ec3ae058e1a52b3d17cda4ffbabec5e6f8b087e5d58147f81a3f04f, and proposedRepresentation.components[0].sha256 repeats the dead hash.",
+      "failedProofObligations": [
+        "ROUTE_IDENTITY",
+        "ARTIFACTS"
+      ],
+      "perObligation": {
+        "ROUTE_IDENTITY": {
+          "measuredDetail": "grep of each key against data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json: obligation:track-only:KS:ks-12-4516-municipal 0 occurrences, obligation:track-only:KS:ks-12-4516a-municipal-arrest 0 occurrences, both current track-pathway keys 1 occurrence each. Comparing product-wiring top-level routeKeys against binding.routeKeys across all 182 census-v1 families, only 6 disagree and Kansas is one of them, so this is not the house style.",
+          "whatRepairMustDo": "Regenerate this family's product-wiring.json through scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs so its top-level routeKey and routeKeys carry the two keys the census carries. Do not hand-edit the overlay file and do not change the builder, which is already correct. The other five disagreeing families (ri-nonconviction-sealing-set, ca-prop64-set, sd-arrest-expungement-set, ny-mrta-marijuana-set, ar-misdemeanor-dwi-seal-set) should be checked in the same pass."
+        },
+        "ARTIFACTS": {
+          "measuredDetail": "All six Kansas artifact hashes recomputed here match reports/rendered-artifacts.json exactly. None of the six appears in RASTER_QUEUE.json. The five route-artifact acceptance records under data/rcap-grade-a/route-artifact-acceptance/ still carry only pre-repair Kansas hashes and the superseded keys: ROUTE_ARTIFACT_ACCEPTANCE 14 pre-repair hash lines and 0 post-repair, ROUTE_ARTIFACT_COMPLETENESS 4 and 0, ROUTE_ARTIFACT_DETERMINISM 9 and 0, ROUTE_ARTIFACT_RASTER_QUEUE 4 and 0, CENTRAL_RASTER_RUN 2 and 0.",
+          "whatRepairMustDo": "Withdraw the stale acceptance rather than restate it. Clear binding.acceptanceReceipt and proposedRepresentation.components[].sha256 for this family until the current six artifacts have actually been rastered centrally, then re-pin from that run. Re-queue the six current hashes for central raster. Kansas remains BUILT_RASTER_PENDING and no acceptance may be carried forward across a rebuild that moved every hash."
+        }
+      },
+      "whatRepairMustNotDo": [
+        "rebuild the packet: the six artifacts are correct and deterministic, and rebuilding would move nothing but would discard evidence",
+        "hand-edit hashes in product-wiring.json to match the bytes: an acceptance receipt records a raster run that happened, and no run has yet rastered these bytes",
+        "open a route, set a price, or change checkout"
+      ],
+      "grantsNothing": "This assignment grants nothing. It opens no route, sets no price, changes no checkout, and marks no packet proven. VT-B measured and may not repair; the lane that repairs may not verify its own repair."
+    },
+    {
+      "repairAssignmentId": "VTB-REPAIR-VTNC-ROUTE-KEY-AND-STOP",
+      "itemId": "vt_seal_nonconviction-set",
+      "lane": "VF02",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill",
+      "raisedBy": "VT-B",
+      "raisedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+      "decisiveDefect": "Two defects, both in the builder. First, the family prints a route key on its participant-facing pages that no census carries: 'obligation:track-pathway:VT:vt_seal_nonconviction:non-conviction-sealing' appears in the instructions footer, in the process-guidance page inside fixtures/canonical.pdf and in production-field-map.json, and its only occurrences anywhere in the repository are scripts/build-census-v1-vt_seal_nonconviction-set.mjs and those two family files. The census and product-wiring.json instead carry three obligation:unit:VT:vt_seal_nonconviction:* keys. This is the same defect class as the Kansas repair, on a family nobody has repaired. Second, the packet nowhere states where self-help ends, although the committed track registry records six selfHelpStopConditions for this track.",
+      "failedProofObligations": [
+        "ROUTE_IDENTITY",
+        "SELF_HELP_STOP"
+      ],
+      "perObligation": {
+        "ROUTE_IDENTITY": {
+          "measuredDetail": "grep of obligation:track-pathway:VT:vt_seal_nonconviction:non-conviction-sealing across data, src and scripts returns three files, all inside this family and its builder, and zero occurrences in data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json or in src/lib/rcap-engine/compiled. The three obligation:unit:VT:vt_seal_nonconviction:* keys the census carries are each present there once. The constructed key looks like trackId plus the runtimePathwayId that the census records only inside currentServiceDisposition, 'unit_parent_represented_by_runtime:non-conviction-sealing'.",
+          "whatRepairMustDo": "Re-point scripts/build-census-v1-vt_seal_nonconviction-set.mjs to the keys the census actually carries, in the way FIXKS did for Kansas: read the anchors from the committed census bytes and fail the build if a key is absent, rather than composing a key from parts. Then rebuild, re-pin the receipt, and re-queue for raster, because every artifact hash will move."
+        },
+        "SELF_HELP_STOP": {
+          "measuredDetail": "participant-instructions.md has no stop section, and neither does the process-guidance page on pages 7 and 8 of the canonical fixture. The only related sentence is the boilerplate 'It is not legal advice, it is not filed for you'. Comparing data/record-clearing/legal-design-track-registry.json selfHelpStopConditions for vt_seal_nonconviction term by term against the packet, at most two of six are covered. Omitted: that any pending charge anywhere blocks the court under 13 V.S.A. Sec. 7604; that the disposition may not be clearly one of the three Sec. 7603(a)(1) triggers; that Act 60 repealed the no-conviction expungement, so a participant expecting expungement gets sealing; and immigration consequences.",
+          "whatRepairMustDo": "Carry the registry's six stop conditions into the packet the way the sister family vt_seal_pardon does, which transcribes all ten of its own verbatim under 'When to stop and get a lawyer'. Both families are built from the same three Vermont forms, so the pattern already exists in the repository and needs no new legal input."
+        }
+      },
+      "whatRepairMustNotDo": [
+        "invent a route key: read it from the census bytes",
+        "author new stop conditions: the registry already holds six for this track",
+        "open a route, set a price, or change checkout"
+      ],
+      "grantsNothing": "This assignment grants nothing. It opens no route, sets no price, changes no checkout, and marks no packet proven. VT-B measured and may not repair; the lane that repairs may not verify its own repair."
+    },
+    {
+      "repairAssignmentId": "VTB-REPAIR-AZ-SELF-HELP-STOP",
+      "itemId": "az_marijuana_expungement_arrest_no_charges-set",
+      "lane": "VF02",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-arrest-no-charges-set--official-pdf-fill",
+      "raisedBy": "VT-B",
+      "raisedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+      "decisiveDefect": "The packet nowhere states where self-help ends. participant-instructions.md has no stop section; its only two references to a lawyer both tell the participant to leave the attorney block blank. The committed track registry records six selfHelpStopConditions for az_marijuana_expungement_arrest_no_charges and the packet carries at most two of them.",
+      "failedProofObligations": [
+        "SELF_HELP_STOP"
+      ],
+      "perObligation": {
+        "SELF_HELP_STOP": {
+          "measuredDetail": "Registry selfHelpStopConditions for this track compared term by term against participant-instructions.md and the extracted text of both fixtures. Omitted: that the prosecuting agency may file a response opposing eligibility; that a conduct date on or after 12 July 2021 changes the position; that a petitioner who wants to challenge the underlying conviction rather than expunge it is on the wrong route; and immigration consequences. The words immigration and lawyer-advice do not appear in any stop sense anywhere in the family.",
+          "whatRepairMustDo": "Add the registry's stop conditions to participant-instructions.md. The input exists in data/record-clearing/legal-design-track-registry.json, so this needs no new legal input and no new source. Note for the same pass: this family's fee and waiver position and its service position are correctly recorded as unestablished, and those two remain open legal inputs that this repair does not close."
+        }
+      },
+      "whatRepairMustNotDo": [
+        "write a fee figure or a service rule: no committed record establishes either for this track, and the packet is right to refuse",
+        "open a route, set a price, or change checkout"
+      ],
+      "grantsNothing": "This assignment grants nothing. It opens no route, sets no price, changes no checkout, and marks no packet proven. VT-B measured and may not repair; the lane that repairs may not verify its own repair."
+    },
+    {
+      "itemId": "ar-cs-possession-seal-set",
+      "lane": "VF02",
+      "verifiedAtBase": "726a49dfe0bdadc5f841bd4dadc871c6256418de",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-cs-possession-seal-set--official-pdf-fill",
+      "decisiveDefect": "One of the four self-help stop conditions the track registry records for ar-cs-possession-seal is missing from the packet.",
+      "failedProofObligations": [
+        "SELF_HELP_STOP"
+      ],
+      "perObligation": [
+        {
+          "obligation": "SELF_HELP_STOP",
+          "whatIsWrong": "participant-instructions.md contains no stop condition for an unclear pre-sentencing predicate.",
+          "whatTheRecordSays": "data/record-clearing/legal-design-track-registry.json, track ar-cs-possession-seal: selfHelpStopConditions and selfHelpBoundaries both carry 'Any pre-sentencing predicate is unclear; route to the ordinary felony track or to an attorney'; scopeRestrictions carries 'If any predicate is unclear, route to the ordinary felony track or to an attorney'.",
+          "howToRepair": "Add that condition to the 'Where self-help ends' list in the registry's own words, including the routing to the ordinary felony track. Change nothing else in that list.",
+          "howToProveTheRepair": "The words appear in participant-instructions.md, and the other three registry conditions are still present unchanged."
+        }
+      ],
+      "repairMustNotDo": [
+        "do not re-render either fixture — both PDFs hash to their records and every write is proven from the bytes",
+        "do not touch the field maps, the source pins or the census",
+        "do not add stop conditions the registry does not hold",
+        "do not open a route, set a price or change checkout"
+      ]
+    },
+    {
+      "itemId": "az_marijuana_expungement_arrest_no_charges-set",
+      "lane": "VF02",
+      "verifiedAtBase": "726a49dfe0bdadc5f841bd4dadc871c6256418de",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-arrest-no-charges-set--official-pdf-fill",
+      "decisiveDefect": "The packet has no self-help stop section; none of the registry's stop conditions for this track reaches the participant.",
+      "failedProofObligations": [
+        "SELF_HELP_STOP"
+      ],
+      "blockedOnLegalInput": [
+        "COMPONENT_SET"
+      ],
+      "perObligation": [
+        {
+          "obligation": "SELF_HELP_STOP",
+          "whatIsWrong": "participant-instructions.md ends at 'Blanks that are deliberately left empty'. There is no section telling the participant when to stop and get a lawyer.",
+          "whatTheRecordSays": "data/record-clearing/legal-design-track-registry.json, track az_marijuana_expungement_arrest_no_charges, holds the stop conditions, including 'Prosecuting agency files a response opposing eligibility', 'Court sets a hearing', 'Immigration consequences are in play', 'Conduct date is on or after July 12, 2021' and 'The record does not establish quantity, plant count, or paraphernalia character and the prosecutor disputes it'. It also records that 'A routine hearing contemplated by statute does not prevent packet generation. Opposition, disputed evidence, or a contested hearing is a post_generation_handoff.'",
+          "howToRepair": "Add a stop section carrying the registry's conditions in the registry's own words. Keep the registry's own distinction between a routine statutory hearing and a contested one; do not tell the participant that any hearing is a stop, and do not tell them to attend a contested one.",
+          "howToProveTheRepair": "Each registry stop condition is found in participant-instructions.md, and no added condition is absent from the registry."
+        }
+      ],
+      "repairMustNotDo": [
+        "do not answer the wave-2 legal question about whether AOC-CREM3F is the correct instrument for an arrest with no charges filed; that is counsel's and the block stands",
+        "do not re-render the fixtures — both hash to their records and all 13 writes are proven from the bytes",
+        "do not invent a filing fee or a service recipient; the packet's refusal to state either is sourced and deliberate",
+        "do not open a route, set a price or change checkout"
+      ]
     }
-   ],
-   "repairMustNotDo": [
-    "do not answer the wave-2 legal question about whether AOC-CREM3F is the correct instrument for an arrest with no charges filed; that is counsel's and the block stands",
-    "do not re-render the fixtures — both hash to their records and all 13 writes are proven from the bytes",
-    "do not invent a filing fee or a service recipient; the packet's refusal to state either is sourced and deliberate",
-    "do not open a route, set a price or change checkout"
-   ]
-  }
- ],
- "va6Assignments": {
-  "assignedBy": "FABLE-VA6",
-  "verifiedAtBase": "cd48fc14e",
-  "count": 5,
-  "everyFailingFamilyHasOne": "All five families FABLE-VA6 read returned FAIL_REPAIR_REQUIRED and all five carry an assignment naming the decisive defect and the exact failed obligations.",
-  "sharedRootCause": "Three of the five failures (MS, ID, OK) are the same defect in the same shared build shape: a caption dot run emitted as a hard-coded literal instead of through the {{DOTS}} token, against a blank ledger built only from field-map refusals. unclassifiedBlanks is structurally incapable of seeing it and reports 0 on all three. It is worth repairing the counter as well as the three packets, because any family built to this shape carries the defect undetected.",
-  "preservedPriorAssignments": "The pre-existing assignment on oh_marijuana_expungement-set was preserved byte-for-byte; assignmentCount was updated from 1 to 6 and no other pre-existing key was touched."
- },
- "vtbAssignments": {
-  "worker": "VT-B",
-  "raisedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
-  "branch": "fable/vtb",
-  "note": "VT-B verified seven VF02 families and two VF09 families at this base and raised these assignments. VT-B measured and did not repair; nothing here was edited in any overlay directory or build script.",
-  "crossFamilyFinding": "Three of the four failures are the same failure. AZ, VT non-conviction and UT each omit self-help stop conditions that the committed track registry already holds for their track, and all three omit immigration consequences, which the registry names for every one of them and which the Utah entry marks as a hard stop. A fourth family in the same read, wa_vac_survivor_felony-set, states where self-help ends but carries 3 of its 12 registry conditions and also drops immigration; that one is recorded as a disclosed divergence rather than a failure because the packet does state where self-help ends. Whatever pass fixes these three should measure every official-form family the same way: registry selfHelpStopConditions against the packet, term by term.",
-  "assignmentIds": [
-   "VTB-REPAIR-KS-PRODUCT-WIRING",
-   "VTB-REPAIR-VTNC-ROUTE-KEY-AND-STOP",
-   "VTB-REPAIR-AZ-SELF-HELP-STOP"
-  ]
- },
- "rvaAssignments": {
-  "reader": "RV-A",
-  "verifiedAtBase": "726a49dfe0bdadc5f841bd4dadc871c6256418de",
-  "added": [
-   "ar-cs-possession-seal-set",
-   "az_marijuana_expungement_arrest_no_charges-set"
   ],
-  "note": "Appended, not re-serialised. A defect is a verdict plus an assignment; this lane repaired nothing it verified."
- }
+  "va6Assignments": {
+    "assignedBy": "FABLE-VA6",
+    "verifiedAtBase": "cd48fc14e",
+    "count": 5,
+    "everyFailingFamilyHasOne": "All five families FABLE-VA6 read returned FAIL_REPAIR_REQUIRED and all five carry an assignment naming the decisive defect and the exact failed obligations.",
+    "sharedRootCause": "Three of the five failures (MS, ID, OK) are the same defect in the same shared build shape: a caption dot run emitted as a hard-coded literal instead of through the {{DOTS}} token, against a blank ledger built only from field-map refusals. unclassifiedBlanks is structurally incapable of seeing it and reports 0 on all three. It is worth repairing the counter as well as the three packets, because any family built to this shape carries the defect undetected.",
+    "preservedPriorAssignments": "The pre-existing assignment on oh_marijuana_expungement-set was preserved byte-for-byte; assignmentCount was updated from 1 to 6 and no other pre-existing key was touched."
+  },
+  "vtbAssignments": {
+    "worker": "VT-B",
+    "raisedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+    "branch": "fable/vtb",
+    "note": "VT-B verified seven VF02 families and two VF09 families at this base and raised these assignments. VT-B measured and did not repair; nothing here was edited in any overlay directory or build script.",
+    "crossFamilyFinding": "Three of the four failures are the same failure. AZ, VT non-conviction and UT each omit self-help stop conditions that the committed track registry already holds for their track, and all three omit immigration consequences, which the registry names for every one of them and which the Utah entry marks as a hard stop. A fourth family in the same read, wa_vac_survivor_felony-set, states where self-help ends but carries 3 of its 12 registry conditions and also drops immigration; that one is recorded as a disclosed divergence rather than a failure because the packet does state where self-help ends. Whatever pass fixes these three should measure every official-form family the same way: registry selfHelpStopConditions against the packet, term by term.",
+    "assignmentIds": [
+      "VTB-REPAIR-KS-PRODUCT-WIRING",
+      "VTB-REPAIR-VTNC-ROUTE-KEY-AND-STOP",
+      "VTB-REPAIR-AZ-SELF-HELP-STOP"
+    ]
+  },
+  "rvaAssignments": {
+    "reader": "RV-A",
+    "verifiedAtBase": "726a49dfe0bdadc5f841bd4dadc871c6256418de",
+    "added": [
+      "ar-cs-possession-seal-set",
+      "az_marijuana_expungement_arrest_no_charges-set"
+    ],
+    "note": "Appended, not re-serialised. A defect is a verdict plus an assignment; this lane repaired nothing it verified."
+  },
+  "vf02LocalReadAssignments": {
+    "baseSha": "0880e69cc0b839c1b02679a6b64c5c536c62a644",
+    "readAt": "2026-09-02",
+    "assignmentCount": 0,
+    "assignments": [],
+    "whyNone": "This run produced no FAIL_REPAIR_REQUIRED because it produced no verdict at all. VF02 holds 0 live grants: every one of its twelve packet-family grants is released, and each of the three families the current dispatch names as seed items answered ALREADY_RELEASED with exit 9 on --assert. The lane contract makes a non-zero assert a full stop, so no family directory was opened and no defect could be found. A repair assignment invented without reading the packet would be a fabricated defect, which is worse than an empty list.",
+    "whatTheDispatchShouldDoInstead": "az_wrongful_arrest_clearance-set and rcap-tn-custom-pleading are VERIFY_PENDING on FAMILY_MOVED_SINCE_THE_VERDICT after the d4a46e0d4 re-pin, and both are seeds on this assignment. VF02 produced the verdicts those re-pins lapsed, so the fresh read they owe belongs on a lane that has neither built, repaired, nor previously read them - a --transfer, not a --reissue back to VF02. The same holds for id_isp_expungement-set, whose VF02 grant was released at 18:19:18Z."
+  }
 }
