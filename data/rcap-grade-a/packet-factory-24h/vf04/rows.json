@@ -5630,6 +5630,87 @@
       "repairedNothing": true,
       "grantsNothing": "This row is a verification reading. It promotes nothing, opens no route and grants no approval."
     }
+  ,
+    {
+      "lane": "VF04",
+      "worker": "VF04 wave-6 (independent; built, repaired and rendered none of these packets)",
+      "wave": "packet-factory-24h/VF04/wave-6 (2026-09-02)",
+      "verifiedAtBase": "247b790b6decf4ab14924914b10ad16a6ab57400",
+      "itemId": "wv_conv_multiple_misdemeanors-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill",
+      "claim": {
+        "assert": "CLAIM_OK VF04 wv_conv_multiple_misdemeanors-set (independent-verification, grant set 1ebdf07403450b27)",
+        "exitCode": 0
+      },
+      "whyThisFamilyWasRead": "product-wiring.json records lastIndependentVerification as verdict BLOCKED_BEFORE_CLAIM by vf06, so no lane has ever actually read this family. This is its first independent reading.",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "nineCountersMeasuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wv_conv_multiple_misdemeanors-set, run in this worktree at this base without --write. Result PASS_COMPLETE, 26/89 written.",
+      "proofObligations": {
+        "ROUTE_IDENTITY": "PASS",
+        "SOURCE_IDENTITY": "PASS",
+        "COMPONENT_SET": "PASS",
+        "KNOWN_PREFILLS": "PASS",
+        "REQUIRED_BEFORE_FILING": "PASS",
+        "ROUTE_OPTIONS": "PASS",
+        "REPEATING_ROWS": "PASS",
+        "PROTECTED_FIELDS": "PASS",
+        "ARTIFACTS": "PASS",
+        "PAGE_ORDER": "PASS",
+        "CLIPPING_AND_OVERLAP": "PASS",
+        "FILING_DESTINATION": "PASS",
+        "FEE_AND_WAIVER": "PASS",
+        "SERVICE": "PASS",
+        "SELF_HELP_STOP": "PASS"
+      },
+      "evidence": {
+        "ROUTE_IDENTITY": "One route key, obligation:track-pathway:WV:wv_conv_multiple_misdemeanors:eligible-conviction-expungement-under-w-va-code-61-11-26, identical in production-field-map.json and product-wiring.json. The packet is built for that route and not its neighbour: the § 61-11-26 standard waiting-period basis is the one elected on the form, and the two § 61-11-26a alternative-criteria bases are left unmarked and classed not-applicable. I confirmed the identity from the form's own words rather than from the field names by reading the AcroForm tooltip on MultipleFelonyCB, which is 'check this box For the expungement under WV Code §61-11-26 of multiple above listed and described misdemeanor convictions or traffic citation(s), two years have passed since any conviction and the completion of petitioner's sentence and any period of supervision.'",
+        "SOURCE_IDENTITY": "One official form bound. SCA-C906 rev 2019-06-04 recomputed here from the corpus bytes: 43b5606c9faf6fcf4d6f73c1d97cf1bd87798158dee1b6f3381c8a0472b4b64c, 176072 bytes, 4 pages by pdfinfo, all three matching source-receipt.json exactly. Every one of the four pageManifest entries in both fixtures binds that same sourceSha256, so each rendered page is provably a page of the form the receipt names.",
+        "COMPONENT_SET": "MASTER_QUEUE.json names three components for this route: primary-filing-1, verification-3 and certificate-of-service-4. All three are rendered and present. SCA-C906 carries them itself: the petition on pages 1-2, a VERIFICATION with the oath, the petitioner signature line and the notary block on page 3, and a CERTIFICATE OF SERVICE listing the six recipient slots on page 4. I read each in the extracted packet text.",
+        "KNOWN_PREFILLS": "Twenty-four writes, and every one measured on the page. Twenty-two are text: each declared value appears in the extracted packet text and each has ink inside its own AcroForm widget rect, the rects read first-hand from the pinned source binary. The other two are selection marks, which are strokes rather than text and which no word extractor can see, so I rasterised the packet page and the pristine source page at 200dpi and counted dark pixels inside the widget rect: MultipleFelonyCB carries 427 dark pixels against the source's 232, and ExpungementCB2 471 against 290. Both marks are really drawn, both are inside the source's own control box, and the field map's 'drewANewBox: false' holds. One pairing looked wrong and is not: the build writes the birth month into the widget the form names PetDOBDay and the birth day into PetDOBMonth. The form's own tooltips settle it -- PetDOBDay reads 'enter petitioner's 2 digit month of birth' and PetDOBMonth reads 'enter petitioner's 2 digit date of birth'. The widget names are the court's mislabelling, the build follows the form's stated intent, and the page prints 04 / 17 / 1991 for a 1991-04-17 date of birth, which is correct.",
+        "REQUIRED_BEFORE_FILING": "Nineteen items declared required before filing, and all nineteen are named in participant-instructions.md, checked against the file. They are the items the platform genuinely does not hold: the magistrate court case number, the last four of the social security number, the eligibility date for the elected basis, prior names and aliases, victim information, the verdict and punishment for each conviction, the grounds for expungement, the rehabilitation steps, and the four protective-order questions.",
+        "ROUTE_OPTIONS": "Fourteen selection controls, and every route-determined one is resolved. The single route election is made -- MultipleFelonyCB is marked -- and the other three eligibility bases on the form are each classed not_applicable_on_this_route with a reason naming the route: SingleFelonyCB is the single-conviction § 61-11-26 basis, SingleSatisfiedCB and MultilpleSatisfiedCB are the two § 61-11-26a alternative-criteria bases, which are a different route. The one known screening fact, prior relief 'No', selects ExpungementCB2 and puts ExpungementCB1 out of scope. Nothing route-determined is left unmade: the remaining controls are the participant's own to answer (the four protective-order checkboxes, required before filing), the service-method election on the certificate of service (protected until service has happened) and the county dropdown (a viewer control).",
+        "REPEATING_ROWS": "Four charge rows, each pairing a Charge cell with a CaseNo cell. Rows 1, 2 and 3 carry both cells written. Row 4 carries neither, and both its cells are classed not_applicable_on_this_route with the reason 'the fixture contains 3 complete offense row(s), so offense row 4 is unused.' No row carries a written cell beside a required cell left blank.",
+        "PROTECTED_FIELDS": "Twenty protected fields, all twenty located in the source binary by widget geometry and all twenty measured against the pristine SCA-C906 at the same rect. The packet adds no ink to any of them. That covers the petitioner signature lines, the verification signature and date, the notary block and commission expiry, and the whole of the certificate of service on page 4 -- the certifying name, the date, the recipient addresses and the three delivery-method checkboxes. The instructions state the reason in their own words: a certificate dated before service is a false statement, so the packet leaves it blank.",
+        "ARTIFACTS": "Both fixtures recomputed from the bytes here. canonical.pdf 31a49f2d2216fd2c... 173531 bytes, 4 pages by pdfinfo; boundary.pdf 2a0b701a523d3f7c... 173742 bytes, 4 pages. Both match reports/rendered-artifacts.json on hash, byte length and page count. Recorded for Captain rather than held against the family: product-wiring.json carries acceptanceReceipt null, so there is no central hash-bound RASTER_PASS for this family. The family rastered locally instead -- rendered-artifacts.json records rasterEngine poppler_pdftoppm 24.02.0 at 72dpi with everyPageRastered true and four raster pages per fixture -- and I did not rest any obligation on that local render: clipping and overlap were measured here from the bytes.",
+        "PAGE_ORDER": "The rendered page order matches the packet manifest in both fixtures: source pages 1, 2, 3, 4 of SCA-C906 to packet pages 1, 2, 3, 4, in order and with no page repeated or dropped. pdfinfo agrees with the manifest at four pages, and the pristine form is itself four pages, so nothing was inserted or removed.",
+        "CLIPPING_AND_OVERLAP": "Measured here and separated from the official form's own typography, which is what makes the result meaningful. The packet has 56 overlapping word pairs and 5 words inside the 18pt printable margin; the pristine SCA-C906 has the identical 56 overlapping pairs and 11 such words. The build therefore adds zero overlaps and zero clipping. The packet's 5 are the form's own page-4 revision footer, 'Revised: 06/04/2019; WVSCA Approved: 06/04/2019', which the West Virginia form itself places in the margin, and they are a strict subset of the source's 11 -- the 6 the packet drops are the interactive Select County, Print Form and Reset Form buttons, correctly gone after flattening. No ink this build placed lies outside a measured write box.",
+        "FILING_DESTINATION": "The committed registry gives the destination as 'Clerk of the circuit court of the county of conviction' and the venue as the circuit court in which the convictions occurred, with the § 61-11-26(d) proviso for a group spanning counties. The instructions name the clerk of the circuit court of the county of conviction, carry the multi-county grouping rule and the service of each county's prosecuting attorney, and add the two conditions that gate filing: the verification on page 3 sworn before a notary and the certificate of service on page 4 completed.",
+        "FEE_AND_WAIVER": "Both stated, and the absence of a waiver stated as an absence rather than papered over. The instructions give the § 59-1-11(a)(1) civil-action filing fee at $200 as the official text sets it, and the further $100 paid to the records division of the West Virginia State Police under § 61-11-26(n) on grant rather than at filing. On waiver they say no held source establishes a route for this filing, explain that the $100 waiver exists only on a § 61-11-26a petition which is a different route, say that relief from the $200 clerk fee would be under the circuit court's ordinary civil indigency practice which the controlling review did not establish, decline to name a form or to tell the participant they qualify, and name the clerk of the circuit court of the county of conviction as the office to ask. That is the registry's fees and feeWaiver rules, faithfully.",
+        "SERVICE": "Stated in full. The instructions set out the five § 61-11-26(e) recipients the petitioner must serve by number -- the Superintendent of the State Police, the prosecuting attorney of each county of conviction, the chief law-enforcement officer of the arresting agency, the superintendent, warden or Commissioner of Corrections of any institution of confinement, and the court that disposed of the charge -- and then state the one thing a participant would most likely get wrong: identified victims are served by the prosecuting attorney under § 61-11-26(f), not by the petitioner, and must not be served personally. They also say when the certificate of service may be completed, which is only after service has actually happened.",
+        "SELF_HELP_STOP": "All ten of the registry's selfHelpStopConditions for wv_conv_multiple_misdemeanors are printed under '## Where self-help ends', word for word, and the packet cites where they come from by file, track and field. It goes further in two ways that are correct rather than decorative: it marks the immigration item as a hard stop and not a caveat, noting the petition is sworn under oath once signed; and it separates out the two conditions that arise after filing -- a notice of opposition and a § 61-11-26(i)(3) hearing -- and says the matter is contested from that point, that the packet does not prepare the participant for it, and that the statute's clock rather than theirs governs the reply window. It closes by dividing what the clerk may answer from what only a West Virginia lawyer may."
+      },
+      "evidenceRead": [
+        "data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/product-wiring.json",
+        "data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/fixtures/canonical.pdf",
+        "data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/fixtures/boundary.pdf",
+        "MASTER_LIBRARY_SOURCE_DIR/STATES/WV/02_PACKET_FORMS/WV__FORM__SCA-C906__sca-c906-petition-for-expungement-of-misdemeanor-violations-and-traffic-citations__REV-2019-06-04__EN.pdf (bytes, AcroForm widget geometry and field tooltips)",
+        "data/record-clearing/legal-design-track-registry.json (track wv_conv_multiple_misdemeanors: destination, venue, rules, selfHelpStopConditions)",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json (packetComponents for this family)",
+        "scripts/build-census-v1-wv_conv_multiple_misdemeanors-set.mjs (read only to check whether the DOB pairing was deliberate; nothing was modified)"
+      ],
+      "preflight": "PACKET_BUILD_ENVIRONMENT_READY: 13/13 passed, 0 failed, 4 not applicable",
+      "commercialRoutesOpened": 0,
+      "overlayDirectoriesModified": 0,
+      "packetsModified": 0,
+      "productionTouched": false,
+      "repairedNothing": true,
+      "grantsNothing": "This row is a verification reading. It promotes nothing, opens no route and grants no approval."
+    }
   ],
   "supersededLaneMembership": {
     "note": "the earlier reading, when this lane covered other families",
