@@ -11,44 +11,39 @@
  "rows": [
   {
    "itemId": "ga-felony-j1-set",
+   "lane": "VF09",
    "verdict": "PASS_COMPLETE_INDEPENDENT",
    "familyDirectory": "data/rcap-all50/overlays/census-v1/ga/ga-felony-j1-set--custom-pleading",
    "verifier": "FABLE-VT3 (independent — built none of these packets)",
    "verifiedAtBase": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true
+   },
+   "rasterState": "RASTER_PASS",
    "proofObligations": {
-    "routeIdentity": {
+    "ROUTE_IDENTITY": {
+     "measured": true,
      "result": "PASS",
-     "finding": "Custom pleading under O.C.G.A. § 35-3-37(j)(1): the caption names the court and county of conviction and the face carries the statutory basis; five components render as one packet.",
+     "finding": "Custom pleading under O.C.G.A. § 35-3-37(j)(1) — restricting a felony charge resolved without conviction where the participant was convicted only of a separate misdemeanour. The caption directs the court and county of the accusation or conviction, and the instructions distinguish restriction from sealing on their first line.",
      "evidence": {
       "statute": "O.C.G.A. § 35-3-37(j)(1)",
       "strategy": "custom_pleading"
      }
     },
-    "componentSet": {
+    "SOURCE_IDENTITY": {
+     "measured": true,
      "result": "PASS",
-     "finding": "primary_filing, proposed_order, certificate_of_service, exhibit_a_final_disposition and exhibit_b_criminal_history all present in the rendered packet.",
-     "evidence": {
-      "present": [
-       "primary_filing",
-       "proposed_order",
-       "certificate_of_service",
-       "exhibit_a_final_disposition",
-       "exhibit_b_criminal_history"
-      ]
-     }
-    },
-    "completenessCounters": {
-     "result": "PASS",
-     "finding": "Re-run in this container at base edf5ff14b9bb418dfafc57b75e4a7acc6ece1666: verify-packet-completeness.mjs --family ga-felony-j1-set returns PASS_COMPLETE with all nine counters zero (knownRequiredFieldsMissing, requiredFactsNotCollected, unclassifiedBlanks, incompleteRows, requiredOptionsMissing, requiredComponentsMissing, invisibleWrites, protectedWrites, visualDefects).",
-     "evidence": {
-      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ga-felony-j1-set",
-      "result": "PASS_COMPLETE",
-      "allNineCountersZero": true
-     }
-    },
-    "sourceIdentity": {
-     "result": "PASS",
-     "finding": "custom_pleading from codified text: no official form bytes are bound by design; source-receipt.json records the grounding legal-design records with verified SHA-256 anchors.",
+     "finding": "custom_pleading from codified text: no official form bytes are bound by design. source-receipt.json records the grounding legal-design records with their SHA-256 and the anchors verified against them; there is no official-form sha to rehash and none is claimed.",
      "evidence": [
       {
        "form": "GA-LEGAL-REVIEW-2026-07-30",
@@ -72,164 +67,232 @@
       }
      ]
     },
-    "artifactIdentity": {
+    "COMPONENT_SET": {
+     "measured": true,
      "result": "PASS",
-     "finding": "Both committed fixture PDFs rehash to exactly the sha256 and byteLength recorded in reports/rendered-artifacts.json.",
-     "evidence": [
-      {
-       "fixture": "canonical",
-       "file": "data/rcap-all50/overlays/census-v1/ga/ga-felony-j1-set--custom-pleading/fixtures/canonical.pdf",
-       "pageCount": 8,
-       "shaMatches": true,
-       "byteLenMatches": true
-      },
-      {
-       "fixture": "boundary",
-       "file": "data/rcap-all50/overlays/census-v1/ga/ga-felony-j1-set--custom-pleading/fixtures/boundary.pdf",
-       "pageCount": 8,
-       "shaMatches": true,
-       "byteLenMatches": true
-      }
-     ]
-    },
-    "actualWrites": {
-     "result": "PASS",
-     "finding": "All 18 writes (canonical and boundary) are recorded foundInOutputBytes:true, read back from the extracted text of each component's own pages in the saved packet bytes.",
+     "finding": "requiredComponentsMissing 0; all five declared components render across 8 pages — primary filing, proposed order, certificate of service, exhibit A (final disposition) and exhibit B (criminal history).",
      "evidence": {
-      "total": 18,
-      "verifiedInBytes": 18,
-      "unrecordedPerWrite": 0,
-      "reportReadbackDiscrepanciesResolvedAgainstBytes": []
+      "present": [
+       "primary_filing",
+       "proposed_order",
+       "certificate_of_service",
+       "exhibit_a_final_disposition",
+       "exhibit_b_criminal_history"
+      ]
      }
     },
-    "blanksDisclosure": {
+    "KNOWN_PREFILLS": {
+     "measured": true,
      "result": "PASS",
-     "finding": "Every blank left for the participant is enumerated and classified (reports/blanks-left-for-the-participant.json); each REQUIRED_BEFORE_FILING blank carries why + participantMustSupply, and my verifier run measures unclassifiedBlanks 0.",
+     "finding": "knownRequiredFieldsMissing 0 and requiredFactsNotCollected 0 on my own verifier run, and all 18 writes across both fixtures are recorded foundInOutputBytes:true — read back from the extracted text of each component's own pages in the saved packet bytes, not from the finalizer's report.",
      "evidence": {
+      "knownRequiredFieldsMissing": 0,
+      "requiredFactsNotCollected": 0,
+      "invisibleWrites": 0,
+      "writesProvenInBytes": 18,
+      "writesTotal": 18
+     }
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "unclassifiedBlanks 0 on my own verifier run: every blank the packet leaves is classified, and each REQUIRED_BEFORE_FILING blank is enumerated with why the platform holds no value for it and what the participant must supply (reports/blanks-left-for-the-participant.json, 17 such blanks).",
+     "evidence": {
+      "unclassifiedBlanks": 0,
       "source": "reports/blanks-left-for-the-participant.json",
       "requiredBeforeFiling": 17
      }
     },
-    "placeholderAndFace": {
+    "ROUTE_OPTIONS": {
+     "measured": true,
      "result": "PASS",
-     "finding": "pdftotext over every fixture finds no placeholder text (no TODO/TBD/PLACEHOLDER/lorem/{{...}}/[INSERT), and the packet face names its own jurisdiction, instrument and authority.",
+     "finding": "requiredOptionsMissing 0; the pleading is authored for one statutory branch and prints no election controls, so there is no option for the packet to leave unmade.",
      "evidence": {
-      "faceChecks": [
+      "requiredOptionsMissing": 0,
+      "routeSelectionsMadeDeclared": [],
+      "selectionControlMentions": 0,
+      "marksDrawnPerDocument": [
        {
         "fixture": "canonical",
-        "chars": 10738,
-        "placeholderHits": [],
-        "mentionsOwnState": true
+        "marks": [],
+        "redrewCourtsBox": false,
+        "drewANewBox": false
        },
        {
         "fixture": "boundary",
-        "chars": 10991,
-        "placeholderHits": [],
-        "mentionsOwnState": true
+        "marks": [],
+        "redrewCourtsBox": false,
+        "drewANewBox": false
+       }
+      ]
+     }
+    },
+    "REPEATING_ROWS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "incompleteRows 0 on my own verifier run: no repeating row on this packet is left half-filled. Where the form carries a multi-row table, the whole table is carried to the participant as required-before-filing blanks rather than partly filled, which is what a zero here means for this family.",
+     "evidence": {
+      "incompleteRows": 0,
+      "repeatingStructuresInMap": 0
+     }
+    },
+    "PROTECTED_FIELDS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "protectedWrites 0 on my own verifier run, and the byte proof shows no refused field carrying ink in any document: signature, jurat, court-order, clerk and agency-only fields are refused and stay empty in the delivered bytes.",
+     "evidence": {
+      "protectedWrites": 0,
+      "refusedFieldsWithInk": 0,
+      "protectedDispositionsInMap": 0,
+      "protectedInBlanksReport": null
+     }
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both fixtures exist and rehash to exactly the sha256 and byteLength recorded in reports/rendered-artifacts.json, and the writes read back from those same bytes: 18 of 18 write values confirmed present in the artifact.",
+     "evidence": {
+      "fixtures": [
+       {
+        "fixture": "canonical",
+        "file": "data/rcap-all50/overlays/census-v1/ga/ga-felony-j1-set--custom-pleading/fixtures/canonical.pdf",
+        "pageCount": 8,
+        "shaMatches": true,
+        "byteLenMatches": true
+       },
+       {
+        "fixture": "boundary",
+        "file": "data/rcap-all50/overlays/census-v1/ga/ga-felony-j1-set--custom-pleading/fixtures/boundary.pdf",
+        "pageCount": 8,
+        "shaMatches": true,
+        "byteLenMatches": true
        }
       ],
-      "statutoryAuthority": "O.C.G.A. § 35-3-37(j)(1)",
-      "jurisdiction": "GA"
-     }
-    },
-    "filingInstructions": {
-     "result": "PASS",
-     "finding": "participant-instructions.md is present and substantive, enumerating the items the participant must supply.",
-     "evidence": {
-      "file": "data/rcap-all50/overlays/census-v1/ga/ga-felony-j1-set--custom-pleading/participant-instructions.md",
-      "bytes": 13422
-     }
-    },
-    "rasterVisual": {
-     "result": "PASS",
-     "finding": "The central raster workflow holds a hash-bound RASTER_PASS for this family, and the queue's canonical and boundary PDF sha256 values match the bytes I rehashed in this worktree.",
-     "evidence": {
-      "state": "RASTER_PASS",
-      "canonicalPdfSha256": "87acee6328e42485183be789b94914bccd92fe6728807bd4c976f3dc74cdb856",
-      "boundaryPdfSha256": "c637ec1cd28c48db48adc796c67e5ba2401f001815e3cf09c2500e7d0914aec4"
-     }
-    },
-    "commercialPosture": {
-     "result": "PASS",
-     "finding": "generationAllowed false, runtimeSelectable false, commercialRoutesOpened 0 in production-field-map.json; approval-request claims no approval and no live status. This verdict opens nothing.",
-     "evidence": {
-      "fieldMap": {
-       "generationAllowed": false,
-       "runtimeSelectable": false,
-       "commercialRoutesOpened": 0
-      },
-      "approvalRequest": {
-       "status": "PENDING_INDEPENDENT_VERIFICATION",
-       "approvedForLive": false,
-       "live": false
+      "actualWrites": {
+       "total": 18,
+       "verifiedInBytes": 18,
+       "unrecordedPerWrite": 0,
+       "reportReadbackDiscrepanciesResolvedAgainstBytes": []
       }
      }
+    },
+    "PAGE_ORDER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Page order matches the manifest across both fixtures: 8 pages, packetPage 1..8, components contiguous and in filing order (petition, proposed order, certificate of service, then the two exhibits); sourceSha256 is null throughout because every page is authored, which is what a custom pleading is.",
+     "evidence": [
+      {
+       "fixture": "canonical",
+       "declaredPageCount": 8,
+       "pagesInBytes": 8,
+       "manifestEntries": 8,
+       "packetPagesStrictlyAscending": true,
+       "everyPageBoundToASource": false,
+       "declaredMatchesBytes": true,
+       "manifestCoversEveryPage": true
+      },
+      {
+       "fixture": "boundary",
+       "declaredPageCount": 8,
+       "pagesInBytes": 8,
+       "manifestEntries": 8,
+       "packetPagesStrictlyAscending": true,
+       "everyPageBoundToASource": false,
+       "declaredMatchesBytes": true,
+       "manifestCoversEveryPage": true
+      }
+     ]
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "visualDefects 0 on my own verifier run; the byte proof reports 0 non-whitespace glyphs outside the measured write boxes in every document and no unfittable value; and the central raster workflow holds a RASTER_PASS for this family whose recorded canonical and boundary sha256 match the bytes I rehashed here.",
+     "evidence": {
+      "visualDefects": 0,
+      "strayGlyphsOutsideWriteBoxes": 0,
+      "unfittable": 0,
+      "rasterState": "RASTER_PASS"
+     }
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The caption itself carries the direction — 'the court in which you were accused or convicted, and its county; or, where the felony charge was dismissed, the Superior Court of the county of arrest' — and the Money section repeats the same venue when naming which clerk to ask about fees.",
+     "evidence": {
+      "basis": "caption instruction printed on the pleading, restated in the Money section"
+     }
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Answered with its uncertainty stated rather than papered over: no statutory filing fee is identified because this is a filing in an existing criminal case, whether any clerk charges one is 'unresolved and county-specific, so this packet quotes no figure — ask the clerk', and whether the O.C.G.A. § 9-15-2 pauper's-affidavit practice reaches a criminal filing is likewise recorded as unresolved with the same clerk named to ask.",
+     "evidence": {
+      "fee": "none identified; county-specific, ask the named clerk",
+      "waiver": "§ 9-15-2 reach recorded as unresolved"
+     }
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "A certificate of service is a component of the packet, and the instructions state the recipients and methods: 'Serve every recipient the certificate of service names, by certified mail, e-filing or hand delivery, and complete the certificate only when the copies actually go out', with the prosecuting attorney (District Attorney or Solicitor-General) for the county named as a participant-supplied address.",
+     "evidence": {
+      "component": "certificate_of_service",
+      "methods": [
+       "certified mail",
+       "e-filing",
+       "hand delivery"
+      ]
+     }
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The strongest in this set: an eight-item 'When to stop and get help instead of filing' list (prosecutor opposition, contested hearing, immigration consequences, attacking the underlying conviction, unclear venue, non-obvious lesser-included analysis, the four-year window closing, disputed service) followed by four named Georgia records-restriction desks from the Judicial Council's Access to Justice resources.",
+     "evidence": {
+      "section": "## When to stop and get help instead of filing",
+      "conditions": 8,
+      "referrals": 4
+     }
     }
-   }
+   },
+   "failedProofObligations": [],
+   "notMeasurableHere": []
   },
   {
    "itemId": "mi_setaside_marihuana-set",
+   "lane": "VF09",
    "verdict": "PASS_COMPLETE_INDEPENDENT",
    "familyDirectory": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill",
    "verifier": "FABLE-VT3 (independent — built none of these packets)",
    "verifiedAtBase": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true
+   },
+   "rasterState": "RASTER_PASS",
    "proofObligations": {
-    "routeIdentity": {
+    "ROUTE_IDENTITY": {
+     "measured": true,
      "result": "PASS",
-     "finding": "familyId mi_setaside_marihuana-set now agrees across product-wiring.json, source-receipt.json, production-field-map.json and every report (the defect VF01/VF25 failed — product-wiring spelling 'mi-setaside-marihuana-set' — is gone), and the packet is MC-227A, Application to Set Aside Misdemeanor Marihuana Conviction(s), State of Michigan. The MASTER_QUEUE spells the form 'MC 227a' where the packet records 'MC-227A'; both name the same instrument and the source binding is by SHA-256, not by spelling.",
+     "finding": "familyId mi_setaside_marihuana-set now agrees across product-wiring.json, source-receipt.json, production-field-map.json and every report — the exact defect VF01 and VF25 failed (product-wiring naming 'mi-setaside-marihuana-set') is gone — and the packet is MC-227A, Application to Set Aside Misdemeanor Marihuana Conviction(s), captioned STATE OF MICHIGAN, under MCL 780.621e. The MASTER_QUEUE spells the form 'MC 227a' where the packet records 'MC-227A'; both name the same instrument and the source is bound by SHA-256, not by spelling.",
      "evidence": {
       "familyIdAcrossRecords": "mi_setaside_marihuana-set in all committed family records",
-      "form": "MC-227A"
+      "statute": "MCL 780.621e"
      }
     },
-    "componentSet": {
+    "SOURCE_IDENTITY": {
+     "measured": true,
      "result": "PASS",
-     "finding": "The single declared official form MC-227A is the packet.",
-     "evidence": {
-      "declared": [
-       "MC 227a"
-      ],
-      "present": [
-       "MC-227A"
-      ]
-     }
-    },
-    "repairHolds": {
-     "result": "PASS",
-     "finding": "Fresh read after FAIL_REPAIR_REQUIRED (VF01, re-measured by VF25). Both decisive defects are repaired on the current bytes: (1) route identity — product-wiring.json now names familyId mi_setaside_marihuana-set exactly; (2) service — participant-instructions.md now states who must be served and how: mail a copy of the whole packet to the prosecuting official who prosecuted the offence, then — only after mailing — complete the sworn Certificate of Mailing, in the numbered order the court's instruction sheet requires; it also names the filing destination (the convicting court, one application per court) and that there is no filing fee.",
-     "evidence": {
-      "priorVerdicts": [
-       {
-        "lane": "VF01",
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "failed": [
-         "ROUTE_IDENTITY",
-         "SERVICE"
-        ]
-       },
-       {
-        "lane": "VF25",
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "failed": [
-         "ROUTE_IDENTITY"
-        ]
-       }
-      ],
-      "serviceSection": "participant-instructions.md 'The order of the last three steps matters'"
-     }
-    },
-    "completenessCounters": {
-     "result": "PASS",
-     "finding": "Re-run in this container at base edf5ff14b9bb418dfafc57b75e4a7acc6ece1666: verify-packet-completeness.mjs --family mi_setaside_marihuana-set returns PASS_COMPLETE with all nine counters zero (knownRequiredFieldsMissing, requiredFactsNotCollected, unclassifiedBlanks, incompleteRows, requiredOptionsMissing, requiredComponentsMissing, invisibleWrites, protectedWrites, visualDefects).",
-     "evidence": {
-      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mi_setaside_marihuana-set",
-      "result": "PASS_COMPLETE",
-      "allNineCountersZero": true
-     }
-    },
-    "sourceIdentity": {
-     "result": "PASS",
-     "finding": "Every bound source was rehashed from the Master Library bytes mounted in the shared checkout (private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1); each recomputed SHA-256 and byte length agrees with source-receipt.json and the committed local-source-corpus-index.json entry, and every page-manifest sourceSha256 is a receipt sha.",
+     "finding": "The single bound source rehashes from the Master Library bytes to the recorded SHA-256 and byte length, agrees with the committed corpus index and is indexed under state MI; both packet pages carry that sha.",
      "evidence": [
       {
        "form": "MC-227A",
@@ -241,161 +304,252 @@
       }
      ]
     },
-    "artifactIdentity": {
+    "COMPONENT_SET": {
+     "measured": true,
      "result": "PASS",
-     "finding": "Both committed fixture PDFs rehash to exactly the sha256 and byteLength recorded in reports/rendered-artifacts.json.",
-     "evidence": [
-      {
-       "fixture": "canonical",
-       "file": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/fixtures/canonical.pdf",
-       "pageCount": 2,
-       "shaMatches": true,
-       "byteLenMatches": true
-      },
-      {
-       "fixture": "boundary",
-       "file": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/fixtures/boundary.pdf",
-       "pageCount": 2,
-       "shaMatches": true,
-       "byteLenMatches": true
-      }
-     ]
-    },
-    "actualWrites": {
-     "result": "PASS",
-     "finding": "All 4 participant writes are proven in the fixture bytes: the committed byte-proof report confirms them, and each row the report's own glyph readback could not reproduce was independently re-read with pdftotext and found verbatim in the fixture bytes. refusedFieldsWithInk empty and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 in every document.",
+     "finding": "requiredComponentsMissing 0; the declared single official form MC-227A is the packet, across 2 pages.",
      "evidence": {
-      "total": 4,
-      "verifiedInBytes": 4,
-      "unrecordedPerWrite": 0,
-      "reportReadbackDiscrepanciesResolvedAgainstBytes": []
+      "declared": [
+       "MC 227a"
+      ],
+      "present": [
+       "MC-227A"
+      ]
      }
     },
-    "blanksDisclosure": {
+    "KNOWN_PREFILLS": {
+     "measured": true,
      "result": "PASS",
-     "finding": "Every blank left for the participant is enumerated and classified (reports/blanks-left-for-the-participant.json); each REQUIRED_BEFORE_FILING blank carries why + participantMustSupply, and my verifier run measures unclassifiedBlanks 0.",
+     "finding": "knownRequiredFieldsMissing 0 and requiredFactsNotCollected 0 on my own verifier run in this container, and every one of the 4 values the platform claims to have prefilled is proven present in the finalized fixture bytes (4 of 4 confirmed; invisibleWrites 0). No prefill is asserted by the finalizer alone.",
      "evidence": {
+      "knownRequiredFieldsMissing": 0,
+      "requiredFactsNotCollected": 0,
+      "invisibleWrites": 0,
+      "writesProvenInBytes": 4,
+      "writesTotal": 4
+     }
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "unclassifiedBlanks 0 on my own verifier run: every blank the packet leaves is classified, and each REQUIRED_BEFORE_FILING blank is enumerated with why the platform holds no value for it and what the participant must supply (reports/blanks-left-for-the-participant.json, 26 such blanks).",
+     "evidence": {
+      "unclassifiedBlanks": 0,
       "source": "reports/blanks-left-for-the-participant.json",
       "requiredBeforeFiling": 26
      }
     },
-    "placeholderAndFace": {
+    "ROUTE_OPTIONS": {
+     "measured": true,
      "result": "PASS",
-     "finding": "pdftotext over every fixture finds no placeholder text (no TODO/TBD/PLACEHOLDER/lorem/{{...}}/[INSERT), and the packet face names its own jurisdiction, instrument and authority.",
+     "finding": "requiredOptionsMissing 0. The form's party election (The People of the State of Michigan versus a named city, village or township) is carried to the participant as a stated choice under 'The choices that are yours' rather than elected by the platform, because which body prosecuted is a case fact the platform does not hold. No selection mark is drawn in either fixture.",
      "evidence": {
-      "faceChecks": [
+      "requiredOptionsMissing": 0,
+      "routeSelectionsMadeDeclared": null,
+      "selectionControlMentions": 0,
+      "marksDrawnPerDocument": [
        {
         "fixture": "canonical",
-        "chars": 4360,
-        "placeholderHits": [],
-        "mentionsOwnState": true
+        "marks": [],
+        "redrewCourtsBox": false,
+        "drewANewBox": false
        },
        {
         "fixture": "boundary",
-        "chars": 4376,
-        "placeholderHits": [],
-        "mentionsOwnState": true
+        "marks": [],
+        "redrewCourtsBox": false,
+        "drewANewBox": false
+       }
+      ]
+     }
+    },
+    "REPEATING_ROWS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "incompleteRows 0; the conviction table is carried whole to the participant — the instructions require 'every line you use, all four columns' — rather than partly filled, and 26 required-before-filing blanks are each named.",
+     "evidence": {
+      "incompleteRows": 0,
+      "repeatingStructuresInMap": 0
+     }
+    },
+    "PROTECTED_FIELDS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "protectedWrites 0 on my own verifier run, and the byte proof shows no refused field carrying ink in any document: signature, jurat, court-order, clerk and agency-only fields are refused and stay empty in the delivered bytes.",
+     "evidence": {
+      "protectedWrites": 0,
+      "refusedFieldsWithInk": 0,
+      "protectedDispositionsInMap": 0,
+      "protectedInBlanksReport": null
+     }
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both fixtures exist and rehash to exactly the sha256 and byteLength recorded in reports/rendered-artifacts.json, and the writes read back from those same bytes: 4 of 4 write values confirmed present in the artifact.",
+     "evidence": {
+      "fixtures": [
+       {
+        "fixture": "canonical",
+        "file": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/fixtures/canonical.pdf",
+        "pageCount": 2,
+        "shaMatches": true,
+        "byteLenMatches": true
+       },
+       {
+        "fixture": "boundary",
+        "file": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/fixtures/boundary.pdf",
+        "pageCount": 2,
+        "shaMatches": true,
+        "byteLenMatches": true
        }
       ],
-      "statutoryAuthority": "MCL 780.621e; MCL 780.621b, MCL 780.621f, MCL 780.622, MCL 780.623; SCAO form MC 227a (Rev. 7/24)",
-      "jurisdiction": "MI"
-     }
-    },
-    "filingInstructions": {
-     "result": "PASS",
-     "finding": "participant-instructions.md is present and substantive, enumerating the items the participant must supply.",
-     "evidence": {
-      "file": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/participant-instructions.md",
-      "bytes": 10911
-     }
-    },
-    "rasterVisual": {
-     "result": "PASS",
-     "finding": "The central raster workflow holds a hash-bound RASTER_PASS for this family, and the queue's canonical and boundary PDF sha256 values match the bytes I rehashed in this worktree.",
-     "evidence": {
-      "state": "RASTER_PASS",
-      "canonicalPdfSha256": "c1506f35f448464374ad7d080c9b71cde24a4902d90a15259248b3962995737b",
-      "boundaryPdfSha256": "ac7806c7b4ed40e1dcac078b6dcd23e127aa3e9f31fb1d7d0097a4c411585e99"
-     }
-    },
-    "commercialPosture": {
-     "result": "PASS",
-     "finding": "generationAllowed false, runtimeSelectable false, commercialRoutesOpened 0 in production-field-map.json; approval-request claims no approval and no live status. This verdict opens nothing.",
-     "evidence": {
-      "fieldMap": {
-       "generationAllowed": false,
-       "runtimeSelectable": false,
-       "commercialRoutesOpened": 0
-      },
-      "approvalRequest": {
-       "status": "PENDING_INDEPENDENT_VERIFICATION",
-       "approvedForLive": false,
-       "live": false
+      "actualWrites": {
+       "total": 4,
+       "verifiedInBytes": 4,
+       "unrecordedPerWrite": 0,
+       "reportReadbackDiscrepanciesResolvedAgainstBytes": []
       }
      }
+    },
+    "PAGE_ORDER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The page order in the bytes matches the declared manifest across both fixtures: packetPage numbers run 1..n with no gap or repeat, the manifest covers every page pdfinfo counts in the file, each page names the component and document it came from, and each component's source pages stay in their own ascending order.",
+     "evidence": [
+      {
+       "fixture": "canonical",
+       "declaredPageCount": 2,
+       "pagesInBytes": 2,
+       "manifestEntries": 2,
+       "packetPagesStrictlyAscending": true,
+       "everyPageBoundToASource": true,
+       "declaredMatchesBytes": true,
+       "manifestCoversEveryPage": true
+      },
+      {
+       "fixture": "boundary",
+       "declaredPageCount": 2,
+       "pagesInBytes": 2,
+       "manifestEntries": 2,
+       "packetPagesStrictlyAscending": true,
+       "everyPageBoundToASource": true,
+       "declaredMatchesBytes": true,
+       "manifestCoversEveryPage": true
+      }
+     ]
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "visualDefects 0 on my own verifier run; the byte proof reports 0 non-whitespace glyphs outside the measured write boxes in every document and no unfittable value; and the central raster workflow holds a RASTER_PASS for this family whose recorded canonical and boundary sha256 match the bytes I rehashed here.",
+     "evidence": {
+      "visualDefects": 0,
+      "strayGlyphsOutsideWriteBoxes": 0,
+      "unfittable": 0,
+      "rasterState": "RASTER_PASS"
+     }
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "'Where you file, and the certified copies' names it: file in the court where the conviction happened, one separate application per court (the form's own instruction 2), and take three copies to the clerk of the convicting court.",
+     "evidence": {
+      "section": "## Where you file, and the certified copies"
+     }
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Stated from the form's own instruction sheet: 'There should be no filing fee', instruction 6. The separate possible cost is also named — instruction 4 requires a certified copy of each conviction from the convicting court's clerk and warns there may be a fee for those copies, which the platform does not obtain.",
+     "evidence": {
+      "filingFee": "none, per the form's instruction 6",
+      "otherCost": "certified copies may carry a clerk's fee"
+     }
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The defect VF01 failed is repaired. Service is now stated with recipient, method and the ordering the sworn certificate requires: mail a copy of the whole packet to the prosecuting official who prosecuted the offence (instruction 7), and only then fill in and sign the Certificate of Mailing on the remaining copies (instruction 8) — the instructions explain that the certificate is a declaration under penalty of perjury that the mailing has already happened, which is why its date and signature are left blank.",
+     "evidence": {
+      "recipient": "the prosecuting official who prosecuted the offence",
+      "method": "mail",
+      "ordering": "certificate completed only after mailing"
+     }
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "'What happens after you file' states the contested path from the court's own instruction sheet — if the prosecuting agency files a response opposing the application the court must set a hearing within 30 days, mail notice, and the participant should appear — and the packet states it does not decide whether the conviction is eligible to be set aside.",
+     "evidence": {
+      "section": "## What happens after you file"
+     }
+    },
+    "REPAIR_HOLDS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Fresh read after FAIL_REPAIR_REQUIRED, and both decisive defects hold repaired on the current bytes: ROUTE_IDENTITY (familyId consistent across every record) and SERVICE (recipient, method and ordering now stated). Scored above under those canonical names.",
+     "evidence": {
+      "priorVerdicts": [
+       {
+        "lane": "VF01",
+        "failed": [
+         "ROUTE_IDENTITY",
+         "SERVICE"
+        ]
+       },
+       {
+        "lane": "VF25",
+        "failed": [
+         "ROUTE_IDENTITY"
+        ]
+       }
+      ]
+     }
     }
-   }
+   },
+   "failedProofObligations": [],
+   "notMeasurableHere": []
   },
   {
    "itemId": "ut_pet_limitations-set",
+   "lane": "VF09",
    "verdict": "PASS_COMPLETE_INDEPENDENT",
    "familyDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-limitations-set--official-pdf-fill",
    "verifier": "FABLE-VT3 (independent — built none of these packets)",
    "verifiedAtBase": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true
+   },
+   "rasterState": "RASTER_PASS",
    "proofObligations": {
-    "routeIdentity": {
+    "ROUTE_IDENTITY": {
+     "measured": true,
      "result": "PASS",
-     "finding": "Utah expungement petition family: 1000EX Petition to Expunge Records with Certificate of Eligibility citing Utah Code 77-40a on its face, with all nine declared instruments in the packet.",
+     "finding": "Utah expungement petition family: 1000EX, Petition to Expunge Records with Certificate of Eligibility, citing Utah Code 77-40a-101/301/305 on its face, with the district-court cover sheet, the proposed order, the BCI application and release, and the acceptance-of-service and related forms — nine declared instruments, all present.",
      "evidence": {
-      "formsDeclared": 9,
       "statutes": [
        "77-40a-101",
        "77-40a-301",
        "77-40a-305"
-      ]
+      ],
+      "formsDeclared": 9
      }
     },
-    "componentSet": {
+    "SOURCE_IDENTITY": {
+     "measured": true,
      "result": "PASS",
-     "finding": "All nine declared forms present: 1000EX, 1020EX, 1044XX, 1146XX, 1148XX, 1149XX, 1169XX, UT-BCI-EXP-APPLICATION, UT-BCI-THIRD-PARTY-RELEASE.",
-     "evidence": {
-      "declared": 9,
-      "present": 9
-     }
-    },
-    "repairHolds": {
-     "result": "PASS",
-     "finding": "Fresh read after FAIL_REPAIR_REQUIRED (VF08: requiredBeforeFiling, filingDestination, feeAndWaiver, service). All four hold on the current bytes: (1) the SID#R&F blank is no longer an unnamed participant blank — the field map reclassifies it PROTECTED_FIELD with positional evidence (it sits at y=37.35 inside the BUREAU USE ONLY box whose heading prints at y=58.14 on UT-BCI-EXP-APPLICATION p2); (2) 'Where you file this' names both destinations in order: the Utah Bureau of Criminal Identification for the certificate of eligibility, then the district court for the county where the case was heard, with the 180-day certificate deadline; (3) fees are stated with the waiver route: the $150 cover-sheet fee row, the Motion to Waive Fees for Expungement — Criminal (1305GE) under Utah Code 78A-2-302 and CJA Rule 4-508, and BCI's separate per-applicant fee with its Indigent Expungement Applicant Instructions, explicitly distinguished; (4) 'Who must receive a copy, and how' states service on the prosecutor by mail or email, with 1146XX Acceptance of Service included and the instruction to complete the certificate only after service occurs.",
-     "evidence": {
-      "priorVerdict": {
-       "lane": "VF08",
-       "verdict": "FAIL_REPAIR_REQUIRED",
-       "failed": [
-        "requiredBeforeFiling",
-        "filingDestination",
-        "feeAndWaiver",
-        "service"
-       ]
-      },
-      "instructionSections": [
-       "## Where you file this",
-       "## What it costs, and how to ask for a waiver",
-       "## Who must receive a copy, and how"
-      ]
-     }
-    },
-    "completenessCounters": {
-     "result": "PASS",
-     "finding": "Re-run in this container at base edf5ff14b9bb418dfafc57b75e4a7acc6ece1666: verify-packet-completeness.mjs --family ut_pet_limitations-set returns PASS_COMPLETE with all nine counters zero (knownRequiredFieldsMissing, requiredFactsNotCollected, unclassifiedBlanks, incompleteRows, requiredOptionsMissing, requiredComponentsMissing, invisibleWrites, protectedWrites, visualDefects).",
-     "evidence": {
-      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_limitations-set",
-      "result": "PASS_COMPLETE",
-      "allNineCountersZero": true
-     }
-    },
-    "sourceIdentity": {
-     "result": "PASS",
-     "finding": "Every bound source was rehashed from the Master Library bytes mounted in the shared checkout (private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1); each recomputed SHA-256 and byte length agrees with source-receipt.json and the committed local-source-corpus-index.json entry, and every page-manifest sourceSha256 is a receipt sha.",
+     "finding": "All nine bound sources rehash from the Master Library bytes to the recorded SHA-256 and byte length, agree with the committed corpus index and are indexed under state UT; every one of the 19 packet pages carries one of those receipt shas.",
      "evidence": [
       {
        "form": "1000EX",
@@ -471,100 +625,210 @@
       }
      ]
     },
-    "artifactIdentity": {
+    "COMPONENT_SET": {
+     "measured": true,
      "result": "PASS",
-     "finding": "Both committed fixture PDFs rehash to exactly the sha256 and byteLength recorded in reports/rendered-artifacts.json.",
-     "evidence": [
-      {
-       "fixture": "canonical",
-       "file": "data/rcap-all50/overlays/census-v1/ut/ut-pet-limitations-set--official-pdf-fill/fixtures/canonical.pdf",
-       "pageCount": 19,
-       "shaMatches": true,
-       "byteLenMatches": true
-      },
-      {
-       "fixture": "boundary",
-       "file": "data/rcap-all50/overlays/census-v1/ut/ut-pet-limitations-set--official-pdf-fill/fixtures/boundary.pdf",
-       "pageCount": 19,
-       "shaMatches": true,
-       "byteLenMatches": true
-      }
-     ]
-    },
-    "actualWrites": {
-     "result": "PASS",
-     "finding": "All 76 writes carry a byte-level readback in the committed report (glyph geometry read from the final PDF bytes at the committed measured box, textReadFromOutputBytes non-empty for every text write).",
+     "finding": "requiredComponentsMissing 0; all nine declared forms are present across 19 pages — 1000EX, 1020EX, 1044XX, 1146XX, 1148XX, 1149XX, 1169XX, UT-BCI-EXP-APPLICATION and UT-BCI-THIRD-PARTY-RELEASE.",
      "evidence": {
-      "total": 76,
-      "verifiedInBytes": 76,
-      "unrecordedPerWrite": 0,
-      "reportReadbackDiscrepanciesResolvedAgainstBytes": []
+      "declared": 9,
+      "present": 9
      }
     },
-    "blanksDisclosure": {
+    "KNOWN_PREFILLS": {
+     "measured": true,
      "result": "PASS",
-     "finding": "This family uses the older report layout without a dedicated blanks file; blank classification is proven by my own verifier run (38/444 written, unclassifiedBlanks 0, protectedWrites 0) and the field map's blank dispositions, including the repaired SID#R&F PROTECTED_FIELD entry.",
+     "finding": "knownRequiredFieldsMissing 0 and requiredFactsNotCollected 0 on my own verifier run, and all 76 writes carry a byte-level readback in the committed report — glyph geometry read from the final PDF bytes at each committed measured box, with textReadFromOutputBytes non-empty for every text write.",
      "evidence": {
+      "knownRequiredFieldsMissing": 0,
+      "requiredFactsNotCollected": 0,
+      "invisibleWrites": 0,
+      "writesProvenInBytes": 76,
+      "writesTotal": 76
+     }
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "unclassifiedBlanks 0 on my own verifier run (38 written of 444 measurable fields). This family predates the dedicated blanks report, so the classification lives in the field map's blank dispositions — 46 PROTECTED_FIELD entries among them — and the instructions carry the participant-facing list under 'The facts you must supply before filing'. The SID#R&F blank VF08 failed as unnamed is now classified PROTECTED_FIELD with positional evidence rather than left to the participant.",
+     "evidence": {
+      "unclassifiedBlanks": 0,
       "source": "none found",
       "requiredBeforeFiling": null
      }
     },
-    "placeholderAndFace": {
+    "ROUTE_OPTIONS": {
+     "measured": true,
      "result": "PASS",
-     "finding": "pdftotext over every fixture finds no placeholder text (no TODO/TBD/PLACEHOLDER/lorem/{{...}}/[INSERT), and the packet face names its own jurisdiction, instrument and authority.",
+     "finding": "requiredOptionsMissing 0 and the packet declares no route election on the form face: it draws no selection mark in either fixture, redraws none of the court's boxes, and every branch control on the paper is left to the participant and listed among the blanks. There is no unmade required option.",
      "evidence": {
-      "faceChecks": [
+      "requiredOptionsMissing": 0,
+      "routeSelectionsMadeDeclared": null,
+      "selectionControlMentions": 0,
+      "marksDrawnPerDocument": [
        {
         "fixture": "canonical",
-        "chars": 27572,
-        "placeholderHits": [],
-        "mentionsOwnState": true
+        "marks": [],
+        "redrewCourtsBox": false,
+        "drewANewBox": false
        },
        {
         "fixture": "boundary",
-        "chars": 28325,
-        "placeholderHits": [],
-        "mentionsOwnState": true
+        "marks": [],
+        "redrewCourtsBox": false,
+        "drewANewBox": false
+       }
+      ]
+     }
+    },
+    "REPEATING_ROWS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "incompleteRows 0 across a nine-form, 19-page packet; no multi-row structure is left half-filled.",
+     "evidence": {
+      "incompleteRows": 0,
+      "repeatingStructuresInMap": 0
+     }
+    },
+    "PROTECTED_FIELDS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "protectedWrites 0 and no refused field carries ink. The field map records 46 PROTECTED_FIELD dispositions, including the repaired UT-BCI-EXP-APPLICATION page-2 'SID#R&F' blank, whose disposition is reasoned from the page geometry: the blank sits at y=37.35 and the form prints its BUREAU USE ONLY heading at y=58.14, so the blank is inside the agency-use box. Signature, jurat, court-only, agency-only, prosecutor-only and victim fields all stay empty in the bytes.",
+     "evidence": {
+      "protectedWrites": 0,
+      "refusedFieldsWithInk": 0,
+      "protectedDispositionsInMap": 46,
+      "protectedInBlanksReport": null
+     }
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both fixtures exist and rehash to exactly the sha256 and byteLength recorded in reports/rendered-artifacts.json, and the writes read back from those same bytes: 76 of 76 write values confirmed present in the artifact.",
+     "evidence": {
+      "fixtures": [
+       {
+        "fixture": "canonical",
+        "file": "data/rcap-all50/overlays/census-v1/ut/ut-pet-limitations-set--official-pdf-fill/fixtures/canonical.pdf",
+        "pageCount": 19,
+        "shaMatches": true,
+        "byteLenMatches": true
+       },
+       {
+        "fixture": "boundary",
+        "file": "data/rcap-all50/overlays/census-v1/ut/ut-pet-limitations-set--official-pdf-fill/fixtures/boundary.pdf",
+        "pageCount": 19,
+        "shaMatches": true,
+        "byteLenMatches": true
        }
       ],
-      "statutoryAuthority": null,
-      "jurisdiction": "UT"
+      "actualWrites": {
+       "total": 76,
+       "verifiedInBytes": 76,
+       "unrecordedPerWrite": 0,
+       "reportReadbackDiscrepanciesResolvedAgainstBytes": []
+      }
      }
     },
-    "filingInstructions": {
+    "PAGE_ORDER": {
+     "measured": true,
      "result": "PASS",
-     "finding": "participant-instructions.md is present and substantive, enumerating the items the participant must supply.",
-     "evidence": {
-      "file": "data/rcap-all50/overlays/census-v1/ut/ut-pet-limitations-set--official-pdf-fill/participant-instructions.md",
-      "bytes": 6338
-     }
-    },
-    "rasterVisual": {
-     "result": "PASS",
-     "finding": "The central raster workflow holds a hash-bound RASTER_PASS for this family, and the queue's canonical and boundary PDF sha256 values match the bytes I rehashed in this worktree.",
-     "evidence": {
-      "state": "RASTER_PASS",
-      "canonicalPdfSha256": "ad594f0a40750195b67e36916f3628df5b96d337e4955c9063b415747d6e36d6",
-      "boundaryPdfSha256": "b3ba83a65754f96fe58083de62a3ce879654d6362170e11bae2f043e4c39a765"
-     }
-    },
-    "commercialPosture": {
-     "result": "PASS",
-     "finding": "generationAllowed false, runtimeSelectable false, commercialRoutesOpened 0 in production-field-map.json; approval-request claims no approval and no live status. This verdict opens nothing.",
-     "evidence": {
-      "fieldMap": {
-       "generationAllowed": false,
-       "runtimeSelectable": false,
-       "commercialRoutesOpened": 0
+     "finding": "The page order in the bytes matches the declared manifest across both fixtures: packetPage numbers run 1..n with no gap or repeat, the manifest covers every page pdfinfo counts in the file, each page names the component and document it came from, and each component's source pages stay in their own ascending order.",
+     "evidence": [
+      {
+       "fixture": "canonical",
+       "declaredPageCount": 19,
+       "pagesInBytes": 19,
+       "manifestEntries": 19,
+       "packetPagesStrictlyAscending": true,
+       "everyPageBoundToASource": true,
+       "declaredMatchesBytes": true,
+       "manifestCoversEveryPage": true
       },
-      "approvalRequest": {
-       "status": "REQUESTED",
-       "approvedForLive": null,
-       "live": null
+      {
+       "fixture": "boundary",
+       "declaredPageCount": 19,
+       "pagesInBytes": 19,
+       "manifestEntries": 19,
+       "packetPagesStrictlyAscending": true,
+       "everyPageBoundToASource": true,
+       "declaredMatchesBytes": true,
+       "manifestCoversEveryPage": true
+      }
+     ]
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "visualDefects 0 on my own verifier run; the byte proof reports 0 non-whitespace glyphs outside the measured write boxes in every document and no unfittable value; and the central raster workflow holds a RASTER_PASS for this family whose recorded canonical and boundary sha256 match the bytes I rehashed here.",
+     "evidence": {
+      "visualDefects": 0,
+      "strayGlyphsOutsideWriteBoxes": 0,
+      "unfittable": 0,
+      "rasterState": "RASTER_PASS"
+     }
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The defect VF08 failed is repaired. 'Where you file this' now names both destinations in the order they must happen: first the Utah Bureau of Criminal Identification, which issues the certificate of eligibility the petition depends on, then the Utah district court for the county where the case was heard — with BCI's own 180-day deadline between the two stated, after which the certificates expire and must be reapplied for.",
+     "evidence": {
+      "destinations": [
+       "Utah Bureau of Criminal Identification",
+       "Utah district court for the county where the case was heard"
+      ],
+      "deadline": "180 days from the BCI letter"
+     }
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The defect VF08 failed is repaired, and on both offices. The court fee is stated as $150 from the cover-sheet row the packet itself selects (1044XX page 2), with the waiver route named exactly: the Motion to Waive Fees for Expungement — Criminal, Utah court form 1305GE, under Utah Code 78A-2-302 and CJA Rule 4-508, with where to get it since it is not in this fixture. BCI's separate per-applicant certificate fee is named as an amount the packet does not state, with BCI's Indigent Expungement Applicant Instructions as its waiver route and an explicit warning not to assume the court's waiver covers BCI's fee because they are two different offices.",
+     "evidence": {
+      "courtFee": "$150 with form 1305GE waiver route",
+      "agencyFee": "BCI per-applicant, indigent instructions named",
+      "warning": "the two waivers are distinct"
+     }
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The defect VF08 failed is repaired. 'Who must receive a copy, and how' states it from BCI's own instructions: after filing with the court, mail or email the prosecutor copies of what you file — and form 1146XX, Acceptance of Service – Expungement (Prosecutor), is included for the prosecutor to acknowledge receipt. The certificate is to be completed only after service actually happens, which the instructions state is why it is left blank.",
+     "evidence": {
+      "recipient": "the prosecutor",
+      "methods": [
+       "mail",
+       "email"
+      ],
+      "acknowledgement": "1146XX included"
+     }
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Stated with a live referral: the prosecutor or a victim may object, and if the court schedules a hearing the participant should attend — and the Utah State Courts Self-Help Center is named with its telephone number, 888-583-0009.",
+     "evidence": {
+      "referral": "Utah State Courts Self-Help Center, 888-583-0009"
+     }
+    },
+    "REPAIR_HOLDS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Fresh read after FAIL_REPAIR_REQUIRED, and all four defects hold repaired on the current bytes: requiredBeforeFiling (SID#R&F reclassified PROTECTED_FIELD with positional evidence), filingDestination, feeAndWaiver and service. Each is scored above under its canonical name.",
+     "evidence": {
+      "priorVerdict": {
+       "lane": "VF08",
+       "failed": [
+        "requiredBeforeFiling",
+        "filingDestination",
+        "feeAndWaiver",
+        "service"
+       ]
       }
      }
     }
-   }
+   },
+   "failedProofObligations": [],
+   "notMeasurableHere": []
   },
   {
    "itemId": "ut_pet_no_charges-set",
@@ -1144,47 +1408,41 @@
   },
   {
    "itemId": "vt_seal_pardon-set",
+   "lane": "VF09",
    "verdict": "BLOCKED_LEGAL_INPUT",
    "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill",
    "verifier": "FABLE-VT3 (independent — built none of these packets)",
    "verifiedAtBase": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true
+   },
+   "rasterState": "RASTER_PASS",
    "proofObligations": {
-    "legalInput": {
-     "result": "BLOCKED_LEGAL_INPUT",
-     "finding": "The family's own committed treatment record (data/rcap-all50/terminalization-treatments/vt.json, trackId vt_seal_pardon) is exact_supported_deferral: the statute does not resolve whether a pardoned misdemeanour runs on the three-year clock at 13 V.S.A. § 7602(c) or the seven-year clock at § 7602(d), and that timing question decides when the participant may file at all. VERMONT_REPAIR.json's pardonRoute disposition — 'counsel question VTL01; leaves the build and verification queues until answered' — is still in force: no VTL01 output exists (data/rcap-grade-a/codex-cloud/vtl01-vt-pardon-clock/ is absent) and no counsel answer is recorded anywhere in the repository. The MASTER_QUEUE carries legalInputStatus SETTLED, which VERMONT_REPAIR itself records as the Captain-side error that produced this filing-ready packet. A packet that tells a participant how to file when the law does not resolve whether they may file yet cannot pass, however mechanically complete.",
+    "ROUTE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Petition to Seal Criminal History (200-00130) with stipulation 200-00132 and fee-waiver 600-00228, route obligation:track-only:VT:vt_seal_pardon; the instructions name the basis as 'sealing a pardoned conviction under 13 V.S.A. § 7602'. The delivered pages are byte-identical in text to the misdemeanour family's (0 differing lines on a full text diff), because the official form prints no basis election — the route lives only in the instructions and the records.",
      "evidence": {
-      "treatmentRecord": "data/rcap-all50/terminalization-treatments/vt.json — vt_seal_pardon: exact_supported_deferral",
-      "repairRecord": "data/rcap-grade-a/packet-factory-24h/VERMONT_REPAIR.json pardonRoute.disposition",
-      "counselQuestion": "docs/rcap/grade-a/packet-factory-24h/vermont-repair/VTL01_VT_PARDON_CLOCK.md",
-      "vtl01OutputDirectory": "data/rcap-grade-a/codex-cloud/vtl01-vt-pardon-clock/ — DOES NOT EXIST",
-      "queueContradiction": "MASTER_QUEUE legalInputStatus SETTLED vs treatment record deferral"
-     }
-    },
-    "filingDestination": {
-     "result": "FAIL",
-     "finding": "Unlike its sibling vt_seal_misdemeanor-set, this family's participant-instructions.md has no 'Where you file this' section and never names the court or unit to file in, and never addresses service; the Vermont shared-host filing-handoff repair did not reach this family — consistent with its exclusion from the repair queues, but a defect that must also be repaired if counsel settles the clock and the family re-enters the build queue.",
-     "evidence": {
-      "instructionSections": [
-       "What you must do before you file",
-       "The items you must supply",
-       "Things the platform deliberately left blank",
-       "What this packet is not"
+      "routeKeys": [
+       "obligation:track-only:VT:vt_seal_pardon"
       ],
-      "missing": "## Where you file this"
+      "faceIdenticalToSibling": true
      }
     },
-    "completenessCounters": {
+    "SOURCE_IDENTITY": {
+     "measured": true,
      "result": "PASS",
-     "finding": "Re-run in this container at base edf5ff14b9bb418dfafc57b75e4a7acc6ece1666: verify-packet-completeness.mjs --family vt_seal_pardon-set returns PASS_COMPLETE with all nine counters zero (knownRequiredFieldsMissing, requiredFactsNotCollected, unclassifiedBlanks, incompleteRows, requiredOptionsMissing, requiredComponentsMissing, invisibleWrites, protectedWrites, visualDefects).",
-     "evidence": {
-      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_pardon-set",
-      "result": "PASS_COMPLETE",
-      "allNineCountersZero": true
-     }
-    },
-    "sourceIdentity": {
-     "result": "PASS",
-     "finding": "Every bound source was rehashed from the Master Library bytes mounted in the shared checkout (private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1); each recomputed SHA-256 and byte length agrees with source-receipt.json and the committed local-source-corpus-index.json entry, and every page-manifest sourceSha256 is a receipt sha.",
+     "finding": "All three bound sources rehash from the Master Library bytes to the recorded SHA-256 and byte length and agree with the committed corpus index under state VT.",
      "evidence": [
       {
        "form": "200-00130",
@@ -1212,189 +1470,325 @@
       }
      ]
     },
-    "artifactIdentity": {
+    "COMPONENT_SET": {
+     "measured": true,
      "result": "PASS",
-     "finding": "Both committed fixture PDFs rehash to exactly the sha256 and byteLength recorded in reports/rendered-artifacts.json.",
-     "evidence": [
-      {
-       "fixture": "canonical",
-       "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill/fixtures/canonical.pdf",
-       "pageCount": 6,
-       "shaMatches": true,
-       "byteLenMatches": true
-      },
-      {
-       "fixture": "boundary",
-       "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill/fixtures/boundary.pdf",
-       "pageCount": 6,
-       "shaMatches": true,
-       "byteLenMatches": true
-      }
-     ]
-    },
-    "actualWrites": {
-     "result": "PASS",
-     "finding": "Mechanically the packet is complete: all 47 writes proven in bytes (7 boundary apostrophe readback rows resolved against the bytes with pdftotext), nine counters zero, sources rehashed, RASTER_PASS hash-bound. None of that reaches the blocking question of when the participant may lawfully file.",
+     "finding": "requiredComponentsMissing 0; 200-00130, 200-00132 and 600-00228 present across 6 pages.",
      "evidence": {
-      "total": 47,
-      "verifiedInBytes": 47,
-      "unrecordedPerWrite": 0,
-      "reportReadbackDiscrepanciesResolvedAgainstBytes": [
-       {
-        "fixture": "boundary",
-        "field": "Defendant",
-        "expected": "Maria-Alejandra O’Shaughnessy-Whitfield",
-        "drawnPerReport": "Maria-Alejandra OShaughnessy-Whitfield",
-        "independentByteCheck": "expected string present verbatim in fixture bytes via pdftotext"
-       },
-       {
-        "fixture": "boundary",
-        "field": "38",
-        "expected": "Maria-Alejandra O’Shaughnessy-Whitfield",
-        "drawnPerReport": "Maria-Alejandra OShaughnessy-Whitfield",
-        "independentByteCheck": "expected string present verbatim in fixture bytes via pdftotext"
-       },
-       {
-        "fixture": "boundary",
-        "field": "Defendant",
-        "expected": "Maria-Alejandra O’Shaughnessy-Whitfield",
-        "drawnPerReport": "Maria-Alejandra OShaughnessy-Whitfield",
-        "independentByteCheck": "expected string present verbatim in fixture bytes via pdftotext"
-       },
-       {
-        "fixture": "boundary",
-        "field": "34d",
-        "expected": "Maria-Alejandra O’Shaughnessy-Whitfield",
-        "drawnPerReport": "Maria-Alejandra OShaughnessy-Whitfield",
-        "independentByteCheck": "expected string present verbatim in fixture bytes via pdftotext"
-       },
-       {
-        "fixture": "boundary",
-        "field": "Case Name",
-        "expected": "Maria-Alejandra O’Shaughnessy-Whitfield",
-        "drawnPerReport": "Maria-Alejandra OShaughnessy-Whitfield",
-        "independentByteCheck": "expected string present verbatim in fixture bytes via pdftotext"
-       },
-       {
-        "fixture": "boundary",
-        "field": "3",
-        "expected": "Maria-Alejandra O’Shaughnessy-Whitfield",
-        "drawnPerReport": "Maria-Alejandra OShaughnessy-Whitfield",
-        "independentByteCheck": "expected string present verbatim in fixture bytes via pdftotext"
-       },
-       {
-        "fixture": "boundary",
-        "field": "117",
-        "expected": "Maria-Alejandra O’Shaughnessy-Whitfield",
-        "drawnPerReport": "Maria-Alejandra OShaughnessy-Whitfield",
-        "independentByteCheck": "expected string present verbatim in fixture bytes via pdftotext"
-       }
+      "present": [
+       "200-00130",
+       "200-00132",
+       "600-00228"
       ]
      }
     },
-    "blanksDisclosure": {
+    "KNOWN_PREFILLS": {
+     "measured": true,
      "result": "PASS",
-     "finding": "112 required-before-filing blanks each named in the field map and instructions; unclassifiedBlanks 0 on my verifier run.",
+     "finding": "knownRequiredFieldsMissing 0 and requiredFactsNotCollected 0 on my own verifier run in this container, and every one of the 47 values the platform claims to have prefilled is proven present in the finalized fixture bytes (47 of 47 confirmed; invisibleWrites 0). No prefill is asserted by the finalizer alone.",
      "evidence": {
+      "knownRequiredFieldsMissing": 0,
+      "requiredFactsNotCollected": 0,
+      "invisibleWrites": 0,
+      "writesProvenInBytes": 47,
+      "writesTotal": 47
+     }
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "unclassifiedBlanks 0 on my own verifier run: every blank the packet leaves is classified, and each REQUIRED_BEFORE_FILING blank is enumerated with why the platform holds no value for it and what the participant must supply (production-field-map.json requiredBeforeFiling, 112 such blanks).",
+     "evidence": {
+      "unclassifiedBlanks": 0,
       "source": "production-field-map.json requiredBeforeFiling",
       "requiredBeforeFiling": 112
      }
     },
-    "placeholderAndFace": {
+    "ROUTE_OPTIONS": {
+     "measured": true,
      "result": "PASS",
-     "finding": "pdftotext over every fixture finds no placeholder text (no TODO/TBD/PLACEHOLDER/lorem/{{...}}/[INSERT), and the packet face names its own jurisdiction, instrument and authority.",
+     "finding": "requiredOptionsMissing 0 and the packet declares no route election on the form face: it draws no selection mark in either fixture, redraws none of the court's boxes, and every branch control on the paper is left to the participant and listed among the blanks. There is no unmade required option.",
      "evidence": {
-      "faceChecks": [
+      "requiredOptionsMissing": 0,
+      "routeSelectionsMadeDeclared": null,
+      "selectionControlMentions": 0,
+      "marksDrawnPerDocument": [
        {
         "fixture": "canonical",
-        "chars": 10287,
-        "placeholderHits": [],
-        "mentionsOwnState": true
+        "marks": [],
+        "redrewCourtsBox": false,
+        "drewANewBox": false
+       },
+       {
+        "fixture": "canonical",
+        "marks": [],
+        "redrewCourtsBox": false,
+        "drewANewBox": false
+       },
+       {
+        "fixture": "canonical",
+        "marks": [],
+        "redrewCourtsBox": false,
+        "drewANewBox": false
        },
        {
         "fixture": "boundary",
-        "chars": 10660,
-        "placeholderHits": [],
-        "mentionsOwnState": true
+        "marks": [],
+        "redrewCourtsBox": false,
+        "drewANewBox": false
+       },
+       {
+        "fixture": "boundary",
+        "marks": [],
+        "redrewCourtsBox": false,
+        "drewANewBox": false
+       },
+       {
+        "fixture": "boundary",
+        "marks": [],
+        "redrewCourtsBox": false,
+        "drewANewBox": false
        }
-      ],
-      "statutoryAuthority": null,
-      "jurisdiction": "VT"
-     }
-    },
-    "filingInstructions": {
-     "result": "PASS",
-     "finding": "participant-instructions.md is present and substantive, enumerating the items the participant must supply.",
-     "evidence": {
-      "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill/participant-instructions.md",
-      "bytes": 11871
-     }
-    },
-    "rasterVisual": {
-     "result": "PASS",
-     "finding": "The central raster workflow holds a hash-bound RASTER_PASS for this family, and the queue's canonical and boundary PDF sha256 values match the bytes I rehashed in this worktree.",
-     "evidence": {
-      "state": "RASTER_PASS",
-      "canonicalPdfSha256": "39d9ac94bb59f196f4e236ca2a11f30507b7680a103ef95b6cbe060e5c1684f8",
-      "boundaryPdfSha256": "010b7fdedd026da5d014460185ecf1c17cf7801f51eea877feedddcae7d4ddf8"
-     }
-    },
-    "commercialPosture": {
-     "result": "PASS",
-     "finding": "generationAllowed false, runtimeSelectable false, commercialRoutesOpened 0 in production-field-map.json; approval-request claims no approval and no live status. This verdict opens nothing.",
-     "evidence": {
-      "fieldMap": {
-       "generationAllowed": false,
-       "runtimeSelectable": false,
-       "commercialRoutesOpened": 0
-      },
-      "approvalRequest": {
-       "approvedForLive": false,
-       "live": false
-      }
-     }
-    }
-   }
-  },
-  {
-   "itemId": "wi_nc_doj_fingerprint_removal-set",
-   "verdict": "PASS_COMPLETE_INDEPENDENT",
-   "familyDirectory": "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-fingerprint-removal-set--official-pdf-fill",
-   "verifier": "FABLE-VT3 (independent — built none of these packets)",
-   "verifiedAtBase": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666",
-   "proofObligations": {
-    "routeIdentity": {
-     "result": "PASS",
-     "finding": "Wisconsin DOJ fingerprint record removal request, form DJ-LE-250B, citing Wisconsin State Statute 165.84(1) on its face. The source form's own subset fonts lack ToUnicode maps, so parts of the printed boilerplate extract as mojibake; the fill glyphs themselves read back correctly and the form identity is bound by SHA-256 to the DJ-LE-250B source bytes.",
-     "evidence": {
-      "form": "DJ-LE-250B",
-      "statute": "Wis. Stat. 165.84(1)"
-     }
-    },
-    "componentSet": {
-     "result": "PASS",
-     "finding": "The single declared form DJ-LE-250B is the packet.",
-     "evidence": {
-      "declared": [
-       "DJ-LE-250B"
-      ],
-      "present": [
-       "DJ-LE-250B"
       ]
      }
     },
-    "completenessCounters": {
+    "REPEATING_ROWS": {
+     "measured": true,
      "result": "PASS",
-     "finding": "Re-run in this container at base edf5ff14b9bb418dfafc57b75e4a7acc6ece1666: verify-packet-completeness.mjs --family wi_nc_doj_fingerprint_removal-set returns PASS_COMPLETE with all nine counters zero (knownRequiredFieldsMissing, requiredFactsNotCollected, unclassifiedBlanks, incompleteRows, requiredOptionsMissing, requiredComponentsMissing, invisibleWrites, protectedWrites, visualDefects).",
+     "finding": "incompleteRows 0; 112 required-before-filing blanks, mostly the 600-00228 financial affidavit, carried whole to the participant.",
      "evidence": {
-      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wi_nc_doj_fingerprint_removal-set",
-      "result": "PASS_COMPLETE",
-      "allNineCountersZero": true
+      "incompleteRows": 0,
+      "repeatingStructuresInMap": 0
      }
     },
-    "sourceIdentity": {
+    "PROTECTED_FIELDS": {
+     "measured": true,
      "result": "PASS",
-     "finding": "Every bound source was rehashed from the Master Library bytes mounted in the shared checkout (private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1); each recomputed SHA-256 and byte length agrees with source-receipt.json and the committed local-source-corpus-index.json entry, and every page-manifest sourceSha256 is a receipt sha.",
+     "finding": "protectedWrites 0 on my own verifier run, and the byte proof shows no refused field carrying ink in any document: signature, jurat, court-order, clerk and agency-only fields are refused and stay empty in the delivered bytes.",
+     "evidence": {
+      "protectedWrites": 0,
+      "refusedFieldsWithInk": 0,
+      "protectedDispositionsInMap": 0,
+      "protectedInBlanksReport": null
+     }
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both fixtures rehash to the recorded sha256/byteLength; all 47 writes proven in the bytes, with the 7 boundary apostrophe readback rows resolved against the bytes by pdftotext. Mechanically this packet is as complete as its siblings — which is not what blocks it.",
+     "evidence": {
+      "fixtures": [
+       {
+        "fixture": "canonical",
+        "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill/fixtures/canonical.pdf",
+        "pageCount": 6,
+        "shaMatches": true,
+        "byteLenMatches": true
+       },
+       {
+        "fixture": "boundary",
+        "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill/fixtures/boundary.pdf",
+        "pageCount": 6,
+        "shaMatches": true,
+        "byteLenMatches": true
+       }
+      ],
+      "actualWrites": {
+       "total": 47,
+       "verifiedInBytes": 47,
+       "unrecordedPerWrite": 0,
+       "reportReadbackDiscrepanciesResolvedAgainstBytes": [
+        {
+         "fixture": "boundary",
+         "field": "Defendant",
+         "expected": "Maria-Alejandra O’Shaughnessy-Whitfield",
+         "drawnPerReport": "Maria-Alejandra OShaughnessy-Whitfield",
+         "independentByteCheck": "expected string present verbatim in fixture bytes via pdftotext"
+        },
+        {
+         "fixture": "boundary",
+         "field": "38",
+         "expected": "Maria-Alejandra O’Shaughnessy-Whitfield",
+         "drawnPerReport": "Maria-Alejandra OShaughnessy-Whitfield",
+         "independentByteCheck": "expected string present verbatim in fixture bytes via pdftotext"
+        },
+        {
+         "fixture": "boundary",
+         "field": "Defendant",
+         "expected": "Maria-Alejandra O’Shaughnessy-Whitfield",
+         "drawnPerReport": "Maria-Alejandra OShaughnessy-Whitfield",
+         "independentByteCheck": "expected string present verbatim in fixture bytes via pdftotext"
+        },
+        {
+         "fixture": "boundary",
+         "field": "34d",
+         "expected": "Maria-Alejandra O’Shaughnessy-Whitfield",
+         "drawnPerReport": "Maria-Alejandra OShaughnessy-Whitfield",
+         "independentByteCheck": "expected string present verbatim in fixture bytes via pdftotext"
+        },
+        {
+         "fixture": "boundary",
+         "field": "Case Name",
+         "expected": "Maria-Alejandra O’Shaughnessy-Whitfield",
+         "drawnPerReport": "Maria-Alejandra OShaughnessy-Whitfield",
+         "independentByteCheck": "expected string present verbatim in fixture bytes via pdftotext"
+        },
+        {
+         "fixture": "boundary",
+         "field": "3",
+         "expected": "Maria-Alejandra O’Shaughnessy-Whitfield",
+         "drawnPerReport": "Maria-Alejandra OShaughnessy-Whitfield",
+         "independentByteCheck": "expected string present verbatim in fixture bytes via pdftotext"
+        },
+        {
+         "fixture": "boundary",
+         "field": "117",
+         "expected": "Maria-Alejandra O’Shaughnessy-Whitfield",
+         "drawnPerReport": "Maria-Alejandra OShaughnessy-Whitfield",
+         "independentByteCheck": "expected string present verbatim in fixture bytes via pdftotext"
+        }
+       ]
+      }
+     }
+    },
+    "PAGE_ORDER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The page order in the bytes matches the declared manifest across both fixtures: packetPage numbers run 1..n with no gap or repeat, the manifest covers every page pdfinfo counts in the file, each page names the component and document it came from, and each component's source pages stay in their own ascending order.",
+     "evidence": [
+      {
+       "fixture": "canonical",
+       "declaredPageCount": 6,
+       "pagesInBytes": 6,
+       "manifestEntries": 6,
+       "packetPagesStrictlyAscending": true,
+       "everyPageBoundToASource": true,
+       "declaredMatchesBytes": true,
+       "manifestCoversEveryPage": true
+      },
+      {
+       "fixture": "boundary",
+       "declaredPageCount": 6,
+       "pagesInBytes": 6,
+       "manifestEntries": 6,
+       "packetPagesStrictlyAscending": true,
+       "everyPageBoundToASource": true,
+       "declaredMatchesBytes": true,
+       "manifestCoversEveryPage": true
+      }
+     ]
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "visualDefects 0 on my own verifier run; the byte proof reports 0 non-whitespace glyphs outside the measured write boxes in every document and no unfittable value; and the central raster workflow holds a RASTER_PASS for this family whose recorded canonical and boundary sha256 match the bytes I rehashed here.",
+     "evidence": {
+      "visualDefects": 0,
+      "strayGlyphsOutsideWriteBoxes": 0,
+      "unfittable": 0,
+      "rasterState": "RASTER_PASS"
+     }
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "FAIL",
+     "finding": "Unlike all four of its Vermont siblings, this family's participant-instructions.md carries no 'Where you file this' section: it never names the court, the division or the unit to file in. The Vermont shared-host filing-handoff repair recorded in VERMONT_REPAIR.json did not reach this family — consistent with the repair record routing it out of the build queue instead — but it remains a defect to repair if counsel settles the clock and the family re-enters the queue.",
+     "evidence": {
+      "sectionsPresent": [
+       "What you must do before you file",
+       "The items you must supply",
+       "Things the platform deliberately left blank",
+       "What this packet is not"
+      ],
+      "missing": "## Where you file this",
+      "siblingsWithIt": [
+       "vt_seal_misdemeanor-set",
+       "vt_exp_decriminalized-set"
+      ]
+     }
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The fee-waiver application (600-00228) is included and its use explained — file it only if you cannot pay; public assistance lets you stop after Section 1. No amount is stated and none is invented.",
+     "evidence": {
+      "waiverForm": "600-00228, included"
+     }
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "FAIL",
+     "finding": "The instructions never state who must receive a copy or how. Its siblings answer this by naming the open question and the clerk to ask, and by warning that the State's Attorney's stipulation signature is not service; this family carries the stipulation-signature step but no service statement of any kind, so a participant reading it could take the prosecutor's signature for service.",
+     "evidence": {
+      "stipulationStepPresent": true,
+      "serviceStatement": "absent",
+      "siblingTreatment": "names the open question, the person to ask, and the not-service guard"
+     }
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Present in the sibling form: if the State's Attorney will not sign the stipulation, file the petition on its own and ask the court to set a hearing, and the packet states it does not decide whether the court will grant sealing.",
+     "evidence": {
+      "branch": "prosecutor refuses to sign -> file the petition alone and ask for a hearing"
+     }
+    },
+    "LEGAL_INPUT": {
+     "measured": true,
+     "result": "BLOCKED_LEGAL_INPUT",
+     "finding": "This is what decides the row. The family's own committed treatment record (data/rcap-all50/terminalization-treatments/vt.json, trackId vt_seal_pardon) is exact_supported_deferral: the statute does not resolve whether a pardoned misdemeanour runs on the three-year clock at 13 V.S.A. § 7602(c) or the seven-year clock at § 7602(d), and that timing question decides when the participant may file at all. VERMONT_REPAIR.json's pardonRoute disposition — 'counsel question VTL01; leaves the build and verification queues until answered' — is still in force: the VTL01 output directory data/rcap-grade-a/codex-cloud/vtl01-vt-pardon-clock/ does not exist and no counsel answer is recorded anywhere in the repository. The MASTER_QUEUE carries legalInputStatus SETTLED, which VERMONT_REPAIR itself records as the Captain-side error that produced this filing-ready packet. A packet that tells a participant how to file when the law does not resolve whether they may file yet cannot pass, however mechanically complete it is.",
+     "evidence": {
+      "treatmentRecord": "data/rcap-all50/terminalization-treatments/vt.json — vt_seal_pardon: exact_supported_deferral",
+      "repairRecord": "data/rcap-grade-a/packet-factory-24h/VERMONT_REPAIR.json pardonRoute.disposition",
+      "counselQuestion": "docs/rcap/grade-a/packet-factory-24h/vermont-repair/VTL01_VT_PARDON_CLOCK.md",
+      "vtl01OutputDirectory": "data/rcap-grade-a/codex-cloud/vtl01-vt-pardon-clock/ — DOES NOT EXIST",
+      "queueContradiction": "MASTER_QUEUE legalInputStatus SETTLED vs the treatment record's deferral"
+     }
+    }
+   },
+   "failedProofObligations": [
+    "FILING_DESTINATION",
+    "SERVICE"
+   ],
+   "notMeasurableHere": [
+    "LEGAL_INPUT"
+   ]
+  },
+  {
+   "itemId": "wi_nc_doj_fingerprint_removal-set",
+   "lane": "VF09",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-fingerprint-removal-set--official-pdf-fill",
+   "verifier": "FABLE-VT3 (independent — built none of these packets)",
+   "verifiedAtBase": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true
+   },
+   "rasterState": "RASTER_PASS",
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Wisconsin Fingerprint Record Removal Request, DOJ Crime Information Bureau form DJ-LE-250B under Wis. Stat. § 165.84; route track:WI:wi_nc_doj_fingerprint_removal. The form's subset font (glyph codes are ASCII minus 29) makes much of the printed page-1 boilerplate extract as mojibake, which the family documents in reports/caption-evidence.json rather than un-shifting and inventing text; the filled glyphs themselves read back correctly and the form identity is bound by SHA-256, not by extraction.",
+     "evidence": {
+      "form": "DJ-LE-250B",
+      "statute": "Wis. Stat. § 165.84"
+     }
+    },
+    "SOURCE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The single bound source rehashes from the Master Library bytes to the recorded SHA-256 and byte length, agrees with the committed corpus index and is indexed under state WI; both packet pages carry that sha.",
      "evidence": [
       {
        "form": "DJ-LE-250B",
@@ -1406,115 +1800,237 @@
       }
      ]
     },
-    "artifactIdentity": {
+    "COMPONENT_SET": {
+     "measured": true,
      "result": "PASS",
-     "finding": "Both committed fixture PDFs rehash to exactly the sha256 and byteLength recorded in reports/rendered-artifacts.json.",
-     "evidence": [
-      {
-       "fixture": "canonical",
-       "file": "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-fingerprint-removal-set--official-pdf-fill/fixtures/canonical.pdf",
-       "pageCount": 2,
-       "shaMatches": true,
-       "byteLenMatches": true
-      },
-      {
-       "fixture": "boundary",
-       "file": "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-fingerprint-removal-set--official-pdf-fill/fixtures/boundary.pdf",
-       "pageCount": 2,
-       "shaMatches": true,
-       "byteLenMatches": true
-      }
-     ]
-    },
-    "actualWrites": {
-     "result": "PASS",
-     "finding": "All 20 writes proven in bytes; the 2 boundary rows where the committed readback dropped the U+2019 apostrophe in 'O’Shaughnessy-Whitfield' were re-read with pdftotext and the apostrophe is present in the fixture bytes (2 occurrences, 0 apostrophe-less occurrences).",
+     "finding": "requiredComponentsMissing 0; the declared single form DJ-LE-250B is the packet, across 2 pages.",
      "evidence": {
-      "total": 20,
-      "verifiedInBytes": 20,
-      "unrecordedPerWrite": 0,
-      "reportReadbackDiscrepanciesResolvedAgainstBytes": [
-       {
-        "fixture": "boundary",
-        "field": "requester-last-name",
-        "expected": "O’Shaughnessy-Whitfield",
-        "drawnPerReport": "OShaughnessy-Whitfield",
-        "independentByteCheck": "expected string present verbatim in fixture bytes via pdftotext"
-       },
-       {
-        "fixture": "boundary",
-        "field": "subject-last-name",
-        "expected": "O’Shaughnessy-Whitfield",
-        "drawnPerReport": "OShaughnessy-Whitfield",
-        "independentByteCheck": "expected string present verbatim in fixture bytes via pdftotext"
-       }
+      "declared": [
+       "DJ-LE-250B"
+      ],
+      "present": [
+       "DJ-LE-250B"
       ]
      }
     },
-    "blanksDisclosure": {
+    "KNOWN_PREFILLS": {
+     "measured": true,
      "result": "PASS",
-     "finding": "Every blank left for the participant is enumerated and classified (reports/blanks-left-for-the-participant.json); each REQUIRED_BEFORE_FILING blank carries why + participantMustSupply, and my verifier run measures unclassifiedBlanks 0.",
+     "finding": "knownRequiredFieldsMissing 0 and requiredFactsNotCollected 0 on my own verifier run in this container, and every one of the 20 values the platform claims to have prefilled is proven present in the finalized fixture bytes (20 of 20 confirmed; invisibleWrites 0). No prefill is asserted by the finalizer alone.",
      "evidence": {
+      "knownRequiredFieldsMissing": 0,
+      "requiredFactsNotCollected": 0,
+      "invisibleWrites": 0,
+      "writesProvenInBytes": 20,
+      "writesTotal": 20
+     }
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "unclassifiedBlanks 0 on my own verifier run: every blank the packet leaves is classified, and each REQUIRED_BEFORE_FILING blank is enumerated with why the platform holds no value for it and what the participant must supply (reports/blanks-left-for-the-participant.json, 22 such blanks).",
+     "evidence": {
+      "unclassifiedBlanks": 0,
       "source": "reports/blanks-left-for-the-participant.json",
       "requiredBeforeFiling": 22
      }
     },
-    "placeholderAndFace": {
+    "ROUTE_OPTIONS": {
+     "measured": true,
      "result": "PASS",
-     "finding": "pdftotext over every fixture finds no placeholder text (no TODO/TBD/PLACEHOLDER/lorem/{{...}}/[INSERT), and the packet face names its own jurisdiction, instrument and authority.",
+     "finding": "requiredOptionsMissing 0 and the packet declares no route election on the form face: it draws no selection mark in either fixture, redraws none of the court's boxes, and every branch control on the paper is left to the participant and listed among the blanks. There is no unmade required option.",
      "evidence": {
-      "faceChecks": [
+      "requiredOptionsMissing": 0,
+      "routeSelectionsMadeDeclared": null,
+      "selectionControlMentions": 0,
+      "marksDrawnPerDocument": [
        {
         "fixture": "canonical",
-        "chars": 6506,
-        "placeholderHits": [],
-        "mentionsOwnState": true
+        "marks": [],
+        "redrewCourtsBox": false,
+        "drewANewBox": false
        },
        {
         "fixture": "boundary",
-        "chars": 6613,
-        "placeholderHits": [],
-        "mentionsOwnState": true
+        "marks": [],
+        "redrewCourtsBox": false,
+        "drewANewBox": false
+       }
+      ]
+     }
+    },
+    "REPEATING_ROWS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "incompleteRows 0. The three-row arrest and conviction table is carried whole to the participant, and the instructions state the rule that makes a zero here meaningful: 'Fill a row completely or leave it empty: a row with the date filled and the agency case number missing reads as finished and is not.'",
+     "evidence": {
+      "incompleteRows": 0,
+      "repeatingStructuresInMap": 0
+     }
+    },
+    "PROTECTED_FIELDS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "protectedWrites 0 and no refused field carries ink: the two fingerprint boxes, the signature and its date, and the box at the foot of the page marked for the Bureau's use are all left empty in the delivered bytes, and the instructions tell the participant to leave the Bureau's box alone.",
+     "evidence": {
+      "protectedWrites": 0,
+      "refusedFieldsWithInk": 0,
+      "protectedDispositionsInMap": 0,
+      "protectedInBlanksReport": null
+     }
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both fixtures rehash to the recorded sha256/byteLength. All 20 writes proven in the bytes; the 2 boundary rows the committed readback reported as mismatched had dropped the U+2019 apostrophe from 'O’Shaughnessy-Whitfield', and pdftotext over the boundary fixture finds it present twice with no apostrophe-less occurrence.",
+     "evidence": {
+      "fixtures": [
+       {
+        "fixture": "canonical",
+        "file": "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-fingerprint-removal-set--official-pdf-fill/fixtures/canonical.pdf",
+        "pageCount": 2,
+        "shaMatches": true,
+        "byteLenMatches": true
+       },
+       {
+        "fixture": "boundary",
+        "file": "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-fingerprint-removal-set--official-pdf-fill/fixtures/boundary.pdf",
+        "pageCount": 2,
+        "shaMatches": true,
+        "byteLenMatches": true
        }
       ],
-      "statutoryAuthority": "Wis. Stat. § 165.84; Wisconsin Department of Justice, Crime Information Bureau form DJ-LE-250B",
-      "jurisdiction": "WI"
-     }
-    },
-    "filingInstructions": {
-     "result": "PASS",
-     "finding": "participant-instructions.md is present and substantive, enumerating the items the participant must supply.",
-     "evidence": {
-      "file": "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-fingerprint-removal-set--official-pdf-fill/participant-instructions.md",
-      "bytes": 13771
-     }
-    },
-    "rasterVisual": {
-     "result": "PASS",
-     "finding": "The central raster workflow holds a hash-bound RASTER_PASS for this family, and the queue's canonical and boundary PDF sha256 values match the bytes I rehashed in this worktree.",
-     "evidence": {
-      "state": "RASTER_PASS",
-      "canonicalPdfSha256": "5b475b11c17c35f8edc37bada78716e8b14471b1951966604b7a678412fc6cc6",
-      "boundaryPdfSha256": "3fd596ff112fd2f6ef55ca9a14c2fe0702eb107af9f715554b45503e3d7861f3"
-     }
-    },
-    "commercialPosture": {
-     "result": "PASS",
-     "finding": "generationAllowed false, runtimeSelectable false, commercialRoutesOpened 0 in production-field-map.json; approval-request claims no approval and no live status. This verdict opens nothing.",
-     "evidence": {
-      "fieldMap": {
-       "generationAllowed": false,
-       "runtimeSelectable": false,
-       "commercialRoutesOpened": 0
-      },
-      "approvalRequest": {
-       "status": "PENDING_INDEPENDENT_VERIFICATION",
-       "approvedForLive": false,
-       "live": false
+      "actualWrites": {
+       "total": 20,
+       "verifiedInBytes": 20,
+       "unrecordedPerWrite": 0,
+       "reportReadbackDiscrepanciesResolvedAgainstBytes": [
+        {
+         "fixture": "boundary",
+         "field": "requester-last-name",
+         "expected": "O’Shaughnessy-Whitfield",
+         "drawnPerReport": "OShaughnessy-Whitfield",
+         "independentByteCheck": "expected string present verbatim in fixture bytes via pdftotext"
+        },
+        {
+         "fixture": "boundary",
+         "field": "subject-last-name",
+         "expected": "O’Shaughnessy-Whitfield",
+         "drawnPerReport": "OShaughnessy-Whitfield",
+         "independentByteCheck": "expected string present verbatim in fixture bytes via pdftotext"
+        }
+       ]
       }
      }
+    },
+    "PAGE_ORDER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The page order in the bytes matches the declared manifest across both fixtures: packetPage numbers run 1..n with no gap or repeat, the manifest covers every page pdfinfo counts in the file, each page names the component and document it came from, and each component's source pages stay in their own ascending order.",
+     "evidence": [
+      {
+       "fixture": "canonical",
+       "declaredPageCount": 2,
+       "pagesInBytes": 2,
+       "manifestEntries": 2,
+       "packetPagesStrictlyAscending": true,
+       "everyPageBoundToASource": true,
+       "declaredMatchesBytes": true,
+       "manifestCoversEveryPage": true
+      },
+      {
+       "fixture": "boundary",
+       "declaredPageCount": 2,
+       "pagesInBytes": 2,
+       "manifestEntries": 2,
+       "packetPagesStrictlyAscending": true,
+       "everyPageBoundToASource": true,
+       "declaredMatchesBytes": true,
+       "manifestCoversEveryPage": true
+      }
+     ]
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "visualDefects 0, 0 non-whitespace glyphs outside the measured write boxes, no unfittable value, and a hash-bound RASTER_PASS. This family's write boxes are bounded on four measured strokes of the ruled table read from the content stream — the build refuses the box if any stroke has moved — which is a stricter clipping guard than the single-underline path.",
+     "evidence": {
+      "visualDefects": 0,
+      "strayGlyphsOutsideWriteBoxes": 0,
+      "unfittable": 0,
+      "rasterState": "RASTER_PASS"
+     }
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Named, and correctly distinguished from a court: the request 'is sent to the Crime Information Bureau of the Wisconsin Department of Justice, not to a court'. The Bureau's postal address is printed on page 1 of the delivered form, which does not extract readably, and the instructions direct the participant to read page 1 on the paper rather than restating text the build could not read.",
+     "evidence": {
+      "destination": "Crime Information Bureau, Wisconsin Department of Justice",
+      "address": "printed on page 1 of the delivered form; extraction defect documented, participant directed to the paper"
+     }
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "FAIL",
+     "finding": "The packet never addresses what this costs. participant-instructions.md contains no fee, cost, charge or payment statement anywhere — I searched the whole file including its tables — and it does not say there is no fee, does not name an amount, and does not tell the participant whom to ask. Every other family in this lane set answers the question one of those three ways. I also decoded the shifted page-1 font myself and found no fee statement on the form face, so the likely truth is that no fee applies; but the packet nowhere says so, and a participant cannot tell the difference between 'no fee' and 'not mentioned'. REPAIR: state in participant-instructions.md what the form does and does not say about cost — that the Bureau's form names no fee, and that the participant should confirm with the Crime Information Bureau before sending — in the same honest form the CO, VT, AK and GA families already use.",
+     "evidence": {
+      "searchedFile": "participant-instructions.md, whole file including tables",
+      "matchesFor": "fee|cost|charge|pay|$|free|money|price",
+      "nonTableMatches": 0,
+      "feeStatementOnFormFace": "none found after decoding the -29 glyph shift on page 1",
+      "comparableFamilies": {
+       "co": "ask the clerk what fee applies",
+       "vt": "ask the clerk; waiver form included",
+       "ak": "ask the clerk of the court above",
+       "ga": "unresolved and county-specific, ask the clerk"
+      }
+     }
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "For a records request to a state agency, service is the sending, and the packet states it: send the completed request to the named Bureau together with the supporting documentation the form's own instruction 2b requires — a certified copy of the court order reversing, setting aside or vacating the conviction where the request follows a conviction, finding or adjudication — and copies of any dismissal documentation to speed processing. No court service applies to this route and none is implied.",
+     "evidence": {
+      "sendTo": "Crime Information Bureau, Attn: Criminal History Unit",
+      "enclosures": "certified court order and dismissal documentation per the form's instruction 2b"
+     }
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Present and unusually pointed: the packet quotes the form's own warning that the signature also requests expungement of the participant's DNA Databank record at the State Crime Laboratory and tells them 'If you do not want your DNA Databank record touched, do not sign this form until you have asked the Bureau about it'; it quotes State v. Leitner to warn that a court expungement does not remove the DOJ fingerprint record and vice versa; and it states that the packet does not decide whether the record can be removed and that page 1 must be read on the paper because most of it does not extract.",
+     "evidence": {
+      "stops": [
+       "DNA Databank consequence — do not sign until you have asked",
+       "court expungement is not this remedy",
+       "read page 1 on the paper"
+      ]
+     }
     }
-   }
+   },
+   "failedProofObligations": [
+    "FEE_AND_WAIVER"
+   ],
+   "notMeasurableHere": []
   }
- ]
+ ],
+ "obligationSet": [
+  "ROUTE_IDENTITY",
+  "SOURCE_IDENTITY",
+  "COMPONENT_SET",
+  "KNOWN_PREFILLS",
+  "REQUIRED_BEFORE_FILING",
+  "ROUTE_OPTIONS",
+  "REPEATING_ROWS",
+  "PROTECTED_FIELDS",
+  "ARTIFACTS",
+  "PAGE_ORDER",
+  "CLIPPING_AND_OVERLAP",
+  "FILING_DESTINATION",
+  "FEE_AND_WAIVER",
+  "SERVICE",
+  "SELF_HELP_STOP"
+ ],
+ "obligationSetNote": "Lane contract L9: a PASS_COMPLETE_INDEPENDENT verdict scores the canonical fifteen, each by its own name. A row carrying any NOT_MEASURABLE_HERE is capped at PASS."
 }
