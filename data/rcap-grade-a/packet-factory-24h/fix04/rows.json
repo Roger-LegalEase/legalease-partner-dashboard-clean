@@ -1,132 +1,97 @@
 {
-  "schemaVersion": "rcap-grade-a-packet-factory-24h-repair-return/v1",
-  "assignmentId": "FIX04",
-  "worker": "FIX-B",
-  "baseSha": "d8cec20df70f8a27f41f8928744f28b0fa38a024",
-  "shiftBaseSha": "09b741ad00be0d630bd73a72f66640294abab397",
-  "minimumRequiredAncestor": "1d88410129d4f2240bb6dbd242e63884fe01e7e2",
+  "schemaVersion": "rcap-packet-factory-lane-return/v1",
+  "worker": "FABLE-FA",
+  "workerBranch": "fable/fa",
   "laneKind": "repair",
-  "familiesRepaired": 0,
-  "familiesStopped": 2,
-  "nineCountersZeroOn": [],
-  "commercialRoutesOpened": 0,
+  "baseSha": "ee5bdb5b56d69c00750663087e5e8c5a6d144acf",
+  "question": "Were exactly the failed proof obligations repaired, on exactly the families they failed on?",
+  "selfVerified": false,
   "productionTouched": false,
-  "preflight": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 8/13 passed, 5 failed, 3 not applicable",
-  "laneSummary": "Every family this lane was handed reproduces its assigned obligations exactly, so the diagnosis needed no re-derivation. None could be repaired: repair means re-rendering against the pinned source bytes, and the Master Library is not mountable in this environment. Nothing was written to any family, no counter was zeroed, and no artifact hash was recorded for bytes that were never produced.",
+  "commercialRoutesOpened": 0,
+  "grantsNothing": "This is a repairer's return. It promotes no family, proves none, and opens no commercial route.",
+  "preflight": {
+    "command": "node scripts/verify-packet-build-environment.mjs --family <familyId>",
+    "result": "12/13 passed, 1 failed, 4 not applicable",
+    "theOneFailure": "family_sources_bind reported 9 of 9 sources do not bind. It is an instrument defect, not a packet defect, and it was not worked around. familySources() takes the custody row's path, which for these families is the repo-relative private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/UT/... , and joins it onto masterLibraryRoot(); the join can never exist. Both copies of every source were hashed by hand in this lane and both bind: 1000EX hashes 401e0563ae4dddee7a447c4b3fa9d043477402188c98fd3b108087c84c986611 under the Master Library and under the d_source_packs tree, which is the digest the receipt and the committed corpus index carry. The builder binds through MASTER_LIBRARY_SOURCE_DIR and its own re-hash, and it built. Reported for Captain rather than repaired: scripts/verify-packet-build-environment.mjs is not this lane's path.",
+    "rasterizer": "pdftoppm 22.12.0 via PATH. This host rasters at build time through Poppler, not a browser; no Chromium was needed and none was reached for."
+  },
+  "determinismProof": "Every family on this host was built at base BEFORE any edit and produced a zero-byte git diff, so the environment reproduces the committed bytes exactly. After the edit each repaired family was built twice and the second build reproduced the first byte for byte across both fixtures and participant-instructions.md.",
+  "theSharedHost": {
+    "host": "scripts/build-census-v1-ut_pet_acquittal-set.mjs",
+    "familiesOnIt": 7,
+    "familiesThisLaneHolds": [
+      "ut_pet_dismissed_without_prejudice-set",
+      "ut_pet_limitations-set",
+      "ut_pet_no_charges-set"
+    ],
+    "familiesOutsideThisGrant": [
+      "ut_pet_acquittal-set",
+      "ut_pet_conviction-set",
+      "ut_pet_dismissed_with_prejudice-set",
+      "ut_pet_traffic-set"
+    ],
+    "howCollisionWasAvoided": "Every change is gated behind a per-family config flag that the four families outside this grant do not set. All four were rebuilt after the edit and every one produced a zero-byte diff - fixtures, rasters, participant-instructions.md, field maps and reports alike. One first attempt DID move two of them: rewording the shared statesManifestPreFilingItems observation string changed ut_pet_conviction-set's and ut_pet_dismissed_with_prejudice-set's build-findings.json. That was caught by the control rebuild, the wording was restored verbatim, the two files were restored from HEAD, and the new detail was moved into a separate route-gated observation. It is recorded here rather than quietly fixed, because the control catching it is the only reason it is not in the diff.",
+    "controlFamilyHashesUnchanged": {
+      "ut_pet_acquittal-set": {
+        "canonical": "ad594f0a40750195b67e36916f3628df5b96d337e4955c9063b415747d6e36d6",
+        "boundary": "b3ba83a65754f96fe58083de62a3ce879654d6362170e11bae2f043e4c39a765",
+        "participantInstructions": "cc36d6cfd2cbf534430fcc22b922407bc861c270c94ee04fe8ceb370811dc869"
+      },
+      "ut_pet_conviction-set": {
+        "canonical": "ad594f0a40750195b67e36916f3628df5b96d337e4955c9063b415747d6e36d6",
+        "boundary": "b3ba83a65754f96fe58083de62a3ce879654d6362170e11bae2f043e4c39a765",
+        "participantInstructions": "1e40d146e7b2ad3a1ae1188583d96582adfb17279523cb4415e8959dfa9f3697"
+      },
+      "ut_pet_dismissed_with_prejudice-set": {
+        "canonical": "ad594f0a40750195b67e36916f3628df5b96d337e4955c9063b415747d6e36d6",
+        "boundary": "b3ba83a65754f96fe58083de62a3ce879654d6362170e11bae2f043e4c39a765",
+        "participantInstructions": "332d579373cc7b86440232f05c60e89170f556f789ab3b78ae885b511498cc08"
+      },
+      "ut_pet_traffic-set": {
+        "canonical": "b5fcdd1601c823f3ebc6b18f74f5b639789220ec9e8363202c6e1492f9d90909",
+        "boundary": "ef8b488fe1f78f87a47419ddf2123ad9909b88612931a8c031ade0299a8d6e03",
+        "participantInstructions": "3ecd87cebe9aeee9aad98e272abf9a737ae3b9fb3222f66a9239028ff4e26afe"
+      }
+    }
+  },
+  "reportedNotRepaired": {
+    "theSameClippingDefectOnThreeUnheldFamilies": "ut_pet_acquittal-set, ut_pet_conviction-set and ut_pet_dismissed_with_prejudice-set deliver the identical BCI application page 18 through the identical write box at x=50.5, so the participant's name is drawn over the pre-printed \"I\" of the sworn declaration in their delivered bytes too. This lane holds no grant on them and moving the box unconditionally would have rewritten their bytes, so the flag exists and they do not set it. Repairing them is one word per family for whichever lane holds them.",
+    "theCertificateAnswerOnTheAcquittalRoute": "ut_pet_acquittal-set is an acquittal, and the compiled profile's exempting limb names acquittals. Its shipped instructions still tell the participant the packet cannot state the certificate amount and to ask BCI - the same A1 defect this lane repaired on the dismissal and declination routes. Not this lane's family and not touched. Whoever holds it can set certificateIssuanceFeeHeldExempt: \"an acquittal\" and get the same repair.",
+    "aWordInTheExistingSharedText": "The paragraph the three already-flagged families ship says \"The certificates themselves cost more than the application\". The only held basis for a comparison is the profile's \"an additional $65 per case\" for conviction, plea-in-abeyance and special certificates. For a route in that class the sentence is supportable; this lane did not extend it to any route outside that class, which is why ut_pet_limitations-set got new wording rather than the existing paragraph. Flagged, not decided, and not edited on families this lane does not hold."
+  },
+  "whatCouldNotBeEstablished": [
+    "The per-incident BCI CERTIFICATE price for ut_pet_limitations-set. Nothing in the repository states it for a charge ended by the limitations period, and the one profile sentence that speaks to certificate pricing addresses other dispositions. The packet names BCI as the authority and says why; no figure was invented.",
+    "Whether BCI's published FAQ exemption for \"dismissals\" is meant to reach a dismissal WITHOUT prejudice specifically. The profile's word is unqualified and the charging limb names dispositions this route is not, so the exemption is stated as what the held record holds - and the packet tells the participant in the same breath to confirm it with BCI before paying, and says the record is a published FAQ rather than a statutory schedule. A lane wanting certainty should read the BCI FAQ the profile cites."
+  ],
+  "assignmentId": "FIX04",
+  "theCaliforniaFamilies": {
+    "what": "ca-1203-41-set (FIX01), ca-1203-42-set (FIX02) and ca-1203-4a-set (FIX03) each answered ALREADY_RELEASED at --assert: the grant sits on this lane but was closed by an earlier worker on 2026-09-01 at 23:56:32.720Z, 23:57:38.089Z and 23:58:22.837Z. A refused assert is a full stop, so nothing was read and nothing was written for any of them, and this lane did not reissue its own released grant to get around the refusal.",
+    "theSharedHostFixWasNotApplied": "The brief describes a known shared-host fix for the California clipping defect - detachFromAcroForm() scanning only the top level of /AcroForm /Fields, so a pushbutton's /MK /CA caption survives suppression on XFA-generated forms and pdf-lib redraws it off the page edge - and instructs that it be applied only if this grant covers every family whose bytes it moves. It does not, on two independent grounds, so nothing was applied to that host. First, all three grants are closed. Second, the fix is described as measured across twelve California fixtures, and this lane's assignments name three California families; ca-1203-43-set and ca-17b-reduction-set are on every one of these lanes' prohibitedPaths, and ca-prop64-set, ca-851-91-set and the rest were never granted here. The prior lane reverted the same fix for the same reason. Applying it would repeat that mistake with a larger blast radius.",
+    "onTheirFees": "Recorded because it was asked and can be answered without touching them: A3 settles that the California profile's \"1203.4 dismissal petition ~$60-$150 per case\" line does not answer a 1203.41, 1203.42 or 1203.4a route, because those are different statutory sections. If nothing else establishes their fee, naming a checkable authority is the complete deliverable and not a defect to repair away."
+  },
+  "laneSummary": "FIX04 repaired nothing because it was granted nothing. Both of its assigned families are held live by other lanes, both asserts were refused, and neither family's artifacts were read.",
   "rows": [
     {
-      "itemId": "ca-1203-4a-set",
+      "itemId": "ri_nonconviction_sealing-set",
       "status": "STOPPED",
-      "obligationsAssigned": [
-        "knownRequiredFieldsMissing",
-        "unclassifiedBlanks",
-        "incompleteRows",
-        "requiredOptionsMissing",
-        "requiredComponentsMissing"
-      ],
-      "obligationRepaired": null,
-      "obligationsReproduced": true,
-      "reproductionNote": "Every obligation this lane was handed is reproduced by the focused verifier at this base without re-deriving the family: FAIL_MISSING_REQUIRED_FACTS at 6/204 terminal fields written.",
-      "stoppedBecause": "BLOCKED_SOURCE_CORPUS_NOT_ATTACHABLE_TO_THIS_SESSION",
-      "whatIsMissing": {
-        "summary": "The pinned Master Library source bytes are not mountable in this environment, so the family cannot be re-rendered and no repaired production-field-map.json, canonical.pdf or boundary.pdf can be produced.",
-        "preflight": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 8/13 passed, 5 failed, 3 not applicable",
-        "familySourcesBind": "FAIL family_sources_bind 4 of 4 source(s) do not bind",
-        "failedPreflightChecks": [
-          "FAIL clone_is_complete the clone is shallow",
-          "FAIL master_library_mounted absent at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 — run: bash scripts/rcap-corpus/bootstrap-private-corpus.sh",
-          "FAIL master_library_complete the corpus root cannot be walked (absent is not empty)",
-          "FAIL corpus_matches_committed_index the corpus root cannot be walked; nothing to compare the index against",
-          "FAIL family_sources_bind 4 of 4 source(s) do not bind"
-        ],
-        "recoveryAttempted": [
-          "bash scripts/rcap-corpus/bootstrap-private-corpus.sh, re-run on the corrected shift base c6d7ffe — still refused: HTTP 403 resolving Expungement_AI_RCAP_Master_Library_Edition_1.zip from Roger-LegalEase/legalease-source-artifacts@source-corpus-2026-08-28.",
-          "Read the 403 body rather than its status code. It does not come from GitHub. It comes from this session's GitHub proxy and reads verbatim: \"GitHub access to this repository is not enabled for this session. Use add_repo to request access. If add_repo answers that read access is already available and you need GitHub API or write access, call add_repo again with access:push to attach the repository with credentials.\"",
-          "Token identity control — GET /user answers 200 and GET /repos/Roger-LegalEase/legalease-partner-dashboard-clean answers 200 on the same token, so the credential is live and the artifacts repository is simply outside this session's repository allowlist.",
-          "add_repo(Roger-LegalEase/legalease-source-artifacts) with access:read and again with access:push — the remedy the proxy itself names. Both were refused by this session's auto-mode permission classifier, not by GitHub and not by the proxy.",
-          "Direct retrieval of the pinned official PDFs from their publisher — refused: outbound egress to publisher domains is denied by organization network policy (CONNECT tunnel 403).",
-          "Search of the worktree for a mounted corpus or committed derived-sources — private/ is absent and no derived-source binary is committed."
-        ],
-        "correctionToTheEarlierReturn": "This lane's first return attributed the 403 to the session token lacking read access to the artifacts repository, and asked for that grant. That was wrong, and CAPTAIN-9H was right to reject it: the account's access to the artifacts repository is not the obstacle. The obstacle is that this session's GitHub allowlist does not include that repository, and the one call that would add it is blocked by the local permission classifier. Granting the token more GitHub access would not have moved this lane.",
-        "captainPreflightFixConfirmed": "The second half of CAPTAIN-9H's message reproduces exactly. On c6d7ffe, browser_environment_exported and page_rasterizer_available are both correctly not applicable where nothing renders, giving the predicted 3 not-applicable checks. That defect is genuinely fixed and is no longer what stops this lane.",
-        "unblockRequires": "One of: (a) Roger approves add_repo for Roger-LegalEase/legalease-source-artifacts in this session, or adds a permission rule allowing it, after which bootstrap-private-corpus.sh should complete unaided; or (b) these families are dispatched to a worker whose session already carries the artifacts repository in its GitHub allowlist. No token grant, legal change, source change or contract change is needed."
-      },
-      "countersAfter": {
-        "knownRequiredFieldsMissing": 56,
-        "requiredFactsNotCollected": 0,
-        "unclassifiedBlanks": 89,
-        "incompleteRows": 1,
-        "requiredOptionsMissing": 15,
-        "requiredComponentsMissing": 4,
-        "invisibleWrites": 0,
-        "protectedWrites": 0,
-        "visualDefects": 0
-      },
-      "countersAfterAreUnchanged": true,
-      "countersNote": "These are the counters measured by the focused verifier at this base. This lane wrote nothing to the family, so they are the counters before and after alike. No counter was zeroed and no obligation was waived.",
-      "completenessResult": "FAIL_MISSING_REQUIRED_FACTS",
-      "canonicalPdfSha256": null,
-      "boundaryPdfSha256": null,
-      "artifactHashesNote": "No canonical or boundary PDF was produced, so no hash is recorded. A hash is never written for bytes this lane did not create.",
-      "rasterState": "NOT_APPLICABLE_NO_BUILD_OCCURRED",
-      "rasterNote": "BUILT_RASTER_PENDING would assert that every nonvisual obligation was finished and only the render is outstanding. That is not true here, so it is not claimed.",
-      "claimReleased": false,
-      "claimNote": "The FIX04 claim on this family is left asserted. The family is not repaired, and Captain routes the reassignment."
+      "verdict": "BLOCKED_BEFORE_CLAIM",
+      "laneKind": "repair",
+      "claimAsserted": false,
+      "refusal": "GRANTED_ELSEWHERE: ri_nonconviction_sealing-set is granted to FIX06, not FIX04 (claim.mjs exit 8)",
+      "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 ri_nonconviction_sealing-set",
+      "whatThisLaneDid": "Nothing. No artifact of this family was read and no byte of it or of its build host was written. The claim gate is the authority and a refused assert is a full stop; the ledger was not edited, no grant was reissued and no grant was transferred to this lane.",
+      "alsoRecorded": "FIX06's grant is live, reissued 2026-09-02T04:42:15.169Z after a fresh independent read failed it on FEE_AND_WAIVER. The EAST host's protected-field appearance rule was neither touched nor examined."
     },
     {
-      "itemId": "ny_mrta_marijuana-set",
+      "itemId": "wa_vac_homicide_victim_prostitution-set",
       "status": "STOPPED",
-      "obligationsAssigned": [
-        "knownRequiredFieldsMissing"
-      ],
-      "obligationRepaired": null,
-      "obligationsReproduced": true,
-      "reproductionNote": "Every obligation this lane was handed is reproduced by the focused verifier at this base without re-deriving the family: FAIL_MISSING_REQUIRED_FACTS at 10/33 terminal fields written.",
-      "stoppedBecause": "BLOCKED_SOURCE_CORPUS_NOT_ATTACHABLE_TO_THIS_SESSION",
-      "whatIsMissing": {
-        "summary": "The pinned Master Library source bytes are not mountable in this environment, so the family cannot be re-rendered and no repaired production-field-map.json, canonical.pdf or boundary.pdf can be produced.",
-        "preflight": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 8/13 passed, 5 failed, 3 not applicable",
-        "familySourcesBind": "FAIL family_sources_bind 1 of 1 source(s) do not bind",
-        "failedPreflightChecks": [
-          "FAIL clone_is_complete the clone is shallow",
-          "FAIL master_library_mounted absent at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 — run: bash scripts/rcap-corpus/bootstrap-private-corpus.sh",
-          "FAIL master_library_complete the corpus root cannot be walked (absent is not empty)",
-          "FAIL corpus_matches_committed_index the corpus root cannot be walked; nothing to compare the index against",
-          "FAIL family_sources_bind 1 of 1 source(s) do not bind"
-        ],
-        "recoveryAttempted": [
-          "bash scripts/rcap-corpus/bootstrap-private-corpus.sh, re-run on the corrected shift base c6d7ffe — still refused: HTTP 403 resolving Expungement_AI_RCAP_Master_Library_Edition_1.zip from Roger-LegalEase/legalease-source-artifacts@source-corpus-2026-08-28.",
-          "Read the 403 body rather than its status code. It does not come from GitHub. It comes from this session's GitHub proxy and reads verbatim: \"GitHub access to this repository is not enabled for this session. Use add_repo to request access. If add_repo answers that read access is already available and you need GitHub API or write access, call add_repo again with access:push to attach the repository with credentials.\"",
-          "Token identity control — GET /user answers 200 and GET /repos/Roger-LegalEase/legalease-partner-dashboard-clean answers 200 on the same token, so the credential is live and the artifacts repository is simply outside this session's repository allowlist.",
-          "add_repo(Roger-LegalEase/legalease-source-artifacts) with access:read and again with access:push — the remedy the proxy itself names. Both were refused by this session's auto-mode permission classifier, not by GitHub and not by the proxy.",
-          "Direct retrieval of the pinned official PDFs from their publisher — refused: outbound egress to publisher domains is denied by organization network policy (CONNECT tunnel 403).",
-          "Search of the worktree for a mounted corpus or committed derived-sources — private/ is absent and no derived-source binary is committed."
-        ],
-        "correctionToTheEarlierReturn": "This lane's first return attributed the 403 to the session token lacking read access to the artifacts repository, and asked for that grant. That was wrong, and CAPTAIN-9H was right to reject it: the account's access to the artifacts repository is not the obstacle. The obstacle is that this session's GitHub allowlist does not include that repository, and the one call that would add it is blocked by the local permission classifier. Granting the token more GitHub access would not have moved this lane.",
-        "captainPreflightFixConfirmed": "The second half of CAPTAIN-9H's message reproduces exactly. On c6d7ffe, browser_environment_exported and page_rasterizer_available are both correctly not applicable where nothing renders, giving the predicted 3 not-applicable checks. That defect is genuinely fixed and is no longer what stops this lane.",
-        "unblockRequires": "One of: (a) Roger approves add_repo for Roger-LegalEase/legalease-source-artifacts in this session, or adds a permission rule allowing it, after which bootstrap-private-corpus.sh should complete unaided; or (b) these families are dispatched to a worker whose session already carries the artifacts repository in its GitHub allowlist. No token grant, legal change, source change or contract change is needed."
-      },
-      "countersAfter": {
-        "knownRequiredFieldsMissing": 15,
-        "requiredFactsNotCollected": 0,
-        "unclassifiedBlanks": 0,
-        "incompleteRows": 0,
-        "requiredOptionsMissing": 0,
-        "requiredComponentsMissing": 0,
-        "invisibleWrites": 0,
-        "protectedWrites": 0,
-        "visualDefects": 0
-      },
-      "countersAfterAreUnchanged": true,
-      "countersNote": "These are the counters measured by the focused verifier at this base. This lane wrote nothing to the family, so they are the counters before and after alike. No counter was zeroed and no obligation was waived.",
-      "completenessResult": "FAIL_MISSING_REQUIRED_FACTS",
-      "canonicalPdfSha256": null,
-      "boundaryPdfSha256": null,
-      "artifactHashesNote": "No canonical or boundary PDF was produced, so no hash is recorded. A hash is never written for bytes this lane did not create.",
-      "rasterState": "NOT_APPLICABLE_NO_BUILD_OCCURRED",
-      "rasterNote": "BUILT_RASTER_PENDING would assert that every nonvisual obligation was finished and only the render is outstanding. That is not true here, so it is not claimed.",
-      "claimReleased": false,
-      "claimNote": "The FIX04 claim on this family is left asserted. The family is not repaired, and Captain routes the reassignment."
+      "verdict": "BLOCKED_BEFORE_CLAIM",
+      "laneKind": "repair",
+      "claimAsserted": false,
+      "refusal": "GRANTED_ELSEWHERE: wa_vac_homicide_victim_prostitution-set is granted to FIX10, not FIX04 (claim.mjs exit 8)",
+      "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 wa_vac_homicide_victim_prostitution-set",
+      "whatThisLaneDid": "Nothing. No artifact of this family was read and no byte of it or of its build host was written. The claim gate is the authority and a refused assert is a full stop; the ledger was not edited, no grant was reissued and no grant was transferred to this lane.",
+      "alsoRecorded": "FIX10's grant is live, reissued 2026-09-02T05:36:06.016Z. FABLE-R21 holds it at BLOCKED_LEGAL_INPUT."
     }
   ]
 }

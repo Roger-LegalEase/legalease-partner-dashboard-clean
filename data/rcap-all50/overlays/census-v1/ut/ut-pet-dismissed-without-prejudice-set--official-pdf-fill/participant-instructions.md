@@ -19,7 +19,15 @@ The caption on the petition and the order is already marked **District Court**, 
 
 **If you cannot pay it, Utah has a waiver route for exactly this filing.** It is the *Motion to Waive Fees for Expungement – Criminal*, Utah court form **1305GE**, brought under Utah Code 78A-2-302 and Code of Judicial Administration Rule 4-508. That form is not included in this review fixture; ask the clerk of the court named above for it, or get it from the Utah State Courts self-help forms for expungement. It asks you to name the filing fee amount from the cover sheet and to say why you qualify.
 
-**The BCI certificate carries a separate fee, and this packet does not state an amount because BCI sets it per applicant.** BCI's instructions tell you to "pay all associated fees as indicated in the BCI letter", and a certificate must be purchased for each eligible incident you want expunged. BCI publishes separate *Indigent Expungement Applicant Instructions* under which BCI sends a fee waiver together with the certificate list. Ask the Bureau of Criminal Identification what your certificates cost and whether you qualify for its fee waiver; do not assume the court's $150 waiver covers BCI's fee, because they are two different offices.
+**BCI charges two separate amounts. They are not the same thing, and only one of them is fixed.**
+
+**The BCI application fee is $65.00, and it is non-refundable.** It is printed on the BCI *Application for Certificate of Eligibility* included in this packet: "The application fee is $65.00 and non-refundable", and again on the payment block, "Application fee is $65.00". Your application will not be processed unless it arrives with that fee. Checks and money orders are payable to "BCI"; the application also takes Visa, MasterCard, Discover or AMEX; cash is accepted only if you apply in person, and the form says in capitals not to send cash in the mail.
+
+**If you cannot pay the $65.00, BCI has its own waiver and you must complete it before you apply.** The application's own instructions are explicit: if you check the box saying you believe you are indigent, you "MUST complete the fee waiver form before submitting your application", and BCI will not process the application until the completed waiver form arrives with it. BCI publishes the form and separate *Indigent Expungement Applicant Instructions* at bci.utah.gov/expungements, and returns your waiver form to you with your certificates if you are eligible.
+
+**On this route, the held record says the certificate carries no issuance fee.** The compiled Utah state profile in this repository records BCI's published expungement FAQ as saying that "eligible conviction, plea-in-abeyance, or special certificates may require an additional $65 per case; no certificate issuance fee is required for dismissals, acquittals, or declinations". This packet is built for a dismissal, which is one of the dispositions that sentence exempts, so on the held record the $65.00 application fee above is the only BCI amount this route carries.
+
+Two things are worth saying plainly rather than hiding. That sentence records what BCI's FAQ publishes, not a fee fixed by statute, and the general sequence described elsewhere in this packet's own materials is that BCI issues a certificate on payment of an issuance fee. So take the exemption as what the record holds and confirm it before you pay anything: ask the Bureau of Criminal Identification, at bci.utah.gov/expungements, what your certificates cost on a case like yours. Do not assume the court's $150 waiver covers any BCI amount — the court and BCI are two different offices with two different waivers.
 
 ## Who must receive a copy, and how
 
@@ -44,6 +52,14 @@ This review fixture deliberately leaves the following facts or acts blank. Suppl
 - Any optional recipient, victim, prosecutor, reply, or third-party-release content only if that component becomes applicable
 - Service method, address, date, and certification only after service occurs
 
+**You must also have these in hand before you file. They are not blanks on the forms, and the packet cannot fill them for you.**
+
+- **Proof that fines, fees, interest and restitution on this case are paid in full.** Ask the clerk of the sentencing court for a current balance on the case, and check with the Office of State Debt Collection if any balance was entered as a civil judgment and transferred to it. **An unpaid balance defeats the petition, and it will also defeat the BCI certificate.** Check that against your own answer that everything is paid, and correct the packet if they disagree.
+- **A complete list of every criminal case you have ever had, in any state, including cases that were already expunged.** Assemble it before you apply to BCI. BCI assesses eligibility against your total criminal history in all states, previously expunged cases included, so **an incomplete list produces a denial rather than a certificate.** Court clerks in each jurisdiction and the state criminal-history repositories are where the missing pieces come from.
+- **A certified copy of the order of dismissal without prejudice.** Ask the clerk for a certified copy of the dismissal order. It carries the dismissal date and confirms that the dismissal was *without* prejudice — which is what starts the 180-day clock this track runs on.
+- **The dismissal date, checked against that certified copy.** Correct the packet if the date you gave and the date on the order disagree.
+- **The prosecutor's written consent to the expungement, if one has been given.** You ask the prosecuting attorney's office directly. LegalEase does not seek, negotiate or obtain prosecutor consent, and never asserts that it has been given. If there is no consent that is fine — the 180-day route is the alternative — but check that against the answer recorded in this packet and correct it if they disagree.
+
 Signatures, signature dates, service certifications, court-only fields, agency-only fields, prosecutor-only fields, victim fields, and optional third-party authorizations remain protected.
 
 ## What this packet is not
@@ -59,4 +75,5 @@ Every direction above is quoted from a publication held in this repository and r
 - **1044XX** — District Court Cover Sheet for Civil Actions (Utah State Courts); SHA-256 `b99586289df6304da5b34181bee95ec2b7f098806c1c949a0f112daeb0244a52` (filingDestination, feeAndWaiver)
 - **1305GE** — Motion to Waive Fees for Expungement - Criminal (Utah State Courts); SHA-256 `c184a242f8c7c1d06f55998de4b611bcf8bd5ec959896b3b37e6b5d48319b597` (feeAndWaiver)
 - **1146XX** — Acceptance of Service - Expungement (Prosecutor) (Utah State Courts); SHA-256 `39f1205f48bd73fc7b9686a101369be74a988b419697ea964c2ff5a5c0ce63ad` (service)
+- **UT-COMPILED-STATE-PROFILE** — Compiled Utah state profile (BCI expungement FAQ, as compiled into this repository); SHA-256 `73dd7ea988d0673dca3b8bf657f2df090d062c0821f8c0662a57ccfac8e7660d` (feeAndWaiver)
 
