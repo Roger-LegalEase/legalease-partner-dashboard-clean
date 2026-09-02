@@ -204,7 +204,31 @@ const CONFIGS = Object.freeze({
     dismissedWithoutPrejudice: true, chargeLabel: "Charge dismissed without prejudice",
     statesBciApplicationFee: true, statesManifestPreFilingItems: true,
     certificateIssuanceFeeHeldExempt: "a dismissal",
-    declarationNameBoxClearsPrePrintedI: true
+    declarationNameBoxClearsPrePrintedI: true,
+    /*
+     * FIX01/RT-1, SELF_HELP_STOP. The committed track registry holds nine
+     * self-help stop conditions for trackId ut_pet_dismissed_without_prejudice
+     * and the packet carried none of them, with no stop section of any kind --
+     * and on the one condition it did reach it said the opposite of what the
+     * registry holds, telling the participant that if the court schedules a
+     * hearing they should attend it. The registry marks the first condition, in
+     * its own words, "a hard stop, not a caveat".
+     *
+     * Set on THIS FAMILY ONLY, and set to the registry-reading flag rather than
+     * the config-carried one so no condition passes through an editor's hands.
+     * Six siblings share this host and this lane holds a grant on one family.
+     */
+    statesRegistryStopConditions: "ut_pet_dismissed_without_prejudice",
+    /*
+     * The closing line of that section is route-specific, so it is carried by
+     * the family rather than written once for whichever family arrived first.
+     * A family that does not set it keeps the sentence it already delivers and
+     * its bytes do not move.
+     */
+    registryStopConditionsClosing:
+      "The last two of these are this route's own question. This packet is built for a dismissal **without** prejudice, "
+      + "which leaves the charges capable of being refiled; if refiling is asserted, has already happened, or you have "
+      + "reason to believe it is about to, that is the point the record marks."
   },
   "ut_pet_limitations-set": {
     slug: "ut-pet-limitations-set", traffic: false, routeKind: "case",
@@ -1777,7 +1801,8 @@ function participantInstructions(config, authorities) {
     out.push("## When to stop and get a lawyer", "");
     out.push("The committed track registry records these as the points where self-help ends on this route, in its own words. If any of them describes your case, stop here and take it to a lawyer or a legal-aid office rather than filing:", "");
     out.push(...conditions.map((condition) => `- ${condition}`), "");
-    out.push("The last of these is this route's own question. This packet is built for an arrest the prosecutor decided not to charge; if what you actually have is a case that has simply not been charged yet, this is not the petition for it.", "");
+    out.push(config.registryStopConditionsClosing
+      ?? "The last of these is this route's own question. This packet is built for an arrest the prosecutor decided not to charge; if what you actually have is a case that has simply not been charged yet, this is not the petition for it.", "");
   }
 
   out.push("## What this packet is not", "");
