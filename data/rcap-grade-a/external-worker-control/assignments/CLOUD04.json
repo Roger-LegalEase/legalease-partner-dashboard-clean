@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-external-assignment/v1",
-  "captainSha": "0e03b148ef2d12af525b27e11fd95e1a66726c48",
-  "createdAt": "2026-09-02T01:05:56Z",
+  "captainSha": "ebc44031ec7eab29058bfc79a7bc5e1cff089414",
+  "createdAt": "2026-09-02T01:40:34Z",
   "minimumAncestor": "f240e47687eddd47d432996823ce932affcd54cc",
   "commercialRoutesOpened": 0,
   "productionTouched": false,
@@ -30,20 +30,20 @@
   "lane": "VF21",
   "laneKind": "independent-verification",
   "subjectIds": [
-    "ar-arrest-seal-set"
+    "az_marijuana_expungement_arrest_no_charges-set"
   ],
   "subjects": [
     {
-      "familyId": "ar-arrest-seal-set",
-      "directory": "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill",
-      "masterQueueState": "VERIFY_PENDING",
+      "familyId": "az_marijuana_expungement_arrest_no_charges-set",
+      "directory": "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-arrest-no-charges-set--official-pdf-fill",
+      "masterQueueState": "VERIFIED_PASS",
       "sharesBytesWithAnotherFamily": false,
-      "firstReadBy": "VF01"
+      "firstReadBy": "VF27"
     }
   ],
-  "claimPrerequisite": "Captain must first run: node scripts/grade-a-packet-factory-24h/claim.mjs --transfer VF01 VF21 ar-arrest-seal-set --reason \"second independent read; the family earned a RASTER_PASS the first read did not have\". Do not assert until CONTROL_STATE.json shows this transfer completed — a fresh assert on this family is a duplicate and will be refused.",
+  "claimPrerequisite": "Captain must first run: node scripts/grade-a-packet-factory-24h/claim.mjs --transfer VF27 VF21 az_marijuana_expungement_arrest_no_charges-set --reason \"second independent read; the family earned a RASTER_PASS the first read did not have\". Do not assert until CONTROL_STATE.json shows this transfer completed — a fresh assert on this family is a duplicate and will be refused.",
   "claimAssertions": [
-    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF21 ar-arrest-seal-set   # only after Captain's transfer"
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF21 az_marijuana_expungement_arrest_no_charges-set   # only after Captain's transfer"
   ],
   "whyASecondRead": "The first read predates this family's hash-bound raster receipt over its complete document set. That receipt is evidence the first reader did not have.",
   "ownedPaths": [
@@ -56,7 +56,7 @@
   ],
   "readOnly": "You write evidence only, under your own return path. You modify no packet and no source body.",
   "controllingEvidencePaths": [
-    "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/**",
+    "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-arrest-no-charges-set--official-pdf-fill/**",
     "data/rcap-grade-a/launch-control/GRADE_A_READINESS.json"
   ],
   "focusedTestCommands": [
@@ -91,7 +91,7 @@
   "branch": null,
   "branchFrom": {
     "remote": "origin/claude/legalease-sprint-captain-utucnw",
-    "mustContain": "0e03b148ef2d12af525b27e11fd95e1a66726c48",
+    "mustContain": "ebc44031ec7eab29058bfc79a7bc5e1cff089414",
     "why": "the activated ledger and this assignment live at that commit; branching from an earlier one gives you a ledger where your grant does not exist"
   }
 }

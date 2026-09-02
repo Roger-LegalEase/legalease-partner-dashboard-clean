@@ -106,8 +106,28 @@ const failNoRepairer = master.families
  * earned a raster receipt the first read did not have. */
 const vfExternalHeld = new Set(ledger.claims
   .filter((c) => /^VF(1[89]|2[0-5])$/.test(c.lane) && c.released !== true).map((c) => c.subjectId));
+/*
+ * A live claim of ANY kind disqualifies a second read, not only a live verify
+ * claim.
+ *
+ * The filter used to ask only whether some VERIFY lane held the family, so a
+ * family sitting under a live REPAIR grant read as available and was offered
+ * to a Codex Cloud slot. ct-cleanslate-petition-set did exactly that: live on
+ * FIX04, offered on VF25, and the generator's own refusal at the end of this
+ * script then fired on the assignment it had just written -- the dispatch
+ * could not be regenerated at all until this was fixed. A family a repairer is
+ * holding is that repairer's work, and its packet is about to change; reading
+ * it now would score bytes with a known repair in flight.
+ *
+ * The exceptions stay: a grant held by the external lane this dispatch itself
+ * targets is the activated state, not a collision.
+ */
+const externallyHeld = (f) => vfExternalHeld.has(f)
+  || pf17Held.has(f) || fix09Held.has(f) || fix10Held.has(f) || fix11Held.has(f);
+const liveAnywhere = new Set(ledger.claims
+  .filter((c) => c.released !== true).map((c) => c.subjectId));
 const secondReadCandidates = rasterPass
-  .filter((f) => (releasedVerify.has(f) && !liveVerify.has(f)) || vfExternalHeld.has(f));
+  .filter((f) => externallyHeld(f) || (releasedVerify.has(f) && !liveAnywhere.has(f)));
 const neverRead = rasterPass.filter((f) => !anyVerify.has(f));
 
 /*

@@ -761,7 +761,18 @@ try {
  * family carries no returned FAIL). A live claim held by a DIFFERENT lane —
  * the repair grant this dispatch itself minted last run — is that lane's
  * ownership, not the roster's, and must not swallow the family back out of
- * the dispatch (that is the flap this comment is the tombstone of). */
+ * the dispatch (that is the flap this comment is the tombstone of).
+ *
+ * VERIFY_PENDING does NOT belong in this rule, and it was tried. Eight
+ * families -- sd_arrest_expungement-set and the seven wa_vac families -- are
+ * VERIFY_PENDING under a roster owner with no live ledger claim, so they look
+ * exactly like the stale case above and nothing in the factory can read them.
+ * Adding VERIFY_PENDING here does free them, and then C7 and E2 both go red:
+ * the wa_vac seven are owned by WARV01/WARV02, the Washington re-verification
+ * lanes provisioned for precisely this second read, so a factory VF grant on
+ * top is a real double-ownership rather than a rescue. A family waiting on a
+ * lane that has not launched is not the same as a family waiting on nobody,
+ * and only the second is this rule's business. */
 const ownerStillHolds = (f) => f.activeOwner
   && !(f.state === "FAIL_REPAIR_REQUIRED" && !(liveClaimLanesByFamily.get(f.familyId)?.has(f.activeOwner)));
 /* Ended ownership is cleared on the row itself, so every downstream reader —
