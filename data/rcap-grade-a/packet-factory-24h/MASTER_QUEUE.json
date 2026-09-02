@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "9beaa8ad721228d3e48bf1a9f10aa93aaa32ca53",
+  "minimumCaptainSha": "48e9e01b03ac297306b85ff6cfd8aedf9b8a011d",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "e615283930c6a9aab3be570ca5dd74a8990deb71dc2817733a3d262e48af6816",
@@ -60,19 +60,19 @@
     "sourceReady": 67,
     "sourceBlocked": 140,
     "legalBlocked": 26,
-    "verifyPending": 16,
-    "repairRequired": 11,
+    "verifyPending": 20,
+    "repairRequired": 7,
     "sumsToDenominator": true
   },
   "byState": {
     "SOURCE_READY": 67,
     "SOURCE_BLOCKED": 140,
     "COMPLETE_PACKET_PROVEN": 84,
-    "VERIFY_PENDING": 21,
+    "VERIFY_PENDING": 25,
     "VERIFIED_PASS": 6,
     "BUILD_IN_PROGRESS": 4,
     "LEGAL_BLOCKED": 13,
-    "FAIL_REPAIR_REQUIRED": 11
+    "FAIL_REPAIR_REQUIRED": 7
   },
   "bySourceStatus": {
     "CUSTOM_PLEADING_FROM_CODIFIED_TEXT": 89,
@@ -21000,7 +21000,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ny_160_59_petition-set.mjs",
@@ -21115,7 +21115,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ny_mrta_marijuana-set.mjs",
@@ -21381,7 +21381,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-oh_marijuana_expungement-set.mjs",
@@ -22324,7 +22324,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-pa_pardon_expungement-set.mjs",
@@ -25789,8 +25789,22 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "The packet's pre-filing list omits the one check that decides whether this filing and its two fees are needed at all, and the repository establishes that check for this exact disposition. The compiled Utah state profile carries 'Path B - Automatic Expungement: Acquittal or Dismissal With Prejudice' and, in its own words, 'Acquittal on all charges Goal: 60 days after acquittal for qualifying post-May 1, 2020 cases', together with 'As of January 1, 2026 ... the court identifies and clears eligible automatic-expungement cases on its own'. The same profile carries two questions marked required: true in stage state_specific_eligibility -- source_question_23 '17 Has the case already been automatically expunged?' and source_question_26 'Check automatic expungement. For qualifying post-May 1, 2020 cases, the statutory goal is 60 days after acquittal.' Neither participant-instructions.md nor the delivered canonical bytes contain the words automatic, Clean Slate, 60 days or any equivalent: grep for 'automatic|clean slate|60 day|60-day|120 day' returns zero hits in both. The packet instead directs the participant to pay a non-refundable $65.00 to BCI and $150 to the court. Under A2 the compiled state profile is a held source, and under A3 these lines address this route's own fact pattern -- acquittal -- rather than a sibling statute, so this is not a sibling-route inference. Under A4's widened rule the failure mode is exactly the one named: the packet withholds a fact the repository establishes, and the participant cannot act on it. The repair is to state the automatic route and the check before the fee paragraphs, not to remove the petition route.",
+          "evidence": "src/lib/rcap-engine/compiled/profiles/UT-utah.json lines carrying Path A/Path B, the 60-day acquittal line and source_question_23 and source_question_26 with required: true; grep for automatic/clean slate/60 day over participant-instructions.md and over pdftotext of fixtures/canonical.pdf, zero hits in both"
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "On packet page 18 the participant's name is drawn on top of the BCI declaration line's printed 'I', in both fixtures. Measured from the bytes with pdftotext -bbox: the form's printed 'I' occupies x 49.74-52.74, y 388.53-400.66; the written value starts at x 50.50 on both fixtures ('Jordan' 50.50-81.07, y 385.82-395.07 on canonical; 'Alexandrina' 50.50-86.14, y 388.15-394.40 on boundary). That is a 2.24 pt horizontal overlap across a 6.54 pt vertical band on canonical and 5.87 pt on boundary -- roughly three quarters of the 3.0 pt-wide printed glyph. Rendering packet page 18 at 600 dpi from the committed bytes shows it: the J stem crosses the I on canonical, the A's left leg crosses it on boundary. The cause is visible in the field map: this is the only write on the page whose id is hand-set, p2-manual-declaration-name at x 50.5, while every other write on that page carries a measured id of the form p2-y<baseline>-x<left> offset +1.5 pt from the form's own geometry. The family's own counter cannot see this -- nonWhitespaceGlyphsOutsideMeasuredWriteBoxes is 0 and correctly so, because the glyphs are inside their box and it is the box that overlaps printed text. Nothing else in the packet does this: across all 38 pages of both fixtures, 0 words fall outside the 612x792 page box, and this is the only collision between a written value and printed non-rule text. The repair is to move the box right of x 52.74 with a gap; no other geometry needs touching.",
+          "evidence": "pdftotext -bbox over both fixtures, whole-packet scan for out-of-page words and for write-versus-printed-word collisions; the page-18 band read out in full; pdftoppm -r 600 render of page 18 from the committed canonical and boundary bytes inspected; writeBox p2-manual-declaration-name x 50.5 y 399 w 136 h 12 in reports/actual-writes.json"
+        }
+      ],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
       "state": "VERIFY_PENDING",
