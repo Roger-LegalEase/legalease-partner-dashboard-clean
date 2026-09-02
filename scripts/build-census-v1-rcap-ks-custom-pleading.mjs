@@ -59,10 +59,10 @@ const SPEC = {
   ],
   "routes": [
     {
-      "routeKey": "obligation:track-only:KS:ks-12-4516-municipal"
+      "routeKey": "obligation:track-pathway:KS:ks-12-4516-municipal:municipal-conviction-or-diversion-expungement-under-12-4516"
     },
     {
-      "routeKey": "obligation:track-only:KS:ks-12-4516a-municipal-arrest"
+      "routeKey": "obligation:track-pathway:KS:ks-12-4516a-municipal-arrest:municipal-arrest-record-expungement-under-12-4516a"
     }
   ],
   "records": [
@@ -145,15 +145,15 @@ const SPEC = {
       "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
       "role": "the committed route-obligation census: the exact route keys this family serves, their statutory authority and their recorded destinations",
       "mustContain": [
-        "obligation:track-only:KS:ks-12-4516-municipal",
-        "obligation:track-only:KS:ks-12-4516a-municipal-arrest"
+        "obligation:track-pathway:KS:ks-12-4516-municipal:municipal-conviction-or-diversion-expungement-under-12-4516",
+        "obligation:track-pathway:KS:ks-12-4516a-municipal-arrest:municipal-arrest-record-expungement-under-12-4516a"
       ]
     }
   ],
   "components": [
     {
       "id": "ks-12-4516-municipal-primary-filing-1",
-      "routeKey": "obligation:track-only:KS:ks-12-4516-municipal",
+      "routeKey": "obligation:track-pathway:KS:ks-12-4516-municipal:municipal-conviction-or-diversion-expungement-under-12-4516",
       "title": "Petition - Expunging a city ordinance conviction or diversion",
       "role": "primary_filing",
       "description": "the composed petition, on this route's own statutory ground (Expunging a city ordinance conviction or diversion)",
@@ -424,7 +424,7 @@ const SPEC = {
     },
     {
       "id": "ks-12-4516-municipal-proposed-order-2",
-      "routeKey": "obligation:track-only:KS:ks-12-4516-municipal",
+      "routeKey": "obligation:track-pathway:KS:ks-12-4516-municipal:municipal-conviction-or-diversion-expungement-under-12-4516",
       "title": "Proposed Order - Expunging a city ordinance conviction or diversion",
       "role": "proposed_order",
       "description": "the proposed order the court may sign; every decision line is the court's and is left blank (Expunging a city ordinance conviction or diversion)",
@@ -488,7 +488,7 @@ const SPEC = {
     },
     {
       "id": "ks-12-4516-municipal-filing-instructions-3",
-      "routeKey": "obligation:track-only:KS:ks-12-4516-municipal",
+      "routeKey": "obligation:track-pathway:KS:ks-12-4516-municipal:municipal-conviction-or-diversion-expungement-under-12-4516",
       "role": "filing_instructions",
       "title": "Filing Instructions - Expunging a city ordinance conviction or diversion",
       "description": "what this set is, where it goes, what it costs, who must be served, and when to stop (Expunging a city ordinance conviction or diversion)",
@@ -548,7 +548,7 @@ const SPEC = {
     },
     {
       "id": "ks-12-4516a-municipal-arrest-primary-filing-1",
-      "routeKey": "obligation:track-only:KS:ks-12-4516a-municipal-arrest",
+      "routeKey": "obligation:track-pathway:KS:ks-12-4516a-municipal-arrest:municipal-arrest-record-expungement-under-12-4516a",
       "title": "Petition - Expunging an arrest on a city ordinance charge",
       "role": "primary_filing",
       "description": "the composed petition, on this route's own statutory ground (Expunging an arrest on a city ordinance charge)",
@@ -775,7 +775,7 @@ const SPEC = {
     },
     {
       "id": "ks-12-4516a-municipal-arrest-proposed-order-2",
-      "routeKey": "obligation:track-only:KS:ks-12-4516a-municipal-arrest",
+      "routeKey": "obligation:track-pathway:KS:ks-12-4516a-municipal-arrest:municipal-arrest-record-expungement-under-12-4516a",
       "title": "Proposed Order - Expunging an arrest on a city ordinance charge",
       "role": "proposed_order",
       "description": "the proposed order the court may sign; every decision line is the court's and is left blank (Expunging an arrest on a city ordinance charge)",
@@ -839,7 +839,7 @@ const SPEC = {
     },
     {
       "id": "ks-12-4516a-municipal-arrest-filing-instructions-3",
-      "routeKey": "obligation:track-only:KS:ks-12-4516a-municipal-arrest",
+      "routeKey": "obligation:track-pathway:KS:ks-12-4516a-municipal-arrest:municipal-arrest-record-expungement-under-12-4516a",
       "role": "filing_instructions",
       "title": "Filing Instructions - Expunging an arrest on a city ordinance charge",
       "description": "what this set is, where it goes, what it costs, who must be served, and when to stop (Expunging an arrest on a city ordinance charge)",
@@ -919,13 +919,13 @@ const SPEC = {
   "routeSelectionNote": "This family carries more than one statutory route. Every composed page states its own route in its footer and its own statutory ground in its body, and the participant instructions carry a table saying which set of pages belongs to which situation. No election control is printed on any page, because the route is determined by the participant's own record and not by a box on a form.",
   "routeSelectionsMade": [
     {
-      "routeKey": "obligation:track-only:KS:ks-12-4516-municipal",
+      "routeKey": "obligation:track-pathway:KS:ks-12-4516-municipal:municipal-conviction-or-diversion-expungement-under-12-4516",
       "statute": "K.S.A. 12-4516(a); K.S.A. 12-4516(b); K.S.A. 12-4516(c); K.S.A. 12-4516(d); K.S.A. 12-4516(e); K.S.A. 12-4516(f); K.S.A. 12-4516(g); K.S.A. 12-4516(h); K.S.A. 12-4516(i); K.S.A. 12-16,134",
       "instrument": "primary_filing: ks-12-4516-municipal-primary-filing-1; proposed_order: ks-12-4516-municipal-proposed-order-2",
       "statedOn": "the composed pages for this route, in their titles, bodies and footers"
     },
     {
-      "routeKey": "obligation:track-only:KS:ks-12-4516a-municipal-arrest",
+      "routeKey": "obligation:track-pathway:KS:ks-12-4516a-municipal-arrest:municipal-arrest-record-expungement-under-12-4516a",
       "statute": "K.S.A. 12-4516a(a); K.S.A. 12-4516a(b); K.S.A. 12-4516a(c); K.S.A. 12-4516a(d); K.S.A. 12-4516a(e); K.S.A. 12-4516a(f); K.S.A. 12-4516a(g); K.S.A. 12-4516a(h); K.S.A. 21-6107; K.S.A. 12-16,134",
       "instrument": "primary_filing: ks-12-4516a-municipal-arrest-primary-filing-1; proposed_order: ks-12-4516a-municipal-arrest-proposed-order-2",
       "statedOn": "the composed pages for this route, in their titles, bodies and footers"
@@ -1716,7 +1716,11 @@ export async function runFamily(argv = process.argv.slice(2)) {
     bindingMethod: "committed repository records bound by exact SHA-256 at build time, with every relied-on statement re-read from the committed bytes as an anchor before composing",
     routeKeys: SPEC.routes.map((r) => r.routeKey),
     statutoryAuthority: SPEC.statutes, legalName: SPEC.legalName,
-    allSourcesExact: true,
+    /* Derived, not asserted. Every record in SPEC.records must have resolved
+     * exactly — present at its committed path, carrying every anchor statement
+     * this build relies on — and its sha256 and byteLength below are the bytes
+     * read in THIS run, not a pin carried forward from an earlier one. */
+    allSourcesExact: failures.length === 0 && resolved.length === SPEC.records.length,
     formIdentityNote: SPEC.formIdentityNote,
     /* Bound as committedRecords, not documents: these are the AUTHORITY this
      * family composes from, not documents of the packet, and no rendered
