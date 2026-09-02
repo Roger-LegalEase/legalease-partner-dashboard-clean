@@ -96,12 +96,12 @@
     "whyThisExists": "The Texas statement of inability gates ten families, has an exact txcourts.gov address in dozens of committed records, and was never queued because the manifest read only the two acquisition-receipt files."
   },
   "counts": {
-    "entries": 54,
+    "entries": 60,
     "refused": 7,
-    "urlRecordsRead": 61,
+    "urlRecordsRead": 67,
     "sourceObligationsTotal": 240,
-    "obligationsCoveredByARecordedUrl": 73,
-    "obligationsNeedingDiscoveryFirst": 167
+    "obligationsCoveredByARecordedUrl": 95,
+    "obligationsNeedingDiscoveryFirst": 145
   },
   "entries": [
     {
@@ -740,6 +740,220 @@
         "looksLikePdf": true,
         "pinAgrees": true,
         "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_PROMO1_ACQUISITION_RECEIPTS.json"
+      }
+    },
+    {
+      "sourceId": "la-ccrp-art-987-statutory-form-print-view",
+      "jurisdiction": "LA",
+      "formNumber": "LA-CCRP-ART-987",
+      "officialTitle": "La. C.Cr.P. Art. 987 - Motion to set aside conviction and dismiss prosecution; rule to show cause; order of dismissal forms to be used",
+      "issuingAuthority": "Louisiana State Legislature",
+      "officialUrl": "https://www.legis.la.gov/legis/LawPrint.aspx?d=919680",
+      "urlKind": "OFFICIAL_STATUTE_TEXT",
+      "expectedSha256": null,
+      "host": "www.legis.la.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "la-987-set-aside-and-dismiss-set::official-form:LA-CCRP-ART-987"
+      ],
+      "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_COMP1_FL_LA_COMPOSITION.json",
+      "interactiveViewUrl": "https://www.legis.la.gov/legis/Law.aspx?d=919680",
+      "statute": "La. C.Cr.P. art. 986 makes arts. 987-995 and 998 themselves the prescribed forms, so the article text IS the form. There is no separate fillable PDF to look for and the owner determination says not to wait for one.",
+      "format": "HTML print view, not a PDF. That is not a defect here: for a statutory form the codified text IS the document, and this is the publisher own print rendering of it. It is a COMPOSE_FROM_AUTHORITY input and never an official_pdf_fill target.",
+      "intervalLocked": false,
+      "identityBasis": "The d= id comes from LA.memo.json article-to-id mapping, which was verified 6/6 against ids printed in the footers of the six mounted article PDFs. It is NOT interval-locked, so the one-line check on acquisition is: confirm the fetched page heading names this article.",
+      "exactBinaryUrlEstablished": true,
+      "verification": {
+        "urlExercisedByThisLane": false,
+        "whyNot": "No egress: the proxy answers 403 CONNECT for state hosts from this container. Nothing here was fetched.",
+        "whatWasEstablishedInstead": [
+          "PRIMARY, and the reason these are addresses and not guesses: data/record-clearing/legal-design-intake/LA.memo.json records an officialSourceUrl of the form https://www.legis.la.gov/legis/Law.aspx?d=<id> for every article from 972 to 999.1. For the six articles whose print view is mounted here, I read the PDF with pdftotext and compared the id the memo assigns against the id the PDF prints in its own page footer. Six of six match exactly: 984/919676, 990/919685, 993/919688, 995/919691, 998/1335832, 999.1/1386723. The memo's article-to-id mapping is therefore verified against six documents whose bytes I read, and the six ids it assigns to the missing articles come from that same verified mapping.",
+          "SECOND: the Master Library's own Louisiana legal review, STATES/LA/01_LEGAL_REVIEW/...ASOF-2026-07-30__EN.md, states in Part 2: 'Official source: https://www.legis.la.gov, Law.aspx by article. All uploaded HTML files are print views from that site.' That is the publisher and the URL scheme asserted by a document shipped inside the source archive itself.",
+          "THIRD: three further committed records carry the same six ids independently of the memo -- data/rcap-grade-a/source-acquisition/wave-1/acquired.json (as uniqueOfficialTargets with obligationKeys), data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json (as officialSourceUrl per obligation), and data/record-clearing/legal-design-track-source-relationships.json.",
+          "FOURTH, structural: 991=919686 and 992=919687 fall in a fully closed interval between two independently PDF-verified ids, 990=919685 and 993=919688 -- exactly two slots for exactly two articles, with no room for error. Those two are interval-locked."
+        ],
+        "whatRemainsForTheRunner": "HTTP reachability, the page heading naming this exact article, and the SHA-256. For the four articles that are not interval-locked the heading check is what settles identity, and it is one line."
+      }
+    },
+    {
+      "sourceId": "la-ccrp-art-988-statutory-form-print-view",
+      "jurisdiction": "LA",
+      "formNumber": "LA-CCRP-ART-988",
+      "officialTitle": "La. C.Cr.P. Art. 988 - Motion for fee exemption / certification of fee waiver form to be used",
+      "issuingAuthority": "Louisiana State Legislature",
+      "officialUrl": "https://www.legis.la.gov/legis/LawPrint.aspx?d=919681",
+      "urlKind": "OFFICIAL_STATUTE_TEXT",
+      "expectedSha256": null,
+      "host": "www.legis.la.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "la-976-arrest-no-conviction-set::official-form:LA-CCRP-ART-988",
+        "la-977-misdemeanor-conviction-set::official-form:LA-CCRP-ART-988",
+        "la-977d-marijuana-first-offense-set::official-form:LA-CCRP-ART-988",
+        "la-978-felony-conviction-set::official-form:LA-CCRP-ART-988",
+        "la-985-1-interim-expungement-set::official-form:LA-CCRP-ART-988",
+        "la-985-expungement-by-redaction-set::official-form:LA-CCRP-ART-988"
+      ],
+      "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_COMP1_FL_LA_COMPOSITION.json",
+      "interactiveViewUrl": "https://www.legis.la.gov/legis/Law.aspx?d=919681",
+      "statute": "La. C.Cr.P. art. 986 makes arts. 987-995 and 998 themselves the prescribed forms, so the article text IS the form. There is no separate fillable PDF to look for and the owner determination says not to wait for one.",
+      "format": "HTML print view, not a PDF. That is not a defect here: for a statutory form the codified text IS the document, and this is the publisher own print rendering of it. It is a COMPOSE_FROM_AUTHORITY input and never an official_pdf_fill target.",
+      "intervalLocked": false,
+      "identityBasis": "The d= id comes from LA.memo.json article-to-id mapping, which was verified 6/6 against ids printed in the footers of the six mounted article PDFs. It is NOT interval-locked, so the one-line check on acquisition is: confirm the fetched page heading names this article.",
+      "exactBinaryUrlEstablished": true,
+      "verification": {
+        "urlExercisedByThisLane": false,
+        "whyNot": "No egress: the proxy answers 403 CONNECT for state hosts from this container. Nothing here was fetched.",
+        "whatWasEstablishedInstead": [
+          "PRIMARY, and the reason these are addresses and not guesses: data/record-clearing/legal-design-intake/LA.memo.json records an officialSourceUrl of the form https://www.legis.la.gov/legis/Law.aspx?d=<id> for every article from 972 to 999.1. For the six articles whose print view is mounted here, I read the PDF with pdftotext and compared the id the memo assigns against the id the PDF prints in its own page footer. Six of six match exactly: 984/919676, 990/919685, 993/919688, 995/919691, 998/1335832, 999.1/1386723. The memo's article-to-id mapping is therefore verified against six documents whose bytes I read, and the six ids it assigns to the missing articles come from that same verified mapping.",
+          "SECOND: the Master Library's own Louisiana legal review, STATES/LA/01_LEGAL_REVIEW/...ASOF-2026-07-30__EN.md, states in Part 2: 'Official source: https://www.legis.la.gov, Law.aspx by article. All uploaded HTML files are print views from that site.' That is the publisher and the URL scheme asserted by a document shipped inside the source archive itself.",
+          "THIRD: three further committed records carry the same six ids independently of the memo -- data/rcap-grade-a/source-acquisition/wave-1/acquired.json (as uniqueOfficialTargets with obligationKeys), data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json (as officialSourceUrl per obligation), and data/record-clearing/legal-design-track-source-relationships.json.",
+          "FOURTH, structural: 991=919686 and 992=919687 fall in a fully closed interval between two independently PDF-verified ids, 990=919685 and 993=919688 -- exactly two slots for exactly two articles, with no room for error. Those two are interval-locked."
+        ],
+        "whatRemainsForTheRunner": "HTTP reachability, the page heading naming this exact article, and the SHA-256. For the four articles that are not interval-locked the heading check is what settles identity, and it is one line."
+      }
+    },
+    {
+      "sourceId": "la-ccrp-art-989-statutory-form-print-view",
+      "jurisdiction": "LA",
+      "formNumber": "LA-CCRP-ART-989",
+      "officialTitle": "La. C.Cr.P. Art. 989 - Motion for expungement forms to be used",
+      "issuingAuthority": "Louisiana State Legislature",
+      "officialUrl": "https://www.legis.la.gov/legis/LawPrint.aspx?d=919682",
+      "urlKind": "OFFICIAL_STATUTE_TEXT",
+      "expectedSha256": null,
+      "host": "www.legis.la.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "la-976-arrest-no-conviction-set::official-form:LA-CCRP-ART-989",
+        "la-977-misdemeanor-conviction-set::official-form:LA-CCRP-ART-989",
+        "la-978-felony-conviction-set::official-form:LA-CCRP-ART-989",
+        "la-985-expungement-by-redaction-set::official-form:LA-CCRP-ART-989"
+      ],
+      "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_COMP1_FL_LA_COMPOSITION.json",
+      "interactiveViewUrl": "https://www.legis.la.gov/legis/Law.aspx?d=919682",
+      "statute": "La. C.Cr.P. art. 986 makes arts. 987-995 and 998 themselves the prescribed forms, so the article text IS the form. There is no separate fillable PDF to look for and the owner determination says not to wait for one.",
+      "format": "HTML print view, not a PDF. That is not a defect here: for a statutory form the codified text IS the document, and this is the publisher own print rendering of it. It is a COMPOSE_FROM_AUTHORITY input and never an official_pdf_fill target.",
+      "intervalLocked": false,
+      "identityBasis": "The d= id comes from LA.memo.json article-to-id mapping, which was verified 6/6 against ids printed in the footers of the six mounted article PDFs. It is NOT interval-locked, so the one-line check on acquisition is: confirm the fetched page heading names this article.",
+      "exactBinaryUrlEstablished": true,
+      "verification": {
+        "urlExercisedByThisLane": false,
+        "whyNot": "No egress: the proxy answers 403 CONNECT for state hosts from this container. Nothing here was fetched.",
+        "whatWasEstablishedInstead": [
+          "PRIMARY, and the reason these are addresses and not guesses: data/record-clearing/legal-design-intake/LA.memo.json records an officialSourceUrl of the form https://www.legis.la.gov/legis/Law.aspx?d=<id> for every article from 972 to 999.1. For the six articles whose print view is mounted here, I read the PDF with pdftotext and compared the id the memo assigns against the id the PDF prints in its own page footer. Six of six match exactly: 984/919676, 990/919685, 993/919688, 995/919691, 998/1335832, 999.1/1386723. The memo's article-to-id mapping is therefore verified against six documents whose bytes I read, and the six ids it assigns to the missing articles come from that same verified mapping.",
+          "SECOND: the Master Library's own Louisiana legal review, STATES/LA/01_LEGAL_REVIEW/...ASOF-2026-07-30__EN.md, states in Part 2: 'Official source: https://www.legis.la.gov, Law.aspx by article. All uploaded HTML files are print views from that site.' That is the publisher and the URL scheme asserted by a document shipped inside the source archive itself.",
+          "THIRD: three further committed records carry the same six ids independently of the memo -- data/rcap-grade-a/source-acquisition/wave-1/acquired.json (as uniqueOfficialTargets with obligationKeys), data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json (as officialSourceUrl per obligation), and data/record-clearing/legal-design-track-source-relationships.json.",
+          "FOURTH, structural: 991=919686 and 992=919687 fall in a fully closed interval between two independently PDF-verified ids, 990=919685 and 993=919688 -- exactly two slots for exactly two articles, with no room for error. Those two are interval-locked."
+        ],
+        "whatRemainsForTheRunner": "HTTP reachability, the page heading naming this exact article, and the SHA-256. For the four articles that are not interval-locked the heading check is what settles identity, and it is one line."
+      }
+    },
+    {
+      "sourceId": "la-ccrp-art-991-statutory-form-print-view",
+      "jurisdiction": "LA",
+      "formNumber": "LA-CCRP-ART-991",
+      "officialTitle": "La. C.Cr.P. Art. 991 - Order form to be used",
+      "issuingAuthority": "Louisiana State Legislature",
+      "officialUrl": "https://www.legis.la.gov/legis/LawPrint.aspx?d=919686",
+      "urlKind": "OFFICIAL_STATUTE_TEXT",
+      "expectedSha256": null,
+      "host": "www.legis.la.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "la-976-arrest-no-conviction-set::official-form:LA-CCRP-ART-991",
+        "la-977-misdemeanor-conviction-set::official-form:LA-CCRP-ART-991",
+        "la-977d-marijuana-first-offense-set::official-form:LA-CCRP-ART-991",
+        "la-978-felony-conviction-set::official-form:LA-CCRP-ART-991",
+        "la-985-expungement-by-redaction-set::official-form:LA-CCRP-ART-991"
+      ],
+      "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_COMP1_FL_LA_COMPOSITION.json",
+      "interactiveViewUrl": "https://www.legis.la.gov/legis/Law.aspx?d=919686",
+      "statute": "La. C.Cr.P. art. 986 makes arts. 987-995 and 998 themselves the prescribed forms, so the article text IS the form. There is no separate fillable PDF to look for and the owner determination says not to wait for one.",
+      "format": "HTML print view, not a PDF. That is not a defect here: for a statutory form the codified text IS the document, and this is the publisher own print rendering of it. It is a COMPOSE_FROM_AUTHORITY input and never an official_pdf_fill target.",
+      "intervalLocked": true,
+      "identityBasis": "The d= id is bracketed between two ids read from mounted PDFs (990=919685 and 993=919688), so it cannot be any other article.",
+      "exactBinaryUrlEstablished": true,
+      "verification": {
+        "urlExercisedByThisLane": false,
+        "whyNot": "No egress: the proxy answers 403 CONNECT for state hosts from this container. Nothing here was fetched.",
+        "whatWasEstablishedInstead": [
+          "PRIMARY, and the reason these are addresses and not guesses: data/record-clearing/legal-design-intake/LA.memo.json records an officialSourceUrl of the form https://www.legis.la.gov/legis/Law.aspx?d=<id> for every article from 972 to 999.1. For the six articles whose print view is mounted here, I read the PDF with pdftotext and compared the id the memo assigns against the id the PDF prints in its own page footer. Six of six match exactly: 984/919676, 990/919685, 993/919688, 995/919691, 998/1335832, 999.1/1386723. The memo's article-to-id mapping is therefore verified against six documents whose bytes I read, and the six ids it assigns to the missing articles come from that same verified mapping.",
+          "SECOND: the Master Library's own Louisiana legal review, STATES/LA/01_LEGAL_REVIEW/...ASOF-2026-07-30__EN.md, states in Part 2: 'Official source: https://www.legis.la.gov, Law.aspx by article. All uploaded HTML files are print views from that site.' That is the publisher and the URL scheme asserted by a document shipped inside the source archive itself.",
+          "THIRD: three further committed records carry the same six ids independently of the memo -- data/rcap-grade-a/source-acquisition/wave-1/acquired.json (as uniqueOfficialTargets with obligationKeys), data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json (as officialSourceUrl per obligation), and data/record-clearing/legal-design-track-source-relationships.json.",
+          "FOURTH, structural: 991=919686 and 992=919687 fall in a fully closed interval between two independently PDF-verified ids, 990=919685 and 993=919688 -- exactly two slots for exactly two articles, with no room for error. Those two are interval-locked."
+        ],
+        "whatRemainsForTheRunner": "HTTP reachability, the page heading naming this exact article, and the SHA-256. For the four articles that are not interval-locked the heading check is what settles identity, and it is one line."
+      }
+    },
+    {
+      "sourceId": "la-ccrp-art-992-statutory-form-print-view",
+      "jurisdiction": "LA",
+      "formNumber": "LA-CCRP-ART-992",
+      "officialTitle": "La. C.Cr.P. Art. 992 - Order of expungement form to be used",
+      "issuingAuthority": "Louisiana State Legislature",
+      "officialUrl": "https://www.legis.la.gov/legis/LawPrint.aspx?d=919687",
+      "urlKind": "OFFICIAL_STATUTE_TEXT",
+      "expectedSha256": null,
+      "host": "www.legis.la.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "la-976-arrest-no-conviction-set::official-form:LA-CCRP-ART-992",
+        "la-977-misdemeanor-conviction-set::official-form:LA-CCRP-ART-992",
+        "la-977d-marijuana-first-offense-set::official-form:LA-CCRP-ART-992",
+        "la-978-felony-conviction-set::official-form:LA-CCRP-ART-992",
+        "la-985-expungement-by-redaction-set::official-form:LA-CCRP-ART-992"
+      ],
+      "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_COMP1_FL_LA_COMPOSITION.json",
+      "interactiveViewUrl": "https://www.legis.la.gov/legis/Law.aspx?d=919687",
+      "statute": "La. C.Cr.P. art. 986 makes arts. 987-995 and 998 themselves the prescribed forms, so the article text IS the form. There is no separate fillable PDF to look for and the owner determination says not to wait for one.",
+      "format": "HTML print view, not a PDF. That is not a defect here: for a statutory form the codified text IS the document, and this is the publisher own print rendering of it. It is a COMPOSE_FROM_AUTHORITY input and never an official_pdf_fill target.",
+      "intervalLocked": true,
+      "identityBasis": "The d= id is bracketed between two ids read from mounted PDFs (990=919685 and 993=919688), so it cannot be any other article.",
+      "exactBinaryUrlEstablished": true,
+      "verification": {
+        "urlExercisedByThisLane": false,
+        "whyNot": "No egress: the proxy answers 403 CONNECT for state hosts from this container. Nothing here was fetched.",
+        "whatWasEstablishedInstead": [
+          "PRIMARY, and the reason these are addresses and not guesses: data/record-clearing/legal-design-intake/LA.memo.json records an officialSourceUrl of the form https://www.legis.la.gov/legis/Law.aspx?d=<id> for every article from 972 to 999.1. For the six articles whose print view is mounted here, I read the PDF with pdftotext and compared the id the memo assigns against the id the PDF prints in its own page footer. Six of six match exactly: 984/919676, 990/919685, 993/919688, 995/919691, 998/1335832, 999.1/1386723. The memo's article-to-id mapping is therefore verified against six documents whose bytes I read, and the six ids it assigns to the missing articles come from that same verified mapping.",
+          "SECOND: the Master Library's own Louisiana legal review, STATES/LA/01_LEGAL_REVIEW/...ASOF-2026-07-30__EN.md, states in Part 2: 'Official source: https://www.legis.la.gov, Law.aspx by article. All uploaded HTML files are print views from that site.' That is the publisher and the URL scheme asserted by a document shipped inside the source archive itself.",
+          "THIRD: three further committed records carry the same six ids independently of the memo -- data/rcap-grade-a/source-acquisition/wave-1/acquired.json (as uniqueOfficialTargets with obligationKeys), data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json (as officialSourceUrl per obligation), and data/record-clearing/legal-design-track-source-relationships.json.",
+          "FOURTH, structural: 991=919686 and 992=919687 fall in a fully closed interval between two independently PDF-verified ids, 990=919685 and 993=919688 -- exactly two slots for exactly two articles, with no room for error. Those two are interval-locked."
+        ],
+        "whatRemainsForTheRunner": "HTTP reachability, the page heading naming this exact article, and the SHA-256. For the four articles that are not interval-locked the heading check is what settles identity, and it is one line."
+      }
+    },
+    {
+      "sourceId": "la-ccrp-art-994-statutory-form-print-view",
+      "jurisdiction": "LA",
+      "formNumber": "LA-CCRP-ART-994",
+      "officialTitle": "La. C.Cr.P. Art. 994 - Motion for interim expungement form to be used",
+      "issuingAuthority": "Louisiana State Legislature",
+      "officialUrl": "https://www.legis.la.gov/legis/LawPrint.aspx?d=919690",
+      "urlKind": "OFFICIAL_STATUTE_TEXT",
+      "expectedSha256": null,
+      "host": "www.legis.la.gov",
+      "commitBody": false,
+      "obligationKeys": [
+        "la-985-1-interim-expungement-set::official-form:LA-CCRP-ART-994"
+      ],
+      "recordedIn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_COMP1_FL_LA_COMPOSITION.json",
+      "interactiveViewUrl": "https://www.legis.la.gov/legis/Law.aspx?d=919690",
+      "statute": "La. C.Cr.P. art. 986 makes arts. 987-995 and 998 themselves the prescribed forms, so the article text IS the form. There is no separate fillable PDF to look for and the owner determination says not to wait for one.",
+      "format": "HTML print view, not a PDF. That is not a defect here: for a statutory form the codified text IS the document, and this is the publisher own print rendering of it. It is a COMPOSE_FROM_AUTHORITY input and never an official_pdf_fill target.",
+      "intervalLocked": false,
+      "identityBasis": "The d= id comes from LA.memo.json article-to-id mapping, which was verified 6/6 against ids printed in the footers of the six mounted article PDFs. It is NOT interval-locked, so the one-line check on acquisition is: confirm the fetched page heading names this article.",
+      "exactBinaryUrlEstablished": true,
+      "verification": {
+        "urlExercisedByThisLane": false,
+        "whyNot": "No egress: the proxy answers 403 CONNECT for state hosts from this container. Nothing here was fetched.",
+        "whatWasEstablishedInstead": [
+          "PRIMARY, and the reason these are addresses and not guesses: data/record-clearing/legal-design-intake/LA.memo.json records an officialSourceUrl of the form https://www.legis.la.gov/legis/Law.aspx?d=<id> for every article from 972 to 999.1. For the six articles whose print view is mounted here, I read the PDF with pdftotext and compared the id the memo assigns against the id the PDF prints in its own page footer. Six of six match exactly: 984/919676, 990/919685, 993/919688, 995/919691, 998/1335832, 999.1/1386723. The memo's article-to-id mapping is therefore verified against six documents whose bytes I read, and the six ids it assigns to the missing articles come from that same verified mapping.",
+          "SECOND: the Master Library's own Louisiana legal review, STATES/LA/01_LEGAL_REVIEW/...ASOF-2026-07-30__EN.md, states in Part 2: 'Official source: https://www.legis.la.gov, Law.aspx by article. All uploaded HTML files are print views from that site.' That is the publisher and the URL scheme asserted by a document shipped inside the source archive itself.",
+          "THIRD: three further committed records carry the same six ids independently of the memo -- data/rcap-grade-a/source-acquisition/wave-1/acquired.json (as uniqueOfficialTargets with obligationKeys), data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json (as officialSourceUrl per obligation), and data/record-clearing/legal-design-track-source-relationships.json.",
+          "FOURTH, structural: 991=919686 and 992=919687 fall in a fully closed interval between two independently PDF-verified ids, 990=919685 and 993=919688 -- exactly two slots for exactly two articles, with no room for error. Those two are interval-locked."
+        ],
+        "whatRemainsForTheRunner": "HTTP reachability, the page heading naming this exact article, and the SHA-256. For the four articles that are not interval-locked the heading check is what settles identity, and it is one line."
       }
     },
     {

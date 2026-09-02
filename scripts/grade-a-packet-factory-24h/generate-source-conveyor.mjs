@@ -93,7 +93,8 @@ const HANDOFF_CANDIDATE_SOURCES = [
  * the same gate every other entry passes through, unchanged.
  */
 const LANE_ESTABLISHED_ENTRY_RETURNS = [
-  "data/rcap-grade-a/fable-packet-factory/returns/FABLE_ACQ_SOURCE_ADDRESSES.json"
+  "data/rcap-grade-a/fable-packet-factory/returns/FABLE_ACQ_SOURCE_ADDRESSES.json",
+  "data/rcap-grade-a/fable-packet-factory/returns/FABLE_COMP1_FL_LA_COMPOSITION.json"
 ];
 
 /*
