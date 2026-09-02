@@ -30,6 +30,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
+import { spawnSync } from "node:child_process";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 
@@ -54,6 +55,80 @@ function walk(dir, out = []) {
     else if (/\.pdf$/i.test(entry.name)) out.push(full);
   }
   return out;
+}
+
+const PIKEPDF_PROBE = `
+import json, sys
+import pikepdf
+out = {}
+for arg in sys.argv[1:]:
+    try:
+        with pikepdf.open(arg) as pdf:
+            acro = pdf.Root.get("/AcroForm")
+            fields = acro.get("/Fields") if acro is not None else None
+            def terminal(node):
+                n = 0
+                for f in node:
+                    kids = f.get("/Kids")
+                    if kids is not None and any("/T" in k for k in kids):
+                        n += terminal(kids)
+                    else:
+                        n += 1
+                return n
+            out[arg] = {
+                "acroFormPresent": acro is not None,
+                "xfaPresent": acro is not None and "/XFA" in acro,
+                "acroFieldCount": terminal(fields) if fields is not None else 0,
+                "pageCount": len(pdf.pages),
+                "encrypted": bool(pdf.is_encrypted),
+            }
+    except Exception as error:
+        out[arg] = {"error": str(error)}
+print(json.dumps(out))
+`;
+
+/*
+ * A second instrument, used only where the first one could not read at all.
+ *
+ * The structure fields are matched against the file's own bytes. That works for
+ * a document whose catalogue sits in a plain object, and it silently lies about
+ * one whose catalogue sits inside a cross-reference stream: the names are there,
+ * compressed and -- on every document in this class -- encrypted, so neither the
+ * regex nor an inflate finds them. What the record then wrote was not "unknown",
+ * it was `xfaPresent: false`: a positive claim that the document is not XFA.
+ *
+ * Every document pdf-lib cannot open here is in exactly that class. They are
+ * AES-encrypted Judicial Council and state forms, so `loadError` and a wrong
+ * `xfaPresent: false` arrived together. Measured with pikepdf against the pinned
+ * bytes, California CR-106 (sha256 f8a37a9a…), CR-106-INFO (427936ac…) and
+ * CR-401 (394421959…) each carry /Root/AcroForm/XFA with 48, 2 and 42 terminal
+ * fields; the committed index recorded all three as XFA-free.
+ *
+ * pikepdf is the instrument the California packet host already uses on these
+ * same binaries, so this adds no new dependency to the factory -- only to this
+ * generator, and only for the documents the primary reader refused. Where no
+ * Python can import it, the fields record `null`: unknown is a worse record than
+ * measured and a far better one than a confident falsehood.
+ *
+ * Nothing here changes a document that loads. That path keeps the original
+ * regexes exactly, and `structuralClassObserved` still says "unreadable" for a
+ * document nobody could read, because that stays true.
+ */
+function pikepdfStructure(files) {
+  if (files.length === 0) return { readings: new Map(), reader: null };
+  const candidates = [process.env.RCAP_PIKEPDF_PYTHON, process.env.PYTHON, "python3", "python"]
+    .filter(Boolean);
+  for (const python of candidates) {
+    const result = spawnSync(python, ["-c", PIKEPDF_PROBE, ...files],
+      { encoding: "utf8", maxBuffer: 64 * 1024 * 1024 });
+    if (result.status !== 0 || !result.stdout) continue;
+    try {
+      return { readings: new Map(Object.entries(JSON.parse(result.stdout))), reader: python };
+    } catch {
+      continue;
+    }
+  }
+  return { readings: new Map(), reader: null };
 }
 
 // The library's naming standard: STATE__CLASS__DOCID__slug__REV-x__LANG.pdf
@@ -212,6 +287,8 @@ if (unmounted.length) {
 }
 
 const entries = [];
+// Absolute path -> entry, for the documents the primary reader refused.
+const unreadable = new Map();
 const duplicates = [];
 const crossCustodyIdenticalBinaries = [];
 const shaToEntry = new Map();
@@ -272,9 +349,11 @@ for (const custody of CUSTODIES) {
       pageCount,
       // Read from the bytes. The name says what someone meant; the dictionary
       // says what the factory will actually find.
-      acroFormPresent: /\/AcroForm\b/.test(text),
+      // A document the primary reader refused is measured again below, with an
+      // instrument that can open it. Until then it claims nothing.
+      acroFormPresent: loadError ? null : /\/AcroForm\b/.test(text),
       acroFieldCount,
-      xfaPresent: /\/XFA[\s/[]/.test(text),
+      xfaPresent: loadError ? null : /\/XFA[\s/[]/.test(text),
       // An XFA form's fields may live entirely in the XML, so an AcroForm
       // dictionary with zero fields on an XFA document means "not readable by
       // this factory", not "nothing to fill".
@@ -284,8 +363,32 @@ for (const custody of CUSTODIES) {
             : "flat_pdf",
       loadError
     };
+    if (loadError) unreadable.set(file, entry);
     entries.push(entry);
     shaToEntry.set(sha256, entry);
+  }
+}
+
+// Second pass: measure what the primary reader could not open.
+{
+  const files = [...unreadable.keys()].sort();
+  const { readings, reader } = pikepdfStructure(files);
+  for (const file of files) {
+    const entry = unreadable.get(file);
+    const reading = readings.get(file);
+    if (!reading || reading.error) {
+      entry.structureReadBy = reader ? `pikepdf refused: ${reading?.error ?? "no reading returned"}` : "not_measured_no_pikepdf";
+      continue;
+    }
+    entry.acroFormPresent = reading.acroFormPresent;
+    entry.xfaPresent = reading.xfaPresent;
+    entry.acroFieldCount = reading.acroFieldCount;
+    entry.pageCount = reading.pageCount;
+    entry.encrypted = reading.encrypted;
+    // structuralClassObserved keeps saying "unreadable": that is a true
+    // statement about the factory's own reader, it is what committed source
+    // receipts already pin, and this second reading does not change it.
+    entry.structureReadBy = "pikepdf";
   }
 }
 

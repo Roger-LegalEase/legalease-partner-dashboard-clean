@@ -4653,14 +4653,41 @@
           "componentId": "ca-diversion-seal-primary-filing-2",
           "role": "primary_filing",
           "requirement": "conditional",
-          "conditionDescription": "Only in counties where LegalEase has collected and approved the current local petition and order set. No county qualifies yet.",
+          "conditionDescription": "San Diego County only. SDSC form CRM-307 is a local form of the Superior Court of California, County of San Diego. It is used when the diversion or deferred entry of judgment was handled in San Diego County, and it is not used in any other county.",
           "outputStrategy": "official_pdf_fill",
           "officialFormId": "SDSC-CRM-307",
           "officialSourceUrl": "https://www.sdcourt.ca.gov/sites/default/files/sdcourt/generalinformation/forms/criminalforms/crm307.pdf",
-          "order": 2
+          "order": 2,
+          "countyScope": "SAN_DIEGO_ONLY",
+          "statutorySection": "Cal. Penal Code § 851.90",
+          "doNotUseOutsideCountyScope": "Do not file CRM-307 in any court other than the Superior Court of California, County of San Diego. A county's local form has no effect in another county's court."
+        },
+        {
+          "componentId": "ca-diversion-seal-primary-filing-4",
+          "role": "primary_filing",
+          "requirement": "conditional",
+          "conditionDescription": "Every county other than San Diego. Used when the diversion or deferred entry of judgment was handled outside San Diego County. Where LegalEase has collected and approved that county's own local petition and order set, that set is used; where it has not, and where a participant-created pleading is authorised for the route, the participant's own pleading is used with court-specific guidance. No county's local set is approved yet.",
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "countyScope": "ALL_COUNTIES_OTHER_THAN_SAN_DIEGO",
+          "statutorySection": "Cal. Penal Code § 851.90",
+          "order": 4
         }
       ],
       "participantActionRequired": [
+        {
+          "kind": "confirm_answer",
+          "description": "Confirm which county handled the diversion or deferred entry of judgment. SDSC form CRM-307 is a San Diego Superior Court local form and is used only there; every other county uses its own local petition and order set, or a pleading you prepare where that is authorised. Ask the clerk or self-help centre of the superior court that handled the case.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Confirm which statute your sealing is brought under. This packet set is Penal Code § 851.90, sealing after drug diversion or deferred entry of judgment. Penal Code § 851.91, sealing an arrest that did not result in a conviction, is a different statute with its own statewide Judicial Council forms CR-409 and CR-410, and neither route's forms or answers carry across to the other.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
         {
           "kind": "obtain_document",
           "description": "Obtain Proof of programme completion. Ask the court or the programme provider for documentation that you completed the programme. LegalEase does not obtain, receive or inspect it.",
@@ -4726,6 +4753,8 @@
         }
       ],
       "requiredBeforeFiling": [
+        "Confirm which county handled the diversion or deferred entry of judgment. SDSC form CRM-307 is a San Diego Superior Court local form and is used only there; every other county uses its own local petition and order set, or a pleading you prepare where that is authorised. Ask the clerk or self-help centre of the superior court that handled the case.",
+        "Confirm which statute your sealing is brought under. This packet set is Penal Code § 851.90, sealing after drug diversion or deferred entry of judgment. Penal Code § 851.91, sealing an arrest that did not result in a conviction, is a different statute with its own statewide Judicial Council forms CR-409 and CR-410, and neither route's forms or answers carry across to the other.",
         "Obtain Proof of programme completion. Ask the court or the programme provider for documentation that you completed the programme. LegalEase does not obtain, receive or inspect it.",
         "Check your answer to \"Did you successfully complete the programme?\" against Proof of programme completion, and correct the packet if they disagree.",
         "Obtain The county's own petition and order forms. Ask the county clerk or self-help centre which local form applies to a § 851.90 sealing. There is no statewide Judicial Council form for this route.",

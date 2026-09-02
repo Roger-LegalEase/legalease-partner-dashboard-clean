@@ -20,8 +20,8 @@
     "EXACT_LEGAL_HOLD": "One named legal-design question must be answered before any treatment is safe."
   },
   "counts": {
-    "ATTACH_HELD_SOURCE": 46,
-    "ACQUIRE_EXACT_SOURCE": 16,
+    "ATTACH_HELD_SOURCE": 45,
+    "ACQUIRE_EXACT_SOURCE": 17,
     "EXACT_LEGAL_HOLD": 3,
     "NON_PACKET_TREATMENT": 1,
     "COMPOSE_FROM_AUTHORITY": 4
@@ -758,9 +758,9 @@
     },
     {
       "familyId": "az_certificate_second_chance-set",
-      "class": "ATTACH_HELD_SOURCE",
-      "why": "Both forms are held under the same AOC form-number stems at a later revision (10/30/2023) than the 01/01/2022 edition the family names. The family names a superseded revision label, not a document we lack.",
-      "captainDecision": "Confirm that binding the 10/30/2023 edition in place of the named 01/01/2022 edition is intended; it is a revision change on a live identity.",
+      "class": "ACQUIRE_EXACT_SOURCE",
+      "why": "Neither the held 10/30/2023 edition nor the 01/01/2022 edition the family names governs the current build. The governing text is the one adopted in R-26-0001, and no document carrying it is held.",
+      "captainDecision": null,
       "jurisdiction": "AZ",
       "formsNamedByFamily": [
         "AOCCRSA3F-010122",
@@ -777,7 +777,7 @@
             "AOCCRSA3F-010122"
           ],
           "identityEvidence": "Same AOC form number stem (AOCCRSA3F). The family names the 01/01/2022 edition; what is held is the later 10/30/2023 edition of the same form. The named identity is a stale revision label, not a different document.",
-          "identityConfidence": "confirmed_form_number_later_revision_held",
+          "identityConfidence": "held_edition_superseded_governing_text_not_held",
           "held": {
             "custody": "MASTER_LIBRARY",
             "archive": "Expungement_AI_RCAP_Master_Library_Edition_1",
@@ -792,8 +792,9 @@
           "servesFamilies": [
             "az_certificate_second_chance-set"
           ],
-          "readOutcome": "Read and not upgraded, and this is a revision question rather than an identity question. Page 1 prints \"APPLICATION FOR CERTIFICATE OF SECOND CHANCE\" / \"A.R.S. § 13-905\" over \"COURT OF ARIZONA\", and the page 1 footer prints \"Arizona Supreme Court   Page 1 of 3   AOCCRSA3F-103023\". The form number matches the family label AOCCRSA3F-010122 but the edition does not: the family names the 01/01/22 edition and the corpus holds the 10/30/23 edition. Held edition AOCCRSA3F-103023; edition named by az_certificate_second_chance-set AOCCRSA3F-010122. SOURCE_REVISION_STALE. Which edition the family must ship is a determination for the census owner and counsel, not for this read.",
-          "identityReadBy": "FABLE-A1"
+          "readOutcome": "Read and not upgraded, and this is a revision question rather than an identity question. Page 1 prints \"APPLICATION FOR CERTIFICATE OF SECOND CHANCE\" / \"A.R.S. § 13-905\" over \"COURT OF ARIZONA\", and the page 1 footer prints \"Arizona Supreme Court   Page 1 of 3   AOCCRSA3F-103023\". The form number matches the family label AOCCRSA3F-010122 but the edition does not: the family names the 01/01/22 edition and the corpus holds the 10/30/23 edition. Held edition AOCCRSA3F-103023; edition named by az_certificate_second_chance-set AOCCRSA3F-010122. SOURCE_REVISION_STALE. Which edition the family must ship is a determination for the census owner and counsel, not for this read. SUPERSEDED by DET-DT-AZ-RULE41-001: the SOURCE_REVISION_STALE classification assumed one of the two editions governs. Neither does. Arizona Supreme Court order in R-26-0001, adopted 27 August 2026 and effective on filing is the governing text, and no held document carries it. The held binary is retained as comparison evidence and is not bound.",
+          "identityReadBy": "FABLE-A1",
+          "governingEdition": "R-26-0001 (adopted 2026-08-27, effective on filing)"
         },
         {
           "jurisdiction": "AZ",
@@ -804,7 +805,7 @@
             "AOCCRSA4F-010122"
           ],
           "identityEvidence": "Same AOC form number stem (AOCCRSA4F); held edition 10/30/2023 supersedes the named 01/01/2022 edition.",
-          "identityConfidence": "confirmed_form_number_later_revision_held",
+          "identityConfidence": "held_edition_superseded_governing_text_not_held",
           "held": {
             "custody": "MASTER_LIBRARY",
             "archive": "Expungement_AI_RCAP_Master_Library_Edition_1",
@@ -819,17 +820,27 @@
           "servesFamilies": [
             "az_certificate_second_chance-set"
           ],
-          "readOutcome": "Read and not upgraded, same class as AZ-AOCCRSA3F. Page 1 prints \"ORDER REGARDING APPLICATION FOR CERTIFICATE OF SECOND CHANCE\" / \"A.R.S. § 13-905\", and the page 1 footer prints \"Arizona Supreme Court   Page 1 of 2   AOCCRSA4F-103023\". Held edition AOCCRSA4F-103023; edition named by az_certificate_second_chance-set AOCCRSA4F-010122. SOURCE_REVISION_STALE.",
-          "identityReadBy": "FABLE-A1"
+          "readOutcome": "Read and not upgraded, same class as AZ-AOCCRSA3F. Page 1 prints \"ORDER REGARDING APPLICATION FOR CERTIFICATE OF SECOND CHANCE\" / \"A.R.S. § 13-905\", and the page 1 footer prints \"Arizona Supreme Court   Page 1 of 2   AOCCRSA4F-103023\". Held edition AOCCRSA4F-103023; edition named by az_certificate_second_chance-set AOCCRSA4F-010122. SOURCE_REVISION_STALE. SUPERSEDED by DET-DT-AZ-RULE41-001: the SOURCE_REVISION_STALE classification assumed one of the two editions governs. Neither does. Arizona Supreme Court order in R-26-0001, adopted 27 August 2026 and effective on filing is the governing text, and no held document carries it. The held binary is retained as comparison evidence and is not bound.",
+          "identityReadBy": "FABLE-A1",
+          "governingEdition": "R-26-0001 (adopted 2026-08-27, effective on filing)"
         }
       ],
-      "otherFamiliesServedBySameArtifacts": []
+      "otherFamiliesServedBySameArtifacts": [],
+      "ownerDetermination": {
+        "determinationId": "DET-DT-AZ-RULE41-001",
+        "decided": "Arizona Supreme Court order in R-26-0001, adopted 27 August 2026 and effective on filing controls, and it is what the certificate-of-second-chance and Rule 41 families are built against.",
+        "supersedesPriorClassification": "FABLE-A1 read the held AOCCRSA3F and AOCCRSA4F, found them printing -103023 where the family names -010122, and classified the pair SOURCE_REVISION_STALE with the edition question left to the census owner and counsel. That classification is superseded: neither held edition governs, so this is no longer a choice between two editions the repository has.",
+        "reclassifiedFrom": "ATTACH_HELD_SOURCE (SOURCE_REVISION_STALE, edition question open)",
+        "reclassifiedTo": "ACQUIRE_EXACT_SOURCE (the governing text is not held in any edition)",
+        "whatToAcquire": "A current AOC document carrying the R-26-0001 text for this family's instruments, or the order attachment itself.",
+        "heldDocumentsRetained": "The 10/30/2023 binaries stay in custody as comparison evidence. They are not bound to the family and must not be shipped as the current form."
+      }
     },
     {
       "familyId": "az_set_aside-set",
       "class": "ACQUIRE_EXACT_SOURCE",
       "why": "Neither Rule 41 Form 31 document is held. Identity is fixed by the rule and the AOC form numbers; the AOC criminal-law forms page is the issuing source.",
-      "captainDecision": "Arizona Supreme Court Administrative Order AO-2025-215 (2025-12-17) temporarily amends Forms 31(a) and 31(b). The order itself is held in the Nationwide Arizona folder as a reference-only PDF. Counsel must decide which edition governs before a field map is drawn.",
+      "captainDecision": null,
       "jurisdiction": "AZ",
       "formsNamedByFamily": [
         "AOCCR41FORM31A-082224",
@@ -851,11 +862,16 @@
             "AOCCR41FORM31A-082224",
             "AOCCR41FORM31A-082224-CONT"
           ],
-          "identityEvidence": "The AZ corpus holds the seal forms (AOCCRSL1F/2F), the marijuana expungement forms (AOCCREM*) and the second-chance forms (AOCCRSA*), but no Rule 41 Form 31 set-aside form. The Nationwide Arizona folder holds only Administrative Order AO-2025-215 \"temporary amendments to Rule 41 forms 31a and 31b\" (2025-12-17), which is the amending order, not the form.",
+          "identityEvidence": "The AZ corpus holds the seal forms (AOCCRSL1F/2F), the marijuana expungement forms (AOCCREM*) and the second-chance forms (AOCCRSA*), but no Rule 41 Form 31 set-aside form. The Nationwide Arizona folder holds only Administrative Order AO-2025-215 \"temporary amendments to Rule 41 forms 31a and 31b\" (2025-12-17), which is the amending order, not the form. Arizona Supreme Court order in R-26-0001, adopted 27 August 2026 and effective on filing amends both forms; AO-2025-215 is superseded and does not govern. The current edition is the R-26-0001 text, and neither it nor any standalone PDF incorporating it is held.",
           "identityConfidence": "established_from_rule_and_issuing_authority",
           "artifactId": "AZ-RULE41-FORM31A",
           "servesFamilies": [
             "az_set_aside-set"
+          ],
+          "governingEdition": "R-26-0001 (adopted 2026-08-27, effective on filing)",
+          "supersededEditions": [
+            "AO-2025-215 (2025-12-17)",
+            "08/22/2024 standalone editions named by the family"
           ]
         },
         {
@@ -871,21 +887,40 @@
           "namedInFamiliesAs": [
             "AOCCR41FORM31B-082224"
           ],
-          "identityEvidence": "Not held in the Master Library or the Nationwide Arizona folder; identity fixed by Rule 41 Form 31(b).",
+          "identityEvidence": "Not held in the Master Library or the Nationwide Arizona folder; identity fixed by Rule 41 Form 31(b). Arizona Supreme Court order in R-26-0001, adopted 27 August 2026 and effective on filing amends both forms; AO-2025-215 is superseded and does not govern. The current edition is the R-26-0001 text, and neither it nor any standalone PDF incorporating it is held.",
           "identityConfidence": "established_from_rule_and_issuing_authority",
           "artifactId": "AZ-RULE41-FORM31B",
           "servesFamilies": [
             "az_set_aside-set"
+          ],
+          "governingEdition": "R-26-0001 (adopted 2026-08-27, effective on filing)",
+          "supersededEditions": [
+            "AO-2025-215 (2025-12-17)",
+            "08/22/2024 standalone editions named by the family"
           ]
         }
       ],
-      "otherFamiliesServedBySameArtifacts": []
+      "otherFamiliesServedBySameArtifacts": [],
+      "ownerDetermination": {
+        "determinationId": "DET-DT-AZ-RULE41-001",
+        "decided": "Arizona Supreme Court order in R-26-0001, adopted 27 August 2026 and effective on filing amends Rule 41 Forms 31(a) and 31(b), and that text governs this build.",
+        "editionHoldLifted": "The prior hold asked counsel to decide which edition governs, on the strength of Administrative Order AO-2025-215 (2025-12-17). AO-2025-215 does not govern the current build and the edition question is closed. The hold is removed.",
+        "whatToAcquire": "The Forms 31(a) and 31(b) text attached to the R-26-0001 order, or a current standalone AOC PDF that incorporates that text. The pre-amendment 08/22/2024 editions the family names are superseded and must not be bound.",
+        "namedEditionsAreStale": [
+          "AOCCR41FORM31A-082224",
+          "AOCCR41FORM31A-082224-CONT",
+          "AOCCR41FORM31B-082224"
+        ],
+        "reproductionStatus": "BLOCKED_SOURCE",
+        "reproductionBlocker": "The determination authorises creating the exact current form reproduction from the adopted order attachment where no standalone current PDF has been published. Neither the R-26-0001 order nor its attachments is held: the Master Library AZ custody carries AOCCRSL1F/2F, AOCCREM1I/2F/3F and AOCCRSA3F/4F and no Rule 41 Form 31 document at all, and the Nationwide operational tree that held AO-2025-215 is not mounted in this worktree. Outbound fetch to azcourts.gov is refused by the network egress policy of this container (CONNECT 403), so the attachment cannot be retrieved here. Reproducing a form whose adopted text is not in hand would mean inventing legally operative sentences, which the standard forbids. Nothing was drafted.",
+        "reproductionUnblockedBy": "Any one of: the R-26-0001 order with its Form 31(a) and 31(b) attachments placed in a mounted custody; a current standalone AOC PDF for either form placed in a mounted custody; or egress to azcourts.gov for the acquisition lane."
+      }
     },
     {
       "familyId": "ca-diversion-seal-set",
       "class": "ACQUIRE_EXACT_SOURCE",
-      "why": "CRM-307 is a San Diego Superior Court local form; the corpus holds only statewide Judicial Council forms. Exact official URL established.",
-      "captainDecision": "A county-local form is bound to what is modelled as a California route. Decide whether this family is San Diego only, or whether the statewide Judicial Council equivalent should replace it.",
+      "why": "CRM-307 is a San Diego Superior Court local form for Penal Code § 851.90. It was bound to what is modelled as a statewide California route, and a county's local form cannot carry a statewide route.",
+      "captainDecision": null,
       "jurisdiction": "CA",
       "formsNamedByFamily": [
         "SDSC-CRM-307"
@@ -901,15 +936,60 @@
           "namedInFamiliesAs": [
             "SDSC-CRM-307"
           ],
-          "identityEvidence": "The CA corpus holds only Judicial Council statewide forms (CR-180/181/400-403/409/410, MC-025/031, CR-106). CRM-307 is a San Diego county local form and is absent. An exact San Diego Superior Court URL is already recorded in data/rcap-grade-a/packet-factory-24h/SOURCE_URL_PROMOTION_CANDIDATES.json with corroboration 9.",
+          "identityEvidence": "The CA corpus holds only Judicial Council statewide forms (CR-180/181/400-403/409/410, MC-025/031, CR-106). CRM-307 is a San Diego county local form and is absent. An exact San Diego Superior Court URL is already recorded in data/rcap-grade-a/packet-factory-24h/SOURCE_URL_PROMOTION_CANDIDATES.json with corroboration 9. Under DET-DT-CA-CRM307-001 this artifact serves the San Diego branch of the § 851.90 route and no other branch, county or statute.",
           "identityConfidence": "established_with_exact_official_url",
           "artifactId": "CA-SDSC-CRM-307",
           "servesFamilies": [
-            "ca-diversion-seal-set"
-          ]
+            "ca-diversion-seal-set (San Diego branch only)"
+          ],
+          "countyScope": "SAN_DIEGO_ONLY",
+          "statutorySection": "Cal. Penal Code § 851.90"
         }
       ],
-      "otherFamiliesServedBySameArtifacts": []
+      "otherFamiliesServedBySameArtifacts": [],
+      "ownerDetermination": {
+        "determinationId": "DET-DT-CA-CRM307-001",
+        "decided": "CRM-307 must not bind to a statewide California route. The route is split by county and by statute.",
+        "routeSplit": [
+          {
+            "branch": "San Diego § 851.90",
+            "statute": "Cal. Penal Code § 851.90",
+            "form": "official-form:SDSC-CRM-307",
+            "component": "ca-diversion-seal-primary-filing-2",
+            "scope": "SAN_DIEGO_ONLY",
+            "sourceStatus": "ACQUIRE_EXACT_SOURCE — not held; the exact San Diego Superior Court binary URL is already recorded"
+          },
+          {
+            "branch": "Non-San-Diego § 851.90",
+            "statute": "Cal. Penal Code § 851.90",
+            "form": null,
+            "component": "ca-diversion-seal-primary-filing-3",
+            "scope": "ALL_COUNTIES_OTHER_THAN_SAN_DIEGO",
+            "instrument": "the applicable county local petition and order set where LegalEase has collected and approved one, or a participant-created pleading where that is authorised for the route, with court-specific guidance. No county set is approved yet.",
+            "sourceStatus": "COMPOSE_FROM_AUTHORITY — no statewide Judicial Council form exists for § 851.90, which this packet set's own manifest already states"
+          },
+          {
+            "branch": "Statewide § 851.91",
+            "statute": "Cal. Penal Code § 851.91",
+            "form": [
+              "official-form:CR-409",
+              "official-form:CR-410"
+            ],
+            "packetSetId": "ca-851-91-set",
+            "scope": "STATEWIDE",
+            "changed": false,
+            "note": "Untouched by this determination. It is a separate statutory route with its own held statewide forms and its own packet family."
+          }
+        ],
+        "prohibitions": [
+          "Do not use CRM-307 outside San Diego County.",
+          "Do not silently convert a § 851.90 matter into a § 851.91 matter. They are different statutes, and under DET-FEE-AND-WAIVER-001 amendment A3 an answer keyed to one does not answer the other."
+        ],
+        "implementedIn": [
+          "data/record-clearing/legal-design-packet-set-manifests.json — ca-diversion-seal-set now carries two conditional primary-filing components, the San Diego one scoped to CRM-307 and the other-county one carrying no official form, plus two participant actions naming the county scope and the § 851.90 / § 851.91 distinction."
+        ],
+        "siblingsChecked": "No other family or route binds official-form:SDSC-CRM-307: it appears on ca-diversion-seal-set alone in the master queue, the claim ledger, the source relationship registry and the URL promotion candidates. The only California sibling that could be confused with it is ca-851-91-set, which is a § 851.91 route and was left alone."
+      }
     },
     {
       "familyId": "census-pending-family:ME:juvenile-sealing",
@@ -7183,6 +7263,19 @@
         "AZ AOCCRSA3F and AOCCRSA4F: whether az_certificate_second_chance-set ships the held 10/30/23 edition or the 01/01/22 edition it names."
       ],
       "claimDiscipline": "No packet-family claim was asserted or released. No family was built, attached or promoted. No build script, overlay or compiled engine directory was touched. No corpus byte was committed."
+    },
+    {
+      "pass": "FABLE-DT owner determination execution",
+      "producedOn": "2026-09-02",
+      "determinations": [
+        "DET-DT-AZ-RULE41-001",
+        "DET-DT-CA-CRM307-001"
+      ],
+      "whatWasDone": "Two holds recorded on this file were executed rather than re-escalated. The Arizona edition hold, which asked counsel to choose between the AO-2025-215 amended text and the unamended forms, is removed: R-26-0001 governs and neither held Arizona edition carries it, so az_certificate_second_chance-set moves from ATTACH_HELD_SOURCE to ACQUIRE_EXACT_SOURCE and az_set_aside-set keeps that class with a named acquisition target. The California hold, which asked whether ca-diversion-seal-set is San Diego only, is answered: the route is split, CRM-307 is scoped to San Diego, and the other-county branch carries no official form.",
+      "whatWasNotDone": "No Arizona form reproduction was drafted. The R-26-0001 attachment is not held in any mounted custody and this container's egress policy refuses azcourts.gov, so drafting one would have meant inventing legally operative text.",
+      "claimDiscipline": "SRC01's grant on ca-diversion-seal-set::official-form:SDSC-CRM-307 asserted CLAIM_OK. Every SRC04 Arizona source grant answered ALREADY_RELEASED and no grant was transferred, re-issued or minted to work around that; the Arizona edits are to this classification file, which records the hold, and no Arizona family artifact, build script or overlay was touched.",
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
     }
   ]
 }
