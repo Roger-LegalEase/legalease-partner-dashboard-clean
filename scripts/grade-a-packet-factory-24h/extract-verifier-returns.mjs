@@ -44,6 +44,26 @@ const OUT = "data/rcap-grade-a/packet-factory-24h/VERIFIER_RETURNS.json";
 const CHECK = process.argv.includes("--check");
 
 const VERDICTS = ["PASS_COMPLETE_INDEPENDENT", "PASS", "FAIL_REPAIR_REQUIRED", "BLOCKED_SOURCE", "BLOCKED_LEGAL_INPUT", "BLOCKED_BEFORE_CLAIM", "STOPPED", "COMPLETED"];
+/*
+ * A LANE THAT COULD NOT LOOK IS NOT A VERDICT ABOUT THE PACKET.
+ *
+ * BLOCKED_BEFORE_CLAIM says the claim gate refused, so the lane opened no
+ * artifact. It is a true statement about the LANE and says nothing about the
+ * family — and every other verdict here is a statement about the family.
+ *
+ * The supersession rule cannot tell them apart, and FABLE-VB found what that
+ * costs: eight of its items sat at FAIL_REPAIR_REQUIRED at bases its own base
+ * descends from, so eight refusal rows would have superseded eight real
+ * failures and dropped them off the repair queue on the strength of a read
+ * that never happened. VB saw it coming and kept its refusals out of `rows`
+ * entirely, which was right and should not have been necessary.
+ *
+ * So a non-reading verdict is excluded from the current-verdict contest. It is
+ * still carried in `rows` as history — a lane refused at the gate is worth
+ * knowing about — and it is counted separately below, because a family whose
+ * only recent return is a refusal is a family nobody has read.
+ */
+const NON_READING = new Set(["BLOCKED_BEFORE_CLAIM"]);
 const FAILING = new Set(["FAIL_REPAIR_REQUIRED"]);
 const PASSING = new Set(["PASS_COMPLETE_INDEPENDENT", "PASS"]);
 
@@ -278,11 +298,12 @@ const supersedes = (r, prior) => {
 };
 
 const current = new Map();
-for (const r of rows.filter((x) => x.isIndependentVerification && x.verdict)) {
+for (const r of rows.filter((x) => x.isIndependentVerification && x.verdict && !NON_READING.has(x.verdict))) {
   const prior = current.get(r.familyId);
   if (!prior || supersedes(r, prior)) current.set(r.familyId, r);
 }
-for (const r of rows) r.superseded = r.isIndependentVerification && !!r.verdict && current.get(r.familyId) !== r;
+for (const r of rows) r.superseded = r.isIndependentVerification && !!r.verdict
+  && !NON_READING.has(r.verdict) && current.get(r.familyId) !== r;
 
 const currentRows = [...current.values()];
 const failed = currentRows.filter((r) => FAILING.has(r.verdict));
@@ -304,6 +325,10 @@ const doc = {
     passIndependent: passed.length
   },
   failRepairRequiredFamilies: failed.map((r) => r.familyId).sort(),
+  refusedAtTheClaimGate: {
+    whatThisIs: "rows where a verification lane was refused by the claim gate and therefore opened no artifact. These are statements about the lane, not about the packet, so they never enter the current-verdict contest and never supersede a lane that did look.",
+    rows: rows.filter((r) => NON_READING.has(r.verdict)).map((r) => `${r.lane}/${r.familyId}`).sort()
+  },
   unactionableFailures: {
     whatThisIs: "rows carrying a failing verdict that name no obligation anywhere, so no repairer can be dispatched from them; each needs a fresh independent read, not a repair",
     rows: unactionableFailures.sort()

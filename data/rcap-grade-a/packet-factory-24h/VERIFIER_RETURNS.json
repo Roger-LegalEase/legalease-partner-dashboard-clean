@@ -24,7 +24,7 @@
     "returnDirectories": 33,
     "rows": 229,
     "independentVerdicts": 120,
-    "failRepairRequired": 29,
+    "failRepairRequired": 30,
     "passIndependent": 90
   },
   "failRepairRequiredFamilies": [
@@ -38,6 +38,7 @@
     "ne-setaside-custodial-set",
     "ny_160_59_petition-set",
     "ny_mrta_marijuana-set",
+    "oh_marijuana_expungement-set",
     "pa_pardon_expungement-set",
     "ri_nonconviction_sealing-set",
     "sd_arrest_expungement-set",
@@ -58,6 +59,12 @@
     "wv_conv_multiple_misdemeanors-set",
     "wv_conv_single_misdemeanor-set"
   ],
+  "refusedAtTheClaimGate": {
+    "whatThisIs": "rows where a verification lane was refused by the claim gate and therefore opened no artifact. These are statements about the lane, not about the packet, so they never enter the current-verdict contest and never supersede a lane that did look.",
+    "rows": [
+      "vf12/oh_marijuana_expungement-set"
+    ]
+  },
   "unactionableFailures": {
     "whatThisIs": "rows carrying a failing verdict that name no obligation anywhere, so no repairer can be dispatched from them; each needs a fresh independent read, not a repair",
     "rows": []
@@ -2691,7 +2698,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf11/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf11/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family oh_marijuana_expungement-set",
-      "superseded": true
+      "superseded": false
     },
     {
       "familyId": "oh_marijuana_expungement-set",

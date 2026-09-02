@@ -319,7 +319,29 @@ try {
   const stale = JSON.parse(fs.readFileSync(path.join(ROOT, `${OUT_DIR}/STALE_LANE_RETURNS.json`), "utf8"));
   for (const r of stale.rows ?? []) {
     if (r.destination !== "LEGAL") continue;
-    const why = [...(r.statedReasons ?? []), ...(r.statedBlockers ?? [])].filter(Boolean)[0] ?? r.declaredClass ?? "a lane returned BLOCKED_LEGAL_INPUT without stating the question";
+    /*
+     * A REASON THAT IS ONLY THE VERDICT'S OWN NAME STATES NO QUESTION.
+     *
+     * Four families -- Kentucky's post-pardon felony, both Nebraska set-asides
+     * and Pennsylvania's underage route -- carried the bare string
+     * "BLOCKED_LEGAL_INPUT" as their hold's reason, because the first stated
+     * reason a lane recorded was the class name and the fallback took it. A
+     * hold reading "BLOCKED_LEGAL_INPUT: BLOCKED_LEGAL_INPUT" is the legal-hold
+     * form of the failure that left five Washington families unassignable: it
+     * looks like an answer and names nothing anyone can resolve.
+     *
+     * So a reason equal to the class it belongs to is not a reason. The next
+     * stated reason or blocker is taken instead, and every one of those four
+     * turns out to HAVE one -- Kentucky's missing worklist obligations,
+     * Nebraska's custom-pleading vehicle conflicting with the CC-6-11 packet,
+     * Nebraska trafficking's duplicate vehicles and CC-6-12 being an
+     * instruction document, Pennsylvania's court-status metadata. The honest
+     * final fallback stays for a lane that genuinely said nothing.
+     */
+    const stated = [...(r.statedReasons ?? []), ...(r.statedBlockers ?? [])]
+      .filter(Boolean)
+      .filter((x) => String(x).trim() !== String(r.declaredClass ?? "").trim());
+    const why = stated[0] ?? "a lane returned BLOCKED_LEGAL_INPUT without stating the question";
     if (!laneReturnLegalHolds.has(r.familyId)) laneReturnLegalHolds.set(r.familyId, { familyId: r.familyId, foundBy: [], why });
     laneReturnLegalHolds.get(r.familyId).foundBy.push(`${r.lane} (PR #${r.pr})`);
   }
