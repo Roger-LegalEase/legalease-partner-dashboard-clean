@@ -25,7 +25,13 @@ The caption on the petition and the order is already marked **District Court**, 
 
 **If you cannot pay the $65.00, BCI has its own waiver and you must complete it before you apply.** The application's own instructions are explicit: if you check the box saying you believe you are indigent, you "MUST complete the fee waiver form before submitting your application", and BCI will not process the application until the completed waiver form arrives with it. BCI publishes the form and separate *Indigent Expungement Applicant Instructions* at bci.utah.gov/expungements, and returns your waiver form to you with your certificates if you are eligible.
 
-**The certificates themselves cost more than the application, and this packet does not state that amount because BCI sets it per applicant.** A certificate must be purchased for each eligible incident you want expunged, and BCI's instructions tell you to "pay all associated fees as indicated in the BCI letter" — that letter is where your own certificate price appears. Ask the Bureau of Criminal Identification what your certificates will cost. Do not assume the court's $150 waiver covers either BCI amount: the court and BCI are two different offices with two different waivers.
+**The certificate carries a further BCI charge, and the held record states a figure: $65 per case.** A certificate must be purchased for each eligible incident you want expunged, and BCI's instructions tell you to "pay all associated fees as indicated in the BCI letter" — that letter is where your own certificate list appears.
+
+This packet has checked what this repository holds rather than sending you away to find out. The compiled Utah state profile, at `src/lib/rcap-engine/compiled/profiles/UT-utah.json`, records BCI's published expungement FAQ as saying that "eligible conviction, plea-in-abeyance, or special certificates may require an additional $65 per case; no certificate issuance fee is required for dismissals, acquittals, or declinations". Your route is an eligible conviction, which is the first disposition that sentence names, so the $65-per-case half is the half about your case. The exempting half — dismissals, acquittals and declinations — is not about your case, and this packet does not read it across to you.
+
+**Read the figure with the condition the record puts on it.** It says an eligible conviction certificate *may require* an additional $65 per case, not that it always does, and it is BCI's published FAQ rather than an amount fixed by statute. It is also charged **per case**: if BCI's letter finds more than one eligible case, expect it once for each. This packet does not state your total, because how many certificates you need is what BCI's letter decides — but the per-case figure is held, so the packet states it instead of calling it unknowable.
+
+**Confirm it with the office that charges it, before you pay.** Ask the Bureau of Criminal Identification, at bci.utah.gov/expungements, what your certificates cost on a case like yours, and ask at the same time whether its indigency waiver covers the certificate charge as well as the $65.00 application fee. Do not assume the court's $150 waiver covers either BCI amount: the court and BCI are two different offices with two different waivers.
 
 ## Who must receive a copy, and how
 
@@ -70,4 +76,5 @@ Every direction above is quoted from a publication held in this repository and r
 - **1044XX** — District Court Cover Sheet for Civil Actions (Utah State Courts); SHA-256 `b99586289df6304da5b34181bee95ec2b7f098806c1c949a0f112daeb0244a52` (filingDestination, feeAndWaiver)
 - **1305GE** — Motion to Waive Fees for Expungement - Criminal (Utah State Courts); SHA-256 `c184a242f8c7c1d06f55998de4b611bcf8bd5ec959896b3b37e6b5d48319b597` (feeAndWaiver)
 - **1146XX** — Acceptance of Service - Expungement (Prosecutor) (Utah State Courts); SHA-256 `39f1205f48bd73fc7b9686a101369be74a988b419697ea964c2ff5a5c0ce63ad` (service)
+- **UT-COMPILED-STATE-PROFILE** — Compiled Utah state profile (BCI expungement FAQ, as compiled into this repository); SHA-256 `73dd7ea988d0673dca3b8bf657f2df090d062c0821f8c0662a57ccfac8e7660d` (feeAndWaiver)
 
