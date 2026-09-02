@@ -2,7 +2,7 @@
  "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
  "lane": "VF03",
  "worker": "VF-SRC-A",
- "assignmentCount": 6,
+ "assignmentCount": 7,
  "assignments": [
   {
    "itemId": "ar-cs-possession-seal-set",
@@ -196,6 +196,30 @@
     "do not touch the source pins or the census",
     "do not open a route, set a price or change checkout"
    ]
+  },
+  {
+   "itemId": "dc_yra_set_aside-set",
+   "wave": "VF03-W3",
+   "lane": "VF03",
+   "verifiedAtBase": "247b790b6decf4ab14924914b10ad16a6ab57400",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/dc/dc-yra-set-aside-set--custom-pleading",
+   "decisiveDefect": "One of the four items the committed track registry declares in packetSet.requiredBeforeFiling for track dc_yra_set_aside never reaches the participant: 'The source review does not state a notarization requirement for this motion.', declared requirement 'required' with requiredBeforeFiling true. Case-insensitive grep for 'notar' returns 0 hits in participant-instructions.md and 0 hits in the text extracted from fixtures/canonical.pdf. The other two recorded non-statements from the same array — the filing fee and the fee waiver — are both printed verbatim with the answering office named, so the omission is an inconsistency in applying the build's own pattern, not a design choice the packet states.",
+   "failedProofObligations": [
+    "REQUIRED_BEFORE_FILING"
+   ],
+   "perObligation": {
+    "REQUIRED_BEFORE_FILING": {
+     "measuredDetail": "data/record-clearing/legal-design-track-registry.json, tracks[81], trackId dc_yra_set_aside, packetSet.requiredBeforeFiling holds 4 entries. participant-instructions.md carries the signing requirement as step 3 and both fee entries verbatim in the FEE_AND_WAIVER row. The notarization entry appears in neither that file nor the rendered packet. The registry also carries the same statement at rules.notarization and at packetSet.participantActionRequired[kind=notarize], requirement 'required', requiredBeforeFiling true.",
+     "whatRepairMustDo": "Carry the notarization non-statement to the participant in the same voice the packet already uses for the fee and the fee waiver: print the registry's sentence verbatim and name the office that answers it — the clerk's office of Superior Court of the District of Columbia, Criminal Division, at the venue the registry records. It belongs both in participant-instructions.md, alongside the FEE_AND_WAIVER row, and on the rendered filing-instructions component, so a participant who reads only the packet is not left to guess whether the motion must be notarized before filing.",
+     "whatRepairMustNotDo": "Do not state that notarization is or is not required. The record does not say, and the packet's job is to carry the non-statement and the office that answers it, exactly as it already does for the fee."
+    }
+   },
+   "everythingElseMeasuredClean": "Fourteen of the fifteen obligations pass on measurement made in this container, and all nine completeness counters are zero. The artifacts, the page order and the raster receipt all bind to the bytes; no protected field carries ink; every known prefill is on the page; the destination, the fee position and all four self-help stop conditions are stated.",
+   "notPartOfThisRepair": {
+    "SERVICE": "Recorded BLOCKED_LEGAL_INPUT, not FAIL. The registry holds rules.service and rules.notice as 'Unresolved. Service and response mechanics are among the items counsel must confirm.' and carries a buildBlockers entry with affectedElement notice_or_service (provenance DC-8). No repair lane can supply from this repository an answer the repository does not hold; this limb is counsel's and must not be closed by a repairer writing a service rule.",
+    "buildStatusRasterState": "build-status.json records rasterState BUILT_RASTER_PENDING and rasterPages 0 while RASTER_QUEUE.json carries a RASTER_PASS receipt bound to both of this family's fixture hashes. Noted for the Captain as a stale builder record, deliberately not scored and not assigned: it is a bookkeeping disagreement about a gate that has in fact run, and re-running the raster gate is not what this family needs."
+   },
+   "grantsNothing": "Repairing this defect proves the packet complete against the record. It approves no output and opens no commercial route."
   }
  ],
  "supersededLaneMembership": {

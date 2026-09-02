@@ -25,17 +25,18 @@
   "nothingIsWithdrawn": "The earlier reading stands on its own evidence and is preserved verbatim under supersededLaneMembership. It is kept because those verdicts are real work, not because this lane still owns those families."
  },
  "summary": {
-  "families": 26,
+  "families": 31,
   "PASS_COMPLETE_INDEPENDENT": 15,
   "PASS": 0,
-  "FAIL_REPAIR_REQUIRED": 12,
+  "FAIL_REPAIR_REQUIRED": 13,
   "BLOCKED_SOURCE": 1,
   "BLOCKED_LEGAL_INPUT": 0,
   "STOPPED": 1,
   "tallyRecomputedOverEveryRowInThisFile": true,
   "onlyFableVaRowsAreFableVaDeterminations": [
    "ca-851-91-set"
-  ]
+  ],
+  "BLOCKED_BEFORE_CLAIM": 1
  },
  "rows": [
   {
@@ -6518,6 +6519,282 @@
     "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
     "data/rcap-grade-a/packet-factory-24h/RT2_REPAIR_RECORD.json"
    ]
+  },
+  {
+   "itemId": "dc_yra_set_aside-set",
+   "lane": "VF03",
+   "wave": "VF03-W3",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "verifiedAtBase": "247b790b6decf4ab14924914b10ad16a6ab57400",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/dc/dc-yra-set-aside-set--custom-pleading",
+   "buildStatus": "state_built",
+   "rasterState": "RASTER_PASS receipt in RASTER_QUEUE.json, hash-bound to both fixtures; build-status.json still says BUILT_RASTER_PENDING with rasterPages 0",
+   "independentOfBuilder": "VF03 holds no packet-build, repair or shared-host-repair claim on this family, wrote no byte inside its overlay directory, and produced none of the reports it reads. Every hash, counter, page count, word box and rendered value below was recomputed in this container.",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "howMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family dc_yra_set_aside-set, run in this container: PASS_COMPLETE, 6/13 written",
+    "whyZeroCountersAreNotAPass": "The nine counters ask whether every write the packet's own field map owed was made. They do not ask whether every item the committed registry declares required-before-filing reached the participant, and that is the obligation this family fails."
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "familyId dc_yra_set_aside-set agrees across build-status.json, source-receipt.json, reports/rendered-artifacts.json, product-wiring.json and the RASTER_QUEUE.json row. The single route key obligation:track-only:DC:dc_yra_set_aside is printed at the foot of both the petition and the filing-instructions page in the rendered bytes, and is the same key the committed track registry holds at tracks[81] and the route-obligation census holds at routes[155] with packetSetId dc_yra_set_aside-set.",
+     "evidence": {
+      "routeKeysDeclared": 1,
+      "routeKeyPrintedOnPages": 2,
+      "recordsAgreeing": 5
+     }
+    },
+    "SOURCE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "This is a zero-document-source composition (custodyClass CUSTOM_PLEADING_FROM_CODIFIED_TEXT), so the sources that bind are committed repository records. All three were rehashed from the bytes on disk in this container and every one equals the receipt to the byte.",
+     "evidence": {
+      "recomputedHere": [
+       {
+        "path": "data/record-clearing/legal-design-track-registry.json",
+        "sha256": "0a92a1a27ef43fe719d00f121896923036a7d2b90ffa5228b972e4873ffb80e6",
+        "byteLength": 16555956,
+        "matchesReceipt": true
+       },
+       {
+        "path": "data/record-clearing/legal-design-specifications.json",
+        "sha256": "cc0c79598a8406e08d606901fafb01972bb75ac1e7d0eca8df59209c0773f9c5",
+        "byteLength": 16829383,
+        "matchesReceipt": true
+       },
+       {
+        "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+        "sha256": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
+        "byteLength": 2599752,
+        "matchesReceipt": true
+       }
+      ],
+      "sourcesMismatching": 0,
+      "masterLibraryMounted": "499 files, 329 PDFs, 51 jurisdictions; this family binds none of them and the receipt says so"
+     }
+    },
+    "COMPONENT_SET": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The committed registry's packetSet names one component, dc_yra_set_aside-primary-filing-1, role primary_filing, requirement required. It is rendered and present on packet pages 1 and 2. The build adds dc_yra_set_aside-filing-instructions-2 on pages 3 and 4, which the registry does not name and which carries no filing content of its own. No named component is missing and no conditional component is unrendered.",
+     "evidence": {
+      "componentsNamedByRoute": 1,
+      "componentsRendered": 2,
+      "requiredComponentsMissing": 0,
+      "conditionalComponents": 0
+     }
+    },
+    "KNOWN_PREFILLS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Every known participant fact is written and visible on the page it belongs to. Each value was grepped out of the text extracted from canonical.pdf in this container, not read from reports/actual-writes.json.",
+     "evidence": {
+      "readBackFromRenderedText": [
+       {
+        "fact": "participant.full_legal_name",
+        "value": "Jordan Avery Reyes",
+        "occurrencesInRenderedText": 4
+       },
+       {
+        "fact": "participant.date_of_birth",
+        "value": "1991-04-17",
+        "occurrencesInRenderedText": 1
+       },
+       {
+        "fact": "participant.street_address",
+        "value": "42 Magnolia Street, Springfield 62704",
+        "occurrencesInRenderedText": 1
+       },
+       {
+        "fact": "participant.phone",
+        "value": "555-0142",
+        "occurrencesInRenderedText": 1
+       },
+       {
+        "fact": "participant.email",
+        "value": "jordan.reyes@example.org",
+        "occurrencesInRenderedText": 1
+       }
+      ],
+      "knownFactsMissingFromTheRenderedPage": 0
+     }
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "FAIL",
+     "finding": "The committed track registry holds four items in packetSet.requiredBeforeFiling for track dc_yra_set_aside. Three reach the participant; the fourth does not. 'The source review does not state a notarization requirement for this motion.' — declared with requirement 'required' and requiredBeforeFiling true — is named nowhere in participant-instructions.md and nowhere in the rendered packet. Case-insensitive grep for 'notar' returns 0 hits in participant-instructions.md and 0 hits in the text extracted from canonical.pdf.",
+     "evidence": {
+      "declaredByRegistry": [
+       "The youth offender signs their own motion.",
+       "The source review does not state a notarization requirement for this motion.",
+       "The source review does not state a filing fee for this motion.",
+       "The source review does not address a fee waiver."
+      ],
+      "namedInParticipantInstructions": [
+       "The youth offender signs their own motion. — carried as step 3, 'Sign and date each page that carries a signing line, personally.'",
+       "The source review does not state a filing fee for this motion. — carried verbatim in the FEE_AND_WAIVER row",
+       "The source review does not address a fee waiver. — carried verbatim in the FEE_AND_WAIVER row"
+      ],
+      "absent": [
+       "The source review does not state a notarization requirement for this motion."
+      ],
+      "notarGrepHitsInParticipantInstructions": 0,
+      "notarGrepHitsInRenderedCanonicalText": 0,
+      "whyThisMatters": "The build's own pattern for a recorded non-statement is to print it and name the office that answers it, and it applied that pattern to the fee and to the fee waiver from the same array. A participant reading this packet therefore learns what the record does not say about cost, and learns nothing at all about whether the motion must be notarized before it is filed."
+     }
+    },
+    "ROUTE_OPTIONS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The route determines no election. The registry records units [] and exclusions [], the packet carries no checkbox and no alternative-relief selection, and the completeness run measured requiredOptionsMissing 0. There is no unselected election because there is no election.",
+     "evidence": {
+      "electionsDeclaredByRoute": 0,
+      "electionsSelected": 0,
+      "requiredOptionsMissing": 0
+     }
+    },
+    "REPEATING_ROWS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The packet contains no repeating row structure: no offence table, no charge grid, no multi-count schedule. The four participant items C1 to C4 are single labelled dotted blanks, each on its own, and none is a cell in a row. incompleteRows measured 0 here.",
+     "evidence": {
+      "repeatingRowStructures": 0,
+      "incompleteRows": 0
+     }
+    },
+    "PROTECTED_FIELDS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "No protected field carries ink, read from the rendered bytes rather than from the builder's refusal list. The field map classifies four fields signature_or_date_participant_completion and two court_prosecutor_clerk_or_agency_owned. In the extracted text the petition's signing line reads 'DATE .............................. SIGNATURE OF PETITIONER ....................................' with dots only, and the caption reads 'Case number, if the court assigns one at filing:' followed by a dotted rule with no value. The page states in its own words that nothing on it is signed or dated for the petitioner.",
+     "evidence": {
+      "protectedFieldsInMap": 6,
+      "protectedFieldsCarryingInk": 0,
+      "signatureLineAsRendered": "DATE .............................. SIGNATURE OF PETITIONER ....................................",
+      "caseNumberLineAsRendered": "Case number, if the court assigns one at filing: (dotted rule, no value)",
+      "certificateOfMailingPresent": false
+     }
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both fixtures hash to what every record naming them says. Recomputed here with sha256sum and pdfinfo: canonical.pdf = 302ebea7e9fb4dd9944fc786e33e190117a5fee31dac7bab3e28a063b855b9fc (10525 bytes, 4 pages), boundary.pdf = 3fb8f39c556160cf1c099a706d7e54215ca57336e01c6d67da8f65e56a20f848 (10709 bytes, 4 pages). reports/rendered-artifacts.json carries each hash twice (artifacts[] and pdfs[]) and both agree; product-wiring.json's binding.acceptanceReceipt.boundToCanonicalSha256 and proposedRepresentation.components[0].sha256 both carry the canonical hash unchanged, so the wiring digest is current and not stale; the RASTER_QUEUE.json receipt binds to both hashes.",
+     "evidence": {
+      "canonicalSha256": "302ebea7e9fb4dd9944fc786e33e190117a5fee31dac7bab3e28a063b855b9fc",
+      "boundarySha256": "3fb8f39c556160cf1c099a706d7e54215ca57336e01c6d67da8f65e56a20f848",
+      "claimedHashRecordsChecked": 4,
+      "claimedHashMismatches": 0,
+      "wiringDigestsChecked": 2,
+      "wiringDigestsNotMatchingAFixture": 0
+     }
+    },
+    "PAGE_ORDER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both fixtures carry a 4-entry pageManifest numbered 1..4 with no gap, and both PDFs load to exactly 4 pages measured with pdfinfo here. Source pages are sequential within each component.",
+     "evidence": {
+      "manifestPages": 4,
+      "measuredPages": 4,
+      "sequential": true,
+      "order": "1:primary-filing p1, 2:primary-filing p2, 3:filing-instructions p1, 4:filing-instructions p2"
+     }
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The central raster gate has run for this family and its receipt binds to the exact bytes this container hashed. RASTER_QUEUE.json holds verdict RASTER_PASS from workflow run 33605354695 of .github/workflows/rcap-packet-raster-acceptance-batch.yml at pinned commit 7edb05f621e6209c3660c66fd60e4f4b283faf1f, boundToCanonicalSha256 and boundToBoundarySha256 equal to the two hashes recomputed above, 2 documents and 8 pages measured, 0 problems, coversTheWholeFamily true, and the canary and negative controls passed in the same run. Independently of that receipt, word geometry over both delivered fixtures returns 0 words outside the page box and 0 text-on-text collisions.",
+     "evidence": {
+      "rasterVerdict": "RASTER_PASS",
+      "rasterBindsToTheBytesHashedHere": true,
+      "pagesMeasuredCentrally": 8,
+      "problemsFound": 0,
+      "instrumentRunHere": "pdftotext -bbox-layout word geometry over both fixtures; it measures text boxes only and cannot see raster ink, vector rules, field borders or images, which is why the central receipt is what carries this obligation",
+      "wordsOutsidePageBoxCanonical": 0,
+      "textOnTextCollisionsCanonical": 0,
+      "wordsOutsidePageBoxBoundary": 0,
+      "textOnTextCollisionsBoundary": 0,
+      "wordsExamined": 1899,
+      "buildStatusIsStaleHere": "build-status.json still records rasterState BUILT_RASTER_PENDING and rasterPages 0 while the queue carries a passing receipt bound to these bytes. The queue is the authority for the gate; this is noted, not scored, and it is not part of the repair below."
+     }
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The instructions name the court the route names. The registry's destination for track dc_yra_set_aside is 'Superior Court of the District of Columbia, Criminal Division' and its venue is 'District of Columbia Superior Court, Criminal Division; one motion per case number in the case being addressed.' The filing-instructions page and participant-instructions.md both carry that court and that venue verbatim, and the route-obligation census records the same destination. The packet also states, in its own words, that the registry records the filing VEHICLE as unresolved and that the clerk's office is the office that says which paper it accepts.",
+     "evidence": {
+      "registryDestination": "Superior Court of the District of Columbia, Criminal Division",
+      "printedDestination": "Superior Court of the District of Columbia, Criminal Division",
+      "censusDestinationAgrees": true,
+      "filingVehicleRecordedUnresolved": "rules.filing = 'Blocked pending confirmation of Superior Court form or standing practice for YRA set-aside motions.', and the packet says so rather than implying a form exists"
+     }
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both are stated. The registry records rules.fees as 'The source review does not state a filing fee for this motion.' and rules.feeWaiver as 'The source review does not address a fee waiver.' The packet prints each non-statement in the record's own words, on the filing-instructions page and in participant-instructions.md, and names the specific office that answers each — the clerk's office of Superior Court of the District of Columbia, Criminal Division — rather than gesturing at the court.",
+     "evidence": {
+      "feeStated": true,
+      "waiverRouteStated": true,
+      "statedAsRecordedNonStatement": true,
+      "officeNamed": "clerk's office of Superior Court of the District of Columbia, Criminal Division"
+     }
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "BLOCKED_LEGAL_INPUT",
+     "finding": "Who must be served, and how, is not answerable from the committed record, and the record says so twice over. The registry holds rules.service and rules.notice both as 'Unresolved. Service and response mechanics are among the items counsel must confirm.', and it separately carries a buildBlockers entry whose question is 'Service and response mechanics for a YRA set-aside motion', impact build_blocker, affectedElement notice_or_service, provenance LegalEase-DC-Legal-Review.md heading 'District of Columbia operational amendments / True blockers retained', sourceStatement DC-8. The packet handles it honestly: it prints the non-statement verbatim and names the clerk's office as the office that answers it. This is recorded as blocked on an open legal input rather than as a pass, because no committed record states the requirement, and rather than as a failure, because no repairer can supply from this repository an answer the repository does not hold.",
+     "evidence": {
+      "registryService": "Unresolved. Service and response mechanics are among the items counsel must confirm.",
+      "registryNotice": "Unresolved. Service and response mechanics are among the items counsel must confirm.",
+      "buildBlockerAffectedElement": "notice_or_service",
+      "buildBlockerProvenance": "LegalEase-DC-Legal-Review.md, 'True blockers retained', DC-8",
+      "packetStatesTheNonStatement": true,
+      "officeNamed": "clerk's office of Superior Court of the District of Columbia, Criminal Division",
+      "whoCanClearIt": "counsel, not a repair lane"
+     }
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The packet states where self-help ends, completely. The registry holds four selfHelpStopConditions for this track and all four appear verbatim, twice: under 'WHEN TO STOP AND GET HELP INSTEAD OF FILING' on the rendered filing-instructions page, and in the SELF_HELP_STOP row and the closing section of participant-instructions.md. None is dropped and none is softened.",
+     "evidence": {
+      "conditionsInRegistry": 4,
+      "conditionsOnRenderedPage": 4,
+      "conditionsInParticipantInstructions": 4,
+      "conditionsMissing": 0
+     }
+    }
+   },
+   "evidenceRead": [
+    "data/rcap-all50/overlays/census-v1/dc/dc-yra-set-aside-set--custom-pleading/fixtures/canonical.pdf",
+    "data/rcap-all50/overlays/census-v1/dc/dc-yra-set-aside-set--custom-pleading/fixtures/boundary.pdf",
+    "data/rcap-all50/overlays/census-v1/dc/dc-yra-set-aside-set--custom-pleading/build-status.json",
+    "data/rcap-all50/overlays/census-v1/dc/dc-yra-set-aside-set--custom-pleading/build-findings.json",
+    "data/rcap-all50/overlays/census-v1/dc/dc-yra-set-aside-set--custom-pleading/source-receipt.json",
+    "data/rcap-all50/overlays/census-v1/dc/dc-yra-set-aside-set--custom-pleading/product-wiring.json",
+    "data/rcap-all50/overlays/census-v1/dc/dc-yra-set-aside-set--custom-pleading/production-field-map.json",
+    "data/rcap-all50/overlays/census-v1/dc/dc-yra-set-aside-set--custom-pleading/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/dc/dc-yra-set-aside-set--custom-pleading/reports/rendered-artifacts.json",
+    "data/rcap-all50/overlays/census-v1/dc/dc-yra-set-aside-set--custom-pleading/reports/actual-writes.json",
+    "data/rcap-all50/overlays/census-v1/dc/dc-yra-set-aside-set--custom-pleading/reports/blanks-left-for-the-participant.json",
+    "data/rcap-all50/overlays/census-v1/dc/dc-yra-set-aside-set--custom-pleading/reports/completeness-counters.json",
+    "data/record-clearing/legal-design-track-registry.json (tracks[81], trackId dc_yra_set_aside)",
+    "data/record-clearing/legal-design-specifications.json",
+    "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json (routes[155])",
+    "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json (the dc_yra_set_aside-set row and its receipt)"
+   ],
+   "grantsNothing": "This verdict approves no output and opens no commercial route, and a PASS on fourteen obligations is not a PASS on the family."
   }
  ],
  "supersededLaneMembership": {
@@ -7178,5 +7455,15 @@
   "verifiedAtBase": "726a49dfe0bdadc5f841bd4dadc871c6256418de",
   "rowsAdded": 4,
   "note": "Rows appended, not re-serialised. Earlier rows for the same itemId are left in place and are superseded by verifiedAtBase under this file's own supersession rule."
+ },
+ "waveThreeReDispatch": {
+  "what": "VF03's twelve earlier grants were all released when two verification waves were integrated; the lane recorded that refusal in checkpoint-blocked-before-claim.json and read nothing. Captain then re-dispatched six families to VF03, every one on a family no VF03 row had ever covered, chosen by reading every vf*/rows.json rather than the ledger alone.",
+  "captainBaseSha": "247b790b6decf4ab14924914b10ad16a6ab57400",
+  "containerHeadSha": "fa530fdbd192a41705d0e7c84a7c634ed9989e3f",
+  "containerHeadAddsOnly": "data/rcap-grade-a/packet-factory-24h/vf03/checkpoint-blocked-before-claim.json, which touches no family",
+  "measuredBy": "the fifteen proof obligations scored by name in this container; the nine counters produced by running scripts/rcap-packet-completeness/verify-packet-completeness.mjs here rather than read from any builder report; artifact bytes rehashed with sha256 and page counts read with pdfinfo; committed source records rehashed from the bytes on disk; word geometry read with pdftotext -bbox-layout over the delivered fixtures; and the rendered text read directly for every prefilled and every protected field.",
+  "familiesInThisWave": [
+   "dc_yra_set_aside-set"
+  ]
  }
 }
