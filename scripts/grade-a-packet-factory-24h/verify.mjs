@@ -876,6 +876,36 @@ if (MUTATIONS) {
     }
     return { family, source };
   };
+  /*
+   * A family F29 ACTUALLY EVALUATES.
+   *
+   * These mutations took failRepairRequiredFamilies[0] and assumed F29 would
+   * judge it. F29 rightly does not judge all of them: a family whose repair
+   * lane has released is finished work, and demanding a live repair dispatch
+   * for it would re-open what was just fixed. Once the list started with such
+   * a family, four mutations became no-ops and reported MISSED — the check was
+   * correct and the fixture was wrong, which is exactly the failure the F13
+   * mutations had.
+   *
+   * So the fixture is chosen by F29's own rule rather than by position, and it
+   * throws instead of silently proving nothing when no such family exists.
+   */
+  const failedFamilyF29Judges = () => {
+    const vr = JSON.parse(fs.readFileSync(path.join(ROOT, DIR, "VERIFIER_RETURNS.json"), "utf8"));
+    const led = JSON.parse(fs.readFileSync(path.join(ROOT, LEDGER), "utf8"));
+    const repairDone = new Set();
+    const repairLive = new Set();
+    for (const c of led.claims ?? []) {
+      if (c.laneKind !== "repair" && c.laneKind !== "shared-host-repair") continue;
+      for (const fid of c.familyIds ?? (c.familyId ? [c.familyId] : []))
+        (c.released === true ? repairDone : repairLive).add(fid);
+    }
+    const row = (vr.rows ?? []).find((r) => r.isIndependentVerification
+      && r.verdict === "FAIL_REPAIR_REQUIRED" && !r.superseded
+      && !(repairDone.has(r.familyId) && !repairLive.has(r.familyId)));
+    if (!row) throw new Error("F29 mutations require a currently-failed family whose repair has not already released");
+    return row.familyId;
+  };
   const directAttachmentSourceReady = (j) => {
     const family = j.families.find((candidate) => candidate.state === "SOURCE_READY"
       && candidate.sourceReadiness?.directAttachment === true
@@ -970,10 +1000,16 @@ if (MUTATIONS) {
     /* F29. A returned verdict that the queue does not act on. The subject is
      * real: nine Washington families sat in VERIFYING with a
      * FAIL_REPAIR_REQUIRED verdict already recorded beside them. */
-    { on: "master", id: "F29", name: "a failed family the queue still calls VERIFYING is caught", mutate: (j) => { const vr = JSON.parse(fs.readFileSync(path.join(ROOT, DIR, "VERIFIER_RETURNS.json"), "utf8")); const f = j.families.find((x) => x.familyId === vr.failRepairRequiredFamilies[0]); f.state = "VERIFYING"; return j; } },
-    { on: "master", id: "F29", name: "a failed family the queue calls proven is caught", mutate: (j) => { const vr = JSON.parse(fs.readFileSync(path.join(ROOT, DIR, "VERIFIER_RETURNS.json"), "utf8")); const f = j.families.find((x) => x.familyId === vr.failRepairRequiredFamilies[0]); f.state = "VERIFIED_PASS"; return j; } },
-    { on: "washingtonRepair", id: "F29", name: "a repair dispatch that drops a failed family is caught", mutateText: (t) => { const vr = JSON.parse(fs.readFileSync(path.join(ROOT, DIR, "VERIFIER_RETURNS.json"), "utf8")); return t.replaceAll(vr.failRepairRequiredFamilies[0], "some-other-family-set"); } },
-    { on: "washingtonRepair", id: "F29", name: "a repair dispatch that names no exact obligation is caught", mutateText: (t) => t.replaceAll("feeAndWaiver", "incomplete") },
+    { on: "master", id: "F29", name: "a failed family the queue still calls VERIFYING is caught", mutate: (j) => { const f = j.families.find((x) => x.familyId === failedFamilyF29Judges()); f.state = "VERIFYING"; return j; } },
+    { on: "master", id: "F29", name: "a failed family the queue calls proven is caught", mutate: (j) => { const f = j.families.find((x) => x.familyId === failedFamilyF29Judges()); f.state = "VERIFIED_PASS"; return j; } },
+    /* These two mutate the dispatch F29 actually reads for the family it is
+     * judging. They used to edit WASHINGTON_REPAIR.json, which stopped naming
+     * any currently-judged family once the Washington repairs released -- so
+     * both edits became no-ops and reported MISSED against a check that was
+     * working. A repair dispatch now lives in the generated FIX lane rows for
+     * most families, and that is what has to be broken to test the rule. */
+    { on: "active", id: "F29", name: "a repair dispatch that drops a failed family is caught", mutate: (j) => { const fam = failedFamilyF29Judges(); let touched = false; for (const x of j.assignments) { if (x.lane !== "rapid-repair" && x.lane !== "shared-host-repair") continue; if ((x.items ?? []).includes(fam)) { x.items = x.items.filter((i) => i !== fam); touched = true; } if ((x.detail ?? []).some((r) => r.familyId === fam)) { x.detail = x.detail.filter((r) => r.familyId !== fam); touched = true; } } if (!touched) throw new Error(`no repair lane dispatches ${fam}, so dropping it proves nothing`); return j; } },
+    { on: "active", id: "F29", name: "a repair dispatch that names no exact obligation is caught", mutate: (j) => { const fam = failedFamilyF29Judges(); let touched = false; for (const x of j.assignments) { if (x.lane !== "rapid-repair" && x.lane !== "shared-host-repair") continue; if (!(x.detail ?? []).some((r) => r.familyId === fam)) continue; /* The row still dispatches the family, and says nothing about WHICH obligation failed. Blanking one field is not enough: the obligation is named again inside failedObligations and a third time in the finding prose, so the check would still see it and the mutation would prove nothing. */ x.detail = x.detail.map((r) => (r.familyId === fam ? { familyId: r.familyId, directory: r.directory } : r)); touched = true; } if (!touched) throw new Error(`no repair detail row dispatches ${fam}, so stripping its obligation proves nothing`); return j; } },
     { on: "verifierReturns", id: "F29", name: "an extraction with no verdicts at all is caught", mutate: (j) => { j.rows = []; j.failRepairRequiredFamilies = []; return j; } },
     /* F30. The three ways moving the visual gate could quietly become waiving it. */
     { on: "rasterQueue", id: "F30", name: "a queued PDF with no exact hash is caught", mutate: (j) => { j.rows[0].canonicalPdfSha256 = null; return j; } },
