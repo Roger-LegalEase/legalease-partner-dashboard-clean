@@ -2,7 +2,7 @@
  "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
  "lane": "VF03",
  "worker": "VF-SRC-A",
- "assignmentCount": 8,
+ "assignmentCount": 9,
  "assignments": [
   {
    "itemId": "ar-cs-possession-seal-set",
@@ -243,6 +243,33 @@
    "notPartOfThisRepair": {
     "REQUIRED_BEFORE_FILING": "Scored PASS. All eight declared items are named. One is softened: the registry declares the DCJS Record Review cross-check requirement 'required' with requiredBeforeFiling true, and participant-instructions.md presents it as something the participant 'may want' before applying. It is recorded as an observation for the Captain, not assigned, because the item is named and the obligation is met. It is worth the Captain's eye because the platform prefills the two identifiers that check exists to guard, County where convicted and Court Docket/Case Number, and the form's own face warns the application cannot be processed if any required information is incorrect.",
     "releaseBlockers": "The registry carries release_blocker entries for this track on how long the process takes and on whether destruction can be confirmed at all, and counselConfirmationRequired is true. Those are release-stage, they belong to counsel and the release gate, and the packet already carries both as participant-facing stop conditions. They are not a build defect and are not assigned here."
+   },
+   "grantsNothing": "Repairing this defect proves the packet complete against the record. It approves no output and opens no commercial route."
+  },
+  {
+   "itemId": "wv_conv_single_misdemeanor-set",
+   "wave": "VF03-W3",
+   "lane": "VF03",
+   "verifiedAtBase": "247b790b6decf4ab14924914b10ad16a6ab57400",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill",
+   "decisiveDefect": "The delivered packet is nine pages: the correct SCA-C906 petition on pages 1 to 4, and the whole of SCA-C900 on pages 5 to 9. The registry's packetSet for this family names five components — primary_filing, verification and certificate_of_service, all on SCA-C906, plus two process_guidance components with officialFormId null — and names SCA-C900 in none of them. Pages 6 to 9 are SCA-C900's embedded petition, verification and certificate of service: a second complete blank petition immediately behind the correct one, carrying the repealed pre-2019 law that the registry's own release blocker enumerates and says 'must not' be generated. Read out of the delivered bytes: page 6 states ', was between eighteen and twenty-six years of age.' and 'have no prior or subsequent convictions other than minor traffic violations', and cross-references exclusions to '§61-11-26(i)'. And delivered page 5 prints 'you will be notified and will then have ten (10) days of being served of such notice to reply', while the committed authority decision NATIONAL-2026-08-28-C-WV-02 records that the reply period is thirty days under subsection (g)(3) and not the ten days the SCA-C900 instruction sheet prints. The packet therefore states a reply deadline on its own face that this repository's authority record says is wrong, on a once-per-lifetime remedy.",
+   "failedProofObligations": [
+    "COMPONENT_SET"
+   ],
+   "perObligation": {
+    "COMPONENT_SET": {
+     "measuredDetail": "reports/rendered-artifacts.json's pageManifest attributes packet pages 1-4 to SCA-C906 sourceSha256 43b5606c... and pages 5-9 to SCA-C900 sourceSha256 89ff7d2d..., and both source hashes were recomputed byte-exact from the Master Library here. The registry packetSet components for wv_conv_single_misdemeanor-set are wv_conv_single_misdemeanor-primary-filing-1, -verification-2 and -certificate-of-service-3, each officialFormId SCA-C906, and -service-package-4 and -filing-instructions-5, each outputStrategy process_guidance with officialFormId null. No component names SCA-C900. The stale strings above were grepped out of the delivered canonical.pdf, not out of the source.",
+     "whatRepairMustDo": "Decide what SCA-C900 is doing in this packet and make the bytes say it. Either drop SCA-C900 from the assembled packet entirely, so the packet is the four SCA-C906 pages the components name, and carry anything worth keeping from its page 1 into participant-instructions.md in the packet's own voice with the reply period stated correctly as thirty days; or, if a reference copy is genuinely wanted, bind page 1 only, never pages 2 to 5, mark it on its face as reference material that is not to be filled or filed, and correct or annotate the ten-day sentence. Whichever is chosen, add the component to the registry's packetSet so the delivered set and the named set agree, because a packet page that no component names is a page nobody has approved.",
+     "whatRepairMustNotDo": "Do not resolve this by adding a sentence to participant-instructions.md. One is already there — 'The included SCA-C900 is an instructions/reference component only; do not complete or file its embedded outdated petition instead of SCA-C906' — and it did not stop four pages of repealed law and a wrong deadline from reaching the delivered bytes. Do not treat the source hash verifying as authority for inclusion: SCA-C900's bytes are exactly what the receipt says they are, and that is not the question.",
+     "whyItMatters": "A participant printing this packet holds two complete petitions, two verification pages and two certificates of service, distinguishable only by reading the fine print at the foot of each page. The one at the back asks for an age band and a clean-record condition the law no longer imposes, and the page in front of it tells them they have ten days to reply to an opposition when the statute gives them thirty."
+    }
+   },
+   "everythingElseMeasuredClean": "Thirteen obligations pass on measurement made in this container and all nine completeness counters are zero. Both official binaries rehash byte-exact from the Master Library; both fixtures hash to what eight records name; the page order matches the manifest; every known prefill is on its page; the one route-determined election is marked and the other three branches are left clean; the four-row charge table has no partial row; the certificate of service, both signature rules and the whole notarial block are blank; and the destination, both fees, the waiver position, the five service recipients and all ten self-help stop conditions are stated. participant-instructions.md is unusually good on the eligibility-date trap and on why the internal field name says 'Felony' on a misdemeanour petition.",
+   "notPartOfThisRepair": {
+    "CLIPPING_AND_OVERLAP": "Recorded NOT_MEASURABLE_HERE, not FAIL. The central raster gate has not run: RASTER_QUEUE.json holds currentRasterState RASTER_PENDING with no receipt and nextOwner RAS02. Everything this lane could measure is clean, including that all 151 text-on-text collisions in the packet are present at identical coordinates in the pristine official sources (56 + 95) and none is introduced by the overlay. The family is owed a central raster run; that is RAS02's, not a repairer's.",
+    "buildFindingsStaleObservation": "build-findings.json states 'No checkbox or radio election is made by this builder', while two selection marks are written and visible on the delivered pages. The bytes are correct and the observation is stale. Noted for the Captain; correcting it is not what this family needs.",
+    "certificateOfServiceRecipientCount": "The printed SCA-C906 certificate lists eight recipients where the amended statute names five. The registry classifies this nonblocking_research_note and the instructions state the statute's five. Not assigned.",
+    "sourceFormDobFieldNaming": "The official form names its first DOB widget PetDOBDay and its second PetDOBMonth while they print in month-then-day order. The build mapped by geometry and rendered 04 / 17 / 1991 correctly. Not a defect."
    },
    "grantsNothing": "Repairing this defect proves the packet complete against the record. It approves no output and opens no commercial route."
   }

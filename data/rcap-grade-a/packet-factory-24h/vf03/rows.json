@@ -25,10 +25,10 @@
   "nothingIsWithdrawn": "The earlier reading stands on its own evidence and is preserved verbatim under supersededLaneMembership. It is kept because those verdicts are real work, not because this lane still owns those families."
  },
  "summary": {
-  "families": 32,
+  "families": 33,
   "PASS_COMPLETE_INDEPENDENT": 15,
   "PASS": 0,
-  "FAIL_REPAIR_REQUIRED": 14,
+  "FAIL_REPAIR_REQUIRED": 15,
   "BLOCKED_SOURCE": 1,
   "BLOCKED_LEGAL_INPUT": 0,
   "STOPPED": 1,
@@ -7036,6 +7036,273 @@
     "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json (the ny_mrta_marijuana-set row and its receipt)"
    ],
    "grantsNothing": "This verdict approves no output and opens no commercial route, and a PASS on fourteen obligations is not a PASS on the family."
+  },
+  {
+   "itemId": "wv_conv_single_misdemeanor-set",
+   "lane": "VF03",
+   "wave": "VF03-W3",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "verifiedAtBase": "247b790b6decf4ab14924914b10ad16a6ab57400",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill",
+   "routeSelectionId": "wv-sca-c906-single-misdemeanor",
+   "rasterState": "RASTER_PENDING in RASTER_QUEUE.json with no receipt at all, nextOwner RAS02; 18 raster pages are committed under the family and were read as pixels here, but the central gate has not run",
+   "independentOfBuilder": "VF03 holds no packet-build, repair or shared-host-repair claim on this family, wrote no byte inside its overlay directory, and produced none of the reports it reads. Every hash, counter, page count, word box, rendered mark and quoted line below was recomputed or read first-hand in this container.",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "howMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wv_conv_single_misdemeanor-set, run in this container: PASS_COMPLETE, 21/166 written",
+    "whyZeroCountersAreNotAPass": "requiredComponentsMissing counts components the route names that are absent. It has no counter for a component the route does not name that is present anyway, which is exactly this family's defect, so the counters read zero over a packet carrying four pages the committed records say must not reach a participant."
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "familyId wv_conv_single_misdemeanor-set agrees across source-receipt.json, build-status.json, reports/rendered-artifacts.json, reports/actual-writes.json, product-wiring.json and the RASTER_QUEUE.json row, and the route selection the packet is built for, routeSelectionId wv-sca-c906-single-misdemeanor, is the selection actually marked on the delivered page. The registry track wv_conv_single_misdemeanor and its packetSetId wv_conv_single_misdemeanor-set carry the same identity.",
+     "evidence": {
+      "recordsAgreeing": 6,
+      "routeSelectionIdDeclared": "wv-sca-c906-single-misdemeanor",
+      "routeSelectionMarkedOnThePage": true
+     }
+    },
+    "SOURCE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both bound document sources were rehashed from the Master Library bytes in this container and each equals the receipt to the byte. This is a first-hand recomputation from the official binaries.",
+     "evidence": {
+      "recomputedHere": [
+       {
+        "formNumber": "SCA-C906",
+        "revision": "REV-2019-06-04",
+        "sha256": "43b5606c9faf6fcf4d6f73c1d97cf1bd87798158dee1b6f3381c8a0472b4b64c",
+        "byteLength": 176072,
+        "matchesReceipt": true
+       },
+       {
+        "formNumber": "SCA-C900",
+        "revision": null,
+        "sha256": "89ff7d2d911406465bd39da947737a3ee262edbcbc98db9a3cedda952598864e",
+        "byteLength": 204715,
+        "matchesReceipt": true
+       }
+      ],
+      "sourcesMismatching": 0,
+      "note": "The bytes bind. Whether the SECOND of these two documents belongs in this packet at all is a different question, and it is the one COMPONENT_SET answers below. A source that verifies is not thereby a source the route names."
+     }
+    },
+    "COMPONENT_SET": {
+     "measured": true,
+     "result": "FAIL",
+     "finding": "The delivered packet contains an official-PDF component the route does not name, and the committed records single that component out as one that must not reach a participant. The registry's packetSet for wv_conv_single_misdemeanor-set names five components: primary_filing, verification and certificate_of_service, all three on SCA-C906, plus service_package and filing_instructions, both process_guidance with officialFormId null. SCA-C900 is named by no component. The packet nonetheless binds the whole of SCA-C900 as packet pages 5 to 9, and pages 6 to 9 are its embedded petition, verification and certificate of service — a second, complete, blank petition sitting directly behind the correct one. Read out of the delivered bytes, that embedded petition carries the repealed pre-2019 law the registry's release blocker enumerates: page 6 states 'was between eighteen and twenty-six years of age' and 'have no prior or subsequent convictions other than minor traffic violations', and cross-references exclusions to 'W. Va. Code §61-11-26(i)', a subsection the section in force no longer uses. Separately, delivered page 5 prints 'you will be notified and will then have ten (10) days of being served of such notice to reply', and the committed authority decision NATIONAL-2026-08-28-C-WV-02 records in terms that 'The reply period after an opposition is thirty days under subsection (g)(3), not the ten days the SCA-C900 instruction sheet prints against subsection (e).' So the packet states a reply deadline on its own face that this repository's own authority record says is wrong, on a once-per-lifetime remedy.",
+     "evidence": {
+      "componentsNamedByTheRoute": 5,
+      "componentsNamingSCAC900": 0,
+      "packetPagesFromSCAC906": [
+       1,
+       2,
+       3,
+       4
+      ],
+      "packetPagesFromSCAC900": [
+       5,
+       6,
+       7,
+       8,
+       9
+      ],
+      "staleTextQuotedFromTheDeliveredBytes": [
+       "page 5: 'you will be notified and will then have ten (10) days of being served of such notice to reply.'",
+       "page 6: ', was between eighteen and twenty-six years of age.'",
+       "page 6: 'have no prior or subsequent convictions other than minor traffic violations'",
+       "page 6: 'ineligible under W. Va. Code §61-11-26(i)'"
+      ],
+      "whatTheRecordSays": "legal-design-track-registry.json releaseBlockers for this track: 'That embedded petition is materially stale ... The packet must not generate the SCA-C900 embedded petition.', affectedElement correct_form. The route-obligation census carries authority decision NATIONAL-2026-08-28-C-WV-02 with output-mode 'PETITION ON SCA-C906, WITH THREE SELF-HELP BOUNDARIES' and the ten-days-versus-thirty-days correction quoted above.",
+      "whatTheBuildDidMitigate": "participant-instructions.md carries one sentence: 'The included SCA-C900 is an instructions/reference component only; do not complete or file its embedded outdated petition instead of SCA-C906.' That addresses the wrong-petition risk and says nothing about the wrong reply period, and it lives in a separate markdown file rather than on the four pages themselves, which carry no marking of any kind.",
+      "whatIsNotClaimed": "The correct petition, SCA-C906, is complete and correctly filled. Nothing is missing from the component set; the defect is what has been added to it."
+     }
+    },
+    "KNOWN_PREFILLS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Every known fact is written and visible on the page it belongs to, read from the committed raster pages as pixels rather than from the write log. Page 1 shows Kanawha as the county in the caption, Circuit Court Case No. 24-CR-001234, Conviction Date 2019-11-02, Jordan Avery Reyes as petitioner, 118 Maple Street and Charleston, WV 25301 in the address block, DOB 04 / 17 / 1991, Phone 304-555-0142, and the charge row carrying 'Eligible West Virginia misdemeanor conviction' against case 24-CR-001234. Page 2 shows the current name, the address history seed, the arrest date 2019-03-08 and the charge line. Page 3 shows the petitioner's name in the verification. Nineteen writes are reported per fixture and every one was found on its page.",
+     "evidence": {
+      "writesReported": 19,
+      "knownFactsMissingFromTheRenderedPage": 0,
+      "dobRenderedAs": "04 / 17 / 1991, month first, which is the conventional reading and the only coherent one since 17 is not a month",
+      "sourceFieldNamingQuirkNoted": "The source AcroForm names its first DOB box PetDOBDay and its second PetDOBMonth, while the build writes the month into the first (x=330.49) and the day into the second (x=362.45). The build mapped by widget geometry rather than by the form's field names and produced the conventional MM/DD/YYYY on the page. Recorded as an observation about the official form's own naming, not as a defect.",
+      "ssnLine": "'SSN: XXX-XX-' is the source form's own printed text, confirmed against the pristine SCA-C906; the last four digits are left for the participant and are listed in participant-instructions.md."
+     }
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Every item the registry declares required before filing is named in participant-instructions.md, and the file goes further than naming them. It lists each blank the participant must complete with its internal PDF field name, states the fee, the waiver position and the five service recipients, and it explains at length the one trap on this form: paragraph c offers four eligibility branches each with its own date line, and the file says which one this packet has ticked, tells the participant to write the date on that line only, explains why the internal field name says 'Felony' on a misdemeanour petition, and tells them to find the blank by the printed sentence rather than by that name.",
+     "evidence": {
+      "declaredItems": 10,
+      "itemsNamed": 10,
+      "itemsAbsent": 0,
+      "instructionsAlsoState": [
+       "the participant signature, signature date, verification and notary block and the whole certificate of service are left blank and protected",
+       "the certificate of service is completed only after service has actually happened",
+       "do not complete or file the SCA-C900 embedded petition"
+      ]
+     }
+    },
+    "ROUTE_OPTIONS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The one election the route determines is selected, and nothing else is. reports/actual-writes.json records a selection mark on SingleFelonyCB with factId route.selection and expected value 'single-misdemeanor standard waiting-period route', and the committed raster of page 1 shows that first of four eligibility boxes ticked and the other three empty — the ticked branch being the single-misdemeanor one-year branch this route is built for. The only other mark on the packet is ExpungementCB2, the 'No' answer to item m on page 3, backed by factId screening.prior_relief, which is a fact the platform holds from screening rather than an election the build invented; it sits above a verification the participant must swear to and the instructions tell them to check every page before signing.",
+     "evidence": {
+      "electionsDeterminedByTheRoute": 1,
+      "electionsSelected": 1,
+      "requiredOptionsMissing": 0,
+      "otherMarks": 1,
+      "otherMarksBackedByAHeldFact": true,
+      "unselectedBranchesLeftClean": "the other three eligibility branches are unticked and their three date lines are blank, which is what the instructions tell the participant to keep",
+      "buildFindingsContradictsTheBytes": "build-findings.json observes 'No checkbox or radio election is made by this builder; an election the route determines is named as unmade rather than described as the participant's.' Two selection marks are in fact written and visible. The bytes are right and the observation is stale; noted for the Captain, not scored, and not part of the repair."
+     }
+    },
+    "REPEATING_ROWS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "SCA-C906 carries one repeating structure, the four CHARGE / CASE NO. rows on page 1. Row 1 has both of its cells written — 'Eligible West Virginia misdemeanor conviction' and '24-CR-001234' — and rows 2, 3 and 4 are entirely empty in both cells. No row carries a written cell beside a required cell left blank. incompleteRows measured 0 here.",
+     "evidence": {
+      "repeatingRowStructures": 1,
+      "rowsWithAnyCellWritten": 1,
+      "rowsWithAPartialWrite": 0,
+      "incompleteRows": 0
+     }
+    },
+    "PROTECTED_FIELDS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "No protected field carries ink, read from the committed raster pages rather than from the builder's refusal list. Page 3: the signature rule beneath the prayer for relief is empty, the verification signature and date rules are empty, and the notarial block — the sworn-before line, the day, month and year, the Notary Public/Other Official rule and the commission expiry — is entirely empty. Page 4, the whole CERTIFICATE OF SERVICE, is blank: no certifying name, no date, none of the eight recipient address lines, none of the three delivery-method boxes, no signature. reports/actual-writes.json carries protectedFieldsWithInk [] for both fixtures and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0, which agrees with what was read.",
+     "evidence": {
+      "certificateOfServiceEntirelyBlank": true,
+      "verificationAndNotaryBlockBlank": true,
+      "signatureRulesBlank": 2,
+      "protectedFieldsCarryingInk": 0,
+      "sourceControlSuppression": "728 source ink pixels are removed on page 1 and 747 across the SCA-C900 pages, with sourceInkPixelsRemovedOutsideSuppressedControlRects 0 — the form's own Select County, Print Form and Reset Form interactive controls, correctly suppressed on a copy meant to be printed and filed, and the removal is confined to those control rects."
+     }
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both fixtures hash to what every record naming them says. Recomputed here with sha256sum and pdfinfo: canonical.pdf = ea49da395c632c7f028e67c68c95659b376a18ce512c1c8c08205462c6f0dafa (391770 bytes, 9 pages), boundary.pdf = 375d0fb687b73da9b5f74f7506424e75c7421a4e8e9eb620ffcc6ecca7e56f40 (391993 bytes, 9 pages). reports/rendered-artifacts.json, reports/actual-writes.json, product-wiring.json and the RASTER_QUEUE.json row's canonicalPdfSha256, boundaryPdfSha256 and per-document digests all carry those hashes unchanged; every 64-hex digest in product-wiring.json resolves either to a fixture or to a bound source.",
+     "evidence": {
+      "canonicalSha256": "ea49da395c632c7f028e67c68c95659b376a18ce512c1c8c08205462c6f0dafa",
+      "boundarySha256": "375d0fb687b73da9b5f74f7506424e75c7421a4e8e9eb620ffcc6ecca7e56f40",
+      "claimedHashRecordsChecked": 8,
+      "claimedHashMismatches": 0,
+      "wiringDigestsNotMatchingAFixtureOrSource": 0
+     }
+    },
+    "PAGE_ORDER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The rendered page order matches the manifest exactly. Both fixtures declare a 9-entry pageManifest numbered 1..9 with no gap, and pdfinfo reads exactly 9 pages from each. Source pages run 1..4 of SCA-C906 then 1..5 of SCA-C900, sequential within each document, and each manifest entry carries the sourceSha256 of the document it came from, both of which verify. The order is the order the manifest states; that the manifest states a document the route does not name is scored under COMPONENT_SET, not here.",
+     "evidence": {
+      "manifestPages": 9,
+      "measuredPages": 9,
+      "sequential": true,
+      "order": "1-4: SCA-C906 pages 1-4; 5-9: SCA-C900 pages 1-5"
+     }
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": false,
+     "result": "NOT_MEASURABLE_HERE",
+     "finding": "The obligation's instrument is the central raster gate, and it has not run for this family. RASTER_QUEUE.json holds currentRasterState RASTER_PENDING with no rasterReceipt of any kind and nextOwner RAS02, so there is no hash-bound RASTER_PASS to read. What this lane could measure, it measured, and all of it is clean — but none of it is the obligation, and it is recorded as unmeasured rather than as a pass. Word geometry over both fixtures returns 0 words outside the page box and 151 text-on-text collisions; the collisions were then differenced against the pristine official sources, which return 56 and 95 for a total of exactly 151, at identical coordinates and with identical overlap depths of about 1.87 points. Every collision the packet shows is the official forms' own tight line leading, present in the untouched binaries, and the overlay introduces none. reports/actual-writes.json's own pixel diff against the pristine sources at 72dpi records addedInkPixelsOutsideMeasuredWidgetRects 0 on every page. The nine committed raster pages of the canonical fixture and the boundary fixture were also read as images here and show no value overrunning its rule and no ink outside a write box.",
+     "evidence": {
+      "rasterVerdict": null,
+      "currentRasterState": "RASTER_PENDING",
+      "nextOwner": "RAS02",
+      "wordsOutsidePageBoxCanonical": 0,
+      "wordsOutsidePageBoxBoundary": 0,
+      "textOnTextCollisionsCanonical": 151,
+      "textOnTextCollisionsBoundary": 151,
+      "sameCollisionsInThePristineSources": "SCA-C906 56 + SCA-C900 95 = 151, identical coordinates and overlap depths",
+      "collisionsIntroducedByTheOverlay": 0,
+      "rasterPagesReadAsPixelsHere": 18,
+      "whyThisIsNotAPass": "Lane contract L4 is that no family is proven without a hash-bound RASTER_PASS from the central workflow. A text-box instrument cannot see raster ink, vector rules, field borders or images, and reading committed pages by eye is not the gate. This obligation is owed a central run and does not have one."
+     }
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The instructions name the court the route names. The registry's destination is 'Clerk of the circuit court of the county of conviction' and its venue is 'The circuit court in which the conviction occurred.' participant-instructions.md opens by saying to file the verified SCA-C906 petition with the clerk of the circuit court of the county of conviction, and adds the two preconditions the registry's filing rule states: the page 3 verification sworn before a notary, and the page 4 certificate of service completed.",
+     "evidence": {
+      "registryDestination": "Clerk of the circuit court of the county of conviction",
+      "printedDestination": "clerk of the circuit court of the county of conviction",
+      "venueAgrees": true,
+      "filingPreconditionsCarried": [
+       "verification notarised",
+       "certificate of service completed"
+      ]
+     }
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both are stated, with the two fees kept apart and the waiver position stated honestly rather than guessed. The instructions state the § 59-1-11(a)(1) civil-action filing fee at $200 charged by the circuit clerk, tied to § 61-11-26(n); state the further $100 payable to the West Virginia State Police records division only if the petition is granted; and state that no held source establishes a waiver route for this filing, that the $100 waiver exists only on the different § 61-11-26a route, and that any relief from the $200 fee would be under the circuit court's ordinary civil indigency practice, which the controlling review did not establish. It then names the office to ask rather than naming a form it does not hold. Each of those matches the registry's rules.fees and rules.feeWaiver.",
+     "evidence": {
+      "filingFeeStated": "$200",
+      "onGrantFeeStated": "$100",
+      "waiverRouteStated": true,
+      "waiverStatedAsUnestablishedAndWhy": true,
+      "officeNamed": "clerk of the circuit court of the county of conviction"
+     }
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Who must be served, and how, is stated and matches the statute the registry cites. The instructions state that § 61-11-26(e) requires the petitioner to serve five recipients and enumerate them — the Superintendent of the State Police, the prosecuting attorney of the county of conviction, the chief law-enforcement officer of the arresting agency, the superintendent, warden or Commissioner of Corrections of any institution of confinement, and the disposing circuit, magistrate or municipal court. They then state that identified victims are served by the prosecuting attorney under § 61-11-26(f) and that the participant must not serve a victim, and that the certificate of service is completed only after service has actually happened because a certificate dated before service is a false statement.",
+     "evidence": {
+      "recipientsInStatuteAsTheRegistryStatesIt": 5,
+      "recipientsEnumeratedInTheInstructions": 5,
+      "victimServiceCorrectlyExcluded": true,
+      "certificateTimingStated": true,
+      "knownDivergenceNoted": "The SCA-C906 certificate of service printed on page 4 lists eight recipient lines, because the form was revised 06/04/2019 and predates S.B. 562 (2020), which cut the list to five. The registry records this as a nonblocking_research_note and says serving the extra recipient is harmless. The instructions state the statute's five. Noted, not scored."
+     }
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The packet states where self-help ends, completely. The registry holds 10 selfHelpStopConditions for this track and every one appears in participant-instructions.md; a word-level check for the distinctive terms of each found none missing. The file also singles out the immigration item as a hard stop rather than a caveat, and separately explains that two of the conditions — an opposition being filed and the court setting a hearing under § 61-11-26(i)(3) — happen after filing, that the matter is contested from that point, and that the statute's clock rather than the participant's runs on the reply.",
+     "evidence": {
+      "conditionsInRegistry": 10,
+      "conditionsCarried": 10,
+      "conditionsWithAnyDistinctiveWordAbsent": 0
+     }
+    }
+   },
+   "evidenceRead": [
+    "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/fixtures/canonical.pdf",
+    "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/fixtures/boundary.pdf",
+    "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/raster/canonical/page-01.png through page-09.png",
+    "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/raster/boundary/page-01.png through page-09.png",
+    "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/production-field-map.json",
+    "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/source-receipt.json",
+    "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/build-status.json",
+    "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/build-findings.json",
+    "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/product-wiring.json",
+    "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/reports/actual-writes.json",
+    "MASTER_LIBRARY_SOURCE_DIR/STATES/WV/02_PACKET_FORMS/WV__FORM__SCA-C906__...__REV-2019-06-04__EN.pdf",
+    "MASTER_LIBRARY_SOURCE_DIR/STATES/WV/03_INSTRUCTIONS/WV__INSTRUCTIONS__SCA-C900__...__SOURCE-2026-05__EN.pdf",
+    "data/record-clearing/legal-design-track-registry.json (track wv_conv_single_misdemeanor: packetSet, rules, destination, selfHelpStopConditions, releaseBlockers, openLegalQuestions)",
+    "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json (authority decision NATIONAL-2026-08-28-C-WV-02)",
+    "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json (the wv_conv_single_misdemeanor-set row)"
+   ],
+   "grantsNothing": "This verdict approves no output and opens no commercial route."
   }
  ],
  "supersededLaneMembership": {
@@ -7705,7 +7972,8 @@
   "measuredBy": "the fifteen proof obligations scored by name in this container; the nine counters produced by running scripts/rcap-packet-completeness/verify-packet-completeness.mjs here rather than read from any builder report; artifact bytes rehashed with sha256 and page counts read with pdfinfo; committed source records rehashed from the bytes on disk; word geometry read with pdftotext -bbox-layout over the delivered fixtures; and the rendered text read directly for every prefilled and every protected field.",
   "familiesInThisWave": [
    "dc_yra_set_aside-set",
-   "ny_mrta_marijuana-set"
+   "ny_mrta_marijuana-set",
+   "wv_conv_single_misdemeanor-set"
   ]
  }
 }
