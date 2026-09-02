@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "05e8da9cf07bdd8c87aa925496aa397dcc39727d",
+  "minimumCaptainSha": "15aed71d6adb5c370b2d39ab19e2e72bbfda71b7",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "e615283930c6a9aab3be570ca5dd74a8990deb71dc2817733a3d262e48af6816",
@@ -6178,13 +6178,13 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "FILING_DESTINATION"
+        "ARTIFACTS"
       ],
       "failedObligations": [
         {
-          "obligation": "FILING_DESTINATION",
-          "finding": null,
-          "evidence": null
+          "obligation": "ARTIFACTS",
+          "finding": "The canonical and boundary bytes hash exactly to what the RASTER_QUEUE row, the raster receipt and the family's own reports/rendered-artifacts.json name — all recomputed here. One committed record inside the packet directory disagrees: product-wiring.json's proposedRepresentation.components[0].sha256 is 9f00da8f072069098dce0b465bbc242d5713730f5472a6f9d6a104699bd1428a, and the file it points at hashes 2a7e3fa6eb3b583fdbddc5a365b6c2678e7a37ad0f8ebdd6b78a230eb39d98ad. 9f00da8f07206909... is the PRE-REPAIR digest of that same path at db2585afb (the original build), confirmed by hashing that commit's blob, so the wiring names bytes that no longer exist while its own binding.acceptanceReceipt.boundToCanonicalSha256, three lines further down the same file, names the bytes that do.",
+          "evidence": "Root cause read from the generator: scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs, in the branch that refreshes an existing record, states in its own comment that 'its identity, its proposal and its non-grants are untouched, and only the binding is rewritten from current evidence' — so a family repaired after its wiring was first written keeps a proposal digest nobody refreshes. Repository-wide sweep at this base: 80 census-v1 product-wiring.json files declare component digests; 70 agree with the bytes and 10 do not — pa_pardon_expungement-set, this family, ky_void_seal_marijuana_synthetic_salvia-set, ky_void_seal_controlled_substance-set, vt_seal_pardon-set, vt_seal_nonconviction-set, vt_seal_felony-set, vt_exp_decriminalized-set, ct-missed-erasure-set and va_seal_petition_misdemeanor-set. The repair is one generator change plus a regeneration, not a packet rebuild, and no packet byte needs to move. SCORING CHOICE MADE VISIBLE: a reader who takes 'the record' to mean only the raster receipt and rendered-artifacts.json would score this obligation PASS. This lane takes it to mean every committed record in the packet directory that names the delivered artifact's digest, because that is the record a route would be installed from, and because Captain's dispatch asked in terms whether 'the wiring, the raster pin and the bytes now agree'. They do not. TIMELINE CORROBORATION: lane vf08 read this same family at base ebc44031ec7eab29058bfc79a7bc5e1cff089414 and returned PASS with no failing obligation. That is consistent rather than contradictory — at that base the fixtures still hashed 9f00da8f... and the wiring's proposal digest was correct. The disagreement was created by the repair at f998fe43b moving the bytes while the generator, by its own design, left the proposal alone."
         }
       ],
       "continuationResult": null,
@@ -7371,23 +7371,8 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "REQUIRED_BEFORE_FILING"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "The counters are 0 and the obligation still fails, on a participant-facing assertion the repository's own holdings contradict. The delivered guidance carries a paragraph headed 'ONE RUMOUR TO IGNORE' telling the participant that the rule requiring the SPBI report to be 'dated on or after January 1, 2024' appears in older internal material, 'looks like a misreading', and that 'nothing found requires the report to bear a post-2024 date'. The mounted corpus holds DESPP-0847-C, the DESPP form for a clean-slate erasure hearing, whose printed instruction 2 states the opposite in mandatory terms: 'You must submit a copy of your current criminal history record, which must be dated on or after 01/01/2024, demonstrating that such conviction has not been marked as erased. If the criminal history record is not submitted along with this form, your submission will be deemed incomplete and your request for a review and/or hearing will be denied.' The packet therefore tells the participant to disregard a documented requirement whose breach the source says causes denial. This finding does NOT depend on mapping the gated form to the track — it needs only that the packet asserted an unqualified negative about what the record contains, and that assertion is false against the repository at this base. The correct treatment is to state that a DESPP form in the library imposes the ≥01/01/2024 record date and that the participant should obtain a current report and confirm with DESPP, rather than to instruct them to ignore it.",
-          "evidence": {
-            "inTheDeliveredBytes": "nothing found requires the report to bear a post-2024 date",
-            "inTheHeldSource": "must be dated on or after 01/01/2024 ... your submission will be deemed incomplete and your request for a review and/or hearing will be denied",
-            "heldSource": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/CT/05_SOURCE_GATED/CT__SOURCE-GATED__DESPP-0847-C__hearing-for-clean-slate-erasure-convictions-after-1-1-2000__REV-2001-01__EN.pdf",
-            "heldSourceSha256": "08658dc45d7d41c20a26dcab54fff8756302e85bef7f4d519d9c0a3d4e4fbcfc",
-            "corpusOriginFilename": "DESPP-0847-C__hearing-for-clean-slate-erasure-convictions-after-1-1-2000__new-2024-01-01.pdf — the origin name records the form as new at 2024-01-01, when the § 54-142t(g) remedy became available; the manifest's REV-2001-01 is a mis-parse of the title's 1/1/2000 and the manifest itself notes 'Form identity is now clear'.",
-            "whyTheMemoMissedIt": "CT.memo.json was reviewed as of 2026-07-30; the corpus edition's checked_date is 2026-08-02. The memo's reviewer had not seen this form, which is why unresolvedQuestions records the date rule as a likely misreading."
-          }
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "VERIFY_PENDING",
@@ -22171,87 +22156,8 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP",
-        "REQUIRED_BEFORE_FILING",
-        "SELF_HELP_STOP",
-        "SERVICE"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": null,
-          "evidence": {
-            "fieldMapRequiredBeforeFiling": 66,
-            "instructionBullets": 65,
-            "setDifferenceBothWays": 0,
-            "fieldsWithTheOffByOneLabelBasis": 9,
-            "fieldsWithNoCaptionAtAll": 10,
-            "provenPairs": [
-              [
-                "City State Zip",
-                "labelled Street Address"
-              ],
-              [
-                "Email",
-                "labelled Phone"
-              ],
-              [
-                "NYSIDNumber",
-                "labelled Ticket Number"
-              ],
-              [
-                "PartialDocketNumber",
-                "labelled NYSID Number"
-              ]
-            ],
-            "confirmedVisuallyOn": "raster/pro-se-packet-boundary/page-11.png"
-          }
-        },
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": null,
-          "evidence": {
-            "fixturesMeasured": 6,
-            "fixturesWithWordsOutsideThePageBox": 1,
-            "wordsOutsideThePageBox": 5,
-            "worstOverhangPoints": 5.21,
-            "worstOverrunOfItsOwnWidgetPoints": 44.89,
-            "pristineSourceWordsOutsideThePageBox": 0,
-            "buildRecordedOutcome": "shrunk",
-            "confirmedVisuallyOn": "raster/pro-se-packet-boundary/page-11.png"
-          }
-        },
-        {
-          "obligation": "SERVICE",
-          "finding": null,
-          "evidence": {
-            "repositoryEstablishesIt": true,
-            "heldAt": [
-              "legal-design-track-registry.json track ny_160_59_petition rules.service, rules.notice, rules.filing",
-              "route-obligation-candidate.json destination.detail for this route"
-            ],
-            "packetNamesThePartyToBeServed": false,
-            "packetAsksTheParticipantToConfirmServiceRequirements": true,
-            "blankServiceFieldsGivenToTheParticipant": 8,
-            "serviceInstructionsInstrumentNamedByCensusButNotPublished": true
-          }
-        },
-        {
-          "obligation": "SELF_HELP_STOP",
-          "finding": null,
-          "evidence": {
-            "notLegalAdviceStatement": false,
-            "notFiledForYouStatement": false,
-            "doesNotDecideTheOutcomeStatement": false,
-            "whenToStopSection": false,
-            "counselReferral": false,
-            "legalAidMentionAddedByTheFeeRepair": "present, but as a cost fact inside the cost section",
-            "registrySelfHelpStopConditionsHeld": 10,
-            "registrySelfHelpStopConditionsCarriedByThePacket": 0
-          }
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "VERIFY_PENDING",
@@ -23544,59 +23450,8 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "PAGE_ORDER",
-        "REQUIRED_BEFORE_FILING"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "The delivered process-guidance page tells the participant, in terms, that the packet states no timetable and no criterion for telling which of the two routes they are in. The packet's own participant instructions state both: a quarterly Board of Pardons to AOPC transmission cycle, and the unconditional-pardon criterion. The committed manifest goes further and makes a quarterly verification date a required-before-filing participant action, and that date appears nowhere in any delivered byte. A reader is told to go and find out something the packet has already told them, and is given no schedule for the cycle that decides whether they need to file at all. Separately, seven of the seventy-eight required-item rows tell the participant nothing they can act on.",
-          "evidence": {
-            "sentenceInTheDeliveredBytes": "This page states no timetable and no criterion for that, because neither is established by the two forms this packet is built from, and an unsourced criterion in a filing instruction is worse than none.",
-            "occurrencesOfThatSentence": "1 in canonical.pdf and 1 in boundary.pdf, on the process-guidance page",
-            "whatThePacketActuallyStates": "the Board of Pardons transmits eligible records to the Administrative Office of Pennsylvania Courts quarterly, AOPC sends the record on to the court of common pleas, and that court orders expungement once it confirms the criteria",
-            "whereItStatesIt": "participant-instructions.md, What you must do, item 4",
-            "criterionAlsoStatedThere": "the pardon must be unconditional; a conditional pardon may lead to Clean Slate limited access rather than to full expungement",
-            "a4RuleApplied": "a packet may never tell a participant that it does not state something it does state; this is internal consistency and does not depend on A1, A2 or A3",
-            "theStatedReasonIsAlsoWrongUnderA2": "the guidance page grounds its refusal in 'the two forms this packet is built from'. A2 settled that the repository is every committed record the family binds plus every record the census names for the route, which includes the compiled state profile and the committed packet-set manifest. The manifest answers this.",
-            "manifestRequiredBeforeFilingItem": "complete_field, 'Quarterly verification date - Guidance, verification schedule', requirement required, requiredBeforeFiling true",
-            "occurrencesOfQuarterlyInDeliveredPdfs": 0,
-            "occurrencesOfQuarterlyInParticipantInstructions": 1,
-            "occurrencesOfVerificationScheduleAnywhereInTheFamily": 0,
-            "soTheRequiredActionHasNoPlaceToBeRecorded": "no delivered component carries a quarterly verification date field, and no instruction row asks for one",
-            "secondLimbUninformativeRows": {
-              "rowsTotal": 78,
-              "rowsWhoseGuidanceIsSelfReferential": 7,
-              "text": "what the form asks for beside \"<the caption again>\"",
-              "worstCase": "four consecutive rows are all labelled 'Docket No: CP- ---20' with identical guidance, so a participant cannot tell the four caption docket segments apart",
-              "others": [
-                "Address: Alias(es):",
-                "CASE INFORMATION",
-                "CASE INFORMATION"
-              ],
-              "whyThisIsTheSameObligation": "the obligation is that the participant can complete the packet before filing; a row that repeats the caption back is not an instruction"
-            },
-            "whatIsNotWrongHere": "the field-level arithmetic is sound and I checked it: requiredBeforeFilingCount 78 equals the field map's requiredBeforeFiling list length and equals the instruction table row count. This failure is not a counting failure.",
-            "whatWouldClearIt": "state the quarterly cycle on the guidance page or delete the sentence that denies it, give the quarterly verification date the manifest requires somewhere a participant can record it, and replace the seven self-referential rows with guidance that names what to write"
-          }
-        },
-        {
-          "obligation": "PAGE_ORDER",
-          "finding": "The assembled packet binds its components in the reverse of the order the committed manifest declares. The manifest puts the process-guidance page first and marks the petition and the order conditional on it; the delivered packet puts the petition first, the order second, and the guidance page last, on pages 4 and 5. The guidance page's own opening line is READ THIS BEFORE YOU FILE ANYTHING, and the packet's instructions tell the participant to find out first whether they need to file at all. A participant reading the packet in the order it is bound reaches that instruction after the two documents it is meant to gate.",
-          "evidence": {
-            "manifestComponentOrder": "order 1 process_guidance (requirement required), order 2 primary_filing (requirement conditional), order 3 proposed_order (requirement conditional)",
-            "manifestConditionOnThePetition": "Generated only where the automatic route has not cleared the record after the quarterly cycle.",
-            "deliveredPageOrder": "page 1 primary_filing, pages 2 and 3 proposed_order, pages 4 and 5 process_guidance",
-            "verifiedFromTheBytes": "I read the first lines of all five pages of canonical.pdf: page 1 'In the Court of Common Pleas', page 2 'Commonwealth of Pennsylvania IN THE COURT OF COMMON PLEAS OF', page 3 'Pursuant to Pa.R.Crim.P. 790, the following information is provided', page 4 'PROCESS GUIDANCE: WHICH OF THE TWO ROUTES YOU ARE IN', page 5 the route-key footer",
-            "sameInBothFixtures": true,
-            "theGuidancePagesOwnWords": "READ THIS BEFORE YOU FILE ANYTHING, and: if the automatic route has already cleared the record, there is nothing here to file. A packet that only ever told you to file would be telling you to do work you may not need to do, and to pay for it.",
-            "theInstructionsAgreeWithTheManifestAndNotWithTheBinding": "participant-instructions.md item 4 reads 'Find out first whether you still need to file at all'",
-            "whatCouldRebutThis": "the builder's own reports/rendered-artifacts.json declares componentSet in the delivered order and its pageManifest matches the bytes exactly, so the build is self-consistent. The disagreement is with the committed packet-set manifest, which under A2 is a held source and which is the record that states an order. I record the rebuttal so the repair lane can weigh it rather than discover it.",
-            "whatWouldClearIt": "bind the process-guidance component first, as the manifest orders it, or amend the manifest's order and say why; either way the packet and the manifest must stop disagreeing about which page a participant reads first"
-          }
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "VERIFY_PENDING",
@@ -30552,45 +30407,8 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "FEE_AND_WAIVER",
-        "FILING_DESTINATION",
-        "SERVICE"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "FILING_DESTINATION",
-          "finding": "The repository holds the destination and the packet never states it. src/lib/rcap/state-packs/vermont/filing-instructions.ts records: 'File in the Criminal Division of the Vermont Superior Court for the county/court that handled the case.' The family's own treatment record in VERMONT_REPAIR.json says the same thing in its first clause — 'You file the sealing petition yourself in the Criminal Division'. The packet has no 'Where you file this' section at all: its only references to a Superior Court unit are blank-completion guidance for the Unit box, which tells a participant what to write, not where to take the paper. Amendment A1 governs — where the record holds the answer, the packet states it — and this is not a case where a named authority may stand in, because there is nothing to stand in for.",
-          "evidence": {
-            "heldSource": "src/lib/rcap/state-packs/vermont/filing-instructions.ts",
-            "establishedDestination": "Criminal Division of the Vermont Superior Court for the county/court that handled the case",
-            "statedInPacket": false,
-            "whatThePacketHasInstead": "blank-completion guidance for the Unit box"
-          }
-        },
-        {
-          "obligation": "FEE_AND_WAIVER",
-          "finding": "Worse than silence: the packet implies a fee the held source says this route does not carry. src/lib/rcap/state-packs/vermont/fee-notes.ts establishes the answer — 'General rule: there is generally no filing fee to ask to seal or expunge a Vermont criminal record', with a single exception for DUI sealing under 23 V.S.A. § 1201(a) at $90 under 32 V.S.A. § 1431, which the note says expressly 'does not apply to other motions to seal or expunge criminal history'. This is a pardon route, not the DUI route, so the held source establishes: no fee. The packet states no amount, states no no-fee position, names no office to ask, and ships form 600-00228 with the direction 'File the fee waiver (600-00228) only if you cannot pay' — which tells a participant who cannot pay to file a waiver for a fee the repository says they do not owe. Under DET-FEE-AND-WAIVER-001 the honest-refusal route is not available where the record holds the answer, and here the packet contradicts the record rather than merely omitting it. Recorded alongside: the VT pack names 600-00229 as the waiver form for that exception while this packet ships 600-00228; both are real Vermont forms and 600-00228 is bound to the corpus by exact hash, so this is a state-pack fidelity note rather than a source defect.",
-          "evidence": {
-            "heldSource": "src/lib/rcap/state-packs/vermont/fee-notes.ts",
-            "establishedAnswer": "generally no filing fee for sealing or expungement; DUI sealing is the only exception and it is not this route",
-            "statedInPacket": false,
-            "packetImpliesAFee": true,
-            "instructionsLine": 12,
-            "formNumberDiscrepancyNoted": "pack names 600-00229; packet ships 600-00228"
-          }
-        },
-        {
-          "obligation": "SERVICE",
-          "finding": "The repository holds the service and notice rule and the packet states none of it. src/lib/rcap/state-packs/vermont/filing-instructions.ts records both halves: on filing, 'the court notifies the prosecutor, the prosecutor notifies any victim, and a hearing is scheduled if the prosecutor opposes'; on a grant, 'the court sends the order to the person and notifies VCIC, the arresting agency, the Restitution Unit, and any other entity that may have a record'. The packet says nothing about who is served or how. What it does say — step 3, get the State's Attorney to sign the stipulation — is a signature, not service, and a participant could easily read it as one. No office is named for the question either, so neither limb of the standard is met.",
-          "evidence": {
-            "heldSource": "src/lib/rcap/state-packs/vermont/filing-instructions.ts",
-            "establishedAnswer": "the court notifies the prosecutor; the prosecutor notifies any victim; on grant the court notifies VCIC, the arresting agency and the Restitution Unit",
-            "statedInPacket": false,
-            "authorityNamed": null
-          }
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "VERIFY_PENDING",
@@ -32704,16 +32522,8 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "REQUIRED_BEFORE_FILING"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": null,
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
       "state": "VERIFY_PENDING",

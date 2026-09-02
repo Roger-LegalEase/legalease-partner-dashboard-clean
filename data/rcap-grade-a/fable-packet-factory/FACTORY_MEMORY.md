@@ -303,3 +303,46 @@ commit that predated their own grants.
 
 The pattern that works, and the only one that has: run the generator, read
 ACTIVE_ASSIGNMENTS, commit, and hand the lane the commit it was read from.
+
+## A generated file is not a place to store work
+
+Twice in one session the same shape: a lane established something, wrote it into
+a file a generator owns, and the next chain run erased it silently.
+
+- ACQ's five acquisition addresses went into SOURCE_ACQUISITION_MANIFEST.json.
+  `generate-source-conveyor.mjs` rebuilds that file from scratch. 165 lines out,
+  8 lines in, and the file still looked well-formed afterwards -- just smaller.
+- The wiring records' component digests went the other way: the generator
+  refreshed only `binding` and left the digests alone, so ten families repaired
+  after their wiring was written kept a pin naming superseded bytes. One record
+  disagreed with itself three lines apart -- a stale component sha256 above an
+  acceptanceReceipt carrying the new one.
+
+The rule both cases teach: **whatever a generator writes, a generator must be
+able to reproduce.** If a fact cannot be derived, it belongs in a committed
+return the generator reads -- never typed into the generator's own output. And
+a field that is a MEASUREMENT (a hash, a page count, a byte length) is never
+"left alone out of respect for the proposal"; leaving a measurement alone is how
+it becomes false.
+
+## A verifier reading a stale base reports fixed defects
+
+FABLE-VC returned a preflight refusal on Vermont -- two byte-identical corpus
+entries at one form number, resolver requires exactly one -- that had already
+been fixed by the one-identity-at-several-paths collapse. Its base predated the
+fix. Two of its three infrastructure findings were live and one was history.
+
+Check a returned defect against current HEAD before repairing it. The lane is
+not wrong; it is reporting what it saw, which is what a lane is for.
+
+## Two families sharing one render is not automatically a collision
+
+vt_seal_felony-set and vt_seal_pardon-set ship byte-identical canonical.pdf and
+boundary.pdf. That looks exactly like one build overwriting another. It is not:
+their production field maps differ in three leaves, all of them
+`documentPolicy.routeKey`, and in nothing else -- every write box, fill value
+and geometry is identical because Vermont prescribes one petition, 200-00130A,
+for both routes. The participant instructions do differ, and only the pardon
+packet mentions a pardon.
+
+Diff the field maps before calling identical fixtures a defect.

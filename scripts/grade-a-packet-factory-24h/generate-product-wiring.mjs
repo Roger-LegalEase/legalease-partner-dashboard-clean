@@ -11,6 +11,7 @@
  */
 import fs from "node:fs";
 import path from "node:path";
+import crypto from "node:crypto";
 import { fileURLToPath } from "node:url";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
@@ -91,22 +92,53 @@ const NON_GRANTS = [
 ];
 
 let written = 0, skipped = 0, refreshed = 0;
+const digestsRepinned = [];
+const digestFileMissing = [];
 for (const f of master.families) {
   const wiringPath = path.join(ROOT, f.directory, "product-wiring.json");
   const artifactsPath = path.join(ROOT, f.directory, "reports", "rendered-artifacts.json");
   /*
    * A wiring record written before bindings existed carries no binding, and a
    * binding goes stale the moment a receipt or a verdict moves. So an existing
-   * record is refreshed in place rather than skipped: its identity, its
-   * proposal and its non-grants are untouched, and only the binding is
-   * rewritten from current evidence.
+   * record is refreshed in place rather than skipped: its identity and its
+   * non-grants are untouched, and the binding is rewritten from current
+   * evidence.
+   *
+   * The component digests in proposedRepresentation are refreshed too, and this
+   * is not an exception to leaving the proposal alone. Everything else in that
+   * block is a proposal -- which components, in what order, in what role, at
+   * what path. A sha256 is not a proposal about anything; it is a measurement
+   * of the bytes at the path the proposal names, and a measurement that no
+   * longer matches the bytes is simply wrong.
+   *
+   * It was wrong on ten of seventy-nine records. Every one of them is a family
+   * repaired after its wiring was first written: the packet was rebuilt, the
+   * fixture changed, and the digest kept naming the superseded bytes -- in one
+   * case three lines above an acceptanceReceipt that recorded the new hash, so
+   * the same file disagreed with itself. An independent verifier failed the AK
+   * treatment on ARTIFACTS for exactly this and was right to: a route installs
+   * from this record, and a stale pin installs the wrong document or nothing.
+   *
+   * The refresh only ever answers the question the field already asks. A named
+   * file that is absent keeps its declared digest and is reported, because a
+   * missing component is a build problem and silently blanking its hash would
+   * bury it.
    */
   if (fs.existsSync(wiringPath)) {
     try {
       const existing = JSON.parse(fs.readFileSync(wiringPath, "utf8"));
-      const binding = bindingFor(f);
-      if (JSON.stringify(existing.binding ?? null) !== JSON.stringify(binding)) {
-        existing.binding = binding;
+      const before = JSON.stringify(existing);
+      existing.binding = bindingFor(f);
+      for (const c of existing.proposedRepresentation?.components ?? []) {
+        if (!c.file || !/^[0-9a-f]{64}$/.test(String(c.sha256 ?? ""))) continue;
+        const abs = path.join(ROOT, c.file);
+        if (!fs.existsSync(abs)) { digestFileMissing.push({ family: f.familyId, file: c.file }); continue; }
+        const actual = crypto.createHash("sha256").update(fs.readFileSync(abs)).digest("hex");
+        if (actual === c.sha256) continue;
+        digestsRepinned.push({ family: f.familyId, componentId: c.componentId ?? null, file: c.file, was: c.sha256, now: actual });
+        c.sha256 = actual;
+      }
+      if (JSON.stringify(existing) !== before) {
         fs.writeFileSync(wiringPath, `${JSON.stringify(existing, null, 2)}\n`);
         refreshed++;
       } else skipped++;
@@ -157,4 +189,9 @@ for (const f of master.families) {
   console.log(`wrote ${f.directory}/product-wiring.json (${docs.length} component(s))`);
   written++;
 }
-console.log(`${written} wiring record(s) written, ${refreshed} binding(s) refreshed, ${skipped} unchanged`);
+console.log(`${written} wiring record(s) written, ${refreshed} record(s) refreshed, ${skipped} unchanged`);
+if (digestsRepinned.length) {
+  console.log(`  ${digestsRepinned.length} component digest(s) re-pinned to the bytes on disk:`);
+  for (const d of digestsRepinned) console.log(`    ${d.family} ${d.file.split("/").pop()} ${d.was.slice(0, 12)} -> ${d.now.slice(0, 12)}`);
+}
+for (const m of digestFileMissing) console.log(`  MISSING component file, digest left as declared: ${m.family} ${m.file}`);

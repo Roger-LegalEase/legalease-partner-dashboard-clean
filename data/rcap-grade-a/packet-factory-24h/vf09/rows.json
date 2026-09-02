@@ -2838,6 +2838,27 @@
         }
       },
       "grantsNothing": "A PASS_COMPLETE_INDEPENDENT here says this packet is complete and independently measured at a base carrying its raster receipt. It approves no output for participant delivery, promotes no family, opens no commercial route and grants no fulfillment authority."
+    },
+    {
+      "itemId": "ny_160_59_petition-set",
+      "assignmentId": "VF09",
+      "laneKind": "independent-verification",
+      "worker": "FABLE-VC",
+      "verdict": "BLOCKED_BEFORE_CLAIM",
+      "verdictNote": "BLOCKED_BEFORE_CLAIM is a statement about this LANE, not about this family. extract-verifier-returns.mjs excludes it from the current-verdict contest by name (NON_READING), so recording it here cannot displace the family's real verdict or drop it off a repair queue; it is carried as history so that a reader can see the family was offered to a lane that could not take it.",
+      "verifiedAtBase": "4f5af4e714ae19dacdf17304abcbac9a6d1ea0b7",
+      "verifiedAtBaseMeans": "the commit this lane stood at when the claim was refused; nothing of this family was read at it",
+      "whyThisReaderIsIndependent": "Not applicable to a family this lane never opened. This row makes no claim about the packet.",
+      "claimAssertion": {
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF09 ny_160_59_petition-set --reason \"independent second read\"",
+        "refusal": "GRANTED_ELSEWHERE",
+        "exitCode": 8,
+        "message": "GRANTED_ELSEWHERE: ny_160_59_petition-set is granted to VF10, not VF09"
+      },
+      "grantState": "The live independent-verification grant is held by VF10 and is not released.",
+      "whatWasNotRead": "No artifact of this family was opened at this base or at any other commit. The assignment's claimRule makes a non-zero assert a full stop, and the brief that dispatched this lane repeats it: report the exact refusal and read none of its artifacts. This lane did not transfer a grant to itself and did not ask anyone to.",
+      "proofObligationsScored": 0,
+      "forCaptain": "The clipping question the brief posed — whether stopping at the pristine source's own 598 page-edge-crossing runs rather than at zero is the right stopping point — was not measured here and no view is offered on it. Measuring it would have required opening the family's fixtures."
     }
   ],
   "obligationSet": [
@@ -2890,5 +2911,38 @@
       "commercialRoutesOpened": 0,
       "productionTouched": false
     }
-  ]
+  ],
+  "assignmentId": "VF09",
+  "arrayKey": "rows",
+  "itemKeyField": "itemId",
+  "whyThisReaderIsIndependent": "FABLE-VC read this lane's grant at base 4f5af4e714ae19dacdf17304abcbac9a6d1ea0b7. It built none of the families it scored, repaired none of them, holds no PF or FIX lane in this dispatch, and had formed no prior view of any of them: no directory under data/rcap-grade-a/ carries a FABLE-VC row before this one. Every hash, page count, box measurement, obligation count and quotation in its rows was recomputed in its own container from the committed bytes and the mounted Master Library. Where a family already carried a verdict, that verdict was treated as evidence of nothing and the family was scored from zero — which mattered here, because all three families it could claim carried pre-repair FAILs recorded at bases this one descends from.",
+  "fableVcAppend": {
+    "lane": "VF09",
+    "worker": "FABLE-VC",
+    "appendedAtBase": "4f5af4e714ae19dacdf17304abcbac9a6d1ea0b7",
+    "rowsAppended": [
+      "ny_160_59_petition-set"
+    ],
+    "rowsAlreadyPresentAndUntouched": [
+      "ga-felony-j1-set",
+      "mi_setaside_marihuana-set",
+      "ut_pet_limitations-set",
+      "ut_pet_no_charges-set",
+      "vt_seal_pardon-set",
+      "wi_nc_doj_fingerprint_removal-set",
+      "ny_mrta_marijuana-set",
+      "ct-missed-erasure-set",
+      "ma-bmc-multi-set",
+      "nv_repository_removal-set",
+      "composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
+      "composed-treatment:nd-nonconviction-auto-close-verify"
+    ],
+    "whyThisReaderIsIndependent": "FABLE-VC read this lane's grant at base 4f5af4e714ae19dacdf17304abcbac9a6d1ea0b7. It built none of the families it scored, repaired none of them, holds no PF or FIX lane in this dispatch, and had formed no prior view of any of them: no directory under data/rcap-grade-a/ carries a FABLE-VC row before this one. Every hash, page count, box measurement, obligation count and quotation in its rows was recomputed in its own container from the committed bytes and the mounted Master Library. Where a family already carried a verdict, that verdict was treated as evidence of nothing and the family was scored from zero — which mattered here, because all three families it could claim carried pre-repair FAILs recorded at bases this one descends from.",
+    "note": "FABLE-VC claimed nothing on VF09: the single item ACTIVE_ASSIGNMENTS names for this lane is granted to VF10. One BLOCKED_BEFORE_CLAIM row was appended and no artifact of the family was opened. Twelve earlier rows are untouched.",
+    "overlayDirectoriesModified": 0,
+    "packetsModified": 0,
+    "commercialRoutesOpened": 0,
+    "productionTouched": false,
+    "grantsNothing": "An independent verdict proves a packet is complete or names why it is not. It approves no output and opens no commercial route."
+  }
 }

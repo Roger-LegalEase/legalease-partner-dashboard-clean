@@ -2,7 +2,7 @@
   "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
   "lane": "VF05",
   "worker": "VF-SRC-A",
-  "assignmentCount": 1,
+  "assignmentCount": 2,
   "assignments": [
     {
       "itemId": "ar-misdemeanor-dwi-seal-set",
@@ -42,6 +42,35 @@
         "do not edit an artifact merely so a receipt matches it",
         "this verification opens no commercial route and grants no approval"
       ]
+    },
+    {
+      "itemId": "composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+      "lane": "VF05",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedBy": "FABLE-VC",
+      "verifiedAtBase": "4f5af4e714ae19dacdf17304abcbac9a6d1ea0b7",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ak/composed-treatment:obligation:runtime-only:ak:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085--custom-pleading",
+      "decisiveDefect": "product-wiring.json declares the packet's primary_filing component at SHA-256 9f00da8f072069098dce0b465bbc242d5713730f5472a6f9d6a104699bd1428a. That is the digest of fixtures/canonical.pdf as it stood at the original build commit db2585afb, before FIX04's repair. The file at that path now hashes 2a7e3fa6eb3b583fdbddc5a365b6c2678e7a37ad0f8ebdd6b78a230eb39d98ad \u2014 which is what the same file's own binding.acceptanceReceipt.boundToCanonicalSha256 says, and what the bytes, the RASTER_QUEUE pin and reports/rendered-artifacts.json all say. One record inside the packet directory names bytes that do not exist.",
+      "failedProofObligations": [
+        "ARTIFACTS"
+      ],
+      "perObligation": {
+        "ARTIFACTS": {
+          "measuredDetail": "declared 9f00da8f072069098dce0b465bbc242d5713730f5472a6f9d6a104699bd1428a; recomputed from the file the record points at 2a7e3fa6eb3b583fdbddc5a365b6c2678e7a37ad0f8ebdd6b78a230eb39d98ad; the declared value reproduces exactly when the blob at db2585afb is hashed, confirming it as the pre-repair digest rather than a typo",
+          "whatRepairMustDo": "Regenerate the proposal digest from reports/rendered-artifacts.json, or fix the generator so a refreshed record refreshes it. Nine other families share the defect.",
+          "scoringChoiceMadeVisible": "A reader who takes 'the record' in the ARTIFACTS obligation to mean only the raster receipt and rendered-artifacts.json would score this PASS. This lane takes it to mean every committed record in the packet directory that names the delivered artifact's digest, because that is the record a route would be installed from, and because the dispatch asked in terms whether the wiring, the raster pin and the bytes agree. The other fourteen obligations pass on this family."
+        }
+      },
+      "everythingElsePassed": "ROUTE_IDENTITY, SOURCE_IDENTITY, COMPONENT_SET, KNOWN_PREFILLS, REQUIRED_BEFORE_FILING, ROUTE_OPTIONS, REPEATING_ROWS, PROTECTED_FIELDS, PAGE_ORDER, CLIPPING_AND_OVERLAP, FILING_DESTINATION, FEE_AND_WAIVER, SERVICE and SELF_HELP_STOP were each measured here and each passes. The nine completeness counters recompute zero. The FIX04 repair this lane was asked to test holds on every limb.",
+      "sharedGeneratorDefect": {
+        "sharedDefect": "PRODUCT_WIRING_PROPOSAL_DIGEST_IS_NEVER_REFRESHED",
+        "whereTheDefectLives": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+        "theLine": "In the branch that handles an existing product-wiring.json the generator rewrites only `binding` and states in its own comment: 'its identity, its proposal and its non-grants are untouched, and only the binding is rewritten from current evidence'. So proposedRepresentation.components[].sha256 keeps whatever the first write recorded, and any family whose fixtures moved afterwards carries a digest for bytes that no longer exist.",
+        "measuredScope": "80 census-v1 product-wiring.json files declare component digests at base 4f5af4e7. 70 agree with the bytes on disk; 10 do not: pa_pardon_expungement-set, composed-treatment AK set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085, ky_void_seal_marijuana_synthetic_salvia-set, ky_void_seal_controlled_substance-set, vt_seal_pardon-set, vt_seal_nonconviction-set, vt_seal_felony-set, vt_exp_decriminalized-set, ct-missed-erasure-set, va_seal_petition_misdemeanor-set.",
+        "whatRepairMustDo": "Refresh proposedRepresentation.components[].sha256 from reports/rendered-artifacts.json \u2014 the file product-wiring.json already names as its own derivedFrom \u2014 whenever an existing record is refreshed, or drop the digest from the proposal and let the binding carry it alone. No packet byte moves and no re-raster is needed.",
+        "whoMayNotDoIt": "Not this lane. FABLE-VC may not edit factory scripts or overlay directories; this is named, not repaired.",
+        "notAPacketDefect": "The delivered canonical and boundary bytes are correct and hash exactly to the raster receipt, the RASTER_QUEUE row and reports/rendered-artifacts.json in every one of the three families this lane scored."
+      }
     }
   ],
   "supersededLaneMembership": {
@@ -95,5 +124,50 @@
         ]
       }
     ]
+  },
+  "fableVcAppend": {
+    "worker": "FABLE-VC",
+    "lane": "VF05",
+    "appendedAtBase": "4f5af4e714ae19dacdf17304abcbac9a6d1ea0b7",
+    "appended": [
+      "composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085"
+    ],
+    "note": "One FAIL_REPAIR_REQUIRED from this lane. Existing entries untouched.",
+    "blockedFamiliesWithActionableObligations": [
+      {
+        "itemId": "vt_seal_pardon-set",
+        "lane": "VF05",
+        "verdict": "BLOCKED_LEGAL_INPUT",
+        "notARepairAssignmentYet": "This family is blocked on counsel question VTL01_VT_PARDON_CLOCK, which has produced no return directory. It must not be handed to a repair lane while the clock question is open: the SELF_HELP_STOP repair below cannot be written correctly until counsel says which limitation clock governs. Recorded here so the work is ready the moment the hold clears.",
+        "verifiedBy": "FABLE-VC",
+        "verifiedAtBase": "4f5af4e714ae19dacdf17304abcbac9a6d1ea0b7",
+        "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill",
+        "failedProofObligations": [
+          "SELF_HELP_STOP",
+          "ARTIFACTS"
+        ],
+        "perObligation": {
+          "SELF_HELP_STOP": {
+            "measuredDetail": "participant-instructions.md contains no stop-and-get-help section of any kind, and never mentions \u00a7 7602(c), \u00a7 7602(d), a limitation clock, a waiting period or eligibility. The committed treatment (data/rcap-all50/terminalization-treatments/vt.json, trackId vt_seal_pardon) records that the statute does not resolve which clock a pardoned misdemeanour runs on and that this 'decides when you may file at all'.",
+            "whatRepairMustDo": "When VTL01 is answered, state the governing clock and add the stop conditions. Until then the packet must not present itself as filing-ready."
+          },
+          "ARTIFACTS": {
+            "measuredDetail": "product-wiring.json declares the primary_filing component at 39d9ac94bb59f196f4e236ca2a11f30507b7680a103ef95b6cbe060e5c1684f8; fixtures/canonical.pdf hashes 81525fd23e9489ce1225aaf953e28c0e68ad64c376dccf9143a5c14920bde942.",
+            "whatRepairMustDo": "The shared generator fix below; no packet byte moves."
+          }
+        },
+        "alsoRaisedNotFailed": "verify-packet-build-environment.mjs refuses this family at family_sources_bind because each of its three form numbers matches two byte-identical entries in the committed corpus index (Master Library path and D1 source-pack path). The bytes bind exactly; the index shape does not resolve. Same class as the ar-arrest-seal-set row Captain adjudicated in DET-FEE-AND-WAIVER-001 amendment4.",
+        "sharedGeneratorDefect": {
+          "sharedDefect": "PRODUCT_WIRING_PROPOSAL_DIGEST_IS_NEVER_REFRESHED",
+          "whereTheDefectLives": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+          "theLine": "In the branch that handles an existing product-wiring.json the generator rewrites only `binding` and states in its own comment: 'its identity, its proposal and its non-grants are untouched, and only the binding is rewritten from current evidence'. So proposedRepresentation.components[].sha256 keeps whatever the first write recorded, and any family whose fixtures moved afterwards carries a digest for bytes that no longer exist.",
+          "measuredScope": "80 census-v1 product-wiring.json files declare component digests at base 4f5af4e7. 70 agree with the bytes on disk; 10 do not: pa_pardon_expungement-set, composed-treatment AK set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085, ky_void_seal_marijuana_synthetic_salvia-set, ky_void_seal_controlled_substance-set, vt_seal_pardon-set, vt_seal_nonconviction-set, vt_seal_felony-set, vt_exp_decriminalized-set, ct-missed-erasure-set, va_seal_petition_misdemeanor-set.",
+          "whatRepairMustDo": "Refresh proposedRepresentation.components[].sha256 from reports/rendered-artifacts.json \u2014 the file product-wiring.json already names as its own derivedFrom \u2014 whenever an existing record is refreshed, or drop the digest from the proposal and let the binding carry it alone. No packet byte moves and no re-raster is needed.",
+          "whoMayNotDoIt": "Not this lane. FABLE-VC may not edit factory scripts or overlay directories; this is named, not repaired.",
+          "notAPacketDefect": "The delivered canonical and boundary bytes are correct and hash exactly to the raster receipt, the RASTER_QUEUE row and reports/rendered-artifacts.json in every one of the three families this lane scored."
+        }
+      }
+    ],
+    "whyBlockedFamiliesAreListedSeparately": "vt_seal_pardon-set is BLOCKED_LEGAL_INPUT, not FAIL_REPAIR_REQUIRED. Its failing obligations are recorded so the work is ready when counsel answers VTL01, and it is kept out of the assignments array so no repair lane picks it up while the hold is open."
   }
 }

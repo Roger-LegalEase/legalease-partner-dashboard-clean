@@ -102,6 +102,14 @@ const CORPUS_ENV_HOME = ".legalease-corpus-env";
  * assignment whose items name the family wins, and two matches is a refusal
  * rather than a guess. */
 const ASSIGNMENT_MANIFESTS = [
+  /*
+   * The 24h factory's own dispatch, first because it is the current one. It was
+   * missing from this list, so no family of the packet-factory-24h wave
+   * resolved here: a lane that ran the preflight without an explicit
+   * --assignment saw a spurious 13/14 and had to be told the path by hand.
+   * A dispatch nobody can find is a dispatch that does not exist.
+   */
+  "data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
   "data/rcap-grade-a/launch-control/CODEX_CLOUD_CONTINUATIONS.json",
   "data/rcap-grade-a/launch-control/P2_WASHINGTON_VERIFICATION.json",
   "data/rcap-grade-a/launch-control/R8_FOUR_WAY_SPLIT.json",

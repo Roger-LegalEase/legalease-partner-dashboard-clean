@@ -22,9 +22,9 @@
   "supersessionRule": "one current verdict per family: the highest-precedence lane wins (factory vf lanes over codex-cloud directories, then higher lane number); superseded rows remain as history with superseded: true",
   "counts": {
     "returnDirectories": 33,
-    "rows": 231,
+    "rows": 239,
     "independentVerdicts": 120,
-    "failRepairRequired": 30,
+    "failRepairRequired": 28,
     "passIndependent": 90
   },
   "failRepairRequiredFamilies": [
@@ -34,7 +34,6 @@
     "ca-851-91-set",
     "composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
     "composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
-    "ct-missed-erasure-set",
     "ne-setaside-custodial-set",
     "ny_160_59_petition-set",
     "ny_mrta_marijuana-set",
@@ -48,7 +47,6 @@
     "ut_pet_dismissed_without_prejudice-set",
     "ut_pet_limitations-set",
     "ut_pet_no_charges-set",
-    "vt_seal_pardon-set",
     "wa_vac_cannabis-set",
     "wa_vac_homicide_victim_prostitution-set",
     "wa_vac_misdemeanor_ordinary-set",
@@ -62,7 +60,12 @@
   "refusedAtTheClaimGate": {
     "whatThisIs": "rows where a verification lane was refused by the claim gate and therefore opened no artifact. These are statements about the lane, not about the packet, so they never enter the current-verdict contest and never supersede a lane that did look.",
     "rows": [
-      "vf12/oh_marijuana_expungement-set"
+      "vf06/composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
+      "vf06/wv_conv_multiple_misdemeanors-set",
+      "vf07/wv_conv_single_misdemeanor-set",
+      "vf09/ny_160_59_petition-set",
+      "vf12/oh_marijuana_expungement-set",
+      "vf12/pa_pardon_expungement-set"
     ]
   },
   "unactionableFailures": {
@@ -959,6 +962,28 @@
     },
     {
       "familyId": "composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf05",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "4f5af4e714ae19dacdf17304abcbac9a6d1ea0b7",
+      "failedObligations": [
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "The canonical and boundary bytes hash exactly to what the RASTER_QUEUE row, the raster receipt and the family's own reports/rendered-artifacts.json name — all recomputed here. One committed record inside the packet directory disagrees: product-wiring.json's proposedRepresentation.components[0].sha256 is 9f00da8f072069098dce0b465bbc242d5713730f5472a6f9d6a104699bd1428a, and the file it points at hashes 2a7e3fa6eb3b583fdbddc5a365b6c2678e7a37ad0f8ebdd6b78a230eb39d98ad. 9f00da8f07206909... is the PRE-REPAIR digest of that same path at db2585afb (the original build), confirmed by hashing that commit's blob, so the wiring names bytes that no longer exist while its own binding.acceptanceReceipt.boundToCanonicalSha256, three lines further down the same file, names the bytes that do.",
+          "evidence": "Root cause read from the generator: scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs, in the branch that refreshes an existing record, states in its own comment that 'its identity, its proposal and its non-grants are untouched, and only the binding is rewritten from current evidence' — so a family repaired after its wiring was first written keeps a proposal digest nobody refreshes. Repository-wide sweep at this base: 80 census-v1 product-wiring.json files declare component digests; 70 agree with the bytes and 10 do not — pa_pardon_expungement-set, this family, ky_void_seal_marijuana_synthetic_salvia-set, ky_void_seal_controlled_substance-set, vt_seal_pardon-set, vt_seal_nonconviction-set, vt_seal_felony-set, vt_exp_decriminalized-set, ct-missed-erasure-set and va_seal_petition_misdemeanor-set. The repair is one generator change plus a regeneration, not a packet rebuild, and no packet byte needs to move. SCORING CHOICE MADE VISIBLE: a reader who takes 'the record' to mean only the raster receipt and rendered-artifacts.json would score this obligation PASS. This lane takes it to mean every committed record in the packet directory that names the delivered artifact's digest, because that is the record a route would be installed from, and because Captain's dispatch asked in terms whether 'the wiring, the raster pin and the bytes now agree'. They do not. TIMELINE CORROBORATION: lane vf08 read this same family at base ebc44031ec7eab29058bfc79a7bc5e1cff089414 and returned PASS with no failing obligation. That is consistent rather than contradictory — at that base the fixtures still hashed 9f00da8f... and the wiring's proposal digest was correct. The disagreement was created by the repair at f998fe43b moving the bytes while the generator, by its own design, left the proposal alone."
+        }
+      ],
+      "failedObligationNames": [
+        "ARTIFACTS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+      "superseded": false
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
       "verdict": "PASS",
       "lane": "vf08",
       "isIndependentVerification": true,
@@ -991,6 +1016,20 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf11/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf11/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+      "superseded": true
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
+      "verdict": "BLOCKED_BEFORE_CLAIM",
+      "lane": "vf06",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "4f5af4e714ae19dacdf17304abcbac9a6d1ea0b7",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf06/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
       "superseded": false
     },
     {
@@ -1155,6 +1194,40 @@
     },
     {
       "familyId": "ct-missed-erasure-set",
+      "verdict": "BLOCKED_LEGAL_INPUT",
+      "lane": "vf07",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "4f5af4e714ae19dacdf17304abcbac9a6d1ea0b7",
+      "failedObligations": [
+        {
+          "obligation": "SOURCE_IDENTITY",
+          "finding": "The family binds zero source documents by design, and its source-receipt.json says so in absolute terms: bindingMethod reads 'no source bytes are bound... Every composed page is grounded on the committed legal-design records named in groundingRecords, and nothing else', with allSourcesExact true called 'true vacuously'. After the repair that is no longer accurate. The delivered page now quotes 63 words from DESPP-0847-C and instructs the participant to act on them, so the page is grounded on a document the receipt says it is not grounded on, and that document is bound by SHA-256 nowhere in the packet.",
+          "evidence": "The quotation itself is sound and was read here, not trusted: pdftotext of private/source-imports/.../STATES/CT/05_SOURCE_GATED/CT__SOURCE-GATED__DESPP-0847-C__hearing-for-clean-slate-erasure-convictions-after-1-1-2000__REV-2001-01__EN.pdf reproduces instruction 2 verbatim, including 'must be dated on or after 01/01/2024' and 'will be deemed incomplete and your request for a review and/or hearing will be denied'; the file hashes 08658dc45d7d41c20a26dcab54fff8756302e85bef7f4d519d9c0a3d4e4fbcfc, equal to its entry in data/rcap-all50/local-source-corpus-index.json, and its own footer prints 'DESPP-0847-C (New 01/01/2024)', confirming the revision the packet cites. So the defect is not the quotation; it is that a load-bearing source became load-bearing without entering the receipt. Compare the Vermont family verified on this same lane, which cites 200-00130A with its SHA-256 printed in the instructions. The repair is to record DESPP-0847-C in source-receipt.json with its digest and its role, and to soften bindingMethod's 'and nothing else'. Also noted for the corpus owner, raised not repaired: the committed index records revision 'REV-2001-01' for a form whose printed face says New 01/01/2024 — the index appears to have read the 1/1/2000 in the title as a revision date."
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "Two problems, one of which is a live participant hazard. (1) The delivered page imposes a requirement on the participant — 'TREAT THIS AS A REQUIREMENT... So get a criminal history record dated on or after 01/01/2024' — that the committed CT memo classifies as unresolved with impact release_blocker on participant_instructions, and that it takes from a form addressed to a different statutory section. DESPP-0847-C is captioned to Conn. Gen. Stat. § 54-142a Clean Slate erasure; this route is § 54-142t(g). DET-FEE-AND-WAIVER-001 amendment3.theTest is explicit: 'If the record addresses a different statutory section, a different remedy, or a different filing, it does not establish this route's answer, however close the sibling looks.' (2) participant-instructions.md never mentions the date rule at all. Its 'Documents you must obtain first' row describes the SPBI record with fees and an address and says nothing about currency; its 'What you do, in order' list says only 'Order your SPBI record search' and 'Verify the fee first'. A participant working from the .md orders a record that the delivered page says will get their request denied.",
+          "evidence": "Committed record: data/record-clearing/legal-design-intake/CT.memo.json, track ct-missed-erasure, unresolvedQuestions[2], impact 'release_blocker', affectedElement 'participant_instructions', sourceStatement 'Treat as unresolved rather than as a rule.' Delivered bytes: canonical.pdf paragraph beginning 'THE DATE ON YOUR CRIMINAL HISTORY RECORD - TREAT THIS AS A REQUIREMENT'. Instructions file: grep for '2024', 'dated', 'current' across participant-instructions.md returns nothing on this point. IN FAIRNESS TO THE REPAIR, recorded so the repairer is judged on what it did: the same paragraph carries two honest limits in the next breath — that the packet 'does not tell you that DESPP-0847-C is the form for your route', and that the participant should 'confirm the date rule and the form with DESPP' — and it names SPBI at (860) 685-8480 option 4 and the DESPP Legal Affairs Unit's address to do it with. That mitigation is real and it is why this is a repairable defect rather than a false statement. What it does not do is make a sibling-section form establish this route's requirement, or put the point in front of a participant reading the instructions file. Declared requiredBeforeFilingCount is 0 and the manifest's own participantActionRequired entries are all named in the .md, so this failure is about a requirement the packet added, not one it dropped."
+        },
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "The canonical and boundary bytes hash exactly to what the RASTER_QUEUE row, the raster receipt and reports/rendered-artifacts.json name — all recomputed here. One committed record inside the packet directory disagrees: product-wiring.json's proposedRepresentation.components[0].sha256 is 814530c39586e9e52573eb081a3f262e559680d1f46fb29d20efde68041f0627, and the file it points at, fixtures/canonical.pdf, hashes 0872021341ca0755e2df874ebea40d601e3ffacbb4be6f5436b642548ffdcb82 — which is what binding.acceptanceReceipt.boundToCanonicalSha256 in the same file says.",
+          "evidence": "Root cause read from the generator: scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs, in the branch that refreshes an existing record, states in its own comment that 'its identity, its proposal and its non-grants are untouched, and only the binding is rewritten from current evidence' — so a family repaired after its wiring was first written keeps a proposal digest nobody refreshes. Repository-wide sweep at this base: 80 census-v1 product-wiring.json files declare component digests; 70 agree with the bytes and 10 do not — pa_pardon_expungement-set, the Alaska SIS composed treatment, ky_void_seal_marijuana_synthetic_salvia-set, ky_void_seal_controlled_substance-set, vt_seal_pardon-set, vt_seal_nonconviction-set, vt_seal_felony-set, vt_exp_decriminalized-set, ct-missed-erasure-set and va_seal_petition_misdemeanor-set. The repair is one generator change plus a regeneration, not a packet rebuild, and no packet byte needs to move. SCORING CHOICE MADE VISIBLE: a reader who takes 'the record' to mean only the raster receipt and rendered-artifacts.json would score this obligation PASS. This lane takes it to mean every committed record in the packet directory that names the delivered artifact's digest, because that is the record a route would be installed from, and because Captain's dispatch asked in terms whether 'the wiring, the raster pin and the bytes now agree'."
+        }
+      ],
+      "failedObligationNames": [
+        "ARTIFACTS",
+        "REQUIRED_BEFORE_FILING",
+        "SOURCE_IDENTITY"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf07/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ct-missed-erasure-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ct-missed-erasure-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf09",
       "isIndependentVerification": true,
@@ -1180,7 +1253,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf09/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ct-missed-erasure-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ct-nolle-auto-set",
@@ -2459,6 +2532,20 @@
     },
     {
       "familyId": "ny_160_59_petition-set",
+      "verdict": "BLOCKED_BEFORE_CLAIM",
+      "lane": "vf09",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "4f5af4e714ae19dacdf17304abcbac9a6d1ea0b7",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf09/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ny_160_59_petition-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ny_160_59_petition-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf17",
       "isIndependentVerification": true,
@@ -3219,6 +3306,20 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf12/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_pardon_expungement-set",
       "superseded": true
+    },
+    {
+      "familyId": "pa_pardon_expungement-set",
+      "verdict": "BLOCKED_BEFORE_CLAIM",
+      "lane": "vf12",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "4f5af4e714ae19dacdf17304abcbac9a6d1ea0b7",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf12/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf12/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_pardon_expungement-set",
+      "superseded": false
     },
     {
       "familyId": "pa_summary_conviction-set",
@@ -5318,6 +5419,34 @@
     },
     {
       "familyId": "vt_seal_pardon-set",
+      "verdict": "BLOCKED_LEGAL_INPUT",
+      "lane": "vf05",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "4f5af4e714ae19dacdf17304abcbac9a6d1ea0b7",
+      "failedObligations": [
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "The canonical and boundary bytes hash exactly to what the RASTER_QUEUE row, the raster receipt and reports/rendered-artifacts.json name — all recomputed here. One committed record inside the packet directory disagrees: product-wiring.json's proposedRepresentation.components[0].sha256 is 39d9ac94bb59f196f4e236ca2a11f30507b7680a103ef95b6cbe060e5c1684f8, and the file it points at, fixtures/canonical.pdf, hashes 81525fd23e9489ce1225aaf953e28c0e68ad64c376dccf9143a5c14920bde942 — which is also what binding.acceptanceReceipt.boundToCanonicalSha256 in the same file says. The wiring therefore names, as the packet's primary_filing component, bytes that do not exist.",
+          "evidence": "Root cause read from the generator: scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs, in the branch that refreshes an existing record, states in its own comment that 'its identity, its proposal and its non-grants are untouched, and only the binding is rewritten from current evidence' — so a family repaired after its wiring was first written keeps a proposal digest nobody refreshes. Repository-wide sweep at this base: 80 census-v1 product-wiring.json files declare component digests; 70 agree with the bytes and 10 do not — pa_pardon_expungement-set, the Alaska SIS composed treatment, ky_void_seal_marijuana_synthetic_salvia-set, ky_void_seal_controlled_substance-set, vt_seal_pardon-set, vt_seal_nonconviction-set, vt_seal_felony-set, vt_exp_decriminalized-set, ct-missed-erasure-set and va_seal_petition_misdemeanor-set. The repair is one generator change plus a regeneration, not a packet rebuild, and no packet byte needs to move. SCORING CHOICE MADE VISIBLE: a reader who takes 'the record' to mean only the raster receipt and rendered-artifacts.json would score this obligation PASS. This lane takes it to mean every committed record in the packet directory that names the delivered artifact's digest, because that is the record a route would be installed from, and because Captain's dispatch asked in terms whether 'the wiring, the raster pin and the bytes now agree'."
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "The packet nowhere states where self-help ends. There is no stop-and-get-help section of any kind in participant-instructions.md — searching it for 'stop', 'get help', 'lawyer', 'attorney', 'eligib', 'wait', '7602', 'clock', 'three-year' and 'seven-year' returns only the § 7602 title line, the fee-waiver sentence 'you may stop after Section 1', and the route footer. The only boundary the packet draws is 'it is not legal advice' under 'What this packet is not'. Worse, the one boundary the repository does establish is the one omitted: the committed treatment records that the statute does not resolve whether a pardoned misdemeanour runs on § 7602(c)'s three-year clock or § 7602(d)'s seven-year clock, and that this 'decides when you may file at all'. A participant reads a filing-ready packet with no indication that whether they may file yet is unsettled.",
+          "evidence": "The repair to be made when counsel answers VTL01: state the governing clock, and state the stop conditions. Contrast the Alaska family verified on this same lane, whose delivered page carries six named stop conditions carrying the route contract's own reasoning. Scope note under DET-FEE-AND-WAIVER-001 amendment4.onTheWiderQuestion: this is the failure mode of a packet withholding something the repository establishes, so the repository was asked first and it answers — data/rcap-all50/terminalization-treatments/vt.json, trackId vt_seal_pardon. A3's guard is satisfied because that record addresses this exact track and no sibling. Also recorded: the family's own approval-request.json requests only 'visual review and counsel review' and raises no counsel question at all, while VTL01 is live against it."
+        }
+      ],
+      "failedObligationNames": [
+        "ARTIFACTS",
+        "SELF_HELP_STOP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_pardon-set",
+      "superseded": false
+    },
+    {
+      "familyId": "vt_seal_pardon-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf08",
       "isIndependentVerification": true,
@@ -5365,7 +5494,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_pardon-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "vt_seal_pardon-set",
@@ -6332,6 +6461,20 @@
     },
     {
       "familyId": "wv_conv_multiple_misdemeanors-set",
+      "verdict": "BLOCKED_BEFORE_CLAIM",
+      "lane": "vf06",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "4f5af4e714ae19dacdf17304abcbac9a6d1ea0b7",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf06/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wv_conv_multiple_misdemeanors-set",
+      "superseded": false
+    },
+    {
+      "familyId": "wv_conv_multiple_misdemeanors-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf08",
       "isIndependentVerification": true,
@@ -6464,6 +6607,20 @@
       "failedObligationNames": [
         "REQUIRED_BEFORE_FILING"
       ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf07/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wv_conv_single_misdemeanor-set",
+      "superseded": false
+    },
+    {
+      "familyId": "wv_conv_single_misdemeanor-set",
+      "verdict": "BLOCKED_BEFORE_CLAIM",
+      "lane": "vf07",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "4f5af4e714ae19dacdf17304abcbac9a6d1ea0b7",
+      "failedObligations": [],
+      "failedObligationNames": [],
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf07/repair-assignments.json",
