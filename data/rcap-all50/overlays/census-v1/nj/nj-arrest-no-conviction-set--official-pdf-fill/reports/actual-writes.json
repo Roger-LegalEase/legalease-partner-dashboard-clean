@@ -1278,6 +1278,7 @@
           "category": "role"
         }
       ],
+      "heldButNotPrinted": [],
       "selections": [
         {
           "control": "dismiss",
@@ -1761,8 +1762,8 @@
       "documentId": "NJ-CN-10557",
       "fixture": "boundary",
       "file": "data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill/fixtures/cn-10557-boundary.pdf",
-      "sha256": "8c48d3b86316ac878b9e8ca4f89d589accd8f53b6d708a99d1227f4fa00e44d9",
-      "byteLength": 577992,
+      "sha256": "de3224b08aec7d46796f74ecad09f3bb4d8e7928f6349324ccf070af6698399b",
+      "byteLength": 577533,
       "written": [
         {
           "field": "DefPhone",
@@ -2180,27 +2181,6 @@
               "outcome": "fit",
               "renderedAs": "form_xobject_appearance",
               "xObject": "/ExactFactOverlay-4525072762"
-            }
-          ]
-        },
-        {
-          "field": "arrest1Dt",
-          "factId": "matter.arrest_date",
-          "kind": "exact_measured_fact_overlay",
-          "widgets": [
-            {
-              "widgetIndex": 0,
-              "page": 31,
-              "rect": {
-                "x": 143.197,
-                "y": 467.824,
-                "width": 68.553,
-                "height": 15.24
-              },
-              "fontSize": 9,
-              "outcome": "fit",
-              "renderedAs": "form_xobject_appearance",
-              "xObject": "/ExactFactOverlay-5563853605"
             }
           ]
         }
@@ -2702,6 +2682,11 @@
           "category": "role"
         },
         {
+          "field": "arrest1Dt",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
           "field": "arrest1Statute",
           "reason": "classified_unwritable_by_role",
           "category": "role"
@@ -3031,6 +3016,30 @@
           "widgetsMeasured": 1
         }
       ],
+      "heldButNotPrinted": [
+        {
+          "field": "arrest1CaseNum",
+          "factId": "matter.case_number",
+          "valueHeld": "0123-45-2026-CR-900123.00-AB-CDE/2201",
+          "why": "the value does not fit this box at a size a court could read",
+          "reason": "value_exceeds_widget_width_at_minimum_font"
+        },
+        {
+          "field": "arrest1Dt",
+          "factId": "matter.arrest_date",
+          "valueHeld": "2019-03-08",
+          "why": "another cell of the same row (arrest1CaseNum) could not be printed, and a row is completed or left untouched",
+          "reason": "withheld_for_row_integrity",
+          "row": "Expungement Order (Form C), arrest table row 1, delivered page 31"
+        },
+        {
+          "field": "dismissOff1",
+          "factId": "matter.charge",
+          "valueHeld": "Possession of a controlled substance with an unusually long statutory description",
+          "why": "the value does not fit this box at a size a court could read",
+          "reason": "value_exceeds_widget_width_at_minimum_font"
+        }
+      ],
       "selections": [
         {
           "control": "dismiss",
@@ -3249,9 +3258,9 @@
         "rule": "remove /V and /DV; force button widgets to /AS /Off; never infer a participant or court answer"
       },
       "proof": {
-        "artifactSha256": "8c48d3b86316ac878b9e8ca4f89d589accd8f53b6d708a99d1227f4fa00e44d9",
-        "artifactByteLength": 577992,
-        "appearanceCount": 268,
+        "artifactSha256": "de3224b08aec7d46796f74ecad09f3bb4d8e7928f6349324ccf070af6698399b",
+        "artifactByteLength": 577533,
+        "appearanceCount": 267,
         "writtenProof": [
           {
             "field": "DefPhone",
@@ -3431,16 +3440,6 @@
             ],
             "exactValueObserved": true,
             "derivedFrom": "page text items read from the artifact content stream at every overlay rectangle"
-          },
-          {
-            "field": "arrest1Dt",
-            "factId": "matter.arrest_date",
-            "expectedValue": "2019-03-08",
-            "drawnText": [
-              "2019-03-08"
-            ],
-            "exactValueObserved": true,
-            "derivedFrom": "page text items read from the artifact content stream at every overlay rectangle"
           }
         ],
         "missingWrittenInk": [],
@@ -3463,7 +3462,7 @@
             "mark": "two_diagonal_strokes_inset",
             "drewANewBox": false,
             "redrewTheCourtsBox": false,
-            "derivedFromArtifactBytesSha256": "8c48d3b86316ac878b9e8ca4f89d589accd8f53b6d708a99d1227f4fa00e44d9",
+            "derivedFromArtifactBytesSha256": "de3224b08aec7d46796f74ecad09f3bb4d8e7928f6349324ccf070af6698399b",
             "artifactDerivedMarkPaths": [
               {
                 "page": 18,

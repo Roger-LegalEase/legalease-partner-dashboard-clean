@@ -281,10 +281,10 @@ function factsForJurisdiction(jurisdiction, boundary = false) {
 
 function source({ key, id, role, title, revision, pathInArchive, hash, bytes, render = true,
   allow = {}, deny = [], selections = [], captions = null, alignWidgetFontSizeToFit = false,
-  fitTextPerWidget = false }) {
+  fitTextPerWidget = false, repeatingRowGroups = [] }) {
   return { key, documentId: id, documentRole: role, officialTitle: title, revision,
     pathInArchive, sha256: hash, byteLength: bytes, render, allow, deny, selections,
-    captions, alignWidgetFontSizeToFit, fitTextPerWidget };
+    captions, alignWidgetFontSizeToFit, fitTextPerWidget, repeatingRowGroups };
 }
 function cloneDoc(base, additions = {}) {
   return { ...base, ...additions, allow: { ...(base.allow ?? {}), ...(additions.allow ?? {}) },
@@ -519,13 +519,14 @@ const NJ_CONTACT_ALLOW = {
   DefPhone: "participant.phone", DefAddrStr2: "participant.street_address",
   DefAddrCity: "participant.city", DefAddrSt: "participant.state", DefAddrZip: "participant.zip",
 };
-function njFamily(routeKey, selectionNames, allow, note, documentAdditions = {}) {
+function njFamily(routeKey, selectionNames, allow, note, familyAdditions = {}, documentAdditions = {}) {
   return {
     jurisdiction: "NJ", routeKeys: [routeKey],
     documents: [cloneDoc(NJ_SOURCE, {
       allow: { ...NJ_CONTACT_ALLOW, ...allow }, selections: selectionNames, ...documentAdditions,
     })],
     notes: [note, "The shared 43-page kit's signature, date, notary, service, court, prosecutor, clerk, agency, and post-order fields are expressly refused."],
+    ...familyAdditions,
   };
 }
 
@@ -536,6 +537,84 @@ Object.assign(FAMILY, {
       dismissDt: "matter.disposition_date", dismissOff1: "matter.charge",
       dismissCrt: "matter.court" },
     "The route election is the measured existing dismissed control on page 18; no box is invented.",
+    {
+      /*
+       * FIX01/RP-2: FILING_DESTINATION, FEE_AND_WAIVER, SERVICE, SELF_HELP_STOP.
+       *
+       * All four were standing on one sentence -- "Confirm current revision,
+       * filing destination, local procedures, fees, attachments, service, and
+       * proposed-order requirements before filing" -- which lists four
+       * questions and answers none. This host's own comment above
+       * filingDestinationSection names that sentence as the defect, and the two
+       * New York families on the host opted in. This one did not.
+       *
+       * The standard is DET-FEE-AND-WAIVER-001 A1 as widened by A2: ask the
+       * repository first, state what it establishes, and delegate only what it
+       * does not. Here the repository establishes all four, twice over -- the
+       * committed track registry entry for nj_arrest_no_conviction, and the
+       * enclosed kit's OWN DELIVERED BYTES, which state the destination at page
+       * 9, the eight service recipients with method at page 10, the five-day
+       * period at page 11, and "Kit updated 06/2020 to remove the filing fee"
+       * in a running footer on four pages of every fixture this family ships.
+       *
+       * The fee failure was the sharpest of the four: the packet told the
+       * participant to go and confirm "fees" while enclosing, in its own bytes,
+       * the publisher's statement that there is no fee. A packet may never tell
+       * a participant it does not state something it does state.
+       */
+      filingDestination: [
+        "**File in the county where you were arrested or taken into custody, or where you were prosecuted or adjudicated.** That is the New Jersey Judiciary's own instruction, printed at page 9 of the kit bound into this packet, and the committed record for this route says the same: the destination is the Superior Court, Criminal Division, of the vicinage. New Jersey is one statewide court system with fifteen vicinages, and no local form variation was identified for this route.",
+        "**The office that receives it is the Criminal Case Management Office of that county.** Page 10 of the enclosed kit says to mail the package there, or to file it in person if you prefer, and the list of those offices with their telephone numbers is printed at the end of the same kit. Do not look for a statewide filing address; there is not one.",
+        "**If your cases are in more than one county**, the kit tells you to contact the Criminal Case Management Office in either county and ask whether they will let you file for expungement of your entire record in that county, and then to file the whole package with the office that agreed. This packet does not choose the county for you and does not make that call for you.",
+        "**What to send with it.** Make three copies of the notarized Petition (Form A), the Order for Hearing (Form B) and the proposed Expungement Order (Form C). The original and two copies are filed; keep one of each. Attach the Cover Letter for Filing (Form D), and enclose two large self-addressed envelopes with postage on each — those are what the court uses to send your filed copies back.",
+        "**There is also an online route.** The Judiciary's eCourts Expungement System assembles the petition and the proposed order from data you enter, instead of from these forms. This packet is the kit-forms route. Nothing here prevents you using eCourts instead; if you do, you do not file these papers as well.",
+      ],
+      feeAndWaiver: [
+        "**There is no court filing fee.** The kit bound into this packet says so on its own face: the running footer on four of its pages reads *Kit updated 06/2020 to remove the filing fee, CN 10557*. The committed New Jersey record for this route says the same — no court filing fee for any expungement petition, New Jersey Courts states \"It's free\", and the kit was updated in June 2020 specifically to remove the fee.",
+        "**There is nothing to waive, and so no waiver form in this packet.** The committed record puts it in terms: a fee waiver is *not applicable to the court filing. There is no filing fee to waive.* If an office asks you for a filing fee on an expungement petition, that is worth questioning before you pay it.",
+        "**Two costs that are not the filing fee.** The State Police charge for the SBI criminal history record, which is a separate request to a separate agency; and the Verification page of the Petition must be signed in front of a notary, who may charge for that. Neither is a court fee and no held source sets either figure, so none is stated here.",
+        "**One condition that is about money but is not a fee.** The committed record for this route records that outstanding court-ordered financial assessments must be paid, subject to the statute's failure-to-pay provisions. Whether that reaches your case is not something this packet decides; it is listed among the points below where self-help ends.",
+      ],
+      service: [
+        "**Nobody is served until the court gives you filed copies back.** One copy each of the Petition, the Order for Hearing and the proposed Expungement Order comes back to you marked *Filed*, with an Expungement Docket Number, and the Order for Hearing will carry the date and time of your hearing. Service starts then, and not before. This is page 10 of the enclosed kit.",
+        "**Then make at least seven copies of those three papers and mail one set to each agency involved in your case, by certified mail, return receipt requested.** The kit names them at pages 10 and 11: the Attorney General of New Jersey; the Superintendent of State Police, Expungement Unit; the County Prosecutor; the administrator of the municipal court if a municipal court heard the matter; the Chief of Police or other head of the police department where the offence was committed or the arrest was made; the chief law-enforcement officer of any other State law-enforcement agency that took part in the arrest; the Warden or superintendent of any institution you were held in; and the County Probation Division if you had a conditional discharge or conditional dismissal, were in PTI or a juvenile diversion programme, had a deferred disposition, performed community service, owed fines or restitution, or served probation — and, if supervision was transferred, both the original county probation office and the one it went to. The Division of Criminal Justice, Records and Identification Unit is added if your case went through the State Grand Jury.",
+        "**Mail them within five days of the date the Order for Hearing was signed.** The kit states that period at page 11 and tells you to mail at the post office, certified mail return receipt requested, which may be done electronically. Form E, the Cover Letter — Notice of Hearing, is the letter to attach to each set; it is bound into this packet.",
+        "**Keep the receipts, and ask before the hearing what the court wants.** After the return receipt cards or the electronic confirmations arrive, the kit tells you to contact the Criminal Case Management Office and ask whether proof of mailing must be submitted at or before the hearing. Form F, the Proof of Notice, is where that proof goes.",
+        "**Agencies have a window to object.** The committed record for this route records that they do, and records the exact period as an open question. No number of days is stated here, because none is established; the Criminal Case Management Office that has your docket number is the office that can tell you.",
+      ],
+      /*
+       * SELF_HELP_STOP. Independent verification measured this packet as naming
+       * no stop at all: zero case-insensitive hits in participant-instructions.md
+       * for "immigrat", "stop", "lawyer" and "legal aid", against thirteen
+       * selfHelpStopConditions the committed record holds for this exact track.
+       *
+       * All thirteen are below, each carried word for word from the registry,
+       * nothing added to them and nothing softened. The immigration condition is
+       * restated after the list because a non-citizen must be told to reach an
+       * immigration attorney before signing rather than left to find it
+       * thirteenth in a list, and the referral routes at the end are the kit's
+       * own, from its page 3 "Try to Get a Lawyer".
+       */
+      selfHelpStop: [
+        "**This packet is not legal advice, and no lawyer has reviewed your case in preparing it.** It is a prepared copy of the New Jersey Judiciary's expungement kit CN-10557 for you to read, complete, sign, have notarized where the kit requires it, file and serve yourself. It is not filed for you, it is not served for you, and it does not decide whether a court will grant expungement.",
+        "**Stop and get help before you sign, file or serve anything if any of the following is true of your case.** Each one below is carried word for word from this route's own committed track record — `data/record-clearing/legal-design-track-registry.json`, track `nj_arrest_no_conviction`, `selfHelpStopConditions` — and each is a point where this packet stops being enough.",
+        "- Dismissal after pretrial intervention, conditional discharge or another diversion programme.",
+        "- Any count still open.",
+        "- Prosecutor objection.",
+        "- Any conviction that might sit on the N.J.S.A. 2C:52-2(b) or (c) non-expungeable list.",
+        "- Any classification or out-of-state equivalency question.",
+        "- Any same-day or closely-related bundling argument.",
+        "- Prior expungement, which N.J.S.A. 2C:52-14(e) bars except on the Clean Slate route.",
+        "- Pending charges.",
+        "- Unpaid financial assessments and the willfulness question.",
+        "- The participant cannot assemble complete case identifiers.",
+        "- Federal, out-of-state or tribal records. They are not reachable, but they count toward eligibility and toward the offense counts.",
+        "- Immigration exposure. New Jersey expungement has no federal immigration effect.",
+        "- Any Title 39 motor vehicle matter, including DWI, which N.J.S.A. 2C:52-28 puts outside the chapter entirely.",
+        "**If you are not a United States citizen, the immigration condition above is a hard stop, not a caveat.** Ask a New Jersey immigration attorney before you sign or file. A New Jersey expungement has no federal immigration effect, and this packet does not tell you what any immigration authority already holds or will do.",
+        "**Where to ask, and for what.** The kit's own page 3 says it plainly: the court system can be confusing and it is a good idea to get a lawyer. If you cannot afford one, contact the legal services programme in your county to see whether you qualify for free legal services — their number is listed online under Legal Aid or Legal Services. If you do not qualify and need help finding an attorney, your county bar association's lawyer referral service can give you names, and some of those attorneys will consult at a reduced fee. The Criminal Case Management Office can explain how the court works, what the filing requirements are, and what its deadlines are; the kit states in the same place that court staff **cannot** give you legal advice. Only a lawyer can.",
+      ],
+    },
     {
       /*
        * FIX01/RP-2, CLIPPING_AND_OVERLAP.
@@ -566,6 +645,42 @@ Object.assign(FAMILY, {
       // free-text county blank, and matter.county is the residence county
       // rather than the filing county the kit asks for.
       deny: ["ExpungeCntyName"],
+      /*
+       * The caption the geometric capture reaches for this blank is "Law Div",
+       * which is the line above it in the same stacked caption block. Now that
+       * the field is a disclosed blank rather than a declared write, that label
+       * is what the participant is asked to fill in, so it is corrected to the
+       * words the form actually prints around the box, read off pages 18, 27,
+       * 30 and 40: "County" on one line and "(where you are filing)" on the
+       * next.
+       */
+      captions: { ExpungeCntyName: "County (where you are filing)" },
+      /*
+       * FIX01/RP-2, REPEATING_ROWS.
+       *
+       * Row (1) of the arrest table on the proposed Expungement Order, page 31,
+       * reads "(date) ___ arrest/custody on the charge of violating N.J.S.A.
+       * (statute) ___ under (original indictment/accusation/summons/warrant/
+       * complaint/FJ or FO docket number) ___". On the boundary filing the date
+       * cell carried ink and the docket cell did not, because arrest1Dt fits
+       * and arrest1CaseNum refuses on a 37-character docket number. A row that
+       * names a date and no docket number asks a court to expunge an arrest it
+       * cannot identify.
+       *
+       * This is the Pennsylvania rule of FIX11 applied to New Jersey: a row is
+       * complete or it is untouched. If any declared write in the group is
+       * refused, every declared write in the group is withheld, the row is left
+       * wholly empty like rows (2) to (4) beside it, and each withheld cell is
+       * named to the participant.
+       *
+       * Family-scoped, like the two settings above: the same row exists on this
+       * kit for the other four New Jersey families and they are not in this
+       * lane's grant.
+       */
+      repeatingRowGroups: [{
+        row: "Expungement Order (Form C), arrest table row 1, delivered page 31",
+        fields: ["arrest1Dt", "arrest1CaseNum"],
+      }],
     }
   ),
   "nj_clean_slate-set": njFamily(
@@ -2452,7 +2567,41 @@ function confirmBeforeFilingLine(config) {
   return `- Confirm ${list} before filing.${tail}\n`;
 }
 
-function participantInstructions(config, fieldMaps) {
+/*
+ * FIX01/RP-2, KNOWN_PREFILLS: the values this platform holds and did not print.
+ *
+ * Two failure modes reach the same place. A value can be too long for its box
+ * at any readable size, and a cell can be dropped because another cell of the
+ * same row was. Either way the platform HOLDS the fact, the box on the paper is
+ * empty, and the participant is the only person who can finish it. Saying
+ * nothing is what turned a 79-character charge and a 37-character docket number
+ * into two blanks indistinguishable from the form's own.
+ *
+ * Rendered from the artifact reports of this build, so an empty list means the
+ * build printed everything it held rather than that nobody looked.
+ */
+function heldButNotPrintedSection(rows) {
+  if (!rows?.length) return "";
+  const byField = new Map();
+  for (const row of rows) {
+    const key = `${row.documentId}::${row.field}`;
+    if (!byField.has(key)) byField.set(key, { ...row, fixtures: [] });
+    byField.get(key).fixtures.push(row.fixture);
+  }
+  const lines = [...byField.values()]
+    .sort((a, b) => a.field.localeCompare(b.field))
+    .map((row) => `| \`${row.field}\` | \`${row.factId}\` | ${row.why} | ${row.fixtures.join(", ")} |`);
+  return "\n## Values this platform holds but did not print\n\n"
+    + "The blanks below are not blanks the platform has no fact for. It holds each of these values and could "
+    + "not put it on the paper, so it left the box **empty** rather than print something a court could not read, "
+    + "or leave a row half filled. **Write each one in by hand before you file.** Which of them bites on a real "
+    + "packet depends on how long that participant's own name, charge or docket number is; the fixtures a row "
+    + "was measured on are named in the last column.\n\n"
+    + "| Source field | The fact | Why it is not printed | Measured on |\n| --- | --- | --- | --- |\n"
+    + `${lines.join("\n")}\n`;
+}
+
+function participantInstructions(config, fieldMaps, heldButNotPrinted = []) {
   if (config.guidance) return guidedParticipantInstructions(config, fieldMaps);
   const routeLines = config.routeKeys.map((route) => `- Route scope: \`${route}\``).join("\n");
   const notes = (config.notes ?? []).map((note) => `- ${note}`).join("\n");
@@ -2476,6 +2625,7 @@ function participantInstructions(config, fieldMaps) {
     + fees
     + whereToFile
     + whoIsServed
+    + heldButNotPrintedSection(heldButNotPrinted)
     + (requiredBeforeFiling
       ? `\n## Exact facts still required before filing\n\nThe platform does not hold the facts below. Supply and verify each applicable item before filing; the build does not guess them.\n\n${requiredBeforeFiling}\n`
       : "")
@@ -2573,15 +2723,65 @@ async function buildOfficial(familyId, config) {
       const unwritableFields = map.filter((row) => row.decision !== "candidate_write")
         .map((row) => ({ field: row.field,
           class: row.refusalClass ?? (row.requiredBeforeFiling === true ? "required_before_filing" : "route_selection_or_role") }));
-      const finalized = await finalizeEastOfficialForm({
+      const mappings = factMappingsForDocument(doc);
+      /*
+       * Withholding a field means withholding it on BOTH write paths. The
+       * shared semantic finalizer is stopped by unwritableFields; the exact
+       * measured overlay in this host is stopped only by the field map it
+       * reads, because that pass writes every candidate_write row the shared
+       * finalizer did not take. Removing the fact mapping alone stops neither:
+       * arrest1Dt binds by field NAME as well, and the overlay wrote it anyway.
+       */
+      const finalizeWith = (explicitMappings, withheld) => finalizeEastOfficialForm({
         sourceBytes: sourceRow.bytes, expectedSha256: doc.sha256,
-        census: census.fields, facts, explicitMappings: factMappingsForDocument(doc),
-        exactFieldMap: map,
-        unwritableFields, documentTextLines: census.documentTextLines,
+        census: census.fields, facts, explicitMappings,
+        exactFieldMap: withheld.size === 0 ? map
+          : map.map((row) => (withheld.has(row.field)
+            ? { ...row, decision: "refuse", factId: null, blankTreatment: "REQUIRED_BEFORE_FILING",
+              requiredBeforeFiling: true, reason: "WITHHELD_FOR_ROW_INTEGRITY: another cell of this row could not be printed." }
+            : row)),
+        unwritableFields: [...unwritableFields, ...[...withheld].map((field) => ({
+          field, class: "required_before_filing",
+        }))],
+        documentTextLines: census.documentTextLines,
         alignWidgetFontSizeToFit: doc.alignWidgetFontSizeToFit === true,
         fitTextPerWidget: doc.fitTextPerWidget === true,
         title: `${config.jurisdiction} ${doc.documentId} ${fixture} review artifact`,
       });
+      let finalized = await finalizeWith(mappings, new Set());
+      /*
+       * A row is complete or it is untouched. The first pass is what tells us
+       * which cells the fitter could take; where that leaves a declared row
+       * half-written, the whole row is withheld and the document is rendered
+       * again without it. Nothing is guessed and nothing is squeezed: the row
+       * simply goes to the participant intact instead of arriving on the
+       * court's paper with a date and no docket number.
+       */
+      const rowIntegrityWithheld = [];
+      for (const group of doc.repeatingRowGroups ?? []) {
+        const declared = group.fields.filter((field) => Object.hasOwn(mappings, field));
+        if (declared.length === 0) continue;
+        const refusedInRow = new Set(finalized.report.refused.map((row) => row.field));
+        const broken = declared.filter((field) => refusedInRow.has(field));
+        if (broken.length === 0 || broken.length === declared.length) continue;
+        for (const field of declared.filter((field) => !refusedInRow.has(field))) {
+          rowIntegrityWithheld.push({
+            field, factId: mappings[field], row: group.row,
+            valueHeld: facts[mappings[field]] ?? null,
+            withheldBecauseRefusedInTheSameRow: broken,
+          });
+        }
+      }
+      if (rowIntegrityWithheld.length) {
+        const withheldNames = new Set(rowIntegrityWithheld.map((row) => row.field));
+        const reduced = Object.fromEntries(Object.entries(mappings)
+          .filter(([field]) => !withheldNames.has(field)));
+        finalized = await finalizeWith(reduced, withheldNames);
+        for (const row of rowIntegrityWithheld) {
+          assert.ok(!finalized.report.written.some((written) => written.field === row.field),
+            `${doc.documentId}/${fixture}: ${row.field} was withheld for row integrity and still carries ink`);
+        }
+      }
       const preSelectionBytes = finalized.bytes;
       let bytes = finalized.bytes;
       let selectionReport = null;
@@ -2611,12 +2811,40 @@ async function buildOfficial(familyId, config) {
           census: census.fields, documentTextLines: census.documentTextLines,
         }),
       });
+      /*
+       * FIX01/RP-2, KNOWN_PREFILLS. Every value this build HOLDS and did not
+       * put on the paper, in one place, per fixture.
+       *
+       * The refusals were always in report.refused, mixed in with a hundred and
+       * sixty rows for fields nobody ever intended to write. Nothing separated
+       * "the platform has no fact for this" from "the platform has the fact and
+       * could not print it", so a dropped 79-character charge and a dropped
+       * 37-character docket number looked exactly like the form's own blank
+       * lines, and the participant page said nothing at all.
+       */
+      const heldButNotPrinted = [
+        ...report.refused
+          .filter((row) => Object.hasOwn(mappings, row.field) && row.category === "unfittable")
+          .map((row) => ({
+            field: row.field, factId: mappings[row.field],
+            valueHeld: facts[mappings[row.field]] ?? null,
+            why: "the value does not fit this box at a size a court could read",
+            reason: row.reason,
+          })),
+        ...rowIntegrityWithheld.map((row) => ({
+          field: row.field, factId: row.factId, valueHeld: row.valueHeld,
+          why: `another cell of the same row (${row.withheldBecauseRefusedInTheSameRow.join(", ")}) could not be printed, `
+            + "and a row is completed or left untouched",
+          reason: "withheld_for_row_integrity", row: row.row,
+        })),
+      ].sort((a, b) => a.field.localeCompare(b.field));
       artifactReports.push({
         documentId: doc.documentId, documentKey: doc.key, fixture, file,
         sha256: sha256(bytes), byteLength: bytes.length, pageCount: census.pageGeometry.length,
-        report, proof,
+        report, proof, heldButNotPrinted,
       });
-      console.log(`  ${fixture}: wrote ${report.written.length}; refused ${report.refused.length}; selections ${report.selections.length}`);
+      console.log(`  ${fixture}: wrote ${report.written.length}; refused ${report.refused.length}; `
+        + `selections ${report.selections.length}; held-but-not-printed ${heldButNotPrinted.length}`);
 
       const rasterDir = `${out}/raster/${doc.key}-${fixture}`;
       const rasterRows = await rasterizePdf({ file: abs(file), outDir: abs(rasterDir), prefix: "page" });
@@ -2666,6 +2894,11 @@ async function buildOfficial(familyId, config) {
       documentId: row.documentId, fixture: row.fixture, file: row.file,
       sha256: row.sha256, byteLength: row.byteLength,
       written: row.report.written, refused: row.report.refused,
+      // Refusals of facts the platform HOLDS, separated out of the 160-odd
+      // refusals of fields nothing was ever going to be written into. Without
+      // this separation a dropped charge and a dropped docket number are
+      // indistinguishable from the form's own blank lines.
+      heldButNotPrinted: row.heldButNotPrinted ?? [],
       selections: row.report.selections,
       choiceNeutralization: row.report.fieldFinalizer.choiceNeutralization,
       proof: row.proof,
@@ -2711,7 +2944,9 @@ async function buildOfficial(familyId, config) {
       "reports/actual-writes.json", "reports/rendered-artifacts.json", "build-findings.json"],
     commercialAuthority: false, runtimeSelectable: false,
   });
-  writeText(`${out}/participant-instructions.md`, participantInstructions(config, fieldMaps));
+  writeText(`${out}/participant-instructions.md`, participantInstructions(config, fieldMaps,
+    artifactReports.flatMap((artifact) => (artifact.heldButNotPrinted ?? [])
+      .map((row) => ({ ...row, documentId: artifact.documentId, fixture: artifact.fixture })))));
   console.log(`\n${familyId}: BUILD PASS (${artifactReports.length} PDFs; ${rasterReports.reduce((n, row) => n + row.pages.length, 0)} page rasters)`);
 }
 
