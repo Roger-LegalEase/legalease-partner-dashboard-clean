@@ -3,11 +3,11 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "b6a98fb29d414e896030620eaa78db57a5a42cf9",
+  "minimumCaptainSha": "cc24a6fb4b6a0be22b8d70b0f08e61b79260ad17",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
-    "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json": "15d4ee3d1cf249c7a90d5c60af27db28da5ecdf3f19df1f7363a62794b75ee4c",
+    "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json": "d7b28ac781983b3ebe8e58c243cef13654f33de965fbb542322c98835dcc303b",
     "data/rcap-grade-a/launch-control/POST_WAVE_2_NATIONAL_LAUNCH_WORKLIST.json": "53f5d176a93a97d0421e045576429d646b08079a1db4468e70c6651280f1c0e0",
     "data/rcap-grade-a/launch-control/CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json": "fbb02da468ece257271b0004773f8ad86fe8f7698cf1e2314f0611437cb3bbbf",
     "data/rcap-grade-a/launch-control/CATEGORY_B_INTEGRATION_STATUS.json": "cf15ce284dde2fbd2ce4525e1a797a9cbced9829a612bbc14ccc0cdf113748ea",
@@ -66,19 +66,19 @@
     "activeFamiliesExcluded": 1,
     "guidanceOnly": 0,
     "remaining": 345,
-    "sourceReady": 48,
-    "sourceBlocked": 105,
+    "sourceReady": 51,
+    "sourceBlocked": 102,
     "legalBlocked": 32,
     "verifyPending": 43,
     "repairRequired": 15,
     "sumsToDenominator": true
   },
   "byState": {
-    "SOURCE_READY": 48,
+    "SOURCE_READY": 51,
     "COMPLETE_PACKET_PROVEN": 94,
     "VERIFY_PENDING": 43,
     "OUT_OF_SCOPE": 5,
-    "SOURCE_BLOCKED": 105,
+    "SOURCE_BLOCKED": 102,
     "LEGAL_BLOCKED": 22,
     "FAIL_REPAIR_REQUIRED": 15,
     "HANDOFF_READY": 2,
@@ -89,8 +89,8 @@
   },
   "bySourceStatus": {
     "CUSTOM_PLEADING_FROM_CODIFIED_TEXT": 91,
-    "SOURCE_BOUND_BY_HELD_BYTES": 150,
-    "SOURCE_GENUINELY_MISSING": 47,
+    "SOURCE_BOUND_BY_HELD_BYTES": 153,
+    "SOURCE_GENUINELY_MISSING": 44,
     "SOURCE_IDENTITY_UNRESOLVED": 43,
     "SOURCE_NAMED_BUT_NOT_HELD: official-form:GBI-GCIC-REQUEST-TO-RESTRICT-ARREST-RECORD-PRIOR-TO-07-01-2013: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding": 1,
     "SOURCE_NAMED_BUT_NOT_HELD: official-form:KS-CRIMINAL-COVER-SHEET-10-14-2025: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding": 5,
@@ -159,11 +159,11 @@
   },
   "theHonestShape": {
     "buildersProvisioned": 16,
-    "sourceReadyFamilies": 48,
-    "familiesPerBuilder": 3,
+    "sourceReadyFamilies": 51,
+    "familiesPerBuilder": 3.2,
     "targetPerBuilder": "15 to 25",
-    "finding": "Thirty-two lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 48 do, so a full roster of 16 builders averages 3.0 families each rather than 15 to 25.",
-    "whatWouldChangeIt": "The source conveyor. 188 source obligations across 137 families stand between this dispatch and a full builder roster, and the sixteen-lane source swarm holds every one of them.",
+    "finding": "Thirty-two lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 51 do, so a full roster of 16 builders averages 3.2 families each rather than 15 to 25.",
+    "whatWouldChangeIt": "The source conveyor. 178 source obligations across 134 families stand between this dispatch and a full builder roster, and the sixteen-lane source swarm holds every one of them.",
     "whyNotFewerBuilders": "The roster is kept at sixteen because the instruction is a 24-hour rolling factory: a lane that is empty at dispatch is the lane a released family starts in an hour from now, and provisioning it later costs a cycle.",
     "noFalsePass": "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
   },
@@ -18659,21 +18659,35 @@
       ],
       "sourceHashes": [
         {
+          "sourceId": "official-form:EXP102",
+          "path": "LegalEase Minnesota/EXP102_Current-2.pdf",
+          "sha256": "c98430f1a9c7a6d399b7d01de1ef2eee0df5f0a1a07e89a703b307977d7bf541",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
+          "sourceId": "official-form:EXP104",
+          "path": "LegalEase Minnesota/EXP104_Current.pdf",
+          "sha256": "0e776a93b61f28f38fc6b318a9f59b78de4e0cbec102236364cf59ab061b423c",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
+          "sourceId": "official-form:EXP106",
+          "path": "LegalEase Minnesota/EXP106_Current.pdf",
+          "sha256": "da7080f9c0b0135a79b537545e5448da438b63ae0de5d69c25e2513f1170bd85",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
           "sourceId": "official-form:FEE102",
           "path": "STATES/MN/04_SUPPORTING_PROCESS/MN__SUPPORT__FEE102__affidavit-to-request-fee-waiver__REV-2024-07__EN.pdf",
           "sha256": "b8415cddaa06a9c76cf2c4949aee36efe22e3b0ba98783a74063094150c72da8",
           "tier": "exact_form_number"
         }
       ],
-      "sourceStatus": "SOURCE_GENUINELY_MISSING",
-      "sourceBound": false,
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:EXP102: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:EXP104: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:EXP106: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [
           {
             "sourceId": "official-form:FEE102",
@@ -18681,16 +18695,36 @@
             "sha256": "b8415cddaa06a9c76cf2c4949aee36efe22e3b0ba98783a74063094150c72da8",
             "tier": "exact_form_number",
             "resolvedBy": "census_form_number_against_committed_index_one_identity_at_several_paths"
+          },
+          {
+            "sourceId": "official-form:EXP102",
+            "path": "LegalEase Minnesota/EXP102_Current-2.pdf",
+            "sha256": "c98430f1a9c7a6d399b7d01de1ef2eee0df5f0a1a07e89a703b307977d7bf541",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          },
+          {
+            "sourceId": "official-form:EXP104",
+            "path": "LegalEase Minnesota/EXP104_Current.pdf",
+            "sha256": "0e776a93b61f28f38fc6b318a9f59b78de4e0cbec102236364cf59ab061b423c",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          },
+          {
+            "sourceId": "official-form:EXP106",
+            "path": "LegalEase Minnesota/EXP106_Current.pdf",
+            "sha256": "da7080f9c0b0135a79b537545e5448da438b63ae0de5d69c25e2513f1170bd85",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
           }
         ],
         "namedOfficialForms": 4,
-        "boundCount": 1,
-        "custodyClass": "SOURCE_GENUINELY_MISSING",
+        "boundCount": 4,
+        "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
       },
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -18711,7 +18745,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-mn_petition_15218-set.mjs",
@@ -18762,22 +18796,41 @@
       ],
       "sourceHashes": [
         {
+          "sourceId": "official-form:EXP101",
+          "path": "LegalEase Minnesota/EXP101.pdf",
+          "sha256": "0ccdc99ec3cbb86300b00f5d93bf724d795541d426709f4e97708119d1b1c5de",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
+          "sourceId": "official-form:EXP102",
+          "path": "LegalEase Minnesota/EXP102_Current-2.pdf",
+          "sha256": "c98430f1a9c7a6d399b7d01de1ef2eee0df5f0a1a07e89a703b307977d7bf541",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
+          "sourceId": "official-form:EXP104",
+          "path": "LegalEase Minnesota/EXP104_Current.pdf",
+          "sha256": "0e776a93b61f28f38fc6b318a9f59b78de4e0cbec102236364cf59ab061b423c",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
+          "sourceId": "official-form:EXP105",
+          "path": "LegalEase Minnesota/EXP105_Current.pdf",
+          "sha256": "754cd7a55b07409fe8752906d38dcccc45ab6a13cda5a3d7d061a689b837b4a0",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
           "sourceId": "official-form:FEE102",
           "path": "STATES/MN/04_SUPPORTING_PROCESS/MN__SUPPORT__FEE102__affidavit-to-request-fee-waiver__REV-2024-07__EN.pdf",
           "sha256": "b8415cddaa06a9c76cf2c4949aee36efe22e3b0ba98783a74063094150c72da8",
           "tier": "exact_form_number"
         }
       ],
-      "sourceStatus": "SOURCE_GENUINELY_MISSING",
-      "sourceBound": false,
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:EXP101: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:EXP102: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:EXP104: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:EXP105: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [
           {
             "sourceId": "official-form:FEE102",
@@ -18785,16 +18838,43 @@
             "sha256": "b8415cddaa06a9c76cf2c4949aee36efe22e3b0ba98783a74063094150c72da8",
             "tier": "exact_form_number",
             "resolvedBy": "census_form_number_against_committed_index_one_identity_at_several_paths"
+          },
+          {
+            "sourceId": "official-form:EXP101",
+            "path": "LegalEase Minnesota/EXP101.pdf",
+            "sha256": "0ccdc99ec3cbb86300b00f5d93bf724d795541d426709f4e97708119d1b1c5de",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          },
+          {
+            "sourceId": "official-form:EXP102",
+            "path": "LegalEase Minnesota/EXP102_Current-2.pdf",
+            "sha256": "c98430f1a9c7a6d399b7d01de1ef2eee0df5f0a1a07e89a703b307977d7bf541",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          },
+          {
+            "sourceId": "official-form:EXP104",
+            "path": "LegalEase Minnesota/EXP104_Current.pdf",
+            "sha256": "0e776a93b61f28f38fc6b318a9f59b78de4e0cbec102236364cf59ab061b423c",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          },
+          {
+            "sourceId": "official-form:EXP105",
+            "path": "LegalEase Minnesota/EXP105_Current.pdf",
+            "sha256": "754cd7a55b07409fe8752906d38dcccc45ab6a13cda5a3d7d061a689b837b4a0",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
           }
         ],
         "namedOfficialForms": 5,
-        "boundCount": 1,
-        "custodyClass": "SOURCE_GENUINELY_MISSING",
+        "boundCount": 5,
+        "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
       },
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -18815,7 +18895,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-mn_petition_609a02_subd3-set.mjs",
@@ -18866,21 +18946,35 @@
       ],
       "sourceHashes": [
         {
+          "sourceId": "official-form:EXP102",
+          "path": "LegalEase Minnesota/EXP102_Current-2.pdf",
+          "sha256": "c98430f1a9c7a6d399b7d01de1ef2eee0df5f0a1a07e89a703b307977d7bf541",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
+          "sourceId": "official-form:EXP104",
+          "path": "LegalEase Minnesota/EXP104_Current.pdf",
+          "sha256": "0e776a93b61f28f38fc6b318a9f59b78de4e0cbec102236364cf59ab061b423c",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
+          "sourceId": "official-form:EXP106",
+          "path": "LegalEase Minnesota/EXP106_Current.pdf",
+          "sha256": "da7080f9c0b0135a79b537545e5448da438b63ae0de5d69c25e2513f1170bd85",
+          "tier": "exact_identity_confirmed_from_document_text"
+        },
+        {
           "sourceId": "official-form:FEE102",
           "path": "STATES/MN/04_SUPPORTING_PROCESS/MN__SUPPORT__FEE102__affidavit-to-request-fee-waiver__REV-2024-07__EN.pdf",
           "sha256": "b8415cddaa06a9c76cf2c4949aee36efe22e3b0ba98783a74063094150c72da8",
           "tier": "exact_form_number"
         }
       ],
-      "sourceStatus": "SOURCE_GENUINELY_MISSING",
-      "sourceBound": false,
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:EXP102: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:EXP104: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:EXP106: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [
           {
             "sourceId": "official-form:FEE102",
@@ -18888,16 +18982,36 @@
             "sha256": "b8415cddaa06a9c76cf2c4949aee36efe22e3b0ba98783a74063094150c72da8",
             "tier": "exact_form_number",
             "resolvedBy": "census_form_number_against_committed_index_one_identity_at_several_paths"
+          },
+          {
+            "sourceId": "official-form:EXP102",
+            "path": "LegalEase Minnesota/EXP102_Current-2.pdf",
+            "sha256": "c98430f1a9c7a6d399b7d01de1ef2eee0df5f0a1a07e89a703b307977d7bf541",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          },
+          {
+            "sourceId": "official-form:EXP104",
+            "path": "LegalEase Minnesota/EXP104_Current.pdf",
+            "sha256": "0e776a93b61f28f38fc6b318a9f59b78de4e0cbec102236364cf59ab061b423c",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          },
+          {
+            "sourceId": "official-form:EXP106",
+            "path": "LegalEase Minnesota/EXP106_Current.pdf",
+            "sha256": "da7080f9c0b0135a79b537545e5448da438b63ae0de5d69c25e2513f1170bd85",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
           }
         ],
         "namedOfficialForms": 4,
-        "boundCount": 1,
-        "custodyClass": "SOURCE_GENUINELY_MISSING",
+        "boundCount": 4,
+        "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
       },
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -18918,7 +19032,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-mn_petition_juvenile_as_adult-set.mjs",
@@ -36671,13 +36785,13 @@
     "verifiers": 12,
     "sourceLanes": 16,
     "repairLanes": 4,
-    "familiesAssignedToBuilders": 48,
-    "sourceObligationsAssigned": 188,
-    "actualPromotedAndReleased": 48,
+    "familiesAssignedToBuilders": 51,
+    "sourceObligationsAssigned": 178,
+    "actualPromotedAndReleased": 51,
     "actualPromotedAndReleasedMeaning": "families whose every source is held, indexed and hash-matched now — buildable today",
     "currentlyPromotionReady": 0,
     "currentlyPromotionReadyMeaning": "families whose only remaining obligations are promotions — the bytes exist and the custody record does not",
-    "prospectiveReleasesAcrossSourceLanes": 105,
+    "prospectiveReleasesAcrossSourceLanes": 102,
     "prospectiveReleasesMeaning": "families the conveyor would release if every obligation in it resolved. A forecast, not an achievement.",
     "commercialRoutesOpened": 0,
     "productionTouched": false

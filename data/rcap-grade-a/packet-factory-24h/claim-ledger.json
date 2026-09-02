@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "b6a98fb29d414e896030620eaa78db57a5a42cf9",
+  "generatedAtCommit": "cc24a6fb4b6a0be22b8d70b0f08e61b79260ad17",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -616,7 +616,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF06",
+      "lane": "VF01",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T16:08:28.990Z"
@@ -1796,10 +1796,9 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF04",
+      "lane": "VF07",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-02T16:09:22.167Z"
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -2111,7 +2110,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF06",
+      "lane": "VF07",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T16:08:29.082Z"
@@ -2561,7 +2560,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF05",
+      "lane": "VF08",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T16:08:28.725Z"
@@ -2651,7 +2650,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF07",
+      "lane": "VF10",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T16:08:43.657Z"
@@ -3356,6 +3355,51 @@
       "sourceId": null,
       "operation": "packet-build",
       "lane": "PF06",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "mn_petition_15218-set",
+      "familyId": "mn_petition_15218-set",
+      "itemId": null,
+      "familyIds": [
+        "mn_petition_15218-set"
+      ],
+      "sourceId": null,
+      "operation": "packet-build",
+      "lane": "PF08",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "mn_petition_609a02_subd3-set",
+      "familyId": "mn_petition_609a02_subd3-set",
+      "itemId": null,
+      "familyIds": [
+        "mn_petition_609a02_subd3-set"
+      ],
+      "sourceId": null,
+      "operation": "packet-build",
+      "lane": "PF04",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "mn_petition_juvenile_as_adult-set",
+      "familyId": "mn_petition_juvenile_as_adult-set",
+      "itemId": null,
+      "familyIds": [
+        "mn_petition_juvenile_as_adult-set"
+      ],
+      "sourceId": null,
+      "operation": "packet-build",
+      "lane": "PF08",
       "laneKind": "packet-build",
       "released": false,
       "releasedAt": null
@@ -4851,7 +4895,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF04",
+      "lane": "VF07",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T16:09:22.257Z"
@@ -9836,146 +9880,6 @@
     },
     {
       "subjectType": "source-obligation",
-      "subjectId": "mn_petition_15218-set::official-form:EXP102",
-      "itemId": "mn_petition_15218-set::official-form:EXP102",
-      "familyIds": [
-        "mn_petition_15218-set"
-      ],
-      "sourceId": "official-form:EXP102",
-      "operation": "held-inventory-reconciliation",
-      "lane": "SRC01",
-      "laneKind": "source-reconciliation",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "source-obligation",
-      "subjectId": "mn_petition_15218-set::official-form:EXP104",
-      "itemId": "mn_petition_15218-set::official-form:EXP104",
-      "familyIds": [
-        "mn_petition_15218-set"
-      ],
-      "sourceId": "official-form:EXP104",
-      "operation": "held-inventory-reconciliation",
-      "lane": "SRC01",
-      "laneKind": "source-reconciliation",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "source-obligation",
-      "subjectId": "mn_petition_15218-set::official-form:EXP106",
-      "itemId": "mn_petition_15218-set::official-form:EXP106",
-      "familyIds": [
-        "mn_petition_15218-set"
-      ],
-      "sourceId": "official-form:EXP106",
-      "operation": "held-inventory-reconciliation",
-      "lane": "SRC01",
-      "laneKind": "source-reconciliation",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "source-obligation",
-      "subjectId": "mn_petition_609a02_subd3-set::official-form:EXP101",
-      "itemId": "mn_petition_609a02_subd3-set::official-form:EXP101",
-      "familyIds": [
-        "mn_petition_609a02_subd3-set"
-      ],
-      "sourceId": "official-form:EXP101",
-      "operation": "held-inventory-reconciliation",
-      "lane": "SRC01",
-      "laneKind": "source-reconciliation",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "source-obligation",
-      "subjectId": "mn_petition_609a02_subd3-set::official-form:EXP102",
-      "itemId": "mn_petition_609a02_subd3-set::official-form:EXP102",
-      "familyIds": [
-        "mn_petition_609a02_subd3-set"
-      ],
-      "sourceId": "official-form:EXP102",
-      "operation": "held-inventory-reconciliation",
-      "lane": "SRC01",
-      "laneKind": "source-reconciliation",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "source-obligation",
-      "subjectId": "mn_petition_609a02_subd3-set::official-form:EXP104",
-      "itemId": "mn_petition_609a02_subd3-set::official-form:EXP104",
-      "familyIds": [
-        "mn_petition_609a02_subd3-set"
-      ],
-      "sourceId": "official-form:EXP104",
-      "operation": "held-inventory-reconciliation",
-      "lane": "SRC01",
-      "laneKind": "source-reconciliation",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "source-obligation",
-      "subjectId": "mn_petition_609a02_subd3-set::official-form:EXP105",
-      "itemId": "mn_petition_609a02_subd3-set::official-form:EXP105",
-      "familyIds": [
-        "mn_petition_609a02_subd3-set"
-      ],
-      "sourceId": "official-form:EXP105",
-      "operation": "held-inventory-reconciliation",
-      "lane": "SRC01",
-      "laneKind": "source-reconciliation",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "source-obligation",
-      "subjectId": "mn_petition_juvenile_as_adult-set::official-form:EXP102",
-      "itemId": "mn_petition_juvenile_as_adult-set::official-form:EXP102",
-      "familyIds": [
-        "mn_petition_juvenile_as_adult-set"
-      ],
-      "sourceId": "official-form:EXP102",
-      "operation": "held-inventory-reconciliation",
-      "lane": "SRC01",
-      "laneKind": "source-reconciliation",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "source-obligation",
-      "subjectId": "mn_petition_juvenile_as_adult-set::official-form:EXP104",
-      "itemId": "mn_petition_juvenile_as_adult-set::official-form:EXP104",
-      "familyIds": [
-        "mn_petition_juvenile_as_adult-set"
-      ],
-      "sourceId": "official-form:EXP104",
-      "operation": "held-inventory-reconciliation",
-      "lane": "SRC01",
-      "laneKind": "source-reconciliation",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "source-obligation",
-      "subjectId": "mn_petition_juvenile_as_adult-set::official-form:EXP106",
-      "itemId": "mn_petition_juvenile_as_adult-set::official-form:EXP106",
-      "familyIds": [
-        "mn_petition_juvenile_as_adult-set"
-      ],
-      "sourceId": "official-form:EXP106",
-      "operation": "held-inventory-reconciliation",
-      "lane": "SRC01",
-      "laneKind": "source-reconciliation",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "source-obligation",
       "subjectId": "mn_prosecutor_agreed-set::NO_DOCUMENT_SOURCE_NAMED",
       "itemId": "mn_prosecutor_agreed-set::NO_DOCUMENT_SOURCE_NAMED",
       "familyIds": [
@@ -11893,7 +11797,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "33789c7b135d7e2ea4c24f5e65c645157eec0c343b787545848cb5864a03a249",
+  "claimsDigest": "a426fcfc3c2e70b956895a7cfae838777592a22de907e3d2f9f9784cf4d047cd",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -23735,6 +23639,16 @@
       "previouslyReleasedAt": "2026-09-02T16:09:04.991Z",
       "reissuedAt": "2026-09-02T18:07:14.258Z",
       "reason": "The standing verdict is FAIL_REPAIR_REQUIRED read at base a0d49e1a and released 16:09:04Z; the Kansas repair commits land at 17:56 and 17:58, so that verdict describes bytes that no longer exist. VF02 neither built nor repaired this family, so it remains independent for a fresh read at the current head."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ct-decriminalized-set",
+      "operation": "independent-verification",
+      "lane": "VF07",
+      "dispatchNames": "VF07",
+      "familyState": "VERIFY_PENDING",
+      "reissuedAt": "2026-09-02T18:44:54Z",
+      "reason": "the current dispatch names VF07 for this family, the family is VERIFY_PENDING and owes independent-verification, and every prior claim for this family and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
     }
   ],
   "transfers": [
@@ -26582,6 +26496,86 @@
       "operation": "rapid-repair",
       "lane": "FIX04",
       "withdrawnAt": "2026-09-02T17:51:55Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "source-obligation",
+      "subjectId": "mn_petition_15218-set::official-form:EXP102",
+      "operation": "held-inventory-reconciliation",
+      "lane": "SRC01",
+      "withdrawnAt": "2026-09-02T18:44:54Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "source-obligation",
+      "subjectId": "mn_petition_15218-set::official-form:EXP104",
+      "operation": "held-inventory-reconciliation",
+      "lane": "SRC01",
+      "withdrawnAt": "2026-09-02T18:44:54Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "source-obligation",
+      "subjectId": "mn_petition_15218-set::official-form:EXP106",
+      "operation": "held-inventory-reconciliation",
+      "lane": "SRC01",
+      "withdrawnAt": "2026-09-02T18:44:54Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "source-obligation",
+      "subjectId": "mn_petition_609a02_subd3-set::official-form:EXP101",
+      "operation": "held-inventory-reconciliation",
+      "lane": "SRC01",
+      "withdrawnAt": "2026-09-02T18:44:54Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "source-obligation",
+      "subjectId": "mn_petition_609a02_subd3-set::official-form:EXP102",
+      "operation": "held-inventory-reconciliation",
+      "lane": "SRC01",
+      "withdrawnAt": "2026-09-02T18:44:54Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "source-obligation",
+      "subjectId": "mn_petition_609a02_subd3-set::official-form:EXP104",
+      "operation": "held-inventory-reconciliation",
+      "lane": "SRC01",
+      "withdrawnAt": "2026-09-02T18:44:54Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "source-obligation",
+      "subjectId": "mn_petition_609a02_subd3-set::official-form:EXP105",
+      "operation": "held-inventory-reconciliation",
+      "lane": "SRC01",
+      "withdrawnAt": "2026-09-02T18:44:54Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "source-obligation",
+      "subjectId": "mn_petition_juvenile_as_adult-set::official-form:EXP102",
+      "operation": "held-inventory-reconciliation",
+      "lane": "SRC01",
+      "withdrawnAt": "2026-09-02T18:44:54Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "source-obligation",
+      "subjectId": "mn_petition_juvenile_as_adult-set::official-form:EXP104",
+      "operation": "held-inventory-reconciliation",
+      "lane": "SRC01",
+      "withdrawnAt": "2026-09-02T18:44:54Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "source-obligation",
+      "subjectId": "mn_petition_juvenile_as_adult-set::official-form:EXP106",
+      "operation": "held-inventory-reconciliation",
+      "lane": "SRC01",
+      "withdrawnAt": "2026-09-02T18:44:54Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]
