@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `54e738e2e5086a6a93b71bbbad7da5a3e11d19f7`
+**Minimum required ancestor:** `52710a9c1685b511ae0ea04e54e3f4d40c037f6d`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -198,7 +198,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/fixtures/mrta-destruction-request-canonical.pdf` — `37d456b6c2b79c3801bb9c07030072d5b0487a95f711a92a3fd8ef14e99b05ff`
 - boundary `data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/fixtures/mrta-destruction-request-boundary.pdf` — `5f61e8f23675070c7691b16c6522745f5fa033083725f1eefb9caccc32cb3457`
 - expected pages 1 · requested scale 2.5
-- built by VF03
+- built by VF04
 
 ### pa_490_nonconviction-set
 
@@ -212,7 +212,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/fixtures/canonical.pdf` — `888d476669d2dcfa9db325c08eef46bb749c825f1fd745afc863c59e6dd64f74`
 - boundary `data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/fixtures/boundary.pdf` — `bdc27af98952ba01e1e0ce67ae528b63aad7b73111e7780071cdd5b30e84c5f2`
 - expected pages 5 · requested scale 2.5
-- built by VF05
+- built by VF06
 
 ### rcap-ms-custom-pleading
 
@@ -240,7 +240,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/fixtures/dc-33-canonical.pdf` — `e0af21e5c1f4b8014d4d2fb224e99940996328ef69aefd41153095e7166fdc6d`
 - boundary `data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/fixtures/dc-33-boundary.pdf` — `fd9ebb9561919129b40d75d20dd76fbaf777f94141fba0b3caee7220af2df923`
 - expected pages 4 · requested scale 2.5
-- built by FIX04
+- built by VF07
 
 ### tx_nd_conviction_no_supervision-set
 
