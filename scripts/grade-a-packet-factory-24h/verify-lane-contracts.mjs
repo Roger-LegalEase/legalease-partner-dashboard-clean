@@ -180,7 +180,28 @@ for (const r of queue?.rows ?? []) {
   if (r.coverage.complete === false && uncovered.length === 0) {
     coverageProblems.push(`${r.familyId} renders every document it names and still declares partial coverage`);
   }
-  const chosen = String(r.canonicalPdfPath ?? "").split("/").pop();
+  /*
+   * The row's primary canonical, identified by its PATH and not by its
+   * basename.
+   *
+   * This took `canonicalPdfPath.split("/").pop()` and looked for that string in
+   * `coverage.rastered`. Coverage names each document the way the queue's
+   * fixture listing names it, which is the basename only while a family keeps
+   * its fixtures flat in `fixtures/`. Two Ohio families render
+   * `tracks/<track>/rendered/canonical/canonical.pdf` per track, so the
+   * basename "canonical.pdf" is neither unique nor what coverage lists, and
+   * this reported a correctly-covered row as uncovered.
+   *
+   * Matching on the full path is strictly stricter than matching on a
+   * basename -- four documents named canonical.pdf no longer satisfy each
+   * other -- and a row whose documents do not contain its own primary
+   * canonical is now a problem rather than a silent fallback.
+   */
+  const primary = (r.documents ?? []).find((d) => d.role === "canonical" && d.path === r.canonicalPdfPath);
+  if (r.canonicalPdfPath && (r.documents ?? []).length && !primary) {
+    coverageProblems.push(`${r.familyId} names ${r.canonicalPdfPath} as its canonical and does not carry it as a canonical document`);
+  }
+  const chosen = primary?.name ?? String(r.canonicalPdfPath ?? "").split("/").pop();
   if (chosen && !rastered.includes(chosen)) {
     coverageProblems.push(`${r.familyId} renders ${chosen} but does not list it as covered`);
   }

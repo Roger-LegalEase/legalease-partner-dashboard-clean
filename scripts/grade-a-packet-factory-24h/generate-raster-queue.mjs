@@ -69,6 +69,35 @@ const pageCount = async (p) => {
   return (await PDFDocument.load(fs.readFileSync(p), { ignoreEncryption: true, updateMetadata: false })).getPageCount();
 };
 
+/*
+ * A page count the reader could not read is `null`, not a throw and not a zero.
+ *
+ * Reading the fixture directories recursively exposed 38 PDFs pdf-lib cannot
+ * open at all: the untouched `*-unchanged-official.pdf` Judicial Council forms
+ * shipped by the seven California families are ENCRYPTED and store their
+ * objects in cross-reference streams, so `ignoreEncryption` skips the
+ * permission check without decrypting anything and object resolution fails.
+ * (Each of those families keeps a pikepdf-unlocked copy under derived-sources/
+ * for exactly this reason.)
+ *
+ * Zero would be a lie and a throw would take the whole queue down, so the
+ * probe returns null and the caller refuses the family by name. It must never
+ * become a queued row: rcap-raster-batch.mjs counts pages with this same
+ * parser and then renders that many, so a document whose page count nobody can
+ * read cannot have "every page rendered" proven about it, and a receipt over an
+ * unknown number of pages is exactly the kind of verdict this queue exists to
+ * refuse.
+ *
+ * The parser narrates each unresolved object on the console. That chatter is
+ * the reader's, not this generator's finding -- the finding is the named
+ * refusal below -- so it is muted for the probe only.
+ */
+const pageCountOrNull = async (p) => {
+  const { warn, log, error } = console;
+  Object.assign(console, { warn: () => {}, log: () => {}, error: () => {} });
+  try { return await pageCount(p); } catch { return null; } finally { Object.assign(console, { warn, log, error }); }
+};
+
 const packetCommit = git(["rev-parse", "HEAD"]);
 const rows = [];
 const notEligible = [];
@@ -164,7 +193,7 @@ const documentSet = async (fixtures, pdfs) => {
     const named = pdfs.includes(`${role}.pdf`) ? [`${role}.pdf`] : pdfs.filter((x) => x.includes(role));
     for (const name of named) {
       const abs = path.join(fixtures, name);
-      rows.push({ role, name, path: path.relative(ROOT, abs), sha256: sha256(abs), pageCount: await pageCount(abs) });
+      rows.push({ role, name, path: POSIX(path.relative(ROOT, abs)), sha256: sha256(abs), pageCount: await pageCountOrNull(abs) });
     }
   }
   return rows;
@@ -177,7 +206,88 @@ const documentsDigestOf = (docs) => crypto.createHash("sha256")
   .update(JSON.stringify(docs.map((d) => [d.role, d.path, d.sha256])))
   .digest("hex");
 
-const declaredFixture = (dir, fixture, pdfs) => {
+/*
+ * Where a family keeps its fixtures, and every PDF inside it.
+ *
+ * This listed the ROOT of `fixtures/` and nothing below it (DF-003). Seven
+ * California families keep their fixtures one directory deeper, one directory
+ * per variant -- ca-prop64-set has
+ * `fixtures/hs-11361-8-completed-sentence-application-canonical/cr-400-filled.pdf`
+ * and eleven siblings -- so the listing came back empty, `pickFixture` found no
+ * canonical and no boundary, and the family was recorded as not eligible for
+ * the reason "no canonical PDF, no boundary PDF". Literally true of the
+ * directory that was read and completely false about the family: 58 fixture
+ * PDFs across seven families had never been listed, let alone rendered.
+ *
+ * Two Ohio families fail the same way for a different reason: they keep no
+ * `fixtures/` directory at all and render into `tracks/<track>/rendered/<role>/`,
+ * so the scan had nothing to open and said "no fixtures directory".
+ *
+ * Neither is repaired by inventing a second naming convention, and neither is
+ * California-specific. The role these families need is already carried -- by
+ * the variant DIRECTORY for the seven, and by the builder's own declaration in
+ * reports/rendered-artifacts.json for the two -- so:
+ *
+ *   - the listing walks the whole tree and names each PDF RELATIVE to the
+ *     fixtures root, which preserves a role that lives in a directory name and
+ *     is byte-identical to the old basename listing for a flat directory; and
+ *   - a family with no `fixtures/` directory is located by the files its
+ *     builder declares as fixtures, which is the same evidence `pickFixture`
+ *     already prefers over any inference from a name.
+ *
+ * Everything downstream already handles a set rather than a pair: the row
+ * carries `documents[]` and rcap-raster-batch.mjs renders each of them into its
+ * own slugged directory. Nothing here widens what a RASTER_PASS means; it only
+ * stops the queue from silently declining to look.
+ */
+const POSIX = (p) => p.split(path.sep).join("/");
+
+const walkPdfs = (root, rel = "") => {
+  const out = [];
+  for (const e of fs.readdirSync(path.join(root, rel), { withFileTypes: true })) {
+    const next = rel ? `${rel}/${e.name}` : e.name;
+    if (e.isDirectory()) out.push(...walkPdfs(root, next));
+    else if (e.name.endsWith(".pdf")) out.push(next);
+  }
+  return out;
+};
+
+/* A declared path is repo-relative in every declaration in the tree; resolving
+ * it against the family directory too costs nothing and stops a differently
+ * written declaration from reading as an absent file. */
+const resolveDeclared = (dir, file) => {
+  for (const c of [path.resolve(ROOT, file), path.resolve(dir, file)]) if (fs.existsSync(c)) return c;
+  return null;
+};
+
+const declaredFixturePdfs = (dir) => {
+  const p = path.join(dir, "reports", "rendered-artifacts.json");
+  if (!fs.existsSync(p)) return [];
+  let doc;
+  try { doc = JSON.parse(fs.readFileSync(p, "utf8")); } catch { return []; }
+  return [...(doc.artifacts ?? []), ...(doc.pdfs ?? [])]
+    .filter((a) => a?.fixture && a?.file)
+    .map((a) => resolveDeclared(dir, a.file))
+    .filter(Boolean);
+};
+
+/* The fixtures root is `fixtures/` wherever it exists -- which is every family
+ * already in the queue -- and only where it does not exist does the builder's
+ * declaration locate the fixtures instead. A family that has neither still has
+ * no fixtures, and still says so. */
+const fixturesOf = (dir) => {
+  const fx = path.join(dir, "fixtures");
+  if (fs.existsSync(fx)) return { root: fx, pdfs: walkPdfs(fx).sort(), basis: "the family's fixtures/ directory, read recursively" };
+  const declared = declaredFixturePdfs(dir);
+  if (!declared.length) return { root: null, pdfs: [], basis: null };
+  return {
+    root: dir,
+    pdfs: [...new Set(declared.map((abs) => POSIX(path.relative(dir, abs))))].sort(),
+    basis: "the family keeps no fixtures/ directory, so its fixtures are the files its builder declares as fixtures in reports/rendered-artifacts.json",
+  };
+};
+
+const declaredFixture = (dir, root, fixture, pdfs) => {
   const p = path.join(dir, "reports", "rendered-artifacts.json");
   if (!fs.existsSync(p)) return null;
   let doc;
@@ -188,12 +298,17 @@ const declaredFixture = (dir, fixture, pdfs) => {
    * match is the row's primary, and coverage still spans every document. */
   const hit = [...(doc.artifacts ?? []), ...(doc.pdfs ?? [])].find((a) => a.fixture === fixture);
   if (!hit?.file) return null;
-  const name = path.basename(hit.file);
+  /* Named the way the listing names it. For a flat fixtures/ directory that is
+   * the basename this always used; for a per-variant one it is the path that
+   * still carries the variant, and a declaration pointing outside the fixtures
+   * root resolves to a name the listing does not hold and is refused. */
+  const abs = resolveDeclared(dir, hit.file);
+  const name = abs ? POSIX(path.relative(root, abs)) : path.basename(hit.file);
   return pdfs.includes(name) ? name : null;
 };
 
-const pickFixture = (dir, fixture, pdfs) => {
-  const declared = declaredFixture(dir, fixture, pdfs);
+const pickFixture = (dir, root, fixture, pdfs) => {
+  const declared = declaredFixture(dir, root, fixture, pdfs);
   if (declared) return { name: declared, basis: `declared by the builder as the ${fixture} artifact in reports/rendered-artifacts.json`, why: null };
 
   const exact = `${fixture}.pdf`;
@@ -262,21 +377,32 @@ const carryVerdict = (row) => {
 for (const f of master.families) {
   const dir = f.directory ? path.join(ROOT, f.directory) : null;
   const rel = f.directory ?? null;
-  const fixtures = dir ? path.join(dir, "fixtures") : null;
+  const found = dir && fs.existsSync(dir) ? fixturesOf(dir) : { root: null, pdfs: [], basis: null };
+  const fixtures = found.root;
   const eligibility = [];
 
   if (!rel || !fs.existsSync(dir)) eligibility.push("no overlay directory");
-  else if (!fixtures || !fs.existsSync(fixtures)) eligibility.push("no fixtures directory");
+  else if (!fixtures) eligibility.push("no fixtures directory");
 
-  let canonical = null; let boundary = null;
-  if (fixtures && fs.existsSync(fixtures)) {
-    const pdfs = fs.readdirSync(fixtures).filter((x) => x.endsWith(".pdf")).sort();
-    const c = pickFixture(dir, "canonical", pdfs);
-    const b = pickFixture(dir, "boundary", pdfs);
+  let canonical = null; let boundary = null; let documents = null;
+  if (fixtures) {
+    const pdfs = found.pdfs;
+    const c = pickFixture(dir, fixtures, "canonical", pdfs);
+    const b = pickFixture(dir, fixtures, "boundary", pdfs);
     canonical = c.name; boundary = b.name;
     if (!canonical) eligibility.push(c.why);
     if (!boundary) eligibility.push(b.why);
     fixtureBasis.set(f.familyId, { canonical: c.basis, boundary: b.basis });
+    if (canonical && boundary) {
+      /* Read the set the row would render before deciding the family may be
+       * queued, so a document the parser cannot open refuses the family here
+       * rather than aborting the render job that was dispatched to prove it. */
+      documents = await documentSet(fixtures, pdfs);
+      const unreadable = documents.filter((d) => d.pageCount === null).map((d) => d.name);
+      if (unreadable.length) {
+        eligibility.push(`${unreadable.length} of ${documents.length} queued document(s) will not open in the parser that counts their pages, so "every page rendered" cannot be proven about them: ${unreadable.join(", ")}`);
+      }
+    }
   }
 
   // The four preconditions, each asked of a record rather than assumed.
@@ -293,8 +419,7 @@ for (const f of master.families) {
 
   const cPath = path.join(fixtures, canonical);
   const bPath = path.join(fixtures, boundary);
-  const pdfsHere = fs.readdirSync(fixtures).filter((x) => x.endsWith(".pdf")).sort();
-  const documents = await documentSet(fixtures, pdfsHere);
+  const pdfsHere = found.pdfs;
   const coverage = coverageOf(pdfsHere, "canonical", documents.filter((x) => x.role === "canonical").map((x) => x.name));
   rows.push({
     familyId: f.familyId,
@@ -371,6 +496,16 @@ const doc = {
     "canonical and boundary PDFs exist",
     "nonvisual completeness checks pass"
   ],
+  /* How "the PDFs exist" is decided, stated because it used to be decided
+   * wrongly and silently: the listing read only the root of fixtures/, so a
+   * family that keeps its fixtures one directory deeper was recorded as having
+   * none. See DF-003. */
+  fixtureDiscovery: {
+    root: "the family's fixtures/ directory where it exists; otherwise, for a family that keeps none, the family directory with its fixtures located by the files its builder declares as fixtures in reports/rendered-artifacts.json",
+    listing: "recursive, and each PDF is named relative to that root, so a role carried by a variant directory name is preserved rather than discarded",
+    whyItMatters: "a family whose fixtures are not found never enters the queue, never earns a RASTER_PASS and can never be PASS_COMPLETE, and the queue reads as complete while saying nothing about what it declined to enrol",
+    grantsNothing: "finding a fixture queues a render. It renders nothing, proves nothing, and promotes nothing.",
+  },
   whatTheVisualGateStillProves: [
     "every page rendered",
     "no page is blank",
