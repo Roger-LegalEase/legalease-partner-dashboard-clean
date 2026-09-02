@@ -6402,6 +6402,274 @@
       },
       "blindSpotAnswered": "A composed-pleading family has no AcroForm, so a field-value reader sees nothing and could report either a clean pass or a total absence of writes. Every value and every blank reported here was decoded from the page content streams of both fixtures and cross-checked against the field map and the blanks report, and the protected-field result was reached by looking for signature, date and case-number ink in the bytes rather than by trusting protectedWrites 0.",
       "whatThisPassDoesNotGrant": "An independent PASS proves this packet complete as measured here. It approves no output, opens no commercial route, sets no price, marks nothing deliverable and grants no fulfillment record. Central page rasterisation has not run for this family, so the visual obligation is satisfied only to the extent it can be measured from the bytes; a hash-bound RASTER_PASS is still outstanding and counsel review and the three recorded counsel questions remain open."
+    },
+    {
+      "itemId": "pa_pardon_expungement-set",
+      "lane": "VF10",
+      "verdict": "FAIL",
+      "laneDisposition": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "726a49dfe0bdadc5f841bd4dadc871c6256418de",
+      "verifiedBy": "FABLE-RVD (RV-D; independent — built, repaired and rastered none of this family)",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill",
+      "stateAtRead": "VERIFY_PENDING",
+      "rasterState": "RASTER_PRESENT_AND_HASH_VERIFIED",
+      "artifactBytesMovedByThisLane": 0,
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 2,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 2,
+        "incompleteRows": 1,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": false,
+        "measuredHere": true
+      },
+      "failedObligations": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP"
+      ],
+      "unmeasuredObligations": [],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Two route keys, both present in the sources that bind them. obligation:unit:PA:pa_pardon_expungement:pa_pardon_automatic_route and obligation:unit:PA:pa_pardon_expungement:pa_pardon_fallback_petition each occur five times in canonical-route-universe.json and once in MASTER_QUEUE.json, which records routeCount 2. They match registry trackId pa_pardon_expungement, expungement following an unconditional pardon under Pa.R.Crim.P. 790, and the packet prints both keys on its guidance page against the component that carries each.",
+          "evidence": {
+            "routeKeys": 2,
+            "bothInCanonicalUniverse": true,
+            "routeCountInQueue": 2,
+            "statute": "Pa.R.Crim.P. 790"
+          }
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both official forms rehash exactly from the pinned Master Library bytes with matching byte lengths, and the per-page sourceSha256 recorded in the page manifest matches the document each page came from.",
+          "evidence": [
+            {
+              "formNumber": "PA-RCRIM-P-790-PETITION",
+              "recordedSha": "fc06486e75773d4f6d81c263706827ab7f9facfb6dde9907cbee120c063289de",
+              "rehashedFromLibraryBytes": "fc06486e75773d4f6d81c263706827ab7f9facfb6dde9907cbee120c063289de",
+              "rehashMatches": true,
+              "recordedByteLength": 87647,
+              "actualByteLength": 87647
+            },
+            {
+              "formNumber": "PA-RCRIM-P-790-ORDER",
+              "recordedSha": "4d312ebde4aed7c1941e1ae9d734c90ba7183db273778839b15a84be8e611c95",
+              "rehashedFromLibraryBytes": "4d312ebde4aed7c1941e1ae9d734c90ba7183db273778839b15a84be8e611c95",
+              "rehashMatches": true,
+              "recordedByteLength": 151853,
+              "actualByteLength": 151853
+            }
+          ]
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "requiredComponentsMissing 0. Three components declared — primary_filing, proposed_order, process_guidance — and all three are delivered and attributed in the 5-page manifest of both fixtures: petition page 1, order pages 2-3, guidance pages 4-5. Each declared component exists on paper; none is a manifest entry without pages. The process_guidance component is authored by this build and the source-receipt says so.",
+          "evidence": {
+            "componentsDeclared": 3,
+            "componentsDelivered": 3,
+            "pages": 5,
+            "pagesAttributed": 5,
+            "unattributedPages": 0
+          }
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "Two known, mapped fields are declared written and are not on the paper, and the loss is disclosed nowhere. production-field-map.json lists AddrState and AddrZip in boundaryWrites for PA-RCRIM-P-790-PETITION — decision is not refuse — yet the boundary fixture's own bytes carry neither. Read from both fixtures: canonical page 1 prints '42 Maple Street', 'Philadelphia', 'PA', '19107'; boundary page 1 prints '1188 Upper Notch Crossing Road, Apartment 14B', 'Wilkes-Barre Township' and then stops, with no state and no ZIP. The family's own byte-derived report agrees, recording 7 actualWrites for the boundary petition against 9 for the canonical, so the field map and the byte proof contradict each other and the field map is the one that is wrong. Nothing records the drop: the string 'unfittable' does not occur anywhere in this family, AddrState and AddrZip appear in neither canonicalRefusals nor boundaryRefusals, and neither is among the 78 requiredBeforeFiling items. The builder's completeness counters are computed from the declaration rather than the paper — totals.written is 17, which is 9 + 6 + 2 declared, while the boundary fixture actually carries 15 — so allNineZero is asserted over the defect rather than measuring it. Separately, the instructions tell the participant 'The platform filled in what it holds about you: your name, your date of birth, your address, your telephone number, your email and your docket number'. No telephone number and no email address appears anywhere in either fixture, and the petition form carries no telephone or email field at all among its 76 fields.",
+          "evidence": {
+            "fieldsDeclaredWrittenOnBoundaryButAbsentFromBytes": [
+              "AddrState",
+              "AddrZip"
+            ],
+            "boundaryDeclaredWrites": 9,
+            "boundaryActualWritesInFamilyByteProof": 7,
+            "boundaryActualWritesConfirmedByThisLane": 7,
+            "canonicalDeclaredWrites": 9,
+            "canonicalActualWrites": 9,
+            "unfittableArrayAnywhereInFamily": false,
+            "inCanonicalRefusals": false,
+            "inBoundaryRefusals": false,
+            "inRequiredBeforeFiling": false,
+            "builderTotalsWritten": 17,
+            "builderTotalsWrittenIsDeclarationNotPaper": true,
+            "instructionsClaimPhoneAndEmailPrefilled": true,
+            "phoneOrEmailFieldsOnTheForm": 0,
+            "phoneOrEmailValuesInEitherFixture": 0
+          }
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "The 78 requiredBeforeFiling items carried in production-field-map.json are themselves well formed — each has a printedContext, a disclosureLabel, an identity, a why and the participant question that fills it, and none is null. The failure is what is missing from that list. Because the build believes AddrState and AddrZip were written, neither appears as an item the participant must supply, so on the boundary path the petition goes out with a street address and a city and no state and no ZIP and the packet never asks anyone to complete them. The instructions compound it by telling the reader the platform filled in 'your address', which on that path is only two thirds true. This family also has no blanks-left-for-the-participant.json; the disclosure lives inside the field map instead, which is acceptable in itself but leaves the 92 blanks the counters report without a standalone classification artifact to check them against.",
+          "evidence": {
+            "requiredBeforeFilingItems": 78,
+            "itemsWithNullClassification": 0,
+            "silentlyBlankFieldsNotListedAsParticipantItems": [
+              "AddrState",
+              "AddrZip"
+            ],
+            "blanksReportOnDisk": false,
+            "blankCountFromCounters": 92
+          }
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "requiredOptionsMissing 0, and the honest answer is recorded rather than a manufactured one. The family carries two routes that neither official form asks about — a Rule 790 petition where the automatic post-pardon route has not cleared the record, and no filing at all where it has. routeSelectionsMade is empty and routeSelectionNote explains that no box on either form elects between them, so nothing is marked and the second route is carried as a composed process-guidance component instead of inventing an election to satisfy a counter. The guidance page names both route keys and tells the participant how to find out which one they are in, and says plainly that it states no timetable or criterion because neither is established by the forms the packet is built from. actual-writes records zero route selection marks and zero stray route selection strokes in every fixture.",
+          "evidence": {
+            "routes": 2,
+            "selectionMarksMade": 0,
+            "strayRouteSelectionStrokes": 0,
+            "secondRouteCarriedAsGuidance": true,
+            "unsourcedCriterionRefused": true
+          }
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The petition's repeating structure is its charge grid — title, section, subsection, description, counts, grade and disposition, per charge — and the packet writes into none of it. Every grid cell is listed in the participant items by the words printed beside the blank, and the guidance page says explicitly that every charge row with its title, section, subsection, description, counts, grade and disposition is the participant's. No row inherits another row's fact and no caption stands for a different fact in different rows.",
+          "evidence": {
+            "chargeGridCellsWritten": 0,
+            "gridCellsEnumeratedForParticipant": true
+          }
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "protectedWrites 0, measured from the bytes. On the proposed order the build writes only the style of the case — county, petitioner name, petitioner date of birth and the two docket numbers — and refuses all 20 remaining fields, every signature and date field among them: Month, Year, Day, Petition/Motion, PresentedBy, Disposition and CourtSignature are each recorded as 'signature or date field; never prefilled by this build'. The guidance page tells the participant in terms that the order is the one the judge signs and 'Do not sign the order.' On the petition the Social Security number is refused to the participant rather than written. I looked for signature, date and Social Security ink in both fixtures and found none, and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes is 0 in all four artifact rows.",
+          "evidence": {
+            "orderFieldsRefused": 20,
+            "signatureAndDateFieldsRefused": 7,
+            "protectedFieldsCarryingInk": 0,
+            "ssnWritten": false,
+            "glyphsOutsideWriteBoxes": 0
+          }
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both declared packet artifacts are present on disk with SHA-256 and byte length recomputed and matching, and both are 5 pages as declared. Every one of the ten declared raster pages is present on disk and every raster SHA-256 recomputes to the declared value. Four further per-document fixtures sit in the fixtures directory and are not declared in rendered-artifacts.json; nothing depends on them and their presence is recorded here as an observation only.",
+          "evidence": [
+            {
+              "file": "fixtures/canonical.pdf",
+              "present": true,
+              "declaredSha": "888d476669d2dcfa9db325c08eef46bb749c825f1fd745afc863c59e6dd64f74",
+              "recomputedSha": "888d476669d2dcfa9db325c08eef46bb749c825f1fd745afc863c59e6dd64f74",
+              "match": true,
+              "declaredPages": 5,
+              "actualPages": 5
+            },
+            {
+              "file": "fixtures/boundary.pdf",
+              "present": true,
+              "declaredSha": "bdc27af98952ba01e1e0ce67ae528b63aad7b73111e7780071cdd5b30e84c5f2",
+              "recomputedSha": "bdc27af98952ba01e1e0ce67ae528b63aad7b73111e7780071cdd5b30e84c5f2",
+              "match": true,
+              "declaredPages": 5,
+              "actualPages": 5
+            },
+            {
+              "rasterPagesDeclared": 10,
+              "rasterPagesPresentOnDisk": 10,
+              "rasterHashesRecomputedAndMatching": 10,
+              "rasterHashMismatches": 0
+            }
+          ]
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Five pages in filing order in both fixtures: the petition, then the proposed order tendered with it, then the two guidance pages that are not filed. The page manifest attributes each page to one component and one source page with the source SHA-256 of the document it came from, with no gap, no duplicate and no divergence between canonical and boundary.",
+          "evidence": {
+            "pages": 5,
+            "order": [
+              "primary_filing",
+              "proposed_order",
+              "proposed_order",
+              "process_guidance",
+              "process_guidance"
+            ],
+            "manifestGaps": 0,
+            "fixturesAgree": true
+          }
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "visualDefects 0 as a clipping and overlap question, which is distinct from the missing-value failure recorded under KNOWN_PREFILLS. nonWhitespaceGlyphsOutsideMeasuredWriteBoxes is 0 across all four artifact rows and I found no ink outside a measured write box in either fixture. The boundary fixture's long values are accommodated: the 44-character street address renders inside Addr1 and the 21-character city inside AddrCity. All ten raster pages exist, were rendered by the calibrated Chromium rasteriser at 3.3333 px/pt with calibrationResidualPx 0 and identical paper bounds on every page, and every raster hash recomputes. Note that the rasters were produced from the same boundary bytes that omit the state and ZIP, so they show that omission as empty space and do not contradict it.",
+          "evidence": {
+            "glyphsOutsideWriteBoxes": 0,
+            "clippedValues": 0,
+            "rasterPages": 10,
+            "calibrationResidualPx": 0,
+            "rasterHashesVerified": 10
+          }
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Faithful to the registry on both routes. The registry records the destination as the court of common pleas of the judicial district in which the charges were disposed, and records that on the automatic route the Board of Pardons and the AOPC deliver the record to the court and nothing is filed, while on the fallback route the participant files the Rule 790 petition with the clerk of courts. The packet states both: it directs filing with the Clerk of Courts of the judicial district where the charges were disposed, and it tells the participant that where the automatic route has already cleared the record there is nothing here to file.",
+          "evidence": {
+            "venueStated": true,
+            "bothRoutesDestinationsStated": true,
+            "matchesRegistry": true
+          }
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both limbs answered and the figure is sourced, not composed. The packet says no held source in this repository states the fee for the participant's county, then gives the statewide range of roughly $132 to $215 with expungement petitions typically costing more than limited-access petitions. That sentence is the Pennsylvania statewide legal review's own wording at STATES/PA/01_LEGAL_REVIEW/PA__LEGAL-REVIEW__STATEWIDE__pennsylvania-record-clearing-legal-review__ASOF-2026-08-01__EN.md, where it appears three times, and the packet hedges it correctly as a range to expect rather than the county's figure and names the Clerk of Courts as the office that answers. On waiver the registry records that in forma pauperis relief is available for the fallback petition; the packet says so, says this packet does not include an IFP form, and points the participant to the same Clerk. No figure is borrowed from a different statutory section.",
+          "evidence": {
+            "feeRangeInHeldLegalReview": true,
+            "legalReviewOccurrences": 3,
+            "hedgedAsRangeNotCountyFigure": true,
+            "officeThatAnswersNamed": "Clerk of Courts",
+            "ifpDisclosed": true,
+            "ifpFormIncluded": false
+          }
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Answered on both routes consistently with the registry, which records no service on the automatic route and service on the attorney for the Commonwealth on the fallback route. The packet states that after filing the petition is served on the Commonwealth — the District Attorney as the attorney for the Commonwealth — that the Commonwealth then has 60 days from service to consent, object or do nothing, that after that window the judge grants, denies or schedules a hearing, and that an order granted without the Commonwealth's consent is stayed 30 days while an appeal may be taken. It tells the participant to keep proof of service.",
+          "evidence": {
+            "serviceStated": true,
+            "matchesRegistryOnBothRoutes": true,
+            "commonwealthWindowStated": "60 days",
+            "stayStated": "30 days"
+          }
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "The packet carries no self-help boundary at all. The registry records three selfHelpStopConditions for pa_pardon_expungement and not one of them appears in the packet, verbatim or in substance: that the participant has not yet obtained a pardon, the pardon application itself being out of scope and a referral; that whether the pardon is conditional or unconditional cannot be determined from the document; and that the record still appears after the quarterly cycle and the fallback route's availability is unclear. participant-instructions.md has no section for them — its headings run from where you file, through what is in the packet, what you must do, the items you must supply, what the platform left blank, to what this packet is not — and the two process-guidance pages do not carry them either. The document never tells the participant to stop and get advice from a lawyer, and the phrases 'self-help', 'stop and get', 'get advice' and 'a lawyer' do not occur. The first missing condition is the load-bearing one: nothing in the packet establishes that a pardon must already have been granted, so a participant who has merely applied for one is not stopped. The conditional-versus-unconditional point is touched at step 4 of 'What you must do', but as procedural narrative about which route the participant is in, not as a boundary where automated help ends.",
+          "evidence": {
+            "registryStopConditions": 3,
+            "appearingVerbatimInPacket": 0,
+            "appearingInSubstanceAsAStop": 0,
+            "selfHelpSectionPresent": false,
+            "tellsParticipantToSeekALawyer": false,
+            "processGuidancePagesCarryStops": false,
+            "loadBearingOmission": "The participant has not yet obtained a pardon; the pardon application itself is out of scope and is a referral."
+          }
+        }
+      },
+      "namedRepairChecked": {
+        "repair": "An earlier read found AddrState and AddrZip written on canonical and absent on boundary, with no unfittable array recorded anywhere in the family, so the drop was undisclosed.",
+        "holds": false,
+        "stillOpen": true,
+        "howProven": "Verified from both fixtures at this base and the defect is unchanged. Canonical page 1 carries 'PA' and '19107'; boundary page 1 carries neither, ending the address block at 'Wilkes-Barre Township'. production-field-map.json still lists both fields in boundaryWrites, so a reader that trusts any row whose decision is not refuse still sees nine boundary writes where the paper has seven. The string 'unfittable' still does not occur anywhere in the family, neither field appears in canonicalRefusals or boundaryRefusals, and neither is among the 78 requiredBeforeFiling items. The family's own actual-writes.json already records the true count of 7, so the contradiction is internal and visible without leaving the directory."
+      },
+      "blindSpotAnswered": "Both fixtures are flattened and carry no AcroForm, so a field-value reader would have found nothing and a declaration reader would have found nine boundary writes; neither would have found the truth. Every value here was decoded from page content streams and diffed canonical against boundary and against the pinned source form. The petition's fonts carry no ToUnicode CMap, so the values were recovered by simple-font byte decoding — the same class of read that would have been needed to see the three baked values missed on a Texas form.",
+      "whatThisFailDoesNotDisturb": "This FAIL is a verdict and a repair assignment. This lane wrote into no overlay directory, ran no build script, moved no artifact byte, opened no route and changed no queue state. The family's route identity, source binding, component set, route-option honesty, protected-field discipline, artifact and raster hashes, page order, filing destination, fee and service obligations all pass and are undisturbed by the three failures."
     }
   ],
   "supersessionNote": "The prior VF10 FAIL row for ut_pet_traffic-set is not carried here: that family was re-verified under this verifier's VF11 lane after repair commit 1c8007435, and its current verdict lives in vf11/rows.json. Git history preserves the prior row.",
