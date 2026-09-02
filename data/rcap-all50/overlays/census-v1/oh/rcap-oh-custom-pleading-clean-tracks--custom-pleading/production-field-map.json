@@ -1,0 +1,478 @@
+{
+  "schemaVersion": "rcap-production-field-map/v1",
+  "familyId": "rcap-oh-custom-pleading-clean-tracks",
+  "commercialAuthority": false,
+  "runtimeSelectable": false,
+  "documents": [
+    {
+      "documentId": "oh_2953_32_sealing",
+      "documentRole": "COMPOSED_CUSTOM_PLEADING",
+      "generatedParticipantArtifact": true,
+      "fields": [
+        {
+          "field": "applicantName",
+          "factId": "participant.full_legal_name",
+          "decisionBasis": "printed in the caption and beside the signature rule from partyData.petitionerName",
+          "decision": "candidate_write"
+        },
+        {
+          "field": "applicantMailingAddress",
+          "factId": "participant.mailing_address",
+          "decisionBasis": "printed in the parties paragraph and beside the signature rule from partyData.petitionerAddress",
+          "decision": "candidate_write"
+        },
+        {
+          "field": "docketNumber",
+          "factId": "matter.docket_number",
+          "decisionBasis": "printed in the caption and the case-history paragraph from caseData.docketNumber",
+          "decision": "candidate_write"
+        },
+        {
+          "field": "chargeDescription",
+          "factId": "matter.charge",
+          "decisionBasis": "printed in the case-history paragraph from chargeData.chargeDescription",
+          "decision": "candidate_write"
+        },
+        {
+          "field": "disposition",
+          "factId": "matter.disposition",
+          "decisionBasis": "printed in the case-history paragraph from chargeData.disposition",
+          "decision": "candidate_write"
+        },
+        {
+          "field": "eligibilityBasisStatement",
+          "factId": "eligibility.basis_label",
+          "decisionBasis": "printed in the eligibility allegations from eligibilityData.eligibilityBasisLabel",
+          "decision": "candidate_write"
+        },
+        {
+          "field": "localCourtCaption",
+          "decision": "refuse",
+          "factId": "matter.local_court_caption",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "oh_2953_32_sealing field localCourtCaption",
+          "effectiveLabel": "Name of court and local caption",
+          "reason": "REQUIRED_BEFORE_FILING: the pleading prints “LOCAL CAPTION MUST BE CONFIRMED” because no held source names a statewide Ohio caption; the participant supplies the caption the sentencing court uses and does not guess."
+        },
+        {
+          "field": "arrestDate",
+          "decision": "refuse",
+          "factId": "matter.arrest_date",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "oh_2953_32_sealing field arrestDate",
+          "effectiveLabel": "Date of arrest",
+          "reason": "REQUIRED_BEFORE_FILING: the pleading prints “[ARREST DATE TO BE CONFIRMED]” because the packet holds no arrest date; the participant reads it off the certified record and does not guess."
+        },
+        {
+          "field": "dispositionDate",
+          "decision": "refuse",
+          "factId": "matter.disposition_date",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "oh_2953_32_sealing field dispositionDate",
+          "effectiveLabel": "Date of disposition",
+          "reason": "REQUIRED_BEFORE_FILING: the pleading prints “[DISPOSITION DATE TO BE CONFIRMED]” because the packet holds no disposition date; the participant reads it off the certified record and does not guess."
+        },
+        {
+          "field": "arrestingAgency",
+          "decision": "refuse",
+          "factId": "matter.citing_or_arresting_agency",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "oh_2953_32_sealing field arrestingAgency",
+          "effectiveLabel": "Arresting agency",
+          "reason": "REQUIRED_BEFORE_FILING: the pleading prints “[ARRESTING AGENCY MUST BE CONFIRMED]” because the packet holds no agency name; the participant reads it off the certified record and does not guess."
+        },
+        {
+          "field": "dateOfBirthAndSocialSecurityNumber",
+          "decision": "refuse",
+          "factId": "participant.identifiers_if_locally_required",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "oh_2953_32_sealing field dateOfBirthAndSocialSecurityNumber",
+          "effectiveLabel": "Date of birth and Social Security Number, if the local court form requires them",
+          "reason": "REQUIRED_BEFORE_FILING: the pleading carries a note that these identifiers are added by the applicant where the local form or local rule requires them; the packet holds no value for either and writes neither."
+        },
+        {
+          "field": "applicantSignature",
+          "decision": "refuse",
+          "factId": null,
+          "refusalClass": "signature_or_date_participant_completion",
+          "blankTreatment": null,
+          "effectiveLabel": "Applicant signature",
+          "reason": "Signature or date field; never prefilled. The signature rule is left blank and the participant signs it."
+        },
+        {
+          "field": "signatureDate",
+          "decision": "refuse",
+          "factId": null,
+          "refusalClass": "signature_or_date_participant_completion",
+          "blankTreatment": null,
+          "effectiveLabel": "Date beside the applicant signature",
+          "reason": "Signature or date field; never prefilled. The date rule is left blank and the participant dates it when signing."
+        }
+      ]
+    },
+    {
+      "documentId": "oh_2953_32_expungement",
+      "documentRole": "COMPOSED_CUSTOM_PLEADING",
+      "generatedParticipantArtifact": true,
+      "fields": [
+        {
+          "field": "applicantName",
+          "factId": "participant.full_legal_name",
+          "decisionBasis": "printed in the caption and beside the signature rule from partyData.petitionerName",
+          "decision": "candidate_write"
+        },
+        {
+          "field": "applicantMailingAddress",
+          "factId": "participant.mailing_address",
+          "decisionBasis": "printed in the parties paragraph and beside the signature rule from partyData.petitionerAddress",
+          "decision": "candidate_write"
+        },
+        {
+          "field": "docketNumber",
+          "factId": "matter.docket_number",
+          "decisionBasis": "printed in the caption and the case-history paragraph from caseData.docketNumber",
+          "decision": "candidate_write"
+        },
+        {
+          "field": "chargeDescription",
+          "factId": "matter.charge",
+          "decisionBasis": "printed in the case-history paragraph from chargeData.chargeDescription",
+          "decision": "candidate_write"
+        },
+        {
+          "field": "disposition",
+          "factId": "matter.disposition",
+          "decisionBasis": "printed in the case-history paragraph from chargeData.disposition",
+          "decision": "candidate_write"
+        },
+        {
+          "field": "eligibilityBasisStatement",
+          "factId": "eligibility.basis_label",
+          "decisionBasis": "printed in the eligibility allegations from eligibilityData.eligibilityBasisLabel",
+          "decision": "candidate_write"
+        },
+        {
+          "field": "localCourtCaption",
+          "decision": "refuse",
+          "factId": "matter.local_court_caption",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "oh_2953_32_expungement field localCourtCaption",
+          "effectiveLabel": "Name of court and local caption",
+          "reason": "REQUIRED_BEFORE_FILING: the pleading prints “LOCAL CAPTION MUST BE CONFIRMED” because no held source names a statewide Ohio caption; the participant supplies the caption the sentencing court uses and does not guess."
+        },
+        {
+          "field": "arrestDate",
+          "decision": "refuse",
+          "factId": "matter.arrest_date",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "oh_2953_32_expungement field arrestDate",
+          "effectiveLabel": "Date of arrest",
+          "reason": "REQUIRED_BEFORE_FILING: the pleading prints “[ARREST DATE TO BE CONFIRMED]” because the packet holds no arrest date; the participant reads it off the certified record and does not guess."
+        },
+        {
+          "field": "dispositionDate",
+          "decision": "refuse",
+          "factId": "matter.disposition_date",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "oh_2953_32_expungement field dispositionDate",
+          "effectiveLabel": "Date of disposition",
+          "reason": "REQUIRED_BEFORE_FILING: the pleading prints “[DISPOSITION DATE TO BE CONFIRMED]” because the packet holds no disposition date; the participant reads it off the certified record and does not guess."
+        },
+        {
+          "field": "arrestingAgency",
+          "decision": "refuse",
+          "factId": "matter.citing_or_arresting_agency",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "oh_2953_32_expungement field arrestingAgency",
+          "effectiveLabel": "Arresting agency",
+          "reason": "REQUIRED_BEFORE_FILING: the pleading prints “[ARRESTING AGENCY MUST BE CONFIRMED]” because the packet holds no agency name; the participant reads it off the certified record and does not guess."
+        },
+        {
+          "field": "dateOfBirthAndSocialSecurityNumber",
+          "decision": "refuse",
+          "factId": "participant.identifiers_if_locally_required",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "oh_2953_32_expungement field dateOfBirthAndSocialSecurityNumber",
+          "effectiveLabel": "Date of birth and Social Security Number, if the local court form requires them",
+          "reason": "REQUIRED_BEFORE_FILING: the pleading carries a note that these identifiers are added by the applicant where the local form or local rule requires them; the packet holds no value for either and writes neither."
+        },
+        {
+          "field": "applicantSignature",
+          "decision": "refuse",
+          "factId": null,
+          "refusalClass": "signature_or_date_participant_completion",
+          "blankTreatment": null,
+          "effectiveLabel": "Applicant signature",
+          "reason": "Signature or date field; never prefilled. The signature rule is left blank and the participant signs it."
+        },
+        {
+          "field": "signatureDate",
+          "decision": "refuse",
+          "factId": null,
+          "refusalClass": "signature_or_date_participant_completion",
+          "blankTreatment": null,
+          "effectiveLabel": "Date beside the applicant signature",
+          "reason": "Signature or date field; never prefilled. The date rule is left blank and the participant dates it when signing."
+        }
+      ]
+    },
+    {
+      "documentId": "oh_2953_33_nonconviction",
+      "documentRole": "COMPOSED_CUSTOM_PLEADING",
+      "generatedParticipantArtifact": true,
+      "fields": [
+        {
+          "field": "applicantName",
+          "factId": "participant.full_legal_name",
+          "decisionBasis": "printed in the caption and beside the signature rule from partyData.petitionerName",
+          "decision": "candidate_write"
+        },
+        {
+          "field": "applicantMailingAddress",
+          "factId": "participant.mailing_address",
+          "decisionBasis": "printed in the parties paragraph and beside the signature rule from partyData.petitionerAddress",
+          "decision": "candidate_write"
+        },
+        {
+          "field": "docketNumber",
+          "factId": "matter.docket_number",
+          "decisionBasis": "printed in the caption and the case-history paragraph from caseData.docketNumber",
+          "decision": "candidate_write"
+        },
+        {
+          "field": "chargeDescription",
+          "factId": "matter.charge",
+          "decisionBasis": "printed in the case-history paragraph from chargeData.chargeDescription",
+          "decision": "candidate_write"
+        },
+        {
+          "field": "disposition",
+          "factId": "matter.disposition",
+          "decisionBasis": "printed in the case-history paragraph from chargeData.disposition",
+          "decision": "candidate_write"
+        },
+        {
+          "field": "eligibilityBasisStatement",
+          "factId": "eligibility.basis_label",
+          "decisionBasis": "printed in the eligibility allegations from eligibilityData.eligibilityBasisLabel",
+          "decision": "candidate_write"
+        },
+        {
+          "field": "localCourtCaption",
+          "decision": "refuse",
+          "factId": "matter.local_court_caption",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "oh_2953_33_nonconviction field localCourtCaption",
+          "effectiveLabel": "Name of court and local caption",
+          "reason": "REQUIRED_BEFORE_FILING: the pleading prints “LOCAL CAPTION MUST BE CONFIRMED” because no held source names a statewide Ohio caption; the participant supplies the caption the sentencing court uses and does not guess."
+        },
+        {
+          "field": "arrestDate",
+          "decision": "refuse",
+          "factId": "matter.arrest_date",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "oh_2953_33_nonconviction field arrestDate",
+          "effectiveLabel": "Date of arrest",
+          "reason": "REQUIRED_BEFORE_FILING: the pleading prints “[ARREST DATE TO BE CONFIRMED]” because the packet holds no arrest date; the participant reads it off the certified record and does not guess."
+        },
+        {
+          "field": "dispositionDate",
+          "decision": "refuse",
+          "factId": "matter.disposition_date",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "oh_2953_33_nonconviction field dispositionDate",
+          "effectiveLabel": "Date of disposition",
+          "reason": "REQUIRED_BEFORE_FILING: the pleading prints “[DISPOSITION DATE TO BE CONFIRMED]” because the packet holds no disposition date; the participant reads it off the certified record and does not guess."
+        },
+        {
+          "field": "arrestingAgency",
+          "decision": "refuse",
+          "factId": "matter.citing_or_arresting_agency",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "oh_2953_33_nonconviction field arrestingAgency",
+          "effectiveLabel": "Arresting agency",
+          "reason": "REQUIRED_BEFORE_FILING: the pleading prints “[ARRESTING AGENCY MUST BE CONFIRMED]” because the packet holds no agency name; the participant reads it off the certified record and does not guess."
+        },
+        {
+          "field": "dateOfBirthAndSocialSecurityNumber",
+          "decision": "refuse",
+          "factId": "participant.identifiers_if_locally_required",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "oh_2953_33_nonconviction field dateOfBirthAndSocialSecurityNumber",
+          "effectiveLabel": "Date of birth and Social Security Number, if the local court form requires them",
+          "reason": "REQUIRED_BEFORE_FILING: the pleading carries a note that these identifiers are added by the applicant where the local form or local rule requires them; the packet holds no value for either and writes neither."
+        },
+        {
+          "field": "applicantSignature",
+          "decision": "refuse",
+          "factId": null,
+          "refusalClass": "signature_or_date_participant_completion",
+          "blankTreatment": null,
+          "effectiveLabel": "Applicant signature",
+          "reason": "Signature or date field; never prefilled. The signature rule is left blank and the participant signs it."
+        },
+        {
+          "field": "signatureDate",
+          "decision": "refuse",
+          "factId": null,
+          "refusalClass": "signature_or_date_participant_completion",
+          "blankTreatment": null,
+          "effectiveLabel": "Date beside the applicant signature",
+          "reason": "Signature or date field; never prefilled. The date rule is left blank and the participant dates it when signing."
+        }
+      ]
+    },
+    {
+      "documentId": "oh_2953_35_firearm",
+      "documentRole": "COMPOSED_CUSTOM_PLEADING",
+      "generatedParticipantArtifact": true,
+      "fields": [
+        {
+          "field": "applicantName",
+          "factId": "participant.full_legal_name",
+          "decisionBasis": "printed in the caption and beside the signature rule from partyData.petitionerName",
+          "decision": "candidate_write"
+        },
+        {
+          "field": "applicantMailingAddress",
+          "factId": "participant.mailing_address",
+          "decisionBasis": "printed in the parties paragraph and beside the signature rule from partyData.petitionerAddress",
+          "decision": "candidate_write"
+        },
+        {
+          "field": "docketNumber",
+          "factId": "matter.docket_number",
+          "decisionBasis": "printed in the caption and the case-history paragraph from caseData.docketNumber",
+          "decision": "candidate_write"
+        },
+        {
+          "field": "chargeDescription",
+          "factId": "matter.charge",
+          "decisionBasis": "printed in the case-history paragraph from chargeData.chargeDescription",
+          "decision": "candidate_write"
+        },
+        {
+          "field": "disposition",
+          "factId": "matter.disposition",
+          "decisionBasis": "printed in the case-history paragraph from chargeData.disposition",
+          "decision": "candidate_write"
+        },
+        {
+          "field": "eligibilityBasisStatement",
+          "factId": "eligibility.basis_label",
+          "decisionBasis": "printed in the eligibility allegations from eligibilityData.eligibilityBasisLabel",
+          "decision": "candidate_write"
+        },
+        {
+          "field": "localCourtCaption",
+          "decision": "refuse",
+          "factId": "matter.local_court_caption",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "oh_2953_35_firearm field localCourtCaption",
+          "effectiveLabel": "Name of court and local caption",
+          "reason": "REQUIRED_BEFORE_FILING: the pleading prints “LOCAL CAPTION MUST BE CONFIRMED” because no held source names a statewide Ohio caption; the participant supplies the caption the sentencing court uses and does not guess."
+        },
+        {
+          "field": "arrestDate",
+          "decision": "refuse",
+          "factId": "matter.arrest_date",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "oh_2953_35_firearm field arrestDate",
+          "effectiveLabel": "Date of arrest",
+          "reason": "REQUIRED_BEFORE_FILING: the pleading prints “[ARREST DATE TO BE CONFIRMED]” because the packet holds no arrest date; the participant reads it off the certified record and does not guess."
+        },
+        {
+          "field": "dispositionDate",
+          "decision": "refuse",
+          "factId": "matter.disposition_date",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "oh_2953_35_firearm field dispositionDate",
+          "effectiveLabel": "Date of disposition",
+          "reason": "REQUIRED_BEFORE_FILING: the pleading prints “[DISPOSITION DATE TO BE CONFIRMED]” because the packet holds no disposition date; the participant reads it off the certified record and does not guess."
+        },
+        {
+          "field": "arrestingAgency",
+          "decision": "refuse",
+          "factId": "matter.citing_or_arresting_agency",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "oh_2953_35_firearm field arrestingAgency",
+          "effectiveLabel": "Arresting agency",
+          "reason": "REQUIRED_BEFORE_FILING: the pleading prints “[ARRESTING AGENCY MUST BE CONFIRMED]” because the packet holds no agency name; the participant reads it off the certified record and does not guess."
+        },
+        {
+          "field": "dateOfBirthAndSocialSecurityNumber",
+          "decision": "refuse",
+          "factId": "participant.identifiers_if_locally_required",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "oh_2953_35_firearm field dateOfBirthAndSocialSecurityNumber",
+          "effectiveLabel": "Date of birth and Social Security Number, if the local court form requires them",
+          "reason": "REQUIRED_BEFORE_FILING: the pleading carries a note that these identifiers are added by the applicant where the local form or local rule requires them; the packet holds no value for either and writes neither."
+        },
+        {
+          "field": "applicantSignature",
+          "decision": "refuse",
+          "factId": null,
+          "refusalClass": "signature_or_date_participant_completion",
+          "blankTreatment": null,
+          "effectiveLabel": "Applicant signature",
+          "reason": "Signature or date field; never prefilled. The signature rule is left blank and the participant signs it."
+        },
+        {
+          "field": "signatureDate",
+          "decision": "refuse",
+          "factId": null,
+          "refusalClass": "signature_or_date_participant_completion",
+          "blankTreatment": null,
+          "effectiveLabel": "Date beside the applicant signature",
+          "reason": "Signature or date field; never prefilled. The date rule is left blank and the participant dates it when signing."
+        }
+      ]
+    },
+    {
+      "documentId": "OH-BCI-SEALING-EXPUNGEMENT-REQUEST",
+      "documentRole": "POST_ORDER_COMPANION_SOURCE",
+      "generatedParticipantArtifact": false,
+      "fields": []
+    }
+  ]
+}

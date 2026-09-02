@@ -2344,9 +2344,151 @@ function trackInstructions(trackId, definition) {
     + `Track evidence key: \`${trackId}\`. Commercial and runtime authority remain false.\n`;
 }
 
+/*
+ * What each composed pleading WRITES and what it leaves BLANK.
+ *
+ * A composed family has no AcroForm to census, so before this existed it
+ * published no production-field-map.json at all and the packet-completeness
+ * verifier refused it as unauditable (FAIL_COMPONENT_SET, 0/0 written) -- the
+ * COMPONENT_SET obligation vf04 failed. The pleading's terminal fields are the
+ * places on the rendered paper where a value goes, and they are the same on
+ * every track of this family because every track renders from the same fixture
+ * shape and the same renderer branches: six values come off the fixture and are
+ * printed, and five places are left for someone else to fill.
+ *
+ * The rows travel on the completeness contract's declared channel --
+ * requiredBeforeFiling as a boolean with an identity and a printed label, or a
+ * trusted refusal class -- because prose is read as a policy-shaped excuse.
+ */
+const COMPOSED_PLEADING_WRITES = [
+  { field: "applicantName", factId: "participant.full_legal_name",
+    decisionBasis: "printed in the caption and beside the signature rule from partyData.petitionerName" },
+  { field: "applicantMailingAddress", factId: "participant.mailing_address",
+    decisionBasis: "printed in the parties paragraph and beside the signature rule from partyData.petitionerAddress" },
+  { field: "docketNumber", factId: "matter.docket_number",
+    decisionBasis: "printed in the caption and the case-history paragraph from caseData.docketNumber" },
+  { field: "chargeDescription", factId: "matter.charge",
+    decisionBasis: "printed in the case-history paragraph from chargeData.chargeDescription" },
+  { field: "disposition", factId: "matter.disposition",
+    decisionBasis: "printed in the case-history paragraph from chargeData.disposition" },
+  { field: "eligibilityBasisStatement", factId: "eligibility.basis_label",
+    decisionBasis: "printed in the eligibility allegations from eligibilityData.eligibilityBasisLabel" },
+];
+
+const COMPOSED_PLEADING_BLANKS = [
+  { field: "localCourtCaption", factId: "matter.local_court_caption",
+    effectiveLabel: "Name of court and local caption",
+    requiredBeforeFiling: true,
+    reason: "REQUIRED_BEFORE_FILING: the pleading prints “LOCAL CAPTION MUST BE CONFIRMED” because no held source names a statewide Ohio caption; the participant supplies the caption the sentencing court uses and does not guess." },
+  { field: "arrestDate", factId: "matter.arrest_date",
+    effectiveLabel: "Date of arrest",
+    requiredBeforeFiling: true,
+    reason: "REQUIRED_BEFORE_FILING: the pleading prints “[ARREST DATE TO BE CONFIRMED]” because the packet holds no arrest date; the participant reads it off the certified record and does not guess." },
+  { field: "dispositionDate", factId: "matter.disposition_date",
+    effectiveLabel: "Date of disposition",
+    requiredBeforeFiling: true,
+    reason: "REQUIRED_BEFORE_FILING: the pleading prints “[DISPOSITION DATE TO BE CONFIRMED]” because the packet holds no disposition date; the participant reads it off the certified record and does not guess." },
+  { field: "arrestingAgency", factId: "matter.citing_or_arresting_agency",
+    effectiveLabel: "Arresting agency",
+    requiredBeforeFiling: true,
+    reason: "REQUIRED_BEFORE_FILING: the pleading prints “[ARRESTING AGENCY MUST BE CONFIRMED]” because the packet holds no agency name; the participant reads it off the certified record and does not guess." },
+  { field: "dateOfBirthAndSocialSecurityNumber", factId: "participant.identifiers_if_locally_required",
+    effectiveLabel: "Date of birth and Social Security Number, if the local court form requires them",
+    requiredBeforeFiling: true,
+    reason: "REQUIRED_BEFORE_FILING: the pleading carries a note that these identifiers are added by the applicant where the local form or local rule requires them; the packet holds no value for either and writes neither." },
+  { field: "applicantSignature",
+    refusalClass: "signature_or_date_participant_completion",
+    effectiveLabel: "Applicant signature",
+    reason: "Signature or date field; never prefilled. The signature rule is left blank and the participant signs it." },
+  { field: "signatureDate",
+    refusalClass: "signature_or_date_participant_completion",
+    effectiveLabel: "Date beside the applicant signature",
+    reason: "Signature or date field; never prefilled. The date rule is left blank and the participant dates it when signing." },
+];
+
+function composedFieldMapDocuments(familyId, sourceCensus) {
+  const documents = tracksForComposedFamily(familyId).map((trackId) => ({
+    documentId: trackId,
+    documentRole: "COMPOSED_CUSTOM_PLEADING",
+    generatedParticipantArtifact: true,
+    fields: [
+      ...COMPOSED_PLEADING_WRITES.map((row) => ({ ...row, decision: "candidate_write" })),
+      ...COMPOSED_PLEADING_BLANKS.map((row) => ({
+        field: row.field, decision: "refuse", factId: row.factId ?? null,
+        ...(row.refusalClass ? { refusalClass: row.refusalClass } : {}),
+        ...(row.requiredBeforeFiling === true
+          ? { blankTreatment: "REQUIRED_BEFORE_FILING", requiredBeforeFiling: true, routeDetermined: false,
+            identity: `${trackId} field ${row.field}` }
+          : { blankTreatment: null }),
+        effectiveLabel: row.effectiveLabel, reason: row.reason,
+      })),
+    ],
+  }));
+  // The BCI companion is held as exact source evidence and is never filled, so
+  // every one of its measured widgets is refused for that reason rather than
+  // left unstated. Same record shape and same reason the official host uses for
+  // a render:false document.
+  documents.push({
+    documentId: OH_BCI.documentId, documentRole: OH_BCI.documentRole,
+    generatedParticipantArtifact: false,
+    fields: sourceCensus.fields.map((field) => ({
+      field: field.name, decision: "refuse", factId: null,
+      refusalClass: "source_only_not_generated", blankTreatment: null,
+      effectiveLabel: field.effectiveLabel ?? field.name,
+      reason: "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+      widgets: field.widgets,
+    })),
+  });
+  return documents;
+}
+
+/*
+ * The disclosure the required-before-filing declarations stand on.
+ *
+ * A required-before-filing blank is allowed only because the packet TELLS the
+ * participant to supply it; without the disclosure it is a required fact nobody
+ * was asked for. The per-track instructions state the track's hard stops; this
+ * states, for the packet as a whole, every blank the participant must fill and
+ * every document they must bring.
+ */
+function composedParticipantInstructions(familyId) {
+  const tracks = tracksForComposedFamily(familyId);
+  return `# Ohio custom-pleading packet — participant instructions\n\n`
+    + `This packet contains ${tracks.length === 1 ? "one statutory-content draft" : `${tracks.length} statutory-content drafts`} and one unchanged official Ohio BCI request held as post-order companion evidence. The drafts are review artifacts. They are not statewide Ohio court forms and they are not filing-ready.\n\n`
+    + `## What you must supply before filing\n\n`
+    + COMPOSED_PLEADING_BLANKS.filter((row) => row.requiredBeforeFiling === true)
+      .map((row) => {
+        const why = row.reason.replace(/^REQUIRED_BEFORE_FILING:\s*/, "");
+        return `- **${row.effectiveLabel}.** ${why.charAt(0).toUpperCase()}${why.slice(1)}`;
+      }).join("\n")
+    + `\n\n## What you must obtain\n\n`
+    + `- The certified disposition for the case, from the court that handled it.\n`
+    + `- Your Ohio BCI criminal-history record.\n`
+    + `- The current local application, caption and filing instructions from the Ohio court that handled the case.\n\n`
+    + `## Where this is filed\n\n`
+    + `In the Ohio court that handled the case. No held source in this packet names a statewide Ohio filing office or a statewide application, so the sentencing court's own clerk is the office that tells you the caption, the form and the filing counter to use.\n\n`
+    + `## What this costs\n\n`
+    + `No held source in this packet states a filing fee, states that filing is free, or states a fee-waiver procedure. Ask the clerk of the Ohio court that handled the case what the current filing fee is and whether a waiver (an affidavit of indigency) is available, before you file. This packet does not state an amount because it holds no source for one.\n\n`
+    + `## Who is served\n\n`
+    + `No held source in this packet states who must be served or how. Ask the same clerk. These drafts generate no certificate of service, and you must not complete one before service has actually happened.\n\n`
+    + `## You sign; nothing here is signed for you\n\n`
+    + `- You sign and date the application. The signature and date rules are left blank on purpose.\n`
+    + `- Do not complete judge, clerk, prosecutor, agency, hearing, or order fields.\n`
+    + `- The official Ohio BCI request is a post-order transmission aid, not your primary court filing. It is included unchanged and is not prefilled; it is not sent before a signed order exists.\n\n`
+    + `## What this packet is not\n\n`
+    + `This packet is not legal advice, is not a lawyer, and does not decide whether you are eligible. It does not guarantee any court outcome. Eligibility under the cited Ohio statutes, the same-act limitation in Ohio Rev. Code § 2953.61, waiting periods and every statutory exclusion all require review against the primary authority and your own record before you file. If any of that is unclear, stop and ask a lawyer or an Ohio legal-aid office.\n\n`
+    + `Tracks in this packet: ${tracks.map((trackId) => `\`${trackId}\``).join(", ")}. Commercial and runtime authority remain false.\n`;
+}
+
 async function buildComposed(familyId) {
   const out = composedOut(familyId);
+  // The captain-installed integration record is not generated by any build
+  // path, so a reset must not destroy it. Same preservation the official host
+  // performs for the same file.
+  const wiringFile = abs(`${out}/product-wiring.json`);
+  const installedWiring = fs.existsSync(wiringFile) ? fs.readFileSync(wiringFile) : null;
   resetOwnedOutput(out);
+  if (installedWiring) fs.writeFileSync(wiringFile, installedWiring);
   const sourceRow = resolveSource(OH_BCI);
   const sourceCensus = await censusDocument(OH_BCI, sourceRow.bytes);
   const companionFile = `${out}/companion/OH-BCI-SEALING-EXPUNGEMENT-REQUEST--official-source.pdf`;
@@ -2474,6 +2616,12 @@ async function buildComposed(familyId) {
     schemaVersion: "rcap-rendered-artifacts/v1", familyId, derivedFromBytes: true,
     pdfs: pdfInventory, rasters: rasterInventory,
   });
+  writeJson(`${out}/production-field-map.json`, {
+    schemaVersion: "rcap-production-field-map/v1", familyId,
+    commercialAuthority: false, runtimeSelectable: false,
+    documents: composedFieldMapDocuments(familyId, sourceCensus),
+  });
+  writeText(`${out}/participant-instructions.md`, composedParticipantInstructions(familyId));
   writeJson(`${out}/build-findings.json`, {
     schemaVersion: "rcap-composed-family-build-findings/v1", familyId,
     status: "artifact_evidence_built_release_stopped",
@@ -2498,7 +2646,8 @@ async function buildComposed(familyId) {
   writeJson(`${out}/approval-request.json`, {
     schemaVersion: "rcap-output-approval-request/v1", familyId, status: "REQUESTED_NOT_GRANTED",
     tracks: tracksForComposedFamily(familyId),
-    evidenceFiles: ["source-receipt.json", "reports/rendered-artifacts.json", "build-findings.json"],
+    evidenceFiles: ["source-receipt.json", "production-field-map.json", "participant-instructions.md",
+      "reports/rendered-artifacts.json", "build-findings.json"],
     commercialAuthority: false, runtimeSelectable: false,
   });
   console.log(`${familyId}: BUILD PASS, RELEASE STOPPED (${trackReports.length} pleading renders)`);
@@ -2507,6 +2656,7 @@ async function buildComposed(familyId) {
 async function checkComposed(familyId) {
   const out = composedOut(familyId);
   for (const file of ["source-receipt.json", "companion/companion-guidance.md",
+    "production-field-map.json", "participant-instructions.md",
     "reports/rendered-artifacts.json", "build-findings.json", "approval-request.json"]) {
     assert.ok(fs.existsSync(abs(`${out}/${file}`)), `${familyId}: missing ${file}`);
   }
@@ -2515,6 +2665,32 @@ async function checkComposed(familyId) {
   const artifacts = readJson(`${out}/reports/rendered-artifacts.json`);
   const findings = readJson(`${out}/build-findings.json`);
   const approval = readJson(`${out}/approval-request.json`);
+  const map = readJson(`${out}/production-field-map.json`);
+  assert.equal(map.schemaVersion, "rcap-production-field-map/v1");
+  assert.equal(map.familyId, familyId);
+  assert.equal(map.commercialAuthority, false);
+  assert.equal(map.runtimeSelectable, false);
+  assert.deepEqual(map.documents.map((doc) => doc.documentId),
+    [...tracksForComposedFamily(familyId), OH_BCI.documentId],
+    `${familyId}: field map does not describe every packet document`);
+  for (const doc of map.documents) {
+    // Only a GENERATED artifact must carry rows. The BCI companion is a flat
+    // official PDF with no AcroForm at all -- its measured field count is zero
+    // in the family's own source receipt -- and inventing rows for it would
+    // describe widgets the document does not have.
+    if (doc.generatedParticipantArtifact) {
+      assert.ok((doc.fields ?? []).length > 0, `${familyId}/${doc.documentId}: field map document states no fields`);
+    }
+    for (const row of doc.fields ?? []) {
+      assert.ok(["candidate_write", "refuse"].includes(row.decision),
+        `${familyId}/${doc.documentId}/${row.field}: unclassified field-map decision`);
+    }
+  }
+  const instructions = fs.readFileSync(abs(`${out}/participant-instructions.md`), "utf8");
+  for (const row of COMPOSED_PLEADING_BLANKS.filter((r) => r.requiredBeforeFiling === true)) {
+    assert.ok(instructions.includes(row.effectiveLabel),
+      `${familyId}: participant-instructions.md never asks the participant for "${row.effectiveLabel}"`);
+  }
   assert.equal(receipt.schemaVersion, "rcap-composed-family-source-receipt/v1");
   assert.equal(receipt.familyId, familyId);
   assert.deepEqual(receipt.routeKeys, composedRouteKeys(familyId));
@@ -2564,7 +2740,14 @@ async function checkComposed(familyId) {
       assert.equal(qaResult.passed, true, `${trackId}/${fixtureName}: QA no longer passes`);
       assert.deepEqual(pleadingProtectionProof(renderResult.fullText, config), report.protection,
         `${trackId}/${fixtureName}: protection proof drift`);
-      assert.equal(sha256(Buffer.from(renderResult.fullText)), report.text.sha256, `${trackId}/${fixtureName}: text drift`);
+      // Same rule as the build: hash the bytes that are WRITTEN. Hashing the
+      // render string here reproduced the pre-newline value and made the
+      // checker contradict the report the build had just written -- the same
+      // record-disagrees-with-bytes defect on the reading side.
+      const textBytes = Buffer.from(renderResult.fullText.endsWith("\n") ? renderResult.fullText : `${renderResult.fullText}\n`);
+      assert.equal(sha256(textBytes), report.text.sha256, `${trackId}/${fixtureName}: text drift`);
+      assert.equal(sha256(fs.readFileSync(abs(report.text.file))), report.text.sha256, `${trackId}/${fixtureName}: text artifact drift`);
+      assert.equal(fs.statSync(abs(report.text.file)).size, report.text.byteLength, `${trackId}/${fixtureName}: text byte drift`);
       const pdfBytes = await renderPleadingPdf(renderResult.fullText, `${OH_TRACKS[trackId].title} — ${fixtureName} evidence fixture`);
       assert.equal(sha256(pdfBytes), report.pdf.sha256, `${trackId}/${fixtureName}: deterministic PDF drift`);
       assert.equal(sha256(fs.readFileSync(abs(report.pdf.file))), report.pdf.sha256, `${trackId}/${fixtureName}: PDF artifact drift`);
