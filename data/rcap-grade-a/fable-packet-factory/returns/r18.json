@@ -1,0 +1,562 @@
+{
+  "schemaVersion": "rcap-fable-repair-return/v1",
+  "worker": "FABLE-R18",
+  "laneKind": "repair",
+  "lanes": [
+    "FIX01",
+    "FIX04",
+    "FIX05"
+  ],
+  "branch": "fable/r18",
+  "baseSha": "d0cb5f87ecb7a1ed325b4c35e7368856dc7bad40",
+  "baseShaNote": "branch created from the assigned base on claude/legalease-sprint-captain-utucnw; nothing was pushed to main or to the captain branch and no PR was opened",
+  "corpus": "MASTER_LIBRARY_SOURCE_DIR=/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1 (mounted; every bound source rehashed exactly during every build)",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "routesPromoted": 0,
+  "approvalsGranted": 0,
+  "grantsNothing": "This return records repairs and measurements. It promotes no family, opens no route, grants no approval and verifies nothing: every repair here is owed an independent read by a lane that is not this one.",
+  "claimDiscipline": {
+    "asserted": [
+      {
+        "lane": "FIX05",
+        "familyId": "ny_160_59_petition-set",
+        "result": "CLAIM_OK"
+      },
+      {
+        "lane": "FIX05",
+        "familyId": "ny_mrta_marijuana-set",
+        "result": "CLAIM_OK"
+      },
+      {
+        "lane": "FIX04",
+        "familyId": "pa_pardon_expungement-set",
+        "result": "CLAIM_OK"
+      },
+      {
+        "lane": "FIX01",
+        "familyId": "oh_marijuana_expungement-set",
+        "result": "CLAIM_OK"
+      }
+    ],
+    "reissueOrTransferUsed": false,
+    "releasedAtEndOfLane": true
+  },
+  "correctionToTheBrief": {
+    "what": "The brief states that all four families share the EAST build host scripts/build-census-v1-nj_arrest_no_conviction-set.mjs. Three do. pa_pardon_expungement-set does not.",
+    "evidence": "pa_pardon_expungement-set is built by its own standalone 1,031-line script scripts/build-census-v1-pa_pardon_expungement-set.mjs, which imports nothing from the EAST host; the EAST host's FAMILY table, COMPOSED_FAMILY_IDS and STOP_FAMILY_ID do not name it, and grep for the family id across scripts/ returns that one file. The fifteen EAST families are the host itself plus the fourteen importers that call runEastFamily.",
+    "consequence": "The Pennsylvania repair could not have reached a sibling and was carried out and committed separately, before the host was touched at all."
+  },
+  "families": {
+    "pa_pardon_expungement-set": {
+      "lane": "FIX04",
+      "outcome": "REPAIRED",
+      "failedObligationRepaired": [
+        "ROUTE_IDENTITY"
+      ],
+      "buildScript": "scripts/build-census-v1-pa_pardon_expungement-set.mjs",
+      "sharedHost": false,
+      "whatWasWrong": "The family declared obligation:track-pathway:PA:pa_pardon_expungement:rule-790-expungement in its field map, in its instruction footer and on the process-guidance page printed into both delivered PDFs. I counted that string zero times in canonical-route-universe.json and zero times in route-obligation-candidate.json.",
+      "whatTheCensusActuallyHolds": "Exactly two canonical obligations under parent track:PA:pa_pardon_expungement -- obligation:unit:PA:pa_pardon_expungement:pa_pardon_automatic_route (publicLabel 'Automatic expungement after an unconditional pardon', unitOrder 1) and obligation:unit:PA:pa_pardon_expungement:pa_pardon_fallback_petition (publicLabel 'Rule 790 petition where the automatic route has not cleared the record', unitOrder 2, hiddenParticipantBranch true). Each occurs five times in canonical-route-universe.json and once in route-obligation-candidate.json. They are the two keys product-wiring.json already carries.",
+      "whyTheMappingNeededNoJudgement": "The two census publicLabels are the family's own two declared routes verbatim: FAMILY_CONFIGS listed 'a Rule 790 petition, where the automatic route has not cleared the record' carriedBy PA-RCRIM-P-790-PETITION, and 'no filing - process guidance, where it has' carriedBy process_guidance. The petition and its tendered order now declare the fallback-petition key, the process-guidance component declares the automatic-route key, and production-field-map.json declares both.",
+      "packetSideOnly": "product-wiring.json was not edited. It is Captain-generated and it already named the correct pair.",
+      "verification": {
+        "staleKeyOccurrencesInTheFamilyDirectoryAfterRepair": 0,
+        "completenessBefore": "PASS_COMPLETE 17/109, nine counters zero",
+        "completenessAfter": "PASS_COMPLETE 17/109, nine counters zero",
+        "builtTwiceByteIdentical": true,
+        "pageCountUnchanged": "canonical 5 pages before and after; only page 5, the process-guidance page, carries different ink"
+      },
+      "filesChanged": [
+        "scripts/build-census-v1-pa_pardon_expungement-set.mjs",
+        "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+        "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
+        "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/raster/canonical/page-05/page.png",
+        "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/raster/boundary/page-05/page.png",
+        "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/reports/rendered-artifacts.json"
+      ],
+      "commit": "pa_pardon_expungement-set: declare the two route keys the census actually carries"
+    },
+    "ny_mrta_marijuana-set": {
+      "lane": "FIX05",
+      "outcome": "REPAIRED",
+      "failedObligationsRepaired": [
+        "REQUIRED_BEFORE_FILING",
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SERVICE"
+      ],
+      "buildScript": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs (EAST host)",
+      "confirmedTheEarlierRepairWasAbsent": "Yes, before anything was changed. Every defect VF05 and the vt10 re-read named was present in the committed bytes at this base: Town_Court_Specify carried 'Village Court, Village o'; CJTN_Unknown and NYSID_Unknown both carried 'NYSID/New York State Identification N'; Docket_Case_Number_Unknown carried a rule of thirty underscores; File_Copy carried undecoded subsetted-font bytes; Application_Complete, File_Copy and Copies_Sent all carried requiredBeforeFiling true; and the only cost, destination and service statement in participant-instructions.md was the seven-item catch-all. The mojibake count in the delivered instructions was 28 control characters, matching the re-read rather than the 22 first recorded.",
+      "theRootTheReReadIdentified": "Confirmed. Defects 2, 3 and 4 were one sentence -- 'Confirm current revision, filing destination, local procedures, fees, attachments, service, and proposed-order requirements before filing' -- standing in for three answers the repository holds.",
+      "whatTheRepositoryHolds": {
+        "filingDestination": "The form's own first printed instruction, extracted from the pinned binary: 'Submit your application to the Court where you were convicted.' The committed track registry entry for ny_mrta_marijuana adds one application per court, and the three submission methods (that court's EDDS, first-class mail, in person).",
+        "fee": "The same printed instruction line: '(NOTE: There is no application fee.)' The track registry records rules.fees as 'None identified for the destruction request. The DCJS Record Review carries its own fee' and rules.feeWaiver as 'not applicable.'",
+        "service": "The track registry records rules.notice as 'none by the participant' and rules.service as 'none'. Item 6 of the form's own court-use-only checklist reads 'Copies of application sent to prosecutor, law enforcement agencies and DCJS as applicable for further processing' -- the court distributes, the participant serves nobody. The packet now states that affirmatively and names the clerk of the court of conviction as the office to ask about status.",
+        "standardApplied": "DET-FEE-AND-WAIVER-001 A1 as widened by A2 and A4: the repository establishes all three, so the packet states them. No named authority stands in for an answer that is held."
+      },
+      "requiredBeforeFilingRepair": "A per-document caption table read off the form's printed face corrects the six mis-mapped labels and the three court-use-only controls are reclassified to the trusted refusal class court_prosecutor_clerk_or_agency_owned, which is what the form's own '***FOR COURT USE ONLY - DO NOT WRITE BELOW THIS LINE***' rule makes them. Their captions are also corrected to the checklist items their AcroForm names correspond to (items 2, 5 and 6), so the map is honest about controls the participant never touches.",
+      "mojibake": {
+        "instructionsControlCharactersBefore": 28,
+        "instructionsControlCharactersAfter": 0,
+        "fieldMapControlCharacterEscapesBefore": 28,
+        "fieldMapControlCharacterEscapesAfter": 0
+      },
+      "verification": {
+        "completenessBefore": "PASS_COMPLETE 12/33, nine counters zero",
+        "completenessAfter": "PASS_COMPLETE 12/33, nine counters zero",
+        "hostCheckMode": "build-census-v1-ny_mrta_marijuana-set: CHECK PASS (2 PDFs; 2 rasters)",
+        "builtTwiceByteIdentical": true,
+        "deliveredPdfsUnchanged": "Both fixtures are byte-identical to the committed bytes. This family owes no re-raster."
+      }
+    },
+    "ny_160_59_petition-set": {
+      "lane": "FIX05",
+      "outcome": "REPAIRED",
+      "failedObligationsRepaired": [
+        "CLIPPING_AND_OVERLAP",
+        "REQUIRED_BEFORE_FILING",
+        "SERVICE",
+        "SELF_HELP_STOP"
+      ],
+      "buildScript": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs (EAST host)",
+      "CLIPPING_AND_OVERLAP": {
+        "mechanismFound": "Not a fitter defect. Every widget of 'Applicant Name', 'Street Address', 'City State Zip', 'Phone' and 'Email' on the CPL 160.59 pro se packet carries its OWN /DA of '/Arial 11 Tf 0 0 0 rg', while the field-level /DA is '/Helv 0 Tf'. applyFitToTextField writes the fitted size onto the FIELD, and the widget's own entry is what the appearance generator uses -- so the fitted 7.5, 9.5, 7 and 8 points were discarded and every value drew at 11. reports/actual-writes.json recorded outcome 'shrunk' and the bytes ignored it: the report was true about the fit and false about the ink.",
+        "measuredBefore": "pro-se-packet-boundary.pdf carried 605 text runs whose extent crosses the 612-point page edge; the pristine bound source carries 598. Seven of them were participant ink.",
+        "measuredAfter": "605 -> 598, exactly the pristine source's own count. Zero runs of participant ink now leave the page box. The application (153) and certificate-of-disposition (43) fixtures equal their pristine sources before and after.",
+        "repair": "An opt-in alignWidgetFontSizeToFit option on the shared finalizer, declared by this family's three rendered documents. It rewrites ONLY the size token inside a widget's existing /DA, preserving the font resource name and the colour operators, and it is a no-op where the fit already equals the widget's declared size -- which is why every canonical fixture, whose values all fit at 11, is byte-identical.",
+        "whyOptIn": "The option follows the precedent the module already sets for evaluateDeclaredMinimumSize: forty-odd builders share this finalizer under other workers' claims, and a repair lane holding four families does not decide what the others' next rebuild produces. The default is unchanged and no family outside this one passes the flag."
+      },
+      "REQUIRED_BEFORE_FILING": {
+        "mechanismFound": "The off-by-one is a tie in captureWidgetContext. It takes the caption printed to the LEFT of a widget on the same line and breaks ties on horizontal gap alone. On the certificate-of-disposition request's page-2 identifier column every caption ends at the same x, so eleven candidate gaps are equal to 3.1 points and a run of ten widgets each took the caption of the row above: IDVNumber captioned 'Docket, Indictment, or SCI Number', PartialDocketNumber captioned 'NYSID Number', and so on down the stack.",
+        "whyNotFixedInTheCaptureModule": "A vertical-distance tie-break was implemented and measured against both New York forms before the table was written. It corrects the identifier stacks and regresses about a dozen other widgets onto the underscore rules printed beneath them, so it trades one wrong-caption class for another; and captureWidgetContext is shared far beyond these fifteen families.",
+        "repair": "A per-document caption table of what the FORM PRINTS beside each named widget, read off the printed face of all three rendered sources, plus a guard that refuses a caption whose bytes did not decode. 55 captions corrected across the three documents. Nothing is invented and nothing is reworded; where a caption is a column heading rather than an inline label, the row it belongs to is named after a dash.",
+        "oneCaptionDeliberatelyNotUsed": "Address_of_DA_1 and Address_of_DA_2 print '[address(es) of District Attorney's office(s)]' as a bracketed note under the pair of rules. Using that as the caption made the completeness contract classify both as ATTORNEY_BLOCK, a class the participant does not complete, and the family failed FAIL_MISSING_PREFILLS with unclassifiedBlanks 2. These two rules ARE the participant's to fill in on their own affidavit, so the form's inline caption 'at the following address(es)' is used instead. Recorded because it is a real edge in the contract's label vocabulary, not a workaround anyone should have to rediscover.",
+        "mojibakeBefore": 6,
+        "mojibakeAfter": 0
+      },
+      "SERVICE": {
+        "foundBy": "The verifier that raised it, independently of any prior lane.",
+        "whatTheRepositoryHolds": "Three committed records. The track registry entry for ny_160_59_petition holds rules.filing ('serve the county district attorney'), rules.notice ('The county district attorney, who may consent or object') and rules.service ('Service on the district attorney with proof of service'); the route obligation census holds destination.detail to the same effect and names a service_instructions component for the route; the delivered pro se packet prints who, how and proof in its own steps 4 and 5, and the delivered application prints the 45-day consideration period on its own face.",
+        "repair": "A 'Who must be served' section stating who (the District Attorney of each county of conviction, or the Attorney General / Special Narcotics Prosecutor where they prosecuted), how (before filing, in person time-stamped or by mail), the proof (a notarized Affidavit of Service per prosecutor, attached at filing), the rule that a mailed copy never excuses the affidavit, and the 45 days that follow. 'service' is removed from the catch-all line so the sentence no longer claims to cover it."
+      },
+      "SELF_HELP_STOP": {
+        "whatWasAbsent": "No 'not legal advice', no 'not filed for you', no statement that the packet does not decide whether the conviction can be sealed, no stop section and no counsel referral. The legal-aid sentence the fee repair had added is a cost fact inside the cost section and does not close this obligation.",
+        "repair": "A 'Where self-help ends' section carrying all ten stop conditions the committed track registry holds in selfHelpStopConditions, verbatim in substance and none softened -- including immigration exposure, District Attorney objection, class A felonies (excluded here though Clean Slate carves them back in), single-transaction arguments, firearms licensing, and federal and out-of-state convictions New York sealing does not reach -- above a statement of what the packet is not and who to ask for what."
+      },
+      "verification": {
+        "completenessBefore": "PASS_COMPLETE 34/148, nine counters zero",
+        "completenessAfter": "PASS_COMPLETE 34/148, nine counters zero",
+        "hostCheckMode": "build-census-v1-ny_160_59_petition-set: CHECK PASS (6 PDFs; 40 rasters)",
+        "builtTwiceByteIdentical": true,
+        "fiveOfSixFixturesUnchanged": "application-canonical, application-boundary, cod-request-canonical, cod-request-boundary and pro-se-packet-canonical are byte-identical to the committed bytes. Only pro-se-packet-boundary.pdf moved, and only three of its twelve raster pages."
+      }
+    },
+    "oh_marijuana_expungement-set": {
+      "lane": "FIX01",
+      "outcome": "REPAIRED",
+      "failedObligationsRepaired": [
+        "COMPONENT_SET",
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "buildScript": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs (EAST host, composed family)",
+      "whatWasActuallyWrong": "The build already produced the completeness contract. It had never been committed. production-field-map.json and participant-instructions.md are generated by buildComposed on every run, are not gitignored, and are committed for this family's sibling rcap-oh-custom-pleading-clean-tracks -- they were simply missed when this family was staged. The verifier's 0/0 FAIL_COMPONENT_SET was the audit refusing a family whose contract was absent from the tree, and its nine zeros measured nothing, exactly as the row said.",
+      "theSecondDefect": "Paragraph 9 of the application promises 'the certified disposition and list every charge arising from the same act' and Ohio Rev. Code Sec. 2953.61 makes that list decisive for whether the qualifying conviction can be expunged at all. There was nowhere to put it and no row of the contract named it, so the packet asked for a document it never disclosed. The attachment schedule now names it -- 'Ohio Rev. Code Sec. 2953.61 same-act charge schedule: a written list of every charge arising from the same act as the qualifying conviction (participant must assemble)' -- a declared required-before-filing row carries it on the contract's own channel, and participant-instructions.md discloses it. The vaguer 'Complete same-act charge schedule' line the boundary fixture already carried is replaced rather than duplicated.",
+      "trackScoped": "Both changes are scoped to the oh_marijuana_expungement track. The sibling composed family rcap-oh-custom-pleading-clean-tracks and its four tracks are byte-identical across the sweep.",
+      "whatIDidNotDo": {
+        "bracketedPlaceholders": "The row's theSecondChange asks for the bracketed builder placeholders on the pleading face -- [ARRESTING AGENCY MUST BE CONFIRMED], [ARREST DATE TO BE CONFIRMED], [DISPOSITION DATE TO BE CONFIRMED] -- to become labelled dotted blanks. They are emitted by src/lib/record-clearing/renderers/custom-pleading-renderer.ts, which is shared by the North Dakota, District of Columbia, Wyoming and Oklahoma pleading families and guarded by its own byte-preservation verifier (scripts/verify-nd-shared-renderer-byte-preservation.mjs). Changing it is renderer work reaching far outside these fifteen families, and my brief forbids it. All three are declared required-before-filing rows with identities and printed labels and all three are disclosed in participant-instructions.md, so the participant is told about every one; what is owed is presentation, not disclosure. FOR A CAPTAIN: this needs a lane that holds the shared pleading renderer.",
+        "theThirdChange": "The row also asks how the fee, waiver and hard-stop content in participant-instructions.md reaches a participant who receives only the rendered PDF. FEE_AND_WAIVER, SELF_HELP_STOP and SERVICE all PASS on this family, so that is a design decision about delivery rather than a failed obligation, and it is not mine to settle. FOR A CAPTAIN."
+      },
+      "doNotDoObserved": "The tracks/<trackId>/ layout and the BCI companion binding were not deleted or altered. The bound OH BCI source rehashes to 9234ec763403b1ccfbed796dfcf86f29bf7887390d1770460d0bcc9da31fc8cb at 235789 bytes on every build.",
+      "companionPdfNotCommitted": "companion/OH-BCI-SEALING-EXPUNGEMENT-REQUEST--official-source.pdf is produced on disk by every build and is deliberately not committed, matching the recorded corpus-binary exclusion (commit c01b87d15) and matching the sibling family, which does not commit it either.",
+      "verification": {
+        "completenessBefore": "FAIL_COMPONENT_SET, auditable false, 0/0 fields written",
+        "completenessAfter": "PASS_COMPLETE 6/14 written, nine counters zero and measured rather than refused",
+        "hostCheckMode": "build-census-v1-oh_marijuana_expungement-set: CHECK PASS (3 PDFs)",
+        "builtTwiceByteIdentical": true
+      }
+    }
+  },
+  "sharedHostChange": {
+    "file": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+    "additions": [
+      "source({ captions }) -- an opt-in per-document table of the caption the form prints beside a named widget, applied to refusal rows only; a candidate_write row is never given a caption, and a document declaring no table is untouched.",
+      "COURT_USE_ONLY -- a marker in that table turning a row into the trusted court_prosecutor_clerk_or_agency_owned refusal, optionally with the caption the form prints for it.",
+      "readableCaption() -- refuses a caption carrying C0/C1 control characters, scoped to documents that declare a caption table. It also scrubs a caption carried forward inside an installed classification, which the fresh census guard cannot see.",
+      "filingDestinationSection / serviceSection / selfHelpStopSection -- opt-in instruction sections mirroring the existing feeAndWaiverSection.",
+      "confirmBeforeFilingLine() -- the catch-all sentence with every item a declared section now answers removed from it. With no section declared it reproduces the legacy sentence character for character; with only the cost section declared it reproduces what that family already carried. Verified by the sweep: every family declaring nothing new is byte-identical.",
+      "source({ alignWidgetFontSizeToFit }) -- threaded to the shared finalizer at both call sites, false for every document that does not declare it.",
+      "COMPOSED_PLEADING_TRACK_BLANKS -- a per-track extra blank for a composed family, disclosed in the composed participant instructions alongside the shared ones."
+    ],
+    "sharedFinalizerFile": "scripts/rcap-official-forms/rcap-official-form-finalize.mjs",
+    "sharedFinalizerAddition": "alignWidgetFontSizeToFit, default false, plus alignWidgetDefaultAppearanceSizes() and a report.widgetFontSizeAligned ledger. Off, it is a no-op; on, it rewrites only the size token inside a widget's own /DA and only where that size differs from the measured fit.",
+    "captainDecisionRecorded": "Both opt-in flags on the shared finalizer carry the same note: the default should flip to true once every family can be rebuilt together. A shrunk fit that the bytes ignore is a defect wherever it occurs, not only in New York."
+  },
+  "eastHostRebuildSweep": {
+    "method": "The tree was restored to the base commit, the two changed scripts were reverted to their base contents, all fifteen EAST families were rebuilt and every file under the five jurisdiction overlay roots was hashed (859 files). The tree was restored again, the changed scripts were reapplied, all fifteen were rebuilt and the same 859 files were hashed. The difference is attributable to the host change and to nothing else. The pre-change build was separately proven deterministic by running it twice with identical hashes for all 859 files.",
+    "familiesRebuilt": 15,
+    "familiesWhoseBytesChanged": 3,
+    "filesChanged": 30,
+    "perFamily": [
+      {
+        "familyId": "nj_arrest_no_conviction-set",
+        "directory": "data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill",
+        "bytesChanged": "no",
+        "filesChanged": 0,
+        "files": []
+      },
+      {
+        "familyId": "nj_clean_slate-set",
+        "directory": "data/rcap-all50/overlays/census-v1/nj/nj-clean-slate-set--official-pdf-fill",
+        "bytesChanged": "no",
+        "filesChanged": 0,
+        "files": []
+      },
+      {
+        "familyId": "nj_disorderly_persons-set",
+        "directory": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill",
+        "bytesChanged": "no",
+        "filesChanged": 0,
+        "files": []
+      },
+      {
+        "familyId": "nj_indictable_conviction-set",
+        "directory": "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill",
+        "bytesChanged": "no",
+        "filesChanged": 0,
+        "files": []
+      },
+      {
+        "familyId": "nj_ordinance-set",
+        "directory": "data/rcap-all50/overlays/census-v1/nj/nj-ordinance-set--official-pdf-fill",
+        "bytesChanged": "no",
+        "filesChanged": 0,
+        "files": []
+      },
+      {
+        "familyId": "ny_160_59_petition-set",
+        "directory": "data/rcap-all50/overlays/census-v1/ny/ny-160-59-petition-set--official-pdf-fill",
+        "bytesChanged": "yes",
+        "filesChanged": 11,
+        "files": [
+          "data/rcap-all50/overlays/census-v1/ny/ny-160-59-petition-set--official-pdf-fill/build-findings.json",
+          "data/rcap-all50/overlays/census-v1/ny/ny-160-59-petition-set--official-pdf-fill/field-census.census-v1.json",
+          "data/rcap-all50/overlays/census-v1/ny/ny-160-59-petition-set--official-pdf-fill/fixtures/pro-se-packet-boundary.pdf",
+          "data/rcap-all50/overlays/census-v1/ny/ny-160-59-petition-set--official-pdf-fill/participant-instructions.md",
+          "data/rcap-all50/overlays/census-v1/ny/ny-160-59-petition-set--official-pdf-fill/production-field-map.json",
+          "data/rcap-all50/overlays/census-v1/ny/ny-160-59-petition-set--official-pdf-fill/raster/pro-se-packet-boundary/page-09.png",
+          "data/rcap-all50/overlays/census-v1/ny/ny-160-59-petition-set--official-pdf-fill/raster/pro-se-packet-boundary/page-11.png",
+          "data/rcap-all50/overlays/census-v1/ny/ny-160-59-petition-set--official-pdf-fill/raster/pro-se-packet-boundary/page-12.png",
+          "data/rcap-all50/overlays/census-v1/ny/ny-160-59-petition-set--official-pdf-fill/reports/actual-writes.json",
+          "data/rcap-all50/overlays/census-v1/ny/ny-160-59-petition-set--official-pdf-fill/reports/contact-sheets/pro-se-packet-boundary.png",
+          "data/rcap-all50/overlays/census-v1/ny/ny-160-59-petition-set--official-pdf-fill/reports/rendered-artifacts.json"
+        ]
+      },
+      {
+        "familyId": "ny_mrta_marijuana-set",
+        "directory": "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill",
+        "bytesChanged": "yes",
+        "filesChanged": 4,
+        "files": [
+          "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/build-findings.json",
+          "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/field-census.census-v1.json",
+          "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/participant-instructions.md",
+          "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/production-field-map.json"
+        ]
+      },
+      {
+        "familyId": "oh_marijuana_expungement-set",
+        "directory": "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading",
+        "bytesChanged": "yes",
+        "filesChanged": 15,
+        "files": [
+          "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/participant-instructions.md",
+          "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/production-field-map.json",
+          "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/raster/oh_marijuana_expungement-boundary/page-03.png",
+          "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/raster/oh_marijuana_expungement-canonical/page-03.png",
+          "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/reports/contact-sheets/oh_marijuana_expungement-boundary.png",
+          "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/reports/contact-sheets/oh_marijuana_expungement-canonical.png",
+          "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/reports/rendered-artifacts.json",
+          "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/tracks/oh_marijuana_expungement/boundary-fixture.json",
+          "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/tracks/oh_marijuana_expungement/canonical-fixture.json",
+          "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/tracks/oh_marijuana_expungement/rendered/boundary/boundary.pdf",
+          "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/tracks/oh_marijuana_expungement/rendered/boundary/boundary.txt",
+          "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/tracks/oh_marijuana_expungement/rendered/boundary/render-report.json",
+          "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/tracks/oh_marijuana_expungement/rendered/canonical/canonical.pdf",
+          "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/tracks/oh_marijuana_expungement/rendered/canonical/canonical.txt",
+          "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/tracks/oh_marijuana_expungement/rendered/canonical/render-report.json"
+        ]
+      },
+      {
+        "familyId": "pa_490_nonconviction-set",
+        "directory": "data/rcap-all50/overlays/census-v1/pa/pa-490-nonconviction-set--official-pdf-fill",
+        "bytesChanged": "no",
+        "filesChanged": 0,
+        "files": []
+      },
+      {
+        "familyId": "pa_6308_underage-set",
+        "directory": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--custom-pleading",
+        "bytesChanged": "no",
+        "filesChanged": 0,
+        "files": []
+      },
+      {
+        "familyId": "pa_790_nonconviction-set",
+        "directory": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill",
+        "bytesChanged": "no",
+        "filesChanged": 0,
+        "files": []
+      },
+      {
+        "familyId": "pa_9122_1_limited_access-set",
+        "directory": "data/rcap-all50/overlays/census-v1/pa/pa-9122-1-limited-access-set--official-pdf-fill",
+        "bytesChanged": "no",
+        "filesChanged": 0,
+        "files": []
+      },
+      {
+        "familyId": "pa_summary_conviction-set",
+        "directory": "data/rcap-all50/overlays/census-v1/pa/pa-summary-conviction-set--official-pdf-fill",
+        "bytesChanged": "no",
+        "filesChanged": 0,
+        "files": []
+      },
+      {
+        "familyId": "rcap-oh-custom-pleading-clean-tracks",
+        "directory": "data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading",
+        "bytesChanged": "no",
+        "filesChanged": 0,
+        "files": []
+      },
+      {
+        "familyId": "ri_nonconviction_sealing-set",
+        "directory": "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill",
+        "bytesChanged": "no",
+        "filesChanged": 0,
+        "files": []
+      }
+    ],
+    "receiptsPreserved": "The twelve families whose bytes did not change keep their existing raster receipts and are owed no re-review. They were restored to their committed bytes and nothing of theirs is in this branch."
+  },
+  "preExistingBaseDriftFound": {
+    "what": "At the base commit, rebuilding the fifteen EAST families does not reproduce the committed bytes for any of them. This is present before any change of mine and is a finding about the branch, not about this repair.",
+    "examples": [
+      "nj_arrest_no_conviction-set, nj_clean_slate-set, nj_indictable_conviction-set, nj_ordinance-set, pa_490_nonconviction-set, pa_790_nonconviction-set, pa_summary_conviction-set and ny_mrta_marijuana-set: reports/actual-writes.json gains a protectedSourceOwnedAppearances field the host emits and the committed file predates.",
+      "nj_disorderly_persons-set: both CN-10557 fixtures, the field map, the instructions, twenty raster pages and two contact sheets differ from the committed bytes.",
+      "pa_9122_1_limited_access-set: fixtures/rule-791-petition-boundary.pdf differs from the committed bytes.",
+      "pa_6308_underage-set: the build DELETES committed packet-component-specification.json from the STOP target.",
+      "ri_nonconviction_sealing-set: participant-instructions.md and production-field-map.json differ.",
+      "rcap-oh-custom-pleading-clean-tracks and oh_marijuana_expungement-set: raster pages and contact sheets differ."
+    ],
+    "whatIDidAboutIt": "Nothing outside my four families. Every sibling was restored to its committed bytes and no sibling file is in this branch. Inside my own three EAST families the drift is absorbed, because a family whose committed rendered-artifacts.json records hashes its committed rasters do not carry is not auditable; the absorbed files are listed below.",
+    "absorbedWithinMyFamilies": [
+      "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/reports/actual-writes.json",
+      "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/approval-request.json",
+      "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/raster/oh-bci-official-source/page-01.png",
+      "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/raster/oh_marijuana_expungement-boundary/page-01.png",
+      "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/raster/oh_marijuana_expungement-boundary/page-02.png",
+      "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/raster/oh_marijuana_expungement-canonical/page-01.png",
+      "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/raster/oh_marijuana_expungement-canonical/page-02.png",
+      "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/reports/contact-sheets/oh-bci-official-source.png"
+    ],
+    "forACaptain": "Twelve EAST families cannot currently be rebuilt without moving their committed bytes, so any lane told to rebuild one and prove byte-identity will report a failure that is not its own. This wants a single sweep that rebuilds and re-rasters the whole host at once, not fifteen lanes discovering it separately."
+  },
+  "rasterOwed": [
+    {
+      "familyId": "pa_pardon_expungement-set",
+      "why": "The process-guidance page now prints the two canonical route keys; the RASTER_QUEUE receipt is pinned to the pre-repair pair.",
+      "artifacts": [
+        {
+          "file": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+          "oldSha256": "fb5024c3acb10682ac4e167fdcac4e83e6064b86293a7aa1eb602b97e12425af",
+          "newSha256": "888d476669d2dcfa9db325c08eef46bb749c825f1fd745afc863c59e6dd64f74",
+          "pagesThatMoved": [
+            5
+          ],
+          "pageCount": 5
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
+          "oldSha256": "bf36782337fd233e293784fe14bc08cd055f94e5bce8cfdc0d9eae212f66e368",
+          "newSha256": "bdc27af98952ba01e1e0ce67ae528b63aad7b73111e7780071cdd5b30e84c5f2",
+          "pagesThatMoved": [
+            5
+          ],
+          "pageCount": 5
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/raster/canonical/page-05/page.png",
+          "oldSha256": "d89dba2be5a35bedce9cc132212197f26825c8f622adc34ea14ffc8ce678d871",
+          "newSha256": "e66fea3589e4656478b79ba0d8d4634c512af28420e204194606c34b7028103a"
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/raster/boundary/page-05/page.png",
+          "oldSha256": "d89dba2be5a35bedce9cc132212197f26825c8f622adc34ea14ffc8ce678d871",
+          "newSha256": "e66fea3589e4656478b79ba0d8d4634c512af28420e204194606c34b7028103a"
+        }
+      ]
+    },
+    {
+      "familyId": "ny_160_59_petition-set",
+      "why": "One fixture of six moved: the boundary pro se packet, where four participant values now render at the size the fitter measured instead of at the widget's declared 11 points. The other five fixtures are byte-identical and their raster coverage stands.",
+      "artifacts": [
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ny/ny-160-59-petition-set--official-pdf-fill/fixtures/pro-se-packet-boundary.pdf",
+          "oldSha256": "a08b62c0300ec8808d288299c23d28240649fa691e0fc925a6a74571b1741ecd",
+          "newSha256": "6b59f8b7c5b90e79c8a2684fda032f3b71efa275fa0ceaf965d85020b4fe63f4",
+          "pagesThatMoved": [
+            9,
+            11,
+            12
+          ],
+          "pageCount": 12
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ny/ny-160-59-petition-set--official-pdf-fill/raster/pro-se-packet-boundary/page-09.png",
+          "oldSha256": "0082eb3886fa65d009c909b1b2ca46c6da2395c6447180002fb2dcc2a5ab7303",
+          "newSha256": "8d0c952bdaab287063c023ecd780e7d924c9e0132904c25f58eec19c2976c584"
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ny/ny-160-59-petition-set--official-pdf-fill/raster/pro-se-packet-boundary/page-11.png",
+          "oldSha256": "e60c7f89c85666e37e00d2bab430facc05bc7817bc0656a93f24f1adcd067e46",
+          "newSha256": "41b4a98809b5a2780bf495b14d6c0a65bc12f660c0c78cf26f4184155a190ea7"
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ny/ny-160-59-petition-set--official-pdf-fill/raster/pro-se-packet-boundary/page-12.png",
+          "oldSha256": "d0a4839b95e20c976071cb33a148cf373a187e686eb833278220157c719b918e",
+          "newSha256": "0649ace50086033aac201fa0776b6c44b293a1fee764b13c8627c878a5df67a0"
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ny/ny-160-59-petition-set--official-pdf-fill/reports/contact-sheets/pro-se-packet-boundary.png",
+          "oldSha256": "db5baac22a13e38e1452226d21db661f06a9de5a9efb2444fdf6b8e3ad2e6e05",
+          "newSha256": "73da452c3c188f12917452e34e54cce086af83d132d5b8bf6944b2fc724f26e0"
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ny/ny-160-59-petition-set--official-pdf-fill/fixtures/application-canonical.pdf",
+          "unchanged": true,
+          "sha256": "a82a2f8dc0eef9cbbb217509ddbe1ada95ef8e06ba23fa57c9c30b026c91f22c"
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ny/ny-160-59-petition-set--official-pdf-fill/fixtures/application-boundary.pdf",
+          "unchanged": true,
+          "sha256": "cda7142cd49f0dd4ed89f32e29227d7d440981371678411f82b3bb3f3ff84b6d"
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ny/ny-160-59-petition-set--official-pdf-fill/fixtures/cod-request-canonical.pdf",
+          "unchanged": true,
+          "sha256": "316a241c14f6aac3b145bb87408d927c7161fc02d5d2c696e71b0f7fa3c5231a"
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ny/ny-160-59-petition-set--official-pdf-fill/fixtures/cod-request-boundary.pdf",
+          "unchanged": true,
+          "sha256": "2b2c073033e0b20b3dd3448fd87a314f9d04dc533cfd99730e30a0ee6afba274"
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ny/ny-160-59-petition-set--official-pdf-fill/fixtures/pro-se-packet-canonical.pdf",
+          "unchanged": true,
+          "sha256": "f15d406fec2df9ebfa64db772c3c99f0c2101ae49bfa4be4293a25d50826b01f"
+        }
+      ]
+    },
+    {
+      "familyId": "ny_mrta_marijuana-set",
+      "why": "Nothing. Both delivered PDFs and both raster pages are byte-identical to the committed bytes; only the field map, the instructions, the census record and the build findings moved. Its RASTER_PASS receipt stands and no re-raster is owed.",
+      "artifacts": []
+    },
+    {
+      "familyId": "oh_marijuana_expungement-set",
+      "why": "Both pleading renders gained the Sec. 2953.61 same-act charge schedule on the attachment page. The family is absent from RASTER_QUEUE.json and has no central raster receipt, so what it owes is a first queueing rather than a re-raster.",
+      "artifacts": [
+        {
+          "file": "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/tracks/oh_marijuana_expungement/rendered/canonical/canonical.pdf",
+          "oldSha256": "f46c9e873fb90524b0207f8007086aa3763082394ae52effed9703fba24f2a5a",
+          "newSha256": "ddf3d4840f5ef8fa46d0f80992c927c8ce9bbb24194604c317f97188908d027a",
+          "pagesThatMoved": [
+            3
+          ],
+          "pageCount": 3
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/tracks/oh_marijuana_expungement/rendered/boundary/boundary.pdf",
+          "oldSha256": "44f8a1befb19e29b22506ed4a9f30364458ea948b0a67b16fba3708ff9da8422",
+          "newSha256": "330138cf065ddac35a13d93d49ad1f2636479f71c02e63f4a60a5f9ac7b846a8",
+          "pagesThatMoved": [
+            3
+          ],
+          "pageCount": 3
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/tracks/oh_marijuana_expungement/rendered/canonical/canonical.txt",
+          "oldSha256": "13a210a2aac2f8a80a8319f0fbb6516bd57ffadd7c57ae663d206fa10bc64073",
+          "newSha256": "ae3903109bb28ed4a789b3911c5ad92a23acc5e19b95dd529937f91f7c451382"
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/tracks/oh_marijuana_expungement/rendered/boundary/boundary.txt",
+          "oldSha256": "025dee088bf52e1fc4543eb63b17c8db91f7b70d8cb66792cf88a78434b57345",
+          "newSha256": "141efb5e5f7423ec020d837eac9aa1245783ab89531713988df6cfaabcbdcb75"
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/raster/oh_marijuana_expungement-canonical/page-03.png",
+          "oldSha256": "42cc10fa67bc8a0749644d59599b0945bec679b01f246e6153d95faf82609e69",
+          "newSha256": "e4cb1fd34a81664b5882e18db2b54ecdf3a99f1496ce8b3d59074ed7a545e1c0"
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/raster/oh_marijuana_expungement-boundary/page-03.png",
+          "oldSha256": "9a85da6c135d164870cb508ff8357a5febb6e15a150f4323b7eb80d61525e4ce",
+          "newSha256": "038ada0f27e4beb9e5031db54bb0173dae41e406fabc2683960adcc66e04ddb4"
+        }
+      ]
+    }
+  ],
+  "forTheCaptain": [
+    {
+      "id": "R18-C1",
+      "subject": "pa_pardon_expungement-set product-wiring.json is stale on both digests and must be regenerated.",
+      "detail": "At this base it declares canonical sha256 4a7113112f29b05f... The committed canonical.pdf hashed fb5024c3... BEFORE my repair and 888d4766... after it, so the file was already stale when I arrived and the ARTIFACTS correction the brief describes as already made is not in commit d0cb5f87. I did not edit it: it is Captain-generated and its two route keys were correct. It needs regeneration against the new canonical, and RASTER_QUEUE.json's pinned pair for this family needs the same."
+    },
+    {
+      "id": "R18-C2",
+      "subject": "MASTER_QUEUE.json still carries the retired Pennsylvania route key.",
+      "detail": "obligation:track-pathway:PA:pa_pardon_expungement:rule-790-expungement occurs zero times in either census file and now occurs zero times in the family directory, but MASTER_QUEUE.json and ACTIVE_ASSIGNMENTS.json still name it. I may not write to either. A reader of the queue still sees a route key that does not exist."
+    },
+    {
+      "id": "R18-C3",
+      "subject": "ny_mrta_marijuana-set is recorded OPEN_LEGAL_INPUT for a question its own form answers.",
+      "detail": "MASTER_QUEUE carries legalInputStatus OPEN_LEGAL_INPUT / basis LEGAL_APPROVAL_VERDICT on this family for fee and waiver treatment. The re-read flagged it and I confirmed it from the bytes: the form's first printed instruction line states '(NOTE: There is no application fee.)' and the committed track registry records rules.fees and rules.feeWaiver to the same effect. This was a packet-content defect, and it is repaired. MASTER_QUEUE was not edited."
+    },
+    {
+      "id": "R18-C4",
+      "subject": "The bracketed builder placeholders on the Ohio pleading need a lane that holds the shared pleading renderer.",
+      "detail": "[ARRESTING AGENCY MUST BE CONFIRMED], [ARREST DATE TO BE CONFIRMED] and [DISPOSITION DATE TO BE CONFIRMED] are emitted by src/lib/record-clearing/renderers/custom-pleading-renderer.ts, shared with the North Dakota, DC, Wyoming and Oklahoma pleading families and guarded by its own byte-preservation verifier. All three are declared and disclosed, so the participant is told about each; making them labelled blanks instead of bracketed instructions is renderer work outside this lane."
+    },
+    {
+      "id": "R18-C5",
+      "subject": "Twelve EAST families cannot be rebuilt at this base without moving their committed bytes.",
+      "detail": "See preExistingBaseDriftFound. Any lane instructed to rebuild one of them and prove byte-identity will report a failure it did not cause, and pa_6308_underage-set's build deletes a committed file outright. This wants one deliberate host-wide rebuild and re-raster rather than fifteen separate discoveries."
+    },
+    {
+      "id": "R18-C6",
+      "subject": "Two opt-in flags on the shared official-form finalizer should become the default once the host can be rebuilt as a whole.",
+      "detail": "evaluateDeclaredMinimumSize was already there under that note. alignWidgetFontSizeToFit joins it. A fitted size the widget's own /DA discards is a defect wherever it occurs: any family whose source carries widget-level /DA entries and any shrunk fit is drawing ink the report does not describe. Only these three New York documents opt in today, so the class is unmeasured elsewhere."
+    },
+    {
+      "id": "R18-C7",
+      "subject": "The completeness contract's ATTORNEY_BLOCK label class catches 'District Attorney' in a participant's own service blank.",
+      "detail": "classifyField matches /\\battorney\\b/ before the participant classes, so a blank whose printed caption reads '[address(es) of District Attorney's office(s)]' is classified as a field the participant does not complete, and a correct caption made the family fail. I worked around it by using the form's other printed caption for those two rules, which is honest and is what the form prints inline. The vocabulary edge is real: PROSECUTOR_ONLY already exists for 'district attorney's use', and an address the participant writes on their own affidavit of service is neither. Flagged, not changed."
+    }
+  ],
+  "hardRulesObserved": {
+    "wroteToNoVerifierRows": true,
+    "wroteToNoQueueOrAssignmentFile": true,
+    "wroteToNoProductWiring": true,
+    "ranNoFactoryGenerator": true,
+    "productionSupabaseRlsStripeSecretsMigrations": "untouched",
+    "gitAddAll": "never used; every path staged by name",
+    "modelIdentifierInCommitsOrFiles": "none",
+    "selfVerification": "None. Every measurement here is a repair-lane measurement and none of it is a verdict; these four families are owed an independent read by a lane that is not this one."
+  }
+}

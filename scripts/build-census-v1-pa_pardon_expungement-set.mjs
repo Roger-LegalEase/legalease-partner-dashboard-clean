@@ -219,15 +219,35 @@ const ORDER_OF_DOCUMENTS = ["PA-RCRIM-P-790-PETITION", "PA-RCRIM-P-790-ORDER"];
 export const FAMILY_CONFIGS = Object.freeze({
   "pa_pardon_expungement-set": {
     jurisdiction: "PA",
-    routeKey: "obligation:track-pathway:PA:pa_pardon_expungement:rule-790-expungement",
+    /*
+     * The two route keys below are the ONLY keys the route census carries for
+     * this family. Both are canonical obligations in
+     * data/rcap-grade-a/route-obligation-census-candidate/canonical-route-universe.json
+     * (canonicalObligations, entityType canonical_obligation, parent track
+     * track:PA:pa_pardon_expungement) and both appear in
+     * route-obligation-candidate.json. The key this family declared before --
+     * obligation:track-pathway:PA:pa_pardon_expungement:rule-790-expungement --
+     * occurs zero times in either census file and named no route that exists.
+     *
+     * routeKey is the key of the filing this packet actually carries: the
+     * Rule 790 petition, which is the fallback route taken where the automatic
+     * post-pardon route has not cleared the record. The process-guidance
+     * component carries the other route and says so on its own face.
+     */
+    routeKeys: [
+      "obligation:unit:PA:pa_pardon_expungement:pa_pardon_automatic_route",
+      "obligation:unit:PA:pa_pardon_expungement:pa_pardon_fallback_petition"
+    ],
+    routeKey: "obligation:unit:PA:pa_pardon_expungement:pa_pardon_fallback_petition",
+    guidanceRouteKey: "obligation:unit:PA:pa_pardon_expungement:pa_pardon_automatic_route",
     routeSelectionId: "pa-pardon-expungement-rule-790-complete-set",
     legalName: "Expungement Following an Unconditional Pardon",
     routeName: "expungement following an unconditional pardon, under Pa.R.Crim.P. 790",
     statute: "Pa.R.Crim.P. 790",
     documents: ORDER_OF_DOCUMENTS,
     routes: [
-      { id: "rule_790_petition", label: "a Rule 790 petition, where the automatic route has not cleared the record", carriedBy: "PA-RCRIM-P-790-PETITION" },
-      { id: "no_filing_process_guidance", label: "no filing - process guidance, where it has", carriedBy: "process_guidance" }
+      { id: "rule_790_petition", label: "a Rule 790 petition, where the automatic route has not cleared the record", carriedBy: "PA-RCRIM-P-790-PETITION", routeKey: "obligation:unit:PA:pa_pardon_expungement:pa_pardon_fallback_petition" },
+      { id: "no_filing_process_guidance", label: "no filing - process guidance, where it has", carriedBy: "process_guidance", routeKey: "obligation:unit:PA:pa_pardon_expungement:pa_pardon_automatic_route" }
     ]
   }
 });
@@ -520,7 +540,8 @@ function composedBody(config, facts, resolved) {
   L.push("The petition asks for a great deal the platform does not hold: the presiding official who heard the case and their court address, the affiant on the complaint and theirs, the Offense Tracking Number, and every charge row with its title, section, subsection, description, counts, grade and disposition. All of it is listed in this packet's participant instructions, by the words printed beside each blank.", "");
   L.push("WHAT THIS PACKET IS NOT", "");
   L.push("This is a prepared petition, a tendered official order and this guidance page. It is not legal advice, it is not filed for you, and it does not decide whether the court will order expungement.", "");
-  L.push(`Route: ${config.routeKey}`);
+  L.push(`Route carried by this page: ${config.guidanceRouteKey}`);
+  L.push(`Route carried by the petition in this packet: ${config.routeKey}`);
   return L.join("\n");
 }
 
@@ -563,7 +584,7 @@ function composedMap(config) {
   ];
   return {
     formNumber: id,
-    documentPolicy: { mode: "participant", captionOnly: false, documentAcceptsFill: true, routeKey: config.routeKey },
+    documentPolicy: { mode: "participant", captionOnly: false, documentAcceptsFill: true, routeKey: config.guidanceRouteKey },
     structuralClass: "composed_document",
     explicitMappings: {}, roleRefusals: [], selectionControls: [],
     canonicalWrites: writes, canonicalRefusals: [],
@@ -771,7 +792,8 @@ function instructionsMarkdown(config, resolved, rbf) {
   out.push("- **Every checkbox.** Each one is a statement about your own record or a choice only you can make. Read them and tick the ones that are true for you.", "");
   out.push("## What this packet is not", "");
   out.push("This is a prepared set of official Pennsylvania forms — the statewide Pa.R.Crim.P. 790 petition and blank expungement order — and a process-guidance page. It is not legal advice, it is not filed for you, and it does not decide whether the court will order expungement.", "");
-  out.push(`_Route: ${config.routeKey}_`);
+  out.push(`_Route carried by the petition in this packet: ${config.routeKey}_`);
+  out.push(`_Route carried by the process-guidance page: ${config.guidanceRouteKey}_`);
   return `${out.join("\n")}\n`;
 }
 
@@ -781,7 +803,7 @@ function writeArtifacts(ctx) {
   const W = (rel, body) => fs.writeFileSync(path.join(ROOT, outDir, rel), body);
   W("production-field-map.json", `${JSON.stringify({
     schemaVersion: "rcap-official-form-field-map/v1-census-v1",
-    familyId, routeKeys: [config.routeKey], routeSelectionId: config.routeSelectionId,
+    familyId, routeKeys: config.routeKeys, routeSelectionId: config.routeSelectionId,
     jurisdiction: config.jurisdiction, statute: config.statute, legalName: config.legalName,
     officialForms: resolved.map((r) => r.formNumber),
     componentSet: COMPONENTS, documentOfComponent: DOCUMENT_OF_COMPONENT,
