@@ -215,6 +215,42 @@
       ],
       "alsoWorthARepairNote": "SELF_HELP_STOP passes but thinly, on the same reading as VT above.",
       "notThisLanesToFix": "VT-F may not repair what it verifies. No byte of this family was edited."
+    },
+    {
+      "itemId": "tx_nd_conviction_no_supervision-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-nd-conviction-no-supervision-set--official-pdf-fill",
+      "assignedBy": "FABLE-RVD (RV-D), lane VF12",
+      "verifiedAtBase": "726a49dfe0bdadc5f841bd4dadc871c6256418de",
+      "decisiveDefect": "The delivered packet carries a stale date on a sworn declaration. Packet page 20 — page 12 of 12 of the Rule 145 Statement of Inability to Afford Payment of Court Costs — shows '12/15/2022' in both fixtures. The build did not write it; it is inherited from the source binary's own widget appearance and carried through by flattening.",
+      "failedProofObligations": [
+        {
+          "obligation": "PROTECTED_FIELDS",
+          "finding": "The human-captured source at private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf has a field named 'Today' whose normal appearance stream draws '12/15/2022'. That appearance survives flattening onto the delivered declaration page, which prints 'Signature / Firma', 'Date (month, day, year) / Fecha (mes, día, año)' and 'County, state' above otherwise blank rules. The family already refuses the field on the correct ground: reports/blanks-left-for-the-participant.json records tx_nd_conviction_no_supervision-fee-waiver-statement-4.Today with refusalClass 'signature_or_date_participant_completion' and the why 'a date written before the Statement is actually sworn would be false'. The refusal is real; the paper defeats it. A participant filing in 2026 would swear a Rule 145 Statement dated 15 December 2022.",
+          "howToProve": "Decode packet page 20 of fixtures/canonical.pdf including its Form XObjects — the value sits in FlatWidget-4774049913, set in Helvetica with no ToUnicode CMap — and compare against the widget appearance streams of the source binary. A canonical-versus-boundary diff will NOT show it: the value is identical in both fixtures because it is not participant-derived.",
+          "whyTheFamilysOwnProofMissedIt": "reports/actual-writes.json reads back only the build's own measured write boxes. This ink is not one of the build's 15 writes, so nothing examined it."
+        }
+      ],
+      "repairInstruction": "Remove the inherited value from the delivered bytes so the sworn declaration's date position is blank, and keep the existing refusal in place. Either clear the 'Today' field's value and regenerate its appearance before flattening, or drop that widget's appearance stream rather than baking it. Then extend the byte proof so it can see ink it did not author: after flattening, compare the delivered pages against the pinned source's own widget appearances and report any inherited value that lands in a field the family refused. Re-render both fixtures and re-hash.",
+      "checkTheOtherHumanSourceReturns": "This defect comes from a human-captured source rather than a Master Library binary. Any other family binding a document from private/human-source-returns should be checked for the same class of inherited ink before it is trusted; the same capture habit that filled 'Today' can fill other fields.",
+      "doNotDo": "Do not repair this by writing a current date into the field. The family's own stated reason is right: a date written before the Statement is sworn would be false. The correct state is blank.",
+      "obligationsAlreadyPassing": [
+        "ROUTE_IDENTITY",
+        "SOURCE_IDENTITY",
+        "COMPONENT_SET",
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "REPEATING_ROWS",
+        "ARTIFACTS",
+        "PAGE_ORDER",
+        "CLIPPING_AND_OVERLAP",
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SERVICE",
+        "SELF_HELP_STOP"
+      ],
+      "grantsNothing": "This assignment authorises a repair. It opens no route, sets no price and approves no output."
     }
   ],
   "fableV12Append": {
