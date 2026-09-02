@@ -20,11 +20,11 @@
     "EXACT_LEGAL_HOLD": "One named legal-design question must be answered before any treatment is safe."
   },
   "counts": {
-    "ATTACH_HELD_SOURCE": 72,
-    "ACQUIRE_EXACT_SOURCE": 74,
+    "ATTACH_HELD_SOURCE": 73,
+    "ACQUIRE_EXACT_SOURCE": 69,
     "EXACT_LEGAL_HOLD": 3,
     "NON_PACKET_TREATMENT": 1,
-    "COMPOSE_FROM_AUTHORITY": 4,
+    "COMPOSE_FROM_AUTHORITY": 8,
     "EXACT_EXTERNAL_SOURCE_HOLD": 10
   },
   "familiesClassified": 161,
@@ -308,8 +308,10 @@
       "captainDecision": "The family names one order and one petition but Arkansas has two distinct drug court pathways. Either bind the pre-adjudication pair and split a second family for post-adjudication, or make the family carry both branches. This is a route-shape decision, not a source gap.",
       "jurisdiction": "AR",
       "formsNamedByFamily": [
-        "ACIC-ORDER-DRUG-COURT",
-        "ACIC-PETITION-DRUG-COURT"
+        "ACIC-PETITION-DRUG-COURT-PRE",
+        "ACIC-PETITION-DRUG-COURT-POST",
+        "ACIC-ORDER-DRUG-COURT-PRE",
+        "ACIC-ORDER-DRUG-COURT-POST"
       ],
       "artifacts": [
         {
@@ -441,7 +443,12 @@
         }
       ],
       "otherFamiliesServedBySameArtifacts": [],
-      "fableA3Read": "Read: the packs hold both a pre-adjudication and a post-adjudication drug-court pair, each naming its own adjudication posture on page 1. One label over two documents identifies neither."
+      "fableA3Read": "Read: the packs hold both a pre-adjudication and a post-adjudication drug-court pair, each naming its own adjudication posture on page 1. One label over two documents identifies neither.",
+      "supersededFormsNamedByFamily": [
+        "ACIC-PETITION-DRUG-COURT",
+        "ACIC-ORDER-DRUG-COURT"
+      ],
+      "whyReclassified": "ACIC publishes a pre-adjudication petition and order and a post-adjudication petition and order, four materially distinct documents. The two generic obligations each named one document and resolved to two, so neither candidate could stand in without deciding pre- versus post-adjudication by substitution. Each generic obligation is replaced by its two specifically named documents, and the route must answer pre- versus post-adjudication before source binding."
     },
     {
       "familyId": "ar-felony-seal-set",
@@ -853,13 +860,13 @@
     },
     {
       "familyId": "az_certificate_second_chance-set",
-      "class": "ACQUIRE_EXACT_SOURCE",
+      "class": "ATTACH_HELD_SOURCE",
       "why": "Neither the held 10/30/2023 edition nor the 01/01/2022 edition the family names governs the current build. The governing text is the one adopted in R-26-0001, and no document carrying it is held.",
       "captainDecision": null,
       "jurisdiction": "AZ",
       "formsNamedByFamily": [
-        "AOCCRSA3F-010122",
-        "AOCCRSA4F-010122"
+        "AOCCRSA3F-103023",
+        "AOCCRSA4F-103023"
       ],
       "artifacts": [
         {
@@ -929,7 +936,13 @@
         "reclassifiedTo": "ACQUIRE_EXACT_SOURCE (the governing text is not held in any edition)",
         "whatToAcquire": "A current AOC document carrying the R-26-0001 text for this family's instruments, or the order attachment itself.",
         "heldDocumentsRetained": "The 10/30/2023 binaries stay in custody as comparison evidence. They are not bound to the family and must not be shipped as the current form."
-      }
+      },
+      "previousClass": "ACQUIRE_EXACT_SOURCE",
+      "supersededFormsNamedByFamily": [
+        "AOCCRSA3F-010122",
+        "AOCCRSA4F-010122"
+      ],
+      "whyReclassified": "The family named the 01/01/2022 edition of AOCCRSA3F and AOCCRSA4F. The Arizona forms index now resolves to the 10/30/2023 edition of both, and the Master Library already holds exactly that edition: AZ-AOCCRSA3F at 4e2b06d4 (227,060 B) and AZ-AOCCRSA4F at b3aae63f (161,613 B), each recomputed from the bytes on disk in this container and matching the recorded hash. Nothing has to be fetched. The family's named identity moves to the current edition and binds what is held."
     },
     {
       "familyId": "az_set_aside-set",
@@ -938,9 +951,8 @@
       "captainDecision": null,
       "jurisdiction": "AZ",
       "formsNamedByFamily": [
-        "AOCCR41FORM31A-082224",
-        "AOCCR41FORM31A-082224-CONT",
-        "AOCCR41FORM31B-082224"
+        "AOCCR41FORM31A (R-26-0001, effective 08/27/2026)",
+        "AOCCR41FORM31B (R-26-0001, effective 08/27/2026)"
       ],
       "artifacts": [
         {
@@ -1009,7 +1021,22 @@
         "reproductionStatus": "BLOCKED_SOURCE",
         "reproductionBlocker": "The determination authorises creating the exact current form reproduction from the adopted order attachment where no standalone current PDF has been published. Neither the R-26-0001 order nor its attachments is held: the Master Library AZ custody carries AOCCRSL1F/2F, AOCCREM1I/2F/3F and AOCCRSA3F/4F and no Rule 41 Form 31 document at all, and the Nationwide operational tree that held AO-2025-215 is not mounted in this worktree. Outbound fetch to azcourts.gov is refused by the network egress policy of this container (CONNECT 403), so the attachment cannot be retrieved here. Reproducing a form whose adopted text is not in hand would mean inventing legally operative sentences, which the standard forbids. Nothing was drafted.",
         "reproductionUnblockedBy": "Any one of: the R-26-0001 order with its Form 31(a) and 31(b) attachments placed in a mounted custody; a current standalone AOC PDF for either form placed in a mounted custody; or egress to azcourts.gov for the acquisition lane."
-      }
+      },
+      "phantomObligationsRemoved": [
+        {
+          "obligation": "AOCCR41FORM31A-082224-CONT",
+          "parent": "Form 31(a)",
+          "why": "The publisher exposes no standalone -CONT document. Form 31(a) says additional counts continue on a separate page, but neither the official index nor R-26-0001 assigns a form identity or a binary to that page.",
+          "treatment": "Modelled as a continuation region of the parent instrument, composed by the packet. It is not an official form and must never be satisfied by re-binding the parent binary under a second identity."
+        }
+      ],
+      "supersededFormsNamedByFamily": [
+        "AOCCR41FORM31A-082224",
+        "AOCCR41FORM31B-082224",
+        "AOCCR41FORM31A-010126",
+        "AOCCR41FORM31B-010126"
+      ],
+      "whyReclassified": "R-26-0001 amended Form 31(a) and Form 31(b) effective upon filing on 08/27/2026. Neither the assigned 08/22/2024 identity nor the 01/01/2026 standalone the landing page still links is the controlling edition. The family stays ACQUIRE_EXACT_SOURCE, now at the controlling identity rather than a stale one."
     },
     {
       "familyId": "ca-diversion-seal-set",
@@ -1699,7 +1726,6 @@
       "why": "Form 3 is held in the Nationwide Iowa folder under its full rule/form/statute title.",
       "jurisdiction": "IA",
       "formsNamedByFamily": [
-        "Certification of Service by Mailing or Delivery",
         "Rule 2.86 Form 3"
       ],
       "artifacts": [
@@ -1778,7 +1804,15 @@
         }
       ],
       "otherFamiliesServedBySameArtifacts": [],
-      "fableA3Read": "Read: Iowa's two D-pack files are Rule 2.86 Forms 4 and 5; Form 3 is not there. The certification-of-service label names a section, not a document."
+      "fableA3Read": "Read: Iowa's two D-pack files are Rule 2.86 Forms 4 and 5; Form 3 is not there. The certification-of-service label names a section, not a document.",
+      "phantomObligationsRemoved": [
+        {
+          "obligation": "official-form:Certification of Service by Mailing or Delivery",
+          "parent": "Rule 2.86-Form 3 (August 2024)",
+          "why": "The captioned section is printed on page 2 of the current August 2024 Rule 2.86-Form 3. It has no separate form number, revision, URL or binary.",
+          "treatment": "Modelled as a section of the containing form, which is itself a real obligation and unaffected."
+        }
+      ]
     },
     {
       "familyId": "ia-901c2-set",
@@ -1786,7 +1820,6 @@
       "why": "Form 1 is held in the Nationwide Iowa folder. The separately named \"Certification of Service by Mailing or Delivery\" is a section of the same form, verified on the sibling Form 4 held in the Master Library.",
       "jurisdiction": "IA",
       "formsNamedByFamily": [
-        "Certification of Service by Mailing or Delivery",
         "Rule 2.86 Form 1"
       ],
       "artifacts": [
@@ -1865,7 +1898,15 @@
         }
       ],
       "otherFamiliesServedBySameArtifacts": [],
-      "fableA3Read": "Read: Iowa's two D-pack files are Rule 2.86 Forms 4 and 5; Form 1 is not there. The certification-of-service label names a section printed on page 2 of whichever application the family files, not a document."
+      "fableA3Read": "Read: Iowa's two D-pack files are Rule 2.86 Forms 4 and 5; Form 1 is not there. The certification-of-service label names a section printed on page 2 of whichever application the family files, not a document.",
+      "phantomObligationsRemoved": [
+        {
+          "obligation": "official-form:Certification of Service by Mailing or Delivery",
+          "parent": "Rule 2.86-Form 1 (August 2024)",
+          "why": "The captioned section is printed on page 3 of the current August 2024 Rule 2.86-Form 1. It has no separate form number, revision, URL or binary.",
+          "treatment": "Modelled as a section of the containing form, which is itself a real obligation and unaffected."
+        }
+      ]
     },
     {
       "familyId": "ia-901c3-set",
@@ -1874,8 +1915,7 @@
       "jurisdiction": "IA",
       "formsNamedByFamily": [
         "Certification of Service by Mailing or Delivery",
-        "Rule 2.86 Form 2",
-        "Rule 2.86 Form 2 attached sheet"
+        "Rule 2.86 Form 2"
       ],
       "artifacts": [
         {
@@ -1952,7 +1992,15 @@
         }
       ],
       "otherFamiliesServedBySameArtifacts": [],
-      "fableA3Read": "Read: Iowa's two D-pack files are Rule 2.86 Forms 4 and 5; Form 2 and its attached sheet are not there. The certification-of-service label names a section, not a document."
+      "fableA3Read": "Read: Iowa's two D-pack files are Rule 2.86 Forms 4 and 5; Form 2 and its attached sheet are not there. The certification-of-service label names a section, not a document.",
+      "phantomObligationsRemoved": [
+        {
+          "obligation": "official-form:Rule 2.86 Form 2 attached sheet",
+          "parent": "Rule 2.86-Form 2 (August 2024)",
+          "why": "No separate attached sheet is published. Rule 2.86-Form 2 is one three-page instrument whose pages 1 and 2 let the filer tick a box if a sheet with additional alternate names or additional related-case information has been attached. Those are filer-created continuation sheets, not an Iowa Judicial Branch form, and the separately published Instructions for Rule 2.86-Form 2 are a different document that must not be substituted.",
+          "treatment": "Modelled as an optional filer-created continuation sheet composed by the packet inside Form 2."
+        }
+      ]
     },
     {
       "familyId": "ia-dci77-set",
@@ -5756,7 +5804,7 @@
     },
     {
       "familyId": "fl-administrative-set",
-      "class": "ACQUIRE_EXACT_SOURCE",
+      "class": "COMPOSE_FROM_AUTHORITY",
       "why": "All five Florida files in the packs were opened; none is the administrative-expunction application.",
       "jurisdiction": "FL",
       "formsNamedByFamily": [
@@ -5778,7 +5826,9 @@
           "artifactId": "FL-FDLE-ADMINISTRATIVE-EXPUNCTION-APPLICATION"
         }
       ],
-      "otherFamiliesServedBySameArtifacts": []
+      "otherFamiliesServedBySameArtifacts": [],
+      "previousClass": "ACQUIRE_EXACT_SOURCE",
+      "whyReclassified": "FDLE's current public renderer offers no Administrative Expunction request type, and Florida Administrative Code Rule 11C-7.008 neither prescribes nor incorporates an FDLE form: it requires an application in writing, by the agency on its letterhead or by the applicant with a written agency or state-attorney endorsement. The assignment label described a procedure and its output, not the identity of a published uniform form."
     },
     {
       "familyId": "fl-juvenile-diversion-set",
@@ -7608,9 +7658,7 @@
       "class": "ACQUIRE_EXACT_SOURCE",
       "why": "The base petition is held and prints AOC CREM2F-071221 on all three pages; the CONT continuation page is separately published and is not in the packs.",
       "jurisdiction": "AZ",
-      "formsNamedByFamily": [
-        "AOC-CREM2F-071221-CONT"
-      ],
+      "formsNamedByFamily": [],
       "artifacts": [
         {
           "identityConfidence": "not_established_read_refused",
@@ -7627,16 +7675,22 @@
           "artifactId": "AZ-AOCCREM2F-071221-CONT"
         }
       ],
-      "otherFamiliesServedBySameArtifacts": []
+      "otherFamiliesServedBySameArtifacts": [],
+      "phantomObligationsRemoved": [
+        {
+          "obligation": "AOC-CREM2F-071221-CONT",
+          "parent": "AOC-CREM2F-071221",
+          "why": "The -CONT identity is pages of the parent Petition to Expunge Records: Municipal/Justice Court, not a separately published document.",
+          "treatment": "Modelled as a continuation region of the parent instrument, composed by the packet. It is not an official form and must never be satisfied by re-binding the parent binary under a second identity."
+        }
+      ]
     },
     {
       "familyId": "az_record_sealing_conviction-set",
       "class": "ACQUIRE_EXACT_SOURCE",
       "why": "The base petition is held and prints AOCCRSL1F-050825 on all five pages, and page 2 points at the continuation page the packs do not hold.",
       "jurisdiction": "AZ",
-      "formsNamedByFamily": [
-        "AOCCRSL1F-050825-CONT"
-      ],
+      "formsNamedByFamily": [],
       "artifacts": [
         {
           "identityConfidence": "not_established_read_refused",
@@ -7653,7 +7707,15 @@
           "artifactId": "AZ-AOCCRSL1F-050825-CONT"
         }
       ],
-      "otherFamiliesServedBySameArtifacts": []
+      "otherFamiliesServedBySameArtifacts": [],
+      "phantomObligationsRemoved": [
+        {
+          "obligation": "AOCCRSL1F-050825-CONT",
+          "parent": "AOCCRSL1F",
+          "why": "The continuation is page 3 of the five-page parent Petition to Seal Criminal Case Records, not a separately published document.",
+          "treatment": "Modelled as a continuation region of the parent instrument, composed by the packet. It is not an official form and must never be satisfied by re-binding the parent binary under a second identity."
+        }
+      ]
     },
     {
       "familyId": "ks-21-6614-specialty-court-set",
@@ -8030,7 +8092,7 @@
     },
     {
       "familyId": "in_conviction_d6-set",
-      "class": "ACQUIRE_EXACT_SOURCE",
+      "class": "COMPOSE_FROM_AUTHORITY",
       "jurisdiction": "IN",
       "implementationStrategy": "official_pdf_fill",
       "why": "2 source(s) unbound and no address queued for any of them: official-form:CCA conviction expungement order, official-form:CCA conviction expungement petition.",
@@ -8054,11 +8116,13 @@
         }
       ],
       "classifiedBy": "Captain, from measurement",
-      "classifiedOn": "2026-09-02"
+      "classifiedOn": "2026-09-02",
+      "previousClass": "ACQUIRE_EXACT_SOURCE",
+      "whyReclassified": "The source worker found no official published binary for either the CCA conviction expungement petition or its order. The only candidates resolve to indianalegalhelp.org, which is not an Indiana court host, so neither is an official document. Left modelled as official_pdf_fill these families stay source-blocked forever; the statute prescribes the filing and the authority text is held, so they compose from authority."
     },
     {
       "familyId": "in_conviction_felony-set",
-      "class": "ACQUIRE_EXACT_SOURCE",
+      "class": "COMPOSE_FROM_AUTHORITY",
       "jurisdiction": "IN",
       "implementationStrategy": "official_pdf_fill",
       "why": "2 source(s) unbound and no address queued for any of them: official-form:CCA conviction expungement order, official-form:CCA conviction expungement petition.",
@@ -8082,11 +8146,13 @@
         }
       ],
       "classifiedBy": "Captain, from measurement",
-      "classifiedOn": "2026-09-02"
+      "classifiedOn": "2026-09-02",
+      "previousClass": "ACQUIRE_EXACT_SOURCE",
+      "whyReclassified": "The source worker found no official published binary for either the CCA conviction expungement petition or its order. The only candidates resolve to indianalegalhelp.org, which is not an Indiana court host, so neither is an official document. Left modelled as official_pdf_fill these families stay source-blocked forever; the statute prescribes the filing and the authority text is held, so they compose from authority."
     },
     {
       "familyId": "in_conviction_misd-set",
-      "class": "ACQUIRE_EXACT_SOURCE",
+      "class": "COMPOSE_FROM_AUTHORITY",
       "jurisdiction": "IN",
       "implementationStrategy": "official_pdf_fill",
       "why": "2 source(s) unbound and no address queued for any of them: official-form:CCA conviction expungement order, official-form:CCA conviction expungement petition.",
@@ -8110,7 +8176,9 @@
         }
       ],
       "classifiedBy": "Captain, from measurement",
-      "classifiedOn": "2026-09-02"
+      "classifiedOn": "2026-09-02",
+      "previousClass": "ACQUIRE_EXACT_SOURCE",
+      "whyReclassified": "The source worker found no official published binary for either the CCA conviction expungement petition or its order. The only candidates resolve to indianalegalhelp.org, which is not an Indiana court host, so neither is an official document. Left modelled as official_pdf_fill these families stay source-blocked forever; the statute prescribes the filing and the authority text is held, so they compose from authority."
     },
     {
       "familyId": "md_10105_early-set",
@@ -8704,7 +8772,15 @@
         }
       ],
       "classifiedBy": "Captain, from measurement",
-      "classifiedOn": "2026-09-02"
+      "classifiedOn": "2026-09-02",
+      "phantomObligationsRemoved": [
+        {
+          "obligation": "official-form:DC-33-ORDER",
+          "parent": "DC-33",
+          "why": "The assigned identity names an order, but the current official DC-33 binary is a four-page instructions, motion and affidavit packet, not an order. Its own instructions tell the filer to bring an Order for Expungement or Sealing of Record and say the clerk prepares certified copies after relief is granted. The live Forms library and an exact official search expose no standalone DC-33 order binary.",
+          "treatment": "The order is clerk-supplied with no published binary. The packet composes a proposed order from the authority it already holds; it must never be satisfied by re-binding the motion-and-affidavit packet under an order identity."
+        }
+      ]
     },
     {
       "familyId": "ri_deferred_sentence-set",
@@ -8724,7 +8800,15 @@
         }
       ],
       "classifiedBy": "Captain, from measurement",
-      "classifiedOn": "2026-09-02"
+      "classifiedOn": "2026-09-02",
+      "phantomObligationsRemoved": [
+        {
+          "obligation": "official-form:DC-33-ORDER",
+          "parent": "DC-33",
+          "why": "The assigned identity names an order, but the current official DC-33 binary is a four-page instructions, motion and affidavit packet, not an order. Its own instructions tell the filer to bring an Order for Expungement or Sealing of Record and say the clerk prepares certified copies after relief is granted. The live Forms library and an exact official search expose no standalone DC-33 order binary.",
+          "treatment": "The order is clerk-supplied with no published binary. The packet composes a proposed order from the authority it already holds; it must never be satisfied by re-binding the motion-and-affidavit packet under an order identity."
+        }
+      ]
     },
     {
       "familyId": "ri_first_offender_felony-set",
@@ -8744,7 +8828,15 @@
         }
       ],
       "classifiedBy": "Captain, from measurement",
-      "classifiedOn": "2026-09-02"
+      "classifiedOn": "2026-09-02",
+      "phantomObligationsRemoved": [
+        {
+          "obligation": "official-form:Superior-55-ORDER",
+          "parent": "Superior-55",
+          "why": "The assigned identity names an order, but the current official Superior-55 binary is a four-page instructions, motion and affidavit packet, not an order. Its own instructions tell the filer to bring an Order for Expungement or Sealing of Record and say the clerk prepares certified copies after relief is granted. The live Forms library and an exact official search expose no standalone Superior-55 order binary.",
+          "treatment": "The order is clerk-supplied with no published binary. The packet composes a proposed order from the authority it already holds; it must never be satisfied by re-binding the motion-and-affidavit packet under an order identity."
+        }
+      ]
     },
     {
       "familyId": "ri_first_offender_misdemeanor-set",
@@ -8764,7 +8856,15 @@
         }
       ],
       "classifiedBy": "Captain, from measurement",
-      "classifiedOn": "2026-09-02"
+      "classifiedOn": "2026-09-02",
+      "phantomObligationsRemoved": [
+        {
+          "obligation": "official-form:DC-33-ORDER",
+          "parent": "DC-33",
+          "why": "The assigned identity names an order, but the current official DC-33 binary is a four-page instructions, motion and affidavit packet, not an order. Its own instructions tell the filer to bring an Order for Expungement or Sealing of Record and say the clerk prepares certified copies after relief is granted. The live Forms library and an exact official search expose no standalone DC-33 order binary.",
+          "treatment": "The order is clerk-supplied with no published binary. The packet composes a proposed order from the authority it already holds; it must never be satisfied by re-binding the motion-and-affidavit packet under an order identity."
+        }
+      ]
     },
     {
       "familyId": "ri_multiple_misdemeanors-set",
@@ -8784,7 +8884,15 @@
         }
       ],
       "classifiedBy": "Captain, from measurement",
-      "classifiedOn": "2026-09-02"
+      "classifiedOn": "2026-09-02",
+      "phantomObligationsRemoved": [
+        {
+          "obligation": "official-form:DC-33-ORDER",
+          "parent": "DC-33",
+          "why": "The assigned identity names an order, but the current official DC-33 binary is a four-page instructions, motion and affidavit packet, not an order. Its own instructions tell the filer to bring an Order for Expungement or Sealing of Record and say the clerk prepares certified copies after relief is granted. The live Forms library and an exact official search expose no standalone DC-33 order binary.",
+          "treatment": "The order is clerk-supplied with no published binary. The packet composes a proposed order from the authority it already holds; it must never be satisfied by re-binding the motion-and-affidavit packet under an order identity."
+        }
+      ]
     },
     {
       "familyId": "wv_acc_treatment_job_readiness-set",
@@ -12877,6 +12985,16 @@
       "upgradedToConfirmedFromDocumentText": 4,
       "scope": "Every finding is labelIsFamilySpecific and names only the single family that names its label, measured against the build worklist in this lane. No label here is shared with a second family, so no family outside this lane's two can resolve differently because of it.",
       "grantsNothing": "No family was promoted, no route was opened, no price was set and no verdict was written. This records what is printed on four documents the repository already held."
+    },
+    {
+      "pass": "CAPTAIN Phase 4 source-identity determinations",
+      "producedOn": "2026-09-02",
+      "cohort": "The twenty-one rows of the eight-worker source wave that returned IDENTITY_REQUIRES_CAPTAIN_DECISION, OFFICIAL_SOURCE_SUPERSEDED, NOT_AN_OFFICIAL_DOCUMENT or NOT_A_DOCUMENT_NOTHING_TO_ACQUIRE.",
+      "whatWasDone": "Each row was read against the returned evidence, and where the answer turned on what is held here the bytes were recomputed in this container rather than read back from a record. Seventeen families across six jurisdictions carry a determination; one Arizona question is recorded open rather than guessed.",
+      "determinationsRecorded": 16,
+      "recordPath": "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json",
+      "answersAQuestionLeftOpenBy": "FABLE-A1 determinationsNotTakenHere: ACIC-ORDER-DRUG-COURT and ACIC-PETITION-DRUG-COURT, whether ar-drug-court-set names the pre-adjudication document, the post-adjudication document, or both. It names all four.",
+      "whatThisDoesNotEstablish": "No packet byte changed, no family was built or repaired, no claim was asserted or released, and no commercial route was opened."
     }
   ],
   "countsAreRecomputed": "counts and familiesClassified are recomputed from entries[] on every integration, not carried forward. Two passes each edited a class and each left the other pass’s total in place; the merge is where that is caught.",
