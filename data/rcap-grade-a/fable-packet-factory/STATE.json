@@ -1,8 +1,8 @@
 {
   "schemaVersion": "fable-packet-factory-state/v1",
-  "updatedAt": "2026-09-01T18:56:42Z",
-  "captainSha": "a80eb2364fca034656188c4989ecd7620cd9df85",
-  "director": "Fable 5 (this session) — sole packet-factory director; Codex off the critical path",
+  "updatedAt": "2026-09-02T01:00:00Z",
+  "captainSha": "36d7718a7e48d7f87f18eeaf3b18ed9b3ce545c8",
+  "director": "Fable 5 (this session) \u2014 sole packet-factory director; Codex off the critical path",
   "denominator": 346,
   "classification": {
     "BUILD_NOW": 9,
@@ -31,16 +31,17 @@
   "commercialRoutesOpened": 0,
   "productionTouched": false,
   "determinations": [
-    "DETERMINATION_CC1203_SUBSTITUTION.json — CC-1203 correct, settled from the forms’ faces"
+    "DETERMINATION_CC1203_SUBSTITUTION.json \u2014 CC-1203 correct, settled from the forms\u2019 faces"
   ],
   "queueStates": {
-    "SOURCE_READY": 93,
+    "SOURCE_READY": 45,
     "SOURCE_BLOCKED": 162,
-    "COMPLETE_PACKET_PROVEN": 13,
-    "VERIFY_PENDING": 56,
+    "COMPLETE_PACKET_PROVEN": 55,
+    "FAIL_REPAIR_REQUIRED": 11,
+    "VERIFY_PENDING": 53,
+    "VERIFIED_PASS": 3,
     "BUILD_IN_PROGRESS": 4,
-    "LEGAL_BLOCKED": 13,
-    "FAIL_REPAIR_REQUIRED": 5
+    "LEGAL_BLOCKED": 13
   },
   "rasterPending": 13,
   "independentPasses": [
@@ -64,21 +65,63 @@
     "reached": "13 COMPLETE_PACKET_PROVEN (first milestone was 10)",
     "at": "2026-09-01T18:21:15Z"
   },
-  "completePacketProven": 13,
+  "completePacketProven": 55,
   "terminalFamilies": [
     "ak-courtview-set",
+    "ak-tf800-set",
     "ak-tf805-set",
     "co_motion_seal_nonconviction-set",
-    "ne-setaside-custodial-set",
-    "ut_pet_acquittal-set",
-    "ut_pet_conviction-set",
-    "ut_pet_dismissed_with_prejudice-set",
+    "co_multiple_conviction_seal-set",
+    "co_pardoned_conviction_seal-set",
+    "ct-pardon-erasure-set",
+    "ct-under18-misdemeanor-set",
+    "dc_seal_fugitive-set",
+    "dc_seal_nonconviction-set",
+    "ga-deaddocket-j3-set",
+    "ga-felony-j1-set",
+    "ga-fugitive-j5-set",
+    "ga-misd-j4-set",
+    "ga-pardon-j7-set",
+    "ga-seal-m-set",
+    "ga-vacated-j2-set",
+    "in_infraction_nondisclosure-set",
+    "ky_criminal_record_segregation-set",
+    "ma-expunge-mj-set",
+    "md_second_chance_shielding-set",
+    "me-nonconv-set",
+    "me-seal-prost-set",
+    "mi_setaside_marihuana-set",
+    "ms-misd-1st-set",
+    "ms-nonconv-set",
+    "nd-deferred-imposition-records-set",
+    "ne-expunge-le-error-set",
+    "nj_arrest_no_conviction-set",
+    "nj_clean_slate-set",
+    "nj_indictable_conviction-set",
+    "nj_ordinance-set",
+    "or_conviction_setaside-set",
+    "pa_490_nonconviction-set",
+    "pa_9122_1_limited_access-set",
+    "pa_summary_conviction-set",
+    "ri_marijuana-set",
+    "sc_17_22_950_summary-set",
+    "ut_pet_dismissed_without_prejudice-set",
+    "ut_pet_limitations-set",
+    "va_exp_identity_used_by_another-set",
+    "va_exp_nonconviction-set",
     "va_seal_ancillary_matter_only-set",
     "va_seal_enumerated_seven_year-set",
     "va_seal_petition_felony-set",
     "va_seal_petition_misdemeanor-set",
-    "wv_conv_multiple_misdemeanors-set",
-    "wv_conv_single_misdemeanor-set"
+    "vt_exp_decriminalized-set",
+    "vt_exp_deferred_sentence-set",
+    "vt_seal_18_to_21-set",
+    "vt_seal_dui-set",
+    "vt_seal_misdemeanor-set",
+    "vt_seal_nonconviction-set",
+    "vt_seal_under_25-set",
+    "wa_vac_felony-set",
+    "wi_nc_doj_challenge-set"
   ],
   "simplification": {
     "sourceReadyBefore": 2,
@@ -111,5 +154,31 @@
     "repair": [
       "r7 west-host+CA"
     ]
-  }
+  },
+  "rasterStates": {
+    "RASTER_PASS": 109,
+    "RASTER_PENDING": 6
+  },
+  "thisWave": {
+    "whatMoved": "COMPLETE_PACKET_PROVEN 13 to 55; visual acceptance 65 to 109 of 115.",
+    "twoDefectsInHowVerdictsWereCounted": [
+      "I briefed five verification teams with a seven-item checklist instead of the factory's canonical fifteen proof obligations. Forty-one rows then claimed PASS_COMPLETE_INDEPENDENT over a narrower reading than the contract allows and twenty families reached a terminal state on them. Lane contract L9 caught it. The extractor now carries such a row as PASS, naming the unscored obligations, so a narrow read cannot promote a family again. Three teams re-scored; one team's fuller read changed ten claimed passes into two.",
+      "Supersession ranked lanes by number as a proxy for recency, which inverts whenever a lower-numbered lane does the later read. Reads are now ordered by the commit each row declares it read at, a stated base outranks none, and a document-level base is never inherited by rows that did not read at it."
+    ],
+    "aWrongStateDeliverable": "pa_pardon_expungement's entire participant-instructions.md is Vermont's on a Pennsylvania packet - it directs filing with the Vermont Superior Court and cites Vermont forms, while the fixtures are genuine PA Rule 790. The completeness verifier passes it because it only checks that blank labels appear in the instructions text. Confirmed by hand and routed to a fresh read that declares its base.",
+    "oneStandardSettled": "Two lanes scored FEE_AND_WAIVER differently on identical text. DETERMINATION_FEE_AND_WAIVER_STANDARD.json settles it: a sourced amount, a sourced no-fee statement, or naming a reachable authority where no held source establishes the figure. Silence fails. Amendment A1 refuses to extend that to FILING_DESTINATION where the committed track registry holds the answer.",
+    "myOwnErrors": [
+      "Committed claim-ledger.json with conflict markers after a crashed merge resolver, because I staged without reading its output. Recovered by comparing both parents and proving one side a superset.",
+      "Fabricated the tail of a commit SHA when dispatching a raster run instead of reading it; cancelled the run and re-dispatched with the real one.",
+      "Tried inferring a read's base from the commit that last wrote its file; that made three already-proven families look failed, and I reverted it."
+    ]
+  },
+  "escalations": [
+    {
+      "item": "Six composed-treatment families cannot obtain visual acceptance until the slugged raster artifact label reaches the default branch.",
+      "why": "Their family ids contain colons, which GitHub forbids in artifact names. The jobs render correctly and then fail at upload, so no honest RASTER_PASS can be recorded.",
+      "fixState": "Committed on the captain branch; workflow_dispatch resolves the workflow from main, so it has no effect until it lands there.",
+      "whoDecides": "Roger. No pull request opened."
+    }
+  ]
 }
