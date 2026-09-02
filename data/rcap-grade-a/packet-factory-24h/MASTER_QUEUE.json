@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "83518ac252e26987cd14617311e4cfd40228bdb0",
+  "minimumCaptainSha": "916cb64e885c80c6d3992947287854f7c2d938a4",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "e881e8493e694cfcc99f714cbdcfc0424cab8c4a7d22b3e3a9913daab6816ab2",
@@ -60,16 +60,16 @@
     "sourceReady": 42,
     "sourceBlocked": 111,
     "legalBlocked": 26,
-    "verifyPending": 55,
-    "repairRequired": 23,
+    "verifyPending": 42,
+    "repairRequired": 31,
     "sumsToDenominator": true
   },
   "byState": {
     "SOURCE_READY": 42,
-    "VERIFY_PENDING": 60,
-    "COMPLETE_PACKET_PROVEN": 92,
+    "COMPLETE_PACKET_PROVEN": 97,
+    "FAIL_REPAIR_REQUIRED": 31,
     "SOURCE_BLOCKED": 111,
-    "FAIL_REPAIR_REQUIRED": 23,
+    "VERIFY_PENDING": 47,
     "VERIFIED_PASS": 5,
     "LEGAL_BLOCKED": 13
   },
@@ -245,7 +245,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-agency-application-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request.mjs",
@@ -306,11 +306,19 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "ROUTE_IDENTITY"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "ROUTE_IDENTITY",
+          "finding": null,
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission.mjs",
@@ -626,7 +634,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record.mjs",
@@ -793,7 +801,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ak-mistaken-identity-set.mjs",
@@ -1935,11 +1943,25 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER",
+        "SELF_HELP_STOP"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": null,
+          "evidence": "The instructions state flatly: 'There is no filing fee for this petition,' sourced three ways from the compiled Arkansas profile's Act 1460 lines. But the petition this packet delivers prints, at paragraph 9: 'The Defendant has paid all filing fees required to be paid with the filing of this Petition mandated by A.C.A §16-90-1419.' The proposed order prints the same sentence at paragraph 10. Grepping participant-instructions.md for '16-90-1419', '1419' and 'paragraph 10' returns nothing. So a participant is handed a sworn petition containing a paragraph asserting they have paid fees under a named statute, while the instructions tell them no fee exists and never mention that the paragraph is there. The instructions' fallback — 'If the clerk … nevertheless asks you to pay something, that is a question about that court's own practice' — treats the possibility as a clerk's practice question when the trap is printed on the packet's own face. A4's recorded practice is that the near-miss is named and disposed of, as the sibling ms-misd-addl-set packet does for Miss. Code Ann. § 99-19-72 in this same lane. Here it is not named at all."
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": null,
+          "evidence": "Two of four are carried and two are absent. Carried: [0] the prosecuting attorney objects and [1] the court sets a contested hearing, both in one bullet quoting the registry's own handoff line. ABSENT: [2] 'Immigration, licensing or firearm consequences are in play.' A case-insensitive grep of participant-instructions.md for immigra, firearm, licens and citizen returns exactly one hit — the phrase 'a lawyer licensed in Arkansas' — and the same grep over the extracted text of both petition fixtures and both order fixtures returns nothing at all. ABSENT: [3] 'Whether the participant falls in the covered historical population is unclear.' The registry's own destination detail explains what that means — 'A narrow historical population. Opening the route is gated on current eligibility-source review.' The nearest bullet the packet carries is about paragraph 3's target-offence definition under A.C.A. § 16-93-1202(10)(A), which is a different question: whether the offence qualifies, not whether this participant falls inside the Act 531 historical cohort at all. Neither the phrase 'historical population' nor any equivalent appears. Every one of the other seven families in this lane carries an immigration or citizenship stop condition; this is the only packet of the eight with none."
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ar-act531-set.mjs",
@@ -6611,11 +6633,19 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": null,
+          "evidence": "The filing instructions page states: 'No committed record this packet binds states a filing fee, or a fee waiver, for this route. The office that answers both is the clerk's office of the Mississippi court that granted nonadjudication…'. The profile it binds carries sourceSections[2], title 'Filing Fee', category 'fees': 'Mississippi Code 99-19-72 sets a $150 filing fee for each petition to expunge an offense under 99-19-71' and 'Expect at least a $150 statutory filing fee for many 99-19-71 petitions, but confirm with the clerk'. The same profile's packetGenerator.feeRules carries the same three lines. And the packet's own petition page tells the participant, quoting that profile, that the operative provision 'appears in both Sec. 99-15-26(5) and Sec. 99-19-71(4)'. Having told the participant the provision is shared with § 99-19-71, the packet cannot then say no bound record states a fee and send them to the clerk: that is the sibling fee trap A4 records, and it is not walked around. The comparison that settles it is inside this same lane: ms-misd-addl-set, built for §§ 9-11-15(3) and 21-23-7(6) where no such overlap is even asserted, devotes an entire block to naming the $150, naming § 99-19-72, and stating why it does not reach — 'THIS PETITION IS NOT BROUGHT UNDER SEC. 99-19-71 … the Sec. 99-19-72 fee does not reach those sections by its terms.' This packet, which has the stronger overlap, names neither section and neither figure. NOTE FOR THE REPAIR: A3 forbids the opposite error just as firmly. The repair is NOT to state that $150 applies to a § 99-15-26(5) petition. It is to name § 99-19-72 and § 99-19-71, state on this route's own terms whether the fee reaches it, and say what the record does and does not settle."
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26.mjs",
@@ -6676,11 +6706,19 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": null,
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59.mjs",
@@ -7628,11 +7666,19 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "SOURCE_IDENTITY"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "SOURCE_IDENTITY",
+          "finding": null,
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ct-missed-erasure-set.mjs",
@@ -8247,7 +8293,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-dc_yra_set_aside-set.mjs",
@@ -10869,11 +10915,19 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": null,
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-id_felony_reduction-set.mjs",
@@ -18114,7 +18168,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ms-misd-addl-set.mjs",
@@ -22897,11 +22951,25 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "COMPONENT_SET",
+        "SELF_HELP_STOP"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "COMPONENT_SET",
+          "finding": null,
+          "evidence": "The legal decision's Mechanism section (sha256 17ae635a4e434bc04fd65fc0bb7d6cda551922064d6dfb990fa240f437f7db29) states: 'Use the official Alabama AOC Order of Limited Relief packet, including the sworn petition and proposed order.' The census records participantFacingInstrument as 'official Alabama AOC Order of Limited Relief sworn petition and proposed order'. The build worklist records deliverable.proposedOrder with status 'recorded' and entry 'official AOC proposed order'. product-wiring.json declares one component, role primary_filing, documentId AL-AOC-C-94A-PETITION-FOR-ORDER-OF-LIMITED-RELIEF, and the family renders two fixtures of that one document. Extracting each of the three pages of petition-canonical-filled.pdf shows page 1 the petition caption and sworn statements, page 2 the Act's notes and the conviction/consequence list, page 3 RETURN ON SERVICE. There is no order page anywhere in the packet. Nor is the absence declared: build-findings.json carries blocking [] and findingCount 0, the receipt's whatThisReceiptDoesNotEstablish says nothing about it, and participant-instructions.md asserts positively 'This packet is one form' and closes 'This is a prepared copy of the Alabama Unified Judicial System's own Form C-94A.' A participant reading this packet has no way to learn that the record for their route calls for a proposed order as well. Contrast the MS nonadjudication family in this same lane, which names each component the route contract lists and states which of them is a record the participant obtains rather than a page the packet composes — that is a declared disposition; this is a silent one."
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": null,
+          "evidence": "The decision records six refer-to-counsel conditions. Five are carried: a prohibited offence or registration consequence, an out-of-state jurisdiction with no clear comparable relief, joinder across counties, an agency contesting the requested limitation, and a petition asking to eliminate a consequence chapter 12-26 does not authorise the court to override. The sixth is absent: 'the collateral consequence is not identified with specificity.' Grepping participant-instructions.md case-insensitively for 'specific', 'with specificity', 'identify … consequence' and 'which consequence' returns nothing, and the same grep over the extracted text of both fixtures returns nothing. This is not an incidental omission on this route: the whole relief is defined by which named collateral consequence is being lifted, the packet itself leaves that list entirely to the participant across five ruled lines, and a vague list is the single most likely way a petition of this kind fails. The packet carries instead the build worklist's condensed handoff sentence, which happens not to include the specificity limb, so the fuller record the census names for this route reaches the participant incompletely."
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-official-form-treatment:obligation:research-decision-route:AL:al-olr.mjs",
@@ -24950,11 +25018,37 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "COMPONENT_SET",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_IDENTITY",
+        "ROUTE_OPTIONS"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "ROUTE_IDENTITY",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "COMPONENT_SET",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": null,
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-rcap-ok-custom-pleading.mjs",

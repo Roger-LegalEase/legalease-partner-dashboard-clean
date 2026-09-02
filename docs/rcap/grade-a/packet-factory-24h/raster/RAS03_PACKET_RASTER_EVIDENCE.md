@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `83518ac252e26987cd14617311e4cfd40228bdb0`
+**Minimum required ancestor:** `916cb64e885c80c6d3992947287854f7c2d938a4`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -23,7 +23,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/ak/agency-application-treatment:obligation:unattached-decision-route:ak:ak-correct-record--official-pdf-fill/fixtures/canonical.pdf` — `298452333a1bc813ccb8924fbbb0bf977aba13c36eb26152350b8c977cd1e3e4`
 - boundary `data/rcap-all50/overlays/census-v1/ak/agency-application-treatment:obligation:unattached-decision-route:ak:ak-correct-record--official-pdf-fill/fixtures/boundary.pdf` — `c709cc48b6019c276ca9cce7b66c5f20e737286d8947250b2b4fd0af5babb9ce`
 - expected pages 5 · requested scale 2.5
-- built by VF01
+- built by (no builder lane recorded)
 
 ### ak-tf805-set
 
@@ -37,7 +37,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-dwi-seal-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf` — `6bf0184ddc31364f316cb656745f364f8def8aa547428beb881c4c632e2f750d`
 - boundary `data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-dwi-seal-set--official-pdf-fill/fixtures/petition-boundary-filled.pdf` — `a6cef12f7344600b5f9e89aefee9785440de185d88340d051b090ec6011bdfb8`
 - expected pages 4 · requested scale 2.5
-- built by FIX02
+- built by FIX04
 
 ### co_motion_seal_nonconviction-set
 
@@ -65,7 +65,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:nonadjudication-under-99-15-26--custom-pleading/fixtures/canonical.pdf` — `d5e8da5c23d54c03c6831d57c8750f9174737adbc897b47fd149215b418a46ae`
 - boundary `data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:nonadjudication-under-99-15-26--custom-pleading/fixtures/boundary.pdf` — `8b050b543e50e05a6d7d3765d717dbb90eb286038714f692cb0a6e0c8fd6cfc7`
 - expected pages 5 · requested scale 2.5
-- built by VF01
+- built by FIX08
 
 ### composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief
 
@@ -107,7 +107,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/dc/dc-yra-set-aside-set--custom-pleading/fixtures/canonical.pdf` — `302ebea7e9fb4dd9944fc786e33e190117a5fee31dac7bab3e28a063b855b9fc`
 - boundary `data/rcap-all50/overlays/census-v1/dc/dc-yra-set-aside-set--custom-pleading/fixtures/boundary.pdf` — `3fb8f39c556160cf1c099a706d7e54215ca57336e01c6d67da8f65e56a20f848`
 - expected pages 4 · requested scale 2.5
-- built by VF01
+- built by (no builder lane recorded)
 
 ### ga-fo-discharged-pre2026-set
 
@@ -170,7 +170,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/ms/ms-misd-addl-set--custom-pleading/fixtures/canonical.pdf` — `7878f2c0d297bf272eb166820505996ba32976a174b8019140ee83728bf3cd3c`
 - boundary `data/rcap-all50/overlays/census-v1/ms/ms-misd-addl-set--custom-pleading/fixtures/boundary.pdf` — `96c13766362702101176e205e7cea1bd39a9305fe175f703ece4e5241680a3c5`
 - expected pages 8 · requested scale 2.5
-- built by VF01
+- built by (no builder lane recorded)
 
 ### nd-deferred-imposition-records-set
 
@@ -198,7 +198,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/fixtures/mrta-destruction-request-canonical.pdf` — `37d456b6c2b79c3801bb9c07030072d5b0487a95f711a92a3fd8ef14e99b05ff`
 - boundary `data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/fixtures/mrta-destruction-request-boundary.pdf` — `5f61e8f23675070c7691b16c6522745f5fa033083725f1eefb9caccc32cb3457`
 - expected pages 1 · requested scale 2.5
-- built by FIX06
+- built by FIX04
 
 ### pa_490_nonconviction-set
 
@@ -226,7 +226,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/fixtures/canonical.pdf` — `fa2557d25d6b462561014851bc9701847e25d0b6e129032a28fff77b4fea8356`
 - boundary `data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/fixtures/boundary.pdf` — `43af734a9af88a1a4002201b365a6f1c9546874c340cc90984280ea61a838316`
 - expected pages 49 · requested scale 2.5
-- built by VF02
+- built by FIX06
 
 ### rcap-wa-custom-pleading-clean-tracks
 
