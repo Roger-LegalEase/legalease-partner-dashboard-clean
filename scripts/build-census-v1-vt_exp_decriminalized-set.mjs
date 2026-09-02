@@ -287,10 +287,35 @@ const FORMS = {
 };
 const ORDER = ["200-00129", "200-00132A", "600-00228"];
 
+/*
+ * FIX01/RP-2, ROUTE_IDENTITY.
+ *
+ * This family printed "obligation:track-pathway:VT:vt_exp_decriminalized:
+ * expungement-of-decriminalized-conduct" in the participant-instructions footer
+ * and in production-field-map.json. That key exists in no route record: the
+ * committed route-obligation census names
+ * obligation:track-pathway:VT:vt_exp_decriminalized:adult-conviction-expungement-narrow-statutory-route
+ * for this packet set, and product-wiring.json routeKey and routeKeys already
+ * carry that one. The packet was built for a route the record names and
+ * labelled for a route it does not.
+ *
+ * The owner's decision, applied here: the participant-facing page prints a
+ * SHORT HUMAN-READABLE LABEL, and the canonical machine route id lives in the
+ * manifests and the wiring only. So `routeKey` below is now the census key -
+ * it reaches production-field-map.json routeKeys and every documentPolicy -
+ * and `routeLabel` is what the composed instruction PDF and
+ * participant-instructions.md print. A participant is not the reader of a route
+ * key, and a route key printed for a participant was only ever a place for this
+ * kind of error to hide.
+ *
+ * This declares WHAT THE PACKET IS. It opens no route, sets no price and
+ * touches no compiled runtime.
+ */
 export const FAMILY_CONFIGS = Object.freeze({
   "vt_exp_decriminalized-set": {
     jurisdiction: "VT",
-    routeKey: "obligation:track-pathway:VT:vt_exp_decriminalized:expungement-of-decriminalized-conduct",
+    routeKey: "obligation:track-pathway:VT:vt_exp_decriminalized:adult-conviction-expungement-narrow-statutory-route",
+    routeLabel: "Vermont expungement of a conviction for conduct no longer prohibited by law",
     routeSelectionId: "vt-exp-decriminalized-200-00129-complete-set",
     legalName: "Petition to Expunge a Conviction for Conduct No Longer Prohibited by Law, 13 V.S.A. § 7602",
     routeName: "expunging a conviction for conduct that is no longer prohibited by law",
@@ -498,7 +523,7 @@ function composedBody(config, facts, resolved) {
   L.push("- Who must be served, and how. Ask the same clerk who must receive a copy and by what method. The State's Attorney's signature on the stipulation is not service and does not substitute for it.", "");
   L.push("WHAT THIS PACKET IS NOT", "");
   L.push("This is a prepared set of official Vermont forms. It is not legal advice, it is not filed for you, and it does not decide whether the court will grant expungement.", "");
-  L.push(`Route: ${config.routeKey}`);
+  L.push(`Route: ${config.routeLabel}`);
   return L.join("\n");
 }
 
@@ -725,7 +750,7 @@ function instructionsMarkdown(config, resolved, rbf) {
   out.push("- **Every checkbox.** Each one is a statement about your own record or a choice only you can make. Read them and tick the ones that are true for you.", "");
   out.push("## What this packet is not", "");
   out.push("This is a prepared set of official Vermont forms. It is not legal advice, it is not filed for you, and it does not decide whether the court will grant expungement.", "");
-  out.push(`_Route: ${config.routeKey}_`);
+  out.push(`_Route: ${config.routeLabel}_`);
   return `${out.join("\n")}\n`;
 }
 
