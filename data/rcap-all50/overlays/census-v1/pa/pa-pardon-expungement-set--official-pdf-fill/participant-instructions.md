@@ -132,4 +132,5 @@ The petition prints a `Judicial District number` and a `County of ______` line o
 
 This is a prepared set of official Pennsylvania forms — the statewide Pa.R.Crim.P. 790 petition and blank expungement order — and a process-guidance page. It is not legal advice, it is not filed for you, and it does not decide whether the court will order expungement.
 
-_Route: obligation:track-pathway:PA:pa_pardon_expungement:rule-790-expungement_
+_Route carried by the petition in this packet: obligation:unit:PA:pa_pardon_expungement:pa_pardon_fallback_petition_
+_Route carried by the process-guidance page: obligation:unit:PA:pa_pardon_expungement:pa_pardon_automatic_route_
