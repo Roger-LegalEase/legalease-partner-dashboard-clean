@@ -1,0 +1,127 @@
+{
+  "schemaVersion": "rcap-charge-caption-proof/v1",
+  "familyId": "ar-cs-possession-seal-set",
+  "question": "Does any blank whose caption or field name names a charge, offence, count, statute or violation carry a participant name token in the rendered artifact bytes?",
+  "method": "Read back from the flattened appearance streams of each rendered fixture with scripts/rcap-official-forms/pdf-flattened-widgets.mjs, at each field's own measured widget rectangle.",
+  "consistentWith": "scripts/rcap-official-forms/verify-full-name-charge-caption-semantics.mjs",
+  "participantNameTokensSearchedFor": [
+    "Jordan Avery Reyes",
+    "Jordan",
+    "Avery",
+    "Reyes",
+    "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III",
+    "Alexandrina",
+    "Katharine",
+    "Montgomery",
+    "Vandenberg",
+    "Oyelaran",
+    "Fitzwilliam"
+  ],
+  "chargeBlanksExamined": 6,
+  "chargeBlanksCarryingAParticipantName": 0,
+  "answer": "NO — no participant name lands in any charge-caption blank in any fixture",
+  "blanks": [
+    {
+      "document": "ACIC-ORDER-TO-SEAL-CS-POSSESSION",
+      "fixture": "canonical",
+      "field": "and charged with the offenses of",
+      "page": 1,
+      "rect": {
+        "x": 108,
+        "y": 318.36,
+        "width": 62.4,
+        "height": 16.8
+      },
+      "effectiveLabel": "1",
+      "captionDescribesChargeValue": false,
+      "drawnText": null,
+      "participantNameTokensFound": []
+    },
+    {
+      "document": "ACIC-ORDER-TO-SEAL-CS-POSSESSION",
+      "fixture": "canonical",
+      "field": "or federal court and the status of thatthose charges isare as follows",
+      "page": 2,
+      "rect": {
+        "x": 108,
+        "y": 428.28,
+        "width": 389.28,
+        "height": 16.8
+      },
+      "effectiveLabel": "or federal court and the status of that/those charges is/are",
+      "captionDescribesChargeValue": true,
+      "drawnText": null,
+      "participantNameTokensFound": []
+    },
+    {
+      "document": "ACIC-ORDER-TO-SEAL-CS-POSSESSION",
+      "fixture": "canonical",
+      "field": "Check Box1",
+      "page": 1,
+      "rect": {
+        "x": 105.75,
+        "y": 295.94,
+        "width": 18,
+        "height": 18
+      },
+      "effectiveLabel": "________, and charged with the offense(s) of",
+      "captionDescribesChargeValue": true,
+      "drawnText": null,
+      "participantNameTokensFound": []
+    },
+    {
+      "document": "ACIC-ORDER-TO-SEAL-CS-POSSESSION",
+      "fixture": "boundary",
+      "field": "and charged with the offenses of",
+      "page": 1,
+      "rect": {
+        "x": 108,
+        "y": 318.36,
+        "width": 62.4,
+        "height": 16.8
+      },
+      "effectiveLabel": "1",
+      "captionDescribesChargeValue": false,
+      "drawnText": null,
+      "participantNameTokensFound": []
+    },
+    {
+      "document": "ACIC-ORDER-TO-SEAL-CS-POSSESSION",
+      "fixture": "boundary",
+      "field": "or federal court and the status of thatthose charges isare as follows",
+      "page": 2,
+      "rect": {
+        "x": 108,
+        "y": 428.28,
+        "width": 389.28,
+        "height": 16.8
+      },
+      "effectiveLabel": "or federal court and the status of that/those charges is/are",
+      "captionDescribesChargeValue": true,
+      "drawnText": null,
+      "participantNameTokensFound": []
+    },
+    {
+      "document": "ACIC-ORDER-TO-SEAL-CS-POSSESSION",
+      "fixture": "boundary",
+      "field": "Check Box1",
+      "page": 1,
+      "rect": {
+        "x": 105.75,
+        "y": 295.94,
+        "width": 18,
+        "height": 18
+      },
+      "effectiveLabel": "________, and charged with the offense(s) of",
+      "captionDescribesChargeValue": true,
+      "drawnText": null,
+      "participantNameTokensFound": []
+    }
+  ],
+  "guardProjection": {
+    "question": "Applying the corpus guard's own offending-row test to this family's census: does any blank bind a writable participant.full_legal_name while its name or caption uses the charge vocabulary?",
+    "fieldsScanned": 70,
+    "offendingRows": 0,
+    "offending": []
+  }
+}

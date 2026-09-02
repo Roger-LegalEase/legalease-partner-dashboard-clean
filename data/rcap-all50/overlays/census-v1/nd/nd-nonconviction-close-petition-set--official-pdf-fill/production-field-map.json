@@ -1,0 +1,644 @@
+{
+  "schemaVersion": "rcap-official-form-field-map/v1-census-v1",
+  "familyId": "nd-nonconviction-close-petition-set",
+  "routeKeys": [
+    "obligation:service-branch:ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05:pre_effective_date_petition"
+  ],
+  "renderStrategy": "acroform_fill",
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "documents": [
+    {
+      "documentId": "ND-PETITION-AND-ORDER-CLOSE-NONCONVICTION",
+      "documentRole": "PETITION_AND_PROPOSED_ORDER",
+      "ownership": "participant_completed",
+      "captionOnly": false,
+      "explicitMappings": {},
+      "printedLabelCorrections": {
+        "Printed Name": {
+          "printedLabel": "Petitioner printed name",
+          "readFrom": "page 4, printed caption at y=327.7: \"(Printed Name)\", beneath the rule at y=342.4",
+          "measuredEvidence": "the widget occupies x 72.00-287.16 at y=341.04, on that rule; the SIGNATURE rule is above it at y=386.3 with its own caption \"(Signature)\" at y=371.6, and carries no widget at all",
+          "why": "Its harvested caption is \"(Signature)\" — the caption of the rule above — so the shared protect rules refused the petitioner's own printed name as a signature field."
+        },
+        "Judicial District": {
+          "printedLabel": "Judicial District of the criminal case",
+          "readFrom": "page 3, printed caption line at y=681.7: \"County of                Judicial District\"",
+          "measuredEvidence": "the widget occupies x 275.36-393.10 at y=679.42, to the left of the printed words \"Judicial District\"; the County widget sits at x 126.60-262.20 on the same line",
+          "why": "The widget harvests no caption, and its own name reaches matter.court — whose held value is a court NAME, not a numbered judicial district. Left alone the caption reads \"Judicial District: District Court\". The correction names the blank; the role refusal below keeps it empty, as the form's own instructions permit."
+        },
+        "date": {
+          "printedLabel": "the date this declaration is signed",
+          "readFrom": "page 4, printed line at y=474.2: \"Signed on ________________(date) in _____________________________(city),\"",
+          "measuredEvidence": "the widget occupies x 158.52-254.16 at y=472.92, over the first blank on that line",
+          "why": "The widget is named \"date\" and harvests the fragment \"true and correct\" from the sentence above."
+        },
+        "city": {
+          "printedLabel": "the city where this declaration is signed",
+          "readFrom": "page 4, the same printed line at y=474.2, whose second blank is captioned \"(city)\"",
+          "measuredEvidence": "the widget occupies x 297.96-471.36 at y=472.92, over that second blank",
+          "why": "Its harvested caption is the whole sentence fragment, which the shared protect rules read as a signature field. Naming it is what lets the field map say which of the five place-of-signing blanks it is."
+        },
+        "county": {
+          "printedLabel": "the county where this declaration is signed",
+          "readFrom": "page 4, printed line at y=445.0: \"_________________________(county), ___________(state), ___________________(country).\"",
+          "measuredEvidence": "the widget occupies x 72.00-221.40 at y=443.64, over the blank captioned \"(county)\"",
+          "why": "Same as the city beside it: named so the field map can say which blank it is."
+        },
+        "state": {
+          "printedLabel": "the state where this declaration is signed",
+          "readFrom": "page 4, the same printed line at y=445.0, whose second blank is captioned \"(state)\"",
+          "measuredEvidence": "the widget occupies x 267.84-333.60 at y=443.64",
+          "why": "The widget's own name reaches participant.state — the participant's state of residence — and this blank is where the declaration is SIGNED. The correction names it; the role refusal below keeps it with the rest of its group."
+        },
+        "country": {
+          "printedLabel": "the country where this declaration is signed",
+          "readFrom": "page 4, the same printed line at y=445.0, whose third blank is captioned \"(country)\"",
+          "measuredEvidence": "the widget occupies x 371.04-484.56 at y=443.64, over the blank closing the sentence before the full stop",
+          "why": "The widget's own name reaches nothing, and its harvested caption carried the word \"state\" from the printed line, so the shared binder wrote participant.state into the COUNTRY blank: the canonical fixture would have printed \"XX\" as the country."
+        },
+        "Defendant Name": {
+          "printedLabel": "Comes Now Petitioner, name of the Defendant",
+          "readFrom": "page 3, printed paragraph 1 at y=523.6: \"1. Comes Now Petitioner, , the Defendant in the above-entitled case\"",
+          "measuredEvidence": "the widget occupies x 224.81-451.53 at y=522.24, in the gap between \"Comes Now Petitioner,\" and \", the Defendant\"",
+          "why": "Recorded so the field map distinguishes this blank from the caption's Defendant line; the binding is unchanged."
+        }
+      },
+      "partialFills": [],
+      "partialFillNote": "A blank this packet fills only partly. Each entry names what the blank asks for, what was written, what was not, and where the participant is told to complete it. Declared here rather than left to be discovered on the paper.",
+      "printedLabelCorrectionNote": "Each entry replaced the harvested caption for one named widget with the printed text this build read at that widget's own measured position, because the widget's name says nothing or says the wrong thing. The harvested value each replaced is kept on the field-census row as harvestedLabel, and the evidence for each correction is in the entry itself.",
+      "roleRefusals": [
+        {
+          "field": "date",
+          "class": "place_and_date_of_signing",
+          "why": "The date in \"Signed on ______(date) in ______(city), ______(county), ______(state), ______(country)\", which closes a declaration made under penalty of perjury. Dating a declaration that has not been made asserts it was made on a day it was not."
+        },
+        {
+          "field": "city",
+          "class": "place_and_date_of_signing",
+          "why": "The city where the declaration is signed. Nobody can know it before the participant signs."
+        },
+        {
+          "field": "county",
+          "class": "place_and_date_of_signing",
+          "why": "The county where the declaration is signed. On the same footing as the city."
+        },
+        {
+          "field": "state",
+          "class": "place_and_date_of_signing",
+          "why": "The state where the declaration is signed. The shared binder wrote the participant's state of RESIDENCE into it, which is a different fact and is not necessarily the same answer."
+        },
+        {
+          "field": "country",
+          "class": "place_and_date_of_signing",
+          "why": "The country where the declaration is signed. The shared binder wrote the participant's state into it, so the canonical fixture would have named \"XX\" as a country."
+        },
+        {
+          "field": "Judicial District",
+          "class": "judicial_district_not_held",
+          "why": "The judicial district in the petition's caption. The shared binder reaches matter.court here, whose held value is a court name rather than a numbered judicial district, and the form's own printed instructions say the blank may be left empty: \"If you don't know the Judicial District, you may leave that space blank.\""
+        }
+      ],
+      "writeBoxes": [
+        {
+          "field": "Defendant Name",
+          "factId": "participant.full_legal_name",
+          "page": 3,
+          "rect": {
+            "x": 224.81,
+            "y": 522.24,
+            "width": 226.72,
+            "height": 21.97
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "Comes Now Petitioner, name of the Defendant"
+        },
+        {
+          "field": "Defendant",
+          "factId": "participant.full_legal_name",
+          "page": 3,
+          "rect": {
+            "x": 69.81,
+            "y": 581.56,
+            "width": 150,
+            "height": 22
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "vs ) Petition to Close Nonconviction Records"
+        },
+        {
+          "field": "Printed Name",
+          "factId": "participant.full_legal_name",
+          "page": 4,
+          "rect": {
+            "x": 72,
+            "y": 341.04,
+            "width": 215.16,
+            "height": 28.2
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "Petitioner printed name"
+        },
+        {
+          "field": "Address",
+          "factId": "participant.street_address",
+          "page": 4,
+          "rect": {
+            "x": 72,
+            "y": 297.12,
+            "width": 282,
+            "height": 28.2
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "(Printed Name)"
+        },
+        {
+          "field": "City State Zip Code",
+          "factId": "participant.city_state_zip",
+          "page": 4,
+          "rect": {
+            "x": 356.85,
+            "y": 297.12,
+            "width": 181.35,
+            "height": 28.2
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "_______________________________________________"
+        },
+        {
+          "field": "Telephone Number",
+          "factId": "participant.phone",
+          "page": 4,
+          "rect": {
+            "x": 72,
+            "y": 253.2,
+            "width": 243.63,
+            "height": 28.2
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "(Address) (City, State, Zip Code)"
+        },
+        {
+          "field": "Email Address",
+          "factId": "participant.email",
+          "page": 4,
+          "rect": {
+            "x": 318.48,
+            "y": 253.2,
+            "width": 219.72,
+            "height": 28.2
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "________________________________________"
+        },
+        {
+          "field": "County",
+          "factId": "matter.county",
+          "page": 3,
+          "rect": {
+            "x": 126.6,
+            "y": 678.78,
+            "width": 135.6,
+            "height": 22
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "County of"
+        },
+        {
+          "field": "Case Number",
+          "factId": "matter.case_number",
+          "page": 3,
+          "rect": {
+            "x": 371.13,
+            "y": 636.75,
+            "width": 150,
+            "height": 22
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "Case No"
+        }
+      ],
+      "refused": [
+        {
+          "field": "Check Box7",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Check Box8",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Check Box9",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "date",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "city",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "county",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "state",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "country",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Judicial District",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Check Box10",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Check Box11",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        }
+      ],
+      "protectedFields": [
+        {
+          "field": "Check Box7",
+          "category": "type_guard"
+        },
+        {
+          "field": "Check Box8",
+          "category": "type_guard"
+        },
+        {
+          "field": "Check Box9",
+          "category": "type_guard"
+        },
+        {
+          "field": "date",
+          "category": "role"
+        },
+        {
+          "field": "city",
+          "category": "role"
+        },
+        {
+          "field": "county",
+          "category": "role"
+        },
+        {
+          "field": "state",
+          "category": "role"
+        },
+        {
+          "field": "country",
+          "category": "role"
+        },
+        {
+          "field": "Judicial District",
+          "category": "role"
+        },
+        {
+          "field": "Check Box10",
+          "category": "type_guard"
+        },
+        {
+          "field": "Check Box11",
+          "category": "type_guard"
+        }
+      ],
+      "fields": [
+        {
+          "field": "Defendant Name",
+          "fieldId": "Defendant Name",
+          "effectiveLabel": "Comes Now Petitioner, name of the Defendant",
+          "harvestedLabel": "Comes Now Petitioner,",
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "page": 3,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "participant.full_legal_name",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "Check Box7",
+          "fieldId": "Check Box7",
+          "effectiveLabel": "or acquittal. Check the applicable statements",
+          "harvestedLabel": "or acquittal. Check the applicable statements",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "page": 3,
+          "pdfType": "checkbox",
+          "isSelectionControl": true,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "Paragraph 3's first statement — \"The dismissal was not the result of a plea agreement involving a conviction on another criminal offense.\" The printed instructions say that if the participant cannot check all three boxes they cannot use this form; which are true is a sworn statement about their own case.",
+          "refusalClass": "participant_sworn_narrative_or_legal_election"
+        },
+        {
+          "field": "Check Box8",
+          "fieldId": "Check Box8",
+          "effectiveLabel": null,
+          "harvestedLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "page": 3,
+          "pdfType": "checkbox",
+          "isSelectionControl": true,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "Paragraph 3's second statement — \"The dismissal was not due to a finding that Petitioner was not fit to proceed under Chapter 12.1-04\". On the same footing.",
+          "refusalClass": "participant_sworn_narrative_or_legal_election"
+        },
+        {
+          "field": "Check Box9",
+          "fieldId": "Check Box9",
+          "effectiveLabel": null,
+          "harvestedLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "page": 3,
+          "pdfType": "checkbox",
+          "isSelectionControl": true,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "Paragraph 3's third statement — \"The acquittal was not the result of a not guilty verdict due to Petitioner's lack of criminal responsibility under Chapter 12.1-04.1\". On the same footing.",
+          "refusalClass": "participant_sworn_narrative_or_legal_election"
+        },
+        {
+          "field": "date",
+          "fieldId": "date",
+          "effectiveLabel": "the date this declaration is signed",
+          "harvestedLabel": "true and correct",
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "page": 4,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "place_and_date_of_signing",
+          "buildRoleWhy": "The date in \"Signed on ______(date) in ______(city), ______(county), ______(state), ______(country)\", which closes a declaration made under penalty of perjury. Dating a declaration that has not been made asserts it was made on a day it was not.",
+          "reason": "The date in the petition's declaration under penalty of perjury, completed by the participant at the moment they sign.",
+          "refusalClass": "signature_or_date_participant_completion"
+        },
+        {
+          "field": "city",
+          "fieldId": "city",
+          "effectiveLabel": "the city where this declaration is signed",
+          "harvestedLabel": "Signed on ________________(date) in",
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "page": 4,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "place_and_date_of_signing",
+          "buildRoleWhy": "The city where the declaration is signed. Nobody can know it before the participant signs.",
+          "reason": "The city where the participant signs the declaration under penalty of perjury, completed when the declaration is signed.",
+          "refusalClass": "signature_or_date_participant_completion"
+        },
+        {
+          "field": "county",
+          "fieldId": "county",
+          "effectiveLabel": "the county where this declaration is signed",
+          "harvestedLabel": "Signed on ________________(date) in ________________________",
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "page": 4,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "place_and_date_of_signing",
+          "buildRoleWhy": "The county where the declaration is signed. On the same footing as the city.",
+          "reason": "The county where the participant signs the declaration, completed when the declaration is signed.",
+          "refusalClass": "signature_or_date_participant_completion"
+        },
+        {
+          "field": "state",
+          "fieldId": "state",
+          "effectiveLabel": "the state where this declaration is signed",
+          "harvestedLabel": "_________________________(county),",
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "page": 4,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "place_and_date_of_signing",
+          "buildRoleWhy": "The state where the declaration is signed. The shared binder wrote the participant's state of RESIDENCE into it, which is a different fact and is not necessarily the same answer.",
+          "reason": "The state where the participant signs the declaration, completed when the declaration is signed. It is not the participant's state of residence, which is a different fact.",
+          "refusalClass": "signature_or_date_participant_completion"
+        },
+        {
+          "field": "country",
+          "fieldId": "country",
+          "effectiveLabel": "the country where this declaration is signed",
+          "harvestedLabel": "_________________________(county), ___________(state),",
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "page": 4,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "place_and_date_of_signing",
+          "buildRoleWhy": "The country where the declaration is signed. The shared binder wrote the participant's state into it, so the canonical fixture would have named \"XX\" as a country.",
+          "reason": "The country where the participant signs the declaration, completed when the declaration is signed.",
+          "refusalClass": "signature_or_date_participant_completion"
+        },
+        {
+          "field": "Printed Name",
+          "fieldId": "Printed Name",
+          "effectiveLabel": "Petitioner printed name",
+          "harvestedLabel": "(Signature)",
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "page": 4,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "participant.full_legal_name",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "Address",
+          "fieldId": "Address",
+          "effectiveLabel": "(Printed Name)",
+          "harvestedLabel": "(Printed Name)",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "page": 4,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "participant.street_address",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "City State Zip Code",
+          "fieldId": "City State Zip Code",
+          "effectiveLabel": "_______________________________________________",
+          "harvestedLabel": "_______________________________________________",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 4,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "participant.city_state_zip",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "Telephone Number",
+          "fieldId": "Telephone Number",
+          "effectiveLabel": "(Address) (City, State, Zip Code)",
+          "harvestedLabel": "(Address) (City, State, Zip Code)",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "page": 4,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "participant.phone",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "Email Address",
+          "fieldId": "Email Address",
+          "effectiveLabel": "________________________________________",
+          "harvestedLabel": "________________________________________",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 4,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "participant.email",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "Judicial District",
+          "fieldId": "Judicial District",
+          "effectiveLabel": "Judicial District of the criminal case",
+          "harvestedLabel": null,
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "page": 3,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "judicial_district_not_held",
+          "buildRoleWhy": "The judicial district in the petition's caption. The shared binder reaches matter.court here, whose held value is a court name rather than a numbered judicial district, and the form's own printed instructions say the blank may be left empty: \"If you don't know the Judicial District, you may leave that space blank.\"",
+          "reason": "The judicial district in the caption. The form's own printed instructions say \"If you don't know the Judicial District, you may leave that space blank\", so it is the participant's to add if they know it, and the platform does not invent it.",
+          "refusalClass": null
+        },
+        {
+          "field": "County",
+          "fieldId": "County",
+          "effectiveLabel": "County of",
+          "harvestedLabel": "County of",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 3,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "matter.county",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "Case Number",
+          "fieldId": "Case Number",
+          "effectiveLabel": "Case No",
+          "harvestedLabel": "Case No",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 3,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "matter.case_number",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "Defendant",
+          "fieldId": "Defendant",
+          "effectiveLabel": "vs ) Petition to Close Nonconviction Records",
+          "harvestedLabel": "vs ) Petition to Close Nonconviction Records",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "page": 3,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "participant.full_legal_name",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "Check Box10",
+          "fieldId": "Check Box10",
+          "effectiveLabel": null,
+          "harvestedLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "page": 5,
+          "pdfType": "checkbox",
+          "isSelectionControl": true,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "The proposed order's paragraph 3 \"Dismissal\" box. Unusually for a proposed order, the form's own printed instructions direct the participant to mark it: \"If you checked both dismissal boxes on your Petition, check the first box.\" It follows the participant's own election on the petition.",
+          "refusalClass": "participant_sworn_narrative_or_legal_election"
+        },
+        {
+          "field": "Check Box11",
+          "fieldId": "Check Box11",
+          "effectiveLabel": null,
+          "harvestedLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "page": 5,
+          "pdfType": "checkbox",
+          "isSelectionControl": true,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "The proposed order's paragraph 3 \"Acquittal\" box, marked by the participant on the same printed direction: \"If you checked the acquittal box on your Petition, check the second box.\"",
+          "refusalClass": "participant_sworn_narrative_or_legal_election"
+        }
+      ]
+    }
+  ]
+}
