@@ -31,7 +31,7 @@ Each of these is carried here in the words of the committed record it comes from
 - **The controlling committed legal decision** — Qualifying violations may therefore disappear from common DCJS-based criminal-history results while the courthouse file remains publicly inspectable.
 - **The controlling committed legal decision** — CPL § 160.57 Clean Slate is separate. Do not promise that ordinary § 160.55 violations will receive full court-file sealing through § 160.55.
 
-## Documents you must obtain before filing
+## Documents you must obtain — nothing here is filed, and these are the committed workflow’s own steps
 
 | Document | Where you get it |
 | --- | --- |

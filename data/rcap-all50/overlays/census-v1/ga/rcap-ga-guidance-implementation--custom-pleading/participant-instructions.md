@@ -34,7 +34,7 @@ Each of these is carried here in the words of the committed record it comes from
 - **The committed route contract** — Written prosecutorial consent is a filing prerequisite, not the relief itself. A phone call, an unanswered request, prosecutor silence or 'no known objection' is not written consent.
 - **The committed route contract** — A contested evidentiary hearing leaves self-help.
 
-## Documents you must obtain before filing
+## Documents you must obtain before anyone can act — nothing here is filed, by you or by the platform
 
 | Document | Where you get it |
 | --- | --- |

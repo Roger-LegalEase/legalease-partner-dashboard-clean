@@ -382,7 +382,8 @@ const SPEC = {
   "reviewersAttention": [
     "source-receipt.json binds committed repository records rather than a Master Library binary — sourceStatus CUSTOM_PLEADING_FROM_CODIFIED_TEXT.",
     "THIS FAMILY SHIPS NO COURT PETITION, DELIBERATELY. Its sibling in this same lane, the § 1018 discretionary branch, does. A reviewer expecting a pleading here should read the build findings first."
-  ]
+  ],
+  "documentsHeading": "Documents you may need — nothing here is filed in a court"
 };
 
 /* ============================================================================
@@ -764,7 +765,13 @@ function participantInstructions(maps, rbf) {
   }
 
   if ((SPEC.documentsToObtain ?? []).length > 0) {
-    out.push("## Documents you must obtain before filing", "");
+    /*
+     * On three families in this lane the committed records say the participant
+     * files nothing at all, and a heading reading "before filing" would tell
+     * them the opposite of what the rest of the packet says. The heading is
+     * therefore the family's to state; every other family keeps the default.
+     */
+    out.push(`## ${SPEC.documentsHeading ?? "Documents you must obtain before filing"}`, "");
     out.push("| Document | Where you get it |", "| --- | --- |");
     for (const [doc, where] of SPEC.documentsToObtain) out.push(`| ${doc} | ${where} |`);
     out.push("");

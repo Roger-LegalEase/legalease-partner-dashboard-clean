@@ -30,7 +30,7 @@ Each of these is carried here in the words of the committed record it comes from
 - **The compiled Delaware profile** — SBI mandatory-expungement request Contact the SBI (302-739-5884) to request mandatory expungement; if
 - **The committed route contract** — § 1017 favorable-termination matters are mandatory with no elapsed wait; § 1017A eligible records run through the automatic program with a petition or correction path only where the automatic process did not occur. The three-year value here is the lowest discretionary § 1018 branch; the five- and seven-year branches turn on the offense category, which the intake must collect.
 
-## Documents you must obtain before filing
+## Documents you may need — nothing here is filed in a court
 
 | Document | Where you get it |
 | --- | --- |
