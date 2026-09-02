@@ -276,7 +276,9 @@
           "evidence": "participant-instructions.md + kit's own guidance"
         }
       },
-      "notes": "First independent read. Completeness verifier: PASS_COMPLETE, 19/179 written, nine counters zero, measured here. The byte-identity of this family's fixtures with nj_clean_slate-set is recorded under ROUTE_OPTIONS as an observation for reviewers."
+      "notes": "First independent read. Completeness verifier: PASS_COMPLETE, 19/179 written, nine counters zero, measured here. The byte-identity of this family's fixtures with nj_clean_slate-set is recorded under ROUTE_OPTIONS as an observation for reviewers.",
+      "verifiedAtBase": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666",
+      "verifiedAtBaseStatedBy": "FABLE-VT2, from the worktree HEAD at the time of the read"
     },
     {
       "itemId": "ri_nonconviction_sealing-set",
@@ -394,7 +396,9 @@
       "exactDefects": [
         "FEE_AND_WAIVER: no filing-fee statement and no waiver route anywhere in the packet; the catch-all line vf17 quoted is unchanged. Repair: add a dedicated fee item to participant-instructions.md naming the clerk of the District Court as the checkable authority and quoting the held legal review's finding that the Chapter 12-1.3 filing fee is unresolved in the reference"
       ],
-      "notes": "REPAIRED-FAMILY FRESH READ THAT DOES NOT HOLD for the failed obligation: FIX01's repair (refusal classes, counters) is real and verified, but the obligation vf17 actually failed — FEE_AND_WAIVER — was never repaired."
+      "notes": "REPAIRED-FAMILY FRESH READ THAT DOES NOT HOLD for the failed obligation: FIX01's repair (refusal classes, counters) is real and verified, but the obligation vf17 actually failed — FEE_AND_WAIVER — was never repaired.",
+      "verifiedAtBase": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666",
+      "verifiedAtBaseStatedBy": "FABLE-VT2, from the worktree HEAD at the time of the read"
     },
     {
       "itemId": "vt_seal_felony-set",
@@ -515,7 +519,9 @@
         "FEE_AND_WAIVER: instructions claim the fee is not established while held 200-00130A establishes it; apply the FIX03/FIX04 fee section to this family",
         "SERVICE: instructions delegate service to the clerk while held 200-00130A states the rule; apply the FIX03/FIX04 service section to this family"
       ],
-      "notes": "REPAIRED-FAMILY FRESH READ THAT DOES NOT HOLD: VTR01's filing-destination repair reached this family; the FIX03/FIX04 fee, service and text-fitting repairs reached only vt_seal_18_to_21-set and vt_seal_dui-set. This family needs the same rebuild the siblings got."
+      "notes": "REPAIRED-FAMILY FRESH READ THAT DOES NOT HOLD: VTR01's filing-destination repair reached this family; the FIX03/FIX04 fee, service and text-fitting repairs reached only vt_seal_18_to_21-set and vt_seal_dui-set. This family needs the same rebuild the siblings got.",
+      "verifiedAtBase": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666",
+      "verifiedAtBaseStatedBy": "FABLE-VT2, from the worktree HEAD at the time of the read"
     }
   ],
   "supersededLaneMembership": {
@@ -648,5 +654,18 @@
         ]
       }
     ]
+  },
+  "baseShaNotDeclaredAtDocumentLevel": {
+    "why": "This document is mixed: the FABLE-VT2 rows carry their own verifiedAtBase; the older rows in the same array were read by VF-SRC-A at a commit FABLE-VT2 cannot state. A document-level baseSha would stamp the FABLE-VT2 base onto those older rows and make a stale read look fresh, which is the failure the ancestry fix exists to prevent.",
+    "readTheseInstead": "verifiedAtBase, per row",
+    "rowsCarryingAVerifiedAtBase": [
+      "nj_ordinance-set",
+      "ri_nonconviction_sealing-set",
+      "vt_seal_felony-set"
+    ],
+    "rowsWithNoStatedBase": [
+      "co_motion_seal_nonconviction-set"
+    ],
+    "rowsWithNoStatedBaseNote": "Not FABLE-VT2's reads. Their author states their base or they keep whatever precedence the rule gives a read with no declared base; FABLE-VT2 will not back-fill a base for a read it did not make."
   }
 }

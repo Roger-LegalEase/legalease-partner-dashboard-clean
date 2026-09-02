@@ -414,7 +414,9 @@
           "evidence": "participant-instructions.md help section"
         }
       },
-      "notes": "First independent read of this family. Completeness verifier: PASS_COMPLETE, 9/34 written, nine counters zero, measured here."
+      "notes": "First independent read of this family. Completeness verifier: PASS_COMPLETE, 9/34 written, nine counters zero, measured here.",
+      "verifiedAtBase": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666",
+      "verifiedAtBaseStatedBy": "FABLE-VT2, from the worktree HEAD at the time of the read"
     },
     {
       "itemId": "nd-deferred-imposition-records-set",
@@ -527,7 +529,9 @@
           "evidence": "extracted fixture text"
         }
       },
-      "notes": "First independent read. Completeness verifier: PASS_COMPLETE, 6/14 written, nine counters zero, measured here."
+      "notes": "First independent read. Completeness verifier: PASS_COMPLETE, 6/14 written, nine counters zero, measured here.",
+      "verifiedAtBase": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666",
+      "verifiedAtBaseStatedBy": "FABLE-VT2, from the worktree HEAD at the time of the read"
     },
     {
       "itemId": "nj_clean_slate-set",
@@ -640,7 +644,9 @@
           "evidence": "participant-instructions.md + kit's own guidance"
         }
       },
-      "notes": "First independent read. Completeness verifier: PASS_COMPLETE, 19/179 written, nine counters zero, measured here. The byte-identity of this family's fixtures with nj_ordinance-set is recorded under ROUTE_OPTIONS as an observation for reviewers."
+      "notes": "First independent read. Completeness verifier: PASS_COMPLETE, 19/179 written, nine counters zero, measured here. The byte-identity of this family's fixtures with nj_ordinance-set is recorded under ROUTE_OPTIONS as an observation for reviewers.",
+      "verifiedAtBase": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666",
+      "verifiedAtBaseStatedBy": "FABLE-VT2, from the worktree HEAD at the time of the read"
     },
     {
       "itemId": "pa_summary_conviction-set",
@@ -753,7 +759,9 @@
           "evidence": "participant-instructions.md"
         }
       },
-      "notes": "First independent read. Completeness verifier: PASS_COMPLETE, 34/181 written, nine counters zero, measured here."
+      "notes": "First independent read. Completeness verifier: PASS_COMPLETE, 34/181 written, nine counters zero, measured here.",
+      "verifiedAtBase": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666",
+      "verifiedAtBaseStatedBy": "FABLE-VT2, from the worktree HEAD at the time of the read"
     },
     {
       "itemId": "rcap-oh-custom-pleading-clean-tracks",
@@ -873,7 +881,9 @@
         "ARTIFACTS: all eight tracks' render-report.json text-artifact hashes disagree with the committed .txt bytes — the same mismatch vf03 named, byte for byte; no repair commit ever touched the family directory",
         "COMPONENT_SET/auditability: no production-field-map.json exists, so verify-packet-completeness.mjs returns FAIL_COMPONENT_SET and the family cannot enter the raster queue (notEligible: no fixtures directory)"
       ],
-      "notes": "REPAIRED-FAMILY FRESH READ THAT DOES NOT HOLD: the verification grant was re-opened for this family, but git shows no repair landed in the overlay directory; the defect reproduces exactly."
+      "notes": "REPAIRED-FAMILY FRESH READ THAT DOES NOT HOLD: the verification grant was re-opened for this family, but git shows no repair landed in the overlay directory; the defect reproduces exactly.",
+      "verifiedAtBase": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666",
+      "verifiedAtBaseStatedBy": "FABLE-VT2, from the worktree HEAD at the time of the read"
     },
     {
       "itemId": "vt_seal_18_to_21-set",
@@ -988,7 +998,9 @@
           "evidence": "instructions closing sections"
         }
       },
-      "notes": "REPAIRED-FAMILY FRESH READ THAT HOLDS: all three vf11 defects verified repaired from bytes and held sources; nothing else regressed. Completeness verifier: PASS_COMPLETE, 24/165 written, nine counters zero, measured here."
+      "notes": "REPAIRED-FAMILY FRESH READ THAT HOLDS: all three vf11 defects verified repaired from bytes and held sources; nothing else regressed. Completeness verifier: PASS_COMPLETE, 24/165 written, nine counters zero, measured here.",
+      "verifiedAtBase": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666",
+      "verifiedAtBaseStatedBy": "FABLE-VT2, from the worktree HEAD at the time of the read"
     }
   ],
   "supersededLaneMembership": {
@@ -1238,5 +1250,22 @@
         ]
       }
     ]
+  },
+  "baseShaNotDeclaredAtDocumentLevel": {
+    "why": "This document is mixed: the FABLE-VT2 rows carry their own verifiedAtBase; the older rows in the same array were read by VF-SRC-A at a commit FABLE-VT2 cannot state. A document-level baseSha would stamp the FABLE-VT2 base onto those older rows and make a stale read look fresh, which is the failure the ancestry fix exists to prevent.",
+    "readTheseInstead": "verifiedAtBase, per row",
+    "rowsCarryingAVerifiedAtBase": [
+      "ga-vacated-j2-set",
+      "nd-deferred-imposition-records-set",
+      "nj_clean_slate-set",
+      "pa_summary_conviction-set",
+      "rcap-oh-custom-pleading-clean-tracks",
+      "vt_seal_18_to_21-set"
+    ],
+    "rowsWithNoStatedBase": [
+      "ar-arrest-seal-set",
+      "pa_age70_deceased-set"
+    ],
+    "rowsWithNoStatedBaseNote": "Not FABLE-VT2's reads. Their author states their base or they keep whatever precedence the rule gives a read with no declared base; FABLE-VT2 will not back-fill a base for a read it did not make."
   }
 }

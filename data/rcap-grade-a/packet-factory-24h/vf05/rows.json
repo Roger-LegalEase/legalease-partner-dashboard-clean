@@ -412,7 +412,9 @@
         }
       },
       "notes": "REPAIRED-FAMILY FRESH READ THAT HOLDS: all three vf12 defects verified repaired from bytes and held sources. Completeness verifier: PASS_COMPLETE, 24/165 written, nine counters zero, measured here. The $90 fee the quoted rule names is this route's own case: 23 V.S.A. § 1201(a) is the DUI offence, and the instructions say exactly that.",
-      "priorFailLane": "VF12"
+      "priorFailLane": "VF12",
+      "verifiedAtBase": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666",
+      "verifiedAtBaseStatedBy": "FABLE-VT2, from the worktree HEAD at the time of the read"
     }
   ],
   "supersededLaneMembership": {
@@ -662,5 +664,17 @@
         ]
       }
     ]
+  },
+  "baseShaNotDeclaredAtDocumentLevel": {
+    "why": "This document is mixed: the FABLE-VT2 rows carry their own verifiedAtBase; the older rows in the same array were read by VF-SRC-A at a commit FABLE-VT2 cannot state. A document-level baseSha would stamp the FABLE-VT2 base onto those older rows and make a stale read look fresh, which is the failure the ancestry fix exists to prevent.",
+    "readTheseInstead": "verifiedAtBase, per row",
+    "rowsCarryingAVerifiedAtBase": [
+      "vt_seal_dui-set"
+    ],
+    "rowsWithNoStatedBase": [
+      "ar-misdemeanor-dwi-seal-set",
+      "pa_pardon_expungement-set"
+    ],
+    "rowsWithNoStatedBaseNote": "Not FABLE-VT2's reads. Their author states their base or they keep whatever precedence the rule gives a read with no declared base; FABLE-VT2 will not back-fill a base for a read it did not make."
   }
 }
