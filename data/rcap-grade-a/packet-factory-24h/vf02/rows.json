@@ -7055,6 +7055,142 @@
       "productionTouched": false,
       "grantsNothing": "An independent PASS proves a packet is complete. It approves no output, promotes no family and opens no commercial route.",
       "failedObligationNames": []
+    },
+    {
+      "itemId": "ma-expunge-time-set",
+      "lane": "VF02",
+      "wave": "packet-factory-24h — VF02 re-dispatch read at 247b790b6",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "247b790b6",
+      "verifier": "VF02 (independent-verification; this lane did not build, repair, render or previously read this family)",
+      "claim": {
+        "asserted": true,
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF02 ma-expunge-time-set",
+        "exitCode": 0,
+        "result": "CLAIM_OK VF02 ma-expunge-time-set (independent-verification, grant set 6d63e87e6af2490b)"
+      },
+      "preflight": "node scripts/verify-packet-build-environment.mjs --family ma-expunge-time-set — PACKET_BUILD_ENVIRONMENT_READY: 13/13 passed, 0 failed, 4 not applicable",
+      "measuredBy": "the fifteen proof obligations measured in this checkout; the nine counters produced by running scripts/rcap-packet-completeness/verify-packet-completeness.mjs here without --write; and a 300 dpi raster comparison of each fixture against the blank official source, row by row",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersMeasuredHere": true,
+      "whyTheCountersAreZeroAndTheVerdictIsStillFail": "The nine counters come back zero when I run them here, and reports/actual-writes.json records nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0. Both are true statements about glyphs measured against their declared write boxes. The defect is in the boxes: the name, date-of-birth and phone write boxes each straddle the form's own printed rule, so ink that is correctly inside its box is drawn through printed ink. A counter that tests glyphs against a box cannot see a box that is in the wrong place, which is why this needed a look at the rendered page.",
+      "decisiveDefect": "Every value this packet writes onto the Massachusetts Petition to Expunge is struck through by the form's own printed rule, in both the canonical and the boundary fixture; and the petitioner's full name is written into the (Last Name) sub-blank, leaving (First Name) and (Middle Name) empty.",
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The packet is built for the two routes the record names and treats them correctly as two stages of one filing rather than two filings.",
+          "evidence": "production-field-map.json stamps documentPolicy.routeKey obligation:unit:MA:ma-expunge-time:ma-expunge-time-commissioner-certification on the petition, and the guidance component closes by printing both route keys. The guidance says in terms that the Commissioner certifies under §§ 100I and 100J and only then does the matter reach a judge, and that 'the second stage is not something you file' — which is the right treatment of a route whose instrumentKind the queue records as 'no filing — process guidance'."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The single bound source recomputes exactly.",
+          "evidence": "sha256sum over MASTER_LIBRARY_SOURCE_DIR/STATES/MA/05_SOURCE_GATED/MA__SOURCE-GATED__MA-PROBATION-SERVICE__petition-to-expunge-under-g-l-c-276-sections-100f-100g-or-100h__REV-2018-10-11__EN.pdf gives 5ccb13e55c07a520526cad72fe48b506f6a67c51a2c879817feb49829853b0b1 at 13137 bytes, matching the pin in MASTER_QUEUE.json and the byte length in source-receipt.json."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both declared components are rendered and present in both packets.",
+          "evidence": "componentSet names ma-expunge-time-primary-filing-1 and ma-expunge-time-process-guidance-2. Each 4-page fixture carries the 2-page official petition on pages 1-2 and the 2-page generated guidance on pages 3-4, read out of the bytes with pdftotext."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "The petitioner's full legal name is written entirely inside the (Last Name) sub-blank, so the delivered petition reads Last Name: 'Jordan Avery Reyes' with (First Name) and (Middle Name) empty. Nothing in the packet tells the participant to split it.",
+          "evidence": "The form prints three separate captioned rules on the Print: line — measured off the blank official source at 300 dpi they run pt 54.0-168.2 (Last Name), 173.5-285.1 (First Name) and 292.1-405.1 (Middle Name). The write box is a single cell, x 56 width 350, spanning all three, and the text is left-aligned in it. The canonical name occupies pt 56.0-137.0, entirely inside the first rule. The boundary name, 'Maria-Alejandra O'Shaughnessy-Whitfield', occupies pt 56.0-222.8: it runs off the end of the (Last Name) rule at 168.2, across the printed gap, and stops part-way along the (First Name) rule. participant-instructions.md says the platform 'filled in the three facts it holds about you in the shape this form asks for them'; the shape this form asks for is three blanks, and the packet writes one string across them. The Commissioner of Probation keys the surname from that blank."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All 11 declared items are named in participant-instructions.md, checked item by item against the file.",
+          "evidence": "requiredBeforeFilingCount is 11 — mailing address, city, state, zip, alias, occupation, social security number, father's name, mother's maiden name, spouse's name and gender — and matching each declared disclosure label against the instructions returned 0 not named. They appear in 'The items you must supply' with what to write in each."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "No election on this route is route-determined, and the packet marks none.",
+          "evidence": "routeSelectionsMade is empty, and the field map explains why: the § 100F / § 100G / § 100H boxes turn on whether the record is a juvenile adjudication, an adult conviction or a non-conviction, which the route does not decide and the platform has not seen. The rendered page confirms all three boxes, all six race boxes and both ethnicity boxes are unmarked. The instructions list the section box, race and ethnicity under 'The choices only you can make'. Secondary observation, not a failure: the routeSelectionNote says the section box 'is therefore declared required-before-filing', while the selection control itself carries requiredBeforeFiling false and the box is absent from the 11-item list. The treatment is right and the two sentences describing it disagree."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The form has no repeating row grid, so no row can carry written cells beside required cells left blank.",
+          "evidence": "The petition is a single identity block plus three section elections and a fourteen-statement acknowledgement. incompleteRows 0, corroborated by the rendered page."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "No signature, signature date or agency-owned field carries ink.",
+          "evidence": "Read off the rendered page rather than the write log: 'Signature Of petitioner:' on the identity block, and 'Signature Of Petitioner' and 'Date' under the perjury acknowledgement, are all blank in both fixtures. The form has no court-use or prosecutor-only block. protectedWrites 0."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both artifacts hash to what the record names, recomputed from the bytes.",
+          "evidence": "canonical.pdf dd2f8092… at 26455 bytes and boundary.pdf a3c82d77… at 26507 bytes, each 4 pages; 2 checked, 0 mismatches against reports/rendered-artifacts.json."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The rendered page order matches the component order: official petition first, generated guidance after it.",
+          "evidence": "Page 1 is the petition face, page 2 the form's own INSTRUCTIONS TO PETITIONER (both stamped Revised: 10/11/2018), pages 3-4 the 'WHAT HAPPENS AFTER YOU SEND IT, AND WHAT IT COSTS' guidance. componentSet lists the two in that order and pageCount 4 matches the bytes."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "All three written values are drawn through the form's printed rule. The rule crosses the glyph body about a quarter of the way up from the bottom, so the delivered petition reads as though the name, the date of birth and the phone number have each been struck out.",
+          "evidence": "Measured at 300 dpi by rendering the blank official source and the filled fixture and comparing dark-pixel rows in each write box's own column range. Petitioner name (box x56 y529 w350 h13): printed rule at rows 1087-1088, glyph ink rows 1068-1094, so rows 1089-1094 of ink sit below the rule. Date of birth (box x474 y529 w110 h13): rule 1088-1089, glyphs 1069-1094, ink below the rule at 1090-1094 — and '2001-04-17' has no descenders, so this cannot be a descender crossing a baseline. Phone (box x436 y466 w148 h13): rule 1349-1350, glyphs 1332-1357, ink below at 1351-1357. In points the rules sit at PDF y ≈ 531 and 468 while each box's bottom edge is at y 529 and 466, so every box straddles its rule by about 2 pt and the bottom-aligned text lands under it. Identical in the boundary fixture, whose glyph rows are the same to the point. This is why the glyph-versus-box counters read clean: the glyphs are inside their boxes and the boxes are in the wrong place."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The instructions name the office the route names, and cite where on the form it is printed.",
+          "evidence": "The guidance says to mail the petition to the Office of the Commissioner of Probation, One Ashburton Place, Room 405, Boston, MA 02108, and points out that the address is printed on the petition twice — the TO: line on page 1 and 'Where to file (mail) this Petition?' on page 2. I confirmed both appear in the delivered bytes. The build worklist records filingDestination as not_recorded for this family, so the packet is resting on the official form's own printed text, which is the better source and is cited as such."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The fee and the waiver are both addressed, by stating that neither is established and naming who answers.",
+          "evidence": "The guidance says no source it is built from establishes a filing fee or a fee-waiver route, warns in terms that this is not the same as saying it is free, gives its three grounds (the form's two pages state no fee; the legal-design record holds 'None identified in the review' for fees and 'None identified' for a waiver; the compiled Massachusetts profile carries no figure), and tells the participant to ask the Office of the Commissioner of Probation before sending. The worklist records filingFee and feeWaiverTreatment as not_recorded, which is exactly what the packet says."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The packet answers the service question, and the answer is that the participant serves nobody — stated plainly because it is the opposite of most routes.",
+          "evidence": "The guidance says 'YOU DO NOT SERVE THE DISTRICT ATTORNEY', and grounds it in the petition's own page 2: the Commissioner's office notifies the District Attorney in the county of prosecution if the criteria are met, and the District Attorney may then respond. I confirmed that passage is in the delivered page-2 bytes. No certificate of service ships and none is owed."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The packet states where self-help ends, with a specific list rather than a gesture.",
+          "evidence": "'WHEN TO STOP AND GET HELP INSTEAD' names an offence on or after the 21st birthday, more than two convictions or non-conviction records, unclear single-incident counting (quoting the committed record's own words and its counting rule), any additional offence, an active criminal investigation, each excluded offence class the petition itself lists, a district-attorney objection with a hearing set, and wanting expungement in circumstances needing a different petition. It closes by telling the participant to read the fourteen statements before signing, because several are eligibility questions certified under penalties of perjury."
+        }
+      },
+      "evidenceRead": [
+        "data/rcap-all50/overlays/census-v1/ma/ma-expunge-time-set--official-pdf-fill/ — all 14 files, including both fixture PDFs read as bytes and rendered at 300 dpi",
+        "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MA/05_SOURCE_GATED/MA__SOURCE-GATED__MA-PROBATION-SERVICE__petition-to-expunge-… — hashed, and rendered at 300 dpi as the blank control",
+        "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json (this family's deliverable record)"
+      ],
+      "overlayDirectoriesModified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "repairIsNotMine": "I measured these defects and did not touch the family. The repair belongs to a lane that is not this one.",
+      "grantsNothing": "A failing verdict moves this family in the queue and dispatches a repair. It promotes nothing and opens no route.",
+      "failedObligationNames": [
+        "KNOWN_PREFILLS",
+        "CLIPPING_AND_OVERLAP"
+      ]
     }
   ],
   "vt1Read": {

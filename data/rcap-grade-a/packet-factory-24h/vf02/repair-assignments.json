@@ -399,5 +399,52 @@
     "assignments": [],
     "whyNone": "This run produced no FAIL_REPAIR_REQUIRED because it produced no verdict at all. VF02 holds 0 live grants: every one of its twelve packet-family grants is released, and each of the three families the current dispatch names as seed items answered ALREADY_RELEASED with exit 9 on --assert. The lane contract makes a non-zero assert a full stop, so no family directory was opened and no defect could be found. A repair assignment invented without reading the packet would be a fabricated defect, which is worse than an empty list.",
     "whatTheDispatchShouldDoInstead": "az_wrongful_arrest_clearance-set and rcap-tn-custom-pleading are VERIFY_PENDING on FAMILY_MOVED_SINCE_THE_VERDICT after the d4a46e0d4 re-pin, and both are seeds on this assignment. VF02 produced the verdicts those re-pins lapsed, so the fresh read they owe belongs on a lane that has neither built, repaired, nor previously read them - a --transfer, not a --reissue back to VF02. The same holds for id_isp_expungement-set, whose VF02 grant was released at 18:19:18Z."
+  },
+  "vf02RedispatchAssignments": {
+    "baseSha": "247b790b6",
+    "readAt": "2026-09-02",
+    "lane": "VF02",
+    "whatThisIs": "Repair assignments raised by VF02's independent read of the families re-dispatched to it at 247b790b6. VF02 measured these and edited nothing; the repair belongs to a lane that is not this one.",
+    "assignmentCount": 1,
+    "assignments": [
+      {
+        "familyId": "ma-expunge-time-set",
+        "jurisdiction": "MA",
+        "directory": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-time-set--official-pdf-fill",
+        "buildScript": "scripts/build-census-v1-ma-expunge-time-set.mjs",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "247b790b6",
+        "raisedBy": "VF02",
+        "failedObligations": [
+          "KNOWN_PREFILLS",
+          "CLIPPING_AND_OVERLAP"
+        ],
+        "decisiveDefect": "Every value the packet writes onto the Petition to Expunge is struck through by the form's own printed rule, and the petitioner's full name is written into the (Last Name) sub-blank with (First Name) and (Middle Name) left empty. Both defects are present in the canonical and the boundary fixture.",
+        "defects": [
+          {
+            "obligation": "CLIPPING_AND_OVERLAP",
+            "whatIsWrong": "Each write box straddles the printed rule it is meant to sit above, and the text is bottom-aligned in the box, so the rule crosses the glyph body about a quarter of the way up from the bottom. The delivered petition reads as though the name, the date of birth and the phone number have each been struck out.",
+            "measurement": "300 dpi rasters of the blank official source and of fixtures/canonical.pdf, compared row by row inside each write box's own column range. petitioner_name (box x56 y529 w350 h13): rule at rows 1087-1088, glyph ink 1068-1094, ink below the rule at rows 1089-1094. date_of_birth (box x474 y529 w110 h13): rule 1088-1089, glyphs 1069-1094, ink below at 1090-1094. phone_number (box x436 y466 w148 h13): rule 1349-1350, glyphs 1332-1357, ink below at 1351-1357. In points the rules sit at PDF y about 531 and 468 while the box bottoms are y 529 and 466, so each box straddles its rule by roughly 2 pt.",
+            "whyTheCountersMissedIt": "reports/actual-writes.json records nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 and the completeness matrix records visualDefects 0. Both are correct: the glyphs are inside their boxes. The boxes are what is misplaced, and a check that tests glyphs against a box cannot see that. Do not repair this by relaxing either counter.",
+            "suggestedFix": "Raise each write box so its bottom edge sits above the printed rule rather than below it — about 2.5 pt for the three boxes measured — and re-render both fixtures. '2001-04-17' and '617-555-0142' have no descenders, so after the fix no ink should appear below the rule at all.",
+            "whereToLook": "scripts/build-census-v1-ma-expunge-time-set.mjs, the write rects carried in production-field-map.json maps[0], and reports/actual-writes.json"
+          },
+          {
+            "obligation": "KNOWN_PREFILLS",
+            "whatIsWrong": "The form prints three separate captioned rules on the Print: line and the packet writes the whole name as one left-aligned string in a single cell spanning all three, so the name lands in the (Last Name) blank. The delivered petition reads Last Name: 'Jordan Avery Reyes', First Name blank, Middle Name blank. The Commissioner of Probation keys the surname from that blank.",
+            "measurement": "The three rules, measured off the blank official source at 300 dpi, run pt 54.0-168.2 (Last Name), 173.5-285.1 (First Name) and 292.1-405.1 (Middle Name). The write box is x 56 width 350, one cell across all three. The canonical name occupies pt 56.0-137.0, entirely inside the first rule. The boundary name, 'Maria-Alejandra O'Shaughnessy-Whitfield', occupies pt 56.0-222.8: it runs off the end of the (Last Name) rule, across the printed gap, and stops part-way along the (First Name) rule.",
+            "alsoWrongInTheProse": "participant-instructions.md says the platform 'filled in the three facts it holds about you in the shape this form asks for them'. The shape this form asks for is three blanks. Whichever way the fix goes, that sentence has to end up true.",
+            "suggestedFix": "Either split participant.full_legal_name across the three sub-blanks, each in its own measured cell, or write it in the (Last Name) cell alone and say so in the instructions with an item telling the participant to complete (First Name) and (Middle Name). The first is better; the second is at least honest. Splitting a name is not always safe, so if the platform cannot split this one reliably, take the second route rather than guessing where the surname ends.",
+            "whereToLook": "scripts/build-census-v1-ma-expunge-time-set.mjs, production-field-map.json maps[0].canonicalWrites, and participant-instructions.md"
+          }
+        ],
+        "secondaryObservationNotAFailure": "production-field-map.json contradicts itself about the section box: routeSelectionNote says the box 'is therefore declared required-before-filing with routeDetermined false', while the selection control carries requiredBeforeFiling false and the box does not appear in the 11-item requiredBeforeFiling list. The substantive treatment is right — the § 100F / § 100G / § 100H choice is the participant's, no box is marked, and the instructions list it under 'The choices only you can make'. Only the two sentences describing it disagree. Worth tidying while the file is open; it did not fail anything.",
+        "whatStillPasses": "ROUTE_IDENTITY, SOURCE_IDENTITY, COMPONENT_SET, REQUIRED_BEFORE_FILING, ROUTE_OPTIONS, REPEATING_ROWS, PROTECTED_FIELDS, ARTIFACTS, PAGE_ORDER, FILING_DESTINATION, FEE_AND_WAIVER, SERVICE and SELF_HELP_STOP were all measured and all pass. The guidance component is good work — it answers the fee, the service and the stop questions from the form's own printed text and refuses to invent what is not recorded. The repair is to the placement of three writes, not to the packet's substance.",
+        "mayNotBeRepairedBy": [
+          "VF02, which read it"
+        ],
+        "reVerificationOwed": "After repair this family owes a fresh independent read from a lane that neither built nor repaired it, and not from VF02."
+      }
+    ]
   }
 }
