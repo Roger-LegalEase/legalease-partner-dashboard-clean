@@ -26,9 +26,9 @@
   "nothingIsWithdrawn": "The earlier reading stands on its own evidence and is preserved verbatim under supersededLaneMembership. It is kept because those verdicts are real work, not because this lane still owns those families."
  },
  "summary": {
-  "families": 30,
-  "rows": 34,
-  "PASS_COMPLETE_INDEPENDENT": 23,
+  "families": 31,
+  "rows": 35,
+  "PASS_COMPLETE_INDEPENDENT": 24,
   "FAIL_REPAIR_REQUIRED": 9,
   "BLOCKED_SOURCE": 0,
   "BLOCKED_LEGAL_INPUT": 0,
@@ -7312,6 +7312,150 @@
     "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
     "data/rcap-grade-a/stale-artifact-block.json",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json"
+   ]
+  },
+  {
+   "itemId": "az_wrongful_arrest_clearance-set",
+   "lane": "VF01",
+   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/az/az-wrongful-arrest-clearance-set--custom-pleading",
+   "readAtBase": "247b790b6",
+   "rasterState": "RASTER_PASS",
+   "rasterWorkflowRunId": "33605354695",
+   "verdictCeilingApplied": null,
+   "supersedes": {
+    "lane": "vf06",
+    "verdict": "PASS_COMPLETE_INDEPENDENT",
+    "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+    "note": "MASTER_QUEUE marks that verdict lapsed as FAMILY_MOVED_SINCE_THE_VERDICT. Nothing here is carried over from it; every measurement below was made afresh on the bytes committed at this base."
+   },
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family az_wrongful_arrest_clearance-set, run in this worktree on the committed bytes: PASS_COMPLETE, 6/12 written"
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "one route key, obligation:track-only:AZ:az_wrongful_arrest_clearance, identical in the MASTER_QUEUE row, source-receipt.json, production-field-map.json, product-wiring.json and its binding, and printed in the footer of every delivered page of both fixtures. The legal name the field map and the receipt carry - Petition for Notation of Clearance after a Wrongful Arrest or Charge, A.R.S. Sec. 13-4051 - is the legalName the committed track registry holds for track az_wrongful_arrest_clearance, and the statutory ground appears in the petition's own title and body.",
+     "evidence": "MASTER_QUEUE.json; source-receipt.json; production-field-map.json; product-wiring.json; pdftotext of both fixtures; data/record-clearing/legal-design-track-registry.json"
+    },
+    "SOURCE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "this family binds no official binary - custodyClass CUSTOM_PLEADING_FROM_CODIFIED_TEXT, and the committed specifications name no official statewide form for the route - so what must bind by hash is the committed records it composes from. All three rehash exactly here: legal-design-track-registry.json 0a92a1a2... at 16555956 bytes, legal-design-specifications.json cc0c7959... at 16829383 bytes, and route-obligation-candidate.json 09368333... at 2599752 bytes, each equal to source-receipt.json in both hash and length.",
+     "evidence": "SHA-256 recomputed over each committed record named in source-receipt.json committedRecords; data/record-clearing/legal-design-specifications.json customPleadingSpecs for az_wrongful_arrest_clearance"
+    },
+    "COMPONENT_SET": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "the committed specification names one component for this track, az_wrongful_arrest_clearance-primary-filing-1, and it is rendered and present: pages 1-2 of both fixtures carry the composed petition, located by reading the page manifest against the extracted text. The build adds a second component, the filing-instructions page on pages 3-4, which is an addition rather than a substitution and is declared in both the field map and rendered-artifacts.json. Both fixtures carry all four pages; neither manifest names a component the declared set omits, and neither declared component is missing from a manifest.",
+     "evidence": "data/record-clearing/legal-design-specifications.json customPleadingSpecs; reports/rendered-artifacts.json componentSet and pageManifest; pdftotext -layout of both fixtures"
+    },
+    "KNOWN_PREFILLS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "six values are written on each fixture and I found every one in the extracted text of the pages its own component occupies, not merely somewhere in the file: name, date of birth, mailing address, telephone and email on the petition, and the name again on the instructions page. On the boundary persona the long mailing address wraps onto a second line rather than being cut. knownRequiredFieldsMissing and invisibleWrites are both zero, measured here.",
+     "evidence": "reports/actual-writes.json actualWrites compared value by value against pdftotext -layout output of each component's own pages, in both fixtures; the completeness verifier run here"
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "the committed specification records three required generation inputs for this track - arrestOrChargeIdentifiers, wrongfulnessFacts and recordsToAnnotate - and all three are declared required-before-filing, printed on the petition as labelled dotted blanks C1, C2 and C3 in the record's own question wording, and named in participant-instructions.md in a table that repeats each question. Nothing is guessed into any of them on either fixture. The three protected blanks are separately disclosed under what the platform deliberately left blank.",
+     "evidence": "data/record-clearing/legal-design-specifications.json generationRequirements; reports/blanks-left-for-the-participant.json; participant-instructions.md; pdftotext of both fixtures"
+    },
+    "ROUTE_OPTIONS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "there is one route and one instrument set, and no election control exists to be selected: the field map's routeSelectionsMade records the single route and the composed pages carry no checkbox or option field, which I confirmed by reading the delivered text of all four pages of both fixtures. requiredOptionsMissing is zero, measured here.",
+     "evidence": "production-field-map.json routeSelectionsMade and routeSelectionNote; pdftotext of both fixtures; the completeness verifier run here"
+    },
+    "REPEATING_ROWS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "the packet declares and renders no repeating row group - the petition's facts are three free-text items, each a labelled blank rather than a row of cells - so there is no row that could carry a written cell beside a blank required one. incompleteRows is zero, measured here.",
+     "evidence": "production-field-map.json; pdftotext -layout of both fixtures; the completeness verifier run here"
+    },
+    "PROTECTED_FIELDS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "three blanks are protected and all three are empty in the delivered bytes of both fixtures: the case number ('Case number, if the court assigns one at filing:' followed by a dotted rule), the signature of the petitioner, and the date beside it ('DATE .... SIGNATURE OF PETITIONER ....'). The page states in its own words that nothing on it is signed or dated for the petitioner. The court name line is likewise left blank for the participant to complete. No refused field carries ink on either fixture and protectedWrites is zero, measured here.",
+     "evidence": "pdftotext -layout of fixtures/canonical.pdf and fixtures/boundary.pdf; reports/blanks-left-for-the-participant.json protectedBlanks; reports/actual-writes.json refusedFieldsWithInk"
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "both artifacts rehash to what the record names: canonical ae9d2adfcc34c4aa45012493466e0b86e49ace944aa552998ffec4c2a36166ee at 9194 bytes and boundary 9ff414dfc5ee70776d55cf44400479680d1b3043789d189232c879e0e8eb36f9 at 9418 bytes, recomputed here, equal to rendered-artifacts.json and to the hashes RASTER_QUEUE.json carries. The central raster gate holds RASTER_PASS bound to that exact canonical hash. Neither hash is on the stale-artifact block.",
+     "evidence": "SHA-256 recomputed over fixtures/canonical.pdf and fixtures/boundary.pdf; reports/rendered-artifacts.json; data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json; data/rcap-grade-a/stale-artifact-block.json"
+    },
+    "PAGE_ORDER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "each fixture declares a four-entry page manifest numbered 1 to 4 with no gap, and reading the bytes gives four pages in that order: the petition on pages 1-2 and the filing instructions on pages 3-4, which is what the manifest assigns. The page count read from the bytes equals the declared pageCount on both fixtures.",
+     "evidence": "reports/rendered-artifacts.json pageManifest; page count and per-page text read from fixtures/canonical.pdf and fixtures/boundary.pdf"
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "no word box leaves its page on either fixture: measured from pdftotext -bbox word rectangles against each page's own MediaBox, canonical 0 and boundary 0, including the boundary persona's 62-character email address and its two-line mailing address. The central raster gate holds a RASTER_PASS receipt for these exact bytes and visualDefects is zero, measured here.",
+     "evidence": "pdftotext -bbox word rectangles of both fixtures against their MediaBoxes; RASTER_QUEUE.json RASTER_PASS; the completeness verifier run here"
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "the packet names it on its own filing-instructions page and in participant-instructions.md: Superior court, with the registry's own detail that a hearing is contemplated and the judge issues the order, and the recorded venue 'Statewide Arizona law; petition in superior court.' That is exactly what the committed track registry holds as destination.name, destination.detail, venue and rules.filing for track az_wrongful_arrest_clearance. The caption's court line is left blank for the participant with a pointer to that page rather than a guessed county.",
+     "evidence": "pdftotext of fixtures/canonical.pdf page 3; participant-instructions.md; data/record-clearing/legal-design-track-registry.json destination, venue and rules.filing"
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "the record's answer here is an express non-statement, and the packet states that rather than inventing a figure or delegating in silence. It quotes rules.fees - 'The source review does not state a filing fee for this petition.' - and rules.feeWaiver - 'The source review does not address a fee waiver.' - word for word, and names the specific office that answers each, the clerk's office of the superior court for the recorded venue. Both statements appear on the delivered filing-instructions page and in participant-instructions.md.",
+     "evidence": "pdftotext of fixtures/canonical.pdf page 3; participant-instructions.md; data/record-clearing/legal-design-track-registry.json rules.fees and rules.feeWaiver"
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "the same express non-statement, stated the same way: the packet quotes rules.service - 'The source review does not state a service requirement for this petition.' - names the clerk's office of the superior court as the office that answers who must be served and how, and carries rules.notice, 'A hearing is contemplated by the statute.' Nothing is asserted about service that the record does not hold.",
+     "evidence": "pdftotext of fixtures/canonical.pdf page 3; participant-instructions.md; data/record-clearing/legal-design-track-registry.json rules.service and rules.notice"
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "the packet states where self-help ends and carries all five entries the registry holds for this track - the four selfHelpStopConditions plus the fifth selfHelpBoundaries entry - word for word, on the delivered filing-instructions page and again in participant-instructions.md, which also states that this is not an official Arizona form, not legal advice, not filed for the participant, and does not decide the outcome. The registry's packetInstructions statement, that this remedy is different from sealing and that a person with notice who fails to comply is liable in damages, is carried in the record's own words so a clearance notation cannot be mistaken for a sealing order.",
+     "evidence": "pdftotext of fixtures/canonical.pdf page 3; participant-instructions.md; data/record-clearing/legal-design-track-registry.json selfHelpStopConditions, selfHelpBoundaries and packetInstructions"
+    }
+   },
+   "failedProofObligations": [],
+   "notMeasurableHere": [],
+   "whatThisPassDoesNotOpen": "an independent PASS proves this packet is complete. It approves no output, grants no legal review, and opens no commercial route; product-wiring.json remains DECLARED_NOT_INSTALLED with generationAllowed false.",
+   "evidenceRead": [
+    "data/rcap-all50/overlays/census-v1/az/az-wrongful-arrest-clearance-set--custom-pleading/source-receipt.json",
+    "data/rcap-all50/overlays/census-v1/az/az-wrongful-arrest-clearance-set--custom-pleading/production-field-map.json",
+    "data/rcap-all50/overlays/census-v1/az/az-wrongful-arrest-clearance-set--custom-pleading/product-wiring.json",
+    "data/rcap-all50/overlays/census-v1/az/az-wrongful-arrest-clearance-set--custom-pleading/build-findings.json",
+    "data/rcap-all50/overlays/census-v1/az/az-wrongful-arrest-clearance-set--custom-pleading/build-status.json",
+    "data/rcap-all50/overlays/census-v1/az/az-wrongful-arrest-clearance-set--custom-pleading/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/az/az-wrongful-arrest-clearance-set--custom-pleading/reports/actual-writes.json",
+    "data/rcap-all50/overlays/census-v1/az/az-wrongful-arrest-clearance-set--custom-pleading/reports/rendered-artifacts.json",
+    "data/rcap-all50/overlays/census-v1/az/az-wrongful-arrest-clearance-set--custom-pleading/reports/blanks-left-for-the-participant.json",
+    "data/rcap-all50/overlays/census-v1/az/az-wrongful-arrest-clearance-set--custom-pleading/reports/completeness-counters.json",
+    "data/rcap-all50/overlays/census-v1/az/az-wrongful-arrest-clearance-set--custom-pleading/fixtures/canonical.pdf",
+    "data/rcap-all50/overlays/census-v1/az/az-wrongful-arrest-clearance-set--custom-pleading/fixtures/boundary.pdf",
+    "data/record-clearing/legal-design-track-registry.json",
+    "data/record-clearing/legal-design-specifications.json",
+    "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+    "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+    "data/rcap-grade-a/stale-artifact-block.json"
    ]
   }
  ],
