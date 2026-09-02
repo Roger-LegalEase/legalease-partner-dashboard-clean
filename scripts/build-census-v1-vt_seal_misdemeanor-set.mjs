@@ -54,6 +54,39 @@ const require = createRequire(import.meta.url);
 const { PDFDocument } = require("pdf-lib");
 
 const CORPUS_INDEX = "data/rcap-all50/local-source-corpus-index.json";
+const TRACK_REGISTRY = "data/record-clearing/legal-design-track-registry.json";
+
+/*
+ * The committed track registry entry for a family that has opted into reading
+ * it. Returns null for every family that has not, so no unflagged family's
+ * bytes move.
+ *
+ * FIX04. vt_seal_pardon-set failed COMPONENT_SET, REQUIRED_BEFORE_FILING and
+ * SELF_HELP_STOP on one independent read (VF06, FABLE-VA7, base cd48fc14e),
+ * and the reader's own finding is that one undelivered component explains all
+ * three: the registry's packetSet declares a REQUIRED process_guidance
+ * component, role filing_and_expectation_instructions, whose job is to carry
+ * the filing expectations, the waiting periods and the stop conditions. Three
+ * of four components were delivered and that one was neither delivered nor
+ * declared. It is delivered here as participant-instructions.md -- which is
+ * what a process_guidance component is -- and the guidance it was supposed to
+ * carry is now in it.
+ */
+function registryTrack(config) {
+  if (!config?.registryGuidanceTrackId) return null;
+  const registry = JSON.parse(fs.readFileSync(path.join(ROOT, TRACK_REGISTRY), "utf8"));
+  const track = (registry.tracks ?? []).find((t) => t.trackId === config.registryGuidanceTrackId);
+  assert.ok(track, `${config.registryGuidanceTrackId}: no committed track registry entry`);
+  assert.ok((track.selfHelpStopConditions ?? []).length,
+    `${config.registryGuidanceTrackId}: the registry holds no self-help stop condition`);
+  assert.ok((track.waitingPeriods ?? []).length,
+    `${config.registryGuidanceTrackId}: the registry holds no waiting period`);
+  assert.ok((track.exclusions ?? []).length,
+    `${config.registryGuidanceTrackId}: the registry holds no exclusion`);
+  assert.ok((track.packetSet?.components ?? []).length,
+    `${config.registryGuidanceTrackId}: the registry declares no packet-set component`);
+  return track;
+}
 const OVERLAY_ROOT = "data/rcap-all50/overlays/census-v1/vt";
 const FIXED_DATE = "2026-01-01";
 
@@ -348,7 +381,15 @@ export const FAMILY_CONFIGS = Object.freeze({
     jurisdiction: "VT", routeKey: "obligation:track-only:VT:vt_seal_pardon",
     routeSelectionId: "vt-seal-pardon-200-00130-complete-set",
     routeName: "sealing a pardoned conviction under 13 V.S.A. § 7602",
-    convicted: true, documents: ROUTE_DOCUMENTS
+    convicted: true, documents: ROUTE_DOCUMENTS,
+    /*
+     * FIX04. Set on THIS FAMILY ONLY. The four sibling Vermont families on this
+     * host each have their own registry track with their own waiting periods,
+     * exclusions and stop conditions, and reading them here unconditionally
+     * would rewrite four families this lane holds no grant on. The mechanism is
+     * general and each needs the one word once its repair is claimed.
+     */
+    registryGuidanceTrackId: "vt_seal_pardon"
   }
 });
 
@@ -813,8 +854,37 @@ function writeArtifacts({ familyId, config, outDir, resolved, maps, artifacts, w
     commercialRoutesOpened: 0
   }, null, 2)}\n`);
 
+  const guidanceTrack = registryTrack(config);
+  /*
+   * What the registry declares this packet set is made of, and how each part is
+   * delivered. A component whose outputStrategy is process_guidance is not a
+   * page of the assembled PDF and never was; it is the participant page, and
+   * saying so is the difference between a component that is missing and one
+   * that was delivered on a channel the record did not name.
+   */
+  const componentSet = guidanceTrack
+    ? (guidanceTrack.packetSet.components ?? []).map((component) => ({
+      componentId: component.componentId, role: component.role,
+      requirement: component.requirement, order: component.order,
+      outputStrategy: component.outputStrategy,
+      officialFormId: component.officialFormId ?? null,
+      delivered: true,
+      deliveredAs: component.outputStrategy === "process_guidance"
+        ? `${outDir}/participant-instructions.md`
+        : `packet pages carrying ${component.officialFormId}`
+    }))
+    : null;
+  if (componentSet) {
+    for (const component of componentSet) {
+      if (component.outputStrategy === "process_guidance") continue;
+      assert.ok(resolved.some((r) => r.formNumber === component.officialFormId),
+        `${component.componentId}: declared by the registry and not delivered`);
+    }
+  }
+
   fs.writeFileSync(path.join(ROOT, outDir, "reports/rendered-artifacts.json"), `${JSON.stringify({
     schemaVersion: "rcap-rendered-artifacts/v1", familyId, renderedFresh: true,
+    ...(componentSet ? { componentSet } : {}),
     artifacts,
     packets: artifacts.map((a) => ({ fixture: a.fixture, documents: a.documents })),
     rasterEngine: "scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)",
@@ -871,6 +941,7 @@ function writeArtifacts({ familyId, config, outDir, resolved, maps, artifacts, w
 }
 
 function instructionsMarkdown(familyId, config, resolved, rbf, filingInstructions) {
+  const track = registryTrack(config);
   const byDoc = new Map();
   for (const item of rbf) byDoc.set(item.document, [...(byDoc.get(item.document) ?? []), item]);
   const out = [];
@@ -916,12 +987,48 @@ function instructionsMarkdown(familyId, config, resolved, rbf, filingInstruction
   out.push("> Once you file your petition, the court will provide a copy to the prosecutor who brough the criminal case. If your petition is already stipulated (or agreed to) by the prosecutor then the court will skip this step.", "");
   out.push("So the recipient is **the prosecutor who brought the criminal case**, and the method is **the court providing them a copy once you have filed**. The prosecutor is then entitled to file a response. If they agree with your request your petition may be granted without a hearing; if they oppose it the court will schedule one, and you must attend any hearing scheduled in your case, because failing to attend could result in your petition being dismissed.", "");
   out.push("The State\u2019s Attorney\u2019s signature on the stipulation (200-00132) is not service and does not substitute for it. It is the prosecutor agreeing to the sealing in advance, which is what lets the court skip the step above.", "");
+  if (track) {
+    /*
+     * FIX04. The sentence above ends "...if they oppose it the court will
+     * schedule one, and you must attend any hearing scheduled in your case".
+     * The committed track registry records "The prosecutor opposes the
+     * petition, or the court schedules a hearing" as a point where self-help
+     * ENDS, so on the one stop condition this packet reached, it was telling
+     * the participant to walk into it alone. The hearing date is real and is
+     * not talked away; what is added is that this is the point to get help.
+     */
+    out.push("**A scheduled hearing is where this packet's self-help ends.** The committed track registry records the prosecutor opposing the petition, or the court scheduling a hearing, as the point to get a lawyer or a legal-aid office rather than to press on alone. The hearing date stands either way, so start looking for help the day you learn of one.", "");
+  }
   out.push("## What you must do before you file", "");
   out.push("1. **Fill in every item listed below.** Each one names the form, the page and the printed words next to the blank.");
   out.push("2. **Sign and date each form yourself.** The platform never signs for you and never dates a signature. Blank signature and date lines are deliberate.");
   out.push("3. **Get the State's Attorney to sign the stipulation (200-00132).** The court cannot act on a stipulation the prosecutor has not agreed to. If the State's Attorney will not sign, file the petition (200-00130) on its own and ask the court to set a hearing.");
   out.push("4. **File the fee waiver (600-00228) only if there is a fee AND you cannot pay it.** Read *What it costs* above first: for most routes there is no fee to waive, and filing a waiver you do not need is wasted effort rather than a safeguard. If the fee does apply to you and you cannot pay it, complete 600-00228 - and if you receive public assistance you may stop after Section 1 and go straight to the signature block.");
   out.push("");
+  if (track) {
+    /*
+     * FIX04, REQUIRED_BEFORE_FILING. The four steps above are all about
+     * completing and signing paper. The committed track registry holds, for
+     * THIS track, four waiting periods and four exclusions keyed to 13 V.S.A.
+     * §§ 7601, 7602, 7604 and 7605 -- this route's own sections, so A3's
+     * read-across guard is satisfied -- and the packet carried none of them. A
+     * participant with unpaid restitution on an unrelated conviction, a pending
+     * charge, a conditional pardon, or six years since completing their
+     * sentence was walked through three forms and sent to the counter. Printed
+     * verbatim: these are conditions on relief, and a paraphrase of a condition
+     * is this build's sentence rather than the repository's.
+     */
+    out.push("## What has to be true before this petition can succeed", "");
+    out.push("Completing the forms is not the same as qualifying. The committed track registry holds these conditions for this route, in its own words. Check each one against your own case before you file:", "");
+    for (const period of track.waitingPeriods) {
+      out.push(`- **${String(period.condition).replace(/\s*$/, "")}.** ${String(period.duration).replace(/\s*$/, "")}`);
+    }
+    out.push("");
+    out.push("And these are the exclusions the registry records for this route. If one of them describes your case, this petition is not the route:", "");
+    for (const exclusion of track.exclusions) out.push(`- ${String(exclusion).replace(/\s*$/, "")}`);
+    out.push("");
+    out.push("The first exclusion is this family's own: this packet is built for a pardoned conviction, and § 7601(4)(B)(iv) reaches an **unconditional** pardon only. If your pardon carried conditions, it does not open this route.", "");
+  }
   out.push("## The items you must supply", "");
   for (const [doc, items] of byDoc) {
     const title = FORM_FIELDS[doc]?.title ?? doc;
@@ -936,6 +1043,21 @@ function instructionsMarkdown(familyId, config, resolved, rbf, filingInstruction
   out.push("- **The court's order on page 2 of the stipulation.** The judge completes it.");
   out.push("- **Every checkbox.** Each one is a statement about your own record or a choice only you can make. Read them and tick the ones that are true for you.");
   out.push("");
+  if (track) {
+    /*
+     * FIX04, SELF_HELP_STOP. Ten conditions held for this track, none carried,
+     * and no stop section of any kind -- the closing "What this packet is not"
+     * is a disclaimer about the packet, which is a different thing from a
+     * statement about the participant's own case. Printed verbatim, and before
+     * the disclaimer rather than inside it.
+     */
+    out.push("## When to stop and get a lawyer", "");
+    out.push("The committed track registry records these as the points where self-help ends on this route, in its own words. If any of them describes your case, stop here and take it to a lawyer or a legal-aid office rather than filing:", "");
+    for (const condition of track.selfHelpStopConditions) out.push(`- ${String(condition).replace(/\s*$/, "")}`);
+    out.push("");
+    out.push("The last of these is an open question rather than a rule, and the registry says so: for a pardoned **misdemeanour**, whether the three-year or the seven-year clock applies is something the statute does not resolve. This packet does not resolve it either, and you should not read the seven-year figure above as a settled answer for a misdemeanour.", "");
+  }
+
   out.push("## What this packet is not", "");
   out.push("This is a prepared set of official Vermont forms. It is not legal advice, it is not filed for you, and it does not decide whether the court will grant sealing.");
   out.push("");
