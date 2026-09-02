@@ -1093,7 +1093,13 @@ File the petition, with the proposed order behind it, with the **clerk of the co
 
 ## The filing fee
 
-**Neither the petition nor the order states a filing fee, and no source this packet holds establishes what filing this petition costs — or whether it costs anything.** An unsourced figure in a filing instruction is worse than none. **Ask the clerk of the court where you file what fee applies to a petition to seal a misdemeanor DWI or BWI conviction, and ask the same clerk whether any fee waiver or reduction is available to you.** Settle it before you file.
+**There is no filing fee for this petition.** Neither the petition nor the order prints an amount, but the packet is not silent about the cost, and it will not send you to a counter to ask a question the record already answers. The compiled Arkansas profile for this jurisdiction — \`src/lib/rcap-engine/compiled/profiles/AR-arkansas.json\` — states it three ways: **"Act 1460 eliminated sealing filing fees; the real costs are records and any counsel"**; **"Sealing petition filing fee $0 — Filing fees eliminated by the 2019 amendments"**; and, in its filing rule, **"File in the circuit or district court that handled the case. Act 1460 eliminated filing fees for sealing."**
+
+**Why that rule is about this petition and not a neighbouring one.** The order in this packet is the proof: its decree seals the conviction **"pursuant to A.C.A. §16-90-1405"** and directs the agencies to comply with **"A.C.A. §16-90-1413"**. Both are Act 1460 sections, and § 16-90-1405 is the misdemeanor-conviction limb the same profile names as "Situation B — Misdemeanor convictions (§ 16-90-1405)". The profile's own form table lists this exact pair among them: **"Petition and Order to Seal Misdemeanor DWI / BWI — Driving- or boating-while-intoxicated misdemeanor; 10-year wait."** So the fee rule reaches this filing because this filing is an Act 1460 sealing, which is what the rule is about.
+
+**What Ark. Code Ann. § 5-65-111 does and does not do here.** Paragraph 7 of the order cites § 5-65-111(b)(1) and/or (c)(1) for the ten-year wait since your first DWI or BWI conviction. That is the **eligibility** condition you must satisfy — it is not a separate filing scheme with its own price, and the sealing itself is ordered under § 16-90-1405. Stated plainly so you can check it: the profile's $0 sentence does not itself repeat the words "DWI" or "BWI", and it is the Act 1460 chain above, not the fee sentence's own wording, that carries it to this route.
+
+**What is not a filing fee, and may still cost you money.** The same profile records the real costs: the **ACIC criminal-history record carries an ACIC fee**, a copy of the **Judgment and Commitment Order carries a small clerk fee** from the sentencing court, and an attorney costs whatever an attorney costs — not required, and legal-aid and sealing clinics assist at no charge. Separately, paragraph 4 of the petition is your sworn statement that you **"paid all court costs unless payment has been excused by the Court"** and paragraph 6 that you paid your **driver's-licence reinstatement fees**. Those are conditions of eligibility from the underlying case, not a charge for filing this petition — but they are real money and the court will not seal the conviction until they are settled. **If the clerk of the court where you file nevertheless asks you to pay something to file, that is a question about that court's own practice rather than about this packet — ask what the charge is for and whether a waiver or reduction is available, and settle it before you file.**
 
 ## Who you serve, and how
 
@@ -1111,7 +1117,7 @@ The method is on the form: **by placing a copy in the United States mail, postag
 ## What you must do before you file
 
 1. **Copy the venue from the conviction's own paperwork** — court, county and division — into the caption of both forms, and confirm it with the clerk if you are not certain (see above).
-2. **Ask the clerk what the filing fee is**, and whether a waiver is available. Nothing in this packet establishes it.
+2. **Do not budget for a filing fee.** Act 1460 eliminated it and this petition costs $0 to file (see _The filing fee_ above). Budget instead for the ACIC criminal-history record and a copy of the Judgment and Commitment Order, and make sure your court costs, restitution and driver's-licence reinstatement fees from the underlying case are paid — those are eligibility conditions the court will check.
 3. **Complete every blank listed in the table below.** Each is named with the page it is on and what belongs in it.
 4. **Read paragraphs 1 through 10 of the petition and make sure every one is true of you** — the arrest and offense recital, the plea or finding of guilt, the completed sentence, the court costs, the restitution, the driver's-license reinstatement, the ten years since your first conviction, the pending-charges boxes and the sex-offender boxes. Paragraph 11 makes the whole petition a statement that is true and correct to the best of your knowledge.
 5. **Sign the VERIFICATION on page 3 before a notary.** The petition carries a jurat — "Subscribed and sworn to before me" — so your signature there is an oath, taken in front of a Notary Public who then completes the jurat, the seal and the commission line. The platform writes nothing on that page; the oath is one act, and it is yours and the notary's.
@@ -1549,14 +1555,40 @@ function writeRecords({ documents, rasters, allFindings }) {
         + "others is refused."
     },
     fee: {
-      established: false,
+      established: true,
+      amount: "$0",
       whatTheSourcesSay:
-        "Neither pinned form states a filing fee, and neither names a fee-waiver route. The petition's paragraph 4 "
+        "Neither pinned FORM states a filing fee, and neither names a fee-waiver route. The petition's paragraph 4 "
         + "asserts the defendant 'has paid all court costs unless payment has been excused by the Court', which is "
-        + "a condition of sealing rather than a fee for filing.",
-      whatIsNotEstablished:
-        "The filing fee for this petition, whether any county charges one, and whether a waiver exists. No amount "
-        + "is asserted here. Establishing it needs a source this family does not hold and may not fetch."
+        + "a condition of sealing rather than a fee for filing. But the forms are not the whole repository: the "
+        + "compiled Arkansas profile states the fee outright in src/lib/rcap-engine/compiled/profiles/"
+        + "AR-arkansas.json — packetGenerator feeRules 'Act 1460 eliminated sealing filing fees; the real costs "
+        + "are records and any counsel' and 'Sealing petition filing fee $0 Filing fees eliminated by the 2019 "
+        + "amendments', and filingDestinationRules 'File in the circuit or district court that handled the case. "
+        + "Act 1460 eliminated filing fees for sealing.'",
+      whyThatRuleReachesThisRoute:
+        "A3 holds per fact and per route, so the profile counts only where it addresses THIS filing. It does. The "
+        + "delivered order's own decree seals the conviction 'pursuant to A.C.A. §16-90-1405' and directs "
+        + "compliance with '§16-90-1413' — both Act 1460 sections — and the same profile labels § 16-90-1405 "
+        + "'Situation B — Misdemeanor convictions' and lists this exact pair in its form table as 'Petition and "
+        + "Order to Seal Misdemeanor DWI / BWI Driving- or boating-while-intoxicated misdemeanor; 10-year wait.' "
+        + "The fee rule is keyed to Act 1460 sealing and this is an Act 1460 sealing.",
+      theResidualStatedRatherThanBuried:
+        "The profile's $0 sentence does not itself contain the words DWI or BWI, and Ark. Code Ann. § 5-65-111 — "
+        + "cited in the order's paragraph 7 — appears nowhere in the profile. § 5-65-111 supplies the ten-year "
+        + "ELIGIBILITY wait, not a separate filing scheme; the sealing is ordered under § 16-90-1405. The "
+        + "instruction states this limit to the participant rather than hiding it, so a counsel reader who "
+        + "disagrees can see exactly which link they are disputing.",
+      whyTheOldRefusalWasWrong:
+        "The section previously told the participant that 'no source this packet holds establishes what filing "
+        + "this petition costs — or whether it costs anything' and sent them to the clerk. That was a true claim "
+        + "about the two FORMS and a false claim about the REPOSITORY. DET-FEE-AND-WAIVER-001 A2 settles that the "
+        + "repository includes the compiled state profile for the family's jurisdiction, and A1 makes the "
+        + "named-authority stand-in unavailable where the repository holds the answer. The sibling "
+        + "ar-arrest-seal-set was repaired from the same profile; this family was not, until now.",
+      whatIsStillNotEstablished:
+        "Whether any individual court charges an administrative amount of its own at the counter. The clerk is "
+        + "kept for that residual only, and not for the statutory filing fee."
     },
     service: {
       required: true,
@@ -1884,8 +1916,23 @@ function writeRecords({ documents, rasters, allFindings }) {
   // from the pinned forms' text — the caption, the recitals, the page 3
   // VERIFICATION jurat, the page 4 Certificate of Service and the order's
   // distribution paragraph — or is an explicit delegation to a named checkable
-  // authority. Neither form states a filing fee and no held source establishes
-  // one, so no amount is stated here either.
+  // authority, or is a rule a held record states with its path quoted.
+  //
+  // THE FILING FEE IS THE SECOND KIND. Neither FORM states an amount, and for a
+  // long time this section reasoned from that to "no source this packet holds
+  // establishes what filing this petition costs — or whether it costs anything"
+  // and named the clerk. DET-FEE-AND-WAIVER-001 A2 settles that the repository
+  // is not the family's own bound PDFs: it includes the compiled state profile
+  // for the family's jurisdiction, whether or not the route census enumerates
+  // it — and this route's census does not, which is exactly the case A2 was
+  // written for. src/lib/rcap-engine/compiled/profiles/AR-arkansas.json answers
+  // the fee outright ("Sealing petition filing fee $0"), A3's per-route guard is
+  // satisfied through the delivered order's own "pursuant to A.C.A. §16-90-1405"
+  // decree, and A1 then forbids the clerk stand-in for a fact the repository
+  // holds. So the section states $0, cites the profile by path, says why the
+  // rule reaches this route, and keeps the clerk only for a particular court's
+  // own counter practice. The § 5-65-111 residual is stated in the packet
+  // rather than buried in this comment.
   fs.writeFileSync(path.join(rootDir, `${OUT}/participant-instructions.md`), participantInstructionsMarkdown());
 
   writeJson(`${OUT}/approval-request.json`, {

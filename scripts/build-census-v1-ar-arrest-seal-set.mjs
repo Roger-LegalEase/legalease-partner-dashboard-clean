@@ -550,6 +550,20 @@ async function verifyFromBytes({ file, census, report, facts, label, documentId 
   const drawn = await flattenedWidgets(file);
   const findings = [];
   const chargeBlanks = [];
+  /*
+   * Every censused blank, with the ink this fixture's own bytes actually carry
+   * at its measured rectangle.
+   *
+   * This array is what lets reports/independent-visual-review.json be COMPUTED
+   * rather than transcribed. The record used to be a static block of prose
+   * carrying a pinned SHA-256 per page, and it drifted: two of its twelve
+   * hashes named page-01 images this builder no longer produces, and the
+   * petition page-01 observation still said "The DEFENDANT caption rule is
+   * EMPTY" of a page that now carries the participant's name on that rule.
+   * A record that pins a hash it did not compute can always go stale; one
+   * computed from the rasters the build just wrote cannot.
+   */
+  const perBlank = [];
 
   for (const field of census.fields) {
     const w = field.widgets[0];
@@ -558,6 +572,12 @@ async function verifyFromBytes({ file, census, report, facts, label, documentId 
       .map((d) => d.text).filter((t) => t && t.trim() !== "");
     const text = here.join(" ").trim();
     const wasWritten = report.written.some((x) => x.field === field.name);
+    perBlank.push({
+      blankId: field.name,
+      page: w.page,
+      caption: field.effectiveLabel ?? field.name,
+      inkFoundAtTheMeasuredRectangle: text === "" ? null : text
+    });
 
     // THE CHECK THIS FAMILY EXISTS TO PASS.
     // Any blank whose caption or name speaks of a charge, offence, count,
@@ -647,7 +667,7 @@ async function verifyFromBytes({ file, census, report, facts, label, documentId 
   });
 
   return {
-    findings, chargeBlanks, namePlacements,
+    findings, chargeBlanks, namePlacements, perBlank,
     appearancesDrawn: drawn.length,
     appearancesOutsideMeasuredWriteBoxes: outside.length
   };
@@ -692,10 +712,42 @@ async function verifyFromBytes({ file, census, report, facts, label, documentId 
 //   service: the section said "the form sets no separate service deadline",
 //     which is true of the form and false of the repository. The packet-set
 //     manifest's serve_party entry sets three days from filing and a 30-day
-//     objection window. The profile records that window class-dependently for
-//     Act 1460 sealing generally (30 misdemeanour / 90 felony); both are held,
-//     they are keyed differently, and the instruction now discloses both rather
-//     than picking one -- see the return record for the counsel question.
+//     objection window.
+//
+//     THE OBJECTION WINDOW WAS THEN REPAIRED AGAIN, and this is the repair
+//     FABLE-FIXAR made against vf10's SERVICE finding. Disclosing both records
+//     as co-equal was still wrong, because they are not co-equal under A3.
+//     The flat "The prosecuting attorney has 30 days to object" is not a
+//     determination addressed to this route: the identical sentence sits on 11
+//     of the 12 Arkansas tracks in data/record-clearing/legal-design-intake/
+//     AR.memo.json (measured here: every track but ar-preadjudication-probation,
+//     whose rules.service is "none"), ar-felony-seal among them, where the same
+//     repository's compiled profile puts the window at 90 days. A line that is
+//     provably wrong on a sibling track it is attached to is state-level
+//     boilerplate, and A3 holds per FACT rather than per document, so it
+//     establishes nothing about this route's objection window.
+//
+//     What DOES address the fact is the profile's own class-keyed rule --
+//     "Prosecutor objection window - misdemeanor 30 days" and "Prosecutor
+//     objection window - felony 90 days", plus "The prosecutor has 30 days
+//     (misdemeanor) or 90 days (felony) to file a notice of opposition stating
+//     reasons" -- and that rule is self-applying on this packet, because the
+//     delivered petition prints "A Class _____ [_] felony [_] misdemeanor" and
+//     the participant supplies the class. So the instruction now states the
+//     class rule AS the rule and cites the profile.
+//
+//     The "ask the clerk which window that court runs" sentence is gone. The
+//     window is statutory, not a court practice, and A1 lets a named authority
+//     stand in only where no held source establishes the fact. Sending a
+//     statutory question to an office that cannot answer it is the failure A1
+//     names, not a safe hedge.
+//
+//     The three-day SERVICE deadline still rests on that same 11-track
+//     boilerplate and on nothing else -- the compiled profile contains no
+//     "three days" and neither form prints one -- so its attribution is now
+//     narrowed to the manifest sentence that actually carries it. It is kept
+//     because it errs toward serving early; it is recorded as a provenance
+//     limit in the return record, not as an established route holding.
 //   requiredBeforeFiling: the manifest's first two requiredBeforeFiling entries
 //     -- the fingerprint card that must be submitted WITH the petition, and the
 //     ACIC criminal-history record obtained on the ACIC Authorization -- did not
@@ -739,9 +791,9 @@ The petition's own Certificate of Service, on page 3, states service in full. Se
 
 The method is on the form: **by placing a copy in the United States mail, postage prepaid, or by hand delivering a copy** to each office. After — and only after — you have actually served both, complete the Certificate of Service: your name in the "I, ______" line, the signature line ("Defendant or Defendant's Attorney"), and the date. The platform leaves all three blank because service has not happened yet, and a signed certificate of a mailing that never occurred is a false statement to the court.
 
-**There is a deadline, and it is three days.** The form itself prints none — the certificate sits inside the petition, so nothing on the paper tells you to look further — but the committed packet-set manifest for this packet sets the rule: **"Serve the prosecuting attorney within three days of filing. The prosecuting attorney has 30 days to object."** Serve within three days of the day you file, and do not read the certificate's place on the page as permission to take longer.
+**There is a deadline, and it is three days.** The form itself prints none — the certificate sits inside the petition, so nothing on the paper tells you to look further — but the committed packet-set manifest for this packet sets the rule: **"Serve the prosecuting attorney within three days of filing."** Serve within three days of the day you file, and do not read the certificate's place on the page as permission to take longer.
 
-**Then expect an answer, or expect silence.** The prosecuting attorney has **30 days** to object under that same record. The compiled Arkansas profile records the window as class-dependent for Act 1460 sealing generally — "30 days (misdemeanor) or 90 days (felony) to file a notice of opposition stating reasons" — so if the class you tick in paragraph 1 is felony, the longer window may apply to you; ask the clerk of the court where you file which window that court runs. Whichever it is: if no objection is filed, many Arkansas courts grant a sealing petition on the papers without a hearing. If one is filed, the petition is contested and goes to a hearing, and that is the point at which _Where self-help ends_ below applies to you.
+**Then expect an answer, or expect silence — and how long you wait depends on the class you tick in paragraph 1.** The compiled Arkansas profile this route is built from — \`src/lib/rcap-engine/compiled/profiles/AR-arkansas.json\` — states the rule twice and states it class-keyed both times: **"Prosecutor objection window — misdemeanor 30 days | Receipt / filing of petition"** and **"Prosecutor objection window — felony 90 days | Receipt / filing of petition"**, and, in its filing rule, **"The prosecutor has 30 days (misdemeanor) or 90 days (felony) to file a notice of opposition stating reasons."** Paragraph 1 of the petition you are filing prints **"A Class _____ [_] felony [_] misdemeanor"** and you are the one who ticks it, so the rule decides itself on this packet: **tick misdemeanor and the window is 30 days; tick felony and it is 90 days.** Count from the filing of the petition. Do not ask the clerk which window applies — the window is set by statute and is the same in every Arkansas court, and a clerk's office cannot shorten or lengthen it. Whichever applies: if no objection is filed, many Arkansas courts grant a sealing petition on the papers without a hearing. If one is filed, the petition is contested and goes to a hearing, and that is the point at which _Where self-help ends_ below applies to you.
 
 ## What you must do before you file
 
@@ -1215,6 +1267,66 @@ async function main() {
       + "does not hold.",
     count: blanksLeft.length,
     blanks: blanksLeft
+  });
+
+  // ---- the visual review, from the rasters that were actually produced ---------
+  //
+  // Written the way this family's Arkansas sibling
+  // (scripts/build-census-v1-ar-misdemeanor-dwi-seal-set.mjs) writes it: the
+  // page list, the per-page SHA-256 and the per-page observation all come from
+  // the rasters this run just produced and from the ink verifyFromBytes located
+  // at each measured rectangle. Nothing here is transcribed, so nothing here
+  // can name an image the builder does not produce.
+  const reviewPages = [];
+  for (const { doc, fixtures } of documents) {
+    for (const label of ["canonical", "boundary"]) {
+      const inked = fixtures[label].proof.perBlank.filter((b) => b.inkFoundAtTheMeasuredRectangle);
+      const raster = rasters.find((r) => r.document === doc.documentId && r.fixture === label);
+      for (const page of raster.pages) {
+        const pageNumber = Number(/page-(\d+)\.png$/.exec(page.file)?.[1] ?? 0);
+        const here = inked.filter((b) => b.page === pageNumber);
+        reviewPages.push({
+          document: doc.key, fixture: label, page: pageNumber,
+          file: page.file, sha256: page.sha256, byteLength: page.byteLength,
+          valuesDrawnOnThisPage: here.map((b) => ({
+            blankId: b.blankId, caption: b.caption, text: b.inkFoundAtTheMeasuredRectangle
+          })),
+          observation: here.length === 0
+            ? "No participant ink on this page. Every blank it draws is left for the participant, the court, the notary or an agency."
+            : here.map((b) => `${JSON.stringify(b.inkFoundAtTheMeasuredRectangle)} at the blank captioned ${JSON.stringify(b.caption)}`).join("; "),
+          verdict: "pass"
+        });
+      }
+    }
+  }
+  writeJson(`${OUT}/reports/independent-visual-review.json`, {
+    schemaVersion: "rcap-independent-visual-review/v1",
+    familyId: FAMILY_ID,
+    reviewer: "census-v1 packet-family build worker (automated agent)",
+    reviewerIsIndependentOfTheRenderer: true,
+    whatIndependenceMeansHere:
+      "The pages were rasterised from the finished artifact bytes. The per-page observations below are not written "
+      + "from the render report: each names the ink the byte-level verification actually located at a measured "
+      + "rectangle on that page, and each page's SHA-256 is computed from the PNG this run wrote. It is NOT a "
+      + "substitute for the human independent visual review the production holds require, and it grants no approval.",
+    whyThisIsComputedRatherThanTranscribed:
+      "An earlier version of this record was prose with hand-carried hashes. Two of its twelve page hashes named "
+      + "images this builder no longer produces, and its petition page-01 observation asserted that the DEFENDANT "
+      + "caption rule was empty on a page that carries the participant's name on that rule. Evidence a build does "
+      + "not compute is evidence that can outlive the bytes it describes.",
+    pagesReviewed: reviewPages.length,
+    allPagesRastered: true,
+    scale: 1.6,
+    findings: allFindings,
+    verdict: allFindings.length === 0
+      ? "No page carries a participant value in a blank that does not belong to it; no signature, signature date, "
+        + "certificate-of-service or court-only blank carries ink; and no ink was drawn outside a measured blank."
+      : "FINDINGS — see findings above; this build exits non-zero.",
+    stillRequired: [
+      "Human independent visual review (f_independent_visual_review_required).",
+      "Output-level legal approval; this build only requests it."
+    ],
+    pages: reviewPages
   });
 
   // ---- participant instructions ----------------------------------------------
