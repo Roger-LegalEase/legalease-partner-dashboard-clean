@@ -193,6 +193,50 @@ const PROPOSED = "tx_exp_acquittal-proposed-order-4";
 const STATEMENT = "tx_exp_acquittal-fee-waiver-statement-5";
 const GUIDE = "tx_exp_acquittal-filing-and-expectation-instructions-6";
 
+/*
+ * The twelve stop conditions this route actually holds.
+ *
+ * Carried word for word from data/record-clearing/legal-design-track-registry.json,
+ * track `tx_exp_acquittal`, selfHelpStopConditions. Nothing added, nothing
+ * softened, nothing read across from another Texas route. The packet previously
+ * carried five bullets of its own and seven of these twelve appeared nowhere in
+ * either the instructions or the delivered bytes - including the mixed-outcome
+ * condition whose governing case law the registry records as not automated, and
+ * the absconding condition the registry flags precisely because a participant
+ * cannot be expected to self-identify it.
+ *
+ * The registry's own wording for the immigration condition is used rather than
+ * the packet's earlier "you are not a United States citizen", which does not
+ * reach a lawful permanent resident who reads it and hesitates.
+ */
+const SELF_HELP_STOP_TRACK = "tx_exp_acquittal";
+const SELF_HELP_STOP_CONDITIONS = Object.freeze([
+  "The state opposes the petition, or seeks retention of records under art. 55A.302.",
+  "The arrest produced multiple charges with mixed outcomes. State v. T.S.N. and Ex parte R.P.G.P. govern whether individual offences from one arrest can be expunged separately, and that analysis is not automated.",
+  "A felony from the same transaction is present or arguable, which moves the wait to three years and can defeat the petition.",
+  "The applicable limitations period is contested, or the participant wants full rather than partial expunction and the limitations analysis is not clear.",
+  "There is any absconding or bail-jumping history. Article 55A.154 makes an intentional or knowing absconder ineligible under arts. 55A.052(a)(1) to (3) and 55A.054, and a participant may not self-identify the fact.",
+  "The arrest may have been made on a community-supervision violation warrant under art. 42A.751(b), which art. 55A.153 bars.",
+  "Venue is unclear because the arrest and the alleged offence occurred in different counties.",
+  "Immigration consequences.",
+  "The participant wants to attack the underlying case rather than clear it.",
+  "Any companion conviction or live charge from the same criminal episode, which art. 55A.151 makes an outright bar.",
+  "Any multi-count indictment with a mixed verdict.",
+  "The participant was represented at trial, in which case the trial attorney prepares the order on the in-window route."
+]);
+
+/*
+ * The three stops this packet carried that the registry list does not spell out,
+ * kept rather than dropped: the criminal-episode bullet carries the fee-waiver
+ * consequence the registry's condition 10 does not, and the other two are this
+ * packet's own.
+ */
+const SELF_HELP_STOP_PACKET_ADDITIONS = Object.freeze([
+  "The criminal-episode bar above does more than defeat the petition: art. 55A.151 also removes the mandatory fee waiver in art. 102.0061(c), so a participant it reaches loses the free filing as well as the relief.",
+  "You are not sure whether the criminal-episode bar reaches you.",
+  "The clerk cannot produce the art. 55A.253(c) agency list."
+]);
+
 const COMPONENTS = [REQUEST, INFOPACK, PETITION, PROPOSED, STATEMENT, GUIDE];
 
 const COMPOSED_TITLES = {
@@ -693,11 +737,12 @@ const COMPOSED_COMPONENTS = {
       L.push("AND YOU DO NOT CHASE THE FBI. On receipt, DPS notifies the central federal depositories itself.", "");
       L.push("VERIFICATION. Article 55A.253 requires the petition to be verified. Whether an unsworn declaration satisfies that is accepted by some clerks and not others, which is why BOTH a notarial block and an unsworn declaration are printed. Ask your clerk which they take.", "");
       L.push("WHEN TO STOP AND GET HELP INSTEAD.");
-      L.push("- The acquitted offence arose out of a CRIMINAL EPISODE as defined by Penal Code Sec. 3.01 and you were convicted of, or remain subject to prosecution for, at least one other offence in that episode. Article 55A.151 bars relief on that ground, and it also removes the mandatory fee waiver in art. 102.0061(c).");
-      L.push("- You are not sure whether the criminal-episode bar reaches you.");
-      L.push("- The 30-day window has closed and you are not sure which county the arrest belongs to.");
-      L.push("- The clerk cannot produce the art. 55A.253(c) agency list.");
-      L.push("- You are not a United States citizen.", "");
+      L.push(`These twelve are carried word for word from this route's own committed track record - data/record-clearing/legal-design-track-registry.json, track ${SELF_HELP_STOP_TRACK}, selfHelpStopConditions. Each is a point at which this packet stops being enough, and at which you should stop and get a lawyer licensed in Texas rather than file.`);
+      L.push(...SELF_HELP_STOP_CONDITIONS.map((condition) => `- ${condition}`));
+      L.push("AND THREE MORE THIS PACKET ADDS, FROM WHAT IT KNOWS ABOUT THIS FILING.");
+      L.push(...SELF_HELP_STOP_PACKET_ADDITIONS.map((condition) => `- ${condition}`), "");
+      L.push("THE MIXED-OUTCOME CONDITION IS THE ONE MOST PEOPLE READING THIS WILL HIT. If your arrest produced more than one charge and they did not all end the same way - acquitted on one count, convicted or still pending on another - whether the acquitted offence can be expunged on its own is governed by State v. T.S.N. and Ex parte R.P.G.P., and the committed record says that analysis is NOT AUTOMATED. This packet does not perform it and does not decide it for you.", "");
+      L.push("AND ABSCONDING IS THE ONE YOU CANNOT CHECK FOR YOURSELF. Article 55A.154 makes an intentional or knowing absconder ineligible under arts. 55A.052(a)(1) to (3) and 55A.054, and the committed record's own reason for making it a stop is that a participant may not self-identify the fact. If there is any bail-jumping or failure-to-appear history on this arrest, ask a lawyer before you file.", "");
       L.push("DOCUMENTS TO GET FIRST, AND WHO HAS THEM.");
       L.push("- Your Texas DPS criminal history record - the Texas Department of Public Safety Crime Records Service, following DPS form CR-63, which is an instruction sheet rather than a form to complete. THE TRN IT CARRIES HAS TO GO ON THE ORDER.");
       L.push("- The district clerk's published list of agencies and e-mail addresses - the district clerk of the county where the petition will be filed, under art. 55A.253(c).");
@@ -803,13 +848,19 @@ const INSTRUCTIONS = {
     "- **The art. 55A.151 statement** about a criminal episode. It looks at your whole record and at anything still pending."
   ],
   stopsLines: [
-    "- the acquitted offence arose out of a **criminal episode** as defined by Penal Code § 3.01 and you were convicted of, or remain subject to prosecution for, at least one other offence in that episode. Art. 55A.151 bars relief on that ground — and it also removes the mandatory fee waiver in art. 102.0061(c);",
-    "- you are not sure whether the criminal-episode bar reaches you;",
-    "- the 30-day window has closed and you are not sure which county the arrest belongs to;",
-    "- the clerk cannot produce the art. 55A.253(c) agency list;",
-    "- you are not a United States citizen.",
+    `**Stop and get a lawyer licensed in Texas rather than file if any of the following is true of your case.** Each of the twelve is carried word for word from this route's own committed track record — \`data/record-clearing/legal-design-track-registry.json\`, track \`${SELF_HELP_STOP_TRACK}\`, \`selfHelpStopConditions\` — and each is a point at which this packet stops being enough:`,
     "",
-    "Where self-help stops, the district clerk of the county where the petition will be filed answers the agency list and the fee, the clerk of the trial court holds the judgment of acquittal, and the Texas Department of Public Safety Crime Records Service issues the criminal history record the TRN comes from."
+    ...SELF_HELP_STOP_CONDITIONS.map((condition) => `- ${condition}`),
+    "",
+    "**Three more this packet adds, from what it knows about this filing:**",
+    "",
+    ...SELF_HELP_STOP_PACKET_ADDITIONS.map((condition) => `- ${condition}`),
+    "",
+    "**The mixed-outcome condition is the one most people reading this will hit.** If your arrest produced more than one charge and they did not all end the same way — acquitted on one count, convicted or still pending on another — whether the acquitted offence can be expunged on its own is governed by *State v. T.S.N.* and *Ex parte R.P.G.P.*, and the committed record says that analysis is **not automated**. This packet does not perform it and does not decide it for you.",
+    "",
+    "**And absconding is the one you cannot check for yourself.** Art. 55A.154 makes an intentional or knowing absconder ineligible under arts. 55A.052(a)(1) to (3) and 55A.054, and the record's own reason for making it a stop is that a participant may not self-identify the fact. If there is any bail-jumping or failure-to-appear history on this arrest, ask a lawyer before you file.",
+    "",
+    "Where self-help stops, the district clerk of the county where the petition will be filed answers the agency list and the fee, the clerk of the trial court holds the judgment of acquittal, and the Texas Department of Public Safety Crime Records Service issues the criminal history record the TRN comes from. None of them may advise you on any of the conditions above; only a lawyer licensed in Texas may."
   ],
   notLines: [
     "This is a request, an information package, a verified petition, a proposed order, the statewide fee-waiver Statement and their instructions — **of which only some apply to you**, depending on how long ago you were acquitted. It is not legal advice, and it is not filed for you.",

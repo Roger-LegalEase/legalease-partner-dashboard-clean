@@ -37,7 +37,7 @@ This packet has checked what this repository holds rather than sending you away 
 
 **The prosecutor must receive a copy of what you file, by mail or by email.** BCI's Expungement Applicant Instructions state the step plainly: after filing with the court, "Mail or email the prosecutor copies of what you file." This packet includes form 1146XX, *Acceptance of Service – Expungement (Prosecutor)*, for the prosecutor to acknowledge receipt.
 
-The prosecutor or a victim in your case may object; if the court schedules a hearing, attend it. The Utah State Courts Self-Help Center answers questions about this on **888-583-0009**.
+The prosecutor or a victim in your case may object, and the court may schedule a hearing. **This route's own committed record treats that as the point where self-help ends, not as a next step you take on your own** — it is the second condition under *Where self-help ends* below. This packet does not prepare you for a contested hearing, does not answer an objection for you, and does not argue anything for you. Look for a lawyer licensed in Utah as soon as an objection reaches you or a hearing is set, rather than afterwards. The Utah State Courts Self-Help Center answers procedural questions about this on **888-583-0009**.
 
 Fill in the service method, the address you used and the date **only after service has actually happened**. A certificate of service dated before service is a false statement, so this packet leaves it blank.
 
@@ -62,6 +62,32 @@ This review fixture deliberately leaves the following facts or acts blank. Suppl
 - **A complete list of every criminal case you have ever had, in any state, including cases that were already expunged.** Assemble it before you apply to BCI. BCI assesses eligibility against your total criminal history in all states, previously expunged cases included, so **an incomplete list produces a denial rather than a certificate.** Court clerks in each jurisdiction and the state criminal-history repositories are where the missing pieces come from.
 
 Signatures, signature dates, service certifications, court-only fields, agency-only fields, prosecutor-only fields, victim fields, and optional third-party authorizations remain protected.
+
+## Where self-help ends
+
+This packet prepares the petition and the BCI application. It does not decide anything, and no lawyer has reviewed your case in preparing it. **Stop and get a lawyer licensed in Utah before you file if any of the following is true of your case.** Each one is carried word for word from this route's own committed track record — `data/record-clearing/legal-design-track-registry.json`, track `ut_pet_conviction`, `selfHelpStopConditions` — and each is a point at which this packet stops being enough:
+
+- The participant is not a US citizen. The Utah Courts self-help page itself tells non-citizens to consult an immigration lawyer before expunging, because the FBI may retain records of an expunged case. This is a hard stop, not a caveat.
+- The prosecutor or a victim objects, or the court schedules a hearing.
+- BCI offers a special certificate instead of a certificate of eligibility, because the court rather than BCI then decides eligibility.
+- The public-interest showing has to be argued rather than simply stated.
+- Any conviction-counting question near the 77-40a-303(4) or (5) limits, including out-of-state and previously expunged convictions.
+- An active protective order or stalking injunction.
+- The participant is asking to expunge appellate records.
+- The conviction count is anywhere near the 77-40a-303(4) or (5) limits, which run on the entire criminal history across all states including previously expunged convictions.
+- A criminal episode contains both a drug possession offence and a non-drug offence, so the 77-40a-303(6) mixed-episode counting rule has to be applied.
+- Whether an offence is a violent felony under 76-3-203.5(1)(c)(i) is genuinely in question.
+- Which of case closure, release, or termination of supervision starts the applicable waiting period is genuinely in question.
+- The public-interest explanation needs to be argued rather than stated.
+- The participant is relying on the 77-40a-303(7) after-ten-years increase in the numerical limits.
+
+**If you are not a United States citizen, the first item in that list is a hard stop and not a caveat, and the record says so in those words.** Ask an immigration lawyer before you sign or file anything. The reason the record gives is that the FBI may retain records of an expunged case, so a Utah expungement does not necessarily remove the record an immigration authority sees. Neither this packet, nor the court clerk, nor the Bureau of Criminal Identification can tell you what it does to your immigration position, and the petition and the BCI application are both sworn once you sign them.
+
+**The second condition is the one that happens after you file, and it ends self-help where it starts.** If the prosecutor or a victim objects, or the court sets your petition for hearing instead of granting it, the matter is contested from that point. This packet does not prepare you for a contested hearing and does not answer an objection for you, and the reply and hearing windows run on the court's clock rather than yours — so look for a lawyer as soon as an objection reaches you, not afterwards.
+
+**Two of these conditions are about the explanation this packet leaves blank for you to write.** The public-interest showing is yours to supply, and the record stops self-help at the point where it has to be argued rather than simply stated. If you cannot state your reasons plainly and expect them to stand on their own, that is the condition, and it is reached before you file rather than after.
+
+The same track's `selfHelpBoundaries` field restates these thirteen and adds no condition the list above does not already carry.
 
 ## What this packet is not
 

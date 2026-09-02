@@ -260,10 +260,22 @@ const SPEC = {
     "**After the order is signed, the distribution is the CLERK's, not yours.** The order's own text directs it: the Clerk is directed to mail or transmit a certified copy of the order to the Arkansas Crime Information Center, the Administrative Office of the Courts, the prosecuting and/or city attorney as the case may be, the District Court Clerk if applicable, and the arresting agency, and each of those agencies must comply with A.C.A. § 16-90-1413 as it pertains to them. You do not have to serve the sealed order on the record-holders yourself."
   ],
 
+  // Paragraph 2 of the ACIC petition offers FOUR dispositions and this packet
+  // ships all four. The repository answers venue for TWO of them and records the
+  // other two as unresolved, in three places: the route census row's
+  // destination.detail, the track registry's venue field, and that entry's
+  // unresolvedQuestions[0] at impact build_blocker. So the destination is stated
+  // where the record establishes it and refused where the record does not, per
+  // disposition. The sentence "it is the answer: you do not have to work out
+  // venue for yourself" is gone: it was the specific clause that was false for
+  // half the dispositions, and for a never-filed charge there is no court that
+  // entered any order for the rule to point at.
   filingDestination: [
-    "**File the petition and the unsigned order together in the court where the nolle prosequi or dismissal order was entered.** That is the committed packet-set manifest's own instruction for this packet, and it is the answer: you do not have to work out venue for yourself.",
-    "**Check the county printed in the caption before you file.** The caption's county blank is one this packet deliberately leaves to you, so write the county of the court that entered the order — not the county you live in.",
-    "**Which of the two Arkansas courts it is — circuit or district — is the one thing left open, and the clerk answers it.** The compiled Arkansas profile records the rule as \"File in the circuit or district court that handled the case\", and the order's own distribution paragraph contemplates both, directing certified copies to \"the District Court Clerk, if applicable\". **Ask the circuit clerk's office of the county where the order was entered which of the two takes an Act 1460 non-conviction petition**, and write the answer in the caption's \"IN THE ______ COURT OF\" blank.",
+    "**Where this goes depends on which of paragraph 2's four situations is yours, and this packet can answer that for two of the four.**",
+    "**If the case ended in a nolle prosequi, or in an order of dismissal: file the petition and the unsigned order together in the court where that order was entered.** A.C.A. § 16-90-1410(b) states venue that way, and the committed packet-set manifest gives this packet the same instruction.",
+    "**If you were acquitted, or if charges were never filed, no record held here states where the petition goes — and this packet will not guess it.** The committed track record for this route says so in terms: venue for an acquittal and for charges never filed is not stated in § 16-90-1410(b), and it is carried there as an unresolved question rather than as an answer. For charges that were never filed there is no court that entered any order at all, so the rule above has nothing to point at. **Ask the circuit clerk's office of the county where the arrest happened, or where the charge would have been brought, which court takes an Act 1460 non-conviction petition on your facts — and do not file until you have that answer.**",
+    "**Check the county printed in the caption before you file.** The caption's county blank is one this packet deliberately leaves to you. Where the case ended in a nolle prosequi or a dismissal, write the county of the court that entered the order. Where it ended in an acquittal, or charges were never filed, write the county the clerk's office tells you under the paragraph above. Either way it is the county of the court you file in, not the county you live in unless those are the same.",
+    "**Which of the two Arkansas courts it is — circuit or district — is open in every one of the four situations, and the clerk answers it.** The compiled Arkansas profile records the rule as \"File in the circuit or district court that handled the case\", and the order's own distribution paragraph contemplates both, directing certified copies to \"the District Court Clerk, if applicable\". **Ask the circuit clerk's office of the county you identified above which of the two takes an Act 1460 non-conviction petition**, and write the answer in the caption's \"IN THE ______ COURT OF\" blank.",
     "**The DIVISION blank in the caption is yours too, and only if that court has divisions.** The same clerk's office can tell you."
   ],
 
@@ -297,7 +309,7 @@ const SPEC = {
     "**Tick exactly one box in paragraph 2, one in paragraph 4 and one in paragraph 5.** Each is a statement about your own record and this packet marks none of them.",
     "**Take the petition to a notary and swear the verification on page 3.** The notary completes the jurat, the seal, the commission expiry and the notary signature; you complete your own name in \"Comes the Petitioner, ____\" and sign where the notary directs.",
     "**Sign and date the petition on page 2.** Paragraph 6 makes the whole petition a statement that the information is true and correct to the best of your knowledge.",
-    "**File the petition, the fingerprint card and the UNSIGNED order** in the court where the nolle prosequi or dismissal order was entered. Pay nothing: Act 1460 eliminated the filing fee.",
+    "**File the petition, the fingerprint card and the UNSIGNED order** in the court identified under \"Where this goes\" — for a nolle prosequi or a dismissal that is the court where the order was entered, and for an acquittal or a never-filed charge it is whatever the circuit clerk's office tells you, because no record held here states it. Pay nothing: Act 1460 eliminated the filing fee.",
     "**Serve the prosecuting or city attorney and the arresting agency within three days of filing**, then complete and sign the Certificate of Service on the petition's last page.",
     "**Wait out the objection window** — 30 days under the committed manifest, possibly 90 for a felony under the compiled profile. Ask the clerk which the court runs.",
     "**If the order is signed, the clerk distributes it.** You do not have to deliver certified copies to ACIC, the Administrative Office of the Courts, the prosecutor, the district court clerk or the arresting agency; the order directs the clerk to do it."
@@ -313,10 +325,11 @@ const SPEC = {
   ],
 
   notTold: [
-    "**Whether the circuit or the district court takes your petition.** The compiled profile records that Act 1460 sealing is filed \"in the circuit or district court that handled the case\", and which of the two varies by county. The circuit clerk's office of the county where the order was entered is the office that answers it.",
+    "**Whether the circuit or the district court takes your petition.** The compiled profile records that Act 1460 sealing is filed \"in the circuit or district court that handled the case\", and which of the two varies by county. The circuit clerk's office of the county identified under \"Where this goes\" is the office that answers it.",
     "**Whether the objection window on your case is 30 days or 90.** The committed manifest says 30; the compiled profile records 30 for a misdemeanour and 90 for a felony under Act 1460 generally. Both are held and they are keyed differently, so both are disclosed here rather than one being chosen for you. Ask the clerk of the court where you file which window that court runs.",
     "**What the ACIC criminal-history record costs, and what a notary charges.** The compiled profile records that an ACIC fee applies and states no amount; ACIC publishes it. A notary's charge is the notary's.",
-    "**Whether your court has divisions.** The caption's DIVISION blank is completed only if it does, and the clerk's office of that court answers it."
+    "**Whether your court has divisions.** The caption's DIVISION blank is completed only if it does, and the clerk's office of that court answers it.",
+    "**Where an acquittal or a never-filed charge is filed.** § 16-90-1410(b) states venue for a nolle prosequi and for a dismissal and says nothing about the other two, and the committed track record for this route carries that gap as an unresolved question rather than an answer. The circuit clerk's office of the county named under \"Where this goes\" is the office to ask, and it is a question to settle before you file."
   ],
 
   stopConditions: [
@@ -325,8 +338,16 @@ const SPEC = {
     "you have a pending felony charge in any state or federal court, so paragraph 4's second box is yours — whether the petition can be granted while it is pending is a question this packet does not answer;",
     "you are required to register under the Sex Offender Registration Act of 1997, so paragraph 5 reads IS — what that means for sealing this record is a question this packet does not answer;",
     "the prosecuting attorney files a notice of opposition — the petition is contested from that point and goes to a hearing;",
+    "the court sets a contested hearing;",
     "you cannot work out which offence, class or A.C.A. section to copy and your paperwork does not show them — your ACIC criminal-history record is where they are;",
-    "any immigration question is involved."
+    // The registry's condition 4, absent entirely before this repair, and the
+    // one condition the earlier destination text affirmatively reassured
+    // against. It is stated here and in "Where this goes" alike.
+    "your disposition is an acquittal or a charge that was never filed, and venue is unresolved — no record held here states which court takes an Act 1460 non-conviction petition on those two facts, and \"Where this goes\" above says so; ask the circuit clerk's office before you file anything;",
+    // The registry's condition 3 carried on all three of its limbs. Licensing
+    // and firearm consequences appeared nowhere in this packet before.
+    "immigration, licensing or firearm consequences are in play — this packet does not tell you what sealing this record does, or does not do, to any of the three, and a lawyer is the place to ask;",
+    "a nolle prossed charge may have been refiled — a nolle prosequi is not always the end of the matter, and whether yours can be refiled is not a question this packet answers."
   ],
 
   whatThisIsNot:
@@ -409,7 +430,8 @@ const SPEC = {
     "The order is treated as captionOnly and this packet writes the participant's name into its decree sentence (\"the Petition of the Defendant, ____\") as a caption fact. Confirm that writing a name inside the court's ORDERED paragraph is acceptable, or say that the whole paragraph should be left blank.",
     "The packet states there is no filing fee from the compiled profile's Act 1460 lines while paragraph 3 of the petition still recites A.C.A. § 16-90-1419. Confirm the reading that the averment is true as printed where no fee is required.",
     "Two held records give different objection windows (manifest: 30 days; profile: 30 misdemeanour / 90 felony). The packet discloses both and names the clerk. Confirm, or settle which governs.",
-    "The identification block's Sex entry is refused because of a caption-capture defect rather than because it is the participant's to state. Confirm that leaving it to the participant is the right disposition."
+    "The identification block's Sex entry is refused because of a caption-capture defect rather than because it is the participant's to state. Confirm that leaving it to the participant is the right disposition.",
+    "SCOPE, RAISED BY VF09 AND NOT SETTLED HERE. The committed track record's scopeRestrictions[1] told the build to 'Resolve venue for acquittals and uncharged matters before shipping those two dispositions; ship dismissal and nolle prosequi first.' This packet ships all four of paragraph 2's dispositions. This repair scoped the venue statement so that the two unresolved dispositions are told, on the packet's face, that no held record states where they file and who to ask instead — it did not narrow the packet's scope and did not answer the venue question. Either the acquittal and never-filed boxes come out of scope until venue is resolved, or that scopeRestriction is superseded on the record. Both are decisions for Captain or counsel; a repair lane may not make either, and may not answer venue by inference."
   ],
 
   reviewersAttention: [
@@ -536,7 +558,7 @@ const SPEC = {
           "the same court you wrote in the petition's caption",
           "the order travels with the petition and carries the same caption the participant establishes", 1),
         h.rbf("COUNTY/CITY", "Order caption - the county, which must match the petition's",
-          "the same county you wrote in the petition's caption - the county of the court where the order was entered",
+          "the same county you wrote in the petition's caption - the county of the court you file in, established under \"Where this goes\"",
           "this blank binds participant.city through its own field name, which is the wrong fact", 1),
         h.optional("DIVISION", "Order caption - the DIVISION blank",
           "completed only if that court has divisions, to match the petition", 1),

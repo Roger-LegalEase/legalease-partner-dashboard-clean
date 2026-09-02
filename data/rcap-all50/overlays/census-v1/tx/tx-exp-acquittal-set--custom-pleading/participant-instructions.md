@@ -212,13 +212,32 @@ Each is a blank on the official form named beside it. Fill every one that belong
 
 ## When to stop and get help instead
 
-- the acquitted offence arose out of a **criminal episode** as defined by Penal Code § 3.01 and you were convicted of, or remain subject to prosecution for, at least one other offence in that episode. Art. 55A.151 bars relief on that ground — and it also removes the mandatory fee waiver in art. 102.0061(c);
-- you are not sure whether the criminal-episode bar reaches you;
-- the 30-day window has closed and you are not sure which county the arrest belongs to;
-- the clerk cannot produce the art. 55A.253(c) agency list;
-- you are not a United States citizen.
+**Stop and get a lawyer licensed in Texas rather than file if any of the following is true of your case.** Each of the twelve is carried word for word from this route's own committed track record — `data/record-clearing/legal-design-track-registry.json`, track `tx_exp_acquittal`, `selfHelpStopConditions` — and each is a point at which this packet stops being enough:
 
-Where self-help stops, the district clerk of the county where the petition will be filed answers the agency list and the fee, the clerk of the trial court holds the judgment of acquittal, and the Texas Department of Public Safety Crime Records Service issues the criminal history record the TRN comes from.
+- The state opposes the petition, or seeks retention of records under art. 55A.302.
+- The arrest produced multiple charges with mixed outcomes. State v. T.S.N. and Ex parte R.P.G.P. govern whether individual offences from one arrest can be expunged separately, and that analysis is not automated.
+- A felony from the same transaction is present or arguable, which moves the wait to three years and can defeat the petition.
+- The applicable limitations period is contested, or the participant wants full rather than partial expunction and the limitations analysis is not clear.
+- There is any absconding or bail-jumping history. Article 55A.154 makes an intentional or knowing absconder ineligible under arts. 55A.052(a)(1) to (3) and 55A.054, and a participant may not self-identify the fact.
+- The arrest may have been made on a community-supervision violation warrant under art. 42A.751(b), which art. 55A.153 bars.
+- Venue is unclear because the arrest and the alleged offence occurred in different counties.
+- Immigration consequences.
+- The participant wants to attack the underlying case rather than clear it.
+- Any companion conviction or live charge from the same criminal episode, which art. 55A.151 makes an outright bar.
+- Any multi-count indictment with a mixed verdict.
+- The participant was represented at trial, in which case the trial attorney prepares the order on the in-window route.
+
+**Three more this packet adds, from what it knows about this filing:**
+
+- The criminal-episode bar above does more than defeat the petition: art. 55A.151 also removes the mandatory fee waiver in art. 102.0061(c), so a participant it reaches loses the free filing as well as the relief.
+- You are not sure whether the criminal-episode bar reaches you.
+- The clerk cannot produce the art. 55A.253(c) agency list.
+
+**The mixed-outcome condition is the one most people reading this will hit.** If your arrest produced more than one charge and they did not all end the same way — acquitted on one count, convicted or still pending on another — whether the acquitted offence can be expunged on its own is governed by *State v. T.S.N.* and *Ex parte R.P.G.P.*, and the committed record says that analysis is **not automated**. This packet does not perform it and does not decide it for you.
+
+**And absconding is the one you cannot check for yourself.** Art. 55A.154 makes an intentional or knowing absconder ineligible under arts. 55A.052(a)(1) to (3) and 55A.054, and the record's own reason for making it a stop is that a participant may not self-identify the fact. If there is any bail-jumping or failure-to-appear history on this arrest, ask a lawyer before you file.
+
+Where self-help stops, the district clerk of the county where the petition will be filed answers the agency list and the fee, the clerk of the trial court holds the judgment of acquittal, and the Texas Department of Public Safety Crime Records Service issues the criminal history record the TRN comes from. None of them may advise you on any of the conditions above; only a lawyer licensed in Texas may.
 
 ## What this packet is not
 

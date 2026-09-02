@@ -30,13 +30,17 @@ The printed instructions say it twice more, about paragraph 3 and about the form
 
 ## What this packet filled in, and what it did not
 
-The platform filled the county and case number in the caption, your name as the Defendant in the caption and again in paragraph 1, and — after your signature on page 4 — your printed name, address, city, state and ZIP, telephone number and email address.
+The platform filled the county and case number in the caption, your name as the Defendant in the caption and again in paragraph 1, and — after your signature on page 4 — your printed name, address, city, state and ZIP, telephone number and email address. **Because of how this form is built, the county, the case number and your name appear on the proposed order's caption on page 5 as well** — see below.
 
 **The judicial district is blank**, and that is allowed: the printed instructions say "If you don't know the Judicial District, you may leave that space blank." Fill it in if you know it.
 
 **The whole place-and-date-of-signing line is blank**, and so is your signature. Nobody can know where you will be when you sign a declaration you have not made yet.
 
-**The proposed order's caption is blank, and there is nothing in this packet that can fill it** — the order's caption carries no form boxes at all. The printed instructions tell you what to do: "Fill in the top (caption) exactly as you filled in the top of your Petition." Copy the county, judicial district, case number and your name across by hand.
+**Most of the proposed order's caption is already filled, and you should not write over it.** The form uses ONE box for each of four caption facts — Judicial District, County, Case Number and Defendant — and each of those boxes appears TWICE, once on the petition's caption on page 3 and once on the proposed order's caption on page 5. They are the same box shown in two places, so a value written for the petition necessarily appears on the order as well. That is why page 5 already carries the county, the case number and your name.
+
+**The one caption item you copy across by hand is the judicial district**, because it is the one this packet leaves blank on both pages. The printed instructions say "Fill in the top (caption) exactly as you filled in the top of your Petition"; on this form, doing that means writing the judicial district in the two places it is asked for and leaving the rest alone. **Do not hand-write the county, the case number or your name onto page 5 — they are already there, and writing over them defaces the document the judge signs.**
+
+**Check page 5 before you file, because a long value can be left off it.** Where a caption value is too long to fit legibly, this packet refuses to print it rather than shrink it past the point of being readable — and when that happens the blank is on both pages, not just one. So read page 5's caption first: whatever is genuinely blank there is yours to fill in by hand, and whatever is already printed is not.
 
 ## Where you file it
 
@@ -78,7 +82,7 @@ So there is no service step you must take as a matter of course, and there may b
 | 4 | "______(state)" (`state`) | the state where you sign — **not** necessarily the state you live in, which is why it is blank |
 | 4 | "______(country)" (`country`) | the country where you sign |
 | 4 | "(Signature)" | your signature. Your printed name is already on the line below it |
-| 5 | The proposed order's whole caption | copy it by hand, exactly as you filled in the petition's. The order's caption has no form boxes |
+| 5 | Caption — "Judicial District" (`Judicial District`), the same box as page 3's | the judicial district of your criminal case, if you know it. This is the ONLY caption item on page 5 that is yours: the county, case number and your name share their boxes with page 3 and are already printed. Write over nothing that is already there, and fill in anything page 5 has left blank |
 | 5 | The proposed order's paragraph 3, two boxes (`Check Box10`, `Check Box11`) | check the **Dismissal** box if you checked both dismissal boxes on your petition; check the **Acquittal** box if you checked the acquittal box |
 
 ## The choices that are yours
@@ -90,7 +94,7 @@ So there is no service step you must take as a matter of course, and there may b
 
 ## What you must not do to the proposed order
 
-**Do not sign or date it.** The printed instructions on page 2 say so directly: "Don't sign or date the form. If the judge uses your proposed order, the judge signs." The only marks you make on pages 5 and 6 are the caption and the two boxes in paragraph 3.
+**Do not sign or date it.** The printed instructions on page 2 say so directly: "Don't sign or date the form. If the judge uses your proposed order, the judge signs." The only marks you make on pages 5 and 6 are the two boxes in paragraph 3, and whatever the caption has genuinely left blank — normally just the judicial district.
 
 ## Where self-help ends
 

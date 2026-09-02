@@ -27,11 +27,15 @@ The platform filled what it holds about you and your case: your name in the capt
 
 ## Where this goes
 
-**File the petition and the unsigned order together in the court where the nolle prosequi or dismissal order was entered.** That is the committed packet-set manifest's own instruction for this packet, and it is the answer: you do not have to work out venue for yourself.
+**Where this goes depends on which of paragraph 2's four situations is yours, and this packet can answer that for two of the four.**
 
-**Check the county printed in the caption before you file.** The caption's county blank is one this packet deliberately leaves to you, so write the county of the court that entered the order — not the county you live in.
+**If the case ended in a nolle prosequi, or in an order of dismissal: file the petition and the unsigned order together in the court where that order was entered.** A.C.A. § 16-90-1410(b) states venue that way, and the committed packet-set manifest gives this packet the same instruction.
 
-**Which of the two Arkansas courts it is — circuit or district — is the one thing left open, and the clerk answers it.** The compiled Arkansas profile records the rule as "File in the circuit or district court that handled the case", and the order's own distribution paragraph contemplates both, directing certified copies to "the District Court Clerk, if applicable". **Ask the circuit clerk's office of the county where the order was entered which of the two takes an Act 1460 non-conviction petition**, and write the answer in the caption's "IN THE ______ COURT OF" blank.
+**If you were acquitted, or if charges were never filed, no record held here states where the petition goes — and this packet will not guess it.** The committed track record for this route says so in terms: venue for an acquittal and for charges never filed is not stated in § 16-90-1410(b), and it is carried there as an unresolved question rather than as an answer. For charges that were never filed there is no court that entered any order at all, so the rule above has nothing to point at. **Ask the circuit clerk's office of the county where the arrest happened, or where the charge would have been brought, which court takes an Act 1460 non-conviction petition on your facts — and do not file until you have that answer.**
+
+**Check the county printed in the caption before you file.** The caption's county blank is one this packet deliberately leaves to you. Where the case ended in a nolle prosequi or a dismissal, write the county of the court that entered the order. Where it ended in an acquittal, or charges were never filed, write the county the clerk's office tells you under the paragraph above. Either way it is the county of the court you file in, not the county you live in unless those are the same.
+
+**Which of the two Arkansas courts it is — circuit or district — is open in every one of the four situations, and the clerk answers it.** The compiled Arkansas profile records the rule as "File in the circuit or district court that handled the case", and the order's own distribution paragraph contemplates both, directing certified copies to "the District Court Clerk, if applicable". **Ask the circuit clerk's office of the county you identified above which of the two takes an Act 1460 non-conviction petition**, and write the answer in the caption's "IN THE ______ COURT OF" blank.
 
 **The DIVISION blank in the caption is yours too, and only if that court has divisions.** The same clerk's office can tell you.
 
@@ -97,7 +101,7 @@ Each is a labelled blank on the page named beside it. Fill every one that belong
 | Order paragraph 1 - "in violation of A.C.A. Sec." in the court's findings | nothing unless the clerk asks you to complete the recitals; then the Arkansas Code section, as on the petition |
 | Order identification block - Arrest Tracking Number | the same ATN you wrote on the petition |
 | Order paragraph 1 - the "A Class ______" blank in the court's findings | nothing unless the clerk asks you to complete the recitals; then the class letter of the offence |
-| Order caption - the county, which must match the petition's | the same county you wrote in the petition's caption - the county of the court where the order was entered |
+| Order caption - the county, which must match the petition's | the same county you wrote in the petition's caption - the county of the court you file in, established under "Where this goes" |
 | Order caption - the type of court, which must match the petition's | the same court you wrote in the petition's caption |
 | Order paragraph 1 - the DAY of the arrest date in the court's findings | nothing unless the clerk asks you to complete the order's recitals to match your petition; then the day of the arrest, as on the petition |
 | Order paragraph 1 - the MONTH of the arrest date in the court's findings | nothing unless the clerk asks you to complete the recitals; then the month, as on the petition |
@@ -114,7 +118,7 @@ Each is a labelled blank on the page named beside it. Fill every one that belong
 4. **Tick exactly one box in paragraph 2, one in paragraph 4 and one in paragraph 5.** Each is a statement about your own record and this packet marks none of them.
 5. **Take the petition to a notary and swear the verification on page 3.** The notary completes the jurat, the seal, the commission expiry and the notary signature; you complete your own name in "Comes the Petitioner, ____" and sign where the notary directs.
 6. **Sign and date the petition on page 2.** Paragraph 6 makes the whole petition a statement that the information is true and correct to the best of your knowledge.
-7. **File the petition, the fingerprint card and the UNSIGNED order** in the court where the nolle prosequi or dismissal order was entered. Pay nothing: Act 1460 eliminated the filing fee.
+7. **File the petition, the fingerprint card and the UNSIGNED order** in the court identified under "Where this goes" — for a nolle prosequi or a dismissal that is the court where the order was entered, and for an acquittal or a never-filed charge it is whatever the circuit clerk's office tells you, because no record held here states it. Pay nothing: Act 1460 eliminated the filing fee.
 8. **Serve the prosecuting or city attorney and the arresting agency within three days of filing**, then complete and sign the Certificate of Service on the petition's last page.
 9. **Wait out the objection window** — 30 days under the committed manifest, possibly 90 for a felony under the compiled profile. Ask the clerk which the court runs.
 10. **If the order is signed, the clerk distributes it.** You do not have to deliver certified copies to ACIC, the Administrative Office of the Courts, the prosecutor, the district court clerk or the arresting agency; the order directs the clerk to do it.
@@ -130,10 +134,11 @@ Each is a labelled blank on the page named beside it. Fill every one that belong
 
 ## What this packet does not tell you, and who does
 
-- **Whether the circuit or the district court takes your petition.** The compiled profile records that Act 1460 sealing is filed "in the circuit or district court that handled the case", and which of the two varies by county. The circuit clerk's office of the county where the order was entered is the office that answers it.
+- **Whether the circuit or the district court takes your petition.** The compiled profile records that Act 1460 sealing is filed "in the circuit or district court that handled the case", and which of the two varies by county. The circuit clerk's office of the county identified under "Where this goes" is the office that answers it.
 - **Whether the objection window on your case is 30 days or 90.** The committed manifest says 30; the compiled profile records 30 for a misdemeanour and 90 for a felony under Act 1460 generally. Both are held and they are keyed differently, so both are disclosed here rather than one being chosen for you. Ask the clerk of the court where you file which window that court runs.
 - **What the ACIC criminal-history record costs, and what a notary charges.** The compiled profile records that an ACIC fee applies and states no amount; ACIC publishes it. A notary's charge is the notary's.
 - **Whether your court has divisions.** The caption's DIVISION blank is completed only if it does, and the clerk's office of that court answers it.
+- **Where an acquittal or a never-filed charge is filed.** § 16-90-1410(b) states venue for a nolle prosequi and for a dismissal and says nothing about the other two, and the committed track record for this route carries that gap as an unresolved question rather than an answer. The circuit clerk's office of the county named under "Where this goes" is the office to ask, and it is a question to settle before you file.
 
 ## When to stop and get help
 
@@ -142,8 +147,11 @@ Each is a labelled blank on the page named beside it. Fill every one that belong
 - you have a pending felony charge in any state or federal court, so paragraph 4's second box is yours — whether the petition can be granted while it is pending is a question this packet does not answer;
 - you are required to register under the Sex Offender Registration Act of 1997, so paragraph 5 reads IS — what that means for sealing this record is a question this packet does not answer;
 - the prosecuting attorney files a notice of opposition — the petition is contested from that point and goes to a hearing;
+- the court sets a contested hearing;
 - you cannot work out which offence, class or A.C.A. section to copy and your paperwork does not show them — your ACIC criminal-history record is where they are;
-- any immigration question is involved.
+- your disposition is an acquittal or a charge that was never filed, and venue is unresolved — no record held here states which court takes an Act 1460 non-conviction petition on those two facts, and "Where this goes" above says so; ask the circuit clerk's office before you file anything;
+- immigration, licensing or firearm consequences are in play — this packet does not tell you what sealing this record does, or does not do, to any of the three, and a lawyer is the place to ask;
+- a nolle prossed charge may have been refiled — a nolle prosequi is not always the end of the matter, and whether yours can be refiled is not a question this packet answers.
 
 ## What this packet is not
 
