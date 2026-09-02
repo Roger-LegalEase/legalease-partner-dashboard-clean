@@ -179,7 +179,78 @@ const DOCUMENTS = [
         why: "Month component of the arrest date. This is the blank that was proven to receive participant.full_legal_name through the printed-label fallback. It is now refused twice over: by the shared date-component guard, and by role because the platform holds no month fact." },
       { field: "YEAR", class: "arrest_date_component",
         why: "Year component of the arrest date. Refused with the other two: the trio is one fact the platform does not hold in component form. Its previous refusal depended on the harvested caption happening to be the digit '1', which was never a decision; the shared guard now refuses it by name." }
-    ]
+    ],
+
+    // The same refusals, restated in the shared packet-completeness contract's
+    // own channels. See the note above `completenessFields()`.
+    completeness: {
+      defaultBlank: null,
+      fields: {
+        "Defendants Signature": { refusalClass: "signature_or_date_participant_completion",
+          reason: "The defendant's signature on the petition. Paragraph 6 makes the petition a sworn statement; the participant signs it." },
+        "Date": { refusalClass: "signature_or_date_participant_completion",
+          reason: "The date beside the defendant's signature on page 2, completed by the participant when the petition is signed." },
+        "Date_2": { refusalClass: "signature_or_date_participant_completion",
+          reason: "The date on the page 3 Certificate of Service, completed by the participant after service has actually happened." },
+        "Defendant or Defendants Attorney": { refusalClass: "signature_or_date_participant_completion",
+          reason: "The signature line on the page 3 Certificate of Service, signed by the participant (or their attorney) after service." },
+        "I": { refusalClass: "participant_sworn_narrative_or_legal_election",
+          reason: "The certifying party's name in the Certificate of Service's sworn 'I, ____, do hereby certify' sentence. It is the filer's statement about an act of service, made after mailing." },
+        "Arrest Tracking Number": { refusalClass: "court_prosecutor_clerk_or_agency_owned",
+          reason: "The ATN is assigned by Arkansas ACIC when an arrest is processed; it is the agency's identifier to state." },
+
+        // Declared required-before-filing. Every one of these is named in
+        // participant-instructions.md's own table of items the participant supplies.
+        "Type of": { requiredBeforeFiling: true,
+          reason: "The type of court in the caption. The county is written; which Arkansas court takes an Act 1460 petition for this arrest is the answer the clerk gives, and the participant writes it before filing." },
+        "undefined_2": { requiredBeforeFiling: true,
+          reason: "The class letter on paragraph 1's 'A Class ___' line. The platform holds no offence-class fact; the participant copies it from their arrest or court paperwork before filing." },
+        "A Class": { requiredBeforeFiling: true,
+          reason: "The 'in violation of A.C.A. § ______' blank on paragraph 1. The platform holds no statute-section fact; the participant copies it from the same paperwork before filing." },
+        "Race": { requiredBeforeFiling: true,
+          reason: "The identification block's race entry, which the form states is required for identification in the state and national record systems. The platform does not hold or write it; the participant states it before filing." },
+        "Sex": { requiredBeforeFiling: true,
+          reason: "The identification block's sex entry, in the same block and on the same footing. The platform does not hold it; the participant states it before filing." },
+        "SID": { requiredBeforeFiling: true,
+          reason: "The State Identification number in the identification block. The platform holds no SID; the participant copies it from their arrest paperwork or criminal-history record before filing." },
+        "DAY": { requiredBeforeFiling: true,
+          reason: "The day component of paragraph 1's arrest date. The platform holds no day fact and writes nothing here; the participant copies the arrest date from their arrest paperwork before filing." },
+        "MONTH": { requiredBeforeFiling: true,
+          reason: "The month component of paragraph 1's arrest date, on the same footing as the day." },
+        "YEAR": { requiredBeforeFiling: true,
+          reason: "The year component of paragraph 1's arrest date, on the same footing as the day and the month." },
+
+        // Genuine participant elections: the paragraph 1, 4 and 5 boxes, which
+        // participant-instructions.md lists under "The choices that are yours".
+        "FELONY 001": { refusalClass: "participant_sworn_narrative_or_legal_election",
+          reason: "Paragraph 1's felony box. Which one is true of the offence is read off the participant's own paperwork; the route does not determine it." },
+        "MISDEMEANOR 01": { refusalClass: "participant_sworn_narrative_or_legal_election",
+          reason: "Paragraph 1's misdemeanor box, the other half of the same election." },
+        "Check Box3": { refusalClass: "participant_sworn_narrative_or_legal_election",
+          reason: "Paragraph 4's first box — no pending felony charge in any state or federal court. A sworn statement about the participant's own record." },
+        "Check Box4": { refusalClass: "participant_sworn_narrative_or_legal_election",
+          reason: "Paragraph 4's second box — one or more pending felony charges. The other half of the same sworn election." },
+        "Check Box5": { refusalClass: "participant_sworn_narrative_or_legal_election",
+          reason: "Paragraph 5's IS box — required to register under the Sex Offender Registration Act of 1997. A sworn statement about the participant's own status." },
+        "Check Box6": { refusalClass: "participant_sworn_narrative_or_legal_election",
+          reason: "Paragraph 5's IS NOT box, the other half of the same sworn election." },
+
+        // Optional participant content: printed rules that exist only for the
+        // cases that need them, and one blank the form itself marks "if known".
+        "and charged with the offenses of 2": { refusalClass: null,
+          reason: "The second printed rule of paragraph 1's offence list. The offence the platform holds is written on the first rule; a further offence in the same arrest is the participant's to add, and the platform does not invent it." },
+        "federal court and the status of thatthose charges isare as follows 1": { refusalClass: null,
+          reason: "Paragraph 4's status line, used only if the participant ticks the second box and has a pending felony charge. The court, case number and status of that charge are the participant's to state, and the platform does not invent it." },
+        "federal court and the status of thatthose charges isare as follows 2": { refusalClass: null,
+          reason: "The second printed rule of the same paragraph 4 status block, used only if the first will not hold the answer, and the platform does not invent it." },
+        "FBI No if known": { refusalClass: null,
+          reason: "The identification block's FBI number, which the form itself marks '(if known)'. It is the participant's to write if they know it, and the platform does not invent it." },
+        "Defendant Address  Street 2": { refusalClass: null,
+          reason: "The second printed rule of the two-line street block. The platform holds one street address and writes it on the first rule; a second line is the participant's to add if their address needs one, and the platform does not invent it." },
+        "DIVISION": { refusalClass: null,
+          reason: "The caption's division blank, completed only if the court the participant files in has divisions. The clerk answers whether it does; the platform does not invent it." }
+      }
+    }
   },
   {
     key: "order",
@@ -227,7 +298,24 @@ const DOCUMENTS = [
         why: "Month component of the arrest date in the court's findings. Same binding, same refusals." },
       { field: "Year", class: "arrest_date_component",
         why: "Year component of the arrest date in the court's findings. The platform holds no year fact." }
-    ]
+    ],
+
+    // The order is `captionOnly`, and that single determination answers the
+    // completeness question for everything below its caption: the instrument is
+    // the court's, and this packet writes nothing there. So the default carries
+    // the whole document and only the two caption blanks are stated separately.
+    completeness: {
+      defaultBlank: {
+        refusalClass: "court_prosecutor_clerk_or_agency_owned",
+        reason: "Below its caption the order is the court's own instrument — its findings, its paragraph boxes, its decree, the judge's signature and the date beside it. This packet writes nothing there."
+      },
+      fields: {
+        "COURT OF": { requiredBeforeFiling: true,
+          reason: "The type of court in the order's caption, which must match the petition's. The county is written; which Arkansas court takes the petition is the answer the clerk gives, and the participant writes it before filing." },
+        "DIVISION": { refusalClass: null,
+          reason: "The caption's division blank, completed only if that court has divisions, to match the petition. The clerk answers whether it does; the platform does not invent it." }
+      }
+    }
   }
 ];
 
@@ -547,7 +635,22 @@ async function verifyFromBytes({ file, census, report, facts, label, documentId 
     }
   }
 
-  return { findings, chargeBlanks, namePlacements, appearancesDrawn: drawn.length };
+  // Every appearance that carries ink, matched back to a censused widget's own
+  // measured rectangle. An appearance that belongs to no measured write box is
+  // ink the packet cannot account for, which is the question the shared
+  // completeness contract asks of nonWhitespaceGlyphsOutsideMeasuredWriteBoxes.
+  const outside = drawn.filter((appearance) => {
+    if (!String(appearance.text ?? "").trim()) return false;
+    return !census.fields.some((f) => f.widgets.some((w) =>
+      w.page === appearance.page
+      && Math.abs(w.rect.x - appearance.x) <= 3 && Math.abs(w.rect.y - appearance.y) <= 3));
+  });
+
+  return {
+    findings, chargeBlanks, namePlacements,
+    appearancesDrawn: drawn.length,
+    appearancesOutsideMeasuredWriteBoxes: outside.length
+  };
 }
 
 // ---- participant instructions -------------------------------------------------
@@ -602,7 +705,7 @@ The method is on the form: **by placing a copy in the United States mail, postag
 | 1 | Caption — "________ DIVISION" | that court's division, only if it has divisions; otherwise leave blank |
 | 1 | Paragraph 1 — "arrested on the ___ day of ______, ____" (day, month, year) | the arrest date, copied from your arrest paperwork. The platform holds the date only as a whole and does not split it into these blanks |
 | 1 | Paragraph 1 — second offense line | any further offense(s) you were charged with in the same arrest; the first line is filled from what you gave. Leave blank if there are none |
-| 1 | Paragraph 1 — "A Class ___" | the class letter of the offense, copied from your arrest or court paperwork |
+| 1 | Paragraph 1 — "A Class ___" (the ACIC form gives this blank no name of its own; inside the PDF it is called \`undefined_2\`) | the class letter of the offense, copied from your arrest or court paperwork |
 | 1 | Paragraph 1 — "[ ] felony [ ] misdemeanor" | tick the one that matches the offense, from the same paperwork |
 | 1 | Paragraph 1 — "in violation of A.C.A. § ______" | the Arkansas Code section of the offense, copied from the same paperwork |
 | 2 | Paragraph 4 — status of pending charge(s), two lines | only if you ticked the second box in paragraph 4: the court, case number and current status of each pending felony charge |
@@ -651,6 +754,94 @@ This is a prepared set of official ACIC forms. It is not legal advice, it is not
 
 _Route: obligation:track-pathway:AR:ar-arrest-seal:situation-a-non-convictions — Act 1460 of 2013; A.C.A. § 16-90-1401, et seq.; sealing ordered under A.C.A. § 16-90-1409_
 `;
+}
+
+// ---- the shared completeness contract's own channel ---------------------------
+//
+// This family already stated, per blank, what it refused and why: `writeBoxes`,
+// `refused`, `roleRefusals` and `protectedFields`, plus the prose in
+// participant-instructions.md. What it never published was that same disposition
+// in a shape scripts/rcap-packet-completeness/verify-packet-completeness.mjs can
+// read, so the verifier saw a schema it does not parse, refused it as
+// unauditable rather than reading it as empty, and returned FAIL_COMPONENT_SET
+// at 0/0 measured. The packet was never the problem; the evidence was not
+// published in the contract's schema.
+//
+// `documents[].fields[]` with a decision word is one of the five shapes the
+// contract reads. Nothing here decides anything new: every disposition below is
+// a restatement of a refusal this family already made, in the contract's closed
+// vocabulary, and the existing arrays are kept beside it unchanged so the two
+// channels can be compared rather than trusted.
+function completenessFields({ doc, census, written }) {
+  const writtenBy = new Map(written.map((w) => [w.field, w]));
+  const refusedBy = new Map((doc.completeness?.fields ? Object.entries(doc.completeness.fields) : []));
+  const roleWhy = new Map(doc.unwritable.map((u) => [u.field, u]));
+  return census.fields.map((f) => {
+    const w = writtenBy.get(f.name);
+    const declared = refusedBy.get(f.name) ?? null;
+    const policy = declared ?? doc.completeness?.defaultBlank ?? null;
+    const role = roleWhy.get(f.name) ?? null;
+    const row = {
+      field: f.name,
+      fieldId: f.name,
+      effectiveLabel: f.effectiveLabel,
+      page: f.widgets?.[0]?.page ?? null,
+      pdfType: f.type,
+      isSelectionControl: f.type === "checkbox" || f.type === "radio",
+      decision: w ? "write" : "refuse",
+      factId: w?.factId ?? null,
+      // The family's own refusal record, carried unchanged beside the contract's
+      // vocabulary so a reader can see both answers rather than one.
+      buildRoleClass: role?.class ?? null,
+      buildRoleWhy: role?.why ?? null
+    };
+    if (w) return row;
+    row.reason = policy?.reason ?? null;
+    row.refusalClass = policy?.refusalClass ?? null;
+    if (policy?.requiredBeforeFiling === true) row.requiredBeforeFiling = true;
+    return row;
+  });
+}
+
+/**
+ * What the finished PDFs actually carry, read back out of their own bytes.
+ *
+ * The contract asks three questions of this file that the field map cannot
+ * answer: did a reported write leave any ink, did any ink land outside a
+ * measured write box, and does a refused field carry ink. All three are already
+ * measured by verifyFromBytes(); they were simply never published. Each count
+ * below comes from the flattened appearance streams of the artifact named on
+ * the row, not from the finalizer's report.
+ */
+function actualWritesArtifacts(documents) {
+  return documents.flatMap(({ doc, census, fixtures }) =>
+    ["canonical", "boundary"].map((label) => {
+      const proof = fixtures[label].proof;
+      const inBox = new Set();
+      for (const f of census.fields) for (const wgt of f.widgets ?? []) inBox.add(`${wgt.page}:${wgt.rect.x.toFixed(2)}:${wgt.rect.y.toFixed(2)}`);
+      return {
+        documentId: doc.documentId,
+        fixture: label,
+        file: fixtures[label].file,
+        sha256: fixtures[label].sha256,
+        proofMethod:
+          "AcroForm fill: every value is set on the document's own widget and its appearance is generated by the "
+          + "form. The counts below are read back from the finished PDF with pdf-flattened-widgets.mjs, at each "
+          + "field's own measured /Rect.",
+        valuesReportedByFinalizer: fixtures[label].report.written.length,
+        flattenedWidgetAppearancesReadFromOutputBytes: proof.appearancesDrawn,
+        addedGlyphsReadFromOutputBytes: 0,
+        addedGlyphsNote:
+          "Zero by construction, not by measurement: this family writes through AcroForm widgets rather than by "
+          + "drawing into page content, so every mark it makes is a widget appearance and is counted in the "
+          + "column beside this one.",
+        nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: proof.appearancesOutsideMeasuredWriteBoxes,
+        refusedFieldsWithInk: proof.findings
+          .filter((x) => x.check === "refused_field_carries_ink")
+          .map((x) => ({ fieldId: x.field, drawnText: x.drawnText })),
+        participantNameTokensOutsideTheNameAllowlist: proof.namePlacements.filter((n) => !n.allowed).length
+      };
+    }));
 }
 
 // ---- main --------------------------------------------------------------------
@@ -826,9 +1017,24 @@ async function main() {
           };
         }),
         refused: fixtures.canonical.report.refused,
-        protectedFields: fixtures.canonical.report.protectedFields
+        protectedFields: fixtures.canonical.report.protectedFields,
+
+        // The same dispositions in the shared completeness contract's own
+        // schema. See completenessFields(): additive, and the arrays above are
+        // unchanged.
+        fields: completenessFields({ doc, census, written })
       };
     })
+  });
+
+  writeJson(`${OUT}/reports/actual-writes.json`, {
+    schemaVersion: "rcap-actual-writes-byte-proof/v1",
+    familyId: FAMILY_ID,
+    derivedFromArtifactBytes: true,
+    note:
+      "What each finished fixture actually carries, read back from its own bytes. The finalizer's report says "
+      + "what this build believes it wrote; this says what the paper shows.",
+    artifacts: actualWritesArtifacts(documents)
   });
 
   const chargeBlanks = documents.flatMap(({ doc, fixtures }) =>

@@ -43,7 +43,7 @@ The method is on the form: **by placing a copy in the United States mail, postag
 | 1 | Caption — "________ DIVISION" | that court's division, only if it has divisions; otherwise leave blank |
 | 1 | Paragraph 1 — "arrested on the ___ day of ______, ____" (day, month, year) | the arrest date, copied from your arrest paperwork. The platform holds the date only as a whole and does not split it into these blanks |
 | 1 | Paragraph 1 — second offense line | any further offense(s) you were charged with in the same arrest; the first line is filled from what you gave. Leave blank if there are none |
-| 1 | Paragraph 1 — "A Class ___" | the class letter of the offense, copied from your arrest or court paperwork |
+| 1 | Paragraph 1 — "A Class ___" (the ACIC form gives this blank no name of its own; inside the PDF it is called `undefined_2`) | the class letter of the offense, copied from your arrest or court paperwork |
 | 1 | Paragraph 1 — "[ ] felony [ ] misdemeanor" | tick the one that matches the offense, from the same paperwork |
 | 1 | Paragraph 1 — "in violation of A.C.A. § ______" | the Arkansas Code section of the offense, copied from the same paperwork |
 | 2 | Paragraph 4 — status of pending charge(s), two lines | only if you ticked the second box in paragraph 4: the court, case number and current status of each pending felony charge |

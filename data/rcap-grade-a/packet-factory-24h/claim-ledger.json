@@ -243,8 +243,8 @@
       "operation": "rapid-repair",
       "lane": "FIX01",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-01T15:59:39.936Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -9706,7 +9706,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "d5d53b0142e8a0a156b936c4c6cfaa91d184f8b3498fd14f1f704b079f0fa458",
+  "claimsDigest": "d972b65a5f12a99305ddc90226e8e3b46a85e8683b3c36b104abbf2d1c74b10c",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -14865,6 +14865,16 @@
       "previouslyReleasedAt": "2026-09-01T07:31:08.802Z",
       "reissuedAt": "2026-09-02T00:30:24.999Z",
       "reason": "corpus-capable second read: close SOURCE_IDENTITY or re-score over the canonical fifteen"
+    },
+    {
+      "lane": "FIX01",
+      "subjectType": "packet-family",
+      "subjectId": "ar-arrest-seal-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "previouslyReleasedAt": "2026-09-01T15:59:39.936Z",
+      "reissuedAt": "2026-09-02T00:56:26.598Z",
+      "reason": "FABLE-R11 dispatch: the FIX01 grant released 2026-09-01T15:59Z, and the vf02 fresh read afterwards returned FAIL_COMPONENT_SET on this family; the repair lane that must fix it is FIX01 itself, which is the exact case --reissue exists for"
     }
   ],
   "transfers": [
