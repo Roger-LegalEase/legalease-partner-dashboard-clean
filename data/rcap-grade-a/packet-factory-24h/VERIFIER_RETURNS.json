@@ -22,7 +22,7 @@
   "supersessionRule": "one current verdict per family: the highest-precedence lane wins (factory vf lanes over codex-cloud directories, then higher lane number); superseded rows remain as history with superseded: true",
   "counts": {
     "returnDirectories": 33,
-    "rows": 231,
+    "rows": 239,
     "independentVerdicts": 120,
     "failRepairRequired": 30,
     "passIndependent": 90
@@ -36,10 +36,10 @@
     "composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
     "ct-missed-erasure-set",
     "ne-setaside-custodial-set",
-    "ny_160_59_petition-set",
     "ny_mrta_marijuana-set",
     "oh_marijuana_expungement-set",
     "pa_pardon_expungement-set",
+    "rcap-oh-custom-pleading-clean-tracks",
     "ri_nonconviction_sealing-set",
     "sd_arrest_expungement-set",
     "ut_pet_acquittal-set",
@@ -334,6 +334,60 @@
     {
       "familyId": "ar-arrest-seal-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf10",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "eb643bc098420809a6e2d5f9297a961027ac713a",
+      "failedObligations": [
+        {
+          "obligation": "SOURCE_IDENTITY",
+          "finding": "Two halves that disagree, and the failing half is the one a reader sees. The BYTES are exact: I recomputed SHA-256 over both pinned documents in the mounted Master Library and both equal source-receipt.json exactly. But the committed census-to-corpus BINDING does not resolve: scripts/verify-packet-build-environment.mjs --family ar-arrest-seal-set returns FAIL family_sources_bind \"ar-arrest-seal-set names no resolved document source. An official_pdf_fill family with no bound source is not dispatchable\", and the family's own MASTER_QUEUE row reads sourceStatus SOURCE_IDENTITY_NOT_EXACT with boundCount 0/2 and custodyClass SOURCE_IDENTITY_UNRESOLVED. The census names official-form:ACIC-PETITION-TO-SEAL-ARREST while the corpus documentId is AR-ACIC-PETITION-TO-SEAL-ARREST-UNDER-ACT-1460 — an id-alias mismatch, not a missing document. This is the defect DET-FEE-AND-WAIVER-001 A4 recorded under alsoRecorded.arkansasQueueRow; it is still open at this base. The repair is an alias reconciliation, not a re-acquisition.",
+          "evidence": {
+            "corpusHashesRecomputedHere": {
+              "AR-ACIC-PETITION-TO-SEAL-ARREST-UNDER-ACT-1460": "f77e17b669bd6e01cc3818329181bb378dd774b1facd9a15c4083d37d380194c (350,326 B) equals the pinned sha256 in source-receipt.json",
+              "AR-ACIC-ORDER-TO-SEAL-ARREST-UNDER-ACT-1460": "5bd4ed5bd1b658295b50c2ea7126e276982fd705045f36adfc1f074923722581 (250,709 B) equals the pinned sha256"
+            },
+            "preflight": "node scripts/verify-packet-build-environment.mjs --family ar-arrest-seal-set => PACKET_BUILD_ENVIRONMENT_NOT_READY, family_sources_bind FAIL",
+            "queueRow": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json families[ar-arrest-seal-set]",
+            "readInThisLane": true
+          }
+        },
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "The family's own visual-review evidence does not bind to its committed raster bytes. I rehashed all twelve PNGs named in reports/independent-visual-review.json: ten match, and exactly two do not — raster/petition-canonical/page-01.png (recorded 01b21af5198d1e05..., on disk f3bb8842012a4d27...) and raster/order-canonical/page-01.png (recorded 715f3593dc8b4f48..., on disk e9666f0e88e613de...). Both boundary page-01 images match. The working tree is clean, so these are committed bytes. Page 1 is the page carrying every caption prefill, so the two stale hashes are exactly the pages whose recorded observations matter most. The delivered PDFs are unaffected — all four fixtures BYTES_MATCH the RASTER_QUEUE documents block — so this is a stale evidence record, not a bad artifact. Note this contradicts the vf12 row asserting all twelve rehash exactly; I recomputed and it does not hold at this base. The sibling ar-misdemeanor-dwi-seal-set is clean at 12/12, so this is specific to this family.",
+          "evidence": {
+            "recomputedHere": "sha256 over the 12 PNGs listed in reports/independent-visual-review.json; 10 match, 2 differ",
+            "pdfIntegrity": "petition/order canonical and boundary all equal RASTER_QUEUE pinned sha256",
+            "gitState": "git status --porcelain over the family directory is empty",
+            "readInThisLane": true
+          }
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": "The service mechanics are right and the objection clock is wrong in a way that can mislead a felony-class petitioner. Correct: two recipients from the form's own Certificate of Service (the prosecuting or city attorney, and the arresting agency), the form's two methods, and the rule that the certificate is completed only after service. The defect is the objection window. The packet leads with a flat \"The prosecuting attorney has 30 days to object\", sourced to the committed packet-set manifest. I traced that sentence: it is data/record-clearing/legal-design-intake/AR.memo.json rules.service, and it appears VERBATIM on 11 of the 12 Arkansas tracks in that file — including ar-felony-seal, where the same repository's compiled profile says the window is 90 days. A line that is provably wrong on a sibling track it is attached to is state-level boilerplate, not a route-addressed determination, and under A3 (holding is per FACT, not per document) it does not establish this route's answer. The record that DOES address it is the compiled profile's own table: \"Prosecutor objection window - misdemeanor 30 days / felony 90 days, Receipt / filing of petition\". That rule is self-applying here, because the delivered petition prints \"A Class _____ [_] felony [_] misdemeanor\" and the participant supplies the class. So the repository establishes a determinate class-keyed rule and the packet publishes a flat number from a non-route-held line, demoting the real rule to \"the longer window MAY apply to you\". It then sends a statutory question to an office that cannot answer it: \"ask the clerk of the court where you file which window that court runs\" — the window is set by statute, not by court practice, and A1 permits a named authority to stand in only where no held source establishes the fact. The contrast is inside this same builder's own work: ar-misdemeanor-dwi-seal-set resolves the identical conflict correctly by naming its route's class (\"this packet is a misdemeanour DWI or BWI conviction, which puts it in the 30-day limb\"). The repair is one paragraph: state the class rule as the rule, cite the profile, and drop the clerk sentence. Recorded separately: the three-day service deadline comes only from that same 11-track boilerplate — the compiled profile contains no \"three days\" and the form prints none — but it errs toward serving early, so I record it as a provenance limit rather than a failure.",
+          "evidence": {
+            "boilerplateMeasured": "11 of 12 tracks in data/record-clearing/legal-design-intake/AR.memo.json carry the identical rules.service string, ar-felony-seal among them",
+            "profileRule": "AR-arkansas.json: \"Prosecutor objection window - misdemeanor 30 days / felony 90 days\"",
+            "formCollectsClass": "delivered petition paragraph 1 prints \"A Class _____ [_] felony [_] misdemeanor\"",
+            "contrastFamily": "ar-misdemeanor-dwi-seal-set participant-instructions.md line 31",
+            "standard": "DET-FEE-AND-WAIVER-001 A1, A2, A3",
+            "readInThisLane": true
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "ARTIFACTS",
+        "SERVICE",
+        "SOURCE_IDENTITY"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf10/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf10/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-arrest-seal-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ar-arrest-seal-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf12",
       "isIndependentVerification": true,
       "verifiedAtBase": "7fcfb7d40aafe7bd7350fc735ea09d16524cb757",
@@ -363,7 +417,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf12/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf12/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-arrest-seal-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ar-misdemeanor-dwi-seal-set",
@@ -416,7 +470,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-misdemeanor-dwi-seal-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ar-misdemeanor-dwi-seal-set",
@@ -511,6 +565,44 @@
       "verifiedAtBase": null,
       "failedObligations": [],
       "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf10/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf10/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-misdemeanor-dwi-seal-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ar-misdemeanor-dwi-seal-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf10",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "eb643bc098420809a6e2d5f9297a961027ac713a",
+      "failedObligations": [
+        {
+          "obligation": "SOURCE_IDENTITY",
+          "finding": "Same shape as its Arkansas sibling. Both pinned documents hash exactly against the mounted Master Library — 04d876b09fe82b76... (117,345 B) and ae6b81f6882133c2... (111,099 B), each equal to source-receipt.json — but scripts/verify-packet-build-environment.mjs --family ar-misdemeanor-dwi-seal-set returns FAIL family_sources_bind \"names no resolved document source\", and the queue row reads SOURCE_IDENTITY_NOT_EXACT with boundCount 0/2. The census names official-form:ACIC-PETITION-TO-SEAL-MISDEMEANOR-DWI-BWI where the corpus holds AR-ACIC-PETITION-TO-SEAL-MISDEMEANOR-DWI-OR-BWI-CONVICTION. An id-alias reconciliation, not an acquisition.",
+          "evidence": {
+            "corpusHashesRecomputedHere": "both documents HASH_EXACT against the pinned values",
+            "preflight": "family_sources_bind FAIL",
+            "readInThisLane": true
+          }
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "The packet makes a repository-wide denial it did not test, and its own Arkansas sibling was repaired for exactly this. It says: \"Neither the petition nor the order states a filing fee, and no source this packet holds establishes what filing this petition costs - or whether it costs anything\", then names the clerk. The first clause is true of the forms. The second is a claim about the repository, and under A2 the repository includes the compiled state profile for the family's jurisdiction whether or not the route census enumerates it. src/lib/rcap-engine/compiled/profiles/AR-arkansas.json states, in the fee table I read in this lane, \"Sealing petition filing fee $0 Filing fees eliminated by the 2019 amendments\", and in its filing rule \"File in the circuit or district court that handled the case. Act 1460 eliminated filing fees for sealing.\" That filing rule is keyed to the court that handled the CASE — a conviction route, which is what this family is — and the same profile's form table lists the \"Petition and Order to Seal Misdemeanor DWI / BWI\" pair among the Act 1460 uniform petition-and-order pairs. This is the identical defect DET-FEE-AND-WAIVER-001 A2 named for ar-arrest-seal-set; that family was repaired to state the $0 and this one, built from the same profile in the same state, was not. Stated as a residual so the repairer is not sent past it: the profile's $0 line does not name DWI/BWI in the fee sentence itself, and § 5-65-111 is a separate eligibility scheme, so a counsel reader could hold that this route carries its own cost. That uncertainty is a reason to state what the profile holds and attribute it, or to state why § 5-65-111 sits outside it — not a licence for a blanket denial that the repository is silent when it is not.",
+          "evidence": {
+            "profileQuotesReadHere": "AR-arkansas.json fee table and filing rule, located in this lane",
+            "packetText": "participant-instructions.md line 18",
+            "siblingRepaired": "ar-arrest-seal-set states \"There is no filing fee for this petition\" from the same profile",
+            "standard": "DET-FEE-AND-WAIVER-001 A1 as widened by A2, bounded by A3",
+            "readInThisLane": true
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER",
+        "SOURCE_IDENTITY"
+      ],
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf10/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf10/repair-assignments.json",
@@ -2327,7 +2419,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ny_160_59_petition-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ny_160_59_petition-set",
@@ -2456,6 +2548,20 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ny_160_59_petition-set",
       "superseded": true
+    },
+    {
+      "familyId": "ny_160_59_petition-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf10",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "eb643bc098420809a6e2d5f9297a961027ac713a",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf10/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf10/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ny_160_59_petition-set",
+      "superseded": false
     },
     {
       "familyId": "ny_160_59_petition-set",
@@ -3246,7 +3352,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-oh-custom-pleading-clean-tracks",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "rcap-oh-custom-pleading-clean-tracks",
@@ -3289,6 +3395,61 @@
       "verifiedAtBase": null,
       "failedObligations": [],
       "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf10/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf10/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-oh-custom-pleading-clean-tracks",
+      "superseded": false
+    },
+    {
+      "familyId": "rcap-oh-custom-pleading-clean-tracks",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf10",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "eb643bc098420809a6e2d5f9297a961027ac713a",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "Three sentences print a POINTER in the grammatical position of the FACT, and the packet's own design turns that into a participant-facing defect. In all four tracks, paragraph 5 reads \"Applicant was charged with Possession offense shown on the certified disposition by [ARRESTING AGENCY MUST BE CONFIRMED]\", paragraph 7 reads \"The matter was resolved with the following disposition: Disposition shown on the certified disposition\", and paragraph 8 reads \"Applicant may be eligible for sealing on the following basis: Eligibility is not certified by this artifact; source review and local-court confirmation are required.\" The first two state where to find a fact in the slot where the fact belongs; the third puts the factory's own non-certification language into a pleading's eligibility allegation. This matters because of what the instructions ask the participant to do with the document: \"Transfer only reviewed content to that form.\" The bracketed ALL-CAPS markers are self-evidently not transferable and the top-level instructions name every one of them and say what to supply instead. These three sentences carry no such marking, sit in ordinary prose, and are not transferable content — paragraph 8 is affirmatively wrong to copy onto a court form. The fix is to mark them as unresolved in the same way the bracketed items are, or to omit the clause rather than print a pointer as an allegation.",
+          "evidence": {
+            "readInThisLane": "all four canonical.txt files, paragraphs 5, 7 and 8",
+            "instructionDirective": "tracks/*/participant-instructions.md, \"Transfer only reviewed content to that form\"",
+            "contrast": "the four bracketed placeholders ARE each named and explained in the top-level participant-instructions.md"
+          }
+        },
+        {
+          "obligation": "FILING_DESTINATION",
+          "finding": "The packet denies a rule the repository states, and the denial costs the participant a real limb. It says: \"No held source in this packet names a statewide Ohio filing office or a statewide application.\" Under A2 the repository includes the compiled state profile, and src/lib/rcap-engine/compiled/profiles/OH-ohio.json states the rule plainly and repeatedly, keyed to these sections: \"File in the sentencing court for an Ohio conviction or in a court of common pleas for an out-of-state or federal conviction\", and for § 2953.35 \"The application is filed in the sentencing court\". A1 as amended settles the order of operations — ask first whether the repository establishes the answer; if it does, the packet states it. The consequence is not cosmetic: the packet's substitute answer, \"the Ohio court that handled the case\", silently drops the out-of-state and federal conviction limb, and a participant in that position is sent to a court that is not in Ohio at all. The repair is to state the profile's two-limb rule.",
+          "evidence": {
+            "profileQuoteReadHere": "OH-ohio.json, located in this lane",
+            "packetText": "participant-instructions.md, \"Where this is filed\"",
+            "standard": "DET-FEE-AND-WAIVER-001 A1 amendment, as widened by A2"
+          }
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "The clearest of the four, because the profile answers this route by statute number. The packet says: \"No held source in this packet states a filing fee, states that filing is free, or states a fee-waiver procedure ... This packet does not state an amount because it holds no source for one.\" The compiled Ohio profile carries a route-keyed fee table that I read in this lane: \"Route Fee | 2953.32 conviction/bail forfeiture sealing or expungement | $50 application fee unless indigent, plus possible local court fee up to $50 | Dismissal / not guilty / no bill sealing | Ohio Legal Help says no fee | ... | 2953.35 firearm/carry expungement | $50 unless indigent\". Three of this family's four tracks are answered by section number — § 2953.32 twice and § 2953.35 — and the fourth, § 2953.33 non-conviction relief, is answered by the disposition row for dismissals, not-guilty and no-bill cases. The indigency waiver the packet says it holds no source for is named in the same table and again in the § 2953.35 text (\"The fee is $50 unless indigent\"). This is per-fact, per-route holding in A3's own terms — the table is keyed by statutory section and the sections match — so none of it is a sibling-route inference. The packet is silent about something the repository knows, and \"ask the clerk\" substitutes a question for an answer we have.",
+          "evidence": {
+            "profileTableReadHere": "OH-ohio.json \"Route Fee\" table, extracted in this lane",
+            "trackSections": "oh_2953_32_sealing, oh_2953_32_expungement, oh_2953_33_nonconviction, oh_2953_35_firearm",
+            "standard": "DET-FEE-AND-WAIVER-001 A1 amendment, A2, A3"
+          }
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": "The packet says \"No held source in this packet states who must be served or how. Ask the same clerk.\" The profile states the mechanism, keyed to these sections: the court sets and holds the hearing 45 to 90 days after filing, and \"The prosecutor may object at least 30 days before the hearing, and victims may be heard if applicable\" — recorded against § 2953.32/.321 and, separately, \"The court holds a hearing 45-90 days after filing, and the prosecutor may object\" against § 2953.33. The honest answer is materially better for the participant than the question the packet asks in its place: on this scheme the applicant serves nobody, the court notifies, and there is a stated window to expect. That is the same shape as the correction already applied to a New York family in this factory, where the packet was repaired to state affirmatively that the court distributes and the participant serves nobody. Telling a participant to go and ask who to serve, when the held answer is that they serve no one, leaves them looking for a step that does not exist.",
+          "evidence": {
+            "profileQuotesReadHere": "OH-ohio.json hearing and objection rules, located in this lane",
+            "standard": "DET-FEE-AND-WAIVER-001 A1 amendment, as widened by A2 and A4"
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "KNOWN_PREFILLS",
+        "SERVICE"
+      ],
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf10/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf10/repair-assignments.json",
@@ -3688,7 +3849,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_conviction-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ut_pet_conviction-set",
@@ -3698,6 +3859,32 @@
       "verifiedAtBase": null,
       "failedObligations": [],
       "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf10/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf10/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_conviction-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ut_pet_conviction-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf10",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "eb643bc098420809a6e2d5f9297a961027ac713a",
+      "failedObligations": [
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "The A4 defect is repaired; a second one behind it is not. Repaired, and I confirmed it: the packet now states \"The BCI application fee is $65.00, and it is non-refundable\", quotes both printed instances, and states the indigency waiver and its sequencing rule (the waiver form must be completed BEFORE applying, and BCI will not process the application until it arrives). The NARROWED refusal also satisfies A4 because it names its subject — it is \"The certificates themselves ... this packet does not state that amount\", explicitly distinguished from the application fee — which is exactly the combination A4 called for, and it names BCI as the office to ask. What fails is the substance of that refusal against the repository. src/lib/rcap-engine/compiled/profiles/UT-utah.json records BCI's own FAQ: \"eligible conviction, plea-in-abeyance, or special certificates may require an additional $65 per case; no certificate issuance fee is required for dismissals, acquittals, or declinations.\" For THIS route the held figure is $65 per case. So the packet's \"this packet does not state that amount because BCI sets it per applicant\" denies a figure the repository holds, and its companion sentence \"The certificates themselves cost more than the application\" is contradicted by that figure for a single-incident conviction, where the certificate equals the $65 application fee rather than exceeding it. Under A3 this line is on-route: it is keyed by disposition class and names convictions. Stated as a residual: the profile's \"may require\" is genuinely conditional and BCI's letter remains the operative per-applicant statement, so the repair is to state the held $65-per-case figure and its condition and keep BCI as the confirming authority — not to promise a total.",
+          "evidence": {
+            "profileQuoteReadHere": "UT-utah.json BCI FAQ line, located in this lane",
+            "packetText": "participant-instructions.md, \"What it costs, and how to ask for a waiver\"",
+            "standard": "DET-FEE-AND-WAIVER-001 A1/A2/A3/A4"
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER"
+      ],
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf10/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf10/repair-assignments.json",
@@ -3817,7 +4004,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf06/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_dismissed_with_prejudice-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ut_pet_dismissed_with_prejudice-set",
@@ -3827,6 +4014,42 @@
       "verifiedAtBase": null,
       "failedObligations": [],
       "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf10/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf10/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_dismissed_with_prejudice-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ut_pet_dismissed_with_prejudice-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf10",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "eb643bc098420809a6e2d5f9297a961027ac713a",
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "One required check is missing and it is the one that decides which route the participant is on. The packet correctly adds two dismissal-specific items its conviction sibling lacks — a certified copy of the order of dismissal, and the dismissal date checked against it — and it says the certified copy \"states whether the dismissal was with or without prejudice, which decides which track applies\". But the compiled Utah profile records a second discriminator the packet never mentions: \"A dismissal with prejudice after successful completion of a plea in abeyance is excluded from that favorable-outcome automatic category\", and separately \"Dismissal with prejudice Goal: 180 days after dismissal/final appeal, unless dismissed after plea in abeyance\". The string \"abeyance\" appears zero times in this packet's instructions. Whether the dismissal followed a plea in abeyance is therefore a fact the repository makes dispositive and the packet does not ask the participant to establish, alongside the with-or-without-prejudice question it does ask.",
+          "evidence": {
+            "profileQuotesReadHere": "UT-utah.json, two lines located in this lane",
+            "absenceMeasured": "grep -c -i abeyance over participant-instructions.md returns 0",
+            "standard": "DET-FEE-AND-WAIVER-001 A4 onTheWiderQuestion"
+          }
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "Two limbs, and the first is the harder one the Captain asked me to test. (1) The certificate refusal is not merely narrow on this route; it is false, and false in the expensive direction. The packet carries the same paragraph as its conviction sibling, word for word: \"The certificates themselves cost more than the application, and this packet does not state that amount because BCI sets it per applicant.\" The compiled Utah profile records BCI's FAQ as: \"eligible conviction, plea-in-abeyance, or special certificates may require an additional $65 per case; NO CERTIFICATE ISSUANCE FEE IS REQUIRED FOR DISMISSALS, ACQUITTALS, OR DECLINATIONS.\" This route is a dismissal. The line is keyed by disposition class and names dismissals expressly, so it is on-route under A3 — unlike the California trap A3 was written for, there is no competing statutory section here, and unlike the West Virginia trap there is no sibling remedy being borrowed. So the repository establishes that the certificate issuance fee is ZERO for this route, and the packet tells the participant it is MORE than $65 and unknowable. That is not a refusal that A1 permits; it is a positive misstatement of a held fact, and it overstates the cost of the route the participant is holding. The identical wording across both Utah families shows why: the fee text was written once for the conviction route and reused unchanged where the disposition class inverts the answer. (2) The free-alternative paragraph omits its own exclusion. The packet tells the participant, in bold, \"there is a free route to the same result ... automatic expungement 180 days after the dismissal under Utah Code 77-40a-206, where no appeal was filed\", and \"If you are not in a hurry, waiting out the 180 days is free.\" The profile states the carve-out twice, and the packet never mentions it: a dismissal with prejudice following a successful plea in abeyance is excluded from that automatic category. A participant in that position is advised to wait 180 days for relief that will not arrive, having been told their paid petition is merely the faster route to the same end. The disclosure is otherwise admirable — it argues against the packet's own sale — which is precisely why it needs its exclusion.",
+          "evidence": {
+            "profileQuoteReadHere": "UT-utah.json BCI FAQ line and the two abeyance lines, all located in this lane",
+            "sharedWording": "diff of the two Utah participant-instructions.md files shows the certificate paragraph identical",
+            "standard": "DET-FEE-AND-WAIVER-001 A1/A2/A3/A4"
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER",
+        "REQUIRED_BEFORE_FILING"
+      ],
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf10/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf10/repair-assignments.json",
@@ -6350,7 +6573,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wv_conv_multiple_misdemeanors-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "wv_conv_multiple_misdemeanors-set",
@@ -6417,6 +6640,31 @@
       "superseded": false
     },
     {
+      "familyId": "wv_conv_multiple_misdemeanors-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf10",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "eb643bc098420809a6e2d5f9297a961027ac713a",
+      "failedObligations": [
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "The packet is silent about a once-per-lifetime bar that its own track carries as an exclusion. I re-measured the silence at this base rather than inheriting it: § 61-11-26(o), § 17C-5-2b, § 60A-4-407, \"only once\" and \"per lifetime\" each return zero hits in participant-instructions.md AND zero hits in the delivered canonical PDF. DET-FEE-AND-WAIVER-001 A4 alsoRecorded.onceInALifetime already holds that the silence is established and that only the bar's legal REACH remains a counsel question; I score the silence and do not re-decide the reach. A participant who has used this remedy before is given nothing in this packet that would tell them to check.",
+          "evidence": {
+            "measuredHere": "grep over participant-instructions.md and pdftotext output of fixtures/canonical.pdf, both zero for all five patterns",
+            "determination": "DET-FEE-AND-WAIVER-001 A4 alsoRecorded.onceInALifetime — not mine, and not re-decided here"
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "SELF_HELP_STOP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf10/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf10/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wv_conv_multiple_misdemeanors-set",
+      "superseded": false
+    },
+    {
       "familyId": "wv_conv_single_misdemeanor-set",
       "verdict": "PASS",
       "lane": "s2-continuation-verify-03",
@@ -6468,7 +6716,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf07/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wv_conv_single_misdemeanor-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "wv_conv_single_misdemeanor-set",
@@ -6478,6 +6726,31 @@
       "verifiedAtBase": null,
       "failedObligations": [],
       "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf10/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf10/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wv_conv_single_misdemeanor-set",
+      "superseded": false
+    },
+    {
+      "familyId": "wv_conv_single_misdemeanor-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf10",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "eb643bc098420809a6e2d5f9297a961027ac713a",
+      "failedObligations": [
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "The packet is silent about a once-per-lifetime bar that its own track carries as an exclusion. I re-measured the silence at this base rather than inheriting it: § 61-11-26(o), § 17C-5-2b, § 60A-4-407, \"only once\" and \"per lifetime\" each return zero hits in participant-instructions.md AND zero hits in the delivered canonical PDF. DET-FEE-AND-WAIVER-001 A4 alsoRecorded.onceInALifetime already holds that the silence is established and that only the bar's legal REACH remains a counsel question; I score the silence and do not re-decide the reach. A participant who has used this remedy before is given nothing in this packet that would tell them to check.",
+          "evidence": {
+            "measuredHere": "grep over participant-instructions.md and pdftotext output of fixtures/canonical.pdf, both zero for all five patterns",
+            "determination": "DET-FEE-AND-WAIVER-001 A4 alsoRecorded.onceInALifetime — not mine, and not re-decided here"
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "SELF_HELP_STOP"
+      ],
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf10/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf10/repair-assignments.json",
