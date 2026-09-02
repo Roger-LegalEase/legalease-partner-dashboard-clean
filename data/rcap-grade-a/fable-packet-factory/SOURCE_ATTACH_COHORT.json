@@ -9,6 +9,16 @@
     "artifacts": [
       "AK-DPS-SEAL-REQ-2-04",
       "AL-C-94A",
+      "AR-ACIC-ORDER-DISMISS-SEAL-FIRST-OFFENDERS",
+      "AR-ACIC-ORDER-SEAL-ACT-531",
+      "AR-ACIC-ORDER-SEAL-CS-POSSESSION",
+      "AR-ACIC-ORDER-SEAL-NONCONVICTION",
+      "AR-ACIC-ORDER-SEAL-PARDONED",
+      "AR-ACIC-PETITION-SEAL-ACT-531",
+      "AR-ACIC-PETITION-SEAL-CS-POSSESSION",
+      "AR-ACIC-PETITION-SEAL-NONCONVICTION",
+      "AR-ACIC-PETITION-SEAL-PARDONED",
+      "AR-ACIC-PETITION-VETERANS-COURT",
       "ID-ISP-BCI-EXPUNGEMENT-APPLICATION",
       "ID-PETITION-TO-SHIELD-67-3004-11",
       "IN-CCA-SECTION1-BUNDLE",
@@ -19,41 +29,42 @@
       "KY-AOC-RU-009",
       "MA-MPS-PETITION-TO-EXPUNGE-100F-100G-100H",
       "ND-CLOSE-NONCONVICTION-PACKET",
-      "ND-SFN-61663"
+      "ND-SFN-61663",
+      "TX-OCA-411.072-INSTRUCTIONS",
+      "TX-OCA-411.072-ORDER",
+      "TX-OCA-411.0725-PETITION",
+      "TX-OCA-411.0726-DWI-ORDER",
+      "TX-OCA-411.0726-PETITION",
+      "TX-OCA-411.0727-ORDER",
+      "TX-OCA-411.0727-PETITION",
+      "TX-OCA-411.0729-ORDER",
+      "TX-OCA-411.0729-PETITION",
+      "TX-OCA-411.073-PETITION",
+      "TX-OCA-411.0731-ORDER",
+      "TX-OCA-411.0731-PETITION",
+      "TX-OCA-411.0735-PETITION",
+      "TX-OCA-411.0736-PETITION",
+      "TX-OCA-COMBINED-ORDER-0725-073-0735",
+      "TX-OCA-COMBINED-ORDER-0725-073-0735",
+      "TX-OCA-COMBINED-ORDER-0725-073-0735"
     ],
     "whyTheseAndNotTheRest": "The reconciler admits an identity established by reading the document itself, and refuses one established from a title, a filename or a revision date. That line is FABLE-C4's own; this file does not move it, it measures what it costs."
   },
   "cohortA": {
     "name": "ONE_DOCUMENT_READ_AWAY",
-    "artifacts": 36,
-    "familiesServed": 21,
+    "artifacts": 11,
+    "familiesServed": 6,
     "whatIsTrueOfThemAll": "The bytes are held in the Master Library, the committed corpus index carries the exact path at the exact SHA-256, and FABLE-C4 established the identity from the corpus's recorded title or form number rather than from the document's own text.",
     "whatIsOwed": "One read per artifact: open the held file, read the identity printed on page one, and record it as confirmed_from_document_text with the sentence it was read from. The reconciler then binds it with no further change — the tier already exists and the hash already matches.",
     "whyItIsNotDoneHere": "Reading a PDF's printed identity requires the Master Library mounted (bash scripts/rcap-corpus/bootstrap-private-corpus.sh). A Captain integrating central state does not hold the corpus, and asserting an identity it has not read would be exactly the inference the tier refuses.",
     "byConfidence": {
-      "confirmed_from_corpus_title": 19,
-      "confirmed_form_number_later_revision_held": 2,
-      "confirmed_from_corpus_title_and_section_number": 15
+      "confirmed_from_corpus_title": 9,
+      "confirmed_form_number_later_revision_held": 2
     },
     "byCustody": {
-      "MASTER_LIBRARY": 36
+      "MASTER_LIBRARY": 11
     },
     "artifactList": [
-      {
-        "artifactId": "AR-ACIC-ORDER-DISMISS-SEAL-FIRST-OFFENDERS",
-        "jurisdiction": "AR",
-        "officialTitle": "Order to Dismiss and Seal First Offenders under Act 346 of 1975 and Act 1460 of 2013",
-        "identityConfidence": "confirmed_from_corpus_title",
-        "custody": "MASTER_LIBRARY",
-        "pathInArchive": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-DISMISS-AND-SEAL-FIRST-OFFENDERS-ACT-346__order-to-dismiss-and-seal-first-offenders-under-act-346-and-act-1460__REV-2014-01-01__EN.pdf",
-        "sha256": "70f97584a628507e064540a4bf2830b46162de8f799d2a2a78285db446d15740",
-        "servesFamilies": [
-          "ar-act346-set"
-        ],
-        "namedInFamiliesAs": [
-          "ACIC-ORDER-DISMISS-AND-SEAL-FIRST-OFFENDERS"
-        ]
-      },
       {
         "artifactId": "AR-ACIC-ORDER-DRUG-COURT-POST",
         "jurisdiction": "AR",
@@ -82,36 +93,6 @@
         ],
         "namedInFamiliesAs": [
           "ACIC-ORDER-DRUG-COURT"
-        ]
-      },
-      {
-        "artifactId": "AR-ACIC-ORDER-SEAL-ACT-531",
-        "jurisdiction": "AR",
-        "officialTitle": "Order to Seal Pursuant to Act 531 of 1993 and Act 1460 of 2013",
-        "identityConfidence": "confirmed_from_corpus_title",
-        "custody": "MASTER_LIBRARY",
-        "pathInArchive": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-UNDER-COMMUNITY-PUNISHMENT-ACT-531-AND-ACT-1__order-to-seal-pursuant-to-act-531-of-1993-and-act-1460-of-2013__REV-2014-08-25__EN.pdf",
-        "sha256": "edd3eb10e5b3830afa417f4165611489a32c1f43d2dde3203855bdbe3b0b19da",
-        "servesFamilies": [
-          "ar-act531-set"
-        ],
-        "namedInFamiliesAs": [
-          "ACIC-ORDER-SEAL-ACT-531-ACT-1460"
-        ]
-      },
-      {
-        "artifactId": "AR-ACIC-ORDER-SEAL-CS-POSSESSION",
-        "jurisdiction": "AR",
-        "officialTitle": "Order to Seal Conviction for Possession of Controlled or Counterfeit Substance",
-        "identityConfidence": "confirmed_from_corpus_title",
-        "custody": "MASTER_LIBRARY",
-        "pathInArchive": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-CONTROLLED-OR-COUNTERFEIT-SUBSTANCE-POSSESSI__order-to-seal-conviction-for-possession-of-controlled-or-counterfeit-substance__REV-2014-01-01__EN.pdf",
-        "sha256": "b347754fd115adea52068fe5cd267f84021f8f435a7b86c02c3347dd86f9f555",
-        "servesFamilies": [
-          "ar-cs-possession-seal-set"
-        ],
-        "namedInFamiliesAs": [
-          "ACIC-ORDER-TO-SEAL-CS-POSSESSION"
         ]
       },
       {
@@ -145,36 +126,6 @@
         ]
       },
       {
-        "artifactId": "AR-ACIC-ORDER-SEAL-NONCONVICTION",
-        "jurisdiction": "AR",
-        "officialTitle": "Order to Seal Records of Nolle Prosequi, Dismissals, Judgments of Acquittal or No Charges Filed",
-        "identityConfidence": "confirmed_from_corpus_title",
-        "custody": "MASTER_LIBRARY",
-        "pathInArchive": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-NOLLE-PROSEQUI-DISMISSAL-ACQUITTAL-OR-NO-CHA__order-to-seal-records-of-nolle-prosequi-dismissals-judg__REV-2023-10-25__EN.pdf",
-        "sha256": "4ca0a57a56f7662dd6590e9bfbbe7b96fcf2d39df8ca84253c53e9bd0f07605a",
-        "servesFamilies": [
-          "ar-nonconviction-seal-set"
-        ],
-        "namedInFamiliesAs": [
-          "ACIC-ORDER-TO-SEAL-NONCONVICTION"
-        ]
-      },
-      {
-        "artifactId": "AR-ACIC-ORDER-SEAL-PARDONED",
-        "jurisdiction": "AR",
-        "officialTitle": "Order to Seal Records of a Pardoned Offender or Pardoned Youthful Felony Offender",
-        "identityConfidence": "confirmed_from_corpus_title",
-        "custody": "MASTER_LIBRARY",
-        "pathInArchive": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-RECORDS-OF-PARDONED-OFFENDER-OR-YOUTHFUL-FEL__order-to-seal-records-of-a-pardoned-offender-or-pardoned-youthful-felony-offender__REV-2022-03-07__EN.pdf",
-        "sha256": "741fda999c348d763848b98053f93e8c28d25dcc1ba5e8438e98b1bdf555ae6e",
-        "servesFamilies": [
-          "ar-pardon-seal-set"
-        ],
-        "namedInFamiliesAs": [
-          "ACIC-ORDER-TO-SEAL-PARDONED-OFFENDER"
-        ]
-      },
-      {
         "artifactId": "AR-ACIC-PETITION-DRUG-COURT-POST",
         "jurisdiction": "AR",
         "officialTitle": "Petition to Dismiss and Seal Offense in Post-Adjudication Drug Court Proceeding",
@@ -205,36 +156,6 @@
         ]
       },
       {
-        "artifactId": "AR-ACIC-PETITION-SEAL-ACT-531",
-        "jurisdiction": "AR",
-        "officialTitle": "Petition to Seal Pursuant to Act 531 of 1993 and Act 1460 of 2013",
-        "identityConfidence": "confirmed_from_corpus_title",
-        "custody": "MASTER_LIBRARY",
-        "pathInArchive": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-UNDER-COMMUNITY-PUNISHMENT-ACT-531-AND-AC__petition-to-seal-pursuant-to-act-531-of-1993-and-act-1460-of-2013__REV-2014-08-25__EN.pdf",
-        "sha256": "cca9d9454b565d36930a95ac6337d370f6506f8780e9d98cbfc8f99343e0a356",
-        "servesFamilies": [
-          "ar-act531-set"
-        ],
-        "namedInFamiliesAs": [
-          "ACIC-PETITION-SEAL-ACT-531-ACT-1460"
-        ]
-      },
-      {
-        "artifactId": "AR-ACIC-PETITION-SEAL-CS-POSSESSION",
-        "jurisdiction": "AR",
-        "officialTitle": "Petition to Seal Conviction for Possession of Controlled or Counterfeit Substance",
-        "identityConfidence": "confirmed_from_corpus_title",
-        "custody": "MASTER_LIBRARY",
-        "pathInArchive": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-CONTROLLED-OR-COUNTERFEIT-SUBSTANCE-POSSE__petition-to-seal-conviction-for-possession-of-controlled-or-counterfeit-substance__REV-2015-04-01__EN.pdf",
-        "sha256": "015c7246ffd5ad1512d55234708d885db3dd6d5eebb937c049aca8fe4f818029",
-        "servesFamilies": [
-          "ar-cs-possession-seal-set"
-        ],
-        "namedInFamiliesAs": [
-          "ACIC-PETITION-TO-SEAL-CS-POSSESSION"
-        ]
-      },
-      {
         "artifactId": "AR-ACIC-PETITION-SEAL-FELONY-1460",
         "jurisdiction": "AR",
         "officialTitle": "Petition to Seal Felony under Act 1460 of 2013",
@@ -247,51 +168,6 @@
         ],
         "namedInFamiliesAs": [
           "ACIC-UNIFORM-PETITION-TO-SEAL"
-        ]
-      },
-      {
-        "artifactId": "AR-ACIC-PETITION-SEAL-NONCONVICTION",
-        "jurisdiction": "AR",
-        "officialTitle": "Petition to Seal Records of Nolle Prosequi, Dismissals, Judgments of Acquittal or No Charges Filed",
-        "identityConfidence": "confirmed_from_corpus_title",
-        "custody": "MASTER_LIBRARY",
-        "pathInArchive": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-NOLLE-PROSEQUI-DISMISSAL-ACQUITTAL-OR-NO__petition-to-seal-records-of-nolle-prosequi-dismissals-j__REV-2020-04-22__EN.pdf",
-        "sha256": "09f323174881934239734e3a418eb4fec0b4bd0f7e199e8698c3af95a659fa61",
-        "servesFamilies": [
-          "ar-nonconviction-seal-set"
-        ],
-        "namedInFamiliesAs": [
-          "ACIC-PETITION-TO-SEAL-NONCONVICTION"
-        ]
-      },
-      {
-        "artifactId": "AR-ACIC-PETITION-SEAL-PARDONED",
-        "jurisdiction": "AR",
-        "officialTitle": "Petition to Seal Records of a Pardoned Offender or Pardoned Youthful Felony Offender",
-        "identityConfidence": "confirmed_from_corpus_title",
-        "custody": "MASTER_LIBRARY",
-        "pathInArchive": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-RECORDS-OF-PARDONED-OFFENDER-OR-YOUTHFUL__petition-to-seal-records-of-a-pardoned-offender-or-pardoned-youthful-felony-offender__REV-2022-03-08__EN.pdf",
-        "sha256": "59ba1407a5a6c2b8c327a9ca549b379ab88d65105ade1c7e69110d8c1ac6c5d0",
-        "servesFamilies": [
-          "ar-pardon-seal-set"
-        ],
-        "namedInFamiliesAs": [
-          "ACIC-PETITION-TO-SEAL-PARDONED-OFFENDER"
-        ]
-      },
-      {
-        "artifactId": "AR-ACIC-PETITION-VETERANS-COURT",
-        "jurisdiction": "AR",
-        "officialTitle": "Petition to Dismiss and Seal Offense in Veterans Treatment Specialty Court Proceeding",
-        "identityConfidence": "confirmed_from_corpus_title",
-        "custody": "MASTER_LIBRARY",
-        "pathInArchive": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-DISMISS-AND-SEAL-VETERANS-TREATMENT-SPECIALTY__petition-to-dismiss-and-seal-offense-in-veterans-treatment-specialty-court-proceeding__REV-2021-07-27__EN.pdf",
-        "sha256": "2a60285e2fc0d5c7f765df93143f65edf302dc8f28429a1050d329b3f48ff0a0",
-        "servesFamilies": [
-          "ar-veterans-court-set"
-        ],
-        "namedInFamiliesAs": [
-          "ACIC-PETITION-VETERANS-COURT"
         ]
       },
       {
@@ -353,235 +229,6 @@
         ],
         "namedInFamiliesAs": [
           "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION"
-        ]
-      },
-      {
-        "artifactId": "TX-OCA-411.072-INSTRUCTIONS",
-        "jurisdiction": "TX",
-        "officialTitle": "OCA Instructions and Model Letter for an Order of Nondisclosure under Section 411.072",
-        "identityConfidence": "confirmed_from_corpus_title_and_section_number",
-        "custody": "MASTER_LIBRARY",
-        "pathInArchive": "STATES/TX/03_INSTRUCTIONS/TX__INSTRUCTIONS__TX-GC-411.072__instructions-for-petition-for-order-of-nondisclosure-under-411-072__REV-2022-02__EN.pdf",
-        "sha256": "ae4427a75eb7c10c33d8e8cd3c4dca2092a8a83237204ec72cdcfc8c504ba1c7",
-        "servesFamilies": [
-          "tx_nd_automatic_misdemeanor_deferred-set"
-        ],
-        "namedInFamiliesAs": [
-          "OCA Instructions and Model Letter for an Order of Nondisclosure under Section 411.072"
-        ]
-      },
-      {
-        "artifactId": "TX-OCA-411.072-ORDER",
-        "jurisdiction": "TX",
-        "officialTitle": "OCA Model Order of Nondisclosure under Section 411.072",
-        "identityConfidence": "confirmed_from_corpus_title_and_section_number",
-        "custody": "MASTER_LIBRARY",
-        "pathInArchive": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.072__order-of-nondisclosure-under-411-072__REV-2022-02__EN.pdf",
-        "sha256": "7e35a724b6de6aac1f0cc11296596377df19786e597090c73384c87fd067fa39",
-        "servesFamilies": [
-          "tx_nd_automatic_misdemeanor_deferred-set"
-        ],
-        "namedInFamiliesAs": [
-          "OCA Model Order of Nondisclosure under Section 411.072"
-        ]
-      },
-      {
-        "artifactId": "TX-OCA-411.0725-PETITION",
-        "jurisdiction": "TX",
-        "officialTitle": "OCA Model Petition for an Order of Nondisclosure under Section 411.0725",
-        "identityConfidence": "confirmed_from_corpus_title_and_section_number",
-        "custody": "MASTER_LIBRARY",
-        "pathInArchive": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0725__petition-for-order-of-nondisclosure-under-411-0725__REV-2022-02__EN.pdf",
-        "sha256": "2eb2e9699e0803d0fa0766cbb1fad38f088a8d8b15a18b21add93da5e879ae67",
-        "servesFamilies": [
-          "tx_nd_deferred_other-set"
-        ],
-        "namedInFamiliesAs": [
-          "OCA Model Petition for an Order of Nondisclosure under Section 411.0725"
-        ]
-      },
-      {
-        "artifactId": "TX-OCA-411.0726-DWI-ORDER",
-        "jurisdiction": "TX",
-        "officialTitle": "OCA Model Order of Nondisclosure (Driving While Intoxicated) under Section 411.0726",
-        "identityConfidence": "confirmed_from_corpus_title_and_section_number",
-        "custody": "MASTER_LIBRARY",
-        "pathInArchive": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0726-DWI-ORDER__order-of-nondisclosure-under-411-0726-dwi__REV-2022-02__EN.pdf",
-        "sha256": "c2b4c3ecf0033ef5af21ae05eaf79f7be197228150c5d6e752d1d423736d2b06",
-        "servesFamilies": [
-          "tx_nd_dwi_deferred-set"
-        ],
-        "namedInFamiliesAs": [
-          "OCA Model Order of Nondisclosure (Driving While Intoxicated) under Section 411.0726"
-        ]
-      },
-      {
-        "artifactId": "TX-OCA-411.0726-PETITION",
-        "jurisdiction": "TX",
-        "officialTitle": "OCA Model Petition for an Order of Nondisclosure under Section 411.0726",
-        "identityConfidence": "confirmed_from_corpus_title_and_section_number",
-        "custody": "MASTER_LIBRARY",
-        "pathInArchive": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0726__petition-for-order-of-nondisclosure-under-411-0726__REV-2022-02__EN.pdf",
-        "sha256": "0ef70a8afe2521b0173a210b8ac22eee503c6231c0cf71fcd3c6a91af82db27d",
-        "servesFamilies": [
-          "tx_nd_dwi_deferred-set"
-        ],
-        "namedInFamiliesAs": [
-          "OCA Model Petition for an Order of Nondisclosure under Section 411.0726"
-        ]
-      },
-      {
-        "artifactId": "TX-OCA-411.0727-ORDER",
-        "jurisdiction": "TX",
-        "officialTitle": "OCA Model Order of Nondisclosure under Section 411.0727",
-        "identityConfidence": "confirmed_from_corpus_title_and_section_number",
-        "custody": "MASTER_LIBRARY",
-        "pathInArchive": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0727__order-of-nondisclosure-under-411-0727__REV-2022-02__EN.pdf",
-        "sha256": "2c9500206f032b2195a6d99ea04310d520413d8ecdc6978da4ba284c2d01189f",
-        "servesFamilies": [
-          "tx_nd_veterans_court-set"
-        ],
-        "namedInFamiliesAs": [
-          "OCA Model Order of Nondisclosure under Section 411.0727"
-        ]
-      },
-      {
-        "artifactId": "TX-OCA-411.0727-PETITION",
-        "jurisdiction": "TX",
-        "officialTitle": "OCA Model Petition for an Order of Nondisclosure under Section 411.0727",
-        "identityConfidence": "confirmed_from_corpus_title_and_section_number",
-        "custody": "MASTER_LIBRARY",
-        "pathInArchive": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0727__petition-for-order-of-nondisclosure-under-411-0727__REV-2022-02__EN.pdf",
-        "sha256": "7c34e5f5aeee2ce9bb7e757f3c2c9aa9899d536c8917f5329f0d4dc28f6bfa9d",
-        "servesFamilies": [
-          "tx_nd_veterans_court-set"
-        ],
-        "namedInFamiliesAs": [
-          "OCA Model Petition for an Order of Nondisclosure under Section 411.0727"
-        ]
-      },
-      {
-        "artifactId": "TX-OCA-411.0729-ORDER",
-        "jurisdiction": "TX",
-        "officialTitle": "OCA Model Order of Nondisclosure under Section 411.0729",
-        "identityConfidence": "confirmed_from_corpus_title_and_section_number",
-        "custody": "MASTER_LIBRARY",
-        "pathInArchive": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0729__order-of-nondisclosure-under-411-0729__REV-2022-02__EN.pdf",
-        "sha256": "3440721f4f22e37b60539789222518b27f49dcd7a8c4b9d64536181041382ba9",
-        "servesFamilies": [
-          "tx_nd_veterans_reemployment-set"
-        ],
-        "namedInFamiliesAs": [
-          "OCA Model Order of Nondisclosure under Section 411.0729"
-        ]
-      },
-      {
-        "artifactId": "TX-OCA-411.0729-PETITION",
-        "jurisdiction": "TX",
-        "officialTitle": "OCA Model Petition for an Order of Nondisclosure under Section 411.0729",
-        "identityConfidence": "confirmed_from_corpus_title_and_section_number",
-        "custody": "MASTER_LIBRARY",
-        "pathInArchive": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0729__petition-for-order-of-nondisclosure-under-411-0729__REV-2022-02__EN.pdf",
-        "sha256": "5fbe7c7fe7efb752b2d3bce84298d66305f0384b9e30710ca660107ce6fc6c10",
-        "servesFamilies": [
-          "tx_nd_veterans_reemployment-set"
-        ],
-        "namedInFamiliesAs": [
-          "OCA Model Petition for an Order of Nondisclosure under Section 411.0729"
-        ]
-      },
-      {
-        "artifactId": "TX-OCA-411.073-PETITION",
-        "jurisdiction": "TX",
-        "officialTitle": "OCA Model Petition for an Order of Nondisclosure under Section 411.073 or 411.0732 (one petition document serving two sections)",
-        "identityConfidence": "confirmed_from_corpus_title_and_section_number",
-        "custody": "MASTER_LIBRARY",
-        "pathInArchive": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.073-411.0732__petition-for-order-of-nondisclosure-under-411-073-411-0732__REV-2022-02__EN.pdf",
-        "sha256": "0f60ff4c10f3f670356907a4d571285e247b796980c674c9bd64737cdd6a068a",
-        "servesFamilies": [
-          "tx_nd_probation_misdemeanor-set"
-        ],
-        "namedInFamiliesAs": [
-          "OCA Model Petition for an Order of Nondisclosure under Section 411.073"
-        ]
-      },
-      {
-        "artifactId": "TX-OCA-411.0731-ORDER",
-        "jurisdiction": "TX",
-        "officialTitle": "OCA Model Order of Nondisclosure under Section 411.0731",
-        "identityConfidence": "confirmed_from_corpus_title_and_section_number",
-        "custody": "MASTER_LIBRARY",
-        "pathInArchive": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0731__order-of-nondisclosure-under-411-0731__REV-2022-02__EN.pdf",
-        "sha256": "f085cd5c03edc67671c4aaab3210c76c33325e45fabdd6b818782e87cf413bd4",
-        "servesFamilies": [
-          "tx_nd_dwi_probation-set"
-        ],
-        "namedInFamiliesAs": [
-          "OCA Model Order of Nondisclosure under Section 411.0731"
-        ]
-      },
-      {
-        "artifactId": "TX-OCA-411.0731-PETITION",
-        "jurisdiction": "TX",
-        "officialTitle": "OCA Model Petition for an Order of Nondisclosure under Section 411.0731",
-        "identityConfidence": "confirmed_from_corpus_title_and_section_number",
-        "custody": "MASTER_LIBRARY",
-        "pathInArchive": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0731__petition-for-order-of-nondisclosure-under-411-0731__REV-2022-02__EN.pdf",
-        "sha256": "51f747e27d6f2b64e545991f242964dad77c0c69702278acb2b43565b0da62ee",
-        "servesFamilies": [
-          "tx_nd_dwi_probation-set"
-        ],
-        "namedInFamiliesAs": [
-          "OCA Model Petition for an Order of Nondisclosure under Section 411.0731"
-        ]
-      },
-      {
-        "artifactId": "TX-OCA-411.0735-PETITION",
-        "jurisdiction": "TX",
-        "officialTitle": "OCA Model Petition for an Order of Nondisclosure under Section 411.0735",
-        "identityConfidence": "confirmed_from_corpus_title_and_section_number",
-        "custody": "MASTER_LIBRARY",
-        "pathInArchive": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0735__petition-for-order-of-nondisclosure-under-411-0735__REV-2022-02__EN.pdf",
-        "sha256": "da0bd63c66a6ee35a7a0659556a02268f1fd6053ebf7419e912b78fd3fb3dd13",
-        "servesFamilies": [
-          "tx_nd_conviction_no_supervision-set"
-        ],
-        "namedInFamiliesAs": [
-          "OCA Model Petition for an Order of Nondisclosure under Section 411.0735"
-        ]
-      },
-      {
-        "artifactId": "TX-OCA-411.0736-PETITION",
-        "jurisdiction": "TX",
-        "officialTitle": "OCA Model Petition for an Order of Nondisclosure under Section 411.0736",
-        "identityConfidence": "confirmed_from_corpus_title_and_section_number",
-        "custody": "MASTER_LIBRARY",
-        "pathInArchive": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0736__petition-for-order-of-nondisclosure-under-411-0736__REV-2022-02__EN.pdf",
-        "sha256": "e8e7dee3c0843a65921ace2545c79034841961d9a131ac31e3d8cf18fd6701db",
-        "servesFamilies": [
-          "tx_nd_dwi_conviction-set"
-        ],
-        "namedInFamiliesAs": [
-          "OCA Model Petition for an Order of Nondisclosure under Section 411.0736"
-        ]
-      },
-      {
-        "artifactId": "TX-OCA-COMBINED-ORDER-0725-073-0735",
-        "jurisdiction": "TX",
-        "officialTitle": "OCA Model Order of Nondisclosure under Section 411.0725, 411.073 or 411.0735 (one order document serving three sections)",
-        "identityConfidence": "confirmed_from_corpus_title_and_section_number",
-        "custody": "MASTER_LIBRARY",
-        "pathInArchive": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0725-411.073-411.0735__order-of-nondisclosure-under-411-0725-411-073-411-0735__REV-2022-02__EN.pdf",
-        "sha256": "6a60f72ac40a776ca721f99fede4eb1397da83c68b07d11d3c931d4e5d4f6680",
-        "servesFamilies": [
-          "tx_nd_conviction_no_supervision-set",
-          "tx_nd_deferred_other-set",
-          "tx_nd_probation_misdemeanor-set"
-        ],
-        "namedInFamiliesAs": [
-          "OCA Model Order of Nondisclosure under Section 411.0725",
-          "OCA Model Order of Nondisclosure under Section 411.073",
-          "OCA Model Order of Nondisclosure under Section 411.0735"
         ]
       }
     ]

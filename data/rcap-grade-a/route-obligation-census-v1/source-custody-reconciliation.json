@@ -13,13 +13,13 @@
   "matchingIsConservative": "Only an exact content hash or a strong form-number match within the same jurisdiction counts as held. An unresolvable label is recorded as unresolved identity rather than as missing, because absence of a match is not evidence of absence -- and calling a held source missing wastes acquisition while calling a missing source held suppresses it.",
   "acquisitionTasks": 295,
   "counts": {
-    "SOURCE_ALREADY_HELD": 67,
+    "SOURCE_ALREADY_HELD": 70,
     "SOURCE_REVISION_STALE": 0,
-    "SOURCE_IDENTITY_UNRESOLVED": 158,
-    "SOURCE_GENUINELY_MISSING": 70
+    "SOURCE_IDENTITY_UNRESOLVED": 156,
+    "SOURCE_GENUINELY_MISSING": 69
   },
-  "commissionAcquisitionFor": 228,
-  "doNotCommissionAcquisitionFor": 67,
+  "commissionAcquisitionFor": 225,
+  "doNotCommissionAcquisitionFor": 70,
   "rows": [
     {
       "worklistGroupId": "agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge",
@@ -534,30 +534,40 @@
         "AR"
       ],
       "routeCount": 1,
-      "custodyClass": "SOURCE_GENUINELY_MISSING",
+      "custodyClass": "SOURCE_ALREADY_HELD",
       "documentSourcesNamed": 2,
-      "documentSourcesResolved": 0,
+      "documentSourcesResolved": 2,
       "nonDocumentSourceIds": 4,
       "documentSources": [
         {
           "sourceId": "official-form:ACIC-ORDER-SEAL-ACT-531-ACT-1460",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "pdftotext page 1 of the held file prints \"ORDER TO SEAL PURSUANT TO ACT 531 OF 1993 ACA§16-93-1201, Et. Seq. and ACT 1460 OF 2013 A.C.A.16-90-1401, Et. Seq.\"; the page 1 footer prints \"ACIC Form\" / \"Revised 08/25/2014\". Both statutes the census label ACIC-ORDER-SEAL-ACT-531-ACT-1460 names are recited on the face of the document.",
+          "heldAs": {
+            "path": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-UNDER-COMMUNITY-PUNISHMENT-ACT-531-AND-ACT-1__order-to-seal-pursuant-to-act-531-of-1993-and-act-1460-of-2013__REV-2014-08-25__EN.pdf",
+            "formNumber": "AR-ACIC-ORDER-TO-SEAL-UNDER-COMMUNITY-PUNISHMENT-ACT-531-AND-ACT-1",
+            "revision": "REV-2014-08-25",
+            "sha256": "edd3eb10e5b3830afa417f4165611489a32c1f43d2dde3203855bdbe3b0b19da"
+          }
         },
         {
           "sourceId": "official-form:ACIC-PETITION-SEAL-ACT-531-ACT-1460",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "named_form_number_not_in_corpus"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "pdftotext page 1 of the held file prints \"PETITION TO SEAL PURSUANT TO ACT 531 OF 1993 ACA§16-93-1201, Et. Seq. and ACT 1460 OF 2013 A.C.A.16-90-1401, Et. Seq.\" over \"Comes the Defendant and for his/her petition to seal the record states:\"; the page 1 footer prints \"ACIC Form\" / \"Revised 08/25/2014\".",
+          "heldAs": {
+            "path": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-UNDER-COMMUNITY-PUNISHMENT-ACT-531-AND-AC__petition-to-seal-pursuant-to-act-531-of-1993-and-act-1460-of-2013__REV-2014-08-25__EN.pdf",
+            "formNumber": "AR-ACIC-PETITION-TO-SEAL-UNDER-COMMUNITY-PUNISHMENT-ACT-531-AND-AC",
+            "revision": "REV-2014-08-25",
+            "sha256": "cca9d9454b565d36930a95ac6337d370f6506f8780e9d98cbfc8f99343e0a356"
+          }
         }
       ],
-      "commissionAcquisition": true,
-      "why": "The census names a document identity -- an exact content hash, or a form number -- that the verified corpus does not carry. This is a real acquisition and the target is known."
+      "commissionAcquisition": false,
+      "why": "Every document-shaped source this family names resolves to a file already in the verified corpus. Acquisition is not commissioned."
     },
     {
       "worklistGroupId": "ar-arrest-seal-set",
@@ -606,30 +616,40 @@
         "AR"
       ],
       "routeCount": 1,
-      "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+      "custodyClass": "SOURCE_ALREADY_HELD",
       "documentSourcesNamed": 2,
-      "documentSourcesResolved": 0,
+      "documentSourcesResolved": 2,
       "nonDocumentSourceIds": 4,
       "documentSources": [
         {
           "sourceId": "official-form:ACIC-ORDER-TO-SEAL-CS-POSSESSION",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "label_does_not_identify_a_document"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "pdftotext page 1 of the held file prints \"ORDER TO SEAL CONVICTION FOR POSSESSION OF CONTROLLED SUBSTANCE OR COUNTERFEIT SUBSTANCE UNDER ACT 1460 OF 2013; A.C.A.16-90-1401, Et. Seq.\"; paragraph 1 on the same page offers \"[_] Possession of Controlled Substance A.C.A.§5-64-419; or [_] Possession of Counterfeit Substance A.C.A.§5-64-441\"; the page 1 footer prints \"ACIC Form\" / \"Revised 01/01/2014\".",
+          "heldAs": {
+            "path": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-CONTROLLED-OR-COUNTERFEIT-SUBSTANCE-POSSESSI__order-to-seal-conviction-for-possession-of-controlled-or-counterfeit-substance__REV-2014-01-01__EN.pdf",
+            "formNumber": "AR-ACIC-ORDER-TO-SEAL-CONTROLLED-OR-COUNTERFEIT-SUBSTANCE-POSSESSI",
+            "revision": "REV-2014-01-01",
+            "sha256": "b347754fd115adea52068fe5cd267f84021f8f435a7b86c02c3347dd86f9f555"
+          }
         },
         {
           "sourceId": "official-form:ACIC-PETITION-TO-SEAL-CS-POSSESSION",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "label_does_not_identify_a_document"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "pdftotext page 1 of the held file prints \"PETITION TO SEAL CONVICTION FOR POSSESSION OF CONTROLLED SUBSTANCE OR COUNTERFEIT SUBSTANCE UNDER ACT 1460 OF 2013; A.C.A.16-90-1401, Et. Seq.\"; the page 1 footer prints \"ACIC Form\" / \"Revised 04/01/2015\".",
+          "heldAs": {
+            "path": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-CONTROLLED-OR-COUNTERFEIT-SUBSTANCE-POSSE__petition-to-seal-conviction-for-possession-of-controlled-or-counterfeit-substance__REV-2015-04-01__EN.pdf",
+            "formNumber": "AR-ACIC-PETITION-TO-SEAL-CONTROLLED-OR-COUNTERFEIT-SUBSTANCE-POSSE",
+            "revision": "REV-2015-04-01",
+            "sha256": "015c7246ffd5ad1512d55234708d885db3dd6d5eebb937c049aca8fe4f818029"
+          }
         }
       ],
-      "commissionAcquisition": true,
-      "why": "This family names no document-shaped source, or names one that cannot be resolved to a corpus identity. Resolve the identity before commissioning anything: absence of a match is not evidence of absence."
+      "commissionAcquisition": false,
+      "why": "Every document-shaped source this family names resolves to a file already in the verified corpus. Acquisition is not commissioned."
     },
     {
       "worklistGroupId": "ar-drug-court-set",
@@ -774,30 +794,40 @@
         "AR"
       ],
       "routeCount": 1,
-      "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+      "custodyClass": "SOURCE_ALREADY_HELD",
       "documentSourcesNamed": 2,
-      "documentSourcesResolved": 0,
+      "documentSourcesResolved": 2,
       "nonDocumentSourceIds": 4,
       "documentSources": [
         {
           "sourceId": "official-form:ACIC-ORDER-TO-SEAL-NONCONVICTION",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "label_does_not_identify_a_document"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "pdftotext page 1 of the held file prints \"ORDER TO SEAL RECORDS OF NOLLE PROSEQUI, DISMISSALS, JUDGMENTS OF ACQUITTAL, AND CHARGES NOT FILED UNDER ACT 1460 OF 2013; A.C.A.16-90-1401, Et. Seq.\"; the page 1 footer prints \"ACIC Form Revised\" / \"10/25/2023\".",
+          "heldAs": {
+            "path": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-NOLLE-PROSEQUI-DISMISSAL-ACQUITTAL-OR-NO-CHA__order-to-seal-records-of-nolle-prosequi-dismissals-judg__REV-2023-10-25__EN.pdf",
+            "formNumber": "AR-ACIC-ORDER-TO-SEAL-NOLLE-PROSEQUI-DISMISSAL-ACQUITTAL-OR-NO-CHA",
+            "revision": "REV-2023-10-25",
+            "sha256": "4ca0a57a56f7662dd6590e9bfbbe7b96fcf2d39df8ca84253c53e9bd0f07605a"
+          }
         },
         {
           "sourceId": "official-form:ACIC-PETITION-TO-SEAL-NONCONVICTION",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "label_does_not_identify_a_document"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "pdftotext page 1 of the held file prints \"PETITION TO SEAL RECORDS OF NOLLE PROSEQUI, DISMISSALS, JUDGMENTS OF ACQUITTAL, AND CHARGES NOT FILED UNDER ACT 1460 OF 2013; A.C.A.16-90-1401, Et. Seq.\"; the page 1 footer prints \"ACIC Form\" / \"Revised 04/22/2020\".",
+          "heldAs": {
+            "path": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-NOLLE-PROSEQUI-DISMISSAL-ACQUITTAL-OR-NO__petition-to-seal-records-of-nolle-prosequi-dismissals-j__REV-2020-04-22__EN.pdf",
+            "formNumber": "AR-ACIC-PETITION-TO-SEAL-NOLLE-PROSEQUI-DISMISSAL-ACQUITTAL-OR-NO",
+            "revision": "REV-2020-04-22",
+            "sha256": "09f323174881934239734e3a418eb4fec0b4bd0f7e199e8698c3af95a659fa61"
+          }
         }
       ],
-      "commissionAcquisition": true,
-      "why": "This family names no document-shaped source, or names one that cannot be resolved to a corpus identity. Resolve the identity before commissioning anything: absence of a match is not evidence of absence."
+      "commissionAcquisition": false,
+      "why": "Every document-shaped source this family names resolves to a file already in the verified corpus. Acquisition is not commissioned."
     },
     {
       "worklistGroupId": "ar-pardon-seal-set",
@@ -848,7 +878,7 @@
       "routeCount": 1,
       "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
       "documentSourcesNamed": 2,
-      "documentSourcesResolved": 0,
+      "documentSourcesResolved": 1,
       "nonDocumentSourceIds": 4,
       "documentSources": [
         {
@@ -862,10 +892,15 @@
         {
           "sourceId": "official-form:ACIC-PETITION-VETERANS-COURT",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "label_does_not_identify_a_document"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "pdftotext page 1 of the held file prints \"PETITION TO DISMISS AND SEAL OFFENSE IN VETERANS TREATMENT SPECIALITY COURT PROCEEDING PURSUANT TO A.C.A. §16-101-106 AND A.C.A. §16-90-1401 {AND TO SEAL SEPARATE PREVIOUS OFFENSE FROM ANOTHER COURT}\" under the caption line \"VETERANS TREATMENT SPECIALITY COURT DIVISION\"; the page 1 footer prints \"ACIC Form\" / \"7/27/2021\".",
+          "heldAs": {
+            "path": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-DISMISS-AND-SEAL-VETERANS-TREATMENT-SPECIALTY__petition-to-dismiss-and-seal-offense-in-veterans-treatment-specialty-court-proceeding__REV-2021-07-27__EN.pdf",
+            "formNumber": "AR-ACIC-PETITION-TO-DISMISS-AND-SEAL-VETERANS-TREATMENT-SPECIALTY",
+            "revision": "REV-2021-07-27",
+            "sha256": "2a60285e2fc0d5c7f765df93143f65edf302dc8f28429a1050d329b3f48ff0a0"
+          }
         }
       ],
       "commissionAcquisition": true,
@@ -8986,24 +9021,34 @@
       "routeCount": 1,
       "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
       "documentSourcesNamed": 3,
-      "documentSourcesResolved": 0,
+      "documentSourcesResolved": 2,
       "nonDocumentSourceIds": 11,
       "documentSources": [
         {
           "sourceId": "official-form:OCA Instructions and Model Letter for an Order of Nondisclosure under Section 411.072",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "label_does_not_identify_a_document"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "pdftotext page 1 of the held file prints \"Office of Court Administration\" over \"Instructions and Letter Requesting Court to Issue an Order of Nondisclosure Under Section 411.072\"; the page 1 footer prints \"OCA INSTRUCTIONS AND MODEL LETTER FOR ORDERS OF NONDISCLOSURE UNDER § 411.072, GOV’T CODE\" / \"REVISED FEBRUARY 2022\".",
+          "heldAs": {
+            "path": "STATES/TX/03_INSTRUCTIONS/TX__INSTRUCTIONS__TX-GC-411.072__instructions-for-petition-for-order-of-nondisclosure-under-411-072__REV-2022-02__EN.pdf",
+            "formNumber": "TX-GC-411.072",
+            "revision": "REV-2022-02",
+            "sha256": "ae4427a75eb7c10c33d8e8cd3c4dca2092a8a83237204ec72cdcfc8c504ba1c7"
+          }
         },
         {
           "sourceId": "official-form:OCA Model Order of Nondisclosure under Section 411.072",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "label_does_not_identify_a_document"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "pdftotext page 1 of the held file prints \"Order of Nondisclosure Under Section 411.072\" and recites \"the Court FINDS that Petitioner received a discharge and dismissal under Code of Criminal Procedure Article 42A.111 and has satisfied the basic requirements of Government Code Section 411.074\"; the page 1 footer prints \"OCA MODEL ORDER FOR ORDERS OF NONDISCLOSURE UNDER SECTION § 411.072, GOV’T CODE\" / \"REVISED FEBRUARY 2022\".",
+          "heldAs": {
+            "path": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.072__order-of-nondisclosure-under-411-072__REV-2022-02__EN.pdf",
+            "formNumber": "TX-GC-411.072",
+            "revision": "REV-2022-02",
+            "sha256": "7e35a724b6de6aac1f0cc11296596377df19786e597090c73384c87fd067fa39"
+          }
         },
         {
           "sourceId": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
@@ -9026,24 +9071,34 @@
       "routeCount": 1,
       "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
       "documentSourcesNamed": 3,
-      "documentSourcesResolved": 0,
+      "documentSourcesResolved": 2,
       "nonDocumentSourceIds": 14,
       "documentSources": [
         {
           "sourceId": "official-form:OCA Model Order of Nondisclosure under Section 411.0735",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "label_does_not_identify_a_document"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "pdftotext page 1 of the held file prints \"ORDER OF NONDISCLOSURE\" and the page 1 footer names all three sections: \"OCA MODEL ORDER OF NONDISCLOSURE UNDER SECTIONS 411.0725, 411.073, AND 411.0735, GOVERNMENT CODE\" / \"REVISED FEBRUARY 2022\". Page 2 carries the selector \"Texas Government Code Section 411.0725 / Texas Government Code Section 411.073 / Texas Government Code Section 411.0735\" beneath \"the Court FINDS that Petitioner is entitled to file a petition for an order of nondisclosure under the section of the Government Code indicated below\". One document is the OCA model order for each of the three labels, and the library holds no separate single-section order for any of them.",
+          "heldAs": {
+            "path": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0725-411.073-411.0735__order-of-nondisclosure-under-411-0725-411-073-411-0735__REV-2022-02__EN.pdf",
+            "formNumber": "TX-GC-411.0725-411.073-411.0735",
+            "revision": "REV-2022-02",
+            "sha256": "6a60f72ac40a776ca721f99fede4eb1397da83c68b07d11d3c931d4e5d4f6680"
+          }
         },
         {
           "sourceId": "official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0735",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "label_does_not_identify_a_document"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "pdftotext page 1 of the held file prints \"Petition for Order of Nondisclosure Under Section 411.0735\" and recites \"respectfully petitions the court for an order of nondisclosure under Government Code Section 411.0735 for the\"; the page 1 footer prints \"OCA PETITION FOR AN ORDER OF NONDISCLOSURE UNDER SECTION 411.0735, GOV’T CODE\" / \"REVISED FEBRUARY 2022\".",
+          "heldAs": {
+            "path": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0735__petition-for-order-of-nondisclosure-under-411-0735__REV-2022-02__EN.pdf",
+            "formNumber": "TX-GC-411.0735",
+            "revision": "REV-2022-02",
+            "sha256": "da0bd63c66a6ee35a7a0659556a02268f1fd6053ebf7419e912b78fd3fb3dd13"
+          }
         },
         {
           "sourceId": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
@@ -9066,24 +9121,34 @@
       "routeCount": 1,
       "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
       "documentSourcesNamed": 3,
-      "documentSourcesResolved": 0,
+      "documentSourcesResolved": 2,
       "nonDocumentSourceIds": 14,
       "documentSources": [
         {
           "sourceId": "official-form:OCA Model Order of Nondisclosure under Section 411.0725",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "label_does_not_identify_a_document"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "pdftotext page 1 of the held file prints \"ORDER OF NONDISCLOSURE\" and the page 1 footer names all three sections: \"OCA MODEL ORDER OF NONDISCLOSURE UNDER SECTIONS 411.0725, 411.073, AND 411.0735, GOVERNMENT CODE\" / \"REVISED FEBRUARY 2022\". Page 2 carries the selector \"Texas Government Code Section 411.0725 / Texas Government Code Section 411.073 / Texas Government Code Section 411.0735\" beneath \"the Court FINDS that Petitioner is entitled to file a petition for an order of nondisclosure under the section of the Government Code indicated below\". One document is the OCA model order for each of the three labels, and the library holds no separate single-section order for any of them.",
+          "heldAs": {
+            "path": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0725-411.073-411.0735__order-of-nondisclosure-under-411-0725-411-073-411-0735__REV-2022-02__EN.pdf",
+            "formNumber": "TX-GC-411.0725-411.073-411.0735",
+            "revision": "REV-2022-02",
+            "sha256": "6a60f72ac40a776ca721f99fede4eb1397da83c68b07d11d3c931d4e5d4f6680"
+          }
         },
         {
           "sourceId": "official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0725",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "label_does_not_identify_a_document"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "pdftotext page 1 of the held file prints \"Petition for Order of Nondisclosure Under Section 411.0725\" and recites \"respectfully petitions the court for an order of nondisclosure under Government Code Section 411.0725 for the offense detailed below.\"; the page 1 footer prints \"OCA MODEL PETITION FOR ORDER OF NONDISCLOSURE UNDER SECTION 411.0725, GOV’T CODE\" / \"REVISED FEBRUARY 2022\".",
+          "heldAs": {
+            "path": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0725__petition-for-order-of-nondisclosure-under-411-0725__REV-2022-02__EN.pdf",
+            "formNumber": "TX-GC-411.0725",
+            "revision": "REV-2022-02",
+            "sha256": "2eb2e9699e0803d0fa0766cbb1fad38f088a8d8b15a18b21add93da5e879ae67"
+          }
         },
         {
           "sourceId": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
@@ -9106,7 +9171,7 @@
       "routeCount": 1,
       "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
       "documentSourcesNamed": 3,
-      "documentSourcesResolved": 0,
+      "documentSourcesResolved": 1,
       "nonDocumentSourceIds": 12,
       "documentSources": [
         {
@@ -9120,10 +9185,15 @@
         {
           "sourceId": "official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0736",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "label_does_not_identify_a_document"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "pdftotext page 1 of the held file prints \"Petition for Order of Nondisclosure Under Section 411.0736\" and recites \"respectfully petitions the court for an order of nondisclosure under Government Code Section\"; the page 1 footer prints \"OCA MODEL PETITION FOR AN ORDER OF NONDISCLOSURE UNDER SECTION 411.0736, GOV’T CODE\" / \"REVISED FEBRUARY 2022\".",
+          "heldAs": {
+            "path": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0736__petition-for-order-of-nondisclosure-under-411-0736__REV-2022-02__EN.pdf",
+            "formNumber": "TX-GC-411.0736",
+            "revision": "REV-2022-02",
+            "sha256": "e8e7dee3c0843a65921ace2545c79034841961d9a131ac31e3d8cf18fd6701db"
+          }
         },
         {
           "sourceId": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
@@ -9146,24 +9216,34 @@
       "routeCount": 1,
       "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
       "documentSourcesNamed": 3,
-      "documentSourcesResolved": 0,
+      "documentSourcesResolved": 2,
       "nonDocumentSourceIds": 12,
       "documentSources": [
         {
           "sourceId": "official-form:OCA Model Order of Nondisclosure (Driving While Intoxicated) under Section 411.0726",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "label_does_not_identify_a_document"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "pdftotext page 1 of the held file prints \"Order of Nondisclosure Under Section 411.0726 (For Driving While Intoxicated Offenses)\"; the page 1 footer prints \"OCA MODEL ORDER FOR ORDERS OF NONDISCLOSURE UNDER SECTION 411.0726, GOV’T CODE, DRIVING WHILE INTOXICATED\" / \"REVISED FEBRUARY 2022\".",
+          "heldAs": {
+            "path": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0726-DWI-ORDER__order-of-nondisclosure-under-411-0726-dwi__REV-2022-02__EN.pdf",
+            "formNumber": "TX-GC-411.0726-DWI-ORDER",
+            "revision": "REV-2022-02",
+            "sha256": "c2b4c3ecf0033ef5af21ae05eaf79f7be197228150c5d6e752d1d423736d2b06"
+          }
         },
         {
           "sourceId": "official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0726",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "label_does_not_identify_a_document"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "pdftotext page 1 of the held file prints \"Petition for Order of Nondisclosure Under Section 411.0726\" and recites \"respectfully petitions the court for an order of nondisclosure under Government Code Section 411.0726 for the offense detailed below.\"; the page 1 footer prints \"OCA MODEL PETITION FOR ORDERS OF NONDISCLOSURE UNDER SECTION 411.0726, GOV’T CODE\" / \"REVISED FEBRUARY 2022\".",
+          "heldAs": {
+            "path": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0726__petition-for-order-of-nondisclosure-under-411-0726__REV-2022-02__EN.pdf",
+            "formNumber": "TX-GC-411.0726",
+            "revision": "REV-2022-02",
+            "sha256": "0ef70a8afe2521b0173a210b8ac22eee503c6231c0cf71fcd3c6a91af82db27d"
+          }
         },
         {
           "sourceId": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
@@ -9186,24 +9266,34 @@
       "routeCount": 1,
       "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
       "documentSourcesNamed": 3,
-      "documentSourcesResolved": 0,
+      "documentSourcesResolved": 2,
       "nonDocumentSourceIds": 14,
       "documentSources": [
         {
           "sourceId": "official-form:OCA Model Order of Nondisclosure under Section 411.0731",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "label_does_not_identify_a_document"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "pdftotext page 1 of the held file prints \"Order of Nondisclosure Under Section 411.0731\" and recites \"the Court considered Petitioner’s petition for an order of nondisclosure under Government Code Section 411.0731.\"; the page 1 footer prints \"OCA MODEL ORDER FOR AN ORDER OF NONDISCLOSURE UNDER SECTION 411.0731, GOV’T CODE\" / \"REVISED FEBRUARY 2022\".",
+          "heldAs": {
+            "path": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0731__order-of-nondisclosure-under-411-0731__REV-2022-02__EN.pdf",
+            "formNumber": "TX-GC-411.0731",
+            "revision": "REV-2022-02",
+            "sha256": "f085cd5c03edc67671c4aaab3210c76c33325e45fabdd6b818782e87cf413bd4"
+          }
         },
         {
           "sourceId": "official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0731",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "label_does_not_identify_a_document"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "pdftotext page 1 of the held file prints \"Petition for Order of Nondisclosure Under Section 411.0731\" and recites \"respectfully petitions the court for an order of nondisclosure under Government Code Section 411.0731\"; the page 1 footer prints \"OCA MODEL PETITION FOR AN ORDER OF NONDISCLOSURE UNDER SECTION 411.0731, GOV’T CODE\" / \"REVISED FEBRUARY 2022\".",
+          "heldAs": {
+            "path": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0731__petition-for-order-of-nondisclosure-under-411-0731__REV-2022-02__EN.pdf",
+            "formNumber": "TX-GC-411.0731",
+            "revision": "REV-2022-02",
+            "sha256": "51f747e27d6f2b64e545991f242964dad77c0c69702278acb2b43565b0da62ee"
+          }
         },
         {
           "sourceId": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
@@ -9226,24 +9316,34 @@
       "routeCount": 1,
       "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
       "documentSourcesNamed": 3,
-      "documentSourcesResolved": 0,
+      "documentSourcesResolved": 2,
       "nonDocumentSourceIds": 12,
       "documentSources": [
         {
           "sourceId": "official-form:OCA Model Order of Nondisclosure under Section 411.073",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "label_does_not_identify_a_document"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "pdftotext page 1 of the held file prints \"ORDER OF NONDISCLOSURE\" and the page 1 footer names all three sections: \"OCA MODEL ORDER OF NONDISCLOSURE UNDER SECTIONS 411.0725, 411.073, AND 411.0735, GOVERNMENT CODE\" / \"REVISED FEBRUARY 2022\". Page 2 carries the selector \"Texas Government Code Section 411.0725 / Texas Government Code Section 411.073 / Texas Government Code Section 411.0735\" beneath \"the Court FINDS that Petitioner is entitled to file a petition for an order of nondisclosure under the section of the Government Code indicated below\". One document is the OCA model order for each of the three labels, and the library holds no separate single-section order for any of them.",
+          "heldAs": {
+            "path": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0725-411.073-411.0735__order-of-nondisclosure-under-411-0725-411-073-411-0735__REV-2022-02__EN.pdf",
+            "formNumber": "TX-GC-411.0725-411.073-411.0735",
+            "revision": "REV-2022-02",
+            "sha256": "6a60f72ac40a776ca721f99fede4eb1397da83c68b07d11d3c931d4e5d4f6680"
+          }
         },
         {
           "sourceId": "official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.073",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "label_does_not_identify_a_document"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "pdftotext page 1 of the held file prints \"Petition for Order of Nondisclosure Under Section 411.073\"; the page 1 footer prints \"OCA MODEL PETITION FOR AN ORDER OF NONDISCLOSURE UNDER SECTION 411.073, GOV’T CODE\" / \"REVISED FEBRUARY 2022\". Every section reference printed in the document is 411.073 (with 411.074 recited as the general requirement); the corpus filename carries \"411.073-411.0732\" but 411.0732 is not printed anywhere in the document.",
+          "heldAs": {
+            "path": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.073-411.0732__petition-for-order-of-nondisclosure-under-411-073-411-0732__REV-2022-02__EN.pdf",
+            "formNumber": "TX-GC-411.073-411.0732",
+            "revision": "REV-2022-02",
+            "sha256": "0f60ff4c10f3f670356907a4d571285e247b796980c674c9bd64737cdd6a068a"
+          }
         },
         {
           "sourceId": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
@@ -9266,24 +9366,34 @@
       "routeCount": 1,
       "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
       "documentSourcesNamed": 3,
-      "documentSourcesResolved": 0,
+      "documentSourcesResolved": 2,
       "nonDocumentSourceIds": 12,
       "documentSources": [
         {
           "sourceId": "official-form:OCA Model Order of Nondisclosure under Section 411.0727",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "label_does_not_identify_a_document"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "pdftotext page 1 of the held file prints \"Order of Nondisclosure Under Section 411.0727\" and recites \"the Court considered Petitioner’s petition for an order of nondisclosure under Government Code Section 411.0727.\"; the page 1 footer prints \"OCA MODEL ORDER OF NONDISCLOSURE UNDER SECTION 411.0727, GOV’T CODE\" / \"REVISED FEBRUARY 2022\".",
+          "heldAs": {
+            "path": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0727__order-of-nondisclosure-under-411-0727__REV-2022-02__EN.pdf",
+            "formNumber": "TX-GC-411.0727",
+            "revision": "REV-2022-02",
+            "sha256": "2c9500206f032b2195a6d99ea04310d520413d8ecdc6978da4ba284c2d01189f"
+          }
         },
         {
           "sourceId": "official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0727",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "label_does_not_identify_a_document"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "pdftotext page 1 of the held file prints \"Petition for Order of Nondisclosure Under Section 411.0727\"; the page 1 footer prints \"OCA MODEL PETITION FOR ORDER OF DISCLOSURE UNDER SECTION 411.0727, GOV’T CODE\" / \"REVISED FEBRUARY 2022\" - the footer omits the \"NON\" of NONDISCLOSURE, an OCA typesetting slip quoted verbatim; the caption title and the body both say nondisclosure.",
+          "heldAs": {
+            "path": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0727__petition-for-order-of-nondisclosure-under-411-0727__REV-2022-02__EN.pdf",
+            "formNumber": "TX-GC-411.0727",
+            "revision": "REV-2022-02",
+            "sha256": "7c34e5f5aeee2ce9bb7e757f3c2c9aa9899d536c8917f5329f0d4dc28f6bfa9d"
+          }
         },
         {
           "sourceId": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
@@ -9306,24 +9416,34 @@
       "routeCount": 1,
       "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
       "documentSourcesNamed": 3,
-      "documentSourcesResolved": 0,
+      "documentSourcesResolved": 2,
       "nonDocumentSourceIds": 11,
       "documentSources": [
         {
           "sourceId": "official-form:OCA Model Order of Nondisclosure under Section 411.0729",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "label_does_not_identify_a_document"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "pdftotext page 1 of the held file prints \"Order of Nondisclosure Under Section 411.0729\" and recites \"the Court considered Petitioner’s petition for an order of nondisclosure under Government Code Section 411.0729.\"; the page 1 footer prints \"OCA MODEL ORDER OF NONDISCLOSURE UNDER SECTION 411.0729, GOV’T CODE\" / \"REVISED FEBRUARY 2022\".",
+          "heldAs": {
+            "path": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0729__order-of-nondisclosure-under-411-0729__REV-2022-02__EN.pdf",
+            "formNumber": "TX-GC-411.0729",
+            "revision": "REV-2022-02",
+            "sha256": "3440721f4f22e37b60539789222518b27f49dcd7a8c4b9d64536181041382ba9"
+          }
         },
         {
           "sourceId": "official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0729",
           "kind": "form_label",
-          "resolved": false,
-          "tier": null,
-          "heldAs": null,
-          "absence": "label_does_not_identify_a_document"
+          "resolved": true,
+          "tier": "exact_identity_confirmed_from_document_text",
+          "identityEvidence": "pdftotext page 1 of the held file prints \"Petition for Order of Nondisclosure Under Section 411.0729\" and recites \"respectfully petitions the court for an order of nondisclosure under Government Code Section 411.0729\"; the page 1 footer prints \"OCA MODEL PETITION FOR ORDERS OF DISCLOSURE UNDER SECTION 411.0729, GOV’T CODE\" / \"REVISED FEBRUARY 2022\" - the footer omits the \"NON\" of NONDISCLOSURE, quoted verbatim.",
+          "heldAs": {
+            "path": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0729__petition-for-order-of-nondisclosure-under-411-0729__REV-2022-02__EN.pdf",
+            "formNumber": "TX-GC-411.0729",
+            "revision": "REV-2022-02",
+            "sha256": "5fbe7c7fe7efb752b2d3bce84298d66305f0384b9e30710ca660107ce6fc6c10"
+          }
         },
         {
           "sourceId": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
