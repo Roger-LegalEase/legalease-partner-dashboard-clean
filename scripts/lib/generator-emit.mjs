@@ -43,6 +43,24 @@ import path from "node:path";
  * form hash still has to match byte-for-byte.
  */
 const SHA40 = /\b[0-9a-f]{40}\b/g;
+/*
+ * A DISPATCH PIN IS A NAMED FIELD, NOT ANY FORTY HEX CHARACTERS.
+ *
+ * The pin check used to collect every 40-hex string in every generated file and
+ * insist they were all equal. That works only for as long as no generated file
+ * QUOTES a commit, and generated files quote commits constantly: a verifier
+ * records the base it read, a receipt records what it rendered, a finding cites
+ * where it was measured. One such quotation inside a family's
+ * failedObligations[].evidence — a verifier naming the commit it read the
+ * packet at — was enough to report two dispatch pins and refuse convergence,
+ * on a dispatch that had exactly one pin and was entirely correct.
+ *
+ * So the check reads the fields that ARE pins. Normalisation still blanks every
+ * 40-hex string, which is what keeps the content comparison pin-insensitive and
+ * is right: a quoted commit in prose should not make two otherwise identical
+ * files differ either.
+ */
+const PIN_FIELD = /"(?:minimumCaptainSha|dispatchPin|packetCommitSha|generatedAtCommit|captainSha|baseSha|pinnedCommit)"\s*:\s*"([0-9a-f]{40})"/g;
 const ISO_MS = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z/g;
 
 export function makeEmitter({ root, check, label, volatilePin = true }) {
@@ -64,7 +82,7 @@ export function makeEmitter({ root, check, label, volatilePin = true }) {
     }
     if (!fs.existsSync(abs)) { drift.push(`${rel}: the generator produces it and the checkout does not carry it`); return; }
     const committed = fs.readFileSync(abs, "utf8");
-    if (volatilePin) for (const m of committed.match(SHA40) ?? []) committedPins.add(m);
+    if (volatilePin) for (const m of committed.matchAll(PIN_FIELD)) committedPins.add(m[1]);
     const a = normalize(committed);
     const b = normalize(content);
     if (a === b) return;
