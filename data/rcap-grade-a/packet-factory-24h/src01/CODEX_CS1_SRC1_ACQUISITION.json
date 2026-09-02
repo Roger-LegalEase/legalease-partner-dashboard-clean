@@ -68,24 +68,24 @@
     "refusals": []
   },
   "resultCountsBySourceObligation": {
-    "ACQUIRED_CURRENT_OFFICIAL_BINARY": 3,
+    "ACQUIRED_CURRENT_OFFICIAL_BINARY": 4,
     "OFFICIAL_SOURCE_ALREADY_HELD": 14,
     "OFFICIAL_SOURCE_SUPERSEDED": 0,
     "IDENTITY_REQUIRES_CAPTAIN_DECISION": 0,
     "LEGAL_DECISION_REQUIRED": 0,
     "EGRESS_BLOCKED": 0,
     "NOT_AN_OFFICIAL_DOCUMENT": 0,
-    "PRIVATE_UPLOAD_BLOCKED_AFTER_ACQUISITION": 1
+    "PRIVATE_UPLOAD_BLOCKED_AFTER_ACQUISITION": 0
   },
   "resultCountsByClaimItem": {
-    "ACQUIRED_CURRENT_OFFICIAL_BINARY": 3,
+    "ACQUIRED_CURRENT_OFFICIAL_BINARY": 4,
     "OFFICIAL_SOURCE_ALREADY_HELD": 36,
     "OFFICIAL_SOURCE_SUPERSEDED": 0,
     "IDENTITY_REQUIRES_CAPTAIN_DECISION": 0,
     "LEGAL_DECISION_REQUIRED": 0,
     "EGRESS_BLOCKED": 0,
     "NOT_AN_OFFICIAL_DOCUMENT": 0,
-    "PRIVATE_UPLOAD_BLOCKED_AFTER_ACQUISITION": 1
+    "PRIVATE_UPLOAD_BLOCKED_AFTER_ACQUISITION": 0
   },
   "sourceObligations": [
     {
@@ -530,7 +530,18 @@
       "printedTitle": "Order on Petition—Incarcerated Individual Hand Crew or Institutional Firehouse Participant",
       "printedFormNumber": "CR-432",
       "revisionOrEffectiveDate": "Rev. January 1, 2024, Optional Form",
-      "privateArtifactReceipt": null,
+      "privateArtifactReceipt": {
+        "provider": "Google Drive",
+        "fileId": "1PtXCgSbU_i86XEJC7Een4FGo1ZAdhyv8",
+        "storedTitle": "CODEX-CS1-SRC1__CR-432__8ef45f07cf9f.pdf",
+        "mimeType": "application/pdf",
+        "sourceObligationId": "official-form:CR-432",
+        "sha256": "8ef45f07cf9fac15af97addd4f7b7d5f08e2b5ad4b4134cf002484821bc0c43e",
+        "verifiedByteLength": 109666,
+        "createdAt": "2026-09-02T17:56:12.248Z",
+        "shared": false,
+        "visibility": "owner_only"
+      },
       "stagingPath": "/workspaces/.legalease-source-staging/CODEX-CS1-SRC1/local/CR-432.pdf",
       "filename": "CR-432.pdf",
       "privateUpload": {
@@ -542,9 +553,9 @@
       "dependentFamilies": [
         "official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b"
       ],
-      "result": "PRIVATE_UPLOAD_BLOCKED_AFTER_ACQUISITION",
-      "exactBlockerWhenNotAcquired": "The exact official CR-432 bytes were acquired and verified, but the governed private-artifact workflow dispatch failed with HTTP 403 Resource not accessible by integration; no retrievable governed receipt was created.",
-      "currentnessBasis": "The current Judicial Council of California CR-430 form-family page publishes this January 1, 2024 edition, and its printed identity was verified from the staged PDF."
+      "result": "ACQUIRED_CURRENT_OFFICIAL_BINARY",
+      "exactBlockerWhenNotAcquired": null,
+      "currentnessBasis": "The current Judicial Council of California CR-430 form-family page publishes this January 1, 2024 edition; the exact staged bytes were uploaded to owner-only Google Drive custody and the uploaded byte length was verified by raw-file readback."
     }
   ],
   "privateArtifactReceipts": [
@@ -574,24 +585,21 @@
       "artifactDownloadApiUrl": "https://api.github.com/repos/Roger-LegalEase/legalease-partner-dashboard-clean/actions/artifacts/9848939927/zip",
       "receiptPath": "/workspaces/.legalease-source-staging/CODEX-CS1-SRC1/governed-run-33636222362/CR-431/CA-CR-431.receipt.json",
       "sha256": "928c47f1b8263dbb4918bca79f0890c30569b10bcb7e24e5500670ec7b1aedb5"
-    }
-  ],
-  "privateUploadBlockedAfterAcquisition": [
+    },
     {
+      "provider": "Google Drive",
+      "fileId": "1PtXCgSbU_i86XEJC7Een4FGo1ZAdhyv8",
+      "storedTitle": "CODEX-CS1-SRC1__CR-432__8ef45f07cf9f.pdf",
+      "mimeType": "application/pdf",
       "sourceObligationId": "official-form:CR-432",
-      "stagingPath": "/workspaces/.legalease-source-staging/CODEX-CS1-SRC1/local/CR-432.pdf",
-      "filename": "CR-432.pdf",
-      "byteLength": 109666,
       "sha256": "8ef45f07cf9fac15af97addd4f7b7d5f08e2b5ad4b4134cf002484821bc0c43e",
-      "officialSourceUrl": "https://courts.ca.gov/sites/default/files/courts/default/2024-11/cr432.pdf",
-      "finalResolvedUrl": "https://courts.ca.gov/sites/default/files/courts/default/2024-11/cr432.pdf",
-      "issuingAuthority": "Judicial Council of California",
-      "printedTitle": "Order on Petition—Incarcerated Individual Hand Crew or Institutional Firehouse Participant",
-      "printedFormNumber": "CR-432",
-      "revisionOrEffectiveDate": "Rev. January 1, 2024, Optional Form",
-      "exactUploadFailure": "could not create workflow dispatch event: HTTP 403: Resource not accessible by integration (https://api.github.com/repos/Roger-LegalEase/legalease-partner-dashboard-clean/actions/workflows/346874704/dispatches)"
+      "verifiedByteLength": 109666,
+      "createdAt": "2026-09-02T17:56:12.248Z",
+      "shared": false,
+      "visibility": "owner_only"
     }
   ],
+  "privateUploadBlockedAfterAcquisition": [],
   "supersededOrAmbiguousIdentities": [],
   "captainAttention": [
     "Kansas Judicial Council's current expungement pages state that the forms are for non-commercial use only and cannot be sold, republished, or transferred for value without permission. This return reconciles source identity/currentness only; Captain must route any intended commercial use for permission or legal review before distribution.",
