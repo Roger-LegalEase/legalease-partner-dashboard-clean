@@ -6,6 +6,7 @@
 import assert from "node:assert/strict";
 import crypto from "node:crypto";
 import fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 import { createRequire } from "node:module";
@@ -22,6 +23,7 @@ import {
 } from "./rcap-official-forms/rcap-active-content.mjs";
 import { fitTextToWidget } from "./rcap-official-forms/rcap-text-fitting.mjs";
 import { drawnAt, flattenedWidgets } from "./rcap-official-forms/pdf-flattened-widgets.mjs";
+import { normalizeWidgetAppearancePlacement } from "./rcap-official-forms/rcap-widget-appearance-placement.mjs";
 import { extractPathSegments, extractTextItems } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
 import { APPEARANCE_DISPOSITION } from "./rcap-official-forms/rcap-appearance-semantics.mjs";
 
@@ -395,6 +397,21 @@ async function renderC906(sourceBytes, sourceRow, censusDoc, spec, fixture) {
   const appearanceDispositions = new Map(censusDoc.fields
     .filter((field) => field.type !== "checkbox")
     .map((field) => [field.name, APPEARANCE_DISPOSITION.RENDER_PARTICIPANT_VALUE_ONLY_WHEN_WRITTEN]));
+  // SCA-C906 writes its checkbox appearances with a /BBox in absolute page
+  // coordinates. pdf-lib's flatten() assumes the origin-relative spelling and
+  // translates by the widget rectangle regardless, so every court-drawn
+  // checkbox landed at twice its true x and y: off the top of pages 2 and 3
+  // entirely, and elsewhere painting its opaque interior over the document
+  // title, the petitioner name line and the word "traffic" in the elected
+  // eligibility sentence. Placing the appearances the way PDF 12.5.5 places
+  // them, before the flatten, is a no-op on this form's text fields and moves
+  // every checkbox back onto its own control.
+  const placement = normalizeWidgetAppearancePlacement(pdf);
+  assert.ok(
+    placement.corrected.every((entry) => censusDoc.fields
+      .find((field) => field.name === entry.field)?.type === "checkbox"),
+    "SCA-C906 appearance placement correction touched a field that is not a checkbox"
+  );
   const { clean } = await sanitizeAndFlatten(pdf, { writtenFields, appearanceDispositions });
   const overlayFont = await clean.embedFont(StandardFonts.Helvetica);
   for (const { fieldName, factId, rawValue, censusField } of overlayWrites) {
@@ -458,7 +475,7 @@ async function renderC906(sourceBytes, sourceRow, censusDoc, spec, fixture) {
   const bytes = await clean.save({ useObjectStreams: false, updateMetadata: false });
   const active = scanBytesForActiveContent(bytes);
   assert.ok(active.inspectable && active.hits.length === 0, "SCA-C906 repaired artifact has active-content residue");
-  return { bytes, report };
+  return { bytes, report, placement };
 }
 
 async function renderReferenceOnly(sourceBytes, sourceRow, censusDoc) {
@@ -710,6 +727,122 @@ async function rasterPacket(pdfFile, rasterDirRel) {
   return { pages, version };
 }
 
+// ---------------------------------------------------------------------------
+// Ink containment, measured from the rendered bytes.
+//
+// The completeness verifier scores field DISPOSITION from the map. It never
+// compares the delivered page against the court's page, which is how a render
+// that threw every checkbox to twice its true position survived a PASS. The
+// measurement below closes that: the pristine source is rastered at the same
+// DPI as the packet and diffed pixel by pixel, and every pixel of difference is
+// attributed to a declared rectangle or counted as unexplained.
+//
+// Added ink must land inside a measured source widget rectangle. Removed ink
+// must be ink the finalizer was told to remove -- a viewer control, or an
+// unwritten participant input whose appearance is the court's hand-fill prompt.
+// Anything else is a defect this build refuses to ship.
+const INK_THRESHOLD = 160;
+const CONTAINMENT_TOLERANCE_PX = 2;
+
+async function rasterPristineSource(sourceBytes, formNumber) {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), `rcap-pristine-${formNumber}-`));
+  const file = path.join(dir, "source.pdf");
+  fs.writeFileSync(file, sourceBytes);
+  const doc = await PDFDocument.load(sourceBytes, { ignoreEncryption: true, updateMetadata: false });
+  const pages = [];
+  for (let index = 0; index < doc.getPageCount(); index += 1) {
+    const base = path.join(dir, `page-${String(index + 1).padStart(2, "0")}`);
+    const run = spawnSync(POPPLER, [
+      "-f", String(index + 1), "-l", String(index + 1), "-singlefile",
+      "-r", String(RASTER_DPI), "-png", file, base
+    ], { encoding: "utf8" });
+    assert.equal(run.status, 0, `Poppler raster of pristine ${formNumber} failed: ${run.stderr || run.stdout}`);
+    pages.push(`${base}.png`);
+  }
+  return { dir, pages };
+}
+
+/** Measured widget rectangles for one page, in raster pixels, top-left origin. */
+function pixelRectsForPage(censusDoc, pageNumber, heightPx, predicate) {
+  const rects = [];
+  for (const field of censusDoc.fields) {
+    if (predicate && !predicate(field)) continue;
+    for (const widget of field.widgets) {
+      if (widget.page !== pageNumber) continue;
+      const rect = normalizedRect(widget.rect);
+      rects.push({
+        field: field.name,
+        x0: rect.x - CONTAINMENT_TOLERANCE_PX,
+        x1: rect.x + rect.width + CONTAINMENT_TOLERANCE_PX,
+        y0: heightPx - (rect.y + rect.height) - CONTAINMENT_TOLERANCE_PX,
+        y1: heightPx - rect.y + CONTAINMENT_TOLERANCE_PX
+      });
+    }
+  }
+  return rects;
+}
+
+function inside(rects, x, y) {
+  return rects.some((rect) => x >= rect.x0 && x <= rect.x1 && y >= rect.y0 && y <= rect.y1);
+}
+
+/**
+ * Diff one document's packet pages against its pristine source pages.
+ *
+ * `suppressedFields` are the fields whose source appearance the finalizer
+ * deliberately drops, so ink removed inside their rectangles is intended.
+ */
+async function measureInkContainment(packetPages, pristinePages, censusDoc, suppressedFields) {
+  const perPage = [];
+  let addedOutside = 0;
+  let erasedTotal = 0;
+  let erasedUnexplained = 0;
+  for (let index = 0; index < pristinePages.length; index += 1) {
+    const pageNumber = index + 1;
+    const packet = await sharp(packetPages[index].file).greyscale().raw().toBuffer({ resolveWithObject: true });
+    const pristine = await sharp(pristinePages[index]).greyscale().raw().toBuffer({ resolveWithObject: true });
+    assert.equal(packet.info.width, pristine.info.width, `page ${pageNumber}: raster width differs from the source page`);
+    assert.equal(packet.info.height, pristine.info.height, `page ${pageNumber}: raster height differs from the source page`);
+    const width = packet.info.width;
+    const height = packet.info.height;
+    const declared = pixelRectsForPage(censusDoc, pageNumber, height, null);
+    const suppressed = pixelRectsForPage(censusDoc, pageNumber, height, (field) => suppressedFields.has(field.name));
+    let pageAddedOutside = 0;
+    let pageErased = 0;
+    let pageErasedUnexplained = 0;
+    for (let offset = 0; offset < width * height; offset += 1) {
+      const inPacket = packet.data[offset] < INK_THRESHOLD;
+      const inSource = pristine.data[offset] < INK_THRESHOLD;
+      if (inPacket === inSource) continue;
+      const x = offset % width;
+      const y = (offset - x) / width;
+      if (inPacket) {
+        if (!inside(declared, x, y)) pageAddedOutside += 1;
+      } else {
+        pageErased += 1;
+        if (!inside(suppressed, x, y)) pageErasedUnexplained += 1;
+      }
+    }
+    perPage.push({
+      page: pageNumber,
+      addedInkPixelsOutsideMeasuredWidgetRects: pageAddedOutside,
+      sourceInkPixelsRemoved: pageErased,
+      sourceInkPixelsRemovedOutsideSuppressedControlRects: pageErasedUnexplained
+    });
+    addedOutside += pageAddedOutside;
+    erasedTotal += pageErased;
+    erasedUnexplained += pageErasedUnexplained;
+  }
+  return {
+    method: `pixel diff of every packet page against the pristine source rendered at ${RASTER_DPI}dpi, `
+      + `ink threshold ${INK_THRESHOLD}/255, containment tolerance ${CONTAINMENT_TOLERANCE_PX}px`,
+    addedInkPixelsOutsideMeasuredWidgetRects: addedOutside,
+    sourceInkPixelsRemoved: erasedTotal,
+    sourceInkPixelsRemovedOutsideSuppressedControlRects: erasedUnexplained,
+    perPage
+  };
+}
+
 function updatedReceipt(receipt) {
   return {
     ...receipt,
@@ -808,6 +941,8 @@ async function repairFamily(familyId) {
   const census = readJson(`${spec.directory}/field-census.census-v1.json`);
   const corpus = sourceRoot();
   const byFixture = { canonical: [], boundary: [] };
+  // One pristine raster set per source document, reused by both fixtures.
+  const pristineRasters = new Map();
 
   for (const fixture of ["canonical", "boundary"]) {
     for (const sourceRow of receipt.documents) {
@@ -818,6 +953,9 @@ async function repairFamily(familyId) {
       const rendered = sourceRow.formNumber === "SCA-C906"
         ? await renderC906(sourceBytes, sourceRow, censusDoc, spec, fixture)
         : await renderReferenceOnly(sourceBytes, sourceRow, censusDoc);
+      if (!pristineRasters.has(sourceRow.sha256)) {
+        pristineRasters.set(sourceRow.sha256, await rasterPristineSource(sourceBytes, sourceRow.formNumber));
+      }
       byFixture[fixture].push({ ...rendered, sourceRow, censusDoc });
     }
   }
@@ -839,6 +977,20 @@ async function repairFamily(familyId) {
         .filter((field) => !written.has(field.name))
         .map((field) => refusalFor(field, spec, rendered.sourceRow.formNumber));
       const proof = await byteProof(fixtureFile, rendered.censusDoc, writes, refusals, pageOffset);
+      // Every non-checkbox appearance is dropped by the finalizer and its value
+      // redrawn by this builder, so ink removed inside one of those rectangles
+      // is intended. A checkbox appearance is preserved, so ink removed inside
+      // a checkbox rectangle is never intended and is counted as unexplained.
+      const suppressedFields = new Set(rendered.censusDoc.fields
+        .filter((field) => field.type !== "checkbox")
+        .map((field) => field.name));
+      const pristine = pristineRasters.get(rendered.sourceRow.sha256);
+      const packetPages = raster.pages.slice(pageOffset, pageOffset + rendered.censusDoc.pageGeometry.length);
+      const containment = await measureInkContainment(packetPages, pristine.pages, rendered.censusDoc, suppressedFields);
+      assert.equal(containment.addedInkPixelsOutsideMeasuredWidgetRects, 0,
+        `${fixture}/${rendered.sourceRow.formNumber}: ink added outside every measured widget rectangle`);
+      assert.equal(containment.sourceInkPixelsRemovedOutsideSuppressedControlRects, 0,
+        `${fixture}/${rendered.sourceRow.formNumber}: the court's own printed ink was removed`);
       documentProofs.push({
         fixture,
         formNumber: rendered.sourceRow.formNumber,
@@ -846,7 +998,9 @@ async function repairFamily(familyId) {
         proofMethod: "flattened widget appearances located in final packet PDF bytes at exact source widget rectangles",
         actualWrites: proof.actualWrites,
         protectedFieldsWithInk: proof.protectedWithInk,
-        everyReportedWriteVisible: proof.actualWrites.every((write) => write.visibleInFinalPdfBytes)
+        everyReportedWriteVisible: proof.actualWrites.every((write) => write.visibleInFinalPdfBytes),
+        appearancePlacementCorrections: rendered.placement?.corrected ?? [],
+        inkContainment: containment
       });
       pageOffset += rendered.censusDoc.pageGeometry.length;
     }
@@ -913,8 +1067,19 @@ async function repairFamily(familyId) {
       addedGlyphsReadFromOutputBytes: glyphs,
       flattenedWidgetAppearancesReadFromOutputBytes: appearances,
       addedSelectionMarksReadFromOutputBytes: paintedSelections,
-      nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: null,
-      outsideBoxCheck: "No fleet-wide glyph-subtraction claim is made; each generated value and selection is instead localized from final PDF bytes at its exact measured source rectangle.",
+      nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: proofs
+        .reduce((total, proof) => total + proof.inkContainment.addedInkPixelsOutsideMeasuredWidgetRects, 0),
+      outsideBoxCheck: "Measured, not declined. Every packet page is diffed pixel by pixel against the pristine source "
+        + "page rendered at the same DPI. The counter is the number of ink pixels the packet adds that fall outside "
+        + "every measured source widget rectangle, at 2px tolerance; it is a pixel count rather than a glyph count "
+        + "because the defect it exists to catch - a flattened control landing away from its own rectangle - paints "
+        + "paths, not glyphs, and a glyph-only counter reads zero straight through it.",
+      sourceInkPixelsRemoved: proofs
+        .reduce((total, proof) => total + proof.inkContainment.sourceInkPixelsRemoved, 0),
+      sourceInkPixelsRemovedOutsideSuppressedControlRects: proofs
+        .reduce((total, proof) => total + proof.inkContainment.sourceInkPixelsRemovedOutsideSuppressedControlRects, 0),
+      inkContainment: proofs.map((proof) => ({ formNumber: proof.formNumber, ...proof.inkContainment })),
+      appearancePlacementCorrections: proofs.flatMap((proof) => proof.appearancePlacementCorrections),
       refusedFieldsWithInk: proofs.flatMap((proof) => proof.protectedFieldsWithInk)
     };
   });

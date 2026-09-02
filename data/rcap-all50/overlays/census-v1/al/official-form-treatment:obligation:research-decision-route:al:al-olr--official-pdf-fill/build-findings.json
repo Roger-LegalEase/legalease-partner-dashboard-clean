@@ -2,5 +2,22 @@
   "schemaVersion": "rcap-build-findings/v1",
   "familyId": "official-form-treatment:obligation:research-decision-route:AL:al-olr",
   "blocking": [],
-  "findingCount": 0
+  "declaredRefusals": [
+    {
+      "severity": "declared_refusal",
+      "finding": "COMPONENT_SET_INCOMPLETE_AGAINST_THE_RECORD",
+      "fixture": "all",
+      "field": "packet component set",
+      "check": "the record for this route names a proposed order this packet does not contain",
+      "recordsThatCallForAProposedOrder": [
+        "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json, track al-olr, Mechanism: \"Use the official Alabama AOC Order of Limited Relief packet, including the sworn petition and proposed order.\"",
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json, route obligation:research-decision-route:AL:al-olr, participantFacingInstrument: \"official Alabama AOC Order of Limited Relief sworn petition and proposed order\"",
+        "packet-family-build-worklist.json, deliverable.proposedOrder status \"recorded\", entry \"official AOC proposed order\""
+      ],
+      "custodySearch": "Both custodies were searched for an Alabama AOC proposed-order form and neither holds one. The Master Library's STATES/AL tree holds AL__SOURCE-GATED__C-94A, AL__FORM__C-10-CRIMINAL and AL__SUPPORT__SBI-FORM-46 and nothing else; the D source packs at D1/STATES/AL hold the same three.",
+      "disposition": "Declared rather than composed. This is an official-form route, so the platform does not draft a proposed order to stand in for a court's own form, and this build commissions no acquisition. The absence is stated in participant-instructions.md and in source-receipt.json whatThisReceiptDoesNotEstablish, and the participant is pointed to the clerk of the circuit court in the county in the caption.",
+      "opensNoRoute": true
+    }
+  ],
+  "findingCount": 1
 }

@@ -820,7 +820,9 @@ function actualWritesArtifacts(documents) {
 function participantInstructionsMarkdown() {
   return `# Filing instructions — Alabama Petition for an Order of Limited Relief (Form C-94A)
 
-This packet is one form: the Alabama Unified Judicial System's **Form C-94A, Petition for Order of Limited Relief**, Rev. 10/2023, under Act 2019-464 (Ala. Code §§ 12-26-1 et seq.).
+This packet contains one form: the Alabama Unified Judicial System's **Form C-94A, Petition for Order of Limited Relief**, Rev. 10/2023, under Act 2019-464 (Ala. Code §§ 12-26-1 et seq.).
+
+**The record for this route calls for a proposed order as well, and this packet does not contain one.** The committed legal decision for route ${ROUTE_KEY} says to "Use the official Alabama AOC Order of Limited Relief packet, including the sworn petition and proposed order", and the route-obligation census records the participant-facing instrument for this route as the "official Alabama AOC Order of Limited Relief sworn petition and proposed order". **No official AOC proposed-order form is held in either source custody this platform reads.** Both were searched for this packet and neither holds an AOC proposed-order form for Alabama. Nothing here composes a proposed order out of nothing, because the record calls for the court's own form rather than a drafted one. **Ask the clerk of the circuit court in the county in your caption what that court expects to be lodged with the petition**, and whether it wants a proposed order submitted with it. The clerk can say what the court requires even though the clerk cannot give you legal advice.
 
 ## What this petition does, and what it does not do
 
@@ -907,6 +909,7 @@ So: **do not expect a fee waiver to remove the $100.** What the record does allo
 This packet prepares one form; it does not decide anything. Stop and get advice from a **lawyer licensed in Alabama** — or put the procedural question to the **clerk of the circuit court in the county in your caption**, who can say what the court requires even though the clerk cannot give legal advice — before filing, if any of these is true:
 
 - **the venue is not obvious, you want to join several matters, you are seeking relief from something outside Alabama, the offence may be one the Act prohibits relief for, or the agency contests the petition.** The committed record for this packet names each of those by name: "Complex venue, joinder, foreign-relief, prohibited-offense, or agency-contested matters require attorney handoff."
+- **the collateral consequence you want lifted is not identified with specificity.** The committed legal decision for this route puts that first among the conditions it lists: refer to counsel when "the collateral consequence is not identified with specificity". It matters most on this route, because the relief is defined by which named consequence the court lifts, and the five ruled lines on page 1 asking you to "list the collateral consequences from which you seek relief" are left entirely to you. Naming a licence, a certification or a qualification, the body that issues it, and the law or rule that bars you from it is specific; "my record", "employment" or "my conviction" is not, and a court cannot lift what a petition has not identified.
 - **you have been denied an Order of Limited Relief for a conviction related to this petition within the last two years.** Page 1's third sworn statement covers it and the form says what follows: "you must ask the court for permission to proceed with this request." Asking for that permission is not something this packet does.
 - you cannot truthfully make one of page 1's three sworn statements — that you are not serving a custodial sentence with more than six months remaining, are not currently charged with a felony, and are not currently charged with a Class A misdemeanor alleged to have occurred within the past 12 months;
 - you have filed a petition covering the same conviction in another circuit;
@@ -1014,7 +1017,11 @@ async function main() {
     whatThisReceiptDoesNotEstablish: [
       "that this is the current official edition of either form",
       "that neither has been superseded since the archive was assembled",
-      "that any output is approved for participant delivery"
+      "that any output is approved for participant delivery",
+      "that this packet carries every component the record for this route names: the committed legal decision, the "
+        + "route-obligation census and the packet-family build worklist each record an AOC proposed order alongside "
+        + "the sworn petition, and no official AOC proposed-order form exists in either source custody, so this "
+        + "packet delivers the petition alone and says so to the participant"
     ]
   });
 
@@ -1251,11 +1258,39 @@ async function main() {
     independentVisualReviewRequired: true
   });
 
+  // The record for this route names two components; one of them does not exist
+  // as an official form in any custody this platform reads. That is a refusal
+  // to be declared, not a gap to be papered over by composing an order, so it
+  // is carried here, in the receipt, and in the participant instructions.
+  const componentSetFinding = {
+    severity: "declared_refusal",
+    finding: "COMPONENT_SET_INCOMPLETE_AGAINST_THE_RECORD",
+    fixture: "all",
+    field: "packet component set",
+    check: "the record for this route names a proposed order this packet does not contain",
+    recordsThatCallForAProposedOrder: [
+      "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json, track al-olr, Mechanism: "
+        + "\"Use the official Alabama AOC Order of Limited Relief packet, including the sworn petition and proposed order.\"",
+      "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json, route "
+        + "obligation:research-decision-route:AL:al-olr, participantFacingInstrument: \"official Alabama AOC Order of "
+        + "Limited Relief sworn petition and proposed order\"",
+      "packet-family-build-worklist.json, deliverable.proposedOrder status \"recorded\", entry \"official AOC proposed order\""
+    ],
+    custodySearch: "Both custodies were searched for an Alabama AOC proposed-order form and neither holds one. The "
+      + "Master Library's STATES/AL tree holds AL__SOURCE-GATED__C-94A, AL__FORM__C-10-CRIMINAL and "
+      + "AL__SUPPORT__SBI-FORM-46 and nothing else; the D source packs at D1/STATES/AL hold the same three.",
+    disposition: "Declared rather than composed. This is an official-form route, so the platform does not draft a "
+      + "proposed order to stand in for a court's own form, and this build commissions no acquisition. The absence is "
+      + "stated in participant-instructions.md and in source-receipt.json whatThisReceiptDoesNotEstablish, and the "
+      + "participant is pointed to the clerk of the circuit court in the county in the caption.",
+    opensNoRoute: true
+  };
   writeJson(`${OUT}/build-findings.json`, {
     schemaVersion: "rcap-build-findings/v1",
     familyId: FAMILY_ID,
     blocking: allFindings.filter((f) => f.severity === "blocking"),
-    findingCount: allFindings.length
+    declaredRefusals: [componentSetFinding],
+    findingCount: allFindings.length + 1
   });
 
   console.log(`\n${allFindings.length === 0 ? "OK" : "FINDINGS"}: `
