@@ -69,7 +69,7 @@ Every page states its own route in its footer. If two routes could fit your reco
 | SERVICE — Seal several Nevada records in one filing | Service as recorded: The signed order is served on every agency named in it and goes to the Central Repository under NRS 179.275. Notice as recorded: The prosecuting agency receives the packet before filing. If the prosecutor stipulates, or fails to object within 30 days, the court may seal without a hearing. |
 | SELF_HELP_STOP — Seal several Nevada records in one filing | **Stop and get help if:** Records in more than one county. **Stop and get help if:** Any packet mixing municipal court matters with justice or district court matters, where the stipulation must be obtained from more than one prosecuting agency. **Stop and get help if:** Any offence-category question. Nevada eligibility turns on category A through E felony, gross misdemeanour or misdemeanour and on whether the offence is a crime of violence, which is a legal classification driving a one-year versus ten-year answer. **Stop and get help if:** Any pending charge, and any conviction during the clean period other than a minor moving or standing traffic violation. **Stop and get help if:** Prosecutor refusal to stipulate, which converts the matter into a contested hearing. **Stop and get help if:** Records in more than one county, or in both municipal and justice or district court, where the stipulation practice differs by prosecuting agency. **Stop and get help if:** Federal, tribal, military and out-of-state records. **Stop and get help if:** Any participant whose goal is firearm rights, which sealing does not restore. **Stop and get help if:** Immigration exposure. Nevada sealing must not be described as having immigration effect. |
 | FILING_DESTINATION — Seal a Nevada record after a pardon | The committed track registry records the destination as **The district attorney's or city attorney's office first, then the clerk of the appropriate court**. The same prosecutor-first workflow and the same county variations as the ordinary conviction petition. Venue as recorded: The court in which the conviction was entered, for the petition route. No venue applies to the automatic route. Filing as recorded: Prepare the pleading and proposed order, submit them to the prosecuting agency with the repository record, and file with the clerk once the prosecutor stipulates. |
-| FEE_AND_WAIVER — Seal a Nevada record after a pardon | Fee as recorded: County-dependent, plus the repository criminal history and fingerprinting costs and certified copies. Every fee is waived for a victim of sex trafficking or involuntary servitude under NRS 179.245(9). Fee waiver as recorded: NRS 179.245(9) for a victim of sex trafficking or involuntary servitude; county fee-waiver applications otherwise. |
+| FEE_AND_WAIVER — Seal a Nevada record after a pardon | Fee as recorded: none for this petition. NRS 179.273 is titled "Sealing of records after unconditional pardon: Automatic sealing; petition; no fee" in the chapter index published by the Nevada Legislature, and the committed record records that the petition carries no fee. The county-dependent filing fee recorded for the ordinary sealing petition under NRS 179.245 belongs to that instrument and is not read across to this one. Fee waiver as recorded: no filing-fee waiver is needed for a petition that carries no fee. The Central Repository criminal history and fingerprinting costs and the cost of certified copies are separate charges that still apply, and every one of them is waived for a victim of sex trafficking or involuntary servitude under NRS 179.245(9). |
 | SERVICE — Seal a Nevada record after a pardon | Service as recorded: The signed order is served on every agency named in it and goes to the Central Repository under NRS 179.275. Notice as recorded: The prosecuting agency receives the packet before filing. If the prosecutor stipulates, or fails to object within 30 days, the court may seal without a hearing. |
 | SELF_HELP_STOP — Seal a Nevada record after a pardon | **Stop and get help if:** Applying for a pardon in the first place, which is a Board of Pardons matter under NRS chapter 213 and out of scope. **Stop and get help if:** Any question about whether a pardon is unconditional. **Stop and get help if:** Any offence-category question. Nevada eligibility turns on category A through E felony, gross misdemeanour or misdemeanour and on whether the offence is a crime of violence, which is a legal classification driving a one-year versus ten-year answer. **Stop and get help if:** Any pending charge, and any conviction during the clean period other than a minor moving or standing traffic violation. **Stop and get help if:** Prosecutor refusal to stipulate, which converts the matter into a contested hearing. **Stop and get help if:** Records in more than one county, or in both municipal and justice or district court, where the stipulation practice differs by prosecuting agency. **Stop and get help if:** Federal, tribal, military and out-of-state records. **Stop and get help if:** Any participant whose goal is firearm rights, which sealing does not restore. **Stop and get help if:** Immigration exposure. Nevada sealing must not be described as having immigration effect. |
 | FILING_DESTINATION — Seal your Nevada conviction | The committed track registry records the destination as **The district attorney's or city attorney's office first, then the clerk of the appropriate court**. Nevada's workflow puts the prosecutor in the middle rather than at the end: the state's own instructions direct the petitioner to prepare the petition and order, submit them to the prosecuting agency with attachments, and file with the court clerk only after the prosecutor stipulates. Local practice is material. The Clark County District Attorney will not stipulate to petitions that include municipal court arrests or convictions, so a packet covering both must go to the appropriate city attorney and then to the district attorney, with a separate signature line for each prosecuting agency on the order. Only one petition, affidavit and order is required to seal all records within Clark County, and justice court petitions must be captioned to the specific township. Las Vegas Municipal Court requires its own Petition, Declaration and Verification, Order and Stipulation and denies typed signatures outright. Reno Municipal Court charges a filing fee, sets the petition for hearing at least 60 days after filing, and applies the sex trafficking fee exemption. Venue as recorded: The court in which the person was convicted, being a district, justice or municipal court. NRS 179.245(1). District court is the highest court in the county and may seal all charges within the county; NRS 179.2595 permits consolidation there. Filing as recorded: Prepare the petition, declaration and proposed order, submit them to the district attorney or city attorney with the repository record and attachments, and file with the clerk of the convicting court once the prosecutor stipulates. |
@@ -119,6 +119,7 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 
 | The blank on the document | What to write |
 | --- | --- |
+| The court on the caption line "IN THE ............ COURT" of this document | The court this is filed in, written as the court's own name. Venue as recorded: The court in which the record was entered. Do not write the district attorney's or city attorney's office here; that office receives the packet before filing and is not the court named in the caption. |
 | Item C1 - sea full legal name | What is your full legal name, and have you used any other names? |
 | Item C2 - sea date of birth | What is your date of birth? |
 | Item C3 - sea county | In which Nevada county did the case happen, and which court handled it — district, justice or municipal? |
@@ -129,16 +130,30 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 | Item C8 - dcr conduct | What were you accused of doing, and do you believe that conduct is still a crime in Nevada? (Asked because the section turns on whether the conduct has been decriminalised, which is a legal question the packet screens rather than decides.) |
 | Item C9 - dcr offence date | On what date did the offence happen, and when was the record entered? |
 
+### nv_seal_decrim-proposed-order-3 — Proposed Order - Seal a Nevada record for something that is no longer a crime
+
+| The blank on the document | What to write |
+| --- | --- |
+| The court on the caption line "IN THE ............ COURT" of this document | The court this is filed in, written as the court's own name. Venue as recorded: The court in which the record was entered. Do not write the district attorney's or city attorney's office here; that office receives the packet before filing and is not the court named in the caption. |
+
 ### nv_seal_decrim-declaration-and-verification-4 — Declaration and Verification - Seal a Nevada record for something that is no longer a crime
 
 | The blank on the document | What to write |
 | --- | --- |
+| The court on the caption line "IN THE ............ COURT" of this document | The court this is filed in, written as the court's own name. Venue as recorded: The court in which the record was entered. Do not write the district attorney's or city attorney's office here; that office receives the packet before filing and is not the court named in the caption. |
 | Anything the petitioner wants the court to know that is not already in the petition | anything you want the court to know that is not already in the petition, in your own words |
+
+### nv_seal_decrim-stipulation-5 — Stipulation of the Prosecuting Attorney - Seal a Nevada record for something that is no longer a crime
+
+| The blank on the document | What to write |
+| --- | --- |
+| The court on the caption line "IN THE ............ COURT" of this document | The court this is filed in, written as the court's own name. Venue as recorded: The court in which the record was entered. Do not write the district attorney's or city attorney's office here; that office receives the packet before filing and is not the court named in the caption. |
 
 ### nv_seal_multi-primary-filing-2 — Petition - Seal several Nevada records in one filing
 
 | The blank on the document | What to write |
 | --- | --- |
+| The court on the caption line "IN THE ............ COURT" of this document | The court this is filed in, written as the court's own name. Venue as recorded: The district court for the county, which is the highest court in the county and may seal all charges within it. For a justice court case, caption the specific township you gave at item C9 of the petition, because justice court petitions must be captioned to the specific township. Do not write the district attorney's or city attorney's office here; that office receives the packet before filing and is not the court named in the caption. |
 | Item C1 - sea full legal name | What is your full legal name, and have you used any other names? |
 | Item C2 - sea date of birth | What is your date of birth? |
 | Item C3 - sea county | In which Nevada county did the case happen, and which court handled it — district, justice or municipal? |
@@ -149,16 +164,30 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 | Item C8 - mlt court levels | Which of your Nevada records are in district court, which in justice court, and which in municipal court? (Asked because a packet that includes municipal court matters must go to the city attorney as well as the district attorney, and the order needs a signature line for each.) |
 | Item C9 - mlt township | For any justice court case, which township? (Asked because justice court petitions must be captioned to the specific township.) |
 
+### nv_seal_multi-proposed-order-3 — Proposed Order - Seal several Nevada records in one filing
+
+| The blank on the document | What to write |
+| --- | --- |
+| The court on the caption line "IN THE ............ COURT" of this document | The court this is filed in, written as the court's own name. Venue as recorded: The district court for the county, which is the highest court in the county and may seal all charges within it. For a justice court case, caption the specific township you gave at item C9 of the petition, because justice court petitions must be captioned to the specific township. Do not write the district attorney's or city attorney's office here; that office receives the packet before filing and is not the court named in the caption. |
+
 ### nv_seal_multi-declaration-and-verification-4 — Declaration and Verification - Seal several Nevada records in one filing
 
 | The blank on the document | What to write |
 | --- | --- |
+| The court on the caption line "IN THE ............ COURT" of this document | The court this is filed in, written as the court's own name. Venue as recorded: The district court for the county, which is the highest court in the county and may seal all charges within it. For a justice court case, caption the specific township you gave at item C9 of the petition, because justice court petitions must be captioned to the specific township. Do not write the district attorney's or city attorney's office here; that office receives the packet before filing and is not the court named in the caption. |
 | Anything the petitioner wants the court to know that is not already in the petition | anything you want the court to know that is not already in the petition, in your own words |
+
+### nv_seal_multi-stipulation-5 — Stipulation of the Prosecuting Attorney - Seal several Nevada records in one filing
+
+| The blank on the document | What to write |
+| --- | --- |
+| The court on the caption line "IN THE ............ COURT" of this document | The court this is filed in, written as the court's own name. Venue as recorded: The district court for the county, which is the highest court in the county and may seal all charges within it. For a justice court case, caption the specific township you gave at item C9 of the petition, because justice court petitions must be captioned to the specific township. Do not write the district attorney's or city attorney's office here; that office receives the packet before filing and is not the court named in the caption. |
 
 ### nv_seal_pardon-primary-filing-2 — Petition - Seal a Nevada record after a pardon
 
 | The blank on the document | What to write |
 | --- | --- |
+| The court on the caption line "IN THE ............ COURT" of this document | The court this is filed in, written as the court's own name. Venue as recorded: The court in which the conviction was entered, for the petition route. No venue applies to the automatic route. Do not write the district attorney's or city attorney's office here; that office receives the packet before filing and is not the court named in the caption. |
 | Item C1 - sea full legal name | What is your full legal name, and have you used any other names? |
 | Item C2 - sea date of birth | What is your date of birth? |
 | Item C3 - sea county | In which Nevada county did the case happen, and which court handled it — district, justice or municipal? |
@@ -171,16 +200,30 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 | Item C10 - pdn still showing | Have you checked whether the record still shows on your Nevada criminal history? (Asked first, because sealing under this section is automatic and a petition should only be prepared where verification shows it did not happen.) |
 | Item C11 - pdn firearms | Does your pardon restrict the right to bear arms? (Asked because a pardon that does not restrict the right to bear arms is the only route that restores firearm rights in Nevada; sealing never does.) |
 
+### nv_seal_pardon-proposed-order-3 — Proposed Order - Seal a Nevada record after a pardon
+
+| The blank on the document | What to write |
+| --- | --- |
+| The court on the caption line "IN THE ............ COURT" of this document | The court this is filed in, written as the court's own name. Venue as recorded: The court in which the conviction was entered, for the petition route. No venue applies to the automatic route. Do not write the district attorney's or city attorney's office here; that office receives the packet before filing and is not the court named in the caption. |
+
 ### nv_seal_pardon-declaration-and-verification-4 — Declaration and Verification - Seal a Nevada record after a pardon
 
 | The blank on the document | What to write |
 | --- | --- |
+| The court on the caption line "IN THE ............ COURT" of this document | The court this is filed in, written as the court's own name. Venue as recorded: The court in which the conviction was entered, for the petition route. No venue applies to the automatic route. Do not write the district attorney's or city attorney's office here; that office receives the packet before filing and is not the court named in the caption. |
 | Anything the petitioner wants the court to know that is not already in the petition | anything you want the court to know that is not already in the petition, in your own words |
+
+### nv_seal_pardon-stipulation-5 — Stipulation of the Prosecuting Attorney - Seal a Nevada record after a pardon
+
+| The blank on the document | What to write |
+| --- | --- |
+| The court on the caption line "IN THE ............ COURT" of this document | The court this is filed in, written as the court's own name. Venue as recorded: The court in which the conviction was entered, for the petition route. No venue applies to the automatic route. Do not write the district attorney's or city attorney's office here; that office receives the packet before filing and is not the court named in the caption. |
 
 ### nv_seal_conviction-primary-filing-2 — Petition - Seal your Nevada conviction
 
 | The blank on the document | What to write |
 | --- | --- |
+| The court on the caption line "IN THE ............ COURT" of this document | The court this is filed in, written as the court's own name. Venue as recorded: The court in which the person was convicted, being a district, justice or municipal court. NRS 179.245(1). District court is the highest court in the county and may seal all charges within the county; NRS 179.2595 permits consolidation there. Do not write the district attorney's or city attorney's office here; that office receives the packet before filing and is not the court named in the caption. |
 | Item C1 - cvs full legal name | What is your full legal name, and have you used any other names? |
 | Item C2 - cvs date of birth | What is your date of birth? |
 | Item C3 - cvs county | In which Nevada county did the case happen, and which court handled it — district, justice or municipal? (Asked because the court level decides the venue and because the stipulation practice differs between district attorneys and city attorneys.) |
@@ -197,16 +240,30 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 | Item C14 - cvs dishonourable discharge | Were you dishonourably discharged from probation? (Asked because NRS 179.2445 withholds the rebuttable presumption from a defendant dishonourably discharged from probation under NRS 176A.850, which changes what the packet can tell the participant to expect.) |
 | Item C15 - cvs prior denial | Have you asked a Nevada court to seal any record before, and was it denied? If so, when? (Asked because NRS 179.265 bars a rehearing for a period after a denial, which the internal reference omits entirely.) |
 
+### nv_seal_conviction-proposed-order-3 — Proposed Order - Seal your Nevada conviction
+
+| The blank on the document | What to write |
+| --- | --- |
+| The court on the caption line "IN THE ............ COURT" of this document | The court this is filed in, written as the court's own name. Venue as recorded: The court in which the person was convicted, being a district, justice or municipal court. NRS 179.245(1). District court is the highest court in the county and may seal all charges within the county; NRS 179.2595 permits consolidation there. Do not write the district attorney's or city attorney's office here; that office receives the packet before filing and is not the court named in the caption. |
+
 ### nv_seal_conviction-declaration-and-verification-4 — Declaration and Verification - Seal your Nevada conviction
 
 | The blank on the document | What to write |
 | --- | --- |
+| The court on the caption line "IN THE ............ COURT" of this document | The court this is filed in, written as the court's own name. Venue as recorded: The court in which the person was convicted, being a district, justice or municipal court. NRS 179.245(1). District court is the highest court in the county and may seal all charges within the county; NRS 179.2595 permits consolidation there. Do not write the district attorney's or city attorney's office here; that office receives the packet before filing and is not the court named in the caption. |
 | Anything the petitioner wants the court to know that is not already in the petition | anything you want the court to know that is not already in the petition, in your own words |
+
+### nv_seal_conviction-stipulation-5 — Stipulation of the Prosecuting Attorney - Seal your Nevada conviction
+
+| The blank on the document | What to write |
+| --- | --- |
+| The court on the caption line "IN THE ............ COURT" of this document | The court this is filed in, written as the court's own name. Venue as recorded: The court in which the person was convicted, being a district, justice or municipal court. NRS 179.245(1). District court is the highest court in the county and may seal all charges within the county; NRS 179.2595 permits consolidation there. Do not write the district attorney's or city attorney's office here; that office receives the packet before filing and is not the court named in the caption. |
 
 ### nv_seal_nonconviction-primary-filing-2 — Petition - Seal a Nevada arrest that did not end in a conviction
 
 | The blank on the document | What to write |
 | --- | --- |
+| The court on the caption line "IN THE ............ COURT" of this document | The court this is filed in, written as the court's own name. Venue as recorded: The court in which the charges were dismissed, the court having jurisdiction in which the charges were declined, or the court in which the acquittal was entered. NRS 179.2595 permits consolidation in district court. Do not write the district attorney's or city attorney's office here; that office receives the packet before filing and is not the court named in the caption. |
 | Item C1 - ncv full legal name | What is your full legal name, and have you used any other names? |
 | Item C2 - ncv date of birth | What is your date of birth? |
 | Item C3 - ncv county | In which Nevada county did the case happen, and which court handled it — district, justice or municipal? |
@@ -219,16 +276,30 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 | Item C10 - ncv deferred judgment | Was the case dismissed because you completed a programme or a deferred judgment agreement? (Asked because a deferred judgment dismissal routes to NRS 176.211 rather than to this track, and a participant will describe both as a dismissal.) |
 | Item C11 - ncv further action | Has anyone told you the case might be refiled? (Asked because the court must find there is no evidence that further action will be brought.) |
 
+### nv_seal_nonconviction-proposed-order-3 — Proposed Order - Seal a Nevada arrest that did not end in a conviction
+
+| The blank on the document | What to write |
+| --- | --- |
+| The court on the caption line "IN THE ............ COURT" of this document | The court this is filed in, written as the court's own name. Venue as recorded: The court in which the charges were dismissed, the court having jurisdiction in which the charges were declined, or the court in which the acquittal was entered. NRS 179.2595 permits consolidation in district court. Do not write the district attorney's or city attorney's office here; that office receives the packet before filing and is not the court named in the caption. |
+
 ### nv_seal_nonconviction-declaration-and-verification-4 — Declaration and Verification - Seal a Nevada arrest that did not end in a conviction
 
 | The blank on the document | What to write |
 | --- | --- |
+| The court on the caption line "IN THE ............ COURT" of this document | The court this is filed in, written as the court's own name. Venue as recorded: The court in which the charges were dismissed, the court having jurisdiction in which the charges were declined, or the court in which the acquittal was entered. NRS 179.2595 permits consolidation in district court. Do not write the district attorney's or city attorney's office here; that office receives the packet before filing and is not the court named in the caption. |
 | Anything the petitioner wants the court to know that is not already in the petition | anything you want the court to know that is not already in the petition, in your own words |
+
+### nv_seal_nonconviction-stipulation-5 — Stipulation of the Prosecuting Attorney - Seal a Nevada arrest that did not end in a conviction
+
+| The blank on the document | What to write |
+| --- | --- |
+| The court on the caption line "IN THE ............ COURT" of this document | The court this is filed in, written as the court's own name. Venue as recorded: The court in which the charges were dismissed, the court having jurisdiction in which the charges were declined, or the court in which the acquittal was entered. NRS 179.2595 permits consolidation in district court. Do not write the district attorney's or city attorney's office here; that office receives the packet before filing and is not the court named in the caption. |
 
 ### nv_seal_reentry-primary-filing-2 — Petition - Seal a Nevada record after finishing a reentry program
 
 | The blank on the document | What to write |
 | --- | --- |
+| The court on the caption line "IN THE ............ COURT" of this document | The court this is filed in, written as the court's own name. Venue as recorded: The court in which the conviction was entered. Do not write the district attorney's or city attorney's office here; that office receives the packet before filing and is not the court named in the caption. |
 | Item C1 - sea full legal name | What is your full legal name, and have you used any other names? |
 | Item C2 - sea date of birth | What is your date of birth? |
 | Item C3 - sea county | In which Nevada county did the case happen, and which court handled it — district, justice or municipal? |
@@ -239,11 +310,24 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 | Item C8 - rnt program | Which reentry programme did you complete, and when did you finish it? |
 | Item C9 - rnt completion proof | Do you have the document showing you completed it? (Asked because completion is the trigger and the court will want it evidenced.) |
 
+### nv_seal_reentry-proposed-order-3 — Proposed Order - Seal a Nevada record after finishing a reentry program
+
+| The blank on the document | What to write |
+| --- | --- |
+| The court on the caption line "IN THE ............ COURT" of this document | The court this is filed in, written as the court's own name. Venue as recorded: The court in which the conviction was entered. Do not write the district attorney's or city attorney's office here; that office receives the packet before filing and is not the court named in the caption. |
+
 ### nv_seal_reentry-declaration-and-verification-4 — Declaration and Verification - Seal a Nevada record after finishing a reentry program
 
 | The blank on the document | What to write |
 | --- | --- |
+| The court on the caption line "IN THE ............ COURT" of this document | The court this is filed in, written as the court's own name. Venue as recorded: The court in which the conviction was entered. Do not write the district attorney's or city attorney's office here; that office receives the packet before filing and is not the court named in the caption. |
 | Anything the petitioner wants the court to know that is not already in the petition | anything you want the court to know that is not already in the petition, in your own words |
+
+### nv_seal_reentry-stipulation-5 — Stipulation of the Prosecuting Attorney - Seal a Nevada record after finishing a reentry program
+
+| The blank on the document | What to write |
+| --- | --- |
+| The court on the caption line "IN THE ............ COURT" of this document | The court this is filed in, written as the court's own name. Venue as recorded: The court in which the conviction was entered. Do not write the district attorney's or city attorney's office here; that office receives the packet before filing and is not the court named in the caption. |
 
 ## What you do, in order
 

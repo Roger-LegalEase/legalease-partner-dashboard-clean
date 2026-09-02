@@ -2374,7 +2374,38 @@ const SPEC = {
       ]
     },
     {
-      "id": "nd-marijuana-first-offense-seal-filing-instructions-3",
+      "id": "nd-marijuana-first-offense-seal-legal-effect-explanation-3",
+      "routeKey": "obligation:track-pathway:ND:nd-marijuana-first-offense-seal:first-offense-possession-sealing",
+      "role": "legal_effect_explanation",
+      "title": "What sealing does, and what it does not do",
+      "description": "what a sealing order under chapter 19-03.1 does, what it does not reach, and why the general sealing chapter's waiting periods and burden do not apply (Ask a North Dakota court to seal a first marijuana possession conviction)",
+      "condition": null,
+      "body": [
+        "This page is for {{participant.full_legal_name}}.",
+        "",
+        "WHAT THE ORDER DOES",
+        "",
+        "A sealing order under chapter 19-03.1 seals the court record in this case. The statute is unusually strong on this point: once sealed, the court record may not be opened even by court order.",
+        "",
+        "WHAT IT DOES NOT REACH",
+        "",
+        "The order is directed at the court record. It does not by itself change records held by other agencies, and it is not a pardon. If you need a criminal-history record corrected as well, that is a separate request to the agency that holds it.",
+        "",
+        "THIS IS NOT THE GENERAL SEALING CHAPTER",
+        "",
+        "North Dakota's general criminal-record sealing chapter, 12-60.1, uses waiting periods of three years for a misdemeanor and five for a felony, a clear-and-convincing burden, and a hearing no earlier than forty-five days after filing. None of that applies here. Chapter 19-03.1 makes sealing mandatory on motion when its own conditions are met."
+      ],
+      "writes": [
+        {
+          "id": "petitioner_name",
+          "label": "Person this page is prepared for",
+          "factId": "participant.full_legal_name"
+        }
+      ],
+      "blanks": []
+    },
+    {
+      "id": "nd-marijuana-first-offense-seal-filing-instructions-4",
       "routeKey": "obligation:track-pathway:ND:nd-marijuana-first-offense-seal:first-offense-possession-sealing",
       "role": "filing_instructions",
       "title": "Filing Instructions - Ask a North Dakota court to seal a first marijuana possession conviction",
@@ -2418,7 +2449,8 @@ const SPEC = {
         "THE PAGES IN THIS SET",
         "",
         "- nd-marijuana-first-offense-seal-primary-filing-1: the composed petition, on this route's own statutory ground (Ask a North Dakota court to seal a first marijuana possession conviction)",
-        "- nd-marijuana-first-offense-seal-proposed-order-2: the proposed order the court may sign; every decision line is the court's and is left blank (Ask a North Dakota court to seal a first marijuana possession conviction)"
+        "- nd-marijuana-first-offense-seal-proposed-order-2: the proposed order the court may sign; every decision line is the court's and is left blank (Ask a North Dakota court to seal a first marijuana possession conviction)",
+        "- nd-marijuana-first-offense-seal-legal-effect-explanation-3: what the sealing order does, what it does not reach, and why the general sealing chapter does not apply (Ask a North Dakota court to seal a first marijuana possession conviction)"
       ],
       "writes": [
         {
