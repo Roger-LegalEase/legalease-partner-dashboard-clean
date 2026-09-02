@@ -190,7 +190,40 @@ const { global: identityFindings, byFamily: familyScopedFindings } = (() => {
   return { global: byLabel, byFamily: familyScoped };
 })();
 
-const byHash = new Map(corpus.entries.map((e) => [e.sha256, e]));
+/*
+ * ONE SET OF BYTES, HELD IN TWO CUSTODIES, AND ONLY ONE OF THEM NAMES THE FORM.
+ *
+ * This map was built with `new Map(entries.map(...))`, which is last-wins, and
+ * that was invisible for as long as every custody named its documents by the
+ * library's six-field standard. The Nationwide recovery pool does not: its
+ * files are named by whoever downloaded them, so `formNumber` is null on every
+ * one of them by design -- that is what keeps a partial custody out of the
+ * label-matching tiers below.
+ *
+ * Those two facts collided. Fourteen documents are held identically in the
+ * Master Library and in the recovery pool -- the same bytes, the same hash --
+ * and the pool is walked last, so `byHash` started answering with the entry
+ * that has no form number. The staleness test immediately below asks whether
+ * the held hash appears among the entries at `heldAs.formNumber`, and with that
+ * field null it can only answer no. Ten families went SOURCE_REVISION_STALE:
+ * two Montana MMRTA sets, two North Carolina sets, five Pennsylvania and one
+ * West Virginia, every one of them on bytes the corpus holds at the exact hash
+ * the census names. Nothing was stale. It was a map-ordering artifact, and it
+ * would have quietly commissioned the reacquisition of documents already held.
+ *
+ * So an entry that does not name a form number never displaces one that does.
+ * For identical bytes that is not a preference between two answers, it is a
+ * choice between an answer and a blank: `heldAs` is what every identity and
+ * revision test downstream reads, and one of the two entries carries that
+ * information while the other cannot. Everything else stays last-wins, so no
+ * binding that resolved before this resolves differently now.
+ */
+const byHash = new Map();
+for (const e of corpus.entries) {
+  const prior = byHash.get(e.sha256);
+  if (prior && prior.formNumber && !e.formNumber) continue;
+  byHash.set(e.sha256, e);
+}
 /*
  * One form number, several documents.
  *

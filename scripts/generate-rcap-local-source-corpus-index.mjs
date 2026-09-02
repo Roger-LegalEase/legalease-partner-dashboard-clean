@@ -39,6 +39,8 @@ const { PDFDocument } = require("pdf-lib");
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const MASTER_LIBRARY = "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1";
 const SHARD_MANIFEST = path.join(rootDir, "private/source-imports/rcap-source-shards-manifest.json");
+const NATIONWIDE_RECOVERY_POOL = "private/source-imports/Nationwide_Recovery_Pool_2026-09-02";
+const NATIONWIDE_RESTORE_MANIFEST = path.join(rootDir, "data/rcap-all50/nationwide-restore-manifest.json");
 const OUT = path.join(rootDir, "data/rcap-all50/local-source-corpus-index.json");
 const checkOnly = process.argv.includes("--check");
 
@@ -199,6 +201,49 @@ function identityFromDSourcePack(relativePath) {
 }
 
 /*
+ * THE NATIONWIDE RECOVERY POOL: JURISDICTION ONLY, DELIBERATELY.
+ *
+ * These files are named by the courts and agencies that published them and by
+ * whoever downloaded them -- "3-Misdemeanor-Petition-8_01_2023.pdf", where the
+ * "3-" is a download-ordering artifact. Nothing in that is a form number, and
+ * parsing one out would be inventing an identity nobody printed.
+ *
+ * So this follows identityFromReturnTree: record the jurisdiction and leave the
+ * rest null. That is not a limitation to work around, it is the safety property
+ * of a PARTIAL custody expressed in the index. A null form number keeps every
+ * one of these entries out of the reconciler's tier-1 and tier-2 form-label
+ * matchers, so a recovered file can bind only by an exact SHA-256 or by an
+ * identity somebody read off the page -- never by a name that merely looks
+ * right. A partial corpus is exactly where a loose matcher would do its worst
+ * damage, because the file the label really names may be one of the seventy
+ * that are absent.
+ *
+ * The jurisdiction is READ from the restore manifest's own perState/folders
+ * record rather than derived from the folder name: the corpus spells Arkansas's
+ * folder "LegalEase Arkanasa", and any name-based guess would drop it.
+ */
+const nationwideFolderToJurisdiction = (() => {
+  const map = new Map();
+  if (!fs.existsSync(NATIONWIDE_RESTORE_MANIFEST)) return map;
+  const manifest = JSON.parse(fs.readFileSync(NATIONWIDE_RESTORE_MANIFEST, "utf8"));
+  for (const [code, state] of Object.entries(manifest.perState ?? {})) {
+    for (const folder of state.folders ?? []) map.set(folder, code);
+  }
+  return map;
+})();
+
+function identityFromNationwideRecoveryPool(relativePath) {
+  const folder = relativePath.split(path.sep)[0] ?? "";
+  return {
+    state: nationwideFolderToJurisdiction.get(folder) ?? null,
+    assetClass: null,
+    formNumber: null,
+    revision: null,
+    language: null
+  };
+}
+
+/*
  * THE CUSTODY TABLE
  *
  * `pathsRelativeTo` decides how an entry's `path` is written, and the two
@@ -280,6 +325,50 @@ const CUSTODIES = [
      * the Nationwide inventory recorded from a corpus nobody can mount.
      */
     describes: "The D1/D2/D3 source packs from private release rcap-d-source-packs-2026-08-12, archive digests verified before extraction. Not the Master Library and not the operational Nationwide tree."
+  },
+  {
+    id: "nationwide_recovery_pool_2026_09_02",
+    root: NATIONWIDE_RECOVERY_POOL,
+    /*
+     * Custody-root-relative, and that is the whole reason this custody can be
+     * reached at all. Every Nationwide artifact the source findings record
+     * writes `held.pathInArchive` as "LegalEase Arkanasa/3-Misdemeanor-…pdf" --
+     * relative to the Nationwide corpus root, because that is the corpus it was
+     * inventoried from. The reconciler and the attach cohort both look those
+     * paths up in this index verbatim, so writing them repository-relative here
+     * would leave all forty-three of them unreachable while the bytes sat on
+     * disk. It cannot collide: the Master Library's top level is STATES/ and
+     * 00_GOVERNANCE/, and every repository-relative custody root lives under
+     * private/, so no other custody produces a "LegalEase <State>/" path.
+     */
+    pathsRelativeTo: "custodyRoot",
+    identity: identityFromNationwideRecoveryPool,
+
+    /*
+     * A PARTIAL CUSTODY, AND THE MARKER SAYS SO ON EVERY ENTRY.
+     *
+     * This is 513 of the operational corpus's 583 files, recovered at their
+     * exact manifest SHA-256 and re-verified from the staged bytes by
+     * scripts/rcap-corpus/stage-nationwide-recovery-pool.mjs. Seventy paths are
+     * absent.
+     *
+     * Individually, each of the 513 is as good as any other held source: a hash
+     * either matches or it does not, and a file's completeness has nothing to
+     * do with its neighbours'. Collectively it is NOT the operational corpus,
+     * and the difference matters because this tree has the operational tree's
+     * exact shape -- "LegalEase <State>/" folders -- which is how
+     * scripts/rcap-official-forms/operational-corpus-precondition.mjs
+     * recognises the real one.
+     *
+     * So the type travels on the row AND on every entry generated from it,
+     * rather than being something a reader has to look up. A consumer asking
+     * "may these bytes satisfy an individual source obligation" reads the hash;
+     * a consumer asking "is the operational corpus present" must read
+     * custodyType and refuse.
+     */
+    custodyType: "PARTIAL_NATIONWIDE_RECOVERY_POOL",
+    completeOperationalCorpus: false,
+    describes: "513 of the 583 files of the operational Nationwide corpus, recovered from the 2026-09-02 recovery kit at exact SHA-256 and re-verified from the staged bytes. A PARTIAL custody: it satisfies an individual source obligation and never a completeness assertion. Receipt: data/rcap-all50/NATIONWIDE_PARTIAL_CUSTODY_2026-09-02.json."
   }
 ];
 
@@ -359,6 +448,13 @@ for (const custody of CUSTODIES) {
       // Which custody these bytes came from, on the entry itself, so a reader
       // never has to infer it from the shape of a path.
       custody: custody.id,
+      /* A custody-type restriction that travels WITH the bytes. null means the
+       * custody declares none. "PARTIAL_NATIONWIDE_RECOVERY_POOL" means these
+       * bytes are individually verified and collectively incomplete, so they
+       * may satisfy a source obligation and may never evidence a complete
+       * corpus. Carried per entry so the restriction survives being copied out
+       * of the index one row at a time. */
+      custodyType: custody.custodyType ?? null,
       fileName: path.basename(file),
       state: identity.state,
       assetClass: identity.assetClass,
@@ -503,6 +599,8 @@ const payload = {
   corpusRoot: MASTER_LIBRARY,
   custodies: CUSTODIES.map((c) => ({
     id: c.id, root: c.root, pathsRelativeTo: c.pathsRelativeTo, describes: c.describes,
+    custodyType: c.custodyType ?? null,
+    completeOperationalCorpus: c.completeOperationalCorpus ?? null,
     binariesIndexed: byCustody[c.id] ?? 0,
     /* Kept under its old name as well: several committed records and readers
      * ask for pdfsIndexed by name, and renaming it silently would make them
