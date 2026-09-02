@@ -25,12 +25,12 @@
   "nothingIsWithdrawn": "The earlier reading stands on its own evidence and is preserved verbatim under supersededLaneMembership. It is kept because those verdicts are real work, not because this lane still owns those families."
  },
  "summary": {
-  "families": 33,
+  "families": 34,
   "PASS_COMPLETE_INDEPENDENT": 15,
   "PASS": 0,
   "FAIL_REPAIR_REQUIRED": 15,
   "BLOCKED_SOURCE": 1,
-  "BLOCKED_LEGAL_INPUT": 0,
+  "BLOCKED_LEGAL_INPUT": 1,
   "STOPPED": 1,
   "tallyRecomputedOverEveryRowInThisFile": true,
   "onlyFableVaRowsAreFableVaDeterminations": [
@@ -7303,6 +7303,283 @@
     "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json (the wv_conv_single_misdemeanor-set row)"
    ],
    "grantsNothing": "This verdict approves no output and opens no commercial route."
+  },
+  {
+   "itemId": "rcap-ok-custom-pleading",
+   "lane": "VF03",
+   "wave": "VF03-W3",
+   "verdict": "BLOCKED_LEGAL_INPUT",
+   "verifiedAtBase": "247b790b6decf4ab14924914b10ad16a6ab57400",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading",
+   "shape": "one composed family covering 16 route keys across 8 Oklahoma tracks, 53 components, 80 pages per fixture",
+   "rasterState": "RASTER_PENDING in RASTER_QUEUE.json with no receipt, nextOwner RAS04; build-status.json records rasterPages 0 and no raster pages are committed",
+   "independentOfBuilder": "VF03 holds no packet-build, repair or shared-host-repair claim on this family, wrote no byte inside its overlay directory, and produced none of the reports it reads. Every hash, counter, page count, word box, component id and quoted line below was recomputed or read first-hand in this container.",
+   "whyBlockedAndNotFailed": "Nothing measurable about this packet is wrong. The pages are well made, the component set is exact, and every declared instruction reaches the participant. What is missing is the governing statutory text: 22 O.S. §§ 18 and 19 as amended by Senate Bill 2030 (2026) was never obtained, and the registry classifies that as a build blocker on eligibility_branch for seven of the eight tracks and carries a release blocker on output_strategy saying that until the amended text is read a petition cannot be recommended without risking a paid petition for someone entitled to a free route. No repair lane can close that from this repository. It is counsel's and an acquisition matter, so the row is blocked rather than failed, and blocked is not a pass.",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "howMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ok-custom-pleading, run in this container: PASS_COMPLETE, 85/254 written",
+    "whyZeroCountersAreNotAPass": "The counters ask whether the packet is internally complete against its own field map. They cannot ask whether the statute the eligibility branches were composed from is the statute in force, which is the question this family is blocked on."
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "familyId rcap-ok-custom-pleading agrees across build-status.json, source-receipt.json, reports/rendered-artifacts.json, reports/actual-writes.json, product-wiring.json and the RASTER_QUEUE.json row. The receipt declares 16 route keys across 8 tracks and every page of the packet prints its own route key at the foot; the 53 rendered components partition cleanly across those 8 tracks with no component belonging to a track the receipt does not name.",
+     "evidence": {
+      "routeKeysDeclared": 16,
+      "tracksCovered": 8,
+      "componentsRendered": 53,
+      "routeKeyPrintedPerPage": true,
+      "recordsAgreeing": 6
+     }
+    },
+    "SOURCE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "This is a zero-document-source composition (custodyClass CUSTOM_PLEADING_FROM_CODIFIED_TEXT), so the sources that bind are committed repository records. All three were rehashed from the bytes on disk in this container and every one equals the receipt to the byte, across 148 anchor statements the receipt says were re-read before composing.",
+     "evidence": {
+      "recomputedHere": [
+       {
+        "path": "data/record-clearing/legal-design-track-registry.json",
+        "sha256": "0a92a1a27ef43fe719d00f121896923036a7d2b90ffa5228b972e4873ffb80e6",
+        "byteLength": 16555956,
+        "anchorStatementsVerified": 116,
+        "matchesReceipt": true
+       },
+       {
+        "path": "data/record-clearing/legal-design-specifications.json",
+        "sha256": "cc0c79598a8406e08d606901fafb01972bb75ac1e7d0eca8df59209c0773f9c5",
+        "byteLength": 16829383,
+        "anchorStatementsVerified": 16,
+        "matchesReceipt": true
+       },
+       {
+        "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+        "sha256": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
+        "byteLength": 2599752,
+        "anchorStatementsVerified": 16,
+        "matchesReceipt": true
+       }
+      ],
+      "sourcesMismatching": 0,
+      "theSourceThatIsNotHere": "The records that bind are the repository's own, and they bind exactly. The statutory text those records themselves say is missing — SB 2030 (2026) as it amended 22 O.S. §§ 18 and 19 — is not a source this family failed to bind. It is a source nobody has, which is why this row is BLOCKED_LEGAL_INPUT and not BLOCKED_SOURCE."
+     }
+    },
+    "COMPONENT_SET": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Exact, across all eight tracks. The registry's packetSets name 53 components in total for these tracks — 7 each for ok_identity_theft, ok_18_19_deferred_dismissal, ok_18_19_felony_conviction, ok_18_19_misdemeanor_conviction, ok_18_19_nonconviction, ok_18_19_pardon and ok_vpo_60_18, and 4 for ok_991c_deferred — every one of them required, none conditional. The packet renders exactly those 53 componentIds. No required component is missing and no component is rendered that no registry component names.",
+     "evidence": {
+      "componentsNamedByTheRoutes": 53,
+      "componentsRendered": 53,
+      "requiredComponentsMissing": 0,
+      "componentsRenderedButNamedByNoComponent": 0,
+      "conditionalComponents": 0
+     }
+    },
+    "KNOWN_PREFILLS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Every known fact is written and visible on the page it belongs to. 85 writes are reported per fixture across 80 pages; the five distinct participant facts were each grepped out of the text extracted from canonical.pdf in this container and each appears 8 times, once per track. addedGlyphsReadFromOutputBytes is 1448 with nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0.",
+     "evidence": {
+      "writesReported": 85,
+      "readBackFromRenderedText": [
+       {
+        "fact": "participant.full_legal_name",
+        "value": "Jordan Avery Reyes",
+        "occurrences": 69
+       },
+       {
+        "fact": "participant.date_of_birth",
+        "value": "1991-04-17",
+        "occurrences": 8
+       },
+       {
+        "fact": "participant.street_address",
+        "value": "42 Magnolia Street, Springfield 62704",
+        "occurrences": 8
+       },
+       {
+        "fact": "participant.phone",
+        "value": "555-0142",
+        "occurrences": 8
+       },
+       {
+        "fact": "participant.email",
+        "value": "jordan.reyes@example.org",
+        "occurrences": 8
+       }
+      ],
+      "knownFactsMissingFromTheRenderedPage": 0
+     }
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Every declared item reaches the participant, across all eight tracks. The registry declares 87 requiredBeforeFiling items in total — 11 on each of seven tracks and 10 on ok_991c_deferred — and a word-level check of each item's distinctive terms against participant-instructions.md and the extracted packet text found none absent or weakly covered. reports/blanks-left-for-the-participant.json carries 113 entries, more than the declared items, because the packet also surfaces each composed pleading's own labelled blanks.",
+     "evidence": {
+      "declaredItemsAcrossEightTracks": 87,
+      "itemsWeaklyCoveredOrAbsent": 0,
+      "blanksSurfacedToTheParticipant": 113
+     }
+    },
+    "ROUTE_OPTIONS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "No route-determined election is left unselected, because the composed pleadings carry no election controls at all: each track's pages are composed for that track's own statutory ground and print that ground rather than offering a choice between grounds. requiredOptionsMissing measured 0. The one question the packet does put to the reader is deliberately not an election it may answer — the free-route screen asks whether they would like the free route checked first, and leaves the line blank.",
+     "evidence": {
+      "electionControlsInThePacket": 0,
+      "requiredOptionsMissing": 0,
+      "questionsLeftToTheParticipant": "the free-route screen's own question line, left as a dotted blank"
+     }
+    },
+    "REPEATING_ROWS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The composed pleadings carry no repeating row structure: no offence table, no charge grid, no multi-count schedule. Participant items are single labelled dotted blanks, each on its own. incompleteRows measured 0 here.",
+     "evidence": {
+      "repeatingRowStructures": 0,
+      "incompleteRows": 0
+     }
+    },
+    "PROTECTED_FIELDS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "No protected field carries ink, read from the rendered bytes. All 8 signing lines extract as 'DATE .............................. SIGNATURE OF PETITIONER ....................................' with dots only and no exception. The 8 proposed-order pages are the strongest case: each carries 'ORDERS that ........................................................', a blank DATED line and a blank judicial signature rule, under a printed statement in the packet's own voice that 'EVERY DECISION ON THIS PAGE IS THE COURT'S. This proposed order travels with the petition for the Court's convenience; nothing on it is completed, decided, signed or dated by the petitioner or by this packet.' Every case-number caption is a dotted blank. refusedFieldsWithInk is empty for both fixtures.",
+     "evidence": {
+      "signatureLines": 8,
+      "signatureLinesCarryingInk": 0,
+      "proposedOrderPages": 8,
+      "proposedOrderPagesCarryingAnyDecisionOrDate": 0,
+      "caseNumberCaptionsPrefilled": 0,
+      "certificateOfMailingPresent": false
+     }
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both fixtures hash to what every record naming them says. Recomputed here with sha256sum and pdfinfo: canonical.pdf = 833444e3e39b2232b4e8c10cdd37cf948f2dd148a31edcc64aa86516fb953f60 (205937 bytes, 80 pages), boundary.pdf = 5cdd5a6ae9461f42cda28c64fc93e5d4c5d2fc9df9415c8033be29f396bb2bcb (208554 bytes, 80 pages). Every claimed hash across rendered-artifacts.json, actual-writes.json, product-wiring.json and the RASTER_QUEUE.json row agrees, and every 64-hex digest in product-wiring.json resolves to a fixture or a bound record.",
+     "evidence": {
+      "canonicalSha256": "833444e3e39b2232b4e8c10cdd37cf948f2dd148a31edcc64aa86516fb953f60",
+      "boundarySha256": "5cdd5a6ae9461f42cda28c64fc93e5d4c5d2fc9df9415c8033be29f396bb2bcb",
+      "claimedHashMismatches": 0,
+      "wiringDigestsNotMatchingAFixtureOrSource": 0
+     }
+    },
+    "PAGE_ORDER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both fixtures declare an 80-entry pageManifest numbered 1..80 with no gap, and pdfinfo reads exactly 80 pages from each. The order is coherent as well as sequential: each track's block runs free-route screen, primary filing, proposed order, record-gathering instructions, fee disclosure, hearing instructions, effect disclosure, in that order, and source pages are sequential within each component.",
+     "evidence": {
+      "manifestPages": 80,
+      "measuredPages": 80,
+      "sequential": true,
+      "trackBlocks": 8,
+      "orderWithinEachTrack": "free-route screen first, effect disclosure last"
+     }
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": false,
+     "result": "NOT_MEASURABLE_HERE",
+     "finding": "The obligation's instrument is the central raster gate and it has not run for this family. RASTER_QUEUE.json holds RASTER_PENDING with no receipt and nextOwner RAS04, build-status.json records rasterState BUILT_RASTER_PENDING with rasterPages 0, and unlike the West Virginia family there are no committed raster pages to read as pixels either. What this lane could measure is clean and is recorded as measurement rather than as a pass: word geometry over both fixtures returns 0 words outside the page box and 0 text-on-text collisions across 20268 and 20271 words, and reports/actual-writes.json's own read of the output bytes records nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0.",
+     "evidence": {
+      "rasterVerdict": null,
+      "currentRasterState": "RASTER_PENDING",
+      "nextOwner": "RAS04",
+      "committedRasterPages": 0,
+      "wordsOutsidePageBoxCanonical": 0,
+      "textOnTextCollisionsCanonical": 0,
+      "wordsOutsidePageBoxBoundary": 0,
+      "textOnTextCollisionsBoundary": 0,
+      "wordsExamined": 40539,
+      "whyThisIsNotAPass": "A text-box instrument cannot see raster ink, vector rules, field borders or images, and lane contract L4 is that no family is proven without a hash-bound RASTER_PASS from the central workflow. This family is owed one and does not have one."
+     }
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The instructions name the court each route names. Seven tracks record the destination as 'Oklahoma district court for the county where the arrest information is located' and the packet prints exactly that under the caption of every petition and every proposed order on those tracks, 14 times in the extracted text. ok_991c_deferred records a different destination, 'The Oklahoma district court that entered the deferred sentence', and its pages carry that one instead rather than inheriting the county rule.",
+     "evidence": {
+      "distinctDestinationsAcrossTheEightTracks": 2,
+      "destinationsPrintedCorrectlyPerTrack": true,
+      "countyRuleOccurrencesInTheText": 14,
+      "the991cExceptionCarriedSeparately": true
+     }
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "BLOCKED_LEGAL_INPUT",
+     "finding": "The packet states everything the record holds, and the record does not hold the fee a participant would actually pay to file. Its dedicated 'WHAT THIS COSTS' page states, quoted from the registry, that OSBI treats expunging a court record as free and charges $150 to expunge an arrest record, that local law-enforcement fees may accompany it, that OSBI takes cashier's cheques or money orders and not personal cheques, and — in terms — that 'The district court filing fee is not established and is recorded as an open question', with the waiver recorded as 'Not established.' That is the honest and complete statement of a record that does not answer the question. It is recorded as blocked rather than as a pass because a participant still cannot learn what filing costs, and rather than as a failure because the registry itself carries this as a release_blocker on participant_instructions — 'The district court filing fee, which the review records as unresolved and which the packet therefore cannot state' — so no repairer can supply it from this repository.",
+     "evidence": {
+      "osbiArrestRecordFeeStated": "$150",
+      "courtRecordExpungementStated": "free",
+      "districtCourtFilingFee": "not established; recorded as an open question, and the packet says so",
+      "waiverRouteStated": "Not established. The district court filing fee position is an open question.",
+      "registryClassification": "release_blocker / participant_instructions",
+      "whoCanClearIt": "counsel or a source acquisition, not a repair lane"
+     }
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Who must be served, and how, is stated, and the answer for seven of the eight tracks is that the court does it. The registry records notice as the court setting a hearing and giving 30 days' notice to the prosecuting agency, the arresting agency, the Oklahoma State Bureau of Investigation and any other agency holding relevant records, and service as 'By the court's notice. The proposed order must identify every agency to which it applies.' The packet carries both, and carries the consequence the registry attaches to it as a packet instruction in the registry's own words — that the proposed order must name every agency it applies to — alongside the plain statement that the participant files and the court sets the hearing. ok_991c_deferred records notice and service as not established for that motion and its pages say so rather than importing the other tracks' answer.",
+     "evidence": {
+      "registryService": "By the court's notice. The proposed order must identify every agency to which it applies.",
+      "participantServesAnyone": false,
+      "proposedOrderAgencyInstructionCarriedVerbatim": true,
+      "the991cExceptionCarriedSeparately": "notice and service recorded not established for the § 991c motion, and stated as such"
+     }
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The packet states where self-help ends, completely, and it does something stronger than that. The registry holds 52 selfHelpStopConditions across the eight tracks and a word-level check found none absent. More than that, the single most consequential stop condition — 'Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read' — is not left in a list at the back. It is the first page of every track, headed 'CHECK THE FREE ROUTE FIRST' and 'READ THIS PAGE BEFORE YOU PAY FOR ANYTHING', which quotes the review's warning verbatim, states that this packet does not decide whether the free route reaches the reader and that no committed record resolves the amended text, tells them to request their OSBI criminal history and ask the district court clerk whether the record is already sealed, and tells them that if either answer is yes or they are unsure, to stop and not file.",
+     "evidence": {
+      "conditionsAcrossEightTracks": 52,
+      "conditionsWeaklyCoveredOrAbsent": 0,
+      "freeRouteScreenIsPageOneOfEveryTrack": true,
+      "packetRefusesToDecideEligibility": true
+     }
+    }
+   },
+   "theOpenLegalInput": {
+    "what": "The text of 22 O.S. §§ 18 and 19 as amended by Senate Bill 2030 (2026).",
+    "asTheRecordStatesIt": "The registry's buildBlockers for seven of the eight tracks carry it with impact build_blocker and affectedElement eligibility_branch: retrieval was attempted at the Oklahoma Legislature on 2026-08-06, the bill information record was located, the enrolled text was not obtained, and section 18 was last amended by Chapter 259 O.S.L. 2024 and section 19 by Chapter 292 O.S.L. 2025 before SB 2030 amended both again, 'so any logic built on a pre-2024 reading is stale in three separate directions'.",
+    "theSecondBuildBlocker": "Whether any standard Oklahoma petition form exists, statewide or by district, recorded as a legal-design blocker with no form identified — which is why this family composes pleadings rather than filling one.",
+    "theEighthTrack": "ok_991c_deferred carries its own build blocker with affectedElement governing_mechanism: the text of 22 O.S. § 991c, including what the motion must contain, whether notice is required and whether a hearing is held, was not read at source.",
+    "theReleaseBlocker": "impact release_blocker, affectedElement output_strategy: 'Until the amended text is read, a petition cannot be recommended without the risk the review identifies: generating a paid petition for someone who could have used a free route.'",
+    "whoCanClearIt": "counsel and a source acquisition of the enrolled SB 2030 text and of 22 O.S. § 991c. No repair lane can close it from this repository.",
+    "whatThePacketDidInstead": "It refused to answer the question and put the refusal first. Every track opens on the free-route screen described under SELF_HELP_STOP. That is the right response to an open input and it is why this row is blocked rather than failed — but a packet that correctly says it cannot tell you whether you need it is still a packet nobody should be sold."
+   },
+   "evidenceRead": [
+    "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+    "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/fixtures/boundary.pdf",
+    "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/production-field-map.json",
+    "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/source-receipt.json",
+    "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/build-status.json",
+    "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/build-findings.json",
+    "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/product-wiring.json",
+    "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/reports/rendered-artifacts.json",
+    "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/reports/actual-writes.json",
+    "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/reports/blanks-left-for-the-participant.json",
+    "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/reports/completeness-counters.json",
+    "data/record-clearing/legal-design-track-registry.json (tracks ok_identity_theft, ok_18_19_deferred_dismissal, ok_18_19_felony_conviction, ok_18_19_misdemeanor_conviction, ok_18_19_nonconviction, ok_18_19_pardon, ok_991c_deferred, ok_vpo_60_18)",
+    "data/record-clearing/legal-design-specifications.json",
+    "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+    "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json (the rcap-ok-custom-pleading row)"
+   ],
+   "grantsNothing": "A blocked row approves no output and opens no commercial route, and it is not a finding that the packet is good enough to sell once the block lifts — that is a fresh read's question."
   }
  ],
  "supersededLaneMembership": {
@@ -7973,7 +8250,8 @@
   "familiesInThisWave": [
    "dc_yra_set_aside-set",
    "ny_mrta_marijuana-set",
-   "wv_conv_single_misdemeanor-set"
+   "wv_conv_single_misdemeanor-set",
+   "rcap-ok-custom-pleading"
   ]
  }
 }
