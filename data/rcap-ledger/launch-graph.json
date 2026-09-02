@@ -7,19 +7,19 @@
   "oneDenominator": {
     "source": "data/rcap-ledger/sellable-pathway-closure.json",
     "category": "paid_packet_intended",
-    "pathways": 260,
-    "sha256": "76a8688bb9392e71108eec74fd79d0026e34b7855bf5b5caef943d910967089f",
+    "pathways": 262,
+    "sha256": "8748b29cf552334082525166dada63d67e906c11b80d31af5dbf55365af0aaa2",
     "enforcement": "Every consumed ledger is required to describe exactly this pathway set. A ledger that adds or drops a pathway fails this generator rather than being reconciled quietly, so there is no second denominator to disagree with."
   },
   "inputs": {
-    "data/rcap-ledger/sellable-pathway-closure.json": "3e4238328ee0e31aa5c9723d1f0b0a45d7b2a5f56269ee5667792cdf2ac84217",
-    "data/rcap-ledger/paid-pathway-legal-join.json": "f2f3f06fcc5aea68f479bd6ba0546d7cf29a08dc08a5522d4e97790e56beb58f",
-    "data/record-clearing/legal-design-packet-set-manifests.json": "80d88d69dc5710b9a763abb31c6864069f9bb6d74b942c5e5849925144693ffa",
-    "data/rcap-ledger/public-witness-answer-sets.json": "d4b7096e7e1833cb2a032c75a79d610e6f1ad550b9d101ac5270c1d470d8f5ce",
-    "data/record-clearing/factory-v2-route-registry.json": "902c4919dfba4d315ff491d759f0c87da8ff7fd8404b1bcf6c0aa826c5aa9710",
+    "data/rcap-ledger/sellable-pathway-closure.json": "2c0ebc42e12a21bb444519c8f9b0e4260c95034175364aac3e0b0cb6d88f5e6e",
+    "data/rcap-ledger/paid-pathway-legal-join.json": "9d81244cdf97b7f71e502f981966d6c61ac8a660ce346c6c61b83486ce896a75",
+    "data/record-clearing/legal-design-packet-set-manifests.json": "563147bf8431e5d3bcfc2b75e07307ae706b2d086d4f302e66fee9300b89588d",
+    "data/rcap-ledger/public-witness-answer-sets.json": "120fd18ca819f5332a030913df9f9015e6ebf2ae7cd09c48f377f21097380862",
+    "data/record-clearing/factory-v2-route-registry.json": "a5f05b50b453edd2f6714a0a52300737ed4665cc10de5bbebd0012925fcf79f5",
     "data/rcap-all50/problematic-pdf-register.json": "e0ca5c8c7a95fb13812dff2bc0ed8b3945ac8f5d95b613dc7e2a2df9596a8de6",
     "data/record-clearing/source-artifact-registry.json": "153768464f1a2a0a461dc01918ecc993b8fff4a8bf45fa5544967cbf6db848c0",
-    "data/rcap-ledger/session-a-evidence-packet.json": "38faaf9d8e195944f6ebab60fe5d1ecb9db840f5eb0c3f582f9da6e5901e651e"
+    "data/rcap-ledger/session-a-evidence-packet.json": "23b6ae3da2d499a1f4c0b574eff8e10b5e2ab2011ff5036e7455aada4b16e233"
   },
   "ownerLegalDecision": {
     "approved": true,
@@ -43,16 +43,16 @@
     "limitation": "Official-form filling cannot be exercised here: the source PDFs live under private/Nationwide Record Clearing/, which this worktree does not carry. A route whose named official forms are not held is recorded as such and is NOT counted as deterministically rendered."
   },
   "counters": {
-    "intendedPaid": 260,
-    "correctPathwayPublicWitnesses": 260,
+    "intendedPaid": 262,
+    "correctPathwayPublicWitnesses": 262,
     "wrongPathwayWitnesses": 0,
     "nonConvergingWitnesses": 0,
-    "exactTrackAndPacketSet": 220,
+    "exactTrackAndPacketSet": 222,
     "registryGapWithPathwayPacketSet": 40,
     "registryGapWithoutAPacketRecord": 0,
-    "ownerApprovedLegal": 93,
-    "factoryV2Selected": 166,
-    "factoryV2Resolved": 166,
+    "ownerApprovedLegal": 95,
+    "factoryV2Selected": 168,
+    "factoryV2Resolved": 168,
     "factoryV2AdmittedButSuppressed": [
       {
         "pathwayKey": "AR:situation-b-misdemeanor-convictions",
@@ -71,9 +71,9 @@
         "suppressedBy": "exact_supported_deferral"
       }
     ],
-    "paymentAllowed": 29,
-    "deterministicallyRenderedComposedText": 166,
-    "deterministicallyRendered": 38,
+    "paymentAllowed": 28,
+    "deterministicallyRenderedComposedText": 168,
+    "deterministicallyRendered": 40,
     "officialFormsNamedButNotHeldInThisRepository": 128,
     "operationallySellable": 0
   },
@@ -82,7 +82,7 @@
     "technicalApprovalCurrent": 192,
     "deterministicArtifactProven": 222,
     "noProblematicPdfHold": 19,
-    "paymentAllowed": 231,
+    "paymentAllowed": 234,
     "rendererSelected": 64,
     "packetSpecificationComplete": 40
   },
@@ -105,7 +105,7 @@
       "HANDOFF_READY": 3,
       "MAINTENANCE_HOLD": 19,
       "LEGAL_HOLD": 1,
-      "UNFINISHED": 237
+      "UNFINISHED": 239
     },
     "byState": {
       "AK": {
@@ -259,7 +259,7 @@
         "HANDOFF_READY": 0,
         "MAINTENANCE_HOLD": 0,
         "LEGAL_HOLD": 0,
-        "UNFINISHED": 3
+        "UNFINISHED": 5
       },
       "KY": {
         "PACKET_READY": 0,
@@ -7456,6 +7456,204 @@
         "ownerApprovedLegalDesign",
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
+      ],
+      "operationallySellable": false,
+      "allOperationalGatesMet": false
+    },
+    {
+      "pathwayKey": "KS:municipal-arrest-record-expungement-under-12-4516a",
+      "jurisdiction": "KS",
+      "pathwayId": "municipal-arrest-record-expungement-under-12-4516a",
+      "pathwayLabel": "Municipal arrest record expungement",
+      "availability": "UNFINISHED",
+      "compiledPathway": {
+        "present": true,
+        "profileVersion": "2026-06-19-source-conversion-1"
+      },
+      "registryTracks": [
+        "ks-12-4516a-municipal-arrest"
+      ],
+      "registryGap": false,
+      "pathwayLevelPacketRecord": null,
+      "packetFamilies": [
+        "rcap-ks-custom-pleading"
+      ],
+      "packetSets": [
+        {
+          "packetSetId": "ks-12-4516a-municipal-arrest-set",
+          "trackId": "ks-12-4516a-municipal-arrest",
+          "components": 3
+        }
+      ],
+      "ownerApprovedLegalStatus": "approved_by_decision_owner",
+      "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalBasis": "owner_approved_packet_family",
+      "packetSpecification": {
+        "complete": true,
+        "componentCount": 3,
+        "participantActionsRequired": 15
+      },
+      "sourceAssets": {
+        "officialFormIdsNamed": [],
+        "officialFormIdsHeldInThisRepository": [],
+        "allNamedSourcesHeld": false
+      },
+      "technicalStatus": {
+        "completedOutputVerifierResults": [
+          "passed"
+        ],
+        "current": true
+      },
+      "pdfStatus": {
+        "problematicAssets": [],
+        "hold": false
+      },
+      "renderer": {
+        "routeKind": "factory_v2",
+        "rendererKind": "packet_document_v1",
+        "packetSetIds": [
+          "ks-12-4516a-municipal-arrest-set"
+        ],
+        "reason": "KS municipal-arrest-record-expungement-under-12-4516a builds through the shared packet factory from packet set ks-12-4516a-municipal-arrest-set at profile version 2026-06-19-source-conversion-1. The route resolves in shadow: legal approval, technical approval, PDF status, payment and public state are separate gates and none of them is granted here."
+      },
+      "publicWitness": {
+        "reachesThisPathway": true,
+        "settled": true,
+        "resultCode": "guidance_only",
+        "rounds": 2
+      },
+      "paymentResult": {
+        "allowedAtTheEvaluator": false,
+        "sellableAtTheResolver": false,
+        "creditConsumable": false
+      },
+      "artifactResult": {
+        "rendered": true,
+        "deterministic": true,
+        "sha256": "f9756f8b20a379ca27f1954c6365b3942277a6e39f28d963f32fdd8a0f44c9b9",
+        "characters": 3259,
+        "sections": 11,
+        "warnings": 0,
+        "errors": []
+      },
+      "dtcResult": {
+        "deliverable": false
+      },
+      "rcapResult": {
+        "creditConsumable": false
+      },
+      "operationalGates": {
+        "publicWitnessReachesThisPathway": true,
+        "authoritativeIntendedPathway": true,
+        "paymentAllowed": false,
+        "packetSpecificationComplete": true,
+        "ownerApprovedLegalDesign": true,
+        "technicalApprovalCurrent": true,
+        "rendererSelected": true,
+        "deterministicArtifactProven": true,
+        "noProblematicPdfHold": true
+      },
+      "unmetOperationalGates": [
+        "paymentAllowed"
+      ],
+      "operationallySellable": false,
+      "allOperationalGatesMet": false
+    },
+    {
+      "pathwayKey": "KS:municipal-conviction-or-diversion-expungement-under-12-4516",
+      "jurisdiction": "KS",
+      "pathwayId": "municipal-conviction-or-diversion-expungement-under-12-4516",
+      "pathwayLabel": "Municipal conviction or diversion expungement",
+      "availability": "UNFINISHED",
+      "compiledPathway": {
+        "present": true,
+        "profileVersion": "2026-06-19-source-conversion-1"
+      },
+      "registryTracks": [
+        "ks-12-4516-municipal"
+      ],
+      "registryGap": false,
+      "pathwayLevelPacketRecord": null,
+      "packetFamilies": [
+        "rcap-ks-custom-pleading"
+      ],
+      "packetSets": [
+        {
+          "packetSetId": "ks-12-4516-municipal-set",
+          "trackId": "ks-12-4516-municipal",
+          "components": 3
+        }
+      ],
+      "ownerApprovedLegalStatus": "approved_by_decision_owner",
+      "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalBasis": "owner_approved_packet_family",
+      "packetSpecification": {
+        "complete": true,
+        "componentCount": 3,
+        "participantActionsRequired": 15
+      },
+      "sourceAssets": {
+        "officialFormIdsNamed": [],
+        "officialFormIdsHeldInThisRepository": [],
+        "allNamedSourcesHeld": false
+      },
+      "technicalStatus": {
+        "completedOutputVerifierResults": [
+          "passed"
+        ],
+        "current": true
+      },
+      "pdfStatus": {
+        "problematicAssets": [],
+        "hold": false
+      },
+      "renderer": {
+        "routeKind": "factory_v2",
+        "rendererKind": "packet_document_v1",
+        "packetSetIds": [
+          "ks-12-4516-municipal-set"
+        ],
+        "reason": "KS municipal-conviction-or-diversion-expungement-under-12-4516 builds through the shared packet factory from packet set ks-12-4516-municipal-set at profile version 2026-06-19-source-conversion-1. The route resolves in shadow: legal approval, technical approval, PDF status, payment and public state are separate gates and none of them is granted here."
+      },
+      "publicWitness": {
+        "reachesThisPathway": true,
+        "settled": true,
+        "resultCode": "needs_more_info",
+        "rounds": 2
+      },
+      "paymentResult": {
+        "allowedAtTheEvaluator": false,
+        "sellableAtTheResolver": false,
+        "creditConsumable": false
+      },
+      "artifactResult": {
+        "rendered": true,
+        "deterministic": true,
+        "sha256": "c9373d0ac35ee4cf424e439c3a4c980e5985869f78c546ae6d4161f300a6e60b",
+        "characters": 3288,
+        "sections": 11,
+        "warnings": 0,
+        "errors": []
+      },
+      "dtcResult": {
+        "deliverable": false
+      },
+      "rcapResult": {
+        "creditConsumable": false
+      },
+      "operationalGates": {
+        "publicWitnessReachesThisPathway": true,
+        "authoritativeIntendedPathway": true,
+        "paymentAllowed": false,
+        "packetSpecificationComplete": true,
+        "ownerApprovedLegalDesign": true,
+        "technicalApprovalCurrent": true,
+        "rendererSelected": true,
+        "deterministicArtifactProven": true,
+        "noProblematicPdfHold": true
+      },
+      "unmetOperationalGates": [
+        "paymentAllowed"
       ],
       "operationallySellable": false,
       "allOperationalGatesMet": false
@@ -19787,7 +19985,7 @@
         "rounds": 2
       },
       "paymentResult": {
-        "allowedAtTheEvaluator": true,
+        "allowedAtTheEvaluator": false,
         "sellableAtTheResolver": false,
         "creditConsumable": false
       },
@@ -19801,7 +19999,7 @@
       "operationalGates": {
         "publicWitnessReachesThisPathway": true,
         "authoritativeIntendedPathway": true,
-        "paymentAllowed": true,
+        "paymentAllowed": false,
         "packetSpecificationComplete": true,
         "ownerApprovedLegalDesign": true,
         "technicalApprovalCurrent": false,
@@ -19810,6 +20008,7 @@
         "noProblematicPdfHold": true
       },
       "unmetOperationalGates": [
+        "paymentAllowed",
         "technicalApprovalCurrent",
         "rendererSelected",
         "deterministicArtifactProven"

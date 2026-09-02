@@ -241,15 +241,15 @@
   "e4StillBlocked": [],
   "aggregates": {
     "registryTracks": 497,
-    "compiledPathways": 337,
+    "compiledPathways": 339,
     "registryJurisdictions": 51,
     "compiledJurisdictions": 51,
-    "tracksExactPathway": 259,
+    "tracksExactPathway": 261,
     "tracksRepresentedByVariants": 26,
     "tracksUnresolvedAmbiguous": 1,
-    "tracksMissingFromCompiledRuntime": 210,
+    "tracksMissingFromCompiledRuntime": 208,
     "tracksSupersededRuntimeText": 1,
-    "pathwaysDirect": 246,
+    "pathwaysDirect": 248,
     "pathwaysVariant": 37,
     "pathwaysComposedUnit": 2,
     "pathwaysRoutingOrSupporting": 1,
@@ -265,8 +265,8 @@
     "e4CounselReviewRequirements": 8,
     "e4OfficialSourceGapAdjudications": 2,
     "e4StillBlocked": 0,
-    "tracksWithRuntimeCoverage": 285,
-    "pathwaysMapped": 285,
+    "tracksWithRuntimeCoverage": 287,
+    "pathwaysMapped": 287,
     "pathwaysTerminal": 43,
     "pathwaysUnresolved": 9,
     "milestone1Item2Closed": false
@@ -832,10 +832,10 @@
     {
       "jurisdiction": "KS",
       "registryTracks": 8,
-      "compiledPathways": 4,
-      "delta": -4,
-      "tracksMapped": 4,
-      "pathwaysMapped": 4,
+      "compiledPathways": 6,
+      "delta": -2,
+      "tracksMapped": 6,
+      "pathwaysMapped": 6,
       "pathwaysScopedOut": 0,
       "pathwaysTerminalOther": 0,
       "pathwaysUnresolved": 0
@@ -4806,12 +4806,17 @@
       "outputStrategy": "custom_pleading",
       "compositionMode": null,
       "composedUnitCount": 0,
-      "mappedCompiledPathwayIds": [],
-      "relationshipType": null,
-      "mappingEvidence": [],
-      "compiledCoverageDisposition": "missing_from_compiled_runtime",
+      "mappedCompiledPathwayIds": [
+        "municipal-conviction-or-diversion-expungement-under-12-4516"
+      ],
+      "relationshipType": "direct_runtime_representation",
+      "mappingEvidence": [
+        "shared_operative_statutory_citation",
+        "shared_supporting_statutory_citation"
+      ],
+      "compiledCoverageDisposition": "exact_current_pathway",
       "candidateCompiledPathwayIds": [],
-      "blocker": "no compiled pathway in this jurisdiction shares a statutory citation or official form with this track"
+      "blocker": null
     },
     {
       "jurisdiction": "KS",
@@ -4832,12 +4837,17 @@
       "outputStrategy": "custom_pleading",
       "compositionMode": null,
       "composedUnitCount": 0,
-      "mappedCompiledPathwayIds": [],
-      "relationshipType": null,
-      "mappingEvidence": [],
-      "compiledCoverageDisposition": "missing_from_compiled_runtime",
+      "mappedCompiledPathwayIds": [
+        "municipal-arrest-record-expungement-under-12-4516a"
+      ],
+      "relationshipType": "direct_runtime_representation",
+      "mappingEvidence": [
+        "shared_operative_statutory_citation",
+        "shared_supporting_statutory_citation"
+      ],
+      "compiledCoverageDisposition": "exact_current_pathway",
       "candidateCompiledPathwayIds": [],
-      "blocker": "no compiled pathway in this jurisdiction shares a statutory citation or official form with this track"
+      "blocker": null
     },
     {
       "jurisdiction": "KS",
@@ -16658,6 +16668,62 @@
       "adjudicated": true
     },
     {
+      "jurisdiction": "KS",
+      "compiledPathwayId": "municipal-conviction-or-diversion-expungement-under-12-4516",
+      "label": "Municipal conviction or diversion expungement",
+      "compiledProfilePath": "src/lib/rcap-engine/compiled/profiles/KS-kansas.json",
+      "routeType": "court_filing",
+      "automatic": false,
+      "packetMode": "state_specific_custom_packet_from_source_rules",
+      "registryRelation": "direct_runtime_representation",
+      "mappedRegistryTrackIds": [
+        "ks-12-4516-municipal"
+      ],
+      "mappingEvidence": [
+        "shared_operative_statutory_citation",
+        "shared_supporting_statutory_citation"
+      ],
+      "evidenceDetail": {
+        "sharedStatutoryCitations": [
+          "12.4516"
+        ],
+        "sharedOfficialForms": []
+      },
+      "coMappedPathwayIds": [],
+      "contributesToRuntimeCoverage": true,
+      "contributesToRegistryDenominator": false,
+      "unresolvedReason": null,
+      "missingEvidence": []
+    },
+    {
+      "jurisdiction": "KS",
+      "compiledPathwayId": "municipal-arrest-record-expungement-under-12-4516a",
+      "label": "Municipal arrest record expungement",
+      "compiledProfilePath": "src/lib/rcap-engine/compiled/profiles/KS-kansas.json",
+      "routeType": "court_filing",
+      "automatic": false,
+      "packetMode": "state_specific_custom_packet_from_source_rules",
+      "registryRelation": "direct_runtime_representation",
+      "mappedRegistryTrackIds": [
+        "ks-12-4516a-municipal-arrest"
+      ],
+      "mappingEvidence": [
+        "shared_operative_statutory_citation",
+        "shared_supporting_statutory_citation"
+      ],
+      "evidenceDetail": {
+        "sharedStatutoryCitations": [
+          "12.4516a"
+        ],
+        "sharedOfficialForms": []
+      },
+      "coMappedPathwayIds": [],
+      "contributesToRuntimeCoverage": true,
+      "contributesToRegistryDenominator": false,
+      "unresolvedReason": null,
+      "missingEvidence": []
+    },
+    {
       "jurisdiction": "KY",
       "compiledPathwayId": "misdemeanor-violation-traffic-conviction",
       "label": "Misdemeanor, violation, or traffic-infraction conviction expungement under KRS 431.078",
@@ -26516,5 +26582,5 @@
     }
   },
   "evidenceHash": "06b862b2b152e97a61de3e4c8b72ac06c6e4c405d6dfc7188935c611694ca6a8",
-  "contentHash": "4ed06326d8fd235b7ebf4a1e3e6194debf4835bd5407a7e2db94f2300badf35c"
+  "contentHash": "5ba66f64c2fe4bd1873687d49145083b093657f73fe848ba746a3ef4522b83ec"
 }

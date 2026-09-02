@@ -153,7 +153,14 @@ const MAY_CREATE_PATHWAY = new Set([
   // O.C.G.A. § 42-8-66 is a different statutory mechanism from the § 42-8-62.1
   // restriction the legacy Georgia pathway carries. It needs its own route
   // rather than a conditional inside one that already names another statute.
-  "GA:retroactive-first-offender-treatment-under-42-8-66"
+  "GA:retroactive-first-offender-treatment-under-42-8-66",
+  // The two Kansas municipal mechanisms. K.S.A. 12-4516 and 12-4516a are
+  // municipal-court routes; all four compiled Kansas pathways are district-court
+  // routes under K.S.A. 21-6614 and its neighbours, so neither municipal route
+  // has an existing pathway to attach to and mapping one onto a 21-6614 pathway
+  // would be a false identity rather than a translation.
+  "KS:municipal-conviction-or-diversion-expungement-under-12-4516",
+  "KS:municipal-arrest-record-expungement-under-12-4516a"
 ]);
 
 function newPathway(contract) {

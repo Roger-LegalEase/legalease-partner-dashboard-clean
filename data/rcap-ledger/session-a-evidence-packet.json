@@ -7,7 +7,7 @@
     "path": "data/rcap-ledger/paid-pathway-legal-join.json",
     "source": "working_tree",
     "ref": null,
-    "sha256": "f2f3f06fcc5aea68f479bd6ba0546d7cf29a08dc08a5522d4e97790e56beb58f"
+    "sha256": "9d81244cdf97b7f71e502f981966d6c61ac8a660ce346c6c61b83486ce896a75"
   },
   "doesNotMaintainASeparateDenominator": "The denominator here is Session A's graph, consumed as-is: every pathway key, registry track list and disposition comes from data/rcap-ledger/paid-pathway-legal-join.json and none is recomputed. data/rcap-ledger/sellable-pathway-closure.json remains only as the denominator input Session A already integrated; it is not a rival canonical record and nothing in this packet re-derives it.",
   "createsApproval": false,
@@ -17,19 +17,19 @@
       "path": "data/rcap-ledger/paid-pathway-legal-join.json",
       "source": "working_tree",
       "ref": null,
-      "sha256": "f2f3f06fcc5aea68f479bd6ba0546d7cf29a08dc08a5522d4e97790e56beb58f"
+      "sha256": "9d81244cdf97b7f71e502f981966d6c61ac8a660ce346c6c61b83486ce896a75"
     },
     "packetFamilyBridge": {
       "path": "data/record-clearing/legal-design-packet-set-manifests.json",
       "source": "working_tree",
       "ref": null,
-      "sha256": "80d88d69dc5710b9a763abb31c6864069f9bb6d74b942c5e5849925144693ffa"
+      "sha256": "563147bf8431e5d3bcfc2b75e07307ae706b2d086d4f302e66fee9300b89588d"
     },
     "trackSourceRelationships": {
       "path": "data/record-clearing/legal-design-track-source-relationships.json",
       "source": "working_tree",
       "ref": null,
-      "sha256": "8376337488a0e07eb0b476f7623bfbb623272d167ecd15b23c93cbb47922b826"
+      "sha256": "2a6ea2862b24b2dbb6cafebb8ad6ff0abd0ee5ddaf441c388d4debfa28a856be"
     },
     "extAdopt01": {
       "path": "data/record-clearing/template-families/EXT-ADOPT-01-standing-external-counsel-adoption.json",
@@ -41,7 +41,7 @@
       "path": "data/rcap-ledger/public-witness-answer-sets.json",
       "source": "working_tree",
       "ref": null,
-      "sha256": "d4b7096e7e1833cb2a032c75a79d610e6f1ad550b9d101ac5270c1d470d8f5ce"
+      "sha256": "120fd18ca819f5332a030913df9f9015e6ebf2ae7cd09c48f377f21097380862"
     },
     "problematicPdfRegister": {
       "path": "data/rcap-all50/problematic-pdf-register.json",
@@ -65,30 +65,30 @@
     }
   },
   "totals": {
-    "pathways": 260,
+    "pathways": 262,
     "sessionADispositions": {
       "family_bridge_missing_no_family": 152,
-      "approved_by_decision_owner": 68,
+      "approved_by_decision_owner": 70,
       "family_bridge_missing_no_track": 40
     },
     "registryClassifications": {
-      "exact_track_and_packet_set": 220,
+      "exact_track_and_packet_set": 222,
       "registry_gap_no_track": 40
     },
     "bridgeImportResolved": 152,
-    "pathwaysWithCompletedOutputEvidence": 68,
-    "ownerApprovedLegal": 225,
+    "pathwaysWithCompletedOutputEvidence": 70,
+    "ownerApprovedLegal": 227,
     "ownerApprovalBases": {
       "owner_approved_existing_legal_design_packet_set": 152,
-      "owner_approved_packet_family": 68,
+      "owner_approved_packet_family": 70,
       "registry_gap_no_track": 35,
       "owner_approved_exception_annex": 5
     },
     "escalationsToTheDecisionOwner": 0,
     "publicWitness": {
-      "settled": 260,
-      "landedOnTheirOwnPathway": 260,
-      "paymentAllowedAtTheEvaluator": 29
+      "settled": 262,
+      "landedOnTheirOwnPathway": 262,
+      "paymentAllowedAtTheEvaluator": 28
     }
   },
   "packetFamilyBridgeReconciliation": {
@@ -101,7 +101,7 @@
     },
     "importedBridge": {
       "path": "data/record-clearing/legal-design-packet-set-manifests.json",
-      "sha256": "80d88d69dc5710b9a763abb31c6864069f9bb6d74b942c5e5849925144693ffa",
+      "sha256": "563147bf8431e5d3bcfc2b75e07307ae706b2d086d4f302e66fee9300b89588d",
       "trackCount": 497,
       "scope": "every registry track"
     },
@@ -15591,6 +15591,585 @@
           "ks-21-6614-conviction-set"
         ],
         "statement": "Every track on this pathway carries an exact legal-design packet set (ks-21-6614-conviction-set). Roger Roman under auth-2026-08-19-owner-legal-approval-completed-output, effective 2026-08-19 approved applying the existing approved designs across the intended-paid corpus, and missing EXT-ADOPT-01 family metadata is not a new substantive legal choice where the all-497 manifest already defines the treatment. KS additionally carries 1 bound family in EXT-ADOPT-01."
+      }
+    },
+    {
+      "pathwayKey": "KS:municipal-arrest-record-expungement-under-12-4516a",
+      "jurisdiction": "KS",
+      "pathwayId": "municipal-arrest-record-expungement-under-12-4516a",
+      "pathwayLabel": "Municipal arrest record expungement",
+      "sessionAGraph": {
+        "disposition": "approved_by_decision_owner",
+        "statement": "Roger Roman approved the completed output of rcap-ks-custom-pleading on 2026-08-19 under auth-2026-08-19-owner-legal-approval-completed-output. EXT-ADOPT-01 adopted the legal design on 2026-08-08; the owner's decision closes the completed-output gate that adoption left open.",
+        "registryTrackIds": [
+          "ks-12-4516a-municipal-arrest"
+        ],
+        "packetFamilies": [
+          "rcap-ks-custom-pleading"
+        ],
+        "lawrenceRatification": null,
+        "ledgerSaysLegalReviewPending": true,
+        "consumedVerbatim": true
+      },
+      "packetFamilyBridge": {
+        "source": "data/record-clearing/legal-design-packet-set-manifests.json",
+        "scope": "all 497 registry tracks",
+        "supersedesForThisPurpose": "data/rcap-codex/d-track-terminalization/track-family-map.json",
+        "packetSets": [
+          {
+            "packetSetId": "ks-12-4516a-municipal-arrest-set",
+            "trackId": "ks-12-4516a-municipal-arrest",
+            "version": "1.0.0",
+            "components": [
+              {
+                "componentId": "ks-12-4516a-municipal-arrest-primary-filing-1",
+                "role": "primary_filing",
+                "requirement": "required",
+                "outputStrategy": "custom_pleading",
+                "officialFormId": null,
+                "officialSourceUrl": null
+              },
+              {
+                "componentId": "ks-12-4516a-municipal-arrest-proposed-order-2",
+                "role": "proposed_order",
+                "requirement": "conditional",
+                "outputStrategy": "custom_pleading",
+                "officialFormId": null,
+                "officialSourceUrl": null
+              },
+              {
+                "componentId": "ks-12-4516a-municipal-arrest-process-guidance-3",
+                "role": "process_guidance",
+                "requirement": "required",
+                "outputStrategy": "process_guidance",
+                "officialFormId": null,
+                "officialSourceUrl": null
+              }
+            ],
+            "requiredBeforeFiling": [
+              "Check your answer to \"Which one of these applies to you: the arrest happened because of mistaken identity; a court found there was no probable cause; you were found not guilty; the arrest was for an ordinance prohibited by K.S.A. 12-16,134(a) or (b) adopted before 1 July 2014; or expungement would be in the best interests of justice and charges have been dismissed or none have been or are likely to be filed?\" against Any municipal court record showing the disposition of the ordinance charge, and correct the packet if they disagree.",
+              "Obtain The municipal court's own expungement form, where it publishes one. Ask the clerk whether the court has its own form.",
+              "Check your answer to \"Does that municipal court publish its own expungement form or require its own process? Its clerk can tell you.\" against The municipal court's own expungement form, where it publishes one, and correct the packet if they disagree.",
+              "Obtain The municipal filing fee, where the court charges one and no exemption applies. Ask the clerk what that court charges and tell them if you were arrested as a result of identity theft.",
+              "Petitioner's signature and date — Petition, signature block.",
+              "Hearing date, time and courtroom — Any notice the municipal court requires.",
+              "Case number and caption details the local court prescribes — Caption.",
+              "Findings language and the judge's signature — Proposed order.",
+              "The petitioner signs the petition. K.S.A. 12-4516a imposes no verification requirement, and local practice may.",
+              "none identified in the statute; confirm local municipal practice",
+              "A municipal court may prescribe a fee to be charged as costs, K.S.A. 12-4516a(b), except that no fee may be charged to a person who was arrested as a result of being a victim of identity theft under K.S.A. 21-6107 or former K.S.A. 21-4018. Amounts vary by court and there is no statewide figure.",
+              "No discretionary waiver. The relief is the statutory identity-theft exemption, which applies by its own terms."
+            ],
+            "participantActionRequired": [
+              {
+                "kind": "obtain_document",
+                "description": "Obtain Any municipal court record showing the disposition of the ordinance charge. Ask the municipal court clerk for the docket or the order. LegalEase never collects, inspects or authenticates it.",
+                "obtainedFrom": "The municipal court clerk",
+                "requirement": "conditional",
+                "conditionDescription": "Where a charge was filed and dismissed, or the participant was found not guilty, or a court found no probable cause.",
+                "requiredBeforeFiling": false
+              },
+              {
+                "kind": "confirm_answer",
+                "description": "Check your answer to \"Which one of these applies to you: the arrest happened because of mistaken identity; a court found there was no probable cause; you were found not guilty; the arrest was for an ordinance prohibited by K.S.A. 12-16,134(a) or (b) adopted before 1 July 2014; or expungement would be in the best interests of justice and charges have been dismissed or none have been or are likely to be filed?\" against Any municipal court record showing the disposition of the ordinance charge, and correct the packet if they disagree.",
+                "requirement": "conditional",
+                "conditionDescription": "Where a charge was filed and dismissed, or the participant was found not guilty, or a court found no probable cause.",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "obtain_document",
+                "description": "Obtain The municipal court's own expungement form, where it publishes one. Ask the clerk whether the court has its own form.",
+                "obtainedFrom": "The municipal court clerk or the city's website",
+                "requirement": "conditional",
+                "conditionDescription": "Where the municipal court publishes its own instrument, which governs over the statewide fallback.",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "confirm_answer",
+                "description": "Check your answer to \"Does that municipal court publish its own expungement form or require its own process? Its clerk can tell you.\" against The municipal court's own expungement form, where it publishes one, and correct the packet if they disagree.",
+                "requirement": "conditional",
+                "conditionDescription": "Where the municipal court publishes its own instrument, which governs over the statewide fallback.",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "obtain_document",
+                "description": "Obtain The municipal filing fee, where the court charges one and no exemption applies. Ask the clerk what that court charges and tell them if you were arrested as a result of identity theft.",
+                "obtainedFrom": "The participant, paid to the municipal court clerk",
+                "requirement": "conditional",
+                "conditionDescription": "No fee may be charged to a person arrested as a result of being a victim of identity theft.",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "complete_field",
+                "description": "Petitioner's signature and date — Petition, signature block.",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "complete_field",
+                "description": "Hearing date, time and courtroom — Any notice the municipal court requires.",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "complete_field",
+                "description": "Case number and caption details the local court prescribes — Caption.",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "complete_field",
+                "description": "Findings language and the judge's signature — Proposed order.",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "sign",
+                "description": "The petitioner signs the petition. K.S.A. 12-4516a imposes no verification requirement, and local practice may.",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "notarize",
+                "description": "none identified in the statute; confirm local municipal practice",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "pay_fee",
+                "description": "A municipal court may prescribe a fee to be charged as costs, K.S.A. 12-4516a(b), except that no fee may be charged to a person who was arrested as a result of being a victim of identity theft under K.S.A. 21-6107 or former K.S.A. 21-4018. Amounts vary by court and there is no statewide figure.",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "apply_fee_waiver",
+                "description": "No discretionary waiver. The relief is the statutory identity-theft exemption, which applies by its own terms.",
+                "requirement": "conditional",
+                "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "serve_party",
+                "description": "The court causes notice to be given. The participant does not serve.",
+                "requirement": "required",
+                "requiredBeforeFiling": false
+              },
+              {
+                "kind": "file",
+                "description": "File with the clerk of the municipal court where the ordinance charge was brought. Confirm first whether that court publishes its own expungement form or requires its own process.",
+                "requirement": "required",
+                "requiredBeforeFiling": false
+              }
+            ]
+          }
+        ],
+        "tracksWithNoPacketSet": [],
+        "sourceRelationshipCount": 0
+      },
+      "registryClassification": {
+        "kind": "exact_track_and_packet_set",
+        "statement": "Tracks ks-12-4516a-municipal-arrest map to this pathway and each carries an exact packet set (ks-12-4516a-municipal-arrest-set)."
+      },
+      "bridgeImportEffect": {
+        "changed": false,
+        "sessionADisposition": "approved_by_decision_owner",
+        "sessionAReason": "Roger Roman approved the completed output of rcap-ks-custom-pleading on 2026-08-19 under auth-2026-08-19-owner-legal-approval-completed-output. EXT-ADOPT-01 adopted the legal design on 2026-08-08; the owner's decision closes the completed-output gate that adoption left open.",
+        "afterImport": "approved_by_decision_owner"
+      },
+      "adoptionJoin": {
+        "recordId": "EXT-ADOPT-01-standing-external-counsel-adoption",
+        "adoptedOn": "2026-08-08",
+        "scopeLevel": "packet_family",
+        "recordSha256": "7bea6b4c78cde50a4075bb107ea08a4804f2af3d5add75b245ebc37afaef1185",
+        "jurisdictionIsBound": true,
+        "boundFamiliesInThisJurisdiction": [
+          {
+            "familyJobId": "rcap-ks-custom-pleading",
+            "legalDesignMemoSha256": "24d65a98fa7e59466b59642c8ec90e62398891fffa0efad8f0b21ba24db47db1",
+            "packetProofSha256": "628cb03a621aa4db6967346bd5b73caceb316a7bb7bf777c47345e49a97f1d50",
+            "implementationCommit": "d58816f8fc75aa5156ff5e26c682e21ed1b31d39",
+            "carriesSupersededTechnicalResult": false
+          }
+        ],
+        "sessionAAdoptionRecordId": "EXT-ADOPT-01-standing-external-counsel-adoption",
+        "sessionABoundFamilyEvidence": [
+          {
+            "familyJobId": "rcap-ks-custom-pleading",
+            "jurisdiction": "KS",
+            "packetProofSha256": "628cb03a621aa4db6967346bd5b73caceb316a7bb7bf777c47345e49a97f1d50",
+            "legalDesignMemoSha256": "24d65a98fa7e59466b59642c8ec90e62398891fffa0efad8f0b21ba24db47db1"
+          }
+        ]
+      },
+      "completedOutput": [
+        {
+          "trackId": "ks-12-4516a-municipal-arrest",
+          "jobId": "rcap-ks-custom-pleading",
+          "jurisdiction": "KS",
+          "completionCommit": "d58816f8fc75aa5156ff5e26c682e21ed1b31d39",
+          "authorityEdition": "1.2",
+          "verifierResult": "passed",
+          "verifierPath": "scripts/verify-rcap-kansas-custom-pleading.mjs",
+          "assembledFileName": "ks-municipal-arrest-mistaken-identity-1-technical-fixture.pdf",
+          "assembledSha256": "d5cc0efe676297cddbdfd5f4b408fe730d5da5fe27e256e8b59707082a4f7694",
+          "assembledPageCount": 6,
+          "familyIsAdopted": true,
+          "familyCarriesSupersededTechnicalResult": false
+        },
+        {
+          "trackId": "ks-12-4516a-municipal-arrest",
+          "jobId": "rcap-ks-custom-pleading",
+          "jurisdiction": "KS",
+          "completionCommit": "d58816f8fc75aa5156ff5e26c682e21ed1b31d39",
+          "authorityEdition": "1.2",
+          "verifierResult": "passed",
+          "verifierPath": "scripts/verify-rcap-kansas-custom-pleading.mjs",
+          "assembledFileName": "ks-municipal-arrest-best-interests-identity-theft-2-technical-fixture.pdf",
+          "assembledSha256": "e04aba4d68707474feadb321d28853ce78cad1cf7650ee69162dc95c7e9c3bf6",
+          "assembledPageCount": 4,
+          "familyIsAdopted": true,
+          "familyCarriesSupersededTechnicalResult": false
+        }
+      ],
+      "problematicPdfAssets": [],
+      "publicWitness": {
+        "publicRoute": "/expungement-ai/screening/kansas",
+        "evaluationEndpoint": "POST /api/expungement-ai/screening",
+        "profileVersion": "2026-06-19-source-conversion-1",
+        "pathwayContextOffered": "Municipal arrest record expungement",
+        "seedAnswers": {
+          "ownership_scope": "Yes",
+          "jurisdiction_scope": "State or local",
+          "state_exclusion_categories": [
+            "None of these"
+          ],
+          "pending_cases": "No",
+          "new_convictions_during_waiting_period": "No",
+          "sentence_completion_date": "Yes",
+          "financial_obligations": "Yes",
+          "court_requirements_completed": "yes",
+          "special_preconditions_confirmed": "Yes",
+          "trafficking_status": "No",
+          "pardon_status": "No",
+          "record_documents": "Yes",
+          "resolved_timing_bucket": "gt_10_years",
+          "possible_pathway_context": "Municipal arrest record expungement"
+        },
+        "rounds": 2,
+        "finalAnswerCount": 13,
+        "terminalEvaluation": {
+          "resultCode": "guidance_only",
+          "pathwayId": "municipal-arrest-record-expungement-under-12-4516a",
+          "pathwayLabel": "Municipal arrest record expungement",
+          "paymentAllowed": false,
+          "treatmentClassification": null,
+          "selectedTrackId": null,
+          "reasonCodes": [
+            "ks.guidance_only_no_user_filed_court_petition"
+          ],
+          "missingQuestionIds": []
+        },
+        "landedOnThisPathway": true,
+        "error": null,
+        "answerSetRef": "data/rcap-ledger/public-witness-answer-sets.json#witnesses[pathwayKey=KS:municipal-arrest-record-expungement-under-12-4516a]"
+      },
+      "ownerApprovedLegal": {
+        "status": "approved_by_decision_owner",
+        "basis": "owner_approved_packet_family",
+        "escalationRequired": false,
+        "packetFamilies": [
+          "rcap-ks-custom-pleading"
+        ],
+        "statement": "Roger Roman under auth-2026-08-19-owner-legal-approval-completed-output, effective 2026-08-19 approved the completed output of rcap-ks-custom-pleading, the packet family this pathway resolves to."
+      }
+    },
+    {
+      "pathwayKey": "KS:municipal-conviction-or-diversion-expungement-under-12-4516",
+      "jurisdiction": "KS",
+      "pathwayId": "municipal-conviction-or-diversion-expungement-under-12-4516",
+      "pathwayLabel": "Municipal conviction or diversion expungement",
+      "sessionAGraph": {
+        "disposition": "approved_by_decision_owner",
+        "statement": "Roger Roman approved the completed output of rcap-ks-custom-pleading on 2026-08-19 under auth-2026-08-19-owner-legal-approval-completed-output. EXT-ADOPT-01 adopted the legal design on 2026-08-08; the owner's decision closes the completed-output gate that adoption left open.",
+        "registryTrackIds": [
+          "ks-12-4516-municipal"
+        ],
+        "packetFamilies": [
+          "rcap-ks-custom-pleading"
+        ],
+        "lawrenceRatification": null,
+        "ledgerSaysLegalReviewPending": true,
+        "consumedVerbatim": true
+      },
+      "packetFamilyBridge": {
+        "source": "data/record-clearing/legal-design-packet-set-manifests.json",
+        "scope": "all 497 registry tracks",
+        "supersedesForThisPurpose": "data/rcap-codex/d-track-terminalization/track-family-map.json",
+        "packetSets": [
+          {
+            "packetSetId": "ks-12-4516-municipal-set",
+            "trackId": "ks-12-4516-municipal",
+            "version": "1.0.0",
+            "components": [
+              {
+                "componentId": "ks-12-4516-municipal-primary-filing-1",
+                "role": "primary_filing",
+                "requirement": "required",
+                "outputStrategy": "custom_pleading",
+                "officialFormId": null,
+                "officialSourceUrl": null
+              },
+              {
+                "componentId": "ks-12-4516-municipal-proposed-order-2",
+                "role": "proposed_order",
+                "requirement": "conditional",
+                "outputStrategy": "custom_pleading",
+                "officialFormId": null,
+                "officialSourceUrl": null
+              },
+              {
+                "componentId": "ks-12-4516-municipal-process-guidance-3",
+                "role": "process_guidance",
+                "requirement": "required",
+                "outputStrategy": "process_guidance",
+                "officialFormId": null,
+                "officialSourceUrl": null
+              }
+            ],
+            "requiredBeforeFiling": [
+              "Obtain Your own municipal case information. Ask the municipal court clerk for the case number, the ordinance violated, the disposition, the completion date, and whether all costs and fines are paid. LegalEase never collects, inspects or authenticates these records.",
+              "Check your answer to \"On what date did you satisfy the sentence, get discharged from probation, parole or a suspended sentence, or fulfil the diversion terms, whichever came last?\" against Your own municipal case information, and correct the packet if they disagree.",
+              "Obtain The municipal court's own expungement form, where it publishes one. Ask the clerk whether the court has its own form. Wichita and Topeka both publish their own.",
+              "Check your answer to \"Does that municipal court publish its own expungement form or require its own process? Its clerk can tell you.\" against The municipal court's own expungement form, where it publishes one, and correct the packet if they disagree.",
+              "Obtain The municipal filing fee, where the court charges one. Ask the clerk what that court charges.",
+              "Petitioner's signature and date — Petition, signature block.",
+              "Hearing date, time and courtroom — Any notice the municipal court requires.",
+              "Case number and caption details the local court prescribes — Caption.",
+              "Findings language and the judge's signature — Proposed order.",
+              "The petitioner signs the petition. K.S.A. 12-4516 imposes no verification requirement, and local practice may.",
+              "none identified in the statute; confirm local municipal practice",
+              "A municipal court may prescribe a fee to be charged as costs for a person petitioning for an order of expungement, K.S.A. 12-4516(g)(2). Amounts vary by court and there is no statewide figure.",
+              "None identified in K.S.A. 12-4516. Any relief is a matter of local municipal court practice."
+            ],
+            "participantActionRequired": [
+              {
+                "kind": "obtain_document",
+                "description": "Obtain Your own municipal case information. Ask the municipal court clerk for the case number, the ordinance violated, the disposition, the completion date, and whether all costs and fines are paid. LegalEase never collects, inspects or authenticates these records.",
+                "obtainedFrom": "The municipal court clerk",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "confirm_answer",
+                "description": "Check your answer to \"On what date did you satisfy the sentence, get discharged from probation, parole or a suspended sentence, or fulfil the diversion terms, whichever came last?\" against Your own municipal case information, and correct the packet if they disagree.",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "obtain_document",
+                "description": "Obtain The municipal court's own expungement form, where it publishes one. Ask the clerk whether the court has its own form. Wichita and Topeka both publish their own.",
+                "obtainedFrom": "The municipal court clerk or the city's website",
+                "requirement": "conditional",
+                "conditionDescription": "Where the municipal court publishes its own instrument, which governs over the statewide fallback.",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "confirm_answer",
+                "description": "Check your answer to \"Does that municipal court publish its own expungement form or require its own process? Its clerk can tell you.\" against The municipal court's own expungement form, where it publishes one, and correct the packet if they disagree.",
+                "requirement": "conditional",
+                "conditionDescription": "Where the municipal court publishes its own instrument, which governs over the statewide fallback.",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "obtain_document",
+                "description": "Obtain The municipal filing fee, where the court charges one. Ask the clerk what that court charges.",
+                "obtainedFrom": "The participant, paid to the municipal court clerk",
+                "requirement": "conditional",
+                "conditionDescription": "K.S.A. 12-4516(g)(2) lets a municipal court prescribe a fee as costs; amounts vary by court.",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "complete_field",
+                "description": "Petitioner's signature and date — Petition, signature block.",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "complete_field",
+                "description": "Hearing date, time and courtroom — Any notice the municipal court requires.",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "complete_field",
+                "description": "Case number and caption details the local court prescribes — Caption.",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "complete_field",
+                "description": "Findings language and the judge's signature — Proposed order.",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "sign",
+                "description": "The petitioner signs the petition. K.S.A. 12-4516 imposes no verification requirement, and local practice may.",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "notarize",
+                "description": "none identified in the statute; confirm local municipal practice",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "pay_fee",
+                "description": "A municipal court may prescribe a fee to be charged as costs for a person petitioning for an order of expungement, K.S.A. 12-4516(g)(2). Amounts vary by court and there is no statewide figure.",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "apply_fee_waiver",
+                "description": "None identified in K.S.A. 12-4516. Any relief is a matter of local municipal court practice.",
+                "requirement": "conditional",
+                "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "serve_party",
+                "description": "The court causes notice to be given. The participant does not serve.",
+                "requirement": "required",
+                "requiredBeforeFiling": false
+              },
+              {
+                "kind": "file",
+                "description": "File with the clerk of the convicting municipal court. Confirm first whether that court publishes its own expungement form or requires its own process; where it does, use the local instrument.",
+                "requirement": "required",
+                "requiredBeforeFiling": false
+              }
+            ]
+          }
+        ],
+        "tracksWithNoPacketSet": [],
+        "sourceRelationshipCount": 0
+      },
+      "registryClassification": {
+        "kind": "exact_track_and_packet_set",
+        "statement": "Tracks ks-12-4516-municipal map to this pathway and each carries an exact packet set (ks-12-4516-municipal-set)."
+      },
+      "bridgeImportEffect": {
+        "changed": false,
+        "sessionADisposition": "approved_by_decision_owner",
+        "sessionAReason": "Roger Roman approved the completed output of rcap-ks-custom-pleading on 2026-08-19 under auth-2026-08-19-owner-legal-approval-completed-output. EXT-ADOPT-01 adopted the legal design on 2026-08-08; the owner's decision closes the completed-output gate that adoption left open.",
+        "afterImport": "approved_by_decision_owner"
+      },
+      "adoptionJoin": {
+        "recordId": "EXT-ADOPT-01-standing-external-counsel-adoption",
+        "adoptedOn": "2026-08-08",
+        "scopeLevel": "packet_family",
+        "recordSha256": "7bea6b4c78cde50a4075bb107ea08a4804f2af3d5add75b245ebc37afaef1185",
+        "jurisdictionIsBound": true,
+        "boundFamiliesInThisJurisdiction": [
+          {
+            "familyJobId": "rcap-ks-custom-pleading",
+            "legalDesignMemoSha256": "24d65a98fa7e59466b59642c8ec90e62398891fffa0efad8f0b21ba24db47db1",
+            "packetProofSha256": "628cb03a621aa4db6967346bd5b73caceb316a7bb7bf777c47345e49a97f1d50",
+            "implementationCommit": "d58816f8fc75aa5156ff5e26c682e21ed1b31d39",
+            "carriesSupersededTechnicalResult": false
+          }
+        ],
+        "sessionAAdoptionRecordId": "EXT-ADOPT-01-standing-external-counsel-adoption",
+        "sessionABoundFamilyEvidence": [
+          {
+            "familyJobId": "rcap-ks-custom-pleading",
+            "jurisdiction": "KS",
+            "packetProofSha256": "628cb03a621aa4db6967346bd5b73caceb316a7bb7bf777c47345e49a97f1d50",
+            "legalDesignMemoSha256": "24d65a98fa7e59466b59642c8ec90e62398891fffa0efad8f0b21ba24db47db1"
+          }
+        ]
+      },
+      "completedOutput": [
+        {
+          "trackId": "ks-12-4516-municipal",
+          "jobId": "rcap-ks-custom-pleading",
+          "jurisdiction": "KS",
+          "completionCommit": "d58816f8fc75aa5156ff5e26c682e21ed1b31d39",
+          "authorityEdition": "1.2",
+          "verifierResult": "passed",
+          "verifierPath": "scripts/verify-rcap-kansas-custom-pleading.mjs",
+          "assembledFileName": "ks-municipal-conviction-three-year-1-technical-fixture.pdf",
+          "assembledSha256": "6ed6f00e68f09ec9b02fd37374b6beca33c4043c504ad3c224786ccbe1f6a12c",
+          "assembledPageCount": 6,
+          "familyIsAdopted": true,
+          "familyCarriesSupersededTechnicalResult": false
+        },
+        {
+          "trackId": "ks-12-4516-municipal",
+          "jobId": "rcap-ks-custom-pleading",
+          "jurisdiction": "KS",
+          "completionCommit": "d58816f8fc75aa5156ff5e26c682e21ed1b31d39",
+          "authorityEdition": "1.2",
+          "verifierResult": "passed",
+          "verifierPath": "scripts/verify-rcap-kansas-custom-pleading.mjs",
+          "assembledFileName": "ks-municipal-diversion-dui-first-petition-only-2-technical-fixture.pdf",
+          "assembledSha256": "c2843da7d3e9a5723b28ab63435f07aad08a83d89c7021f3da30e2baa88bd281",
+          "assembledPageCount": 4,
+          "familyIsAdopted": true,
+          "familyCarriesSupersededTechnicalResult": false
+        }
+      ],
+      "problematicPdfAssets": [],
+      "publicWitness": {
+        "publicRoute": "/expungement-ai/screening/kansas",
+        "evaluationEndpoint": "POST /api/expungement-ai/screening",
+        "profileVersion": "2026-06-19-source-conversion-1",
+        "pathwayContextOffered": "Municipal conviction or diversion expungement",
+        "seedAnswers": {
+          "ownership_scope": "Yes",
+          "jurisdiction_scope": "State or local",
+          "state_exclusion_categories": [
+            "None of these"
+          ],
+          "pending_cases": "No",
+          "new_convictions_during_waiting_period": "No",
+          "sentence_completion_date": "Yes",
+          "financial_obligations": "Yes",
+          "court_requirements_completed": "yes",
+          "special_preconditions_confirmed": "Yes",
+          "trafficking_status": "No",
+          "pardon_status": "No",
+          "record_documents": "Yes",
+          "resolved_timing_bucket": "gt_10_years",
+          "possible_pathway_context": "Municipal conviction or diversion expungement"
+        },
+        "rounds": 2,
+        "finalAnswerCount": 13,
+        "terminalEvaluation": {
+          "resultCode": "needs_more_info",
+          "pathwayId": "municipal-conviction-or-diversion-expungement-under-12-4516",
+          "pathwayLabel": "Municipal conviction or diversion expungement",
+          "paymentAllowed": false,
+          "treatmentClassification": null,
+          "selectedTrackId": null,
+          "reasonCodes": [
+            "ks.route_identified_packet_not_yet_available"
+          ],
+          "missingQuestionIds": []
+        },
+        "landedOnThisPathway": true,
+        "error": null,
+        "answerSetRef": "data/rcap-ledger/public-witness-answer-sets.json#witnesses[pathwayKey=KS:municipal-conviction-or-diversion-expungement-under-12-4516]"
+      },
+      "ownerApprovedLegal": {
+        "status": "approved_by_decision_owner",
+        "basis": "owner_approved_packet_family",
+        "escalationRequired": false,
+        "packetFamilies": [
+          "rcap-ks-custom-pleading"
+        ],
+        "statement": "Roger Roman under auth-2026-08-19-owner-legal-approval-completed-output, effective 2026-08-19 approved the completed output of rcap-ks-custom-pleading, the packet family this pathway resolves to."
       }
     },
     {
@@ -47230,7 +47809,7 @@
           "resultCode": "packet_ready_with_caution",
           "pathwayId": "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
           "pathwayLabel": "Set-aside of arrests or charges without conviction under ORS 137.225(1)(c)",
-          "paymentAllowed": true,
+          "paymentAllowed": false,
           "treatmentClassification": null,
           "selectedTrackId": null,
           "reasonCodes": [

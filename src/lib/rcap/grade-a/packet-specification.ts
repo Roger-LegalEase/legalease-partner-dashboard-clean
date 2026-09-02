@@ -1,5 +1,7 @@
 import specification from "@/../data/record-clearing/packet-specifications/ND-first-offense-possession-sealing.v1.json";
 import oregonSetAside from "@/../data/record-clearing/packet-specifications/OR-set-aside-without-conviction.v1.json";
+import kansasMunicipalConvictionOrDiversion from "@/../data/record-clearing/packet-specifications/KS-municipal-conviction-or-diversion-expungement-under-12-4516.v1.json";
+import kansasMunicipalArrestRecord from "@/../data/record-clearing/packet-specifications/KS-municipal-arrest-record-expungement-under-12-4516a.v1.json";
 
 /**
  * A packet specification is the exact statement of what one packet family
@@ -168,7 +170,14 @@ export type RegisteredSpecification = PacketSpecification | DerivedPacketSpecifi
 
 const SPECIFICATIONS: ReadonlyMap<string, RegisteredSpecification> = new Map<string, RegisteredSpecification>([
   [(specification as PacketSpecification).routeKey, specification as PacketSpecification],
-  [(oregonSetAside as unknown as DerivedPacketSpecification).routeKey, oregonSetAside as unknown as DerivedPacketSpecification]
+  [(oregonSetAside as unknown as DerivedPacketSpecification).routeKey, oregonSetAside as unknown as DerivedPacketSpecification],
+  // The two Kansas municipal routes. Registered so `resolvePacketFamilyId` has an
+  // independent server-side statement of the family each route delivers, and
+  // unbound so neither can compose a packet or prove a route: Kansas municipal
+  // filing practice is court by court, and the approved memorandum yields to a
+  // municipal court's own published instrument wherever one exists.
+  [(kansasMunicipalConvictionOrDiversion as unknown as DerivedPacketSpecification).routeKey, kansasMunicipalConvictionOrDiversion as unknown as DerivedPacketSpecification],
+  [(kansasMunicipalArrestRecord as unknown as DerivedPacketSpecification).routeKey, kansasMunicipalArrestRecord as unknown as DerivedPacketSpecification]
 ]);
 
 /**
