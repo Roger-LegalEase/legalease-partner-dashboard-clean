@@ -392,7 +392,19 @@ export function classifyBlank(field, reason, refusalClass = null, declared = nul
  */
 export function rowKeyOf(field) {
   const name = String(field.name ?? "");
-  const m = name.match(/(Item\d+|Row\d+|Line\d+|\[(\d+)\])[^.]*$/i) ?? name.match(/(Item\d+\[\d+\]\.Row\d+\[\d+\])/i);
+  // A bare trailing "[0]" is NOT a row marker. XFA terminal names index every
+  // path segment — CR-409[0].Page1[0].rightCaption[0].CourtInfo[0] — so the
+  // old `\[(\d+)\]` alternative keyed nearly every field of every XFA-named
+  // family to the single pseudo-row "table::[0]". On the California families
+  // that "row" contained the petition's caption, the proposed order's court
+  // block and the proof of service's cells — fields on different pages of
+  // DIFFERENT PDFs — and one written caption anywhere made every required
+  // blank on every companion an incompleteRows finding, while CR-180's real
+  // conviction table (ConvTable[0].Row1..Row5, all cells ending "[0]") was
+  // collapsed into that same key and never measured per-row at all. A row
+  // marker is a NAMED one: Item/Row/Line in the terminal segment, an
+  // Item[n].Row[n] pair anywhere, or the printed label's own row number.
+  const m = name.match(/(Item\d+|Row\d+|Line\d+)[^.]*$/i) ?? name.match(/(Item\d+\[\d+\]\.Row\d+\[\d+\])/i);
   if (m) {
     const table = name.match(/(Item\d+|Table\d+|Offense\w*)/i);
     return `${table ? table[1] : "table"}::${m[0]}`;
