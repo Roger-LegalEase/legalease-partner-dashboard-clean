@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `70d74fa70322ebc28a13fe5c31296ab49acac1b9` (or the newer dispatch base)
+**Minimum required ancestor:** `f89a7aed121fa51b9f3b30c717b81a943abb7ad3` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -19,9 +19,9 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family ky_void_seal_controlled_substance-set \
+  --family dc_correct_misattributed_arrest-set \
   --codex-cloud \
-  --minimum-captain-sha 70d74fa70322ebc28a13fe5c31296ab49acac1b9
+  --minimum-captain-sha f89a7aed121fa51b9f3b30c717b81a943abb7ad3
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -56,8 +56,9 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 1 family
+## The 2 families
 
+- `dc_correct_misattributed_arrest-set`
 - `ky_void_seal_controlled_substance-set`
 
 ## What you receive
@@ -71,7 +72,9 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/fix04/**`
+- `data/rcap-all50/overlays/census-v1/dc/dc-correct-misattributed-arrest-set--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/ky/ky-void-seal-controlled-substance-set--custom-pleading/**`
+- `scripts/build-census-v1-dc_correct_misattributed_arrest-set.mjs`
 
 ## Never write here
 
