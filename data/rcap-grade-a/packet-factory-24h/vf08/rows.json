@@ -6521,6 +6521,306 @@
     "the route-obligation census at the review base and at the bound blob 4fb89c96e"
    ],
    "grantsNothing": "An independent PASS proves this packet complete against the fifteen canonical obligations at the declared base. It approves no output, opens no commercial route and enables no checkout. A FAIL is a verdict and a repair assignment, never an edit: this lane modified no packet PDF, fixture, overlay, field map, build script, queue, route, price or production surface."
+  },
+  {
+   "itemId": "wa_vac_cannabis-set",
+   "lane": "VF08",
+   "verifier": "VT-A",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/wa/wa-vac-cannabis-set--official-pdf-fill",
+   "rasterPagesPresentInTree": 6,
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "howMeasured": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id>, run in this container against these bytes without --write; every family returned PASS_COMPLETE"
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "result": "PASS",
+     "finding": "Every artifact in the family that declares an identity declares the same familyId, and the route keys the packet declares agree across them; every declared route key is PRESENT in the committed route-obligation census.",
+     "evidence": {
+      "artifactsCrossRead": [
+       "approvalRequest",
+       "buildFindings",
+       "buildStatus",
+       "fieldMap",
+       "productWiring",
+       "renderedArtifacts",
+       "sourceReceipt"
+      ],
+      "declaredFamilyIds": [
+       "wa_vac_cannabis-set"
+      ],
+      "routeKeySetsFound": [
+       [
+        "obligation:track-pathway:WA:wa_vac_cannabis:misdemeanor-cannabis-conviction-vacation"
+       ]
+      ],
+      "queueRouteKeys": [
+       "obligation:track-pathway:WA:wa_vac_cannabis:misdemeanor-cannabis-conviction-vacation"
+      ],
+      "routeKeysAbsentFromCensus": [],
+      "familyDirectoryMatchesJurisdiction": true
+     }
+    },
+    "SOURCE_IDENTITY": {
+     "result": "PASS",
+     "finding": "Every source record in source-receipt.json was rehashed from the bytes on disk in this container. Every recomputed SHA-256 and byte length agrees with the pinned value, and every declared route key is present in the source that binds it. The receipt's own allSourcesExact claim was not relied on.",
+     "evidence": {
+      "recordsRehashed": 2,
+      "everyRecomputedSha256AndByteLengthAgrees": true,
+      "receiptClaimAllSourcesExact": null,
+      "records": [
+       {
+        "id": null,
+        "path": "STATES/WA/05_SOURCE_GATED/WA__SOURCE-GATED__CRRLJ-09.0800__crrlj-09-0800-crrlj-09-0800-petitiondeclvacateconviction-cannabis-2022-07-2__REV-2022-07__EN.pdf",
+        "resolvedAgainst": "masterLibrary",
+        "declaredSha256": "260367f6930cacc89727fc8a48aa0591b07ad5c7183b6412aa247b1810503d7b",
+        "recomputedSha256": "260367f6930cacc89727fc8a48aa0591b07ad5c7183b6412aa247b1810503d7b",
+        "declaredByteLength": 57643,
+        "recomputedByteLength": 57643,
+        "match": true
+       },
+       {
+        "id": null,
+        "path": "STATES/WA/02_PACKET_FORMS/WA__FORM__CRRLJ-09.0870__crrlj-09-0870-crrlj-09-0870-orderpetvacateconviction-cannabis-2022-07-2__REV-2022-07__EN.pdf",
+        "resolvedAgainst": "masterLibrary",
+        "declaredSha256": "a69335fbbf311f4c92357db5ecb38f931b3409e14f987810247faae2f6295cc3",
+        "recomputedSha256": "a69335fbbf311f4c92357db5ecb38f931b3409e14f987810247faae2f6295cc3",
+        "declaredByteLength": 136567,
+        "recomputedByteLength": 136567,
+        "match": true
+       }
+      ],
+      "routeKeysDeclared": [
+       [
+        "obligation:track-pathway:WA:wa_vac_cannabis:misdemeanor-cannabis-conviction-vacation"
+       ]
+      ],
+      "routeKeysAbsentFromRouteObligationCensus": []
+     }
+    },
+    "COMPONENT_SET": {
+     "result": "PASS",
+     "finding": "Both declared documents — CrRLJ 09.0800 (Petition and Declaration for Order to Vacate Cannabis Conviction) and CrRLJ 09.0870 (Order on Petition to Vacate Cannabis Conviction) — are bound, mapped and rendered in both fixtures. These are the cannabis-specific forms rather than the general CrRLJ 09.0100/09.0200 pair the sibling Washington vacatur families use, so no component of another route is carried.",
+     "evidence": {
+      "documentsInReceipt": 2,
+      "documentsInFieldMap": 2,
+      "renderedArtifacts": 4,
+      "foreignRouteComponentsCarried": 0,
+      "usesTheCannabisSpecificFormsNotTheGeneralPair": true
+     }
+    },
+    "KNOWN_PREFILLS": {
+     "result": "FAIL",
+     "finding": "Every mapped write is present in the bytes and carries ink, but three of them are wrong for this route, and they are wrong in the one place on this packet where the printed caption makes the value a legal assertion. On CrRLJ 09.0800 page 1 the printed line reads 'I was convicted of the following cannabis offense(s):' and it governs three anchors mapped to matter.charges[0..2].charge. The canonical and boundary fixtures write into them 'Theft in the Third Degree', 'Malicious Mischief in the Third Degree' and 'Criminal Trespass in the Second Degree'. None of the three is a cannabis offence. That block sits inside the declaration the participant signs under penalty of perjury under the laws of the State of Washington. The same three values are then carried onto CrRLJ 09.0870, the proposed order, at paragraph 3, so the order a judge would sign asks the court to vacate theft, malicious mischief and criminal trespass as cannabis convictions. This is route-specific and not a factory-wide fixture convention: the sibling ar-act531-set, a controlled-substance route, writes the route-appropriate 'Possession of a controlled substance' into its own offence blank, and the sibling Washington families write the same three generic offences into CrRLJ 09.0100 under the caption 'the following offense/s', which is generic and which they therefore do not contradict. Only this family's caption names the offence class, and only this family's values contradict it. The field map declares no cannabis constraint on matter.charges[].charge, so nothing in the map prevents the same contradiction at runtime.",
+     "evidence": {
+      "printedCaptionOnCRRLJ090800Page1": "I was convicted of the following cannabis offense(s):",
+      "anchorsGovernedByThatCaption": [
+       "p1-y269.45-x236.69",
+       "p1-y250.85-x236.69",
+       "p1-y232.25-x236.69"
+      ],
+      "factIdsMapped": [
+       "matter.charges[0].charge",
+       "matter.charges[1].charge",
+       "matter.charges[2].charge"
+      ],
+      "valuesReadBackFromCanonicalBytes": [
+       "Theft in the Third Degree",
+       "Malicious Mischief in the Third Degree",
+       "Criminal Trespass in the Second Degree"
+      ],
+      "valuesReadBackFromBoundaryBytes": [
+       "Theft in the Third Degree",
+       "Malicious Mischief in the Third Degree",
+       "Criminal Trespass in the Second Degree"
+      ],
+      "carriedOntoTheProposedOrder": {
+       "form": "CRRLJ-09.0870",
+       "paragraph": "3. Based on the petition, the court orders that the following offense(s) is/are:",
+       "values": [
+        "Theft in the Third Degree",
+        "Malicious Mischief in the Third Degree",
+        "Criminal Trespass in the Second Degree"
+       ]
+      },
+      "insideAPerjuryDeclaration": true,
+      "cannabisConstraintDeclaredOnTheChargeFact": false,
+      "occurrencesOfTheWordCannabisInTheFieldMap": 1,
+      "contrastMeasured": {
+       "ar-act531-set": "writes 'Possession of a controlled substance' into OFFENSE 1, matching its own route",
+       "wa_vac_domestic_violence-set and wa_vac_misdemeanor_ordinary-set": "write the same three generic offences under CrRLJ 09.0100's generic caption 'the following offense/s', which they do not contradict"
+      }
+     }
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "result": "PASS",
+     "finding": "Every blank the packet leaves to the participant is named in participant-instructions.md by the words printed beside it on the form."
+    },
+    "ROUTE_OPTIONS": {
+     "result": "PASS",
+     "finding": "The field map declares no routeElections, which is correct on this route and the instructions say why: CrRLJ 09.0800 is the dedicated cannabis-vacation petition, its face prints its statutory basis and carries no ground checkbox and no blank naming an RCW ground, so using this form rather than the general petition is itself the route election. No selection control was marked in any fixture and no vector path was added. The completeness audit run here reports zero required options missing.",
+     "evidence": {
+      "routeElectionsDeclared": 0,
+      "selectionControlsMarked": 0,
+      "vectorPathsAddedInEveryFixture": 0,
+      "whyZeroIsCorrect": "the form itself carries no ground control; choosing CrRLJ 09.0800 is the election"
+     }
+    },
+    "REPEATING_ROWS": {
+     "result": "PASS",
+     "finding": "No repeating row carries written cells beside required cells left blank; the completeness audit run here reports zero incomplete rows."
+    },
+    "PROTECTED_FIELDS": {
+     "result": "PASS",
+     "finding": "No write targets any field the map declares protected or role-refused, read per document rather than by field name across documents; the completeness audit run here reports zero protected writes.",
+     "evidence": {
+      "protectedOrRoleRefusedDeclared": 8,
+      "writeTargetsDeclared": 29,
+      "writesLandingOnAProtectedFieldInTheSameDocument": 0,
+      "writesUnderASignatureLikeCaption": 0,
+      "blockingFindingsInActualWriteReport": []
+     }
+    },
+    "ARTIFACTS": {
+     "result": "PASS",
+     "finding": "Every artifact declared in reports/rendered-artifacts.json was rehashed in this lane from the bytes on disk; the recorded hash was not read back.",
+     "evidence": {
+      "declaredArtifacts": 4,
+      "allRehashedHere": true,
+      "everyDeclaredArtifactMatches": true,
+      "artifacts": [
+       {
+        "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-cannabis-set--official-pdf-fill/fixtures/crrlj-09-0800-canonical-filled.pdf",
+        "present": true,
+        "declaredSha256": "9ccebef430b4a7de3614df3a9796d57524385147e01e82a4e7c186b1cc7088ad",
+        "recomputedSha256": "9ccebef430b4a7de3614df3a9796d57524385147e01e82a4e7c186b1cc7088ad",
+        "declaredByteLength": 53904,
+        "recomputedByteLength": 53904,
+        "match": true
+       },
+       {
+        "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-cannabis-set--official-pdf-fill/fixtures/crrlj-09-0800-boundary-filled.pdf",
+        "present": true,
+        "declaredSha256": "22c9ec04f47a5ae0222cc4d84e859cf402c7585379fa7337d0243d57c41c8942",
+        "recomputedSha256": "22c9ec04f47a5ae0222cc4d84e859cf402c7585379fa7337d0243d57c41c8942",
+        "declaredByteLength": 54059,
+        "recomputedByteLength": 54059,
+        "match": true
+       },
+       {
+        "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-cannabis-set--official-pdf-fill/fixtures/crrlj-09-0870-canonical-filled.pdf",
+        "present": true,
+        "declaredSha256": "05e54d039621b60c26af09cfc106485a17289ebfbc998774c013d1a2380dedbc",
+        "recomputedSha256": "05e54d039621b60c26af09cfc106485a17289ebfbc998774c013d1a2380dedbc",
+        "declaredByteLength": 130126,
+        "recomputedByteLength": 130126,
+        "match": true
+       },
+       {
+        "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-cannabis-set--official-pdf-fill/fixtures/crrlj-09-0870-boundary-filled.pdf",
+        "present": true,
+        "declaredSha256": "73a23e0f22cebf5cde9af115504e81118b22ac1f688f0482646159627d758e4e",
+        "recomputedSha256": "73a23e0f22cebf5cde9af115504e81118b22ac1f688f0482646159627d758e4e",
+        "declaredByteLength": 130221,
+        "recomputedByteLength": 130221,
+        "match": true
+       }
+      ],
+      "pdfsOnDiskInFamily": 4
+     }
+    },
+    "PAGE_ORDER": {
+     "result": "PASS",
+     "finding": "For every fixture the page numbering runs 1..N with no gap, N equals the page count read from the PDF bytes, and the document blocks appear in the order the packet declares.",
+     "evidence": {
+      "perArtifact": [
+       {
+        "file": "fixtures/crrlj-09-0800-canonical-filled.pdf",
+        "pagesReadFromBytes": 1,
+        "pagesCarryingText": 1,
+        "textCharacters": 2481
+       },
+       {
+        "file": "fixtures/crrlj-09-0800-boundary-filled.pdf",
+        "pagesReadFromBytes": 1,
+        "pagesCarryingText": 1,
+        "textCharacters": 3079
+       },
+       {
+        "file": "fixtures/crrlj-09-0870-canonical-filled.pdf",
+        "pagesReadFromBytes": 2,
+        "pagesCarryingText": 2,
+        "textCharacters": 5117
+       },
+       {
+        "file": "fixtures/crrlj-09-0870-boundary-filled.pdf",
+        "pagesReadFromBytes": 2,
+        "pagesCarryingText": 2,
+        "textCharacters": 5368
+       }
+      ],
+      "contiguity": "every artifact's page numbering runs 1..N with no gap; N read from the PDF bytes with pdfinfo and confirmed against the page blocks pdftotext yields"
+     }
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "result": "PASS",
+     "finding": "No declared write box falls outside its page box, no two write boxes on the same page of the same document overlap, and the byte-level count of ink outside every measured write box is zero.",
+     "evidence": {
+      "declaredWriteBoxesMeasured": 29,
+      "boxesOutsideThePageBox": 0,
+      "overlappingWriteBoxPairs": [],
+      "byteLevelOutOfBoxGlyphCount": 0,
+      "byteLevelBasis": "verify-packet-completeness.mjs visualDefects counter, which is derived from nonWhitespaceGlyphsOutsideMeasuredWriteBoxes read from the output bytes; measured here, 0",
+      "rasterPagesPresentInTree": 6
+     }
+    },
+    "FILING_DESTINATION": {
+     "result": "PASS",
+     "finding": "'Where to file' names the court where the participant was sentenced, identifies it as a Washington court of limited jurisdiction (the district court of the county or the municipal court of the city that sentenced them), and filing-obligations.json records the destination from the committed census and the committed worklist, corroborated by CrRLJ 09.0300."
+    },
+    "FEE_AND_WAIVER": {
+     "result": "PASS",
+     "finding": "'Filing fee and fee waiver' states that neither CrRLJ 09.0800 nor the official instruction sheet CrRLJ 09.0300 prices a petition to vacate, refuses to invent an amount, and puts three specific questions to the clerk of the sentencing court: whether a fee applies, the amount, and whether a waiver is available and how to apply. filing-obligations.json records money language measured as zero in each bound source and records that the official instruction sheet states no fee or waiver."
+    },
+    "SERVICE": {
+     "result": "PASS",
+     "finding": "'Who must be served, and how' names the prosecuting attorney's office that prosecuted the participant and cites CrRLJ 09.0300 section 3, reached through section 2.a which directs cannabis petitioners there, for the method and the timing."
+    },
+    "SELF_HELP_STOP": {
+     "result": "PASS",
+     "finding": "'Where self-help ends' lists explicit stop conditions, including being under 21 at the time of any offence and being unsure the route or the court is right."
+    }
+   },
+   "evidenceRead": [
+    "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+    "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+    "field-census.census-v1.json",
+    "filing-obligations.json",
+    "fixtures/fixture-manifest.json",
+    "participant-completion-instructions.json",
+    "participant-instructions.md",
+    "product-wiring.json",
+    "production-field-map.json",
+    "reports/actual-writes.json",
+    "reports/protection-report.json",
+    "reports/rendered-artifacts.json",
+    "source-receipt.json",
+    "the Master Library at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+    "the canonical and boundary fixture PDF bytes",
+    "the pinned bytes of AR ACIC petition ACT-531 for the cross-family charge-value contrast"
+   ]
   }
  ],
  "obligationSet": "the factory's canonical fifteen (L9)",
@@ -6843,5 +7143,29 @@
   "why": "In each case the verification grant was spent BEFORE the repair landed, and no transfer or reissue reopened it afterwards. The other five were reopened onto VF10 and VF12 at 05:45 and 05:59; these three were not.",
   "consequence": "Each still carries a FAIL_REPAIR_REQUIRED from a pre-repair read, and no lane is able to assert it. The repair is real and nobody can look at it. A repair nobody has read is not a finished family — the transfer log's own words.",
   "whatCaptainMustDo": "Transfer each to an independent-verification lane that has neither built nor repaired nor already formed a view of it, with a stated reason, as was done for the other five. This lane will not transfer a grant to itself: VF05, VF06 and VF08 are the lanes whose directories already hold a prior view of these very families, so a reissue in place would put the second read back in front of the same eyes the independence rule excludes."
+ },
+ "fableVtaAppend": {
+  "worker": "VT-A",
+  "appendedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+  "familiesRead": [
+   "wa_vac_cannabis-set"
+  ],
+  "rowsAppended": 1,
+  "rowsPreservedUntouched": 22,
+  "whatWasRecomputedRatherThanRead": [
+   "SOURCE_IDENTITY: every source record in every source-receipt.json was rehashed from the bytes on disk in this container -- Master Library paths against private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1, repository paths against the tree at this base. The receipts' own allSourcesExact claims were not relied on.",
+   "ARTIFACTS: every PDF declared in reports/rendered-artifacts.json was rehashed here; no recorded hash was read back.",
+   "COMPONENT_SET: every declared component was resolved to a file on disk, and every family was checked for components belonging to another route.",
+   "the nine completeness counters: produced by running scripts/rcap-packet-completeness/verify-packet-completeness.mjs in this container, without --write, rather than read from any builder's report."
+  ],
+  "verdictTallyOverEveryRowInThisFileAfterThisAppend": {
+   "FAIL_REPAIR_REQUIRED": 6,
+   "BLOCKED_LEGAL_INPUT": 1,
+   "PASS_COMPLETE_INDEPENDENT": 15,
+   "PASS": 1
+  },
+  "noteOnTheFileLevelSummary": "The file-level summary block, where one exists, predates later appends including this one and does not describe every row now in the file. It was left exactly as its author wrote it rather than rewritten by a different lane; the recomputed tally above is VT-A's own statement over every row present after this append.",
+  "independence": "VT-A is an independent verification team. It did not build or repair any family below, and it holds no prior view of them. It wrote into no overlay directory and no build script, opened no route, set no price and touched no production config. A FAIL here is a verdict and a repair assignment, never an edit.",
+  "grantsNothing": "An independent PASS_COMPLETE_INDEPENDENT proves a packet is complete against the fifteen obligations measured here. It approves no output, opens no commercial route and creates no fulfillment record."
  }
 }

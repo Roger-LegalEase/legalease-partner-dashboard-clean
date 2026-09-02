@@ -229,5 +229,62 @@
     ],
     "note": "One FAIL_REPAIR_REQUIRED from the FABLE-VA12 wave. Existing assignments untouched.",
     "assignmentCountUpdated": "assignmentCount moved 5 -> 6 so it keeps matching assignments.length, which is what the prior appending lane in this file did. No existing assignment object was altered."
+  },
+  "fableVtaAssignments": {
+    "worker": "VT-A",
+    "generatedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+    "whyASeparateBlock": "appended without touching the assignments this file already carries; those were written by other lanes at other bases and are preserved verbatim",
+    "assignmentCount": 1,
+    "assignments": [
+      {
+        "itemId": "rcap-oh-custom-pleading-clean-tracks",
+        "lane": "VF01",
+        "verifier": "VT-A",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+        "familyDirectory": "data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading",
+        "decisiveDefect": "The packet's official Ohio BCI companion PDF does not exist at this base. reports/rendered-artifacts.json declares it at SHA-256 9234ec763403b1ccfbed796dfcf86f29bf7887390d1770460d0bcc9da31fc8cb and 235789 bytes; companion/ contains only companion-guidance.md. All four of the route's declared packetComponents are the BCI transmission component, so every declared component of this family resolves to that one absent file, and participant-instructions.md tells the participant in as many words that the document 'is included unchanged'.",
+        "failedProofObligations": [
+          "ARTIFACTS",
+          "COMPONENT_SET"
+        ],
+        "perObligation": {
+          "ARTIFACTS": {
+            "measuredDetail": "Nine PDFs are declared. Eight were rehashed in this lane and every SHA-256 and byte length agrees. The ninth, companion/OH-BCI-SEALING-EXPUNGEMENT-REQUEST--official-source.pdf, is absent, so its declared hash cannot be recomputed from anything. The manifest also records a raster page and a contact sheet rendered from that same absent PDF, and both of those files are present -- the record therefore asserts a document that was rendered from bytes the tree no longer carries.",
+            "whatRepairMustDo": "Restore the companion PDF into companion/ from the held source and prove it: the bound source STATES/OH/04_SUPPORTING_PROCESS/OH__SUPPORT__OH-BCI-SEALING-EXPUNGEMENT-REQUEST__re-sealing-and-or-expungements__REV-UNKNOWN__EN.pdf is intact in the Master Library and rehashes to the declared 9234ec76... at 235789 bytes, and the file exists at that size in commit 36e7a6a59449692329a6e0c31ab74f33fff96564 on branch codex/c11-packet-factory-accelerator, which is not an ancestor of this base. Copy it unchanged, as the receipt's copiedWithoutModification flag requires, then rehash the restored file and confirm it matches the declared value."
+          },
+          "COMPONENT_SET": {
+            "measuredDetail": "product-wiring.json declares exactly four packetComponents and every one of them is a *-bci-transmission-5 component. The field map's fifth document, OH-BCI-SEALING-EXPUNGEMENT-REQUEST with documentRole POST_ORDER_COMPANION_SOURCE, is the companion those four deliver, and its artifact is missing. The four composed pleading documents are present and correct in both fixtures; no component of another route is carried.",
+            "whatRepairMustDo": "Once the companion is restored, re-resolve each of the four declared components to a file that exists and re-run scripts/rcap-packet-completeness/verify-packet-completeness.mjs for this family. If instead the decision is that this family ships without the companion, then the four packetComponents, the field map's fifth document, the rendered-artifacts entry, its two raster records and the sentence in participant-instructions.md that says the document is included must all be withdrawn together -- but do not take that path merely to make the manifest self-consistent."
+          }
+        },
+        "whatIsNotBroken": "SOURCE_IDENTITY passes: the single bound source rehashes exactly from the Master Library, and all four declared route keys are present in the committed route-obligation census. The eight composed pleading fixtures are correct, and the instructions are among the strongest in this lane's reading -- they state the filing court, the fee and its indigency waiver and the service position per statutory section, from the compiled Ohio profile, rather than sending the participant away.",
+        "repairMustNotDo": [
+          "do not edit an artifact merely so a receipt or a manifest matches it",
+          "do not weaken or delete the declaration this verification rests on",
+          "do not open a route, set a price or change checkout",
+          "this verification lane may not perform the repair",
+          "do not delete the companion declaration merely so the manifest becomes self-consistent; the participant-facing instruction that the document is included is the reason this matters"
+        ],
+        "reVerificationRequired": true,
+        "systemicCause": {
+          "whatMadeThisHappen": "Commit c01b87d1584bbb0b902b398b45c376f8fea22050, 'Integrate C11: 43 packet families built, 4 stopped, 59 corpus binaries excluded', deliberately excluded 59 committed PDFs from the tree. Its stated reasoning is sound for source binaries and this lane confirmed it holds: 'nothing is lost: each family's own source-receipt.json already records the exact SHA-256, byte length and path in corpus for every source it bound, and a verifier binds sources from MASTER_LIBRARY_SOURCE_DIR rather than from git.' SOURCE_IDENTITY for this family passes on exactly that basis. But the rule was written for source copies and it swept in two files that are not source copies: they are packet deliverables under companion/, declared as rendered packet PDFs and as the route's packetComponents, and promised to the participant. For those two, the exclusion removed a deliverable rather than a redundant copy of a source.",
+          "blastRadiusMeasuredHere": {
+            "excludedOverlayPdfsListedInC11ReturnReview": 59,
+            "ofThoseUnderCompanionAndThereforePacketDeliverables": 2,
+            "companionDeliverablesStillAbsentAtThisBase": 2,
+            "familiesAffected": [
+              "rcap-oh-custom-pleading-clean-tracks",
+              "oh-marijuana-expungement-set"
+            ],
+            "bothAreTheSameDocument": "the Ohio BCI Sealings and Expungements Request, SHA-256 9234ec763403b1ccfbed796dfcf86f29bf7887390d1770460d0bcc9da31fc8cb",
+            "theOtherAbsentExclusionsAreSourceCopies": "the remaining absent exclusions are source copies inside overlay directories, and their exclusion is harmless for the reason C11 gave -- this lane rehashed every bound source of every family it read from the Master Library and every one matched",
+            "oh-marijuana-expungement-setIsNotThisLanesFamily": "it is recorded here only because the same cause reaches it; it already carries a FAIL_REPAIR_REQUIRED from another lane",
+            "reviewRecord": "data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json"
+          },
+          "theRuleThatShouldChange": "A binary that a family declares as a packet component or as a rendered packet artifact is a deliverable, not a corpus copy, and the corpus-exclusion rule should not reach it. If the governance that private bytes never enter the repository must hold for these two as well, then the packet cannot claim to include them: the components, the rendered-artifacts entry, the raster records and the participant instruction must be withdrawn together, and the companion must become a document the participant is told to obtain rather than one the packet ships."
+        }
+      }
+    ]
   }
 }
