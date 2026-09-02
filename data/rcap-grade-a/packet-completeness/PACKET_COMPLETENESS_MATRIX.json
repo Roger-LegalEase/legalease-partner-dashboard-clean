@@ -17,15 +17,15 @@
   ],
   "familiesAudited": 180,
   "byResult": {
-    "PASS_COMPLETE": 175,
-    "FAIL_ROUTE_SELECTION": 5
+    "PASS_COMPLETE": 179,
+    "FAIL_MISSING_REQUIRED_FACTS": 1
   },
   "counterTotals": {
-    "knownRequiredFieldsMissing": 0,
+    "knownRequiredFieldsMissing": 8,
     "requiredFactsNotCollected": 0,
     "unclassifiedBlanks": 0,
     "incompleteRows": 0,
-    "requiredOptionsMissing": 48,
+    "requiredOptionsMissing": 0,
     "requiredComponentsMissing": 0,
     "invisibleWrites": 0,
     "protectedWrites": 0,
@@ -552,22 +552,20 @@
     {
       "familyId": "ca-1203-41-set",
       "directory": "data/rcap-all50/overlays/census-v1/ca/ca-1203-41-set--official-pdf-fill",
-      "result": "FAIL_ROUTE_SELECTION",
+      "result": "PASS_COMPLETE",
       "auditable": true,
       "counters": {
         "knownRequiredFieldsMissing": 0,
         "requiredFactsNotCollected": 0,
         "unclassifiedBlanks": 0,
         "incompleteRows": 0,
-        "requiredOptionsMissing": 10,
+        "requiredOptionsMissing": 0,
         "requiredComponentsMissing": 0,
         "invisibleWrites": 0,
         "protectedWrites": 0,
         "visualDefects": 0
       },
-      "failedCounters": [
-        "requiredOptionsMissing"
-      ],
+      "failedCounters": [],
       "totals": {
         "terminalFields": 204,
         "written": 8,
@@ -576,8 +574,7 @@
           "NOT_APPLICABLE_ON_THIS_ROUTE": 31,
           "PROTECTED_FIELD": 62,
           "LATER_COMPLETION": 4,
-          "REQUIRED_BEFORE_FILING": 60,
-          "ROUTE_OPTION_NOT_SELECTED": 10,
+          "REQUIRED_BEFORE_FILING": 70,
           "PARTICIPANT_ELECTION_GENUINE": 29
         },
         "rowsInspected": 0,
@@ -585,109 +582,26 @@
       },
       "outputApprovalStatus": "REQUESTED",
       "sourceCurrentness": "EXACT",
-      "findings": [
-        {
-          "counter": "requiredOptionsMissing",
-          "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Reduce1[0]",
-          "label": "Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no)",
-          "disposition": "ROUTE_OPTION_NOT_SELECTED",
-          "basis": "the field map declares this election route-determined and left unmade; a packet built for one statutory route must state which route it is",
-          "reasonGiven": "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it."
-        },
-        {
-          "counter": "requiredOptionsMissing",
-          "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Offense1[0]",
-          "label": "Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no)",
-          "disposition": "ROUTE_OPTION_NOT_SELECTED",
-          "basis": "the field map declares this election route-determined and left unmade; a packet built for one statutory route must state which route it is",
-          "reasonGiven": "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it."
-        },
-        {
-          "counter": "requiredOptionsMissing",
-          "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].Reduce2[0]",
-          "label": "Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no)",
-          "disposition": "ROUTE_OPTION_NOT_SELECTED",
-          "basis": "the field map declares this election route-determined and left unmade; a packet built for one statutory route must state which route it is",
-          "reasonGiven": "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it."
-        },
-        {
-          "counter": "requiredOptionsMissing",
-          "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].Offense2[0]",
-          "label": "Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no)",
-          "disposition": "ROUTE_OPTION_NOT_SELECTED",
-          "basis": "the field map declares this election route-determined and left unmade; a packet built for one statutory route must state which route it is",
-          "reasonGiven": "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it."
-        },
-        {
-          "counter": "requiredOptionsMissing",
-          "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].Reduce3[0]",
-          "label": "Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no)",
-          "disposition": "ROUTE_OPTION_NOT_SELECTED",
-          "basis": "the field map declares this election route-determined and left unmade; a packet built for one statutory route must state which route it is",
-          "reasonGiven": "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it."
-        },
-        {
-          "counter": "requiredOptionsMissing",
-          "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].Offense3[0]",
-          "label": "Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no)",
-          "disposition": "ROUTE_OPTION_NOT_SELECTED",
-          "basis": "the field map declares this election route-determined and left unmade; a packet built for one statutory route must state which route it is",
-          "reasonGiven": "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it."
-        },
-        {
-          "counter": "requiredOptionsMissing",
-          "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].Reduce4[0]",
-          "label": "Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no)",
-          "disposition": "ROUTE_OPTION_NOT_SELECTED",
-          "basis": "the field map declares this election route-determined and left unmade; a packet built for one statutory route must state which route it is",
-          "reasonGiven": "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it."
-        },
-        {
-          "counter": "requiredOptionsMissing",
-          "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].Offense4[0]",
-          "label": "Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no)",
-          "disposition": "ROUTE_OPTION_NOT_SELECTED",
-          "basis": "the field map declares this election route-determined and left unmade; a packet built for one statutory route must state which route it is",
-          "reasonGiven": "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it."
-        },
-        {
-          "counter": "requiredOptionsMissing",
-          "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].Reduce5[0]",
-          "label": "Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no)",
-          "disposition": "ROUTE_OPTION_NOT_SELECTED",
-          "basis": "the field map declares this election route-determined and left unmade; a packet built for one statutory route must state which route it is",
-          "reasonGiven": "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it."
-        },
-        {
-          "counter": "requiredOptionsMissing",
-          "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].Offense5[0]",
-          "label": "Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no)",
-          "disposition": "ROUTE_OPTION_NOT_SELECTED",
-          "basis": "the field map declares this election route-determined and left unmade; a packet built for one statutory route must state which route it is",
-          "reasonGiven": "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it."
-        }
-      ],
+      "findings": [],
       "findingsTruncated": 0
     },
     {
       "familyId": "ca-1203-42-set",
       "directory": "data/rcap-all50/overlays/census-v1/ca/ca-1203-42-set--official-pdf-fill",
-      "result": "FAIL_ROUTE_SELECTION",
+      "result": "PASS_COMPLETE",
       "auditable": true,
       "counters": {
         "knownRequiredFieldsMissing": 0,
         "requiredFactsNotCollected": 0,
         "unclassifiedBlanks": 0,
         "incompleteRows": 0,
-        "requiredOptionsMissing": 10,
+        "requiredOptionsMissing": 0,
         "requiredComponentsMissing": 0,
         "invisibleWrites": 0,
         "protectedWrites": 0,
         "visualDefects": 0
       },
-      "failedCounters": [
-        "requiredOptionsMissing"
-      ],
+      "failedCounters": [],
       "totals": {
         "terminalFields": 204,
         "written": 8,
@@ -696,8 +610,7 @@
           "NOT_APPLICABLE_ON_THIS_ROUTE": 31,
           "PROTECTED_FIELD": 62,
           "LATER_COMPLETION": 4,
-          "REQUIRED_BEFORE_FILING": 60,
-          "ROUTE_OPTION_NOT_SELECTED": 10,
+          "REQUIRED_BEFORE_FILING": 70,
           "PARTICIPANT_ELECTION_GENUINE": 29
         },
         "rowsInspected": 0,
@@ -705,109 +618,26 @@
       },
       "outputApprovalStatus": "REQUESTED",
       "sourceCurrentness": "EXACT",
-      "findings": [
-        {
-          "counter": "requiredOptionsMissing",
-          "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Reduce1[0]",
-          "label": "Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no)",
-          "disposition": "ROUTE_OPTION_NOT_SELECTED",
-          "basis": "the field map declares this election route-determined and left unmade; a packet built for one statutory route must state which route it is",
-          "reasonGiven": "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it."
-        },
-        {
-          "counter": "requiredOptionsMissing",
-          "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Offense1[0]",
-          "label": "Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no)",
-          "disposition": "ROUTE_OPTION_NOT_SELECTED",
-          "basis": "the field map declares this election route-determined and left unmade; a packet built for one statutory route must state which route it is",
-          "reasonGiven": "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it."
-        },
-        {
-          "counter": "requiredOptionsMissing",
-          "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].Reduce2[0]",
-          "label": "Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no)",
-          "disposition": "ROUTE_OPTION_NOT_SELECTED",
-          "basis": "the field map declares this election route-determined and left unmade; a packet built for one statutory route must state which route it is",
-          "reasonGiven": "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it."
-        },
-        {
-          "counter": "requiredOptionsMissing",
-          "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].Offense2[0]",
-          "label": "Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no)",
-          "disposition": "ROUTE_OPTION_NOT_SELECTED",
-          "basis": "the field map declares this election route-determined and left unmade; a packet built for one statutory route must state which route it is",
-          "reasonGiven": "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it."
-        },
-        {
-          "counter": "requiredOptionsMissing",
-          "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].Reduce3[0]",
-          "label": "Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no)",
-          "disposition": "ROUTE_OPTION_NOT_SELECTED",
-          "basis": "the field map declares this election route-determined and left unmade; a packet built for one statutory route must state which route it is",
-          "reasonGiven": "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it."
-        },
-        {
-          "counter": "requiredOptionsMissing",
-          "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].Offense3[0]",
-          "label": "Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no)",
-          "disposition": "ROUTE_OPTION_NOT_SELECTED",
-          "basis": "the field map declares this election route-determined and left unmade; a packet built for one statutory route must state which route it is",
-          "reasonGiven": "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it."
-        },
-        {
-          "counter": "requiredOptionsMissing",
-          "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].Reduce4[0]",
-          "label": "Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no)",
-          "disposition": "ROUTE_OPTION_NOT_SELECTED",
-          "basis": "the field map declares this election route-determined and left unmade; a packet built for one statutory route must state which route it is",
-          "reasonGiven": "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it."
-        },
-        {
-          "counter": "requiredOptionsMissing",
-          "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].Offense4[0]",
-          "label": "Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no)",
-          "disposition": "ROUTE_OPTION_NOT_SELECTED",
-          "basis": "the field map declares this election route-determined and left unmade; a packet built for one statutory route must state which route it is",
-          "reasonGiven": "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it."
-        },
-        {
-          "counter": "requiredOptionsMissing",
-          "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].Reduce5[0]",
-          "label": "Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no)",
-          "disposition": "ROUTE_OPTION_NOT_SELECTED",
-          "basis": "the field map declares this election route-determined and left unmade; a packet built for one statutory route must state which route it is",
-          "reasonGiven": "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it."
-        },
-        {
-          "counter": "requiredOptionsMissing",
-          "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].Offense5[0]",
-          "label": "Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no)",
-          "disposition": "ROUTE_OPTION_NOT_SELECTED",
-          "basis": "the field map declares this election route-determined and left unmade; a packet built for one statutory route must state which route it is",
-          "reasonGiven": "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it."
-        }
-      ],
+      "findings": [],
       "findingsTruncated": 0
     },
     {
       "familyId": "ca-1203-43-set",
       "directory": "data/rcap-all50/overlays/census-v1/ca/ca-1203-43-set--official-pdf-fill",
-      "result": "FAIL_ROUTE_SELECTION",
+      "result": "PASS_COMPLETE",
       "auditable": true,
       "counters": {
         "knownRequiredFieldsMissing": 0,
         "requiredFactsNotCollected": 0,
         "unclassifiedBlanks": 0,
         "incompleteRows": 0,
-        "requiredOptionsMissing": 10,
+        "requiredOptionsMissing": 0,
         "requiredComponentsMissing": 0,
         "invisibleWrites": 0,
         "protectedWrites": 0,
         "visualDefects": 0
       },
-      "failedCounters": [
-        "requiredOptionsMissing"
-      ],
+      "failedCounters": [],
       "totals": {
         "terminalFields": 186,
         "written": 8,
@@ -816,8 +646,7 @@
           "NOT_APPLICABLE_ON_THIS_ROUTE": 28,
           "PROTECTED_FIELD": 62,
           "LATER_COMPLETION": 4,
-          "REQUIRED_BEFORE_FILING": 51,
-          "ROUTE_OPTION_NOT_SELECTED": 10,
+          "REQUIRED_BEFORE_FILING": 61,
           "PARTICIPANT_ELECTION_GENUINE": 23
         },
         "rowsInspected": 0,
@@ -825,109 +654,26 @@
       },
       "outputApprovalStatus": "REQUESTED",
       "sourceCurrentness": "EXACT",
-      "findings": [
-        {
-          "counter": "requiredOptionsMissing",
-          "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Reduce1[0]",
-          "label": "Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no)",
-          "disposition": "ROUTE_OPTION_NOT_SELECTED",
-          "basis": "the field map declares this election route-determined and left unmade; a packet built for one statutory route must state which route it is",
-          "reasonGiven": "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it."
-        },
-        {
-          "counter": "requiredOptionsMissing",
-          "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Offense1[0]",
-          "label": "Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no)",
-          "disposition": "ROUTE_OPTION_NOT_SELECTED",
-          "basis": "the field map declares this election route-determined and left unmade; a packet built for one statutory route must state which route it is",
-          "reasonGiven": "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it."
-        },
-        {
-          "counter": "requiredOptionsMissing",
-          "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].Reduce2[0]",
-          "label": "Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no)",
-          "disposition": "ROUTE_OPTION_NOT_SELECTED",
-          "basis": "the field map declares this election route-determined and left unmade; a packet built for one statutory route must state which route it is",
-          "reasonGiven": "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it."
-        },
-        {
-          "counter": "requiredOptionsMissing",
-          "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].Offense2[0]",
-          "label": "Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no)",
-          "disposition": "ROUTE_OPTION_NOT_SELECTED",
-          "basis": "the field map declares this election route-determined and left unmade; a packet built for one statutory route must state which route it is",
-          "reasonGiven": "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it."
-        },
-        {
-          "counter": "requiredOptionsMissing",
-          "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].Reduce3[0]",
-          "label": "Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no)",
-          "disposition": "ROUTE_OPTION_NOT_SELECTED",
-          "basis": "the field map declares this election route-determined and left unmade; a packet built for one statutory route must state which route it is",
-          "reasonGiven": "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it."
-        },
-        {
-          "counter": "requiredOptionsMissing",
-          "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].Offense3[0]",
-          "label": "Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no)",
-          "disposition": "ROUTE_OPTION_NOT_SELECTED",
-          "basis": "the field map declares this election route-determined and left unmade; a packet built for one statutory route must state which route it is",
-          "reasonGiven": "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it."
-        },
-        {
-          "counter": "requiredOptionsMissing",
-          "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].Reduce4[0]",
-          "label": "Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no)",
-          "disposition": "ROUTE_OPTION_NOT_SELECTED",
-          "basis": "the field map declares this election route-determined and left unmade; a packet built for one statutory route must state which route it is",
-          "reasonGiven": "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it."
-        },
-        {
-          "counter": "requiredOptionsMissing",
-          "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].Offense4[0]",
-          "label": "Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no)",
-          "disposition": "ROUTE_OPTION_NOT_SELECTED",
-          "basis": "the field map declares this election route-determined and left unmade; a packet built for one statutory route must state which route it is",
-          "reasonGiven": "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it."
-        },
-        {
-          "counter": "requiredOptionsMissing",
-          "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].Reduce5[0]",
-          "label": "Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no)",
-          "disposition": "ROUTE_OPTION_NOT_SELECTED",
-          "basis": "the field map declares this election route-determined and left unmade; a packet built for one statutory route must state which route it is",
-          "reasonGiven": "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it."
-        },
-        {
-          "counter": "requiredOptionsMissing",
-          "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].Offense5[0]",
-          "label": "Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no)",
-          "disposition": "ROUTE_OPTION_NOT_SELECTED",
-          "basis": "the field map declares this election route-determined and left unmade; a packet built for one statutory route must state which route it is",
-          "reasonGiven": "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it."
-        }
-      ],
+      "findings": [],
       "findingsTruncated": 0
     },
     {
       "familyId": "ca-1203-4a-set",
       "directory": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4a-set--official-pdf-fill",
-      "result": "FAIL_ROUTE_SELECTION",
+      "result": "PASS_COMPLETE",
       "auditable": true,
       "counters": {
         "knownRequiredFieldsMissing": 0,
         "requiredFactsNotCollected": 0,
         "unclassifiedBlanks": 0,
         "incompleteRows": 0,
-        "requiredOptionsMissing": 10,
+        "requiredOptionsMissing": 0,
         "requiredComponentsMissing": 0,
         "invisibleWrites": 0,
         "protectedWrites": 0,
         "visualDefects": 0
       },
-      "failedCounters": [
-        "requiredOptionsMissing"
-      ],
+      "failedCounters": [],
       "totals": {
         "terminalFields": 204,
         "written": 8,
@@ -936,8 +682,7 @@
           "NOT_APPLICABLE_ON_THIS_ROUTE": 31,
           "PROTECTED_FIELD": 62,
           "LATER_COMPLETION": 4,
-          "REQUIRED_BEFORE_FILING": 60,
-          "ROUTE_OPTION_NOT_SELECTED": 10,
+          "REQUIRED_BEFORE_FILING": 70,
           "PARTICIPANT_ELECTION_GENUINE": 29
         },
         "rowsInspected": 0,
@@ -945,108 +690,27 @@
       },
       "outputApprovalStatus": "REQUESTED",
       "sourceCurrentness": "EXACT",
-      "findings": [
-        {
-          "counter": "requiredOptionsMissing",
-          "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Reduce1[0]",
-          "label": "Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no)",
-          "disposition": "ROUTE_OPTION_NOT_SELECTED",
-          "basis": "the field map declares this election route-determined and left unmade; a packet built for one statutory route must state which route it is",
-          "reasonGiven": "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it."
-        },
-        {
-          "counter": "requiredOptionsMissing",
-          "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Offense1[0]",
-          "label": "Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no)",
-          "disposition": "ROUTE_OPTION_NOT_SELECTED",
-          "basis": "the field map declares this election route-determined and left unmade; a packet built for one statutory route must state which route it is",
-          "reasonGiven": "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it."
-        },
-        {
-          "counter": "requiredOptionsMissing",
-          "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].Reduce2[0]",
-          "label": "Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no)",
-          "disposition": "ROUTE_OPTION_NOT_SELECTED",
-          "basis": "the field map declares this election route-determined and left unmade; a packet built for one statutory route must state which route it is",
-          "reasonGiven": "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it."
-        },
-        {
-          "counter": "requiredOptionsMissing",
-          "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].Offense2[0]",
-          "label": "Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no)",
-          "disposition": "ROUTE_OPTION_NOT_SELECTED",
-          "basis": "the field map declares this election route-determined and left unmade; a packet built for one statutory route must state which route it is",
-          "reasonGiven": "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it."
-        },
-        {
-          "counter": "requiredOptionsMissing",
-          "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].Reduce3[0]",
-          "label": "Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no)",
-          "disposition": "ROUTE_OPTION_NOT_SELECTED",
-          "basis": "the field map declares this election route-determined and left unmade; a packet built for one statutory route must state which route it is",
-          "reasonGiven": "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it."
-        },
-        {
-          "counter": "requiredOptionsMissing",
-          "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].Offense3[0]",
-          "label": "Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no)",
-          "disposition": "ROUTE_OPTION_NOT_SELECTED",
-          "basis": "the field map declares this election route-determined and left unmade; a packet built for one statutory route must state which route it is",
-          "reasonGiven": "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it."
-        },
-        {
-          "counter": "requiredOptionsMissing",
-          "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].Reduce4[0]",
-          "label": "Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no)",
-          "disposition": "ROUTE_OPTION_NOT_SELECTED",
-          "basis": "the field map declares this election route-determined and left unmade; a packet built for one statutory route must state which route it is",
-          "reasonGiven": "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it."
-        },
-        {
-          "counter": "requiredOptionsMissing",
-          "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].Offense4[0]",
-          "label": "Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no)",
-          "disposition": "ROUTE_OPTION_NOT_SELECTED",
-          "basis": "the field map declares this election route-determined and left unmade; a packet built for one statutory route must state which route it is",
-          "reasonGiven": "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it."
-        },
-        {
-          "counter": "requiredOptionsMissing",
-          "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].Reduce5[0]",
-          "label": "Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no)",
-          "disposition": "ROUTE_OPTION_NOT_SELECTED",
-          "basis": "the field map declares this election route-determined and left unmade; a packet built for one statutory route must state which route it is",
-          "reasonGiven": "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it."
-        },
-        {
-          "counter": "requiredOptionsMissing",
-          "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].Offense5[0]",
-          "label": "Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no)",
-          "disposition": "ROUTE_OPTION_NOT_SELECTED",
-          "basis": "the field map declares this election route-determined and left unmade; a packet built for one statutory route must state which route it is",
-          "reasonGiven": "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it."
-        }
-      ],
+      "findings": [],
       "findingsTruncated": 0
     },
     {
       "familyId": "ca-17b-reduction-set",
       "directory": "data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill",
-      "result": "FAIL_ROUTE_SELECTION",
+      "result": "FAIL_MISSING_REQUIRED_FACTS",
       "auditable": true,
       "counters": {
-        "knownRequiredFieldsMissing": 0,
+        "knownRequiredFieldsMissing": 8,
         "requiredFactsNotCollected": 0,
         "unclassifiedBlanks": 0,
         "incompleteRows": 0,
-        "requiredOptionsMissing": 8,
+        "requiredOptionsMissing": 0,
         "requiredComponentsMissing": 0,
         "invisibleWrites": 0,
         "protectedWrites": 0,
         "visualDefects": 0
       },
       "failedCounters": [
-        "requiredOptionsMissing"
+        "knownRequiredFieldsMissing"
       ],
       "totals": {
         "terminalFields": 187,
@@ -1057,7 +721,7 @@
           "PROTECTED_FIELD": 62,
           "LATER_COMPLETION": 4,
           "REQUIRED_BEFORE_FILING": 51,
-          "ROUTE_OPTION_NOT_SELECTED": 8,
+          "KNOWN_FACT_NOT_WRITTEN": 8,
           "PARTICIPANT_ELECTION_GENUINE": 24
         },
         "rowsInspected": 0,
@@ -1067,68 +731,68 @@
       "sourceCurrentness": "EXACT",
       "findings": [
         {
-          "counter": "requiredOptionsMissing",
+          "counter": "knownRequiredFieldsMissing",
           "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].Reduce2[0]",
           "label": "Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no)",
-          "disposition": "ROUTE_OPTION_NOT_SELECTED",
-          "basis": "the field map declares this election route-determined and left unmade; a packet built for one statutory route must state which route it is",
-          "reasonGiven": "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it."
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "declared required-before-filing, but the packet holds a value for this fact and writes it elsewhere; an available fact is not an unavailable one",
+          "reasonGiven": "REQUIRED_BEFORE_FILING: whether this listed offence is reducible under Penal Code section 17(b) or 17(d)(2) is a characterisation of that offence, not of the relief this petition asks for. The platform holds no such fact and never infers one. The participant completes it, and the platform does not guess."
         },
         {
-          "counter": "requiredOptionsMissing",
+          "counter": "knownRequiredFieldsMissing",
           "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].Offense2[0]",
           "label": "Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no)",
-          "disposition": "ROUTE_OPTION_NOT_SELECTED",
-          "basis": "the field map declares this election route-determined and left unmade; a packet built for one statutory route must state which route it is",
-          "reasonGiven": "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it."
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "declared required-before-filing, but the packet holds a value for this fact and writes it elsewhere; an available fact is not an unavailable one",
+          "reasonGiven": "REQUIRED_BEFORE_FILING: whether this listed offence is reducible under Penal Code section 17(b) or 17(d)(2) is a characterisation of that offence, not of the relief this petition asks for. The platform holds no such fact and never infers one. The participant completes it, and the platform does not guess."
         },
         {
-          "counter": "requiredOptionsMissing",
+          "counter": "knownRequiredFieldsMissing",
           "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].Reduce3[0]",
           "label": "Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no)",
-          "disposition": "ROUTE_OPTION_NOT_SELECTED",
-          "basis": "the field map declares this election route-determined and left unmade; a packet built for one statutory route must state which route it is",
-          "reasonGiven": "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it."
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "declared required-before-filing, but the packet holds a value for this fact and writes it elsewhere; an available fact is not an unavailable one",
+          "reasonGiven": "REQUIRED_BEFORE_FILING: whether this listed offence is reducible under Penal Code section 17(b) or 17(d)(2) is a characterisation of that offence, not of the relief this petition asks for. The platform holds no such fact and never infers one. The participant completes it, and the platform does not guess."
         },
         {
-          "counter": "requiredOptionsMissing",
+          "counter": "knownRequiredFieldsMissing",
           "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].Offense3[0]",
           "label": "Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no)",
-          "disposition": "ROUTE_OPTION_NOT_SELECTED",
-          "basis": "the field map declares this election route-determined and left unmade; a packet built for one statutory route must state which route it is",
-          "reasonGiven": "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it."
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "declared required-before-filing, but the packet holds a value for this fact and writes it elsewhere; an available fact is not an unavailable one",
+          "reasonGiven": "REQUIRED_BEFORE_FILING: whether this listed offence is reducible under Penal Code section 17(b) or 17(d)(2) is a characterisation of that offence, not of the relief this petition asks for. The platform holds no such fact and never infers one. The participant completes it, and the platform does not guess."
         },
         {
-          "counter": "requiredOptionsMissing",
+          "counter": "knownRequiredFieldsMissing",
           "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].Reduce4[0]",
           "label": "Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no)",
-          "disposition": "ROUTE_OPTION_NOT_SELECTED",
-          "basis": "the field map declares this election route-determined and left unmade; a packet built for one statutory route must state which route it is",
-          "reasonGiven": "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it."
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "declared required-before-filing, but the packet holds a value for this fact and writes it elsewhere; an available fact is not an unavailable one",
+          "reasonGiven": "REQUIRED_BEFORE_FILING: whether this listed offence is reducible under Penal Code section 17(b) or 17(d)(2) is a characterisation of that offence, not of the relief this petition asks for. The platform holds no such fact and never infers one. The participant completes it, and the platform does not guess."
         },
         {
-          "counter": "requiredOptionsMissing",
+          "counter": "knownRequiredFieldsMissing",
           "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].Offense4[0]",
           "label": "Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no)",
-          "disposition": "ROUTE_OPTION_NOT_SELECTED",
-          "basis": "the field map declares this election route-determined and left unmade; a packet built for one statutory route must state which route it is",
-          "reasonGiven": "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it."
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "declared required-before-filing, but the packet holds a value for this fact and writes it elsewhere; an available fact is not an unavailable one",
+          "reasonGiven": "REQUIRED_BEFORE_FILING: whether this listed offence is reducible under Penal Code section 17(b) or 17(d)(2) is a characterisation of that offence, not of the relief this petition asks for. The platform holds no such fact and never infers one. The participant completes it, and the platform does not guess."
         },
         {
-          "counter": "requiredOptionsMissing",
+          "counter": "knownRequiredFieldsMissing",
           "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].Reduce5[0]",
           "label": "Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no)",
-          "disposition": "ROUTE_OPTION_NOT_SELECTED",
-          "basis": "the field map declares this election route-determined and left unmade; a packet built for one statutory route must state which route it is",
-          "reasonGiven": "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it."
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "declared required-before-filing, but the packet holds a value for this fact and writes it elsewhere; an available fact is not an unavailable one",
+          "reasonGiven": "REQUIRED_BEFORE_FILING: whether this listed offence is reducible under Penal Code section 17(b) or 17(d)(2) is a characterisation of that offence, not of the relief this petition asks for. The platform holds no such fact and never infers one. The participant completes it, and the platform does not guess."
         },
         {
-          "counter": "requiredOptionsMissing",
+          "counter": "knownRequiredFieldsMissing",
           "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].Offense5[0]",
           "label": "Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no)",
-          "disposition": "ROUTE_OPTION_NOT_SELECTED",
-          "basis": "the field map declares this election route-determined and left unmade; a packet built for one statutory route must state which route it is",
-          "reasonGiven": "The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it."
+          "disposition": "KNOWN_FACT_NOT_WRITTEN",
+          "basis": "declared required-before-filing, but the packet holds a value for this fact and writes it elsewhere; an available fact is not an unavailable one",
+          "reasonGiven": "REQUIRED_BEFORE_FILING: whether this listed offence is reducible under Penal Code section 17(b) or 17(d)(2) is a characterisation of that offence, not of the relief this petition asks for. The platform holds no such fact and never infers one. The participant completes it, and the platform does not guess."
         }
       ],
       "findingsTruncated": 0

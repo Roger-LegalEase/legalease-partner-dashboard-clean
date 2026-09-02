@@ -28,6 +28,7 @@
  *
  *   node scripts/rcap-packet-completeness/verify-case-determined-exception.mjs
  */
+import fs from "node:fs";
 import { classifyBlank } from "./completeness-contract.mjs";
 
 /* A caption FIELD_CLASSES.ROUTE_ELECTION actually matches. Using a caption that
@@ -66,6 +67,41 @@ const reachable = classifyBlank(FIELD, "route election not selected", null,
   { requiredBeforeFiling: true, identity: "x", determinedByTheCaseNotTheRoute: true, whyTheRouteCannotDetermineIt: REASON }
 ).disposition === "REQUIRED_BEFORE_FILING";
 if (!reachable) problems.push("the exception is unreachable; a contract that refuses everything passes every negative case");
+
+/*
+ * THE DECLARATION HAS TO SURVIVE THE READER, NOT JUST THE CLASSIFIER.
+ *
+ * Every case above calls classifyBlank directly, and all eight passed while the
+ * exception was reachable from no packet at all: verify-packet-completeness's
+ * normalizeRow builds `declared` from a fixed key list, and the two new keys
+ * were not on it, so the declaration was dropped between the field map and the
+ * classifier. A repair lane declared it correctly, measured the counter
+ * unchanged at exactly 10, and found the gap. The unit test was a mirror --
+ * it proved the contract agreed with itself.
+ *
+ * So the reader is checked too, and generally rather than for these two keys:
+ * every declaration key the contract reads must be forwarded by the reader that
+ * builds `declared`. A key the contract honours and the reader drops is a
+ * feature that exists only in its own test.
+ */
+const contractSrc = fs.readFileSync(new URL("./completeness-contract.mjs", import.meta.url), "utf8");
+const readerSrc = fs.readFileSync(new URL("./verify-packet-completeness.mjs", import.meta.url), "utf8");
+/* Sliced to the declaration's real end rather than a fixed number of
+ * characters. A fixed window silently truncates as the function grows, and a
+ * truncated window reports every key past the cut as dropped -- which is how
+ * this check first ran, flagging two keys that were forwarded a few lines
+ * below where it stopped reading. */
+const nrStart = readerSrc.indexOf("const normalizeRow");
+const nrEnd = readerSrc.indexOf("\n});", nrStart) >= 0 ? readerSrc.indexOf("\n});", nrStart) : readerSrc.length;
+if (nrStart < 0) problems.push("normalizeRow not found in the reader; this check is reading the wrong file");
+const normalizeRow = readerSrc.slice(nrStart, nrEnd);
+const declarationKeys = [...new Set([...contractSrc.matchAll(/\bdec\.([A-Za-z_$][\w$]*)/g)].map((m) => m[1]))];
+if (declarationKeys.length < 5) problems.push("no declaration keys found in the contract; this check is reading the wrong file");
+for (const key of declarationKeys) {
+  if (!new RegExp(`\\b${key}\\b`).test(normalizeRow)) {
+    problems.push(`the contract reads dec.${key} and normalizeRow does not forward it; the declaration is dropped before the classifier ever sees it`);
+  }
+}
 
 for (const p of problems) console.error(` - ${p}`);
 console.log(problems.length === 0

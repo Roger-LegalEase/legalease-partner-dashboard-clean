@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `2fde791d30bcda3b713405de3becea7a910b7f07` (or the newer dispatch base)
+**Minimum required ancestor:** `98eda7585939a96359f15e742695f6de12341455` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -19,9 +19,9 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family ca-1203-43-set \
+  --family rcap-ks-custom-pleading \
   --codex-cloud \
-  --minimum-captain-sha 2fde791d30bcda3b713405de3becea7a910b7f07
+  --minimum-captain-sha 98eda7585939a96359f15e742695f6de12341455
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -56,13 +56,11 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 5 families
+## The 3 families
 
-- `ca-1203-43-set` — failing: requiredOptionsMissing
-- `ca-1203-4a-set` — failing: requiredOptionsMissing
 - `rcap-ks-custom-pleading`
-- `rcap-oh-custom-pleading-clean-tracks`
 - `va_seal_petition_misdemeanor-set`
+- `rcap-oh-custom-pleading-clean-tracks`
 
 ## What you receive
 
@@ -75,13 +73,9 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/fix03/**`
-- `data/rcap-all50/overlays/census-v1/ca/ca-1203-43-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/ca/ca-1203-4a-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/**`
-- `data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/**`
-- `scripts/build-census-v1-ca-1203-43-set.mjs`
-- `scripts/build-census-v1-ca-1203-4a-set.mjs`
+- `data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading/**`
 - `scripts/build-census-v1-rcap-ks-custom-pleading.mjs`
 - `scripts/build-census-v1-rcap-oh-custom-pleading-clean-tracks.mjs`
 

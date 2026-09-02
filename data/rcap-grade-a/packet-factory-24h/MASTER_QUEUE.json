@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "2fde791d30bcda3b713405de3becea7a910b7f07",
+  "minimumCaptainSha": "98eda7585939a96359f15e742695f6de12341455",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
@@ -15,7 +15,7 @@
     "data/rcap-grade-a/route-obligation-census-v1/legal-review-queue-v2.json": "af2176e82365396865a3405492b9d74d84237d0e78a921cd9251db90a075240e",
     "data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json": "965a9e5bfee3994daa89b80f81bc79e3b4918ef75fd94288e9d31076bd74addf",
     "data/rcap-grade-a/launch-control/C11_STOP_CLASSIFICATION.json": "704f9483215b27314209f75b194784cad3cad437add5c21240dc8d4645020d5b",
-    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "f32aa2d79968e0e2406e8f643cf83dad7358f0ee55dc6fa3b245fc4bcebb1984",
+    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "9e83aa37b39be19c1351b2ed6ff87715b9c5371eb25a4ac0e134792a24d16dc4",
     "data/rcap-grade-a/launch-control/S2_CONTINUATION.json": "88e88084418056466a7f7986c09661a56bee0e022f69fea86a3474c301526396",
     "data/rcap-grade-a/launch-control/CODEX_CLOUD_CONTINUATIONS.json": "da1f072a0848ce21152735108f543966c42b2091121f9e1a89d5e447e4c5cb98",
     "data/rcap-grade-a/launch-control/P2_WASHINGTON_VERIFICATION.json": "674616f7acc6a04f6496e3242ffb0579082a089abd897157d3d5d64fffeae5d5",
@@ -69,21 +69,21 @@
     "sourceReady": 48,
     "sourceBlocked": 105,
     "legalBlocked": 32,
-    "verifyPending": 37,
-    "repairRequired": 19,
+    "verifyPending": 43,
+    "repairRequired": 15,
     "sumsToDenominator": true
   },
   "byState": {
     "SOURCE_READY": 48,
     "COMPLETE_PACKET_PROVEN": 94,
-    "VERIFY_PENDING": 37,
+    "VERIFY_PENDING": 43,
     "OUT_OF_SCOPE": 5,
     "SOURCE_BLOCKED": 105,
-    "VERIFIED_PASS": 3,
     "LEGAL_BLOCKED": 22,
-    "FAIL_REPAIR_REQUIRED": 19,
+    "FAIL_REPAIR_REQUIRED": 15,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
+    "VERIFIED_PASS": 1,
     "WRONG_DELIVERY_TYPE": 1,
     "VERIFYING": 1
   },
@@ -3444,7 +3444,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFIED_PASS",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-az_marijuana_expungement_superior_court-set.mjs",
@@ -4200,8 +4200,7 @@
         "directAttachment": true
       },
       "rasterEnrolmentRefusal": [
-        "6 of 8 queued document(s) will not open in the parser that counts their pages, so \"every page rendered\" cannot be proven about them: pc-1203-41-canonical/cr-106-unchanged-official.pdf, pc-1203-41-canonical/cr-181-unchanged-official.pdf, pc-1203-41-canonical/mc-031-unchanged-official.pdf, pc-1203-41-boundary/cr-106-unchanged-official.pdf, pc-1203-41-boundary/cr-181-unchanged-official.pdf, pc-1203-41-boundary/mc-031-unchanged-official.pdf",
-        "nonvisual completeness counters not zero: requiredOptionsMissing"
+        "6 of 8 queued document(s) will not open in the parser that counts their pages, so \"every page rendered\" cannot be proven about them: pc-1203-41-canonical/cr-106-unchanged-official.pdf, pc-1203-41-canonical/cr-181-unchanged-official.pdf, pc-1203-41-canonical/mc-031-unchanged-official.pdf, pc-1203-41-boundary/cr-106-unchanged-official.pdf, pc-1203-41-boundary/cr-181-unchanged-official.pdf, pc-1203-41-boundary/mc-031-unchanged-official.pdf"
       ],
       "legalInputStatus": "OPEN_LEGAL_INPUT",
       "ownerDeliveryTypeRefusal": null,
@@ -4220,27 +4219,25 @@
       "laneReturnLegalHold": null,
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
-      "completenessStatus": "FAIL_ROUTE_SELECTION",
-      "allNineCountersZero": false,
+      "completenessStatus": "PASS_COMPLETE",
+      "allNineCountersZero": true,
       "counters": {
         "knownRequiredFieldsMissing": 0,
         "requiredFactsNotCollected": 0,
         "unclassifiedBlanks": 0,
         "incompleteRows": 0,
-        "requiredOptionsMissing": 10,
+        "requiredOptionsMissing": 0,
         "requiredComponentsMissing": 0,
         "invisibleWrites": 0,
         "protectedWrites": 0,
         "visualDefects": 0
       },
-      "failingCounters": [
-        "requiredOptionsMissing"
-      ],
+      "failingCounters": [],
       "failedObligationNames": [],
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ca-1203-41-set.mjs",
@@ -4356,8 +4353,7 @@
         "directAttachment": true
       },
       "rasterEnrolmentRefusal": [
-        "6 of 8 queued document(s) will not open in the parser that counts their pages, so \"every page rendered\" cannot be proven about them: pc-1203-42-canonical/cr-106-unchanged-official.pdf, pc-1203-42-canonical/cr-181-unchanged-official.pdf, pc-1203-42-canonical/mc-031-unchanged-official.pdf, pc-1203-42-boundary/cr-106-unchanged-official.pdf, pc-1203-42-boundary/cr-181-unchanged-official.pdf, pc-1203-42-boundary/mc-031-unchanged-official.pdf",
-        "nonvisual completeness counters not zero: requiredOptionsMissing"
+        "6 of 8 queued document(s) will not open in the parser that counts their pages, so \"every page rendered\" cannot be proven about them: pc-1203-42-canonical/cr-106-unchanged-official.pdf, pc-1203-42-canonical/cr-181-unchanged-official.pdf, pc-1203-42-canonical/mc-031-unchanged-official.pdf, pc-1203-42-boundary/cr-106-unchanged-official.pdf, pc-1203-42-boundary/cr-181-unchanged-official.pdf, pc-1203-42-boundary/mc-031-unchanged-official.pdf"
       ],
       "legalInputStatus": "OPEN_LEGAL_INPUT",
       "ownerDeliveryTypeRefusal": null,
@@ -4376,22 +4372,20 @@
       "laneReturnLegalHold": null,
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
-      "completenessStatus": "FAIL_ROUTE_SELECTION",
-      "allNineCountersZero": false,
+      "completenessStatus": "PASS_COMPLETE",
+      "allNineCountersZero": true,
       "counters": {
         "knownRequiredFieldsMissing": 0,
         "requiredFactsNotCollected": 0,
         "unclassifiedBlanks": 0,
         "incompleteRows": 0,
-        "requiredOptionsMissing": 10,
+        "requiredOptionsMissing": 0,
         "requiredComponentsMissing": 0,
         "invisibleWrites": 0,
         "protectedWrites": 0,
         "visualDefects": 0
       },
-      "failingCounters": [
-        "requiredOptionsMissing"
-      ],
+      "failingCounters": [],
       "failedObligationNames": [
         "REPEATING_ROWS",
         "ROUTE_OPTIONS"
@@ -4410,7 +4404,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ca-1203-42-set.mjs",
@@ -4509,8 +4503,7 @@
         "directAttachment": true
       },
       "rasterEnrolmentRefusal": [
-        "4 of 6 queued document(s) will not open in the parser that counts their pages, so \"every page rendered\" cannot be proven about them: pc-1203-43-canonical/cr-106-unchanged-official.pdf, pc-1203-43-canonical/cr-181-unchanged-official.pdf, pc-1203-43-boundary/cr-106-unchanged-official.pdf, pc-1203-43-boundary/cr-181-unchanged-official.pdf",
-        "nonvisual completeness counters not zero: requiredOptionsMissing"
+        "4 of 6 queued document(s) will not open in the parser that counts their pages, so \"every page rendered\" cannot be proven about them: pc-1203-43-canonical/cr-106-unchanged-official.pdf, pc-1203-43-canonical/cr-181-unchanged-official.pdf, pc-1203-43-boundary/cr-106-unchanged-official.pdf, pc-1203-43-boundary/cr-181-unchanged-official.pdf"
       ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
@@ -4522,27 +4515,25 @@
       "laneReturnLegalHold": null,
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
-      "completenessStatus": "FAIL_ROUTE_SELECTION",
-      "allNineCountersZero": false,
+      "completenessStatus": "PASS_COMPLETE",
+      "allNineCountersZero": true,
       "counters": {
         "knownRequiredFieldsMissing": 0,
         "requiredFactsNotCollected": 0,
         "unclassifiedBlanks": 0,
         "incompleteRows": 0,
-        "requiredOptionsMissing": 10,
+        "requiredOptionsMissing": 0,
         "requiredComponentsMissing": 0,
         "invisibleWrites": 0,
         "protectedWrites": 0,
         "visualDefects": 0
       },
-      "failingCounters": [
-        "requiredOptionsMissing"
-      ],
+      "failingCounters": [],
       "failedObligationNames": [],
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ca-1203-43-set.mjs",
@@ -4658,8 +4649,7 @@
         "directAttachment": true
       },
       "rasterEnrolmentRefusal": [
-        "6 of 8 queued document(s) will not open in the parser that counts their pages, so \"every page rendered\" cannot be proven about them: pc-1203-4a-canonical/cr-106-unchanged-official.pdf, pc-1203-4a-canonical/cr-181-unchanged-official.pdf, pc-1203-4a-canonical/mc-031-unchanged-official.pdf, pc-1203-4a-boundary/cr-106-unchanged-official.pdf, pc-1203-4a-boundary/cr-181-unchanged-official.pdf, pc-1203-4a-boundary/mc-031-unchanged-official.pdf",
-        "nonvisual completeness counters not zero: requiredOptionsMissing"
+        "6 of 8 queued document(s) will not open in the parser that counts their pages, so \"every page rendered\" cannot be proven about them: pc-1203-4a-canonical/cr-106-unchanged-official.pdf, pc-1203-4a-canonical/cr-181-unchanged-official.pdf, pc-1203-4a-canonical/mc-031-unchanged-official.pdf, pc-1203-4a-boundary/cr-106-unchanged-official.pdf, pc-1203-4a-boundary/cr-181-unchanged-official.pdf, pc-1203-4a-boundary/mc-031-unchanged-official.pdf"
       ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
@@ -4671,27 +4661,25 @@
       "laneReturnLegalHold": null,
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
-      "completenessStatus": "FAIL_ROUTE_SELECTION",
-      "allNineCountersZero": false,
+      "completenessStatus": "PASS_COMPLETE",
+      "allNineCountersZero": true,
       "counters": {
         "knownRequiredFieldsMissing": 0,
         "requiredFactsNotCollected": 0,
         "unclassifiedBlanks": 0,
         "incompleteRows": 0,
-        "requiredOptionsMissing": 10,
+        "requiredOptionsMissing": 0,
         "requiredComponentsMissing": 0,
         "invisibleWrites": 0,
         "protectedWrites": 0,
         "visualDefects": 0
       },
-      "failingCounters": [
-        "requiredOptionsMissing"
-      ],
+      "failingCounters": [],
       "failedObligationNames": [],
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ca-1203-4a-set.mjs",
@@ -4791,7 +4779,7 @@
       },
       "rasterEnrolmentRefusal": [
         "8 of 12 queued document(s) will not open in the parser that counts their pages, so \"every page rendered\" cannot be proven about them: pc-17b-felony-to-misdemeanor-canonical/cr-106-unchanged-official.pdf, pc-17b-felony-to-misdemeanor-canonical/cr-181-unchanged-official.pdf, pc-17d2-misdemeanor-to-infraction-canonical/cr-106-unchanged-official.pdf, pc-17d2-misdemeanor-to-infraction-canonical/cr-181-unchanged-official.pdf, pc-17b-felony-to-misdemeanor-boundary/cr-106-unchanged-official.pdf, pc-17b-felony-to-misdemeanor-boundary/cr-181-unchanged-official.pdf, pc-17d2-misdemeanor-to-infraction-boundary/cr-106-unchanged-official.pdf, pc-17d2-misdemeanor-to-infraction-boundary/cr-181-unchanged-official.pdf",
-        "nonvisual completeness counters not zero: requiredOptionsMissing"
+        "nonvisual completeness counters not zero: knownRequiredFieldsMissing"
       ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
@@ -4803,21 +4791,21 @@
       "laneReturnLegalHold": null,
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
-      "completenessStatus": "FAIL_ROUTE_SELECTION",
+      "completenessStatus": "FAIL_MISSING_REQUIRED_FACTS",
       "allNineCountersZero": false,
       "counters": {
-        "knownRequiredFieldsMissing": 0,
+        "knownRequiredFieldsMissing": 8,
         "requiredFactsNotCollected": 0,
         "unclassifiedBlanks": 0,
         "incompleteRows": 0,
-        "requiredOptionsMissing": 8,
+        "requiredOptionsMissing": 0,
         "requiredComponentsMissing": 0,
         "invisibleWrites": 0,
         "protectedWrites": 0,
         "visualDefects": 0
       },
       "failingCounters": [
-        "requiredOptionsMissing"
+        "knownRequiredFieldsMissing"
       ],
       "failedObligationNames": [],
       "failedObligations": [],
@@ -23935,7 +23923,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFIED_PASS",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nj_disorderly_persons-set.mjs",

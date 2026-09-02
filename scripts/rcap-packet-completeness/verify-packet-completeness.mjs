@@ -80,6 +80,16 @@ const normalizeRow = (row, document = null) => ({
     ...(Object.hasOwn(row, "requiredBeforeFiling") ? { requiredBeforeFiling: row.requiredBeforeFiling === true } : {}),
     routeDetermined: row.routeDetermined === true,
     /*
+     * Forwarded for the same reason as the two keys below, and found the same
+     * way. The contract refuses a declared required-before-filing field when
+     * `dec.factAvailable === true` -- "an available fact is not an unavailable
+     * one" -- and that guard was unreachable from a packet, because this reader
+     * never passed the key. A structural check over every `dec.*` the contract
+     * reads caught it; the case-determined keys were only the instance somebody
+     * happened to be standing on.
+     */
+    factAvailable: row.factAvailable === true,
+    /*
      * The case-determined exception, forwarded to the contract that decides it.
      *
      * `classifyBlank` grew this exception and it is pinned in both directions by

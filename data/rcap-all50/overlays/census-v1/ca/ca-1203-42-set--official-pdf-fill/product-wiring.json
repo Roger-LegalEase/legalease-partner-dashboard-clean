@@ -15,5 +15,66 @@
   "commercialRoutesOpened": 0,
   "createsFulfillmentRecord": false,
   "opensCommercialRoute": false,
-  "note": "Artifacts remain review-only alternatives. This record grants no runtime, commercial, fulfillment, eligibility, branch-selection, or approval authority."
+  "note": "Artifacts remain review-only alternatives. This record grants no runtime, commercial, fulfillment, eligibility, branch-selection, or approval authority.",
+  "binding": {
+    "family": "ca-1203-42-set",
+    "jurisdiction": "CA",
+    "routeKeys": [
+      "obligation:track-only:CA:ca-1203-42"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "primary_filing",
+      "proof_of_service",
+      "proposed_order",
+      "supporting_declaration"
+    ],
+    "packetComponents": [
+      "component:ca-1203-42-primary-filing-1",
+      "component:ca-1203-42-proof-of-service-3",
+      "component:ca-1203-42-proposed-order-2",
+      "component:ca-1203-42-supporting-declaration-4"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/ca/ca-1203-42-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/ca/ca-1203-42-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/ca/ca-1203-42-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/ca/ca-1203-42-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:CR-106",
+        "sha256": "f8a37a9a8c30a016b432bb39fd67407717c3dee7be74bc3e3d471127bf190c5a",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:CR-180",
+        "sha256": "06c1b64315ebd5c7f8260d7169abc2392d6373a202dc39f4788cb8a8c98bbdbe",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:CR-181",
+        "sha256": "f737503a89465d40206b11b1123e815e44a249d324bad16d313c337a695ce504",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:MC-031",
+        "sha256": "defc9108f6baa4c2ca444c1571d737d841af78289bef337f874f51e595191075",
+        "tier": "exact_form_number"
+      }
+    ],
+    "acceptanceReceipt": null,
+    "lastIndependentVerification": {
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf17",
+      "verifiedAtBase": null
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-ca-1203-42-set.mjs",
+      "sharedBuildHost": "build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs",
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  }
 }

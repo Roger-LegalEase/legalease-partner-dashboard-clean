@@ -1355,6 +1355,23 @@ for (const f of IN.scoreboard.familiesDetail) {
    * builder's own.
    */
   else if (comp && !nineZero) state = "FAIL_REPAIR_REQUIRED";
+  /*
+   * AND THESE TWO OWE THE VISUAL GATE AS WELL.
+   *
+   * The independent-verdict branch above was given a raster guard; these two
+   * were not, and they reach the same state. Three families walked through
+   * here -- az_marijuana_expungement_superior_court-set and
+   * nj_disorderly_persons-set on RASTER_PENDING rows, ca-1203-43-set with no
+   * raster row at all -- and F30 and L6 both caught them, which is the gates
+   * doing their job and the state machine still needing to be caught.
+   *
+   * Guarding one entrance to a state and not the others is not a guard. It is
+   * where a repaired family whose bytes just moved goes to look proven.
+   */
+  else if (verdict?.verdict === "PASS" && comp && nineZero
+    && rasterPassByFamily.get(familyId) !== true) state = "VERIFY_PENDING";
+  else if (verdict?.verdict === "PASS" && !comp
+    && rasterPassByFamily.get(familyId) !== true) state = "VERIFY_PENDING";
   else if (verdict?.verdict === "PASS" && comp && nineZero) state = "VERIFIED_PASS";
   else if (verdict?.verdict === "PASS" && !comp) state = "VERIFIED_PASS";
   else if (comp && nineZero) state = "VERIFY_PENDING";
