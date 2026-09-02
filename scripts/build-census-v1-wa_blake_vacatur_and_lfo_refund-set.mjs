@@ -73,6 +73,7 @@ const CORPUS_INDEX = "data/rcap-all50/local-source-corpus-index.json";
 const CUSTODY = "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json";
 const WORKLIST = "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json";
 const STALE_BLOCK = "data/rcap-grade-a/stale-artifact-block.json";
+const ROUTE_CENSUS = "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json";
 const OUT_ROOT = "data/rcap-all50/overlays/census-v1/wa";
 const STRUCTURAL_CLASS = "flat_pdf";
 const RASTER_DPI = 96;
@@ -764,6 +765,10 @@ async function loadDocuments(familyId, records, sourceRoot) {
       indexEntry: entry,
       role: orderFormNumbers.has(source.heldAs.formNumber) ? "court_order" : "participant_filing",
       observedTitleLines,
+      // Every line of this pinned source that carries money language, measured
+      // now so the filing-obligations derivation can prove — rather than assert
+      // — that the packet's own delivered forms state no fee (A4).
+      moneyLines: measuredMoneyLines(pdf),
       acroFieldCount
     });
   }
@@ -1465,6 +1470,7 @@ async function checkFamily(familyId, records, sourceRoot) {
     "product-wiring.json",
     "fixtures/fixture-manifest.json", "reports/actual-writes.json",
     "reports/protection-report.json", "participant-completion-instructions.json",
+    "filing-obligations.json",
     "reports/rendered-artifacts.json", "approval-request.json", "build-findings.json", "build-status.json"
   ];
   for (const rel of required) {
@@ -1561,6 +1567,519 @@ async function checkFamily(familyId, records, sourceRoot) {
     filesChecked: required.length + documents.length + inventory.pdfCount + inventory.rasterPageCount };
 }
 
+// ---------------------------------------------------------------------------
+// Participant filing obligations (FIX10 / FABLE-R21).
+//
+// Independent verification failed every family on this host for FILING_DESTINATION,
+// FEE_AND_WAIVER and SERVICE, on one sentence this file used to write into
+// participant-completion-instructions.json: "Confirm local filing, notice,
+// service, fee, and hearing requirements with the sentencing court before
+// filing. The route controls record local variation as unresolved." That names
+// no court, no fee, no waiver route, no recipient and no method, and it says the
+// route controls record as unresolved facts the route controls in fact record.
+//
+// DET-FEE-AND-WAIVER-001 governs how those obligations are scored:
+//   A1  where the repository establishes a fact, the packet STATES it; only
+//       where nothing establishes it may a NAMED CHECKABLE AUTHORITY stand in.
+//   A2  the repository is wider than the family's own bound PDFs.
+//   A3  holding is per FACT and per ROUTE, not per document.
+//   A4  a packet may never tell a participant that it does not state something
+//       it does state.
+//
+// So this block derives the three obligations from committed route data rather
+// than gesturing at them, and it is one generic derivation for every family on
+// this host: nothing here is keyed to a family id. Where the route record
+// carries the fact, the fact is stated. Where it does not, the authority named
+// is the destination the same route record carries — not a phrase.
+//
+// It invents no law. No fee figure, no waiver rule and no service recipient
+// appears here that is not read out of a committed record or measured from
+// pinned source bytes at build time.
+
+// The two official Washington instruction sheets, chosen by the form series the
+// family actually binds and pinned by the SHA-256 in the committed corpus index
+// (data/rcap-all50/local-source-corpus-index.json). Every quoted sentence was
+// read first-hand from these exact bytes; the build re-hashes the file and
+// refuses to quote a sheet whose bytes have moved, so a revision fails loudly
+// instead of silently restating a superseded rule.
+//
+// A3 is why this is a per-series table and not one sheet for the state: CrRLJ
+// 09.0300 is captioned "Instructions for Vacating Misdemeanor and Gross
+// Misdemeanor Convictions" and CR 08.0930 "Vacating Record of Felony
+// Conviction". Applying either across the divide would be the sibling-route
+// inference A3 forbids.
+const WA_INSTRUCTION_SHEETS = [
+  {
+    appliesToFormSeries: "CRRLJ-09.",
+    formNumber: "CrRLJ 09.0300",
+    title: "Instructions for Vacating Misdemeanor and Gross Misdemeanor Convictions",
+    revision: "07/2022",
+    sha256: "42ac9ccb16474172ee3b4076b416e9d949c2dfdbb43edc0cdc734eca299f4176",
+    corpusPath: "STATES/WA/03_INSTRUCTIONS/WA__INSTRUCTIONS__CRRLJ-09.0300__crrlj-09-0300-crrlj-09-0300-"
+      + "instructvacatemisdconvictions-2022-07-2__REV-2022-07__EN.pdf",
+    courtsCovered: "Washington courts of limited jurisdiction — the district or municipal court that sentenced you",
+    quoted: {
+      scheduleThenFile: "To schedule a hearing, contact the clerk of the court where you were sentenced and ask "
+        + "for the date and time for the hearing.",
+      whereTheOriginalGoes: "File the original petition and declaration, and the original notice document with "
+        + "the clerk of the court.",
+      service: "On the same day that you file those documents with the clerk of the court, you must also provide "
+        + "a copy of each document (the petition and declaration, and the scheduling notice) to the prosecuting "
+        + "attorney’s office that prosecuted you.",
+      copies: "make at least 2 copies (1 copy for the prosecutor’s office and 1 copy for yourself)",
+      localRequirements: "Read the local court rules or contact the clerk of the court where you will file your "
+        + "petition to find out if this requirement or any other local requirement applies to you."
+    },
+    prosecutorDirectory: null
+  },
+  {
+    appliesToFormSeries: "CR-08.",
+    formNumber: "CR 08.0930",
+    title: "Vacating Record of Felony Conviction (information sheet)",
+    revision: "01/2023",
+    sha256: "17e2fdfceb0823387f25dd285276c2b06778f73e10d76180dfb2ee2d6f030a00",
+    corpusPath: "STATES/WA/03_INSTRUCTIONS/WA__INSTRUCTIONS__CR-08.0930__"
+      + "information-sheet-vacating-record-of-felony-conviction__REV-2023-01__EN.pdf",
+    courtsCovered: "the Washington superior court in which you were convicted",
+    quoted: {
+      scheduleThenFile: "To schedule a hearing, contact the clerk of the court where you were sentenced and ask "
+        + "for the date and time for the hearing.",
+      whereTheOriginalGoes: "If you want to have a record of felony conviction vacated, you must file a motion "
+        + "with the court in which you were convicted.",
+      service: "On the same day that you file those documents with the clerk of the court, you must also provide "
+        + "a copy of the motion and notice documents to the prosecuting attorney’s office that prosecuted you.",
+      copies: "Once you have completed and signed the motion and declaration form, make at least two copies.",
+      localRequirements: "Read the local court rules or contact the clerk of the court where you will file your "
+        + "motion to find out if these requirements, or any other local requirements, apply to you."
+    },
+    prosecutorDirectory: {
+      quoted: "You can find the address and phone number of the Prosecutor’s Office here: "
+        + "https://waprosecutors.org/prosecutordirectory/",
+      url: "https://waprosecutors.org/prosecutordirectory/"
+    }
+  }
+];
+
+// Money language, for the measurement below. Deliberately wide: a false
+// positive costs a build and a reading; a false negative ships a packet that
+// denies a fee its own source prints, which is the A4 defect.
+const MONEY_LANGUAGE = /\bfees?\b|\bwaiv\w*\b|\bcosts?\b|\$\s*\d/i;
+
+/** Every line of a pinned PDF that carries money language, read from its own content stream. */
+function measuredMoneyLines(pdf) {
+  const lines = [];
+  for (const page of pdf.getPages()) {
+    for (const line of groupIntoLines(extractTextItems(page))) {
+      const text = cleanText(line.text ?? "");
+      if (text && MONEY_LANGUAGE.test(text)) lines.push(text);
+    }
+  }
+  return lines;
+}
+
+// Where a fee answer was looked for and not found, beyond what the build can
+// measure. These are readings of committed records, recorded as data with the
+// exact strings that were found, so a later lane can check the reading rather
+// than repeat the hunt. A3 is the reason each one does not answer the question.
+const WA_FEE_REPOSITORY_SEARCH = [
+  {
+    record: "src/lib/rcap-engine/compiled/profiles/WA-washington.json",
+    countsAsHeldUnder: "DET-FEE-AND-WAIVER-001-A2 (the compiled state profile, named as a requiredSourceId by the "
+      + "route obligation census for these routes)",
+    found: "Three fee statements, all Washington State Patrol criminal-history record fees: WATCH online "
+      + "name/DOB check $11; mail conviction CHRI request $32; fingerprint-card CHRI request $58; notarized "
+      + "letter additional $15; non-conviction CHRI copy fingerprint card plus $12; in-person non-conviction "
+      + "record review no fee.",
+    answersThisRoutesQuestion: false,
+    why: "Those are the fees WSP charges to give a person their own criminal-history record. The obligation here "
+      + "is the fee a court charges to file a petition or motion to vacate. Under A3 holding is per fact: a "
+      + "record that prices a different transaction does not price this one."
+  },
+  {
+    record: "src/lib/rcap/state-packs/washington/fee-notes.ts",
+    countsAsHeldUnder: "coded state-pack research",
+    found: "\"Court filing-fee practices for vacation petitions (CrRLJ/CR forms) and juvenile sealing motions "
+      + "vary by county and court — confirm the current filing fee or fee-waiver process with the clerk "
+      + "(source gap — no fixed court filing-fee amount stated in the Nationwide source).\"",
+    answersThisRoutesQuestion: false,
+    why: "The state pack records the gap rather than closing it, and names the same authority this packet names. "
+      + "It corroborates that nothing is held; it establishes no amount."
+  },
+  {
+    record: "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json",
+    countsAsHeldUnder: "DET-FEE-AND-WAIVER-001-A2 (the committed packet-set worklist)",
+    found: "filingFee and feeWaiverTreatment both carry status not_recorded on every route on this host.",
+    answersThisRoutesQuestion: false,
+    why: "A recorded non-establishment is not an answer. Publishing it as one would invert A1."
+  }
+];
+
+function instructionSheetFor(documents) {
+  const matches = WA_INSTRUCTION_SHEETS.filter((sheet) =>
+    documents.some((document) => String(document.formNumber).startsWith(sheet.appliesToFormSeries)));
+  if (matches.length > 1) {
+    fail("family binds forms from two instruction-sheet series",
+      matches.map((sheet) => sheet.formNumber).join(", "));
+  }
+  return matches[0] ?? null;
+}
+
+// Read the sheet from the pinned corpus and prove its bytes before quoting it,
+// then prove by measurement that it states no fee. The quotes above are a
+// first-hand reading; this makes the build refuse to keep repeating them if the
+// bytes they were read from ever change.
+async function verifiedInstructionSheet(documents, sourceRoot) {
+  const sheet = instructionSheetFor(documents);
+  if (!sheet) return null;
+  const abs = safeSourcePath(sourceRoot, sheet.corpusPath);
+  if (!fs.existsSync(abs)) fail("pinned official instruction sheet is absent from the corpus", sheet.corpusPath);
+  const bytes = fs.readFileSync(abs);
+  const digest = sha256(bytes);
+  if (digest !== sheet.sha256) {
+    fail("official instruction sheet bytes moved from the committed corpus index",
+      `${sheet.formNumber}: ${digest}`);
+  }
+  const indexRow = readJson(CORPUS_INDEX).entries.find((entry) => entry.path === sheet.corpusPath);
+  if (!indexRow || indexRow.sha256 !== sheet.sha256) {
+    fail("official instruction sheet is not pinned by the committed corpus index", sheet.corpusPath);
+  }
+  const pdf = await PDFDocument.load(bytes, { ignoreEncryption: true, updateMetadata: false });
+  const moneyLines = measuredMoneyLines(pdf);
+  return {
+    ...sheet,
+    measuredSha256: digest,
+    pageCount: pdf.getPageCount(),
+    statesNoFeeOrWaiver: moneyLines.length === 0,
+    moneyLinesMeasured: moneyLines
+  };
+}
+
+function deliverableOf(records, key) {
+  const merged = new Map();
+  const push = (row) => {
+    if (!row || row.status !== "recorded") return;
+    for (const entry of row.entries ?? []) {
+      const text = cleanText(String(entry).replaceAll("\n", " "));
+      if (text && text !== "not recorded") merged.set(text, true);
+    }
+  };
+  for (const route of records.worklist.routes ?? []) push(route.deliverable?.[key]);
+  push(records.worklist.reusableFamilyDeliverable?.[key]);
+  const recorded = (records.worklist.routes ?? []).some((route) => route.deliverable?.[key]?.status === "recorded")
+    || records.worklist.reusableFamilyDeliverable?.[key]?.status === "recorded";
+  return { recorded, entries: [...merged.keys()] };
+}
+
+function routeCensusRowsFor(records) {
+  const census = readJson(ROUTE_CENSUS);
+  return records.worklist.routeKeys.map((routeKey) => {
+    const row = census.routes.find((candidate) => candidate.routeKey === routeKey);
+    if (!row) fail("route is absent from the committed route obligation census", routeKey);
+    return row;
+  });
+}
+
+// The three obligations, derived. Each carries `established`, which is the A1
+// test applied to committed data, and either a stated fact or a named authority
+// — never a gesture, and never both a claim of silence and a stated fact, which
+// is the A4 trap.
+function filingObligationsFor({ familyId, records, documents, sheet }) {
+  const routeRows = routeCensusRowsFor(records);
+  const destinations = routeRows
+    .map((row) => row.destination)
+    .filter((destination) => destination && destination.name);
+  const destinationDeliverable = deliverableOf(records, "filingDestination");
+  if (!destinations.length && !destinationDeliverable.recorded) {
+    fail("no committed record establishes this route's filing destination", familyId);
+  }
+  const authority = destinations[0]?.name
+    ?? "the clerk of the court recorded as this route's filing destination";
+
+  const feeDeliverable = deliverableOf(records, "filingFee");
+  const waiverDeliverable = deliverableOf(records, "feeWaiverTreatment");
+  const recipients = deliverableOf(records, "serviceRecipients");
+  const methodDeliverable = deliverableOf(records, "serviceMethod");
+  const timingDeliverable = deliverableOf(records, "serviceTiming");
+
+  const boundMoneyLines = [];
+  for (const document of documents) {
+    for (const line of document.moneyLines ?? []) {
+      boundMoneyLines.push({ formNumber: document.formNumber, line });
+    }
+  }
+  // A4, enforced rather than trusted. If a bound form or the route's own
+  // instruction sheet prints money language while the packet is about to say no
+  // held source states a fee, the packet would be denying what it delivers.
+  const feeIsHeld = feeDeliverable.recorded || waiverDeliverable.recorded;
+  if (!feeIsHeld && (boundMoneyLines.length || (sheet && !sheet.statesNoFeeOrWaiver))) {
+    fail("a delivered source prints money language while the packet would report none held",
+      JSON.stringify({ boundMoneyLines, sheetMoneyLines: sheet?.moneyLinesMeasured ?? [] }));
+  }
+
+  return {
+    schemaVersion: "rcap-participant-filing-obligations/v1",
+    familyId,
+    derivedFrom: {
+      routeCensus: ROUTE_CENSUS,
+      worklist: WORKLIST,
+      officialInstructionSheet: sheet
+        ? { formNumber: sheet.formNumber, revision: sheet.revision, sha256: sheet.measuredSha256,
+          corpusPath: sheet.corpusPath, pageCount: sheet.pageCount,
+          rehashedAtBuild: true, statesNoFeeOrWaiver: sheet.statesNoFeeOrWaiver }
+        : null,
+      boundSourceDocuments: documents.map((document) => ({
+        formNumber: document.formNumber, sha256: document.expectedSha256,
+        moneyLanguageMeasured: (document.moneyLines ?? []).length
+      }))
+    },
+    standard: "DET-FEE-AND-WAIVER-001 with amendments A1, A2, A3 and A4",
+    obligations: {
+      FILING_DESTINATION: {
+        established: true,
+        basis: "the committed route obligation census records this route's destination, and the committed "
+          + "worklist records it a second time",
+        statement: destinations.map((destination) => ({
+          kind: destination.kind, name: destination.name, detail: destination.detail
+        })),
+        alsoRecordedInWorklist: destinationDeliverable.entries,
+        ...(sheet ? { corroboratedBy: `${sheet.formNumber}: ${sheet.quoted.whereTheOriginalGoes}` } : {}),
+        namedCheckableAuthority: null,
+        whyNotAnAuthority: "A1 as read by its own amendment: naming an authority is what honesty requires when "
+          + "the record is empty; it is not a way to avoid stating what the record contains."
+      },
+      FEE_AND_WAIVER: {
+        established: feeIsHeld,
+        ...(feeIsHeld
+          ? {
+            basis: "the committed worklist records this route's filing fee and/or fee-waiver treatment",
+            statement: [...feeDeliverable.entries, ...waiverDeliverable.entries]
+          }
+          : {
+            basis: "no committed record establishes a court filing fee or a fee-waiver route for this route",
+            whatWasSearched: [
+              ...(documents.map((document) =>
+                ({ record: `bound source ${document.formNumber} (${document.expectedSha256})`,
+                  countsAsHeldUnder: "the family's own bound source documents",
+                  found: "no fee, waiver or cost language; measured from the pinned content stream at build time",
+                  answersThisRoutesQuestion: false,
+                  why: "the form's face does not price the filing" }))),
+              ...(sheet
+                ? [{ record: `${sheet.formNumber} (${sheet.measuredSha256})`,
+                  countsAsHeldUnder: "the official Washington instruction sheet for this route's form series, "
+                    + "pinned by the committed corpus index",
+                  found: "no fee, waiver or cost language anywhere on the sheet; measured from the pinned bytes "
+                    + "at build time",
+                  answersThisRoutesQuestion: false,
+                  why: "the court system's own instructions for this route are silent on cost" }]
+                : []),
+              ...WA_FEE_REPOSITORY_SEARCH
+            ],
+            namedCheckableAuthority: {
+              name: authority,
+              howToReachIt: "the clerk's office of the court identified under FILING_DESTINATION, which is the "
+                + "court named in the caption of your judgment and on the docket for the case",
+              answersWhichQuestions: [
+                "whether a filing fee applies to this petition or motion in that court",
+                "the amount if one applies",
+                "whether a fee waiver is available and how to apply for it"
+              ],
+              ...(sheet ? { theSameOfficeTheOfficialInstructionsDirectYouTo: sheet.quoted.scheduleThenFile } : {})
+            },
+            refusalToInvent: "No amount is stated because no held record states one. A named office the "
+              + "participant can actually reach is the complete deliverable here; a plausible figure would not be."
+          })
+      },
+      SERVICE: {
+        established: recipients.recorded && Boolean(sheet),
+        recipient: {
+          established: recipients.recorded,
+          basis: "the committed worklist records this route's service recipients",
+          statement: recipients.entries,
+          ...(sheet ? { corroboratedBy: `${sheet.formNumber}: ${sheet.quoted.service}` } : {})
+        },
+        methodAndTiming: sheet
+          ? {
+            established: true,
+            basis: `${sheet.formNumber}, the official Washington instruction sheet for this route's form series, `
+              + "rehashed against the committed corpus index at build time",
+            statement: sheet.quoted.service,
+            copies: sheet.quoted.copies,
+            worklistStatus: {
+              serviceMethod: methodDeliverable.recorded ? "recorded" : "not_recorded",
+              serviceTiming: timingDeliverable.recorded ? "recorded" : "not_recorded"
+            },
+            note: "The worklist does not record the method or the timing. The route's own official instruction "
+              + "sheet does, so under A1 the packet states it rather than naming an authority to ask."
+          }
+          : {
+            established: false,
+            basis: "no official instruction sheet is held for this route's form series",
+            namedCheckableAuthority: { name: authority }
+          },
+        ...(sheet?.prosecutorDirectory
+          ? { howToReachTheRecipient: {
+            statement: sheet.prosecutorDirectory.quoted,
+            url: sheet.prosecutorDirectory.url,
+            source: `${sheet.formNumber}`,
+            a3Note: "Named only for the form series whose own instruction sheet prints it; it is not carried "
+              + "across to the other series."
+          } }
+          : {})
+      }
+    },
+    grantsNothing: "Stating an obligation is not legal approval, does not promote this family and opens no "
+      + "commercial route.",
+    generationAllowed: false, runtimeSelectable: false, commercialRoutesOpened: 0
+  };
+}
+
+// Participant-facing sentences for participant-completion-instructions.json,
+// built from the derived block. This is the sentence the verifiers failed,
+// replaced by what the route record actually holds.
+const asSentence = (text) => {
+  const trimmed = String(text ?? "").trim();
+  if (!trimmed) return "";
+  return /[.!?]$/.test(trimmed) ? trimmed : `${trimmed}.`;
+};
+const joinSentences = (parts) => parts.map(asSentence).filter(Boolean).join(" ");
+/** "Clerk of the sentencing court" reads as an office mid-sentence, not a name. */
+const asOfficePhrase = (name) => {
+  const trimmed = String(name ?? "").trim();
+  if (!trimmed) return trimmed;
+  if (/^the\b/i.test(trimmed)) return trimmed;
+  return `the ${trimmed.charAt(0).toLowerCase()}${trimmed.slice(1)}`;
+};
+
+function filingObligationSentences(obligations) {
+  const destination = obligations.obligations.FILING_DESTINATION;
+  const fee = obligations.obligations.FEE_AND_WAIVER;
+  const service = obligations.obligations.SERVICE;
+  const lines = [];
+
+  const where = joinSentences(destination.statement
+    .map((row) => (row.detail ? `${row.name} — ${asSentence(row.detail)}` : row.name)));
+  lines.push(`Where to file: ${where} This packet states the court because the route record names it; `
+    + "identify your own court from the caption of your judgment and the docket for the case.");
+
+  if (fee.established) {
+    lines.push(`Filing fee and fee waiver: ${joinSentences(fee.statement)}`);
+  } else {
+    const named = fee.namedCheckableAuthority;
+    lines.push("Filing fee and fee waiver: no source held in this repository — not the forms in this packet, "
+      + "not the official instruction sheet for them — states a filing fee for this route, and this packet does "
+      + `not invent one. Ask ${asOfficePhrase(named.name)}: ${named.answersWhichQuestions.join("; ")}. `
+      + "Do not rely on a fee amount from any other source, including this packet.");
+  }
+
+  const recipient = joinSentences(service.recipient.statement);
+  if (service.methodAndTiming.established) {
+    lines.push(joinSentences([
+      `Who must be served, and how: ${recipient}`,
+      service.methodAndTiming.statement,
+      service.howToReachTheRecipient?.statement
+    ].filter(Boolean)));
+  } else {
+    lines.push(`Who must be served, and how: ${recipient} The method and timing are not established by a held `
+      + `source for this route; ask ${asOfficePhrase(service.methodAndTiming.namedCheckableAuthority.name)}.`);
+  }
+
+  lines.push("What is genuinely unresolved is narrower than the three statements above, and this packet no longer "
+    + "asks you to confirm them: whether the court requires criminal-history records or other documents "
+    + "attached, and the local hearing-scheduling practice. Read the local court rules or ask the clerk named "
+    + "above.");
+  return lines;
+}
+
+// The obligations the participant-facing markdown must carry. A committed file
+// is verified rather than overwritten, so a lane's better, source-cited prose is
+// never flattened by a rebuild; a missing file is generated, so the silent form
+// of this defect — a packet that ships no instructions at all — cannot return.
+function instructionCoverageOf(markdown) {
+  return {
+    FILING_DESTINATION: /sentencing court|sentencing superior court|sentencing district|sentencing municipal|court (where|that) (you were )?sentenced|court in which you were convicted/i
+      .test(markdown),
+    FEE_AND_WAIVER: /\bfees?\b/i.test(markdown) && /\bclerk\b/i.test(markdown),
+    SERVICE: /prosecut/i.test(markdown)
+      && /\bserve\b|\bservice\b|provide a copy|receive a copy|copy of each document/i.test(markdown),
+    SELF_HELP_STOP: /lawyer|attorney|court facilitator|legal aid/i.test(markdown)
+      && /stop here|self-help ends|get help/i.test(markdown)
+  };
+}
+
+function renderParticipantInstructions({ familyId, records, documents, obligations, sheet }) {
+  const routeRows = routeCensusRowsFor(records);
+  const label = routeRows[0]?.publicLabel ?? familyId;
+  const statute = routeRows[0]?.statuteOrAuthority ?? null;
+  const sentences = filingObligationSentences(obligations);
+  const fee = obligations.obligations.FEE_AND_WAIVER;
+  const service = obligations.obligations.SERVICE;
+  const destination = obligations.obligations.FILING_DESTINATION;
+
+  const lines = [];
+  lines.push(`# Filing instructions — ${label} (Washington)`);
+  lines.push("");
+  lines.push(`Family: \`${familyId}\` · Route: \`${records.worklist.routeKeys.join("`, `")}\``
+    + (statute ? ` · Statute: ${statute}` : ""));
+  lines.push("Status: **EVIDENCE_ONLY_NOT_APPROVED_FOR_DELIVERY** — this packet has not received legal or visual "
+    + "approval and is not a substitute for either.");
+  lines.push("");
+  lines.push("This packet prepares the following official Washington Courts forms:");
+  lines.push("");
+  for (const document of documents) {
+    lines.push(`- **${document.formNumber}** — \`${document.expectedSha256}\``);
+  }
+  lines.push("");
+  lines.push("## Where to file");
+  lines.push("");
+  for (const row of destination.statement) {
+    lines.push(`${row.name}. ${row.detail ?? ""}`.trim());
+  }
+  lines.push("");
+  lines.push("Identify your own court from the caption of your judgment and the docket for the case.");
+  if (sheet) lines.push(`(${sheet.formNumber}: ${sheet.quoted.whereTheOriginalGoes})`);
+  lines.push("");
+  lines.push("## Filing fee and fee waiver");
+  lines.push("");
+  lines.push(fee.established
+    ? fee.statement.join(" ")
+    : `${sentences[1]}`);
+  lines.push("");
+  lines.push("## Who must be served, and how");
+  lines.push("");
+  lines.push(sentences[2]);
+  lines.push("");
+  lines.push("## Required attachments and local variation");
+  lines.push("");
+  lines.push(sentences[3]);
+  if (sheet) lines.push(`(${sheet.formNumber}: ${sheet.quoted.localRequirements})`);
+  lines.push("");
+  lines.push("## Where self-help ends");
+  lines.push("");
+  lines.push("Stop here and get help from a lawyer or a court facilitator if any of the following is true:");
+  lines.push("");
+  lines.push("- you are not sure this is the correct route or the correct court for your case;");
+  lines.push("- you are not sure you meet this route's eligibility conditions;");
+  lines.push("- the prosecuting attorney objects; or");
+  lines.push("- anything in your court record does not match what this packet shows.");
+  lines.push("");
+  lines.push("This packet is prepared evidence, not legal advice. It does not decide your eligibility, it never "
+    + "signs or dates a declaration for you, and it never writes a sworn narrative for you. The judge decides; "
+    + "the findings, order and clerk's sections belong to the court.");
+  lines.push("");
+  lines.push("## Sources for every statement above");
+  lines.push("");
+  lines.push("| Source | SHA-256 |");
+  lines.push("| --- | --- |");
+  for (const document of documents) lines.push(`| ${document.formNumber} | \`${document.expectedSha256}\` |`);
+  if (sheet) {
+    lines.push(`| ${sheet.formNumber}, ${sheet.title} (${sheet.revision}) | \`${sheet.measuredSha256}\` |`);
+  }
+  lines.push("");
+  lines.push("Every hash above was recomputed from the pinned corpus during this build.");
+  lines.push("");
+  return `${lines.join("\n")}`;
+}
+
 async function buildOfficialFamily(familyId, records, documents) {
   const out = outFor(familyId);
   const censused = [];
@@ -1583,7 +2102,9 @@ async function buildOfficialFamily(familyId, records, documents) {
     ? readJson(productWiringPath)
     : jsonAtRevision(P2_CONTROL_BASE, productWiringPath);
   // participant-instructions.md is filing guidance beside the packet, not a
-  // rendered artifact; a rebuild must not delete it (FIX10).
+  // rendered artifact; a rebuild must not delete it (FIX10). Preserving it is
+  // no longer the whole story: see the filing-obligations write below, which
+  // generates one where none exists and verifies one that does.
   const participantInstructionsPath = `${out}/participant-instructions.md`;
   const preservedParticipantInstructions = fs.existsSync(absFor(participantInstructionsPath))
     ? fs.readFileSync(absFor(participantInstructionsPath), "utf8")
@@ -1800,9 +2321,37 @@ async function buildOfficialFamily(familyId, records, documents) {
     rasters.push({ document: artifact.document, fixture: artifact.fixture, directory, pages });
   }
 
+  // The three participant-facing obligations, derived from committed route data
+  // and from source bytes measured in this run (FIX10 / FABLE-R21). This
+  // replaces the single sentence that used to stand for all three.
+  const sheet = await verifiedInstructionSheet(documents, corpusRoot());
+  const filingObligations = filingObligationsFor({ familyId, records, documents, sheet });
+  writeJson(`${out}/filing-obligations.json`, filingObligations);
+  const obligationSentences = filingObligationSentences(filingObligations);
+
+  // Generate the participant instructions where none exists — the silent form
+  // of the same defect — and verify, never overwrite, one that does: a lane's
+  // source-cited prose is better than anything derivable here, but it may not
+  // be missing an obligation the route record establishes.
+  const instructionsOnDisk = fs.existsSync(absFor(participantInstructionsPath))
+    ? fs.readFileSync(absFor(participantInstructionsPath), "utf8")
+    : null;
+  if (instructionsOnDisk === null) {
+    fs.writeFileSync(absFor(participantInstructionsPath),
+      renderParticipantInstructions({ familyId, records, documents, obligations: filingObligations, sheet }));
+  } else {
+    const coverage = instructionCoverageOf(instructionsOnDisk);
+    const uncovered = Object.entries(coverage).filter(([, covered]) => !covered).map(([name]) => name);
+    if (uncovered.length) {
+      fail("committed participant instructions do not state an obligation the route record establishes",
+        `${familyId}: ${uncovered.join(", ")}`);
+    }
+  }
+
   writeJson(`${out}/participant-completion-instructions.json`, {
     schemaVersion: "rcap-participant-completion-instructions/v1", familyId,
     status: "EVIDENCE_ONLY_NOT_APPROVED_FOR_DELIVERY",
+    filingObligationsSource: `${out}/filing-obligations.json`,
     instructions: [
       routeElectionFamily(familyId)
         ? "Review the selected Washington form and confirm the court and eligibility path; this build marks only the route-determined election(s) recorded in the production field map's routeElections and makes no other legal election."
@@ -1811,7 +2360,7 @@ async function buildOfficialFamily(familyId, records, documents) {
       "Participant-authored evidence or mitigation remains blank when the route requires the participant's own sworn narrative; the platform does not invent that content.",
       "Sign and date only after reviewing the filing; the build never signs or dates a declaration for the participant.",
       "Leave the judge, commissioner, clerk, prosecutor, and court-decision portions for the named person or court.",
-      "Confirm local filing, notice, service, fee, and hearing requirements with the sentencing court before filing. The route controls record local variation as unresolved."
+      ...obligationSentences
     ],
     attachmentAndContinuationPages:
       "Attach only documents required by the form and court. No attachment, continuation page, prosecutor notice, or proof of service was invented by this build.",
@@ -1840,7 +2389,16 @@ async function buildOfficialFamily(familyId, records, documents) {
     advisories: [
       "The state-bounded map writes held participant and case facts into exact source-measured cells; legal elections, participant-authored narratives, execution fields, and judicial findings retain approved blank dispositions.",
       "Machine raster production and byte-level placement proof are not human independent visual review.",
-      "The worklist records unresolved local filing, notice, service, fee, and hearing variation; this build does not resolve those legal-design questions."
+      // This advisory used to say the worklist recorded filing, notice, service,
+      // fee and hearing variation as unresolved, which told the participant the
+      // packet does not state facts it does state (A4). What remains unresolved
+      // is narrower, and filing-obligations.json records which is which.
+      "Filing destination and the service recipient are stated from the committed route record; the service "
+        + "method and timing are stated from the route's own official instruction sheet. What remains unresolved "
+        + "is the court filing fee and any fee-waiver route, which no held source establishes for this route, and "
+        + "county-level attachment and hearing-scheduling practice. See filing-obligations.json.",
+      "No fee amount, waiver rule or service recipient in this packet was inferred; each is either read from a "
+        + "committed record or, where nothing establishes it, replaced by a named office the participant can reach."
     ],
     deterministicFixtureRebuilds: artifacts.every((artifact) => artifact.sha256 === artifact.deterministicSecondRenderSha256)
   });
