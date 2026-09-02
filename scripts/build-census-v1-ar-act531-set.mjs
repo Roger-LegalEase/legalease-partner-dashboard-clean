@@ -47,7 +47,7 @@ import { extractTextItems, groupIntoLines, captureWidgetContext, normalizeHarves
 import { finalizeOfficialForm } from "./rcap-official-forms/rcap-official-form-finalize.mjs";
 import { flattenedWidgets, drawnAt } from "./rcap-official-forms/pdf-flattened-widgets.mjs";
 import { strokedRectangles } from "./lib/pdf-stroked-boxes.mjs";
-import { CHARGE_VALUE_WORDS, captionDescribesChargeValue, descriptorsMatching, protectCategoryOf, decideBinding }
+import { CHARGE_VALUE_WORDS, captionDescribesChargeValue, descriptorsMatching, protectCategoryOf, decideBinding, resolveFact }
   from "./rcap-official-forms/rcap-field-semantics.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -464,7 +464,14 @@ async function censusDocument(doc, bytes) {
       if (!widgetsForCapture.has(w.page)) widgetsForCapture.set(w.page, []);
       widgetsForCapture.get(w.page).push({ name, rect: w.rect });
     }
-    return { name, type, widgets };
+    return {
+      name, type, widgets,
+      // Read from the document, not assumed. See maxLengthOverflows(): pdf-lib
+      // THROWS on a value longer than a text field's declared /MaxLen rather
+      // than reporting it unfittable, so a value that will not fit has to be
+      // refused before the finalizer is asked to write it.
+      maxLength: type === "text" ? (f.getMaxLength() ?? null) : null
+    };
   });
 
   const context = new Map();
@@ -503,6 +510,7 @@ async function censusDocument(doc, bytes) {
     return {
       name: f.name,
       type: f.type,
+      maxLength: f.maxLength ?? null,
       effectiveLabel: effective,
       harvestedLabel: harvested,
       printedLabelCorrection: correction,
@@ -525,6 +533,59 @@ async function censusDocument(doc, bytes) {
     pageGeometry: pages.map((p, i) => ({ page: i + 1, width: +p.getSize().width.toFixed(2), height: +p.getSize().height.toFixed(2) })),
     strokedByPage
   };
+}
+
+
+/**
+ * Values this fixture cannot place, because the FORM says the blank is too short.
+ *
+ * A text widget may declare /MaxLen. pdf-lib's setText throws
+ * ExceededMaxLengthError when a value is longer, and the shared finalizer does
+ * not catch it — so a fixture carrying a longer value does not produce a report
+ * saying the value did not fit, it produces no artifact at all. The Idaho
+ * shielding petition found this: its filer-name widget declares /MaxLen 35 and
+ * the corpus's standard boundary participant's name is 70 characters, and the
+ * build died on the second fixture after writing the first.
+ *
+ * That is a defect in the shared finalizer and not in this packet, and it is not
+ * repaired here — rcap-text-fitting.mjs is outside this family's owned paths and
+ * every other family shares it. What is done here instead is to ask the same
+ * question BEFORE the finalizer is called, using the same binder, and to refuse
+ * by role any field whose resolved value exceeds the length the form itself
+ * declares. The refusal is per FIXTURE, because it depends on the value: the
+ * canonical participant fits and the boundary participant does not, which is
+ * exactly what a boundary fixture is for.
+ */
+function maxLengthOverflows(doc, census, facts) {
+  const availableChargeRows = Array.isArray(facts?.["matter.charges"]) ? facts["matter.charges"].length : 0;
+  const found = [];
+  for (const f of census.fields) {
+    if (f.maxLength === null || f.maxLength === undefined) continue;
+    const decision = decideBinding(
+      { name: f.name, pdfType: f.type, effectiveLabel: f.effectiveLabel ?? null },
+      {
+        explicitMappings: doc.explicitMappings ?? {},
+        captionOnly: doc.captionOnly === true,
+        availableChargeRows,
+        documentAcceptsFill: true
+      }
+    );
+    if (decision.writable !== true || !decision.factId) continue;
+    const value = resolveFact(facts, decision.factId);
+    if (value === undefined || value === null) continue;
+    const length = String(value).length;
+    if (length <= f.maxLength) continue;
+    found.push({
+      field: f.name,
+      class: "exceeds_form_declared_max_length",
+      factId: decision.factId,
+      maxLength: f.maxLength,
+      valueLength: length,
+      why: `The form declares /MaxLen ${f.maxLength} on this widget and the value for ${decision.factId} is `
+        + `${length} characters. The blank cannot hold it, so it is left for the participant rather than truncated.`
+    });
+  }
+  return found;
 }
 
 // ---- prove it from the ARTIFACT, not from the report --------------------------
@@ -847,13 +908,20 @@ async function main() {
 
     const fixtures = {};
     for (const [label, facts] of [["canonical", CANONICAL], ["boundary", BOUNDARY]]) {
+      const overflows = maxLengthOverflows(doc, census, facts);
+      for (const o of overflows) {
+        console.log(`  ${label}: ${o.field} refused — /MaxLen ${o.maxLength} < ${o.valueLength} characters of ${o.factId}`);
+      }
       const result = await finalizeOfficialForm({
         sourceBytes: bytes,
         expectedSha256: doc.sha256,
         census: census.fields,
         facts,
         explicitMappings: doc.explicitMappings,
-        unwritableFields: doc.unwritable.map((u) => ({ field: u.field, class: u.class })),
+        unwritableFields: [
+          ...doc.unwritable.map((u) => ({ field: u.field, class: u.class })),
+          ...overflows.map((o) => ({ field: o.field, class: o.class }))
+        ],
         captionOnly: doc.captionOnly,
         documentTextLines: census.documentTextLines,
         title: `AR ${doc.documentId}`
@@ -875,7 +943,7 @@ async function main() {
         + `, sha256=${hash.slice(0, 16)}…  charge-blanks checked=${proof.chargeBlanks.length}`
         + `  findings=${proof.findings.length}`);
 
-      fixtures[label] = { file: rel, sha256: hash, byteLength: result.bytes.length, report: result.report, proof };
+      fixtures[label] = { file: rel, sha256: hash, byteLength: result.bytes.length, report: result.report, proof, overflows };
     }
 
     documents.push({ doc, census, indexEntry, fixtures, sourceByteLength: bytes.length });
@@ -1090,7 +1158,8 @@ async function main() {
         file: fixtures[label].file, sha256: fixtures[label].sha256, byteLength: fixtures[label].byteLength,
         fieldsWritten: fixtures[label].report.written.length,
         fieldsRefused: fixtures[label].report.refused.length,
-        unfittable: fixtures[label].report.unfittable
+        unfittable: fixtures[label].report.unfittable,
+        refusedForExceedingFormDeclaredMaxLength: fixtures[label].overflows ?? []
       })))
   });
 

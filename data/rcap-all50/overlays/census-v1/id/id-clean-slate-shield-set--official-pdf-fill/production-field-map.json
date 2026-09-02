@@ -1,0 +1,439 @@
+{
+  "schemaVersion": "rcap-official-form-field-map/v1-census-v1",
+  "familyId": "id_clean_slate_shield-set",
+  "routeKeys": [
+    "obligation:track-pathway:ID:id_clean_slate_shield:clean-slate-shielding-under-idaho-code-67-3004-11"
+  ],
+  "renderStrategy": "acroform_fill",
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "documents": [
+    {
+      "documentId": "ISC-PETITION-TO-SHIELD-67-3004-11",
+      "documentRole": "PETITION",
+      "ownership": "participant_completed",
+      "captionOnly": false,
+      "explicitMappings": {},
+      "printedLabelCorrections": {
+        "JUDICIAL DISTRICT OF": {
+          "printedLabel": "IN AND FOR THE COUNTY OF",
+          "readFrom": "page 1, printed line at y=490.0: \"THE STATE OF IDAHO, IN AND FOR THE COUNTY OF\"",
+          "measuredEvidence": "the printed line ends at x=393.4 and this widget occupies x 395.04-508.80 on the same line, so it spans the blank after \"COUNTY OF\"",
+          "why": "The widget is named after the words that PRECEDE the line it sits on, not the words beside it. Its own name would have reached nothing; the county the platform holds would not have been written at all."
+        },
+        "THE STATE OF IDAHO IN AND FOR THE COUNTY OF": {
+          "printedLabel": "IN THE DISTRICT COURT OF THE judicial district",
+          "readFrom": "page 1, printed line at y=504.5: \"IN THE DISTRICT COURT OF THE ______ JUDICIAL DISTRICT OF\"",
+          "measuredEvidence": "\"IN THE DISTRICT COURT OF THE \" ends at x=302.4 and \" JUDICIAL DISTRICT OF\" resumes at x=382.6; this widget occupies x 302.52-382.92, exactly that gap",
+          "why": "Its own name contains the word STATE, and the shared binder matched participant.state on it: the canonical fixture would have printed \"IN THE DISTRICT COURT OF THE XX JUDICIAL DISTRICT OF\". The correction states what the blank is; the role refusal below then keeps it empty, because the platform holds no judicial-district fact."
+        },
+        "City State and Zip Code": {
+          "printedLabel": "City, State and Zip Code",
+          "readFrom": "page 1, printed caption at y=629.2: \"City, State and Zip Code\"",
+          "measuredEvidence": "the widget occupies x 71.04-310.92 at y=636.00, directly above that printed caption, in the filer's contact block at the head of the page",
+          "why": "Its harvested caption is \"Mailing Address (Street or Post Office Box)\" — the caption of the line ABOVE it — so the row would have described the wrong blank. The correction only names the blank; it does not change what is written into it, because the shared binder reads the field NAME first and the name matches its city descriptor before the label channel is ever consulted. See partialFills below."
+        },
+        "Petitioner  Defendant_2": {
+          "printedLabel": "Petitioner / Defendant signature line, page 2",
+          "readFrom": "page 2, printed caption at y=462.1: \"Petitioner / Defendant\", directly under the rule this widget covers, in the block headed \"CERTIFICATION UNDER PENALTY OF PERJURY\"",
+          "measuredEvidence": "the widget occupies x 324.00-504.12 at y=469.52; the printed caption naming it sits at y=462.1 beneath it, and \"Dated:\" with its own widget sits to the left on the same rule",
+          "why": "The widget harvests no caption at all and its name matches the participant's name, so the shared binder would have printed the petitioner's name on the line where the petitioner SIGNS the certification under penalty of perjury. The correction says what the line is; the role refusal below keeps it blank."
+        }
+      },
+      "partialFills": [
+        {
+          "field": "City State and Zip Code",
+          "page": 1,
+          "theBlankAsksFor": "the city, the state and the ZIP code, on one printed rule",
+          "thisPacketWrites": "participant.city",
+          "notWritten": [
+            "participant.state",
+            "participant.zip"
+          ],
+          "heldByThePlatform": true,
+          "why": "The shared binder selects its city descriptor from the field's own name before the city_state_zip descriptor is reached, and an explicit mapping cannot override a descriptor the name already selected.",
+          "disclosedTo": "participant-instructions.md, in the table of items the participant must supply"
+        }
+      ],
+      "partialFillNote": "A blank this packet fills only partly. Each entry names what the blank asks for, what was written, what was not, and where the participant is told to complete it. Declared here rather than left to be discovered on the paper.",
+      "printedLabelCorrectionNote": "Each entry replaced the harvested caption for one named widget with the printed text this build read at that widget's own measured position, because the widget's name says nothing or says the wrong thing. The harvested value each replaced is kept on the field-census row as harvestedLabel, and the evidence for each correction is in the entry itself.",
+      "roleRefusals": [
+        {
+          "field": "THE STATE OF IDAHO IN AND FOR THE COUNTY OF",
+          "class": "judicial_district_not_held",
+          "why": "The judicial-district blank in the caption (see the header note). The platform holds no judicial-district fact, and the shared binder would otherwise have written participant.state into it because the widget's NAME contains the word STATE. Idaho's own Clean Slate instructions, carried in the compiled Idaho profile, tell the filer to \"Fill in the district, county, case number\" and add \"You can obtain this information from the court if you do not have it.\""
+        },
+        {
+          "field": "Petitioner  Defendant_2",
+          "class": "participant_signature_line",
+          "why": "The signature rule above the printed words \"Petitioner / Defendant\" on page 2, inside the block headed CERTIFICATION UNDER PENALTY OF PERJURY. The participant signs it; the shared binder would have printed their name there."
+        },
+        {
+          "field": "Dated",
+          "class": "participant_signature_date",
+          "why": "The date beside that signature. Dating a certification that has not been made asserts the petition was signed on a day it was not."
+        }
+      ],
+      "writeBoxes": [
+        {
+          "field": "Full Name of Party Filing Document",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "rect": {
+            "x": 71.76,
+            "y": 705.12,
+            "width": 239.88,
+            "height": 22.92
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": null
+        },
+        {
+          "field": "Petitioner  Defendant",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "rect": {
+            "x": 77.28,
+            "y": 381.08,
+            "width": 195.84,
+            "height": 22.92
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "v. Disclosure"
+        },
+        {
+          "field": "Mailing Address Street or Post Office Box",
+          "factId": "participant.street_address",
+          "page": 1,
+          "rect": {
+            "x": 71.04,
+            "y": 670.8,
+            "width": 239.88,
+            "height": 22.92
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "Full Name of Party Filing Document"
+        },
+        {
+          "field": "City State and Zip Code",
+          "factId": "participant.city",
+          "page": 1,
+          "rect": {
+            "x": 71.04,
+            "y": 636,
+            "width": 239.88,
+            "height": 22.92
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "City, State and Zip Code"
+        },
+        {
+          "field": "Telephone",
+          "factId": "participant.phone",
+          "page": 1,
+          "rect": {
+            "x": 71.04,
+            "y": 601.44,
+            "width": 239.88,
+            "height": 22.92
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "City, State and Zip Code"
+        },
+        {
+          "field": "Email Address if any",
+          "factId": "participant.email",
+          "page": 1,
+          "rect": {
+            "x": 71.04,
+            "y": 566.52,
+            "width": 239.88,
+            "height": 22.92
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "Telephone"
+        },
+        {
+          "field": "JUDICIAL DISTRICT OF",
+          "factId": "matter.court",
+          "page": 1,
+          "rect": {
+            "x": 395.04,
+            "y": 485,
+            "width": 113.76,
+            "height": 18.16
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "IN AND FOR THE COUNTY OF"
+        },
+        {
+          "field": "Case No",
+          "factId": "matter.case_number",
+          "page": 1,
+          "rect": {
+            "x": 347.4,
+            "y": 445.2,
+            "width": 132,
+            "height": 20.3
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "Case No"
+        }
+      ],
+      "refused": [
+        {
+          "field": "THE STATE OF IDAHO IN AND FOR THE COUNTY OF",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "a misdemeanor that is not assaultive or violent as listed in Idaho Code section",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "a felony possession of a controlled substance under Idaho Code section 372732a",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Dated",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Petitioner  Defendant_2",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        }
+      ],
+      "protectedFields": [
+        {
+          "field": "THE STATE OF IDAHO IN AND FOR THE COUNTY OF",
+          "category": "role"
+        },
+        {
+          "field": "a misdemeanor that is not assaultive or violent as listed in Idaho Code section",
+          "category": "type_guard"
+        },
+        {
+          "field": "a felony possession of a controlled substance under Idaho Code section 372732a",
+          "category": "type_guard"
+        },
+        {
+          "field": "Dated",
+          "category": "role"
+        },
+        {
+          "field": "Petitioner  Defendant_2",
+          "category": "role"
+        }
+      ],
+      "fields": [
+        {
+          "field": "Full Name of Party Filing Document",
+          "fieldId": "Full Name of Party Filing Document",
+          "effectiveLabel": null,
+          "harvestedLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "participant.full_legal_name",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "Mailing Address Street or Post Office Box",
+          "fieldId": "Mailing Address Street or Post Office Box",
+          "effectiveLabel": "Full Name of Party Filing Document",
+          "harvestedLabel": "Full Name of Party Filing Document",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "participant.street_address",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "City State and Zip Code",
+          "fieldId": "City State and Zip Code",
+          "effectiveLabel": "City, State and Zip Code",
+          "harvestedLabel": "Mailing Address (Street or Post Office Box)",
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "participant.city",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "Telephone",
+          "fieldId": "Telephone",
+          "effectiveLabel": "City, State and Zip Code",
+          "harvestedLabel": "City, State and Zip Code",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "participant.phone",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "Email Address if any",
+          "fieldId": "Email Address if any",
+          "effectiveLabel": "Telephone",
+          "harvestedLabel": "Telephone",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "participant.email",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "THE STATE OF IDAHO IN AND FOR THE COUNTY OF",
+          "fieldId": "THE STATE OF IDAHO IN AND FOR THE COUNTY OF",
+          "effectiveLabel": "IN THE DISTRICT COURT OF THE judicial district",
+          "harvestedLabel": "IN THE DISTRICT COURT OF THE",
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "judicial_district_not_held",
+          "buildRoleWhy": "The judicial-district blank in the caption (see the header note). The platform holds no judicial-district fact, and the shared binder would otherwise have written participant.state into it because the widget's NAME contains the word STATE. Idaho's own Clean Slate instructions, carried in the compiled Idaho profile, tell the filer to \"Fill in the district, county, case number\" and add \"You can obtain this information from the court if you do not have it.\"",
+          "reason": "The judicial district in the caption's \"IN THE DISTRICT COURT OF THE ______ JUDICIAL DISTRICT OF\" line. The county is written on the line below it; which of Idaho's judicial districts that county sits in is a fact the platform does not hold, and Idaho's own Clean Slate instructions say to obtain it from the court. The participant writes it before filing.",
+          "refusalClass": null,
+          "requiredBeforeFiling": true
+        },
+        {
+          "field": "JUDICIAL DISTRICT OF",
+          "fieldId": "JUDICIAL DISTRICT OF",
+          "effectiveLabel": "IN AND FOR THE COUNTY OF",
+          "harvestedLabel": "THE STATE OF IDAHO, IN AND FOR THE COUNTY OF",
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "matter.court",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "Case No",
+          "fieldId": "Case No",
+          "effectiveLabel": "Case No",
+          "harvestedLabel": "Case No",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "matter.case_number",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "Petitioner  Defendant",
+          "fieldId": "Petitioner  Defendant",
+          "effectiveLabel": "v. Disclosure",
+          "harvestedLabel": "v. Disclosure",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "participant.full_legal_name",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "a misdemeanor that is not assaultive or violent as listed in Idaho Code section",
+          "fieldId": "a misdemeanor that is not assaultive or violent as listed in Idaho Code section",
+          "effectiveLabel": "1.The offense(s) that I petition to have shielded is eligibl",
+          "harvestedLabel": "1.The offense(s) that I petition to have shielded is eligibl",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "page": 1,
+          "pdfType": "checkbox",
+          "isSelectionControl": true,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "Paragraph 1's first eligibility box — \"a misdemeanor that is not assaultive or violent as listed in Idaho Code section 67-3004(11)(b)\". Which limb of § 67-3004(11) the offence qualifies under is read off the participant's own record; this route covers both and does not determine it.",
+          "refusalClass": "participant_sworn_narrative_or_legal_election"
+        },
+        {
+          "field": "a felony possession of a controlled substance under Idaho Code section 372732a",
+          "fieldId": "a felony possession of a controlled substance under Idaho Code section 372732a",
+          "effectiveLabel": null,
+          "harvestedLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "page": 1,
+          "pdfType": "checkbox",
+          "isSelectionControl": true,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "Paragraph 1's second eligibility box — \"a felony possession of a controlled substance under Idaho Code section 37-2732(a), (c), or (e)\". The other half of the same election.",
+          "refusalClass": "participant_sworn_narrative_or_legal_election"
+        },
+        {
+          "field": "Dated",
+          "fieldId": "Dated",
+          "effectiveLabel": "Dated",
+          "harvestedLabel": "Dated",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 2,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "participant_signature_date",
+          "buildRoleWhy": "The date beside that signature. Dating a certification that has not been made asserts the petition was signed on a day it was not.",
+          "reason": "The date beside that signature, completed by the participant when the petition is signed.",
+          "refusalClass": "signature_or_date_participant_completion"
+        },
+        {
+          "field": "Petitioner  Defendant_2",
+          "fieldId": "Petitioner  Defendant_2",
+          "effectiveLabel": "Petitioner / Defendant signature line, page 2",
+          "harvestedLabel": null,
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "page": 2,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "participant_signature_line",
+          "buildRoleWhy": "The signature rule above the printed words \"Petitioner / Defendant\" on page 2, inside the block headed CERTIFICATION UNDER PENALTY OF PERJURY. The participant signs it; the shared binder would have printed their name there.",
+          "reason": "The signature line under CERTIFICATION UNDER PENALTY OF PERJURY on page 2. The petition is certified under penalty of perjury; the participant signs it.",
+          "refusalClass": "signature_or_date_participant_completion"
+        }
+      ]
+    }
+  ]
+}

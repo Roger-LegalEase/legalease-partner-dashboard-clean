@@ -1,0 +1,87 @@
+{
+  "schemaVersion": "rcap-rendered-artifacts/v1",
+  "familyId": "id_clean_slate_shield-set",
+  "renderedFresh": true,
+  "citesNoBlockedHash": true,
+  "staleArtifactBlock": "data/rcap-grade-a/stale-artifact-block.json",
+  "note": "Rendered fresh from the pinned source bytes. Every output hash below was checked against the hashes in the stale-artifact block and matches none of them.",
+  "rasterisation": {
+    "performedHere": false,
+    "why": "This container resolves no browser, so no page raster is produced at build time. The render happens centrally in .github/workflows/rcap-packet-raster-acceptance-batch.yml against the exact bytes the hashes below pin. This family is BUILT_RASTER_PENDING and no visual obligation is waived by it.",
+    "rasters": []
+  },
+  "packets": [
+    {
+      "packetId": "id_clean_slate_shield-set",
+      "documents": [
+        "ISC-PETITION-TO-SHIELD-67-3004-11 (canonical)",
+        "ISC-PETITION-TO-SHIELD-67-3004-11 (boundary)"
+      ]
+    }
+  ],
+  "artifacts": [
+    {
+      "document": "ISC-PETITION-TO-SHIELD-67-3004-11",
+      "fixture": "canonical",
+      "file": "data/rcap-all50/overlays/census-v1/id/id-clean-slate-shield-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf",
+      "sha256": "fd888d5f7773d9a2c645dc38fc594d2c95f43e263ba9f35ca81b17ad8f24aa80",
+      "byteLength": 148249,
+      "fieldsWritten": 8,
+      "fieldsRefused": 5,
+      "unfittable": [],
+      "refusedForExceedingFormDeclaredMaxLength": []
+    },
+    {
+      "document": "ISC-PETITION-TO-SHIELD-67-3004-11",
+      "fixture": "boundary",
+      "file": "data/rcap-all50/overlays/census-v1/id/id-clean-slate-shield-set--official-pdf-fill/fixtures/petition-boundary-filled.pdf",
+      "sha256": "ccfdf3fb1bf9e0ba3cd5b0e31bc44b7dd2ddd71da9b7984fb17e8d0ffa8afedf",
+      "byteLength": 148155,
+      "fieldsWritten": 3,
+      "fieldsRefused": 10,
+      "unfittable": [],
+      "refusedForExceedingFormDeclaredMaxLength": [
+        {
+          "field": "Full Name of Party Filing Document",
+          "class": "exceeds_form_declared_max_length",
+          "factId": "participant.full_legal_name",
+          "maxLength": 35,
+          "valueLength": 70,
+          "why": "The form declares /MaxLen 35 on this widget and the value for participant.full_legal_name is 70 characters. The blank cannot hold it, so it is left for the participant rather than truncated."
+        },
+        {
+          "field": "Mailing Address Street or Post Office Box",
+          "class": "exceeds_form_declared_max_length",
+          "factId": "participant.street_address",
+          "maxLength": 35,
+          "valueLength": 75,
+          "why": "The form declares /MaxLen 35 on this widget and the value for participant.street_address is 75 characters. The blank cannot hold it, so it is left for the participant rather than truncated."
+        },
+        {
+          "field": "City State and Zip Code",
+          "class": "exceeds_form_declared_max_length",
+          "factId": "participant.city",
+          "maxLength": 35,
+          "valueLength": 47,
+          "why": "The form declares /MaxLen 35 on this widget and the value for participant.city is 47 characters. The blank cannot hold it, so it is left for the participant rather than truncated."
+        },
+        {
+          "field": "Case No",
+          "class": "exceeds_form_declared_max_length",
+          "factId": "matter.case_number",
+          "maxLength": 16,
+          "valueLength": 37,
+          "why": "The form declares /MaxLen 16 on this widget and the value for matter.case_number is 37 characters. The blank cannot hold it, so it is left for the participant rather than truncated."
+        },
+        {
+          "field": "Petitioner  Defendant",
+          "class": "exceeds_form_declared_max_length",
+          "factId": "participant.full_legal_name",
+          "maxLength": 30,
+          "valueLength": 70,
+          "why": "The form declares /MaxLen 30 on this widget and the value for participant.full_legal_name is 70 characters. The blank cannot hold it, so it is left for the participant rather than truncated."
+        }
+      ]
+    }
+  ]
+}
