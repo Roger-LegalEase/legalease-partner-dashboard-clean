@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** source-swarm
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `0907452b199e7ac23c2298950264eb9d4dc988e3` (or the newer dispatch base)
+**Minimum required ancestor:** `74ebc7b997643120ea326dcbe50fdefa61fb1f1a` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -20,9 +20,9 @@
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --assignment-id DISC02 \
-  --source-obligation 'census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement::NO_DOCUMENT_SOURCE_NAMED' \
+  --source-obligation 'fl-10yr-bridge-set::official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION' \
   --codex-cloud \
-  --minimum-captain-sha 0907452b199e7ac23c2298950264eb9d4dc988e3
+  --minimum-captain-sha 74ebc7b997643120ea326dcbe50fdefa61fb1f1a
 ```
 
 It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owned row gate must both pass.
@@ -40,7 +40,7 @@ It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owne
 ## Claim before you read
 
 - Assert each exact source obligation before reading evidence: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert DISC02 <itemId>`
-- The committed assignment contains exactly 15 itemIds; iterate those values only. A familyId is metadata and is not a source claim key.
+- The committed assignment contains exactly 13 itemIds; iterate those values only. A familyId is metadata and is not a source claim key.
 - A non-zero exit stops that row only: record `BLOCKED_BEFORE_CLAIM`, read none of its evidence, and continue with unrelated obligations.
 - Release each completed obligation independently: `node scripts/grade-a-packet-factory-24h/claim.mjs --release DISC02 <itemId>`.
 
@@ -78,7 +78,7 @@ Turn a descriptive label into a document identity: exact form number, official p
 
 the issuing court or agency that publishes the document
 
-**15 obligations · 8 families this lane WOULD release if every one of them resolves · hosts: IA, IN, UT**
+**13 obligations · 5 families this lane WOULD release if every one of them resolves · hosts: FL, IA, IN**
 
 > Prospective. Nothing below is promoted custody yet, and this number is not a count of families you can build today.
 
@@ -105,29 +105,27 @@ the issuing court or agency that publishes the document
 
 | Item id | Source id | Jurisdiction | Current operation | Family ownership | Required input | Handoff |
 | --- | --- | --- | --- | --- | --- | --- |
-| `census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | UT | `exact-source-identity` | `census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement` | unresolved exact identity or URL | `ACQ` |
-| `census-pending-family:UT:path-m-juvenile-expungement::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | UT | `exact-source-identity` | `census-pending-family:UT:path-m-juvenile-expungement` | unresolved exact identity or URL | `ACQ` |
+| `fl-10yr-bridge-set::official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION` | `official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION` | FL | `exact-source-identity` | `fl-10yr-bridge-set` | unresolved exact identity or URL | `ACQ` |
+| `fl-early-juvenile-set::official-form:FDLE-EARLY-JUVENILE-EXPUNCTION-APPLICATION` | `official-form:FDLE-EARLY-JUVENILE-EXPUNCTION-APPLICATION` | FL | `exact-source-identity` | `fl-early-juvenile-set` | unresolved exact identity or URL | `ACQ` |
+| `fl-expunction-set::official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION` | `official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION` | FL | `exact-source-identity` | `fl-expunction-set` | unresolved exact identity or URL | `ACQ` |
+| `fl-juvenile-diversion-set::official-form:FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION` | `official-form:FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION` | FL | `exact-source-identity` | `fl-juvenile-diversion-set` | unresolved exact identity or URL | `ACQ` |
+| `fl-sealing-set::official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION` | `official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION` | FL | `exact-source-identity` | `fl-sealing-set` | unresolved exact identity or URL | `ACQ` |
 | `ia-12346-set::official-form:Certification of Service by Mailing or Delivery` | `official-form:Certification of Service by Mailing or Delivery` | IA | `exact-source-identity` | `ia-12346-set` | unresolved exact identity or URL | `ACQ` |
-| `ia-12346-set::official-form:Rule 2.86 Form 3` | `official-form:Rule 2.86 Form 3` | IA | `exact-source-identity` | `ia-12346-set` | unresolved exact identity or URL | `ACQ` |
 | `ia-901c2-set::official-form:Certification of Service by Mailing or Delivery` | `official-form:Certification of Service by Mailing or Delivery` | IA | `exact-source-identity` | `ia-901c2-set` | unresolved exact identity or URL | `ACQ` |
-| `ia-901c2-set::official-form:Rule 2.86 Form 1` | `official-form:Rule 2.86 Form 1` | IA | `exact-source-identity` | `ia-901c2-set` | unresolved exact identity or URL | `ACQ` |
-| `ia-dci77-set::official-form:DCI-76 Criminal History Record Check Billing Form` | `official-form:DCI-76 Criminal History Record Check Billing Form` | IA | `exact-source-identity` | `ia-dci77-set` | unresolved exact identity or URL | `ACQ` |
-| `ia-dci77-set::official-form:DCI-77 Criminal History Record Check Request Form` | `official-form:DCI-77 Criminal History Record Check Request Form` | IA | `exact-source-identity` | `ia-dci77-set` | unresolved exact identity or URL | `ACQ` |
 | `in_conviction_d6-set::official-form:CCA conviction expungement order` | `official-form:CCA conviction expungement order` | IN | `exact-source-identity` | `in_conviction_d6-set` | unresolved exact identity or URL | `ACQ` |
 | `in_conviction_d6-set::official-form:CCA conviction expungement petition` | `official-form:CCA conviction expungement petition` | IN | `exact-source-identity` | `in_conviction_d6-set` | unresolved exact identity or URL | `ACQ` |
 | `in_conviction_felony-set::official-form:CCA conviction expungement order` | `official-form:CCA conviction expungement order` | IN | `exact-source-identity` | `in_conviction_felony-set` | unresolved exact identity or URL | `ACQ` |
 | `in_conviction_felony-set::official-form:CCA conviction expungement petition` | `official-form:CCA conviction expungement petition` | IN | `exact-source-identity` | `in_conviction_felony-set` | unresolved exact identity or URL | `ACQ` |
 | `in_conviction_misd-set::official-form:CCA conviction expungement order` | `official-form:CCA conviction expungement order` | IN | `exact-source-identity` | `in_conviction_misd-set` | unresolved exact identity or URL | `ACQ` |
 | `in_conviction_misd-set::official-form:CCA conviction expungement petition` | `official-form:CCA conviction expungement petition` | IN | `exact-source-identity` | `in_conviction_misd-set` | unresolved exact identity or URL | `ACQ` |
-| `ut_pet_remove_link-set::official-form:1110GE or 1111GE` | `official-form:1110GE or 1111GE` | UT | `exact-source-identity` | `ut_pet_remove_link-set` | unresolved exact identity or URL | `ACQ` |
 
-Deterministically assert exactly the 15 committed itemIds (failures are recorded per row and do not terminate the loop):
+Deterministically assert exactly the 13 committed itemIds (failures are recorded per row and do not terminate the loop):
 
 ```sh
 node - <<'NODE'
 const {spawnSync}=require('node:child_process');
 const a=require('./data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json').assignments.find(x=>x.assignmentId==='DISC02');
-if (!a || a.items.length !== 15) throw new Error('DISC02 committed item count changed');
+if (!a || a.items.length !== 13) throw new Error('DISC02 committed item count changed');
 for (const itemId of a.items) {
   const r=spawnSync(process.execPath,['scripts/grade-a-packet-factory-24h/claim.mjs','--assert','DISC02',itemId],{stdio:'inherit'});
   if (r.status !== 0) console.error('ROW_STOP', itemId);
@@ -139,7 +137,7 @@ NODE
 Run the row gate once per listed item, after the lane gate. This exact first command demonstrates the interface; substitute each other exact item id from the table without changing the lane:
 
 ```sh
-node scripts/verify-packet-build-environment.mjs --assignment-id DISC02 --source-obligation 'census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement::NO_DOCUMENT_SOURCE_NAMED' --codex-cloud --minimum-captain-sha 0907452b199e7ac23c2298950264eb9d4dc988e3
+node scripts/verify-packet-build-environment.mjs --assignment-id DISC02 --source-obligation 'fl-10yr-bridge-set::official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION' --codex-cloud --minimum-captain-sha 74ebc7b997643120ea326dcbe50fdefa61fb1f1a
 
 # A failed row is recorded STOPPED; continue with unrelated rows.
 ```
@@ -148,7 +146,7 @@ node scripts/verify-packet-build-environment.mjs --assignment-id DISC02 --source
 
 ### Families this lane would release
 
-`census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement`, `census-pending-family:UT:path-m-juvenile-expungement`, `ia-12346-set`, `ia-901c2-set`, `ia-dci77-set`, `in_conviction_d6-set`, `in_conviction_felony-set`, `in_conviction_misd-set`
+`fl-early-juvenile-set`, `fl-juvenile-diversion-set`, `in_conviction_d6-set`, `in_conviction_felony-set`, `in_conviction_misd-set`
 
 
 ### Settle these first
@@ -157,12 +155,11 @@ node scripts/verify-packet-build-environment.mjs --assignment-id DISC02 --source
 
 | Document | Jurisdiction | Families waiting |
 | --- | --- | --- |
+| FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION | FL | 3 |
 | Certification of Service by Mailing or Delivery | IA | 3 |
 | CCA conviction expungement order | IN | 3 |
-| DCI-76 Criminal History Record Check Billing Form | IA | 1 |
-| 1110GE or 1111GE | UT | 1 |
-| NO_DOCUMENT_SOURCE_NAMED | UT | 0 |
-| NO_DOCUMENT_SOURCE_NAMED | UT | 0 |
+| FDLE-EARLY-JUVENILE-EXPUNCTION-APPLICATION | FL | 1 |
+| FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION | FL | 1 |
 
 > On 2026-08-31 an acquisition batch fetched thirty documents successfully and unblocked zero families — all thirty belonged to jurisdictions already resolved, with no overlap against the 238 documents gating the 256 blocked families. Fetch capacity is not the constraint. Knowing which document to fetch is.
 
