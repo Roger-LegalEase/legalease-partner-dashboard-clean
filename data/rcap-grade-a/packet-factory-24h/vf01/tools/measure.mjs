@@ -73,9 +73,9 @@ const decl = [];
 const collect = (obj, where) => {
   if (!obj || typeof obj !== "object") return;
   if (Array.isArray(obj)) return obj.forEach((o, i) => collect(o, `${where}[${i}]`));
-  const f = obj.file || obj.path || obj.artifactPath || obj.pathInArchive;
+  const f = obj.file || obj.path || obj.artifactPath || obj.pathInArchive || obj.pathInCorpus || obj.outputFile;
   if (typeof f === "string" && /\.(pdf|png|jpg|jpeg|json|md|txt)$/i.test(f) && (obj.sha256 || obj.byteLength || obj.pageCount))
-    decl.push({ where, file: f, sha256: obj.sha256 ?? null, byteLength: obj.byteLength ?? null, pageCount: obj.pageCount ?? null, acroFieldCount: obj.acroFieldCount ?? null });
+    decl.push({ where, file: f, sha256: obj.sha256 ?? obj.recomputedSha256 ?? obj.pinnedSha256 ?? null, byteLength: obj.byteLength ?? obj.pinnedByteLength ?? null, pageCount: obj.pageCount ?? null, acroFieldCount: obj.acroFieldCount ?? null });
   for (const [k, v] of Object.entries(obj)) if (v && typeof v === "object") collect(v, `${where}.${k}`);
 };
 for (const [n, o] of [["rendered-artifacts", ra], ["build-status", bs], ["source-receipt", sr], ["product-wiring", pw], ["approval-request", ar], ["MASTER_QUEUE.family", fam], ["field-census", cen]]) collect(o, n);
@@ -123,7 +123,7 @@ out.pdfs = pdfs.map(p => ({ file: p.file, fixture: p.fixture, declaredPageCount:
 // Field-map rects carry DOCUMENT-LOCAL page numbers; the packet is an assembly.
 // Locate each official form's page block by matching its own bytes against the packet.
 const srcInk = {};
-for (const d of (sr?.documents || [])) { if (!d.pathInArchive) continue; const abs = R(d.pathInArchive); if (!exists(abs)) continue;
+for (const d of [...(sr?.documents || []), ...(sr?.sources || [])]) { const rel = d.pathInArchive || d.pathInCorpus; if (!rel) continue; const abs = R(rel); if (!exists(abs)) continue;
   const key = d.documentId || d.formNumber || d.sourceId; if (!key) continue;
   try { srcInk[key] = await readInk(abs); } catch (e) { srcInk[key] = { error: String(e) }; } }
 const toks = (t) => new Set(norm(t).toLowerCase().replace(/[^a-z0-9 ]+/g, " ").split(" ").filter(w => w.length > 3));
@@ -145,7 +145,7 @@ for (const [docId, pages] of Object.entries(srcInk)) {
 }
 // Where the receipt's own page counts add up to the packet, the assembly order fixes the
 // offsets exactly, and that beats guessing from text on forms that barely extract.
-const receiptDocs = (sr?.documents || []).map(d => ({ key: d.documentId || d.formNumber || d.sourceId, pages: d.pageCount ?? null })).filter(d => d.key && d.pages);
+const receiptDocs = [...(sr?.documents || []), ...(sr?.sources || [])].map(d => ({ key: d.documentId || d.formNumber || d.sourceId, pages: d.pageCount ?? null })).filter(d => d.key && d.pages);
 const receiptTotal = receiptDocs.reduce((a, d) => a + d.pages, 0);
 out.offsetMethod = "text match";
 for (const fx of ["canonical", "boundary"]) {
@@ -217,7 +217,8 @@ if (Array.isArray(rawDocs) && rawDocs.length) {
   }
 } else if (pfm && (pfm.writes || pfm.refusals)) {
   const byDoc = new Map();
-  const put = (o, kind) => { const d = o.documentId || o.formNumber || pfm.primaryForm || pfm.familyId || "document";
+  const soleSourceDocId = (() => { const ds = [...(sr?.documents || []), ...(sr?.sources || [])]; return ds.length === 1 ? (ds[0].documentId || ds[0].formNumber) : null; })();
+  const put = (o, kind) => { const d = o.documentId || o.formNumber || soleSourceDocId || pfm.primaryForm || pfm.familyId || "document";
     if (!byDoc.has(d)) byDoc.set(d, { documentId: d, structuralClass: "official_acroform", documentPolicy: null, selectionControls: 0, fields: null, writes: [], boundaryWrites: [], refusals: [], boundaryRefusals: [] });
     const rec = { ...o, _field: fieldOf(o), _page: pageOfEntry(o), _rect: rectOf(o), _value: valueOf(o), _label: labelOf(o), _fixture: "canonical" };
     byDoc.get(d)[kind].push(rec); };
@@ -421,10 +422,27 @@ const undis = rbf.filter(r => { const l = rbfLabel(r); const a = rbfAsk(r);
 out.requiredBeforeFiling = { fieldMapCount: rbf.length, declaredCount: pfm?.requiredBeforeFilingCount ?? null, blanksReportCount: (bl?.requiredBeforeFiling || []).length,
   everyItemDisclosedClaim: bl?.everyRequiredBeforeFilingItemIsDisclosed ?? null, undisclosedInInstructions: undis.length, undisclosedSample: undis.slice(0, 15).map(r => ({ document: r.document ?? null, field: r.field ?? r.fieldId ?? null, label: rbfLabel(r), ask: rbfAsk(r).slice(0, 90) })),
   refusalsMarkedRBFCanonical: refusals.filter(r => dispOf(r) === "REQUIRED_BEFORE_FILING" && r.fixture === "canonical").length };
-out.rbfWithInk = rbf.map(r => { const m = (pfm?.maps || []).find(m => m.documentId === r.document); const ref = (m?.canonicalRefusals || []).find(x => x.field === r.field);
-  if (!ref?.rect || !ref?.page) return null; const pp = packetPage(r.document, "canonical", ref.page); if (!pp) return null;
-  const all = inkInRect(docFileFor(r.document, "canonical"), pp, ref.rect); const hits = buildAddedInk(r.document, "canonical", ref.page, ref.rect, all);
-  return hits && hits.length ? { field: r.field, page: ref.page, packetPage: pp, ink: hits } : null; }).filter(Boolean);
+const refByKey = new Map();
+for (const r of refusals) if (r.fixture === "canonical") refByKey.set(`${r.documentId} ${r._field}`, r);
+out.rbfWithInk = rbf.map(r => {
+  const key = `${r.document ?? r.documentId ?? ""} ${r.field ?? r.fieldId ?? ""}`;
+  const ref = refByKey.get(key) || [...refByKey.values()].find(x => x._field === (r.field ?? r.fieldId));
+  if (!ref?._rect || !ref?._page) return null;
+  const pp = packetPage(ref.documentId, "canonical", ref._page); if (!pp) return null;
+  const all = inkInRect(docFileFor(ref.documentId, "canonical"), pp, ref._rect);
+  const hits = buildAddedInk(ref.documentId, "canonical", ref._page, ref._rect, all);
+  const real = (hits || []).filter(h => !/^[_.\u2024\u2026\-\s:]*$/.test(h.text));
+  return real.length ? { document: ref.documentId, field: ref._field, page: ref._page, packetPage: pp, ink: real.map(h => h.text) } : null;
+}).filter(Boolean);
+
+// A field cannot be both written and left blank. Where a map says both, one of the two is wrong.
+out.fieldsInBothWriteAndRefusalSets = [];
+for (const d of normDocs) {
+  const w = new Map(d.writes.map(x => [x._field, x]));
+  for (const r of d.refusals) if (w.has(r._field))
+    out.fieldsInBothWriteAndRefusalSets.push({ document: d.documentId, field: r._field, refusalDisposition: dispOf(r),
+      declaredWriteValue: norm(w.get(r._field)._value) || null });
+}
 
 // ---- ROUTE_OPTIONS ----
 out.routeOptions = { routeSelectionsMade: pfm?.routeSelectionsMade ?? null, routeSelectionNote: pfm?.routeSelectionNote ?? null,
@@ -470,7 +488,8 @@ for (const [fk, pages] of Object.entries(ink)) { if (!Array.isArray(pages)) cont
     const byY = new Map(); for (const it of its) { const k = Math.round(it.y * 2) / 2; if (!byY.has(k)) byY.set(k, []); byY.get(k).push(it); }
     for (const [y, arr] of byY) { if (arr.length < 2) continue; const s = arr.slice().sort((a, b) => a.x - b.x);
       for (let i = 1; i < s.length; i++) { const ov = (s[i - 1].x + s[i - 1].advance) - s[i].x;
-        const isRule = (t) => /^[_.\u2024\u2026\-\s]*$/.test(t);
+        const isRule = (t) => { const c = String(t).replace(/\s/g, ""); if (!c) return true;
+          const ruleChars = (c.match(/[_.\u2024\u2026\-:\u00b7]/g) || []).length; return ruleChars / c.length >= 0.8; };
         if (ov > 2 && norm(s[i].text) && norm(s[i - 1].text) && !isRule(s[i].text) && !isRule(s[i - 1].text)) overlap.push({ file: fk, page: pg.page, y, overlapPts: +ov.toFixed(1), a: s[i - 1].text.slice(0, 40), b: s[i].text.slice(0, 40) }); } }
   } }
 out.clipping = { count: clip.length, sample: clip.slice(0, 20) };
